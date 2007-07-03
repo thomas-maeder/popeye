@@ -1,0 +1,77 @@
+anfangproblem
+
+protokoll       tibet.out
+
+autor           Norbert Geissler
+quelle          3386, Problemkiste 92, 4/1994
+
+forderung       h#2
+
+bedingung       circe
+                tibetschach
+                transmutierendeKoenige
+
+steine  weiss   bd7
+        schwarz kc1 bd2
+
+option          ohnewk
+
+weiter
+
+autor           W. A. Kriwenko
+quelle          3128, Problemkiste 85, 2/1993
+
+forderung       h=3
+
+bedingung       tibetschach
+
+steine  weiss   kd7 bc7
+        schwarz kh8 ba3
+
+zwilling versetze d7 f6
+
+weiter
+
+autor           Erich Bartel
+quelle          3129, Problemkiste 85, 2/1993
+
+forderung       h=3
+option          weissbeginnt
+
+bedingung       tibetschach
+
+steine  weiss   kf4 bf7
+        schwarz kh6 bb2
+
+zwilling versetze f4 f6
+
+weiter
+
+autor           Norbert Geissler
+quelle          3212, Problemkiste 7/1993
+
+forderung       h=3
+option          weissbeginnt
+
+bedingung       tibetschach
+
+steine  weiss   kd5 bc7
+        schwarz ka6 bg2
+
+weiteresproblem
+
+autor           Udo Degener
+autor           Torsten Lin"s
+quelle          feenschach 101, 11/1991
+quelle          3. ehr. Erw., 46. feenschach-TT 1991
+
+forderung       h#2
+
+bedingung       tibetschach
+
+steine          weiss   kf5 bd3c2
+		schwarz la6 ta3 kf3 bd2f2 le1
+
+zwilling versetze f3 f1
+
+endeproblem

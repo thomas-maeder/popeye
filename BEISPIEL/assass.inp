@@ -1,0 +1,43 @@
+anfa
+prot assass.out
+auto ?
+quel ?
+ford h#2
+bedi assassincirce
+stei 
+weis kh1 bb3d7
+schw ka2
+weit
+auto ?
+quel ?
+ford ser-h=10
+bedi assassincirce
+stei 
+weis ke5 tb2 bc6
+schw kg4
+weit
+auto ?
+quel ?
+stei 
+weis kg7 lg5 be7 
+schw kd7 sg3
+bedi assassincirce
+ford h=2
+weit
+auto ?
+quel ?
+stei 
+weis ke8
+schw kb7 ba7b4 ta4 se6
+bedi assassincirce
+ford h#3
+weit
+auto ?
+quel ?
+stei 
+weis kd8 te7d2 lg5 sb4 bc6
+schw kb8 ta1 sa2a8 lc8 be5
+bedi assassincirce
+ford #2
+opti satz vari
+ende

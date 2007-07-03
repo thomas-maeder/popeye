@@ -1,0 +1,368 @@
+# This is the Makefile for py3.7, testet under System V
+# +++++ Warning +++++++
+# This Makefile you are reading now, will not do it with:
+# Microsoft C  on DOS
+# Turbo C  on DOS
+# TopSpeed C  on DOS
+# Turbo C  on ATARI
+# MPW  on Macintosh
+# They are all great, but the options of the
+# commands are totaly different to UNIX ones.
+#	 GRRRHHH !!!
+# Use instead:
+# the makefile.msc file  for Microsoft C  with DOS
+# the py.prj file  for TURBO C  with DOS
+# the atari.prj file  for TURBO C  with ATARI
+# ++++ End Warning ++++
+
+# There are a few defines to set in CFLAGS for portablility
+# 
+# when you use POPEYE with Windows under DOS            -DSHARING
+# when you need some DEBUGGING Information:             -DDEBUG
+# when you compile with MICROSOFT's C-Compiler          -DMSC
+# when you compile with Borland's TURBO-C		-D__TURBOC__
+# when you compile for Windows 32-Bit environments      -DWIN32
+# when you compile under DOS or OS/2 with FSF's GCC	-DGCC
+# when you compile on ATARI:                            -DATARI
+# when you compile on Macintosh (set by default !):     -Dmacintosh
+# when you compile under MSDOS or compatibles:          -DDOS
+# when you compile for Win95, Win98 or WinME            -DWIN98
+# when you compile under UNIX:                          -DUNIX
+# when your system is BSD instead of SYSV:		-DBSD
+# when you compile under AIX				-DAIX
+# when you compile under OS/2				-DOS2
+# when you compile under BS2000				-DBS2000
+# when your library doesn't know memset nor bset	-DNOMEMSET
+# when you compile on a 16-bit machine                  -DSIXTEEN
+# when you compile on a 64-bit machine                  -DSIXTYFOUR
+# when you want to keep all messages in memory		-DMSG_IN_MEM
+# when you compile for HP-UX 8.05 or later		-Aa -D_POSIX_SOURCE
+# when you want a popeye with no output at all		-DQUIET
+# when you want a message after canceling with a signal -DSIGNALS
+# Choose the one you need/want from the above list and put them herein
+
+#DBG=-g
+#OPT=+O4 +Oaggressive		#HP-UX
+#OPT=-O4 -ansi_alias -fast -inline speed -ifo	#OS ? TLi
+OPT=-O
+#OPT=-fast -Xc			#Sun Solaris
+#OPT=-O4
+
+#ARCH=-xarch=v9		# 64-Bit Solaris
+ARCH=
+
+OS=`uname`
+OSVER=`uname -r`
+
+#DEF=-DUNIX -DBSD $(OPT)
+#CFLAGS= -DTIME -DBSD $(OPT)
+#CFLAGS= -DDOS -DSIXTEEN -Ox -M0s -dos -i -Gs -K -W3 -CSON
+#CFLAGS= -ansi -DUNIX $(OPT)
+#CFLAGS= $(DBG) $(OPT) -kansi -DMSG_IN_MEM -DUNIX
+#CFLAGS= $(DBG) $(OPT) -DMSG_IN_MEM -DUNIX -Aa -D_POSIX_SOURCE
+#CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS -DTESTHASH
+#CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS -DSIXTYFOUR
+#CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS
+CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS -DOSTYPE=\"$(OS)-$(OSVER)\"
+
+#CC=gcc
+#CC=clcc
+CC=cc
+
+# Give here flags for the linker
+# and add needed libraries
+#LDFLAGS = -M0s -dos -i -F 2000
+LDFLAGS = $(DBG) $(OPT) $(ARCH)
+
+# Give here flags for the lint-Tool
+#LINTFLAGS = -a -b -c -h -p -x -DFXF
+
+# If you don't need (have) ranlib
+RANLIB = ranlib
+#RANLIB = echo ranlib
+
+#
+# No problems should raise from the length of function identifiers.
+# All function and procedure names are different in character
+# positions one through seven.
+# The other identifiers also need only a length of 7.
+# Now the code of the makefile itself:
+
+# This variable is used in compiling pydata.c, and
+# should contain only the number
+#VERSION =       3.73
+# It's not used in this makefile for compilation any more.
+# We use it for creating distributions without any . (dot) !
+VERSION =       373
+
+OBJECTS =       pydata.o py1.o py2.o py3.o py4.o py5.o py6.o pyio.o    \
+		pymsg.o pytime.o pylang.o pyhash.o pyproof.o	       \
+		pysignal.o pyint.o
+INCLUDES=       pydata.h py.h py4.h pyproc.h pymsg.h pymac.h pylang.h  \
+		pyproof.h DHT/*.h pyint.h pyhash.h 
+CFILES  =       pydata.c py1.c py2.c py3.c py4.c py5.c py6.c pyio.c    \
+		pymsg.c pytime.c pylang.c pyhash.c pyproof.c	       \
+		pysignal.c DHT/*.c pyint.c
+MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
+STRFILES=       py-fran.str py-deut.str py-engl.str
+TEXFILES=       pie-fran.dat pie-deut.dat pie-engl.dat piecenam.dat    \
+		LATEX/diagram.* LATEX/FSELCH/* LATEX/PKELCH/*
+DOCFILES=       py-fran.doc py-deut.doc py-engl.doc readme history     \
+		lizenz BEISPIEL/*.inp EXAMPLES/*.inp *.mod
+UTILS   =	todef.awk toenum.awk
+DEVELOP =       makefile.unx DHT/makefile.unx 
+DFILES  =       $(INCLUDES) $(CFILES) $(DEVELOP) $(DOCFILES) $(UTILS)  \
+		$(MSGFILES) $(TEXFILES)
+MINIFILES  =    py*.[ch] py*.msg py*.doc history makefile.unx
+
+all:		py 
+
+# Popeye with full dynamic hashing
+py:		$(OBJECTS) DHT/dhtlib.a
+		$(CC) -o py $(LDFLAGS) $(OBJECTS) DHT/dhtlib.a
+
+pyhash.o:	pyhash.c pydata.h py.h pyproc.h pymac.h
+		$(CC) $(CFLAGS) -DFXF -c pyhash.c 
+
+pyint.o:	pyint.h pyhash.h pyint.c
+		$(CC) $(CFLAGS) -c pyint.c
+		
+pyproof.o:	pyproof.h pyhash.h pyproof.c
+		$(CC) $(CFLAGS) -c pyproof.c
+		
+pylang.o:	pylang.h pylang.c
+		$(CC) $(CFLAGS) -c pylang.c
+		
+pytime.o:       pytime.c pymac.h
+		$(CC) $(CFLAGS) -c pytime.c
+
+pysignal.o:     pysignal.c pymac.h
+		$(CC) $(CFLAGS) -c pysignal.c
+
+pymsg.o:	dogenpystr pymsg.c pymsg.h py.h pyproc.h
+		$(CC) $(CFLAGS) -c pymsg.c
+
+pydata.o:       pydata.c py.h pydata.h pymac.h pyproc.h
+		$(CC) $(CFLAGS) -c pydata.c
+
+py1.o:          py1.c pydata.h py.h pyproc.h pymac.h
+		$(CC) $(CFLAGS) -c py1.c
+
+py2.o:          py2.c pydata.h py.h pyproc.h pymac.h
+		$(CC) $(CFLAGS) -c py2.c
+
+py3.o:          py3.c pydata.h py.h pyproc.h pymac.h
+		$(CC) $(CFLAGS) -c py3.c
+
+py4.o:          py4.c pydata.h py.h pyproc.h pymac.h pymsg.h
+		$(CC) $(CFLAGS) -c py4.c
+
+py5.o:          py5.c pydata.h py.h pyproc.h pymac.h
+		$(CC) $(CFLAGS) -c py5.c
+
+py6.o:          py6.c pydata.h py.h pyproc.h pymsg.h pymac.h pyproof.h pyhash.h
+		$(CC) $(CFLAGS) -c py6.c
+
+pyio.o:         pyio.c pydata.h py.h pymsg.h pyproc.h pymac.h
+		$(CC) $(CFLAGS) -c pyio.c
+
+pyio:           pyio.c pydata.h py.h pydata.o pymac.h
+		$(CC) -DSTANDALONE $(CFLAGS) -o pyio pydata.o pyio.c
+
+genpystr.o:     genpystr.c
+		$(CC) $(CFLAGS) -c genpystr.c
+
+genpystr:       genpystr.o pylang.o
+		$(CC) -o genpystr $(LDFLAGS) pylang.o genpystr.o
+
+dogenpystr:	$(MSGFILES) genpystr
+		./genpystr
+		touch dogenpystr
+
+DHT/dhtlib.a:	DHT/*.c DHT/*.h
+		cd DHT; make -f makefile.unx CC=$(CC) RANLIB="$(RANLIB)" ARCH="$(ARCH)" dhtlib.a
+		$(RANLIB) DHT/dhtlib.a
+
+purify-py:      DHT/dhtlib.a pyhash.o $(OBJECTS)
+		purify $(CC) -o purify-py $(LDFLAGS) $(OBJECTS) DHT/dhtlib.a
+
+clean:
+		rm -f *.o core
+
+clobber:	clean
+		rm -f py genpystr dogenpystr $(STRFILES); cd DHT; make -f makefile.unx clobber
+
+todef:	
+		awk -f todef.awk < py.h > py.h.def
+		awk -f todef.awk < pylang.h > pylang.h.def
+		awk -f todef.awk < pyhash.c > pyhash.c.def
+toenum:
+		awk -f toenum.awk < py.h > py.h.enum
+		awk -f toenum.awk < pylang.h > pylang.h.enum
+		awk -f toenum.awk < pyhash.c > pyhash.c.enum
+
+#Target for testing on uniq id's on first seven chars
+#choose the right command
+TR_SYSV		= tr -cs '[0-9][A-Z]_[a-z]' '[\012*]'
+TR_BSD		= tr -cs '0-9A-Z_a-z' '\012'
+uniq:		
+		$(CC) -E $(CFLAGS) $(CFILES) | \
+		$(TR_SYSV) |\
+		sort -u | tee /tmp/id.all | \
+		cut -c1-7 | uniq -c | egrep -v '^ *1' > /tmp/id.mult
+
+
+
+#Target for generating context-diffs
+VERSIONDIR=     py$(VERSION)
+cdiff:		
+		for f in $(DFILES); \
+		do \
+			echo diff -c ../$(VERSIONDIR)/$$f $$f; \
+		done >/tmp/py.ptch.sh
+		sh -x /tmp/py.ptch.sh > /tmp/py.ptch
+
+#These targets are for generating distributions - ElB.
+/tmp/$(VERSIONDIR).cpio:	$(DFILES)
+		touch /tmp/$(VERSIONDIR).cpio
+
+cpiodist:	/tmp/$(VERSIONDIR).cpio
+		mkdir $(VERSIONDIR)
+		ln $(DFILES) py-$(VERSIONDIR)
+		find $(VERSIONDIR) -print | cpio -ocv > /tmp/$(VERSIONDIR).cpio
+		rm -rf $(VERSIONDIR)
+		
+/tmp/$(VERSIONDIR).tar:	$(DFILES)
+		touch /tmp/$(VERSIONDIR).tar
+
+tardist:	/tmp/$(VERSIONDIR).tar
+		mkdir $(VERSIONDIR)
+		mkdir $(VERSIONDIR)/BEISPIEL
+		mkdir $(VERSIONDIR)/EXAMPLES
+		mkdir $(VERSIONDIR)/DHT
+		mkdir $(VERSIONDIR)/LATEX
+		mkdir $(VERSIONDIR)/LATEX/FSELCH
+		mkdir $(VERSIONDIR)/LATEX/PKELCH
+		for i in $(DFILES) ; do  \
+		ln $$i $(VERSIONDIR)/$$i ;\
+		done
+		tar cfv /dev/rfd0 $(VERSIONDIR)
+		rm -rf $(VERSIONDIR)
+
+/tmp/$(VERSIONDIR).compress:	$(DFILES)
+		touch /tmp/$(VERSIONDIR).compress
+
+compressdist:	/tmp/$(VERSIONDIR).compress
+		mkdir $(VERSIONDIR)
+		mkdir $(VERSIONDIR)/BEISPIEL
+		mkdir $(VERSIONDIR)/EXAMPLES
+		mkdir $(VERSIONDIR)/DHT
+		mkdir $(VERSIONDIR)/LATEX
+		mkdir $(VERSIONDIR)/LATEX/FSELCH
+		mkdir $(VERSIONDIR)/LATEX/PKELCH
+		for i in $(DFILES) ; do  \
+		ln $$i $(VERSIONDIR)/$$i ;\
+		done
+		tar cfv $(VERSIONDIR).t $(VERSIONDIR)
+		compress $(VERSIONDIR).t
+		rm -rf $(VERSIONDIR)
+
+/tmp/$(VERSIONDIR).gzip:	$(DFILES)
+		touch /tmp/$(VERSIONDIR).gzip
+
+gzipdist:	/tmp/$(VERSIONDIR).gzip
+		mkdir $(VERSIONDIR)
+		mkdir $(VERSIONDIR)/BEISPIEL
+		mkdir $(VERSIONDIR)/EXAMPLES
+		mkdir $(VERSIONDIR)/DHT
+		mkdir $(VERSIONDIR)/LATEX
+		mkdir $(VERSIONDIR)/LATEX/FSELCH
+		mkdir $(VERSIONDIR)/LATEX/PKELCH
+		for i in $(DFILES) ; do  \
+		ln $$i $(VERSIONDIR)/$$i ;\
+		done
+		tar cfv $(VERSIONDIR).t $(VERSIONDIR)
+		gzip $(VERSIONDIR).t
+		uuencode $(VERSIONDIR).t.gz $(VERSIONDIR).t.gz >$(VERSIONDIR).t.gz.uu
+		rm -rf $(VERSIONDIR)
+
+/tmp/$(VERSIONDIR).shar:	$(DFILES)
+		touch /tmp/$(VERSIONDIR).shar
+
+shardist:	/tmp/$(VERSIONDIR).shar
+		mkdir $(VERSIONDIR)
+		mkdir $(VERSIONDIR)/BEISPIEL
+		mkdir $(VERSIONDIR)/EXAMPLES
+		mkdir $(VERSIONDIR)/DHT
+		mkdir $(VERSIONDIR)/LATEX
+		mkdir $(VERSIONDIR)/LATEX/FSELCH
+		mkdir $(VERSIONDIR)/LATEX/PKELCH
+		for i in $(DFILES) ; do  \
+		ln $$i $(VERSIONDIR)/$$i ;\
+		done
+		find $(VERSIONDIR) -type f -print | shar -S -l40 -o/tmp/shar
+		rm -rf $(VERSIONDIR)
+
+/tmp/$(VERSIONDIR).zip:	$(DFILES)
+		touch /tmp/$(VERSIONDIR).zip
+
+zipdist:	/tmp/$(VERSIONDIR).zip
+		mkdir $(VERSIONDIR)
+		mkdir $(VERSIONDIR)/BEISPIEL
+		mkdir $(VERSIONDIR)/EXAMPLES
+		mkdir $(VERSIONDIR)/DHT
+		mkdir $(VERSIONDIR)/LATEX
+		mkdir $(VERSIONDIR)/LATEX/FSELCH
+		mkdir $(VERSIONDIR)/LATEX/PKELCH
+		for i in $(DFILES) ; do  \
+		ln $$i $(VERSIONDIR)/$$i ;\
+		done
+		zip -r $(VERSIONDIR) $(VERSIONDIR)
+		rm -rf $(VERSIONDIR)
+
+dosfdist:
+		@while true; do \
+		echo "Insert unformatted 360K Floppy - Type return when ready\\c";\
+		read answ;\
+		format -f 0 -l 39 /dev/rdsk/f0d9dt;\
+		dd if=/usr/lib/fdf/360 of=/dev/dsk/f0d9dt;\
+		echo "Writing files ... \c";\
+		MCWD=/; export MCWD;\
+		mwrite -f /dev/dsk/f0d9dt $(DFILES) $(STRFILES);\
+		mwrite -f /dev/dsk/f0d9dt -object tcconfig.tc py.exe;\
+		echo "finished\nWriting testfiles ... \c";\
+		mmd test test/py test/loe;\
+		MCWD=/test/py; mwrite -f /dev/dsk/f0d9dt ../test/py/*;\
+		MCWD=/test/loe; mwrite -f /dev/dsk/f0d9dt ../test/loe/*;\
+		echo "finished.\nRemove Floppy";done
+dosdist:
+		@while true; do \
+		echo "Insert formatted 360K Floppy - Type return when ready\\c";\
+		read answ;\
+		echo "Writing files ... \c";\
+		MCWD=/; export MCWD;\
+		mwrite -f /dev/dsk/f0d9dt $(DFILES);\
+		mwrite -f /dev/dsk/f0d9dt -object tcconfig.tc py.exe;\
+		echo "finished\nWriting testfiles ... \c";\
+		mmd test test/py test/loe;\
+		MCWD=/test/py; mwrite -f /dev/dsk/f0d9dt ../test/py/*;\
+		MCWD=/test/loe; mwrite -f /dev/dsk/f0d9dt ../test/loe/*;\
+		echo "finished.\nRemove Floppy";done
+
+/tmp/$(VERSIONDIR).mini:	$(MINIFILES)
+		touch /tmp/$(VERSIONDIR).mini
+
+minidist:	/tmp/$(VERSIONDIR).mini
+		mkdir $(VERSIONDIR)
+		for i in $(MINIFILES) ; do  \
+		ln $$i $(VERSIONDIR)/$$i ;\
+		done
+		tar cfv $(VERSIONDIR).t $(VERSIONDIR)
+		compress $(VERSIONDIR).t
+		rm -rf $(VERSIONDIR)
+
+
+#These targets are for analysing the sources with tools - NG.
+lint:
+	lint $(LINTFLAGS) $(CFLAGS) $(CFILES) >lint.out
+

@@ -1,0 +1,47 @@
+anfang
+protokoll       h_alt.out
+autor           Theodor Steudel
+quelle          t1, Problemkiste 92, 4/1994
+forderung       reci-h(=)#3
+steine  weiss   kh1 bg7
+        schwarz kf1 be3
+weiteresproblem
+autor           Theodor Steudel
+quelle          t2, Problemkiste 92, 4/1994
+forderung       reci-h(=)#3
+steine  weiss   kh1 ba7
+        schwarz kf1 bb3
+weiteresproblem
+autor          Theodor Steudel
+quelle          t4, Problemkiste 92, 4/1994
+forderung       reci-h(#)=2
+steine  weiss   kh1 be7
+        schwarz kf1 be2
+weiteresproblem
+autor           Theodor Steudel
+quelle          t5, Problemkiste 92, 4/1994
+forderung       reci-h(#)=3
+steine  weiss   kf1 be7
+        schwarz kh1 bd3
+weiteresproblem
+autor           Theodor Steudel
+quelle          t6, Problemkiste 92, 4/1994
+forderung       reci-h(#)=3
+steine  weiss   kh3 bh7
+        schwarz kh1 bd3
+weiteresproblem
+autor           Theodor Steudel
+quelle          t7, Problemkiste 92, 4/1994
+forderung       reci-h(#)=6
+steine  weiss   koenigl bh2
+        schwarz         bb7
+option          ohnesk
+weiteresproblem
+autor           Louis Azemard
+autor           Manuel Mu\~noz
+quelle          spez. ehr. Erw., RIFACE 1991
+forderung       ser-reci-h(=)#7
+steine  weiss   ka8 dh7
+        schwarz kc8 bh5
+zwill   versetze h5 d7   ford    ser-reci-h(#)=7
+endeproblem

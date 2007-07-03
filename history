@@ -1,0 +1,1542 @@
+People who made programming contributions to POPEYE:
+
+Philippe Schnoebelen    The original author writing in COMAL, a PASCAL derivate.
+Elmar Bartel            ElB
+Norbert Geissler        NG
+Thomas Maeder           TM
+Torsten Linss           TLi
+Stefan Hoening          StHoe
+Stefan Brunzen          SB
+Harald Denker           HD
+Thomas Bark             TBa
+Stephen Emmerson        SE
+
+
+Hello out there !
+
+Here you see the `new' popeye-sources. Some remarks on them:
+
+We - this is Elmar Bartel and Norbert Geissler -  got the
+original source from Thomas Brand who got it from Ph. Schnoebelen.
+This original source from Schnoebelen was a monolithic PASCAL program
+for an exotic PASCAL Compiler. It was neither standard nor TURBO.
+Thomas Brand did some minor errorcorrecting on this PASCAL source.
+We have a lot of machines (big one and smaller ones, UNIX MX500 to IBM-XT)
+but none of them with a pascal compiler which could compile this source.
+Therefore we decided to convert this source to C.
+I (Elmar Bartel) believed that it would be a inferior task, when we could
+automatically translate the code from PASCAL to C. I saw a similiar
+job done, when converting TeX-Pascal output from tangle to C. So
+I startet using web2c (this is the program which does the job for the special
+output of tangle) to convert the POPEYE code to C, with the intention
+put it through and compile the C code. But it wasn't as easy, because
+web2c cannot handle nested procedure declarations. They are missing
+in C and tangle produces not such code, so there was no neccessarity
+to implement this in web2c. But we had to convert the pascal source
+to fit to the constraints of web2c. Finally after a lot of editing, we
+got the source through the converter.
+After a few further corrections by Norbert this code compiled successfully 
+on a UNIX machine. Small additional corrections and the compiler
+produced a runnable popeye which was functionally equivalent to its
+MS-DOS original.
+But this C-Code was not clean, for reading or modifying.
+Also it seemed to us runtime inefficient. So I manually
+edited the whole C source again, rewrote some procedures for efficiency,
+splitted the source in six smaller parts, made it ANSI conform - and
+the result of this, is what you can look at.
+Popeyes generated from this code executes up to 30% faster than the first
+C Version. The popeye generated with TURBO C 2.0 (Small Memory Model)
+is 15% faster than the original version from Schnoebelen.
+
+This C-Source should compile under any UNIX System. It also compiles under
+DOS with TURBO C 2.0 from Borland. I.e. it is ANSI C conform.
+See the Makefile for further instructions.
+
+It compiles with TURBO C on an ATARI, and with MPW on macintosh computers.
+
+If you are doing some additional work on Popeye, let us know what you
+plan to do. May be we or someone else did it, and you needn't do it again.
+Please help us to keep a consistent version of popeye.
+
+My address is                           Norberts address:
+	Elmar Bartel                            Norbert Geissler
+	Tengstrasse 29                          Lavendelweg 11
+      D-80798 Muenchen                        D-81547 Muenchen
+	Germany                                 Germany
+
+Our e-mail adresses:
+	elmar@devsoft.com                       norbert.geissler@mchm.siemens.de
+
+Popeye's www home location is:     http://archiv.leo.org/pub/rec/games/popeye/
+
+P.S.
+You may ask whether we are writing all this in English.
+The answer:     English is the language most people should understand
+		when they are involved with computers. And we want
+		as many people as possible to be able to read, use and
+		understand this. At the moment this is neither possible
+		with France or German, nor any other language. May be
+		except Esperanto ?
+
+Sie moegen sich fragen warum wir das alles auf Englisch schreiben.
+Die Antwort:    Dies ist die Sprache, die die meisten Leute verstehen
+		sollten, sofern sie irgendetwas mit Computern zu tuen haben.
+		Und wir wollen, dass moeglichst viele Leute dies lesen,
+		benutzen und verstehen koennen. Im Moment geht das 
+		weder mit Franzoesisch noch mit Deutsch oder irgendeiner
+		anderen Sprache. Ausser vielleicht Esperanto ?
+
+Elmar Bartel    12Jul89
+
+Vous vous demandez peut-\^etre pourquoi nous \'ecrivons tout cela en anglais.
+La r\'eponse:   C'est la langue que comprennent la plupart des gens
+		qui travaillent avec l'ordinateur. Et nous voulons que
+		beaucoup de gens ont la possibilit\'e de lire, utiliser et
+		comprendre nos textes. En ce moment, ce n'est possible ni en
+		francais ni en allemand ni en d'autres langues.
+		Except\'e en Esperanto peut-\^etre?
+
+Norbert Geissler 25Jul89
+
+Vi eble demandos kial ni skribas \^ci \^cion angle.
+La respondo:    Tio estas la lingvo komprenata kredeble de la plej multaj
+		homoj laborantaj pri komputiloj.  Kaj ni volas,
+		ke la\u{}\-ueble multaj homoj povu legi, uzi kaj
+		kompreni \^ci tion.  \^Ci-momente tio eblas nek
+		per la franca, nek per la germana, nek per iu alia
+		lingvo.  Krom eble per Esperanto?
+
+Elmar Bartel 17May90 (Freundlich uebersetzt von Reinhard F\"o\ssmeier)
+
+
+corrections, improvements and enhancements
+
+
+what                                    why                             who
+---------------------------------------------------------------------------
+After output of a 'TRACE'-number        the number will be written
+fflush of stdout added                  to a file without buffering
+
+apparent seul   calculation of setplay  Often needed !
+		only(!) in helpplay
+
+
+enhancements:
+
+ser-#n          series-mate             additional features are
+ser-=n          series-stalemate        always needed
+ser-==n         series-double-stalemate
+
+koeko           koeko-chess             new invention in fairy chess
+					for the rules contact your
+					local fairy-chess-magazine
+
+fairy pieces:
+
+all fairy pieces except locust          they are always needed
+allowed in chromatic-chess,
+grid-chess and koeko-chess
+
+new fairy pieces:
+am      amazon     (queen + knight)     not often needed, but I
+im      empress    (rook + knight)      like enhancing POPEYE !
+pr      princess   (bishop + knight)
+gn      gnu        (knight + camel)
+							    NG      26Jul89
+---------------------------------------------------------------------------
+Some rose - bugs fixed.                 original pascal-version was
+rose moved mysteriously.                ok. Bugs came from conversion
+					to C.
+							     NG      7Aug89
+---------------------------------------------------------------------------
+A big kamikaze - bug fixed.             an original pascal-version
+pawn promotion was not possible !       bug !!
+							     NG      8Aug89
+---------------------------------------------------------------------------
+Two dabbaba - bugs fixed.               original pascal-version was
+checking was wrong.                     ok. Bugs came from conversion
+					to C.
+							     NG     11Oct89
+---------------------------------------------------------------------------
+A fers and alfil bug fixed.             an original pascal-version
+definition was in wrong order !         bug !!
+							     NG     12Oct89
+---------------------------------------------------------------------------
+a bucephale bug fixed.                  an original pascal-version
+it made mysterious moves !              bug !!
+Now a bucephale is a real root-25-leaper !
+							     NG     12Oct89
+---------------------------------------------------------------------------
+enhancement:
+
+rand            Randzueger              for the rules contact:  Erich
+doppelrand      Doppelrandzueger        Bartel (BRD), who introduced
+					it in 1984 !
+							     NG     14Oct89
+---------------------------------------------------------------------------
+a  neutral equihopper  bug fixed.       an original pascal-version
+(a neutral equihopper was able to do    bug !!
+ a waiting move to his starting square)
+							     NG     16Oct89
+---------------------------------------------------------------------------
+a great patrol-chess bug fixed.         an original pascal-version
+(it just didn't work correct !!)        bug !!
+therefore patrol-chess elements
+totally revised.
+							     NG     17Oct89
+---------------------------------------------------------------------------
+Known, but until now not fixed bugs:
+
+asuivre does not work !!!       (I think it'll be easy to fix)
+							     NG     18Oct89
+---------------------------------------------------------------------------
+Further plans of easy enhancements:
+
+Spiralspringer
+							     NG     18Oct89
+---------------------------------------------------------------------------
+Further plans of size (and speed)  enhancements:
+
+New small size (but compatible) interface               ElB
+
+Most of the checking-function bodies is redundant.
+I want to reduce this redundancies to get smaller
+source-code.
+							     NG     18Oct89
+---------------------------------------------------------------------------
+Further plans of difficult enhancements:
+
+en passant - capture of pawn and berolina-pawn
+Platzwechselcirce
+castling - move of king and rook
+maximummer and minimummer
+							     NG     18Oct89
+---------------------------------------------------------------------------
+The main checking functions (4 * 2 !) are now
+reduced to 2 checking functions for better readability
+and maintainability !
+
+Enhancements:
+New fairy pieces:
+an      antelope        (3,4)-leaper
+dr      dragon          (knight + pawn)
+ec      squirrel        (knight + alfil + dabbaba)
+ka      kangaroo        moves like the grashopper, but jumping over
+			two pieces, which do not have to be adjacent.
+wa      waran           (rook + nightrider)
+
+All fairy pieces are allowed in madrasi !
+							     NG     22Nov89
+---------------------------------------------------------------------------
+Correction:
+a suivre works now correct !
+							     NG     25Nov89
+---------------------------------------------------------------------------
+Enhancement:
+duplex          Calculation of duplex-problems.
+							     NG     27Nov89
+---------------------------------------------------------------------------
+New piece:
+cs              Spiralspringer.
+							     NG      4Dec89
+---------------------------------------------------------------------------
+a  leofamily  bug fixed.                an original pascal-version
+(promotion into a knight was            bug !!
+ always possible)
+							     NG      9Dec89
+---------------------------------------------------------------------------
+a  leofamily  bug fixed.                an original pascal-version
+(if there weren't fairy pieces on       bug !!
+ board, mysterious moves were made
+ because there was no fairy-check-test)
+							     NG      6Jan90
+---------------------------------------------------------------------------
+
+a  cavalier majeur  bug fixed.          an original pascal-version
+(promotion into a knight was            bug !!
+ always possible)
+							     NG      6Jan90
+---------------------------------------------------------------------------
+Enhancement:
+pwc             Platzwechselcirce               Due to implementation-info
+					    from Thomas Maeder, Switzerland
+							     NG     19Feb90
+---------------------------------------------------------------------------
+the initialisation of v[] for alfil fixed
+(original popeye bug)                                        NG      4Mar90
+---------------------------------------------------------------------------
+Enhancement:
+immun           Immunschach: if the square, where a captured
+			   piece would be reborn due to
+			   circe rules, is occupied,
+			   capturing is not allowed.
+
+ohneschlag      it is never allowed to capture.
+
+fairy pieces allowed in:
+	      immunschach rex inclusiv
+	      circe rex inclusiv
+							    NG      17Mar90
+---------------------------------------------------------------------------
+New piece:
+uu              Ubi-Ubi
+							    NG      24Mar90
+---------------------------------------------------------------------------
+an alfil bug fixed.                     an original pascal-version
+(move-vectorarray v[] was initialized   bug !!
+in initvars() with wrong order !!)
+							    NG      29Mar90
+---------------------------------------------------------------------------
+an duplex bug (with neutral pieces !)
+fixed. initialisation was not complete !
+							    NG       8Apr90
+---------------------------------------------------------------------------
+input/output totally revised. It's now
+much better and easy to enhance for other
+languages !!!                                               ElB       May90
+---------------------------------------------------------------------------
+generation of moves from square i to square i supressed
+due to further enhancements for other boards like cylinder-board.
+Series-Double-Stalemate: bug fixed.
+If a move detected a early stalemate and no double-stalemate,
+further calculation was supressed.
+							    NG      30May90
+---------------------------------------------------------------------------
+No black king is now allowed ! (sansrn  added)
+							    NG       3Jun90
+---------------------------------------------------------------------------
+Some i/o-bugs fixed.
+A pwc + koeko bug fixed in py2.c .
+Until now, not all pwc + koeko moves were calculated !
+							    NG       4Jun90
+---------------------------------------------------------------------------
+modification bug from 30May90 fixed in groseb().
+wrong white rose moves were calculated.
+							    NG      30Jun90
+---------------------------------------------------------------------------
+Enhancements:
+New fairy pieces:
+ha      hamster         180 degree grashopper (cannot capture !)
+el      elk              45 degree grashopper
+mo      moose            90 degree grashopper
+sp      sparrow         135 degree grashopper
+							     NG      4Jul90
+---------------------------------------------------------------------------
+Enhancements:
+New fairy pieces:
+nh      nightriderhopper
+du      dummy           cannot move or capture !
+cr      camelrider
+zr      zebrarider
+gr      gnurider
+							     NG     17Jul90
+---------------------------------------------------------------------------
+Enhancements:
+New fairy pieces:
+ch      camelriderhopper
+zh      zebrariderhopper
+gh      gnuriderhopper
+ds      Diagonalspiralspringer
+							     NG     20Jul90
+---------------------------------------------------------------------------
+Enhancements:
+New fairy piece:
+bc      bouncy knight
+							     NG     23Jul90
+---------------------------------------------------------------------------
+a "royal locust"-bug fixed.                     ORIG PASCAL BUG !
+(it lost its royal attribut while moving !)                  NG     28Jul90
+---------------------------------------------------------------------------
+better "piece-color-readability".                            NG      1Aug90
+---------------------------------------------------------------------------
+gmhop?()-bug fixed.
+the same move was sometimes generated twice.                 NG      7Aug90
+---------------------------------------------------------------------------
+tries-function jeudessais() tuned. Calculation of tries
+of #2 problems now 50 per cent faster !
+This was an old conversion-from-PASCAL-to-C bug.             NG      8Aug90
+---------------------------------------------------------------------------
+new stipulation: "zielfeld"
+Zxxn   means: moving to square xx in n moves.                NG     14Aug90
+---------------------------------------------------------------------------
+Great Enhancements:
+new options:
+threat n        for logical moremovers: you can reduce calculation
+		by saying, that the opponent has defended, if there
+		is no threat in n moves or less.
+defences        you get all defenses to try. Therefore option all deleted.
+
+new stipulations:
+r=n             reflexstalemate in n moves
+s=n             selfstalemate in n moves
+=n              stalemate in n moves
+semi-r=n        semi-reflexstalemate in n moves
+semi-r#n        semi-reflexmate in n moves
+
+output:
+all moves until mate (stalemate ...) are shown now, even
+in setplay, and with all stipulations.
+
+We say thank you very much to the friendly programmer: Torsten Linss
+							TLi     30Aug90
+---------------------------------------------------------------------------
+Tries of optimization:
+all goto's deleted.
+loop variables count downwards to zero if possible.
+function encore() is a MAKRO now.
+							NG      17Oct90
+---------------------------------------------------------------------------
+Enhancement:
+new condition contactgridchess:
+Introduced by Rudolf Queck, Germany     (in Problemkiste 69, 6/1990 ?!)
+It's like grid-chess + koeko-chess but contact is only possible
+across a grid-line. Also a reborn piece (circe ...) must have contact,
+otherwise the capturing move is illegal.
+							NG      11Nov90
+---------------------------------------------------------------------------
+all needed for compilation with TURBO C on an ATARI added.
+							StHoe    6Jan91
+---------------------------------------------------------------------------
+Shorter Code:
+all language-dependent strings moved into
+language-dependent files named py-lang.str.
+pymsg.h pymsg.c modified.
+New file genpystr.c which generates the .str files
+from .msg files (only for developers necessary !).
+							ElB     18Jan91
+---------------------------------------------------------------------------
+Enhancement:
+new condition combination:  kamikaze-piece  and  circe.
+new piece/condition:  imitator.
+language-file py-deut.doc translated to py-fran.doc.
+							TM        Feb91
+---------------------------------------------------------------------------
+made compilable with MPW on macintosh-computers.
+							SB      14Feb91
+---------------------------------------------------------------------------
+the three versions above merged together and minor corrections
+due to inconsistencies and a contactgrid bug.
+							NG      29Mar91
+---------------------------------------------------------------------------
+all not needed (below) in all source-files deleted:
+NODEF, /* old comments */, DEBUG, DBG, DBG_EASS, DBGE
+							NG      21Apr91
+---------------------------------------------------------------------------
+Correction:
+imitator bug-fixes from TM inserted. Vector table v[] renamed to vec[]
+due to macintosh problems with MPW include files.
+riderim... changed to ridim... (7 significant char's !!)
+							NG       5May91
+---------------------------------------------------------------------------
+Correction:
+imitator-input more POPEYE-I/O-specific.
+imitator-promotion (iprom) is now a Option.
+made compilable with Microsoft C-Compiler.
+							ElB, NG  8May91
+---------------------------------------------------------------------------
+Correction:
+promoting to an imitator left a pawn on the
+promotion square. That resulted in possible defenses
+moving one square and moving back was not possible due
+to the "dummy" pawn lying around there.
+							NG 22May91
+---------------------------------------------------------------------------
+Correction:
+The longest string in py*.msg was truncated by one
+character.  This is fixed.
+Popeye LIZENZ-File included.
+							ElB, 29May91
+---------------------------------------------------------------------------
+Enhancement:
+parts of gnuhop? and dcs? in checking functions fee?echec
+where calculated always ! Now all (!) fairy piece check
+all calculation is up to 20% faster !!!
+							NG, 03Jun91
+---------------------------------------------------------------------------
+Enhancement:
+Old imitator stuff deleted from genrb() and new
+flag empilegenre for empile().
+all circe calculation is up to 4% faster !
+							NG, 11Jun91
+---------------------------------------------------------------------------
+Enhancement:
+new pieces:
+	root-50-leaper, CAT, super-pawn and berolina-super-pawn.
+new condition:
+	haaner chess
+improvement:
+	kangaroo bug with madrasi fixed.
+	imitator is now visible on board.
+	cavalier majeur is now a condition.
+Great internal revision:
+	new 24 * 24 board is used (new vectors, new initilisations ...)
+	very small global functions color(), advers() and
+	coupfort() changed to MAKROS.
+	new fairycheck-functions (up to 50% faster !!)
+	new promotion-calculation for pawns.
+	color-type personne deleted.
+	flags empilegenre and flagfairypawn introduced.
+In general, py2.60 has 10% smaller code and is 10% faster.
+							NG, 04Jul91
+---------------------------------------------------------------------------
+Changes to the parsing of the stipulation; its now clearer,
+and new stipulations are easily added.
+Most of these changes are going to pyio.c. Minor changes
+in other files.
+Eliminated flserie, added DblPattFlag, conserved PattFlag.
+Made it ANSI-compatible for gcc, and HP-UX.
+Added two new targets to Makefile: uniq and cdiff.
+							ElB, 30Jul91
+---------------------------------------------------------------------------
+- alle Funktionen zur Suchbaum-Analyse neu geschrieben und weitgehend ver-
+  allgemeinert - daher die grosse Anzahl der moeglichen Forderungen -
+  einige Beschleunigungen haben sich dadurch auch zufaellig ergeben.
+  Code dadurch 6.5K kleiner, Quelltext wurde auch wesentlich kleiner, sodass
+  ich PY7.C wieder in PY6.C uebernommen habe.
+- Loesungsausgabe bei Serienzuegern und Hilfsproblemen geaendert: 
+  die Anfangsstellung wird gespeichert; nach Finden einer Loesung wird sie
+  wieder zurueckgespeichert und alle unter repere[] stehenden Zuege wieder
+  ausgefuehrt; danach steht wieder die Stellung auf dem Brett, bei der fort-
+  gesetzt werden muss. Dadurch entfaellt das staendige aktualisieren von
+  tabaide[] mit der jeweils aktuellen Zugfolge - das bringt um die 5% .
+- bei direkten Aufgaben wird fuer die Variantenanalyse jetzt ein globales
+  Array mit Platz fuer ca. 1000 Zuege verwendet, dadurch kommt es bei Mehr-
+  zuegern nicht mehr zum Stack-Ueberlauf.
+- wesentlich sind die neuen Funktionen patt und pattencore, sie bewirken, dass
+  bei =, == und # in der letzten Zugebene nicht gleich alle Zuege generiert
+  werden sondern nacheinander fuer jede Figur einzeln (Koenige zuerst), das
+  brachte bis zu 50% Geschwindigkeit.
+- flaggenre ist nun vollstaendig zerlegt: empilegenre (NG), echeccgenre und
+  jouegenre.
+- kleine interne Aenderungen an Patrouille-Schach.
+- einzige "neue" Bedingung: madrasi rex + circe/immun rex jetzt moeglich. Bei 
+  Eingabe wird "rexinclusive" nur direkt nach "madrasi", "circe" etc. 
+  akzeptiert.
+							17.-20.9.1991  TLi
+---------------------------------------------------------------------------
+- Funktionen echecc, legalsquare, soutenu... verallgemeinert, dadurch laufen
+  jetzt mehr Kombinationen von Maerchenbedingungen.
+- neue Bedingungen: ChamaeleonCirce, CouCouCirce, FileCirce, Equipollents,
+  magische Felder, Echecs Sentinelles, TibetSchach, DoppeltibetSchach,
+  DiagrammCirce und Schwarzer/Weisser-Laengst/Kuerzest-Zueger.
+- neue Steinspezifikation: paralysierend.
+- Option Widerlegung geaendert: nach dem Schluesselwort "Widerlegung" wird
+  die Eingabe der maximalen Widerlegungen erwartet - Option "Verfuehrung"
+  jetzt also "Widerlegung 1".
+- neue Option: "Pendel" - erkennt bei gaengigen Maerchenarten Pendelmechanismen
+  bei langen Mehrzuegern, wirkt nur mit Option "Drohung".
+- neue Funktionen fuer Forderungserfuellung (stip_????) - dadurch flexibler
+  fuer kuenftige neue Forderungen. Forderung "Schlag" gleich realisiert.
+							14.-16.11.1991  TLi
+---------------------------------------------------------------------------
+some small bugs fixed, so it's now also UNIX-(SINIX)-compilable.
+startmovenumber bugs with maxi-/mini-mummers and series-movers fixed.
+message- and doc-files updated.
+with mini-/maximummer incompatible pieces not allowed any more.
+							NG, 23Nov91
+---------------------------------------------------------------------------
+(PWC or rexinclusif) and haanerchess together allowed now.   NG, 26Nov91
+---------------------------------------------------------------------------
+Message strings checked. Move overflow check inserted. New Condition:
+HOLE(s) in the board possible ! Small I/O-bugs fixed.
+Output of calculated time until now during movecounter output.
+Condition DoubleRimMover changed to WhiteEdgeMover.
+Documentation adjusted.
+							NG, 28Nov91
+---------------------------------------------------------------------------
+- finligne(), change(), setneutre() als Makros ausgefuehrt, was ca. 10%
+  Geschwindigkeit bringt.
+- libre() umgeschrieben - neue checkfunctions() fuer Ortho-Figuren - Code
+  ca. 1,5K kleiner.
+							19.2.92  TLi
+---------------------------------------------------------------------------
+- Beschleunigung fuer #-Aufgaben mit orthodoxen Steinen und solchen
+  Bedingungen, bei denen nur auf orthodoxe Art Schach geboten werden kann
+  (direktes Schach, oder Batterieabzug mit D als Hinterstein). In der vor-
+  letzten Zugebene werden nur solche Zuege mittels empile() eingespeichert,
+  die ueberhaupt potentiell Schach bieten koennen.
+  Dazu einige neue functions in PY4.C.
+  Beschleunigung zwischen 15 und 60%, ca. 2K groesserer Code.
+- neue Bedingungen: weisser & schwarzer Schlagzwang.    20.2.92  TLi
+- oui, non, ind geloescht.
+---------------------------------------------------------------------------
+Some loop-initilisation-bugs fixed by TM and NG.
+Equihopper and nonstop-equihopper bugs fixed.
+Mini-/maximummer/mustcapture not allowed with neutral pieces.
+						     TM, NG,  Mar92
+---------------------------------------------------------------------------
+- neue Figuren: T-, L-Lion, marine Steine Sirene, Triton, Nereide, Moa,
+  Orphan. Fuer marine Steine war Aenderung von test/empile noetig - diese
+  Funktionen haben jetzt drei Parameter, der letzte ist im Normalfall
+  initsquare, bei heuschreckenmaessigem Schlag enthaelt er das Feld, auf
+  das die schlagende Figur geht.
+- neue Bedingung: transmutierende Koenige.
+- habe das ganze in den Quelltexten nicht extra kommentiert - immer mal
+  schauen wo "V3.0  TLi" steht...
+							30. 3. TLi
+---------------------------------------------------------------------------
+- Korrektur transmutierende/reflektierende Koenige
+- neu: Circe Parrain
+- Beschleunigung nocontact
+- Korrektur legalsquare-Bed. fuer Heuschrecke u. aehnliche
+- Speicherung der Zuege umgestellt:
+	cd[..] = Ausgangsfeld des ziehenden Steines
+	ca[..] = Zielfeld des ziehenden Steines
+	cp[..] = Feld, auf dem Stein entfernt wird
+							30. 9. 92 TLi
+- neu: SymmetrieCirce
+- Paralysierende Steine jetzt mit allen Forderungen
+- OhneIUW ist eine Bedingung keine Option !!!!!
+- neutrale Koenige
+							2. 10. 92 TLi
+
+- Optimierung des schwarzen Spiels in direkten Aufgaben durch Vorziehen
+  schwarzer Zuege, die die weissen Zugmoeglichkeiten am staerksten ein-
+  schraenken. Bei #4 halten sich Geschwindigkeitsverluste und -gewinne die
+  Waage; bei #5 30-40% schneller und dann greift's richtig.
+- neue Figuren: TJ = Turm/Laeufer-Jaeger
+		LJ = Laeufer/Turm-Jaeger
+- fuer Fehlermeldungen ordentliche (?) Namen vergeben - ueberfluessige
+  rausgeschmissen
+- einige Umfaerbungen neutraler Steine in genmove, genlast, genweiss...,
+  patt, pattencore entfernt, da ueberfluessig bzw. verfrueht.
+- Beschl. fuer ortho-Figuren (siehe 20. 2.) klappt auch mit +-Forderung
+- Forderung Steingewinn eingebaut
+- Pendel von Drohung abgekoppelt und fuer neutrale modifiziert und fuer
+  Serienzueger erweitert: schlagfreie Rueckkehren werden unterdrueckt
+- VerifiePosition gibt jetzt true zurueck, wenn Problem formal in Ordnung,
+  auch ansonsten (z. B. in main()) wird FtlMsg nur noch aufgerufen, wenn
+  wirklich ein fataler Fehler aufgetreten ist
+- fuer VAX-C auf VMS-Workstations modifiziert
+- neu: VogtlaenderSchach
+							9. 10. 92 TLi
+---------------------------------------------------------------------------
+Harald Denker ported Popeye V2.9 to IBM MVS machines. I merged that with
+this version. (Thanks a lot, Harald !!)
+I did some regression tests and minimal corrections to the source.
+Language dependant files were adjusted.
+Readme.Mac is incorporated into readme.
+Everywhere checked for ANSI-support and adjusted if needed.
+Hunter-bugs fixed everywhere !
+							22.01.1993  NG
+---------------------------------------------------------------------------
+The routines ErrorMsg and Message need now only one parameter,
+which is the number. If this message needs a second parameter,
+then it is logged with one of three routines:
+	logStrArg       /* StringArgument */
+	logIntArg       /* NumberArgument */
+	logChrArg       /* CharacterArgument */
+This has the advantage of not pushing two arguments on the stack
+when most times only one is needed. And, more important we need not
+any longer the stdarg, to keep the ANSI-compilers happy.
+							04.02.1993  ElB
+-----------------------------------------------------------------------
+Then I added a second method to handle the language dependend strings:
+There ist the old method, of keeping all the strings in seperate
+files. This is needed on some architectures where every byte of
+memory is valuable (f.i. 64kB SmallMemoryModel DOS).
+The second method is to compile in all messages. This is done if
+you define MSG_IN_MEM in the makefile.
+If this is defined, another version of genpystr is compiled which
+generates a suitable c-source which is included in pymsg.c
+To achieve coherent handling of the languages there are two litte
+files
+	pylang.h
+	pylang.c
+Look at them and you will see. They are just too simple to
+describe here.
+This was done to satify the needs of Harald, who had problems
+whith the old mechanism on his mainframe implementation of C.
+I hope this solution is generic enough to produce valid
+code for all our supported architectures. All unix and
+32-Bit implementations where memory is not a factor will
+benefit from this new implementation since no *.str files
+are needed.
+							04.02.1993  ElB
+-----------------------------------------------------------------------
+All changes from Harald merged into this version. 
+Makefile.msc adjusted to ElB's changes. Some bugs
+with TransmutingKings and CirceParrain with all kinds of
+pawns fixed.
+This is now the official version Popeye V3.04 !         25.02.1993  NG
+-----------------------------------------------------------------------
+Moa- and Verifieposition()-bugs fixed.
+neutral king-bug fixed.
+structure for piecespecifications changed.
+Pieces Volage: output of new color in editcoup added.
+new stipulations: exact-*
+new stipulation: *epn  *en passant capture in n.
+bug fixed: royal pieces and totalortho.
+bug fixed: transmuting/reflekting kings
+TLi-bug fixed by NG: nocontact
+new piecespecifications: chameleon, jibber, volage
+new conditions: Einsteinschach, Echecs Bicolores, NeuKoeko, Circe Clone
+pendulum-mechanism changed
+new pieces: MaoRider, MoaRider, RookHopper & BishopHopper
+"new" function renaicirce
+							9.- 15. 4. 1993  TLi
+-----------------------------------------------------------------------
+new condition:  anticirce
+royal kamikaze-bug fixed in empile and verifieposition
+"speed-bug" fixed in repcoup
+Circe-, Immun- und Anticircebedingungen verallgemeinert.
+initneutre modified
+new conditions: degradierung, norsksjakk, supercirce,
+		reversal einsteinchess,
+		exact maxi/minimummer, schlagzwang,
+		traitor chess
+							23. 4. 1993  TLi
+-----------------------------------------------------------------------
+New pieces:
+eking             ErlKing
+bscout            BoyScout
+gscout            GirlScout
+
+Stop calculation with button  ESC  now always possible. It should 
+be tested if there is a more efficient way to realize it !
+All unnecessary  #ifdef NODEF  deleted.
+Documentation adjusted.
+							01.05.1993  NG
+-----------------------------------------------------------------------
+Due to the annual fairychess meeting in Andernach the Popeye
+developer team fixed two bugs and introduced a new condition:
+AndernachChess                                          23.05.1993  NG
+-----------------------------------------------------------------------
+Cleaning up the source:
+  + From all source-Files removed the #ifdef ANSI.
+    As far as we know, there is nobody requiring KR C.
+    We can only benefit from using ANSI C, and the source
+    gets a little bit more readable.
+    If there is somebody requiring a KR-Version of the
+    source, let us know. Elmar can easily provide you with
+    this.
+
+  + Removed the lengthy modification-history from
+    the source files and put them into *.mod files.
+    Another format for the modification list is suggested.
+    See the files py[1-6].c 
+							1993/5/25 ElB
+-----------------------------------------------------------------------
+Popeye ported to:
+DOS             with    GCC         compile-flag:       DOS and GCC
+OS/2            with    GCC         compile-flag:       OS2 and GCC
+BS2000          with    C V2.0A     compile-flag:       BS2000
+
+Jibber (wrong) changed to Jigger (right !).
+Documentation ajusted everywhere.
+							30.06.1993  NG
+-----------------------------------------------------------------------
+Correction from TLi for PWC/neutral-pieces bug.
+Addition from StH to stop after a given number
+of solutions.
+Documentation adjusted.
+							03.07.1993  NG
+-----------------------------------------------------------------------
+structure for storing the initial position modified
+to save memory - see changes in py.h, pydata.h and py1.c
+new option: "flights x" for direct moremovers -
+	    white is forced to give the black king not more
+	    than x flights. (py.h, pydata.h, py1.c, py6.c, pyio.c)
+new pieces: Skylla and Charybdis - see harmonie-11,
+	    12. 9. 1987, S. 45f  (py.h, pydata.h, pyproc.h, py3.c)
+Mao/Moarider-bug fixed - white did not capture black king! (py4.c)
+number of generating functions for Mao/Moa(riders)
+and hamster reduced (1 function for black and white
+man of the same type) - about 1K smaller code. (py4.c)
+							10.07.1993  TLi
+-----------------------------------------------------------------------
+Hashing for series problems - new file PYHASH.C,
+further modifications in py6.c and pyproc.h
+							26.07.1993  TLi
+-----------------------------------------------------------------------
+Many more generation-functions of fairy-pieces reduced.
+Some "flights x" bugs fixed. Some PYHASH.C bugs fixed.
+							08.08.1993  TLi
+-----------------------------------------------------------------------
+Everything tested extensively. All UNIX-related hashing-bugs
+fixed.
+Some memset()-bugs fixed (py1.c).
+Documentation adjusted everywhere.
+							10.08.1993  NG
+-----------------------------------------------------------------------
+New conditions: ForcedSquares
+Some  'exact'-bugs fixed.
+							15.02.1994  NG
+-----------------------------------------------------------------------
+All new code of ElB for dynamic hashing appended.
+Development environment adjusted.
+Orphan-bugs (mailed by TLi) fixed.
+Documentation adjusted.
+Popeye does not fit into SmallMemoryModel any more...
+							25.02.1994  NG
+-----------------------------------------------------------------------
+Orphan-bugs fixed, "reflex and hash"-bug fixed.
+ForcedField bugs fixed. Documentation adjusted.
+Information about compiling and linking on VMS systems added.
+Great CountDown for the release V3.21 by TLi, ElB
+English abbreviations for knight and sparrow changed.
+See py-engl.doc.
+Released version: V3.21
+							06.05.1994  NG
+-----------------------------------------------------------------------
+LogLngArg added in pymsg.c due to HashStat output-
+problems in opyhash.c under DOS.
+							23.05.1994  NG
+-----------------------------------------------------------------------
+CirceClone bug due to "special rules" fixed.
+							03.06.1994  TLi
+-----------------------------------------------------------------------
+SuperCirce bug in py5.c fixed                           23.07.1994  TLi
+-----------------------------------------------------------------------
+New piece: contra grashopper an invention by Peter Wong who sent me a
+problem with CG for Die Schwalbe. It hops over an adjecent piece and
+lands on any square beyond - of course only on Q-lines. 28.07.1994  TLi
+-----------------------------------------------------------------------
+ep-capture adopted for Einstein Chess and Berolina Pawn 29.07.1994  TLi
+-----------------------------------------------------------------------
+The algorithm for hashing in series moves needed to be changed since
+the "forward" hashing does not work correctly - short solutions may be
+missed. A very simple example:
+
+anfangproblem
+forderung ser-zh88
+steine weiss ka1 schwarz sc3d4
+option ohnesk
+endeproblem
+
+The old popeye did not find the solution in 7 because the critical po-
+sition with wKd4 has to be reached in 4 moves. Popeye threw it away
+because it can be reached already in 3 moves.           08.08.1994  TLi
+
+Hashing for all stipulations implemented. The pendulum mechanism for
+direct problems has been disabled. In connection with hashing I am
+still thinking about a more efficient reimplementation. This also
+concerns "forward" hashing with all kinds of stipulations.
+							13.11.1994  TLi
+-----------------------------------------------------------------------
+AntiCirce/Kamikaze bug in stip_target() in file py5.c fixed. Thanks to
+Erich Bartel for spotting this.                         14.11.1994  TLi
+-----------------------------------------------------------------------
+Vogtlaender bug fixed.
+New pieces: RoseLion and RoseHopper                     14.12.1994  TLi
+-----------------------------------------------------------------------
+MagicFields bug fixed.
+Tell?????Encode... changed to original status and estimation 
+of hashsize added for imitators and HaanerChess due to 
+MaxPositions overflow.
+UbiUbi bug fixed concerning condition Madrasi.
+contragrashopperbug fixed in gefeerrest() in py4.c
+							11.01.1995  NG
+-----------------------------------------------------------------------
+Koeko+Circe bug fixed by TLi
+New stipulation: h#/= by TLi
+New stipulation: 1->ser-h# (seriesmovers with introductory move) by TLi
+stip_ep bug fixed by TLi
+ep_output bug fixed by NG
+better (?) board output by ElB
+some hashing bugs fixed by TLi and ElB
+documentation adjusted
+regressiontest done
+This is version  py3.31  now !
+							23.05.1995  NG
+-----------------------------------------------------------------------
+New conditions: ChameleonChess, BeamtenChess            26.05.1995  TLi
+-----------------------------------------------------------------------
+Old #ifdef NODEF's deleted.
+Documentation revised and adjusted.
+Some DHT-files renamed so that they are 'DOS-compatible'.
+							01.06.1995  NG
+-----------------------------------------------------------------------
+new option: nontrivial n m for direct/self problems
+White must play moves leaving black with n or less moves
+not leading to #m and s#m, resp.
+new option: keepmatingpiece - in s,r# the last black piece
+must not be captured.
+new piece: Okapi = Knight + Zebra
+further attempt to optimize orthodox play.
+PatrolChess/Beamten and Madrasi/paraly. pieces allowed now.
+new stipulation ##, ##! (double mate, counter mate)
+							   06.1995  TLi
+-----------------------------------------------------------------------
+new piece: 3:7 leaper
+new piece: Grasshopper-2
+new stipulation: dia == proof game
+							   07.1995  TLi
+-----------------------------------------------------------------------
+Castling in totalortho play implemented.
+Castling for legalsquare conditions implemented.
+Castling for a lot of conditions implemented.
+							   08.1995  NG
+-----------------------------------------------------------------------
+new piece: Grasshopper-3
+new option: enpassant for ep keys
+Maximummer/Minimummer adapted for castling.
+new conditions: direct reflex and wh/bl must check
+new stipulation: 00 -- castling
+Einstein ep-bug fixed.
+							   08.1995  TLi
+-----------------------------------------------------------------------
+Handling of UNIX-signals implemented.            ElB
+koeko + sentinelles bug fixed.
+anticirce+proofgame improved.
+andernachschach+proofgame bug fixed.
+hs#-bug fixed.
+koeko + circe bug fixed.
+enpassant-key bug fixed.
+Documentation revised and adjusted.
+regression test done.
+This is version  py3.37  now !
+							31.10.1995  NG
+-----------------------------------------------------------------------
+New piece:   1:6-leaper
+New option:  noboard   board is not printed on screen or in file
+							03.11.1995  NG
+-----------------------------------------------------------------------
+New option:  halfduplex, ie. only the second part of a 
+	     duplex problem is calculated.
+							07.02.1996  NG
+-----------------------------------------------------------------------
+New:  Twinning possible now
+							19.03.1996  TLi
+-----------------------------------------------------------------------
+documentation adjusted  (french: ThM)
+series move bug fixed                   TLi
+Twinning improved                       TLi
+ported to Windows-95/Windows-NT  (WIN32)
+new condition:  GlasgowChess            TLi
+new option:     PostKeyPlay             TLi
+regression test done.
+This is version  py3.41  now !
+							15.05.1996  NG
+-----------------------------------------------------------------------
+new conditions:
+	AntiandernachChess
+	FrischaufCirce
+						Andernach, may 1996 TLi
+-----------------------------------------------------------------------
+new stipulation:
+	ser-dia         ie., series proofgame
+							21.06.1996  NG
+-----------------------------------------------------------------------
+bug fix in module pyio.c:
+due to new Condition FrischAufCirce, other conditions which need
+a following SquareList didn't work well anymore.
+							25.07.1996  NG
+-----------------------------------------------------------------------
+keep mating piece now also for direct mates and helpmates
+available.
+fxf.c:  fxfMAXSIZE increased to 1024.
+	Now DHT is 64-bit clean.
+							16.09.1996  NG
+-----------------------------------------------------------------------
+py4.c: rosehopper bug fixed.
+							17.09.1996  TLi
+-----------------------------------------------------------------------
+py6.c: SolveHelpProblems(). Bug fixed !
+       When solving setplay and solution using  'doublemaximummer'
+       condition(s), setplay was found, but NOT the solution !
+       Seemed to be a problem of not again initializing hashing table.
+pydata.h, py6.c, pyhash.c: new global variable  maincamp  , due to
+       bug when using option  keepmating  in helpmovers.
+							23.09.1996  NG
+-----------------------------------------------------------------------
+new condition:  VerticalMirrorCirce
+							31.10.1996  NG
+-----------------------------------------------------------------------
+new pieces: 2:4-leaper, 3:5-leaper
+							06.11.1996  TLi
+-----------------------------------------------------------------------
+new option:     PromOnly  (promotion only in specified pieces)
+some new examples: leaper35.inp, promonly.inp, halfdupl.inp
+							15.11.1996  NG
+-----------------------------------------------------------------------
+new module: pysignal.c for handling of signals (Only UNIX
+	    at the moment)
+Usage of HZ under UNIX changed to usage of ClockTicks
+							25.11.1996  ElB
+-----------------------------------------------------------------------
+HG found a bug when calculating ser-reci-h-mover with
+haanerchess condition. Fixed by TLi
+ErB found a bug when calculating ser-h-mover with circe parrain
+and promotion of a captured pawn. Fixed by TLi
+DOS, OS/2 and WIN32 binaries created.
+Regression test done.
+This is Popeye V3.43 now.
+							03.12.1996  NG
+-----------------------------------------------------------------------
+new: series-mover with more than one introductory move
+							07.12.1996  TLi
+-----------------------------------------------------------------------
+Changes done for a WIN16 Popeye
+							10.12.1996  TBa
+-----------------------------------------------------------------------
+bug fixed: rook turns to bishop in EinsteinChess during castling
+							19.12.1996  NG
+-----------------------------------------------------------------------
+bug fixed: proof games and antiandernachchess bug.
+new errormessage ProofAndFairyConditions implemented.
+							15.01.1997  NG
+-----------------------------------------------------------------------
+new condition Isardam implemented by StE & TLi
+new condition ChecklessChess by TLi
+new pieces doublegrashopper and kinghopper (StE)
+implementation of generalized reci-h (with changing stipulation)
+revised (TLi)
+examples added  (StE+TLi)
+							24.01.1997  TLi
+-----------------------------------------------------------------------
+new piece: Orix
+							06.02.1997  NG
+-----------------------------------------------------------------------
+new restart mechanism
+new condition DiametralCirce 
+							10.02.1997  TLi
+-----------------------------------------------------------------------
+option  PromOnly  changed to a condition
+							17.02.1997  NG
+-----------------------------------------------------------------------
+new ChameleonCirce implementation, RankCirce
+ep-bug in r?echecc() and pbcheck() fixed
+							14.03.1997  TLi
+-----------------------------------------------------------------------
+DOS, WIN32 and OS/2 binaries created.
+Documentation ajusted. Regression test done.
+This is version V3.44 now.
+							 3.04.1997  NG
+-----------------------------------------------------------------------
+new option: intelligent
+implementation of intelligent search engine for
+mating positions within 'orthodox' helpmates.
+It is now possible to test helpmates longer than
+four moves within reasonable time, ie. huge speed
+improvement !
+							04.04.1997  TLi
+-----------------------------------------------------------------------
+Isardam/CheckLessChess bug fixed
+new condition: ExclusiveChess
+The intelligent mode is still buggy. I know what's going on, I know how
+to fix it, but I'll rewrite it to cope with fairy pieces too.
+py-deut.doc and py-engl.doc updated, some examples added.
+							27.04.1997  TLi
+-----------------------------------------------------------------------
+Also some things merged.
+French documentation updated.
+Regression test done.
+							07.05.1997  NG
+-----------------------------------------------------------------------
+Sorry, had no time to rewrite the intelligent mode. So I have just
+fixed the bug...
+new condition: Mars Circe (by SE)
+merged SE's version and the official one.
+							05.06.1997  TLi
+-----------------------------------------------------------------------
+Documentation adjusted.
+Some minor code adjustments.
+Output of interrupt message if maxsolutions are reached.
+							23.06.1997  NG
+-----------------------------------------------------------------------
+New pieces:     1:5-leaper (15), 2:5-leaper (25)
+	    gral (GL) (= alfil + rookhopper)
+							27.06.1997  NG
+-----------------------------------------------------------------------
+new condition: MarsMirrorCirce
+							30.07.1997  TLi
+-----------------------------------------------------------------------
+new condition:          PhantomChess 
+'new' conditions:       WhiteTransmutingKing
+			BlackTransmutingKing
+			WhiteReflektiveKing
+			BlackReflektiveKing
+Some examples added.
+*.mod files enlarged, so the sources are smaller now.
+Documentation adjusted.
+							17.08.1997  NG
+-----------------------------------------------------------------------
+bug-fixes:   ##!-bug in ParsStip fixed
+	     Twinning bug fixed in pyio.c: new LaTeX possibilities
+		should only be used when LaTeXout is set !!
+							19.08.1997  NG
+-----------------------------------------------------------------------
+new conditions: MirrorCouscousCirce and AntiEinsteinChess,
+intelligent mode extended to orthodox (ser-)h=,
+LaTeX output enhanced, some cosmetics.                  04.09.1997  TLi
+-----------------------------------------------------------------------
+Some minor documentation adjustments.
+intelligent mode shows found number of mates when 
+	option movenumber is given (language independent).
+duplex twinning bug with ser-h-movers and intelligent fixed.
+							28.10.1997  NG
+-----------------------------------------------------------------------
+new conditions: CirceAssassin, BrunnerChess, PlusChess
+new stipulation: autostalemate  (symbol: !=)
+bugfix: twinning and proofgames.
+							28.10.1997  SE
+-----------------------------------------------------------------------
+new condition: Isardam TypeB
+							31.10.1997  SE
+-----------------------------------------------------------------------
+new conditions: Sentinelles (en) PionAdvers, PionNeutre
+							09.11.1997  SE
+-----------------------------------------------------------------------
+bugfix: Marscirce with neutral pieces
+							10.11.1997  SE
+-----------------------------------------------------------------------
+new conditions: Patience Chess & Type B
+							14.11.1997  SE
+-----------------------------------------------------------------------
+new keyword: InitialGameArray
+	     ie. all pieces are set to the position at beginning
+	     of the game, to save typing time.
+							24.11.1997  SE
+-----------------------------------------------------------------------
+new conditions: Echecs Central, Extinction chess
+new stipulations: ct (circuit), <> (exchange place), ctr, <>r (ib. by
+	Circe rebirth as last move)
+							12.12.1997  SE
+------------------------------------------------------------------------
+Merged. Documentation adjusted.
+							23.12.1997  NG
+------------------------------------------------------------------------
+new condition: Republican chess
+bugfixes: Supercirce with promotions (repcoup) and in nowdanstab
+new implementation of pattencore
+							30.12.1997  SE
+-----------------------------------------------------------------------
+Madrasi bug fixed in function libre.
+version changed to V3.51.
+Merged. Documentation adjusted.
+							07.01.1998  NG
+------------------------------------------------------------------------
+Checks now computed in Isardam/Brunner  
+							08.01.1998  SE
+------------------------------------------------------------------------
+castling now allowed for transmuted kings
+phantomchess rexinclusiv bug fixed
+                                                        14.01.1998  NG
+------------------------------------------------------------------------
+new keyword: LaTeXPieces - see pyio.c for longer comment.
+new Variable: HashRateLevel - see pyhash.c for longer comment.
+							1998-01-20  ElB
+------------------------------------------------------------------------ 
+ActTwin buffer overflow fixed. Showed no output
+after a lot of successive twins on SUN machines.
+DHT files changed for Borlands TURBO-C.
+Presentation of board under UNIX now always with SIGHUP possible.
+                                                        02.05.1998  NG
+------------------------------------------------------------------------
+corrections of TLi integrated.
+DOS maxnumber of playable plys now 50.
+Some old #ifdef NODEF deleted.
+                                                        07.05.1998  NG
+------------------------------------------------------------------------
+phantomchess and epcapture bugs fixed.
+supercirce bug corrections of SE integrated.
+intelligent mode restricted to h# and ser-h# without
+	fairy conditions or pieces.
+regression test done.
+This is version  py3.52  now !
+                                                        19.05.1998  NG
+------------------------------------------------------------------------
+new option: MaxTime  for giving a maximum amount of solving time
+AntiAndernachChess and castling bug fixed.
+Another PhantomChess and ep-capture bug fixed.
+Twinning of multiple conditions: I/O-bug fixed.
+Castling stipulation forbidden if castling is not supported
+	in connection with some fairy conditions.
+                                                        10.06.1998  NG
+------------------------------------------------------------------------
+maximummer and neutral king bug fixed.
+                                                        14.07.1998  TLi
+------------------------------------------------------------------------
+Republican chess fixes etc. Still can't do legale matzet form.
+                                                        25.07.1998  SE
+-------------------------------------------------------------------------
+- input file castlin1.inp modified;
+- new input files: beamten.inp, royalsq.inp, locust.inp;
+- new piece specification: beamtet;
+  typedef definition of Flags changed to unsigned long (we need more
+  than 16 bits for piece specifications now!);
+  maxply had to be reduced for DOS;
+- bug fixed in function CenterLine (output was not centered!);
+- patt() modified to stabilize checkless chess + neutral pieces;
+- new pieces: bishop/rook/night locust
+						        27.07.1998  TLi
+------------------------------------------------------------------------
+New condition: actuated revolving board
+Changed: hashing of piece specification
+option intelligent extended:
+	maximal number of solutions per mating position can be given
+						        17.10.1998  TLi
+------------------------------------------------------------------------
+bug fix: nonstop equihopper + patrouille check:
+	 the  nonstop equihopper  did always control itself.
+	 (Thanks to Juraj Lorinc for finding the bug !)
+                                                        19.10.1998  NG
+------------------------------------------------------------------------
+twinning bug fixed:
+	removal of not existing piece resulted in a coredump
+						        21.10.1998  TLi
+------------------------------------------------------------------------
+royal pieces now allowed with some circe RI, immune RI
+                                                        26.10.1998  SE
+-------------------------------------------------------------------------
+Ported to make a DOS 32 bit application.
+Regression test done.
+Documentation adjusted.
+                                                        14.01.1999  NG
+------------------------------------------------------------------------
+Option maxtime improved.
+Now possible for UNIX, WIN32, DOS32
+                                                        17.01.1999  NG
+------------------------------------------------------------------------
+Nicer Version string.
+makefiles changed, so we make always an FXF py
+                                                        18.02.1999  NG
+------------------------------------------------------------------------
+new pieces: wazir-/fers-rider
+Slight orthodox optimization: queen promotion first !
+Some #ifdef NODEF deleted.
+                                                        19.02.1999  NG
+------------------------------------------------------------------------
+Exclusive chess bug fixed.
+new condition: Messigny chess			        15.03.1999  TLi
+------------------------------------------------------------------------
+bug fix: castling disallowed again for transmuted kings
+                                                        27.03.1999  NG
+------------------------------------------------------------------------
+castling enabled for transmuted kings, castling implementation changed
+minor LaTeX changes
+Some #ifdef NODEF stuff deleted.
+started to revise BEISPIEL/*.inp files to reduce there number.
+                                                        30.03.1999  TLi
+------------------------------------------------------------------------
+some slight changes (improvements ?) for castling
+new option: NoCastling
+                                                        02.04.1999  NG
+------------------------------------------------------------------------
+new conditions: (Bi)Woozles and (Bi)Heffalumps (RexExklusive)
+Messigny chess standard form is now rexinclusive, ``rexexclusive'' has
+to be entered to exclude Kings.
+                                                        17.04.1999  TLi
+------------------------------------------------------------------------
+LaTeX styles (from ElB, StH (?)) added in the distribution.
+Error message if option  maxtime  is used in DOS16 mode.
+Due to user demand, imitators are visualized on the board again.
+Documentation adjusted.
+Regression test done.
+This is version  py3.56  now !
+                                                        03.05.1999  NG
+------------------------------------------------------------------------
+Andernach 1999 actions:
+BiHeffalumps bug fixed.
+english and french condition names of 'BeamtenSchach' adjusted.
+TLi's hacker-code (no breaks inside switches) changed
+for better maintainability.
+                                                        14.05.1999  NG
+------------------------------------------------------------------------
+TLi's correction for messigny and Proofgames added.
+Old #ifdef NODEF stuff deleted.
+Old  "what has been changed"  entries in fileheaders
+	moved to *.mod files.
+                                                        25.05.1999  NG
+------------------------------------------------------------------------
+New piece specification:  halfneutral
+                                                        12.06.1999  SE
+------------------------------------------------------------------------
+halfneutral output "internationalized"
+documentation adjusted
+                                                        17.06.1999  NG
+------------------------------------------------------------------------
+new conditions: WhitePromSquares  and  BlackPromSquares
+new conditions: NoWhitePromotion  and  NoBlackPromotion
+PromOnly changed: at least one piece is needed now.
+                                                        22.06.1999  NG
+------------------------------------------------------------------------
+bug fixes: HaanerChess, Messigny
+							29.07.1999  TLi
+------------------------------------------------------------------------
+In dht.c: HashPrime changed to 2147498033 due to 
+          hashing problems.  Hint of ElB 
+							10.08.1999  NG
+------------------------------------------------------------------------
+speed improvements: (ser-)h#/= through additional inquiries into
+hash tables
+bug fix in py3.c: Anticirce + Chameleons (spotted by Petko Petkov)
+                                                        23.08.1999  TLi
+------------------------------------------------------------------------
+new: hashing for series movers with introductory moves
+							24.08.1999  TLi
+------------------------------------------------------------------------
+DHT dynamic hashing package completely rewritten due to 
+	anomalies with 2 GB hash memory.
+							20.09.1999  ElB
+------------------------------------------------------------------------
+bug fix: RoisTransmutes and RoisReflecteurs entries exchanged
+maxply for DOS (16 Bit) decreased to 28.
+WARNING: DOS (16 Bit) will only be supported until 31.12.1999 !
+Documentation adjusted.
+Regression test done.
+                                                        24.09.1999  NG
+------------------------------------------------------------------------
+bug fix of speed improvements above due to anomalies with
+very long helpmates
+new condition: EiffelChess
+							27.09.1999  TLi
+------------------------------------------------------------------------
+bug fix: BrunnerChess
+							29.09.1999  TLi
+------------------------------------------------------------------------
+new stipulation:  #=  (mate or stalemate)
+new option: quodlibet (s#/r# or #, s=/r= or = s#=/r#= or #=)
+							16.10.1999  SE
+------------------------------------------------------------------------
+MaxMemory output changed to MB (MegaByte) if available.
+position of StartTimer changed, so that inputtime is
+excluded from solutiontime.
+documentation adjusted.
+							21.10.1999  NG
+------------------------------------------------------------------------
+MaxSolutions now calculated for every twin, duplex, ...
+new option: StopOnShortSolutions (but not with direct play !)
+french keywords changed to avoid three character ambiguities:
+debut --> DebutProbleme
+fin   --> FinProbleme
+maxply for DOS (16 Bit) decreased to 26.
+WARNING: DOS (16 Bit) will only be supported until 31.12.1999 !
+regression test done.
+documentation adjusted.
+							14.11.1999  NG
+------------------------------------------------------------------------
+new piece: bison (1,3)+(2,3) leaper
+                                                        21.11.1999  TLi
+------------------------------------------------------------------------
+Some keywords corrected:
+german: ExklusivSchach, RexExklusive, RexInklusive
+english: RelegationChess
+							22.11.1999  NG
+------------------------------------------------------------------------
+Documentation adjusted.
+Minor bugs fixed.
+Regression test done.
+This is version  3.61  now.
+NOTE: The last version which officially supports DOS (16 Bit) !!!
+							06.12.1999  NG
+------------------------------------------------------------------------
+intelligent mode for orthodox ser-# enabled -- merry X-Mas
+							22.12.1999  TLi
+------------------------------------------------------------------------
+Allocatable memory on 32-Bit systems theoretically increased 
+	upto 3,8 GB, but there's still a core dump around ...
+HAPPY NEW MILLENNIUM !!!
+							04.01.2000  NG
+------------------------------------------------------------------------
+small bug fix in function nocontact for new Sentinelles variants
+							05.01.2000  SE
+------------------------------------------------------------------------
+maxply not reduced in 32 Bit DOS environment, if compiling
+	with a real DOS-compiler ...
+							05.01.2000  NG
+------------------------------------------------------------------------
+new piece: elephant (Q+N) -- happy new year
+                                                        13.01.2000  TLi
+------------------------------------------------------------------------
+New conditions:
+Maximummer
+UltraSchachZwang
+WhiteUltraSchachZwang
+BlackUltraSchachZwang
+ActuatedRevolvingCentre
+ShieldedKings
+Above changes from  SE  integrated.
+No official support for OS/2 and 
+MS-DOS (16 Bit) / DR-DOS (16 Bit) any more
+documentation adjusted.
+							17.01.2000  NG
+------------------------------------------------------------------------
+AntiAndernach bug fixed, HalfNeutral implementation slightly changed
+Output for moves with colour changes modified -- more logical (?!!!)
+because of a simpler code
+ReDrawBoard() modified to get more information about the current
+state of the solution process
+                                                    20.-21.01.2000  TLi
+------------------------------------------------------------------------
+Anticirce Calvet bug fixed
+                                                        26.01.2000  TLi
+------------------------------------------------------------------------
+new piece: Neo (Chinese nightrider)
+                                                        29.01.2000  TLi
+------------------------------------------------------------------------
+new condition : parasentinelles
+Messigny + Koeko bug fixed
+                                                        01.02.2000  SE
+------------------------------------------------------------------------
+intelligent mode for stale mates enabled
+                                                        04.02.2000  TLi
+------------------------------------------------------------------------
+Due to problems with 386DX processors without Coprocessor
+       all floating point code eliminated.
+Restriction with pydos32.exe: may use only 32 MB for hashing
+The chinese nightrider is called  NAO !
+Documentation adjusted.
+							14.03.2000  NG
+------------------------------------------------------------------------
+new pieces: (rook/bishop)-(eagle/moose/sparrow)
+bug fix: empty  remark  line consumpted next line also ...
+bug fix: marscirce/phantomchess with fairy-kings (hint of SE)
+							12.04.2000  NG
+------------------------------------------------------------------------
+nontrivial implementation changed -- did not work properly before.
+threat 0 enabled.
+maxmem input changed; now accepts, e.g., -maxmem 1G.
+                                                        13.04.2000  TLi
+------------------------------------------------------------------------
+new piece: Rao (chinese rose)
+german piece ra (Randschwein) changed to rd
+							09.05.2000  NG
+------------------------------------------------------------------------
+bug fix: marscirce/phantomchess                         09.05.2000  TLi
+------------------------------------------------------------------------
+memory output improved, so that i can see 373737 KB if I want to,
+ie. truncation during rounding not allowed !
+							11.05.2000  NG
+------------------------------------------------------------------------
+bug fix: nontrivial mode                                25.05.2000  TLi
+------------------------------------------------------------------------
+new piece: scorpion  (erlking+grashopper)
+new condition: stingchess (kings are scorpions)
+errormessage "PawnFirstRank" eliminated.
+german name of "ExtinctionChess": "AusrottungsSchach"
+							26.05.2000  NG
+------------------------------------------------------------------------
+bug fix: error message if not enough memory available
+         now on screen and in protocol file.
+         Therefore new errormessage "NoMemory".
+							27.05.2000  NG
+------------------------------------------------------------------------
+Version 3.63 was distributed in Andernach, 1.6.2000
+							01.06.2000  NG
+------------------------------------------------------------------------
+bug fix: sentinelles works now with fairy pawns.
+documentation "bug fix" for sentinelles parasentinelles 
+							05.06.2000  NG
+------------------------------------------------------------------------
+bug fix: intelligent mode for stalemates
+general minor improvements of the intelligent mode
+                                                        17.09.2000  TLi
+------------------------------------------------------------------------
+bug fix: problems when moving pieces from empty squares
+new condition: LineChamelonChess
+new piece: Marguerite
+                                                        19.09.2000  TLi
+------------------------------------------------------------------------
+bug fix: proofgames with haanerchess didn't find solution
+                                                        16.10.2000  TLi
+------------------------------------------------------------------------
+new compilation flag:  SIXTYFOUR  for 64-Bit CPU's
+                                                        20.10.2000  NG
+------------------------------------------------------------------------
+implementation of condition No?????Prom changed, because
+pawns did appear on promotionsquares as pawns and where 
+reborn as pawns after capturing there or being captured there 
+                                                        21.10.2000  NG
+------------------------------------------------------------------------
+new conditions: NoWhiteCapture, NoBlackCapture
+                                                        23.10.2000  NG
+------------------------------------------------------------------------
+New piece: marguerite
+                                                        26.10.2000  TLi
+------------------------------------------------------------------------
+new condition: AprilChess
+                                                        14.11.2000  ThM
+------------------------------------------------------------------------
+VERSIONSTRING more detailed ...
+							24.11.2000  TLi,NG
+------------------------------------------------------------------------
+refutations in [sr]#1 enabled
+output of Popeye version into LaTeX file corrected
+new pieces: 3:6 leaper, night-rider lion, mao-rider lion
+							29.11.2000  TLi
+------------------------------------------------------------------------
+bug fix: intelligent mode and holes
+							04.12.2000  TLi
+------------------------------------------------------------------------
+maxply increased to 1001 for UNIX
+                                                        14.12.2000  NG
+------------------------------------------------------------------------
+new piece specification for hoppers: ColourChanging
+new stipulation: any (symbol: ~) [for diagnostic purposes]
+new condition: EchecsAlphabetique
+                                                        14.01.2001  SE
+------------------------------------------------------------------------
+bug fix: maxtime didn't work well with self- and reflex-mates
+documentation checked and adjusted
+                                                        18.01.2001  NG
+------------------------------------------------------------------------
+bug fix : circe parrain with neutral pieces
+                                                        22.01.2001  SE
+------------------------------------------------------------------------
+bug fix : condition ~ , condition ColourChanging
+                                                        04.02.2001  SE
+------------------------------------------------------------------------
+intelligent mode modified; more detailed construction of mating
+positions.
+new pieces: moa-rider lion, andernach grasshopper and friend
+                                                        05.02.2001  TLi
+------------------------------------------------------------------------
+bug fix: uninitialized variables (ph inside py5.c, visitCnt inside pyhash.c).
+bug fix: BlIllegalCheck() not always returned a value.
+regression test done.
+                                                        02.03.2001  NG
+------------------------------------------------------------------------
+condition name changed: HurdleColourChanging.
+regression test done.
+documentation adjusted.
+pywin32.exe and pydos32.exe created.
+This is now official release py3.65
+                                                        07.03.2001  NG
+------------------------------------------------------------------------
+new conditions: CirceTurnCoats, CirceDoubleAgents, AMU, SentBerolina.
+new input format: Forsyth Notation
+							08.05.2001  SE
+------------------------------------------------------------------------
+new stipulation:  a=>b  transform position a into position b
+							20.05.2001  SE
+------------------------------------------------------------------------
+regression test done.
+documentation adjusted.
+pywin32.exe and pydos32.exe created.
+This is now official release py3.70
+                                                        23.05.2001  NG
+------------------------------------------------------------------------
+new #define WIN98 in DHT Hashcode as workaround due to 
+Win95/Win98/WinME annoyance of max allocatable 255 MB at a time.
+Anyway, total memory limit is 768 MB there.
+                                                        31.05.2001  NG
+------------------------------------------------------------------------
+new conditions: SingleBoxType1, Type2 and Type3 (for WCCT)
+                                                        29.08.2001  ThM
+------------------------------------------------------------------------
+new piece: dolphin (grashopper + kangaroo)
+bug fix: koeko + locust pieces
+                                                        02.10.2001  TLi
+------------------------------------------------------------------------
+bugfix: reflexmate
+                                                        23.10.2001  TLi
+------------------------------------------------------------------------
+documentation adjusted.
+assertions only if -DASSERT is set, because we got
+a 50% performance penalty !
+                                                        26.10.2001  NG
+------------------------------------------------------------------------
+bug fix: end message shows "interupted" in intelligent mode
+         with maxsols, even if only one solution was found
+singleboxtype? changed to singlebox type?
+some singlebox variable names changed ...
+documentation adjusted.
+                                                        10.11.2001  NG
+------------------------------------------------------------------------
+regression test done.
+pywin32.exe, pywin98.exe and pydos32.exe created.
+This is now official release py3.73
+                                                        13.11.2001  NG
+------------------------------------------------------------------------

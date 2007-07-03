@@ -1,0 +1,719 @@
+	     B E S C H R E I B U N G   V O N   P O P E Y E   3 . 7
+
+Bemerkungen zur Verteilung von Popeye:
+
+Wir verteilen Popeye IMMER im Quellformat. Das heisst, jeder der von uns
+eine Floppy bekommt erhaelt den gesamte Quellcode mit ausgeliefert - auch
+wenn er den gar nicht benoetigt. Wir stehen auf dem Standpunkt, dass diese
+Software oeffentlich sein soll, und nicht unser ureigenstes Eigentum darstellt;
+auch wenn wir inzwischen einiges an Arbeit investiert haben.
+Diese Arbeit ist sowieso nicht zu bezahlen, und wir investieren unsere Zeit
+nicht deswegen um damit Geld zu verdienen. Wir verteilen Popeye deswegen zum
+Selbstkostenpreis. Also, wenn jemand von uns eine Floppy erhaelt, dann sollte
+er auch uns wieder eine Floppy zukommen lassen. Er kann uns auch einen
+frankierten Rueckumschlag schicken, dann bekommt er Popeye von uns auch
+geschickt. Auch haben wir nichts dagegen, wenn jemand Popeye an dritte
+weitergibt. Allerdings sollte er dann Popeye so weitergeben wie er ihn erhalten
+hat, also alle Dateien, wie sie nachfolgend aufgelistet sind. Diese Liste
+koennen sie ohne weiteres uebergehen, falls sie nur an der Benutzung von
+Popeye interessiert sind.
+
+	py-deut.doc:    Die Datei, die sie gerade lesen.
+	py-fran.doc:    Franzoesische Version dieser Datei.
+	py-engl.doc:    Englische Version dieser Datei.
+	history:        Hier schreiben die Entwickler welche Fehler bei
+			Popeye behoben wurden und was neu eingebaut wurde.
+	readme:         Kurze Hinweise fuer diejenigen, die ihren Popeye selber
+			uebersetzen wollen.
+	pydos32.exe:    Ausfuehrbare Datei fuer MS-DOS (32 Bit, 80386)
+	pywin32.exe:    Ausfuehrbare Datei fuer MS-Windows95/-98/-NT
+	py-*.str:       Diese Dateien enthalten den sprachabhaengigen Text
+			von Popeye, der im selben Verzeichnis wie py.exe liegen sollte.
+
+Liste der Quellfiles:
+	makefile.unx:   Makefile fuer UNIX-Systeme und Verwandte.
+	py.h:           Header-File fuer alle C-Dateien.
+	pydata.h:       Hier sind alle globalen Daten definiert.
+	pydata.c:       Zum Erzeugen eines pydata.o.
+	py1.c, py2.c, py3.c, py4.c (+py4.h), py5.c, py6.c
+			C-Quellcode von Popeye.
+	pyhash.c :      Dynamische Hash-Funktionen 
+	pyint.c:        Hier stehen die Prozeduren fuer den Intelligenz-Modus.
+	pyio.c:         Hier ist die gesamte Ein-/Ausgabe codiert.
+	pymsg.c:        Hier stehen die Prozeduren zur Textausgabe.
+	pylang.c        Hier stehen die  Prozeduren fuer unterschiedliche Sprachen.
+	pyproof.c:      Berechnung Kuerzester Beweispartien.
+	pysignal.c:     Hier stehen die Prozeduren zur Signalbehandlung unter UNIX.
+	pytime.c:       Hier stehen die Prozeduren zur Zeitmessung.
+	pymac.h:        Segmentspezifikationen fuer Macintosh's MPW
+	pymsg.h:        Hier stehen die gesamten Texte die Popeye ausgibt.
+	pyproc.h:       Definition der Proceduren.
+	todef.awk:      awk-script zum Konvertieren von py.h
+	toenum.awk:     awk-script zum Konvertieren von py.h
+	py-*.msg:       Die sprachabhaengigen Dateien fuer Popeye Meldungen
+	pie*.dat:       Die Dateien fuer LaTeX Ausgabe der Figuren die Popeye kennt.
+	genpystr.c:     Programmdatei, die aus py-*.msg Dateien py-*.str 
+			Dateien macht
+	BEISPIEL:       Verzeichnis, das Beispiel-Eingabedateien in 
+			Deutsch und deren Ergebnisse enthaelt.
+	DHT:            Verzeichnis, das die C-Dateien fuer das dynamische
+			Hash-Paket enthaelt.
+	LATEX:          Verzeichnis, das die LaTeX-Dateien enthaelt.
+
+
+
+Starten von Popeye:
+
+Benennen Sie ihre ausgewaehlte ausfuehrbare Datei um in py.exe
+Starten mit Eingabe des Problems am Bildschirm:         py
+Starten mit Eingabe des Problems aus einer Datei XX:    py XX
+					       oder:    py < XX
+
+Kommandozeilenparameter:
+-maxmem
+	Sie koennen beispielsweise mit
+	py -maxmem 4096 XX   oder  py -maxmem 4M XX
+	Popeye 4096 Kilobyte (4 Megabyte) Speicher
+	zur Berechnungsbeschleunigung zur Verfuegung stellen.
+
+Beenden von Popeye:
+
+        CTRL + C  Tasten druecken  (Deutsche Tastatur: STRG + C)
+
+
+Beschreibung der Eingabe-Sprache fuer Popeye:
+
+Bei der Eingabe werden Gross/Klein-Schreibung nicht unterschieden. Jede
+Eingabe fuer Popeye beginnt mit dem Schluesselwort `Anfangproblem'. Nachdem
+dieses Kommando an Popeye eingegeben wurde, kann Popeye weitere Kommandos
+entgegennehmen. Folgende Kommandos stehen zur Auswahl:
+
+	Bemerkung, Autor, Quelle, Titel, Protokoll,
+	Bedingung, Option, Forderung, Forsyth, Steine, Zwilling
+
+Die Reihenfolge der Kommandos spielt keine Rolle, und koennen auch mehrfach
+gegeben werden. Bei den Kommandos in der zweiten Zeile wird immer das letzte
+Kommando ausgefuehrt.
+Jedes Kommando erwartet weitere Parameter. Beginnen wir mit den einfacheren
+Kommandos:
+
+ - Bemerkung: Dieses Schluesselwort leitet eine Bemerkung ein. Es wird alles
+	bis zum Zeilenende ueberlesen und hat keine weitere Auswirkung.
+
+ - Autor: Hier gibt man als Parameter den Autor des Problems an. Es wird der
+	ganze Text bis zum Zeilenende ueber dem Diagramm in der Ausgabe
+	plaziert. Diese Angabe ist voellig optional, und hat keinen Einfluss
+	auf die anderen Eigenschaften des Programms. Wird dieses Kommando
+	mehrfach angegeben, so werden auch diese Zeilen zentriert und
+	ausgegeben.
+
+ - Quelle: Funktioniert genauso wie Autor.
+ - Titel:  Funktioniert genauso wie Autor.
+
+ - Protokoll: Nachfolgend wird ein Dateiname erwartet. Alle weiteren Ausgaben
+	von Popeye werden dann in dieser Datei mitprotokolliert. Existiert die
+	Datei bereits, so wird an deren Ende weitergeschrieben. Die Datei wird
+	vorher nicht geloescht.
+
+ - Bedingung: Nach diesem Schluesselwort sind alle die Bedingungen die das
+	Problem erfordert anzugeben. Getrennt durch Zwischenraeume oder
+	Zeilenwechsel. 
+        Durch Kombination einzelner Bedingungen koennen Sie andere
+        existierende Bedingungen erhalten:
+        z.B.: Circe  und  Immunschach  ergibt  StrictCirce
+        Folgendes ist momentan moeglich:
+
+	Circe
+	SpiegelCirce
+	Madrasi
+	Volage
+	Hypervolage
+	BichromesSchach
+	MonochromesSchach
+	Gitterschach
+	KoeKo
+	SchwarzerRandzueger
+	WeisserRandzueger
+	Leofamily
+	ChinesischesSchach
+	PatrouilleSchach
+	PlatzwechselCirce
+	Ohneschlag
+	Immunschach
+	SpiegelImmunSchach
+	KontaktGitter
+	Imitator
+	CavalierMajeur
+	HaanerSchach
+	CouscousCirce
+	ChamaeleonCirce
+	EquipollentsCirce
+	FileCirce
+	Sentinelles
+	SchwarzerLaengstzueger
+	SchwarzerKuerzestzueger
+	WeisserLaengstzueger
+	WeisserKuerzestzueger
+	MagischeFelder
+	DiagrammCirce
+	TibetSchach
+	DoppelTibetSchach
+	Loch                            (= nicht betretbares Feld)
+	SchwarzerSchlagzwang
+	WeisserSchlagzwang
+	TransmutierendeKoenige
+	SchwarzerVerfolgungszueger
+	WeisserVerfolgungszueger
+	DuellantenSchach
+	CirceParrain
+	SymmetrieCirce
+	OhneIUW                 (= Bauernumwandlungen in Imitator nicht erlaubt)
+	VogtlaenderSchach
+	AntiCirce
+	SpiegelFileCirce
+	AntipodenCirce
+	SpiegelCirceclone
+	AntiSpiegelCirce
+	AntiDiagrammCirce
+	AntiFileCirce
+	AntiSymmetrieCirce
+	AntiSpiegelFileCirce
+	AntiAntipodenCirce
+	AntiEquipollentsCirce
+	FileImmunSchach
+	DiagrammImmunSchach
+	SpiegelFileImmunSchach
+	SymmetrieImmunSchach
+	AntipodenImmunSchach
+	EquipollentsImmunSchach
+	SuperCirce
+	ReversesEinsteinSchach
+	Degradierung
+	NorskSjakk
+	TraitorChess
+	AndernachSchach
+	SchwarzesZwangsfeld
+	WeissesZwangsfeld
+	SchwarzesKonsequentesZwangsfeld
+	WeissesKonsequentesZwangsfeld
+	Bicolores
+	CirceClone
+	EinsteinSchach
+	NeuKoeko
+	ReflektierendeKoenige
+	RexInklusive
+	ChamaeleonSchach
+	BeamtenSchach
+	GlasgowSchach
+	AntiAndernachSchach
+	FrischaufCirce
+	VertikalesSpiegelCirce
+	Isardam
+	Ohneschach
+	DiametralCirce
+	UWnur
+	ExklusivSchach
+	Marscirce
+	MarsSpiegelCirce
+	PhantomSchach
+	WeisserTransmutierenderKoenig
+	SchwarzerTransmutierenderKoenig
+	WeisserReflektierenderKoenig
+	SchwarzerReflektierenderKoenig
+	AntiEinsteinSchach
+	SpiegelCouscousCirce
+	SchwarzesKoeniglichesFeld
+	WeissesKoeniglichesFeld
+	CirceAssassin
+	PlusSchach
+	BrunnerSchach
+	ZentralSchach
+        AusrottungsSchach
+	RepublikanerSchach
+????    ActuatedRevolvingBoard
+        MessignySchach
+        Woozles
+        BiWoozles
+        Heffalumps
+        BiHeffalumps
+	UWFeldWeiss
+	UWFeldSchwarz
+	OhneWeissUW
+	OhneSchwarzUW
+	EiffelSchach
+????    ActuatedRevolvingCentre
+	Laengstzueger
+	UltraSchachZwang
+	WeisserUltraSchachZwang
+	SchwarzerUltraSchachZwang
+	Schutzkoenige
+	StingSchach
+	WeisserOhneschlag
+	SchwarzerOhneSchlag
+	AprilSchach
+	AlphabetischesSchach
+	LinienChamaeleonSchach
+	TurncoatCirce
+	DoppelAgentenCirce
+	AMU
+	SingleBox
+
+	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
+	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines 
+	Zwangsfeldes sind die Felder einzugeben, 
+	auf denen die Imitatoren in der Diagrammstellung 
+	stehen bzw. wo die magischen Felder oder Loecher sind, bzw. welche
+	Figuren Umwandlungsfiguren bei FrischaufCirce sind, bzw. welche
+	Felder weisse oder schwarze Umwandlungsfelder sind. 
+	Dem Schluesselwort  UWnur  muss eine Liste von durch Leerzeichen
+	getrennten Figuren folgen. Es darf nur in die angegebenen Figuren 
+	umgewandelt werden.
+	Der Bedingung ChamaeleonCirce kann eine Liste von durch Leerzeichen
+	getrennten Figuren folgen. Diese definiert die Reihenfolge der
+	Umwandlungen vor der Wiedergeburt. (Z. B.: "ChamaeleonCirce S L T D S"
+	ergibt das normale ChamaeleonCirce, "ChamaeleonCirce S D T L S"
+	ist reverses ChamaeleonCirce.
+	Nach einigen Circe- bzw. Immunschachbedingungen, Madrasi sowie
+        Phantomschach kann wahlweise noch "RexInklusive" angegeben werden.
+	Nach allen Anticircearten kann wahlweise "Cheylan" oder "Calvet"
+	angegeben werden, entsprechend dem gew"unschten Typ. 
+	Standardannahme ist Calvet.
+	Nach der Isardam Bedingung kann wahlweise noch "TypB" angegeben werden.
+	Nach der SingleBox Bedingung kann wahlweise noch "Typ1", "Typ2" oder
+		"Typ3" angegeben werden.
+	Nach der Sentinelles Bedingung kann wahlweise noch "PionAdvers",
+		"PionNeutre", "ParaSentinelles" oder Berolina angegeben werden, 
+                sowie "WeissMaximum", "SchwarzMaximum" oder "TotalMaximum" 
+                gefolgt von einer Zahl.
+	Nach MessignySchach, (Bi)Woozles und (Bi)Heffalumps kann wahlweise
+        RexExklusive angegeben werden.
+
+ - Option: Alles was zur Wirkung kommen soll ist einfach durch Zwischenraum
+	getrennt nach dem Schluesselwort anzugeben. Es wird folgendes erkannt:
+
+	Verfuehrung     Verfuehrungen berechnen
+	Widerlegung     Dieser Option muss eine Zahl folgen - die Anzahl der
+			maximal zu beruecksichtigenden Widerlegungen. (z. B.
+			Widerlegung 1 = es werden alle Verfuehrungen im 
+			herkoemmlichen Sinn berechnet.
+	Satzspiel       Satzspiel berechnen
+	Drohung         Fuer Mehrzuegermodus: Dieser Option muss eine
+			Zahl folgen. Die gegnerische Partei hat sich
+			verteidigt, falls es keine Drohung gibt, die
+			kleiner oder gleich dieser (Zuege-)Zahl ist.
+	WeissBeginnt    Weiss zieht an im Hilfsmatt (0.1.1...)
+	Varianten       Drohungen und Varianten berechnen
+	Zugnummern      Es werden die Zugnummern, Zuege und die Rechenzeit
+			bis dahin ausgegeben.
+	StartZugnummer  Dieser Option muss die Nummer folgen,
+			bei der abgebrochen wurde.
+	OhneWk          Ohne weissen Koenig
+	OhneSk          Ohne schwarzen Koenig
+	Duplex          Die Forderung fuer beide Seiten berechnen
+	OhneDrohung     Varianten werden ohne Drohungen analysiert
+	MaxLoesungen    Dieser Option muss eine Zahl folgen. Nach 
+			erreichen von  Zahl  Loesungen bricht Popeye ab.
+	MaxFluchtFelder Fuer Mehrzuegermodus: Dieser Option muss eine
+			Zahl folgen. Die gegnerische Partei hat sich
+			verteidigt, falls die Anzahl der Fluchtfelder
+			fuer ihren Koenig groesser oder gleich 
+			dieser (Zuege-)Zahl ist.
+	EnPassant       Dieser Option koennen max. 2 Felder folgen. Dorthin
+			werden moegliche enpassant-Schluesselzuege berechnet.
+	OhneBrett       Es erfolgt keine Ausgabe des Schachbretts.
+	OhneKurzVarianten  Kurzvarianten werden nicht ausgegeben.
+	HalbDuplex      Die Forderung nur fuer die Gegenseite berechnen
+	NachSchluessel  Die eingegebene Stellung wird als Stellung nach einem
+			fiktiven Schluessel aufgefasst und als solche
+			analysiert, also nur das Loesungsspiel berechnet.
+	NichtTrivial m n  Eine spezielle Option zum Loesen/Kochen/Pruefen von
+			langen Selbst- und (Semi-)Reflexaufgaben. Die zweite
+			Zahl n gibt an, welche schwarzen Zuege als trivial
+			betrachtet werden: ein Zug, der durch ein s#n
+			(oder r=n etc) beantwortet werden kann. Bei langen
+			Aufgaben (in mehr als n Zuegen) hat Schwarz zu jedem
+			Zeitpunkt mindestens einen nicht trivialen Zug, d. h.
+			einen Zug, der nicht durch s#n beantwortet werden
+			kann. Die Zahl m gibt an, wieviele zusaetzliche nicht
+			triviale Zuege Schwarz im gesamten Loesungsverlauf
+			von Weiss eingeraeumt werden. Beispiel: nichttr 0 1 -
+			die staerkste Einschraenkung. Weiss spielt stets so,
+			dass Schwarz immer nur einen Zug hat, der nicht
+			sofort (s#1) von Weiss erledigt werden kann.
+	Intelligent     Intelligente (schnelle) Pruefung von (Serienzug-)
+                        Hilfsmatt/patt-Mehrzuegern.
+			Nach der Intelligent Option kann wahlweise noch die
+			maximale Anzahl von Loesungen je Mattbild angegeben
+			werden.
+	MaxZeit         Dieser Option muss eine Zahl folgen. Nach 
+			erreichen von  Zahl  Sekunden bricht Popeye ab.
+	KeineRochade    Es muessen die Felder der Figuren angegeben werden,
+			die in der Diagrammstellung nicht mehr rochieren koennen.
+	QuodLibet       Im s# oder r# gilt auch direktes Mattsetzen als Loesung.
+	StopNachKurzLoesungen  Ende der Berechnung nach Finden von Kurzloesungen
+
+
+ - Forderung: Folgende Forderungen kennt Popeye:
+
+	jede sinnvolle Kombination von
+
+							{  #= }
+							{  != }
+							{  00 }
+							{  %  }
+							{  ~  }
+							{  ep }
+							{  #  }
+			{ SER-  }       {  H  }         {  =  }
+  { m-> } + { EXACT-} + { SEMI- }   +   {  S  }    +    {  == }   +   n
+			{ RECI- }       {  R  }         {  +  }
+							{ Zxy }
+							{  x  }
+							{  ## }
+							{ ##! }
+							{  ct }
+							{  <> }
+							{ ctr }
+							{ <>r }
+
+							{ dia }   +  n{.5}
+			{ SER-}                     +   { dia }   +  n
+							{ a=> }   +  n{.5}
+			{ SER-}                     +   { a=>b }  +  n
+
+	(m, n geben die Zugzahl an)
+
+	zum Beispiel:
+
+	#3              Matt in 3 Zuegen
+	HZg74           Hilf-Ziel-g7 in 4 Zuegen
+	S+2             Selbstschach in 2 Zuegen
+	R==3            Reflexdoppelpatt in 3 Zuegen
+	HS#3            Hilfsselbstmatt in 3 Zuegen      (= Hilfszwingmatt)
+	SER-+7          Serienzugschach in 7 Zuegen
+	SEMI-R+4        Semireflexschach in 4 Zuegen
+	x3              Schlag in 3 Zuegen
+	RECI-H#2        Reziprokes Hilfsmatt in 2 Zuegen (= Grazer Hilfsmatt)
+	SER-%4          Serienzugsteingewinn in 4 Zuegen
+	H##!4           Hilfsgegenmatt in 4 Zuegen
+	SER-H##3        Serienzughilfsbeidmatt in 3 Zuegen
+	2->ser-h#4      Weiss macht 2 Zuege, dann ser-h#4
+	h003            Hilfs-Rochade in 3 Zuegen
+	dia6.5          Kuerzeste Beweispartie in 13 Halbzuegen
+			(nach dem 7. Zug von Weiss)
+	ser-dia9        Serienzug-Beweispartie in 9 Zuegen
+	reci-h(=)#4     Hilfsalternativpatt/matt in 4 Zuegen
+	ser-!=7         Serienzug-Eigenpatt in 7 Zuegen
+	ser-ct10        Serienzug-Rueckkehr in 10 Zuegen
+	h<>3            Hilfsplatzwechsel in 3 Zuegen
+			(2 weisse Steine wechseln den Platz in der Diagrammstellung)
+	ser-sctr2       Serienzug-Selbstrueckkehr durch Wiedergeburt in 2 Zuegen
+			(Weiss zwingt Schwarz, einen weissen Stein wiedergebaeren zu lassen)
+	ser-h<>r5       Serienzug-Hilfsplatzwechsel durch Wiedergeburt in 5 Zuegen
+			(Schwarz hilft Weiss, den Platzwechsel zweier schwarze Figuren 
+			 per Widergeburt zu vervollstaendigen)
+	#=2             Matt oder Patt in 2 Zuegen
+	h~1		Alle moeglichen Hilfs-Zuege 
+
+	SEMI wirkt natuerlich nur im Zusammenhang mit Reflexforderungen.
+
+ - Forsyth: Mit diesem Kommando kann die Stellung in Forsyth Notation
+            angegeben werden.
+
+Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
+
+ - Steine: Dieses Kommando spezifiziert alle Steine die zum Problem gehoeren.
+	Nach dem Schluesselwort muss die Farbe des oder der folgenden Steine(s)
+	angegeben werden: 
+
+	Weiss
+	Schwarz
+	Neutral
+
+	Optional koennen auch noch:
+
+	Chamaeleon
+	Jigger
+	Kamikaze
+	Koeniglich
+	Paralysierend
+	Volage
+	Beamtet
+	Halbneutral
+	SprungbockFarbeWechselnd         (nur bei Huepfern !)
+
+	angegeben werden. 
+	Nach diesen Spezifikationen kommt die Liste der Figuren, 
+	wie man sie gewoehnlich notiert:
+	Name der Figur, gefolgt von einer Liste von Felder auf denen eine
+	solche Figur plaziert werden soll. Zu jeder Zeit ist es moeglich
+	Figuren einer anderen Farbe anzugeben, einfach durch das Angeben des
+	entsprechenden Schluesselwortes.
+	Popeye kennt folgende Figuren:
+
+	15      1,5-Springer
+	16      1,6-Springer                    Flamingo
+	24      2,4-Springer
+	25      2,5-Springer                    Korsar
+	35      3,5-Springer
+	36      3,6-Springer
+	37      3,7-Springer
+	ad      Adler                           0,1+1,1  90 Grad Huepfer
+	ag      Andernachgrasshuepfer
+	al      Alfil                           2,2 Springer
+	am      Amazone                         0,1+1,1 Reiter + 1,2 Springer
+	an      Antilope                        3,4 Springer
+	ao      MaoReiter
+	b       Bauer   
+	bb      Berolina Bauer   
+	bi      Bison                           1,3+2,3 Springer
+	bs      Berolina Superbauer
+	bu      Wurzel-25-Springer (Bucephale)  3,4+0,5 Springer
+	ca      Kamel                           1,3 Springer
+	ch      Kamelreiterhuepfer
+	cr      Kamelreiter                     1,3 Reiter
+	ct      CAT (cavalier trojan)
+	cy      Charybdis
+	d       Dame                            0,1+1,1 Reiter
+	da      Dabbaba                         0,2 Springer
+	de      Delphin                         Grashupfer + Kaenguruh
+	dg      Doppelgrashuepfer
+	dr      Drache                          Bauer + 1,2 Springer
+	ds      Diagonalspiralspringer
+	du      Dummy
+	ei      Eichhoernchen                   0,2+1,2+2,2 Springer
+	ek      Erlkoenig                       0,1+1,1 Springer
+	el      Elch                            0,1+1,1  45 Grad Huepfer
+	eq      Equihopper
+	er      Erzbischof   
+	et      Elefant				0,1+1,1+1,2 Reiter   
+	f       Freund
+	fe      Fers                            1,1 Springer
+	fr      Fersreiter                      wie Laeufer, aber anderes Wiedergeburtsfeld
+	g       Grashuepfer                     0,1+1,1 Huepfer
+	g2      Grashuepfer-2
+	g3      Grashuepfer-3
+	gh      Gnureiterhuepfer
+	gi      Giraffe                         1,4 Springer
+	gl      Gral                            Alfil + Turmhuepfer
+	gn      Gnu                             1,2+1,3 Springer
+	gr      Gnureiter                       1,2+1,3 Reiter
+	h       Heuschrecke   
+	ha      Hamster                         0,1+1,1 180 Grad Huepfer
+	hl      Laeuferheuschrecke   
+	hn      Nachtreiterheuschrecke
+	ht      Turmheuschrecke   
+	k       Koenig                          0,1+1,1 Springer (koeniglich)
+	ka      Kaenguruh                       wie Gras-Huepfer ueber zwei
+						Boecke, die nicht hinter-
+						einander stehen muessen.
+	kg      KontraGrashuepfer               huepft auf D-Linien ueber
+						benachbarten Sprungbock, aber
+						beliebig weit.
+	kh      Koenigshuepfer
+	kl      Kardinal
+	kn      Kaiserin                        0,1 Reiter + 1,2 Springer
+	l       Laeufer                         1,1 Reiter
+	la      Laeuferadler                    1,1 90 Grad Huepfer
+	lc      Laeuferelch                     1,1 45 Grad Huepfer
+	le      Leo                             Zieht wie Dame, schlaegt wie Lion
+	lh      Laeuferhuepfer
+	li      Lion                            0,1+1,1 beliebig weit Huepfer
+	lj      Laeufer/Turm-Jaeger
+	ll      Laeufer-Lion
+	ls      Laeuferspatz                    1,1 135 Grad Huepfer
+	ma      Mao                             (Wie Springer) Gerade-Diagonal
+	mg      Marguerite                      g+sp+ad+el+ha
+	ml      Maoreiterlion
+	mm      Moareiterlion
+	mo      Moa                             (Wie Springer) Diagonal-Gerade
+	n       Nachtreiter                     1,2 Reiter
+	na      Nao				chinesischer Nachtreiter
+	nd      Nereide
+	ne      Non-stop Equihopper
+	nh      Nachtreiterhuepfer
+	nl      Nachtreiterlion
+	o       Orphan
+	oa      MoaReiter
+	ok      Okapi                           Springer + Zebra
+	or      Orix                            Englischer Equihopper auf Damenlinien
+	pa      Pao                             Zieht wie Turm, wirkt wie Turm-Lion
+	pf      Pfadfinder
+	pn      Pfadfinderin
+	pr      Prinzessin                      1,1 Reiter + 1,2 Springer
+	ra      Rao                             chinesische Rose
+	rd      Randschwein
+	rh      RosenHuepfer
+	rl      Reflektierender Laeufer   
+	rn      RosenLioN
+	ro      Rose   
+	rs      Reflektierender Springer
+	s       Springer                        1,2 Springer
+	sb      Superbauer
+	si      Sirene
+	sk      Skylla
+	so      Skorpion			Erlkoenig + Grashuepfer
+	sp      Spatz                           0,1+1,1 135 Grad Huepfer
+	ss      Spiralspringer   
+	t       Turm                            0,1 Reiter
+	ta      Turmadler                       0,1 90 Grad Huepfer
+	tc      Turmelch                        0,1 45 Grad Huepfer
+	th      Turmhuepfer
+	tj      Turm/Laeufer-Jaeger
+	tl      Turm-Lion
+	tr      Triton
+	ts      Turmspatz                       0,1 135 Grad Huepfer
+	uu      UbiUbi                          beliebig viele 1,2 Spruenge
+	va      Vao                             Zieht wie Laeufer, wirkt Laeufer-Lion
+	wa      Waran                           0,1+1,2 Reiter
+	we      Wesir                           0,1 Springer
+	wr      Wesirreiter                     wie Turm, aber anderes Wiedergeburtsfeld
+	wf      Wurzel-50-Springer              1,7+5,5-Springer
+	z       Zebra                           2,3 Springer
+	zh      Zebrareiterhuepfer
+	zr      Zebrareiter                     2,3 Reiter
+
+ - Zwilling: Loesen/pruefen von Stellungen, die sich durch "einfache"
+	Veraenderungen aus der Ausgangsstellung ergeben. Folgende Angaben
+	sind moeglich:
+    Forderung ...: Die Forderung wird geaendert. Vergleiche das entsprechende
+	Grundkommando.
+    Bedingung ...: Aenderung der Maerchenbedingungen. Alle alten Bedingungen
+	werden ungueltig und die neu eingegebenen wirksam.
+    Versetze <Feld1> <Feld2>: Versetzung der Figur von Feld1 nach Feld2; eine
+	eventuell auf schon auf Feld2 stehende Figur wird dabei entfernt.
+	Beispiel: zwilling versetze a3 b4.
+    Tausche <Feld1> <Feld2>: Die auf Feld1 und Feld2 stehenden Figuren tauschen
+	ihre Plaetze. Beispiel: zwilling tausche a3 b4.
+    Entferne <Feld>: Die auf dem betreffenden Feld befindliche Figur wird
+	entfernt, z. B. zwilling entferne e5.
+    Ersetze <Figur1> <Figur2>: Alle Steine vom erstgenannten Typ werden durch
+	Steine des zweiten ersetzt. Farbe und weitere Steinspezifikationen
+	(wie paralysierend etc.) bleiben erhalten.
+	Beispiel: zwilling ersetze T L 
+		  alle Tuerme werden durch Laeufer ersetzt.
+    Hinzufuegen <Farbe> <Steinspezifikationen> <Stein><Feldliste>: Hinzufuegen
+	von Steinen, ggf. werden Steine ueberschrieben. Beispiel:
+	zwilling hinzufuegen schw para NHa6 - ein schwarzer paralysierender
+	Nachtreiterhuepfer wird auf a6 ergaenzt. Siehe auch das Steine-Kommando.
+    Drehung n: Drehung um n Grad nach links (n=90, 180, 270). Beispiel:
+	zwilling drehung 180.
+    Spiegelung a1<-->h1: Spiegelung an der vertikalen Mittellinie,
+    Spiegelung a1<-->a8: Spiegelung an der horizontalen Mittellinie,
+    Spiegelung a1<-->h8: Spiegelung an der Diagonalen a8-h1,
+    Spiegelung h1<-->a8: Spiegelung an der Diagonalen a1-h8.
+	Es wird also nicht die Spiegelungslinie angegeben, sondern in welches
+	Feld das Feld a1 (bzw. h1) uebergeht.
+    Verschiebung <Feld1> <Feld2>: Verschiebung der gesamten Stellung, wobei
+	die Verschiebungsrichtung durch die beiden angegebenen Felder bestimmt
+	wird: Feld1 geht in Feld2 ueber. Beispiel: zwilling verschiebe a1 a2 -
+	die Stellung wird 1 Feld nach oben verschoben.
+    Farbwechsel: schwarze Steine werden weiss und umgekehrt.
+
+	Es koennen pro Zwilling auch mehrere Aenderungen angegeben werden,
+	z. B. zwill entf e7 hinzu weiss de8. Wie man sieht koennen auch die
+	Kommandos fuer die Zwillingsbildung abgekuerzt werden.
+	Die Stellungsaenderungen beziehen sich standardmaessig auf die Grund-
+	stellung. Sollen sich alternativ die Veraenderungen auf den jeweils
+	unmittelbar zuvor geloesten Zwilling beziehen, so ist dem
+	Kommando "Zwilling" ein "ferner" anzufuegen. 
+	Z. B. zwilling ferner entferne a1.
+
+ - Nullstellung: Dieses Kommando kann alternativ zum Kommando "Zwilling"
+	angegeben werden und zeigt an, dass die Grundstellung nicht zu loesen
+	ist. Dem Kommando muessen unmittelbar die Veraenderung fuer die erste
+	zu loesende Stellung folgen. Beispiel: null versetze b4 d5
+					       zwill versetze c5 b5.
+
+
+Dass alle Daten eingegeben sind, die das Problem beschreiben, wird
+Popeye durch das Kommando `Endeproblem' mitgeteilt.
+Sofort danach startet Popeye mit der Verarbeitung der Eingabe, und versucht
+das Problem zu loesen, wenn keine Eingabefehler festgestellt worden sind.
+
+Hier eine Beispiel-Eingabe:
+
+Anfangproblem
+Autor           Unbekannt
+Quelle          Ebenso
+Forderung       #2
+Steine          Weiss   Ka3 Ta8
+		Schwarz Kb1
+Option          Zugnummer Verfuehrung Satzspiel Varianten
+EndeProblem
+
+Diese Eingabe erscheint natuerlich lang. Popeye erkennt aber die einzelnen
+Schluesselworte, auch wenn sie abgekuerzt werden. Die Symbole muessen nur 
+eindeutig abgekuerzt werden. Man kann das obige Problem also auch so
+eingeben:
+
+Anfa
+Auto    Unbekannt
+Quel    Ebenso
+Ford    #2
+Stei    Weis Ka3 Ta8
+	Schw Kb1
+Opti    Zugn Verf Satz Vari
+Ende
+
+Es kann sein, dass sich in Zukunft die Laenge der eindeutigen Abkuerzungen
+aendert, wenn Popeye erweitert wird. Wir sind aber bestrebt die Schluesselworte
+mit den ersten vier Buchstaben immer eindeutig abkuerzbar zu halten. Wenn sie
+jetzt mit weniger abkuerzbar sind, ist das keine Gewaehr fuer die Zukunft.
+
+Wenn man mehrere Probleme in einem Rutsch loesen will, so kann man anstatt
+des letzten `EndeProblem' das Schluesselwort `WeiteresProblem' angeben.
+Dann erwartet Popeye nachdem er das gerade eingegebene Problem geloest hat
+die Eingabe eines weiteren Problems.
+
+
+
+Besondere betriebssystemabhaengige Dinge:
+
+
+UNIX, SINIX, XENIX, ULTRIX, MUNIX, SUNOS, SOLARIS, AIX, HPUX, IRIX, LINUX:
+
+	1) Maximale Rechentiefe:                999 Halbzuege
+	2) Die Loesung kann jederzeit durch die CTRL-C Tastenkombination
+	   abgebrochen werden.
+
+
+Windows-95/-98/-ME:
+
+	1) Maximale Rechentiefe:                699 Halbzuege
+	2) Die Loesung kann jederzeit durch die CTRL-C Tastenkombination
+	   abgebrochen werden.
+	3) Maximal benutzbare Speichergroesse:  768 MB
+
+
+Windows-NT/-2000:
+MS-DOS (32 Bit), DR-DOS (32 Bit):
+
+	1) Maximale Rechentiefe:                699 Halbzuege
+	2) Die Loesung kann jederzeit durch die CTRL-C Tastenkombination
+	   abgebrochen werden.
+
+
+VMS, MVS, ATARI, macintosh:
+
+	wird VIELLEICHT noch unterstuetzt durch:
+
+	VMS:       Torsten Linss
+	MVS:       Harald Denker
+	ATARI:     Harald Denker
+	macintosh: Stefan Brunzen
+
+
+MS-DOS (16 Bit), DR-DOS (16 Bit):
+BS2000:
+OS/2:
+	werden nicht mehr unterstuetzt ...
+
+
+
+
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson   im November 2001
+
+Fuer den Fall dass jemand Anregungen, Fehler etc uns zukommen lassen will,
+so findet er unsere Adressen in den Dateien  history  oder  readme  .
+

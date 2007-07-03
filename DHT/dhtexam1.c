@@ -1,0 +1,312 @@
+/* This is dhtexample1.c --  Version 1.5
+ * This code is copyright by
+ *	Elmar Bartel 1993-99
+ *	Institut fuer Informatik, TU Muenchen, Germany  
+ *	bartel@informatik.tu-muenchen.de
+ * You may use this code as you wish, as long as this
+ * comment with the above copyright notice is keept intact
+ * and in place.
+ */
+
+/* this code reads a /etc/hosts (see hosts(4)) file and creates two
+ * hashtables: one establishes a mapping from inet-number to name,
+ * the other the reverse mapping.
+ * After creation of the tables, one element is deleted from
+ * the first table, searched in the second and also deleted
+ * there. After this the consistency of both tables is checked.
+ * This is repeated, until both tables are emtpy.
+ * The code to process the /etc/hosts file depends not on
+ * OS specific procedures, but parses the file itself.
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#if !defined(FBSD)
+#include <malloc.h>
+#endif /*FBSD*/
+#include <string.h>
+#include "dhtvalue.h"
+#include "dht.h"
+#include "dhtmem.h"
+
+#define	MAXALIASES	35
+#define	MAXADDRS	35
+static char *host_aliases[MAXALIASES];
+static char hostbuf[BUFSIZ+1];
+static FILE *hostf = NULL;
+static long hostaddr[MAXADDRS];
+char *strpbrk();
+
+
+typedef unsigned long uLong;
+typedef unsigned char uChar;
+
+struct	hostent {
+	char	*h_name;	/* official name of host */
+	char	**h_aliases;	/* alias list */
+	int	h_addrtype;	/* host address type */
+	int	h_length;	/* length of address */
+	char	*h_addr;	/* host address */
+};
+
+
+uLong inet_addr(char *cp) {
+	/* converts an inet-adr in dot-notation to long */
+	uLong addr;
+
+	addr=atoi(cp);
+	if (!(cp=strchr(cp, '.')))
+		return 0L;
+	addr= (addr<<8)+atoi(cp+1);
+	if (!(cp=strchr(cp+1, '.')))
+		return 0L;
+	addr= (addr<<8)+atoi(cp+1);
+	if (!(cp=strchr(cp+1, '.')))
+		return 0L;
+	addr= (addr<<8)+atoi(cp+1);
+	return addr;
+}
+
+struct hostent *gethent(char *file)
+{
+	static struct hostent host;
+	char *p;
+	register char *cp, **q;
+
+	if (hostf == NULL && (hostf = fopen(file, "r" )) == NULL)
+		return (NULL);
+again:
+	if ((p = fgets(hostbuf, BUFSIZ, hostf)) == NULL)
+		return (NULL);
+	if (*p == '#')
+		goto again;
+	cp = strpbrk(p, "#\n");
+	if (cp == NULL)
+		goto again;
+	*cp = '\0';
+	cp = strpbrk(p, " \t");
+	if (cp == NULL)
+		goto again;
+	*cp++ = '\0';
+	host.h_addr = (char *)hostaddr;
+	*(uLong *)host.h_addr = inet_addr(p);
+	host.h_length = sizeof (uLong);
+	while (*cp == ' ' || *cp == '\t')
+		cp++;
+	host.h_name = cp;
+	q = host.h_aliases = host_aliases;
+	cp = strpbrk(cp, " \t");
+	if (cp != NULL) 
+		*cp++ = '\0';
+	while (cp && *cp) {
+		if (*cp == ' ' || *cp == '\t') {
+			cp++;
+			continue;
+		}
+		if (q < &host_aliases[MAXALIASES - 1])
+			*q++ = cp;
+		cp = strpbrk(cp, " \t");
+		if (cp != NULL)
+			*cp++ = '\0';
+	}
+	*q = NULL;
+	return (&host);
+}
+
+
+int main(int argc, char *argv[]) {
+	struct dht *NameToInet,*InetToName;
+	dhtElement	*hhe, *he;
+	struct hostent	*host;
+	int		i;
+	char		*hostsfile;
+
+
+	if (argc > 1) {
+	    hostsfile= argv[1];
+	}
+	else
+	    hostsfile= "/etc/hosts";
+	
+#if defined(FXF)
+	/* we want to use only 300K for all hashing */
+	fxfInit(300*1024);
+#endif /*FXF*/
+
+	/*
+	fprintf(stderr, "MallocInfo before first malloc\n");
+	fDumpMallinfo(stderr);
+	*/
+#if defined(USE_MEMVAL)
+#if !defined(PRE_REGISTER)
+	dhtRegisterValue(dhtMemoryValue, 0, &dhtMemoryProcs);
+	dhtRegisterValue(dhtSimpleValue, 0, &dhtSimpleProcs);
+#endif
+	if ((NameToInet=dhtCreate(dhtMemoryValue, dhtCopy, dhtSimpleValue, dhtNoCopy)) == NilHashTable) {
+		fprintf(stderr, "Sorry, no space for more HashTables\n");
+		exit(5);
+	}
+
+	if ((InetToName=CreateHashTable(dhtSimpleValue, dhtNoCopy, dhtMemoryValue, dhtCopy)) == NilHashTable) {
+		fprintf(stderr, "Sorry, no space for more HashTables\n");
+		exit(7);
+	}
+#else
+#if !defined(PRE_REGISTER)
+	dhtRegisterValue(dhtStringValue, 0, &dhtStringProcs);
+	dhtRegisterValue(dhtSimpleValue, 0, &dhtSimpleProcs);
+#endif
+	if ((NameToInet=dhtCreate(dhtStringValue, dhtCopy,
+			dhtSimpleValue, dhtNoCopy)) == dhtNilHashTable) {
+		fprintf(stderr, "Sorry, no space for more HashTables\n");
+		exit(5);
+	}
+
+	if ((InetToName=dhtCreate(dhtSimpleValue, dhtNoCopy,
+			dhtStringValue, dhtCopy)) == dhtNilHashTable) {
+		fprintf(stderr, "Sorry, no space for more HashTables\n");
+		exit(7);
+	}
+#endif /*USE_MEMVAL*/
+
+	/*
+	fprintf(stderr, "MallocInfo after creating the HashTables\n");
+	fDumpMallinfo(stderr);
+	*/
+#if defined(FXF)
+	fprintf(stderr, "fxf-Info after creation of hash tables\n");
+	fxfInfo(stderr);
+#endif /*FXF*/
+
+#define BYT(x)	(uChar)(x&0xff)
+	while ((host=gethent(hostsfile))) {
+		unsigned long InetAddr;
+		char *h;
+#if defined(USE_MEMVAL)
+		MemVal mvHostName, *HostName= &mvHostName;
+#else
+		char *HostName;
+#endif /*USE_MEMVAL*/
+
+		h= host->h_addr;
+#if defined(USE_MEMVAL)
+		mvHostName.Leng= strlen(host->h_name);
+		mvHostName.Data= (uChar *)host->h_name;
+#else
+		HostName= host->h_name;
+#endif /*USE_MEMVAL*/
+		/*
+		*/
+		InetAddr= *(uLong *)h; 
+
+		if (dhtLookupElement(NameToInet, (dhtValue)HostName)) {
+			fprintf(stderr, "Hostname %s already entered\n", host->h_name);
+		}
+		dhtEnterElement(NameToInet, (dhtValue)HostName, (dhtValue)InetAddr);
+		if (dhtLookupElement(InetToName, (dhtValue)InetAddr)) {
+			fprintf(stderr, "InetAddr 0x%08lx already entered\n", InetAddr);
+		}
+		dhtEnterElement(InetToName, (dhtValue)InetAddr, (dhtValue)HostName);
+	}
+#if defined(FXF)
+	fprintf(stderr, "fxf-Info after filling the hash tables\n");
+	fxfInfo(stderr);
+#endif /*FXF*/
+
+	/* Dump both Tables */
+	printf("Dumping the hashtables ..."); fflush(stdout);
+	dhtDump(NameToInet,stderr);
+	dhtDump(InetToName,stderr);
+	printf(" done\n");
+
+	/*
+	fprintf(stderr, "MallocInfo after filling the HashTables\n");
+	fDumpMallinfo(stderr);
+	*/
+
+	fprintf(stderr, "Testing if we get alle entries from NameToInet via GetFirst and GetNext...\n"); 
+	he= dhtGetFirstElement(NameToInet);
+	i= 0;
+	while (he) {
+		i++;
+		he= dhtGetNextElement(NameToInet);
+	}
+	fprintf(stderr, "Got %d entries\n", i);
+
+	fprintf(stderr, "Testing if we get alle entries from InetToName via GetFirst and GetNext...\n"); 
+	he= dhtGetFirstElement(InetToName);
+	i= 0;
+	while (he) {
+		i++;
+		he= dhtGetNextElement(InetToName);
+	}
+	fprintf(stderr, "Got %d entries\n", i);
+
+	he= dhtGetFirstElement(NameToInet);
+	while (he) {
+		uLong adr= (uLong)he->Data;
+		char *Name;
+#if defined(USE_MEMVAL)
+		strncpy(str,
+		  (char *)((MemVal *)he->Key)->Data,
+		  ((MemVal *)he->Key)->Leng);
+		str[((MemVal *)he->Key)->Leng]='\0';
+		Name= str;
+#else
+		Name= (char *)he->Key;
+#endif /*USE_MEMVAL*/
+		printf("%3u.%3u.%3u.%3u = %s   ", BYT(adr), BYT(adr>>8),
+			BYT(adr>>16), BYT(adr>>24), Name);
+
+		dhtRemoveElement(NameToInet, he->Key);
+		dhtRemoveElement(InetToName, he->Data);
+		printf("   Deleting and checking consistency (Load=%ld... ", dhtActualLoad(NameToInet));
+		i=0;
+		hhe= dhtGetFirstElement(NameToInet);
+		printf("    "); fflush(stdout);
+		while (hhe) {
+			dhtElement *he1= dhtLookupElement(InetToName, hhe->Data);
+			if (strcmp((char *)he1->Data, (char *)hhe->Key) != 0) {
+				fprintf(stdout, "\nSorry, Mismatch\n");
+				exit(1);
+			}
+			if (he1->Key != hhe->Data) {
+				fprintf(stdout, "\nSorry, Mismatch\n");
+				exit(2);
+			}
+			i=i+1;
+			/*
+			printf("\b\b\b\b%4d",i); fflush(stdout);
+			*/
+			hhe= dhtGetNextElement(NameToInet);
+		}
+		printf(" done\n");
+		he= dhtGetFirstElement(NameToInet);
+		/*he= GetNextHashElement(NameToInet);*/
+	}
+#if defined(FXF)
+	fprintf(stderr, "fxf-Info after emptying the hash tables\n");
+	fxfInfo(stderr);
+#endif /*FXF*/
+	printf("Dumping the hashtables after removing ..."); fflush(stdout);
+	dhtDump(NameToInet,stderr);
+	dhtDump(InetToName,stderr);
+	/*
+	fprintf(stderr, "MallocInfo after emptying the HashTables\n");
+	fDumpMallinfo(stderr);
+	*/
+
+
+	dhtDestroy(NameToInet);
+	dhtDestroy(InetToName);
+
+#if defined(FXF)
+	fprintf(stderr, "fxf-Info after destroying the hash tables\n");
+	fxfInfo(stderr);
+#endif /*FXF*/
+
+	/*
+	fprintf(stderr, "MallocInfo after emptying the HashTables\n");
+	fDumpMallinfo(stderr);
+	*/
+	exit(0);
+}

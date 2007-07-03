@@ -1,0 +1,45 @@
+anfangproblem
+
+protokoll       patrol.out
+
+autor           Denys Bonner
+quelle          F1011, The Problemist 12/22, 7/1988
+
+forderung       #2
+
+bedingung       patrouilleschach
+
+steine  weiss   kf1 db6 tf4h3 lc3g8 se7h5 ba4e4g2
+        schwarz ke5 da7 ta3g1 lf8 sd3h8 bb7g5
+
+option          varianten
+
+weiteresproblem
+
+autor           Denys Bonner
+quelle          F1291, The Problemist 14/1-2, 1-3/1992
+
+forderung       #2
+
+bedingung       patrouilleschach
+
+steine  weiss   kh8 dg8 td1d5 la4 sc1c4 ba3b3c6d2h3h7 gd7e6
+        schwarz kc5 dh5 ta1f8 lb1b8 sd4f1 ba7b4g5h4 gd8g4
+
+option          varianten
+
+weiteresproblem
+
+autor           Walerij Nebotow
+quelle          F1222, The Problemist 13/15, 5/1991
+
+forderung       #2
+
+bedingung       patrouilleschach
+
+steine  weiss   ke1 dh1 ta4c5 la8 sf3h2 bc3e2e5f5h4
+        schwarz ke4 db1 th8 lb6h5 sa5b5 bf4
+
+option          varianten
+
+endeproblem

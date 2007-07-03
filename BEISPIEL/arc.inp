@@ -1,0 +1,32 @@
+anfa
+
+prot arc.out
+
+ford #2
+auto I.Richardson, R.Turnbull
+quel Variant Chess Autumn 1999
+stei weis kd1 dg4 lb6
+stei schw kd3 bb4e7
+opti verf vari
+bedi actuatedrevolvingcentre
+
+weiter
+
+auto C.Lytton
+quel Variant Chess Autumn 1999
+stei weis kf1 bc3 lg7
+stei schw kf5 sf7 bd7e7
+ford ser-h#6
+bedi actuatedrevolvingcentre
+
+weiter
+
+auto P.Fayers
+quel HM Variant Chess 1TT
+ford h=2
+opti satz
+stei weis koenig sa2
+stei schw koenig sd2
+bedi actuatedrevolvingcentre
+
+ende

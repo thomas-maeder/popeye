@@ -1,0 +1,67 @@
+anfang
+
+protokoll	elephant.out
+latex		elephant.tex
+		et DL Elefant
+		z SL Zebra
+		an SR Antilope
+
+autor		Torsten Lin"s
+quelle		Urdruck f"ur die Problemkiste
+
+forderung	s#11
+option		ohnedroh satz vari
+bedingung	ohneschach schwarzerlaengst
+steine	weiss	koenig	anc8
+	schwarz	kh6 etd1
+
+weiter
+
+autor		Torsten Lin"s
+quelle		Urdruck f"ur Variant Chess
+titel		Stephen Emmerson gewidmet
+
+forderung	s#11
+option		ohnedroh satz vari
+bedingung	ohneschach schwarzerlaengst
+steine	weiss	koenig	ze8
+	schwarz	kh5 etc1
+
+weiter
+
+autor		Bruno Kampmann
+quelle		diagrammes 122, 7-9/1997
+forderung	#6
+steine	weiss	kf2 etg1
+	schwarz	kc5 ta5c7 ld1g4
+option		vari
+
+weiter
+
+autor		Bruno Kampmann
+quelle		diagrammes 122, 7-9/1997
+forderung	#4
+steine	weiss	kd2 etd1
+	schwarz	kd6 sd7 etd8
+option		vari
+
+weiter
+
+autor		Bruno Kampmann
+quelle		diagrammes 122, 7-9/1997
+forderung	#4
+steine	weiss	kd2 etd1
+	schwarz	kd7 etd8
+option		vari
+
+weiter
+
+autor		Jacques Rotenberg
+autor		Christian Poisson
+ausz		1. Preis, Messigny 1997
+forderung	#3
+steine	weiss	ka1 te1g1 lg3 se4g4 bc2f5h3
+	schwarz	kf3 sb2 ba2d4d7e6g6 etd8e8g8h8
+option		vari ohneku
+
+ende

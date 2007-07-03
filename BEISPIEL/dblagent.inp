@@ -1,0 +1,22 @@
+anfa
+prot dblagent.out
+ford #2
+auto P.Monreal & F.Calvet
+quel BCM 1978
+opti vari
+fors 8/1d6/8/3B4/bSS5/B3L2t/K1LB4/2k
+bedi DoppelAgentenCirce
+weit
+auto R.Bedoni
+quel BCM 1979
+ford ser-#10
+fors 32/1k6/4b3/8/1K
+bedi DoppelAgentenCirce OhneSchach
+weit
+auto P.Monreal & R.Bedoni
+quel BCM 1979
+ford #2
+opti vari
+fors 8/l4K2/7k/1T6/ts2L
+bedi TurncoatCirce
+ende

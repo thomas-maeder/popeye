@@ -1,0 +1,21 @@
+anfangproblem
+
+protokoll       vogt.out
+
+autor           Eckart Kummer
+autor           Torsten Lin"s
+quelle          351v, harmonie 22, 28.12.1988
+quelle          Korr.: h39, 30.11.1992
+quelle          1. Lob (1992)
+
+forderung       #2
+
+bedingung       VogtlaenderSchach
+
+steine  weiss   Kd8 Dc2 Sg6 Bd7 Ga4
+        schwarz Ka8 Be2f2f4 Gb8e1f8h4
+
+option          varianten
+                verfuehrung
+
+endeproblem

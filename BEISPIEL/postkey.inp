@@ -1,0 +1,14 @@
+anfangproblem
+
+protokoll       postkey.out
+
+autor           Hans Peter Rehm
+quelle          #32, "harmonie-31", 31.12.1990
+
+forderung       #3
+
+steine          weiss   da7 be6 gg6 la3b3 sc3a2 nf5 gd1 ka1
+		schwarz sb8 td8g4 nh8h2 bc7a6f6d5 le7g2 kc6 gb4e2
+
+option          nachschluessel
+endeproblem

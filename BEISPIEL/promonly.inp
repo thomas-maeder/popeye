@@ -1,0 +1,28 @@
+anfangproblem
+protokoll       promonly.out
+autor           Nils A. Bakke
+quelle          Neujahrskarte, I/1971
+forderung       ser-h=5
+steine          weiss   kc8 bb6
+		schwarz ka8 ba7
+bedingung       uwnur d t l s g
+weiteresproblem
+autor           Nils A. Bakke
+quelle          Neujahrskarte, I/1971
+forderung       ser-=7
+bedingung	ohneschlag
+steine          weiss   kc8 bb6
+		schwarz ka8 ba7
+bedingung       uwnur d t l s kn 
+option          halbduplex
+weiter
+autor Wilfried Pfughaupt
+quelle 2693b, FEENSCHACH (Blatt 220), VII-VIII/1955
+ford s#9
+bed schwarzerlaengstzueger
+bedi uwnur d
+opt vari ohnedroh nachschluessel 
+ste
+wei kc8 bb6
+sch ka8 ba7
+endeproblem

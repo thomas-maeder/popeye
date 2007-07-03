@@ -1,0 +1,31 @@
+anfangproblem
+
+protokoll       senti.out
+
+autor           J. M. Trillon
+quelle          2501, diagrammes 98, 7-9/1991
+
+forderung       #2
+
+bedingung       Sentinelles
+
+steine  weiss   kf4 sc8f5 bb4c2d6e3e4g3g6h4
+        schwarz ke6 dd7 th6 lf2 bc5d5f6
+
+option          varianten
+
+weiteresproblem
+
+autor		J. M. Trillon
+quelle		#1043, Phenix-14 9/1991
+
+forderung	h#2
+
+bedingung	sentinelles
+
+option		satz
+
+steine		weiss	gd8d1 lg4 ka2
+		schwarz	sb8b2 bg6g5e5c5c4c3e3 kd4
+
+endeproblem

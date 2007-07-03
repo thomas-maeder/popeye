@@ -1,0 +1,312 @@
+anfang
+
+protokoll       pieces.out
+
+autor           Albert H. Kniest
+autor           Erich Bartel
+autor           Peter Kahl
+quelle          Diagramme und Figuren 12/1963
+
+forderung       h#10
+
+steine  weiss   gc7
+        schwarz bb7 gg2
+        schwarz koenigl feh1
+
+weiteresproblem
+
+autor           Elmar Bartel
+autor           Erich Bartel
+quelle          4695, feenschach 76, 8. 11. 1985
+
+forderung       h#6
+
+steine  weiss   koenig  fec1
+        weiss           fed6
+        schwarz koenig  caa1
+
+weiteresproblem
+
+autor		Hans Peter Rehm
+quelle		Die Schwalbe 168, 12/1997
+ausz		1. Preis, Peter Kniest Gedenkturnier
+
+forderung       r#9
+
+bedingung	circe
+
+steine  weiss   kh4 ha4c6 lc1 hth7
+	schwarz kb5 hf3
+
+option		vari zug ohnedroh nichttr 1 1
+
+weiter
+
+auto Erich Bartel
+quel 3193, MAT, V-VI/1981
+ford h=2
+bedi UWnur d t l s n gi 35
+stei
+weis kg6 gib3 ne1 35g5 bh7
+schw ka8 ba2g7
+null entf b3
+zwill entf g5
+zwill entf e1
+
+weiteresproblem
+
+auto Erich Bartel
+quel 2453, DuF, 14.4.1969
+tite f)
+ford h#2
+stei
+weis kc8 be6g7
+schw ka8 sd5 35a1
+
+weiteresproblem
+
+autor           Jean Marc Loustau
+autor           Denis Blondel
+quelle          3. Preis, Rex Multiplex 1985
+
+forderung       #3
+
+steine  weiss   ka4 dc8 ta5e1 sh2 bb6e4f2g7 rod8h1
+        schwarz kf4 ta8 sc2 ba3b7e7f5f6g5 roa7e8g1
+
+option          varianten
+
+weiteresproblem
+
+autor           J"org Kuhlmann
+quelle          Diagramme und Figuren 1966
+
+forderung       #2
+
+steine  weiss   kf1 ssb1
+        schwarz kh1 bg4
+
+option          varianten
+
+weiteresproblem
+
+autor           J"org Kuhlmann
+quelle          Die Schwalbe 1976
+
+forderung       h#2
+
+steine  weiss   bb7e6
+        schwarz ke8 ld7 bf7 ssh7
+
+option          ohnewk
+
+weiteresproblem
+
+autor           J"org Kuhlmann
+autor           Thorsten Zirkwitz
+quelle          917, Europa Rochade 9/1991
+
+forderung       ser-#5
+
+steine  weiss   be7g7
+        schwarz kg3 sse5h3
+
+option          ohnewk
+
+weiteresproblem
+
+autor		Karl Pohlheim
+quelle		5705, feenschach 93, 11-12/1989
+
+forderung	h#3
+
+steine		weiss	ke3 drd4
+		schwarz kf6 se5 bd5d6
+
+weiteresproblem
+
+autor		Fritz Hoffmann
+quelle		feenschach-5, IX/1971
+
+forderung	s#2
+
+option		varianten
+
+steine		weiss	ka1 dh5 ba2d7e6h7 ge8f5 uua8
+		schwarz kg7 dg2 th8 ba3e4g3g5 ge2e7h2
+
+weiteresproblem
+
+forderung       h#2
+
+autor           Laurent Joudon
+quelle          2. Preis, John-Driver-Memorial
+quelle          The Problemist #12/22, 7/1988
+
+steine  weiss   kh1 rda2d1
+        schwarz ke6 lc5 sd5 be5e7
+
+weiteresproblem
+
+autor           Michel Caillaud
+quelle          3. ehr. Erw., John-Driver-Memorial
+quelle          The Problemist #12/22, 7/1988
+
+forderung       h#2
+
+steine  weiss   kb7 rdf7g5
+        schwarz ke6 sd7 bh6 rdg6
+
+zwilling versetze e6 f5
+
+weiteresproblem
+
+autor           Michel Caillaud
+quelle          Lob, John-Driver-Memorial
+quelle          The Problemist #12/22, 7/1988
+
+forderung       h#2
+
+steine  weiss   kd5 le7h3 bb3f2 rde1
+        schwarz kf4 rdf3
+
+weiteresproblem
+
+autor           Christian Poisson
+quelle          Lob, John-Driver-Memorial
+quelle          The Problemist #12/22, 7/1988
+
+forderung       h#2
+
+steine  weiss   kf6 ga7 rdb7e2
+        schwarz kd4 bc3 rdg1
+
+weiteresproblem
+
+autor           Harald Grubert
+quelle          Lob, John-Driver-Memorial
+quelle          The Problemist #12/22, 7/1988
+
+forderung       h#2
+
+steine  weiss   kd4 rdg6
+        schwarz ke6 gd7f2
+
+zwilling versetze d7 e7
+
+weiteresproblem
+
+autor           Harald Grubert
+quelle          Lob, John-Driver-Memorial
+quelle          The Problemist #12/22, 7/1988
+
+forderung       h#2
+
+steine  weiss   ke6 rdb4
+        schwarz kd4 bc4d5
+
+zwilling versetze d5 d3
+zwilling ferner versetze c4 c2
+
+weiteresproblem
+
+autor           Claus Wedekind
+quelle          NG11, 1. NG-ST, Problemkiste 109, 2/1997
+
+forderung       h==6
+option          zugnummer
+
+steine  weiss   koen ba2
+        schwarz koen 16h7
+
+weiter
+
+autor           Nils Bakke & Henry Tanner
+quelle          NG23, 1. NG-ST, Problemkiste 109, 2/1997
+
+forderung       h#6
+
+option          WeissBeginnt Zugnummer
+steine  weiss   kc2 16b8
+        schwarz ka1 16g7
+
+weiter
+
+autor           Henrik Juel
+quelle          NG28, 1. NG-ST, Problemkiste 109, 2/1997
+
+forderung       ser-=7
+
+steine  weiss   kb3 16b6
+        schwarz kb1
+
+weiteresproblem
+
+autor 		Thomas Maeder
+quelle 		1.Preis, 3. "harmonie"-TT 1990
+
+forderung 	h#2
+
+steine 		weiss 	gd6a4g4 bg6 nb5h2 ke1
+		schwarz ke8 td7a2 de7 be5b4e4e3f3
+
+weiteresproblem
+
+autor 		Hans Peter Rehm
+quelle 		#32, "harmonie-31", 31.12.1990
+
+forderung 	#3
+
+steine 		weiss 	da7 be6 gg6 la3b3 sc3a2 ng3 gd1 ka1
+		schwarz sb8 td8g4 nh8h2 bc7a6f6d5 le7g2 kc6 gb4e2
+
+weiteresproblem
+
+autor		Robert Schopf
+quelle		Original fuer Die Schwalbe
+
+forderung	#5
+
+option		varianten
+		ohnedrohung
+
+steine		weiss		ke6 tjd4 ljc3
+		schwarz		ke8
+
+weiteresproblem
+
+autor		Werner Speckmann
+quelle		Deutsche Schachzeitung, 1969
+
+forderung	#5
+
+option		varianten
+
+steine
+weiss			kh4 lc6 sh3 be2 tja6
+schwarz			kh2 tja7
+
+weiteresproblem
+
+autor		Werner Speckmann
+quelle		Die Schwalbe, 1989
+
+forderung	#4
+
+option		varianten
+
+steine
+weiss			ka8 lf7h6 sg5 ljb8
+schwarz			kh8 ljb4
+
+weiter
+auto Petko A. Petkov
+quel Probleemblad, 1967
+tite Verbesserung
+ausz 2. Preis
+ford ser-h#3
+stei
+weis kg1 ta8 ge1d8 nb3 zh4 gif8 bb4b7g5g7
+schw ke8 cae6 ba2f5f6
+
+endeproblem

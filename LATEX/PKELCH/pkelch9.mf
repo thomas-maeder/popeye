@@ -1,0 +1,85 @@
+% This is
+%               pkelch9.mf
+%
+% Copyright (C) 1989-92  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%
+
+% mag=1.2;
+
+mode_def agfa =
+	proofing:=              0;
+	fontmaking:=            1;
+	tracingtitles:=         1;
+	pixels_per_inch:=       400;
+	blacker:=               .2;
+	fillin:=                .1;
+	o_correction:=          1;
+enddef;
+
+%mode=agfa;
+%mode=epsonfx;
+%mode=hplaser;
+mode_setup;
+
+qs#:= 9pt#;
+
+thin#=0.03qs#;
+inner_thin# = .66thin#;
+frame_thin# = 4thin#;
+
+SideSpace#   = .11qs#;
+BottomWidth# = qs# - 2SideSpace#;
+BottomSpace# = .11qs#;
+TopSpace#    = .11qs#;
+
+%-----------------------------------------------------------------------
+% Now define our pixels
+define_whole_pixels(qs,thin,inner_thin,frame_thin);
+define_pixels(SideSpace,BottomWidth,BottomSpace,TopSpace);
+
+%-----------------------------------------------------------------------
+% defining our pens
+pen chess_pen; chess_pen = pencircle scaled thin;
+pen inner_pen; inner_pen = pencircle scaled inner_thin;
+pen frame_pen; frame_pen = pencircle scaled frame_thin;
+pickup chess_pen;
+
+%-----------------------------------------------------------------------
+% get our base
+input pkbase.mf;
+
+%-----------------------------------------------------------------------
+% now generate the figures
+pickup chess_pen; input pkblackfield.mf;
+pickup chess_pen; input pkpawn.mf;
+pickup chess_pen; input pkknight.mf;
+pickup chess_pen; input pkqueen.mf;
+pickup chess_pen; input pkking.mf;
+pickup chess_pen; input pkbishop.mf;
+pickup chess_pen; input pkrook.mf;
+pickup chess_pen; input pkgeo.mf;
+
+%----------------------------------------------------------------------
+% Now the fontdimension parameters
+font_normal_space qs#;
+font_normal_stretch 0;
+font_normal_shrink 0;
+font_x_height qs#;
+font_quad qs#;
+font_extra_space 0;
+
+end;

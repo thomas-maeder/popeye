@@ -1,0 +1,255 @@
+anfangproblem
+
+protokoll       mars.out
+
+autor           Aleksandr Micholap
+quelle          F1368, The Problemist 3/1993
+
+forderung       h#2
+
+bedingung       marscirce
+
+steine  weiss   bd2e7f7g2
+        schwarz ka3 tb4f4 lb3 sa2e4 bh7
+
+option          ohnewk
+
+zwilling        versetze        b3 f2
+zwilling        versetze        a3 f2
+
+weiter
+
+autor           Aleksandr Bulawka
+quelle          5896, feenschach 97, 11/1990
+
+forderung       #2
+
+bedingung       circe
+
+steine  weiss   ka3 da5 tb6 lb3 sc1 bc4c6f2g4
+        schwarz ka1 td6f4 la4 sa6 bc5d4e3
+
+option          varianten
+
+zwilling        bedingung marscirce
+
+weiter
+
+autor           Bernard Rothmann
+autor           Ren\'e J. Millour
+quelle          diagrammes 1980
+
+forderung       h=2
+
+bedingung       marscirce
+
+steine  weiss   kb3 dd5 ta6 lc1g4 bb7c3e7
+        schwarz kg3 bb2b4c2
+
+weiteresproblem
+
+autor           Michel Caillaud
+quelle          4211, Problemkiste 108, 12/1996
+
+forderung       h#2
+
+bedingung       MarsCirce
+
+steine  weiss   ka1 da2 sb4 bb7
+        schwarz ka3 sb2 bc2
+
+weiter
+
+autor           Michel Caillaud
+quelle          4212, Problemkiste 108, 12/1996
+
+forderung       h#2
+
+bedingung       MarsCirce
+
+steine  weiss   ka5 ba7b7
+        schwarz ka4 tb4 bb5c2
+
+weiteresproblem
+
+autor           W. A. Nebotow
+quelle          PS609, The Problemist (Supplement) 28, 5/1997
+
+forderung       h#2
+
+steine  weiss   kf6 lf5g3 bb7e4
+        schwarz kh5 tf8 lb8g8 sf7 bd7h7
+
+zwilling        bedingung       marscirce
+
+weiteresproblem
+
+autor           Michel Caillaud
+quelle          6, Problemkiste 79, 2/1992
+titel           6. Platz
+
+forderung       h#3
+bedingung       marscirce
+
+option          weiss
+
+steine  weiss   kd6 ba7b7c7
+        schwarz kg2 bc2
+
+weiteresproblem
+
+autor           Zdenek Oliva
+quelle          K504, Problemkiste 106, 8/1996
+
+forderung       h=17
+bedingung       marscirce
+                schwarzerrandzueger
+                weisserrandzueger
+
+steine  weiss   kg8
+        schwarz kh5
+
+weiter
+
+autor           Zdenek Oliva
+quelle          K354, Problemkiste 104, 4/1996
+
+forderung       ser-h=20
+bedingung       marscirce
+                schwarzerrandzueger
+                weisserrandzueger
+
+steine  weiss   ka1
+        schwarz kh1
+
+weiteresproblem
+
+autor           Christian Poisson
+quelle          57, Problemkiste 101, 10/1995
+
+forderung       =3
+
+bedingung       marscirce
+
+steine  weiss   bc7e7f7
+        schwarz kc2
+
+option          varianten ohnewk ohnedrohung
+
+weiteresproblem
+
+autor           Bernard Rothmann
+autor           Rene Jean Millour
+quelle          diagrammes, 1980
+quelle          (B8, Problemkiste 102, 12/1995)
+
+forderung       h=2
+
+bedingung       marscirce
+
+steine  weiss   kb3 dd5 ta6 lc1g4 bb7c3e7
+        schwarz kg3 bb2b4c2
+
+weiteresproblem
+
+autor           Narayan Shankar Ram
+quelle          S. 100, Lsg. zu Nr. 100, Das Vielvaeterproblem, 1989
+
+forderung       1->ser-#5
+bedingung       marscirce
+
+steine  weiss   kc8 bb6
+        schwarz ka8 ba7
+
+option          halbduplex 
+
+weiteresproblem
+
+autor           Narayan Shankar Ram
+quelle          237, Das Vielvaeterproblem, 1989
+
+forderung       ser-#4
+
+bedingung       marscirce supercirce
+
+steine  weiss   kc8 bb6
+        schwarz ka8 ba7
+
+weiteresproblem
+
+autor           Narayan Shankar Ram
+quelle          246, Das Vielvaeterproblem, 1989
+
+forderung       ser-h==6
+bedingung       marscirce
+                duellantenschach
+                haanerschach
+
+steine  weiss   kc8 bb6
+        schwarz ka8 ba7
+
+option          duplex
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          Testoriginal
+
+forderung       3->ser-#2
+
+bedingung       marscirce
+
+steine  weiss   kf3 be7f7
+        schwarz kd7 bb3b4f4g3g5
+
+zwilling        bedingung       marsspiegelcirce
+
+weiter
+auto Michel Caillaud
+quel 3358, Problemkiste 91, 2/1994
+tite Norbert Geissler gewidmet
+ford ser-#4
+bedi marscirce
+stei
+weis ke8
+schw kb2
+neut ba7d7f7g7
+weiter
+auto Zdenek Oliva
+quel C26, Problemkiste 108, 12/1996
+ford h#5
+bedi marscirce
+opti zugn
+stei
+weis kb5 ba5b4g2
+schw ka4 bc7
+weiter
+auto Michel Caillaud
+quel 3898, Problemkiste 102, 12/1995
+ford h#4
+bedi marscirce 
+opti weiss
+stei
+weis ka8 be7f7
+schw ke6
+zwill versetze e6 d5
+weiter
+auto Michel Caillaud
+quel 3916, Problemkiste 102, 12/1995
+ford h#3
+bedi marscirce 
+stei
+weis kh6 bd7g6
+schw ka2 bd2f2
+weiter
+auto Waleri Nebotow
+quel K157A, Problemkiste 94, 8/1994
+ford 8->ser-=3
+beme eigentlich:  ser-h=8/3
+bedi marscirce
+opti zugn
+opti maxzeit 10
+stei
+weis kc8 bb6
+schw ka8 ba7
+ende

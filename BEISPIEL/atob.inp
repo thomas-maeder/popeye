@@ -1,0 +1,30 @@
+anfa
+prot atob.out
+auto ?
+quel Andernach 5/2001
+stei weis Kb3 Tb6 Te8 Bc3
+stei schw Kc7 Tg3 La6 
+ford a=>b6
+opti weiss
+stei weis Kd5 Td6 Te5 Bc3 
+stei schw Kb5 Tg4 Lc4
+weit
+auto ?
+quel Andernach 5/2001
+opti zugn
+stei weis kg6 bb6d3e4g7
+stei schw kf1 ba4a5a3a2
+ford a=>b16
+opti weiss
+stei weis kg6 de3 th8 lb1 sd8
+stei schw kf1 df8 te4 ld4 sb3
+weit
+auto Norbert Geissler & Oliver Sick
+quel Andernach 5/2001
+opti zugn
+stei weis kh5 ba7c7d5f7
+schw kd7 bc2h2  
+ford a=>b5.5
+stei weis kh5
+schw kd7
+ende

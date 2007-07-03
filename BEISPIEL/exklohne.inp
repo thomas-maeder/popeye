@@ -1,0 +1,943 @@
+anfang
+
+protokoll       exklohne.out
+
+autor           Gerd Rinder
+quelle          4248, Problemkiste 109, 2/1997
+
+forderung       h#6
+
+bedingung       ohneschach
+                exklusivschach
+
+steine  weiss   kd1 ba2
+        schwarz kf1 bg7
+
+option          weiss
+
+weiteres
+
+autor           Rom\'eo B\'edoni
+quelle          6758, feenschach 113, 11/1994
+
+forderung       #3
+
+bedingung       exklusivschach
+
+steine  weiss   kf6 ba6b2e6e7
+        schwarz ke8 ta2b1 lh1h2 ba4c5c6d5e5f4g5
+
+option          varianten
+
+weiteresproblem
+
+autor           Manfred Rittirsch
+quelle          9363, Die Schwalbe 161, 10/1996
+quelle          Hans Burbach zum 75. Geburtstag gewidmet
+
+forderung       h#2
+
+bedingung       exklusivschach
+                chamaeleoncirce
+
+steine  weiss   ka8 lf1 bd2f7
+        schwarz kf3 tb1 lf2 be4e7g3g4
+
+weiteresproblem
+
+autor           Hans Burbach
+quelle          3063, Probleemblad 54/5, 9-10/1996
+
+forderung       #2
+
+bedingung       ExklusivSchach
+
+steine  weiss   kc3 th1 la2 sf1f3 bc6d6f4
+        schwarz kc1 tf6 bc2c4f5f7
+
+option          vari
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          2959, Probleemblad 54/2, 3-4/1996
+
+forderung       h#2
+
+bedingung       ExklusivSchach
+
+steine  weiss   kd4 tg1 sg6 be2g5
+        schwarz kh5 df5 tf7f8 la7h1 sc5 ba6b4d6h4
+
+zwilling        verse   h1 g8
+
+weiteresproblem
+
+autor           Theodor Steudel
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          Lob, 162. Probleemblad-TT
+
+forderung       h#2
+
+bedingung       ExklusivSchach
+
+steine  weiss   kf1 tg6 be6
+        schwarz kh7 lg8 sh8 bf7h2
+
+zwilling        verse   f1 g2
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          Lob, 162. Probleemblad-TT
+
+forderung       h#2
+
+bedingung       ExklusivSchach
+
+steine  weiss   ke1 ta1c1 sh4
+        schwarz kh1 da2 tc8g1 lf1h6 bh2
+
+weiteresproblem
+
+autor           Romeo B\'edoni
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          Lob, 162. Probleemblad-TT
+
+forderung       h#2
+
+bedingung       ExklusivSchach
+
+steine  weiss   kg2 sc6 bd7h6h7
+        schwarz kf8 la8 bc2
+
+weiteresproblem
+
+autor           Manfred Rittirsch
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          2. ehrende Erw"ahnung, 162. Probleemblad-TT
+
+forderung       h#2
+
+bedingung       ExklusivSchach
+
+steine  weiss   ke3 le1h5 sf5 bc3
+        schwarz kg8 dg7 tf8 lh7h8 ba2d6
+
+zwilling        entfe e1
+
+weiteresproblem
+
+autor           Michel Caillaud
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          1. ehrende Erw"ahnung, 162. Probleemblad-TT
+
+forderung       h#2
+
+bedingung       ExklusivSchach
+
+steine  weiss   kh1 tg8 bb7g7
+        schwarz kg5 tg2h5 lf3 sf8h4 ba2b2
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          3. Preis, 162. Probleemblad-TT
+
+forderung       h#2
+
+bedingung       ExklusivSchach
+
+steine  weiss   kd1 tc2 lf1 sd7 be4f3
+        schwarz kd5 dd6 la4 bc6d4e6
+
+option          enpassant e3
+
+weiteresproblem
+
+autor           Theodor Steudel
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          Lob, 162. Probleemblad-TT
+
+forderung       #5
+
+bedingung       ExklusivSchach
+
+steine  weiss   ka5 ta8 lb8 ba7e6f2f7g6
+        schwarz kf8 be7f3g7h6
+
+option          varianten ohnedrohung
+
+zwilling        verse   a5 c3
+
+weiteresproblem
+
+autor           Romeo B\'edoni
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          2. ehrende Erw"ahnung, 162. Probleemblad-TT
+
+forderung       #3
+
+bedingung       ExklusivSchach
+
+steine  weiss   kh6 sg2 bb6c6d6g6g7
+        schwarz kg8 la7h1
+
+option          varianten
+
+weiteresproblem
+
+autor           J. Tuovinen
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          2. Preis, 162. Probleemblad-TT
+
+forderung       #3
+
+bedingung       ExklusivSchach
+
+steine  weiss   kc2 td6f7 lb2 ba7e5f3f5g2h4
+        schwarz ka2 tg4h6 be7f4g3h5h7
+
+option          varianten
+
+weiteresproblem
+
+autor           Jasper van Atten
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          1. Preis, 162. Probleemblad-TT
+
+forderung       #4
+
+bedingung       ExklusivSchach
+
+steine  weiss   kh4 le6f8 sb6h7 be7g6
+        schwarz ke8 da3 ta2 lb2b3 sg7h1 ba4b5c4d6f5f6g4h5
+
+option          varianten
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          Lob, 162. Probleemblad-TT
+
+forderung       #2
+
+bedingung       ExklusivSchach
+
+steine  weiss   ke1 df6 ta1 la8 sg6 bb4e4e6f5
+        schwarz kd6 ta6c6 lc4 ba2a3c7e3e5f7
+
+option          varianten
+
+weiteresproblem
+
+autor           Michel Caillaud
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          Lob, 162. Probleemblad-TT
+
+forderung       #2
+
+bedingung       ExklusivSchach
+
+steine  weiss   kd8 ta5 le7g8 bc4e4f6f7
+        schwarz ke6 tb8d3 lc6g5 sa8c8 bb7d6
+
+option          varianten
+
+weiteresproblem
+
+autor           Ronald Turnbull
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          3. ehrende Erw"ahnung, 162. Probleemblad-TT
+
+forderung       #2
+
+bedingung       ExklusivSchach
+
+steine  weiss   ke6 db5 sb3 ba2c2d5f2f7g2
+        schwarz ke4 te1 bd3e7f3f4g6
+
+option          varianten
+
+weiteresproblem
+
+autor           Udo Degener
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          2. ehrende Erw"ahnung, 162. Probleemblad-TT
+
+forderung       #2
+
+bedingung       ExklusivSchach
+
+steine  weiss   kc2 dh8 la1e4 se2 bb4e6h5
+        schwarz kh2 sg8 bc4c7e7h3h6
+
+option          varianten verf
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          1. ehrende Erw"ahnung, 162. Probleemblad-TT
+
+forderung       #2
+
+bedingung       ExklusivSchach
+
+steine  weiss   kd2 dh2 te3 la1e6 se4 bc5d5d6d3e2f5g5
+        schwarz ke5 tg1 la4 sc6 bb4c2d4f4g2g4
+
+option          varianten
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          Probleemblad 54/2, 3-4/1996
+quelle          1. Preis, 162. Probleemblad-TT
+
+forderung       #2
+
+bedingung       ExklusivSchach
+
+steine  weiss   kb5 da1 tf4g5 le4h6 sd4f3 ba4e2
+        schwarz kc1 ta3 lc7 sb1 ba2a5b3b7d2d5d6g6
+
+option          varianten
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          3508, diagrammes 117, 4-6/1996
+
+forderung       h#2
+
+bedingung       exklusivschach
+
+steine  weiss   kc8 sh8 be7f4
+        schwarz ke6 dd4 tb4 la5f5 sg5 bd5d6e5
+
+weiteresproblem
+
+autor           Hans Peter Rehm
+quelle          BCM 1971
+forderung     #2
+bedingung       ohneschach
+steine  weiss   ka3 dg6 tc3c6 lf4g8 bd5e2
+        schwarz   kd4 te3 ld7 sb6d2 ba5b3
+option          vari
+weiteresproblem
+autor           Hans Peter Rehm
+quelle          feenschach 1972
+forderung     #2
+bedingung       ohneschach
+steine  weiss   kc4 dc8 te8 la5 sg5g6 ba6f4
+        schwarz   kd6 db2 ta7 le1h1 sa1a8 bf7
+option          vari
+weiteresproblem
+autor           Theodor Steudel
+autor           Bernhard Rehm
+autor           Albert H. Kniest
+quelle          69, Diagramme und Figuren 6, 15.10.1963
+forderung     h#2
+bedingung       ohneschach
+steine  weiss   kf7 ba7
+        schwarz   kf2 bd2
+zwill    versetze    f2 d5
+weiteresproblem
+autor           Hilmar Ebert
+autor           Hans Gruber
+quelle          BuS231, feenschach 51, 1980
+forderung     ser-h#4
+bedingung       ohneschach
+steine  weiss   kc2 nc8
+        schwarz   kc7 nc5
+weiteresproblem
+autor           Stefan Klebes
+quelle          5561, feenschach 91, 5-8/1989
+quelle          G\"unter B\"using gewidmet
+forderung     s#5
+bedingung       ohneschach
+                schwarzerlaengstzueger
+steine  weiss   ke7
+        schwarz   ka1 ta2 lc6d4 sa8b7 be3g7h2
+option          vari ohnedroh
+weiteresproblem
+autor           Theodor Steudel
+autor           Albert H. Kniest
+quelle          143, Frankfurter Notizen 18, 15.6.1965
+forderung     ser-h=10
+bedingung       ohneschach
+steine  weiss   kc1
+        schwarz   ba2a3e7
+option          ohnesk
+weiteresproblem
+autor           Albert H. Kniest
+quelle          118, Frankfurter Notizen 17, 7.6.1965
+forderung     ser-h=10
+bedingung       ohneschach
+steine  weiss   kf1
+        schwarz   ba2b7
+option          ohnesk
+weiteres
+autor           Theodor Steudel
+autor           Erich Bartel
+quelle          119, Frankfurter Notizen 17, 7.6.1965
+forderung     ser-h=16
+bedingung       ohneschach
+steine  weiss   kd6 lb5
+        schwarz   kh7 bb6
+weiteresproblem
+autor           Andr\'e Minost
+autor           Hans Gruber
+quelle          4113, Problemkiste 106, 8/1996
+forderung     s#4
+bedingung       ohneschach
+                schwarzerlaengstzueger
+steine  weiss   kd5 sf6 bc2
+        schwarz   ka4 dg7 bc7
+option          vari ohnedroh
+weiteresproblem
+autor           Theodor Steudel
+autor           J\"org Varnholt
+quelle          K292, Problemkiste 102, 12/1995
+forderung     ser-=9
+bedingung       ohneschach
+steine  weiss   kb3 bc3
+        schwarz   kb1 sa1
+weiteresproblem
+autor           Theodor Steudel
+quelle          A134 (Version), Problemkiste 102, 12/1995
+forderung     h#5
+bedingung       ohneschach cavaliermajeur
+steine  weiss   ka4 bb2
+        schwarz   ke2 bg7
+weiteresproblem
+autor           Wolfgang Dittmann
+quelle          The Problemist 1-3/1976
+quelle          57, VVP 12/1989
+forderung     ser-h=7
+bedingung       ohneschach
+steine  weiss   kc8 bb6
+        schwarz   ka8 ba7
+weiteresproblem
+autor           Erich Bartel
+quelle          727, Jugendschach 33, 8/1982
+quelle          97, VVP 12/1989
+forderung     ser-h#6
+bedingung       ohneschach
+steine  weiss   kc8 bb6
+        schwarz   ka8 ba7
+weiteresproblem
+autor           Jan Kubecka
+quelle          222, VVP 12/1989
+forderung     ser-h=8
+bedingung       ohneschach ohneschlag
+steine  weiss   kc8 bb6
+        schwarz   ka8 ba7
+weiteresproblem
+autor           Theodor Steudel
+quelle          226, VVP 12/1989
+forderung     h=4
+bedingung       ohneschach circe
+steine  weiss   kc8 bb6
+        schwarz   ka8 ba7
+weiteresproblem
+autor           G"unter B"using
+quelle          4724, feenschach 76 1985
+titel          7. ehrende Erw"ahnung
+titel          Albert H. Kniest in memoriam
+forderung     s=11
+bedingung       ohneschach schwarzerlaengstzueger
+steine  weiss   kh2
+        schwarz   ka8 te6 lb7 sf2 ba3b6c2c3f3h4h7
+option          vari ohnedroh satz
+weiteresproblem
+autor           Theodor Steudel
+quelle          4707, feenschach 76, 8. 11. 1985
+titel          Lob
+titel          Albert H. Kniest in memoriam
+forderung     h=2
+bedingung       ohneschach ohneschlag
+steine  weiss   kc4 bc2f7h2
+        schwarz   kf2 bd2
+zwill    versetze    c2 c3
+weiteresproblem
+autor           Arno T"ungler
+quelle          2028V, feenschach 37, 1977
+forderung     h#2
+bedingung       ohneschach circe
+steine  weiss   kb4 tb1 be5
+        schwarz   kc7 lb6 bb7c2d7e2
+zwill    verschiebung   b1 a1
+weiteresproblem
+autor           Manfred Nieroba
+quelle          4752, feenschach 76, 8. 11. 1985
+quelle          AHK in memoriam
+forderung     h#2
+bedingung       ohneschach
+steine  weiss   kb1 ta1
+        schwarz   kb4 ta4
+weiteresproblem
+forderung     s#2
+autor           Albert H. Kniest
+quelle          Schachmatt 11. 5. 1947
+bedingung       ohneschach schwarzerlaengstzueger
+steine  weiss   ka8
+        schwarz   kc8 df8
+option          satz vari ohnedroh
+weiteresproblem
+forderung     s#3
+autor           Albert H. Kniest
+quelle          Schachmatt 11. 5. 1947
+bedingung       ohneschach schwarzerlaengstzueger
+steine  weiss   ka8
+        schwarz   kc6 dd5 bb7
+option          vari ohnedroh
+weiteresproblem
+forderung     s#10
+autor           Albert H. Kniest
+quelle          Schachmatt 11. 5. 1947
+bedingung       ohneschach schwarzerlaengstzueger
+steine  weiss   ka8
+        schwarz   kc8 df4 th5
+option          satz vari ohnedroh
+weiteresproblem
+forderung     s#10
+autor           Albert H. Kniest
+quelle          Schachmatt 11.5.1947
+bedingung       ohneschach schwarzerlaengstzueger
+steine  weiss   kd2
+        schwarz   kf1 db3 be5
+option          satz vari ohnedroh
+weiteresproblem
+forderung     s#10
+autor           Albert H. Kniest
+quelle          Schachmatt 11. 5. 1947
+bedingung       ohneschach schwarzerlaengstzueger
+                loch a6b6c6d6e6f6f5f4f3f2f1
+steine  weiss   ke5
+        schwarz   kc4 ta1 bc3
+option          satz vari ohnedroh
+weiteresproblem
+forderung     s#4
+autor           Albert H. Kniest
+quelle          Schachmatt 11. 5. 1947
+bedingung       ohneschach schwarzerlaengstzueger
+steine  weiss   kg5
+        schwarz   kf8 dg8 bf7g7
+option          vari ohnedroh
+weiteresproblem
+forderung     s#19
+autor           H. Stapff
+quelle          1820, Schachmatt 1. 12. 1950
+bedingung       ohneschach schwarzerlaengstzueger
+steine  weiss   kf8
+        schwarz   kf6 tc1 sb3h4 bf4g2g5
+option          satz vari ohnedroh
+weiteresproblem
+autor           Theodor Steudel
+quelle          (23), p. 321, feenschach 68, 12/1983
+forderung     =5
+bedingung       ohneschach ohneschlag
+steine  weiss   kf7 bb7
+        schwarz   kb8
+option          vari ohnedroh
+weiteresproblem
+autor           Markus Manhart
+quelle          4897, feenschach 80, 10-11/1986
+forderung     h=2
+bedingung       ohneschach ohneschlag
+steine  weiss   kd1 bg7
+        schwarz   kf1 bh3
+weiteresproblem
+autor           Wilfried Pflughaupt
+quelle          2636, FEENSCHACH 6/1955
+forderung     =4
+bedingung       ohneschach
+steine  weiss   ke6 bc7g7
+        schwarz   ke8
+option          vari ohnedroh
+weiteresproblem
+autor           Peter R"osler
+quelle          21, p. 119, Problemkiste 79, 2/1992
+forderung     h=3
+bedingung       ohneschach schwarzerlaengstzueger
+steine  weiss   ke4 ba7c6
+        schwarz   ka8 bb2h2
+weiteresproblem
+autor           Peter R"osler
+quelle          22, p. 119, Problemkiste 79, 2/1992
+forderung     h=4
+bedingung       ohneschach schwarzerlaengstzueger
+steine  weiss   kd4 bb5d7
+        schwarz   ke7 ba2c2
+weiteresproblem
+autor           Paul L"oschl
+quelle          2697, Problemkiste 74/75, 5/1991
+forderung     h#2
+bedingung       ohneschach
+steine  weiss   ke5 bf7
+        schwarz   kc5 be4f2
+option          duplex
+weiter
+auto Albert H. Kniest
+quel Diagramme und Figuren, 1.6.1963
+ford s#5
+bedi Ohneschach SchwarzerLaengstzueger
+opti vari satz
+stei
+weis ka8 ba4
+schw kc7 te4
+weiter
+auto J.J. Burbach
+quel 1034, Problemkiste 25, 2/1985
+ford #2
+bedi ohneschach
+opti vari verf
+stei
+weis kh1 de2 tg2 sa4 bc4f5g3g6
+schw kd4 da8 tb7 ba5d6
+weiter
+auto J.J Burbach
+quel 1451, Problemkiste 36, 2/1986
+ford hx3
+bedi ohneschach
+stei
+weis ka6
+schw kc7 bh3
+zwill versetze a6 a7
+weiter
+auto J.J. Burbach
+quel 1544, Problemkiste 39, 7/1986
+ford #2
+bedi ohneschach ohneschlag
+opti vari verf
+stei
+weis kd5 lf5 sd4h5
+schw kg5 dd1 bh4h6
+weiter
+auto J.J. Burbach
+quel 1614, Problemkiste 41, 10/1986
+ford #2
+bedi ohneschach 
+opti vari verf
+stei
+weis ka8 se6g4
+schw ke4 lh1 gb3
+zwill versetze b3 d1
+zwill versetze b3 g8
+zwill versetze b3 h5
+weiter
+auto Erich Bartel & Albert H. Kniest
+tite 60, Frankfurter Notizen, 15.5.1965
+ford h#2
+bedi ohneschach
+opti ohnewk
+stei
+weis dg8 bg2
+schw kh5 sf4
+weiter
+auto J.J. Burbach
+quel 2302, Problemkiste 65, 10/1989
+ford #2
+bedi ohneschach ohneschlag
+opti vari verf
+stei
+weis kd1 tb2
+schw ka1 da2 sb1
+weiter
+auto Hermann Stapff
+quel 1813, Schachmatt 145, 1.12.1950
+tite 1. Preis im 6. Thematurnier
+ford #2
+bedi ohneschach
+opti vari verf
+stei
+weis ka2 db7 tf7 lc5g8 sb1c2 bb4c6
+schw ka4 dh2 ta6a8e2 lb2 sd1 bb6e3
+weiter
+auto A. Rein
+quel G, Problemkiste 68, 4/1990
+ford Ze42
+bedi ohneschach 
+opti vari verf ohnesk
+stei
+weis kc6 se4
+schw dg1
+weiter
+auto Josef Kutscher
+quel 84, Die Schwalbe, XII/1969
+ford h=3
+bedi ohneschach
+opti zugn
+stei
+weis kd5 bg7h7
+schw kf7 be2h2
+weiter
+auto J.J. Burbach
+quel 2762, Problemkiste 76, 8/1991
+ford 002
+bedi ohneschach 
+opti vari verf
+stei
+weis ke1 ta1h1 lc8 sb3d3 bb6c7c4e2f3g4
+schw ka8 de3 tb4 la5
+weiter
+auto Dieter Werner
+quel 43), Problemkiste 79, 2/1992
+ford h#3
+bedi ohneschach weisserlaengstzueger
+stei
+weis kc2 bc7
+schw kh1 ba2f2g2
+weiter
+auto Erich Bartel
+quel K147), Problemkiste 93, 6/1994
+ford ser-=4
+bedi ohneschach 
+stei
+weis kh1
+schw kb7 la8
+weiter
+auto Erich Bartel
+quel K148), Problemkiste 93, 6/1994
+ford ser-=10
+bedi ohneschach 
+stei
+weis kh8
+schw kb7 la2a8
+weiter
+auto Erich Bartel
+quel K36), Problemkiste 97, 2/1995
+ford ser-#12
+bedi ohneschach circe
+stei
+weis kg8 bc2
+schw ke7 lc3
+weiter
+auto Theodor Steudel
+quel K132), Problemkiste 99, 6/1995
+ford ser-#14
+bedi ohneschach 
+stei
+weis kf8 bh2
+schw kf6 tf7
+weiter
+auto Erich Bartel
+quel K133), Problemkiste 99, 6/1995
+ford ser-=12
+bedi ohneschach spiegelcirce
+stei
+weis kh8
+schw kb1 tc3 ba5
+weiter
+auto Erich Bartel
+quel 790, Die Welt, 16.02.1966
+ford h#4
+bedi ohneschach 
+opti zugn
+stei
+weis kh3 bf5
+schw kc8 bf2
+weiter
+auto Norbert Geissler
+auto Gerd Rinder
+auto Theodor Steudel
+auto Gerd Wilts
+quel 4249, Problemkiste 109, 2/1997
+ford h#6
+bedi ohneschach exklusivschach
+opti weiss
+stei
+weis ke5 bf2
+schw kb2 ba7
+weiter
+auto Erich Bartel
+quel K693), Problemkiste 111, 6/1997
+ford s#13
+bedi ohneschach circe schwarzerlaengstzueger
+opti zugn vari ohnedroh
+stei
+weis kh8
+schw kb3 tg1
+weiter
+auto Erich Bartel
+quel 4395, Problemkiste 111, 6/1997
+ford h=2
+bedi ohneschach 
+stei
+weis ke4 be5f5h7
+schw kh4 sh3 bh2
+zwill versetze h4 g3
+weiter
+auto Wenelin Alaikow
+quel 723, DuF, 30.01.1965
+ford h#2
+bedi ohneschach 
+stei
+weis kc2 ba2
+schw kc4 th6
+zwill versetze a2 b2
+zwill versetze h6 h5
+weiter
+auto Erich Bartel & Albert H. Kniest
+quel 2091, DuF, 08.08.1967
+ford h#2
+bedi ohneschach 
+stei
+weis ke6 bc5
+schw kb7 tb8
+zwill drehung 270
+weiter
+auto Didier Innocenti
+quel 4145, Problemkiste 107, 10/1996
+ford h#2
+bedi ohneschach 
+stei
+weis kf5 be2
+schw kc4 tc6
+weiter
+auto Boris Bursac
+quel K219, Problemkiste 101, 10/1995
+ford ser-=7
+bedi ohneschach
+stei
+weis ke4 be2
+schw ka7 sa8
+weiter
+auto Romeo Bedoni
+quel 27), Problemkiste 79, 2/1992
+ford h=3
+bedi ohneschach ohneschlag
+stei
+weis kh6 be7h7
+schw kc8
+neut bc2d2
+weiteres
+auto Erich Bartel
+quel Jugendschach, 1981
+ford h#2
+bedi ohneschach
+opti duplex
+stei
+weis kc5 ng2
+schw ka6 lf3
+weiter
+auto Erich Bartel
+quel Diagramme und Figuren, 1964
+ford h#2
+bedi ohneschach
+opti duplex
+stei
+weis ke4 bg7
+schw ke2 nh4
+weiter
+auto Adam J. Sobey
+quel 2710, Problemkiste 74/75, 5/1991
+tite Erich Bartel & Hans Gruber gewidmet
+ford h#3
+bedi ohneschach uwnur rl
+stei
+weis ka8 bb7f7
+schw kd3 rlc4
+zwill versetze a8 h8
+weiter
+auto Theodor Steudel
+quel 23), Problemkiste 79, 2/1992
+ford h=3
+bedi ohneschach 
+stei
+weis kc3 bb7f7
+schw kh8 ba2 bbc2
+weiter
+auto Theodor Steudel
+quel 24), Problemkiste 79, 2/1992
+ford h=3
+bedi ohneschach 
+stei
+weis kc3 bg7 bbh7
+schw kh5 ba2 bbc2
+weiter
+auto Theodor Steudel
+quel 25), Problemkiste 79, 2/1992
+ford h=3
+bedi ohneschach schwarzerlaengstzueger
+stei
+weis ke3 ba7c7
+schw ka8 ba2 bbc2
+weiter
+auto Theodor Steudel
+quel 26), Problemkiste 79, 2/1992
+ford h=3
+bedi ohneschach 
+stei
+weis ke4 bf7 bbg7
+schw kh6 bf2h2
+weiter
+auto Zdenek Oliva
+quel K592), Problemkiste 110, 4/1997
+ford h#1
+bedi ohneschach 
+stei
+weis koen dd3
+schw kd5 dd6 bd4
+weiter
+auto Theodor Steudel
+quel C22, Problemkiste 108, 12/1996
+ford h=5
+bedi ohneschach cavaliermajeur
+opti zugn
+stei
+weis koen dug4 bf2
+schw koen dub3 ba7c2
+weiter
+auto Theodor Steudel
+quel C42, Problemkiste 108, 12/1996
+ford h#5
+bedi ohneschach cavaliermajeur
+opti zugn
+stei
+weis kf4 ba2
+schw kd2 bc7d4
+weiter
+auto Theodor Steudel & Norbert Geissler
+quel C46, Problemkiste 108, 12/1996
+ford h#5
+bedi ohneschach cavaliermajeur
+opti zugn
+stei
+weis kg4 bh2
+schw ke2 gf3 bd7
+weiter
+auto Theodor Steudel 
+quel C47, Problemkiste 108, 12/1996
+ford h#5
+bedi ohneschach cavaliermajeur
+opti zugn
+stei
+weis kh5 g2f3 bb2
+schw ke2 bd7
+weiter
+auto Herbert H. Birkle
+quel 17), Problemkiste 79, 2/1992
+ford h=2
+bedi ohneschach platzwechselcirce
+opti zugn
+stei
+weis kd5 bc7
+schw kf8 
+schw volage bh2
+neut bg2h5
+weiter
+auto Gerd Rinder
+quel Seite 9, Die Schwalbe, X/1969
+beme Ohneschach-Anomalie !
+ford #1
+bedi ohneschach
+stei
+weis kd7 td8h8 la1h1
+schw ke5 nc3f3
+endeproblem

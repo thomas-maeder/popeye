@@ -1,0 +1,63 @@
+anfangproblem
+
+protokoll	haan.out
+
+autor  		Manfred Rittirsch
+quelle 		#2667, PK-74/75, 5/1991 
+
+forderung 	h#2
+bedingung 	haanerschach
+
+steine   	weiss   kb4 tb1
+         	schwarz kb8 dc1
+
+zwilling hinzu weiss lb1
+
+weiteresproblem
+
+autor  		Hilmar Ebert & Heinz Winterberg
+quelle 		feenschach 1980
+quelle 		130, fmo 2/2
+
+forderung 	h=5
+option 		weiss
+		satzspiel
+		ohnewk
+
+bedingung 	haanerschach
+
+steine	 	weiss	 bg2
+	 	schwarz ke5
+
+weiteresproblem
+
+autor  		Heinz Winterberg
+quelle 		f-39, VII-X/1977 
+quelle 		78, fmo-3/2
+
+forderung 	h#1
+
+bedingung 	haanerschach
+
+steine   	weiss   kc8 bb6
+         	schwarz ka8 ba7
+
+weiteresproblem
+
+autor		Thomas Brand, G"unther B"using,
+autor		Hans Gruber & Bernd Schwarzkopf 
+quelle		1499, Jugendschach-58, X/308
+quelle 		146, fmo-3/2
+
+forderung	h#1
+
+bedingung	haanerschach
+		schwarzerlaengstzueger
+
+steine  weiss		kc8 bb6
+	schwarz		ka8 ba7
+
+zwilling bedingung haanerschach
+                   schwarzerkuerzestzueger
+
+endeproblem

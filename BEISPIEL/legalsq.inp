@@ -1,0 +1,226 @@
+AnfangProblem
+
+Protokoll       legalsq.out
+
+Autor           Theodor Steudel
+Quelle          Problemkiste 57, 7/1988
+Quelle          7, 4. PK-Kompositionsthema
+
+Forderung       #4
+
+Bedingung       SchwarzerRandZueger
+
+Option          OhneDrohung
+                Varianten
+
+Steine  Weiss   Kf2 Lg7 Bf6g3
+        Schwarz Kh7 Bg4
+
+WeiteresProblem
+
+Autor           Theodor Steudel
+Quelle          Problemkiste 57, 7/1988
+Quelle          11, 4. PK-Kompositionsthema
+
+Forderung       #7
+
+Bedingung       SchwarzerRandZueger
+
+Option          OhneDrohung
+                Varianten
+
+Steine  Weiss   Ka1 Lh7 Ba3f5
+        Schwarz Kf6 La8 Sb6 Ba4
+
+WeiteresProblem
+
+Autor           Theodor Steudel
+Quelle          Problemkiste 57, 7/1988
+Quelle          6, 4. PK-Kompositionsthema
+
+Forderung       #5
+
+Bedingung       SchwarzerRandZueger
+
+Option          OhneDrohung
+                Varianten
+
+Steine  Weiss   Ka4
+        Schwarz Kf6 Sb1 Bb2
+
+WeiteresProblem
+
+Autor           Theodor Steudel
+Quelle          Problemkiste 57, 7/1988
+Quelle          9, 4. PK-Kompositionsthema
+
+Forderung       #5
+
+Bedingung       SchwarzerRandZueger
+
+Option          OhneDrohung
+                Varianten
+
+Steine  Weiss   Kg6 Tb2 Bd3
+        Schwarz Ka1 Lh1 Sg8 Bh6
+
+WeiteresProblem
+
+Autor           Theodor Steudel
+Quelle          Problemkiste 57, 7/1988
+Quelle          10, 4. PK-Kompositionsthema
+
+Forderung       #5
+
+Bedingung       SchwarzerRandZueger
+
+Option          OhneDrohung
+                Varianten
+                Satz
+
+Steine  Weiss   Kc1 Tg7
+        Schwarz Kh8 Le4 Bc2e5f4f5
+
+WeiteresProblem
+
+autor		Friedrich W. Friedl
+quelle		6209, feenschach 100, 9-10/1991
+forderung	h#3
+bedingung	koeko
+steine	weiss		lc5 bd5 kd1 tg1
+	schwarz		kd7 be7 lg5 td3
+
+weiteresproblem
+
+autor		Norbert Geissler
+quelle		7302, Springaren, 1992
+titel		6. ehrende Erwaehnung
+forderung	h#2
+bedingung	koeko
+option		enpassant d3
+steine	weiss	kc2 tb7 la1 bd4f5
+	schwarz	kf7 de2 se3 bc4e7
+
+weiteresproblem
+
+autor           Heinz Zander
+quelle          Problemkiste-85, 2/1993
+titel           NL, eigentlich h#3
+forderung       h#2
+bedingung       neukoeko
+steine  weiss   ke6 bh5d4 sf4
+	schwarz bc4 ke4
+
+weiteresproblem
+
+autor           Heinz Zander
+quelle          Problemkiste-85/1993
+forderung       #2
+bedingung       neukoeko
+option          varianten
+steine  weiss   kc8 bc5 la2 ta1
+	schwarz ka8 ld7 bc6b3h3
+
+weiteresproblem
+
+autor		Kjell Widlert
+quelle		2374b, Problemkiste 69, 6/1990
+
+forderung	ser-h#5
+
+bedingung	koeko
+
+steine		weiss	kh1 th4
+		schwarz ka2 bb2e2g2
+
+weiteresproblem
+
+autor           Rudolf Queck
+quelle          Original f"ur Die Schwalbe
+quelle          Michael Barth und Sven Trommler gewidmet
+
+forderung       s#5
+
+bedingung       kontakt
+                circe
+
+steine  weiss   ke1 df6 ta1d8 lc1h6 sd1g2 bh3h7
+        schwarz kd4 lg5
+
+option          varianten
+
+weiteresproblem
+
+autor           Kjell Widlert
+quelle          Lob, RQu-80-Jubil"aumsturnier
+quelle          Problemkiste 72, 12/1990
+
+forderung       h#9
+
+bedingung       gitterschach
+
+steine  weiss   kg5 bg2
+        schwarz kc3 bg6g7
+
+weiteresproblem
+
+autor           Rudolf Queck
+autor           Hans Gruber
+quelle          4687, feenschach 76, 8. 11. 1985
+quelle          Albert H. Kniest in memoriam
+
+forderung       =6
+
+bedingung       gitterschach
+                schwarzerlaengstzueger
+                loch g1h1g2h2g3h3g4h4g5h5g6h6a7b7c7d7e7f7g7h7a8b8c8d8e8f8g8h8
+
+steine  weiss   sd1
+        schwarz kf3 ge2
+
+option          varianten
+                ohnedrohung
+                ohnewk
+
+weiteresproblem
+
+autor           Kjell Widlert
+quelle          F1312, The Problemist 14/4, 7/1992
+
+forderung       s#6
+
+bedingung       schwarzerlaengstzueger
+                gitterschach
+
+steine  weiss   kb5 tb2
+        schwarz kb1 dd8 la2 be6h3
+
+option          varianten
+                ohnedrohung
+
+weiteresproblem
+
+autor           Maryan Kerhuel
+quelle          Problemkiste-72, 12/1990
+quelle          Lob, 17, RQu-80
+
+forderung       ser-#19
+
+bedingung       gitterschach
+
+steine  weiss   kd3 ge3
+        schwarz ke1 la8h8 bf4 gc1h6
+
+weiteresproblem
+
+autor 		Torsten Lin"s &
+autor 		Markus Manhart
+quelle 		2. ehr. Erw., RQu-80 1990
+
+forderung 	h#2
+bedingung 	gitterschach
+
+steine 		weiss 	lb5 te5 sb3 kg1
+		schwarz db8 bf7g4h4c2 tc4 le4 ke2
+
+endeproblem

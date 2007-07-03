@@ -1,0 +1,37 @@
+anfa
+prot quod.out
+ford s#=2
+auto N.Hoeg
+quel Skakschwadet 1 Pr 1907
+opti vari quod
+stei weis kh4 dc1 lf1 bf3h3f4g5
+stei schw kg1 th1 be2h2g3f5g6
+weit
+auto B.Globel
+quel Aftonschwadet 10.7.1927
+ford s#=2
+opti vari quod
+stei weis kh4 dd7 ba5a6c6d5f3h2h5
+stei schw kb8 dc7 ta8 ba7d6f5f4h6
+weit
+auto H.P.Rehm
+quel Schwalbe 1968
+ford s#2
+opti vari quod
+stei weis ka1 dh5 lb1 ba2
+stei schw kd4 lh8 bh6e6d5c5c4
+weit
+auto H.P.Rehm
+quel Schwalbe 1968
+ford semi-r#2
+stei weis kf4 ta4a2 ld2f7 se5 bg3g5
+stei schw kd1 be2e6f5
+opti vari quod
+weit
+auto H.P.Rehm & Th.Steudel
+quel Schwalbe 1968
+ford semi-r#2
+opti vari quod 
+stei weis kh5 ta8 lg8 sg6 bc6h6
+stei schw ke8 ld8 sh8
+end

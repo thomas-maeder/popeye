@@ -1,0 +1,581 @@
+anfangproblem
+
+protokoll       twin.out
+latex		twin.tex
+		n SU Nachtreiter
+		g DU Grash"upfer
+
+autor           M. Tomasevi\'c
+quelle          feenschach 1982
+
+forderung       h#2
+
+steine  weiss   kc8 be7
+        schwarz ka6 tf7
+
+option          duplex
+
+zwilling        forderung h=2
+
+weiteresproblem
+
+autor           Hans-Hilmar Staudte
+quelle          feenschach 1972
+
+forderung       h#2
+
+steine  weiss   kd7 dg7
+        schwarz kb5 da6
+
+option          duplex
+
+zwilling        forderung h=2
+
+weiteresproblem
+
+autor           Matti Myllyniemi
+auszeichnung	1. Preis, O. Kaila JT 1967
+
+forderung       #2
+
+steine  weiss   kd3 tf6 la4 sc4 bc6e2e7g5
+        schwarz kd5 sh8 bc5c7d4d6e3e6f7g6
+
+option          varianten
+
+zwilling        forderung h#2
+zwilling        forderung s#2
+zwilling        forderung h=2
+
+weiteresproblem
+
+autor           W. Barsukow
+quelle          2188, Ph\'enix 36, 12/1995
+
+forderung       h#2
+
+steine  weiss   ka1 td4 ld5
+        schwarz kh7 te6g4 ld2 bf3
+
+option		intell
+
+zwilling        versetze h7 a6
+zwilling        versetze h7 f1
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          5001, Die Schwalbe 91, 2/1985
+quelle          3. Preis (h#2)
+
+forderung       h#2
+
+steine  weiss   kg3 tb4 lf2 bf5
+        schwarz ke5 tc4h4 la7 sd6e3 be7
+
+option		intell
+
+zwilling        tausche d6 e5
+
+weiteresproblem
+
+autor           L\'aszl\'o Lindner
+quelle          Weihnachtskarte 1948
+
+forderung       h#2
+
+steine  weiss   kf5 tb4 sg7 bb5
+        schwarz kc7 dc3 tc8 la2h8 se8 bd7e7
+
+option		intell
+
+zwilling        entferne c8
+zwilling        ferner  entferne a2
+zwilling        ferner  entferne e8
+zwilling        ferner  entferne c3
+zwilling        ferner  entferne h8
+zwilling        ferner  entferne b5
+zwilling        ferner  entferne g7
+zwilling        ferner  entferne e7
+zwilling        ferner  entferne d7
+
+weiteresproblem
+
+autor           Gideon Husserl
+quelle          Die Schwalbe 1973
+
+forderung       ser-h#4
+
+steine  weiss   ke1 da3 lg3
+        schwarz kd4 ta2 lg1 ba6c3e3h7
+
+option		intell
+
+zwilling        entferne a2
+zwilling        ferner  entferne a6
+zwilling        ferner  entferne g3
+
+weiteresproblem
+
+autor           Bruno Stucker
+quelle          Die Schwalbe 1987
+
+forderung       h#2
+
+bedingung       circe
+
+steine  weiss   ke2 se5 bb2g7
+        schwarz kh4 df8 th5 lc8g3 sa7g8 bc3f7g6
+
+zwilling        drehung  90
+zwilling        drehung 180
+zwilling        drehung 270
+
+weiteresproblem
+
+autor           Michel Caillaud
+quelle          MAT 3-4/1982
+ausz		1. Preis
+
+forderung       #2
+
+steine  weiss   ka6 df5 tg2 lc5h1 sf7g8 ba5
+        schwarz kf3 te4g4 se5g5 be3f4g3
+
+option          ohnedrohung
+                varianten
+
+zwilling        bedingung circe
+
+weiteresproblem
+
+autor           Peter Gvozdj\'ak
+auszeichnung	3. Preis, Osmo-Kaila-Memorial 1992-?
+
+forderung       #2
+
+steine  weiss   kd6 da7 tc2g5 lh3h6 sc5f2 bb2b3d7e7g4g6
+        schwarz ke3 df7 te1g1 lg8h2 sa6g3 bb7e2e4f6g7
+
+option          varianten
+
+zwilling        forderung s#2
+
+weiteresproblem
+
+autor           Johan C. van Gool
+autor           D. van der Scheuer
+quelle          Probleemblad 1982
+auszeichnung	2. Preis
+
+forderung       #2
+
+steine  weiss   kh8 dd8 tb2h3 lf1h2 sg3h1 ba3e4e5
+        schwarz kd4 sd6 ba4f2
+
+option          varianten
+                ohnedrohung
+
+zwilling        versetze e5 c5
+
+weiteresproblem
+
+autor           Peter Gvozdj\'ak
+quelle          Pravda 1989
+auszeichnung    4. Preis
+
+forderung       #2
+
+steine  weiss   kd8 tg3g8 le1h7 se5f8 bd2f7g4g7
+        schwarz kg5 bd5
+
+option          varianten
+                ohnedrohung
+
+zwilling        forderung =2
+
+weiteresproblem
+
+autor           Shlomo Seider
+autor           Theodor Tauber
+quelle          4002v, feenschach 68, 1983
+
+forderung       #2
+
+bedingung       platzwechselcirce
+
+steine  weiss   kb7 lb8 ba7b5c5f4 gc3f8 nb1c8e1g4h7
+        schwarz kd4 te4 lb3 sg6 ba5c4c6e7g7 ga3a4e2f2g8
+
+option          varianten
+
+zwilling        bedingung       circe
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          6658, feenschach 111, 1-9/1994
+
+forderung       #2
+
+bedingung       circe
+
+steine  weiss   kh5 tg5 ld5d6 sb1c5 be6
+        schwarz kd4 db8 ld8 bb7d2e2e3
+
+option          varianten
+
+zwilling        bedingung       chamaeleoncirce
+zwilling        bedingung       circeclone
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          3097, USPB 96/97, 7-10/1994
+auszeichnung	4. Lob
+
+forderung       #2
+
+bedingung       circe
+
+steine  weiss   ke1 tc4g1 ld4h7 sd3
+        schwarz kf3 da7 ta8h8 lc2e7 sa5c7 bd6g5
+
+option          varianten
+
+zwilling        bedingung       andernach
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          2634, Probleemblad 52/5, 9-10/1994
+
+forderung       #2
+
+bedingung       circe
+
+steine  weiss   kg5 td3d7 le6 sf5 bf6f7g2
+        schwarz ke4 te8 lb6g8h7 sb8 bb3b4e5g6h4
+
+option          varianten
+
+zwilling        bedingung       circeclone
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          6087, Thema Danicum 76, 10/1994
+
+forderung       #2
+
+bedingung       circe
+
+steine  weiss   kh7 tc2e7 lg3 sd6e3 be2f5
+        schwarz kd4 tb6 ld8 sh1 ba3d5g2g7h5
+
+option          varianten
+
+zwilling        bedingung       circeclone
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          7959, springaren 59, 12/1994
+
+forderung       #2
+
+bedingung       circe
+
+steine  weiss   kb3 te6 ld4g6 sc6 bb4b5c7f5
+        schwarz kd5 tc8 lg8 se8h8 ba7b6b7e4f6
+
+option          varianten
+
+zwilling        bedingung       circeclone
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          3183, diagrammes 111, 10-12/1994
+auszeichnung    3. ehrende Erw"ahnung
+
+forderung       #2
+
+bedingung       circe
+
+steine  weiss   kb6 dg6 td7 lb3d4 sc6d5 bc3e3f6
+        schwarz ke4 dh4 td8f5 sg5g7 ba4b7d3f3h7
+
+option          varianten
+
+zwilling        bedingung       chamaeleoncirce
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          Der Schachkiebitz 10, 9/1995
+
+forderung       #2
+
+bedingung       symmetriecirce
+
+steine  weiss   kg3 le8f6 sc3g7 bb4b6f5
+        schwarz kd6 lf8 ba4a6g6
+
+option          varianten
+
+zwilling        bedingung       equipollentscirce
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          1240, Europa-Rochade 9/1995
+auszeichnung	1. ehrende Erw"ahnung
+
+forderung       #2
+
+bedingung       circe
+
+steine  weiss   ka6 ld7f8 sc6c8 bb4e3e6f5
+        schwarz kd5 te8 la5 sa1f6 bc3c4c5e4e5
+
+option          varianten
+
+zwilling        bedingung       chamaeleoncirce
+zwilling        bedingung       circeclone
+
+weiteresproblem
+
+autor           Emil Klemani\'c
+auszeichnung	2. Spezialpreis (Abt. A), Gvozdj\'ak-30 TT c. 16. 11. 1995
+
+forderung       #2
+
+steine  weiss   kh8 dc8 tb6 lg7 sc3e5 bg2g3
+        schwarz kd4 tc4 le8 bb3c2c7d2d3g5h5
+
+option          varianten
+
+zwilling        tausche c4 d3
+
+weiteresproblem
+
+autor           Emil Klemani\'c
+auszeichnung	1. Spezialpreis (Abt. A), Gvozdj\'ak-30 TT c. 16. 11. 1995
+
+forderung       #2
+
+steine  weiss   Kg8 Df1 Tf8h5 Lb1 Sf6 Bd5f2
+        schwarz Kf4 Td3f3 Bd6h6
+
+option          varianten
+
+zwilling        versetze g8 e8
+
+weiteresproblem
+
+autor           H. Forsberg
+auszeichnung    1. Preis, W. Pauly-MT 1935
+
+forderung       h#2
+
+steine  weiss   kg4 tb4 sd3
+        schwarz ka3 da6
+
+option		intell
+
+zwilling        hinzufuegen schw ta6
+zwilling        hinzufuegen schw la6
+zwilling        hinzufuegen schw sa6
+zwilling        hinzufuegen schw ba6
+
+weiteresproblem
+
+autor           Jorge J. Lois
+auszeichnung    1. Lob, SEPA J.Candela 1975
+
+forderung       h=2
+
+steine  weiss   kh7 dh3 te6 ld4h5 se1f1 bd6f2f3
+        schwarz kg1 ba2b2d7h4
+
+zwilling        hinzufuegen schwarz te6
+zwilling        hinzufuegen neutral te6
+
+weiteresproblem
+
+autor           Waldemar Tura
+quelle          Gazeta Czestochowska 1986
+
+forderung       h#2
+
+steine  weiss   ka4 ld2 bb4
+        schwarz kb6 sb7
+
+zwilling        Farbwechsel
+
+weiteresproblem
+
+autor           Matti Mylliniemi
+quelle          The Problemist 1983
+
+forderung       h#2
+
+steine  weiss   kh5 sb3c7 ba7b2c6f2f6f7
+        schwarz kc4 lg5 se6 bb7d2e7h2
+
+option          duplex
+
+zwilling        Farbwechsel
+
+weiteresproblem
+
+autor           Torsten Lin"s
+autor           Dieter M"uller
+quelle          harmonie 31, 31.12.1990
+auszeichnung    2. Preis, 3. harmonie-TT 1990, Abt. 2
+
+forderung       h#2
+
+steine  weiss   kg5 la1g8 bf7 nf3f8
+        schwarz kb3 tc1 ld1 sh6h8 ba3b4c2 nf4
+
+zwilling        ersetze n g
+
+weiteresproblem
+
+autor           Matti Myllyniemi
+quelle          The Problemist 1983
+quelle          6. Lob
+
+forderung       h#2
+
+steine  weiss   kh5 sb3c7 ba7b2c6f2f6f7
+        schwarz kc4 lg5 se6 bb7d2e7h2
+
+option          duplex
+
+zwilling        farbwechsel
+
+weiteresproblem
+
+autor           Marjan Kova\v{c}evi\'c
+autor           Fadil Abdurahmanovi\'c
+quelle          The Problemist 1988
+
+forderung       h#2
+
+steine  weiss   kh3 dd1 ba4e7g3h6
+        schwarz kd5 te4g2 ld4f1 sf5 bc7e3f6
+
+option		intell
+
+zwilling        drehung 180
+
+weiteresproblem
+
+autor           Fadil Abdurahmanov\'c
+quelle          Magyar Sakkelet 1979
+quelle          3. Preis
+
+forderung       h#2
+
+steine  weiss   ka8 bd7e7
+        schwarz kf5 tb6c5 le5 sh8 bg6
+
+option		intell
+
+zwilling        entferne e7 hinzu weiss se8
+zwilling        entferne e7 hinzu weiss le8
+zwilling        entferne e7 hinzu weiss te8
+zwilling        entferne e7 hinzu weiss de8
+
+weiteresproblem
+
+autor           Marko Klasinc
+auszeichnung    3. Preis, Gavrilovi\'c-GT 1974-76
+
+forderung       h#2
+
+steine  weiss   kg5 tc5f5
+        schwarz ke1 tc3d1
+
+option		intell
+
+zwilling        ersetze t l
+zwilling        ersetze t s
+
+weiteresproblem
+
+autor           H. Forsberg
+auszeichnung    1. Preis, Pauly-GT 1934/35
+
+forderung       h#2
+
+steine  weiss   kg4 tb4 sd3
+        schwarz ka3 da6
+
+option		intell
+
+zwilling        hinzufuegen schwarz ta6
+zwilling        hinzufuegen schwarz la6
+zwilling        hinzufuegen schwarz sa6
+zwilling        hinzufuegen schwarz ba6
+
+weiteresproblem
+
+autor           Unto Heinonen
+quelle          The Problemist 1987
+
+forderung       h#2
+
+steine  weiss   kh1 ta4 ld7 sd1h3 bd4g2
+        schwarz ke4 da8 th8 lg6 sc7 bc6f7
+
+option		intell
+
+zwilling        entferne c7
+zwilling ferner entferne a8
+zwilling ferner entferne h8
+zwilling ferner entferne f7
+zwilling ferner entferne g6
+
+weiteresproblem
+
+autor           Fadil Abdurahmanovi\'c
+quelle          feenschach 1985
+
+forderung       h#2
+
+steine  weiss   kb8 tf8 lc6
+        schwarz kh4 ta6 bh2h5
+
+option		intell
+
+zwilling        tausche h4 c6
+zwilling ferner tausche h4 f8
+zwilling ferner tausche h4 c6
+zwilling ferner tausche h4 f8
+zwilling ferner tausche h4 c6
+
+weiteresproblem
+
+autor           Fadil Abdurahmanovi\'c
+quelle          Bilten 1961
+
+forderung       h#2
+
+steine  weiss   kh1 da2 th8 bf3
+        schwarz ke5 ta8 la1 sg2g5 ba6b7c2d2
+
+option		intell
+
+zwilling        versetze a6 b6
+zwilling        versetze a6 c6
+zwilling        versetze a6 d6
+zwilling        versetze a6 e6
+zwilling        versetze a6 f6
+zwilling        versetze a6 g6
+zwilling        versetze a6 h6
+
+endeproblem

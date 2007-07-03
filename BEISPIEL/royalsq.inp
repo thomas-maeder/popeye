@@ -1,0 +1,18 @@
+anfang
+
+protokoll	royalsq.out
+
+autor		J"org Kuhlmann
+quelle		6355, feenschach 104, 1992
+ausz		2. Preis
+
+forderung	#8
+
+bedingung	SchwarzesKoeniglichesFeld e4
+
+steine	weiss	th1 bg2
+	schwarz de4
+
+option		ohnewk
+
+ende

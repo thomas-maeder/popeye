@@ -1,0 +1,92 @@
+anfang
+
+protokoll       einstein.out
+
+autor           Didier Innocenti
+quelle          2318, diagrammes 94, 7-9/1990
+
+forderung       h#2
+
+bedingung       EinsteinSchach
+
+steine  weiss   kf2 dg6
+        schwarz kd1 ta8 bc1f3f4
+
+weiteresproblem
+
+autor           Didier Innocenti
+quelle          2397, diagrammes 96, 1-3/1990
+
+forderung       #2
+
+bedingung       EinsteinSchach
+
+steine  weiss   ke7 tc6 le6 se2 bd6f3
+        schwarz ke5 tb1 lf4 bb6c3d4g3
+
+option          varianten
+
+weiteresproblem
+
+autor           Didier Innocenti
+quelle          Ph\'enix 1990
+
+forderung       h#4
+
+bedingung       EinsteinSchach
+                Circe
+
+steine  weiss   bc2
+        schwarz kd8 df3
+
+option          ohnewK
+
+weiteresproblem
+
+autor		Thomas Brand
+quelle		3660, feenschach 8/1982
+forderung	h#2
+bedingung	einstein
+option		duplex
+steine	weiss	ke1 td1h1 bh2
+	schw	kh3 ta2
+
+weiteresproblem
+
+autor           Romeo Bedoni
+quelle          feenschach-97, 11/1990
+
+forderung       #3
+
+bedingung       EinsteinSchach
+
+option          varianten
+
+steine  weiss   sa4 bb3b2b1c2 tc1 dd1 kg1
+	schwarz ka1 ba6
+
+weiteresproblem
+
+autor           N. Shankar Ram
+quelle          250, Das Vielvaeterproblem, 2. Aufl. 1989
+
+forderung       ser-#3
+
+bedingung       reversesEinsteinSchach
+
+steine  weiss   kc8 bb6
+	schwarz ka8 ba7
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          Testoriginal
+
+forderung       #2
+bedingung       EinsteinSchach
+option          varianten
+
+steine  weiss   kf2 lh7 se4g4 bc2d1h3
+	schwarz kf4 ba7c3c4
+
+endeproblem

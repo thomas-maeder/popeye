@@ -1,0 +1,217 @@
+anfang
+
+protokoll       isardam.out
+
+autor           Fritz von Meyenfeldt
+quelle          The Problemist 1989
+
+forderung       h#2
+bedingung       isardam
+
+steine  weiss   kc8 dc1
+        schwarz kf7 db3
+
+option          duplex
+
+weiteresproblem
+
+autor           Stephen Emmerson
+quelle          E, The Problemist 1/1997, S. 7
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   ke8 da7 td2 lg6 bg4
+        schwarz ke4 dg1 lc2 bb4d4
+
+option          varianten
+
+weiteresproblem
+
+autor           Stephen Emmerson
+quelle          Ausschreibungsoriginal, Kingston 1997
+quelle          f"ur The Problemist
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   kc6 te4 be3
+        schwarz kc4 tb4 sd3 be6
+
+option          varianten
+
+weiteresproblem
+
+autor           Stephen Emmerson
+quelle          Unver"offentlicht
+
+forderung       h#2
+bedingung       circe
+                madrasi
+
+steine  weiss   ka3 da7
+        schwarz ke8 de4
+
+zwilling        bedingung       circe
+                                isardam
+
+weiteresproblem
+
+autor           Stephen Emmerson
+quelle          Unver"offentlicht
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   kb8 bc6g4 de4  sg6d5 la4b5
+        schwarz kd8 dg8 td6 se6h7 lf6 bg5
+
+option          varianten
+
+weiteresproblem
+
+autor           Ronald Turnbull
+quelle          F, The Problemist 1/1997, S. 7
+
+forderung       h#2
+bedingung       isardam
+
+steine  weiss   kf8 tg8 lh1
+        schwarz kc6 dd4 tb8 la8
+
+zwilling        versetze        c6 b7
+
+weiteresproblem
+
+autor           Stephen Emmerson
+quelle          A, The Problemist 1/1997, S. 6
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   kh6 sf2 bh2h7
+        schwarz kh4 be2
+
+option          varianten
+
+weiteresproblem
+
+autor           Ronald Turnbull
+quelle          B, The Problemist 1/1997, S. 6
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   kh5 lf4 se3h1 bf5g5h7
+        schwarz kh3 bg2
+
+option          varianten
+
+weiteresproblem
+
+autor           Ronald Turnbull
+quelle          C, The Problemist 1/1997, S. 6
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   ke4 tg6h4 lh1 sf8 bd4h5
+        schwarz kf6 ta4a6 lb8c8 ba5
+
+option          varianten
+
+weiteresproblem
+
+autor           Ronald Turnbull
+quelle          D, The Problemist 1/1997, S. 6
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   kd2 dd1 tb8 lg8 ba4b2
+        schwarz kb1 da1 bd3
+
+option          varianten
+
+weiteresproblem
+
+autor           Stephen Emmerson
+quelle          H, The Problemist 1/1997, S. 7
+
+forderung       semi-r#2
+bedingung       isardam
+
+steine  weiss   kc3 df1 tc7 ld4h7 bb7e2g3
+        schwarz kc2 da1 tb8 lb1b2 ba2c5
+
+option          varianten
+
+weiteresproblem
+
+autor           Stephen Emmerson
+quelle          J, The Problemist 1/1997, S. 7
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   kc4 dg5 tf3 ld1e3 sd7e5
+        schwarz ke4 te8 lb8h1 sg2 bb3c6g4g6h7
+
+option          varianten
+
+weiteresproblem
+
+autor           Ronald Turnbull
+quelle          K, The Problemist 1/1997, S. 7
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   ka8 dg4 td8 lh8 sb5e8 bc4
+        schwarz ke5 db1 ta2 la1d1 bc6d3f3
+
+option          varianten
+
+weiteresproblem
+
+autor           Stephen Emmerson
+quelle          Ausschreibungsoriginal, Kingston 1997
+quelle          f"ur The Problemist
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   kb3 dc4 td7f3 lb6h1 sd6g5
+        schwarz kd5 dg8 td1e5 lh8 bf5
+
+option          varianten
+
+weiteresproblem
+
+autor           Stephen Emmerson
+autor           Ronald Turnbull
+quelle          Ausschreibungsoriginal, Kingston 1997
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   kh7 db7 lb4g6 sc6 bf5f6
+        schwarz ke8 de5 td8 ld7 sc7 bh6
+
+option          varianten
+
+weiteresproblem
+
+autor           Stephen Emmerson
+autor           Ronald Turnbull
+quelle          Ausschreibungsoriginal, Kingston 1997
+
+forderung       #2
+bedingung       isardam
+
+steine  weiss   kd8 lc1d7 sd1d3 bb7d2h7
+        schwarz kb2 dh1 tb5 la3 sc4 be7
+
+option          varianten
+
+endeproblem

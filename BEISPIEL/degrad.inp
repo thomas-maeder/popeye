@@ -1,0 +1,45 @@
+anfangproblem
+
+protokoll       degrad.out
+
+autor           Zdenek Oliva
+quelle          3420, Problemkiste 93, 6/1994
+forderung       ser-#23
+bedingung       circe
+                degradierung
+steine  weiss   la3
+        schwarz kh8 sg6
+option          ohnewk
+
+weiter
+
+autor           Zdenek Oliva
+quelle          3425, Problemkiste 93, 6/1994
+forderung       ser-#29
+bedingung       degradierung
+steine  weiss   la3
+        schwarz kh8 sg6 bh7
+option          ohnewk
+
+weiter
+
+autor           Erich Bartel
+quelle          3379, Problemkiste 92, 4/1994
+forderung       ser-#13
+bedingung       degradierung
+                circe
+steine  weiss   bh2
+        schwarz ka1
+option          ohnewK
+
+weiteresproblem
+
+autor           Verner Skovlund
+quelle          1657, Thema Danicum 7/1981
+forderung       ser-h#3
+bedingung       degradierung
+option          duplex
+steine  weiss   bc7a4 sb1 kd1
+        schwarz ta8 sb8 ka7 ba6b4c4d4f3a2 la5
+
+endeproblem

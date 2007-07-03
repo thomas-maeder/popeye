@@ -1,0 +1,346 @@
+% This is
+%		pkpawn.mf
+%
+% Copyright (C) 1989-92  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+% This is the oldest part of all my the MF-sources.
+% I started Metafonting with this figure.
+%						ElB.
+
+%-----------------------------------------------------------
+% This macro depends on some global sizes:
+%	thin, BottomSpace, BottomWidth, sidewith 
+% The values are defined as basic sizes of the Chess Characters
+
+def PawnShape(expr wbf,hbf,wmf,hmf,wtf,htf,ibm,imt) =
+	%begingroup
+	%save wb,wm,wt,hb,hm,ht,interbm,intermt;
+	numeric wb,wm,wt,hb,hm,ht,interbm,intermt;
+	wb = BottomWidth*wbf;	    % width of bottom ellipse
+	hb = hbf*wb;		    % hight of bottom ellipse
+	wm = wmf*wb;  hm = hmf*wm;  % width and hight of middle ellipse
+	wt = wtf*wb;  ht = htf*wt;  % width and hight of top ellipse
+	interbm = ibm*thin;	    % amount of intersection of bottom
+				    % and middle
+	intermt = imt*thin;	    % amount of intersection of middle
+				    %and top
+	%save superb,superm,supert;
+	numeric superb,superm,supert;
+	superb=.75;
+	superm=.75;
+	supert=.75;
+
+	%save topb,topm,topt;
+	numeric topb,topm,topt;
+	topb=BottomSpace+hb;
+	topm=topb+hm-interbm;
+	topt=topm+ht-intermt;
+
+	%screenrule((0,BottomSpace),(qs,BottomSpace));
+	%screenrule(((qs-wb)/2,0),((qs-wb)/2,qs));
+	%screenrule(((qs+wb)/2,0),((qs+wb)/2,qs));
+
+	%screenrule((0,topb),(qs,topb));
+	%screenrule((0,topm),(qs,topm));
+	%screenrule((0,topt),(qs,topt));
+
+	%save bp,mp,tp;
+	numeric bp,mp,tp;
+	path bp,mp,tp,PawnPath;
+
+	%save x,y,z;
+	%pair z[]b,x[]b,y[]b;
+	%pair z[]m,x[]m,y[]m;
+	%pair z[]t,x[]t,y[]t;
+
+	bot rt z1b = ((qs+wb)/2, BottomSpace);
+	bot lft z3b = ((qs-wb)/2, BottomSpace);
+	bot y4b + hb = top y2b - hb = BottomSpace;
+	x2b = x4b = qs/2;
+	bp=superellipse(z1b,z2b,z3b,z4b,superb);
+	bp:= subpath(0,4) of bp;
+
+	rt x1m - wm/2 = lft x3m + wm/2 = qs/2;
+	top y2m = bot y4m + hm  = topm;
+	y1m = y3m = (y2m+y4m)/2;
+	x2m = x4m = qs/2;
+	mp=superellipse(z1m,z2m,z3m,z4m,superm);
+
+	rt x1t - wt/2 = lft x3t + wt/2 = qs/2;
+	top y2t = bot y4t + ht = topt;
+	y1t = y3t = (y2t+y4t)/2;
+	x2t = x4t = qs/2;
+	tp=superellipse(z1t,z2t,z3t,z4t,supert);
+
+	% compute the intersectiontimes on the right side of the pawn
+	% The pathtimes of superellipses range from 0 to 8
+
+	%save scbr,scmbr,scmtr,sctr;
+	numeric scbr,scmbr,scmtr,sctr;
+	scbr = xpart (bp intersectiontimes (subpath(6,8)of mp));
+	scmbr = xpart (mp intersectiontimes (subpath(0,2)of bp));
+	scmtr = xpart (mp intersectiontimes (subpath(6,8)of tp));
+	sctr = xpart (tp intersectiontimes (subpath(0,2)of mp));
+
+	% here is a macro to mirror pathtimes of superellipses on y-axis
+	def mr(expr v) = 
+		if v > 4: 12-v;
+		    else: 4-v;
+		fi
+	enddef;
+
+	% Now the left intersectionpoints
+	%save scbl,scmbl,scmtl,sctl;
+	numeric scbl,scmbl,scmtl,sctl;
+	scbl = mr(scbr);
+	scmbl = mr(scmbr);
+	scmtl = mr(scmtr);
+	sctl = mr(sctr);
+
+	PawnPath:=subpath(0,scbr)of bp ..
+	  subpath(scmbr,(8+scmtr)) of mp ..
+	  subpath(sctr,8+sctl) of tp ..
+	  subpath(scmtl,scmbl) of mp ..
+	  subpath(scbl,4) of bp;
+	%endgroup
+
+enddef;
+%-----------------------------------------------------------
+def MakePawnPath =
+    pickup chess_pen;
+    if unknown PawnPath:
+	% wb = qs - 2*sidespace;	% width of bottom ellipse
+	% hb = hbf*wb;			% hight of bottom ellipse
+	% wm = wmf*wb;  hm = hmf*wm;	% width and hight of middle
+					% ellipse
+	% wt = wtf*wb;  ht = htf*wt;	% width and hight of top
+					% ellipse
+	%
+	%               wbf, hbf, ,wmf, hmf, wtf, htf, ibm, imt
+	%PawnShape(      .80, .50,  .55, .85,  .3, 1.0, 2.0, 1.2);
+	%PawnShape(      .85, .55,  .60, .90,  .4, 1.0, 2.0, 1.2);
+	PawnShape(      .83, .50,  .57, .85,  .3, 1.0, 2.0, 1.2);
+    fi
+enddef;
+%------------------------------------------------------------
+def CorrectPawnEdges =
+	pickup sqr;
+	drawdot(z1b);
+	drawdot(z3b);
+enddef;
+%-----------------------------------------------------------
+
+%we have to define six essential characters:
+%         WoW   NoW   BoW   WoB   NoB   BoB
+%Pawn       0     6    12    18    24    30
+%Knight     1     7    13    19    25    31
+%Bishop     2     8    14    20    26    32
+%Rook       3     9    15    21    27    33
+%Queen      4    10    16    22    28    34
+%King       5    11    17    23    29    35
+
+% All these cases are repeated three more times:
+% Left turned, Right turned and upside down
+%------------------------------------------
+
+
+def MakeWhitePawn = 
+	pickup chess_pen;
+	clearit;
+	MakePawnPath;
+	draw PawnPath -- cycle;
+	cullit;
+	WhiteMan:= currentpicture;
+enddef;
+
+def MakeBlackPawn =
+	pickup chess_pen;
+	clearit;
+	MakePawnPath;
+	filldraw PawnPath -- cycle;
+	cullit;
+	BlackMan:= currentpicture;
+enddef;
+
+def MakeOuterShape =
+	pickup frame_pen;
+	clearit;
+	filldraw PawnPath -- cycle;
+	cullit;
+	OuterShape:= currentpicture;
+enddef;
+
+MakeWhitePawn;
+MakeBlackPawn;
+MakeNeutral(WhiteMan, BlackMan);
+MakeOuterShape;
+
+beginchar(Pawn+White+OnWhite, qs#, qs#, 0);
+	"White pawn on white field";
+	currentpicture:= WhiteMan;
+endchar;
+
+beginchar(Pawn+White+OnWhite+LeftTurned, qs#, qs#, 0);
+	"White pawn on white field rotated to the left";
+	currentpicture:= TurnLeft(WhiteMan);
+endchar;
+
+beginchar(Pawn+White+OnWhite+RightTurned, qs#, qs#, 0);
+	"White pawn on white field rotated to the right";
+	currentpicture:= TurnRight(WhiteMan);
+endchar;
+
+beginchar(Pawn+White+OnWhite+UpSideDown, qs#, qs#, 0);
+	"White pawn on white field upside down";
+	currentpicture:= TurnUpSideDown(WhiteMan);
+endchar;
+
+beginchar(Pawn+Black+OnWhite, qs#, qs#, 0);
+	"Black pawn on white field";
+	currentpicture:= BlackMan;
+endchar;
+
+beginchar(Pawn+Black+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Black pawn on white field rotated to the left";
+	currentpicture:= TurnLeft(BlackMan);
+endchar;
+
+beginchar(Pawn+Black+OnWhite+RightTurned, qs#, qs#, 0);
+	"Black pawn on white field rotated to the right";
+	currentpicture:= TurnRight(BlackMan);
+endchar;
+
+beginchar(Pawn+Black+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Black pawn on white field upside down";
+	currentpicture:= TurnUpSideDown(BlackMan);
+endchar;
+
+beginchar(Pawn+Neutral+OnWhite, qs#, qs#, 0);
+	"Neutral pawn on white field";
+	currentpicture:= NeutralMan;
+endchar;
+
+beginchar(Pawn+Neutral+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Neutral pawn on white field rotated to the left";
+	currentpicture:= TurnLeft(NeutralMan);
+endchar;
+
+beginchar(Pawn+Neutral+OnWhite+RightTurned, qs#, qs#, 0);
+	"Neutral pawn on white field rotated to the right";
+	currentpicture:= TurnRight(NeutralMan);
+endchar;
+
+beginchar(Pawn+Neutral+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Neutral pawn on white field upside down";
+	currentpicture:= TurnUpSideDown(NeutralMan);
+endchar;
+
+beginchar(Pawn+White+OnBlack, qs#, qs#, 0);
+	"White pawn on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + WhiteMan;
+endchar;
+
+beginchar(Pawn+White+OnBlack+LeftTurned, qs#, qs#, 0);
+	"White pawn on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(WhiteMan);
+endchar;
+
+beginchar(Pawn+White+OnBlack+RightTurned, qs#, qs#, 0);
+	"White pawn on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(WhiteMan);
+endchar;
+
+beginchar(Pawn+White+OnBlack+UpSideDown, qs#, qs#, 0);
+	"White pawn on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(WhiteMan);
+endchar;
+
+beginchar(Pawn+Neutral+OnBlack, qs#, qs#, 0);
+	"Neutral pawn on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + NeutralMan;
+endchar;
+
+beginchar(Pawn+Neutral+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Neutral pawn on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(NeutralMan);
+endchar;
+
+beginchar(Pawn+Neutral+OnBlack+RightTurned, qs#, qs#, 0);
+	"Neutral pawn on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(NeutralMan);
+endchar;
+
+beginchar(Pawn+Neutral+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Neutral pawn on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(NeutralMan);
+endchar;
+
+beginchar(Pawn+Black+OnBlack, qs#, qs#, 0);
+	"Black pawn on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + BlackMan;
+endchar;
+
+beginchar(Pawn+Black+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Black pawn on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(BlackMan);
+endchar;
+
+beginchar(Pawn+Black+OnBlack+RightTurned, qs#, qs#, 0);
+	"Black pawn on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(BlackMan);
+endchar;
+
+beginchar(Pawn+Black+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Black pawn on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(BlackMan);
+endchar;

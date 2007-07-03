@@ -1,0 +1,671 @@
+anfangproblem
+
+protokoll       anticir.out
+
+autor           Anatoli Wasilenko
+quelle          1. Preis, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          satz
+		varianten
+
+steine  weiss   kb1 lh3 sa8 ba7e7
+	schwarz kc8 td3h2 lh8 sd7e1 bb7c5c6c7
+
+weiter
+
+autor           Yves Cheylan
+quelle          2. Preis, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kg1 de1 tb5b8 lh5 sd6g3 ba2d2d4f4h4
+	schwarz kc3 dc8 tf7 lg5h1 sa6f1 bc2c4d3e2f5
+
+weiter
+
+autor           Yves Cheylan
+quelle          3. Preis, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+		verfuehrung
+
+steine  weiss   kf5 tc4d2 lb4d1 sc8 bb5d3f7
+	schwarz kd5 lh1 sc1 bb3b6e4
+
+weiter
+
+autor           Uri Avner
+quelle          4. Preis, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+		verfuehrung
+
+steine  weiss   kc5 da5 tf3 lb5h8 sc2f5 ba3b2e2
+	schwarz kc3 da1 lc1 sd1h1 bb3d2d5e7h2h3h4
+
+weiter
+
+autor           Michel Caillaud
+quelle          5. Preis, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kf8 db3 te1e8 lb8 sd7h6 ba7c5d2e3e4e7f2g5
+	schwarz ke6 de2 lf1 sg2 bb4b5d5f3
+
+weiter
+
+autor           Josy Raz
+autor           Theodor Tauber
+quelle          1. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+		satz
+
+steine  weiss   kh2 df2 tg1h6 lc7d7 sf6 bc2c3d4g3g7
+	schwarz kg5 db4 td2f7 lb1e7 sa2 bb7e3g4
+
+weiter
+
+autor           Anatoli Wasilenko
+quelle          2. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+		verfuehrung
+
+steine  weiss   kh5 da7 tc4e1 sa5g8 bb6e6f6
+	schwarz kd5 dc6 tc8e8 ba4c5d6h6
+
+weiter
+
+autor           Jukka Tuovinen
+quelle          3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       r#2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   ka6 lc5 sb8f6 ba5a7b6d6h6
+	schwarz kh8 ta8 le6 bc4c6c7d7f7
+
+weiter
+
+autor           Yves Cheylan
+quelle          4. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kf1 de6 tc6 lb8c8 sa3a5 ba4b7g6
+	schwarz ka6 da8 lb2f7 sb6 ba7c4d6
+
+weiter
+
+autor           Uri Avner
+quelle          5. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kd4 da5 td2 la1a2 sa3 bb4f3f5g3
+	schwarz kd5 dd1 te1c8 lc6 se8f1 bb7c7d6d7f6g7
+
+weiter
+
+autor           Yves Cheylan
+quelle          6. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kg1 tc1e1 lc4 sd1d4 bc3d7g2
+	schwarz kd2 db8 th3 lg6 sa1h8 bb5c7e2e3f4f5f7
+
+weiter
+
+autor           Uri Avner
+quelle          7. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       s#2
+bedingung       anticirce cheylan
+option          varianten
+
+steine  weiss   kg1 de5 th3 lg3h5 sc3 bf7
+	schwarz kf3 tb8g8 sg4 bb3
+
+weiter
+
+autor           Gerard Smits
+quelle          8. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       s#2
+bedingung       anticirce cheylan
+option          varianten
+
+steine  weiss   ka1 db7 tf4 lc8h6 sa7e8 bb2d5d6f7g4
+	schwarz ke5 dd3 tc2g3 ld4 sg2 ba2c3c4e2e4f3
+
+weiter
+
+autor           Yves Cheylan
+quelle          9. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kh8 td1d4 lb6d7 se6f6 bf7
+	schwarz ke7 da7 la5 sb8g8 ba4c3f2
+
+weiter
+
+autor           Yves Cheylan
+quelle          1. Lob, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+		verfuehrung
+
+steine  weiss   kb3 te7 sa5d6 bb4b6c4
+	schwarz ka6 lc8 ba7c5c6
+
+weiter
+
+autor           Yves Cheylan
+quelle          2. Lob, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   ka6 dc5 tb4g8 la1d7 sa7c4 bd6
+	schwarz kb8 ta8 lh8 sc1f1 bb2b5c6c7d4e3
+
+weiter
+
+autor           Manfred Rittirsch
+autor           Markus Manhart
+quelle          3. Lob, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+		verfuehrung
+
+steine  weiss   kd5 db2 tc7h1 lc6f8 sg5g8 bc4e3
+	schwarz kd6 dc1 te2h5 le8h8 se1 bc5d3d7e6f4f6f7
+
+weiter
+
+autor           Jean Morice
+quelle          4. Lob, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       r#2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kh6 dh4 ta6e8 lb2 sh1 bd2h5
+	schwarz kf6 de1 tg5 lb6e4 sd4f1 ba5a7e2f2f3f7g4
+
+weiter
+
+autor           Yves Cheylan
+quelle          5. Lob, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kh7 te3f6 lg1 sd1e1 bd2f4
+	schwarz kh3 db7 tc7 ld3 sg3 bb6c3c6e2f5f7g4h4
+
+weiter
+
+autor           Yves Cheylan
+quelle          6. Lob, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       s#2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   ke6 da8 tc1 le7 sc7 bb3f5h6h7
+	schwarz kf8 dd1 sa1 bf6f7
+
+weiter
+
+autor           Yves Cheylan
+quelle          7. Lob, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kg7 de4 td1h6 ld8h5 sd5d6 bc6g5
+	schwarz ke6 tb1 lh7 sc1g6 bb6c5d3f6
+
+weiter
+
+autor           Juraj L"orinc
+quelle          8. Lob, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+		verfuehrung
+
+steine  weiss   kh8 tb6e5 lf4f5 bb5b7c4e6
+	schwarz kh4 tc5 bh5
+
+weiter
+
+autor           Hans Peter Rehm
+quelle          9. Lob, 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       r#2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kd6 df8 ta1 lc6 sb2e6 bc4d2d7e4f5
+	schwarz kg3 ta5f7 ld4d5 se3g5 be2g2h7
+
+weiter
+
+autor           Manfred Rittirsch
+quelle          3. Preis, 11. diagrammes-TT 1993, Abt. B
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       s#3
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kh1 dg5 th6 lc5 sb5b8 ba3c7g2g6g7
+	schwarz ke6 th7 lh8 ba4a5b6g3
+
+weiter
+
+autor           Christian Poisson
+quelle          1. ehr. Erw., 11. diagrammes-TT 1993, Abt. B
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #3
+bedingung       anticirce cheylan
+option          varianten
+
+steine  weiss   ka8 lc5c8 sd1e6 ba4b4e2f7
+	schwarz kc6 ta2b3 lb8h5 sf6g6 bc7d4d5e5
+
+weiter
+
+autor           Romeo Bedoni
+quelle          1. Lob, 11. diagrammes-TT 1993, Abt. B
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #3
+bedingung       anticirce
+option          varianten
+
+steine  weiss   ka5 lf4 se3 bc3c6d4e4f5f6
+	schwarz kh3 sh8 ba7c4c5d5f7h4
+
+weiter
+
+autor           Christian Poisson
+quelle          2. Lob, 11. diagrammes-TT 1993, Abt. B
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       r#3
+bedingung       anticirce
+option          varianten
+
+steine  weiss   ke3 te1f1 bd3d4d7e2e7h2
+	schwarz kg3 lg2 bc4f4g4h3h4
+
+weiter
+
+autor           Juraj L"orinc
+quelle          3. Lob, 11. diagrammes-TT 1993, Abt. B
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #3
+bedingung       anticirce
+option          varianten
+
+steine  weiss   kb4 le3 sd6g5 bc5d5d7e4h7
+	schwarz kd3 lc2 se2 bc6e5e6
+
+weiter
+
+autor           Romeo Bedoni
+quelle          1. Preis, 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #2
+bedingung       anticirce
+option          varianten
+
+steine  weiss   ke3 dg4 sg2 bc7g7
+	schwarz kf1 bf2
+
+weiter
+
+autor           Romeo Bedoni
+quelle          2. Preis, 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       h=2
+bedingung       anticirce cheylan
+
+steine  weiss   ka3 sg1 ba7d7
+	schwarz ka1 bc2f2
+
+weiter
+
+autor           Romeo Bedoni
+quelle          3. Preis, 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       h=2
+bedingung       anticirce
+
+steine  weiss   kc6 be7f7
+	schwarz ka6 se8 bg2h2
+
+weiter
+
+autor           Yves Cheylan
+quelle          4. Preis, 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       r#3
+bedingung       anticirce
+option          varianten
+
+steine  weiss   ka3 dh3
+	schwarz kh7 dd1
+
+weiter
+
+autor           Manfred Rittirsch
+quelle          5. Preis, 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       h#2
+bedingung       anticirce
+
+steine  weiss   kd7 dd1
+	schwarz ke4 tb1 lb3 sd4f3
+
+weiter
+
+autor           Yves Cheylan
+quelle          6. Preis, 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       h#3
+bedingung       anticirce cheylan
+option          weissbeginnt
+
+steine  weiss   kd6 tg3 lc1
+	schwarz kf2 dc8 tg7 bd2
+
+zwilling versetze g7 g8
+
+weiter
+
+autor           Christian Poisson
+quelle          2. ehr. Erw., 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       h#2
+bedingung       anticirce
+
+steine  weiss   kd7 lc5 sa1d2
+	schwarz kc3 db3 sb2
+
+weiter
+
+autor           Yves Cheylan
+quelle          3. ehr. Erw., 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       h#2
+bedingung       anticirce cheylan
+
+steine  weiss   kf3 lg1
+	schwarz kf1 ta8h1 bd4g2
+
+weiter
+
+autor           Romeo Bedoni
+quelle          4. ehr. Erw., 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       h#1
+bedingung       anticirce
+
+steine  weiss   kc8 dc5 sh1 bc7
+	schwarz ka6 bg2
+
+zwilling versetze c7 h7
+
+weiter
+
+autor           Yves Cheylan
+quelle          5. ehr. Erw., 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       #3
+bedingung       anticirce cheylan
+option          varianten
+
+steine  weiss   ke3 te1h8 bg2
+	schwarz kh1 bh3
+
+weiter
+
+autor           Gerard Smits
+quelle          6. ehr. Erw., 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       h#3
+bedingung       anticirce cheylan
+option          weissbeginnt
+
+steine  weiss   kh1 ld1g1
+	schwarz kf1 da2 sf3
+
+zwilling spiegelung a1<-->h1
+
+weiter
+
+autor           Yves Cheylan
+quelle          3. Lob, 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       h=2
+bedingung       anticirce
+option          satz
+
+steine  weiss   ke3 ta1c4
+	schwarz ke1 sc1 ba2b4
+
+weiter
+
+autor           Andreas Thoma
+autor           Louis Azemard
+quelle          5. Lob, 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       h#2
+bedingung       anticirce
+
+steine  weiss   kh3 tb8 ld8
+	schwarz ka3 dc3 tb3b7
+
+zwilling versetze h3 h4
+
+weiter
+
+autor           Jean Zeller
+autor           Louis Azemard
+quelle          3. Lob, 11. diagrammes-TT 1993, Abt. C
+quelle          diagrammes spezial #13, 7-9/1993
+
+forderung       h#2
+bedingung       anticirce
+
+steine  weiss   kh8 lg3 bf6
+	schwarz kh3 lg8 se8 bg7
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          1109, Phenix-15/16, 12/1991
+
+forderung       #2
+bedingung       anticirce
+option          verfuehrung
+		varianten
+
+steine  weiss   lf8f7 ta5h2 db4 sc3 kh3
+	schwarz bb5 td5a1 la4 ka2 de2 sb1
+
+weiteresproblem
+
+autor           Christian Poisson
+quelle          1110, Phenix-15/16, 12/1992
+
+forderung       #2
+bedingung       anticirce
+option          verfuehrung
+		varianten
+
+steine  weiss   dd8 le8 kc7 bf7e4 tf6 sc3
+	schwarz lf8 th8g5 bd7b5e5f5 sd6 ke6 dh1
+
+weiteresproblem
+
+autor           Christian Poisson
+quelle          1113, Phenix-15/16, 12/1992
+
+forderung       #2
+bedingung       anticirce
+option          verfuehrung
+		varianten
+
+steine  weiss   la8a1 kb8 sg8d2 bg6f5f2h2 th6e3 df3
+	schwarz bc7d7c5d5g5c4h4 th7 kd6 sb1h1
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          5519, Thema Danicum-69, 1/1993
+
+forderung       h#2
+bedingung       anticirce
+
+steine  weiss   kg8 be7g7 sf1
+	schwarz de8 sf8 bd4b2c2e2 kc1
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          7371, Springaren-51, 12/1992
+
+forderung       h#2
+bedingung       anticirce
+
+steine  weiss   lg6 se2c1 ka1 tg1
+	schwarz ld5 tf5d1 bc4e3a2 sa3e1 kd2
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          6995, Springaren-46, 9/1991
+
+forderung       #2
+bedingung       anticirce
+
+option          varianten
+
+steine  weiss   bg7a2f2 lc6a5 sc4g3 kg2 ta1d1
+	schwarz sa8a4 lc3 be3f3 ke1 th1
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          1.-4. Preis, Probleemblad 1991
+
+forderung       #2
+bedingung       anticirce
+
+option          varianten
+
+steine  weiss   kh7 sf7g3 bd7d3e3h3c2 tf6g6 dh6 lh2f1
+	schwarz te8h5  lh8e4 de7 bd6e5f5c4f4b3a2f2 kf3 sb2a1
+
+weiteresproblem
+
+autor           Yves Cheylan
+quelle          147, MAT A PAT-16, 10/1992
+
+forderung       h#2
+bedingung       anticirce
+
+steine  weiss   tf8g7 kg8 sf1b1
+	schwarz ta8 dc8 la7 bh5f4a2 kh4
+
+weiteres
+
+autor		J. Saukkola
+autor		J. Tuovinen
+quelle		Thema Danicum 1995
+ausz		Preis
+forderung	h#4
+bedingung	anticirce
+steine	weiss	ke1 th1
+	schwarz	ke4 dc8 lg2 bd3e3f3g3h3
+option		weiss
+
+endeproblem

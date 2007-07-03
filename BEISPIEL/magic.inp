@@ -1,0 +1,182 @@
+anfangproblem
+
+protokoll       magic.out
+
+autor           Ruud Beugelsdijk
+quelle          4624, feenschach 74, 9-10/1985
+
+forderung       ser-h=3
+
+bedingung       magisch d5
+
+steine  weiss   ke4 tb1 le1 bc5
+        schwarz kc2 bf2
+
+weiteresproblem
+
+autor           Kjell Widlert
+quelle          feenschach 77, 8. 11. 1985
+quelle          1. Preis, Albert H. Kniest Jubil"aumsturnier
+
+forderung       h#4
+
+bedingung       magisch h8
+
+steine  weiss   kh7 be4f3h2
+        schwarz kh5 sf7 be5h3
+
+weiteresproblem
+
+autor           Kjell Widlert
+quelle          feenschach 77, 8. 11. 1985
+quelle          2. ehr. Erw., Albert H. Kniest Jubil"aumsturnier
+
+forderung       #3
+
+bedingung       magisch f7
+
+steine  weiss   kd5 tc8e7 sb3 bg5h6
+        schwarz kd3 le8 sh8 bd7g6h7
+
+option          varianten
+
+weiteresproblem
+
+autor           Oswaldo Faria
+autor           Petro Dalla Rosa
+quelle          feenschach 77, 8. 11. 1985
+quelle          3. ehr. Erw., Albert H. Kniest Jubil"aumsturnier
+
+forderung       s=6
+
+bedingung       magisch a3a6h3h6
+                schwarzerlaengstzueger
+
+steine  weiss   kh1 lg1
+        schwarz df1 bh4
+
+option          varianten
+                ohnesk
+                ohnedrohung
+
+weiteresproblem
+
+autor           J. T. Sanderse
+quelle          feenschach 77, 8. 11. 1985
+quelle          4. ehr. Erw., Albert H. Kniest Jubil"aumsturnier
+
+forderung       h#4
+
+bedingung       magisch a2
+
+steine  weiss   kb2
+        schwarz ka4 lb3 sc2
+
+weiteresproblem
+
+autor           Achim Sch"oneberg
+quelle          feenschach 77, 8. 11. 1985
+quelle          Lob, Albert H. Kniest Jubil"aumsturnier
+
+forderung       s#4
+
+bedingung       magisch f6
+                schwarzerlaengstzueger
+
+steine  weiss   kg8 dh8 lg7 bg6
+        schwarz ka8
+
+option          varianten
+                ohnedrohung
+
+weiteresproblem
+
+autor           Narayanan Shankar Ram
+quelle          1. Preis, The Problemist 1987
+
+forderung       r#2
+
+bedingung       madrasi rexinklusive
+		magisch f8g4
+
+option          varianten
+		widerlegung     1
+
+steine          weiss   kb8 sc8e4 bf7f6f5d6f3 tb5 la4b4 de3
+		schwarz ka8 bb7b6d3b2 se7h2 tc4a2 dh3
+
+weiteresproblem
+
+autor           Oswaldo Faria & Petro Dalla Rosa
+quelle          3. ehr. Erw., AHK-Jubilaeum 1985
+
+forderung       s=6
+
+bedingung       schwarzerlaengstzueger
+		magisch a6h6a3h3
+
+option          ohnesk
+		varianten
+		ohnedrohung
+
+steine weiss    kh1 lg1
+schwarz         df1 bh4
+
+weiteresproblem
+
+autor           Kjell Widlert
+quelle          2. ehr. Erw, AHK-Jub. 1985
+
+forderung       #3
+
+bedingung       magisch f7
+
+option          varianten
+
+steine weiss    tc8e7 bh6g5 kd5 sb3
+schwarz         le8 sh8 bd7h7g6 kd3
+
+weiteresproblem
+
+autor           Kjell Widlert
+quelle          Lob, AHK-Jub. 1985
+
+forderung       #4
+
+bedingung       magisch f3e1
+
+option          varianten
+		ohnedrohung
+
+steine weiss    sg7d4 bc6c5c4c2g3f2 tf4 ld3 kh1
+schwarz         ke5
+
+weiteresproblem
+
+autor           J. J. Burbach
+quelle          AHK-Jub. 1985
+
+forderung       r#2
+
+bedingung       magisch a8
+
+option          varianten
+
+steine weiss    tg8a2 sa3 bc2g2 kh1 dc6
+schwarz         lb8 sb7g4 bf6 kg3
+
+weiteresproblem
+
+autor           J. T. Sanderse
+quelle          AHK-Jub. 1985
+
+forderung       h#2
+
+bedingung       magisch b8g1
+
+option          duplex
+
+steine weiss    ka7 bb7a6
+schwarz         la8 kh8 sc7 bg7g4d3g2
+
+endeproblem

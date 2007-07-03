@@ -1,0 +1,82 @@
+
+anfangproblem
+
+protokoll       max_var.out
+
+autor           Didier Innocenti
+quelle          3406, Problemkiste 92, 4/1994
+forderung       h#3
+bedingung       duellantenschach
+steine  weiss   kh6 sf1 bg7h7
+	schwarz kc3 tc7 ld1 sb3 ba2c2
+
+weiter
+
+autor           Hans Peter Rehm
+autor           Kjell Widlert
+quelle          1025, Ph\'enix 14, 9/1991
+quelle          4. ehrende Erw"ahnung
+forderung       #3
+bedingung       duellantenschach
+steine  weiss   ka6 df8 td5h1 lg5 sc3f1 ba3b7d2e6f6
+	schwarz ke1 th6h7 lh5 ba7e2f2f3g4g6
+option          varianten
+
+weiter
+
+autor           Klaus Wenda
+quelle          2380, Problemkiste 67, 2/1990
+forderung       ser-h#7
+bedingung       duellantenschach
+steine  weiss   kd4 sb1 td1
+	schwarz kb2 ba2b3c2c3d2d3e2
+
+weiteresproblem
+
+autor           C. G. S. Narayanan
+quelle          F1013, The Problemist 12/22, 7/1988
+forderung       #4
+bedingung       schwarzerverfolgungszueger
+steine  weiss   ke4 lh5 se6 bg7
+        schwarz kf6 ld1g5 se7 bh6
+option          varianten
+                ohnedrohung
+zwilling entferne h6
+
+weiteresproblem
+
+autor           G"unter Gla"s
+quelle          3431, Problemkiste 93, 6/1994
+forderung       s#3
+bedingung       schwarzerverfolgungszueger
+                weisserverfolgungszueger
+steine  weiss   ke8 da3 lb5e1 bf7,
+        schwarz kh3 dd6 ta1 la6 se2 bc3
+option          varianten
+                ohnedrohung
+
+weiter
+
+autor           Heinz Zander
+quelle          3142, Problemkiste 85, 2/1993
+forderung       s#5
+bedingung       schwarzerverfolgungszueger
+                weisserverfolgungszueger
+steine  weiss   kf8 ld5 se5 bc5
+        schwarz kh6 de6 lb6 bc6
+option          varianten
+                ohnedrohung
+
+weiter
+
+autor		Per Grevlund
+quelle		Lob, 28. feenschach-TT 1973
+forderung	#6
+bedingung	schwarzerverfolg
+		weisserverfolg
+steine	weiss	kh6 tb1 le4
+	schwarz	ka8 td7 lb7 sd8 ba7h7
+option		varianten
+		ohnedrohung
+
+endeproblem

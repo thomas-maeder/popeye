@@ -1,0 +1,342 @@
+% This is
+%               pkking.mf
+%
+% Copyright (C) 1989-92  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%
+%we have to define six essential characters:
+%         WoW   NoW   BoW   WoB   NoB   BoB
+%Pawn       0     6    12    18    24    30
+%Knight     1     7    13    19    25    31
+%Bishop     2     8    14    20    26    32
+%Rook       3     9    15    21    27    33
+%Queen      4    10    16    22    28    34
+%King       5    11    17    23    29    35
+
+def SetParam =
+	numeric BowOneW,ThreeFour,SixHor,FourSix;
+	BowOneW         =  .52qs;
+	ThreeFour       =  .10;
+	FourFive        =  .60; % z5 is Top of Heart
+	SixHor          = 1.40;
+	FourSix         =  .29;
+
+	numeric CrossWidth, CrossHeight, CrossAbove;
+	CrossWidth      =  .30;
+	CrossHeight     =  .18;
+	CrossAbove      =  .18; %Middle of cross above center of heart.
+enddef;
+
+def DefinePointsAndBows =
+	% Points are numbered from 0 to 9 from lower to upper
+	% Points to the left have suffix a, right suffic b
+	% points without further suffix are in the center
+
+	SetParam;
+	DefineFootBows(            0,   % No Space to Bottom
+			       BowOneW,
+				 .22qs, % FootHeight    
+				 .40,   % BowTwoLoc
+				 .15,   % WidthToHeight
+				 .90,   % BowTwoLen
+				1.00);  % BowThreeLen
+
+	z4 = z3 + BowOneW*ThreeFour*up;
+	z5 = z4 + BowOneW*FourFive*up;
+	y6l= y6r = y4 + BowOneW*FourSix;
+	x6l + x6r = qs; x6r - x6l = SixHor*BowOneW;
+
+	z7 = z5 + CrossAbove*BowOneW*up;
+	y7 = y7l = y7r;
+	x7l + x7r = qs; x7r - x7l = CrossWidth*BowOneW;
+	z8 = z7 + CrossHeight*BowOneW*up;
+
+	path    Cross[];
+	Cross1= z5--z8;
+	Cross2= z7l--z7r;
+enddef;
+
+def DrawCross =
+	draw Cross1;
+	draw Cross2;
+enddef;
+
+def UnDrawCross =
+	undraw Cross1;
+	undraw Cross2;
+enddef;
+
+def DefineKingPaths =
+	path LeftPath,RightPath,LeftInnerPath,RightInnerPath,
+		OuterPath,TopHeartPath,HeartPath;
+	LeftPath = z1l .. z2l .. z3l .. z6l .. {down} z4 -- z3;
+	RightPath= reverse LeftPath reflectedabout (z3,z4);
+	%RightPath= z3 -- z4 {up} .. z6r .. z3r .. z2r .. z1r;
+	LeftInnerPath = ParallelPath(subpath (1.8,5)of LeftPath,
+							-1.6*thin);
+	RightInnerPath = LeftInnerPath reflectedabout (z3,z4);
+
+	OuterPath = LeftPath .. RightPath .. Bow0 .. cycle;
+	HeartStart = 3.75;
+	HeartPath = subpath (4,HeartStart) of LeftPath &
+		point HeartStart of LeftPath
+			{-direction HeartStart of LeftPath}..
+		{right}z5{right}..
+		point HeartStart of reverse RightPath 
+			{direction HeartStart of reverse RightPath} &
+		subpath (HeartStart,4) of reverse RightPath;
+		
+enddef;
+
+def MakeWhiteKing =
+	clearit;
+	pickup chess_pen;
+	draw Bow[1];
+	draw Bow[2];
+	draw Bow[3];
+	draw OuterPath;
+	draw HeartPath;
+	DrawCross;
+	%pickup inner_pen;
+	%pickup chess_pen;
+	%draw ParallelPath(subpath(1.7,5)of LeftPath,-2thin);
+	%draw ParallelPath(subpath(0,3.3)of RightPath,-2thin);
+	if proofing > 0:
+		ScreenGrid(0,qs)(0,qs);
+	fi;
+	WhiteMan:= currentpicture;
+enddef;
+
+def MakeBlackKing =
+	clearit;
+	pickup chess_pen;
+	filldraw HeartPath .. cycle;
+	DrawCross;
+	cullit;
+	undraw ParallelPath(subpath (.6,3.4) of HeartPath, -thin);
+	cullit;
+	filldraw OuterPath;
+	cullit;
+	undraw ShortenPath(Bow[1],1.5thin);
+	undraw ShortenPath(Bow[2],1.2thin);
+	undraw ShortenPath(Bow[3],1.2thin);
+	undraw ShortenBegin(ParallelPath(LeftPath,-thin),1.2thin);
+	undraw ShortenEnd(ParallelPath(RightPath,-thin),1.2thin);
+	BlackMan:= currentpicture;
+enddef;
+
+def MakeOuterShape = 
+	clearit;
+	pickup frame_pen;
+	DrawCross;
+	filldraw OuterPath;
+	filldraw HeartPath .. cycle;
+	cullit;
+	OuterShape:= currentpicture;
+enddef;
+
+DefinePointsAndBows;
+DefineKingPaths;
+
+MakeWhiteKing;
+MakeBlackKing;
+MakeNeutral(WhiteMan, BlackMan);
+MakeOuterShape;
+
+
+%ScreenGrid(0,qs,x6r)(0,qs,y6r);
+
+%===========================================================
+
+beginchar(King+White+OnWhite, qs#, qs#, 0);
+	"White king on white field";
+	currentpicture:= WhiteMan;
+	%labels(z0,z1l,z1,z1r,z2l,z2,z2r);
+	%labels(z3l,z3,z3l,z4,z5,z6l,z6r);
+	%labels(z7l,z7,z7r,z8);
+endchar;
+
+beginchar(King+White+OnWhite+LeftTurned, qs#, qs#, 0);
+	"White king turned to the left on white field";
+	currentpicture:= TurnLeft(WhiteMan);
+endchar;
+
+beginchar(King+White+OnWhite+RightTurned, qs#, qs#, 0);
+	"White king turned to the right on white field";
+	currentpicture:= TurnRight(WhiteMan);
+endchar;
+
+beginchar(King+White+OnWhite+UpSideDown, qs#, qs#, 0);
+	"White king turned upsidedown on white field";
+	currentpicture:= TurnUpSideDown(WhiteMan);
+endchar;
+
+%===========================================================
+
+beginchar(King+White+OnBlack, qs#, qs#, 0);
+	"White king on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + WhiteMan;
+endchar;
+
+beginchar(King+White+OnBlack+LeftTurned, qs#, qs#, 0);
+	"White king turned to the left on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(WhiteMan);
+endchar;
+
+beginchar(King+White+OnBlack+RightTurned, qs#, qs#, 0);
+	"White king turned to the right on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(WhiteMan);
+endchar;
+
+beginchar(King+White+OnBlack+UpSideDown, qs#, qs#, 0);
+	"White king turned upsidedown on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(WhiteMan);
+endchar;
+
+%===========================================================
+
+beginchar(King+Neutral+OnWhite, qs#, qs#, 0);
+	"Neutral king on white field";
+	currentpicture:= NeutralMan;
+endchar;
+
+beginchar(King+Neutral+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Neutral king turned to the left on white field";
+	currentpicture:= TurnLeft(NeutralMan);
+endchar;
+
+beginchar(King+Neutral+OnWhite+RightTurned, qs#, qs#, 0);
+	"Neutral king turned to the right on white field";
+	currentpicture:= TurnRight(NeutralMan);
+endchar;
+
+beginchar(King+Neutral+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Neutral king turned upsidedown on white field";
+	currentpicture:= TurnUpSideDown(NeutralMan);
+endchar;
+
+%===========================================================
+
+beginchar(King+Neutral+OnBlack, qs#, qs#, 0);
+	"Neutral king on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + NeutralMan;
+endchar;
+
+beginchar(King+Neutral+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Neutral king turned to the left on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(NeutralMan);
+endchar;
+
+beginchar(King+Neutral+OnBlack+RightTurned, qs#, qs#, 0);
+	"Neutral king turned to the right on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(NeutralMan);
+endchar;
+
+beginchar(King+Neutral+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Neutral king turned upsidedown on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(NeutralMan);
+endchar;
+
+%===========================================================
+
+beginchar(King+Black+OnWhite, qs#, qs#, 0);
+	"Black king on white field";
+	currentpicture:= BlackMan;
+endchar;
+
+beginchar(King+Black+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Black king turned to the left on white field";
+	currentpicture:= TurnLeft(BlackMan);
+endchar;
+
+beginchar(King+Black+OnWhite+RightTurned, qs#, qs#, 0);
+	"Black king turned to the right on white field";
+	currentpicture:= TurnRight(BlackMan);
+endchar;
+
+beginchar(King+Black+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Black king turned upsidedown on white field";
+	currentpicture:= TurnUpSideDown(BlackMan);
+endchar;
+
+%===========================================================
+
+beginchar(King+Black+OnBlack, qs#, qs#, 0);
+	"Black king on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + BlackMan;
+endchar;
+
+beginchar(King+Black+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Black king turned to the left on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(BlackMan);
+endchar;
+
+beginchar(King+Black+OnBlack+RightTurned, qs#, qs#, 0);
+	"Black king turned to the right on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(BlackMan);
+endchar;
+
+beginchar(King+Black+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Black king turned upsidedown on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(BlackMan);
+endchar;
+
+

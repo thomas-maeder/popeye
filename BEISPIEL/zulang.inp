@@ -1,0 +1,113 @@
+anfa
+prot zulang.out
+auto Henning Mueller
+quel feenschach 89, 1988
+ford ser-h005
+stei
+weis ke1 ta1h1
+schw kf3 da3 tc5g3 lg1 bb2c2d4g2
+weiter
+autor           Nils Bakke & Henry Tanner
+quelle          NG24, 1. NG-ST, Problemkiste 109, 2/1997
+forderung       ser-#11
+bedingung       HaanerSchach
+option          Zugnummer
+steine  weiss   kc1 16g7
+        schwarz ka1
+zwilling versetze c1 b3
+weiter
+auto Bernhard Geismann
+auto Hans Gruber
+auto Stefan Hoening
+auto Hans-Peter Reich
+quel 2929, Problemkiste 80, 4/1992
+tite Motto: Viele Koeche verderben den Brei
+ford h#5
+bedi marscirce
+opti zugn
+stei
+weis kb7 sf1 bc3f2h2
+schw ke2 se1 bd7
+weiter
+auto Franz Palatz
+quel Funkschach, 24.1.1926
+ford h#4
+bedi Ohneschach 
+opti zugn
+stei
+weis ka8 lh7 bh6
+schw kd5 sf6h1 bc3f7
+weiter
+auto Didier Innocenti	
+quel Diagrammes, 1988/89
+ford #7
+bedi marscirce 
+opti vari ohnedroh
+stei
+weis kb7 dc8 tc5 la7c6
+schw kb8 la8
+weiter
+auto Christian Poisson
+quel 58, Problemkiste 101, 10/1995
+tite 15. PK-KT, 2. Platz
+ford =8
+bedi marscirce 
+opti vari ohnewk ohnedroh
+stei
+weis tg7 le4 bb7
+schw kb8
+weiter
+auto Theodor Steudel
+quel 4181, Problemkiste 107, 10/1996
+ford h=5
+bedi ohneschach
+stei
+weis ka7 ba5
+schw kh2 bb2d2g2
+weiter
+auto Theodor Steudel
+quel 29), Problemkiste 79, 2/1992
+ford h=4
+bedi ohneschach 
+opti zugn
+stei
+weis kc8 bc6f7
+schw kh5 bb2c2
+weiter
+auto Theodor Steudel
+quel 14), Problemkiste 79, 2/1992
+tite 14. Platz
+ford h=5
+bedi ohneschach 
+opti zugn
+stei
+weis kb7 bb4
+schw ka1 bc2e2h2
+weiter
+auto Theodor Steudel
+quel 15), Problemkiste 79, 2/1992
+ford h=5
+bedi ohneschach circe
+opti zugn
+stei
+weis kg8 bf5
+schw kb1 ba2d2g2
+weiter
+auto Theodor Steudel
+quel 16), Problemkiste 79, 2/1992
+ford h=6
+bedi ohneschach ohneschlag
+opti zugn
+stei
+weis kh8 be2
+schw Kd1 ba2c2d2
+weiter
+auto	Yuri Arefev
+quel	3175, Probleemblad 55/2, 3-3/1997
+ford	h#3
+opti	zugn
+bedi	ActuatedRevolvingBoard Circe
+stei	weis	ke4 sc1
+	schw	ka7 tb7c5 la3e8 bf3
+zwil	versetze a7 b1
+ende

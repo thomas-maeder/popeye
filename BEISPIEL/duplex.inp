@@ -1,0 +1,156 @@
+anfangproblem
+
+protokoll	duplex.out
+
+autor 		Norbert Geissler
+quelle 		7100, Die Schwalbe-125, 10/1990
+
+forderung 	h#2
+bedingung 	platzwechselcirce
+
+option 		duplex
+
+steine 		weiss 	kf1 bb1
+		schwarz tb8f6 lg8 sc6 kd5 bf3f2
+
+weiteresproblem
+
+autor 		Erich Bartel
+quelle 		2483, Problemkiste-70, 8/1990
+
+forderung 	h#2
+bedingung 	koeko
+
+option 		duplex
+
+steine 	weiss 	kd3 wag1 
+	schwarz kb5 knb1
+
+weiteresproblem
+
+autor 		Norbert Geissler
+quelle 		2456, Problemkiste-69,6/1990
+
+forderung 	h#2
+bedingung 	platzwechselcirce
+
+option 		duplex
+
+steine 		weiss 	ka6 nb1 
+		schwarz ka8 bc4
+
+weiteresproblem
+
+autor 		Erich Bartel
+quelle 		7039, Die Schwalbe-124, 8/1990
+
+forderung 	ser-h#3
+bedingung 	spiegelcirce
+
+option 		duplex 
+
+steine 		weiss 	ka6 
+		schwarz kf6 
+		neutral db1 bd5e7g2
+
+weiter
+
+auto C. Jeremy Morse
+quel The Problemist, I-III/1976
+ford h=5
+bedi schwarzerk weisserl
+opti halbduplex
+stei
+weis kc8 bb6
+schw ka8 ba7
+
+weit
+
+auto Markus Manhart
+quel M, feenschach 76, XI/1985, S. 222
+tite Albert H. Kniest zum Gedenken
+ford ser-#11
+bedi schwarzerl norsksjakk circe
+opti halbduplex
+stei
+weis kc8 bb6
+schw ka8 ba7
+
+weit
+
+auto Maryan Kerhuel
+quel II, Rex Multiplex 19, VII-IX/1986, S. 641
+ford h==3
+bedi haan
+opti halbduplex
+stei
+weis kc8 bb6
+schw koen la8 ba7
+
+weit
+
+auto Maryan Kerhuel
+quel F925 (Version), The Problemist, I/1987, S. 257
+ford h#3
+bedi transmut
+opti halbduplex
+stei
+weis kc8 bb6
+schw ka8 ba7
+
+weiter
+
+auto Theodor Steudel
+quel 220, Das Vielvaeterproblem, XII/1989
+ford ser-=7
+opti halbduplex
+stei
+weis koen sc8 bb6
+schw ka8 ba7
+zwil hinzu weis koen cac8
+zwil hinzu weis koen gic8
+
+weit 
+
+auto Jan Kubecka & Theodor Steudel
+quel 221, Das Vielvaeterproblem, XII/1989
+ford ser-zd36
+opti halbduplex
+stei
+weis kc8 bb6
+schw ka8 ba7
+
+weit
+
+auto Theodor Steudel
+quel 236, Das Vielvaeterproblem, XII/1989
+ford ser-=7
+bed ohneschlag
+opti halbduplex
+stei
+weis koen fec8 bb6
+schw ka8 ba7
+
+weit
+
+auto Hilmar Ebert, Hans Gruber & Stefan Hoening
+quel 266, Das Vielvaeterproblem, XII/1989
+ford exact-=1
+opti halbduplex vari
+stei
+weis koen gc8 dub6
+schw koen ga8 dua7
+zwill ford exact-=2
+zwill ford exact-=3
+
+weit
+
+auto Hilmar Ebert & Stefan Hoening
+quel 279, Das Vielvaeterproblem, XII/1989
+ford #8
+opti halbduplex vari ohnedroh
+stei
+weis koen eqc8 bb6
+schw koen eqa8 ba7
+
+ende

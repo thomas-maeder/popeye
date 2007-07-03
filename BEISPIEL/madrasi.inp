@@ -1,0 +1,235 @@
+anfangproblem
+
+protokoll       madrasi.out
+
+autor           Hans Peter Rehm
+autor           Kjell Widlert
+quelle          1. Preis, Andernach 1986
+
+forderung       #12
+
+steine  weiss   kb7 td6 gc7g7 ba6c2e4f2h3
+        schwarz ka7 tc6f6 gf7 bd5d7g3g4
+
+bedingung       madrasi rexinkl
+
+option          varianten
+                ohnedrohung
+
+weiteresproblem
+
+autor		Bernhard Geismann
+quelle		5773, f-95, 6-9/1990
+
+forderung	h#2
+bedingung	madrasi
+		gitterschach
+
+steine		weiss	lg6 kg5
+		schwarz	lg8 kh5
+
+weiteresproblem
+
+autor		Manfred Rittirsch &
+autor		Markus Manhart & Torsten Linss
+quelle		5. Platz, Andernach 1990
+
+forderung	#2
+bedingung	madrasi rexinklusive
+		circe
+
+steine 		weiss	lf8 dd6 ba5d5e4b2d2 kb5 td4 sc1h3
+		schwarz	lh8 bc7c4c3d3g3f2 ka4 df3 te1 sg1
+
+option		widerlegung	1
+		varianten
+
+weiteresproblem 
+
+autor		L. Anyos
+quelle		952, Phenix-13, 5/1991
+titel    	nebenl"osig
+
+forderung	h#2
+bedingung	madrasi rexinklusive
+		circe
+
+steine 		weiss	td8 kc7 le7 bg7
+		schwarz	sf7g6 da6 ke5 ta3 ld2
+
+weiteresproblem
+
+autor		Kjell Widlert
+quelle		Lob, RQu-80 1990
+
+forderung 	#3
+
+bedingung 	circe 
+		madrasi 
+		gitterschach
+
+steine 		weiss th5 dg1
+		schwarz tg8 bf7g2h2 da7 sh7a5 kh1
+
+option 		varianten
+		ohnewk
+
+weiteresproblem
+
+autor 		N. Shankar Ram
+quelle 		f-65, 15. 5. 1983
+
+forderung 	#4
+bedingung 	madrasi
+
+steine 		weiss 	dc8 ke8 tb7 bg7 lb6
+		schwarz ka8 lb8 ta7 sc6 bf2
+
+weiteresproblem
+
+autor		Manfred Seidel
+quelle		Europa-Rochade 6/1991
+quelle		PK-76, S.53, 1)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss 	bb7c7f7g7 kg4
+		schwarz	sf8 tg8c4 kd7 dh7
+
+weiteresproblem
+
+autor		Manfred Seidel
+autor		Hans-Peter Reich
+quelle		PK-76, S.53, 2)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss	bc7d7g7h7 kd6
+		schwarz	tc8d8 sf7 la6 kf6 dh5
+
+weiteresproblem
+
+autor		Manfred Seidel
+quelle		PK-76, S.53, 3)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss	bb7d7f7g7 kf1
+		schwarz	se8c7 tf8 kc6 dd5 tb1 lh6
+
+weiteresproblem
+
+autor		Manfred Seidel
+quelle		PK-76, S.53, 4)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss	ba7d7g7h7 kg4
+		schwarz	dc8 se7 tc6g5 kf6 bh2 ld2
+
+weiteresproblem
+
+autor		Manfred Seidel
+quelle		PK-76, S.53, 5)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss 	ba7c7d7h7 kd5
+		schwarz	tc8 dd8 se8g7 lb7c3 kf7
+
+weiteresproblem
+
+autor		Manfred Seidel
+quelle		PK-76, S.53, 6)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss	ba7b7d7g7 kf5
+		schwarz	lc8 sc7 ka5 bb5b4 dd5
+
+weiteresproblem
+
+autor		Manfred Seidel
+quelle		PK-76, S.53, 7)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss	bb7c7f7h7 ka2
+		schwarz	lg8f2 be7 kd6 dg6 tc2
+
+weiteresproblem
+
+autor		Manfred Seidel
+quelle		PK-76, S.53, 8)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss	ba7d7f7h7 kd4
+		schwarz	tc8d8 de8 lg7 ka6 bb5 sf4
+
+weiteresproblem
+
+autor		Manfred Seidel
+quelle		PK-76, S.53, 9)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss 	ba7b7d7f7e6 kh5
+		schwarz	le8g7 kc6 tb5 dd4
+
+weiteresproblem
+
+autor		Manfred Seidel
+quelle		PK-76, S.53, 10)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss	bc7e7g7h7 kh4
+		schwarz	ld8g4 kf7 sg6e4 dd1
+
+weiteresproblem
+
+autor		Manfred Seidel
+quelle		PK-76, S.53, 11)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss	ba7c7f7h7 sa6 kf1
+		schwarz	te8f8 kd6 lg2 dh2
+
+weiteresproblem
+
+autor		Manfred Seidel
+quelle		PK-76, S.53, 12)
+
+forderung	ser-#4
+bedingung	madrasi
+
+steine		weiss	bc7d7e7f7 kc4
+		schwarz	tc8f4 sd8 ke6 lg5 df2
+
+weiteresproblem
+
+autor           Kjell Widlert
+quelle          Problemkiste
+
+bedingung       madrasi
+		gitterschach
+
+forderung       ser-h#16
+
+steine  weiss   kf2 dd1 sg2
+	schwarz kg4 dd6
+
+endeproblem

@@ -1,0 +1,127 @@
+anfang
+
+protokoll       maxi.out
+
+autor           Pavlos Moutecidis
+quelle          2120, Diagramme und Figuren 247, Wann?
+forderung       s#10
+bedingung       schwarzerlaengstzueger
+steine  weiss   kd1 bd2
+        schwarz kf2 dh7 bb2
+option          varianten
+                ohnedrohung
+                satz
+
+weiteresproblem
+
+autor           Albert H. Kniest
+quelle          Feenschach 1963
+quelle          2. Preis
+forderung       s#7
+bedingung       gitterschach
+                schwarzerlaengstzueger
+steine  weiss   ka3 ta2
+        schwarz kh4 lh6
+option          varianten
+                ohnedrohung
+                satz
+
+weiteresproblem
+
+autor           Zvonimir Hernitz
+quelle          5713, feenschach 93, 11-12/1989
+forderung       s#27
+bedingung       schwarzerlaengstzueger
+steine  weiss   kh2
+        schwarz kc3 dg4 tc7g7 sa5c1 ba3a6c6e3e4
+option          satz
+                ohnedrohung
+                varianten
+
+weiter
+
+autor           Bo Lindgren
+quelle          5721, feenschach 93, 11-12/1993
+forderung       h#5
+option          weissbeginnt
+bedingung       schwarzerlaengstzueger
+steine  weiss   kg4 lc5g2
+        schwarz ke2 ta6d4 la7 ba4c3e5f4f6g5h6
+zwilling versetze e2 f2
+
+weiteresproblem
+
+autor		Albert Heinrich Kniest
+quelle		#6453a), Feenschach 9-10/1963
+forderung	s#5
+option		varianten
+		ohnesk
+		ohnedrohung
+bedingung	gitterschach
+		schwarzerlaengstzueger
+steine		weiss	kb2 ta1
+		schwarz	da6
+
+weiteresproblem
+
+autor		Hans-Peter Reich
+quelle		2794, PK-77, 10/1991
+forderung	h#2
+bedingung	weisserlaengstzueger
+		ohneschlag
+option		weissbeginnt
+steine		weiss	kh6 bc7a3
+		schwarz	ba6a5b3c2 se6 ka4
+zwilling versetze b3 b5
+
+weiteresproblem
+
+autor		Horst Baecker
+quelle		#2788, PK-77, 10/1991
+forderung	#3
+bedingung	schwarzerlaengstzueger
+		circe
+option		varianten
+steine		weiss	tf8b1 lg6 be6d5 ka2
+		schwarz	bb6g5c4c3e2 sd3 kc2
+
+weiteresproblem
+
+autor		Romeo Bedoni
+quelle		Preis, 7. PK-Kompositionsturnier 1991
+quelle		PK-73, 2/1991
+forderung	ser-#9
+bedingung	schwarzerlaengstzueger
+		weisserlaengstzueger
+steine		weiss	sba6b5c4g2h3 bsh4h5h6 fea3 kc2
+		schwarz	sc3a2 ka1
+
+weiteresproblem
+
+autor           Hans Peter Rehm
+quelle          1. Preis, Feenschach 1965
+forderung       s#9
+bedingung       schwarzerlaengstzueger
+                weisserlaengstzueger
+steine  weiss   ke5 sc6 bb4e7
+        schwarz kc7 ld8g8 se2f4 ba5d4d5g6
+option          varianten
+                ohnedrohung
+
+weiter
+auto T.Linss
+quel f-107
+ford s#7
+stei weis ke7 td4
+stei schw kb8 th6
+bedi laengst
+opti vari duplex
+weiter
+auto T.Linss
+quel f-107
+ford s#7
+stei weis ke7 td4
+stei schw kb8 th6
+bedi laengst
+opti vari halbduplex
+endeproblem

@@ -1,0 +1,228 @@
+% This is
+%               pkbase.mf
+%
+% Copyright (C) 1989-92  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%
+% correcting the size of qs to make it a good pixelcount
+if .5qs <> good.x .5qs:
+	qs:= qs if qs# * hppp > round(qs): + else: - fi 1;
+fi
+
+% the center of the field
+pair Center; Center = (qs/2,qs/2);
+
+picture BlackMan, WhiteMan, NeutralMan, OuterShape;
+
+% Some definitions for numbering the characters
+%
+% Numbers of the pieces
+Pawn = 0; Knight = 1; Bishop = 2; Rook = 3; Queen = 4; King = 5;
+% Geometric pieces
+Circle = 145;
+% Offsets for colors of the pieces
+White = 0; Neutral = 6; Black = 12;
+% Offsets for the background
+OnWhite = 0; OnBlack = 18;
+% Offsets for the turning
+LeftTurned = 36; RightTurned = 72; UpSideDown = 108;
+
+% Makros for turning
+def TurnLeft(expr p) =
+	p rotatedaround (Center,90);
+enddef;
+
+def TurnRight(expr p) =
+	p rotatedaround (Center,-90);
+enddef;
+
+def TurnUpSideDown(expr p) =
+	p rotatedaround (Center,180);
+enddef;
+
+%
+% Macros for shorten and lengthening paths
+%
+% ShortenPath: The given path is shorted at both ends, with the
+%       real amount of pixels given
+% ShortenBegin, ShortenEnd: The same as above for one end only
+% LengthenPath: The path is elongated at both ends with a straight
+%       line, in the direction of the path at the end
+% LengthenBegin, LengthenEnd: The same as above for one end only
+%
+def Perpend(expr d,p,real) =
+  begingroup
+  save dd; pair dd;
+  dd = d/length(d);
+  (p+100*(dd rotated 90) -- p+100*(dd rotated -90)) shifted (dd*real)
+  endgroup;
+enddef;
+def ShortenPath(expr p,real) =
+  begingroup
+  save pa,pe; path pa,pe;
+  pa = Perpend(direction 0 of p,point 0 of p,real);
+  pe = Perpend(-direction length(p) of p,point length(p) of p,real);
+  subpath (
+    xpart(p intersectiontimes pa),
+    xpart(p intersectiontimes pe)) of p
+  endgroup
+enddef;
+def ShortenBegin(expr p,real) =
+  begingroup
+  save pa; path pa;
+  pa = Perpend(direction 0 of p,point 0 of p,real);
+  subpath (xpart(p intersectiontimes pa),length(p)) of p
+  endgroup
+enddef;
+def ShortenEnd(expr p,real) =
+  begingroup
+  save pe; path pe;
+  pe = Perpend(-direction length(p) of p,point length(p) of p,real);
+  subpath (0, xpart(p intersectiontimes pe)) of p
+  endgroup
+enddef;
+def LengthenBegin(expr p,real) =
+  begingroup
+  save dd; pair dd;
+  dd= direction 0 of p; dd:= dd/length(dd);
+  point 0 of p - real*dd -- p
+  endgroup
+enddef;
+def LengthenEnd(expr p,real) =
+  begingroup
+  save dd; pair dd;
+  dd= direction length(p) of p; dd:= dd/length(dd);
+  p -- point length(p) of p + real*dd
+  endgroup
+enddef;
+def Lengthen(expr p,real) =
+  begingroup
+  save db; pair db;
+  save de; pair de;
+  db= direction 0 of p; db:= db/length(db);
+  de= direction length(p) of p; de:= de/length(de);
+  point 0 of p - real*db -- p -- point length(p) of p + real*de
+  endgroup
+enddef;
+%
+% This macro is used bye ParallelPath
+%
+def NewPoint(expr p,t,dist) =
+	{ begingroup pair Dir;
+		Dir= direction t of p; %show p; show t; show Dir;
+		Dir
+	  endgroup }
+	(point t of p + (Dir rotated 90)*(dist/length(Dir)))
+enddef;
+
+% Macro for getting a path parallel to the given path, in distance dist
+%
+def ParallelPath(expr p,dist) =
+	begingroup
+	save Dir; pair Dir; Dir = direction 0 of p;
+
+	((point 0 of p)+(Dir rotated 90)*(dist/length(Dir))) {Dir}
+	for t=.5 step .5 until length(p):
+		.. NewPoint(p,t,dist)
+	endfor
+	endgroup
+enddef;
+
+def DefineFootBows(
+	% This macro depends on the values of qs and BottomSpace
+	% and uses the makro ParallelPath.
+	% It is used to generate the bottom bows of King, Queen and Bishop 
+	expr  BottomDist, %This is the space to BottomSpace
+	     BowOneWidth, %This is the width of the main bow
+	      FootHeight, %Distance from bottom of Bow0 to top of Bow3
+	       BowTwoLoc, %Relative location of Bow2 between Bow3 and
+			  % Bow1. 0 means position at position at Bow1,
+			  % 1.0 means position at Bow3.
+	   WidthToHeight, %Ratio of BowOneWidth/2 to Bowheight
+	       BowTwoLen, %Length of Bow2 relative to Bow1
+	     BowThreeLen  %Lenght of Bow3 relative to Bow1
+	     ) =
+
+	% All parameters are in pixels when not otherwise statet.
+	% Points are numbered from 0 to 3 from lower to upper
+	% Points to the left have suffix l, right suffix r
+	% points without further suffix are in the center of the bows
+
+	path    Bow[];
+	numeric BowHeight;
+	numeric l[],x[]l,x[]r,x[],y[]l,y[]r,y[];
+
+	BowHeight = BowOneWidth*WidthToHeight/2;
+
+	% We start with the first bow
+	x1r + x1l = qs; x1r - x1l = BowOneWidth;
+	y1 = BottomSpace + 2*BowHeight + BottomDist;
+	x1 = .5qs;
+	y1l = y1r = y1 - BowHeight;
+	Bow1 = z1l .. {right} z1 .. z1r;
+
+	z0 = z1 shifted (down*2*BowHeight);
+	Bow0 = z1r .. {left} z0 .. z1l;
+
+	Bow3= ParallelPath(Bow1,FootHeight-2*BowHeight);
+	l3 = length(Bow3);
+	cu:= (1-BowThreeLen)/2;
+	Bow3:= subpath (cu*l3,(1-cu)*l3) of Bow3;
+	z3l = point  0 of Bow3;
+	z3  = point .5*length(Bow3) of Bow3;
+	z3r = point infinity of Bow3;
+
+%show point 0 of reverse Bow3;
+%show z3r;
+
+	Bow2= ParallelPath(Bow1,(FootHeight-2*BowHeight)*BowTwoLoc);
+	l2 = length(Bow2);
+	cu:= (1-BowTwoLen)/2;
+	Bow2:= subpath (cu*l2,(1-cu)*l2) of Bow2;
+	z2l = point  0 of Bow2;
+	z2  = point .5length(Bow3) of Bow2;
+	z2r = point  infinity of Bow2;
+	labels(1l,1,1r,2l,2r,3l,3r);
+enddef;
+%
+% Macro for generation the neutral piece from two pictures
+% given as Parameter
+def MakeNeutral(expr White,Black) =
+	if unknown LeftHalft: picture LeftHalf; fi
+	LeftHalf:= Black;
+	cull LeftHalf keeping (1,infinity);
+	addto LeftHalf contour (unitsquare yscaled qs xscaled (qs/2));
+	cull LeftHalf keeping (2,2);
+
+	if unknown RightHalf: picture RightHalf; fi
+	RightHalf:= White;
+	cull RightHalf keeping (1,infinity);
+	addto RightHalf contour (unitsquare yscaled qs xscaled (qs/2) shifted (qs/2,0));
+	cull RightHalf keeping (2,2);
+	NeutralMan:= LeftHalf;
+	addto NeutralMan also RightHalf;
+enddef;
+%
+% Makro to get a grid of real output pixels when proofing
+def PixelGrid(expr PixPerInch, w) =
+	if proofing > 0:
+		begingroup
+		numeric d;
+		d = pixels_per_inch/PixPerInch;
+		makegrid(0,for i=d step d until w: ,i endfor)(0,for i=d step d until w: ,i endfor)
+		endgroup;
+	fi;
+enddef;

@@ -1,0 +1,65 @@
+% This is
+%		pkblackfield.mf
+%
+% Copyright (C) 1989-92  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%
+def MakeBlackField =
+
+	if unknown BlackField:
+
+		pair ua[],ub[],la[],lb[],ul,lr,ma,mb;
+
+		numeric n,part;
+
+		n=7; part=6;
+		pickup pencircle scaled (qs/(part*n));
+		bot lft ma = (0,0); 
+		top rt mb = (w,w);
+		draw ma--mb;
+
+		top lft ul = (0,h);
+		bot rt lr = (w,0);
+
+		numeric xdelta,ydelta;
+		xdelta= floor((xpart(lr) - xpart(ma)) / n);
+		ydelta= floor((ypart(ul) - ypart(ma)) / n);
+
+		for i=1 upto n:
+			lft ua[i] = (0,ypart(ma)+(i*ydelta));
+			top ub[i] = (xpart(mb)-(i*xdelta),h);
+			draw ua[i]..ub[i];
+		endfor;
+
+		for i=1 upto n:
+			bot la[i] = (xpart(ma)+(i*xdelta),0);
+			rt lb[i] = (w,ypart(mb)-(i*ydelta));
+			draw la[i]..lb[i];
+		endfor;
+
+		picture BlackField;
+		cullit;
+		BlackField:= currentpicture;
+
+	else:
+		currentpicture:= BlackField;
+	fi;
+
+enddef;
+
+beginchar(144,qs#,qs#,0);	"Empty black field";
+	MakeBlackField;
+endchar;

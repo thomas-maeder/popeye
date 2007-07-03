@@ -1,0 +1,64 @@
+begin
+prot sbtype2.out
+
+title avoid self-check
+cond singlebox type2
+stip +1
+pieces white kh8 se3h4
+       black ke1 qg2 rf3 bc1 ph1
+
+next
+
+title avoid self-check
+cond singlebox type2
+stip h+1
+pieces white kg8 qh8 rh7g6 bg7h4 sf4f6 pa8
+       black kh1 rg1 pg5h2
+
+next
+
+title capturing side selects which pawn to promote -> Ra1 can capture
+cond singlebox type2
+stip h#1
+pieces white ke6 qb8 ra2b1 bb7c8 sa7a8 pa6b5b6c6c7g8h8
+       black ke8 ra1 pa4
+
+next
+
+title don't get confused with >1 latent pawn
+pieces white Kg8 Qg1 Rc1h4 Bh1h8 Sc4d8 Pb7c6e8g3g6
+       black Kd5 Qa7 Rc7 Bh5 Sf1g5 Pc5d6e2e4f3h7
+stipulation #2
+condition SingleBox Type2
+option vari
+
+next
+
+author B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
+cond singlebox type2
+pieces white ka2 qb2 ra4f1 bc6g1 se1f6 pd7g2
+       black ke3 qf2 sd6h1 pc4e5f5g3g4
+stip #2
+option vari
+
+next
+
+author Milan Velimirovic, 2001
+pieces White Kd8 Qh1 Rd1g4 Bh2g6 Sd4e8 Pd6e6f7
+       Black Ke5 Ba8h6 Pd5d7e4f2f4g3g7h4
+stip #3
+cond SingleBox Type2
+opti vari try
+
+next
+
+author Milan Velimirovic, 2001
+
+stipulation #2
+option Variation
+condition SingleBox Type2
+pieces
+white  ka2 qg1 rc1h4 bh1h8 sc4d8 pb7e8g3g6
+black  kd5 qh5 ba7c8 sh2g5 pc5d7e2e4f3h7
+
+endp

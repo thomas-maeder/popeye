@@ -1,0 +1,49 @@
+anfang
+
+protokoll	chinese.out
+
+autor		N. Shankar Ram
+quelle		harmonie 23, 31.12.1988
+auszeichnung	3. Lob, 1. harmonie-TT 1988
+forderung	#2
+steine	weiss	ke3 te2g3 sc2g4 bf2f5 nac3
+	schwarz	kf1 sb3 be6 nab5d7f3h7
+option		vari verf
+weiter
+
+autor		Reto Aschwanden
+quelle		F138, Probleemblad 57/5, 9-10/1999
+forderung	#2
+steine	weiss	kh8 tg4 lg7 sc3 ba5e6 pab8d1g6 vae5f1g2g8 nab7d3f7h1 lha7e7
+	schwarz	kc5 te2 bb2b5 mod2 naf2 lha4
+option		vari verf
+weiter
+autor		Janez Nastran
+quelle		The Problemist 7/1997
+titel		(Verbesserung)
+auszeichnung	3. Ehr. Erw.
+Bemerkung	LEo f8, VAo c8, MAo e8, NAo b8, ZEbra a5, 1+1 Turm-Huepfer, 0+3 Laeufer-Huepfer
+forderung	#2
+option		satz vari verf
+Steine	 weiss	nab8 vac8 mae8 lef8 kg8 bg7 za5 thb5 sg5 be4 bh4 te2 lf2
+	schwarz	bb7 bd6 lhg6 be5 kg4 lha1 lhb1 thd1
+weiter
+autor		Janez Nastran & Peter Gvozdjak
+auszeichnung	1.-5. Preis
+quelle		Brabec-60 JT C, 26.5.1998
+forderung	#2
+option		satz vari verf
+steine	weiss	pah8 dh7 naa6 leb6 lef6 nag6 bc4 bc3 leg3 naa1 kd1 nah1
+	schwarz	ta8 ke8 vaf8 vag8 vaa7 vab7 lea5 bc5 le5 bh5 vab4 be4 bd2 pag2 vaf1 nag1
+weiter
+autor		Reto Aschwanden
+quelle		4250v, diagrammes, 4-6/1999
+bedingung	ANTICIRCE
+Bemerkung	2+0 Nachtreiter, 0+1 VAo g1, 2+1 PAos, 1+1 RAos, 2+10 dummy Bauern, 0+1 dummy Koenig d6
+forderung       #2
+option          satz vari verf 
+Steine	weiss	duc8 duf7 pab6 rac4 ng4 pah4 kg2 nd1
+	schwarz	dug8 duc7 th7 duf6 paa5 dub5 td5 dug5 due4 rac3 dud3 lg3 lb2 te2 duf2 lc1 vag1
+	schwarz	dua1a4 ba2
+	schwarz	koenig dud6
+ende

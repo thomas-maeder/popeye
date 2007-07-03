@@ -1,0 +1,57 @@
+anfa
+prot phantom.out
+auto Dieter Werner & Norbert Geissler
+quel Original
+ford h=2
+bedi phantomschach
+stei 
+weis ka6 bf7
+schw ka4 bc2
+weiter
+auto Dieter Werner
+quel Original
+ford #2
+bedi phantomschach
+opti vari verf
+stei 
+weis tc1 kc7 ba5
+schw ka8
+weiter
+auto Dieter Werner
+quel Original
+ford #3
+bedi phantomschach loch d2
+opti vari verf ohnewk
+stei 
+weis tg8 bf5
+schw kh1 bf6
+weiter
+auto Dieter Werner 
+quel Original
+ford ser-h=2
+bedi phantomschach 
+opti ohnewk
+stei 
+weis bg7
+schw kf3 
+weiter
+auto Dieter Werner 
+quel Original
+ford h=2
+bedi phantomschach circe
+opti ohnewk
+stei 
+weis bg7
+schw kc6
+weiter
+auto Dieter Werner 
+quel Original
+ford +1
+bedi phantomschach 
+opti ohnewk
+stei 
+weis bg7
+schw kh6
+zwill ford =1
+zwill ford #1
+ende

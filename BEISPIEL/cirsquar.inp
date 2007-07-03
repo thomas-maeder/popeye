@@ -1,0 +1,305 @@
+anfangproblem
+
+protokoll       cirsquar.out
+
+autor           J"org Kuhlmann
+quelle          feenschach 1972
+
+forderung       h#2
+
+bedingung       SuperCirce
+
+steine  weiss   kf7 la4h4 se2
+        schwarz kd6 te4
+
+weiteresproblem
+
+autor 		Erich Bartel
+quelle 		2577, Problemkiste-72, 12/1990
+
+forderung 	h=2
+bedingung 	spiegelcirce
+
+option 		weissbeginnt
+
+steine 		weiss kf1 de5 bg7 
+		schwarz kh4 bf2h2
+
+weiteresproblem
+
+autor           Marjan Kerhuel
+quelle          140, Rex Multiplex 6, 4-6/1983
+
+forderung       h#4
+
+bedingung       platzwechselcirce
+
+steine  weiss   kc3 la5 sh4
+        schwarz kg5
+
+weiteresproblem
+
+autor		Theodor Tauber
+quelle		f-95, 6-9/1991, S. 303
+
+forderung	#2
+
+steine		weiss	tf8 kc6 dg6 sb5b3 bd5 lf1
+		schwarz	bd6d4a3c3h2 ke3 ta2 se2f2
+
+option		varianten
+
+zwilling bedingung filecirce
+
+weiteresproblem
+
+autor		J"org Kuhlmann
+autor		Thorsten Zirkwitz
+quelle		2. Preis, Andernach 1989
+quelle		Korrektur: feenschach 113, 11/1994
+
+forderung	h=3
+
+bedingung	diametralcirce
+
+steine	weiss	kb4 sse1 bb6
+	schwarz kf5 ba2
+
+zwilling	verse e1 f8
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          3271, Problemkiste 89/90, 10/1993
+
+forderung       ser-ze320
+
+bedingung       antipodencirce
+
+steine  weiss   kh1
+        schwarz kg4 lg1 sh8
+
+weiteresproblem
+
+autor           N. Shankar Ram
+quelle          Rex Multiplex 1986
+
+forderung       #2
+
+bedingung       diagrammcirce
+
+steine  weiss           kb5 se3 bf4
+        weiss   paraly  da2 bf7
+        schwarz         kd5 sc8g7 bd6d7 elg1
+        schwarz paraly  da7
+
+option          varianten
+                verfuehrung
+
+weiteresproblem
+
+autor           Hemmo Axt
+quelle          feenschach 1984
+quelle          Peter Kniest gewidmet
+
+forderung       h#2
+
+bedingung       diagrammcirce
+
+steine  weiss   kh4 th8 bg2g3g4g5 tf5
+        schwarz kh1 de1 ta4g1 lc1 bb3c5e2
+
+zwilling hinzu weis lf5
+zwilling hinzu weis sf5
+
+weiteresproblem
+
+autor           Unto Heinonen
+quelle          Preis, 44. feenschach-TT 1986-87
+
+forderung       h#2
+
+bedingung       diagrammcirce
+
+steine  weiss   kg5 td5 lc3 ba3
+        schwarz ka5 db6 ta4b5 lb4 sa6 bb3c6e7f5
+
+zwilling versetze a3 c4
+
+weiteresproblem
+
+autor           Manfred Rittirsch
+quelle          ehr. Erw., 44. feenschach-TT 1986-87
+
+forderung       h#2
+
+bedingung       diagrammcirce
+
+steine  weiss   kg5 th6 ld8 bb3b6
+        schwarz kb5 tc6 la6 ba5b7c7
+
+zwilling tausche b5 a5
+
+weiteresproblem
+
+autor		G"unter Gla"s
+quelle		2776, PK-76, 8/1991
+
+forderung 	h#2
+
+bedingung	diagrammcirce
+
+steine 		weiss 	be7
+		schwarz lb8 kc8 td8 bc7 se5
+
+option		ohnewk
+
+weiteresproblem
+
+autor		Alexander Lehmkuhl
+quelle		2416, PK-68, 4/1990
+
+forderung 	h#3
+
+bedingung	diagrammcirce
+
+steine 		weiss 	ke8 bd4e4
+		schwarz ke6 tg5 se3
+
+zwilling versetze g5 e5
+
+weiteresproblem
+
+autor           Maryan Kerhuel & N. Shankar Ram
+quelle          207,fmo-3/2 
+
+forderung       ser-h=8
+bedingung       equipollentscirce
+
+steine          weiss   kc8 bb6
+		schwarz ka8 ba7
+
+
+weiteresproblem
+
+autor           V. Crisan
+quelle          1402a, Phenix-19/20, 12/1992
+
+forderung       h#2
+bedingung       equipollentscirce
+option          ohnewk
+
+steine          weiss   tc6 ld4
+		schwarz se7 ke4 be3
+
+weiteresproblem
+
+autor           V. Crisan
+quelle          1402b, Phenix-19/20, 12/1992
+
+forderung       h#2
+bedingung       equipollentscirce
+option          ohnewk
+
+steine          weiss   tc6 ld4
+		schwarz se5 ke4 be3
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          3402, Problemkiste 92, 4/1994
+
+forderung       h#2
+
+bedingung       couscouscirce
+
+steine  weiss   ka2
+        schwarz ke2
+        neutral bd2e6f2f4
+
+weiteresproblem
+
+autor  		Michal Dragoun
+quelle 		#5969, f-98
+
+forderung 	h#2
+
+bedingung 	couscouscirce
+
+steine   	weiss   kg8 df7
+         	schwarz bg7 kd6 tc1
+
+weiteresproblem
+
+autor           Christian Poisson
+autor           Jacques Rotenberg
+quelle          1. Preis, Oxfort 1993
+
+forderung       #2
+
+option          varianten
+
+bedingung       symmetriecirce
+
+steine  weiss   kh7 db7 ld1e5 sc4h1 be6f7h4 leb6d4g4g8
+        schwarz kf5 db1 td3 lc5 bb3 lea3a7
+
+weiteresproblem
+
+autor           Bernd Ellinghoven
+autor           Hans Peter Rehm
+autor           Hans Gruber
+quelle          ehr. Erw., Oxfort 1993
+
+forderung       #3
+
+option          varianten
+
+bedingung       symmetriecirce
+
+steine  weiss   ka4 df5 lg4 bh2h3
+        schwarz kh4 td7f8 ba6b3d6g5
+
+weiteresproblem
+
+autor           John M. Rice
+quelle          Lob, Oxfort 1993
+
+forderung       #2
+
+option          varianten
+
+bedingung       symmetriecirce
+
+steine  weiss   kc1 dc6 le4f8 sb4g6 bb2d2d3f5g2
+        schwarz kd4 da7 tc7 lb8e6 sd1f6 ba6b3
+
+weiteresproblem
+
+autor           Brian Stephenson
+quelle          F1356, The Problemist 1/1993
+
+forderung       #2
+
+option          varianten
+
+bedingung       symmetriecirce
+
+steine  weiss           le8d6 tb7 se5e4 kg5 dg2 ba2
+	schwarz         bg7f5a5c4a3d3e3 tb6a4 dc5 sh5 kb4 lc3
+
+weiteresproblem
+
+autor		Antoine Tricon
+quelle		feenschach, 3/1979
+
+forderung	h==3
+bedingung	symmetrieimmunschach
+		symmetriecirce
+
+option		zugnummer
+
+steine	weiss	bf7g6g5c5h3a2g2 lb4 kg4
+	schwarz	kf8 bb7e7g7h7b6a4 th5 lh4
+
+endeproblem

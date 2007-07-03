@@ -1,0 +1,67 @@
+anfangproblem
+
+protokoll	selfref.out
+
+autor 		Mariusz Limbach
+quelle 		1. Preis, Szachy 1979
+
+forderung 	s#3
+
+option 		varianten
+
+steine 		weiss 	kc8 bb7c7f5h5d4d3e3 td6 se5 dh3 ld1
+		schwarz sg8 th8 bd7e7h7h6d5 kg5
+
+weiteresproblem
+
+autor 		Uri Avner
+quelle 		1. Preis, IRT 1981
+
+forderung 	s#3
+
+option 		varianten
+		satzspiel
+
+steine 		weiss 	ta7d5 bf7h7a5b5f4g3 sg5f1 ka4 lh4h1 db3
+		schwarz bg7g6b4d2 kf6 la3d1 ta2b2 sa1b1
+
+weiteresproblem
+
+autor 		Hans Moser
+quelle 		2513, Problemkiste-70, 8/1990
+
+forderung 	r#2
+bedingung 	madrasi 
+		rexinklusive
+
+option		varianten
+
+steine 		weiss 	kb8 le8 ba5 db4 tc4 sb3
+		schw 	ka8 ta7 bb7d7a6c6e2 se5 df1
+
+weiteresproblem
+
+autor 		N. A. Bakke
+quelle 		feenschach 1982
+
+forderung 	r#3
+
+option 		varianten
+
+steine 		weiss 	tb7a2 bc7b5 lg7d3 sb6c6 kh3
+		schwarz sa8b1 ta7b2 kf7 lh7h2 ba6d6f6f5f4h4b3d2 da5
+
+weiteresproblem
+
+autor		Petko Petkov
+quelle		Die Schwalbe, 1980
+titel		2. Preis
+
+forderung	s#4
+
+option		varianten
+
+steine		weiss	kg4 db4 td2d6 le7 sb3c5 bf3h3h5
+		schwarz ke5 ld5 sh4 bc4e6f4g5h6
+
+endeproblem

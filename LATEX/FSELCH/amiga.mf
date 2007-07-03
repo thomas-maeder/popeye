@@ -1,0 +1,10 @@
+% 10pt should give 22 pixel
+% Defintions for the special agfa mode
+proofing:=		0;
+fontmaking:=		1;
+tracingtitles:=		1;
+aspect_ratio:=		22/52;
+pixels_per_inch:=	44*72/10;
+blacker:=		.2;
+fillin:=		.1;
+o_correction:=		1;

@@ -1,0 +1,75 @@
+% This is
+%		pkshorten.mf
+%
+% Copyright (C) 1989-92  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%
+
+
+def Perpend(expr d,p,real) =
+  begingroup
+  save dd; pair dd;
+  dd = d/length(d);
+  (p+100*(dd rotated 90) -- p+100*(dd rotated -90)) shifted (dd*real)
+  endgroup;
+enddef;
+def ShortenPath(expr p,real) =
+  begingroup
+  save pa,pe; path pa,pe;
+  pa = Perpend(direction 0 of p,point 0 of p,real);
+  pe = Perpend(-direction length(p) of p,point length(p) of p,real);
+  subpath (
+    xpart(p intersectiontimes pa),
+    xpart(p intersectiontimes pe)) of p
+  endgroup
+enddef;
+def ShortenBegin(expr p,real) =
+  begingroup
+  save pa; path pa;
+  pa = Perpend(direction 0 of p,point 0 of p,real);
+  subpath (xpart(p intersectiontimes pa),length(p)) of p
+  endgroup
+enddef;
+def ShortenEnd(expr p,real) =
+  begingroup
+  save pe; path pe;
+  pe = Perpend(-direction length(p) of p,point length(p) of p,real);
+  subpath (0, xpart(p intersectiontimes pe)) of p
+  endgroup
+enddef;
+def LengthenBegin(expr p,real) =
+  begingroup
+  save dd; pair dd;
+  dd= direction 0 of p; dd:= dd/length(dd);
+  point 0 of p - real*dd -- p
+  endgroup
+enddef;
+def LengthenEnd(expr p,real) =
+  begingroup
+  save dd; pair dd;
+  dd= direction length(p) of p; dd:= dd/length(dd);
+  p -- point length(p) of p + real*dd
+  endgroup
+enddef;
+def Lengthen(expr p,real) =
+  begingroup
+  save db; pair db;
+  save de; pair de;
+  db= direction 0 of p; db:= db/length(db);
+  de= direction length(p) of p; de:= de/length(de);
+  point 0 of p - real*db -- p -- point length(p) of p + real*de
+  endgroup
+enddef;

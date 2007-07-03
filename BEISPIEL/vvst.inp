@@ -1,0 +1,75 @@
+anfangproblem
+protokoll       vvst.out
+autor           Wolfgang Dittmann
+quelle          The Problemist 1-3/1976
+quelle          57, VVP 12/1989
+forderung       ser-h=7
+bedingung       ohneschach
+steine  weiss   kc8 bb6
+        schwarz ka8 ba7
+weiteresproblem
+autor           Erich Bartel
+quelle          727, Jugendschach 33, 8/1982
+quelle          97, VVP 12/1989
+forderung       ser-h#6
+bedingung       ohneschach
+steine  weiss   kc8 bb6
+        schwarz ka8 ba7
+weiteresproblem
+autor           Jan Kubecka
+quelle          222, VVP 12/1989
+forderung       ser-h=8
+bedingung       ohneschach ohneschlag
+steine  weiss   kc8 bb6
+        schwarz ka8 ba7
+weiteresproblem
+autor           Theodor Steudel
+quelle          226, VVP 12/1989
+forderung       h=4
+bedingung       ohneschach circe
+steine  weiss   kc8 bb6
+        schwarz ka8 ba7
+weit
+auto Narayan Shankar Ram
+quel S. 100, Lsg. zu Nr. 100, Das Vielvaeterproblem, 1989
+ford 1->ser-#5
+bedi marscirce
+opti zugn halbduplex 
+stei
+weis kc8 bb6
+schw ka8 ba7
+weit
+auto Narayan Shankar Ram
+quel 237, Das Vielvaeterproblem, 1989
+ford ser-#4
+bedi marscirce supercirce
+opti zugn 
+stei
+weis kc8 bb6
+schw ka8 ba7
+weit
+auto Narayan Shankar Ram
+quel 237, Das Vielvaeterproblem, 1989
+ford ser-h==6
+bedi marscirce duellanten haaner
+opti zugn duplex
+stei
+weis kc8 bb6
+schw ka8 ba7
+weiter
+auto Maryan Kerhuel
+quel 4, Phenix 32, 8/1995
+ford ser-rx3
+bedi marscirce
+stei
+weis kc8 bb6
+schw ka8 ba7
+weiter
+autor		Waleri Nebotow
+quelle		G8/4, feenschach 119, 1-9/1996
+forderung	ser-h#4
+steine	weiss	kc8 bb6
+	schwarz	ka8 ba7
+bedingung	equipollentscirce
+		antieinsteinschach
+ende

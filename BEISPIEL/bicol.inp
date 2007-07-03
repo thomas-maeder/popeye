@@ -1,0 +1,85 @@
+anfangproblem
+
+protokoll       bicol.out
+
+autor           Erich Bartel
+quelle          159, CfT-22, 15. 12. 1970
+
+forderung       h#2
+
+bedingung       bicolores
+
+option          duplex
+
+steine  weiss           kf1 lh8
+	schwarz         kd3 lf3
+
+weiteresproblem
+
+autor           Hansj"org Schiegl
+quelle          110, CfT-16, 10. 9. 1970
+
+forderung       h#2
+
+bedingung       bicolores
+
+steine  weiss           le4 kg3
+	schwarz         ke2 th1
+
+weiteresproblem
+
+autor           Hansj"org Schiegl
+quelle          143, CfT-20, 30. 11. 1970
+
+forderung       h#2
+
+bedingung       bicolores
+
+option          duplex
+
+steine  weiss           kg4 sh3
+	schwarz         kg2 le5
+
+weiteresproblem
+
+autor           Erich Bartel
+quelle          150, CfT-21, 7. 12. 1970
+
+forderung       h#2
+
+bedingung       bicolores
+
+option          duplex
+
+steine  weiss           kf1 sg2
+	schwarz         kd1 sf5
+
+weiteresproblem
+
+autor           Erich Bartel
+quelle          330, KddB?, 22. 11. 1970
+
+forderung       h#2
+
+bedingung       bicolores
+
+option          duplex
+
+steine  weiss           kd6 bh7
+	schwarz         kd4 bc2
+
+weiteresproblem
+
+autor           Romeo Bedoni
+quelle          47), Problemkiste-79, 2/1992, S. 120
+
+forderung       h#2
+
+bedingung       madrasi
+		bicolores
+
+steine          weiss   ba7c7 kh1
+		schwarz kc6 bd2f2
+
+endeproblem
+

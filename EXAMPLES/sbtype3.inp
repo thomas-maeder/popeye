@@ -1,0 +1,70 @@
+begin
+prot sbtype3.out
+
+title latent pawns' side decides which one to promote -> f2*e1 would be self-check
+cond singlebox type3
+stip h#1
+pieces white kc1 qa7 rb7b8 bc8e1 sa8e3 pa6b6c7g8h8
+       black ka1 pf2
+opti movenum
+
+next
+
+title latent pawns' side which one to promote -> f7*e8 would be self-check
+cond singlebox type3
+stip #1
+pieces white ka8 sb5 pf7
+       black kc8 qa2 rb2b1 bc1e8 sa1d1 pa3b3c2g1h1
+opti movenum
+
+next
+
+title avoid self-check
+cond singlebox type3
+stip +1
+pieces white kh8 se3h4
+       black ke1 qg2 rc1c2 bf3 ph1
+
+next
+
+title avoid self-check
+cond singlebox type3
+stip h+1
+pieces white kg8 qh8 rh7g6 bg7h4 sf4f6 pa8
+       black kh1 rg1 pg5h2
+
+next
+
+title pawn's side selects which pawn to promote -> Ra1 can't capture
+cond singlebox type3
+stip h#1
+pieces white ke6 qb8 ra2b1 bb7c8 sa7a8 pa6b5b6c6c7g8h8
+       black ke8 ra1 pa4
+
+next
+
+title select promotion piece
+cond singlebox type3
+pieces white ke1 qd8 rd1 pe8e6
+       black ke5 pf4f5
+stip #1
+
+next
+
+author B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
+cond singlebox type3
+pieces white ka2 qb2 ra4f1 bc6g1 se1f6 pd7g2
+       black ke3 qf2 sd6h1 pc4e5f5g3g4
+stip #2
+option vari
+
+next
+
+author Milan Velimirovic, 2001
+pieces White Kd8 Qh1 Rd1g4 Bh2g6 Sd4e8 Pd6e6f7
+       Black Ke5 Ba8h6 Pd5d7e4f2f4g3g7h4
+stip #3
+cond SingleBox Type3
+opti vari try
+
+endp

@@ -1,0 +1,64 @@
+anfangproblem
+
+protokoll       volage.out
+
+autor           A. Simonet
+quelle          1224, diagrammes 55, 1-2/1982
+forderung       #2
+bedingung       volage
+steine  weiss   kh4 dc8 tg5h7 lc4d8 se7f5 bg2
+        schwarz kf6 dh8 td6f7g6 lg7 sa8d7e4e8f1g4g8h5 bc5e5f2g3
+option          varianten
+
+weiteresproblem
+
+forderung       #2
+autor           Yves Cheylan
+quelle          British Chess Magazine 1979
+bedingung       hypervolage
+steine  weiss   kf8 dh4 td4 lb6 se7 ba5a7e6
+        schwarz kd8 tc7 ba6b7d5
+option          varianten
+                verfuehrung
+
+weiteresproblem
+
+autor           Claude Wiedenhoff
+quelle          1373, diagrammes 62, 9/10*1983
+forderung       #2
+bedingung       volage
+steine  weiss   kh6 dh4 tc5e3 le7f3 bc3d5e4f2f5f7
+        schwarz ke5 da6 tb2h1 la7g8 sf6g1 bc7h7
+option          varianten
+
+weiteresproblem
+
+autor           Norbert Geissler
+quelle          2529, Problemkiste-71, 10/1990
+forderung       h#2
+bedingung       volage
+option          ohnewk
+steine          schwarz kc4 bd2e2
+
+weiteresproblem
+
+autor           Erich Bartel
+quelle          2887, Problemkiste-79, 2/1992
+forderung       ser-h=3
+bedingung       volage
+		spiegelcirce
+steine          weiss   kc2 bc5 lh8
+		schwarz ke7 ba2b2
+
+weiteresproblem
+
+autor           Heinz Winterberg
+quelle          2693, Problemkiste-74/75, 5/1991
+forderung       s#2
+bedingung       volage
+		circe
+option          varianten
+steine          weiss   bb7c7b6 lb5 sd5 kb1
+		schwarz ta8 sa7 ba3b2 kb3
+
+endeproblem

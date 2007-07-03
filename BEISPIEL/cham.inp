@@ -1,0 +1,157 @@
+anfang
+
+protokoll       cham.out
+
+autor		Michel Olausson
+quelle		SoH815, springaren 80, 3/2000
+forderung	ser-#4
+bedingung	liniencham
+steine	weiss	kh7 lf1 sg1 bd4e5
+	schwarz	ka8 th3 ba7
+weiter
+
+autor           Petko A. Petkow
+quelle          5551, feenschach 91, 5-8/1989
+
+forderung       s#3
+
+steine  weiss           kh3 td1 lg2h2 sc2 bc4
+        weiss   cham    dg6 tg5
+        schwarz         ke4 sf3 bb7c6c7h5
+        schwarz cham    lc8 sf5
+
+option          varianten
+
+weiter
+
+autor           Petko A. Petkow
+quelle          5549, feenschach 91, 5-8/1989
+
+forderung       #2
+
+steine  weiss           ke8 de1 td8 bb3
+        weiss   cham    ld6d7
+        schwarz         kd4 ta4 la1 sb1b6 bc2c5c6e4
+
+option          varianten
+                verfuehrung
+
+weiter
+
+autor           Petko A. Petkow
+quelle          5550, feenschach 91, 5-8/1989
+
+forderung       h#2
+
+steine  weiss           ka6 tc5 lb2
+        weiss   cham    db6
+        schwarz         kg6 dh1 la8 sf7 bh6
+        schwarz cham    de6 ld5
+
+zwilling versetze h1 h3
+
+weiter
+
+autor           Petko A. Petkow
+quelle          5625, feenschach 92, 9-10/1989
+
+forderung       #2
+
+steine  weiss           ka4 be3f7g5
+        weiss   cham    tc6 sd6
+        schwarz         ke5 be2g6h5
+        neutral cham    sf4
+
+option          varianten
+
+weiter
+
+autor           Petko A. Petkow
+quelle          5626, feenschach 92, 9-10/1989
+
+forderung       #2
+
+steine  weiss           kh5 de5 sc7
+        schwarz         kf7 ld8 se7 bh6
+        neutral         bg7h7
+        neutral cham    lb5
+
+option          varianten
+
+weiteresproblem
+
+autor           Petko A. Petkow
+quelle          1), Europa-Rochade 5/1990, S. 35
+
+forderung       #2
+option          varianten
+
+steine  weiss   cham    td8 dc7 lh2
+	weiss           lf6 kg6 bf5
+	schwarz         la7 bc5g5f3 ke4 se3f2
+
+weiter
+
+autor           Petko A. Petkow
+quelle          2), Europa-Rochade 5/1990, S. 35
+
+forderung       #2
+option          varianten
+
+steine  weiss   cham    sc3 th1
+	weiss           tb8d8 kc8 bb2d2f2
+	schwarz cham    sd3c2
+	schwarz         bc6c5b3f3 kc4
+
+weiter
+
+autor           Petko A. Petkow
+quelle          3), Europa-Rochade 5/1990, S. 35
+
+forderung       #2
+option          varianten
+
+steine  weiss           sb7 kg6 bf5f4b5a2c2 da4
+	schwarz         sa8 bg7f6c3a3 kd5
+	neutral cham    sd7
+
+weiter
+
+autor           Petko A. Petkow
+quelle          4), Europa-Rochade 5/1990, S. 36
+
+forderung       #3
+option          varianten
+
+steine  weiss           sg6e4 bh5f3c3 kd2
+	weiss   cham    ld5
+	schwarz         td7 be7d6g2 kf5
+	neutral cham    se6
+
+weiter
+
+autor           Petko A. Petkow
+quelle          5), Europa-Rochade 5/1990, S. 36
+
+forderung       h#2
+
+steine  weiss           ka4 bd5
+	schwarz         sb8 ba6 kb6
+	schwarz cham    sd8
+	neutral cham    sb5
+	neutral         ba7
+
+weiter
+
+autor           Petko A. Petkow
+quelle          8), Europa-Rochade 5/1990, S. 36
+
+forderung       #2
+option          varianten
+bedingung       circe
+
+steine  weiss           ka7 bc7e5f4d2 ld6 sa5c3
+	schwarz         lg8 th7 kd4 bf5f3d3b3
+	schwarz cham    ld7
+
+endeproblem

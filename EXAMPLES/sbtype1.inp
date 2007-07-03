@@ -1,0 +1,63 @@
+begin
+prot sbtype1.out
+
+title no check if pawn can't promote due to single box type 1
+condition singlebox type1
+pieces white ka1 qc5 rc4e6 bb8c6 sd4e4 pb7
+       black ka8 qd5 pe5
+stipulation =1
+
+next
+
+title swapped colors 
+condition singlebox type1 
+pieces white kb1 qe5 pf5
+       black kc5 qd5 rd6f4 bh1d4 se6f6 pb2f2
+stipulation r=1
+
+next
+
+title can't promote to bishop
+pieces white ka1 bb6b8 pa7
+       black kh1
+condition singlebox type1
+stip #1
+
+next
+
+title can't promote to knight
+pieces white kh8 sd4g5
+       black ke1 sf1f2 pd2
+condition singlebox type1
+stip h#1
+
+next
+
+rema Example 2
+author N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
+pieces white ka4 qh3 sf5 pd4f7g2
+       black kf4 be7g8 pc6e5h6
+condition singlebox type1
+stip #4
+option vari
+
+next
+
+rema Example 1
+author F. Luppi, Schachzeitung 1862
+pieces white ka4 qd3 sh7 pb7d4g2
+       black kh4 rh1 pb2e2h5
+condition singlebox type1
+stip #6
+option vari
+
+next
+
+author Milan Velimirovic
+pieces White Kc8 Qh1 Rc5e5 Bb6h3 Sf2g6 Pe6
+       Black Kd6 Qe2 Rf6 Sa6d8 Pc6c7e4f5
+stip #3
+cond SingleBox Type1
+opti vari try
+
+endp

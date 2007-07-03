@@ -1,0 +1,69 @@
+anfang
+prot proof.out
+autor Geza Schweig
+quelle Tukon, 1938
+forderung dia 4
+steine weiss ke1 dd1 ta1h1 lc1f1 sg1 ba2b2c2d2e2f2g2h2
+schwarz ke8 dd8 ta8h8 lc8f8 sg8 ba7b7c7d6f7g7h7
+weiter
+autor Ernest Clement Mortimer
+quelle ?
+titel (Version Andrei Frolkin)
+forderung dia 4
+steine weiss ke1 dd1 ta1h1 lc1f1 sb1 ba2b2c2d2e2f2g2h2
+schwarz ke8 dd8 ta8h8 lc8f8 sb8 ba7b7c7f7g7h7
+weiter
+auto Thomas Brand
+quel 2472, PK 69, 6/90
+ford dia5
+bedi koeko
+stei
+weis ke1 dd1 ta1h1 lc1f1 sb1g1 ba2b2c2d2e4f2g2h2
+schw ke8 dd8 ta8h8 lc8f8 sb8g8 ba7b7c7d7e5f7g7h3
+weiter
+auto H. Gruber
+quel 778, PK 19, 7/1984
+ford dia6
+opti zugn
+stei
+weis kc1 dc4 td1h1 lf1 sd2g1 ba2b4c2d4e2f2g2h2
+schw ke8 dd8 ta8h8 lc8f8 sb8g8 ba7b7c7d7e5f7g5h7
+weiter
+autor Michel Caillaud & Jacques Rotenberg
+quelle Europe Echecs, 1991
+forderung dia 7
+opti zugn
+steine weiss ke1 dd1 ta1h1 lc1f1 sb1g1 ba2b2c2d2f3g2h2
+schwarz kf6 de8 ta8h8 le2f8 sb8g8 ba7b7c7e7f4g7h7
+zwilling forderung dia 7.5
+weiter
+autor Jouwert Turkstra
+quelle The Problemist 14/13, 1/1994, S. 281
+forderung dia9
+steine weiss kh8 dd1 ta1h1 lc1f1 sb1g1 ba2b2c2d2e3f4g2h2
+schwarz ke8 dd8 ta8f8 lc8h6 sb8f6 ba7b7c7d7e7f7g6h7
+option zugn
+weiter
+autor Hans Gruber
+quelle 464, Problemkiste 10, 9/1983
+forderung dia 8.5
+option zugn
+steine weiss kh4 dh5 ta1h1 lc1h3 sb1g1 ba2b2c2d2e4f4g2h2
+schwarz ke8 dd8 ta8h8 lc8f8 sb8g8 ba7b7c7d7e7f6g7h7
+weiter
+autor Gerd Wilts
+quelle 169, Shortest Proof Games, 11/1991
+forderung dia 10
+option zugn
+steine weiss kf4 de4 ta1h1 lc1d5 sb1g1 ba2b2c2d2e2f2g3h2
+schwarz ke8 dd8 tb8g8 lc8f8 sa8h8 ba7b7c7d7e7f7g7h7
+weiter
+autor           Gerd Wilts
+autor           Norbert Geissler
+quelle          6635, feenschach 11, 1-9/1994
+forderung       dia 15.5
+steine  weiss   kd2 sg1
+        schwarz kf7 lh1
+option          zugnummer
+ende
+

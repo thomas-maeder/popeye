@@ -1,0 +1,119 @@
+anfangproblem
+
+protokoll       ep.out
+
+autor           Alberto Armeni
+quelle          3530, Freie Presse, 29.7.1994
+forderung       #2
+option          varianten verfuehrung
+
+steine  weiss   kb6 th1 lh3h4 sc5g6 bc4c7e4f2g3
+        schwarz kd6 tf1f8 lb5 be5e7g4g5
+
+weiteresproblem
+
+autor           Bo Lindgren
+quelle          ?
+forderung       #10
+option          drohung 1
+                maxflucht 1
+                varianten
+
+steine  weiss   ka4 de7 tc4 bb3c6d2e2f2g2h2
+        schwarz kd5 dh1 ta8 lb8 se1f1 ba6d6e4f4f5g4h4
+
+weiteresproblem
+
+autor Friedrich Amelung
+quelle Duena-Zeitung
+forderung #2
+option varianten enpassant g6
+steine
+weiss kf5 th8 be5f6h5
+schwarz kh6 bg5h7
+
+weiteresproblem
+
+autor P. Kahl & Jan Mortensen
+quelle Die WELT, 15.2.1967
+forderung #1
+option enpassant g6
+steine
+weiss kf7 bh5
+schwarz kh7 dd4 te8h8 lc8h6 se4g8 bd7e3e6f3f6g2g5h4
+
+weiteresproblem
+
+autor A. Troitzki
+quelle V, Magyar Sakkujsag, April 1913
+forderung s#1
+option varianten enpassant b6
+steine
+weiss ka3 da8 la7 sf8h8 ba2b2c5d7e2f2g2h2
+schwarz kc7 dc1 tb4d8 ld6d1 sc6 ba6b5c4d5e7f7g6h7
+
+weiteresproblem
+
+autor B.P. Barnes
+quelle Die Schwalbe, 1962
+titel (Version von W. Issler)
+forderung #2
+option varianten verfuehrung enpassant f6
+steine
+weiss kg5 te1 ld6f1 sh8e4 bc3c5d2e5f2g3h4h7
+schwarz ke6 bc7d5d7f5g6g7
+zwilling versetze c7 e7
+
+weiteresproblem
+
+autor Werner Kuntsche
+quelle Schach, 1969
+titel 2. Preis
+forderung h#2
+option enpassant d3
+steine
+weiss kd1 lf3 th4 bd4
+schwarz kc4 dc3 te3g2 lh5 sc5 bb2b5e4f4g4h3
+
+weiteresproblem
+
+autor Dieter Werner und Norbert Geissler
+quelle 5433, feenschach 89, 12/1988
+forderung h#3
+bedingung koeko circe
+option weiss enpassant f6
+steine
+weiss kg8 be5
+schwarz ke8 ta7 lb4 be4f5
+
+weiteresproblem
+
+autor Dieter Werner und Norbert Geissler
+quelle 7753, Die Schwalbe 135, 6/1992
+forderung h#3
+option zug enpassant b3
+steine
+weiss ka2 ta1 lb1 sa6 bb4c2
+schwarz ka4 tb7 lb8 sa7 ba3b5c3c4c5c6c7
+
+weiteresproblem
+
+autor Sam Loyd
+quelle N.Y. State Chess Association, 16.8.1894
+forderung #4
+option varianten zugnummer enpassant f6
+steine
+weiss kh7 dh6 tg6h8 sa1f8 ba7b3b4c2d2e2g5h2
+schwarz kg4 tg8 lb8 bb6c7d7e6f4f5g7
+
+weiteresproblem
+
+autor W. Hundsdorfer
+quelle Retrograde Analysis, 1915
+forderung s#6
+option varianten zugnummer enpassant f6
+steine
+weiss ka8 dg6 tb8d1 lh5h6 sd5e8 bb3d2e2e7g5g7h2h4
+schwarz kc2 ta3 sa4 ba2b2f5
+
+endeproblem

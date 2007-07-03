@@ -1,0 +1,123 @@
+anfang
+
+protokoll	eiffel.out
+
+autor		Petko A. Petkow
+quelle		diagrammes 1996
+
+forderung	#2
+
+bedingung	eiffel
+
+steine	weiss	Kh5 Da5 Tg3 Lf5h2 Sg7 Ba3d2f6h3h7
+	schwarz Kf4 Dc8 Tf1h8 Lc4d4 Sa2 Bc7e2f2f7
+
+option		vari
+
+weiteresproblem
+
+autor		Petko A. Petkow
+quelle		diagrammes 1996
+
+forderung	#2
+
+bedingung	eiffel
+
+steine	weiss	Ka6 Tb5h5 La4f8 Sc5d5 Be4
+	schwarz Kc6 Df1 Le1 Bf2g2g7
+
+option		vari
+
+weiteresproblem
+
+autor		Petko A. Petkow
+quelle		Original f"ur diagrammes
+
+forderung	s#2
+
+bedingung	eiffel
+
+steine	weiss	Ka1 Dg8 Te2 Lc2 Sc3 Ba2c5f4
+	schwarz Kc1 Lh8 Bc6e4
+
+option		vari
+
+weiteresproblem
+
+autor		Petko A. Petkow
+quelle		Original f"ur diagrammes
+
+forderung	h#2
+
+bedingung	eiffel
+
+steine	weiss	Kd1 Dd3 Le7 Bc3c6d4e3f7
+	schwarz Ke6 Db3 Ta8h8 Lg1 Bb5c2e2f5g7
+
+weiteresproblem
+
+autor		Petko A. Petkow
+quelle		Original f"ur diagrammes
+
+forderung	h#2
+
+bedingung	eiffel
+
+steine	weiss	Ke4 Te2e3 Bc6d7
+	schwarz Ke8 Dd6 Tc5d8 La6c1 Sb3e1
+
+weiteresproblem
+
+autor		Petko A. Petkow
+quelle		Original f"ur diagrammes
+
+forderung	s#2
+
+bedingung	eiffel
+
+steine	weiss	Kg1 Df6 Tg2g7 Lf8h5 Ba3c2e2e4f2h2
+	schwarz Kh8 Bd3h6h7
+
+option		vari
+
+weiteresproblem
+
+autor		Petko A. Petkow
+quelle		Original f"ur diagrammes
+
+forderung	s#4
+
+bedingung	eiffel
+
+steine	weiss	Kg1 Da7 Sc6 Ba6b6d6e6f2g5h2
+	schwarz Kc8 Bb5d5h3
+
+option		vari
+
+weiteresproblem
+
+autor		Petko A. Petkow
+quelle		Original f"ur diagrammes
+
+forderung	h#2
+
+bedingung	eiffel
+
+steine	weiss	Kh3 Lb1 Bc7d7f6
+	schwarz Kh8 Da1 Tb7g4 Le6f4 Sb4e3 Ba2c2c6f7g5
+
+zwilling	verse	f4 d6
+
+weiteresproblem
+
+autor		Petko A. Petkow
+quelle		Original f"ur diagrammes
+
+forderung	h#2
+
+bedingung	eiffel circe
+
+steine	weiss	Kf4 Dh4 Ld7e7 Bb5e5f5
+	schwarz Ka4 Da8 Td2h6 La2 Sf3g3 Ba5b3c7d3f7g7
+
+endeproblem

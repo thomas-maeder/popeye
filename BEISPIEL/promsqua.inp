@@ -1,0 +1,53 @@
+anfa
+prot promsqua.out
+auto Hilmar Ebert, Hans Gruber & Joerg Kuhlmann
+quel U4, Das Vielvaeterproblem, XI/1983
+ford h#1
+bedi ohneschach
+bedi uwfeldschwarz a2b2c2 uwfeldweiss a4b4c4
+bedi loch a1b1c1d1e1f1g1h1
+bedi loch a8b8c8d8e8f8g8h8
+bedi loch a7b7c7d7e7f7g7h7
+bedi loch a6b6c6d6e6f6g6h6
+bedi loch a5b5c5d5e5f5g5h5
+bedi loch       d2e2f2g2h2
+bedi loch       d3e3f3g3h3
+bedi loch       d4e4f4g4h4
+stei
+weis kc4 bb2
+schw ka4 ba3
+zwil ford h=2
+weit
+auto Narayan Shankar RAM
+quel 238c, Das Vielvaeterproblem, XII/1989
+ford h##!3
+bedi uwfeldschwarz a5b5c5
+bedi loch a1b1c1d1e1f1g1h1
+bedi loch a2b2c2d2e2f2g2h2
+bedi loch a3b3c3d3e3f3g3h3
+bedi loch a4b4c4d4e4f4g4h4
+bedi loch       d5e5f5g5h5
+bedi loch       d6e6f6g6h6
+bedi loch       d7e7f7g7h7
+bedi loch       d8e8f8g8h8
+stei
+weis kc8 bb6
+schw ka8 ba7
+weit
+auto Narayan Shankar RAM 
+quel 239, Das Vielvaeterproblem, XII/1989 
+ford hs#4 
+bedi uwfeldschwarz a4b4c4
+bedi loch a1b1c1d1e1f1g1h1
+bedi loch a2b2c2d2e2f2g2h2
+bedi loch a3b3c3d3e3f3g3h3
+bedi loch       d4e4f4g4h4
+bedi loch       d5e5f5g5h5
+bedi loch       d6e6f6g6h6
+bedi loch       d7e7f7g7h7
+bedi loch       d8e8f8g8h8
+opti weissbeginnt
+stei
+weis kc8 bb6
+schw ka8 ba7
+ende

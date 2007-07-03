@@ -1,0 +1,155 @@
+anfang
+
+protokoll       hopper.out
+
+autor           C. C. L. Sells
+quelle          Probl\`eme (La Cl\'e) 11/1969
+titel           cooked
+forderung       h#3
+steine  weiss   ke6 dga8
+        schwarz kh4 lg2g3 sf6 bc4e5g4h2 dgc8
+option zugnummer
+
+weiteresproblem
+
+autor           Nikolai Wasjutschko
+quelle          Europa-Rochade
+forderung       h#2
+steine  weiss   kg8 g2d3f1 be4f2f4
+        schwarz kf6 td2 se6 be7
+zwilling entferne d2
+
+weiter
+autor           Nikolai Wasjutschko
+quelle          Europa-Rochade
+forderung       ser-h#5
+steine  weiss   ke7 lb8 bd3e4
+        schwarz kc5 th5 g2b1 la7 bc6
+
+weiter
+
+autor           Ludwig Zagler
+quelle          3736, Problemkiste 99, 6/1995
+forderung       ser-h=14
+steine  weiss   kc7 g2a2
+        schwarz kf1 bh7
+
+weiteresproblem
+
+auto bernd ellinghoven & Gruber & Hans Peter Rehm
+quel Dawson Memorial Quick Composing Tourney
+quel Bournemouth PCCC--Tagung Turnierbl"atter, 1989
+tite 1. Preis
+ford #2
+opti vari
+stei 
+weis Kh8 Da2 EQd7 ORg8 La7a8f5 Sa3g2 ROf2f7 Bc6h5
+schw Kd5 ORa5b8d2 EQh6 Te1e3h3 Lc7 ROa4 Bb2b3d4f4f6h4
+
+weiter
+
+auto Norbert Geissler
+quel Original f"ur Problemkiste
+ford h#5
+opti zug
+stei weis lh8 bb2 kh7 bg2
+schw ka1 ba7 ord5
+
+weiter
+
+autor           Vaclav Kotesovec
+quelle          6617, \v{S}achov\'e umeni, 2/1984
+forderung       #2
+option          varianten
+		verfuehrung
+steine          weiss   kb8 tc4 le6 ga8d3f8 nha1 ba5c2g6g7
+		schwarz kc6 gb2b6e7f5 nhb3d6d7 bc5d2d4e5f3h7
+
+weiter
+
+autor		George P. Jellis
+quelle		288, Chessics 9, 10/1980
+forderung	h#3
+steine		weiss	ke5 le7 spe2
+		schwarz	ke3
+
+weiter
+
+autor           Peter Wong
+quelle          Die Schwalbe 10/1994
+forderung       h#4
+steine  weiss   kgf7 sc6
+	schwarz kd5
+option          ohnewk
+zwilling versetze f7 c7
+zwilling ferner versetze c6 d7
+zwilling ferner versetze d7 d6
+zwilling ferner forderung h=4 versetze c7 e6
+zwilling ferner versetze e6 a2
+zwilling ferner versetze d6 b3
+zwilling ferner versetze a2 a5
+
+weiter
+
+autor		Reto Aschwanden
+quelle		3384, Ph\'enix 84, 4/2000
+forderung	#2
+steine	weiss	ka8 lf1 sb4e1 bb6b7 tlf8h4 caa3a7 vad5e5f3 nlb2f2h7 mlh3
+	schwarz	kc5 bb5f7 zhh2 nlg8h5 tlb8 vab3c3d1g6 ekf5
+option		vari verf
+
+weiter
+auto    Milan Vukcevich
+ausz    Preis, Andernach-Grashoppers-Tourney 2000
+ford    s#2
+stei
+weis    ke5 dg2 th4b4 lh3 se1a3
+schw    ke3 ta6 lg8 sa2 ba5d3e6e7 aga4a8g1g7
+opti    vari verf
+weit
+auto    Newmann Guttman
+auto    Dan Meinking
+ausz    ehrende Erw"ahnung, Andernach-Grashoppers-Tourney 2000
+ford    h#2
+stei
+weis    kh3 sd6f7 agd8g1
+schw    ke6 bd4f4 age7
+zwil    verse   d4 g6
+weit
+auto    Danny Dunn
+auto    Mike Prcic
+ausz    Lob, Andernach-Grashoppers-Tourney 2000
+ford    s#2
+stei
+weis    kd6 da6 th3h2 ld4 sf5 bb2b4c7d7e7
+schw    kd3 tc4 se3 be4f6f7 age1
+opti    vari
+weit
+auto    Mike Prcic
+auto    Gianni Donati
+ausz    Lob, Andernach-Grashoppers-Tourney 2000
+ford    h#2
+stei
+weis    kc8 sg6 bb4d5
+schw    kd6 lc2d4 bc4 agc1
+zwil    hinz    schw    sc2d4
+zwil    hinz    schw    tc2d4
+weit
+auto    Milan Vukcevich
+ausz    Lob, Andernach-Grashoppers-Tourney 2000
+ford    #2
+stei
+weis    kf1 lb7
+schw    kh1 bd5h2 aga2h5
+opti    vari verf
+weiter
+auto	Reto Aschwanden
+quel	unver"offentlicht
+ford	r#2
+stei
+weis   		kd6 sd8 llf5h8 mld3 mmd2e8
+weis	para 	rna1 ba4d7 tc1h7 lg1h4
+schw    	la7 sc5 bc6e5 te7
+schw    para 	tb6e1h6 sb5 ka2 mlh2
+opti	vari
+ende

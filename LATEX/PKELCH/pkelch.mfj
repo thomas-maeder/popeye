@@ -1,0 +1,10 @@
+%
+% pkelch.mfj
+%
+input[modes];
+{
+	m;
+   base=plain;
+	mags=s0 sh s1;
+	fonts=pkelch8 pkelch9 pkelch10 pkelch11 pkelch12 pkelch14 pkelch16;
+}

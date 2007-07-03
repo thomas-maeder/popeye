@@ -1,0 +1,102 @@
+anfangproblem
+
+protokoll	circe.out
+
+autor  		Reto List & Markus Ott
+quelle 		BCPS 1981, 1. Preis
+
+forderung	#2
+option		varianten
+
+bedingung	circe
+
+steine		weiss	kh2
+		schwarz	kd7
+		kamikaze 	weiss	dh1 ta8c8 lb4d3 sc6
+		kamikaze	schwarz	ta3 lg4 ba7b3d2e2e5e6
+
+weiteresproblem
+
+autor  		Eeltje Visserman
+quelle 		Schach-Echo 1977
+
+forderung	#2
+option		varianten
+
+bedingung	circe
+
+steine   	weiss	kc4
+         	schwarz ka3
+		kamikaze 	weiss	te8 lb1 sc1 bb7c7e5f7g7h2
+		kamikaze	schwarz	ba4b2c2c5c6e6h3
+
+weiteresproblem
+
+autor  		B. Stucker & T. Maeder
+quelle 		6183, feenschach 100, 9-10/1991
+
+forderung 	h#2
+
+bedingung 	circe	rexinklusiv
+
+steine   	weiss	ke8
+         	schwarz ka1
+		kamikaze	weiss	tc3 lh7h8 bb3c2c4e6
+		kamikaze	schwarz dh6 lh5 sg6 ba2a3c5e7f5g4g5h3
+
+weiteresproblem
+
+autor  		Theodor Tauber
+quelle 		Wo? (nachgedruckt in 'buletin problemistic' 53/1990)
+
+forderung 	#2
+option 		verfuehrung
+       		varianten
+
+bedingung 	circe
+
+steine   	weiss	kg4
+         	schwarz ka1
+		kamikaze	weiss	df5 tc2h5 lh2 sf3 bb6d6e6f7g5
+		kamikaze 	schwarz	dh7 lb1 ba2a4b7d4g7
+
+weiteresproblem
+
+autor 		Horst Deichelbohrer
+quelle 		f-84,  7-9/1987
+
+forderung 	#4
+bedingung 	circe
+
+option 		varianten 
+
+steine 		weiss 	kd5 bd4 sb3 dg3
+		schwarz bg6c4f4c3d3e2 lh5f2 ke3 tf3c2 se1
+
+weiteresproblem
+
+autor 		Erich Bartel
+quelle 		2495, Problemkiste-70, 8/1990
+
+forderung 	h=2
+bedingung 	circe
+
+steine 		weiss kc7 lig7 
+		schwarz ka8 
+		neutral be7f7e2f2
+
+weiteresproblem
+
+autor 		Erich Bartel
+quelle 		2559, Problemkiste-71, 10/1990
+
+forderung 	h#2
+bedingung 	circe
+
+option 		weissbeginnt
+
+steine 		weiss 	kd2 
+		schwarz kc4 
+		neutral bc7d7 ta5 gib4 cae2
+
+endeproblem

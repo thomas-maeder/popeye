@@ -1,0 +1,325 @@
+%======================================================================
+% This is
+%		rook.mf
+%
+% Copyright (C) 1989-93  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%======================================================================
+
+def MakeRookPath =
+
+	numeric wdbotta,wdbottb,wdstem,wdtop;	% The widths
+	numeric htbotta,htbottb,htbottc,httopa,httopb;
+	numeric x[]; numeric y[];
+
+	wdbotta:= .90 BottomWidth;
+	wdbottb:= .72 BottomWidth;
+	wdstem := .51 BottomWidth;
+	wdtop  := .74 BottomWidth;
+
+	htbotta:= .12BottomWidth;
+	htbottb:= .16BottomWidth;
+	htbottc:= .12BottomWidth;
+	httopa := .13BottomWidth;
+	httopb := .20BottomWidth;
+
+	rt x1 = rt x3 = .5(qs+wdbotta);
+	lft x2 = lft x4 = .5(qs-wdbotta);
+	bot y1 = bot y2 = BottomSpace;
+	top y3 = top y4 = BottomSpace+htbotta;
+
+	y5 = y6 = y4;
+	top y8 - bot y6 = top y7 - bot y5 = htbottb;
+	rt x5 = rt x7 = .5(qs+wdbottb);
+	lft x6 = lft x8 = .5(qs-wdbottb);
+
+	top y9 - bot y7 = top y10 - bot y8 = htbottc;
+	rt x9 = rt x11 = .5(qs+wdstem);
+	lft x10 = lft x12 = .5(qs-wdstem);
+	top y13 - bot y11 = top y14 - bot y12 = httopa;
+	top y15 - bot y13 = top y16 - bot y14 = httopb;
+	top y15 = top y16 = qs - TopSpace + .01qs;
+	rt x13 = rt x15 = .5(qs+wdtop);
+	lft x14 = lft x16 = .5(qs-wdtop);
+
+	path LeftP,RightP,RookPath,SmP[];
+	LeftP= z16--z14--z12--z10--z8--z6--z4--z2;
+	RightP= z1--z3--z5--z7--z9--z11--z13--z15;
+
+	def RookTopPath(expr nn)  =
+		numeric wdt; wdt = abs xpart(z15-z16)/(2nn+3);
+		numeric sdt; sdt = wdt;
+		pair pt,pb;
+		path TopP; TopP=z15;
+		pt = z15-(sdt,0);
+		bot pb = z15-(sdt,.5httopb);
+		for i=1 upto nn+1:
+			TopP:= TopP--pt--pb;
+			pb:= pb-(wdt,0);
+			pt:= pt-(wdt,0);
+			TopP:= TopP--pb--pt;
+			pb:= pb-(wdt,0);
+			pt:= pt-(wdt,0);
+		endfor;
+		TopP:= TopP--z16;
+	enddef;
+
+	RookTopPath(1);
+	RookPath=RightP & TopP & LeftP -- cycle;
+
+	SmP1= z5--z6;
+	SmP2= z7--z8;
+	SmP3= z9--z10;
+	SmP4= z11--z12;
+	SmP5= z13--z14;
+
+	if proofing > 0:
+		labels(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
+		def PixelGrid(expr PixPerInch, w) =
+			if proofing > 0:
+				begingroup
+				numeric d;
+				d = pixels_per_inch/PixPerInch;
+				makegrid(0,
+				   for i=d step d until w: ,i endfor)
+				   (0,for i=d step d until w: ,i endfor)
+				endgroup;
+			fi;
+		enddef;
+		PixelGrid(400,qs);
+	fi
+
+enddef;
+%------------------------------------------------------------
+def DrawInner = 
+	%pickup inner_pen;
+	pickup chess_pen;
+	forsuffixes $=1,2,3,4,5:
+		draw SmP$;
+	endfor;
+enddef;
+%------------------------------------------------------------
+def UnDrawInner = 
+	pickup chess_pen scaled 1.1;
+	forsuffixes $=1,3,4:
+		undraw ShortenPath(SmP$,thin);
+	undraw ShortenPath(SmP2,1.5thin);
+	undraw ShortenPath(SmP5,1.5thin);
+	endfor;
+enddef;
+%------------------------------------------------------------
+
+def MakeWhiteRook =
+	clearit;
+	draw RookPath;
+	DrawInner;
+	cullit;
+	WhiteMan:= currentpicture;
+enddef;
+
+def MakeBlackRook =
+	clearit;
+	filldraw RookPath;
+	UnDrawInner;
+	cullit;
+	BlackMan:= currentpicture;
+enddef;
+
+def MakeOuterShape =
+	clearit;
+	pickup frame_pen;
+	filldraw RookPath;
+	cullit;
+	OuterShape:= currentpicture;
+enddef;
+
+MakeRookPath;
+MakeWhiteRook;
+MakeBlackRook;
+MakeNeutral(WhiteMan, BlackMan);
+MakeOuterShape;
+
+%===========================================================
+% this one for testing
+%beginchar(Rook+White+OnBlack, qs#, qs#, 0);
+% 	"White rook on black field";
+% 	MakeBlackField;
+% 	currentpicture:= currentpicture - OuterShape;
+% 	cullit;
+% 	currentpicture:= currentpicture + WhiteMan;
+%endchar;
+%beginchar(Rook+Black+OnWhite, qs#, qs#, 0);
+%	"Black rook on white field";
+%	currentpicture:= BlackMan;
+%endchar;
+%endinput
+%-----------------------------------------------------------------------
+%
+beginchar(Rook+White+OnWhite, qs#, qs#, 0);
+	"White rook on white field";
+	currentpicture:= WhiteMan;
+endchar;
+
+beginchar(Rook+White+OnWhite+LeftTurned, qs#, qs#, 0);
+	"White rook on white field rotated to the left";
+	currentpicture:= TurnLeft(WhiteMan);
+endchar;
+
+beginchar(Rook+White+OnWhite+RightTurned, qs#, qs#, 0);
+	"White rook on white field rotated to the right";
+	currentpicture:= TurnRight(WhiteMan);
+endchar;
+
+beginchar(Rook+White+OnWhite+UpSideDown, qs#, qs#, 0);
+	"White rook on white field upside down";
+	currentpicture:= TurnUpSideDown(WhiteMan);
+endchar;
+
+beginchar(Rook+Black+OnWhite, qs#, qs#, 0);
+	"Black rook on white field";
+	currentpicture:= BlackMan;
+endchar;
+
+beginchar(Rook+Black+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Black rook on white field rotated to the left";
+	currentpicture:= TurnLeft(BlackMan);
+endchar;
+
+beginchar(Rook+Black+OnWhite+RightTurned, qs#, qs#, 0);
+	"Black rook on white field rotated to the right";
+	currentpicture:= TurnRight(BlackMan);
+endchar;
+
+beginchar(Rook+Black+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Black rook on white field upside down";
+	currentpicture:= TurnUpSideDown(BlackMan);
+endchar;
+
+beginchar(Rook+Neutral+OnWhite, qs#, qs#, 0);
+	"Neutral rook on white field";
+	currentpicture:= NeutralMan;
+endchar;
+
+beginchar(Rook+Neutral+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Neutral rook on white field rotated to the left";
+	currentpicture:= TurnLeft(NeutralMan);
+endchar;
+
+beginchar(Rook+Neutral+OnWhite+RightTurned, qs#, qs#, 0);
+	"Neutral rook on white field rotated to the right";
+	currentpicture:= TurnRight(NeutralMan);
+endchar;
+
+beginchar(Rook+Neutral+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Neutral rook on white field upside down";
+	currentpicture:= TurnUpSideDown(NeutralMan);
+endchar;
+
+beginchar(Rook+White+OnBlack, qs#, qs#, 0);
+	"White rook on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + WhiteMan;
+endchar;
+
+beginchar(Rook+White+OnBlack+LeftTurned, qs#, qs#, 0);
+	"White rook on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(WhiteMan);
+endchar;
+
+beginchar(Rook+White+OnBlack+RightTurned, qs#, qs#, 0);
+	"White rook on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(WhiteMan);
+endchar;
+
+beginchar(Rook+White+OnBlack+UpSideDown, qs#, qs#, 0);
+	"White rook on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(WhiteMan);
+endchar;
+
+beginchar(Rook+Neutral+OnBlack, qs#, qs#, 0);
+	"Neutral rook on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + NeutralMan;
+endchar;
+
+beginchar(Rook+Neutral+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Neutral rook on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(NeutralMan);
+endchar;
+
+beginchar(Rook+Neutral+OnBlack+RightTurned, qs#, qs#, 0);
+	"Neutral rook on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(NeutralMan);
+endchar;
+
+beginchar(Rook+Neutral+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Neutral rook on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(NeutralMan);
+endchar;
+
+beginchar(Rook+Black+OnBlack, qs#, qs#, 0);
+	"Black rook on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + BlackMan;
+endchar;
+
+beginchar(Rook+Black+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Black rook on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(BlackMan);
+endchar;
+
+beginchar(Rook+Black+OnBlack+RightTurned, qs#, qs#, 0);
+	"Black rook on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(BlackMan);
+endchar;
+
+beginchar(Rook+Black+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Black rook on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(BlackMan);
+endchar;

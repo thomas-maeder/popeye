@@ -1,0 +1,103 @@
+anfangproblem
+
+protokoll       cirpiece.out
+
+autor           Torsten Lin"s
+quelle          unver"offentlicht
+
+forderung       #2
+bedingung       circe
+
+steine  weiss   Kf2 Da7 Tb5 Lg8 Sb2c6 Bg3
+	schwarz Ke4 Dh8 Tb6 Lc8f6 Sa3d2 Bd3d4d6g4g7h5
+
+option          varianten
+
+zwilling        bedingung       chamaeleoncirce s l t d s
+zwilling        bedingung       circeclone
+zwilling        bedingung       chamaeleoncirce s d t l s
+
+weiteresproblem
+
+autor 		Michel Olausson
+quelle 		5968, f-98
+
+forderung 	h#2
+bedingung 	chamaeleoncirce
+
+steine		weiss	ka5 bb7
+		schwarz ka3 bc2
+
+zwilling hinzu neutr bbc2 versetze a5 d1
+
+weiteresproblem
+
+autor		Michel Olausson
+quelle		942, Phenix-13,6/1991
+
+forderung	ser-h#3
+bedingung	chamaeleoncirce
+
+steine		weiss	ka5 tb2
+		schwarz ka3 sb8
+
+zwilling versetze b8 c8
+
+weiteresproblem
+
+autor		Michel Olausson
+quelle		2503a), diagrammes-98, 7-9/1991
+quelle		nebenloesig - eigenlich ser-h#5
+
+forderung 	ser-h#4
+bedingung 	chamaeleoncirce
+
+steine 		weiss 	ka3 lc1 sg2g1
+		schwarz bf2 kh1
+
+weiteresproblem
+
+forderung       #2
+autor           Vladimir Nebotov
+quelle          Phenix-18, 9/1992
+option          varianten
+bedingung       circeclone
+steine  weiss           da8 lc8 bg2 kh1
+	schwarz         bg5h5g4 kh4
+weiter
+
+forderung       h#2
+autor           Vladimir Nebotov
+quelle          Phenix-18, 9/1992
+bedingung       circeclone
+steine  weiss           tb6 kf4
+	schwarz         sa8b5 bf7a6d6h5h3e3c3 kh4 lg1
+weiter
+
+forderung       h#2
+autor           Vladimir Nebotov
+quelle          Phenix-18, 9/1992
+bedingung       circeclone
+option          duplex
+steine  weiss           bh6f5 kc1
+	schwarz         ke8 dd7 tf6 bd6d5
+weiter
+
+forderung       h#2
+autor           A. Handurin
+quelle          Phenix-18, 9/1992
+bedingung       circeclone
+steine  weiss           se6g5 kg3
+	schwarz         te8 lh6a2 kf5
+zwilling versetze g5 e4
+
+weiter
+
+forderung       s#2
+autor           Vladimir Nebotov
+quelle          Phenix-18, 9/1992
+bedingung       circeclone
+option          varianten
+steine  weiss           kh8 bh7b7c6d6f6 df2
+	schwarz         kd8 bf7
+ende

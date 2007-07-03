@@ -1,0 +1,116 @@
+/*  0*/|  |. |vide                                |. |leer                                        |. |empty
+/*  1*/|  |  |hors echiquier                      |  |ausserhalb                                  |  |outside board
+/*  2*/|K |r |roi                                 |k |K"onig                                      |k |king                           
+/*  3*/|B |p |pion                                |b |Bauer                                       |p |pawn                           
+/*  4*/|D |d |dame                                |d |Dame                                        |q |queen                          
+/*  5*/|S |c |cavalier                            |s |Springer                                    |s |knight                         
+/*  6*/|T |t |tour                                |t |Turm                                        |r |rook                           
+/*  7*/|L |f |fou                                 |l |Laeufer                                     |b |bishop                         
+/*  8*/|DR|le|leo                                 |le|Leo                                         |le|leo                            
+/*  9*/|SR|ma|mao                                 |ma|Mao                                         |ma|mao                            
+/* 10*/|TL|pa|pao                                 |pa|Pao                                         |pa|pao                            
+/* 11*/|LL|va|vao                                 |va|Vao                                         |va|vao                            
+/* 12*/|TR|ro|rose                                |ro|Rose                                        |ro|rose                           
+/* 13*/|DU|s |sauterelle                          |g |Grash"upfer                                 |g |grashopper                     
+/* 14*/|SU|n |noctambule                          |n |Nachtreiter                                 |n |nightrider                     
+/* 15*/|SR|z |zebre                               |z |Zebra                                       |z |zebra                          
+/* 16*/|SL|ch|chameau                             |ca|Kamel                                       |ca|camel                          
+/* 17*/|LL|gi|girafe                              |gi|Giraffe                                     |gi|giraffe                        
+/* 18*/|TU|cc|cavalier racine carree cinquante    |wf|\w{50}-S                                    |rf|root-50-leaper                 
+/* 19*/|LU|bu|bucephale                           |bu|\w{25}-S                                    |bu|root-25-leaper
+/* 20*/|TU|vi|vizir                               |we|Wesir                                       |we|wazir                          
+/* 21*/|LR|al|alfil                               |al|Alfil                                       |al|alfil                          
+/* 22*/|LL|fe|fers                                |fe|Fers                                        |fe|fers                           
+/* 23*/|TR|da|dabbabba                            |da|Dabbaba                                     |da|dabbabba                       
+/* 24*/|DL|li|lion                                |li|Lion                                        |li|lion                           
+/* 25*/|DR|eq|equisauteur (non-stop)              |ne|Non-stop Equihopper                         |ne|nonstop equihopper             
+/* 26*/|DR|l |locuste                             |h |Heuschrecke                                 |l |locust                         
+/* 27*/|BU|pb|pion berolina                       |bb|Berolina Bauer                              |bp|berolina pawn                  
+/* 28*/|DL|am|amazone                             |am|Amazone                                     |am|amazon                         
+/* 29*/|TU|im|imperatrice                         |kn|Kaiserin                                    |em|empress                        
+/* 30*/|LU|pr|princesse                           |pr|Prinzessin                                  |pr|princess                       
+/* 31*/|LR|g |gnou                                |gn|Gnu                                         |gn|gnu                            
+/* 32*/|LR|an|antilope                            |an|Antilope                                    |an|antelope                       
+/* 33*/|SR|ec|ecureuil                            |ei|Eichh"ornchen                               |sq|squirrel                       
+/* 34*/|TR|v |varan                               |wa|Waran                                       |wa|waran                          
+/* 35*/|SR|dr|dragon                              |dr|Drache                                      |dr|dragon                         
+/* 36*/|DL|ka|kangourou                           |ka|K"anguruh                                   |ka|kangaroo                       
+/* 37*/|SR|cs|cavalier spirale                    |ss|Spiralspringer                              |ss|Spiralspringer                 
+/* 38*/|SR|uu|UbiUbi                              |uu|UbiUbi                                      |uu|UbiUbi                         
+/* 39*/|DR|ha|hamster                             |ha|Hamster                                     |ha|hamster 
+/* 40*/|DL|e |elan                                |el|Elch                                        |m |moose    
+/* 41*/|TL|ai|aigle                               |ad|Adler                                       |ea|eagle    
+/* 42*/|SR|m |moineaux                            |sp|Spatz                                       |sw|sparrow     
+/* 43*/|LU|ar|archeveque                          |er|Erzbischof                                  |ar|archbishop                     
+/* 44*/|LL|fr|fou rebondissant                    |rl|Reflektierender L"aufer                     |rb|reflecting bishop              
+/* 45*/|LR|ca|cardinal                            |kl|Kardinal                                    |c |cardinal                       
+/* 46*/|LR|sn|noctambule sauteur                  |nh|Nachtreiter-H"upfer                         |nh|nightrider-hopper              
+/* 47*/|KL|pi|piece impuissant                    |du|Dummy                                       |du|dummy                          
+/* 48*/|TL|cn|chameau noctambule                  |cr|Kamelreiter                                 |cr|camelrider                     
+/* 49*/|SR|zn|zebre noctambule                    |zr|Zebrareiter                                 |zr|zebrarider                     
+/* 50*/|SR|gn|gnou noctambule                     |gr|Gnureiter                                   |gr|gnurider                       
+/* 51*/|TL|sc|chameau sauteur                     |ch|Kamelreiterh"upfer                          |ch|camelrider hopper              
+/* 52*/|SR|sz|zebre sauteur                       |zh|Zebrareiterh"upfer                          |zh|zebrarider hopper              
+/* 53*/|SL|sg|gnou sauteur                        |gh|Gnureiterh"upfer                            |gh|gnurider hopper                
+/* 54*/|SL|cd|cavalier spirale diagonale          |ds|Diagonalspiral Springer                     |ds|DiagonalSpiralSpringer         
+/* 55*/|SR|cr|cavalier rebondissant               |rs|Reflektierender Springer                    |bk|bouncy knight                  
+/* 56*/|DR|ea|equisauteur anglais                 |eq|Equihopper                                  |eq|equihoppper                    
+/* 57*/|LR|ct|CAT (= cavalier de troie)           |ct|CAT (= cavalier de troie)                   |ct|CAT (= cavalier de troie)      
+/* 58*/|BR|bs|berolina superpion                  |bs|Superberolinabauer                          |bs|berolina superpawn             
+/* 59*/|BL|sp|superpion                           |sb|Superbauer                                  |sp|superpawn                      
+/* 60*/|TL|tl|tour-lion                           |tl|Turm-Lion                                   |rl|rook-lion                      
+/* 61*/|LL|fl|fou-lion                            |ll|L"aufer-Lion                                |bl|bishop-lion                    
+/* 62*/|DL|si|sirene                              |si|Sirene                                      |si|sirene                         
+/* 63*/|TL|tr|triton                              |tr|Triton                                      |tr|triton                         
+/* 64*/|LU|ne|nereide                             |nd|Nereide                                     |nd|nereide                        
+/* 65*/|BL|o |orphan                              |o |Orphan                                      |o |orphan                         
+/* 66*/|DL|eh|"edgehog", "randschwein"            |ra|Randschwein                                 |eh|edgehog                        
+/* 67*/|SL|mo|moa                                 |mo|Moa                                         |mo|moa                            
+/* 68*/|TR|tc|tour/fou chasseur                   |tj|Turm/L"aufer-J"ager                         |rr|rook/bishop-hunter             
+/* 69*/|TL|fc|fou/tour chasseur                   |lj|L"aufer/Turm-J"ager                         |br|bishop/rook-hunter             
+/* 70*/|SR|ao|maorider                            |ao|Maoreiter                                   |ao|maorider                       
+/* 71*/|SL|oa|moarider                            |oa|Moareiter                                   |oa|moarider                       
+/* 72*/|TU|st|sauterelle tour                     |th|Turmh"upfer                                 |rh|rookhopper                     
+/* 73*/|LU|sf|sauterelle fou                      |lh|L"auferh"upfer                              |bh|bishophopper                   
+/* 74*/|TR|re|roi des elfes                       |ek|Erlk"onig                                   |ek|erlking                        
+/* 75*/|LU|bt|boy-scout                           |pf|Pfadfinder                                  |bt|boyscout                       
+/* 76*/|TR|gt|girl-scout                          |pn|Pfadfinderin                                |gt|girlscout                      
+/* 77*/|I |sk|skylla                              |sk|Skylla                                      |sk|Skylla                         
+/* 78*/|I |cy|charybdis                           |cy|Charybdis                                   |cy|Charybdis                      
+/* 79*/|I |sa|sauterelle contA                    |kg|Kontragrash"upfer                           |cg|contra grashopper              
+/* 80*/|I |rl|rose lion                           |rn|Rosenlion                                   |rn|RoseLion                       
+/* 81*/|I |rs|rose sauteur                        |rh|Rosenh"upfer                                |rp|RoseHopper                     
+/* 82*/|LL|ok|okapi                               |ok|Okapi                                       |ok|Okapi                          
+/* 83*/|LR|37|3:7-cavalier                        |37|3:7-Springer                                |37|3:7-leaper                     
+/* 84*/|I |s2|sauterelle-2                        |g2|Grash"upfer-2                               |g2|grasshopper-2                  
+/* 85*/|I |s3|sauterelle-3                        |g3|Grash"upfer-3                               |g3|grasshopper-3                  
+/* 86*/|DL|16|1:6-cavalier                        |16|Flamingo                                    |16|1:6-leaper                     
+/* 87*/|SL|24|2:4-cavalier                        |24|Hase                                        |24|2:4-leaper
+/* 88*/|SL|35|3:5-cavalier                        |35|3:5-Springer                                |35|3:5-leaper 
+/* 89*/|TU|ds|double sauterelle                   |dg|Doppelgrash"upfer                           |dg|Double Grasshopper
+/* 90*/|DR|sr|roi sauteur                         |kh|K"onigsh"upfer                              |kh|Kinghopper
+/* 91*/|DL|or|orix                                |or|Orix                                        |or|Orix
+/* 92*/|LU|15|1:5-cavalier                        |15|Ibis                                        |15|1:5-leaper
+/* 93*/|LR|25|2:5-cavalier                        |25|2:5-Springer                                |25|2:5-leaper 
+/* 94*/|I |gl|gral                                |gl|Gral                                        |gl|Gral
+/* 95*/|I |lt|tour locuste                        |ht|Turmheuschrecke                             |lr|rook locust
+/* 96*/|I |lf|fou locuste                         |hl|Laeuferheuschrecke                          |lb|bishop locust
+/* 97*/|I |ln|noctambule locuste                  |hn|Nachtschrecke                               |ln|nightrider locust 
+/* 98*/|I |vs|vizir sauteur                       |wr|Wesirreiter                                 |wr|wazirrider
+/* 99*/|I |fs|fers sauteur                        |fr|Fersreiter                                  |fr|fersrider
+/*100*/|I |bi|bison                               |bi|Bison                                       |bi|bison
+/*101*/|I |el|elephant                            |et|Elefant                                     |et|elephant
+/*102*/|I |na|nao                                 |na|Nao                                         |na|nao
+/*103*/|TR|et|elan tour                           |tc|Turmelch                                    |rm|rook moose    
+/*104*/|TL|at|aigle tour                          |ta|Turmadler                                   |re|rook eagle    
+/*105*/|TU|mt|moineaux tour                       |ts|Turmspatz                                   |rw|rook sparrow     
+/*106*/|LR|ef|elan fou                            |lc|Laeuferelch                                 |bm|bishop moose    
+/*107*/|LL|af|aigle fou                           |la|Laeuferadler                                |be|bishop eagle    
+/*108*/|LU|mf|moineaux fou                        |ls|Laeuferspatz                                |bw|bishop sparrow     
+/*109*/|TU|ra|rao                                 |ra|Rao                                         |ra|rao
+/*110*/|I |so|scorpion                            |so|Skorpion                                    |so|scorpion
+/*111*/|I |mg|marguerite                          |mg|Marguerite                                  |mg|marguerite
+/*112*/|SR|36|3:6-cavalier                        |36|3:6-Springer                                |36|3:6-leaper 
+/*113*/|I |nl|noctambule lion                     |nl|Nachtreiterlion                             |nl|nightrider lion
+/*114*/|I |ml|noctambule mao lion                 |ml|Maoreiterlion                               |ml|maorider lion
+/*115*/|I |dn|dauphin                             |de|Delphin                                     |do|dolphin

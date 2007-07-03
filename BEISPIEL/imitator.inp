@@ -1,0 +1,117 @@
+anfangproblem
+
+protokoll       imitator.out
+
+autor           Rene-Jean Millour
+quelle          Spezialpreis, Europe Echecs 1966
+forderung       #2
+bedingung       imitator b6
+steine  weiss   kg3 sf6
+        schwarz kh1 lf8 sc4 bc6
+option          varianten
+
+weiteresproblem
+
+autor           J. A. Verdejo
+quelle          4606, feenschach 74, 9-10/1985
+forderung       ser-h#26
+bedingung       imitator        a7
+steine  weiss   kh7 ta6 lb3b8 bb6
+        schwarz kc2 bb7g7
+
+weiteresproblem
+
+autor           Vaclav Kotesovec
+quelle          3. Preis, Rex Multiplex 1986
+forderung       #2
+bedingung       imitator        c2
+steine  weiss   kd1 dc7 lf1h8 sa5c6 bb6c4d4e2e5f3g5
+        schwarz ka8 th1 le1g1 ba6d2e3e6f4h2
+option          verfuehrung
+                varianten
+                satz
+
+weiteresproblem
+
+autor           Neal Turner
+quelle          F1325, The Problemist 14/5, 9/1992
+forderung       #4
+bedingung       imitator        e1
+steine  weiss   ke2 tc7d7 bh2
+        schwarz kf8
+option          varianten
+                ohnedrohung
+
+weiteresproblem
+
+autor  Thomas Maeder
+quelle feenschach 1987, Wenigsteiner des Jahres 1987
+bedingung	Imitator e5
+		ohneiuw
+forderung h=2
+steine  Weiss   kf5 bb7
+        Schwarz kb6
+zwilling versetze f5 g5
+zwilling bedingung imitator c5
+		   ohneiuw
+zwilling bedingung imitator a7
+		   ohneiuw
+
+weiteresproblem
+
+autor		Peter Kahl
+quelle		6323, feenschach 1963
+titel		nebenloesig - eigentlich #6
+forderung 	#4
+bedingung	imitator a8
+steine  	weiss 	bc7d7e7f7g7 tf1 kg2
+		schwarz tb7 lh7c6g6f5e4d3c2b1 sg1 kh1
+
+weiteresproblem
+
+autor		Rene J. Millour
+quelle		1. Preis, Thema Danicum 1984
+titel		Verbesserung (+wBe3, +sBh4)
+forderung 	#4
+bedingung	imitator d1
+		ohneiuw
+option 		varianten
+steine  	weiss 	sa6e1 lb6 bf7a5e4d2 dd5 kc1 be3
+		schwarz tb8 kc8 be6e5f2 sh3 lh1 bh4
+
+weiteresproblem
+
+autor		Rene J. Millour
+quelle		feenschach 1982
+forderung 	s#3
+bedingung	imitator b2
+		ohneiuw
+option 		varianten
+steine  	weiss 	bh7a3 kg2 sc1f1 lg1h1
+		schwarz sg8 bf7g6a5g3f2 th6d1 ke1
+
+weiteresproblem
+
+autor		Rene J. Millour
+quelle		4. Preis, diagrammes 1980-81
+titel		Neufassung 
+titel		(weiss   th8 bh7a4 kh3 sd1f1)
+titel		(schwarz dg8 bg7h6c2 kg6 tg5h5 sh2)
+forderung 	h=3
+bedingung	imitator a5
+		ohneiuw
+steine  	weiss 	kh6 se1 ba4g7
+		schwarz kf6 th7h8 sh1f8 le8 bd2d5g2f7g6h4
+
+weiteresproblem
+
+autor		Rene J. Millour
+quelle		1. ehr. Erw., Die Schwalbe 1982
+forderung 	r#4
+bedingung	imitator b8
+		ohneiuw
+option 		varianten
+steine  	weiss 	bf7b3g3c2d2h2 sh3 ta2d1 lb1 kc1
+		schwarz se8g7 ba7g6a5a4b4f2 kh6
+
+endeproblem

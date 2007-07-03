@@ -1,0 +1,156 @@
+anfangproblem
+
+protokoll       neutral.out
+
+autor           Henning M"uller
+quelle          F1031, The Problemist #12/23, 9/1988
+
+forderung       h#3
+
+steine  neutral ka4 db7 sa2 bb4c4
+
+option          satz
+
+weiteresproblem
+
+autor           Thomas Brand
+quelle          1110, Problemkiste III/1985
+
+forderung       #2
+
+option          varianten
+
+steine          
+		weiss   df3 tc8
+		schwarz le8
+		neutral kg8
+
+weiteresproblem
+
+autor           Stefan H"oning
+quelle          5701, feenschach 93, XI-XII/1989
+
+forderung       h#2
+
+steine          neutral ka4 db6 ba2b2c3
+
+zwilling versetze c3 c2
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          Testoriginal
+
+forderung       ser-#2
+bedingung       circe
+		loch    c1c2
+steine  weiss                   kf2
+	schwarz                 kh3
+	neutral kamikaze        ba7b7
+
+zwilling versetze h3 d2
+
+weiteresproblem
+
+autor           Christian Poisson
+quelle          56) Problemkiste-79, 2/1992, S. 121
+
+forderung       s#4
+
+bedingung       schwarzerlaengstzueger
+
+option          varianten
+
+steine  weiss           kc8
+	schwarz         kc1
+	neutral         ba7b7e7h7
+
+weiteresproblem
+
+autor           Romeo Bedoni
+quelle          51) Problemkiste-79, 2/1992, S. 120
+
+forderung       h#3
+
+bedingung       schwarzerlaengstzueger
+
+option          weissbeginnt
+
+steine  weiss           kb5
+	schwarz         kg8
+	neutral         sba3b4e2f2
+
+weiteresproblem
+
+autor           Romeo Bedoni
+quelle          40) Problemkiste-79, 2/1992, S. 120
+
+forderung       ser-#4
+
+bedingung       weisserschlagzwang
+		platzwechselcirce
+
+steine  weiss           kb1
+	schwarz         kd7
+	neutral         bba7b7 bf7g7
+
+weiteresproblem
+
+autor           Romeo Bedoni
+quelle          38) Problemkiste-79, 2/1992, S. 120
+
+forderung       #4
+
+bedingung       schwarzerlaengstzueger
+option          varianten
+		ohnedrohung
+
+steine  weiss           kh1
+	schwarz         kd8
+	neutral         ba7b7h7 sbc3
+
+weiteresproblem
+
+forderung       #4
+
+autor           Michel Caillaud & Christian Poisson
+quelle          36) Problemkiste-79, 2/1992, S. 119
+
+bedingung       schwarzerlaengstzueger
+option          varianten
+		ohnedrohung
+
+steine  weiss           kd4
+	schwarz         kc6
+	neutral         bba7c7d7e7
+
+weiteresproblem
+
+autor           Michel Caillaud
+quelle          37) Problemkiste-79, 2/1992, S. 120
+
+forderung       #4
+
+bedingung       schwarzerlaengstzueger
+option          varianten
+		ohnedrohung
+
+steine  weiss           kd4
+	schwarz         kc6
+	neutral         bb7c7d7e7
+
+weiteresproblem
+
+autor           Torsten Lin"s
+quelle          1. heterodoxer Preis, Andernach 1992
+
+forderung       h#2
+
+steine  weiss   kd1 se2
+	schwarz kd5 le3 se7 ba7g4
+	neutral sbb4f2h4
+
+zwilling versetze e3 f6
+zwilling versetze d5 g6
+
+endeproblem

@@ -1,0 +1,80 @@
+anfangproblem
+
+protokoll       transmut.out
+
+autor           Shlomo Seider
+autor           Theodor Tauber
+quelle          F1258, The Problemist 13/17, 9/1991
+
+forderung       #2
+
+steine  weiss   ka7 ta2 lb4h3 sd5d6 bc2d3f4 ga6b7e8f7
+        schwarz kd4 dh6 le6h4 sd1g8 bc6e3f3g7
+
+option          varianten
+
+zwilling bedingung transmutierendeKoenige
+
+weiteresproblem
+
+autor           Erich Bartel
+autor           Albert H. Kniest
+quelle          feenschach 1979
+
+forderung       h#2
+
+bedingung       transmutierendeKoenige
+
+steine  weiss   kc2 bf2
+        schwarz kf5 ba2
+
+zwilling versetze c2 b2
+
+weiteresproblem
+
+autor		Johan Beije
+quelle		1122, Phenix 15-16, 12/1991
+
+forderung	h#3
+
+bedingung	transmutierendekoenige
+		circe
+		tibetschach
+
+option		weissbeginnt
+
+steine	weiss		ka2 bd7
+	schwarz		kf8 bc2
+
+nullstellung versetze f8 a4
+zwilling versetze a2 f2
+
+weiteresproblem
+
+autor		Romeo Bedoni
+quelle		3. ehr. Erw., 1. Phenix-TT 1989-91, Abt. 3
+
+titel   	dualistisch
+
+forderung	#4
+
+bedingung	transmutierendekoenige
+
+option		varianten
+
+steine	weiss		sa8 bb7h7g6f6e6d6c6b7 ha1 kh1
+	schwarz		hc2 ke2
+
+weiteresproblem
+
+autor		Josif Kricheli
+quelle		8514, FEENSCHACH 706, XII/1967
+
+forderung	h#2
+
+bedingung	transmutierendekoenige
+
+steine	weiss		ke5 bf2
+	schwarz		kg4 dg1
+
+endeproblem

@@ -1,0 +1,601 @@
+anfa
+prot stip.out
+auto J.J. Burbach
+quel 2056, Problemkiste 56, 5/1988
+ford ser-h009
+stei
+weis ke1 ta1 sc1d4 bd2
+schw kb4 lh1
+weiter
+auto J.J. Burbach
+quel 2256, Problemkiste 64, 8/1989
+ford ser-h002
+stei
+weis ke1 ta1d3 
+schw kb2
+weiter
+auto  M. Rittirsch
+quel 2286, Problemkiste 65, 10/1989
+ford ser-h006
+bedi circe
+stei
+weis ke1 tb1
+schw kh7
+zwill versetze b1 g1
+weiter
+auto  M. Rittirsch
+quel S.77, Problemkiste 66, 12/1989
+ford ser-h002
+stei
+weis ke1 ta1
+schw ka3 sa2
+weiter
+auto  M. Rittirsch
+quel 2323, Problemkiste 66, 12/1989
+ford h002
+bedi circe
+opti satz weiss
+stei
+weis ke1 tb5
+schw ka6
+weiter
+auto  B. Schwarzkopf
+quel 2360, Problemkiste 67, 2/1990
+ford ser-h003
+opti ohnesk
+stei
+weis ke1 th1
+schw lc5 bg2
+weiter
+auto J.J. Burbach
+quel 2382, Problemkiste 67, 2/1990
+ford r004
+opti vari
+stei
+weis ke1 dg1 th1 le7h5 sg3 bb2c3c6e3f2f6
+schw ke8 tf7h8 lg8 sb1d2 ba3b3c4e4f3h6h7
+weiter
+auto A. Rein
+quel 1 S.112, Problemkiste 68, 4/1990
+ford ser-h003
+stei
+weis ke1 ta1
+schw kc1 ld1
+weiter
+auto A. Rein
+quel 2 S.112, Problemkiste 68, 4/1990
+ford ser-h006
+stei
+weis ke1 ta1 bf5
+schw kc1 db1 ld7
+weiter
+auto  B. Schwarzkopf
+quel 2389, Problemkiste 68, 4/1990
+ford ser-h003
+opti ohnesk
+stei
+weis ke1 ta1
+schw tc5 bc2
+weiter
+auto T. Steudel
+quel F S.122, Problemkiste 69, 6/1990
+ford ser-h004
+stei
+weis ke1 th1 
+schw ka7 tf4 lg1 bd4g2
+zwill versetze d4 h3
+weiter
+auto M. Rittirsch
+quel 2468, Problemkiste 69, 6/1990
+ford ser-h0014
+bedi circe
+stei
+weis ke1 tg8 sh1
+schw kh8
+weiter
+auto J.J. Burbach
+quel 2478, Problemkiste 70, 8/1990
+tit (ErB z. 60. Geb. gew.)
+ford ser-h006
+bedi circe
+opti ohnesk
+stei
+weis ke1 sd1 th4
+schw bc2
+nullstellung  versetze h4 g1
+zwilling entferne d1 hinzu weiss db1
+weiter
+auto M. Rittirsch
+quel 2481, Problemkiste 70, 8/1990
+ford ser-h009
+bedi circe
+stei
+weis ke1 ta5
+schw ka3 bh7
+weiter
+auto Joergen Boerner
+quel 2482, Problemkiste 70, 8/1990
+ford ser-h0015
+bedi circe
+stei
+weis ke1 th4 la1
+schw kg1
+weiter
+auto J.J. Burbach
+quel 2517, Problemkiste 70, 8/1990
+ford 002
+opti vari verf
+stei
+weis ke1 ta1h1 dh6 lc2f8 sf3 bd2d5e2e6
+schw kf6 tg6 sb1 bc3e3f4
+weiter
+auto H.P. Suwe
+quel 2520, Problemkiste 71, 10/1990
+ford ser-h005
+bedi circe
+stei
+weis ke1 te4 sh2
+schw kh1
+zwill versetze e4 h6
+weiter
+auto J. Kubecka
+quel 2542, Problemkiste 71, 10/1990
+ford ser-004
+stei
+weis ke1 ta1 bh7
+schw ke6 dd6 bf6g6h5
+
+weiter
+
+autor           Erich Bartel
+quelle          4604, feenschach 75, 9-10/1985
+
+forderung       ser-x64
+
+steine  weiss   koenig  wea3
+        weiss           la2a6a8b1b5b7c2c4c8d1d5d7e2e8f1f7g2g4g6g8h1h3h5h7
+                        dua4b3c6d3e6f3f5
+        schwarz         fea5c3d4d6e3e5f4f6
+
+option          ohnesk
+
+weiter
+
+autor           Stefan Klebes
+quelle          4698, feenschach 76, 8. 11. 1985
+quelle          Albert H. Kniest in memoriam
+
+forderung       ser-r+16
+
+steine  weiss           kh5 bh6
+        schwarz koenig  be5
+        schwarz         ha1
+
+weiteresproblem
+
+autor           Jan Kubecka
+quelle          2608, Problemkiste-73, 2/1991
+
+forderung       ser-hep6
+
+steine          weiss   tc8h7 dg8 bd5g4f3d3 ke4
+                schwarz kd7 be7d6h6c5g5d4c3
+
+weiteresproblem
+
+autor           Waleri Nebotow
+quelle          4039, Problemkiste 104, 4/1996
+forderung       1->ser-#4
+bedingung       einsteinschach
+steine  weiss   kh3 te1 bb5d4h5
+        schwarz kf3 ba6e7f7g7
+option          duplex
+
+weiteresproblem
+
+autor 		Vlaicu Crisan
+quelle		3067, Probleemblad 9-10/1996
+forderung  	2->ser-#3
+bedingung	circe andernach
+steine	weiss	ka5 ba7
+	schwarz kd2 ta8 lb8e2 sc8 ba6b4d3d6e3
+zwill	versetz d2 c2
+zwill   versetz d2 a1
+
+weiter
+
+autor           Horst B"acker
+quelle          3137, Problemkiste-85, 12/1992
+
+forderung       exact-#1
+bedingung       circe
+
+steine  weiss   sb8 bd7a4c4g4f2 kf6
+        schwarz sb7 bc7c6c5a5g5f3 kd6
+option  varianten
+
+zwilling forderung exact-#2
+zwilling forderung exact-#3
+zwilling forderung exact-#4
+
+weiteresproblem
+
+autor Hilmar Ebert
+quelle feenschach 1991
+quelle hg gewidmet
+forderung exact-#1
+steine weiss la8 tg6 sd4 ke3 bh4
+schwarz ke5 bh5
+opti vari
+zwill ford exact-#2
+zwill ford exact-#3
+zwill ford exact-#4
+
+weiter
+
+autor K. Hannemann
+quelle Dagens Nybeder 1933 (Vers. Ebert)
+ford exact-#1
+steine weiss ka7 lc8 bd7f6d4b3 se7
+schwa bb7b6b5b4c6 la6 kd6
+opti vari
+zwill ford exact-#2
+zwill ford exact-#3
+zwill ford exact-#4
+
+weiter
+
+autor		Dieter Werner
+quelle		5. PK-TT, Problemkiste 62, 4/1989
+titel		Abt. B, 1. Platz
+forderung	zh35
+option		varianten
+		ohnedrohung
+steine		weiss	kg8 lc1d5 sd6 bg2g4
+		schwarz ka2 ta1b3 lb1h4 bc2b6g3g5g6
+
+weiter
+
+autor		Norbert Geissler & Dieter Werner
+quelle		2419, Problemkiste-68 4/1990
+forderung 	ser-h=4
+bedingung 	koeko
+steine 		weiss 	caf5 kh1
+		schwarz	cad3 bg3g2 kh3
+
+weiteresproblem
+
+autor 		Henning M"uller
+quelle 		2336, Problemkiste-66 12/1989
+forderung 	ser-#4
+bedingung 	circe
+steine 		weiss 	kd4 
+		schwarz	ke8 
+		neutral ba7b7g7h7
+
+weiteresproblem
+
+autor		Michel Olausson
+quelle		??,  Problemkiste
+forderung	ser-+6
+steine		weiss	kb2
+		schwarz	kh2
+		neutral	ba2
+
+weiteresproblem
+
+autor		Rudolf Queck
+quelle 		2421, Problemkiste-68, 4/1990
+forderung 	ser-s#8
+bedingung 	gitter
+steine 	weiss 	ke8 ge5
+	schwarz gd8h6a5b2
+option 		ohnesk
+
+weiteresproblem
+
+autor 		Gy"orgy Bakcsi
+quelle 		5103, feenschach-83,4-6/1987
+forderung 	ser-s#4
+steine 		weiss 	ba7b6e3h2 sc5 lc2 kg1
+		schwarz be6 da4 kf3
+
+weiteresproblem
+
+autor		Heinz Winterberg
+quelle		feenschach-39,VII-X/1977
+forderung	ser-s==6
+bedingung	haanerschach
+steine 	weiss	kc8 bb6
+	schwarz	ka8 ba7
+
+weiteresproblem
+
+autor		Peter R"osler
+quelle		5989, feenschach-98, 12/1990
+forderung	hzd28
+bedingung	koeko
+option		ohnewk
+		ohnesk
+		satz
+steine		weiss	sd2
+		schwarz	ge2
+
+weiteresproblem
+
+autor		J. J. Burbach
+quelle		f-95, 6-8/1991, S.303
+forderung	zd63
+steine		weiss	bd7d3 lc4 sb2 kb1
+		schwarz	ta8 sd8 bb4b3 ka3
+option		varianten
+
+weiteresproblem
+
+autor		Romeo Bedoni
+quelle		894, feenschach V/1973
+forderung	semi-r+2
+option		varianten
+steine		weiss	kc7 sb5d7 bb4c4d4h4 rog1
+		schwarz	ka8 ba3b3c3d3e3f3h3
+
+weiteresproblem
+
+autor           Michel Olausson
+quelle          2971v, Problemkiste 81, 6/1992, (V: PK-83, 10/1992)
+forderung       ser-%4
+bedingung       circe
+steine  weiss           kg8
+	schwarz         ka4 td7h1
+	neutral         bb7
+zwilling versetze a4 e8
+zwilling versetze d7 b2
+zwilling versetze d7 f8
+
+weiteresproblem
+
+autor           Michel Olausson
+quelle          5613, Ideal-Mate Review 46, 10-12/1992
+forderung       ser-=10
+bedingung       circe
+steine  weiss   kh3
+        schwarz kh1 hg8
+
+weiter
+
+autor           Michel Olausson
+quelle          5614, Ideal-Mate Review 46, 10-12/1992
+forderung       ser-=22
+bedingung       circe
+steine  weiss   kh3
+        schwarz kh1 sa2 hg8
+
+weiter
+
+autor           M. Tomasevic
+quelle          2357, Problemkiste 67, 2/1990
+forderung       ser-#8
+steine  weiss   kh1 de8
+        schwarz ka6 dg6
+
+weiter
+
+autor           Heinz Zander
+quelle          2384, Problemkiste 67, 2/1990
+forderung       ser-h#9
+bedingung       koeko
+steine  weiss   kd7 dg2 ba3g3
+        schwarz kb3 bh2
+
+weiter
+
+autor           G"uenter Gla"s
+quelle          2386, Problemkiste 67, 2/1990
+forderung       ser-#13
+bedingung       koeko
+steine  weiss   kg6 lc2
+        schwarz ka2 dg8 ba3
+
+weiter
+
+autor           Gunter Jordan
+quelle          2414, Problemkiste 68, 4/1990
+forderung       ser-h=16
+bedingung       circe
+option          zugnummer
+steine  weiss   kf3 sd5 lh5
+        schwarz ke1 bf4f5f6
+
+weiter
+
+autor           Christian Poisson
+quelle          2522, Problemkiste 71, 10/1990
+forderung       ser-szg121
+bedingung       circe
+steine  weiss   ka8
+        schwarz kh1 th7 sf4
+
+weiter
+
+autor           Christian Poisson
+quelle          2524, Problemkiste 71, 10/1990
+forderung       ser-x13
+bedingung       circe
+steine  weiss   ka3
+        schwarz kc5 lc1e6
+
+weiter
+
+autor           Christian Poisson
+quelle          2525, Problemkiste 71, 10/1990
+forderung       ser-+14
+bedingung       circe
+steine  weiss   ka8 bh4
+        schwarz kf6  th7
+
+weiter
+
+autor           Christian Poisson
+quelle          2526, Problemkiste 71, 10/1990
+forderung       ser-za825
+bedingung       circe
+steine  weiss   kc8
+        schwarz kc6 ta1 le6
+
+weiter
+
+autor           Erich Bartel
+quelle          2527, Problemkiste 71, 10/1990
+forderung       ser-=7
+bedingung       spiegelcirce
+steine  weiss   kf8
+        schwarz ka1 ba3
+
+weiter
+
+autor           Michel Olausson
+quelle          2528a, Problemkiste 71, 10/1990
+forderung       ser-=8
+bedingung       circe
+steine  weiss   ke8 bd2
+        schwarz kg8 bh4
+zwilling bedingung spiegelcirce
+
+weiter
+
+autor           Bernd Schwarzkopf
+quelle          2529, Problemkiste 71, 10/1990
+forderung       exact-#2
+option          varianten
+steine  weiss   kb3 td4
+        schwarz ka1
+
+weiter
+
+autor           M. & R. Tomasevic
+quelle          2715, Problemkiste 74/75, 5/1991
+forderung       ser-=65
+steine  weiss   ka8 bd2
+        schwarz ka6 te8 ld3e7 sc5c8 bf4g5
+
+weiter
+
+autor           B. Koludrovic
+quelle          2722, Problemkiste 74/75, 5/1991
+forderung       ser-x28
+steine  weiss   kb8 lh2 be5
+        schwarz ke6 dd5 tb7g2 ba6
+
+weiter
+
+autor           B. Koludrovic
+quelle          2723, Problemkiste 74/75, 5/1991
+forderung       ser-x29
+steine  weiss   kc1 lf8 bh6
+        schwarz kf3 de4 tc2g8 lb3 bh7
+
+weiter
+
+autor           Norbert Geissler
+autor           Theodor Steudel
+quelle          3167, Problemkiste 86, 4/1993
+forderung       ser-h#10
+bedingung       platzwechselcirce
+steine  weiss   kf7 zg4
+        schwarz kh8 bh7
+
+weiter
+
+autor           Holger Helledie
+quelle          1), Problemkiste 67, 2/1990, S. 92
+forderung       ser-=9
+bedingung       circe
+steine  weiss   kg1 bd7
+        schwarz kd8 bb5
+
+weiter
+
+autor           Holger Helledie
+autor           Erich Bartel
+quelle          2), Problemkiste 67, 2/1990, S. 92
+forderung       ser-#8
+bedingung       circe
+steine  weiss   kb1 bc7
+        schwarz kc3
+
+weiter
+
+autor           Holger Helledie
+quelle          3), Problemkiste 67, 2/1990, S. 92
+forderung       ser-#14
+bedingung       circe
+steine  weiss   kh1 dg5
+        schwarz kc3 dg3
+
+weiter
+
+autor           Erich Bartel
+quelle          4), Problemkiste 67, 2/1990, S. 92
+forderung       ser-=8
+bedingung       circe
+steine  weiss   kg4 lh3
+        schwarz kh6 lg8
+
+weiter
+
+autor           Erich Bartel
+quelle          5), Problemkiste 67, 2/1990, S. 93
+forderung       ser-=7
+bedingung       circe
+steine  weiss   kc7 sh5
+        schwarz ka8 lb8
+
+weiter
+
+autor           Erich Bartel
+quelle          6), Problemkiste 67, 2/1990, S. 93
+forderung       ser-=12
+bedingung       circe
+steine  weiss   kc1
+        schwarz ka1 ba2h5
+
+weiter
+
+autor           Erich Bartel
+quelle          A), Problemkiste 67, 2/1990, S. 94
+forderung       ser-+6
+steine  weiss   kh8 bh5
+        schwarz kf7
+
+weiter
+
+autor           Erich Bartel
+quelle          B), Problemkiste 67, 2/1990, S. 94
+forderung       ser-+13
+steine  weiss   kc1 bh5
+        schwarz kf7 lh8
+
+weiteresproblem
+
+autor		Th. Steudel
+quelle		Jugendschach 49, 8/1985
+
+forderung	ser-h=6
+
+steine		weiss	ka8 sd4f3 crc1
+		schwarz	kd1 ba7
+
+weiteresproblem
+
+autor           Klaus Wenda
+quelle          159, harmonie 41, 31. 8. 1993
+
+forderung       ser-#18
+
+bedingung       circe
+                madrasi
+
+steine  weiss   kc7 td8
+        schwarz kh8 dh1 tc8 la3 sa5g4 bh7
+
+endeproblem

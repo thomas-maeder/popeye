@@ -1,0 +1,117 @@
+latexpieces
+.     empty
+      outside board
+k  K  king
+p  B  pawn
+q  D  queen
+s  S  knight
+r  T  rook
+b  L  bishop
+le DR leo
+ma SR mao
+pa TL pao
+va LL vao
+ro TR rose
+g  DU grashopper
+n  SU nightrider
+z  SR zebra
+ca SL camel
+gi LL giraffe
+rf TU root-50-leaper
+bu LU root-25-leaper
+we TU wazir
+al LR alfil
+fe LL fers
+da TR dabbabba
+li DL lion
+ne DR nonstop equihopper
+l  DR locust
+bp BU berolina pawn
+am DL amazon
+em TU empress
+pr LU princess
+gn LR gnu
+an LR antelope
+sq SR squirrel
+wa TR waran
+dr SR dragon
+ka DL kangaroo
+ss SR Spiralspringer
+uu SR UbiUbi
+ha DR hamster
+m  DL moose
+ea TL eagle
+sw SR sparrow
+ar LU archbishop
+rb LL reflecting bishop
+c  LR cardinal
+nh LR nightrider-hopper
+du KL dummy
+cr TL camelrider
+zr SR zebrarider
+gr SR gnurider
+ch TL camelrider hopper
+zh SR zebrarider hopper
+gh SL gnurider hopper
+ds SL DiagonalSpiralSpringer
+bk SR bouncy knight
+eq DR equihoppper
+ct LR CAT (= cavalier de troie)
+bs BR berolina superpawn
+sp BL superpawn
+rl TL rook-lion
+bl LL bishop-lion
+si DL sirene
+tr TL triton
+nd LU nereide
+o  BL orphan
+eh DL edgehog
+mo SL moa
+rr TR rook/bishop-hunter
+br TL bishop/rook-hunter
+ao SR maorider
+oa SL moarider
+rh TU rookhopper
+bh LU bishophopper
+ek TR erlking
+bt LU boyscout
+gt TR girlscout
+sk I  skylla
+cy I  charybdis
+cg I  contra grashopper
+rn I  RoseLion
+rp I  RoseHopper
+ok LL okapi
+37 LR 3:7-leaper
+g2 I  grasshopper-2
+g3 I  grasshopper-3
+16 DL 1:6-leaper
+24 SL 2:4-leaper
+35 SL 3:5-leaper
+dg TU double grasshopper
+kh DR kinghopper
+or DL orix
+15 LU 1:5-leaper
+25 LR 2:5-leaper
+gl I  gral
+lr I  rook locust   
+lb I  bishop locust   
+ln I  nightrider locust 
+wr I  wazirrider
+fr I  fersrider
+bi I  bison
+et I  elephant
+na I  nao
+rm TR rook moose
+re TL rook eagle
+rw TU rook sparrow
+bm LR bishop moose
+be LL bishop eagle
+bw LU bishop sparrow
+ra TU rao
+so I  scorpion
+mg I  marguerite
+36 SR 3:6-leaper
+nl I  nightrider lion
+ml I  maorider lion
+do I  dolphin

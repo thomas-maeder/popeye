@@ -1,0 +1,128 @@
+anfang
+
+protokoll	parrain.out
+
+autor           Claus Wedekind
+quelle          216, harmonie 44, 31.12.1994
+
+forderung       h#2
+
+bedingung       CirceParrain
+
+steine  weiss   ge8f6f4g2
+        schwarz kf5 da7
+
+option          ohnewk
+
+weiteresproblem
+
+autor           Claus Wedekind
+quelle          217, harmonie 44, 31.12.1994
+
+forderung       h#4
+
+bedingung       CirceParrain
+
+steine  weiss   gd4e5f3 be2
+        schwarz kc5 bd7
+
+option          ohnewk
+
+weiteresproblem
+
+quelle		UW-Test - 5 Lsgn.
+
+forderung	h#1
+
+bedingung	circeparrain
+
+steine	weiss		bb7e7 kd4
+	schwarz		kd6 be6 lh4
+
+weiteresproblem
+
+autor		Theodor Tauber & Uri Avner
+quelle		1.- 2. Preis, Bonn 1992
+
+forderung	#2
+
+option		varianten
+
+bedingung	circeparrain
+
+steine	weiss		te7e3 sa6f1 bb5e5b3 lb4 df3 kh3
+	schwarz		tb8c7 bc8d8e6f4a3f2 lb7 dd7 kd4 sd3
+
+weiteresproblem
+
+autor		Henry Tanner
+quelle		1.- 2. Preis, Bonn 1992
+
+forderung	#2
+
+option		varianten
+
+bedingung	circeparrain
+
+steine	weiss		da8 lc8a7 sb7b6 tc7h2 bc6e6c5d5a4e4f4f3 kd2
+	schwarz		db8 bd6f5 kd4
+
+weiteresproblem
+
+autor		Jerome Auclair & Michel Caillaud
+quelle		3. Preis, Bonn 1992
+
+forderung	#2
+
+option		varianten
+
+bedingung	circeparrain
+
+steine	weiss		ka8 sg7f4 le6h6 dc2 bh2
+	schwarz		bh7a5h5f3h3e2 kh4 ta3 lb1 se1
+
+weiteresproblem
+
+autor		Christian Poisson & Michel Caillaud
+quelle		1. ehr. Erw., Bonn 1992
+
+forderung	#2
+
+bedingung	circeparrain
+
+option		varianten
+		verfuehrung
+
+steine	weiss		kf8 be7g7f5a4f4d3h4h2 tb5b4 lb3 dh3 sb2
+	schwarz		be8g8e3 kf6 sh5 tf3 dc1
+
+weiteresproblem
+
+autor		Uri Avner & Hans Peter Rehm
+quelle		2. ehr. Erw., Bonn 1992
+
+forderung	#2
+
+bedingung	circeparrain
+
+option		varianten
+
+steine	weiss		kf8 lh8h7 dd6 sg6e3 bg4f2g2 th1
+	schwarz		le8 sa7b2 be7h6b4 ke4 lf4 tc1d1
+
+weiteresproblem
+
+autor		Reto Aschwanden & Torsten Lin"s
+quelle		Lob, Bonn 1992
+
+forderung	#2
+
+bedingung	circeparrain
+
+option		varianten
+		verfuehrung
+
+steine	weiss		bc7h5b4 sd7d5 kf5 le4 th4g3
+	schwarz		bc8b7h6g5c4c3 sh7f2 kd4 te2 ld1
+
+endeproblem

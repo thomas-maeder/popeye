@@ -1,0 +1,273 @@
+anfangproblem
+
+protokoll       andrnach.out
+
+autor           Kjell Widlert
+quelle          1. ea. Preis, Andernach 1993
+
+forderung       h#2
+
+bedingung       andernachschach
+
+steine  weiss   ka8 th1 la3 bd3
+        schwarz kg8 tc4f3 le4g3 bb2c6c7f5f6g7
+
+zwilling versetze g7 f7
+
+weiteresproblem
+
+autor           Torsten Lin"s
+autor           Markus Manhart
+autor           Franz Pachl
+autor           Manfred Rittirsch
+quelle          1. ea. Preis, Andernach 1993
+
+forderung       h#2
+
+bedingung       andernachschach
+
+steine  weiss   kh1 dd8 te2 Lc3 se5
+        schwarz kd5 dd6 te6h3 la6b6 sc7g6 bb7c5d7f5g5h2h4
+
+weiteresproblem
+
+autor           Markus Ott
+autor           Thomas Maeder
+autor           Manfred Rittirsch
+autor           Michael Barth
+quelle          3. Preis, Andernach 1993
+
+forderung       h#2
+
+bedingung       andernachschach
+
+steine  weiss   kc1 lc4 sd5 bb5
+        schwarz ka3 dh1 tc8f3 lc5 se1 ba2a4b6c2e2f4h4
+
+zwilling versetze c5 c7
+
+weiteresproblem
+
+autor           Thomas Maeder
+autor           Hans-Peter Reich
+quelle          4. Preis, Andernach 1993
+
+forderung       h#2
+
+bedingung       andernachschach
+
+steine  weiss   kf8 ld3 sd1
+        schwarz ka1 dh5 th4 lh6 ba2a3g7h3
+
+weiteresproblem
+
+autor           Torsten Lin"s
+autor           Markus Manhart
+autor           Franz Pachl
+autor           Manfred Rittirsch
+quelle          1. ehr. Erw., Andernach 1993
+
+forderung       h#3
+option          weissbeginnt
+                satz
+
+bedingung       andernachschach
+
+steine  weiss   kb8 sg7 bc3c4
+        schwarz ke5 dd7 ta4 lg4 sd1
+
+weiteresproblem
+
+autor           Kjell Widlert
+quelle          2. ehr. Erw., Andernach 1993
+
+forderung       h#2
+
+bedingung       andernachschach
+
+steine  weiss   kg8 tb8 lh7 bb5c2e4
+        schwarz kb1 dc1 ld6 sa1c3 bc4e5
+
+zwilling versetze c2 b2
+
+weiteresproblem
+
+autor           Henning M"uller
+autor           Alex Chatziparaskewas
+autor           Michael Barth
+quelle          3. ehr. Erw., Andernach 1993
+
+forderung       h=3
+
+option          weissbeginnt
+
+bedingung       andernachschach
+
+steine  weiss   kc1 lb8 sa7 bb7
+        schwarz kd4 ba2c2
+
+zwilling versetze a7 e5
+
+weiteresproblem
+
+autor           Manfred Rittirsch
+quelle          Lob, Andernach 1993
+
+forderung       h#2
+
+bedingung       andernachschach
+
+steine  weiss   ka3 lc4 sb2 bd2
+        schwarz ka5 tc1 sb6
+
+zwilling verschiebung a1 a2
+
+weiteresproblem
+
+autor           Hans Uitenbroek
+quelle          Lob, Andernach 1993
+
+forderung       h#2
+
+bedingung       andernachschach
+
+steine  weiss   ka7 bb3
+        schwarz ka5 dh6 tb4 la4
+
+weiteresproblem
+
+autor           Uri Avner
+autor           Kjell Widlert
+quelle          2. Preis, Andernach 1993
+
+forderung       s#3
+
+bedingung       andernachschach
+
+steine  weiss   ka6 db3 ta5e3h6 la7f1h1h8 sb4 bb7d2
+        schwarz kd4 ta1c5e1g7 lb1d1e8 sc1 ba2c2c6c7d3e2f4f6f7
+
+option          varianten
+
+weiteresproblem
+
+autor           Kjell Widlert
+autor           Uri Avner
+quelle          3. Preis, Andernach 1993
+
+forderung       #3
+
+bedingung       andernachschach
+
+steine  weiss   kh8 dh7 tb8e7 lc6 bc5e3f6g4g5h6
+        schwarz ke5 ta4a8 lg6 sg8 ba7c2e6
+
+option          varianten
+
+weiteresproblem
+
+autor           Brian D. Stephenson
+autor           John M. Rice
+quelle          1. ehr. Erw., Andernach 1993
+
+forderung       #2
+
+bedingung       andernachschach
+
+steine  weiss   kg1 lb5e5 sd4d6 bf7 gd2g2g5
+        schwarz kc5 tg8 bb4b6c6d3e4 gb3b7e6
+
+option          varianten
+
+weiteresproblem
+
+autor           John M. Rice
+quelle          2. ehr. Erw., Andernach 1993
+
+forderung       #2
+
+bedingung       andernachschach
+
+steine  weiss   kd7 td3f7 la2 bc3d2
+        schwarz ke5 dc1 th4 lg1 sf1 bc6c7e4
+
+option          varianten
+                satz
+
+weiteresproblem
+
+autor           Hans Peter Rehm
+autor           Markus Ott
+quelle          3. ehr. Erw., Andernach 1993
+
+forderung       s#2
+
+bedingung       andernachschach
+
+steine  weiss   ke4 dh5 ld6e3 sc1g4 bd3d4f5
+        schwarz kg3 tg2 lh1 bc2d7f4f6h2
+
+option          satz
+                varianten
+                ohnedrohung
+
+weiteresproblem
+
+autor           Uri Avner
+quelle          Lob, Andernach 1993
+
+forderung       s#2
+
+bedingung       andernachschach
+
+steine  weiss   kh6 de1 tc6f6 ld5f4 se3g4 bg7h5h7
+        schwarz kf3 dh3 th1 se4 ba5a6a7d6f7g3h2
+
+option          varianten
+
+weiteresproblem
+
+autor           Michael Barth
+quelle          Lob, Andernach 1993
+
+forderung       #2
+
+bedingung       andernachschach
+
+steine  weiss   kh3 de6 lc7g4 ba3b6c6
+        schwarz kc5 bb5c4d4d6h4
+
+option          varianten
+
+zwilling forderung r#2
+
+weiteresproblem
+
+autor           John M. Rice
+quelle          Lob, Andernach 1993
+
+forderung       #2
+
+bedingung       andernachschach
+
+steine  weiss   ke7 le3 sf6f7 be2
+        schwarz kf5 db2 th2 la1g4 sc1 bb4e6g6
+
+option          varianten
+
+weiteresproblem
+
+autor           Hans Uitenbroek
+quelle          Lob, Andernach 1993
+
+forderung       #3
+
+bedingung       andernachschach
+
+steine  weiss   kb2 te6e8 lb5e3 be2
+        schwarz kd5 sc7 ba5b4f4f5f6
+
+option          varianten
+
+endeproblem
+

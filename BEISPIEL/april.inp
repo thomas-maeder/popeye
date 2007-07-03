@@ -1,0 +1,45 @@
+anfang
+
+protokoll april.out
+
+forderung #1
+bedingung aprilschach l
+
+steine  weiss   kc8 bc6
+        schwarz ka8 lb7
+
+weiter
+
+forderung #1
+bedingung aprilschach l
+
+steine  weiss   kc8 bc6
+        schwarz ka8 sb7
+
+weiter
+
+titel keine Selbstdeckung
+forderung #1
+bedingung aprilschach l
+
+steine  weiss   kc6 bc7
+        schwarz ka7 lb8 sa8
+
+weiter
+
+forderung #1
+bedingung aprilschach l
+
+steine  weiss   kc6 ld6 bc7
+        schwarz ka7 lb8
+
+weiter
+
+titel Aprilsteine sind schwierig zu decken!
+forderung #1
+bedingung aprilschach l
+
+steine  weiss   kc6 ta1 la7 se8
+        schwarz ka8
+
+ende

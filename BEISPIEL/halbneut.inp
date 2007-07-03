@@ -1,0 +1,113 @@
+anfa
+prot halbneut.out
+
+quel The Problemist July 1996
+auto P.A.Petkov
+ford #2
+stei weis kg6 bh7
+stei schw kh8
+stei schw halb ta2 lf2
+opti vari
+weit
+
+quel The Problemist July 1996
+auto P.A.Petkov
+ford #2
+stei weis kf1 dg5
+stei schw kh3
+stei schw halb bh2
+opti satz vari
+weit
+
+quel The Problemist July 1996
+auto P.A.Petkov
+ford ser-h#6
+stei weis ka2 sc6
+stei neut halb bd7
+stei schw ka4
+weit
+
+quel (v) The Problemist July 1996
+auto P.A.Petkov (corr. SE)
+ford h=2
+stei weis kg6 
+stei weis halb bb7
+stei schw kh8 bd5
+stei schw halb lg7 bg2
+weit
+
+quel The Problemist 1989
+auto P.A.Petkov
+ford #2
+stei weis kh2 da2 sb1b7
+stei schw kb4 bb5
+stei schw halb tc5
+opti vari
+weit
+
+quel The Problemist July 1996
+auto P.A.Petkov
+ford #2
+stei weis kf8 dg7 tb5h5 se5 lb2 be2g6
+stei schw ke4 ta4 sh8 ba7e7d6b4e3
+stei neut halb sd5
+opti vari
+weit
+
+quel The Problemist 1989
+auto P.A.Petkov
+ford #3
+stei weis ka2 tc8e7 sf5 bc2b5d6
+stei schw kd5 bc4c3b6
+stei weis halb ba7
+opti verf vari
+weit
+
+quel The Problemist July 1996
+auto P.A.Petkov
+ford #2
+stei weis kb3 lb8
+stei weis halb db6
+stei schw la1 bb2 ka8
+stei schw halb tb1
+opti verf vari
+weit
+
+quel (v) The Problemist July 1996
+auto P.A.Petkov (corr. SE)
+ford h#2
+stei weis ka2 la3
+stei schw kd5 be4e5c6b7h3c7
+stei schw halb td1 lf1
+zwil versetze d5 a6
+weit
+
+quel (v) The Problemist July 1996
+auto P.A.Petkov (corr. SE)
+ford h#2
+bedi circe
+stei weis kd5 lg8
+stei schw kb2 bc2b4b5b6b7a7f4
+stei schw halb te8 lf8
+zwil versetze b2 c3
+weit
+
+quel The Problemist July 1996
+auto P.A.Petkov
+ford #2
+stei weis kf6 db4 ld8 bb5
+stei schw kd5 bf7
+stei schw halb sb8
+opti verf vari
+
+weit
+ford h#2
+auto Vlaicu Crisan
+quel Quartz 1996/7
+ausz Lob
+opti weiss ohnesk
+stei weis halb ke1
+stei weis th1 lf1
+stei neut se3
+
+ende

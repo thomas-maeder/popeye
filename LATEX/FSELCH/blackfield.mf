@@ -1,0 +1,102 @@
+%======================================================================
+% This is
+%		blackfield.mf
+%
+% Copyright (C) 1989-93  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%======================================================================
+%
+def MakeBlackField =
+
+  if unknown BlackField:
+
+    pair ua[],ub[],la[],lb[],ul,lr,ma,mb;
+
+    numeric n,part, penscale;
+
+    n=8; part=5;
+    penscale= (qs/(part*n));
+%    pickup pensquare scaled penscale;
+    pickup pencircle scaled penscale;
+    bot lft ma = (0,0); 
+    top rt mb = (w,w);
+    draw ma--mb;
+
+    top lft ul = (0,h);
+    bot rt lr = (w,0);
+
+    numeric xdelta,ydelta;
+    xdelta= floor((xpart(lr) - xpart(ma)) / n);
+    ydelta= floor((ypart(ul) - ypart(ma)) / n);
+%    xdelta= floor((xpart(lr) - xpart(ma) - penscale) / n);
+%    ydelta= floor((ypart(ul) - ypart(ma) - penscale) / n);
+%    xdelta= floor((xpart(lr) - xpart(ma)) / (n+.5)));
+%    ydelta= floor((ypart(ul) - ypart(ma)) / (n+.5));
+
+% The correct loop-specification would be:
+%   for i=1 upto n:
+% But it is possible (especially when the pixles per field are
+% below 50), that the calculated xdelta leaves ugly white space
+% in the corners. So we draw casually more than n hatch lines.
+    numeric nn;
+    nn = floor((xpart(mb))/xdelta);
+    if nn > n:
+      message "info: will draw " & decimal (nn-n) & " more hatch-line"
+	if nn-n>1: & "s" fi
+	& " in the upper corner of blackfield.";
+    fi
+    for i=1 upto nn:
+      lft ua[i] = (0,ypart(ma)+(i*ydelta));
+      top ub[i] = (xpart(mb)-(i*xdelta),h);
+      draw ua[i]--ub[i];
+    endfor;
+
+% Here the same as above...
+    numeric nn;
+    nn = floor((ypart(mb))/ydelta);
+    if nn > n:
+      message "info: will draw " & decimal (nn-n) & " more hatch-line"
+	if nn-n>1: & "s" fi
+        & " in the lower corner of blackfield.";
+    fi
+    for i=1 upto nn:
+      bot la[i] = (xpart(ma)+(i*xdelta),0);
+      rt lb[i] = (w,ypart(mb)-(i*ydelta));
+      draw la[i]--lb[i];
+    endfor;
+    % This is for situations, where the the ydelta leaves
+    % space for one more stroke in the lower right corner of the 
+    % the field. Then we do one more stroke.
+    % It should occure very seldom.
+    i:= n+1;
+    bot la[i] = (xpart(ma)+(i*xdelta),0);
+    rt lb[i] = (w,ypart(mb)-(i*ydelta));
+    if ypart(lb[i]) > 0:
+      draw la[i]--lb[i];
+    fi;
+    cullit;
+    picture BlackField;
+    BlackField:= currentpicture;
+
+  else:
+    currentpicture:= BlackField;
+  fi;
+
+enddef;
+
+beginchar(144,qs#,qs#,0);	"Empty black field";
+	MakeBlackField;
+endchar;
