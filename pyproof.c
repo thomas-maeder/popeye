@@ -24,21 +24,22 @@
 #include "pymsg.h"
 
 /* an array to store the position */
-piece ProofPieces[32];
-square ProofSquares[32];
-smallint ProofNbrAllPieces;
+static piece ProofPieces[32];
+static square ProofSquares[32];
+static smallint ProofNbrAllPieces;
 echiquier ProofBoard, PosA;
 static	byte buffer[256];
 square Proof_rb, Proof_rn, rbA, rnA;
 Flags ProofSpec[64], SpecA[64];
-imarr Proof_isquare, isquareA;				/* V4.01  NG */
+static imarr Proof_isquare;				/* V4.01  NG */
+imarr isquareA;
 
-smallint xxxxx[fb+fb+1];
+static smallint xxxxx[fb+fb+1];
 #define ProofNbrPiece (xxxxx+fb)
 
-smallint ProofNbrWhitePieces, ProofNbrBlackPieces;
+static smallint ProofNbrWhitePieces, ProofNbrBlackPieces;
 
-boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
+static boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
   BlockedBishopc8, BlockedBishopf8, BlockedQueend8,
   CapturedBishopc1, CapturedBishopf1, CapturedQueend1,
   CapturedBishopc8, CapturedBishopf8, CapturedQueend8;
@@ -53,7 +54,8 @@ boolean ProofVerifie(void) {
     || CondFlag[annan]				/* V4.31  SE */
     || CondFlag[glasgow]			/* V3.39  TLi */
     || CondFlag[takemake]
-    || CondFlag[messigny];			/* V3.57  TLi */
+    || CondFlag[messigny]			/* V3.57  TLi */
+    || CondFlag[mars];
 
   return true;
 } /* ProofVerifie */
@@ -98,7 +100,7 @@ BCMemValue *ProofEncode(void) {
     *bp++ = (byte)(blduell[nbply] - bas);
   }
   if (CondFlag[blfollow] || CondFlag[whfollow]) {     /* V3.74  TLi */
-    *bp++ = (byte)(cd[nbcou] - bas);
+    *bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
   }
 
   if (ep[nbply]) {
@@ -139,8 +141,8 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
       WhKingMoves[sq]=
 	    BlKingMoves[sq]= -1;	/* blocked */	/* V3.77  TLi */
       if (eval_white == eval_ortho) {	/* V3.77  TLi */
-        BlKingMoves[sq+23]=
-          BlKingMoves[sq+25]= -2;	/* guarded */	/* V3.77  TLi */
+        BlKingMoves[sq+dir_up+dir_left]=
+          BlKingMoves[sq+dir_up+dir_right]= -2;	/* guarded */	/* V3.77  TLi */
       }
 	}
   }
@@ -151,8 +153,8 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
       BlKingMoves[sq]=
 	    WhKingMoves[sq]= -1;	/* blocked */	/* V3.77  TLi */
       if (eval_black == eval_ortho) {	/* V3.77  TLi */
-        WhKingMoves[sq-23]=
-          WhKingMoves[sq-25]= -2;	/* guarded */	/* V3.77  TLi */
+        WhKingMoves[sq+dir_down+dir_right]=
+          WhKingMoves[sq+dir_down+dir_left]= -2;	/* guarded */	/* V3.77  TLi */
       }
 	}
   }
@@ -447,7 +449,7 @@ boolean ProofIdentical(void) {
   }
 
   if (CondFlag[imitators]) {			/* V4.01  NG */
-	for (i= 0; i < maxinum; i++) {
+	for (i= 0; i < inum[nbply]; i++) {
       if (Proof_isquare[i] != isquare[i]) {
 		return False;
       }
@@ -544,11 +546,11 @@ void WhPawnMovesFromTo(
   int		*captures,
   int		captallowed)
 {
-  int rank_to= to/24;
-  int rank_from= from/24;
+  int rank_to= to/onerow;
+  int rank_from= from/onerow;
 
   /* calculate number of captures */
-  *captures= to%24-from%24;
+  *captures= to%onerow-from%onerow;
   if (*captures < 0) {
 	*captures= -*captures;
   }
@@ -556,14 +558,12 @@ void WhPawnMovesFromTo(
   /* calculate number of moves */
   *moves= rank_to-rank_from;
 
-  if (*moves < 0 || *moves < *captures || *captures > captallowed) {
+  if (*moves<0 || *moves<*captures || *captures>captallowed)
 	*moves= enonce;
-  }
   else {
-	if (from < bas+24+24 && *captures < *moves-1) {
+	if (from<=square_h2 && *captures<*moves-1)
       /* double step possible */
       (*moves)--;
-	}
   }
 }
 
@@ -574,11 +574,11 @@ void BlPawnMovesFromTo(
   int		*captures,
   int		captallowed)
 {
-  int rank_to= to/24;
-  int rank_from= from/24;
+  int rank_to= to/onerow;
+  int rank_from= from/onerow;
 
   /* calculate number of captures */
-  *captures= to%24-from%24;
+  *captures= to%onerow-from%onerow;
   if (*captures < 0) {
 	*captures= -*captures;
   }
@@ -586,14 +586,12 @@ void BlPawnMovesFromTo(
   /* calculate number of moves */
   *moves= rank_from-rank_to;
 
-  if (*moves < 0 || *moves < *captures || *captures > captallowed) {
+  if (*moves<0 || *moves<*captures || *captures>captallowed)
 	*moves= enonce;
-  }
   else {
-	if (from > haut-24-24 && *captures < *moves-1) {
+	if (from>=square_a7 && *captures < *moves-1)
       /* double step possible */
       (*moves)--;
-	}
   }
 }
 
@@ -605,23 +603,24 @@ smallint WhPawnMovesNeeded(square sq) {
      test is always false. It has already been checked in
      ProofImpossible. But we need it here for the recursion.
   */
-  if (e[sq] == pb && ProofBoard[sq] != pb) {
+  if (e[sq]==pb && ProofBoard[sq]!=pb)
 	return 0;
-  }
-  if (sq < bas+8+24) {
+
+  if (sq<=square_h2)
 	/* there is no pawn at all that can enter this square */
 	return enonce;
-  }
 
   /* double step */
-  if (sq/24 == 11 && e[sq-48] == pb && ProofBoard[sq-48] != pb) {
+  if (square_a4<=sq && square_h4>=sq
+      && e[sq+2*dir_down] == pb
+      && ProofBoard[sq+2*dir_down] != pb) {
 	return 1;
   }
 
-  if (e[sq-23] != obs) {
-	MovesNeeded= WhPawnMovesNeeded(sq-23);
+  if (e[sq+dir_down+dir_right] != obs) {
+	MovesNeeded= WhPawnMovesNeeded(sq+dir_down+dir_right);
 	if (!MovesNeeded) {
-      /* There is a free pawn on sq-23
+      /* There is a free pawn on sq+dir_down+dir_right
       ** so it takes just 1 move */
       return 1;
 	}
@@ -630,10 +629,10 @@ smallint WhPawnMovesNeeded(square sq) {
 	MovesNeeded= enonce;
   }
 
-  if (e[sq-25] != obs) {
-	MovesNeeded1= WhPawnMovesNeeded(sq-25);
+  if (e[sq+dir_down+dir_left] != obs) {
+	MovesNeeded1= WhPawnMovesNeeded(sq+dir_down+dir_left);
 	if (!MovesNeeded1) {
-      /* There is a free pawn on sq-25
+      /* There is a free pawn on sq+dir_down+dir_left
       ** so it takes just 1 move */
       return 1;
 	}
@@ -642,7 +641,7 @@ smallint WhPawnMovesNeeded(square sq) {
 	}
   }
 
-  MovesNeeded1= WhPawnMovesNeeded(sq-24);
+  MovesNeeded1= WhPawnMovesNeeded(sq+dir_down);
   if (MovesNeeded1 < MovesNeeded) {
 	MovesNeeded= MovesNeeded1;
   }
@@ -663,20 +662,21 @@ smallint BlPawnMovesNeeded(square sq) {
 	return 0;
   }
 
-  if (sq > haut-8-24) {
+  if (sq>=square_a7)
 	/* there is no pawn at all that can enter this square */
 	return enonce;
-  }
 
   /* double step */
-  if (sq/24 == 12 && e[sq+48] == pn && ProofBoard[sq+48] != pn) {
+  if (square_a5<=sq && square_h5>=sq
+      && e[sq+2*dir_up] == pn
+      && ProofBoard[sq+2*dir_up] != pn) {
 	return 1;
   }
 
-  if (e[sq+23] != obs) {
-	MovesNeeded= BlPawnMovesNeeded(sq+23);
+  if (e[sq+dir_up+dir_left] != obs) {
+	MovesNeeded= BlPawnMovesNeeded(sq+dir_up+dir_left);
 	if (!MovesNeeded) {
-      /* There is a free pawn on sq+23
+      /* There is a free pawn on sq+dir_up+dir_left
       ** so it takes just 1 move */
       return 1;
 	}
@@ -685,10 +685,10 @@ smallint BlPawnMovesNeeded(square sq) {
 	MovesNeeded= enonce;
   }
 
-  if (e[sq+25] != obs) {
-	MovesNeeded1= BlPawnMovesNeeded(sq+25);
+  if (e[sq+dir_up+dir_right] != obs) {
+	MovesNeeded1= BlPawnMovesNeeded(sq+dir_up+dir_right);
 	if (!MovesNeeded1) {
-      /* There is a free pawn on sq+25
+      /* There is a free pawn on sq+dir_up+dir_right
       ** so it takes just 1 move */
       return 1;
 	}
@@ -697,7 +697,7 @@ smallint BlPawnMovesNeeded(square sq) {
 	}
   }
 
-  MovesNeeded1= BlPawnMovesNeeded(sq+24);		/* V3.37  NG */
+  MovesNeeded1= BlPawnMovesNeeded(sq+dir_up);		/* V3.37  NG */
   if (MovesNeeded1 < MovesNeeded) {
 	MovesNeeded= MovesNeeded1;
   }
@@ -810,7 +810,8 @@ void WhPromPieceMovesFromTo(
   int		i, mov1, mov2, cap1;
   square	cenpromsq;
 
-  cenpromsq= from%24 + 360;
+  cenpromsq= (from%onerow
+              + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow);
   *moves= enonce;
 
   WhPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
@@ -820,16 +821,14 @@ void WhPromPieceMovesFromTo(
   }
 
   for (i= 1; i <= captallowed; i++) {
-	if (cenpromsq+i <= haut) {
+	if (cenpromsq+i <= square_h8) {
       /* got out of range sometimes ! */		/* V3.37  NG */
-      WhPawnMovesFromTo(from,
-                        cenpromsq+i, &mov1, &cap1, captallowed);
+      WhPawnMovesFromTo(from, cenpromsq+i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq+i, to, &mov2);
-      if (mov1+mov2 < *moves) {
+      if (mov1+mov2 < *moves)
 		*moves= mov1+mov2;
-      }
 	}
-	if (cenpromsq-i > haut-8) {
+	if (cenpromsq-i>=square_a8) {
       /* got out of range sometimes ! */		/* V3.37  NG */
       WhPawnMovesFromTo(from,
                         cenpromsq-i, &mov1, &cap1, captallowed);
@@ -856,7 +855,7 @@ void BlPromPieceMovesFromTo(
   square	cenpromsq;
   int		i, mov1, mov2, cap1;
 
-  cenpromsq= from%24+192;
+  cenpromsq= from%onerow + nr_of_slack_rows_below_board*onerow;
   *moves= enonce;
 
   BlPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
@@ -866,16 +865,14 @@ void BlPromPieceMovesFromTo(
   }
 
   for (i= 1; i <= captallowed; i++) {
-	if (cenpromsq+i < bas+8) {
+	if (cenpromsq+i<=square_h1) {
       /* got out of range sometimes !*/		/* V3.37  NG */
-      BlPawnMovesFromTo(from,
-                        cenpromsq+i, &mov1, &cap1, captallowed);
+      BlPawnMovesFromTo(from, cenpromsq+i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq+i, to, &mov2);
-      if (mov1+mov2 < *moves) {
+      if (mov1+mov2 < *moves)
 		*moves= mov1+mov2;
-      }
 	}
-	if (cenpromsq-i >= bas) {
+	if (cenpromsq-i >= square_a1) {
       /* got out of range sometimes ! */		/* V3.37  NG */
       BlPawnMovesFromTo(from,
                         cenpromsq-i, &mov1, &cap1, captallowed);
@@ -1159,14 +1156,14 @@ boolean ProofFairyImpossible(int MovesAvailable) {
     + nbpiece[tb]
     + nbpiece[fb]
     + nbpiece[db]
-    + 1;
+    + nbpiece[roib];
 
   NbrBl = nbpiece[pn]
     + nbpiece[cn]
     + nbpiece[tn]
     + nbpiece[fn]
     + nbpiece[dn]
-    + 1;
+    + nbpiece[roin];
 
   /* not enough time to capture the remaining pieces */
   if (change_moving_piece) {
@@ -1217,7 +1214,7 @@ boolean ProofFairyImpossible(int MovesAvailable) {
 	if (FlowFlag(Alternate)) {
       BlMovesLeft= WhMovesLeft= MovesAvailable/2;
       if (MovesAvailable&1) {
-		if ((flag_atob&&!flag_appseul) ^ (enonce&1)) {
+		if ((flag_atob&&!flag_appseul) != (enonce&1)) { /* TODO use % */
           WhMovesLeft++;
 		}
 		else {
@@ -1262,22 +1259,22 @@ boolean ProofFairyImpossible(int MovesAvailable) {
       for (sq= square_a2; sq <= square_h2; sq++) {
 		if (e[sq] != pb) {
           if (ProofBoard[sq] == pb) {
-			if (   ProofBoard[sq+24] != pb
-                   && ProofBoard[sq+48] != pb
-                   && ProofBoard[sq+72] != pb
-                   && ProofBoard[sq+96] != pb
-                   && ProofBoard[sq+120] != pb)
+			if (   ProofBoard[sq+dir_up] != pb
+                   && ProofBoard[sq+2*dir_up] != pb
+                   && ProofBoard[sq+3*dir_up] != pb
+                   && ProofBoard[sq+4*dir_up] != pb
+                   && ProofBoard[sq+5*dir_up] != pb)
 			{
               count++;
 			}
           }
-          else if (ProofBoard[sq+24] == pb
-                   && e[sq+24] != pb)
+          else if (ProofBoard[sq+dir_up] == pb
+                   && e[sq+dir_up] != pb)
           {
-			if (   ProofBoard[sq+48] != pb
-                   && ProofBoard[sq+72] != pb
-                   && ProofBoard[sq+96] != pb
-                   && ProofBoard[sq+120] != pb)
+			if (   ProofBoard[sq+2*dir_up] != pb
+                   && ProofBoard[sq+3*dir_up] != pb
+                   && ProofBoard[sq+4*dir_up] != pb
+                   && ProofBoard[sq+5*dir_up] != pb)
 			{
               count++;
 			}
@@ -1297,22 +1294,22 @@ boolean ProofFairyImpossible(int MovesAvailable) {
       for (sq= square_a7; sq <= square_h7; sq++) {
 		if (e[sq] != pn) {
           if (ProofBoard[sq] == pn) {
-			if (   ProofBoard[sq-24] != pn
-                   && ProofBoard[sq-48] != pn
-                   && ProofBoard[sq-72] != pn
-                   && ProofBoard[sq-96] != pn
-                   && ProofBoard[sq-120] != pn)
+			if (   ProofBoard[sq+dir_down] != pn
+                   && ProofBoard[sq+2*dir_down] != pn
+                   && ProofBoard[sq+3*dir_down] != pn
+                   && ProofBoard[sq+4*dir_down] != pn
+                   && ProofBoard[sq+5*dir_down] != pn)
 			{
               count++;
 			}
           }
-          else if (ProofBoard[sq-24] == pn
-                   && e[sq-24] != pn)
+          else if (ProofBoard[sq+dir_down] == pn
+                   && e[sq+dir_down] != pn)
           {
-			if (   ProofBoard[sq-48] != pn
-                   && ProofBoard[sq-72] != pn
-                   && ProofBoard[sq-96] != pn
-                   && ProofBoard[sq-120] != pn)
+			if (   ProofBoard[sq+2*dir_down] != pn
+                   && ProofBoard[sq+3*dir_down] != pn
+                   && ProofBoard[sq+4*dir_down] != pn
+                   && ProofBoard[sq+5*dir_down] != pn)
 			{
               count++;
 			}
@@ -1368,14 +1365,14 @@ boolean ProofImpossible(int MovesAvailable) {
     + nbpiece[tb]
     + nbpiece[fb]
     + nbpiece[db]
-    + 1;
+    + nbpiece[roib];
 
   NbrBl = nbpiece[pn]
     + nbpiece[cn]
     + nbpiece[tn]
     + nbpiece[fn]
     + nbpiece[dn]
-    + 1;
+    + nbpiece[roin];
 
   /* to many pieces captured */
   if (NbrWh < ProofNbrWhitePieces
@@ -1390,7 +1387,7 @@ boolean ProofImpossible(int MovesAvailable) {
   if (FlowFlag(Alternate)) {
 	BlMovesLeft= WhMovesLeft= MovesAvailable/2;
 	if (MovesAvailable&1) {
-      if ((flag_atob&&!flag_appseul) ^ (enonce&1)) {
+      if ((flag_atob&&!flag_appseul) != (enonce&1)) { /* TODO use % */
 		WhMovesLeft++;
       }
       else {
@@ -1454,7 +1451,7 @@ boolean ProofImpossible(int MovesAvailable) {
   }
 
   if (CondFlag[haanerchess]) {			/* V3.64  TLi */
-	return (ProofBoard[cd[nbcou]] != vide);
+	return (ProofBoard[move_generation_stack[nbcou].departure] != vide);
   }
 
   /* collect the pieces for further investigations */

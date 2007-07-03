@@ -433,9 +433,6 @@
 #define maxinum 10      /* max. Anz. Imitatoren V2.4d  TM */
 #define nullsquare 1            /* V3.70 SE */
 
-/* V3.03  TLi */
-#define OptKill         5
-
 /* These typedefs should be judged for efficiency  2.0a */
 
 typedef int     integer;        /* V1.4c  NG */
@@ -460,6 +457,17 @@ typedef smallint        numvec;         /* V2.1c  NG */
 typedef smallint        echiquier [maxsquare+4];  /* V2.60  NG, V3.55  TLi */
 typedef square          pilecase [maxply+1];
 typedef couleur         pilecouleur [maxply+1];
+
+typedef struct {
+    square departure;
+    square arrival;
+    square capture;
+} move_generation_elmt;
+
+typedef struct {
+    boolean found;
+    move_generation_elmt move;
+} killer_state;
 
 typedef struct {
 	square          cdzz, cazz, cpzz;
@@ -497,9 +505,21 @@ typedef struct {                                        /* V2.70 TLi */
 } tab;
 
 typedef struct {                                        /* V3.02  TLi */
-	square          d, a, p;
-	int             nbr;
-} otelement;
+	move_generation_elmt move;
+	int                  nr_opponent_moves;
+} empile_optimization_table_elmt;
+
+/* V3.03  TLi */
+enum {
+  empile_optimization_priorize_killmove_by = 5
+};
+
+typedef enum {
+  move_generation_optimized_by_nr_opponent_moves,
+  move_generation_optimized_by_killer_move,
+  move_generation_not_optimized
+} move_generation_mode_type;
+
 
 typedef square imarr[maxinum];        /* Standorte der Imitatoren V2.4d  TM */
 
@@ -1084,10 +1104,37 @@ typedef int PieSpec;
 
 /* MAKROS */
 
+enum {
+  /* if square1-square2==onerow, then square1 is one row higher than
+   * square2 */
+  onerow= 24,
+
+  /* For reasons of code simplification of move generation, square a1
+   * doesn't have index 0; there are some slack rows at the top and
+   * bottom of the board, and some slack files at the left an right.
+   */
+  nr_of_slack_files_left_of_board= 8,
+  nr_of_slack_rows_below_board= 8,
+
+  nr_files_on_board= 8,
+  nr_rows_on_board= 8
+};
+
+enum {
+  file_rook_queenside,
+  file_knight_queenside,
+  file_bishop_queenside,
+  file_queen,
+  file_king,
+  file_bishop_kingside,
+  file_knight_kingside,
+  file_rook_kingside
+};
+
 #define DiaCirce        PieSpCount
 #define DiaRen(s)       (boardnum[(s >> DiaCirce)])
 #define DiaRenMask      ((1<<DiaCirce)-1)
-#define SetDiaRen(s, f) (s=((unsigned int)(((f-bas)/24)*8+(f-bas)%24)<<DiaCirce) + (s&DiaRenMask))
+#define SetDiaRen(s, f) (s=((unsigned int)(((f-bas)/onerow)*8+(f-bas)%onerow)<<DiaCirce) + (s&DiaRenMask))
 #define FrischAuf       PieSpCount
 /* needed for Twinning Reset.  V3.76  NG */
 #define ClrDiaRen(s)    (s-=((unsigned int)(s>>DiaCirce)<<DiaCirce))
@@ -1096,7 +1143,7 @@ typedef int PieSpec;
 #define advers(camp)    ((camp) ? blanc : noir) /* V2.60  NG */
 #define color(piesqu)   (e[(piesqu)] <= roin ? noir : blanc)    /* V2.60  NG */
 
-#define coupfort()      {kpilcd[nbply]= cd[nbcou]; kpilca[nbply]= ca[nbcou];}   /* V2.60  NG */
+#define coupfort()      {kpilcd[nbply]= move_generation_stack[nbcou].departure; kpilca[nbply]= move_generation_stack[nbcou].arrival;}   /* V2.60  NG */
 
 /* V3.33  TLi */
 #define COLORFLAGS      (BIT(Black)+BIT(White)+BIT(Neutral))

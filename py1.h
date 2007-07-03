@@ -9,11 +9,13 @@
 #ifndef PY1_INCLUDED
 #define PY1_INCLUDED
 
+#include "pyproc.h"
+
 boolean fffriendcheck(
   square        i,
   piece         pfr,
   piece         p,
-  boolean       (*evaluate)(square,square,square));
+  evalfunction_t *evaluate);
 
 void InitCheckDir(void);
 void InitBoard(void);

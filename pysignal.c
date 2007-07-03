@@ -30,8 +30,8 @@
 
 #include <signal.h>
 #include "py.h"
-#include "pydata.h"
 #include "pyproc.h"
+#include "pydata.h"
 #include "pymsg.h"
 #include "pyhash.h"
 
@@ -41,7 +41,7 @@ extern int HashRateLevel;
 void IncHashRateLevel(int sig) {
     HashRateLevel++;
     StdString("  ");
-    PrintTime(TimeString);
+    PrintTime();
     logIntArg(HashRateLevel);
     Message(IncrementHashRateLevel);
     HashStats(0, "\n");
@@ -52,7 +52,7 @@ void DecHashRateLevel(int sig) {
     if (HashRateLevel > 0)
 	HashRateLevel--;
     StdString("  ");
-    PrintTime(TimeString);
+    PrintTime();
     logIntArg(HashRateLevel);
     Message(DecrementHashRateLevel);
     HashStats(0, "\n");
@@ -107,9 +107,9 @@ void ReDrawBoard(int sig) {
      */
     for (pl= 3; pl < nbply; pl++) {
 	WritePiece(pjoue[pl-1]);
-	WriteSquare(cd[repere[pl]]);
+	WriteSquare(move_generation_stack[repere[pl]].departure);
 	StdChar('-');
-	WriteSquare(ca[repere[pl]]);
+	WriteSquare(move_generation_stack[repere[pl]].arrival);
 	if (norm_prom[pl-1]) {
 	    StdChar('=');
 	    WritePiece(norm_prom[pl-1]);

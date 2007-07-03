@@ -1,7 +1,7 @@
 0= fatal error:\n
 1= both sides need a king
 2= too less main memory available
-3= solving interrupted. Time =
+3= solving interrupted.
 4= unmotivated input of rex inclusiv
 5= too much solutions
 6= haaner chess not allowed with kamikaze-pieces
@@ -55,11 +55,11 @@
 54= input line overflow
 55= no begin of problem
 56= internal popeye error in tk switch
-57= solution finished. Time =
+57= solution finished.
 58= zugzwang.\n
 59= threat:\n
 60= but\n
-61= Time =
+61= Time = 
 62= mate in one move with\n
 63= \n
 64= conditions too fairy for imitator

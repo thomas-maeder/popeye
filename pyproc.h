@@ -36,7 +36,7 @@ boolean WriteSpec(Flags pspec, piece p);	/* V3.47  NG */
 int     abs (int a);
 #endif
 
-typedef boolean (evalfunction_t)(square, square, square);
+typedef boolean (evalfunction_t)(square departure, square arrival, square capture);
 typedef boolean (checkfunction_t)(square, piece, evalfunction_t *);
 
 checkfunction_t alfilcheck;   /* V2.60  NG */
@@ -173,11 +173,10 @@ square  coinequis (square a);
 boolean echecc (couleur a);
 void    ecritcoup (void);
 
-boolean eval_ortho (square a, square b, square c);
+boolean eval_ortho (square departure, square arrival, square capture);
 
-boolean feebechec (boolean (*evaluate)(square,square,square) );
-boolean feenechec (boolean (*evaluate)(square,square,square) );
-void    finkiller (void);
+boolean feebechec (evalfunction_t *evaluate );
+boolean feenechec (evalfunction_t *evaluate );
 void    finply (void);
 void    gchinb (smallint a, numvec b, numvec c);
 void    gchinn (smallint a, numvec b, numvec c);
@@ -211,46 +210,52 @@ void    gubib (square a, square b);
 void    gubin (square a, square b);
 void    hardinit (void);
 boolean imok (square i, square j);                          /* V2.4d  TM */
-void    initkiller (void);
 void    initneutre (couleur a);
 void jouecoup_no_test(void);
 boolean jouecoup_ortho_test(void);
 boolean jouecoup (void);     /* V3.44  SE/TLi */
 void    joueim (smallint diff);                                /* V2.4d  TM */
 boolean last_h_move (couleur a);
-boolean legalsquare (square a, square b, square c);
+boolean legalsquare (square departure, square arrival, square capture);
 boolean libre (square a, boolean b);                  /* V3.44  TLi */
 
 boolean matant (couleur a,smallint b);
 boolean mate (couleur a,smallint b);
 void    nextply (void);
-boolean nocontact (square i,square j, square k);
+boolean nocontact (square departure, square arrival, square capture);
 boolean nogridcontact (square a);          /* py2.4c  NG */
 boolean patt (couleur a);
-boolean rbcircech (square i, square j, square k);               /* V2.80c  TLi */
+boolean rbcircech (square departure, square arrival, square capture);               /* V2.80c  TLi */
 
-extern boolean (*rbechec)(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
-boolean singleboxtype3_rbechec(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
-boolean annan_rbechec(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
+extern boolean (*rbechec)(evalfunction_t *evaluate); /* V3.71  TM */
+boolean singleboxtype3_rbechec(evalfunction_t *evaluate); /* V3.71  TM */
+boolean annan_rbechec(evalfunction_t *evaluate); /* V3.71  TM */
 
-boolean rbimmunech (square a, square b, square c);              /* V2.80c  TLi */
-boolean rcardech (square sq, square sqtest, numvec k, piece p, smallint x, boolean (*evaluate)(square,square,square) );
-boolean rcsech (square a, numvec b, numvec c, piece d, boolean (* evaluate)(square,square,square));        /* V2.3c  NG */
+boolean rbimmunech (square departure, square arrival, square capture);              /* V2.80c  TLi */
+boolean rcardech (square sq, square sqtest, numvec k, piece p, smallint x, evalfunction_t *evaluate );
+boolean rcsech (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);        /* V2.3c  NG */
 void    repcoup (void);
 void    restaure (void);
 boolean ridimok (square i, square j, smallint diff);        /* V2.4d  TM */
-boolean rmhopech (square a, numvec kend, numvec kanf, smallint b, piece c, boolean (* evaluate)(square,square,square));	/* V2.3c, V3.62  NG */
-boolean rncircech (square i, square j, square k);               /* V2.80c  TLi */
 
-extern boolean (*rnechec)(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
-boolean singleboxtype3_rnechec(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
-boolean annan_rnechec(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
+typedef enum {
+  angle_45,
+  angle_90,
+  angle_135
+} angle_t;
 
-boolean rnimmunech (square a, square b, square c);              /* V2.80c  TLi */
-boolean rrefcech (square a, square b, smallint c, piece d, boolean (* evaluate)(square,square,square));    /* V2.3c  NG */
-boolean rrfouech (square sq, square sqtest, numvec k, piece p, smallint x, boolean (*evaluate)(square,square,square) );
-boolean rubiech (square sq, square sqtest, piece p, /* echiquier */ smallint *e_ub, boolean (*evaluate)(square,square,square) );    /* V2.4c  NG, V3.29  NG */
-boolean soutenu (square a, square b, square c);                 /* V2.80c  TLi */
+boolean rmhopech (square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);	/* V2.3c, V3.62  NG */
+boolean rncircech (square departure, square arrival, square capture);               /* V2.80c  TLi */
+
+extern boolean (*rnechec)(evalfunction_t *evaluate); /* V3.71  TM */
+boolean singleboxtype3_rnechec(evalfunction_t *evaluate); /* V3.71  TM */
+boolean annan_rnechec(evalfunction_t *evaluate); /* V3.71  TM */
+
+boolean rnimmunech (square departure, square arrival, square capture);              /* V2.80c  TLi */
+boolean rrefcech (square a, square b, smallint c, piece d, evalfunction_t *evaluate);    /* V2.3c  NG */
+boolean rrfouech (square sq, square sqtest, numvec k, piece p, smallint x, evalfunction_t *evaluate );
+boolean rubiech (square sq, square sqtest, piece p, /* echiquier */ smallint *e_ub, evalfunction_t *evaluate );    /* V2.4c  NG, V3.29  NG */
+boolean soutenu (square departure, square arrival, square capture);                 /* V2.80c  TLi */
 
 /* V2.70c  TLi */
 boolean dsr_ant (couleur a, smallint b);
@@ -267,7 +272,7 @@ void    singleboxtype3_gen_wh_piece(square a, piece b); /* V3.71  TM */
 
 boolean definvref (couleur a, smallint b);
 boolean invref (couleur a, smallint b);
-boolean eval_madrasi (square a, square b, square c);    /* V2.80c  TLi */
+boolean eval_madrasi (square departure, square arrival, square capture);    /* V2.80c  TLi */
 piece   champiece (piece p);                    /* V2.80c  TLi */
 
 /*------------------ V2.90c   TLi ---------------*/
@@ -277,32 +282,32 @@ boolean stip_dblstale (couleur a);
 boolean stip_target (couleur a);
 boolean stip_check (couleur a);
 boolean stip_capture (couleur a);
-boolean testparalyse (square a, square b, square c);
-boolean paraechecc (square a, square b, square c);
+boolean testparalyse (square departure, square arrival, square capture);
+boolean paraechecc (square departure, square arrival, square capture);
 boolean paralysiert (square i);
 /*------------------ V2.90  NG ---------------*/
-void    PrintTime (int a);
-boolean leapcheck (square a, numvec b, numvec c, piece d, boolean (* evaluate)(square,square,square));
-boolean ridcheck (square a, numvec b, numvec c, piece d, boolean (* evaluate)(square,square,square));
+void    PrintTime ();
+boolean leapcheck (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean ridcheck (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 void    gebleap (square a, numvec b, numvec c);
 void    gebrid (square a, numvec b, numvec c);
 void    genleap (square a, numvec b, numvec c);
 void    genrid (square a, numvec b, numvec c);
 
 /*-----------     V2.90c  TLi     ----------------------*/
-boolean roicheck (square a, piece b, boolean (* evaluate)(square,square,square));
-boolean pioncheck (square a, piece b, boolean (* evaluate)(square,square,square));
-boolean cavcheck (square a, piece b, boolean (* evaluate)(square,square,square));
-boolean tourcheck (square a, piece b, boolean (* evaluate)(square,square,square));
-boolean damecheck (square a, piece b, boolean (* evaluate)(square,square,square));
-boolean foucheck (square a, piece b, boolean (* evaluate)(square,square,square));
+boolean roicheck (square a, piece b, evalfunction_t *evaluate);
+boolean pioncheck (square a, piece b, evalfunction_t *evaluate);
+boolean cavcheck (square a, piece b, evalfunction_t *evaluate);
+boolean tourcheck (square a, piece b, evalfunction_t *evaluate);
+boolean damecheck (square a, piece b, evalfunction_t *evaluate);
+boolean foucheck (square a, piece b, evalfunction_t *evaluate);
 
-boolean t_lioncheck (square i, piece p, boolean (* evaluate)(square,square,square));
-boolean f_lioncheck (square i, piece p, boolean (* evaluate)(square,square,square));
-boolean marincheck (square a, numvec b, numvec c, piece d, boolean (* evaluate)(square,square,square));
-boolean empile (square a, square b, square c);
-boolean testempile (square a, square b, square c);
-boolean ooorphancheck (square i, piece porph, piece p, boolean (* evaluate)(square,square,square));
+boolean t_lioncheck (square i, piece p, evalfunction_t *evaluate);
+boolean f_lioncheck (square i, piece p, evalfunction_t *evaluate);
+boolean marincheck (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean empile (square departure, square arrival, square capture);
+boolean testempile (square departure, square arrival, square capture);
+boolean ooorphancheck (square i, piece porph, piece p, evalfunction_t *evaluate);
 void    gorph (square a, couleur b);            /* V3.14  NG */
 void    gfriend (square a, couleur b);          /* V3.65  TLi */
 void    gedgeh (square a, couleur b);           /* V3.14  NG */
@@ -331,15 +336,15 @@ boolean stip_ep (couleur a);
 piece   dec_einstein (piece p);
 piece   inc_einstein (piece p);
 piece   norskpiece (piece p);
-boolean rnanticircech (square i, square j, square k);
-boolean rbanticircech (square i, square j, square k);
-boolean rnultraech (square i, square j, square k);
-boolean rbultraech (square i, square j, square k);
+boolean rnanticircech (square departure, square arrival, square capture);
+boolean rbanticircech (square departure, square arrival, square capture);
+boolean rnultraech (square departure, square arrival, square capture);
+boolean rbultraech (square departure, square arrival, square capture);
 
-boolean rnsingleboxtype1ech(square id, square ia, square ip);  /* V3.71 TM */
-boolean rbsingleboxtype1ech(square id, square ia, square ip);  /* V3.71 TM */
-boolean rnsingleboxtype3ech(square id, square ia, square ip);  /* V3.71 TM */
-boolean rbsingleboxtype3ech(square id, square ia, square ip);  /* V3.71 TM */
+boolean rnsingleboxtype1ech(square departure, square arrival, square capture);  /* V3.71 TM */
+boolean rbsingleboxtype1ech(square departure, square arrival, square capture);  /* V3.71 TM */
+boolean rnsingleboxtype3ech(square departure, square arrival, square capture);  /* V3.71 TM */
+boolean rbsingleboxtype3ech(square departure, square arrival, square capture);  /* V3.71 TM */
 square next_latent_pawn(square s, couleur c); /* V3.71 TM */
 piece next_singlebox_prom(piece p, couleur c); /* V3.71 TM */
 
@@ -369,15 +374,15 @@ void    geskylla (square i, couleur camp);
 void    gecharybdis (square i, couleur camp);
 /*****  V3.12  TLi  *****  end  *****/
 
-short len_whforcedsquare(square id, square ia, square ip);  /* V3.20  NG */
-short len_blforcedsquare(square id, square ia, square ip);  /* V3.20  NG */
+short len_whforcedsquare(square departure, square arrival, square capture);  /* V3.20  NG */
+short len_blforcedsquare(square departure, square arrival, square capture);  /* V3.20  NG */
 
 /*****  V3.22  TLi  ***** begin *****/
 void    geriderhopper(square i, numvec kbeg, numvec kend,     /* V3.34  TLi */
 		      smallint run_up, smallint jump, couleur camp);
 boolean riderhoppercheck(square i, numvec kanf, numvec kend, piece p, /* V3.34  TLi */
 			 smallint run_up, smallint jump,
-			 boolean (* evaluate)(square,square,square));
+			 evalfunction_t *evaluate);
 /*****  V3.22  TLi  *****  end  *****/
 
 boolean verifieposition(void);
@@ -402,7 +407,7 @@ char *ReadPieces(int cond);   /* V3.41  TLi, V3.64  ThM,NG */
 
 
 /* V3.44  SE/TLi */
-boolean eval_isardam(square id, square ia, square ip);
+boolean eval_isardam(square departure, square arrival, square capture);
 boolean pos_legal(void);                              
 void IncrementMoveNbr(void);
 square rendiametral(piece p, Flags pspec, square j, square i, square ia, couleur camp);
@@ -428,10 +433,10 @@ void genrb_cast(void);
 void genrn_cast(void);
 
 boolean woohefflibre (square a, square b);	        /* V3.55  TLi */
-boolean eval_wooheff(square a, square b, square c);	/* V3.55  TLi */
+boolean eval_wooheff(square departure, square arrival, square capture);	/* V3.55  TLi */
 
 boolean stip_mate_or_stale(couleur camp);           /* V3.60 SE */
-boolean eval_shielded(square a, square b, square c);       /* V3.62 SE */
+boolean eval_shielded(square departure, square arrival, square capture);       /* V3.62 SE */
 boolean stip_any (couleur a);	     /* V3.64  SE */
 
 void    grabbitb (square sq);	     /* V3.76  NG */
@@ -459,10 +464,18 @@ void gen_wh_piece_aux(square z, piece p);
 void gen_bl_piece_aux(square z, piece p);
 void change_observed(square z);
 boolean observed(square a, square b);
-boolean eval_BGL(square a, square b, square c);	/* V4.06 SE */
+boolean eval_BGL(square departure, square arrival, square capture);	/* V4.06 SE */
 char *WriteBGLNumber(char* a, long int b);	/* V4.06 SE */
 boolean whannan(square rear, square front);
 boolean blannan(square rear, square front);
+
+
+void    init_move_generation_optimizer(void);
+void    finish_move_generation_optimizer(void);
+
+/* analogon to finligne() for circle  lines */
+square fin_circle_line(square sq_departure,
+                       numvec k1, numvec *k2, numvec delta_k);
 
 
 #ifdef WIN32

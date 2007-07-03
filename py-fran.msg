@@ -1,7 +1,7 @@
 0= erreur fatale:\n
 1= il faut un roi de chaque couleur
 2= Trop peu memoires centrales disponible
-3= solution interrompue. Temps =
+3= solution interrompue.
 4= rexinclusive ou exact sans motif
 5= trop de solutions
 6= en EchecsHaan les pieces kamikazees sont interdites
@@ -55,11 +55,11 @@
 54= Debordement de ligne d'entree
 55= pas debut probleme
 56= Erreur interne de popeye dans le commutateur de tk
-57= solution termine. Temps =
+57= solution termine.
 58= blocus.\n
 59= menace:\n
 60= mais\n
-61= Temps =
+61= Temps = 
 62= on mate en un coup par\n
 63= \n
 64= pas de pieces ou conditions trop feeriques avec imitator

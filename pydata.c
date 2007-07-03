@@ -19,3 +19,12 @@
 
 smallint maxinbox[] = {0,0,0,0,1,2,2,2}; /* V3.71 TM */
 unsigned int boxsize = sizeof maxinbox / sizeof maxinbox[0]; /* V3.71 TM */
+
+killer_state const null_killer_state = {
+  false,
+  {
+    initsquare,
+    initsquare,
+    initsquare
+  }
+};

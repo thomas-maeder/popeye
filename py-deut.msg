@@ -32,7 +32,7 @@
 0= Fataler Fehler:\n
 1= Es fehlt ein weisser oder schwarzer Koenig\n
 2= Zu wenig Hauptspeicher verfuegbar\n
-3= Bearbeitung abgebrochen. Zeit =
+3= Bearbeitung abgebrochen.
 4= Unmotivierte Eingabe von RexInklusive oder Exakt
 5= Zuviele Loesungen
 6= Im HaanerSchach sind Kamikaze-Steine nicht erlaubt
@@ -86,11 +86,11 @@
 54= Eingabezeilen Ueberlauf
 55= Kein AnfangProblem
 56= Interner Popeye Fehler in tk switch
-57= Loesung beendet. Zeit =
+57= Loesung beendet.
 58= Zugzwang.\n
 59= Drohung:\n
 60= Aber\n
-61= Zeit =
+61= Zeit = 
 62= Matt in einem Zug durch\n
 63= \n
 64= Zuviel Maerchenschach fuer Imitator

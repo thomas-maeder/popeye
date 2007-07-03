@@ -357,8 +357,11 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
 	else {
 		sprintf(dhtError,
 		  "Sorry, unknown KeyPolicy: numeric=%d.", KeyPolicy);
-		goto Failed;
+        freeDirTable(&ht->DirTab);
+        FreeHashTable(ht);
+        return Nil(dht);
 	}
+
 	if (DataPolicy==dhtNoCopy) {
 		ht->procs.DupData= dhtProcedures[dhtSimpleValue]->Dup;
 		ht->procs.FreeData= dhtProcedures[dhtSimpleValue]->Free;
@@ -370,14 +373,12 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
 	else {
 		sprintf(dhtError,
 		  "Sorry, unknown DataPolicy: numeric=%d.", DataPolicy);
-		goto Failed;
+        freeDirTable(&ht->DirTab);
+        FreeHashTable(ht);
+        return Nil(dht);
 	}
-	return ht;
 
-Failed:
-	freeDirTable(&ht->DirTab);
-	FreeHashTable(ht);
-	return Nil(dht);
+	return ht;
 }
 
 void dhtDestroy(HashTable *ht) {

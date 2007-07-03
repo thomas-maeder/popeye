@@ -40,7 +40,7 @@ void nextply(void)
   repere[nbply]= nbcou;
 
   ep2[nbply]=                        /* V3.22  TLi */
-   ep[nbply]= initsquare;            /* V3.0  TLi */
+    ep[nbply]= initsquare;            /* V3.0  TLi */
 
   /*
     The current implementation of promotions works as follows:
@@ -59,19 +59,19 @@ void nextply(void)
     abovementioned arrays, either in finply() or here
   */
   norm_prom[nbply]=
-   cir_prom[nbply]= vide;               /* V3.02  TLi */
+    cir_prom[nbply]= vide;               /* V3.02  TLi */
   norm_cham_prom[nbply]=
-   cir_cham_prom[nbply]=                /* V3.1  TLi */
-  Iprom[nbply] = false;                 /* V4.03  ThM */
+    cir_cham_prom[nbply]=                /* V3.1  TLi */
+    Iprom[nbply] = false;                 /* V4.03  ThM */
 
   /*
     Supercirce rebirths are implemented similarly to promotions ...
-   */
+  */
   super[nbply]= superbas;                /* V3.1  TLi */
 
   /*
     start with the castling rights of the upper level
-   */
+  */
   castling_flag[nbply]= castling_flag[nbply - 1];    /* V3.35  NG */
   WhiteStrictSAT[nbply]= WhiteStrictSAT[nbply-1];	/* V4.03  SE */
   BlackStrictSAT[nbply]= BlackStrictSAT[nbply-1];	/* V4.03  SE */
@@ -97,7 +97,7 @@ void nextply(void)
 #endif  /* NODEF */
 
 void InitCond(void) {	  /* V3.40  TLi */
-  square *bnp, i, j, k;
+  square *bnp, i, j;
   piece p;
 
   flag_madrasi= false;				/* V3.60  TLi */
@@ -135,25 +135,26 @@ void InitCond(void) {	  /* V3.40  TLi */
   ClrDiaRen(PieSpExFlags);			/* V3.76  NG */
 
   for (bnp= boardnum; *bnp; bnp++) {
-	j= *bnp % 24;				/* V1.4c NG */
-	k= *bnp / 24;				/* V1.4c NG */
+	smallint const file= *bnp%onerow - nr_of_slack_files_left_of_board; /* V1.4c NG */
+	smallint const row= *bnp/onerow - nr_of_slack_rows_below_board;	/* V1.4c NG */
 
 	CLEARFL(sq_spec[*bnp]);			/* V3.20  TLi, V3.29  NG */
 	ClrDiaRen(spec[*bnp]);			/* V3.76  NG */
-  sq_num[*bnp]= (smallint)(bnp-boardnum);
+    sq_num[*bnp]= (smallint)(bnp-boardnum);
 
 	/* initialise sq_spec and set grid number  V3.22  TLi */
-	sq_spec[*bnp] += (((j-8)/2)+4*((k-8)/2)) << Grid;
-	if (j != 8 && j != 15 && k != 8 && k != 15)
+	sq_spec[*bnp] += ((file/2)+4*(row/2)) << Grid;
+	if (file!=0 && file!=nr_files_on_board-1
+        && row!=0 && row!=nr_rows_on_board-1)
       SETFLAG(sq_spec[*bnp], NoEdgeSq);
   }
 
-  for (i= bas; i < haut; i+= 24) {	    /* V3.22  TLi, V3.29  NG */
+  for (i= bas; i < haut; i+= onerow) {	    /* V3.22  TLi, V3.29  NG */
 	if (i > bas)
-      if (!TSTFLAG(sq_spec[i-24], SqColor))
+      if (!TSTFLAG(sq_spec[i+dir_down], SqColor))
 		SETFLAG(sq_spec[i], SqColor);
-	for (j= i + 1; j <= i + 7; j++)
-      if (!TSTFLAG(sq_spec[j-1], SqColor))
+    for (j= i+1; j < i+nr_files_on_board; j++)
+      if (!TSTFLAG(sq_spec[j+dir_left], SqColor))
 		SETFLAG(sq_spec[j], SqColor);
   }
 
@@ -240,10 +241,10 @@ void InitBoard(void) {	   /* V3.40  TLi */
   /* dummy squares for Messigny chess and castling
      -- must be empty, V3.55	TLi
   */
-  e[maxsquare+1]= e[maxsquare+2]= e[maxsquare+3]= vide;
-  CLEARFL(spec[maxsquare+1]);
-  CLEARFL(spec[maxsquare+2]);
-  CLEARFL(spec[maxsquare+3]);
+  e[messigny_exchange]= e[kingside_castling]= e[queenside_castling]= vide;
+  CLEARFL(spec[messigny_exchange]);
+  CLEARFL(spec[kingside_castling]);
+  CLEARFL(spec[queenside_castling]);
 
   for (bnp= boardnum; *bnp; bnp++)
 	e[*bnp]= vide;
@@ -265,8 +266,7 @@ void InitAlways(void) {    /* V3.40  TLi */
 
   memset((char *) exist, 0, sizeof(exist));	  /* V3.43  NG */
 
-  otc= 0;
-  optimize= false;
+  move_generation_mode= move_generation_optimized_by_killer_move;
 
   nbcou = 1;
   nbply = 1;
@@ -330,41 +330,39 @@ void initneutre(couleur c) {
 
 square coinequis(square i)
 {
-  return 75 + (24*(((i/24)+3)/2) + (((i%24)+3)/2));	 /* V2.60  NG */
+  return 75 + (onerow*(((i/onerow)+3)/2) + (((i%onerow)+3)/2));	 /* V2.60  NG */
 }
 
-boolean leapcheck(
-  square	 i,
-  numvec	 kanf,
-  numvec	 kend,
-  piece	 p,
-  boolean	 (*evaluate)(square,square,square))
+boolean leapcheck(square	 sq_king,
+                  numvec	 kanf,
+                  numvec	 kend,
+                  piece	 p,
+                  evalfunction_t *evaluate)
 {
   /* detect "check" of leaper p */			/* V2.60  NG */
   numvec  k;
-  square  j;
 
-  for (k= kanf; k<= kend; k++) {
-	j= i + vec[k];
-	if (e[j] == p
-        && (*evaluate)(j, i, i)			/* V3.02  TLi */
-        && imcheck(j, i))
-	{
+  square sq_departure;
+
+  for (k= kanf; k<=kend; k++) {
+	sq_departure= sq_king+vec[k];
+	if (e[sq_departure]==p
+        && evaluate(sq_departure,sq_king,sq_king)			/* V3.02  TLi */
+        && imcheck(sq_departure,sq_king))
       return true;
-	}
   }
+  
   return false;
 }
 
 /*****	V3.34  TLi  ***** begin *****/
-boolean riderhoppercheck(
-  square	 i,
-  numvec	 kanf,
-  numvec	 kend,
-  piece	 p,
-  smallint	 run_up,
-  smallint	 jump,
-  boolean	 (*evaluate)(square,square,square))
+boolean riderhoppercheck(square	 sq_king,
+                         numvec	 kanf,
+                         numvec	 kend,
+                         piece	 p,
+                         smallint	 run_up,
+                         smallint	 jump,
+                         evalfunction_t *evaluate)
 {
   /* detect "check" of a generalised rider-hopper p that runs up
      run_up squares and jumps jump squares. 0 indicates an
@@ -375,98 +373,106 @@ boolean riderhoppercheck(
      lion:		     run_up: 0	 jump: 0
   ********/
 
-  piece   p1;
-  square  j, j1;
+  piece   hurdle, hopper;
+  square  sq_hurdle;
   numvec  k;
+
+  square sq_departure;
 
   for (k= kanf; k <= kend; k++) {
 	if (jump) {
-      j= i;
-      if (jump > 1) {
+      sq_hurdle= sq_king;
+      if (jump>1) {
 		smallint jumped= jump;
-		while (--jumped && e[j += vec[k]] == vide)
-          ;
+		while (--jumped) {
+          sq_hurdle+= vec[k];
+          if (e[sq_hurdle]!=vide)
+            break;
+        }
+      
 		if (jumped)
           continue;
       }
-      p1= e[j += vec[k]];
+      sq_hurdle+= vec[k];
+      hurdle= e[sq_hurdle];
 	}
-	else {
+	else
       /* e.g. lion, contragrashopper */
-      finligne(i, vec[k], p1, j);
-	}
-	if (abs(p1) >= roib) {
+      finligne(sq_king,vec[k],hurdle,sq_hurdle);
+
+	if (abs(hurdle)>=roib) {
       if (run_up) {
 		/* contragrashopper */
-		j1= j;
-		if (run_up > 1) {
+		sq_departure= sq_hurdle;
+		if (run_up>1) {
           smallint ran_up= run_up;
-          while (--ran_up && e[j += vec[k]] == vide)
-			;
+          while (--ran_up) {
+            sq_hurdle+= vec[k];
+            if (e[sq_hurdle]!=vide)
+              break;
+          }
           if (ran_up)
 			continue;
 		}
-		p1= e[j1 += vec[k]];
+        sq_departure+= vec[k];
+		hopper= e[sq_departure];
       }
-      else {
+      else
 		/* grashopper, lion */
-		finligne(j, vec[k], p1, j1);
-      }
-      if (p1 == p
-	      && (*evaluate)(j1, i, i)
-	      && hopimcheck(j1, i, j,-vec[k]))
-      {
+		finligne(sq_hurdle,vec[k],hopper,sq_departure);
+
+      if (hopper==p
+	      && evaluate(sq_departure,sq_king,sq_king)
+	      && hopimcheck(sq_departure,sq_king,sq_hurdle,-vec[k]))
 		return true;
-      }
 	}
   }
   return false;
 } /* end of riderhoppercheck */
 /*****	V3.34  TLi  *****  end	*****/
 
-boolean ridcheck(
-  square	i,
-  numvec	kanf,
-  numvec	kend,
-  piece	p,
-  boolean	(*evaluate)(square, square,square))
+boolean ridcheck(square	sq_king,
+                 numvec	kanf,
+                 numvec	kend,
+                 piece	p,
+                 evalfunction_t	*evaluate)
 {
   /* detect "check" of rider p */			/* V2.60  NG */
-  piece p1;
-  square j1;
+  piece rider;
   numvec  k;
 
+  square sq_departure;
+
   for (k= kanf; k<= kend; k++) {
-	finligne(i, vec[k], p1, j1);
-	if (p1 == p
-        && (*evaluate)(j1, i, i)
-        && ridimcheck(j1, i, vec[k]))
-	{
+	finligne(sq_king,vec[k],rider,sq_departure);
+	if (rider==p
+        && evaluate(sq_departure,sq_king,sq_king)
+        && ridimcheck(sq_departure,sq_king,vec[k]))
       return true;
-	}
   }
   return false;
 }
 
-boolean marincheck(
-  square	i,
-  numvec	kanf,
-  numvec	kend,
-  piece	p,
-  boolean	(*evaluate)(square,square,square))
+boolean marincheck(square	sq_king,
+                   numvec	kanf,
+                   numvec	kend,
+                   piece	p,
+                   evalfunction_t *evaluate)
 {
   /* detect "check" of marin piece p or a locust */
-  piece p1;
-  square j1;
+  piece marine;
   numvec  k;
 
+  square sq_departure;
+  square sq_arrival;
+
   for (k= kanf; k<= kend; k++) {
-	if (e[i - vec[k]] == vide) {
-      finligne(i, vec[k], p1, j1);
-      if (p1 == p && (*evaluate)(j1, i - vec[k], i)) {
+    sq_arrival= sq_king-vec[k];
+	if (e[sq_arrival]==vide) {
+      finligne(sq_king,vec[k],marine,sq_departure);
+      if (marine==p && evaluate(sq_departure,sq_arrival,sq_king))
         /* V3.70  TLi */
 		return true;
-      }
 	}
   }
   return false;
@@ -553,8 +559,7 @@ boolean noantelopecontact(square ia)
 }
 
 
-boolean nocontact(square id, square ia, square ip) {
-  /* id - case dep., ia - case arr., ip - case pri. */
+boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
   boolean	Result;
   square	cr;
   piece	pj, pp, pren;
@@ -564,28 +569,27 @@ boolean nocontact(square id, square ia, square ip) {
 
   VARIABLE_INIT(cr);
 
-  pj= e[id];
-  pp= e[ip];
+  pj= e[sq_departure];
+  pp= e[sq_capture];
   /* does this work with neutral pieces ??? */	/* V3.37  NG */
   if (CondFlag[haanerchess]) {
-	e[id]= obs;
+	e[sq_departure]= obs;
   }
   else if (CondFlag[sentinelles]
-           && id > bas+8
-           && id < haut-8
+           && sq_departure>=square_a2 && sq_departure<=square_h7
            && !is_pawn(pj))				    /* V3.64  NG,TLi */
   {
-	if ((pj <= roin) ^ SentPionAdverse) {		 /* V3.50 SE */
+	if ((pj<=roin) != SentPionAdverse) {		 /* V3.50 SE */
       if (nbpiece[sentineln] < max_pn	    /* V3.60,3.63 SE */
 	      && nbpiece[sentinelb]+nbpiece[sentineln] < max_pt
 	      && (!flagparasent
               || (nbpiece[sentineln]
                   <= nbpiece[sentinelb]+(pp==sentinelb?1:0))))	/* V3.62 SE */
       {
-		e[id]= sentineln;
+		e[sq_departure]= sentineln;
       }
       else {
-		e[id]= vide;
+		e[sq_departure]= vide;
       }
 	}
 	else { /* we assume  pj >= roib */
@@ -596,10 +600,10 @@ boolean nocontact(square id, square ia, square ip) {
                   <= nbpiece[sentineln]+(pp==sentineln?1:0))))
         /* V3.62 SE */
       {
-        e[id]= sentinelb;
+        e[sq_departure]= sentinelb;
       }
       else {
-		e[id]= vide;
+		e[sq_departure]= vide;
       }
       /* don't think any change as a result of Sentinelles */
       /* PionNeutral is needed as piece specs not changed  */
@@ -607,24 +611,24 @@ boolean nocontact(square id, square ia, square ip) {
 	}
   }
   else {
-	e[id]= vide;
-	/* e[id] = CondFlag[haanerchess] ? obs : vide;	   */
+	e[sq_departure]= vide;
+	/* e[sq_departure] = CondFlag[haanerchess] ? obs : vide;	   */
   }
 
-  if (ip == maxsquare+1) {				 /* V3.62 SE */
-	e[id]= e[ia];
+  if (sq_capture == messigny_exchange) {				 /* V3.62 SE */
+	e[sq_departure]= e[sq_arrival];
   }
   else {
 	/*****	TLi  V3.31  *****  begin  *****/
 	/* the pieces captured and reborn may be different: */
 	/* Clone, Chameleon Circe			    */
-    pp= e[ip];
+    pp= e[sq_capture];
 
 	/* the pieces can be reborn at the square where it has been
 	 * captured. For example, when it is taken by a locust or a
 	 * similarly moving piece
 	 */
-	e[ip]= vide;
+	e[sq_capture]= vide;
 
 	if (pp != vide && pp != obs) {	/* V1.6c, V3.05  NG,
                                        V3.1  TLi,
@@ -637,7 +641,7 @@ boolean nocontact(square id, square ia, square ip) {
 		** the move or potentially giving the check to the
 		** argument list!
 		*/
-		if (anyclone && id != rn && id != rb) {
+		if (anyclone && sq_departure != rn && sq_departure != rb) {
           /* Circe Clone */
           pren = (pj * pp < 0) ? -pj : pj;
 		}
@@ -649,10 +653,10 @@ boolean nocontact(square id, square ia, square ip) {
 		}
 
 		if (CondFlag[couscous]) {
-          cr= (*circerenai)(pj, spec[id], ip, id, ia, pp > vide ? blanc : noir);	/* V3.80  NG */
+          cr= (*circerenai)(pj, spec[sq_departure], sq_capture, sq_departure, sq_arrival, pp > vide ? blanc : noir);	/* V3.80  NG */
 		}
 		else {
-          cr= (*circerenai)(pren, spec[ip], ip, id, ia, pp > vide ? noir : blanc);	/* V3.80  NG */
+          cr= (*circerenai)(pren, spec[sq_capture], sq_capture, sq_departure, sq_arrival, pp > vide ? noir : blanc);	/* V3.80  NG */
 		}
 
 		if ((pc= e[cr]) == vide) {		/* V2.90  NG */
@@ -663,25 +667,25 @@ boolean nocontact(square id, square ia, square ip) {
 	/*****	TLi  V3.31  *****  end	*****/
 	else { /* no capture move */			/* V3.35  NG */
       if (abs(pj) == King && castling_supported) {
-		if (ip == maxsquare+2) {	/* 0-0 */ /* V3.63  NG */
+		if (sq_capture == kingside_castling) {	/* V3.63  NG */
           flag_castling= 1;
-          e[ia - 1]= e[ia + 1];
-          e[ia + 1]= vide;
+          e[sq_arrival+dir_left]= e[sq_arrival+dir_right];
+          e[sq_arrival+dir_right]= vide;
 		}
-		else if (ip == maxsquare+3) {	/* 0-0-0 */ /* V3.63  NG */
+		else if (sq_capture == queenside_castling) { /* V3.63  NG */
           flag_castling= 2;
-          e[ia + 1]= e[ia - 2];
-          e[ia - 2]= vide;
+          e[sq_arrival+dir_right]= e[sq_arrival+2*dir_left];
+          e[sq_arrival+2*dir_left]= vide;
 		}
       }
 	}
   }
 
   if (CondFlag[contactgrid]) {			/* V2.4c  NG */
-	Result= nogridcontact(ia);			/* V2.5c  NG */
+	Result= nogridcontact(sq_arrival);			/* V2.5c  NG */
   }
   else {
-	Result= (*nocontactfunc)(ia);
+	Result= (*nocontactfunc)(sq_arrival);
   }
 
   if (pc != obs) {					/* V3.02  TLi,
@@ -689,15 +693,15 @@ boolean nocontact(square id, square ia, square ip) {
 	e[cr]= pc;
   }
 
-  e[ip]= pp;						/* V3.02  TLi */
-  e[id]= pj;
+  e[sq_capture]= pp;						/* V3.02  TLi */
+  e[sq_departure]= pj;
   if (flag_castling == 1) {				/* V3.35  NG */
-	e[ia + 1]= e[ia - 1];
-	e[ia - 1]= vide;
+	e[sq_arrival+dir_right]= e[sq_arrival+dir_left];
+	e[sq_arrival+dir_left]= vide;
   }
   else if (flag_castling == 2) {
-	e[ia - 2]= e[ia + 1];
-	e[ia + 1]= vide;
+	e[sq_arrival+2*dir_left]= e[sq_arrival+dir_right];
+	e[sq_arrival+dir_right]= vide;
   } 
 
   return Result;
@@ -761,19 +765,22 @@ void ResetPosition(void) {
 
 /*****	V3.12  TLi  *****  end	*****/
 
-boolean ooorphancheck(square i, piece porph, piece p, boolean (* evaluate)(square,square,square)) {
+boolean ooorphancheck(square sq_king,
+                      piece porph,
+                      piece p,
+                      evalfunction_t *evaluate) {
   boolean	flag= false;
   square	olist[63], *bnp;
   int		k, j, nrp, co;
 
-  if ((*checkfunctions[abs(porph)])(i, porph, evaluate))
+  if ((*checkfunctions[abs(porph)])(sq_king,porph,evaluate))
 	return true;
 
   if ((nrp= nbpiece[p]) == 0)
 	return false;
 
   nbpiece[-p]--;
-  e[i]= dummyb;
+  e[sq_king]= dummyb;
   co= 0;
   for (bnp= boardnum; co < nrp; bnp++) {
 	if (e[*bnp] == p) {
@@ -782,33 +789,30 @@ boolean ooorphancheck(square i, piece porph, piece p, boolean (* evaluate)(squar
   }
   for (k= 0; k < co; k++) {
 	j= 0;
-	while (j < co) {
-      e[olist[j]]= (k == j) ? p : dummyb;
+	while (j<co) {
+      e[olist[j]]= k==j ? p : dummyb;
       j++;
 	}
-	if ((*checkfunctions[abs(porph)])(i, p, evaluate)) {
-      for (j= 0; j < co; e[olist[j++]]= p)
-		;
-      flag= ooorphancheck(olist[k], -porph, -p, evaluate);
+	if ((*checkfunctions[abs(porph)])(sq_king,p,evaluate)) {
+      for (j= 0; j<co; j++)
+		e[olist[j]]= p;
+      flag= ooorphancheck(olist[k],-porph,-p,evaluate);
       if (flag)
 		break;
 	}
-	else {
-      for (j= 0; j < co; e[olist[j++]]= p)
-		;
-	} 
-
+	else
+      for (j= 0; j<co; j++)
+		e[olist[j]]= p;
   }
 
   nbpiece[-p]++;
-  e[i]= -p;
+  e[sq_king]= -p;
   return flag;
 }
 
-boolean orphancheck(
-  square	 i,
-  piece	 p,
-  boolean	 (*evaluate)(square,square,square))
+boolean orphancheck(square	 sq_king,
+                    piece	 p,
+                    evalfunction_t *evaluate)
 {
   piece	*porph;
   boolean	flag= false;
@@ -832,7 +836,7 @@ boolean orphancheck(
           e[olist[j]]= (k == j) ? p : dummyb;
           j++;
 		}
-		if ((*checkfunctions[*porph])(i, p, evaluate)) {
+		if ((*checkfunctions[*porph])(sq_king, p, evaluate)) {
           piece op;
           for (j= 0; j < co; e[olist[j++]]= p)
 			;
@@ -856,24 +860,23 @@ boolean orphancheck(
   return false;
 } /* orphancheck */
 
-boolean fffriendcheck(
-  square	i,
-  piece	pfr,
-  piece	p,
-  boolean	(*evaluate)(square,square,square))	/* V3.65  TLi */
+boolean fffriendcheck(square	sq_king,
+                      piece	pfr,
+                      piece	p,
+                      evalfunction_t *evaluate)	/* V3.65  TLi */
 {
   boolean	flag= false;
   square	flist[63], *bnp;
   int		k, j, nrp, cf= 0;
 
-  if ((*checkfunctions[abs(pfr)])(i, pfr, evaluate))
+  if ((*checkfunctions[abs(pfr)])(sq_king, pfr, evaluate))
     return true;
 
   if ((nrp= nbpiece[p]-1) == 0)
     return false;
 
   nbpiece[p]--;
-  e[i]= dummyb;
+  e[sq_king]= dummyb;
   for (bnp= boardnum; cf < nrp; bnp++) {
     if (e[*bnp] == p) {
 	  flist[cf++]= *bnp;
@@ -886,7 +889,7 @@ boolean fffriendcheck(
       e[flist[j]]= (k == j) ? p : dummyb;
       j++;
 	}
-	if ((*checkfunctions[abs(pfr)])(i, p, evaluate)) {
+	if ((*checkfunctions[abs(pfr)])(sq_king, p, evaluate)) {
       for (j= 0; j < cf; e[flist[j++]]= p)
 		;
       flag= fffriendcheck(flist[k], pfr, p, evaluate);
@@ -901,13 +904,13 @@ boolean fffriendcheck(
   }
 
   nbpiece[p]++;
-  e[i]= p;
+  e[sq_king]= p;
   return flag;
 } /* fffriendcheck */
 
 boolean friendcheck(
   square	i, piece p,
-  boolean	(*evaluate)(square,square,square))	/* V3.65  TLi */
+  evalfunction_t *evaluate)	/* V3.65  TLi */
 {
   piece	*pfr, cfr;
   boolean	flag= false;

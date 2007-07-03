@@ -9,11 +9,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "py.h"
-#include "pydata.h"
 #include "pyproc.h"
 #include "pyhash.h"
 #include "pymsg.h"
 #include "pyint.h"
+#include "pydata.h"
 
 #define SetIndex(s, f)                                  \
   (s = (Flags)(s&((1<<DiaCirce)-1)) + (f<<DiaCirce))
@@ -66,7 +66,7 @@ boolean guards(square bk, piece p, square sq) {
 
   switch (p) {
   case Pawn:
-	return (sq > square_h1 && (diff == 23 || diff == 25));
+	return (sq>=square_a2 && (diff==+dir_up+dir_left || diff==+dir_up+dir_right));
 
   case Knight:
 	return (CheckDirKnight[diff] != 0);
@@ -125,7 +125,7 @@ boolean IllegalCheck(couleur camp) {
 		checks++;
       }
 	}
-	if (e[rn-23] == Pawn || e[rn-25] == Pawn) {
+	if (e[rn+dir_down+dir_right] == Pawn || e[rn+dir_down+dir_left] == Pawn) {
       checks++;
 	}
 
@@ -158,8 +158,8 @@ boolean impact(square bk, piece p, square sq) {
 } /* impact */
 
 smallint FroToKing(square f_sq, square t_sq) {
-  smallint diffcol= f_sq % 24 - t_sq % 24;
-  smallint diffrow= f_sq / 24 - t_sq / 24;
+  smallint diffcol= f_sq % onerow - t_sq % onerow;
+  smallint diffrow= f_sq / onerow - t_sq / onerow;
 
   if (diffcol < 0)
 	diffcol= -diffcol;
@@ -262,11 +262,11 @@ smallint FroTo(
 
   case Pawn:
 	if (f_p == t_p) {
-      diffcol= f_sq % 24 - t_sq % 24;
+      diffcol= f_sq % onerow - t_sq % onerow;
       if (diffcol < 0) {
 		diffcol= -diffcol;
       }
-      diffrow= f_sq / 24 - t_sq / 24;
+      diffrow= f_sq / onerow - t_sq / onerow;
       if (f_p < vide) {
 		/* black pawn */
 		if (diffrow < diffcol) {
@@ -275,7 +275,7 @@ smallint FroTo(
           */
           return maxply+1;
 		}
-		if (f_sq > square_h6 && diffrow > 1) {
+		if (f_sq>=square_a7 && diffrow > 1) {
           /* double step */
           if (diffrow-2 >= diffcol) {
 			diffrow--;
@@ -288,8 +288,8 @@ smallint FroTo(
 		if (-diffrow < diffcol) {
           return maxply+1;
 		}
-		if (   f_sq < square_a3
-               && diffrow < -1 && -diffrow-2 >= diffcol)
+		if (f_sq<=square_h2
+            && diffrow < -1 && -diffrow-2 >= diffcol)
 		{
           diffrow++;
 		}
@@ -334,8 +334,8 @@ void StoreSol(void) {
   }
 
   for (cp= 2; cp <= nbply; cp++) {
-	Sols[SolMax][cp].from= cd[repere[cp+1]];
-	Sols[SolMax][cp].to= ca[repere[cp+1]];
+	Sols[SolMax][cp].from= move_generation_stack[repere[cp+1]].departure;
+	Sols[SolMax][cp].to= move_generation_stack[repere[cp+1]].arrival;
 	Sols[SolMax][cp].prom= jouearr[cp];
   }
 
@@ -353,8 +353,8 @@ boolean SolAlreadyFound(void) {
   for (cs= 0; cs < SolMax && !found; cs++) {
 	found= true;
 	for (cp= 2; cp <= nbply && found; cp++) {
-      found= Sols[cs][cp].from == cd[repere[cp+1]]
-		&& Sols[cs][cp].to   == ca[repere[cp+1]]
+      found= Sols[cs][cp].from == move_generation_stack[repere[cp+1]].departure
+		&& Sols[cs][cp].to   == move_generation_stack[repere[cp+1]].arrival
 		&& Sols[cs][cp].prom == jouearr[cp];
 	}
   }
@@ -444,26 +444,26 @@ boolean MatePossible(void) {
       if (index == IndxChP) {
 		square _rn= rn;
 		rn= Mate[GetIndex(spec[rn])].sq;
-		time= -FroTo(pjoue[nbply], cd[nbcou],
+		time= -FroTo(pjoue[nbply], move_generation_stack[nbcou].departure,
                      Mate[index].p, t_sq, true);
 		rn= _rn;
       }
       else {
 		time= -FroTo(pjoue[nbply],
-                     cd[nbcou], Mate[index].p, t_sq, false);
+                     move_generation_stack[nbcou].departure, Mate[index].p, t_sq, false);
       }
 
       /* new time */
       if (index == IndxChP && WhMovesLeft) {
 		square _rn= rn;
 		rn= Mate[GetIndex(spec[rn])].sq;
-		time += FroTo(e[ca[nbcou]], ca[nbcou],
+		time += FroTo(e[move_generation_stack[nbcou].arrival], move_generation_stack[nbcou].arrival,
                       Mate[index].p, t_sq, true);
 		rn= _rn;
       }
       else {
-		time += FroTo(e[ca[nbcou]],
-                      ca[nbcou], Mate[index].p, t_sq, false);
+		time += FroTo(e[move_generation_stack[nbcou].arrival],
+                      move_generation_stack[nbcou].arrival, Mate[index].p, t_sq, false);
       }
       if (trait[nbply] == blanc)
 		whmoves += time;
@@ -722,8 +722,8 @@ void PreventCheckAgainstWhK(
 
   while(encore() && (trouble == initsquare)) {	/* V3.65  NG,
                                                    TLi */
-	if (ca[nbcou] == rb) {
-      trouble= cd[nbcou];
+	if (move_generation_stack[nbcou].arrival == rb) {
+      trouble= move_generation_stack[nbcou].departure;
 	}
 	nbcou--;
   }
@@ -1052,7 +1052,7 @@ boolean BlIllegalCheck(square from, piece p) {
 	return CheckDirKnight[rb-from] != 0;
 
   case -Pawn:
-	return (dir == 25) || (dir == 23);
+	return (dir ==+dir_up+dir_right) || (dir==+dir_up+dir_left);
 
   case -Bishop:
 	return CheckDirBishop[dir] == dir;
@@ -1141,17 +1141,17 @@ void ImmobilizeByBlBlock(
 		/* A rough check whether it is worth thinking about
 		   promotions.
 		*/
-		smallint moves= black[i].sq / 24 - 8;
+		smallint moves= black[i].sq / onerow - 8;
 		if (moves > 5) {
           /* double step possible */
           moves= 5;
 		}
-		if (toblock > square_h1) {
+		if (toblock>=square_a2)
           /* square is not on 1st rank -- 1 move
              necessary to get there
           */
           moves++;
-		}
+
 		if (blmoves >= moves) {
           piece pp= -getprompiece[vide];
           while (pp != vide) {
@@ -1181,7 +1181,7 @@ void ImmobilizeByBlBlock(
 			pp= -getprompiece[-pp];
           }
 		}
-		pcreq= black[i].sq%24 - toblock%24;
+		pcreq= black[i].sq%onerow - toblock%onerow;
 		if (pcreq < 0)
           pcreq= -pcreq;
       }
@@ -1189,7 +1189,7 @@ void ImmobilizeByBlBlock(
 		pcreq= 0;
       }
 
-      if ((f_p != -Pawn ) || (toblock > square_h1)) {
+      if (f_p!=-Pawn || toblock>=square_a2) {
 		time= FroTo(f_p, black[i].sq, f_p, toblock, false);
 		if ( time <= blmoves
              && pcreq <= blpcallowed
@@ -1257,9 +1257,8 @@ void ImmobilizeByWhBlock(
       /* A rough check whether it is worth thinking about
          promotions.
       */
-      if (whmoves >= ((toblock < square_a8)
-                      ? moves_to_prom[i]+1
-                      : moves_to_prom[i]))
+      if (whmoves
+          >= (toblock<=square_h7 ? moves_to_prom[i]+1 : moves_to_prom[i]))
       {
 		piece pp= getprompiece[vide];
 		while (pp != vide) {
@@ -1288,7 +1287,7 @@ void ImmobilizeByWhBlock(
           pp= getprompiece[pp];
 		}
       }
-      pcreq= white[i].sq%24 - toblock%24;
+      pcreq= white[i].sq%onerow - toblock%onerow;
       if (pcreq < 0) {
 		pcreq= -pcreq;
       }
@@ -1385,17 +1384,17 @@ void Immobilize(
   genmove(noir);
   while (encore() && (trouble != rn) && !pinnecessary) {
 	if (jouecoup() && !echecc(noir)) {
-      trouble= cd[nbcou];
-      switch (-e[ca[nbcou]]) {
+      trouble= move_generation_stack[nbcou].departure;
+      switch (-e[move_generation_stack[nbcou].arrival]) {
       case Knight:
       case King:
-        block= ca[nbcou];
+        block= move_generation_stack[nbcou].arrival;
         break;
       default:
-        block= cd[nbcou]
-          + CheckDirQueen[(ca[nbcou]-cd[nbcou])];
+        block= move_generation_stack[nbcou].departure
+          + CheckDirQueen[(move_generation_stack[nbcou].arrival-move_generation_stack[nbcou].departure)];
       }
-      pinnecessary= (ca[nbcou] == block)
+      pinnecessary= (move_generation_stack[nbcou].arrival == block)
         && (pprise[nbply] != vide);
       switch (toblock[block]) {
       case 1:
@@ -1646,7 +1645,7 @@ void BlackPieceTo(
       p= black[actpbl].p;
       blackused[actpbl]= true;
 
-      if (p != -Pawn || sq > square_h1) {
+      if (p != -Pawn || sq>=square_a2) {
 		time= FroTo(p, black[actpbl].sq, p, sq, false);
 		if ( (time <= blmoves)
              && ((rb == initsquare) || !BlIllegalCheck(sq, p)))
@@ -1654,7 +1653,7 @@ void BlackPieceTo(
           Flags sp= black[actpbl].sp;
           SetPiece(p, sq, sp);
           if (p == -Pawn) {
-			smallint diffcol= black[actpbl].sq%24 - sq%24;
+			smallint diffcol= black[actpbl].sq%onerow - sq%onerow;
 			if (diffcol < 0) {
               diffcol= -diffcol;
 			}
@@ -1674,13 +1673,13 @@ void BlackPieceTo(
 		/* A rough check whether it is worth thinking about
 		   promotions.
         */
-		time= black[actpbl].sq / 24 - 8;
+		time= black[actpbl].sq / onerow - 8;
 		if (time > 5) {
           time= 5;
 		}
-		if (sq > square_h1) {
+		if (sq>=square_a2)
           time++;
-		}
+
 		if (time <= blmoves) {
           piece pp= -getprompiece[vide];
           while (pp != vide) {
@@ -1690,7 +1689,7 @@ void BlackPieceTo(
 			/* black piece */
 			if (pp == -Bishop
                 && SquareCol(sq)
-                != SquareCol(black[actpbl].sq%24+192))
+                != SquareCol(black[actpbl].sq%onerow+192))
 			{
               diffcol= 1;
 			}
@@ -1748,7 +1747,7 @@ void WhitePieceTo(
           continue;
 		}
 		if (p == Pawn) {
-          smallint diffcol= white[actpwh].sq%24 - sq%24;
+          smallint diffcol= white[actpwh].sq%onerow - sq%onerow;
           if (diffcol < 0) {
 			diffcol= -diffcol;
           }
@@ -1768,7 +1767,7 @@ void WhitePieceTo(
       /* A rough check whether it is worth thinking about
          promotions.
       */
-      time= white[actpwh].sq / 24 - 8;
+      time= white[actpwh].sq / onerow - 8;
       if (time > 5) {
 		time= 5;
       }
@@ -1782,7 +1781,7 @@ void WhitePieceTo(
           time= FroTo(p, white[actpwh].sq, pp, sq, false);
           if (pp == Bishop
 		      && SquareCol(sq)
-              == SquareCol(white[actpwh].sq%24+192))
+              == SquareCol(white[actpwh].sq%onerow+192))
           {
 			diffcol= 1;
           }
@@ -1822,8 +1821,8 @@ void NeutralizeMateGuardingPieces(
 
   while(encore() && (trouble == initsquare)) {	/* V3.65  NG */
 	if (jouecoup() && !echecc(noir)) {
-      trouble= cd[nbcou];
-      trto= ca[nbcou];
+      trouble= move_generation_stack[nbcou].departure;
+      trto= move_generation_stack[nbcou].arrival;
 	}
 	repcoup();
   }
@@ -1886,7 +1885,7 @@ smallint MovesToBlock(square sq, smallint blmoves) {
 	smallint  time;
 	piece	  p= black[i].p;
 
-	if ((p != -Pawn) || (sq > square_h1)) {
+	if (p!=-Pawn || sq>=square_a2) {
       time=  FroTo(p, black[i].sq, p, sq, false);
       if (time < mintime) {
 		mintime= time;
@@ -1898,13 +1897,13 @@ smallint MovesToBlock(square sq, smallint blmoves) {
       /* A rough check whether it is worth thinking about
          promotions.
       */
-      smallint moves= black[i].sq / 24 - 8;
-      if (moves > 5) {
+      smallint moves= black[i].sq / onerow - 8;
+      if (moves > 5)
 		moves= 5;
-      }
-      if (sq > square_h1) {
+
+      if (sq>=square_a2)
 		moves++;
-      }
+
       if (blmoves >= moves) {
 		piece pp= -getprompiece[vide];
 		while (pp != vide) {
@@ -1975,7 +1974,7 @@ void GenerateBlocking(
 
 		blackused[actpbl]= true;
 
-		if (p != -Pawn || sq > square_h1) {
+		if (p!=-Pawn || sq>=square_a2) {
           wasted= FroTo(p, black[actpbl].sq, p, sq, false)
             - mintime[nbrfl];
           if ((wasted <= timetowaste)
@@ -1985,7 +1984,7 @@ void GenerateBlocking(
 			SetPiece(p, sq, sp);
 			if (p == -Pawn) {
               smallint diffcol;
-              diffcol= black[actpbl].sq%24 - sq%24;
+              diffcol= black[actpbl].sq%onerow - sq%onerow;
               if (diffcol < 0) {
 				diffcol= -diffcol;
               }
@@ -2007,53 +2006,53 @@ void GenerateBlocking(
 		if (p == -Pawn) {
           /* A rough check whether it is worth thinking about
              promotions. */
-          smallint moves= black[actpbl].sq / 24 - 8;
-          if (moves > 5) {
+          smallint moves= black[actpbl].sq / onerow - 8;
+          if (moves > 5)
 			moves= 5;
-          }
-          if (sq > square_h1) {
-			moves++;
-          }
+
+          if (sq>=square_a2)
+            moves++;
+
           if (timetowaste >= moves-mintime[nbrfl]) {
-			piece pp= -getprompiece[vide];
-			while (pp != vide) {
+            piece pp= -getprompiece[vide];
+            while (pp != vide) {
               smallint diffcol;
               wasted= FroTo(p,
                             black[actpbl].sq, -pp, sq, false)
                 - mintime[nbrfl];
               /* black piece */
               if (pp == -Bishop
-			      && SquareCol(sq)
-                  != SquareCol(black[actpbl].sq%24+192))
+                  && SquareCol(sq)
+                  != SquareCol(black[actpbl].sq%onerow+192))
               {
-				diffcol= 1;
+                diffcol= 1;
               }
               else {
-				diffcol= 0;
+                diffcol= 0;
               }
               if ((diffcol <= blpcallowed
                    && wasted <= timetowaste)
-			      && (rb == initsquare
+                  && (rb == initsquare
                       || !BlIllegalCheck(sq, pp)))
               {
-				Flags sp= black[actpbl].sp;
-				/* smallint index= GetIndex(sp); */
-				SetPiece(pp, sq, sp);
-				GenerateBlocking(whmoves,
+                Flags sp= black[actpbl].sp;
+                /* smallint index= GetIndex(sp); */
+                SetPiece(pp, sq, sp);
+                GenerateBlocking(whmoves,
                                  nbrfl, toblock, mintime,
                                  blpcallowed-diffcol, whpcallowed,
                                  timetowaste-wasted);
               }
               /* get next promotion piece */
               pp= -getprompiece[-pp];
-			}
+            }
           }
-		}
-		blackused[actpbl]= false;
+        }
+        blackused[actpbl]= false;
       }
-	}
-	e[sq]= vide;
-	spec[sq]= EmptySpec;
+    }
+    e[sq]= vide;
+    spec[sq]= EmptySpec;
   }
 } /* GenerateBlocking */
 
@@ -2114,11 +2113,11 @@ void GenerateGuarding(
       if (jouecoup()
           && stipulation == stip_stale)
       {
-		e[cd[nbcou]]= obs;
+		e[move_generation_stack[nbcou].departure]= obs;
       }
 
       if (!echecc(noir)) {
-		toblock[flights++]= ca[nbcou];
+		toblock[flights++]= move_generation_stack[nbcou].arrival;
 		if (pprise[nbply] != vide) {
           unblockable= true;
 		}
@@ -2213,7 +2212,7 @@ void GenerateGuarding(
 		SetPiece(p, *bnp, sp);
 		if (!IllegalCheck(noir)) {
           if (p == Pawn) {
-			smallint diffcol= sq % 24 - *bnp % 24;
+			smallint diffcol= sq % onerow - *bnp % onerow;
 			GenerateGuarding(actpwh+1, whmoves-time,
                              blmoves, whcaptures+abs(diffcol));
           }
@@ -2228,9 +2227,10 @@ void GenerateGuarding(
 		/* A rough check whether it is worth thinking about
 		   promotions.
         */
-		if (whmoves >= ((*bnp < square_a8)
-                        ? moves_to_prom[actpwh]+1
-                        : moves_to_prom[actpwh]))
+		if (whmoves
+            >= (*bnp<=square_h7
+                ? moves_to_prom[actpwh]+1
+                : moves_to_prom[actpwh]))
 		{
           piece pp= getprompiece[vide];
           while (pp != vide) {
@@ -2292,7 +2292,7 @@ void GenerateChecking(smallint whmoves, smallint blmoves) {
 		piecechecking= p;
 		squarechecking= sq;
 		if (p == Pawn) {
-          smallint diffcol= white[j].sq % 24 - sq % 24;
+          smallint diffcol= white[j].sq % onerow - sq % onerow;
           GenerateGuarding(0,
                            whmoves-time, blmoves, abs(diffcol));
 		}
@@ -2305,9 +2305,8 @@ void GenerateChecking(smallint whmoves, smallint blmoves) {
 		/* A rough check whether it is worth thinking about
 		   promotions.
         */
-		if (whmoves >= ((sq < square_a8)
-                        ? moves_to_prom[j]+1
-                        : moves_to_prom[j]))
+		if (whmoves
+            >= (sq<=square_h7 ? moves_to_prom[j]+1 : moves_to_prom[j]))
 		{
           piece pp= getprompiece[vide];
           while (pp != vide) {
@@ -2414,28 +2413,27 @@ boolean Intelligent(
       white[MaxPieceWhite].sq= *bnp;
       whiteused[MaxPieceWhite]= false;
       if (e[*bnp] == Pawn) {
-	    smallint	moves= 15 - *bnp / 24;
+	    smallint	moves= 15 - *bnp / onerow;
 	    square	sq= *bnp;
-	    if (moves > 5) {
+	    if (moves > 5)
           moves= 5;
-	    }
+
 	    /* a white piece that cannot move away */
-	    if ( moves == 5
-             && moves == WhMovesLeft
-             && (sq < square_a3 && (e[sq+24] > vide || e[sq+48] > vide)))
-	    {
+	    if (moves == 5
+            && moves == WhMovesLeft
+            && (sq<=square_h2 && (e[sq+dir_up]>vide || e[sq+2*dir_up]>vide)))
           moves= maxply+1;
-	    }
+
 	    /* a black pawn that needs a white sacrifice to move away */
 	    else if (whmoves < 7
-                 && sq < square_a3
-                 && e[sq-1] <= King && e[sq+1] <= King
-                 && (e[sq+24] == -Pawn
-                     || (e[sq+23] <= King
-                         && e[sq+25] <= King
-                         && (ep[1] != sq+23)
-                         && (ep[1] != sq+25)
-                         && e[sq+48] == -Pawn)))
+                 && sq<=square_h2
+                 && e[sq+dir_left] <= King && e[sq+dir_right] <= King
+                 && (e[sq+dir_up] == -Pawn
+                     || (e[sq+dir_up+dir_left] <= King
+                         && e[sq+dir_up+dir_right] <= King
+                         && (ep[1] != sq+dir_up+dir_left)
+                         && (ep[1] != sq+dir_up+dir_right)
+                         && e[sq+2*dir_up] == -Pawn)))
 	    {
           moves++;
 	    }
@@ -2490,7 +2488,7 @@ boolean Intelligent(
 	StdString(GlobalStr);
 	if (!flag_regression) {		/* V3.74  NG */
       StdString("  (");
-      PrintTime(TimeString);
+      PrintTime();
       StdString(")");
 	}
 	StdString("\n");

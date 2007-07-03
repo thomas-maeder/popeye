@@ -641,7 +641,7 @@ int GetPieNamIndex(char a,char b) {
 int FieldNum(char a,char b)
 {
   if ('a' <= a && a <= 'h' && '1' <= b && b <= '8')
-    return bas + a - 'a' + (b - '1') * 24;	  /* V2.60  NG */
+    return bas + a - 'a' + (b - '1') * onerow;	  /* V2.60  NG */
   else
     return 0;
 }
@@ -697,7 +697,7 @@ static char *ParseLaTeXPieces(char *tok) {
       }
 
       tok= ReadNextTokStr();
-      LaTeXPiecesAbbr[Name]= malloc(sizeof(char)*(strlen(tok)+1));
+      LaTeXPiecesAbbr[Name]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
       i= 0;
       while (tok[i]) {
         /* to avoid compiler warnings below made "better readable" */      /* V3.80  NG */
@@ -708,7 +708,7 @@ static char *ParseLaTeXPieces(char *tok) {
       LaTeXPiecesAbbr[Name][i]= tok[i];
 
       tok= ReadToEndOfLine();
-      LaTeXPiecesFull[Name]= malloc(sizeof(char)*(strlen(tok)+1));
+      LaTeXPiecesFull[Name]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
       strcpy(LaTeXPiecesFull[Name], tok);
 
       tok= ReadNextTokStr();
@@ -768,7 +768,8 @@ static char *ParseFieldList(
                   ? 'n'
                   : TSTFLAG(Spec, White) ? 'w' : 's',
                   LaTeXPiece(Name),
-                  'a'-8+Field%24, '1'-8+Field/24);
+                  'a'-nr_of_slack_files_left_of_board+Field%onerow,
+                  '1'-nr_of_slack_rows_below_board+Field/onerow);
           strcat(ActTwin, GlobalStr);
 		}
 		if (e[Field] == vide) {
@@ -903,15 +904,12 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)  /* V3.40  TLi */
 }
 
 square NextSquare(square sq) {
-  if (sq%24 < 15) {
-	return ++sq;
-  }
-  else if ((sq > bas + 7) && (sq <= haut)) {
-	return sq - 31;
-  }
-  else {
+  if (sq%onerow<nr_of_slack_files_left_of_board+nr_files_on_board-1)
+	return sq+1;
+  else if (sq>=square_a2 && sq<=haut)
+	return sq - onerow - (nr_files_on_board-1);
+  else
 	return initsquare;
-  }
 }
 
 square SetSquare(square sq, piece p, boolean bw, boolean *neut)
@@ -2549,13 +2547,13 @@ square RotMirrSquare(square sq, int what) {
   square ret= sq;
 
   switch (what) {
-  case rot90:     ret= 24*(sq%24)-sq/24+23;      break;
-  case rot180:    ret= 575-sq;		      break;
-  case rot270:    ret= -24*(sq%24)+sq/24-23+575; break;
-  case mirra1a8:  ret= sq%24+24*(23-sq/24);      break;
-  case mirra1h1:  ret= (23-sq%24)+24*(sq/24);    break;
-  case mirra8h1:  ret= 24*(sq%24)+sq/24;	      break;
-  case mirra1h8:  ret= (23-sq/24)+24*(23-sq%24); break;
+  case rot90:     ret= onerow*(sq%onerow)-sq/onerow+(onerow-1);      break;
+  case rot180:    ret= haut+bas - sq;		      break;
+  case rot270:    ret= -onerow*(sq%onerow)+sq/onerow-(onerow-1)+haut+bas; break;
+  case mirra1a8:  ret= sq%onerow+onerow*((onerow-1)-sq/onerow);      break;
+  case mirra1h1:  ret= ((onerow-1)-sq%onerow)+onerow*(sq/onerow);    break;
+  case mirra8h1:  ret= onerow*(sq%onerow)+sq/onerow;	      break;
+  case mirra1h8:  ret= ((onerow-1)-sq/onerow)+onerow*((onerow-1)-sq%onerow); break;
   }
   return ret;
 }
@@ -2698,7 +2696,9 @@ static char *ParseTwinMove(int indexx) {		/* V3.40  TLi */
             TSTFLAG(spec[sq1], Neutral)
             ? 'n'
             : TSTFLAG(spec[sq1], White) ? 'w' : 's',
-            LaTeXPiece(e[sq1]), 'a'-8+sq1%24, '1'-8+sq1/24);
+            LaTeXPiece(e[sq1]),
+            'a'-nr_files_on_board+sq1%onerow,
+            '1'-nr_rows_on_board+sq1/onerow);
 	strcat(ActTwin, GlobalStr);
   }
 
@@ -2727,7 +2727,9 @@ static char *ParseTwinMove(int indexx) {		/* V3.40  TLi */
   }
   WriteSquare(sq2);
   if (LaTeXout) {					 /* V3.47  NG */
-	sprintf(GlobalStr, "%c%c", 'a'-8+sq2%24, '1'-8+sq2/24);
+	sprintf(GlobalStr, "%c%c",
+            'a'-nr_files_on_board+sq2%onerow,
+            '1'-nr_rows_on_board+sq2/onerow);
 	strcat(ActTwin, GlobalStr);
   }
 
@@ -2803,7 +2805,10 @@ static char *ParseTwinShift(void) {			/* V3.40  TLi */
 	/* LaTeX  V3.46  TLi */
 	sprintf(GlobalStr, "%s %c%c$\\Rightarrow$%c%c",
             TwinTab[TwinShift],
-            'a'-8+sq1%24, '1'-8+sq1/24, 'a'-8+sq2%24, '1'-8+sq2/24);
+            'a'-nr_files_on_board+sq1%onerow,
+            '1'-nr_rows_on_board+sq1/onerow,
+            'a'-nr_files_on_board+sq2%onerow,
+            '1'-nr_rows_on_board+sq2/onerow);
 	strcat(ActTwin, GlobalStr);
   }
 
@@ -2813,8 +2818,8 @@ static char *ParseTwinShift(void) {			/* V3.40  TLi */
   StdString(" ==> ");
   WriteSquare(sq2);
 
-  diffrank= sq2/24-sq1/24;
-  diffcol= sq2%24-sq1%24;
+  diffrank= sq2/onerow-sq1/onerow;
+  diffcol= sq2%onerow-sq1%onerow;
 
   minrank= 23;
   maxrank= 0;
@@ -2823,17 +2828,17 @@ static char *ParseTwinShift(void) {			/* V3.40  TLi */
 
   for (bnp= boardnum; *bnp; bnp++) {
 	if (e[*bnp] != vide) {
-      if (*bnp/24 < minrank) {
-		minrank= *bnp/24;
+      if (*bnp/onerow < minrank) {
+		minrank= *bnp/onerow;
       }
-      if (*bnp/24 > maxrank) {
-		maxrank= *bnp/24;
+      if (*bnp/onerow > maxrank) {
+		maxrank= *bnp/onerow;
       }
-      if (*bnp%24 < mincol) {
-		mincol= *bnp%24;
+      if (*bnp%onerow < mincol) {
+		mincol= *bnp%onerow;
       }
-      if (*bnp%24 > maxcol) {
-		maxcol= *bnp%24;
+      if (*bnp%onerow > maxcol) {
+		maxcol= *bnp%onerow;
       }
 	}    }
 
@@ -2849,14 +2854,14 @@ static char *ParseTwinShift(void) {			/* V3.40  TLi */
 	if (diffrank > 0) {
       for (c= 8; c <= 15; c++) {
 		for (r= maxrank; r >= minrank; r--) {
-          MovePieceFromTo(24*r+c, 24*(r+diffrank)+c);
+          MovePieceFromTo(onerow*r+c, onerow*(r+diffrank)+c);
 		}
       }
 	}
 	else if (diffrank < 0) {
       for (c= 8; c <= 15; c++) {
 		for (r= minrank; r <= maxrank; r++) {
-          MovePieceFromTo(24*r+c, 24*(r+diffrank)+c);
+          MovePieceFromTo(onerow*r+c, onerow*(r+diffrank)+c);
 		}
       }
 	}
@@ -2865,14 +2870,14 @@ static char *ParseTwinShift(void) {			/* V3.40  TLi */
 	if (diffcol > 0) {
       for (c= maxcol; c >= mincol; c--) {
 		for (r= 8; r <= 15; r++) {
-          MovePieceFromTo(24*r+c, 24*r+c+diffcol);
+          MovePieceFromTo(onerow*r+c, onerow*r+c+diffcol);
 		}
       }
 	}
 	else if (diffcol < 0) {				/* V3.44  TLi */
       for (c= mincol; c <= maxcol; c++) {
 		for (r= 8; r <= 15; r++) {
-          MovePieceFromTo(24*r+c, 24*r+c+diffcol);
+          MovePieceFromTo(onerow*r+c, onerow*r+c+diffcol);
 		}
       }
 	}
@@ -2928,7 +2933,9 @@ static char *ParseTwinRemove(void) {
                : TSTFLAG(spec[sq], White) ? "\\w" : "\\s");
 		strcat(ActTwin,
                LaTeXPiece(e[sq]));
-		sprintf(GlobalStr, " %c%c", 'a'-8+sq%24, '1'-8+sq/24);
+		sprintf(GlobalStr, " %c%c",
+                'a'-nr_files_on_board+sq%onerow,
+                '1'-nr_rows_on_board+sq/onerow);
 		strcat(ActTwin, GlobalStr);
       }
 
@@ -3465,8 +3472,8 @@ void AddSquare(char *List, square i) {
   char    add[4];
 
   add[0]= ' ';
-  add[1]= 'a' - 8 + i % 24;
-  add[2]= '1' - 8 + i / 24;
+  add[1]= 'a' - nr_files_on_board + i%onerow;
+  add[2]= '1' - nr_rows_on_board + i/onerow;
   add[3]= '\0';
   strcat(List, add);
 }
@@ -3975,7 +3982,7 @@ void WritePosition() {
   StdChar('\n');
   StdString(BorderL);
   StdString(BlankL);
-  field= haut - 7;			     /* V2.60  NG */
+  field= square_a8;			     /* V2.60  NG */
 
   if (CondFlag[imitators]) {		   /* Just for visualizing    */
 	for (i= 0; i < inum[1]; i++) {	       /* imitators on the    */
@@ -4076,10 +4083,11 @@ void WritePosition() {
       sprintf(StipOptStr+strlen(StipOptStr), "/%d", maxflights);
 	}
   }
-  else {
-	if (maxflights < 64) {
-      sprintf(StipOptStr+strlen(StipOptStr), "//%d", maxflights);
-	}
+  else if (maxflights < 64) {
+    sprintf(StipOptStr+strlen(StipOptStr), "//%d", maxflights);
+  } else if (flag_atob) {
+    sprintf(StipOptStr+strlen(StipOptStr), "(%s)",
+            PieSpString[ActLang][flag_appseul ? White : Black]);
   }
   /* V3.32  TLi */
   if (NonTrivialLength < enonce - 1) {	/* changed V3.62  TLi */
@@ -4471,8 +4479,8 @@ void LaTeXBeginDiagram(void) {				/* V3.46  TLi */
               TSTFLAG(spec[*bnp], Neutral) ? 'n' :
               TSTFLAG(spec[*bnp], White)   ? 'w' : 's',
               LaTeXPiece(p),
-              *bnp%24-200%24+'a',
-              *bnp/24-200/24+'1');
+              *bnp%onerow-200%onerow+'a',
+              *bnp/onerow-200/onerow+'1');
 
       if (e[*bnp] == -1) {
 		e[*bnp]= vide;
@@ -4645,13 +4653,13 @@ void WritePiece(piece p) {
 }
 
 void WriteSquare(square i) {
-  StdChar('a' - 8 + i % 24);				/* V2.60  NG */
+  StdChar('a' - nr_files_on_board + i % onerow);				/* V2.60  NG */
   if (OptFlag[duplex] && OptFlag[intelligent] && maincamp == noir) {
 	/* V3.50  TLi */
-	StdChar('8' + 8 - i / 24);
+	StdChar('8' + nr_rows_on_board - i / onerow);
   }
   else {
-	StdChar('1' - 8 + i / 24);			/* V2.60  NG */
+	StdChar('1' - nr_rows_on_board + i / onerow);			/* V2.60  NG */
   }
 }
 

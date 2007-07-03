@@ -48,7 +48,7 @@
 #OPT=+O4 +Oaggressive	#HP-UX
 #OPT=-O4 -ansi_alias -fast -inline speed -ifo	#OS ? TLi
 #OPT=-fast -Xc		#Sun Solaris
-OPT=-O2 -Wall
+OPT=-O3 -Wall
 
 #ARCH=-xarch=v9		# 64-Bit Solaris cc
 #ARCH=-m64		# 64-Bit gcc

@@ -200,6 +200,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
   ply		    n;
   smallint	    cp, pp, tp, op;
   int		    i;			     /* V3.41  TLi */
+  boolean          nonoptgenre;
 
   if (CondFlag[glasgow] && CondFlag[circemalefique])	/* V3.39  TLi */
 	anycirprom= True;
@@ -208,18 +209,14 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
   if (!CondFlag[einstein]) {				/* V3.39  TLi */
 	square i;
 	if (!CondFlag[whprom_sq]) {	      /* V3.57	NG, V3.64  NG */
-      for (i= 0; i < 8; i++) {
-		SETFLAG(sq_spec[CondFlag[glasgow]
-                        ? haut-24-i
-                        : haut-i], WhPromSq);
-      }
+      for (i= 0; i < 8; i++)
+		SETFLAG(sq_spec[CondFlag[glasgow] ? square_h7-i : square_h8-i],
+                WhPromSq);
 	}
 	if (!CondFlag[blprom_sq]) {	      /* V3.57	NG, V3.64  NG */
-      for (i= 0; i < 8; i++) {
-		SETFLAG(sq_spec[CondFlag[glasgow]
-                        ? bas+24+i
-                        : bas+i], BlPromSq);
-      }
+      for (i= 0; i < 8; i++)
+		SETFLAG(sq_spec[CondFlag[glasgow] ? square_a2+i : square_a1+i],
+                BlPromSq);
 	}
   }
 
@@ -397,7 +394,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
       else if (is_symmetricfairy(p))
         flagsymmetricfairy= true;
       else {
-		if (!is_pawn(p) && p != dummyb && p < leob && p > vaob)	/* V3.77  NG */
+		if (!is_pawn(p) && p != dummyb && (p<leob || p>vaob))/* V3.77  NG */
           flagleofamilyonly= false;
 		flagveryfairy= true;
       }
@@ -485,6 +482,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
       flagblackmummer= false;
 	}
   }
+  
   if (flagultraschachzwang) {				 /* V3.62 SE */
 	CondFlag[blackultraschachzwang]= (maincamp==blanc);
 	CondFlag[whiteultraschachzwang]= (maincamp==noir);
@@ -1298,9 +1296,18 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
     satXY= WhiteSATFlights > 1 || BlackSATFlights > 1;
   }
 
+  move_generation_mode_opti_per_couleur[blanc]
+    = flagwhitemummer||nonoptgenre
+    ? move_generation_optimized_by_killer_move
+    : move_generation_optimized_by_nr_opponent_moves;
+  move_generation_mode_opti_per_couleur[noir]
+    = flagblackmummer||nonoptgenre
+    ? move_generation_optimized_by_killer_move
+    : move_generation_optimized_by_nr_opponent_moves;
+
   if (CondFlag[schwarzschacher])
   {
-	  totalortho= false;
+    totalortho= false;
 	nonoptgenre= true;
   }
 
@@ -1323,13 +1330,13 @@ numecoup sic_coup;
 ply sic_ply;	/* V3.51 SE */
 
 void current(coup *mov) {
-  square sq = ca[nbcou];
+  square sq = move_generation_stack[nbcou].arrival;
 
   /*------------------------------------- modified. V1.2c  NG */
   mov->tr=		    trait[nbply];		 /* V3.1  TLi */
-  mov->cdzz =		    cd[nbcou];
+  mov->cdzz =		    move_generation_stack[nbcou].departure;
   mov->cazz=		    sq;
-  mov->cpzz=		    cp[nbcou];
+  mov->cpzz=		    move_generation_stack[nbcou].capture;
   mov->pjzz=		    pjoue[nbply];
   mov->norm_prom=	    norm_prom[nbply];		/* V3.02  TLi */
   mov->ppri=		    pprise[nbply];
@@ -1442,15 +1449,15 @@ void editcoup(coup *mov) {
   short   icount, diff;				/* V2.4d  TM */
   square sq;
 
-   if (mov->cazz==nullsquare) return;      /* V3.70 SE */
+  if (mov->cazz==nullsquare) return;      /* V3.70 SE */
 
-   /* Did we castle ?? */				/* V3.35  NG */
-  if (mov->cpzz == maxsquare+2
-      || mov->cpzz == maxsquare+3)			/* V3.55  TLi */
+  /* Did we castle ?? */				/* V3.35  NG */
+  if (mov->cpzz == kingside_castling
+      || mov->cpzz == queenside_castling)			/* V3.55  TLi */
   {
 	/* castling */
 	StdString("0-0");
-	if (mov->cpzz == maxsquare+3) {
+	if (mov->cpzz == queenside_castling) {
       StdString("-0");
 	}
 	if (CondFlag[einstein]) {
@@ -1461,7 +1468,7 @@ void editcoup(coup *mov) {
 		WritePiece(fb);
 	}
   } else {	/* no, we didn't castle */
-	if (mov->cpzz == maxsquare+1) {			/* V3.55  TLi */
+	if (mov->cpzz == messigny_exchange) {			/* V3.55  TLi */
       /* Messigny Chess */
       WritePiece(mov->pjzz);
       WriteSquare(mov->cdzz);
@@ -1621,7 +1628,7 @@ void editcoup(coup *mov) {
 	if (mov->bool_senti) {				/* V2.90 TLi */
       StdString("[+");
       StdChar((!SentPionNeutral || !TSTFLAG(mov->speci, Neutral))
-              ?  ((mov->tr == blanc) ^ SentPionAdverse
+              ?  ((mov->tr==blanc) != SentPionAdverse
                   ? WhiteChar
                   : BlackChar)
               : 'n');
@@ -1986,14 +1993,11 @@ smallint dsr_def(couleur camp, smallint n, smallint t) {
 	NonTrivialNumber -= ntcount;
   }
 
-  if ((n > 2)
-      && !nonoptgenre)			/* V3.78  SE */
-  {
-	optimize= true;
-  }
+  if (n>2)
+    move_generation_mode= move_generation_mode_opti_per_couleur[camp];
 
   genmove(camp);
-  optimize= false;
+  move_generation_mode= move_generation_optimized_by_killer_move;
 
   while (encore() && tablen(t) <= maxdefen) {
 	if (jouecoup() && !echecc(camp)) {   /* V3.44  SE/TLi */
@@ -2274,7 +2278,7 @@ void dsr_sol(
       if (nbd <= maxdefen) {
 		pushtabsol(t);
       }
-	}
+    }
 	if (restartenabled) {			       /* V3.44  TLi */
       IncrementMoveNbr();
 	}
@@ -2307,6 +2311,8 @@ boolean dsr_ant(couleur camp, smallint n)
 void SolveSeriesProblems(couleur camp) {		/* V3.32  TLi */
   boolean	is_exact= FlowFlag(Exact);
   int		i;
+
+  move_generation_mode= move_generation_not_optimized;
 
   flag_appseul= False;   /* V3.44  TLi
                                 -- no meaning in series movers would
@@ -2407,6 +2413,8 @@ void SolveSeriesProblems(couleur camp) {		/* V3.32  TLi */
 void SolveHelpProblems(couleur camp) {			/* V3.32  TLi */
   smallint	    n= 2*enonce, i;
   boolean	    is_exact= FlowFlag(Exact);
+
+  move_generation_mode= move_generation_not_optimized;
 
   if (SortFlag(Self)) {
 	n--;
@@ -2552,11 +2560,11 @@ void initduplex(void) {					/* V3.50  TLi */
   square *bnp, rsq;
 
 #ifdef NODEF    /* V4.03  ThM, TLi */
-  rsq= rb%24+24*(23-rb/24);
-  rb= rn%24+24*(23-rn/24);
+  rsq= rb%onerow+onerow*(23-rb/onerow);
+  rb= rn%onerow+onerow*(23-rn/onerow);
 #endif /* NODEF */
-  rsq= rb==initsquare ? initsquare : rb%24+24*(23-rb/24);
-  rb= rn==initsquare ? initsquare : rn%24+24*(23-rn/24);
+  rsq= rb==initsquare ? initsquare : rb%onerow+onerow*((onerow-1)-rb/onerow);
+  rb= rn==initsquare ? initsquare : rn%onerow+onerow*((onerow-1)-rn/onerow);
   rn= rsq;
   for (bnp= boardnum; *bnp; bnp++) {
 	if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide) {
@@ -2565,7 +2573,7 @@ void initduplex(void) {					/* V3.50  TLi */
 	}
   }
   for (bnp= boardnum; *bnp < (bas+haut)/2; bnp++) {
-	square sq2= *bnp%24+24*(23-*bnp/24);
+	square sq2= *bnp%onerow+onerow*((onerow-1)-*bnp/onerow);
 
 	piece p= e[sq2];
 	Flags sp= spec[sq2];
@@ -2686,9 +2694,10 @@ int main(int argc, char *argv[]) {
       sprintf(MMString, " (%ld GB)\n", MaxMemory>>30);
   }
 
-
-  pyfputs(StartUp, stdout);
-  pyfputs(MMString, stdout);				/* V3.37  NG */
+  if (!flag_regression) {
+    pyfputs(StartUp, stdout);
+    pyfputs(MMString, stdout);				/* V3.37  NG */
+  }
 
   /* For the very first time we try to open any *.str
      When we reach the last remainig language, we force
@@ -2898,17 +2907,16 @@ int main(int argc, char *argv[]) {
       }
 	} while (tk == TwinProblem);			/* V3.40  TLi */
 
-	if (   (FlagMaxSolsReached)
-           || (OptFlag[intelligent]
-               && maxsol_per_matingpos)		/* V3.60  NG */
-           || (FlagTimeOut))				/* V3.54  NG */
-	{
-      PrintTime(InterMessage);			/* V3.46  NG */
-	}
-	else {
-      PrintTime(FinishProblem);			/* V2.90  NG */
-	}
+	if ((FlagMaxSolsReached)
+        || (OptFlag[intelligent]
+            && maxsol_per_matingpos)		/* V3.60  NG */
+        || (FlagTimeOut))				/* V3.54  NG */
+      StdString(GetMsgString(InterMessage));
+	else
+      StdString(GetMsgString(FinishProblem));
 
+    StdString(" ");
+    PrintTime();			/* V3.46  NG */
 	StdString("\n\n\n");
 
 	if (LaTeXout) {					/* V3.46  TLi */

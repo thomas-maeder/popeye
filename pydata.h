@@ -86,12 +86,13 @@ EXTERN  square
 			RB_[maxply + 1];                /* V3.03 TLi */
 
 EXTERN  square          pattfld, patti, pattj;          /* V2.70c  TLi */
-EXTERN  square          cd[toppile + 1],        /* case dep. */
-			ca[toppile + 1],        /* case arr. */
-			cp[toppile + 1];        /* case pri. */
+EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
+#ifdef  WE_ARE_EXTERN
 EXTERN smallint maxinbox[];  /* V3.71 TM */
 EXTERN unsigned int boxsize; /* V3.71 TM */
+#endif
+
 EXTERN struct /* V3.71 TM */
 {
     square where;
@@ -100,10 +101,13 @@ EXTERN struct /* V3.71 TM */
 
 EXTERN  numecoup        nbcou;
 EXTERN  ply             nbply;
-EXTERN  square          cdkil,
-			cakil,
-			cpkil;
-EXTERN  boolean         flagkil;
+
+EXTERN  killer_state current_killer_state;
+
+#ifdef  WE_ARE_EXTERN
+EXTERN  killer_state const null_killer_state;
+#endif
+
 EXTERN  pilecase        kpilcd;
 EXTERN  pilecase        kpilca;
 
@@ -165,12 +169,15 @@ enum
 
   square_a3 = 248,
 
+  square_a4 = 272,
   square_d4 = 275,
   square_e4 = 276,
+  square_h4 = 279,
 
   square_a5 = 296,
   square_d5 = 299,
   square_e5 = 300,
+  square_h5 = 303,
 
   square_h6 = 327,
 
@@ -190,8 +197,25 @@ enum
   square_e8 = 372,
   square_f8 = 373,
   square_g8 = 374,
-  square_h8 = 375
+  square_h8 = 375,
+
+  /* the following values are used instead of capture square
+   * to indicate special moves */
+  messigny_exchange = maxsquare+1,
+  kingside_castling = maxsquare+2,
+  queenside_castling = maxsquare+3
 };
+
+/* Symbols for geometric calculations - please ALWAYS use these rather
+ * than int literals */
+enum {
+  dir_left=   -1,
+  dir_right=  +1,
+
+  dir_up=     24,
+  dir_down=  -24
+};
+
 
 /* Stop solving when a given number of solutions is reached */
 
@@ -212,9 +236,10 @@ EXTERN  int             maxbeep;		/* V3.77  NG */
 
 /* Optimierung direkte Aufgaben   V3.02  TLi */
 
-EXTERN  otelement       ot[100];
-EXTERN  int             otc;
-EXTERN  boolean         optimize;
+EXTERN  empile_optimization_table_elmt       empile_optimization_table[100];
+EXTERN  int             empile_optimization_table_count;
+EXTERN  move_generation_mode_type  move_generation_mode;
+EXTERN  move_generation_mode_type move_generation_mode_opti_per_couleur[2];
 		
 EXTERN  numvec          ortho_opt_queen[2*(haut-bas)+1],
 			ortho_opt_rook[2*(haut-bas)+1],
@@ -248,14 +273,14 @@ EXTERN  numecoup        repere[maxply + 1];
 EXTERN  boolean         exist[derbla + 1];              /* V3.43  NG */
 EXTERN  boolean         promonly[derbla + 1];           /* V3.43  NG */
 
-EXTERN  boolean (* eval_white)(square,square,square),
-		(* eval_2)(square,square,square),
-		(* eval_black)(square,square,square),
-		(* ReciStipulation)(couleur),   /* V3.31  TLi */
+EXTERN  evalfunction_t *eval_white;
+EXTERN  evalfunction_t *eval_2;
+EXTERN  evalfunction_t *eval_black;
+EXTERN boolean		(* ReciStipulation)(couleur),   /* V3.31  TLi */
 		(* NonReciStipulation)(couleur), /* V3.31  TLi */
 		(* stipulation)(couleur);       /* V2.90c  TLi */
-EXTERN  short   (* white_length)(square,square,square), /* V3.0  TLi */
-		(* black_length)(square, square, square);       /* V3.0  TLi */
+EXTERN  short   (* white_length)(square departure, square arrival, square capture), /* V3.0  TLi */
+		(* black_length)(square departure, square arrival, square capture);       /* V3.0  TLi */
 
 typedef square  (* renaifunc)(piece, Flags, square, square, square, couleur);
 
@@ -368,7 +393,6 @@ EXTERN square           cmren[toppile + 1];
 EXTERN square           supertrans[maxply+1];
 EXTERN piece            current_trans_gen;
 EXTERN piece            ctrans[toppile+1];
-EXTERN boolean          nonoptgenre;
 EXTERN boolean          nonkilgenre;
 EXTERN square           superbas;
 EXTERN boolean          complex_castling_through_flag;
@@ -1600,7 +1624,7 @@ EXTERN unsigned int StipFlags;
 #else
 /* don't try to delete something like "duplicates" or change
   the order of the vectors.
-  whey are all necessary and need this order !!
+  they are all necessary and need this order !!
 */   							/* V2.60  NG */
 numvec vec[maxvec + 1] = { 0,
 /*   1 -   4 | 0,1 */    1,   24,   -1,  -24,
@@ -1626,6 +1650,35 @@ numvec vec[maxvec + 1] = { 0,
 };
 #endif
 
+/* Symbols indicating start and end of a range inside vec - please
+ * ALWAYS use these rather than int literals. */
+enum {
+  vec_rook_start= 1,              vec_rook_end=   4,
+  vec_bishop_start=5,             vec_bishop_end=  8,
+  vec_queen_start=1,              vec_queen_end=  8,
+  vec_knight_start=9,             vec_knight_end=  16,
+  vec_elephant_start=1,           vec_elephant_end=  16,
+  vec_zebre_start=25,             vec_zebre_end=  32,
+  vec_okapi_start=17,             vec_okapi_end=32,
+  vec_chameau_start=33,           vec_chameau_end=  40,
+  vec_bison_start=25,             vec_bison_end=  40,
+  vec_equi_nonintercept_start=17, vec_equi_nonintercept_end=40,
+  vec_girafe_start=41,            vec_girafe_end=  48,
+  vec_antilope_start=49,          vec_antilope_end=  56,
+  vec_bucephale_start=49,         vec_bucephale_end=  60,
+  vec_dabbaba_start=61,           vec_dabbaba_end=  64,
+  vec_alfil_start= 65,            vec_alfil_end=   68,
+  vec_ecureuil_start= 61,         vec_ecureuil_end= 68, /* +knight vecs */
+  vec_rccinq_start= 69,           vec_rccinq_end=   80,
+  vec_leap37_start=81,            vec_leap37_end=  88,
+  vec_leap16_start=89,            vec_leap16_end=  96,
+  vec_leap24_start=97,            vec_leap24_end=  104,
+  vec_leap35_start=105,           vec_leap35_end=  112,
+  vec_leap15_start=113,           vec_leap15_end=  120,
+  vec_leap25_start=121,           vec_leap25_end=  128,
+  vec_leap36_start=129,           vec_leap36_end=  136
+};
+
 
 #ifdef WE_ARE_EXTERN
 	extern  square boardnum[65];
@@ -1639,7 +1692,7 @@ numvec vec[maxvec + 1] = { 0,
 	/* fifth   rank */      296, 297, 298, 299, 300, 301, 302, 303,
 	/* sixth   rank */      320, 321, 322, 323, 324, 325, 326, 327,
 	/* seventh rank */      344, 345, 346, 347, 348, 349, 350, 351,
-	/* eigth   rank */      368, 369, 370, 371, 372, 373, 374, haut,
+	/* eighth  rank */      368, 369, 370, 371, 372, 373, 374, haut,
 	/* end marker   */    0};
 #endif
 
@@ -1708,12 +1761,12 @@ numvec vec[maxvec + 1] = { 0,
 #endif
 
 #ifdef WE_ARE_EXTERN
-	extern  boolean  (* checkfunctions[derbla + 1])(square,piece,boolean (*) (square,square,square) );
+	extern  checkfunction_t *checkfunctions[derbla + 1];
 #else
 /* This are the used checkingfunctions  */     /* V2.60  NG */
-	boolean  (* checkfunctions[derbla + 1])(square,piece,boolean (*) (square,square,square) ) = {
-/*  0 */        (boolean (*)(square,piece,boolean (*)(square,square,square)))0, /* not used */
-/*  1 */        (boolean (*)(square,piece,boolean (*)(square,square,square)))0, /* not used */
+    checkfunction_t *checkfunctions[derbla + 1] = {
+/*  0 */        0, /* not used */
+/*  1 */        0, /* not used */
 /*  2 */        roicheck,
 /*  3 */        pioncheck,
 /*  4 */        damecheck,

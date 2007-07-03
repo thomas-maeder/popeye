@@ -289,7 +289,9 @@ char *MakeTimeString(void) {
     return TmString;
 }
 
-void PrintTime(int why) {
-    sprintf(GlobalStr,"%s %s", GetMsgString(why), MakeTimeString());
-    StdString(GlobalStr);
+void PrintTime() {
+    if (!flag_regression) {
+        StdString(GetMsgString(TimeString));
+        StdString(MakeTimeString());
+    }
 }
