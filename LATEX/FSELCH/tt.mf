@@ -1,0 +1,69 @@
+def OneCurl (expr a,da, b,db, above, pangle) =
+  begingroup
+    save dx, dy, p;
+    pair dx; dx= b-a;
+    pair dy; dy= dx rotated 90;
+    pair p;   p= (a+.5dx+above*dy);
+    a{da} .. {dx rotated pangle}p  & 
+    p{dx rotated -pangle} .. {db}b
+  endgroup
+enddef;
+
+def CurlIt(expr tp,	% the path
+		n,	% how often
+		above,  % the peak above the path
+		pangle  % the direction at the peak
+	) =	
+
+  begingroup
+    save dl; pair dl[];
+    save dr; pair dr[];
+    save i,l,r,ll,rr,delta;
+    numeric i,l,r,delta
+
+    i= 0;
+    l= 0;
+    r= length(tp);
+    delta= length(tp)/n;
+    forever:
+      if i = n-i:
+        z0l[i] = z0r[i] = point .5length(tp) of tp;
+        dl[i]  = dr[i]  = direction .5length(tp) of tp;
+      else:
+	numeric ll; 
+	if i=0: ll = l else: ll = l-(n-i)*.06delta fi;
+        z0l[i] = good.lft (point ll of tp);
+	dl[i]  = direction ll of tp;
+	numeric rr; 
+	if i=0: rr = r else: rr = r+(n-i)*.06delta fi;
+	z0r[i] = good.rt  (point rr of tp);
+	dr[i]  = direction rr of tp;
+      fi
+      exitif r-l < eps;
+      i:= incr i;
+      l:= l+delta;
+      r:= r-delta;
+    endfor;
+    for i:= incr i step 1 until n:
+      z0l[i] = z0r[n-i];
+      z0r[i] = z0l[n-i];
+      dl[i]  = dr[n-i];
+      dr[i]  = dl[n-i];
+    endfor;
+
+    OneCurl(z0l0, dl0, z0l1, dl1, above, pangle)
+    for i:= 2 step 1 until n:
+      & OneCurl(z0l[i-1], dl[i-1], z0l[i], dl[i], above, pangle)
+    endfor
+  endgroup
+enddef;
+
+z0l = (10,10);
+z0r = (200, 10);
+z0  = .5[z0l,z0r] shifted 30up;
+
+draw CurlIt(z0l .. z0 .. z0r, 5, 0.1, 30);
+undraw(z0l3);
+showit;
+
+:map q :w:!mf %

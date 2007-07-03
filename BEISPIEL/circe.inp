@@ -37,7 +37,7 @@ quelle 		6183, feenschach 100, 9-10/1991
 
 forderung 	h#2
 
-bedingung 	circe	rexinklusiv
+bedingung 	circe rexinklusive
 
 steine   	weiss	ke8
          	schwarz ka1

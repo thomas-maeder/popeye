@@ -1,0 +1,69 @@
+anfa
+prot annan.out
+auto M.Hanazawa
+quel Chessics #4 1977
+tite NL, selbst mit Vorschlag +wBb6 in Chessics #8
+ford #2
+bedi annan
+opti vari
+fors 8/1b6/l7/1k6/1ST1K3/1LT5/2L5/8
+weit
+auto M.Hanazawa
+quel Chessics #4 1977
+tite original Teil (b) +sLd5 NL
+ford h#4
+bedi annan
+opti maxloes 4
+fors 24/4Ks2/8/4k3/5S2/8
+weit
+auto M.Hanazawa
+quel Chessics #4 1977
+ford s#2
+bedi annan
+opti vari
+fors 32/6T1/7b/7s/5K1k/
+weit
+auto M.Hanazawa
+quel Chessics #4 1977
+ford s#2
+bedi annan
+opti vari
+fors 8/1b6/1s1b4/1S1s1B2/SKBk4/T3t3/5D2/8
+weit
+auto M.Hanazawa
+beme ddlkl
+quel Chessics #4 1977
+tite NL
+ford h#3
+bedi annan
+opti maxloes 4
+fors 16/3tT3/3d4/8/3k4/1K6/8
+weit
+auto G.P.Jelliss
+quel Chessics #4 1977
+ford #2
+bedi annan
+opti vari
+fors 6l1/5b1k/8/5K2/6S1/16/L7/
+weit
+auto G.P.Jelliss / S.Emmerson
+quel Chessics #4 1977 / The Problemist, Mai 2007
+ford h#3
+fors 56/LK4lk/
+bedi annan
+twin polnisch
+weit
+auto S.Emmerson
+quel The Problemist, Mai 2007
+ford h#3
+fors KL4lk/56
+bedi annan
+weit
+auto Michel Caillaud
+quel Torquay QT, 2007
+tite Ehrende Erw"ahnung
+ford ser-h#13
+bedi annan
+stei weis kd1 lg4 bb6f3
+schw ka8 lb8
+ende

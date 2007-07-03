@@ -3,23 +3,17 @@
 **
 ** Date       Who  What
 **
-** 2002/04/04 NG   commandline option -regression for regressiontesting
+** 2006/07/30 SE   New condition: Schwarzschacher  
 **
-** 2002/05/06 NG   german name of singlebox is "NurPartiesatzSteine"
+** 2007/01/28 SE   New condition: NormalPawn  
 **
-** 2002/05/18 NG   new pieces: rabbit, bob
+** 2007/01/28 SE   New condition: Annan Chess 
 **
-** 2003/05/18 NG   new option: beep    (if solution encountered)
+** 2007/04/30 NG   sentinelles variants: naming changed for consistency ...
 **
-** 2004/02/29 SE   bugfix - resolved conflict between variants and
-**                 conditions with same name caused problems with
-**                 e.g. cond sent blackmax	
+** 2007/05/04 SE   Bugfix: SAT + BlackMustCapture
 **
-** 2004/04/20 NG   superanticirce changed to antisupercirce,
-**                 seems more logical to me ...
-**
-** 2004-06-20 ElB  put nevercheck in checkfunctions for
-**                 Hamster and Dummy.
+** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
 **
 **************************** End of List ******************************/
 
@@ -390,6 +384,11 @@ EXTERN smallint         zzzao[haut - bas + 1];
 EXTERN boolean          flag_synchron;
 EXTERN long int         BGL_black, BGL_white; /* V4.06 SE */
 EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
+EXTERN boolean			  	blacknull, nullgenre, whitenull;		/* V3.70 SE */
+EXTERN smallint         annanvar;
+EXTERN numecoup         tempcoup;
+EXTERN ply      	      tempply;
+EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 
 #ifdef WE_ARE_EXTERN
 	extern PieTable PieNamString[LangCount];
@@ -1011,7 +1010,7 @@ EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
 	/*85*/  "FrischAufCirce",               /* V3.41b TLi */
 	/*86*/  "CirceMalefiqueVerticale",      /* V3.42  NG */
 	/*87*/  "Isardam",                      /* V3.44  SE/TLi */
-	/*88*/  "SansEchecc",                   /* V3.44  TLi */
+	/*88*/  "SansEchecs",                   /* V3.44  TLi */
 	/*89*/  "CirceDiametrale",              /* V3.44  TLi */
 	/*90*/  "PromSeul",                     /* V3.44  NG */
 	/*91*/  "RankCirce",                    /* V3.45  TLi */
@@ -1082,7 +1081,10 @@ EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
 	/*156*/ "NoirAntiSynchronCoup",                 /* V4.06  SE */
 	/*157*/ "BlancAntiSynchronCoup",                 /* V4.06  SE */
 	/*158*/ "Masand",                 /* V4.06  SE */
-	/*159*/ "BGL"                     /* V4.06 SE */
+	/*159*/ "BGL" ,                     /* V4.06 SE */
+	/*160*/ "NoirEchecs",                     /* V4.06 SE */
+  	/*161*/ "AnnanEchecs" ,          /* V4.07 SE */
+  	/*162*/ "PionNormale"           /* V4.07 SE */
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1244,7 +1246,10 @@ EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
 	/*156*/ "SchwarzerAntiSynchronZueger",                 /* V4.06  SE */
 	/*157*/ "WeisserAntiSynchronZueger",                 /* V4.06  SE */
 	/*158*/ "Masand",                 /* V4.06  SE */
-	/*159*/ "BGL"                     /* V4.06  SE */
+	/*159*/ "BGL",                     /* V4.06 SE */
+	/*160*/ "SchwarzSchaecher",              /* V4.06 SE */
+	/*161*/ "Annanschach",            /* V4.07 SE */
+	/*162*/ "NormalBauern"            /* V4.07 SE */
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1406,7 +1411,10 @@ EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
 	/*156*/ "BlackAntiSynchronMover",                 /* V4.06  SE */
 	/*157*/ "WhiteAntiSynchronMover",
 	/*158*/ "Masand",                 /* V4.06  SE */
-	/*159*/ "BGL"                     /* V4.06 SE */
+	/*159*/ "BGL",                     /* V4.06 SE */
+	/*160*/ "BlackChecks",                     /* V4.06 SE */
+	/*161*/ "AnnanChess",           /* V4.07 SE */
+	/*162*/ "NormalPawn"           /* V4.07 SE */
   }
 	};
 #endif
@@ -1501,13 +1509,14 @@ EXTERN unsigned int StipFlags;
 	/* 5*/  "MaximumNoir",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
 	/* 6*/  "MaximumBlanc",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
         /* 7*/  "ParaSentinelles",
-        /* 8*/  "TotalMaximum",
+        /* 8*/  "MaximumTotal",		/* V4.30  NG renamed according to bugfix above */
 	/* 9*/  "Berolina",
 	/*10*/  "Type1",
 	/*11*/  "Type2",
 	/*12*/  "Type3",
 	/*13*/  "Voisin",
-	/*14*/  "TypeC"
+	/*14*/  "TypeC",
+	/*15*/  "TypeD"
 	},{
 	/* German */
 	/* 0*/  "TypB",
@@ -1515,16 +1524,17 @@ EXTERN unsigned int StipFlags;
 	/* 2*/  "Cheylan",
 	/* 3*/  "Calvet",
 	/* 4*/  "PionNeutre",
-	/* 5*/  "SchwarzMaximum",
-	/* 6*/  "WeissMaximum",
+	/* 5*/  "MaximumSchwarz",	/* V4.30  NG renamed according to bugfix above */
+	/* 6*/  "MaximumWeiss",		/* V4.30  NG renamed according to bugfix above */
         /* 7*/  "ParaSentinelles",
-        /* 8*/  "TotalMaximum",
+        /* 8*/  "MaximumTotal",		/* V4.30  NG renamed according to bugfix above */
 	/* 9*/  "Berolina",
 	/*10*/  "Typ1",
 	/*11*/  "Typ2",
 	/*12*/  "Typ3",
 	/*13*/  "Nachbar",
-	/*14*/  "TypC"
+	/*14*/  "TypC",
+	/*15*/  "TypD"
 	},{
 	/* English */
 	/* 0*/  "TypeB",
@@ -1535,13 +1545,14 @@ EXTERN unsigned int StipFlags;
 	/* 5*/  "MaximumBlack",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
 	/* 6*/  "MaximumWhite",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
         /* 7*/  "ParaSentinelles",
-        /* 8*/  "TotalMaximum",
+        /* 8*/  "MaximumTotal",		/* V4.30  NG renamed according to bugfix above */
 	/* 9*/  "Berolina",
 	/*10*/  "Type1",
 	/*11*/  "Type2",
 	/*12*/  "Type3",
 	/*13*/  "Neighbour",
-	/*14*/  "TypeC"
+	/*14*/  "TypeC",
+	/*15*/  "TypeD"
 	}
 	};
 #endif

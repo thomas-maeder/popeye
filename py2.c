@@ -2,22 +2,6 @@
 **
 ** Date       Who  What
 **
-** 2003/01/07 TLi  Madrasi + neutrals bug fixed in libre()
-**
-** 2004/01/28 SE   New pieces Equi (English & French styles) (invented P.Harris)
-**
-** 2004/02/05 SE   New piece Querquisite (J.E.H.Creed FCR 1947) 
-**					moves as piece upon whose file it stands
-**					Also re-invented as 'Odysseus' by H.Schmid f.? c.1988
-**
-** 2004/04/24 SE   Bugfix: Patrol etc. and e.p. evaluation
-**
-** 2004/04/22 SE   Castling with Imitators
-**
-** 2004/05/02 SE   Imitators with mao, moa
-**
-** 2004-06-20 ElB  add nevercheck
-**
 ** 2006/05/04 NG   Bugfix: wrong rrefcech evaluation
 **
 ** 2006/05/09 SE   New pieces Bouncer, Rookbouncer, Bishopbouncer (invented P.Wong)
@@ -25,6 +9,10 @@
 ** 2006/06/28 SE   New condition: Masand (invented P.Petkov)
 **
 ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
+**
+** 2006/07/30 SE   New condition: Schwarzschacher  
+**
+** 2007/01/28 SE   New condition: NormalPawn 
 **
 **************************** End of List ******************************/
 
@@ -1003,6 +991,7 @@ boolean pbcheck(
     if (p <= roin) {					/* V3.47  NG */
 	if ( i <= haut - 48				/* V3.02  TLi */
 	  || CondFlag[parrain]
+    || CondFlag[normalp]
 	  || CondFlag[einstein]				 /* V3.2  TLi */
 	  || p == orphann)				 /* V3.2  TLi */
 	{
@@ -1023,6 +1012,7 @@ boolean pbcheck(
     else {	  /* hopefully (p >= roib) */		/* V3.47  NG */
 	if ( i >= bas + 48				/* V3.02  TLi */
 	  || CondFlag[parrain]
+    || CondFlag[normalp]
 	  || CondFlag[einstein]				/* V3.2  TLi */
 	  || p == orphanb)
 	{						 /* V3.2  TLi */
@@ -1194,7 +1184,7 @@ boolean dragoncheck(
     {
 
 	if (  i <= haut - 48				/* V3.04  NG */
-	   || CondFlag[parrain])
+	   || CondFlag[parrain] || CondFlag[normalp])
 	{
 	    if (e[i + 23] == p) {
 		if ((*evaluate)(i + 23, i, i))		/* V3.02  TLi */
@@ -1210,7 +1200,7 @@ boolean dragoncheck(
 	   || (CondFlag[whrefl_king] && p == roib)) */	/* V3.04  NG */
 
 	if (  i >= bas + 48				/* V3.04  NG */
-	   || CondFlag[parrain])
+	   || CondFlag[parrain]|| CondFlag[normalp])
 	{
 	    if (e[i - 23] == p) {
 		if ((*evaluate)(i - 23, i, i))		/* V3.02  TLi */
@@ -1708,6 +1698,7 @@ boolean pioncheck(
     if (p <= roin) {					/* V3.2  TLi */
 	if ( i <= haut - 48				/* V3.02  TLi */
 	    || CondFlag[parrain]
+      || CondFlag[normalp]
 	    || CondFlag[einstein]			/* V3.2  TLi */
 	    || p == orphann 				/* V3.2  TLi */
         || p<=hunter0n)
@@ -1727,6 +1718,7 @@ boolean pioncheck(
     else {	  /* hopefully (p >= roib) */		/* V3.21  NG */
 	if ( i >= bas + 48				/* V3.02  TLi */
 	  || CondFlag[parrain]
+    || CondFlag[normalp]
 	  || CondFlag[einstein]				/* V3.2   TLi */
 	  || p == orphanb 				/* V3.2   TLi */
       || p>=hunter0b)

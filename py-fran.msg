@@ -16,7 +16,7 @@
 15= mini-/maximum/priseforce/poursuite/duelliste avec des pieces neutres interdit
 16= pieces kamikazees + neutres ou pieces kamikazees + circe + pieces feeriques interdites.
 17= echecs chromatiques ou echecs grille ou echecs koeko ou bordcoups ou neutre et volage incompatibles
-18= on ne peut pas melanger minimum/maximum/duelliste et priseforce pour le meme camp
+18= on ne peut pas melanger minimum/maximum/duelliste/alphabetique et priseforce pour le meme camp
 19= le camp au trait peut prendre le roi
 20= on ne peut pas melanger monochromatique et bichromatique
 21= charactere inconnue: `%s'

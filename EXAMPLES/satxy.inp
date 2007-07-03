@@ -1,0 +1,37 @@
+beg
+prot satxy.out
+
+auth Ladislav Salai sr. 
+orig Pat a Mat 2003 (SAT #59)
+stip ser-#22
+cond sat 3 
+fors 7q/6p1/32/r1p1p3/k3rK2/
+
+next
+
+auth Ladislav Salai sr.
+orig Mat 64 2002 (SAT #58)
+stip ==6
+cond sat 4
+fors 16/6p1/7P/24/k6K/
+opt var 
+
+next
+
+auth Ladislav Salai sr.
+orig SAT #56
+stip #1
+pie wh ke1 blac kc6
+cond sat 8
+zero add wh qg1
+twin add wh rd1
+twin add wh bf1
+twin add wh sf8
+
+next
+
+stip h==3
+cond sat 3 
+fors k7/1r6/6B1/24/7b/7K
+
+end

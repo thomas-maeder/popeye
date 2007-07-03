@@ -1,0 +1,122 @@
+beg
+prot bgl.out
+
+auth Petko Petkov
+orig feenschach 1999
+stip h==2
+cond madr rexi bgl 4.5 4
+fors 3k4/16/6K1/8/p7/16
+
+next
+
+auth Petko Petkov
+orig feenschach 1999
+stip #2
+cond bgl 7 3
+fors 8/5p2/5P1R/3P1ks1/3Ppsp2/8/4p3/2K1Q3/
+opt var
+
+next
+
+auth Petko Petkov
+orig Macedonian Problemist 2003
+stip ser-h#5
+cond bgl - 29
+fors 8/1p6/6pp/3p4/3K2pk/7p/1=p6/8
+
+next
+
+auth Petko Petkov
+orig Macedonian Problemist 2003
+stip h#3
+opt try def 5 nothr
+fors k7/1n2R3/16/p7/K7/p7/8
+cond bgl 27.42
+
+next
+
+auth Petko Petkov
+orig Macedonian Problemist 2003
+stip ser-h#4
+cond bgl 17.65
+fors 16/1K6/7B/16/p5pp/7k/
+
+next
+
+auth Petko Petkov
+orig Macedonian Problemist 2003
+stip #2
+fors K2B4/6=p1/3pp1B1/4k3/2p2S1R/2P1p3/4s3/8
+opt var 
+cond bgl - 4.45
+
+next
+
+auth Petko Petkov
+orig feenschach 1999
+stip h#2
+cond bgl 7 3.5
+fors 8/=pK6/16/p7/16/3k4/
+
+next
+
+auth Petko Petkov
+orig feenschach 1999
+stip ser-h#4
+fors 8/7K/4p3/3k1p2/32
+cond bgl 2 6
+
+next
+
+auth Petko Petkov
+orig Macedonian Problemist 2003
+stip h#5
+cond bgl 6.5 34.6
+fors 32/6K1/k7/3n4/8
+
+next
+
+auth Petko Petkov
+orig feenschach 1999
+stip h==3
+cond bgl 4 13
+fors 6sk/8/5s2/1p6/16/p7/K7/
+
+next
+
+auth Petko Petkov
+orig feenschach 1999
+stip s#3
+cond bgl 20.5 5
+opt var
+fors k7/7Q/8/5p2/16/6p1/1R4Kb/
+
+next
+
+auth Petko Petkov
+orig Macedonian Problemist 2003
+stip #2
+opt var
+cond bgl 7 4
+fors 8/K3Q3/3p4/3ks1s1/2R5/4B3/8/5B2/
+
+next
+
+auth Petko Petkov
+orig feenschach 1999
+stip #2
+opt var
+cond bgl 4 2
+fors k7/3K4/8/1R6/32
+twin cond bgl 8
+
+next
+
+auth Stephen Emmerson
+orig Original
+stip h#1
+cond bgl 2 2.5
+opt dupl
+fors k1K5/p7/1P6/40
+
+end

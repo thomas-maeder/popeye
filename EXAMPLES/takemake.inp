@@ -1,0 +1,45 @@
+beg
+prot takemake.out
+
+auth Volker Gulke
+auth Winus Muller
+auth Peter Schmidt
+orig Original
+fors 5k1K/16/2r5/3sP3/4S3/16
+stip h#2
+cond take&make
+
+next
+
+auth Volker Gulke
+auth Hartmut Laue
+auth Peter Schmidt
+title corr Stephen Emmerson
+orig Original
+fors 1r2sr2/2p1K3/1Bp1B3/4k3/3R4/2S2ps1/3p3b/8
+stip h#2
+cond take&make
+twin move d2 g5
+
+next
+
+stip h#2
+opt wh
+auth Peter Schmidt
+orig Original
+fors 16/6K1/16/4PB2/4PkPP/8
+cond take&make
+twin add wh sf3
+twin cont move g6 g7
+twin cont add wh bf3
+
+next
+
+cond take&make 
+fors k1K5/p7/1P6/40
+stip sx3
+auth Stephen Emmerson
+orig Original
+opt var nothr
+
+end

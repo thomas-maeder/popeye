@@ -2,17 +2,19 @@
  **
  ** Date       Who  What
  **
- ** 2003/05/25 SE   bug fix: Marscirce and Neutral kings.
- **
- ** 2004/02/07 SE   New condition: Antikings (?) in check when not attacked
- **
- ** 2004/03/20 SE   New condition: AntiSuperCirce
- **
- ** 2004/04/24 SE   Bugfix: Patrol etc. and e.p. evaluation
- **
- ** 2004/05/02 SE   Mars circe with mao, moa
- **
  ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
+ **
+ ** 2006/07/30 SE   New condition: Schwarzschacher  
+ **
+ ** 2007/01/28 SE   New condition: NormalPawn 
+ **
+ ** 2007/01/28 SE   New condition: Annan Chess 
+ **
+ ** 2007/04/27 SE   Bugfix: Anticirce + TransmutingK
+ **
+ ** 2007/05/04 SE   Bugfix: SAT + BlackMustCapture
+ **
+ ** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
  **
  **************************** End of List ******************************/
 
@@ -243,7 +245,15 @@ static boolean orig_rnechec(boolean (* evaluate)(square,square,square))
    if (SATCheck) /* V4.03 SE */
    {
    	int flag= BlackSATFlights;
-    if ((satXY || (CondFlag[strictSAT] && BlackStrictSAT[nbply-1])) && !echecc_normal(noir))
+    boolean mummer_sic = flagblackmummer;
+    boolean k_sq_checked = false;    
+    int ply;
+    if (CondFlag[strictSAT])
+      for (ply= flag_writinglinesolution?tempply:nbply-1; ply; ply--)
+          if (BlackStrictSAT[ply])
+            k_sq_checked= true; 
+    flagblackmummer = false;
+    if ((satXY || k_sq_checked) && !echecc_normal(noir))
         flag--;
 		nextply();
 		cakil= initsquare;
@@ -259,13 +269,17 @@ static boolean orig_rnechec(boolean (* evaluate)(square,square,square))
     dont_generate_castling=true;
   /*    SATCheck= false;	*/  /* prevent recursion if generating castling */
     gen_bl_piece(rn, -abs(e[rn]));    /* V3.02  TLi */
+    flagblackmummer = mummer_sic;
     dont_generate_castling=false;
  /*   SATCheck= true;	*/
 		while (flag && encore()) {
-			if (jouecoup())        /* V3.44  SE/TLi */
+      SATCheck = false;
+        
+			if (jouecoup_ortho_test())        /* V3.44  SE/TLi */
 				if (! echecc_normal(noir))
 					flag--;
          repcoup();
+         SATCheck = true;
          if (!flag) break;
 		}
 		finply();
@@ -283,9 +297,19 @@ static boolean orig_rnechec(boolean (* evaluate)(square,square,square))
                                                V3.47  NG */
       piece   *ptrans;
       boolean flag = true;
+
+      /* V4.07 SE */
+      /* attempted bug fix - wrong eval function used to detect 
+        if wK is checked; this code is a bit hacky but best attempt to 
+        guess correct eval function to use, though only one is passed in*/
+      boolean (* eval_ad)(square,square,square) = evaluate;
+      if (eval_white != eval_black) 
+        eval_ad= (evaluate == eval_white) ? eval_black :
+        (evaluate == eval_black) ? eval_white : evaluate;
+
       for (ptrans= transmpieces; *ptrans; ptrans++) {
 		if (nbpiece[-*ptrans]
-            && (*checkfunctions[*ptrans])(rb, -*ptrans, evaluate))
+            && (*checkfunctions[*ptrans])(rb, -*ptrans, eval_ad))
 		{
           flag= false;
           if ((*checkfunctions[*ptrans])(rn, roib, evaluate)) {
@@ -327,7 +351,8 @@ static boolean orig_rnechec(boolean (* evaluate)(square,square,square))
   if (nbpiece[pb]) {
 	if ( rn >= bas + 48
          || CondFlag[parrain]
-         || CondFlag[einstein])
+          || CondFlag[normalp]
+          || CondFlag[einstein])
 	{
       /* V1.6c  NG ,  V3.02  TLi , V3.1  TLi */
       if (e[rn - 23] == pb) {
@@ -435,6 +460,33 @@ boolean singleboxtype3_rnechec(
   return promotionstried==0 && orig_rnechec(evaluate);
 }
 
+boolean annan_rnechec(boolean (* evaluate)(square,square,square)) 
+{
+  square annan_sq[64];
+  piece annan_p[64];
+  int annan_cnt= 0;
+  boolean ret;
+
+  square i,j,z,z1;
+  z= haut;
+  for (i= 7; i > 0; i--, z-= 16)			/* V2.90  NG */
+  for (j= 8; j > 0; j--, z--) {			/* V2.90  NG */
+/*      if (e[z] > obs && e[z1=z-24] > obs)	*/
+      if (e[z] > obs && whannan(z1=z-24, z))
+      {
+        annan_sq[annan_cnt]= z;
+        annan_p[annan_cnt++]= e[z];
+        e[z]=e[z1];
+      }
+  }
+  ret= orig_rnechec(evaluate);
+
+  while (annan_cnt--)
+    e[annan_sq[annan_cnt]]= annan_p[annan_cnt];
+
+  return ret;
+}
+
 boolean (*rnechec)(boolean (* evaluate)(square,square,square))
   = &orig_rnechec; /* V3.71 TM */
 
@@ -445,14 +497,25 @@ static boolean orig_rbechec(boolean (* evaluate)(square,square,square)) /* V3.71
      slower. V2.60  NG
   */
 
+
   numvec k;
   piece p;
   square sq;
 
+
+
    if (SATCheck)   /* V4.03 SE */ 
    {
    	int flag= WhiteSATFlights;
-    if ((satXY || (CondFlag[strictSAT] && WhiteStrictSAT[nbply-1])) && !echecc_normal(blanc))
+    boolean mummer_sic = flagwhitemummer;
+    boolean k_sq_checked = false;  
+    int ply;
+    if (CondFlag[strictSAT])
+       for (ply= flag_writinglinesolution?tempply:nbply-1; ply; ply--)
+          if (WhiteStrictSAT[ply])
+            k_sq_checked= true; 
+    flagwhitemummer = false;
+    if ((satXY || k_sq_checked) && !echecc_normal(blanc))
       flag--;
 		nextply();
 		cakil= initsquare;
@@ -464,15 +527,18 @@ static boolean orig_rbechec(boolean (* evaluate)(square,square,square)) /* V3.71
 		/* flag_minmax[nbply]= false;        V3.44  TLi */
 		if (TSTFLAG(PieSpExFlags,Neutral))
 			initneutre(noir);
+    flagwhitemummer = mummer_sic;
     dont_generate_castling= true;
     gen_wh_piece(rb, abs(e[rb]));    /* V3.02  TLi */
     dont_generate_castling= false;
 		while (flag && encore()) {
-			if (jouecoup())        /* V3.44  SE/TLi */
+      SATCheck= false;
+			if (jouecoup_ortho_test())        /* V3.44  SE/TLi */
 				if (! echecc_normal(blanc))
 					flag--;
-         repcoup();
-         if (!flag) break;
+        repcoup();
+        SATCheck= true;
+          if (!flag) break;
 		}
     assert (flag >= 0);
 		finply();
@@ -491,9 +557,19 @@ static boolean orig_rbechec(boolean (* evaluate)(square,square,square)) /* V3.71
                                                V3.47  NG */
       piece   *ptrans;
       boolean flag= true;
+
+      /* V4.07 SE */
+      /* attempted bug fix - wrong eval function used to detect 
+        if bK is checked; this code is a bit hacky but best attempt to 
+        guess correct eval function to use, though only one is passed in*/
+      boolean (* eval_ad)(square,square,square) = evaluate;
+      if (eval_white != eval_black) 
+        eval_ad= (evaluate == eval_white) ? eval_black :
+        (evaluate == eval_black) ? eval_white : evaluate;
+
       for (ptrans= transmpieces; *ptrans; ptrans++) {
 		if (nbpiece[*ptrans]
-            && (*checkfunctions[*ptrans])(rn, *ptrans, evaluate))
+            && (*checkfunctions[*ptrans])(rn, *ptrans, eval_ad))
 		{
           flag= false;
           if ((*checkfunctions[*ptrans])(rb, roin, evaluate))
@@ -536,7 +612,7 @@ static boolean orig_rbechec(boolean (* evaluate)(square,square,square)) /* V3.71
   }
   if (nbpiece[pn]) {
 	if ((rb <= haut - 48) || CondFlag[parrain]
-        || CondFlag[einstein])
+              || CondFlag[normalp]  || CondFlag[einstein])
 	{
       /* V1.6c  NG , V3.02  TLi , V3.1  TLi */
       if (e[rb + 23] == pn) {
@@ -613,6 +689,33 @@ static boolean orig_rbechec(boolean (* evaluate)(square,square,square)) /* V3.71
 	return feebechec(evaluate);
   else
 	return false;
+}
+
+boolean annan_rbechec(boolean (* evaluate)(square,square,square)) 
+{
+  square annan_sq[64];
+  piece annan_p[64];
+  int annan_cnt= 0;
+  boolean ret;
+
+  square i,j,z,z1;
+  z= bas;
+  for (i= 7; i > 0; i--, z+= 16)			/* V2.90  NG */
+  for (j= 8; j > 0; j--, z++) {			/* V2.90  NG */
+ /*     if (e[z] < vide && e[z1=z+24] < vide)	*/
+      if (e[z] < vide && blannan(z1=z+24, z))
+      {
+        annan_sq[annan_cnt]= z;
+        annan_p[annan_cnt++]= e[z];
+        e[z]=e[z1];
+      }
+  }
+  ret= orig_rbechec(evaluate);
+
+  while (annan_cnt--)
+    e[annan_sq[annan_cnt]]= annan_p[annan_cnt];
+
+  return ret;
 }
 
 boolean singleboxtype3_rbechec(boolean (* evaluate)(square,square,square)) /* V3.71 TM */

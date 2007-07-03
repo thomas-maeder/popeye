@@ -233,4 +233,10 @@
 ** 2002/05/18 NG   bug fix: flagAssassin and marsrenai initialized
 **                          DiaCirce 'flags and specs' reset
 **
+** 2004/02/06 SE   Koeko Neighbourhood (invented S.Emmerson)
+**
+** 2004/04/23 SE   Oscillating Ks TypeC, also allowed A/B/C different for white/black
+**
+** 2005/04/12 ThM  Bugfix Imitator-Promotions
+**
 **************************** INFORMATION END ***************************/

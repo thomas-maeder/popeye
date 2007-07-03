@@ -1,0 +1,109 @@
+% This is
+%		geo.mf
+%
+% Copyright (C) 1989-92  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%
+%
+%we have to define six essential characters:
+%         WoW   NoW   BoW   WoB   NoB   BoB
+%Pawn       0     6    12    18    24    30
+%Knight     1     7    13    19    25    31
+%Bishop     2     8    14    20    26    32
+%Rook       3     9    15    21    27    33
+%Queen      4    10    16    22    28    34
+%King       5    11    17    23    29    35
+
+% All these cases are repeated three more times:
+% Left turned, Right turned and upside down
+%------------------------------------------
+% From this result the first free positions
+% usable for simple geometric signs.
+
+def MakeCirclePath =
+	path CirclePath;
+	CirclePath = fullcircle scaled .70qs shifted Center;
+enddef;
+
+def MakeWhiteCircle =
+	pickup chess_pen;
+	clearit;
+	draw CirclePath;
+	cullit;
+	WhiteMan:= currentpicture;
+enddef;
+
+def MakeBlackCircle =
+	pickup chess_pen;
+	clearit;
+	filldraw CirclePath;
+	cullit;
+	BlackMan:= currentpicture;
+enddef;
+
+def MakeOuterShape = 
+	pickup frame_pen;
+	clearit;
+	filldraw CirclePath;
+	cullit;
+	OuterShape:= currentpicture;
+enddef;
+
+
+MakeCirclePath;
+MakeWhiteCircle;
+MakeBlackCircle;
+MakeNeutral(WhiteMan, BlackMan);
+MakeOuterShape;
+
+beginchar(Circle+White+OnWhite, qs#, qs#, 0);
+	"White circle on white field";
+	currentpicture:= WhiteMan;
+endchar;
+
+beginchar(Circle+Black+OnWhite, qs#, qs#, 0);
+	"Black circle on white field";
+	currentpicture:= BlackMan;
+endchar;
+
+beginchar(Circle+Neutral+OnWhite, qs#, qs#, 0);
+	"Neutral circle on white field";
+	currentpicture:= NeutralMan;
+endchar;
+
+beginchar(Circle+White+OnBlack, qs#, qs#, 0);
+	"White circle on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + WhiteMan;
+endchar;
+
+beginchar(Circle+Neutral+OnBlack, qs#, qs#, 0);
+	"Neutral circle on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + NeutralMan;
+endchar;
+
+beginchar(Circle+Black+OnBlack, qs#, qs#, 0);
+	"Black circle on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + BlackMan;
+endchar;

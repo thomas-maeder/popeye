@@ -2,23 +2,6 @@
  **
  ** Date       Who  What
  **
- ** 2003/05/18 NG   new option: beep    (if solution encountered)
- **
- ** 2004/02/06 SE   New conditions : Oscillating Kings (invented A.Bell)
- **				   Ks swapped after each W &/or Bl move; TypeB can't self-check before swap	
- **				   Koeko Neighbourhood (invented S.Emmerson)
- **
- ** 2004/03/05 SE   New condition : Antimars (and variants) (invented S.Emmerson)
- **                 Pieces reborn to move, capture normally
- **
- ** 2004/02/09 SE   Bugfix : Forsyth with neutrals
- **
- ** 2004/04/23 SE   Oscillating Ks TypeC, also allowed A/B/C different for white/black
- **
- ** 2004/05/01 SE   Bugfix : ParseVariant problem e.g. sentinelles pionneutre koeko
- **
- ** 2004/07/19 NG   New condition: SwappingKings
- **
  ** 2005/04/20 NG   assert "eliminated". Check of Hunter0+maxnrhuntertypes added.
  **
  ** 2005/04/25 NG   bugfix: a=>b with Imitators
@@ -32,6 +15,22 @@
  **                 TakeMake name changed to Take&Make
  **
  ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
+ **
+ ** 2007/01/28 NG   New stipulation: help-reflexmate (hr)
+ **
+ ** 2007/04/29 SE   Bugfix: not correctly parsing conditions listed after SAT
+ **
+ ** 2007/07/38 SE   Bugfix: Forsyth
+ **
+ ** 2006/07/30 SE   New condition: Schwarzschacher  
+ **
+ ** 2007/01/28 SE   New condition: Annan Chess 
+ **
+ ** 2007/03/01 SE   Changed Twin Char to support larger no. of twins - old implementation
+ **                 produced odd characters after a while; new just calls all twins after
+ **                 z z1, z2, z3... etc. limited by sizeof int, I suppose
+ **
+ ** 2007/04/28 SE   Bugfix: parsing SAT followed by another condition 
  **
  **************************** End of List ******************************/
 
@@ -458,6 +457,36 @@ static char *ReadNextTokStr(void)				/* H.D. 10.02.93 */
   return TokenLine;
 }
 
+static char *ReadNextCaseSensitiveTokStr(void)				/* H.D. 10.02.93 */
+{
+  char ch,*p,*t;
+
+  ch= LastChar;
+  while (strchr(SpaceChar,ch))
+    ch= NextChar();
+  if (strchr(TokenChar,ch)) {
+    p= InputLine;
+    t= TokenLine;
+    do {
+      *p++= ch;
+      /*	       *t++= (isupper(ch)?tolower(ch):ch);	*/	/* V3.74  NG */
+      *t++= ch;
+      /* EBCDIC support ! HD */
+    } while (strchr(TokenChar,ch= NextChar()));
+    if (p > (InputLine+sizeof(InputLine)))
+      FtlMsg(InpLineOverflow);
+    *t= *p= '\0';
+    return TokenLine;
+  }
+  if (strchr(SepraChar,ch)) {
+    while (strchr(SepraChar,NextChar()));
+    return Sep;
+  }
+  IoErrorMsg(WrongChar, ch);
+  LastChar= TokenLine[0]= ' ';
+  TokenLine[1]= '\0';
+  return TokenLine;
+}
 
 boolean sncmp(char *a, char *b) {
   while (*b) {
@@ -515,7 +544,7 @@ long int ReadBGLNumber(char* inptr, char** endptr) /* V4.06 SE */
    char* dpp;
    *endptr= inptr;
    while (**endptr && strchr("0123456789.,-", **endptr))
-     //isdigit(**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-'))
+     /* isdigit(**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-'))	*/
      (*endptr)++;
    len= *endptr-inptr;
    if (len > 11)
@@ -910,7 +939,7 @@ static char *ParseForsyth(boolean output) {
   square sq= square_a8;
   square *bnp;
   boolean NeutralFlag= false;
-  char* tok= ReadNextTokStr();
+  char* tok= ReadNextCaseSensitiveTokStr();
 
   for (bnp= boardnum; *bnp; bnp++)
 	e[*bnp]= vide;
@@ -934,7 +963,7 @@ static char *ParseForsyth(boolean output) {
       NeutralFlag= false;
 	}
 	else if (isalpha((int)*tok)) {
-      pc= GetPieNamIndex(*tok,' ');
+      pc= GetPieNamIndex(tolower(*tok),' ');
       if (pc >= King) {
 		sq= SetSquare(sq, pc,
                       islower((int)InputLine[(tok++) - TokenLine]), &NeutralFlag);
@@ -950,7 +979,7 @@ static char *ParseForsyth(boolean output) {
 		NeutralFlag= true;
 		tok++;
       }
-      pc= GetPieNamIndex(*(tok+1), *(tok+2));
+      pc= GetPieNamIndex(tolower(*(tok+1)), tolower(*(tok+2)));
       if (pc >= King) {
 		sq= SetSquare(sq, pc,
                       islower((int)InputLine[(tok+1 - TokenLine)]), &NeutralFlag);
@@ -1096,6 +1125,11 @@ static char *ParseSort(char *tok)
     if (*(++tok) == 's') {		  /* V2.90c  TLi */
       StipFlags|= SortBit(Self);
       return tok+1;
+    } else
+    if (*tok == 'r') {		  /* V4.07  NG */
+    StipFlags|= SortBit(Reflex);
+    StipFlags|= SortBit(Self);
+    return tok+1;
     } else
       return tok;
   case 'r':
@@ -1501,6 +1535,7 @@ static char *ParseRex(boolean *rex, Cond what) {	/* V3.55  TLi */
 #define gpAntiCirce 3
 #define gpKoeko 4
 #define gpOsc 5
+#define gpAnnan 6
 static char *ParseVariant(boolean *type, int group) {	  /* SE, V3.50 NG */
   int	    VariantType;
   char    *tok=ReadNextTokStr();
@@ -1527,6 +1562,15 @@ static char *ParseVariant(boolean *type, int group) {	  /* SE, V3.50 NG */
 	}
 	else if (VariantType==TypeC && group==gpOsc) {	/* V3.80  SE */
       OscillatingKingsTypeC[OscillatingKingsColour]= True;
+	}
+	else if (VariantType==TypeB && group==gpAnnan) {	/* V3.80  SE */
+      annanvar= 1;
+	}
+	else if (VariantType==TypeC && group==gpAnnan) {	/* V3.80  SE */
+      annanvar= 2;
+	}
+	else if (VariantType==TypeD && group==gpAnnan) {	/* V3.80  SE */
+      annanvar= 3;
 	}
 	else if (VariantType==Type1 && group==gpType) { /* V3.73  NG */
       sbtype1= True;
@@ -1926,7 +1970,13 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
       black_length= len_blforcedsquare;
       flagblackmummer= true;
       break;
-      /*****  V3.1  TLi  *****/
+	case schwarzschacher:
+         	flagblackmummer= true;
+            black_length= len_schwarzschacher;
+            nullgenre= true;
+            blacknull= true;
+            break;
+     /*****  V3.1  TLi  *****/
       /* different types of circe */
     case couscousmirror:				/* V3.50  TLi */
       anycirprom= true;
@@ -2189,6 +2239,10 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
     case isardam:					/* V3.50 SE */
       tok= ParseVariant(&IsardamB, gpType);
       break;
+    case annan:					/* V3.50 SE */
+      annanvar = 0;
+      tok= ParseVariant(NULL, gpAnnan);
+      break;
     case patience:				/* V3.50 SE */
       tok= ParseVariant(&PatienceB, gpType);
       break;
@@ -2295,12 +2349,12 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
 	    if (tok == ptr) {
         WhiteSATFlights= 1;
         BlackSATFlights= 1;
-		    return tok;
+		    break;
       }
 	    BlackSATFlights= strtol(tok= ReadNextTokStr(), &ptr, 10) + 1;
 	    if (tok == ptr) {
 		    BlackSATFlights= WhiteSATFlights;
-		    return tok;
+		    break;
       }
     case BGL: /* V4.06 SE */
       BGL_global= false;
@@ -2454,7 +2508,7 @@ static char *ParseOpt(void) {			   /* H.D. 10.02.93 */
 
 /***** twinning ***** begin *****/
 
-unsigned char TwinChar;
+unsigned int TwinChar;
 
 piece  twin_e[64];
 Flags  twin_spec[64];
@@ -3056,8 +3110,8 @@ static char *ParseTwin(void) {
       else {
 		sprintf(GlobalStr,
                 "%c%d) ",
-                (TwinChar-'a'-1)%('z'-'a') + 'a',
-                (TwinChar-'a'-1)/('z'-'a'));
+                'z',
+                (TwinChar-'z'-1));
       }
       StdString(GlobalStr);
       if (LaTeXout) {				/* V3.52  NG */
@@ -3713,6 +3767,22 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
 	if ((cond == isardam) && IsardamB) {		  /* V3.50 SE */
       strcat(CondLine, "	");
       strcat(CondLine, VariantTypeString[ActLang][TypeB]);
+	}
+
+	if (cond == annan) {		  /* V3.50 SE */
+      strcat(CondLine, "	");
+      switch (annanvar)
+      {
+      case 1:
+        strcat(CondLine, VariantTypeString[ActLang][TypeB]);
+        break;
+      case 2:
+        strcat(CondLine, VariantTypeString[ActLang][TypeC]);
+        break;
+      case 3:
+        strcat(CondLine, VariantTypeString[ActLang][TypeD]);
+        break;
+      }
 	}
 
 	if ((cond == white_oscillatingKs) && OscillatingKingsTypeB[blanc]) {		  /* V3.50 SE */

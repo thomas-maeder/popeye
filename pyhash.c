@@ -2,17 +2,6 @@
 **
 ** Date       Who  What
 **
-** 2003/05/12 TLi  hashing bug fixed: h= + intel did not find all solutions .
-**
-** 2004/03/22 TLi  hashing for exact-* stipulations improved
-**
-** 2005/02/01 TLi  function hashdefense is not used anymore...
-**
-** 2005/02/01 TLi  in matant and invref exchanged the inquiry into the hash
-**                 table for "white can mate" and "white cannot mate" because
-**                 it is more likely that a position has no solution
-**                 This yields an incredible speedup of .5-1%  *fg*
-**
 ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
 **
 **************************** End of List ******************************/

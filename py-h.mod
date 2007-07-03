@@ -395,4 +395,16 @@
 ** 2002/05/18 NG   new pieces: rabbit, bob
 **		   new define: ClrDiaRen(s)
 **
+** 2003/01/05 TBa  MaxMemory improved for WIN32
+**
+** 2003/05/13 NG   new: flagleofamilyonly (marscirce+leofamily+mao bugfix)
+**
+** 2003/05/18 NG   new option: beep    (if solution encountered)
+**
+** 2003/06/03 NG   bug fix: toppile and liste increased for SuperCirce.
+**
+** 2004/04/30 TLi  bug fix: pushtabsol in py6.c
+**
+** 2004/07/19 NG   New condition: SwappingKings
+**
 **************************** End of List ******************************/

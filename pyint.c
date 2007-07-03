@@ -2,14 +2,6 @@
  **
  ** Date       Who  What
  **
- ** 2003/01/06 TLi  bug fix in Black/WhitePieceTo (intelligent mode bug)
- **
- ** 2003/02/04 TLi  bug fix with intelligent h= mode
- **
- ** 2005/08/09 TLi  bug fix with en-passant keys
- **
- ** 2005/11/15 TLi  bug fix with *mummers
- **
  ** 2006/06/14 TLi  bug fix in function impact()
  **
  **************************** End of List ******************************/

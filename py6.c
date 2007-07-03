@@ -2,39 +2,6 @@
  **
  ** Date       Who  What
  **
- ** 2003/01/05 TBa  MaxMemory improved for WIN32
- **
- ** 2003/05/13 NG   bugfix leofamily + marscirce + chinese pieces allowed
- **
- ** 2003/05/18 NG   new option: beep    (if solution encountered)
- **
- ** 2003/05/27 NG   MaxMemory reduced to 700MB (768 MB OS-maximum !) for WIN98
- **
- ** 2003/11/16 TLi  castling initialization bug fixed
- **
- ** 2004/02/06 SE   New conditions : Oscillating Kings (invented A.Bell)
- **				     Ks swapped after each W &/or Bl move
- **				     TypeB can't self-check before swap	
- **
- ** 2004/03/05 SE   New condition : Antimars (and variants) (invented S.Emmerson)
- **                 Pieces reborn to move, capture normally
- **
- ** 2004/03/20 SE   Reset solution counter after set play in Helpproblems
- **
- ** 2004/03/20 SE   New condition: AntiSuperCirce
- **
- ** 2004/03/22 SE   New condition: Ultrapatrol (only patrolled pieces can move or capture)
- **
- ** 2004/04/22 SE   Castling with Imitators
- **
- ** 2004/04/30 TLi  bug fix: pushtabsol
- **
- ** 2004/05/01 SE   Bugfix: Republican
- **
- ** 2004/05/02 SE   Imitators with mao, moa
- **
- ** 2004/05/02 SE   Mars circe allowed with chinese pieces, lions, mao, moa, leofamily
- **
  ** 2006/05/09 SE   Bug fix: Halfneutral + AntiCirce 
  **
  ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
@@ -46,6 +13,22 @@
  **                 SOme combinations with Take&MAke disallowed
  **
  ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
+ **
+ ** 2007/01/28 NG   New stipulation: help-reflexmate (hr)
+ **
+ ** 2006/07/30 SE   New condition: Schwarzschacher  
+ **
+ ** 2006/07/30 SE   Extended movenum option to also print time when solving h#/sh# at next ply  
+ **
+ ** 2007/01/28 SE   New condition: Annan Chess 
+ **
+ ** 2007/05/01 SE   Extended Chopper types to eagles, mooses and sparrows 
+ **
+ ** 2007/05/04 SE   Bugfix: SAT + BlackMustCapture
+ **
+ ** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
+ **
+ ** 2007/07/04 SE   Bugfix: Ser-dia
  **
  ***************************** End of List ******************************/
 
@@ -165,6 +148,17 @@ boolean is_simplehopper(piece p)			 /* TM V3.12 */
   case g3b:			/* V3.44  NG */
   case khb:			/* V3.44  NG */
   case orixb:			/* V3.44  NG */
+
+        case mooseb:
+        case rookmooseb:
+        case bishopmooseb:
+        case eagleb:
+        case rookeagleb:
+        case bishopeagleb:
+        case sparrb:
+        case rooksparrb:
+        case bishopsparrb:
+        
     return true;
   default:	return false;
   }
@@ -437,6 +431,8 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
             || anyimmun			     /* V3.1  TLi, aber warum
                                         eigentlich nicht */
             || CondFlag[haanerchess]
+            || anycirce           /* V4.07 SE - rebirth square may coincide with I */
+            || anyanticirce       /* V4.07 SE - rebirth square may coincide with I */
             || CondFlag[parrain])      /* V3.02  TLi verkraftet
                                           nicht 2 IUW in einem Zug !!! */
 	{
@@ -667,7 +663,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 
   if (anymars||anyantimars) {		    /* V3.46  SE/TLi */
 	totalortho= false;
-	/* empilegenre= true;*//* set also below ...  V3.64  NG */
+	/* empilegenre= true;*/ /* set also below ...  V3.64  NG */
 	if (CondFlag[whtrans_king]
         || CondFlag[whrefl_king]
         || CondFlag[bltrans_king]
@@ -832,6 +828,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
          + (CondFlag[whforsqu] || CondFlag[whconforsqu])  /* V3.20TLi */
          + CondFlag[whfollow]
          + CondFlag[duellist]
+         + CondFlag[alphabetic]
          + CondFlag[whitesynchron]
          + CondFlag[whiteantisynchron]) > 1		       /* V2.90c  TLi */
        || (CondFlag[blmin]
@@ -840,6 +837,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
            + (CondFlag[blforsqu] || CondFlag[blconforsqu]) /* V3.20 TLi */
            + CondFlag[blfollow]
            + CondFlag[duellist]
+           + CondFlag[alphabetic]
            + CondFlag[blacksynchron]
            + CondFlag[blackantisynchron] > 1))			 /* V3.0  TLi */
   {
@@ -1100,6 +1098,12 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
   totalortho &= !CondFlag[sentinelles];
   /* a nasty drawback */
 
+  if (CondFlag[annan]) {
+    totalortho= false;
+    rbechec= &annan_rbechec;
+    rnechec= &annan_rnechec;
+  }
+
   FlagMoveOrientatedStip =
 	ReciStipulation == stip_target
 	|| ReciStipulation == stip_ep
@@ -1201,6 +1205,11 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	|| CondFlag[blackultraschachzwang]
 	|| CondFlag[whiteultraschachzwang]		 /* V3.62 SE */
 	|| CondFlag[BGL];                      /* V4.06 SE */
+  jouetestgenre_save= jouetestgenre;
+
+  jouetestgenre1 = CondFlag[blackultraschachzwang]
+	|| CondFlag[whiteultraschachzwang];		 
+
 
   nonoptgenre= TSTFLAG(PieSpExFlags, Neutral)		/* V3.02  TLi */
     || flag_testlegality			/* V3.45  TLi */
@@ -1289,6 +1298,12 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
     satXY= WhiteSATFlights > 1 || BlackSATFlights > 1;
   }
 
+  if (CondFlag[schwarzschacher])
+  {
+	  totalortho= false;
+	nonoptgenre= true;
+  }
+
   if (CondFlag[takemake])
     totalortho= false;
 
@@ -1329,8 +1344,8 @@ void current(coup *mov) {
   /* destroys the 'current()' entry	  */		/* V3.20  NG */
   else if (CondFlag[isardam] || CondFlag[brunner] || SATCheck) {	/* V3.51 SE */
 	if (flag_writinglinesolution) {
-      numecoup tempcoup= nbcou;
-      ply	     tempply= nbply;
+      tempcoup= nbcou;
+      tempply= nbply;
       nbcou= sic_coup;
       nbply= sic_ply;
       mov->echec= echecc(advers(mov->tr));
@@ -1427,7 +1442,9 @@ void editcoup(coup *mov) {
   short   icount, diff;				/* V2.4d  TM */
   square sq;
 
-  /* Did we castle ?? */				/* V3.35  NG */
+   if (mov->cazz==nullsquare) return;      /* V3.70 SE */
+
+   /* Did we castle ?? */				/* V3.35  NG */
   if (mov->cpzz == maxsquare+2
       || mov->cpzz == maxsquare+3)			/* V3.55  TLi */
   {
@@ -1694,6 +1711,7 @@ boolean nowdanstab(smallint n)
          && mov.sb3what==tabsol.liste[i].sb3what	  /* V3.71 TM */
          && mov.sb2where==tabsol.liste[i].sb2where	  /* V3.71 TM */
          && mov.sb2what==tabsol.liste[i].sb2what	  /* V3.71 TM */
+         && mov.hurdle==tabsol.liste[i].hurdle
          && (!CondFlag[takemake] || mov.cpzz==tabsol.liste[i].cpzz)
          && (!supergenre				  /* V3.50 SE */
              || (    (!(CondFlag[supercirce] || CondFlag[april])
@@ -1781,7 +1799,7 @@ void linesolution(void) {
 	num= 1;
 	nbcou= repere[nbply+1];
   	initneutre(advers(trait[nbply]));	/* V4.03  SE */
-	jouecoup();
+	jouecoup_no_test();
 	ecritcoup();
 	nbply++;
 	camp= advers(camp);
@@ -1802,7 +1820,7 @@ void linesolution(void) {
 	flende= sic_ply == nbply;
 	nbcou= repere[nbply + 1];
 	initneutre(advers(trait[nbply]));	/* V4.03  SE */
-	jouecoup();
+	jouecoup_no_test();
 	ecritcoup();
 	nbply++;
   }
@@ -1838,7 +1856,11 @@ boolean last_h_move(couleur camp) {
 	GenMatingMove(camp);
   }
   else {
-	genmove(camp);
+	if (SortFlag(Reflex) && !FlowFlag(Semi) && matant(camp, 1)) {	/* V4.07  NG */
+ 		return false;
+	} else {
+		genmove(camp);
+	}
   }
 
   if (camp == blanc)
@@ -2764,42 +2786,45 @@ int main(int argc, char *argv[]) {
 		}
 		StorePosition();			/* V2.70  TLi */
 		if (SortFlag(Proof)) {
-          ProofInitialise();
-          inithash();
-          /* no DUPLEX for SPG's !  V3.42  NG */
-          if (FlowFlag(Alternate)) {
-			maincamp = flag_atob
-              ? (flag_appseul
-                 ? blanc
-                 : noir)
-              : blanc;
-			if (flag_atob
+      ProofInitialise();
+      inithash();
+      /* no DUPLEX for SPG's !  V3.42  NG */
+      if (FlowFlag(Alternate)) {
+			  maincamp = flag_atob
+                    ? (flag_appseul
+                      ? blanc
+                      : noir)
+                    : blanc;
+			  if (flag_atob
                 && OptFlag[solapparent]
-                && enonce>1)
-			{
-              SatzFlag= true;
-              if (flag_atob && !FlowFlag(Exact)) {
-                /* V3.76  TLi */
-                StipFlags|= FlowBit(Exact);
-                for (i= 1; i<enonce-1; i++)
-                  ProofSol(advers(maincamp), i, false);
-              }
-              ProofSol(advers(maincamp), enonce-1,
-                       OptFlag[movenbr]);
-              SatzFlag=false;
-			}
-            if (flag_atob && !FlowFlag(Exact)) {   /* V3.76  TLi */
-              StipFlags|= FlowBit(Exact);
-              for (i= 1; i<enonce; i++)
-                ProofSol(maincamp, i, false);
-            }
-			ProofSol(maincamp, enonce, OptFlag[movenbr]);
+                && enonce>1) {
+          SatzFlag= true;
+          if (flag_atob && !FlowFlag(Exact)) {
+            /* V3.76  TLi */
+            StipFlags|= FlowBit(Exact);
+            for (i= 1; i<enonce-1; i++)
+              ProofSol(advers(maincamp), i, false);
           }
-          else {				/* V3.42  NG */
-			SeriesProofSol(enonce, OptFlag[movenbr]);
-          }
-          closehash();
-          Message(NewLine);
+          ProofSol(advers(maincamp), enonce-1, OptFlag[movenbr]);
+          SatzFlag=false;
+			  }
+        if (flag_atob && !FlowFlag(Exact)) {   /* V3.76  TLi */
+          StipFlags|= FlowBit(Exact);
+            for (i= 1; i<enonce; i++)
+              ProofSol(maincamp, i, false);
+        }
+			  ProofSol(maincamp, enonce, OptFlag[movenbr]);
+      }
+      else {				/* V3.42  NG */
+        if (flag_atob && !FlowFlag(Exact)) {   /* V3.76  TLi */
+          StipFlags|= FlowBit(Exact);
+          for (i= 1; i<enonce; i++)
+            SeriesProofSol(i, false);
+        }
+			  SeriesProofSol(enonce, OptFlag[movenbr]);
+      }
+      closehash();
+      Message(NewLine);
 		}
 		else {
           do {

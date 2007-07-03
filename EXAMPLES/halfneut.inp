@@ -1,0 +1,13 @@
+beg
+prot halfneut.out
+auth V.Crisan & E.Huber
+orig 1 Pl Andernach 2004
+titl last 2 moves only < 1 min on Athlon 2400
+stip hs#2
+pie wh kh1 sb7
+blac kd7 rc3g4 bb8f1 sa1d6 pc8e6g7h7
+pie neut halfn rc6
+pie wh halfn be4
+cond antisupercirce
+end
+

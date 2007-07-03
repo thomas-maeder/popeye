@@ -160,4 +160,13 @@
 **
 ** 2001/10/02 TLi  new piece: Dolphin (Grashopper + Kangaroo)
 **
+** 2002/05/18 NG   new pieces: rabbit, bob
+**
+** 2003/05/18 NG   new option: beep    (BeepOnSolution)
+**
+** 2004-06-20 ElB  add nevercheck
+**                 introduce evalfunction_t and checkfunction_t
+**
+** 2004/07/19 NG   function declarations rearranged
+**
 **************************** INFORMATION END **************************/

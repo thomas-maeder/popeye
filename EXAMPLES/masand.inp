@@ -1,0 +1,64 @@
+beg
+prot masand.out
+
+auth Petko Petkov 
+orig feenschach 2001 (v) SE
+cond masand
+stip h#2
+fors 24/K7/8/R5bp/7k/r7/
+
+next
+
+auth Petko Petkov 
+orig feenschach 2001
+cond masand
+stip s#6
+opt var nontriv 0  1 nothr
+fors 7k/32/3QKP1S/8/6R1/
+
+next
+
+auth Petko Petkov 
+orig feenschach 2001
+cond masand
+stip #2 
+opt var
+fors 2B5/7P/6Q1/3p3p/7k/K6S/s1P1pp1P/1q3b2
+
+next
+
+auth Petko Petkov 
+orig feenschach 2001
+cond masand
+stip #2
+opt var try
+fors 3SR2r1P6/1p6/PPP3p1/1KPk4/3P1p2/5SP1/4R1r
+
+next
+
+auth Petko Petkov 
+orig feenschach 2001 (v) SE
+cond masand
+stip #2
+opt var try set
+fors 1b6/p7/1R6/5P2/P3p2s/6Q1/7K/1SkB1RS1/
+
+next
+
+
+auth Petko Petkov
+orig feenschach 2001
+cond masand
+stip #2
+opt var
+fors 1B6/1K1k1p2/16/4Q3/8/6s1
+
+next
+
+auth Hubert Gockel
+orig The Problemist vii/2006
+stip #2
+opt try var
+fors 1S1K3s/1Sp2p2/1p3P2/q2k4/p1rp2p1/2p5/1s2Q3/1B
+cond masand
+end

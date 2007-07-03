@@ -4,14 +4,11 @@
 **
 ** Date       Who  What
 **
-** 2002/05/18 NG   new pieces: rabbit, bob
+** 2007/01/28 SE   New condition: Annan Chess 
 **
-** 2003/05/18 NG   new option: beep    (BeepOnSolution)
+** 2007/05/04 SE   Bugfix: SAT + BlackMustCapture
 **
-** 2004-06-20 ElB  add nevercheck
-**                 introduce evalfunction_t and checkfunction_t
-**
-** 2004/07/19 NG   function declarations rearranged
+** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
 **
 **************************** End of List ******************************/
 
@@ -216,6 +213,8 @@ void    hardinit (void);
 boolean imok (square i, square j);                          /* V2.4d  TM */
 void    initkiller (void);
 void    initneutre (couleur a);
+void jouecoup_no_test(void);
+boolean jouecoup_ortho_test(void);
 boolean jouecoup (void);     /* V3.44  SE/TLi */
 void    joueim (smallint diff);                                /* V2.4d  TM */
 boolean last_h_move (couleur a);
@@ -232,6 +231,7 @@ boolean rbcircech (square i, square j, square k);               /* V2.80c  TLi *
 
 extern boolean (*rbechec)(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
 boolean singleboxtype3_rbechec(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
+boolean annan_rbechec(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
 
 boolean rbimmunech (square a, square b, square c);              /* V2.80c  TLi */
 boolean rcardech (square sq, square sqtest, numvec k, piece p, smallint x, boolean (*evaluate)(square,square,square) );
@@ -244,6 +244,7 @@ boolean rncircech (square i, square j, square k);               /* V2.80c  TLi *
 
 extern boolean (*rnechec)(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
 boolean singleboxtype3_rnechec(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
+boolean annan_rnechec(boolean (*evaluate)(square,square,square)); /* V3.71  TM */
 
 boolean rnimmunech (square a, square b, square c);              /* V2.80c  TLi */
 boolean rrefcech (square a, square b, smallint c, piece d, boolean (* evaluate)(square,square,square));    /* V2.3c  NG */
@@ -460,6 +461,8 @@ void change_observed(square z);
 boolean observed(square a, square b);
 boolean eval_BGL(square a, square b, square c);	/* V4.06 SE */
 char *WriteBGLNumber(char* a, long int b);	/* V4.06 SE */
+boolean whannan(square rear, square front);
+boolean blannan(square rear, square front);
 
 
 #ifdef WIN32

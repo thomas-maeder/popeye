@@ -2,29 +2,6 @@
  **
  ** Date       Who  What
  **
- ** 2003/11/24 TLi  castling + neutrals bug fixed
- **
- ** 2004/02/05 SE   New conditions : MAFF, OWU (invented M.Brada)
- **                 Mate with A Free Field, (Mate with) One White Unit (in K field)
- **
- ** 2004/02/06 SE   New conditions : Oscillating Kings (invented A.Bell)
- **				   Ks swapped after each W &/or Bl move; TypeB can't self-check before swap
- **
- ** 2004/03/05 SE   New condition : Antimars (and variants) (invented S.Emmerson)
- **                 Pieces reborn to move, capture normally
- **
- ** 2004/03/19 SE   New condition: Supertransmutingkings (?inventor)
- **
- ** 2004/03/20 SE   New condition: AntiSuperCirce
- **
- ** 2004/04/22 SE   Castling with Imitators
- **
- ** 2004/04/23 SE   Oscillating Ks TypeC, also allowed A/B/C different for white/black
- **
- ** 2004/05/01 ThM  Bugfix: Multiple imitator promotions
- **
- ** 2004/05/01 SE   Bugfixes: OscKs + Castling, Antisupercirce Cheylan, Republican
- **
  ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
  **
  ** 2006/05/14 SE   New Condition: TakeMake (invented H.Laue)
@@ -32,6 +9,16 @@
  ** 2006/06/28 SE   New condition: Masand (invented P.Petkov)
  **
  ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
+ **
+ ** 2006/07/30 SE   New condition: Schwarzschacher  
+ **
+ ** 2007/01/28 SE   New condition: Annan Chess 
+ **
+ ** 2007/05/01 SE   Bugfix: StrictSAT bug 
+ **
+ ** 2007/05/04 SE   Bugfix: SAT + BlackMustCapture
+ **
+ ** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
  **
  **************************** End of List ******************************/
 
@@ -619,9 +606,19 @@ void gen_bl_ply(void) {
           gen_bl_piece(z, p);
       }
 	}
+   if (blacknull)
+   	empile(nullsquare, nullsquare, nullsquare);
 } /* gen_bl_ply */
 
 void gen_bl_piece_aux(square z, piece p) {	/* V3.46  SE/TLi */
+
+  if (CondFlag[annan]) {
+    piece annan_p= e[z+24];
+/*    if (annan_p < vide)	*/
+    if (blannan(z+24, z))
+      p= annan_p;
+  }
+
   switch(p) {
   case roin:	genrn(z);
     break;
@@ -1051,6 +1048,23 @@ piece next_singlebox_prom(piece p, couleur c) {
 static  int nbrtimes = 0;
 #endif
 
+void jouecoup_no_test(void)
+{
+  jouetestgenre= false;
+  jouecoup();
+  jouetestgenre= jouetestgenre_save;
+}
+
+boolean jouecoup_ortho_test(void)
+{
+  boolean flag;
+  boolean jtg1= jouetestgenre1; 
+  jouetestgenre1= false;
+  flag= jouecoup();
+  jouetestgenre1= jtg1;
+  return flag;
+}
+
 boolean jouecoup(void) {
   square  i,			/* case dep. */
     j,			/* case arr. */
@@ -1123,6 +1137,8 @@ boolean jouecoup(void) {
 
   ppspec= pprispec[nbply]= spec[ip];			/* V3.1  TLi */
   pp= pprise[nbply]= e[ip];				/* V3.1  TLi */
+
+  if (j==nullsquare) return true;      /* V3.70 SE */
 
   if (anyantimars && i == ip)
   {
@@ -2306,9 +2322,9 @@ legality_test:
 
     if (CondFlag[strictSAT] && SATCheck)  /* V4.03 SE */
     {
-        if (trait[nbply]==blanc)
+       /* if (trait[nbply]==blanc)	*/
             WhiteStrictSAT[nbply]= echecc_normal(blanc);
-        else
+       /* else	*/
             BlackStrictSAT[nbply]= echecc_normal(noir);
     }
 
@@ -2324,8 +2340,21 @@ legality_test:
     BGL_black -= BGL_move_diff_code[abs(cd[nbcou]-ca[nbcou])];
   }
 
+  if (CondFlag[schwarzschacher] && trait[nbply]==noir) return echecc(blanc);		/* V3.62  SE */
+
+
+
   return (!jouetestgenre				/* V3.50 SE */
           || (
+            (!jouetestgenre1 || (
+   (  !CondFlag[blackultraschachzwang]
+                  || trait[nbply]==blanc
+                  || echecc(blanc))
+            && (  !CondFlag[whiteultraschachzwang]
+                  || trait[nbply]==noir
+                  || echecc(noir))
+                  ))
+                  &&
             ((!flag_testlegality) || pos_legal())
             /* V3.44, 3.51  SE/TLi */
             && (!flagAssassin || (cren != rb && cren != rn))
@@ -2337,12 +2366,6 @@ legality_test:
             /* don't call patience_legal if TypeB as obs > vide ! */
             /* &&(!CondFlag[republican] || flag_repub) */
             /* V3.50 SE, removed v3.53 SE - rule clarification  */
-            && (  !CondFlag[blackultraschachzwang]
-                  || trait[nbply]==blanc
-                  || echecc(blanc))
-            && (  !CondFlag[whiteultraschachzwang]
-                  || trait[nbply]==noir
-                  || echecc(noir))
             && (trait[nbply] == blanc ? BGL_white >= 0 : BGL_black >= 0) /* V4.06 SE */
             ));
 } /* end of jouecoup */
@@ -2467,6 +2490,12 @@ void repcoup(void) {
   pj= pjoue[nbply];
   pjspec= jouespec[nbply];
   /*	 pjspec_= spec[j];   V3.62  TLi */
+
+	if (j==nullsquare)    /* V3.70 SE */
+   {
+   	nbcou--;
+      return;
+   }
 
   if (sbtype2) { /* 3.71 TM */
 
@@ -2878,7 +2907,9 @@ boolean patt(couleur camp)
     if (CondFlag[MAFF] || CondFlag[OWU]) {					/* V3.78 SE */
       int k_fl= 0, w_unit= 0;
       while (encore()) {
-        if (jouecoup()) {
+        if (jouecoup()
+          || (CondFlag[blackultraschachzwang] && (camp == noir))
+          || (CondFlag[whiteultraschachzwang] && (camp == blanc))          ) {
           if (camp==noir ? pprise[nbply]>=roib : pprise[nbply]<=roib)
             w_unit++;        /* assuming OWU is OBU for checks to wK !! */
           if (!echecc(camp))

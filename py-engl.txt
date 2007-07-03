@@ -274,6 +274,9 @@ commands expect further parameters. Lets start with the simpler commands:
 	WhiteAntiSynchronMover
 	Masand
 	BGL
+	AnnanChess
+	NormalPawn
+	BlackChecks
 
 	After the conditions Imitator, MagicField, Hole, FrischaufCirce,
 	WhitePromSquares, BlackPromSquares
@@ -290,16 +293,16 @@ commands expect further parameters. Lets start with the simpler commands:
 	Circe and equivalent to "ChameleonCirce", "ChameleonCirce S Q R B S"
 	gives reverse ChameleonCirce.)
 	After some of the Circe, Immun, Madrasi or Phantomchess conditions
-        you can enter RexInclusive.
+        you can enter "RexInclusiv".
 	After all Anticirce conditions "Cheylan" or "Calvet" can be entered -
 	according to the type desired.
 	After the Isardam condition "TypeB" can be entered.
 	After the SingleBox condition "Type1", "Type2" or "Type3" can be entered.
 	After the Sentinelles condition "PionAdvers", "PionNeutre", "ParaSentinelles",
-              or Berolina can be entered, and also WhiteMaximum, BlackMaximum 
-              or TotalMaximum followed by a number.
+              or "Berolina" can be entered, and also "MaximumWhite", "MaximumBlack" 
+              or "MaximumTotal" followed by a number.
 	After MessignyChess, (Bi)Woozles and (Bi)Heffalumps you can enter
-        RexExclusive.
+        "RexExclusiv".
 	After the WhiteOscillatingKings or BlackOscillatingKings condition "TypeB" or
 	      or "TypeC" can be entered.
 
@@ -376,11 +379,11 @@ commands expect further parameters. Lets start with the simpler commands:
 						{  %  }
 						{  ~  }
 						{  ep }
-						{  #  }
-			{ SER-  }   {  H  }     {  =  }
- { m-> } + { EXACT-} +  { SEMI- } + {  S  }  +  {  == }   +   n
-			{ RECI- }   {  R  }     {  +  }
-						{ Zxy }
+				    {  H  }     {  #  }
+			{ SER-  }   {  S  }     {  =  }
+ { m-> } + { EXACT-} +  { SEMI- } + {  R  }  +  {  == }   +   n
+			{ RECI- }   { HS  }     {  +  }
+				    { HR  }     { Zxy }
 						{  x  }
 						{  ## }
 						{ ##! }
@@ -403,7 +406,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	S+2             self-check in 2 moves
 	R==3            reflex-doublestalemate in 3 moves
 	HS#3            helpselfmate in 3 moves         (= help forced selfmate)
-	SER-+7          series-check in 7 movesn
+	SER-+7          series-check in 7 moves
 	SEMI-R+4        semi-reflex-check in 4 moves
 	x3              Capture in 3 moves
 	RECI-H#2        reciprocal helpmate in 2        (= Grazer helpmate)
@@ -428,6 +431,7 @@ commands expect further parameters. Lets start with the simpler commands:
 			 of two Bl pieces)
 	#=2             mate or stalemate in 2 moves
 	h~1             any helpmove
+	HR#3            helpreflexmate in 3 moves         (= help forced reflexmate)
 
 	SEMI is valid only in combination with direct reflex-play.
 
@@ -725,7 +729,7 @@ VMS:
 
 
 Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
-july 2006
+may 2007
 
 If you have any suggestions, any errors you know of, etc., you are
 welcome to contact us.

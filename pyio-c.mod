@@ -319,4 +319,26 @@
 **
 ** 2002/04/29 FCO  LaTeX changes
 **
+** 2003/05/18 NG   new option: beep    (if solution encountered)
+**
+** 2004/02/06 SE   New conditions : Oscillating Kings (invented A.Bell)
+**                                  Ks swapped after each W &/or Bl move;
+**				    TypeB can't self-check before swap
+**                                  Koeko Neighbourhood (invented S.Emmerson)
+**
+** 2004/03/05 SE   New condition : Antimars (and variants) (invented S.Emmerson)
+**                 Pieces reborn to move, capture normally
+**
+** 2004/02/09 SE   Bugfix : Forsyth with neutrals
+**
+** 2004/04/23 SE   Oscillating Ks TypeC, also allowed A/B/C different for white/black
+**
+** 2004/05/01 SE   Bugfix : ParseVariant problem e.g. sentinelles pionneutre koeko
+**
+** 2004/07/19 NG   New condition: SwappingKings
+**
+** 2005/04/20 NG   assert "eliminated". Check of Hunter0+maxnrhuntertypes added.
+**
+** 2005/04/25 NG   bugfix: a=>b with Imitators
+**
 **************************** INFORMATION END **************************/

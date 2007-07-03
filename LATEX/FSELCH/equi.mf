@@ -1,0 +1,247 @@
+%======================================================================
+% This is
+%		equi.mf
+%
+% Copyright (C) 1995  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%======================================================================
+%
+%      11 _______________________ 12
+%	 \                     /
+%	  \                   /
+%          \                 /
+%         9 \---------------/ 10
+%            \             /
+%             \           /
+%              \         /
+%               \       /
+%                \     /
+%                 \   /
+%          7 +-------------+ 8   -
+%            |<---wdbar--->|     | htbar
+%          5 +-------------+ 6   -
+%                 /   \
+%                /     \
+%               /       \
+%              /         \
+%             /       	  \
+%            /             \
+%           /               \
+%        3 /-----------------\ 4
+%         /                   \
+%        /                     \
+%      1 ----------------------- 2
+%       |<--------wdbot-------->|
+%
+def SetParam =
+	numeric wdbott, wdbar, htbar, diagpos, rdiagpos;
+	wdbott:= .75 BottomWidth;
+	wdbar:=  .50 BottomWidth;
+	htbar:= 0.065*(qs - BottomSpace - TopSpace);
+	diagpos=.095;
+	rdiagpos= 1-diagpos;
+enddef;
+
+def DefinePointsAndPaths =
+	% left points are odd numbered from 1 to 11 from lower to upper
+	% right points are even numbered from 2 to 12  lower tot upper
+	numeric x[], y[];
+
+	SetParam;
+
+	% At first the diag's
+         rt x1  =  rt x11 =  .5(qs-wdbott);
+	lft x2  = lft x12 =  .5(qs+wdbott);
+	bot y1  = bot y2  =  BottomSpace;
+	top y11 = top y12 =  qs-TopSpace;
+	z0 = (.5qs, .5qs);
+	path shape; shape:= z1--z0--z11--z12--z0--z2--z1--cycle;
+
+	% now the top and bottom inner rule
+	path Ndiag; Ndiag= z2--z11;
+	path Zdiag; Zdiag= z12--z1;
+	z4 = point diagpos of Ndiag;
+	z3 = point rdiagpos of Zdiag;
+	z9 = point rdiagpos of Ndiag;
+	z10 = point diagpos of Zdiag;
+	path botin; botin= z3--z4;
+	path topin; topin= z9--z10;
+
+	% the bar in the middle
+	y7 - y5 = y8 - y6 = htbar;
+	x6 - x5 = x8 - x7 = wdbar;
+	x7 + x8 = x5 + x6 = qs;
+	y5 + y7 = y8 + y6 = qs;
+	path bar; bar=z5--z6--z8--z7--z5--cycle;
+enddef;
+
+
+def MakeWhiteEquihopper =
+	clearit;
+	pickup chess_pen;
+	draw shape;
+	pickup inner_pen;
+	draw topin;
+	draw botin;
+	erase fill bar;
+	draw bar;
+	WhiteMan:= currentpicture;
+enddef;
+
+def MakeBlackEquihopper =
+	clearit;
+	pickup chess_pen;
+	filldraw shape;
+	pickup chess_pen scaled 1.1;
+	undraw ShortenPath(topin, 2.5thin);
+	undraw ShortenPath(botin, 2.5thin);
+	filldraw bar;
+	BlackMan:= currentpicture;
+enddef;
+
+def MakeOuterShape = 
+	clearit;
+	pickup frame_pen;
+	filldraw shape;
+	filldraw bar;
+	cullit;
+	OuterShape:= currentpicture;
+enddef;
+
+DefinePointsAndPaths;
+MakeWhiteEquihopper;
+MakeBlackEquihopper;
+MakeNeutral(WhiteMan, BlackMan);
+MakeOuterShape;
+
+
+if proofing > 0:
+	ScreenGrid(0,qs)(0,qs);
+	% If you want a stop after each generated char:
+
+	string ans;
+	let _endchar= endchar;
+	def endchar =
+		ans:= readstring;
+		_endchar;
+	enddef;
+fi;
+
+%%===========================================================
+%% this one for testing
+%beginchar(Equihopper+White+OnWhite, qs#, qs#, 0);
+%	"White Equihopper on white field";
+%	currentpicture:= WhiteMan;
+%	%currentpicture:= BlackMan;
+%endchar;
+%endinput
+%%===========================================================
+
+beginchar(Equihopper+White+OnWhite, qs#, qs#, 0);
+	"White equihopper on white field";
+	currentpicture:= WhiteMan;
+endchar;
+
+beginchar(Equihopper+White+OnWhite+LeftTurned, qs#, qs#, 0);
+	"White equihopper turned to the left on white field";
+	currentpicture:= TurnLeft(WhiteMan);
+endchar;
+
+%===========================================================
+
+beginchar(Equihopper+White+OnBlack, qs#, qs#, 0);
+	"White equihopper on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + WhiteMan;
+endchar;
+
+beginchar(Equihopper+White+OnBlack+LeftTurned, qs#, qs#, 0);
+	"White equihopper turned to the left on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(WhiteMan);
+endchar;
+
+%===========================================================
+
+beginchar(Equihopper+Neutral+OnWhite, qs#, qs#, 0);
+	"Neutral equihopper on white field";
+	currentpicture:= NeutralMan;
+endchar;
+
+beginchar(Equihopper+Neutral+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Neutral equihopper turned to the left on white field";
+	currentpicture:= TurnLeft(NeutralMan);
+endchar;
+
+%===========================================================
+
+beginchar(Equihopper+Neutral+OnBlack, qs#, qs#, 0);
+	"Neutral equihopper on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + NeutralMan;
+endchar;
+
+beginchar(Equihopper+Neutral+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Neutral equihopper turned to the left on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(NeutralMan);
+endchar;
+
+%===========================================================
+
+beginchar(Equihopper+Black+OnWhite, qs#, qs#, 0);
+	"Black equihopper on white field";
+	currentpicture:= BlackMan;
+endchar;
+
+beginchar(Equihopper+Black+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Black equihopper turned to the left on white field";
+	currentpicture:= TurnLeft(BlackMan);
+endchar;
+
+%===========================================================
+
+beginchar(Equihopper+Black+OnBlack, qs#, qs#, 0);
+	"Black equihopper on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + BlackMan;
+endchar;
+
+beginchar(Equihopper+Black+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Black equihopper turned to the left on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(BlackMan);
+endchar;
+
+%:map q :w!:!mf chess

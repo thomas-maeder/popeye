@@ -1,0 +1,8 @@
+% Defintions for the special agfa mode
+proofing:=		0;
+fontmaking:=		1;
+tracingtitles:=		1;
+pixels_per_inch:=	400;
+blacker:=		.2;
+fillin:=		.1;
+o_correction:=		1;

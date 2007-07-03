@@ -47,7 +47,7 @@
 15= Kuerzest-/Laengst-/Verfolgungszueger/Schlagzwang/Duellantenschach mit Neutralen Steinen nicht erlaubt
 16= Kamikaze + Neutrale Steine oder Kamikaze + Circe + Maerchenfiguren nicht gleichzeitig erlaubt
 17= Chromes Schach, Gitterschach, Koeko, Randzueger oder Neutral unvereinbar mit Volage
-18= Laengst-/Kuerzestzueger/Schlagzwang/Duellantenschach gleichzeitig fuer die gleiche Partei ?
+18= Laengst-/Kuerzestzueger/Schlagzwang/Duellantenschach/AlphabetischesSchach gleichzeitig fuer die gleiche Partei ?
 19= Die am Zug befindliche Partei kann den Koenig schlagen
 20= Monochromes und Bichromes Schach gleichzeitig ergibt keinen Sinn
 21= Unzulaessiges Zeichen: `%s'

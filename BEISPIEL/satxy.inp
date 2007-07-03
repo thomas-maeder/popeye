@@ -1,0 +1,37 @@
+anfa
+prot satxy.out
+
+auto Ladislav Salai sr. 
+quel Pat a Mat 2003 (SAT #59)
+ford ser-#22
+bedi sat 3 
+fors 7d/6b1/32/t1b1b3/k3tK2/
+
+weit
+
+auto Ladislav Salai sr.
+quel Mat 64 2002 (SAT #58)
+ford ==6
+bedi sat 4
+fors 16/6b1/7B/24/k6K/
+opti vari 
+
+weit
+
+auto Ladislav Salai sr.
+quel SAT #56
+ford #1
+stei weis ke1 schw kc6
+bedi sat 8
+null hinzu weis dg1
+zwil hinzu weis td1
+zwil hinzu weis lf1
+zwil hinzu weis sf8
+
+weit
+
+ford h==3
+bedi sat 3 
+fors k7/1t6/6L1/24/7l/7K
+
+ende

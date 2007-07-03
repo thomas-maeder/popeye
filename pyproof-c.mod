@@ -60,4 +60,11 @@
 **
 ** 2002/08/20 TLi  bug fix in ProofFairyImpossible
 **
+** 2003/05/14 TLi  bug fix: transmuting king
+**                          madrasi, patrouille, koeko and others
+**
+** 2003/08/05 SE   Bugfix : AtoB
+**
+** 2005/04/25 NG   bugfix: a=>b with Imitators
+**
 **************************** INFORMATION END **************************/

@@ -1215,7 +1215,7 @@ some slight changes (improvements ?) for castling
 new option: NoCastling
                                                         02.04.1999  NG
 ------------------------------------------------------------------------
-new conditions: (Bi)Woozles and (Bi)Heffalumps (RexExklusive)
+new conditions: (Bi)Woozles and (Bi)Heffalumps (RexExclusiv)
 Messigny chess standard form is now rexinclusive, ``rexexclusive'' has
 to be entered to exclude Kings.
                                                         17.04.1999  TLi
@@ -1861,4 +1861,29 @@ regression test done.
 pywin32.exe, pywin98.exe and pydos32.exe created.
 This is official release py4.06
                                                         08.07.2006  NG
+------------------------------------------------------------------------
+new condition: blackchecks (Schwarzschaecher)
+							30.07.2006  SE
+------------------------------------------------------------------------
+New stipulation: help-reflexmate (hr)
+                                                        28.01.2007  NG
+------------------------------------------------------------------------
+new conditions: NormalPawn  and  Annan Chess
+							28.01.2007  SE
+------------------------------------------------------------------------
+sentinelles variants: naming changed for consistency ...
+rexinclusiv + rexexclusiv: documentation adjusted.
+                                                        30.04.2007  NG
+------------------------------------------------------------------------
+bug fixes: StrictSAT, Anticirce + TransmutingK,
+	   SAT + BlackMustCapture, SAT + Ultraschachzwang,
+	   ser-dia, input of condition after SAT, forsyth,
+           twinning
+                                                        04.05.2007  SE
+------------------------------------------------------------------------
+documentation adjusted.
+regression test done.
+pywin32.exe, pywin98.exe and pydos32.exe created.
+This is official release py4.37 !!  (:-)
+                                                        13.05.2007  NG
 ------------------------------------------------------------------------

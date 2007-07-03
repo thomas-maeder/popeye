@@ -286,4 +286,28 @@
 **
 ** 2002/09/27 ThM  singlebox: bug fix
 **
+** 2003/11/24 TLi  castling + neutrals bug fixed
+**
+** 2004/02/05 SE   New conditions : MAFF, OWU (invented M.Brada)
+**                 Mate with A Free Field, (Mate with) One White Unit (in K field)
+**
+** 2004/02/06 SE   New conditions : Oscillating Kings (invented A.Bell)
+**                                  Ks swapped after each W &/or Bl move;
+**				    TypeB can't self-check before swap
+**
+** 2004/03/05 SE   New condition : Antimars (and variants) (invented S.Emmerson)
+**                 Pieces reborn to move, capture normally
+**
+** 2004/03/19 SE   New condition: Supertransmutingkings (?inventor)
+**
+** 2004/03/20 SE   New condition: AntiSuperCirce
+**
+** 2004/04/22 SE   Castling with Imitators
+**
+** 2004/04/23 SE   Oscillating Ks TypeC, also allowed A/B/C different for white/black
+**
+** 2004/05/01 ThM  Bugfix: Multiple imitator promotions
+**
+** 2004/05/01 SE   Bugfixes: OscKs + Castling, Antisupercirce Cheylan, Republican
+**
 **************************** INFORMATION END ***************************/

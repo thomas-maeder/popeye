@@ -3,21 +3,15 @@
 **
 ** Date       Who  What
 **
-** 2003/01/05 TBa  MaxMemory improved for WIN32
-**
-** 2003/05/13 NG   new: flagleofamilyonly (marscirce+leofamily+mao bugfix)
-**
-** 2003/05/18 NG   new option: beep    (if solution encountered)
-**
-** 2003/06/03 NG   bug fix: toppile and liste increased for SuperCirce.
-**
-** 2004/04/30 TLi  bug fix: pushtabsol in py6.c
-**
-** 2004/07/19 NG   New condition: SwappingKings
-**
 ** 2006/05/07 SE   bug fix: StipExch + Duplex 
 ** 
 ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
+**
+** 2006/07/30 SE   New condition: Schwarzschacher  
+**
+** 2007/01/28 SE   New condition: NormalPawn 
+**
+** 2007/01/28 SE   New condition: Annan Chess 
 **
 **************************** End of List ******************************/
 
@@ -59,7 +53,7 @@
 
 #ifndef VERSION				/* V3.55  NG */
 
-#define VERSION "4.06"
+#define VERSION "4.37"
 
 #endif	/* ! VERSION */
 
@@ -437,6 +431,7 @@
 #define true    1
 #define initsquare      0       /* to initialize square-variables  V2.60  NG */
 #define maxinum 10      /* max. Anz. Imitatoren V2.4d  TM */
+#define nullsquare 1            /* V3.70 SE */
 
 /* V3.03  TLi */
 #define OptKill         5
@@ -759,7 +754,8 @@ typedef PieceChar       PieTable[PieceCount];
 #define Type3                  12
 #define Neighbour              13
 #define TypeC                  14
-#define VariantTypeCount       15
+#define TypeD                  15
+#define VariantTypeCount       16
 
 /* for intelligent specification of one-sided conditions -- V3.62 SE */
 #define maxi			0
@@ -1048,7 +1044,10 @@ typedef int Opt;
 #define whiteantisynchron      157
 #define masand                 158
 #define BGL                    159
-#define CondCount              160
+#define schwarzschacher		     160
+#define annan                  161
+#define normalp                162
+#define CondCount              163
 typedef int Cond;
 /*--- End of } Cond;---*/
 
@@ -1152,7 +1151,7 @@ typedef int PieSpec;
 #define LegalAntiCirceMove(reb, cap, dep)  \
       (e[reb] == vide || (!AntiCirCheylan && reb == cap) || (reb == dep))
 
-#define BGL_infinity 10000000 // this will do I expect; e.g. max len = 980 maxply < 1000
+#define BGL_infinity 10000000 	/* this will do I expect; e.g. max len = 980 maxply < 1000 */
 
 #ifdef WIN32	
 /* V3.76  TBa begin */

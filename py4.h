@@ -4,6 +4,8 @@
 ** 
 ** 1995       TLi  Original
 ** 
+** 2006/07/30 SE   New condition: Schwarzschacher  
+**
 **************************** End of List ******************************/ 
  
 #ifndef	PY4_H
@@ -31,6 +33,8 @@ short len_synchron(square id, square ia, square ip);
   /* determines "length" of moves in synchron chess */
 short len_antisynchron(square id, square ia, square ip);
   /* determines "length" of moves in antisynchron chess */
+short len_schwarzschacher (square i, square j, square cab);
+	/* determines "length" of moves in schwarzschacher chess */
 
 boolean empile(square id, square ia, square ip);
 boolean testempile(square id, square ia, square ip);

@@ -1,0 +1,298 @@
+% This is
+%               pkbishop.mf
+%
+% Copyright (C) 1989-92  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%
+def slope(expr orig,middle,far,wd,angle) = 
+	begingroup
+	save x, y, p;
+	path p.l,p.r;
+	pair inter;
+
+	z0r= orig;
+	z1r= middle;
+	z2= far;
+	penpos0(wd,90+angle);
+	penpos1(wd,90);
+	penpos2(wd,90+angle);
+	forsuffixes e=l,r:
+		p.e:= z2e{dir angle}.. z1e{right} .. {dir angle}z0e;
+	endfor;
+	inter = p.l intersectiontimes p.l reflectedabout (orig,orig+up);
+	reverse p.r --
+	subpath (0,xpart inter) of p.l ..
+	reverse subpath (0,xpart inter) of p.l
+			reflectedabout (orig,orig+up) --
+			p.r reflectedabout (orig,orig+up)
+	endgroup
+enddef;
+
+def MakeBishopPath =
+
+	numeric TopDiameter;
+	TopDiameter = .08qs;
+	DefineFootBows( .10qs,  % Distance to BottomSpace
+			.44qs,  % BowOneWidth
+			.20qs,  % FootHeight
+			.40,    % BowTwoLoc
+			.13,    % WidthToHeight
+			.88,    % BowTwoLen
+			.80);   % BowThreeLen
+	x4l + x4r = qs;
+	x4r - x4l =             .60qs;
+	x4 = x3;
+	y4l = y4r = y4 = y3 +   .15qs;  % Sides of the shape with
+					% vertical tangents
+
+	x5 = x4;
+	top (y5 + TopDiameter) = qs - TopSpace;
+
+	pair TopDir.l, TopDir.r;
+	TopDir.l = dir           45;
+	TopDir.r = (xpart TopDir.l, -ypart TopDir.l);
+
+	numeric TopDiameter;
+	TopDiameter =   .08qs;
+
+	path LeftShape,RightShape,BishopPath;
+	LeftShape = z1l .. z2l .. z3l .. {up}z4l .. {TopDir.l}z5;
+	RightShape= z5{TopDir.r} .. z4r{down} .. z3r .. z2r .. z1r;
+	BishopPath = LeftShape & RightShape & Bow0 & cycle;
+
+	path Peak;
+	Peak:= fullcircle scaled TopDiameter
+			  shifted (z5+.5TopDiameter*up);
+	
+	path CrossV,CrossH;
+
+	z7= .2[z3,z5];
+	z8= .7[z3,z5];
+	CrossV:= z7 .. z8;
+	CrossH= CrossV rotatedaround (.5[z7,z8],90);
+
+	path Slope;
+	numeric angle;
+
+	angle= 60;
+	x12 = SideSpace;
+	y12 = BottomSpace;
+	z11 = .5[z12,z10];
+	z10 = z0;
+	Slope= slope(z10,z11,z12,1.2thin,50) .. cycle;
+
+enddef;
+
+def MakeWhiteBishop =
+	pickup chess_pen;
+	clearit;
+	draw BishopPath;
+	forsuffixes $=1,2,3: draw Bow$; endfor
+	draw Peak;
+	draw CrossV;
+	draw CrossH;
+	pickup inner_pen;
+	draw Slope;
+	WhiteMan:= currentpicture;
+enddef;
+
+def MakeBlackBishop =
+	pickup chess_pen;
+	clearit;
+	filldraw BishopPath;
+	forsuffixes $=1,2,3: undraw ShortenPath(Bow$,1.2thin); endfor
+	undraw ShortenPath(ParallelPath(LeftShape,-thin),thin);
+	undraw ShortenPath(ParallelPath(RightShape,-thin),thin);
+	filldraw Peak;
+	undraw CrossV;
+	undraw CrossH;
+	pickup inner_pen;
+	filldraw Slope;
+	BlackMan:= currentpicture;
+enddef;
+
+def MakeOuterShape =
+	clearit;
+	pickup frame_pen;
+	filldraw BishopPath;
+	filldraw Peak;
+	filldraw Slope;
+	cullit;
+	OuterShape:= currentpicture;
+enddef;
+
+MakeBishopPath;
+MakeWhiteBishop;
+MakeBlackBishop;
+MakeNeutral(WhiteMan,BlackMan);
+MakeOuterShape;
+
+%-----------------------------------------------------------------------
+beginchar(Bishop+White+OnWhite, qs#, qs#, 0);
+	"White bishop on white field";
+	currentpicture:= WhiteMan;
+endchar;
+
+beginchar(Bishop+White+OnWhite+LeftTurned, qs#, qs#, 0);
+	"White bishop on white field rotated to the left";
+	currentpicture:= TurnLeft(WhiteMan);
+endchar;
+
+beginchar(Bishop+White+OnWhite+RightTurned, qs#, qs#, 0);
+	"White bishop on white field rotated to the right";
+	currentpicture:= TurnRight(WhiteMan);
+endchar;
+
+beginchar(Bishop+White+OnWhite+UpSideDown, qs#, qs#, 0);
+	"White bishop on white field upside down";
+	currentpicture:= TurnUpSideDown(WhiteMan);
+endchar;
+
+beginchar(Bishop+Black+OnWhite, qs#, qs#, 0);
+	"Black bishop on white field";
+	currentpicture:= BlackMan;
+endchar;
+
+beginchar(Bishop+Black+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Black bishop on white field rotated to the left";
+	currentpicture:= TurnLeft(BlackMan);
+endchar;
+
+beginchar(Bishop+Black+OnWhite+RightTurned, qs#, qs#, 0);
+	"Black bishop on white field rotated to the right";
+	currentpicture:= TurnRight(BlackMan);
+endchar;
+
+beginchar(Bishop+Black+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Black bishop on white field upside down";
+	currentpicture:= TurnUpSideDown(BlackMan);
+endchar;
+
+beginchar(Bishop+Neutral+OnWhite, qs#, qs#, 0);
+	"Neutral bishop on white field";
+	currentpicture:= NeutralMan;
+endchar;
+
+beginchar(Bishop+Neutral+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Neutral bishop on white field rotated to the left";
+	currentpicture:= TurnLeft(NeutralMan);
+endchar;
+
+beginchar(Bishop+Neutral+OnWhite+RightTurned, qs#, qs#, 0);
+	"Neutral bishop on white field rotated to the right";
+	currentpicture:= TurnRight(NeutralMan);
+endchar;
+
+beginchar(Bishop+Neutral+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Neutral bishop on white field upside down";
+	currentpicture:= TurnUpSideDown(NeutralMan);
+endchar;
+
+beginchar(Bishop+White+OnBlack, qs#, qs#, 0);
+	"White bishop on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + WhiteMan;
+endchar;
+
+beginchar(Bishop+White+OnBlack+LeftTurned, qs#, qs#, 0);
+	"White bishop on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(WhiteMan);
+endchar;
+
+beginchar(Bishop+White+OnBlack+RightTurned, qs#, qs#, 0);
+	"White bishop on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(WhiteMan);
+endchar;
+
+beginchar(Bishop+White+OnBlack+UpSideDown, qs#, qs#, 0);
+	"White bishop on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(WhiteMan);
+endchar;
+
+beginchar(Bishop+Neutral+OnBlack, qs#, qs#, 0);
+	"Neutral bishop on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + NeutralMan;
+endchar;
+
+beginchar(Bishop+Neutral+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Neutral bishop on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(NeutralMan);
+endchar;
+
+beginchar(Bishop+Neutral+OnBlack+RightTurned, qs#, qs#, 0);
+	"Neutral bishop on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(NeutralMan);
+endchar;
+
+beginchar(Bishop+Neutral+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Neutral bishop on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(NeutralMan);
+endchar;
+
+beginchar(Bishop+Black+OnBlack, qs#, qs#, 0);
+	"Black bishop on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + BlackMan;
+endchar;
+
+beginchar(Bishop+Black+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Black bishop on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(BlackMan);
+endchar;
+
+beginchar(Bishop+Black+OnBlack+RightTurned, qs#, qs#, 0);
+	"Black bishop on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(BlackMan);
+endchar;
+
+beginchar(Bishop+Black+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Black bishop on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(BlackMan);
+endchar;

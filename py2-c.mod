@@ -170,4 +170,20 @@
 **
 ** 2002/05/18 NG   new pieces: rabbit, bob
 **
+** 2003/01/07 TLi  Madrasi + neutrals bug fixed in libre()
+**
+** 2004/01/28 SE   New pieces Equi (English & French styles) (invented P.Harris)
+**
+** 2004/02/05 SE   New piece Querquisite (J.E.H.Creed FCR 1947)
+**                      moves as piece upon whose file it stands
+**			Also re-invented as 'Odysseus' by H.Schmid f.? c.1988
+**
+** 2004/04/24 SE   Bugfix: Patrol etc. and e.p. evaluation
+**
+** 2004/04/22 SE   Castling with Imitators
+**
+** 2004/05/02 SE   Imitators with mao, moa
+**
+** 2004-06-20 ElB  add nevercheck
+**
 **************************** INFORMATION END ***************************/

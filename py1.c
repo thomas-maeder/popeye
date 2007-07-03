@@ -2,17 +2,15 @@
  **
  ** Date       Who  What
  **
- ** 2004/02/06 SE   Koeko Neighbourhood (invented S.Emmerson)
- **				   
- ** 2004/04/23 SE   Oscillating Ks TypeC, also allowed A/B/C different for white/black
- **
- ** 2005/04/12 ThM  Bugfix Imitator-Promotions
- **
  ** 2006/05/01 SE   New Koeko conditions: GI-Koeko, AN-Koeko
  **
  ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
  **
  ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
+ **
+ ** 2006/07/30 SE   New condition: Schwarzschacher  
+ **
+ ** 2007/01/28 SE   New condition: Annan Chess 
  **
  **************************** End of List ******************************/
 
@@ -106,6 +104,7 @@ void InitCond(void) {	  /* V3.40  TLi */
   wh_exact= wh_ultra= bl_exact= bl_ultra= false;
   anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anytraitor= false;
   anymars= anyantimars= is_phantomchess= false;
+    blacknull= whitenull= nullgenre= false;                 /* V3.70 SE */
 
   immrenroib= immrenroin= cirrenroib= cirrenroin= initsquare;
 
@@ -664,12 +663,12 @@ boolean nocontact(square id, square ia, square ip) {
 	/*****	TLi  V3.31  *****  end	*****/
 	else { /* no capture move */			/* V3.35  NG */
       if (abs(pj) == King && castling_supported) {
-		if (ip == maxsquare+2) {	/* 0-0 *//* V3.63  NG */
+		if (ip == maxsquare+2) {	/* 0-0 */ /* V3.63  NG */
           flag_castling= 1;
           e[ia - 1]= e[ia + 1];
           e[ia + 1]= vide;
 		}
-		else if (ip == maxsquare+3) { /* 0-0-0 *//* V3.63  NG */
+		else if (ip == maxsquare+3) {	/* 0-0-0 */ /* V3.63  NG */
           flag_castling= 2;
           e[ia + 1]= e[ia - 2];
           e[ia - 2]= vide;
@@ -953,3 +952,39 @@ boolean friendcheck(
   }
   return false;
 } /* friendcheck */
+
+boolean whannan(square rear, square front)
+{
+  if (e[rear] <= obs)
+    return false;
+  switch(annanvar)
+  {
+  case 0:
+    return true;
+  case 1:
+    return rear != rb;
+  case 2:
+    return front != rb;
+  case 3:
+    return rear != rb && front != rb;
+  }
+  return true;
+}
+
+boolean blannan(square rear, square front)
+{
+  if (e[rear] >= vide)
+    return false;
+  switch(annanvar)
+  {
+  case 0:
+    return true;
+  case 1:
+    return rear != rn;
+  case 2:
+    return front != rn;
+  case 3:
+    return rear != rn && front != rn;
+  }
+  return true;
+}

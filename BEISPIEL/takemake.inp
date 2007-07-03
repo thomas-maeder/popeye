@@ -1,0 +1,370 @@
+anfa
+prot takemake.out
+
+auto Volker Guelke
+auto Winus Mueller
+auto Peter Schmidt
+quel Original
+fors 5k1K/16/2t5/3sB3/4S3/16
+ford h#2
+bedi take&make
+
+weit
+
+auto Volker Guelke
+auto Hartmut Laue
+auto Peter Schmidt
+tite Verb. Stephen Emmerson
+quel Original
+fors 1t2st2/2b1K3/1Lb1L3/4k3/3T4/2S2bs1/3b3l/8
+ford h#2
+bedi take&make
+zwil versetz d2 g5
+
+weit
+
+ford h#2
+opti weissbeginnt
+auto Peter Schmidt
+quel Original
+fors 16/6K1/16/4BL2/4BkBB/8
+bedi take&make
+zwil hinzu weiss sf3
+zwil ferner versetz g6 g7
+zwil ferner hinzu weiss lf3
+
+weit
+
+bedi take&make 
+fors k1K5/b7/1B6/40
+ford sx3
+auto Stephen Emmerson
+quel Original
+opti vari ohnedroh
+
+weiter
+autor Hemmo Axt
+quelle Andernach 2006, 1. Platz
+
+steine  weiss   Kh5 Tf7 Lc1 Sa3e5 Bf2g4g6
+        schwarz Kf4 Td2d5 Lb5f6 Se7f1 Bc4f3
+
+forderung h#1.5
+
+bedingung take
+
+zwilling versetze d2 e3
+
+weiter
+
+autor Thomas Maeder & Ulrich Ring
+quelle Andernach 2006, 2. Platz
+
+steine  weiss   Kc2 Te1 La2 Sh2 Bg2
+        schwarz Kd4 Te3h1 Lc4e5 Sh4 Ba3b4b5b7c5e6f4g4
+
+forderung h#2
+
+bedingung take
+
+weiter
+
+autor Thomas Maeder & Ulrich Ring
+quelle Andernach 2006, 2. Platz (Nach-Andernach-Version)
+
+steine  weiss   Ke3 Tc6 Ld1 Sd4 Be4
+        schwarz Kg5 Td6 Le2h6 Sf7 Bd3d5e5h3h4h7
+
+forderung h#2
+
+bedingung take
+
+weiter
+
+autor Dirk Borst & Ruud Beugelsdijk
+quelle Andernach 2006, 3. Platz
+
+steine  weiss   Kd7 Td4 Ld5 Bc3
+        schwarz Kc5 Db1 Tb3 La1 Sc4 Ba6b4c2
+
+forderung h#2
+
+bedingung take
+
+weiter
+
+autor Oliver Sick & Norbert Geissler
+quelle Andernach 2006, 4. Platz
+
+steine  weiss   Kb6 Lb7
+        schwarz Ke6 Th7h8 La8e5 Sh6 Ba6c4c5d4e3e4f5
+
+forderung h#3
+
+bedingung take
+
+zwilling versetze b7 b8
+
+weiter
+
+autor Oliver Sick & Norbert Geissler
+quelle Andernach 2006, 4. Platz (Nach-Andernach-Version)
+
+steine  weiss   Ke8 Lf8
+        schwarz Ke5 Dd4 Tf1g2 La3 Bc5c6c7d7
+
+forderung h#3
+
+bedingung take
+
+zwilling versetze f8 g8
+
+weiter
+
+autor Michel Caillaud
+quelle Andernach 2006, 5. Platz
+
+steine  weiss   Kc3 Tb8g7 Sc4 Bb3c7d5e7g3
+        schwarz Kd7 Bf2f3
+
+forderung ser-h#3
+
+bedingung take
+
+weiter
+
+autor Volker Guelke & Peter Schmidt
+quelle Andernach 2006, 6. Platz
+
+steine  weiss   Kh2 Te5 Le6 Bf4
+        schwarz Kh4 Tg4g5 Se4h5 Be7g6g7h6
+
+forderung h#2
+
+bedingung take
+
+weiter
+
+autor Michel Caillaud
+quelle Andernach 2006, 7. Platz
+
+steine  weiss   Kf6 Bd2
+        schwarz Kh6 Dh7 Tc7h5 Ld3 Bg4
+
+forderung h#2
+
+bedingung take
+
+weiter
+
+autor Hans Peter Rehm & Kjell Widlert
+quelle Andernach 2006, 8. Platz
+
+steine  weiss   Ka6 Tf3 Lf8 Bh5
+        schwarz Ke6 Tg4 Ld7e4 Sd5 Bc4
+
+forderung h#2
+
+bedingung take
+
+zwilling versetze d7 e5
+
+weiter
+
+autor Andreas Thoma
+quelle Andernach 2006, 9. Platz
+
+steine  weiss   Ke1 Ta7
+        schwarz Kh2 Ld7
+
+forderung h004
+
+bedingung take circe WeisserLaengstzueger
+
+zwilling versetze h2 b2
+
+weiter
+
+autor Wichard von Alvensleben
+quelle Andernach 2006, 10. Platz
+
+steine  weiss   Kc4 Te5 Lb2 Ba3e2f3
+        schwarz Kf2 Sb3 Ba4a7e6f4f5
+
+forderung h#2
+
+bedingung take
+
+zwilling versetze b2 a5
+
+weiter
+
+autor Wichard von Alvensleben
+quelle Andernach 2006, 11. Platz
+
+steine  weiss   Kb6 Lf6 Se6g6 Be2e4
+        schwarz Kh5 Tg1g4 Bf5
+
+forderung ser-h#5
+
+bedingung take
+
+weiter
+
+autor Andreas Thoma
+quelle Andernach 2006, 12. Platz
+
+steine  weiss   Ke1 La3 Bg3
+        schwarz Kc8 Lf4
+
+forderung h003.5
+
+bedingung take circe WeisserLaengstzueger
+
+option zugnummer
+
+weiter
+
+autor Reto Aschwanden
+quelle Andernach 2006, 1. Platz
+
+steine  weiss   LIb7 TLa7c2d4e4h6 Th5 Lg7 LLd3h3 Se1 Bb3c4d6
+        schwarz Ke6 Te7e8f3 TLd8 La3 LLc7 Sa4f1 Bb5b6e2f7g3
+
+forderung #2
+option verf vari
+
+bedingung take
+
+weiter
+
+autor Hans Peter Rehm
+quelle Andernach 2006, 2. Platz
+
+steine  weiss   kc1 tc2e1 ld1a7 sf7 bd2f3
+        schwarz kd5 dh6 lg5 sg8 ba6d3d7e6g3g4g6g7
+
+forderung #5
+option zugnummer verf vari
+
+bedingung take
+
+weiter
+
+autor Michel Caillaud
+quelle Andernach 2006, 3. Platz
+
+steine  weiss   Kc2 Dc8 Td5h7 La1g8 Bf7g5
+        schwarz Ke7 Sh3 Ba5d7
+
+forderung #2
+option vari
+
+bedingung take
+
+weiter
+
+autor Michel Caillaud
+quelle Andernach 2006, 3. Platz (Nach-Andernach-Version)
+
+steine  weiss   Kb7 Db8 Td5h7 Lg8 Sc7 Bf7g5
+        schwarz Ke7 Sh4 Bd4d7
+
+forderung #2
+option vari
+
+bedingung take
+
+weiter
+
+autor Uri Avner, Hans Peter Rehm, Kjell Widlert
+quelle Andernach 2006, 4. Platz
+
+steine  weiss   Kg7 Da4 Lb1h2 Sc3e7 Bb7f2f6h6
+        schwarz Ke6 Th4 Lc1 Sa8 Bc4d5d7g6h3h5h7
+
+forderung #2
+option vari verf
+
+bedingung take
+
+weiter
+
+autor Uri Avner, Hans Peter Rehm, Kjell Widlert
+quelle Andernach 2006, 4. Platz (Nach-Andernach-Version)
+
+steine  weiss   Ke8 Dc3 Ta5 Ld3g3 Se7 Bf2f6f7
+        schwarz Ke6 Tb2h4 Lc1c8 Bd5d7e2g6h7
+
+forderung #2
+option vari verf
+
+bedingung take
+
+weiter
+
+autor Volker Guelke, Stephen Rothwell, Peter Schmidt
+quelle Andernach 2006, 5. Platz
+
+steine  weiss   Kc1 Dh7 Ta8 Lc5 Bc4d7f4g5h6
+        schwarz Kc7 Th5 Sh1 Ba6b7c6e5g6
+
+forderung #2
+option vari verf
+
+bedingung take
+
+weiter
+
+autor Hubert Gockel
+quelle Andernach 2006, 6. Platz
+
+steine  weiss   Ke6 Dg3 Lf1 Sb7d8 Bb3d2f3h3
+        schwarz Kb6 Ba6a7b4c6e7h4
+
+forderung #2
+option vari verf
+
+bedingung take
+
+weiter
+
+autor Michel Caillaud
+quelle Andernach 2006, 7. Platz
+
+steine  weiss   Ke2 Tb1h6 La8e1 Sf3 Bb7c7d7e7g2
+        schwarz Ka6 Sf6 Ba7e3g3
+
+forderung s#6
+option vari zugnu
+
+bedingung take
+
+weiter
+
+autor Andreas Thoma
+quelle Andernach 2006, 8. Platz
+
+steine  weiss   Kh1 Dc4f4 Tc2 Lg1 Se3h5 Be2
+        schwarz Kh3 Bc3d3
+
+forderung s#2
+option vari
+
+bedingung take
+
+weiter
+
+autor Andreas Thoma
+quelle Andernach 2006, 9. Platz
+
+steine  weiss   Kh1 Da1 Tg8 Ld8e4 Be2
+        schwarz Kh3 Dc6 Th7 Ld5g3 Sg7 Bf4
+
+forderung s#2
+option vari
+
+bedingung take circe
+
+ende
+ende

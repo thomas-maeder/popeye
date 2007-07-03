@@ -32,6 +32,14 @@
  ** 2006/05/17 SE   Bug fix: querquisite
  **                 P moves to 1st rank disallowed for Take&Make on request of inventor
  **
+ ** 2006/07/30 SE   New condition: Schwarzschacher  
+ **
+ ** 2007/01/28 SE   New condition: NormalPawn  
+ **
+ ** 2007/01/28 SE   New condition: Annan Chess 
+ **
+ ** 2007/05/01 SE   Extended Chopper types to eagles, mooses and sparrows 
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -152,6 +160,11 @@ short len_blforcedsquare(square id, square ia, square ip) {
 	return (TSTFLAG(sq_spec[ia], BlForcedSq));
   }
 }
+
+short len_schwarzschacher(square id, square ia, square ip)  /* V3.70 SE */
+{
+   return ia==nullsquare ? 0 : 1;
+}
 /*****	V3.20  TLi  *****   end   *****/
 
 boolean cntoppmoves(int *nbd, couleur camp) {
@@ -188,9 +201,8 @@ boolean empile(square id, square ia, square ip) {
   couleur traitnbply;					/* V3.1  TLi */
 
 
-  if (id == ia) {					/* V2.1c  NG */
-	return true;
-  }
+	if (id == ia && (!nullgenre || ia != nullsquare))       /* V2.1c  NG */
+   	return true;
 
   if (empilegenre) {					/* V2.51  NG */
 	if (   CondFlag[messigny]			/* V3.55  TLi */
@@ -410,7 +422,7 @@ boolean empile(square id, square ia, square ip) {
 		 */
 		/* capturing kamikaze pieces without circe condition are possible now, V3.74  SE*/ 
 		if (TSTFLAG(spec[id], Kamikaze)
-		    &&  ((traitnbply == blanc)  /* V3.1  TLi *//* V3.55 SE *//* V3.74  SE,NG */
+		    &&  ((traitnbply == blanc)  /* V3.1  TLi , V3.55 SE , V3.74  SE,NG */
                  ? ((id == rb) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[rb], spec[rb], ip, id, ia, noir)] != vide)))
                  : ((id == rn) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[rn], spec[rn], ip, id, ia, blanc)] != vide)))))
 		{
@@ -751,10 +763,12 @@ void genbouncer(square i, numvec kbeg, numvec kend, couleur camp) {	     /* V4.0
 boolean testempile(square id, square ia, square ip) {
   numecoup k;
 
+  if (!TSTFLAG(spec[id], ColourChange)) {
   for (k= nbcou; k > testdebut; k--) {	 /* V1.3c, V3.00  NG */
 	if (ca[k] == ia) {
       return true;
 	}
+  }
   }
   return empile(id, ia, ip);			     /* V1.3c  NG */
 }
@@ -995,9 +1009,11 @@ void gmhop(
       k1= k<<1;
       j1= j + mixhopdata[m][k1];
       if ((e[j1] == vide) || (rightcolor(e[j1], camp)))
+        if (hopimok(i, j1, j, vec[k]))
 		testempile(i, j1, j1);
       j1= j + mixhopdata[m][k1 - 1];
       if ((e[j1] == vide) || (rightcolor(e[j1], camp)))
+        if (hopimok(i, j1, j, vec[k]))
 		testempile(i, j1, j1);
 	}
   }
@@ -2564,6 +2580,14 @@ void gen_wh_ply(void) {				       /* V3.12  TLi */
 } /* gen_wh_ply */
 
 void gen_wh_piece_aux(square z, piece p) {		/* V3.46  SE/TLi */
+
+  if (CondFlag[annan]) {
+    piece annan_p= e[z-24];
+/*    if (annan_p > obs)	*/
+    if (whannan(z-24, z))
+      p= annan_p;
+  }
+
   switch(p) {
   case roib:
 	genrb(z);
@@ -3507,6 +3531,7 @@ void genpb(square i) {
 	/* pawn on first rank */
 	if (CondFlag[parrain]
 		|| CondFlag[einstein]
+    || CondFlag[normalp]
 		|| abs(e[i]) == orphanb)
 	{
       gen_p_captures(i, i + 23, blanc);
@@ -3538,6 +3563,7 @@ void genpn(square i) {
   if (i > haut - 24) {
 	/* pawn on last rank */
 	if ( CondFlag[parrain]
+         || CondFlag[normalp]
          || CondFlag[einstein]
          || abs(e[i]) == orphanb)
 	{
@@ -3570,6 +3596,7 @@ void genpbb(square i) {
   if (i < bas + 24) {
 	/* pawn on first rank */
 	if ( CondFlag[parrain]
+         || CondFlag[normalp]
          || CondFlag[einstein]
          || abs(e[i]) == orphanb)
 	{
@@ -3596,6 +3623,7 @@ void genpbn(square i) {
   if (i > haut - 24) {
 	/* pawn on last rank */
 	if ( CondFlag[parrain]
+         || CondFlag[normalp]
          || CondFlag[einstein]
          || abs(e[i]) == orphanb)
 	{

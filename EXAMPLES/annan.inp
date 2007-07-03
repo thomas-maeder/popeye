@@ -1,0 +1,69 @@
+beg
+prot annan.out
+auth M.Hanazawa
+orig Chessics #4 1977
+title cooked, even with suggestion +WPb6 in Chessics #8
+stip #2
+cond annan
+opti var
+fors 8/1p6/b7/1k6/1SR1K3/1BR5/2B5/8
+next
+auth M.Hanazawa
+orig Chessics #4 1977
+title original part (b) + BBd5 cooked
+stip h#4
+cond annan
+opti maxsol 4
+fors 24/4Ks2/8/4k3/5S2/8
+next
+auth M.Hanazawa
+orig Chessics #4 1977
+stip s#2
+cond annan
+opti var 
+fors 32/6R1/7p/7s/5K1k/
+next
+auth M.Hanazawa
+orig Chessics #4 1977
+stip s#2
+cond annan
+opti var 
+fors 8/1p6/1s1p4/1S1s1P2/SKPk4/R3r3/5Q2/8
+next
+auth M.Hanazawa
+rem ddlkl
+orig Chessics #4 1977
+title cooked
+stip h#3
+cond annan
+opti maxsol 4
+fors 16/3rR3/3q4/8/3k4/1K6/8
+next
+auth G.P.Jelliss
+orig Chessics #4 1977
+stip #2
+cond annan
+opti var
+fors 6b1/5p1k/8/5K2/6S1/16/B7/
+next
+auth G.P.Jelliss / S.Emmerson
+orig Chessics #4 1977 / The Problemist, may 2007
+stip h#3
+fors 56/BK4bk/
+cond annan
+twin polish
+next
+auth S.Emmerson
+orig  The Problemist, may 2007
+stip h#3
+fors KB4bk/56
+cond annan
+next
+auth Michel Caillaud
+orig Torquay QT, 2007
+titl Honorable mention
+stip ser-h#13
+cond annan
+piec whit kd1 bg4 pb6f3
+blac ka8 bb8
+endp

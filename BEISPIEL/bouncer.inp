@@ -1,0 +1,53 @@
+anfa
+prot bouncer.out
+
+auto Peter Wong
+quel 2. Lob U.S. Problem Bulletin 1992
+ford h#4
+stei weis koenig ta6
+stei weis b1c1
+stei schw ke5
+zwil versetz c1 e4
+zwil versetz c1 h3
+zwil versetz a6 e8
+
+weit
+
+auto Peter Wong
+quel Variant Chess 1990
+ford #2
+fors T1L3T1/S1k2b2/4b.B12/K.B1B3.b1B/8/.b13b1B1/B3B3/8
+opti verf vari
+
+weit 
+
+auto Peter Wong
+quel Variant Chess 1991
+stei weis b3d4 b1g6
+stei schw b3g4
+stei schw koenig b1c6
+ford h#4
+opti ohnewk
+zwil versetz g6 f2
+
+weit 
+
+auto Peter Wong
+quel phenix 1990
+ford h#5
+opti weissbeginnt ohnewk
+stei weis sa1
+stei schw koenig b2f3
+zwil versetz f3 d1
+zwil versetz f3 f2
+
+weit 
+
+auto Arthur Willmott
+quel The Problemist 2005
+fors 16/3L4/2K5/2.B15/3k4/2.b15/8
+ford h#4
+opti weissbeginnt
+
+ende
+

@@ -367,4 +367,22 @@
 ** 2001/11/10 NG   singleboxtype? changed to singlebox type?
 **		   some singlebox variable names changed ...
 ** 
+** 2002/04/04 NG   commandline option -regression for regressiontesting
+**
+** 2002/05/06 NG   german name of singlebox is "NurPartiesatzSteine"
+**
+** 2002/05/18 NG   new pieces: rabbit, bob
+**
+** 2003/05/18 NG   new option: beep    (if solution encountered)
+**
+** 2004/02/29 SE   bugfix - resolved conflict between variants and
+**                 conditions with same name caused problems with
+**                 e.g. cond sent blackmax
+**
+** 2004/04/20 NG   superanticirce changed to antisupercirce,
+**                 seems more logical to me ...
+**
+** 2004/06/20 ElB  put nevercheck in checkfunctions for
+**                 Hamster and Dummy.
+**
 **************************** INFORMATION END ***************************/

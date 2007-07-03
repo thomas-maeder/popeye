@@ -1,0 +1,22 @@
+beg
+prot strictsat.out
+
+auth Ladislav Salai sr. 
+orig 3 H.M. Umenie 64 1999 (SAT #66)
+stip #2
+opt var try def 4
+cond strictsat
+fors 7r/7p/7P/2S5/1pBP4/3sBp2p/2Pks1PR/3K2R1/
+
+next
+
+auth Ladislav Salai sr. 
+orig Comm Umenie 64 1999 (SAT #64)
+stip #2
+opt try var def 2
+cond strictsat
+fors k6R/P5r1/Kp6/bP6/1p6/8/6B1/7Q/
+
+end
+
+

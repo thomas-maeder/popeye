@@ -1,0 +1,122 @@
+anfa
+prot bgl.out
+
+auto Petko Petkov
+quel feenschach 1999
+ford h==2
+bedi madr rexi bgl 4.5 4
+fors 3k4/16/6K1/8/b7/16
+
+weit
+
+auto Petko Petkov
+quel feenschach 1999
+ford #2
+bedi bgl 7 3
+fors 8/5b2/5B1T/3B1ks1/3Bbsb2/8/4b3/2K1D3/
+opti vari
+
+weit
+
+auto Petko Petkov
+quel Macedonian Problemist 2003
+ford ser-h#5
+bedi bgl - 29
+fors 8/1b6/6bb/3b4/3K2bk/7b/1=b6/8
+
+weit
+
+auto Petko Petkov
+quel Macedonian Problemist 2003
+ford h#3
+opti wider 5 ohnedroh
+fors k7/1n2T3/16/b7/K7/b7/8
+bedi bgl 27.42
+
+weit
+
+auto Petko Petkov
+quel Macedonian Problemist 2003
+ford ser-h#4
+bedi bgl 17.65
+fors 16/1K6/7L/16/b5bb/7k/
+
+weit
+
+auto Petko Petkov
+quel Macedonian Problemist 2003
+ford #2
+fors K2L4/6=b1/3bb1L1/4k3/2b2S1T/2B1b3/4s3/8
+opti vari
+bedi bgl - 4.45
+
+weit
+
+auto Petko Petkov
+quel feenschach 1999
+ford h#2
+bedi bgl 7 3.5
+fors 8/=bK6/16/b7/16/3k4/
+
+weit
+
+auto Petko Petkov
+quel feenschach 1999
+ford ser-h#4
+fors 8/7K/4b3/3k1b2/32
+bedi bgl 2 6
+
+weit
+
+auto Petko Petkov
+quel Macedonian Problemist 2003
+ford h#5
+bedi bgl 6.5 34.6
+fors 32/6K1/k7/3n4/8
+
+weit
+
+auto Petko Petkov
+quel feenschach 1999
+ford h==3
+bedi bgl 4 13
+fors 6sk/8/5s2/1b6/16/b7/K7/
+
+weit
+
+auto Petko Petkov
+quel feenschach 1999
+ford s#3
+bedi bgl 20.5 5
+opti vari
+fors k7/7D/8/5b2/16/6b1/1T4Kl/
+
+weit
+
+auto Petko Petkov
+quel Macedonian Problemist 2003
+ford #2
+opti vari
+bedi bgl 7 4
+fors 8/K3D3/3b4/3ks1s1/2T5/4L3/8/5L2/
+
+weit
+
+auto Petko Petkov
+quel feenschach 1999
+ford #2
+opti vari
+bedi bgl 4 2
+fors k7/3K4/8/1T6/32
+twin bedi bgl 8
+
+weit
+
+auto Stephen Emmerson
+quel Original
+ford h#1
+bedi bgl 2 2.5
+opti dupl
+fors k1K5/b7/1B6/40
+
+ende

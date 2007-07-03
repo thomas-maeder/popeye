@@ -1,0 +1,53 @@
+beg
+prot bouncer.out
+
+auth Peter Wong
+orig 2nd Comm U.S. Problem Bulletin 1992
+stip h#4
+pie wh royal ra6
+pie wh b1c1
+pie bl ke5
+twin move c1 e4
+twin move c1 h3
+twin move a6 e8
+
+next
+
+author Peter Wong
+orig Variant Chess 1990
+stip #2
+fors R1B3R1/S1k2p2/4p.B12/K.B1P3.b1P/8/.b13p1P1/P3P3/8
+opt try var
+
+next 
+
+auth Peter Wong
+orig Variant Chess 1991
+pie wh b3d4 b1g6
+pie bl b3g4
+pie bl royal b1c6
+stip h#4
+opt nowk
+twin move g6 f2
+
+next 
+
+auth Peter Wong
+orig phenix 1990
+stip h#5
+opt wh nowk
+pie wh sa1
+pie bl roy b2f3
+twin move f3 d1
+twin move f3 f2
+
+next 
+
+auth Arthur Willmott
+orig The Problemist 2005
+fors 16/3B4/2K5/2.B15/3k4/2.b15/8
+stip h#4
+opt wh
+
+end
+

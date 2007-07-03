@@ -1,0 +1,108 @@
+anfang
+
+prot dynasty.out
+
+autor Thomas Maeder, Popeye test problem for promotion into white king
+
+bed koenigsdynastie
+
+steine  weiss   ka8 bb7
+        schwarz lh1h2
+
+forderung zb81
+
+option zugnummer
+
+weiter
+
+autor Thomas Maeder, Popeye test problem for promotion into black king
+
+bed koenigsdynastie
+
+steine  weiss   lh8
+        schwarz ka1 bb2
+
+forderung hza11
+
+option zugnummer
+
+weiter
+
+autor Thomas Maeder, Popeye test problem for promotion of berolina pawn into king
+
+bed koenigsdynastie
+
+steine  weiss   ta8
+        schwarz ka1 bba2
+
+forderung hza11
+
+option zugnummer
+
+weiter
+
+autor Thomas Maeder, Popeye test problem for correct initialization of castling possibilities
+
+bed koenigsdynastie
+
+steine  weiss   ta1 ke1f1
+        schwarz sh2
+
+forderung h001
+
+option zugnummer
+
+
+weiter
+
+autor Janez Nastran, 203 Sahovska misel 6/2005
+
+bed koenigsdynastie
+
+steine  weiss   ke3 dh7 ba2
+        schwarz kc4 tf5 ld7 sf2 bd2d6f6
+
+forderung h#2
+
+option zugnummer
+
+weiter
+
+autor Janez Nastran, 204 Sahovska misel 6/2005
+bed koenigsdynastie
+
+steine  weiss   ke1e2 lc3 tg2
+        schwarz kf4 bd2e4f2
+
+forderung h#2
+
+option zugnummer
+
+weiter
+
+autor Janez Nastran, 205 Sahovska misel 6/2005
+
+bed koenigsdynastie
+
+steine  weiss   kg2 la8 bf2h2
+        schwarz kg8 bg7
+
+forderung h#5
+
+option zugnummer
+
+weiter
+
+autor Marko Klasinc, 206 Sahovska misel 6/2005
+
+bed koenigsdynastie
+
+steine  weiss   kb1 dc3 se5
+        schwarz kd7f7 ta8h8 le6 sh7 bc6
+
+forderung h#2
+
+option zugnummer
+
+ende
+

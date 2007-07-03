@@ -113,7 +113,7 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	separees par des espaces ou par la fin d'une ligne. Les conditions
 	suivantes sont possibles a present:
 
-	RexInclusive
+	RexInclusif
 	Circe
 	CirceMalefique
 	Madrasi
@@ -270,6 +270,9 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	BlancAntiSynchronCoup
 	Masand
 	BGL
+	AnnanEchecs
+	PionNormale
+	NoirEchecs
 		
 	Apres le mot-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -284,7 +287,7 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 		"CirceCameleon C F T D C" c'est le CirceCameleon normale, 
 		"CirceCameleon C D T F C" c'est CirceCameleon reverse).
 	Apres quelque conditions Circe, Immun, Madrasi ou EchecsPhantom
-        on peut entrer le mot-cle RexInclusif.
+        on peut entrer le mot-cle "RexInclusif".
 	Pour tous les conditions AntiCirce, on peut indiquer s'il s'agit 
 	du type Cheylan ou Calvet. Si rien n'est indique, le type utilise 
 	est Calvet.
@@ -293,8 +296,8 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 		du Type2 ou du Type3.
 	Pour la condition Sentinelles, on peut indiquer s'il s'agit du 
 		type "PionAdvers", "PionNeutre", "ParaSentinelles" ou
-                Berolina, de meme que BlancMaximum, NoirMaximum ou
-		TotalMaximum suit d'un nombre.
+                "Berolina", de meme que "MaximumBlanc", "MaximumNoir" ou
+		"MaximumTotal" suit d'un nombre.
 	Apres quelque conditions EchecsMessigny, (Bi)Woozles ou 
               (Bi)Heffalumps on peut entrer le mot-cle RexExclusif.
 	Pour les conditions BlancRoisOscillant ou NoirRoisOscillant
@@ -379,11 +382,11 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 							{  %  }
 							{  ~  }
 							{  ep }
-							{  #  }
-			{ SER-  }       {  H  }         {  =  }
-  { m-> } + { EXACT-} + { SEMI- }   +   {  S  }    +    {  == }   +   n
-			{ RECI- }       {  R  }         {  +  }
-							{ Zxy }
+					{  H  }         {  #  }
+			{ SER-  }       {  S  }         {  =  }
+  { m-> } + { EXACT-} + { SEMI- }   +   {  R  }    +    {  == }   +   n
+			{ RECI- }       { HS  }         {  +  }
+					{ HR  }         { Zxy }
 							{  x  }
 							{  ## }
 							{ ##! }
@@ -432,6 +435,7 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 			 two Bl pieces)
 	#=2             mat ou pat en 2 coups
 	h~1             tous les coups aides
+	HR#3            mat reflex aide en 3 coups   (= mat reflex aide force)
 
  - forsyth: Cette commande est utiliser pour l'entree de la position en
             notation forsyth.
@@ -728,7 +732,7 @@ VMS:
 
 
 Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
-juillet 2006
+may 2007
 
 Si quelqu'un veut nous envoyer des propositions,
 des communications d'erreurs etc.,

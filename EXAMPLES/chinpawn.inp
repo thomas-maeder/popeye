@@ -1,0 +1,19 @@
+beg
+prot chinpawn.out
+
+stip =1
+fors k1K5/p7/1.CP6/40
+
+next
+
+stip ser-#2
+fors k1K5/.cp7/1.CP6/40
+
+next
+
+stip =2
+fors k1K5/.cp7/1.CP6/40
+opt var
+
+end
+

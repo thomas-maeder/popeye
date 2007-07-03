@@ -1,0 +1,32 @@
+beg
+prot sync.out
+
+fors k1K5/p7/1P6/40
+auth Stephen Emmerson
+orig Original
+
+cond blacksync
+stip =5
+opt var
+twin cond blacksync circe
+stip =4
+twin cond blacksync glasgow
+stip =3
+twin cond blacksync antiander
+stip =2
+
+next
+
+fors k1K5/p7/1P6/40
+auth Stephen Emmerson
+orig Original
+
+stip semi-r+5
+opt var
+cond blacksync
+
+twin cond blacksync whitesync
+stip semi-r+6
+
+end
+

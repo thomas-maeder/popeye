@@ -503,4 +503,37 @@
 **
 ** 2002/20/08 TLi  maxsolutions bug fixed
 **
+** 2003/01/05 TBa  MaxMemory improved for WIN32
+**
+** 2003/05/13 NG   bugfix leofamily + marscirce + chinese pieces allowed
+**
+** 2003/05/18 NG   new option: beep    (if solution encountered)
+**
+** 2003/05/27 NG   MaxMemory reduced to 700MB (768 MB OS-maximum !) for WIN98
+**
+** 2003/11/16 TLi  castling initialization bug fixed
+**
+** 2004/02/06 SE   New conditions : Oscillating Kings (invented A.Bell)
+**                                  Ks swapped after each W &/or Bl move
+**                                  TypeB can't self-check before swap
+**
+** 2004/03/05 SE   New condition : Antimars (and variants) (invented S.Emmerson)
+**                 Pieces reborn to move, capture normally
+**
+** 2004/03/20 SE   Reset solution counter after set play in Helpproblems
+**
+** 2004/03/20 SE   New condition: AntiSuperCirce
+**
+** 2004/03/22 SE   New condition: Ultrapatrol (only patrolled pieces can move or capture)
+**
+** 2004/04/22 SE   Castling with Imitators
+**
+** 2004/04/30 TLi  bug fix: pushtabsol
+**
+** 2004/05/01 SE   Bugfix: Republican
+**
+** 2004/05/02 SE   Imitators with mao, moa
+**
+** 2004/05/02 SE   Mars circe allowed with chinese pieces, lions, mao, moa, leofamily
+**
 **************************** INFORMATION END **************************/

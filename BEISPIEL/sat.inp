@@ -1,0 +1,81 @@
+anfa
+prot sat.out
+
+auto Ivan Skoba
+quel 2-3 m. Klub Pongracz SP CR 2003 (SAT #61)
+ford s#56
+bedi sat
+opti satz vari nichttriv 0 1
+fors 8/2S5/lb1tdd2/1db1kd2/K2ddd2/7t/8/1s6/
+
+weit
+
+auto Ladislav Salai sr.
+quel Umenie 64 2002 (SAT #51)
+ford h#2
+bedi ander sat
+fors KD6/LL6/2bb2bT/7b/8/2B1b3/6ld/1S4lk
+
+weit
+
+auto Ladislav Salai sr.
+quel Z. c. u. Kutna Hora 1999 (SAT #49)
+ford ser-#7
+bedi sat
+fors kl3s2/dl6/b1K3b1/1b1L3b/2b5/7b/4b3/4t1s1
+
+weit
+
+auto Ladislav Salai sr.
+quel C. u. Sachova skladba 2000 (SAT #46)
+ford #4
+bedi circe sat 
+opti vari
+fors K5tk/BT6/TB6/7B/8/1B2bbb
+
+weit
+
+auto Ladislav Salai sr.
+quel Sachmatnaja poezija 2001 (SAT #2)
+ford #2
+opti vari
+bedi sat 
+fors 48/2ls2B1/KklsT1D1
+
+weit
+
+auto Ladislav Salai sr.
+quel Sachova skladba 1998 (SAT #1)
+ford #2
+opti verf vari
+bedi sat 
+fors 6lk/6l1/24/b7/1B6/KL6
+
+weit
+
+auto Ladislav Salai sr.
+quel Umenie 64 2001 (SAT #40)
+ford s#3
+opti vari
+bedi sat 
+fors 32/5b1T/6b1/6b1/6Kk
+zwil hinzu weis sh4
+
+weit
+
+auto Ladislav Salai sr.
+quel The Problemist 2001 (v) (SAT #34)
+ford h#2
+bedi sat 
+fors 6TK/6BT/4b3/8/4b3/8/lb6/kd6
+
+weit
+
+auto Ladislav Salai sr.
+quel The Problemist 2004 (corr) / SAT #1
+ford s#2
+opti verf vari
+bedi sat 
+fors 8/2bb4/3B4/7D/3b4/2bb2b1/2bt4/2Sk2TK/
+
+ende

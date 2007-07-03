@@ -153,4 +153,17 @@ stei
 weis koen eqc8 bb6
 schw koen eqa8 ba7
 
+weit
+auto Bernd Schwarzkopf
+Forderung       ser-<>3
+Steine          weis kd3 se2
+                schw kh3 dh4
+Option          duplex
+weiter
+auto Bernd Schwarzkopf
+Forderung       ser-<>3
+Steine          schw kd3 se2
+                weis kh3 dh4
+Option          duplex
+
 ende

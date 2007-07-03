@@ -1,0 +1,63 @@
+anfa
+prot masand.out
+
+auto Petko Petkov 
+quel feenschach 2001 (v) SE
+bedi masand
+ford h#2
+fors 24/K7/8/T5lb/7k/t7/
+
+weit
+
+auto Petko Petkov 
+quel feenschach 2001
+bedi masand
+ford s#6
+opti vari nichttriv 0 1 ohnedroh
+fors 7k/32/3DKB1S/8/6T1/
+
+weit
+
+auto Petko Petkov 
+quel feenschach 2001
+bedi masand
+ford #2 
+opti vari
+fors 2L5/7B/6D1/3b3b/7k/K6S/s1B1bb1B/1d3l2
+
+weit
+
+auto Petko Petkov 
+quel feenschach 2001
+bedi masand
+ford #2
+opti vari verf
+fors 3ST2t/1B6/1b6/BBB3b1/1KBk4/3B1b2/5SB1/4T1t
+
+weit
+
+auto Petko Petkov 
+quel feenschach 2001 (v) SE
+bedi masand
+ford #2
+opti vari verf satz
+fors 1l6/b7/1T6/5B2/B3b2s/6D1/7K/1SkL1TS1/
+
+weit
+
+auto Petko Petkov
+quel feenschach 2001
+bedi masand
+ford #2
+opti vari
+fors 1L6/1K1k1b2/16/4D3/8/6s1
+
+weit
+
+auto Hubert Gockel
+quel The Problemist vii/2006
+ford #2
+opti verf vari
+fors 1S1K3s/1Sb2b2/1b3B2/d2k4/b1tb2b1/2b5/1s2D3/1L
+bedi masand
+ende

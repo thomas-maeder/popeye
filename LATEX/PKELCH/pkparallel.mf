@@ -1,0 +1,36 @@
+% This is
+%		pkparallel.mf
+%
+% Copyright (C) 1989-92  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%
+def NewPoint(expr p,t,dist) =
+	{ begingroup pair Dir;
+		Dir= direction t of p; %show p; show t; show Dir;
+		Dir
+	  endgroup }
+	(point t of p + (Dir rotated 90)*(dist/length(Dir)))
+enddef;
+def ParallelPath(expr p,dist) =
+	begingroup
+	save Dir; pair Dir; Dir = direction 0 of p;
+
+	((point 0 of p)+(Dir rotated 90)*(dist/length(Dir))) {Dir}
+	for t=.5 step .5 until length(p):
+		.. NewPoint(p,t,dist)
+	endfor
+	endgroup
+enddef;

@@ -282,6 +282,9 @@ Kommandos:
 	WeisserAntiSynchronZueger
 	Masand
 	BGL
+	AnnanSchach
+        NormalBauern
+	ScharzSchaecher
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines 
@@ -307,8 +310,8 @@ Kommandos:
 	Nach der NurPartiesatzsteine Bedingung kann wahlweise noch "Typ1",
 		"Typ2" oder "Typ3" angegeben werden.
 	Nach der Sentinelles Bedingung kann wahlweise noch "PionAdvers",
-		"PionNeutre", "ParaSentinelles" oder Berolina angegeben werden, 
-                sowie "WeissMaximum", "SchwarzMaximum" oder "TotalMaximum" 
+		"PionNeutre", "ParaSentinelles" oder "Berolina" angegeben werden, 
+                sowie "MaximumWeiss", "MaximumSchwarz" oder "MaximumTotal" 
                 gefolgt von einer Zahl.
 	Nach MessignySchach, (Bi)Woozles und (Bi)Heffalumps kann wahlweise
 		RexExklusive angegeben werden.
@@ -392,11 +395,11 @@ Kommandos:
 							{  %  }
 							{  ~  }
 							{  ep }
-							{  #  }
-			{ SER-  }       {  H  }         {  =  }
-  { m-> } + { EXACT-} + { SEMI- }   +   {  S  }    +    {  == }   +   n
-			{ RECI- }       {  R  }         {  +  }
-							{ Zxy }
+					{  H  }         {  #  }
+			{ SER-  }       {  S  }         {  =  }
+  { m-> } + { EXACT-} + { SEMI- }   +   {  R  }    +    {  == }   +   n
+			{ RECI- }       { HS  }         {  +  }
+					{ HR  }         { Zxy }
 							{  x  }
 							{  ## }
 							{ ##! }
@@ -443,6 +446,7 @@ Kommandos:
 			 per Widergeburt zu vervollstaendigen)
 	#=2             Matt oder Patt in 2 Zuegen
 	h~1		Alle moeglichen Hilfs-Zuege 
+	HR#3            Hilfsreflexmatt in 3 Zuegen
 
 	SEMI wirkt natuerlich nur im Zusammenhang mit Reflexforderungen.
 
@@ -755,7 +759,7 @@ VMS:
 
 
 Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
-Juli 2006
+Mai 2007
 
 Fuer den Fall dass jemand Anregungen, Fehler etc uns zukommen lassen will,
 so findet er unsere Adressen in den Dateien  history.txt  oder  readme.txt  .

@@ -1,0 +1,416 @@
+% This is
+%               pkknight.mf
+%
+% Copyright (C) 1989-92  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%
+def sympoint (expr p,d,a) = 
+	% Come to point p in direction d + angel a, and leave symmetrical
+	% to d - a This gives us a peak in p pointing in direction d.
+	% sharpnes is specified by a. a= 0 no peak, a=90 real peak;
+
+	{dir (angle(d)+a)} p {dir(angle(d)+180-a)}
+enddef;
+
+def Ear(expr p,pd,q,qd,a,r,rd) =
+	p{pd} .. sympoint(q,qd,a) .. {rd}r
+enddef;
+
+def DefineKnightPath =
+	% we construct the path from right to left.
+	% Ie we begin with the nack and come then to the ears,
+	% the nose etc
+	z0 = (.35qs,BottomSpace);       % The leftmost bottompoint
+	z1 = (qs-SideSpace,BottomSpace); % The right bottom edge
+	path Foot;
+	Foot = z0 -- z1;
+					% z2 will be later defined, it
+					% is the connection to the right
+					% ear
+	z4 = (.5qs,qs-TopSpace);        % The peak of the right ear
+	z3 = z4 + (.07qs,-0.15qs);      % The right lower point of the
+					% right ear
+	z5 = z3 - (.08qs,.01qs );       % The left lower point of the
+					% right ear
+
+	% Now comes the definition of the right ear
+	% There are two paths:
+	%       RightEar:  The complete path for the ear
+	%       sRightEar: The subpath for the whole shape
+	path RightEar, sRightEar;
+	RightEar = Ear(z3,(1,5),z4,(0,1),10,z5,(1,-5));
+	sRightEar = subpath (.25,1.75) of RightEar;
+	z2 = point 0 of sRightEar;      % The right 
+	z6 = point 2 of sRightEar;      % The left connection point of
+					% the right ear 
+
+	% Now we can also define the nack
+	path Nack;
+	Nack = z1{up} .. tension 1 and 1 ..  {left}z2;
+
+	z7 = z6 + (-.1qs,-0.07qs);      % This is the point under the
+					% left ear
+
+	% Now the two pathes from the right to the left ear.
+	% EarUnderEar, goes from the right ear under the left ear
+	% EarToEar connects only the two ears
+
+	path EarUnderEar,EarToEar;
+	EarUnderEar= z6{left} .. {-5,-3}z7;
+	EarToEar = subpath (0,.5) of EarUnderEar;       
+
+	z8 = point 1 of EarToEar;       % The connection point and the
+					% start of the left ear
+
+	% to get easier definition of the following points 
+	% we define a line bx from z7 (point under left ear) down to z13
+	% (leftmost point of shape) ie the begining of nose and mount
+
+	z13 = (SideSpace,0.35qs);       % The leftmost point of the
+					% shape
+	pair bx,by;
+	bx = z13 - z7;
+	by = z13 rotatedabout (z7,-90);
+
+	z9 = z7 + .23bx + .24by;        % the peak of the left ear
+	z10= z7 + .11bx + .10by;        % the left point of the left ear
+
+	% Now the path for the leaft ear
+	path LeftEar;
+	LeftEar= Ear(z8,(-1,5),z9,(-1,1),8,z10,(2,-5));
+
+	z11 = z7 + .4bx + .09by;
+	z12 = z7 + .5bx + .05by;
+
+	path Bless;
+	Bless = z10{dir(angle(bx)-10)} .. z11 .. z12 .. {down} z13;
+
+	% the points from z14 to z17 are defined via a line nx
+	% from z13 to z18
+	pair nx,ny;
+
+	z19 = (.25qs,.25qs);
+	nx = z19 - z13;
+	ny = nx rotatedabout ((0,0),90);
+
+	z14 = z13 + .30nx - .13ny;      % the point between mouth
+					% and nose
+	z15 = z13 + .63nx - .02ny;      % the upper point of mouth
+	z16 = z13 + .72nx + .15ny;      % the inner point of mouth
+	z17 = z13 + .77nx - .02ny;      % 
+	z18 = z13 + .87nx - .08ny;      %
+	z25 = z13 + .22nx + .28ny;      % the location of the nose
+
+	path MouthNose;
+	MouthNose = z13 .. z14{nx} .. z15 ... sympoint(z16,(z16-z17),0)
+		       ... z17 .. z18 .. z19;
+
+	% the points from z20 to z23 are defined via a line nx
+	% from z19 to z23
+	pair ux,uy;
+
+	z23 = (.55qs,.61qs);
+	ux = z23 - z19;
+	uy = z23 rotatedabout (z19,90);
+
+	z20 = z19 + .15ux + .01uy;
+	z21 = z19 + .45ux - .05uy;
+	z22 = z19 + .88ux - .15uy;
+	path UnderMouth, sUnderMouth;
+	UnderMouth = z19 ..z20..z21..z22..{up}z23;
+	sUnderMouth = subpath (0,3) of UnderMouth;
+
+	z24 = z22 + .06qs*down;
+	path ToFoot;
+	ToFoot = z22{down} .. z24 .. {down}z0;
+
+
+	path KnightShape;
+	KnightShape = Foot & Nack & sRightEar & EarToEar
+			   & LeftEar & Bless & MouthNose
+			   & sUnderMouth & ToFoot & cycle;
+
+enddef;
+
+def DefineNosePath(expr p,s) = 
+	begingroup
+	if proofing >0:
+		show p,s;
+	fi;
+	save z; pair z[];
+
+	z0 + (0,s) = p;
+	pair px,py;
+	py= p - z0;
+	px= py rotated -90;
+	z1= z0 + 0.10px + 0.50py;
+	z2= z0 + 0.70px + 1.00py;
+	z3= z0 + 0.70px + 1.60py;
+	z4= z0 + 0.10px + 2.10py;
+	z5= z0 - 0.20px + 1.90py;
+	z6= z0 - 0.60px + 0.50py;
+	z7= z0 - 0.60px + 0.10py;
+	z8= z0 - 0.50px + 0.00py;
+	forsuffixes i=0,1,2,3,4,5,6,7,8:
+		z[i]..
+	endfor cycle
+	endgroup
+enddef;
+
+def EyePath (expr p,s) =
+	begingroup
+	save z; pair z[];
+
+	z0 + (0,s) = p;
+	pair px,py;
+	py= p - z0;
+	px= py rotated -90;
+
+	z1= z0 + 1.00px + 1.00py;
+
+	z0{0,1} .. {1,0} z1 & z1 {0,-1} .. {-1,0}z0 & cycle
+	endgroup
+enddef;
+
+def MakeWhiteKnight = 
+	clearit;
+	pickup chess_pen;
+	draw Foot;
+	draw RightEar;
+	draw EarUnderEar;
+	draw LeftEar & Bless & MouthNose & UnderMouth;
+	draw ToFoot;
+	draw EyePath(z7-(.04qs,.05qs),.03qs);
+	filldraw DefineNosePath(z25,.015qs);
+	pickup chess_pen xscaled 2 rotated -10; 
+	draw ShortenEnd(Nack,thin);
+	WhiteMan:= currentpicture;
+enddef;
+
+def MakeBlackKnight = 
+	clearit;
+	pickup chess_pen;
+
+	filldraw KnightShape;
+	cullit;
+	unfilldraw DefineNosePath(z25,.015qs);
+	undraw EyePath(z7-(.04qs,.05qs),.03qs);
+	pickup chess_pen scaled .7 rotated -70;
+	undraw ShortenPath(ParallelPath(Nack,1.3thin),thin);
+	pickup chess_pen scaled .5;
+	undraw subpath (3,3.5) of UnderMouth;
+	BlackMan:= currentpicture;
+enddef;
+
+def MakeKnightSpace =
+	clearit;
+	pickup frame_pen;
+	filldraw KnightShape;
+	cullit;
+	OuterShape:= currentpicture;
+enddef;
+
+DefineKnightPath;
+%DefineNosePath(z25,.2qs);
+
+MakeWhiteKnight;
+MakeBlackKnight;
+MakeNeutral(WhiteMan,BlackMan);
+MakeKnightSpace;
+
+%===========================================================
+
+beginchar(Knight+White+OnWhite, qs#, qs#, 0);
+	"White knight on white field";
+	currentpicture:= WhiteMan;
+	labels(z0,z1l,z1,z1r,z2l,z2,z2r);
+	labels(z3l,z3,z3l,z4,z5,z6l,z6r);
+	labels(z7l,z7,z7r,z8);
+endchar;
+if proofing = 0:
+
+beginchar(Knight+White+OnWhite+LeftTurned, qs#, qs#, 0);
+	"White knight turned to the left on white field";
+	currentpicture:= TurnLeft(WhiteMan);
+endchar;
+
+beginchar(Knight+White+OnWhite+RightTurned, qs#, qs#, 0);
+	"White knight turned to the right on white field";
+	currentpicture:= TurnRight(WhiteMan);
+endchar;
+
+beginchar(Knight+White+OnWhite+UpSideDown, qs#, qs#, 0);
+	"White knight turned upsidedown on white field";
+	currentpicture:= TurnUpSideDown(WhiteMan);
+endchar;
+
+%===========================================================
+
+beginchar(Knight+White+OnBlack, qs#, qs#, 0);
+	"White knight on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + WhiteMan;
+endchar;
+
+beginchar(Knight+White+OnBlack+LeftTurned, qs#, qs#, 0);
+	"White knight turned to the left on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(WhiteMan);
+endchar;
+
+beginchar(Knight+White+OnBlack+RightTurned, qs#, qs#, 0);
+	"White knight turned to the right on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(WhiteMan);
+endchar;
+
+beginchar(Knight+White+OnBlack+UpSideDown, qs#, qs#, 0);
+	"White knight turned upsidedown on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(WhiteMan);
+endchar;
+
+%===========================================================
+
+beginchar(Knight+Neutral+OnWhite, qs#, qs#, 0);
+	"Neutral knight on white field";
+	currentpicture:= NeutralMan;
+endchar;
+
+beginchar(Knight+Neutral+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Neutral knight turned to the left on white field";
+	currentpicture:= TurnLeft(NeutralMan);
+endchar;
+
+beginchar(Knight+Neutral+OnWhite+RightTurned, qs#, qs#, 0);
+	"Neutral knight turned to the right on white field";
+	currentpicture:= TurnRight(NeutralMan);
+endchar;
+
+beginchar(Knight+Neutral+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Neutral knight turned upsidedown on white field";
+	currentpicture:= TurnUpSideDown(NeutralMan);
+endchar;
+
+%===========================================================
+
+beginchar(Knight+Neutral+OnBlack, qs#, qs#, 0);
+	"Neutral knight on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + NeutralMan;
+endchar;
+
+beginchar(Knight+Neutral+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Neutral knight turned to the left on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(NeutralMan);
+endchar;
+
+beginchar(Knight+Neutral+OnBlack+RightTurned, qs#, qs#, 0);
+	"Neutral knight turned to the right on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(NeutralMan);
+endchar;
+
+beginchar(Knight+Neutral+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Neutral knight turned upsidedown on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(NeutralMan);
+endchar;
+
+%===========================================================
+
+beginchar(Knight+Black+OnWhite, qs#, qs#, 0);
+	"Black knight on white field";
+	currentpicture:= BlackMan;
+endchar;
+
+beginchar(Knight+Black+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Black knight turned to the left on white field";
+	currentpicture:= TurnLeft(BlackMan);
+endchar;
+
+beginchar(Knight+Black+OnWhite+RightTurned, qs#, qs#, 0);
+	"Black knight turned to the right on white field";
+	currentpicture:= TurnRight(BlackMan);
+endchar;
+
+beginchar(Knight+Black+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Black knight turned upsidedown on white field";
+	currentpicture:= TurnUpSideDown(BlackMan);
+endchar;
+
+%===========================================================
+
+beginchar(Knight+Black+OnBlack, qs#, qs#, 0);
+	"Black knight on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + BlackMan;
+endchar;
+
+beginchar(Knight+Black+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Black knight turned to the left on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(BlackMan);
+endchar;
+
+beginchar(Knight+Black+OnBlack+RightTurned, qs#, qs#, 0);
+	"Black knight turned to the right on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(BlackMan);
+endchar;
+
+beginchar(Knight+Black+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Black knight turned upsidedown on black field";
+	MakeBlackField;
+	cullit;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(BlackMan);
+endchar;
+fi;
+
+% 

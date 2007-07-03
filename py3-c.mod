@@ -147,4 +147,14 @@
 **
 ** 2001/10/26 NG   assertions only with -DASSERT due to performance penalty
 **
+** 2003/05/25 SE   bug fix: Marscirce and Neutral kings.
+**
+** 2004/02/07 SE   New condition: Antikings (?) in check when not attacked
+**
+** 2004/03/20 SE   New condition: AntiSuperCirce
+**
+** 2004/04/24 SE   Bugfix: Patrol etc. and e.p. evaluation
+**
+** 2004/05/02 SE   Mars circe with mao, moa
+**
 **************************** INFORMATION END ***************************/

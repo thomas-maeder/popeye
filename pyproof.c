@@ -2,15 +2,10 @@
  **
  ** Date       Who  What
  **
- ** 2003/05/14 TLi  bug fix: transmuting king
- **                          madrasi, patrouille, koeko and others
- **
- ** 2003/08/05 SE   Bugfix : AtoB
- **
- ** 2005/04/25 NG   bugfix: a=>b with Imitators
- **
  ** 2006/05/17 SE   Changes to allow half-move specification for helpmates using 0.5 notation
  **                 Change for take&make
+ **
+ ** 2007/05/14 SE   Change for annan
  **
  **************************** End of List ******************************/
 
@@ -55,6 +50,7 @@ boolean ProofVerifie(void) {
 
   ProofFairy= change_moving_piece
     || jouegenre
+    || CondFlag[annan]				/* V4.31  SE */
     || CondFlag[glasgow]			/* V3.39  TLi */
     || CondFlag[takemake]
     || CondFlag[messigny];			/* V3.57  TLi */

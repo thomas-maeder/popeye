@@ -1,0 +1,81 @@
+beg
+prot sat.out
+
+auth Ivan Skoba
+orig 2-3 m. Klub Pongracz SP CR 2003 (SAT #61)
+stip s#56
+cond sat
+opt set var nontriv 0 1
+fors 8/2S5/bp1rqq2/1qp1kq2/K2qqq2/7r/8/1s6/
+
+next
+
+auth Ladislav Salai sr.
+orig Umenie 64 2002 (SAT #51)
+stip h#2
+cond ander sat
+fors KQ6/BB6/2pp2pR/7p/8/2P1p3/6bq/1S4bk
+
+next
+
+auth Ladislav Salai sr.
+orig Z. c. u. Kutna Hora 1999 (SAT #49)
+stip ser-#7
+cond sat
+fors kb3s2/qb6/p1K3p1/1p1B3p/2p5/7p/4p3/4r1s1
+
+next
+
+auth Ladislav Salai sr.
+orig C. u. Sachova skladba 2000 (SAT #46)
+stip #4
+cond circe sat 
+opt var
+fors K5rk/PR6/RP6/7P/8/1P2ppp
+
+next
+
+auth Ladislav Salai sr.
+orig Sachmatnaja poezija 2001 (SAT #2)
+stip #2
+opt var
+cond sat 
+fors 48/2bs2P1/KkbsR1Q1
+
+next
+
+auth Ladislav Salai sr.
+orig Sachova skladba 1998 (SAT #1)
+stip #2
+opt try var
+cond sat 
+fors 6bk/6b1/24/p7/1P6/KB6
+
+next
+
+auth Ladislav Salai sr.
+orig Umenie 64 2001 (SAT #40)
+stip s#3
+opt var
+cond sat 
+fors 32/5p1R/6p1/6p1/6Kk
+twin add wh sh4
+
+next
+
+auth Ladislav Salai sr.
+orig The Problemist 2001 (v) (SAT #34)
+stip h#2
+cond sat 
+fors 6RK/6PR/4p3/8/4p3/8/bp6/kq6
+
+next
+
+auth Ladislav Salai sr.
+orig The Problemist 2004 (corr) / SAT #1
+stip s#2
+opt try var
+cond sat 
+fors 8/2pp4/3P4/7Q/3p4/2pp2p1/2pr4/2Sk2RK/
+
+end

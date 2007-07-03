@@ -1,0 +1,441 @@
+%======================================================================
+% This is
+%		queen.mf
+%
+% Copyright (C) 1989-93  by Elmar Bartel.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 1, or (at your option)
+% any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%======================================================================
+
+def OneCurl (expr a,da, b,db, above, pangle) =
+  begingroup
+    save dx, dy, p;
+    pair dx; dx= b-a;
+    pair dy; dy= dx rotated 90;
+    pair p;   p= (a+.5dx+above*dy);
+    a{da} .. {dx rotated pangle}p  & 
+    p{dx rotated -pangle} .. {db}b
+  endgroup
+enddef;
+
+def SplitPath(suffix $)	% the first suffix of z
+	  (expr p,	% the path
+		n,	% how often
+		shdelta % the shift multiplier
+			%    it's used to 'drift' the points
+			%    away from the center
+	) =	
+	% This makro takes a path, and defines n eqhal spaced
+	% good points on the path. If shdelta is a small amount
+	% greater zero, the pieces are smaller at the end of the
+	% path.  
+  begingroup
+    pair dl[];
+    pair dr[];
+    numeric i,l,r,delta;
+
+    i= 0;
+    l= 0;
+    r= length(p);
+    delta= length(p)/n;
+    forever:
+      if i = n-i:
+        z$l[i] = z$r[i] = point .5length(p) of p;
+        dl[i]  = dr[i]  = direction .5length(p) of p;
+      else:
+	numeric shift; 
+	if i=0: shift = 0 else: shift = (n-i)*shdelta*delta fi;
+        z$l[i] = good.lft (point (l-shift) of p);
+	dl[i]  = direction (l-shift) of p;
+	z$r[i] = good.rt  (point (r+shift) of p);
+	dr[i]  = direction (r+shift) of p;
+      fi
+      l:= l+delta;
+      r:= r-delta;
+      exitif r-l < 0;
+      i:= incr i;
+    endfor;
+    for i:= incr i step 1 until n:
+      z$l[i] = z$r[n-i];
+      z$r[i] = z$l[n-i];
+      dl[i]  = dr[n-i];
+      dr[i]  = dl[n-i];
+    endfor;
+  endgroup
+enddef;
+
+def CurlPath(suffix $)
+	  (expr p,	% the path
+		n,	% how often
+		above,  % the peak above the path
+		pangle, % the direction at the peak
+		shdelta % the shift multiplier
+			%    it's used to 'drift' the points
+			%    away from the center
+	) =	
+  begingroup
+    save dl, dr;
+    save i,l,r,delta,shift;
+    SplitPath($, p, n, shdelta);
+    OneCurl(z$l0, dl0, z$l1, dl1, above, pangle)
+    for i:= 2 step 1 until n:
+      & OneCurl(z$l[i-1], dl[i-1], z4l[i], dl[i], above, pangle)
+    endfor
+  endgroup
+enddef;
+
+def SplitPoints(suffix $) % The same definition as SplitPath
+	  (expr p,	% the path
+		n,	% how often
+		shdelta % the shift multiplier
+			%    it's used to 'drift' the points
+			%    away from the center
+	) =	
+  begingroup
+    save dl, dr;
+    save i,l,r,delta,shift;
+    SplitPath($, p, n, shdelta);
+  endgroup
+enddef;
+
+def Kegel(expr p,q) =
+	begingroup
+	path KPath;
+	numeric Width[],x[].a,y[].a,x[].b,y[].b; 
+	numeric Base,MiddlePos,BowIns,Height,LowerHeight,TopHeight;
+
+	
+	Width0      = Base = length(q-p);
+	Width1      = 1.30Base;
+	Width2      = 0.35Base;
+	Width3      = 1.30Base; % Diameter of circle
+	Height	    = 5.75Base;
+	MiddlePos   = 0.25;
+
+	BowIns = Width3/2+-+Width2/2;
+	LowerHeight + TopHeight = Height - Width3 + BowIns;
+	LowerHeight = MiddlePos*(LowerHeight+TopHeight);
+
+	z0a = p;
+	z0b = z0a + (Width0,0);
+	forsuffixes $=1,2:
+		x$a + x$b = x0a + x0b; x$b - x$a = Width$;
+	endfor;
+	y1a = y1b = y0a + LowerHeight;
+	y2a = y2b = y1a + TopHeight;
+	x3a = .5(x2b+x2a); 
+	y3a = y2a + BowIns;
+	%labels(0a,0b,1a,1b,2a,2b,3a);
+
+	path LeftP,RightP,KgCircle;
+	LeftP= z2a -- z1a -- z0a;
+	RightP= z0b -- z1b -- z2b;
+	KgCircle= halfcircle rotated 180 scaled Width3 shifted z3a;
+
+	path KPath;
+	KPath:= RightP ..
+	     subpath ((ypart((z1b -- 1.5[z1b,z2b])
+	     		intersectiontimes KgCircle)),4) of KgCircle ..
+	     halfcircle scaled Width3 shifted z3a ..
+	     		subpath (0,ypart((z1a -- 1.5[z1a,z2a])
+			intersectiontimes KgCircle)) of KgCircle ..
+	     		LeftP;
+	reverse (KPath rotatedaround(p, angle (q-p)))
+	endgroup;
+enddef;
+
+def cCircle (expr bl, br, t, r) =
+  % draw a circle with diameter r clockweise(!) at top
+  % of triangle bl,br,t
+    (reverse (halfcircle & halfcircle rotated 180))
+      scaled r shifted (left*.5r) rotated angle(.5[bl,br]-t) shifted t
+enddef;
+
+def DefineQueenPath(expr n) =
+	%SetParam;
+	DefineFootBows(-.034qs,	% No Space to Bottom
+			 .72qs,	% BowOneWidth
+			 .26qs,	% FootHeight	
+			 .40,	% BowTwoLoc
+			 .15,	% WidthToHeight
+			 .66,	% BowTwoLen
+			0.66);	% BowThreeLen
+
+% This is not needed for the fs-Type of queen.
+%	path KPath,
+%	numeric b,s;
+%	% b and s define the ratio of 5 peak bases and 4 spaces.
+%	% if you want more or other spacing change the values
+%	b = 1.1s;
+%	5b + 4s = length(Bow3);
+%	
+%	pair at,bt;
+%	at= point 0 of Bow3;
+%	bt= point b of Bow3;
+%	KPath:= Kegel(at, bt);
+%	for t=b+s step b+s until length(Bow3):
+%		KPath:= KPath .. subpath(t-s,t) of Bow3;
+%		KPath:= KPath .. Kegel(point t of Bow3,
+%					point(t+b)of Bow3);
+%	endfor;
+
+	% Some correction of the lower bows, to make
+	% the corners more round
+	Bow0:= ShortenPath(Bow0, 5thin);
+	Bow1:= ShortenPath(Bow1, 5thin);
+	x1l:= lft(x1l + 2.5thin);
+	x1r:= rt(x1r - 2.5thin);
+	Bow0:= z1r{down} .. Bow0 .. {up}z1l;
+	Bow1:= z1l{up} .. Bow1 .. {down}z1r;
+
+	Bow4:= Lengthen(ParallelPath(Bow3, .10qs), .05qs);
+	z4l = good.lft (point 0 of Bow4);
+	z4 = point .5length(Bow4) of Bow4;
+	z4r = good.rt point infinity of Bow4;
+	Bow4:= z4l {direction 0 of Bow4} ..
+	       z4 {right} ..
+	       z4r {direction infinity of Bow4};
+
+	Bow4:= CurlPath(4, Bow4, n, .15, 35, .04);
+
+	z5l = good.lft (SideSpace,   .72qs);
+	z5r = good.rt (qs-SideSpace, .72qs);
+show z5l, z5r;
+	z5 = (.5qs, .83qs);
+	Bow5 = z5l .. z5 .. z5r;
+	SplitPoints(5, Bow5, n-1, .01);
+
+	path cPath;
+	cPath = z4l0 
+	for i=0 step 1 until n-1:
+	   & z4l[i] -- z5l[i] & 
+	     cCircle(z4l[i],z4l[i+1],z5l[i],.09qs) -- z4l[i+1]
+	endfor;
+
+	path LeftPath,RightPath,QueenShape;
+	LeftPath:= z1l -- z2l -- z3l -- z4l;
+	RightPath:= z4r -- z3r -- z2r -- z1r;
+	QueenShape:= Bow0 &
+		LeftPath &
+		cPath &
+		RightPath &
+		cycle;
+enddef;
+
+pickup chess_pen;
+
+def MakeWhiteQueen =
+	clearit;
+	pickup chess_pen;
+	draw QueenShape;
+	%forsuffixes $=0,1,2,3,4,5: undraw z4r$; endfor;
+	%forsuffixes $=0,1,2,3,4,5: draw z4l$; endfor;
+	%forsuffixes $=0,1,2,3,4: draw z5l$; endfor;
+	forsuffixes $=1,2,3,4: draw Bow$; endfor;
+	WhiteMan:= currentpicture;
+enddef;
+
+def MakeBlackQueen =
+	clearit;
+	pickup chess_pen scaled 1.1;
+	filldraw QueenShape;
+	cullit;
+	forsuffixes $=1,2,3:
+	  undraw ShortenPath(Bow$, thin);
+	endfor;
+	BlackMan:= currentpicture;
+enddef;
+
+def MakeOuterShape =
+	clearit;
+	pickup frame_pen;
+	filldraw QueenShape;
+	cullit;
+	OuterShape:= currentpicture;
+enddef;
+
+DefineQueenPath(5);
+MakeWhiteQueen;
+MakeBlackQueen;
+MakeNeutral(WhiteMan,BlackMan);
+MakeOuterShape;
+
+%===========================================================
+% this one for testing
+%beginchar(Queen+White+OnBlack, qs#, qs#, 0);
+%	"White queen on black field";
+%	MakeBlackField;
+%	currentpicture:= currentpicture - OuterShape;
+%	cullit;
+%	currentpicture:= currentpicture + WhiteMan;
+%endchar;
+%endinput
+%===========================================================
+
+beginchar(Queen+White+OnWhite, qs#, qs#, 0);
+	"White queen on white field";
+	currentpicture:= WhiteMan;
+endchar;
+
+beginchar(Queen+White+OnWhite+LeftTurned, qs#, qs#, 0);
+	"White queen on white field rotated to the left";
+	currentpicture:= TurnLeft(WhiteMan);
+endchar;
+
+beginchar(Queen+White+OnWhite+RightTurned, qs#, qs#, 0);
+	"White queen on white field rotated to the right";
+	currentpicture:= TurnRight(WhiteMan);
+endchar;
+
+beginchar(Queen+White+OnWhite+UpSideDown, qs#, qs#, 0);
+	"White queen on white field upside down";
+	currentpicture:= TurnUpSideDown(WhiteMan);
+endchar;
+
+beginchar(Queen+Black+OnWhite, qs#, qs#, 0);
+	"Black queen on white field";
+	currentpicture:= BlackMan;
+endchar;
+
+beginchar(Queen+Black+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Black queen on white field rotated to the left";
+	currentpicture:= TurnLeft(BlackMan);
+endchar;
+
+beginchar(Queen+Black+OnWhite+RightTurned, qs#, qs#, 0);
+	"Black queen on white field rotated to the right";
+	currentpicture:= TurnRight(BlackMan);
+endchar;
+
+beginchar(Queen+Black+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Black queen on white field upside down";
+	currentpicture:= TurnUpSideDown(BlackMan);
+endchar;
+
+beginchar(Queen+Neutral+OnWhite, qs#, qs#, 0);
+	"Neutral queen on white field";
+	currentpicture:= NeutralMan;
+endchar;
+
+beginchar(Queen+Neutral+OnWhite+LeftTurned, qs#, qs#, 0);
+	"Neutral queen on white field rotated to the left";
+	currentpicture:= TurnLeft(NeutralMan);
+endchar;
+
+beginchar(Queen+Neutral+OnWhite+RightTurned, qs#, qs#, 0);
+	"Neutral queen on white field rotated to the right";
+	currentpicture:= TurnRight(NeutralMan);
+endchar;
+
+beginchar(Queen+Neutral+OnWhite+UpSideDown, qs#, qs#, 0);
+	"Neutral queen on white field upside down";
+	currentpicture:= TurnUpSideDown(NeutralMan);
+endchar;
+
+beginchar(Queen+White+OnBlack, qs#, qs#, 0);
+	"White queen on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + WhiteMan;
+endchar;
+
+beginchar(Queen+White+OnBlack+LeftTurned, qs#, qs#, 0);
+	"White queen on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(WhiteMan);
+endchar;
+
+beginchar(Queen+White+OnBlack+RightTurned, qs#, qs#, 0);
+	"White queen on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(WhiteMan);
+endchar;
+
+beginchar(Queen+White+OnBlack+UpSideDown, qs#, qs#, 0);
+	"White queen on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(WhiteMan);
+endchar;
+
+beginchar(Queen+Neutral+OnBlack, qs#, qs#, 0);
+	"Neutral queen on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + NeutralMan;
+endchar;
+
+beginchar(Queen+Neutral+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Neutral queen on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(NeutralMan);
+endchar;
+
+beginchar(Queen+Neutral+OnBlack+RightTurned, qs#, qs#, 0);
+	"Neutral queen on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(NeutralMan);
+endchar;
+
+beginchar(Queen+Neutral+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Neutral queen on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(NeutralMan);
+endchar;
+
+beginchar(Queen+Black+OnBlack, qs#, qs#, 0);
+	"Black queen on black field";
+	MakeBlackField;
+	currentpicture:= currentpicture - OuterShape;
+	cullit;
+	currentpicture:= currentpicture + BlackMan;
+endchar;
+
+beginchar(Queen+Black+OnBlack+LeftTurned, qs#, qs#, 0);
+	"Black queen on black field turned to the left";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnLeft(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnLeft(BlackMan);
+endchar;
+
+beginchar(Queen+Black+OnBlack+RightTurned, qs#, qs#, 0);
+	"Black queen on black field turned to the right";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnRight(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnRight(BlackMan);
+endchar;
+
+beginchar(Queen+Black+OnBlack+UpSideDown, qs#, qs#, 0);
+	"Black queen on black field upsidedown";
+	MakeBlackField;
+	currentpicture:= currentpicture - TurnUpSideDown(OuterShape);
+	cullit;
+	currentpicture:= currentpicture + TurnUpSideDown(BlackMan);
+endchar;

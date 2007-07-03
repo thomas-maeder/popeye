@@ -47,15 +47,12 @@ weiteresproblem
 autor  Thomas Maeder
 quelle feenschach 1987, Wenigsteiner des Jahres 1987
 bedingung	Imitator e5
-		ohneiuw
 forderung h=2
 steine  Weiss   kf5 bb7
         Schwarz kb6
 zwilling versetze f5 g5
 zwilling bedingung imitator c5
-		   ohneiuw
 zwilling bedingung imitator a7
-		   ohneiuw
 
 weiteresproblem
 
