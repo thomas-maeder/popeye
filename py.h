@@ -55,7 +55,7 @@
 
 #ifndef VERSION				/* V3.55  NG */
 
-#define VERSION "4.01"
+#define VERSION "4.03"
 
 #endif	/* ! VERSION */
 
@@ -107,7 +107,7 @@
 #endif  /* DATABASE */
 #endif	/* OSTYPE */
  
-#define VERSIONSTRING "Popeye "OSTYPE"-"OSBIT"Bit-Version "VERSION
+#define VERSIONSTRING "Popeye "OSTYPE"-"OSBIT"Bit V"VERSION
 
 
 #ifdef BSD
@@ -541,6 +541,10 @@ typedef square imarr[maxinum];        /* Standorte der Imitatoren V2.4d  TM */
 #define CLRFLAG(bits,pos)       ((bits)&= ~BIT(pos))
 #define SETFLAG(bits,pos)       ((bits)|= BIT(pos))
 #define CLEARFL(bits)           ((bits)=0)
+
+#define TSTFLAGMASK(bits,mask)  ((bits)&(mask))
+#define CLRFLAGMASK(bits,mask)  ((bits) &= ~(mask))
+#define SETFLAGMASK(bits,mask)  ((bits) |= (mask))
 
 /* The following definitions of enumerated types follow
 ** a certain template. If you add some more definitions
@@ -1017,7 +1021,8 @@ typedef int Opt;
 #define antisuper              147
 #define ultrapatrouille        148
 #define swappingkings          149
-#define CondCount              150
+#define dynasty                150
+#define CondCount              151
 typedef int Cond;
 /*--- End of } Cond;---*/
 

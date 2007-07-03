@@ -1,4 +1,4 @@
-	     D E S C R I P T I O N  D E  P O P E Y E    3 . 8
+	     D E S C R I P T I O N  D E  P O P E Y E    4 . 0
 
 Remarques au sujet de la distribution de Popeye:
 
@@ -260,6 +260,7 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	AntiSuperCirce
 	UltraPatrouille
 	RoisEchanges
+	DynastieRoyale
 		
 	Apres le mot-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -713,7 +714,8 @@ VMS:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson    mars 2005
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
+mars 2005
 
 Si quelqu'un veut nous envoyer des propositions,
 des communications d'erreurs etc.,

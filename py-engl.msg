@@ -105,3 +105,8 @@
 104= Fairy pieces not allowed in Single box
 105= LaTeXFile will not compile: undefined fairy piece\n
 106= Limit of %s different hunter types exceeded\n
+107= RoyalDynasty and royal square are incompatible\n
+108= RoyalDynasty and Republican Chess are incompatible\n
+109= RoyalDynasty and OscillatingKings are incompatible\n
+110= RoyalDynasty and Circe rex inclusiv are incompatible\n
+111= RoyalDynasty and immunschach are incompatible\n

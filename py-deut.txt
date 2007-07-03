@@ -1,4 +1,4 @@
-	     B E S C H R E I B U N G   V O N   P O P E Y E   3 . 8
+	     B E S C H R E I B U N G   V O N   P O P E Y E   4 . 0
 
 Bemerkungen zur Verteilung von Popeye:
 
@@ -272,6 +272,7 @@ Kommandos:
 	AntiSuperCirce
 	UltraPatrouille
 	TauschKoenige
+	KoenigsDynastie
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines 
@@ -740,7 +741,8 @@ VMS:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson   im Mai 2005
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
+Mai 2006
 
 Fuer den Fall dass jemand Anregungen, Fehler etc uns zukommen lassen will,
 so findet er unsere Adressen in den Dateien  history.txt  oder  readme.txt  .

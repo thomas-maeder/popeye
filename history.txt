@@ -1785,3 +1785,22 @@ pywin32.exe, pywin98.exe and pydos32.exe created.
 This is official release py4.01
                                				01.05.2005  NG
 ------------------------------------------------------------------------
+new condition: RoyalDynasty
+source code improvement: better readability due to square definitions
+like:  square_a1 , sqaure_b1 , ... square_h8
+and new castling definitions.
+                               				02.07.2005  ThM
+------------------------------------------------------------------------
+bugfix: intelligent mode + enpassant key .
+                               				10.08.2005  TLi
+------------------------------------------------------------------------
+bugfix: imitator promotion change (from 3.80) changed again.
+                               				12.11.2005  ThM
+------------------------------------------------------------------------
+bugfix: intelligent mode + mummers
+                               				15.11.2005  TLi
+------------------------------------------------------------------------
+All merged and regression testet.
+Still some minor output anomalies ...
+                               				02.04.2006  NG
+------------------------------------------------------------------------

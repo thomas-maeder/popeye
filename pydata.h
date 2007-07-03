@@ -115,18 +115,89 @@ EXTERN  pilecase        kpilca;
 
 EXTERN  smallint        maxflights;             /* V3.12  TLi */
 
-/* For castling:        bit 8:  unused  */      /* V3.35  NG */
-/*                      bit 7:  king e1 */
-/*                      bit 6:  rook a1 */
-/*                      bit 5:  rook h1 */
-/*                      bit 4:  unused  */
-/*                      bit 3:  king e8 */
-/*                      bit 2:  rook a8 */
-/*                      bit 1:  rook h8 */
+
+/* symbols for bits in castling_flag */   /* V3.35  NG */  /* V4.02  TM */
+enum
+{
+  rh8_cancastle = 0x01,
+  ra8_cancastle = 0x02,
+  ke8_cancastle = 0x04,
+  rh1_cancastle = 0x10,
+  ra1_cancastle = 0x20,
+  ke1_cancastle = 0x40
+};
+/* NOTE: ke[18]_cancastle must be larger than the respective
+ * r[ah][18]_cancastle or evaluations of the form
+ * TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
+ * stop working. */
+
+/* symbols for bit combinations in castling_flag */ /* V4.02  TM */
+enum
+{
+  whk_castling = ke1_cancastle|rh1_cancastle,
+  whq_castling = ke1_cancastle|ra1_cancastle,
+  wh_castlings = ke1_cancastle|ra1_cancastle|rh1_cancastle,
+  blk_castling = ke8_cancastle|rh8_cancastle,
+  blq_castling = ke8_cancastle|ra8_cancastle,
+  bl_castlings = ke8_cancastle|ra8_cancastle|rh8_cancastle  
+};
+
 EXTERN  unsigned char   castling_flag[maxply + 1];
 EXTERN  unsigned char   no_castling;		/* V3.55  NG */
 EXTERN  short           castling_supported;     /* V3.35  NG */
 EXTERN  boolean         testcastling;		/* V3.62  NG */
+
+/* Symbols for squares - using these makes code much more human-readable */
+/* V4.02 TM */
+enum
+{
+  square_a1 = 200,
+  square_b1 = 201,
+  square_c1 = 202,
+  square_d1 = 203,
+  square_e1 = 204,
+  square_f1 = 205,
+  square_g1 = 206,
+  square_h1 = 207,
+
+  square_a2 = 224,
+  square_b2 = 225,
+  square_c2 = 226,
+  square_d2 = 227,
+  square_e2 = 228,
+  square_f2 = 229,
+  square_g2 = 230,
+  square_h2 = 231,
+
+  square_a3 = 248,
+
+  square_d4 = 275,
+  square_e4 = 276,
+  square_a5 = 296,
+  square_d5 = 299,
+
+  square_e5 = 300,
+
+  square_h6 = 327,
+
+  square_a7 = 344,
+  square_b7 = 345,
+  square_c7 = 346,
+  square_d7 = 347,
+  square_e7 = 348,
+  square_f7 = 349,
+  square_g7 = 350,
+  square_h7 = 351,
+
+  square_a8 = 368,
+  square_b8 = 369,
+  square_c8 = 370,
+  square_d8 = 371,
+  square_e8 = 372,
+  square_f8 = 373,
+  square_g8 = 374,
+  square_h8 = 375
+};
 
 /* Stop solving when a given number of solutions is reached */
 
@@ -980,7 +1051,8 @@ EXTERN boolean          repub_k[toppile + 1];
 	/*146*/ "NoirSuperRoiTransmute",        /* V3.78  SE */
 	/*147*/ "AntiSuperCirce",               /* V3.78  SE */
 	/*148*/ "UltraPatrouille",              /* V3.78  SE */
-	/*149*/ "RoisEchanges"                  /* V3.81a NG */
+	/*149*/ "RoisEchanges",                 /* V3.81a NG */
+	/*150*/ "DynastieRoyale"                /* V4.02 TM */
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1130,9 +1202,10 @@ EXTERN boolean          repub_k[toppile + 1];
 	/*144*/ "AntiMarsAntipodeanCirce",	/* V3.78  SE */
 	/*145*/ "WeisserSuperTransmutierenderKoenig",	/* V3.78  SE */
 	/*146*/ "SchwarzerSuperTransmutierenderKoenig",	/* V3.78  SE */
-	/*147*/ "AntiSuperCirce",              /* V3.78  SE */
+	/*147*/ "AntiSuperCirce",               /* V3.78  SE */
 	/*148*/ "UltraPatrouille",              /* V3.78  SE */
-        /*149*/ "TauschKoenige"			/* V3.81a NG */
+	/*149*/ "TauschKoenige",		/* V3.81a NG */
+	/*150*/ "KoenigsDynastie"               /* V4.02 TM */
 	},{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1284,7 +1357,8 @@ EXTERN boolean          repub_k[toppile + 1];
 	/*146*/ "BlackSuperTransmutingKing",    /* V3.78  SE */
 	/*147*/ "AntiSuperCirce",               /* V3.78  SE */
 	/*148*/ "UltraPatrol",                  /* V3.78  SE */
-        /*149*/ "SwappingKings"			/* V3.81a NG */
+	/*149*/ "SwappingKings",		/* V3.81a NG */
+	/*150*/ "RoyalDynasty"                  /* V4.02 TM */
 	}
 	};
 #endif

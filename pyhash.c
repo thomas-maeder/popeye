@@ -437,9 +437,8 @@ int TellCommonEncodePosLeng(int len, int nbr_p) {		/* V3.57  TLi */
 
 int TellLargeEncodePosLeng(void) {
     square	*bnp;
-    int		nbr_p= 0, len= 0;			/* V3.29  NG */
+    int		nbr_p= 0, len= 8;			/* V3.29  NG */
 
-    len= 8;
     for (bnp= boardnum; *bnp; bnp++) {
 	if (e[*bnp] != vide) {
 	    len += bytes_for_piece;			/* V3.53  TLi */

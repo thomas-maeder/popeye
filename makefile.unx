@@ -56,6 +56,7 @@ ARCH=
 
 OS=`uname`
 OSVER=`uname -r`
+OSCPU=`uname -p`
 
 #DEF=-DUNIX -DBSD $(OPT)
 #CFLAGS= -DTIME -DBSD $(OPT)
@@ -68,7 +69,7 @@ OSVER=`uname -r`
 #CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS
 CFLAGS= $(DBG) $(OPT) $(ARCH) \
 	-DMSG_IN_MEM -DUNIX -DSIGNALS \
-	-DOSTYPE=\"$(OS)-$(OSVER)\"
+	-DOSTYPE=\"$(OS)-$(OSVER)-$(OSCPU)\"
 
 #CC=gcc
 #CC=clcc
@@ -95,10 +96,10 @@ RANLIB = ranlib
 
 # This variable is used in compiling pydata.c, and
 # should contain only the number
-#VERSION =       4.01
+#VERSION =       4.03
 # It's not used in this makefile for compilation any more.
 # We use it for creating distributions without any . (dot) !
-VERSION =       401
+VERSION =       403
 
 OBJECTS =       pydata.o py1.o py2.o py3.o py4.o py5.o py6.o pyio.o    \
 		pymsg.o pytime.o pylang.o pyhash.o pyproof.o	       \

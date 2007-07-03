@@ -142,5 +142,10 @@
 #define SingleBoxAndFairyPieces 104  /* V3.71 TM */
 #define UndefLatexPiece        105  /* V3.74  TLi */
 #define HunterTypeLimitReached 106
-#define MsgCount               107
+#define DynastyAndRoyalSquare  107
+#define DynastyAndRepublican   108
+#define DynastyAndOscillatingKings 109
+#define DynastyAndCirceRexIncl 110
+#define DynastyAndImmun        111
+#define MsgCount               112
 #endif  /* PYMSG_H */
