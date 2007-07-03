@@ -12,6 +12,8 @@
  **
  ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
  **
+ ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	      /* is always defined on macintosh's  SB */
@@ -139,6 +141,7 @@ void InitCond(void) {	  /* V3.40  TLi */
 
 	CLEARFL(sq_spec[*bnp]);			/* V3.20  TLi, V3.29  NG */
 	ClrDiaRen(spec[*bnp]);			/* V3.76  NG */
+  sq_num[*bnp]= (smallint)(bnp-boardnum);
 
 	/* initialise sq_spec and set grid number  V3.22  TLi */
 	sq_spec[*bnp] += (((j-8)/2)+4*((k-8)/2)) << Grid;
@@ -176,6 +179,9 @@ void InitCond(void) {	  /* V3.40  TLi */
   black_length = NULL;				/* V3.80  SE */
   white_length = NULL;				/* V3.80  SE */
 
+  BGL_white= BGL_black= BGL_infinity;  /* V4.06 SE */
+  BGL_whiteinfinity= BGL_blackinfinity= true;
+  BGL_global= false;
 } /* InitCond */
 
 void InitOpt(void) {					/* V3.40  TLi */
@@ -191,6 +197,7 @@ void InitOpt(void) {					/* V3.40  TLi */
 
   for (i= 0; i < OptCount; OptFlag[i++]= False);	/* V2.70 TLi,
                                                        V2.90 NG */
+  flag_appseul= false;
 } /* InitOpt */
 
 void InitCheckDir(void) {   /* V3.40  TLi */
@@ -301,6 +308,9 @@ void InitAlways(void) {    /* V3.40  TLi */
     tabsol.cp[0]= 0;				     /* V2.70  TLi */
   flag_atob= false;				     /* 3.70  SE */
   dont_generate_castling=false;
+  
+  takemake_departuresquare= initsquare;
+  takemake_capturesquare= initsquare;
 } /* InitAlways */
 
 void initneutre(couleur c) {
@@ -703,6 +713,7 @@ piece		sic_e[64];
 smallint	sic_inum1;
 imarr		sic_isquare;
 square		sic_im0, rn_sic, rb_sic;
+long int sic_BGL_W, sic_BGL_b;
 
 void StorePosition(void) {
   smallint	    i;
@@ -720,6 +731,8 @@ void StorePosition(void) {
   }
 
   sic_im0= im0;
+  sic_BGL_W= BGL_white;
+  sic_BGL_b= BGL_black;
 } /* StorePosition */
 
 void ResetPosition(void) {
@@ -743,6 +756,8 @@ void ResetPosition(void) {
     isquare[i]= sic_isquare[i];
   im0= sic_im0;
   neutcoul= blanc;			    /* V2.90  TLi */
+  BGL_white= sic_BGL_W;
+  BGL_black= sic_BGL_b;
 } /* ResetPosition */
 
 /*****	V3.12  TLi  *****  end	*****/

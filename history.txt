@@ -1842,3 +1842,23 @@ pywin32.exe, pywin98.exe and pydos32.exe created.
 This is official release py4.05
                                				24.05.2006  NG
 ------------------------------------------------------------------------
+Bugfix: intelligent mode: wS+wB battery mates not always found.
+                               				14.06.2006  TLi
+------------------------------------------------------------------------
+bugfix: the a->b bug introduced with h#n.5 is fixed
+new piece: chinese pawns (one step forward;
+	   also one step sideways after halfway, no promotion)
+new conditions: synchro-movers
+							21.06.2006  SE
+------------------------------------------------------------------------
+bugfix: take&make completely revised.
+							28.06.2006  ThM/SE
+------------------------------------------------------------------------
+new conditions: masand  and  BGL  (both invented by Petko Petkov)
+							02.07.2006  SE
+------------------------------------------------------------------------
+regression test done.
+pywin32.exe, pywin98.exe and pydos32.exe created.
+This is official release py4.06
+                                                        08.07.2006  NG
+------------------------------------------------------------------------

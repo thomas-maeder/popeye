@@ -29,6 +29,10 @@
  **
  ** 2006/05/14 SE   New Condition: TakeMake (invented H.Laue)
  **
+ ** 2006/06/28 SE   New condition: Masand (invented P.Petkov)
+ **
+ ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -1322,77 +1326,79 @@ boolean jouecoup(void) {
 
   ep[nbply]= ep2[nbply]= initsquare;			/* V3.37  TLi */
   if (is_pawn(pj)) {
+    if (pp==vide) {
     /* ep capture  V3.22  TLi */
 	if (is_phantomchess) {				/* V3.52  NG */
       smallint col_diff, rank_j;
 
-      col_diff= j%24 - i%24,
-	    rank_j= j/24;
+          col_diff= j%24 - i%24,
+	        rank_j= j/24;
 
-      if (rank_j == 11) {	/* 4th rank */
-		switch (col_diff) {
-        case 0:
-          if (pj == pb && i != j-24)		/* V3.53  NG */
-			ep[nbply]= j-24;
-          break;
+          if (rank_j == 11) {	/* 4th rank */
+		        switch (col_diff) {
+                case 0:
+                  if (pj == pb && i != j-24)		/* V3.53  NG */
+			        ep[nbply]= j-24;
+                  break;
 
-        case -2:
-          if (pj == pbb && i != j-25)		/* V3.53  NG */
-			ep[nbply]= j-25;
-          break;
+                case -2:
+                  if (pj == pbb && i != j-25)		/* V3.53  NG */
+			        ep[nbply]= j-25;
+                  break;
 
-        case 2:
-          if (pj == pbb && i != j-23)		/* V3.53  NG */
-			ep[nbply]= j-23;
-          break;
-		}	/* switch (col_diff) */
-      }
-      else if (rank_j == 12) {	/* 5th rank */
-		switch (col_diff) {
-        case 0:
-          if (pj == pn && i != j+24)		/* V3.53  NG */
-			ep[nbply]= j+24;
-          break;
-        case -2:
-          if (pj == pbn && i != j+23)		/* V3.53  NG */
-			ep[nbply]= j+23;
-          break;
-        case 2:
-          if (pj == pbn && i != j+25)		/* V3.53  NG */
-			ep[nbply]= j+25;
-          break;
-		}	/* switch (col_diff) */
-      }
-	}	/* is_phantomchess */
-	else {
-      square ii;
-      if (anyantimars)
-        ii= cmren[nbcou];
-      else
-        ii= i;
-      switch (abs(pj)) {
-      case Pawn:
-		switch (abs(ii - j)) {
-        case 48: /* ordinary or Einstein double step */
-          ep[nbply]= (ii + j) / 2;
-          break;
-        case 72: /* Einstein triple step */
-          ep[nbply]= (ii + j + j) / 3;
-          ep2[nbply]= (ii + ii + j) / 3;
-          break;
-		} /* end switch (abs(ii-j)) */
-		break;
-      case BerolinaPawn:
-		if (abs(ii - j) > 25) {
-		  /* The length of a single step is 23, 24 or 25.
-		  ** Therefore it's a double step!
-		  */
-		  ep[nbply]= (ii + j) / 2;
-		}
-		break;
-      } /* end switch (abs(pj)) */
-	}
+                case 2:
+                  if (pj == pbb && i != j-23)		/* V3.53  NG */
+			        ep[nbply]= j-23;
+                  break;
+		        }	/* switch (col_diff) */
+          }
+          else if (rank_j == 12) {	/* 5th rank */
+		        switch (col_diff) {
+                case 0:
+                  if (pj == pn && i != j+24)		/* V3.53  NG */
+			        ep[nbply]= j+24;
+                  break;
+                case -2:
+                  if (pj == pbn && i != j+23)		/* V3.53  NG */
+			        ep[nbply]= j+23;
+                  break;
+                case 2:
+                  if (pj == pbn && i != j+25)		/* V3.53  NG */
+			        ep[nbply]= j+25;
+                  break;
+		        }	/* switch (col_diff) */
+          }
+	    }	/* is_phantomchess */
+	    else {
+          square ii;
+          if (anyantimars)
+            ii= cmren[nbcou];
+          else
+            ii= i;
+          switch (abs(pj)) {
+          case Pawn:
+		        switch (abs(ii - j)) {
+                case 48: /* ordinary or Einstein double step */
+                  ep[nbply]= (ii + j) / 2;
+                  break;
+                case 72: /* Einstein triple step */
+                  ep[nbply]= (ii + j + j) / 3;
+                  ep2[nbply]= (ii + ii + j) / 3;
+                  break;
+		        } /* end switch (abs(ii-j)) */
+		        break;
+          case BerolinaPawn:
+		        if (abs(ii - j) > 25) {
+		          /* The length of a single step is 23, 24 or 25.
+		          ** Therefore it's a double step!
+		          */
+		          ep[nbply]= (ii + j) / 2;
+		        }
+		        break;
+          } /* end switch (abs(pj)) */
+	    }
 
+    }
 	/* promotion */
 	if (PromSq(trait[nbply], j)) {			/* V3.39  TLi */
       /* moved to here because of anticirce
@@ -2305,7 +2311,18 @@ legality_test:
         else
             BlackStrictSAT[nbply]= echecc_normal(noir);
     }
+
+    if (CondFlag[masand] && echecc(advers(trait[nbply])) && observed(trait[nbply] == blanc ? rn : rb, ca[nbcou])) /* V4.06 SE */
+      change_observed(ca[nbcou]);
         
+  if (!BGL_whiteinfinity && (BGL_global || trait[nbply] == blanc)) /* V4.06 SE */
+  {
+    BGL_white -= BGL_move_diff_code[abs(cd[nbcou]-ca[nbcou])];
+  }
+  if (!BGL_blackinfinity && (BGL_global || trait[nbply] == noir))
+  {
+    BGL_black -= BGL_move_diff_code[abs(cd[nbcou]-ca[nbcou])];
+  }
 
   return (!jouetestgenre				/* V3.50 SE */
           || (
@@ -2326,6 +2343,7 @@ legality_test:
             && (  !CondFlag[whiteultraschachzwang]
                   || trait[nbply]==noir
                   || echecc(noir))
+            && (trait[nbply] == blanc ? BGL_white >= 0 : BGL_black >= 0) /* V4.06 SE */
             ));
 } /* end of jouecoup */
 
@@ -2363,7 +2381,18 @@ void repcoup(void) {
      ElB, 2001-12-18.
   */
 
+     if (CondFlag[masand] && echecc(advers(trait[nbply])) && observed(trait[nbply] == blanc ? rn : rb, ca[nbcou])) /* V4.06 SE */
+      change_observed(ca[nbcou]);
 
+  if (!BGL_whiteinfinity && (BGL_global || trait[nbply] == blanc)) /* V4.06 SE */
+  {
+    BGL_white += BGL_move_diff_code[abs(cd[nbcou]-ca[nbcou])];
+  }
+  if (!BGL_blackinfinity && (BGL_global || trait[nbply] == noir))
+  {
+    BGL_black += BGL_move_diff_code[abs(cd[nbcou]-ca[nbcou])];
+  }
+        
   if (jouegenre) {				       /* V3.53  TLi */
 
     /*	if (trait[nbply]==blanc ? CondFlag[white_oscillatingKs] : CondFlag[black_oscillatingKs])	*/

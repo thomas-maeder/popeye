@@ -114,6 +114,13 @@ short len_alphabetic(square id, square ia, square ip) { /* V3.64  SE */
   return -((id/24) + 24*(id%24));
 }
 
+short len_synchron(square id, square ia, square ip) {
+  return (id - ia == cd[repere[nbply]] - ca[repere[nbply]]);
+}
+
+short len_antisynchron(square id, square ia, square ip) {
+  return (ia - id == cd[repere[nbply]] - ca[repere[nbply]]);
+}
 
 /*****	V3.20  TLi  *****  begin  *****/
 short len_whforcedsquare(square id, square ia, square ip) {
@@ -228,56 +235,107 @@ boolean empile(square id, square ia, square ip) {
 
 	traitnbply= trait[nbply];
 
-  if (CondFlag[takemake])   /* V4.03 SE */
-  {
-     if (generate_pass)
-     {
-       if (e[ip] != vide)
-         return true;
-       id= orig_id;
-       ip= orig_ip;
-       /* oh dear, unfortunate extra rule */
-       if (((orig_p==pb || orig_p==pbb) && ia < bas + 24) || ((orig_p==pn || orig_p==pbn) && ia > haut - 24))
-         return true;
-     }
-     else if (e[ip] != vide)
-     {
-       generate_pass= true;
+    if (CondFlag[takemake])   /* V4.03 SE */
+    {
+      /* Take & make is implemented as follows: When the take part of
+       * a move is attempted to be written into the moves table (ca,
+       * cd, cp) by empile(), empile() causes moves to be generated
+       * from the arrival square of the take part, but according to
+       * the movement of the captured piece. This will cause empile()
+       * to be invoked recursively.
+       *
+       * The actual take&make moves are empile()d in the nested
+       * invocation; empile()ing them in the outer invocation would
+       * break more or less everything that follows the if
+       * (CondFlag[takemake]) clause, including Maximummer.
+       *
+       * The global variable takemake_departuresquare is used to
+       * distinguish between the two cases; if its equal to
+       * initsquare, we are generating a non-capturing move or the
+       * take part of a capturing move; otherwise, we are generating
+       * the make part of a capture where the capturing piece came
+       * from takemake_departuresquare.
+       */
+      if (takemake_departuresquare==initsquare)
+      {
+        /* We are not generating the make part */
 
-       orig_ia= ia;  /* don't need, but never know... */
-       orig_id= id;
-       orig_ip= ip;
-       orig_p= e[id];
-       orig_spec= spec[id];
-       orig_cap_p= e[ip];
-       orig_cap_spec= spec[ip];
+        piece takemake_takenpiece= e[ip];
+        if (takemake_takenpiece == vide) {
+          /* Non-capturing move - go on as in orthodox chess */
+        }
+        else
+        {
+          /* this is the take part */
+          Flags takemake_takenspec= spec[ip];
 
-       e[id]= vide;    /* for sentinelles, need to calculate... */
-       spec[id]= EmptySpec;
-       e[ia]= orig_cap_p;
-       spec[ia]= orig_cap_spec;
-       if (ip != ia)
-       {
-        e[ip]= vide;   /* assuming e[ip] is blank at this point */
-        spec[ip]= EmptySpec;
-       }
+          /* Save the departure square for signaling the we are now
+           * generating the make part and for using the value when we
+           * will be recursively invoked during the generation of the
+           * make part. */
+          takemake_departuresquare= id;
 
-       if (traitnbply == blanc)
-         gen_bl_piece_aux(ia, e[ia]);
-       else
-         gen_wh_piece_aux(ia, e[ia]);
+          /* At first, it may seem that saving ip isn't necessary
+           * because the arrival square of the take part is the
+           * departure square of the make part. Yet there are
+           * situations where capture square and arrival square are
+           * different (the raison d'etre of ip, after all) - most
+           * notably en passant captures. */
+          takemake_capturesquare= ip;
 
-       e[id]= orig_p;
-       spec[id]= orig_spec;
-       e[ia]= vide;
-       spec[ia]= EmptySpec;
-       e[ip]= orig_cap_p;
-       spec[ip]= orig_cap_spec;
+          /* Execute the take part. The order ip, ia, id avoids losing
+           * information and elegantly deals with the case where
+           * ip==ia. */
+          e[ip]= vide;
+          spec[ip]= EmptySpec;
 
-       generate_pass= false;
-       return true;
-     }
-  }
+          e[ia]= e[id];
+          spec[ia]= spec[id];
+
+          e[id]= vide;    /* for sentinelles, need to calculate... */
+          spec[id]= EmptySpec;
+
+          if (traitnbply == blanc)
+            gen_bl_piece_aux(ia, takemake_takenpiece);
+          else
+            gen_wh_piece_aux(ia, takemake_takenpiece);
+
+          /* Take back the take part, reverse order of executing
+           * it. */
+          e[id]= e[ia];
+          spec[id]= spec[ia];
+
+          e[ia]= vide;
+          spec[ia]= EmptySpec;
+
+          e[ip]= takemake_takenpiece;
+          spec[ip]= takemake_takenspec;
+
+          takemake_capturesquare= initsquare;
+          takemake_departuresquare= initsquare;
+
+          /* This is the take part - actual moves were generated
+           * during the recursive invokation for the make part, so
+           * let's bail out.
+           */
+          return true;
+        }
+      }
+      else if (e[ip]==vide) {
+        /* We are generating the make part */
+        
+        /* Extra rule: pawns must not 'make' to their base line */
+        if (is_pawn(e[id])
+            && ((e[id]>0 && ia<=square_h1) || (e[id]<0 && ia>=square_a8)))
+          return true;
+
+        ip= takemake_capturesquare;
+        id= takemake_departuresquare;
+      }
+      else
+        /* We must not capture in the make part */
+        return true;
+    }
 
 
 	if (   (   (	CondFlag[nowhiteprom]
@@ -1919,6 +1977,22 @@ void gen_sp_captures(square i, numvec dir, couleur camp) {
 	empile(i, j, j);
 }
 
+void gencpn(square i) {
+  genleap(i, 4, 4);
+  if (2*i < haut+bas) {
+    genleap(i, 1, 1);
+    genleap(i, 3, 3);
+  }
+}
+
+void gencpb(square i) {
+  gebleap(i, 2, 2);
+  if (2*i > haut+bas) {
+    gebleap(i, 1, 1);
+    gebleap(i, 3, 3);
+  }
+}
+
 void gfeerblanc(square i, piece p) {
   testdebut= nbcou;					/* V3.00  NG */
   switch(p) {
@@ -2092,6 +2166,10 @@ void gfeerblanc(square i, piece p) {
   case leap36b:
 	gebleap(i, 129, 136);				/* V3.64  TLi */
 	return;
+
+  case chinesepawnb:
+  gencpb(i);
+  return;
 
   default:
 	gfeerrest(i, p, blanc);				/* V3.14  TLi */
@@ -2270,6 +2348,10 @@ void gfeernoir(square i, piece p) {
   case leap36n:
 	genleap(i, 129, 136);				/* V3.64  TLi */
 	return;
+
+  case chinesepawnn:
+  gencpn(i);
+  return;
 
   default:
 	gfeerrest(i, p, noir);				/* V3.14  TLi */

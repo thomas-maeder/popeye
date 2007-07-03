@@ -13,6 +13,8 @@
 **                 it is more likely that a position has no solution
 **                 This yields an incredible speedup of .5-1%  *fg*
 **
+** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
+**
 **************************** End of List ******************************/
 
 /**********************************************************************
@@ -410,6 +412,9 @@ int TellCommonEncodePosLeng(int len, int nbr_p) {		/* V3.57  TLi */
 							/* V3.29  NG */
 	len++;
     }
+    if (flag_synchron) {
+      len++;
+    }
     if (CondFlag[imitators]) {
 	for (i = 0; i < inum[nbply]; i++) {
 	    len++;
@@ -446,6 +451,9 @@ int TellLargeEncodePosLeng(void) {
 							    V3.29  NG */
 	}
     }
+  if (CondFlag[BGL])
+    len+= 2*sizeof(BGL_white); /* V4.06 SE */
+
     return TellCommonEncodePosLeng(len, nbr_p);		/* V3.57  TLi */
 } /* TellLargeEncodePosLeng */
 
@@ -487,6 +495,9 @@ byte *CommonEncode(byte *bp)
     if (CondFlag[blfollow] || CondFlag[whfollow]) {	/* V3.22  TLi */
 	*bp++ = (byte)(cd[nbcou] - bas);
     }
+    if (flag_synchron) {
+      *bp++= (byte)(sq_num[cd[nbcou]]-sq_num[ca[nbcou]]+64);
+    }
     if (CondFlag[imitators]) {				/* V3.22  TLi */
 	/* The number of imitators has to be coded too to
 	** avoid ambiguities.  V3.22  TLi
@@ -522,6 +533,13 @@ byte *CommonEncode(byte *bp)
     }
     *bp++ = castling_flag[nbply];		/* Castling_Flag */
 						/* V3.35  NG */
+    if (CondFlag[BGL]) /* V4.06 SE */
+    { 
+      long int* lip= (long int*)bp;
+      *lip++= BGL_white;
+      *lip++= BGL_black;
+      bp=(byte*)lip;
+    }
     return bp;
 } /* CommonEncode */
 

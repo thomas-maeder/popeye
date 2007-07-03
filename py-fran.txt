@@ -264,6 +264,12 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	SAT
 	StrictSAT
 	Take&MakeEchecs
+	NoirSynchronCoup
+	BlancSynchronCoup
+	NoirAntiSynchronCoup
+	BlancAntiSynchronCoup
+	Masand
+	BGL
 		
 	Apres le mot-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -545,6 +551,7 @@ suivante est un peu plus compliquee:
 	p       pion
 	pa      pao
 	pb      pion berolina   
+	pc      pion chinois
 	pi      piece impuissant
 	pr      princesse   
 	qa      equi anglais
@@ -721,7 +728,7 @@ VMS:
 
 
 Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
-may 2006
+juillet 2006
 
 Si quelqu'un veut nous envoyer des propositions,
 des communications d'erreurs etc.,

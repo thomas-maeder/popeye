@@ -13,7 +13,8 @@
  ** 2003/11/16 TLi  castling initialization bug fixed
  **
  ** 2004/02/06 SE   New conditions : Oscillating Kings (invented A.Bell)
- **				   Ks swapped after each W &/or Bl move; TypeB can't self-check before swap	
+ **				     Ks swapped after each W &/or Bl move
+ **				     TypeB can't self-check before swap	
  **
  ** 2004/03/05 SE   New condition : Antimars (and variants) (invented S.Emmerson)
  **                 Pieces reborn to move, capture normally
@@ -43,6 +44,8 @@
  ** 2006/05/17 SE   Changes to allow half-move specification for helpmates using 0.5 notation
  **                 Reset of maxsolutions changed for set play
  **                 SOme combinations with Take&MAke disallowed
+ **
+ ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
  **
  ***************************** End of List ******************************/
 
@@ -358,7 +361,9 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 
   if (CondFlag[takemake])
   {
-    if (CondFlag[sentinelles] || anyanticirce)
+    if (CondFlag[sentinelles]
+        || CondFlag[nocapture]
+        || anyanticirce)
       return VerifieMsg(TakeMakeAndFairy);
   }
 
@@ -676,6 +681,14 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	}
   }
 
+  if (CondFlag[BGL]) /* V4.06 SE */
+  {
+    eval_white= eval_BGL;
+    BGL_whiteinfinity= BGL_white == BGL_infinity;
+    BGL_blackinfinity= BGL_black == BGL_infinity;
+    totalortho= false;
+  }
+
   /* if (CondFlag[madras] || CondFlag[isardam])	V3.44  SE/TLi */
 
   if (flag_madrasi || CondFlag[isardam]) {		/* V3.60  TLi */
@@ -718,6 +731,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
   if (CondFlag[shieldedkings]) {			/* V3.62 SE */
 	eval_white=eval_shielded;
   }
+
 
   if (flagAssassin) {					/* V3.50 SE */
 	if (TSTFLAG(PieSpExFlags,Neutral) /* Neutrals not implemented */
@@ -817,13 +831,17 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
          + CondFlag[whcapt]
          + (CondFlag[whforsqu] || CondFlag[whconforsqu])  /* V3.20TLi */
          + CondFlag[whfollow]
-         + CondFlag[duellist]) > 1		       /* V2.90c  TLi */
+         + CondFlag[duellist]
+         + CondFlag[whitesynchron]
+         + CondFlag[whiteantisynchron]) > 1		       /* V2.90c  TLi */
        || (CondFlag[blmin]
            + CondFlag[blmax]
            + CondFlag[blcapt]
            + (CondFlag[blforsqu] || CondFlag[blconforsqu]) /* V3.20 TLi */
            + CondFlag[blfollow]
-           + CondFlag[duellist] > 1))			 /* V3.0  TLi */
+           + CondFlag[duellist]
+           + CondFlag[blacksynchron]
+           + CondFlag[blackantisynchron] > 1))			 /* V3.0  TLi */
   {
 	return VerifieMsg(TwoMummerCond);
   }
@@ -961,7 +979,8 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
   nonkilgenre= CondFlag[messigny]		 /* V3.45, V3.55 TLi */
     || sbtype3				      /* V3.71 TM */
     || CondFlag[whsupertrans_king]    /* V3.78  SE */	
-    || CondFlag[blsupertrans_king];    /* V3.78  SE */	
+    || CondFlag[blsupertrans_king]    /* V3.78  SE */	
+    || CondFlag[takemake];
 
   if (TSTFLAG(PieSpExFlags, Jigger)		 /* V3.1  TLi */
       || CondFlag[newkoeko]			  /* V3.1  TLi */
@@ -1157,11 +1176,6 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
     || TSTFLAGMASK(castling_flag[0],blq_castling&no_castling)==blq_castling
     || TSTFLAGMASK(castling_flag[0],blk_castling&no_castling)==blk_castling;
 
-#ifndef DATABASE  /* V3.39  TLi */
-  if (SortFlag(Proof)) {		       /* V3.36  TLi */
-	return ProofVerifie();
-  }
-#endif
   /* a small hack to enable ep keys	  V3.37  TLi */
   trait[1]= 2;
 
@@ -1185,7 +1199,8 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	|| CondFlag[patience]
 	|| CondFlag[republican]
 	|| CondFlag[blackultraschachzwang]
-	|| CondFlag[whiteultraschachzwang];		 /* V3.62 SE */
+	|| CondFlag[whiteultraschachzwang]		 /* V3.62 SE */
+	|| CondFlag[BGL];                      /* V4.06 SE */
 
   nonoptgenre= TSTFLAG(PieSpExFlags, Neutral)		/* V3.02  TLi */
     || flag_testlegality			/* V3.45  TLi */
@@ -1194,7 +1209,8 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
     || CondFlag[brunner]          /* V3.60  TLi */
     || CondFlag[blsupertrans_king]    /* V3.78  SE */
     || CondFlag[whsupertrans_king]
-    || CondFlag[republican];  /* V3.80  SE */
+    || CondFlag[republican]  /* V3.80  SE */
+    || CondFlag[takemake];
 
   supergenre=
 	CondFlag[supercirce]
@@ -1278,6 +1294,12 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 
   if (OptFlag[appseul])
     flag_appseul= true;
+
+#ifndef DATABASE  /* V3.39  TLi */
+  if (SortFlag(Proof)) {		       /* V3.36  TLi */
+	return ProofVerifie();
+  }
+#endif
 
   return true;
 } /* verifieposition */
@@ -1623,6 +1645,19 @@ void editcoup(coup *mov) {
 	WritePiece(roib);
 	StdString("]");
   }
+  if (CondFlag[BGL]) /* V4.06 SE */
+  {
+    char s[30], buf1[12], buf2[12];
+    if (BGL_global)
+    {
+      sprintf(s, " (%s)", WriteBGLNumber(buf1, BGL_white));
+    }
+    else
+    {
+      sprintf(s, " (%s/%s)", WriteBGLNumber(buf1, BGL_white), WriteBGLNumber(buf2, BGL_black));
+    }
+    StdString(s);
+  }
   if (flende) {					/* V2.90  TLi */
 	if (stipulation == stip_mate_or_stale) {	/* V3.60 SE */
       if (mate_or_stale_patt)
@@ -1659,6 +1694,7 @@ boolean nowdanstab(smallint n)
          && mov.sb3what==tabsol.liste[i].sb3what	  /* V3.71 TM */
          && mov.sb2where==tabsol.liste[i].sb2where	  /* V3.71 TM */
          && mov.sb2what==tabsol.liste[i].sb2what	  /* V3.71 TM */
+         && (!CondFlag[takemake] || mov.cpzz==tabsol.liste[i].cpzz)
          && (!supergenre				  /* V3.50 SE */
              || (    (!(CondFlag[supercirce] || CondFlag[april])
                       || mov.sqren == tabsol.liste[i].sqren)

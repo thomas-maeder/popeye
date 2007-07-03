@@ -22,6 +22,10 @@
 **
 ** 2006/05/09 SE   New pieces Bouncer, Rookbouncer, Bishopbouncer (invented P.Wong)
 **
+** 2006/06/28 SE   New condition: Masand (invented P.Petkov)
+**
+** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
+**
 **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -1836,29 +1840,29 @@ boolean libre(square sq, boolean generating) {
 
     if (CondFlag[eiffel]) {				/* V3.60  TLi */
 	boolean test= true;
-	piece ep;
+	piece eiffel_piece;
 
 	switch (p) {					/* V3.22  TLi */
-	  case pb: ep= dn; break;
-	  case db: ep= tn; break;
-	  case tb: ep= fn; break;
-	  case fb: ep= cn; break;
-	  case cb: ep= pn; break;
-	  case pn: ep= db; break;
-	  case dn: ep= tb; break;
-	  case tn: ep= fb; break;
-	  case fn: ep= cb; break;
-	  case cn: ep= pb; break;
+	  case pb: eiffel_piece= dn; break;
+	  case db: eiffel_piece= tn; break;
+	  case tb: eiffel_piece= fn; break;
+	  case fb: eiffel_piece= cn; break;
+	  case cb: eiffel_piece= pn; break;
+	  case pn: eiffel_piece= db; break;
+	  case dn: eiffel_piece= tb; break;
+	  case tn: eiffel_piece= fb; break;
+	  case fn: eiffel_piece= cb; break;
+	  case cn: eiffel_piece= pb; break;
 	  default:
 	    test= false;
-	    ep= 0;	 /* avoid compiler warning. ElB, 2001-12-16. */
+	    eiffel_piece= 0;	 /* avoid compiler warning. ElB, 2001-12-16. */
 	    break;
 	}
 
 	if (test) {
 	    flag = flag
-		   && (!nbpiece[ep]
-		       || !(*checkfunctions[abs(ep)])(sq, ep,
+		   && (!nbpiece[eiffel_piece]
+		       || !(*checkfunctions[abs(eiffel_piece)])(sq, eiffel_piece,
 			  flaglegalsquare ? legalsquare : eval_ortho));
 	}
     } /* CondFlag[eiffel] */
@@ -1948,7 +1952,10 @@ boolean eval_madrasi(square id, square ia, square ip) {
 	return false;
     }
     else {
-	return libre(id, false);
+      return libre(id, false) && 
+        (!CondFlag[BGL] || (*eval_2)(id, ia, ip)); /* V4.06 SE */
+          /* is this just appropriate for BGL? in verifieposition eval_2 is set when madrasi is true,
+          but never seems to be used here or in libre */
     }
 } /* eval_madrasi */
 
@@ -1960,7 +1967,7 @@ boolean eval_shielded(square id, square ia, square ip) {  /* V3.62 SE */
     else {
 	return true;
     }
-} /* eval_madrasi */
+} /* eval_shielded */
 
 boolean edgehcheck(
     square	i,
@@ -2580,3 +2587,94 @@ boolean bishopbouncercheck(  /* V4.03 */
   return bouncerfamilycheck(i, 5, 8, p, evaluate);
 }
 
+boolean pchincheck(  /* V4.03 */
+    square	i,
+    piece	p,
+    boolean	(*evaluate)(square,square,square))
+{
+  if (p <= roin) {
+    if (e[i + 24] == p) {
+		  if ((*evaluate)(i + 24, i, i)) {	/* V3.02  TLi */
+		    return true;
+      }
+    }
+  }
+  else {
+    if (e[i - 24] == p) {
+		  if ((*evaluate)(i - 24, i, i)) {	/* V3.02  TLi */
+		    return true;
+      }
+    }
+  };
+  if ((i*2 < (haut + bas)) ^ (p >= roib)) {
+    if (e[i + 1] == p) {
+		  if ((*evaluate)(i + 1, i, i)) {	/* V3.02  TLi */
+		    return true;
+      }
+    }
+    if (e[i - 1] == p) {
+		  if ((*evaluate)(i - 1, i, i)) {	/* V3.02  TLi */
+		    return true;
+      }
+    }
+  }
+  return false;
+}
+
+square masand_square; 
+boolean	eval_masand(square id,square ia,square ip) /* V4.06 SE */
+{
+  return id==masand_square && (e[id] > vide ? eval_white(id, ia, ip) : eval_black(id, ia, ip));
+}
+
+boolean observed(square on_this, square by_that) /* V4.06 SE */
+{
+  boolean flag;
+  square k;
+
+  masand_square= by_that;
+  if (e[by_that] > vide)
+  {
+    k= rn;
+    rn= on_this;
+    flag= rnechec(eval_masand);
+    rn= k;
+  }
+  else
+  {
+    k= rb;
+    rb= on_this;
+    flag= rbechec(eval_masand);
+    rb= k;
+  }
+  return flag;
+}
+
+void change_observed(square z) /* V4.06 SE */
+{
+  square* bnp;
+
+  for (bnp= boardnum; *bnp; bnp++)
+  {
+    if (e[*bnp] != vide && *bnp != rn && *bnp != rb && *bnp != z)
+    {
+      if (observed(*bnp, z))
+      {
+        change(*bnp);
+        CHANGECOLOR(spec[*bnp]);
+        if (e[*bnp] == tb && *bnp == square_a1)
+          SETFLAGMASK(castling_flag[nbply],ra1_cancastle);  
+        if (e[*bnp] == tb && *bnp == square_h1)
+          SETFLAGMASK(castling_flag[nbply],rh1_cancastle);  
+        if (e[*bnp] == tn && *bnp == square_a8)
+          SETFLAGMASK(castling_flag[nbply],ra8_cancastle);  
+        if (e[*bnp] == tn && *bnp == square_h8)
+          SETFLAGMASK(castling_flag[nbply],rh8_cancastle);  
+      }
+    }
+  }
+}
+
+boolean eval_BGL(square id, square ia, square ip) {
+  return BGL_move_diff_code[abs(id-ia)] <= ((e[ip] < vide) ? BGL_white : BGL_black);
+}

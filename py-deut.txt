@@ -276,6 +276,12 @@ Kommandos:
 	SAT
 	StrictSAT
 	Take&MakeSchach
+	SchwarzerSynchronZueger
+	WeisserSynchronZueger
+	SchwarzerAntiSynchronZueger
+	WeisserAntiSynchronZueger
+	Masand
+	BGL
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines 
@@ -497,6 +503,7 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	bs      Berolina Superbauer
 	bu      Wurzel-25-Springer (Bucephale)  3,4+0,5 Springer
 	ca      Kamel                           1,3 Springer
+	cb      Chinesischer Bauer              
 	ch      Kamelreiterhuepfer
 	cr      Kamelreiter                     1,3 Reiter
 	ct      CAT (cavalier trojan)
@@ -748,7 +755,7 @@ VMS:
 
 
 Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
-Mai 2006
+Juli 2006
 
 Fuer den Fall dass jemand Anregungen, Fehler etc uns zukommen lassen will,
 so findet er unsere Adressen in den Dateien  history.txt  oder  readme.txt  .

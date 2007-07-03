@@ -268,6 +268,12 @@ commands expect further parameters. Lets start with the simpler commands:
 	SAT
 	StrictSAT
 	Take&MakeChess
+	BlackSynchronMover
+	WhiteSynchronMover
+	BlackAntiSynchronMover
+	WhiteAntiSynchronMover
+	Masand
+	BGL
 
 	After the conditions Imitator, MagicField, Hole, FrischaufCirce,
 	WhitePromSquares, BlackPromSquares
@@ -494,6 +500,7 @@ elaborate is the command
 	ca      camel
 	cg      contra grashopper
 	ch      camelrider hopper
+	cp      chinese pawn
 	cr      camelrider
 	ct      CAT (cavalier trojan)
 	cy      charybdis
@@ -713,12 +720,12 @@ MS-DOS (16 Bit), DR-DOS (16 Bit):
 BS2000:
 OS/2:
 VMS:
-	Not support any more ...
+	Not supported any more ...
 
 
 
 Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
-may 2006
+july 2006
 
 If you have any suggestions, any errors you know of, etc., you are
 welcome to contact us.

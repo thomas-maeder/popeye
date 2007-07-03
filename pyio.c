@@ -31,6 +31,8 @@
  **                 Forsyth can be used as a twinning command
  **                 TakeMake name changed to Take&Make
  **
+ ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -500,6 +502,66 @@ int GetUniqIndex(int limit, char **list, char *tok) {
 Token StringToToken(char *tok)
 {
   return GetUniqIndex(TokenCount,TokenTab,tok);
+}
+
+long int ReadBGLNumber(char* inptr, char** endptr) /* V4.06 SE */
+{
+  /* input must be of form - | {d}d(.|,(d(d))) where d=digit ()=0 or 1 {}=0 or more 
+  in - and all other cases return infinity (no limit) */
+   char buf[12];
+   int res= BGL_infinity;
+   int len;
+   int dp;
+   char* dpp;
+   *endptr= inptr;
+   while (**endptr && strchr("0123456789.,-", **endptr))
+     //isdigit(**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-'))
+     (*endptr)++;
+   len= *endptr-inptr;
+   if (len > 11)
+      return res;
+   strncpy(buf, inptr, len);
+   buf[len]= '\0';
+   if (len == 1 && buf[0] == '-')
+      return res;
+   for (dpp=buf; *dpp; dpp++)
+     if (*dpp == ',')  /* allow 3,45 notation */
+       *dpp= '.';
+   for (dpp=buf; *dpp && *dpp != '.'; dpp++);
+   dp= len-(int)(dpp-buf);
+   if (!dp)
+    return 100*(long int)atoi(buf);
+   while (dpp-buf < len) {
+     *dpp=*(dpp+1); 
+     dpp++;
+   }
+   for (dpp=buf; *dpp; dpp++)
+     if (*dpp == '.') 
+       return res;  /* 2 d.p. characters */
+   switch (dp) /* N.B> d.p. is part of count */
+   {
+   case 1 :
+    return 100*(long int)atoi(buf);
+   case 2 :
+    return 10*(long int)atoi(buf);
+   case 3 :
+    return (long int)atoi(buf);
+   default :
+     return res;
+   }
+}
+
+char* WriteBGLNumber(char* buf, long int num) /* V4.06 SE */
+{
+  if (num == BGL_infinity)
+    sprintf(buf, "-");
+  else if (num % 100 == 0)
+    sprintf(buf, "%i", (int) (num / 100));
+  else if (num % 10 == 0)
+    sprintf(buf, "%i.%1i", (int) (num / 100), (int) ((num % 100) / 10));
+  else
+    sprintf(buf, "%i.%.2i", (int) (num / 100), (int) (num % 100));
+  return buf;
 }
 
 static void ReadBeginSpec(void) {		    /* H.D. 10.02.93 */
@@ -1788,6 +1850,26 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
       black_length= len_alphabetic;
       flagwhitemummer= flagblackmummer= true;
       break;
+    case blacksynchron:
+      black_length= len_synchron;
+      flagblackmummer= true;
+      flag_synchron= true;
+      break;
+    case whitesynchron:
+      white_length= len_synchron;
+      flagwhitemummer= true;
+      flag_synchron= true;
+      break;
+    case blackantisynchron:
+      black_length= len_antisynchron;
+      flagblackmummer= true;
+      flag_synchron= true;
+      break;
+    case whiteantisynchron:
+      white_length= len_antisynchron;
+      flagwhitemummer= true;
+      flag_synchron= true;
+      break;
     case trans_king:		     /* V3.02  TLi, V3.47  NG */
       CondFlag[whtrans_king]= true;
       CondFlag[bltrans_king]= true;
@@ -2220,6 +2302,26 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
 		    BlackSATFlights= WhiteSATFlights;
 		    return tok;
       }
+    case BGL: /* V4.06 SE */
+      BGL_global= false;
+      BGL_white= ReadBGLNumber(tok= ReadNextTokStr(), &ptr); 
+      if (tok == ptr)  
+      {
+        BGL_white= BGL_black= BGL_infinity;
+        return tok;
+      }
+      else
+      {
+        BGL_black= ReadBGLNumber(tok= ReadNextTokStr(), &ptr);
+        if (tok == ptr)
+        {
+          BGL_black= BGL_white;
+          BGL_global= true;
+          return tok;
+        }
+      }
+      tok= ReadNextTokStr();
+      break;
     default:
       tok= ReadNextTokStr();
 	}
@@ -3443,6 +3545,19 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
 
       sprintf(CondLine, "%s%s", LocalBuf, CondTab[cond]);
 	}
+
+  if (cond == BGL) /* V4.06 SE */
+  {
+    char buf1[12], buf2[12];
+    if (BGL_global)
+    {
+      sprintf(CondLine, "%s %s", CondTab[cond], WriteBGLNumber(buf1, BGL_white));
+    }
+    else
+    {
+      sprintf(CondLine, "%s %s/%s", CondTab[cond], WriteBGLNumber(buf1, BGL_white), WriteBGLNumber(buf2, BGL_black));
+    }
+  }
 
 	if (cond == promotiononly) {		    /* V3.44  NG */
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */

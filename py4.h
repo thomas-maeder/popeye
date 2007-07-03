@@ -27,6 +27,10 @@ short   len_direct (square i, square j, square cab);
 	/* determines "length" of moves in direct reflex */
 short   len_alphabetic (square i, square j, square cab);
 	/* determines "length" of moves in alphabetic chess */
+short len_synchron(square id, square ia, square ip);
+  /* determines "length" of moves in synchron chess */
+short len_antisynchron(square id, square ia, square ip);
+  /* determines "length" of moves in antisynchron chess */
 
 boolean empile(square id, square ia, square ip);
 boolean testempile(square id, square ia, square ip);

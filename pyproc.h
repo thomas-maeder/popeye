@@ -135,6 +135,7 @@ checkfunction_t orixcheck;	/* V3.44  NG */
 checkfunction_t orphancheck;
 checkfunction_t paocheck;      /* V2.60  NG */
 checkfunction_t pbcheck;       /* V2.60  NG */
+checkfunction_t pchincheck;
 checkfunction_t princcheck;    /* V2.60  NG */
 checkfunction_t querquisitecheck;    /* V3.78  SE */
 checkfunction_t querquisitecheck;    /* V3.78  SE */
@@ -455,6 +456,10 @@ boolean maooaimok(square i, square j, square pass); /* V3.81 SE */
 boolean echecc_normal(couleur camp); /* V4.03 SE */
 void gen_wh_piece_aux(square z, piece p);
 void gen_bl_piece_aux(square z, piece p);
+void change_observed(square z);
+boolean observed(square a, square b);
+boolean eval_BGL(square a, square b, square c);	/* V4.06 SE */
+char *WriteBGLNumber(char* a, long int b);	/* V4.06 SE */
 
 
 #ifdef WIN32

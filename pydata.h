@@ -173,9 +173,9 @@ enum
 
   square_d4 = 275,
   square_e4 = 276,
+
   square_a5 = 296,
   square_d5 = 299,
-
   square_e5 = 300,
 
   square_h6 = 327,
@@ -382,12 +382,14 @@ EXTERN boolean          oscillatedKs[toppile + 1];
 EXTERN boolean          SATCheck, satXY, dont_generate_castling;
 EXTERN smallint         WhiteSATFlights, BlackSATFlights;
 EXTERN boolean          WhiteStrictSAT[maxply+1],BlackStrictSAT[maxply+1];
+EXTERN square           takemake_departuresquare;
+EXTERN square           takemake_capturesquare;
 EXTERN boolean          repub_k[toppile + 1];
-EXTERN boolean          generate_pass;
-EXTERN square           orig_id, orig_ia, orig_ip;
-EXTERN piece            orig_p, orig_cap_p;
-EXTERN Flags            orig_spec, orig_cap_spec;
 EXTERN boolean          flag_appseul;
+EXTERN smallint         zzzao[haut - bas + 1];
+EXTERN boolean          flag_synchron;
+EXTERN long int         BGL_black, BGL_white; /* V4.06 SE */
+EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
 
 #ifdef WE_ARE_EXTERN
 	extern PieTable PieNamString[LangCount];
@@ -520,7 +522,8 @@ EXTERN boolean          flag_appseul;
         /*123*/ {'q','q'}, /* querquisite */
         /*124*/ {'b','1'}, /* bouncer */
         /*125*/ {'b','2'}, /* tour-bouncer */
-        /*126*/ {'b','3'}  /* fou-bouncer */
+        /*126*/ {'b','3'}, /* fou-bouncer */
+        /*127*/ {'p','c'}  /* pion chinois */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '}, /* leer */
 	/*  1*/ {' ',' '}, /* ausserhalb des Brettes */
@@ -648,7 +651,8 @@ EXTERN boolean          flag_appseul;
         /*123*/ {'o','d'}, /* Odysseus */
         /*124*/ {'b','1'}, /* Bouncer */
         /*125*/ {'b','2'}, /* Turm-bouncer */
-        /*126*/ {'b','3'}  /* Laeufer-bouncer */
+        /*126*/ {'b','3'}, /* Laeufer-bouncer */
+        /*127*/ {'c','b'}  /* Chinesischer Bauer */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '}, /* empty */
 	/*  1*/ {' ',' '}, /* outside board */
@@ -776,8 +780,9 @@ EXTERN boolean          flag_appseul;
         /*123*/ {'q','q'}, /* querquisite */
         /*124*/ {'b','1'}, /* bouncer */
         /*125*/ {'b','2'}, /* tour-bouncer */
-        /*126*/ {'b','3'}  /* fou-bouncer */
-	}
+        /*126*/ {'b','3'},  /* fou-bouncer */
+        /*127*/ {'c','p'}  /* chinese pawn */	
+  }
 	};
 #endif
 
@@ -1071,7 +1076,13 @@ EXTERN boolean          flag_appseul;
 	/*150*/ "DynastieRoyale",                /* V4.02 TM */
 	/*151*/ "SAT",                       /* V4.03  SE */
 	/*152*/ "StrictSAT",                 /* V4.03  SE */
-	/*153*/ "Take&MakeEchecs"                 /* V4.03  SE */
+	/*153*/ "Take&MakeEchecs",                 /* V4.03  SE */
+	/*154*/ "NoirSynchronCoup",                 /* V4.06  SE */
+	/*155*/ "BlancSynchronCoup",                 /* V4.06  SE */
+	/*156*/ "NoirAntiSynchronCoup",                 /* V4.06  SE */
+	/*157*/ "BlancAntiSynchronCoup",                 /* V4.06  SE */
+	/*158*/ "Masand",                 /* V4.06  SE */
+	/*159*/ "BGL"                     /* V4.06 SE */
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1227,8 +1238,14 @@ EXTERN boolean          flag_appseul;
 	/*150*/ "KoenigsDynastie",               /* V4.02 TM */
 	/*151*/ "SAT",                       /* V4.03  SE */
 	/*152*/ "StrictSAT",                 /* V4.03  SE */
-	/*153*/ "Take&MakeSchach"                 /* V4.03  SE */
-	},{
+	/*153*/ "Take&MakeSchach",                 /* V4.03  SE */
+	/*154*/ "SchwarzerSynchronZueger",                 /* V4.06  SE */
+	/*155*/ "WeisserSynchronZueger",                 /* V4.06  SE */
+	/*156*/ "SchwarzerAntiSynchronZueger",                 /* V4.06  SE */
+	/*157*/ "WeisserAntiSynchronZueger",                 /* V4.06  SE */
+	/*158*/ "Masand",                 /* V4.06  SE */
+	/*159*/ "BGL"                     /* V4.06  SE */
+  },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
 	/* 1*/  "Circe",
@@ -1383,8 +1400,14 @@ EXTERN boolean          flag_appseul;
 	/*150*/ "RoyalDynasty",                  /* V4.02 TM */
 	/*151*/ "SAT",                       /* V4.03  SE */
 	/*152*/ "StrictSAT",                 /* V4.03  SE */
-	/*153*/ "Take&MakeChess"                 /* V4.03  SE */
-	}
+	/*153*/ "Take&MakeChess",                 /* V4.03  SE */
+	/*154*/ "BlackSynchronMover",                 /* V4.06  SE */
+	/*155*/ "WhiteSynchronMover",                 /* V4.06  SE */
+	/*156*/ "BlackAntiSynchronMover",                 /* V4.06  SE */
+	/*157*/ "WhiteAntiSynchronMover",
+	/*158*/ "Masand",                 /* V4.06  SE */
+	/*159*/ "BGL"                     /* V4.06 SE */
+  }
 	};
 #endif
 
@@ -1644,6 +1667,35 @@ numvec vec[maxvec + 1] = { 0,
 			       };
 #endif
 
+#ifdef WE_ARE_EXTERN   /* V4.06 SE */ 
+ extern  long int BGL_move_diff_code[haut - bas + 1];
+#else
+ long int BGL_move_diff_code[haut - bas + 1]= {
+ /* left/right   */        0,   100,   200,   300,  400,  500,  600,  700,
+ /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
+ /* 1 left  up   */            707,  608,  510,  412,  316,   224,   141,
+ /* 1 right up   */        100,   141,   224,  316,  412,  510,  608,  707,
+ /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
+ /* 2 left  up   */            728,  632,  539,  447,  361,   283,   224,
+ /* 2 right up   */        200,   224,   283,  361,  447,  539,  632,  728,
+ /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
+ /* 3 left  up   */            762,  671,  583,  500,  424,  361,  316,
+ /* 3 right up   */        300,  316,  361,  424,  500,  583,  671,  762,
+ /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
+ /* 4 left  up   */            806,  721,  640,  566,  500,  447,  412,
+ /* 4 right up   */       400,  412,  447,  500,  566,  640,  721,  806,
+ /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
+ /* 5 left  up   */            860,  781,  707,  640,  583,  539,  510,
+ /* 5 right up   */       500,  510,  539,  583,  640,  707,  781,  860,
+ /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
+ /* 6 left  up   */            922,  849,  781,  721,  671,  632,  608,
+ /* 6 right up   */       600,  608,  632,  671,  721,  781,  849,  922,
+ /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
+ /* 7 left  up   */            990,  922,  860,  806,  762,  728,  707,
+ /* 7 right up   */       700,  707,  728,  762,  806,  860,  922,  990
+          };
+#endif
+
 #ifdef WE_ARE_EXTERN
 	extern  boolean  (* checkfunctions[derbla + 1])(square,piece,boolean (*) (square,square,square) );
 #else
@@ -1776,7 +1828,7 @@ numvec vec[maxvec + 1] = { 0,
 /*124 */	bouncercheck,		/* V4.03  SE */
 /*125 */	rookbouncercheck,	/* V4.03  SE */
 /*126 */	bishopbouncercheck,	/* V4.03  SE */
-/*127 */        huntercheck,
+/*127 */	pchincheck,		/* V4.06  SE */
 /*128 */        huntercheck,
 /*129 */        huntercheck,
 /*130 */        huntercheck,
@@ -1785,7 +1837,8 @@ numvec vec[maxvec + 1] = { 0,
 /*133 */        huntercheck,
 /*134 */        huntercheck,
 /*135 */        huntercheck,
-/*136 */        huntercheck
+/*136 */        huntercheck,
+/*137 */        huntercheck
 		};
 #endif
 

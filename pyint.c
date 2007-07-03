@@ -10,6 +10,8 @@
  **
  ** 2005/11/15 TLi  bug fix with *mummers
  **
+ ** 2006/06/14 TLi  bug fix in function impact()
+ **
  **************************** End of List ******************************/
 
 #include <stdlib.h>
@@ -149,7 +151,8 @@ boolean IllegalCheck(couleur camp) {
 
 boolean impact(square bk, piece p, square sq) {
   smallint	i;
-  boolean	ret= false;
+  /* boolean	ret= false;                        V4.05  TLi */
+  boolean	ret= guards(bk, p, sq);         /* V4.05  TLi */
 
   e[bk]= vide;
   for (i= 8; i && !ret; i--) {
@@ -160,7 +163,7 @@ boolean impact(square bk, piece p, square sq) {
   e[bk]= roin;
 
   return ret;
-}
+} /* impact */
 
 smallint FroToKing(square f_sq, square t_sq) {
   smallint diffcol= f_sq % 24 - t_sq % 24;

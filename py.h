@@ -59,7 +59,7 @@
 
 #ifndef VERSION				/* V3.55  NG */
 
-#define VERSION "4.05"
+#define VERSION "4.06"
 
 #endif	/* ! VERSION */
 
@@ -267,7 +267,8 @@
 #define bouncerb       124      /* V4.03  SE */
 #define rookbouncerb   125      /* V4.03  SE */
 #define bishopbouncerb 126      /* V4.03  SE */
-#define hunter0b       127
+#define chinesepawnb   127
+#define hunter0b       128
 #define derbla         (hunter0b+maxnrhuntertypes)
 #define roin    -2
 #define pn      -3
@@ -394,7 +395,8 @@
 #define bouncern       -124     /* V4.03  SE */
 #define rookbouncern   -125     /* V4.03  SE */
 #define bishopbouncern -126     /* V4.03  SE */
-#define hunter0n       -127
+#define chinesepawnn   -127  
+#define hunter0n       -128
 #define dernoi         (hunter0n-maxnrhuntertypes)
 
 #define maxsquare       576     /* V2.60  NG */
@@ -540,6 +542,7 @@ typedef square imarr[maxinum];        /* Standorte der Imitatoren V2.4d  TM */
 #define ReadNoCastlingSquares   16
 
 #define sq_spec         (zzzan - bas)
+#define sq_num          (zzzao - bas)
 #define NoEdge(i)       TSTFLAG(sq_spec[i], NoEdgeSq)
 #define SquareCol(i)    TSTFLAG(sq_spec[i], SqColor)
 #define GridNum(s)      (sq_spec[s] >> Grid)
@@ -731,7 +734,8 @@ typedef int Token;
 #define Bouncer        124
 #define RookBouncer    125
 #define BishopBouncer  126
-#define Hunter0     127
+#define ChinesePawn    127
+#define Hunter0        128
 #define PieceCount     (Hunter0+maxnrhuntertypes)
 typedef int PieNam;
 /*--- End of } PieNam;---*/
@@ -1038,7 +1042,13 @@ typedef int Opt;
 #define SAT                    151
 #define strictSAT              152 
 #define takemake               153
-#define CondCount              154
+#define blacksynchron          154
+#define whitesynchron          155
+#define blackantisynchron      156
+#define whiteantisynchron      157
+#define masand                 158
+#define BGL                    159
+#define CondCount              160
 typedef int Cond;
 /*--- End of } Cond;---*/
 
@@ -1141,6 +1151,8 @@ typedef int PieSpec;
 
 #define LegalAntiCirceMove(reb, cap, dep)  \
       (e[reb] == vide || (!AntiCirCheylan && reb == cap) || (reb == dep))
+
+#define BGL_infinity 10000000 // this will do I expect; e.g. max len = 980 maxply < 1000
 
 #ifdef WIN32	
 /* V3.76  TBa begin */
