@@ -12,6 +12,8 @@
  **
  ** 2004/05/02 SE   Mars circe with mao, moa
  **
+ ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -238,6 +240,38 @@ static boolean orig_rnechec(boolean (* evaluate)(square,square,square))
   piece p;
   square sq;
 
+   if (SATCheck) /* V4.03 SE */
+   {
+   	int flag= BlackSATFlights;
+    if ((satXY || (CondFlag[strictSAT] && BlackStrictSAT[nbply-1])) && !echecc_normal(noir))
+        flag--;
+		nextply();
+		cakil= initsquare;
+		/* initialize flagkil too, otherwise some maximummer moves
+		** may be "eaten" */
+		flagkil= false;              /* V3.44  TLi */
+		trait[nbply]= noir;
+		/* flagminmax= false;                V2.90, V3.44  TLi */
+		/* flag_minmax[nbply]= false;        V3.44  TLi */
+		if (TSTFLAG(PieSpExFlags,Neutral))
+			initneutre(blanc);
+ /*   if (generating_castling)	*/
+    dont_generate_castling=true;
+  /*    SATCheck= false;	*/  /* prevent recursion if generating castling */
+    gen_bl_piece(rn, -abs(e[rn]));    /* V3.02  TLi */
+    dont_generate_castling=false;
+ /*   SATCheck= true;	*/
+		while (flag && encore()) {
+			if (jouecoup())        /* V3.44  SE/TLi */
+				if (! echecc_normal(noir))
+					flag--;
+         repcoup();
+         if (!flag) break;
+		}
+		finply();
+      return !flag;
+   }
+
   if (anymars) {				       /* SE/TLi 3.46 */
 	boolean anymarscheck= marsechecc(noir, evaluate);
 	if ( !is_phantomchess || anymarscheck) {	/* V3.47  NG */
@@ -414,6 +448,36 @@ static boolean orig_rbechec(boolean (* evaluate)(square,square,square)) /* V3.71
   numvec k;
   piece p;
   square sq;
+
+   if (SATCheck)   /* V4.03 SE */ 
+   {
+   	int flag= WhiteSATFlights;
+    if ((satXY || (CondFlag[strictSAT] && WhiteStrictSAT[nbply-1])) && !echecc_normal(blanc))
+      flag--;
+		nextply();
+		cakil= initsquare;
+		/* initialize flagkil too, otherwise some maximummer moves
+		** may be "eaten" */
+		flagkil= false;              /* V3.44  TLi */
+		trait[nbply]= blanc;
+		/* flagminmax= false;                V2.90, V3.44  TLi */
+		/* flag_minmax[nbply]= false;        V3.44  TLi */
+		if (TSTFLAG(PieSpExFlags,Neutral))
+			initneutre(noir);
+    dont_generate_castling= true;
+    gen_wh_piece(rb, abs(e[rb]));    /* V3.02  TLi */
+    dont_generate_castling= false;
+		while (flag && encore()) {
+			if (jouecoup())        /* V3.44  SE/TLi */
+				if (! echecc_normal(blanc))
+					flag--;
+         repcoup();
+         if (!flag) break;
+		}
+    assert (flag >= 0);
+		finply();
+      return !flag;
+   }
 
   if (anymars) {		    /* SE/TLi 3.46 */
 	boolean anymarscheck= marsechecc(blanc, evaluate);
@@ -1055,6 +1119,16 @@ boolean charybdischeck(
     || skycharcheck(p, i, i - 25, i +  1, i + 24, evaluate)
     || skycharcheck(p, i, i + 23, i +  1, i - 24, evaluate)
     || skycharcheck(p, i, i - 23, i -  1, i + 24, evaluate);
+}
+
+boolean echecc_normal(couleur camp) /* V4.03 SE */
+{
+  /* for strict SAT - need to compute whether the K square is normally checked */
+  boolean flag;
+  SATCheck= false;
+  flag= echecc(camp);
+  SATCheck= true;
+  return flag;
 }
 
 /**********  V3.12  TLi  end  **********/

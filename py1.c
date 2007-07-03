@@ -6,6 +6,12 @@
  **				   
  ** 2004/04/23 SE   Oscillating Ks TypeC, also allowed A/B/C different for white/black
  **
+ ** 2005/04/12 ThM  Bugfix Imitator-Promotions
+ **
+ ** 2006/05/01 SE   New Koeko conditions: GI-Koeko, AN-Koeko
+ **
+ ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	      /* is always defined on macintosh's  SB */
@@ -32,6 +38,51 @@ void nextply(void)
   debut = nbcou;
   nbply++;
   repere[nbply]= nbcou;
+
+  ep2[nbply]=                        /* V3.22  TLi */
+   ep[nbply]= initsquare;            /* V3.0  TLi */
+
+  /*
+    The current implementation of promotions works as follows:
+
+    - if jouecoup() moves a pawn to its promotion rank, it is promoted
+    to the first available promotion piece (typically Q).
+
+    - if repcoup() takes back a promotion, and there are other
+    promotion pieces available, the piece to be promoted into next is
+    saved in one of the *_prom arrays at position nbply
+
+    - this next promotion may never take place, e.g. because the
+    previous move led to the goal we are looking for
+
+    - as a consequence, we have to clear the position nbply in the
+    abovementioned arrays, either in finply() or here
+  */
+  norm_prom[nbply]=
+   cir_prom[nbply]= vide;               /* V3.02  TLi */
+  norm_cham_prom[nbply]=
+   cir_cham_prom[nbply]=                /* V3.1  TLi */
+  Iprom[nbply] = false;                 /* V4.03  ThM */
+
+  /*
+    Supercirce rebirths are implemented similarly to promotions ...
+   */
+  super[nbply]= superbas;                /* V3.1  TLi */
+
+  /*
+    start with the castling rights of the upper level
+   */
+  castling_flag[nbply]= castling_flag[nbply - 1];    /* V3.35  NG */
+  WhiteStrictSAT[nbply]= WhiteStrictSAT[nbply-1];	/* V4.03  SE */
+  BlackStrictSAT[nbply]= BlackStrictSAT[nbply-1];	/* V4.03  SE */
+}
+
+#ifdef NODEF    /* V4.03 ThM */
+void nextply(void)
+{
+  debut = nbcou;
+  nbply++;
+  repere[nbply]= nbcou;
   norm_prom[nbply]=
     cir_prom[nbply]= vide;				/* V3.02  TLi */
   ep2[nbply]=						/* V3.22  TLi */
@@ -40,7 +91,10 @@ void nextply(void)
     cir_cham_prom[nbply]= false;			/* V3.1  TLi */
   super[nbply]= superbas;				/* V3.1  TLi */
   castling_flag[nbply]= castling_flag[nbply - 1];	/* V3.35  NG */
+  WhiteStrictSAT[nbply]= WhiteStrictSAT[nbply-1];
+  BlackStrictSAT[nbply]= BlackStrictSAT[nbply-1];
 }
+#endif  /* NODEF */
 
 void InitCond(void) {	  /* V3.40  TLi */
   square *bnp, i, j, k;
@@ -246,6 +300,7 @@ void InitAlways(void) {    /* V3.40  TLi */
   tabsol.nbr=
     tabsol.cp[0]= 0;				     /* V2.70  TLi */
   flag_atob= false;				     /* 3.70  SE */
+  dont_generate_castling=false;
 } /* InitAlways */
 
 void initneutre(couleur c) {
@@ -477,6 +532,17 @@ boolean nozebracontact(square ia)
 {
   return noleapcontact(ia, 25, 32);
 }
+
+boolean nogiraffecontact(square ia)
+{
+  return noleapcontact(ia, 41, 48);
+}
+
+boolean noantelopecontact(square ia)
+{
+  return noleapcontact(ia, 49, 56);
+}
+
 
 boolean nocontact(square id, square ia, square ip) {
   /* id - case dep., ia - case arr., ip - case pri. */

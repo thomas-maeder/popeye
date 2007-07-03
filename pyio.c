@@ -23,6 +23,14 @@
  **
  ** 2005/04/25 NG   bugfix: a=>b with Imitators
  **
+ ** 2006/05/01 SE   New Koeko conditions: GI-Koeko, AN-Koeko
+ **
+ ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
+ **
+ ** 2006/05/17 SE   Changes to allow half-move specification for helpmates using 0.5 notation
+ **                 Forsyth can be used as a twinning command
+ **                 TakeMake name changed to Take&Make
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -169,7 +177,8 @@ void WriteConditions(int alignment);	  /* V3.40  TLi */
 #define TwinMirra8h1	13
 #define TwinShift	14
 #define TwinSubstitute	15
-#define TwinCount	16
+#define TwinForsyth 16
+#define TwinCount	17
 
 char	*TwinString[LangCount][TwinCount] = {
   { /* francais */
@@ -188,7 +197,8 @@ char	*TwinString[LangCount][TwinCount] = {
     /*12*/  "a1<-->h8",
     /*13*/  "a8<-->h1",
     /*14*/  "translation",
-    /*15*/  "remplace"
+    /*15*/  "remplace",
+    /*16*/  "forsyth"
   },
   { /* German */
     /* 0*/  "versetze",
@@ -206,7 +216,8 @@ char	*TwinString[LangCount][TwinCount] = {
     /*12*/  "a1<-->h8",
     /*13*/  "a8<-->h1",
     /*14*/  "Verschiebung",
-    /*15*/  "ersetze"
+    /*15*/  "ersetze",
+    /*16*/  "forsyth"
   },
   { /* English */
     /* 0*/  "move",
@@ -224,7 +235,8 @@ char	*TwinString[LangCount][TwinCount] = {
     /*12*/  "a1<-->h8",
     /*13*/  "a8<-->h1",
     /*14*/  "shift",
-    /*15*/  "substitute"
+    /*15*/  "substitute",
+    /*16*/  "forsyth"
   }
 };
 
@@ -279,7 +291,7 @@ static char	InputLine[LINESIZE];	/* This array contains the input as is */
 static char	TokenLine[LINESIZE];	/* This array contains the lowercase input */
 
 static char SpaceChar[] = " \t\n\r;,.:";
-static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/";
+static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&";
 /* Steingewinn !  V3.03	TLi */
 /* introductory move  V3.31  TLi */
 /* h#/=	 V3.31	TLi -- removed V3.44  TLi */
@@ -830,13 +842,23 @@ square SetSquare(square sq, piece p, boolean bw, boolean *neut)
   return NextSquare(sq);
 }
 
-static char *ParseForsyth(void) {
+static char *ParseForsyth(boolean output) {
   piece pc;
   int num;
   square sq= square_a8;
+  square *bnp;
   boolean NeutralFlag= false;
   char* tok= ReadNextTokStr();
+
+  for (bnp= boardnum; *bnp; bnp++)
+	e[*bnp]= vide;
+  rb= rn= initsquare;
+
   sprintf(GlobalStr, "  %s  \n", tok);
+  if (output)
+  {
+    StdString(tok);
+  }
   while (sq && *tok) {
 	if (isdigit((int)*tok)) {
       num= (*tok++) - '0';
@@ -1268,6 +1290,13 @@ static char *ParseStip(void)			/* H.D. 10.02.93 */
          V3.42  NG */
       if ((enonce=atoi(tok)) < 1)		/* V3.03  TLi */
         IoErrorMsg(WrongInt, 0);
+      if (SortFlag(Help) && FlowFlag(Alternate)) {
+        while (*tok && '0' <= *tok && *tok <= '9')
+          tok++;
+        flag_appseul= (tok && *tok == '.' && (tok+1) && *(tok+1) == '5'); 
+        if (flag_appseul)
+          enonce++;
+      }
     } else {
       if ((enonce=2*atoi(tok)) < 0)		/* V3.03  TLi */
         IoErrorMsg(WrongInt, 0);
@@ -1539,6 +1568,12 @@ static char *ParseVariant(boolean *type, int group) {	  /* SE, V3.50 NG */
 	  case dabb:
         nocontactfunc= nodabbabacontact;
         break;
+	  case gib:
+        nocontactfunc= nogiraffecontact;
+        break;
+	  case antilb:
+        nocontactfunc= noantelopecontact;
+        break;
 	  default:
         IoErrorMsg(WrongPieceName,0);
       }
@@ -1622,7 +1657,7 @@ char *ReadChameleonCirceSequence(void) {		/* V3.45  NG */
 
 static char *ParseCond(void)			     /* H.D. 10.02.93 */
 {
-  char    *tok;
+  char    *tok, *ptr;
   int     indexx;
   int     CondCnt= 0;
 
@@ -2172,6 +2207,19 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
       OscillatingKingsTypeC[noir]= True;
       tok= ReadNextTokStr();
       break;
+    case SAT:
+    case strictSAT:
+	    WhiteSATFlights= strtol(tok= ReadNextTokStr(), &ptr, 10) + 1;
+	    if (tok == ptr) {
+        WhiteSATFlights= 1;
+        BlackSATFlights= 1;
+		    return tok;
+      }
+	    BlackSATFlights= strtol(tok= ReadNextTokStr(), &ptr, 10) + 1;
+	    if (tok == ptr) {
+		    BlackSATFlights= WhiteSATFlights;
+		    return tok;
+      }
     default:
       tok= ReadNextTokStr();
 	}
@@ -2975,6 +3023,9 @@ static char *ParseTwin(void) {
     case TwinSubstitute:
       tok= ParseTwinSubstitute();
       break;
+    case TwinForsyth:
+      tok= ParseForsyth(true);
+      break;
 	}
   }
 } /* ParseTwin */
@@ -3219,7 +3270,7 @@ Token ReadProblem(Token tk) {
 		}
 		break;
       case Forsyth:
-		tok= ParseForsyth();
+		tok= ParseForsyth(false);
 		break;
       default:
 		FtlMsg(InternalError);
@@ -3375,6 +3426,10 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
         koekop= chb;
       if (nocontactfunc == nozebracontact) 
         koekop= zb;
+      if (nocontactfunc == nogiraffecontact) 
+        koekop= gib;
+      if (nocontactfunc == noantelopecontact) 
+        koekop= antilb;
 
       if (koekop == roib)
         strcpy(LocalBuf, "");
@@ -3607,6 +3662,16 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
 		strcat (CondLine, pawns);
       }
 	}
+
+    if ((cond == SAT || cond == strictSAT) && (WhiteSATFlights != 1 || BlackSATFlights != 1)) {
+        char extra[10];
+        char roman[][9] = {"","I","II","III","IV","V","VI","VII","VIII"};
+        if (WhiteSATFlights == BlackSATFlights)
+            sprintf(extra, " %s", roman[WhiteSATFlights-1]);
+        else
+            sprintf(extra, " %s/%s", roman[WhiteSATFlights-1], roman[BlackSATFlights-1]);
+        strcat (CondLine, extra);
+    }
 
 	switch (cond) {					/* V3.39  TLi */
     case anti:

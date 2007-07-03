@@ -34,6 +34,16 @@
  **
  ** 2004/05/02 SE   Mars circe allowed with chinese pieces, lions, mao, moa, leofamily
  **
+ ** 2006/05/09 SE   Bug fix: Halfneutral + AntiCirce 
+ **
+ ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
+ **
+ ** 2006/05/14 SE   New Condition: TakeMake (invented H.Laue)
+ **
+ ** 2006/05/17 SE   Changes to allow half-move specification for helpmates using 0.5 notation
+ **                 Reset of maxsolutions changed for set play
+ **                 SOme combinations with Take&MAke disallowed
+ **
  ***************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -343,6 +353,13 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
           break;
         }
       }
+  }
+
+
+  if (CondFlag[takemake])
+  {
+    if (CondFlag[sentinelles] || anyanticirce)
+      return VerifieMsg(TakeMakeAndFairy);
   }
 
   for (bnp= boardnum; *bnp; bnp++) {
@@ -920,7 +937,10 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	|| CondFlag[nowhiteprom]			/* V3.64 NG */
 	|| CondFlag[noblackprom]			/* V3.64 NG */
 	|| CondFlag[antikings]         /* V3.78 SE */
-	|| CondFlag[norsk];				/* V3.1  TLi */
+	|| CondFlag[norsk]				/* V3.1  TLi */
+  || CondFlag[SAT]                /* V4.03 SE */
+  || CondFlag[strictSAT]
+  || CondFlag[takemake];         /* V4.03 SE */
   /* V2.90, 3.03  TLi */
 
   if (CondFlag[dynasty]) { /* V4.02 TM */
@@ -1243,6 +1263,22 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
   RB_[1]= rb;
   RN_[1]= rn;
 
+  if (CondFlag[SAT] || CondFlag[strictSAT])
+  {
+    SATCheck= true;
+    totalortho= false;
+    nonoptgenre= true;
+    WhiteStrictSAT[1]= echecc_normal(blanc);
+    BlackStrictSAT[1]= echecc_normal(noir);
+    satXY= WhiteSATFlights > 1 || BlackSATFlights > 1;
+  }
+
+  if (CondFlag[takemake])
+    totalortho= false;
+
+  if (OptFlag[appseul])
+    flag_appseul= true;
+
   return true;
 } /* verifieposition */
 
@@ -1269,7 +1305,7 @@ void current(coup *mov) {
 	mov->echec= false;	/* A quick and dirty hack. But echecc */
   }
   /* destroys the 'current()' entry	  */		/* V3.20  NG */
-  else if (CondFlag[isardam] || CondFlag[brunner]) {	/* V 3.51 SE */
+  else if (CondFlag[isardam] || CondFlag[brunner] || SATCheck) {	/* V3.51 SE */
 	if (flag_writinglinesolution) {
       numecoup tempcoup= nbcou;
       ply	     tempply= nbply;
@@ -1432,7 +1468,8 @@ void editcoup(coup *mov) {
 		StdChar('*');
 #endif /* DATABASE */
       if (mov->cpzz != mov->cazz) {		/* V3.01  NG */
-		if (is_pawn(mov->pjzz)) {		/* V3.31  NG */
+		if (is_pawn(mov->pjzz) && !CondFlag[takemake]) {
+/* V3.31  NG */
           WriteSquare(mov->cazz);
           StdString(" ep.");
 		}
@@ -1691,12 +1728,12 @@ void linesolution(void) {
   repere[nbply + 1]= nbcou;
   camp= trait[nbply= 2];
   ResetPosition();
-  if (   ((!flag_atob && OptFlag[appseul]) || SatzFlag)
+  if (   ((!flag_atob && flag_appseul) || SatzFlag)
          && !FlowFlag(Intro))		  /* V3.44  TLi, V3.70	SE,NG */
   {
 	StdString("  1...");
 	num= 1;
-	if (OptFlag[appseul] && SatzFlag && !flag_atob)
+	if (flag_appseul && SatzFlag && !flag_atob)
       StdString("  ...");
 	else
       camp= advers(camp);
@@ -1707,6 +1744,7 @@ void linesolution(void) {
 	StdString("  1.");
 	num= 1;
 	nbcou= repere[nbply+1];
+  	initneutre(advers(trait[nbply]));	/* V4.03  SE */
 	jouecoup();
 	ecritcoup();
 	nbply++;
@@ -1727,6 +1765,7 @@ void linesolution(void) {
 	}
 	flende= sic_ply == nbply;
 	nbcou= repere[nbply + 1];
+	initneutre(advers(trait[nbply]));	/* V4.03  SE */
 	jouecoup();
 	ecritcoup();
 	nbply++;
@@ -2211,7 +2250,7 @@ void SolveSeriesProblems(couleur camp) {		/* V3.32  TLi */
   boolean	is_exact= FlowFlag(Exact);
   int		i;
 
-  OptFlag[appseul]= False;   /* V3.44  TLi
+  flag_appseul= False;   /* V3.44  TLi
                                 -- no meaning in series movers would
                                 only distort output */
 
@@ -2256,7 +2295,7 @@ void SolveSeriesProblems(couleur camp) {		/* V3.32  TLi */
 	}
 
     if (   OptFlag[maxsols]    /* V3.78  SE reset after set play */
-           && (solutions >= maxsolutions))
+           /*&& (solutions >= maxsolutions)*/)
       solutions= 0;
 
 	if (echecc(advers(camp))) {
@@ -2316,7 +2355,7 @@ void SolveHelpProblems(couleur camp) {			/* V3.32  TLi */
 	camp= advers(camp);
   }
 
-  if (OptFlag[appseul]) {
+  if (flag_appseul) {
 	n--;
 	camp= advers(camp);
   }
@@ -2361,7 +2400,7 @@ void SolveHelpProblems(couleur camp) {			/* V3.32  TLi */
   }
 
   if (   OptFlag[maxsols]    /* V3.78  SE reset after set play */
-         && (solutions >= maxsolutions))
+         /*&& (solutions >= maxsolutions)*/)
     solutions= 0;
 
   if (echecc(camp)) {
@@ -2454,8 +2493,12 @@ void initduplex(void) {					/* V3.50  TLi */
   */
   square *bnp, rsq;
 
+#ifdef NODEF    /* V4.03  ThM, TLi */
   rsq= rb%24+24*(23-rb/24);
   rb= rn%24+24*(23-rn/24);
+#endif /* NODEF */
+  rsq= rb==initsquare ? initsquare : rb%24+24*(23-rb/24);
+  rb= rn==initsquare ? initsquare : rn%24+24*(23-rn/24);
   rn= rsq;
   for (bnp= boardnum; *bnp; bnp++) {
 	if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide) {
@@ -2690,7 +2733,7 @@ int main(int argc, char *argv[]) {
           /* no DUPLEX for SPG's !  V3.42  NG */
           if (FlowFlag(Alternate)) {
 			maincamp = flag_atob
-              ? (OptFlag[appseul]
+              ? (flag_appseul
                  ? blanc
                  : noir)
               : blanc;

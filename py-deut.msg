@@ -141,3 +141,4 @@
 109= KoenigsDynastie und OszillierendeKoenige sind unvereinbar\n
 110= KoenigsDynastie und Circe RexInklusive sind unvereinbar\n
 111= KoenigsDynastie und Immunschach sind unvereinbar\n
+112= Take&MakeSchach unvereinbar mit verschiedenen Maerchenbedingungen\n

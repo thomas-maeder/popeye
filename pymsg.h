@@ -147,5 +147,6 @@
 #define DynastyAndOscillatingKings 109
 #define DynastyAndCirceRexIncl 110
 #define DynastyAndImmun        111
-#define MsgCount               112
+#define TakeMakeAndFairy       112
+#define MsgCount               113
 #endif  /* PYMSG_H */

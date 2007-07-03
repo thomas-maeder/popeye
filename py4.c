@@ -23,6 +23,15 @@
  **
  ** 2005/04/19 NG   genhunt bugfix
  **
+ ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
+ **
+ ** 2006/05/09 SE   New pieces Bouncer, Rookbouncer, Bishopbouncer (invented P.Wong)
+ **
+ ** 2006/05/14 SE   New Condition: TakeMake (invented H.Laue)
+ **
+ ** 2006/05/17 SE   Bug fix: querquisite
+ **                 P moves to 1st rank disallowed for Take&Make on request of inventor
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -171,6 +180,7 @@ boolean empile(square id, square ia, square ip) {
   square  hcr, mren= initsquare;					/* V1.7c  NG */
   couleur traitnbply;					/* V3.1  TLi */
 
+
   if (id == ia) {					/* V2.1c  NG */
 	return true;
   }
@@ -217,6 +227,58 @@ boolean empile(square id, square ia, square ip) {
 	}
 
 	traitnbply= trait[nbply];
+
+  if (CondFlag[takemake])   /* V4.03 SE */
+  {
+     if (generate_pass)
+     {
+       if (e[ip] != vide)
+         return true;
+       id= orig_id;
+       ip= orig_ip;
+       /* oh dear, unfortunate extra rule */
+       if (((orig_p==pb || orig_p==pbb) && ia < bas + 24) || ((orig_p==pn || orig_p==pbn) && ia > haut - 24))
+         return true;
+     }
+     else if (e[ip] != vide)
+     {
+       generate_pass= true;
+
+       orig_ia= ia;  /* don't need, but never know... */
+       orig_id= id;
+       orig_ip= ip;
+       orig_p= e[id];
+       orig_spec= spec[id];
+       orig_cap_p= e[ip];
+       orig_cap_spec= spec[ip];
+
+       e[id]= vide;    /* for sentinelles, need to calculate... */
+       spec[id]= EmptySpec;
+       e[ia]= orig_cap_p;
+       spec[ia]= orig_cap_spec;
+       if (ip != ia)
+       {
+        e[ip]= vide;   /* assuming e[ip] is blank at this point */
+        spec[ip]= EmptySpec;
+       }
+
+       if (traitnbply == blanc)
+         gen_bl_piece_aux(ia, e[ia]);
+       else
+         gen_wh_piece_aux(ia, e[ia]);
+
+       e[id]= orig_p;
+       spec[id]= orig_spec;
+       e[ia]= vide;
+       spec[ia]= EmptySpec;
+       e[ip]= orig_cap_p;
+       spec[ip]= orig_cap_spec;
+
+       generate_pass= false;
+       return true;
+     }
+  }
+
 
 	if (   (   (	CondFlag[nowhiteprom]
                     && traitnbply==blanc
@@ -305,6 +367,12 @@ boolean empile(square id, square ia, square ip) {
 		{
           return true;
 		}
+
+    if (SATCheck &&           /* V3.03, V3.1  TLi */
+				 ((traitnbply == noir) ?
+					 ((ip == rb) && (!rex_circe || e[(*circerenai)(e[rb], spec[rb], ip, id, ia, noir)] != vide)) :    /* V3.55 SE, V3.56 TLi */
+					 ((ip == rn) && (!rex_circe || e[(*circerenai)(e[rn], spec[rn], ip, id, ia, blanc)] != vide))))   /* V3.55 SE, V3.56 TLi */
+      return true;
 
 		if (anyanticirce	      /* V3.1  TLi */
 		    && ((traitnbply == blanc)
@@ -605,6 +673,21 @@ void genrid(square i, numvec kbeg, numvec kend) {	/* V2.60  NG */
 	if (e[j] >= roib)
       empile(i, j, j);
   }
+}
+
+void genbouncer(square i, numvec kbeg, numvec kend, couleur camp) {	     /* V4.03 SE */
+    numvec  k;
+    piece   p1;
+    square  j, j1;
+
+    for (k= kend; k >= kbeg; k--) {	   
+	finligne(i, vec[k], p1, j);
+    for (j1=i-vec[k];j1 !=2*i-j && e[j1] == vide; j1-=vec[k]);
+    if (j1 == 2*i-j && (e[j1] == vide || rightcolor(e[j1], camp)))
+    {
+        empile(i,j1,j1);
+    }
+    }
 }
 
 boolean testempile(square id, square ia, square ip) {
@@ -1791,6 +1874,19 @@ void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
         genleap(i, 1, 8);
       break;
     }
+  break;
+
+  case bouncerb : 
+    genbouncer(i, 1, 8, camp);
+    break;
+
+  case rookbouncerb : 
+    genbouncer(i, 1, 4, camp);
+    break;
+
+  case bishopbouncerb : 
+    genbouncer(i, 5, 8, camp);
+    break;
 
   default:
 	/* Since pieces like DUMMY fall through 'default', we have */
@@ -2214,7 +2310,8 @@ void genrb_cast(void) {					/* V3.55  TLi */
   /* It works only for castling_supported == TRUE
      have a look at funtion verifieposition() in py6.c
   */
-
+  if (dont_generate_castling)
+    return;
   if (TSTFLAGMASK(castling_flag[nbply],wh_castlings) > ke1_cancastle
       && e[square_e1]==roib 
       /* then the king on e1 and at least one rook can castle !!
@@ -3463,3 +3560,4 @@ void gorix(square i, couleur camp) {			/* V3.44  NG */
 	}
   }
 }
+

@@ -15,6 +15,10 @@
 **
 ** 2004/07/19 NG   New condition: SwappingKings
 **
+** 2006/05/07 SE   bug fix: StipExch + Duplex 
+** 
+** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
+**
 **************************** End of List ******************************/
 
 #ifndef PY_H
@@ -55,7 +59,7 @@
 
 #ifndef VERSION				/* V3.55  NG */
 
-#define VERSION "4.03"
+#define VERSION "4.05"
 
 #endif	/* ! VERSION */
 
@@ -260,7 +264,10 @@
 #define equiengb       121	    /* V3.78  SE */
 #define equifrab       122	    /* V3.78  SE */
 #define querqub        123	    /* V3.78  SE */
-#define hunter0b       124
+#define bouncerb       124      /* V4.03  SE */
+#define rookbouncerb   125      /* V4.03  SE */
+#define bishopbouncerb 126      /* V4.03  SE */
+#define hunter0b       127
 #define derbla         (hunter0b+maxnrhuntertypes)
 #define roin    -2
 #define pn      -3
@@ -384,7 +391,10 @@
 #define equiengn       -121	    /* V3.78  SE */
 #define equifran       -122	    /* V3.78  SE */
 #define querqun        -123	    /* V3.78  SE */
-#define hunter0n       -124
+#define bouncern       -124     /* V4.03  SE */
+#define rookbouncern   -125     /* V4.03  SE */
+#define bishopbouncern -126     /* V4.03  SE */
+#define hunter0n       -127
 #define dernoi         (hunter0n-maxnrhuntertypes)
 
 #define maxsquare       576     /* V2.60  NG */
@@ -718,7 +728,10 @@ typedef int Token;
 #define EquiEnglish    121
 #define EquiFrench     122
 #define Querquisite    123
-#define Hunter0     124
+#define Bouncer        124
+#define RookBouncer    125
+#define BishopBouncer  126
+#define Hunter0     127
 #define PieceCount     (Hunter0+maxnrhuntertypes)
 typedef int PieNam;
 /*--- End of } PieNam;---*/
@@ -1022,7 +1035,10 @@ typedef int Opt;
 #define ultrapatrouille        148
 #define swappingkings          149
 #define dynasty                150
-#define CondCount              151
+#define SAT                    151
+#define strictSAT              152 
+#define takemake               153
+#define CondCount              154
 typedef int Cond;
 /*--- End of } Cond;---*/
 
@@ -1061,7 +1077,8 @@ typedef int PieSpec;
 
 #define DiaCirce        PieSpCount
 #define DiaRen(s)       (boardnum[(s >> DiaCirce)])
-#define SetDiaRen(s, f) (s+=((unsigned int)(((f-bas)/24)*8+(f-bas)%24)<<DiaCirce))
+#define DiaRenMask      ((1<<DiaCirce)-1)
+#define SetDiaRen(s, f) (s=((unsigned int)(((f-bas)/24)*8+(f-bas)%24)<<DiaCirce) + (s&DiaRenMask))
 #define FrischAuf       PieSpCount
 /* needed for Twinning Reset.  V3.76  NG */
 #define ClrDiaRen(s)    (s-=((unsigned int)(s>>DiaCirce)<<DiaCirce))
@@ -1076,7 +1093,6 @@ typedef int PieSpec;
 #define COLORFLAGS      (BIT(Black)+BIT(White)+BIT(Neutral))
 #define SETCOLOR(a,b)   a=(a&~COLORFLAGS)+(b&COLORFLAGS)
 #define CHANGECOLOR(a)  a^=BIT(Black)+BIT(White)
-
 
 	/* V2.4d  TM */
 #define imcheck(i, j) (!CondFlag[imitators] || imok((i), (j)))

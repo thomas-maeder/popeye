@@ -53,7 +53,7 @@ Liste der Quellfiles:
 	todef.awk:      awk-script zum Konvertieren von py.h
 	toenum.awk:     awk-script zum Konvertieren von py.h
 	py-*.msg:       Die sprachabhaengigen Dateien fuer Popeye Meldungen
-	pie*.dat:       Die Dateien fuer LaTeX Ausgabe der Figuren die Popeye kennt.
+	pie*.txt:       Die Dateien fuer LaTeX Ausgabe der Figuren die Popeye kennt.
 	genpystr.c:     Programmdatei, die aus py-*.msg Dateien py-*.str 
 			Dateien macht
 	BEISPIEL:       Verzeichnis, das Beispiel-Eingabedateien in 
@@ -273,6 +273,9 @@ Kommandos:
 	UltraPatrouille
 	TauschKoenige
 	KoenigsDynastie
+	SAT
+	StrictSAT
+	Take&MakeSchach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines 
@@ -485,6 +488,9 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	an      Antilope                        3,4 Springer
 	ao      MaoReiter
 	b       Bauer   
+	b1	Bouncer
+	b2	Turmbouncer
+	b3	Laeuferbouncer
 	bb      Berolina Bauer   
 	bi      Bison                           1,3+2,3 Springer
 	bo	Bob                             wie Hase, aber ueber vier Sprungboecke

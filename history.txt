@@ -65,9 +65,10 @@ My address is                           Norberts address:
 	Germany                                 Germany
 
 Our e-mail adresses:
-	elmar@devsoft.com                       norbert.geissler@ng37.de
+	(Artificial Intelligence: Replace ADD by @ and DODD by .)
+	elmarADDdevsoftDODDcom                       norbertDODDgeisslerADDng37DODDde
 
-Popeye's www home location is:     http://archiv.leo.org/pub/rec/games/popeye/
+Popeye's www home location is:     http://homepage.ntlworld.com/stephen.emmerson/popeye
 
 P.S.
 You may ask whether we are writing all this in English.
@@ -1800,7 +1801,44 @@ bugfix: imitator promotion change (from 3.80) changed again.
 bugfix: intelligent mode + mummers
                                				15.11.2005  TLi
 ------------------------------------------------------------------------
+New Koeko conditions: GI-Koeko, AN-Koeko
+							2006/05/01  SE
+------------------------------------------------------------------------
 All merged and regression testet.
 Still some minor output anomalies ...
                                				02.04.2006  NG
+------------------------------------------------------------------------
+bugfix: imitator promotion additional changes.
+	Output anomalies from above are gone now.
+                               				12.04.2006  ThM
+------------------------------------------------------------------------
+New Koeko conditions: GI-Koeko, AN-Koeko
+							2006/05/01  SE
+------------------------------------------------------------------------
+bugfix: wrong rrefcech evaluation
+                               				04.05.2006  NG
+------------------------------------------------------------------------
+bug fix: StipExch + Duplex
+							2006/05/07  SE
+------------------------------------------------------------------------
+Bug fix: Halfneutral + AntiCirce
+New pieces Bouncer, Rookbouncer, Bishopbouncer (invented P.Wong)
+New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
+							2006/05/09  SE
+------------------------------------------------------------------------
+New Condition: Take&Make (invented H.Laue)
+							2006/05/14  SE
+------------------------------------------------------------------------
+Bug fix: querquisite
+P moves to 1st rank disallowed for Take&Make on request of inventor
+Changes to allow half-move specification for helpmates using 0.5 notation
+Reset of maxsolutions changed for set play
+Some combinations with Take&Make disallowed
+							2006/05/17  SE
+------------------------------------------------------------------------
+regression test done.
+documentation adjusted.
+pywin32.exe, pywin98.exe and pydos32.exe created.
+This is official release py4.05
+                               				24.05.2006  NG
 ------------------------------------------------------------------------

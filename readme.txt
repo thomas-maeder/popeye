@@ -35,7 +35,7 @@ Contents of this distribution:
 	pylang.c:	Contains language dependent procedures.
 	pymsg.c:        Contains the Message-file related I/O-procedures.
 	py-????.msg:    Message-file for POPEYE I/O in ????-language.
-	pie-????.dat:   File for POPEYE LaTeX output in ????-language.
+	pie-????.txt:   File for POPEYE LaTeX output in ????-language.
 	genpystr.c:     C-Source to convert py-????.msg to py-????.str .
 			POPEYE needs py-????.str for language-dependent I/O.
 	BEISPIEL:	Directory containing german testfiles 

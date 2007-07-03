@@ -25,6 +25,10 @@
  **
  ** 2004/05/01 SE   Bugfixes: OscKs + Castling, Antisupercirce Cheylan, Republican
  **
+ ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
+ **
+ ** 2006/05/14 SE   New Condition: TakeMake (invented H.Laue)
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -453,6 +457,8 @@ boolean is_pawn(piece p)	/* V3.22  TLi */
 void genrn_cast(void) {    /* V3.55  TLi */
   /* It works only for castling_supported == TRUE */
   /* have a look at funtion verifieposition() in py6.c */
+  if (dont_generate_castling)
+    return;
   if (TSTFLAGMASK(castling_flag[nbply],bl_castlings) > ke8_cancastle
       && e[square_e8]==roin
       /* then the king on e8 and at least one rook can castle !! */	/* V3.55  NG */
@@ -2266,7 +2272,7 @@ legality_test:
         for (bnp= boardnum; *bnp; bnp++) {
           s = *bnp;
           if (e[s] == roib) {
-            if (rb==initsquare && s==square_e1)
+            if (s==square_e1)
               SETFLAGMASK(castling_flag[nbply],ke1_cancastle);
             rb = *bnp;
             break;
@@ -2281,7 +2287,7 @@ legality_test:
         for (bnp= boardnum; *bnp; bnp++) {
           s = *bnp;
           if (e[s] == roin) {
-            if (rn==initsquare && s==square_e8)
+            if (s==square_e8)
               SETFLAGMASK(castling_flag[nbply],ke8_cancastle);
             rn = *bnp;
             break;
@@ -2291,6 +2297,15 @@ legality_test:
     else
       rn = initsquare;
   }
+
+    if (CondFlag[strictSAT] && SATCheck)  /* V4.03 SE */
+    {
+        if (trait[nbply]==blanc)
+            WhiteStrictSAT[nbply]= echecc_normal(blanc);
+        else
+            BlackStrictSAT[nbply]= echecc_normal(noir);
+    }
+        
 
   return (!jouetestgenre				/* V3.50 SE */
           || (
@@ -2652,13 +2667,13 @@ void repcoup(void) {
   nbpiece[e[j]]--;
 
   /* now reset old position */
-  e[i]= pj;
-  nbpiece[pj]++;
-  spec[i] = pjspec;
   if (j != ip) {
 	e[j]= vide;
 	spec[j] = 0;
   }
+  e[i]= pj;
+  spec[i] = pjspec;
+  nbpiece[pj]++;
   if (PatienceB) {			  /* V3.50 SE */
 	ply nply;
 	for (nply= nbply - 1 ; nply > 1 ; nply--) {

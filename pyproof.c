@@ -9,6 +9,9 @@
  **
  ** 2005/04/25 NG   bugfix: a=>b with Imitators
  **
+ ** 2006/05/17 SE   Changes to allow half-move specification for helpmates using 0.5 notation
+ **                 Change for take&make
+ **
  **************************** End of List ******************************/
 
 #include <stdio.h>
@@ -53,6 +56,7 @@ boolean ProofVerifie(void) {
   ProofFairy= change_moving_piece
     || jouegenre
     || CondFlag[glasgow]			/* V3.39  TLi */
+    || CondFlag[takemake]
     || CondFlag[messigny];			/* V3.57  TLi */
 
   return true;
@@ -1217,7 +1221,7 @@ boolean ProofFairyImpossible(int MovesAvailable) {
 	if (FlowFlag(Alternate)) {
       BlMovesLeft= WhMovesLeft= MovesAvailable/2;
       if (MovesAvailable&1) {
-		if ((flag_atob&&!OptFlag[appseul]) ^ (enonce&1)) {
+		if ((flag_atob&&!flag_appseul) ^ (enonce&1)) {
           WhMovesLeft++;
 		}
 		else {
@@ -1390,7 +1394,7 @@ boolean ProofImpossible(int MovesAvailable) {
   if (FlowFlag(Alternate)) {
 	BlMovesLeft= WhMovesLeft= MovesAvailable/2;
 	if (MovesAvailable&1) {
-      if ((flag_atob&&!OptFlag[appseul]) ^ (enonce&1)) {
+      if ((flag_atob&&!flag_appseul) ^ (enonce&1)) {
 		WhMovesLeft++;
       }
       else {
@@ -1426,7 +1430,10 @@ boolean ProofImpossible(int MovesAvailable) {
   /* has a white pawn on the second rank moved or has it
      been captured?
   */
+#ifdef NODEF	/* V4.03  ThM, TLi */
   for (sq= 208; sq <= 215; sq++) {
+#endif /* NODEF } */
+  for (sq= square_a2; sq <= square_h2; sq++) {
 	if (ProofBoard[sq] == pb && e[sq] != pb) {
       return true;
 	}

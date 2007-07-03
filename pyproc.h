@@ -48,6 +48,7 @@ checkfunction_t antilcheck;   /* V2.60  NG */
 checkfunction_t archcheck;    /* V2.60  NG */
 checkfunction_t b_hopcheck;
 checkfunction_t bhuntcheck;
+checkfunction_t bishopbouncercheck;    /* V4.03 SE */
 checkfunction_t bishopeaglecheck;    /* V3.62  NG */
 checkfunction_t bishopeaglecheck;    /* V3.62  NG */
 checkfunction_t bishopmoosecheck;    /* V3.62  NG */
@@ -57,6 +58,7 @@ checkfunction_t bishopsparrcheck;    /* V3.62  NG */
 checkfunction_t bisoncheck;    /* V3.60  TLi */
 checkfunction_t bobcheck;            /* V3.76  NG */
 checkfunction_t bobcheck;            /* V3.76  NG */
+checkfunction_t bouncercheck;    /* V4.03 SE */
 checkfunction_t bscoutcheck;    /* V3.05  NG */
 checkfunction_t bspawncheck;  /* V2.60  NG */
 checkfunction_t bucheck;      /* V2.60  NG */
@@ -143,6 +145,7 @@ checkfunction_t rccinqcheck;   /* V2.60  NG */
 checkfunction_t refccheck;     /* V2.60  NG */
 checkfunction_t reffoucheck;   /* V2.60  NG */
 checkfunction_t rhuntcheck;
+checkfunction_t rookbouncercheck;    /* V4.03 SE */
 checkfunction_t rookeaglecheck;      /* V3.62  NG */
 checkfunction_t rookeaglecheck;      /* V3.62  NG */
 checkfunction_t rookmoosecheck;      /* V3.62  NG */
@@ -444,9 +447,15 @@ boolean nocamelcontact(square ia);
 boolean noalfilcontact(square ia);
 boolean nozebracontact(square ia);
 boolean nodabbabacontact(square ia);
+boolean nogiraffecontact(square ia);
+boolean noantelopecontact(square ia);
 
 boolean castlingimok(square i, square j);
 boolean maooaimok(square i, square j, square pass); /* V3.81 SE */
+boolean echecc_normal(couleur camp); /* V4.03 SE */
+void gen_wh_piece_aux(square z, piece p);
+void gen_bl_piece_aux(square z, piece p);
+
 
 #ifdef WIN32
 void WIN32SolvingTimeOver(int *WaitTime);

@@ -12,13 +12,13 @@ of the source files, to make them appear under a common coding
 style. 
 
 I know from my own experience, that it is not a nice feeling
-to read code that sometimes ago looked familier, but is now in a
+to read code that sometimes ago looked familiar, but is now in a
 complete different shape. But I also learned to value a consistent
 coding style when browsing code of others: after a short time
 of getting used to it, it gets easier and quicker to understand
 what the code is intented to do.
 
-I am pretty confident, that I didn't broke the code. All examples
+I am pretty confident, that I didn't break the code. All examples
 are done with the same output as before my changes. But nobody is
 perfect! I may have introduced a very subtle error that slipped
 through all the tests; so take this with a little bit grain of salt.
@@ -52,7 +52,7 @@ Long Lines:
      in vi without wrapping the lines.
   (NG) Fortunately, ElB didn't succeed in cutting all lines to
        length 72. I see this a little bit more relaxed, but 
-       it would be nice keep them below 120 ...
+       it would be nice if you keep them below 120 ...
 
 Statements:
   General rule: one statement one line.
@@ -97,7 +97,7 @@ Coding of special C-constructs:
 	if (ret)
 
       Not:
-	if (a=fun())
+	if (a=func())
       But:
       	if ((a=func))
 
@@ -151,7 +151,7 @@ Coding of special C-constructs:
    function call; but I am sure there are other occasions.
 
  + I don't use '^' operator in boolean expression.
-   '^' is a bitwise operator and not a boolean ooperator.
+   '^' is a bitwise operator and not a boolean operator.
    It works only correct if the values on one bit position are
    used. In boolean expressions it can be replaced with the != operator.
 
@@ -159,7 +159,7 @@ Coding of special C-constructs:
    I needed to break them over several lines.
    Then I tried to use the next binding operator to start the line with
    and indent, if the expression belongs to another level in the
-   expression. I placed the opening brace for the 'then' claus below
+   expression. I placed the opening brace for the 'then' clause below
    the 'if', to mark where the conditions stops.
    Example:
         if (rex_circe

@@ -379,8 +379,15 @@ EXTERN boolean          nonkilgenre;
 EXTERN square           superbas;
 EXTERN boolean          complex_castling_through_flag;
 EXTERN boolean          oscillatedKs[toppile + 1];
+EXTERN boolean          SATCheck, satXY, dont_generate_castling;
+EXTERN smallint         WhiteSATFlights, BlackSATFlights;
+EXTERN boolean          WhiteStrictSAT[maxply+1],BlackStrictSAT[maxply+1];
 EXTERN boolean          repub_k[toppile + 1];
-
+EXTERN boolean          generate_pass;
+EXTERN square           orig_id, orig_ia, orig_ip;
+EXTERN piece            orig_p, orig_cap_p;
+EXTERN Flags            orig_spec, orig_cap_spec;
+EXTERN boolean          flag_appseul;
 
 #ifdef WE_ARE_EXTERN
 	extern PieTable PieNamString[LangCount];
@@ -510,7 +517,10 @@ EXTERN boolean          repub_k[toppile + 1];
         /*120*/ {'b','o'}, /* bob */
         /*121*/ {'q','a'}, /* equi anglais */
         /*122*/ {'q','f'}, /* equi francais */
-        /*123*/ {'q','q'}  /* querquisite */
+        /*123*/ {'q','q'}, /* querquisite */
+        /*124*/ {'b','1'}, /* bouncer */
+        /*125*/ {'b','2'}, /* tour-bouncer */
+        /*126*/ {'b','3'}  /* fou-bouncer */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '}, /* leer */
 	/*  1*/ {' ',' '}, /* ausserhalb des Brettes */
@@ -635,7 +645,10 @@ EXTERN boolean          repub_k[toppile + 1];
         /*120*/ {'b','o'}, /* Bob: Lion-Huepfer ueber 4 Boecke */
         /*121*/ {'q','e'}, /* EquiEnglisch */
         /*122*/ {'q','f'}, /* EquiFranzoesisch */
-        /*123*/ {'o','d'}  /* Odysseus */
+        /*123*/ {'o','d'}, /* Odysseus */
+        /*124*/ {'b','1'}, /* Bouncer */
+        /*125*/ {'b','2'}, /* Turm-bouncer */
+        /*126*/ {'b','3'}  /* Laeufer-bouncer */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '}, /* empty */
 	/*  1*/ {' ',' '}, /* outside board */
@@ -760,7 +773,10 @@ EXTERN boolean          repub_k[toppile + 1];
         /*120*/ {'b','o'}, /* bob */
         /*121*/ {'q','e'}, /* equi english */
         /*122*/ {'q','f'}, /* equi french */
-        /*123*/ {'q','q'}  /* querquisite */
+        /*123*/ {'q','q'}, /* querquisite */
+        /*124*/ {'b','1'}, /* bouncer */
+        /*125*/ {'b','2'}, /* tour-bouncer */
+        /*126*/ {'b','3'}  /* fou-bouncer */
 	}
 	};
 #endif
@@ -1052,7 +1068,10 @@ EXTERN boolean          repub_k[toppile + 1];
 	/*147*/ "AntiSuperCirce",               /* V3.78  SE */
 	/*148*/ "UltraPatrouille",              /* V3.78  SE */
 	/*149*/ "RoisEchanges",                 /* V3.81a NG */
-	/*150*/ "DynastieRoyale"                /* V4.02 TM */
+	/*150*/ "DynastieRoyale",                /* V4.02 TM */
+	/*151*/ "SAT",                       /* V4.03  SE */
+	/*152*/ "StrictSAT",                 /* V4.03  SE */
+	/*153*/ "Take&MakeEchecs"                 /* V4.03  SE */
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1205,7 +1224,10 @@ EXTERN boolean          repub_k[toppile + 1];
 	/*147*/ "AntiSuperCirce",               /* V3.78  SE */
 	/*148*/ "UltraPatrouille",              /* V3.78  SE */
 	/*149*/ "TauschKoenige",		/* V3.81a NG */
-	/*150*/ "KoenigsDynastie"               /* V4.02 TM */
+	/*150*/ "KoenigsDynastie",               /* V4.02 TM */
+	/*151*/ "SAT",                       /* V4.03  SE */
+	/*152*/ "StrictSAT",                 /* V4.03  SE */
+	/*153*/ "Take&MakeSchach"                 /* V4.03  SE */
 	},{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1358,7 +1380,10 @@ EXTERN boolean          repub_k[toppile + 1];
 	/*147*/ "AntiSuperCirce",               /* V3.78  SE */
 	/*148*/ "UltraPatrol",                  /* V3.78  SE */
 	/*149*/ "SwappingKings",		/* V3.81a NG */
-	/*150*/ "RoyalDynasty"                  /* V4.02 TM */
+	/*150*/ "RoyalDynasty",                  /* V4.02 TM */
+	/*151*/ "SAT",                       /* V4.03  SE */
+	/*152*/ "StrictSAT",                 /* V4.03  SE */
+	/*153*/ "Take&MakeChess"                 /* V4.03  SE */
 	}
 	};
 #endif
@@ -1748,16 +1773,19 @@ numvec vec[maxvec + 1] = { 0,
 /*121 */	equiengcheck,           /* V3.78  SE */
 /*122 */	equifracheck,           /* V3.78  SE */
 /*123 */	querquisitecheck,	/* V3.78  SE */
-/*124 */        huntercheck,
-/*125 */        huntercheck,
-/*126 */        huntercheck,
+/*124 */	bouncercheck,		/* V4.03  SE */
+/*125 */	rookbouncercheck,	/* V4.03  SE */
+/*126 */	bishopbouncercheck,	/* V4.03  SE */
 /*127 */        huntercheck,
 /*128 */        huntercheck,
 /*129 */        huntercheck,
 /*130 */        huntercheck,
 /*131 */        huntercheck,
 /*132 */        huntercheck,
-/*133 */        huntercheck
+/*133 */        huntercheck,
+/*134 */        huntercheck,
+/*135 */        huntercheck,
+/*136 */        huntercheck
 		};
 #endif
 

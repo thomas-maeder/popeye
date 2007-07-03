@@ -110,3 +110,4 @@
 109= RoyalDynasty and OscillatingKings are incompatible\n
 110= RoyalDynasty and Circe rex inclusiv are incompatible\n
 111= RoyalDynasty and immunschach are incompatible\n
+112= Take&MakeChess is incompatible with some fairy conditions\n

@@ -18,6 +18,10 @@
 **
 ** 2004-06-20 ElB  add nevercheck
 **
+** 2006/05/04 NG   Bugfix: wrong rrefcech evaluation
+**
+** 2006/05/09 SE   New pieces Bouncer, Rookbouncer, Bishopbouncer (invented P.Wong)
+**
 **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -367,7 +371,8 @@ boolean rrefcech(
 	if (x) {
 	    if (e[j= i1 + vec[k]] == vide) {
 		/* if (boolnoedge[j]) */
-		if (NoEdge(j)) {			/* V3.22  TLi */
+/*		if (NoEdge(j)) {			/+ V3.22  TLi */
+		if (!NoEdge(j)) {                       /* V3.22  TLi, V4.03  NG */
 		    if (rrefcech(i, j, x - 1, p, evaluate))
 			return true;
 		}
@@ -2527,3 +2532,51 @@ piece p1;
 	}
 	return false;
 }
+
+boolean bouncerfamilycheck(  /* V4.03 */
+    square	i,
+    numvec kbeg,
+    numvec kend,
+    piece	p,
+    boolean	(*evaluate)(square,square,square))
+{
+     numvec  k;
+    piece   p1,p2;
+    square  j, j1;
+
+    for (k= kend; k >= kbeg; k--) {	    /* 0,2; 0,4; 0,6; 2,2; 4,4; 6,6; */
+	finligne(i, vec[k], p1, j);
+	finligne(j, vec[k], p2, j1);  /* p2 can be obs - bounces off edges */
+    if ((j-i==j1-j) && (p1==p) && (*evaluate)(j, i, i))
+    {
+        return true;
+    }
+    }
+    return false;
+
+}
+
+boolean bouncercheck(  /* V4.03 */
+    square	i,
+    piece	p,
+    boolean	(*evaluate)(square,square,square))
+{
+  return bouncerfamilycheck(i, 1, 8, p, evaluate);
+}
+
+boolean rookbouncercheck(  /* V4.03 */
+    square	i,
+    piece	p,
+    boolean	(*evaluate)(square,square,square))
+{
+  return bouncerfamilycheck(i, 1, 4, p, evaluate);
+}
+
+boolean bishopbouncercheck(  /* V4.03 */
+    square	i,
+    piece	p,
+    boolean	(*evaluate)(square,square,square))
+{
+  return bouncerfamilycheck(i, 5, 8, p, evaluate);
+}
+

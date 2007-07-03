@@ -52,7 +52,7 @@ vous n'etes interesse qu'a l'emploi de Popeye.
 	todef.awk:      awk-script pour la conversion de py.h
 	toenum.awk:     awk-script pour la conversion de py.h
 	py-*.msg:       Fichier avec des textes de messages
-	pie*.dat:       Fichier avec les pieces connues de Popeye pour LaTeX.
+	pie*.txt:       Fichier avec les pieces connues de Popeye pour LaTeX.
 	genpystr.c:     Fichier executable pour la generation de py-*.str
 	BEISPIEL:       Contient des exemples en langue allemande.
 	DHT:            Contient des fichiers pour "dynamic hashing"
@@ -261,6 +261,9 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	UltraPatrouille
 	RoisEchanges
 	DynastieRoyale
+	SAT
+	StrictSAT
+	Take&MakeEchecs
 		
 	Apres le mot-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -471,6 +474,9 @@ suivante est un peu plus compliquee:
 	ar      archeveque   
 	as      sauterelle de Andernach ?????????
 	at      aigle tour
+	b1	bouncer
+	b2	tour bouncer
+	b3	fou bouncer
 	bi      bison                           1,3+2,3 bondisseur
 	bo	bob
 	bs      berolina superpion
@@ -715,7 +721,7 @@ VMS:
 
 
 Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
-mars 2005
+may 2006
 
 Si quelqu'un veut nous envoyer des propositions,
 des communications d'erreurs etc.,

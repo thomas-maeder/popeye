@@ -50,7 +50,7 @@ List of source files:
 	todef.awk:      awk-script to convert enumerations in py.h to defines.
 	toenum.awk:     awk-script to convert defines in py.h to enumerations.
 	py-*.msg:       The language dependent files for Popeye-messages.
-	pie*.dat:       The files for LaTeX output of the pieces which Popeye knows.
+	pie*.txt:       The files for LaTeX output of the pieces which Popeye knows.
 	genpystr.c:     Source of the program which generates the py-*.str
 			from py-*.msg.
 	BEISPIEL:       Directory which contains example-files in
@@ -265,6 +265,9 @@ commands expect further parameters. Lets start with the simpler commands:
 	UltraPatrol
 	SwappingKings
 	RoyalDynasty
+	SAT
+	StrictSAT
+	Take&MakeChess
 
 	After the conditions Imitator, MagicField, Hole, FrischaufCirce,
 	WhitePromSquares, BlackPromSquares
@@ -471,6 +474,9 @@ elaborate is the command
 	ao      maorider
 	ar      archbishop   
 	b       bishop
+	b1	bouncer
+	b2	rook bouncer
+	b3	bishop bouncer
 	be      bishop eagle
 	bh      bishop hopper
 	bi      bison                           1,3+2,3 leaper
