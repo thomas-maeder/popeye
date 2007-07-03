@@ -18,15 +18,17 @@ hat, also alle Dateien, wie sie nachfolgend aufgelistet sind. Diese Liste
 koennen sie ohne weiteres uebergehen, falls sie nur an der Benutzung von
 Popeye interessiert sind.
 
-	py-deut.doc:    Die Datei, die sie gerade lesen.
-	py-fran.doc:    Franzoesische Version dieser Datei.
-	py-engl.doc:    Englische Version dieser Datei.
-	history:        Hier schreiben die Entwickler welche Fehler bei
+	py-deut.txt:    Die Datei, die sie gerade lesen.
+	py-fran.txt:    Franzoesische Version dieser Datei.
+	py-engl.txt:    Englische Version dieser Datei.
+	license.txt:    Popeye Lizenz.
+	history.txt:    Hier schreiben die Entwickler welche Fehler bei
 			Popeye behoben wurden und was neu eingebaut wurde.
-	readme:         Kurze Hinweise fuer diejenigen, die ihren Popeye selber
+	readme.txt:     Kurze Hinweise fuer diejenigen, die ihren Popeye selber
 			uebersetzen wollen.
 	pydos32.exe:    Ausfuehrbare Datei fuer MS-DOS (32 Bit, 80386)
-	pywin32.exe:    Ausfuehrbare Datei fuer MS-Windows95/-98/-NT
+	pywin32.exe:    Ausfuehrbare Datei fuer MS-Windows-NT/-2000/-XP
+	pywin98.exe:    Ausfuehrbare Datei fuer MS-Windows-95/-98/-ME
 	py-*.str:       Diese Dateien enthalten den sprachabhaengigen Text
 			von Popeye, der im selben Verzeichnis wie py.exe liegen sollte.
 
@@ -350,7 +352,9 @@ Kommandos:
 	KeineRochade    Es muessen die Felder der Figuren angegeben werden,
 			die in der Diagrammstellung nicht mehr rochieren koennen.
 	QuodLibet       Im s# oder r# gilt auch direktes Mattsetzen als Loesung.
-	StopNachKurzLoesungen  Ende der Berechnung nach Finden von Kurzloesungen
+	StopNachKurzLoesungen   Ende der Berechnung nach Finden von Kurzloesungen
+	Pieps           Dieser Option kann eine Zahl folgen. Nach jeder gefundenen
+			Loesung gibt Popeye eine  Zahl  von Piepstoenen aus.
 
 
  - Forderung: Folgende Forderungen kennt Popeye:
@@ -688,7 +692,7 @@ Windows-95/-98/-ME:
 	3) Maximal benutzbare Speichergroesse:  768 MB
 
 
-Windows-NT/-2000:
+Windows-NT/-2000/-XP:
 MS-DOS (32 Bit), DR-DOS (32 Bit):
 
 	1) Maximale Rechentiefe:                699 Halbzuege
@@ -696,11 +700,10 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 	   abgebrochen werden.
 
 
-VMS, MVS, ATARI, macintosh:
+MVS, ATARI, macintosh:
 
 	wird VIELLEICHT noch unterstuetzt durch:
 
-	VMS:       Torsten Linss
 	MVS:       Harald Denker
 	ATARI:     Harald Denker
 	macintosh: Stefan Brunzen
@@ -709,13 +712,14 @@ VMS, MVS, ATARI, macintosh:
 MS-DOS (16 Bit), DR-DOS (16 Bit):
 BS2000:
 OS/2:
+VMS:
 	werden nicht mehr unterstuetzt ...
 
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson   im Juni 2002
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson   im Mai 2003
 
 Fuer den Fall dass jemand Anregungen, Fehler etc uns zukommen lassen will,
-so findet er unsere Adressen in den Dateien  history  oder  readme  .
+so findet er unsere Adressen in den Dateien  history.txt  oder  readme.txt  .
 

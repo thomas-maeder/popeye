@@ -16,16 +16,17 @@ identique a celle recue de nous; c'est-a-dire qu'elle doit contenir tous les
 fichiers de la liste qui suit. Cette liste n'a pas d'importance pour vous si
 vous n'etes interesse qu'a l'emploi de Popeye.
 
-	py-fran.doc:    Le fichier que vous etes en train de lire
-	py-deut.doc:    Version allemande de ce fichier
-	py-engl.doc:    Version anglaise de ce fichier
-	history:        Un ancien readme - plus tout a fait a jour, mais
+	py-fran.txt:    Le fichier que vous etes en train de lire
+	py-deut.txt:    Version allemande de ce fichier
+	py-engl.txt:    Version anglaise de ce fichier
+	license.txt:    Licence de Popeye.
+	history.txt:    Un ancien readme - plus tout a fait a jour, mais
 			peut-etre interessant pour quelqu'un
-	readme:         Remarques courtes pour ceux qui desirent compiler
+	readme.txt:     Remarques courtes pour ceux qui desirent compiler
 			Popeye eux-memes
-	pydos16.exe:    Fichier executable pour MS-DOS (16 Bit, 8086)
 	pydos32.exe:    Fichier executable pour MS-DOS (32 Bit, 80386)
-	pywin32.exe:    Fichier executable pour MS-Windows95/-98/-NT
+	pywin32.exe:    Fichier executable pour MS-Windows-NT/-2000/-XP
+	pywin98.exe:    Fichier executable pour MS-Windows-95/-98/-ME
 	py-*.str:       Fichier avec des textes de messages
 
 	Fichiers de source:
@@ -339,6 +340,8 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	QuodLibet       en s# ou r# un mat direct c'est une solution aussi.
 	FinApresSolutionCourtes  Calculation est termine apres detection des
 				 solutions courtes.
+	Bip             Cette option peut etre suivie par un nombre.
+			Popeye emet un certain nombre de bips apres chaque solution trouvee.
 
 
  - enonce: Popeye reconnait les enonces suivantes:
@@ -670,11 +673,10 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 	   avec la cle CTRL-C.
 
 
-VMS, MVS, ATARI, macintosh:
+MVS, ATARI, macintosh:
 
 	c'est PEUT-ETRE soutenu par:
 
-	VMS:       Torsten Linss
 	MVS:       Harald Denker
 	ATARI:     Harald Denker
 	macintosh: Stefan Brunzen
@@ -683,14 +685,15 @@ VMS, MVS, ATARI, macintosh:
 MS-DOS (16 Bit), DR-DOS (16 Bit):
 BS2000:
 OS/2:
+VMS:
 	ne plus soutenu ...
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson   june 2002
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson  may 2003
 
 Si quelqu'un veut nous envoyer des propositions,
 des communications d'erreurs etc.,
-il trouvera nos adresses dans les fichiers  history  ou  readme  .
+il trouvera nos adresses dans les fichiers  history.txt  ou  readme.txt  .
 
 (Traduction : Thomas Maeder)

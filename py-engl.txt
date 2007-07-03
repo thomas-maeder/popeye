@@ -14,14 +14,16 @@ the floppy with popeye on it. We do not mind if someone redistributes popeye.
 The only thing we want to obeye is, that he distributes it as he gets it - 
 meaning all the files listed below.
 
-	py-engl.doc:    The file you are reading now
-	py-deut.doc:    German version of this file
-	py-fran.doc:    French version of this file
-	history:        The developpers describe here which bugs have been
+	py-engl.txt:    The file you are reading now
+	py-deut.txt:    German version of this file
+	py-fran.txt:    French version of this file
+	license.txt:    Popeye License.
+	history.txt:    The developpers describe here which bugs have been
 			fixed and what's new in POPEYE.
-	readme:         Short hints for those, who want to recompile popeye
+	readme.txt:     Short hints for those, who want to recompile popeye
 	pydos32.exe:    Executable file for MS-DOS (32 Bit, 80386)
-	pywin32.exe:    Executable file for MS-Windows95/-98/-NT
+	pywin32.exe:    Executable file for MS-Windows-NT/-2000/-XP
+	pywin98.exe:    Executable file for MS-Windows-95/-98/-ME
 	py-*.str:       These files contain the language dependant text
 			for popeye. They must reside in the same directory
 			as the executable.
@@ -208,8 +210,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	Marscirce
 	MarsMirrorCirce
 	PhantomChess
-	WhiteTransmutingKing
-	BlackTransmutingKing
+	WhiteTransmutedKing
+	BlackTransmutedKing
 	WhiteReflectiveKing
 	BlackReflectiveKing
 	AntiEinsteinChess
@@ -335,6 +337,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	Quodlibet       In s# or r# also direct mates are a solution.
 	StopOnShortSolutions  Calculation is terminated after detecting of
 			      short solutions.
+	Beep            This option can be followed by an integer. Each time
+			Popeye has found a solution it beeps a  number  of times.  
 
 
  - stipulation: popeye knows the following stipulations:
@@ -659,18 +663,17 @@ Windows-95/-98/-ME:
 	3) Maximum amount of usable memory:     768 MB
 
 
-Windows-NT/-2000:
+Windows-NT/-2000/-XP:
 MS-DOS (32 Bit), DR-DOS (32 Bit):
 
 	1) Maximum depth of calculation:        699 half-moves.
 	2) Solving can be interrupted anytime with the CTRL-C key.
 
 
-VMS, MVS, ATARI, macintosh:
+MVS, ATARI, macintosh:
 
 	will EVENTUALLY be supported by:
 
-	VMS:       Torsten Linss
 	MVS:       Harald Denker
 	ATARI:     Harald Denker
 	macintosh: Stefan Brunzen
@@ -679,13 +682,14 @@ VMS, MVS, ATARI, macintosh:
 MS-DOS (16 Bit), DR-DOS (16 Bit):
 BS2000:
 OS/2:
+VMS:
 	Not support any more ...
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson    june 2002
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson    may 2003
 
 If you have any suggestions, any errors you know of, etc., you are
 welcome to contact us.
-You will find our address in the files  history  or readme  .
+You will find our address in the files  history.txt  or readme.txt  .
  
