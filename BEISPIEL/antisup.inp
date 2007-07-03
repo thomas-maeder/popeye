@@ -1,0 +1,29 @@
+anfa
+prot antisup.out
+tite Rochade Test
+
+ford ser-002
+bedi antisuper
+opti  dupl
+fors t7/16/T7/1k6/16/4K3/
+
+weit
+
+tite UW-Test
+
+ford x1
+bedi antisuper
+opti ohnewk ohnesk
+fors 8/1l6/2B5/40
+zwil verschieb a1 a2
+
+weit
+
+tite Typ Cheylan Test
+
+ford =1
+bedi antisuper
+fors 8/b7/k1bK4/b7/B7/24
+zwil bedi antisuper chey
+
+end

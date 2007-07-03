@@ -104,3 +104,4 @@
 103= L'option  FinApresSolutionsCourtes  n'est pas soutenu au jeu direct.\n
 104= Les pieces feeriques ne sont pas permises dans SingleBox
 105= erreur dans FichierLaTeX : piece feerique inconnue\n
+106= Plus de %s types de chasseurs differents\n

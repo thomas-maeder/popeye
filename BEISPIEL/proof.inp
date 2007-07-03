@@ -65,5 +65,19 @@ forderung       dia 15.5
 steine  weiss   kd2 sg1
         schwarz kf7 lh1
 option          zugnummer
+weiter
+auto Klaus Kiesow
+quel 11793, Die Schwalbe 199, 2/2003
+ford dia3.5
+stei
+weis ke1 dd1 ta1h1 lc1f1 sb1g1 ba2b2c2d2e4f2g2h2
+schw ke8 dd8 ta8h8 lf8 sb8g8 ba7b7c7d6e7f7g7h7
+weiter
+auto Klaus Kiesow
+quel 11794, Die Schwalbe 199, 2/2003
+ford dia4
+stei
+weis ke1 ta1h1 lc1f1 sb1g1 ba2b3c3d2e2f2g2h2
+schw ke8 dd8 ta8h8 lc8f8 sb8g8 ba7b7c7d6e6f7g7h7
 ende
 

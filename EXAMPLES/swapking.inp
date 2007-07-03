@@ -1,0 +1,64 @@
+begin
+prot swapking.out
+auth Dan Meinking & Danny Dunn
+orig http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+titl Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+stip #2
+piec white Ka8 Qa4
+     black Ka6 Sa5 Ph7
+opti beep 5 defe 2 vari
+cond WhiteOscillatingKings TypeC BlackOscillatingKings TypeC
+next
+auth Dan Meinking
+orig http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+titl Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+stip h#4
+fors 8/8/8/8/8/7K/4SkS1/8
+opti white
+cond SwappingKings
+next
+auth Dan Meinking & Norbert Geissler
+orig http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+titl Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+stip h#4
+fors 7k/8/8/1q6/8/s3b3/3s4/R1B1K3
+opti move white
+cond SwappingKings
+next
+auth Dan Meinking
+orig http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+titl Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+stip ser-h#3
+fors 8/1b6/8/5S2/8/2s5/5K1p/7k
+cond SwappingKings
+next
+auth Dan Meinking
+orig http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+titl Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+stip h#2
+fors 1B3K2/8/3p4/8/8/8/3k4/5B1R
+cond SwappingKings
+next
+auth Dan Meinking
+orig http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+titl Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+stip h#2
+fors 1k6/1p6/8/1KP4R/1p6/8/8/3B4
+cond SwappingKings
+next
+auth Dan Meinking
+orig http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+titl Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+stip #2
+fors 7k/7p/8/8/1p6/1B6/1KP5/6Q1
+opti vari
+cond SwappingKings
+next
+auth Dan Meinking & Danny Dunn
+orig http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+titl Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+stip #3
+fors 8/8/6Q1/8/5K2/8/8/7k
+opti vari
+cond SwappingKings
+endp

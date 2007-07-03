@@ -808,6 +808,36 @@ boolean paralysiert(square i) {
     return flag;
 }
 
+
+typedef boolean (*eval_func)(square,square,square);
+static eval_func next_evaluate;
+
+static boolean eval_up(square id, square ia, square ip)
+{
+  return ia-id>8 && (*next_evaluate)(id,ia,ip);
+}
+
+static boolean eval_down(square id, square ia, square ip)
+{
+  return ia-id<-8 && (*next_evaluate)(id,ia,ip);
+}
+
+boolean huntercheck(square i,
+                    piece p,
+                    boolean (* evaluate)(square,square,square))
+{
+  /* detect check by a hunter */
+  eval_func const eval_away = p<0 ? &eval_down : &eval_up;
+  eval_func const eval_home = p<0 ? &eval_up : &eval_down;
+  unsigned int const typeofhunter = abs(p)-Hunter0;
+  HunterType const * const huntertype = huntertypes+typeofhunter;
+  assert(typeofhunter<maxnrhuntertypes);
+  next_evaluate = evaluate;
+  return (*checkfunctions[huntertype->home])(i,p,eval_home)
+    || (*checkfunctions[huntertype->away])(i,p,eval_away);
+}
+
+
 /* V3.03  TLi  -  Jaeger */
 
 boolean rhuntcheck(

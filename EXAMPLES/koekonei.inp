@@ -1,0 +1,10 @@
+beg
+prot koekonei.out
+auth S.Emmerson
+orig Unpublished
+pie wh kc8 pb6
+pie bl ka8 pa7
+stip =2
+cond koeko nei s
+opt var
+end

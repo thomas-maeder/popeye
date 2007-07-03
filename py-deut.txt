@@ -596,6 +596,10 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	z       Zebra                           2,3 Springer
 	zh      Zebrareiterhuepfer
 	zr      Zebrareiter                     2,3 Reiter
+        X/Y     X/Y-Jaeger                      allgemeiner Jaeger:
+                                                von der jeweiligen Grundreihe weg wie ein X,
+                                                in Richtung Grundreihe wie ein Y;
+                                                horizontale Zuege nicht erlaubt
 
  - Zwilling: Loesen/pruefen von Stellungen, die sich durch "einfache"
 	Veraenderungen aus der Ausgangsstellung ergeben. Folgende Angaben
@@ -736,7 +740,7 @@ VMS:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson   im Juli 2004
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson   im Mai 2005
 
 Fuer den Fall dass jemand Anregungen, Fehler etc uns zukommen lassen will,
 so findet er unsere Adressen in den Dateien  history.txt  oder  readme.txt  .

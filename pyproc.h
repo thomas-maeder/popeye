@@ -93,6 +93,7 @@ checkfunction_t gralcheck;	/* V3.46  NG */
 checkfunction_t grasshop2check;
 checkfunction_t grasshop3check;
 checkfunction_t gscoutcheck;    /* V3.05  NG */
+checkfunction_t huntercheck;
 checkfunction_t impcheck;      /* V2.60  NG */
 checkfunction_t kangoucheck;   /* V2.60  NG */
 checkfunction_t kinghopcheck;

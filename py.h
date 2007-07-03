@@ -55,7 +55,7 @@
 
 #ifndef VERSION				/* V3.55  NG */
 
-#define VERSION "4.00"
+#define VERSION "4.01"
 
 #endif	/* ! VERSION */
 
@@ -133,6 +133,8 @@
 #define mirra1a8     4
 #define mirra1h8     5
 #define mirra8h1     6
+
+#define maxnrhuntertypes 10
 
 #define vide    0
 #define obs     1
@@ -258,7 +260,8 @@
 #define equiengb       121	    /* V3.78  SE */
 #define equifrab       122	    /* V3.78  SE */
 #define querqub        123	    /* V3.78  SE */
-#define derbla         124
+#define hunter0b       124
+#define derbla         (hunter0b+maxnrhuntertypes)
 #define roin    -2
 #define pn      -3
 #define dn      -4
@@ -381,7 +384,8 @@
 #define equiengn       -121	    /* V3.78  SE */
 #define equifran       -122	    /* V3.78  SE */
 #define querqun        -123	    /* V3.78  SE */
-#define dernoi         -124
+#define hunter0n       -124
+#define dernoi         (hunter0n-maxnrhuntertypes)
 
 #define maxsquare       576     /* V2.60  NG */
 #define haut            375     /* V2.60  NG */
@@ -710,7 +714,8 @@ typedef int Token;
 #define EquiEnglish    121
 #define EquiFrench     122
 #define Querquisite    123
-#define PieceCount     124
+#define Hunter0     124
+#define PieceCount     (Hunter0+maxnrhuntertypes)
 typedef int PieNam;
 /*--- End of } PieNam;---*/
 

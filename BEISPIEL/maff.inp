@@ -1,0 +1,43 @@
+anfa
+prot maff.out
+auto M.Brada
+quel The Problemist 1998 and Sachova skladba 1997
+tite (NL)
+ford #2
+bedi MAFF
+opti satz vari
+fors 7K/4TlSb/6BB/1b4s1/4Bk2/7b/4dBLS/L5D1
+weit
+auto M.Brada
+quel Sachova skladba 1997
+ford #2
+bedi MAFF
+fors 2Ks4/1bT1Tb2/b7/1S1k4/3l4/3L4/3L4/7l
+opti vari 
+weit
+auto M.Brada
+quel The Problemist 1997
+ford #2
+bedi MAFF
+fors l3t1L1/2BbB3/t2D3K/b4b1b/S2bkb2/1T3dTS/4b3/L2s
+opti vari verf
+weiter
+auto Erich Bartel
+quel K190A, Problemkiste 122, 4/1999
+ford #2
+bedi MAFF 
+opti vari
+stei
+weis Kc8 BBb6
+schw Ka8 Ba7
+weit
+auto Miroslav Brada
+quel 4858, Problemkiste 122, 4/1999
+tite (UL + NL)
+ford #2
+bedi MAFF
+opti wider 2 vari
+stei
+weis Kc7 Tf8f6 Lh7a3 Sb4 Ba7c6f4h5h6
+schw Ke7 Tf7 Sh8c4
+ende

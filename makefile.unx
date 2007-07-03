@@ -95,10 +95,10 @@ RANLIB = ranlib
 
 # This variable is used in compiling pydata.c, and
 # should contain only the number
-#VERSION =       4.00
+#VERSION =       4.01
 # It's not used in this makefile for compilation any more.
 # We use it for creating distributions without any . (dot) !
-VERSION =       400
+VERSION =       401
 
 OBJECTS =       pydata.o py1.o py2.o py3.o py4.o py5.o py6.o pyio.o    \
 		pymsg.o pytime.o pylang.o pyhash.o pyproof.o	       \

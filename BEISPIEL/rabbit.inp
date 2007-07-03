@@ -1,25 +1,12 @@
 anfa
 prot rabbit.out
-auto Sven Trommler
-quel Testoriginal
-ford #2
-opti vari verf
-stei
-weis Ka5 Tf1 Sc1 Ld4 HEd6 HEh3
-schw Ka3 Sa6 Ld5 Lib8 Bf4
-weit
-auto Sven Trommler
-quel Testoriginal
+beme schwarzer Z"ugezyklus
+auto Sven Trommler & Franz Pachl
+quel Springaren, 12/2002
 ford h#2
 stei
-weis Kb7 Ba7
-schw Ka1 Sd2 Bb2 HEa8
-weit
-auto Sven Trommler
-quel Testoriginal
-ford s#2
-opti vari wider 3
-stei
-weis Kc1 Tc2 Sb5 Lg8 Ba3 Be3 Bf2 HEb8 
-schw Kb3 Ta1 Td5 Ba2 Ba4 Bf3 Bg2 HEb1
+weis Ka3 La8 Sd5 Se4 HEe8
+schw Kd4 Ta7 Sb4 Bc5 Be2 Be7 Bh7 HEa5 HEf8
+zwil versetz e8 f1
+zwil versetz e8 g6
 ende

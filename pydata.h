@@ -1674,6 +1674,16 @@ numvec vec[maxvec + 1] = { 0,
 /*121 */	equiengcheck,           /* V3.78  SE */
 /*122 */	equifracheck,           /* V3.78  SE */
 /*123 */	querquisitecheck,	/* V3.78  SE */
+/*124 */        huntercheck,
+/*125 */        huntercheck,
+/*126 */        huntercheck,
+/*127 */        huntercheck,
+/*128 */        huntercheck,
+/*129 */        huntercheck,
+/*130 */        huntercheck,
+/*131 */        huntercheck,
+/*132 */        huntercheck,
+/*133 */        huntercheck
 		};
 #endif
 
@@ -1690,6 +1700,16 @@ piece       PAS[64] = {   tb,   cb,   fb,   db, roib,   fb,   cb,   tb,
 			  pn,   pn,   pn,   pn,   pn,   pn,   pn,   pn,
 			  tn,   cn,   fn,   dn, roin,   fn,   cn,   tn};
 #endif
+
+typedef struct {
+    PieNam home;
+    PieNam away;
+} HunterType;
+
+extern HunterType huntertypes[maxnrhuntertypes];
+extern unsigned int nrhuntertypes;
+
+#define hunterseparator '/'
 
 #endif  /* not PYDATA_H */
 

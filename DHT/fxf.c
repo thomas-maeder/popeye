@@ -59,7 +59,7 @@ typedef struct {
     char *		FreeHead;
 } SizeHead;
 
-#if defined(MSDOS) 
+#if defined(DOS) 
 /* MSDOS 16 Bit support (maxmemory <= 1 MB)	/* V3.71  NG */
 #define SEGMENTED
 #define ARENA_SEG_SIZE  32000
@@ -82,8 +82,12 @@ typedef struct {
 #else
 #define fxfMAXSIZE	2048	/* this is needed only when sizeof(void*)==8 */
 #endif
-/*#define fxfMINSIZE	sizeof(char *)*/
+/* Different size of fxfMINSIZE for 32-/64/Bit compilation */	/* V4.01  NG */
+#if defined(SIXTYFOUR)
 #define fxfMINSIZE	8
+#else
+#define fxfMINSIZE	sizeof(char*)
+#endif
 
 static SizeHead SizeData[fxfMAXSIZE+1];
 

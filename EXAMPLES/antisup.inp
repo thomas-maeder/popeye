@@ -1,0 +1,62 @@
+beg
+prot antisup.out
+
+auth S.Emmerson
+orig Unpublished
+
+fors k1K5/p7/1P6/40
+opt var nothr
+cond antisup
+stip #2
+twin stip =2
+
+next
+
+auth S.Emmerson
+orig Unpublished
+
+fors k1K5/p7/1P6/40
+opt halfd
+cond antisup
+stip ser-#4
+
+next
+
+auth S.Emmerson
+orig Unpublished
+title set allowed?
+
+fors k1K5/p7/1P6/40
+opt set
+cond antisup circe
+stip h=1
+
+next
+
+title test castling
+
+fors r7/16/R7/1k6/16/4K3/
+opt  dupl
+cond antisup
+stip ser-002
+
+next
+
+title test promotion
+
+fors 8/1b6/2P5/40
+stip x1
+opt nowk nobk
+cond antisup
+twin shift a1 a2
+
+next
+
+title test cheylan
+
+fors 8/p7/k1pK4/p7/P7/24
+stip =1
+cond antisup
+twin cond antisup chey
+
+end

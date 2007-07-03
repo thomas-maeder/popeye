@@ -1700,7 +1700,8 @@ boolean pioncheck(
 	if ( i <= haut - 48				/* V3.02  TLi */
 	    || CondFlag[parrain]
 	    || CondFlag[einstein]			/* V3.2  TLi */
-	    || p == orphann)				/* V3.2  TLi */
+	    || p == orphann 				/* V3.2  TLi */
+        || p<=hunter0n)
 	{
 	    if (e[i + 23] == p) {
 		if ((*evaluate)(i + 23, i, i)) {	/* V3.02  TLi */
@@ -1718,7 +1719,8 @@ boolean pioncheck(
 	if ( i >= bas + 48				/* V3.02  TLi */
 	  || CondFlag[parrain]
 	  || CondFlag[einstein]				/* V3.2   TLi */
-	  || p == orphanb)				/* V3.2   TLi */
+	  || p == orphanb 				/* V3.2   TLi */
+      || p>=hunter0b)
 	{
 	    if (e[i - 23] == p) {
 		if ((*evaluate)(i - 23, i, i)) {	/* V3.02  TLi */

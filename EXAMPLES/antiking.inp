@@ -1,0 +1,19 @@
+beg
+prot antiking.out
+stip #2
+auth unknown - S.Emmerson??
+orig ??
+pie wh kc6 sc5 pa6
+pie bl ke4 ba8
+cond antik
+opt var 
+next
+stip #2
+auth ?.Powell & C.C.L.Sells
+orig The Problemist 1974
+title 3rd Comm.
+pie wh kam rha5 bc4d4 pf4 kf1
+pie bl kam ra1a8c8d8 bb8e8 sh4h7 pg5a2 kh5
+cond antikings 
+opt try var
+end

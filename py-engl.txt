@@ -578,6 +578,10 @@ elaborate is the command
 	z       zebra   
 	zh      zebrarider hopper
 	zr      zebrarider
+        X/Y     X/Y hunter                     generalized hunter:
+                                               away from the homebase like a n X,
+                                               in direction of the homebase like an Y;
+                                               horizontal moves not allowed
 
 
  - Twin: Solving/testing of positions obtained by small changes of the
@@ -706,7 +710,7 @@ VMS:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson    july 2004
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson    may 2005
 
 If you have any suggestions, any errors you know of, etc., you are
 welcome to contact us.

@@ -141,5 +141,6 @@
 #define NoStopOnShortSolutions 103
 #define SingleBoxAndFairyPieces 104  /* V3.71 TM */
 #define UndefLatexPiece        105  /* V3.74  TLi */
-#define MsgCount               106
+#define HunterTypeLimitReached 106
+#define MsgCount               107
 #endif  /* PYMSG_H */

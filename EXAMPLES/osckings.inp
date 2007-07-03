@@ -1,0 +1,30 @@
+beg
+prot osckings.out
+auth A.Bell
+orig Variant Chess 1998
+title b) sound; other parts cooked
+stip #2
+cond blackosc typeb
+pie wh kc5 rg6g4 sf2 pa4b3d2h5
+pie bl kf5 pb4d3g5g7h6
+opt var
+twin cond whiteosc typeb
+twin cond blackosc whiteosc typeb
+next
+stip s#2
+auth A.Bell
+orig Variant Chess 1998
+cond blackosc typeB
+pie wh kh8 qf2 ph7
+pie bl ka8 bf3f4
+opt var  
+next
+stip #2
+auth R.Turnbull
+orig Variant Chess 1998
+opt var   
+cond blackosc
+pie wh kh6 qg5 sh1
+pie bl kf3 sg2 pg6
+end
+

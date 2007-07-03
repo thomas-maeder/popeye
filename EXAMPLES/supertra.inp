@@ -1,0 +1,54 @@
+beg
+prot supertra.out
+
+aut Karol Mlynka
+ori 2nd HM Brabec-60 C 26.5.1998
+pie whi ke4 qf8 rg8 bh7 sa7 gd8 pa6b4c4e3f5
+    bla kd7 qa5 rf3 bb1e2 sb3c2 ga2c6e1 pc5c7e5f7
+sti #2
+con whitesupertr
+opt try var def 4
+
+next
+aut Karol Mlynka
+ori Comm Brabec-60 C 26.5.1998
+pie whi kd5 qf2 ra5d8 ba8 pa4b3
+    bla kh1 rb7a3 ba2 pf3h7
+sti #2
+con whitesupertr
+opt try var 
+
+next
+aut Karol Mlynka
+ori 478 Cyclone 2000
+pie whi kb5 qb6 sf8 gd8 pb4d5
+    bla kc8 qf6 bb3f1 sd3e4 gb1h1d7 pa4d6
+sti #2
+con whitesupertrans
+opt try var 
+
+next
+
+aut Karol Mlynka (Slovakia)
+ori 2nd Comm 9th TT Chess Composition Microweb C 17.6.2002
+ori No. 39
+pie whi Kb3 Rd8c5h3 Ba6d1 Sa5g4c2b1 Pa7f3f2
+     bla Kd3 Rd6h4 Bb5f1 Sc7d7 Pe5b4b2g2
+sti #2
+con whitesupertran
+
+opt try var 
+
+next
+
+aut Karol Mlynka (Slovakia)
+ori 2nd Comm 11th TT Chess Composition Microweb 28.2.2003
+ori No. F14
+pie whi kd5
+    bla kg7 re8 rh8 pa2
+sti h#3
+con whitesupertrans
+twi move a2 b2
+
+
+end

@@ -191,6 +191,8 @@ void InitBoard(void) {	   /* V3.40  TLi */
     rb= rn= initsquare;
 
     CLEARFL(PieSpExFlags);				 /* V2.90 TLi */
+
+    nrhuntertypes = 0;
 } /* InitBoard */
 
 void InitStip(void) {	/* V3.40  TLi */

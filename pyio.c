@@ -19,6 +19,10 @@
 **
 ** 2004/07/19 NG   New condition: SwappingKings
 **
+** 2005/04/20 NG   assert "eliminated". Check of Hunter0+maxnrhuntertypes added.
+**
+** 2005/04/25 NG   bugfix: a=>b with Imitators
+**
 **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -26,6 +30,15 @@
 #	include "pymac.h"
 #endif
 
+#ifdef ASSERT
+#include <assert.h> /* V3.71 TM */
+#else
+    /* When ASSERT is not defined, eliminate assert calls.
+     * This way, "#ifdef ASSERT" is not clobbering the source.
+     *						ElB, 2001-12-17.
+     */
+#define assert(x)
+#endif	/* ASSERT */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>	 /* to import prototype of 'atoi'  StH */
@@ -237,9 +250,10 @@ char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};    /* V3.55	N
 
 static	int	NestLevel=0;
 
-extern echiquier ProofBoard, PosA;		      /* V3.50 SE */
+extern echiquier ProofBoard, PosA;		/* V3.50 SE */
 extern square Proof_rb, Proof_rn, rbA, rnA;
 extern Flags ProofSpec[64], SpecA[64];
+extern imarr  isquareA;				/* V4.01  NG */
 boolean OscillatingKingsColour;  /* actually couleur but this is all a hack */
 
 void	OpenInput(char *s)
@@ -698,6 +712,42 @@ static char *ParseFieldList(
     }
 }
 
+static char *PrsPieShortcut(boolean onechar, char *tok, PieNam *pienam) {
+  if (onechar) {
+    *pienam= GetPieNamIndex(*tok,' ');
+    tok++;
+  }
+  else {
+    *pienam= GetPieNamIndex(*tok,tok[1]);
+    tok+= 2;
+  }
+
+  return tok;
+}
+
+HunterType huntertypes[maxnrhuntertypes];
+unsigned int nrhuntertypes;
+
+static PieNam MakeHunterType(PieNam away, PieNam home) {
+  unsigned int i;
+  for (i = 0; i!=nrhuntertypes; ++i)
+    if (huntertypes[i].away==away && huntertypes[i].home==home)
+      return Hunter0+i;
+
+  if (nrhuntertypes<maxnrhuntertypes) {
+    PieNam const result = Hunter0+nrhuntertypes;
+    HunterType * const huntertype = huntertypes+nrhuntertypes;
+    huntertype->away = away;
+    huntertype->home = home;
+    ++nrhuntertypes;
+    return result;
+  }
+  else {
+    IoErrorMsg(HunterTypeLimitReached,maxnrhuntertypes);
+    return Invalid;
+  }
+}
+
 static char *PrsPieNam(char *tok, Flags Spec, char echo)  /* V3.40  TLi */
 {
      /* We read from tok the name of the piece
@@ -708,14 +758,19 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)  /* V3.40  TLi */
      PieNam  Name;
 
      while (True) {
-	  l= strlen(btok= tok); /* Save it, if we want to return it */
-	  if (l&1) {
-	       Name= GetPieNamIndex(*tok,' ');
-	       tok++;
-	  }
-	  else {
-	       Name= GetPieNamIndex(*tok,tok[1]);
-	       tok+= 2;
+       char const * const hunterseppos = strchr(tok,hunterseparator);
+       btok = tok; /* Save it, if we want to return it */
+       if (hunterseppos!=0 && hunterseppos-tok<=2) {
+         PieNam away, home;
+         tok = PrsPieShortcut((hunterseppos-tok)&1,tok,&away);
+         ++tok; /* skip slash */
+         l= strlen(tok);
+         tok = PrsPieShortcut(l&1,tok,&home);
+         Name = MakeHunterType(away,home);
+       }
+       else {
+         l= strlen(tok);
+         tok = PrsPieShortcut(l&1,tok,&Name);
 	  }
 	  if (Name >= King) {
 	       if (l >= 3 && !strchr("12345678",tok[1]))
@@ -731,6 +786,8 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)  /* V3.40  TLi */
 	       tok= ParseFieldList(tok, Name, Spec, echo);  /* V3.40  TLi */
 	       CLRFLAG(Spec, Royal);
 	  }
+      else if (hunterseppos!=0)
+        tok= ReadNextTokStr();
 	  else
 	       if (NameCnt > 0)
 		    return btok;
@@ -932,6 +989,10 @@ static char *ParseFlow(char *tok) {
 	rnA=rn;
 	rbA=rb;
 	rn=rb=initsquare;
+	for (i= 0; i < maxinum; i++) {		/* V4.01  NG */
+		isquareA[i]= isquare[i];
+		isquare[i]= initsquare;
+	}
 	flag_atob= true;
 	return tok+4;
     }
@@ -3633,6 +3694,7 @@ void WritePosition() {
     smallint field, i, j, nBlack, nWhite, nNeutr;
     piece   p,pp;
     char    HLine1[40];
+    char    nextLine[40];
     char    PieCnts[20];
     char    StipOptStr[40];
     PieSpec sp;			     /* V3.1  TLi */
@@ -3677,6 +3739,8 @@ void WritePosition() {
 	HLine1[sizeof(HorizL)-3]= digits[i];
 	   /* V3.31  ElB */
 
+    strcpy(nextLine,BlankL);
+
 	for (j= 1; j <= 8; j++, field++) {
 	    char *h1;
 	    h1= HLine1 + (j * 4);
@@ -3700,11 +3764,33 @@ void WritePosition() {
 		}
 	    }
 
-	    if ((*h1= PieceTab[pp][1]) != ' ') {
-		*h1= UPCASE(*h1);
-		h1--;
-	    }
-	    *h1--= UPCASE(PieceTab[pp][0]);
+        if (pp<Hunter0 || pp >= (Hunter0 + maxnrhuntertypes)) {	/* V4.01  NG */
+          if ((*h1= PieceTab[pp][1]) != ' ') {
+            *h1= UPCASE(*h1);
+            h1--;
+          }
+          *h1--= UPCASE(PieceTab[pp][0]);
+        }
+        else {
+          char *n1 = nextLine + (h1-HLine1); /* current position on next line */
+
+          unsigned int const i = pp-Hunter0;
+          assert(i<maxnrhuntertypes);
+
+          *h1-- = '/';
+          if ((*h1= PieceTab[huntertypes[i].away][1]) != ' ') {
+            *h1= UPCASE(*h1);
+            h1--;
+          }
+          *h1--= UPCASE(PieceTab[huntertypes[i].away][0]);
+
+          --n1;	/* leave pos. below '/' empty */
+          if ((*n1= PieceTab[huntertypes[i].home][1]) != ' ') {
+            *n1= UPCASE(*n1);
+          }
+          *n1--= UPCASE(PieceTab[huntertypes[i].home][0]);
+        }
+
 	    if (p < 0) {
 		*h1= '-';
 	    }
@@ -3720,7 +3806,7 @@ void WritePosition() {
 	    }
 	}
 	StdString(HLine1);
-	StdString(BlankL);
+	StdString(nextLine);
 	field-= 32;			 /* V2.60  NG */
     }
     StdString(BorderL);
@@ -4292,9 +4378,18 @@ void WritePiece(piece p) {
     char p1;
 
     p= abs(p);
-    StdChar(UPCASE(PieceTab[p][0]));
-    if ((p1= PieceTab[p][1]) != ' ') {
-	StdChar(UPCASE(p1));
+    if (p<Hunter0 || p >= (Hunter0 + maxnrhuntertypes)) {	/* V4.01  NG */
+      StdChar(UPCASE(PieceTab[p][0]));
+      if ((p1= PieceTab[p][1]) != ' ') {
+        StdChar(UPCASE(p1));
+      }
+    }
+    else {
+      unsigned int const i = p-Hunter0;
+      assert(i<maxnrhuntertypes);
+      WritePiece(huntertypes[i].away);
+      StdChar('/');
+      WritePiece(huntertypes[i].home);
     }
 }
 

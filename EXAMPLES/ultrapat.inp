@@ -1,0 +1,9 @@
+beg
+prot ultrapat.out
+auth S.Emmerson
+orig Unpublished
+fors 32/5S1P/7S/k7/8
+stip ser-#13
+cond ultrap
+
+end

@@ -575,6 +575,10 @@ suivante est un peu plus compliquee:
 	vs      vizir sauteur
 	z       zebre
 	zn      zebre noctambule
+        X/Y     chasseur X/Y                   chasseur en general:
+                                               s'eloigne de la ligne de base comme un X
+                                               et s'approche d'elle comme un Y;
+                                               les coups horizontaux ne sont pas possibles
 
  - Jumeau: Verification de positions resultant de modifications "simples" 
 	de la position de depart. Les modifications suivantes seront acceptees:
@@ -709,7 +713,7 @@ VMS:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson  juillet 2004
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson    mars 2005
 
 Si quelqu'un veut nous envoyer des propositions,
 des communications d'erreurs etc.,

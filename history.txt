@@ -1747,7 +1747,7 @@ pywin32.exe, pywin98.exe and pydos32.exe created.
 This is official release py3.81
                                				17.05.2004  NG
 ------------------------------------------------------------------------
-bugfixes by ThM and ElB integrated, pyproc.h rearranged.
+bugfixes by TM and ElB integrated, pyproc.h rearranged.
 In case of default Circe type "Cheylan" or "Calvet" output suppressed
 New condition SwappingKings is the combination of 
 	WhiteOscillatingKings TypeC and BlackOscillatingKings TypeC .
@@ -1768,4 +1768,20 @@ changes in makefile.unx so that -DSIXTYFOUR is used in DHT package
 ------------------------------------------------------------------------
 exchanged calls to hashfunctions in pyhash.c leads to 1% speed increase.
                                				02.02.2005  TLi
+------------------------------------------------------------------------
+new pieces: generalized types of hunters possible
+                               				08.04.2005  TM
+------------------------------------------------------------------------
+bugfix: generalized types of hunters 
+        fxfMINSIZE differs now for 32-/64-Bit compilation
+                               				20.04.2005  NG
+------------------------------------------------------------------------
+bugfix: a=>b with imitators
+                               				26.04.2005  NG
+------------------------------------------------------------------------
+regression test done.
+documentation adjusted.
+pywin32.exe, pywin98.exe and pydos32.exe created.
+This is official release py4.01
+                               				01.05.2005  NG
 ------------------------------------------------------------------------

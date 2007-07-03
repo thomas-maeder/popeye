@@ -7,6 +7,8 @@
 **
 ** 2003/08/05 SE   Bugfix : AtoB
 **
+** 2005/04/25 NG   bugfix: a=>b with Imitators
+**
 **************************** End of List ******************************/
 
 #include <stdio.h>
@@ -31,6 +33,7 @@ echiquier ProofBoard, PosA;
 static	byte buffer[256];
 square Proof_rb, Proof_rn, rbA, rnA;
 Flags ProofSpec[64], SpecA[64];
+imarr Proof_isquare, isquareA;				/* V4.01  NG */
 
 smallint xxxxx[fb+fb+1];
 #define ProofNbrPiece (xxxxx+fb)
@@ -297,12 +300,23 @@ void ProofInitialise(void) {
 	}
     }
 
+    if (CondFlag[imitators]) {			/* V4.01  NG */
+	for (i= 0; i < maxinum; i++) {
+	    Proof_isquare[i]= isquare[i];
+	}
+    }
+
     /* set the king squares */
     rb= 204;	  /* white king e1 */
     rn= 372;	  /* black king e8 */
     if (flag_atob) {
 	rb= rbA;
 	rn= rnA;
+	if (CondFlag[imitators]) {		/* V4.01  NG */
+	    for (i= 0; i < maxinum; i++) {
+		isquare[i]= isquareA[i];
+	    }
+	}
     }
 
     if (flag_atob) {
@@ -412,8 +426,8 @@ void ProofInitialise(void) {
 
 } /* ProofInitialise */
 
-/* function that compares the current positition with the desired one
-   and returns True if they are identical. Otherwise it returns False.
+/* function that compares the current position with the desired one
+ * and returns True if they are identical. Otherwise it returns False.
  */
 boolean ProofIdentical(void) {
     int i;
@@ -429,6 +443,14 @@ boolean ProofIdentical(void) {
 	    || ProofNbrPiece[-i] != nbpiece[-i])
 	{
 	    return False;
+	}
+    }
+
+    if (CondFlag[imitators]) {			/* V4.01  NG */
+	for (i= 0; i < maxinum; i++) {
+	    if (Proof_isquare[i] != isquare[i]) {
+		return False;
+	    }
 	}
     }
 

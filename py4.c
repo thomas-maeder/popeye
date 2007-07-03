@@ -21,6 +21,8 @@
 **
 ** 2004/05/02 SE   Imitators with mao, moa
 **
+** 2005/04/19 NG   genhunt bugfix
+**
 **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -39,6 +41,7 @@
 #endif	/* ASSERT */
 #include <stdio.h>
 #include <stdlib.h>		/* H.D. 10.02.93 prototype fuer qsort */
+#include <string.h>
 #include "py.h"
 #include "py1.h"
 #include "pyproc.h"
@@ -1362,9 +1365,63 @@ void gdoubleg(square i, couleur camp) {			/* V3.44  SE */
     }
 }
 
+typedef enum
+{
+  UP,
+  DOWN
+} UPDOWN;
+
+void filter(square i, numecoup prevnbcou, UPDOWN u)
+{
+  numecoup s = prevnbcou+1;
+  while (s<=nbcou)
+    if ((u==DOWN && ca[s]-i>-8)
+        || (u==UP && ca[s]-i<8))
+    {
+      memmove(cd+s, cd+s+1, (nbcou-s) * sizeof cd[s]);
+      memmove(ca+s, ca+s+1, (nbcou-s) * sizeof ca[s]);
+      memmove(cp+s, cp+s+1, (nbcou-s) * sizeof cp[s]);
+      --nbcou;
+    }
+    else
+      ++s;
+}
+
+void genhunt(square i, piece p, PieNam pabs)
+{
+/*   PieNam const pabs = abs(p);	*/	/* V4.01  NG */
+  assert(pabs>=Hunter0);
+  assert(pabs<Hunter0+maxnrhuntertypes);
+  
+  {
+    unsigned int const typeofhunter = pabs-Hunter0;
+    HunterType const * const huntertype = huntertypes+typeofhunter;
+
+    if (p>0) {
+      numecoup savenbcou = nbcou;
+      gen_wh_piece(i,huntertype->home);
+      filter(i,savenbcou,DOWN);
+
+      savenbcou = nbcou;
+      gen_wh_piece(i,huntertype->away);
+      filter(i,savenbcou,UP);
+    }
+    else {
+      numecoup savenbcou = nbcou;
+      gen_bl_piece(i,-huntertype->away);
+      filter(i,savenbcou,DOWN);
+
+      savenbcou = nbcou;
+      gen_bl_piece(i,-huntertype->home);
+      filter(i,savenbcou,UP);
+    }
+  }
+}
+
 void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
     numvec k;
     square *bnp;					/* V2.60  NG */
+    PieNam const pabs = abs(p);				/* V4.01  NG */
 
     switch  (abs(p)) {
       case maob:
@@ -1735,6 +1792,11 @@ void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
 						break;
 		}
 
+    default:
+	/* Since pieces like DUMMY fall through 'default', we have */
+	/* to check exactly if there is something to generate ...  */
+	if ((pabs>=Hunter0) && (pabs<Hunter0+maxnrhuntertypes))	/* V4.01  NG */
+		genhunt(i,p,pabs);
     }
 } /* gfeerrest */
 

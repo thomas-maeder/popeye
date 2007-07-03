@@ -1,0 +1,10 @@
+beg
+prot owu.out
+auth M.Brada
+orig The Problemist 1997
+
+stip #2
+opt try var
+fors 24/Q7/3sK3/5p2/SRP1PR2/3k4/
+cond OWU
+end

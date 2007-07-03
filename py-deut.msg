@@ -135,3 +135,4 @@
 103= Option  StopNachKurzloesungen  nicht unterstuetzt im direkten Spiel.\n
 104= Maerchensteine nicht erlaubt in Single box
 105= LaTeXdatei nicht uebersetzbar: Maerchenstein nicht spezifiziert.\n
+106= Mehr als %s verschiedene Jaegertypen\n
