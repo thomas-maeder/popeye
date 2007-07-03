@@ -23,6 +23,7 @@
 #ifdef UNIX 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>	/* to import prototype of 'sleep' NG  */
 
 #ifdef SIGNALS

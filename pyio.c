@@ -2,9 +2,22 @@
 **
 ** Date       Who  What
 **
-** 2002/04/29 FCO  LaTeX changes
-**
 ** 2003/05/18 NG   new option: beep    (if solution encountered)
+**
+** 2004/02/06 SE   New conditions : Oscillating Kings (invented A.Bell)
+**				   Ks swapped after each W &/or Bl move; TypeB can't self-check before swap	
+**				   Koeko Neighbourhood (invented S.Emmerson)
+**
+** 2004/03/05 SE   New condition : Antimars (and variants) (invented S.Emmerson)
+**                 Pieces reborn to move, capture normally
+**
+** 2004/02/09 SE   Bugfix : Forsyth with neutrals
+**
+** 2004/04/23 SE   Oscillating Ks TypeC, also allowed A/B/C different for white/black
+**
+** 2004/05/01 SE   Bugfix : ParseVariant problem e.g. sentinelles pionneutre koeko
+**
+** 2004/07/19 NG   New condition: SwappingKings
 **
 **************************** End of List ******************************/
 
@@ -69,7 +82,7 @@ static char *TokenString[LangCount][TokenCount] = {
      /*17*/  "PiecesLaTeX",
      /*18*/  "prix",
      /*19*/  "PositionInitialPartie",
-   /*20*/  "Forsyth"
+     /*20*/  "Forsyth"
     },
     { /* Deutsch */
      /* 0*/  "AnfangProblem",
@@ -92,7 +105,7 @@ static char *TokenString[LangCount][TokenCount] = {
      /*17*/  "LaTeXSteine",
      /*18*/  "Auszeichnung",
      /*19*/  "PartieAnfangsStellung",
-   /*20*/  "Forsyth"
+     /*20*/  "Forsyth"
     },
     { /* english */
      /* 0*/  "beginproblem",
@@ -115,7 +128,7 @@ static char *TokenString[LangCount][TokenCount] = {
      /*17*/  "LaTeXPieces",
      /*18*/  "award",
      /*19*/  "InitialGameArray",
-   /*20*/  "Forsyth"
+     /*20*/  "Forsyth"
     }
 };
 
@@ -226,7 +239,8 @@ static	int	NestLevel=0;
 
 extern echiquier ProofBoard, PosA;		      /* V3.50 SE */
 extern square Proof_rb, Proof_rn, rbA, rnA;
-extern smallint ProofSpec[64], SpecA[64];
+extern Flags ProofSpec[64], SpecA[64];
+boolean OscillatingKingsColour;  /* actually couleur but this is all a hack */
 
 void	OpenInput(char *s)
 {
@@ -397,8 +411,7 @@ static char *ReadNextTokStr(void)				/* H.D. 10.02.93 */
 	  t= TokenLine;
 	  do {
 	       *p++= ch;
-/*	       *t++= (isupper(ch)?tolower(ch):ch);	*/	/*
-v3.74  NG */
+/*	       *t++= (isupper(ch)?tolower(ch):ch);	*/	/* V3.74  NG */
 	       *t++= (isupper((int)ch)?tolower((int)ch):ch);
 			      /* EBCDIC support ! HD */
 	  } while (strchr(TokenChar,ch= NextChar()));
@@ -570,7 +583,10 @@ static char *ParseLaTeXPieces(char *tok) {
 	    LaTeXPiecesAbbr[Name]= malloc(sizeof(char)*(strlen(tok)+1));
 	    i= 0;
 	    while (tok[i]) {
-		LaTeXPiecesAbbr[Name][i]= tok[i++]+ 'A' - 'a';
+	/* to avoid compiler warnings below made "better readable" */      /* V3.80  NG */
+	/*      LaTeXPiecesAbbr[Name][i]= tok[i++]+ 'A' - 'a';          */
+		LaTeXPiecesAbbr[Name][i]= tok[i] + 'A' - 'a';
+		i++;
 	    }
 	    LaTeXPiecesAbbr[Name][i]= tok[i];
 
@@ -743,6 +759,8 @@ square SetSquare(square sq, piece p, boolean bw, boolean *neut)
     spec[sq]= bw ? BIT(Black) : BIT(White);
     if (*neut) {
 	spec[sq]= BIT(Black) | BIT(White) | BIT(Neutral);
+	e[sq] = p;  /* must be 'white' for neutral */ /* 3.78  SE */
+	SETFLAG(PieSpExFlags, Neutral);
     }
     if (p == King) {
 	if (bw)
@@ -762,10 +780,8 @@ static char *ParseForsyth(void) {
     char* tok= ReadNextTokStr();
     sprintf(GlobalStr, "  %s  \n", tok);
     while (sq && *tok) {
-/* 	if (isdigit(*tok)) {	*/	/*V3.74  NG */
 	if (isdigit((int)*tok)) {
 	    num= (*tok++) - '0';
-/*	    if (isdigit(*tok))	*/	/* V3.74  NG */
 	    if (isdigit((int)*tok))
 		num += num * 9 + (*tok++) - '0';
 	    for (;num && sq;num--) {
@@ -775,13 +791,13 @@ static char *ParseForsyth(void) {
 	    }
 	    NeutralFlag= false;
 	}
-/*	else if (isalpha(*tok)) {	*/	/* V3.74  NG */
 	else if (isalpha((int)*tok)) {
 	    pc= GetPieNamIndex(*tok,' ');
 	    if (pc >= King) {
 		sq= SetSquare(sq, pc,
-/*		 islower(InputLine[(tok++) - TokenLine]), &NeutralFlag);	*/	/* V3.74  NG */
 		 islower((int)InputLine[(tok++) - TokenLine]), &NeutralFlag);
+		if (NeutralFlag) 
+			SETFLAG(PieSpExFlags,Neutral);
 	    }
 	    else {
 		tok++;			 /* error */
@@ -795,8 +811,9 @@ static char *ParseForsyth(void) {
 	    pc= GetPieNamIndex(*(tok+1), *(tok+2));
 	    if (pc >= King) {
 		sq= SetSquare(sq, pc,
-/*		 islower(InputLine[(tok+1 - TokenLine)]), &NeutralFlag);	*/	/* V3.74  NG */
 		 islower((int)InputLine[(tok+1 - TokenLine)]), &NeutralFlag);
+		if (NeutralFlag) 
+			SETFLAG(PieSpExFlags,Neutral);
 	    }
 	    tok += 3;
 	}
@@ -835,7 +852,7 @@ static char *ParsePieSpec(char echo) {			/* V3.40  TLi */
 		Flags TmpFlg= PieSpFlags&ColorFlag;
 		if (  TmpFlg
 		  && (TmpFlg & BIT(ps))
-		  && (TmpFlg != BIT(ps)))
+		  && (TmpFlg != (Flags)BIT(ps)))	/* V3.82  NG */
 		{
 		    IoErrorMsg(WBNAllowed,0);
 		}
@@ -908,7 +925,7 @@ static char *ParseFlow(char *tok) {
 	    PosA[i]=e[i];
 	}
 	for (i= 0; i< 64; i++) {
-	    SpecA[boardnum[i]]=spec[i];
+	    SpecA[i]=spec[boardnum[i]];
 	    spec[i]= EmptySpec;
 	    e[boardnum[i]]= vide;
 	}
@@ -1329,13 +1346,14 @@ static char *ParseRex(boolean *rex, Cond what) {	/* V3.55  TLi */
 #define gpType 1
 #define gpSentinelles 2
 #define gpAntiCirce 3
-static char *ParseVariant(boolean *type, int group) {	  /* SE, V3.50
-							     NG */
+#define gpKoeko 4
+#define gpOsc 5
+static char *ParseVariant(boolean *type, int group) {	  /* SE, V3.50 NG */
     int	    VariantType;
     char    *tok=ReadNextTokStr();
 
-    SentPionNeutral=False;
-    *type= False;
+    if (type != NULL)
+		*type= False;
 
     do {
 	VariantType =
@@ -1350,6 +1368,12 @@ static char *ParseVariant(boolean *type, int group) {	  /* SE, V3.50
 	}
 	else if (VariantType==TypeB && group==gpType) {
 	    *type= True;
+	}
+	else if (VariantType==TypeB && group==gpOsc) {	/* V3.80  SE */
+	    OscillatingKingsTypeB[OscillatingKingsColour]= True;
+	}
+	else if (VariantType==TypeC && group==gpOsc) {	/* V3.80  SE */
+	    OscillatingKingsTypeC[OscillatingKingsColour]= True;
 	}
 	else if (VariantType==Type1 && group==gpType) { /* V3.73  NG */
 	    sbtype1= True;
@@ -1414,6 +1438,48 @@ static char *ParseVariant(boolean *type, int group) {	  /* SE, V3.50
 	else if (VariantType==AntiCirTypeCalvet && group==gpAntiCirce)
 	{
 	    *type= False;
+	}
+	else if (VariantType==Neighbour && group==gpKoeko)
+	{
+	piece tmp_piece;
+	switch (strlen(tok= ReadNextTokStr())) {
+	  case 1:
+	    tmp_piece= GetPieNamIndex(*tok,' ');
+	    break;
+	  case 2:
+	    tmp_piece= GetPieNamIndex(*tok,tok[1]);
+	    break;
+	  default:
+		IoErrorMsg(WrongPieceName,0);
+		return tok;
+	    }
+	switch (tmp_piece) {
+	  case roib:
+		  break;
+	  case cb:
+		  nocontactfunc= noknightcontact;
+		  break;
+	  case vizirb:
+		  nocontactfunc= nowazircontact;
+		  break;
+	  case fersb:
+		  nocontactfunc= noferscontact;
+		  break;
+	  case chb:
+		  nocontactfunc= nocamelcontact;
+		  break;
+	  case alfilb:
+		  nocontactfunc= noalfilcontact;
+		  break;
+	  case zb:
+		  nocontactfunc= nozebracontact;
+		  break;
+	  case dabb:
+		  nocontactfunc= nodabbabacontact;
+		  break;
+	  default:
+		  IoErrorMsg(WrongPieceName,0);
+	}
 	}
 	else {
 	    IoErrorMsg(NonsenseCombination,0);
@@ -1641,6 +1707,16 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
 	  case bltrans_king:				/* V3.47  NG */
 	    CondFlag[blrefl_king]= true;
 	    break;
+          case whsupertrans_king:
+	    CondFlag[whtrans_king]= true;
+	    CondFlag[whrefl_king]= true;
+	    flagwhitemummer= true;
+            break;
+          case blsupertrans_king:
+	    CondFlag[bltrans_king]= true;
+	    CondFlag[blrefl_king]= true;
+            flagblackmummer= true;
+            break;
 	  case antieinstein:				/* V3.50  TLi */
 	    CondFlag[einstein]= true;
 	    break;
@@ -1804,9 +1880,13 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
 	    anyanticirce= true;
 	    break;
 	  case antiequipollents:
-	    antirenai= renequipollents;
+	    antirenai= renequipollents_anti;
 	    anyanticirce= true;
 	    break;
+          case antisuper:
+            antirenai= rensuper;
+            anyanticirce= true;
+            break;
 	    /* different types of immunchess */
 	  case immun:
 	    anyimmun= true;
@@ -1848,6 +1928,18 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
 	  case marsmirror:				/* V3.46  TLi */
 	    marsrenai= renspiegel;
 	    anymars= true;
+	    break;
+	  case antimars:					/* V3.46  SE */
+	    marsrenai= rennormal;
+	    anyantimars= true;
+	    break;
+	  case antimarsmirror:				/* V3.46  TLi */
+	    marsrenai= renspiegel;
+	    anyantimars= true;
+	    break;
+	  case antimarsantipodean:				/* V3.46  TLi */
+	    marsrenai= renantipoden;
+	    anyantimars= true;
 	    break;
 	  case phantom:					/* V3.47  NG */
 	    marsrenai= rennormal;
@@ -1922,6 +2014,7 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
 	    tok= ParseVariant(&PatienceB, gpType);
 	    break;
 	  case sentinelles:		      /* V3.50 SE */
+        SentPionNeutral=False;
 	    tok= ParseVariant(&SentPionAdverse, gpSentinelles);
 	    break;
 	    /*****  exact-maxis  V3.1  TLi  *****/
@@ -1984,6 +2077,11 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
 	    AntiCirType= AntiCirCheylan
 			 ? AntiCirTypeCheylan : AntiCirTypeCalvet;
 	    break;
+	  case antisuper:
+	    tok= ParseVariant(&AntiCirCheylan, gpAntiCirce);
+	    AntiCirType= AntiCirCheylan
+			 ? AntiCirTypeCheylan : AntiCirTypeCalvet;
+	    break;
 	  case singlebox:				/* V3.73  NG */
 	    tok= ParseVariant(&SingleBoxType, gpType);
 	    break;
@@ -1992,6 +2090,25 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
 	    break;
 	  case april:					/* V3.44  NG */
 	    tok= ReadPieces(april);
+	    break;
+	  case koeko:
+	    nocontactfunc= nokingcontact;
+	    tok= ParseVariant(NULL, gpKoeko);
+	    break;
+	  case white_oscillatingKs:
+          OscillatingKingsColour= blanc;
+	    tok= ParseVariant(NULL, gpOsc);
+	    break;
+	  case black_oscillatingKs:
+          OscillatingKingsColour= noir;
+	    tok= ParseVariant(NULL, gpOsc);
+	    break;
+	  case swappingkings:				/* V3.81a  NG */
+            CondFlag[white_oscillatingKs]= True;
+            OscillatingKingsTypeC[blanc]= True;
+            CondFlag[black_oscillatingKs]= True;
+            OscillatingKingsTypeC[noir]= True;
+	    tok= ReadNextTokStr();
 	    break;
 	  default:
 	    tok= ReadNextTokStr();
@@ -2452,8 +2569,7 @@ static char *ParseTwinShift(void) {			/* V3.40  TLi */
 	    if (*bnp%24 > maxcol) {
 		maxcol= *bnp%24;
 	    }
-	}
-    }
+	}    }
 
     if ( maxcol+diffcol > 15
       || mincol+diffcol <  8
@@ -2770,7 +2886,7 @@ static char *ParseTwin(void) {
 		    strcat(ActTwin, "*");
 		}
 		if (OptFlag[appseul]) {
-		    char temp[5];
+		    char temp[10];		/* increased due to buffer overflow */ /* V3.80  NG */
 		    sprintf(temp, " %c{\\ra}",		/* V3.74  FCO */
 		      tolower(*PieSpString[ActLang][White]));
 		    strcat(ActTwin, temp);
@@ -3142,10 +3258,10 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
 	    continue;
 	}
 
-	if (cond == whtrans_king && CondFlag[trans_king])
+	if (cond == whtrans_king && (CondFlag[trans_king] || CondFlag[whsupertrans_king]))
 	    continue;
 
-	if (cond == bltrans_king && CondFlag[trans_king])
+	if (cond == bltrans_king && (CondFlag[trans_king] || CondFlag[blsupertrans_king]))
 	    continue;
 
 	if (cond == holes)			/* V2.90  NG */
@@ -3154,6 +3270,15 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
 	if (cond == couscous && CondFlag[couscousmirror])  /* V3.46  TLi */
 	    continue;
 
+        /* V3.81a  NG */
+	/* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
+        if (((cond == white_oscillatingKs) && OscillatingKingsTypeC[blanc]) ||
+            ((cond == black_oscillatingKs) && OscillatingKingsTypeC[noir])) {
+	    if (CondFlag[swappingkings])
+		continue;
+	}
+
+	/* Write DEFAULT Conditions */
 	strcpy(CondLine, CondTab[cond]);	/* V3.40  TLi */
 
 	if ((cond == blmax || cond == whmax) && flagmaxi) /* V3.62 SE */
@@ -3169,6 +3294,37 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
 	if (cond == sentinelles && flagparasent) {	  /* V3.62 SE */
 	    strcpy(CondLine, "Para");
 	    strcat(CondLine, CondTab[cond]);
+	}
+
+	if (cond == koeko) {
+		piece koekop = roib;
+	    char LocalBuf[4];
+		if (nocontactfunc == noknightcontact) 
+			koekop= cb;
+		if (nocontactfunc == nowazircontact) 
+			koekop= vizirb;
+		if (nocontactfunc == noferscontact) 
+			koekop= fersb;
+		if (nocontactfunc == nodabbabacontact) 
+			koekop= dabb;
+		if (nocontactfunc == noalfilcontact) 
+			koekop= alfilb;
+		if (nocontactfunc == nocamelcontact) 
+			koekop= chb;
+		if (nocontactfunc == nozebracontact) 
+			koekop= zb;
+
+		if (koekop == roib)
+			strcpy(LocalBuf, "");
+		else if (PieceTab[koekop][1] != ' ')
+		    sprintf(LocalBuf, "%c%c-",
+		      UPCASE(PieceTab[koekop][0]),
+		      UPCASE(PieceTab[koekop][1]));
+		else
+		    sprintf(LocalBuf, " %c-",
+		      UPCASE(PieceTab[koekop][0]));
+
+		sprintf(CondLine, "%s%s", LocalBuf, CondTab[cond]);
 	}
 
 	if (cond == promotiononly) {		    /* V3.44  NG */
@@ -3327,6 +3483,30 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
 	    strcat(CondLine, VariantTypeString[ActLang][TypeB]);
 	}
 
+	if ((cond == white_oscillatingKs) && OscillatingKingsTypeB[blanc]) {		  /* V3.50 SE */
+	    strcat(CondLine, "	");
+	    strcat(CondLine, VariantTypeString[ActLang][TypeB]);
+	}
+
+	if ((cond == black_oscillatingKs) && OscillatingKingsTypeB[noir]) {		  /* V3.50 SE */
+	    strcat(CondLine, "	");
+	    strcat(CondLine, VariantTypeString[ActLang][TypeB]);
+	}
+
+	if ((cond == white_oscillatingKs) && OscillatingKingsTypeC[blanc]) {		  /* V3.80 SE */
+	    if (! CondFlag[swappingkings]) {	/* V3.81a  NG */
+	        strcat(CondLine, "	");
+	        strcat(CondLine, VariantTypeString[ActLang][TypeC]);
+            }
+	}
+
+	if ((cond == black_oscillatingKs) && OscillatingKingsTypeC[noir]) {		  /* V3.80 SE */
+	    if (! CondFlag[swappingkings]) {	/* V3.81a  NG */
+	        strcat(CondLine, "	");
+	        strcat(CondLine, VariantTypeString[ActLang][TypeC]);
+            }
+	}
+
 	if ((cond == patience) && PatienceB) {		 /* V3.50 SE */
 	    strcat(CondLine, "	");
 	    strcat(CondLine, VariantTypeString[ActLang][TypeB]);
@@ -3375,9 +3555,19 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
 	  case antispiegelfile:
 	  case antiantipoden:
 	  case antiequipollents:
-	    strcat(CondLine, "	 ");
-	    strcat(CondLine, VariantTypeString[ActLang][AntiCirType]);
-							/* v3.50 SE */
+		/* AntiCirTypeCalvet is default in AntiCirce */
+            if (AntiCirType != AntiCirTypeCalvet) {	/* V3.81a  NG */
+	       strcat(CondLine, "  ");
+	       strcat(CondLine, VariantTypeString[ActLang][AntiCirType]); /* V3.50 SE */
+            }
+            break;
+          case antisuper:
+		/* AntiCirTypeCheylan is default in AntiSuperCirce */
+            if (AntiCirType != AntiCirTypeCheylan) {	/* V3.81a  NG */
+	       strcat(CondLine, "  ");
+	       strcat(CondLine, VariantTypeString[ActLang][AntiCirType]); /* V3.50 SE */
+            }
+            break;
 	}
 	switch (cond) {
 	  case blmax:
@@ -3761,8 +3951,15 @@ void LaTeXBeginDiagram(void) {				/* V3.46  TLi */
 		cp3= cp2;
 		while (cp3 > cp1 && *cp3 != ' ')
 		    cp3--;
-		*cp3= '\0';
-		sprintf(GlobalStr, "%s, %s", cp3+1, cp1);
+/* wrong LaTeX output if the authors surname only given */	/* V3.78  StH */
+		if (cp3 == cp1) {		/* V3.78  StH */
+		/* we got only the surname ! */
+			sprintf(GlobalStr, "%s, ", cp3);
+		} else {
+		/* we got firstname and surname */
+			*cp3= '\0';
+			sprintf(GlobalStr, "%s, %s", cp3+1, cp1);
+		}
 		LaTeXStr(GlobalStr);
 		*cp3= *cp2= '\n';
 

@@ -2,9 +2,21 @@
 **
 ** Date       Who  What
 **
-** 2002/05/18 NG   new pieces: rabbit, bob
-**
 ** 2003/01/07 TLi  Madrasi + neutrals bug fixed in libre()
+**
+** 2004/01/28 SE   New pieces Equi (English & French styles) (invented P.Harris)
+**
+** 2004/02/05 SE   New piece Querquisite (J.E.H.Creed FCR 1947) 
+**					moves as piece upon whose file it stands
+**					Also re-invented as 'Odysseus' by H.Schmid f.? c.1988
+**
+** 2004/04/24 SE   Bugfix: Patrol etc. and e.p. evaluation
+**
+** 2004/04/22 SE   Castling with Imitators
+**
+** 2004/05/02 SE   Imitators with mao, moa
+**
+** 2004-06-20 ElB  add nevercheck
 **
 **************************** End of List ******************************/
 
@@ -81,6 +93,14 @@ boolean imok(square i, square j) {			/* V2.4d  TM */
     return(true);
 }
 
+boolean maooaimok(square i, square j, square pass) {    /* V3.81 SE - good name, huh? */ 
+    boolean ret;
+    piece p= e[i];
+    e[i]= vide;
+    ret= imok(i, pass) && imok(i, j);
+    e[i]= p;
+    return ret;
+}
 
 boolean ridimok(square i, square j, smallint diff) {	/* V2.4d  TM */
 
@@ -99,6 +119,36 @@ boolean ridimok(square i, square j, smallint diff) {	/* V2.4d  TM */
     return ret;
 }
 
+boolean castlingimok(square i, square j) {  /* V3.80  SE */
+    piece p= e[i];
+    boolean ret= false;
+/* I think this should work - clear the K, and move the Is, but don't clear the rook. */
+/* If the Is crash into the R, the move would be illegal as the K moves first.        */
+/* The only other test here is for long castling when the Is have to be clear to move */
+/* one step right (put K back first)as well as two steps left.                        */
+/* But there won't be an I one sq to the left of a1 (a8) so no need to clear the R    */
+
+    switch (j-i)
+    {
+        case 2:  /* 00 - can short-circuit here (only follow K, if ok rest will be ok) */
+            e[i]= vide;
+            ret= imok(i, i+1) && imok(i, i+2);
+            e[i]= p;
+            break;
+
+       case -2:  /* 000 - follow K, (and move K as well), then follow R */
+            e[i]= vide;
+            ret= imok(i, i-1) && imok(i, i-2);
+            e[i-2]= p;
+            ret= ret && imok(i, i-1) && imok (i, i) && imok(i, i+1);
+            e[i-2]= vide;
+            e[i]= p;
+            break;
+    }
+    return ret;
+}
+
+            
 boolean hopimok(square i, square j, square k, smallint diff) {
 							/* V3.12  TM */
     /* hop i->j hopping over k in steps of diff ok? */
@@ -248,6 +298,14 @@ boolean rcsech(
     return false;
 }
 
+boolean nevercheck(
+    square  i,
+    piece   p,
+    boolean (*evaluate)(square,square,square))		/* V3.81  ElB */
+{
+    return false;
+}
+
 boolean cscheck(
     square  i,
     piece   p,
@@ -352,6 +410,31 @@ boolean nequicheck(
 	    }
 	}
     }
+    return false;
+}
+
+boolean equifracheck(
+    square	i,
+    piece	p,
+    boolean	(*evaluate)(square,square,square))   /* V2.60  NG */
+{
+    square j, j2;
+	square *bnp;
+
+	for (bnp= boardnum; *bnp; bnp++)
+	{
+	    j=*bnp;
+		j2=(i<<1) - j;
+		if ( e[j2] != vide	 /* V1.5c, V2.90  NG */
+          && e[j2] != obs
+	      && e[j] == p		 /* V1.5c, V2.90  NG */
+	      && i != j					/* V3.54  NG */
+	      && (*evaluate)(j, i, i)			/* V3.02  TLi */
+	      && hopimcheck(j,i,j2,j2-j))		/* V3.12  TM */
+	    {
+		return true;
+	    }
+	}
     return false;
 }
 
@@ -773,41 +856,41 @@ boolean maocheck(
     if (e[i + 25] == vide) {
 	if (e[i + 26] == p) {
 	    if ((*evaluate)(i + 26, i, i))  /* V3.02  TLi */
-		return true;
+		return maooaimcheck(i + 26, i, i + 25); /* V3.81 SE */
 	}
 	if (e[i + 49] == p) {
 	    if ((*evaluate)(i + 49, i, i))  /* V3.02  TLi */
-		return true;
+		return maooaimcheck(i + 49, i, i + 25); /* V3.81 SE */
 	}
     }
     if (e[i - 25] == vide) {
 	if (e[i - 26] == p) {
 	    if ((*evaluate)(i - 26, i, i))  /* V3.02  TLi */
-		return true;
+		return maooaimcheck(i - 26, i, i - 25); /* V3.81 SE */
 	}
 	if (e[i - 49] == p) {
 	    if ((*evaluate)(i - 49, i, i))  /* V3.02  TLi */
-		return true;
+		return maooaimcheck(i - 49, i, i - 25); /* V3.81 SE */
 	}
     }
     if (e[i + 23] == vide) {
 	if (e[i + 22] == p) {
 	    if ((*evaluate)(i + 22, i, i))  /* V3.02  TLi */
-		return true;
+		return maooaimcheck(i + 22, i, i + 23); /* V3.81 SE */
 	}
 	if (e[i + 47] == p) {
 	    if ((*evaluate)(i + 47, i, i))  /* V3.02  TLi */
-		return true;
+		return maooaimcheck(i + 47, i, i + 23); /* V3.81 SE */
 	}
     }
     if (e[i - 23] == vide) {
 	if (e[i - 47] == p) {
 	    if ((*evaluate)(i - 47, i, i))  /* V3.02  TLi */
-		return true;
+		return maooaimcheck(i - 47, i, i - 23); /* V3.81 SE */
 	}
 	if (e[i - 22] == p) {
 	    if ((*evaluate)(i - 22, i, i))  /* V3.02  TLi */
-		return true;
+		return maooaimcheck(i - 22, i, i - 23); /* V3.81 SE */
 	}
     }
     return false;
@@ -821,41 +904,41 @@ boolean moacheck(
     if (e[i + 24] == vide) {
 	if (e[i + 47] == p) {
 	    if ((*evaluate)(i + 47, i, i))		/* V3.02  TLi */
-		return true;
+		return maooaimcheck(i + 47, i, i + 24); /* V3.81 SE */
 	}
 	if (e[i + 49] == p) {
 	    if ((*evaluate)(i + 49, i, i))		/* V3.02  TLi */
-		return true;
+		return maooaimcheck(i + 49, i, i + 24); /* V3.81 SE */
 	}
     }
     if (e[i - 24] == vide) {
 	if (e[i - 47] == p) {
 	    if ((*evaluate)(i - 47, i, i))		/* V3.02  TLi */
-		return true;
+		return maooaimcheck(i - 47, i, i - 24); /* V3.81 SE */
 	}
 	if (e[i - 49] == p) {
 	    if ((*evaluate)(i - 49, i, i))		/* V3.02  TLi */
-		return true;
+		return maooaimcheck(i - 49, i, i - 24); /* V3.81 SE */
 	}
     }
     if (e[i + 1] == vide) {
 	if (e[i + 26] == p) {
 	    if ((*evaluate)(i + 26, i, i))		/* V3.02  TLi */
-		return true;
+		return maooaimcheck(i + 26, i, i + 1); /* V3.81 SE */
 	}
 	if (e[i - 22] == p) {
 	    if ((*evaluate)(i - 22, i, i))		/* V3.02  TLi */
-		return true;
+		return maooaimcheck(i - 22, i, i + 1); /* V3.81 SE */
 	}
     }
     if (e[i - 1] == vide) {
 	if (e[i - 26] == p) {
 	    if ((*evaluate)(i - 26, i, i))		/* V3.02  TLi */
-		return true;
+		return maooaimcheck(i - 26, i, i - 1); /* V3.81 SE */
 	}
 	if (e[i + 22] == p) {
 	    if ((*evaluate)(i + 22, i, i))		/* V3.02  TLi */
-		return true;
+		return maooaimcheck(i + 22, i, i - 1); /* V3.81 SE */
 	}
     }
     return false;
@@ -898,6 +981,8 @@ boolean pbcheck(
     piece	p,
     boolean	(*evaluate)(square,square,square))	/* V2.60  NG */
 {
+    square sq;
+
     if (anymars) {	    /* NG  3.47 */
 	boolean anymarscheck=
 		 ((p == e[rb]) && (e[i-24] == p))
@@ -917,9 +1002,10 @@ boolean pbcheck(
 	    {
 		return true;
 	    }
-	    if (ep[nbply] && RB_[nbply] != rb) {	/* V3.45  TLi */
+	    if ((sq= ep[nbply]) &&
+		(RB_[nbply] != rb) &&
+		((rb == sq + 23) || (rb == sq + 25))) {	/* V3.45  TLi */ /* V3.78  SE */ /* V3.80  NG */
 		/* ep captures of royal pawns */
-		square sq= ep[nbply];		     /* square passed */
 		if (e[sq+24] == pbn && (*evaluate)(sq+24, sq, rn))
 		    imech(sq+24, sq);
 	    }
@@ -936,9 +1022,10 @@ boolean pbcheck(
 	    {
 		return true;
 	    }
-	    if (ep[nbply] && RN_[nbply] != rn) {	    /* V3.45  TLi */
+	    if ((sq= ep[nbply]) &&
+		(RN_[nbply] != rn) &&
+		((rn == sq - 23) || (rn == sq - 25))) {	    /* V3.45  TLi */ /* V3.78  SE */ /* V3.80  NG */
 		/* ep captures of royal pawns */
-		square sq= ep[nbply];	   /* square passed */
 		if (e[sq-24] == pbb && (*evaluate)(sq-24, sq, rn)) {
 		    imech(sq-24, sq);
 		}
@@ -1491,6 +1578,42 @@ boolean equicheck(
     return false;
 }
 
+boolean equiengcheck(
+    square	i,
+    piece	p,
+    boolean	(*evaluate)(square,square,square))	/* V2.60  NG */
+{
+    numvec  k;
+    piece   p1;
+    square  j, j1;
+
+    for (k= 8; k > 0; k--) {	    /* 0,2; 0,4; 0,6; 2,2; 4,4; 6,6; */
+	finligne(i, vec[k], p1, j);
+	if (p1 != obs) {
+	    finligne(i, -vec[k], p1, j1);
+	    if (p1 == p && j1 - i == i - j) {
+		if ((*evaluate)(j1, i, i)		/* V3.02  TLi */
+		  && hopimcheck(j1,i,j,-vec[k]))	/* V3.12  TM */
+		{
+			return true;
+		}
+	    }
+	}
+    }
+    for (k= 17; k <= 40; k++) {      /* 2,4; 2,6; 4,6; */
+	if ( abs(e[i + vec[k]]) >= roib
+	  && e[j1= i - vec[k]] == p)
+	{
+	    if ((*evaluate)(j1, i, i)			/* V3.02  TLi */
+		&& hopimcheck(j1,i,j1+vec[k],vec[k]))	/* V3.12  TM */
+	    {
+		return true;
+	    }
+	}
+    }
+    return false;
+}
+
 boolean catcheck(
     square	i,
     piece	p,
@@ -1654,9 +1777,6 @@ boolean libre(square sq, boolean generating) {
 	    && (!rex_mad) && ((sq == rb) || (sq == rn)))
         return true;
 
-#ifdef NODEF	/* V3.76  TLi */
-    if (TSTFLAG(PieSpExFlags, Neutral)) {		/* V3.60  TLi */
-#endif
     if (TSTFLAG(spec[sq], Neutral)) {		/* V3.76  TLi */
 	if (generating)
 	    p= -p;
@@ -1665,13 +1785,6 @@ boolean libre(square sq, boolean generating) {
     }
 
     if (CondFlag[madras] || CondFlag[isardam]) {	/* V3.60  TLi */
-#ifdef NODEF	/* V3.76  TLi */
-	if (! rex_mad) {
-	    if ((sq == rb) || (sq == rn)) {
-		return true;
-	    }
-	}
-#endif
 
 	/* The ep capture needs special handling. */
 	switch (p) {					/* V3.22  TLi */
@@ -1743,9 +1856,6 @@ boolean libre(square sq, boolean generating) {
 	}
     } /* CondFlag[eiffel] */
 
-#ifdef NODEF 	/* V3.76  TLi */
-    if (TSTFLAG(PieSpExFlags, Neutral) && !generating)	/* V3.60  TLi */
-#endif
     if (TSTFLAG(spec[sq], Neutral) && !generating)	/* V3.76  TLi */
 	initneutre(neutcoul_sic);
 
@@ -2374,3 +2484,44 @@ boolean dolphincheck(
     return  rhopcheck(i, 1, 8, p, evaluate)
 	 || kangoucheck(i, p, evaluate);
 } /* dolphincheck */
+
+boolean querquisitecheck(square i, piece p, boolean (* evaluate)(square,square,square))   /* V3.78  SE */
+{
+numvec k;
+square j, j1;
+piece p1;
+
+	for (k= 1; k<= 4; k++) {
+		finligne(i, vec[k], p1, j1);
+		j= j1%24 - 8;
+		if ((j==0 || j==3 || j==7) && p1 == p &&
+			 (*evaluate)(j1, i, i) &&
+			 ridimcheck(j1, i, vec[k]))
+			return true;
+	}
+	for (k= 5; k<= 8; k++) {
+		finligne(i, vec[k], p1, j1);
+		j= j1%24 - 8;
+		if ((j==2 || j==3 || j==5) && p1 == p &&
+			 (*evaluate)(j1, i, i) &&
+			 ridimcheck(j1, i, vec[k]))
+			return true;
+	}
+	for (k= 9; k<= 16; k++) {
+		j1= i + vec[k];
+		j= j1%24 - 8;
+		if (e[j1] == p && (j==1 || j==6) &&
+			 (*evaluate)(j1, i, i) &&             
+			 imcheck(j1, i))
+			return true;
+	}
+	for (k= 1; k<= 8; k++) {
+		j1= i + vec[k];
+		j= j1%24 - 8;
+		if (e[j1] == p && (j==4) &&
+			 (*evaluate)(j1, i, i) &&            
+			 imcheck(j1, i))
+			return true;
+	}
+	return false;
+}

@@ -3,18 +3,17 @@
 **
 ** Date       Who  What
 **
-** 2002/04/04 NG   commandline option -regression for regressiontesting
-**
-** 2002/05/05 NG   Windows98 version now detectable via VERSIONSTRING
-**
-** 2002/05/18 NG   new pieces: rabbit, bob
-**                 new define: ClrDiaRen(s)
-**
 ** 2003/01/05 TBa  MaxMemory improved for WIN32
 **
 ** 2003/05/13 NG   new: flagleofamilyonly (marscirce+leofamily+mao bugfix)
 **
 ** 2003/05/18 NG   new option: beep    (if solution encountered)
+**
+** 2003/06/03 NG   bug fix: toppile and liste increased for SuperCirce.
+**
+** 2004/04/30 TLi  bug fix: pushtabsol in py6.c
+**
+** 2004/07/19 NG   New condition: SwappingKings
 **
 **************************** End of List ******************************/
 
@@ -30,13 +29,6 @@
      to nothing, to get the old code -- without var intialisation.
  */
 #define VARIABLE_INIT(var)	var=0
-
-#ifdef NODEF			/* v3.74  NG */
-#if defined(REGRESSION_TEST)
-#undef HASHSTATS
-#define NO_MOVE_TIME
-#endif
-#endif	/* NODEF */
 
 #ifdef C370
 /* On MVS-systems there's the problem that the C/370 compiler and the
@@ -63,49 +55,9 @@
 
 #ifndef VERSION				/* V3.55  NG */
 
-#define VERSION "3.77"
+#define VERSION "4.00"
 
 #endif	/* ! VERSION */
-
-#ifdef NODEF
-#ifdef DATABASE
-#       define VERSIONSTRING "Popeye DATABASE-Version "VERSION
-#else
-#ifdef C370
-#       define VERSIONSTRING "Popeye MVS-Version "VERSION
-#else
-#if defined(DOS) && defined(SIXTEEN)
-#       define VERSIONSTRING "Popeye DOS16-Version "VERSION
-#else
-#ifdef ATARI
-#       define VERSIONSTRING "Popeye ATARI-Version "VERSION
-#else
-#ifdef WIN16
-#       define VERSIONSTRING "Popeye WIN16-Version "VERSION
-#else
-#ifdef WIN32
-#       define VERSIONSTRING "Popeye WIN32-Version "VERSION
-#else
-#ifdef UNIX
-#ifdef __GO32__
-#       define VERSIONSTRING "Popeye DOS32-Version "VERSION
-#else
-#ifdef SIXTYFOUR
-#       define VERSIONSTRING "Popeye UNIX64-Version "VERSION
-#else
-#       define VERSIONSTRING "Popeye UNIX32-Version "VERSION
-#endif	/* SIXTYFOUR */
-#endif	/* __GO32__ */
-#else	/* ! UNIX: use default version string */
-#       define VERSIONSTRING "Popeye C-Version "VERSION
-#endif	/* UNIX */
-#endif	/* WIN32 */
-#endif	/* WIN16 */
-#endif	/* ATARI */
-#endif	/* DOS && SIXTEEN */
-#endif	/* C370 */
-#endif	/* DATABASE */
-#endif	/* NODEF */
 
 #ifndef OSBIT
 #if defined(SIXTEEN) || defined(WIN16)
@@ -303,7 +255,10 @@
 #define dolphinb       118      /* V3.70  TLi */
 #define rabbitb        119      /* V3.76  NG */
 #define bobb           120      /* V3.76  NG */
-#define derbla         121
+#define equiengb       121	    /* V3.78  SE */
+#define equifrab       122	    /* V3.78  SE */
+#define querqub        123	    /* V3.78  SE */
+#define derbla         124
 #define roin    -2
 #define pn      -3
 #define dn      -4
@@ -423,7 +378,10 @@
 #define dolphinn       -118     /* V3.70  TLi */
 #define rabbitn        -119     /* V3.76  NG */
 #define bobn           -120     /* V3.76  NG */
-#define dernoi         -121
+#define equiengn       -121	    /* V3.78  SE */
+#define equifran       -122	    /* V3.78  SE */
+#define querqun        -123	    /* V3.78  SE */
+#define dernoi         -124
 
 #define maxsquare       576     /* V2.60  NG */
 #define haut            375     /* V2.60  NG */
@@ -453,7 +411,7 @@
 #endif  /* UNIX */
 #endif /* DATABASE */
 
-#define toppile (30*maxply)     /* V2.90  NG */
+#define toppile (60*maxply)     /* V2.90  NG */ /* V3.78  NG */
 #define maxvec          136     /* V3.46  NG */ /* V3.73 ElB*/
 
 #define bl      ' '
@@ -478,10 +436,6 @@ typedef short   smallint;       /* V1.4c  NG */
 #else
 	typedef int     boolean;        /* must be int on NSC machines. V2.1c  NG */
 	typedef int     piece;
-#endif
-
-#ifdef NODEF            /* V3.53  TLi */
-typedef unsigned int    Flags;
 #endif
 
 typedef unsigned long   Flags;          /* V3.53  TLi */
@@ -519,12 +473,16 @@ typedef struct {
 	piece		sb2what;		/* V3.71 TM */
 	square		sb3where;		/* V3.72 TM */
 	piece		sb3what;		/* V3.72 TM */
+	square		mren;
+	boolean		osc;            	/* V3.80 SE */
 } coup;
+
+#define	tabmaxcp	2048			/* V3.80 TLi */
 
 typedef struct {                                        /* V2.70 TLi */
 	smallint        nbr,
 			cp[3*maxply];
-	coup            liste[100];                     /* V3.22  TLi */
+	coup            liste[tabmaxcp];	/* V3.80 TLi */
 } tab;
 
 typedef struct {                                        /* V3.02  TLi */
@@ -749,19 +707,15 @@ typedef int Token;
 #define Dolphin        118
 #define Rabbit         119
 #define Bob            120
-#define PieceCount     121
+#define EquiEnglish    121
+#define EquiFrench     122
+#define Querquisite    123
+#define PieceCount     124
 typedef int PieNam;
 /*--- End of } PieNam;---*/
 
 typedef char PieceChar[2];
 typedef PieceChar       PieTable[PieceCount];
-
-#ifdef NODEF   /* v3.50 SE */
-/* new anticirce implementation -- V3.38  TLi */
-#define AntiCirTypeCheylan  0
-#define AntiCirTypeCalvet   1
-#define AntiCirTypeCount    2
-#endif
 
 /* for multiple variants of conditions -- V3.50  SE */
 #define TypeB                   0
@@ -777,7 +731,9 @@ typedef PieceChar       PieTable[PieceCount];
 #define Type1                  10
 #define Type2                  11
 #define Type3                  12
-#define VariantTypeCount       13
+#define Neighbour              13
+#define TypeC                  14
+#define VariantTypeCount       15
 
 /* for intelligent specification of one-sided conditions -- V3.62 SE */
 #define maxi			0
@@ -1043,7 +999,20 @@ typedef int Opt;
 #define circedoubleagents      134
 #define amu                    135
 #define singlebox              136
-#define CondCount              137
+#define MAFF                   137
+#define OWU                    138
+#define white_oscillatingKs    139
+#define black_oscillatingKs    140
+#define antikings              141
+#define antimars               142
+#define antimarsmirror         143
+#define antimarsantipodean     144
+#define whsupertrans_king      145
+#define blsupertrans_king      146
+#define antisuper              147
+#define ultrapatrouille        148
+#define swappingkings          149
+#define CondCount              150
 typedef int Cond;
 /*--- End of } Cond;---*/
 
@@ -1107,7 +1076,7 @@ typedef int PieSpec;
 /* V3.12  TM */
 /* #define hopimcheck(sq, j, over, diff) (!CondFlag[imitators] || hopimok((sq), (j), (over), (diff))) */	/* V3.64  SE */
 #define hopimcheck(sq, j, over, diff) (!checkhopim || hopimok((sq), (j), (over), (diff)))
-
+#define maooaimcheck(sq, j, pass) (!CondFlag[imitators] || maooaimok((sq), (j), (pass)))   
 /* V2.90c  TLi */
 #define setneutre(i)            do {if (neutcoul != color(i)) change(i);} while(0)
 #define change(i)               do {register piece pp; nbpiece[pp= e[i]]--; nbpiece[e[i]= -pp]++;} while (0)

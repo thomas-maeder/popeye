@@ -388,4 +388,11 @@
 ** 2001/11/10 NG   singleboxtype? changed to singlebox type?
 **		   some singlebox variable names changed ...
 ** 
+** 2002/04/04 NG   commandline option -regression for regressiontesting
+**
+** 2002/05/05 NG   Windows98 version now detectable via VERSIONSTRING
+**
+** 2002/05/18 NG   new pieces: rabbit, bob
+**		   new define: ClrDiaRen(s)
+**
 **************************** End of List ******************************/

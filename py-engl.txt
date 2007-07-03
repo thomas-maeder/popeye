@@ -1,4 +1,4 @@
-     D E S C R I P T I O N   O F   P O P E Y E    3 . 7
+     D E S C R I P T I O N   O F   P O P E Y E    3 . 8
  
 
 Some remarks on the distribution of popeye:
@@ -69,9 +69,9 @@ To solve problems recorded in file XX:          py XX
 
 Commandline parameters:
 -maxmem
-	You can provide for Popeye for example 4096 kilobyte (or 4 megabye)
+	You can provide for Popeye for example 40960 kilobyte (or 40 megabye)
 	of memory with
-		py -maxmem 4096 XX    or   py -maxmem 4M XX
+		py -maxmem 40960 XX    or   py -maxmem 40M XX
 	to make calculation of problems faster.
 
 Stopping Popeye:
@@ -251,6 +251,19 @@ commands expect further parameters. Lets start with the simpler commands:
 	CirceDoubleAgents
 	AMU
 	SingleBox
+	MAFF
+	OWU
+	WhiteOscillatingKings
+	BlackOscillatingKings
+	AntiKings
+	AntiMarsCirce
+	AntiMarsMirrorCirce
+	AntiMarsAntipodeanCirce
+	WhiteSuperTransmutingKing
+	BlackSuperTransmutingKing
+	AntiSuperCirce
+	UltraPatrol
+	SwappingKings
 
 	After the conditions Imitator, MagicField, Hole, FrischaufCirce,
 	WhitePromSquares, BlackPromSquares
@@ -277,6 +290,8 @@ commands expect further parameters. Lets start with the simpler commands:
               or TotalMaximum followed by a number.
 	After MessignyChess, (Bi)Woozles and (Bi)Heffalumps you can enter
         RexExclusive.
+	After the WhiteOscillatingKings or BlackOscillatingKings condition "TypeB" or
+	      or "TypeC" can be entered.
 
  - option: Everything which should be in effect should be given here as
 	blank seperated list. The following is recognized:
@@ -366,6 +381,7 @@ commands expect further parameters. Lets start with the simpler commands:
 
 						{ dia }   +  n{.5}
 			{ SER- }             +  { dia }   +  n
+						{ a=>b }  +  n{.5}
 			{ SER-}              +  { a=>b }  +  n
 
 	(m, n are the number of moves)
@@ -528,6 +544,9 @@ elaborate is the command
 	pa      pao   
 	pr      princess   
 	q       queen   
+	qe      equi english			equi approacher stopable
+	qf      equi french 			equi approacher nonstopable
+	qq      querquisite
 	r       rook   
 	ra      rao                             chinese rose
 	rb      reflecting bishop   
@@ -650,7 +669,7 @@ The last problem specification should be finished with `EndProblem'.
 Special things depending on your operating system:
 
 
-UNIX, SINIX, XENIX, ULTRIX, MUNIX, SUNOS, SOLARIS, AIX, HPUX, IRIX, LINUX:
+UNIX, SINIX, XENIX, ULTRIX, MUNIX, SUNOS, SOLARIS, AIX, HPUX, IRIX, LINUX, BSD:
 
 	1) Maximum depth of calculation:        999 half-moves.
 	2) Solving can be interrupted anytime with the CTRL-C key.
@@ -687,7 +706,7 @@ VMS:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson    may 2003
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson    july 2004
 
 If you have any suggestions, any errors you know of, etc., you are
 welcome to contact us.

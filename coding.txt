@@ -8,7 +8,7 @@ I was in need to correct the implementation of the 3:6 leaper.
 In trying to do so, I took a look at the sources of popeye and
 was astonished to see a wild mixture of coding styles. After a
 short conversation with Norbert I took the time and reedited all
-of the source files, to make them appear under a commong coding
+of the source files, to make them appear under a common coding
 style. 
 
 I know from my own experience, that it is not a nice feeling
@@ -24,7 +24,7 @@ perfect! I may have introduced a very subtle error that slipped
 through all the tests; so take this with a little bit grain of salt.
 
 Please don't blame me for changing the style in a way, that is
-completely unacceptable for you. I don't believe this is true,
+completely unacceptable to you. I don't believe this is true,
 but in that case, go ahead and change it again to what you like
 better. Please, do it then consistently over ALL the source 
 without breaking the code :-)
@@ -71,7 +71,7 @@ Braces:
 
 Breakup of expressions:
   When I had to break expressions, I always tried to start the line
-  with an indented operator. This way it is always clear the the previos
+  with an indented operator. This way it is always clear that the previous
   line is not finished. The indentation used then is 2 blanks. The
   expection are if-clauses, where I also started with an operator, but
   indented as much as to lineup the same binding level of the boolean
@@ -86,8 +86,8 @@ Breakup of long function declarations:
 Coding of special C-constructs:
 
  + if-clauses:
-   . I don't use assignements in the if clause.
-   . If used, I always used parenthesis for the assignement expression:
+   . I don't use assignments in the if clause.
+   . If used, I always used parenthesis for the assignment expression:
       Not:
       	if (ret = i2 == k)
       At least:
@@ -124,7 +124,7 @@ Coding of special C-constructs:
 
  + I use always braces for code in 'then' or 'else' clauses.
    Only simple assignements should be an exception, but not when
-   occuring in cascading if-then-else. Good habbit is always to
+   occuring in cascading if-then-else. Good habit is always to
    use braces.
 
  + Empty loops:
@@ -155,7 +155,7 @@ Coding of special C-constructs:
    It works only correct if the values on one bit position are
    used. In boolean expressions it can be replaced with the != operator.
 
- + When there where long expressions for if conditions,
+ + When there were long expressions for if conditions,
    I needed to break them over several lines.
    Then I tried to use the next binding operator to start the line with
    and indent, if the expression belongs to another level in the

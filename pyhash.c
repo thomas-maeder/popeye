@@ -4,19 +4,19 @@
 **
 ** 2003/05/12 TLi  hashing bug fixed: h= + intel did not find all solutions .
 **
+** 2004/03/22 TLi  hashing for exact-* stipulations improved
+**
+** 2005/02/01 TLi  function hashdefense is not used anymore...
+**
+** 2005/02/01 TLi  in matant and invref exchanged the inquiry into the hash
+**                 table for "white can mate" and "white cannot mate" because
+**                 it is more likely that a position has no solution
+**                 This yields an incredible speedup of .5-1%  *fg*
+**
 **************************** End of List ******************************/
 
 /**********************************************************************
-** We hash. Till now, only for inexact series play.
-**
-** "forward" - positions are entered in the hashtables with
-**     the information that the position can be reached faster.
-**     inhash(Faster, n) is true, if and only if the actual position
-**     can be reached in less than n moves.
-**
-** "backward" - unsolvable positions are entered in the table
-**     inhash(NoSuccess, n) is true, if and only iff the actual
-**     position has no solution in less than n moves.
+** We hash.
 **
 ** SmallEncode and LargeEncode are functions to encode the actual
 ** position. SmallEncode is used when the starting position contains
@@ -151,7 +151,7 @@ smallint value_of_data(uLong Data)
 	       + enonce*GetSecondHashValue(Data));
     }
     else {
-	if (GetFirstHashValue(Data) <= enonce
+	if (GetFirstHashValue(Data) <= (unsigned)enonce		/* V3.82  NG */
 	  && GetFirstHashValue(Data) > GetSecondHashValue(Data))
 	{
 	    return GetFirstHashValue(Data);
@@ -429,6 +429,9 @@ int TellCommonEncodePosLeng(int len, int nbr_p) {		/* V3.57  TLi */
     if (OptFlag[nontrivial]) {				/* V3.32  TLi */
 	len++;
     }
+    if (FlowFlag(Exact)) {          /* V3.78  TLi */
+        len++;
+    }
     return len;
 } /* TellCommonEncodePosLeng */
 
@@ -511,6 +514,10 @@ byte *CommonEncode(byte *bp)
 	    *bp++ = (byte)(pprispec[nbply]&0xff);
 	}
     }
+    if (FlowFlag(Exact)) {                              /* V3.78  TLi */
+        *bp++ = (byte)(nbply);
+    }
+
     if (ep[nbply]) {
 	*bp++ = (byte)(ep[nbply] - bas);
     }
@@ -622,8 +629,8 @@ boolean inhash(hashwhat what, smallint val)
 	case SerNoSucc:
 	case WhHelpNoSucc:
 	    ret = FlowFlag(Exact)
-		   ? (GetFirstHashValue((uLong)he->Data) == val)
-		   : (GetFirstHashValue((uLong)he->Data) >= val);
+		   ? (GetFirstHashValue((uLong)he->Data) == (unsigned)val)	/* V3.82  NG */
+		   : (GetFirstHashValue((uLong)he->Data) >= (unsigned)val);	/* V3.82  NG */
 	    if (ret) {
 		ifHASHRATE(use_pos++);
 		return True;
@@ -635,8 +642,8 @@ boolean inhash(hashwhat what, smallint val)
 	case BlHelpNoSucc:
 	case WhDirNoSucc:
 	    ret = FlowFlag(Exact)
-		   ? (GetSecondHashValue((uLong)he->Data) == val)
-		   : (GetSecondHashValue((uLong)he->Data) >= val);
+		   ? (GetSecondHashValue((uLong)he->Data) == (unsigned)val)	/* V3.82  NG */
+		   : (GetSecondHashValue((uLong)he->Data) >= (unsigned)val);	/* V3.82  NG */
 	    if (ret) {
 		ifHASHRATE(use_pos++);
 		return True;
@@ -645,8 +652,8 @@ boolean inhash(hashwhat what, smallint val)
 
 	case WhDirSucc:
 	    ret = FlowFlag(Exact)
-		   ? (GetFirstHashValue((uLong)he->Data) == val)
-		   : (GetFirstHashValue((uLong)he->Data) <= val);
+		   ? (GetFirstHashValue((uLong)he->Data) == (unsigned)val)	/* V3.82  NG */
+		   : (GetFirstHashValue((uLong)he->Data) <= (unsigned)val);	/* V3.82  NG */
 	    if (ret) {
 		ifHASHRATE(use_pos++);
 		return True;
@@ -684,11 +691,11 @@ void addtohash(hashwhat what, smallint val)
 	}
 	dat= MakeHashData(hv_1, hv_2);	/* V3.22  TLi */
 	he= dhtEnterElement(pyhash, (dhtValue)cmv, (dhtValue)dat);
-	if (he==dhtNilElement || dhtKeyCount(pyhash) > MaxPositions) {
+	if (he==dhtNilElement || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {	/* V3.82  NG */
 	    compresshash();
 	    he= dhtEnterElement(pyhash, (dhtValue)cmv, (dhtValue)dat);
 	    if (he==dhtNilElement
-	      || dhtKeyCount(pyhash) > MaxPositions) {
+	      || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {	/* V3.82  NG */
 #if defined(FXF)
 		ifTESTHASH(
 		  printf("make new hashtable, due to trashing\n"));
@@ -696,7 +703,7 @@ void addtohash(hashwhat what, smallint val)
 		he= dhtEnterElement(pyhash,
 			(dhtValue)cmv, (dhtValue)dat);
 		if (he==dhtNilElement
-		  || dhtKeyCount(pyhash) > MaxPositions) {
+		  || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {	/* V3.82  NG */
 		    fprintf(stderr,
 		      "Sorry, cannot enter more hashelements "
 		      "despite compression\n");
@@ -1024,12 +1031,6 @@ boolean last_dsr_move(couleur camp)	/* V3.13  TLi */
 	    if (SortFlag(Direct)) {
 		if ((*stipulation)(camp)) {
 		    linesolution();	    /* V2.90  NG */
-#ifdef NODEF
-		    if (OptFlag[maxsols])		/* V3.77  NG*/
-			solutions++;
-		    if (OptFlag[beep])			/* V3.77  NG*/
-			BeepOnSolution(maxbeep);
-#endif	/* NODEF */
 		    flag = true;	    /* V3.13  TLi */
 		}
 	    } else
@@ -1042,7 +1043,6 @@ boolean last_dsr_move(couleur camp)	/* V3.13  TLi */
     return flag;
 } /* last_dsr_move */
 
-/* #ifdef NODEF reactivated  --  V3.44	TLi */	/* V3.41   TLi */
 boolean ser_dsrsol(couleur camp, smallint n, boolean restartenabled)
 {
     boolean flag= false;
@@ -1219,6 +1219,8 @@ void	closehash(void)
 
 } /* closehash */
 
+#ifdef NODEF	/* This functions is not used any longer.        */
+                /* Since when?                        V4.00  TLi */
 boolean hashdefense(couleur camp, smallint n) {
     boolean flag = true;
 
@@ -1235,6 +1237,7 @@ boolean hashdefense(couleur camp, smallint n) {
 
     return !flag;
 } /* hashdefense */
+#endif
 
 boolean mate(couleur camp, smallint n) {
 /* returns true if camp can defend against a mate in n */
@@ -1244,12 +1247,6 @@ boolean mate(couleur camp, smallint n) {
 
     /* check whether `black' can reach a position that is already
     ** marked unsolvable for white in the hash table. */
-
-#ifdef NODEF
-	/*  //	is NOT an  ANSI-C  comment !!!	Grrrhhhh, V3.63  NG */
-    //if (n > 1 && hashdefense(camp, n))
-	//return false;
-#endif /* NODEF */
 
     /* Check whether the black king has more flight squares than he is
     ** allowed to have. The number of allowed flights (maxflights) is entered
@@ -1322,10 +1319,7 @@ boolean mate(couleur camp, smallint n) {
     } /* nontrivial */
 
 	if (flag) {
-	    if (n > 1 && !(   TSTFLAG(PieSpExFlags, Neutral)
-			   || flag_testlegality
-			   || anymars		      /* V3.62	TLi */
-			   || CondFlag[brunner]))     /* V3.60	TLi */
+	    if (n > 1 && !nonoptgenre)     /* V3.78  SE */
 		optimize= true;
 
 	genmove(camp);
@@ -1361,10 +1355,12 @@ boolean matant(couleur camp, smallint n)
     ** compute a "mate" in 1.	TLi */
     if (n > (FlagMoveOrientatedStip ? 1 : 0)	    /* V3.33  TLi */
 	&& !SortFlag(Self) && !FlowFlag(Reci)) {    /* V3.32  TLi */
-	if (inhash(WhDirSucc, n))
-		return true;
+        /* It is more likely that a position has no solution.           */
+        /* Therefore let's check for "no solution" first.    V4.00  TLi */
 	if (inhash(WhDirNoSucc, n))
 		return false;
+	if (inhash(WhDirSucc, n))
+		return true;
     }
 
 
@@ -1417,14 +1413,12 @@ boolean invref(couleur	camp, smallint n) {
     couleur ad= advers(camp);
     int i;
 
-    if (inhash(WhDirSucc, n))
-	return true;
+    /* It is more likely that a position has no solution.           */
+    /* Therefore let's check for "no solution" first.    V4.00  TLi */
     if (inhash(WhDirNoSucc, n))
 	return false;
-
-#ifdef CRAP				/* V3.70  TLi */
-    addtohash(WhDirNoSucc, n);		/* V3.63  TLi */
-#endif
+    if (inhash(WhDirSucc, n))
+	return true;
 
     if (!FlowFlag(Exact))	    /* V3.0exact */
 	if ((*stipulation)(ad)) {
@@ -1454,10 +1448,6 @@ boolean invref(couleur	camp, smallint n) {
 	finply();
     }
 
-#ifdef CRAP		/* V3.70  TLi */
-    if (flag)		/* V3.62  TLi */
-	addtohash(WhDirSucc, n);
-#endif
     addtohash(flag ? WhDirSucc :WhDirNoSucc, n);	/* V3.70  TLi */
 
     return flag;
@@ -1505,11 +1495,6 @@ boolean definvref(couleur camp, smallint n) {
     n--;
 
     /* seems to be little efficient !!!!  TLi */
-#ifdef NODEF
-	/*  //	is NOT an  ANSI-C  comment !!!	Grrrhhhh, V3.63  NG */
-    //if (n > 1 && hashdefense(camp, n))
-	//return true;
-#endif /* NODEF */
 
     /* Threat restriction -- white must always check or threat mate in
     ** in a certain number of moves (droh). It is active if droh < enonce-1.
@@ -1600,10 +1585,7 @@ boolean definvref(couleur camp, smallint n) {
     } /* nontrivial */
 
     if (n || (camp == noir ? flagblackmummer : flagwhitemummer)) {
-	optimize = n > 1 && !(	 TSTFLAG(PieSpExFlags, Neutral)
-			      || flag_testlegality
-			      || anymars	       /* V3.62  TLi */
-			      || CondFlag[brunner]);   /* V3.60  TLi */
+	optimize = n > 1 && !nonoptgenre;     /* V3.78  SE */
 	genmove(camp);
 	optimize= false;
 

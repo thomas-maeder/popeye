@@ -75,9 +75,6 @@ long StopTimer(void) {
     ticks= StopBuffer.tms_utime+StopBuffer.tms_stime
 	    - StartBuffer.tms_utime - StartBuffer.tms_stime;
 
-#ifdef NODEF
-    mSec= (int)((((float)ticks)/ClockTick - (float)(ticks/ClockTick))*1000);
-#endif	/* NODEF */
     mSec= ((ticks % ClockTick)*1000)/ClockTick;	/* V3.62  NG */
     return ticks/ClockTick;
 }
@@ -327,9 +324,6 @@ long StopTimer(void) {
     StopBuffer= clock();
     ticks= (StopBuffer - StartBuffer);
 
-#ifdef NODEF
-    mSec= (int)((((float)ticks)/CLOCKS_PER_SEC - (float)(ticks/CLOCKS_PER_SEC))*1000);
-#endif	/* NODEF */
     mSec= ((ticks % (long)CLOCKS_PER_SEC)*1000)/(long)CLOCKS_PER_SEC;	/* V3.62  NG */
     return ticks/(long)CLOCKS_PER_SEC;
 }

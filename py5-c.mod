@@ -278,4 +278,12 @@
 ** 2001/11/10 NG   singleboxtype? changed to singlebox type?
 **		   some singlebox variable names changed ...
 **
+** 2002/03/03 NG   duellistchess moved outside jouegenre
+**
+** 2002/04/04 NG   commandline option -regression for regressiontesting
+**
+** 2002/04/20 NG   norsksjakk: bishop reaching rook-square gets castling capabilities
+**
+** 2002/09/27 ThM  singlebox: bug fix
+**
 **************************** INFORMATION END ***************************/

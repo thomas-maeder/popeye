@@ -11,6 +11,16 @@
 **
 ** 2003/05/18 NG   new option: beep    (if solution encountered)
 **
+** 2004/02/29 SE   bugfix - resolved conflict between variants and
+**                 conditions with same name caused problems with
+**                 e.g. cond sent blackmax	
+**
+** 2004/04/20 NG   superanticirce changed to antisupercirce,
+**                 seems more logical to me ...
+**
+** 2004-06-20 ElB  put nevercheck in checkfunctions for
+**                 Hamster and Dummy.
+**
 **************************** End of List ******************************/
 
 #ifndef PYDATA_H
@@ -86,8 +96,8 @@ EXTERN  square          cd[toppile + 1],        /* case dep. */
 			ca[toppile + 1],        /* case arr. */
 			cp[toppile + 1];        /* case pri. */
 
-extern unsigned int maxinbox[]; /* V3.71 TM */
-extern unsigned int boxsize; /* V3.71 TM */
+EXTERN smallint maxinbox[];  /* V3.71 TM */
+EXTERN unsigned int boxsize; /* V3.71 TM */
 EXTERN struct /* V3.71 TM */
 {
     square where;
@@ -182,10 +192,10 @@ EXTERN  boolean (* eval_white)(square,square,square),
 EXTERN  short   (* white_length)(square,square,square), /* V3.0  TLi */
 		(* black_length)(square, square, square);       /* V3.0  TLi */
 
-EXTERN  square  (* immunrenai)(piece, Flags, square, square, couleur),  /* V3.1  TLi */
-		(* circerenai)(piece, Flags, square, square, couleur),
-		(* antirenai)(piece, Flags, square, square, couleur),
-		(* marsrenai)(piece, Flags, square, square, couleur);  /* V3.46  SE/TLi */
+typedef square  (* renaifunc)(piece, Flags, square, square, square, couleur);
+
+EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai;/* V3.1  TLi */
+
 EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyimmun, anyclone;  /* V3.1  TLi */
 
 /* new anticirce implementation -- V.38  TLi */
@@ -196,6 +206,7 @@ EXTERN  boolean         sbtype1, sbtype2, sbtype3;    /* V3.73  NG */
 EXTERN  pilecouleur     trait;
 EXTERN  boolean         flagfee,                /* V2.51  NG */
 			flagriders, flagleapers, flagsimplehoppers, 
+            flagsimpledecomposedleapers, flagsymmetricfairy,  /* V3.81 SE */
 			flagveryfairy,          /* V3.12  TM */
 			flagleofamilyonly,      /* V3.77  NG */
 			empilegenre,            /* V2.51  NG */
@@ -285,6 +296,20 @@ EXTERN piece            sentinelb, sentineln;	/* V3.70 SE */
 EXTERN boolean          anytraitor;		/* V3.70 SE */
 EXTERN boolean          att_1[maxply + 1];	/* V3.70 SE */
 EXTERN boolean          flag_atob;		/* V3.70 SE */
+EXTERN boolean         (*nocontactfunc) (square ia);
+EXTERN boolean		OscillatingKingsTypeB[2], OscillatingKingsTypeC[2];
+EXTERN boolean		anyantimars;
+EXTERN square           cmren[toppile + 1];
+EXTERN square           supertrans[maxply+1];
+EXTERN piece            current_trans_gen;
+EXTERN piece            ctrans[toppile+1];
+EXTERN boolean          nonoptgenre;
+EXTERN boolean          nonkilgenre;
+EXTERN square           superbas;
+EXTERN boolean          complex_castling_through_flag;
+EXTERN boolean          oscillatedKs[toppile + 1];
+EXTERN boolean          repub_k[toppile + 1];
+
 
 #ifdef WE_ARE_EXTERN
 	extern PieTable PieNamString[LangCount];
@@ -411,7 +436,10 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
         /*117*/ {'a',' '}, /* ami */
         /*118*/ {'d','n'}, /* dauphin */
         /*119*/ {'l','a'}, /* lapin */
-        /*120*/ {'b','o'}  /* bob */
+        /*120*/ {'b','o'}, /* bob */
+        /*121*/ {'q','a'}, /* equi anglais */
+        /*122*/ {'q','f'}, /* equi francais */
+        /*123*/ {'q','q'}  /* querquisite */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '}, /* leer */
 	/*  1*/ {' ',' '}, /* ausserhalb des Brettes */
@@ -533,7 +561,10 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
         /*117*/ {'f',' '}, /* Freund */
         /*118*/ {'d','e'}, /* Delphin */
         /*119*/ {'h','e'}, /* Hase: Lion-Huepfer ueber 2 Boecke */
-        /*120*/ {'b','o'}  /* Bob: Lion-Huepfer ueber 4 Boecke */
+        /*120*/ {'b','o'}, /* Bob: Lion-Huepfer ueber 4 Boecke */
+        /*121*/ {'q','e'}, /* EquiEnglisch */
+        /*122*/ {'q','f'}, /* EquiFranzoesisch */
+        /*123*/ {'o','d'}  /* Odysseus */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '}, /* empty */
 	/*  1*/ {' ',' '}, /* outside board */
@@ -655,7 +686,10 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
         /*117*/ {'f',' '}, /* friend */
         /*118*/ {'d','o'}, /* dolphin */
         /*119*/ {'r','t'}, /* rabbit */
-        /*120*/ {'b','o'}  /* bob */
+        /*120*/ {'b','o'}, /* bob */
+        /*121*/ {'q','e'}, /* equi english */
+        /*122*/ {'q','f'}, /* equi french */
+        /*123*/ {'q','q'}  /* querquisite */
 	}
 	};
 #endif
@@ -933,7 +967,20 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
 	/*133*/ "CirceTurncoats",               /* V3.70  SE */
 	/*134*/ "CirceDoubleAgents",            /* V3.70  SE */
 	/*135*/ "AMU",                          /* V3.70  SE */
-        /*136*/ "SingleBox"                     /* V3.71  ThM, NG */
+ 	/*136*/ "SingleBox",                    /* V3.71  ThM, NG */
+	/*137*/ "MAFF",				/* V3.78  SE */
+	/*138*/ "OWU",				/* V3.78  SE */
+	/*139*/ "BlancRoisOscillant",		/* V3.78  SE */
+	/*140*/ "NoirRoisOscillant",	        /* V3.78  SE */
+	/*141*/ "AntiRois",	                /* V3.78  SE */
+	/*142*/ "AntiMarsCirce",	        /* V3.78  SE */
+	/*143*/ "AntiMarsMalefiqueCirce",	/* V3.78  SE */
+	/*144*/ "AntiMarsAntipodeanCirce",	/* V3.78  SE */
+	/*145*/ "BlancSuperRoiTransmute",       /* V3.78  SE */
+	/*146*/ "NoirSuperRoiTransmute",        /* V3.78  SE */
+	/*147*/ "AntiSuperCirce",               /* V3.78  SE */
+	/*148*/ "UltraPatrouille",              /* V3.78  SE */
+	/*149*/ "RoisEchanges"                  /* V3.81a NG */
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1072,7 +1119,20 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
 	/*133*/ "TurncoatCirce",                /* V3.70  SE */
 	/*134*/ "DoppelAgentenCirce",           /* V3.70  SE */
 	/*135*/ "AMU",                          /* V3.70  SE */
-        /*136*/ "NurPartiesatzSteine"           /* V3.71  ThM, NG */
+        /*136*/ "NurPartiesatzSteine",          /* V3.71  ThM, NG */
+        /*137*/ "MAFF",                     	/* V3.78  SE */
+        /*138*/ "OWU",                      	/* V3.78  SE */
+        /*139*/ "WeisseOszillierendeKoenige",   /* V3.78  SE */
+        /*140*/ "SchwarzeOszillierendeKoenige", /* V3.78  SE */
+        /*141*/ "AntiKoenige",                  /* V3.78  SE */
+	/*142*/ "AntiMarsCirce",	        /* V3.78  SE */
+	/*143*/ "AntiMarsMalefiqueCirce",	/* V3.78  SE */
+	/*144*/ "AntiMarsAntipodeanCirce",	/* V3.78  SE */
+	/*145*/ "WeisserSuperTransmutierenderKoenig",	/* V3.78  SE */
+	/*146*/ "SchwarzerSuperTransmutierenderKoenig",	/* V3.78  SE */
+	/*147*/ "AntiSuperCirce",              /* V3.78  SE */
+	/*148*/ "UltraPatrouille",              /* V3.78  SE */
+        /*149*/ "TauschKoenige"			/* V3.81a NG */
 	},{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1211,7 +1271,20 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
 	/*133*/ "CirceTurncoats",               /* V3.70  SE */
 	/*134*/ "CirceDoubleAgents",            /* V3.70  SE */
 	/*135*/ "AMU",                          /* V3.70  SE */
-	/*136*/ "SingleBox"                     /* V3.70  ThM, NG */
+	/*136*/ "SingleBox",                    /* V3.70  ThM, NG */
+	/*137*/ "MAFF",                         /* V3.78  SE */
+	/*138*/ "OWU",                          /* V3.78  SE */
+	/*139*/ "WhiteOscillatingKings",        /* V3.78  SE */
+	/*140*/ "BlackOscillatingKings",        /* V3.78  SE */
+	/*141*/ "AntiKings",                    /* V3.78  SE */
+	/*142*/ "AntiMarsCirce",	        /* V3.78  SE */
+	/*143*/ "AntiMarsMirrorCirce",	        /* V3.78  SE */
+	/*144*/ "AntiMarsAntipodeanCirce",	/* V3.78  SE */
+	/*145*/ "WhiteSuperTransmutingKing",    /* V3.78  SE */
+	/*146*/ "BlackSuperTransmutingKing",    /* V3.78  SE */
+	/*147*/ "AntiSuperCirce",               /* V3.78  SE */
+	/*148*/ "UltraPatrol",                  /* V3.78  SE */
+        /*149*/ "SwappingKings"			/* V3.81a NG */
 	}
 	};
 #endif
@@ -1303,14 +1376,16 @@ EXTERN unsigned int StipFlags;
 	/* 2*/  "Cheylan",
 	/* 3*/  "Calvet",
 	/* 4*/  "PionNeutre",
-	/* 5*/  "NoirMaximum",
-	/* 6*/  "BlancMaximum",
+	/* 5*/  "MaximumNoir",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
+	/* 6*/  "MaximumBlanc",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
         /* 7*/  "ParaSentinelles",
         /* 8*/  "TotalMaximum",
 	/* 9*/  "Berolina",
 	/*10*/  "Type1",
 	/*11*/  "Type2",
-	/*12*/  "Type3"
+	/*12*/  "Type3",
+	/*13*/  "Voisin",
+	/*14*/  "TypeC"
 	},{
 	/* German */
 	/* 0*/  "TypB",
@@ -1325,7 +1400,9 @@ EXTERN unsigned int StipFlags;
 	/* 9*/  "Berolina",
 	/*10*/  "Typ1",
 	/*11*/  "Typ2",
-	/*12*/  "Typ3"
+	/*12*/  "Typ3",
+	/*13*/  "Nachbar",
+	/*14*/  "TypC"
 	},{
 	/* English */
 	/* 0*/  "TypeB",
@@ -1333,22 +1410,23 @@ EXTERN unsigned int StipFlags;
 	/* 2*/  "Cheylan",
 	/* 3*/  "Calvet",
 	/* 4*/  "PionNeutre",
-	/* 5*/  "BlackMaximum",
-	/* 6*/  "WhiteMaximum",
+	/* 5*/  "MaximumBlack",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
+	/* 6*/  "MaximumWhite",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
         /* 7*/  "ParaSentinelles",
         /* 8*/  "TotalMaximum",
 	/* 9*/  "Berolina",
 	/*10*/  "Type1",
 	/*11*/  "Type2",
-	/*12*/  "Type3"
+	/*12*/  "Type3",
+	/*13*/  "Neighbour",
+	/*14*/  "TypeC"
 	}
 	};
 #endif
 
 /* V3.62 SE */
 #ifdef WE_ARE_EXTERN
-	extern char
-*ExtraCondString[LangCount][ExtraCondCount];
+	extern char *ExtraCondString[LangCount][ExtraCondCount];
 #else
 	char    *ExtraCondString[LangCount][ExtraCondCount] = {
 	{
@@ -1511,7 +1589,7 @@ numvec vec[maxvec + 1] = { 0,
 /* 36 */        kangoucheck,
 /* 37 */        cscheck,
 /* 38 */        ubicheck,
-/* 39 */        (boolean (*) (square,piece,boolean (*) (square,square,square) ) )0,     /* hamster cannot check */
+/* 39 */        nevercheck,	/* hamster cannot check */
 /* 40 */        moosecheck,
 /* 41 */        eaglecheck,
 /* 42 */        sparrcheck,
@@ -1519,7 +1597,7 @@ numvec vec[maxvec + 1] = { 0,
 /* 44 */        reffoucheck,
 /* 45 */        cardcheck,
 /* 46 */        nsautcheck,
-/* 47 */        (boolean (*) (square,piece,boolean (*) (square,square,square) ) )0,     /* dummy cannot check */
+/* 47 */        nevercheck,	/* dummy cannot check */
 /* 48 */        camridcheck,
 /* 49 */        zebridcheck,
 /* 50 */        gnuridcheck,
@@ -1582,7 +1660,7 @@ numvec vec[maxvec + 1] = { 0,
 /*107 */        bishopeaglecheck,	/* V3.62  NG */
 /*108 */        bishopsparrcheck,       /* V3.62  NG */
 /*109 */        roselioncheck,  	/* rao checks like roselion */ /* V3.63  NG */
-/*110 */        scorpioncheck,  	/* rao checks like roselion */ /* V3.63  NG */
+/*110 */        scorpioncheck,  	/* V3.63  NG */
 /*111 */        margueritecheck,  	/* V3.64  TLi */
 /*112 */        leap36check,    	/* V3.64  TLi */
 /*113 */        nightriderlioncheck,    /* V3.64  TLi */
@@ -1592,7 +1670,10 @@ numvec vec[maxvec + 1] = { 0,
 /*117 */        friendcheck,            /* V3.65  TLi */
 /*118 */        dolphincheck,           /* V3.70  TLi */
 /*119 */        rabbitcheck,            /* V3.76  NG */
-/*120 */        bobcheck                /* V3.76  NG */
+/*120 */        bobcheck,               /* V3.76  NG */
+/*121 */	equiengcheck,           /* V3.78  SE */
+/*122 */	equifracheck,           /* V3.78  SE */
+/*123 */	querquisitecheck,	/* V3.78  SE */
 		};
 #endif
 

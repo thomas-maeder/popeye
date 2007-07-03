@@ -1,4 +1,4 @@
-	     B E S C H R E I B U N G   V O N   P O P E Y E   3 . 7
+	     B E S C H R E I B U N G   V O N   P O P E Y E   3 . 8
 
 Bemerkungen zur Verteilung von Popeye:
 
@@ -74,8 +74,8 @@ Starten mit Eingabe des Problems aus einer Datei XX:    py XX
 Kommandozeilenparameter:
 -maxmem
 	Sie koennen beispielsweise mit
-	py -maxmem 4096 XX   oder  py -maxmem 4M XX
-	Popeye 4096 Kilobyte (4 Megabyte) Speicher
+	py -maxmem 40960 XX   oder  py -maxmem 40M XX
+	Popeye 40960 Kilobyte (40 Megabyte) Speicher
 	zur Berechnungsbeschleunigung zur Verfuegung stellen.
 
 Beenden von Popeye:
@@ -259,6 +259,19 @@ Kommandos:
 	DoppelAgentenCirce
 	AMU
 	NurPartiesatzsteine
+	MAFF
+	OWU
+	WeisseOszillierendeKoenige
+	SchwarzeOszillierendeKoenige
+	AntiKoenige
+	AntiMarsCirce
+	AntiMarsMalefiqueCirce
+	AntiMarsAntipodeanCirce
+	WeisserSuperTransmutierenderKoenig
+	SchwarzerSuperTransmutierenderKoenig
+	AntiSuperCirce
+	UltraPatrouille
+	TauschKoenige
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines 
@@ -281,14 +294,16 @@ Kommandos:
 	angegeben werden, entsprechend dem gew"unschten Typ. 
 	Standardannahme ist Calvet.
 	Nach der Isardam Bedingung kann wahlweise noch "TypB" angegeben werden.
-	Nach der SingleBox Bedingung kann wahlweise noch "Typ1", "Typ2" oder
-		"Typ3" angegeben werden.
+	Nach der NurPartiesatzsteine Bedingung kann wahlweise noch "Typ1",
+		"Typ2" oder "Typ3" angegeben werden.
 	Nach der Sentinelles Bedingung kann wahlweise noch "PionAdvers",
 		"PionNeutre", "ParaSentinelles" oder Berolina angegeben werden, 
                 sowie "WeissMaximum", "SchwarzMaximum" oder "TotalMaximum" 
                 gefolgt von einer Zahl.
 	Nach MessignySchach, (Bi)Woozles und (Bi)Heffalumps kann wahlweise
-        RexExklusive angegeben werden.
+		RexExklusive angegeben werden.
+	Nach SchwarzeOszillierendeKoenige oder WeisseOszillierendeKoenige 
+		kann wahlweise noch "TypB" oder "TypC" angegeben werden.
 
  - Option: Alles was zur Wirkung kommen soll ist einfach durch Zwischenraum
 	getrennt nach dem Schluesselwort anzugeben. Es wird folgendes erkannt:
@@ -382,7 +397,7 @@ Kommandos:
 
 							{ dia }   +  n{.5}
 			{ SER-}                     +   { dia }   +  n
-							{ a=> }   +  n{.5}
+							{ a=>b }  +  n{.5}
 			{ SER-}                     +   { a=>b }  +  n
 
 	(m, n geben die Zugzahl an)
@@ -541,12 +556,15 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	nl      Nachtreiterlion
 	o       Orphan
 	oa      MoaReiter
+	od      Odysseus
 	ok      Okapi                           Springer + Zebra
 	or      Orix                            Englischer Equihopper auf Damenlinien
 	pa      Pao                             Zieht wie Turm, wirkt wie Turm-Lion
 	pf      Pfadfinder
 	pn      Pfadfinderin
 	pr      Prinzessin                      1,1 Reiter + 1,2 Springer
+	qe      EquiEnglisch                    "EquiApproacher" kann unterbrochen werden
+	qf      EquiFranzoesisch                "EquiApproacher" kann nicht unterbrochen werden
 	ra      Rao                             chinesische Rose
 	rd      Randschwein
 	rh      RosenHuepfer
@@ -677,7 +695,7 @@ die Eingabe eines weiteren Problems.
 Besondere betriebssystemabhaengige Dinge:
 
 
-UNIX, SINIX, XENIX, ULTRIX, MUNIX, SUNOS, SOLARIS, AIX, HPUX, IRIX, LINUX:
+UNIX, SINIX, XENIX, ULTRIX, MUNIX, SUNOS, SOLARIS, AIX, HPUX, IRIX, LINUX, BSD:
 
 	1) Maximale Rechentiefe:                999 Halbzuege
 	2) Die Loesung kann jederzeit durch die CTRL-C Tastenkombination
@@ -718,7 +736,7 @@ VMS:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson   im Mai 2003
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson   im Juli 2004
 
 Fuer den Fall dass jemand Anregungen, Fehler etc uns zukommen lassen will,
 so findet er unsere Adressen in den Dateien  history.txt  oder  readme.txt  .

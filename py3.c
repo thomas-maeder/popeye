@@ -4,6 +4,14 @@
 **
 ** 2003/05/25 SE   bug fix: Marscirce and Neutral kings.
 **
+** 2004/02/07 SE   New condition: Antikings (?) in check when not attacked
+**
+** 2004/03/20 SE   New condition: AntiSuperCirce
+**
+** 2004/04/24 SE   Bugfix: Patrol etc. and e.p. evaluation
+**
+** 2004/05/02 SE   Mars circe with mao, moa
+**
 **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -169,6 +177,8 @@ boolean feenechec(boolean (* evaluate)(square,square,square)) {
     return false;
 }
 
+#define marsmap(p) ((p)==maob ? moab : ((p)==moab ? maob : (p)))
+
 boolean marsechecc(
     couleur	camp,
     boolean	(*evaluate)(square, square, square))
@@ -196,12 +206,12 @@ boolean marsechecc(
 		more_ren=0;
 		do {
 		    i= (*marsrenai)(p=e[z],
-				      psp=spec[z], z, initsquare, camp);
+				      psp=spec[z], z, initsquare, initsquare,camp);
 		    if ((e[i]==vide) || (i==z)) {
 			e[z]=vide;
 			e[i]=p;
 			spec[i]=psp;
-			ch=(*checkfunctions[(p > 0)?p:-p])
+			ch=(*checkfunctions[marsmap((p > 0)?p:-p)])
 				    (i, camp ? e[rn] : e[rb], evaluate);
 			e[i]=vide;
 			e[z]=p;
@@ -296,21 +306,20 @@ static boolean orig_rnechec(boolean (* evaluate)(square,square,square))
 			imech(rn - 25, rn);		/* V2.4d  TM */
 		}
 	    }
-	    if (ep[nbply] && RN_[nbply] != rn) {	    /* V3.45  TLi */
+	    if ((sq= ep[nbply]) && rn == sq - 24) {	    /* V3.45  TLi */
 		/* ep captures of royal pawns */
 		/* ep[nbply] != initsquare --> a pawn has made a
 		   double/triple step.
 		   RN_[nbply] != rn --> the black king has moved
 		 */
-		square sq= ep[nbply];	   /* square passed */
 		if (e[sq-23] == pb && (*evaluate)(sq-23, sq, rn)) {
 		    imech(sq-23, sq);
 		}
 		if (e[sq-25] == pb && (*evaluate)(sq-25, sq, rn)) {
 		    imech(sq-25, sq);
-		}
-		if (ep2[nbply]) {	      /* Einstein triple step */
-		    sq= ep2[nbply];
+        }
+        }
+		if ((sq= ep2[nbply]) && rn == sq - 24) {	      /* Einstein triple step */
 		    if (e[sq-23] == pb && (*evaluate)(sq-23, sq, rn)) {
 			imech(sq-23, sq);
 		    }
@@ -318,7 +327,6 @@ static boolean orig_rnechec(boolean (* evaluate)(square,square,square))
 			imech(sq-25, sq);
 		    }
 		}
-	    }
 	}
     }
     if (nbpiece[cb]) {
@@ -475,29 +483,27 @@ static boolean orig_rbechec(boolean (* evaluate)(square,square,square)) /* V3.71
 		    imech(rb + 25, rb);			/* V2.4d  TM */
 		}
 	    }
-	    if (ep[nbply] && RB_[nbply] != rb) {	/* V3.45  TLi */
+        if ((sq= ep[nbply]) && rb == sq + 24) {	/* V3.45  TLi */
 		/* ep captures of royal pawns.
 		   ep[nbply] != initsquare
 		      --> a pawn has made a double/triple step.
 		   RB_[nbply] != rb
 		      --> the white king has moved
 		 */
-		square sq= ep[nbply];		     /* square passed */
 		if (e[sq+23] == pn && (*evaluate)(sq+23, sq, rb)) {
 		    imech(sq+23, sq);
 		}
 		if (e[sq+25] == pn && (*evaluate)(sq+25, sq, rb)) {
 		    imech(sq+25, sq);
 		}
-		if (ep2[nbply]) {	      /* Einstein triple step */
-		    sq= ep2[nbply];
+        }
+        if ((sq= ep2[nbply]) && rb == sq + 24) {	      /* Einstein triple step */
 		    if (e[sq+23] == pn && (*evaluate)(sq+23, sq, rb)) {
 			imech(sq+23, sq);
 		    }
 		    if (e[sq+25] == pn && (*evaluate)(sq+25, sq, rb)) {
 			imech(sq+25, sq);
 		    }
-		}
 	    }
 	}
     }
@@ -576,7 +582,7 @@ boolean (*rbechec)(boolean (* evaluate)(square,square,square))
 
 
 boolean rncircech(square id, square ia, square ip) {
-    if (id == (*circerenai)(e[rn], spec[rn], ip, id, blanc)) {
+    if (id == (*circerenai)(e[rn], spec[rn], ip, id, ia, blanc)) {
 							 /* V3.55 SE */
 	return false;
     }
@@ -585,7 +591,7 @@ boolean rncircech(square id, square ia, square ip) {
 }
 
 boolean rbcircech(square id, square ia, square ip) {
-    if (id == (*circerenai)(e[rb], spec[rb], ip, id, noir)) {
+    if (id == (*circerenai)(e[rb], spec[rb], ip, id, ia, noir)) {
 							/* V3.55 SE */
 	return false;
     }
@@ -595,7 +601,7 @@ boolean rbcircech(square id, square ia, square ip) {
 }
 
 boolean rnimmunech(square id, square ia, square ip) {
-    immrenroin= (*immunrenai)(e[rn], spec[rn], ip, id, blanc);
+    immrenroin= (*immunrenai)(e[rn], spec[rn], ip, id, ia, blanc);
 							/* V3.55 SE */
     if ((e[immrenroin] != vide && id != immrenroin)) {
 	return false;
@@ -606,7 +612,7 @@ boolean rnimmunech(square id, square ia, square ip) {
 }
 
 boolean rbimmunech(square id, square ia, square ip) {
-    immrenroib= (*immunrenai)(e[rb], spec[rb], ip, id, noir);
+    immrenroib= (*immunrenai)(e[rb], spec[rb], ip, id, ia, noir);
 							/* V3.55 SE */
     if ((e[immrenroib] != vide && id != immrenroib)) {
 	return false;
@@ -642,7 +648,7 @@ boolean echecc(couleur camp)
 	if (rex_circe
 	    && (CondFlag[pwc]
 		|| e[(*circerenai)
-		      (e[rb], spec[rb], rb, initsquare, noir)] == vide))
+		      (e[rb], spec[rb], rb, initsquare, initsquare, noir)] == vide))
 							 /* V3.55 SE */
 	{
 	    return false;
@@ -660,7 +666,7 @@ boolean echecc(couleur camp)
 	    for (bnp= boardnum; *bnp; bnp++) {
 		if ((p= e[*bnp])
 		  && p>roib
-		  && (*circerenai)(p,spec[*bnp],*bnp,initsquare,noir)==rb)
+		  && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,noir)==rb)
 		{
 		    square rb_sic = rb;
 		    rb = *bnp;
@@ -687,7 +693,7 @@ boolean echecc(couleur camp)
 	    return flag;
 	}
 	else {
-	    return rbechec(eval_white);
+	    return  CondFlag[antikings] ^ rbechec(eval_white);
 	}
     }
     else {	  /* camp == noir */
@@ -713,7 +719,7 @@ boolean echecc(couleur camp)
 	if (rex_circe
 	    && (CondFlag[pwc]
 		|| e[(*circerenai)
-		     (e[rn], spec[rn], rn, initsquare, blanc)] == vide))
+		     (e[rn], spec[rn], rn, initsquare, initsquare, blanc)] == vide))
 							/* V3.55 SE */
 	{
 	    return false;
@@ -733,7 +739,7 @@ boolean echecc(couleur camp)
 		if ((p= e[*bnp])
 		  && p<roin
 		  && (*circerenai)
-			(p,spec[*bnp],*bnp,initsquare,blanc)==rn)
+			(p,spec[*bnp],*bnp,initsquare,initsquare,blanc)==rn)
 		{
 		    square rn_sic = rn;
 		    rn = *bnp;
@@ -760,7 +766,7 @@ boolean echecc(couleur camp)
 	    return flag;
 	}
 	else {
-	    return rnechec(eval_black);
+	    return  CondFlag[antikings] ^ rnechec(eval_black);
 	}
     }
 } /* end of echecc */
@@ -838,12 +844,20 @@ boolean AntiCirceEch(
     square	ip,
     couleur	camp)					/* V3.39  TLi */
 {
+    if (CondFlag[antisuper])    /* V3.78  SE */
+    {
+        square *bnp= boardnum; 
+        while (!LegalAntiCirceMove(*bnp, ip, id) && *bnp) bnp++;
+        if (!(*bnp && LegalAntiCirceMove(*bnp, ip, id)))
+            return false;
+    }
+    else
     if (is_pawn(e[id]) && PromSq(advers(camp), ip)) {
 	/* Pawn checking on last rank */
 	piece	pprom= getprompiece[vide];
 	square	cren;
 	do {
-	    cren= (*antirenai)(pprom, spec[id], ip, id, camp);
+	    cren= (*antirenai)(pprom, spec[id], ip, id, ia, camp);
 	    pprom= getprompiece[pprom];
 	} while (!LegalAntiCirceMove(cren, ip, id) && pprom != vide);
 	if (	!LegalAntiCirceMove(cren, ip, id)  /* V3.62  TLi */
@@ -857,7 +871,7 @@ boolean AntiCirceEch(
 	cren= (*antirenai)( TSTFLAG(spec[id], Chameleon)
 			      ? champiece(e[id])
 			      : e[id],
-			    spec[id], ip, id, camp);
+			    spec[id], ip, id, ia, camp);
 	if (!LegalAntiCirceMove(cren, ip, id)) {
 	    return false;
 	}

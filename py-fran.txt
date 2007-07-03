@@ -1,4 +1,4 @@
-	     D E S C R I P T I O N  D E  P O P E Y E    3 . 7
+	     D E S C R I P T I O N  D E  P O P E Y E    3 . 8
 
 Remarques au sujet de la distribution de Popeye:
 
@@ -68,9 +68,9 @@ Avec entree du probleme dans un fichier XX:     py XX
 
 parametre de ligne de commande:
 -maxmem
-        par exemple:       py -maxmem 4096 XX 
-	deuxieme exemple:  py -maxmem 4M XX
-	Popeye utilise 4096 kilobyte (ou 4 megabyte) de memoir 
+        par exemple:       py -maxmem 40960 XX 
+	deuxieme exemple:  py -maxmem 40M XX
+	Popeye utilise 40960 kilobyte (ou 40 megabyte) de memoir 
 	pour plus de vitesse de calculation.
 
 Finir execution de Popeye:
@@ -246,7 +246,20 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	CirceTurncoats
 	CirceDoubleAgents
 	AMU
-	SingleBox
+????    SingleBox
+	MAFF
+	OWU
+	BlancRoisOscillant
+	NoirRoisOscillant
+	AntiRois
+	AntiMarsCirce
+	AntiMarsMalefiqueCirce
+	AntiMarsAntipodeanCirce
+	BlancSuperRoiTransmute
+	NoirSuperRoiTransmute
+	AntiSuperCirce
+	UltraPatrouille
+	RoisEchanges
 		
 	Apres le mot-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -274,6 +287,8 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 		TotalMaximum suit d'un nombre.
 	Apres quelque conditions EchecsMessigny, (Bi)Woozles ou 
               (Bi)Heffalumps on peut entrer le mot-cle RexExclusif.
+	Pour les conditions BlancRoisOscillant ou NoirRoisOscillant
+		on peut indiquer s'il s'agit du TypeB ou TypeC.
 
 
  - option: Toutes les options demandees sont a introduire apres ce mot-cle,
@@ -369,6 +384,7 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 
 							{ dia }   +  n{.5}
 			{ SER-}                     +   { dia }   +  n
+							{ a=>b }  +  n{.5}
 			{ SER-}                     +   { a=>b }  +  n
 
 	(m, n sont les nombres des coups)
@@ -524,6 +540,9 @@ suivante est un peu plus compliquee:
 	pb      pion berolina   
 	pi      piece impuissant
 	pr      princesse   
+	qa      equi anglais
+	qf      equi francais
+	qq      querquisite
 	r       roi
 	ra      rao                            rose chinois
 	rl      rose-lion
@@ -650,7 +669,7 @@ de lire le prochain.
 specialites des ordinateurs:
 
 
-UNIX, SINIX, XENIX, ULTRIX, MUNIX, SUNOS, SOLARIS, AIX, HPUX, IRIX, LINUX:
+UNIX, SINIX, XENIX, ULTRIX, MUNIX, SUNOS, SOLARIS, AIX, HPUX, IRIX, LINUX, BSD:
 
 	1) Nombre maximal de plies de calculation:     999 demi-coups.
 	2) Il est toujours possible d'interrompre la verification
@@ -690,7 +709,7 @@ VMS:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson  may 2003
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson  juillet 2004
 
 Si quelqu'un veut nous envoyer des propositions,
 des communications d'erreurs etc.,

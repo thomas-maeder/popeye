@@ -1,4 +1,4 @@
-# This is the Makefile for py3.7, testet under System V
+# This is the Makefile for py4.0, testet under System V
 # +++++ Warning +++++++
 # This Makefile you are reading now, will not do it with:
 # Microsoft C  on DOS
@@ -50,7 +50,8 @@
 #OPT=-fast -Xc		#Sun Solaris
 OPT=-O2 -Wall
 
-#ARCH=-xarch=v9		# 64-Bit Solaris
+#ARCH=-xarch=v9		# 64-Bit Solaris cc
+#ARCH=-m64		# 64-Bit gcc
 ARCH=
 
 OS=`uname`
@@ -94,10 +95,10 @@ RANLIB = ranlib
 
 # This variable is used in compiling pydata.c, and
 # should contain only the number
-#VERSION =       3.77
+#VERSION =       4.00
 # It's not used in this makefile for compilation any more.
 # We use it for creating distributions without any . (dot) !
-VERSION =       377
+VERSION =       400
 
 OBJECTS =       pydata.o py1.o py2.o py3.o py4.o py5.o py6.o pyio.o    \
 		pymsg.o pytime.o pylang.o pyhash.o pyproof.o	       \
@@ -185,7 +186,7 @@ dogenpystr:	$(MSGFILES) genpystr
 		touch dogenpystr
 
 DHT/dhtlib.a:	DHT/*.c DHT/*.h
-		cd DHT; make -f makefile.unx CC=$(CC) RANLIB="$(RANLIB)" ARCH="$(ARCH)" dhtlib.a
+		cd DHT; $(MAKE) -f makefile.unx CC=$(CC) RANLIB="$(RANLIB)" ARCH="$(ARCH)" DBG="$(DBG)" dhtlib.a
 		$(RANLIB) DHT/dhtlib.a
 
 purify-py:      DHT/dhtlib.a pyhash.o $(OBJECTS)
@@ -193,9 +194,10 @@ purify-py:      DHT/dhtlib.a pyhash.o $(OBJECTS)
 
 clean:
 		rm -f *.o core
+		cd DHT; $(MAKE) -f makefile.unx clean
 
 clobber:	clean
-		rm -f py genpystr dogenpystr $(STRFILES); cd DHT; make -f makefile.unx clobber
+		rm -f py genpystr dogenpystr $(STRFILES); cd DHT; $(MAKE) -f makefile.unx clobber
 
 todef:	
 		awk -f todef.awk < py.h > py.h.def
@@ -266,6 +268,7 @@ compressdist:	/tmp/$(VERSIONDIR).compress
 		tar cfv $(VERSIONDIR).t $(VERSIONDIR)
 		compress $(VERSIONDIR).t
 		rm -rf $(VERSIONDIR)
+		ls -l $(VERSIONDIR).t.Z
 
 /tmp/$(VERSIONDIR).gzip:	$(DFILES)
 		touch /tmp/$(VERSIONDIR).gzip

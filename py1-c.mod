@@ -230,4 +230,7 @@
 **
 ** 2001/10/02 TLi  marin pieces/locust bug fixed in marincheck
 **
+** 2002/05/18 NG   bug fix: flagAssassin and marsrenai initialized
+**                          DiaCirce 'flags and specs' reset
+**
 **************************** INFORMATION END ***************************/

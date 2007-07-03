@@ -317,4 +317,6 @@
 ** 2001/11/10 NG   singleboxtype? changed to singlebox type?
 **                 some singlebox variable names changed ...
 **
+** 2002/04/29 FCO  LaTeX changes
+**
 **************************** INFORMATION END **************************/

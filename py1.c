@@ -2,8 +2,9 @@
 **
 ** Date       Who  What
 **
-** 2002/05/18 NG   bug fix: flagAssassin and marsrenai initialized
-**                          DiaCirce 'flags and specs' reset
+** 2004/02/06 SE   Koeko Neighbourhood (invented S.Emmerson)
+**				   
+** 2004/04/23 SE   Oscillating Ks TypeC, also allowed A/B/C different for white/black
 **
 **************************** End of List ******************************/
 
@@ -11,7 +12,7 @@
 #	define SEGM1
 #	include "pymac.h"
 #endif
-
+ 
 #include <stdio.h>
 #include <string.h>	       /* H.D. 10.02.93 prototype fuer memset */
 
@@ -37,7 +38,7 @@ void nextply(void)
     ep[nbply]= initsquare;				/* V3.0  TLi */
     norm_cham_prom[nbply]=				
     cir_cham_prom[nbply]= false;			/* V3.1  TLi */
-    super[nbply]= bas - 1;				/* V3.1  TLi */
+    super[nbply]= superbas;				/* V3.1  TLi */
     castling_flag[nbply]= castling_flag[nbply - 1];	/* V3.35  NG */
 }
 
@@ -48,7 +49,7 @@ void InitCond(void) {	  /* V3.40  TLi */
     flag_madrasi= false;				/* V3.60  TLi */
     wh_exact= wh_ultra= bl_exact= bl_ultra= false;
     anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anytraitor= false;
-    anymars= is_phantomchess= false;
+    anymars= anyantimars= is_phantomchess= false;
 
     immrenroib= immrenroin= cirrenroib= cirrenroin= initsquare;
 
@@ -112,6 +113,14 @@ void InitCond(void) {	  /* V3.40  TLi */
 							   V3.44  NG */
     memset((char *) isapril,0,sizeof(isapril));
     checkhopim = false;					/* V3.64  SE */
+    nocontactfunc= nokingcontact;
+    OscillatingKingsTypeB[blanc]= false;  /* V3.80  SE */
+    OscillatingKingsTypeB[noir]= false;
+    OscillatingKingsTypeC[blanc]= false;
+    OscillatingKingsTypeC[noir]= false;
+
+    black_length = NULL;				/* V3.80  SE */
+    white_length = NULL;				/* V3.80  SE */
 
 } /* InitCond */
 
@@ -189,7 +198,7 @@ void InitStip(void) {	/* V3.40  TLi */
     enonce= 0;
 } /* InitStip */
 
-    void InitAlways(void) {    /* V3.40  TLi */
+void InitAlways(void) {    /* V3.40  TLi */
     square i;
 
     memset((char *) exist, 0, sizeof(exist));	  /* V3.43  NG */
@@ -208,6 +217,8 @@ void InitStip(void) {	/* V3.40  TLi */
     flagriders	    =				     /* V3.12  TM */
     flagleapers     =				     /* V3.12  TM */
     flagsimplehoppers     =			/* V3.74  NG */
+    flagsimpledecomposedleapers =  /* V3.81 SE */
+    flagsymmetricfairy  =
     flagveryfairy   = false;			     /* V3.12  TM */
 
     /* numenroute = 0;					V3.44  TLi */
@@ -226,6 +237,7 @@ void InitStip(void) {	/* V3.40  TLi */
 	senti[i]=
 	Iprom[i]= false;			      /* V2.4d TM */
 	att_1[i]= true;				      /* V3.70 SE */
+    oscillatedKs[i]= false;          /* V3.81 SE */
     }
 
     initneutre(blanc);				     /* V3.40  TLi */
@@ -409,13 +421,67 @@ boolean nogridcontact(square j)			/* V2.4c  NG */
     return true;
 }
 
+boolean noleapcontact(square ia, numvec kanf, numvec kend)
+{
+	numvec k;
+	piece p;
+	for (k= kanf; k <= kend; k++) {
+    if ( (p= e[ia + vec[k]]) != obs
+      && p != vide)				 /* 3.02 TLi */
+    {
+	/* this is faster than a call to abs() */
+	return false;
+    }
+	}
+	return true;
+}
+
+boolean nokingcontact(square ia)
+{
+	return noleapcontact(ia, 1, 8);
+}
+
+boolean nowazircontact(square ia)
+{
+	return noleapcontact(ia, 1, 4); 
+}
+
+boolean noferscontact(square ia)
+{
+	return noleapcontact(ia, 5, 8);
+}
+
+boolean noknightcontact(square ia)
+{
+	return noleapcontact(ia, 9, 16);
+}
+
+boolean nocamelcontact(square ia)
+{
+	return noleapcontact(ia, 33, 40);
+}
+
+boolean noalfilcontact(square ia)
+{
+	return noleapcontact(ia, 65, 68);
+}
+
+boolean nodabbabacontact(square ia)
+{
+	return noleapcontact(ia, 61, 64);
+}
+
+boolean nozebracontact(square ia)
+{
+	return noleapcontact(ia, 25, 32);
+}
+
 boolean nocontact(square id, square ia, square ip) {
     /* id - case dep., ia - case arr., ip - case pri. */
     boolean	Result= true;
     square	cr;
-    piece	pj, pp, p, pren;
+    piece	pj, pp, pren;
     piece	pc= obs;				/* V3.05  NG */
-    numvec	k;
     short	flag_castling= 0;			/* V3.35  NG */
     /* 0: NO, 1: SHORT, 2: LONG  castling */
 
@@ -458,10 +524,9 @@ boolean nocontact(square id, square ia, square ip) {
 	    else {
 		e[id]= vide;
 	    }
-	    /* don't think any change as a result of Sentinelles
-	       PionNeutral is needed as piece specs not changed v3.50
-								 SE
-	     ****/
+	    /* don't think any change as a result of Sentinelles */
+	    /* PionNeutral is needed as piece specs not changed  */
+	    /* V3.50 SE */
 	}
     }
     else {
@@ -507,12 +572,10 @@ boolean nocontact(square id, square ia, square ip) {
 		}
 
 		if (CondFlag[couscous]) {
-		    cr= (*circerenai)(pj,
-			    spec[id], ip, id, pp > vide ? blanc : noir);
+		    cr= (*circerenai)(pj, spec[id], ip, id, ia, pp > vide ? blanc : noir);	/* V3.80  NG */
 		}
 		else {
-		    cr= (*circerenai)(pren,
-			    spec[ip], ip, id, pp > vide ? noir : blanc);
+		    cr= (*circerenai)(pren, spec[ip], ip, id, ia, pp > vide ? noir : blanc);	/* V3.80  NG */
 		}
 
 		if ((pc= e[cr]) == vide) {		/* V2.90  NG */
@@ -540,16 +603,8 @@ boolean nocontact(square id, square ia, square ip) {
     if (CondFlag[contactgrid]) {			/* V2.4c  NG */
 	Result= nogridcontact(ia);			/* V2.5c  NG */
     }
-    else {
-	for (k= 8; k > 0; k--) {
-	    if ( (p= e[ia + vec[k]]) != obs
-	      && p != vide)				 /* 3.02 TLi */
-	    {
-		/* this is faster than a call to abs() */
-		Result = false;
-		break;
-	    }
-	}
+	else {
+	Result= (*nocontactfunc)(ia);
     }
 
     if (pc != obs) {					/* V3.02  TLi,

@@ -47,4 +47,8 @@
 ** 2001/11/10 NG   bug fix: end message shows "interupted" in intelligent mode
 **			    with maxsols, even if only one solution was found
 **
+** 2002/04/04 NG   commandline option -regression for regressiontesting
+**
+** 2002/08/22 TLi  improvements with option maxsols
+**
 **************************** End of List ******************************/

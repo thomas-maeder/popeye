@@ -17,5 +17,5 @@
 #define EXTERN
 #include "pydata.h"
 
-unsigned int maxinbox[] = {0,0,0,0,1,2,2,2}; /* V3.71 TM */
+smallint maxinbox[] = {0,0,0,0,1,2,2,2}; /* V3.71 TM */
 unsigned int boxsize = sizeof maxinbox / sizeof maxinbox[0]; /* V3.71 TM */

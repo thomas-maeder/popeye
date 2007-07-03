@@ -168,4 +168,6 @@
 **
 ** 2001/10/02 TLi  new piece: Dolphin (Grashopper + Kangaroo)
 **
+** 2002/05/18 NG   new pieces: rabbit, bob
+**
 **************************** INFORMATION END ***************************/

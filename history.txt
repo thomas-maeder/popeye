@@ -5,7 +5,7 @@ Elmar Bartel            ElB
 Norbert Geissler        NG
 Thomas Maeder           TM
 Torsten Linss           TLi
-Stefan Hoening          StHoe
+Stefan Hoening          StH
 Stefan Brunzen          SB
 Harald Denker           HD
 Thomas Bark             TBa
@@ -395,7 +395,7 @@ otherwise the capturing move is illegal.
 							NG      11Nov90
 ---------------------------------------------------------------------------
 all needed for compilation with TURBO C on an ATARI added.
-							StHoe    6Jan91
+							StH      6Jan91
 ---------------------------------------------------------------------------
 Shorter Code:
 all language-dependent strings moved into
@@ -899,7 +899,7 @@ New option:  halfduplex, ie. only the second part of a
 New:  Twinning possible now
 							19.03.1996  TLi
 -----------------------------------------------------------------------
-documentation adjusted  (french: ThM)
+documentation adjusted  (french: TM)
 series move bug fixed                   TLi
 Twinning improved                       TLi
 ported to Windows-95/Windows-NT  (WIN32)
@@ -1447,7 +1447,7 @@ New piece: marguerite
                                                         26.10.2000  TLi
 ------------------------------------------------------------------------
 new condition: AprilChess
-                                                        14.11.2000  ThM
+                                                        14.11.2000  TM
 ------------------------------------------------------------------------
 VERSIONSTRING more detailed ...
 							24.11.2000  TLi,NG
@@ -1514,7 +1514,7 @@ Anyway, total memory limit is 768 MB there.
                                                         31.05.2001  NG
 ------------------------------------------------------------------------
 new conditions: SingleBoxType1, Type2 and Type3 (for WCCT)
-                                                        29.08.2001  ThM
+                                                        29.08.2001  TM
 ------------------------------------------------------------------------
 new piece: dolphin (grashopper + kangaroo)
 bug fix: koeko + locust pieces
@@ -1589,7 +1589,7 @@ bug fix:
                                                         20.08.2002  TLi
 ------------------------------------------------------------------------
 bug fix: singlebox ...
-                                                        27.09.2002  ThM
+                                                        27.09.2002  TM
 ------------------------------------------------------------------------
 MaxMemory detection improved for WIN32
 							05.01.2003  TBa
@@ -1640,7 +1640,7 @@ bug fix: Neutral King and Marscirce
 							25.05.2003  SE
 ------------------------------------------------------------------------
 french documentation corrections  ...
-							26.06.2003  ThM
+							26.05.2003  TM
 ------------------------------------------------------------------------
 MaxMemory under WIN98 reduced to 700MB, because WIN95/WIN98/WINME
 cannot handle more than 768MB (OS-restriction !)
@@ -1652,4 +1652,120 @@ pywin32.exe, pywin98.exe and pydos32.exe created.
 This is official release py3.77
                                                         28.05.2003  NG
 ------------------------------------------------------------------------
-
+bug fix: wrong LaTeX output if the authors surname only given
+                                                        30.05.2003  StH
+------------------------------------------------------------------------
+bug fix: toppile and liste increased because condition SuperCirce
+         produced array overflows ...
+                                                        03.06.2003  NG
+------------------------------------------------------------------------
+Bugfix : AtoB 
+							05.08.2003  SE   
+------------------------------------------------------------------------
+bug fix: neutral rooks/kings with (anti)circe and castling
+							25.11.2003  TLi
+------------------------------------------------------------------------
+New pieces Equi (English & French styles) (invented P.Harris)
+							28.01.2004  SE   
+------------------------------------------------------------------------
+New piece Querquisite (J.E.H.Creed FCR 1947) 
+New conditions : MAFF, OWU (invented M.Brada)
+							05.02.2004  SE  
+------------------------------------------------------------------------
+Koeko Neighbourhood (invented S.Emmerson)
+New conditions : Oscillating Kings (invented A.Bell)					  
+							06.02.2004  SE  
+------------------------------------------------------------------------
+New condition: Antikings (?) in check when not attacked
+							07.02.2004  SE   
+------------------------------------------------------------------------
+Bugfix : Forsyth with neutrals
+							09.02.2004  SE   
+------------------------------------------------------------------------
+bugfix - resolved conflict between variants and conditions with same name
+							29.02.2004  SE   
+				   	
+------------------------------------------------------------------------
+New condition : Antimars (and variants) (invented S.Emmerson)
+							05.03.2004  SE   
+------------------------------------------------------------------------
+New condition: Supertransmutingkings (?inventor)
+							19.03.2004  SE   
+------------------------------------------------------------------------
+New condition: AntiSuperCirce
+Reset solution counter after set play in Helpproblems
+							20.03.2004  SE   
+------------------------------------------------------------------------
+New condition: Ultrapatrol (only patrolled pieces can move or capture)
+							22.03.2004  SE   
+------------------------------------------------------------------------
+hashing for exact-* stipulations improved
+							23.03.2004  TLi
+------------------------------------------------------------------------
+Bugfix: Patrol etc. and e.p. evaluation
+							24.03.2004  SE   
+------------------------------------------------------------------------
+Some bugfixes by SE.
+SuperAntiCirce changed to AntiSuperCirce (naming convention)
+							20.04.2004  SE,NG
+------------------------------------------------------------------------
+Castling supported with Imitators
+							22.04.2004  SE   
+------------------------------------------------------------------------
+Oscillating Kings TypeC
+(aka "Swapping Kings" invented by Dan Meinking and Kevin Begley)
+Types A/B/C separately specified for W/B
+							23.04.2004  SE   
+------------------------------------------------------------------------
+documentation adjusted.
+new conditions/pieces renamed in german language.
+first regression test done.
+more EXAMPLES and BEISPIEL files.
+							29.04.2004  NG
+------------------------------------------------------------------------
+bug fix: pushtabsol due to serious compiler warning
+							30.04.2004  TLi
+------------------------------------------------------------------------
+Bugfix: Multiple imitator promotions
+        (bug found by Rene J. Millour)
+							01.05.2004  TM
+------------------------------------------------------------------------
+Bugfixes: OscKs + Castling, Antisupercirce Cheylan, Republican
+							01.05.2004  SE   
+------------------------------------------------------------------------
+Improvements:
+Imitators allowed with mao, moa
+Mars circe allowed with chinese pieces, lions, mao, moa, leofamily
+							02.05.2004  SE   
+------------------------------------------------------------------------
+SourceCode cleaned up somehow:
+	some #ifdef NODEF deleted for better readability
+	some comments moved to *.mod files
+regression test done.
+documentation adjusted.
+pywin32.exe, pywin98.exe and pydos32.exe created.
+This is official release py3.81
+                               				17.05.2004  NG
+------------------------------------------------------------------------
+bugfixes by ThM and ElB integrated, pyproc.h rearranged.
+In case of default Circe type "Cheylan" or "Calvet" output suppressed
+New condition SwappingKings is the combination of 
+	WhiteOscillatingKings TypeC and BlackOscillatingKings TypeC .
+regression test done.
+documentation adjusted.
+pywin32.exe, pywin98.exe and pydos32.exe created.
+This is official release py3.81a
+                               				19.07.2004  NG
+------------------------------------------------------------------------
+some C-type comparison conflicts resolved.
+                               				01.08.2004  NG
+------------------------------------------------------------------------
+Popeye is 64-Bit ready now !
+                               				18.01.2005  ElB,NG
+------------------------------------------------------------------------
+changes in makefile.unx so that -DSIXTYFOUR is used in DHT package
+                               				01.02.2005  NG
+------------------------------------------------------------------------
+exchanged calls to hashfunctions in pyhash.c leads to 1% speed increase.
+                               				02.02.2005  TLi
+------------------------------------------------------------------------

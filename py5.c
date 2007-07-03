@@ -2,13 +2,28 @@
 **
 ** Date       Who  What
 **
-** 2002/03/03 NG   duellistchess moved outside jouegenre
+** 2003/11/24 TLi  castling + neutrals bug fixed
 **
-** 2002/04/04 NG   commandline option -regression for regressiontesting
+** 2004/02/05 SE   New conditions : MAFF, OWU (invented M.Brada)
+**                 Mate with A Free Field, (Mate with) One White Unit (in K field)   
 **
-** 2002/04/20 NG   norsksjakk: bishop reaching rook-square gets castling capabilities
+** 2004/02/06 SE   New conditions : Oscillating Kings (invented A.Bell)
+**				   Ks swapped after each W &/or Bl move; TypeB can't self-check before swap	
 **
-** 2002/09/27 ThM  singlebox: bug fix
+** 2004/03/05 SE   New condition : Antimars (and variants) (invented S.Emmerson)
+**                 Pieces reborn to move, capture normally
+**
+** 2004/03/19 SE   New condition: Supertransmutingkings (?inventor)
+**
+** 2004/03/20 SE   New condition: AntiSuperCirce
+**
+** 2004/04/22 SE   Castling with Imitators
+**
+** 2004/04/23 SE   Oscillating Ks TypeC, also allowed A/B/C different for white/black
+**
+** 2004/05/01 ThM  Bugfix: Multiple imitator promotions
+**
+** 2004/05/01 SE   Bugfixes: OscKs + Castling, Antisupercirce Cheylan, Republican
 **
 **************************** End of List ******************************/
 
@@ -215,7 +230,7 @@ piece	inc_einstein(piece p)
 #	pragma warn -par
 #endif
 
-square renplus(piece p, Flags pspec, square j, square i, couleur camp) {
+square renplus(piece p, Flags pspec, square j, square i, square ia, couleur camp) {
     /* V3.50 SE Echecs plus */
 
     if (j==275 || j==276 || j==299 || j==300) {
@@ -236,14 +251,14 @@ square renplus(piece p, Flags pspec, square j, square i, couleur camp) {
     return j;
 }
 
-square renrank(piece p, Flags pspec, square j, square i, couleur camp) {
+square renrank(piece p, Flags pspec, square j, square i, square ia, couleur camp) {
     /* V3.45  TLi */
-    square sq= (j / 24) & 1 ? rennormal (p, pspec, j, i, camp) :
-			      renspiegel(p, pspec, j, i, camp);
+    square sq= (j / 24) & 1 ? rennormal (p, pspec, j, i, ia, camp) :
+			      renspiegel(p, pspec, j, i, ia, camp);
     return 24 * (j / 24) + sq % 24;
 } /* renrank */
 
-square renfile(piece p, Flags pspec, square j, square i, couleur camp)
+square renfile(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
 	smallint	col= j % 24;
 
@@ -260,27 +275,40 @@ square renfile(piece p, Flags pspec, square j, square i, couleur camp)
 	}
 } /* renfile */
 
-square renspiegelfile(piece p, Flags pspec, square j, square i, couleur camp)
+square renspiegelfile(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
-	return	renfile(p, pspec, j, i, advers(camp));
+	return	renfile(p, pspec, j, i, ia, advers(camp));
 } /* renspiegelfile */
 
-square renpwc(piece p, Flags pspec, square j, square i, couleur camp)
+square renpwc(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
 	return	i;
 } /* renpwc */
 
-square renequipollents(piece p, Flags pspec, square j, square i, couleur camp)
+square renequipollents(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
-	return (j + j - i);
+/* we have to solve the enpassant capture / locust capture problem in the future.  V3.80  NG */
+#ifdef WINCHLOE
+    return (j + ia - i);
+#endif
+    return (j + j - i);
 } /* renequipollents */
 
-square rensymmetrie(piece p, Flags pspec, square j, square i, couleur camp)
+square renequipollents_anti(piece p, Flags pspec, square j, square i, square ia, couleur camp)
+{
+/* we have to solve the enpassant capture / locust capture problem in the future.  V3.80  NG */
+#ifdef WINCHLOE
+        return (ia + ia - i);
+#endif
+        return (j + j - i);
+} /* renequipollents_anti */
+
+square rensymmetrie(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
 	return (575 - j);
 } /* rensymmetrie */
 
-square renantipoden(piece p, Flags pspec, square j, square i, couleur camp)
+square renantipoden(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
 	i= j;
 	if (j / 24 < 12)
@@ -294,12 +322,12 @@ square renantipoden(piece p, Flags pspec, square j, square i, couleur camp)
 	return i;
 } /* renantipoden */
 
-square rendiagramm(piece p, Flags pspec, square j, square i, couleur camp)
+square rendiagramm(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
 	return DiaRen(pspec);
 } /* rendiagramm */
 
-square rennormal(piece p, Flags pspec, square j, square i, couleur camp)
+square rennormal(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
 	square		Result;
 	smallint	col, ran;
@@ -402,17 +430,17 @@ square rennormal(piece p, Flags pspec, square j, square i, couleur camp)
 	return(Result);
 } /* rennormal */
 
-square rendiametral(piece p, Flags pspec, square j, square i, couleur camp) {
+square rendiametral(piece p, Flags pspec, square j, square i, square ia, couleur camp) {
     /* V3.44  TLi */
-    return 575-rennormal(p, pspec, j, i, camp);
+    return 575-rennormal(p, pspec, j, i, ia, camp);
 } /* rendiametral */
 
-square renspiegel(piece p, Flags pspec, square j, square i, couleur camp)
+square renspiegel(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
-	return	rennormal(p, pspec, j, i, advers(camp));
+	return	rennormal(p, pspec, j, i, ia, advers(camp));
 } /* renspiegel */
 
-square rensuper(piece p, Flags pspec, square j, square i, couleur camp)
+square rensuper(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
 	return	super[nbply];
 } /* rensuper */
@@ -436,41 +464,65 @@ void genrn_cast(void) {    /* V3.55  TLi */
 	/* It works only for castling_supported == TRUE */
 	/* have a look at funtion verifieposition() in py6.c */
 	/* Note: 372 is square e8, 371 and 373 are d8 and f8 */
-	if (((castling_flag[nbply]&0x07) > 0x04) &&
+	if (((castling_flag[nbply]&0x07) > 0x04) && e[372]==roin &&
 	/* then the king on e8 and at least one rook can castle !! */	/* V3.55  NG */
 	    !echecc(noir)) {
-		if ((castling_flag[nbply]&0x05) == 0x05 &&	/* 0-0 */
+		if ((castling_flag[nbply]&0x05) == 0x05 && e[375]==tn &&	/* 0-0 */ 
 		    e[373] == vide && e[374] == vide) {
-			e[372]= vide;
-			e[373]= roin;
-			rn= 373;
-			if (!echecc(noir)) {
-				e[372]= roin;
-				e[373]= vide;
-				rn= 372;
-				/* empile(372, 374, 374);      V3.55  TLi */
-				empile(372, 374, maxsquare+2);	     /* V3.55  TLi */
+			if (complex_castling_through_flag)  /* V3.80  SE */
+			{
+				numecoup sic_nbcou= nbcou;
+				empile (372, 373, 373);
+				if (nbcou > sic_nbcou) {
+					boolean ok= (jouecoup() && !echecc(noir));
+					repcoup();
+					if (ok)
+						empile(372, 374, maxsquare+2);
+				}
 			} else {
-				e[372]= roin;
-				e[373]= vide;
-				rn= 372;
+				e[372]= vide;
+				e[373]= roin;
+				rn= 373;
+				if (!echecc(noir)) {
+					e[372]= roin;
+					e[373]= vide;
+					rn= 372;
+					/* empile(372, 374, 374);      V3.55  TLi */
+					empile(372, 374, maxsquare+2);	     /* V3.55  TLi */
+				} else {
+					e[372]= roin;
+					e[373]= vide;
+					rn= 372;
+				}
 			}
 		}
-		if ((castling_flag[nbply]&0x06) == 0x06 &&	/* 0-0-0 */
+		if ((castling_flag[nbply]&0x06) == 0x06 &&	e[368]==tn && /* 0-0-0 */ 
 		    e[371] == vide && e[370] == vide && e[369] == vide) {
-			e[372]= vide;
-			e[371]= roin;
-			rn= 371;
-			if (!echecc(noir)) {
-				e[372]= roin;
-				e[371]= vide;
-				rn= 372;
-				/* empile(372, 370, 370);      V3.55  TLi */
-				empile(372, 370, maxsquare+3);	     /* V3.55  TLi */
+			if (complex_castling_through_flag)  /* V3.80  SE */
+			{
+				numecoup sic_nbcou= nbcou;
+				empile (372, 371, 371);
+				if (nbcou > sic_nbcou) {
+					boolean ok= (jouecoup() && !echecc(noir));
+					repcoup();
+					if (ok)
+						empile(372, 370, maxsquare+3);
+				}
 			} else {
-				e[372]= roin;
-				e[371]= vide;
-				rn= 372;
+ 				e[372]= vide;
+				e[371]= roin;
+				rn= 371;
+				if (!echecc(noir)) {
+					e[372]= roin;
+					e[371]= vide;
+					rn= 372;
+					/* empile(372, 370, 370);      V3.55  TLi */
+					empile(372, 370, maxsquare+3);	     /* V3.55  TLi */
+				} else {
+					e[372]= roin;
+					e[371]= vide;
+					rn= 372;
+				}
 			}
 		}
 	}
@@ -495,7 +547,9 @@ void genrn(square i) {
 		&& (*checkfunctions[*ptrans])(i, *ptrans, eval_black))
 	    {
 		flag = true;
+        current_trans_gen=-*ptrans;
 		gen_bl_piece(i, -*ptrans);
+        current_trans_gen=vide;
 	    }
 	}
 	calctransmute= false;
@@ -582,7 +636,7 @@ void gen_bl_piece_aux(square z, piece p) {	/* V3.46  SE/TLi */
 	}
 } /* gen_bl_piece_aux */
 
-void static orig_gen_bl_piece(square z, piece p) { /* V3.71 TM */
+static void orig_gen_bl_piece(square z, piece p) { /* V3.71 TM */
 	piece pp;
 
 	/* if (CondFlag[madras]) { */
@@ -594,7 +648,7 @@ void static orig_gen_bl_piece(square z, piece p) { /* V3.71 TM */
 		if (paralysiert(z))
 			return;
 
-	if (anymars) {			/* V3.46  SE/TLi */
+	if (anymars||anyantimars) {			/* V3.46  SE/TLi */
 		square mren;
 		Flags psp;
 
@@ -613,7 +667,7 @@ void static orig_gen_bl_piece(square z, piece p) { /* V3.71 TM */
 				return;
 			/* generate moves from rebirth square */
 			flagactive= true;
-			mren=(*marsrenai)(p,psp=spec[z],z,initsquare,blanc);
+			mren=(*marsrenai)(p,psp=spec[z],z,initsquare,initsquare,blanc);
 			/* if rebirth square is where the piece stands,    */
 			/* we've already generated all the relevant moves. */
 			if (mren == z)
@@ -655,7 +709,7 @@ void static orig_gen_bl_piece(square z, piece p) { /* V3.71 TM */
 			flagcapture= true;
 			more_ren=0;
 			do {		  /* V3.50 SE Echecs Plus */
-				mren=(*marsrenai)(p,psp=spec[z],z,initsquare,blanc);
+				mren=(*marsrenai)(p,psp=spec[z],z,initsquare,initsquare,blanc);
 			if ((mren == z) || (e[mren] == vide)) {
 				pp= e[z];		       /* Mars/Neutral bug V3.50 SE */
 				e[z]= vide;
@@ -879,10 +933,6 @@ void joueparrain(void)	       /* H.D. 10.02.93 */
 			if (cir_cham_prom[nbply])		/* V3.1  TLi */
 				SETFLAG(pspec, Chameleon);
 			spec[cren]= pspec;
-#ifdef NODEF
-			if (TSTFLAG(pspec, Neutral))
-				setneutre(cren);
-#endif	/* NODEF */
 		} else
 			nbpiece[p]++;
 		if (TSTFLAG(pspec, Neutral))	/* V3.65  SE */ /* bug reported by Kevin Begley */
@@ -993,6 +1043,10 @@ piece next_singlebox_prom(piece p, couleur c) {
     return vide;
 }
 
+#ifdef DEBUG
+static  int nbrtimes = 0;
+#endif
+
 boolean jouecoup(void) {
     square  i,			/* case dep. */
 	    j,			/* case arr. */
@@ -1016,6 +1070,9 @@ boolean jouecoup(void) {
     square  hurdle;					/* V3.64 SE */
 
 
+#ifdef DEBUG
+    nbrtimes++;
+#endif
 
     hurdle= 0;		/* avoid compiler warning about use of
 			   uninitialized variable. See the comment
@@ -1050,7 +1107,12 @@ boolean jouecoup(void) {
 	att_1[nbply]= att_once(i);
 
     if (CondFlag[imitators])				/* V2.4d  TM */
-	joueim(j - i);
+    {
+        if (ip == maxsquare + 3)
+            joueim(1);
+        else if (ip != maxsquare + 2) /* joueim(0) (do nothing) if OO */
+            joueim(j - i);
+    }
 
     pjspec= jouespec[nbply]= spec[i];			/* V3.1  TLi */
     pja= pj= pjoue[nbply]= e[i];			/* V2.4c  NG */
@@ -1058,8 +1120,26 @@ boolean jouecoup(void) {
     ppspec= pprispec[nbply]= spec[ip];			/* V3.1  TLi */
     pp= pprise[nbply]= e[ip];				/* V3.1  TLi */
 
+    if (anyantimars && i == ip)
+    {
+        ppspec= pprispec[nbply]= 0;			
+        pp= pprise[nbply]= vide;				
+    }
+
     pdisp[nbply]= vide;					/* V3.50 SE */
     pdispspec[nbply]=0;
+
+    if (trait[nbply]==noir && CondFlag[blsupertrans_king] && ctrans[nbcou]!=vide)
+    {
+        rn=initsquare;
+        pja=ctrans[nbcou];
+    }
+    if (trait[nbply]==blanc && CondFlag[whsupertrans_king] && ctrans[nbcou]!=vide)
+    {
+        rb=initsquare;
+        pja=ctrans[nbcou];
+    }
+
 
     if (sbtype3 && sb3[nbcou].what!=vide) {		/* V3.71 TM */
 	--nbpiece[e[sb3[nbcou].where]];
@@ -1285,24 +1365,29 @@ boolean jouecoup(void) {
 	    }
 	}	/* is_phantomchess */
 	else {
+		square ii;
+		if (anyantimars) 
+			ii= cmren[nbcou];
+		else
+			ii= i;
 	    switch (abs(pj)) {
 	      case Pawn:
-		switch (abs(i - j)) {
+		switch (abs(ii - j)) {
 		  case 48: /* ordinary or Einstein double step */
-		    ep[nbply]= (i + j) / 2;
+		    ep[nbply]= (ii + j) / 2;
 		    break;
 		  case 72: /* Einstein triple step */
-		    ep[nbply]= (i + j + j) / 3;
-		    ep2[nbply]= (i + i + j) / 3;
+		    ep[nbply]= (ii + j + j) / 3;
+		    ep2[nbply]= (ii + ii + j) / 3;
 		    break;
-		} /* end switch (abs(i-j)) */
+		} /* end switch (abs(ii-j)) */
 		break;
 	      case BerolinaPawn:
-		if (abs(i - j) > 25) {
+		if (abs(ii - j) > 25) {
 		  /* The length of a single step is 23, 24 or 25.
 		  ** Therefore it's a double step!
 		  */
-		  ep[nbply]= (i + j) / 2;
+		  ep[nbply]= (ii + j) / 2;
 		}
 		break;
 	    } /* end switch (abs(pj)) */
@@ -1354,8 +1439,15 @@ boolean jouecoup(void) {
 			    } while (1);
 #endif /*BETTER_READABLE*/
 
-			    while ((cren= (*antirenai)(pja, pjspec, ip, i, advers(trait[nbply]))) != i && !LegalAntiCirceMove(cren, ip, i))  /* V3.62  TLi */
-				pja= getprompiece[pja];
+			    while ((cren= (*antirenai)(pja, pjspec, ip, i, j, advers(trait[nbply]))) != i && !LegalAntiCirceMove(cren, ip, i))  /* V3.62  TLi */
+                {
+                    pja= getprompiece[pja];
+                    if (!pja && CondFlag[antisuper])
+                    {
+                        super[nbply]++;
+                        pja= getprompiece[vide];
+                    }
+                }
 			}
 		    }
 		    norm_prom[nbply]= pja;
@@ -1459,17 +1551,6 @@ boolean jouecoup(void) {
 	    && i != _rn
 	    && i != _rb )
 	{
-#ifdef	NODEF		/* V3.62  TLi */
-	    pja= -pja;
-	    if (TSTFLAG(pjspec, Black)) {
-		CLRFLAG( pjspec, Black );
-		SETFLAG( pjspec, White );
-	    }
-	    else {
-		CLRFLAG( pjspec, White );
-		SETFLAG( pjspec, Black );
-	    }
-#endif
 	    /* the following also copes correctly with neutral
 	    ** pieces	V3.62  TLi */
 	    CLRFLAG(pjspec, Black);
@@ -1513,32 +1594,30 @@ boolean jouecoup(void) {
     } /* change_moving_piece */
 
     if (i == _rb) {					/* V2.1c  NG */
-	rb= j;
+	if (rb!=initsquare) rb= j;
 	castling_flag[nbply]&= 0x37;			/* clear ke1 */
     }
     if (i == _rn) {
-	rn= j;
+	if (rn!=initsquare) rn= j;
 	castling_flag[nbply]&= 0x73;			/* clear ke8 */
     }
 
     /* Needed for castling */				/* V3.35  NG */
     if (castling_supported) {
-	if (pj == tb) {
-	    if (i == 207) {
-		castling_flag[nbply]&= 0x67;
-	    }
-	    else if (i == 200) {
-		castling_flag[nbply]&= 0x57;
-	    }
+	/* pieces vacating a1, h1, a8, h8    V3.77  TLi */
+	if (i == 207) {
+	    castling_flag[nbply]&= 0x67;
 	}
-	if (pj == tn) {
-	    if (i == 375) {
-		castling_flag[nbply]&= 0x76;
-	    }
-	    else if (i == 368) {
-		castling_flag[nbply]&= 0x75;
-	    }
+	else if (i == 200) {
+	    castling_flag[nbply]&= 0x57;
 	}
+	else if (i == 375) {
+	    castling_flag[nbply]&= 0x76;
+	}
+	else if (i == 368) {
+            castling_flag[nbply]&= 0x75;
+	}
+	/* pieces arriving at a1, h1, a8, h8 and possibly capturing a rook */	/* V3.77  TLi */
 	if (j == 207) {
 	    castling_flag[nbply]&= 0x67;
 	}
@@ -1559,25 +1638,21 @@ boolean jouecoup(void) {
        )
     {
 	if (castling_supported) {
-#ifdef NODEF
-/* kings don't get their castling capabilities again, do they ??  V3.74  NG */
-	    if (pja == roib && j == 204)      /* white king new on e1 */
-		    castling_flag[nbply]|= 0x40;
-	    else if (pja == roin && j == 372) /* black king new on e8 */
-		    castling_flag[nbply]|= 0x04;
-	    else
-#endif /* NODEF */
-	    if (pja == tb) {
-		if (j == 207)		      /* white rook new on h1 */
-		    castling_flag[nbply]|= 0x10;
-		else if (j == 200)	      /* white rook new on a1 */
-		    castling_flag[nbply]|= 0x20;
-	    }
-	    else if (pja == tn) {
-		if (j == 375)		      /* black rook new on h8 */
-		    castling_flag[nbply]|= 0x01;
-		else if (j == 368)	      /* black rook new on a8 */
-		    castling_flag[nbply]|= 0x02;
+	    if (abs(pja) == Rook) {           /* V3.77  TLi */
+                if (TSTFLAG(pjspec, White)) { /* V3.77  TLi */
+	            /* new white/neutral rook */
+		    if (j == 207)             /* h1 */
+		        castling_flag[nbply]|= 0x10;
+		    else if (j == 200)	      /* a1 */
+		        castling_flag[nbply]|= 0x20;
+	        }
+                if (TSTFLAG(pjspec, Black)) { /* V3.77  TLi */
+	            /* new black/neutral rook */
+		    if (j == 375)	      /* h8 */
+		        castling_flag[nbply]|= 0x01;
+		    else if (j == 368)	      /* a8 */
+		        castling_flag[nbply]|= 0x02;
+	        }
 	    }
 	} /* castling_supported */
     } /* andernach || antiandernach ... */
@@ -1585,9 +1660,6 @@ boolean jouecoup(void) {
     if (TSTFLAG(pjspec, HalfNeutral))	     /* V3.57 SE */
     {
 	if (TSTFLAG(pjspec, Neutral)) {
-#ifdef	NODEF		/* V3.62  TLi */
-		SETFLAG(pjspec, trait[nbply]==noir ? Black : White);
-#endif
 		CLRFLAG(pjspec, trait[nbply] == blanc ? Black : White);   /* V3.62  TLi */
 
 		CLRFLAG(pjspec, Neutral);
@@ -1602,9 +1674,6 @@ boolean jouecoup(void) {
 	else if (trait[nbply]==noir) {
 	    if (TSTFLAG(pjspec, Black)) {
 		SETFLAG(pjspec, Neutral);
-#ifdef	NODEF		/* V3.62  TLi */
-		CLRFLAG(pjspec, Black);
-#endif
 		SETFLAG(pjspec, White);		/* V3.62  TLi */
 		pja= abs(pja);
 		if (rn == j)
@@ -1614,9 +1683,6 @@ boolean jouecoup(void) {
 	else if (trait[nbply]==blanc) {
 	    if (TSTFLAG(pjspec, White)) {
 		SETFLAG(pjspec, Neutral);
-#ifdef	NODEF		/* V3.62  TLi */
-		CLRFLAG(pjspec, White);
-#endif
 		SETFLAG(pjspec, Black);		/* V3.62  TLi */
 		pja= -abs(pja);
 		if (rb == j)
@@ -1679,7 +1745,12 @@ boolean jouecoup(void) {
 	couleur traitnbply= trait[nbply];	/* V3.1  TLi */
 	/* AntiCirce  V3.1  TLi */
 	if (pp != vide && anyanticirce) {
-	    cren= (*antirenai)(pja, pjspec, ip, i, advers(traitnbply));
+	    cren= (*antirenai)(pja, pjspec, ip, i, j, advers(traitnbply));
+        if (CondFlag[antisuper])
+        {  
+            while (!LegalAntiCirceMove(cren, ip, i)) cren++;
+            super[nbply]= cren;
+        }
 	    e[j]= vide;
 	    spec[j]= 0;
 	    crenkam[nbply]= cren;
@@ -1703,53 +1774,40 @@ boolean jouecoup(void) {
 	    if (i == _rn)
 		rn= cren;
 
-	    /* castling  V3.35	NG */
-	    if (castling_supported) {
-		if (pja == roib && cren == 204) {
-		    /* white king new on e1 */
-		    castling_flag[nbply]|= 0x40;
-		}
-		else if (pja == roin && cren == 372) {
-		    /* black king new on e8 */
-		    castling_flag[nbply]|= 0x04;
-		}
-		else if (pja == tb) {
-		    if (cren == 207) {
-			/* white rook new on h1 */
-			castling_flag[nbply]|= 0x10;
+	    if (castling_supported) {			/* V3.77  TLi */
+		piece abspja= abs(pja);
+		if (abspja == King) {
+		    if (TSTFLAG(pjspec, White) && cren == 204) {
+		        /* white king new on e1 */
+		        castling_flag[nbply]|= 0x40;
 		    }
-		    else if (cren == 200) {
-			/* white rook new on a1 */
-			castling_flag[nbply]|= 0x20;
-		    }
-		} else if (pja == tn) {
-		    if (cren == 375) {
-			/* black rook new on h8 */
-			castling_flag[nbply]|= 0x01;
-		    }
-		    else if (cren == 368) {
-			/* black rook new on a8 */
-			castling_flag[nbply]|= 0x02;
+		    else if (TSTFLAG(pjspec, Black) && cren == 372) {
+		        /* black king new on e8 */
+		        castling_flag[nbply]|= 0x04;
 		    }
 		}
-	    }
+		else if (abspja == Rook) {
+		    if (TSTFLAG(pjspec, White)) {
+			/* new white/neutral rook */
+		        if (cren == 207) {
+			    castling_flag[nbply]|= 0x10;    /* h1 */
+		        }
+		        else if (cren == 200) {
+			    castling_flag[nbply]|= 0x20;    /* a1 */
+		        }
+		    }
+		    if (TSTFLAG(pjspec, Black)) {
+			/* new black/neutral rook */
+		        if (cren == 375) {
+			    castling_flag[nbply]|= 0x01;    /* h8 */
+		        }
+		        else if (cren == 368) {
+			    castling_flag[nbply]|= 0x02;    /* a8 */
+		        }
+		    }
+		}
+	    } /* castling_supported */
 	} /* AntiCirce */
-
-#ifdef NODEF
-/* moved outside "jouegenre"  V3.74  NG */
-
-	/* Duellantenschach   V3.0  TLi */
-	if (CondFlag[duellist]) {
-	    if (traitnbply == noir) {
-		whduell[nbply]= whduell[nbply - 1];
-		blduell[nbply]= j;
-	    }
-	    else {
-		blduell[nbply]= blduell[nbply - 1];
-		whduell[nbply]= j;
-	    }
-	}
-#endif	/* NODEF */
 
 	if (CondFlag[sentinelles]) {			/* V2.90 TLi */
 	    if (    i > bas + 8
@@ -1818,10 +1876,10 @@ boolean jouecoup(void) {
 	    /* circe-rebirth of moving kamikaze-piece */
 	    if (TSTFLAG(pjspec, Kamikaze) && (pp != vide)) {
 		if (CondFlag[couscous]) {
-		    cren= (*circerenai)(pp, ppspec, ip, i, traitnbply);
+		    cren= (*circerenai)(pp, ppspec, ip, i, j, traitnbply);
 		}
 		else {
-		    cren= (*circerenai)(pja, pjspec, ip, i, advers(traitnbply));
+		    cren= (*circerenai)(pja, pjspec, ip, i, j, advers(traitnbply));
 		}
 		if (cren != j) {
 		    e[j]= vide;
@@ -1839,36 +1897,39 @@ boolean jouecoup(void) {
 			    if (i == _rn)
 				rn= cren;
 
-			    /* castling  V3.35	NG */
-			    if (castling_supported) {
-				if (pja == roib && cren == 204) {
-				    /* white king new on e1 */
+			    if (castling_supported
+                                && (abs(pja) == King)) {    /* V3.77  TLi */
+				if (TSTFLAG(pjspec, White)
+                                    && (cren == 204)) {
+				    /* white king reborn on e1 */
 				    castling_flag[nbply]|= 0x40;
 				}
-				else if (pja == roin && cren == 372) {
-				    /* black king new on e8 */
+				else if (TSTFLAG(pjspec, Black)
+                                         && (cren == 372)) {
+				    /* black king reborn on e8 */
 				    castling_flag[nbply]|= 0x04;
 				}
 			    }
 			}
-			/* castling  V3.35  NG */
-			if (castling_supported) {
-			    if (pja == tb) {
+			if (castling_supported
+                            && (abs(pja) == Rook)) {	/* V3.77  TLi */
+			    if (TSTFLAG(pjspec, White)) {
 				if (cren == 207) {
-				    /* white rook new on h1 */
+				    /* white rook reborn on h1 */
 				    castling_flag[nbply]|= 0x10;
 				}
 				else if (cren == 200) {
-				    /* white rook new on a1 */
+				    /* white rook reborn on a1 */
 				    castling_flag[nbply]|= 0x20;
 				}
-			    } else if (pja == tn) {
+			    }
+			    if (TSTFLAG(pjspec, Black)) {
 				if (cren == 375) {
-				    /* black rook new on h8 */
+				    /* black rook reborn on h8 */
 				    castling_flag[nbply]|= 0x01;
 				}
 				else if (cren == 368) {
-				    /* black rook new on a8 */
+				    /* black rook reborn on a8 */
 				    castling_flag[nbply]|= 0x02;
 				}
 			    }
@@ -1924,9 +1985,9 @@ boolean jouecoup(void) {
 		    }
 
 		    if (CondFlag[couscous])	    /* V3.1  TLi */
-			cren= (*circerenai)(pja, pjspec, ip, i, advers(traitnbply));
+			cren= (*circerenai)(pja, pjspec, ip, i, j, advers(traitnbply));
 		    else
-			cren= (*circerenai)(pren, ppspec, ip, i, traitnbply);
+			cren= (*circerenai)(pren, ppspec, ip, i, j, traitnbply);
 
 		    if (    !rex_circe
 			 && (flag_testlegality || CondFlag[brunner])
@@ -1956,38 +2017,40 @@ boolean jouecoup(void) {
 				rn= cren;
 			    }
 
-			    /* castling  V3.35	NG */
-			    if (castling_supported) {
-				if (pren == roib && cren == 204) {
-				    /* white king new on e1 */
+			    if (castling_supported
+                                && (abs(pren) == King)) {/* V3.77  TLi */
+				if (TSTFLAG(ppspec, White)
+                                    && (cren == 204)) {
+				    /* white king reborn on e1 */
 				    castling_flag[nbply]|= 0x40;
 				}
-				else if (pren == roin && cren == 372) {
-				    /* black king new on e8 */
+				else if (TSTFLAG(ppspec, Black)
+                                    && (cren == 372)) {
+				    /* black king reborn on e8 */
 				    castling_flag[nbply]|= 0x04;
 				}
 			    }
 			}
 
-			/* castling  V3.35  NG */
-			if (castling_supported) {
-			    if (pren == tb) {
+			if (castling_supported
+                            && (abs(pren) == Rook)) {	/* V3.77  TLi */
+			    if (TSTFLAG(ppspec, White)) {
 				if (cren == 207) {
-				    /* white rook new on h1 */
+				    /* white rook reborn on h1 */
 				    castling_flag[nbply]|= 0x10;
 				}
 				else if (cren == 200) {
-				    /* white rook new on a1 */
+				    /* white rook reborn on a1 */
 				    castling_flag[nbply]|= 0x20;
 				}
 			    }
-			    else if (pren == tn) {
+			    if (TSTFLAG(ppspec, Black)) {
 				if (cren == 375) {
-				    /* black rook new on h8 */
+				    /* black rook reborn on h8 */
 				    castling_flag[nbply]|= 0x01;
 				}
 				else if (cren == 368) {
-				    /* black rook new on a8 */
+				    /* black rook reborn on a8 */
 				    castling_flag[nbply]|= 0x02;
 				}
 			    }
@@ -2042,32 +2105,46 @@ boolean jouecoup(void) {
 	    */
 	    flag_repub= (super[nbply] < bas);
 	    if (trait[nbply]==blanc) {
-		if (flag_writinglinesolution) {      /* v3.53 SE */
+            if (flag_writinglinesolution && repub_k[nbply] != initsquare) {      /* v3.53 SE */
+            rn= repub_k[nbply];
+            e[rn]= roin;
+            nbpiece[roin]++;
 		}
 		else if (!rn && !flag_dontaddk) {
 		    flag_dontaddk= true;
 		    find_mate_square(blanc);
 		    flag_dontaddk= false;
+            repub_k[nbply]= super[nbply]<= haut ? super[nbply] : initsquare;
 		    if (!flag_repub) {
 			flag_repub= !(rn==initsquare);
 		    }
 		}
 		else
+        {
+            repub_k[nbply]= initsquare;
 		    super[nbply]= haut + 1;
+        }
 	    }
 	    else {
-		if (flag_writinglinesolution) {		/* v3.53 SE */
+		if (flag_writinglinesolution && repub_k[nbply] != initsquare) {		/* v3.53 SE */
+            rb= repub_k[nbply];
+            e[rb]= roib;
+            nbpiece[roib]++;
 		}
 		else if (!rb && !flag_dontaddk) {
 		    flag_dontaddk= true;
 		    find_mate_square(noir);
 		    flag_dontaddk= false;
+            repub_k[nbply]= super[nbply]<= haut ? super[nbply] : initsquare;
 		    if (!flag_repub) {
 			flag_repub= !(rb==initsquare);
 		    }
 		}
 		else
+        {
+            repub_k[nbply]= initsquare;
 		    super[nbply]= haut + 1;
+        }
 	    }
 	} /* republican */
 
@@ -2115,6 +2192,35 @@ boolean jouecoup(void) {
 		else if (rn==276) {
 		  rn= 275;
 		}
+	    }
+	}
+
+	if (trait[nbply]==blanc ? CondFlag[white_oscillatingKs] : CondFlag[black_oscillatingKs]) {
+												/* V3.78 SE */
+	    boolean priorcheck= false;
+	    square temp= rb;		
+	    piece temp1= e[rb];
+	    Flags temp2= spec[rb];
+
+	    oscillatedKs[nbply]= false;
+	    if (OscillatingKingsTypeB[trait[nbply]])
+		    priorcheck= echecc(trait[nbply]);  
+	    if ((oscillatedKs[nbply]= (!OscillatingKingsTypeC[trait[nbply]] || echecc(advers(trait[nbply]))))) /* V3.80  SE */
+	    { 
+		e[rb]= e[rn];
+		spec[rb]= spec[rn];
+
+		e[rn]= temp1;
+		spec[rn]= temp2;
+		rb= rn;
+		rn= temp;
+        castling_flag[nbply] &= 0x33;           /* V3.81  SE */
+        if (rb==204)
+            castling_flag[nbply] |=0x40;    
+        if (rn==372)
+            castling_flag[nbply] |=0x04;    
+		if (OscillatingKingsTypeB[trait[nbply]] && priorcheck)
+			return false;
 	    }
 	}
 
@@ -2210,6 +2316,21 @@ void repcoup(void) {
 
 
     if (jouegenre) {				       /* V3.53  TLi */
+
+/*	if (trait[nbply]==blanc ? CondFlag[white_oscillatingKs] : CondFlag[black_oscillatingKs])	*/
+        if (oscillatedKs[nbply])  /* V3.80  SE - for Osc Type C */
+	{
+		square temp= rb;                   /* V3.78 SE */
+		piece temp1= e[rb];
+		Flags temp2= spec[rb];
+		e[rb]= e[rn];
+		spec[rb]= spec[rn];
+		e[rn]= temp1;
+		spec[rn]= temp2;
+		rb= rn;
+		rn= temp;
+	}
+
 	if (CondFlag[actrevolving]) {
 	    RotateMirror(rot90);
 	}
@@ -2392,24 +2513,29 @@ void repcoup(void) {
     ** V3.22  TLi
     */
     if (   (CondFlag[supercirce] && pp != vide)
-	|| isapril[abs(pp)])
+	|| isapril[abs(pp)]  || (CondFlag[antisuper] && pp != vide))
     {
 	/* V3.1, 3.52  TLi, SE */
 	nextsuper= super[nbply];
 	while ((e[++nextsuper] != vide) && (nextsuper < haut))
 	    ;
-#ifdef NODEF	/* V3.52  SE */
-	while ((e[++super[nbply]] != vide) && (super[nbply] < haut))
+    if (CondFlag[antisuper] && AntiCirCheylan && nextsuper==ip)  /* V3.81  SE */
+        while ((e[++nextsuper] != vide) && (nextsuper < haut))
 	    ;
-#endif	/* NODEF */
     }
 
     if (CondFlag[republican]) {				/* V3.50 SE */
-	square sq= super[nbply];
-	if (sq <= haut) {
+	square sq= repub_k[nbply];
+	if (sq != initsquare) {
 	    e[sq]= vide;
-	    if (sq==rn) rn=initsquare;
-	    if (sq==rb) rb=initsquare;
+        if (sq==rn) {
+            rn=initsquare;
+            nbpiece[roin]--;
+        }
+        if (sq==rb) {
+            rb=initsquare;
+            nbpiece[roib]--;
+        }
 	}
     }
 
@@ -2441,8 +2567,13 @@ void repcoup(void) {
 	    --nbpiece[e[i]];
 	    senti[nbply]= false;
 	}
-	if (CondFlag[imitators])			/* V2.4d  TM */
-	    joueim(i - j);			   /* verschoben TLi */
+	if (CondFlag[imitators])				/* V2.4d  TM */
+	{
+		if (ip == maxsquare + 3)
+			joueim(-1);
+		else if (ip != maxsquare + 2) /* joueim(0) (do nothing) if OO */
+			joueim(i - j);			   /* verschoben TLi */
+	}
 
 	if (TSTFLAG(PieSpExFlags, Neutral)) {
 	    /* the following is faster !  TLi
@@ -2500,8 +2631,11 @@ void repcoup(void) {
 	    }
 	}
     }
+    if (!anyantimars || ip != i)
+    {
     e[ip]= pp;
     spec[ip]= pprispec[nbply];
+    }
 
     if (pp != vide)
 	nbpiece[pp]++;
@@ -2520,15 +2654,10 @@ void repcoup(void) {
 
     /* at last modify promotion-counters and decrement nbcou */
     /* ortho- und pwc-Umwandlung getrennt  V3.02  TLi */
-#ifdef NODEF	/* V3.52  SE */
-    if (   (CondFlag[supercirce] && pp != vide)
-	|| isapril[abs(pp)]
-	|| CondFlag[republican])
-#endif
     if (CondFlag[republican]) {
 	next_prom= (super[nbply] > haut);
 	if (next_prom) {
-	    super[nbply]= bas - 1;
+	    super[nbply]= superbas;
 	}
     }
 
@@ -2546,7 +2675,7 @@ void repcoup(void) {
 				  /* CLRFLAG(pjspec, APawn);  V3.22  TLi */
 		while (pprom != vide) {
 		    rencas= (*antirenai)(pprom,
-			    pjspec, ip, i, advers(trait[nbply]));
+			    pjspec, ip, i, j, advers(trait[nbply]));
 		    if (rencas == i)
 			break;
 		    if (LegalAntiCirceMove(rencas, ip, i)) {
@@ -2566,7 +2695,7 @@ void repcoup(void) {
 	    pprom= getprompiece[vide];
 	    if (pp != vide && anyanticirce)		 /* V3.1  TLi */
 		    while (pprom != vide &&
-			   (rencas= (*antirenai)(pprom, pjspec, ip, i, advers(trait[nbply]))) != i &&
+			   (rencas= (*antirenai)(pprom, pjspec, ip, i, j, advers(trait[nbply]))) != i &&
 			   e[rencas] != vide)
 			    pprom= getprompiece[pprom];
 
@@ -2574,7 +2703,8 @@ void repcoup(void) {
 	    norm_cham_prom[nbply]= true;
 	}
 	if ((pprom == vide) && !CondFlag[noiprom])   /* V2.4d  TM */
-	    Iprom[nbply]= true;
+	    Iprom[nbply]= false;	/* V3.80  TM */
+	/*  Iprom[nbply]= true; */
 	}
 	else if (!CondFlag[noiprom] && Iprom[nbply]) {	 /* V2.4d  TM */
 	    for (icount= nbply; icount <= maxply; inum[icount++]--);
@@ -2598,11 +2728,11 @@ void repcoup(void) {
 	      && Iprom[nbply]))				 /* V2.4d  TM */
 	    {
 		if (   (CondFlag[supercirce] && pp != vide)
-		    || isapril[abs(pp)])		  /* V3.52 SE */
+		    || isapril[abs(pp)] || (CondFlag[antisuper] && pp != vide))		  /* V3.52 SE */
 		{
 		    super[nbply]= nextsuper;
-		    if (super[nbply] > haut) {
-			super[nbply]= bas - 1;
+		    if ((super[nbply] > haut) || (CondFlag[antisuper] && !LegalAntiCirceMove(nextsuper, ip, i))) {
+                super[nbply]= superbas;
 			nbcou--;
 		    }
 		}
@@ -2665,6 +2795,25 @@ boolean patt(couleur camp)
 				gen_wh_piece(rb, abs(e[rb]));	    /* V3.02  TLi */
 		} else if (rn != initsquare)
 				gen_bl_piece(rn, -abs(e[rn]));	  /* V3.02  TLi */
+
+		if (CondFlag[MAFF] || CondFlag[OWU]) {					/* V3.78 SE */
+			int k_fl= 0, w_unit= 0;
+			while (encore()) {
+				if (jouecoup()) {
+					if (camp==noir ? pprise[nbply]>=roib : pprise[nbply]<=roib)
+						w_unit++;        /* assuming OWU is OBU for checks to wK !! */
+					if (!echecc(camp))
+						k_fl++;
+					}
+				repcoup();
+			}
+			if ( (CondFlag[OWU] && (k_fl!=0 || w_unit!=1)) ||
+				 (CondFlag[MAFF] && (k_fl!=1)) ) {
+				finply();
+				return false;
+			}
+		}
+
 		while (pattencore(camp, &pattfield)) {
 			if (jouecoup()
 		|| (CondFlag[blackultraschachzwang] && (camp == noir))
@@ -2971,9 +3120,11 @@ void find_mate_square(couleur camp)			  /* V3.50 SE */
 	    if (e[sq] == vide) {
 		rn= sq;
 		e[rn]= roin;
+        nbpiece[roin]++;
 		if ((*stipulation)(camp)) {		 /* V3.53  SE */
 		    return;
 		}
+        nbpiece[roin]--;
 		e[rn]= vide;
 	    }
 	}
@@ -2984,9 +3135,11 @@ void find_mate_square(couleur camp)			  /* V3.50 SE */
 	    if (e[sq] == vide) {
 		rb= sq;
 		e[rb]= roib;
+        nbpiece[roib]++;
 		if ((*stipulation)(camp)) {		 /* V3.53  SE */
 		    return;
 		}
+        nbpiece[roib]--;
 		e[rb]= vide;
 	    }
 	}
@@ -2994,3 +3147,4 @@ void find_mate_square(couleur camp)			  /* V3.50 SE */
 	return;
     }
 }
+

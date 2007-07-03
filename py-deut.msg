@@ -133,5 +133,5 @@
 101= Feld leer - kann keine Figur entfernen/versetzen.\n
 102= Option  MaxZeit  nicht unterstuetzt.\n
 103= Option  StopNachKurzloesungen  nicht unterstuetzt im direkten Spiel.\n
-104= Märchensteine nicht erlaubt in Single box
+104= Maerchensteine nicht erlaubt in Single box
 105= LaTeXdatei nicht uebersetzbar: Maerchenstein nicht spezifiziert.\n

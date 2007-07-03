@@ -495,4 +495,12 @@
 ** 2001/11/10 NG   singleboxtype? changed to singlebox type?
 **		   some singlebox variable names changed ...
 **
+** 2002/03/03 NG   duellistchess moved outside jouegenre
+**
+** 2002/04/04 NG   commandline option -regression for regressiontesting
+**
+** 2002/20/08 TLi  a=>b bug fixed
+**
+** 2002/20/08 TLi  maxsolutions bug fixed
+**
 **************************** INFORMATION END **************************/

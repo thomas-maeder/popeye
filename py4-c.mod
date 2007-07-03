@@ -256,4 +256,8 @@
 ** 2000/11/29 TLi  new pieces: 3:6 leaper, night-rider lion, mao-rider
 **                 lion
 **
+** 2002/03/03 SE,NG kamikaze without "anycirce" bug fixed.
+**
+** 2002/04/29 TLi  dolphin bug fixed, spotted by Michael Schreckenbach
+**
 **************************** INFORMATION END ***************************/

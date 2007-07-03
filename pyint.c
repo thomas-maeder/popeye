@@ -2,10 +2,6 @@
 **
 ** Date       Who  What
 **
-** 2002/04/04 NG   commandline option -regression for regressiontesting
-**
-** 2002/08/22 TLi  improvements with option maxsols
-**
 ** 2003/01/06 TLi  bug fix in Black/WhitePieceTo (intelligent mode bug)
 **
 ** 2003/02/04 TLi  bug fix with intelligent h= mode
@@ -1612,20 +1608,6 @@ void AvoidCheckInStalemate(
 #endif
 
     for (i= 0; i < md; i++) {
-#ifdef NODEF
-	square sq= rn+checkdirs[i];
-	if ( (e[sq+checkdirs[i]] == db)
-	  && (SquareCol(sq) != SquareCol(rn)))
-	{
-	    ImmobilizeByBlBlock(blmoves,
-	      whmoves, blpcallowed, whpcallowed, sq, md-1);
-	}
-	if (checkdirs[i] > 0) {
-	    /* actually only white pawns possible */
-	    ImmobilizeByWhBlock(blmoves,
-	      whmoves, blpcallowed, whpcallowed, sq);
-	}
-#endif
 	square sq= rn;
 	while (e[sq+=checkdirs[i]] == vide) {
 	    ImmobilizeByBlBlock(blmoves,
@@ -1688,15 +1670,6 @@ void BlackPieceTo(
 		/* A rough check whether it is worth thinking about
 		   promotions.
 		 */
-#ifdef	NODEF   /* V3.76  TLi */
-		smallint moves= black[actpbl].sq / 24 - 8;
-		if (moves > 5) {
-		    moves= 5;
-		}
-		if (sq > 207) {
-		    moves++;
-		}
-#endif
 		time= black[actpbl].sq / 24 - 8;
 		if (time > 5) {
 		    time= 5;
@@ -1791,15 +1764,6 @@ void WhitePieceTo(
 	    /* A rough check whether it is worth thinking about
 	       promotions.
 	     */
-#ifdef NODEF	/* V3.76  TLi */
-	    smallint moves= white[actpwh].sq / 24 - 8;
-	    if (moves > 5) {
-		moves= 5;
-	    }
-	    if (sq < 360) {
-		moves++;
-	    }
-#endif
 	    time= white[actpwh].sq / 24 - 8;
 	    if (time > 5) {
 		time= 5;

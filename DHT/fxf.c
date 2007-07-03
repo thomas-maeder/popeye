@@ -82,7 +82,8 @@ typedef struct {
 #else
 #define fxfMAXSIZE	2048	/* this is needed only when sizeof(void*)==8 */
 #endif
-#define fxfMINSIZE	sizeof(char *)
+/*#define fxfMINSIZE	sizeof(char *)*/
+#define fxfMINSIZE	8
 
 static SizeHead SizeData[fxfMAXSIZE+1];
 
@@ -250,7 +251,9 @@ void *fxfAlloc(int size) {
 
     DBG((stderr, "%s(%d) =", myname, size));
     if (size < fxfMINSIZE) {
+#if !defined(SIXTYFOUR)
 	WARN_LOG3("%s: size=%d < %d\n", myname, size, fxfMINSIZE);
+#endif
 	size= fxfMINSIZE;
     }
     if (size > fxfMAXSIZE) {
@@ -270,7 +273,7 @@ void *fxfAlloc(int size) {
     }
     else {
     	/* we have to allocate a new piece */
-	if ((unsigned)(TopFreePtr-BotFreePtr) >= size) {
+	if ((unsigned long)(TopFreePtr-BotFreePtr) >= size) {
 	    if (size&PTRMASK) {
 		/* not aligned */
 		ptr= BotFreePtr;
@@ -376,7 +379,7 @@ void fxfInfo(FILE *f) {
     unsigned long UsedBytes, FreeBytes;
     fprintf(f, "fxfArenaSize = %lu bytes\n", GlobalSize);
     fprintf(f, "fxfArenaUsed = %lu bytes\n",
-      GlobalSize-(unsigned)(TopFreePtr-BotFreePtr)
+      GlobalSize-(unsigned long)(TopFreePtr-BotFreePtr)
 #if defined(SEGMENTED)
       - (ArenaSegCnt-ActualSeg-1)*ARENA_SEG_SIZE
 #endif /*SEGMENTED*/
