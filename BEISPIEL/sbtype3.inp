@@ -2,7 +2,7 @@ anfa
 prot sbtype3.out
 
 titel Seite der latenten Bauern entscheidet welchen umzuwandeln -> f2*e1 w"are Selbstschach
-bedi singlebox typ3
+bedi NurPartiesatz typ3
 ford h#1
 stei weis kc1 da7 tb7b8 lc8e1 sa8e3 ba6b6c7g8h8
        schw ka1 bf2
@@ -11,7 +11,7 @@ opti zugn
 weit
 
 titel Seite der latenten Bauern entscheidet welchen umzuwandeln -> f7*e8 w"are Selbstschach
-bedi singlebox typ3
+bedi NurPartiesatz typ3
 ford #1
 stei weis ka8 sb5 bf7
        schw kc8 da2 tb2b1 lc1e8 sa1d1 ba3b3c2g1h1
@@ -20,7 +20,7 @@ opti zugn
 weit
 
 titel Vermeide Selbstschach
-bedi singlebox typ3
+bedi NurPartiesatz typ3
 ford +1
 stei weis kh8 se3h4
        schw ke1 dg2 tc1c2 lf3 bh1
@@ -28,7 +28,7 @@ stei weis kh8 se3h4
 weit
 
 titel Vermeide Selbstschach
-bedi singlebox typ3
+bedi NurPartiesatz typ3
 ford h+1
 stei weis kg8 dh8 th7g6 lg7h4 sf4f6 ba8
        schw kh1 tg1 bg5h2
@@ -36,7 +36,7 @@ stei weis kg8 dh8 th7g6 lg7h4 sf4f6 ba8
 weit
 
 titel Seite der Bauern entscheidet welchen umzuwandeln -> Ta1 kann nicht schlagen
-bedi singlebox typ3
+bedi NurPartiesatz typ3
 ford h#1
 stei weis ke6 db8 ta2b1 lb7c8 sa7a8 ba6b5b6c6c7g8h8
        schw ke8 ta1 ba4
@@ -44,7 +44,7 @@ stei weis ke6 db8 ta2b1 lb7c8 sa7a8 ba6b5b6c6c7g8h8
 weit
 
 titel W"ahle Umwandlungsfigur
-bedi singlebox typ3
+bedi NurPartiesatz typ3
 stei weis ke1 dd8 td1 be8e6
        schw ke5 bf4f5
 ford #1
@@ -52,7 +52,7 @@ ford #1
 weit
 
 auto B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
-bedi singlebox typ3
+bedi NurPartiesatz typ3
 stei weis ka2 db2 ta4f1 lc6g1 se1f6 bd7g2
        schw ke3 df2 sd6h1 bc4e5f5g3g4
 ford #2
@@ -64,7 +64,7 @@ auto Milan Velimirovic, 2001
 stei weis kd8 dh1 td1g4 lh2g6 sd4e8 bd6e6f7
        schw ke5 la8h6 bd5d7e4f2f4g3g7h4
 ford #3
-bedi singleBox typ3
+bedi NurPartiesatz typ3
 opti vari verf
 
 ende

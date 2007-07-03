@@ -103,3 +103,4 @@
 102= Option  MaxTime  not supported.\n
 103= Option  StopOnShortSolutions  not supported with direct play.\n
 104= Fairy pieces not allowed in Single box
+105= LaTeXFile will not compile: undefined fairy piece\n

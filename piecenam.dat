@@ -113,4 +113,9 @@
 /*112*/|SR|36|3:6-cavalier                        |36|3:6-Springer                                |36|3:6-leaper 
 /*113*/|I |nl|noctambule lion                     |nl|Nachtreiterlion                             |nl|nightrider lion
 /*114*/|I |ml|noctambule mao lion                 |ml|Maoreiterlion                               |ml|maorider lion
-/*115*/|I |dn|dauphin                             |de|Delphin                                     |do|dolphin
+/*115*/|I |mm|noctambule moa lion                 |mm|Moareiterlion                               |mm|moarider lion
+/*116*/|I |as|sauterelle d'Andernach              |ag|AndernachGrashuepfer                        |ag|AndernachGrasshopper
+/*117*/|I |a |ami                                 |f |Freund                                      |f |friend
+/*118*/|I |dn|dauphin                             |de|Delphin                                     |do|dolphin
+/*119*/|I |la|lapin                               |he|Hase                                        |rt|rabbit
+/*120*/|I |bo|bob                                 |bo|Bob                                         |bo|bob

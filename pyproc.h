@@ -10,6 +10,8 @@
 **
 ** 2001/10/02 TLi  new piece: Dolphin (Grashopper + Kangaroo)
 **
+** 2002/05/18 NG   new pieces: rabbit, bob
+**
 **************************** End of List ******************************/
 
 #ifndef PYPROC_H
@@ -426,6 +428,13 @@ boolean moariderlioncheck (square i, piece p, boolean (* evaluate)(square,square
 boolean dolphincheck (square i, piece p, boolean (* evaluate)(square,square,square));    /* V3.70  TLi */
 
 boolean stip_any (couleur a);	/* V3.64  SE */
+
+void    grabbitb (square sq);		/* V3.76  NG */
+void    grabbitn (square sq);		/* V3.76  NG */
+boolean rabbitcheck (square i, piece p, boolean (* evaluate)(square,square,square));    /* V3.76  NG */
+void    gbobb (square sq);		/* V3.76  NG */
+void    gbobn (square sq);		/* V3.76  NG */
+boolean bobcheck (square i, piece p, boolean (* evaluate)(square,square,square));    /* V3.76  NG */
 
 #ifdef WIN32
 void WIN32SolvingTimeOver(int *WaitTime);

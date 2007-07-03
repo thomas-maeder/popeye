@@ -39,14 +39,16 @@
 # when you compile for HP-UX 8.05 or later		-Aa -D_POSIX_SOURCE
 # when you want a popeye with no output at all		-DQUIET
 # when you want a message after canceling with a signal -DSIGNALS
+# when you want statistic about hashtable filling	-DTESTHASH
+#
 # Choose the one you need/want from the above list and put them herein
 
+#DBG= -pg
 #DBG=-g
-#OPT=+O4 +Oaggressive		#HP-UX
+#OPT=+O4 +Oaggressive	#HP-UX
 #OPT=-O4 -ansi_alias -fast -inline speed -ifo	#OS ? TLi
-OPT=-O
-#OPT=-fast -Xc			#Sun Solaris
-#OPT=-O4
+#OPT=-fast -Xc		#Sun Solaris
+OPT=-O2 -Wall
 
 #ARCH=-xarch=v9		# 64-Bit Solaris
 ARCH=
@@ -63,7 +65,9 @@ OSVER=`uname -r`
 #CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS -DTESTHASH
 #CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS -DSIXTYFOUR
 #CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS
-CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS -DOSTYPE=\"$(OS)-$(OSVER)\"
+CFLAGS= $(DBG) $(OPT) $(ARCH) \
+	-DMSG_IN_MEM -DUNIX -DSIGNALS \
+	-DOSTYPE=\"$(OS)-$(OSVER)\"
 
 #CC=gcc
 #CC=clcc
@@ -90,16 +94,16 @@ RANLIB = ranlib
 
 # This variable is used in compiling pydata.c, and
 # should contain only the number
-#VERSION =       3.73
+#VERSION =       3.76
 # It's not used in this makefile for compilation any more.
 # We use it for creating distributions without any . (dot) !
-VERSION =       373
+VERSION =       376
 
 OBJECTS =       pydata.o py1.o py2.o py3.o py4.o py5.o py6.o pyio.o    \
 		pymsg.o pytime.o pylang.o pyhash.o pyproof.o	       \
 		pysignal.o pyint.o
-INCLUDES=       pydata.h py.h py4.h pyproc.h pymsg.h pymac.h pylang.h  \
-		pyproof.h DHT/*.h pyint.h pyhash.h 
+INCLUDES=       pydata.h py.h py1.h py4.h pyproc.h pymsg.h pymac.h     \
+		pylang.h pyproof.h DHT/*.h pyint.h pyhash.h pytime.h
 CFILES  =       pydata.c py1.c py2.c py3.c py4.c py5.c py6.c pyio.c    \
 		pymsg.c pytime.c pylang.c pyhash.c pyproof.c	       \
 		pysignal.c DHT/*.c pyint.c
@@ -110,7 +114,7 @@ TEXFILES=       pie-fran.dat pie-deut.dat pie-engl.dat piecenam.dat    \
 DOCFILES=       py-fran.doc py-deut.doc py-engl.doc readme history     \
 		lizenz BEISPIEL/*.inp EXAMPLES/*.inp *.mod
 UTILS   =	todef.awk toenum.awk
-DEVELOP =       makefile.unx DHT/makefile.unx 
+DEVELOP =       makefile.unx DHT/makefile.unx coding.txt
 DFILES  =       $(INCLUDES) $(CFILES) $(DEVELOP) $(DOCFILES) $(UTILS)  \
 		$(MSGFILES) $(TEXFILES)
 MINIFILES  =    py*.[ch] py*.msg py*.doc history makefile.unx
@@ -145,7 +149,7 @@ pymsg.o:	dogenpystr pymsg.c pymsg.h py.h pyproc.h
 pydata.o:       pydata.c py.h pydata.h pymac.h pyproc.h
 		$(CC) $(CFLAGS) -c pydata.c
 
-py1.o:          py1.c pydata.h py.h pyproc.h pymac.h
+py1.o:          py1.c py1.h pydata.h py.h pyproc.h pymac.h
 		$(CC) $(CFLAGS) -c py1.c
 
 py2.o:          py2.c pydata.h py.h pyproc.h pymac.h

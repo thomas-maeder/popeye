@@ -20,6 +20,7 @@ Contents of this distribution:
 	history:        Info about POPEYE-development during his life-time.
 	py-????.doc     Documentation written in ????-language.
 	makefile.unx    Makefile for unix compilation.
+	coderule.txt    Some hints on coding style
 	py.h:           Contains constant and type definitions.
 	pydata.h:       Contains all extern declared data.
 	pymsg.h:        Contains constant definitions for POPEYE I/O.

@@ -17,10 +17,34 @@
 ** 2001/11/10 NG   singleboxtype? changed to singlebox type?
 **		   some singlebox variable names changed ...
 ** 
+** 2002/04/04 NG   commandline option -regression for regressiontesting
+**
+** 2002/05/05 NG   Windows98 version now detectable via VERSIONSTRING
+**
+** 2002/05/18 NG   new pieces: rabbit, bob
+**                 new define: ClrDiaRen(s)
+**
 **************************** End of List ******************************/
 
 #ifndef PY_H
 #define PY_H
+
+
+/*   Sometimes local variables are used, that can potentially be
+     used without any propper initial value. At least the compiler
+     cannot assure a propper initialisation.
+     The programmer should verify these places. To spot these
+     places, I introduced the following macro. It may be defined
+     to nothing, to get the old code -- without var intialisation.
+ */
+#define VARIABLE_INIT(var)	var=0
+
+#ifdef NODEF			/* v3.74  NG */
+#if defined(REGRESSION_TEST)
+#undef HASHSTATS
+#define NO_MOVE_TIME
+#endif
+#endif	/* NODEF */
 
 #ifdef C370
 /* On MVS-systems there's the problem that the C/370 compiler and the
@@ -47,7 +71,7 @@
 
 #ifndef VERSION				/* V3.55  NG */
 
-#define VERSION "3.73"
+#define VERSION "3.76"
 
 #endif	/* ! VERSION */
 
@@ -116,6 +140,9 @@
 #ifdef ATARI
 #       define OSTYPE "ATARI"
 #else
+#if defined(WIN98)
+#       define OSTYPE "WINDOWS98"
+#else
 #if defined(WIN16) || defined(WIN32)
 #       define OSTYPE "WINDOWS"
 #else
@@ -129,6 +156,7 @@
 #       define OSTYPE "C"
 #endif  /* UNIX */
 #endif  /* WIN16 || WIN32 */
+#endif  /* WIN98 */
 #endif  /* ATARI */
 #endif  /* DOS */
 #endif  /* C370 */
@@ -281,7 +309,9 @@
 #define andergb        116      /* V3.65  TLi */
 #define friendb        117      /* V3.65  TLi */
 #define dolphinb       118      /* V3.70  TLi */
-#define derbla         119
+#define rabbitb        119      /* V3.76  NG */
+#define bobb           120      /* V3.76  NG */
+#define derbla         121
 #define roin    -2
 #define pn      -3
 #define dn      -4
@@ -399,7 +429,9 @@
 #define andergn        -116     /* V3.65  TLi */
 #define friendn        -117     /* V3.65  TLi */
 #define dolphinn       -118     /* V3.70  TLi */
-#define dernoi         -119
+#define rabbitn        -119     /* V3.76  NG */
+#define bobn           -120     /* V3.76  NG */
+#define dernoi         -121
 
 #define maxsquare       576     /* V2.60  NG */
 #define haut            375     /* V2.60  NG */
@@ -430,7 +462,7 @@
 #endif /* DATABASE */
 
 #define toppile (30*maxply)     /* V2.90  NG */
-#define maxvec          128     /* V3.46  NG */
+#define maxvec          136     /* V3.46  NG */ /* V3.73 ElB*/
 
 #define bl      ' '
 #define blanc   0
@@ -723,7 +755,9 @@ typedef int Token;
 #define AndernachGrasshopper     116
 #define Friend         117
 #define Dolphin        118
-#define PieceCount     119
+#define Rabbit         119
+#define Bob            120
+#define PieceCount     121
 typedef int PieNam;
 /*--- End of } PieNam;---*/
 
@@ -1057,6 +1091,8 @@ typedef int PieSpec;
 #define DiaRen(s)       (boardnum[(s >> DiaCirce)])
 #define SetDiaRen(s, f) (s+=((unsigned int)(((f-bas)/24)*8+(f-bas)%24)<<DiaCirce))
 #define FrischAuf       PieSpCount
+/* needed for Twinning Reset.  V3.76  NG */
+#define ClrDiaRen(s)    (s-=((unsigned int)(s>>DiaCirce)<<DiaCirce))
 
 #define encore()        (nbcou > repere[nbply])
 #define advers(camp)    ((camp) ? blanc : noir) /* V2.60  NG */
@@ -1080,9 +1116,9 @@ typedef int PieSpec;
 #define hopimcheck(sq, j, over, diff) (!checkhopim || hopimok((sq), (j), (over), (diff)))
 
 /* V2.90c  TLi */
-#define setneutre(i)            {if (neutcoul != color(i)) change(i);}
-#define change(i)               {register piece pp; nbpiece[pp= e[i]]--; nbpiece[e[i]= -pp]++;}
-#define finligne(i,k,p,sq)      {register smallint kk= k; sq= i; while (e[(sq+=kk)]==vide); p= e[sq];}
+#define setneutre(i)            do {if (neutcoul != color(i)) change(i);} while(0)
+#define change(i)               do {register piece pp; nbpiece[pp= e[i]]--; nbpiece[e[i]= -pp]++;} while (0)
+#define finligne(i,k,p,sq)      do {register smallint kk= k; sq= i; while (e[(sq+=kk)]==vide); p= e[sq];} while (0)
 
 /* V3.12  TLi, V3.14  NG */
 #define rightcolor(ej, camp)    (camp == blanc ? ej <= roin : ej >= roib)

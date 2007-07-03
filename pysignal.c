@@ -2,22 +2,22 @@
 
 **
 ** Date       Who  What
-** 
+**
 ** 1996/11/25 ElB  Original
 **
 ** 1997/12/24 ElB  Added SignalBased changes of HashRateLevel.
-** 
+**
 ** 1999/01/14 NG   Small change for DJGPP compatibility (__GO32__)
-** 
+**
 ** 1999/01/17 NG   Better solution for option  MaxTime using
-**                 alarm signal under UNIX
-**                 and sleeping thread under WIN32.
-**                 Not supported under DOS.
-** 
+**		   alarm signal under UNIX
+**		   and sleeping thread under WIN32.
+**		   Not supported under DOS.
+**
 ** 2000/01/21 TLi  ReDrawBoard modified
 **
-**************************** End of List ******************************/ 
- 
+**************************** End of List ******************************/
+
 #if defined(UNIX) && defined(SIGNALS)
 
 #include <stdio.h>
@@ -26,6 +26,7 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pymsg.h"
+#include "pyhash.h"
 
 #if defined(HASHRATE)
 extern int HashRateLevel;
@@ -65,48 +66,48 @@ void GotSignal(int sig) {
  * or windows?
  */
 static int SignalToCatch[] = {
-        SIGHUP,
-        SIGINT,
-        SIGQUIT,
-        SIGTERM,
+    SIGHUP,
+    SIGINT,
+    SIGQUIT,
+    SIGTERM,
 #if !defined(HPUX) && !defined(__GO32__)
 /* not supported by HP-UX */
 /* not supported by DJGPP */
-        SIGVTALRM,
-        SIGXCPU,
-        SIGXFSZ,
+    SIGVTALRM,
+    SIGXCPU,
+    SIGXFSZ,
 #endif /* HPUX, __GO32__ */
-        0
+    0
 };
 
 void ReDrawBoard(int sig) {
     /* I did this, to see more accurately
-     * what position popeye is working on.
-     *				ElB, 1998-01-11. 
+       what position popeye is working on.
+				ElB, 1998-01-11.
      */
     /* If a position can be reached by 1000's
-     * of move sequences than the position is of almost
-     * no value. The history is more important.
-     *                          TLi, 2000-02-21.
+       of move sequences than the position is of almost
+       no value. The history is more important.
+				TLi, 2000-02-21.
      */
     ply pl;
 
     WritePosition();
 
     /* and write (some information about) the
-     * sequences of moves that lead to this position.
-     *                           V3.62  TLi
+       sequences of moves that lead to this position.
+				 V3.62	TLi
      */
     for (pl= 3; pl < nbply; pl++) {
-      WritePiece(pjoue[pl-1]);
-      WriteSquare(cd[repere[pl]]);
-        StdChar('-');
-      WriteSquare(ca[repere[pl]]);
-      if (norm_prom[pl-1]) {
-        StdChar('=');
-        WritePiece(norm_prom[pl-1]);
-      }
-      StdString("   ");
+	WritePiece(pjoue[pl-1]);
+	WriteSquare(cd[repere[pl]]);
+	StdChar('-');
+	WriteSquare(ca[repere[pl]]);
+	if (norm_prom[pl-1]) {
+	    StdChar('=');
+	    WritePiece(norm_prom[pl-1]);
+	}
+	StdString("   ");
     }
     StdChar('\n');
 
@@ -114,13 +115,13 @@ void ReDrawBoard(int sig) {
 }
 
 void UNIXSolvingTimeOver(int sig) {
-/*
- * To stop the calculation of a problem
- * after a given amount of time is over.
- *				 V3.54  NG
- */
-	FlagTimeOut= true;
-	signal(SIGALRM,  UNIXSolvingTimeOver);
+    /*
+      To stop the calculation of a problem
+      after a given amount of time is over.
+				 V3.54	NG
+     */
+    FlagTimeOut= true;
+    signal(SIGALRM,  UNIXSolvingTimeOver);
 }
 
 void pyInitSignal(void) {
@@ -128,11 +129,11 @@ void pyInitSignal(void) {
 
     i=0;
     while (SignalToCatch[i]) {
-        signal(SignalToCatch[i], GotSignal);
-        i++;
+	signal(SignalToCatch[i], GotSignal);
+	i++;
     }
 
-    /* this initialisation is very simple. 
+    /* this initialisation is very simple.
      * this code would be much more robust, when
      * some information about the signals were
      * available without knowing the semantics of
@@ -163,23 +164,23 @@ void pyInitSignal(void) {
 #include "pymsg.h"
 
 void WIN32SolvingTimeOver(int *WaitTime) {
-/*
- * This function is used by a WIN32-thread to wake up
- * the thread after WaitTime seconds.
- */
-int mythread= GlobalThreadCounter;
+    /*
+     * This function is used by a WIN32-thread to wake up
+     * the thread after WaitTime seconds.
+     */
+    int mythread= GlobalThreadCounter;
 
-	/* sleep under WIN32 seems to use milliseconds ... */
-	_sleep(1000 * (*WaitTime));
-	/* To avoid that a not "used" thread stops */
-	/* Popeye during "his" timeout             */
-	/* GlobalThreadCounter is increased in py6.c */
-	/* every time a new problem is to be solved. */
-	if (mythread == GlobalThreadCounter) { 
-		FlagTimeOut= true;
-		FlagTimerInUse= false;
-	}
-_endthread();
-}		
+    /* sleep under WIN32 seems to use milliseconds ... */
+    _sleep(1000 * (*WaitTime));
+    /* To avoid that a not "used" thread stops */
+    /* Popeye during "his" timeout	       */
+    /* GlobalThreadCounter is increased in py6.c */
+    /* every time a new problem is to be solved. */
+    if (mythread == GlobalThreadCounter) {
+	    FlagTimeOut= true;
+	    FlagTimerInUse= false;
+    }
+    _endthread();
+}
 
 #endif	/* WIN32 */

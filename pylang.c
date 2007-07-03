@@ -11,28 +11,22 @@
 #include "pylang.h"
 
 static char *LangName[LangCount] = {
-	"fran",
-	"deut",
-	"engl"
+    "fran",
+    "deut",
+    "engl"
 };
 static char Name[30];
 
-char *GetLangName(l)
-Lang l;
-{
+char *GetLangName(Lang l) {
 	return LangName[l];
 }
 
-char *MkStrFileName(l)
-Lang l;
-{
-	sprintf(Name, "py-%s.str", LangName[l]);
-	return Name;
+char *MkStrFileName(Lang l) {
+    sprintf(Name, "py-%s.str", LangName[l]);
+    return Name;
 }
 
-char *MkMsgFileName(l)
-Lang l;
-{
-	sprintf(Name, "py-%s.msg", LangName[l]);
-	return Name;
+char *MkMsgFileName(Lang l) {
+    sprintf(Name, "py-%s.msg", LangName[l]);
+    return Name;
 }

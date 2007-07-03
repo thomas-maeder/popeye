@@ -256,7 +256,7 @@ Kommandos:
 	TurncoatCirce
 	DoppelAgentenCirce
 	AMU
-	SingleBox
+	NurPartiesatzsteine
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines 
@@ -467,6 +467,7 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	b       Bauer   
 	bb      Berolina Bauer   
 	bi      Bison                           1,3+2,3 Springer
+	bo	Bob                             wie Hase, aber ueber vier Sprungboecke
 	bs      Berolina Superbauer
 	bu      Wurzel-25-Springer (Bucephale)  3,4+0,5 Springer
 	ca      Kamel                           1,3 Springer
@@ -500,11 +501,12 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	gr      Gnureiter                       1,2+1,3 Reiter
 	h       Heuschrecke   
 	ha      Hamster                         0,1+1,1 180 Grad Huepfer
+	he	Hase                            Lion Variante des Kanguruhs
 	hl      Laeuferheuschrecke   
 	hn      Nachtreiterheuschrecke
 	ht      Turmheuschrecke   
 	k       Koenig                          0,1+1,1 Springer (koeniglich)
-	ka      Kaenguruh                       wie Gras-Huepfer ueber zwei
+	ka      Kaenguruh                       wie GrasHuepfer ueber zwei
 						Boecke, die nicht hinter-
 						einander stehen muessen.
 	kg      KontraGrashuepfer               huepft auf D-Linien ueber
@@ -712,7 +714,7 @@ OS/2:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson   im November 2001
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson   im Juni 2002
 
 Fuer den Fall dass jemand Anregungen, Fehler etc uns zukommen lassen will,
 so findet er unsere Adressen in den Dateien  history  oder  readme  .

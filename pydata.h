@@ -22,6 +22,12 @@
 ** 2001/11/10 NG   singleboxtype? changed to singlebox type?
 **		   some singlebox variable names changed ...
 ** 
+** 2002/04/04 NG   commandline option -regression for regressiontesting
+**
+** 2002/05/06 NG   german name of singlebox is "NurPartiesatzSteine"
+**
+** 2002/05/18 NG   new pieces: rabbit, bob
+**
 **************************** End of List ******************************/
 
 #ifndef PYDATA_H
@@ -38,6 +44,7 @@ extern  char    *StartUp;
 extern  long    MaxPositions;
 extern  boolean LaTeXout;
 extern  int     GlobalThreadCounter;	/* V3.54  NG */
+extern  boolean flag_regression;	/* V3.74  NG */
 #else
 #	ifdef __TURBOC__ /* TurboC and BorlandC  TLi */
    /* MaxPositions is either set in inithash() using the coreleft function
@@ -51,6 +58,7 @@ unsigned long           MaxMemory       = 0L;
 char            *StartUp = VERSIONSTRING;
 boolean         LaTeXout= false;
 int     	GlobalThreadCounter= 0;	/* V3.54  NG */
+boolean         flag_regression= false;	/* V3.74  NG */
 #endif  /* WE_ARE_EXTERN */
 
 EXTERN  char            MMString[37];   /* MaxMemory available for diagnostic message */
@@ -413,7 +421,9 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
         /*115*/ {'m','m'}, /* noctambule moa lion */
         /*116*/ {'a','s'}, /* sauterelle d'Andernach */
         /*117*/ {'a',' '}, /* ami */
-        /*118*/ {'d','n'}  /* dauphin */
+        /*118*/ {'d','n'}, /* dauphin */
+        /*119*/ {'l','a'}, /* lapin */
+        /*120*/ {'b','o'}  /* bob */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '}, /* leer */
 	/*  1*/ {' ',' '}, /* ausserhalb des Brettes */
@@ -533,7 +543,9 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
         /*115*/ {'m','m'}, /* Moareiterlion */
         /*116*/ {'a','g'}, /* AndernachGrashuepfer */
         /*117*/ {'f',' '}, /* Freund */
-        /*118*/ {'d','e'}  /* Delphin */
+        /*118*/ {'d','e'}, /* Delphin */
+        /*119*/ {'h','e'}, /* Hase: Lion-Huepfer ueber 2 Boecke */
+        /*120*/ {'b','o'}  /* Bob: Lion-Huepfer ueber 4 Boecke */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '}, /* empty */
 	/*  1*/ {' ',' '}, /* outside board */
@@ -653,7 +665,9 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
         /*115*/ {'m','m'}, /* moariderlion */
         /*116*/ {'a','g'}, /* AndernachGrasshopper */
         /*117*/ {'f',' '}, /* friend */
-        /*118*/ {'d','o'}  /* dolphin */
+        /*118*/ {'d','o'}, /* dolphin */
+        /*119*/ {'r','t'}, /* rabbit */
+        /*120*/ {'b','o'}  /* bob */
 	}
 	};
 #endif
@@ -1067,7 +1081,7 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
 	/*133*/ "TurncoatCirce",                /* V3.70  SE */
 	/*134*/ "DoppelAgentenCirce",           /* V3.70  SE */
 	/*135*/ "AMU",                          /* V3.70  SE */
-        /*136*/ "SingleBox"                     /* V3.71  ThM, NG */
+        /*136*/ "NurPartiesatzSteine"           /* V3.71  ThM, NG */
 	},{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1382,29 +1396,32 @@ EXTERN unsigned int StipFlags;
 #ifdef WE_ARE_EXTERN
 	extern  numvec vec[maxvec + 1];
 #else
-/* don't try to delete something like "duplicates" or change the order */
-/* of the vectors. They are all necessary and need this order !! */     /* V2.60  NG */
-	numvec vec[maxvec + 1] = { 0,
-/*   1 -   4 */ /* 0,1 */          1,   24,   -1,  -24,
-/*   5 -   8 */ /* 1,1 */         23,   25,  -23,  -25,
-/*   9 -  16 */ /* 1,2 */         22,   47,   49,   26,  -22,  -47,  -49,  -26,
-/*  17 -  24 */ /* 1,2 */         22,   47,   49,   26,  -22,  -47,  -49,  -26,
-/*  25 -  32 */ /* 2,3 */         45,   70,   74,   51,  -45,  -70,  -74,  -51,
-/*  33 -  40 */ /* 1,3 */         21,   71,   73,   27,  -21,  -71,  -73,  -27,
-/*  41 -  48 */ /* 1,4 */         20,   95,   97,   28,  -20,  -95,  -97,  -28,
-/*  49 -  56 */ /* 3,4 */         68,   93,   99,   76,  -68,  -93,  -99,  -76,
-/*  57 -  60 */ /* 0,5 */          5,  120,   -5, -120,
-/*  61 -  64 */ /* 0,2 */          2,   48,   -2,  -48,
-/*  65 -  68 */ /* 2,2 */         46,   50,  -46,  -50,
-/*  69 -  76 */ /* 1,7 */         17,  167,  169,   31,  -17, -167, -169,  -31,
-/*  77 -  80 */ /* 5,5 */        115,  125, -115, -125,
-/*  81 -  88 */ /* 3,7 */         65,  165,  171,   79,  -65, -165, -171,  -79,
-/*  89 -  96 */ /* 1,6 */         18,  143,  145,   30,  -18, -143, -145,  -30,
-/*  97 - 104 */ /* 2,4 */         44,   94,   98,   52,  -44,  -94,  -98,  -52,
-/* 105 - 112 */ /* 3,5 */         67,  117,  123,   77,  -67, -117, -123,  -77,
-/* 113 - 120 */ /* 1,5 */         19,  119,  121,   29,  -19, -119, -121,  -29,
-/* 121 - 128 */ /* 2,5 */         43,  118,  122,   53,  -43, -118, -122,  -53
-	};
+/* don't try to delete something like "duplicates" or change
+  the order of the vectors.
+  whey are all necessary and need this order !!
+*/   							/* V2.60  NG */
+numvec vec[maxvec + 1] = { 0,
+/*   1 -   4 | 0,1 */    1,   24,   -1,  -24,
+/*   5 -   8 | 1,1 */   23,   25,  -23,  -25,
+/*   9 -  16 | 1,2 */   22,   47,   49,   26,  -22,  -47,  -49,  -26,
+/*  17 -  24 | 1,2 */   22,   47,   49,   26,  -22,  -47,  -49,  -26,
+/*  25 -  32 | 2,3 */   45,   70,   74,   51,  -45,  -70,  -74,  -51,
+/*  33 -  40 | 1,3 */   21,   71,   73,   27,  -21,  -71,  -73,  -27,
+/*  41 -  48 | 1,4 */   20,   95,   97,   28,  -20,  -95,  -97,  -28,
+/*  49 -  56 | 3,4 */   68,   93,   99,   76,  -68,  -93,  -99,  -76,
+/*  57 -  60 | 0,5 */    5,  120,   -5, -120,
+/*  61 -  64 | 0,2 */    2,   48,   -2,  -48,
+/*  65 -  68 | 2,2 */   46,   50,  -46,  -50,
+/*  69 -  76 | 1,7 */   17,  167,  169,   31,  -17, -167, -169,  -31,
+/*  77 -  80 | 5,5 */  115,  125, -115, -125,
+/*  81 -  88 | 3,7 */   65,  165,  171,   79,  -65, -165, -171,  -79,
+/*  89 -  96 | 1,6 */   18,  143,  145,   30,  -18, -143, -145,  -30,
+/*  97 - 104 | 2,4 */   44,   94,   98,   52,  -44,  -94,  -98,  -52,
+/* 105 - 112 | 3,5 */   67,  117,  123,   77,  -67, -117, -123,  -77,
+/* 113 - 120 | 1,5 */   19,  119,  121,   29,  -19, -119, -121,  -29,
+/* 121 - 128 | 2,5 */   43,  118,  122,   53,  -43, -118, -122,  -53,
+/* 129 - 136 | 3,6 */   66,  141,  147,   78,  -66, -141, -147,  -78,
+};
 #endif
 
 
@@ -1582,7 +1599,9 @@ EXTERN unsigned int StipFlags;
 /*115 */        moariderlioncheck,      /* V3.65  TLi */
 /*116 */        scheck,                 /* V3.65  TLi */
 /*117 */        friendcheck,            /* V3.65  TLi */
-/*118 */        dolphincheck            /* V3.70  TLi */
+/*118 */        dolphincheck,           /* V3.70  TLi */
+/*119 */        rabbitcheck,            /* V3.76  NG */
+/*120 */        bobcheck                /* V3.76  NG */
 		};
 #endif
 

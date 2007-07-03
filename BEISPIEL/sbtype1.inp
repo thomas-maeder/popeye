@@ -1,8 +1,8 @@
 anfa
 prot sbtype1.out
 
-titel Kein Schach falls Bauer wegen SingleBox Typ 1 nicht umwandeln kann
-bedi singlebox typ1
+titel Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
+bedi NurPartiesatz typ1
 stei weiss ka1 dc5 tc4e6 lb8c6 sd4e4 bb7
        schw ka8 dd5 be5
 ford =1
@@ -10,7 +10,7 @@ ford =1
 weit
 
 titel Vertauschte Farben
-bedi singlebox typ1 
+bedi NurPartiesatz typ1 
 stei weiss kb1 de5 bf5
        schw kc5 dd5 td6f4 lh1d4 se6f6 bb2f2
 ford r=1
@@ -20,7 +20,7 @@ weit
 titel Kann nicht in L"aufer umwandeln
 stei weiss ka1 lb6b8 ba7
        schw kh1
-bedi singlebox typ1
+bedi NurPartiesatz typ1
 ford #1
 
 weit
@@ -28,7 +28,7 @@ weit
 titel Kann nicht in Springer umwandeln
 stei weiss kh8 sd4g5
        schw ke1 sf1f2 bd2
-bedi singlebox typ1
+bedi NurPartiesatz typ1
 ford h#1
 
 weit
@@ -37,7 +37,7 @@ beme Beispiel 2
 auto N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
 stei weiss ka4 dh3 sf5 bd4f7g2
        schw kf4 le7g8 bc6e5h6
-bedi singlebox typ1
+bedi NurPartiesatz typ1
 ford #4
 option vari
 
@@ -47,7 +47,7 @@ beme Beispiel 1
 auto F. Luppi, Schachzeitung 1862
 stei weiss ka4 dd3 sh7 bb7d4g2
        schw kh4 th1 bb2e2h5
-bedi singlebox typ1
+bedi NurPartiesatz typ1
 ford #6
 option vari
 
@@ -57,7 +57,7 @@ auto Milan Velimirovic
 stei weiss kc8 dh1 tc5e5 lb6h3 sf2g6 be6
        schw kd6 de2 tf6 sa6d8 bc6c7e4f5
 ford #3
-bedi SingleBox Typ1
+bedi NurPartiesatz Typ1
 opti vari verf
 
 ende

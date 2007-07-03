@@ -1540,3 +1540,54 @@ pywin32.exe, pywin98.exe and pydos32.exe created.
 This is now official release py3.73
                                                         13.11.2001  NG
 ------------------------------------------------------------------------
+german naming of  singlebox  is  NurPartiesatzsteine
+                                                        09.12.2001  NG
+------------------------------------------------------------------------
+Reformatted the whole source to a common coding style.
+Fixed 36 leaper.
+						        26.12.2001  ElB
+------------------------------------------------------------------------
+bug fix:  flagsimplehoppers was not always initialized.
+(bug found by Vaclav Kotesovec)
+                                                        21.02.2002  NG
+------------------------------------------------------------------------
+bug fix: kamikaze without "anycirce" by SE.
+duellistchess is no "jouegenre" anymore (much faster now).
+                                                        03.03.2002  NG
+------------------------------------------------------------------------
+new commandline option -regression for regressiontesting
+                                                        04.04.2002  NG
+------------------------------------------------------------------------
+bug fix: a bishop reaching the rooksquare of its side turns to rook
+	 AND gets castling capabilities in norsksjakk.
+                                                        20.04.2002  NG
+------------------------------------------------------------------------
+bug fix: shortest proofgame with condition duellist didn't
+         find all solutions (bug found by Thomas Brand)
+                                                        22.04.2002  TLi
+------------------------------------------------------------------------
+bug fix: dolphin by TLi
+LaTeX optimizations by Frank-Christian Otto (FCO)
+                                                        29.04.2002  TLi
+------------------------------------------------------------------------
+regression test done.
+documentation adjusted (ElB's coding.txt added).
+pywin32.exe, pywin98.exe and pydos32.exe created.
+This is official release py3.75
+                                                        08.05.2002  NG
+------------------------------------------------------------------------
+new pieces: rabbit, bob
+bug fix: phantomchess calculated silly moves after twinning
+         if any diagram...chess condition was in front of it,
+         due to forgotten reset of 'flags and specs'
+                                                        18.05.2002  NG
+------------------------------------------------------------------------
+bug fix:
+	a=>b didn't find all solutions (bug found by Peter v. d. Heuvel)
+	max solutions with helpstalemate didn't find all solutions
+	(bug found by Dan Meinking)
+                                                        20.08.2002  TLi
+------------------------------------------------------------------------
+bug fix: singlebox ...
+                                                        27.09.2002  ThM
+------------------------------------------------------------------------

@@ -456,6 +456,7 @@ elaborate is the command
 	bk      bouncy knight
 	bl      bishop-lion
 	bm      bishop moose
+	bo	bob
 	bp      berolina pawn   
 	br      bishop/rook hunter
 	bs      berolina superpawn
@@ -535,6 +536,7 @@ elaborate is the command
 	rp      rose-hopper
 	ro      rose   
 	rr      rook/bishop hunter
+	rt	rabbit
 	rw      rook sparrow
 	s       knight   
 	si      sirene
@@ -681,7 +683,7 @@ OS/2:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson    november 2001
+Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson    june 2002
 
 If you have any suggestions, any errors you know of, etc., you are
 welcome to contact us.

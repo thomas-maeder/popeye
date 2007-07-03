@@ -2,7 +2,7 @@ anfa
 prot sbtype2.out
 
 titel Vermeide Selbstschach
-bedi singlebox typ2
+bedi NurPartiesatz typ2
 ford +1
 stei weiss kh8 se3h4
        schw ke1 dg2 tf3 lc1 bh1
@@ -10,7 +10,7 @@ stei weiss kh8 se3h4
 weit
 
 titel Vermeide Selbstschach
-bedi singlebox typ2
+bedi NurPartiesatz typ2
 ford h+1
 stei weiss kg8 dh8 th7g6 lg7h4 sf4f6 ba8
        schw kh1 tg1 bg5h2
@@ -18,7 +18,7 @@ stei weiss kg8 dh8 th7g6 lg7h4 sf4f6 ba8
 weit
 
 titel Schlagende Seite entscheidet "uber Bauernumwandlung -> Ta1 darf schlagen
-bedi singlebox typ2
+bedi NurPartiesatz typ2
 ford h#1
 stei weiss ke6 db8 ta2b1 lb7c8 sa7a8 ba6b5b6c6c7g8h8
        schw ke8 ta1 ba4
@@ -29,13 +29,13 @@ titel Nicht verwirrt werden mit mehr als einem latenten Bauern
 stei weiss kg8 dg1 tc1h4 lh1h8 sc4d8 bb7c6e8g3g6
        schw kd5 da7 tc7 lh5 sf1g5 bc5d6e2e4f3h7
 ford #2
-bedi singleBox typ2
+bedi NurPartiesatz typ2
 option vari
 
 weit
 
 auto B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
-bedi singlebox typ2
+bedi NurPartiesatz typ2
 stei weiss ka2 db2 ta4f1 lc6g1 se1f6 bd7g2
        schw ke3 df2 sd6h1 bc4e5f5g3g4
 ford #2
@@ -47,7 +47,7 @@ auto Milan Velimirovic, 2001
 stei weiss kd8 dh1 td1g4 lh2g6 sd4e8 bd6e6f7
        schw ke5 la8h6 bd5d7e4f2f4g3g7h4
 ford #3
-bedi SingleBox typ2
+bedi NurPartiesatz typ2
 opti vari verf
 
 weit
@@ -56,7 +56,7 @@ auto Milan Velimirovic, 2001
 
 ford #2
 option Vari
-bedi singleBox typ2
+bedi NurPartiesatz typ2
 stei
 weiss  ka2 dg1 tc1h4 lh1h8 sc4d8 bb7e8g3g6
 schw  kd5 dh5 la7c8 sh2g5 bc5d7e2e4f3h7

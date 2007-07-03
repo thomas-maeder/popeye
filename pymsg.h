@@ -140,5 +140,6 @@
 #define NoMaxTime              102
 #define NoStopOnShortSolutions 103
 #define SingleBoxAndFairyPieces 104  /* V3.71 TM */
-#define MsgCount               105
+#define UndefLatexPiece        105  /* V3.74  TLi */
+#define MsgCount               106
 #endif  /* PYMSG_H */

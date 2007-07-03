@@ -102,4 +102,5 @@
 101= la case est vide - on ne peut pas oter ou deplacer une piece.\n
 102= L'option  MaxTemps  n'est pas soutenu.\n
 103= L'option  FinApresSolutionsCourtes  n'est pas soutenu au jeu direct.\n
-104= Les pièces féériques ne sont pas permises dans Single box
+104= Les pieces feeriques ne sont pas permises dans SingleBox
+105= erreur dans FichierLaTeX : piece feerique inconnue\n
