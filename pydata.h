@@ -3,30 +3,13 @@
 **
 ** Date       Who  What
 **
-** 2001/01/14 SE   new specification : ColourChanging
-**                 new condition: EchecsAlphabetics
-**
-** 2001/02/05 TLi  new pieces: Moariderlion, AndernachGrassHopper, Friend
-**
-** 2001/03/06 NG   condition name changed: HurdleColourChanging
-**
-** 2001/05/08 SE   new conditions: CirceTurnCoats, CirceDoubleAgents, AMU,
-**                 SentBerolina.
-**
-** 2001/05/20 SE   new stipulation: atob
-**
-** 2001/08/29 ThM  new condition: SingleBoxType1, Type2 or Type3
-**
-** 2001/10/02 TLi  new piece: Dolphin (Grashopper + Kangaroo)
-**
-** 2001/11/10 NG   singleboxtype? changed to singlebox type?
-**		   some singlebox variable names changed ...
-** 
 ** 2002/04/04 NG   commandline option -regression for regressiontesting
 **
 ** 2002/05/06 NG   german name of singlebox is "NurPartiesatzSteine"
 **
 ** 2002/05/18 NG   new pieces: rabbit, bob
+**
+** 2003/05/18 NG   new option: beep    (if solution encountered)
 **
 **************************** End of List ******************************/
 
@@ -148,6 +131,10 @@ EXTERN  int             maxsolvingtime;		/* V3.53  NG */
 EXTERN  boolean         FlagTimeOut;		/* V3.54  NG */
 EXTERN  boolean         FlagTimerInUse;		/* V3.54  NG */
 
+/* beep maxbeep times if a solution is found */
+
+EXTERN  int             maxbeep;		/* V3.77  NG */
+
 /* Optimierung direkte Aufgaben   V3.02  TLi */
 
 EXTERN  otelement       ot[100];
@@ -210,6 +197,7 @@ EXTERN  pilecouleur     trait;
 EXTERN  boolean         flagfee,                /* V2.51  NG */
 			flagriders, flagleapers, flagsimplehoppers, 
 			flagveryfairy,          /* V3.12  TM */
+			flagleofamilyonly,      /* V3.77  NG */
 			empilegenre,            /* V2.51  NG */
 			flaglegalsquare, jouegenre,     /* V2.60  NG  V2.70c  TLi */
 			repgenre, change_moving_piece;  /* V3.1  TLi */
@@ -731,7 +719,8 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
 	/*25*/  "MaxTemps",
 	/*26*/  "SansRoquer",
 	/*27*/  "Quodlibet",
-	/*28*/  "FinApresSolutionsCourtes"
+	/*28*/  "FinApresSolutionsCourtes",
+	/*29*/  "Bip"
 	},{
 	/* Deutsch German Allemand */
 	/* 0*/  "Widerlegung",
@@ -762,7 +751,8 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
 	/*25*/  "MaxZeit",
 	/*26*/  "KeineRochade",
 	/*27*/  "Quodlibet",
-	/*28*/  "StopNachKurzloesungen"
+	/*28*/  "StopNachKurzloesungen",
+	/*29*/  "Pieps"
 	},{
 	/* English Anglais Englisch */
 	/* 0*/  "Defence",
@@ -793,7 +783,8 @@ EXTERN boolean          flag_atob;		/* V3.70 SE */
 	/*25*/  "MaxTime",
 	/*26*/  "NoCastling",
 	/*27*/  "Quodlibet",
-	/*28*/  "StopOnShortSolutions"
+	/*28*/  "StopOnShortSolutions",
+	/*29*/  "Beep"
 	}
 };
 #endif

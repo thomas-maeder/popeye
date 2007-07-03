@@ -348,4 +348,23 @@
 **
 ** 2000/11/29 TLi  new pieces: 3:6 leaper, night-rider lion, mao-rider lion
 **
+** 2001/01/14 SE   new specification : ColourChanging
+**                 new condition: EchecsAlphabetics
+**
+** 2001/02/05 TLi  new pieces: Moariderlion, AndernachGrassHopper, Friend
+**
+** 2001/03/06 NG   condition name changed: HurdleColourChanging
+**
+** 2001/05/08 SE   new conditions: CirceTurnCoats, CirceDoubleAgents, AMU,
+**                 SentBerolina.
+**
+** 2001/05/20 SE   new stipulation: atob
+**
+** 2001/08/29 ThM  new condition: SingleBoxType1, Type2 or Type3
+**
+** 2001/10/02 TLi  new piece: Dolphin (Grashopper + Kangaroo)
+**
+** 2001/11/10 NG   singleboxtype? changed to singlebox type?
+**		   some singlebox variable names changed ...
+** 
 **************************** INFORMATION END ***************************/

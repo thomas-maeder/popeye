@@ -2,29 +2,21 @@
 **
 ** Date       Who  What
 **
-** 2001/01/14 SE   new specification : ColourChanging
-**
-** 2001/02/05 TLi  new piece: Friend
-**
-** 2001/05/08 SE   new conditions: CirceTurnCoats, CirceDoubleAgents, AMU,
-**		   SentBerolina.
-**
-** 2001/09/29 ThM  new condition: SingleBox Type1, Type2 or Type3
-**
-** 2001/10/23 TLi  bug-fix: reflexmate
-**
-** 2001/10/26 NG   assertions only with -DASSERT due to performance penalty
-**
-** 2001/11/10 NG   singleboxtype? changed to singlebox type?
-**		   some singlebox variable names changed ...
-**
 ** 2002/03/03 NG   duellistchess moved outside jouegenre
 **
 ** 2002/04/04 NG   commandline option -regression for regressiontesting
 **
 ** 2002/20/08 TLi  a=>b bug fixed
 **
-** 2002/20/08 TLi  max solutions bug fixed
+** 2002/20/08 TLi  maxsolutions bug fixed
+**
+** 2003/01/05 TBa  MaxMemory improved for WIN32
+**
+** 2003/05/13 NG   bugfix leofamily + marscirce + chinese pieces allowed
+**
+** 2003/05/18 NG   new option: beep    (if solution encountered)
+**
+** 2003/05/27 NG   MaxMemory reduced to 700MB (768 MB OS-maximum !) for WIN98
 **
 ***************************** End of List ******************************/
 
@@ -311,6 +303,8 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 
 	nbpiece[p]++;
     }
+
+    flagleofamilyonly= CondFlag[leofamily] ? true : false;	/* V3.77  NG */
     for (p= fb + 1; p <= derbla; p++) {
 	if (exist[p] || promonly[p]) {			/* V3.43  NG */
 	    flagfee= true;
@@ -320,8 +314,11 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 		flagleapers= true;
 	    else if (is_simplehopper(p))
 		flagsimplehoppers= true;
-	    else
+	    else {
+		if (!is_pawn(p) && p != dummyb && p < leob && p > vaob)	/* V3.77  NG */
+			flagleofamilyonly= false;
 		flagveryfairy= true;
+	    }
 
 	    if (CondFlag[einstein])			/* V3.1  TLi */
 		return	VerifieMsg(EinsteinAndFairyPieces);
@@ -446,7 +443,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
     if ((rb == initsquare) && !OptFlag[sansrb]) {	/* V2.60  NG */
 	ErrorMsg(MissingKing);
     }
-    if ((rn == initsquare) && !OptFlag[sansrn]) {/* V2.1c NG, V2.60 NG*/
+    if ((rn == initsquare) && !OptFlag[sansrn]) {/* V2.1c NG, V2.60 NG */
 	ErrorMsg(MissingKing);
     }
 
@@ -575,7 +572,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	  || CondFlag[bicolores]
 	  || CondFlag[sting]
 	  || flagsimplehoppers
-	  || flagveryfairy )
+	  || (flagveryfairy && !flagleofamilyonly) )	/* V3.77  NG */
 	{
 	    return VerifieMsg(MarsCirceAndOthers);
 	}
@@ -1537,9 +1534,18 @@ void linesolution(void) {
     if (OptFlag[intelligent]) {   /* V3.45  TLi */
 	if (SolAlreadyFound()) {
 	    return;
-	} else
-            solutions++;
+	} else {
+	    if (OptFlag[maxsols])		/* V3.77  NG */
+		solutions++;
+	    if (OptFlag[beep])			/* V3.77  NG */
+		BeepOnSolution(maxbeep);
+	}
 	StoreSol();
+    } else {
+        if (OptFlag[maxsols])		/* V3.77  NG */
+	    solutions++;
+	if (OptFlag[beep])			/* V3.77  NG */
+	    BeepOnSolution(maxbeep);
     }
 #endif
 
@@ -1819,8 +1825,11 @@ void dsr_vari(couleur camp, smallint n, smallint par, boolean appa) {
 		StdString("\n");
 		Tabulate();
 		sprintf(GlobalStr,"%3d...",zugebene);
-		if ((zugebene == 1) && OptFlag[maxsols]) {
-		    solutions++;
+		if (zugebene == 1) {
+			if  (OptFlag[maxsols]) 
+				solutions++;
+			if (OptFlag[beep])		/* V3.77  NG */
+				BeepOnSolution(maxbeep);
 		}
 		StdString(GlobalStr);
 		flende= true;
@@ -2021,7 +2030,10 @@ void dsr_sol(
 		    /* V3.1  TLi */
 		    if (nbd < 1) {
 			StdString("! ");
-			solutions++;
+			if (OptFlag[maxsols])		/* V3.77  NG */
+				solutions++;
+			if (OptFlag[beep])		/* V3.77  NG */
+				BeepOnSolution(maxbeep);
 		    }
 		    else {
 			StdString("? ");
@@ -2250,8 +2262,7 @@ void SolveHelpProblems(couleur camp) {			/* V3.32  TLi */
 		if (mataide(advers(camp), i, OptFlag[movenbr]
 		  && i == n))
 		{
-		    /* Exact has to be set to find ALL longer
-		       solutions */
+		    /* Exact has to be set to find ALL longer solutions */
 		    StipFlags |= FlowBit(Exact);
 		    if (OptFlag[stoponshort] && (i < n)) {
 							/* V3.60  NG */
@@ -2386,10 +2397,24 @@ int main(int argc, char *argv[]) {
 #else /* ! DOS */
 #if defined(WIN16)		 /* TBa */
 	MaxMemory= (unsigned long)1024*1024;		/* TBa */
-#else  /* !WIN16 */					/* TBa */
+#else /* ! WIN16 */ /* TBa begin */
+#if defined(WIN32)
+        /* get physical memory amount TBa 2003/01/05 */
+        MEMORYSTATUS Mem;
+        Mem.dwLength= sizeof(MEMORYSTATUS);
+        GlobalMemoryStatus(&Mem);
+        MaxMemory= Mem.dwAvailPhys;
+/* TBa end */
+#ifdef WIN98
+	/* WIN98 cannot handle more than 768MB */	/* V3.77  NG */
+	if (MaxMemory > (unsigned long)700*1024*1024)
+		MaxMemory= (unsigned long)700*1024*1024;
+#endif	/* WIN98 */
+#else  /* ! WIN32 */					/* TBa */
 	/* UNIX-default   2 MB */
 	MaxMemory= (unsigned long)2048*1024;   /* V3.52, V3.62	NG */
-#endif /* !WIN16 */		 /* TBa */
+#endif /* ! WIN16 */		 /* TBa */
+#endif /* ! WIN32 */		 /* NG */
 #endif /* ! DOS */
     }
 
@@ -2463,9 +2488,7 @@ int main(int argc, char *argv[]) {
 	FlagMaxSolsReached= false;			/* V3.60  NG */
 	FlagShortSolsReached= false;			/* V3.60  NG */
 
-	/* New problem, so reset the timer and the
-	   solutions				 V3.60 NG
-	 */
+	/* New problem, so reset the timer and the solutions */	/* V3.60 NG */
 
 	flag_starttimer= true;				/* V3.60  NG */
 

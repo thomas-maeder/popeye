@@ -33,5 +33,18 @@
 **
 ** 2000/12/04 TLi  bug fix: problems with holes in intelligent mode
 **
+** 2001/02/05 TLi  more detailed construction of mating positions
+**		   1000times faster with some problems; generally
+**		   about 5% faster or slower...
+**
+** 2001/02/13 NG   bug fix: undefined variables nside jouecoup due to
+**			    usage of empile instead of encore()
+**
+** 2001/02/16 TLi  further bug fixes
+**
+** 2001/03/01 NG   bug fix: BlIllegalCheck() didn't always return a value.
+**
+** 2001/11/10 NG   bug fix: end message shows "interupted" in intelligent mode
+**			    with maxsols, even if only one solution was found
+**
 **************************** End of List ******************************/
-

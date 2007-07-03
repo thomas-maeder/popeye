@@ -3,26 +3,18 @@
 **
 ** Date       Who  What
 **
-** 2001/01/14 SE   new specification : ColourChanging
-**
-** 2001/02/05 TLi  new pieces: Moariderlion, AndernachGrassHopper, Friend
-**
-** 2001/05/08 SE   new conditions: CirceTurnCoats, CirceDoubleAgents, AMU,
-**                 SentBerolina.   New input format: Forsyth Notation
-**
-** 2001/08/29 ThM  new condition: SingleBoxType1, Type2 or Type3
-**
-** 2001/10/02 TLi  new piece: Dolphin (Grashopper + Kangaroo)
-**
-** 2001/11/10 NG   singleboxtype? changed to singlebox type?
-**		   some singlebox variable names changed ...
-** 
 ** 2002/04/04 NG   commandline option -regression for regressiontesting
 **
 ** 2002/05/05 NG   Windows98 version now detectable via VERSIONSTRING
 **
 ** 2002/05/18 NG   new pieces: rabbit, bob
 **                 new define: ClrDiaRen(s)
+**
+** 2003/01/05 TBa  MaxMemory improved for WIN32
+**
+** 2003/05/13 NG   new: flagleofamilyonly (marscirce+leofamily+mao bugfix)
+**
+** 2003/05/18 NG   new option: beep    (if solution encountered)
 **
 **************************** End of List ******************************/
 
@@ -71,7 +63,7 @@
 
 #ifndef VERSION				/* V3.55  NG */
 
-#define VERSION "3.76"
+#define VERSION "3.77"
 
 #endif	/* ! VERSION */
 
@@ -907,7 +899,8 @@ typedef int Sort;
 #define nocastling      26
 #define quodlibet       27
 #define stoponshort     28
-#define OptCount        29
+#define beep            29
+#define OptCount        30
 typedef int Opt;
 /*--- End of } Opt; ---*/
 
@@ -1153,5 +1146,28 @@ typedef int PieSpec;
 
 #define LegalAntiCirceMove(reb, cap, dep)  \
       (e[reb] == vide || (!AntiCirCheylan && reb == cap) || (reb == dep))
+
+#ifdef WIN32	
+/* V3.76  TBa begin */
+
+typedef struct _MEMORYSTATUS {  /* TBa */
+    unsigned long dwLength;
+    unsigned long dwMemoryLoad;
+    unsigned long dwTotalPhys;
+    unsigned long dwAvailPhys;
+    unsigned long dwTotalPageFile;
+    unsigned long dwAvailPageFile;
+    unsigned long dwTotalVirtual;
+    unsigned long dwAvailVirtual;
+} MEMORYSTATUS, *LPMEMORYSTATUS;
+
+__declspec(dllimport)
+void
+__stdcall
+GlobalMemoryStatus(
+    LPMEMORYSTATUS lpBuffer
+    );
+/* V3.76  TBa end */
+#endif  /* WIN32 */
 
 #endif  /* PY_H */

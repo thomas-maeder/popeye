@@ -2,17 +2,6 @@
 **
 ** Date       Who  What
 **
-** 2001/01/14 SE   new condition: EchecsAlphabetic
-**
-** 2001/02/05 TLi  new pieces: Moariderlion, AndernachGrassHopper, Friend
-**
-** 2001/08/29 ThM  new conditions singleboxtype[123]
-**
-** 2001/10/26 NG   assertions only with -DASSERT due to performance penalty
-**
-** 2001/11/10 NG   singleboxtype? changed to singlebox type?
-**		   some singlebox variable names changed ...
-**
 ** 2002/03/03 SE,NG kamikaze without "anycirce" bug fixed.
 **
 ** 2002/04/29 TLi  dolphin bug fixed, spotted by Michael Schreckenbach

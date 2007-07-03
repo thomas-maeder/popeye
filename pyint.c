@@ -2,23 +2,13 @@
 **
 ** Date       Who  What
 **
-** 2001/02/05 TLi  more detailed construction of mating positions
-**		   1000times faster with some problems; generally
-**		   about 5% faster or slower...
-**
-** 2001/02/13 NG   bug fix: undefined variables nside jouecoup due to
-**			    usage of empile instead of encore()
-**
-** 2001/02/16 TLi  further bug fixes
-**
-** 2001/03/01 NG   bug fix: BlIllegalCheck() didn't always return a value.
-**
-** 2001/11/10 NG   bug fix: end message shows "interupted" in intelligent mode
-**			    with maxsols, even if only one solution was found
-**
 ** 2002/04/04 NG   commandline option -regression for regressiontesting
 **
 ** 2002/08/22 TLi  improvements with option maxsols
+**
+** 2003/01/06 TLi  bug fix in Black/WhitePieceTo (intelligent mode bug)
+**
+** 2003/02/04 TLi  bug fix with intelligent h= mode
 **
 **************************** End of List ******************************/
 
@@ -518,6 +508,7 @@ void NeutralizeMateGuardingPieces(
   smallint, smallint, smallint, smallint);
 void BlackPieceTo(square, smallint, smallint, smallint, smallint);
 void WhitePieceTo(square, smallint, smallint, smallint, smallint);
+void AvoidWhKingInCheck(smallint, smallint, smallint, smallint);/* V3.76  TLi */
 
 void StaleStoreMate(
     smallint	blmoves,
@@ -571,9 +562,11 @@ void StaleStoreMate(
     /* checks against the wKing should be coped with earlier !!! */
     if (echecc(blanc)) {
 #ifdef TODO
-	StdString("Torsten, nachdenken!!\n");
+	StdString("Torsten, nachdenken!!\n");  /* V3.76  did it! */
 #endif
-	return;
+	/* return;  V3.76  TLi */
+        AvoidWhKingInCheck(blmoves, whmoves, blpcallowed, whpcallowed); 
+                       /* V3.76  TLi */
     }
 
     CapturesLeft[1]= unused;
@@ -1502,6 +1495,60 @@ void Immobilize(
 #endif
 } /* Immobilize */
 
+void AvoidWhKingInCheck(		/* V3.76  TLi */
+    smallint	blmoves,
+    smallint	whmoves,
+    smallint	blpcallowed,
+    smallint	whpcallowed)
+{
+    smallint checkdirs[8], md= 0, i;
+
+    if (blpcallowed < 0 || whpcallowed < 0) {
+	return;
+    }
+
+    for (i= 8; i ; i--) {
+	if (e[rb+vec[i]] == vide) {
+	    e[rb+vec[i]] = dummyb;
+	}
+    }
+
+    for (i= 8; i ; i--) {
+	if (e[rb+vec[i]] == dummyb) {
+	    e[rb+vec[i]] = vide;
+	    if (echecc(blanc)) {
+		checkdirs[md++]= vec[i];
+	    }
+	    e[rb+vec[i]]= dummyb;
+	}
+    }
+
+    for (i= 8; i ; i--) {
+	if (e[rb+vec[i]] == dummyb) {
+	    e[rb+vec[i]] = vide;
+	}
+    }
+
+#ifdef DEBUG
+    if (md == 0) {
+	StdString("something's wrong\n");
+	WritePosition();
+    }
+    sprintf(GlobalStr,"md=%d\n", md); StdString(GlobalStr);
+#endif
+
+    for (i= 0; i < md; i++) {
+	square sq= rn;
+	while (e[sq+=checkdirs[i]] == vide) {
+	    ImmobilizeByBlBlock(blmoves,
+	      whmoves, blpcallowed, whpcallowed, sq, md-1);
+	    ImmobilizeByWhBlock(blmoves,
+	      whmoves, blpcallowed, whpcallowed, sq);
+	}
+    }
+} /* AvoidWhKingInCheck */
+
+
 void AvoidCheckInStalemate(
     smallint	blmoves,
     smallint	whmoves,
@@ -1641,12 +1688,21 @@ void BlackPieceTo(
 		/* A rough check whether it is worth thinking about
 		   promotions.
 		 */
+#ifdef	NODEF   /* V3.76  TLi */
 		smallint moves= black[actpbl].sq / 24 - 8;
 		if (moves > 5) {
 		    moves= 5;
 		}
 		if (sq > 207) {
 		    moves++;
+		}
+#endif
+		time= black[actpbl].sq / 24 - 8;
+		if (time > 5) {
+		    time= 5;
+		}
+		if (sq > 207) {
+		    time++;
 		}
 		if (time <= blmoves) {
 		    piece pp= -getprompiece[vide];
@@ -1735,12 +1791,21 @@ void WhitePieceTo(
 	    /* A rough check whether it is worth thinking about
 	       promotions.
 	     */
+#ifdef NODEF	/* V3.76  TLi */
 	    smallint moves= white[actpwh].sq / 24 - 8;
 	    if (moves > 5) {
 		moves= 5;
 	    }
 	    if (sq < 360) {
 		moves++;
+	    }
+#endif
+	    time= white[actpwh].sq / 24 - 8;
+	    if (time > 5) {
+		time= 5;
+	    }
+	    if (sq < 360) {
+		time++;
 	    }
 	    if (time <= whmoves) {
 		piece pp= getprompiece[vide];

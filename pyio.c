@@ -2,21 +2,9 @@
 **
 ** Date       Who  What
 **
-** 2001/01/14 SE  new condititon: EchecsAlphabetics
-**		  new stipulation: any (suggestions for symbol please!)
-**		      (I suggest:  "~"	NG)
-**
-** 2001/02/04 SE   bug fix with condition ~
-**
-** 2001/05/08 SE   new conditions: CirceTurnCoats, CirceDoubleAgents, AMU,
-**		   SentBerolina.   New input format: Forsyth Notation
-**
-** 2001/05/20 SE   new stipulation: atob
-**
-** 2001/11/10 NG   singleboxtype? changed to singlebox type?
-**                 some singlebox variable names changed ...
-**
 ** 2002/04/29 FCO  LaTeX changes
+**
+** 2003/05/18 NG   new option: beep    (if solution encountered)
 **
 **************************** End of List ******************************/
 
@@ -2029,6 +2017,16 @@ static char *ParseOpt(void) {			   /* H.D. 10.02.93 */
 	OptFlag[indexx]= True;
 	OptCnt++;
 	switch(indexx) {
+	  case beep:					/* V3.77  NG */
+	    tok= ReadNextTokStr();
+	    if ((maxbeep= atoi(tok)) <= 0) {
+		maxbeep= 1;
+		/* we did NOT use tok */
+		continue;
+	    } else {
+		/* we did use tok */
+		break;
+	    }
 	  case maxtime:					/* V3.53  NG */
 	    tok= ReadNextTokStr();
 	    if ((maxsolvingtime= atoi(tok)) <= 0) {
@@ -4084,7 +4082,7 @@ void Tabulate() {
 	exit(9);
     }
 #else
-    ErrorMsg(9,0);
+    IoErrorMsg(9,0);
 #endif	  /* STANDALONE */
 #endif	  /* DEBUG */
     if (marge > 0) {
@@ -4113,6 +4111,7 @@ void WriteSquare(square i) {
 	StdChar('1' - 8 + i / 24);			/* V2.60  NG */
     }
 }
+
 
 /******************** for standalone testing *********************/
 #ifdef STANDALONE

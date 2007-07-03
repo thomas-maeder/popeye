@@ -374,4 +374,18 @@
 **
 ** 2000/12/14 NG   maxply increased to 1002 for UNIX
 **
+** 2001/01/14 SE   new specification : ColourChanging
+**
+** 2001/02/05 TLi  new pieces: Moariderlion, AndernachGrassHopper, Friend
+**
+** 2001/05/08 SE   new conditions: CirceTurnCoats, CirceDoubleAgents, AMU,
+**                 SentBerolina.   New input format: Forsyth Notation
+**
+** 2001/08/29 ThM  new condition: SingleBoxType1, Type2 or Type3
+**
+** 2001/10/02 TLi  new piece: Dolphin (Grashopper + Kangaroo)
+**
+** 2001/11/10 NG   singleboxtype? changed to singlebox type?
+**		   some singlebox variable names changed ...
+** 
 **************************** End of List ******************************/

@@ -16,11 +16,17 @@
 **
 ** 2000/01/21 TLi  ReDrawBoard modified
 **
+** 2003/05/18 NG   new option: beep    (if solution encountered)
+**
 **************************** End of List ******************************/
 
-#if defined(UNIX) && defined(SIGNALS)
+#ifdef UNIX 
 
 #include <stdio.h>
+#include <unistd.h>	/* to import prototype of 'sleep' NG  */
+
+#ifdef SIGNALS
+
 #include <signal.h>
 #include "py.h"
 #include "pydata.h"
@@ -151,7 +157,19 @@ void pyInitSignal(void) {
     signal(SIGHUP,  ReDrawBoard);
 }
 
-#endif /*UNIX,SIGNALS*/
+#endif /*SIGNALS*/
+
+void BeepOnSolution(int NumOfBeeps) {
+    while (NumOfBeeps > 0) {
+	fprintf(stderr, "\a");
+        fflush(stderr);
+	NumOfBeeps--;
+    }
+     sleep(1);
+}
+
+#endif /*UNIX*/
+
 
 #ifdef WIN32			/* V3.54  NG */
 
@@ -183,4 +201,13 @@ void WIN32SolvingTimeOver(int *WaitTime) {
     _endthread();
 }
 
+void BeepOnSolution(int NumOfBeeps) {
+    while (NumOfBeeps > 0) {
+	fprintf(stderr, "\a");
+        fflush(stderr);
+	NumOfBeeps--;
+    }
+     /* sleep under WIN32 seems to use milliseconds ... */
+    _sleep(500);
+}
 #endif	/* WIN32 */

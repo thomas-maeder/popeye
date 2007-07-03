@@ -2,11 +2,7 @@
 **
 ** Date       Who  What
 **
-** 2001/01/18 NG   bug fix: maxtime didn't work well with stipulation selfmate
-**
-** 2001/03/01 NG   bug fix: uninitialised variable visitCnt inside compresshash()
-**
-** 2001/10/04 TLi  hashing bug in invref fixed
+** 2003/05/12 TLi  hashing bug fixed: h= + intel did not find all solutions .
 **
 **************************** End of List ******************************/
 
@@ -1028,7 +1024,12 @@ boolean last_dsr_move(couleur camp)	/* V3.13  TLi */
 	    if (SortFlag(Direct)) {
 		if ((*stipulation)(camp)) {
 		    linesolution();	    /* V2.90  NG */
-		    solutions++;
+#ifdef NODEF
+		    if (OptFlag[maxsols])		/* V3.77  NG*/
+			solutions++;
+		    if (OptFlag[beep])			/* V3.77  NG*/
+			BeepOnSolution(maxbeep);
+#endif	/* NODEF */
 		    flag = true;	    /* V3.13  TLi */
 		}
 	    } else
@@ -1141,6 +1142,11 @@ void	inithash(void)
 	if (PieSpExFlags >> i)
 	    bytes_for_spec += 1;
     bytes_for_piece= one_byte_hash ? 1 : 1 + bytes_for_spec;
+
+    if (OptFlag[intelligent]) { /* V3.76  TLi */
+         one_byte_hash = false;
+         bytes_for_spec= 4;
+    }
 
     if (SortFlag(Proof)) {     /* V3.35  TLi */
 	encode= ProofEncode;

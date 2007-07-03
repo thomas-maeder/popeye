@@ -2,9 +2,7 @@
 **
 ** Date       Who  What
 **
-** 2001/09/29 ThM  new conditions singleboxtype[123]
-**
-** 2001/10/26 NG   assertions only with -DASSERT due to performance penalty
+** 2003/05/25 SE   bug fix: Marscirce and Neutral kings.
 **
 **************************** End of List ******************************/
 
@@ -191,6 +189,8 @@ boolean marsechecc(
 	    if ( (!is_phantomchess
 		  || (e[z] != e[rb] && e[z] != e[rn])
 		  || rex_phan)			  /* V3.51, V3.62  NG */
+		&& ( (e[z] != e[rb]
+		    || e[rb] != e[rn]) )   /* exclude nK; V3.77 SE */
 		&& rightcolor(e[z],camp))
 	    {
 		more_ren=0;

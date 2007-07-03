@@ -4,13 +4,9 @@
 **
 ** Date       Who  What
 **
-** 2001/02/05 TLi  new piece: Moariderlion, Friend
-**
-** 2001/08/29 ThM  new condition: SingleBox Type1, Type2 or Type3
-**
-** 2001/10/02 TLi  new piece: Dolphin (Grashopper + Kangaroo)
-**
 ** 2002/05/18 NG   new pieces: rabbit, bob
+**
+** 2003/05/18 NG   new option: beep    (BeepOnSolution)
 **
 **************************** End of List ******************************/
 
@@ -435,6 +431,8 @@ boolean rabbitcheck (square i, piece p, boolean (* evaluate)(square,square,squar
 void    gbobb (square sq);		/* V3.76  NG */
 void    gbobn (square sq);		/* V3.76  NG */
 boolean bobcheck (square i, piece p, boolean (* evaluate)(square,square,square));    /* V3.76  NG */
+
+void BeepOnSolution(int NumOfBeeps);
 
 #ifdef WIN32
 void WIN32SolvingTimeOver(int *WaitTime);

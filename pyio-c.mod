@@ -303,4 +303,18 @@
 **
 ** 2000/11/26 ThM,NG   Function Read????Pieces generalized ...
 **
+** 2001/01/14 SE  new condititon: EchecsAlphabetics
+**		  new stipulation: any (suggestions for symbol please!)
+**		      (I suggest:  "~"	NG)
+**
+** 2001/02/04 SE   bug fix with condition ~
+**
+** 2001/05/08 SE   new conditions: CirceTurnCoats, CirceDoubleAgents, AMU,
+**		   SentBerolina.   New input format: Forsyth Notation
+**
+** 2001/05/20 SE   new stipulation: atob
+**
+** 2001/11/10 NG   singleboxtype? changed to singlebox type?
+**                 some singlebox variable names changed ...
+**
 **************************** INFORMATION END **************************/

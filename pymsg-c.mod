@@ -23,4 +23,5 @@
 **
 ** 1996/01/01 NG   Moved all remarks on modifications of pymsg.c to
 **                 pymsg-c.mod. Look there for remarks before this date.
+**
 **************************** INFORMATION END **************************/

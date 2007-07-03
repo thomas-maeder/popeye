@@ -143,4 +143,8 @@
 **
 ** 2000/04/12 NG   bug fix for marscirce/phantomchess with fairy-kings (hint of SE)
 **
+** 2001/09/29 ThM  new conditions singleboxtype[123]
+**
+** 2001/10/26 NG   assertions only with -DASSERT due to performance penalty
+**
 **************************** INFORMATION END ***************************/

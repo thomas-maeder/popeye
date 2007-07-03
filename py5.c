@@ -2,27 +2,6 @@
 **
 ** Date       Who  What
 **
-** 2001/01/14 SE  new specification : ColourChanging
-**		  new stipulation: any (for diagnostic purposes)
-**
-** 2001/01/22 SE  bug fix : circe parrain  (joueparrain())
-**
-** 2001/02/04 SE  bug fix : ColourChanging must update nbpiece
-**
-** 2001/02/13 NG  bug fix : usage of hurdle only if piece is of type ColourChanging
-**
-** 2001/03/01 NG  bug fix : uninitialised local variable ph  inside repcoup()
-**
-** 2001/05/08 SE   new conditions: CirceTurnCoats, CirceDoubleAgents, AMU,
-**		   SentBerolina.
-**
-** 2001/09/29 ThM  new conditions singleboxtype[123]
-**
-** 2001/10/26 NG   assertions only with -DASSERT due to performance penalty
-**
-** 2001/11/10 NG   singleboxtype? changed to singlebox type?
-**		   some singlebox variable names changed ...
-**
 ** 2002/03/03 NG   duellistchess moved outside jouegenre
 **
 ** 2002/04/04 NG   commandline option -regression for regressiontesting

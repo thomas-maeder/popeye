@@ -110,5 +110,10 @@
 **
 ** 2000/05/27 NG   bug fix: fatal message if main memory can't be allocated
 **
+** 2001/01/18 NG   bug fix: maxtime didn't work well with stipulation selfmate
+**
+** 2001/03/01 NG   bug fix: uninitialised variable visitCnt inside compresshash()
+**
+** 2001/10/04 TLi  hashing bug in invref fixed
+**
 **************************** End of List ******************************/
-

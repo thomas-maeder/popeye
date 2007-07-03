@@ -59,6 +59,9 @@
 **
 ** 2002/08/20 TLi  bug fix in ProofFairyImpossible
 **
+** 2003/05/14 TLi  bug fix: transmuting king
+**                          madrasi, patrouille, koeko and others
+**
 **************************** End of List ******************************/
 
 #include <stdio.h>
@@ -185,9 +188,11 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
     for (sq= 224; sq < 232; sq++) {
 	if (ProofBoard[sq] == pb) {
 	    WhKingMoves[sq]=
-	    BlKingMoves[sq]=
-	    BlKingMoves[sq+23]=
-	    BlKingMoves[sq+25]= -1;
+	    BlKingMoves[sq]= -1;	/* blocked */	/* V3.77  TLi */
+	    if (eval_white == eval_ortho) {	/* V3.77  TLi */
+	        BlKingMoves[sq+23]=
+	        BlKingMoves[sq+25]= -2;	/* guarded */	/* V3.77  TLi */
+	    }
 	}
     }
 
@@ -195,21 +200,23 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
     for (sq= 344; sq < 352; sq++) {
 	if (ProofBoard[sq] == pn) {
 	    BlKingMoves[sq]=
-	    WhKingMoves[sq]=
-	    WhKingMoves[sq-23]=
-	    WhKingMoves[sq-25]= -1;
+	    WhKingMoves[sq]= -1;	/* blocked */	/* V3.77  TLi */
+	    if (eval_black == eval_ortho) {	/* V3.77  TLi */
+	        WhKingMoves[sq-23]=
+	        WhKingMoves[sq-25]= -2;	/* guarded */	/* V3.77  TLi */
+	    }
 	}
     }
 
     /* cornered bishops */
     if (BlockedBishopc1)
-	WhKingMoves[202]= BlKingMoves[202]= -1;
+	WhKingMoves[202]= BlKingMoves[202]= -1;	/* blocked */
     if (BlockedBishopf1)
-	WhKingMoves[205]= BlKingMoves[205]= -1;
+	WhKingMoves[205]= BlKingMoves[205]= -1;	/* blocked */
     if (BlockedBishopc8)
-	WhKingMoves[370]= BlKingMoves[370]= -1;
+	WhKingMoves[370]= BlKingMoves[370]= -1;	/* blocked */
     if (BlockedBishopf8)
-	WhKingMoves[373]= BlKingMoves[373]= -1;
+	WhKingMoves[373]= BlKingMoves[373]= -1;	/* blocked */
 
     /* initialise wh king */
     WhKingMoves[ProofRB]=
@@ -223,7 +230,30 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
 			WhKingMoves[*bnp+vec[k]]= MoveNbr+1;
 			GoOn= True;
 		    }
+                    if (CondFlag[whtrans_king]	/* V3.77  TLi */
+                        || CondFlag[trans_king]) {
+                        sq= *bnp;
+                        while (e[sq+=vec[k]] != obs &&
+                               WhKingMoves[sq] != -1) {
+                            if (WhKingMoves[sq] > MoveNbr) {
+                                WhKingMoves[sq]= MoveNbr+1;
+                                GoOn= True;
+                            }
+                        }
+                    } /* trans_king */
 		}
+                if (CondFlag[whtrans_king]	/* V3.77  TLi */
+                    || CondFlag[trans_king]) {
+                    /* Knight moves */
+                    for (k= 16; k>8; k--) {
+                        sq= *bnp + vec[k];
+                        if (e[sq] != obs &&
+                            WhKingMoves[sq] > MoveNbr) {
+                            WhKingMoves[sq]= MoveNbr+1;
+                            GoOn= True;
+                        }
+                    }
+                } /* trans_king */
 	    }
 	}
 	MoveNbr++;
@@ -241,7 +271,30 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
 			BlKingMoves[*bnp+vec[k]]= MoveNbr+1;
 			GoOn= True;
 		    }
+                    if (CondFlag[bltrans_king]	/* V3.76  TLi */
+                        || CondFlag[trans_king]) {
+                        sq= *bnp;
+                        while (e[sq+=vec[k]] != obs &&
+                               BlKingMoves[sq] != -1) {
+                            if (BlKingMoves[sq] > MoveNbr) {
+                                BlKingMoves[sq]= MoveNbr+1;
+                                GoOn= True;
+                            }
+                        }
+                    } /* trans_king */
 		}
+                if (CondFlag[bltrans_king]	/* V3.77  TLi */
+                    || CondFlag[trans_king]) {
+                    /* Knight moves */
+                    for (k= 16; k>8; k--) {
+                        sq= *bnp + vec[k];
+                        if (e[sq] != obs &&
+                            BlKingMoves[sq] > MoveNbr) {
+                            BlKingMoves[sq]= MoveNbr+1;
+                            GoOn= True;
+                        }
+                    }
+                } /* trans_king */
 	    }
 	}
 	MoveNbr++;

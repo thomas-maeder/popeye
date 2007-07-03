@@ -94,10 +94,10 @@ RANLIB = ranlib
 
 # This variable is used in compiling pydata.c, and
 # should contain only the number
-#VERSION =       3.76
+#VERSION =       3.77
 # It's not used in this makefile for compilation any more.
 # We use it for creating distributions without any . (dot) !
-VERSION =       376
+VERSION =       377
 
 OBJECTS =       pydata.o py1.o py2.o py3.o py4.o py5.o py6.o pyio.o    \
 		pymsg.o pytime.o pylang.o pyhash.o pyproof.o	       \
@@ -109,15 +109,16 @@ CFILES  =       pydata.c py1.c py2.c py3.c py4.c py5.c py6.c pyio.c    \
 		pysignal.c DHT/*.c pyint.c
 MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
 STRFILES=       py-fran.str py-deut.str py-engl.str
-TEXFILES=       pie-fran.dat pie-deut.dat pie-engl.dat piecenam.dat    \
+TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \
 		LATEX/diagram.* LATEX/FSELCH/* LATEX/PKELCH/*
-DOCFILES=       py-fran.doc py-deut.doc py-engl.doc readme history     \
-		lizenz BEISPIEL/*.inp EXAMPLES/*.inp *.mod
+DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
+		readme.txt history.txt license.txt *.mod
+EXAMPLES =      BEISPIEL/*.inp EXAMPLES/*.inp
 UTILS   =	todef.awk toenum.awk
 DEVELOP =       makefile.unx DHT/makefile.unx coding.txt
 DFILES  =       $(INCLUDES) $(CFILES) $(DEVELOP) $(DOCFILES) $(UTILS)  \
-		$(MSGFILES) $(TEXFILES)
-MINIFILES  =    py*.[ch] py*.msg py*.doc history makefile.unx
+		$(MSGFILES)
+MINIFILES  =    py*.[ch] py*.msg py*.txt history.txt readme.txt makefile.unx
 
 all:		py 
 
@@ -247,7 +248,7 @@ tardist:	/tmp/$(VERSIONDIR).tar
 		mkdir $(VERSIONDIR)/LATEX
 		mkdir $(VERSIONDIR)/LATEX/FSELCH
 		mkdir $(VERSIONDIR)/LATEX/PKELCH
-		for i in $(DFILES) ; do  \
+		for i in $(DFILES) $(TEXFILES) $(EXAMPLES) ; do  \
 		ln $$i $(VERSIONDIR)/$$i ;\
 		done
 		tar cfv /dev/rfd0 $(VERSIONDIR)
@@ -258,12 +259,7 @@ tardist:	/tmp/$(VERSIONDIR).tar
 
 compressdist:	/tmp/$(VERSIONDIR).compress
 		mkdir $(VERSIONDIR)
-		mkdir $(VERSIONDIR)/BEISPIEL
-		mkdir $(VERSIONDIR)/EXAMPLES
 		mkdir $(VERSIONDIR)/DHT
-		mkdir $(VERSIONDIR)/LATEX
-		mkdir $(VERSIONDIR)/LATEX/FSELCH
-		mkdir $(VERSIONDIR)/LATEX/PKELCH
 		for i in $(DFILES) ; do  \
 		ln $$i $(VERSIONDIR)/$$i ;\
 		done
@@ -276,12 +272,7 @@ compressdist:	/tmp/$(VERSIONDIR).compress
 
 gzipdist:	/tmp/$(VERSIONDIR).gzip
 		mkdir $(VERSIONDIR)
-		mkdir $(VERSIONDIR)/BEISPIEL
-		mkdir $(VERSIONDIR)/EXAMPLES
 		mkdir $(VERSIONDIR)/DHT
-		mkdir $(VERSIONDIR)/LATEX
-		mkdir $(VERSIONDIR)/LATEX/FSELCH
-		mkdir $(VERSIONDIR)/LATEX/PKELCH
 		for i in $(DFILES) ; do  \
 		ln $$i $(VERSIONDIR)/$$i ;\
 		done
@@ -301,7 +292,7 @@ shardist:	/tmp/$(VERSIONDIR).shar
 		mkdir $(VERSIONDIR)/LATEX
 		mkdir $(VERSIONDIR)/LATEX/FSELCH
 		mkdir $(VERSIONDIR)/LATEX/PKELCH
-		for i in $(DFILES) ; do  \
+		for i in $(DFILES) $(TEXFILES) $(EXAMPLES) ; do  \
 		ln $$i $(VERSIONDIR)/$$i ;\
 		done
 		find $(VERSIONDIR) -type f -print | shar -S -l40 -o/tmp/shar
@@ -312,12 +303,7 @@ shardist:	/tmp/$(VERSIONDIR).shar
 
 zipdist:	/tmp/$(VERSIONDIR).zip
 		mkdir $(VERSIONDIR)
-		mkdir $(VERSIONDIR)/BEISPIEL
-		mkdir $(VERSIONDIR)/EXAMPLES
 		mkdir $(VERSIONDIR)/DHT
-		mkdir $(VERSIONDIR)/LATEX
-		mkdir $(VERSIONDIR)/LATEX/FSELCH
-		mkdir $(VERSIONDIR)/LATEX/PKELCH
 		for i in $(DFILES) ; do  \
 		ln $$i $(VERSIONDIR)/$$i ;\
 		done
@@ -365,6 +351,20 @@ minidist:	/tmp/$(VERSIONDIR).mini
 		compress $(VERSIONDIR).t
 		rm -rf $(VERSIONDIR)
 
+EXAMPLESdist:
+		tar cvf BEISPIEL.$(VERSIONDIR).t BEISPIEL
+		gzip <BEISPIEL.$(VERSIONDIR).t >BEISPIEL.$(VERSIONDIR).t.gz
+		compress BEISPIEL.$(VERSIONDIR).t
+		tar cvf EXAMPLES.$(VERSIONDIR).t EXAMPLES
+		gzip <EXAMPLES.$(VERSIONDIR).t >EXAMPLES.$(VERSIONDIR).t.gz
+		compress EXAMPLES.$(VERSIONDIR).t
+		zip -r BEISPIEL.$(VERSIONDIR).zip BEISPIEL
+		zip -r EXAMPLES.$(VERSIONDIR).zip EXAMPLES
+LATEXdist:
+		tar cvf LATEX.$(VERSIONDIR).t $(TEXFILES)
+		gzip <LATEX.$(VERSIONDIR).t >LATEX.$(VERSIONDIR).t.gz
+		compress LATEX.$(VERSIONDIR).t
+		zip -r LATEX.$(VERSIONDIR).zip $(TEXFILES)
 
 #These targets are for analysing the sources with tools - NG.
 lint:

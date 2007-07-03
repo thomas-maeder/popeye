@@ -162,4 +162,10 @@
 ** 2000/11/29 TLi  new pieces: 3:6 leaper, night-rider lion, mao-rider
 **                 lion
 **
+** 2001/01/14 SE   new specification : ColourChanging
+**
+** 2001/02/05 TLi  new piece: Moariderlion
+**
+** 2001/10/02 TLi  new piece: Dolphin (Grashopper + Kangaroo)
+**
 **************************** INFORMATION END ***************************/

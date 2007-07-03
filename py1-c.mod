@@ -220,4 +220,14 @@
 **
 ** 2000/06/05 NG/TLi  bug fix: sentinelles works now with fairy pawns. 
 **
+** 2001/01/14 SE   new specification : ColourChanging
+**
+** 2001/02/05 TLi  new piece: Friend
+**
+** 2001/05/08 SE   new conditions: SentBerolina
+**
+** 2001/05/20 SE   new stipulation: atob
+**
+** 2001/10/02 TLi  marin pieces/locust bug fixed in marincheck
+**
 **************************** INFORMATION END ***************************/

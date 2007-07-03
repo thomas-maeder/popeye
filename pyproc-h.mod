@@ -154,4 +154,10 @@
 ** 2000/11/29 TLi  new pieces: 3:6 leaper, night-rider lion, mao-rider
 **                 lion
 **
+** 2001/02/05 TLi  new piece: Moariderlion, Friend
+**
+** 2001/08/29 ThM  new condition: SingleBox Type1, Type2 or Type3
+**
+** 2001/10/02 TLi  new piece: Dolphin (Grashopper + Kangaroo)
+**
 **************************** INFORMATION END **************************/

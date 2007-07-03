@@ -2,16 +2,6 @@
 **
 ** Date       Who  What
 **
-** 2001/01/14 SE   new specification : ColourChanging
-**
-** 2001/02/05 TLi  new piece: Friend
-**
-** 2001/05/08 SE   new conditions: SentBerolina
-**
-** 2001/05/20 SE   new stipulation: atob
-**
-** 2001/10/02 TLi  marin pieces/locust bug fixed in marincheck
-**
 ** 2002/05/18 NG   bug fix: flagAssassin and marsrenai initialized
 **                          DiaCirce 'flags and specs' reset
 **

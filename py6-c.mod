@@ -479,4 +479,20 @@
 **
 ** 2000/11/29 TLi  new piece: 3:6 leaper
 **
+** 2001/01/14 SE   new specification : ColourChanging
+**
+** 2001/02/05 TLi  new piece: Friend
+**
+** 2001/05/08 SE   new conditions: CirceTurnCoats, CirceDoubleAgents, AMU,
+**		   SentBerolina.
+**
+** 2001/09/29 ThM  new condition: SingleBox Type1, Type2 or Type3
+**
+** 2001/10/23 TLi  bug-fix: reflexmate
+**
+** 2001/10/26 NG   assertions only with -DASSERT due to performance penalty
+**
+** 2001/11/10 NG   singleboxtype? changed to singlebox type?
+**		   some singlebox variable names changed ...
+**
 **************************** INFORMATION END **************************/

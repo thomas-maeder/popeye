@@ -2,13 +2,9 @@
 **
 ** Date       Who  What
 **
-** 2001/01/14 SE   new specification : ColourChanging
-**
-** 2001/02/05 TLi  new piece: Moariderlion
-**
-** 2001/10/02 TLi  new piece: Dolphin (Grashopper + Kangaroo)
-**
 ** 2002/05/18 NG   new pieces: rabbit, bob
+**
+** 2003/01/07 TLi  Madrasi + neutrals bug fixed in libre()
 **
 **************************** End of List ******************************/
 
@@ -1161,7 +1157,7 @@ boolean kangoucheck(
 boolean rabbitcheck(
     square	i,
     piece	p,
-    boolean	(*evaluate)(square,square,square))	/* V2.76  NG */
+    boolean	(*evaluate)(square,square,square))	/* V3.76  NG */
 {
 /* 2 hurdle lion */
     numvec  k;
@@ -1187,7 +1183,7 @@ boolean rabbitcheck(
 boolean bobcheck(
     square	i,
     piece	p,
-    boolean	(*evaluate)(square,square,square))	/* V2.76  NG */
+    boolean	(*evaluate)(square,square,square))	/* V3.76  NG */
 {
 /* 4 hurdle lion */
     numvec  k;
@@ -1654,7 +1650,14 @@ boolean libre(square sq, boolean generating) {
     piece   p= e[sq];		/* V3.51  NG */
     boolean flag= true, neutcoul_sic= neutcoul;
 
+    if ((CondFlag[madras] || CondFlag[isardam])		/* V3.76  TLi */
+	    && (!rex_mad) && ((sq == rb) || (sq == rn)))
+        return true;
+
+#ifdef NODEF	/* V3.76  TLi */
     if (TSTFLAG(PieSpExFlags, Neutral)) {		/* V3.60  TLi */
+#endif
+    if (TSTFLAG(spec[sq], Neutral)) {		/* V3.76  TLi */
 	if (generating)
 	    p= -p;
 	else
@@ -1662,11 +1665,13 @@ boolean libre(square sq, boolean generating) {
     }
 
     if (CondFlag[madras] || CondFlag[isardam]) {	/* V3.60  TLi */
+#ifdef NODEF	/* V3.76  TLi */
 	if (! rex_mad) {
 	    if ((sq == rb) || (sq == rn)) {
 		return true;
 	    }
 	}
+#endif
 
 	/* The ep capture needs special handling. */
 	switch (p) {					/* V3.22  TLi */
@@ -1738,7 +1743,10 @@ boolean libre(square sq, boolean generating) {
 	}
     } /* CondFlag[eiffel] */
 
+#ifdef NODEF 	/* V3.76  TLi */
     if (TSTFLAG(PieSpExFlags, Neutral) && !generating)	/* V3.60  TLi */
+#endif
+    if (TSTFLAG(spec[sq], Neutral) && !generating)	/* V3.76  TLi */
 	initneutre(neutcoul_sic);
 
     return flag;
