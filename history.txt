@@ -65,7 +65,7 @@ My address is                           Norberts address:
 	Germany                                 Germany
 
 Our e-mail adresses:
-	elmar@devsoft.com                       norbert.geissler@mchm.siemens.de
+	elmar@devsoft.com                       norbert.geissler@ng37.de
 
 Popeye's www home location is:     http://archiv.leo.org/pub/rec/games/popeye/
 
@@ -80,7 +80,7 @@ The answer:     English is the language most people should understand
 
 Sie moegen sich fragen warum wir das alles auf Englisch schreiben.
 Die Antwort:    Dies ist die Sprache, die die meisten Leute verstehen
-		sollten, sofern sie irgendetwas mit Computern zu tuen haben.
+		sollten, sofern sie irgendetwas mit Computern zu tun haben.
 		Und wir wollen, dass moeglichst viele Leute dies lesen,
 		benutzen und verstehen koennen. Im Moment geht das 
 		weder mit Franzoesisch noch mit Deutsch oder irgendeiner
@@ -1591,3 +1591,65 @@ bug fix:
 bug fix: singlebox ...
                                                         27.09.2002  ThM
 ------------------------------------------------------------------------
+MaxMemory detection improved for WIN32
+							05.01.2003  TBa
+------------------------------------------------------------------------
+bug fix: helpmate with intelligent mode didn't find all solutions
+	 (bug found by Ulrich Ring)
+							06.01.2003  TLi
+------------------------------------------------------------------------
+bug fix: Madrasi + neutrals bug fixed in libre()
+							07.01.2003  TLi
+------------------------------------------------------------------------
+bug fix: helpstalemate with intelligent mode.
+	 (bug found by Vaclav Kotesovec)
+							04.02.2003  TLi
+------------------------------------------------------------------------
+corrected english documentation (hint by Jan Golha).
+(white|black)transmutedking was not mentioned correct.
+							06.02.2003  NG
+------------------------------------------------------------------------
+helpstalemate intelligent bug fixed:
+	Did not find all solutions  (:-(
+	(bug found by Erich Bartel)
+							12.05.2003  TLi
+------------------------------------------------------------------------
+renaming of documentation files.
+now always with suffix .txt instead of .doc or no suffix.
+our numerous win??.exe user will appreciate that ...
+							12.05.2003  NG
+------------------------------------------------------------------------
+bug fix: leofamily + marscirce + chinese pieces allowed
+	 (bug found by Joost de Heer)
+VAX VMS and OS/2 not supported anymore.
+							13.05.2003  NG
+------------------------------------------------------------------------
+bug fix: proofgames possible with:
+	transmutedkings
+	madrasi, patrouille, koeko and others
+	(hints by Peter van den Heuvel and Joost de Heer)
+							14.05.2003  TLi
+------------------------------------------------------------------------
+new option: beep [number]  beeps one (or [number]) of times
+	    for each solution found.
+		(requested by Dan Meinking)
+							18.05.2003  NG
+------------------------------------------------------------------------
+bug fix: Neutral King and Marscirce
+	 (bug found by Joost de Heer)
+							25.05.2003  SE
+------------------------------------------------------------------------
+french documentation corrections  ...
+							26.06.2003  ThM
+------------------------------------------------------------------------
+MaxMemory under WIN98 reduced to 700MB, because WIN95/WIN98/WINME
+cannot handle more than 768MB (OS-restriction !)
+							27.05.2003  NG
+------------------------------------------------------------------------
+regression test done.
+documentation adjusted (BEISPIEL and LATEX are extra packages now).
+pywin32.exe, pywin98.exe and pydos32.exe created.
+This is official release py3.77
+                                                        28.05.2003  NG
+------------------------------------------------------------------------
+
