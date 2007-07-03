@@ -8,17 +8,17 @@ following languages:
 english, french, german
 For german examples look at the directory BEISPIEL.
 Whole language dependent syntax and all the possibilities
-of Popeye can be found in the language dependent *.doc files.
-For any additional information have a look at the file  history .
+of Popeye can be found in the language dependent *.txt files.
+For any additional information have a look at the file history.txt .
 
 HAVE FUN !
 
 
 Contents of this distribution:
-	readme:         This file. Contains hints for porting and
-			    compiling.
-	history:        Info about POPEYE-development during his life-time.
-	py-????.doc     Documentation written in ????-language.
+	readme.txt:     This file. Contains hints for porting and compiling.
+	lizenz.txt:     Popeye License.
+	history.txt:    Info about POPEYE-development during his life-time.
+	py-????.txt     Documentation written in ????-language.
 	makefile.unx    Makefile for unix compilation.
 	coderule.txt    Some hints on coding style
 	py.h:           Contains constant and type definitions.
@@ -31,7 +31,7 @@ Contents of this distribution:
 	pytime.c:       Contains the C-Source of POPEYE time-measurement.
 	pysignal.c:     Contains the C-Source of POPEYE signal handling.
         pydata.c:       Contains only includes and a define to generate the
-			    the object file for all global data.
+			the object file for all global data.
 	pylang.c:	Contains language dependent procedures.
 	pymsg.c:        Contains the Message-file related I/O-procedures.
 	py-????.msg:    Message-file for POPEYE I/O in ????-language.
@@ -40,8 +40,7 @@ Contents of this distribution:
 			POPEYE needs py-????.str for language-dependent I/O.
 	BEISPIEL:	Directory containing german testfiles 
 	EXAMPLES:	Directory containing english testfiles 
-	DHT:		Directory containing the dynamic hashing support
-			    C-Source files.
+	DHT:		Directory containing the dynamic hashing support C-Source files.
 	LATEX:		Directory containing files for LaTeX support.
 
 Motto:
@@ -79,14 +78,12 @@ On all these machines this sources compile without any problems.
 
 3. Compiling for UNIX:
 	Copy or link the file makefile.unx to makefile.
-	Go to the DHT directory and copy or link the file 
-	        makefile.unx to makefile.
 	Be sure to define UNIX.
 	If your machine is BSD'ish, define also BSD.
 	This source compiles with gcc-1.39 in ANSI mode.
 
 4. One special candidate for porting-problems is pytime.c.
-	It should compile for every unix. But there
+	It should compile for every UNIX. But there
 	may be some problems with the #include's.
 	Be sure to include <sys/params.h> only once.
 	A special compile switch for TURBO-C (this file is the
@@ -165,6 +162,7 @@ On all these machines this sources compile without any problems.
 	This may last some time on a 80386.
 
 11. OS/2 and GCC
+	NOT SUPPORTED ANYMORE !
 	It should compile without any problems.
 	Use the special compile switches OS2 and GCC
 
@@ -188,7 +186,7 @@ On all these machines this sources compile without any problems.
 					ElB 3.May 1994
 
 14. DEC VMS
-	PROBABLY NOT SUPPORTED NOW !
+	NOT SUPPORTED ANYMORE !
 	Please use the following command procedures as a hint for
 	compiling and linking on your VMS system.
 
