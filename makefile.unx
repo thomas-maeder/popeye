@@ -1,4 +1,10 @@
-# This is the Makefile for py4.0, testet under System V
+# This is the Makefile for py4.x, tested under Linux with GNU make.
+# It is expected to work pretty portably on Unix-ish platforms with
+# GNU make.
+
+# Revision info:
+# Id: problem.xsd,v 1.10 2007/06/20 12:26:07 thomasmaeder Exp $
+
 # +++++ Warning +++++++
 # This Makefile you are reading now, will not do it with:
 # Microsoft C  on DOS
@@ -69,11 +75,14 @@ OSCPU=`uname -p`
 #CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS
 CFLAGS= $(DBG) $(OPT) $(ARCH) \
 	-DMSG_IN_MEM -DUNIX -DSIGNALS \
-	-DOSTYPE=\"$(OS)-$(OSVER)-$(OSCPU)\"
+	-DOSTYPE=\"$(OS)-$(OSVER)-$(OSCPU)\" \
+        -DVERSION=$(VERSION)
 
 #CC=gcc
 #CC=clcc
 CC=cc
+
+DEPEND = cc -MM $(CFLAGS)
 
 # Give here flags for the linker
 # and add needed libraries
@@ -87,6 +96,10 @@ LDFLAGS = $(DBG) $(OPT) $(ARCH)
 RANLIB = ranlib
 #RANLIB = echo ranlib
 
+# If you don't need (have) compress
+#COMPRESS = compress
+COMPRESS = echo compress
+
 #
 # No problems should raise from the length of function identifiers.
 # All function and procedure names are different in character
@@ -94,21 +107,17 @@ RANLIB = ranlib
 # The other identifiers also need only a length of 7.
 # Now the code of the makefile itself:
 
-# This variable is used in compiling pydata.c, and
-# should contain only the number
-#VERSION =       4.37
-# It's not used in this makefile for compilation any more.
-# We use it for creating distributions without any . (dot) !
-VERSION =       437
+# Version numer; . separates major and minor version part
+# Append "dev" while development
+VERSION =       4.38dev
 
-OBJECTS =       pydata.o py1.o py2.o py3.o py4.o py5.o py6.o pyio.o    \
-		pymsg.o pytime.o pylang.o pyhash.o pyproof.o	       \
-		pysignal.o pyint.o
 INCLUDES=       pydata.h py.h py1.h py4.h pyproc.h pymsg.h pymac.h     \
 		pylang.h pyproof.h DHT/*.h pyint.h pyhash.h pytime.h
-CFILES  =       pydata.c py1.c py2.c py3.c py4.c py5.c py6.c pyio.c    \
+PYCFILES  =     pydata.c py1.c py2.c py3.c py4.c py5.c py6.c pyio.c    \
 		pymsg.c pytime.c pylang.c pyhash.c pyproof.c	       \
-		pysignal.c DHT/*.c pyint.c
+		pysignal.c pyint.c
+OBJECTS =       $(PYCFILES:%.c=%.o)
+CFILES  =       $(PYCFILES) DHT/*.c
 MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
 STRFILES=       py-fran.str py-deut.str py-engl.str
 TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \
@@ -124,54 +133,37 @@ MINIFILES  =    py*.[ch] py*.msg py*.txt history.txt readme.txt makefile.unx
 
 all:		py 
 
-# Popeye with full dynamic hashing
+
+# ===========================================================
+
+# Target for creating the popeye executable with full dynamic hashing
+
 py:		$(OBJECTS) DHT/dhtlib.a
 		$(CC) -o py $(LDFLAGS) $(OBJECTS) DHT/dhtlib.a
 
-pyhash.o:	pyhash.c pydata.h py.h pyproc.h pymac.h
+
+# ===========================================================
+
+# Target for generating source file dependencies file
+
+depend: $(PYCFILES) $(INCLUDES)
+		for f in $(PYCFILES); \
+		do \
+			$(DEPEND) $$f; \
+		done > $@
+
+include depend
+
+
+# ===========================================================
+
+# Target for compiling .c source files into .o object files
+
+pyhash.o:	
 		$(CC) $(CFLAGS) -DFXF -c pyhash.c 
 
-pyint.o:	pyint.h pyhash.h pyint.c
-		$(CC) $(CFLAGS) -c pyint.c
-		
-pyproof.o:	pyproof.h pyhash.h pyproof.c
-		$(CC) $(CFLAGS) -c pyproof.c
-		
-pylang.o:	pylang.h pylang.c
-		$(CC) $(CFLAGS) -c pylang.c
-		
-pytime.o:       pytime.c pymac.h
-		$(CC) $(CFLAGS) -c pytime.c
-
-pysignal.o:     pysignal.c pymac.h
-		$(CC) $(CFLAGS) -c pysignal.c
-
-pymsg.o:	dogenpystr pymsg.c pymsg.h py.h pyproc.h
-		$(CC) $(CFLAGS) -c pymsg.c
-
-pydata.o:       pydata.c py.h pydata.h pymac.h pyproc.h
-		$(CC) $(CFLAGS) -c pydata.c
-
-py1.o:          py1.c py1.h pydata.h py.h pyproc.h pymac.h
-		$(CC) $(CFLAGS) -c py1.c
-
-py2.o:          py2.c pydata.h py.h pyproc.h pymac.h
-		$(CC) $(CFLAGS) -c py2.c
-
-py3.o:          py3.c pydata.h py.h pyproc.h pymac.h
-		$(CC) $(CFLAGS) -c py3.c
-
-py4.o:          py4.c pydata.h py.h pyproc.h pymac.h pymsg.h
-		$(CC) $(CFLAGS) -c py4.c
-
-py5.o:          py5.c pydata.h py.h pyproc.h pymac.h
-		$(CC) $(CFLAGS) -c py5.c
-
-py6.o:          py6.c pydata.h py.h pyproc.h pymsg.h pymac.h pyproof.h pyhash.h
-		$(CC) $(CFLAGS) -c py6.c
-
-pyio.o:         pyio.c pydata.h py.h pymsg.h pyproc.h pymac.h
-		$(CC) $(CFLAGS) -c pyio.c
+%.o: %c
+		$(CC) $(CFLAGS) -c $<
 
 pyio:           pyio.c pydata.h py.h pydata.o pymac.h
 		$(CC) -DSTANDALONE $(CFLAGS) -o pyio pydata.o pyio.c
@@ -179,26 +171,52 @@ pyio:           pyio.c pydata.h py.h pydata.o pymac.h
 genpystr.o:     genpystr.c
 		$(CC) $(CFLAGS) -c genpystr.c
 
+
+# ===========================================================
+
+# Target for generating utilities for string handling
+
 genpystr:       genpystr.o pylang.o
-		$(CC) -o genpystr $(LDFLAGS) pylang.o genpystr.o
+		$(CC) -o $@ $(LDFLAGS) $^
 
 dogenpystr:	$(MSGFILES) genpystr
 		./genpystr
-		touch dogenpystr
+		touch $@
+
+
+# ===========================================================
+
+# Target for generating the dynamic hash table (DHT) library
 
 DHT/dhtlib.a:	DHT/*.c DHT/*.h
 		cd DHT; $(MAKE) -f makefile.unx CC=$(CC) RANLIB="$(RANLIB)" ARCH="$(ARCH)" DBG="$(DBG)" dhtlib.a
-		$(RANLIB) DHT/dhtlib.a
+		$(RANLIB) $@
 
-purify-py:      DHT/dhtlib.a pyhash.o $(OBJECTS)
-		purify $(CC) -o purify-py $(LDFLAGS) $(OBJECTS) DHT/dhtlib.a
+
+# ===========================================================
+
+# Target for generating the purify-ed popeye exectable
+
+purify-py:      DHT/dhtlib.a $(OBJECTS)
+		purify $(CC) -o purify-py $(LDFLAGS) $^
+
+
+# ===========================================================
+
+# Targets for cleaning up after ourselves
 
 clean:
 		rm -f *.o core
-		cd DHT; $(MAKE) -f makefile.unx clean
+		cd DHT; $(MAKE) -f makefile.unx $@
 
 clobber:	clean
-		rm -f py genpystr dogenpystr $(STRFILES); cd DHT; $(MAKE) -f makefile.unx clobber
+		rm -f py genpystr dogenpystr depend $(STRFILES); cd DHT; $(MAKE) -f makefile.unx $@
+
+
+# ===========================================================
+
+# Targets for conversion between enum types and an equivalent sequence
+# of #defines
 
 todef:	
 		awk -f todef.awk < py.h > py.h.def
@@ -209,8 +227,12 @@ toenum:
 		awk -f toenum.awk < pylang.h > pylang.h.enum
 		awk -f toenum.awk < pyhash.c > pyhash.c.enum
 
-#Target for testing on uniq id's on first seven chars
-#choose the right command
+
+# ===========================================================
+
+# Target for testing on uniq id's on first seven chars choose the
+# right command
+
 TR_SYSV		= tr -cs '[0-9][A-Z]_[a-z]' '[\012*]'
 TR_BSD		= tr -cs '0-9A-Z_a-z' '\012'
 uniq:		
@@ -220,30 +242,45 @@ uniq:
 		cut -c1-7 | uniq -c | egrep -v '^ *1' > /tmp/id.mult
 
 
+# ===========================================================
 
-#Target for generating context-diffs
-VERSIONDIR=     py$(VERSION)
-cdiff:		
-		for f in $(DFILES); \
+# Variables for repeatedly used file names
+
+VERSIONDIR = $(VERSION)
+DISTFILESTEM = popeye-$(VERSIONDIR)
+SOURCESTARFILE = $(DISTFILESTEM)-sources.tar
+
+
+# ===========================================================
+
+# Target for comparing the source files of two releases and creating a
+# set of patches from one to the other
+
+/tmp/py.ptch: /tmp/py.ptch.sh
+		sh -x $^ > $@
+
+/tmp/py.ptch.sh: $(DFILES)
+		for f in $^; \
 		do \
 			echo diff -c ../$(VERSIONDIR)/$$f $$f; \
-		done >/tmp/py.ptch.sh
-		sh -x /tmp/py.ptch.sh > /tmp/py.ptch
+		done > $@
 
-#These targets are for generating distributions - ElB.
-/tmp/$(VERSIONDIR).cpio:	$(DFILES)
-		touch /tmp/$(VERSIONDIR).cpio
+cdiff: /tmp/py.ptch
 
-cpiodist:	/tmp/$(VERSIONDIR).cpio
-		mkdir $(VERSIONDIR)
-		ln $(DFILES) py-$(VERSIONDIR)
-		find $(VERSIONDIR) -print | cpio -ocv > /tmp/$(VERSIONDIR).cpio
-		rm -rf $(VERSIONDIR)
-		
-/tmp/$(VERSIONDIR).tar:	$(DFILES)
-		touch /tmp/$(VERSIONDIR).tar
 
-tardist:	/tmp/$(VERSIONDIR).tar
+# ===========================================================
+
+# Target for creating a tar archive containing all sources and
+# examples directly (without file system) on a floppy disk
+
+# System V
+DEVFLOPPY=rfd0
+
+# Linux
+#DEVFLOPPY=fd0
+
+/tmp/$(VERSIONDIR).tar:	$(DFILES) $(TEXFILES) $(EXAMPLES)
+		touch $@
 		mkdir $(VERSIONDIR)
 		mkdir $(VERSIONDIR)/BEISPIEL
 		mkdir $(VERSIONDIR)/EXAMPLES
@@ -251,11 +288,20 @@ tardist:	/tmp/$(VERSIONDIR).tar
 		mkdir $(VERSIONDIR)/LATEX
 		mkdir $(VERSIONDIR)/LATEX/FSELCH
 		mkdir $(VERSIONDIR)/LATEX/PKELCH
-		for i in $(DFILES) $(TEXFILES) $(EXAMPLES) ; do  \
-		ln $$i $(VERSIONDIR)/$$i ;\
+		for i in $^ ; do  \
+			ln $$i $(VERSIONDIR)/$$i ;\
 		done
-		tar cfv /dev/rfd0 $(VERSIONDIR)
+		tar cfv /dev/$(DEVFLOPPY) $(VERSIONDIR)
 		rm -rf $(VERSIONDIR)
+
+tardist:	/tmp/$(VERSIONDIR).tar
+
+
+# ===========================================================
+
+# Target for creating a compressed tar file containing the sources
+
+COMPRESSDISTFILE = $(SOURCESTARFILE).Z
 
 /tmp/$(VERSIONDIR).compress:	$(DFILES)
 		touch /tmp/$(VERSIONDIR).compress
@@ -264,31 +310,44 @@ compressdist:	/tmp/$(VERSIONDIR).compress
 		mkdir $(VERSIONDIR)
 		mkdir $(VERSIONDIR)/DHT
 		for i in $(DFILES) ; do  \
-		ln $$i $(VERSIONDIR)/$$i ;\
+			ln $$i $(VERSIONDIR)/$$i ;\
 		done
-		tar cfv $(VERSIONDIR).t $(VERSIONDIR)
-		compress $(VERSIONDIR).t
+		tar cfv $(SOURCESTARFILE) $(VERSIONDIR)
+		$(COMPRESS) $(SOURCESTARFILE)
 		rm -rf $(VERSIONDIR)
-		ls -l $(VERSIONDIR).t.Z
 
-/tmp/$(VERSIONDIR).gzip:	$(DFILES)
-		touch /tmp/$(VERSIONDIR).gzip
 
-gzipdist:	/tmp/$(VERSIONDIR).gzip
+# ===========================================================
+
+# Target for creating a GNU zipped tar file containing the sources
+
+GZIPDISTFILE = $(SOURCESTARFILE).gz
+UUGZIPDISTFILE = $(GZIPDISTFILE).uu
+
+$(GZIPDISTFILE): $(DFILES)
 		mkdir $(VERSIONDIR)
 		mkdir $(VERSIONDIR)/DHT
-		for i in $(DFILES) ; do  \
-		ln $$i $(VERSIONDIR)/$$i ;\
+		for i in $^ ; do  \
+			ln $$i $(VERSIONDIR)/$$i ;\
 		done
-		tar cfv $(VERSIONDIR).t $(VERSIONDIR)
-		gzip $(VERSIONDIR).t
-		uuencode $(VERSIONDIR).t.gz $(VERSIONDIR).t.gz >$(VERSIONDIR).t.gz.uu
+		tar cfv $(SOURCESTARFILE) $(VERSIONDIR)
+		gzip $(SOURCESTARFILE)
 		rm -rf $(VERSIONDIR)
 
-/tmp/$(VERSIONDIR).shar:	$(DFILES)
-		touch /tmp/$(VERSIONDIR).shar
+$(UUGZIPDISTFILE): $(GZIPDISTFILE)
+		uuencode $^ $^ > $@
 
-shardist:	/tmp/$(VERSIONDIR).shar
+gzipdist:	$(GZIPDISTFILE) $(UUGZIPDISTFILE)
+
+
+# ===========================================================
+
+# Target for creating a sequence of shell archive (shar) files
+# containing the complete sources and examples; each generated file
+# fits on a floppy disk
+
+/tmp/$(VERSIONDIR).shar: $(DFILES) $(TEXFILES) $(EXAMPLES)
+		touch $@
 		mkdir $(VERSIONDIR)
 		mkdir $(VERSIONDIR)/BEISPIEL
 		mkdir $(VERSIONDIR)/EXAMPLES
@@ -296,23 +355,136 @@ shardist:	/tmp/$(VERSIONDIR).shar
 		mkdir $(VERSIONDIR)/LATEX
 		mkdir $(VERSIONDIR)/LATEX/FSELCH
 		mkdir $(VERSIONDIR)/LATEX/PKELCH
-		for i in $(DFILES) $(TEXFILES) $(EXAMPLES) ; do  \
-		ln $$i $(VERSIONDIR)/$$i ;\
+		for i in $^ ; do  \
+			ln $$i $(VERSIONDIR)/$$i ;\
 		done
 		find $(VERSIONDIR) -type f -print | shar -S -l40 -o/tmp/shar
 		rm -rf $(VERSIONDIR)
 
-/tmp/$(VERSIONDIR).zip:	$(DFILES)
-		touch /tmp/$(VERSIONDIR).zip
+shardist:	/tmp/$(VERSIONDIR).shar
 
-zipdist:	/tmp/$(VERSIONDIR).zip
+
+# ===========================================================
+
+# Target for creating a zip file containing the sources
+
+SOURCESZIPFILE = $(DISTFILESTEM)-sources.zip
+
+$(SOURCESZIPFILE): $(DFILES)
 		mkdir $(VERSIONDIR)
 		mkdir $(VERSIONDIR)/DHT
-		for i in $(DFILES) ; do  \
-		ln $$i $(VERSIONDIR)/$$i ;\
+		for i in $^ ; do  \
+			ln $$i $(VERSIONDIR)/$$i ;\
 		done
-		zip -r $(VERSIONDIR) $(VERSIONDIR)
+		zip -r $(SOURCESZIPFILE) $(VERSIONDIR)
 		rm -rf $(VERSIONDIR)
+
+zipdist:	$(SOURCESZIPFILE)
+
+
+# ===========================================================
+
+# Target for creating various archive files containing the example
+# input files
+
+BEISPIELTARFILE = $(DISTFILESTEM)-beispiel.tar
+BEISPIELGZIPFILE = $(BEISPIELTARFILE).gz
+BEISPIELCOMPRESSFILE = $(BEISPIELTARFILE).Z
+BEISPIELZIPFILE = $(DISTFILESTEM)-beispiel.zip
+
+EXAMPLESTARFILE = $(DISTFILESTEM)-examples.tar
+EXAMPLESGZIPFILE = $(EXAMPLESTARFILE).gz
+EXAMPLESCOMPRESSFILE = $(EXAMPLESTARFILE).Z
+EXAMPLESZIPFILE = $(DISTFILESTEM)-examples.zip
+
+$(BEISPIELTARFILE): BEISPIEL/*.inp
+		tar cf $@ $^
+
+$(BEISPIELGZIPFILE): $(BEISPIELTARFILE)
+		gzip < $^ > $@
+
+$(BEISPIELCOMPRESSFILE): $(BEISPIELTARFILE)
+		$(COMPRESS) $^
+
+$(BEISPIELZIPFILE): BEISPIEL/*.inp
+		zip -r $@ $^
+
+
+$(EXAMPLESTARFILE): EXAMPLES/*.inp
+		tar cf $@ $^
+
+$(EXAMPLESGZIPFILE): $(EXAMPLESTARFILE)
+		gzip < $^ > $@
+
+$(EXAMPLESCOMPRESSFILE): $(EXAMPLESTARFILE)
+		$(COMPRESS) $^
+
+$(EXAMPLESZIPFILE): EXAMPLES/*.inp
+		zip -r $@ $^
+
+.INTERMEDIATE: $(BEISPIELTARFILE) $(EXAMPLESTARFILE)
+
+EXAMPLESdist: $(BEISPIELGZIPFILE) $(BEISPIELCOMPRESSFILE) $(BEISPIELZIPFILE)\
+	 $(EXAMPLESGZIPFILE) $(EXAMPLESCOMPRESSFILE) $(EXAMPLESZIPFILE)
+
+
+# ===========================================================
+
+# Target for creating various archive files containing the LaTeX
+# utility files
+
+LATEXTARFILE = $(DISTFILESTEM)-latex.tar
+LATEXGZIPFILE = $(LATEXTARFILE).gz
+LATEXCOMPRESSFILE = $(LATEXTARFILE).Z
+LATEXZIPFILE = $(DISTFILESTEM)-latex.zip
+
+$(LATEXTARFILE): $(TEXFILES)
+		tar cf $@ $^
+
+$(LATEXGZIPFILE): $(LATEXTARFILE)
+		gzip < $^ > $@
+
+$(LATEXCOMPRESSFILE): $(LATEXTARFILE)
+		$(COMPRESS) $^
+
+$(LATEXZIPFILE): $(TEXFILES)
+		zip -r $@ $^
+
+.INTERMEDIATE: $(LATEXTARFILE)
+
+LATEXdist: $(LATEXGZIPFILE) $(LATEXCOMPRESSFILE) $(LATEXZIPFILE)
+
+
+# ===========================================================
+
+# Targets for applying code analsys tools
+
+lint.out: $(CFILES)
+	lint $(LINTFLAGS) $(CFLAGS) $(CFILES) > lint.out
+
+lint: lint.out
+
+
+# ===========================================================
+#               OBSOLETE (?) TARGETS
+# ===========================================================
+
+# ===========================================================
+
+# Target for creating a cpio archive containing all sources
+
+/tmp/$(VERSIONDIR).cpio:	$(DFILES)
+		touch $@
+		mkdir $(VERSIONDIR)
+		ln $^ $(VERSIONDIR)
+		find $(VERSIONDIR) -print | cpio -ocv > /tmp/$(VERSIONDIR).cpio
+		rm -rf $(VERSIONDIR)
+
+cpiodist:	/tmp/$(VERSIONDIR).cpio
+
+# ===========================================================
+
+# Targets for creating DOS floppy disks containing the sources
 
 dosfdist:
 		@while true; do \
@@ -344,33 +516,13 @@ dosdist:
 		echo "finished.\nRemove Floppy";done
 
 /tmp/$(VERSIONDIR).mini:	$(MINIFILES)
-		touch /tmp/$(VERSIONDIR).mini
-
-minidist:	/tmp/$(VERSIONDIR).mini
+		touch $@
 		mkdir $(VERSIONDIR)
-		for i in $(MINIFILES) ; do  \
-		ln $$i $(VERSIONDIR)/$$i ;\
+		for i in $^ ; do  \
+			ln $$i $(VERSIONDIR)/$$i ;\
 		done
-		tar cfv $(VERSIONDIR).t $(VERSIONDIR)
-		compress $(VERSIONDIR).t
+		tar cfv $(VERSIONDIR).tar $(VERSIONDIR)
+		$(COMPRESS) $(VERSIONDIR).tar
 		rm -rf $(VERSIONDIR)
 
-EXAMPLESdist:
-		tar cvf BEISPIEL.$(VERSIONDIR).t BEISPIEL
-		gzip <BEISPIEL.$(VERSIONDIR).t >BEISPIEL.$(VERSIONDIR).t.gz
-		compress BEISPIEL.$(VERSIONDIR).t
-		tar cvf EXAMPLES.$(VERSIONDIR).t EXAMPLES
-		gzip <EXAMPLES.$(VERSIONDIR).t >EXAMPLES.$(VERSIONDIR).t.gz
-		compress EXAMPLES.$(VERSIONDIR).t
-		zip -r BEISPIEL.$(VERSIONDIR).zip BEISPIEL
-		zip -r EXAMPLES.$(VERSIONDIR).zip EXAMPLES
-LATEXdist:
-		tar cvf LATEX.$(VERSIONDIR).t $(TEXFILES)
-		gzip <LATEX.$(VERSIONDIR).t >LATEX.$(VERSIONDIR).t.gz
-		compress LATEX.$(VERSIONDIR).t
-		zip -r LATEX.$(VERSIONDIR).zip $(TEXFILES)
-
-#These targets are for analysing the sources with tools - NG.
-lint:
-	lint $(LINTFLAGS) $(CFLAGS) $(CFILES) >lint.out
-
+minidist:	/tmp/$(VERSIONDIR).mini
