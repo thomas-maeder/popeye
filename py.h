@@ -51,12 +51,6 @@
 
 #endif /* C370 */
 
-#ifndef VERSION				/* V3.55  NG */
-
-#define VERSION "4.37"
-
-#endif	/* ! VERSION */
-
 #ifndef OSBIT
 #if defined(SIXTEEN) || defined(WIN16)
 #	define OSBIT "16"
@@ -104,8 +98,10 @@
 #endif  /* C370 */
 #endif  /* DATABASE */
 #endif	/* OSTYPE */
- 
-#define VERSIONSTRING "Popeye "OSTYPE"-"OSBIT"Bit V"VERSION
+
+#define STRINGIZEIMPL(x) #x
+#define STRINGIZE(x) STRINGIZEIMPL(x)
+#define VERSIONSTRING "Popeye "OSTYPE"-"OSBIT"Bit v"STRINGIZE(VERSION)
 
 
 #ifdef BSD
