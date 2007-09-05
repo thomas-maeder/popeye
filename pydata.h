@@ -290,8 +290,12 @@ EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyimmun, anyclone; 
 
 /* new anticirce implementation -- V.38  TLi */
 EXTERN  boolean         AntiCirCheylan;   /* V3.38  TLi */
-EXTERN  boolean         SingleBoxType;    /* V3.73  NG */
-EXTERN  boolean         sbtype1, sbtype2, sbtype3;    /* V3.73  NG */
+EXTERN  enum
+{
+  singlebox_type1,
+  singlebox_type2,
+  singlebox_type3
+} SingleBoxType;
 
 EXTERN  pilecouleur     trait;
 EXTERN  boolean         flagfee,                /* V2.51  NG */
@@ -343,14 +347,12 @@ EXTERN  smallint        introenonce;            /* V3.44  TLi */
 EXTERN  smallint        MoveNbr, RestartNbr;            /* V3.44  TLi */
 EXTERN  boolean         restartenabled;                 /* V3.44  TLi */
 EXTERN  couleur         neutcoul;
-EXTERN  boolean         calctransmute,                  /* V3.0  TLi */
-			orph_refking;                   /* V3.0  TLi */
+EXTERN  boolean         calctransmute;                  /* V3.0  TLi */
 
 EXTERN  boolean         flag_testlegality, k_cap,       /* V3.44  SE/TLi */
 			flag_writinglinesolution,       /* V3.44  TLi */
 			anymars,                        /* V3.46  SE/TLi */
 			flag_madrasi;                   /* V3.60  TLi */
-EXTERN  boolean         is_phantomchess;                /* V3.47  NG */
 EXTERN  square          marsid;                         /* V3.46  SE/TLi */
 EXTERN  square          TargetField, ReciTargetField, NonReciTargetField;   /* V3.31  TLi */
 
@@ -1247,12 +1249,12 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*133*/ "TurncoatCirce",                /* V3.70  SE */
 	/*134*/ "DoppelAgentenCirce",           /* V3.70  SE */
 	/*135*/ "AMU",                          /* V3.70  SE */
-        /*136*/ "NurPartiesatzSteine",          /* V3.71  ThM, NG */
-        /*137*/ "MAFF",                     	/* V3.78  SE */
-        /*138*/ "OWU",                      	/* V3.78  SE */
-        /*139*/ "WeisseOszillierendeKoenige",   /* V3.78  SE */
-        /*140*/ "SchwarzeOszillierendeKoenige", /* V3.78  SE */
-        /*141*/ "AntiKoenige",                  /* V3.78  SE */
+    /*136*/ "NurPartiesatzSteine",          /* V3.71  ThM, NG */
+    /*137*/ "MAFF",                     	/* V3.78  SE */
+    /*138*/ "OWU",                      	/* V3.78  SE */
+    /*139*/ "WeisseOszillierendeKoenige",   /* V3.78  SE */
+    /*140*/ "SchwarzeOszillierendeKoenige", /* V3.78  SE */
+    /*141*/ "AntiKoenige",                  /* V3.78  SE */
 	/*142*/ "AntiMarsCirce",	        /* V3.78  SE */
 	/*143*/ "AntiMarsMalefiqueCirce",	/* V3.78  SE */
 	/*144*/ "AntiMarsAntipodeanCirce",	/* V3.78  SE */

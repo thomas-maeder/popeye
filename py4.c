@@ -308,7 +308,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
 	}
 
 	if (anymars||anyantimars) {				    /* V3.46  SE/TLi */
-      if (is_phantomchess) {			/* V3.47  NG */
+      if (CondFlag[phantom]) {			/* V3.47  NG */
 		if (flagactive) {
           if ((sq_departure= marsid) == sq_arrival) {
 			return true;
@@ -2790,7 +2790,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) { /* V3.71 TM */
 	square mren;
 	Flags psp;
 
-	if (is_phantomchess) {				/* V3.47  NG */
+	if (CondFlag[phantom]) {				/* V3.47  NG */
       numecoup	    anf1, anf2, l1, l2;
       anf1= nbcou;
       /* generate standard moves first */
@@ -3691,7 +3691,7 @@ void genpb(square i) {
   }
   else {
 	/* not first rank */
-	if ( sbtype1 /* V3.71 TM */
+	if ( CondFlag[singlebox] && SingleBoxType==singlebox_type1 /* V3.71 TM */
          && PromSq(blanc,i+dir_up)
          && next_singlebox_prom(vide,blanc)==vide)
 	{
@@ -3724,7 +3724,7 @@ void genpn(square i) {
   }
   else {
 	/* not last rank */
-	if (sbtype1 /* V3.71 TM */
+	if (CondFlag[singlebox] && SingleBoxType==singlebox_type1 /* V3.71 TM */
         && PromSq(noir,i+dir_down)
         && next_singlebox_prom(vide,noir)==vide)
 	{
