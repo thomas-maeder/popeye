@@ -609,8 +609,8 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	}
   }
 
-  if (   (CondFlag[supercirce] || CondFlag[april])
-         && (CondFlag[koeko] || CondFlag[newkoeko]))
+  if ((CondFlag[supercirce] || CondFlag[april])
+      && (CondFlag[koeko] || CondFlag[newkoeko]))
   {
 	return	VerifieMsg(SuperCirceAndOthers);
   }
@@ -763,7 +763,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	if (CondFlag[couscous]
         || CondFlag[koeko]
         || CondFlag[newkoeko]
-        || sbtype1					 /* V3.71 TM */
+        || (CondFlag[singlebox]	&& SingleBoxType==singlebox_type1) /* V3.71 TM */
         || TSTFLAG(PieSpExFlags, Kamikaze))
 	{
       return VerifieMsg(SomeCondAndAntiCirce);
@@ -774,7 +774,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	eval_black= rnanticircech;
   }
 
-  if (sbtype1) {     /* V3.71 TM */
+  if ((CondFlag[singlebox]	&& SingleBoxType==singlebox_type1)) {     /* V3.71 TM */
 	if (flagfee) {
       return VerifieMsg(SingleBoxAndFairyPieces);
 	}
@@ -784,21 +784,12 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	eval_black= rnsingleboxtype1ech;
   }
 
-  if (sbtype3) {     /* V3.71 TM */
-	if (flagfee || sbtype1) {
-      return VerifieMsg(SingleBoxAndFairyPieces);
-	}
+  if ((CondFlag[singlebox]	&& SingleBoxType==singlebox_type3)) {     /* V3.71 TM */
 	totalortho= false;
 	rnechec = &singleboxtype3_rnechec;
 	rbechec = &singleboxtype3_rbechec;
 	gen_wh_piece = &singleboxtype3_gen_wh_piece;
 	gen_bl_piece = &singleboxtype3_gen_bl_piece;
-  }
-
-  if (sbtype2) {	/* V3.71 TM */
-	if (sbtype3 || sbtype1) {
-      return VerifieMsg(SingleBoxAndFairyPieces);
-	}
   }
 
   if ((CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]) 
@@ -894,9 +885,23 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	|| CondFlag[sentinelles]
     /*	|| CondFlag[duellist]	*/	/* V3.74  NG */
 	|| anyanticirce
-	|| sbtype1					/* V3.71  TM */
+	|| CondFlag[singlebox] /* V3.71  TM */
 	|| CondFlag[blroyalsq]
-	|| CondFlag[whroyalsq];			       /* V3.50  TLi */
+	|| CondFlag[whroyalsq]			       /* V3.50  TLi */
+    || CondFlag[dynasty]
+    || CondFlag[strictSAT]
+    || CondFlag[masand]
+    || CondFlag[BGL]
+    || CondFlag[duellist]
+    || TSTFLAG(PieSpExFlags,HalfNeutral)
+    || exist[Orphan]
+    || exist[Friend]				/* V3.65  TLi */
+    || CondFlag[whrefl_king] || CondFlag[blrefl_king]
+    || CondFlag[phantom]
+    || CondFlag[extinction]
+    || CondFlag[amu]
+    || CondFlag[imitators]
+    || CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king];
 
 
   change_moving_piece=				/* V3.1  TLi */
@@ -920,7 +925,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	|| CondFlag[imitators]
 	|| anycirce					 /* V3.1  TLi */
 	|| TSTFLAG(PieSpExFlags, Neutral)
-	|| sbtype1					 /* V3.71  TM */
+	|| (CondFlag[singlebox]	&& SingleBoxType==singlebox_type1) /* V3.71  TM */
 	|| anyanticirce;				 /* V3.1  TLi */
 
   empilegenre=
@@ -945,7 +950,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	|| anyanticirce
 	|| anymars				     /* V3.46  SE/TLi */
 	|| anyantimars				     /* V3.46  SE/TLi */
-	|| sbtype1				     /* V3.71  TM */
+	|| (CondFlag[singlebox]	&& SingleBoxType==singlebox_type1)/* V3.71  TM */
 	|| CondFlag[messigny]				/* V3.55  TLi */
 	|| CondFlag[woozles]				/* V3.55  TLi */
 	|| CondFlag[nowhiteprom]			/* V3.64 NG */
@@ -973,7 +978,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
   }
 
   nonkilgenre= CondFlag[messigny]		 /* V3.45, V3.55 TLi */
-    || sbtype3				      /* V3.71 TM */
+    || (CondFlag[singlebox]	&& SingleBoxType==singlebox_type3) /* V3.71 TM */
     || CondFlag[whsupertrans_king]    /* V3.78  SE */	
     || CondFlag[blsupertrans_king]    /* V3.78  SE */	
     || CondFlag[takemake];
@@ -1063,11 +1068,11 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	return VerifieMsg(TransmRoyalPieces);
   }
 
-  if ( (orph_refking= exist[Orphan]
-        || exist[Friend]				/* V3.65  TLi */
-        || CondFlag[whrefl_king]
-        || CondFlag[blrefl_king])			 /* V3.47  NG */
-       && TSTFLAG(PieSpExFlags, Neutral))
+  if ((exist[Orphan]
+       || exist[Friend]				/* V3.65  TLi */
+       || CondFlag[whrefl_king]
+       || CondFlag[blrefl_king])			 /* V3.47  NG */
+      && TSTFLAG(PieSpExFlags, Neutral))
   {
 	return VerifieMsg(NeutralAndOrphanReflKing);
   }
