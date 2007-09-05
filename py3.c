@@ -210,7 +210,7 @@ boolean marsechecc(
       /* in marscirce the kings are included */
       /* in phantomchess the kings are not included, but with rex
          inclusif they are */
-      if ( (!is_phantomchess
+      if ( (!CondFlag[phantom]
             || (e[z] != e[rb] && e[z] != e[rn])
             || rex_phan)			  /* V3.51, V3.62  NG */
            && ( (e[z] != e[rb]
@@ -296,7 +296,7 @@ static boolean orig_rnechec(evalfunction_t *evaluate)
 
   if (anymars) {				       /* SE/TLi 3.46 */
 	boolean anymarscheck= marsechecc(noir, evaluate);
-	if ( !is_phantomchess || anymarscheck) {	/* V3.47  NG */
+	if ( !CondFlag[phantom] || anymarscheck) {	/* V3.47  NG */
       return anymarscheck;
 	}
   }
@@ -555,7 +555,7 @@ static boolean orig_rbechec(evalfunction_t *evaluate) /* V3.71 TM */
 
   if (anymars) {		    /* SE/TLi 3.46 */
 	boolean anymarscheck= marsechecc(blanc, evaluate);
-	if ( !is_phantomchess || anymarscheck) {	/* V3.47  NG */
+	if ( !CondFlag[phantom] || anymarscheck) {	/* V3.47  NG */
       return anymarscheck;
 	}
   }

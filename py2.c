@@ -1040,7 +1040,7 @@ boolean pbcheck(square	sq_king,
 	boolean anymarscheck=
       (p==e[rb] && e[sq_king+dir_down]==p)
       || (p==e[rn] && e[sq_king+dir_up]==p);
-	if (!is_phantomchess || anymarscheck)
+	if (!CondFlag[phantom] || anymarscheck)
       return anymarscheck;
   }
 
@@ -1764,7 +1764,7 @@ boolean pioncheck(square sq_king,
        && (e[sq_king+dir_down+dir_right]==p || e[sq_king+dir_down+dir_left]==p))
       || (p==e[rn]
           && (e[sq_king+dir_up+dir_left]==p || e[sq_king+dir_up+dir_right]==p));
-	if (!is_phantomchess || anymarscheck) {		/* V3.47  NG */
+	if (!CondFlag[phantom] || anymarscheck) {		/* V3.47  NG */
       return anymarscheck;
 	}
   }

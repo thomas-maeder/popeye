@@ -103,7 +103,7 @@ void InitCond(void) {	  /* V3.40  TLi */
   flag_madrasi= false;				/* V3.60  TLi */
   wh_exact= wh_ultra= bl_exact= bl_ultra= false;
   anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anytraitor= false;
-  anymars= anyantimars= is_phantomchess= false;
+  anymars= anyantimars= CondFlag[phantom]= false;
     blacknull= whitenull= nullgenre= false;                 /* V3.70 SE */
 
   immrenroib= immrenroin= cirrenroib= cirrenroin= initsquare;
