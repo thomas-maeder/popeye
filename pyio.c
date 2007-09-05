@@ -536,48 +536,48 @@ Token StringToToken(char *tok)
 long int ReadBGLNumber(char* inptr, char** endptr) /* V4.06 SE */
 {
   /* input must be of form - | {d}d(.|,(d(d))) where d=digit ()=0 or 1 {}=0 or more 
-  in - and all other cases return infinity (no limit) */
-   char buf[12];
-   int res= BGL_infinity;
-   int len;
-   int dp;
-   char* dpp;
-   *endptr= inptr;
-   while (**endptr && strchr("0123456789.,-", **endptr))
-     /* isdigit(**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-'))	*/
-     (*endptr)++;
-   len= *endptr-inptr;
-   if (len > 11)
-      return res;
-   strncpy(buf, inptr, len);
-   buf[len]= '\0';
-   if (len == 1 && buf[0] == '-')
-      return res;
-   for (dpp=buf; *dpp; dpp++)
-     if (*dpp == ',')  /* allow 3,45 notation */
-       *dpp= '.';
-   for (dpp=buf; *dpp && *dpp != '.'; dpp++);
-   dp= len-(int)(dpp-buf);
-   if (!dp)
+     in - and all other cases return infinity (no limit) */
+  char buf[12];
+  int res= BGL_infinity;
+  int len;
+  int dp;
+  char* dpp;
+  *endptr= inptr;
+  while (**endptr && strchr("0123456789.,-", **endptr))
+    /* isdigit(**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-'))	*/
+    (*endptr)++;
+  len= *endptr-inptr;
+  if (len > 11)
+    return res;
+  strncpy(buf, inptr, len);
+  buf[len]= '\0';
+  if (len == 1 && buf[0] == '-')
+    return res;
+  for (dpp=buf; *dpp; dpp++)
+    if (*dpp == ',')  /* allow 3,45 notation */
+      *dpp= '.';
+  for (dpp=buf; *dpp && *dpp != '.'; dpp++);
+  dp= len-(int)(dpp-buf);
+  if (!dp)
     return 100*(long int)atoi(buf);
-   while (dpp-buf < len) {
-     *dpp=*(dpp+1); 
-     dpp++;
-   }
-   for (dpp=buf; *dpp; dpp++)
-     if (*dpp == '.') 
-       return res;  /* 2 d.p. characters */
-   switch (dp) /* N.B> d.p. is part of count */
-   {
-   case 1 :
+  while (dpp-buf < len) {
+    *dpp=*(dpp+1); 
+    dpp++;
+  }
+  for (dpp=buf; *dpp; dpp++)
+    if (*dpp == '.') 
+      return res;  /* 2 d.p. characters */
+  switch (dp) /* N.B> d.p. is part of count */
+  {
+  case 1 :
     return 100*(long int)atoi(buf);
-   case 2 :
+  case 2 :
     return 10*(long int)atoi(buf);
-   case 3 :
+  case 3 :
     return (long int)atoi(buf);
-   default :
-     return res;
-   }
+  default :
+    return res;
+  }
 }
 
 char* WriteBGLNumber(char* buf, long int num) /* V4.06 SE */
@@ -1124,12 +1124,12 @@ static char *ParseSort(char *tok)
       StipFlags|= SortBit(Self);
       return tok+1;
     } else
-    if (*tok == 'r') {		  /* V4.07  NG */
-    StipFlags|= SortBit(Reflex);
-    StipFlags|= SortBit(Self);
-    return tok+1;
-    } else
-      return tok;
+      if (*tok == 'r') {		  /* V4.07  NG */
+        StipFlags|= SortBit(Reflex);
+        StipFlags|= SortBit(Self);
+        return tok+1;
+      } else
+        return tok;
   case 'r':
     StipFlags|= SortBit(Reflex);
     StipFlags|= SortBit(Self);
@@ -1571,13 +1571,13 @@ static char *ParseVariant(boolean *type, int group) {	  /* SE, V3.50 NG */
       annanvar= 3;
 	}
 	else if (VariantType==Type1 && group==gpType) { /* V3.73  NG */
-      sbtype1= True;
+      SingleBoxType = singlebox_type1;
 	}
 	else if (VariantType==Type2 && group==gpType) { /* V3.73  NG */
-      sbtype2= True;
+      SingleBoxType = singlebox_type2;
 	}
 	else if (VariantType==Type3 && group==gpType) { /* V3.73  NG */
-      sbtype3= True;
+      SingleBoxType = singlebox_type3;
 	}
 	else if (VariantType==PionAdverse && group==gpSentinelles) {
       *type= True;
@@ -1969,12 +1969,12 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
       flagblackmummer= true;
       break;
 	case schwarzschacher:
-         	flagblackmummer= true;
-            black_length= len_schwarzschacher;
-            nullgenre= true;
-            blacknull= true;
-            break;
-     /*****  V3.1  TLi  *****/
+      flagblackmummer= true;
+      black_length= len_schwarzschacher;
+      nullgenre= true;
+      blacknull= true;
+      break;
+      /*****  V3.1  TLi  *****/
       /* different types of circe */
     case couscousmirror:				/* V3.50  TLi */
       anycirprom= true;
@@ -2170,7 +2170,7 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
       break;
     case phantom:					/* V3.47  NG */
       marsrenai= rennormal;
-      anymars= is_phantomchess= true;
+      anymars= CondFlag[phantom]= true;
       break;
     case plus:
       marsrenai= renplus;
@@ -2314,7 +2314,7 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
         ? AntiCirTypeCheylan : AntiCirTypeCalvet;
       break;
     case singlebox:				/* V3.73  NG */
-      tok= ParseVariant(&SingleBoxType, gpType);
+      tok= ParseVariant(NULL, gpType);
       break;
     case promotiononly:				/* V3.44  NG */
       tok= ReadPieces(promotiononly);
@@ -2343,16 +2343,16 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
       break;
     case SAT:
     case strictSAT:
-	    WhiteSATFlights= strtol(tok= ReadNextTokStr(), &ptr, 10) + 1;
-	    if (tok == ptr) {
+      WhiteSATFlights= strtol(tok= ReadNextTokStr(), &ptr, 10) + 1;
+      if (tok == ptr) {
         WhiteSATFlights= 1;
         BlackSATFlights= 1;
-		    break;
+        break;
       }
-	    BlackSATFlights= strtol(tok= ReadNextTokStr(), &ptr, 10) + 1;
-	    if (tok == ptr) {
-		    BlackSATFlights= WhiteSATFlights;
-		    break;
+      BlackSATFlights= strtol(tok= ReadNextTokStr(), &ptr, 10) + 1;
+      if (tok == ptr) {
+        BlackSATFlights= WhiteSATFlights;
+        break;
       }
     case BGL: /* V4.06 SE */
       BGL_global= false;
@@ -3607,18 +3607,18 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
       sprintf(CondLine, "%s%s", LocalBuf, CondTab[cond]);
 	}
 
-  if (cond == BGL) /* V4.06 SE */
-  {
-    char buf1[12], buf2[12];
-    if (BGL_global)
+    if (cond == BGL) /* V4.06 SE */
     {
-      sprintf(CondLine, "%s %s", CondTab[cond], WriteBGLNumber(buf1, BGL_white));
+      char buf1[12], buf2[12];
+      if (BGL_global)
+      {
+        sprintf(CondLine, "%s %s", CondTab[cond], WriteBGLNumber(buf1, BGL_white));
+      }
+      else
+      {
+        sprintf(CondLine, "%s %s/%s", CondTab[cond], WriteBGLNumber(buf1, BGL_white), WriteBGLNumber(buf2, BGL_black));
+      }
     }
-    else
-    {
-      sprintf(CondLine, "%s %s/%s", CondTab[cond], WriteBGLNumber(buf1, BGL_white), WriteBGLNumber(buf2, BGL_black));
-    }
-  }
 
 	if (cond == promotiononly) {		    /* V3.44  NG */
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
@@ -3821,15 +3821,15 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
       strcat(CondLine, VariantTypeString[ActLang][TypeB]);
 	}
 
-	if (cond == singlebox) {			/* V3.73 NG */
+    if (CondFlag[singlebox])	{		/* V3.73 NG */
       strcat(CondLine, "	");
-      if (sbtype1)
-		strcat(CondLine, VariantTypeString[ActLang][Type1]);
-      if (sbtype2)
-		strcat(CondLine, VariantTypeString[ActLang][Type2]);
-      if (sbtype3)
-		strcat(CondLine, VariantTypeString[ActLang][Type3]);
-	}
+      if (SingleBoxType==singlebox_type1)
+        strcat(CondLine, VariantTypeString[ActLang][Type1]);
+      if (SingleBoxType==singlebox_type2)
+        strcat(CondLine, VariantTypeString[ActLang][Type2]);
+      if (SingleBoxType==singlebox_type3)
+        strcat(CondLine, VariantTypeString[ActLang][Type3]);
+    }
 
 	if (cond == sentinelles) {			/* V3.63  NG */
       char pawns[7];
@@ -3856,13 +3856,13 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
 	}
 
     if ((cond == SAT || cond == strictSAT) && (WhiteSATFlights != 1 || BlackSATFlights != 1)) {
-        char extra[10];
-        char roman[][9] = {"","I","II","III","IV","V","VI","VII","VIII"};
-        if (WhiteSATFlights == BlackSATFlights)
-            sprintf(extra, " %s", roman[WhiteSATFlights-1]);
-        else
-            sprintf(extra, " %s/%s", roman[WhiteSATFlights-1], roman[BlackSATFlights-1]);
-        strcat (CondLine, extra);
+      char extra[10];
+      char roman[][9] = {"","I","II","III","IV","V","VI","VII","VIII"};
+      if (WhiteSATFlights == BlackSATFlights)
+        sprintf(extra, " %s", roman[WhiteSATFlights-1]);
+      else
+        sprintf(extra, " %s/%s", roman[WhiteSATFlights-1], roman[BlackSATFlights-1]);
+      strcat (CondLine, extra);
     }
 
 	switch (cond) {					/* V3.39  TLi */
@@ -3887,7 +3887,10 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
         strcat(CondLine, VariantTypeString[ActLang][AntiCirType]); /* V3.50 SE */
       }
       break;
+    default:
+      break;
 	}
+
 	switch (cond) {
     case blmax:
     case blmin:
@@ -3910,6 +3913,8 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
 		else
           strcat(CondLine, CondTab[exact]);
       }
+    default:
+      break;
 	}
 	switch (alignment) {
 
