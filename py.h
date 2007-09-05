@@ -1008,7 +1008,7 @@ typedef int Opt;
 #define plus                   105
 #define circeassassin          106
 #define patience               107
-#define republican	       108
+#define republican           108
 #define extinction             109
 #define central                110
 #define actrevolving           111
@@ -1052,7 +1052,7 @@ typedef int Opt;
 #define swappingkings          149
 #define dynasty                150
 #define SAT                    151
-#define strictSAT              152 
+#define strictSAT              152
 #define takemake               153
 #define blacksynchron          154
 #define whitesynchron          155
@@ -1060,7 +1060,7 @@ typedef int Opt;
 #define whiteantisynchron      157
 #define masand                 158
 #define BGL                    159
-#define schwarzschacher		     160
+#define schwarzschacher                    160
 #define annan                  161
 #define normalp                162
 #define CondCount              163
@@ -1107,7 +1107,7 @@ enum {
 
   /* For reasons of code simplification of move generation, square a1
    * doesn't have index 0; there are some slack rows at the top and
-   * bottom of the board, and some slack files at the left an right.
+   * bottom of the board, and some slack files at the left and right.
    */
   nr_of_slack_files_left_of_board= 8,
   nr_of_slack_rows_below_board= 8,
