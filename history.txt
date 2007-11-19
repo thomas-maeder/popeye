@@ -1887,3 +1887,11 @@ pywin32.exe, pywin98.exe and pydos32.exe created.
 This is official release py4.37 !!  (:-)
                                                         13.05.2007  NG
 ------------------------------------------------------------------------
+THOMAS, GETTING MAINTAINER AND MOVING TO SOURCEFORGE IS MISSING HERE
+------------------------------------------------------------------------
+"bugfix" in makefile.unx : initial compilation didn't work 
+straight from the repository, because depend didn't find
+pyallmsg.h (it is generated !)
+bugfix: intelligent mode may (and can) not solve helpselfmate !
+                                                        19.11.2007  NG
+------------------------------------------------------------------------
