@@ -78,11 +78,11 @@ CFLAGS= $(DBG) $(OPT) $(ARCH) \
 	-DOSTYPE=\"$(OS)-$(OSVER)-$(OSCPU)\" \
         -DVERSION=$(VERSION)
 
-#CC=gcc
+CC=gcc
 #CC=clcc
-CC=cc
+#CC=cc
 
-DEPEND = cc -MM $(CFLAGS)
+DEPEND = $(CC) -MM $(CFLAGS)
 
 # Give here flags for the linker
 # and add needed libraries
@@ -146,7 +146,8 @@ py:		$(OBJECTS) DHT/dhtlib.a
 
 # Target for generating source file dependencies file
 
-depend: $(PYCFILES) $(INCLUDES)
+depend:	$(PYCFILES) $(INCLUDES)
+		if [ ! -f pyallmsg.h ]; then touch pyallmsg.h; fi 
 		for f in $(PYCFILES); \
 		do \
 			$(DEPEND) $$f; \
@@ -162,7 +163,7 @@ include depend
 pyhash.o:	
 		$(CC) $(CFLAGS) -DFXF -c pyhash.c 
 
-%.o: %c
+%.o:		%.c
 		$(CC) $(CFLAGS) -c $<
 
 pyio:           pyio.c pydata.h py.h pydata.o pymac.h
@@ -179,9 +180,8 @@ genpystr.o:     genpystr.c
 genpystr:       genpystr.o pylang.o
 		$(CC) -o $@ $(LDFLAGS) $^
 
-dogenpystr:	$(MSGFILES) genpystr
+pyallmsg.h:	$(MSGFILES) genpystr
 		./genpystr
-		touch $@
 
 
 # ===========================================================
@@ -210,7 +210,7 @@ clean:
 		cd DHT; $(MAKE) -f makefile.unx $@
 
 clobber:	clean
-		rm -f py genpystr dogenpystr depend $(STRFILES); cd DHT; $(MAKE) -f makefile.unx $@
+		rm -f py genpystr depend $(STRFILES); cd DHT; $(MAKE) -f makefile.unx $@
 
 
 # ===========================================================
