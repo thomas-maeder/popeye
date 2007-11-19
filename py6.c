@@ -30,6 +30,8 @@
  **
  ** 2007/07/04 SE   Bugfix: Ser-dia
  **
+ ** 2007/11/19 NG   Bugfix: intelligent mode with helpselfmate not supported
+ **
  ***************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -1259,14 +1261,12 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 #endif	    /* DEBUG */
 
   if ( OptFlag[intelligent]		 /* V3.52  NG, V3.62  TLi, NG */
-       && ((stipulation != stip_mate
-            && (stipulation != stip_stale)
-            /* || testcastling V3.62  TLi */
-             )
+       && (((stipulation != stip_mate) && (stipulation != stip_stale))
            || flagfee
-           /*  || !totalortho */
-           || !(SortFlag(Help)
-                || (SortFlag(Direct) && FlowFlag(Series)))))
+           || SortFlag(Self)		/* V4.38  NG */
+           || !(   SortFlag(Help)
+                || (SortFlag(Direct) && FlowFlag(Series))
+	       )))
   {
 	return VerifieMsg(IntelligentRestricted);
   }
