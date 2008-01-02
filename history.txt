@@ -1898,3 +1898,8 @@ pyallmsg.h (it is generated !)
 bugfix: intelligent mode may (and can) not solve helpselfmate !
                                                         19.11.2007  NG
 ------------------------------------------------------------------------
+Bug fix in intelligent mode:
+[ 1853514 ] Popeye misses ser-h= solutions in intelligent mode
+http://sourceforge.net/tracker/index.php?func=detail&aid=1853514&group_id=200122&atid=972237
+                                                        27.12.2007  TLi
+------------------------------------------------------------------------

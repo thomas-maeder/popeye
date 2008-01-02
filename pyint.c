@@ -1422,7 +1422,7 @@ void Immobilize(
   finply();
 
   if (trouble == rn) {
-	return;
+	nopinpossible= true;   /* TLi 27 Dec 2007 */
   }
 
 #ifdef DEBUG
@@ -2336,6 +2336,15 @@ void GenerateBlackKing(smallint whmoves, smallint blmoves) {
   piece	p= black[0].p;
   Flags	sp= black[0].sp;
 
+#ifdef DEBUG
+  marge++;
+  Tabulate();
+  sprintf(GlobalStr,
+          "entering GenerateBlackKing(%d, %d)\n",
+          whmoves, blmoves);
+  StdString(GlobalStr);
+#endif
+
   for (i= 0; i < 64; i++) {
 	sq= boardnum[i];
 	if (e[sq] == obs)				/* V3.64  TLi */
@@ -2367,6 +2376,12 @@ void GenerateBlackKing(smallint whmoves, smallint blmoves) {
       break;
 	}
   }
+#ifdef DEBUG
+  Tabulate();
+  sprintf(GlobalStr,"leaving GenerateBlackKing\n");
+  StdString(GlobalStr);
+  marge--;
+#endif
 } /* GenerateBlackKing */
 
 boolean Intelligent(
