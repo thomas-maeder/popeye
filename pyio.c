@@ -4088,12 +4088,9 @@ void WritePosition() {
       sprintf(StipOptStr+strlen(StipOptStr), "/%d", maxflights);
 	}
   }
-  else if (maxflights < 64) {
+  else if (maxflights < 64)
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", maxflights);
-  } else if (flag_atob) {
-    sprintf(StipOptStr+strlen(StipOptStr), "(%s)",
-            PieSpString[ActLang][flag_appseul ? White : Black]);
-  }
+
   /* V3.32  TLi */
   if (NonTrivialLength < enonce - 1) {	/* changed V3.62  TLi */
 	sprintf(StipOptStr+strlen(StipOptStr),

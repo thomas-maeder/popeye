@@ -1903,3 +1903,7 @@ Bug fix in intelligent mode:
 http://sourceforge.net/tracker/index.php?func=detail&aid=1853514&group_id=200122&atid=972237
                                                         27.12.2007  TLi
 ------------------------------------------------------------------------
+Improved visualization of which side moves first in a=>b, according
+to discussion in the Retros Mailing List.
+                                                        02.01.2008  TM
+------------------------------------------------------------------------

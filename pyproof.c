@@ -322,7 +322,11 @@ void ProofInitialise(void) {
   }
 
   if (flag_atob) {
-	StdString("Initial:");
+    char InitialLine[40];
+    snprintf(InitialLine, sizeof InitialLine,
+             "Initial (%s ->):\n",
+             PieSpString[ActLang][flag_appseul ? White : Black]);
+	StdString(InitialLine);
 	WritePosition();
   }
 
