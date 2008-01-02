@@ -1887,7 +1887,10 @@ pywin32.exe, pywin98.exe and pydos32.exe created.
 This is official release py4.37 !!  (:-)
                                                         13.05.2007  NG
 ------------------------------------------------------------------------
-THOMAS, GETTING MAINTAINER AND MOVING TO SOURCEFORGE IS MISSING HERE
+TM is the new "project leader".
+Checked sources into sourceforge.net
+See http://sourceforge.net/projects/popeye-chess/
+                                                        03.07.2007  TM
 ------------------------------------------------------------------------
 "bugfix" in makefile.unx : initial compilation didn't work 
 straight from the repository, because depend didn't find
