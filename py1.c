@@ -103,8 +103,8 @@ void InitCond(void) {	  /* V3.40  TLi */
   flag_madrasi= false;				/* V3.60  TLi */
   wh_exact= wh_ultra= bl_exact= bl_ultra= false;
   anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anytraitor= false;
-  anymars= anyantimars= CondFlag[phantom]= false;
-    blacknull= whitenull= nullgenre= false;                 /* V3.70 SE */
+  anymars= anyantimars= anygeneva= false;		/* V4.38  NG */
+  blacknull= whitenull= nullgenre= false;               /* V3.70 SE */
 
   immrenroib= immrenroin= cirrenroib= cirrenroin= initsquare;
 
@@ -112,6 +112,7 @@ void InitCond(void) {	  /* V3.40  TLi */
   circerenai= rennormal;
   immunrenai= rennormal;
   marsrenai= rennormal;			/* V3.76  NG */
+  genevarenai= rennormal;		/* V4.38  NG */
 
   bl_royal_sq= wh_royal_sq= initsquare;	/* V3.50  TLi */
 

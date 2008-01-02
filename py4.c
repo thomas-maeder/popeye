@@ -2,27 +2,6 @@
  **
  ** Date       Who  What
  **
- ** 2004/01/28 SE   New pieces Equi (English & French styles) (invented P.Harris)
- **
- ** 2004/02/05 SE   New piece Querquisite (J.E.H.Creed FCR 1947) 
- **					moves as piece upon whose file it stands
- **					Also re-invented as 'Odysseus' by H.Schmid f.? c.1988
- **
- ** 2004/02/07 SE   New condition: Antikings (?inventor) in check when not attacked
- **
- ** 2004/03/05 SE   New condition : Antimars (and variants) (invented S.Emmerson)
- **                 Pieces reborn to move, capture normally
- **
- ** 2004/03/19 SE   New condition: Supertransmutingkings (?inventor)
- **
- ** 2004/03/22 SE   New condition: Ultrapatrol (only patrolled pieces can move or capture)
- **
- ** 2004/04/22 SE   Castling with Imitators
- **
- ** 2004/05/02 SE   Imitators with mao, moa
- **
- ** 2005/04/19 NG   genhunt bugfix
- **
  ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
  **
  ** 2006/05/09 SE   New pieces Bouncer, Rookbouncer, Bishopbouncer (invented P.Wong)

@@ -15,6 +15,8 @@
 **
 ** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
 **
+** 2008/01/02 NG   New condition: Geneva Chess 
+**
 **************************** End of List ******************************/
 
 #ifndef PYDATA_H
@@ -284,9 +286,9 @@ EXTERN  short   (* white_length)(square departure, square arrival, square captur
 
 typedef square  (* renaifunc)(piece, Flags, square, square, square, couleur);
 
-EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai;/* V3.1  TLi */
+EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai, genevarenai;	/* V3.1  TLi, V4.38  NG */
 
-EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyimmun, anyclone;  /* V3.1  TLi */
+EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyimmun, anyclone, anygeneva;  /* V3.1  TLi, V4.38 NG */
 
 /* new anticirce implementation -- V.38  TLi */
 EXTERN  boolean         AntiCirCheylan;   /* V3.38  TLi */
@@ -300,7 +302,7 @@ EXTERN  enum
 EXTERN  pilecouleur     trait;
 EXTERN  boolean         flagfee,                /* V2.51  NG */
 			flagriders, flagleapers, flagsimplehoppers, 
-            flagsimpledecomposedleapers, flagsymmetricfairy,  /* V3.81 SE */
+                        flagsimpledecomposedleapers, flagsymmetricfairy,  /* V3.81 SE */
 			flagveryfairy,          /* V3.12  TM */
 			flagleofamilyonly,      /* V3.77  NG */
 			empilegenre,            /* V2.51  NG */
@@ -1110,7 +1112,8 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*159*/ "BGL" ,                     /* V4.06 SE */
 	/*160*/ "NoirEchecs",                     /* V4.06 SE */
   	/*161*/ "AnnanEchecs" ,          /* V4.07 SE */
-  	/*162*/ "PionNormale"           /* V4.07 SE */
+  	/*162*/ "PionNormale",          /* V4.07 SE */
+  	/*163*/ "EchecsGeneve"          /* V4.38 NG */
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1275,7 +1278,8 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*159*/ "BGL",                     /* V4.06 SE */
 	/*160*/ "SchwarzSchaecher",              /* V4.06 SE */
 	/*161*/ "Annanschach",            /* V4.07 SE */
-	/*162*/ "NormalBauern"            /* V4.07 SE */
+	/*162*/ "NormalBauern",           /* V4.07 SE */
+  	/*163*/ "GenferSchach"          /* V4.38 NG */
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1440,7 +1444,8 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*159*/ "BGL",                     /* V4.06 SE */
 	/*160*/ "BlackChecks",                     /* V4.06 SE */
 	/*161*/ "AnnanChess",           /* V4.07 SE */
-	/*162*/ "NormalPawn"           /* V4.07 SE */
+	/*162*/ "NormalPawn",          /* V4.07 SE */
+	/*163*/ "GenevaChess"          /* V4.38 NG */
   }
 	};
 #endif

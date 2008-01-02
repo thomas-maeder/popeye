@@ -13,6 +13,8 @@
 **
 ** 2007/01/28 SE   New condition: Annan Chess 
 **
+** 2008/01/02 NG   New condition: Geneva Chess 
+**
 **************************** End of List ******************************/
 
 #ifndef PY_H
@@ -1060,10 +1062,11 @@ typedef int Opt;
 #define whiteantisynchron      157
 #define masand                 158
 #define BGL                    159
-#define schwarzschacher                    160
+#define schwarzschacher        160
 #define annan                  161
 #define normalp                162
-#define CondCount              163
+#define geneva                 163
+#define CondCount              164
 typedef int Cond;
 /*--- End of } Cond;---*/
 

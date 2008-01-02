@@ -2,22 +2,6 @@
  **
  ** Date       Who  What
  **
- ** 2003/01/07 TLi  Madrasi + neutrals bug fixed in libre()
- **
- ** 2004/01/28 SE   New pieces Equi (English & French styles) (invented P.Harris)
- **
- ** 2004/02/05 SE   New piece Querquisite (J.E.H.Creed FCR 1947) 
- **					moves as piece upon whose file it stands
- **					Also re-invented as 'Odysseus' by H.Schmid f.? c.1988
- **
- ** 2004/04/24 SE   Bugfix: Patrol etc. and e.p. evaluation
- **
- ** 2004/04/22 SE   Castling with Imitators
- **
- ** 2004/05/02 SE   Imitators with mao, moa
- **
- ** 2004-06-20 ElB  add nevercheck
- **
  ** 2006/05/04 NG   Bugfix: wrong rrefcech evaluation
  **
  ** 2006/05/09 SE   New pieces Bouncer, Rookbouncer, Bishopbouncer (invented P.Wong)
@@ -29,6 +13,8 @@
  ** 2006/07/30 SE   New condition: Schwarzschacher  
  **
  ** 2007/01/28 SE   New condition: NormalPawn 
+ **
+ ** 2008/01/02 NG   New condition: Geneva Chess 
  **
  **************************** End of List ******************************/
 
@@ -85,6 +71,14 @@ boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
 	{
       return false;
 	}
+  }
+  if (anygeneva) {				 /* V4.38  NG */
+	if (e[sq_capture] <= roin)
+      if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,noir)] != vide)
+		return(false);
+	if (e[sq_capture] >= roib)
+      if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,blanc)] != vide)
+		return(false);
   }
   return(true);
 } /* end of legalsquare */

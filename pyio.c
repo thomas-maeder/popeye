@@ -2,10 +2,6 @@
  **
  ** Date       Who  What
  **
- ** 2005/04/20 NG   assert "eliminated". Check of Hunter0+maxnrhuntertypes added.
- **
- ** 2005/04/25 NG   bugfix: a=>b with Imitators
- **
  ** 2006/05/01 SE   New Koeko conditions: GI-Koeko, AN-Koeko
  **
  ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
@@ -31,6 +27,8 @@
  **                 z z1, z2, z3... etc. limited by sizeof int, I suppose
  **
  ** 2007/04/28 SE   Bugfix: parsing SAT followed by another condition 
+ **
+ ** 2008/01/02 NG   New condition: Geneva Chess 
  **
  **************************** End of List ******************************/
 
@@ -2181,6 +2179,11 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
       break;
     case blprom_sq:				/* V3.57  NG */
       ReadSquares(BlPromSq);
+      break;
+      /*****  different types of geneva chess V4.38  NG	*****/
+    case geneva:
+	genevarenai= rennormal;
+	anygeneva= true;
       break;
 	}
 

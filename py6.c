@@ -32,6 +32,8 @@
  **
  ** 2007/11/19 NG   Bugfix: intelligent mode with helpselfmate not supported
  **
+ ** 2008/01/02 NG   New condition: Geneva Chess 
+ **
  ***************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -420,7 +422,8 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	TSTFLAG(PieSpExFlags, Jigger)
 	|| CondFlag[newkoeko]				/* V3.1  TLi */
 	|| CondFlag[gridchess] || CondFlag[koeko]
-	|| CondFlag[blackedge] || CondFlag[whiteedge];
+	|| CondFlag[blackedge] || CondFlag[whiteedge]
+	|| CondFlag[geneva];				/* V4.38  NG */
   /* V2.70  TLi, V2.90  NG */
   if (CondFlag[imitators]) {				 /* V2.4d  TM */
 	if (	flagveryfairy				 /* V3.12  TM */
@@ -530,7 +533,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
 	/* why not royal pieces in PWC ??? TLi */
 	/* Because we loose track of the royal attribute somewhere and
 	   I didn't find where ... NG
-    */
+         */
 	if (CondFlag[circeequipollents]
         || CondFlag[circeclone]
         || CondFlag[couscous]
@@ -766,6 +769,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
         || CondFlag[koeko]
         || CondFlag[newkoeko]
         || (CondFlag[singlebox]	&& SingleBoxType==singlebox_type1) /* V3.71 TM */
+	|| CondFlag[geneva]
         || TSTFLAG(PieSpExFlags, Kamikaze))
 	{
       return VerifieMsg(SomeCondAndAntiCirce);
@@ -1005,6 +1009,7 @@ boolean verifieposition(void) {			    /* H.D. 10.02.93 */
       || CondFlag[chamchess]			   /* V3.32 TLi */
       || CondFlag[antikings]         /* V3.78 SE */
       || TSTFLAG(PieSpExFlags, HalfNeutral) 	   /* V3.57 SE */
+      || CondFlag[geneva]            /* V4.38  NG */
       || CondFlag[dynasty])           /* V4.02 TM */
   {
 	totalortho= false;

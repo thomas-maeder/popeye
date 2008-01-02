@@ -1907,3 +1907,6 @@ Improved visualization of which side moves first in a=>b, according
 to discussion in the Retros Mailing List.
                                                         02.01.2008  TM
 ------------------------------------------------------------------------
+New condition: GenevaChess
+                                                        02.01.2008  NG
+------------------------------------------------------------------------
