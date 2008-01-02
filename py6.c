@@ -2565,8 +2565,8 @@ void initduplex(void) {					/* V3.50  TLi */
   square *bnp, rsq;
 
 #ifdef NODEF    /* V4.03  ThM, TLi */
-  rsq= rb%onerow+onerow*(23-rb/onerow);
-  rb= rn%onerow+onerow*(23-rn/onerow);
+  rsq= rb%onerow+onerow*((onerow-1)-rb/onerow);
+  rb= rn%onerow+onerow*((onerow-1)-rn/onerow);
 #endif /* NODEF */
   rsq= rb==initsquare ? initsquare : rb%onerow+onerow*((onerow-1)-rb/onerow);
   rb= rn==initsquare ? initsquare : rn%onerow+onerow*((onerow-1)-rn/onerow);

@@ -2821,9 +2821,9 @@ static char *ParseTwinShift(void) {			/* V3.40  TLi */
   diffrank= sq2/onerow-sq1/onerow;
   diffcol= sq2%onerow-sq1%onerow;
 
-  minrank= 23;
+  minrank= 2*nr_of_slack_rows_below_board + nr_rows_on_board - 1;
   maxrank= 0;
-  mincol= 23;
+  mincol= onerow-1;
   maxcol= 0;
 
   for (bnp= boardnum; *bnp; bnp++) {
