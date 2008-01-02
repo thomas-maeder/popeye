@@ -1476,20 +1476,4 @@ option intel
 steine  weiss   le4 sd5 kh1
         schwarz kb7 ba7 tb8
 
-weiteresproblem
-
-bem Until v4.37, in intelligent mode, only a single sulution was
-bem found with a Knight or a Bishop on a2
-bem [ 1853514 ] Popeye misses ser-h= solutions in intelligent mode
-bem cf. http://sourceforge.net/tracker/index.php?func=detail&aid=1853514&group_id=200122&atid=972237
-
-ford ser-h=1
-steine weiss  Ke2 Dh1 Bc2
-       schwarz Kb2 Ta1b3 Lc1 Sb1 Ba3b4c4d2a2
-option intel
-zwilling hinzuf schwarz Sa2
-zwilling hinzuf schwarz La2
-zwilling hinzuf schwarz Ta2
-zwilling hinzuf schwarz Da2
-
 endeproblem
