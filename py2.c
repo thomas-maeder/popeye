@@ -792,6 +792,18 @@ static boolean detect_roselioncheck_on_line(square sq_king,
   square sq_hurdle= fin_circle_line(sq_king,k,&k1,delta_k);
   if (sq_hurdle!=sq_king && e[sq_hurdle]!=obs) {
     square sq_departure= fin_circle_line(sq_hurdle,k,&k1,delta_k);
+
+#if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
+    /* cf. issue 1747928 */
+    if (sq_departure==sq_king && e[sq_hurdle]==p) {
+      /* special case: king and rose lion are the only pieces on the
+       * line -> king is hurdle, and what we thought to be the hurdle
+       * is in fact the rose lion! */
+      if (evaluate(sq_hurdle,sq_king,sq_king))
+        return true;
+    }
+#endif
+
     if (e[sq_departure]==p
         && sq_departure!=sq_king	      /* bug fixed. V1.3c  NG */
         && evaluate(sq_departure,sq_king,sq_king))/* V3.02  TLi */

@@ -932,7 +932,7 @@ void geriderhopper(square	sq_departure,
        * lion, grashopper type
        */
       finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-    
+
 	if (hurdle!=obs) {
       sq_arrival= sq_hurdle;
       if (jump) {
@@ -1051,8 +1051,18 @@ void groselion(square sq_departure,
                couleur camp) {
   square sq_hurdle= fin_circle_line(sq_departure,k1,&k2,delta_k);
   if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs) {
+#if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
+    /* cf. issue 1747928 */
+    /* temporarily remove the moving piece to prevent it from blocking
+     * itself */
+    piece save_piece = e[sq_departure];
+    e[sq_departure] = vide;
+#endif
     square sq_end= generate_moves_on_circle_segment(sq_departure,sq_hurdle,
                                                     k1,&k2,delta_k);
+#if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
+    e[sq_departure] = save_piece;
+#endif
 	if (rightcolor(e[sq_end],camp))
       /* V3.42  TLi */
       testempile(sq_departure,sq_end,sq_end);
