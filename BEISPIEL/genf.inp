@@ -1,0 +1,27 @@
+anfa
+prot genf.out
+auto Dieter Werner
+quel Testoriginal
+ford +1
+bedi Genferschach
+stei
+weis kc1 ld4
+schw kf6
+weit
+auto Dieter Werner
+quel Testoriginal
+ford #1
+bedi Genferschach rexinkl
+opti ohnewk
+stei
+weis Dc5
+schw Ke8
+weit
+auto Dieter Werner
+quel Testoriginal
+ford =1
+bedi Genferschach rexinkl
+stei
+weis ke8 tb2 bg2h2
+schw kh1
+ende
