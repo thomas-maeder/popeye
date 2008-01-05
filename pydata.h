@@ -262,7 +262,7 @@ EXTERN  piece           pjoue[maxply + 1], pprise[maxply + 1],
 
 EXTERN  boolean         flende,                 /* flagpatrsout,        */
 			SatzFlag,DrohFlag,              
-			rex_mad,rex_circe,rex_immun,rex_phan,    /* V2.70c,2.80c  TLi, V3.51  NG  */
+			rex_mad,rex_circe,rex_immun,rex_phan, rex_geneva,    /* V2.70c,2.80c  TLi, V3.51, V4.38  NG  */
                         rex_mess_ex, rex_wooz_ex;       /* V3.55  TLi */
 EXTERN  boolean         pwcprom[maxply + 1];            /* V1.6c  NG */
 

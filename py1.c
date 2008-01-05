@@ -120,7 +120,7 @@ void InitCond(void) {	  /* V3.40  TLi */
   flagwhitemummer= flagblackmummer= false;
   flagmaxi= flagultraschachzwang= false;
   flagparasent= false;
-  rex_mad= rex_circe= rex_immun= rex_phan=
+  rex_mad= rex_circe= rex_immun= rex_phan= rex_geneva=
     rex_mess_ex= rex_wooz_ex= false;		/* V3.55  TLi */
   calctransmute= false;
 

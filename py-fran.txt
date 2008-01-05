@@ -1,4 +1,4 @@
-	     D E S C R I P T I O N  D E  P O P E Y E    4 . 0
+	     D E S C R I P T I O N  D E  P O P E Y E    5 . 0
 
 Remarques au sujet de la distribution de Popeye:
 
@@ -273,6 +273,7 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	AnnanEchecs
 	PionNormale
 	NoirEchecs
+	EchecsGeneve
 		
 	Apres le mot-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -286,8 +287,8 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	l'ordre de promotion avant renaissance. (Par exemple: 
 		"CirceCameleon C F T D C" c'est le CirceCameleon normale, 
 		"CirceCameleon C D T F C" c'est CirceCameleon reverse).
-	Apres quelque conditions Circe, Immun, Madrasi ou EchecsPhantom
-        on peut entrer le mot-cle "RexInclusif".
+	Apres quelque conditions Circe, Immun, Madrasi, EchecsPhantom ou
+	EchecsGeneve on peut entrer le mot-cle "RexInclusif".
 	Pour tous les conditions AntiCirce, on peut indiquer s'il s'agit 
 	du type Cheylan ou Calvet. Si rien n'est indique, le type utilise 
 	est Calvet.
@@ -731,8 +732,8 @@ VMS:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
-may 2007
+Thomas Maeder, Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson
+janvier 2008
 
 Si quelqu'un veut nous envoyer des propositions,
 des communications d'erreurs etc.,

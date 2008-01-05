@@ -73,10 +73,10 @@ boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
 	}
   }
   if (anygeneva) {				 /* V4.38  NG */
-	if (e[sq_capture] <= roin)
+	if ((e[sq_capture] <= roin) && (rex_geneva || (sq_departure != rb)))
       if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,noir)] != vide)
 		return(false);
-	if (e[sq_capture] >= roib)
+	if ((e[sq_capture] >= roib) && (rex_geneva || (sq_departure != rn)))
       if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,blanc)] != vide)
 		return(false);
   }

@@ -1,4 +1,4 @@
-	     B E S C H R E I B U N G   V O N   P O P E Y E   4 . 0
+	     B E S C H R E I B U N G   V O N   P O P E Y E   5 . 0
 
 Bemerkungen zur Verteilung von Popeye:
 
@@ -285,6 +285,7 @@ Kommandos:
 	AnnanSchach
         NormalBauern
 	ScharzSchaecher
+	GenferSchach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines 
@@ -301,8 +302,8 @@ Kommandos:
 	Umwandlungen vor der Wiedergeburt. (Z. B.: "ChamaeleonCirce S L T D S"
 	ergibt das normale ChamaeleonCirce, "ChamaeleonCirce S D T L S"
 	ist reverses ChamaeleonCirce.
-	Nach einigen Circe- bzw. Immunschachbedingungen, Madrasi sowie
-        Phantomschach kann wahlweise noch "RexInklusive" angegeben werden.
+	Nach einigen Circe- bzw. Immunschachbedingungen, Madrasi, Phantomschach
+	sowie Genferschach kann wahlweise noch "RexInklusive" angegeben werden.
 	Nach allen Anticircearten kann wahlweise "Cheylan" oder "Calvet"
 	angegeben werden, entsprechend dem gew"unschten Typ. 
 	Standardannahme ist Calvet.
@@ -758,8 +759,8 @@ VMS:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
-Mai 2007
+Thomas Maeder, Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson
+Januar 2008
 
 Fuer den Fall dass jemand Anregungen, Fehler etc uns zukommen lassen will,
 so findet er unsere Adressen in den Dateien  history.txt  oder  readme.txt  .

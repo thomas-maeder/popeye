@@ -1910,3 +1910,6 @@ to discussion in the Retros Mailing List.
 New condition: GenevaChess
                                                         02.01.2008  NG
 ------------------------------------------------------------------------
+Updated condition: GenevaChess (now with RexInclusiv)
+                                                        05.01.2008  NG
+------------------------------------------------------------------------

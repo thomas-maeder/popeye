@@ -1,4 +1,4 @@
-     D E S C R I P T I O N   O F   P O P E Y E    4 . 0
+     D E S C R I P T I O N   O F   P O P E Y E    5 . 0
  
 
 Some remarks on the distribution of popeye:
@@ -277,6 +277,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	AnnanChess
 	NormalPawn
 	BlackChecks
+	GenevaChess
 
 	After the conditions Imitator, MagicField, Hole, FrischaufCirce,
 	WhitePromSquares, BlackPromSquares
@@ -292,8 +293,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	rebirth. (Examples: "ChameleonCirce S B R Q S" is ordinary Chameleon-
 	Circe and equivalent to "ChameleonCirce", "ChameleonCirce S Q R B S"
 	gives reverse ChameleonCirce.)
-	After some of the Circe, Immun, Madrasi or Phantomchess conditions
-        you can enter "RexInclusiv".
+	After some of the Circe, Immun, Madrasi, Phantomchess or Genevachess
+	conditions you can enter "RexInclusiv".
 	After all Anticirce conditions "Cheylan" or "Calvet" can be entered -
 	according to the type desired.
 	After the Isardam condition "TypeB" can be entered.
@@ -728,8 +729,8 @@ VMS:
 
 
 
-Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson, Thomas Maeder
-may 2007
+Thomas Maeder, Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson
+january 2008
 
 If you have any suggestions, any errors you know of, etc., you are
 welcome to contact us.

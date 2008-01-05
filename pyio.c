@@ -2377,6 +2377,9 @@ static char *ParseCond(void)			     /* H.D. 10.02.93 */
       }
       tok= ReadNextTokStr();
       break;
+    case geneva:					/* V4.38c  NG */
+      tok= ParseRex(&rex_geneva, rexincl);
+      break;
     default:
       tok= ReadNextTokStr();
 	}
@@ -3743,6 +3746,7 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
 
 	if ((cond == madras && rex_mad)			/* V2.90c TLi */
         || (cond == phantom && rex_phan)		/* V3.51  NG */
+        || (cond == geneva && rex_geneva)		/* V4.38  NG */
         || (rex_immun
             && (cond == immun
                 || cond == immunmalefique
@@ -3756,7 +3760,7 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
                 || cond == circeclonemalefique
                 || cond == circediagramm)))
 	{
-      strcat(CondLine, "	");
+      strcat(CondLine, " ");
       strcat(CondLine, CondTab[rexincl]);
 	}
 
@@ -3765,7 +3769,7 @@ void WriteConditions(int alignment) {			/* V3.40  TLi */
               && (cond == woozles
                   || cond == biwoozles)))
 	{
-      strcat(CondLine, "	");
+      strcat(CondLine, " ");
       strcat(CondLine, CondTab[rexexcl]);
 	}
 
