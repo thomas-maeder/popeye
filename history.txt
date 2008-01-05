@@ -54,21 +54,17 @@ See the Makefile for further instructions.
 
 It compiles with TURBO C on an ATARI, and with MPW on macintosh computers.
 
+Popeye's www home locations are:
+http://sourceforge.net/projects/popeye-chess/
+http://homepage.ntlworld.com/stephen.emmerson/popeye
+
 If you are doing some additional work on Popeye, let us know what you
 plan to do. May be we or someone else did it, and you needn't do it again.
 Please help us to keep a consistent version of popeye.
 
-My address is                           Norberts address:
-	Elmar Bartel                            Norbert Geissler
-	Tengstrasse 29                          Lavendelweg 11
-      D-80798 Muenchen                        D-81547 Muenchen
-	Germany                                 Germany
-
-Our e-mail adresses:
-	(Artificial Intelligence: Replace ADD by @ and DODD by .)
-	elmarADDdevsoftDODDcom                       norbertDODDgeisslerADDng37DODDde
-
-Popeye's www home location is:     http://homepage.ntlworld.com/stephen.emmerson/popeye
+For reporting bugs, feature requests etc., please the respective
+tracker reachable from
+https://sourceforge.net/tracker/?group_id=200122
 
 P.S.
 You may ask whether we are writing all this in English.
