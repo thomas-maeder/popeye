@@ -58,7 +58,7 @@ void logIntArg(int arg) {
     return;
 }
 
-void logLngArg(long arg) {				/* V3.22  NG */
+void logLngArg(long arg) {
     static char LngBuffer[16];
     sprintf(LngBuffer, "%ld", arg);
     AdditionalArg= LngBuffer;
@@ -194,7 +194,7 @@ boolean InitMsgTab(Lang l, boolean Force) {
     OfsStart = GetUnInt(&hpt);
     OfsSize  = GetUnInt(&hpt);
 
-    MaxLeng+=20;		     /* V2.52  ElB */
+    MaxLeng+=20;
 
     if (MsgOffset)
 	    free(MsgOffset);

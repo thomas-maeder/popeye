@@ -35,7 +35,7 @@
    linker only take the first 8 significant characters valid for
    external functions and variables.
    You need the "pragma map" compiler-directive to avoid this conflict
-   without renaming the C-identifiers.   HD 07/07/93
+   without renaming the C-identifiers.   HD
 */
 
 #pragma map( renspiegelfile, "RENSPI01" )
@@ -150,115 +150,115 @@
 #define zb      15
 #define chb     16
 #define gib     17
-#define rccinqb 18              /* V2.60  NG */
+#define rccinqb 18
 #define bub     19
 #define vizirb  20
 #define alfilb  21
 #define fersb   22
 #define dabb    23
 #define lionb   24
-#define nequib  25              /* V2.60  NG */
+#define nequib  25
 #define locb    26
 #define pbb     27
-#define amazb   28              /* V1.4c  NG */
-#define impb    29              /* V1.4c  NG */
-#define princb  30              /* V1.4c  NG */
-#define gnoub   31              /* V1.4c  NG */
-#define antilb  32              /* V1.5c  NG */
-#define ecurb   33              /* V1.5c  NG */
-#define waranb  34              /* V1.5c  NG */
-#define dragonb 35              /* V1.5c  NG */
-#define kangoub 36              /* V1.5c  NG */
-#define csb     37              /* V1.5c  NG */
-#define ubib    38              /* V1.7c  NG */
-#define hamstb  39              /* V2.1c  NG */
-#define mooseb  40              /* V2.1c  NG */
-#define eagleb  41              /* V2.1c  NG */
-#define sparrb  42              /* V2.1c  NG */
-#define archb   43              /* V2.1c  NG */
-#define reffoub 44              /* V2.1c  NG */
-#define cardb   45              /* V2.1c  NG */
-#define nsautb  46              /* V2.1c  NG */
-#define dummyb  47              /* V2.1c  NG */
-#define camridb 48              /* V2.1c  NG */
-#define zebridb 49              /* V2.1c  NG */
-#define gnuridb 50              /* V2.1c  NG */
-#define camhopb 51              /* V2.1c  NG */
-#define zebhopb 52              /* V2.1c  NG */
-#define gnuhopb 53              /* V2.1c  NG */
-#define dcsb    54              /* V2.1c  NG */
-#define refcb   55              /* V2.1c  NG */
-#define equib   56              /* V2.60  NG */
-#define catb    57              /* V2.60  NG */
-#define bspawnb 58              /* V2.60  NG */
-#define spawnb  59              /* V2.60  NG */
-#define tlionb  60              /* V3.0  TLi */
-#define flionb  61              /* V3.0  TLi */
-#define sireneb 62              /* V3.0  TLi */
-#define tritonb 63              /* V3.0  TLi */
-#define nereidb 64              /* V3.0  TLi */
-#define orphanb 65              /* V3.0  TLi */
-#define edgehb  66              /* V3.0  TLi */
-#define moab    67              /* V3.0  TLi */
-#define rhuntb  68              /* V3.03  TLi */
-#define bhuntb  69              /* V3.03  TLi */
-#define maoridb 70              /* V3.1  TLi */
-#define moaridb 71              /* V3.1  TLi */
-#define rookhopb        72      /* V3.1  TLi */
-#define bishophopb      73      /* V3.1  TLi */
-#define ekingb  74              /* V3.05  NG */
-#define bscoutb 75              /* V3.05  NG */
-#define gscoutb 76              /* V3.05  NG */
-#define skyllab 77              /* V3.12  TLi */
-#define charybdisb      78      /* V3.12  TLi */
-#define contragrasb     79      /* V3.22  TLi */
-#define roselionb       80      /* V3.23  TLi */
-#define rosehopperb     81      /* V3.23  TLi */
+#define amazb   28
+#define impb    29
+#define princb  30
+#define gnoub   31
+#define antilb  32
+#define ecurb   33
+#define waranb  34
+#define dragonb 35
+#define kangoub 36
+#define csb     37
+#define ubib    38
+#define hamstb  39
+#define mooseb  40
+#define eagleb  41
+#define sparrb  42
+#define archb   43
+#define reffoub 44
+#define cardb   45
+#define nsautb  46
+#define dummyb  47
+#define camridb 48
+#define zebridb 49
+#define gnuridb 50
+#define camhopb 51
+#define zebhopb 52
+#define gnuhopb 53
+#define dcsb    54
+#define refcb   55
+#define equib   56
+#define catb    57
+#define bspawnb 58
+#define spawnb  59
+#define tlionb  60
+#define flionb  61
+#define sireneb 62
+#define tritonb 63
+#define nereidb 64
+#define orphanb 65
+#define edgehb  66
+#define moab    67
+#define rhuntb  68
+#define bhuntb  69
+#define maoridb 70
+#define moaridb 71
+#define rookhopb        72
+#define bishophopb      73
+#define ekingb  74
+#define bscoutb 75
+#define gscoutb 76
+#define skyllab 77
+#define charybdisb      78
+#define contragrasb     79
+#define roselionb       80
+#define rosehopperb     81
 #define okapib          82
-#define leap37b         83      /* V3.34  TLi */
-#define g2b             84      /* V3.34  TLi */
-#define g3b             85      /* V3.35  TLi */
-#define leap16b         86      /* V3.38  NG */
-#define leap24b         87      /* V3.42  TLi */
-#define leap35b         88      /* V3.42  TLi */
-#define doublegb        89      /* V3.44  SE */
-#define khb             90      /* V3.44  SE */
-#define orixb           91      /* V3.44  NG */
-#define leap15b         92      /* V3.46  NG */
-#define leap25b         93      /* V3.46  NG */
-#define gralb           94      /* V3.46  NG */
+#define leap37b         83
+#define g2b             84
+#define g3b             85
+#define leap16b         86
+#define leap24b         87
+#define leap35b         88
+#define doublegb        89
+#define khb             90
+#define orixb           91
+#define leap15b         92
+#define leap25b         93
+#define gralb           94
 #define rooklocustb     95
 #define bishoplocustb   96
 #define nightlocustb    97
 #define vizridb         98
 #define fersridb        99
-#define bisonb         100      /* V3.60  TLi */
-#define elephantb      101      /* V3.62  TLi */
-#define naob           102      /* V3.62  TLi */
-#define rookmooseb     103      /* V3.62  NG */
-#define rookeagleb     104      /* V3.62  NG */
-#define rooksparrb     105      /* V3.62  NG */
-#define bishopmooseb   106      /* V3.62  NG */
-#define bishopeagleb   107      /* V3.62  NG */
-#define bishopsparrb   108      /* V3.62  NG */
-#define raob           109      /* V3.63  NG */
-#define scorpionb      110      /* V3.63  NG */
-#define margueriteb    111      /* V3.64  TLi */
-#define	leap36b        112	/* V3.64  TLi */
-#define nrlionb	       113	/* V3.64  TLi */
-#define mrlionb	       114	/* V3.64  TLi */
-#define molionb        115      /* V3.65  TLi */
-#define andergb        116      /* V3.65  TLi */
-#define friendb        117      /* V3.65  TLi */
-#define dolphinb       118      /* V3.70  TLi */
-#define rabbitb        119      /* V3.76  NG */
-#define bobb           120      /* V3.76  NG */
-#define equiengb       121	    /* V3.78  SE */
-#define equifrab       122	    /* V3.78  SE */
-#define querqub        123	    /* V3.78  SE */
-#define bouncerb       124      /* V4.03  SE */
-#define rookbouncerb   125      /* V4.03  SE */
-#define bishopbouncerb 126      /* V4.03  SE */
+#define bisonb         100
+#define elephantb      101
+#define naob           102
+#define rookmooseb     103
+#define rookeagleb     104
+#define rooksparrb     105
+#define bishopmooseb   106
+#define bishopeagleb   107
+#define bishopsparrb   108
+#define raob           109
+#define scorpionb      110
+#define margueriteb    111
+#define	leap36b        112
+#define nrlionb	       113
+#define mrlionb	       114
+#define molionb        115
+#define andergb        116
+#define friendb        117
+#define dolphinb       118
+#define rabbitb        119
+#define bobb           120
+#define equiengb       121
+#define equifrab       122
+#define querqub        123
+#define bouncerb       124
+#define rookbouncerb   125
+#define bishopbouncerb 126
 #define chinesepawnb   127
 #define hunter0b       128
 #define derbla         (hunter0b+maxnrhuntertypes)
@@ -278,181 +278,181 @@
 #define zn      -15
 #define chn     -16
 #define gin     -17
-#define rccinqn -18             /* V2.60  NG */
+#define rccinqn -18
 #define bun     -19
 #define vizirn  -20
-#define alfiln  -21             /* bug fixed. V1.4c  NG */
-#define fersn   -22             /* bug fixed. V1.4c  NG */
+#define alfiln  -21
+#define fersn   -22
 #define dabn    -23
 #define lionn   -24
-#define nequin  -25             /* V2.60  NG */
+#define nequin  -25
 #define locn    -26
 #define pbn     -27
-#define amazn   -28             /* V1.4c  NG */
-#define impn    -29             /* V1.4c  NG */
-#define princn  -30             /* V1.4c  NG */
-#define gnoun   -31             /* V1.4c  NG */
-#define antiln  -32             /* V1.5c  NG */
-#define ecurn   -33             /* V1.5c  NG */
-#define warann  -34             /* V1.5c  NG */
-#define dragonn -35             /* V1.5c  NG */
-#define kangoun -36             /* V1.5c  NG */
-#define csn     -37             /* V1.5c  NG */
-#define ubin    -38             /* V1.7c  NG */
-#define hamstn  -39             /* V2.1c  NG */
-#define moosen  -40             /* V2.1c  NG */
-#define eaglen  -41             /* V2.1c  NG */
-#define sparrn  -42             /* V2.1c  NG */
-#define archn   -43             /* V2.1c  NG */
-#define reffoun -44             /* V2.1c  NG */
-#define cardn   -45             /* V2.1c  NG */
-#define nsautn  -46             /* V2.1c  NG */
-#define dummyn  -47             /* V2.1c  NG */
-#define camridn -48             /* V2.1c  NG */
-#define zebridn -49             /* V2.1c  NG */
-#define gnuridn -50             /* V2.1c  NG */
-#define camhopn -51             /* V2.1c  NG */
-#define zebhopn -52             /* V2.1c  NG */
-#define gnuhopn -53             /* V2.1c  NG */
-#define dcsn    -54             /* V2.1c  NG */
-#define refcn   -55             /* V2.1c  NG */
-#define equin   -56             /* V2.60  NG */
-#define catn    -57             /* V2.60  NG */
-#define bspawnn -58             /* V2.60  NG */
-#define spawnn  -59             /* V2.60  NG */
-#define tlionn  -60             /* V3.0  TLi */
-#define flionn  -61             /* V3.0  TLi */
-#define sirenen -62             /* V3.0  TLi */
-#define tritonn -63             /* V3.0  TLi */
-#define nereidn -64             /* V3.0  TLi */
-#define orphann -65             /* V3.0  TLi */
-#define edgehn  -66             /* V3.0  TLi */
-#define moan    -67             /* V3.0  TLi */
-#define rhuntn  -68             /* V3.03  TLi */
-#define bhuntn  -69             /* V3.03  TLi */
-#define maoridn -70             /* V3.1  TLi */
-#define moaridn -71             /* V3.1  TLi */
-#define rookhopn        -72     /* V3.1  TLi */
-#define bishophopn      -73     /* V3.1  TLi */
-#define ekingn  -74             /* V3.05  NG */
-#define bscoutn -75             /* V3.05  NG */
-#define gscoutn -76             /* V3.05  NG */
-#define skyllan -77             /* V3.12  TLi */
-#define charybdisn      -78     /* V3.12  TLi */
-#define contragrasn     -79     /* V3.22  TLi */
-#define roselionn       -80     /* V3.23  TLi */
-#define rosehoppern     -81     /* V3.23  TLi */
-#define okapin          -82     /* V3.32  TLi */
-#define leap37n         -83     /* V3.34  TLi */
-#define g2n             -84     /* V3.34  TLi */
-#define g3n             -85     /* V3.35  TLi */
-#define leap16n         -86     /* V3.38  NG */
-#define leap24n         -87     /* V3.42  TLi */
-#define leap35n         -88     /* V3.42  TLi */
-#define doublegn        -89     /* V3.44  SE */
-#define khn             -90     /* V3.44  SE */
-#define orixn           -91     /* V3.44  NG */
-#define leap15n         -92     /* V3.46  NG */
-#define leap25n         -93     /* V3.46  NG */
-#define graln           -94     /* V3.46  NG */
+#define amazn   -28
+#define impn    -29
+#define princn  -30
+#define gnoun   -31
+#define antiln  -32
+#define ecurn   -33
+#define warann  -34
+#define dragonn -35
+#define kangoun -36
+#define csn     -37
+#define ubin    -38
+#define hamstn  -39
+#define moosen  -40
+#define eaglen  -41
+#define sparrn  -42
+#define archn   -43
+#define reffoun -44
+#define cardn   -45
+#define nsautn  -46
+#define dummyn  -47
+#define camridn -48
+#define zebridn -49
+#define gnuridn -50
+#define camhopn -51
+#define zebhopn -52
+#define gnuhopn -53
+#define dcsn    -54
+#define refcn   -55
+#define equin   -56
+#define catn    -57
+#define bspawnn -58
+#define spawnn  -59
+#define tlionn  -60
+#define flionn  -61
+#define sirenen -62
+#define tritonn -63
+#define nereidn -64
+#define orphann -65
+#define edgehn  -66
+#define moan    -67
+#define rhuntn  -68
+#define bhuntn  -69
+#define maoridn -70
+#define moaridn -71
+#define rookhopn        -72
+#define bishophopn      -73
+#define ekingn  -74
+#define bscoutn -75
+#define gscoutn -76
+#define skyllan -77
+#define charybdisn      -78
+#define contragrasn     -79
+#define roselionn       -80
+#define rosehoppern     -81
+#define okapin          -82
+#define leap37n         -83
+#define g2n             -84
+#define g3n             -85
+#define leap16n         -86
+#define leap24n         -87
+#define leap35n         -88
+#define doublegn        -89
+#define khn             -90
+#define orixn           -91
+#define leap15n         -92
+#define leap25n         -93
+#define graln           -94
 #define rooklocustn     -95
 #define bishoplocustn   -96
 #define	nightlocustn    -97
 #define vizridn         -98
 #define fersridn        -99
-#define bisonn         -100     /* V3.60  TLi */
-#define elephantn      -101     /* V3.62  TLi */
-#define naon           -102     /* V3.62  TLi */
-#define rookmoosen     -103     /* V3.62  NG */
-#define rookeaglen     -104     /* V3.62  NG */
-#define rooksparrn     -105     /* V3.62  NG */
-#define bishopmoosen   -106     /* V3.62  NG */
-#define bishopeaglen   -107     /* V3.62  NG */
-#define bishopsparrn   -108     /* V3.62  NG */
-#define raon           -109     /* V3.63  NG */
-#define scorpionn      -110     /* V3.63  NG */
-#define margueriten    -111     /* V3.64  TLi */
-#define	leap36n        -112     /* V3.64  TLi */
-#define nrlionn	       -113	/* V3.64  TLi */
-#define mrlionn	       -114	/* V3.64  TLi */
-#define molionn        -115     /* V3.65  TLi */
-#define andergn        -116     /* V3.65  TLi */
-#define friendn        -117     /* V3.65  TLi */
-#define dolphinn       -118     /* V3.70  TLi */
-#define rabbitn        -119     /* V3.76  NG */
-#define bobn           -120     /* V3.76  NG */
-#define equiengn       -121	    /* V3.78  SE */
-#define equifran       -122	    /* V3.78  SE */
-#define querqun        -123	    /* V3.78  SE */
-#define bouncern       -124     /* V4.03  SE */
-#define rookbouncern   -125     /* V4.03  SE */
-#define bishopbouncern -126     /* V4.03  SE */
+#define bisonn         -100
+#define elephantn      -101
+#define naon           -102
+#define rookmoosen     -103
+#define rookeaglen     -104
+#define rooksparrn     -105
+#define bishopmoosen   -106
+#define bishopeaglen   -107
+#define bishopsparrn   -108
+#define raon           -109
+#define scorpionn      -110
+#define margueriten    -111
+#define	leap36n        -112
+#define nrlionn	       -113
+#define mrlionn	       -114
+#define molionn        -115
+#define andergn        -116
+#define friendn        -117
+#define dolphinn       -118
+#define rabbitn        -119
+#define bobn           -120
+#define equiengn       -121
+#define equifran       -122
+#define querqun        -123
+#define bouncern       -124
+#define rookbouncern   -125
+#define bishopbouncern -126
 #define chinesepawnn   -127  
 #define hunter0n       -128
 #define dernoi         (hunter0n-maxnrhuntertypes)
 
-#define maxsquare       576     /* V2.60  NG */
-#define haut            375     /* V2.60  NG */
-#define bas             200     /* V2.60  NG */
+#define maxsquare       576
+#define haut            375
+#define bas             200
 
 #ifdef  DATABASE
 #       define maxply   302
 #else
 #ifdef UNIX
-#       define maxply  1002     /* V3.65  NG */
+#       define maxply  1002
 #else
 #ifdef WIN32
-#       define maxply   702     /* V3.41  NG */
+#       define maxply   702
 #elif OS2
-#       define maxply   302     /* V3.42  NG */
+#       define maxply   302
 #else   
 #ifdef SIXTEEN /* DOS 16 Bit, ... */
-#ifdef MSG_IN_MEM               /* V3.52  TLi, V3.60  NG */
+#ifdef MSG_IN_MEM
 #       define maxply   26
 #else
-#       define maxply   48      /* V3.39  TLi, V3.60  NG */
+#       define maxply   48
 #endif  /* MSG_IN_MEM */
 #else
-#	define maxply   702     /* V3.62  NG */
+#	define maxply   702
 #endif	/* SIXTEEN */
 #endif  /* WIN32 */
 #endif  /* UNIX */
 #endif /* DATABASE */
 
-#define toppile (60*maxply)     /* V2.90  NG */ /* V3.78  NG */
-#define maxvec          136     /* V3.46  NG */ /* V3.73 ElB*/
+#define toppile (60*maxply)
+#define maxvec          136
 
 #define bl      ' '
 #define blanc   0
 #define noir    1
 #define false   0
 #define true    1
-#define initsquare      0       /* to initialize square-variables  V2.60  NG */
-#define maxinum 10      /* max. Anz. Imitatoren V2.4d  TM */
-#define nullsquare 1            /* V3.70 SE */
+#define initsquare      0       /* to initialize square-variables */
+#define maxinum 10      /* max. number of imitators */
+#define nullsquare 1
 
-/* These typedefs should be judged for efficiency  2.0a */
+/* These typedefs should be judged for efficiency */
 
-typedef int     integer;        /* V1.4c  NG */
-typedef short   smallint;       /* V1.4c  NG */
+typedef int     integer;
+typedef short   smallint;
 
 #ifdef SIXTEEN
-	typedef char    boolean;        /* V2.4c  NG */
-	typedef char    piece;          /* V2.4c  NG */
+	typedef char    boolean;
+	typedef char    piece;
 #else
-	typedef int     boolean;        /* must be int on NSC machines. V2.1c  NG */
+	typedef int     boolean;        /* must be int on NSC machines. */
 	typedef int     piece;
 #endif
 
-typedef unsigned long   Flags;          /* V3.53  TLi */
+typedef unsigned long   Flags;
 
 typedef smallint        square;
 typedef integer         couleur;
 typedef integer         numecoup;
 typedef integer         ply;
-typedef smallint        numvec;         /* V2.1c  NG */
+typedef smallint        numvec;
 
-typedef smallint        echiquier [maxsquare+4];  /* V2.60  NG, V3.55  TLi */
+typedef smallint        echiquier [maxsquare+4];
 typedef square          pilecase [maxply+1];
 typedef couleur         pilecouleur [maxply+1];
 
@@ -471,43 +471,42 @@ typedef struct {
 	square          cdzz, cazz, cpzz;
 	square          sqren;
 	piece           pjzz, ppri, ren_parrain, norm_prom, cir_prom;
-						/* V3.02 TLi */
-	piece           pjazz;                  /* V3.1  TLi */
-	square          renkam;         /* V2.4d  TM */
-	smallint        numi;           /* V2.4d  TM */
-	smallint        sum;            /* V2.4d  TM */
-	boolean         promi,          /* V2.4d  TM */
+
+	piece           pjazz;
+	square          renkam;
+	smallint        numi;
+	smallint        sum;
+	boolean         promi,
 			echec,
 			bool_senti,
-			bool_norm_cham_prom,    /* V3.1  TLi */
-			bool_cir_cham_prom,     /* V3.1  TLi */
-			tr;                     /* V3.1  TLi */
+			bool_norm_cham_prom,
+			bool_cir_cham_prom,
+			tr;
 	Flags           speci, ren_spec;
-	square		repub_k;		/* V3.50 SE */
-	Flags           new_spec;		/* V3.57 SE */ 
-	square		hurdle;			/* V3.64 SE */
-	square		sb2where;		/* V3.71 TM */
-	piece		sb2what;		/* V3.71 TM */
-	square		sb3where;		/* V3.72 TM */
-	piece		sb3what;		/* V3.72 TM */
+	square		repub_k;
+	Flags           new_spec;
+	square		hurdle;
+	square		sb2where;
+	piece		sb2what;
+	square		sb3where;
+	piece		sb3what;
 	square		mren;
-	boolean		osc;            	/* V3.80 SE */
+	boolean		osc;
 } coup;
 
-#define	tabmaxcp	2048			/* V3.80 TLi */
+#define	tabmaxcp	2048
 
-typedef struct {                                        /* V2.70 TLi */
+typedef struct {
 	smallint        nbr,
 			cp[3*maxply];
-	coup            liste[tabmaxcp];	/* V3.80 TLi */
+	coup            liste[tabmaxcp];
 } tab;
 
-typedef struct {                                        /* V3.02  TLi */
+typedef struct {
 	move_generation_elmt move;
 	int                  nr_opponent_moves;
 } empile_optimization_table_elmt;
 
-/* V3.03  TLi */
 enum {
   empile_optimization_priorize_killmove_by = 5
 };
@@ -519,7 +518,7 @@ typedef enum {
 } move_generation_mode_type;
 
 
-typedef square imarr[maxinum];        /* Standorte der Imitatoren V2.4d  TM */
+typedef square imarr[maxinum]; /* squares currently occupied by imitators */
 
 /* These are definitions to implement arrays with lower index != 0
 ** as they are common in PASCAL. The arrays zzza? are defined in
@@ -527,8 +526,6 @@ typedef square imarr[maxinum];        /* Standorte der Imitatoren V2.4d  TM */
 */
 #define nbpiece         (zzzaa - dernoi)
 
-/*****  V3.20  TLi  *****  begin  *****/
-/* typedef      unsigned char   ShortFlags; V3.22  TLi */
 
 #define MagicSq         0
 #define WhForcedSq      1
@@ -541,7 +538,7 @@ typedef square imarr[maxinum];        /* Standorte der Imitatoren V2.4d  TM */
 #define BlPromSq        8
 #define Grid            9
 
-/* to make function ReadSquares in PYIO.C more convinient define
+/* to make function ReadSquares in PYIO.C more convenient define
 ** ReadImitators und ReadHoles and ReadEpSquares too. They can have any positiv
 ** number, but must not coincide with MagicSq...BlConsForcedSq.   TLi
 ** Must also not coincide with  WhPromSq  and  BlPromSq.   NG
@@ -559,8 +556,6 @@ typedef square imarr[maxinum];        /* Standorte der Imitatoren V2.4d  TM */
 #define NoEdge(i)       TSTFLAG(sq_spec[i], NoEdgeSq)
 #define SquareCol(i)    TSTFLAG(sq_spec[i], SqColor)
 #define GridNum(s)      (sq_spec[s] >> Grid)
-
-/*****  V3.20  TLi  *****   end   *****/
 
 #define BIT(pos)                (1<<(pos))
 #define TSTFLAG(bits,pos)       (((bits)&BIT(pos))!=0)
@@ -591,7 +586,7 @@ typedef enum {
 #define False   0
 #define True    1
 
-#include "pylang.h"             /* py3.04 ElB */
+#include "pylang.h"
 
 /*--- Start of typedef enum {---*/
 #define BeginProblem    0
@@ -756,7 +751,7 @@ typedef int PieNam;
 typedef char PieceChar[2];
 typedef PieceChar       PieTable[PieceCount];
 
-/* for multiple variants of conditions -- V3.50  SE */
+/* for multiple variants of conditions */
 #define TypeB                   0
 #define PionAdverse             1
 #define AntiCirTypeCheylan      2
@@ -775,7 +770,7 @@ typedef PieceChar       PieTable[PieceCount];
 #define TypeD                  15
 #define VariantTypeCount       16
 
-/* for intelligent specification of one-sided conditions -- V3.62 SE */
+/* for intelligent specification of one-sided conditions */
 #define maxi			0
 #define ultraschachzwang	1
 #define ExtraCondCount		2
@@ -807,11 +802,9 @@ typedef int Sort;
 #define FlowBit(f)      (BIT(f))
 #define SortBit(s)      (BIT((FlowCount+(s))))
 
-/* ein paar weitere                                     V2.70  TLi */
 #define FlowFlag(s)     ((FlowBit(s)&StipFlags) !=0)
 #define SortFlag(s)     ((SortBit(s)&StipFlags) !=0)
 
-/* V3.33  TLi */
 #define BorderSpec      0
 #define EmptySpec       (BIT(Black)+BIT(White))
 
@@ -1077,13 +1070,10 @@ typedef int Cond;
 **              be set.
 **      if immunmalefique is set, also immun and malefique will be set
 **      if pwc is set, also circe will be set
-**      if iprom is set, also imitators will be set      V2.4d  TM
-**      if equipollents or coucou is set, also pwc will be set  V2.80  TLi
+**      if iprom is set, also imitators will be set
+**      if equipollents or coucou is set, also pwc will be set
 */
 
-/* Names for Piece-Specifications
- * umsortiert  V3.1  TLi
- */
 /*--- Start of typedef enum {---*/
 #define White        0
 #define Black        1
@@ -1135,39 +1125,35 @@ enum {
 #define DiaRenMask      ((1<<DiaCirce)-1)
 #define SetDiaRen(s, f) (s=((unsigned int)(((f-bas)/onerow)*8+(f-bas)%onerow)<<DiaCirce) + (s&DiaRenMask))
 #define FrischAuf       PieSpCount
-/* needed for Twinning Reset.  V3.76  NG */
+
+/* needed for Twinning Reset. */
 #define ClrDiaRen(s)    (s-=((unsigned int)(s>>DiaCirce)<<DiaCirce))
 
 #define encore()        (nbcou > repere[nbply])
-#define advers(camp)    ((camp) ? blanc : noir) /* V2.60  NG */
-#define color(piesqu)   (e[(piesqu)] <= roin ? noir : blanc)    /* V2.60  NG */
+#define advers(camp)    ((camp) ? blanc : noir)
+#define color(piesqu)   (e[(piesqu)] <= roin ? noir : blanc)
 
-#define coupfort()      {kpilcd[nbply]= move_generation_stack[nbcou].departure; kpilca[nbply]= move_generation_stack[nbcou].arrival;}   /* V2.60  NG */
+#define coupfort()      {kpilcd[nbply]= move_generation_stack[nbcou].departure; kpilca[nbply]= move_generation_stack[nbcou].arrival;}
 
-/* V3.33  TLi */
+
 #define COLORFLAGS      (BIT(Black)+BIT(White)+BIT(Neutral))
 #define SETCOLOR(a,b)   a=(a&~COLORFLAGS)+(b&COLORFLAGS)
 #define CHANGECOLOR(a)  a^=BIT(Black)+BIT(White)
 
-	/* V2.4d  TM */
 #define imcheck(i, j) (!CondFlag[imitators] || imok((i), (j)))
 #define imech(i, j) if (imcheck((i), (j))) return true
 #define ridimcheck(sq, j, diff) (!CondFlag[imitators] || ridimok((sq), (j), (diff)))
 #define ridimech(sq, j, diff) if (ridimcheck((sq), (j), (diff))) return true
-/* V3.12  TM */
-/* #define hopimcheck(sq, j, over, diff) (!CondFlag[imitators] || hopimok((sq), (j), (over), (diff))) */	/* V3.64  SE */
+
 #define hopimcheck(sq, j, over, diff) (!checkhopim || hopimok((sq), (j), (over), (diff)))
 #define maooaimcheck(sq, j, pass) (!CondFlag[imitators] || maooaimok((sq), (j), (pass)))   
-/* V2.90c  TLi */
+
 #define setneutre(i)            do {if (neutcoul != color(i)) change(i);} while(0)
 #define change(i)               do {register piece pp; nbpiece[pp= e[i]]--; nbpiece[e[i]= -pp]++;} while (0)
 #define finligne(i,k,p,sq)      do {register smallint kk= k; sq= i; while (e[(sq+=kk)]==vide); p= e[sq];} while (0)
 
-/* V3.12  TLi, V3.14  NG */
 #define rightcolor(ej, camp)    (camp == blanc ? ej <= roin : ej >= roib)
 
-/* revision due to new piece grasshopper-2   V3.34 TLi */
-/* I think it is more convinient to keep some old names */
 #define lrhopcheck(sq, ka, ke, p, ev)   riderhoppercheck(sq, ka, ke, p, 0, 0, ev)
 #define rhopcheck(sq, ka, ke, p, ev)    riderhoppercheck(sq, ka, ke, p, 0, 1, ev)
 #define crhopcheck(sq, ka, ke, p, ev)   riderhoppercheck(sq, ka, ke, p, 1, 0, ev)
@@ -1183,12 +1169,12 @@ enum {
 #define gerhop3(sq, ka, ke, camp)      geriderhopper(sq, ka, ke, 0, 3, camp)
 
 #define shopcheck(sq, ka, ke, p, ev)     riderhoppercheck(sq, ka, ke, p, 1, 1, ev)
-#define geshop(sq, ka, ke, camp)        geriderhopper(sq, ka, ke, 1, 1, camp)    /* V3.44  SE/TLi */
+#define geshop(sq, ka, ke, camp)        geriderhopper(sq, ka, ke, 1, 1, camp)
 
 #define PromSq(col,sq) (TSTFLAG(sq_spec[sq],col==blanc?WhPromSq:BlPromSq))
 
 #define ChamCircePiece(p)    (((p < vide) ? - NextChamCircePiece[-p] : \
-				NextChamCircePiece[p]))  /* V3.45  TLi */
+				NextChamCircePiece[p]))
 
 #define EndOfLine(from,dir,end)  {end = from; \
 				  do end+= dir; \
@@ -1200,9 +1186,7 @@ enum {
 #define BGL_infinity 10000000 	/* this will do I expect; e.g. max len = 980 maxply < 1000 */
 
 #ifdef WIN32	
-/* V3.76  TBa begin */
-
-typedef struct _MEMORYSTATUS {  /* TBa */
+typedef struct _MEMORYSTATUS {
     unsigned long dwLength;
     unsigned long dwMemoryLoad;
     unsigned long dwTotalPhys;
@@ -1219,7 +1203,7 @@ __stdcall
 GlobalMemoryStatus(
     LPMEMORYSTATUS lpBuffer
     );
-/* V3.76  TBa end */
+
 #endif  /* WIN32 */
 
 #endif  /* PY_H */

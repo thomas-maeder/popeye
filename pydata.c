@@ -5,7 +5,7 @@
 **
 **************************** INFORMATION END **************************/
 
-#include <stdio.h>	/* V3.1A  NG */
+#include <stdio.h>
 
 #ifdef macintosh        /* is always defined on macintosh's  SB */
 #       define SEGMIO
@@ -13,12 +13,12 @@
 #endif
  
 #include "py.h"
-#include "pyproc.h"             /* V2.60  */
+#include "pyproc.h"
 #define EXTERN
 #include "pydata.h"
 
-smallint maxinbox[] = {0,0,0,0,1,2,2,2}; /* V3.71 TM */
-unsigned int boxsize = sizeof maxinbox / sizeof maxinbox[0]; /* V3.71 TM */
+smallint maxinbox[] = {0,0,0,0,1,2,2,2};
+unsigned int boxsize = sizeof maxinbox / sizeof maxinbox[0];
 
 killer_state const null_killer_state = {
   false,

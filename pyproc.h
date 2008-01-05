@@ -21,17 +21,17 @@ char    *GetMsgString (int nr);
 
 void    OpenInput (char *s);
 void    CloseInput (void);
-void    FtlMsg (int a);              /* V2.3c  NG */
+void    FtlMsg (int a);
 void    MultiCenter (char *s);
 void    StartTimer (void);
 long    StopTimer (void);
 void    Tabulate (void);
 void    WritePosition (void);
-void    ResetPosition (void);      /* V2.90  NG */
-void    StorePosition (void);      /* V2.90  NG */
+void    ResetPosition (void);
+void    StorePosition (void);
 void    WriteSquare (square a);
 void    WritePiece (piece p);
-boolean WriteSpec(Flags pspec, piece p);	/* V3.47  NG */
+boolean WriteSpec(Flags pspec, piece p);
 #ifndef MSC
 int     abs (int a);
 #endif
@@ -39,134 +39,134 @@ int     abs (int a);
 typedef boolean (evalfunction_t)(square departure, square arrival, square capture);
 typedef boolean (checkfunction_t)(square, piece, evalfunction_t *);
 
-checkfunction_t alfilcheck;   /* V2.60  NG */
-checkfunction_t amazcheck;    /* V2.60  NG */
-checkfunction_t antilcheck;   /* V2.60  NG */
-checkfunction_t archcheck;    /* V2.60  NG */
+checkfunction_t alfilcheck;
+checkfunction_t amazcheck;
+checkfunction_t antilcheck;
+checkfunction_t archcheck;
 checkfunction_t b_hopcheck;
 checkfunction_t bhuntcheck;
-checkfunction_t bishopbouncercheck;    /* V4.03 SE */
-checkfunction_t bishopeaglecheck;    /* V3.62  NG */
-checkfunction_t bishopeaglecheck;    /* V3.62  NG */
-checkfunction_t bishopmoosecheck;    /* V3.62  NG */
-checkfunction_t bishopmoosecheck;    /* V3.62  NG */
-checkfunction_t bishopsparrcheck;    /* V3.62  NG */
-checkfunction_t bishopsparrcheck;    /* V3.62  NG */
-checkfunction_t bisoncheck;    /* V3.60  TLi */
-checkfunction_t bobcheck;            /* V3.76  NG */
-checkfunction_t bobcheck;            /* V3.76  NG */
-checkfunction_t bouncercheck;    /* V4.03 SE */
-checkfunction_t bscoutcheck;    /* V3.05  NG */
-checkfunction_t bspawncheck;  /* V2.60  NG */
-checkfunction_t bucheck;      /* V2.60  NG */
-checkfunction_t camhopcheck;  /* V2.60  NG */
-checkfunction_t camridcheck;  /* V2.60  NG */
-checkfunction_t cardcheck;    /* V2.60  NG */
-checkfunction_t catcheck;     /* V2.60  NG */
+checkfunction_t bishopbouncercheck;
+checkfunction_t bishopeaglecheck;
+checkfunction_t bishopeaglecheck;
+checkfunction_t bishopmoosecheck;
+checkfunction_t bishopmoosecheck;
+checkfunction_t bishopsparrcheck;
+checkfunction_t bishopsparrcheck;
+checkfunction_t bisoncheck;
+checkfunction_t bobcheck;
+checkfunction_t bobcheck;
+checkfunction_t bouncercheck;
+checkfunction_t bscoutcheck;
+checkfunction_t bspawncheck;
+checkfunction_t bucheck;
+checkfunction_t camhopcheck;
+checkfunction_t camridcheck;
+checkfunction_t cardcheck;
+checkfunction_t catcheck;
 checkfunction_t charybdischeck;
-checkfunction_t chcheck;      /* V2.60  NG */
+checkfunction_t chcheck;
 checkfunction_t contragrascheck;
-checkfunction_t cscheck;       /* V2.60  NG */
-checkfunction_t dabcheck;      /* V2.60  NG */
-checkfunction_t dcscheck;      /* V2.60  NG */
-checkfunction_t dolphincheck;        /* V3.70  TLi */
-checkfunction_t dolphincheck;        /* V3.70  TLi */
+checkfunction_t cscheck;
+checkfunction_t dabcheck;
+checkfunction_t dcscheck;
+checkfunction_t dolphincheck;
+checkfunction_t dolphincheck;
 checkfunction_t doublegrascheck;
-checkfunction_t dragoncheck;   /* V2.60  NG */
-checkfunction_t eaglecheck;    /* V2.60  NG */
-checkfunction_t ecurcheck;     /* V2.60  NG */
+checkfunction_t dragoncheck;
+checkfunction_t eaglecheck;
+checkfunction_t ecurcheck;
 checkfunction_t edgehcheck;
-checkfunction_t elephantcheck;    /* V3.62  TLi */
-checkfunction_t equicheck;     /* V2.60  NG */
-checkfunction_t equiengcheck;        /* V3.78  SE */
-checkfunction_t equiengcheck;        /* V3.78  SE */
-checkfunction_t equifracheck;        /* V3.78  SE */
-checkfunction_t equifracheck;        /* V3.78  SE */
-checkfunction_t ferscheck;     /* V2.60  NG */
+checkfunction_t elephantcheck;
+checkfunction_t equicheck;
+checkfunction_t equiengcheck;
+checkfunction_t equiengcheck;
+checkfunction_t equifracheck;
+checkfunction_t equifracheck;
+checkfunction_t ferscheck;
 checkfunction_t friendcheck;
-checkfunction_t gicheck;       /* V2.60  NG */
-checkfunction_t gnoucheck;     /* V2.60  NG */
-checkfunction_t gnuhopcheck;   /* V2.60  NG */
-checkfunction_t gnuridcheck;   /* V2.60  NG */
-checkfunction_t gralcheck;	/* V3.46  NG */
+checkfunction_t gicheck;
+checkfunction_t gnoucheck;
+checkfunction_t gnuhopcheck;
+checkfunction_t gnuridcheck;
+checkfunction_t gralcheck;
 checkfunction_t grasshop2check;
 checkfunction_t grasshop3check;
-checkfunction_t gscoutcheck;    /* V3.05  NG */
+checkfunction_t gscoutcheck;
 checkfunction_t huntercheck;
-checkfunction_t impcheck;      /* V2.60  NG */
-checkfunction_t kangoucheck;   /* V2.60  NG */
+checkfunction_t impcheck;
+checkfunction_t kangoucheck;
 checkfunction_t kinghopcheck;
-checkfunction_t leap15check;	/* V3.46  NG */
-checkfunction_t leap16check;	/* V3.38  NG */
+checkfunction_t leap15check;
+checkfunction_t leap16check;
 checkfunction_t leap24check;
-checkfunction_t leap25check;	/* V3.46  NG */
+checkfunction_t leap25check;
 checkfunction_t leap35check;
-checkfunction_t leap36check;         /* V3.64  TLi */
-checkfunction_t leap36check;         /* V3.64  TLi */
+checkfunction_t leap36check;
+checkfunction_t leap36check;
 checkfunction_t leap37check;
-checkfunction_t leocheck;      /* V2.60  NG */
-checkfunction_t lioncheck;     /* V2.60  NG */
-checkfunction_t loccheck;      /* V2.60  NG */
-checkfunction_t maocheck;      /* V2.60  NG */
+checkfunction_t leocheck;
+checkfunction_t lioncheck;
+checkfunction_t loccheck;
+checkfunction_t maocheck;
 checkfunction_t maoridercheck;
-checkfunction_t maoriderlioncheck;   /* V3.64  TLi */
-checkfunction_t maoriderlioncheck;   /* V3.64  TLi */
-checkfunction_t margueritecheck;     /* V3.64  TLi */
-checkfunction_t margueritecheck;     /* V3.64  TLi */
-checkfunction_t moacheck;       /* V2.60  NG */
+checkfunction_t maoriderlioncheck;
+checkfunction_t maoriderlioncheck;
+checkfunction_t margueritecheck;
+checkfunction_t margueritecheck;
+checkfunction_t moacheck;
 checkfunction_t moaridercheck;
-checkfunction_t moariderlioncheck;   /* V3.65  TLi */
-checkfunction_t moariderlioncheck;   /* V3.65  TLi */
-checkfunction_t moosecheck;    /* V2.60  NG */
-checkfunction_t naocheck;    /* V3.62  TLi */
-checkfunction_t ncheck;        /* V2.60  NG */
-checkfunction_t nequicheck;    /* V2.60  NG */
+checkfunction_t moariderlioncheck;
+checkfunction_t moariderlioncheck;
+checkfunction_t moosecheck;
+checkfunction_t naocheck;
+checkfunction_t ncheck;
+checkfunction_t nequicheck;
 checkfunction_t nereidecheck;
-checkfunction_t nevercheck;    /* V3.81 ElB */
+checkfunction_t nevercheck;
 checkfunction_t nightlocustcheck;
-checkfunction_t nightriderlioncheck; /* V3.64  TLi */
-checkfunction_t nightriderlioncheck; /* V3.64  TLi */
-checkfunction_t nsautcheck;    /* V2.60  NG */
+checkfunction_t nightriderlioncheck;
+checkfunction_t nightriderlioncheck;
+checkfunction_t nsautcheck;
 checkfunction_t okapicheck;
-checkfunction_t orixcheck;	/* V3.44  NG */
+checkfunction_t orixcheck;
 checkfunction_t orphancheck;
-checkfunction_t paocheck;      /* V2.60  NG */
-checkfunction_t pbcheck;       /* V2.60  NG */
+checkfunction_t paocheck;
+checkfunction_t pbcheck;
 checkfunction_t pchincheck;
-checkfunction_t princcheck;    /* V2.60  NG */
-checkfunction_t querquisitecheck;    /* V3.78  SE */
-checkfunction_t querquisitecheck;    /* V3.78  SE */
+checkfunction_t princcheck;
+checkfunction_t querquisitecheck;
+checkfunction_t querquisitecheck;
 checkfunction_t r_hopcheck;
-checkfunction_t rabbitcheck;         /* V3.76  NG */
-checkfunction_t rabbitcheck;         /* V3.76  NG */
-checkfunction_t rccinqcheck;   /* V2.60  NG */
-checkfunction_t refccheck;     /* V2.60  NG */
-checkfunction_t reffoucheck;   /* V2.60  NG */
+checkfunction_t rabbitcheck;
+checkfunction_t rabbitcheck;
+checkfunction_t rccinqcheck;
+checkfunction_t refccheck;
+checkfunction_t reffoucheck;
 checkfunction_t rhuntcheck;
-checkfunction_t rookbouncercheck;    /* V4.03 SE */
-checkfunction_t rookeaglecheck;      /* V3.62  NG */
-checkfunction_t rookeaglecheck;      /* V3.62  NG */
-checkfunction_t rookmoosecheck;      /* V3.62  NG */
-checkfunction_t rookmoosecheck;      /* V3.62  NG */
-checkfunction_t rooksparrcheck;      /* V3.62  NG */
-checkfunction_t rooksparrcheck;      /* V3.62  NG */
-checkfunction_t rosecheck;    /* V2.60  NG */
+checkfunction_t rookbouncercheck;
+checkfunction_t rookeaglecheck;
+checkfunction_t rookeaglecheck;
+checkfunction_t rookmoosecheck;
+checkfunction_t rookmoosecheck;
+checkfunction_t rooksparrcheck;
+checkfunction_t rooksparrcheck;
+checkfunction_t rosecheck;
 checkfunction_t rosehoppercheck;
 checkfunction_t roselioncheck;
-checkfunction_t scheck;        /* V2.60  NG */
-checkfunction_t scorpioncheck;       /* V3.63  NG */
-checkfunction_t scorpioncheck;       /* V3.63  NG */
+checkfunction_t scheck;
+checkfunction_t scorpioncheck;
+checkfunction_t scorpioncheck;
 checkfunction_t skyllacheck;
-checkfunction_t sparrcheck;    /* V2.60  NG */
-checkfunction_t spawncheck;    /* V2.60  NG */
+checkfunction_t sparrcheck;
+checkfunction_t spawncheck;
 checkfunction_t tritoncheck;
-checkfunction_t ubicheck;      /* V2.60  NG */
-checkfunction_t vaocheck;      /* V2.60  NG */
-checkfunction_t vizircheck;    /* V2.60  NG */
-checkfunction_t warancheck;    /* V2.60  NG */
-checkfunction_t zcheck;        /* V2.60  NG */
-checkfunction_t zebhopcheck;   /* V2.60  NG */
-checkfunction_t zebridcheck;   /* V2.60  NG */
+checkfunction_t ubicheck;
+checkfunction_t vaocheck;
+checkfunction_t vizircheck;
+checkfunction_t warancheck;
+checkfunction_t zcheck;
+checkfunction_t zebhopcheck;
+checkfunction_t zebridcheck;
 
 square  coinequis (square a);
 
@@ -185,13 +185,7 @@ void    gcsn (square a, numvec b, numvec c);
 void    gen_wh_ply (void);
 void    genmove (couleur a);
 void    gen_bl_ply (void);
-/* now declared in the header + index file PY4.H
-** V3.22  TLi
-** void    genpb (square a);
-** void    genpbb (square a);
-** void    genpbn (square a);
-** void    genpn (square a);
-*/
+
 void    genrb (square a);
 void    genrn (square a);
 void    gfeerblanc (square a,piece b);
@@ -209,34 +203,34 @@ void    grosen (square a);
 void    gubib (square a, square b);
 void    gubin (square a, square b);
 void    hardinit (void);
-boolean imok (square i, square j);                          /* V2.4d  TM */
+boolean imok (square i, square j);
 void    initneutre (couleur a);
 void jouecoup_no_test(void);
 boolean jouecoup_ortho_test(void);
-boolean jouecoup (void);     /* V3.44  SE/TLi */
-void    joueim (smallint diff);                                /* V2.4d  TM */
+boolean jouecoup (void);
+void    joueim (smallint diff);
 boolean last_h_move (couleur a);
 boolean legalsquare (square departure, square arrival, square capture);
-boolean libre (square a, boolean b);                  /* V3.44  TLi */
+boolean libre (square a, boolean b);
 
 boolean matant (couleur a,smallint b);
 boolean mate (couleur a,smallint b);
 void    nextply (void);
 boolean nocontact (square departure, square arrival, square capture);
-boolean nogridcontact (square a);          /* py2.4c  NG */
+boolean nogridcontact (square a);
 boolean patt (couleur a);
-boolean rbcircech (square departure, square arrival, square capture);               /* V2.80c  TLi */
+boolean rbcircech (square departure, square arrival, square capture);
 
-extern boolean (*rbechec)(evalfunction_t *evaluate); /* V3.71  TM */
-boolean singleboxtype3_rbechec(evalfunction_t *evaluate); /* V3.71  TM */
-boolean annan_rbechec(evalfunction_t *evaluate); /* V3.71  TM */
+extern boolean (*rbechec)(evalfunction_t *evaluate);
+boolean singleboxtype3_rbechec(evalfunction_t *evaluate);
+boolean annan_rbechec(evalfunction_t *evaluate);
 
-boolean rbimmunech (square departure, square arrival, square capture);              /* V2.80c  TLi */
+boolean rbimmunech (square departure, square arrival, square capture);
 boolean rcardech (square sq, square sqtest, numvec k, piece p, smallint x, evalfunction_t *evaluate );
-boolean rcsech (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);        /* V2.3c  NG */
+boolean rcsech (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 void    repcoup (void);
 void    restaure (void);
-boolean ridimok (square i, square j, smallint diff);        /* V2.4d  TM */
+boolean ridimok (square i, square j, smallint diff);
 
 typedef enum {
   angle_45,
@@ -244,38 +238,36 @@ typedef enum {
   angle_135
 } angle_t;
 
-boolean rmhopech (square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);	/* V2.3c, V3.62  NG */
-boolean rncircech (square departure, square arrival, square capture);               /* V2.80c  TLi */
+boolean rmhopech (square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);
+boolean rncircech (square departure, square arrival, square capture);
 
-extern boolean (*rnechec)(evalfunction_t *evaluate); /* V3.71  TM */
-boolean singleboxtype3_rnechec(evalfunction_t *evaluate); /* V3.71  TM */
-boolean annan_rnechec(evalfunction_t *evaluate); /* V3.71  TM */
+extern boolean (*rnechec)(evalfunction_t *evaluate);
+boolean singleboxtype3_rnechec(evalfunction_t *evaluate);
+boolean annan_rnechec(evalfunction_t *evaluate);
 
-boolean rnimmunech (square departure, square arrival, square capture);              /* V2.80c  TLi */
-boolean rrefcech (square a, square b, smallint c, piece d, evalfunction_t *evaluate);    /* V2.3c  NG */
+boolean rnimmunech (square departure, square arrival, square capture);
+boolean rrefcech (square a, square b, smallint c, piece d, evalfunction_t *evaluate);
 boolean rrfouech (square sq, square sqtest, numvec k, piece p, smallint x, evalfunction_t *evaluate );
-boolean rubiech (square sq, square sqtest, piece p, /* echiquier */ smallint *e_ub, evalfunction_t *evaluate );    /* V2.4c  NG, V3.29  NG */
-boolean soutenu (square departure, square arrival, square capture);                 /* V2.80c  TLi */
+boolean rubiech (square sq, square sqtest, piece p, /* echiquier */ smallint *e_ub, evalfunction_t *evaluate );
+boolean soutenu (square departure, square arrival, square capture);
 
-/* V2.70c  TLi */
 boolean dsr_ant (couleur a, smallint b);
 boolean dsr_e (couleur a, smallint b);
 boolean dsr_parmena (couleur a, smallint b, smallint c);
 smallint dsr_def (couleur a, smallint b, smallint c);
 void    dsr_vari (couleur a, smallint b, smallint c, boolean d);
-void    dsr_sol (couleur a,smallint b, smallint c, boolean restartenabled);   /* V3.44  TLi */
+void    dsr_sol (couleur a,smallint b, smallint c, boolean restartenabled);
 
-extern void    (*gen_bl_piece)(square a, piece b); /* V3.71  TM */
-void    singleboxtype3_gen_bl_piece(square a, piece b); /* V3.71  TM */
-extern void    (*gen_wh_piece)(square a, piece b); /* V3.71  TM */
-void    singleboxtype3_gen_wh_piece(square a, piece b); /* V3.71  TM */
+extern void    (*gen_bl_piece)(square a, piece b);
+void    singleboxtype3_gen_bl_piece(square a, piece b);
+extern void    (*gen_wh_piece)(square a, piece b);
+void    singleboxtype3_gen_wh_piece(square a, piece b);
 
 boolean definvref (couleur a, smallint b);
 boolean invref (couleur a, smallint b);
-boolean eval_madrasi (square departure, square arrival, square capture);    /* V2.80c  TLi */
-piece   champiece (piece p);                    /* V2.80c  TLi */
+boolean eval_madrasi (square departure, square arrival, square capture);
+piece   champiece (piece p);
 
-/*------------------ V2.90c   TLi ---------------*/
 boolean stip_mate (couleur a);
 boolean stip_stale (couleur a);
 boolean stip_dblstale (couleur a);
@@ -285,7 +277,7 @@ boolean stip_capture (couleur a);
 boolean testparalyse (square departure, square arrival, square capture);
 boolean paraechecc (square departure, square arrival, square capture);
 boolean paralysiert (square i);
-/*------------------ V2.90  NG ---------------*/
+
 void    PrintTime ();
 boolean leapcheck (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 boolean ridcheck (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
@@ -294,7 +286,6 @@ void    gebrid (square a, numvec b, numvec c);
 void    genleap (square a, numvec b, numvec c);
 void    genrid (square a, numvec b, numvec c);
 
-/*-----------     V2.90c  TLi     ----------------------*/
 boolean roicheck (square a, piece b, evalfunction_t *evaluate);
 boolean pioncheck (square a, piece b, evalfunction_t *evaluate);
 boolean cavcheck (square a, piece b, evalfunction_t *evaluate);
@@ -308,9 +299,9 @@ boolean marincheck (square a, numvec b, numvec c, piece d, evalfunction_t *evalu
 boolean empile (square departure, square arrival, square capture);
 boolean testempile (square departure, square arrival, square capture);
 boolean ooorphancheck (square i, piece porph, piece p, evalfunction_t *evaluate);
-void    gorph (square a, couleur b);            /* V3.14  NG */
-void    gfriend (square a, couleur b);          /* V3.65  TLi */
-void    gedgeh (square a, couleur b);           /* V3.14  NG */
+void    gorph (square a, couleur b);
+void    gfriend (square a, couleur b);
+void    gedgeh (square a, couleur b);
 void    gmoab (square a);
 void    gmoan (square a);
 boolean InitMsgTab (Lang l, boolean Force);
@@ -327,11 +318,9 @@ void    logLngArg (long arg);
 
 void    GenMatingMove(couleur a);
 
-/* V3.03  TLi */
 boolean stip_steingewinn (couleur a);
 boolean VerifieMsg (int a);
 
-/* V3.1  TLi */
 boolean stip_ep (couleur a);
 piece   dec_einstein (piece p);
 piece   inc_einstein (piece p);
@@ -341,12 +330,12 @@ boolean rbanticircech (square departure, square arrival, square capture);
 boolean rnultraech (square departure, square arrival, square capture);
 boolean rbultraech (square departure, square arrival, square capture);
 
-boolean rnsingleboxtype1ech(square departure, square arrival, square capture);  /* V3.71 TM */
-boolean rbsingleboxtype1ech(square departure, square arrival, square capture);  /* V3.71 TM */
-boolean rnsingleboxtype3ech(square departure, square arrival, square capture);  /* V3.71 TM */
-boolean rbsingleboxtype3ech(square departure, square arrival, square capture);  /* V3.71 TM */
-square next_latent_pawn(square s, couleur c); /* V3.71 TM */
-piece next_singlebox_prom(piece p, couleur c); /* V3.71 TM */
+boolean rnsingleboxtype1ech(square departure, square arrival, square capture);
+boolean rbsingleboxtype1ech(square departure, square arrival, square capture);
+boolean rnsingleboxtype3ech(square departure, square arrival, square capture);
+boolean rbsingleboxtype3ech(square departure, square arrival, square capture);
+square next_latent_pawn(square s, couleur c);
+piece next_singlebox_prom(piece p, couleur c);
 
 square renfile (piece p, Flags pspec, square j, square i, square ip, couleur camp);
 square renrank (piece p, Flags pspec, square j, square i, square ip, couleur camp);
@@ -363,56 +352,47 @@ square rensuper (piece p, Flags pspec, square j, square i, square ip, couleur ca
 
 void pyfputs (char *s, FILE *f);
 
-boolean hopimok(square i, square j, square k, smallint d); /* V3.12  TM */
-boolean is_rider (piece p);                                /* TM V3.12 */
-boolean is_leaper (piece p);                               /* TM V3.12 */
-boolean is_simplehopper (piece p);                         /* TM V3.12 */
-boolean is_pawn (piece p);                                 /* V3.22  TLi */
+boolean hopimok(square i, square j, square k, smallint d);
+boolean is_rider (piece p);
+boolean is_leaper (piece p);
+boolean is_simplehopper (piece p);
+boolean is_pawn (piece p);
 
-/*****  V3.12  TLi  *****  begin  *****/
 void    geskylla (square i, couleur camp);
 void    gecharybdis (square i, couleur camp);
-/*****  V3.12  TLi  *****  end  *****/
 
-short len_whforcedsquare(square departure, square arrival, square capture);  /* V3.20  NG */
-short len_blforcedsquare(square departure, square arrival, square capture);  /* V3.20  NG */
+short len_whforcedsquare(square departure, square arrival, square capture);
+short len_blforcedsquare(square departure, square arrival, square capture);
 
-/*****  V3.22  TLi  ***** begin *****/
-void    geriderhopper(square i, numvec kbeg, numvec kend,     /* V3.34  TLi */
+void    geriderhopper(square i, numvec kbeg, numvec kend,
 		      smallint run_up, smallint jump, couleur camp);
-boolean riderhoppercheck(square i, numvec kanf, numvec kend, piece p, /* V3.34  TLi */
+boolean riderhoppercheck(square i, numvec kanf, numvec kend, piece p,
 			 smallint run_up, smallint jump,
 			 evalfunction_t *evaluate);
-/*****  V3.22  TLi  *****  end  *****/
 
 boolean verifieposition(void);
 void    linesolution(void);
 
-/* V3.31  TLi */
 boolean introseries(couleur camp, smallint n, boolean restartenabled); 
 
-/* V3.32  TLi */
 boolean stip_doublemate(couleur a);
 
-/* V3.35  TLi */
 boolean stip_castling(couleur a);
-/* V3.37  NG */
+
 void	pyInitSignal(void);
 void	InitCond (void);
 void	InitStip(void);
 char	*MakeTimeString(void);
 
 
-char *ReadPieces(int cond);   /* V3.41  TLi, V3.64  ThM,NG */
+char *ReadPieces(int cond);
 
 
-/* V3.44  SE/TLi */
 boolean eval_isardam(square departure, square arrival, square capture);
 boolean pos_legal(void);                              
 void IncrementMoveNbr(void);
 square rendiametral(piece p, Flags pspec, square j, square i, square ia, couleur camp);
 
-/* V3.44  NG */
 void    gequi(square i, couleur camp);
 void    gorix(square i, couleur camp);
 
@@ -432,17 +412,17 @@ void RotateMirror(int what);
 void genrb_cast(void);
 void genrn_cast(void);
 
-boolean woohefflibre (square a, square b);	        /* V3.55  TLi */
-boolean eval_wooheff(square departure, square arrival, square capture);	/* V3.55  TLi */
+boolean woohefflibre (square a, square b);
+boolean eval_wooheff(square departure, square arrival, square capture);
 
-boolean stip_mate_or_stale(couleur camp);           /* V3.60 SE */
-boolean eval_shielded(square departure, square arrival, square capture);       /* V3.62 SE */
-boolean stip_any (couleur a);	     /* V3.64  SE */
+boolean stip_mate_or_stale(couleur camp);
+boolean eval_shielded(square departure, square arrival, square capture);
+boolean stip_any (couleur a);
 
-void    grabbitb (square sq);	     /* V3.76  NG */
-void    grabbitn (square sq);	     /* V3.76  NG */
-void    gbobb (square sq);	     /* V3.76  NG */
-void    gbobn (square sq);	     /* V3.76  NG */
+void    grabbitb (square sq);
+void    grabbitn (square sq);
+void    gbobb (square sq);
+void    gbobn (square sq);
 
 void BeepOnSolution(int NumOfBeeps);
 
@@ -458,14 +438,14 @@ boolean nogiraffecontact(square ia);
 boolean noantelopecontact(square ia);
 
 boolean castlingimok(square i, square j);
-boolean maooaimok(square i, square j, square pass); /* V3.81 SE */
-boolean echecc_normal(couleur camp); /* V4.03 SE */
+boolean maooaimok(square i, square j, square pass);
+boolean echecc_normal(couleur camp);
 void gen_wh_piece_aux(square z, piece p);
 void gen_bl_piece_aux(square z, piece p);
 void change_observed(square z);
 boolean observed(square a, square b);
-boolean eval_BGL(square departure, square arrival, square capture);	/* V4.06 SE */
-char *WriteBGLNumber(char* a, long int b);	/* V4.06 SE */
+boolean eval_BGL(square departure, square arrival, square capture);
+char *WriteBGLNumber(char* a, long int b);
 boolean whannan(square rear, square front);
 boolean blannan(square rear, square front);
 

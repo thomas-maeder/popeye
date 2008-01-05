@@ -75,7 +75,7 @@ long StopTimer(void) {
     ticks= StopBuffer.tms_utime+StopBuffer.tms_stime
 	    - StartBuffer.tms_utime - StartBuffer.tms_stime;
 
-    mSec= ((ticks % ClockTick)*1000)/ClockTick;	/* V3.62  NG */
+    mSec= ((ticks % ClockTick)*1000)/ClockTick;
     return ticks/ClockTick;
 }
 
@@ -85,7 +85,7 @@ int MilliSec() {
 
 #endif /* UNIX */
 
-#ifdef VMS			/* V3.03  TLi */
+#ifdef VMS
 
 #	include <time.h>
 #	define	HZ	100
@@ -219,7 +219,7 @@ long StopTimer(void) {
 }
 #endif	/* macintosh */
 
-#ifdef ATARI		       /* 2.4 StHoe */
+#ifdef ATARI
 
 #		include <stddef.h>
 #		include <time.h>
@@ -237,7 +237,7 @@ long StopTimer(void) {
 #endif	/* ATARI */
 
 
-#ifdef BS2000			/* V3.1  NG, RB */
+#ifdef BS2000
 
 #	include <time.h>
 
@@ -281,7 +281,7 @@ long StopTimer(void) {
 			 /* reine CPU-Zeit, sondern die Differenz   */
 static time_t ThisTime;  /* Startzeit - Stopzeit angegeben wird.    */
 			 /* Die exakte Laufzeit kann man nur dem    */
-			 /* JES Job-Log entnehmen.   HD  07/07/93   */
+			 /* JES Job-Log entnehmen   */
 void StartTimer(void) {
     ThisTime= time((time_t *)0);
 }
@@ -305,7 +305,7 @@ long StopTimer(void) {
 #ifdef WIN32
 #	if defined(MSC) || defined(__BORLANDC__)
 	/* we are using Microsoft C++ compiler
-	** or BorlandC 4.something  --	V3.53  TLi
+	** or BorlandC 4.something
 	*/
 
 #	include <time.h>
@@ -324,7 +324,7 @@ long StopTimer(void) {
     StopBuffer= clock();
     ticks= (StopBuffer - StartBuffer);
 
-    mSec= ((ticks % (long)CLOCKS_PER_SEC)*1000)/(long)CLOCKS_PER_SEC;	/* V3.62  NG */
+    mSec= ((ticks % (long)CLOCKS_PER_SEC)*1000)/(long)CLOCKS_PER_SEC;
     return ticks/(long)CLOCKS_PER_SEC;
 }
 int MilliSec() {

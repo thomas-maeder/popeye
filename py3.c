@@ -24,7 +24,7 @@
 #endif
 
 #ifdef ASSERT
-#include <assert.h> /* V3.71 TM */
+#include <assert.h>
 #else
 /* When ASSERT is not defined, eliminate assert calls.
  * This way, "#ifdef ASSERT" is not clobbering the source.
@@ -41,7 +41,7 @@ boolean rubiech(square	intermediate_square,
                 square	sq_king,
                 piece	p,
                 smallint	*e_ub,
-                evalfunction_t *evaluate)	/* V1.7c  NG */
+                evalfunction_t *evaluate)
 {
   numvec k;
 
@@ -56,7 +56,7 @@ boolean rubiech(square	intermediate_square,
 	}
 	else {
       if (e_ub[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))		/* V3.02  TLi */
+          && evaluate(sq_departure,sq_king,sq_king))
 		return true;
 	}
   }
@@ -69,7 +69,7 @@ boolean rrfouech(square	intermediate_square,
                  numvec	k,
                  piece	p,
                  smallint	x,
-                 evalfunction_t *evaluate)	 /* V2.1c  NG */
+                 evalfunction_t *evaluate)
 {
   numvec k1;
   piece p1;
@@ -81,7 +81,7 @@ boolean rrfouech(square	intermediate_square,
 
   finligne(intermediate_square,k,p1,sq_departure);
   if (p1==p) {
-	if (evaluate(sq_departure,sq_king,sq_king))		/* V3.02  TLi */
+	if (evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
   else if (x && p1==obs) {
@@ -118,7 +118,7 @@ boolean rcardech(square	intermediate_square,
                  numvec	k,
                  piece	p,
                  smallint	x,
-                 evalfunction_t *evaluate)	/* V2.1c  NG */
+                 evalfunction_t *evaluate)
 {
   numvec k1;
   piece p1;
@@ -127,7 +127,7 @@ boolean rcardech(square	intermediate_square,
     
   finligne(intermediate_square,k,p1,sq_departure);
   if (p1==p) {
-	if (evaluate(sq_departure,sq_king,sq_king))		/* V3.02  TLi */
+	if (evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
   else if (x && p1==obs) {
@@ -138,7 +138,7 @@ boolean rcardech(square	intermediate_square,
 	if (k1<=4) {
       sq_departure+= vec[k1];
       if (e[sq_departure]==p) {
-		if (evaluate(sq_departure,sq_king,sq_king))	/* V3.02  TLi */
+		if (evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
       else if (e[sq_departure]==vide) {
@@ -164,7 +164,7 @@ boolean rcardech(square	intermediate_square,
 
 
 boolean feebechec(
-  evalfunction_t *evaluate)	/* V1.5c  NG */
+  evalfunction_t *evaluate)
 {
   piece   *pcheck;
 
@@ -212,9 +212,9 @@ boolean marsechecc(
          inclusif they are */
       if ( (!CondFlag[phantom]
             || (e[z] != e[rb] && e[z] != e[rn])
-            || rex_phan)			  /* V3.51, V3.62  NG */
+            || rex_phan)
            && ( (e[z] != e[rb]
-                 || e[rb] != e[rn]) )   /* exclude nK; V3.77 SE */
+                 || e[rb] != e[rn]) )   /* exclude nK */
            && rightcolor(e[z],camp))
       {
 		more_ren=0;
@@ -242,11 +242,10 @@ boolean marsechecc(
 } /* marsechecc */
 
 static boolean orig_rnechec(evalfunction_t *evaluate)
-  /* V3.71 TM */
 {
   /* detect, if black king is checked     */
   /* I didn't change this function, because it would be much (20% !)
-     slower. V2.60  NG
+     slower. NG
   */
   numvec k;
   piece p;
@@ -254,7 +253,7 @@ static boolean orig_rnechec(evalfunction_t *evaluate)
   square sq_departure;
   square sq_arrival;
 
-  if (SATCheck) /* V4.03 SE */
+  if (SATCheck)
   {
    	int flag= BlackSATFlights;
     boolean mummer_sic = flagblackmummer;
@@ -270,20 +269,15 @@ static boolean orig_rnechec(evalfunction_t *evaluate)
 		nextply();
         current_killer_state= null_killer_state;
 		trait[nbply]= noir;
-		/* flagminmax= false;                V2.90, V3.44  TLi */
-		/* flag_minmax[nbply]= false;        V3.44  TLi */
 		if (TSTFLAG(PieSpExFlags,Neutral))
 			initneutre(blanc);
- /*   if (generating_castling)	*/
     dont_generate_castling=true;
-    /*    SATCheck= false;	*/  /* prevent recursion if generating castling */
-    gen_bl_piece(rn, -abs(e[rn]));    /* V3.02  TLi */
+    gen_bl_piece(rn, -abs(e[rn]));
     flagblackmummer = mummer_sic;
     dont_generate_castling=false;
-    /*   SATCheck= true;	*/
     while (flag && encore()) {
       SATCheck = false;
-      if (jouecoup_ortho_test())        /* V3.44  SE/TLi */
+      if (jouecoup_ortho_test())
         if (! echecc_normal(noir))
           flag--;
       repcoup();
@@ -294,20 +288,18 @@ static boolean orig_rnechec(evalfunction_t *evaluate)
     return !flag;
   }
 
-  if (anymars) {				       /* SE/TLi 3.46 */
+  if (anymars) {
 	boolean anymarscheck= marsechecc(noir, evaluate);
-	if ( !CondFlag[phantom] || anymarscheck) {	/* V3.47  NG */
+	if ( !CondFlag[phantom] || anymarscheck) {
       return anymarscheck;
 	}
   }
   
-  if (nbpiece[roib]>0) {						/* V3.1  TLi */
-	if (CondFlag[whrefl_king]) {			/* V3.00  TLi,
-                                               V3.47  NG */
+  if (nbpiece[roib]>0) {
+	if (CondFlag[whrefl_king]) {
       piece   *ptrans;
       boolean flag = true;
 
-      /* V4.07 SE */
       /* attempted bug fix - wrong eval function used to detect 
         if wK is checked; this code is a bit hacky but best attempt to 
         guess correct eval function to use, though only one is passed in*/
@@ -327,29 +319,25 @@ static boolean orig_rnechec(evalfunction_t *evaluate)
 		}
       }
       
-      if (!CondFlag[whtrans_king] || flag) {	/* V3.05  TLi,
-                                                   V3.47  NG */
-		for (k= vec_queen_end; k>=vec_queen_start; k--) {		/* V2.4c  NG */
+      if (!CondFlag[whtrans_king] || flag) {
+		for (k= vec_queen_end; k>=vec_queen_start; k--) {
           sq_departure= rn+vec[k];
           if (e[sq_departure]==roib
               && evaluate(sq_departure,rn,rn))
-            /* V1.3c  NG, V3.02  TLi */
-            imech(sq_departure,rn);		 /* V2.4d  TM */
+            imech(sq_departure,rn);
 		}
       }
 	}
 	else {
       if (CondFlag[sting]
           && (*checkfunctions[sb])(rn, roib, evaluate))
-        /* V3.63  NG */
 		return true;
 
-      for (k= vec_queen_end; k>=vec_queen_start; k--) {			/* V2.4c  NG */
+      for (k= vec_queen_end; k>=vec_queen_start; k--) {
         sq_departure= rn+vec[k];
 		if (e[sq_departure]==roib
-            && evaluate(sq_departure,rn,rn))	/* V1.3c  NG,
-                                                                   V3.02  TLi */
-          imech(sq_departure,rn);			/* V2.4d  TM */
+            && evaluate(sq_departure,rn,rn))
+          imech(sq_departure,rn);
       }
 	}
   }
@@ -360,21 +348,18 @@ static boolean orig_rnechec(evalfunction_t *evaluate)
         || CondFlag[normalp]
         || CondFlag[einstein])
 	{
-      /* V1.6c  NG ,  V3.02  TLi , V3.1  TLi */
       sq_departure= rn+dir_down+dir_right;
       if (e[sq_departure]==pb
-          && evaluate(sq_departure,rn,rn))	/* V1.3c  NG,
-                                                               V3.02  TLi */
-        imech(sq_departure,rn);			/* V2.4d  TM */
+          && evaluate(sq_departure,rn,rn))
+        imech(sq_departure,rn);
       
       sq_departure= rn+dir_down+dir_left;
       if (e[sq_departure]==pb
-          && evaluate(sq_departure,rn,rn))	/* V1.3c  NG,
-                                                               V3.02  TLi */
-        imech(sq_departure,rn);			/* V2.4d  TM */
+          && evaluate(sq_departure,rn,rn))
+        imech(sq_departure,rn);
 
       sq_arrival= ep[nbply];
-      if (sq_arrival!=initsquare && rn==sq_arrival+dir_down) {  /* V3.45  TLi */
+      if (sq_arrival!=initsquare && rn==sq_arrival+dir_down) {
 		/* ep captures of royal pawns */
 		/* ep[nbply] != initsquare --> a pawn has made a
 		   double/triple step.
@@ -382,15 +367,13 @@ static boolean orig_rnechec(evalfunction_t *evaluate)
         */
         sq_departure= sq_arrival+dir_down+dir_right;
         if (e[sq_departure]==pb
-            && evaluate(sq_departure,sq_arrival,rn))	/* V1.3c  NG,
-                                                                   V3.02  TLi */
-          imech(sq_departure,sq_arrival);			/* V2.4d  TM */
+            && evaluate(sq_departure,sq_arrival,rn))
+          imech(sq_departure,sq_arrival);
 
         sq_departure= sq_arrival+dir_down+dir_left;
         if (e[sq_departure]==pb
-            && evaluate(sq_departure,sq_arrival,rn))	/* V1.3c  NG,
-                                                                   V3.02  TLi */
-          imech(sq_departure,sq_arrival);			/* V2.4d  TM */
+            && evaluate(sq_departure,sq_arrival,rn))
+          imech(sq_departure,sq_arrival);
       }
 
       sq_arrival= ep2[nbply]; /* Einstein triple step */
@@ -411,37 +394,34 @@ static boolean orig_rnechec(evalfunction_t *evaluate)
 	for (k= vec_knight_start; k<=vec_knight_end; k++) {
       sq_departure= rn+vec[k];
       if (e[sq_departure]==cb
-          && evaluate(sq_departure,rn,rn)) /* V1.3c  NG,
-                                                               V3.02  TLi */
-        imech(sq_departure,rn);		/* V2.4d  TM */
+          && evaluate(sq_departure,rn,rn))
+        imech(sq_departure,rn);
     }
 
   if (nbpiece[db] || nbpiece[tb])
-	for (k= vec_rook_end; k>=vec_rook_start; k--) {			/* V2.4c  NG */
+	for (k= vec_rook_end; k>=vec_rook_start; k--) {
       finligne(rn,vec[k],p,sq_departure);
       if ((p==tb || p==db)
-          && evaluate(sq_departure,rn,rn))		/* V1.3c  NG,
-                                                                   V3.02  TLi */
-        ridimech(sq_departure,rn,vec[k]);/* V2.4d TM */
+          && evaluate(sq_departure,rn,rn))
+        ridimech(sq_departure,rn,vec[k]);
 	}
   
   if (nbpiece[db] || nbpiece[fb])
 	for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
       finligne(rn,vec[k],p,sq_departure);
       if ((p==fb || p==db)
-          && evaluate(sq_departure,rn,rn))		/* V1.3c  NG,
-                                                                   V3.02  TLi */
-        ridimech(sq_departure,rn,vec[k]);		/* V2.4d TM */
+          && evaluate(sq_departure,rn,rn))
+        ridimech(sq_departure,rn,vec[k]);
 	}
   
-  if (flagfee)					/* V1.4c  NG */
+  if (flagfee)
 	return feenechec(evaluate);
   else
 	return false;
 }
 
 boolean singleboxtype3_rnechec(
-  evalfunction_t *evaluate)	 /* V3.71 TM */
+  evalfunction_t *evaluate)
 {
   unsigned int promotionstried = 0;
   square sq;
@@ -479,8 +459,8 @@ boolean annan_rnechec(evalfunction_t *evaluate)
 
   square i,j,z,z1;
   z= haut;
-  for (i= nr_rows_on_board-1; i > 0; i--, z-= onerow-nr_files_on_board)	/* V2.90  NG */
-    for (j= nr_files_on_board; j > 0; j--, z--) {			/* V2.90  NG */
+  for (i= nr_rows_on_board-1; i > 0; i--, z-= onerow-nr_files_on_board)
+    for (j= nr_files_on_board; j > 0; j--, z--) {
       z1= z-onerow;
       if (e[z] > obs && whannan(z1,z))
       {
@@ -499,15 +479,14 @@ boolean annan_rnechec(evalfunction_t *evaluate)
 }
 
 boolean (*rnechec)(evalfunction_t *evaluate)
-  = &orig_rnechec; /* V3.71 TM */
+  = &orig_rnechec;
 
-static boolean orig_rbechec(evalfunction_t *evaluate) /* V3.71 TM */
+static boolean orig_rbechec(evalfunction_t *evaluate)
 {
   /* detect, if white king is checked  */
   /* I didn't change this function, because it would be much (20% !)
-     slower. V2.60  NG
+     slower. NG
   */
-
 
   numvec k;
   piece p;
@@ -515,7 +494,7 @@ static boolean orig_rbechec(evalfunction_t *evaluate) /* V3.71 TM */
   square sq_departure;
   square sq_arrival;
 
-  if (SATCheck)   /* V4.03 SE */ 
+  if (SATCheck)
   {
    	int flag= WhiteSATFlights;
     boolean mummer_sic = flagwhitemummer;
@@ -531,17 +510,15 @@ static boolean orig_rbechec(evalfunction_t *evaluate) /* V3.71 TM */
       nextply();
       current_killer_state= null_killer_state;
       trait[nbply]= blanc;
-      /* flagminmax= false;                V2.90, V3.44  TLi */
-      /* flag_minmax[nbply]= false;        V3.44  TLi */
       if (TSTFLAG(PieSpExFlags,Neutral))
         initneutre(noir);
     flagwhitemummer = mummer_sic;
     dont_generate_castling= true;
-    gen_wh_piece(rb, abs(e[rb]));    /* V3.02  TLi */
+    gen_wh_piece(rb, abs(e[rb]));
     dont_generate_castling= false;
     while (flag && encore()) {
       SATCheck= false;
-      if (jouecoup_ortho_test())        /* V3.44  SE/TLi */
+      if (jouecoup_ortho_test())
         if (! echecc_normal(blanc))
           flag--;
       repcoup();
@@ -553,23 +530,21 @@ static boolean orig_rbechec(evalfunction_t *evaluate) /* V3.71 TM */
     return !flag;
   }
 
-  if (anymars) {		    /* SE/TLi 3.46 */
+  if (anymars) {
 	boolean anymarscheck= marsechecc(blanc, evaluate);
-	if ( !CondFlag[phantom] || anymarscheck) {	/* V3.47  NG */
+	if ( !CondFlag[phantom] || anymarscheck) {
       return anymarscheck;
 	}
   }
 
-  if (nbpiece[roin]>0) {						/* V3.1  TLi */
-	if (CondFlag[blrefl_king]) {			/* V3.00  TLi,
-                                               V3.47  NG */
+  if (nbpiece[roin]>0) {
+	if (CondFlag[blrefl_king]) {
       piece   *ptrans;
       boolean flag= true;
 
-      /* V4.07 SE */
       /* attempted bug fix - wrong eval function used to detect 
         if bK is checked; this code is a bit hacky but best attempt to 
-        guess correct eval function to use, though only one is passed in*/
+        guess correct eval function to use, though only one is passed in */
       boolean (* eval_ad)(square,square,square) = evaluate;
       if (eval_white != eval_black) 
         eval_ad= (evaluate == eval_white) ? eval_black :
@@ -587,31 +562,27 @@ static boolean orig_rbechec(evalfunction_t *evaluate) /* V3.71 TM */
 		}
       }
       
-      if (!CondFlag[bltrans_king] || flag) {	/* V3.05  TLi,
-                                                   V3.47  NG */
-		for (k= vec_queen_end; k>=vec_queen_start; k--) {				/* V2.4c  NG */
+      if (!CondFlag[bltrans_king] || flag) {
+		for (k= vec_queen_end; k>=vec_queen_start; k--) {
           sq_departure= rb+vec[k];
           if (e[sq_departure]==roin
               && evaluate(sq_departure,rb,rb))
-            /* V1.3c  NG, V3.02  TLi */
-            imech(sq_departure,rb);		 /* V2.4d  TM */
+            imech(sq_departure,rb);
 		}
       }
 	}
 	else {
       if ( CondFlag[sting]
            && (*checkfunctions[sb])(rb, roin, evaluate))
-        /* v3.63  NG */
-      {
 
+      {
         return true;
       }
-      for (k= vec_queen_end; k>=vec_queen_start; k--) {			/* V2.4c  NG */
+      for (k= vec_queen_end; k>=vec_queen_start; k--) {
         sq_departure= rb+vec[k];
 		if (e[sq_departure]==roin
-            && evaluate(sq_departure,rb,rb))	/* V1.3c  NG,
-                                                                   V3.02  TLi */
-          imech(sq_departure,rb);			/* V2.4d  TM */
+            && evaluate(sq_departure,rb,rb))
+          imech(sq_departure,rb);
       }
 	}
   }
@@ -622,21 +593,18 @@ static boolean orig_rbechec(evalfunction_t *evaluate) /* V3.71 TM */
         || CondFlag[normalp]
         || CondFlag[einstein])
 	{
-      /* V1.6c  NG , V3.02  TLi , V3.1  TLi */
       sq_departure= rb+dir_up+dir_left;
       if (e[sq_departure]==pn
-          && evaluate(sq_departure,rb,rb))	/* V1.3c  NG,
-                                                               V3.02  TLi */
-        imech(sq_departure,rb);			/* V2.4d  TM */
+          && evaluate(sq_departure,rb,rb))
+        imech(sq_departure,rb);
 
       sq_departure= rb+dir_up+dir_right;
       if (e[sq_departure]==pn
-          && evaluate(sq_departure,rb,rb))	/* V1.3c  NG,
-                                                               V3.02  TLi */
-        imech(sq_departure,rb);			/* V2.4d  TM */
+          && evaluate(sq_departure,rb,rb))
+        imech(sq_departure,rb);
 
       sq_arrival= ep[nbply];
-      if (sq_arrival!=initsquare && rb==sq_arrival+dir_up) {  /* V3.45  TLi */
+      if (sq_arrival!=initsquare && rb==sq_arrival+dir_up) {
 		/* ep captures of royal pawns.
 		   ep[nbply] != initsquare
            --> a pawn has made a double/triple step.
@@ -645,15 +613,13 @@ static boolean orig_rbechec(evalfunction_t *evaluate) /* V3.71 TM */
         */
         sq_departure= sq_arrival+dir_up+dir_left;
         if (e[sq_departure]==pn
-            && evaluate(sq_departure,sq_arrival,rb))	/* V1.3c  NG,
-                                                                   V3.02  TLi */
-          imech(sq_departure,sq_arrival);			/* V2.4d  TM */
+            && evaluate(sq_departure,sq_arrival,rb))
+          imech(sq_departure,sq_arrival);
 
         sq_departure= sq_arrival+dir_up+dir_right;
         if (e[sq_departure]==pn
-            && evaluate(sq_departure,sq_arrival,rb))	/* V1.3c  NG,
-                                                                   V3.02  TLi */
-          imech(sq_departure,sq_arrival);			/* V2.4d  TM */
+            && evaluate(sq_departure,sq_arrival,rb))
+          imech(sq_departure,sq_arrival);
       }
 
       sq_arrival= ep2[nbply]; /* Einstein triple step */
@@ -675,30 +641,27 @@ static boolean orig_rbechec(evalfunction_t *evaluate) /* V3.71 TM */
 	for (k= vec_knight_start; k<=vec_knight_end; k++) {
       sq_departure= rb+vec[k];
       if (e[sq_departure]==cn
-          && evaluate(sq_departure,rb,rb)) /* V1.3c  NG,
-                                                              V3.02  TLi */
-        imech(sq_departure,rb);		/* V2.4d  TM */
+          && evaluate(sq_departure,rb,rb))
+        imech(sq_departure,rb);
 	}
 
   if (nbpiece[dn] || nbpiece[tn])
-	for (k= vec_rook_end; k>=vec_rook_start; k--) {			/* V2.4c  NG */
+	for (k= vec_rook_end; k>=vec_rook_start; k--) {
       finligne(rb,vec[k],p,sq_departure);
       if ((p==tn || p==dn)
-          && evaluate(sq_departure,rb,rb))		/* V1.3c  NG,
-                                                                   V3.02  TLi */
-        ridimech(sq_departure,rb,vec[k]);/* V2.4d TM */
+          && evaluate(sq_departure,rb,rb))
+        ridimech(sq_departure,rb,vec[k]);
 	}
 
   if (nbpiece[dn] || nbpiece[fn])
 	for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
       finligne(rb,vec[k],p,sq_departure);
       if ((p==fn || p==dn)
-          && evaluate(sq_departure,rb,rb))		/* V1.3c  NG,
-                                                                   V3.02  TLi */
-        ridimech(sq_departure,rb,vec[k]);		/* V2.4d TM */
+          && evaluate(sq_departure,rb,rb))
+        ridimech(sq_departure,rb,vec[k]);
 	}
 
-  if (flagfee)					/* V1.4c  NG */
+  if (flagfee)
 	return feebechec(evaluate);
   else
 	return false;
@@ -713,8 +676,8 @@ boolean annan_rbechec(evalfunction_t *evaluate)
 
   square i,j,z,z1;
   z= bas;
-  for (i= nr_rows_on_board-1; i > 0; i--, z+= onerow-nr_files_on_board)	/* V2.90  NG */
-    for (j= nr_files_on_board; j > 0; j--, z++) {			/* V2.90  NG */
+  for (i= nr_rows_on_board-1; i > 0; i--, z+= onerow-nr_files_on_board)
+    for (j= nr_files_on_board; j > 0; j--, z++) {
       z1= z+onerow;
       if (e[z] < vide && blannan(z1,z))
       {
@@ -732,7 +695,7 @@ boolean annan_rbechec(evalfunction_t *evaluate)
   return ret;
 }
 
-boolean singleboxtype3_rbechec(evalfunction_t *evaluate) /* V3.71 TM */
+boolean singleboxtype3_rbechec(evalfunction_t *evaluate)
 {
   unsigned int promotionstried = 0;
   square sq;
@@ -763,47 +726,45 @@ boolean singleboxtype3_rbechec(evalfunction_t *evaluate) /* V3.71 TM */
 }
 
 boolean (*rbechec)(evalfunction_t *evaluate)
-  = &orig_rbechec; /* V3.71 TM */
+  = &orig_rbechec;
 
 
 boolean rncircech(square sq_departure, square sq_arrival, square sq_capture) {
   if (sq_departure == (*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, blanc)) {
-    /* V3.55 SE */
 	return false;
   }
   else
-	return eval_2(sq_departure,sq_arrival,sq_capture);			/* V2.90  NG */
+	return eval_2(sq_departure,sq_arrival,sq_capture);
 }
 
 boolean rbcircech(square sq_departure, square sq_arrival, square sq_capture) {
   if (sq_departure == (*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, noir)) {
-    /* V3.55 SE */
 	return false;
   }
   else {
-	return eval_2(sq_departure,sq_arrival,sq_capture);			/* V2.90  NG */
+	return eval_2(sq_departure,sq_arrival,sq_capture);
   }
 }
 
 boolean rnimmunech(square sq_departure, square sq_arrival, square sq_capture) {
   immrenroin= (*immunrenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, blanc);
-  /* V3.55 SE */
+
   if ((e[immrenroin] != vide && sq_departure != immrenroin)) {
 	return false;
   }
   else {
-	return eval_2(sq_departure,sq_arrival,sq_capture);			/* V2.90  NG */
+	return eval_2(sq_departure,sq_arrival,sq_capture);
   }
 }
 
 boolean rbimmunech(square sq_departure, square sq_arrival, square sq_capture) {
   immrenroib= (*immunrenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, noir);
-  /* V3.55 SE */
+
   if ((e[immrenroib] != vide && sq_departure != immrenroib)) {
 	return false;
   }
   else {
-	return eval_2(sq_departure,sq_arrival,sq_capture);			/* V2.90  NG */
+	return eval_2(sq_departure,sq_arrival,sq_capture);
   }
 }
 
@@ -835,7 +796,6 @@ boolean echecc(couleur camp)
 	    && (CondFlag[pwc]
             || e[(*circerenai)
                  (e[rb], spec[rb], rb, initsquare, initsquare, noir)] == vide))
-      /* V3.55 SE */
 	{
       return false;
 	}
@@ -866,7 +826,7 @@ boolean echecc(couleur camp)
 		}
       }
 	}
-	if (CondFlag[bicolores]) {	/* V3.1  TLi */
+	if (CondFlag[bicolores]) {
       boolean flag = rbechec(eval_white);
       if (!flag) {
 		square	rn_sic = rn;
@@ -883,7 +843,6 @@ boolean echecc(couleur camp)
 	}
   }
   else {	  /* camp == noir */
-    
 	if (CondFlag[extinction]) {
       piece p;
       square *bnp;
@@ -907,7 +866,6 @@ boolean echecc(couleur camp)
 	    && (CondFlag[pwc]
             || e[(*circerenai)
                  (e[rn], spec[rn], rn, initsquare, initsquare, blanc)] == vide))
-      /* V3.55 SE */
 	{
       return false;
 	}
@@ -945,7 +903,7 @@ boolean echecc(couleur camp)
 		}
       }
 	}
-	if (CondFlag[bicolores]) {	/* V3.1  TLi */
+	if (CondFlag[bicolores]) {
       boolean flag = rnechec(eval_black);
       if (!flag) {
 		square	rb_sic = rb;
@@ -1028,9 +986,6 @@ boolean huntercheck(square i,
     || (*checkfunctions[huntertype->away])(i,p,eval_away);
 }
 
-
-/* V3.03  TLi  -  Jaeger */
-
 boolean rhuntcheck(
   square	i,
   piece	p,
@@ -1038,8 +993,7 @@ boolean rhuntcheck(
 {
   /* detect check of a rook/bishop-hunter */
   /* it's not dependent of the piece-color !! */
-  /* always moves up (rook), down (bishop) !!  V3.04	NG */
-
+  /* always moves up (rook), down (bishop) !! */
   return ridcheck(i, 4, 4, p, evaluate)
 	|| ridcheck(i, 5, 6, p, evaluate);
 }
@@ -1051,20 +1005,17 @@ boolean bhuntcheck(
 {
   /* detect check of a bishop/rook-hunter */
   /* it's not dependent of the piece-color !! */
-  /* always moves up (bishop), down (rook) !!  V3.04	NG */
-
+  /* always moves up (bishop), down (rook) !! */
   return ridcheck(i, 2, 2, p, evaluate)
 	|| ridcheck(i, 7, 8, p, evaluate);
 }
 
-/* new anticirce implementation by TLi	V3.39 */
-
 boolean AntiCirceEch(square	sq_departure,
                      square	sq_arrival,
                      square	sq_capture,
-                     couleur	camp)					/* V3.39  TLi */
+                     couleur	camp)
 {
-  if (CondFlag[antisuper])    /* V3.78  SE */
+  if (CondFlag[antisuper])
   {
     square *bnp= boardnum; 
     while (!LegalAntiCirceMove(*bnp, sq_capture, sq_departure) && *bnp) bnp++;
@@ -1080,7 +1031,7 @@ boolean AntiCirceEch(square	sq_departure,
 	    cren= (*antirenai)(pprom, spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
 	    pprom= getprompiece[pprom];
       } while (!LegalAntiCirceMove(cren, sq_capture, sq_departure) && pprom != vide);
-      if (	!LegalAntiCirceMove(cren, sq_capture, sq_departure)  /* V3.62  TLi */
+      if (	!LegalAntiCirceMove(cren, sq_capture, sq_departure)
             && pprom == vide)
       {
 	    return false;
@@ -1100,16 +1051,14 @@ boolean AntiCirceEch(square	sq_departure,
   return eval_2(sq_departure,sq_arrival,sq_capture);
 } /* AntiCirceEch */
 
-boolean rnanticircech(square sq_departure, square sq_arrival, square sq_capture) { /* V3.39  TLi */
+boolean rnanticircech(square sq_departure, square sq_arrival, square sq_capture) {
   return AntiCirceEch(sq_departure, sq_arrival, sq_capture, noir);
-} /* rnanticirech */
+}
 
-boolean rbanticircech(square sq_departure, square sq_arrival, square sq_capture) {/* V3.39  TLi */
+boolean rbanticircech(square sq_departure, square sq_arrival, square sq_capture) {
   return AntiCirceEch(sq_departure, sq_arrival, sq_capture, blanc);
-} /* rbanticircech */
+}
 
-
-/*****	V3.71  TM  *****  begin  *****/
 boolean rnsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
   if (is_pawn(e[sq_departure]) && PromSq(blanc, sq_capture)) {
 	/* Pawn checking on last rank */
@@ -1129,11 +1078,8 @@ boolean rbsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_ca
 	return eval_2(sq_departure,sq_arrival,sq_capture);
   }
 }
-/*****	V3.71  TM  *****  end  *****/
 
 
-/*****	V3.20  TLi  *****  begin  *****/
-/* boolean rbexactech(square sq_departure, square sq_arrival, square sq_capture)	V3.22  TLi */
 boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture) {
   killer_state const save_killer_state = current_killer_state;
   boolean check;
@@ -1150,14 +1096,11 @@ boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture) {
   current_killer_state.move.arrival = sq_arrival;
   current_killer_state.found = false;
   trait[nbply]= noir;
-  /* flagminmax= false;				   V3.44  TLi */
-  /* flag_minmax[nbply]= false;			   V3.44  TLi */
   we_generate_exact = true;
   gen_bl_ply();
   finply();
   check = current_killer_state.found;
   we_generate_exact = false;
-  /* flagminmax = how_is_flagminmax;			   V3.44  TLi */
   current_killer_state = save_killer_state;
 
   return  check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
@@ -1165,7 +1108,6 @@ boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture) {
 
 boolean rnultraech(square sq_departure, square sq_arrival, square sq_capture) {
   killer_state const save_killer_state = current_killer_state;
-  /* how_is_flagminmax = flagminmax;			   V3.44  TLi */
   boolean check;
 
   nextply();
@@ -1173,21 +1115,16 @@ boolean rnultraech(square sq_departure, square sq_arrival, square sq_capture) {
   current_killer_state.move.arrival = sq_arrival;
   current_killer_state.found = false;
   trait[nbply]= blanc;
-  /* flagminmax= false;	  V3.44  TLi */
-  /* flag_minmax[nbply]= false;  V3.44  TLi */
   we_generate_exact = true;
   gen_wh_ply();
   finply();
   check = current_killer_state.found;
   we_generate_exact = false;
-  /* flagminmax = how_is_flagminmax;	 V3.44	TLi */
   current_killer_state = save_killer_state;
 
   return check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
 }
-/*****	V3.20  TLi  *****   end   *****/
 
-/**********  V3.12  TLi  begin	**********/
 boolean skycharcheck(piece	p,
                      square	sq_king,
                      square	chp,
@@ -1232,7 +1169,7 @@ boolean charybdischeck(
     || skycharcheck(p, i, i+dir_down+dir_right, i+dir_left, i + 24, evaluate);
 }
 
-boolean echecc_normal(couleur camp) /* V4.03 SE */
+boolean echecc_normal(couleur camp)
 {
   /* for strict SAT - need to compute whether the K square is normally checked */
   boolean flag;
@@ -1242,4 +1179,3 @@ boolean echecc_normal(couleur camp) /* V4.03 SE */
   return flag;
 }
 
-/**********  V3.12  TLi  end  **********/

@@ -20,7 +20,7 @@
 #endif
  
 #include <stdio.h>
-#include <string.h>	       /* H.D. 10.02.93 prototype fuer memset */
+#include <string.h>
 
 #include "py.h"
 #include "py1.h"
@@ -39,8 +39,8 @@ void nextply(void)
   nbply++;
   repere[nbply]= nbcou;
 
-  ep2[nbply]=                        /* V3.22  TLi */
-    ep[nbply]= initsquare;            /* V3.0  TLi */
+  ep2[nbply]=
+    ep[nbply]= initsquare;
 
   /*
     The current implementation of promotions works as follows:
@@ -59,98 +59,98 @@ void nextply(void)
     abovementioned arrays, either in finply() or here
   */
   norm_prom[nbply]=
-    cir_prom[nbply]= vide;               /* V3.02  TLi */
+    cir_prom[nbply]= vide;
   norm_cham_prom[nbply]=
-    cir_cham_prom[nbply]=                /* V3.1  TLi */
-    Iprom[nbply] = false;                 /* V4.03  ThM */
+    cir_cham_prom[nbply]=
+    Iprom[nbply] = false;
 
   /*
     Supercirce rebirths are implemented similarly to promotions ...
   */
-  super[nbply]= superbas;                /* V3.1  TLi */
+  super[nbply]= superbas;
 
   /*
     start with the castling rights of the upper level
   */
-  castling_flag[nbply]= castling_flag[nbply - 1];    /* V3.35  NG */
-  WhiteStrictSAT[nbply]= WhiteStrictSAT[nbply-1];	/* V4.03  SE */
-  BlackStrictSAT[nbply]= BlackStrictSAT[nbply-1];	/* V4.03  SE */
+  castling_flag[nbply]= castling_flag[nbply - 1];
+  WhiteStrictSAT[nbply]= WhiteStrictSAT[nbply-1];
+  BlackStrictSAT[nbply]= BlackStrictSAT[nbply-1];
 }
 
-#ifdef NODEF    /* V4.03 ThM */
+#ifdef NODEF
 void nextply(void)
 {
   debut = nbcou;
   nbply++;
   repere[nbply]= nbcou;
   norm_prom[nbply]=
-    cir_prom[nbply]= vide;				/* V3.02  TLi */
-  ep2[nbply]=						/* V3.22  TLi */
-    ep[nbply]= initsquare;				/* V3.0  TLi */
+    cir_prom[nbply]= vide;
+  ep2[nbply]=
+    ep[nbply]= initsquare;
   norm_cham_prom[nbply]=				
-    cir_cham_prom[nbply]= false;			/* V3.1  TLi */
-  super[nbply]= superbas;				/* V3.1  TLi */
-  castling_flag[nbply]= castling_flag[nbply - 1];	/* V3.35  NG */
+    cir_cham_prom[nbply]= false;
+  super[nbply]= superbas;
+  castling_flag[nbply]= castling_flag[nbply - 1];
   WhiteStrictSAT[nbply]= WhiteStrictSAT[nbply-1];
   BlackStrictSAT[nbply]= BlackStrictSAT[nbply-1];
 }
 #endif  /* NODEF */
 
-void InitCond(void) {	  /* V3.40  TLi */
+void InitCond(void) {
   square *bnp, i, j;
   piece p;
 
-  flag_madrasi= false;				/* V3.60  TLi */
+  flag_madrasi= false;
   wh_exact= wh_ultra= bl_exact= bl_ultra= false;
   anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anytraitor= false;
-  anymars= anyantimars= anygeneva= false;		/* V4.38  NG */
-  blacknull= whitenull= nullgenre= false;               /* V3.70 SE */
+  anymars= anyantimars= anygeneva= false;
+  blacknull= whitenull= nullgenre= false;
 
   immrenroib= immrenroin= cirrenroib= cirrenroin= initsquare;
 
   antirenai= rennormal;
   circerenai= rennormal;
   immunrenai= rennormal;
-  marsrenai= rennormal;			/* V3.76  NG */
-  genevarenai= rennormal;		/* V4.38  NG */
+  marsrenai= rennormal;
+  genevarenai= rennormal;
 
-  bl_royal_sq= wh_royal_sq= initsquare;	/* V3.50  TLi */
+  bl_royal_sq= wh_royal_sq= initsquare;
 
-  flagAssassin= false;			/* V3.76  NG */
+  flagAssassin= false;
   flagwhitemummer= flagblackmummer= false;
   flagmaxi= flagultraschachzwang= false;
   flagparasent= false;
   rex_mad= rex_circe= rex_immun= rex_phan= rex_geneva=
-    rex_mess_ex= rex_wooz_ex= false;		/* V3.55  TLi */
+    rex_mess_ex= rex_wooz_ex= false;
   calctransmute= false;
 
-  for (p= vide; p < PieceCount; p++)		/* V3.45  TLi */
+  for (p= vide; p < PieceCount; p++)
 	NextChamCircePiece[p]= p;
   InitChamCirce= True;
 
-  max_pn= max_pb= 8;				/* V3.60 SE */
-  max_pt=16;					/* V3.63 SE */
+  max_pn= max_pb= 8;
+  max_pt=16;
   sentinelb= pb;
-  sentineln= pn;				/* V3.70 SE */
+  sentineln= pn;
 
-  ClrDiaRen(PieSpExFlags);			/* V3.76  NG */
+  ClrDiaRen(PieSpExFlags);
 
   for (bnp= boardnum; *bnp; bnp++) {
-	smallint const file= *bnp%onerow - nr_of_slack_files_left_of_board; /* V1.4c NG */
-	smallint const row= *bnp/onerow - nr_of_slack_rows_below_board;	/* V1.4c NG */
+	smallint const file= *bnp%onerow - nr_of_slack_files_left_of_board;
+	smallint const row= *bnp/onerow - nr_of_slack_rows_below_board;
 
-	CLEARFL(sq_spec[*bnp]);			/* V3.20  TLi, V3.29  NG */
-	ClrDiaRen(spec[*bnp]);			/* V3.76  NG */
+	CLEARFL(sq_spec[*bnp]);
+	ClrDiaRen(spec[*bnp]);
     sq_num[*bnp]= (smallint)(bnp-boardnum);
 
-	/* initialise sq_spec and set grid number  V3.22  TLi */
+	/* initialise sq_spec and set grid number */
 	sq_spec[*bnp] += ((file/2)+4*(row/2)) << Grid;
 	if (file!=0 && file!=nr_files_on_board-1
         && row!=0 && row!=nr_rows_on_board-1)
       SETFLAG(sq_spec[*bnp], NoEdgeSq);
   }
 
-  for (i= bas; i < haut; i+= onerow) {	    /* V3.22  TLi, V3.29  NG */
+  for (i= bas; i < haut; i+= onerow) {
 	if (i > bas)
       if (!TSTFLAG(sq_spec[i+dir_down], SqColor))
 		SETFLAG(sq_spec[i], SqColor);
@@ -160,48 +160,45 @@ void InitCond(void) {	  /* V3.40  TLi */
   }
 
   for (i= 0; i < CondCount; CondFlag[i++]= False) {
-    /* V2.70 TLi,V2.90 NG */
 	;
   }
 
-  for (i= maxply; i > 0; inum[i--]= 0)		/* V3.41  TLi */
+  for (i= maxply; i > 0; inum[i--]= 0)
 	;
 
-  memset((char *) promonly, 0, sizeof(promonly));	/* V3.43
-                                                       V3.44  NG */
+  memset((char *) promonly, 0, sizeof(promonly));
   memset((char *) isapril,0,sizeof(isapril));
-  checkhopim = false;					/* V3.64  SE */
+  checkhopim = false;
   nocontactfunc= nokingcontact;
-  OscillatingKingsTypeB[blanc]= false;  /* V3.80  SE */
+  OscillatingKingsTypeB[blanc]= false;
   OscillatingKingsTypeB[noir]= false;
   OscillatingKingsTypeC[blanc]= false;
   OscillatingKingsTypeC[noir]= false;
 
-  black_length = NULL;				/* V3.80  SE */
-  white_length = NULL;				/* V3.80  SE */
+  black_length = NULL;
+  white_length = NULL;
 
-  BGL_white= BGL_black= BGL_infinity;  /* V4.06 SE */
+  BGL_white= BGL_black= BGL_infinity;
   BGL_whiteinfinity= BGL_blackinfinity= true;
   BGL_global= false;
 } /* InitCond */
 
-void InitOpt(void) {					/* V3.40  TLi */
+void InitOpt(void) {
   int i;
 
   maxflights= 64;
-  maxdefen= 0;					/* V2.90  TLi */
-  MoveNbr= RestartNbr= 0;				/* V3.44  TLi */
+  maxdefen= 0;
+  MoveNbr= RestartNbr= 0;
 
   droh= NonTrivialLength= maxply;
-  ep2[nbply]= ep[nbply]= initsquare;			/* V3.50  TLi */
-  no_castling= bl_castlings|wh_castlings;	/* V3.55  NG */
+  ep2[nbply]= ep[nbply]= initsquare;
+  no_castling= bl_castlings|wh_castlings;
 
-  for (i= 0; i < OptCount; OptFlag[i++]= False);	/* V2.70 TLi,
-                                                       V2.90 NG */
+  for (i= 0; i < OptCount; OptFlag[i++]= False);
   flag_appseul= false;
-} /* InitOpt */
+}
 
-void InitCheckDir(void) {   /* V3.40  TLi */
+void InitCheckDir(void) {
   int i, j;
 
   for (i= -haut+bas; i <= haut-bas; i++)
@@ -227,21 +224,18 @@ void InitCheckDir(void) {   /* V3.40  TLi */
 	    CheckDirBishop[j*vec[i]]= vec[i];
 } /* InitCheckDir */
 
-void InitBoard(void) {	   /* V3.40  TLi */
+void InitBoard(void) {
   square i, *bnp;
 
   ActTitle[0]= ActAuthor[0]= ActOrigin[0]=
     ActTwin[0]= ActAward[0] = ActStip[0]= '\0';
 
-  for (i= maxsquare - 1; i >= 0; i--) {		/* V2.60  NG,
-                                               V3.22  TLi */
-    e[i]= e_ubi[i]= e_ubi_mad[i]= obs;		/* V3.29  NG */
-    spec[i]= BorderSpec;			/* V3.33  TLi */
+  for (i= maxsquare - 1; i >= 0; i--) {
+    e[i]= e_ubi[i]= e_ubi_mad[i]= obs;
+    spec[i]= BorderSpec;
   }
 
-  /* dummy squares for Messigny chess and castling
-     -- must be empty, V3.55	TLi
-  */
+  /* dummy squares for Messigny chess and castling -- must be empty */
   e[messigny_exchange]= e[kingside_castling]= e[queenside_castling]= vide;
   CLEARFL(spec[messigny_exchange]);
   CLEARFL(spec[kingside_castling]);
@@ -252,61 +246,60 @@ void InitBoard(void) {	   /* V3.40  TLi */
 
   rb= rn= initsquare;
 
-  CLEARFL(PieSpExFlags);				 /* V2.90 TLi */
+  CLEARFL(PieSpExFlags);
 
   nrhuntertypes = 0;
 } /* InitBoard */
 
-void InitStip(void) {	/* V3.40  TLi */
-  FlagGenMatingMove= FlagMoveOrientatedStip= False;	 /* V3.33 TLi */
+void InitStip(void) {
+  FlagGenMatingMove= FlagMoveOrientatedStip= False;
   enonce= 0;
-} /* InitStip */
+}
 
-void InitAlways(void) {    /* V3.40  TLi */
+void InitAlways(void) {
   square i;
 
-  memset((char *) exist, 0, sizeof(exist));	  /* V3.43  NG */
+  memset((char *) exist, 0, sizeof(exist));
 
   move_generation_mode= move_generation_optimized_by_killer_move;
 
   nbcou = 1;
   nbply = 1;
 
-  flagAssassin=				     /* V3.50 SE */
+  flagAssassin=
     flag_writinglinesolution=
-    flag_testlegality= k_cap=			     /* V3.44  SE/TLi */
-    flende =					     /* V2.70 TLi */
+    flag_testlegality= k_cap=
+    flende =
     flagfee =
-    flagriders	    =				     /* V3.12  TM */
-    flagleapers     =				     /* V3.12  TM */
-    flagsimplehoppers     =			/* V3.74  NG */
-    flagsimpledecomposedleapers =  /* V3.81 SE */
+    flagriders	    =
+    flagleapers     =
+    flagsimplehoppers     =
+    flagsimpledecomposedleapers =
     flagsymmetricfairy  =
-    flagveryfairy   = false;			     /* V3.12  TM */
+    flagveryfairy   = false;
 
-  /* numenroute = 0;					V3.44  TLi */
   marge = 0;
-  solutions= 0;				     /* V3.12  StHoe */
+  solutions= 0;
 
-  PrintReciSolution = False;			     /* V3.31  TLi */
+  PrintReciSolution = False;
 
-  for (i= maxply; i > 0; i--) {		      /* V1.5c NG */
-	whduell[i]= blduell[i]=			      /* V3.0  TLi */
+  for (i= maxply; i > 0; i--) {
+	whduell[i]= blduell[i]=
       kpilcd[i]= kpilca[i]=
       sqrenais[i]= initsquare;
-	trait[i]= blanc;			      /* V2.60 NG */
-	crenkam[i]= initsquare;			      /* V2.4d TM */
-	pwcprom[i]=				      /* V3.1  TLi */
+	trait[i]= blanc;
+	crenkam[i]= initsquare;
+	pwcprom[i]=
       senti[i]=
-      Iprom[i]= false;			      /* V2.4d TM */
-	att_1[i]= true;				      /* V3.70 SE */
-    oscillatedKs[i]= false;          /* V3.81 SE */
+      Iprom[i]= false;
+	att_1[i]= true;
+    oscillatedKs[i]= false;
   }
 
-  initneutre(blanc);				     /* V3.40  TLi */
+  initneutre(blanc);
   tabsol.nbr=
-    tabsol.cp[0]= 0;				     /* V2.70  TLi */
-  flag_atob= false;				     /* 3.70  SE */
+    tabsol.cp[0]= 0;
+  flag_atob= false;
   dont_generate_castling=false;
   
   takemake_departuresquare= initsquare;
@@ -315,7 +308,7 @@ void InitAlways(void) {    /* V3.40  TLi */
 
 void initneutre(couleur c) {
   /* I don't know why, but the solution below is not slower */
-  /* than the double loop solution of genblanc(). V3.14  NG */ 
+  /* than the double loop solution of genblanc(). NG */ 
 
   square *bnp;
 
@@ -331,7 +324,7 @@ void initneutre(couleur c) {
 
 square coinequis(square i)
 {
-  return 75 + (onerow*(((i/onerow)+3)/2) + (((i%onerow)+3)/2));	 /* V2.60  NG */
+  return 75 + (onerow*(((i/onerow)+3)/2) + (((i%onerow)+3)/2));
 }
 
 boolean leapcheck(square	 sq_king,
@@ -340,7 +333,7 @@ boolean leapcheck(square	 sq_king,
                   piece	 p,
                   evalfunction_t *evaluate)
 {
-  /* detect "check" of leaper p */			/* V2.60  NG */
+  /* detect "check" of leaper p */
   numvec  k;
 
   square sq_departure;
@@ -348,7 +341,7 @@ boolean leapcheck(square	 sq_king,
   for (k= kanf; k<=kend; k++) {
 	sq_departure= sq_king+vec[k];
 	if (e[sq_departure]==p
-        && evaluate(sq_departure,sq_king,sq_king)			/* V3.02  TLi */
+        && evaluate(sq_departure,sq_king,sq_king)
         && imcheck(sq_departure,sq_king))
       return true;
   }
@@ -356,7 +349,6 @@ boolean leapcheck(square	 sq_king,
   return false;
 }
 
-/*****	V3.34  TLi  ***** begin *****/
 boolean riderhoppercheck(square	 sq_king,
                          numvec	 kanf,
                          numvec	 kend,
@@ -430,7 +422,6 @@ boolean riderhoppercheck(square	 sq_king,
   }
   return false;
 } /* end of riderhoppercheck */
-/*****	V3.34  TLi  *****  end	*****/
 
 boolean ridcheck(square	sq_king,
                  numvec	kanf,
@@ -438,7 +429,7 @@ boolean ridcheck(square	sq_king,
                  piece	p,
                  evalfunction_t	*evaluate)
 {
-  /* detect "check" of rider p */			/* V2.60  NG */
+  /* detect "check" of rider p */
   piece rider;
   numvec  k;
 
@@ -472,14 +463,13 @@ boolean marincheck(square	sq_king,
 	if (e[sq_arrival]==vide) {
       finligne(sq_king,vec[k],marine,sq_departure);
       if (marine==p && evaluate(sq_departure,sq_arrival,sq_king))
-        /* V3.70  TLi */
 		return true;
 	}
   }
   return false;
-} /* marincheck */
+}
 
-boolean nogridcontact(square j)			/* V2.4c  NG */
+boolean nogridcontact(square j)
 {
   square  j1;
   numvec  k;
@@ -500,7 +490,7 @@ boolean noleapcontact(square ia, numvec kanf, numvec kend)
   piece p;
   for (k= kanf; k <= kend; k++) {
     if ( (p= e[ia + vec[k]]) != obs
-         && p != vide)				 /* 3.02 TLi */
+         && p != vide)
     {
       /* this is faster than a call to abs() */
       return false;
@@ -564,28 +554,28 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
   boolean	Result;
   square	cr;
   piece	pj, pp, pren;
-  piece	pc= obs;				/* V3.05  NG */
-  short	flag_castling= 0;			/* V3.35  NG */
+  piece	pc= obs;
+  short	flag_castling= 0;
   /* 0: NO, 1: SHORT, 2: LONG  castling */
 
   VARIABLE_INIT(cr);
 
   pj= e[sq_departure];
   pp= e[sq_capture];
-  /* does this work with neutral pieces ??? */	/* V3.37  NG */
+  /* does this work with neutral pieces ??? */
   if (CondFlag[haanerchess]) {
 	e[sq_departure]= obs;
   }
   else if (CondFlag[sentinelles]
            && sq_departure>=square_a2 && sq_departure<=square_h7
-           && !is_pawn(pj))				    /* V3.64  NG,TLi */
+           && !is_pawn(pj))
   {
-	if ((pj<=roin) != SentPionAdverse) {		 /* V3.50 SE */
-      if (nbpiece[sentineln] < max_pn	    /* V3.60,3.63 SE */
+	if ((pj<=roin) != SentPionAdverse) {
+      if (nbpiece[sentineln] < max_pn
 	      && nbpiece[sentinelb]+nbpiece[sentineln] < max_pt
 	      && (!flagparasent
               || (nbpiece[sentineln]
-                  <= nbpiece[sentinelb]+(pp==sentinelb?1:0))))	/* V3.62 SE */
+                  <= nbpiece[sentinelb]+(pp==sentinelb?1:0))))
       {
 		e[sq_departure]= sentineln;
       }
@@ -594,12 +584,11 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
       }
 	}
 	else { /* we assume  pj >= roib */
-      if (nbpiece[sentinelb] < max_pb	    /* V3.60,3.63 SE */
+      if (nbpiece[sentinelb] < max_pb
 	      && nbpiece[sentinelb]+nbpiece[sentineln] < max_pt
 	      && (!flagparasent
               || (nbpiece[sentinelb]
                   <= nbpiece[sentineln]+(pp==sentineln?1:0))))
-        /* V3.62 SE */
       {
         e[sq_departure]= sentinelb;
       }
@@ -608,7 +597,6 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
       }
       /* don't think any change as a result of Sentinelles */
       /* PionNeutral is needed as piece specs not changed  */
-      /* V3.50 SE */
 	}
   }
   else {
@@ -616,11 +604,10 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
 	/* e[sq_departure] = CondFlag[haanerchess] ? obs : vide;	   */
   }
 
-  if (sq_capture == messigny_exchange) {				 /* V3.62 SE */
+  if (sq_capture == messigny_exchange) {
 	e[sq_departure]= e[sq_arrival];
   }
   else {
-	/*****	TLi  V3.31  *****  begin  *****/
 	/* the pieces captured and reborn may be different: */
 	/* Clone, Chameleon Circe			    */
     pp= e[sq_capture];
@@ -631,13 +618,9 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
 	 */
 	e[sq_capture]= vide;
 
-	if (pp != vide && pp != obs) {	/* V1.6c, V3.05  NG,
-                                       V3.1  TLi,
-                                       V3.35  NG */
-      if (anycirce && abs(pp) > roib) {	/* V3.1  TLi,
-                                           V3.37  NG */
-		/* correction by TLi V3.31
-		** It still doesnot work with neutral pieces.
+	if (pp != vide && pp != obs) {
+      if (anycirce && abs(pp) > roib) {
+		/* This still doesn't work with neutral pieces.
 		** Eventually we must add the colour of the side making
 		** the move or potentially giving the check to the
 		** argument list!
@@ -650,30 +633,29 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
           /* Chameleon Circe or ordinary Circe type */
           pren= CondFlag[chamcirce]
             ? ChamCircePiece(pp)
-            : pp;				/* V3.45  TLi */
+            : pp;
 		}
 
 		if (CondFlag[couscous]) {
-          cr= (*circerenai)(pj, spec[sq_departure], sq_capture, sq_departure, sq_arrival, pp > vide ? blanc : noir);	/* V3.80  NG */
+          cr= (*circerenai)(pj, spec[sq_departure], sq_capture, sq_departure, sq_arrival, pp > vide ? blanc : noir);
 		}
 		else {
-          cr= (*circerenai)(pren, spec[sq_capture], sq_capture, sq_departure, sq_arrival, pp > vide ? noir : blanc);	/* V3.80  NG */
+          cr= (*circerenai)(pren, spec[sq_capture], sq_capture, sq_departure, sq_arrival, pp > vide ? noir : blanc);
 		}
 
-		if ((pc= e[cr]) == vide) {		/* V2.90  NG */
+		if ((pc= e[cr]) == vide) {
           e[cr]= pren;
 		}
       } /* anycirce && abs(pp) > roib */
-	} /* pp != vide && pp != obs */			/* V3.35  NG */
-	/*****	TLi  V3.31  *****  end	*****/
-	else { /* no capture move */			/* V3.35  NG */
+	} /* pp != vide && pp != obs */
+	else { /* no capture move */
       if (abs(pj) == King && castling_supported) {
-		if (sq_capture == kingside_castling) {	/* V3.63  NG */
+		if (sq_capture == kingside_castling) {
           flag_castling= 1;
           e[sq_arrival+dir_left]= e[sq_arrival+dir_right];
           e[sq_arrival+dir_right]= vide;
 		}
-		else if (sq_capture == queenside_castling) { /* V3.63  NG */
+		else if (sq_capture == queenside_castling) {
           flag_castling= 2;
           e[sq_arrival+dir_right]= e[sq_arrival+2*dir_left];
           e[sq_arrival+2*dir_left]= vide;
@@ -682,21 +664,20 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
 	}
   }
 
-  if (CondFlag[contactgrid]) {			/* V2.4c  NG */
-	Result= nogridcontact(sq_arrival);			/* V2.5c  NG */
+  if (CondFlag[contactgrid]) {
+	Result= nogridcontact(sq_arrival);
   }
   else {
 	Result= (*nocontactfunc)(sq_arrival);
   }
 
-  if (pc != obs) {					/* V3.02  TLi,
-                                       V3.05  NG */
+  if (pc != obs) {
 	e[cr]= pc;
   }
 
-  e[sq_capture]= pp;						/* V3.02  TLi */
+  e[sq_capture]= pp;
   e[sq_departure]= pj;
-  if (flag_castling == 1) {				/* V3.35  NG */
+  if (flag_castling == 1) {
 	e[sq_arrival+dir_right]= e[sq_arrival+dir_left];
 	e[sq_arrival+dir_left]= vide;
   }
@@ -707,8 +688,6 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
 
   return Result;
 } /* nocontact */
-
-/*****	V3.12  TLi  *****  begin  *****/
 
 /* new versions of StorePosition() and ResetPosition() */
 
@@ -730,14 +709,14 @@ void StorePosition(void) {
 
   /* imitators */
   sic_inum1= inum[1];
-  for (i= 0; i < maxinum; i++) {			/* V2.90  NG */
+  for (i= 0; i < maxinum; i++) {
 	sic_isquare[i]= isquare[i];
   }
 
   sic_im0= im0;
   sic_BGL_W= BGL_white;
   sic_BGL_b= BGL_black;
-} /* StorePosition */
+}
 
 void ResetPosition(void) {
   smallint	    i;
@@ -756,15 +735,13 @@ void ResetPosition(void) {
   for (i= 1; i <= maxply; inum[i++]= sic_inum1)
 	;
 
-  for (i= 0; i < maxinum; i++)	    /* V2.90  NG */
+  for (i= 0; i < maxinum; i++)
     isquare[i]= sic_isquare[i];
   im0= sic_im0;
-  neutcoul= blanc;			    /* V2.90  TLi */
+  neutcoul= blanc;
   BGL_white= sic_BGL_W;
   BGL_black= sic_BGL_b;
-} /* ResetPosition */
-
-/*****	V3.12  TLi  *****  end	*****/
+}
 
 boolean ooorphancheck(square sq_king,
                       piece porph,
@@ -859,12 +836,12 @@ boolean orphancheck(square	 sq_king,
 	}
   }
   return false;
-} /* orphancheck */
+}
 
 boolean fffriendcheck(square	sq_king,
                       piece	pfr,
                       piece	p,
-                      evalfunction_t *evaluate)	/* V3.65  TLi */
+                      evalfunction_t *evaluate)
 {
   boolean	flag= false;
   square	flist[63], *bnp;
@@ -911,7 +888,7 @@ boolean fffriendcheck(square	sq_king,
 
 boolean friendcheck(
   square	i, piece p,
-  evalfunction_t *evaluate)	/* V3.65  TLi */
+  evalfunction_t *evaluate)
 {
   piece	*pfr, cfr;
   boolean	flag= false;

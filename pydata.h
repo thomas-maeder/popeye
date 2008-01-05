@@ -32,8 +32,8 @@ extern  unsigned long   MaxMemory;
 extern  char    *StartUp;
 extern  long    MaxPositions;
 extern  boolean LaTeXout;
-extern  int     GlobalThreadCounter;	/* V3.54  NG */
-extern  boolean flag_regression;	/* V3.74  NG */
+extern  int     GlobalThreadCounter;
+extern  boolean flag_regression;
 #else
 #	ifdef __TURBOC__ /* TurboC and BorlandC  TLi */
    /* MaxPositions is either set in inithash() using the coreleft function
@@ -46,56 +46,56 @@ extern  boolean flag_regression;	/* V3.74  NG */
 unsigned long           MaxMemory       = 0L;
 char            *StartUp = VERSIONSTRING;
 boolean         LaTeXout= false;
-int     	GlobalThreadCounter= 0;	/* V3.54  NG */
-boolean         flag_regression= false;	/* V3.74  NG */
+int     	GlobalThreadCounter= 0;
+boolean         flag_regression= false;
 #endif  /* WE_ARE_EXTERN */
 
 EXTERN  char            MMString[37];   /* MaxMemory available for diagnostic message */
-					/* Safety first, think at the future (:-), V3.37  NG */
+					/* Safety first, think at the future (:-) */
 
 EXTERN  long            PositionCnt;
 
-EXTERN  boolean         FlagGenMatingMove, FlagMoveOrientatedStip;    /* V3.33 TLi */
-EXTERN  boolean         flagpassive, flagcapture,       /* V3.46  SE/TLi */
-			flagactive,                     /* V3.47  NG */
+EXTERN  boolean         FlagGenMatingMove, FlagMoveOrientatedStip;
+EXTERN  boolean         flagpassive, flagcapture,
+			flagactive,
 			flagwhitemummer,
-			flagblackmummer;                /* V3.0  TLi */
+			flagblackmummer;
 
-EXTERN  square          rb, rn;         /* V3.12  TLi */
-EXTERN  square          bl_royal_sq, wh_royal_sq;       /* V3.50  TLi */
+EXTERN  square          rb, rn;
+EXTERN  square          bl_royal_sq, wh_royal_sq;
 
-EXTERN  echiquier       e, e_ubi, e_ubi_mad;    /* V3.12c  TLi, V3.29  NG */
+EXTERN  echiquier       e, e_ubi, e_ubi_mad;
 
-EXTERN  boolean         mateallowed[maxply + 1];        /* V3.45  TLi */
+EXTERN  boolean         mateallowed[maxply + 1];
 EXTERN  boolean         senti[maxply + 1],
-			norm_cham_prom[maxply + 1],     /* V3.1  TLi */
-			cir_cham_prom[maxply + 1];      /* V3.1  TLi */
+			norm_cham_prom[maxply + 1],
+			cir_cham_prom[maxply + 1];
 
-EXTERN struct /* V3.72 TM */
+EXTERN struct
 {
     square where;
     piece what;
 } sb2[maxply+1];
 
-EXTERN  square          ppridia[maxply + 1];            /* V2.90c  TLi */
+EXTERN  square          ppridia[maxply + 1];
 
 EXTERN  square
-			ep[maxply + 1],                 /* V3.0  TLi */
-			ep2[maxply + 1],                /* V3.22 TLi */
-			whduell[maxply + 1],            /* V3.0  TLi */
-			blduell[maxply + 1],            /* V3.0  TLi */
-			RN_[maxply + 1],                /* V3.02 TLi */    /* H.D. 10.02.93 */
-			RB_[maxply + 1];                /* V3.03 TLi */
+			ep[maxply + 1],
+			ep2[maxply + 1],
+			whduell[maxply + 1],
+			blduell[maxply + 1],
+			RN_[maxply + 1],
+			RB_[maxply + 1];
 
-EXTERN  square          pattfld, patti, pattj;          /* V2.70c  TLi */
+EXTERN  square          pattfld, patti, pattj;
 EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
 #ifdef  WE_ARE_EXTERN
-EXTERN smallint maxinbox[];  /* V3.71 TM */
-EXTERN unsigned int boxsize; /* V3.71 TM */
+EXTERN smallint maxinbox[];
+EXTERN unsigned int boxsize;
 #endif
 
-EXTERN struct /* V3.71 TM */
+EXTERN struct
 {
     square where;
     piece what;
@@ -113,10 +113,10 @@ EXTERN  killer_state const null_killer_state;
 EXTERN  pilecase        kpilcd;
 EXTERN  pilecase        kpilca;
 
-EXTERN  smallint        maxflights;             /* V3.12  TLi */
+EXTERN  smallint        maxflights;
 
 
-/* symbols for bits in castling_flag */   /* V3.35  NG */  /* V4.02  TM */
+/* symbols for bits in castling_flag */
 enum
 {
   rh8_cancastle = 0x01,
@@ -131,7 +131,7 @@ enum
  * TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
  * stop working. */
 
-/* symbols for bit combinations in castling_flag */ /* V4.02  TM */
+/* symbols for bit combinations in castling_flag */
 enum
 {
   whk_castling = ke1_cancastle|rh1_cancastle,
@@ -143,12 +143,11 @@ enum
 };
 
 EXTERN  unsigned char   castling_flag[maxply + 1];
-EXTERN  unsigned char   no_castling;		/* V3.55  NG */
-EXTERN  short           castling_supported;     /* V3.35  NG */
-EXTERN  boolean         testcastling;		/* V3.62  NG */
+EXTERN  unsigned char   no_castling;
+EXTERN  short           castling_supported;
+EXTERN  boolean         testcastling;
 
 /* Symbols for squares - using these makes code much more human-readable */
-/* V4.02 TM */
 enum
 {
   square_a1 = 200,
@@ -223,21 +222,20 @@ enum {
 
 EXTERN  int             solutions, maxsolutions,
                         sol_per_matingpos, maxsol_per_matingpos;
-EXTERN  boolean         FlagMaxSolsReached;	/* V3.60  NG */
-EXTERN  boolean         FlagShortSolsReached;	/* V3.60  NG */
+EXTERN  boolean         FlagMaxSolsReached;
+EXTERN  boolean         FlagShortSolsReached;
 
 /* Stop solving when a given time (in seconds) for solving is reached */
 
-EXTERN  int             maxsolvingtime;		/* V3.53  NG */
-EXTERN  boolean         FlagTimeOut;		/* V3.54  NG */
-EXTERN  boolean         FlagTimerInUse;		/* V3.54  NG */
+EXTERN  int             maxsolvingtime;
+EXTERN  boolean         FlagTimeOut;
+EXTERN  boolean         FlagTimerInUse;
 
 /* beep maxbeep times if a solution is found */
 
-EXTERN  int             maxbeep;		/* V3.77  NG */
+EXTERN  int             maxbeep;
 
-/* Optimierung direkte Aufgaben   V3.02  TLi */
-
+/* Optimierung direkte Aufgaben */
 EXTERN  empile_optimization_table_elmt       empile_optimization_table[100];
 EXTERN  int             empile_optimization_table_count;
 EXTERN  move_generation_mode_type  move_generation_mode;
@@ -257,41 +255,41 @@ EXTERN  smallint        zzzaa[derbla - dernoi + 1];     /* nbpiece */
 
 EXTERN  piece           pjoue[maxply + 1], pprise[maxply + 1],
 			norm_prom[maxply + 1], cir_prom[maxply + 1],
-			ren_parrain[maxply + 1],        /* V3.02  TLi */
-			jouearr[maxply + 1];            /* V3.1  TLi */
+			ren_parrain[maxply + 1],
+			jouearr[maxply + 1];
 
 EXTERN  boolean         flende,                 /* flagpatrsout,        */
 			SatzFlag,DrohFlag,              
-			rex_mad,rex_circe,rex_immun,rex_phan, rex_geneva,    /* V2.70c,2.80c  TLi, V3.51, V4.38  NG  */
-                        rex_mess_ex, rex_wooz_ex;       /* V3.55  TLi */
-EXTERN  boolean         pwcprom[maxply + 1];            /* V1.6c  NG */
+			rex_mad,rex_circe,rex_immun,rex_phan, rex_geneva,
+                        rex_mess_ex, rex_wooz_ex;
+EXTERN  boolean         pwcprom[maxply + 1];
 
 EXTERN  pilecase        sqrenais,
-			crenkam,        /* rebirth square for taking kamikaze pieces V2.4d  TM */
-			super;          /* supercirce  V3.1  TLi */
-EXTERN  Flags           jouespec[maxply + 1];    /* V2.4d  TM */
+			crenkam,        /* rebirth square for taking kamikaze pieces */
+			super;          /* supercirce */
+EXTERN  Flags           jouespec[maxply + 1];
 EXTERN  numecoup        repere[maxply + 1];
 
-EXTERN  boolean         exist[derbla + 1];              /* V3.43  NG */
-EXTERN  boolean         promonly[derbla + 1];           /* V3.43  NG */
+EXTERN  boolean         exist[derbla + 1];
+EXTERN  boolean         promonly[derbla + 1];
 
 EXTERN  evalfunction_t *eval_white;
 EXTERN  evalfunction_t *eval_2;
 EXTERN  evalfunction_t *eval_black;
-EXTERN boolean		(* ReciStipulation)(couleur),   /* V3.31  TLi */
-		(* NonReciStipulation)(couleur), /* V3.31  TLi */
-		(* stipulation)(couleur);       /* V2.90c  TLi */
-EXTERN  short   (* white_length)(square departure, square arrival, square capture), /* V3.0  TLi */
-		(* black_length)(square departure, square arrival, square capture);       /* V3.0  TLi */
+EXTERN boolean		(* ReciStipulation)(couleur),
+		(* NonReciStipulation)(couleur),
+		(* stipulation)(couleur);
+EXTERN  short   (* white_length)(square departure, square arrival, square capture),
+		(* black_length)(square departure, square arrival, square capture);
 
 typedef square  (* renaifunc)(piece, Flags, square, square, square, couleur);
 
-EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai, genevarenai;	/* V3.1  TLi, V4.38  NG */
+EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai, genevarenai;
 
-EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyimmun, anyclone, anygeneva;  /* V3.1  TLi, V4.38 NG */
+EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyimmun, anyclone, anygeneva;
 
-/* new anticirce implementation -- V.38  TLi */
-EXTERN  boolean         AntiCirCheylan;   /* V3.38  TLi */
+/* new anticirce implementation */
+EXTERN  boolean         AntiCirCheylan;
 EXTERN  enum
 {
   singlebox_type1,
@@ -300,41 +298,38 @@ EXTERN  enum
 } SingleBoxType;
 
 EXTERN  pilecouleur     trait;
-EXTERN  boolean         flagfee,                /* V2.51  NG */
+EXTERN  boolean         flagfee,
 			flagriders, flagleapers, flagsimplehoppers, 
-                        flagsimpledecomposedleapers, flagsymmetricfairy,  /* V3.81 SE */
-			flagveryfairy,          /* V3.12  TM */
-			flagleofamilyonly,      /* V3.77  NG */
-			empilegenre,            /* V2.51  NG */
-			flaglegalsquare, jouegenre,     /* V2.60  NG  V2.70c  TLi */
-			repgenre, change_moving_piece;  /* V3.1  TLi */
+                        flagsimpledecomposedleapers, flagsymmetricfairy,
+			flagveryfairy,
+			flagleofamilyonly,
+			empilegenre,
+			flaglegalsquare, jouegenre,
+			repgenre, change_moving_piece;
 
-EXTERN  square          cirrenroib, cirrenroin,         /* V3.1  TLi */
+EXTERN  square          cirrenroib, cirrenroin,
 			immrenroib, immrenroin;
 
-EXTERN  boolean         PrintReciSolution;              /* V3.31  TLi */
+EXTERN  boolean         PrintReciSolution;
 
 EXTERN  smallint        marge;
 EXTERN  numecoup        debut;
-EXTERN  numecoup        testdebut;                      /* V3.00  NG */
-EXTERN  tab             tabsol;                         /* V2.70c  TLi */
+EXTERN  numecoup        testdebut;
+EXTERN  tab             tabsol;
 
 EXTERN  Flags           pprispec[maxply + 1];
 
-EXTERN  couleur         zzzag[haut - bas + 1];  /* sqcolor */           /* V2.60  NG */
+EXTERN  couleur         zzzag[haut - bas + 1];  /* sqcolor */
 
-EXTERN  Flags           spec[maxsquare+4];     /* V3.33  TLi, V3.55  TLi */
-EXTERN  smallint        zzzaj[haut - bas + 1];  /* gridnumber */        /* V2.60  NG */
+EXTERN  Flags           spec[maxsquare+4];
+EXTERN  smallint        zzzaj[haut - bas + 1];  /* gridnumber */
 
-EXTERN  smallint        NonTrivialNumber, NonTrivialLength;           /* V3.32  TLi */
+EXTERN  smallint        NonTrivialNumber, NonTrivialLength;
 
-/*****  V3.20  TLi  *****  begin  *****/
 EXTERN  Flags           zzzan[haut - bas + 1];  /* sq_spec */
 EXTERN  boolean         we_generate_exact, there_are_consmoves,
-			wh_exact, bl_exact, wh_ultra, bl_ultra; /* V3.22  TLi */
-/*****  V3.20  TLi  *****   end   *****/
+			wh_exact, bl_exact, wh_ultra, bl_ultra;
 
-							       /* V4.2d  TM */
 EXTERN  smallint        inum[maxply + 1];       /* aktuelle Anzahl Imitatoren */
 
 EXTERN  imarr           isquare;                /* Imitatorstandfelder */
@@ -343,53 +338,52 @@ EXTERN  boolean         Iprom[maxply + 1];      /* Imitatorumwandlung? */
 EXTERN  square          im0;                    /* Standort des ersten Imitators */
 
 EXTERN  smallint        enonce,
-			zugebene, maxdefen, droh;         /* V2.1c  TLi */
-EXTERN  smallint        introenonce;            /* V3.44  TLi */
-/* EXTERN  smallint        numenroute;    V3.44  TLi */
-EXTERN  smallint        MoveNbr, RestartNbr;            /* V3.44  TLi */
-EXTERN  boolean         restartenabled;                 /* V3.44  TLi */
+			zugebene, maxdefen, droh;
+EXTERN  smallint        introenonce;
+EXTERN  smallint        MoveNbr, RestartNbr;
+EXTERN  boolean         restartenabled;
 EXTERN  couleur         neutcoul;
-EXTERN  boolean         calctransmute;                  /* V3.0  TLi */
+EXTERN  boolean         calctransmute;
 
-EXTERN  boolean         flag_testlegality, k_cap,       /* V3.44  SE/TLi */
-			flag_writinglinesolution,       /* V3.44  TLi */
-			anymars,                        /* V3.46  SE/TLi */
-			flag_madrasi;                   /* V3.60  TLi */
-EXTERN  square          marsid;                         /* V3.46  SE/TLi */
-EXTERN  square          TargetField, ReciTargetField, NonReciTargetField;   /* V3.31  TLi */
+EXTERN  boolean         flag_testlegality, k_cap,
+			flag_writinglinesolution,
+			anymars,
+			flag_madrasi;
+EXTERN  square          marsid;
+EXTERN  square          TargetField, ReciTargetField, NonReciTargetField;
 
-EXTERN  boolean         DoubleMate, CounterMate, ReciDoubleMate, NonReciDoubleMate;        /* V3.32  TLi */
+EXTERN  boolean         DoubleMate, CounterMate, ReciDoubleMate, NonReciDoubleMate;
 
-EXTERN  piece           getprompiece[derbla + 1];       /* it's a inittable !  V2.60  NG */
-EXTERN  piece           checkpieces[derbla - leob + 1]; /* only fairies !  V2.60  NG */
+EXTERN  piece           getprompiece[derbla + 1];       /* it's a inittable ! */
+EXTERN  piece           checkpieces[derbla - leob + 1]; /* only fairies ! */
 
-EXTERN  piece           transmpieces[derbla];           /* V3.0  TLi */
-EXTERN  piece           orphanpieces[derbla + 1];       /* V3.0  TLi */
+EXTERN  piece           transmpieces[derbla];
+EXTERN  piece           orphanpieces[derbla + 1];
 
-EXTERN  boolean         ProofFairy;                     /* V3.36  TLi */
+EXTERN  boolean         ProofFairy;
 
-EXTERN  couleur         maincamp;                       /* V3.42  NG */
+EXTERN  couleur         maincamp;
 
-EXTERN  piece           NextChamCircePiece[PieceCount];  /* V3.45  TLi */
-EXTERN  boolean         InitChamCirce;                   /* V3.45  TLi */
+EXTERN  piece           NextChamCircePiece[PieceCount];
+EXTERN  boolean         InitChamCirce;
 
-EXTERN unsigned char    more_ren;      					    /* V3.50 SE */
+EXTERN unsigned char    more_ren;
 EXTERN boolean          IsardamB,PatienceB,SentPionAdverse,SentPionNeutral,
-			flagAssassin,flag_nk,jouetestgenre;				 /* V3.50 SE */
-EXTERN boolean          flagdiastip, flag_dontaddk;      /* V3.50  SE */
-EXTERN boolean          mate_or_stale_patt;		/* V3.60  SE */
-EXTERN smallint         max_pn, max_pb;            	/* V3.60  SE */
-EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent; /* V3.62 SE */
-EXTERN smallint         max_pt;               /* V3.63  SE */
+			flagAssassin,flag_nk,jouetestgenre;
+EXTERN boolean          flagdiastip, flag_dontaddk;
+EXTERN boolean          mate_or_stale_patt;
+EXTERN smallint         max_pn, max_pb;
+EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;
+EXTERN smallint         max_pt;
 EXTERN boolean          isapril[derbla + 1];
 
-EXTERN boolean          checkhopim;		/* V3.64 SE */
-EXTERN square           chop[toppile + 1];	/* V3.64 SE */
+EXTERN boolean          checkhopim;
+EXTERN square           chop[toppile + 1];
 
-EXTERN piece            sentinelb, sentineln;	/* V3.70 SE */
-EXTERN boolean          anytraitor;		/* V3.70 SE */
-EXTERN boolean          att_1[maxply + 1];	/* V3.70 SE */
-EXTERN boolean          flag_atob;		/* V3.70 SE */
+EXTERN piece            sentinelb, sentineln;
+EXTERN boolean          anytraitor;
+EXTERN boolean          att_1[maxply + 1];
+EXTERN boolean          flag_atob;
 EXTERN boolean         (*nocontactfunc) (square ia);
 EXTERN boolean		OscillatingKingsTypeB[2], OscillatingKingsTypeC[2];
 EXTERN boolean		anyantimars;
@@ -410,9 +404,9 @@ EXTERN boolean          repub_k[toppile + 1];
 EXTERN boolean          flag_appseul;
 EXTERN smallint         zzzao[haut - bas + 1];
 EXTERN boolean          flag_synchron;
-EXTERN long int         BGL_black, BGL_white; /* V4.06 SE */
+EXTERN long int         BGL_black, BGL_white;
 EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
-EXTERN boolean			  	blacknull, nullgenre, whitenull;		/* V3.70 SE */
+EXTERN boolean			  	blacknull, nullgenre, whitenull;
 EXTERN smallint         annanvar;
 EXTERN numecoup         tempcoup;
 EXTERN ply      	      tempply;
@@ -819,14 +813,14 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	extern char     ActOrigin[];
 	extern char     ActTitle[];
 	extern char     ActTwin[];
-	extern char     ActAward[], ActStip[];          /* V3.46  TLi */
+	extern char     ActAward[], ActStip[];
 #else
 	Lang            ActLang;
 	char            ActAuthor[256];
 	char            ActOrigin[256];
 	char            ActTitle[256];
 	char            ActTwin[1532];
-	char            ActAward[256], ActStip[37];     /* V3.46  TLi */
+	char            ActAward[256], ActStip[37];
 #endif
 
 #ifdef WE_ARE_EXTERN
@@ -970,38 +964,38 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*17*/  "Immun",
 	/*18*/  "ImmunMalefique",
 	/*19*/  "ContactGrille",
-	/*20*/  "Imitator",             /* V2.4d  TM */
-	/*21*/  "CavalierMajeur",       /* V2.60  NG */
-	/*22*/  "Haan",                 /* V2.60  NG */
-	/*23*/  "CirceCameleon",        /* V2.80c  TLi */
-	/*24*/  "CirceCouscous",        /* V3.00  NG */
-	/*25*/  "CirceEquipollents",    /* V2.80c  TLi */
-	/*26*/  "FileCirce",            /* V2.80c  TLi */
-	/*27*/  "NoirMaximum",          /* V2.90c  TLi */
-	/*28*/  "NoirMinimum",          /* V2.90c  TLi */
-	/*29*/  "BlancMaximum",         /* V2.90c  TLi */
-	/*30*/  "BlancMinimum",         /* V2.90c  TLi */
-	/*31*/  "CaseMagique",          /* V2.90c  TLi */
-	/*32*/  "Sentinelles",          /* V2.90c  TLi */
-	/*33*/  "Tibet",                /* V2.90c  TLi */
-	/*34*/  "DoubleTibet",          /* V2.90c  TLi */
-	/*35*/  "CirceDiagramme",       /* V2.90c  TLi */
-	/*36*/  "Trou",                 /* V2.90  NG */
-	/*37*/  "NoirPriseForce",       /* V3.0  TLi */
-	/*38*/  "BlancPriseForce",      /* V3.0  TLi */
-	/*39*/  "RoisReflecteurs",      /* V3.02  TLi */
-	/*40*/  "RoisTransmutes",       /* V3.0  TLi */
-	/*41*/  "NoirPoursuite",        /* V3.0  TLi */
-	/*42*/  "BlancPoursuite",       /* V3.0  TLi */
-	/*43*/  "Duelliste",            /* V3.0  TLi */
-	/*44*/  "CirceParrain",         /* V3.02  TLi */
-	/*45*/  "SansIProm",            /* V3.02  TLi */
-	/*46*/  "CirceSymetrique",      /* V3.02  TLi */
-	/*47*/  "EchecsVogtlaender",    /* V3.03  TLi, V3.54  NG */
-	/*48*/  "EchecsEinstein",       /* V3.1  TLi */
-	/*49*/  "Bicolores",            /* V3.1  TLi */
-	/*50*/  "KoekoNouveaux",        /* V3.1  TLi */
-	/*51*/  "CirceClone",           /* V3.1  TLi */
+	/*20*/  "Imitator",
+	/*21*/  "CavalierMajeur",
+	/*22*/  "Haan",
+	/*23*/  "CirceCameleon",
+	/*24*/  "CirceCouscous",
+	/*25*/  "CirceEquipollents",
+	/*26*/  "FileCirce",
+	/*27*/  "NoirMaximum",
+	/*28*/  "NoirMinimum",
+	/*29*/  "BlancMaximum",
+	/*30*/  "BlancMinimum",
+	/*31*/  "CaseMagique",
+	/*32*/  "Sentinelles",
+	/*33*/  "Tibet",
+	/*34*/  "DoubleTibet",
+	/*35*/  "CirceDiagramme",
+	/*36*/  "Trou",
+	/*37*/  "NoirPriseForce",
+	/*38*/  "BlancPriseForce",
+	/*39*/  "RoisReflecteurs",
+	/*40*/  "RoisTransmutes",
+	/*41*/  "NoirPoursuite",
+	/*42*/  "BlancPoursuite",
+	/*43*/  "Duelliste",
+	/*44*/  "CirceParrain",
+	/*45*/  "SansIProm",
+	/*46*/  "CirceSymetrique",
+	/*47*/  "EchecsVogtlaender",
+	/*48*/  "EchecsEinstein",
+	/*49*/  "Bicolores",
+	/*50*/  "KoekoNouveaux",
+	/*51*/  "CirceClone",
 	/*52*/  "AntiCirce",
 	/*53*/  "FileCirceMalefique",
 	/*54*/  "CirceAntipoden",
@@ -1018,7 +1012,7 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*65*/  "ImmunFileMalefique",
 	/*66*/  "ImmunSymmetrique",
 	/*67*/  "ImmunAntipoden",
-	/*68*/  "ImmunEquipollents",            /* V3.1  TLi */
+	/*68*/  "ImmunEquipollents",
 	/*69*/  "ReversEchecsEinstein",
 	/*70*/  "SuperCirce",
 	/*71*/  "Degradierung",
@@ -1030,90 +1024,90 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*77*/  "BlancCaseForceConsequent",
 	/*78*/  "NoirCaseForce",
 	/*79*/  "NoirCaseForceConsequent",
-	/*80*/  "ultra",                        /* V3.22  TLi */
-	/*81*/  "EchecsChameleon",              /* V3.32  TLi */
-	/*82*/  "EchecsFonctionnaire",          /* V3.32  TLi, V3.57  NG */
-	/*83*/  "EchecsGlasgow",                /* V3.38  TLi */
-	/*84*/  "EchecsAntiAndernach",          /* V3.41a TLi */
-	/*85*/  "FrischAufCirce",               /* V3.41b TLi */
-	/*86*/  "CirceMalefiqueVerticale",      /* V3.42  NG */
-	/*87*/  "Isardam",                      /* V3.44  SE/TLi */
-	/*88*/  "SansEchecs",                   /* V3.44  TLi */
-	/*89*/  "CirceDiametrale",              /* V3.44  TLi */
-	/*90*/  "PromSeul",                     /* V3.44  NG */
-	/*91*/  "RankCirce",                    /* V3.45  TLi */
-	/*92*/  "EchecsExclusif",               /* V3.45  TLi */
-	/*93*/  "MarsCirce",                    /* V3.46  SE/TLi */
-	/*94*/  "MarsCirceMalefique",           /* V3.46  TLi */
-	/*95*/  "EchecsPhantom",                /* V3.47  NG */
-	/*96*/  "BlancRoiReflecteur",           /* V3.47  NG */
-	/*97*/  "NoirRoiReflecteur",            /* V3.47  NG */
-	/*98*/  "BlancRoiTransmute",            /* V3.47  NG */
-	/*99*/  "NoirRoiTransmute",             /* V3.47  NG */
-	/*100*/ "EchecsAntiEinstein",           /* V3.50  TLi */
-	/*101*/ "CirceCouscousMalefique",       /* V3.50  TLi */
-	/*102*/ "NoirCaseRoyal",                /* V3.50  TLi */
-	/*103*/ "BlancCaseRoyal",               /* V3.50  TLi */
-	/*104*/ "EchecsBrunner",                /* V3.50  SE */
-	/*105*/ "EchecsPlus",                   /* V3.50  SE */
-	/*106*/ "CirceAssassin",                /* V3.50  SE */
-	/*107*/ "EchecsPatience",		/* V3.50  SE */
-	/*108*/ "EchecsRepublicains",		/* V3.50  SE */
-	/*109*/ "EchecsExtinction",		/* V3.50  SE */
-	/*110*/ "EchecsCentral",                /* V3.50  SE */
-	/*111*/ "ActuatedRevolvingBoard",       /* V3.53  TLi */
-	/*112*/ "EchecsMessigny",               /* V3.55  TLi */
-	/*113*/ "Woozles",                      /* V3.55  TLi */
-	/*114*/ "BiWoozles",                    /* V3.55  TLi */
-	/*115*/ "Heffalumps",                   /* V3.55  TLi */
-	/*116*/ "BiHeffalumps",                 /* V3.55  TLi */
-	/*117*/ "RexExclusif",                  /* V3.55  TLi */
-	/*118*/ "BlancCasePromotion",           /* V3.57  NG */
-	/*119*/ "NoirCasePromotion",            /* V3.57  NG */
-	/*120*/ "SansBlancPromotion",           /* V3.57  NG */
-	/*121*/ "SansNoirPromotion",            /* V3.57  NG */
-	/*122*/ "EchecsEiffel",                 /* V3.60  TLi */
-	/*123*/ "NoirUltraSchachZwang",		/* V3.62  SE */
-	/*124*/ "BlancUltraSchachZwang",	/* V3.62  SE */
-	/*125*/ "ActuatedRevolvingCentre",      /* V3.62  SE */
-	/*126*/ "ShieldedKings",       		/* V3.62  SE */
-	/*127*/ "EchecsSting",      		/* V3.63  NG */
-	/*128*/ "EchecsChameleonLigne",         /* V3.64  TLi */
-	/*129*/ "BlancSansPrises",              /* V3.64  NG */
-	/*130*/ "NoirSansPrises",               /* V3.64  NG */
-	/*131*/ "EchecsAvril",                  /* V3.64  ThM */
-	/*132*/ "EchecsAlphabetiques",          /* V3.64  SE */
-	/*133*/ "CirceTurncoats",               /* V3.70  SE */
-	/*134*/ "CirceDoubleAgents",            /* V3.70  SE */
-	/*135*/ "AMU",                          /* V3.70  SE */
- 	/*136*/ "SingleBox",                    /* V3.71  ThM, NG */
-	/*137*/ "MAFF",				/* V3.78  SE */
-	/*138*/ "OWU",				/* V3.78  SE */
-	/*139*/ "BlancRoisOscillant",		/* V3.78  SE */
-	/*140*/ "NoirRoisOscillant",	        /* V3.78  SE */
-	/*141*/ "AntiRois",	                /* V3.78  SE */
-	/*142*/ "AntiMarsCirce",	        /* V3.78  SE */
-	/*143*/ "AntiMarsMalefiqueCirce",	/* V3.78  SE */
-	/*144*/ "AntiMarsAntipodeanCirce",	/* V3.78  SE */
-	/*145*/ "BlancSuperRoiTransmute",       /* V3.78  SE */
-	/*146*/ "NoirSuperRoiTransmute",        /* V3.78  SE */
-	/*147*/ "AntiSuperCirce",               /* V3.78  SE */
-	/*148*/ "UltraPatrouille",              /* V3.78  SE */
-	/*149*/ "RoisEchanges",                 /* V3.81a NG */
-	/*150*/ "DynastieRoyale",                /* V4.02 TM */
-	/*151*/ "SAT",                       /* V4.03  SE */
-	/*152*/ "StrictSAT",                 /* V4.03  SE */
-	/*153*/ "Take&MakeEchecs",                 /* V4.03  SE */
-	/*154*/ "NoirSynchronCoup",                 /* V4.06  SE */
-	/*155*/ "BlancSynchronCoup",                 /* V4.06  SE */
-	/*156*/ "NoirAntiSynchronCoup",                 /* V4.06  SE */
-	/*157*/ "BlancAntiSynchronCoup",                 /* V4.06  SE */
-	/*158*/ "Masand",                 /* V4.06  SE */
-	/*159*/ "BGL" ,                     /* V4.06 SE */
-	/*160*/ "NoirEchecs",                     /* V4.06 SE */
-  	/*161*/ "AnnanEchecs" ,          /* V4.07 SE */
-  	/*162*/ "PionNormale",          /* V4.07 SE */
-  	/*163*/ "EchecsGeneve"          /* V4.38 NG */
+	/*80*/  "ultra",
+	/*81*/  "EchecsChameleon",
+	/*82*/  "EchecsFonctionnaire",
+	/*83*/  "EchecsGlasgow",
+	/*84*/  "EchecsAntiAndernach",
+	/*85*/  "FrischAufCirce",
+	/*86*/  "CirceMalefiqueVerticale",
+	/*87*/  "Isardam",
+	/*88*/  "SansEchecs",
+	/*89*/  "CirceDiametrale",
+	/*90*/  "PromSeul",
+	/*91*/  "RankCirce",
+	/*92*/  "EchecsExclusif",
+	/*93*/  "MarsCirce",
+	/*94*/  "MarsCirceMalefique",
+	/*95*/  "EchecsPhantom",
+	/*96*/  "BlancRoiReflecteur",
+	/*97*/  "NoirRoiReflecteur",
+	/*98*/  "BlancRoiTransmute",
+	/*99*/  "NoirRoiTransmute",
+	/*100*/ "EchecsAntiEinstein",
+	/*101*/ "CirceCouscousMalefique",
+	/*102*/ "NoirCaseRoyal",
+	/*103*/ "BlancCaseRoyal",
+	/*104*/ "EchecsBrunner",
+	/*105*/ "EchecsPlus",
+	/*106*/ "CirceAssassin",
+	/*107*/ "EchecsPatience",
+	/*108*/ "EchecsRepublicains",
+	/*109*/ "EchecsExtinction",
+	/*110*/ "EchecsCentral",
+	/*111*/ "ActuatedRevolvingBoard",
+	/*112*/ "EchecsMessigny",
+	/*113*/ "Woozles",
+	/*114*/ "BiWoozles",
+	/*115*/ "Heffalumps",
+	/*116*/ "BiHeffalumps",
+	/*117*/ "RexExclusif",
+	/*118*/ "BlancCasePromotion",
+	/*119*/ "NoirCasePromotion",
+	/*120*/ "SansBlancPromotion",
+	/*121*/ "SansNoirPromotion",
+	/*122*/ "EchecsEiffel",
+	/*123*/ "NoirUltraSchachZwang",
+	/*124*/ "BlancUltraSchachZwang",
+	/*125*/ "ActuatedRevolvingCentre",
+	/*126*/ "ShieldedKings",
+	/*127*/ "EchecsSting",
+	/*128*/ "EchecsChameleonLigne",
+	/*129*/ "BlancSansPrises",
+	/*130*/ "NoirSansPrises",
+	/*131*/ "EchecsAvril",
+	/*132*/ "EchecsAlphabetiques",
+	/*133*/ "CirceTurncoats",
+	/*134*/ "CirceDoubleAgents",
+	/*135*/ "AMU",
+ 	/*136*/ "SingleBox",
+	/*137*/ "MAFF",
+	/*138*/ "OWU",
+	/*139*/ "BlancRoisOscillant",
+	/*140*/ "NoirRoisOscillant",
+	/*141*/ "AntiRois",
+	/*142*/ "AntiMarsCirce",
+	/*143*/ "AntiMarsMalefiqueCirce",
+	/*144*/ "AntiMarsAntipodeanCirce",
+	/*145*/ "BlancSuperRoiTransmute",
+	/*146*/ "NoirSuperRoiTransmute",
+	/*147*/ "AntiSuperCirce",
+	/*148*/ "UltraPatrouille",
+	/*149*/ "RoisEchanges",
+	/*150*/ "DynastieRoyale",
+	/*151*/ "SAT",
+	/*152*/ "StrictSAT",
+	/*153*/ "Take&MakeEchecs",
+	/*154*/ "NoirSynchronCoup",
+	/*155*/ "BlancSynchronCoup",
+	/*156*/ "NoirAntiSynchronCoup",
+	/*157*/ "BlancAntiSynchronCoup",
+	/*158*/ "Masand",
+	/*159*/ "BGL" ,
+	/*160*/ "NoirEchecs",
+  	/*161*/ "AnnanEchecs" ,
+  	/*162*/ "PionNormale",
+  	/*163*/ "EchecsGeneve"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1136,39 +1130,39 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*17*/  "Immunschach",
 	/*18*/  "SpiegelImmunschach",
 	/*19*/  "KontaktGitter",
-	/*20*/  "Imitator",                     /* V2.4d  TM */
-	/*21*/  "CavalierMajeur",               /* V2.60  NG */
-	/*22*/  "HaanerSchach",                 /* V2.60  NG */
-	/*23*/  "ChamaeleonCirce",              /* V2.80c  TLi */
-	/*24*/  "CouscousCirce",                /* V3.00  NG */
-	/*25*/  "EquipollentsCirce",            /* V2.80c  TLi */
-	/*26*/  "FileCirce",                    /* V2.80c  TLi */
-	/*27*/  "SchwarzerLaengstzueger",       /* V2.90c  TLi */
-	/*28*/  "SchwarzerKuerzestzueger",      /* V2.90c  TLi */
-	/*29*/  "WeisserLaengstzueger",         /* V2.90c  TLi */
-	/*30*/  "WeisserKuerzestzueger",        /* V2.90c  TLi */
-	/*31*/  "MagischeFelder",               /* V2.90c  TLi */
-	/*32*/  "Sentinelles",                  /* V2.90c  TLi */
-	/*33*/  "TibetSchach",                  /* V2.90c  TLi */
-	/*34*/  "DoppeltibetSchach",            /* V2.90c  TLi */
-	/*35*/  "DiagrammCirce",                /* V2.90c  TLi */
-	/*36*/  "Loch",                         /* V2.90  NG */
-	/*37*/  "SchwarzerSchlagzwang",         /* V3.0  TLi */
-	/*38*/  "WeisserSchlagzwang",           /* V3.0  TLi */
-	/*39*/  "ReflektierendeKoenige",        /* V3.0  TLi */
-	/*40*/  "TransmutierendeKoenige",       /* V3.02 TLi */
-	/*41*/  "SchwarzerVerfolgungszueger",   /* V3.0  TLi */
-	/*42*/  "WeisserVerfolgungszueger",     /* V3.0  TLi */
-	/*43*/  "Duellantenschach",             /* V3.0  TLi */
-	/*44*/  "CirceParrain",                 /* V3.02  TLi */
-	/*45*/  "OhneIUW",                      /* V3.02  TLi */
-	/*46*/  "SymmetrieCirce",               /* V3.02  TLi */
-	/*47*/  "VogtlaenderSchach",            /* V3.03  TLi */
-	/*48*/  "EinsteinSchach",               /* V3.1  TLi */
-	/*49*/  "Bicolores",                    /* V3.1  TLi */
-	/*50*/  "NeuKoeko",             /* V3.1  TLi */
-	/*51*/  "CirceClone",           /* V3.1  TLi */
-	/*52*/  "AntiCirce",            /* V3.1  TLi */
+	/*20*/  "Imitator",
+	/*21*/  "CavalierMajeur",
+	/*22*/  "HaanerSchach",
+	/*23*/  "ChamaeleonCirce",
+	/*24*/  "CouscousCirce",
+	/*25*/  "EquipollentsCirce",
+	/*26*/  "FileCirce",
+	/*27*/  "SchwarzerLaengstzueger",
+	/*28*/  "SchwarzerKuerzestzueger",
+	/*29*/  "WeisserLaengstzueger",
+	/*30*/  "WeisserKuerzestzueger",
+	/*31*/  "MagischeFelder",
+	/*32*/  "Sentinelles",
+	/*33*/  "TibetSchach",
+	/*34*/  "DoppeltibetSchach",
+	/*35*/  "DiagrammCirce",
+	/*36*/  "Loch",
+	/*37*/  "SchwarzerSchlagzwang",
+	/*38*/  "WeisserSchlagzwang",
+	/*39*/  "ReflektierendeKoenige",
+	/*40*/  "TransmutierendeKoenige",
+	/*41*/  "SchwarzerVerfolgungszueger",
+	/*42*/  "WeisserVerfolgungszueger",
+	/*43*/  "Duellantenschach",
+	/*44*/  "CirceParrain",
+	/*45*/  "OhneIUW",
+	/*46*/  "SymmetrieCirce",
+	/*47*/  "VogtlaenderSchach",
+	/*48*/  "EinsteinSchach",
+	/*49*/  "Bicolores",
+	/*50*/  "NeuKoeko",
+	/*51*/  "CirceClone",
+	/*52*/  "AntiCirce",
 	/*53*/  "SpiegelFileCirce",
 	/*54*/  "AntipodenCirce",
 	/*55*/  "SpiegelCirceclone",
@@ -1197,89 +1191,89 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*78*/  "SchwarzesZwangsfeld",
 	/*79*/  "SchwarzesKonsequentesZwangsfeld",
 	/*80*/  "Ultra",
-	/*81*/  "ChamaeleonSchach",        /* V3.32  TLi */
-	/*82*/  "BeamtenSchach",           /* V3.32  TLi */
-	/*83*/  "GlasgowSchach",           /* V3.38  TLi */
-	/*84*/  "AntiAndernachSchach",          /* V3.41a TLi */
-	/*85*/  "FrischAufCirce",          /* V3.41b TLi */
-	/*86*/  "VertikalesSpiegelCirce",       /* V3.42 NG */
-	/*87*/  "Isardam",                      /* V3.44  SE/TLi */
-	/*88*/  "OhneSchach",                   /* V3.44  TLi */
-	/*89*/  "DiametralCirce",               /* V3.44  TLi */
-	/*90*/  "UWnur",                        /* V3.44  NG */
-	/*91*/  "RankCirce",                    /* V3.45  TLi */
-	/*92*/  "ExklusivSchach",               /* V3.45  TLi */
-	/*93*/  "MarsCirce",                    /* V3.46  SE/TLi */
-	/*94*/  "MarsSpiegelCirce",             /* V3.46  TLi */
-	/*95*/  "PhantomSchach",                /* V3.47  NG */
-	/*96*/  "WeisserReflektierenderKoenig",    /* V3.47  NG */
-	/*97*/  "SchwarzerReflektierenderKoenig",  /* V3.47  NG */
-	/*98*/  "WeisserTransmutierenderKoenig",   /* V3.47  NG */
-	/*99*/  "SchwarzerTransmutierenderKoenig", /* V3.47  NG */
-	/*100*/ "AntiEinsteinSchach",           /* V3.50  TLi */
-	/*101*/ "SpiegelCouscousCirce",         /* V3.50  TLi */
-	/*102*/ "SchwarzesKoeniglichesFeld",    /* V3.50  TLi */
-	/*103*/ "WeissesKoeniglichesFeld",      /* V3.50  TLi */
-	/*104*/ "BrunnerSchach",                /* V3.50  SE */
-	/*105*/ "PlusSchach",                   /* V3.50  SE */
-	/*106*/ "AssassinCirce",                /* V3.50  SE */
-	/*107*/ "PatienceSchach",		/* V3.50  SE */
-	/*108*/ "RepublikanerSchach",           /* V3.50  SE */
-	/*109*/ "AusrottungsSchach",            /* V3.50  SE */
-	/*110*/ "ZentralSchach",                /* V3.50  SE */
-	/*111*/ "ActuatedRevolvingBoard",       /* V3.53  TLi */
-	/*112*/ "MessignySchach",               /* V3.55  TLi */
-	/*113*/ "Woozles",                      /* V3.55  TLi */
-	/*114*/ "BiWoozles",                    /* V3.55  TLi */
-	/*115*/ "Heffalumps",                   /* V3.55  TLi */
-	/*116*/ "BiHeffalumps",                 /* V3.55  TLi */
-	/*117*/ "RexExklusive",                 /* V3.55  TLi */
-	/*118*/ "UWFeldWeiss",                  /* V3.57  NG */
-	/*119*/ "UWFeldSchwarz",                /* V3.57  NG */
-	/*120*/ "OhneWeissUW",                  /* V3.57  NG */
-	/*121*/ "OhneSchwarzUW",                /* V3.57  NG */
-	/*122*/ "EiffelSchach",                 /* V3.60  TLi */
-	/*123*/ "SchwarzerUltraSchachZwang",	/* V3.62  SE */
-	/*124*/ "WeisserUltraSchachZwang",	/* V3.62  SE */
-	/*125*/ "ActuatedRevolvingCentre",      /* V3.62  SE */
-	/*126*/ "SchutzKoenige",       		/* V3.62  SE */
-	/*127*/ "StingSchach",                  /* V3.63  NG */
-	/*128*/ "LinienChamaeleonSchach",      	/* V3.64  TLi */
-	/*129*/ "WeisserOhneSchlag",      	/* V3.64  NG */
-	/*130*/ "SchwarzerOhneSchlag",      	/* V3.64  NG */
-	/*131*/ "Aprilschach",                  /* V3.64  ThM */
-	/*132*/ "AlphabetischesSchach",         /* V3.64  SE */
-	/*133*/ "TurncoatCirce",                /* V3.70  SE */
-	/*134*/ "DoppelAgentenCirce",           /* V3.70  SE */
-	/*135*/ "AMU",                          /* V3.70  SE */
-    /*136*/ "NurPartiesatzSteine",          /* V3.71  ThM, NG */
-    /*137*/ "MAFF",                     	/* V3.78  SE */
-    /*138*/ "OWU",                      	/* V3.78  SE */
-    /*139*/ "WeisseOszillierendeKoenige",   /* V3.78  SE */
-    /*140*/ "SchwarzeOszillierendeKoenige", /* V3.78  SE */
-    /*141*/ "AntiKoenige",                  /* V3.78  SE */
-	/*142*/ "AntiMarsCirce",	        /* V3.78  SE */
-	/*143*/ "AntiMarsMalefiqueCirce",	/* V3.78  SE */
-	/*144*/ "AntiMarsAntipodeanCirce",	/* V3.78  SE */
-	/*145*/ "WeisserSuperTransmutierenderKoenig",	/* V3.78  SE */
-	/*146*/ "SchwarzerSuperTransmutierenderKoenig",	/* V3.78  SE */
-	/*147*/ "AntiSuperCirce",               /* V3.78  SE */
-	/*148*/ "UltraPatrouille",              /* V3.78  SE */
-	/*149*/ "TauschKoenige",		/* V3.81a NG */
-	/*150*/ "KoenigsDynastie",               /* V4.02 TM */
-	/*151*/ "SAT",                       /* V4.03  SE */
-	/*152*/ "StrictSAT",                 /* V4.03  SE */
-	/*153*/ "Take&MakeSchach",                 /* V4.03  SE */
-	/*154*/ "SchwarzerSynchronZueger",                 /* V4.06  SE */
-	/*155*/ "WeisserSynchronZueger",                 /* V4.06  SE */
-	/*156*/ "SchwarzerAntiSynchronZueger",                 /* V4.06  SE */
-	/*157*/ "WeisserAntiSynchronZueger",                 /* V4.06  SE */
-	/*158*/ "Masand",                 /* V4.06  SE */
-	/*159*/ "BGL",                     /* V4.06 SE */
-	/*160*/ "SchwarzSchaecher",              /* V4.06 SE */
-	/*161*/ "Annanschach",            /* V4.07 SE */
-	/*162*/ "NormalBauern",           /* V4.07 SE */
-  	/*163*/ "GenferSchach"          /* V4.38 NG */
+	/*81*/  "ChamaeleonSchach",
+	/*82*/  "BeamtenSchach",
+	/*83*/  "GlasgowSchach",
+	/*84*/  "AntiAndernachSchach",
+	/*85*/  "FrischAufCirce",
+	/*86*/  "VertikalesSpiegelCirce",
+	/*87*/  "Isardam",
+	/*88*/  "OhneSchach",
+	/*89*/  "DiametralCirce",
+	/*90*/  "UWnur",
+	/*91*/  "RankCirce",
+	/*92*/  "ExklusivSchach",
+	/*93*/  "MarsCirce",
+	/*94*/  "MarsSpiegelCirce",
+	/*95*/  "PhantomSchach",
+	/*96*/  "WeisserReflektierenderKoenig",
+	/*97*/  "SchwarzerReflektierenderKoenig",
+	/*98*/  "WeisserTransmutierenderKoenig",
+	/*99*/  "SchwarzerTransmutierenderKoenig",
+	/*100*/ "AntiEinsteinSchach",
+	/*101*/ "SpiegelCouscousCirce",
+	/*102*/ "SchwarzesKoeniglichesFeld",
+	/*103*/ "WeissesKoeniglichesFeld",
+	/*104*/ "BrunnerSchach",
+	/*105*/ "PlusSchach",
+	/*106*/ "AssassinCirce",
+	/*107*/ "PatienceSchach",
+	/*108*/ "RepublikanerSchach",
+	/*109*/ "AusrottungsSchach",
+	/*110*/ "ZentralSchach",
+	/*111*/ "ActuatedRevolvingBoard",
+	/*112*/ "MessignySchach",
+	/*113*/ "Woozles",
+	/*114*/ "BiWoozles",
+	/*115*/ "Heffalumps",
+	/*116*/ "BiHeffalumps",
+	/*117*/ "RexExklusive",
+	/*118*/ "UWFeldWeiss",
+	/*119*/ "UWFeldSchwarz",
+	/*120*/ "OhneWeissUW",
+	/*121*/ "OhneSchwarzUW",
+	/*122*/ "EiffelSchach",
+	/*123*/ "SchwarzerUltraSchachZwang",
+	/*124*/ "WeisserUltraSchachZwang",
+	/*125*/ "ActuatedRevolvingCentre",
+	/*126*/ "SchutzKoenige",
+	/*127*/ "StingSchach",
+	/*128*/ "LinienChamaeleonSchach",
+	/*129*/ "WeisserOhneSchlag",
+	/*130*/ "SchwarzerOhneSchlag",
+	/*131*/ "Aprilschach",
+	/*132*/ "AlphabetischesSchach",
+	/*133*/ "TurncoatCirce",
+	/*134*/ "DoppelAgentenCirce",
+	/*135*/ "AMU",
+    /*136*/ "NurPartiesatzSteine",
+    /*137*/ "MAFF",
+    /*138*/ "OWU",
+    /*139*/ "WeisseOszillierendeKoenige",
+    /*140*/ "SchwarzeOszillierendeKoenige",
+    /*141*/ "AntiKoenige",
+	/*142*/ "AntiMarsCirce",
+	/*143*/ "AntiMarsMalefiqueCirce",
+	/*144*/ "AntiMarsAntipodeanCirce",
+	/*145*/ "WeisserSuperTransmutierenderKoenig",
+	/*146*/ "SchwarzerSuperTransmutierenderKoenig",
+	/*147*/ "AntiSuperCirce",
+	/*148*/ "UltraPatrouille",
+	/*149*/ "TauschKoenige",
+	/*150*/ "KoenigsDynastie",
+	/*151*/ "SAT",
+	/*152*/ "StrictSAT",
+	/*153*/ "Take&MakeSchach",
+	/*154*/ "SchwarzerSynchronZueger",
+	/*155*/ "WeisserSynchronZueger",
+	/*156*/ "SchwarzerAntiSynchronZueger",
+	/*157*/ "WeisserAntiSynchronZueger",
+	/*158*/ "Masand",
+	/*159*/ "BGL",
+	/*160*/ "SchwarzSchaecher",
+	/*161*/ "Annanschach",
+	/*162*/ "NormalBauern",
+  	/*163*/ "GenferSchach"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1302,39 +1296,39 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*17*/  "ImmunChess",
 	/*18*/  "MirrorImmunChess",
 	/*19*/  "ContactGridChess",
-	/*20*/  "Imitator",             /* V2.4d  TM */
-	/*21*/  "CavalierMajeur",       /* V2.60  NG */
-	/*22*/  "HaanerChess",          /* V2.60  NG */
-	/*23*/  "ChameleonCirce",       /* V2.80c  TLi */
-	/*24*/  "CouscousCirce",        /* V3.00  NG */
-	/*25*/  "EquipollentsCirce",    /* V2.80c  TLi */
-	/*26*/  "FileCirce",            /* V2.80c  TLi */
-	/*27*/  "BlackMaximummer",      /* V2.90c  TLi */
-	/*28*/  "BlackMinimummer",      /* V2.90c  TLi */
-	/*29*/  "WhiteMaximummer",      /* V2.90c  TLi */
-	/*30*/  "WhiteMinimummer",      /* V2.90c  TLi */
-	/*31*/  "MagicSquares",         /* V2.90c  TLi */
-	/*32*/  "Sentinelles",          /* V2.90c  TLi */
-	/*33*/  "Tibet",                /* V2.90c  TLi */
-	/*34*/  "DoubleTibet",          /* V2.90c  TLi */
-	/*35*/  "DiagramCirce",         /* V2.90c  TLi */
-	/*36*/  "Hole",                 /* V2.90  NG */
-	/*37*/  "BlackMustCapture",     /* V3.0  TLi */
-	/*38*/  "WhiteMustCapture",     /* V3.0  TLi */
-	/*39*/  "ReflectiveKings",      /* V3.0  TLi */
-	/*40*/  "TransmutedKings",      /* V3.02 TLi */
-	/*41*/  "BlackFollowMyLeader",  /* V3.0  TLi */
-	/*42*/  "WhiteFollowMyLeader",  /* V3.0  TLi */
-	/*43*/  "DuellistChess",        /* V3.0  TLi */
-	/*44*/  "ParrainCirce",         /* V3.02  TLi */
-	/*45*/  "NoIProm",              /* V3.02  TLi */
-	/*46*/  "SymmetryCirce",        /* V3.02  TLi */
-	/*47*/  "VogtlaenderChess",     /* V3.03  TLi */
-	/*48*/  "EinsteinChess",        /* V3.1  TLi */
-	/*49*/  "Bicolores",            /* V3.1  TLi */
-	/*50*/  "NewKoeko",             /* V3.1  TLi */
-	/*51*/  "CirceClone",           /* V3.1  TLi */
-	/*52*/  "AntiCirce",            /* V3.1  TLi */
+	/*20*/  "Imitator",
+	/*21*/  "CavalierMajeur",
+	/*22*/  "HaanerChess",
+	/*23*/  "ChameleonCirce",
+	/*24*/  "CouscousCirce",
+	/*25*/  "EquipollentsCirce",
+	/*26*/  "FileCirce",
+	/*27*/  "BlackMaximummer",
+	/*28*/  "BlackMinimummer",
+	/*29*/  "WhiteMaximummer",
+	/*30*/  "WhiteMinimummer",
+	/*31*/  "MagicSquares",
+	/*32*/  "Sentinelles",
+	/*33*/  "Tibet",
+	/*34*/  "DoubleTibet",
+	/*35*/  "DiagramCirce",
+	/*36*/  "Hole",
+	/*37*/  "BlackMustCapture",
+	/*38*/  "WhiteMustCapture",
+	/*39*/  "ReflectiveKings",
+	/*40*/  "TransmutedKings",
+	/*41*/  "BlackFollowMyLeader",
+	/*42*/  "WhiteFollowMyLeader",
+	/*43*/  "DuellistChess",
+	/*44*/  "ParrainCirce",
+	/*45*/  "NoIProm",
+	/*46*/  "SymmetryCirce",
+	/*47*/  "VogtlaenderChess",
+	/*48*/  "EinsteinChess",
+	/*49*/  "Bicolores",
+	/*50*/  "NewKoeko",
+	/*51*/  "CirceClone",
+	/*52*/  "AntiCirce",
 	/*53*/  "MirrorFileCirce",
 	/*54*/  "AntipodeanCirce",
 	/*55*/  "MirrorCirceClone",
@@ -1363,89 +1357,89 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*78*/  "BlackForcedSquare",
 	/*79*/  "BlackConsequentForcedSquare",
 	/*80*/  "ultra",
-	/*81*/  "ChameleonChess",    /* V3.32  TLi */
-	/*82*/  "FunctionaryChess",  /* V3.32  TLi, V3.57  NG */
-	/*83*/  "GlasgowChess",      /* V3.38  TLi */
-	/*84*/  "AntiAndernachChess",  /* V3.41a TLi */
-	/*85*/  "FrischAufCirce",      /* V3.41b TLi */
-	/*86*/  "VerticalMirrorCirce",  /* V3.42 NG */
-	/*87*/  "Isardam",             /* V3.44  SE/TLi */
-	/*88*/  "ChecklessChess",      /* V3.44  TLi */
-	/*89*/  "DiametralCirce",       /* V3.44  TLi */
-	/*90*/  "PromOnly",             /* V3.44  NG */
-	/*91*/  "RankCirce",            /* V3.45  TLi */
-	/*92*/  "ExclusivChess",        /* V3.45  TLi */
-	/*93*/  "MarsCirce",            /* V3.46  SE/TLi */
-	/*94*/  "MarsMirrorCirce",      /* V3.46  TLi */
-	/*95*/  "PhantomChess",         /* V3.47  NG */
-	/*96*/  "WhiteReflectiveKing",  /* V3.47  NG */
-	/*97*/  "BlackReflectiveKing",  /* V3.47  NG */
-	/*98*/  "WhiteTransmutedKing",  /* V3.47  NG */
-	/*99*/  "BlackTransmutedKing",  /* V3.47  NG */
-	/*100*/ "AntiEinsteinChess",    /* V3.50  TLi */
-	/*101*/ "MirrorCouscousCirce",  /* V3.50  TLi */
-	/*102*/ "BlackRoyalSquare",     /* V3.50  TLi */
-	/*103*/ "WhiteRoyalSquare",     /* V3.50  TLi */
-	/*104*/ "BrunnerChess",         /* V3.50  SE */
-	/*105*/ "PlusChess",            /* V3.50  SE */
-	/*106*/ "CirceAssassin",        /* V3.50  SE */
-	/*107*/ "PatienceChess",	/* V3.50  SE */
-	/*108*/ "RepublicanChess",      /* V3.50  SE */
-	/*109*/ "ExtinctionChess",      /* V3.50  SE */
-	/*110*/ "CentralChess",         /* V3.50  SE */
-	/*111*/ "ActuatedRevolvingBoard",/* V3.53  TLi */
-	/*112*/ "MessignyChess",        /* V3.55  TLi */
-	/*113*/ "Woozles",              /* V3.55  TLi */
-	/*114*/ "BiWoozles",            /* V3.55  TLi */
-	/*115*/ "Heffalumps",           /* V3.55  TLi */
-	/*116*/ "BiHeffalumps",         /* V3.55  TLi */
-	/*117*/ "RexExclusiv",          /* V3.55  TLi */
-	/*118*/ "WhitePromSquares",     /* V3.57  NG */
-	/*119*/ "BlackPromSquares",     /* V3.57  NG */
-	/*120*/ "NoWhitePromotion",     /* V3.57  NG */
-	/*121*/ "NoBlackPromotion",     /* V3.57  NG */
-	/*122*/ "EiffelChess",           /* V3.60  TLi */
-	/*123*/ "BlackUltraSchachZwang",	/* V3.62  SE */
-	/*124*/ "WhiteUltraSchachZwang",	/* V3.62  SE */
-	/*125*/ "ActuatedRevolvingCentre",      /* V3.62  SE */
-	/*126*/ "ShieldedKings",      		/* V3.62  SE */
-	/*127*/ "StingChess",      		/* V3.63  NG */
-	/*128*/ "LineChameleonChess",       	/* V3.64  TLi */
-	/*129*/ "NoWhiteCapture",       	/* V3.64  TLi */
-	/*130*/ "NoBlackCapture",      		/* V3.64  TLi */
-	/*131*/ "AprilChess",                   /* V3.64  ThM */
-	/*132*/ "AlphabeticChess",              /* V3.64  SE */
-	/*133*/ "CirceTurncoats",               /* V3.70  SE */
-	/*134*/ "CirceDoubleAgents",            /* V3.70  SE */
-	/*135*/ "AMU",                          /* V3.70  SE */
-	/*136*/ "SingleBox",                    /* V3.70  ThM, NG */
-	/*137*/ "MAFF",                         /* V3.78  SE */
-	/*138*/ "OWU",                          /* V3.78  SE */
-	/*139*/ "WhiteOscillatingKings",        /* V3.78  SE */
-	/*140*/ "BlackOscillatingKings",        /* V3.78  SE */
-	/*141*/ "AntiKings",                    /* V3.78  SE */
-	/*142*/ "AntiMarsCirce",	        /* V3.78  SE */
-	/*143*/ "AntiMarsMirrorCirce",	        /* V3.78  SE */
-	/*144*/ "AntiMarsAntipodeanCirce",	/* V3.78  SE */
-	/*145*/ "WhiteSuperTransmutingKing",    /* V3.78  SE */
-	/*146*/ "BlackSuperTransmutingKing",    /* V3.78  SE */
-	/*147*/ "AntiSuperCirce",               /* V3.78  SE */
-	/*148*/ "UltraPatrol",                  /* V3.78  SE */
-	/*149*/ "SwappingKings",		/* V3.81a NG */
-	/*150*/ "RoyalDynasty",                  /* V4.02 TM */
-	/*151*/ "SAT",                       /* V4.03  SE */
-	/*152*/ "StrictSAT",                 /* V4.03  SE */
-	/*153*/ "Take&MakeChess",                 /* V4.03  SE */
-	/*154*/ "BlackSynchronMover",                 /* V4.06  SE */
-	/*155*/ "WhiteSynchronMover",                 /* V4.06  SE */
-	/*156*/ "BlackAntiSynchronMover",                 /* V4.06  SE */
+	/*81*/  "ChameleonChess",
+	/*82*/  "FunctionaryChess",
+	/*83*/  "GlasgowChess",
+	/*84*/  "AntiAndernachChess",
+	/*85*/  "FrischAufCirce",
+	/*86*/  "VerticalMirrorCirce",
+	/*87*/  "Isardam",
+	/*88*/  "ChecklessChess",
+	/*89*/  "DiametralCirce",
+	/*90*/  "PromOnly",
+	/*91*/  "RankCirce",
+	/*92*/  "ExclusivChess",
+	/*93*/  "MarsCirce",
+	/*94*/  "MarsMirrorCirce",
+	/*95*/  "PhantomChess",
+	/*96*/  "WhiteReflectiveKing",
+	/*97*/  "BlackReflectiveKing",
+	/*98*/  "WhiteTransmutedKing",
+	/*99*/  "BlackTransmutedKing",
+	/*100*/ "AntiEinsteinChess",
+	/*101*/ "MirrorCouscousCirce",
+	/*102*/ "BlackRoyalSquare",
+	/*103*/ "WhiteRoyalSquare",
+	/*104*/ "BrunnerChess",
+	/*105*/ "PlusChess",
+	/*106*/ "CirceAssassin",
+	/*107*/ "PatienceChess",
+	/*108*/ "RepublicanChess",
+	/*109*/ "ExtinctionChess",
+	/*110*/ "CentralChess",
+	/*111*/ "ActuatedRevolvingBoard",
+	/*112*/ "MessignyChess",
+	/*113*/ "Woozles",
+	/*114*/ "BiWoozles",
+	/*115*/ "Heffalumps",
+	/*116*/ "BiHeffalumps",
+	/*117*/ "RexExclusiv",
+	/*118*/ "WhitePromSquares",
+	/*119*/ "BlackPromSquares",
+	/*120*/ "NoWhitePromotion",
+	/*121*/ "NoBlackPromotion",
+	/*122*/ "EiffelChess",
+	/*123*/ "BlackUltraSchachZwang",
+	/*124*/ "WhiteUltraSchachZwang",
+	/*125*/ "ActuatedRevolvingCentre",
+	/*126*/ "ShieldedKings",
+	/*127*/ "StingChess",
+	/*128*/ "LineChameleonChess",
+	/*129*/ "NoWhiteCapture",
+	/*130*/ "NoBlackCapture",
+	/*131*/ "AprilChess",
+	/*132*/ "AlphabeticChess",
+	/*133*/ "CirceTurncoats",
+	/*134*/ "CirceDoubleAgents",
+	/*135*/ "AMU",
+	/*136*/ "SingleBox",
+	/*137*/ "MAFF",
+	/*138*/ "OWU",
+	/*139*/ "WhiteOscillatingKings",
+	/*140*/ "BlackOscillatingKings",
+	/*141*/ "AntiKings",
+	/*142*/ "AntiMarsCirce",
+	/*143*/ "AntiMarsMirrorCirce",
+	/*144*/ "AntiMarsAntipodeanCirce",
+	/*145*/ "WhiteSuperTransmutingKing",
+	/*146*/ "BlackSuperTransmutingKing",
+	/*147*/ "AntiSuperCirce",
+	/*148*/ "UltraPatrol",
+	/*149*/ "SwappingKings",
+	/*150*/ "RoyalDynasty",
+	/*151*/ "SAT",
+	/*152*/ "StrictSAT",
+	/*153*/ "Take&MakeChess",
+	/*154*/ "BlackSynchronMover",
+	/*155*/ "WhiteSynchronMover",
+	/*156*/ "BlackAntiSynchronMover",
 	/*157*/ "WhiteAntiSynchronMover",
-	/*158*/ "Masand",                 /* V4.06  SE */
-	/*159*/ "BGL",                     /* V4.06 SE */
-	/*160*/ "BlackChecks",                     /* V4.06 SE */
-	/*161*/ "AnnanChess",           /* V4.07 SE */
-	/*162*/ "NormalPawn",          /* V4.07 SE */
-	/*163*/ "GenevaChess"          /* V4.38 NG */
+	/*158*/ "Masand",
+	/*159*/ "BGL",
+	/*160*/ "BlackChecks",
+	/*161*/ "AnnanChess",
+	/*162*/ "NormalPawn",
+	/*163*/ "GenevaChess"
   }
 	};
 #endif
@@ -1511,20 +1505,16 @@ EXTERN unsigned int StipFlags;
 
 #ifdef WE_ARE_EXTERN
 	extern  char GlobalStr[];
-	/* extern  char AlphaEnd[];  V3.31  TLi */
-	extern  char *AlphaEnd;    /* V3.31  TLi */
-	extern  char ReciAlphaEnd[];  /* V3.31  TLi */
+	extern  char *AlphaEnd;
+	extern  char ReciAlphaEnd[];
 	extern  char NonReciAlphaEnd[];
 #else
-	/* char    GlobalStr[256]; */
-	char    GlobalStr[4*maxply];		/* V3.70  TLi */
-	/* char    AlphaEnd[4];   V3.31  TLi */
-	char    *AlphaEnd;   /* V3.31  TLi */
-	char    ReciAlphaEnd[5];  /* V3.31  TLi */ /* V3.37  NG */
-	char    NonReciAlphaEnd[5]; /* V3.31  TLi */ /* V3.37  NG */
+	char    GlobalStr[4*maxply];
+	char    *AlphaEnd;
+	char    ReciAlphaEnd[5];
+	char    NonReciAlphaEnd[5];
 #endif
 
-/* V3.50 SE */
 #ifdef WE_ARE_EXTERN
 	extern char
 *VariantTypeString[LangCount][VariantTypeCount];
@@ -1537,10 +1527,10 @@ EXTERN unsigned int StipFlags;
 	/* 2*/  "Cheylan",
 	/* 3*/  "Calvet",
 	/* 4*/  "PionNeutre",
-	/* 5*/  "MaximumNoir",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
-	/* 6*/  "MaximumBlanc",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
+	/* 5*/  "MaximumNoir",
+	/* 6*/  "MaximumBlanc",
         /* 7*/  "ParaSentinelles",
-        /* 8*/  "MaximumTotal",		/* V4.30  NG renamed according to bugfix above */
+        /* 8*/  "MaximumTotal",
 	/* 9*/  "Berolina",
 	/*10*/  "Type1",
 	/*11*/  "Type2",
@@ -1555,10 +1545,10 @@ EXTERN unsigned int StipFlags;
 	/* 2*/  "Cheylan",
 	/* 3*/  "Calvet",
 	/* 4*/  "PionNeutre",
-	/* 5*/  "MaximumSchwarz",	/* V4.30  NG renamed according to bugfix above */
-	/* 6*/  "MaximumWeiss",		/* V4.30  NG renamed according to bugfix above */
+	/* 5*/  "MaximumSchwarz",
+	/* 6*/  "MaximumWeiss",
         /* 7*/  "ParaSentinelles",
-        /* 8*/  "MaximumTotal",		/* V4.30  NG renamed according to bugfix above */
+        /* 8*/  "MaximumTotal",
 	/* 9*/  "Berolina",
 	/*10*/  "Typ1",
 	/*11*/  "Typ2",
@@ -1573,10 +1563,10 @@ EXTERN unsigned int StipFlags;
 	/* 2*/  "Cheylan",
 	/* 3*/  "Calvet",
 	/* 4*/  "PionNeutre",
-	/* 5*/  "MaximumBlack",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
-	/* 6*/  "MaximumWhite",		/* V3.78  SE bugfix - resolved conflict with Cond of same name */
+	/* 5*/  "MaximumBlack",
+	/* 6*/  "MaximumWhite",
         /* 7*/  "ParaSentinelles",
-        /* 8*/  "MaximumTotal",		/* V4.30  NG renamed according to bugfix above */
+        /* 8*/  "MaximumTotal",
 	/* 9*/  "Berolina",
 	/*10*/  "Type1",
 	/*11*/  "Type2",
@@ -1588,7 +1578,6 @@ EXTERN unsigned int StipFlags;
 	};
 #endif
 
-/* V3.62 SE */
 #ifdef WE_ARE_EXTERN
 	extern char *ExtraCondString[LangCount][ExtraCondCount];
 #else
@@ -1612,8 +1601,8 @@ EXTERN unsigned int StipFlags;
 #ifdef WE_ARE_EXTERN
 	extern  numvec mixhopdata[4][17];
 #else
-/* This are the vectors for hoppers which change directions after the hurdle */  /* V2.60  NG */
-/* and for the CAT (a special concatenation of knight and dabbabba-rider     */  /* V2.60  NG */
+/* This are the vectors for hoppers which change directions after the hurdle */
+/* and for the CAT (a special concatenation of knight and dabbabba-rider     */
 	numvec mixhopdata[4][17] = {
 	/* moose     45 */ { 0, -23,  25,  23,  25,  23, -25, -23, -25,
 				 -1,  24,   1,  24,   1, -24,  -1, -24 },
@@ -1632,7 +1621,7 @@ EXTERN unsigned int StipFlags;
 /* don't try to delete something like "duplicates" or change
   the order of the vectors.
   they are all necessary and need this order !!
-*/   							/* V2.60  NG */
+*/
 numvec vec[maxvec + 1] = { 0,
 /*   1 -   4 | 0,1 */    1,   24,   -1,  -24,
 /*   5 -   8 | 1,1 */   23,   25,  -23,  -25,
@@ -1690,7 +1679,7 @@ enum {
 #ifdef WE_ARE_EXTERN
 	extern  square boardnum[65];
 #else
-/* This are the really used boardnumbers */     /* V2.60  NG */
+/* This are the really used boardnumbers */
 	square boardnum[65] = {
 	/* first   rank */      bas, 201, 202, 203, 204, 205, 206, 207,
 	/* second  rank */      224, 225, 226, 227, 228, 229, 230, 231,
@@ -1707,7 +1696,7 @@ enum {
 #ifdef WE_ARE_EXTERN
 	extern  short move_diff_code[haut - bas + 1];
 #else
-/* This are the codes for the length-difference */      /* V2.90  NG */
+/* This are the codes for the length-difference */
 /* between two squares */
 /* ATTENTION: use abs(square from - square to) for indexing this table. */
 /*        all move_down_codes are mapped this way to move_up_codes !    */
@@ -1738,7 +1727,7 @@ enum {
 			       };
 #endif
 
-#ifdef WE_ARE_EXTERN   /* V4.06 SE */ 
+#ifdef WE_ARE_EXTERN
  extern  long int BGL_move_diff_code[haut - bas + 1];
 #else
  long int BGL_move_diff_code[haut - bas + 1]= {
@@ -1770,7 +1759,7 @@ enum {
 #ifdef WE_ARE_EXTERN
 	extern  checkfunction_t *checkfunctions[derbla + 1];
 #else
-/* This are the used checkingfunctions  */     /* V2.60  NG */
+/* This are the used checkingfunctions  */
     checkfunction_t *checkfunctions[derbla + 1] = {
 /*  0 */        0, /* not used */
 /*  1 */        0, /* not used */
@@ -1854,52 +1843,52 @@ enum {
 /* 79 */        contragrascheck,
 /* 80 */        roselioncheck,
 /* 81 */        rosehoppercheck,
-/* 82 */        okapicheck,             /* V3.32  TLi */
-/* 83 */        leap37check,            /* V3.34  TLi */
-/* 84 */        grasshop2check,         /* V3.34  TLi */
-/* 85 */        grasshop3check,         /* V3.34  TLi */
-/* 86 */        leap16check,            /* V3.38  NG */
-/* 87 */        leap24check,            /* V3.42  TLi */
-/* 88 */        leap35check,            /* V3.42  TLi */
-/* 89 */        doublegrascheck,        /* V3.44  SE */
-/* 90 */        kinghopcheck,           /* V3.44  SE */
-/* 91 */        orixcheck,              /* V3.44  NG */
-/* 92 */        leap15check,            /* V3.46  NG */
-/* 93 */        leap25check,            /* V3.46  NG */
-/* 94 */        gralcheck,              /* V3.46  NG */
-/* 95 */        tritoncheck,            /* V3.53  TLi */
-/* 96 */        nereidecheck,           /* V3.53  TLi */
-/* 97 */        nightlocustcheck,       /* V3.53  TLi */
+/* 82 */        okapicheck,
+/* 83 */        leap37check,
+/* 84 */        grasshop2check,
+/* 85 */        grasshop3check,
+/* 86 */        leap16check,
+/* 87 */        leap24check,
+/* 88 */        leap35check,
+/* 89 */        doublegrascheck,
+/* 90 */        kinghopcheck,
+/* 91 */        orixcheck,
+/* 92 */        leap15check,
+/* 93 */        leap25check,
+/* 94 */        gralcheck,
+/* 95 */        tritoncheck,
+/* 96 */        nereidecheck,
+/* 97 */        nightlocustcheck,
 /* 98 */        tourcheck,              /* wazirrider checks like rook */
 /* 99 */        foucheck,               /* fersrider checks like bishop */
-/*100 */        bisoncheck,             /* V3.60  TLi */
-/*101 */        elephantcheck,          /* V3.62  TLi */
-/*102 */        naocheck,               /* V3.62  TLi */
-/*103 */        rookmoosecheck,		/* V3.62  NG */
-/*104 */        rookeaglecheck,		/* V3.62  NG */
-/*105 */        rooksparrcheck,		/* V3.62  NG */
-/*106 */        bishopmoosecheck,	/* V3.62  NG */
-/*107 */        bishopeaglecheck,	/* V3.62  NG */
-/*108 */        bishopsparrcheck,       /* V3.62  NG */
-/*109 */        roselioncheck,  	/* rao checks like roselion */ /* V3.63  NG */
-/*110 */        scorpioncheck,  	/* V3.63  NG */
-/*111 */        margueritecheck,  	/* V3.64  TLi */
-/*112 */        leap36check,    	/* V3.64  TLi */
-/*113 */        nightriderlioncheck,    /* V3.64  TLi */
-/*114 */        maoriderlioncheck,      /* V3.64  TLi */
-/*115 */        moariderlioncheck,      /* V3.65  TLi */
-/*116 */        scheck,                 /* V3.65  TLi */
-/*117 */        friendcheck,            /* V3.65  TLi */
-/*118 */        dolphincheck,           /* V3.70  TLi */
-/*119 */        rabbitcheck,            /* V3.76  NG */
-/*120 */        bobcheck,               /* V3.76  NG */
-/*121 */	equiengcheck,           /* V3.78  SE */
-/*122 */	equifracheck,           /* V3.78  SE */
-/*123 */	querquisitecheck,	/* V3.78  SE */
-/*124 */	bouncercheck,		/* V4.03  SE */
-/*125 */	rookbouncercheck,	/* V4.03  SE */
-/*126 */	bishopbouncercheck,	/* V4.03  SE */
-/*127 */	pchincheck,		/* V4.06  SE */
+/*100 */        bisoncheck,
+/*101 */        elephantcheck,
+/*102 */        naocheck,
+/*103 */        rookmoosecheck,
+/*104 */        rookeaglecheck,
+/*105 */        rooksparrcheck,
+/*106 */        bishopmoosecheck,
+/*107 */        bishopeaglecheck,
+/*108 */        bishopsparrcheck,
+/*109 */        roselioncheck,  	/* rao checks like roselion */
+/*110 */        scorpioncheck,
+/*111 */        margueritecheck,
+/*112 */        leap36check,
+/*113 */        nightriderlioncheck,
+/*114 */        maoriderlioncheck,
+/*115 */        moariderlioncheck,
+/*116 */        scheck,
+/*117 */        friendcheck,
+/*118 */        dolphincheck,
+/*119 */        rabbitcheck,
+/*120 */        bobcheck,
+/*121 */	equiengcheck,
+/*122 */	equifracheck,
+/*123 */	querquisitecheck,
+/*124 */	bouncercheck,
+/*125 */	rookbouncercheck,
+/*126 */	bishopbouncercheck,
+/*127 */	pchincheck,
 /*128 */        huntercheck,
 /*129 */        huntercheck,
 /*130 */        huntercheck,
@@ -1916,7 +1905,7 @@ enum {
 #ifdef WE_ARE_EXTERN
 	extern  piece PAS[64];
 #else
-/* This is the InitialGameArray */     /* V3.50  NG */
+/* This is the InitialGameArray */
 piece       PAS[64] = {   tb,   cb,   fb,   db, roib,   fb,   cb,   tb,
 			  pb,   pb,   pb,   pb,   pb,   pb,   pb,   pb,
 			vide, vide, vide, vide, vide, vide, vide, vide,
@@ -1938,4 +1927,3 @@ extern unsigned int nrhuntertypes;
 #define hunterseparator '/'
 
 #endif  /* not PYDATA_H */
-

@@ -15,6 +15,6 @@ boolean ProofSol(couleur camp, smallint n, boolean restartenabled);
 boolean SeriesProofSol(smallint n, boolean restartenabled);
 void    ProofInitialiseKingMoves(square ProofRB, square ProofRN);
 boolean ProofVerifie(void);
-void    ProofInitialise(void);     /* V3.38  TLi */
+void    ProofInitialise(void);
 
 #endif

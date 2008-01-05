@@ -90,12 +90,12 @@ static int SignalToCatch[] = {
 void ReDrawBoard(int sig) {
     /* I did this, to see more accurately
        what position popeye is working on.
-				ElB, 1998-01-11.
+				ElB
      */
     /* If a position can be reached by 1000's
        of move sequences than the position is of almost
        no value. The history is more important.
-				TLi, 2000-02-21.
+				TLi
      */
     ply pl;
 
@@ -103,7 +103,6 @@ void ReDrawBoard(int sig) {
 
     /* and write (some information about) the
        sequences of moves that lead to this position.
-				 V3.62	TLi
      */
     for (pl= 3; pl < nbply; pl++) {
 	WritePiece(pjoue[pl-1]);
@@ -125,7 +124,6 @@ void UNIXSolvingTimeOver(int sig) {
     /*
       To stop the calculation of a problem
       after a given amount of time is over.
-				 V3.54	NG
      */
     FlagTimeOut= true;
     signal(SIGALRM,  UNIXSolvingTimeOver);
@@ -172,7 +170,7 @@ void BeepOnSolution(int NumOfBeeps) {
 #endif /*UNIX*/
 
 
-#ifdef WIN32			/* V3.54  NG */
+#ifdef WIN32
 
 #include <stdio.h>
 #include <stdlib.h>

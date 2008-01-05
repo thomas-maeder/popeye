@@ -4,6 +4,8 @@
  **
  ** 2006/06/14 TLi  bug fix in function impact()
  **
+ ** 2007/12/27 TLi  bug fix in function Immobilize()
+ **
  **************************** End of List ******************************/
 
 #include <stdlib.h>
@@ -46,7 +48,7 @@ extern short ProofKnightMoves[];
 
 PIECE white[64], black[64], final[64];
 boolean whiteused[64], blackused[64], is_cast_supp;
-square is_ep, is_ep2;                           /* V4.01  TLi */
+square is_ep, is_ep2;
 smallint moves_to_prom[64];
 square squarechecking, *deposebnp;
 piece piecechecking;
@@ -143,8 +145,7 @@ boolean IllegalCheck(couleur camp) {
 
 boolean impact(square bk, piece p, square sq) {
   smallint	i;
-  /* boolean	ret= false;                        V4.05  TLi */
-  boolean	ret= guards(bk, p, sq);         /* V4.05  TLi */
+  boolean	ret= guards(bk, p, sq);
 
   e[bk]= vide;
   for (i= 8; i && !ret; i--) {
@@ -155,7 +156,7 @@ boolean impact(square bk, piece p, square sq) {
   e[bk]= roin;
 
   return ret;
-} /* impact */
+}
 
 smallint FroToKing(square f_sq, square t_sq) {
   smallint diffcol= f_sq % onerow - t_sq % onerow;
@@ -341,7 +342,7 @@ void StoreSol(void) {
 
   SolMax++;
 
-  sol_per_matingpos++;			/* V3.53  TLi */
+  sol_per_matingpos++;
 }
 
 boolean SolAlreadyFound(void) {
@@ -383,12 +384,11 @@ boolean MatePossible(void) {
 
   captures= CapturesLeft[nbply-1];
 
-  /* V3.53  TLi */
   if ( (maxsol_per_matingpos
         && sol_per_matingpos >= maxsol_per_matingpos)
-       || FlagTimeOut)					/* V3.54  NG */
+       || FlagTimeOut)
   {
-	FlagMaxSolsReached= true;			/* V3.73  NG */
+	FlagMaxSolsReached= true;
 	return false;
   }
 
@@ -411,7 +411,7 @@ boolean MatePossible(void) {
 	for (bnp= boardnum; *bnp; bnp++) {
       square f_sq= *bnp;
       if ( (f_p= e[f_sq]) != vide
-           && (f_p != obs))				/* V3.64  TLi */
+           && (f_p != obs))
       {
 		index= GetIndex(spec[f_sq]);
 		if ((t_sq= Mate[index].sq) != initsquare) {
@@ -503,7 +503,7 @@ void NeutralizeMateGuardingPieces(
   smallint, smallint, smallint, smallint);
 void BlackPieceTo(square, smallint, smallint, smallint, smallint);
 void WhitePieceTo(square, smallint, smallint, smallint, smallint);
-void AvoidWhKingInCheck(smallint, smallint, smallint, smallint);/* V3.76  TLi */
+void AvoidWhKingInCheck(smallint, smallint, smallint, smallint);
 
 void StaleStoreMate(
   smallint	blmoves,
@@ -517,12 +517,12 @@ void StaleStoreMate(
 
   if ( blpcallowed < 0
        || whpcallowed < 0
-       || FlagTimeOut)					/* V3.62  NG */
+       || FlagTimeOut)
   {
 	return;
   }
 
-  if (   (rb == initsquare)				/* V3.64  TLi */
+  if (   (rb == initsquare)
          && (white[0].sq != initsquare)
          && (white[0].sq != square_e1)
          && (whmoves == 0))
@@ -556,12 +556,7 @@ void StaleStoreMate(
 
   /* checks against the wKing should be coped with earlier !!! */
   if (echecc(blanc)) {
-#ifdef TODO
-	StdString("Torsten, nachdenken!!\n");  /* V3.76  did it! */
-#endif
-	/* return;  V3.76  TLi */
     AvoidWhKingInCheck(blmoves, whmoves, blpcallowed, whpcallowed); 
-    /* V3.76  TLi */
   }
 
   CapturesLeft[1]= unused;
@@ -593,16 +588,16 @@ void StaleStoreMate(
 	}
   }
 
-  IndxChP= nbrchecking == -1				 /* V3.50 TLi */
+  IndxChP= nbrchecking == -1
     ? -1
-    : GetIndex(white[nbrchecking].sp);		 /* V3.50 TLi */
+    : GetIndex(white[nbrchecking].sp);
   _rb= rb;
   _rn= rn;
 
   /* solve the problem */
   ResetPosition();
   castling_supported= is_cast_supp;
-  ep[1]= is_ep; ep2[1]= is_ep2;                       /* V4.01  TLi */
+  ep[1]= is_ep; ep2[1]= is_ep2;
 
 #ifdef DETAILS
   {
@@ -636,7 +631,7 @@ void StaleStoreMate(
   }
 #endif
 
-  sol_per_matingpos= 0;  /* V3.53  TLi */
+  sol_per_matingpos= 0;
 
   closehash();
   inithash();
@@ -662,7 +657,7 @@ void StaleStoreMate(
   rb= _rb;
   rn= _rn;
 
-  ep[1]= ep2[1]= initsquare;			/* V3.64  TLi */
+  ep[1]= ep2[1]= initsquare;
 
   castling_supported= false;
 } /* StaleStoreMate */
@@ -714,14 +709,13 @@ void PreventCheckAgainstWhK(
   smallint	whpc)
 {
   square trouble= initsquare;
-  boolean fbm= flagblackmummer;                       /* V4.01  TLi */
+  boolean fbm= flagblackmummer;
 
-  flagblackmummer= false;                             /* V4.01  TLi */
+  flagblackmummer= false;
   genmove(noir);
-  flagblackmummer= fbm;                               /* V4.01  TLi */
+  flagblackmummer= fbm;
 
-  while(encore() && (trouble == initsquare)) {	/* V3.65  NG,
-                                                   TLi */
+  while(encore() && (trouble == initsquare)) {
 	if (move_generation_stack[nbcou].arrival == rb) {
       trouble= move_generation_stack[nbcou].departure;
 	}
@@ -731,7 +725,7 @@ void PreventCheckAgainstWhK(
   finply();
 
   if (trouble == initsquare) {
-        WritePosition();                                /* V4.01  TLi */
+        WritePosition();
 	FtlMsg(ErrUndef);
   }
 
@@ -767,7 +761,7 @@ void StoreMate(
 	return;
   }
 
-  if (   (rb == initsquare)				/* V3.64  TLi */
+  if (   (rb == initsquare)
          && (white[0].sq != initsquare)
          && (white[0].sq != square_e1)
          && (whmoves == 0))
@@ -802,9 +796,9 @@ void StoreMate(
 	}
   }
 
-  IndxChP= nbrchecking == -1				/* V3.50 TLi */
+  IndxChP= nbrchecking == -1
     ? -1
-    : GetIndex(white[nbrchecking].sp);	/* V3.50 TLi */
+    : GetIndex(white[nbrchecking].sp);
   _rb= rb;
   _rn= rn;
 
@@ -828,7 +822,7 @@ void StoreMate(
   StdString("\n");
 #endif
 
-  sol_per_matingpos= 0;  /* V3.53  TLi */
+  sol_per_matingpos= 0;
 
   closehash();
   inithash();
@@ -836,7 +830,7 @@ void StoreMate(
 
   /* reset the old mating position */
   for (bnp= boardnum; *bnp; bnp++) {
-	if (e[*bnp] != obs) {				/* V3.64  TLi */
+	if (e[*bnp] != obs) {
       e[*bnp]= vide;
       spec[*bnp]= EmptySpec;
 	}
@@ -856,7 +850,7 @@ void StoreMate(
   rb= _rb;
   rn= _rn;
 
-  ep[1]= ep2[1]= initsquare;			/* V3.64  TLi */
+  ep[1]= ep2[1]= initsquare;
 
   castling_supported= false;
 } /* StoreMate */
@@ -1061,7 +1055,7 @@ boolean BlIllegalCheck(square from, piece p) {
 	return CheckDirRook[dir] == dir;
 
   }
-  return false;					/* V3.65  NG */
+  return false;
 }
 
 void DeposeWhKing(
@@ -1347,7 +1341,7 @@ void Immobilize(
   boolean	nopinpossible, pinnecessary;
   echiquier	toblock;
 
-  if (OptFlag[maxsols] && (solutions >= maxsolutions))	/* V3.76  TLi */
+  if (OptFlag[maxsols] && (solutions >= maxsolutions))
     return;
 
   VARIABLE_INIT(block);
@@ -1421,9 +1415,8 @@ void Immobilize(
   }
   finply();
 
-  if (trouble == rn) {
-	nopinpossible= true;   /* TLi 27 Dec 2007 */
-  }
+  if (trouble == rn)
+	nopinpossible= true;
 
 #ifdef DEBUG
   if (trouble == initsquare) {
@@ -1494,7 +1487,7 @@ void Immobilize(
 #endif
 } /* Immobilize */
 
-void AvoidWhKingInCheck(		/* V3.76  TLi */
+void AvoidWhKingInCheck(
   smallint	blmoves,
   smallint	whmoves,
   smallint	blpcallowed,
@@ -1819,7 +1812,7 @@ void NeutralizeMateGuardingPieces(
   trouble= initsquare;
   genmove(noir);
 
-  while(encore() && (trouble == initsquare)) {	/* V3.65  NG */
+  while(encore() && (trouble == initsquare)) {
 	if (jouecoup() && !echecc(noir)) {
       trouble= move_generation_stack[nbcou].departure;
       trto= move_generation_stack[nbcou].arrival;
@@ -1855,8 +1848,8 @@ boolean Redundant(void) {
 
   /* check for redundant white pieces */
   for (bnp= boardnum; *bnp; bnp++) {
-	if (e[sq= *bnp] > obs) {			/* V3.64  TLi */
-      if (sq == rb) {				/* V3.64  TLi */
+	if (e[sq= *bnp] > obs) {
+      if (sq == rb) {
 		continue;
       }
 
@@ -1894,9 +1887,7 @@ smallint MovesToBlock(square sq, smallint blmoves) {
 
 	/* pawn promotions */
 	if (p == -Pawn) {
-      /* A rough check whether it is worth thinking about
-         promotions.
-      */
+      /* A rough check whether it is worth thinking about promotions. */
       smallint moves= black[i].sq / onerow - 8;
       if (moves > 5)
 		moves= 5;
@@ -1932,12 +1923,12 @@ void GenerateBlocking(
   smallint	actpbl, wasted;
   square	sq;
 
-  if (OptFlag[maxsols] && (solutions >= maxsolutions))	/* V3.76  TLi */
+  if (OptFlag[maxsols] && (solutions >= maxsolutions))
     return;
 
   if (nbrfl == 0) {
 	/* check for stipulation */
-	if (stipulation == stip_stale || echecc(noir)) {/* V3.50  TLi */
+	if (stipulation == stip_stale || echecc(noir)) {
 #ifdef DEBUG
       if (IllegalCheck(blanc)) {
 		StdString("oops!\n");
@@ -2036,7 +2027,6 @@ void GenerateBlocking(
                       || !BlIllegalCheck(sq, pp)))
               {
                 Flags sp= black[actpbl].sp;
-                /* smallint index= GetIndex(sp); */
                 SetPiece(pp, sq, sp);
                 GenerateBlocking(whmoves,
                                  nbrfl, toblock, mintime,
@@ -2073,10 +2063,10 @@ void GenerateGuarding(
   StdString(GlobalStr);
 #endif
 
-  if (OptFlag[maxsols] && (solutions >= maxsolutions))	/* V3.76  TLi */
+  if (OptFlag[maxsols] && (solutions >= maxsolutions))
     return;
 
-  if (whcaptures > MaxPieceBlack-1 || FlagTimeOut) {	/* V3.62  NG */
+  if (whcaptures > MaxPieceBlack-1 || FlagTimeOut) {
 	return;
   }
 
@@ -2094,7 +2084,7 @@ void GenerateGuarding(
       return;
 	}
 
-	if (	(rb == initsquare)		     /* V3.64  TLi */
+	if (	(rb == initsquare)
             && (white[0].sq != initsquare)
             && (white[0].sq != square_e1)
             && (whmoves == 0))
@@ -2143,7 +2133,6 @@ void GenerateGuarding(
 
 	mtba= 0;
 	for (i= 0; i < flights && mtba <= blmoves; i++) {
-      /* V3.62  TLi */
       mtba += mintime[i]= MovesToBlock(toblock[i], blmoves);
 	}
 
@@ -2165,7 +2154,7 @@ void GenerateGuarding(
     StdString(GlobalStr);
 #endif
 
-	if (set_king) {			/* V3.64  TLi */
+	if (set_king) {
       rb= white[0].sq;
       SetPiece(white[0].p, rb, white[0].sp);
       whiteused[0]= true;
@@ -2197,7 +2186,7 @@ void GenerateGuarding(
       /* set piece */
       time= FroTo(p, sq, p, *bnp, false);
       if (actpwh == 0) {
-		if (move_diff_code[abs(rn-*bnp)] < 3) {/* V3.62  TLi */
+		if (move_diff_code[abs(rn-*bnp)] < 3) {
           continue;
 		}
 		rb= *bnp;
@@ -2347,7 +2336,7 @@ void GenerateBlackKing(smallint whmoves, smallint blmoves) {
 
   for (i= 0; i < 64; i++) {
 	sq= boardnum[i];
-	if (e[sq] == obs)				/* V3.64  TLi */
+	if (e[sq] == obs)
       continue;
 
 	/* set piece */
@@ -2361,7 +2350,7 @@ void GenerateBlackKing(smallint whmoves, smallint blmoves) {
       WriteSquare(sq);
       StdString("\n");
 #endif
-      if (stipulation == stip_mate) {		/* V3.50  TLi */
+      if (stipulation == stip_mate) {
 		GenerateChecking(whmoves, blmoves-time);
       }
       else {
@@ -2372,7 +2361,7 @@ void GenerateBlackKing(smallint whmoves, smallint blmoves) {
       e[sq]= vide;
       spec[sq]= EmptySpec;
 	}
-	if (FlagTimeOut) {				/* V3.54  NG */
+	if (FlagTimeOut) {
       break;
 	}
   }
@@ -2401,7 +2390,7 @@ boolean Intelligent(
 
   deposebnp= boardnum;
   is_cast_supp= castling_supported;
-  is_ep= ep[1]; is_ep2= ep2[1];                       /* V4.01  TLi */
+  is_ep= ep[1]; is_ep2= ep2[1];
   castling_supported= false;
 
   SetIndex(spec[rn], 0);
@@ -2421,7 +2410,7 @@ boolean Intelligent(
   MaxPieceAll= 2;
 
   for (bnp= boardnum; *bnp; bnp++)
-    if ((rb != *bnp) && (e[*bnp] > obs)) {		/* V3.64  TLi */
+    if ((rb != *bnp) && (e[*bnp] > obs)) {
       SetIndex(spec[*bnp], MaxPieceAll);
       white[MaxPieceWhite].p= e[*bnp];
       white[MaxPieceWhite].sp= spec[*bnp];
@@ -2470,7 +2459,7 @@ boolean Intelligent(
   }
 
   StorePosition();
-  ep[1]= ep2[1]= initsquare;				/* V3.64  TLi */
+  ep[1]= ep2[1]= initsquare;
 
   WhMovesLeft= whmoves;
   BlMovesLeft= blmoves;
@@ -2496,12 +2485,12 @@ boolean Intelligent(
   ResetPosition();
 
   if (OptFlag[movenbr]
-      && !FlagTimeOut)					/* V3.54  NG */
+      && !FlagTimeOut)
   {
 	sprintf(GlobalStr, "%ld %s %d+%d",
             MatesMax, GetMsgString(PotentialMates), whmoves, blmoves);
 	StdString(GlobalStr);
-	if (!flag_regression) {		/* V3.74  NG */
+	if (!flag_regression) {
       StdString("  (");
       PrintTime();
       StdString(")");
@@ -2517,7 +2506,7 @@ boolean Intelligent(
   }
 
   castling_supported= is_cast_supp;
-  ep[1]= is_ep; ep2[1]= is_ep2;                       /* V4.01  TLi */
+  ep[1]= is_ep; ep2[1]= is_ep2;
 
   return (SolMax > 0);
 } /* Intelligent */

@@ -31,7 +31,7 @@ echiquier ProofBoard, PosA;
 static	byte buffer[256];
 square Proof_rb, Proof_rn, rbA, rnA;
 Flags ProofSpec[64], SpecA[64];
-static imarr Proof_isquare;				/* V4.01  NG */
+static imarr Proof_isquare;
 imarr isquareA;
 
 static smallint xxxxx[fb+fb+1];
@@ -51,10 +51,10 @@ boolean ProofVerifie(void) {
 
   ProofFairy= change_moving_piece
     || jouegenre
-    || CondFlag[annan]				/* V4.31  SE */
-    || CondFlag[glasgow]			/* V3.39  TLi */
+    || CondFlag[annan]
+    || CondFlag[glasgow]
     || CondFlag[takemake]
-    || CondFlag[messigny]			/* V3.57  TLi */
+    || CondFlag[messigny]
     || CondFlag[mars];
 
   return true;
@@ -93,13 +93,13 @@ BCMemValue *ProofEncode(void) {
   }
   if (even)
 	*bp++ = pieces+(15<<4);
-  *bp++ = castling_flag[nbply];		/* Castling_Flag */
-  /* V3.35  NG */
-  if (CondFlag[duellist]) {			/* V3.74  TLi */
+  *bp++ = castling_flag[nbply];
+
+  if (CondFlag[duellist]) {
     *bp++ = (byte)(whduell[nbply] - bas);
     *bp++ = (byte)(blduell[nbply] - bas);
   }
-  if (CondFlag[blfollow] || CondFlag[whfollow]) {     /* V3.74  TLi */
+  if (CondFlag[blfollow] || CondFlag[whfollow]) {
     *bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
   }
 
@@ -121,7 +121,7 @@ smallint *BlKingMoves=proofbkm-(bas-25);
 #define WhKingMoves  (proofwkm-(bas-25))
 #define BlKingMoves  (proofbkm-(bas-25))
 #endif /* BC31_SUCKS */
-/* above changed due to BorlandC V3.1 problems	*/  /* V3.50  SE, NG */
+/* above changed due to BorlandC V3.1 problems	*/
 
 void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
   square	*bnp, sq;
@@ -139,10 +139,10 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
   for (sq= square_a2; sq <= square_h2; sq++) {
 	if (ProofBoard[sq] == pb) {
       WhKingMoves[sq]=
-	    BlKingMoves[sq]= -1;	/* blocked */	/* V3.77  TLi */
-      if (eval_white == eval_ortho) {	/* V3.77  TLi */
+	    BlKingMoves[sq]= -1;	/* blocked */
+      if (eval_white == eval_ortho) {
         BlKingMoves[sq+dir_up+dir_left]=
-          BlKingMoves[sq+dir_up+dir_right]= -2;	/* guarded */	/* V3.77  TLi */
+          BlKingMoves[sq+dir_up+dir_right]= -2;	/* guarded */
       }
 	}
   }
@@ -151,10 +151,10 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
   for (sq= square_a7; sq <= square_h7; sq++) {
 	if (ProofBoard[sq] == pn) {
       BlKingMoves[sq]=
-	    WhKingMoves[sq]= -1;	/* blocked */	/* V3.77  TLi */
-      if (eval_black == eval_ortho) {	/* V3.77  TLi */
+	    WhKingMoves[sq]= -1;	/* blocked */
+      if (eval_black == eval_ortho) {
         WhKingMoves[sq+dir_down+dir_right]=
-          WhKingMoves[sq+dir_down+dir_left]= -2;	/* guarded */	/* V3.77  TLi */
+          WhKingMoves[sq+dir_down+dir_left]= -2;	/* guarded */
       }
 	}
   }
@@ -181,7 +181,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
 			WhKingMoves[*bnp+vec[k]]= MoveNbr+1;
 			GoOn= True;
           }
-          if (CondFlag[whtrans_king]	/* V3.77  TLi */
+          if (CondFlag[whtrans_king]
               || CondFlag[trans_king]) {
             sq= *bnp;
             while (e[sq+=vec[k]] != obs &&
@@ -193,7 +193,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
             }
           } /* trans_king */
 		}
-        if (CondFlag[whtrans_king]	/* V3.77  TLi */
+        if (CondFlag[whtrans_king]
             || CondFlag[trans_king]) {
           /* Knight moves */
           for (k= 16; k>8; k--) {
@@ -222,7 +222,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
 			BlKingMoves[*bnp+vec[k]]= MoveNbr+1;
 			GoOn= True;
           }
-          if (CondFlag[bltrans_king]	/* V3.76  TLi */
+          if (CondFlag[bltrans_king]
               || CondFlag[trans_king]) {
             sq= *bnp;
             while (e[sq+=vec[k]] != obs &&
@@ -234,7 +234,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
             }
           } /* trans_king */
 		}
-        if (CondFlag[bltrans_king]	/* V3.77  TLi */
+        if (CondFlag[bltrans_king]
             || CondFlag[trans_king]) {
           /* Knight moves */
           for (k= 16; k>8; k--) {
@@ -257,7 +257,7 @@ void ProofInitialise(void) {
   int		i;
   piece	p;
 
-  Proof_rb= rb;					/* V3.50  SE */
+  Proof_rb= rb;
   Proof_rn= rn;
 
   ProofNbrAllPieces=
@@ -279,7 +279,7 @@ void ProofInitialise(void) {
 	ProofSpec[i]=spec[boardnum[i]];
     /* in case continued twinning
      * to other than proof game
-     */				/* V3.50  SE */
+     */
 	p= e[boardnum[i]];
 	if (p != vide) {
       ProofPieces[ProofNbrAllPieces]= p;
@@ -290,7 +290,6 @@ void ProofInitialise(void) {
 
 	/* We must set spec[] for the PAS.
 	   This is used in jouecoup for andernachchess!*/
-    /* V3.37  NG */
 	if (p >= roib) {
       SETFLAG(spec[boardnum[i]], White);
 	}
@@ -302,7 +301,7 @@ void ProofInitialise(void) {
 	}
   }
 
-  if (CondFlag[imitators]) {			/* V4.01  NG */
+  if (CondFlag[imitators]) {
 	for (i= 0; i < maxinum; i++) {
       Proof_isquare[i]= isquare[i];
 	}
@@ -314,7 +313,7 @@ void ProofInitialise(void) {
   if (flag_atob) {
 	rb= rbA;
 	rn= rnA;
-	if (CondFlag[imitators]) {		/* V4.01  NG */
+	if (CondFlag[imitators]) {
       for (i= 0; i < maxinum; i++) {
 		isquare[i]= isquareA[i];
       }
@@ -452,7 +451,7 @@ boolean ProofIdentical(void) {
 	}
   }
 
-  if (CondFlag[imitators]) {			/* V4.01  NG */
+  if (CondFlag[imitators]) {
 	for (i= 0; i < inum[nbply]; i++) {
       if (Proof_isquare[i] != isquare[i]) {
 		return False;
@@ -486,7 +485,7 @@ smallint ProofBlKingMovesNeeded(void) {
   smallint	needed= BlKingMoves[rn];
 
   if (TSTFLAGMASK(castling_flag[nbply],ke8_cancastle)) {
-    if (TSTFLAGMASK(castling_flag[nbply],ra8_cancastle)) {	/* V3.37  NG */
+    if (TSTFLAGMASK(castling_flag[nbply],ra8_cancastle)) {
       /* bl long castling */
       /* BlKingMoves is the number of moves the bl king
          still needs after castling. It takes 1 move to castle,
@@ -497,7 +496,7 @@ smallint ProofBlKingMovesNeeded(void) {
         needed= cast;
       }
     }
-    if (TSTFLAGMASK(castling_flag[nbply],rh8_cancastle)) {	/* V3.37  NG */
+    if (TSTFLAGMASK(castling_flag[nbply],rh8_cancastle)) {
       /* bl short castling */
       /* BlKingMoves is the number of moves the bl king still
          needs after castling. It takes 1 move to castle, but we
@@ -701,7 +700,7 @@ smallint BlPawnMovesNeeded(square sq) {
 	}
   }
 
-  MovesNeeded1= BlPawnMovesNeeded(sq+dir_up);		/* V3.37  NG */
+  MovesNeeded1= BlPawnMovesNeeded(sq+dir_up);
   if (MovesNeeded1 < MovesNeeded) {
 	MovesNeeded= MovesNeeded1;
   }
@@ -826,14 +825,14 @@ void WhPromPieceMovesFromTo(
 
   for (i= 1; i <= captallowed; i++) {
 	if (cenpromsq+i <= square_h8) {
-      /* got out of range sometimes ! */		/* V3.37  NG */
+      /* got out of range sometimes ! */
       WhPawnMovesFromTo(from, cenpromsq+i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq+i, to, &mov2);
       if (mov1+mov2 < *moves)
 		*moves= mov1+mov2;
 	}
 	if (cenpromsq-i>=square_a8) {
-      /* got out of range sometimes ! */		/* V3.37  NG */
+      /* got out of range sometimes ! */
       WhPawnMovesFromTo(from,
                         cenpromsq-i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq-i, to, &mov2);
@@ -845,7 +844,7 @@ void WhPromPieceMovesFromTo(
 
   /* We cannot say for sure how many captures we really need.
   ** We may need 3 moves and 1 capture or 2 moves and 2 captures.
-  ** Therefore zero is returned.   3.38  TLi */
+  ** Therefore zero is returned. */
   *captures= 0;
 } /* WhPromPieceMovesFromTo */
 
@@ -870,14 +869,14 @@ void BlPromPieceMovesFromTo(
 
   for (i= 1; i <= captallowed; i++) {
 	if (cenpromsq+i<=square_h1) {
-      /* got out of range sometimes !*/		/* V3.37  NG */
+      /* got out of range sometimes !*/
       BlPawnMovesFromTo(from, cenpromsq+i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq+i, to, &mov2);
       if (mov1+mov2 < *moves)
 		*moves= mov1+mov2;
 	}
 	if (cenpromsq-i >= square_a1) {
-      /* got out of range sometimes ! */		/* V3.37  NG */
+      /* got out of range sometimes ! */
       BlPawnMovesFromTo(from,
                         cenpromsq-i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq-i, to, &mov2);
@@ -889,7 +888,7 @@ void BlPromPieceMovesFromTo(
 
   /* We cannot say for sure how many captures we really need.
   ** We may need 3 moves and 1 capture or 2 moves and 2 captures.
-  ** Therefore zero is returned.   3.38  TLi */
+  ** Therefore zero is returned. */
   *captures= 0;
 } /* BlPromPieceMovesFromTo */
 
@@ -1177,8 +1176,8 @@ boolean ProofFairyImpossible(int MovesAvailable) {
 	{
       return true;
 	}
-	if (CondFlag[andernach]   			/* V3.37  NG */
-        && !anycirce) {                             /* V3.76  TLi */
+	if (CondFlag[andernach]
+        && !anycirce) {
       smallint count= 0;
       /* in AndernachChess we need at least 1 capture if a pawn
          residing at his initial square has moved and has to be
@@ -1226,7 +1225,7 @@ boolean ProofFairyImpossible(int MovesAvailable) {
 		}
       }
 	}
-	else {				/* ser-dia */	/* V3.42  NG */
+	else {				/* ser-dia */
       BlMovesLeft= 0;
       WhMovesLeft= MovesAvailable;
 	}
@@ -1238,7 +1237,7 @@ boolean ProofFairyImpossible(int MovesAvailable) {
       return true;
 	}
 
-	if (!CondFlag[sentinelles]) {			/* V3.37  NG */
+	if (!CondFlag[sentinelles]) {
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
       */
@@ -1249,7 +1248,7 @@ boolean ProofFairyImpossible(int MovesAvailable) {
       }
 	}
 
-	if (CondFlag[anti]) {				/* V3.37  NG */
+	if (CondFlag[anti]) {
       /* note, that we are in the !change_moving_piece section */
       smallint count= 0;
       /* in AntiCirce we need at least 2 captures if a pawn
@@ -1399,7 +1398,7 @@ boolean ProofImpossible(int MovesAvailable) {
       }
 	}
   }
-  else {				/* ser-dia */	/* V3.42  NG */
+  else {				/* ser-dia */
 	BlMovesLeft= 0;
 	WhMovesLeft= MovesAvailable;
   }
@@ -1427,9 +1426,6 @@ boolean ProofImpossible(int MovesAvailable) {
   /* has a white pawn on the second rank moved or has it
      been captured?
   */
-#ifdef NODEF	/* V4.03  ThM, TLi */
-  for (sq= 208; sq <= 215; sq++) {
-#endif /* NODEF } */
   for (sq= square_a2; sq <= square_h2; sq++) {
 	if (ProofBoard[sq] == pb && e[sq] != pb) {
       return true;
@@ -1454,7 +1450,7 @@ boolean ProofImpossible(int MovesAvailable) {
 	return True;
   }
 
-  if (CondFlag[haanerchess]) {			/* V3.64  TLi */
+  if (CondFlag[haanerchess]) {
 	return (ProofBoard[move_generation_stack[nbcou].departure] != vide);
   }
 
@@ -1571,7 +1567,7 @@ boolean ProofImpossible(int MovesAvailable) {
   return false;
 } /* ProofImpossible */
 
-boolean ProofSeriesImpossible(int MovesAvailable) {	/* V3.42  NG */
+boolean ProofSeriesImpossible(int MovesAvailable) {
   square	*bnp, sq;
   piece	p1, p2;
   int		BlPieToBeCapt, BlCapturesRequired;
@@ -1686,12 +1682,11 @@ boolean ProofSeriesImpossible(int MovesAvailable) {	/* V3.42  NG */
 } /* ProofSeriesImpossible */
 
 boolean ProofSol(couleur camp, smallint n, boolean restartenabled) {
-  /* V3.44 TLi */
   boolean	flag= false;
   couleur	ad= advers(camp);
 
   if ((OptFlag[maxsols] && (solutions >= maxsolutions))
-      || FlagTimeOut)					/* V3.54  NG */
+      || FlagTimeOut)
   {
 	return false;
   }
@@ -1707,7 +1702,6 @@ boolean ProofSol(couleur camp, smallint n, boolean restartenabled) {
   genmove(camp);
   while (encore()){
 	if (jouecoup() && !(restartenabled && MoveNbr < RestartNbr)) {
-      /* V3.44  SE/TLi */
       if (n ? (!ProofImpossible(n)
                && !echecc(camp)
                && ProofSol(ad, n, False))
@@ -1720,7 +1714,7 @@ boolean ProofSol(couleur camp, smallint n, boolean restartenabled) {
 		}
       }
 	}
-	if (restartenabled) {				/* V3.44  TLi */
+	if (restartenabled) {
       IncrementMoveNbr();
 	}
 	repcoup();
@@ -1737,12 +1731,11 @@ boolean ProofSol(couleur camp, smallint n, boolean restartenabled) {
 } /* ProofSol */
 
 boolean SeriesProofSol(smallint n, boolean restartenabled) {
-  /* V3.42  NG, V3.44  LTi  */
   /* no camp, because we play always with white ! */
   boolean flag= false;
 
   if ((OptFlag[maxsols] && (solutions >= maxsolutions))
-      || FlagTimeOut)					/* V3.54  NG */
+      || FlagTimeOut)
   {
 	return false;
   }
@@ -1758,7 +1751,6 @@ boolean SeriesProofSol(smallint n, boolean restartenabled) {
   genmove(blanc);
   while (encore()){
 	if (jouecoup() && !(restartenabled && MoveNbr < RestartNbr)) {
-      /* V3.44  TLi */
       if (n ? (!ProofSeriesImpossible(n)
                && !echecc(noir)
                && !echecc(blanc)
@@ -1772,7 +1764,7 @@ boolean SeriesProofSol(smallint n, boolean restartenabled) {
 		}
       }
 	}
-	if (restartenabled) {				/* V3.44  TLi */
+	if (restartenabled) {
       IncrementMoveNbr();
 	}
 	repcoup();

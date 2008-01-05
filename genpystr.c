@@ -10,7 +10,7 @@
 **************************** INFORMATION END **************************/
 
 #include <stdio.h>
-#include <stdlib.h>				/* H.D. 10.02.93 */
+#include <stdlib.h>
 #include <string.h>
 #include "pylang.h"
 
@@ -25,7 +25,7 @@ int main() {
     FILE	*hd;
     char	*hdFileName= "pyallmsg.h";
     int		StringCnt, MaxLeng;
-    int		LastStringCnt= 0;			/* V3.10  NG */
+    int		LastStringCnt= 0;
 
     if ((hd=fopen(hdFileName, "w")) == NULL) {
 	fprintf(stderr,
@@ -152,7 +152,7 @@ int main() {
 	    exit(3);
 	}
 
-	StringCnt= l= MaxLeng= 0;			/* V2.5c  SB */
+	StringCnt= l= MaxLeng= 0;
 	spt= StrBuf;
 	opt= OfsBuf;
 	while (fgets(Line+l,sizeof(Line)-l,MsgFile) != NULL) {

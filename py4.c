@@ -26,10 +26,10 @@
 #	include "pymac.h"
 #endif
 
-#include <assert.h> /* V3.71 TM */
+#include <assert.h>
 
 #include <stdio.h>
-#include <stdlib.h>		/* H.D. 10.02.93 prototype fuer qsort */
+#include <stdlib.h>
 #include <string.h>
 #include "py.h"
 #include "py1.h"
@@ -41,9 +41,7 @@
 
 short len_max(square sq_departure, square sq_arrival, square sq_capture)
 {
-  /* rewritten  V3.35  TLi */
-  switch (sq_capture) {     					/* V3.55  TLi */
-
+  switch (sq_capture) {
   case messigny_exchange:
 	return 0;
 
@@ -53,23 +51,22 @@ short len_max(square sq_departure, square sq_arrival, square sq_capture)
   case queenside_castling:
 	return 25;
 
-  default:	/* ``ordinary move'' */
+  default:	/* "ordinary move" */
 	switch (abs(e[sq_departure])) {
 
-    case Mao:    /* special MAO move.*/ 		/* V2.90  NG */
+    case Mao:    /* special MAO move.*/
       return 6;
 
-    case Moa:    /* special MOA move.*/ 		/* V3.0  TLi */
+    case Moa:    /* special MOA move.*/
       return 6;
 
     default:
-      return (move_diff_code[abs(sq_arrival-sq_departure)]);/* V2.90  NG */
+      return (move_diff_code[abs(sq_arrival-sq_departure)]);
 	}
   }
 }
 
 short len_min(square sq_departure, square sq_arrival, square sq_capture) {
-  /* rewritten  V3.35  TLi */
   return -len_max(sq_departure,sq_arrival,sq_capture);
 }
 
@@ -89,7 +86,7 @@ short len_blduell(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_departure == blduell[nbply - 1]);
 }
 
-short len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) { /* V3.64  SE */
+short len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) {
   return -((sq_departure/onerow) + onerow*(sq_departure%onerow));
 }
 
@@ -105,7 +102,6 @@ short len_antisynchron(square sq_departure, square sq_arrival, square sq_capture
               - move_generation_stack[repere[nbply]].arrival));
 }
 
-/*****	V3.20  TLi  *****  begin  *****/
 short len_whforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
   if (we_generate_exact) {
 	if (TSTFLAG(sq_spec[sq_arrival], WhConsForcedSq)) {
@@ -136,18 +132,17 @@ short len_blforcedsquare(square sq_departure, square sq_arrival, square sq_captu
   }
 }
 
-short len_schwarzschacher(square id, square ia, square ip)  /* V3.70 SE */
+short len_schwarzschacher(square id, square ia, square ip)
 {
    return ia==nullsquare ? 0 : 1;
 }
-/*****	V3.20  TLi  *****   end   *****/
 
 static boolean count_opponent_moves(int *nr_opponent_moves, couleur camp) {
   boolean	    flag= false;
   numecoup	    sic_nbc= nbcou;
 
   do {
-	if (jouecoup()) {			    /* V3.44  SE/TLi */
+	if (jouecoup()) {
       if (!flag && !echecc(camp)) {
         couleur ad= advers(camp);
         flag= true;
@@ -156,7 +151,7 @@ static boolean count_opponent_moves(int *nr_opponent_moves, couleur camp) {
         genmove(ad);
         move_generation_mode= move_generation_optimized_by_nr_opponent_moves;
         while (encore()) {
-          if (jouecoup()) {		    /* V3.44  SE/TLi */
+          if (jouecoup()) {
             if (!echecc(ad))
               (*nr_opponent_moves)++;
           }
@@ -174,7 +169,7 @@ static boolean count_opponent_moves(int *nr_opponent_moves, couleur camp) {
 void init_move_generation_optimizer(void) {
   switch (move_generation_mode) {
   case move_generation_optimized_by_nr_opponent_moves:
-    empile_optimization_table_count= 0;		    /* V3.02  TLi */
+    empile_optimization_table_count= 0;
     break;
   case move_generation_optimized_by_killer_move:
     current_killer_state.move.departure = kpilcd[nbply];
@@ -199,7 +194,7 @@ static int compare_nr_opponent_moves(const void *a, const void *b) {
 
 void finish_move_generation_optimizer(void) {
   switch (move_generation_mode) {
-  case move_generation_optimized_by_nr_opponent_moves:	    /* V3.02  TLi */
+  case move_generation_optimized_by_nr_opponent_moves:
   {
     empile_optimization_table_elmt *
       curr_elmt = empile_optimization_table+empile_optimization_table_count;
@@ -229,7 +224,7 @@ void finish_move_generation_optimizer(void) {
 
 void add_to_move_generation_stack(square sq_departure, square sq_arrival, square sq_capture, square mren) {
   nbcou++;
-  move_generation_stack[nbcou].departure= sq_departure;				/* V3.0  TLi */
+  move_generation_stack[nbcou].departure= sq_departure;
   move_generation_stack[nbcou].arrival= sq_arrival;
   move_generation_stack[nbcou].capture= sq_capture;
   cmren[nbcou]= mren;
@@ -258,19 +253,19 @@ void add_to_empile_optimization_table(square sq_departure, square sq_arrival, sq
 
 void save_as_killer_move(square capture) {
   current_killer_state.found= true;
-  current_killer_state.move.capture= capture;		/* V3.0  TLi */
+  current_killer_state.move.capture= capture;
 }
 
 boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
-  square  hcr, mren= initsquare;					/* V1.7c  NG */
-  couleur traitnbply;					/* V3.1  TLi */
+  square  hcr, mren= initsquare;
+  couleur traitnbply;
 
-  if (sq_departure==sq_arrival		/* V2.1c  NG */
+  if (sq_departure==sq_arrival
       && (!nullgenre || sq_arrival != nullsquare))
 	return true;
 
-  if (empilegenre) {					/* V2.51  NG */
-	if (CondFlag[messigny]			/* V3.55  TLi */
+  if (empilegenre) {
+	if (CondFlag[messigny]
         && sq_capture == messigny_exchange
         /* a swapping move */
         && (move_generation_stack[repere[nbply]].capture==messigny_exchange)
@@ -286,8 +281,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
       return false;
 	}
 
-	if (anymars||anyantimars) {				    /* V3.46  SE/TLi */
-      if (CondFlag[phantom]) {			/* V3.47  NG */
+	if (anymars||anyantimars) {
+      if (CondFlag[phantom]) {
 		if (flagactive) {
           if ((sq_departure= marsid) == sq_arrival) {
 			return true;
@@ -306,7 +301,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
       }
 	}
 
-	if (flaglegalsquare	       /* V3.03  TLi */
+	if (flaglegalsquare
         && !legalsquare(sq_departure,sq_arrival,sq_capture))
 	{
       return true;
@@ -314,7 +309,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
 
 	traitnbply= trait[nbply];
 
-    if (CondFlag[takemake])   /* V4.03 SE */
+    if (CondFlag[takemake])
     {
       /* Take & make is implemented as follows: When the take part of
        * a move is attempted to be written into the moves table (ca,
@@ -417,12 +412,10 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
         return true;
     }
 
-
 	if (   (   (	CondFlag[nowhiteprom]
                     && traitnbply==blanc
                     && PromSq(blanc,sq_arrival)
                  )
-               /* V3.64  NG */
                || (   CondFlag[noblackprom]
                       && traitnbply==noir
                       && PromSq(noir,sq_arrival)
@@ -433,8 +426,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
       return true;
 	}
 
-	if (  TSTFLAG(spec[sq_departure], Beamtet)	    /* V3.53 TLi */
-          || CondFlag[beamten]    /* V1.4c NG, V3.32	TLi, v3.50 SE */
+	if (  TSTFLAG(spec[sq_departure], Beamtet)
+          || CondFlag[beamten]
           || CondFlag[central]
           || CondFlag[ultrapatrouille])
 	{
@@ -442,14 +435,14 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
 		return true;
 	}
 
-	if (e[sq_capture] != vide) {	 /* V2.4c  NG */
-      if (CondFlag[woozles]      /* V3.55  TLi */
+	if (e[sq_capture] != vide) {
+      if (CondFlag[woozles]
 	      && !woohefflibre(sq_arrival, sq_departure))
       {
 		return	true;
       }
 
-      if (CondFlag[norsk]				/* V3.1  TLi */
+      if (CondFlag[norsk]
 	      && (sq_departure == rb || sq_departure == rn || abs(e[sq_capture]) != abs(e[sq_departure])))
       {
 		return	true;
@@ -457,62 +450,62 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
 
       if (CondFlag[nocapture]
 	      || (CondFlag[nowhcapture]
-              && traitnbply==blanc)			/* V3.64  NG */
+              && traitnbply==blanc)
 	      || (CondFlag[noblcapture]
-              && traitnbply==noir)			/* V3.64  NG */
-	      || TSTFLAG(spec[sq_departure], Paralyse))		/* V1.7c  NG */
+              && traitnbply==noir)
+	      || TSTFLAG(spec[sq_departure], Paralyse))
       {
 		return true;
       }
 
-      if (anyimmun) {		     /* V1.7c  NG , V3.1  TLi */
+      if (anyimmun) {
 		hcr= (*immunrenai)(e[sq_capture], spec[sq_capture], sq_capture, sq_departure, sq_arrival, traitnbply);
 		if (hcr != sq_departure && e[hcr] != vide) {
           return true;
 		}
       }
-      if (CondFlag[patrouille]			/* V1.4c  NG */
-          && !(CondFlag[beamten]			/* V3.53  TLi */
-               || TSTFLAG(PieSpExFlags, Beamtet))) /* V3.32  TLi */
+      if (CondFlag[patrouille]
+          && !(CondFlag[beamten]
+               || TSTFLAG(PieSpExFlags, Beamtet)))
       {
 		if (!soutenu(sq_departure,sq_arrival,sq_capture)) {
           return true;
 		}
       }
 
-      if (!k_cap) {		    /* V3.44  SE/TLi */
+      if (!k_cap) {
 		/* We have to avoid captures by the rb because he
 		 * wouldn't be reborn! This might also be placed in
 		 * the function genrb(), but here, it works for all
-		 * royal pieces.		  V2.4d  TM
+		 * royal pieces.
 		 * wegen neuer Funktionen genweiss/schwarz aus
-		 * gennoir/blanc hierher verschoben	V2.70c	TLi
+		 * gennoir/blanc hierher verschoben
 		 */
-		/* capturing kamikaze pieces without circe condition are possible now, V3.74  SE*/ 
+		/* capturing kamikaze pieces without circe condition are possible now */ 
 		if (TSTFLAG(spec[sq_departure], Kamikaze)
-		    &&  ((traitnbply == blanc)  /* V3.1  TLi *//* V3.55 SE *//* V3.74  SE,NG */
+		    &&  ((traitnbply == blanc)
                  ? ((sq_departure == rb) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, noir)] != vide)))
                  : ((sq_departure == rn) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, blanc)] != vide)))))
 		{
           return true;
 		}
 
-		if ((CondFlag[vogt]		  /* V3.03, V3.1  TLi */
-             || CondFlag[antikings])        /* V3.78 SE */
+		if ((CondFlag[vogt]
+             || CondFlag[antikings])
 		    && ((traitnbply == noir)
-                ? ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, noir)] != vide))     /* V3.55 SE, V3.56 TLi */
-                : ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, blanc)] != vide))))	/* V3.55 SE, V3.56 TLi */
+                ? ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, noir)] != vide))
+                : ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, blanc)] != vide))))
 		{
           return true;
 		}
 
-        if (SATCheck &&           /* V3.03, V3.1  TLi */
+        if (SATCheck &&
             ((traitnbply == noir) ?
-             ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, noir)] != vide)) :    /* V3.55 SE, V3.56 TLi */
-             ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, blanc)] != vide))))   /* V3.55 SE, V3.56 TLi */
+             ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, noir)] != vide)) :
+             ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, blanc)] != vide))))
           return true;
 
-		if (anyanticirce	      /* V3.1  TLi */
+		if (anyanticirce
 		    && (traitnbply==blanc
                 ? !rnanticircech(sq_departure,sq_arrival,sq_capture)
                 : !rbanticircech(sq_departure,sq_arrival,sq_capture)))
@@ -526,23 +519,22 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
     if (CondFlag[imitators]
         && ((sq_capture==kingside_castling || sq_capture==queenside_castling)
             ? !castlingimok(sq_departure, sq_arrival)
-            : !imok(sq_departure, sq_arrival))) {				/* V2.4d  TM */
+            : !imok(sq_departure, sq_arrival))) {
       return false;
 	}
 
 	/* the following is used for conditions where checktest is
 	 *  needed for generation like follow my leader,
-	 * maximummer.....	      V2.90c  TLi
+	 * maximummer.....
 	 */
 	if (traitnbply == noir ? flagblackmummer : flagwhitemummer) {
-      /* V3.1  TLi */
       boolean	    flag= true, flag_dontaddk_sic;
       numecoup	    test;
       boolean is_new_longest_move;
 
       if (encore()
           || (move_generation_mode==move_generation_optimized_by_killer_move
-              && current_killer_state.found)) {		/* V3.44  TLi */
+              && current_killer_state.found)) {
 		/*
 		** There are moves stored. Check whether the
 		** length of the new one is shorter or equal
@@ -554,7 +546,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
         {
           len = traitnbply == noir
             ?  (*black_length)(sq_departure,sq_arrival,sq_capture)
-            : (*white_length)(sq_departure,sq_arrival,sq_capture);	 /* V3.01  NG */
+            : (*white_length)(sq_departure,sq_arrival,sq_capture);
           curleng =
 		    (move_generation_mode==move_generation_optimized_by_killer_move
              && current_killer_state.found)
@@ -579,7 +571,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
           curleng=0;
         }
         
-        if (traitnbply == blanc ? CondFlag[whsupertrans_king] : CondFlag[blsupertrans_king])   /* V3.78  SE */
+        if (traitnbply == blanc ? CondFlag[whsupertrans_king] : CondFlag[blsupertrans_king])
         {
         		
           len+= MAX_OTHER_LEN * (current_trans_gen!=vide ? 1 : 0);
@@ -596,24 +588,24 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
         is_new_longest_move= true;
 
       if (is_new_longest_move) {
-        if (!we_generate_exact) {			/* V3.20  TLi */
+        if (!we_generate_exact) {
           /* not exact-maxi -> test for selfcheck */
-          couleur oneutcoul= neutcoul;		/* V3.53  TLi */
+          couleur oneutcoul= neutcoul;
           test= nbcou++;
-          move_generation_stack[nbcou].departure= sq_departure;/* V3.0  TLi */
+          move_generation_stack[nbcou].departure= sq_departure;
           move_generation_stack[nbcou].arrival= sq_arrival;
           move_generation_stack[nbcou].capture= sq_capture;
-          cmren[nbcou]= mren;			/* V3.78  SE */
+          cmren[nbcou]= mren;
           ctrans[nbcou]=current_trans_gen;
-          flag_dontaddk_sic= flag_dontaddk;	/* V3.50 SE */
+          flag_dontaddk_sic= flag_dontaddk;
           flag_dontaddk=true;
           while (test < nbcou) {
-            if (jouecoup()) /* V3.44  SE/TLi */
+            if (jouecoup())
               flag= flag && echecc(traitnbply);
             repcoup();
           }
           flag_dontaddk= flag_dontaddk_sic;
-          initneutre(oneutcoul);			/* V3.53  TLi */
+          initneutre(oneutcoul);
           if (flag)
             return true;
         }
@@ -624,8 +616,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
 	}
   }
 
-  if (FlagGenMatingMove) {				/* V3.33  TLi */
-	/* printf("here\n"); */
+  if (FlagGenMatingMove) {
 	if (FlagMoveOrientatedStip) {
       if (stipulation == stip_ep) {
 		if (sq_arrival != ep[nbply-1] && sq_arrival != ep2[nbply-1])
@@ -641,7 +632,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
 		if (e[sq_capture] == vide)
           return true;
       }
-      else if (stipulation == stip_castling)	/* V3.35  TLi */
+      else if (stipulation == stip_castling)
       {
 		if (abs(e[sq_departure]) != King || abs(sq_departure-sq_arrival) != 2)
           return true;
@@ -658,7 +649,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
       if (rb == rn) {
 		if (rb == sq_departure) {
           /*	 if (e[sq_capture] != vide)    nK-bug ! */
-          if (e[sq_capture] == vide)			/* V3.39  NG */
+          if (e[sq_capture] == vide)
             return true;
 		}
 		else if ( (e[sq_departure] != Pawn && e[sq_departure] != -Pawn)
@@ -672,7 +663,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
 	}
   }
 
-  switch (move_generation_mode)	{       /* V3.03  TLi */
+  switch (move_generation_mode)	{
   case move_generation_optimized_by_nr_opponent_moves:
     add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture);
     break;
@@ -691,7 +682,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
   return true;
 } /* empile */
 
-/****************  V3.1  TLi  begin  **************/
 void gemaooarider(square sq_departure,
                   numvec tomiddle,
                   numvec todest,
@@ -707,7 +697,7 @@ void gemaooarider(square sq_departure,
   }
   if (e[middle]==vide && rightcolor(e[sq_arrival],camp))
 	empile(sq_departure,sq_arrival,sq_arrival);
-} /* gemaooarider */
+}
 
 void gemoarider(square i, couleur camp) {
   gemaooarider(i,+dir_up+dir_left,+2*dir_up+dir_left, camp);
@@ -718,7 +708,7 @@ void gemoarider(square i, couleur camp) {
   gemaooarider(i,+dir_up+dir_right,+2*dir_up+dir_right, camp);
   gemaooarider(i,+dir_down+dir_left,+dir_down+2*dir_left, camp);
   gemaooarider(i,+dir_down+dir_left,+2*dir_down+dir_left, camp);
-} /* gemoarider */
+}
 
 void gemaorider(square i, couleur camp) {
   gemaooarider(i,+dir_right,+dir_up+2*dir_right, camp);
@@ -729,11 +719,8 @@ void gemaorider(square i, couleur camp) {
   gemaooarider(i,+dir_left,+dir_up+2*dir_left, camp);
   gemaooarider(i,+dir_up,+2*dir_up+dir_left, camp);
   gemaooarider(i,+dir_up,+2*dir_up+dir_right, camp);
-} /* gemaorider */
+}
 
-/****************  V3.1  TLi  end  **************/
-
-/***************   V3.64  TLi  begin ***********/
 void gemaooariderlion(square sq_departure,
                       numvec tomiddle,
                       numvec todest,
@@ -772,9 +759,9 @@ void gemaoriderlion(square i, couleur camp) {
   gemaooariderlion(i,+dir_left,+dir_up+2*dir_left, camp);
   gemaooariderlion(i,+dir_up,+2*dir_up+dir_left, camp);
   gemaooariderlion(i,+dir_up,+2*dir_up+dir_right, camp);
-} /* gemaoriderlion */
+}
 
-void gemoariderlion(square i, couleur camp) {    /* V3.65  TLi */
+void gemoariderlion(square i, couleur camp) {
   gemaooariderlion(i,+dir_up+dir_left,+2*dir_up+dir_left, camp);
   gemaooariderlion(i,+dir_up+dir_left,+dir_up+2*dir_left, camp);
   gemaooariderlion(i,+dir_down+dir_right,+2*dir_down+dir_right, camp);
@@ -783,21 +770,19 @@ void gemoariderlion(square i, couleur camp) {    /* V3.65  TLi */
   gemaooariderlion(i,+dir_up+dir_right,+2*dir_up+dir_right, camp);
   gemaooariderlion(i,+dir_down+dir_left,+dir_down+2*dir_left, camp);
   gemaooariderlion(i,+dir_down+dir_left,+2*dir_down+dir_left, camp);
-} /* gemoariderlion */
-
-/***************   V3.64  TLi  end *************/
+}
 
 static square generate_moves_on_line_segment(square sq_departure,
                                              square sq_base,
                                              smallint k) {
   square arr= sq_base+vec[k];
-  while (e[arr]==vide && empile(sq_departure,arr,arr))	/* V2.4d  TM */
+  while (e[arr]==vide && empile(sq_departure,arr,arr))
     arr+= vec[k];
 
   return arr;
 }
 
-void gebrid(square sq_departure, numvec kbeg, numvec kend) {	/* V2.60  NG */
+void gebrid(square sq_departure, numvec kbeg, numvec kend) {
   /* generate white rider moves from vec[kbeg] to vec[kend] */
   numvec k;
 
@@ -810,7 +795,7 @@ void gebrid(square sq_departure, numvec kbeg, numvec kend) {	/* V2.60  NG */
   }
 }
 
-void genrid(square sq_departure, numvec kbeg, numvec kend) {	/* V2.60  NG */
+void genrid(square sq_departure, numvec kbeg, numvec kend) {
   /* generate black rider moves from vec[kbeg] to vec[kend] */
   numvec k;
   square sq_arrival;
@@ -822,7 +807,7 @@ void genrid(square sq_departure, numvec kbeg, numvec kend) {	/* V2.60  NG */
   }
 }
 
-void genbouncer(square sq_departure, numvec kbeg, numvec kend, couleur camp) {	     /* V4.03 SE */
+void genbouncer(square sq_departure, numvec kbeg, numvec kend, couleur camp) {
 
   square sq_arrival;
 
@@ -850,14 +835,14 @@ boolean testempile(square sq_departure, square sq_arrival, square sq_capture) {
   numecoup k;
 
   if (!TSTFLAG(spec[sq_departure], ColourChange))
-    for (k= nbcou; k > testdebut; k--)	 /* V1.3c, V3.00  NG */
+    for (k= nbcou; k > testdebut; k--)
       if (move_generation_stack[k].arrival==sq_arrival)
         return true;
 
-  return empile(sq_departure,sq_arrival,sq_capture);			     /* V1.3c  NG */
+  return empile(sq_departure,sq_arrival,sq_capture);
 }
 
-void gebleap(square sq_departure, numvec kbeg, numvec kend) {	/* V2.60  NG */
+void gebleap(square sq_departure, numvec kbeg, numvec kend) {
   /* generate white leaper moves from vec[kbeg] to vec[kend] */
 
   square sq_arrival;
@@ -870,7 +855,7 @@ void gebleap(square sq_departure, numvec kbeg, numvec kend) {	/* V2.60  NG */
   }
 }
 
-void genleap(square sq_departure, numvec kbeg, numvec kend) {	/* V2.60  NG */
+void genleap(square sq_departure, numvec kbeg, numvec kend) {
   /* generate black leaper moves from vec[kbeg] to vec[kend] */
 
   square sq_arrival;
@@ -883,10 +868,8 @@ void genleap(square sq_departure, numvec kbeg, numvec kend) {	/* V2.60  NG */
   }
 }
 
-
-/*****	V3.34 TLi  ***** begin *****/
 void geriderhopper(square	sq_departure,
-                   numvec	kbeg, numvec	kend,	   /* V3.34 TLi */
+                   numvec	kbeg, numvec	kend,
                    smallint	run_up,
                    smallint	jump,
                    couleur	camp)
@@ -976,7 +959,6 @@ void geriderhopper(square	sq_departure,
 	}
   }
 }
-/*****	V3.34 TLi  *****  end  *****/
 
 /* Generation of moves for Rose and derived pieces.
  * The circle lines are generated in a clever way (which leads to
@@ -1002,11 +984,11 @@ static square generate_moves_on_circle_segment(square sq_departure,
                                                smallint *k2,
                                                smallint delta_k) {
   square sq_arrival= sq_base;
-  do {						/* V2.4d  TM */
-    sq_arrival+= vec[k1+*k2];				/* V2.4d  TM */
+  do {
+    sq_arrival+= vec[k1+*k2];
     *k2+= delta_k;
   } while (e[sq_arrival]==vide
-           && testempile(sq_departure,sq_arrival,sq_arrival)); /* V2.4d  TM */
+           && testempile(sq_departure,sq_arrival,sq_arrival));
 
   return sq_arrival;
 }
@@ -1024,24 +1006,22 @@ square fin_circle_line(square sq_departure,
 
 void grose(square sq_departure,
            numvec k1, numvec k2, numvec delta_k,
-           couleur camp) {		/* V3.14  TLi,
-                                                               V3.63  NG */
+           couleur camp) {
   square sq_end= generate_moves_on_circle_segment(sq_departure,sq_departure,
                                                   k1,&k2,delta_k);
-  if (rightcolor(e[sq_end],camp))/* V3.14  TLi, V3.63  NG */
+  if (rightcolor(e[sq_end],camp))
     testempile(sq_departure,sq_end,sq_end);
 }
 
 void grao(square sq_departure,
           numvec k1, numvec k2, numvec delta_k,
-          couleur camp) {	/* V3.14  TLi,
-                                                               V3.63  NG */
+          couleur camp) {
   square sq_hurdle= generate_moves_on_circle_segment(sq_departure,sq_departure,
                                                      k1,&k2,delta_k);
   if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs) {
     square sq_arrival= fin_circle_line(sq_hurdle,k1,&k2,delta_k);
     if (rightcolor(e[sq_arrival],camp))
-      /* V3.42  TLi */
+
       testempile(sq_departure,sq_arrival,sq_arrival);
   }
 }
@@ -1064,7 +1044,6 @@ void groselion(square sq_departure,
     e[sq_departure] = save_piece;
 #endif
 	if (rightcolor(e[sq_end],camp))
-      /* V3.42  TLi */
       testempile(sq_departure,sq_end,sq_end);
   }
 }
@@ -1076,12 +1055,11 @@ void grosehopper(square sq_departure,
   if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs) {
     square sq_arrival= sq_hurdle+vec[k1+k2];
 	if (e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp))
-      /* V3.42  TLi */
       testempile(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
-void ghamst(square sq_departure) {					/* V3.12  TLi */
+void ghamst(square sq_departure) {
   piece hurdle;
   numvec k;
 
@@ -1090,7 +1068,7 @@ void ghamst(square sq_departure) {					/* V3.12  TLi */
   for (k= vec_queen_end; k>=vec_queen_start; k--) {
 	finligne(sq_departure,vec[k],hurdle,sq_arrival);
 	if (hurdle!=obs) {
-      sq_arrival-= vec[k];					/* V3.02  TLi */
+      sq_arrival-= vec[k];
       empile(sq_departure,sq_arrival,sq_arrival);
 	}
   }
@@ -1100,7 +1078,7 @@ void gmhop(square	sq_departure,
            numvec	kanf,
            numvec	kend,
            smallint	m,
-           couleur	camp)			     /* V3.14  TLi, V3.62  NG */
+           couleur	camp)
 {
   piece hurdle;
   square sq_hurdle;
@@ -1148,14 +1126,14 @@ static void generate_locust_capture(square sq_departure, square sq_capture,
   if (rightcolor(e[sq_capture],camp)) {
     sq_arrival= sq_capture+vec[k];
     if (e[sq_arrival]==vide)
-      empile(sq_departure,sq_arrival,sq_capture);		/* V3.02  TLi */
+      empile(sq_departure,sq_arrival,sq_capture);
   }
 }
 
 void glocust(square	sq_departure,
              numvec	kbeg,
              numvec	kend,
-             couleur	camp)					/* V3.53  TLi */
+             couleur	camp)
 {
   piece hurdle;
   square sq_capture;
@@ -1170,7 +1148,7 @@ void glocust(square	sq_departure,
 void gmarin(square	sq_departure,
             numvec	kbeg,
             numvec	kend,
-            couleur	camp)					/* V3.14  TLi */
+            couleur	camp)
 {
   /* generate marin-pieces moves from vec[kbeg] to vec[kend] */
   numvec k;
@@ -1184,7 +1162,7 @@ void gmarin(square	sq_departure,
 
 void gchin(square	sq_departure,
            numvec	kbeg, numvec	kend,
-           couleur	camp)			     /* V2.60  NG, V3.14  TLi */
+           couleur	camp)
 {
   /* generate chinese-rider moves from vec[kbeg] to vec[kend] */
 
@@ -1204,7 +1182,7 @@ void gchin(square	sq_departure,
   }
 }
 
-void gnequi(square sq_departure, couleur camp) {			/* V3.14  TLi */
+void gnequi(square sq_departure, couleur camp) {
   /* Non-Stop-Equihopper */
   square sq_hurdle;
   square sq_arrival;
@@ -1219,9 +1197,9 @@ void gnequi(square sq_departure, couleur camp) {			/* V3.14  TLi */
     
 	for (delta_vert= 3*dir_up;
          delta_vert!=dir_down;
-         delta_vert+= dir_down) {	/* V2.90  NG */
+         delta_vert+= dir_down) {
 
-      sq_hurdle= coin+delta_horiz+delta_vert;			/* V2.90  NG */
+      sq_hurdle= coin+delta_horiz+delta_vert;
 
       if (e[sq_hurdle]!=vide) {
 
@@ -1229,17 +1207,17 @@ void gnequi(square sq_departure, couleur camp) {			/* V3.14  TLi */
 		sq_arrival= sq_hurdle+vector;
 
 		if ((e[sq_arrival]==vide
-             || rightcolor(e[sq_arrival],camp))	/* V2.1c  NG, V3.14  TLi */
+             || rightcolor(e[sq_arrival],camp))
             && hopimok(sq_departure,
                        sq_arrival,
                        sq_hurdle,
-                       vector))	/* V3.12  TM */
+                       vector))
           empile(sq_departure,sq_arrival,sq_arrival);
       }
 	}
 }
 
-void gnequiapp(square sq_departure, couleur camp) {			/* V3.88  SE */
+void gnequiapp(square sq_departure, couleur camp) {
   /* Non-Stop-Equistopper */
   square sq_hurdle;
   square sq_arrival;
@@ -1254,16 +1232,16 @@ void gnequiapp(square sq_departure, couleur camp) {			/* V3.88  SE */
 
 	for (delta_vert= 3*dir_up;
          delta_vert!=dir_down;
-         delta_vert+= dir_down) {	/* V2.90  NG */
+         delta_vert+= dir_down) {
 
-      sq_arrival= coin+delta_horiz+delta_vert;			/* V2.90  NG */
+      sq_arrival= coin+delta_horiz+delta_vert;
       vector= sq_arrival-sq_departure;
       sq_hurdle= sq_arrival+vector;
 
       if (sq_arrival!=sq_departure
           && e[sq_hurdle]!=vide
           && (e[sq_arrival]==vide
-              || rightcolor(e[sq_arrival],camp)))/* V2.1c  NG, V3.14  TLi */
+              || rightcolor(e[sq_arrival],camp)))
         empile(sq_departure,sq_arrival,sq_arrival);
 	}
 }
@@ -1343,7 +1321,7 @@ void gbob(square sq_departure, couleur camp) {
 
 void gcs(square sq_departure,
          numvec k1, numvec k2,
-         couleur camp)	/* V1.5c  NG, V3.14  TLi */
+         couleur camp)
 {
   square sq_arrival= sq_departure+k1;
 
@@ -1357,7 +1335,7 @@ void gcs(square sq_departure,
 	else
       break;
   }
-  if (rightcolor(e[sq_arrival],camp))				/* V3.14  TLi */
+  if (rightcolor(e[sq_arrival],camp))
 	testempile(sq_departure,sq_arrival,sq_arrival);
   
   sq_arrival= sq_departure+k1;
@@ -1371,14 +1349,13 @@ void gcs(square sq_departure,
 	else
       break;
   }
-  if (rightcolor(e[sq_arrival],camp))		    /* V3.14  TLi */
+  if (rightcolor(e[sq_arrival],camp))
 	testempile(sq_departure,sq_arrival,sq_arrival);
 }
 
 void gubi(square orig_departure,
           square step_departure,
-          couleur camp) {		/* V1.7c  NG,
-                                   V3.14  TLi */
+          couleur camp) {
   numvec k;
 
   square sq_departure= orig_departure;
@@ -1402,8 +1379,7 @@ void grfou(square	orig_departure,
            numvec	k,
            smallint	x,
            couleur	camp,
-           evalfunction_t *generate)	/* V2.1c  NG,
-                                           V3.14  TLi */
+           evalfunction_t *generate)
 {
   /* ATTENTION:
      if first call of x is 1 and boolnoedge[i]
@@ -1443,8 +1419,7 @@ void gcard(square	orig_departure,
            numvec	k,
            smallint	x,
            couleur	camp,
-           evalfunction_t *generate)	/* V2.1c  NG,
-                                           V3.14  TLi */
+           evalfunction_t *generate)
 {
   /* ATTENTION:
 	 if first call of x is 1
@@ -1461,7 +1436,7 @@ void gcard(square	orig_departure,
 	(*generate)(sq_departure,sq_arrival,sq_arrival);
 	sq_arrival+= k;
   }
-  if (rightcolor(e[sq_arrival],camp))	    /* V3.14  TLi */
+  if (rightcolor(e[sq_arrival],camp))
 	(*generate)(sq_departure,sq_arrival,sq_arrival);
   else if (x && e[sq_arrival]==obs) {
 	for (k1= 1; k1<=4; k1++) {
@@ -1471,7 +1446,7 @@ void gcard(square	orig_departure,
 	}
 	if (k1<=4) {
       sq_arrival+= vec[k1];
-      if (rightcolor(e[sq_arrival],camp)) {   /* V3.14  TLi */
+      if (rightcolor(e[sq_arrival],camp)) {
 		(*generate)(sq_departure,sq_arrival,sq_arrival);
       }
       else if (e[sq_arrival]==vide) {
@@ -1498,9 +1473,6 @@ void  grefc(square orig_departure,
             square step_departure,
             smallint x,
             couleur camp) {
-  /* V2.1c  NG,
-     V3.14  TLi */
-
   numvec k;
 
   /* ATTENTION:   first call of grefcn: x must be 2 !!   */
@@ -1513,24 +1485,23 @@ void  grefc(square orig_departure,
       sq_arrival= step_departure+vec[k];
       if (e[sq_arrival]==vide) {
         empile(sq_departure,sq_arrival,sq_arrival);
-        /* if (! boolnoedge[j]) */
-        if (!NoEdge(sq_arrival))			/* V3.22  TLi */
-          grefc(orig_departure,sq_arrival,x-1,camp);	/* V3.14  TLi */
+        if (!NoEdge(sq_arrival))
+          grefc(orig_departure,sq_arrival,x-1,camp);
       }
-      else if (rightcolor(e[sq_arrival], camp))		/* V3.14  TLi */
+      else if (rightcolor(e[sq_arrival], camp))
 		empile(sq_departure,sq_arrival,sq_arrival);
 	}
 	else
       for (k= vec_knight_start; k<=vec_knight_end; k++) {
         sq_arrival= step_departure+vec[k];
 		if (e[sq_arrival]==vide
-            || rightcolor(e[sq_arrival],camp))		/* V3.14  TLi */
+            || rightcolor(e[sq_arrival],camp))
           testempile(sq_departure,sq_arrival,sq_arrival);
       }
   }
 } /* grefc */
 
-void gequi(square sq_departure, couleur camp) {	     /* V2.60  NG, V3.14  TLi */
+void gequi(square sq_departure, couleur camp) {
   /* Equihopper */
   numvec  k;
   piece   hurdle;
@@ -1547,30 +1518,30 @@ void gequi(square sq_departure, couleur camp) {	     /* V2.60  NG, V3.14  TLi */
         smallint const dist_hurdle_dep= abs(sq_hurdle-sq_departure);
         if (dist_hurdle_end>dist_hurdle_dep) {
           sq_arrival= sq_hurdle+sq_hurdle-sq_departure;
-          if (hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))	 /* V3.12  TM */
+          if (hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
             empile(sq_departure,sq_arrival,sq_arrival);
         }
         else if (dist_hurdle_end==dist_hurdle_dep) {
           sq_arrival= end_of_line;
-          if (rightcolor(hurdle,camp)		/* V3.14  TLi */
-              && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k])) /* V3.12 TM */
+          if (rightcolor(hurdle,camp)
+              && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
             empile(sq_departure,sq_arrival,sq_arrival);
         }
       }
 	}
   }
   
-  for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++) {     /* 2,4; 2,6; 4,6; */ /* V2.90  NG */
+  for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++) {     /* 2,4; 2,6; 4,6; */
     sq_hurdle= sq_departure+vec[k];
     sq_arrival= sq_departure + 2*vec[k];
 	if (abs(e[sq_hurdle])>=roib
         && (e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp))
-        && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k])) /* V3.12  TM */
+        && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
       empile(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
-void gequiapp(square sq_departure, couleur camp) {	     /* V3.88 SE */
+void gequiapp(square sq_departure, couleur camp) {
   /* (interceptable) Equistopper */
   numvec  k;
   piece   hurdle;
@@ -1590,13 +1561,13 @@ void gequiapp(square sq_departure, couleur camp) {	     /* V3.88 SE */
       if (hurdle!=obs
           && (abs(sq_hurdle2-sq_hurdle1)
               ==abs(sq_hurdle1-sq_departure))
-          && rightcolor(hurdle,camp)) {		/* V3.14  TLi */
+          && rightcolor(hurdle,camp)) {
         sq_arrival= sq_hurdle1;
         empile(sq_departure,sq_arrival,sq_arrival);
       }
 	}
   }
-  for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++) {     /* 2,4; 2,6; 4,6; */ /* V2.90  NG */
+  for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++) {     /* 2,4; 2,6; 4,6; */
     sq_arrival= sq_departure + vec[k];
     sq_hurdle1= sq_departure+2*vec[k];
 	if (abs(e[sq_hurdle1])>=roib
@@ -1605,7 +1576,7 @@ void gequiapp(square sq_departure, couleur camp) {	     /* V3.88 SE */
   }
 }
 
-void gcat(square sq_departure, couleur camp) {	     /* V2.60  NG, V3.14  TLi */
+void gcat(square sq_departure, couleur camp) {
   /* generate moves of a CAT */
   numvec  k;
 
@@ -1613,7 +1584,7 @@ void gcat(square sq_departure, couleur camp) {	     /* V2.60  NG, V3.14  TLi */
 
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
 	sq_arrival= sq_departure+vec[k];
-	if (rightcolor(e[sq_arrival], camp))			/* V3.14  TLi */
+	if (rightcolor(e[sq_arrival], camp))
       empile(sq_departure,sq_arrival,sq_arrival);
 	else {
       while (e[sq_arrival]==vide) {
@@ -1621,13 +1592,11 @@ void gcat(square sq_departure, couleur camp) {	     /* V2.60  NG, V3.14  TLi */
 		sq_arrival+= mixhopdata[3][k];
       }
 
-      if (rightcolor(e[sq_arrival], camp))		/* V3.14  TLi */
+      if (rightcolor(e[sq_arrival], camp))
 		empile(sq_departure,sq_arrival,sq_arrival);
 	}
   }
 }
-
-/*****	V3.12  TLi  begin *****/
 
 void gmaooa(square	sq_departure,
             square	pass,
@@ -1637,11 +1606,11 @@ void gmaooa(square	sq_departure,
 {
   if (e[pass] == vide) {
     if (e[arrival1]==vide || rightcolor(e[arrival1],camp))
-      if (maooaimcheck(sq_departure,arrival1,pass))   /* V3.81 SE */
+      if (maooaimcheck(sq_departure,arrival1,pass))
         empile(sq_departure,arrival1,arrival1);
     
 	if (e[arrival2]==vide || rightcolor(e[arrival2],camp))
-      if (maooaimcheck(sq_departure,arrival2,pass))   /* V3.81 SE */
+      if (maooaimcheck(sq_departure,arrival2,pass))
         empile(sq_departure,arrival2,arrival2);
   }
 }
@@ -1660,9 +1629,7 @@ void gmoa(square i, couleur camp) {
   gmaooa(i, i+dir_down+dir_left, i+dir_down+2*dir_left, i+2*dir_down+dir_left, camp);
 }
 
-/***** V3.12  TLi  end *****/
-
-void gdoubleg(square sq_departure, couleur camp) {			/* V3.44  SE */
+void gdoubleg(square sq_departure, couleur camp) {
   numvec k,k1;
   piece hurdle;
   square sq_hurdle, past_sq_hurdle;
@@ -1710,7 +1677,7 @@ void filter(square i, numecoup prevnbcou, UPDOWN u)
 
 void genhunt(square i, piece p, PieNam pabs)
 {
-  /*   PieNam const pabs = abs(p);	*/	/* V4.01  NG */
+  /*   PieNam const pabs = abs(p);	*/
   assert(pabs>=Hunter0);
   assert(pabs<Hunter0+maxnrhuntertypes);
   
@@ -1739,90 +1706,90 @@ void genhunt(square i, piece p, PieNam pabs)
   }
 }
 
-void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
+void gfeerrest(square i, piece p, couleur camp) {
   numvec k;
-  square *bnp;					/* V2.60  NG */
-  PieNam const pabs = abs(p);				/* V4.01  NG */
+  square *bnp;
+  PieNam const pabs = abs(p);
 
   switch  (abs(p)) {
   case maob:
-	gmao(i, camp);					/* V3.12  TLi */
+	gmao(i, camp);
 	return;
 
   case paob:
-	gchin(i, vec_rook_start,vec_rook_end, camp);				/* V3.14  TLi */
+	gchin(i, vec_rook_start,vec_rook_end, camp);
 	return;
 
   case leob:
-	gchin(i, vec_queen_start,vec_queen_end, camp);				/* V3.14  TLi */
+	gchin(i, vec_queen_start,vec_queen_end, camp);
 	return;
 
   case vaob:
-	gchin(i, vec_bishop_start,vec_bishop_end, camp);				/* V3.14  TLi */
+	gchin(i, vec_bishop_start,vec_bishop_end, camp);
     return;
   case naob:
-	gchin(i, vec_knight_start,vec_knight_end, camp);				/* V3.62  TLi */
+	gchin(i, vec_knight_start,vec_knight_end, camp);
 	return;
 
   case roseb:
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
-      grose(i, k, 0,+1, camp);	     /* V3.14  TLi, V3.63  NG */
+      grose(i, k, 0,+1, camp);
       grose(i, k, vec_knight_end-vec_knight_start+1,-1, camp);
     }
 	return;
 
   case nequib:
-	gnequi(i, camp);				/* V3.14  TLi */
+	gnequi(i, camp);
 	return;
 
   case locb:
-	glocust(i, vec_queen_start,vec_queen_end, camp);				/* V3.53  TLi */
+	glocust(i, vec_queen_start,vec_queen_end, camp);
 	return;
 
-  case nightlocustb:				/* V3.53  TLi */
+  case nightlocustb:
 	glocust(i, vec_knight_start,vec_knight_end, camp);
 	return;
 
-  case bishoplocustb:				/* V3.53  TLi */
+  case bishoplocustb:
 	glocust(i, vec_bishop_start,vec_bishop_end, camp);
 	return;
 
-  case rooklocustb:					/* V3.53  TLi */
+  case rooklocustb:
 	glocust(i, vec_rook_start,vec_rook_end, camp);
 	return;
 
   case kangoub:
-	gkang(i, camp);			     /* V1.5c  NG, V3.14  TLi */
+	gkang(i, camp);
 	return;
 
   case csb:
-	for (k= vec_knight_start; k<=vec_knight_end; k++)			/* V2.1c  NG */
-      gcs(i, vec[k], vec[25 - k], camp);		/* V3.14  TLi */
+	for (k= vec_knight_start; k<=vec_knight_end; k++)
+      gcs(i, vec[k], vec[25 - k], camp);
 	return;
 
   case hamstb:
-	ghamst(i);					/* V3.12  TLi */
+	ghamst(i);
 	return;
 
   case ubib:
-	for (bnp= boardnum; *bnp; bnp++)		/* V1.7c  NG */
+	for (bnp= boardnum; *bnp; bnp++)
       e_ubi[*bnp]= e[*bnp];
-	gubi(i, i, camp);				/* V3.14  TLi */
+	gubi(i, i, camp);
 	return;
 
   case mooseb:
-	gmhop(i, vec_queen_start,vec_queen_end, 0, camp);  /* V2.1c  NG, V3.14  TLi, V3.62  NG */
+	gmhop(i, vec_queen_start,vec_queen_end, 0, camp);
 	return;
 
   case eagleb:
-	gmhop(i, vec_queen_start,vec_queen_end, 1, camp);  /* V2.1c  NG, V3.14  TLi, V3.62  NG */
+	gmhop(i, vec_queen_start,vec_queen_end, 1, camp);
 	return;
 
   case sparrb:
-	gmhop(i, vec_queen_start,vec_queen_end, 2, camp);  /* V2.1c  NG, V3.14  TLi, V3.62  NG */
+	gmhop(i, vec_queen_start,vec_queen_end, 2, camp);
 	return;
 
-  case margueriteb:					/* TLi V3.64  */
+  case margueriteb:
 	gmhop(i, vec_queen_start,vec_queen_end, 0, camp);
 	gmhop(i, vec_queen_start,vec_queen_end, 1, camp);
 	gmhop(i, vec_queen_start,vec_queen_end, 2, camp);
@@ -1830,72 +1797,72 @@ void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
 	ghamst(i);
 	return;
 
-  case archb:					/* V2.1c  NG */
-	if (NoEdge(i)) {				/* V3.22  TLi */
+  case archb:
+	if (NoEdge(i)) {
       for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-		grfou(i, i, vec[k], 1, camp, empile);	/* V3.14  TLi */
+		grfou(i, i, vec[k], 1, camp, empile);
 	}
 	else {
       for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-		grfou(i, i, vec[k], 1, camp, testempile); /* V3.14TLi */
+		grfou(i, i, vec[k], 1, camp, testempile);
 	}
 	return;
 
   case reffoub:
-	for (k= vec_bishop_start; k <= vec_bishop_end; k++)				/* V2.1c  NG */
-      grfou(i, i, vec[k], 4, camp, testempile);	/* V3.14  TLi */
+	for (k= vec_bishop_start; k <= vec_bishop_end; k++)
+      grfou(i, i, vec[k], 4, camp, testempile);
 	return;
 
   case cardb:
-	for (k= vec_bishop_start; k <= vec_bishop_end; k++)		/* V2.1c  NG */
-      gcard(i, i, vec[k], 1, camp, empile);   /* V3.14  TLi */
+	for (k= vec_bishop_start; k <= vec_bishop_end; k++)
+      gcard(i, i, vec[k], 1, camp, empile);
 	return;
 
   case dcsb:
-	for (k= 9; k <= 14; k++)			/* V2.1c  NG */
-      gcs(i, vec[k], vec[23 - k], camp);		/* V3.14  TLi */
-	for (k= 15; k <= 16; k++)			/* V2.1c  NG */
-      gcs(i, vec[k], vec[27 - k], camp);		/* V3.14  TLi */
+	for (k= 9; k <= 14; k++)
+      gcs(i, vec[k], vec[23 - k], camp);
+	for (k= 15; k <= 16; k++)
+      gcs(i, vec[k], vec[27 - k], camp);
 	return;
 
   case refcb:
-	grefc(i, i, 2, camp);		     /* V2.1c  NG, V3.14  TLi */
+	grefc(i, i, 2, camp);
 	return;
 
   case equib:
-	gequi(i, camp);			     /* V2.60  NG, V3.14  TLi */
+	gequi(i, camp);
 	return;
 
   case catb:
-	gcat(i, camp);					/* V3.14  NG */
+	gcat(i, camp);
 	return;
 
   case sireneb:
-	gmarin(i, vec_queen_start,vec_queen_end, camp);				/* V3.14  TLi */
+	gmarin(i, vec_queen_start,vec_queen_end, camp);
 	return;
 
   case tritonb:
-	gmarin(i, vec_rook_start,vec_rook_end, camp);				/* V3.14  TLi */
+	gmarin(i, vec_rook_start,vec_rook_end, camp);
 	return;
 
   case nereidb:
-	gmarin(i, vec_bishop_start,vec_bishop_end, camp);				/* V3.14  TLi */
+	gmarin(i, vec_bishop_start,vec_bishop_end, camp);
 	return;
 
   case orphanb:
-	gorph(i, camp);			      /* V3.0  TLi, V3.14  NG */
+	gorph(i, camp);
 	return;
 
   case friendb:
-	gfriend(i, camp);				/* V3.65  TLi */
+	gfriend(i, camp);
 	return;
 
   case edgehb:
-	gedgeh(i, camp);				/* V3.14 TLi */
+	gedgeh(i, camp);
 	return;
 
   case moab:
-	gmoa(i, camp);					/* V3.12  TLi */
+	gmoa(i, camp);
 	return;
 
   case moaridb:
@@ -1907,25 +1874,24 @@ void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
 	return;
 
   case bscoutb:
-	for (k= vec_bishop_start; k <= vec_bishop_end; k++)				/* V3.05  NG */
-      gcs(i, vec[k], vec[13 - k], camp);		/* V3.14  TLi */
+	for (k= vec_bishop_start; k <= vec_bishop_end; k++)
+      gcs(i, vec[k], vec[13 - k], camp);
 	return;
 
   case gscoutb:
-	for (k= vec_rook_end; k >=vec_rook_start; k--)				/* V3.05  NG */
-      gcs(i, vec[k], vec[5 - k], camp);		/* V3.14  TLi */
+	for (k= vec_rook_end; k >=vec_rook_start; k--)
+      gcs(i, vec[k], vec[5 - k], camp);
 	return;
 
   case skyllab:
-	geskylla(i, camp);				/* V3.12  TLi */
+	geskylla(i, camp);
 	return;
 
   case charybdisb:
-	gecharybdis(i, camp);				/* V3.12  TLi */
+	gecharybdis(i, camp);
 	return;
 
-    /*****  V3.22  TLi	*****/
-  case andergb:					/* V3.65  TLi */
+  case andergb:
   case sb:
 	gerhop(i, vec_queen_start,vec_queen_end, camp);
 	return;
@@ -1968,7 +1934,7 @@ void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
 	return;
   case contragrasb:
 	gecrhop(i, vec_queen_start,vec_queen_end, camp);
-	return;						/* V3.29  NG */
+	return;
 
   case roselionb:
 	for (k= vec_knight_start; k<=vec_knight_end; k++) {
@@ -1985,26 +1951,26 @@ void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
 	return;
 
   case g2b:
-	gerhop2(i, vec_queen_start,vec_queen_end, camp);				/* V3.34  TLi */
+	gerhop2(i, vec_queen_start,vec_queen_end, camp);
 	return;
 
   case g3b:
-	gerhop3(i, vec_queen_start,vec_queen_end, camp);				/* V3.35  TLi */
+	gerhop3(i, vec_queen_start,vec_queen_end, camp);
 	return;
   case khb:
-	geshop(i, vec_queen_start,vec_queen_end, camp);				/* V3.44  SE */
+	geshop(i, vec_queen_start,vec_queen_end, camp);
 	return;
 
   case doublegb:
-	gdoubleg(i, camp);				/* V3.44  SE */
+	gdoubleg(i, camp);
 	return;
 
   case orixb:
-	gorix(i, camp);					 /* V3.44  NG */
+	gorix(i, camp);
 	return;
 
   case gralb:
-	if (camp==blanc)				/* V3.46  NG */
+	if (camp==blanc)
       gebleap(i, vec_alfil_start,vec_alfil_end);    /* alfilb */
 	else
       genleap(i, vec_alfil_start,vec_alfil_end);    /* alfiln */
@@ -2012,27 +1978,27 @@ void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
 	return;
 
   case rookmooseb:
-	gmhop(i, vec_rook_start,vec_rook_end, 0, camp);			/* V3.62  NG */
+	gmhop(i, vec_rook_start,vec_rook_end, 0, camp);
 	return;
 
   case rookeagleb:
-	gmhop(i, vec_rook_start,vec_rook_end, 1, camp);			/* V3.62  NG */
+	gmhop(i, vec_rook_start,vec_rook_end, 1, camp);
 	return;
 
   case rooksparrb:
-	gmhop(i, vec_rook_start,vec_rook_end, 2, camp);			/* V3.62  NG */
+	gmhop(i, vec_rook_start,vec_rook_end, 2, camp);
 	return;
 
   case bishopmooseb:
-	gmhop(i, vec_bishop_start,vec_bishop_end, 0, camp);			/* V3.62  NG */
+	gmhop(i, vec_bishop_start,vec_bishop_end, 0, camp);
 	return;
 
   case bishopeagleb:
-	gmhop(i, vec_bishop_start,vec_bishop_end, 1, camp);			/* V3.62  NG */
+	gmhop(i, vec_bishop_start,vec_bishop_end, 1, camp);
 	return;
 
   case bishopsparrb:
-	gmhop(i, vec_bishop_start,vec_bishop_end, 2, camp);			/* V3.62  NG */
+	gmhop(i, vec_bishop_start,vec_bishop_end, 2, camp);
 	return;
 
   case raob:
@@ -2043,7 +2009,7 @@ void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
 	return;
 
   case scorpionb:
-	if (camp==blanc)				/* V3.63  NG */
+	if (camp==blanc)
       gebleap(i, vec_queen_start,vec_queen_end);	    /* ekingb */
 	else
       genleap(i, vec_queen_start,vec_queen_end);	    /* ekingn */
@@ -2051,39 +2017,39 @@ void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
 	return;
 
   case nrlionb:
-	gelrhop(i, vec_knight_start,vec_knight_end, camp);			/* V3.64  TLi */
+	gelrhop(i, vec_knight_start,vec_knight_end, camp);
 	return;
 
   case mrlionb:
-	gemaoriderlion(i, camp);			/* V3.64  TLi */
+	gemaoriderlion(i, camp);
 	return;
 
   case molionb:
-	gemoariderlion(i, camp);			/* V3.64  TLi */
+	gemoariderlion(i, camp);
 	return;
 
-  case dolphinb:                                   /* V3.74  TLi */
+  case dolphinb:
     gkang(i, camp);
     gerhop(i, vec_queen_start,vec_queen_end, camp);
     return;
 
   case rabbitb:
-	grabbit(i, camp);				/* V3.76  NG */
+	grabbit(i, camp);
 	return;
 
   case bobb:
-	gbob(i, camp);					/* V3.76  NG */
+	gbob(i, camp);
 	return;
 
-  case equiengb:				/* V3.78  SE */
+  case equiengb:
 	gequiapp(i, camp);
 	return;
 
-  case equifrab:				/* V3.78  SE */
+  case equifrab:
     gnequiapp(i, camp);
 	return;
 
-  case querqub:   /* V3.78 SE */ 
+  case querqub:
 	switch (i%onerow - nr_of_slack_files_left_of_board) {
     case file_rook_queenside:
     case file_rook_kingside: 	if (camp == blanc)
@@ -2131,7 +2097,7 @@ void gfeerrest(square i, piece p, couleur camp) {	/* V3.14  TLi */
   default:
 	/* Since pieces like DUMMY fall through 'default', we have */
 	/* to check exactly if there is something to generate ...  */
-	if ((pabs>=Hunter0) && (pabs<Hunter0+maxnrhuntertypes))	/* V4.01  NG */
+	if ((pabs>=Hunter0) && (pabs<Hunter0+maxnrhuntertypes))
       genhunt(i,p,pabs);
   }
 } /* gfeerrest */
@@ -2178,7 +2144,7 @@ void gencpb(square i) {
 }
 
 void gfeerblanc(square i, piece p) {
-  testdebut= nbcou;					/* V3.00  NG */
+  testdebut= nbcou;
   switch(p) {
   case nb:
 	gebrid(i, vec_knight_start,vec_knight_end);
@@ -2225,129 +2191,129 @@ void gfeerblanc(square i, piece p) {
 	return;
 
   case amazb:
-	gebrid(i, vec_queen_start,vec_queen_end);				/* V1.4c  NG */
+	gebrid(i, vec_queen_start,vec_queen_end);
 	gebleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case impb:
-	gebrid(i, vec_rook_start,vec_rook_end);				/* V1.4c  NG */
+	gebrid(i, vec_rook_start,vec_rook_end);
 	gebleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case princb:
-	gebrid(i, vec_bishop_start,vec_bishop_end);				/* V1.4c  NG */
+	gebrid(i, vec_bishop_start,vec_bishop_end);
 	gebleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case gnoub:
-	gebleap(i, vec_chameau_start,vec_chameau_end);				/* V1.4c  NG */
+	gebleap(i, vec_chameau_start,vec_chameau_end);
 	gebleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case antilb:
-	gebleap(i, vec_antilope_start,vec_antilope_end);				/* V1.5c  NG */
+	gebleap(i, vec_antilope_start,vec_antilope_end);
 	return;
 
   case ecurb:
-	gebleap(i, vec_ecureuil_start,vec_ecureuil_end);				/* V1.5c  NG */
+	gebleap(i, vec_ecureuil_start,vec_ecureuil_end);
 	gebleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case waranb:
-	gebrid(i, vec_knight_start,vec_knight_end);				/* V1.5c  NG */
+	gebrid(i, vec_knight_start,vec_knight_end);
 	gebrid(i, vec_rook_start,vec_rook_end);
 	return;
 
   case dragonb:
-	genpb(i);					/* V1.5c  NG */
+	genpb(i);
 	gebleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case camridb:
-	gebrid(i, vec_chameau_start,vec_chameau_end);				/* V2.1c  NG */
+	gebrid(i, vec_chameau_start,vec_chameau_end);
 	return;
 
   case zebridb:
-	gebrid(i, vec_zebre_start,vec_zebre_end);				/* V2.1c  NG */
+	gebrid(i, vec_zebre_start,vec_zebre_end);
 	return;
 
   case gnuridb:
-	gebrid(i, vec_chameau_start,vec_chameau_end);				/* V2.1c  NG */
+	gebrid(i, vec_chameau_start,vec_chameau_end);
 	gebrid(i, vec_knight_start,vec_knight_end);
 	return;
 
   case bspawnb:
-	gen_sp_nocaptures(i,+dir_up+dir_left);			/* V3.22  TLi */
+	gen_sp_nocaptures(i,+dir_up+dir_left);
 	gen_sp_nocaptures(i,+dir_up+dir_right);
 	gen_sp_captures(i,+dir_up, blanc);
 	return;
 
   case spawnb:
-	gen_sp_nocaptures(i,+dir_up);			/* V3.22  TLi */
+	gen_sp_nocaptures(i,+dir_up);
 	gen_sp_captures(i,+dir_up+dir_left, blanc);
 	gen_sp_captures(i,+dir_up+dir_right, blanc);
 	return;
 
   case rhuntb:
-	gebrid(i, 2, 2);				/* V3.03  TLi */
+	gebrid(i, 2, 2);
 	gebrid(i, 7, 8);
 	return;
 
   case bhuntb:
-	gebrid(i, 4, 4);				/* V3.03  TLi */
+	gebrid(i, 4, 4);
 	gebrid(i, 5, 6);
 	return;
 
   case ekingb:
-	gebleap(i, vec_queen_start,vec_queen_end);				/* V3.05  NG */
+	gebleap(i, vec_queen_start,vec_queen_end);
 	return;
 
   case okapib:
-	gebleap(i, vec_okapi_start,vec_okapi_end);				/* V3.32  TLi */
+	gebleap(i, vec_okapi_start,vec_okapi_end);
 	return;
 
   case leap37b:
-	gebleap(i, vec_leap37_start,vec_leap37_end);				/* V3.34  TLi */
+	gebleap(i, vec_leap37_start,vec_leap37_end);
 	return;
 
   case leap16b:
-	gebleap(i, vec_leap16_start,vec_leap16_end);				/* V3.38  NG */
+	gebleap(i, vec_leap16_start,vec_leap16_end);
 	return;
 
   case leap24b:
-	gebleap(i, vec_leap24_start,vec_leap24_end);				/* V3.42  TLi */
+	gebleap(i, vec_leap24_start,vec_leap24_end);
 	return;
 
   case leap35b:
-	gebleap(i, vec_leap35_start,vec_leap35_end);				/* V3.42  TLi */
+	gebleap(i, vec_leap35_start,vec_leap35_end);
 	return;
 
   case leap15b:
-	gebleap(i, vec_leap15_start,vec_leap15_end);				/* V3.46  NG */
+	gebleap(i, vec_leap15_start,vec_leap15_end);
 	return;
 
   case leap25b:
-	gebleap(i, vec_leap25_start,vec_leap25_end);				/* V3.46  NG */
+	gebleap(i, vec_leap25_start,vec_leap25_end);
 	return;
 
   case vizridb:
-	gebrid(i,	vec_rook_start,vec_rook_end);				      /* V3.54	NG */
+	gebrid(i,	vec_rook_start,vec_rook_end);
 	return;
 
   case fersridb:
-	gebrid(i, vec_bishop_start,vec_bishop_end);				/* V3.54  NG */
+	gebrid(i, vec_bishop_start,vec_bishop_end);
 	return;
 
   case bisonb:
-	gebleap(i, vec_bison_start,vec_bison_end);				/* V3.60  TLi */
+	gebleap(i, vec_bison_start,vec_bison_end);
 	return;
 
   case elephantb:
-	gebrid(i, vec_elephant_start,vec_elephant_end);				/* V3.62  TLi */
+	gebrid(i, vec_elephant_start,vec_elephant_end);
 	return;
 
   case leap36b:
-	gebleap(i, vec_leap36_start,vec_leap36_end);				/* V3.64  TLi */
+	gebleap(i, vec_leap36_start,vec_leap36_end);
 	return;
 
   case chinesepawnb:
@@ -2355,12 +2321,12 @@ void gfeerblanc(square i, piece p) {
     return;
 
   default:
-	gfeerrest(i, p, blanc);				/* V3.14  TLi */
+	gfeerrest(i, p, blanc);
   }
 }
 
 void gfeernoir(square i, piece p) {
-  testdebut= nbcou;					/* V3.00  NG */
+  testdebut= nbcou;
   switch(p) {
   case nn:
 	genrid(i, vec_knight_start,vec_knight_end);
@@ -2407,129 +2373,129 @@ void gfeernoir(square i, piece p) {
 	return;
 
   case amazn:
-	genrid(i, vec_queen_start,vec_queen_end);				/* V1.4c  NG */
+	genrid(i, vec_queen_start,vec_queen_end);
 	genleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case impn:
-	genrid(i, vec_rook_start,vec_rook_end);				/* V1.4c  NG */
+	genrid(i, vec_rook_start,vec_rook_end);
 	genleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case princn:
-	genrid(i, vec_bishop_start,vec_bishop_end);				/* V1.4c  NG */
+	genrid(i, vec_bishop_start,vec_bishop_end);
 	genleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case gnoun:
-	genleap(i, vec_chameau_start,vec_chameau_end);				/* V1.4c  NG */
+	genleap(i, vec_chameau_start,vec_chameau_end);
 	genleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case antiln:
-	genleap(i, vec_antilope_start,vec_antilope_end);				/* V1.5c  NG */
+	genleap(i, vec_antilope_start,vec_antilope_end);
 	return;
 
   case ecurn:
-	genleap(i, vec_ecureuil_start,vec_ecureuil_end);				/* V1.5c  NG */
+	genleap(i, vec_ecureuil_start,vec_ecureuil_end);
 	genleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case warann:
-	genrid(i, vec_knight_start,vec_knight_end);				/* V1.5c  NG */
-	genrid(i, vec_rook_start,vec_rook_end);				/* V1.5c  NG */
+	genrid(i, vec_knight_start,vec_knight_end);
+	genrid(i, vec_rook_start,vec_rook_end);
 	return;
 
   case dragonn:
-	genpn(i);					/* V1.5c  NG */
+	genpn(i);
 	genleap(i, vec_knight_start,vec_knight_end);
 	return;
 
   case camridn:
-	genrid(i, vec_chameau_start,vec_chameau_end);				/* V2.1c  NG */
+	genrid(i, vec_chameau_start,vec_chameau_end);
 	return;
 
   case zebridn:
-	genrid(i, vec_zebre_start,vec_zebre_end);				/* V2.1c  NG */
+	genrid(i, vec_zebre_start,vec_zebre_end);
 	return;
 
   case gnuridn:
-	genrid(i, vec_chameau_start,vec_chameau_end);				/* V2.1c  NG */
+	genrid(i, vec_chameau_start,vec_chameau_end);
 	genrid(i, vec_knight_start,vec_knight_end);
 	return;
 
   case bspawnn:
-	gen_sp_nocaptures(i,+dir_down+dir_right);			/* V3.22  TLi */
+	gen_sp_nocaptures(i,+dir_down+dir_right);
 	gen_sp_nocaptures(i,+dir_down+dir_left);
 	gen_sp_captures(i,+dir_down, noir);
 	return;
 
   case spawnn:
-	gen_sp_nocaptures(i,+dir_down);			/* V3.22  TLi */
+	gen_sp_nocaptures(i,+dir_down);
 	gen_sp_captures(i,+dir_down+dir_right, noir);
 	gen_sp_captures(i,+dir_down+dir_left, noir);
 	return;
 
   case rhuntn:
-	genrid(i, 2, 2);		     /* V3.03  TLi, V3.04  NG */
+	genrid(i, 2, 2);
 	genrid(i, 7, 8);
 	return;
 
   case bhuntn:
-	genrid(i, 4, 4);		     /* V3.03  TLi, V3.04  NG */
+	genrid(i, 4, 4);
 	genrid(i, 5, 6);
 	return;
 
   case ekingn:
-	genleap(i, vec_queen_start,vec_queen_end);				/* V3.05  NG */
+	genleap(i, vec_queen_start,vec_queen_end);
 	return;
 
   case okapin:
-	genleap(i, vec_okapi_start,vec_okapi_end);				/* V3.32  TLi */
+	genleap(i, vec_okapi_start,vec_okapi_end);
 	return;
 
   case leap37n:
-	genleap(i, vec_leap37_start,vec_leap37_end);				/* V3.34  TLi */
+	genleap(i, vec_leap37_start,vec_leap37_end);
 	return;
 
   case leap16n:
-	genleap(i, vec_leap16_start,vec_leap16_end);				/* V3.34  TLi */
+	genleap(i, vec_leap16_start,vec_leap16_end);
 	return;
 
   case leap24n:
-	genleap(i, vec_leap24_start,vec_leap24_end);				/* V3.42  TLi */
+	genleap(i, vec_leap24_start,vec_leap24_end);
 	return;
 
   case leap35n:
-	genleap(i, vec_leap35_start,vec_leap35_end);				/* V3.42  TLi */
+	genleap(i, vec_leap35_start,vec_leap35_end);
 	return;
 
   case leap15n:
-	genleap(i, vec_leap15_start,vec_leap15_end);				/* V3.46  NG */
+	genleap(i, vec_leap15_start,vec_leap15_end);
 	return;
 
   case leap25n:
-	genleap(i, vec_leap25_start,vec_leap25_end);				/* V3.46  NG */
+	genleap(i, vec_leap25_start,vec_leap25_end);
 	return;
 
   case vizridn:
-	genrid(i, vec_rook_start,vec_rook_end);				/* V3.54  NG */
+	genrid(i, vec_rook_start,vec_rook_end);
 	return;
 
   case fersridn:
-	genrid(i, vec_bishop_start,vec_bishop_end);				/* V3.54  NG */
+	genrid(i, vec_bishop_start,vec_bishop_end);
 	return;
 
   case bisonn:
-	genleap(i, vec_bison_start,vec_bison_end);				/* V3.60  TLi */
+	genleap(i, vec_bison_start,vec_bison_end);
 	return;
 
   case elephantn:
-	genrid(i, vec_elephant_start,vec_elephant_end);			/* V3.62  TLi */
+	genrid(i, vec_elephant_start,vec_elephant_end);
 	return;
 
   case leap36n:
-	genleap(i, vec_leap36_start,vec_leap36_end);				/* V3.64  TLi */
+	genleap(i, vec_leap36_start,vec_leap36_end);
 	return;
 
   case chinesepawnn:
@@ -2537,11 +2503,11 @@ void gfeernoir(square i, piece p) {
     return;
 
   default:
-	gfeerrest(i, p, noir);				/* V3.14  TLi */
+	gfeerrest(i, p, noir);
   }
 } /* end of gfeernoir */
 
-void genrb_cast(void) {					/* V3.55  TLi */
+void genrb_cast(void) {
   /* It works only for castling_supported == TRUE
      have a look at funtion verifieposition() in py6.c
   */
@@ -2553,8 +2519,7 @@ void genrb_cast(void) {					/* V3.55  TLi */
 
   if (TSTFLAGMASK(castling_flag[nbply],wh_castlings)>ke1_cancastle
       && e[square_e1]==roib 
-      /* then the king on e1 and at least one rook can castle !!
-         V3.55  NG */
+      /* then the king on e1 and at least one rook can castle !! */
       && !echecc(blanc))
   {
     /* 0-0 */
@@ -2563,7 +2528,7 @@ void genrb_cast(void) {					/* V3.55  TLi */
 	    && e[square_f1]==vide
         && e[square_g1]==vide)
 	{
-      if (complex_castling_through_flag)  /* V3.80  SE */
+      if (complex_castling_through_flag)
       {
         numecoup sic_nbcou= nbcou;
         empile(square_e1,square_f1,square_f1);
@@ -2588,7 +2553,7 @@ void genrb_cast(void) {					/* V3.55  TLi */
         rb= square_e1;
 
         if (is_castling_possible)
-          empile(square_e1,square_g1,kingside_castling);/* V3.55  TLi */
+          empile(square_e1,square_g1,kingside_castling);
       }
 	}
 
@@ -2599,7 +2564,7 @@ void genrb_cast(void) {					/* V3.55  TLi */
         && e[square_c1]==vide
         && e[square_b1]==vide)
 	{
-      if (complex_castling_through_flag)  /* V3.80  SE */
+      if (complex_castling_through_flag)
       {
         numecoup sic_nbcou= nbcou;
         empile(square_e1,square_d1,square_d1);
@@ -2624,7 +2589,7 @@ void genrb_cast(void) {					/* V3.55  TLi */
         rb= square_e1;
 
         if (is_castling_possible)
-          empile(square_e1,square_c1,queenside_castling);	/* V3.55  TLi */
+          empile(square_e1,square_c1,queenside_castling);
       }
 	}
   }
@@ -2673,10 +2638,10 @@ void genrb(square sq_departure) {
       return;
   }
 
-  if (CondFlag[sting])				/* V3.63  NG */
+  if (CondFlag[sting])
 	gerhop(sq_departure,vec_queen_start,vec_queen_end,blanc);
 
-  for (k= vec_queen_end; k >=vec_queen_start; k--) {				/* V2.4c  NG */
+  for (k= vec_queen_end; k >=vec_queen_start; k--) {
 	sq_arrival= sq_departure+vec[k];
 	if (e[sq_arrival] <= vide)
       empile(sq_departure,sq_arrival,sq_arrival);
@@ -2694,12 +2659,12 @@ void genrb(square sq_departure) {
 			move_generation_stack[l2].arrival= initsquare;
   }
 
-  /* Now we test castling */				/* V3.35  NG */
+  /* Now we test castling */
   if (castling_supported)
 	genrb_cast();
 }
 
-void gen_wh_ply(void) {				       /* V3.12  TLi */
+void gen_wh_ply(void) {
   square i, j, z;
   piece p;
 
@@ -2708,22 +2673,21 @@ void gen_wh_ply(void) {				       /* V3.12  TLi */
      V3.14  NG
   */
   z= bas;
-  for (i= nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board)  /* V2.90  NG */
-	for (j= nr_files_on_board; j > 0; j--, z++) {			/* V2.90  NG */
+  for (i= nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board)
+	for (j= nr_files_on_board; j > 0; j--, z++) {
       if ((p = e[z]) != vide) {
 		if (TSTFLAG(spec[z], Neutral))
-          p = -p;				/* V1.4c  NG */
-		if (p > obs)			/* V2.70c TLi */
+          p = -p;
+		if (p > obs)
           gen_wh_piece(z, p);
       }
 	}
-} /* gen_wh_ply */
+}
 
-void gen_wh_piece_aux(square z, piece p) {		/* V3.46  SE/TLi */
+void gen_wh_piece_aux(square z, piece p) {
 
   if (CondFlag[annan]) {
     piece annan_p= e[z-onerow];
-/*    if (annan_p > obs)	*/
     if (whannan(z-onerow, z))
       p= annan_p;
   }
@@ -2742,15 +2706,15 @@ void gen_wh_piece_aux(square z, piece p) {		/* V3.46  SE/TLi */
 	break;
 
   case tb:
-	gebrid(z, vec_rook_start,vec_rook_end);				/* V2.60  NG */
+	gebrid(z, vec_rook_start,vec_rook_end);
 	break;
 
   case db:
-	gebrid(z, vec_queen_start,vec_queen_end);				/* V2.60  NG */
+	gebrid(z, vec_queen_start,vec_queen_end);
 	break;
 
   case fb:
-	gebrid(z, vec_bishop_start,vec_bishop_end);				/* V2.60  NG */
+	gebrid(z, vec_bishop_start,vec_bishop_end);
 	break;
 
   default:
@@ -2759,27 +2723,27 @@ void gen_wh_piece_aux(square z, piece p) {		/* V3.46  SE/TLi */
   }
 }
 
-static void orig_gen_wh_piece(square sq_departure, piece p) { /* V3.71 TM */
+static void orig_gen_wh_piece(square sq_departure, piece p) {
   piece pp;
 
 
-  if (flag_madrasi) {					/* V3.60  TLi */
-	if (!libre(sq_departure, true)) {				/* V3.44  TLi */
+  if (flag_madrasi) {
+	if (!libre(sq_departure, true)) {
       return;
 	}
   }
 
-  if (TSTFLAG(PieSpExFlags,Paralyse)) {	       /* V2.90c  TLi */
+  if (TSTFLAG(PieSpExFlags,Paralyse)) {
 	if (paralysiert(sq_departure)) {
       return;
 	}
   }
 
-  if (anymars||anyantimars) {				     /* V3.46  SE/TLi */
+  if (anymars||anyantimars) {
 	square mren;
 	Flags psp;
 
-	if (CondFlag[phantom]) {				/* V3.47  NG */
+	if (CondFlag[phantom]) {
       numecoup	    anf1, anf2, l1, l2;
       anf1= nbcou;
       /* generate standard moves first */
@@ -2805,7 +2769,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) { /* V3.71 TM */
       }
       if (e[mren] == vide) {
 		anf2= nbcou;
-		pp=e[sq_departure];		 /* Mars/Neutral bug V3.50 SE */
+		pp=e[sq_departure];		 /* Mars/Neutral bug */
 		e[sq_departure]= vide;
 		spec[sq_departure]= EmptySpec;
 		spec[mren]= psp;
@@ -2845,11 +2809,11 @@ static void orig_gen_wh_piece(square sq_departure, piece p) { /* V3.71 TM */
       flagpassive= false;
       flagcapture= true;
       more_ren=0;
-      do {	  /* V3.50 SE Echecs Plus */
+      do {	  /* Echecs Plus */
         psp=spec[sq_departure];
 		mren= (*marsrenai)(p,psp,sq_departure,initsquare,initsquare,noir);
 		if (mren==sq_departure || e[mren]==vide) {
-          pp= e[sq_departure];		/* Mars/Neutral bug V3.50 SE */
+          pp= e[sq_departure];		/* Mars/Neutral bug */
           e[sq_departure]= vide;
           spec[sq_departure]= EmptySpec;
           spec[mren]= psp;
@@ -2870,8 +2834,6 @@ static void orig_gen_wh_piece(square sq_departure, piece p) { /* V3.71 TM */
 	gen_wh_piece_aux(sq_departure,p);
 
   if (CondFlag[messigny] && !(rb==sq_departure && rex_mess_ex)) {
-    /* V3.55  TLi */
-
 	square *bnp;
 	for (bnp= boardnum; *bnp; bnp++)
       if (e[*bnp]==-p) {
@@ -2880,7 +2842,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) { /* V3.71 TM */
   }
 } /* orig_gen_wh_piece */
 
-void singleboxtype3_gen_wh_piece(square z, piece p) {	 /* V3.71 TM */
+void singleboxtype3_gen_wh_piece(square z, piece p) {
   numecoup save_nbcou = nbcou;
   unsigned int latent_prom = 0;
   square sq;
@@ -2916,12 +2878,9 @@ void singleboxtype3_gen_wh_piece(square z, piece p) {	 /* V3.71 TM */
 }
 
 void (*gen_wh_piece)(square z, piece p)
-  = &orig_gen_wh_piece; /* V3.71 TM */
+  = &orig_gen_wh_piece;
 
 
-/************	  V3.0	TLi	Anfang	   ****************************/
-
-/* V3.33  TLi */
 #define ColourSpec Flags
 #define OppsiteColour(s)  (s == White ? Black : White)
 
@@ -3171,13 +3130,13 @@ void GenMatingKing(square	sq_departure,
   }
 
   /* castling */
-  if (castling_supported) {				/* V3.53  NG */
+  if (castling_supported) {
 	if (ColourMovingPiece==White)
       /* white to play */
-      genrb_cast();    /* V3.55  TLi */
+      genrb_cast();
 	else
       /* black to play */
-      genrn_cast();    /* V3.55  TLi */
+      genrn_cast();
   }
 }
 
@@ -3268,7 +3227,7 @@ void GenMatingRook(square	sq_departure,
 	else {
       for (k= vec_rook_start; k<=vec_rook_end; k++) {
 		sq_arrival= sq_departure+vec[k];
-		if (e[sq_arrival]==obs)			/* V3.45  NG */
+		if (e[sq_arrival]==obs)
           continue;
 		if (move_diff_code[abs(sq_arrival-sq_king)]<OriginalDistance) {
           /* The rook must move closer to the king! */
@@ -3382,7 +3341,7 @@ void GenMatingBishop(square	sq_departure,
 	else {
       for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
 		sq_arrival= sq_departure+vec[k];
-		if (e[sq_arrival]==obs)	     /* V3.45  NG */
+		if (e[sq_arrival]==obs)
           continue;
 		if (move_diff_code[abs(sq_arrival-sq_king)]
             <OriginalDistance) {
@@ -3410,7 +3369,7 @@ void GenMatingBishop(square	sq_departure,
   }
 } /* GenMatingBishop */
 
-void GenMatingMove(couleur camp) {			/* V3.33  TLi */
+void GenMatingMove(couleur camp) {
   if (totalortho) {
 	ColourSpec ColourMovingPiece = camp == blanc ? White : Black;
 	square	   i, j, z, OpponentsKing = camp == blanc ? rn : rb;
@@ -3418,19 +3377,17 @@ void GenMatingMove(couleur camp) {			/* V3.33  TLi */
 
 	nextply();
 	trait[nbply]= camp;
-	/* flagminmax= false;	    V3.44  TLi */
-	/* flag_minmax[nbply]= false;	   V3.44  TLi */
 	init_move_generation_optimizer();
 
 	FlagGenMatingMove= TSTFLAG(PieSpExFlags, Neutral);
 
 	/* Don't try to "optimize" by hand. The double-loop is tested
 	   as the fastest way to compute (due to
-	   compiler-optimizations!)			    V3.14  NG */
+	   compiler-optimizations!) */
 
 	z= bas;
-	for (i= 8; i > 0; i--, z+= 16) {		/* V2.90  NG */
-      for (j= 8; j > 0; j--, z++) {		    /* V2.90  NG */
+	for (i= 8; i > 0; i--, z+= 16) {
+      for (j= 8; j > 0; j--, z++) {
 		p= e[z];
 		if (p != vide && TSTFLAG(spec[z], ColourMovingPiece)) {
           switch(abs(p)) {
@@ -3483,7 +3440,6 @@ void GenMatingMove(couleur camp) {			/* V3.33  TLi */
           return;
 		}
       }
-      /* FlagGenMatingMove= True; */
       FlagGenMatingMove= ! (camp == blanc
                             ? flagwhitemummer
                             : flagblackmummer);
@@ -3493,7 +3449,7 @@ void GenMatingMove(couleur camp) {			/* V3.33  TLi */
   FlagGenMatingMove= False;
 } /* GenMatingMove */
 
-void gorph(square i, couleur camp) {			/* V3.14  NG */
+void gorph(square i, couleur camp) {
   piece	*porph;
   numecoup	anf, l1, l2;
 
@@ -3504,7 +3460,7 @@ void gorph(square i, couleur camp) {			/* V3.14  NG */
 		if (ooorphancheck(i, -*porph, orphann, eval_white))
           gen_wh_piece(i, *porph);
       }
-      else { /* camp == noir */
+      else {
 		if (ooorphancheck(i, *porph, orphanb, eval_black))
           gen_bl_piece(i, -*porph);
       }
@@ -3521,7 +3477,7 @@ void gorph(square i, couleur camp) {			/* V3.14  NG */
   }
 }
 
-void gfriend(square i, couleur camp) {		  /* V3.65  TLi */
+void gfriend(square i, couleur camp) {
   piece	*pfr;
   numecoup	anf, l1, l2;
 
@@ -3533,7 +3489,7 @@ void gfriend(square i, couleur camp) {		  /* V3.65  TLi */
           gen_wh_piece(i, *pfr);
 		}
       }
-      else  { /* camp == noir */
+      else {
 		if (fffriendcheck(i, -*pfr, friendn, eval_black)) {
           gen_bl_piece(i, -*pfr);
 		}
@@ -3552,12 +3508,12 @@ void gfriend(square i, couleur camp) {		  /* V3.65  TLi */
 }
 
 
-void gedgeh(square sq_departure, couleur camp) {			/* V3.14  TLi */
+void gedgeh(square sq_departure, couleur camp) {
   numvec k;
 
   square sq_arrival;
 
-  for (k= vec_queen_end; k >=vec_queen_start; k--) {	    /* V3.00  NG */
+  for (k= vec_queen_end; k >=vec_queen_start; k--) {
 	sq_arrival= sq_departure+vec[k];
 	while (e[sq_arrival]==vide) {
       if (NoEdge(sq_arrival)!=NoEdge(sq_departure))
@@ -3571,9 +3527,6 @@ void gedgeh(square sq_departure, couleur camp) {			/* V3.14  TLi */
   }
 }
 
-/**************     V3.0  TLi	  Ende	   ****************************/
-
-/**************     V3.12  TLi	 begin	   ****************************/
 void geskylchar(square sq_departure, square sq_arrival, square sq_capture,
                 couleur camp) {
   if (e[sq_arrival] == vide) {
@@ -3604,9 +3557,7 @@ void gecharybdis(square i, couleur camp) {
   geskylchar(i, i+2*dir_down+dir_left, i+dir_down+dir_left, camp);
   geskylchar(i, i+2*dir_down+dir_right, i+dir_down+dir_right, camp);
   geskylchar(i, i+dir_down+2*dir_right, i+dir_down+dir_right, camp);
-} /* gecharybdis */
-
-/**************     V3.12  TLi	  end	   ****************************/
+}
 
 /***********************************************************************
  **								       **
@@ -3630,7 +3581,7 @@ void	gen_p_captures(square sq_departure, square sq_arrival, couleur camp) {
         /* a pawn has just done a critical move */
         && trait[nbply-1]!=camp)	 /* the opp. moved before */
 	{
-      if (nbply==2) {	 /* ep.-key  standard pawn  V3.37  NG */
+      if (nbply==2) {	 /* ep.-key  standard pawn */
 		if (camp==blanc)
           move_generation_stack[repere[2]].arrival= sq_arrival+dir_down;
 		else
@@ -3680,7 +3631,7 @@ void genpb(square i) {
   }
   else {
 	/* not first rank */
-	if ( CondFlag[singlebox] && SingleBoxType==singlebox_type1 /* V3.71 TM */
+	if ( CondFlag[singlebox] && SingleBoxType==singlebox_type1
          && PromSq(blanc,i+dir_up)
          && next_singlebox_prom(vide,blanc)==vide)
 	{
@@ -3713,7 +3664,7 @@ void genpn(square i) {
   }
   else {
 	/* not last rank */
-	if (CondFlag[singlebox] && SingleBoxType==singlebox_type1 /* V3.71 TM */
+	if (CondFlag[singlebox] && SingleBoxType==singlebox_type1
         && PromSq(noir,i+dir_down)
         && next_singlebox_prom(vide,noir)==vide)
 	{
@@ -3781,7 +3732,7 @@ void genpbn(square i) {
 }
 
 
-void gorix(square sq_departure, couleur camp) {			/* V3.44  NG */
+void gorix(square sq_departure, couleur camp) {
   /* Orix */
   numvec  k;
   piece   hurdle, at_end_of_line;

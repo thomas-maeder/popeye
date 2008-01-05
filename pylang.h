@@ -17,7 +17,7 @@
 typedef int Lang;
 /*--- End of } Lang;---*/
 
-char *GetLangName(Lang l);					/* H.D. 10.02.93 */
+char *GetLangName(Lang l);
 char *MkStrFileName(Lang l);
 char *MkMsgFileName(Lang l);
 

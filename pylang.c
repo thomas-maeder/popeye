@@ -7,7 +7,7 @@
 ** 
 **************************** End of List ******************************/ 
 
-#include <stdio.h>                 /* H.D. 10.02.93 */
+#include <stdio.h>
 #include "pylang.h"
 
 static char *LangName[LangCount] = {
