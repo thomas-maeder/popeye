@@ -3581,6 +3581,7 @@ void	gen_p_captures(square sq_departure, square sq_arrival, couleur camp) {
         /* a pawn has just done a critical move */
         && trait[nbply-1]!=camp)	 /* the opp. moved before */
 	{
+      square prev_arrival;
       if (nbply==2) {	 /* ep.-key  standard pawn */
 		if (camp==blanc)
           move_generation_stack[repere[2]].arrival= sq_arrival+dir_down;
@@ -3588,7 +3589,7 @@ void	gen_p_captures(square sq_departure, square sq_arrival, couleur camp) {
           move_generation_stack[repere[2]].arrival= sq_arrival+dir_up;
       }
 
-      square prev_arrival= move_generation_stack[repere[nbply]].arrival;
+      prev_arrival= move_generation_stack[repere[nbply]].arrival;
       if (rightcolor(e[prev_arrival],camp))
 		/* the pawn has the right color */
 		empile(sq_departure,sq_arrival,prev_arrival);
