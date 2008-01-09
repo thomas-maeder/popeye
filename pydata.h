@@ -15,14 +15,29 @@
 **
 ** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
 **
+** 2007/06/01 SE   New piece: Radial knight (invented? )
+**
+** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
+**                 Transmuting/Reflecting Ks now take optional piece list
+**                 turning them into vaulting types
+**
+** 2007/12/20 SE   New condition: Lortap (invented: F.H. von Meyenfeldt)
+**
+** 2007/12/21 SE   Command-line switch: -maxtime (same func as Option)
+**
+** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
+**                 New condition: Protean Chess
+**                 New piece type: Protean man (invent A.H.Kniest?)
+**                 (Differs from Frankfurt chess in that royal riders
+**                 are not 'non-passant'. Too hard to do but possibly
+**                 implement as an independent condition later).
+**
 ** 2008/01/02 NG   New condition: Geneva Chess 
 **
 **************************** End of List ******************************/
 
 #ifndef PYDATA_H
 #define PYDATA_H
-
-#include "pyproc.h"
 
 #ifndef EXTERN
 #       define EXTERN extern
@@ -31,6 +46,7 @@
 
 #ifdef  WE_ARE_EXTERN
 extern  unsigned long   MaxMemory;
+extern int MaxTime;
 extern  char    *StartUp;
 extern  long    MaxPositions;
 extern  boolean LaTeXout;
@@ -46,6 +62,7 @@ extern  boolean flag_regression;
    long         MaxPositions    = 1000000000L;
 #	endif
 unsigned long           MaxMemory       = 0L;
+int MaxTime = -1;
 char            *StartUp = VERSIONSTRING;
 boolean         LaTeXout= false;
 int     	GlobalThreadCounter= 0;
@@ -351,6 +368,7 @@ EXTERN  boolean         flag_testlegality, k_cap,
 			flag_writinglinesolution,
 			anymars,
 			flag_madrasi;
+EXTERN  boolean         is_phantomchess;
 EXTERN  square          marsid;
 EXTERN  square          TargetField, ReciTargetField, NonReciTargetField;
 
@@ -359,7 +377,10 @@ EXTERN  boolean         DoubleMate, CounterMate, ReciDoubleMate, NonReciDoubleMa
 EXTERN  piece           getprompiece[derbla + 1];       /* it's a inittable ! */
 EXTERN  piece           checkpieces[derbla - leob + 1]; /* only fairies ! */
 
-EXTERN  piece           transmpieces[derbla];
+EXTERN  piece           whitetransmpieces[derbla],
+                        blacktransmpieces[derbla];
+EXTERN  boolean         whitenormaltranspieces,
+                        blacknormaltranspieces;
 EXTERN  piece           orphanpieces[derbla + 1];
 
 EXTERN  boolean         ProofFairy;
@@ -413,6 +434,7 @@ EXTERN smallint         annanvar;
 EXTERN numecoup         tempcoup;
 EXTERN ply      	      tempply;
 EXTERN boolean          jouetestgenre1, jouetestgenre_save;
+EXTERN boolean          rex_protean_ex;
 
 #ifdef WE_ARE_EXTERN
 	extern PieTable PieNamString[LangCount];
@@ -514,11 +536,11 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/* 92*/ {'1','5'}, /* 1:5-cavalier */
 	/* 93*/ {'2','5'}, /* 2:5-cavalier */
 	/* 94*/ {'g','l'}, /* gral */
-        /* 95*/ {'l','t'}, /* tour locuste */
-        /* 96*/ {'l','f'}, /* fou locuste */
-        /* 97*/ {'l','n'}, /* noctambule locuste */
-        /* 98*/ {'v','s'}, /* vizir sauteur */
-        /* 99*/ {'f','s'}, /* fers sauteur */
+    /* 95*/ {'l','t'}, /* tour locuste */
+    /* 96*/ {'l','f'}, /* fou locuste */
+    /* 97*/ {'l','n'}, /* noctambule locuste */
+    /* 98*/ {'v','s'}, /* vizir sauteur */
+    /* 99*/ {'f','s'}, /* fers sauteur */
 	/*100*/ {'b','i'}, /* bison */
 	/*101*/ {'e','l'}, /* elephant */
 	/*102*/ {'n','a'}, /* Nao */
@@ -532,21 +554,23 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*110*/ {'s','o'}, /* scorpion: roi des elfes et sauterelle */
 	/*111*/ {'m','g'}, /* marguerite */
 	/*112*/ {'3','6'}, /* 3:6-cavalier */
-        /*113*/ {'n','l'}, /* noctambule lion */
-        /*114*/ {'m','l'}, /* noctambule mao lion */
-        /*115*/ {'m','m'}, /* noctambule moa lion */
-        /*116*/ {'a','s'}, /* sauterelle d'Andernach */
-        /*117*/ {'a',' '}, /* ami */
-        /*118*/ {'d','n'}, /* dauphin */
-        /*119*/ {'l','a'}, /* lapin */
-        /*120*/ {'b','o'}, /* bob */
-        /*121*/ {'q','a'}, /* equi anglais */
-        /*122*/ {'q','f'}, /* equi francais */
-        /*123*/ {'q','q'}, /* querquisite */
-        /*124*/ {'b','1'}, /* bouncer */
-        /*125*/ {'b','2'}, /* tour-bouncer */
-        /*126*/ {'b','3'}, /* fou-bouncer */
-        /*127*/ {'p','c'}  /* pion chinois */
+    /*113*/ {'n','l'}, /* noctambule lion */
+    /*114*/ {'m','l'}, /* noctambule mao lion */
+    /*115*/ {'m','m'}, /* noctambule moa lion */
+    /*116*/ {'a','s'}, /* sauterelle d'Andernach */
+    /*117*/ {'a',' '}, /* ami */
+    /*118*/ {'d','n'}, /* dauphin */
+    /*119*/ {'l','a'}, /* lapin */
+    /*120*/ {'b','o'}, /* bob */
+    /*121*/ {'q','a'}, /* equi anglais */
+    /*122*/ {'q','f'}, /* equi francais */
+    /*123*/ {'q','q'}, /* querquisite */
+    /*124*/ {'b','1'}, /* bouncer */
+    /*125*/ {'b','2'}, /* tour-bouncer */
+    /*126*/ {'b','3'}, /* fou-bouncer */
+    /*127*/ {'p','c'},  /* pion chinois */
+    /*128*/ {'r','k'},  /* Cavalier Radiale */
+    /*129*/ {'p','p'}  /* Pion Protean */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '}, /* leer */
 	/*  1*/ {' ',' '}, /* ausserhalb des Brettes */
@@ -643,11 +667,11 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/* 92*/ {'1','5'}, /* 1:5-Springer */
 	/* 93*/ {'2','5'}, /* 2:5-Springer */
 	/* 94*/ {'g','l'}, /* Gral */
-        /* 95*/ {'h','t'}, /* Turmheuschrecke */
-        /* 96*/ {'h','l'}, /* Laeuferheuschrecke */
-        /* 97*/ {'h','n'}, /* Nachtreiterheuschrecke */
-        /* 98*/ {'w','r'}, /* Wesirreiter */
-        /* 99*/ {'f','r'}, /* Fersreiter */
+    /* 95*/ {'h','t'}, /* Turmheuschrecke */
+    /* 96*/ {'h','l'}, /* Laeuferheuschrecke */
+    /* 97*/ {'h','n'}, /* Nachtreiterheuschrecke */
+    /* 98*/ {'w','r'}, /* Wesirreiter */
+    /* 99*/ {'f','r'}, /* Fersreiter */
 	/*100*/ {'b','i'}, /* Bison */
 	/*101*/ {'e','t'}, /* Elefant */
 	/*102*/ {'n','a'}, /* Nao */
@@ -661,21 +685,23 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*110*/ {'s','o'}, /* Skorpion: Erlkoenig + Grashuepfer */
 	/*111*/ {'m','g'}, /* Marguerite */
 	/*112*/ {'3','6'}, /* 3:6 Springer */
-        /*113*/ {'n','l'}, /* Nachtreiterlion */
-        /*114*/ {'m','l'}, /* Maoreiterlion */
-        /*115*/ {'m','m'}, /* Moareiterlion */
-        /*116*/ {'a','g'}, /* AndernachGrashuepfer */
-        /*117*/ {'f',' '}, /* Freund */
-        /*118*/ {'d','e'}, /* Delphin */
-        /*119*/ {'h','e'}, /* Hase: Lion-Huepfer ueber 2 Boecke */
-        /*120*/ {'b','o'}, /* Bob: Lion-Huepfer ueber 4 Boecke */
-        /*121*/ {'q','e'}, /* EquiEnglisch */
-        /*122*/ {'q','f'}, /* EquiFranzoesisch */
-        /*123*/ {'o','d'}, /* Odysseus */
-        /*124*/ {'b','1'}, /* Bouncer */
-        /*125*/ {'b','2'}, /* Turm-bouncer */
-        /*126*/ {'b','3'}, /* Laeufer-bouncer */
-        /*127*/ {'c','b'}  /* Chinesischer Bauer */
+    /*113*/ {'n','l'}, /* Nachtreiterlion */
+    /*114*/ {'m','l'}, /* Maoreiterlion */
+    /*115*/ {'m','m'}, /* Moareiterlion */
+    /*116*/ {'a','g'}, /* AndernachGrashuepfer */
+    /*117*/ {'f',' '}, /* Freund */
+    /*118*/ {'d','e'}, /* Delphin */
+    /*119*/ {'h','e'}, /* Hase: Lion-Huepfer ueber 2 Boecke */
+    /*120*/ {'b','o'}, /* Bob: Lion-Huepfer ueber 4 Boecke */
+    /*121*/ {'q','e'}, /* EquiEnglisch */
+    /*122*/ {'q','f'}, /* EquiFranzoesisch */
+    /*123*/ {'o','d'}, /* Odysseus */
+    /*124*/ {'b','1'}, /* Bouncer */
+    /*125*/ {'b','2'}, /* Turm-bouncer */
+    /*126*/ {'b','3'}, /* Laeufer-bouncer */
+    /*127*/ {'c','b'},  /* Chinesischer Bauer */
+    /*128*/ {'r','k'},  /* Radial Springer */
+    /*129*/ {'p','p'} /* Protean Bauer */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '}, /* empty */
 	/*  1*/ {' ',' '}, /* outside board */
@@ -772,11 +798,11 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/* 92*/ {'1','5'}, /* 1:5-leaper */
 	/* 93*/ {'2','5'}, /* 2:5-leaper */
 	/* 94*/ {'g','l'}, /* Gral */
-        /* 95*/ {'l','r'}, /* rook locust */
-        /* 96*/ {'l','b'}, /* bishop locust */
-        /* 97*/ {'l','n'}, /* nightrider locust */
-        /* 98*/ {'w','r'}, /* wazirrider */
-        /* 99*/ {'f','r'}, /* fersrider */
+    /* 95*/ {'l','r'}, /* rook locust */
+    /* 96*/ {'l','b'}, /* bishop locust */
+    /* 97*/ {'l','n'}, /* nightrider locust */
+    /* 98*/ {'w','r'}, /* wazirrider */
+    /* 99*/ {'f','r'}, /* fersrider */
 	/*100*/ {'b','i'}, /* bison */
 	/*101*/ {'e','t'}, /* elephant */
 	/*102*/ {'n','a'}, /* Nao */
@@ -790,21 +816,23 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*110*/ {'s','o'}, /* scorpion: erlking + grashopper */
 	/*111*/ {'m','g'}, /* marguerite */
 	/*112*/ {'3','6'}, /* 3:6 leaper */
-        /*113*/ {'n','l'}, /* nightriderlion */
-        /*114*/ {'m','l'}, /* maoriderlion */
-        /*115*/ {'m','m'}, /* moariderlion */
-        /*116*/ {'a','g'}, /* AndernachGrasshopper */
-        /*117*/ {'f',' '}, /* friend */
-        /*118*/ {'d','o'}, /* dolphin */
-        /*119*/ {'r','t'}, /* rabbit */
-        /*120*/ {'b','o'}, /* bob */
-        /*121*/ {'q','e'}, /* equi english */
-        /*122*/ {'q','f'}, /* equi french */
-        /*123*/ {'q','q'}, /* querquisite */
-        /*124*/ {'b','1'}, /* bouncer */
-        /*125*/ {'b','2'}, /* tour-bouncer */
-        /*126*/ {'b','3'},  /* fou-bouncer */
-        /*127*/ {'c','p'}  /* chinese pawn */	
+    /*113*/ {'n','l'}, /* nightriderlion */
+    /*114*/ {'m','l'}, /* maoriderlion */
+    /*115*/ {'m','m'}, /* moariderlion */
+    /*116*/ {'a','g'}, /* AndernachGrasshopper */
+    /*117*/ {'f',' '}, /* friend */
+    /*118*/ {'d','o'}, /* dolphin */
+    /*119*/ {'r','t'}, /* rabbit */
+    /*120*/ {'b','o'}, /* bob */
+    /*121*/ {'q','e'}, /* equi english */
+    /*122*/ {'q','f'}, /* equi french */
+    /*123*/ {'q','q'}, /* querquisite */
+    /*124*/ {'b','1'}, /* bouncer */
+    /*125*/ {'b','2'}, /* tour-bouncer */
+    /*126*/ {'b','3'},  /* fou-bouncer */
+    /*127*/ {'c','p'},  /* chinese pawn */	
+    /*128*/ {'r','k'},  /* radial knight */	
+    /*129*/ {'p','p'},  /* protean pawn */	
   }
 	};
 #endif
@@ -1109,7 +1137,10 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*160*/ "NoirEchecs",
   	/*161*/ "AnnanEchecs" ,
   	/*162*/ "PionNormale",
-  	/*163*/ "EchecsGeneve"
+    /*163*/ "Elliuortap",
+    /*164*/ "RoisSautants",
+    /*165*/ "ProteanEchecs",
+  	/*166*/ "EchecsGeneve"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1275,7 +1306,10 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*160*/ "SchwarzSchaecher",
 	/*161*/ "Annanschach",
 	/*162*/ "NormalBauern",
-  	/*163*/ "GenferSchach"
+    /*163*/ "Lortap",
+    /*164*/ "SpringenKonigen",
+    /*165*/ "ProteanSchach",
+  	/*166*/ "GenferSchach"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1441,9 +1475,12 @@ EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 	/*160*/ "BlackChecks",
 	/*161*/ "AnnanChess",
 	/*162*/ "NormalPawn",
-	/*163*/ "GenevaChess"
-  }
-	};
+    /*163*/ "Lortap",
+    /*164*/ "VaultingKings",
+    /*165*/ "ProteanChess",
+    /*166*/ "GenevaChess"
+    }
+    };
 #endif
 
 /* The notation of stipulations is international, therefore we need
@@ -1461,46 +1498,49 @@ EXTERN unsigned int StipFlags;
 	char    *PieSpString[LangCount][PieSpCount] = {
 	{
 /* French */
-	"Blanc",
-	"Noir",
-	"Neutre",
-	"Kamikaze",
-	"Royale",
-	"Paralysante",
-	"Chameleon",
-	"Jigger",
-	"Volage",
-        "Fonctionnaire",
-	"DemiNeutre",
-	"CouleurEchangeantSautoir"
+      "Blanc",
+      "Noir",
+      "Neutre",
+      "Kamikaze",
+      "Royale",
+      "Paralysante",
+      "Chameleon",
+      "Jigger",
+      "Volage",
+      "Fonctionnaire",
+      "DemiNeutre",
+      "CouleurEchangeantSautoir",
+      "Protean"
 	},{
-/* German */
-	"Weiss",
-	"Schwarz",
-	"Neutral",
-	"Kamikaze",
-	"Koeniglich",
-	"Paralysierend",
-	"Chamaeleon",
-	"Jigger",
-	"Volage",
-        "Beamtet",
-	"HalbNeutral",
-	"SprungbockFarbeWechselnd"
+      /* German */
+      "Weiss",
+      "Schwarz",
+      "Neutral",
+      "Kamikaze",
+      "Koeniglich",
+      "Paralysierend",
+      "Chamaeleon",
+      "Jigger",
+      "Volage",
+      "Beamtet",
+      "HalbNeutral",
+      "SprungbockFarbeWechselnd",
+      "Protean"
 	},{
-/* English */
-	"White",
-	"Black",
-	"Neutral",
-	"Kamikaze",
-	"Royal",
-	"Paralysing",
-	"Chameleon",
-	"Jigger",
-	"Volage",
-        "Functionary",
-	"HalfNeutral",
-	"HurdleColourChanging"
+      /* English */
+      "White",
+      "Black",
+      "Neutral",
+      "Kamikaze",
+      "Royal",
+      "Paralysing",
+      "Chameleon",
+      "Jigger",
+      "Volage",
+      "Functionary",
+      "HalfNeutral",
+      "HurdleColourChanging",
+      "Protean"
 	}
 	};
 #endif
@@ -1645,6 +1685,22 @@ numvec vec[maxvec + 1] = { 0,
 /* 113 - 120 | 1,5 */   19,  119,  121,   29,  -19, -119, -121,  -29,
 /* 121 - 128 | 2,5 */   43,  118,  122,   53,  -43, -118, -122,  -53,
 /* 129 - 136 | 3,6 */   66,  141,  147,   78,  -66, -141, -147,  -78,
+/* 137 - 140 | 0,3 */    3,   72,   -3,  -72,
+/* 141 - 144 | 0,4 */    4,   96,   -4,  -96,
+/* 145 - 148 | 0,6 */    6,  144,   -6, -144,
+/* 149 - 152 | 0,7 */    7,  168,   -7, -168,
+/* 153 - 156 | 3,3 */   69,   75,  -69,  -75,
+/* 157 - 160 | 4,4 */   92,  100,  -92, -100,
+/* 161 - 164 | 6,6 */  138,  150, -138, -150,
+/* 165 - 168 | 7,7 */  161,  175, -161, -175,
+/* 169 - 176 | 2,6 */   42,  142,  146,   54,  -42, -142, -146,  -54,
+/* 177 - 184 | 4,5 */   91,  116,  124,  101,  -91, -116, -124, -101,
+/* 185 - 192 | 4,6 */   90,  140,  148,  102,  -90, -140, -148, -102,
+/* 193 - 200 | 4,7 */   89,  164,  172,  103,  -89, -164, -172, -103,
+/* 201 - 208 | 5,6 */  114,  139,  149,  126, -114, -139, -149, -126,
+/* 209 - 216 | 5,7 */  113,  163,  173,  127, -113, -163, -173, -127,
+/* 217 - 224 | 6,7 */  137,  162,  174,  151, -137, -162, -174, -151,
+/* 225 - 232 | 2,7 */   41,  166,  170,   55,  -41, -166, -170,  -55,
 };
 #endif
 
@@ -1891,17 +1947,19 @@ enum {
 /*125 */	rookbouncercheck,
 /*126 */	bishopbouncercheck,
 /*127 */	pchincheck,
-/*128 */        huntercheck,
-/*129 */        huntercheck,
-/*130 */        huntercheck,
-/*131 */        huntercheck,
-/*132 */        huntercheck,
-/*133 */        huntercheck,
-/*134 */        huntercheck,
-/*135 */        huntercheck,
-/*136 */        huntercheck,
-/*137 */        huntercheck
-		};
+/*128 */  radialknightcheck,
+/*129 */  reversepcheck,
+/*130 */  huntercheck,
+/*131 */  huntercheck,
+/*132 */  huntercheck,
+/*133 */  huntercheck,
+/*134 */  huntercheck,
+/*135 */  huntercheck,
+/*136 */  huntercheck,
+/*137 */  huntercheck,
+/*138 */  huntercheck,
+/*139 */  huntercheck
+    };
 #endif
 
 #ifdef WE_ARE_EXTERN

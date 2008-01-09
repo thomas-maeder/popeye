@@ -16,6 +16,14 @@
  **
  ** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
  **
+ ** 2007/09/01 SE   Bug fix: Transmuting Kings (reported: V.Crisan?)
+ **
+ ** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
+ **                 Transmuting/Reflecting Ks now take optional piece list
+ **                 turning them into vaulting types
+ **
+ ** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	/* is always defined on macintosh's  SB */
@@ -303,22 +311,40 @@ static boolean orig_rnechec(evalfunction_t *evaluate)
       /* attempted bug fix - wrong eval function used to detect 
         if wK is checked; this code is a bit hacky but best attempt to 
         guess correct eval function to use, though only one is passed in*/
-      boolean (* eval_ad)(square,square,square) = evaluate;
+      evalfunction_t *eval_ad = evaluate;
       if (eval_white != eval_black) 
         eval_ad= (evaluate == eval_white) ? eval_black :
         (evaluate == eval_black) ? eval_white : evaluate;
 
-      for (ptrans= transmpieces; *ptrans; ptrans++) {
-		if (nbpiece[-*ptrans]
-            && (*checkfunctions[*ptrans])(rb, -*ptrans, eval_ad))
-		{
-          flag= false;
+      CondFlag[whrefl_king] = false;
+
+      if (!whitenormaltranspieces && echecc(blanc))
+      {
+        flag= false;
+        for (ptrans= whitetransmpieces; *ptrans; ptrans++) {
           if ((*checkfunctions[*ptrans])(rn, roib, evaluate)) {
-			return true;
+            CondFlag[whrefl_king] = true;
+            return true;
           }
-		}
+        }
+      }
+      else if (whitenormaltranspieces)
+      {
+        for (ptrans= whitetransmpieces; *ptrans; ptrans++) {
+          if (nbpiece[-*ptrans]
+              && (*checkfunctions[*ptrans])(rb, -*ptrans, eval_ad))
+          {
+            flag= false;
+            if ((*checkfunctions[*ptrans])(rn, roib, evaluate)) {
+              CondFlag[whrefl_king] = true;
+              return true;
+            }
+          }
+        }
       }
       
+      CondFlag[whrefl_king] = true;
+
       if (!CondFlag[whtrans_king] || flag) {
 		for (k= vec_queen_end; k>=vec_queen_start; k--) {
           sq_departure= rn+vec[k];
@@ -545,24 +571,40 @@ static boolean orig_rbechec(evalfunction_t *evaluate)
       /* attempted bug fix - wrong eval function used to detect 
         if bK is checked; this code is a bit hacky but best attempt to 
         guess correct eval function to use, though only one is passed in */
-      boolean (* eval_ad)(square,square,square) = evaluate;
+      evalfunction_t *eval_ad = evaluate;
       if (eval_white != eval_black) 
         eval_ad= (evaluate == eval_white) ? eval_black :
         (evaluate == eval_black) ? eval_white : evaluate;
 
-      for (ptrans= transmpieces; *ptrans; ptrans++) {
-		if (nbpiece[*ptrans]
-            && (*checkfunctions[*ptrans])(rn, *ptrans, eval_ad))
-		{
-          flag= false;
-          if ((*checkfunctions[*ptrans])(rb, roin, evaluate))
-          {
-			return true;
+       CondFlag[blrefl_king] = false;
+
+       if (!blacknormaltranspieces && echecc(noir))
+       {
+         flag= false;
+         for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
+           if ((*checkfunctions[*ptrans])(rb, roin, evaluate)) {
+             CondFlag[blrefl_king] = true;
+             return true;
+           }
+         }
+       }
+       else if (blacknormaltranspieces)
+       {
+         for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
+           if (nbpiece[*ptrans]
+               && (*checkfunctions[*ptrans])(rn, *ptrans, eval_ad)) {
+             flag= false;
+             if ((*checkfunctions[*ptrans])(rb, roin, evaluate)) {
+               CondFlag[blrefl_king] = true;
+               return true;
+            }
           }
-		}
+        }
       }
       
-      if (!CondFlag[bltrans_king] || flag) {
+      CondFlag[blrefl_king] = true;
+
+       if (!CondFlag[bltrans_king] || flag) {
 		for (k= vec_queen_end; k>=vec_queen_start; k--) {
           sq_departure= rb+vec[k];
           if (e[sq_departure]==roin
@@ -574,7 +616,6 @@ static boolean orig_rbechec(evalfunction_t *evaluate)
 	else {
       if ( CondFlag[sting]
            && (*checkfunctions[sb])(rb, roin, evaluate))
-
       {
         return true;
       }
@@ -1023,7 +1064,10 @@ boolean AntiCirceEch(square	sq_departure,
       return false;
   }
   else
-    if (is_pawn(e[sq_departure]) && PromSq(advers(camp), sq_capture)) {
+    if ((is_forwardpawn(e[sq_departure])
+         && PromSq(advers(camp),sq_capture))
+        || (is_reversepawn(e[sq_departure])
+            && ReversePromSq(advers(camp),sq_capture))) {
       /* Pawn checking on last rank */
       piece	pprom= getprompiece[vide];
       square	cren;
@@ -1060,7 +1104,7 @@ boolean rbanticircech(square sq_departure, square sq_arrival, square sq_capture)
 }
 
 boolean rnsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
-  if (is_pawn(e[sq_departure]) && PromSq(blanc, sq_capture)) {
+  if (is_forwardpawn(e[sq_departure]) && PromSq(blanc, sq_capture)) {
 	/* Pawn checking on last rank */
 	return next_singlebox_prom(vide,blanc)!=vide;
   }
@@ -1070,7 +1114,7 @@ boolean rnsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_ca
 }
 
 boolean rbsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
-  if (is_pawn(e[sq_departure]) && PromSq(noir, sq_capture)) {
+  if (is_forwardpawn(e[sq_departure]) && PromSq(noir, sq_capture)) {
 	/* Pawn checking on last rank */
 	return next_singlebox_prom(vide,noir)!=vide;
   }

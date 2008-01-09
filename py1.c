@@ -12,6 +12,14 @@
  **
  ** 2007/01/28 SE   New condition: Annan Chess 
  **
+ ** 2007/06/01 SE   New piece: Radial knight (invented? )
+ **
+ ** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
+ **                 Transmuting/Reflecting Ks now take optional piece list
+ **                 turning them into vaulting types
+ **
+ ** 2007/12/26 SE   New condition: Protean Chess
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	      /* is always defined on macintosh's  SB */
@@ -122,6 +130,7 @@ void InitCond(void) {
   flagparasent= false;
   rex_mad= rex_circe= rex_immun= rex_phan= rex_geneva=
     rex_mess_ex= rex_wooz_ex= false;
+  rex_protean_ex = false;
   calctransmute= false;
 
   for (p= vide; p < PieceCount; p++)
@@ -304,6 +313,7 @@ void InitAlways(void) {
   
   takemake_departuresquare= initsquare;
   takemake_capturesquare= initsquare;
+  whitenormaltranspieces = blacknormaltranspieces = true;
 } /* InitAlways */
 
 void initneutre(couleur c) {
@@ -346,6 +356,37 @@ boolean leapcheck(square	 sq_king,
       return true;
   }
   
+  return false;
+}
+
+boolean leapleapcheck(
+  square	 sq_king,
+  numvec	 kanf,
+  numvec	 kend,
+  smallint hurdletype,
+  piece	 p,
+  evalfunction_t *evaluate)
+{
+  /* detect "check" of leaper p */
+  numvec  k, k1;
+  square  sq_departure, sq_hurdle;
+
+  for (k= kanf; k<= kend; k++) {
+    sq_hurdle= sq_king + vec[k];
+    if (hurdletype==0 && abs(e[sq_hurdle])>obs && e[sq_hurdle]*p<0)
+    {
+      for (k1= kanf; k1<= kend; k1++) {
+        sq_departure = sq_hurdle + vec[k1];
+        if (e[sq_departure]==p && sq_departure!=sq_king
+            && (*evaluate)(sq_departure,sq_king,sq_king)
+            && imcheck(sq_departure,sq_king))
+        {
+          return true;
+        }
+      }
+    }
+  }
+
   return false;
 }
 

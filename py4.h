@@ -51,15 +51,19 @@ void    geriderhopper(square i, numvec kbeg, numvec kend,
 void grose(square sq_departure,
            numvec k1, numvec k2, numvec delta_k,
            couleur camp);
+void genradialknight(square sq_departure, couleur camp);
 
-
-void	genpb(square i);
+void	genpb(square sq_departure);
 	/* generating function for white pawn */
-void	genpn(square i);
+void	genpn(square sq_departure);
 	/* generating function for black pawn */
-void	genpbb(square i);
+void	genprotpb(square sq_departure);
+	/* generating function for white protean pawn */
+void	genprotpn(square sq_departure);
+	/* generating function for black protean pawn */
+void	genpbb(square sq_departure);
 	/* generating function for white berolina pawn */
-void	genpbn(square i);
+void	genpbn(square sq_departure);
 	/* generating function for black berolina pawn */
 
 #endif	/* PY4_H */

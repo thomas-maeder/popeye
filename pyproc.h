@@ -10,6 +10,12 @@
 **
 ** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
 **
+** 2007/06/01 SE   New piece: Radial knight (invented? )
+**
+** 2007/12/20 SE   New condition: Lortap (invented: F.H. von Meyenfeldt)
+**
+** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
+**
 **************************** End of List ******************************/
 
 #ifndef PYPROC_H
@@ -250,6 +256,7 @@ boolean rrefcech (square a, square b, smallint c, piece d, evalfunction_t *evalu
 boolean rrfouech (square sq, square sqtest, numvec k, piece p, smallint x, evalfunction_t *evaluate );
 boolean rubiech (square sq, square sqtest, piece p, /* echiquier */ smallint *e_ub, evalfunction_t *evaluate );
 boolean soutenu (square departure, square arrival, square capture);
+boolean notsoutenu (square a, square b, square c);
 
 boolean dsr_ant (couleur a, smallint b);
 boolean dsr_e (couleur a, smallint b);
@@ -299,9 +306,11 @@ boolean marincheck (square a, numvec b, numvec c, piece d, evalfunction_t *evalu
 boolean empile (square departure, square arrival, square capture);
 boolean testempile (square departure, square arrival, square capture);
 boolean ooorphancheck (square i, piece porph, piece p, evalfunction_t *evaluate);
+boolean reversepcheck (square a, piece b, evalfunction_t *evaluate);
 void    gorph (square a, couleur b);
 void    gfriend (square a, couleur b);
 void    gedgeh (square a, couleur b);
+
 void    gmoab (square a);
 void    gmoan (square a);
 boolean InitMsgTab (Lang l, boolean Force);
@@ -357,6 +366,8 @@ boolean is_rider (piece p);
 boolean is_leaper (piece p);
 boolean is_simplehopper (piece p);
 boolean is_pawn (piece p);
+boolean is_forwardpawn (piece p);
+boolean is_reversepawn (piece p);
 
 void    geskylla (square i, couleur camp);
 void    gecharybdis (square i, couleur camp);
@@ -448,6 +459,15 @@ boolean eval_BGL(square departure, square arrival, square capture);
 char *WriteBGLNumber(char* a, long int b);
 boolean whannan(square rear, square front);
 boolean blannan(square rear, square front);
+
+boolean leapleapcheck(
+  square	 sq_king,
+  numvec	 kanf,
+  numvec	 kend,
+  smallint hurdletype,
+  piece	 p,
+  evalfunction_t *evaluate);
+checkfunction_t radialknightcheck;
 
 
 void    init_move_generation_optimizer(void);

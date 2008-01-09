@@ -20,6 +20,19 @@
  **
  ** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
  **
+ ** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
+ **                 Transmuting/Reflecting Ks now take optional piece list
+ **                 turning them into vaulting types
+ **
+ ** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
+ **                 New condition: Protean Chess
+ **                 New piece type: Protean man (invent A.H.Kniest?)
+ **                 (Differs from Frankfurt chess in that royal riders
+ **                 are not 'non-passant'. Too hard to do but possibly
+ **                 implement as an independent condition later).
+ **
+ ** 2008/01/01 SE   Bug fix: Circe Assassin + proof game (reported P.Raican)
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh /* is always defined on macintosh's  SB */
@@ -469,11 +482,37 @@ square rensuper(piece p, Flags pspec,
 boolean is_pawn(piece p)
 {
   switch (abs(p)) {
-  case Pawn:
-  case BerolinaPawn:
-  case SuperBerolinaPawn:
-  case SuperPawn:  return True;
-  default:   return False;
+  case  Pawn:
+  case  BerolinaPawn:
+  case  SuperBerolinaPawn:
+  case  SuperPawn:        
+  case  ReversePawn: 
+    return  True;
+  default:
+    return  False;
+  }
+}
+
+boolean is_forwardpawn(piece p)
+{
+  switch (abs(p)) {
+  case  Pawn:
+  case  BerolinaPawn:
+  case  SuperBerolinaPawn:
+  case  SuperPawn:        
+    return  True;
+  default:
+    return  False;
+  }
+}
+
+boolean is_reversepawn(piece p)
+{
+  switch (abs(p)) {
+  case  ReversePawn: 
+    return  True;
+  default:
+    return  False;
   }
 }
 
@@ -578,14 +617,26 @@ void genrn(square sq_departure) {
 
     anf= nbcou;
     calctransmute= true;
-    for (ptrans= transmpieces; *ptrans; ptrans++) {
-      if (nbpiece[*ptrans]
-          && (*checkfunctions[*ptrans])(sq_departure,*ptrans,eval_black))
-      {
+    if (!blacknormaltranspieces && echecc(noir))
+    {
+      for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
         flag = true;
         current_trans_gen=-*ptrans;
-        gen_bl_piece(sq_departure,-*ptrans);
+        gen_bl_piece(sq_departure, -*ptrans);
         current_trans_gen=vide;
+      }
+    }
+    else if (blacknormaltranspieces)
+    {
+      for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
+        if (nbpiece[*ptrans]
+            && (*checkfunctions[*ptrans])(sq_departure,*ptrans,eval_black))
+        {
+          flag = true;
+          current_trans_gen=-*ptrans;
+          gen_bl_piece(sq_departure, -*ptrans);
+          current_trans_gen=vide;
+        }
       }
     }
     calctransmute= false;
@@ -978,7 +1029,10 @@ void joueparrain(void)
     ren_parrain[nbply]= e[cren]= p;
     spec[cren]= pspec;
 
-    if (is_pawn(p) && PromSq(advers(trait[nbply-1]), cren)) {
+    if ((is_forwardpawn(p)
+         && PromSq(advers(trait[nbply-1]), cren))
+        || (is_reversepawn(p)
+            && ReversePromSq(advers(trait[nbply-1]), cren))) {
       /* captured white pawn on eighth rank: promotion ! */
       /* captured black pawn on first rank: promotion ! */
       piece pprom= cir_prom[nbply];
@@ -1126,7 +1180,8 @@ boolean jouecoup_ortho_test(void)
   return flag;
 }
 
-boolean jouecoup_legality_test(smallint oldnbpiece[derbla], square cren) {
+boolean jouecoup_legality_test(smallint oldnbpiece[derbla],
+                               square sq_rebirth) {
   if (CondFlag[schwarzschacher] && trait[nbply]==noir)
     return echecc(blanc);
 
@@ -1153,7 +1208,7 @@ boolean jouecoup_legality_test(smallint oldnbpiece[derbla], square cren) {
               ))
             &&
             ((!flag_testlegality) || pos_legal())
-            && (!flagAssassin || (cren != rb && cren != rn))
+            && (!flagAssassin || (sq_rebirth != rb && sq_rebirth != rn))
             && (!testdblmate || (rb!=initsquare && rn!=initsquare))
             && (!CondFlag[patience] || PatienceB || patience_legal())
             /* don't call patience_legal if TypeB as obs > vide ! */
@@ -1424,6 +1479,25 @@ boolean jouecoup(void) {
     if (CondFlag[norsk])
       pi_arriving= norskpiece(pi_arriving);
 
+  if (pi_captured != vide
+      && ((CondFlag[protean]
+           && (!rex_protean_ex || !TSTFLAG(spec_pi_moving, Royal)))
+          || TSTFLAG(spec_pi_moving, Protean))) {
+    if (pi_departing < vide) {
+       pi_arriving = -pi_captured;
+       if (pi_arriving == pn)
+         pi_arriving = reversepn;
+       else if (pi_arriving == reversepn)
+         pi_arriving = pn;
+    } else {
+       pi_arriving = -pi_captured;
+       if (pi_arriving == pb)
+         pi_arriving = reversepb;
+       else if (pi_arriving == reversepb)
+         pi_arriving = pb;
+    }
+  }
+
   } /* change_moving_piece */
 
   if (abs(pi_departing) == andergb) {
@@ -1491,6 +1565,7 @@ boolean jouecoup(void) {
         square ii = anyantimars ? cmren[nbcou] : sq_departure;
         switch (abs(pi_departing)) {
         case Pawn:
+        case ReversePawn:
           switch (abs(ii - sq_arrival)) {
           case 2*onerow: /* ordinary or Einstein double step */
             ep[nbply]= (ii + sq_arrival) / 2;
@@ -1507,12 +1582,13 @@ boolean jouecoup(void) {
             ep[nbply]= (ii + sq_arrival) / 2;
           }
           break;
-        } /* end switch (abs(pi_departing)) */
+        }
       }
-
     }
     /* promotion */
-    if (PromSq(traitnbply, sq_arrival)) {
+    if (PromSq(is_reversepawn(pi_departing)^trait[nbply],sq_arrival)
+        && ((!CondFlag[protean] && !TSTFLAG(spec_pi_moving, Protean))
+            || pi_captured == vide)) {
       /* moved to here because of anticirce
        */
       if ((pi_arriving= norm_prom[nbply]) == vide) {
@@ -1759,6 +1835,8 @@ boolean jouecoup(void) {
   if ((CondFlag[andernach] && pi_captured!=vide)
       || (CondFlag[antiandernach] && pi_captured==vide)
       || (CondFlag[norsk])
+      || (CondFlag[protean]
+          && (pi_captured!=vide || abs(pi_departing)==ReversePawn))
     )
   {
     if (castling_supported) {
@@ -1883,8 +1961,10 @@ boolean jouecoup(void) {
       e[sq_arrival]= vide;
       spec[sq_arrival]= 0;
       crenkam[nbply]= sq_rebirth;
-      if (is_pawn(pi_departing)
-          && PromSq(traitnbply, sq_rebirth))
+      if ((is_forwardpawn(pi_departing)
+           && PromSq(traitnbply,sq_rebirth))
+          || (is_reversepawn(pi_departing)                 
+              && ReversePromSq(traitnbply,sq_rebirth)))
       {
         /* white pawn on eighth rank or
            black pawn on first rank - promotion ! */
@@ -2745,6 +2825,8 @@ void repcoup(void) {
         spec[sq_rebirth]= 0;
       }
       if (flagAssassin && pdisp[nbply]) {
+        if (e[sq_rebirth])
+          nbpiece[e[sq_rebirth]]--;
         nbpiece[e[sq_rebirth]= pdisp[nbply]]++;
         spec[sq_rebirth]= pdispspec[nbply];
       }

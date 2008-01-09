@@ -7,6 +7,10 @@
  **
  ** 2007/05/14 SE   Change for annan
  **
+ ** 2008/01/01 SE   Bug fix: Circe Assassin + proof game (reported P.Raican)
+ **
+ ** 2008/01/01 SE   Bug fix: Circe Parrain + proof game (reported P.Raican)
+ **
  **************************** End of List ******************************/
 
 #include <stdio.h>
@@ -50,10 +54,22 @@ boolean ProofVerifie(void) {
   }
 
   ProofFairy= change_moving_piece
-    || jouegenre
+    || CondFlag[black_oscillatingKs]
+    || CondFlag[white_oscillatingKs]
+    || CondFlag[republican]
+    || anycirce
+    || CondFlag[sentinelles]
+    || anyanticirce
+    || CondFlag[singlebox]
+    || CondFlag[blroyalsq]
+    || CondFlag[whroyalsq]
+    || TSTFLAG(PieSpExFlags, ColourChange)
+    || CondFlag[actrevolving]
+    || CondFlag[arc]
     || CondFlag[annan]
     || CondFlag[glasgow]
     || CondFlag[takemake]
+    || flagAssassin
     || CondFlag[messigny]
     || CondFlag[mars];
 
@@ -322,7 +338,7 @@ void ProofInitialise(void) {
 
   if (flag_atob) {
     char InitialLine[40];
-    vsnprintf(InitialLine, sizeof InitialLine,
+    snprintf(InitialLine, sizeof InitialLine,
              "Initial (%s ->):\n",
              PieSpString[ActLang][flag_appseul ? White : Black]);
 	StdString(InitialLine);
@@ -1151,7 +1167,7 @@ int ArrangePawns(
 
 boolean ProofFairyImpossible(int MovesAvailable) {
   square	*bnp, sq;
-  piece	p1;
+  piece	p1, pparr;
   smallint	NbrWh, NbrBl;
 
   NbrWh = nbpiece[pb]
@@ -1237,12 +1253,13 @@ boolean ProofFairyImpossible(int MovesAvailable) {
       return true;
 	}
 
+    pparr = CondFlag[parrain] ? pprise[nbply] : vide;
 	if (!CondFlag[sentinelles]) {
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
       */
-      if (ProofNbrPiece[pb] > nbpiece[pb]
-          || ProofNbrPiece[pn] > nbpiece[pn])
+      if (ProofNbrPiece[pb] > nbpiece[pb]+(pparr==pb)
+          || ProofNbrPiece[pn] > nbpiece[pn]+(pparr==pn))
       {
 		return true;
       }

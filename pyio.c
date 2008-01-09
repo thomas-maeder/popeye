@@ -28,6 +28,14 @@
  **
  ** 2007/04/28 SE   Bugfix: parsing SAT followed by another condition 
  **
+ ** 2007/06/01 SE   Bug fixes: Forsyth entry (fairy piece on a8)
+ **
+ ** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
+ **                 Transmuting/Reflecting Ks now take optional piece list
+ **                 turning them into vaulting types
+ **
+ ** 2007/12/26 SE   New piece type: Protean man (invent A.H.Kniest?)
+ **
  ** 2008/01/02 NG   New condition: Geneva Chess 
  **
  **************************** End of List ******************************/
@@ -451,7 +459,7 @@ static char *ReadNextCaseSensitiveTokStr(void) {
   char ch,*p,*t;
 
   ch= LastChar;
-  while (strchr(SpaceChar,ch))
+  while (strchr(" \t\n\r;,:",ch))  /* SpaceChar minus '.' which can be first char of extended Forsyth */
     ch= NextChar();
   if (strchr(TokenChar,ch)) {
     p= InputLine;
@@ -937,7 +945,7 @@ static char *ParseForsyth(boolean output) {
 		num += num * 9 + (*tok++) - '0';
       for (;num && sq;num--) {
 		e[sq]= vide;
-		spec[sq]= EmptySpec;
+		spec[sq]= BorderSpec;
 		sq= NextSquare(sq);
       }
       NeutralFlag= false;
@@ -1690,6 +1698,48 @@ static char *ParseExact(boolean *ex_flag, boolean *ul_flag)
 int  AntiCirType;
 char ChameleonSequence[256];
 
+static char *ParseTransPieces(Flags fl)
+{
+  piece	p;
+  char	*tok;
+
+  smallint tp = 0;
+  if (TSTFLAG(fl, blanc)) 
+    whitenormaltranspieces = true;
+  if (TSTFLAG(fl, noir)) 
+    blacknormaltranspieces = true;
+
+
+  while (True) {
+	switch (strlen(tok= ReadNextTokStr())) {
+    case 1:
+      p= GetPieNamIndex(*tok,' ');
+      break;
+
+    case 2:
+      p= GetPieNamIndex(*tok,tok[1]);
+      break;
+
+    default:
+      if (TSTFLAG(fl, blanc)) 
+        whitetransmpieces[tp] = vide;
+      if (TSTFLAG(fl, noir)) 
+        blacktransmpieces[tp] = vide;
+      return tok;
+	}
+  if (TSTFLAG(fl, blanc)) {
+    whitenormaltranspieces = false;
+    whitetransmpieces[tp] = p;
+  }
+  if (TSTFLAG(fl, noir)) {
+    blacknormaltranspieces = false;
+    blacktransmpieces[tp] = p;
+  }
+  tp++;
+  }
+  return tok;
+}
+
 char *ReadChameleonCirceSequence(void) {
   piece	old_piece, new_piece;
   char	*tok, newpiece[3];
@@ -1900,6 +1950,16 @@ static char *ParseCond(void) {
       break;
     case bltrans_king:
       CondFlag[blrefl_king]= true;
+      break;
+    case vaultingkings:
+      CondFlag[whrefl_king]= true;
+      CondFlag[blrefl_king]= true;
+      whitenormaltranspieces = false;
+      blacknormaltranspieces = false;
+      whitetransmpieces[0]= equib;
+      blacktransmpieces[0]= equib;
+      whitetransmpieces[1]= vide;
+      blacktransmpieces[1]= vide;
       break;
     case whsupertrans_king:
       CondFlag[whtrans_king]= true;
@@ -2209,6 +2269,9 @@ static char *ParseCond(void) {
     case circemalefiquevertical:
       tok= ParseRex(&rex_circe, rexincl);
       break;
+    case protean:
+      tok= ParseRex(&rex_protean_ex, rexexcl);
+      break;
     case phantom:
       tok= ParseRex(&rex_phan, rexincl);
       break;
@@ -2360,6 +2423,18 @@ static char *ParseCond(void) {
       break;
     case geneva:
       tok= ParseRex(&rex_geneva, rexincl);
+      break;
+    case whrefl_king:
+    case whtrans_king:
+      tok= ParseTransPieces(BIT(blanc));
+      break;
+    case blrefl_king:
+    case bltrans_king:
+      tok= ParseTransPieces(BIT(noir));
+      break;
+    case refl_king:
+    case trans_king:
+      tok= ParseTransPieces(BIT(blanc) | BIT(noir));
       break;
     default:
       tok= ReadNextTokStr();
@@ -3357,9 +3432,12 @@ Token ReadProblem(Token tk) {
 		if ((TraceFile=fopen(ReadToEndOfLine(),"a")) == NULL) {
           IoErrorMsg(WrOpenError,0);
 		}
-		fputs(StartUp, TraceFile);
-		fputs(MMString, TraceFile);
-		fflush(TraceFile);
+        else
+        {
+		  fputs(StartUp, TraceFile);
+          fputs(MMString, TraceFile);
+		  fflush(TraceFile);
+        }
 		tok= ReadNextTokStr();
 		break;
       case LaTeXPieces:
@@ -3456,6 +3534,23 @@ void AddSquare(char *List, square i) {
   strcat(List, add);
 }
 
+void WritePieces(piece *p, char* CondLine)
+{
+      /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
+  char LocalBuf[4];
+  while (*p) {
+	  if (PieceTab[*p][1] != ' ')
+      sprintf(LocalBuf, " %c%c",
+                  UPCASE(PieceTab[*p][0]),
+                  UPCASE(PieceTab[*p][1]));
+    else
+      sprintf(LocalBuf, " %c",
+                  UPCASE(PieceTab[*p][0]));
+	  strcat(CondLine, LocalBuf);
+    p++;
+  }
+}
+
 void WriteConditions(int alignment) {
   Cond	cond;
   char	CondLine[256];
@@ -3491,6 +3586,10 @@ void WriteConditions(int alignment) {
       continue;
 
 	if (cond == tibet && CondFlag[dbltibet])
+      continue;
+
+  if (CondFlag[vaultingkings])
+    if ( cond == refl_king || cond == whrefl_king || cond == blrefl_king)
       continue;
 
 	if (cond == refl_king && CondFlag[trans_king])
@@ -3589,6 +3688,14 @@ void WriteConditions(int alignment) {
       }
     }
 
+  if ( cond == whrefl_king || cond == whtrans_king || cond == refl_king || cond == trans_king)
+    if (!whitenormaltranspieces)
+      WritePieces(whitetransmpieces, CondLine);
+
+  if (  cond == blrefl_king || cond == bltrans_king)
+    if (!blacknormaltranspieces)
+      WritePieces(blacktransmpieces, CondLine);
+       
 	if (cond == promotiononly) {
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
       char LocalBuf[4];
@@ -3731,6 +3838,12 @@ void WriteConditions(int alignment) {
                   || cond == biwoozles)))
 	{
       strcat(CondLine, " ");
+      strcat(CondLine, CondTab[rexexcl]);
+	}
+
+    if ( rex_protean_ex && cond == protean)
+	{
+      strcat(CondLine, "	");
       strcat(CondLine, CondTab[rexexcl]);
 	}
 

@@ -13,6 +13,38 @@
 **
 ** 2007/01/28 SE   New condition: Annan Chess 
 **
+** 2007/06/01 SE   New piece: Radial knight (invented? )
+**
+** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
+**                 Transmuting/Reflecting Ks now take optional piece list
+**                 turning them into vaulting types
+**
+** 2007/12/20 SE   New condition: Lortap (invented: F.H. von Meyenfeldt)
+**
+** 2007/12/21 SE   Command-line switch: -b set low priority (Win32 only so far)
+**
+** 2007/12/26 SE   Pragma: disable warnings on deprecated functions in VC8
+**
+** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
+**                 New condition: Protean Chess
+**                 New piece type: Protean man (invent A.H.Kniest?)
+**                 (Differs from Frankfurt chess in that royal riders
+**                 are not 'non-passant'. Too hard to do but possibly
+**                 implement as an independent condition later).
+**
+** 2007/06/01 SE   New piece: Radial knight (invented? )
+**
+** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
+**                 Transmuting/Reflecting Ks now take optional piece list
+**                 turning them into vaulting types
+**
+** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
+**                 New condition: Protean Chess
+**                 New piece type: Protean man (invent A.H.Kniest?)
+**                 (Differs from Frankfurt chess in that royal riders
+**                 are not 'non-passant'. Too hard to do but possibly
+**                 implement as an independent condition later).
+**
 ** 2008/01/02 NG   New condition: Geneva Chess 
 **
 **************************** End of List ******************************/
@@ -101,6 +133,11 @@
 #endif  /* DATABASE */
 #endif	/* OSTYPE */
 
+#if _MSC_VER == 1400
+/*disable warning of deprecated functions*/
+#pragma warning( disable : 4996 )
+#endif
+ 
 #define STRINGIZEIMPL(x) #x
 #define STRINGIZE(x) STRINGIZEIMPL(x)
 #define VERSIONSTRING "Popeye "OSTYPE"-"OSBIT"Bit v"STRINGIZE(VERSION)
@@ -260,7 +297,9 @@
 #define rookbouncerb   125
 #define bishopbouncerb 126
 #define chinesepawnb   127
-#define hunter0b       128
+#define radialknightb  128
+#define reversepb      129
+#define hunter0b       130
 #define derbla         (hunter0b+maxnrhuntertypes)
 #define roin    -2
 #define pn      -3
@@ -388,7 +427,9 @@
 #define rookbouncern   -125
 #define bishopbouncern -126
 #define chinesepawnn   -127  
-#define hunter0n       -128
+#define radialknightn  -128
+#define reversepn      -129
+#define hunter0n       -130
 #define dernoi         (hunter0n-maxnrhuntertypes)
 
 #define maxsquare       576
@@ -420,7 +461,7 @@
 #endif /* DATABASE */
 
 #define toppile (60*maxply)
-#define maxvec          136
+#define maxvec          232
 
 #define bl      ' '
 #define blanc   0
@@ -743,7 +784,9 @@ typedef int Token;
 #define RookBouncer    125
 #define BishopBouncer  126
 #define ChinesePawn    127
-#define Hunter0        128
+#define RadialKnight   128
+#define ReversePawn    129
+#define Hunter0        130
 #define PieceCount     (Hunter0+maxnrhuntertypes)
 typedef int PieNam;
 /*--- End of } PieNam;---*/
@@ -1058,8 +1101,12 @@ typedef int Opt;
 #define schwarzschacher        160
 #define annan                  161
 #define normalp                162
-#define geneva                 163
-#define CondCount              164
+#define lortap                 163
+#define vaultingkings          164
+#define protean                165
+#define geneva                 166
+#define CondCount              167
+
 typedef int Cond;
 /*--- End of } Cond;---*/
 
@@ -1087,7 +1134,8 @@ typedef int Cond;
 #define Beamtet      9
 #define HalfNeutral  10
 #define ColourChange 11
-#define PieSpCount   12
+#define Protean      12
+#define PieSpCount   13
 typedef int PieSpec;
 /*--- End of } PieSpec;---*/
 
@@ -1171,7 +1219,8 @@ enum {
 #define shopcheck(sq, ka, ke, p, ev)     riderhoppercheck(sq, ka, ke, p, 1, 1, ev)
 #define geshop(sq, ka, ke, camp)        geriderhopper(sq, ka, ke, 1, 1, camp)
 
-#define PromSq(col,sq) (TSTFLAG(sq_spec[sq],col==blanc?WhPromSq:BlPromSq))
+#define PromSq(col,sq) (TSTFLAG(sq_spec[sq],(col)==blanc?WhPromSq:BlPromSq))
+#define ReversePromSq(col,sq) (TSTFLAG(sq_spec[sq],(col)==noir?WhPromSq:BlPromSq))
 
 #define ChamCircePiece(p)    (((p < vide) ? - NextChamCircePiece[-p] : \
 				NextChamCircePiece[p]))
@@ -1196,6 +1245,25 @@ typedef struct _MEMORYSTATUS {
     unsigned long dwTotalVirtual;
     unsigned long dwAvailVirtual;
 } MEMORYSTATUS, *LPMEMORYSTATUS;
+
+typedef int HANDLE;
+typedef int BOOL;
+typedef int DWORD;
+#define BELOW_NORMAL_PRIORITY_CLASS       0x00004000
+
+__declspec(dllimport)
+HANDLE 
+__stdcall
+GetCurrentProcess(VOID);
+
+__declspec(dllimport)
+BOOL 
+__stdcall
+SetPriorityClass(
+  HANDLE hProcess,        // handle to process
+  DWORD dwPriorityClass   // priority class
+);
+
 
 __declspec(dllimport)
 void
