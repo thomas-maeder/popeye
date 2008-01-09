@@ -40,9 +40,9 @@
  **
  **************************** End of List ******************************/
 
-#ifdef macintosh	/* is always defined on macintosh's  SB */
-#	define SEGMIO
-#	include "pymac.h"
+#ifdef macintosh    /* is always defined on macintosh's  SB */
+#   define SEGMIO
+#   include "pymac.h"
 #endif
 
 #ifdef ASSERT
@@ -52,7 +52,7 @@
  * This way, "#ifdef ASSERT" is not clobbering the source.
  */
 #define assert(x)
-#endif	/* ASSERT */
+#endif  /* ASSERT */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -78,7 +78,7 @@ static
 char AlphaStip[20];
 
 #define MAXNEST 10
-#define UPCASE(c)   toupper(c)	    /* (c+('A'-'a')) */
+#define UPCASE(c)   toupper(c)      /* (c+('A'-'a')) */
 /* This is only correct, cause only lowercase letters are passed
    as arguments
 */
@@ -158,33 +158,33 @@ static char *TokenString[LangCount][TokenCount] = {
 };
 
 #define WCcentered    0
-#define WCleft	      1
+#define WCleft        1
 #define WCLaTeX       2
 
 void WriteConditions(int alignment);
 
 /***** twinning ***** */
 
-#define TwinMove	 0
-#define TwinExchange	 1
-#define TwinStip	 2
-#define TwinAdd		 3
-#define TwinRemove	 4
-#define TwinContinued	 5
-#define TwinRotate	 6
-#define TwinCond	 7
-#define TwinPolish	 8
-#define TwinMirror	 9
-#define TwinMirra1h1	10
-#define TwinMirra1a8	11
-#define TwinMirra1h8	12
-#define TwinMirra8h1	13
-#define TwinShift	14
-#define TwinSubstitute	15
+#define TwinMove     0
+#define TwinExchange     1
+#define TwinStip     2
+#define TwinAdd      3
+#define TwinRemove   4
+#define TwinContinued    5
+#define TwinRotate   6
+#define TwinCond     7
+#define TwinPolish   8
+#define TwinMirror   9
+#define TwinMirra1h1    10
+#define TwinMirra1a8    11
+#define TwinMirra1h8    12
+#define TwinMirra8h1    13
+#define TwinShift   14
+#define TwinSubstitute  15
 #define TwinForsyth 16
-#define TwinCount	17
+#define TwinCount   17
 
-char	*TwinString[LangCount][TwinCount] = {
+char    *TwinString[LangCount][TwinCount] = {
   { /* francais */
     /* 0*/  "deplacement",
     /* 1*/  "echange",
@@ -246,25 +246,25 @@ char	*TwinString[LangCount][TwinCount] = {
 
 /***** twinning ***** end */
 
-static char	**TokenTab;	/* set according to language */
-static char	**OptTab;	/* set according to language */
-static char	**CondTab;	/* set according to language */
+static char **TokenTab; /* set according to language */
+static char **OptTab;   /* set according to language */
+static char **CondTab;  /* set according to language */
 
-static char	 **VariantTypeTab;
+static char  **VariantTypeTab;
 static char    **ExtraCondTab;
-static char	**TwinTab;
-static char	LastChar;
+static char **TwinTab;
+static char LastChar;
 
-static	FILE	*TraceFile;
-static	FILE	*InputStack[MAXNEST];
+static  FILE    *TraceFile;
+static  FILE    *InputStack[MAXNEST];
 
-static	FILE	*LaTeXFile, *SolFile;
-static	  char *LaTeXPiecesAbbr[PieceCount];
-static	  char *LaTeXPiecesFull[PieceCount];
+static  FILE    *LaTeXFile, *SolFile;
+static    char *LaTeXPiecesAbbr[PieceCount];
+static    char *LaTeXPiecesFull[PieceCount];
 void LaTeXStr(char *line);
 char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
 
-static	int	NestLevel=0;
+static  int NestLevel=0;
 
 extern echiquier ProofBoard, PosA;
 extern square Proof_rb, Proof_rn, rbA, rnA;
@@ -272,7 +272,7 @@ extern Flags ProofSpec[64], SpecA[64];
 extern imarr  isquareA;
 boolean OscillatingKingsColour;  /* actually couleur but this is all a hack */
 
-void	OpenInput(char *s)
+void    OpenInput(char *s)
 {
   if((InputStack[0] = fopen(s,"r")) == NULL)
   {
@@ -280,7 +280,7 @@ void	OpenInput(char *s)
   }
 }
 
-void	CloseInput(void)
+void    CloseInput(void)
 {
   if(InputStack[0] != stdin)
   {
@@ -289,10 +289,10 @@ void	CloseInput(void)
 }
 
 /* These two arrays should have the same size */
-#define LINESIZE	256
+#define LINESIZE    256
 
-static char	InputLine[LINESIZE];	/* This array contains the input as is */
-static char	TokenLine[LINESIZE];	/* This array contains the lowercase input */
+static char InputLine[LINESIZE];    /* This array contains the input as is */
+static char TokenLine[LINESIZE];    /* This array contains the lowercase input */
 
 static char SpaceChar[] = " \t\n\r;,.:";
 static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&";
@@ -436,7 +436,7 @@ static char *ReadNextTokStr(void) {
     t= TokenLine;
     do {
       *p++= ch;
-      /*	       *t++= (isupper(ch)?tolower(ch):ch);	*/
+      /*           *t++= (isupper(ch)?tolower(ch):ch);  */
       *t++= (isupper((int)ch)?tolower((int)ch):ch);
       /* EBCDIC support ! HD */
     } while (strchr(TokenChar,ch= NextChar()));
@@ -466,7 +466,7 @@ static char *ReadNextCaseSensitiveTokStr(void) {
     t= TokenLine;
     do {
       *p++= ch;
-      /*	       *t++= (isupper(ch)?tolower(ch):ch);	*/
+      /*           *t++= (isupper(ch)?tolower(ch):ch);  */
       *t++= ch;
       /* EBCDIC support ! HD */
     } while (strchr(TokenChar,ch= NextChar()));
@@ -487,22 +487,22 @@ static char *ReadNextCaseSensitiveTokStr(void) {
 
 boolean sncmp(char *a, char *b) {
   while (*b) {
-    /*	if ((isupper(*a)?tolower(*a):*a) != *b++) {	*/
-	if ((isupper((int)*a)?tolower((int)*a):*a) != *b++) {
+    /*  if ((isupper(*a)?tolower(*a):*a) != *b++) { */
+    if ((isupper((int)*a)?tolower((int)*a):*a) != *b++) {
       /* EBCDIC support ! HD */
       return False;
-	}
-	a++;
+    }
+    a++;
   }
   return True;
 }
 
 int GetIndex(int indexx,int limit, char **list, char *tok) {
   while (indexx < limit) {
-	if (sncmp(list[indexx],tok)) {
+    if (sncmp(list[indexx],tok)) {
       return indexx;
-	}
-	indexx++;
+    }
+    indexx++;
   }
   return -1;
 }
@@ -511,17 +511,17 @@ int GetUniqIndex(int limit, char **list, char *tok) {
   int indexx;
 
   if ((indexx= GetIndex(0,limit,list,tok)) >= 0) {
-	if (   strlen(tok) == strlen(list[indexx])
+    if (   strlen(tok) == strlen(list[indexx])
            || GetIndex(indexx + 1,limit,list,tok) < 0)
-	{
+    {
       return indexx;
-	}
-	else {
+    }
+    else {
       return -1;
-	}
+    }
   }
   else {
-	return -2;
+    return -2;
   }
 }
 
@@ -541,7 +541,7 @@ long int ReadBGLNumber(char* inptr, char** endptr)
   char* dpp;
   *endptr= inptr;
   while (**endptr && strchr("0123456789.,-", **endptr))
-    /* isdigit(**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-'))	*/
+    /* isdigit(**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-')) */
     (*endptr)++;
   len= *endptr-inptr;
   if (len > 11)
@@ -594,23 +594,23 @@ static void ReadBeginSpec(void) {
   char *tok;
 
   while (True) {
-	TokenTab= TokenString[0];
-	tok= ReadNextTokStr();
-	for (ActLang= 0; ActLang<LangCount; ActLang++) {
+    TokenTab= TokenString[0];
+    tok= ReadNextTokStr();
+    for (ActLang= 0; ActLang<LangCount; ActLang++) {
       TokenTab= &(TokenString[ActLang][0]);
       if (GetUniqIndex(TokenCount,TokenTab,tok) == BeginProblem) {
-		OptTab= &(OptString[ActLang][0]);
-		CondTab= &(CondString[ActLang][0]);
-		TwinTab= &(TwinString[ActLang][0]);
-		VariantTypeTab= &(VariantTypeString[ActLang][0]);
-		ExtraCondTab= &(ExtraCondString[ActLang][0]);
-		PieceTab= PieNamString[ActLang];
-		PieSpTab= PieSpString[ActLang];
-		InitMsgTab(ActLang, True);
-		return;
+        OptTab= &(OptString[ActLang][0]);
+        CondTab= &(CondString[ActLang][0]);
+        TwinTab= &(TwinString[ActLang][0]);
+        VariantTypeTab= &(VariantTypeString[ActLang][0]);
+        ExtraCondTab= &(ExtraCondString[ActLang][0]);
+        PieceTab= PieNamString[ActLang];
+        PieSpTab= PieSpString[ActLang];
+        InitMsgTab(ActLang, True);
+        return;
       }
-	}
-	IoErrorMsg(NoBegOfProblem, 0);
+    }
+    IoErrorMsg(NoBegOfProblem, 0);
   }
 }
 
@@ -626,9 +626,9 @@ int GetPieNamIndex(char a,char b) {
        indexx<PieceCount;
        indexx++,ch+= sizeof(PieceChar))
   {
-	if (*ch == a && *(ch + 1) == b) {
+    if (*ch == a && *(ch + 1) == b) {
       return indexx;
-	}
+    }
   }
   return 0;
 }
@@ -679,16 +679,16 @@ static char *ParseLaTeXPieces(char *tok) {
   */
 
   if (strlen(tok) < 3) {
-	while (true) {
+    while (true) {
       Name= GetPieNamIndex(*tok, strlen(tok) == 1 ? ' ' : tok[1]);
 
       if (Name < King) {
-		return tok;
+        return tok;
       }
 
       if (LaTeXPiecesAbbr[Name]) {
-		free(LaTeXPiecesAbbr[Name]);
-		free(LaTeXPiecesFull[Name]);
+        free(LaTeXPiecesAbbr[Name]);
+        free(LaTeXPiecesFull[Name]);
       }
 
       tok= ReadNextTokStr();
@@ -697,8 +697,8 @@ static char *ParseLaTeXPieces(char *tok) {
       while (tok[i]) {
         /* to avoid compiler warnings below made "better readable" */
         /*      LaTeXPiecesAbbr[Name][i]= tok[i++]+ 'A' - 'a';          */
-		LaTeXPiecesAbbr[Name][i]= tok[i] + 'A' - 'a';
-		i++;
+        LaTeXPiecesAbbr[Name][i]= tok[i] + 'A' - 'a';
+        i++;
       }
       LaTeXPiecesAbbr[Name][i]= tok[i];
 
@@ -707,7 +707,7 @@ static char *ParseLaTeXPieces(char *tok) {
       strcpy(LaTeXPiecesFull[Name], tok);
 
       tok= ReadNextTokStr();
-	}
+    }
   }
 
   return tok;
@@ -727,10 +727,10 @@ char *LaTeXPiece(piece Name) {
 } /* LaTeXPiece */
 
 static char *ParseFieldList(
-  char	*tok,
-  PieNam	Name,
-  Flags	Spec,
-  char	echo)
+  char  *tok,
+  PieNam    Name,
+  Flags Spec,
+  char  echo)
 {
   /* We interprete the tokenString as FieldList
      If we return always the next tokenstring
@@ -738,23 +738,23 @@ static char *ParseFieldList(
   int     Field, FieldCnt= 0;
 
   while (True) {
-	if (*tok && tok[1] && (Field=FieldNum(*tok,tok[1]))) {
+    if (*tok && tok[1] && (Field=FieldNum(*tok,tok[1]))) {
       if (e[Field] != vide) {
-		if (!echo) {
+        if (!echo) {
           WriteSquare(Field);
           StdChar(' ');
           Message(OverwritePiece);
-		}
-		if (Field == rb) {
+        }
+        if (Field == rb) {
           rb= initsquare;
-		}
-		if (Field == rn) {
+        }
+        if (Field == rn) {
           rn= initsquare;
-		}
+        }
       }
       /* echo the piece if desired -- twinning */
       if (echo) {
-		if (LaTeXout) {
+        if (LaTeXout) {
           sprintf(GlobalStr,
                   "%s\\%c%s %c%c",
                   e[Field] == vide ? "+" : "",
@@ -765,17 +765,17 @@ static char *ParseFieldList(
                   'a'-nr_of_slack_files_left_of_board+Field%onerow,
                   '1'-nr_of_slack_rows_below_board+Field/onerow);
           strcat(ActTwin, GlobalStr);
-		}
-		if (e[Field] == vide) {
+        }
+        if (e[Field] == vide) {
           StdChar(echo);
-		}
-		WriteSpec(Spec, Name);
-		WritePiece(Name);
-		WriteSquare(Field);
-		StdChar(' ');
+        }
+        WriteSpec(Spec, Name);
+        WritePiece(Name);
+        WriteSquare(Field);
+        StdChar(' ');
       }
       if (TSTFLAG(Spec, Neutral)) {
-		Spec |= BIT(Black) + BIT(White);
+        Spec |= BIT(Black) + BIT(White);
       }
       spec[Field] = Spec;
       e[Field] = TSTFLAG(Spec, White)
@@ -783,29 +783,29 @@ static char *ParseFieldList(
         : - Name;
       if (!CondFlag[dynasty]
           && (Name == King || TSTFLAG(Spec,Royal))) {
-		if (TSTFLAG(Spec, White)) {
+        if (TSTFLAG(Spec, White)) {
           if (SetKing(&rb, Field)) {
-			return ReadNextTokStr();
+            return ReadNextTokStr();
           }
-		}
-		if (TSTFLAG(Spec, Black)) {
+        }
+        if (TSTFLAG(Spec, Black)) {
           if (SetKing(&rn, Field)) {
-			return ReadNextTokStr();
+            return ReadNextTokStr();
           }
-		}
+        }
       }
       tok+= 2;
       FieldCnt++;
       continue;
-	}
-	if (FieldCnt) {
+    }
+    if (FieldCnt) {
       if (*tok) {
-		ErrorMsg(WrongFieldList);
+        ErrorMsg(WrongFieldList);
       }
       return ReadNextTokStr();
-	}
-	ErrorMsg(MissngFieldList);
-	tok= ReadNextTokStr();
+    }
+    ErrorMsg(MissngFieldList);
+    tok= ReadNextTokStr();
   }
 }
 
@@ -895,11 +895,11 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
 
 square NextSquare(square sq) {
   if (sq%onerow<nr_of_slack_files_left_of_board+nr_files_on_board-1)
-	return sq+1;
+    return sq+1;
   else if (sq>=square_a2 && sq<=haut)
-	return sq - onerow - (nr_files_on_board-1);
+    return sq - onerow - (nr_files_on_board-1);
   else
-	return initsquare;
+    return initsquare;
 }
 
 square SetSquare(square sq, piece p, boolean bw, boolean *neut)
@@ -907,14 +907,14 @@ square SetSquare(square sq, piece p, boolean bw, boolean *neut)
   e[sq]= bw ? -p : p;
   spec[sq]= bw ? BIT(Black) : BIT(White);
   if (*neut) {
-	spec[sq]= BIT(Black) | BIT(White) | BIT(Neutral);
-	e[sq] = p;  /* must be 'white' for neutral */
-	SETFLAG(PieSpExFlags, Neutral);
+    spec[sq]= BIT(Black) | BIT(White) | BIT(Neutral);
+    e[sq] = p;  /* must be 'white' for neutral */
+    SETFLAG(PieSpExFlags, Neutral);
   }
   if (!CondFlag[dynasty] && p == King) {
-	if (bw)
+    if (bw)
       SetKing(&rn, sq);
-	else
+    else
       SetKing(&rb, sq);
   }
   *neut= false;
@@ -930,7 +930,7 @@ static char *ParseForsyth(boolean output) {
   char* tok= ReadNextCaseSensitiveTokStr();
 
   for (bnp= boardnum; *bnp; bnp++)
-	e[*bnp]= vide;
+    e[*bnp]= vide;
   rb= rn= initsquare;
 
   sprintf(GlobalStr, "  %s  \n", tok);
@@ -939,48 +939,48 @@ static char *ParseForsyth(boolean output) {
     StdString(tok);
   }
   while (sq && *tok) {
-	if (isdigit((int)*tok)) {
+    if (isdigit((int)*tok)) {
       num= (*tok++) - '0';
       if (isdigit((int)*tok))
-		num += num * 9 + (*tok++) - '0';
+        num += num * 9 + (*tok++) - '0';
       for (;num && sq;num--) {
-		e[sq]= vide;
-		spec[sq]= BorderSpec;
-		sq= NextSquare(sq);
+        e[sq]= vide;
+        spec[sq]= BorderSpec;
+        sq= NextSquare(sq);
       }
       NeutralFlag= false;
-	}
-	else if (isalpha((int)*tok)) {
+    }
+    else if (isalpha((int)*tok)) {
       pc= GetPieNamIndex(tolower(*tok),' ');
       if (pc >= King) {
-		sq= SetSquare(sq, pc,
+        sq= SetSquare(sq, pc,
                       islower((int)InputLine[(tok++) - TokenLine]), &NeutralFlag);
-		if (NeutralFlag) 
+        if (NeutralFlag) 
           SETFLAG(PieSpExFlags,Neutral);
       }
       else {
-		tok++;			 /* error */
+        tok++;           /* error */
       }
-	}
-	else if (*tok == '.') {
+    }
+    else if (*tok == '.') {
       if (*(tok+1) == '=') {
-		NeutralFlag= true;
-		tok++;
+        NeutralFlag= true;
+        tok++;
       }
       pc= GetPieNamIndex(tolower(*(tok+1)), tolower(*(tok+2)));
       if (pc >= King) {
-		sq= SetSquare(sq, pc,
+        sq= SetSquare(sq, pc,
                       islower((int)InputLine[(tok+1 - TokenLine)]), &NeutralFlag);
-		if (NeutralFlag) 
+        if (NeutralFlag) 
           SETFLAG(PieSpExFlags,Neutral);
       }
       tok += 3;
-	}
-	else if (*tok == '=') {
+    }
+    else if (*tok == '=') {
       NeutralFlag= true;
       tok++;
-	}
-	else
+    }
+    else
       tok++;
   }
   return ReadNextTokStr();
@@ -1002,101 +1002,101 @@ static char *ParsePieSpec(char echo) {
 
   tok= ReadNextTokStr();
   while (True) {
-	CLEARFL(PieSpFlags);
-	while ((ps= GetUniqIndex(PieSpCount,PieSpTab,tok)) >= -1) {
+    CLEARFL(PieSpFlags);
+    while ((ps= GetUniqIndex(PieSpCount,PieSpTab,tok)) >= -1) {
       if (ps == -1) {
-		IoErrorMsg(PieSpecNotUniq,0);
+        IoErrorMsg(PieSpecNotUniq,0);
       }
       else {
-		Flags TmpFlg= PieSpFlags&ColorFlag;
-		if (  TmpFlg
+        Flags TmpFlg= PieSpFlags&ColorFlag;
+        if (  TmpFlg
               && (TmpFlg & BIT(ps))
               && (TmpFlg != (Flags)BIT(ps)))
-		{
+        {
           IoErrorMsg(WBNAllowed,0);
-		}
-		else {
+        }
+        else {
           SETFLAG(PieSpFlags,ps);
           SETFLAG(PieSpExFlags,ps);
-		}
+        }
       }
       tok= ReadNextTokStr();
-	}
-	if (PieSpFlags & ColorFlag) {
+    }
+    if (PieSpFlags & ColorFlag) {
       tok= PrsPieNam(tok, PieSpFlags, echo);
       SpecCnt++;
-	}
-	else {
+    }
+    else {
       if (SpecCnt) {
-		return tok;
+        return tok;
       }
       IoErrorMsg(NoColorSpec,0);
       tok= ReadNextTokStr();
-	}
+    }
   }
 }
 
 static char *ParseFlow(char *tok) {
   /* seriesmovers with introducory moves */
   if (strstr(tok,"->")) {
-	if ((introenonce= atoi(tok)) < 1) {
+    if ((introenonce= atoi(tok)) < 1) {
       IoErrorMsg(WrongInt, 0);
-	}
-	StipFlags |= FlowBit(Intro);
-	tok= strstr(tok, "->")+2;
+    }
+    StipFlags |= FlowBit(Intro);
+    tok= strstr(tok, "->")+2;
   }
   if (strncmp("exact-", tok, 6) == 0) {
-	StipFlags|= FlowBit(Exact);
-	OptFlag[nothreat] = True;
-	tok+= 6;
+    StipFlags|= FlowBit(Exact);
+    OptFlag[nothreat] = True;
+    tok+= 6;
   }
   if (strncmp("ser-", tok, 4) == 0) {
-	StipFlags|= FlowBit(Series);
-	tok+=4;
+    StipFlags|= FlowBit(Series);
+    tok+=4;
   }
   else {
-	StipFlags|= FlowBit(Alternate);
+    StipFlags|= FlowBit(Alternate);
   }
   if (strncmp("semi-", tok, 5) == 0) {
-	StipFlags|= FlowBit(Semi);
-	return tok+5;
+    StipFlags|= FlowBit(Semi);
+    return tok+5;
   }
   if (strncmp("reci-", tok, 5) == 0) {
-	StipFlags|= FlowBit(Reci);
-	return tok+5;
+    StipFlags|= FlowBit(Reci);
+    return tok+5;
   }
   /* proof games  V3.35  TLi */
   if (strncmp("dia", tok, 3) == 0) {
-	StipFlags|= FlowBit(Exact);
-	StipFlags|= SortBit(Proof);
-	strcpy(NonReciAlphaEnd, " dia");
-	AlphaEnd= NonReciAlphaEnd;
-	return tok+3;
+    StipFlags|= FlowBit(Exact);
+    StipFlags|= SortBit(Proof);
+    strcpy(NonReciAlphaEnd, " dia");
+    AlphaEnd= NonReciAlphaEnd;
+    return tok+3;
   }
 #ifndef DATABASE
   /* transform position a into position b */
   if (strncmp("a=>b", tok, 4) == 0) {
-	int i;
-	StipFlags|= SortBit(Proof);
-	strcpy(NonReciAlphaEnd, " a=>b");
-	AlphaEnd= NonReciAlphaEnd;
-	for (i=maxsquare-1; i>=0; i--) {
+    int i;
+    StipFlags|= SortBit(Proof);
+    strcpy(NonReciAlphaEnd, " a=>b");
+    AlphaEnd= NonReciAlphaEnd;
+    for (i=maxsquare-1; i>=0; i--) {
       PosA[i]=e[i];
-	}
-	for (i= 0; i< 64; i++) {
+    }
+    for (i= 0; i< 64; i++) {
       SpecA[i]=spec[boardnum[i]];
       spec[i]= EmptySpec;
       e[boardnum[i]]= vide;
-	}
-	rnA=rn;
-	rbA=rb;
-	rn=rb=initsquare;
-	for (i= 0; i < maxinum; i++) {
+    }
+    rnA=rn;
+    rbA=rb;
+    rn=rb=initsquare;
+    for (i= 0; i < maxinum; i++) {
       isquareA[i]= isquare[i];
       isquare[i]= initsquare;
-	}
-	flag_atob= true;
-	return tok+4;
+    }
+    flag_atob= true;
+    return tok+4;
   }
 #endif
   return tok;
@@ -1136,8 +1136,8 @@ static char *ParseSort(char *tok)
 boolean ParsedReciStip;
 
 static char *ParsStips(char *tok) {
-  if (SortFlag(Proof)) {		 /* proof games */
-	return tok;
+  if (SortFlag(Proof)) {         /* proof games */
+    return tok;
   }
 
   ParsedReciStip= false;
@@ -1149,120 +1149,120 @@ static char *ParsStips(char *tok) {
 
   /* parsing reci stip */
   if (FlowFlag(Reci) && *tok == '(' && strchr(tok, ')')) {
-	char ReciStip[128];
-	sprintf(ReciStip, "%s", tok+1);
+    char ReciStip[128];
+    sprintf(ReciStip, "%s", tok+1);
 
-	tok= strchr(ReciStip, ')');
-	*tok= '\0';
-	tok++;
+    tok= strchr(ReciStip, ')');
+    *tok= '\0';
+    tok++;
 
-	sprintf(ReciAlphaEnd, " %s", ReciStip);
+    sprintf(ReciAlphaEnd, " %s", ReciStip);
 
-	/* parsing of ## and # exchange */
-	if (strstr(tok, "##!")) {
+    /* parsing of ## and # exchange */
+    if (strstr(tok, "##!")) {
       ReciStipulation= stip_doublemate;
       ReciDoubleMate = true;
       CounterMate = true;
       strcpy(NonReciAlphaEnd, " ##!");
       return tok+3;
-	}
-	else if (strstr(ReciStip, "##")) {
+    }
+    else if (strstr(ReciStip, "##")) {
       ReciStipulation= stip_doublemate;
       ReciDoubleMate = true;
-	}
-	else if (strstr(ReciStip, "#=")) {
+    }
+    else if (strstr(ReciStip, "#=")) {
       ReciStipulation= stip_mate_or_stale;
       ReciDoubleMate = true;
-	}
-	else if (strstr(ReciStip, "#")) {
+    }
+    else if (strstr(ReciStip, "#")) {
       ReciStipulation= stip_mate;
-	}
-	else if (strstr(ReciStip, "==")) {
+    }
+    else if (strstr(ReciStip, "==")) {
       /* parsing of == and = exchange */
       ReciStipulation= stip_dblstale;
-	}
-	else if (strstr(ReciStip, "!=")) {
+    }
+    else if (strstr(ReciStip, "!=")) {
       ReciStipulation= stip_autostale;
-	}
-	else if (strstr(ReciStip, "=")) {
+    }
+    else if (strstr(ReciStip, "=")) {
       ReciStipulation= stip_stale;
-	}
-	else if (ReciStip[0] == 'z') {
+    }
+    else if (ReciStip[0] == 'z') {
       ReciStipulation= stip_target;
       ReciAlphaEnd[2]= '\0';
       ReciTargetField= FieldNum(ReciStip[1], ReciStip[2]);
       if (!ReciTargetField) {
-		IoErrorMsg(MissngFieldList, 0);
-		return (char *)0;
+        IoErrorMsg(MissngFieldList, 0);
+        return (char *)0;
       }
-	}
-	else if (strstr(ReciStip, "+")) {
+    }
+    else if (strstr(ReciStip, "+")) {
       ReciStipulation= stip_check;
-	}
-	else if (strstr(ReciStip, "x")) {
+    }
+    else if (strstr(ReciStip, "x")) {
       ReciStipulation= stip_capture;
-	}
-	else if (strstr(ReciStip, "%")) {
+    }
+    else if (strstr(ReciStip, "%")) {
       ReciStipulation= stip_steingewinn;
-	}
-	else if (strstr(ReciStip, "ep")) {
+    }
+    else if (strstr(ReciStip, "ep")) {
       ReciStipulation= stip_ep;
-	}
-	else if (strstr(ReciStip, "ctr")) {
+    }
+    else if (strstr(ReciStip, "ctr")) {
       ReciStipulation= stip_circuitB;
-	}
-	else if (strstr(ReciStip, "<>r")) {
+    }
+    else if (strstr(ReciStip, "<>r")) {
       ReciStipulation= stip_exchangeB;
-	}
-	else if (strstr(ReciStip, "ct")) {
+    }
+    else if (strstr(ReciStip, "ct")) {
       ReciStipulation= stip_circuit;
-	}
-	else if (strstr(ReciStip, "<>")) {
+    }
+    else if (strstr(ReciStip, "<>")) {
       ReciStipulation= stip_exchange;
-	}
-	else if (strstr(ReciStip, "00")) {
+    }
+    else if (strstr(ReciStip, "00")) {
       ReciStipulation= stip_castling;
       ReciAlphaEnd[0]= '\0';
-	}
-	else if (strstr(ReciStip, "~")) {
+    }
+    else if (strstr(ReciStip, "~")) {
       ReciStipulation= stip_any;
-	}
-	else { IoErrorMsg(UnrecStip, 0);
+    }
+    else { IoErrorMsg(UnrecStip, 0);
       return (char *)0;
-	}
-	ParsedReciStip= true;
+    }
+    ParsedReciStip= true;
   } /* parsing reci stip */
 
   /* parsing ordinary stip */
   if (strstr(tok, "##!")) {
-	NonReciStipulation= stip_doublemate;
-	NonReciDoubleMate = true;
-	CounterMate = true;
-	strcpy(NonReciAlphaEnd, " ##!");
-	return tok+3;
+    NonReciStipulation= stip_doublemate;
+    NonReciDoubleMate = true;
+    CounterMate = true;
+    strcpy(NonReciAlphaEnd, " ##!");
+    return tok+3;
   }
   else if (strstr(tok, "##")) {
-	NonReciStipulation= stip_doublemate;
-	NonReciDoubleMate = true;
-	strcpy(NonReciAlphaEnd, " ##");
-	return tok+2;
+    NonReciStipulation= stip_doublemate;
+    NonReciDoubleMate = true;
+    strcpy(NonReciAlphaEnd, " ##");
+    return tok+2;
   }
   else if (strstr(tok, "#=")) {
-	NonReciStipulation= stip_mate_or_stale;
-	NonReciDoubleMate = true;
-	strcpy(NonReciAlphaEnd, " #=");
-	return tok+2;
+    NonReciStipulation= stip_mate_or_stale;
+    NonReciDoubleMate = true;
+    strcpy(NonReciAlphaEnd, " #=");
+    return tok+2;
   }
   else if (strstr(tok, "#")) {
-	NonReciStipulation= stip_mate;
-	strcpy(NonReciAlphaEnd, " #");
-	return tok+1;
+    NonReciStipulation= stip_mate;
+    strcpy(NonReciAlphaEnd, " #");
+    return tok+1;
   }
   else if (strstr(tok, "==")) {
-	/* parsing of == and = exchange */
-	NonReciStipulation= stip_dblstale;
-	strcpy(NonReciAlphaEnd, " ==");
-	return tok+2;
+    /* parsing of == and = exchange */
+    NonReciStipulation= stip_dblstale;
+    strcpy(NonReciAlphaEnd, " ==");
+    return tok+2;
   }
   else
     if (strstr(tok, "!=")) {
@@ -1279,8 +1279,8 @@ static char *ParsStips(char *tok) {
       NonReciStipulation= stip_target;
       NonReciTargetField= FieldNum(tok[1], tok[2]);
       if (!NonReciTargetField) {
-	    IoErrorMsg(MissngFieldList, 0);
-	    return (char *)0;
+        IoErrorMsg(MissngFieldList, 0);
+        return (char *)0;
       }
       strcpy(NonReciAlphaEnd, " z");
       return tok+3;
@@ -1400,36 +1400,36 @@ static char *ReadSquares(smallint which) {
 
   l=strlen(tok);
   if (l&1) {
-	if (which != ReadFrischAuf) {
+    if (which != ReadFrischAuf) {
       IoErrorMsg(WrongFieldList, 0);
-	}
-	return tok;
+    }
+    return tok;
   }
   k= 0;
   while (*tok) {
-	i= FieldNum(*tok, tok[1]);
-	if (i != 0) {
+    i= FieldNum(*tok, tok[1]);
+    if (i != 0) {
       switch (which) {
       case ReadFrischAuf:
-		k++;
-		if (e[i] == vide || e[i] == obs || is_pawn(e[i])) {
+        k++;
+        if (e[i] == vide || e[i] == obs || is_pawn(e[i])) {
           Message(NoFrischAufPromPiece);
-		}
-		else {
+        }
+        else {
           SETFLAG(spec[i], FrischAuf);
-		}
-		break;
+        }
+        break;
 
       case ReadImitators:
-		isquare[k++]= i;
-		break;
+        isquare[k++]= i;
+        break;
 
       case ReadHoles:
-		e[i]= obs;
-		break;
+        e[i]= obs;
+        break;
 
       case ReadEpSquares:
-		switch (EpSquaresRead++) {
+        switch (EpSquaresRead++) {
         case 0:
           ep[1]= i;
           break;
@@ -1438,19 +1438,19 @@ static char *ReadSquares(smallint which) {
           break;
         default:
           Message(ToManyEpKeySquares);
-		}
-		break;
+        }
+        break;
 
       case ReadBlRoyalSq:
-		rn= bl_royal_sq= i;
-		break;
+        rn= bl_royal_sq= i;
+        break;
 
       case ReadWhRoyalSq:
-		rb= wh_royal_sq= i;
-		break;
+        rb= wh_royal_sq= i;
+        break;
 
       case ReadNoCastlingSquares:
-		switch (i) {
+        switch (i) {
         case square_a1:
           CLRFLAGMASK(no_castling,ra1_cancastle);
           break;
@@ -1471,26 +1471,26 @@ static char *ReadSquares(smallint which) {
           break;
         default:
           break;
-		}
-		break;
+        }
+        break;
 
       default:
-		SETFLAG(sq_spec[i], which);
-		break;
+        SETFLAG(sq_spec[i], which);
+        break;
       }
       tok+= 2;
-	}
-	else {
+    }
+    else {
       if (which != ReadFrischAuf || k != 0) {
-		IoErrorMsg(WrongFieldList, 0);
+        IoErrorMsg(WrongFieldList, 0);
       }
       return tok;
-	}
+    }
   }
   if (which == ReadImitators) {
-	for (n= 1; n <= maxply; n++) {
+    for (n= 1; n <= maxply; n++) {
       inum[n]= k;
-	}
+    }
   }
 
   /* This is an ugly hack, but due to the new feature ReadFrischAuf,
@@ -1499,7 +1499,7 @@ static char *ReadSquares(smallint which) {
   */
   /* of a SquareList. */
   if (which == ReadFrischAuf) {
-	tok = ReadNextTokStr();
+    tok = ReadNextTokStr();
   }
   return tok;
 } /* ReadSquares */
@@ -1521,154 +1521,154 @@ static char *ParseRex(boolean *rex, Cond what) {
 #define gpOsc 5
 #define gpAnnan 6
 static char *ParseVariant(boolean *type, int group) {
-  int	    VariantType;
+  int       VariantType;
   char    *tok=ReadNextTokStr();
 
   if (type != NULL)
     *type= False;
 
   do {
-	VariantType =
-	  GetUniqIndex(VariantTypeCount, VariantTypeTab, tok);
+    VariantType =
+      GetUniqIndex(VariantTypeCount, VariantTypeTab, tok);
 
-	if (VariantType < -1) {
+    if (VariantType < -1) {
       break;
-	}
+    }
 
-	if (VariantType == -1) {
+    if (VariantType == -1) {
       IoErrorMsg(CondNotUniq,0);
-	}
-	else if (VariantType==TypeB && group==gpType) {
+    }
+    else if (VariantType==TypeB && group==gpType) {
       *type= True;
-	}
-	else if (VariantType==TypeB && group==gpOsc) {
+    }
+    else if (VariantType==TypeB && group==gpOsc) {
       OscillatingKingsTypeB[OscillatingKingsColour]= True;
-	}
-	else if (VariantType==TypeC && group==gpOsc) {
+    }
+    else if (VariantType==TypeC && group==gpOsc) {
       OscillatingKingsTypeC[OscillatingKingsColour]= True;
-	}
-	else if (VariantType==TypeB && group==gpAnnan) {
+    }
+    else if (VariantType==TypeB && group==gpAnnan) {
       annanvar= 1;
-	}
-	else if (VariantType==TypeC && group==gpAnnan) {
+    }
+    else if (VariantType==TypeC && group==gpAnnan) {
       annanvar= 2;
-	}
-	else if (VariantType==TypeD && group==gpAnnan) {
+    }
+    else if (VariantType==TypeD && group==gpAnnan) {
       annanvar= 3;
-	}
-	else if (VariantType==Type1 && group==gpType) {
+    }
+    else if (VariantType==Type1 && group==gpType) {
       SingleBoxType = singlebox_type1;
-	}
-	else if (VariantType==Type2 && group==gpType) {
+    }
+    else if (VariantType==Type2 && group==gpType) {
       SingleBoxType = singlebox_type2;
-	}
-	else if (VariantType==Type3 && group==gpType) {
+    }
+    else if (VariantType==Type3 && group==gpType) {
       SingleBoxType = singlebox_type3;
-	}
-	else if (VariantType==PionAdverse && group==gpSentinelles) {
+    }
+    else if (VariantType==PionAdverse && group==gpSentinelles) {
       *type= True;
-	}
-	else if (VariantType==PionNeutral && group==gpSentinelles) {
+    }
+    else if (VariantType==PionNeutral && group==gpSentinelles) {
       SentPionNeutral= True;
-	}
-	else if (VariantType==PionNoirMaximum && group==gpSentinelles) {
+    }
+    else if (VariantType==PionNoirMaximum && group==gpSentinelles) {
       tok= ReadNextTokStr();
       max_pn= atoi(tok);
       while (*tok && '0' <= *tok && *tok <= '9') {
-		tok++;
+        tok++;
       }
       if (max_pn < 0 || max_pn > 64)
-		max_pn=8;
-	}
-	else if (VariantType==PionBlancMaximum && group==gpSentinelles)
-	{
+        max_pn=8;
+    }
+    else if (VariantType==PionBlancMaximum && group==gpSentinelles)
+    {
       tok= ReadNextTokStr();
       max_pb= atoi(tok);
       while (*tok && '0' <= *tok && *tok <= '9') {
-		tok++;
+        tok++;
       }
       if (max_pb < 0 || max_pb > 64) {
-		max_pb=8;
+        max_pb=8;
       }
-	}
-	else if (VariantType==PionTotalMaximum && group==gpSentinelles)
-	{
+    }
+    else if (VariantType==PionTotalMaximum && group==gpSentinelles)
+    {
       tok= ReadNextTokStr();
       max_pt= atoi(tok);
       while (*tok && '0' <= *tok && *tok <= '9') {
-		tok++;
+        tok++;
       }
       if (max_pb < 0 || max_pb > 64) {
-		max_pb=16;
+        max_pb=16;
       }
-	}
-	else if (VariantType==ParaSent && group==gpSentinelles) {
+    }
+    else if (VariantType==ParaSent && group==gpSentinelles) {
       flagparasent= true;
-	}
-	else if (VariantType==SentBerolina && group==gpSentinelles) {
+    }
+    else if (VariantType==SentBerolina && group==gpSentinelles) {
       sentinelb= pbb;
       sentineln= pbn;
-	}
-	else if (VariantType==AntiCirTypeCheylan && group==gpAntiCirce)
-	{
+    }
+    else if (VariantType==AntiCirTypeCheylan && group==gpAntiCirce)
+    {
       *type= True;
-	}
-	else if (VariantType==AntiCirTypeCalvet && group==gpAntiCirce)
-	{
+    }
+    else if (VariantType==AntiCirTypeCalvet && group==gpAntiCirce)
+    {
       *type= False;
-	}
-	else if (VariantType==Neighbour && group==gpKoeko)
-	{
+    }
+    else if (VariantType==Neighbour && group==gpKoeko)
+    {
       piece tmp_piece;
       switch (strlen(tok= ReadNextTokStr())) {
-	  case 1:
-	    tmp_piece= GetPieNamIndex(*tok,' ');
-	    break;
-	  case 2:
-	    tmp_piece= GetPieNamIndex(*tok,tok[1]);
-	    break;
-	  default:
-		IoErrorMsg(WrongPieceName,0);
-		return tok;
+      case 1:
+        tmp_piece= GetPieNamIndex(*tok,' ');
+        break;
+      case 2:
+        tmp_piece= GetPieNamIndex(*tok,tok[1]);
+        break;
+      default:
+        IoErrorMsg(WrongPieceName,0);
+        return tok;
       }
       switch (tmp_piece) {
-	  case roib:
+      case roib:
         break;
-	  case cb:
+      case cb:
         nocontactfunc= noknightcontact;
         break;
-	  case vizirb:
+      case vizirb:
         nocontactfunc= nowazircontact;
         break;
-	  case fersb:
+      case fersb:
         nocontactfunc= noferscontact;
         break;
-	  case chb:
+      case chb:
         nocontactfunc= nocamelcontact;
         break;
-	  case alfilb:
+      case alfilb:
         nocontactfunc= noalfilcontact;
         break;
-	  case zb:
+      case zb:
         nocontactfunc= nozebracontact;
         break;
-	  case dabb:
+      case dabb:
         nocontactfunc= nodabbabacontact;
         break;
-	  case gib:
+      case gib:
         nocontactfunc= nogiraffecontact;
         break;
-	  case antilb:
+      case antilb:
         nocontactfunc= noantelopecontact;
         break;
-	  default:
+      default:
         IoErrorMsg(WrongPieceName,0);
       }
-	}
-	else {
+    }
+    else {
       IoErrorMsg(NonsenseCombination,0);
-	}
-	tok= ReadNextTokStr();
+    }
+    tok= ReadNextTokStr();
   } while (group==gpSentinelles);
 
   return tok;
@@ -1688,8 +1688,8 @@ static char *ParseExact(boolean *ex_flag, boolean *ul_flag)
   else {
     *ex_flag= exact==GetUniqIndex(CondCount, CondTab, tok);
     if (*ex_flag) {
-	  CondFlag[exact]= true;
-	  tok= ReadNextTokStr();
+      CondFlag[exact]= true;
+      tok= ReadNextTokStr();
     }
   }
   return tok;
@@ -1700,8 +1700,8 @@ char ChameleonSequence[256];
 
 static char *ParseTransPieces(Flags fl)
 {
-  piece	p;
-  char	*tok;
+  piece p;
+  char  *tok;
 
   smallint tp = 0;
   if (TSTFLAG(fl, blanc)) 
@@ -1711,7 +1711,7 @@ static char *ParseTransPieces(Flags fl)
 
 
   while (True) {
-	switch (strlen(tok= ReadNextTokStr())) {
+    switch (strlen(tok= ReadNextTokStr())) {
     case 1:
       p= GetPieNamIndex(*tok,' ');
       break;
@@ -1726,7 +1726,7 @@ static char *ParseTransPieces(Flags fl)
       if (TSTFLAG(fl, noir)) 
         blacktransmpieces[tp] = vide;
       return tok;
-	}
+    }
   if (TSTFLAG(fl, blanc)) {
     whitenormaltranspieces = false;
     whitetransmpieces[tp] = p;
@@ -1741,18 +1741,18 @@ static char *ParseTransPieces(Flags fl)
 }
 
 char *ReadChameleonCirceSequence(void) {
-  piece	old_piece, new_piece;
-  char	*tok, newpiece[3];
+  piece old_piece, new_piece;
+  char  *tok, newpiece[3];
 
   old_piece= vide;
 
   for (new_piece= vide; new_piece < PieceCount; new_piece++) {
-	NextChamCircePiece[new_piece]= new_piece;
+    NextChamCircePiece[new_piece]= new_piece;
   }
   ChameleonSequence[0]= '\0';
 
   while (True) {
-	switch (strlen(tok= ReadNextTokStr())) {
+    switch (strlen(tok= ReadNextTokStr())) {
     case 1:
       new_piece= GetPieNamIndex(*tok,' ');
       break;
@@ -1763,23 +1763,23 @@ char *ReadChameleonCirceSequence(void) {
 
     default:
       return tok;
-	}
-	if (!new_piece) {
+    }
+    if (!new_piece) {
       IoErrorMsg(WrongPieceName,0);
       break;
-	}
-	else {
+    }
+    else {
       InitChamCirce= false;
       if (old_piece != vide) {
-		NextChamCircePiece[old_piece]= new_piece;
-		strcat(ChameleonSequence, "->");
+        NextChamCircePiece[old_piece]= new_piece;
+        strcat(ChameleonSequence, "->");
       }
       old_piece= new_piece;
       sprintf(newpiece,
               "%c%c", UPCASE(*tok), tok[1] == ' ' ? '\0' :
               UPCASE(tok[1]));
       strcat(ChameleonSequence, newpiece);
-	}
+    }
   }
   return tok;
 } /* ReadChameleonCirceSequence */
@@ -1792,44 +1792,44 @@ static char *ParseCond(void) {
   tok= ReadNextTokStr();
   while ((indexx= GetUniqIndex(CondCount,CondTab,tok)) >= -2) {
 
-	if (indexx == -2) {
+    if (indexx == -2) {
       indexx= GetUniqIndex(ExtraCondCount,ExtraCondTab,tok);
       if (indexx == -2) {
-		break;
+        break;
       }
       switch (indexx) {
       case maxi:
-		flagmaxi= true;
-		tok= ParseExact(&CondFlag[exact], &CondFlag[ultra]);
-		CondCnt++;
-		break;
+        flagmaxi= true;
+        tok= ParseExact(&CondFlag[exact], &CondFlag[ultra]);
+        CondCnt++;
+        break;
 
       case ultraschachzwang:
-		flagultraschachzwang= true;
-		tok= ReadNextTokStr();
-		CondCnt++;
-		break;
+        flagultraschachzwang= true;
+        tok= ReadNextTokStr();
+        CondCnt++;
+        break;
 
       case -1:
-		IoErrorMsg(CondNotUniq,0);
-		tok= ReadNextTokStr();
-		break;
+        IoErrorMsg(CondNotUniq,0);
+        tok= ReadNextTokStr();
+        break;
       }
       continue;
-	}
+    }
 
-	if (indexx == -1) {
+    if (indexx == -1) {
       IoErrorMsg(CondNotUniq,0);
       tok= ReadNextTokStr();
       continue;
-	}
-	CondFlag[indexx]= True;
+    }
+    CondFlag[indexx]= True;
 
-	CondCnt++;
-	switch (indexx) {
+    CondCnt++;
+    switch (indexx) {
     case rexincl:
       if (CondFlag[exact])
-		IoErrorMsg(NonSenseRexiExact, 0);
+        IoErrorMsg(NonSenseRexiExact, 0);
       break;
     case biheffalumps:
       CondFlag[heffalumps]= True;
@@ -1853,7 +1853,7 @@ static char *ParseCond(void) {
       break;
     case contactgrid:
       CondFlag[gridchess]=
-	    CondFlag[koeko]= True;
+        CondFlag[koeko]= True;
       break;
     case imitators:
       ReadSquares(ReadImitators);
@@ -1990,18 +1990,18 @@ static char *ParseCond(void) {
     case whconforsqu:
       ReadSquares(WhConsForcedSq);
       wh_ultra=
-	    wh_exact= true;
+        wh_exact= true;
       white_length= len_whforcedsquare;
       flagwhitemummer= true;
       break;
     case blconforsqu:
       ReadSquares(BlConsForcedSq);
       bl_ultra=
-	    bl_exact= true;
+        bl_exact= true;
       black_length= len_blforcedsquare;
       flagblackmummer= true;
       break;
-	case schwarzschacher:
+    case schwarzschacher:
       flagblackmummer= true;
       black_length= len_schwarzschacher;
       nullgenre= true;
@@ -2093,7 +2093,7 @@ static char *ParseCond(void) {
       break;
     case circeclone:
       anycirce=
-	    anyclone= true;
+        anyclone= true;
       break;
     case circeassassin:
       anycirce= true;
@@ -2219,14 +2219,14 @@ static char *ParseCond(void) {
       ReadSquares(BlPromSq);
       break;
 
-      /*****  different types of geneva chess	*****/
+      /*****  different types of geneva chess   *****/
     case geneva:
       genevarenai= rennormal;
       anygeneva= true;
       break;
-	}
+    }
 
-	switch (indexx) {
+    switch (indexx) {
     case frischauf:
       tok= ReadSquares(ReadFrischAuf);
       break;
@@ -2314,7 +2314,7 @@ static char *ParseCond(void) {
       tok= ParseExact(&wh_exact, &wh_ultra);
       break;
 
-      /*****  anticirce type	*****/
+      /*****  anticirce type    *****/
     case anti:
       tok= ParseVariant(&AntiCirCheylan, gpAntiCirce);
       AntiCirType= AntiCirCheylan
@@ -2438,10 +2438,10 @@ static char *ParseCond(void) {
       break;
     default:
       tok= ReadNextTokStr();
-	}
+    }
   }
   if (! CondCnt) {
-	IoErrorMsg(UnrecCondition,0);
+    IoErrorMsg(UnrecCondition,0);
   }
   return tok;
 } /* ParseCond */
@@ -2452,29 +2452,29 @@ static char *ParseOpt(void) {
 
   tok= ReadNextTokStr();
   while ((indexx= GetUniqIndex(OptCount, OptTab, tok)) >= -1) {
-	if (indexx == -1) {
+    if (indexx == -1) {
       IoErrorMsg(OptNotUniq,0);
       continue;
-	}
-	OptFlag[indexx]= True;
-	OptCnt++;
-	switch(indexx) {
+    }
+    OptFlag[indexx]= True;
+    OptCnt++;
+    switch(indexx) {
     case beep:
       tok= ReadNextTokStr();
       if ((maxbeep= atoi(tok)) <= 0) {
-		maxbeep= 1;
-		/* we did NOT use tok */
-		continue;
+        maxbeep= 1;
+        /* we did NOT use tok */
+        continue;
       } else {
-		/* we did use tok */
-		break;
+        /* we did use tok */
+        break;
       }
     case maxtime:
       tok= ReadNextTokStr();
       if ((maxsolvingtime= atoi(tok)) <= 0) {
-		OptFlag[maxtime]= False;
-		IoErrorMsg(WrongInt, 0);
-		return ReadNextTokStr();
+        OptFlag[maxtime]= False;
+        IoErrorMsg(WrongInt, 0);
+        return ReadNextTokStr();
       }
       break;
     case enpassant:
@@ -2483,52 +2483,52 @@ static char *ParseOpt(void) {
     case maxsols:
       tok= ReadNextTokStr();
       if ((maxsolutions= atoi(tok)) <= 0) {
-		OptFlag[maxsols]= False;
-		IoErrorMsg(WrongInt, 0);
-		return ReadNextTokStr();
+        OptFlag[maxsols]= False;
+        IoErrorMsg(WrongInt, 0);
+        return ReadNextTokStr();
       }
       break;
     case intelligent:
       tok= ReadNextTokStr();
       maxsol_per_matingpos= atoi(tok);
       if (maxsol_per_matingpos > 0) {
-		/* we did use tok */
-		break;
+        /* we did use tok */
+        break;
       }
       else {
-		maxsol_per_matingpos= 0;
-		/* we did NOT use tok */
-		continue;
+        maxsol_per_matingpos= 0;
+        /* we did NOT use tok */
+        continue;
       }
     case restart:
       tok= ReadNextTokStr();
       if ((RestartNbr= atoi(tok)) <= 0) {
-		OptFlag[restart]= False;
-		IoErrorMsg(WrongInt, 0);
-		return ReadNextTokStr();
+        OptFlag[restart]= False;
+        IoErrorMsg(WrongInt, 0);
+        return ReadNextTokStr();
       }
       OptFlag[movenbr]= True;
       break;
     case solmenaces:
       droh= strtol(tok= ReadNextTokStr(), &ptr, 10);
       if (tok == ptr) {
-		droh= maxply;
-		IoErrorMsg(WrongInt, 0);
-		return ReadNextTokStr();
+        droh= maxply;
+        IoErrorMsg(WrongInt, 0);
+        return ReadNextTokStr();
       }
       break;
     case solflights:
       maxflights= strtol(tok= ReadNextTokStr(), &ptr, 10);
       if (tok == ptr) {
-		IoErrorMsg(WrongInt, 0);
-		maxflights = 64;
-		return ReadNextTokStr();
+        IoErrorMsg(WrongInt, 0);
+        maxflights = 64;
+        return ReadNextTokStr();
       }
       break;
     case soltout:
       if ((maxdefen= atoi(tok= ReadNextTokStr())) <= 0) {
-		IoErrorMsg(WrongInt, 0);
-		return ReadNextTokStr();
+        IoErrorMsg(WrongInt, 0);
+        return ReadNextTokStr();
       }
       break;
     case solessais:
@@ -2539,14 +2539,14 @@ static char *ParseOpt(void) {
     case nontrivial:
       NonTrivialNumber= strtol(tok= ReadNextTokStr(), &ptr, 10);
       if (tok == ptr) {
-		IoErrorMsg(WrongInt, 0);
-		return ReadNextTokStr();
+        IoErrorMsg(WrongInt, 0);
+        return ReadNextTokStr();
       }
       NonTrivialLength= strtol(tok= ReadNextTokStr(), &ptr, 10);
       if (tok == ptr) {
-		IoErrorMsg(WrongInt, 0);
-		NonTrivialLength = maxply;
-		return ReadNextTokStr();
+        IoErrorMsg(WrongInt, 0);
+        NonTrivialLength = maxply;
+        return ReadNextTokStr();
       }
       break;
     case postkeyplay:
@@ -2556,11 +2556,11 @@ static char *ParseOpt(void) {
       no_castling= bl_castlings|wh_castlings;
       ReadSquares(ReadNoCastlingSquares);
       break;
-	}
-	tok= ReadNextTokStr();
+    }
+    tok= ReadNextTokStr();
   }
   if (! OptCnt) {
-	IoErrorMsg(UnrecOption,0);
+    IoErrorMsg(UnrecOption,0);
   }
   return tok;
 }
@@ -2580,12 +2580,12 @@ void TwinStorePosition(void) {
   twin_rb= rb;
   twin_rn= rn;
   for (i= 0; i < 64; i++) {
-	twin_e[i]= e[boardnum[i]];
-	twin_spec[i]= spec[boardnum[i]];
+    twin_e[i]= e[boardnum[i]];
+    twin_spec[i]= spec[boardnum[i]];
   }
 
   for (i= 0; i < maxinum; i++) {
-	twin_isquare[i]= isquare[i];
+    twin_isquare[i]= isquare[i];
   }
 }
 
@@ -2595,12 +2595,12 @@ void TwinResetPosition(void) {
   rb= twin_rb;
   rn= twin_rn;
   for (i= 0; i < 64; i++) {
-	e[boardnum[i]]= twin_e[i];
-	spec[boardnum[i]]= twin_spec[i];
+    e[boardnum[i]]= twin_e[i];
+    spec[boardnum[i]]= twin_spec[i];
   }
 
   for (i= 0; i < maxinum; i++) {
-	isquare[i]= twin_isquare[i];
+    isquare[i]= twin_isquare[i];
   }
 }
 
@@ -2609,57 +2609,57 @@ square RotMirrSquare(square sq, int what) {
 
   switch (what) {
   case rot90:     ret= onerow*(sq%onerow)-sq/onerow+(onerow-1);      break;
-  case rot180:    ret= haut+bas - sq;		      break;
+  case rot180:    ret= haut+bas - sq;             break;
   case rot270:    ret= -onerow*(sq%onerow)+sq/onerow-(onerow-1)+haut+bas; break;
   case mirra1a8:  ret= sq%onerow+onerow*((onerow-1)-sq/onerow);      break;
   case mirra1h1:  ret= ((onerow-1)-sq%onerow)+onerow*(sq/onerow);    break;
-  case mirra8h1:  ret= onerow*(sq%onerow)+sq/onerow;	      break;
+  case mirra8h1:  ret= onerow*(sq%onerow)+sq/onerow;          break;
   case mirra1h8:  ret= ((onerow-1)-sq/onerow)+onerow*((onerow-1)-sq%onerow); break;
   }
   return ret;
 }
 
 void RotateMirror(int what) {
-  piece	t_e[64];
-  Flags	t_spec[64];
-  square	t_rb, t_rn, sq1, sq2;
-  imarr	t_isquare;
-  int		i;
+  piece t_e[64];
+  Flags t_spec[64];
+  square    t_rb, t_rn, sq1, sq2;
+  imarr t_isquare;
+  int       i;
 
   /* save the position to be mirrored/rotated */
   t_rb= rb;
   t_rn= rn;
   for (i= 0; i < 64; i++) {
-	t_e[i]= e[boardnum[i]];
-	t_spec[i]= spec[boardnum[i]];
+    t_e[i]= e[boardnum[i]];
+    t_spec[i]= spec[boardnum[i]];
   }
 
   for (i= 0; i < maxinum; i++) {
-	t_isquare[i]= isquare[i];
+    t_isquare[i]= isquare[i];
   }
 
   /* now rotate/mirror */
   /* pieces */
   for (i= 0; i < 64; i++) {
-	sq1= boardnum[i];
-	sq2= RotMirrSquare(sq1, what);
+    sq1= boardnum[i];
+    sq2= RotMirrSquare(sq1, what);
 
-	e[sq2]= t_e[i];
-	spec[sq2]= t_spec[i];
+    e[sq2]= t_e[i];
+    spec[sq2]= t_spec[i];
 
-	if (sq1 == t_rb) {
+    if (sq1 == t_rb) {
       rb= sq2;
-	}
-	if (sq1 == t_rn) {
+    }
+    if (sq1 == t_rn) {
       rn= sq2;
-	}
+    }
   }
 
   /* imitators */
   for (i= 0; i < maxinum; i++) {
-	sq1= t_isquare[i];
-	sq2= RotMirrSquare(sq1, what);
-	isquare[i]= sq2;
+    sq1= t_isquare[i];
+    sq2= RotMirrSquare(sq1, what);
+    isquare[i]= sq2;
   }
 } /* RotateMirror */
 
@@ -2667,21 +2667,21 @@ static char *ParseTwinRotate(void) {
   char *tok= ReadNextTokStr();
 
   if (strcmp(tok, "90") == 0) {
-	RotateMirror(rot90);
+    RotateMirror(rot90);
   }
   else if (strcmp(tok, "180") == 0) {
-	RotateMirror(rot180);
+    RotateMirror(rot180);
   }
   else if (strcmp(tok, "270") == 0) {
-	RotateMirror(rot270);
+    RotateMirror(rot270);
   }
   else {
-	IoErrorMsg(UnrecRotMirr,0);
+    IoErrorMsg(UnrecRotMirr,0);
   }
 
   if (LaTeXout) {
-	sprintf(GlobalStr, "%s $%s^\\circ$", TwinTab[TwinRotate], tok);
-	strcat(ActTwin, GlobalStr);
+    sprintf(GlobalStr, "%s $%s^\\circ$", TwinTab[TwinRotate], tok);
+    strcat(ActTwin, GlobalStr);
   }
 
   StdString(TwinTab[TwinRotate]);
@@ -2696,21 +2696,21 @@ static char *ParseTwinMirror(void) {
   int indexx= GetUniqIndex(TwinCount,TwinTab,tok);
 
   if (indexx == -1) {
-	IoErrorMsg(OptNotUniq,0);
+    IoErrorMsg(OptNotUniq,0);
   }
   else {
-	switch (indexx) {
+    switch (indexx) {
     case TwinMirra1h1:  RotateMirror(mirra1h1);  break;
     case TwinMirra1a8:  RotateMirror(mirra1a8);  break;
     case TwinMirra1h8:  RotateMirror(mirra1h8);  break;
     case TwinMirra8h1:  RotateMirror(mirra8h1);  break;
     default:
       IoErrorMsg(UnrecRotMirr,0);
-	}
+    }
 
-	StdString(TwinTab[TwinMirror]);
-	StdString(" ");
-	StdString(TwinTab[indexx]);
+    StdString(TwinTab[TwinMirror]);
+    StdString(" ");
+    StdString(TwinTab[indexx]);
   }
 
   return ReadNextTokStr();
@@ -2724,51 +2724,51 @@ static char *ParseTwinMove(int indexx) {
 
   /* read the first square */
   while (sq1 == 0) {
-	tok= ReadNextTokStr();
-	sq1= FieldNum(tok[0], tok[1]);
-	if (sq1 == 0) {
+    tok= ReadNextTokStr();
+    sq1= FieldNum(tok[0], tok[1]);
+    if (sq1 == 0) {
       ErrorMsg(WrongFieldList);
       return ReadNextTokStr();
-	}
+    }
   }
 
   /* read the second square */
   while (sq2 == 0) {
-	tok= ReadNextTokStr();
-	sq2= FieldNum(tok[0], tok[1]);
-	if (sq2 == 0) {
+    tok= ReadNextTokStr();
+    sq2= FieldNum(tok[0], tok[1]);
+    if (sq2 == 0) {
       ErrorMsg(WrongFieldList);
       return ReadNextTokStr();
-	}
+    }
   }
 
   if (e[sq1] == vide) {
-	WriteSquare(sq1);
-	StdString(": ");
-	ErrorMsg(NothingToRemove);
-	return ReadNextTokStr();
+    WriteSquare(sq1);
+    StdString(": ");
+    ErrorMsg(NothingToRemove);
+    return ReadNextTokStr();
   }
 
   /* issue the twinning */
   if (LaTeXout) {
-	sprintf(GlobalStr, "\\%c%s %c%c",
+    sprintf(GlobalStr, "\\%c%s %c%c",
             TSTFLAG(spec[sq1], Neutral)
             ? 'n'
             : TSTFLAG(spec[sq1], White) ? 'w' : 's',
             LaTeXPiece(e[sq1]),
             'a'-nr_files_on_board+sq1%onerow,
             '1'-nr_rows_on_board+sq1/onerow);
-	strcat(ActTwin, GlobalStr);
+    strcat(ActTwin, GlobalStr);
   }
 
   WriteSpec(spec[sq1], e[sq1]);
   WritePiece(e[sq1]);
   WriteSquare(sq1);
   if (indexx == TwinExchange) {
-	StdString("<-->");
-	WriteSpec(spec[sq2], e[sq2]);
-	WritePiece(e[sq2]);
-	if (LaTeXout) {
+    StdString("<-->");
+    WriteSpec(spec[sq2], e[sq2]);
+    WritePiece(e[sq2]);
+    if (LaTeXout) {
       strcat(ActTwin, "{\\lra}");
       sprintf(GlobalStr, "\\%c%s ",
               TSTFLAG(spec[sq2], Neutral)
@@ -2776,20 +2776,20 @@ static char *ParseTwinMove(int indexx) {
               : TSTFLAG(spec[sq2], White) ? 'w' : 's',
               LaTeXPiece(e[sq2]));
       strcat(ActTwin, GlobalStr);
-	}
+    }
   }
   else {
-	StdString("-->");
-	if (LaTeXout) {
+    StdString("-->");
+    if (LaTeXout) {
       strcat(ActTwin, "{\\ra}");
-	}
+    }
   }
   WriteSquare(sq2);
   if (LaTeXout) {
-	sprintf(GlobalStr, "%c%c",
+    sprintf(GlobalStr, "%c%c",
             'a'-nr_files_on_board+sq2%onerow,
             '1'-nr_rows_on_board+sq2/onerow);
-	strcat(ActTwin, GlobalStr);
+    strcat(ActTwin, GlobalStr);
   }
 
   /* store the piece in case they are exchanged */
@@ -2806,16 +2806,16 @@ static char *ParseTwinMove(int indexx) {
 
   /* update king pointer */
   if (sq1 == rb) {
-	rb= sq2;
+    rb= sq2;
   }
   else if (sq2 == rb) {
-	rb= indexx == TwinExchange ? sq1 : initsquare;
+    rb= indexx == TwinExchange ? sq1 : initsquare;
   }
   if (sq1 == rn) {
-	rn= sq2;
+    rn= sq2;
   }
   else if (sq2 == rn) {
-	rn= indexx == TwinExchange ? sq1 : initsquare;
+    rn= indexx == TwinExchange ? sq1 : initsquare;
   }
 
   /* read next token */
@@ -2829,10 +2829,10 @@ void MovePieceFromTo(square from, square to) {
   e[from]= vide;
   spec[from]= 0;
   if (from == rb) {
-	rb= to;
+    rb= to;
   }
   if (from == rn) {
-	rn= to;
+    rn= to;
   }
 } /* MovePieceFromTo */
 
@@ -2843,31 +2843,31 @@ static char *ParseTwinShift(void) {
 
   /* read the first square */
   while (sq1 == 0) {
-	tok= ReadNextTokStr();
-	sq1= FieldNum(tok[0], tok[1]);
-	if (sq1 == 0) {
+    tok= ReadNextTokStr();
+    sq1= FieldNum(tok[0], tok[1]);
+    if (sq1 == 0) {
       ErrorMsg(WrongFieldList);
-	}
+    }
   }
 
   /* read the second square */
   while (sq2 == 0) {
-	tok= ReadNextTokStr();
-	sq2= FieldNum(tok[0], tok[1]);
-	if (sq2 == 0) {
+    tok= ReadNextTokStr();
+    sq2= FieldNum(tok[0], tok[1]);
+    if (sq2 == 0) {
       ErrorMsg(WrongFieldList);
-	}
+    }
   }
 
   /* issue the twinning */
   if (LaTeXout) {
-	sprintf(GlobalStr, "%s %c%c$\\Rightarrow$%c%c",
+    sprintf(GlobalStr, "%s %c%c$\\Rightarrow$%c%c",
             TwinTab[TwinShift],
             'a'-nr_files_on_board+sq1%onerow,
             '1'-nr_rows_on_board+sq1/onerow,
             'a'-nr_files_on_board+sq2%onerow,
             '1'-nr_rows_on_board+sq2/onerow);
-	strcat(ActTwin, GlobalStr);
+    strcat(ActTwin, GlobalStr);
   }
 
   StdString(TwinTab[TwinShift]);
@@ -2885,60 +2885,60 @@ static char *ParseTwinShift(void) {
   maxcol= 0;
 
   for (bnp= boardnum; *bnp; bnp++) {
-	if (e[*bnp] != vide) {
+    if (e[*bnp] != vide) {
       if (*bnp/onerow < minrank) {
-		minrank= *bnp/onerow;
+        minrank= *bnp/onerow;
       }
       if (*bnp/onerow > maxrank) {
-		maxrank= *bnp/onerow;
+        maxrank= *bnp/onerow;
       }
       if (*bnp%onerow < mincol) {
-		mincol= *bnp%onerow;
+        mincol= *bnp%onerow;
       }
       if (*bnp%onerow > maxcol) {
-		maxcol= *bnp%onerow;
+        maxcol= *bnp%onerow;
       }
-	}    }
+    }    }
 
   if ( maxcol+diffcol > 15
        || mincol+diffcol <  8
        || maxrank+diffrank > 15
        || minrank+diffrank <  8)
   {
-	ErrorMsg(PieceOutside);
+    ErrorMsg(PieceOutside);
   }
   else {
-	/* move along columns */
-	if (diffrank > 0) {
+    /* move along columns */
+    if (diffrank > 0) {
       for (c= 8; c <= 15; c++) {
-		for (r= maxrank; r >= minrank; r--) {
+        for (r= maxrank; r >= minrank; r--) {
           MovePieceFromTo(onerow*r+c, onerow*(r+diffrank)+c);
-		}
+        }
       }
-	}
-	else if (diffrank < 0) {
+    }
+    else if (diffrank < 0) {
       for (c= 8; c <= 15; c++) {
-		for (r= minrank; r <= maxrank; r++) {
+        for (r= minrank; r <= maxrank; r++) {
           MovePieceFromTo(onerow*r+c, onerow*(r+diffrank)+c);
-		}
+        }
       }
-	}
+    }
 
-	/* move along ranks */
-	if (diffcol > 0) {
+    /* move along ranks */
+    if (diffcol > 0) {
       for (c= maxcol; c >= mincol; c--) {
-		for (r= 8; r <= 15; r++) {
+        for (r= 8; r <= 15; r++) {
           MovePieceFromTo(onerow*r+c, onerow*r+c+diffcol);
-		}
+        }
       }
-	}
-	else if (diffcol < 0) {
+    }
+    else if (diffcol < 0) {
       for (c= mincol; c <= maxcol; c++) {
-		for (r= 8; r <= 15; r++) {
+        for (r= 8; r <= 15; r++) {
           MovePieceFromTo(onerow*r+c, onerow*r+c+diffcol);
-		}
+        }
       }
-	}
+    }
   }
 
   /* read next token */
@@ -2947,53 +2947,53 @@ static char *ParseTwinShift(void) {
 } /* ParseTwinShift */
 
 static char *ParseTwinRemove(void) {
-  square	sq;
-  char	*tok;
-  boolean	WrongList;
+  square    sq;
+  char  *tok;
+  boolean   WrongList;
 
   do {
-	WrongList= False;
-	tok= ReadNextTokStr();
+    WrongList= False;
+    tok= ReadNextTokStr();
 
-	if (strlen(tok) % 2) {
+    if (strlen(tok) % 2) {
       WrongList= True;
-	}
-	else {
+    }
+    else {
       char *tok2= tok;
 
       while (*tok2 && !WrongList) {
-		if (FieldNum(tok2[0], tok2[1]) == 0) {
+        if (FieldNum(tok2[0], tok2[1]) == 0) {
           WrongList= True;
-		}
-		tok2 += 2;
+        }
+        tok2 += 2;
       }
-	}
-	if (WrongList) {
+    }
+    if (WrongList) {
       ErrorMsg(WrongFieldList);
-	}
+    }
   } while (WrongList);
 
   while (*tok) {
-	sq= FieldNum(tok[0], tok[1]);
+    sq= FieldNum(tok[0], tok[1]);
 
-	if (abs(e[sq]) < King) {
+    if (abs(e[sq]) < King) {
       WriteSquare(sq);
       StdString(": ");
       Message(NothingToRemove);
-	}
-	else {
+    }
+    else {
       if (LaTeXout) {
-		strcat(ActTwin, " --");
-		strcat(ActTwin,
+        strcat(ActTwin, " --");
+        strcat(ActTwin,
                TSTFLAG(spec[sq], Neutral)
                ? "\\n"
                : TSTFLAG(spec[sq], White) ? "\\w" : "\\s");
-		strcat(ActTwin,
+        strcat(ActTwin,
                LaTeXPiece(e[sq]));
-		sprintf(GlobalStr, " %c%c",
+        sprintf(GlobalStr, " %c%c",
                 'a'-nr_files_on_board+sq%onerow,
                 '1'-nr_rows_on_board+sq/onerow);
-		strcat(ActTwin, GlobalStr);
+        strcat(ActTwin, GlobalStr);
       }
 
       StdString(" -");
@@ -3003,13 +3003,13 @@ static char *ParseTwinRemove(void) {
       e[sq]= vide;
       spec[sq]= 0;
       if (sq == rb) {
-		rb= initsquare;
+        rb= initsquare;
       }
       if (sq == rn) {
-		rn= initsquare;
+        rn= initsquare;
       }
-	}
-	tok += 2;
+    }
+    tok += 2;
   }
 
   return ReadNextTokStr();
@@ -3024,54 +3024,54 @@ static char *ParseTwinPolish(void) {
   rn= king;
 
   for (bnp= boardnum; *bnp; bnp++) {
-	if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide) {
+    if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide) {
       e[*bnp]= -e[*bnp];
       spec[*bnp]^= BIT(White)+BIT(Black);
-	}
+    }
   }
 
   StdString(TwinTab[TwinPolish]);
 
   if (LaTeXout) {
-	strcat(ActTwin, TwinTab[TwinPolish]);
+    strcat(ActTwin, TwinTab[TwinPolish]);
   }
 
   return ReadNextTokStr();
 }
 
 static char *ParseTwinSubstitute(void) {
-  square	*bnp;
-  piece	p_old, p_new;
-  char	*tok;
+  square    *bnp;
+  piece p_old, p_new;
+  char  *tok;
 
   switch (strlen(tok= ReadNextTokStr())) {
   case 1:
-	p_old= GetPieNamIndex(*tok,' ');
-	break;
+    p_old= GetPieNamIndex(*tok,' ');
+    break;
   case 2:
-	p_old= GetPieNamIndex(*tok,tok[1]);
-	break;
+    p_old= GetPieNamIndex(*tok,tok[1]);
+    break;
   default:
-	IoErrorMsg(WrongPieceName,0);
-	return tok;
+    IoErrorMsg(WrongPieceName,0);
+    return tok;
   }
 
   switch (strlen(tok= ReadNextTokStr())) {
   case 1:
-	p_new= GetPieNamIndex(*tok,' ');
-	break;
+    p_new= GetPieNamIndex(*tok,' ');
+    break;
   case 2:
-	p_new= GetPieNamIndex(*tok,tok[1]);
-	break;
+    p_new= GetPieNamIndex(*tok,tok[1]);
+    break;
   default:
-	IoErrorMsg(WrongPieceName,0);
-	return tok;
+    IoErrorMsg(WrongPieceName,0);
+    return tok;
   }
 
   if (LaTeXout) {
-	sprintf(GlobalStr, "{\\w%s} $\\Rightarrow$ \\w%s",
+    sprintf(GlobalStr, "{\\w%s} $\\Rightarrow$ \\w%s",
             LaTeXPiece(p_old), LaTeXPiece(p_new));
-	strcat(ActTwin, GlobalStr);
+    strcat(ActTwin, GlobalStr);
   }
 
   WritePiece(p_old);
@@ -3079,12 +3079,12 @@ static char *ParseTwinSubstitute(void) {
   WritePiece(p_new);
 
   for (bnp= boardnum; *bnp; bnp++) {
-	if (e[*bnp] == p_old) {
+    if (e[*bnp] == p_old) {
       e[*bnp]= p_new;
-	}
-	else if (e[*bnp] == -p_old) {
+    }
+    else if (e[*bnp] == -p_old) {
       e[*bnp]= -p_new;
-	}
+    }
   }
 
   return ReadNextTokStr();
@@ -3092,9 +3092,9 @@ static char *ParseTwinSubstitute(void) {
 }
 
 static char *ParseTwin(void) {
-  int		indexx, i;
-  char	*tok;
-  boolean	continued= False,
+  int       indexx, i;
+  char  *tok;
+  boolean   continued= False,
     TwinRead= False;
 
   TwinChar++;
@@ -3103,20 +3103,20 @@ static char *ParseTwin(void) {
   tok= ReadNextTokStr();
 
   while (True) {
-	Token tk= StringToToken(tok);
+    Token tk= StringToToken(tok);
 
-	if ( tk == TwinProblem
+    if ( tk == TwinProblem
          || tk == NextProblem
          || tk == EndProblem)
-	{
+    {
       StdString("\n\n");
       if (LaTeXout) {
-		strcat(ActTwin, "{\\newline}");
+        strcat(ActTwin, "{\\newline}");
       }
       return tok;
-	}
+    }
 
-	switch (indexx= GetUniqIndex(TwinCount,TwinTab,tok)) {
+    switch (indexx= GetUniqIndex(TwinCount,TwinTab,tok)) {
     case -1:
       IoErrorMsg(OptNotUniq,0);
       tok= ReadNextTokStr();
@@ -3129,65 +3129,65 @@ static char *ParseTwin(void) {
 
     case TwinContinued:
       if (TwinRead == True) {
-		Message(ContinuedFirst);
+        Message(ContinuedFirst);
       }
       else {
-		continued= True;
+        continued= True;
       }
       tok= ReadNextTokStr();
       continue;
-	}
+    }
 
-	if (!TwinRead) {
+    if (!TwinRead) {
       if (!continued) {
-		TwinResetPosition();
+        TwinResetPosition();
       }
       else {
 #ifndef DATABASE
-		if (SortFlag(Proof)) {
+        if (SortFlag(Proof)) {
           /* fixes bug for continued twinning
              in proof games; changes were made
              to game array!
           */
           for (i=maxsquare-1; i>=0; i--) {
-			e[i]=ProofBoard[i];
+            e[i]=ProofBoard[i];
           }
           for (i= 0; i< 64; i++) {
-			spec[boardnum[i]]=ProofSpec[i];
+            spec[boardnum[i]]=ProofSpec[i];
           }
           rn=Proof_rn;
           rb=Proof_rb;
-		}
+        }
 #endif /* DATABASE */
-		StdChar('+');
-		if (LaTeXout) {
+        StdChar('+');
+        if (LaTeXout) {
           strcat(ActTwin, "+");
-		}
+        }
       }
 
       if (TwinChar <= 'z') {
-		sprintf(GlobalStr, "%c) ", TwinChar);
+        sprintf(GlobalStr, "%c) ", TwinChar);
       }
       else {
-		sprintf(GlobalStr,
+        sprintf(GlobalStr,
                 "%c%d) ",
                 'z',
                 (TwinChar-'z'-1));
       }
       StdString(GlobalStr);
       if (LaTeXout) {
-		strcat(ActTwin, GlobalStr);
+        strcat(ActTwin, GlobalStr);
       }
-	}
-	else {
+    }
+    else {
       StdString("  ");
       if (LaTeXout) {
-		strcat(ActTwin, ", ");
+        strcat(ActTwin, ", ");
       }
-	} /* !TwinRead */
+    } /* !TwinRead */
 
-	TwinRead= True;
-	switch(indexx) {
+    TwinRead= True;
+    switch(indexx) {
     case TwinMove:
       tok= ParseTwinMove(indexx);
       break;
@@ -3207,16 +3207,16 @@ static char *ParseTwin(void) {
       /* issue the twinning */
       StdString(AlphaStip);
       if (LaTeXout) {
-		strcat(ActTwin, AlphaStip);
-		if (OptFlag[solapparent]) {
+        strcat(ActTwin, AlphaStip);
+        if (OptFlag[solapparent]) {
           strcat(ActTwin, "*");
-		}
-		if (OptFlag[appseul]) {
-          char temp[10];		/* increased due to buffer overflow */
+        }
+        if (OptFlag[appseul]) {
+          char temp[10];        /* increased due to buffer overflow */
           sprintf(temp, " %c{\\ra}",
                   tolower(*PieSpString[ActLang][White]));
           strcat(ActTwin, temp);
-		}
+        }
       }
       break;
     case TwinAdd:
@@ -3242,7 +3242,7 @@ static char *ParseTwin(void) {
     case TwinForsyth:
       tok= ParseForsyth(true);
       break;
-	}
+    }
   }
 } /* ParseTwin */
 
@@ -3250,13 +3250,13 @@ static char *ParseTwin(void) {
 
 /* new conditions: PromOnly, AprilChess */
 char *ReadPieces(int condition) {
-  piece	tmp_piece;
-  char	*tok;
-  boolean	piece_read= False;
+  piece tmp_piece;
+  char  *tok;
+  boolean   piece_read= False;
 
   fflush(stdout);
   while (True) {
-	switch (strlen(tok= ReadNextTokStr())) {
+    switch (strlen(tok= ReadNextTokStr())) {
     case 1:
       tmp_piece= GetPieNamIndex(*tok,' ');
       piece_read= True;
@@ -3267,16 +3267,16 @@ char *ReadPieces(int condition) {
       break;
     default:
       if (!piece_read) {
-		CondFlag[condition]= False;
-		IoErrorMsg(WrongPieceName,0);
+        CondFlag[condition]= False;
+        IoErrorMsg(WrongPieceName,0);
       }
       return tok;
-	}
-	if (!tmp_piece) {
+    }
+    if (!tmp_piece) {
       IoErrorMsg(WrongPieceName,0);
       break;
-	}
-	switch (condition) {
+    }
+    switch (condition) {
     case promotiononly:
       promonly[tmp_piece]= True;
       break;
@@ -3286,7 +3286,7 @@ char *ReadPieces(int condition) {
     default:
       /* Never mind ... */
       break;
-	}
+    }
   }
   return tok;
 }
@@ -3295,221 +3295,225 @@ char *ReadPieces(int condition) {
 Token ReadProblem(Token tk) {
   char *tok;
 
+  /* open mode for protocol and/or TeX file; overwrite existing file(s)
+   * if we are doing a regression test */
+  char const *open_mode = flag_regression ? "w" : "a";
+
   if (tk == BeginProblem) {
-	LastChar= ' ';
-	ReadBeginSpec();
+    LastChar= ' ';
+    ReadBeginSpec();
   }
   if (tk == TwinProblem || tk == ZeroPosition) {
-	if (tk == ZeroPosition) {
+    if (tk == ZeroPosition) {
       StdString(TokenTab[ZeroPosition]);
       StdString("\n\n");
       TwinChar= 'a'-1;
       TwinStorePosition();
-	}
-	tok= ParseTwin();
-	while (True) {
+    }
+    tok= ParseTwin();
+    while (True) {
       switch (tk= StringToToken(tok)) {
       case -1:
-		IoErrorMsg(ComNotUniq,0);
-		tok= ReadNextTokStr();
-		break;
+        IoErrorMsg(ComNotUniq,0);
+        tok= ReadNextTokStr();
+        break;
       case TwinProblem:
-		if (enonce) {
+        if (enonce) {
           return tk;
-		}
-		IoErrorMsg(NoStipulation,0);
-		tok= ReadNextTokStr();
-		break;
+        }
+        IoErrorMsg(NoStipulation,0);
+        tok= ReadNextTokStr();
+        break;
       case NextProblem:
-		if (enonce) {
+        if (enonce) {
           return tk;
-		}
-		IoErrorMsg(NoStipulation,0);
-		tok= ReadNextTokStr();
-		break;
+        }
+        IoErrorMsg(NoStipulation,0);
+        tok= ReadNextTokStr();
+        break;
       case EndProblem:
-		if (enonce) {
+        if (enonce) {
           return tk;
-		}
-		IoErrorMsg(NoStipulation,0);
-		tok= ReadNextTokStr();
-		break;
+        }
+        IoErrorMsg(NoStipulation,0);
+        tok= ReadNextTokStr();
+        break;
       default:
-		IoErrorMsg(ComNotKnown,0);
-		tok= ReadNextTokStr();
-		break;
+        IoErrorMsg(ComNotKnown,0);
+        tok= ReadNextTokStr();
+        break;
       }
-	}
+    }
   }
   else {
-	tok= ReadNextTokStr();
-	TwinChar= 'a';
-	while (True) {
+    tok= ReadNextTokStr();
+    TwinChar= 'a';
+    while (True) {
       switch (tk= StringToToken(tok)) {
       case -1:
-		IoErrorMsg(ComNotUniq,0);
-		tok= ReadNextTokStr();
-		break;
+        IoErrorMsg(ComNotUniq,0);
+        tok= ReadNextTokStr();
+        break;
       case -2:
-		IoErrorMsg(ComNotKnown,0);
-		tok= ReadNextTokStr();
-		break;
+        IoErrorMsg(ComNotKnown,0);
+        tok= ReadNextTokStr();
+        break;
       case BeginProblem:
-		tok= ReadNextTokStr();
-		break;
+        tok= ReadNextTokStr();
+        break;
       case TwinProblem:
-		if (TwinChar == 'a') {
+        if (TwinChar == 'a') {
           TwinStorePosition();
-		}
+        }
       case NextProblem:
-		if (enonce) {
+        if (enonce) {
           return tk;
-		}
-		IoErrorMsg(NoStipulation,0);
-		tok= ReadNextTokStr();
-		break;
+        }
+        IoErrorMsg(NoStipulation,0);
+        tok= ReadNextTokStr();
+        break;
       case EndProblem:
-		if (enonce) {
+        if (enonce) {
           return tk;
-		}
-		IoErrorMsg(NoStipulation,0);
-		tok= ReadNextTokStr();
-		break;
+        }
+        IoErrorMsg(NoStipulation,0);
+        tok= ReadNextTokStr();
+        break;
       case ZeroPosition:
-		return tk;
+        return tk;
       case StipToken:
-		*AlphaStip='\0';
-		tok= ParseStip();
-		break;
+        *AlphaStip='\0';
+        tok= ParseStip();
+        break;
       case Author:
-		strcat(ActAuthor,ReadToEndOfLine());
-		strcat(ActAuthor,"\n");
-		tok= ReadNextTokStr();
-		break;
+        strcat(ActAuthor,ReadToEndOfLine());
+        strcat(ActAuthor,"\n");
+        tok= ReadNextTokStr();
+        break;
       case Award:
-		strcpy(ActAward,ReadToEndOfLine());
-		strcat(ActAward, "\n");
-		tok= ReadNextTokStr();
-		break;
+        strcpy(ActAward,ReadToEndOfLine());
+        strcat(ActAward, "\n");
+        tok= ReadNextTokStr();
+        break;
       case Origin:
-		strcat(ActOrigin,ReadToEndOfLine());
-		strcat(ActOrigin,"\n");
-		tok= ReadNextTokStr();
-		break;
+        strcat(ActOrigin,ReadToEndOfLine());
+        strcat(ActOrigin,"\n");
+        tok= ReadNextTokStr();
+        break;
       case TitleToken:
-		strcat(ActTitle,ReadToEndOfLine());
-		strcat(ActTitle,"\n");
-		tok= ReadNextTokStr();
-		break;
+        strcat(ActTitle,ReadToEndOfLine());
+        strcat(ActTitle,"\n");
+        tok= ReadNextTokStr();
+        break;
       case PieceToken:
-		tok= ParsePieSpec('\0');
-		break;
+        tok= ParsePieSpec('\0');
+        break;
       case CondToken:
-		tok= ParseCond();
-		break;
+        tok= ParseCond();
+        break;
       case OptToken:
-		tok= ParseOpt();
-		break;
+        tok= ParseOpt();
+        break;
       case RemToken:
-		if (LastChar != '\n') {
+        if (LastChar != '\n') {
           ReadToEndOfLine();
           if (TraceFile) {
-			fputs(InputLine, TraceFile);
-			fflush(TraceFile);
+            fputs(InputLine, TraceFile);
+            fflush(TraceFile);
           }
           Message(NewLine);
-		}
-		tok= ReadNextTokStr();
-		break;
+        }
+        tok= ReadNextTokStr();
+        break;
       case InputToken:
-		PushInput(ReadToEndOfLine());
-		tok= ReadNextTokStr();
-		break;
+        PushInput(ReadToEndOfLine());
+        tok= ReadNextTokStr();
+        break;
       case TraceToken:
-		if (TraceFile) {
+        if (TraceFile) {
           fclose(TraceFile);
-		}
-		if ((TraceFile=fopen(ReadToEndOfLine(),"a")) == NULL) {
+        }
+        if ((TraceFile=fopen(ReadToEndOfLine(),open_mode)) == NULL) {
           IoErrorMsg(WrOpenError,0);
-		}
+        }
         else
         {
-		  fputs(StartUp, TraceFile);
+          fputs(StartUp, TraceFile);
           fputs(MMString, TraceFile);
-		  fflush(TraceFile);
+          fflush(TraceFile);
         }
-		tok= ReadNextTokStr();
-		break;
+        tok= ReadNextTokStr();
+        break;
       case LaTeXPieces:
-		tok= ParseLaTeXPieces(ReadNextTokStr());
-		break;
+        tok= ParseLaTeXPieces(ReadNextTokStr());
+        break;
       case LaTeXToken:
-		LaTeXout= true;
-		if (LaTeXFile) {
+        LaTeXout= true;
+        if (LaTeXFile) {
           LaTeXClose();
           fclose(LaTeXFile);
-		}
-		if ((LaTeXFile= fopen(ReadToEndOfLine(),"a")) == NULL) {
+        }
+        if ((LaTeXFile= fopen(ReadToEndOfLine(),open_mode)) == NULL) {
           IoErrorMsg(WrOpenError,0);
           LaTeXout= false;
-		}
-		else {
+        }
+        else {
           LaTeXOpen();
-		}
+        }
 
-		if (SolFile) {
+        if (SolFile) {
           fclose(SolFile);
-		}
-		if ((SolFile= tmpfile()) == NULL) {
+        }
+        if ((SolFile= tmpfile()) == NULL) {
           IoErrorMsg(WrOpenError,0);
-		}
-		tok= ParseLaTeXPieces(ReadNextTokStr());
-		break;
+        }
+        tok= ParseLaTeXPieces(ReadNextTokStr());
+        break;
       case SepToken:
-		tok= ReadNextTokStr();
-		break;
+        tok= ReadNextTokStr();
+        break;
       case Array:
-		tok= ReadNextTokStr();
-		{
+        tok= ReadNextTokStr();
+        {
           piece p;
           int i;
 
           for (i = 0; i < 64; i++) {
-			CLEARFL(spec[boardnum[i]]);
-			p= e[boardnum[i]]= PAS[i];
-			if (p >= roib) {
+            CLEARFL(spec[boardnum[i]]);
+            p= e[boardnum[i]]= PAS[i];
+            if (p >= roib) {
               SETFLAG(spec[boardnum[i]], White);
-			}
-			else if (p <= roin) {
+            }
+            else if (p <= roin) {
               SETFLAG(spec[boardnum[i]], Black);
-			}
+            }
           }
           rb= square_e1;
           rn= square_e8;
-		}
-		break;
+        }
+        break;
       case Forsyth:
-		tok= ParseForsyth(false);
-		break;
+        tok= ParseForsyth(false);
+        break;
       default:
-		FtlMsg(InternalError);
+        FtlMsg(InternalError);
       }
-	} /* while */
+    } /* while */
   }
 }
 
 void CenterLine(char *s) {
   /* TODO move into one module per platform */
 #ifdef ATARI
-#	ifdef __TURBOC__
+#   ifdef __TURBOC__
   sprintf(GlobalStr, "%s\n", s);
-#	else	/* not __TURBOC__ */
+#   else    /* not __TURBOC__ */
   sprintf(GlobalStr, "%*s\n", (36+strlen(s))/2, s);
-#	endif	/* __TURBOC__ */
-#else	/* not ATARI */
+#   endif   /* __TURBOC__ */
+#else   /* not ATARI */
   /* sprintf(GlobalStr, "%*s\n", (36+(int)strlen(s))/2, s); */
   sprintf(GlobalStr, "%*s\n", (38+(int)strlen(s))/2, s);
-#endif	/* ATARI */
+#endif  /* ATARI */
   StdString(GlobalStr);
 }
 
@@ -3517,10 +3521,10 @@ void MultiCenter(char *s) {
   char *p;
 
   while ((p=strchr(s,'\n'))) {
-	*p= '\0';
-	CenterLine(s);
-	*p= '\n';
-	s= p + 1;
+    *p= '\0';
+    CenterLine(s);
+    *p= '\n';
+    s= p + 1;
   }
 }
 
@@ -3539,108 +3543,108 @@ void WritePieces(piece *p, char* CondLine)
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
   char LocalBuf[4];
   while (*p) {
-	  if (PieceTab[*p][1] != ' ')
+      if (PieceTab[*p][1] != ' ')
       sprintf(LocalBuf, " %c%c",
                   UPCASE(PieceTab[*p][0]),
                   UPCASE(PieceTab[*p][1]));
     else
       sprintf(LocalBuf, " %c",
                   UPCASE(PieceTab[*p][0]));
-	  strcat(CondLine, LocalBuf);
+      strcat(CondLine, LocalBuf);
     p++;
   }
 }
 
 void WriteConditions(int alignment) {
-  Cond	cond;
-  char	CondLine[256];
-  int		i;
-  boolean	CondPrinted= False;
+  Cond  cond;
+  char  CondLine[256];
+  int       i;
+  boolean   CondPrinted= False;
 
   for (cond= 1; cond < CondCount; cond++) {
-	if (!CondFlag[cond])
+    if (!CondFlag[cond])
       continue;
 
-	if (cond == rexexcl)
+    if (cond == rexexcl)
       continue;
-	if (cond == exact || cond == ultra)
+    if (cond == exact || cond == ultra)
       continue;
-	if (cond == einstein
+    if (cond == einstein
         && (CondFlag[reveinstein] || CondFlag[antieinstein]))
       continue;
-	if (  (cond == woozles
-	       && (CondFlag[biwoozles]
+    if (  (cond == woozles
+           && (CondFlag[biwoozles]
                ||CondFlag[heffalumps]))
           || ((cond == heffalumps || cond == biwoozles)
               && CondFlag[biheffalumps]))
       continue;
 
-	if (cond == volage && CondFlag[hypervolage])
+    if (cond == volage && CondFlag[hypervolage])
       continue;
 
-	if (cond == chinoises && CondFlag[leofamily])
+    if (cond == chinoises && CondFlag[leofamily])
       continue;
 
-	if (  (cond == gridchess || cond == koeko)
+    if (  (cond == gridchess || cond == koeko)
           && CondFlag[contactgrid])
       continue;
 
-	if (cond == tibet && CondFlag[dbltibet])
+    if (cond == tibet && CondFlag[dbltibet])
       continue;
 
   if (CondFlag[vaultingkings])
     if ( cond == refl_king || cond == whrefl_king || cond == blrefl_king)
       continue;
 
-	if (cond == refl_king && CondFlag[trans_king])
+    if (cond == refl_king && CondFlag[trans_king])
       continue;
 
-	if (  cond == whrefl_king
+    if (  cond == whrefl_king
           && (CondFlag[refl_king] || CondFlag[whtrans_king]))
       continue;
 
-	if (cond == blrefl_king
+    if (cond == blrefl_king
         && (CondFlag[refl_king] || CondFlag[bltrans_king]))
       continue;
 
-	if (cond == whtrans_king && (CondFlag[trans_king] || CondFlag[whsupertrans_king]))
+    if (cond == whtrans_king && (CondFlag[trans_king] || CondFlag[whsupertrans_king]))
       continue;
 
-	if (cond == bltrans_king && (CondFlag[trans_king] || CondFlag[blsupertrans_king]))
+    if (cond == bltrans_king && (CondFlag[trans_king] || CondFlag[blsupertrans_king]))
       continue;
 
-	if (cond == holes)
+    if (cond == holes)
       continue;
 
-	if (cond == couscous && CondFlag[couscousmirror])
+    if (cond == couscous && CondFlag[couscousmirror])
       continue;
 
-	/* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
+    /* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
     if (((cond == white_oscillatingKs) && OscillatingKingsTypeC[blanc]) ||
         ((cond == black_oscillatingKs) && OscillatingKingsTypeC[noir])) {
       if (CondFlag[swappingkings])
-		continue;
-	}
+        continue;
+    }
 
-	/* Write DEFAULT Conditions */
-	strcpy(CondLine, CondTab[cond]);
+    /* Write DEFAULT Conditions */
+    strcpy(CondLine, CondTab[cond]);
 
-	if ((cond == blmax || cond == whmax) && flagmaxi)
+    if ((cond == blmax || cond == whmax) && flagmaxi)
       strcpy(CondLine, ExtraCondTab[maxi]);
 
-	if (  (cond == blackultraschachzwang
-	       || cond == whiteultraschachzwang)
+    if (  (cond == blackultraschachzwang
+           || cond == whiteultraschachzwang)
           && flagultraschachzwang)
-	{
+    {
       strcpy(CondLine, ExtraCondTab[ultraschachzwang]);
-	}
+    }
 
-	if (cond == sentinelles && flagparasent) {
+    if (cond == sentinelles && flagparasent) {
       strcpy(CondLine, "Para");
       strcat(CondLine, CondTab[cond]);
-	}
+    }
 
-	if (cond == koeko) {
+    if (cond == koeko) {
       piece koekop = roib;
       char LocalBuf[4];
       if (nocontactfunc == noknightcontact) 
@@ -3673,7 +3677,7 @@ void WriteConditions(int alignment) {
                 UPCASE(PieceTab[koekop][0]));
 
       sprintf(CondLine, "%s%s", LocalBuf, CondTab[cond]);
-	}
+    }
 
     if (cond == BGL)
     {
@@ -3696,123 +3700,123 @@ void WriteConditions(int alignment) {
     if (!blacknormaltranspieces)
       WritePieces(blacktransmpieces, CondLine);
        
-	if (cond == promotiononly) {
+    if (cond == promotiononly) {
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
       char LocalBuf[4];
       piece pp= vide;
       while ((pp= getprompiece[pp]) != vide) {
-		if (PieceTab[pp][1] != ' ')
+        if (PieceTab[pp][1] != ' ')
           sprintf(LocalBuf, " %c%c",
                   UPCASE(PieceTab[pp][0]),
                   UPCASE(PieceTab[pp][1]));
-		else
+        else
           sprintf(LocalBuf, " %c",
                   UPCASE(PieceTab[pp][0]));
-		strcat(CondLine, LocalBuf);
+        strcat(CondLine, LocalBuf);
       }
       if (strlen(CondLine) <= strlen(CondTab[promotiononly])) {
-		/* due to zeroposition, where getprompiece is not */
-		/* set (it's set in verifieposition), I suppress  */
-		/* output of promotiononly for now.  */
-		continue;
+        /* due to zeroposition, where getprompiece is not */
+        /* set (it's set in verifieposition), I suppress  */
+        /* output of promotiononly for now.  */
+        continue;
       }
-	}
+    }
 
-	if (cond == april) {
+    if (cond == april) {
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf...*/
       char LocalBuf[4];
       piece pp;
       for (pp= vide; pp!=derbla; ++pp)
-	    if (isapril[pp]) {
+        if (isapril[pp]) {
           if (PieceTab[pp][1] != ' ')
-		    sprintf(LocalBuf, " %c%c",
+            sprintf(LocalBuf, " %c%c",
                     UPCASE(PieceTab[pp][0]),
                     UPCASE(PieceTab[pp][1]));
           else
-		    sprintf(LocalBuf, " %c",
+            sprintf(LocalBuf, " %c",
                     UPCASE(PieceTab[pp][0]));
           strcat(CondLine, LocalBuf);
-	    }
-	}
+        }
+    }
 
-	if (cond == imitators) {
+    if (cond == imitators) {
       for (i= 0; i < inum[1]; i++) {
-		AddSquare(CondLine, isquare[i]);
+        AddSquare(CondLine, isquare[i]);
       }
-	}
+    }
 
-	if (cond == noiprom && !CondFlag[imitators])
+    if (cond == noiprom && !CondFlag[imitators])
       continue;
 
-	if (cond == magic) {
+    if (cond == magic) {
       square  i;
       for (i= bas; i <= haut; i++) {
-		if (TSTFLAG(sq_spec[i], MagicSq)) {
+        if (TSTFLAG(sq_spec[i], MagicSq)) {
           AddSquare(CondLine, i);
-		}
+        }
       }
-	}
-	if (cond == whforsqu) {
+    }
+    if (cond == whforsqu) {
       square  i;
       for (i= bas; i <= haut; i++) {
-		if (TSTFLAG(sq_spec[i], WhForcedSq)) {
+        if (TSTFLAG(sq_spec[i], WhForcedSq)) {
           AddSquare(CondLine, i);
-		}
+        }
       }
-	}
-	if (cond == blforsqu) {
+    }
+    if (cond == blforsqu) {
       square  i;
       for (i= bas; i <= haut; i++) {
-		if (TSTFLAG(sq_spec[i], BlForcedSq)) {
+        if (TSTFLAG(sq_spec[i], BlForcedSq)) {
           AddSquare(CondLine, i);
-		}
+        }
       }
-	}
+    }
 
-	if (cond == whconforsqu) {
+    if (cond == whconforsqu) {
       square  i;
       for (i= bas; i <= haut; i++) {
-		if (TSTFLAG(sq_spec[i], WhConsForcedSq)) {
+        if (TSTFLAG(sq_spec[i], WhConsForcedSq)) {
           AddSquare(CondLine, i);
-		}
+        }
       }
-	}
+    }
 
-	if (cond == blconforsqu) {
+    if (cond == blconforsqu) {
       square  i;
       for (i= bas; i <= haut; i++) {
-		if (TSTFLAG(sq_spec[i], BlConsForcedSq)) {
+        if (TSTFLAG(sq_spec[i], BlConsForcedSq)) {
           AddSquare(CondLine, i);
-		}
+        }
       }
-	}
+    }
 
-	if (cond == whprom_sq) {
+    if (cond == whprom_sq) {
       square  i;
       for (i= bas; i <= haut; i++) {
-		if (TSTFLAG(sq_spec[i], WhPromSq)) {
+        if (TSTFLAG(sq_spec[i], WhPromSq)) {
           AddSquare(CondLine, i);
-		}
+        }
       }
-	}
-	if (cond == blprom_sq) {
+    }
+    if (cond == blprom_sq) {
       square  i;
       for (i= bas; i <= haut; i++) {
-		if (TSTFLAG(sq_spec[i], BlPromSq)) {
+        if (TSTFLAG(sq_spec[i], BlPromSq)) {
           AddSquare(CondLine, i);
-		}
+        }
       }
-	}
+    }
 
-	if (cond == blroyalsq) {
+    if (cond == blroyalsq) {
       AddSquare(CondLine, bl_royal_sq);
-	}
+    }
 
-	if (cond == whroyalsq) {
+    if (cond == whroyalsq) {
       AddSquare(CondLine, wh_royal_sq);
-	}
+    }
 
-	if ((cond == madras && rex_mad)
+    if ((cond == madras && rex_mad)
         || (cond == phantom && rex_phan)
         || (cond == geneva && rex_geneva)
         || (rex_immun
@@ -3827,38 +3831,38 @@ void WriteConditions(int alignment) {
                 || cond == circeclone
                 || cond == circeclonemalefique
                 || cond == circediagramm)))
-	{
+    {
       strcat(CondLine, " ");
       strcat(CondLine, CondTab[rexincl]);
-	}
+    }
 
-	if (  (rex_mess_ex && cond == messigny)
+    if (  (rex_mess_ex && cond == messigny)
           || (rex_wooz_ex
               && (cond == woozles
                   || cond == biwoozles)))
-	{
+    {
       strcat(CondLine, " ");
       strcat(CondLine, CondTab[rexexcl]);
-	}
+    }
 
     if ( rex_protean_ex && cond == protean)
-	{
-      strcat(CondLine, "	");
+    {
+      strcat(CondLine, "    ");
       strcat(CondLine, CondTab[rexexcl]);
-	}
+    }
 
-	if (cond == chamcirce && ChameleonSequence[0]) {
-      strcat(CondLine, "	");
+    if (cond == chamcirce && ChameleonSequence[0]) {
+      strcat(CondLine, "    ");
       strcat(CondLine, ChameleonSequence);
-	}
+    }
 
-	if ((cond == isardam) && IsardamB) {
-      strcat(CondLine, "	");
+    if ((cond == isardam) && IsardamB) {
+      strcat(CondLine, "    ");
       strcat(CondLine, VariantTypeString[ActLang][TypeB]);
-	}
+    }
 
-	if (cond == annan) {
-      strcat(CondLine, "	");
+    if (cond == annan) {
+      strcat(CondLine, "    ");
       switch (annanvar)
       {
       case 1:
@@ -3871,39 +3875,39 @@ void WriteConditions(int alignment) {
         strcat(CondLine, VariantTypeString[ActLang][TypeD]);
         break;
       }
-	}
+    }
 
-	if ((cond == white_oscillatingKs) && OscillatingKingsTypeB[blanc]) {
-      strcat(CondLine, "	");
+    if ((cond == white_oscillatingKs) && OscillatingKingsTypeB[blanc]) {
+      strcat(CondLine, "    ");
       strcat(CondLine, VariantTypeString[ActLang][TypeB]);
-	}
+    }
 
-	if ((cond == black_oscillatingKs) && OscillatingKingsTypeB[noir]) {
-      strcat(CondLine, "	");
+    if ((cond == black_oscillatingKs) && OscillatingKingsTypeB[noir]) {
+      strcat(CondLine, "    ");
       strcat(CondLine, VariantTypeString[ActLang][TypeB]);
-	}
+    }
 
-	if ((cond == white_oscillatingKs) && OscillatingKingsTypeC[blanc]) {
+    if ((cond == white_oscillatingKs) && OscillatingKingsTypeC[blanc]) {
       if (! CondFlag[swappingkings]) {
-        strcat(CondLine, "	");
+        strcat(CondLine, "  ");
         strcat(CondLine, VariantTypeString[ActLang][TypeC]);
       }
-	}
+    }
 
-	if ((cond == black_oscillatingKs) && OscillatingKingsTypeC[noir]) {
+    if ((cond == black_oscillatingKs) && OscillatingKingsTypeC[noir]) {
       if (! CondFlag[swappingkings]) {
-        strcat(CondLine, "	");
+        strcat(CondLine, "  ");
         strcat(CondLine, VariantTypeString[ActLang][TypeC]);
       }
-	}
+    }
 
-	if ((cond == patience) && PatienceB) {
-      strcat(CondLine, "	");
+    if ((cond == patience) && PatienceB) {
+      strcat(CondLine, "    ");
       strcat(CondLine, VariantTypeString[ActLang][TypeB]);
-	}
+    }
 
-    if (CondFlag[singlebox])	{
-      strcat(CondLine, "	");
+    if (CondFlag[singlebox])    {
+      strcat(CondLine, "    ");
       if (SingleBoxType==singlebox_type1)
         strcat(CondLine, VariantTypeString[ActLang][Type1]);
       if (SingleBoxType==singlebox_type2)
@@ -3912,29 +3916,29 @@ void WriteConditions(int alignment) {
         strcat(CondLine, VariantTypeString[ActLang][Type3]);
     }
 
-	if (cond == sentinelles) {
+    if (cond == sentinelles) {
       char pawns[7];
       if (sentinelb == pbb)
-		strcat(CondLine, " Berolina");
+        strcat(CondLine, " Berolina");
       if (SentPionAdverse) {
-		strcat(CondLine, "  ");
-		strcat(CondLine,
+        strcat(CondLine, "  ");
+        strcat(CondLine,
                VariantTypeString[ActLang][PionAdverse]);
       }
       if (SentPionNeutral) {
-		strcat(CondLine, "  ");
-		strcat(CondLine,
+        strcat(CondLine, "  ");
+        strcat(CondLine,
                VariantTypeString[ActLang][PionNeutral]);
       }
       if (max_pn !=8 || max_pb != 8) {
-		sprintf(pawns, " %i/%i", max_pb, max_pn);
-		strcat (CondLine, pawns);
+        sprintf(pawns, " %i/%i", max_pb, max_pn);
+        strcat (CondLine, pawns);
       }
       if (max_pt != 16) {
-		sprintf(pawns, " //%i", max_pt);
-		strcat (CondLine, pawns);
+        sprintf(pawns, " //%i", max_pt);
+        strcat (CondLine, pawns);
       }
-	}
+    }
 
     if ((cond == SAT || cond == strictSAT) && (WhiteSATFlights != 1 || BlackSATFlights != 1)) {
       char extra[10];
@@ -3946,7 +3950,7 @@ void WriteConditions(int alignment) {
       strcat (CondLine, extra);
     }
 
-	switch (cond) {
+    switch (cond) {
     case anti:
     case antispiegel:
     case antidiagramm:
@@ -3970,66 +3974,66 @@ void WriteConditions(int alignment) {
       break;
     default:
       break;
-	}
+    }
 
-	switch (cond) {
+    switch (cond) {
     case blmax:
     case blmin:
     case blcapt:
       if (bl_ultra || bl_exact) {
         strcat(CondLine, "  ");
         if (bl_ultra)
-	      strcat(CondLine, CondTab[ultra]);
+          strcat(CondLine, CondTab[ultra]);
         else
-	      strcat(CondLine, CondTab[exact]);
+          strcat(CondLine, CondTab[exact]);
       }
       break;
     case whmax:
     case whmin:
     case whcapt:
       if (wh_ultra || wh_exact) {
-		strcat(CondLine, "  ");
-		if (wh_ultra)
+        strcat(CondLine, "  ");
+        if (wh_ultra)
           strcat(CondLine, CondTab[ultra]);
-		else
+        else
           strcat(CondLine, CondTab[exact]);
       }
     default:
       break;
-	}
-	switch (alignment) {
+    }
+    switch (alignment) {
     case WCcentered:
       CenterLine(CondLine);
       break;
 
     case WCLaTeX:
       if (CondPrinted) {
-		fprintf(LaTeXFile, "{\\newline}\n   ");
+        fprintf(LaTeXFile, "{\\newline}\n   ");
       }
       else {
-		fprintf(LaTeXFile, " \\condition{");
+        fprintf(LaTeXFile, " \\condition{");
       }
       LaTeXStr(CondLine);
       break;
 
     case WCleft:
       if (CondPrinted) {
-		if (LaTeXout) {
+        if (LaTeXout) {
           strcat(ActTwin, ", ");
-		}
-		StdString("\n	");
+        }
+        StdString("\n   ");
       }
       StdString(CondLine);
       if (LaTeXout) {
-		strcat(ActTwin, CondLine);
+        strcat(ActTwin, CondLine);
       }
       break;
-	}
-	CondPrinted= True;
+    }
+    CondPrinted= True;
   }
 
   if (alignment == WCLaTeX && CondPrinted) {
-	fprintf(LaTeXFile, "}%%\n");
+    fprintf(LaTeXFile, "}%%\n");
   }
 } /* WriteConditions */
 
@@ -4051,7 +4055,7 @@ void WritePosition() {
   SolFile= NULL;
 
   for (sp= Neutral; sp < PieSpCount; sp++) {
-	strcpy(ListSpec[sp], PieSpString[ActLang][sp]);
+    strcpy(ListSpec[sp], PieSpString[ActLang][sp]);
   }
 
   StdChar('\n');
@@ -4069,40 +4073,40 @@ void WritePosition() {
 
   /* Just for visualizing imitators on the board. */                 
   if (CondFlag[imitators]) {
-	for (i= 0; i < inum[1]; i++) {
+    for (i= 0; i < inum[1]; i++) {
       e[isquare[i]]= -1; 
-	}
+    }
   }
 
   for (i=0; i<8; i++) {
-	char *digits="87654321";
-	strcpy(HLine1,HorizL);
-	HLine1[0]= digits[i];
-	HLine1[sizeof(HorizL)-3]= digits[i];
+    char *digits="87654321";
+    strcpy(HLine1,HorizL);
+    HLine1[0]= digits[i];
+    HLine1[sizeof(HorizL)-3]= digits[i];
 
     strcpy(nextLine,BlankL);
 
-	for (j= 1; j <= 8; j++, field++) {
+    for (j= 1; j <= 8; j++, field++) {
       char *h1;
       h1= HLine1 + (j * 4);
       if ((pp= abs(p= e[field])) < King) {
-		if (p == -1) {
+        if (p == -1) {
           /* this is an imitator ! */
           *h1= 'I';
           e[field]= vide; /* "delete" imitator */
-		}
-		else if (p == obs) {
+        }
+        else if (p == obs) {
           /* this is a hole ! */
           *h1= ' ';
-		}
-		/* else:  the field is empty ! */
-		continue;
+        }
+        /* else:  the field is empty ! */
+        continue;
       }
 
       for (sp= Neutral + 1; sp < PieSpCount; sp++) {
-		if (TSTFLAG(spec[field], sp)) {
+        if (TSTFLAG(spec[field], sp)) {
           AddSquare(ListSpec[sp], field);
-		}
+        }
       }
 
       if (pp<Hunter0 || pp >= (Hunter0 + maxnrhuntertypes)) {
@@ -4125,7 +4129,7 @@ void WritePosition() {
         }
         *h1--= UPCASE(PieceTab[huntertypes[i].away][0]);
 
-        --n1;	/* leave pos. below '/' empty */
+        --n1;   /* leave pos. below '/' empty */
         if ((*n1= PieceTab[huntertypes[i].home][1]) != ' ') {
           *n1= UPCASE(*n1);
         }
@@ -4133,44 +4137,44 @@ void WritePosition() {
       }
 
       if (p < 0) {
-		*h1= '-';
+        *h1= '-';
       }
       if (TSTFLAG(spec[field], Neutral)) {
-		nNeutr++;
-		*h1= '=';
+        nNeutr++;
+        *h1= '=';
       }
       else if (p < 0) {
-		nBlack++;
+        nBlack++;
       }
       else {
-		nWhite++;
+        nWhite++;
       }
-	}
-	StdString(HLine1);
-	StdString(nextLine);
-	field-= 32;
+    }
+    StdString(HLine1);
+    StdString(nextLine);
+    field-= 32;
   }
   StdString(BorderL);
   if (nNeutr) {
-	sprintf(PieCnts, "%d + %d + %dn", nWhite, nBlack, nNeutr);
+    sprintf(PieCnts, "%d + %d + %dn", nWhite, nBlack, nNeutr);
   }
   else {
-	sprintf(PieCnts, "%d + %d", nWhite, nBlack);
+    sprintf(PieCnts, "%d + %d", nWhite, nBlack);
   }
 
   strcpy(StipOptStr, AlphaStip);
 
   if (droh < enonce - 1) {
-	sprintf(StipOptStr+strlen(StipOptStr), "/%d", droh);
-	if (maxflights < 64) {
+    sprintf(StipOptStr+strlen(StipOptStr), "/%d", droh);
+    if (maxflights < 64) {
       sprintf(StipOptStr+strlen(StipOptStr), "/%d", maxflights);
-	}
+    }
   }
   else if (maxflights < 64)
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", maxflights);
 
   if (NonTrivialLength < enonce - 1) {
-	sprintf(StipOptStr+strlen(StipOptStr),
+    sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%d", NonTrivialNumber, NonTrivialLength);
   }
 
@@ -4178,21 +4182,21 @@ void WritePosition() {
   StdString(GlobalStr);
 
   for (sp= Neutral + 1; sp < PieSpCount; sp++) {
-	if (TSTFLAG(PieSpExFlags, sp)) {
+    if (TSTFLAG(PieSpExFlags, sp)) {
       CenterLine(ListSpec[sp]);
-	}
+    }
   }
 
   WriteConditions(WCcentered);
 
   if (OptFlag[halfduplex]) {
-	CenterLine(OptString[ActLang][halfduplex]);
+    CenterLine(OptString[ActLang][halfduplex]);
   }
   else if (OptFlag[duplex]) {
-	CenterLine(OptString[ActLang][duplex]);
+    CenterLine(OptString[ActLang][duplex]);
   }
   if (OptFlag[quodlibet]) {
-	CenterLine(OptString[ActLang][quodlibet]);
+    CenterLine(OptString[ActLang][quodlibet]);
   }
   StdChar('\n');
 
@@ -4202,10 +4206,13 @@ void WritePosition() {
 /**** LaTeX output ***** begin *****/
 
 void LaTeXOpen(void) {
-  fprintf(LaTeXFile, "\\documentclass{article}%%%s\n", VERSIONSTRING);
+  fprintf(LaTeXFile, "\\documentclass{article}%%");
+  if (!flag_regression)
+    fprintf(LaTeXFile, "%s", VERSIONSTRING);
+  fprintf(LaTeXFile, "\n");
   fprintf(LaTeXFile, "\\usepackage{diagram}\n");
   if (ActLang == German) {
-	fprintf(LaTeXFile, "\\usepackage{german}\n");
+    fprintf(LaTeXFile, "\\usepackage{german}\n");
   }
   fprintf(LaTeXFile, "\n\\begin{document}\n\n");
 }
@@ -4216,7 +4223,7 @@ void LaTeXClose(void) {
 
 void LaTeXStr(char *line) {
   while (*line) {
-	switch (*line) {
+    switch (*line) {
     case '#':
       fprintf(LaTeXFile, "\\%c", *line);
       break;
@@ -4225,25 +4232,25 @@ void LaTeXStr(char *line) {
       break;
     case '%':
       if (*(line+1) == '%') {
-		/* it's introducing a comment */
-		fprintf(LaTeXFile, "%%");
-		line++;
+        /* it's introducing a comment */
+        fprintf(LaTeXFile, "%%");
+        line++;
       }
       else {
-		fprintf(LaTeXFile, "\\%%");
+        fprintf(LaTeXFile, "\\%%");
       }
       break;
     case '0':
       if (strncmp(line, "0-0-0", 5) == 0) {
-		fprintf(LaTeXFile, "{\\OOO}");
-		line += 4;
+        fprintf(LaTeXFile, "{\\OOO}");
+        line += 4;
       }
       else if (strncmp(line, "0-0", 3) == 0) {
-		fprintf(LaTeXFile, "{\\OO}");
-		line += 2;
+        fprintf(LaTeXFile, "{\\OO}");
+        line += 2;
       }
       else {
-		fprintf(LaTeXFile, "%c", *line);
+        fprintf(LaTeXFile, "%c", *line);
       }
       break;
     case '-':
@@ -4258,8 +4265,8 @@ void LaTeXStr(char *line) {
     default:
       fprintf(LaTeXFile, "%c", *line);
       fflush(LaTeXFile);         /* non-buffered output  FCO */
-	}
-	line++;
+    }
+    line++;
   }
 }
 
@@ -4268,46 +4275,46 @@ void LaTeXEndDiagram(void) {
 
   /* twins */
   if (ActTwin[0] != '\0') {
-	fprintf(LaTeXFile, " \\twins{");
-	/* remove the last "{\\newline} */
-	ActTwin[strlen(ActTwin)-10]= '\0';
-	LaTeXStr(ActTwin);
-	fprintf(LaTeXFile, "}%%\n");
+    fprintf(LaTeXFile, " \\twins{");
+    /* remove the last "{\\newline} */
+    ActTwin[strlen(ActTwin)-10]= '\0';
+    LaTeXStr(ActTwin);
+    fprintf(LaTeXFile, "}%%\n");
   }
 
   /* solution */
   fprintf(LaTeXFile, " \\solution{%%\n");
   rewind(SolFile);
   while (fgets(line, 255, SolFile)) {
-	if (!strstr(line, GetMsgString(TimeString))) {
+    if (!strstr(line, GetMsgString(TimeString))) {
       if (strlen(line) > 1 && line[1] == ')') {
-		/* twin */
-		fprintf(LaTeXFile, "%c)", line[0]);
+        /* twin */
+        fprintf(LaTeXFile, "%c)", line[0]);
       }
       else if (strlen(line) > 2 && line[2] == ')') {
-		if (line[0] == '+')	       /* twin (continued) */
+        if (line[0] == '+')        /* twin (continued) */
           fprintf(LaTeXFile, "%c)", line[1]);
-		else
+        else
           fprintf(LaTeXFile, "%c%c)", line[0], line[1]);
       }
       else if (strlen(line) > 3 && line[3] == ')') {
-		/* continued twinning and >z */
-		fprintf(LaTeXFile, "%c%c)", line[1], line[2]);
+        /* continued twinning and >z */
+        fprintf(LaTeXFile, "%c%c)", line[1], line[2]);
       }
       if (strchr(line, '.')) {   /* line containing a move */
-		LaTeXStr(line);
+        LaTeXStr(line);
       }
-	}
+    }
   }
 
   fprintf(LaTeXFile, " }%%\n");
   fclose(SolFile);
 
   if ((SolFile= tmpfile()) == NULL) {
-	IoErrorMsg(WrOpenError,0);
+    IoErrorMsg(WrOpenError,0);
   }
 
-  if	(!(OptFlag[solmenaces]
+  if    (!(OptFlag[solmenaces]
            || OptFlag[solflights]
            || OptFlag[nontrivial]
            || (OptFlag[intelligent]
@@ -4317,7 +4324,7 @@ void LaTeXEndDiagram(void) {
            || (OptFlag[maxsols]
                && (solutions >= maxsolutions))))
   {
-	fprintf(LaTeXFile, " \\Co+%%%s\n", VERSIONSTRING);
+    fprintf(LaTeXFile, " \\Co+%%%s\n", VERSIONSTRING);
   }
 
   fprintf(LaTeXFile, "\\end{diagram}\n\\hfill\n");
@@ -4341,93 +4348,93 @@ void LaTeXBeginDiagram(void) {
 
   /* authors */
   if (ActAuthor[0] != '\0') {
-	if (strchr(ActAuthor, ',')) {
+    if (strchr(ActAuthor, ',')) {
       /* , --> correct format */
       char *cp, *endcp = 0;
 
       while ((cp=strchr(ActAuthor, '\n'))) {
-		*cp= ';';
-		endcp= cp;
+        *cp= ';';
+        endcp= cp;
       }
       if (endcp)
-		*endcp= '\0';
+        *endcp= '\0';
 
       sprintf(GlobalStr, " \\author{%s}%%%%\n", ActAuthor);
       LaTeXStr(GlobalStr);
 
       if (endcp)
-		*endcp= '\n';
+        *endcp= '\n';
       while ((cp=strchr(ActAuthor, ';')))
-		*cp= '\n';
-	}
-	else {
+        *cp= '\n';
+    }
+    else {
       /* reverse first and surnames */
       char *cp1, *cp2, *cp3;
 
       fprintf(LaTeXFile, " \\author{");
       cp1= ActAuthor;
       while ((cp2=strchr(cp1, '\n'))) {
-		*cp2= '\0';
-		if (cp1 != ActAuthor)
+        *cp2= '\0';
+        if (cp1 != ActAuthor)
           fprintf(LaTeXFile, "; ");
-		cp3= cp2;
-		while (cp3 > cp1 && *cp3 != ' ')
+        cp3= cp2;
+        while (cp3 > cp1 && *cp3 != ' ')
           cp3--;
         /* wrong LaTeX output if the authors surname only given */
-		if (cp3 == cp1) {
+        if (cp3 == cp1) {
           /* we got only the surname ! */
           sprintf(GlobalStr, "%s, ", cp3);
-		} else {
+        } else {
           /* we got firstname and surname */
           *cp3= '\0';
           sprintf(GlobalStr, "%s, %s", cp3+1, cp1);
-		}
-		LaTeXStr(GlobalStr);
-		*cp3= *cp2= '\n';
+        }
+        LaTeXStr(GlobalStr);
+        *cp3= *cp2= '\n';
 
-		cp1= cp2+1;
+        cp1= cp2+1;
       }
       fprintf(LaTeXFile, "}%%\n");
-	}
+    }
   }
 
   /* source */
   /* format: [diagram number,] source [issue number,] [date] */
   if (ActOrigin[0] != '\0') {
-	char *source= ActOrigin;
-	char *date, *eol, *tmp;
+    char *source= ActOrigin;
+    char *date, *eol, *tmp;
 
-	/* diagram number */
-	while (strchr(CharChar, *source))
+    /* diagram number */
+    while (strchr(CharChar, *source))
       source++;
 
-	if (*source == ',') {
+    if (*source == ',') {
       *source= '\0';
       fprintf(LaTeXFile, " \\sourcenr{%s}%%\n", ActOrigin);
       *source= ',';
       while (*(++source) == ' ')
-		;
-	}
-	else {
+        ;
+    }
+    else {
       source= ActOrigin;
-	}
+    }
 
-	/* date */
-	/* supported formats: year
-	**		      month/year
-	**		      month-month/year
-	**		      day. month. year
-	**		      day.-day. month. year
-	*/
-	/* year */
-	eol= date= strchr(source, '\n');
-	*eol= '\0';
+    /* date */
+    /* supported formats: year
+    **            month/year
+    **            month-month/year
+    **            day. month. year
+    **            day.-day. month. year
+    */
+    /* year */
+    eol= date= strchr(source, '\n');
+    *eol= '\0';
 
-	while (strchr("0123456789-", *(date-1))) {
+    while (strchr("0123456789-", *(date-1))) {
       date--;
-	}
+    }
 
-	if (date != eol) {
+    if (date != eol) {
       /* sucessfully parsed a year */
       fprintf(LaTeXFile, " \\year{%s}%%\n", date);
 
@@ -4435,94 +4442,94 @@ void LaTeXBeginDiagram(void) {
       /* while (*(date-1) == ' ') date--; */
       switch (*(date-1)) {
       case '/':
-		/* format is either month/year or month-month/year */
-		date--;
-		while (*(date-1) == ' ')
+        /* format is either month/year or month-month/year */
+        date--;
+        while (*(date-1) == ' ')
           date--;
-		tmp= date;
-		while (strchr("0123456789-", *(date-1)))
+        tmp= date;
+        while (strchr("0123456789-", *(date-1)))
           date--;
-		fprintf(LaTeXFile, " \\month%s{%.*s}%%\n",
+        fprintf(LaTeXFile, " \\month%s{%.*s}%%\n",
                 strchr(date, '-') ? "s" : "", (int)(tmp-date), date);
-		break;
+        break;
 
       case '.':
-		/* format is either
+        /* format is either
            day. month. year or day.-day. month. year
         */
-		date--;
-		tmp= date;
-		while (strchr("0123456789", *(date-1)))
-          date--;
-		fprintf(LaTeXFile, " \\month{%.*s}%%\n",
-                (int)(tmp-date), date);
-		/* now parse day(s) */
-		while (*(--date) == ' ');
+        date--;
         tmp= date;
-		while (strchr("0123456789-.", *(date-1)))
+        while (strchr("0123456789", *(date-1)))
           date--;
-		fprintf(LaTeXFile, " \\day{%.*s}%%\n",
+        fprintf(LaTeXFile, " \\month{%.*s}%%\n",
                 (int)(tmp-date), date);
-		break;
+        /* now parse day(s) */
+        while (*(--date) == ' ');
+        tmp= date;
+        while (strchr("0123456789-.", *(date-1)))
+          date--;
+        fprintf(LaTeXFile, " \\day{%.*s}%%\n",
+                (int)(tmp-date), date);
+        break;
       }
-	} /* month(s), day(s) */
+    } /* month(s), day(s) */
 
-	/* issue number */
-	while (*(date-1) == ' ')
+    /* issue number */
+    while (*(date-1) == ' ')
       date--;
-	if (*(date-1) == ',') {
+    if (*(date-1) == ',') {
       /* issue number found */
       tmp= --date;
       while (*(date-1) != ' ')
-		date--;
+        date--;
       fprintf(LaTeXFile, " \\issue{%.*s}%%\n",
               (int)(tmp-date), date);
-	} /* issue */
+    } /* issue */
 
-	/* default */
-	/* source name or complete source if not interpretable */
-	while (*(date-1) == ' ')
+    /* default */
+    /* source name or complete source if not interpretable */
+    while (*(date-1) == ' ')
       date--;
-	sprintf(GlobalStr,
+    sprintf(GlobalStr,
             " \\source{%.*s}%%%%\n", (int)(date-source), source);
-	LaTeXStr(GlobalStr);
+    LaTeXStr(GlobalStr);
 
-	*eol= '\n';
+    *eol= '\n';
   }
 
   /* award */
   if (ActAward[0] != '\0') {
-	char *tour= strchr(ActAward, ',');
-	char *eol= strchr(ActAward, '\n');
-	*eol= '\0';
-	if (tour) {
+    char *tour= strchr(ActAward, ',');
+    char *eol= strchr(ActAward, '\n');
+    *eol= '\0';
+    if (tour) {
       fprintf(LaTeXFile,
               " \\award{%.*s}%%\n", (int)(tour-ActAward), ActAward);
       while (*(++tour) == ' ');
       fprintf(LaTeXFile, " \\tournament{%s}%%\n", tour);
-	} else
+    } else
       fprintf(LaTeXFile, " \\award{%s}%%\n", ActAward);
-	*eol= '\n';
+    *eol= '\n';
   }
 
   /* dedication */
   if (ActTitle[0] != '\0') {
-	sprintf(GlobalStr, "\\dedication{%s}%%%%\n", ActTitle);
-	LaTeXStr(GlobalStr);
+    sprintf(GlobalStr, "\\dedication{%s}%%%%\n", ActTitle);
+    LaTeXStr(GlobalStr);
   }
 
   /* pieces & twins */
   if (OptFlag[duplex]) {
-	strcat(ActTwin, OptTab[duplex]);
-	strcat(ActTwin, "{\\newline}");
+    strcat(ActTwin, OptTab[duplex]);
+    strcat(ActTwin, "{\\newline}");
   }
   else if (OptFlag[halfduplex]) {
-	strcat(ActTwin, OptTab[halfduplex]);
-	strcat(ActTwin, "{\\newline}");
+    strcat(ActTwin, OptTab[halfduplex]);
+    strcat(ActTwin, "{\\newline}");
   }
   if (OptFlag[quodlibet]) {
-	strcat(ActTwin, OptTab[quodlibet]);
-	strcat(ActTwin, "{\\newline}");
+    strcat(ActTwin, OptTab[quodlibet]);
+    strcat(ActTwin, "{\\newline}");
   }
 
   /* Just for visualizing imitators on the board. */                 
@@ -4535,10 +4542,10 @@ void LaTeXBeginDiagram(void) {
   fprintf(LaTeXFile, " \\pieces{");
 
   for (p= vide; p < PieceCount; p++)
-	CLEARFL(remspec[p]);
+    CLEARFL(remspec[p]);
 
   for (bnp= boardnum; *bnp; bnp++) {
-	if (e[*bnp] == 1) {
+    if (e[*bnp] == 1) {
       /* holes */
       if (holess)
         strcat(HolesSqList, ", ");
@@ -4548,9 +4555,9 @@ void LaTeXBeginDiagram(void) {
     } else if (e[*bnp] != vide) {
       p= abs(e[*bnp]);
       if (!firstpiece)
-		fprintf(LaTeXFile, ", ");
+        fprintf(LaTeXFile, ", ");
       else
-		firstpiece= false;
+        firstpiece= false;
 
       fprintf(LaTeXFile, "%c%s%c%c",
               TSTFLAG(spec[*bnp], Neutral) ? 'n' :
@@ -4560,28 +4567,28 @@ void LaTeXBeginDiagram(void) {
               *bnp/onerow-200/onerow+'1');
 
       if (e[*bnp] == -1) {
-		e[*bnp]= vide;
+        e[*bnp]= vide;
       }
       else if ((p > Bishop) && (LaTeXPiecesAbbr[abs(p)] != NULL)) {
-		fairypieces= true;
+        fairypieces= true;
 
-		if (TSTFLAG(spec[*bnp], Neutral)) {
+        if (TSTFLAG(spec[*bnp], Neutral)) {
           SETFLAG(remspec[p], Neutral);
-		}
-		else if (TSTFLAG(spec[*bnp], White)) {
+        }
+        else if (TSTFLAG(spec[*bnp], White)) {
           SETFLAG(remspec[p], White);
-		}
-		else {
+        }
+        else {
           SETFLAG(remspec[p], Black);
-		}
+        }
       }
 
       for (sp= Neutral + 1; sp < PieSpCount; sp++) {
-	    if (TSTFLAG(spec[*bnp], sp)) {
+        if (TSTFLAG(spec[*bnp], sp)) {
           AddSquare(ListSpec[sp], *bnp);
-		}
+        }
       }
-	}
+    }
   }
   fprintf(LaTeXFile, "}%%\n");
   fflush(LaTeXFile);
@@ -4595,15 +4602,15 @@ void LaTeXBeginDiagram(void) {
 
   for (sp= Neutral + 1; sp < PieSpCount; sp++)
     if (TSTFLAG(PieSpExFlags, sp))
-      modifiedpieces =true;  	/* to be used below */
+      modifiedpieces =true;     /* to be used below */
 
   /* stipulation */
   fprintf(LaTeXFile, " \\stipulation{");
   LaTeXStr(ActStip);
   if (OptFlag[solapparent])
-	fprintf(LaTeXFile, "*");
+    fprintf(LaTeXFile, "*");
   if (OptFlag[appseul]) {
-	fprintf(LaTeXFile,
+    fprintf(LaTeXFile,
             " %c{\\ra}", tolower(*PieSpString[ActLang][White]));
   }
 
@@ -4611,7 +4618,7 @@ void LaTeXBeginDiagram(void) {
 
   /* conditions */
   if (CondFlag[gridchess]) {
-	fprintf(LaTeXFile, " \\stdgrid%%\n");
+    fprintf(LaTeXFile, " \\stdgrid%%\n");
   }
   WriteConditions(WCLaTeX);
 
@@ -4635,38 +4642,38 @@ void LaTeXBeginDiagram(void) {
 
   /* fairy pieces, modified pieces, holes */
   if (fairypieces || holess || modifiedpieces) {
-	boolean firstline= true;
+    boolean firstline= true;
 
-	fprintf(LaTeXFile, " \\remark{");
-	for (p= Bishop+1; p < PieceCount; p++) {
+    fprintf(LaTeXFile, " \\remark{");
+    for (p= Bishop+1; p < PieceCount; p++) {
       int q;
       if (!remspec[p])
-		continue;
+        continue;
 
       for (q= Bishop+1; q < p; q++) {
-		if (remspec[q]
+        if (remspec[q]
             && LaTeXPiecesAbbr[p][0] == LaTeXPiecesAbbr[q][0]
             && LaTeXPiecesAbbr[p][1] == LaTeXPiecesAbbr[q][1])
-		{
+        {
           fprintf(stderr, "+++ Warning: "
                   "double representation '%s' for %s and %s\n",
                   LaTeXPiecesAbbr[q],
                   LaTeXPiecesFull[p], LaTeXPiecesFull[q]);
-		}
+        }
       }
 
       if (!firstline)
-		fprintf(LaTeXFile, "{\\newline}\n    ");
+        fprintf(LaTeXFile, "{\\newline}\n    ");
       fprintf(LaTeXFile, "\\mbox{");
       if (TSTFLAG(remspec[p], White))
-		fprintf(LaTeXFile, "\\w%s ", LaTeXPiecesAbbr[p]);
+        fprintf(LaTeXFile, "\\w%s ", LaTeXPiecesAbbr[p]);
       if (TSTFLAG(remspec[p], Black))
-		fprintf(LaTeXFile, "\\s%s ", LaTeXPiecesAbbr[p]);
+        fprintf(LaTeXFile, "\\s%s ", LaTeXPiecesAbbr[p]);
       if (TSTFLAG(remspec[p], Neutral))
-		fprintf(LaTeXFile, "\\n%s ", LaTeXPiecesAbbr[p]);
+        fprintf(LaTeXFile, "\\n%s ", LaTeXPiecesAbbr[p]);
       fprintf(LaTeXFile, "=%s}", LaTeXPiecesFull[p]);
       firstline= false;
-	}
+    }
 
     if (modifiedpieces) {
       for (sp= Neutral + 1; sp < PieSpCount; sp++)
@@ -4694,17 +4701,17 @@ void Tabulate() {
   if (marge < 0)
 #ifdef STANDALONE
   {
-	sprintf(GlobalStr, "error: marge = %d negative\n", marge);
-	ErrString(GlobalStr);
-	exit(9);
+    sprintf(GlobalStr, "error: marge = %d negative\n", marge);
+    ErrString(GlobalStr);
+    exit(9);
   }
 #else
   IoErrorMsg(9,0);
-#endif	  /* STANDALONE */
-#endif	  /* DEBUG */
+#endif    /* STANDALONE */
+#endif    /* DEBUG */
   if (marge > 0) {
-	sprintf(GlobalStr, "%*c", marge, bl);
-	StdString(GlobalStr);
+    sprintf(GlobalStr, "%*c", marge, bl);
+    StdString(GlobalStr);
   }
 }
 
@@ -4730,10 +4737,10 @@ void WritePiece(piece p) {
 void WriteSquare(square i) {
   StdChar('a' - nr_files_on_board + i % onerow);
   if (OptFlag[duplex] && OptFlag[intelligent] && maincamp == noir) {
-	StdChar('8' + nr_rows_on_board - i / onerow);
+    StdChar('8' + nr_rows_on_board - i / onerow);
   }
   else {
-	StdChar('1' - nr_rows_on_board + i / onerow);
+    StdChar('1' - nr_rows_on_board + i / onerow);
   }
 }
 
@@ -4745,17 +4752,17 @@ int main() {
   rb= rn= initsquare;
   InputStack[0]= stdin;
   do {
-	memset((char *) exist,0,sizeof(exist));
-	memset((char *) promonly,0,sizeof(promonly));
-	memset((char *) isapril,0,sizeof(isapril));
-	memset((char *) StipFlags,0,sizeof(StipFlags));
-	memset((char *) OptFlag,0,sizeof(OptFlag));
-	memset((char *) CondFlag,0,sizeof(CondFlag));
-	memset((char *) e,0,sizeof(e));
-	tk= ReadProblem(tk);
-	if (!OptFlag[noboard]) {
+    memset((char *) exist,0,sizeof(exist));
+    memset((char *) promonly,0,sizeof(promonly));
+    memset((char *) isapril,0,sizeof(isapril));
+    memset((char *) StipFlags,0,sizeof(StipFlags));
+    memset((char *) OptFlag,0,sizeof(OptFlag));
+    memset((char *) CondFlag,0,sizeof(CondFlag));
+    memset((char *) e,0,sizeof(e));
+    tk= ReadProblem(tk);
+    if (!OptFlag[noboard]) {
       WritePosition();
-	}
+    }
   } while (tk == NextProblem);
 }
 #endif
@@ -4767,46 +4774,46 @@ int main() {
 **
 ** <PopeyeInput>  ::= <BeginSpec> <PySpecList> <EndSpec>
 **
-** <BeginSpec>	  ::= beginproblem
-** <EndSpec>	  ::= endproblem | nextproblem <PySpecList> <EndSpec>
+** <BeginSpec>    ::= beginproblem
+** <EndSpec>      ::= endproblem | nextproblem <PySpecList> <EndSpec>
 **
 ** <PySpecList>   ::= <PySpec> | <PySpec> <PySpecList>
-** <PySpec>	  ::= <PieceSpec> | <StipSpec> | <CondSpec> | <AuthorSpec> |
-**		      <OrigSpec> | <KamikazeSpec> | <ImitatorSpec> |
-**		      <TitleSpec> | <RemarkSpec>
-** <PieceSpec>	  ::= pieces <PieceList>
+** <PySpec>   ::= <PieceSpec> | <StipSpec> | <CondSpec> | <AuthorSpec> |
+**            <OrigSpec> | <KamikazeSpec> | <ImitatorSpec> |
+**            <TitleSpec> | <RemarkSpec>
+** <PieceSpec>    ::= pieces <PieceList>
 ** <KamikazeSpec> ::= kamikaze <PieceList>
 ** <ImitatorSpec> ::= imitator <FieldList>
-** <PieceList>	  ::= <MenSpec> <MenList> | <MenSpec> <MenList> <PieceList>
-** <MenSpec>	  ::= <ColorSpec> <AddSpecList>
-** <ColorSpec>	  ::= white | black | neutral
+** <PieceList>    ::= <MenSpec> <MenList> | <MenSpec> <MenList> <PieceList>
+** <MenSpec>      ::= <ColorSpec> <AddSpecList>
+** <ColorSpec>    ::= white | black | neutral
 ** <AddSpecList>  ::= <Empty> | <AddSpec>
-** <AddSpec>	  ::= royal
-** <Empty>	  ::=
+** <AddSpec>      ::= royal
+** <Empty>    ::=
 **
-** <MenList>	  ::= <ManName> <FieldList> <Seperator> |
-**		      <ManName> <FieldList> <MenList>
-** <ManName>	  ::= as actually defined in POPEYE.
-** <FieldList>	  ::= <FieldName> | <FieldName><FieldList>
-** <FieldName>	  ::= <ColName><RowName>
-** <ColName>	  ::= a | b | c | d | e | f | g | h
-** <RowName>	  ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
+** <MenList>      ::= <ManName> <FieldList> <Seperator> |
+**            <ManName> <FieldList> <MenList>
+** <ManName>      ::= as actually defined in POPEYE.
+** <FieldList>    ::= <FieldName> | <FieldName><FieldList>
+** <FieldName>    ::= <ColName><RowName>
+** <ColName>      ::= a | b | c | d | e | f | g | h
+** <RowName>      ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 **
-** <StipSpec>	  ::= stipulation <StipName> <Number>
-** <StipName>	  ::= as actually defined in popeye
-** <Number>	  ::= <Digit> | <Digit><Number>
-** <Digit>	  ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+** <StipSpec>     ::= stipulation <StipName> <Number>
+** <StipName>     ::= as actually defined in popeye
+** <Number>   ::= <Digit> | <Digit><Number>
+** <Digit>    ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 **
-** <CondSpec>	  ::= condition <CondList>
-** <CondList>	  ::= <CondName> | <CondName> <CondList>
-** <Condname>	  ::= as actually defined in popeye
+** <CondSpec>     ::= condition <CondList>
+** <CondList>     ::= <CondName> | <CondName> <CondList>
+** <Condname>     ::= as actually defined in popeye
 **
 ** <AuthorSpec>   ::= author <string> <eol>
-** <OrigSpec>	  ::= origin <string> <eol>
-** <TitleSpec>	  ::= title <string> <eol>
+** <OrigSpec>     ::= origin <string> <eol>
+** <TitleSpec>    ::= title <string> <eol>
 ** <RemarkSpec>   ::= remark <string> <eol>
-** <string>	  ::= all characters except <eol>
-** <eol>	  ::= end of line
+** <string>   ::= all characters except <eol>
+** <eol>      ::= end of line
 **
 ** Example:
 ** beginproblem
