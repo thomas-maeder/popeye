@@ -39,6 +39,8 @@
 #ifndef PYDATA_H
 #define PYDATA_H
 
+#include "pyproc.h"
+
 #ifndef EXTERN
 #       define EXTERN extern
 #       define WE_ARE_EXTERN

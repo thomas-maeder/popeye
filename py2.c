@@ -1232,10 +1232,10 @@ boolean dragoncheck(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
+  square sq_departure;
+
   if (leapcheck(sq_king,vec_knight_start,vec_knight_end,p,evaluate))
     return true;
-
-  square sq_departure;
     
   if (p==dragonn
       || (CondFlag[blrefl_king] && p==roin))
