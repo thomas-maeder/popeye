@@ -338,9 +338,9 @@ void ProofInitialise(void) {
 
   if (flag_atob) {
     char InitialLine[40];
-    vsnprintf(InitialLine, sizeof InitialLine,
-             "Initial (%s ->):\n",
-             PieSpString[ActLang][flag_appseul ? White : Black]);
+    sprintf(InitialLine,
+            "Initial (%s ->):\n",
+            PieSpString[ActLang][flag_appseul ? White : Black]);
 	StdString(InitialLine);
 	WritePosition();
   }
