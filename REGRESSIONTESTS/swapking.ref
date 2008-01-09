@@ -1,0 +1,321 @@
+
+      Dan Meinking & Danny Dunn
+http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .  -P   7
+|                                   |
+6  -K   .   .   .   .   .   .   .   6
+|                                   |
+5  -S   .   .   .   .   .   .   .   5
+|                                   |
+4   Q   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          2 + 3
+            SwappingKings
+
+  1.Qa4-e8 ? threat:
+          2.Qe8-c8[wK<>bK] # 
+      1...Ka6-b6 
+          2.Qe8-d8[wK<>bK] # 
+    but
+      1...Sa5-b7  !
+
+  1.Qa4-d7 ! threat:
+          2.Qd7-c8[wK<>bK] # 
+          2.Qd7-a7[wK<>bK] # 
+      1...Sa5-c6 
+          2.Qd7-c8[wK<>bK] # 
+          2.Qd7-b7[wK<>bK] # 
+      1...Sa5-b7 
+          2.Qd7*b7[wK<>bK] # 
+      1...Ka6-b6 
+          2.Qd7-a7[wK<>bK] # 
+          2.Qd7-d8[wK<>bK] # 
+
+  1.Qa4-d4 ? threat:
+          2.Qd4-a7[wK<>bK] # 
+    but
+      1...Sa5-c6  !
+      1...Ka6-b5  !
+
+  1.Qa4-b4 ? zugzwang.
+      1...Sa5-b3 
+          2.Qb4-b7[wK<>bK] # 
+      1...Sa5-c4 
+          2.Qb4-b7[wK<>bK] # 
+      1...Sa5-c6 
+          2.Qb4-b7[wK<>bK] # 
+      1...Sa5-b7 
+          2.Qb4*b7[wK<>bK] # 
+    but
+      1...h7-h6  !
+      1...h7-h5  !
+
+
+solution finished.
+
+
+
+             Dan Meinking
+http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   K   3
+|                                   |
+2   .   .   .   .   S  -K   S   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         3 + 1
+            SwappingKings
+
+  1...Kh3-h2   2.Kf2-f1 Sg2-e3[wK<>bK]   3.Kh2-h1 Se2-g3[wK<>bK] +   4.Kf1-f2 Se3-g4[wK<>bK] # 
+  1...Sg2-f4   2.Kf2-e1 Sf4-d3[wK<>bK]   3.Kh3-h2 Ke1-f1   4.Kh2-h1 Se2-g3[wK<>bK] # 
+
+solution finished.
+
+
+
+   Dan Meinking & Norbert Geissler
+http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -Q   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -S   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   .   .  -S   .   .   .   .   2
+|                                   |
+1   R   .   B   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         3 + 5
+            SwappingKings
+
+  1  (Ke1-f1)
+  2  (Ke1-e2)
+  3  (Ke1-d1)
+  4  (Ke1*d2)
+  5  (Ke1-f2)
+  6  (Bc1*d2)
+  7  (Bc1*a3)
+  1...Bc1-b2[wK<>bK] +   2.Be3-d4[wK<>bK] 0-0-0   3.Sa3-c2 Bb2-a3   4.Bd4-c5 Rd1-h1[wK<>bK] # 
+  8  (Bc1-b2[wK<>bK] +)
+  9  (Ra1*a3)
+ 10  (Ra1-a2)
+ 11  (Ra1-b1)
+
+solution finished.
+
+
+
+             Dan Meinking
+http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   S   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -S   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   K   .  -P   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#3                     2 + 4
+            SwappingKings
+
+  1.Bb7-c8   2.Sc3-d1[wK<>bK]   3.Kf2-f1 Sf5-g3[wK<>bK] # 
+
+solution finished.
+
+
+
+             Dan Meinking
+http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   B   .   .   .   K   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -P   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -K   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   B   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 2
+            SwappingKings
+
+  1.Kd2-e1 Bf1-h3[wK<>bK]   2.d6-d5 0-0[wK<>bK] # 
+
+solution finished.
+
+
+
+             Dan Meinking
+http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -K   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   K   P   .   .   .   .   R   5
+|                                   |
+4   .  -P   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   B   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 3
+            SwappingKings
+
+  1.b7-b6 Bd1-b3   2.Kb8-b7 c5-c6[wK<>bK] # 
+  1.Kb8-a7 Kb5-a5   2.b7-b5 c5*b6 ep.[wK<>bK] # 
+
+solution finished.
+
+
+
+             Dan Meinking
+http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -P   .   .   .   .   .   .   4
+|                                   |
+3   .   B   .   .   .   .   .   .   3
+|                                   |
+2   .   K   P   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   Q   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 3
+            SwappingKings
+
+  1.Qg1-a1 ! threat:
+          2.Kb2-a3[wK<>bK] # 
+
+
+solution finished.
+
+
+
+      Dan Meinking & Danny Dunn
+http://www.strategems.org/beginners/SwappingKings.htm, July/2004
+Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   Q   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          2 + 1
+            SwappingKings
+
+  1.Kf4-g3 ! threat:
+          2.Qg6-e4[wK<>bK] threat:
+                  3.Qe4-g2[wK<>bK] # 
+                  3.Qe4-e1[wK<>bK] # 
+              2...Kg3-h3 
+                  3.Qe4-g2[wK<>bK] # 
+              2...Kg3-f2 
+                  3.Qe4-g2[wK<>bK] # 
+                  3.Qe4-h4[wK<>bK] # 
+      1...Kh1-g1 
+          2.Kg3-h4[wK<>bK] zugzwang.
+              2...Kh4-h3 
+                  3.Qg6-g2[wK<>bK] # 
+
+
+solution finished.
+
+

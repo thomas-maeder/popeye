@@ -1,0 +1,306 @@
+
+           avoid self-check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   S   4
+|                                   |
+3   .   .   .   .   S  -R   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -Q   .   2
+|                                   |
+1   .   .  -B   .  -K   .   .  -P   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          3 + 5
+           SingleBox	Type2
+
+  1.Sh4*f3 [h1=S] + ! 
+
+  1.Sh4*f3 [h1=B] + ! 
+
+  1.Sh4*g2 [h1=S] + ! 
+
+  1.Sh4*g2 [h1=B] + ! 
+
+  1.Se3-c2 [h1=S] + ! 
+
+  1.Se3-c2 [h1=R] + ! 
+
+  1.Se3-c2 [h1=B] + ! 
+
+  1.Se3*g2 [h1=Q] + ! 
+
+  1.Se3*g2 [h1=S] + ! 
+
+  1.Se3*g2 [h1=R] + ! 
+
+  1.Se3*g2 [h1=B] + ! 
+
+
+solution finished.
+
+
+
+           avoid self-check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   P   .   .   .   .   .   K   Q   8
+|                                   |
+7   .   .   .   .   .   .   B   R   7
+|                                   |
+6   .   .   .   .   .   S   R   .   6
+|                                   |
+5   .   .   .   .   .   .  -P   .   5
+|                                   |
+4   .   .   .   .   .   S   .   B   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -P   2
+|                                   |
+1   .   .   .   .   .   .  -R  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h+1                         9 + 4
+           SingleBox	Type2
+
+  1.g5*f4 [a8=S] Rg6*g1 + 
+
+solution finished.
+
+
+
+capturing side selects which pawn to promote -> Ra1 can capture
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   S   Q   B   .  -K   .   P   P   8
+|                                   |
+7   S   B   P   .   .   .   .   .   7
+|                                   |
+6   P   P   P   .   K   .   .   .   6
+|                                   |
+5   .   P   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   R   .   .   .   .   .   .   .   2
+|                                   |
+1  -R   R   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                        15 + 3
+           SingleBox	Type2
+
+  1.Ra1*a2 [h8=R] Bc8-d7 # 
+  1.Ra1*b1 [h8=R] Bc8-d7 # 
+  1.a4-a3 Bc8-d7 # 
+
+solution finished.
+
+
+
+don't get confused with >1 latent pawn
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   S   P   .   K   B   8
+|                                   |
+7  -Q   P  -R   .   .   .   .  -P   7
+|                                   |
+6   .   .   P  -P   .   .   P   .   6
+|                                   |
+5   .   .  -P  -K   .   .  -S  -B   5
+|                                   |
+4   .   .   S   .  -P   .   .   R   4
+|                                   |
+3   .   .   .   .   .  -P   P   .   3
+|                                   |
+2   .   .   .   .  -P   .   .   .   2
+|                                   |
+1   .   .   R   .   .  -S   Q   B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        13 + 12
+           SingleBox	Type2
+
+  1.Sc4-e3 + ! 
+      1...Sf1*e3 [e8=S] 
+          2.Se8*c7 # 
+
+
+solution finished.
+
+
+
+B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   P   .   .   .   .   7
+|                                   |
+6   .   .   B  -S   .   S   .   .   6
+|                                   |
+5   .   .   .   .  -P  -P   .   .   5
+|                                   |
+4   R   .  -P   .   .   .  -P   .   4
+|                                   |
+3   .   .   .   .  -K   .  -P   .   3
+|                                   |
+2   K   Q   .   .   .  -Q   P   .   2
+|                                   |
+1   .   .   .   .   S   R   B  -S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 9
+           SingleBox	Type2
+
+  1.d7-d8 ! zugzwang.
+      1...Qf2*g1 [d8=B] 
+          2.Bd8-b6 # 
+      1...Ke3-f4 
+          2.Qb2-d2 # 
+      1...c4-c3 
+          2.Sf6-d5 # 
+      1...e5-e4 
+          2.Sf6-d5 # 
+      1...f5-f4 
+          2.Sf6*g4 # 
+      1...Sd6-b5 
+          2.Qb2-d2 # 
+      1...Sd6-e4 
+          2.Sf6-d5 # 
+      1...Sd6-f7 
+          2.Qb2-d2 # 
+      1...Sd6-e8 
+          2.Qb2-d2 # 
+      1...Sd6-c8 
+          2.Qb2-d2 # 
+      1...Sd6-b7 
+          2.Qb2-d2 # 
+
+
+solution finished.
+
+
+
+       Milan Velimirovic, 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -B   .   .   K   S   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   P  -P   .   7
+|                                   |
+6   .   .   .   P   P   .   B  -B   6
+|                                   |
+5   .   .   .  -P  -K   .   .   .   5
+|                                   |
+4   .   .   .   S  -P  -P   R  -P   4
+|                                   |
+3   .   .   .   .   .   .  -P   .   3
+|                                   |
+2   .   .   .   .   .  -P   .   B   2
+|                                   |
+1   .   .   .   R   .   .   .   Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                        11 + 11
+           SingleBox	Type2
+
+  1.f7-f8 ! threat:
+          2.Qh1*e4 + 
+              2...d5*e4 [f8=Q] 
+                  3.Qf8-f5 # 
+      1...g3-g2 
+          2.Bh2*f4 + 
+              2...Bh6*f4 [f8=B] 
+                  3.Bf8*g7 # 
+      1...g3*h2 [f8=B] 
+          2.Bf8*g7 + 
+              2...Bh6*g7 
+                  3.Rg4-g5 # 
+      1...f4-f3 
+          2.Rg4*e4 + 
+              2...d5*e4 [f8=R] 
+                  3.Rf8-f5 # 
+      1...d7*e6 
+          2.Sd4-f3 + 
+              2...e4*f3 [f8=S] 
+                  3.Sf8-d7 # 
+
+  1.Rg4-g5 + ? 
+    but
+      1...Bh6*g5 +  !
+
+  1.Rg4*h4 ? threat:
+          2.Rh4-h5 + 
+              2...Bh6-g5 + 
+                  3.Rh5*g5 # 
+      1...f4-f3 
+          2.Bh2*g3 + 
+              2...Bh6-f4 
+                  3.Rh4-h5 # 
+                  3.Bg3*f4 # 
+    but
+      1...Bh6-g5 +  !
+
+  1.Qh1*e4 + ? 
+    but
+      1...d5*e4  !
+
+
+solution finished.
+
+
+
+       Milan Velimirovic, 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -B   S   P   .   .   B   8
+|                                   |
+7  -B   P   .  -P   .   .   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   P   .   6
+|                                   |
+5   .   .  -P  -K   .   .  -S  -Q   5
+|                                   |
+4   .   .   S   .  -P   .   .   R   4
+|                                   |
+3   .   .   .   .   .  -P   P   .   3
+|                                   |
+2   K   .   .   .  -P   .   .  -S   2
+|                                   |
+1   .   .   R   .   .   .   Q   B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        12 + 12
+           SingleBox	Type2
+
+  1.Qg1-d4 + ! 
+      1...c5*d4 [e8=Q] 
+          2.Qe8-e5 # 
+
+  1.Qg1-d1 + ! 
+      1...e2*d1=R [e8=Q] 
+          2.Qe8-e5 # 
+
+
+solution finished.
+
+

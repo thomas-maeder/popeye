@@ -1,0 +1,156 @@
+
+             Volker Gulke
+             Winus Muller
+            Peter Schmidt
+               Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -R   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -S   P   .   .   .   4
+|                                   |
+3   .   .   .   .   S   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+            Take&MakeChess
+
+  1.Sd4-f5 Se3*f5-h6   2.Rc5-d5 e4*d5-d8=Q # 
+  1.Rc5-d5 Se3*d5-d6   2.Sd4-f5 e4*f5-e7 # 
+
+solution finished.
+
+
+
+             Volker Gulke
+             Hartmut Laue
+            Peter Schmidt
+               Original
+        corr Stephen Emmerson
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -R   .   .  -S  -R   .   .   8
+|                                   |
+7   .   .  -P   .   K   .   .   .   7
+|                                   |
+6   .   B  -P   .   B   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4   .   .   .   R   .   .   .   .   4
+|                                   |
+3   .   .   S   .   .  -P  -S   .   3
+|                                   |
+2   .   .   .  -P   .   .   .  -B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        5 + 10
+            Take&MakeChess
+
+a)
+
+  1.Sg3-e4 Rd4*e4-g5 +   2.Rf8-f5 Be6*f5-f4 # 
+
+b) bPd2-->g5
+
+  1.Sg3-f5 + Be6*f5-g3 +   2.Rf8-f4 Rd4*f4-f5 # 
+
+solution finished.
+
+
+
+            Peter Schmidt
+               Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   K   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   P   B   .   .   3
+|                                   |
+2   .   .   .   .   P  -K   P   P   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 1
+            Take&MakeChess
+
+a)
+
+  1...g2-g3   2.Kf2*f3-g4 h2-h3 # 
+
+b) wSf3 
+
+  1...h2-h3   2.Kf2*f3-h4 g2-g3 # 
+
++c) wKg6-->g7
+
+  1...g2-g4   2.Kf2*f3-g5 h2-h4 # 
+
++d) wBf3 
+
+  1...h2-h4   2.Kf2*f3-h5 g2-g4 # 
+
+solution finished.
+
+
+
+           Stephen Emmerson
+               Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  sx3                         2 + 2
+            Take&MakeChess
+
+  1.b6*a7-a6 ! 
+      1...Ka8-a7 
+          2.Kc8-c7 
+              2...Ka7-a8 
+                  3.a6-a7 
+                      3...Ka8*a7-a8 x 
+
+
+solution finished.
+
+

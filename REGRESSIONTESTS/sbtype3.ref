@@ -1,0 +1,337 @@
+
+latent pawns' side decides which one to promote -> f2*e1 would be self-check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   S   R   B   .   .   .   P   P   8
+|                                   |
+7   Q   R   P   .   .   .   .   .   7
+|                                   |
+6   P   P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   S   .   .   .   3
+|                                   |
+2   .   .   .   .   .  -P   .   .   2
+|                                   |
+1  -K   .   K   .   B   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                        13 + 2
+           SingleBox	Type3
+
+  1  (Ka1-b1 +)
+  2  (Ka1-a2)
+  3  (Ka1-b2 +)
+  4  (f2-f1=Q)
+  5  (f2-f1=S)
+  6  (f2-f1=R)
+  7  (f2-f1=B)
+  8  (f2*e1=Q +)
+  9  (f2*e1=S)
+ 10  (f2*e1=R +)
+ 11  (f2*e1=B)
+
+solution finished.
+
+
+
+latent pawns' side which one to promote -> f7*e8 would be self-check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .  -K   .  -B   .   .   .   8
+|                                   |
+7   .   .   .   .   .   P   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   S   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -P  -P   .   .   .   .   .   .   3
+|                                   |
+2  -Q  -R  -P   .   .   .   .   .   2
+|                                   |
+1  -S  -R  -B  -S   .   .  -P  -P   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                         3 + 13
+           SingleBox	Type3
+
+  1  (Ka8-b8 +)
+  2  (Ka8-a7)
+  3  (Ka8-b7 +)
+  4  (f7-f8=Q)
+  5  (f7-f8=S)
+  6  (f7-f8=R)
+  7  (f7-f8=B)
+  8  (f7*e8=Q +)
+  9  (f7*e8=S)
+ 10  (f7*e8=R +)
+ 11  (f7*e8=B)
+ 12  (Sb5*a3)
+ 13  (Sb5-c3)
+ 14  (Sb5-d4)
+ 15  (Sb5-d6 +)
+ 16  (Sb5-c7)
+ 17  (Sb5-a7 +)
+
+solution finished.
+
+
+
+           avoid self-check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   S   4
+|                                   |
+3   .   .   .   .   S  -B   .   .   3
+|                                   |
+2   .   .  -R   .   .   .  -Q   .   2
+|                                   |
+1   .   .  -R   .  -K   .   .  -P   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          3 + 6
+           SingleBox	Type3
+
+  1.Sh4*f3 + ! 
+
+  1.Se3*c2 + ! 
+
+  1.Se3*g2 + ! 
+
+
+solution finished.
+
+
+
+           avoid self-check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   P   .   .   .   .   .   K   Q   8
+|                                   |
+7   .   .   .   .   .   .   B   R   7
+|                                   |
+6   .   .   .   .   .   S   R   .   6
+|                                   |
+5   .   .   .   .   .   .  -P   .   5
+|                                   |
+4   .   .   .   .   .   S   .   B   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -P   2
+|                                   |
+1   .   .   .   .   .   .  -R  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h+1                         9 + 4
+           SingleBox	Type3
+
+  1.g5*f4 [a8=S]Rg6*g1 + 
+
+solution finished.
+
+
+
+pawn's side selects which pawn to promote -> Ra1 can't capture
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   S   Q   B   .  -K   .   P   P   8
+|                                   |
+7   S   B   P   .   .   .   .   .   7
+|                                   |
+6   P   P   P   .   K   .   .   .   6
+|                                   |
+5   .   P   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   R   .   .   .   .   .   .   .   2
+|                                   |
+1  -R   R   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                        15 + 3
+           SingleBox	Type3
+
+  1.a4-a3 Bc8-d7 # 
+
+solution finished.
+
+
+
+        select promotion piece
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   Q   P   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   P   .   .   .   6
+|                                   |
+5   .   .   .   .  -K  -P   .   .   5
+|                                   |
+4   .   .   .   .   .  -P   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   R   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          5 + 3
+           SingleBox	Type3
+
+  1.[e8=R]Qd8-d4 # ! 
+
+  1.[e8=S]Qd8-d5 # ! 
+
+
+solution finished.
+
+
+
+B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   P   .   .   .   .   7
+|                                   |
+6   .   .   B  -S   .   S   .   .   6
+|                                   |
+5   .   .   .   .  -P  -P   .   .   5
+|                                   |
+4   R   .  -P   .   .   .  -P   .   4
+|                                   |
+3   .   .   .   .  -K   .  -P   .   3
+|                                   |
+2   K   Q   .   .   .  -Q   P   .   2
+|                                   |
+1   .   .   .   .   S   R   B  -S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 9
+           SingleBox	Type3
+
+  1.d7-d8 ! zugzwang.
+      1...Qf2*g1 
+          2.[d8=B]Bd8-b6 # 
+      1...Ke3-f4 
+          2.Qb2-d2 # 
+      1...c4-c3 
+          2.Sf6-d5 # 
+      1...e5-e4 
+          2.Sf6-d5 # 
+      1...f5-f4 
+          2.Sf6*g4 # 
+      1...Sd6-b5 
+          2.Qb2-d2 # 
+      1...Sd6-e4 
+          2.Sf6-d5 # 
+      1...Sd6-f7 
+          2.Qb2-d2 # 
+      1...Sd6-e8 
+          2.Qb2-d2 # 
+      1...Sd6-c8 
+          2.Qb2-d2 # 
+      1...Sd6-b7 
+          2.Qb2-d2 # 
+
+
+solution finished.
+
+
+
+       Milan Velimirovic, 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -B   .   .   K   S   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   P  -P   .   7
+|                                   |
+6   .   .   .   P   P   .   B  -B   6
+|                                   |
+5   .   .   .  -P  -K   .   .   .   5
+|                                   |
+4   .   .   .   S  -P  -P   R  -P   4
+|                                   |
+3   .   .   .   .   .   .  -P   .   3
+|                                   |
+2   .   .   .   .   .  -P   .   B   2
+|                                   |
+1   .   .   .   R   .   .   .   Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                        11 + 11
+           SingleBox	Type3
+
+  1.f7-f8 ! threat:
+          2.Qh1*e4 + 
+              2...d5*e4 
+                  3.[f8=Q]Qf8-f5 # 
+      1...g3-g2 
+          2.Bh2*f4 + 
+              2...Bh6*f4 
+                  3.[f8=B]Bf8*g7 # 
+      1...g3*h2 
+          2.[f8=B]Bf8*g7 + 
+              2...Bh6*g7 
+                  3.Rg4-g5 # 
+      1...f4-f3 
+          2.Rg4*e4 + 
+              2...d5*e4 
+                  3.[f8=R]Rf8-f5 # 
+      1...d7*e6 
+          2.Sd4-f3 + 
+              2...e4*f3 
+                  3.[f8=S]Sf8-d7 # 
+
+  1.Rg4-g5 + ? 
+    but
+      1...Bh6*g5 +  !
+
+  1.Rg4*h4 ? threat:
+          2.Rh4-h5 + 
+              2...Bh6-g5 + 
+                  3.Rh5*g5 # 
+      1...f4-f3 
+          2.Bh2*g3 + 
+              2...Bh6-f4 
+                  3.Rh4-h5 # 
+                  3.Bg3*f4 # 
+    but
+      1...Bh6-g5 +  !
+
+  1.Qh1*e4 + ? 
+    but
+      1...d5*e4  !
+
+
+solution finished.
+
+

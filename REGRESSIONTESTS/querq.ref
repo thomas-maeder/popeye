@@ -1,0 +1,32 @@
+
+              S.Emmerson
+      Variant Chess Spring 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  QQ   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   . -QQ   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         1 + 1
+             Royal e8 e6
+
+  1.rQQe6-f5 rQQe8-d8   2.rQQf5-b1 rQQd8-d3 # 
+  1.rQQe6-f6 rQQe8-d7   2.rQQf6-b2 rQQd7-d4 # 
+
+solution finished.
+
+

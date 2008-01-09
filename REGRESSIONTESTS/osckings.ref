@@ -1,0 +1,147 @@
+
+                A.Bell
+          Variant Chess 1998
+     b) sound; other parts cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -P   .   7
+|                                   |
+6   .   .   .   .   .   .   R  -P   6
+|                                   |
+5   .   .   K   .   .  -K  -P   P   5
+|                                   |
+4   P  -P   .   .   .   .   R   .   4
+|                                   |
+3   .   P   .  -P   .   .   .   .   3
+|                                   |
+2   .   .   .   P   .   S   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 6
+     BlackOscillatingKings	TypeB
+
+a)
+
+  1.Rg4*b4 ! zugzwang.
+      1...Kc5-d5[wK<>bK] 
+          2.Rb4-b5[wK<>bK] # 
+      1...Kc5*b4[wK<>bK] 
+          refutes.
+      1...Kf5-e5[wK<>bK] 
+          2.Rb4-b5[wK<>bK] # 
+          2.Sf2*d3[wK<>bK] # 
+      1...g5-g4[wK<>bK] 
+          2.Rb4-b5[wK<>bK] # 
+
+
+b) WhiteOscillatingKings	TypeB
+
+  1.Sf2-d1[wK<>bK] ! zugzwang.
+      1...Kc5-d5[wK<>bK] 
+          refutes.
+      1...Kf5-f6[wK<>bK] + 
+          refutes.
+      1...Kf5-e5[wK<>bK] 
+          refutes.
+      1...Kf5-f4[wK<>bK] + 
+          refutes.
+      1...Kf5-e6[wK<>bK] 
+          refutes.
+      1...Kf5*g6[wK<>bK] 
+          refutes.
+      1...Kf5*g4[wK<>bK] 
+          refutes.
+      1...Kf5-e4[wK<>bK] 
+          refutes.
+
+
+c) WhiteOscillatingKings	TypeB
+	BlackOscillatingKings
+
+
+solution finished.
+
+
+
+                A.Bell
+          Variant Chess 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -B   .   .   4
+|                                   |
+3   .   .   .   .   .  -B   .   .   3
+|                                   |
+2   .   .   .   .   .   Q   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         3 + 3
+     BlackOscillatingKings	TypeB
+
+  1.Qf2-d4 ! zugzwang.
+      1...Bf4-e5[wK<>bK] + 
+          2.Qd4-d5[wK<>bK] 
+              2...Bf3*d5[wK<>bK] # 
+
+
+solution finished.
+
+
+
+              R.Turnbull
+          Variant Chess 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -P   K   6
+|                                   |
+5   .   .   .   .   .   .   Q   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -K   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -S   .   2
+|                                   |
+1   .   .   .   .   .   .   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 3
+        BlackOscillatingKings
+
+  1.Qg5-c1 ! zugzwang.
+      1...Sg2-f4[wK<>bK] 
+          2.Qc1*f4[wK<>bK] # 
+      1...Sg2-e3[wK<>bK] 
+          2.Qc1*e3[wK<>bK] # 
+      1...g6-g5[wK<>bK] 
+          2.Qc1-c6[wK<>bK] # 
+
+  1.Qg5*g2 + ! 
+      1...g6-g5[wK<>bK] 
+          2.Kh6*g5[wK<>bK] # 
+          2.Qg2-h3[wK<>bK] # 
+
+
+solution finished.
+
+

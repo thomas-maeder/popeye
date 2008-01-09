@@ -1,0 +1,346 @@
+
+              M.Hanazawa
+           Chessics #4 1977
+cooked, even with suggestion +WPb6 in Chessics #8
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .   .   .   7
+|                                   |
+6  -B   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -K   .   .   .   .   .   .   5
+|                                   |
+4   .   S   R   .   K   .   .   .   4
+|                                   |
+3   .   B   R   .   .   .   .   .   3
+|                                   |
+2   .   .   B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 3
+             AnnanChess	
+
+  1.Rc4-c5 + ! 
+      1...Kb5-b6 
+          2.Rc3-f6 # 
+
+  1.Sb4-a3 + ! 
+      1...Kb5-b6 
+          2.Rc3-f6 # 
+          2.Rc4-a4 # 
+          2.Bb3-a4 # 
+
+  1.Sb4-c5 + ! 
+      1...Kb5-b6 
+          2.Rc3-f6 # 
+
+  1.Sb4-a5 ! zugzwang.
+      1...Kb5-b6 
+          2.Bb3-a4 # 
+      1...b7-b6 
+          2.Rc3-b2 # 
+
+  1.Rc3-b2 ! zugzwang.
+      1...Kb5-b6 
+          2.Sb4-c3 # 
+      1...Kb5*c4 
+          2.Bc2-d3 # 
+      1...Kb5-a4 
+          2.Sb4-c5 # 
+      1...b7-b6 
+          2.Sb4-a3 # 
+          2.Sb4-d2 # 
+          2.Sb4-d6 # 
+          2.Sb4-a5 # 
+
+  1.Rc3-f6 ! threat:
+          2.Sb4-c5 # 
+      1...b7-b6 
+          2.Rf6-f5 # 
+          2.Sb4-a3 # 
+          2.Sb4-d6 # 
+
+
+solution finished.
+
+
+
+              M.Hanazawa
+           Chessics #4 1977
+   original part (b) + BBd5 cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K  -S   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -K   .   .   .   3
+|                                   |
+2   .   .   .   .   .   S   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         2 + 2
+             AnnanChess	
+
+  1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 # 
+
+solution finished.
+
+
+
+              M.Hanazawa
+           Chessics #4 1977
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   R   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   .   .  -S   2
+|                                   |
+1   .   .   .   .   .   K   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         2 + 3
+             AnnanChess	
+
+  1.Rg4-g2 ! zugzwang.
+      1...h3*g2 + 
+          2.Kf1-g1 + 
+              2...Kh1-g3 # 
+
+
+solution finished.
+
+
+
+              M.Hanazawa
+           Chessics #4 1977
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .   .   .   7
+|                                   |
+6   .  -S   .  -P   .   .   .   .   6
+|                                   |
+5   .   S   .  -S   .   P   .   .   5
+|                                   |
+4   S   K   P  -K   .   .   .   .   4
+|                                   |
+3   R   .   .   .  -R   .   .   .   3
+|                                   |
+2   .   .   .   .   .   Q   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         7 + 6
+             AnnanChess	
+
+  1.c4-c5 ! zugzwang.
+      1...Sb6*c5 
+          2.Kb4-a5 + 
+              2...Kd4*b5 # 
+      1...d6*c5 + 
+          2.Kb4-c4 + 
+              2...Kd4-c6 # 
+
+
+solution finished.
+
+
+ddlkl
+
+              M.Hanazawa
+           Chessics #4 1977
+                cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -R   R   .   .   .   6
+|                                   |
+5   .   .   .  -Q   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -K   .   .   .   .   3
+|                                   |
+2   .   K   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 3
+             AnnanChess	
+
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-d4 Re3-a3 # 
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-b5 Re3-a3 # 
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-h5 Re3-a3 # 
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-g5 Re3-a3 # 
+
+solving interrupted.
+
+
+
+             G.P.Jelliss
+           Chessics #4 1977
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -B   .   8
+|                                   |
+7   .   .   .   .   .  -P   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   S   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   B   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 3
+             AnnanChess	
+
+  1.Ba1-f6 ! zugzwang.
+      1...Kh7-h8 
+          2.Kf5-g5 # 
+
+
+solution finished.
+
+
+
+       G.P.Jelliss / S.Emmerson
+Chessics #4 1977 / The Problemist, may 2007
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   B   K   .   .   .   .  -B  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 2
+             AnnanChess	
+
+a)
+
+  1.Bg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Bh2-b8 Ba1-d4 # 
+
+b) PolishType
+
+  1.Kb1-a2 Kh1-g2   2.Ba1-b1 Kg2-d5   3.Ka2-a1 Bg1-d4 # 
+
+solution finished.
+
+
+
+              S.Emmerson
+       The Problemist, may 2007
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   B   .   .   .   .  -B  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 2
+             AnnanChess	
+
+  1.Kh8-g7 Bb8-a7   2.Kg7-a1 Ka8-e4   3.Bg8-a2 Ba7-d4 # 
+
+solution finished.
+
+
+
+           Michel Caillaud
+           Torquay QT, 2007
+          Honorable mention
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K  -B   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   B   .   4
+|                                   |
+3   .   .   .   .   .   P   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#13                    4 + 2
+             AnnanChess	
+
+  1.Ka8-b7   2.Kb7-d5   3.Bb8-e5   4.Be5-d4   5.Bd4-e4   6.Kd5-e5   7.Ke5-f4   8.Be4*f3   9.Bf3-g3  10.Kf4-e4  11.Bg3-e5  12.Ke4-a8  13.Be5-b8 Bg4-f3 # 
+
+solution finished.
+
+

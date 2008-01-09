@@ -1,0 +1,127 @@
+
+         Ladislav Salai sr. 
+   3 H.M. Umenie 64 1999 (SAT #66)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -R   8
+|                                   |
+7   .   .   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   P   6
+|                                   |
+5   .   .   S   .   .   .   .   .   5
+|                                   |
+4   .  -P   B   P   .   .   .   .   4
+|                                   |
+3   .   .   .  -S   B  -P   .   .   3
+|                                   |
+2  -P   .   .   P  -K  -S   .   P   2
+|                                   |
+1   R   .   .   .   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 8
+              StrictSAT
+
+  1.Bc4-g8 ! zugzwang.
+      1...Sf2-e4 
+          2.Sc5*d3 # 
+      1...Sf2-d1 
+          2.Sc5*d3 # 
+      1...Sf2*h1 
+          2.Sc5*d3 # 
+      1...Sf2-h3 
+          2.Sc5*d3 # 
+      1...Sf2-g4 
+          2.Sc5*d3 # 
+      1...Sd3-b2 
+          2.d2-d3 # 
+      1...Sd3-c1 
+          2.d2-d3 # 
+      1...Sd3-f4 
+          2.d2-d3 # 
+      1...Sd3-e5 
+          2.d2-d3 # 
+      1...b4-b3 
+          2.0-0-0 # 
+      1...Rh8*g8 
+          2.0-0 # 
+
+
+solution finished.
+
+
+
+         Ladislav Salai sr. 
+    Comm Umenie 64 1999 (SAT #64)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   R   8
+|                                   |
+7   P   .   .   .   .   .  -R   .   7
+|                                   |
+6   K  -P   .   .   .   .   .   .   6
+|                                   |
+5  -B   P   .   .   .   .   .   .   5
+|                                   |
+4   .  -P   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 5
+              StrictSAT
+
+  1.Rh8-h3 ? threat:
+          2.Rh3-f3 # 
+    but
+      1...Rg7-g3  !
+
+  1.Rh8-h4 ? threat:
+          2.Rh4-e4 # 
+    but
+      1...Rg7-g4  !
+
+  1.Rh8-h5 ? threat:
+          2.Rh5-d5 # 
+    but
+      1...Rg7-g5  !
+
+  1.Rh8-h6 ? threat:
+          2.Rh6-c6 # 
+    but
+      1...Rg7-g6  !
+
+  1.Rh8-b8 ! threat:
+          2.Rb8-b7 # 
+
+  1.Rh8-c8 ? threat:
+          2.Rc8-c6 # 
+    but
+      1...Rg7-c7  !
+
+  1.Rh8-d8 ? threat:
+          2.Rd8-d5 # 
+    but
+      1...Rg7-d7  !
+
+  1.Rh8-e8 ? threat:
+          2.Re8-e4 # 
+    but
+      1...Rg7-e7  !
+
+  1.Rh8-f8 ? threat:
+          2.Rf8-f3 # 
+    but
+      1...Rg7-f7  !
+
+
+solution finished.
+
+
