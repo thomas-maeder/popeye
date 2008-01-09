@@ -1,0 +1,636 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+         Fritz von Meyenfeldt
+         The Problemist 1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -K   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -D   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   D   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+               Isardam
+                Duplex
+
+  1.Kf7-e7 Dc1-c7 +   2.Db3-f7 Kc8-d8 # 
+
+  1.Kc8-d7 Db3-h3 +   2.Dc1-c8 Kf7-e7 # 
+
+Loesung beendet. 
+
+
+
+           Stephen Emmerson
+    E, The Problemist 1/1997, S. 7
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K   .   .   .   8
+|                                   |
+7   D   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   L   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -B   .  -B  -K   .   B   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -L   T   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -D   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          5 + 5
+               Isardam
+
+  1.Td2*d4 ! Zugzwang.
+      1...Dg1-e3 
+          2.Da7-a1 # 
+      1...Dg1-f2 
+          2.Da7-g7 # 
+      1...Lc2-b1 
+          2.Da7-a1 # 
+          2.Da7-g7 # 
+      1...Lc2-d3 
+          2.Da7-d7 # 
+      1...b4-b3 
+          2.Da7-a4 # 
+      1...Ke4-d3 
+          2.Da7-d7 # 
+
+
+Loesung beendet. 
+
+
+
+           Stephen Emmerson
+Ausschreibungsoriginal, Kingston 1997
+  The Problemist Supplement ix/1997
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   K   .  -B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -T  -K   .   T   .   .   .   4
+|                                   |
+3   .   .   .  -S   B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 4
+               Isardam
+
+  1.Te4-d4 ! Zugzwang.
+      1...Sd3-b2 
+          2.Kc6-c5 # 
+      1...Sd3-c1 
+          2.Kc6-c5 # 
+      1...Sd3-e1 
+          2.Kc6-c5 # 
+      1...Sd3-f2 
+          2.Kc6-c5 # 
+      1...Sd3-f4 
+          2.Kc6-c5 # 
+      1...Sd3-e5 + 
+          2.Kc6-c5 # 
+      1...Sd3-c5 
+          2.Kc6*c5 # 
+      1...Tb4-a4 
+          2.Kc6-b5 # 
+      1...e6-e5 
+          2.Kc6-d5 # 
+
+
+Loesung beendet. 
+
+
+
+           Stephen Emmerson
+          Unver"offentlicht
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   D   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -D   .   .   .   4
+|                                   |
+3   K   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+                Circe
+               Madrasi
+
+a)
+
+  1.Ke8-d8 Da7-d7 +   2.De4-a4 Ka3*a4 # 
+
+b) Circe
+	Isardam
+
+  1.Ke8-f8 Ka3-b3   2.De4-b1 + Da7-f7 # 
+
+Loesung beendet. 
+
+
+
+           Ronald Turnbull
+    F, The Problemist 1/1997, S. 7
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -L  -T   .   .   .   K   T   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -K   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -D   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 4
+               Isardam
+
+a)
+
+  1.Dd4-d8 + Kf8-e7   2.La8-b7 Ke7-d6 # 
+
+b) sKc6-->b7
+
+  1.Dd4-d5 Kf8-e8   2.Kb7-c8 Ke8-d7 # 
+
+Loesung beendet. 
+
+
+
+           Stephen Emmerson
+    A, The Problemist 1/1997, S. 6
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   B   7
+|                                   |
+6   .   .   .   .   .   .   .   K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -B   S   .   B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 2
+               Isardam
+
+  1.Kh6-g6 ! Drohung:
+          2.h7-h8=D # 
+          2.h7-h8=T # 
+      1...e2-e1=D 
+          2.h7-h8=T # 
+      1...e2-e1=T 
+          2.h7-h8=D # 
+
+
+Loesung beendet. 
+
+
+
+           Ronald Turnbull
+    B, The Problemist 1/1997, S. 6
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   B   B   K   5
+|                                   |
+4   .   .   .   .   .   L   .   .   4
+|                                   |
+3   .   .   .   .   S   .   .  -K   3
+|                                   |
+2   .   .   .   .   .   .  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 2
+               Isardam
+
+  1.h7-h8=T ! Zugzwang.
+      1...g2-g1=D 
+          2.Kh5-g6 # 
+      1...g2-g1=S 
+          2.Kh5-g6 # 
+      1...g2-g1=T 
+          2.Sh1-f2 # 
+      1...g2-g1=L 
+          2.Kh5-g6 # 
+      1...g2*h1=D 
+          2.Kh5-g6 # 
+      1...g2*h1=S 
+          2.Kh5-g6 # 
+      1...g2*h1=T 
+          2.Kh5-g4 # 
+      1...g2*h1=L 
+          2.Kh5-g6 # 
+
+
+Loesung beendet. 
+
+
+
+           Ronald Turnbull
+    C, The Problemist 1/1997, S. 6
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -L  -L   .   .   S   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -T   .   .   .   .  -K   T   .   6
+|                                   |
+5  -B   .   .   .   .   .   .   B   5
+|                                   |
+4  -T   .   .   B   K   .   .   T   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 6
+               Isardam
+
+  1.d4-d5 ! Drohung:
+          2.Sf8-h7 # 
+      1...Lb8-f4 + 
+          2.Ke4-e5 # 
+      1...Lc8-g4 + 
+          2.Ke4-f5 # 
+
+
+Loesung beendet. 
+
+
+
+           Ronald Turnbull
+    D, The Problemist 1/1997, S. 6
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   T   .   .   .   .   L   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   B   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -B   .   .   .   .   3
+|                                   |
+2   .   B   .   K   .   .   .   .   2
+|                                   |
+1  -D  -K   .   D   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 3
+               Isardam
+
+  1.Dd1-b3 ! Zugzwang.
+      1...Kb1*b2 
+          2.Db3-c3 # 
+      1...Kb1-a2 
+          2.Db3-a3 # 
+
+
+Loesung beendet. 
+
+
+
+           Stephen Emmerson
+    H, The Problemist 1/1997, S. 7
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -T   .   .   .   .   .   .   8
+|                                   |
+7   .   B   T   .   .   .   .   L   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -B   .   .   .   .   .   5
+|                                   |
+4   .   .   .   L   .   .   .   .   4
+|                                   |
+3   .   .   K   .   .   .   B   .   3
+|                                   |
+2  -B  -L  -K   .   B   .   .   .   2
+|                                   |
+1  -D  -L   .   .   .   D   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  semi-r#2                    8 + 7
+               Isardam
+
+  1.Ld4-h8 ! Zugzwang.
+      1...c5-c4 
+          2.Lh7-d3 
+              2...Kc2*d3 # 
+      1...Tb8-a8 
+          2.Tc7-d7 
+              2...Ta8-a3 # 
+      1...Tb8-g8 
+          2.Lh7-g6 
+              2...Tg8*g6 # 
+      1...Tb8-f8 
+          2.Lh7-f5 
+              2...Tf8*f5 # 
+      1...Tb8-e8 
+          2.Lh7-e4 
+              2...Te8*e4 # 
+      1...Tb8-d8 
+          2.Lh7-d3 
+              2...Td8*d3 # 
+
+
+Loesung beendet. 
+
+
+
+           Stephen Emmerson
+    J, The Problemist 1/1997, S. 7
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -L   .   .  -T   .   .   .   8
+|                                   |
+7   .   .   .   S   .   .   .  -B   7
+|                                   |
+6   .   .  -B   .   .   .  -B   .   6
+|                                   |
+5   .   .   .   .   S   .   D   .   5
+|                                   |
+4   .   .   K   .  -K   .  -B   .   4
+|                                   |
+3   .  -B   .   .   L   T   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -S   .   2
+|                                   |
+1   .   .   .   L   .   .   .  -L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         7 + 10
+               Isardam
+
+  1.Ld1-e2 ! Drohung:
+          2.Le2-d3 # 
+      1...Sg2-e1 
+          2.Dg5*g4 # 
+      1...Sg2-h4 
+          2.Dg5*g4 # 
+      1...Sg2-f4 
+          2.Sd7-f6 # 
+      1...Sg2*e3 
+          2.Sd7-c5 # 
+          2.Dg5*e3 # 
+          2.Dg5*g4 # 
+      1...Lb8*e5 
+          2.Sd7-c5 # 
+      1...Te8*e5 
+          2.Sd7-f6 # 
+
+
+Loesung beendet. 
+
+
+
+           Ronald Turnbull
+    K, The Problemist 1/1997, S. 7
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   T   S   .   .   L   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   S   .   .  -K   .   .   .   5
+|                                   |
+4   .   .   B   .   .   .   D   .   4
+|                                   |
+3   .   .   .  -B   .  -B   .   .   3
+|                                   |
+2  -T   .   .   .   .   .   .   .   2
+|                                   |
+1  -L  -D   .  -L   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 8
+               Isardam
+
+  1.Se8-f6 ! Drohung:
+          2.Sf6-d7 # 
+      1...Db1-b2 
+          2.Td8-e8 # 
+      1...Ta2-b2 
+          2.Dg4-e4 # 
+      1...Ke5*f6 
+          2.Dg4-g5 # 
+
+
+Loesung beendet. 
+
+
+
+           Stephen Emmerson
+Ausschreibungsoriginal, Kingston 1997
+The Problemist ix/1997 (early version)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -D  -L   8
+|                                   |
+7   .   .   .   T   .   .   .   .   7
+|                                   |
+6   .   L   .   S   .   .   .   .   6
+|                                   |
+5   .   .   .  -K  -T  -B   S   .   5
+|                                   |
+4   .   .   D   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   T   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  -T   .   .   .   L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 6
+               Isardam
+
+  1.Sd6-e8 ! Drohung:
+          2.Se8-c7 # 
+      1...Td1-a1 
+          2.Tf3-h3 # 
+      1...Te5*e8 
+          2.Tf3-f4 # 
+      1...Lh8-f6 
+          2.Se8*f6 # 
+
+
+Loesung beendet. 
+
+
+
+           Stephen Emmerson
+           Ronald Turnbull
+The Problemist i/1998 (Position Reflected)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -T  -K   .   .   .   8
+|                                   |
+7   .   D  -S  -L   .   .   .   K   7
+|                                   |
+6   .   .   S   .   .   B   L  -B   6
+|                                   |
+5   .   .   .   .  -D   B   .   .   5
+|                                   |
+4   .   L   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 6
+               Isardam
+
+  1.f6-f7 ! Drohung:
+          2.Sc6*e5 # 
+      1...De5-h8 + 
+          2.Kh7*h8 # 
+      1...De5-e1 
+          2.Db7*c7 # 
+      1...De5-e2 
+          2.Db7*c7 # 
+      1...De5-e3 
+          2.Db7*c7 # 
+      1...De5-e4 
+          2.Db7*c7 # 
+      1...De5-e7 
+          2.Lb4*e7 # 
+      1...De5-e6 
+          2.f5*e6 # 
+      1...Ld7*c6 
+          2.Db7*c6 # 
+      1...Td8-a8 
+          2.Db7*a8 # 
+      1...Td8-b8 
+          2.Db7*b8 # 
+      1...Td8-c8 
+          2.Db7*c8 # 
+
+
+Loesung beendet. 
+
+
+
+           Stephen Emmerson
+           Ronald Turnbull
+     Variant Chess Winter 1997/8
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   K   .   .   .   .   8
+|                                   |
+7   .   B   .   L  -B   .   .   B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -T   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -S   .   .   .   .   .   4
+|                                   |
+3  -L   .   .   S   .   .   .   .   3
+|                                   |
+2   .  -K   .   B   .   .   .   .   2
+|                                   |
+1   .   .   L   S   .   .   .  -D   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 6
+               Isardam
+
+  1.Ld7-e6 ! Drohung:
+          2.Le6*c4 # 
+      1...Dh1-d5 + 
+          2.h7-h8=D # 
+      1...Tb5-d5 + 
+          2.b7-b8=T # 
+
+
+Loesung beendet. 
+
+

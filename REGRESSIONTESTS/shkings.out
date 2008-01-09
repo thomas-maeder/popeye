@@ -1,0 +1,213 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+             Mario Albasi
+         The Problemist 2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -S   S   .   .   .   8
+|                                   |
+7  -B   .   .  -T   B   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   T   6
+|                                   |
+5   .   .   T   .   .   .   .   .   5
+|                                   |
+4   .   B   L   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   L   B   3
+|                                   |
+2  -S   .   .   .   B   K   B   .   2
+|                                   |
+1   .   .   .   .   .   S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         12 + 5
+        TransmutierendeKoenige
+            SchutzKoenige
+
+  1.Se8-f6 + ? 
+    Aber
+      1...Ke4-c3  !
+
+  1.Th6-h4 + ? 
+    Aber
+      1...Ke4*e7  !
+
+  1.Th6-e6 + ? 
+      1...Ke4-d4 
+          2.e2-e3 # 
+    Aber
+      1...Sd8*e6  !
+
+  1.Tc5-e5 + ? 
+      1...Ke4-d4 
+          2.e2-e3 # 
+    Aber
+      1...Ke4*c4  !
+
+  1.Lc4-d3 + ? 
+      1...Ke4-b7 
+          2.Tc5-b5 # 
+      1...Td7*d3 
+          2.Se8-f6 # 
+    Aber
+      1...Ke4-a8  !
+
+  1.Kf2-f3 + ? 
+      1...Sa2-c3 
+          2.Se8-f6 # 
+      1...Ke4-d4 
+          2.e2-e3 # 
+      1...Td7-d4 
+          2.Tc5-e5 # 
+      1...Td7*e7 
+          2.Th6-h4 # 
+    Aber
+      1...Td7-d3 +  !
+
+  1.Kf2-e3 + ! 
+      1...Sa2-c3 
+          2.Se8-f6 # 
+      1...Ke4-d4 
+          2.Lg3-e5 # 
+      1...Td7-d4 
+          2.Tc5-e5 # 
+      1...Td7*e7 
+          2.Th6-h4 # 
+
+
+Loesung beendet. 
+
+
+
+             Mario Albasi
+               Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -T   .   .   8
+|                                   |
+7   .   .   .   .   .   T   .   .   7
+|                                   |
+6   .   .   .   .   .  -S   .   B   6
+|                                   |
+5   .   .   .   .   .   .   S   .   5
+|                                   |
+4   .   .   .   .  -B   .  -D  -K   4
+|                                   |
+3   .   .   .   .   .   .  -B   .   3
+|                                   |
+2   .   .   .   .   .   .   K   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 6
+            SchutzKoenige
+
+a)
+
+  1.Sf6-h5 Tf7-f5   2.Dg4-h3 + Kg2*h3 # 
+
+b) wSg5-->g3
+
+  1.Dg4-f5 Tf7-g7   2.Kh4-h3 + Sg3*f5 # 
+
+Loesung beendet. 
+
+
+
+             Mario Albasi
+               Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -L   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -L   .   L   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   T   4
+|                                   |
+3   .   .   .   S  -B  -K   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   B   2
+|                                   |
+1   .   .   S   .   K   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 4
+            SchutzKoenige
+
+a)
+
+  1.Le6-d5 + ? 
+    Aber
+      1...Lc6*d5  !
+
+  1.Le6-h3 ? Drohung:
+          2.Th4-f4 # 
+          2.Th1-f1 # 
+          2.0-0 # 
+      1...La7-b8 
+          2.Th1-f1 # 
+          2.0-0 # 
+    Aber
+      1...e3-e2  !
+
+  1.Th4-f4 + ? 
+    Aber
+      1...Kf3-g2  !
+
+  1.Th4-g4 ? Drohung:
+          2.Th1-f1 # 
+          2.0-0 # 
+    Aber
+      1...e3-e2  !
+
+  1.Th1-f1 + ! 
+      1...Kf3-g2 
+          2.Sd3-f4 # 
+
+  1.Th1-g1 ? Drohung:
+          2.Th4-f4 # 
+          2.Tg1-g3 # 
+      1...e3-e2 
+          2.Tg1-g3 # 
+    Aber
+      1...La7-b8  !
+
+  1.0-0 + ? 
+    Aber
+      1...Kf3-g2  !
+
+
+b) s#3
+
+  1.Le6-d5 + ? 
+    Aber
+      1...Lc6*d5  !
+
+  1.Th4-f4 + ? 
+    Aber
+      1...Kf3-g2  !
+
+  1.Th1-f1 + ? 
+    Aber
+      1...Kf3-g2  !
+
+  1.0-0 + ! 
+      1...Kf3-g2 
+          2.Le6-h3 + 
+              2...Kg2-h1 
+                  3.Sd3-f2 + 
+                      3...e3*f2 # 
+
+
+Loesung beendet. 
+
+

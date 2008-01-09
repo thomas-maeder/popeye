@@ -1,0 +1,578 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+           Michel Olausson
+    SoH815, springaren 80, 3/2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   B   .   .   .   5
+|                                   |
+4   .   .   .   B   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -T   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   L   S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#4                      5 + 3
+        LinienChamaeleonSchach
+
+  1.Sg1*h3=T   2.Lf1-a6=T   3.Ta6-d6=D   4.Th3-f3=L # 
+  1.Sg1*h3=T   2.Lf1-b5=S   3.Sb5-d6=D   4.Th3-f3=L # 
+  1.Sg1*h3=T   2.Lf1-b5=S   3.Sb5-c7=L   4.Th3-f3=L # 
+  1.Lf1*h3=T   2.Th3-h6   3.Th6-d6=D   4.Sg1-f3=L # 
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+    5551, feenschach 91, 5-8/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -L   .   .   .   .   .   8
+|                                   |
+7   .  -B  -B   .   .   .   .   .   7
+|                                   |
+6   .   .  -B   .   .   .   D   .   6
+|                                   |
+5   .   .   .   .   .  -S   T  -B   5
+|                                   |
+4   .   .   B   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -S   .   K   3
+|                                   |
+2   .   .   S   .   .   .   L   L   2
+|                                   |
+1   .   .   .   T   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#3                         8 + 8
+        Chamaeleon c8 g6 f5 g5
+
+  1.cTg5-g3=cD ! Drohung:
+          2.cDg3-d6=cS + 
+              2...c7*d6 
+                  3.cDg6*d6=cS + 
+                      3...cSf5*d6=cL # 
+      1...cLc8-e6=cT 
+          2.cDg6-f6=cS + 
+              2...cTe6*f6=cD 
+                  3.cDg3-g5=cS + 
+                      3...cDf6*g5=cS # 
+      1...cLc8-d7=cT 
+          2.Td1-d4 + 
+              2...cTd7*d4=cD 
+                  3.cDg3-f2=cS + 
+                      3...cDd4*f2=cS # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+    5549, feenschach 91, 5-8/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   T   K   .   .   .   8
+|                                   |
+7   .   .   .   L   .   .   .   .   7
+|                                   |
+6   .  -S  -B   L   .   .   .   .   6
+|                                   |
+5   .   .  -B   .   .   .   .   .   5
+|                                   |
+4  -T   .   .  -K  -B   .   .   .   4
+|                                   |
+3   .   B   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   .   .   .   2
+|                                   |
+1  -L  -S   .   .   D   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 9
+           Chamaeleon d7 d6
+
+  1.cLd7-g4=cT ? Drohung:
+          2.cTg4*e4=cD # 
+      1...Sb1-d2 
+          2.De1*d2 # 
+      1...Sb1-c3 
+          2.De1-d2 # 
+      1...Kd4-d3 
+          2.cLd6-g3=cT # 
+    Aber
+      1...Kd4-d5  !
+
+  1.cLd7-e6=cT ! Drohung:
+          2.cTe6*e4=cD # 
+      1...Sb1-d2 
+          2.De1*d2 # 
+      1...Sb1-c3 
+          2.De1-d2 # 
+      1...Kd4-d5 
+          2.cLd6-e5=cT # 
+      1...Kd4-d3 
+          2.cLd6-g3=cT # 
+      1...e4-e3 
+          2.cLd6-f4=cT # 
+
+  1.cLd6-e7=cT ? Drohung:
+          2.cTe7*e4=cD # 
+      1...Sb1-d2 
+          2.De1*d2 # 
+      1...Sb1-c3 
+          2.De1-d2 # 
+      1...Kd4-d5 
+          2.cLd7-f5=cT # 
+      1...Kd4-d3 
+          2.cLd7-h3=cT # 
+      1...e4-e3 
+          2.cLd7-g4=cT # 
+    Aber
+      1...c5-c4  !
+
+  1.De1-d2 + ? 
+    Aber
+      1...Sb1*d2  !
+
+  1.De1-e3 + ? 
+      1...Kd4-d5 
+          2.De3*c5 # 
+    Aber
+      1...Kd4*e3  !
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+    5550, feenschach 91, 5-8/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -L   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -S   .   .   7
+|                                   |
+6   K   D   .   .  -D   .  -K  -B   6
+|                                   |
+5   .   .   T  -L   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   L   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -D   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 7
+         Chamaeleon b6 e6 d5
+
+a)
+
+  1.cDe6-c6=cS cDb6-b4=cS   2.cLd5-g2=cT cSb4-d3=cL # 
+
+b) sDh1-->h3
+
+  1.cLd5-b7=cT cDb6-d6=cS   2.cDe6-g4=cS cSd6-e4=cL # 
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+    5625, feenschach 92, 9-10/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   B   .   .   7
+|                                   |
+6   .   .   T   S   .   .  -B   .   6
+|                                   |
+5   .   .   .   .  -K   .   B  -B   5
+|                                   |
+4   K   .   .   .   .  =S   .   .   4
+|                                   |
+3   .   .   .   .   B   .   .   .   3
+|                                   |
+2   .   .   .   .  -B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                     6 + 4 + 1n
+         Chamaeleon c6 d6 f4
+
+  1.cTc6-c7=cD ! Drohung:
+          2.cDc7-c4=cS # 
+      1...ncSf4-d3=ncL 
+          2.cSd6-c4=cL # 
+      1...ncSf4-g2=ncL 
+          2.cSd6-c8=cL # 
+      1...ncSf4-h3=ncL 
+          2.cSd6-b7=cL # 
+      1...ncSf4-e6=ncL 
+          2.cSd6-f5=cL # 
+      1...ncSf4-d5=ncL 
+          2.cSd6-e4=cL # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+    5626, feenschach 92, 9-10/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -L   .   .   .   .   8
+|                                   |
+7   .   .   S   .  -S  -K  =B  =B   7
+|                                   |
+6   .   .   .   .   .   .   .  -B   6
+|                                   |
+5   .  =L   .   .   D   .   .   K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                     3 + 4 + 3n
+            Chamaeleon b5
+
+  1.ncLb5-e8=ncT ! Zugzwang.
+      1...Se7-f5 
+          2.nBg7-g8=ncL # 
+      1...Se7-c6 
+          2.nBg7-g8=ncL # 
+      1...Se7-d5 
+          2.nBg7-g8=ncL # 
+      1...Se7-g6 
+          2.nBg7-g8=ncL # 
+      1...Se7-g8 
+          2.nBh7-h8=ncS # 
+      1...Se7-c8 
+          2.nBg7-g8=ncL # 
+      1...nBg7-g5 
+          2.De5-f6 # 
+      1...Ld8*c7 
+          2.De5*e7 # 
+      1...ncTe8-h8=ncD 
+          2.De5-e6 # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+   1), Europa-Rochade 5/1990, S. 35
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   T   .   .   .   .   8
+|                                   |
+7  -L   .   D   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   L   K   .   6
+|                                   |
+5   .   .  -B   .   .   B  -B   .   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .  -S  -B   .   .   3
+|                                   |
+2   .   .   .   .   .  -S   .   L   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 7
+         Chamaeleon d8 c7 h2
+
+  1.cTd8-d2=cD ! Drohung:
+          2.cDc7-d6=cS # 
+      1...Sf2-d3 
+          2.cDd2-c3=cS # 
+      1...Se3*f5 
+          2.cLh2-e5=cT # 
+      1...Se3-c4 
+          2.cDc7-g3=cS # 
+      1...La7-b8 
+          2.cDc7*c5=cS # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+   2), Europa-Rochade 5/1990, S. 35
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   T   K   T   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   .  -B   .   .   .   .   .   5
+|                                   |
+4   .   .  -K   .   .   .   .   .   4
+|                                   |
+3   .  -B   S  -S   .  -B   .   .   3
+|                                   |
+2   .   B  -S   B   .   B   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 7
+        Chamaeleon c3 d3 c2 h1
+
+  1.cTh1-c1=cD ! Zugzwang.
+      1...cSc2-a1=cL 
+          2.cSc3-e2=cL # 
+      1...cSc2-e1=cL 
+          2.cSc3-e2=cL # 
+      1...cSc2-e3=cL 
+          2.cSc3-e2=cL # 
+      1...cSc2-d4=cL 
+          2.cSc3-d5=cL # 
+      1...cSc2-b4=cL 
+          2.cSc3-b5=cL # 
+      1...cSc2-a3=cL 
+          2.cSc3-e2=cL # 
+      1...cSd3*b2=cL 
+          2.cDc1*b2=cS # 
+      1...cSd3*c1=cL 
+          2.d2-d3 # 
+      1...cSd3-e1=cL 
+          2.d2-d3 # 
+      1...cSd3*f2=cL 
+          2.d2-d3 # 
+      1...cSd3-f4=cL 
+          2.d2-d3 # 
+      1...cSd3-e5=cL 
+          2.d2-d3 # 
+      1...cSd3-b4=cL 
+          2.d2-d3 # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+   3), Europa-Rochade 5/1990, S. 35
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S   .   .   .   .   .   .   .   8
+|                                   |
+7   .   S   .  =S   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .  -B   K   .   6
+|                                   |
+5   .   B   .  -K   .   B   .   .   5
+|                                   |
+4   D   .   .   .   .   B   .   .   4
+|                                   |
+3  -B   .  -B   .   .   .   .   .   3
+|                                   |
+2   B   .   B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                     8 + 6 + 1n
+            Chamaeleon d7
+
+  1.ncSd7-f8=ncL ! Zugzwang.
+      1...Sa8-b6 
+          2.ncLf8-d6=ncT # 
+      1...Sa8-c7 
+          2.ncLf8-c5=ncT # 
+      1...ncLf8-b4=ncT 
+          2.Da4-b3 # 
+      1...ncLf8-e7=ncT 
+          2.Da4-e4 # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+   4), Europa-Rochade 5/1990, S. 36
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -T  -B   .   .   .   7
+|                                   |
+6   .   .   .  -B  =S   .   S   .   6
+|                                   |
+5   .   .   .   L   .  -K   .   B   5
+|                                   |
+4   .   .   .   .   S   .   .   .   4
+|                                   |
+3   .   .   B   .   .   B   .   .   3
+|                                   |
+2   .   .   .   K   .   .  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                     7 + 5 + 1n
+           Chamaeleon e6 d5
+
+  1.c3-c4 ! Drohung:
+          2.Sg6-h4 + 
+              2...Kf5-e5 
+                  3.f3-f4 # 
+      1...ncSe6-c5=ncL 
+          2.cLd5-f7=cT + 
+              2...Kf5-e6 
+                  3.Se4-g5 # 
+      1...ncSe6-f4=ncL + 
+          2.ncLf4-g5=ncT + 
+              2...ncTg5-g3=ncD 
+                  3.Sg6-h4 # 
+      1...ncSe6-g5=ncL + 
+          2.ncLg5-f4=ncT + 
+              2...ncTf4-h4=ncD 
+                  3.Se4-g3 # 
+      1...ncSe6-f8=ncL 
+          2.cLd5-f7=cT + 
+              2...Kf5-e6 
+                  3.Se4-g5 # 
+      1...ncSe6-d8=ncL 
+          2.cLd5-f7=cT + 
+              2...Kf5-e6 
+                  3.Se4-g5 # 
+      1...ncSe6-c7=ncL 
+          2.cLd5-f7=cT + 
+              2...Kf5-e6 
+                  3.Se4-g5 # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+   5), Europa-Rochade 5/1990, S. 36
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S   .  -S   .   .   .   .   8
+|                                   |
+7  =B   .   .   .   .   .   .   .   7
+|                                   |
+6  -B  -K   .   .   .   .   .   .   6
+|                                   |
+5   .  =S   .   B   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    2 + 4 + 2n
+           Chamaeleon d8 b5
+
+  1.ncSb5-c3=ncL ncLc3-e1=ncT   2.ncTe1-e7=ncD nBa7-a8=ncS # 
+  1.ncSb5-c3=ncL ncLc3-g7=ncT   2.ncTg7-e7=ncD nBa7-a8=ncS # 
+  1.ncSb5-c3=ncL ncLc3-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=ncS # 
+  1.ncSb5-d6=ncL ncLd6-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=ncS # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.ncTc7-e7=ncD nBa7-a8=ncS # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.Sb8-d7 nBa7-a8=ncS # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-e6=cL nBa7-a8=ncS # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-f7=cL nBa7-a8=ncS # 
+  1.Kb6-b7 Ka4-b4   2.ncSb5-c7=ncL nBa7*b8=nD # 
+  1.Kb6-b7 Ka4-b3   2.ncSb5-c7=ncL nBa7*b8=nD # 
+  1.Sb8-d7 ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=ncS # 
+  1.cSd8-c6=cL Ka4-b4   2.cLc6-b7=cT nBa7-a8=ncS # 
+  1.cSd8-e6=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=ncS # 
+  1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=ncS # 
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+   8), Europa-Rochade 5/1990, S. 36
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -L   .   8
+|                                   |
+7   K   .   B  -L   .   .   .  -T   7
+|                                   |
+6   .   .   .   L   .   .   .   .   6
+|                                   |
+5   S   .   .   .   B  -B   .   .   5
+|                                   |
+4   .   .   .  -K   .   B   .   .   4
+|                                   |
+3   .  -B   S  -B   .  -B   .   .   3
+|                                   |
+2   .   .   .   B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 8
+            Chamaeleon d7
+                Circe
+
+  1.c7-c8=cD ! Drohung:
+          2.Ld6-c5 # 
+      1...cLd7-a4=cT + 
+          2.cDc8*f5=cS [+sBf7] # 
+      1...cLd7-b5=cT + 
+          2.cDc8*f5=cS [+sBf7] # 
+      1...cLd7-c6=cT + 
+          2.cDc8*f5=cS [+sBf7] # 
+      1...cLd7-e6=cT + 
+          2.Sa5*b3 [+sBb7] # 
+      1...cLd7-e8=cT + 
+          2.cDc8*f5=cS [+sBf7] # 
+      1...cLd7*c8=cT [+wcDd1] + 
+          2.cDd1*f3=cS [+sBf7] # 
+
+
+Loesung beendet. 
+
+

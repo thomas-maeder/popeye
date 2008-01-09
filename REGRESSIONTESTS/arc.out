@@ -1,0 +1,130 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+       I.Richardson, R.Turnbull
+      Variant Chess Autumn 1999
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -B   .   .   .   7
+|                                   |
+6   .   L   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -B   .   .   .   .   D   .   4
+|                                   |
+3   .   .   .  -K   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 3
+       ActuatedRevolvingCentre
+
+  1.Lb6-d4 ! Drohung:
+          2.Dg4-f3 # 
+          2.Dg4-e4 # 
+      1...Kd3-e3 
+          2.Dg4-f3 # 
+      1...Kd3-d4 
+          2.Dg4-d4 # 
+      1...Kd3-c3 
+          2.Dg4-d4 # 
+      1...e7-e5=wB 
+          2.Dg4-e2 # 
+
+  1.Dg4-f3 + ? 
+    Aber
+      1...Kd3-c4  !
+
+  1.Dg4-e6 ? Drohung:
+          2.De6-b3 # 
+    Aber
+      1...Kd3-c3  !
+
+  1.Dg4*b4 ? Drohung:
+          2.Db4-b3 # 
+    Aber
+      1...Kd3-d4  !
+
+  1.Dg4-c4 + ? 
+    Aber
+      1...Kd3*c4  !
+
+  1.Dg4-e4 + ? 
+    Aber
+      1...Kd3*d4  !
+
+
+Loesung beendet. 
+
+
+
+               C.Lytton
+      Variant Chess Autumn 1999
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -B  -B  -S   L   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   B   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#6                     3 + 4
+       ActuatedRevolvingCentre
+
+  1.Sf7-e5   2.e7-e5   3.d7-d5   4.d4-d3   5.Se5-c4   6.Kf5-e5 Lg7-e5=sL # 
+
+Loesung beendet. 
+
+
+
+               P.Fayers
+         HM Variant Chess 1TT
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   S   .   .  -S   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         1 + 1
+           Koeniglich a2 d2
+       ActuatedRevolvingCentre
+
+  1...kSa2-c3   2.kSd2-e4 kSc3-e4 = 
+
+  1.kSd2-b3 kSa2-c3   2.kSb3-a1 kSc3-e4 = 
+
+Loesung beendet. 
+
+

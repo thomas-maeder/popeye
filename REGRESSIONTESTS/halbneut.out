@@ -1,0 +1,830 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+              P.A.Petkov
+       The Problemist July 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   B   7
+|                                   |
+6   .   .   .   .   .   .   K   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -T   .   .   .   .  -L   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          2 + 3
+          HalbNeutral a2 f2
+
+  1.Kg6-h6 ! Zugzwang.
+      1...hTa2-a1=nhT 
+          2.nhTa1-a8=whT # 
+      1...hTa2-a7=nhT 
+          2.nhTa7-a8=whT # 
+      1...hTa2-a6=nhT + 
+          2.nhTa6-a8=whT # 
+      1...hTa2-a5=nhT 
+          2.nhTa5-a8=whT # 
+      1...hTa2-a4=nhT 
+          2.nhTa4-a8=whT # 
+      1...hTa2-a3=nhT 
+          2.nhTa3-a8=whT # 
+      1...hTa2-e2=nhT 
+          2.nhTe2-e8=whT # 
+      1...hTa2-d2=nhT 
+          2.nhTd2-d8=whT # 
+      1...hTa2-c2=nhT 
+          2.nhTc2-c8=whT # 
+      1...hTa2-b2=nhT 
+          2.nhTb2-b8=whT # 
+      1...hLf2-e1=nhL 
+          2.nhLe1-c3=whL # 
+      1...hLf2-g1=nhL 
+          2.nhLg1-d4=whL # 
+      1...hLf2-h4=nhL 
+          2.nhLh4-f6=whL # 
+      1...hLf2-g3=nhL 
+          2.nhLg3-e5=whL # 
+      1...hLf2-a7=nhL 
+          2.nhLa7-d4=whL # 
+      1...hLf2-b6=nhL 
+          2.nhLb6-d4=whL # 
+      1...hLf2-c5=nhL 
+          2.nhLc5-d4=whL # 
+      1...hLf2-e3=nhL + 
+          2.nhLe3-d4=whL # 
+
+
+Loesung beendet. 
+
+
+
+              P.A.Petkov
+       The Problemist July 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   D   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -K   3
+|                                   |
+2   .   .   .   .   .   .   .  -B   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          2 + 2
+            HalbNeutral h2
+
+
+  1...hBh2-h1=nhS 
+      2.Dg5-h5 # 
+
+  1.Dg5-f4 ! Zugzwang.
+      1...hBh2-h1=nhS 
+          2.nhSh1-f2=whS # 
+      1...hBh2-h1=nhL 
+          2.nhLh1-g2=whL # 
+
+
+Loesung beendet. 
+
+
+
+              P.A.Petkov
+       The Problemist July 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  =B   .   .   .   .   7
+|                                   |
+6   .   .   S   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   K   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#6                2 + 1 + 1n
+            HalbNeutral d7
+
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-h5=nhD nhDh5-a5=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-f3=nhD nhDf3-b3=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-e2=nhD + nhDe2-a6=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-e2=nhD + nhDe2-c4=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-b1=nhD + nhDb1-b4=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-b1=nhD + nhDb1-b3=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-c1=nhD nhDc1-c4=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-d8=nhD nhDd8-a5=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-d6=nhD nhDd6-b4=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-d5=nhD + nhDd5-b3=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-d5=nhD + nhDd5-c4=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-d5=nhD + nhDd5-a5=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-d3=nhD nhDd3-a6=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-d3=nhD nhDd3-c4=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-d3=nhD nhDd3-b3=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-d2=nhD + nhDd2-a5=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-d2=nhD + nhDd2-b4=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-f1=nhD nhDf1-a6=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-f1=nhD nhDf1-c4=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-e1=nhD nhDe1-a5=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shD   6.hDd1-e1=nhD nhDe1-b4=whD # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shT   6.hTd1-b1=nhT nhTb1-b4=whT # 
+  1.nhBd7-d5=shB   2.hBd5-d4=nhB   3.nhBd4-d3=shB   4.hBd3-d2=nhB   5.nhBd2-d1=shT   6.hTd1-d5=nhT nhTd5-a5=whT # 
+  1.nhBd7-d6=shB   2.hBd6-d5=nhB   3.nhBd5-d4=shB   4.hBd4-d3=nhB   5.nhBd3-d2=shB   6.hBd2-d1=nhS nhSd1-c3=whS # 
+
+Loesung beendet. 
+
+
+
+        P.A.Petkov (corr. SE)
+     (v) The Problemist July 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   B   .   .   .   .  -L   .   7
+|                                   |
+6   .   .   .   .   .   .   K   .   6
+|                                   |
+5   .   .   .  -B   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         2 + 4
+         HalbNeutral b7 g7 g2
+
+  1.hBg2-g1=nhL hBb7-b8=nhT +   2.nhTb8-g8=shT nhLg1-d4=whL = 
+
+Loesung beendet. 
+
+
+
+              P.A.Petkov
+         The Problemist 1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   S   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -B  -T   .   .   .   .   .   5
+|                                   |
+4   .  -K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   D   .   .   .   .   .   .   K   2
+|                                   |
+1   .   S   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 3
+            HalbNeutral c5
+
+  1.Kh2-g2 ! Zugzwang.
+      1...hTc5-c3=nhT 
+          2.Da2-a5 # 
+      1...hTc5-c1=nhT 
+          2.Da2-a3 # 
+      1...hTc5-c2=nhT + 
+          2.nhTc2-b2=whT # 
+      1...hTc5-c8=nhT 
+          2.Da2-a3 # 
+      1...hTc5-c7=nhT 
+          2.Da2-a3 # 
+      1...hTc5-c6=nhT 
+          2.Da2-a3 # 
+      1...hTc5-h5=nhT 
+          2.nhTh5-h4=whT # 
+      1...hTc5-g5=nhT + 
+          2.nhTg5-g4=whT # 
+      1...hTc5-f5=nhT 
+          2.nhTf5-f4=whT # 
+      1...hTc5-e5=nhT 
+          2.nhTe5-e4=whT # 
+      1...hTc5-d5=nhT 
+          2.nhTd5-d4=whT # 
+
+
+Loesung beendet. 
+
+
+
+              P.A.Petkov
+       The Problemist July 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   K   .  -S   8
+|                                   |
+7  -B   .   .   .  -B   .   D   .   7
+|                                   |
+6   .   .   .  -B   .   .   B   .   6
+|                                   |
+5   .   T   .  =S   S   .   .   T   5
+|                                   |
+4  -T  -B   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   L   .   .   B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                     8 + 8 + 1n
+            HalbNeutral d5
+
+  1.Se5-d3 ! Drohung:
+          2.Dg7-d4 # 
+      1...b4-b3 
+          2.nhSd5-c3=whS # 
+      1...nhSd5-c3=shS 
+          2.Th5-h4 # 
+      1...nhSd5-f6=shS 
+          2.Dg7*e7 # 
+      1...e7-e5 
+          2.nhSd5-f6=whS # 
+      1...Sh8*g6 + 
+          2.Dg7*g6 # 
+
+
+Loesung beendet. 
+
+
+
+              P.A.Petkov
+         The Problemist 1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   T   .   .   .   .   .   8
+|                                   |
+7   B   .   .   .   T   .   .   .   7
+|                                   |
+6   .  -B   .   B   .   .   .   .   6
+|                                   |
+5   .   B   .  -K   .   S   .   .   5
+|                                   |
+4   .   .  -B   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   K   .   B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          8 + 4
+            HalbNeutral a7
+
+  1.Tc8*c4 ? Drohung:
+          2.Tc4-a4 Zugzwang.
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+          2.Tc4-h4 Zugzwang.
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+          2.Tc4-g4 Zugzwang.
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+          2.Tc4-f4 Zugzwang.
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+          2.Tc4-e4 Drohung:
+                  3.Te7-e5 # 
+          2.Tc4-d4 + 
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+    Aber
+      1...Kd5*c4  !
+
+  1.Tc8-a8 ? Drohung:
+          2.Ka2-a3 Zugzwang.
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+    Aber
+      1...Kd5-c5  !
+
+  1.Tc8-b8 ? Drohung:
+          2.Ka2-a3 Zugzwang.
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+    Aber
+      1...Kd5-c5  !
+
+  1.Tc8-h8 ? Drohung:
+          2.Ka2-a3 Zugzwang.
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+    Aber
+      1...Kd5-c5  !
+
+  1.Tc8-g8 ? Drohung:
+          2.Ka2-a3 Zugzwang.
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+    Aber
+      1...Kd5-c5  !
+
+  1.Tc8-f8 ? Drohung:
+          2.Ka2-a3 Zugzwang.
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+    Aber
+      1...Kd5-c5  !
+
+  1.Tc8-e8 ? Drohung:
+          2.Te7-e5 # 
+    Aber
+      1...Kd5-c5  !
+
+  1.Tc8-d8 ? Drohung:
+          2.Ka2-a3 Zugzwang.
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+    Aber
+      1...Kd5-c5  !
+
+  1.Te7-e4 ? Zugzwang.
+    Aber
+      1...Kd5*e4  !
+
+  1.Te7-e5 + ? 
+    Aber
+      1...Kd5*e5  !
+
+  1.Te7-e6 ? Zugzwang.
+    Aber
+      1...Kd5*e6  !
+
+  1.hBa7-a8=nhS ! Drohung:
+          2.nhSa8*b6=whS # 
+      1...nhSa8-c7=shS 
+          2.Ka2-a3 Zugzwang.
+              2...Kd5-c5 
+                  3.Te7-e5 # 
+              2...hSc7-a6=nhS 
+                  3.nhSa6-b4=whS # 
+              2...hSc7*b5=nhS + 
+                  3.nhSb5*c3=whS # 
+              2...hSc7-e6=nhS 
+                  3.nhSe6-f4=whS # 
+              2...hSc7-e8=nhS 
+                  3.nhSe8-f6=whS # 
+              2...hSc7-a8=nhS 
+                  3.nhSa8*b6=whS # 
+
+  1.hBa7-a8=nhL + ? 
+      1...nhLa8-b7=shL 
+          2.Tc8-c7 Zugzwang.
+              2...hLb7-a6=nhL 
+                  3.nhLa6-b7=whL # 
+              2...hLb7-c8=nhL 
+                  3.nhLc8-b7=whL # 
+    Aber
+      1...nhLa8-c6=shL  !
+
+  1.Sf5-d4 ? Drohung:
+          2.d6-d7 Drohung:
+                  3.d7-d8=D # 
+                  3.d7-d8=T # 
+              2...Kd5-d6 
+                  3.d7-d8=D # 
+    Aber
+      1...Kd5*d6  !
+
+  1.Sf5-e3 + ? 
+      1...Kd5-d4 
+          2.Tc8*c4 # 
+    Aber
+      1...Kd5*d6  !
+
+  1.Sf5-g3 ? Drohung:
+          2.d6-d7 Drohung:
+                  3.d7-d8=D # 
+                  3.d7-d8=T # 
+              2...Kd5-d6 
+                  3.d7-d8=D # 
+    Aber
+      1...Kd5*d6  !
+
+  1.Sf5-h4 ? Drohung:
+          2.d6-d7 Drohung:
+                  3.d7-d8=D # 
+                  3.d7-d8=T # 
+              2...Kd5-d6 
+                  3.d7-d8=D # 
+    Aber
+      1...Kd5*d6  !
+
+  1.Sf5-h6 ? Drohung:
+          2.d6-d7 Drohung:
+                  3.d7-d8=D # 
+                  3.d7-d8=T # 
+              2...Kd5-d6 
+                  3.d7-d8=D # 
+    Aber
+      1...Kd5*d6  !
+
+  1.Sf5-g7 ? Drohung:
+          2.d6-d7 Drohung:
+                  3.d7-d8=D # 
+                  3.d7-d8=T # 
+              2...Kd5-d6 
+                  3.d7-d8=D # 
+    Aber
+      1...Kd5*d6  !
+
+
+Loesung beendet. 
+
+
+
+              P.A.Petkov
+       The Problemist July 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   L   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   D   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   .   2
+|                                   |
+1  -L  -T   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 4
+          HalbNeutral b6 b1
+
+  1.Lb8-a7 ! Zugzwang.
+      1...hTb1-h1=nhT 
+          2.nhTh1-h8=whT # 
+      1...hTb1-g1=nhT 
+          2.nhTg1-g8=whT # 
+      1...hTb1-f1=nhT 
+          2.nhTf1-f8=whT # 
+      1...hTb1-e1=nhT 
+          2.nhTe1-e8=whT # 
+      1...hTb1-d1=nhT 
+          2.nhTd1-d8=whT # 
+      1...hTb1-c1=nhT 
+          2.nhTc1-c8=whT # 
+
+  1.Lb8-h2 ? Zugzwang.
+      1...hTb1-g1=nhT 
+          2.nhTg1-g8=whT # 
+      1...hTb1-f1=nhT 
+          2.nhTf1-f8=whT # 
+      1...hTb1-e1=nhT 
+          2.nhTe1-e8=whT # 
+      1...hTb1-d1=nhT 
+          2.nhTd1-d8=whT # 
+      1...hTb1-c1=nhT 
+          2.nhTc1-c8=whT # 
+    Aber
+      1...hTb1-h1=nhT  !
+
+  1.Lb8-g3 ? Zugzwang.
+      1...hTb1-h1=nhT 
+          2.nhTh1-h8=whT # 
+      1...hTb1-f1=nhT 
+          2.nhTf1-f8=whT # 
+      1...hTb1-e1=nhT 
+          2.nhTe1-e8=whT # 
+      1...hTb1-d1=nhT 
+          2.nhTd1-d8=whT # 
+      1...hTb1-c1=nhT 
+          2.nhTc1-c8=whT # 
+    Aber
+      1...hTb1-g1=nhT  !
+
+  1.Lb8-f4 ? Zugzwang.
+      1...hTb1-h1=nhT 
+          2.nhTh1-h8=whT # 
+      1...hTb1-g1=nhT 
+          2.nhTg1-g8=whT # 
+      1...hTb1-e1=nhT 
+          2.nhTe1-e8=whT # 
+      1...hTb1-d1=nhT 
+          2.nhTd1-d8=whT # 
+      1...hTb1-c1=nhT 
+          2.nhTc1-c8=whT # 
+    Aber
+      1...hTb1-f1=nhT  !
+
+  1.Lb8-e5 ? Zugzwang.
+      1...hTb1-h1=nhT 
+          2.nhTh1-h8=whT # 
+      1...hTb1-g1=nhT 
+          2.nhTg1-g8=whT # 
+      1...hTb1-f1=nhT 
+          2.nhTf1-f8=whT # 
+      1...hTb1-d1=nhT 
+          2.nhTd1-d8=whT # 
+      1...hTb1-c1=nhT 
+          2.nhTc1-c8=whT # 
+    Aber
+      1...hTb1-e1=nhT  !
+
+  1.Lb8-d6 ? Zugzwang.
+      1...hTb1-h1=nhT 
+          2.nhTh1-h8=whT # 
+      1...hTb1-g1=nhT 
+          2.nhTg1-g8=whT # 
+      1...hTb1-f1=nhT 
+          2.nhTf1-f8=whT # 
+      1...hTb1-e1=nhT 
+          2.nhTe1-e8=whT # 
+      1...hTb1-c1=nhT 
+          2.nhTc1-c8=whT # 
+    Aber
+      1...hTb1-d1=nhT  !
+
+  1.Lb8-c7 ? Zugzwang.
+      1...hTb1-h1=nhT 
+          2.nhTh1-h8=whT # 
+      1...hTb1-g1=nhT 
+          2.nhTg1-g8=whT # 
+      1...hTb1-f1=nhT 
+          2.nhTf1-f8=whT # 
+      1...hTb1-e1=nhT 
+          2.nhTe1-e8=whT # 
+      1...hTb1-d1=nhT 
+          2.nhTd1-d8=whT # 
+    Aber
+      1...hTb1-c1=nhT  !
+
+
+Loesung beendet. 
+
+
+
+        P.A.Petkov (corr. SE)
+     (v) The Problemist July 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B  -B   .   .   .   .   .   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -K  -B   .   .   .   5
+|                                   |
+4   .   .   .   .  -B   .   .   .   4
+|                                   |
+3   L   .   .   .   .   .   .  -B   3
+|                                   |
+2   K   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  -T   .  -L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 9
+          HalbNeutral d1 f1
+
+a)
+
+  1.hLf1-d3=nhL Ka2-b3   2.hTd1-d2=nhT nhLd3-c4=whL # 
+
+b) sKd5-->a6
+
+  1.hTd1-d3=nhT La3-c5   2.hLf1-e2=nhL nhTd3-a3=whT # 
+
+Loesung beendet. 
+
+
+
+        P.A.Petkov (corr. SE)
+     (v) The Problemist July 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -T  -L   L   .   8
+|                                   |
+7  -B  -B   .   .   .   .   .   .   7
+|                                   |
+6   .  -B   .   .   .   .   .   .   6
+|                                   |
+5   .  -B   .   K   .   .   .   .   5
+|                                   |
+4   .  -B   .   .   .  -B   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -K  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        2 + 10
+          HalbNeutral e8 f8
+                Circe
+
+a)
+
+  1.hTe8-e7=nhT Kd5-d6   2.hLf8*e7=nhL [+nhTa1] + nhLe7-f6=whL # 
+
+b) sKb2-->c3
+
+  1.hLf8-e7=nhL Kd5-e4   2.hTe8*e7=nhT [+nhLc1] + nhTe7-c7=whT # 
+
+Loesung beendet. 
+
+
+
+              P.A.Petkov
+       The Problemist July 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S   .   L   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -B   .   .   7
+|                                   |
+6   .   .   .   .   .   K   .   .   6
+|                                   |
+5   .   B   .  -K   .   .   .   .   5
+|                                   |
+4   .   D   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 3
+            HalbNeutral b8
+
+  1.Ld8-a5 ! Zugzwang.
+      1...hSb8-a6=nhS 
+          2.nhSa6-c7=whS # 
+      1...hSb8-c6=nhS 
+          2.nhSc6-e7=whS # 
+      1...hSb8-d7=nhS + 
+          2.nhSd7-b6=whS # 
+
+  1.Ld8-b6 ? Drohung:
+          2.Db4-d4 # 
+      1...hSb8-c6=nhS 
+          2.nhSc6-e7=whS # 
+    Aber
+      1...hSb8-d7=nhS +  !
+
+  1.Ld8-c7 ? Zugzwang.
+      1...hSb8-c6=nhS 
+          2.nhSc6-e7=whS # 
+      1...hSb8-d7=nhS + 
+          2.nhSd7-b6=whS # 
+    Aber
+      1...hSb8-a6=nhS  !
+
+  1.Ld8-e7 ? Zugzwang.
+      1...hSb8-a6=nhS 
+          2.nhSa6-c7=whS # 
+      1...hSb8-d7=nhS + 
+          2.nhSd7-b6=whS # 
+    Aber
+      1...hSb8-c6=nhS  !
+
+  1.Kf6-f5 ? Zugzwang.
+      1...hSb8-a6=nhS 
+          2.nhSa6-c7=whS # 
+      1...hSb8-c6=nhS 
+          2.nhSc6-e7=whS # 
+      1...hSb8-d7=nhS 
+          2.nhSd7-b6=whS # 
+          2.nhSd7-f6=whS # 
+    Aber
+      1...f7-f6  !
+
+  1.Db4-d4 + ? 
+    Aber
+      1...Kd5*d4  !
+
+  1.Db4-c4 + ? 
+      1...Kd5-d6 
+          2.Dc4-d4 # 
+    Aber
+      1...Kd5*c4  !
+
+
+Loesung beendet. 
+
+
+
+            Vlaicu Crisan
+            Quartz 1996/7
+                 Lob
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  =S   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   L   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    3 + 0 + 1n
+            HalbNeutral e1
+
+  1...Lf1-h3   2.nSe3-g4 0-0 # 
+  1...Lf1-d3   2.nSe3-c4 hKe1-d1=nhK # 
+
+Loesung beendet. 
+
+
+
+          V.Crisan & E.Huber
+         1 Pl Andernach 2004
+nur die letzten 2 Zuege < 1 min mit Athlon 2400
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -L  -B   .   .   .   .   .   8
+|                                   |
+7   .   S   .  -K   .   .  -B  -B   7
+|                                   |
+6   .   .  =T  -S  -B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   L   .  -T   .   4
+|                                   |
+3   .   .  -T   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  -S   .   .   .   .  -L   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#2                  3 + 11 + 1n
+          HalbNeutral c6 e4
+        AntiSuperCirce  Calvet
+
+  1.hLe4*h7=L[whLh7->b5] Tc3-c1   2.nhTc6*d6=T[nhTd6->f7] + Lf1*b5[sLb5->e7] # 
+
+Loesung beendet. 
+
+

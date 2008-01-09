@@ -1,0 +1,751 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            Kjell Widlert
+     1. ea. Preis, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .  -K   .   8
+|                                   |
+7   .   .  -B   .   .   .  -B   .   7
+|                                   |
+6   .   .  -B   .   .  -B   .   .   6
+|                                   |
+5   .   .   .   .   .  -B   .   .   5
+|                                   |
+4   .   .  -T   .  -L   .   .   .   4
+|                                   |
+3   L   .   .   B   .  -T  -L   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        4 + 11
+           AndernachSchach
+
+a)
+
+  1.Le4*d3=wL Th1-h4   2.Tc4*h4=wT Ld3-c4 # 
+
+b) sBg7-->f7
+
+  1.Tf3*d3=wT La3-d6   2.Lg3*d6=wL Td3-g3 # 
+
+Loesung beendet. 
+
+
+
+            Torsten Lin"s
+            Markus Manhart
+             Franz Pachl
+          Manfred Rittirsch
+     1. ea. Preis, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   D   .   .   .   .   8
+|                                   |
+7   .  -B  -S  -B   .   .   .   .   7
+|                                   |
+6  -L  -L   .  -D  -T   .  -S   .   6
+|                                   |
+5   .   .  -B  -K   S  -B  -B   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   .   .   L   .   .   .   .  -T   3
+|                                   |
+2   .   .   .   .   T   .   .  -B   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        5 + 15
+           AndernachSchach
+
+  1.Th3*c3=wT Dd8*d7=sD   2.Dd7-b5 Tc3-d3 # 
+  1.La6*e2=wL Dd8*g5=sD   2.Dg5-g3 Le2-f3 # 
+
+Loesung beendet. 
+
+
+
+              Markus Ott
+            Thomas Maeder
+          Manfred Rittirsch
+            Michael Barth
+       3. Preis, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -T   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -B   .   .   .   .   .   .   6
+|                                   |
+5   .   B  -L   S   .   .   .   .   5
+|                                   |
+4  -B   .   L   .   .  -B   .  -B   4
+|                                   |
+3  -K   .   .   .   .  -T   .   .   3
+|                                   |
+2  -B   .  -B   .  -B   .   .   .   2
+|                                   |
+1   .   .   K   .  -S   .   .  -D   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        4 + 13
+           AndernachSchach
+
+a)
+
+  1.Lc5-b4 Sd5*b4=sS   2.Tc8*c4=wT Tc4-c3 # 
+
+b) sLc5-->c7
+
+  1.Tf3-b3 Lc4*b3=sL   2.Dh1*d5=wD Dd5-d6 # 
+
+Loesung beendet. 
+
+
+
+            Thomas Maeder
+           Hans-Peter Reich
+       4. Preis, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   K   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -L   6
+|                                   |
+5   .   .   .   .   .   .   .  -D   5
+|                                   |
+4   .   .   .   .   .   .   .  -T   4
+|                                   |
+3  -B   .   .   L   .   .   .  -B   3
+|                                   |
+2  -B   .   .   .   .   .   .   .   2
+|                                   |
+1  -K   .   .   S   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 8
+           AndernachSchach
+
+  1.Dh5-g4 Sd1-e3   2.Lh6*e3=wL Le3-d4 # 
+  1.Dh5-g5 Ld3-c4   2.Th4*c4=wT Tc4-c1 # 
+
+Loesung beendet. 
+
+
+
+            Torsten Lin"s
+            Markus Manhart
+             Franz Pachl
+          Manfred Rittirsch
+     1. ehr. Erw., Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -D   .   .   S   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4  -T   .   B   .   .   .  -L   .   4
+|                                   |
+3   .   .   B   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  -S   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         4 + 5
+           AndernachSchach
+
+  1...  ...  2.Ta4*c4=wT Tc4-a4   3.Dd7*a4=wD Da4-d4 # 
+
+  1...Sg7-h5   2.Sd1*c3=wS Sc3-d1   3.Dd7*d1=wD Dd1-d5 # 
+
+Loesung beendet. 
+
+
+
+            Kjell Widlert
+     2. ehr. Erw., Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   T   .   .   .   .   K   .   8
+|                                   |
+7   .   .   .   .   .   .   .   L   7
+|                                   |
+6   .   .   .  -L   .   .   .   .   6
+|                                   |
+5   .   B   .   .  -B   .   .   .   5
+|                                   |
+4   .   .  -B   .   B   .   .   .   4
+|                                   |
+3   .   .  -S   .   .   .   .   .   3
+|                                   |
+2   .   .   B   .   .   .   .   .   2
+|                                   |
+1  -S  -K  -D   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 7
+           AndernachSchach
+
+a)
+
+  1.Sc3*e4=wS Se4*d6=sS   2.Sd6*b5=wS Sb5-c3 # 
+
+b) wBc2-->b2
+
+  1.Sc3*b5=wS Sb5*d6=sS   2.Sd6*e4=wS Se4-c3 # 
+
+Loesung beendet. 
+
+
+
+           Henning M"uller
+        Alex Chatziparaskewas
+            Michael Barth
+     3. ehr. Erw., Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   L   .   .   .   .   .   .   8
+|                                   |
+7   S   B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B   .  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 3
+           AndernachSchach
+
+a)
+
+  1...Lb8-e5 +   2.Kd4-c5 b7-b8=D   3.a2-a1=S Db8-b3 = 
+
+b) wSa7-->e5
+
+  1...Lb8-a7 +   2.Kd4-c3 b7-b8=T   3.a2-a1=L Tb8-b2 = 
+
+Loesung beendet. 
+
+
+
+          Manfred Rittirsch
+         Lob, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -S   .   .   .   .   .   .   6
+|                                   |
+5  -K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   L   .   .   .   .   .   4
+|                                   |
+3   K   .   .   .   .   .   .   .   3
+|                                   |
+2   .   S   .   B   .   .   .   .   2
+|                                   |
+1   .   .  -T   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 3
+           AndernachSchach
+
+a)
+
+  1.Tc1-c3 + d2*c3=sB   2.c3*b2=wB b2-b4 # 
+
+b) Verschiebung a1 ==> a2
+
+  1.Tc2-c1 Sb3*c1=sS   2.Sc1*d3=wS Sd3-b4 # 
+
+Loesung beendet. 
+
+
+
+           Hans Uitenbroek
+         Lob, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   K   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -D   6
+|                                   |
+5  -K   .   .   .   .   .   .   .   5
+|                                   |
+4  -L  -T   .   .   .   .   .   .   4
+|                                   |
+3   .   B   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 4
+           AndernachSchach
+
+  1.La4*b3=wL Lb3-e6   2.Dh6*e6=wD De6-a6 # 
+  1.Tb4*b3=wT Tb3-e3   2.Dh6*e3=wD De3-b6 # 
+
+Loesung beendet. 
+
+
+
+              Uri Avner
+            Kjell Widlert
+       2. Preis, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -L   .   .   L   8
+|                                   |
+7   L   B  -B   .   .  -B  -T   .   7
+|                                   |
+6   K   .  -B   .   .  -B   .   T   6
+|                                   |
+5   T   .  -T   .   .   .   .   .   5
+|                                   |
+4   .   S   .  -K   .  -B   .   .   4
+|                                   |
+3   .   D   .  -B   T   .   .   .   3
+|                                   |
+2  -B   .  -B   B  -B   .   .   .   2
+|                                   |
+1  -T  -L  -S  -L  -T   L   .   L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#3                       12 + 18
+           AndernachSchach
+
+  1.Ta5-a4 ! Drohung:
+          2.Db3-e6 Drohung:
+                  3.Sb4*a2=sS + 
+                      3...Sa2-b4 # 
+      1...f4-f3 
+          2.Lf1*e2=sL Drohung:
+                  3.Sb4*d3=sS + 
+                      3...Sd3-b4 # 
+      1...Tg7-g2 
+          2.Th6*f6=sT Drohung:
+                  3.Sb4*c6=sS + 
+                      3...Sc6-b4 # 
+
+
+Loesung beendet. 
+
+
+
+            Kjell Widlert
+              Uri Avner
+       3. Preis, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   T   .   .   .   .  -S   K   8
+|                                   |
+7  -B   .   .   .   T   .   .   D   7
+|                                   |
+6   .   .   L   .  -B   B  -L   B   6
+|                                   |
+5   .   .   B   .  -K   .   B   .   5
+|                                   |
+4  -T   .   .   .   .   .   B   .   4
+|                                   |
+3   .   .   .   .   B   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                         11 + 8
+           AndernachSchach
+
+  1.Tb8-b4 ! Drohung:
+          2.Tb4-e4 + 
+              2...Lg6*e4=wL 
+                  3.Dh7-f5 # 
+      1...Lg6-e4 
+          2.Dh7-f5 + 
+              2...Le4*f5=wL 
+                  3.Tb4-e4 # 
+      1...Sg8*e7=wS + 
+          2.Se7-c8 Drohung:
+                  3.Dh7-c7 # 
+              2...Lg6*h7=wL 
+                  3.Tb4-e4 # 
+              2...Lg6-f7 
+                  3.Tb4-e4 # 
+                  3.Dh7-e4 # 
+      1...Sg8*f6=wS + 
+          2.Sf6-e8 Drohung:
+                  3.Dh7-g7 # 
+              2...Lg6*h7=wL 
+                  3.Tb4-e4 # 
+      1...Sg8*h6=wS + 
+          2.Sh6-g8 Drohung:
+                  3.Dh7-h2 # 
+              2...Lg6-h5 
+                  3.Dh7-e4 # 
+                  3.Dh7-f5 # 
+                  3.Tb4-e4 # 
+              2...Lg6*h7=wL 
+                  3.Tb4-e4 # 
+
+
+Loesung beendet. 
+
+
+
+         Brian D. Stephenson
+             John M. Rice
+     1. ehr. Erw., Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -T   .   8
+|                                   |
+7   .  -G   .   .   .   B   .   .   7
+|                                   |
+6   .  -B  -B   S  -G   .   .   .   6
+|                                   |
+5   .   L  -K   .   L   .   G   .   5
+|                                   |
+4   .  -B   .   S  -B   .   .   .   4
+|                                   |
+3   .  -G   .  -B   .   .   .   .   3
+|                                   |
+2   .   .   .   G   .   .   G   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         9 + 10
+           AndernachSchach
+
+  1.Le5-f4 ! Drohung:
+          2.Gg5-e3 # 
+      1...Gb3-e3 
+          2.Sd4-b3 # 
+      1...e4-e3 
+          2.Sd6-e4 # 
+      1...Ge6-e3 
+          2.Sd4-e6 # 
+      1...Gb7-g7 
+          2.Sd6-b7 # 
+
+
+Loesung beendet. 
+
+
+
+             John M. Rice
+     2. ehr. Erw., Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -B   K   .   T   .   .   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4   .   .   .   .  -B   .   .  -T   4
+|                                   |
+3   .   .   B   T   .   .   .   .   3
+|                                   |
+2   L   .   .   B   .   .   .   .   2
+|                                   |
+1   .   .  -D   .   .  -S  -L   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 8
+           AndernachSchach
+
+
+  1...Dc1*d2=wD 
+      2.Dd2-g5 # 
+  1...Sf1*d2=wS 
+      2.Sd2-c4 # 
+  1...c6-c5 
+      2.Td3-d5 # 
+
+  1.Td3-e3 ! Drohung:
+          2.d2-d4 # 
+      1...Sf1*e3=wS 
+          2.Tf7-f5 # 
+      1...Sf1*d2=wS 
+          2.Sd2-f3 # 
+      1...Lg1*e3=wL 
+          2.Le3-d4 # 
+
+
+Loesung beendet. 
+
+
+
+           Hans Peter Rehm
+              Markus Ott
+     3. ehr. Erw., Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .   L   .  -B   .   .   6
+|                                   |
+5   .   .   .   .   .   B   .   D   5
+|                                   |
+4   .   .   .   B   K  -B   S   .   4
+|                                   |
+3   .   .   .   B   L   .  -K   .   3
+|                                   |
+2   .   .  -B   .   .   .  -T  -B   2
+|                                   |
+1   .   .   S   .   .   .   .  -L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         9 + 8
+           AndernachSchach
+
+
+  1...Tg2-g1 # 
+  1...Tg2-d2 # 
+  1...Tg2-e2 # 
+  1...Tg2-f2 # 
+
+  1.Le3-g1 ! 
+      1...h2*g1=wD 
+          2.Dg1-e1 + 
+              2...Tg2-f2 # 
+      1...h2*g1=wS 
+          2.Sg1-h3 
+              2...Tg2-f2 # 
+              2...Tg2-g1 # 
+              2...Tg2-d2 # 
+              2...Tg2-e2 # 
+              2...Tg2-h2 # 
+      1...h2*g1=wT 
+          2.Tg1*g2=sT 
+              2...Tg2-d2 # 
+              2...Tg2-g1 # 
+              2...Tg2-e2 # 
+              2...Tg2-f2 # 
+              2...Tg2-h2 # 
+      1...h2*g1=wL 
+          2.Lg1-e3 
+              2...Tg2-h2 # 
+              2...Tg2-g1 # 
+              2...Tg2-d2 # 
+              2...Tg2-e2 # 
+              2...Tg2-f2 # 
+
+
+Loesung beendet. 
+
+
+
+              Uri Avner
+         Lob, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .  -B   B   B   7
+|                                   |
+6  -B   .   T  -B   .   T   .   K   6
+|                                   |
+5  -B   .   .   L   .   .   .   B   5
+|                                   |
+4   .   .   .   .  -S   L   S   .   4
+|                                   |
+3   .   .   .   .   S  -K  -B  -D   3
+|                                   |
+2   .   .   .   .   .   .   .  -B   2
+|                                   |
+1   .   .   .   .   D   .   .  -T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                       11 + 11
+           AndernachSchach
+
+  1.Tc6*a6=sT ! Drohung:
+          2.Lf4*d6=sL + 
+              2...Ld6-f4 # 
+      1...Dh3*h5=wD 
+          2.Sg4*h2=sS + 
+              2...Sh2-g4 # 
+
+
+Loesung beendet. 
+
+
+
+            Michael Barth
+         Lob, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   L   .   .   .   .   .   7
+|                                   |
+6   .   B   B  -B   D   .   .   .   6
+|                                   |
+5   .  -B  -K   .   .   .   .   .   5
+|                                   |
+4   .   .  -B  -B   .   .   L  -B   4
+|                                   |
+3   B   .   .   .   .   .   .   K   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 6
+           AndernachSchach
+
+a)
+
+  1.Lg4-f3 ! Drohung:
+          2.De6-d5 # 
+      1...d6-d5 
+          2.De6-d6 # 
+
+
+b) r#2
+
+  1.Lc7-d8 ! Drohung:
+          2.De6*d6=sD 
+              2...Dd6-g3 # 
+      1...d6-d5 
+          2.De6*d5=sD 
+              2...Dd5-h1 # 
+
+
+Loesung beendet. 
+
+
+
+             John M. Rice
+         Lob, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   K   S   .   .   7
+|                                   |
+6   .   .   .   .  -B   S  -B   .   6
+|                                   |
+5   .   .   .   .   .  -K   .   .   5
+|                                   |
+4   .  -B   .   .   .   .  -L   .   4
+|                                   |
+3   .   .   .   .   L   .   .   .   3
+|                                   |
+2   .  -D   .   .   B   .   .  -T   2
+|                                   |
+1  -L   .  -S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          5 + 9
+           AndernachSchach
+
+  1.Le3-g5 ! Drohung:
+          2.e2-e4 # 
+      1...Sc1*e2=wS 
+          2.Se2-g3 # 
+      1...Th2*e2=wT 
+          2.Te2-e5 # 
+      1...Lg4*e2=wL 
+          2.Le2-g4 # 
+
+
+Loesung beendet. 
+
+
+
+           Hans Uitenbroek
+         Lob, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   T   .   .   .   8
+|                                   |
+7   .   .  -S   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   T  -B   .   .   6
+|                                   |
+5  -B   L   .  -K   .  -B   .   .   5
+|                                   |
+4   .  -B   .   .   .  -B   .   .   4
+|                                   |
+3   .   .   .   .   L   .   .   .   3
+|                                   |
+2   .   K   .   .   B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          6 + 7
+           AndernachSchach
+
+  1.Le3-b6 ! Drohung:
+          2.e2-e4 + 
+              2...f4*e3 ep.=wB 
+                  3.e3-e4 # 
+      1...Sc7*b5=wS 
+          2.Sb5-c7 + 
+              2...Kd5-c4 
+                  3.Te6-c6 # 
+      1...Sc7*e6=wS 
+          2.Se6-c7 + 
+              2...Kd5-d6 
+                  3.Te8-e6 # 
+
+
+Loesung beendet. 
+
+

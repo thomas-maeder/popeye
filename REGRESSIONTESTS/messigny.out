@@ -1,0 +1,589 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            Bruno Kampmann
+            Messigny 1999
+        1. ehrende Erw"ahnung
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   B   .   .   .   .   .   .   K   7
+|                                   |
+6  -D  -S   .   .  -L   .   B   .   6
+|                                   |
+5   .   .   .  -B   .   .   .  -K   5
+|                                   |
+4   .   .   .   .   .   B   .  -B   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -T   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 7
+            MessignySchach
+
+  1.Tc2-g2 a7-a8=T   2.Tg2-g5 Ta8<->Tg5 # 
+  1.Da6-d3 a7-a8=D   2.Dd3*g6 + Da8<->Dg6 # 
+  1.Sb6-d7 a7-a8=S   2.Sd7-f6 + Sa8<->Sf6 # 
+  1.Le6-g4 a7-a8=L   2.Lg4-f3 La8<->Lf3 # 
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+            Messigny 1999
+        2. ehrende Erw"ahnung
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   L   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   B   .   7
+|                                   |
+6  -L   B   .   .   .   .   K   .   6
+|                                   |
+5  -K   .   B   .   .  -B   .  -S   5
+|                                   |
+4   .   .   .   .  -B  -D   .   .   4
+|                                   |
+3   .   .   B   .   .   .   .   .   3
+|                                   |
+2  -B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 7
+            MessignySchach
+
+  1.a2-a1=S g7-g8=S   2.Sa1-b3 Sg8<->Sb3 # 
+  1.a2-a1=T g7-g8=T   2.Sh5-g7 Tg8<->Ta1 # 
+  1.a2-a1=L g7-g8=L   2.La1*c3 Lg8<->Lc3 # 
+  1.Sh5-f6 g7-g8=D   2.Df4-h6 + Kg6<->Ka5 # 
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+            Messigny 1999
+                1. Lob
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -B  -B   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   B   .   K   .   .   B   .   3
+|                                   |
+2  -B   .   .   .   .   .   .  -B   2
+|                                   |
+1   .   L   .   .   .   .   L   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         5 + 5
+            MessignySchach
+
+  1.d5-d4 Kd3-e4   2.h2-h1=L + Lg1<->Lh1   3.Lg1-e3 Ke4<->Ka8 # 
+  1.e5-e4 + Kd3-d4   2.a2-a1=L + Lb1<->La1   3.Lb1-d3 Kd4<->Ka8 # 
+
+Loesung beendet. 
+
+
+
+            Bruno Kampmann
+            Messigny 1999
+                2. Lob
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   T   .   .   .   8
+|                                   |
+7   .   .   .  -T   .   .  -K   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 2
+            MessignySchach
+
+  1.Td7-d8 Te8*d8   2.Kg7<->Ke5 Kg7-f8   3.Ke5-f6 Kf8<->Kf6 # 
+  1.Kg7-h7 Ke5-f6   2.Kh7<->Kf6 + Kh7-h8   3.Td7-h7 + Kh8<->Kf6 # 
+
+Loesung beendet. 
+
+
+
+          Bernd Ellinghoven
+            Torsten Lin\ss
+           Hans Peter Rehm
+            Messigny 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -D  -T   D   .   .   8
+|                                   |
+7  -L   .   .   .   .   .   L   .   7
+|                                   |
+6   .   .   S   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -B   .   .  -B   .   5
+|                                   |
+4   .   .   .   .   .   .  -B   .   4
+|                                   |
+3   .   B   .   B  -K   .   .   .   3
+|                                   |
+2   .   .   .   .  -B   T   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  r#2                         7 + 8
+     MessignySchach RexExklusive
+
+
+  1...Ke3*d3 
+      2.Lg7-c3 
+          2...La7<->Lc3 # 
+  1...La7-b8 
+      2.Lg7-c3 
+          2...Lb8<->Lc3 # 
+  1...Dd8<->Df8 
+      2.Dd8-a5 
+          2...Df8*f2 # 
+      2.Tf2-f1 
+          2...e2*f1=T # 
+  1...Dd8-a5 + 
+      2.Df8<->Da5 
+          2...Df8*f2 # 
+  1...Dd8-b6 
+      2.Lg7-c3 
+          2...La7<->Lc3 # 
+  1...Dd8-f6 
+      2.Df8-b4 
+          2...Df6*f2 # 
+      2.Tf2-f1 
+          2...e2*f1=T # 
+  1...Te8*f8 
+      2.Tf2-f1 
+          2...e2*f1=D # 
+          2...e2*f1=T # 
+          2...Tf8*f1 # 
+
+  1.Df8-a3 ! Drohung:
+          2.Da3-c1 + 
+              2...Dd8<->Dc1 # 
+      1...Dd8<->Da3 
+          2.Dd8-a5 
+              2...Da3-c1 # 
+      1...Dd8-a5 + 
+          2.Da3<->Da5 
+              2...Da3-c1 # 
+      1...Dd8-b6 
+          2.Lg7-c3 
+              2...La7<->Lc3 # 
+      1...Dd8-e7 
+          2.Tf2-f1 
+              2...Te8<->Tf1 # 
+
+
+Loesung beendet. 
+
+
+
+            Bruno Kampmann
+            Messigny 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   .   .   .   7
+|                                   |
+6  -K  -B   .   .   .   .  -B   .   6
+|                                   |
+5   .   .   .   .   .   .   L  -B   5
+|                                   |
+4   .   D   .   .   .   .   .   K   4
+|                                   |
+3   .   .   .   .   .   .   S   T   3
+|                                   |
+2   .   B   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  semi-r#2                    6 + 5
+     MessignySchach RexExklusive
+
+  1.Bb2<->Bb6 ! Zugzwang.
+      1...b2-b1=D 
+          2.Db4-g4 
+              2...Db1<->Dg4 # 
+      1...b2-b1=S 
+          2.Sg3-f5 
+              2...Sb1<->Sf5 # 
+      1...b2-b1=T 
+          2.Th3-h2 
+              2...Tb1<->Th2 # 
+      1...b2-b1=L 
+          2.Lg5-f6 
+              2...Lb1<->Lf6 # 
+
+
+Loesung beendet. 
+
+
+
+          Christian Poisson
+            Messigny 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   .  -L   .  -S   8
+|                                   |
+7   .  -B   B   .   .   .   B   .   7
+|                                   |
+6   B   B   B   .   S   .   .  -K   6
+|                                   |
+5   .   .   .   .   .   .   .   L   5
+|                                   |
+4   .   .   .   .   D   B   B   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -T   3
+|                                   |
+2   .   .   .  -L   .   .   .  -D   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         11 + 7
+            MessignySchach
+
+  1.g7*f8=D + ? 
+    Aber
+      1...Dh2<->Df8 +  !
+
+  1.g7*f8=L + ? 
+      1...Kh6<->Kc8 
+          2.Bb6<->Bb7 # 
+          2.Ba6<->Bb7 # 
+          2.Bg4<->Bb7 # 
+          2.Bf4<->Bb7 # 
+    Aber
+      1...Ld2<->Lf8  !
+
+  1.a6*b7 ! Drohung:
+          2.Kc8<->Kh6 # 
+      1...Ld2*f4 
+          2.g7*f8=L # 
+      1...Dh2*f4 
+          2.g7*h8=D # 
+      1...Th3*h5 
+          2.g7*h8=T # 
+      1...Lf8*g7 
+          2.Lh5<->Lg7 # 
+      1...Sh8-f7 
+          2.g7-g8=S # 
+
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+            Messigny 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .  -D   .   B   .   .   7
+|                                   |
+6  -B   .  -T   .   .   S   T   K   6
+|                                   |
+5  -B  -T  -K   .   .  -B   B   .   5
+|                                   |
+4   .   .   .   .   L   .   .   .   4
+|                                   |
+3   B   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -L  -L   .  -B   2
+|                                   |
+1   .   .   .   .   .   .   T   D   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  r#2                        9 + 11
+            MessignySchach
+
+  1.Sf6-g8 ! Drohung:
+          2.Kh6-h7 
+              2...Kc5<->Kh7 # 
+      1...h2*g1=D 
+          2.f7-f8=D + 
+              2...Dg1<->Df8 # 
+      1...h2*g1=S 
+          2.f7-f8=S 
+              2...Sg1<->Sg8 # 
+      1...h2*g1=T 
+          2.f7-f8=T 
+              2...Tg1<->Tg6 # 
+      1...h2*g1=L 
+          2.f7-f8=L + 
+              2...Lg1<->Lf8 # 
+      1...Dd7*f7 
+          2.Dh1*h2 
+              2...Df7*g6 # 
+
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+            Messigny 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   L   .   D   .   .   .   8
+|                                   |
+7   .   .   .   .  -B  -B   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   K   .   .   .   .   .   .   5
+|                                   |
+4   T   .   .   .   .   .   S   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -B   .   L  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 5
+            MessignySchach
+
+  1.Lc8-d7 ! Drohung:
+          2.De8-h8 # 
+      1...g2-g1=D 
+          2.De8<->Dg1 # 
+      1...g2-g1=S 
+          2.Kb5<->Kh1 # 
+      1...g2-g1=T 
+          2.Ta4<->Tg1 # 
+      1...g2-g1=L 
+          2.De8-a8 # 
+
+
+Loesung beendet. 
+
+
+
+              Uri Avner
+            Messigny 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   D   .   .   T   .   8
+|                                   |
+7   .  -B   .   .   S   .   .   .   7
+|                                   |
+6   L   T   S   .   .   K   B   .   6
+|                                   |
+5   B   .  -K  -B   .  -B  -B   .   5
+|                                   |
+4   .   .   B   .   .   .  -B   .   4
+|                                   |
+3   .  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   L   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  -D   .   .  -S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         11 + 9
+            MessignySchach
+
+
+  1...Dd1-f3 
+      2.Lb2-d4 # 
+  1...Dd1-e2 
+      2.Lb2-d4 # 
+  1...Dd1-c2 
+      2.Lb2-d4 # 
+  1...Dd1-b1 
+      2.Lb2-d4 # 
+  1...Dd1-c1 
+      2.Lb2-d4 # 
+  1...Dd1-d4 + 
+      2.Lb2*d4 # 
+  1...Dd1-f1 
+      2.Lb2-d4 # 
+  1...Dd1-e1 
+      2.Lb2-d4 # 
+  1...Bb3<->Bg6 
+      2.Tb6-b5 # 
+  1...Bb3<->Ba5 
+      2.Tb6-b5 # 
+  1...Bb3<->Bc4 
+      2.Tb6-b5 # 
+  1...Bg4<->Bc4 
+      2.Tb6-b5 # 
+  1...Bd5<->Bc4 
+      2.Tb6-b5 # 
+  1...d5*c4 
+      2.Tb6-b5 # 
+  1...Bf5<->Bc4 
+      2.Tb6-b5 # 
+  1...Bg5<->Bg6 
+      2.Lb2-a3 # 
+  1...Bg5<->Ba5 
+      2.Lb2-a3 # 
+  1...Bg5<->Bc4 
+      2.Tb6-b5 # 
+      2.Lb2-a3 # 
+  1...Bb7<->Bc4 
+      2.Tb6-b5 # 
+
+  1.Sc6-e5 ! Drohung:
+          2.Kf6<->Kc5 # 
+      1...Dd1<->Dd8 
+          2.Lb2-d4 # 
+          2.Lb2-a3 # 
+      1...Dd1-d4 
+          2.Dd8<->Dd4 # 
+          2.Dd8-c7 # 
+          2.Dd8-d6 # 
+          2.Dd8-c8 # 
+          2.Lb2-a3 # 
+      1...d5-d4 
+          2.Lb2-a3 # 
+      1...d5*c4 
+          2.Lb2-a3 # 
+      1...Bg5<->Bg6 
+          2.Tb6-b5 # 
+      1...Bg5<->Ba5 
+          2.Tb6-b5 # 
+      1...Bg5<->Bc4 
+          2.Tb6-b5 # 
+
+
+Loesung beendet. 
+
+
+
+              Uri Avner
+           Hans Peter Rehm
+            Messigny 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   D   .   .   8
+|                                   |
+7   S   .   .   .  -B  -B   K   .   7
+|                                   |
+6  -B  -B   .   .   .  -B   .   .   6
+|                                   |
+5  -B   S  -K   .   .  -T  -B   .   5
+|                                   |
+4  -B   .   .   .  -S   .   .   T   4
+|                                   |
+3  -L  -S   .   .   .   .   .   .   3
+|                                   |
+2   L   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   T   L   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         8 + 13
+            MessignySchach
+
+  1.Kg7-h8 ! Drohung:
+          2.Df8-c8 # 
+      1...Sb3-d2 
+          2.Le1<->La3 # 
+      1...Sb3-d4 
+          2.Sb5<->Se4 # 
+      1...Se4-d2 
+          2.Td1<->Tf5 # 
+      1...Se4-d6 
+          2.La2<->La3 # 
+      1...Kc5-c4 
+          2.Kh8<->Kc4 # 
+
+
+Loesung beendet. 
+
+
+
+          Bernd Ellinghoven
+            Torsten Lin\ss
+           Hans Peter Rehm
+        Messigny 1998, Version
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -L   .   .   .  -T   .   .   8
+|                                   |
+7  -D   .   .   .   .   .   .  -B   7
+|                                   |
+6   .   .   .   .   .   .  -B   .   6
+|                                   |
+5   .   .   L   .   .   .   T   .   5
+|                                   |
+4   .   D   .   .   B  -K  -B   K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  semi-r#2                    5 + 7
+     MessignySchach RexExklusive
+
+  1.Db4-b1 ! Drohung:
+          2.Db1-h1 
+              2...Da7<->Dh1 # 
+      1...Da7<->Db1 
+          2.Da7*h7 
+              2...Db1-h1 # 
+      1...Da7-a2 
+          2.Db1-e1 
+              2...Da2-h2 # 
+      1...Da7-f7 
+          2.Tg5-h5 
+              2...Tf8<->Th5 # 
+      1...Da7-c7 
+          2.Lc5-f2 
+              2...Lb8<->Lf2 # 
+
+
+Loesung beendet. 
+
+

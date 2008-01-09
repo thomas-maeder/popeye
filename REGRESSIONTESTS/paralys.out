@@ -1,0 +1,298 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+        Narayanan Shankar Ram
+          Die Schwalbe 1987
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .  -S   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -B   .   6
+|                                   |
+5   .  -G   .   .   .   .   .   .   5
+|                                   |
+4   .  -G   .   .   .   .   .   .   4
+|                                   |
+3   .   .   T  -K   .   .   .   .   3
+|                                   |
+2   .   .   .  -S   .   .   .  -G   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 7
+         Paralysierend b7 c3
+             SpiegelCirce
+
+  1.pBb7-b8=pD ? Drohung:
+          2.Kd1-c2 # 
+          2.Kd1-e2 # 
+      1...Gb4-b6 
+          2.Kd1*d2 [+sSg1] # 
+          2.Kd1-c2 # 
+      1...Sd7-b6 
+          2.Kd1-c2 # 
+      1...Sd7-e5 
+          2.Kd1-e2 # 
+    Aber
+      1...Sd7*b8 [+wpDd8]  !
+
+  1.pBb7-b8=pS ? Zugzwang.
+      1...Sd2-b1 
+          2.Kd1-c2 # 
+      1...Sd2-f1 
+          2.Kd1-c2 # 
+      1...Sd2-f3 
+          2.Kd1-c2 # 
+      1...Sd2-e4 
+          2.Kd1-c2 # 
+      1...Sd2-c4 
+          2.Kd1-c2 # 
+          2.Kd1-e2 # 
+      1...Sd2-b3 
+          2.Kd1-c2 # 
+      1...Gh2-c2 
+          2.Kd1*c2 [+sGc8] # 
+      1...Gb4-b6 
+          2.Kd1*d2 [+sSg1] # 
+      1...Gb5-e2 
+          2.Kd1*e2 [+sGe8] # 
+      1...Gb5-e8 
+          2.Kd1-e2 # 
+      1...Gb5-b3 
+          2.Kd1-e2 # 
+    Aber
+      1...g6-g5  !
+
+  1.pBb7-b8=pT ? Drohung:
+          2.Kd1-e2 # 
+      1...Gb4-b6 
+          2.Kd1*d2 [+sSg1] # 
+      1...Sd7*b8 [+wpTh8] 
+          2.Kd1-c2 # 
+    Aber
+      1...Sd7-b6  !
+
+  1.pBb7-b8=pL ? Drohung:
+          2.Kd1-c2 # 
+      1...Gb5-e2 
+          2.Kd1*e2 [+sGe8] # 
+      1...Sd7*b8 [+wpLf8] 
+          2.Kd1*d2 [+sSg1] # 
+    Aber
+      1...Sd7-e5  !
+
+  1.pBb7-b8=pG ! Drohung:
+          2.Kd1*d2 [+sSg1] # 
+      1...Sd2-b1 
+          2.Kd1-c2 # 
+      1...Sd2-f1 
+          2.Kd1-c2 # 
+      1...Sd2-f3 
+          2.Kd1-c2 # 
+      1...Sd2-e4 
+          2.Kd1-c2 # 
+      1...Gb5-e2 
+          2.Kd1*e2 [+sGe8] # 
+      1...Gb5-e8 
+          2.Kd1-e2 # 
+      1...Gb5-b3 
+          2.Kd1-e2 # 
+      1...Sd7-b6 
+          2.Kd1-e2 # 
+      1...Sd7*b8 [+wpGb1] 
+          2.Kd1-e2 # 
+
+
+Loesung beendet. 
+
+
+
+           Marco Bonavoglia
+ 3. ehr. Erw., 41. feenschach-TT 1984
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   B   .   .   .   .   7
+|                                   |
+6   .   .   .   K   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .  -T   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+         Paralysierend d7 h4
+
+  1.pTh4-h6 pBd7-d8=pS   2.Kd4-c5 + pSd8-e6 # 
+  1.pTh4-h6 pBd7-d8=pL   2.Kd4-e5 + pLd8-f6 # 
+
+Loesung beendet. 
+
+
+
+          Claude Wiedenhoff
+   1. Preis, 41. feenschach-TT 1984
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   D   .   .   .   .  -T   8
+|                                   |
+7   .   .   .   .   B   .   .   .   7
+|                                   |
+6  -B   .   S  -K   .   .   .   .   6
+|                                   |
+5  -B   .   .   .  -T   .   K  -B   5
+|                                   |
+4   .   T   S   .   .   .   .   .   4
+|                                   |
+3   L   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 7
+     Paralysierend h8 e7 c6 c4 a3
+
+  1.pSc4-e3 ! Drohung:
+          2.Tb4-d4 # 
+      1...Kd6-e6 
+          2.pBe7-e8=pT # 
+      1...Kd6-d7 
+          2.pBe7-e8=pL # 
+      1...Kd6*c6 + 
+          2.pBe7-e8=pD # 
+      1...Kd6-c7 
+          2.pBe7-e8=pS # 
+      1...Kd6*e7 
+          2.Tb4-b7 # 
+      1...Kd6-c5 
+          2.Tb4-c4 # 
+
+
+Loesung beendet. 
+
+
+
+    Theodor Tauber & Shlomo Seider
+ 5. ehr. Erw., 41. feenschach-TT 1984
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   L   .   .   .   D  -S   S   8
+|                                   |
+7   .   .   .  -B  -K   B   .   .   7
+|                                   |
+6   .   .   T   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -B  -B   5
+|                                   |
+4   .  -T   .   .   .  -T   .   .   4
+|                                   |
+3   K  -L   .   .   .   .   .  -D   3
+|                                   |
+2   .  -L   .   .   .   .  -S   .   2
+|                                   |
+1   .   .   .   T   .   .   .   L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         8 + 11
+Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
+
+  1.pTc6-c3 ? Drohung:
+          2.Sh8-g6 # 
+    Aber
+      1...Tf4-f6  !
+
+  1.pTc6-c4 ? Drohung:
+          2.f7*g8=S # 
+    Aber
+      1...Dh3-e6  !
+
+  1.pTc6-b6 ! Drohung:
+          2.Lb8-d6 # 
+      1...Dh3-e6 
+          2.f7*g8=S # 
+      1...Tf4-f6 
+          2.Sh8-g6 # 
+
+  1.pTc6-f6 ? Drohung:
+          2.Sh8-g6 # 
+    Aber
+      1...Dh3*h1  !
+
+
+Loesung beendet. 
+
+
+
+            Sholomo Seider
+     F1361, The Problemist 1/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   L   .   T   .   .   8
+|                                   |
+7   .   .  -D   .   .  -B   .   .   7
+|                                   |
+6  -L   .   .   .   .   D  -B  -L   6
+|                                   |
+5   .   .   S  -T   B   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -B   .   .   4
+|                                   |
+3   .   S   .   .   .  -K   .  -B   3
+|                                   |
+2  -T  -B   .   .  -B   K  -S   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         7 + 13
+Paralysierend d8 f8 c7 f7 a6 g6 c5 a2 f2 g2
+                Circe
+
+a)
+
+  1.Df6-g5 ! Drohung:
+          2.Dg5-g4 # 
+      1...Td5*c5 [+wpSg1] 
+          2.Dg5*g2 [+spSg8] # 
+      1...Td5*d8 [+wpLc1] 
+          2.Dg5-g3 # 
+      1...Lh6*g5 [+wDd1] 
+          2.Dd1*d5 [+sTa8] # 
+      1...Lh6*f8 [+wpTa1] 
+          2.Sb3-d4 # 
+
+
+b) PlatzwechselCirce
+
+  1.Df6-g5 ! Drohung:
+          2.Dg5-g4 # 
+      1...Td5*c5 [+wpSd5] 
+          2.Dg5-g3 # 
+      1...Td5*d8 [+wpLd5] 
+          2.Sb3-d4 # 
+      1...Lh6*g5 [+wDh6] 
+          2.Dh6*h3 [+sBh6] # 
+      1...Lh6*f8 [+wpTh6] 
+          2.Dg5*g2 [+spSg5] # 
+
+
+Loesung beendet. 
+
+

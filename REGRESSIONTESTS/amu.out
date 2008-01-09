@@ -1,0 +1,139 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+              James Quah
+        The Problemist I/2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   D   .   .   .   .   .   8
+|                                   |
+7   .   L  -L   .   K   .   T   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   B  -B  -K   .   B   .   .   .   5
+|                                   |
+4   .  -B  -D   .   .   .   .   .   4
+|                                   |
+3   .   B   .   .   .   .   S   .   3
+|                                   |
+2   .   .   .   .   S   .   .   .   2
+|                                   |
+1   .   .   T   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 5
+                 AMU
+
+  1.Tg7-g4 ? Zugzwang.
+      1...Dc4-c2 
+          2.Tc1*c2 # 
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c1  !
+
+  1.Tg7-g5 ? Drohung:
+          2.e5-e6 # 
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c1  !
+
+  1.Tg7-g6 ? Zugzwang.
+      1...Dc4-c2 
+          2.Tc1*c2 # 
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c1  !
+
+  1.Tg7-f7 ? Zugzwang.
+      1...Dc4-c2 
+          2.Tc1*c2 # 
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c1  !
+
+  1.Tg7-g8 ? Zugzwang.
+      1...Dc4-c2 
+          2.Tc1*c2 # 
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c1  !
+
+  1.Tg7-h7 ? Zugzwang.
+      1...Dc4-c2 
+          2.Tc1*c2 # 
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c1  !
+
+  1.Ke7-e8 ? Zugzwang.
+      1...Dc4-c2 
+          2.Tc1*c2 # 
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c1  !
+
+  1.Ke7-d7 ? Zugzwang.
+      1...Dc4-c2 
+          2.Tc1*c2 # 
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c1  !
+
+  1.Ke7-f8 ? Zugzwang.
+      1...Dc4-c2 
+          2.Tc1*c2 # 
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c1  !
+
+  1.Ke7-f6 ? Zugzwang.
+      1...Dc4-c2 
+          2.Tc1*c2 # 
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c1  !
+
+  1.Lb7-a8 ? Zugzwang.
+      1...Dc4-c2 
+          2.Tc1*c2 # 
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c1  !
+
+  1.e5-e6 ! Drohung:
+          2.Sg3-e4 # 
+      1...Dc4-c3 
+          2.Tg7-g5 # 
+
+  1.Tc1*c4 + ? 
+    Aber
+      1...b5*c4  !
+
+  1.Tc1-c3 ? Zugzwang.
+      1...Dc4*c3 
+          2.Sg3-e4 # 
+    Aber
+      1...b4*c3  !
+
+  1.Tc1-c2 ? Zugzwang.
+      1...Dc4-c3 
+          2.Sg3-e4 # 
+    Aber
+      1...Dc4*c2  !
+
+
+Loesung beendet. 
+
+

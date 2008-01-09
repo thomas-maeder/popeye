@@ -1,0 +1,116 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+         P.Monreal & F.Calvet
+               BCM 1978
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -D   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   B   .   .   .   .   5
+|                                   |
+4  -B   S   S   .   .   .   .   .   4
+|                                   |
+3   B   .   .   .   L   .   .  -T   3
+|                                   |
+2   K   .   L   B   .   .   .   .   2
+|                                   |
+1   .   .  -K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 4
+          DoppelAgentenCirce
+
+  1.Le3-d4 ! Drohung:
+          2.Ld4-b2 # 
+      1...Th3*a3 [+sBa7] + 
+          2.Ka2*a3 [+wTa1] # 
+      1...Th3-b3 
+          2.Lc2*b3 [+wTh1] # 
+      1...Th3-c3 
+          2.Ld4*c3 [+wTa1] # 
+          2.d2*c3 [+wTa1] # 
+      1...Db7*b4 [+sSb8] 
+          2.a3*b4 [+wDd1] # 
+      1...Db7-g7 
+          2.Ld4*g7 [+wDd1] # 
+
+
+Loesung beendet. 
+
+
+
+               R.Bedoni
+               BCM 1979
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#10                     1 + 2
+              OhneSchach
+          DoppelAgentenCirce
+
+  1.Kb1-c2   2.Kc2-d3   3.Kd3*e3 [+wBe2]   4.Ke3-d4   5.e2-e4   6.e4-e5   7.e5-e6   8.e6-e7   9.e7-e8=D  10.De8-a4 # 
+
+Loesung beendet. 
+
+
+
+         P.Monreal & R.Bedoni
+               BCM 1979
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -L   .   .   .   .   K   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -K   6
+|                                   |
+5   .   T   .   .   .   .   .   .   5
+|                                   |
+4  -T  -S   .   .   L   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 4
+            TurncoatCirce
+
+  1.Le4-g6 ! Drohung:
+          2.Tb5-h5 # 
+      1...Ta4-a5 
+          2.Tb5*a5 [+wTh8] # 
+      1...Sb4-d5 
+          2.Tb5*d5 [+wSg8] # 
+      1...La7-c5 
+          2.Tb5*c5 [+wLf8] # 
+
+
+Loesung beendet. 
+
+

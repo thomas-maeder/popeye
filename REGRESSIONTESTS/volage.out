@@ -1,0 +1,314 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+              A. Simonet
+    1224, diagrammes 55, 1-2/1982
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S   .   D   L  -S   .  -S  -D   8
+|                                   |
+7   .   .   .  -S   S  -T  -L   T   7
+|                                   |
+6   .   .   .  -T   .  -K  -T   .   6
+|                                   |
+5   .   .  -B   .  -B   S   T  -S   5
+|                                   |
+4   .   .   L   .  -S   .  -S   K   4
+|                                   |
+3   .   .   .   .   .   .  -B   .   3
+|                                   |
+2   .   .   .   .   .  -B   B   .   2
+|                                   |
+1   .   .   .   .   .  -S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         9 + 18
+                Volage
+
+  1.Dc8-c6 ! Zugzwang.
+      1...Sf1-h2=wS 
+          2.Sh2*g4 # 
+      1...Sf1-e3=wS 
+          2.Se3*g4 # 
+      1...Sf1-d2=wS 
+          2.Sd2*e4 # 
+      1...Se4-c3=wS 
+          2.Sc3-e4 # 
+      1...Se4-d2=wS 
+          2.Sd2-e4 # 
+      1...Se4*g5=wS 
+          2.Sg5-e4 # 
+      1...Sg4-e3=wS 
+          2.Se3-g4 # 
+      1...Sg4-h2=wS 
+          2.Sh2-g4 # 
+      1...Sg4-h6=wS 
+          2.Sh6-g4 # 
+      1...Sh5-f4=wS 
+          2.Sf4-h5 # 
+      1...Tg6*g5=wT 
+          2.Tg5-g6 # 
+      1...Sd7-b6=wS 
+          2.Sb6-d7 # 
+      1...Sd7-f8=wS 
+          2.Sf8-d7 # 
+      1...Sd7-b8=wS 
+          2.Sb8-d7 # 
+      1...Tf7*e7=wT 
+          2.Te7-f7 # 
+      1...Lg7-h6 
+          2.Th7*f7 # 
+      1...Lg7-f8 
+          2.Th7*f7 # 
+      1...Sa8-b6=wS 
+          2.Sb6*d7 # 
+      1...Sa8-c7=wS 
+          2.Sc7*e8 # 
+      1...Se8-c7=wS 
+          2.Sc7-e8 # 
+      1...Sg8*e7=wS 
+          2.Se7-g8 # 
+      1...Sg8-h6=wS 
+          2.Sh6*g4 # 
+      1...Dh8*h7=wD 
+          2.Dh7*g6 # 
+
+
+Loesung beendet. 
+
+
+
+             Yves Cheylan
+     British Chess Magazine 1979
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   K   .   .   8
+|                                   |
+7   B  -B  -T   .   S   .   .   .   7
+|                                   |
+6  -B   L   .   .   B   .   .   .   6
+|                                   |
+5   B   .   .  -B   .   .   .   .   5
+|                                   |
+4   .   .   .   T   .   .   .   D   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 5
+             Hypervolage
+
+  1.Kf8-g8 ? Zugzwang.
+    Aber
+      1...Kd8-e8  !
+
+  1.Kf8-g7 ? Zugzwang.
+    Aber
+      1...Kd8-e8  !
+
+  1.Se7*d5=sS + ? 
+    Aber
+      1...Kd8-c8  !
+
+  1.Se7-c8=sS + ? 
+    Aber
+      1...Sc8-e7=wS  !
+
+  1.a7-a8=sD ! Zugzwang.
+      1...Da8-a7=wD 
+          2.Da7-b8 # 
+      1...Da8-c8 
+          2.Se7*d5=sS # 
+
+  1.a7-a8=sS ? Zugzwang.
+    Aber
+      1...Sa8*b6=wS  !
+
+  1.a7-a8=sT ? Zugzwang.
+      1...Ta8-c8 
+          2.Se7*d5=sS # 
+    Aber
+      1...Ta8-a7=wT  !
+
+  1.Lb6*c7 + ? 
+    Aber
+      1...Kd8*c7  !
+
+  1.Td4-d2 ? Zugzwang.
+    Aber
+      1...d5-d4=wB  !
+
+  1.Td4-b4 ? Zugzwang.
+    Aber
+      1...d5-d4=wB  !
+
+  1.Td4-f4 ? Zugzwang.
+    Aber
+      1...d5-d4=wB  !
+
+
+Loesung beendet. 
+
+
+
+          Claude Wiedenhoff
+    1373, diagrammes 62, 9/10*1983
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -L   .   8
+|                                   |
+7  -L   .  -B   .   L   B   .  -B   7
+|                                   |
+6  -D   .   .   .   .  -S   .   K   6
+|                                   |
+5   .   .   T   B  -K   B   .   .   5
+|                                   |
+4   .   .   .   .   B   .   .   D   4
+|                                   |
+3   .   .   B   .   T   L   .   .   3
+|                                   |
+2   .  -T   .   .   .   B   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -S  -T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        12 + 10
+                Volage
+
+  1.Lf3-e2 ! Drohung:
+          2.f2-f4 # 
+      1...Sf6*d5=wS + 
+          2.Sd5-b6 # 
+      1...Sf6*e4=wS + 
+          2.Se4-d6 # 
+      1...Sf6-h5=wS + 
+          2.Dh4-f6 # 
+      1...Sf6-e8=wS + 
+          2.Le7-f6 # 
+
+
+Loesung beendet. 
+
+
+
+           Norbert Geissler
+    2529, Problemkiste-71, 10/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -K   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -B  -B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         0 + 3
+                Volage
+
+  1.d2-d1=wD Dd1-d6   2.e2-e1=wD De1-b4 # 
+  1.e2-e1=wD De1-e3   2.d2-d1=wD Dd1-b3 # 
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+    2887, Problemkiste-79, 2/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   L   8
+|                                   |
+7   .   .   .   .  -K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   B   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B  -B   K   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=3                     3 + 3
+             SpiegelCirce
+                Volage
+
+  1.a2-a1=wS   2.b2*a1=D [+wSb8]   3.Da1-a2=wD Da2-g8 = 
+  1.b2-b1=wL   2.a2*b1=T [+wLc8]   3.Tb1-b8=wT Lc8-e6 = 
+
+Loesung beendet. 
+
+
+
+           Heinz Winterberg
+   2693, Problemkiste-74/75, 5/1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .   .   .   .   .   .   .   8
+|                                   |
+7  -S   B   B   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   L   .   S   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -B  -K   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   .   2
+|                                   |
+1   .   K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         6 + 5
+                Circe
+                Volage
+
+  1.b6*a7 [+sSb8] ! Drohung:
+          2.c7*b8=D 
+              2...Ta8*a7=wT [+sBa2] # 
+              2...Ta8*b8=wT [+sDd1] # 
+      1...Sb8-a6=wS 
+          2.b7-b8=sL 
+              2...Ta8*a7=wT [+sBa2] # 
+              2...Lb8*a7 [+sBa2] # 
+              2...Lb8*c7 [+sBc2] # 
+      1...Sb8-c6=wS 
+          2.b7-b8=sL 
+              2...Ta8*a7=wT [+sBa2] # 
+              2...Lb8*a7 [+sBa2] # 
+              2...Lb8*c7 [+sBc2] # 
+      1...Sb8-d7=wS 
+          2.b7-b8=sL 
+              2...Ta8*a7=wT [+sBa2] # 
+              2...Lb8*a7 [+sBa2] # 
+              2...Lb8*c7 [+sBc2] # 
+
+
+Loesung beendet. 
+
+

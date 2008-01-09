@@ -1,0 +1,230 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+Test Problem - =1 durch 1.Kb4, oder S=1 durch 1.b4 b5?
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   B   .   .   .   .   .   .   3
+|                                   |
+2  -K   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  =1                          2 + 2
+      SchwarzerUltraSchachZwang
+
+a)
+
+
+b) s=1
+
+
+Loesung beendet. 
+
+
+
+             N.A.Macleod
+           feenschach 107 
+Den Teilnehmern in Andernach 1991 gewidmet
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   L   3
+|                                   |
+2  -B   .   .   .  -B   .   .   .   2
+|                                   |
+1   .   S   K   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6                         3 + 3
+           UltraSchachZwang
+
+  1.a2*b1=D + Kc1-d2   2.e2-e1=L + Kd2-e3   3.Le1-f2 + Ke3-e2   4.Db1-f1 + Ke2-f3   5.Lf2-g1 + Kf3-g3   6.Df1-g2 + Lh3*g2 # 
+  1.a2*b1=T + Kc1-c2   2.e2-e1=S + Kc2-d2   3.Se1-f3 + Kd2-e2   4.Sf3-g1 + Ke2-f2   5.Tb1-b2 + Kf2-g3   6.Tb2-g2 + Lh3*g2 # 
+
+Loesung beendet. 
+
+
+
+      b.ellinghoven, Bo Lindgren
+                f-114
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -K   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   T  -B  -B  -B  -B   .   .  -B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#5                         2 + 6
+      SchwarzerUltraSchachZwang
+
+  1.b2-b1=T + Kb3*c2   2.d2-d1=L + Kc2-d3   3.e2-e1=S + Kd3-e4   4.h2-h1=D + Ke4-f4   5.Dh1-h2 + Ta2*h2 # 
+
+Loesung beendet. 
+
+
+
+             C.P.Sydenham
+         4 Pl Andernach 1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   L   .   .   .   .   .   .   6
+|                                   |
+5  -D   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -T  -B   .   .   .   L  -K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         3 + 4
+           UltraSchachZwang
+                Duplex
+
+  1.Da5-c5 + Kc8-d7   2.Dc5-d4 + Kd7-e6   3.Dd4-e3 + Ke6-f5   4.De3-f2 + Lb6*f2 # 
+
+  1.Lb6-f2 + Kh4-g5   2.Lf2-e3 + Kg5-f6   3.Le3-d4 + Kf6-e7   4.Ld4-c5 + Da5*c5 # 
+
+Loesung beendet. 
+
+
+
+              S.Emmerson
+    The Problemist F1912A iii/2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -K   .   .   .   .   .   3
+|                                   |
+2   B   .   .   .   .   B   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#14                        2 + 1
+               UWnur T
+       WeisserUltraSchachZwang
+
+  1.Kc3-b4 a2-a3 +   2.Kb4-b5 a3-a4 +   3.Kb5-b6 a4-a5 +   4.Kb6-b7 a5-a6 +   5.Kb7-b8 a6-a7 +   6.Kb8-c8 a7-a8=T +   7.Kc8-c7 Ta8-c8 +   8.Kc7-d6 Tc8-d8 +   9.Kd6-e5 f2-f4 +  10.Ke5-e6 f4-f5 +  11.Ke6-e7 f5-f6 +  12.Ke7-f7 Td8-d7 +  13.Kf7-g8 f6-f7 +  14.Kg8-h8 f7-f8=T # 
+
+Loesung beendet. 
+
+
+
+              S.Emmerson
+          Variant Chess 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -K   .   3
+|                                   |
+2   .   .   .   .   B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#8                         1 + 1
+                Circe
+       WeisserUltraSchachZwang
+
+  1.Kg3-f4 e2-e3 +   2.Kf4-f5 e3-e4 +   3.Kf5-f6 e4-e5 +   4.Kf6-f7 e5-e6 +   5.Kf7-f8 e6-e7 +   6.Kf8-f7 e7-e8=D +   7.Kf7*e8 [+wDd1] Dd1-a4 +   8.Ke8-d8 Da4-d7 # 
+
+Loesung beendet. 
+
+
+
+              S.Emmerson
+       The Problemist vii/2000
+         (after T.Wakashima)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   . -EL   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   . -EL   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   K   L   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#16                        4 + 3
+        TransmutierendeKoenige
+           UltraSchachZwang
+
+  1.ELf3-g7 + Kf1-h2   2.ELg7-f1 + Kh2-f3   3.ELf1-h2 + g2-g4   4.ELf6-g2 + Kf3-h4   5.ELg2-f5 + Kh4-f3   6.ELf5-g3 + Kf3-h4   7.ELh2-f3 + Kh4-g2   8.ELg3-f5 + Kg2-h5   9.ELf5-g2 + g4-g5  10.ELg2-f4 + g5-g6  11.ELf3-g5 + Kh5-f6  12.ELf4-h5 + Kf6-g4  13.ELg5-h7 + Kg4-f7  14.ELh7-g4 + g6-g7  15.ELg4-h6 + Kf7-h8  16.ELh6-g4 + g7-g8=T # 
+
+Loesung beendet. 
+
+

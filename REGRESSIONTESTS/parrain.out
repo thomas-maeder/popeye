@@ -1,0 +1,434 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            Claus Wedekind
+     216, harmonie 44, 31.12.1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   G   .   .   .   8
+|                                   |
+7  -D   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   G   .   .   6
+|                                   |
+5   .   .   .   .   .  -K   .   .   5
+|                                   |
+4   .   .   .   .   .   G   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   G   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 2
+             CirceParrain
+
+  1.Da7-e3 Ge8-e2   2.De3*f4 Gf6*f4 [+wGf2] # 
+  1.Da7-g7 Gg2-g8   2.Dg7*f6 Gf4*f6 [+wGf8] # 
+
+Loesung beendet. 
+
+
+
+            Claus Wedekind
+     217, harmonie 44, 31.12.1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -K   .   G   .   .   .   5
+|                                   |
+4   .   .   .   G   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   G   .   .   3
+|                                   |
+2   .   .   .   .   B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         4 + 2
+             CirceParrain
+
+  1.Kc5-c6 e2-e4   2.d7-d5 e4*d5 +   3.Kc6-b7 [+sBc6] d5*c6 +   4.Kb7-a8 [+sBb7] c6*b7 # 
+
+Loesung beendet. 
+
+
+
+          UW-Test - 5 Lsgn.
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   B   .   .   .   7
+|                                   |
+6   .   .   .  -K  -B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   K   .   .   .  -L   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         3 + 3
+             CirceParrain
+
+  1.Lh4*e7 b7-b8=D [+wBe8=wD] # 
+  1.Lh4*e7 b7-b8=L [+wBe8=wD] # 
+  1.Lh4*e7 b7-b8=S [+wBe8=wS] # 
+  1.Lh4*e7 b7-b8=D [+wBe8=wL] # 
+  1.Lh4*e7 b7-b8=L [+wBe8=wL] # 
+
+Loesung beendet. 
+
+
+
+      Theodor Tauber & Uri Avner
+       1.- 2. Preis, Bonn 1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -T  -B  -B   .   .   .   .   8
+|                                   |
+7   .  -L  -T  -D   T   .   .   .   7
+|                                   |
+6   S   .   .   .  -B   .   .   .   6
+|                                   |
+5   .   B   .   .   B   .   .   .   5
+|                                   |
+4   .   L   .  -K   .  -B   .   .   4
+|                                   |
+3  -B   B   .  -S   T   D   .   K   3
+|                                   |
+2   .   .   .   .   .  -B   .   .   2
+|                                   |
+1   .   .   .   .   .   S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        10 + 12
+             CirceParrain
+
+  1.Df3-c6 ! Drohung:
+          2.Lb4-c3 # 
+          2.Te3-e4 # 
+      1...Sd3-b2 
+          2.Lb4-c3 # 
+          2.Lb4-c5 # 
+      1...Sd3-c1 
+          2.Lb4-c3 # 
+          2.Lb4-c5 # 
+      1...Sd3-e1 
+          2.Lb4-c3 # 
+          2.Lb4-c5 # 
+      1...Sd3*e5 
+          2.Lb4-c3 # 
+          2.Lb4-c5 [+wBf6] # 
+      1...Sd3-c5 
+          2.Lb4-c3 # 
+          2.Lb4*c5 # 
+      1...Sd3*b4 
+          2.Dc6-c4 [+wLb2] # 
+      1...f4*e3 
+          2.Te7-e8 [+wTe4] # 
+          2.b5-b6 [+wTe4] # 
+          2.Lb4-c3 # 
+          2.Kh3-h4 [+wTe4] # 
+      1...Lb7*c6 
+          2.Te3-e1 [+wDc4] # 
+      1...Tc7*c6 
+          2.Lb4-d2 [+wDe4] # 
+      1...Dd7*c6 
+          2.Te7-d7 [+wDb6] # 
+      1...Dd7-d5 
+          2.Lb4-c3 # 
+
+
+Loesung beendet. 
+
+
+
+             Henry Tanner
+       1.- 2. Preis, Bonn 1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   D  -D   L   .   .   .   .   .   8
+|                                   |
+7   L   S   T   .   .   .   .   .   7
+|                                   |
+6   .   S   B  -B   B   .   .   .   6
+|                                   |
+5   .   .   B   B   .  -B   .   .   5
+|                                   |
+4   B   .   .  -K   B   B   .   .   4
+|                                   |
+3   .   .   .   .   .   B   .   .   3
+|                                   |
+2   .   .   .   K   .   .   .   T   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         16 + 4
+             CirceParrain
+
+  1.Th2-h8 ! Zugzwang.
+      1...Db8*a7 
+          2.Th8-h2 [+wLa1] # 
+      1...f5*e4 
+          2.Th8-h7 [+wBe3] # 
+      1...d6*c5 
+          2.Th8-h6 [+wBc3] # 
+      1...Db8*c7 
+          2.Th8-h5 [+wTc4] # 
+      1...Db8*b7 
+          2.Th8-h4 [+wSb3] # 
+      1...Db8*a8 
+          2.Th8-h1 [+wDa1] # 
+      1...Db8*c8 
+          2.Th8-h3 [+wLc3] # 
+
+
+Loesung beendet. 
+
+
+
+   Jerome Auclair & Michel Caillaud
+         3. Preis, Bonn 1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   S  -B   7
+|                                   |
+6   .   .   .   .   L   .   .   L   6
+|                                   |
+5  -B   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .   S   .  -K   4
+|                                   |
+3  -T   .   .   .   .  -B   .  -B   3
+|                                   |
+2   .   .   D   .  -B   .   .   B   2
+|                                   |
+1   .  -L   .   .  -S   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         7 + 10
+             CirceParrain
+
+  1.Dc2-d3 ! Drohung:
+          2.Dd3-d8 # 
+      1...Lb1*d3 
+          2.Sf4*h3 [+wDf2] # 
+      1...Se1*d3 
+          2.Sf4-g2 [+wDe1] # 
+      1...Ta3*d3 
+          2.Sf4*h5 [+wDf4] # 
+
+
+Loesung beendet. 
+
+
+
+ Christian Poisson & Michel Caillaud
+       1. ehr. Erw., Bonn 1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -B   K  -B   .   8
+|                                   |
+7   .   .   .   .   B   .   B   .   7
+|                                   |
+6   .   .   .   .   .  -K   .   .   6
+|                                   |
+5   .   T   .   .   .   B   .  -S   5
+|                                   |
+4   B   T   .   .   .   B   .   B   4
+|                                   |
+3   .   L   .   B  -B  -T   .   D   3
+|                                   |
+2   .   S   .   .   .   .   .   B   2
+|                                   |
+1   .   .  -D   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         14 + 7
+             CirceParrain
+
+  1.Tb5-b6 + ? 
+    Aber
+      1...Dc1-c6  !
+
+  1.Tb4-c4 ! Drohung:
+          2.Tb5-b6 # 
+      1...Dc1*c4 
+          2.Sb2*c4 [+wTd6] # 
+      1...Tf3*f4 
+          2.Dh3-g4 [+wBe5] # 
+      1...Tf3*h3 
+          2.Tc4-c7 [+wDh6] # 
+      1...Sh5*f4 
+          2.Dh3-g4 [+wBe5] # 
+      1...Sh5*g7 
+          2.Tc4-c2 [+wBg5] # 
+
+  1.Dh3-g4 ? Drohung:
+          2.Dg4-g6 # 
+          2.Dg4-g5 # 
+      1...Dc1-g1 
+          2.Tb5-b6 # 
+      1...Sh5*f4 
+          2.Dg4-h5 [+wBg5] # 
+          2.Dg4-g5 # 
+          2.Lb3-c4 [+wBg5] # 
+    Aber
+      1...Tf3-g3  !
+
+  1.Lb3-c4 ? Drohung:
+          2.Tb5-b6 # 
+      1...Dc1*c4 
+          2.Tb4*c4 [+wLd4] # 
+      1...Tf3*f4 
+          2.Dh3-g4 [+wBe5] # 
+      1...Sh5*f4 
+          2.Dh3-g4 [+wBe5] # 
+      1...Sh5*g7 
+          2.Lc4-a2 [+wBe5] # 
+    Aber
+      1...Tf3*h3  !
+
+  1.Sb2-c4 ? Drohung:
+          2.Tb5-b6 # 
+      1...Dc1*c4 
+          2.Lb3*c4 [+wSd5] # 
+      1...Tf3*h3 
+          2.Sc4-b6 [+wDg5] # 
+      1...Sh5*f4 
+          2.Dh3-g4 [+wBe5] # 
+    Aber
+      1...Sh5*g7  !
+
+
+Loesung beendet. 
+
+
+
+     Uri Avner & Hans Peter Rehm
+       2. ehr. Erw., Bonn 1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -L   K   .   L   8
+|                                   |
+7  -S   .   .   .  -B   .   .   L   7
+|                                   |
+6   .   .   .   D   .   .   S  -B   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -B   .   .  -K  -L   B   .   4
+|                                   |
+3   .   .   .   .   S   .   .   .   3
+|                                   |
+2   .  -S   .   .   .   B   B   .   2
+|                                   |
+1   .   .  -T  -T   .   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        10 + 10
+             CirceParrain
+
+  1.Th1-e1 ! Drohung:
+          2.f2-f3 # 
+      1...Td1*d6 
+          2.Se3-d1 [+wDc4] # 
+      1...Td1-d5 
+          2.Dd6*d5 # 
+      1...Td1-d4 
+          2.Dd6*d4 # 
+      1...Lf4*d6 
+          2.Sg6-f4 [+wDc4] # 
+      1...e7*d6 
+          2.Sg6-e7 [+wDb7] # 
+
+
+Loesung beendet. 
+
+
+
+   Reto Aschwanden & Torsten Lin"s
+            Lob, Bonn 1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -B   .   .   .   .   .   8
+|                                   |
+7   .  -B   B   S   .   .   .  -S   7
+|                                   |
+6   .   .   .   .   .   .   .  -B   6
+|                                   |
+5   .   .   .   S   .   K  -B   B   5
+|                                   |
+4   .   B  -B  -K   L   .   .   T   4
+|                                   |
+3   .   .  -B   .   .   .   T   .   3
+|                                   |
+2   .   .   .   .  -T  -S   .   .   2
+|                                   |
+1   .   .   .  -L   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         9 + 11
+             CirceParrain
+
+  1.Sd7-f8 ? Drohung:
+          2.Sf8-e6 # 
+      1...Te2*e4 
+          2.Sd5-b6 [+wLc5] # 
+      1...Sf2*e4 
+          2.Sd5-b6 [+wLc5] # 
+    Aber
+      1...Sh7*f8  !
+
+  1.Sd5*c3 ! Drohung:
+          2.Sc3-b5 # 
+      1...Ld1-a4 
+          2.Sc3*e2 # 
+      1...Te2*e4 [+sBc5] 
+          2.b4-b5 [+wLe5] # 
+      1...Sf2*e4 [+sBb5] 
+          2.Sd7-b8 [+wLc5] # 
+
+  1.Sd5-f4 ? Drohung:
+          2.Sf4-e6 # 
+      1...Te2*e4 
+          2.Sd7-b8 [+wLc5] # 
+      1...Sf2*e4 
+          2.b4-b5 [+wLe5] # 
+      1...g5*f4 
+          2.Kf5*f4 [+wSf3] # 
+      1...c8*d7 
+          2.Le4-c2 [+wSb5] # 
+    Aber
+      1...Sh7-f8  !
+
+
+Loesung beendet. 
+
+

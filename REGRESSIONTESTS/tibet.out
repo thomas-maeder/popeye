@@ -1,0 +1,180 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+           Norbert Geissler
+    3386, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   B   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -B   .   .   .   .   2
+|                                   |
+1   .   .  -K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         1 + 2
+                Circe
+             TibetSchach
+        TransmutierendeKoenige
+
+  1.d2-d1=D d7-d8=T   2.Dd1-c2 Td8-d1 # 
+  1.d2-d1=S d7-d8=L   2.Sd1-b2 Ld8-g5 # 
+
+Loesung beendet. 
+
+
+
+            W. A. Kriwenko
+    3128, Problemkiste 85, 2/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   B   K   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -B   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 2
+             TibetSchach
+
+a)
+
+  1.a3-a2 c7-c8=L   2.a2-a1=D Lc8-a6   3.Da1*a6=wD Da6-g6 = 
+
+b) wKd7-->f6
+
+  1.a3-a2 c7-c8=S   2.a2-a1=T Sc8-a7   3.Ta1*a7=wT Ta7-g7 = 
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+    3129, Problemkiste 85, 2/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   B   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 2
+             TibetSchach
+
+a)
+
+  1...f7-f8=T   2.b2-b1=D Tf8-f5   3.Db1*f5=wD Df5-f7 = 
+
+b) wKf4-->f6
+
+  1...f7-f8=S   2.b2-b1=L Sf8-h7   3.Lb1*h7=wL Lh7-g6 = 
+
+Loesung beendet. 
+
+
+
+           Norbert Geissler
+      3212, Problemkiste 7/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   B   .   .   .   .   .   7
+|                                   |
+6  -K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 2
+             TibetSchach
+
+  1...c7-c8=S   2.g2-g1=L Sc8-b6   3.Lg1*b6=wL Kd5-c6 = 
+  1...c7-c8=T   2.g2-g1=D Tc8-c5   3.Dg1*c5=wD Kd5-c6 = 
+
+Loesung beendet. 
+
+
+
+             Udo Degener
+            Torsten Lin"s
+       feenschach 101, 11/1991
+ 3. ehr. Erw., 46. feenschach-TT 1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -L   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -T   .   .   B   .  -K   .   .   3
+|                                   |
+2   .   .   B  -B   .  -B   .   .   2
+|                                   |
+1   .   .   .   .  -L   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 6
+             TibetSchach
+
+a)
+
+  1.La6*d3=wL c2-c3   2.Ta3*c3=wT Ld3-f1 # 
+
+b) sKf3-->f1
+
+  1.Ta3*d3=wT c2-c4   2.La6*c4=wL Td3-g3 # 
+
+Loesung beendet. 
+
+

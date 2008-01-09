@@ -1,0 +1,348 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+           Petko A. Petkow
+           diagrammes 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -D   .   .   .   .  -T   8
+|                                   |
+7   .   .  -B   .   .  -B   S   B   7
+|                                   |
+6   .   .   .   .   .   B   .   .   6
+|                                   |
+5   D   .   .   .   .   L   .   K   5
+|                                   |
+4   .   .  -L  -L   .  -K   .   .   4
+|                                   |
+3   B   .   .   .   .   .   T   B   3
+|                                   |
+2  -S   .   .   B  -B  -B   .   L   2
+|                                   |
+1   .   .   .   .   .  -T   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        11 + 11
+             EiffelSchach
+
+  1.Kh5-h4 ! Drohung:
+          2.Sg7-h5 # 
+      1...Lc4-d5 
+          2.Tg3-d3 # 
+      1...Lc4-b5 
+          2.Tg3-b3 # 
+      1...Ld4-e5 
+          2.Tg3-e3 # 
+      1...Ld4-c5 
+          2.Tg3-c3 # 
+      1...Dc8*f5 
+          2.Da5*f5 # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+           diagrammes 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   L   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   K   .  -K   .   .   .   .   .   6
+|                                   |
+5   .   T   S   S   .   .   .   T   5
+|                                   |
+4   L   .   .   .   B   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .  -B  -B   .   2
+|                                   |
+1   .   .   .   .  -L  -D   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 6
+             EiffelSchach
+
+  1.Th5-e5 ! Drohung:
+          2.Te5-e6 # 
+      1...Le1-c3 
+          2.Tb5-b1 # 
+      1...Df1*b5 + 
+          2.La4*b5 # 
+      1...Df1-c4 
+          2.Tb5-b4 # 
+      1...Df1-d3 
+          2.Tb5-b3 # 
+      1...Df1-e2 
+          2.Tb5-b2 # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+       Original f"ur diagrammes
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   D  -L   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   .   B   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -B   B   .   .   4
+|                                   |
+3   .   .   S   .   .   .   .   .   3
+|                                   |
+2   B   .   L   .   T   .   .   .   2
+|                                   |
+1   K   .  -K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         8 + 4
+             EiffelSchach
+
+  1.Dg8-g2 ! Drohung:
+          2.Te2-e1 + 
+              2...Lh8*c3 # 
+      1...Lh8-d4 
+          2.Sc3-b5 
+              2...c6*b5 # 
+      1...Lh8-f6 
+          2.Sc3-d5 
+              2...c6*d5 # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+       Original f"ur diagrammes
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .   .   .   .   .   .  -T   8
+|                                   |
+7   .   .   .   .   L   B  -B   .   7
+|                                   |
+6   .   .   B   .  -K   .   .   .   6
+|                                   |
+5   .  -B   .   .   .  -B   .   .   5
+|                                   |
+4   .   .   .   B   .   .   .   .   4
+|                                   |
+3   .  -D   B   D   B   .   .   .   3
+|                                   |
+2   .   .  -B   .  -B   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .  -L   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        8 + 10
+             EiffelSchach
+
+  1.Lg1*e3 f7-f8=T   2.Le3-h6 Dd3-e4 # 
+  1.Db3*c3 f7-f8=L   2.Dc3-a5 Dd3-c4 # 
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+       Original f"ur diagrammes
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -T  -K   .   .   .   8
+|                                   |
+7   .   .   .   B   .   .   .   .   7
+|                                   |
+6  -L   .   B  -D   .   .   .   .   6
+|                                   |
+5   .   .  -T   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   K   .   .   .   4
+|                                   |
+3   .  -S   .   .   T   .   .   .   3
+|                                   |
+2   .   .   .   .   T   .   .   .   2
+|                                   |
+1   .   .  -L   .  -S   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 8
+             EiffelSchach
+
+  1.Dd6-d2 Te3-f3   2.Tc5-c4 + Ke4-d5 # 
+  1.Dd6-d3 Te2-f2   2.Sb3-d2 + Ke4-d4 # 
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+       Original f"ur diagrammes
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   L   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   T  -B   7
+|                                   |
+6   .   .   .   .   .   D   .  -B   6
+|                                   |
+5   .   .   .   .   .   .   .   L   5
+|                                   |
+4   .   .   .   .   B   .   .   .   4
+|                                   |
+3   B   .   .  -B   .   .   .   .   3
+|                                   |
+2   .   .   B   .   B   B   T   B   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                        12 + 4
+             EiffelSchach
+
+  1.Df6-a1 ! Zugzwang.
+      1...d3-d2 
+          2.Tg7-g4 + 
+              2...d2-d1=T # 
+      1...d3*c2 
+          2.Tg7-g5 + 
+              2...c2-c1=T # 
+      1...d3*e2 
+          2.Tg7-e7 + 
+              2...e2-e1=T # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+       Original f"ur diagrammes
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -K   .   .   .   .   .   8
+|                                   |
+7   D   .   .   .   .   .   .   .   7
+|                                   |
+6   B   B   S   B   B   .   .   .   6
+|                                   |
+5   .  -B   .  -B   .   .   B   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -B   3
+|                                   |
+2   .   .   .   .   .   B   .   B   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#4                        10 + 4
+             EiffelSchach
+
+  1.Da7-f7 ! Zugzwang.
+      1...d5-d4 
+          2.Df7-f5 Zugzwang.
+              2...d4-d3 
+                  3.Df5-c5 Zugzwang.
+                      3...d3-d2 
+                          4.d6-d7 + 
+                              4...d2-d1=D # 
+      1...b5-b4 
+          2.Df7-f3 Zugzwang.
+              2...b4-b3 
+                  3.Df3-h1 Zugzwang.
+                      3...b3-b2 
+                          4.b6-b7 + 
+                              4...b2-b1=D # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+       Original f"ur diagrammes
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .  -T   B   B   .  -B   .   .   7
+|                                   |
+6   .   .  -B   .  -L   B   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -B   .   5
+|                                   |
+4   .  -S   .   .   .  -L  -T   .   4
+|                                   |
+3   .   .   .   .  -S   .   .   K   3
+|                                   |
+2  -B   .  -B   .   .   .   .   .   2
+|                                   |
+1  -D   L   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        5 + 13
+             EiffelSchach
+
+a)
+
+  1.c2-c1=L c7-c8=L   2.Lc1-b2 d7-d8=D # 
+
+b) sLf4-->d6
+
+  1.c2-c1=T c7-c8=S   2.Tc1-c3 d7-d8=T # 
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkow
+       Original f"ur diagrammes
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -D   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -B   L   L  -B  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -T   6
+|                                   |
+5  -B   B   .   .   B   B   .   .   5
+|                                   |
+4  -K   .   .   .   .   K   .   D   4
+|                                   |
+3   .  -B   .  -B   .  -S  -S   .   3
+|                                   |
+2  -L   .   .  -T   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        7 + 13
+                Circe
+             EiffelSchach
+
+  1.Da8-g8 f5-f6   2.Th6*f6 [+wBf2] Kf4*f3 # 
+  1.Da8-b8 e5-e6   2.Th6*e6 [+wBe2] Kf4*g3 # 
+
+Loesung beendet. 
+
+

@@ -1,0 +1,402 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+Es fehlt ein weisser oder schwarzer Koenig
+
+Thomas Maeder, Popeye test problem for promotion into white king
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -L   2
+|                                   |
+1   .   .   .   .   .   .   .  -L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zb81                        2 + 2
+           KoenigsDynastie
+
+  1  (Ka8-b8 )
+  2  (Ka8-a7 )
+  1.b7-b8=K z ! 
+
+  3  (b7-b8=K )
+  4  (b7-b8=D )
+  5  (b7-b8=S )
+  6  (b7-b8=T )
+  7  (b7-b8=L )
+
+Loesung beendet. 
+
+
+Es fehlt ein weisser oder schwarzer Koenig
+
+Thomas Maeder, Popeye test problem for promotion into black king
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   L   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hza11                       1 + 2
+           KoenigsDynastie
+
+  1  (Ka1-b1 )
+  2  (Ka1-a2 )
+  1.b2-b1=K Lh8*a1 z 
+  3  (b2-b1=K )
+  4  (b2-b1=D )
+  5  (b2-b1=S )
+  6  (b2-b1=T )
+  7  (b2-b1=L )
+
+Loesung beendet. 
+
+
+Es fehlt ein weisser oder schwarzer Koenig
+
+Thomas Maeder, Popeye test problem for promotion of berolina pawn into king
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   T   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2 -BB   .   .   .   .   .   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hza11                       1 + 2
+           KoenigsDynastie
+
+  1  (Ka1-b1 )
+  2  (Ka1-b2 )
+  1.BBa2-b1=K Ta8*a1 z 
+  3  (BBa2-b1=K )
+  4  (BBa2-b1=D )
+  5  (BBa2-b1=S )
+  6  (BBa2-b1=T )
+  7  (BBa2-b1=L )
+
+Loesung beendet. 
+
+
+Es fehlt ein weisser oder schwarzer Koenig
+
+Thomas Maeder, Popeye test problem for correct initialization of castling possibilities
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -S   2
+|                                   |
+1   T   .   .   .   K   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h001                        3 + 1
+           KoenigsDynastie
+
+  1.Sh2*f1 0-0-0 
+  1  (Sh2*f1 )
+  2  (Sh2-g4 )
+  3  (Sh2-f3 )
+
+Loesung beendet. 
+
+
+
+Janez Nastran, 203 Sahovska misel 6/2005
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -L   .   .   .   D   7
+|                                   |
+6   .   .   .  -B   .  -B   .   .   6
+|                                   |
+5   .   .   .   .   .  -T   .   .   5
+|                                   |
+4   .   .  -K   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   K   .   .   .   3
+|                                   |
+2   B   .   .  -B   .  -S   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 7
+           KoenigsDynastie
+
+  1  (d2-d1=K )
+  2  (d2-d1=D )
+  3  (d2-d1=S + )
+  1.d2-d1=T Dh7-g8 +   2.Kc4-c3 Dg8-b3 # 
+  1.d2-d1=T Dh7-f7 +   2.Kc4-c3 Df7-b3 # 
+  4  (d2-d1=T )
+  5  (d2-d1=L )
+  6  (Sf2-d1 + )
+  7  (Sf2-h1 )
+  8  (Sf2-h3 )
+  9  (Sf2-g4 + )
+ 10  (Sf2-e4 )
+ 11  (Sf2-d3 )
+ 12  (Kc4-d4 + )
+ 13  (Kc4-c5 )
+ 14  (Kc4-b4 )
+  1.Kc4-c3 Dh7-g8   2.d2-d1=T Dg8-b3 # 
+  1.Kc4-c3 Dh7-f7   2.d2-d1=T Df7-b3 # 
+ 15  (Kc4-c3 )
+ 16  (Kc4-b5 )
+ 17  (Kc4-d5 )
+ 18  (Kc4-d3 + )
+ 19  (Kc4-b3 )
+ 20  (Tf5-f3 + )
+ 21  (Tf5-f4 )
+ 22  (Tf5-a5 )
+ 23  (Tf5-b5 )
+  1.Tf5-c5 Dh7-b1   2.d2-d1=T Db1-b3 # 
+ 24  (Tf5-c5 )
+ 25  (Tf5-d5 )
+ 26  (Tf5-e5 + )
+ 27  (Tf5-h5 )
+ 28  (Tf5-g5 )
+ 29  (d6-d5 )
+ 30  (Ld7-a4 )
+  1.Ld7-b5 Dh7-a7   2.d2-d1=L Da7-d4 # 
+ 31  (Ld7-b5 )
+ 32  (Ld7-c6 )
+ 33  (Ld7-e6 )
+ 34  (Ld7-e8 )
+ 35  (Ld7-c8 )
+
+Loesung beendet. 
+
+
+
+Janez Nastran, 204 Sahovska misel 6/2005
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -B  -K   .   .   4
+|                                   |
+3   .   .   L   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -B   K  -B   T   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 4
+           KoenigsDynastie
+
+  1.d2-d1=K Tg2*f2   2.Kf4-e3 Ke1*d1 # 
+  1  (d2-d1=K )
+  2  (d2-d1=D )
+  3  (d2-d1=S )
+  4  (d2-d1=T )
+  5  (d2-d1=L )
+  6  (d2*e1=K + )
+  7  (d2*e1=D + )
+  8  (d2*e1=S )
+  9  (d2*e1=T + )
+ 10  (d2*e1=L )
+  1.f2-f1=K Lc3*d2   2.Kf4-g4 Tg2*g4 # 
+  1.f2-f1=K Lc3*d2   2.Kf4-f3 Ke2*f3 # 
+  1.f2-f1=K Lc3*d2   2.Kf4-f3 Ke1*f1 # 
+  1.f2-f1=K Lc3*d2   2.Kf4-g5 Tg2*g5 # 
+  1.f2-f1=K Lc3*d2   2.Kf4-g3 Tg2*g3 # 
+  1.f2-f1=K Ke2*d2   2.Kf4-g4 Tg2*g4 # 
+  1.f2-f1=K Ke2*d2   2.Kf4-g5 Tg2*g5 # 
+  1.f2-f1=K Ke2*d2   2.Kf4-g3 Tg2*g3 # 
+  1.f2-f1=K Ke1-d1   2.Kf4-g4 Tg2*g4 # 
+  1.f2-f1=K Ke1-d1   2.Kf4-g5 Tg2*g5 # 
+  1.f2-f1=K Ke1-d1   2.Kf4-g3 Tg2*g3 # 
+  1.f2-f1=K Ke1*d2   2.Kf4-g4 Tg2*g4 # 
+  1.f2-f1=K Ke1*d2   2.Kf4-g5 Tg2*g5 # 
+  1.f2-f1=K Ke1*d2   2.Kf4-g3 Tg2*g3 # 
+ 11  (f2-f1=K )
+ 12  (f2-f1=D )
+ 13  (f2-f1=S )
+ 14  (f2-f1=T )
+ 15  (f2-f1=L )
+ 16  (f2*e1=K + )
+ 17  (f2*e1=D + )
+ 18  (f2*e1=S )
+ 19  (f2*e1=T + )
+ 20  (f2*e1=L )
+ 21  (e4-e3 )
+ 22  (Kf4-g4 )
+ 23  (Kf4-f5 )
+ 24  (Kf4-f3 )
+ 25  (Kf4-e5 )
+ 26  (Kf4-g5 )
+ 27  (Kf4-g3 )
+ 28  (Kf4-e3 )
+
+Loesung beendet. 
+
+
+
+Janez Nastran, 205 Sahovska misel 6/2005
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   L   .   .   .   .   .  -K   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   B   K   B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#5                         4 + 2
+           KoenigsDynastie
+
+  1.g7-g5 f2-f4   2.g5-g4 f4-f5   3.g4-g3 f5-f6   4.g3*h2 f6-f7 +   5.h2-h1=K + f7*g8=K # 
+  1  (g7-g5 )
+  2  (g7-g6 )
+  3  (Kg8-h8 )
+  4  (Kg8-f8 )
+  5  (Kg8-h7 )
+  6  (Kg8-f7 )
+
+Loesung beendet. 
+
+
+
+Marko Klasinc, 206 Sahovska misel 6/2005
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .   .   .   .   .   .  -T   8
+|                                   |
+7   .   .   .  -K   .  -K   .  -S   7
+|                                   |
+6   .   .  -B   .  -L   .   .   .   6
+|                                   |
+5   .   .   .   .   S   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   D   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 7
+           KoenigsDynastie
+
+  1  (c6-c5 )
+  2  (Le6-a2 + )
+  3  (Le6-b3 )
+  4  (Le6-c4 )
+  5  (Le6-d5 )
+  6  (Le6-h3 )
+  7  (Le6-g4 )
+  8  (Le6-f5 + )
+  9  (Kd7-e7 )
+ 10  (Kd7-d8 )
+ 11  (Kd7-c7 )
+ 12  (Kd7-d6 )
+ 13  (Kd7-c8 )
+  1.Kd7-e8 Se5*f7   2.0-0 Sf7-h6 # 
+ 14  (Kd7-e8 )
+ 15  (Kf7-g7 )
+ 16  (Kf7-f8 )
+ 17  (Kf7-e7 )
+ 18  (Kf7-f6 )
+  1.Kf7-e8 Se5*d7   2.0-0-0 Dc3*c6 # 
+ 19  (Kf7-e8 )
+ 20  (Kf7-g8 )
+ 21  (Kf7-g6 )
+ 22  (Sh7-f6 )
+ 23  (Sh7-g5 )
+ 24  (Sh7-f8 )
+ 25  (Ta8-a1 + )
+ 26  (Ta8-a2 )
+ 27  (Ta8-a3 )
+ 28  (Ta8-a4 )
+ 29  (Ta8-a5 )
+ 30  (Ta8-a6 )
+ 31  (Ta8-a7 )
+ 32  (Ta8-g8 )
+ 33  (Ta8-f8 )
+ 34  (Ta8-e8 )
+ 35  (Ta8-d8 )
+ 36  (Ta8-c8 )
+ 37  (Ta8-b8 + )
+ 38  (Th8-b8 + )
+ 39  (Th8-c8 )
+ 40  (Th8-d8 )
+ 41  (Th8-e8 )
+ 42  (Th8-f8 )
+ 43  (Th8-g8 )
+
+Loesung beendet. 
+
+

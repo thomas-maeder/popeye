@@ -1,0 +1,242 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+           Didier Innocenti
+    2318, diagrammes 94, 7-9/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   D   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -B   .   .   4
+|                                   |
+3   .   .   .   .   .  -B   .   .   3
+|                                   |
+2   .   .   .   .   .   K   .   .   2
+|                                   |
+1   .   .  -B  -K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 5
+            EinsteinSchach
+
+  1.Ta8-a4=L Kf2-f1   2.La4-c2=S Dg6-d3=T # 
+  1.Ta8-a6=L Dg6-d6=T +   2.La6-d3=S + Td6*d3=D # 
+
+Loesung beendet. 
+
+
+
+           Didier Innocenti
+    2397, diagrammes 96, 1-3/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   K   .   .   .   7
+|                                   |
+6   .  -B   T   B   L   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4   .   .   .  -B   .  -L   .   .   4
+|                                   |
+3   .   .  -B   .   .   B  -B   .   3
+|                                   |
+2   .   .   .   .   S   .   .   .   2
+|                                   |
+1   .  -T   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 7
+            EinsteinSchach
+
+  1.Tc6-c4=L ! Drohung:
+          2.Lc4-d3=S # 
+      1...Tb1-b5=L 
+          2.Lc4*b5=T # 
+      1...d4-d3 
+          2.Se2*c3=L # 
+      1...Lf4-c1=S 
+          2.Se2*g3=L # 
+
+
+Loesung beendet. 
+
+
+
+           Didier Innocenti
+            Ph\'enix 1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -D   .   .   3
+|                                   |
+2   .   .   B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         1 + 2
+                Circe
+            EinsteinSchach
+
+  1.Df3-b3=T c2*b3=S [+sTa8]   2.Ta8-a1=L Sb3*a1=L [+sLf8]   3.Lf8-g7=S La1*g7=T [+sSb8]   4.Sb8-d7=B Tg7*d7=D # 
+
+Loesung beendet. 
+
+
+
+             Thomas Brand
+       3660, feenschach 8/1982
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -K   3
+|                                   |
+2  -T   .   .   .   .   .   .   B   2
+|                                   |
+1   .   .   .   T   K   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 2
+            EinsteinSchach
+                Duplex
+
+  1.Ta2-e2=L Td1-d8=L   2.Le2-g4=S 0-0=L # 
+
+  1.Th1-g1=L Kh3-g2   2.Lg1-f2=S Ta2*f2=D # 
+
+Loesung beendet. 
+
+
+
+             Romeo Bedoni
+        feenschach-97, 11/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   S   .   .   .   .   .   .   .   4
+|                                   |
+3   .   B   .   .   .   .   .   .   3
+|                                   |
+2   .   B   B   .   .   .   .   .   2
+|                                   |
+1  -K   B   T   D   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          8 + 2
+            EinsteinSchach
+
+  1.Dd1-f1=T ! Zugzwang.
+      1...a6-a5 
+          2.Tc1-e1=L Zugzwang.
+              2...Ka1*b1 
+                  3.Le1-b4=S # 
+
+
+Loesung beendet. 
+
+
+
+            N. Shankar Ram
+250, Das Vielvaeterproblem, 2. Aufl. 1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#3                      2 + 2
+        ReversesEinsteinSchach
+
+  1.b6-b7=S   2.Sb7-d6=L   3.Ld6-b8=T # 
+
+Loesung beendet. 
+
+
+
+            Torsten Lin"s
+             Testoriginal
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   L   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -B   .   S  -K   S   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   B   3
+|                                   |
+2   .   .   B   .   .   K   .   .   2
+|                                   |
+1   .   .   .   B   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 4
+            EinsteinSchach
+
+  1.d1-d4 ! Drohung:
+          2.Sg4-e3=B # 
+      1...c3*d2 ep.=S 
+          2.Se4*d2=L # 
+      1...c4*d3 ep.=S + 
+          2.c2*d3=S # 
+
+
+Loesung beendet. 
+
+

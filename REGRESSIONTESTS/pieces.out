@@ -1,0 +1,1149 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+Es fehlt ein weisser oder schwarzer Koenig
+
+           Albert H. Kniest
+             Erich Bartel
+              Peter Kahl
+    Diagramme und Figuren 12/1963
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   G   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -G   .   2
+|                                   |
+1   .   .   .   .   .   .   . -FE   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#10                        1 + 3
+            Koeniglich h1
+
+  1.b7-b6 Gc7-a5   2.b6-b5 Ga5-c5   3.b5-b4 Gc5-a3   4.b4-b3 Ga3-c3   5.b3-b2 Gc3-a1   6.b2-b1=S Ga1-c1   7.Sb1-c3 Gc1-c4   8.Sc3-b5 Gc4-a6   9.Sb5-a7 Ga6-a8 +  10.Sa7-c6 Ga8-d5 # 
+  1.b7-b6 Gc7-a5   2.b6-b5 Ga5-c5   3.b5-b4 Gc5-a3   4.b4-b3 Ga3-c3   5.b3-b2 Gc3-a1   6.b2-b1=T Ga1-c1   7.Tb1-b2 Gc1-a3   8.Tb2-a2 Ga3-a1   9.Ta2-a7 Ga1-a8 +  10.Ta7-b7 Ga8-c6 # 
+
+Loesung beendet. 
+
+
+
+             Elmar Bartel
+             Erich Bartel
+   4695, feenschach 76, 8. 11. 1985
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  FE   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1 -CA   .  FE   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6                         2 + 1
+           Koeniglich a1 c1
+
+  1.kCAa1-b4 + kFEc1-b2   2.kCAb4-a7 FEd6-c5   3.kCAa7-d8 FEc5-b4   4.kCAd8-e5 FEb4-a3   5.kCAe5-d2 kFEb2-c3 +   6.kCAd2-a1 FEa3-b2 # 
+
+Loesung beendet. 
+
+
+
+           Hans Peter Rehm
+      Die Schwalbe 168, 12/1997
+ 1. Preis, Peter Kniest Gedenkturnier
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .  HT   7
+|                                   |
+6   .   .   H   .   .   .   .   .   6
+|                                   |
+5   .  -K   .   .   .   .   .   .   5
+|                                   |
+4   H   .   .   .   .   .   .   K   4
+|                                   |
+3   .   .   .   .   .  -H   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   L   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  r#9;1,1                     5 + 2
+                Circe
+
+  1  (Hc6*f3-g2 [+sHf1] + )
+  2  (Kh4-h5 )
+  3  (Kh4-g4 )
+  4  (Kh4-h3 )
+  5  (Kh4-g5 )
+  6  (Kh4-g3 )
+  7  (Lc1-h6 )
+  8  (Lc1-g5 )
+  1.Lc1-f4 ! 
+      1...Hf3*f4-f5 [+wLc1] 
+          2.Lc1-g5 
+              2...Hf5*g5-h5 [+wLc1] + 
+                  3.Kh4-g3 
+                      3...Hh5*h7-h8 
+                          4.Lc1-b2 
+                              4...Hh8*b2-a1 [+wLc1] 
+                                  5.Kg3-h4 
+                                      5...Ha1*c1-d1 [+wLc1] 
+                                          6.Lc1-d2 
+                                              6...Hd1*d2-d3 [+wLc1] 
+                                                  7.Lc1-e3 
+                                                      7...Hd3*e3-f3 [+wLc1] 
+                                                          8.Hc6*f3-g2 [+sHf1] + 
+                                                              8...Kb5-c5 
+                                                                  9.Lc1-g5 
+                                                                      9...Hf1*g2-h3 [+wHg8] # 
+                                                              8...Kb5-b6 
+                                                                  9.Lc1-g5 
+                                                                      9...Hf1*g2-h3 [+wHg8] # 
+
+  9  (Lc1-f4 )
+ 10  (Lc1-e3 )
+ 11  (Lc1-d2 )
+ 12  (Lc1-a3 )
+ 13  (Lc1-b2 )
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+         3193, MAT, V-VI/1981
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   B   7
+|                                   |
+6   .   .   .   .   .   .   K   .   6
+|                                   |
+5   .   .   .   .   .   .  35   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  GI   .   .   .   .   .   .   3
+|                                   |
+2  -B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   N   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         5 + 3
+          UWnur D S T L H HT
+
+NullStellung
+
+a)  -wGIb3
+
+  1.a2-a1=GI h7-h8=N   2.GIa1-b5 Nh8*b5 = 
+
+b)  -w35g5
+
+  1.a2-a1=N h7-h8=35   2.Na1-e3 35h8*e3 = 
+
+c)  -wNe1
+
+  1.a2-a1=35 h7-h8=N   2.35a1-d6 Nh8*d6 = 
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+         2453, DuF, 14.4.1969
+                  f)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   B   .   7
+|                                   |
+6   .   .   .   .   B   .   .   .   6
+|                                   |
+5   .   .   .  -S   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1 -35   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+
+  1.35a1-f4 g7-g8=35   2.35f4-a7 35g8-d3 # 
+
+Loesung beendet. 
+
+
+
+          Jean Marc Loustau
+            Denis Blondel
+     3. Preis, Rex Multiplex 1985
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .   D  RO -RO   .   .   .   8
+|                                   |
+7 -RO  -B   .   .  -B   .   B   .   7
+|                                   |
+6   .   B   .   .   .  -B   .   .   6
+|                                   |
+5   T   .   .   .   .  -B  -B   .   5
+|                                   |
+4   K   .   .   .   B  -K   .   .   4
+|                                   |
+3  -B   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -S   .   .   B   .   S   2
+|                                   |
+1   .   .   .   .   T   . -RO  RO   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                        11 + 12
+
+  1.Dc8-c5 ! Drohung:
+          2.Dc5-e3 + 
+              2...Sc2*e3 
+                  3.f2*e3 # 
+      1...ROg1-d4 
+          2.Dc5*f5 + 
+              2...ROd4*f5 
+                  3.ROd8-e6 # 
+      1...ROg1-e2 
+          2.ROh1-h5 + 
+              2...ROe2*h5 
+                  3.ROd8-e6 # 
+              2...Kf4*e4 
+                  3.Dc5-d5 # 
+      1...Sc2-d4 
+          2.ROd8-e6 + 
+              2...Sd4*e6 
+                  3.Dc5-e3 # 
+      1...ROa7-b5 
+          2.ROh1-h5 + 
+              2...ROb5*h5 
+                  3.Dc5*f5 # 
+      1...ROa7-d4 
+          2.ROd8-e6 + 
+              2...ROd4*e6 
+                  3.Dc5*f5 # 
+      1...ROe8-e2 
+          2.ROd8-e6 + 
+              2...ROe2*e6 
+                  3.ROh1-h5 # 
+      1...ROe8-c3 + 
+          2.Dc5*c3 Drohung:
+                  3.Dc3-g3 # 
+                  3.ROh1-h5 # 
+              2...ROg1-f3 
+                  3.ROd8-e6 # 
+                  3.Dc3*f3 # 
+                  3.ROh1-h5 # 
+              2...ROg1*g7 
+                  3.Dc3-f3 # 
+              2...ROg1-e2 
+                  3.Dc3-f3 # 
+              2...Sc2*e1 
+                  3.Dc3-d2 # 
+                  3.Dc3-e3 # 
+              2...Sc2-e3 
+                  3.Dc3*e3 # 
+                  3.f2*e3 # 
+              2...ROa7-b5 
+                  3.ROh1-h5 # 
+      1...ROe8*e4 + 
+          2.Te1*e4 + 
+              2...f5*e4 
+                  3.ROh1-h5 # 
+      1...ROe8-b5 
+          2.Dc5*f5 + 
+              2...ROb5*f5 
+                  3.ROh1-h5 # 
+
+
+Loesung beendet. 
+
+
+
+            J"org Kuhlmann
+      Diagramme und Figuren 1966
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -B   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .  SS   .   .   .   K   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          2 + 2
+
+  1.SSb1-d2 ! Zugzwang.
+      1...g4-g3 
+          2.SSd2-b2 # 
+
+
+Loesung beendet. 
+
+
+
+            J"org Kuhlmann
+          Die Schwalbe 1976
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   B   .  -L   .  -B   . -SS   7
+|                                   |
+6   .   .   .   .   B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 4
+
+  1.Ld7-c8 e6-e7   2.SSh7-d7 b7*c8=SS # 
+  1.SSh7-h5 b7-b8=SS   2.SSh5-e7 e6*d7 # 
+
+Loesung beendet. 
+
+
+
+            J"org Kuhlmann
+          Thorsten Zirkwitz
+      917, Europa Rochade 9/1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   B   .   B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   . -SS   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -K -SS   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#5                      2 + 3
+
+  1.e7-e8=SS   2.SSe8-d2   3.g7-g8=SS   4.SSg8-a8   5.SSa8-a2 # 
+
+Loesung beendet. 
+
+
+
+            Karl Pohlheim
+   5705, feenschach 93, 11-12/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -B   .  -K   .   .   6
+|                                   |
+5   .   .   .  -B  -S   .   .   .   5
+|                                   |
+4   .   .   .  DR   .   .   .   .   4
+|                                   |
+3   .   .   .   .   K   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 4
+
+  1.Se5-d7 DRd4-b3   2.Kf6-e5 DRb3-d2   3.Sd7-f6 DRd2-d4 # 
+
+Loesung beendet. 
+
+
+
+            Fritz Hoffmann
+        feenschach-5, IX/1971
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  UU   .   .   .   G   .   .  -T   8
+|                                   |
+7   .   .   .   B  -G   .  -K   B   7
+|                                   |
+6   .   .   .   .   B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   G  -B   D   5
+|                                   |
+4   .   .   .   .  -B   .   .   .   4
+|                                   |
+3  -B   .   .   .   .   .  -B   .   3
+|                                   |
+2   B   .   .   .  -G   .  -D  -G   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                        9 + 10
+
+  1.UUa8-f1 ! Drohung:
+          2.Dh5*h2 + 
+              2...Dg2*f1 # 
+      1...Dg2-h3 
+          2.Dh5-h4 + 
+              2...Dh3*f1 # 
+      1...Dg2-f3 
+          2.Dh5-g4 + 
+              2...Df3*f1 # 
+      1...Gh2-f2 
+          2.Dh5-f3 + 
+              2...Dg2*f1 # 
+      1...g5-g4 
+          2.Gf5-h3 + 
+              2...Dg2*f1 # 
+      1...Ge7-h4 
+          2.e6-e7 + 
+              2...Dg2*f1 # 
+      1...Th8*h7 
+          2.Ge8-c6 + 
+              2...Dg2*f1 # 
+
+
+Loesung beendet. 
+
+
+
+            Laurent Joudon
+    2. Preis, John-Driver-Memorial
+    The Problemist #12/22, 7/1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -B   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .  -L  -S  -B   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  RD   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  RD   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 5
+
+  1.Lc5-d6 RDd1-b3   2.Sd5-f6 RDb3-h3 # 
+  1.Ke6-d6 RDa2-d2   2.Sd5-c7 RDd2-h6 # 
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+  3. ehr. Erw., John-Driver-Memorial
+    The Problemist #12/22, 7/1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   K   .  -S   .  RD   .   .   7
+|                                   |
+6   .   .   .   .  -K   . -RD  -B   6
+|                                   |
+5   .   .   .   .   .   .  RD   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 4
+
+a)
+
+  1.RDg6-h5 RDg5-g8   2.RDh5-e5 RDf7-f8 # 
+
+b) sKe6-->f5
+
+  1.RDg6-g8 RDf7-h5   2.RDg8-e6 RDg5-h4 # 
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+      Lob, John-Driver-Memorial
+    The Problemist #12/22, 7/1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   L   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -K   .   .   4
+|                                   |
+3   .   B   .   .   . -RD   .   L   3
+|                                   |
+2   .   .   .   .   .   B   .   .   2
+|                                   |
+1   .   .   .   .  RD   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 2
+
+  1.RDf3-h5 + RDe1-e5   2.RDh5-f3 RDe5-b8 # 
+  1.RDf3-h1 + RDe1-e4   2.RDh1-f3 RDe4-a4 # 
+  1.RDf3-d1 + RDe1-d2   2.RDd1-f3 RDd2-c1 # 
+
+Loesung beendet. 
+
+
+
+          Christian Poisson
+      Lob, John-Driver-Memorial
+    The Problemist #12/22, 7/1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   G  RD   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   K   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  RD   .   .   .   2
+|                                   |
+1   .   .   .   .   .   . -RD   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 3
+
+  1.Kd4-e4 RDe2-f1   2.RDg1-d4 RDb7-a8 # 
+  1.Kd4-d5 RDe2-a6   2.RDg1-c5 RDb7-a8 # 
+  1.Kd4-c4 RDb7-b1   2.RDg1-c5 RDe2-a2 # 
+  1.Kd4-d3 RDe2-a2   2.RDg1-d4 RDb7-h7 # 
+
+Loesung beendet. 
+
+
+
+            Harald Grubert
+      Lob, John-Driver-Memorial
+    The Problemist #12/22, 7/1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -G   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .  RD   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .  -G   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 3
+
+a)
+
+  1.Gd7-f5 Kd4-c5   2.Gf2-f6 RDg6-e8 # 
+
+b) sGd7-->e7
+
+  1.Ke6-f6 Kd4-e4   2.Gf2-f7 RDg6-h6 # 
+
+Loesung beendet. 
+
+
+
+            Harald Grubert
+      Lob, John-Driver-Memorial
+    The Problemist #12/22, 7/1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   K   .   .   .   6
+|                                   |
+5   .   .   .  -B   .   .   .   .   5
+|                                   |
+4   .  RD  -B  -K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 3
+
+a)
+
+  1.Kd4-c5 Ke6-d7   2.d5-d4 RDb4-a5 # 
+
+b) sBd5-->d3
+
+  1.c4-c3 Ke6-d6   2.Kd4-c4 RDb4-a4 # 
+
++c) sBc4-->c2
+
+  1.Kd4-c3 Ke6-d5   2.d3-d2 RDb4-a3 # 
+
+Loesung beendet. 
+
+
+
+            Claus Wedekind
+NG11, 1. NG-ST, Problemkiste 109, 2/1997
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   . -16   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h==6                        1 + 1
+           Koeniglich h7 a2
+
+  1.k16h7-b6 kBa2-a3   2.k16b6-h5 kBa3-a4   3.k16h5-b4 kBa4-a5   4.k16b4-h3 kBa5-a6   5.k16h3-b2 kBa6-a7   6.k16b2-h1 kBa7-a8=k16 == 
+  1  (k16h7-b6 )
+  2  (k16h7-g1 + )
+  3  (k16h7-b8 + )
+
+Loesung beendet. 
+
+
+
+      Nils Bakke & Henry Tanner
+NG23, 1. NG-ST, Problemkiste 109, 2/1997
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  16   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   . -16   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   K   .   .   .   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6                         2 + 2
+
+  1  (16b8-a2 )
+  2  (16b8-h7 )
+  3  (Kc2-d2 )
+  4  (Kc2-c3 )
+  5  (Kc2-b2 + )
+  1...Kc2-c1   2.16g7-a6 16b8-c2   3.16a6-g5 16c2-d8   4.16g5-a4 16d8-e2   5.16a4-g3 16e2-f8   6.16g3-a2 16f8-g2 # 
+  6  (Kc2-c1 )
+  1...Kc2-b3   2.16g7-f1 16b8-c2   3.16f1-e7 16c2-d8   4.16e7-d1 16d8-e2   5.16d1-c7 16e2-f8   6.16c7-b1 16f8-g2 # 
+  7  (Kc2-b3 )
+  8  (Kc2-d3 )
+  9  (Kc2-d1 )
+ 10  (Kc2-b1 + )
+
+Loesung beendet. 
+
+
+
+             Henrik Juel
+NG28, 1. NG-ST, Problemkiste 109, 2/1997
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  16   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .  -K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-=7                      2 + 1
+
+  1.16b6-h7   2.16h7-g1   3.16g1-f7   4.16f7-e1   5.16e1-d7   6.16d7-c1   7.16c1-b7 = 
+
+Loesung beendet. 
+
+
+
+            Thomas Maeder
+    1.Preis, 3. "harmonie"-TT 1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .   .  -T  -D   .   .   .   7
+|                                   |
+6   .   .   .   G   .   .   B   .   6
+|                                   |
+5   .   N   .   .  -B   .   .   .   5
+|                                   |
+4   G  -B   .   .  -B   .   G   .   4
+|                                   |
+3   .   .   .   .  -B  -B   .   .   3
+|                                   |
+2  -T   .   .   .   .   .   .   N   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         7 + 9
+
+  1.Ta2*a4 Nb5*f3   2.e4*f3 Gg4*a4 # 
+  1.Ta2*h2 Gg4-e2   2.f3*e2 Nb5*h2 # 
+
+Loesung beendet. 
+
+
+
+           Hans Peter Rehm
+    #32, "harmonie-31", 31.12.1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S   .  -T   .   .   .  -N   8
+|                                   |
+7   D   .  -B   .  -L   .   .   .   7
+|                                   |
+6  -B   .  -K   .   B  -B   G   .   6
+|                                   |
+5   .   .   .  -B   .   .   .   .   5
+|                                   |
+4   .  -G   .   .   .   .  -T   .   4
+|                                   |
+3   L   L   S   .   .   .   N   .   3
+|                                   |
+2   S   .   .   .  -G   .  -L  -N   2
+|                                   |
+1   K   .   .   G   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                        10 + 14
+
+  1.Ng3-f5 ! 
+
+
+Loesung beendet. 
+
+
+
+            Robert Schopf
+      Original fuer Die Schwalbe
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   K   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  TJ   .   .   .   .   4
+|                                   |
+3   .   .  LJ   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #5                          3 + 1
+
+  1.Ke6-f6 ! 
+      1...Ke8-f8 
+          2.TJd4-e3 
+              2...Kf8-g8 
+                  3.Kf6-e7 
+                      3...Kg8-h7 
+                          4.TJe3-g1 
+                              4...Kh7-h6 
+                                  5.LJc3-h8 # 
+
+
+Loesung beendet. 
+
+
+
+           Werner Speckmann
+     Deutsche Schachzeitung, 1969
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7 -TJ   .   .   .   .   .   .   .   7
+|                                   |
+6  TJ   .   L   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   K   4
+|                                   |
+3   .   .   .   .   .   .   .   S   3
+|                                   |
+2   .   .   .   .   B   .   .  -K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #5                          5 + 2
+
+  1.TJa6-b5 ! Drohung:
+          2.TJb5-b8 # 
+      1...TJa7-g1 
+          2.TJb5-b8 + 
+              2...TJg1-g3 
+                  3.TJb8*g3 # 
+      1...TJa7-f2 
+          2.TJb5-b8 + 
+              2...TJf2-f4 
+                  3.TJb8*f4 # 
+      1...TJa7-e3 
+          2.TJb5-b8 + 
+              2...TJe3-e5 
+                  3.TJb8*e5 # 
+      1...TJa7-d4 
+          2.TJb5-b8 + 
+              2...TJd4-d6 
+                  3.TJb8*d6 # 
+      1...TJa7-b6 
+          2.Lc6-f3 Zugzwang.
+              2...TJb6-a5 
+                  3.TJb5-b8 # 
+              2...TJb6-g1 
+                  3.TJb5-b8 + 
+                      3...TJg1-g3 
+                          4.TJb8*g3 # 
+              2...TJb6-f2 
+                  3.TJb5-b8 # 
+              2...TJb6-e3 
+                  3.TJb5-b8 + 
+                      3...TJe3-e5 
+                          4.TJb8*e5 # 
+              2...TJb6-d4 
+                  3.TJb5-b8 + 
+                      3...TJd4-d6 
+                          4.TJb8*d6 # 
+              2...TJb6-c5 
+                  3.TJb5-b8 + 
+                      3...TJc5-c7 
+                          4.TJb8*c7 # 
+              2...TJb6-b8 
+                  3.TJb5*b8 # 
+              2...TJb6-b7 
+                  3.e2-e4 Zugzwang.
+                      3...TJb7*e4 
+                          4.TJb5-b8 + 
+                              4...TJe4-e5 
+                                  5.TJb8*e5 # 
+                      3...TJb7-a6 
+                          4.TJb5-b8 # 
+                      3...TJb7-d5 
+                          4.TJb5-b8 + 
+                              4...TJd5-d6 
+                                  5.TJb8*d6 # 
+                      3...TJb7-c6 
+                          4.TJb5-b8 + 
+                              4...TJc6-c7 
+                                  5.TJb8*c7 # 
+                      3...TJb7-b8 
+                          4.TJb5*b8 # 
+
+
+Loesung beendet. 
+
+
+
+           Werner Speckmann
+          Die Schwalbe, 1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K  LJ   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   L   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   L   6
+|                                   |
+5   .   .   .   .   .   .   S   .   5
+|                                   |
+4   . -LJ   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          5 + 2
+
+  1.Lf7-a2 ! Zugzwang.
+      1...LJb4-a5 
+          2.LJb8-b2 # 
+      1...LJb4-f8 
+          2.LJb8-b2 + 
+              2...LJf8-f6 
+                  3.LJb2*f6 # 
+      1...LJb4-e7 
+          2.LJb8-b2 + 
+              2...LJe7-e5 
+                  3.LJb2*e5 # 
+      1...LJb4-d6 
+          2.LJb8-b2 + 
+              2...LJd6-d4 
+                  3.LJb2*d4 # 
+      1...LJb4-c5 
+          2.LJb8-b2 + 
+              2...LJc5-c3 
+                  3.LJb2*c3 # 
+      1...LJb4-b1 
+          2.LJb8-b2 # 
+      1...LJb4-b2 
+          2.LJb8*b2 # 
+      1...LJb4-b3 
+          2.Ka8-a7 Zugzwang.
+              2...LJb3-d5 
+                  3.LJb8-b2 + 
+                      3...Kh8-g8 
+                          4.La2*d5 # 
+                      3...LJd5-d4 + 
+                          4.LJb2*d4 # 
+              2...LJb3-g8 
+                  3.LJb8-b2 + 
+                      3...LJg8-g7 
+                          4.Lh6*g7 # 
+                          4.LJb2*g7 # 
+              2...LJb3-f7 
+                  3.LJb8-b2 + 
+                      3...LJf7-f6 
+                          4.LJb2*f6 # 
+                      3...Kh8-g8 
+                          4.La2*f7 # 
+              2...LJb3-e6 
+                  3.LJb8-b2 + 
+                      3...Kh8-g8 
+                          4.La2*e6 # 
+                      3...LJe6-e5 
+                          4.LJb2*e5 # 
+              2...LJb3-c4 
+                  3.LJb8-b2 + 
+                      3...Kh8-g8 
+                          4.La2*c4 # 
+                      3...LJc4-c3 
+                          4.LJb2*c3 # 
+              2...LJb3-a4 
+                  3.LJb8-b2 # 
+              2...LJb3-b1 
+                  3.LJb8-b2 # 
+              2...LJb3-b2 
+                  3.LJb8*b2 # 
+              2...Kh8-g8 
+                  3.LJb8*b3 + 
+                      3...Kg8-h8 
+                          4.LJb3-b2 # 
+
+
+Loesung beendet. 
+
+
+
+           Petko A. Petkov
+          Probleemblad, 1967
+               2. Preis
+             Verbesserung
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   T   .   .   G  -K  GI   .   .   8
+|                                   |
+7   .   B   .   .   .   .   B   .   7
+|                                   |
+6   .   .   .   . -CA  -B   .   .   6
+|                                   |
+5   .   .   .   .   .  -B   B   .   5
+|                                   |
+4   .   B   .   .   .   .   .   Z   4
+|                                   |
+3   .   N   .   .   .   .   .   .   3
+|                                   |
+2  -B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   G   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#3                    11 + 5
+
+  1.a2-a1=D   2.Da1-c1   3.Dc1*g5 + Gd8*g5 # 
+  1.a2-a1=S   2.Sa1-c2   3.Sc2-d4 Gd8-d3 # 
+  1.a2-a1=T   2.Ta1-a6   3.Ta6-b6 Gd8-a5 # 
+  1.a2-a1=L   2.La1-c3   3.Lc3-d2 Gd8-d1 # 
+  1.a2-a1=G   2.Ga1*g7   3.Ke8*f8 Gd8-g8 # 
+  1.a2-a1=N   2.Na1-e3   3.Ne3-d5 Gd8-d4 # 
+  1.a2-a1=Z   2.Za1-c4   3.Zc4-e7 Gd8*f6 # 
+  1.a2-a1=CA   2.CAa1*b4   3.CAb4-c7 Gd8-b6 # 
+  1.a2-a1=GI   2.GIa1-e2   3.GIe2-d6 Gd8-d5 # 
+
+Loesung beendet. 
+
+
+
+              S.Emmerson
+    Variant Chess, Fr"uhjahr 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  OD   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   . -OD   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         1 + 1
+           Koeniglich e8 e6
+
+  1.kODe6-f5 kODe8-d8   2.kODf5-b1 kODd8-d3 # 
+  1.kODe6-f6 kODe8-d7   2.kODf6-b2 kODd7-d4 # 
+
+Loesung beendet. 
+
+

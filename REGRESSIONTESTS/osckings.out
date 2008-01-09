@@ -1,0 +1,148 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+                A.Bell
+          Variant Chess 1998
+   ( b) sound; other parts cooked )
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   T  -B   6
+|                                   |
+5   .   .   K   .   .  -K  -B   B   5
+|                                   |
+4   B  -B   .   .   .   .   T   .   4
+|                                   |
+3   .   B   .  -B   .   .   .   .   3
+|                                   |
+2   .   .   .   B   .   S   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 6
+  SchwarzeOszillierendeKoenige	TypB
+
+a)
+
+  1.Tg4*b4 ! Zugzwang.
+      1...Kc5-d5[wK<>sK] 
+          2.Tb4-b5[wK<>sK] # 
+      1...Kc5*b4[wK<>sK] 
+          Widerlegt.
+      1...Kf5-e5[wK<>sK] 
+          2.Tb4-b5[wK<>sK] # 
+          2.Sf2*d3[wK<>sK] # 
+      1...g5-g4[wK<>sK] 
+          2.Tb4-b5[wK<>sK] # 
+
+
+b) WeisseOszillierendeKoenige	TypB
+
+  1.Sf2-d1[wK<>sK] ! Zugzwang.
+      1...Kc5-d5[wK<>sK] 
+          Widerlegt.
+      1...Kf5-f6[wK<>sK] + 
+          Widerlegt.
+      1...Kf5-e5[wK<>sK] 
+          Widerlegt.
+      1...Kf5-f4[wK<>sK] + 
+          Widerlegt.
+      1...Kf5-e6[wK<>sK] 
+          Widerlegt.
+      1...Kf5*g6[wK<>sK] 
+          Widerlegt.
+      1...Kf5*g4[wK<>sK] 
+          Widerlegt.
+      1...Kf5-e4[wK<>sK] 
+          Widerlegt.
+
+
+c) WeisseOszillierendeKoenige	TypB
+	SchwarzeOszillierendeKoenige
+
+
+Loesung beendet. 
+
+
+
+                A.Bell
+          Variant Chess 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -L   .   .   4
+|                                   |
+3   .   .   .   .   .  -L   .   .   3
+|                                   |
+2   .   .   .   .   .   D   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         3 + 3
+  SchwarzeOszillierendeKoenige	TypB
+
+  1.Df2-d4 ! Zugzwang.
+      1...Lf4-e5[wK<>sK] + 
+          2.Dd4-d5[wK<>sK] 
+              2...Lf3*d5[wK<>sK] # 
+
+
+Loesung beendet. 
+
+
+
+              R.Turnbull
+          Variant Chess 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -B   K   6
+|                                   |
+5   .   .   .   .   .   .   D   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -K   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -S   .   2
+|                                   |
+1   .   .   .   .   .   .   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 3
+     SchwarzeOszillierendeKoenige
+
+  1.Dg5-c1 ! Zugzwang.
+      1...Sg2-f4[wK<>sK] 
+          2.Dc1*f4[wK<>sK] # 
+      1...Sg2-e3[wK<>sK] 
+          2.Dc1*e3[wK<>sK] # 
+      1...g6-g5[wK<>sK] 
+          2.Dc1-c6[wK<>sK] # 
+
+  1.Dg5*g2 + ! 
+      1...g6-g5[wK<>sK] 
+          2.Kh6*g5[wK<>sK] # 
+          2.Dg2-h3[wK<>sK] # 
+
+
+Loesung beendet. 
+
+

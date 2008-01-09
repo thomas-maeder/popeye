@@ -1,0 +1,1437 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            David L. Brown
+  F1309, The Problemist 14/4, 7/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -L   .   .   .   O   K   O   .   8
+|                                   |
+7  -T   .   .  -B  -B   .   .  -O   7
+|                                   |
+6   .   S   .   L   .  -K   .   O   6
+|                                   |
+5   .   .   .  -B   .   B   .  -O   5
+|                                   |
+4  -T   .   .   .  -B   O   .  -O   4
+|                                   |
+3  -L   .   .   S  -B   .   .   .   3
+|                                   |
+2   .  -O   .   .   .   .   .   O   2
+|                                   |
+1   .   T  -D   .   .   .  -O   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        11 + 16
+
+  1.Sd3-f2 ! Drohung:
+          2.Sf2-g4 # 
+      1...Dc1-d2 
+          2.Sf2*e4 # 
+      1...Dc1-c7 
+          2.Sb6*d7 # 
+      1...Dc1-c6 
+          2.Sb6*d5 # 
+      1...Dc1-c5 
+          2.Ld6*e7 # 
+      1...Dc1-c4 
+          2.Sf2*e4 # 
+      1...Dc1-c3 
+          2.Ld6-e5 # 
+      1...Dc1-c2 
+          2.Sf2*e4 # 
+      1...Ob2*f2 
+          2.Ld6-e5 # 
+
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+  F1157, The Problemist 13/9, 5/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -O   .   .   .   .   8
+|                                   |
+7   .   .  -O   .   .   .   B   O   7
+|                                   |
+6  -O   .   .   .   .   O   .   .   6
+|                                   |
+5   O   .   .   .   .   .   .   .   5
+|                                   |
+4  -O   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .  -L   .   .   .   3
+|                                   |
+2   K   .   .  -B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 7
+
+a)
+
+  1.d2-d1=D g7-g8=L   2.Dd1-d3 Lg8-d5 # 
+
+b) sLe3-->d3
+
+  1.d2-d1=S g7-g8=T   2.Sd1-e3 Tg8-g4 # 
+
+Loesung beendet. 
+
+
+
+          Jean-Marc Loustau
+            Denis Blondel
+     3. Preis, Probleemblad 1985
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -O   .   .   .   .   .   8
+|                                   |
+7   .   .   O   .   .  -O   .   .   7
+|                                   |
+6   O   .   .   O   O   .   .   .   6
+|                                   |
+5   .   .   .  -B   .   .   .   .   5
+|                                   |
+4   K   S   .  -K  -O   .  -O   .   4
+|                                   |
+3   S   .  -O   .   .   O   O   O   3
+|                                   |
+2   .   .   .   .   .  -B   T   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         11 + 8
+
+  1.Tg2-h2 ! Zugzwang.
+      1...f2-f1=D 
+          2.Of3*c3 # 
+      1...f2-f1=S 
+          2.Sa3-c2 # 
+      1...f2-f1=T 
+          2.Oc7*c3 # 
+      1...f2-f1=L 
+          2.Sb4-c6 # 
+      1...f2-f1=O 
+          2.Th2-d2 # 
+
+
+Loesung beendet. 
+
+
+
+            Kjell Widlert
+      1418, Phenix-19/20,12/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   L   .   .   .   .   O   .   8
+|                                   |
+7  -D   .   .  -K   .   .   .   K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   S   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   .   B   .  -B   .   .   B   .   3
+|                                   |
+2   .   .   .   .   .   .   L   .   2
+|                                   |
+1   .   .   .   .   .  -L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         7 + 5
+
+  1.Da7-g1 g3*h4   2.Kd7-e6 Lg2-h3 # 
+  1.Da7-a2 b3-b4   2.Kd7-c8 Sd5-b6 # 
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+              USPB, 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -O   .   .   .   .  -O   8
+|                                   |
+7   .  -B   .   .  -T   B   B   O   7
+|                                   |
+6  -O   B   .   .  -B   S   .   .   6
+|                                   |
+5   O   .   .   .   D  -B   .   .   5
+|                                   |
+4   .   B  -K   .   .  -B   .   .   4
+|                                   |
+3   .  -O   .   .   .   K   .   .   3
+|                                   |
+2   .   O   .   O   .   .   .  -O   2
+|                                   |
+1  -O   .   O   .   .   .   .  -S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        12 + 13
+
+  1.g7-g8=S ? Zugzwang.
+      1...Sh1-g3 
+          2.De5*f4 # 
+      1...Sh1-f2 
+          2.De5-e2 # 
+      1...Te7-c7 
+          2.De5-c5 # 
+      1...Te7-d7 
+          2.De5*e6 # 
+      1...Te7*f7 
+          2.De5-d4 # 
+    Aber
+      1...Te7-e8  !
+
+  1.g7-g8=L ? Zugzwang.
+      1...Sh1-g3 
+          2.De5*f4 # 
+      1...Sh1-f2 
+          2.De5-e2 # 
+      1...Te7-c7 
+          2.De5-c5 # 
+      1...Te7-d7 
+          2.De5*e6 # 
+      1...Te7*f7 
+          2.De5-d4 # 
+    Aber
+      1...Te7-e8  !
+
+  1.g7-g8=O ! Zugzwang.
+      1...Te7-e8 
+          2.De5-d4 # 
+      1...Sh1-g3 
+          2.De5*f4 # 
+      1...Sh1-f2 
+          2.De5-e2 # 
+      1...Te7-c7 
+          2.De5-c5 # 
+      1...Te7-d7 
+          2.De5*e6 # 
+      1...Te7*f7 
+          2.De5-d4 # 
+
+  1.g7*h8=S ? Zugzwang.
+      1...Sh1-g3 
+          2.De5*f4 # 
+      1...Sh1-f2 
+          2.De5-e2 # 
+      1...Te7-c7 
+          2.De5-c5 # 
+      1...Te7-d7 
+          2.De5*e6 # 
+      1...Te7*f7 
+          2.De5-d4 # 
+    Aber
+      1...Te7-e8  !
+
+  1.g7*h8=L ? Zugzwang.
+      1...Sh1-g3 
+          2.De5*f4 # 
+      1...Sh1-f2 
+          2.De5-e2 # 
+      1...Te7-c7 
+          2.De5-c5 # 
+      1...Te7-d7 
+          2.De5*e6 # 
+      1...Te7*f7 
+          2.De5-d4 # 
+    Aber
+      1...Te7-e8  !
+
+  1.g7*h8=O ? Zugzwang.
+      1...Sh1-g3 
+          2.De5*f4 # 
+      1...Sh1-f2 
+          2.De5-e2 # 
+      1...Te7-c7 
+          2.De5-c5 # 
+      1...Te7-d7 
+          2.De5*e6 # 
+      1...Te7*f7 
+          2.De5-d4 # 
+    Aber
+      1...Te7-e8  !
+
+  1.f7-f8=O ? Zugzwang.
+      1...Sh1-g3 
+          2.De5*f4 # 
+      1...Sh1-f2 
+          2.De5-e2 # 
+      1...Te7-c7 
+          2.De5-c5 # 
+      1...Te7-d7 
+          2.De5*e6 # 
+      1...Te7-e8 
+          2.De5-d4 # 
+      1...Te7*g7 
+          2.De5-d4 # 
+      1...Te7-f7 
+          2.De5-d4 # 
+    Aber
+      1...Oh8*g7  !
+
+  1.De5-c3 + ? 
+    Aber
+      1...Ob3*c3  !
+
+  1.De5-d4 + ? 
+    Aber
+      1...Kc4*d4  !
+
+  1.De5*f4 + ? 
+    Aber
+      1...Oh2*f4 +  !
+
+  1.De5-e1 ? Drohung:
+          2.De1-f1 # 
+      1...Te7-d7 
+          2.De1*e6 # 
+    Aber
+      1...Kc4-d4  !
+
+  1.De5-e2 + ? 
+    Aber
+      1...Oh2*e2 +  !
+
+  1.De5-e4 + ? 
+    Aber
+      1...f5*e4 +  !
+
+  1.De5-c5 + ? 
+    Aber
+      1...Oc8*c5  !
+
+  1.De5-d5 + ? 
+    Aber
+      1...e6*d5  !
+
+  1.De5*f5 ? Drohung:
+          2.Df5-e4 # 
+      1...Te7-d7 
+          2.Df5*e6 # 
+    Aber
+      1...e6*f5  !
+
+
+Loesung beendet. 
+
+
+
+           Hans Peter Rehm
+          Bernd Ellinghoven
+             Hans Gruber
+       StrateGems 4, 10-12/1998
+Preis (#n), David L. Brown 50-JT 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -L  -T   .   8
+|                                   |
+7   .   .   T   .   B   .   .  -B   7
+|                                   |
+6   .   .   .   .   .   .   B   .   6
+|                                   |
+5   T   .   .  -B   .   .   O   L   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   B  -K   .   .  -B   O   .  -T   3
+|                                   |
+2   .   .   .   .   .   B   .   .   2
+|                                   |
+1   .   K   .   .   .   .   .  -L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                         10 + 9
+
+  1.Ta5-a6 ! Drohung:
+          2.Ta6-b6 + 
+              2...Kb3*a3 
+                  3.Tc7-a7 # 
+              2...Kb3-a4 
+                  3.Tc7-a7 # 
+      1...Lf8*e7 
+          2.Of3*d5 + 
+              2...Lh1*d5 
+                  3.Lh5-d1 # 
+              2...Th3-f3 
+                  3.Og5*e3 # 
+      1...Tg8*g6 
+          2.Of3*e3 + 
+              2...Lh1-f3 
+                  3.Og5*d5 # 
+              2...Th3-h2 
+                  3.Lh5-d1 # 
+              2...Th3*e3 
+                  3.Lh5-d1 # 
+
+
+Loesung beendet. 
+
+
+
+            Juraj L"oring
+       StrateGems 4, 10-12/1998
+ehrende Erw"ahnung (#n), David L. Brown 50-JT 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -O   .   .   O   T   8
+|                                   |
+7   .   .   .   .   .  -B   .  -O   7
+|                                   |
+6   O   S   .   D   .   .  -O  -L   6
+|                                   |
+5   .   .   .   .   .   .  -O   .   5
+|                                   |
+4   B  -O   .   S   .   .   .   .   4
+|                                   |
+3  -K   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -B   2
+|                                   |
+1   O   .   .   O   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        10 + 10
+
+  1.Dd6*h2 ! Drohung:
+          2.Dh2-a2 # 
+      1...e3-e2 
+          2.Dh2-h3 # 
+      1...Lh6-f8 
+          2.Sb6-c4 # 
+      1...Lh6-g7 
+          2.Sd4-b5 # 
+
+
+Loesung beendet. 
+
+
+
+            Juraj L"oring
+       StrateGems 4, 10-12/1998
+1. Preis (h#), David L. Brown 50-JT 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S  -O   .   .   .  -L   .   .   8
+|                                   |
+7   .   .   .   .   O   .  -B   .   7
+|                                   |
+6  -B   .   .   .  -O   .   .   O   6
+|                                   |
+5   .   .   .   .   .   .  -O   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   K   .   .   .   .   .   O  -T   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  -O  -K  -O   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        4 + 12
+
+a)
+
+  1.Og5-c5 + Oe7*h4   2.Lf8-e7 Og3-e3 # 
+
+b) sKe1-->a7
+
+  1.Og5-e3 + Og3*g7   2.Th3-g3 Oe7-c5 # 
+
+Loesung beendet. 
+
+
+
+           Marcel Tribowski
+       StrateGems 4, 10-12/1998
+2. Preis (h#), David L. Brown 50-JT 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   S   .   .   .   .   .   .   8
+|                                   |
+7   K   .   .   .   B  -L  -B   .   7
+|                                   |
+6   .   .   .  -O   .   .  -B   .   6
+|                                   |
+5  -B   .   .  -K  -O   .   .   O   5
+|                                   |
+4   .  -O  -B  -O   .   .   .  -O   4
+|                                   |
+3   O   O   .   .  -L   .  -O   O   3
+|                                   |
+2   .  -B   .  -O   .   .  -O   .   2
+|                                   |
+1   .   O   S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        9 + 16
+
+  1.b2*c1=D e7-e8=D   2.Ob4*a3 De8-b5 # 
+  1.b2*c1=S e7-e8=S   2.Od2-e4 Se8-c7 # 
+  1.b2*c1=T e7-e8=T   2.Tc1-h1 Te8*e5 # 
+  1.b2*c1=L e7-e8=L   2.Ob4-c3 Le8-c6 # 
+
+Loesung beendet. 
+
+
+
+            Juraj L"orinc
+       StrateGems 4, 10-12/1998
+1. ehrende Erw"ahnung (h#), David L. Brown 50-JT 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -T  -S   7
+|                                   |
+6  -B   .   .   .  -B   O  -L   .   6
+|                                   |
+5  -O   .   K   O   .   .   .   .   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3  -O  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 9
+
+  1.Lg6-e4 Of6-g4   2.Tg7-g6 Od5-c6 # 
+  1.Tg7-d7 Of6-e8   2.Lg6-f7 Od5-d4 # 
+
+Loesung beendet. 
+
+
+
+          Henryk Grudzinski
+       StrateGems 4, 10-12/1998
+2. ehrende Erw"ahnung (h#), David L. Brown 50-JT 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   K   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -T  -L   .   .   5
+|                                   |
+4  -B   .  -K  -B  -B  -B   O   .   4
+|                                   |
+3   .   .   .  -D   .   .   .   .   3
+|                                   |
+2   B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .  -T   O   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 9
+
+a)
+
+  1.a4-a3 Og4-d1   2.Lf5-h3 Od1-b3 # 
+
+b) wOf1-->a6
+
+  1.Te5-b5 Og4-h5   2.Lf5-c8 Oh5-c5 # 
+
+Loesung beendet. 
+
+
+
+            Torsten Lin"s
+       StrateGems 4, 10-12/1998
+1. Lob (h#), David L. Brown 50-JT 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -L   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   O   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -S   4
+|                                   |
+3   .   .   .   O   .   .   .  -K   3
+|                                   |
+2   .  -T   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 4
+
+  1.Tb2-b6 Oe6-e3   2.Tb6-b3 Od3-d7 # 
+  1.Le8-b5 Od3-f5   2.Lb5-d7 Oe6-b3 # 
+
+Loesung beendet. 
+
+
+
+           Daniel Meinking
+       StrateGems 4, 10-12/1998
+2. Lob (h#), David L. Brown 50-JT 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   O   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -L   .   .   .   O   .   .   K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  -T   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 4
+
+  1.Td1-e1 Oe4-e8 +   2.Te1-g1 Oe8-c6 # 
+  1.La4-b3 Og8-d5 +   2.Lb3-c2 Od5-d8 # 
+
+Loesung beendet. 
+
+
+
+           Daniel Meinking
+       StrateGems 4, 10-12/1998
+3. Lob (h#), David L. Brown 50-JT 1998
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   O   .   .  -B   6
+|                                   |
+5   .   .   K  -S   .  -B   .   .   5
+|                                   |
+4   .   .   .   .   .  -O   .  -K   4
+|                                   |
+3   .   .   .   O   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 5
+
+  1.Sd5-b4 Oe6-g7   2.Of4-h5 Od3-f4   3.Sb4-d5 Og7*h5 # 
+  1.Sd5-c7 Od3-f2   2.Of4-h3 Oe6-f4   3.Sc7-d5 Of2*h3 # 
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+              USPB 1992
+               3. Preis
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -O   .   .   O   .   .   .  -D   8
+|                                   |
+7   .   .   .   .   .   O   .   .   7
+|                                   |
+6   O   .  -O   .   B   .   .  -B   6
+|                                   |
+5   .   B  -O   .  -K  -B   .  -O   5
+|                                   |
+4  -S   B  -O   .   .   .  -B   O   4
+|                                   |
+3  -B   B   O   .   .   .   B   .   3
+|                                   |
+2  -T  -S   .   .   O   .   .  -O   2
+|                                   |
+1   .   .   .   O   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        13 + 15
+
+  1.Oa6-c8 ! Zugzwang.
+      1...Sa4-b6 
+          2.Od8-d6 # 
+      1...Ta2-a1 
+          2.Od8-f6 # 
+      1...Sa4*c3 
+          2.Oe2-f4 # 
+      1...Oc4*b3 
+          2.Od8-d6 # 
+      1...Oc5*b4 
+          2.Od8-d5 # 
+      1...f5-f4 
+          2.g3*f4 # 
+      1...Oc6*b5 
+          2.Od8-d3 # 
+
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+           springaren 1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   O   T   S   D   .   K   .   8
+|                                   |
+7  -O   .   .  -B   .   .   L   B   7
+|                                   |
+6  -O   .  -D   .   .   .   .   B   6
+|                                   |
+5   .   .   .   .  -B  -K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   T   4
+|                                   |
+3  -O   .   .   .  -B   .  -B   S   3
+|                                   |
+2  -O  -O   .   .  -O   .   L  -T   2
+|                                   |
+1   .  -O  -O   .   .   O   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        12 + 15
+
+  1.h7-h8=S ! Drohung:
+          2.De8-g6 # 
+      1...Dc6-f3 
+          2.De8-h5 # 
+      1...Dc6-c2 
+          2.Lg2-e4 # 
+      1...Dc6-c3 
+          2.De8*e5 # 
+      1...Dc6-c4 + 
+          2.De8-f7 # 
+      1...Dc6-c5 
+          2.De8-f8 # 
+      1...Dc6*c8 
+          2.Ob8*e5 # 
+      1...Dc6-c7 
+          2.De8*d7 # 
+
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+          Die Schwalbe 1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   T   .   O   .   O   .   8
+|                                   |
+7   B   .   .   O   .   .   .  -O   7
+|                                   |
+6  -T  -O   .   .   .   .   O   .   6
+|                                   |
+5   .   S   .  -K   .   .   .   O   5
+|                                   |
+4  -B  -O   .   .   .   .   S  -O   4
+|                                   |
+3   O   .   .   .   .   .  -O   .   3
+|                                   |
+2   B  -B   L   B   .   .   .   .   2
+|                                   |
+1  -D  -L  -O  -T   .  -O   .   O   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        15 + 14
+
+  1.Ka8-b8 ! Zugzwang.
+      1...Da1*a2 + 
+          2.Sg4-e3 # 
+      1...Lb1*a2 
+          2.Lc2-e4 # 
+      1...Td1*d2 
+          2.Tc8-c5 # 
+      1...Td1-e1 
+          2.Oe8-e5 # 
+      1...Ta6-a5 
+          2.Sb5-c3 # 
+
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+         The Problemist 1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   T   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .  -B  -O   .   .   7
+|                                   |
+6  -T  -B   .   O   S  -B   .   .   6
+|                                   |
+5  -D  -O   B   .   .   O  -B   .   5
+|                                   |
+4   .   B   .   .   .   .   .   O   4
+|                                   |
+3   B  -O   .   O   .  -K   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -B   .   2
+|                                   |
+1   .   .   D   O  -O   .   L   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        13 + 13
+
+  1.Tb8-b7 ! Zugzwang.
+      1...Da5*a3 
+          2.Dc1-c2 # 
+      1...Da5-a4 
+          2.Dc1-b1 # 
+      1...g5-g4 
+          2.Dc1-f4 # 
+      1...g5*h4 
+          2.Dc1-f4 # 
+      1...b6*c5 
+          2.Se6-d4 # 
+      1...e7*d6 
+          2.Se6*g5 # 
+
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+           springaren 1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   O   .   .  -O  -O   .   7
+|                                   |
+6   .   .   S   O  -B   .   .   .   6
+|                                   |
+5   .  -O   O   .   .   .   O   .   5
+|                                   |
+4  -O   .  -B   .  -K   .   .   .   4
+|                                   |
+3   O  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   D   K   .   S   .   2
+|                                   |
+1   .   .   .   .   .   .  -O   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          9 + 9
+
+  1.Sc6-b4 ! Zugzwang.
+      1...b3-b2 
+          2.Dd2-c2 # 
+      1...c4-c3 
+          2.Dd2-d3 # 
+      1...e6-e5 
+          2.Dd2-d5 # 
+
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+          Die Schwalbe 1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T  -S   O  -O   .  -L   T   O   8
+|                                   |
+7  -O  -O   .   B   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -B   .   .  -O   6
+|                                   |
+5   .  -B   .   .   D   .   .   .   5
+|                                   |
+4   .  -O  -K   S   .   .  -D   .   4
+|                                   |
+3   .   .   .   T  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   B   .   .   O   2
+|                                   |
+1   K  -S   O   .   .   .  -O   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        11 + 15
+
+  1.Sd4-b3 ! Zugzwang.
+      1...Dg4-g5 
+          2.De5-f4 # 
+      1...Sb1-d2 
+          2.Td3-c3 # 
+      1...Sb1-c3 
+          2.Td3*c3 # 
+      1...Sb1-a3 
+          2.Td3-c3 # 
+      1...Dg4-g6 
+          2.De5*e6 # 
+      1...Sb8-c6 
+          2.De5-e4 # 
+      1...Lf8-c5 
+          2.De5-d4 # 
+
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+       Canadian Chess Chat 1983
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   L   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -O   .  -O   7
+|                                   |
+6   L   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .  -O   .   .   .   O   5
+|                                   |
+4  -O   .   S   .   .   .   .   S   4
+|                                   |
+3   .   .   .   .   O   .   .   .   3
+|                                   |
+2   .   .   O  -B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   O   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          9 + 6
+
+  1.Kc8-c7 ! Drohung:
+          2.La6-c8 # 
+      1...d2-d1=D + 
+          2.Oh5-f5 # 
+      1...d2-d1=S + 
+          2.Oe3-f5 # 
+      1...d2-d1=T + 
+          2.Of1-f5 # 
+      1...d2-d1=L 
+          2.Oc2-f5 # 
+
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+       Canadian Chess Chat 1983
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -O   .   .   8
+|                                   |
+7   .   .   .  -B  -O   T   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -O   .   .   .   .  -T   5
+|                                   |
+4   .   .   L   .  -K   .   S   .   4
+|                                   |
+3   .   .   B   .  -B   .   B  -B   3
+|                                   |
+2   K   .   T   .   .   .  -O   S   2
+|                                   |
+1   .   .   .   .   .   .   .   D   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          9 + 9
+
+  1.Tf7-f4 + ? 
+    Aber
+      1...Of8*f4  !
+
+  1.Tf7*f8 ? Drohung:
+          2.Tf8-f4 # 
+    Aber
+      1...Th5-f5  !
+
+  1.Sg4-f2 + ? 
+      1...e3*f2 
+          2.Tc2-e2 # 
+    Aber
+      1...Ke4-e5  !
+
+  1.Tc2*g2 ? Drohung:
+          2.Tg2-g1 # 
+          2.Tg2-b2 # 
+          2.Tg2-c2 # 
+          2.Tg2-d2 # 
+          2.Tg2-e2 # 
+          2.Tg2-f2 # 
+          2.Dh1-b1 # 
+      1...e3-e2 
+          2.Tg2-g1 # 
+          2.Tg2*e2 # 
+          2.Tg2-f2 # 
+          2.Dh1-b1 # 
+      1...h3*g2 
+          2.Dh1-b1 # 
+          2.Dh1*g2 # 
+      1...Th5-d5 
+          2.Tg2-g1 # 
+          2.Tg2-b2 # 
+          2.Tg2-c2 # 
+          2.Tg2-d2 # 
+          2.Tg2-e2 # 
+          2.Tg2-f2 # 
+      1...Th5-f5 
+          2.Dh1-b1 # 
+      1...Oe7*f7 
+          2.Dh1-b1 # 
+      1...Of8*f7 
+          2.Dh1-b1 # 
+      1...Of8-b8 
+          2.Tf7-f4 # 
+          2.Tg2-g1 # 
+          2.Tg2-b2 # 
+          2.Tg2-c2 # 
+          2.Tg2-d2 # 
+          2.Tg2-e2 # 
+          2.Tg2-f2 # 
+    Aber
+      1...Oe7-e5  !
+
+  1.Tc2-f2 ? Drohung:
+          2.Dh1-b1 # 
+      1...Og2*h1 
+          2.Tf2-f4 # 
+      1...Oe7-e5 
+          2.Sg4-f6 # 
+      1...Of8-b8 
+          2.Tf7-f4 # 
+    Aber
+      1...Th5-d5  !
+
+  1.Tc2-e2 ? Drohung:
+          2.Dh1-b1 # 
+      1...Og2*h1 
+          2.Te2*e3 # 
+      1...Oe7-e5 
+          2.Sg4-f2 # 
+      1...Of8-b8 
+          2.Tf7-f4 # 
+    Aber
+      1...Th5-d5  !
+
+  1.Tc2-d2 ! Drohung:
+          2.Dh1-b1 # 
+      1...Og2*h1 
+          2.Td2-d4 # 
+      1...Th5-d5 
+          2.Lc4*d5 # 
+      1...Oe7-e5 
+          2.Lc4-d5 # 
+      1...Of8-b8 
+          2.Tf7-f4 # 
+
+  1.Dh1*g2 + ? 
+    Aber
+      1...h3*g2  !
+
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+              USPB 1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -O   .   O   .   .   .   .   8
+|                                   |
+7   .   .   .   .   K   .   .  -O   7
+|                                   |
+6   .   .   L   .  -B   .   .   .   6
+|                                   |
+5   .   O   .   .  -K   .   O   .   5
+|                                   |
+4   .   .  -B   .   .   .  -B   .   4
+|                                   |
+3   .   .   B   .   .   .   .   .   3
+|                                   |
+2  -S   .   O   .   .   O   B  -L   2
+|                                   |
+1   .   T  -S  -O   .  -O  -T  -D   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        10 + 13
+
+  1.Lc6-a8 ! Zugzwang.
+      1...Sc1-d3 
+          2.Of2-e4 # 
+      1...Tg1*g2 
+          2.Of2-f6 # 
+      1...Dh1*g2 
+          2.Of2-f5 # 
+      1...Sa2*c3 
+          2.Ob5-d4 # 
+      1...Sa2-b4 
+          2.Oc2-d4 # 
+      1...Lh2-f4 
+          2.Og5-f6 # 
+      1...Lh2-g3 
+          2.Of2-d4 # 
+      1...g4-g3 
+          2.Of2-f4 # 
+
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+     British Chess Magazine 1973
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   O   .   .   .   .  -O   .   7
+|                                   |
+6   .   .   O   .   .   .   .   .   6
+|                                   |
+5   .   .   .   O  -O   O   .  -B   5
+|                                   |
+4   .   .   .  -O   O   .   .  -K   4
+|                                   |
+3   .   .   .   O   .  -O   .   .   3
+|                                   |
+2   .  -O   .   S   .  -T   .  -B   2
+|                                   |
+1  -T   .   .   .   .  -S   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#36                    8 + 11
+
+  1.Sd2-b1   2.Sb1-c3   3.Sc3-a2   4.Sa2-b4   5.Sb4-a6   6.Sa6-c7   7.Sc7-a8   8.Sa8-b6   9.Sb6-c8  10.Sc8-e7  11.Se7-g8  12.Sg8-f6  13.Sf6-h7  14.Sh7-g5  15.Sg5-h3  16.Sh3*f2  17.Sf2-h3  18.Sh3-g5  19.Sg5-h7  20.Sh7-f6  21.Sf6-g8  22.Sg8-e7  23.Se7-c8  24.Sc8-b6  25.Sb6-a8  26.Sa8-c7  27.Sc7-a6  28.Sa6-b4  29.Sb4-a2  30.Sa2-c3  31.Sc3-b1  32.Sb1-d2  33.Sd2*f1  34.Kh1*h2  35.Sf1-e3  36.Se3-g2 # 
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+         The Problemist 1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -O   .   .   .   .   8
+|                                   |
+7   .   .  -O   .   .   .   B   O   7
+|                                   |
+6  -O   .   .   .   .   O   .   .   6
+|                                   |
+5   O   .   .   .   .   .   .   .   5
+|                                   |
+4  -O   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .  -L   .   .   .   3
+|                                   |
+2   K   .   .  -B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 7
+
+a)
+
+  1.d2-d1=D g7-g8=L   2.Dd1-d3 Lg8-d5 # 
+
+b) sLe3-->d3
+
+  1.d2-d1=S g7-g8=T   2.Sd1-e3 Tg8-g4 # 
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+          Die Schwalbe 1972
+             Verbesserung
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   K   .   8
+|                                   |
+7   .   .   .   B   .   .   .   .   7
+|                                   |
+6   .   O   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -D  -O   .   .   O   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -K   .   3
+|                                   |
+2   .   .   .  -B  -S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 5
+
+  1.Dc5-a5 Ob6-g1   2.d2-d1=O d7-d8=T # 
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+           Daniel Meinking
+         The Problemist 1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -O  -K  -O   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   O   .   .   .   6
+|                                   |
+5  -L   O   .  -B   .   .   .   .   5
+|                                   |
+4   .   .   .   K   .   .  -O   .   4
+|                                   |
+3   .  -B   .   .   .  -L   .   .   3
+|                                   |
+2   .   .   .   .   .  -T   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 9
+
+  1.Tf2-f1 Kd4-e3   2.Tf1-e1 + Ke3-d3 +   3.Lf3-e2 + Kd3-d4 # 
+  1.Lf3-g2 Kd4-d3   2.Lg2-f1 + Kd3-e3 +   3.Tf2-e2 + Ke3-d4 # 
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+         The Problemist 1973
+        1. ehrende Erw"ahnung
+             Verbesserung
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .   .   .   O   8
+|                                   |
+7   .   .   .   .   .   .  -L   .   7
+|                                   |
+6   .   .   O   .   .   .   .   .   6
+|                                   |
+5   .  -B   .   .   .   .   .   .   5
+|                                   |
+4   .  -S   .   .   .   .   .  -B   4
+|                                   |
+3  -B   .   .   .   .  -T  -K   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 7
+
+  1  (a3-a2 )
+  2  (Tf3-f1 )
+  3  (Tf3-f2 )
+  4  (Tf3-b3 )
+  5  (Tf3-c3 )
+  6  (Tf3-d3 )
+  7  (Tf3-e3 )
+  8  (Tf3-f8 + )
+  9  (Tf3-f7 )
+ 10  (Tf3-f6 )
+ 11  (Tf3-f5 )
+ 12  (Tf3-f4 )
+ 13  (Kg3-h3 )
+ 14  (Kg3-g4 )
+ 15  (Kg3-g2 )
+ 16  (Kg3-f4 )
+ 17  (Kg3-h2 )
+ 18  (Kg3-f2 )
+ 19  (Sb4-a2 )
+ 20  (Sb4-c2 )
+ 21  (Sb4-d3 )
+ 22  (Sb4-d5 )
+ 23  (Sb4*c6 + )
+ 24  (Sb4-a6 + )
+ 25  (h4-h3 )
+ 26  (Lg7-a1 )
+  1.Lg7-b2 Oh8-d4   2.Tf3-b3 Oc6-e5   3.Sb4-c2 Od4-e3 # 
+ 27  (Lg7-b2 )
+ 28  (Lg7-c3 )
+ 29  (Lg7-d4 )
+ 30  (Lg7-e5 + )
+ 31  (Lg7-f6 )
+ 32  (Lg7-h6 )
+ 33  (Lg7*h8 )
+ 34  (Lg7-f8 )
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+     British Chess Magazine 1974
+             Verbesserung
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -N   .   .   O   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -B  -K  -L   .   .   .  -O   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   B   .   O   .   .   K   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 5
+
+  1.Na7-g4 Kg3-h3   2.Ng4-a1 b3-b4 # 
+
+Loesung beendet. 
+
+
+
+            David L. Brown
+     British Chess Magazine 1972
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   G   .   .   .   .   .   8
+|                                   |
+7   .   T   K   O   .   .   .   .   7
+|                                   |
+6   .   .   B   .   O   .   .   .   6
+|                                   |
+5   .   .  -B   S   B  -T   .   .   5
+|                                   |
+4   B   .  -K  -B   .   .  -L   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -G   3
+|                                   |
+2   .   .   O   .   .   .   .  -B   2
+|                                   |
+1   .   .   .   .   .   .   .  -G   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 8
+
+  1.Sd5-f4 ! Zugzwang.
+      1...Gh1*b7 
+          2.Od7-b5 # 
+      1...d4-d3 
+          2.Oc2*d3 # 
+      1...Lg4-d1 
+          2.Oc2-d3 # 
+          2.Oe6-b3 # 
+      1...Lg4-e2 
+          2.Oe6-b3 # 
+      1...Lg4-f3 
+          2.Oe6-b3 # 
+      1...Lg4-h5 
+          2.Oe6-b3 # 
+
+
+Loesung beendet. 
+
+
+
+             Juraj Lorinc
+       1979, Ph\'enix 28, 1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .  -K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   T   6
+|                                   |
+5   .   .   .   .   .   .  -F   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  -N   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#3                         2 + 3
+            Laengstzueger
+
+  1.Th6-h3 ! Zugzwang.
+      1...Na1-g4 
+          2.Th3-e3 Zugzwang.
+              2...Ng4-a7 
+                  3.Te3-c3 + 
+                      3...Na7*c3 # 
+      1...Na1-d7 
+          2.Th3-b3 Zugzwang.
+              2...Nd7-g1 
+                  3.Tb3-c3 + 
+                      3...Ng1*c3 # 
+
+
+Loesung beendet. 
+
+

@@ -1,0 +1,340 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            Shlomo Seider
+            Theodor Tauber
+ F1258, The Problemist 13/17, 9/1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   G   .  -S   .   8
+|                                   |
+7   K   G   .   .   .   G  -B   .   7
+|                                   |
+6   G   .  -B   S  -L   .   .  -D   6
+|                                   |
+5   .   .   .   S   .   .   .   .   5
+|                                   |
+4   .   L   .  -K   .   B   .  -L   4
+|                                   |
+3   .   .   .   B  -B  -B   .   L   3
+|                                   |
+2   T   .   B   .   .   .   .   .   2
+|                                   |
+1   .   .   .  -S   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        13 + 10
+
+a)
+
+  1.Ta2-a5 ! Drohung:
+          2.Lb4-c5 # 
+      1...c6*d5 
+          2.Sd6-b5 # 
+      1...Le6*d5 
+          2.Sd6-f5 # 
+
+
+b) TransmutierendeKoenige
+
+  1.Ka7-b6 ! Drohung:
+          2.Lb4-c5 # 
+      1...c6*d5 
+          2.Sd6-f5 # 
+      1...Le6*d5 
+          2.Sd6-b5 # 
+
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+           Albert H. Kniest
+           feenschach 1979
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B   .   K   .   .   B   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+        TransmutierendeKoenige
+
+a)
+
+  1.a2-a1=S + Kc2-e3   2.Kf5-e5 f2-f4 # 
+
+b) wKc2-->b2
+
+  1.a2-a1=D + Kb2-e2   2.Kf5-e4 f2-f3 # 
+
+Loesung beendet. 
+
+
+
+             Johan Beije
+     1122, Phenix 15-16, 12/1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K   .   .   8
+|                                   |
+7   .   .   .   B   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   K   .  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 2
+                Circe
+             TibetSchach
+        TransmutierendeKoenige
+
+NullStellung
+
+a) sKf8-->a4
+
+  1...d7-d8=S   2.c2-c1=T Sd8-c6   3.Tc1*c6=wT [+wSb1] Sb1-c3 # 
+
+b) wKa2-->f2
+
+  1...d7-d8=L   2.c2-c1=D Ld8-g5   3.Dc1*g5=wD [+wLc1] Lc1-a3 # 
+
+Loesung beendet. 
+
+
+b7 ist bereits besetzt - alter Stein wird geloescht.
+
+             Romeo Bedoni
+3. ehr. Erw., 1. Phenix-TT 1989-91, Abt. 3
+             dualistisch
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   S   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   .   .   .   B   7
+|                                   |
+6   .   .   B   B   B   B   B   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -H   .  -K   .   .   .   2
+|                                   |
+1   H   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                         10 + 2
+        TransmutierendeKoenige
+
+  1.e6-e7 ! Drohung:
+          2.e7-e8=H # 
+      1...Hc2*c6-c7 
+          2.e7-e8=H + 
+              2...Hc7*d6-e5 
+                  3.He8*e5-e4 + 
+                      3...Ke2*e4-e5 
+                          4.b7-b8=H # 
+                          4.f6-f7 # 
+      1...Ke2-f2 
+          2.f6-f7 Drohung:
+                  3.f7-f8=H # 
+              2...Hc2*c6-c7 
+                  3.f7-f8=H + 
+                      3...Hc7*e7-f7 
+                          4.Hf8*f7-f6 # 
+              2...Kf2-e2 
+                  3.e7-e8=H # 
+              2...Kf2-e3 
+                  3.e7-e8=H # 
+              2...Kf2-g3 
+                  3.g6-g7 Drohung:
+                          4.g7-g8=H # 
+                      3...Kg3-h3 
+                          4.h7-h8=H # 
+                      3...Kg3-f3 
+                          4.f7-f8=H # 
+                      3...Kg3-f4 
+                          4.f7-f8=H # 
+                      3...Kg3-h4 
+                          4.h7-h8=H # 
+                      3...Kg3-f2 
+                          4.f7-f8=H # 
+      1...Ke2-d2 
+          2.d6-d7 Drohung:
+                  3.d7-d8=H # 
+              2...Kd2-e2 
+                  3.e7-e8=H # 
+              2...Kd2-e3 
+                  3.e7-e8=H # 
+      1...Ke2-d3 
+          2.d6-d7 Drohung:
+                  3.d7-d8=H # 
+              2...Kd3-e3 
+                  3.e7-e8=H # 
+              2...Kd3-c4 
+                  3.Sa8-b6 + 
+                      3...Kc4-d2 
+                          4.d7-d8=H # 
+                      3...Kc4-e3 
+                          4.e7-e8=H # 
+                      3...Kc4-e5 
+                          4.e7-e8=H # 
+                          4.f6-f7 # 
+                      3...Kc4-d6 
+                          4.d7-d8=H # 
+                      3...Kc4*b6 
+                          4.b7-b8=H # 
+                  3.c6-c7 Drohung:
+                          4.c7-c8=H # 
+                      3...Kc4-b4 
+                          4.b7-b8=H # 
+                      3...Kc4-b5 
+                          4.b7-b8=H # 
+                      3...Kc4-d5 
+                          4.d7-d8=H # 
+                      3...Kc4-d3 
+                          4.d7-d8=H # 
+                      3...Kc4-b3 
+                          4.b7-b8=H # 
+              2...Kd3-e4 
+                  3.e7-e8=H # 
+              2...Kd3-e2 
+                  3.e7-e8=H # 
+      1...Ke2-f3 
+          2.f6-f7 Drohung:
+                  3.f7-f8=H # 
+              2...Hc2*c6-c7 
+                  3.f7-f8=H + 
+                      3...Hc7*e7-f7 
+                          4.Hf8*f7-f6 # 
+              2...Kf3-g3 
+                  3.g6-g7 Drohung:
+                          4.g7-g8=H # 
+                      3...Kg3-h3 
+                          4.h7-h8=H # 
+                      3...Kg3-f3 
+                          4.f7-f8=H # 
+                      3...Kg3-f4 
+                          4.f7-f8=H # 
+                      3...Kg3-h4 
+                          4.h7-h8=H # 
+                      3...Kg3-f2 
+                          4.f7-f8=H # 
+              2...Kf3-e3 
+                  3.e7-e8=H # 
+              2...Kf3-e4 
+                  3.e7-e8=H # 
+              2...Kf3-g4 
+                  3.g6-g7 Drohung:
+                          4.g7-g8=H # 
+                      3...Kg4-h4 
+                          4.h7-h8=H # 
+                      3...Kg4-f4 
+                          4.f7-f8=H # 
+                      3...Kg4-f5 
+                          4.f7-f8=H # 
+                      3...Kg4-h5 
+                          4.h7-h8=H # 
+                      3...Kg4-h3 
+                          4.h7-h8=H # 
+                      3...Kg4-f3 
+                          4.f7-f8=H # 
+              2...Kf3-e2 
+                  3.e7-e8=H # 
+
+
+Loesung beendet. 
+
+
+
+            Josif Kricheli
+    8514, FEENSCHACH 706, XII/1967
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -K   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   B   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -D   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+        TransmutierendeKoenige
+
+  1.Dg1-h2 + Ke5-e4   2.Dh2-g3 f2-f3 # 
+  1.Kg4-g5 f2-f3   2.Dg1-g4 f3-f4 # 
+
+Loesung beendet. 
+
+
+
+              Eric Huber
+R045, Problem Paradise 22, 04-06/2002
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .  -L   .   K  -L  -S  -T   8
+|                                   |
+7  -B  -B   .  -B   .  -B  -B  -B   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   .  -S   .  -B   .   L   .   5
+|                                   |
+4   .   .   .   B   .   .   .   .   4
+|                                   |
+3   D   .   .   .   .   B   .   .   3
+|                                   |
+2   B   B   B   .   B  -D   B   B   2
+|                                   |
+1   T   S   .   .  -K   L   S   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia9                      16 + 16
+        TransmutierendeKoenige
+
+  1.f2-f3 c7-c6   2.Ke1-f2 Dd8-b6 +   3.Kf2-g3 Db6-f2 +   4.Kg3-c7 e7-e5   5.d2-d4 Ke8-e7   6.Lc1-g5 + Ke7-b4   7.Dd1-d3 Sb8-a6 +   8.Kc7-e8 Sa6-c5   9.Dd3-a3 + Kb4-e1 dia 
+
+Loesung beendet.
+
+

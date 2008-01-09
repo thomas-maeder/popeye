@@ -1,0 +1,34 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            Horst B"acker
+         3071, PK 83, 10/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   B   .  -L   B   .   .   .   .   7
+|                                   |
+6   .  -B   B   .  -B  -B   .   .   6
+|                                   |
+5  -B   .   .   .  -B   B   .   .   5
+|                                   |
+4   .   .   .   .   K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   B   .   .   3
+|                                   |
+2   .   B  -B  -K   B   B  -B   .   2
+|                                   |
+1   T   .   .   .   .   L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                       11 + 9
+
+  1.d7-d8=L g2-g1=S   2.Ld8*f6 Sg1*f3   3.Lf6-g5 + Sf3*g5 # 
+  1.a7-a8=D g2*f1=L   2.Da8-a6 Lf1*e2   3.Da6-d3 + Le2*d3 # 
+  1.a7-a8=S c2-c1=T   2.Sa8*b6 Tc1-c2   3.Sb6-c4 + Tc2*c4 # 
+  1.a7-a8=T g2-g1=D   2.Ta8*a5 Dg1-g8   3.Ta5-d5 + e6*d5 # 
+
+Loesung beendet. 
+
+

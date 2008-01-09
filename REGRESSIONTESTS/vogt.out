@@ -1,0 +1,65 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            Eckart Kummer
+            Torsten Lin"s
+    351v, harmonie 22, 28.12.1988
+        Korr.: h39, 30.11.1992
+            1. Lob (1992)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K  -G   .   K   .  -G   .   .   8
+|                                   |
+7   .   .   .   B   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   S   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   G   .   .   .   .  -B   .  -G   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   D   .  -B  -B   .   .   2
+|                                   |
+1   .   .   .   .  -G   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          5 + 8
+          VogtlaenderSchach
+
+  1.Sg6-e5 ? Drohung:
+          2.Dc2-c8 # 
+      1...f4-f3 
+          2.Ga4-e8 # 
+    Aber
+      1...Ka8-b7  !
+
+  1.Sg6-e7 + ? 
+    Aber
+      1...Gh4-e4  !
+
+  1.Ga4-e8 + ? 
+    Aber
+      1...Gf8-f3  !
+
+  1.Ga4-g4 ? Drohung:
+          2.Sg6-e7 # 
+      1...f4-f3 
+          2.Dc2-c8 # 
+    Aber
+      1...Ge1-e3  !
+
+  1.Dc2-f5 ! Drohung:
+          2.Ga4-e8 # 
+      1...f4-f3 
+          2.Sg6-e7 # 
+
+  1.Dc2-c8 + ? 
+    Aber
+      1...Gb8-g3 +  !
+
+
+Loesung beendet. 
+
+

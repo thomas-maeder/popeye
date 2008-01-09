@@ -1,0 +1,538 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+           Norbert Geissler
+   7100, Die Schwalbe-125, 10/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -T   .   .   .   .  -L   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -S   .   .  -T   .   .   6
+|                                   |
+5   .   .   .  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -B   .   .   3
+|                                   |
+2   .   .   .   .   .  -B   .   .   2
+|                                   |
+1   .   B   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 7
+          PlatzwechselCirce
+                Duplex
+
+  1.Tb8*b1 [+wBb8=wD] + Kf1*f2 [+sBf1=sL]   2.Lf1-c4 Db8-e5 # 
+
+  1.Kf1*f2 [+sBf1=sS] Tb8*b1 [+wBb8=wT]   2.Tb8*g8 [+sLb8] Lb8-a7 # 
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+    2483, Problemkiste-70, 8/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -K   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   K   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   . -KN   .   .   .   .  WA   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+                KoeKo
+                Duplex
+
+  1.KNb1-b4 WAg1-a4   2.KNb4-a6 Kd3-c4 # 
+
+  1.WAg1-e2 KNb1-c3 +   2.Kd3-d4 Kb5-c5 # 
+
+Loesung beendet. 
+
+
+
+           Norbert Geissler
+     2456, Problemkiste-69,6/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -B   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   N   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+          PlatzwechselCirce
+                Duplex
+
+  1.c4-c3 Nb1*c3 [+sBb1=sT]   2.Tb1-b8 Nc3-g5 # 
+
+  1.Ka6-a5 c4-c3   2.Nb1*c3 [+sBb1=sD] Db1-b5 # 
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+    7039, Die Schwalbe-124, 8/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  =B   .   .   .   7
+|                                   |
+6   K   .   .   .   .  -K   .   .   6
+|                                   |
+5   .   .   .  =B   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  =B   .   2
+|                                   |
+1   .  =D   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#3                1 + 1 + 4n
+             SpiegelCirce
+                Duplex
+
+  1.nDb1-h1   2.nBg2*h1=nD [+nDd8]   3.nDh1-h5 nBe7-e8=nS # 
+
+  1.nBe7-e8=nT   2.nTe8-e1   3.nTe1-f1 + nBg2*f1=nL [+nTa8] # 
+
+Loesung beendet. 
+
+
+
+           C. Jeremy Morse
+      The Problemist, I-III/1976
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         2 + 2
+       SchwarzerKuerzestzueger
+         WeisserLaengstzueger
+              HalbDuplex
+
+  1.Kc8-d7 Ka8-b8   2.Kd7-c6 Kb8-c8   3.b6*a7 Kc8-d8   4.Kc6-b7 Kd8-d7   5.Kb7-a8 Kd7-c7 = 
+
+Loesung beendet. 
+
+
+
+            Markus Manhart
+  M, feenschach 76, XI/1985, S. 222
+    Albert H. Kniest zum Gedenken
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#11                     2 + 2
+                Circe
+        SchwarzerLaengstzueger
+              NorskSjakk
+              HalbDuplex
+
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-h8=S   7.Sh8-g6=D   8.Dg6-b1=S   9.Sb1-a3=D  10.Da3-f8=S  11.Sf8-d7=D # 
+
+Loesung beendet. 
+
+
+
+            Maryan Kerhuel
+II, Rex Multiplex 19, VII-IX/1986, S. 641
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -L   .   K   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h==3                        2 + 2
+            Koeniglich a8
+             HaanerSchach
+              HalbDuplex
+
+  1.b6*a7 kLa8-c6   2.Kc8-c7 + kLc6-b5   3.Kc7-b8 kLb5-a6 == 
+
+Loesung beendet. 
+
+
+
+            Maryan Kerhuel
+F925 (Version), The Problemist, I/1987, S. 257
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 2
+        TransmutierendeKoenige
+              HalbDuplex
+
+  1.Kc8-d7 Ka8-b8   2.Kd7-d6 Kb8-b7   3.Kd6-c5 a7*b6 # 
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+ 220, Das Vielvaeterproblem, XII/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   S   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-=7                      2 + 2
+            Koeniglich c8
+              HalbDuplex
+
+a)
+
+  1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b4 = 
+
+b) wkCAc8 
+
+  1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b3 = 
+
+c) wkGIc8 
+
+  1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b2 = 
+
+Loesung beendet. 
+
+
+
+    Jan Kubecka & Theodor Steudel
+ 221, Das Vielvaeterproblem, XII/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-zd36                    2 + 2
+              HalbDuplex
+
+  1.a7*b6   2.Ka8-a7   3.Ka7-a6   4.Ka6-b5   5.Kb5-c4   6.Kc4-d3 z 
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+ 236, Das Vielvaeterproblem, XII/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .  FE   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-=7                      2 + 2
+            Koeniglich c8
+              Ohneschlag
+              HalbDuplex
+
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=T   6.Ta1-a7   7.Ta7-b7 = 
+
+Loesung beendet. 
+
+
+
+Hilmar Ebert, Hans Gruber & Stefan Hoening
+ 266, Das Vielvaeterproblem, XII/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -G   .   G   .   .   .   .   .   8
+|                                   |
+7 -DU   .   .   .   .   .   .   .   7
+|                                   |
+6   .  DU   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  exact-=1                    2 + 2
+           Koeniglich a8 c8
+              HalbDuplex
+
+a)
+
+  1.kGa8-a6 = ! 
+
+
+b) exact-=2
+
+  1.kGa8-d8 ! 
+      1...kGc8-e8 
+          2.kGd8-a5 = 
+
+
+c) exact-=3
+
+  1.kGa8-d8 ! 
+      1...kGc8-e8 
+          2.kGd8-f8 
+              2...kGe8-g8 
+                  3.kGf8-h8 = 
+
+
+Loesung beendet. 
+
+
+
+    Hilmar Ebert & Stefan Hoening
+ 279, Das Vielvaeterproblem, XII/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8 -EQ   .  EQ   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #8                          2 + 2
+           Koeniglich a8 c8
+              HalbDuplex
+
+  1.a7*b6 ! 
+      1...kEQc8-a4 
+          2.b6-b5 + 
+              2...kEQa4-c6 
+                  3.kEQa8-e4 
+                      3...kEQc6-g2 
+                          4.b5-b4 
+                              4...kEQg2-c6 
+                                  5.b4-b3 
+                                      5...kEQc6-g2 
+                                          6.b3-b2 
+                                              6...kEQg2-c6 
+                                                  7.b2-b1=D 
+                                                      7...kEQc6-g2 
+                                                          8.Db1-c2 # 
+
+
+Loesung beendet. 
+
+
+
+          Bernd Schwarzkopf
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -D   4
+|                                   |
+3   .   .   .   K   .   .   .  -K   3
+|                                   |
+2   .   .   .   .   S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-<>3                     2 + 2
+                Duplex
+
+  1.Se2-c1   2.Kd3-e2   3.Sc1-d3 
+
+  1.Dh4-g4   2.Kh3-h4   3.Dg4-h3 
+
+Loesung beendet. 
+
+
+
+          Bernd Schwarzkopf
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   D   4
+|                                   |
+3   .   .   .  -K   .   .   .   K   3
+|                                   |
+2   .   .   .   .  -S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-<>3                     2 + 2
+                Duplex
+
+  1.Dh4-g4   2.Kh3-h4   3.Dg4-h3 
+
+  1.Se2-c1   2.Kd3-e2   3.Sc1-d3 
+
+Loesung beendet. 
+
+

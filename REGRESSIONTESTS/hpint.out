@@ -1,0 +1,4483 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            Boris Bursa\'c
+    3601, Problemkiste 96, 10/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   B   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -B   .   .   .   .   6
+|                                   |
+5   .   .  -B   B   .   .  -B   .   5
+|                                   |
+4   .   .   B   .   K   .  -K   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         5 + 5
+
+0 moegliche Stellungen in 1+1
+24 moegliche Stellungen in 2+2
+  1.b2-b1=T c7-c8=T   2.Tb1-b7 Tc8-h8   3.Tb7-h7 Th8*h7 = 
+687 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+    3457, Problemkiste 93, 6/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -B   .   3
+|                                   |
+2   .   .   .   .   .  -B  -T  -L   2
+|                                   |
+1   .   .   .   K   .   S  -K  -L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=5                     2 + 6
+
+
+2 moegliche Stellungen in 1+1
+2 moegliche Stellungen in 1+2
+4 moegliche Stellungen in 1+3
+4 moegliche Stellungen in 1+4
+  1.Kg1*f1   2.Tg2-g1   3.g3-g2   4.Lh2-f4   5.Lf4-d2 Kd1*d2 = 
+4 moegliche Stellungen in 1+5
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+    3456, Problemkiste 93, 6/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   T   .   .   .   .   .   8
+|                                   |
+7  -K   B   .  -B   .   .   .   .   7
+|                                   |
+6  -B   .   .  -B   .   .   .   .   6
+|                                   |
+5   B   B  -B   B   .   .   .   .   5
+|                                   |
+4   .   .   B   .   K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=5                     7 + 6
+
+12 moegliche Stellungen in 1+1
+44 moegliche Stellungen in 1+2
+52 moegliche Stellungen in 1+3
+52 moegliche Stellungen in 1+4
+  1.b2-b1=S   2.Sb1-a3   3.Sa3*b5   4.Sb5-c7   5.Sc7-a8 b7*a8=L = 
+  1.b2-b1=T   2.Tb1*b5   3.Tb5-b6   4.Tb6-c6   5.Tc6*c8 b7*c8=D = 
+52 moegliche Stellungen in 1+5
+
+Loesung beendet. 
+
+
+
+          Sl. \v{S}aleti\'c
+    3439, Problemkiste 93, 6/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -L   .   .   .   T   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -B   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         2 + 3
+                Duplex
+
+0 moegliche Stellungen in 1+1
+  1.Lc6-e4 Tg6*g2   2.Le4-b1 Tg2-g1 = 
+22 moegliche Stellungen in 2+2
+
+0 moegliche Stellungen in 1+1
+  1.Tg6-g5 g2-g1=D   2.Tg5-c5 Dg1*c5 = 
+14 moegliche Stellungen in 2+2
+
+Loesung beendet. 
+
+
+
+           Norbert Geissler
+           Theodor Steudel
+    3422, Problemkiste 93, 6/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   B   .   .   .   .   B   .   .   7
+|                                   |
+6   K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-=4                      3 + 1
+         WeissesZwangsfeld h1
+
+a)
+
+0 moegliche Stellungen in 1+0
+2 moegliche Stellungen in 2+0
+10 moegliche Stellungen in 3+0
+  1.f7-f8=L   2.a7-a8=T   3.Ta8-a7   4.Ta7-g7 = 
+256 moegliche Stellungen in 4+0
+
+b) wKa6-->g2
+
+0 moegliche Stellungen in 1+0
+2 moegliche Stellungen in 2+0
+8 moegliche Stellungen in 3+0
+  1.Kg2-h1   2.f7-f8=S   3.a7-a8=D   4.Da8-g2 = 
+210 moegliche Stellungen in 4+0
+
+Bearbeitung abgebrochen. 
+
+
+
+             Andre Minost
+       Problemkiste 93, 6/1994
+       Fassung Theodor Steudel
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -K   .   B   .   .   .   .   .   7
+|                                   |
+6   .   T  -B   .   .   .   .   .   6
+|                                   |
+5   .   .  -B   .   .   .   .   .   5
+|                                   |
+4   .   .   B  -B   .   .   .   .   4
+|                                   |
+3   .   .   .   B   .   .   .   .   3
+|                                   |
+2  -B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=5                     5 + 5
+
+8 moegliche Stellungen in 1+1
+12 moegliche Stellungen in 1+2
+16 moegliche Stellungen in 1+3
+24 moegliche Stellungen in 1+4
+  1.a2-a1=S   2.Sa1-c2   3.Sc2-b4   4.Sb4-a6   5.Sa6-b8 c7*b8=T = 
+  1.a2-a1=L   2.La1-c3   3.Lc3-e1   4.Le1-h4   5.Lh4-d8 c7*d8=D = 
+53 moegliche Stellungen in 1+5
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+      1901, Problemkiste 8/1987
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   B   .   .   .   .   .   7
+|                                   |
+6   .   .   S   .   .   .   .   .   6
+|                                   |
+5   .   .   .   K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=3                     3 + 2
+
+2 moegliche Stellungen in 1+1
+5 moegliche Stellungen in 1+2
+  1.g2-g1=L   2.Lg1-a7   3.La7-b8 c7-c8=D = 
+  1.g2-g1=T   2.Tg1-g8   3.Tg8-d8 + c7*d8=S = 
+7 moegliche Stellungen in 1+3
+
+Loesung beendet. 
+
+
+
+           G"unter B"using
+    3417, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K   .   .   8
+|                                   |
+7   .   .   .  -T   .   .   .  -B   7
+|                                   |
+6   .   .   .   .   .   .  -L   .   6
+|                                   |
+5   .  -B   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   T   D   .   .   .   4
+|                                   |
+3   .   .   .   K   L   .  -T   .   3
+|                                   |
+2   L   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         5 + 6
+
+0 moegliche Stellungen in 1+1
+40 moegliche Stellungen in 2+2
+  1.Td7-e7 Td4-d8 +   2.Lg6-e8 De4-b4   3.Tg3-g7 Le3-h6 = 
+4742 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+Es fehlt ein weisser oder schwarzer Koenig
+
+           Theodor Steudel
+         Problemkiste 2/1994
+          nach Erich Bartel
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   B   B   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-=4                      2 + 2
+
+0 moegliche Stellungen in 1+0
+4 moegliche Stellungen in 2+0
+17 moegliche Stellungen in 3+0
+  1.e7-e8=L   2.d7-d8=D   3.Dd8-d5   4.Le8-g6 = 
+  1.e7-e8=S   2.d7-d8=T   3.Td8-d7   4.Td7*g7 = 
+245 moegliche Stellungen in 4+0
+
+Loesung beendet. 
+
+
+
+            Boris Bursa\'c
+    K109, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -T  -S   .   .   .   .   .   8
+|                                   |
+7   B   B   .  -K   B   B   .   .   7
+|                                   |
+6   .   .   .   B   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -B   .   2
+|                                   |
+1   .   K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         6 + 4
+
+0 moegliche Stellungen in 1+1
+48 moegliche Stellungen in 2+2
+  1.g2-g1=L a7*b8=D   2.Lg1-b6 b7*c8=T   3.Lb6-d8 e7*d8=S = 
+7109 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+            Boris Bursa\'c
+    K110, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -T   .   .  -S   .   .   D   8
+|                                   |
+7   B   .   B   B  -K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         5 + 4
+
+0 moegliche Stellungen in 1+0
+58 moegliche Stellungen in 2+1
+  1...a7*b8=D   2.d2-d1=T d7*e8=L   3.Td1-d8 c7*d8=S = 
+4640 moegliche Stellungen in 3+2
+
+Loesung beendet. 
+
+
+
+            Boris Bursa\'c
+    K111, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -L   .  -S   .   .   .   .   8
+|                                   |
+7   B   B   B  -K   .   B   .   .   7
+|                                   |
+6   .   .   .   .   .   B   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -B   .   .   .   .   .   K   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   .   2
+|                                   |
+1   .   S  -T   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         7 + 6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.a3-a2 a7*b8=D   2.a2-a1=L c7*d8=S   3.Tc1-c8 b7*c8=T = 
+11316 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+            Boris Bursa\'c
+    K112, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -S   .   .   .   .   .   8
+|                                   |
+7   B   B   .  -K   B   .   S   .   7
+|                                   |
+6   .  -T   .   .   .   .   .   .   6
+|                                   |
+5  -D   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -B   .   3
+|                                   |
+2   .   .   .   .   .  -B   B  -B   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         6 + 7
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.h2-h1=S b7*c8=T   2.Tb6-b8 a7*b8=D   3.Da5-d8 e7*d8=L = 
+1082 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+            Boris Bursa\'c
+    K113, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -L   .   .   D   8
+|                                   |
+7   .   B   B   .  -K   B   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         5 + 3
+
+0 moegliche Stellungen in 1+0
+165 moegliche Stellungen in 2+1
+  1...f7*e8=L   2.d2-d1=T b7-b8=D   3.Td1-d8 c7*d8=S = 
+5843 moegliche Stellungen in 3+2
+
+Loesung beendet. 
+
+
+
+            Boris Bursa\'c
+    K114, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -T  -S  -S   .   8
+|                                   |
+7   .   .   .   B   B   .   .   B   7
+|                                   |
+6   .   .   .   .   .   .  -K   .   6
+|                                   |
+5   .   .   .   .   .   .   S   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B   .   .   .   K   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         5 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.a2-a1=L h7*g8=S   2.La1-h8 d7*e8=D +   3.Kg6-g7 e7*f8=T = 
+3405 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+             Gerd Rinder
+         Die Schwalbe 6/1972
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   K   .  -B   .   .   .   .   5
+|                                   |
+4   .   .   .   B   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -K   .   .  -B   .   .   .   .   2
+|                                   |
+1   .   .   L   .   .   L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#9                     4 + 3
+
+a)
+
+1 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 1+2
+1 moegliche Stellungen in 1+3
+1 moegliche Stellungen in 1+4
+5 moegliche Stellungen in 1+5
+9 moegliche Stellungen in 1+6
+17 moegliche Stellungen in 1+7
+30 moegliche Stellungen in 1+8
+  1.d2-d1=D   2.Dd1*d4   3.Dd4-a1   4.d5-d4   5.d4-d3   6.d3-d2   7.d2-d1=L   8.Ld1-c2   9.Lc2-b1 Lf1-c4 # 
+38 moegliche Stellungen in 1+9
+
+b) ser-h=9
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 1+2
+2 moegliche Stellungen in 1+3
+4 moegliche Stellungen in 1+4
+4 moegliche Stellungen in 1+5
+10 moegliche Stellungen in 1+6
+15 moegliche Stellungen in 1+7
+19 moegliche Stellungen in 1+8
+  1.d2-d1=T   2.Td1*d4   3.Td4-c4   4.d5-d4   5.d4-d3   6.d3-d2   7.d2-d1=S   8.Sd1-b2   9.Ka2-a3 Lf1*c4 = 
+25 moegliche Stellungen in 1+9
+
+Loesung beendet. 
+
+
+
+             Gerd Rinder
+          feenschach 6/1974
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   K   B  -B   .   .   .   .   5
+|                                   |
+4   .   .   .   B   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -K   .   .   B   .   .   .   .   2
+|                                   |
+1   .   .   L   .   .   L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#14                    6 + 3
+
+a)
+
+1 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 1+2
+1 moegliche Stellungen in 1+3
+2 moegliche Stellungen in 1+4
+5 moegliche Stellungen in 1+5
+7 moegliche Stellungen in 1+6
+11 moegliche Stellungen in 1+7
+17 moegliche Stellungen in 1+8
+45 moegliche Stellungen in 1+9
+88 moegliche Stellungen in 1+10
+88 moegliche Stellungen in 1+11
+122 moegliche Stellungen in 1+12
+128 moegliche Stellungen in 1+13
+  1.d7-d6   2.d6*c5   3.c5-c4   4.c4-c3   5.c3*d2   6.d2-d1=D   7.Dd1*d4   8.Dd4-a1   9.d5-d4  10.d4-d3  11.d3-d2  12.d2-d1=L  13.Ld1-c2  14.Lc2-b1 Lf1-c4 # 
+202 moegliche Stellungen in 1+14
+
+b) ser-h=14
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 1+2
+0 moegliche Stellungen in 1+3
+1 moegliche Stellungen in 1+4
+2 moegliche Stellungen in 1+5
+8 moegliche Stellungen in 1+6
+12 moegliche Stellungen in 1+7
+16 moegliche Stellungen in 1+8
+28 moegliche Stellungen in 1+9
+38 moegliche Stellungen in 1+10
+50 moegliche Stellungen in 1+11
+50 moegliche Stellungen in 1+12
+50 moegliche Stellungen in 1+13
+  1.d7-d6   2.d6*c5   3.c5-c4   4.c4-c3   5.c3*d2   6.d2-d1=T   7.Td1*d4   8.Td4-c4   9.d5-d4  10.d4-d3  11.d3-d2  12.d2-d1=S  13.Sd1-b2  14.Ka2-a3 Lf1*c4 = 
+50 moegliche Stellungen in 1+14
+
+Loesung beendet. 
+
+
+
+          M. Toma\v{s}evi\'c
+   3259, Problemkiste 87/88, 7/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -L   .   8
+|                                   |
+7   .   .   .   .  -B   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -B   .   .   5
+|                                   |
+4   .   .   .   .   .   B   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   K   .   .   .   B   .   .   L   2
+|                                   |
+1   .   .   .   T   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#9                     5 + 4
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 1+2
+0 moegliche Stellungen in 1+3
+1 moegliche Stellungen in 1+4
+5 moegliche Stellungen in 1+5
+6 moegliche Stellungen in 1+6
+8 moegliche Stellungen in 1+7
+29 moegliche Stellungen in 1+8
+  1.Ke6-f7   2.e7-e5   3.e5*f4   4.f4-f3   5.f3*e2   6.e2-e1=T   7.Te1-e7   8.Kf7-e6   9.Lg8-f7 Td1-d6 # 
+46 moegliche Stellungen in 1+9
+
+b) ser-h=9
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 1+2
+0 moegliche Stellungen in 1+3
+0 moegliche Stellungen in 1+4
+19 moegliche Stellungen in 1+5
+21 moegliche Stellungen in 1+6
+25 moegliche Stellungen in 1+7
+38 moegliche Stellungen in 1+8
+  1.Lg8-f7   2.Lf7-e8   3.Le8-b5   4.Lb5-d3   5.Ke6-d5   6.e7-e5   7.e5-e4   8.e4-e3   9.Kd5-e4 Td1*d3 = 
+56 moegliche Stellungen in 1+9
+
+Loesung beendet. 
+
+
+
+            Iwan Paskalew
+         58, Schachmatna misl
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   L   K   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=6                     2 + 2
+
+a)
+
+0 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 1+2
+1 moegliche Stellungen in 1+3
+1 moegliche Stellungen in 1+4
+1 moegliche Stellungen in 1+5
+  1.a2-a1=S   2.Sa1-b3   3.Sb3-c5   4.Sc5-d7   5.Kf8-e8   6.Ke8-d8 Lc6*d7 = 
+1 moegliche Stellungen in 1+6
+
+b) sBa2-->b3
+
+0 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 1+2
+1 moegliche Stellungen in 1+3
+1 moegliche Stellungen in 1+4
+1 moegliche Stellungen in 1+5
+  1.b3-b2   2.b2-b1=L   3.Lb1-f5   4.Lf5-d7   5.Kf8-e8   6.Ke8-d8 Lc6*d7 = 
+1 moegliche Stellungen in 1+6
+
+Loesung beendet. 
+
+
+
+            Ludwig Zagler
+    KT14, Problemkiste 96, 12/1994
+               3. Reihe
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .  -D   .   8
+|                                   |
+7   B   .   .   .   .   B   .   .   7
+|                                   |
+6  -T   .   .   .   .   B   .   K   6
+|                                   |
+5   .   .   .   .   .   .   .   B   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#6                      5 + 3
+
+a)
+
+0 moegliche Stellungen in 1+0
+7 moegliche Stellungen in 2+0
+61 moegliche Stellungen in 3+0
+725 moegliche Stellungen in 4+0
+3053 moegliche Stellungen in 5+0
+  1.f7-f8=L   2.Lf8-c5   3.Lc5-b6   4.f6-f7   5.f7*g8=L   6.Lg8-d5 # 
+12109 moegliche Stellungen in 6+0
+
+b) ser-=6
+
+0 moegliche Stellungen in 1+0
+10 moegliche Stellungen in 2+0
+36 moegliche Stellungen in 3+0
+374 moegliche Stellungen in 4+0
+2950 moegliche Stellungen in 5+0
+  1.f7*g8=L   2.Lg8-c4   3.Lc4*a6   4.f6-f7   5.f7-f8=L   6.Lf8-c5 = 
+9183 moegliche Stellungen in 6+0
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+            G"unter Gla"s
+    KT11, Problemkiste 96, 12/1994
+               3. Reihe
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   B   .  -B   B   .   .   7
+|                                   |
+6   K   .   .   .   B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#4                      4 + 3
+
+a)
+
+0 moegliche Stellungen in 1+0
+15 moegliche Stellungen in 2+0
+152 moegliche Stellungen in 3+0
+  1.c7-c8=L   2.Lc8-b7   3.Lb7-e4   4.f7-f8=D # 
+966 moegliche Stellungen in 4+0
+
+b) ser-=4
+
+0 moegliche Stellungen in 1+0
+4 moegliche Stellungen in 2+0
+30 moegliche Stellungen in 3+0
+  1.f7-f8=S   2.c7-c8=T   3.Tc8*c3   4.Tc3-g3 = 
+707 moegliche Stellungen in 4+0
+
+Loesung beendet. 
+
+
+
+            G"unter Gla"s
+    KT6, Problemkiste 96, 12/1994
+               2. Reihe
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .  -D  -L   .   .   T   8
+|                                   |
+7   .   .   B  -K   .   B   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   B   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   L   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#2                      6 + 3
+
+a)
+
+0 moegliche Stellungen in 1+0
+  1.c7-c8=S   2.f7-f8=S # 
+47 moegliche Stellungen in 2+0
+
+b) ser-=2
+
+0 moegliche Stellungen in 1+0
+  1.c7*d8=S   2.f7*e8=S = 
+170 moegliche Stellungen in 2+0
+
+Loesung beendet. 
+
+
+
+              Klaus Funk
+    KT1, Problemkiste 96, 12/1994
+               1. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   T  -B   .   .   .   .   6
+|                                   |
+5   .  -B   .   B   .   .   .   .   5
+|                                   |
+4  -K   .   .   .   .  -B  -B   T   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   K   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=11                    4 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 1+2
+0 moegliche Stellungen in 1+3
+0 moegliche Stellungen in 1+4
+0 moegliche Stellungen in 1+5
+3 moegliche Stellungen in 1+6
+3 moegliche Stellungen in 1+7
+19 moegliche Stellungen in 1+8
+47 moegliche Stellungen in 1+9
+90 moegliche Stellungen in 1+10
+  1.g4-g3   2.g3-g2   3.g2-g1=L   4.Lg1-c5   5.Lc5-b4   6.f4-f3   7.f3-f2   8.f2-f1=S   9.Sf1-d2  10.Sd2-b3  11.Sb3-a5 Tc6-a6 = 
+  1.f4-f3   2.f3-f2   3.f2-f1=S   4.Sf1-e3   5.Se3-c2   6.Sc2-b4   7.g4-g3   8.g3-g2   9.g2-g1=L  10.Lg1-b6  11.Lb6-a5 Tc6-a6 = 
+144 moegliche Stellungen in 1+11
+
+Loesung beendet. 
+
+
+
+            Tivadar Kardos
+       220, Th\'emes~64 9/1957
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -B   .   .   .   .   .   5
+|                                   |
+4   .   .   K   .   .   .  -B   .   4
+|                                   |
+3   .   .   .   .   .   .  -B   .   3
+|                                   |
+2   .   .  -B   .  -B   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=8                         2 + 6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+5 moegliche Stellungen in 6+6
+428 moegliche Stellungen in 7+7
+  1.e2-e1=S Kc4*c5   2.Se1-f3 g2*f3   3.c2-c1=L f3*g4   4.Lc1-h6 g4-g5   5.g3-g2 g5*h6   6.g2-g1=T h6-h7   7.Tg1-g8 h7*g8=D +   8.Kb8-a7 Dg8-c8 = 
+764 moegliche Stellungen in 8+8
+
+Loesung beendet. 
+
+
+
+            Tivadar Kardos
+       Magyar Sakk\'elet 9/1957
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .  -B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -B   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .  -B   .   .   .  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=8                         2 + 6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+1 moegliche Stellungen in 6+6
+34 moegliche Stellungen in 7+7
+  1.c2-c1=S Kh8*g7   2.Sc1-b3 a2*b3   3.g2-g1=L b3-b4   4.Lg1-c5 b4*c5   5.a3-a2 c5*b6   6.a2-a1=T b6-b7   7.Ta1-a3 b7-b8=D   8.Ta3-g3 + Db8*g3 = 
+226 moegliche Stellungen in 8+8
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+    S16, Problemkiste 95, 10/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -B   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -B   .   3
+|                                   |
+2  -B  -B  -B  -K   .  -B   B  -B   2
+|                                   |
+1  -L   .   .   .   T   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 9
+
+0 moegliche Stellungen in 1+1
+20 moegliche Stellungen in 2+2
+  1.h2-h1=S Te1-b1   2.c2-c1=L g7-g8=D   3.a2*b1=T Dg8-b3 = 
+8331 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+    S15, Problemkiste 95, 10/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   .   .   .   .   7
+|                                   |
+6   K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -B   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B  -B   .   .   .  -B  -B  -B   2
+|                                   |
+1   S  -K   .   .   .   .   T   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 7
+
+0 moegliche Stellungen in 1+1
+82 moegliche Stellungen in 2+2
+  1.f2-f1=S b7-b8=D   2.h2-h1=L Db8*f4   3.b2*a1=T Df4-d2 = 
+14167 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+    3502, Problemkiste 94, 8/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   B   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -B   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -K   .   .  -B   .   3
+|                                   |
+2  -B  -B  -B  -B   .  -B   B  -B   2
+|                                   |
+1  -L   .   D   S   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                        5 + 10
+
+0 moegliche Stellungen in 1+1
+40 moegliche Stellungen in 2+2
+  1.h2-h1=S Dc1-b1   2.a2*b1=T e7-e8=D   3.c2-c1=L De8*a4 = 
+31304 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+            Boris Bursa\'c
+    3503, Problemkiste 94, 8/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   B   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -B   .   3
+|                                   |
+2  -B  -K  -B  -B   .  -B   B  -B   2
+|                                   |
+1  -L   .   T   L   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         5 + 8
+
+0 moegliche Stellungen in 1+1
+32 moegliche Stellungen in 2+2
+  1.h2-h1=S Tc1-b1 +   2.a2*b1=T d7-d8=D   3.c2-c1=L Dd8-a5 = 
+12610 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+     S9, Problemkiste 95, 10/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -B   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -B   .   3
+|                                   |
+2  -B  -B   .   .  -B  -B   K  -B   2
+|                                   |
+1   S  -K   .   .   .   T   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 8
+
+0 moegliche Stellungen in 1+1
+82 moegliche Stellungen in 2+2
+  1.e2-e1=L b7-b8=D   2.h2-h1=S Db8*f4   3.b2*a1=T Df4-d2 = 
+29128 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+     S5, Problemkiste 95, 10/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   L   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   B   .   .   .   K   .  -B  -T   4
+|                                   |
+3   .   .   .   .   .   .   .  -L   3
+|                                   |
+2   .  -B   .   .  -B   .   .  -B   2
+|                                   |
+1   .   .   .   .   .   .  -K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         3 + 9
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+5 moegliche Stellungen in 3+3
+553 moegliche Stellungen in 4+4
+  1.b2-b1=T a4-a5   2.Tb1-b6 a5*b6   3.e2-e1=S b6-b7   4.Se1-g2 b7-b8=D   5.h2-h1=L Db8-g3 = 
+7561 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+    3454, Problemkiste 93, 6/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   B   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   B   .   .   B   .   K   .   4
+|                                   |
+3   B   .   .   B   .   .  -B   .   3
+|                                   |
+2   .  -B  -B  -B   .   .  -B  -B   2
+|                                   |
+1  -L   S  -K   .   S   .   T   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         9 + 8
+
+0 moegliche Stellungen in 1+1
+1790 moegliche Stellungen in 2+2
+  1.c2*b1=T Se1-c2 +   2.d2-d1=S c7-c8=D   3.h2-h1=L Dc8-c3 = 
+77782 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+     S2, Problemkiste 95, 10/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   K   B   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B  -B   .   T  -B  -B  -B   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=4                         3 + 6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+118 moegliche Stellungen in 3+3
+  1.c2-c1=T h6-h7   2.Tc1-h1 h7-h8=D   3.g2-g1=L Dh8-h3   4.b2-b1=S Dh3-f1 = 
+2375 moegliche Stellungen in 4+4
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+     S1, Problemkiste 95, 10/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   K   7
+|                                   |
+6   .   .   .   .   .   .   B   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B  -B   .   T  -B  -B  -B   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=4                         3 + 6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+118 moegliche Stellungen in 3+3
+  1.c2-c1=T g6-g7   2.Tc1-h1 g7-g8=D   3.g2-g1=L Dg8-g2   4.b2-b1=S Dg2-f1 = 
+2641 moegliche Stellungen in 4+4
+
+Loesung beendet. 
+
+
+
+      Milo\v{s} Toma\v{s}evi\'c
+    3525, Problemkiste 95, 10/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -B   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   L   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=6                     2 + 2
+
+a)
+
+7 moegliche Stellungen in 1+1
+7 moegliche Stellungen in 1+2
+7 moegliche Stellungen in 1+3
+7 moegliche Stellungen in 1+4
+7 moegliche Stellungen in 1+5
+  1.c7-c5   2.c5-c4   3.c4-c3   4.c3-c2   5.c2-c1=L   6.Lc1-f4 Le5*f4 = 
+7 moegliche Stellungen in 1+6
+
+b) sBc7-->d6
+
+7 moegliche Stellungen in 1+1
+7 moegliche Stellungen in 1+2
+7 moegliche Stellungen in 1+3
+7 moegliche Stellungen in 1+4
+7 moegliche Stellungen in 1+5
+  1.d6-d5   2.d5-d4   3.d4-d3   4.d3-d2   5.d2-d1=S   6.Sd1-f2 Kf1*f2 = 
+7 moegliche Stellungen in 1+6
+
+Loesung beendet. 
+
+
+
+             Heinz Zander
+    3549, Problemkiste 95, 10/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -S   .   .   .   .   .   6
+|                                   |
+5   .   T   .  -S   .   .   .   .   5
+|                                   |
+4   .   .  -K   .   .   .   .   .   4
+|                                   |
+3   .   .   B   .   .   .   .   .   3
+|                                   |
+2   .   .   K   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+
+a)
+
+0 moegliche Stellungen in 1+1
+  1.Sc6-a7 Tb5-b6   2.Sa7-b5 Tb6-c6 # 
+12 moegliche Stellungen in 2+2
+
+b) h=2
+
+0 moegliche Stellungen in 1+1
+  1.Sc6-e7 Tb5*d5   2.Se7-f5 Td5*f5 = 
+13 moegliche Stellungen in 2+2
+
+Loesung beendet. 
+
+
+
+            Boris Bursa\'c
+    3550, Problemkiste 95, 10/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   .   .   .   .   .   K   .  -K   3
+|                                   |
+2   .   .   .   .   .   .   .  -B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 3
+
+a)
+
+2 moegliche Stellungen in 1+1
+  1.h2-h1=T b7-b8=D   2.Th1-h2 Db8-c8 # 
+77 moegliche Stellungen in 2+2
+
+b) h=2   -sBh4
+
+0 moegliche Stellungen in 1+1
+  1.h2-h1=S b7-b8=L   2.Sh1-g3 Lb8*g3 = 
+25 moegliche Stellungen in 2+2
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+    3557, Problemkiste 95, 10/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   S   .   .   3
+|                                   |
+2   .   .   .   .   S  -B  -B   .   2
+|                                   |
+1   .   .   .   .   .  -K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=3                     3 + 3
+
+1 moegliche Stellungen in 1+1
+2 moegliche Stellungen in 1+2
+  1.g2-g1=D   2.Dg1-g3   3.Dg3-f4 Se2*f4 = 
+  1.g2-g1=S   2.Sg1-h3   3.Sh3-f4 + Se2*f4 = 
+  1.g2-g1=T   2.Tg1-g4   3.Tg4-f4 Se2*f4 = 
+  1.g2-g1=L   2.Lg1-h2   3.Lh2-f4 Se2*f4 = 
+2 moegliche Stellungen in 1+3
+
+Loesung beendet. 
+
+
+
+             Zdenek Oliva
+    3558, Problemkiste 95, 10/1994
+            nach A. Minost
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   T   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -K   .   B   .   .   .   7
+|                                   |
+6   .   .   .   .   B   .   .   .   6
+|                                   |
+5   K   .   .   B   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   B   .   .   .   .   .   3
+|                                   |
+2  -B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=5                     6 + 2
+
+6 moegliche Stellungen in 1+1
+14 moegliche Stellungen in 1+2
+14 moegliche Stellungen in 1+3
+14 moegliche Stellungen in 1+4
+  1.a2-a1=L   2.La1-b2   3.Lb2-c1   4.Lc1-h6   5.Lh6-f8 e7*f8=D = 
+  1.a2-a1=S   2.Sa1-c2   3.Sc2-d4   4.Sd4*e6   5.Se6-d8 e7*d8=T = 
+18 moegliche Stellungen in 1+5
+
+Loesung beendet. 
+
+
+
+      Steudel, Friedrich Theodor
+       Problemkiste 2669 5 1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   K   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   B   .  -K   5
+|                                   |
+4   .   .   .   .   .  -L   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         2 + 2
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+4 moegliche Stellungen in 3+3
+  1.Lf4-h6 f5-f6   2.Lh6-g7 f6*g7   3.Kh5-g5 g7-g8=D +   4.Kg5-h6 Dg8-g6 # 
+65 moegliche Stellungen in 4+4
+
+b) h=4
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+9 moegliche Stellungen in 3+3
+  1.Lf4-d6 f5-f6   2.Ld6-e7 f6*e7   3.Kh5-h6 e7-e8=D   4.Kh6-h7 De8-f8 = 
+30 moegliche Stellungen in 4+4
+
+Loesung beendet. 
+
+
+
+          Grigorjan, Albert
+     Die~Schwalbe 164 9564 4 1997
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   K   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -B   .   6
+|                                   |
+5   .   .   .   .   .   B   .   .   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         2 + 2
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+  1.Ke4-e5 f5*g6   2.Ke5-f6 g6-g7   3.Kf6-f7 Kd7-d6   4.Kf7-e8 g7-g8=D # 
+23 moegliche Stellungen in 4+4
+
+b) h=4  sBg6-->e6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+  1.Ke4-e5 f5*e6   2.Ke5-f6 e6-e7   3.Kf6-f7 Kd7-d6   4.Kf7-e8 Kd6-e6 = 
+18 moegliche Stellungen in 4+4
+
+Loesung beendet. 
+
+
+
+          Grigorjan, Albert
+ Ideal-Mate~Review 64 8162 10-12 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .  -K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   K   2
+|                                   |
+1   .   .   .   .   .   S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+
+a)
+
+0 moegliche Stellungen in 1+1
+  1.g7-g6 Sf1-e3   2.g6-g5 g2-g3 # 
+1 moegliche Stellungen in 2+2
+
+b) h=2
+
+0 moegliche Stellungen in 1+1
+  1.g7-g5 g2-g4   2.h5*g4 Sf1-g3 = 
+11 moegliche Stellungen in 2+2
+
+Loesung beendet. 
+
+
+
+   Bakcsi, Gy"orgy; Zoltan, Laszlo
+ Ideal-Mate~Review 64 8116 10-12 1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   S   .  -K   .   .   K   .   5
+|                                   |
+4   .   .   .   .   .  -B   .   .   4
+|                                   |
+3   .   .  -L   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=4                         2 + 3
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+  1.Kd5-e4 Sb5*c3 +   2.Ke4-f3 Sc3-e2   3.Kf3-g2 Kg5*f4   4.Kg2-h1 Kf4-g3 = 
+  1.Kd5-c6 Kg5*f4   2.Lc3-e5 + Kf4*e5   3.Kc6-b7 Ke5-d6   4.Kb7-a8 Kd6-c7 = 
+12 moegliche Stellungen in 4+4
+
+Loesung beendet. 
+
+
+
+   Radi, Ladislav; Gvozdjak, Peter
+    Variantim 10-11 245 01-06 1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -L  -D  -K  -S  -S   .   .   T   8
+|                                   |
+7  -B   .   .   .   .   .   .  -T   7
+|                                   |
+6   .   .   .   D   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   T   3
+|                                   |
+2   .  -T   L   .   .   .   .   K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         5 + 8
+
+0 moegliche Stellungen in 1+1
+35 moegliche Stellungen in 2+2
+  1.Tb2-b7 Lc2-f5 +   2.Th7-d7 Th3-c3 +   3.Se8-c7 Dd6-a6 = 
+  1.Th7-d7 Th3-c3 +   2.Se8-c7 Dd6-a6 +   3.Tb2-b7 Lc2-f5 = 
+  1.Se8-c7 Dd6-a6 +   2.Tb2-b7 Lc2-f5 +   3.Th7-d7 Th3-c3 = 
+3738 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+          Saletic, Slobodan
+      Buletin~Problemistic 1972
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   B   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6                         2 + 2
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+  1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=T f7-f8=D   6.Td1-b1 Df8-a3 # 
+2 moegliche Stellungen in 6+6
+
+b) h=6  sKa1-->h1
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+  1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=S f7-f8=D   6.Sd1-f2 Df8*f2 = 
+2 moegliche Stellungen in 6+6
+
+Loesung beendet. 
+
+
+
+            Szentai, Endre
+  FEENSCHACH Bl. 457 5616 11-12 1961
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6                         2 + 1
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+  1.Kh6-g5 a2-a4   2.Kg5-f4 a4-a5   3.Kf4-e3 a5-a6   4.Ke3-d2 a6-a7   5.Kd2-c1 a7-a8=D   6.Kc1-b1 Da8-h1 # 
+8 moegliche Stellungen in 6+6
+
+b) h=6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+  1.Kh6-g5 a2-a4   2.Kg5-f4 a4-a5   3.Kf4-e3 a5-a6   4.Ke3-d2 a6-a7   5.Kd2-c1 a7-a8=D   6.Kc1-b1 Da8-a3 = 
+7 moegliche Stellungen in 6+6
+
+Loesung beendet. 
+
+
+
+           Kardos, Tivadar
+      Budapesti~Sakkhirado 1957
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6                         2 + 1
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+  1.Kh6-g5 a2-a4   2.Kg5-f4 a4-a5   3.Kf4-e3 a5-a6   4.Ke3-d2 a6-a7   5.Kd2-c1 a7-a8=D   6.Kc1-b1 Da8-h1 # 
+8 moegliche Stellungen in 6+6
+
+b) h=6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+  1.Kh6-g5 a2-a4   2.Kg5-f4 a4-a5   3.Kf4-e3 a5-a6   4.Ke3-d2 a6-a7   5.Kd2-c1 a7-a8=D   6.Kc1-b1 Da8-a3 = 
+7 moegliche Stellungen in 6+6
+
+Loesung beendet. 
+
+
+
+Speckmann, Werner; Kniest, Albert Heinrich
+ Diagramme~und~Figuren 866 12 3 1965
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   K   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6                         2 + 1
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+  1.Kh7-g6 h2-h4   2.Kg6-f5 h4-h5   3.Kf5-e4 h5-h6   4.Ke4-d3 h6-h7   5.Kd3-c2 h7-h8=D   6.Kc2-b1 Dh8-b2 # 
+2 moegliche Stellungen in 6+6
+
+b) h=6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+  1.Kh7-g6 h2-h4   2.Kg6-f5 h4-h5   3.Kf5-e4 h5-h6   4.Ke4-d3 h6-h7   5.Kd3-c2 h7-h8=D   6.Kc2-b1 Dh8-c3 = 
+6 moegliche Stellungen in 6+6
+
+Loesung beendet. 
+
+
+
+            Ebert, Hilmar
+        feenschach 3009v 1976
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -K   .   .   .   .   .   8
+|                                   |
+7   .   .  -L  -L   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -B   .   5
+|                                   |
+4   .   .   .   .   .   .  -B   .   4
+|                                   |
+3   .   .   .   .   .  -D  -B   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=14                    1 + 7
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 1+2
+0 moegliche Stellungen in 1+3
+0 moegliche Stellungen in 1+4
+0 moegliche Stellungen in 1+5
+0 moegliche Stellungen in 1+6
+0 moegliche Stellungen in 1+7
+0 moegliche Stellungen in 1+8
+0 moegliche Stellungen in 1+9
+0 moegliche Stellungen in 1+10
+0 moegliche Stellungen in 1+11
+8 moegliche Stellungen in 1+12
+24 moegliche Stellungen in 1+13
+  1.Df3-a8   2.Kc8-b7   3.Kb7-c6   4.Kc6-d5   5.Kd5-e4   6.Ke4-f3   7.Kf3-g2   8.Kg2-g1   9.Da8-h1  10.g3-g2  11.Lc7-h2  12.g4-g3  13.Ld7-h3  14.g5-g4 Ke1-e2 = 
+24 moegliche Stellungen in 1+14
+
+Loesung beendet. 
+
+
+
+            Lois, Jorge L.
+          feenschach 32 1973
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -L   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   .   K   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -B   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   B   .   .   .   .   2
+|                                   |
+1   .  -D   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#7                         2 + 5
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+0 moegliche Stellungen in 6+6
+  1.Lb7-a6 d2-d3   2.La6-c4 d3*c4   3.Db1-b5 + c4*b5   4.d4-d3 b5*c6   5.d3-d2 c6-c7   6.d2-d1=T c7-c8=D   7.Td1-g1 Dc8-h3 # 
+288 moegliche Stellungen in 7+7
+
+b) h=7
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+0 moegliche Stellungen in 6+6
+  1.Db1-e4 d2-d3   2.Lb7-c8 d3*e4   3.Lc8-f5 e4*f5   4.d4-d3 f5-f6   5.d3-d2 f6-f7   6.d2-d1=S f7-f8=D   7.Sd1-f2 Df8*f2 = 
+110 moegliche Stellungen in 7+7
+
+Loesung beendet. 
+
+
+
+Steudel, Friedrich Theodor; Rinder, Gerd
+     Die~Schwalbe 18 893 12 1972
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -S   .   .  -L   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   K   .   .   .   B   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   S   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .  -B   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 4
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.f2-f1=L f6-f7   2.Lf1-c4 f7*e8=D   3.Lc4-a2 De8*h8 # 
+16 moegliche Stellungen in 3+3
+
+b) h=3
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.Se8-g7 f6*g7   2.f2-f1=S g7*h8=T   3.Sf1-h2 Th8*h2 = 
+24 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+       Problemkiste 99, 6/1995
+2. ehrende Erw"ahnung, 13. PK-Kompositionsthema
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -B   .   .   .   .   .   .   5
+|                                   |
+4   .   K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -B  -B  -B   3
+|                                   |
+2   .   .   .   .  -B  -K  -B  -L   2
+|                                   |
+1   .   .   D   .   .  -L  -S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=8                    2 + 10
+
+
+2 moegliche Stellungen in 1+1
+6 moegliche Stellungen in 1+2
+13 moegliche Stellungen in 1+3
+43 moegliche Stellungen in 1+4
+137 moegliche Stellungen in 1+5
+277 moegliche Stellungen in 1+6
+629 moegliche Stellungen in 1+7
+  1.e2-e1=S   2.Sg1-e2   3.g2-g1=T   4.Se1-g2   5.Sg2-f4   6.Tg1-g2   7.Se2-g1   8.Sf4-e2 Dc1-d2 = 
+1130 moegliche Stellungen in 1+8
+
+Loesung beendet. 
+
+
+
+          Bernd Schwarzkopf
+       B4, Problemkiste 4/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -L   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   K   3
+|                                   |
+2  -B   .  -B   .   B   .   .   .   2
+|                                   |
+1   S  -L   L   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         4 + 6
+
+0 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 2+2
+11 moegliche Stellungen in 3+3
+118 moegliche Stellungen in 4+4
+  1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5*f6   4.b3-b2 f6-f7   5.b2*a1=T f7-f8=S = 
+851 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+            Endre Szentai
+     Schachbund Bacs-Kishun 1968
+             Spezialpreis
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -B   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .  -B   .  -B  -B   .   2
+|                                   |
+1   .   K   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=8                         2 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+2 moegliche Stellungen in 6+6
+147 moegliche Stellungen in 7+7
+  1.d2-d1=L Kb1-a1   2.Ld1-b3 a2*b3   3.f2-f1=L b3-b4   4.Lf1-a6 b4-b5   5.g2-g1=L b5*a6   6.Lg1-h2 a6-a7   7.Lh2-b8 a7*b8=D   8.a3-a2 Db8-g3 = 
+1224 moegliche Stellungen in 8+8
+
+Loesung beendet. 
+
+
+bug
+
+             Zdenek Oliva
+    3655, Problemkiste 97, 2/1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   B   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2  -B  -B  -B  -B   .   .   .   .   2
+|                                   |
+1   T  -S  -K   .  -S   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         3 + 7
+
+0 moegliche Stellungen in 1+1
+167 moegliche Stellungen in 2+2
+  1.d2-d1=S Ta1*b1 +   2.c2*b1=T e7-e8=D   3.a2-a1=L De8*e1 = 
+20703 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+             Luigi Vitale
+    4331, Problemkiste 110, 4/1997
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -K   .   .   7
+|                                   |
+6   .   .   .   .   .  -S   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -L   4
+|                                   |
+3   .   .   .   .   .   .   S   K   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=4                         3 + 3
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+1 moegliche Stellungen in 3+3
+  1.Kf7-g6 Sg3-e4   2.Lh4-g3 Kh3*g3   3.Kg6-h5 Kg3-f4   4.Kh5-h4 Se4*f6 = 
+7 moegliche Stellungen in 4+4
+
+b) sSf6-->h1
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+1 moegliche Stellungen in 3+3
+  1.Kf7-g6 Sg3*h1   2.Lh4-g3 Kh3*g3   3.Kg6-h5 Kg3-f4   4.Kh5-h4 Sh1-g3 = 
+7 moegliche Stellungen in 4+4
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+    4330, Problemkiste 110, 4/1997
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -B  -B  -B   .   5
+|                                   |
+4   .   .   .   .  -B  -K  -B   .   4
+|                                   |
+3   .   .   .   .  -B  -B  -B   .   3
+|                                   |
+2   .   .   .   .   .   L   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=4                         2 + 9
+
+0 moegliche Stellungen in 1+0
+0 moegliche Stellungen in 2+1
+2 moegliche Stellungen in 3+2
+  1...Lf2-e1   2.f3-f2 Kf1-g2   3.f2-f1=T Le1-d2   4.Tf1-c1 Ld2*c1 = 
+20 moegliche Stellungen in 4+3
+
+Loesung beendet. 
+
+
+
+            Miomir Babi\'c
+    4329, Problemkiste 110, 4/1997
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -B   .   B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   T   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         3 + 2
+
+0 moegliche Stellungen in 1+1
+  1.Kh5-h4 h7-h8=L   2.Kh4-h3 Lh8-f6 = 
+  1.Kh5-h6 h7-h8=S   2.Kh6-h7 Sh8*f7 = 
+24 moegliche Stellungen in 2+2
+
+Loesung beendet. 
+
+
+
+             Hilmar Ebert
+         feenschach 7-9/1980
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .  -B   7
+|                                   |
+6   .   .   .   .   .  -K   .   K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   B   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 2
+
+0 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 2+2
+  1.Kf6-f7 Kh6-g5   2.Kf7-g7 Kg5-f5   3.Kg7-h6 Kf5-f6 = 
+  1.Kf6-f7 g4-g5   2.Kf7-g8 g5-g6   3.Kg8-h8 g6*h7 = 
+3 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           Michael McDowell
+      2378, Thema Danicum 7/1983
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -B   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   B   .   .   .   .   .   .  -B   3
+|                                   |
+2   .   .   K   .  -B   .  -B   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=7                         2 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+22 moegliche Stellungen in 5+5
+214 moegliche Stellungen in 6+6
+  1.e2-e1=L Kc2-c1   2.Le1-b4 a3*b4   3.g2-g1=L b4-b5   4.Lg1-a7 b5-b6   5.h3-h2 b6*a7   6.h2-h1=L a7-a8=L   7.Lh1-d5 La8*d5 = 
+603 moegliche Stellungen in 7+7
+
+Loesung beendet. 
+
+
+
+             Luigi Vitale
+   4300, Problemkiste 107, 10/1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -L   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   T   .   .   6
+|                                   |
+5   .   .   .   .   K   L  -K   .   5
+|                                   |
+4   .   .   .   .   .   S   .   .   4
+|                                   |
+3   .   .   .   .  -B   .  -S   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 4
+
+0 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 2+2
+  1.Lh8-g7 Sf4-e2   2.Lg7-h6 Tf6*h6   3.Sg3-h1 Th6*h1 = 
+  1.Sg3-e2 Lf5-g6   2.Kg5-h6 Sf4*e2   3.Lh8*f6 + Ke5*f6 = 
+647 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+          J\'an Kube\v{c}ka
+           feenschach 1973
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K   .   .   .   8
+|                                   |
+7   .   .   .  -B   B   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 2
+
+0 moegliche Stellungen in 1+1
+3 moegliche Stellungen in 2+2
+  1.Ke6-f6 Ke8*d7   2.Kf6-f7 Kd7-d6   3.Kf7-e8 Kd6-e6 = 
+40 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+              Klaus Funk
+    4142, Problemkiste 106, 8/1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S  -L  -K   .   .   .   .   .   8
+|                                   |
+7  -D  -T   B  -B   .   .   .   .   7
+|                                   |
+6   .  -B  -B   K   .   .   .   .   6
+|                                   |
+5   .  -L   .   .   .   .   .   .   5
+|                                   |
+4   B   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=12                    4 + 9
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 1+2
+0 moegliche Stellungen in 1+3
+0 moegliche Stellungen in 1+4
+0 moegliche Stellungen in 1+5
+8 moegliche Stellungen in 1+6
+10 moegliche Stellungen in 1+7
+14 moegliche Stellungen in 1+8
+14 moegliche Stellungen in 1+9
+26 moegliche Stellungen in 1+10
+26 moegliche Stellungen in 1+11
+  1.Sa8*c7   2.Da7-a8   3.Lb8-a7   4.Tb7-b8   5.Kc8-b7   6.Kb7-a6   7.Ka6-a5   8.Lb5-a6   9.La6-c8  10.Ka5-a6  11.Ka6-b7  12.Sc7-b5 + a4*b5 = 
+64 moegliche Stellungen in 1+12
+
+Loesung beendet. 
+
+
+
+             Zdenek Oliva
+    4141, Problemkiste 106, 8/1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   .   .   .   .   .   .   B  -K   3
+|                                   |
+2  -B   .  -B   .   .  -B   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=6                         2 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+3 moegliche Stellungen in 4+4
+9 moegliche Stellungen in 5+5
+  1.c2-c1=L g3-g4   2.Lc1-h6 g4-g5   3.a2-a1=L g5*h6   4.La1-g7 h6*g7   5.f2-f1=L g7-g8=T   6.Lf1-g2 + Tg8*g2 = 
+70 moegliche Stellungen in 6+6
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+           Albert H. Kniest
+         2327, DuF 30.1.1968
+   Korr.: Problemkiste 106, 8/1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   K   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   B   .  -K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=6                         2 + 2
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+1 moegliche Stellungen in 5+5
+  1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=T f7-f8=D   6.Td1-f1 Df8*f1 = 
+19 moegliche Stellungen in 6+6
+
+b) sKh2-->h1
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+1 moegliche Stellungen in 5+5
+  1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=S f7-f8=D   6.Sd1-f2 + Df8*f2 = 
+11 moegliche Stellungen in 6+6
+
+c) wKg4-->f1  wBf2-->a2
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+2 moegliche Stellungen in 5+5
+  1.d7-d5 a2-a4   2.d5-d4 a4-a5   3.d4-d3 a5-a6   4.d3-d2 a6-a7   5.d2-d1=L a7-a8=D   6.Ld1-f3 Da8*f3 = 
+35 moegliche Stellungen in 6+6
+
+Loesung beendet. 
+
+
+
+           Heinz Winterberg
+      BS18, Problemkiste 7/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -S   .  -K   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   S   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   B  -B   .   B   .   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         4 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+4 moegliche Stellungen in 4+4
+  1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5-e6   4.a3-a2 e6-e7   5.a2-a1=S e7*f8=L = 
+55 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+           Heinz Winterberg
+      BS16, Problemkiste 7/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .  -B  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   S   6
+|                                   |
+5   .   .   .   .   .   .   B   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   B  -B   .   .   B   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         5 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+17 moegliche Stellungen in 3+3
+399 moegliche Stellungen in 4+4
+  1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*g7   5.a2-a1=S g7-g8=T = 
+3054 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+           Heinz Winterberg
+      BS14, Problemkiste 7/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   B   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   B  -B   .   .   B   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         4 + 4
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+35 moegliche Stellungen in 4+4
+  1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=S f7-f8=D = 
+167 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+          Hansj"org Schiegl
+           389, FL 11/1970
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   S   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   B  -B   .   B   .   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         4 + 4
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+1 moegliche Stellungen in 4+4
+  1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5-e6   4.a3-a2 e6-e7   5.a2-a1=S e7-e8=S = 
+41 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+           Albert H. Kniest
+         2326, DuF 30.1.1969
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .  -B   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   B   .   .   2
+|                                   |
+1   .   L   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         3 + 4
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+11 moegliche Stellungen in 3+3
+65 moegliche Stellungen in 4+4
+  1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*e7   5.a2-a1=L e7-e8=S = 
+170 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+          Bernd Schwarzkopf
+       B12, Problemkiste 4/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   S   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .  -L   7
+|                                   |
+6   .   .   .   .   .   .  -B  -K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   K   .   4
+|                                   |
+3   .  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   B  -B   .   .   .   .   B   2
+|                                   |
+1   .   .   S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         5 + 6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+41 moegliche Stellungen in 3+3
+401 moegliche Stellungen in 4+4
+  1.a7-a5 h2-h4   2.a5-a4 h4-h5   3.a4-a3 h5*g6   4.a3-a2 g6*h7   5.a2-a1=S h7-h8=L = 
+2208 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+            543, FL 5/1971
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .  -L   7
+|                                   |
+6   .   .   .   .   .   .  -B  -K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   K   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   B   2
+|                                   |
+1   .   L   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         3 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+13 moegliche Stellungen in 3+3
+77 moegliche Stellungen in 4+4
+  1.a7-a5 h2-h4   2.a5-a4 h4-h5   3.a4-a3 h5*g6   4.a3-a2 g6*h7   5.a2-a1=L h7-h8=L = 
+221 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+           Heinz Winterberg
+      BS15, Problemkiste 7/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .  -B   .   .   .  -S   .   .   7
+|                                   |
+6   .   .   .   .   .   S   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B   .  -B   .   B   .   .   .   2
+|                                   |
+1   L  -L   S   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         5 + 6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+16 moegliche Stellungen in 3+3
+138 moegliche Stellungen in 4+4
+  1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5-e6   4.b3-b2 e6*f7   5.b2*a1=T f7-f8=L = 
+1832 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+           Hans-Peter Reich
+       B7, Problemkiste 4/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   K  -L   .   8
+|                                   |
+7  -B   .   .   .   .   .   .  -K   7
+|                                   |
+6   .   .   .   .   .  -B   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   B  -B   .   B   .   .   .   2
+|                                   |
+1   .   .   L   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         4 + 6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+5 moegliche Stellungen in 3+3
+119 moegliche Stellungen in 4+4
+  1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5*f6   4.a3-a2 f6-f7   5.a2-a1=S f7*g8=T = 
+626 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+           Heinz Winterberg
+      BS17, Problemkiste 7/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   K  -S   .   8
+|                                   |
+7  -B   .   .   .   .   .   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -B   B   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   B   .   .   .   2
+|                                   |
+1   .   S   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         4 + 5
+
+0 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 2+2
+24 moegliche Stellungen in 3+3
+257 moegliche Stellungen in 4+4
+  1.a7-a5 e2-e4   2.a5-a4 e4*f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7*g8=T = 
+1084 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+          Bernd Schwarzkopf
+       B7, Problemkiste 4/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   K   .   .   .   .   8
+|                                   |
+7  -B   .   .   .  -B  -K  -B   .   7
+|                                   |
+6   .   .   .   .   .   .  -B   .   6
+|                                   |
+5   .   .   .   .   .   .   B   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   B   .   .   2
+|                                   |
+1   .   S   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         4 + 6
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+4 moegliche Stellungen in 3+3
+139 moegliche Stellungen in 4+4
+  1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*e7   5.a2-a1=L e7-e8=T = 
+1354 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+          Bernd Schwarzkopf
+       B10, Problemkiste 4/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -B   K   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   B  -B   .   .   .   B   .   2
+|                                   |
+1   .   .   S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         4 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+3 moegliche Stellungen in 3+3
+9 moegliche Stellungen in 4+4
+  1.a7-a5 g2-g4   2.a5-a4 g4*f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=S f7-f8=D = 
+151 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+             Paul L"oschl
+      3254, Problemkiste 7/1993
+      Bernd Schwarzkopf gewidmet
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -B  -K   B   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   K   .   3
+|                                   |
+2   .  -B   B   .   .   .   .   .   2
+|                                   |
+1   .   L   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         4 + 4
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+16 moegliche Stellungen in 3+3
+270 moegliche Stellungen in 4+4
+  1.a7-a5 c2-c4   2.a5-a4 c4*d5   3.a4-a3 d5-d6   4.a3-a2 d6-d7   5.a2-a1=L d7-d8=D = 
+2166 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+           Hans-Peter Reich
+       B5, Problemkiste 4/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   K   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   B   .   .   2
+|                                   |
+1   .   S   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         3 + 3
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+5 moegliche Stellungen in 4+4
+  1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7-f8=D = 
+24 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+          Hansj"org Schiegl
+            Tivadar Kardos
+            267, FL 7/1970
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -L  -K   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   B   .   .   2
+|                                   |
+1   .   L   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         3 + 4
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+6 moegliche Stellungen in 4+4
+  1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7-f8=D = 
+18 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+          Bernd Schwarzkopf
+           Hans-Peter Reich
+       B1, Problemkiste 4/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   .   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   K   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B   .  -B   .   .   B   .   .   2
+|                                   |
+1   S  -L   S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         4 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+1 moegliche Stellungen in 3+3
+4 moegliche Stellungen in 4+4
+  1.b7-b5 f2-f4   2.b5-b4 f4-f5   3.b4-b3 f5-f6   4.b3-b2 f6-f7   5.b2*a1=T f7-f8=D = 
+189 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+             Luigi Vitale
+    4032, Problemkiste 104, 4/1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -B  -T   .   .   .   .   .   6
+|                                   |
+5  -L   .   .   B   .   .   .   .   5
+|                                   |
+4  -S   .   T   .   .   .   .   .   4
+|                                   |
+3   .  -K   .   K   .   .   .   .   3
+|                                   |
+2   .   .   S   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 5
+                Duplex
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.b6-b5 Tc4*a4   2.La5-b4 Ta4*b4 +   3.Kb3-a2 d5*c6 = 
+190 moegliche Stellungen in 3+3
+
+0 moegliche Stellungen in 1+1
+11 moegliche Stellungen in 2+2
+  1.Tc4-c3 + Sa4*c3   2.Kd3-d2 Sc3*d5 +   3.Kd2-d1 Tc6*c2 = 
+1088 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           G. Hadzi-Vaskov
+    3983, Problemkiste 103, 2/1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .  -K   .   .   .   .   6
+|                                   |
+5   .   .   .  -B   .   .   .   .   5
+|                                   |
+4   .   B   .   .   B   B   .   .   4
+|                                   |
+3   .   .   .   B   .   .   .   .   3
+|                                   |
+2   .   .   B   B   K   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=5                     7 + 3
+
+0 moegliche Stellungen in 1+1
+9 moegliche Stellungen in 1+2
+28 moegliche Stellungen in 1+3
+57 moegliche Stellungen in 1+4
+  1.d5*e4   2.Kd6-d5   3.Kd5-d4   4.d7-d5   5.e4*d3 + c2*d3 = 
+75 moegliche Stellungen in 1+5
+
+Loesung beendet. 
+
+
+
+           G. Hadzi-Vaskov
+    3978, Problemkiste 103, 2/1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -B   .  -B   7
+|                                   |
+6   .   .   .   .  -B   .   .   .   6
+|                                   |
+5   .   .   .  -B   .   .   .   K   5
+|                                   |
+4   .   .  -B   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   .   .   .   3
+|                                   |
+2   B  -K   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=6                         2 + 7
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+4 moegliche Stellungen in 5+5
+  1.Kb2-c3 a2*b3   2.Kc3-d4 b3*c4   3.Kd4-e5 c4*d5   4.Ke5-f6 d5*e6   5.Kf6-g7 e6*f7   6.Kg7-h8 Kh5-h6 = 
+23 moegliche Stellungen in 6+6
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+            Tivadar kardos
+          1456, FL 7-8/1974
+   Korr.: Problemkiste 103, 2/1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   B   .   .   .  -B   .   .   .   7
+|                                   |
+6   .   .   .   .   B   .   L   .   6
+|                                   |
+5   .   .   .  -B   B   .   .   B   5
+|                                   |
+4   .   .   .   B   .  -K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   B   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         8 + 4
+
+a)
+
+0 moegliche Stellungen in 1+1
+65 moegliche Stellungen in 2+2
+  1.c2-c1=S a7-a8=T   2.Sc1-e2 Ta8-a3   3.Se2-g3 Ta3*g3 = 
+4332 moegliche Stellungen in 3+3
+
+b) sBc2-->b2
+
+0 moegliche Stellungen in 1+1
+65 moegliche Stellungen in 2+2
+  1.b2-b1=L a7-a8=D   2.Lb1-e4 Da8*d5   3.Le4-g2 Dd5*g2 = 
+3865 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+           1205, FL 4/1973
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -L   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -T   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   K   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   S   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         2 + 3
+                Duplex
+
+0 moegliche Stellungen in 1+1
+  1.Td4-d2 Sb1*d2   2.La8-f3 Sd2*f3 = 
+2 moegliche Stellungen in 2+2
+
+0 moegliche Stellungen in 1+1
+  1.Sb1-d2 Td4-g4   2.Sd2-f3 La8*f3 = 
+2 moegliche Stellungen in 2+2
+
+Loesung beendet. 
+
+
+
+          Achim Sch"oneberg
+           Hans-Peter Reich
+     Der Schachkiebitz 10, 9/1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -B  -B  -B   .   .   .   5
+|                                   |
+4   .   .  -B  -K  -B   .   .   .   4
+|                                   |
+3   .   .  -B  -B  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   K   .   L   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 9
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.d3-d2 + Kc1-c2   2.d2-d1=T Le1-f2   3.Td1-g1 Lf2*g1 = 
+10 moegliche Stellungen in 3+3
+
+b) wTe1 
+
+0 moegliche Stellungen in 1+1
+4 moegliche Stellungen in 2+2
+  1.d3-d2 + Kc1-b1   2.d2-d1=L Te1-e2   3.Ld1-c2 + Kb1*c2 = 
+4 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           Albert H. Kniest
+      5029v, springaren 12/1964
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   D   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -K   .   .   3
+|                                   |
+2   .   .  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=5                     2 + 2
+
+a)
+
+0 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 1+2
+1 moegliche Stellungen in 1+3
+1 moegliche Stellungen in 1+4
+  1.c2-c1=S   2.Sc1-e2   3.Se2-g3   4.Kf3-g2   5.Kg2-h1 Dg7*g3 = 
+  1.c2-c1=T   2.Tc1-g1   3.Tg1-g3   4.Kf3-g2   5.Kg2-h1 Dg7*g3 = 
+4 moegliche Stellungen in 1+5
+
+b) wKe5-->b3
+
+0 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 1+2
+1 moegliche Stellungen in 1+3
+2 moegliche Stellungen in 1+4
+  1.c2-c1=D   2.Dc1-g5   3.Kf3-g2   4.Kg2-h1   5.Dg5-g3 + Dg7*g3 = 
+  1.c2-c1=L   2.Lc1-f4   3.Lf4-g3   4.Kf3-g2   5.Kg2-h1 Dg7*g3 = 
+8 moegliche Stellungen in 1+5
+
+Loesung beendet. 
+
+
+
+           Gerson Berlinger
+    3843, Problemkiste 100, 8/1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -B   .  -B   .   .   .   7
+|                                   |
+6   .   .   B   .   L   .   .   .   6
+|                                   |
+5   .   .   .   K   .   B   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   .   .   .   .   .   .  -B   S   3
+|                                   |
+2   .   .   .   .   .   .  -K  -B   2
+|                                   |
+1   .   .   .   .   .   .   .  -T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         5 + 7
+
+0 moegliche Stellungen in 1+1
+19 moegliche Stellungen in 2+2
+  1.Th1-g1 Kd5-e5   2.Kg2-h1 Le6-d5 +   3.Tg1-g2 Ke5-e6 = 
+2236 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+           Albert H. Kniest
+        L255a, KddB 15.10.1970
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -B   6
+|                                   |
+5   .   .   .   .   .   .   .  -K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   D   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   K   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=3                     2 + 3
+
+1 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 1+2
+  1.c2-c1=D   2.Dc1-g5   3.Dg5-g3 + Dc3*g3 = 
+  1.c2-c1=S   2.Sc1-e2   3.Se2-g3 Dc3*g3 = 
+  1.c2-c1=T   2.Tc1-g1   3.Tg1-g3 Dc3*g3 = 
+  1.c2-c1=L   2.Lc1-f4   3.Lf4-g3 + Dc3*g3 = 
+1 moegliche Stellungen in 1+3
+
+Loesung beendet. 
+
+
+
+           Wenelin Alaikow
+          232, CfT 22.2.1971
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   K   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   B   .   .   .  -B   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .  -B   .   .  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=6                         2 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+9 moegliche Stellungen in 5+5
+  1.g2-g1=L b4-b5   2.Lg1-a7 b5-b6   3.b2-b1=T b6*a7   4.Tb1-b8 a7*b8=D   5.d2-d1=S Db8*f4   6.Sd1-f2 Df4*f2 = 
+43 moegliche Stellungen in 6+6
+
+Loesung beendet. 
+
+
+
+            Unto Heinonen
+    3660, Problemkiste 97, 2/1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   K   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -B   .   3
+|                                   |
+2  -B   .   .  -B   B   .   .  -B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=7                         2 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+2 moegliche Stellungen in 4+4
+10 moegliche Stellungen in 5+5
+57 moegliche Stellungen in 6+6
+  1.a2-a1=L e2-e4   2.La1-f6 e4-e5   3.h2-h1=T e5*f6   4.Th1-h8 f6-f7   5.Th8-g8 f7*g8=D   6.d2-d1=S Dg8*g3   7.Sd1-c3 Dg3*c3 = 
+320 moegliche Stellungen in 7+7
+
+Loesung beendet. 
+
+
+
+             Ian Shanahan
+          6046, IMR 7-9/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   K   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -K   .   .   .   .   .  -B   3
+|                                   |
+2   .   .  -B   .   .  -B   .   B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=8                         2 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+1 moegliche Stellungen in 5+5
+7 moegliche Stellungen in 6+6
+136 moegliche Stellungen in 7+7
+  1.f2-f1=S Kd7-c6   2.Sf1-g3 h2*g3   3.c2-c1=L g3-g4   4.Lc1-h6 g4-g5   5.h3-h2 g5*h6   6.h2-h1=T h6*g7   7.Th1-h8 g7*h8=D   8.Kb3-a4 Dh8-c3 = 
+452 moegliche Stellungen in 8+8
+
+Loesung beendet. 
+
+
+
+           Norbert Geissler
+    3737, Problemkiste 99, 6/1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   K   .   B   .   B   7
+|                                   |
+6   .   .   .   .   .  -K   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-=6                      3 + 1
+
+  1.f7-f8=S   2.Sf8-e6   3.Se6-g7   4.h7-h8=D   5.Dh8-h5   6.Sg7-e6 = 
+
+Loesung beendet. 
+
+
+
+            Ludwig Zagler
+    3763, Problemkiste 99, 6/1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   B   .   .   K   .   .   .   .   3
+|                                   |
+2  -B   .   .   L   .   .   .   .   2
+|                                   |
+1   .   .   .  -K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=3                     3 + 2
+
+1 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 1+2
+  1.a2-a1=D   2.Da1-b2   3.Db2-b4 a3*b4 = 
+  1.a2-a1=S   2.Sa1-c2   3.Sc2-b4 + a3*b4 = 
+  1.a2-a1=T   2.Ta1-b1   3.Tb1-b4 a3*b4 = 
+  1.a2-a1=L   2.La1-c3   3.Lc3-b4 a3*b4 = 
+2 moegliche Stellungen in 1+3
+
+Loesung beendet. 
+
+
+
+             Zdenek Oliva
+    3715, Problemkiste 98, 4/1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -B   .   4
+|                                   |
+3   .   .   .   D   .   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   K   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=3                     2 + 3
+
+2 moegliche Stellungen in 1+1
+4 moegliche Stellungen in 1+2
+  1.c2-c1=D   2.Dc1-c7   3.Dc7-g3 + Dd3*g3 = 
+  1.c2-c1=S   2.Sc1-e2   3.Se2-g3 Dd3*g3 = 
+  1.c2-c1=T   2.Tc1-g1   3.Tg1-g3 Dd3*g3 = 
+  1.c2-c1=L   2.Lc1-f4   3.Lf4-g3 + Dd3*g3 = 
+9 moegliche Stellungen in 1+3
+
+Loesung beendet. 
+
+
+
+             Robert Sharp
+      3082, Problemkiste 12/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   K   .   .   .   .   8
+|                                   |
+7   .  -K   B   .   .  -T   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 2
+
+0 moegliche Stellungen in 1+0
+9 moegliche Stellungen in 2+1
+  1...c7-c8=D +   2.Kb7-a7 Dc8-c6   3.Tf7-c7 Kd8*c7 = 
+  1...c7-c8=L +   2.Kb7-a7 Lc8-b7   3.Tf7-c7 Kd8*c7 = 
+  1...c7-c8=S   2.Tf7-d7 + Kd8*d7   3.Kb7-a8 Kd7-c7 = 
+  1...c7-c8=T   2.Tf7-c7 Tc8*c7 +   3.Kb7-a8 Kd8-c8 = 
+39 moegliche Stellungen in 3+2
+
+Loesung beendet. 
+
+
+
+            Unto Heinonen
+    3654, Problemkiste 97, 2/1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   B   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   K   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -B   3
+|                                   |
+2  -B  -B  -B  -B   .   .   .   .   2
+|                                   |
+1   .   S  -K   .   .   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 6
+
+0 moegliche Stellungen in 1+1
+215 moegliche Stellungen in 2+2
+  1.d2-d1=S c7-c8=D   2.a2-a1=L Dc8-b8   3.c2*b1=T Db8-h2 = 
+21932 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+              Peter Kahl
+      6664, Feenschach 3-4/1964
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   L   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   D   .   .   3
+|                                   |
+2   .   .   K   .   .  -B   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=3                     3 + 2
+
+1 moegliche Stellungen in 1+1
+1 moegliche Stellungen in 1+2
+  1.f2-f1=D   2.Df1-b5   3.Db5-b3 + Kc2*b3 = 
+  1.f2-f1=S   2.Sf1-d2   3.Sd2-b3 Kc2*b3 = 
+  1.f2-f1=T   2.Tf1-b1   3.Tb1-b3 Kc2*b3 = 
+  1.f2-f1=L   2.Lf1-c4   3.Lc4-b3 + Kc2*b3 = 
+33 moegliche Stellungen in 1+3
+
+Loesung beendet. 
+
+
+
+             Elmar Bartel
+             Erich Bartel
+      1290, Problemkiste 9/1985
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   S   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 1
+
+0 moegliche Stellungen in 1+0
+0 moegliche Stellungen in 2+1
+  1...Ka5-a4   2.Ka1-b1 Ka4-b3   3.Kb1-a1 Kb3-c2 = 
+1 moegliche Stellungen in 3+2
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.Ka1-b2 Ka5-a4   2.Kb2-b1 Ka4-b3   3.Kb1-a1 Kb3-c2 = 
+1 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+            Ludwig Zagler
+     K41, Problemkiste 97, 2/1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   K   .   .   .   6
+|                                   |
+5   .   .   .   B   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 1
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.Kd8-c7 d5-d6 +   2.Kc7-c8 d6-d7 +   3.Kc8-d8 Ke6-d6 = 
+1 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+            31, FL 3/1970
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -T  -K   .   8
+|                                   |
+7   .   .   .   .   .   T   .   .   7
+|                                   |
+6   .   K   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=18                    2 + 2
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 1+2
+0 moegliche Stellungen in 1+3
+0 moegliche Stellungen in 1+4
+0 moegliche Stellungen in 1+5
+1 moegliche Stellungen in 1+6
+1 moegliche Stellungen in 1+7
+1 moegliche Stellungen in 1+8
+1 moegliche Stellungen in 1+9
+1 moegliche Stellungen in 1+10
+1 moegliche Stellungen in 1+11
+1 moegliche Stellungen in 1+12
+1 moegliche Stellungen in 1+13
+1 moegliche Stellungen in 1+14
+1 moegliche Stellungen in 1+15
+1 moegliche Stellungen in 1+16
+1 moegliche Stellungen in 1+17
+  1.Kg8-h8   2.Tf8-g8   3.Tg8-g7   4.Kh8-h7   5.Kh7-h6   6.Tg7-g5   7.Tg5-f5   8.Kh6-g5   9.Kg5-f4  10.Kf4-e5  11.Ke5-d6  12.Tf5-e5  13.Te5-e7  14.Kd6-d7  15.Kd7-c8  16.Kc8-b8  17.Kb8-a8  18.Te7-b7 + Tf7*b7 = 
+1 moegliche Stellungen in 1+18
+
+Loesung beendet. 
+
+
+
+           Albert H. Kniest
+            G"unter Gla"s
+           feenschach 1977
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .  -K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   L   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-=14                     2 + 2
+
+0 moegliche Stellungen in 1+0
+0 moegliche Stellungen in 2+0
+1 moegliche Stellungen in 3+0
+1 moegliche Stellungen in 4+0
+1 moegliche Stellungen in 5+0
+1 moegliche Stellungen in 6+0
+1 moegliche Stellungen in 7+0
+1 moegliche Stellungen in 8+0
+1 moegliche Stellungen in 9+0
+1 moegliche Stellungen in 10+0
+1 moegliche Stellungen in 11+0
+1 moegliche Stellungen in 12+0
+1 moegliche Stellungen in 13+0
+  1.Ka8-a7   2.Lb6-c7   3.Ka7-b6   4.Kb6-c5   5.Kc5-d4   6.Kd4-e3   7.Ke3-f2   8.Kf2-g1   9.Kg1*h1  10.Kh1-g2  11.Kg2-f3  12.Kf3-e4  13.Ke4-d5  14.Kd5-c6 = 
+1 moegliche Stellungen in 14+0
+
+Loesung beendet. 
+
+
+
+           Albert H. Kniest
+               DuF 1966
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   K   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-=7                      2 + 1
+
+a)
+
+0 moegliche Stellungen in 1+0
+0 moegliche Stellungen in 2+0
+0 moegliche Stellungen in 3+0
+0 moegliche Stellungen in 4+0
+0 moegliche Stellungen in 5+0
+20 moegliche Stellungen in 6+0
+  1.e2-e4   2.e4-e5   3.e5-e6   4.e6-e7   5.e7-e8=S   6.Se8-f6   7.Sf6-d7 = 
+64 moegliche Stellungen in 7+0
+
+b) sKa8-->b8
+
+0 moegliche Stellungen in 1+0
+0 moegliche Stellungen in 2+0
+0 moegliche Stellungen in 3+0
+0 moegliche Stellungen in 4+0
+0 moegliche Stellungen in 5+0
+3 moegliche Stellungen in 6+0
+  1.e2-e4   2.e4-e5   3.e5-e6   4.e6-e7   5.e7-e8=L   6.Le8-c6   7.Lc6-b7 = 
+5 moegliche Stellungen in 7+0
+
+Loesung beendet. 
+
+
+
+            Torsten Lin"s
+        3846, IMR 35, 1-3/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   K  -B  -K   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   B  -L   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 3
+                Duplex
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.Lg4-h5 f4-f5   2.Lh5-g6 f5*g6   3.Kg7-h8 Ke7*f7 = 
+2 moegliche Stellungen in 3+3
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.Ke7-d6 Lg4-f3   2.Kd6-e5 f7-f6 +   3.Ke5-f5 Kg7-f7 = 
+38 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           Hans-Peter Reich
+          Bernd Schwarzkopf
+       B2, Problemkiste 4/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   K  -L   .   8
+|                                   |
+7   .  -B   .   .   .  -B   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B   .  -B   .   B   .   .   .   2
+|                                   |
+1   S  -L   L   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         4 + 7
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+18 moegliche Stellungen in 3+3
+101 moegliche Stellungen in 4+4
+  1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5-e6   4.b3-b2 e6*f7   5.b2*a1=T f7*g8=T = 
+1304 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+          Bernd Schwarzkopf
+       B3, Problemkiste 4/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .  -K   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .  -B   .   .   7
+|                                   |
+6   .   .   .   .  -B   S   .   .   6
+|                                   |
+5   .   .   .   .   .  -B   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B   .  -B   .   B   .   .   .   2
+|                                   |
+1   L  -L   S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         5 + 8
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+18 moegliche Stellungen in 3+3
+1173 moegliche Stellungen in 4+4
+  1.b7-b5 e2-e4   2.b5-b4 e4*f5   3.b4-b3 f5*e6   4.b3-b2 e6*f7   5.b2*a1=T f7-f8=L = 
+21469 moegliche Stellungen in 5+5
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+         4652, MAT 9-10/1985
+   Korr.: Problemkiste 107, 10/1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   T   .   .   .   .   .   .   7
+|                                   |
+6   .  -L   .   .   .   .  -T   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   S   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .  -B   .  -B   .   3
+|                                   |
+2  -B   .  -B   .   .   .   B   .   2
+|                                   |
+1  -T  -K  -S   .   .   K   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                        5 + 10
+
+0 moegliche Stellungen in 1+1
+763 moegliche Stellungen in 2+2
+  1.Tg6-d6 Sc4*e3   2.Td6-d2 Se3-c4   3.Td2*g2 Kf1*g2 = 
+  1.Tg6-h6 Sc4*e3   2.Th6-h2 Se3-c4   3.Th2*g2 Kf1*g2 = 
+39695 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+
+           Ch. Wermelinger
+      1272, Europe Echecs 4/1968
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -S   .   .   8
+|                                   |
+7   K   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B   .   .  -B   B   .  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=6                         2 + 5
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+  1.a2-a1=L e2-e4   2.La1-f6 e4-e5   3.g2-g1=T e5*f6   4.Tg1-g7 + f6*g7   5.d2-d1=S g7*f8=D   6.Sd1-f2 Df8*f2 = 
+3 moegliche Stellungen in 6+6
+
+Loesung beendet. 
+
+
+
+             Zdenek Oliva
+   5027, Problemkiste 126, 12/1999
+Fassung: Theodor Steudel, Problemkiste 128, 4/2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -K   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .  -B   .   .   .   .   6
+|                                   |
+5   .   .   .  -B   .   .   .   .   5
+|                                   |
+4   .   .   .  -B   .   .   .   L   4
+|                                   |
+3   .   .   .  -B   .   .   .   .   3
+|                                   |
+2   .   .   .  -B   .   K   .   .   2
+|                                   |
+1   T   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=13                    3 + 7
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 1+2
+0 moegliche Stellungen in 1+3
+0 moegliche Stellungen in 1+4
+0 moegliche Stellungen in 1+5
+0 moegliche Stellungen in 1+6
+0 moegliche Stellungen in 1+7
+0 moegliche Stellungen in 1+8
+0 moegliche Stellungen in 1+9
+0 moegliche Stellungen in 1+10
+0 moegliche Stellungen in 1+11
+1536 moegliche Stellungen in 1+12
+  1.d2-d1=L   2.d3-d2   3.d4-d3   4.d5-d4   5.d6-d5   6.d7-d6   7.Kc8-d7   8.Kd7-e6   9.Ke6-f5  10.Kf5-g4  11.Kg4-h3  12.Kh3-h2  13.Kh2-h1 Lh4-g3 = 
+2688 moegliche Stellungen in 1+13
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+        542, Felad. Lapja 1971
+   Korr.: Problemkiste 128, 4/2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K  -T   .   .   .   .   .   .   8
+|                                   |
+7  -L   .  -B   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   K   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=4                         2 + 4
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+  1.Ka8-b7 Kc4-b5   2.Tb8-a8 c2-c4   3.La7-b8 c4-c5   4.Kb7-a7 c5-c6 = 
+2 moegliche Stellungen in 4+4
+
+Loesung beendet. 
+
+
+
+             E. J. Weise
+    5116, Problemkiste 128, 4/2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   S   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -S   .   .   6
+|                                   |
+5   .   .   .   .   .   B   .   .   5
+|                                   |
+4   .  -K   B   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   K   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=4                         4 + 2
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+2 moegliche Stellungen in 3+3
+  1.Kb4-c5 Se8-g7   2.Sf6-e8 f5-f6   3.Kc5-d6 f6-f7   4.Kd6-e5 f7*e8=S = 
+  1.Sf6-g8 f5-f6   2.Kb4*c4 f6-f7   3.Kc4-d5 f7*g8=D +   4.Kd5-e5 Dg8-f7 = 
+37 moegliche Stellungen in 4+4
+
+Loesung beendet. 
+
+
+
+              Kurt Ewald
+    5121, Problemkiste 128, 4/2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   T   .   .  -L  -K   .   .   .   8
+|                                   |
+7   .   .   .   .  -B   .  -D   .   7
+|                                   |
+6   .   .   .   .   B   .   .   .   6
+|                                   |
+5   .   .   K   .   .   .   .   .   5
+|                                   |
+4   .   B   .   .   .   .   .   .   4
+|                                   |
+3   .   .   B   .   .   .   .   .   3
+|                                   |
+2   .   L   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=10                    6 + 4
+
+2 moegliche Stellungen in 1+1
+2 moegliche Stellungen in 1+2
+2 moegliche Stellungen in 1+3
+2 moegliche Stellungen in 1+4
+10 moegliche Stellungen in 1+5
+16 moegliche Stellungen in 1+6
+20 moegliche Stellungen in 1+7
+20 moegliche Stellungen in 1+8
+30 moegliche Stellungen in 1+9
+  1.Dg7-g3   2.Dg3-b8   3.Ld8-c7   4.Lc7-e5   5.Le5*c3   6.Lc3-e5   7.Le5-c7   8.Lc7-d8   9.Db8-g3  10.Dg3-g7 Lb2*g7 = 
+30 moegliche Stellungen in 1+10
+
+Loesung beendet. 
+
+
+
+             Luigi Vitale
+    5118, Problemkiste 128, 4/2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   .   .   .   .  -B  -S   .  -B   3
+|                                   |
+2   .   .   .   .   .  -K   .   .   2
+|                                   |
+1   .   .   .   .   .  -T   S   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=6                         2 + 7
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+19 moegliche Stellungen in 3+3
+129 moegliche Stellungen in 4+4
+691 moegliche Stellungen in 5+5
+  1.Sf3-h2 Kh1*h2   2.Tf1-e1 Kh2*h3   3.Te1-e2 Kh3*h4   4.Kf2-g2 Sg1*e2   5.Kg2-h1 Kh4-g3   6.h5-h4 + Kg3-h3 = 
+976 moegliche Stellungen in 6+6
+
+Loesung beendet. 
+
+
+
+            Tivadar Kardos
+           Themes 64, 1957
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .   .   .  -K   .   .  -T   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   B  -L   .   .   .   6
+|                                   |
+5   .   .   S   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -S   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   T   .   .   .   K   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         5 + 5
+
+a)
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.0-0-0 Th1*h3   2.Kc8-b8 Th3*h8   3.Le6-c8 Th8*d8 = 
+832 moegliche Stellungen in 3+3
+
+b) wBd6-->g6
+
+0 moegliche Stellungen in 1+1
+5 moegliche Stellungen in 2+2
+  1.0-0 Ta1*a8   2.Kg8-h8 Ta8*f8 +   3.Le6-g8 Sc5-e6 = 
+897 moegliche Stellungen in 3+3
+
+Loesung beendet. 
+
+
+Until v4.37, in intelligent mode, only a single sulution was
+found with a Knight or a Bishop on a2
+[ 1853514 ] Popeye misses ser-h= solutions in intelligent mode
+cf. http://sourceforge.net/tracker/index.php?func=detail&aid=1853514&group_id=200122&atid=972237
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -B  -B   .   .   .   .   .   4
+|                                   |
+3  -B  -T   .   .   .   .   .   .   3
+|                                   |
+2  -B  -K   B  -B   K   .   .   .   2
+|                                   |
+1  -T  -S  -L   .   .   .   .   D   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=1                    3 + 10
+
+a)
+
+  1.c4-c3 Ke2-d1 = 
+  1.c4-c3 Dh1-d1 = 
+
+b) sSa2 
+
+  1.c4-c3 Ke2-d1 = 
+  1.c4-c3 Dh1-d1 = 
+
+c) sLa2 
+
+  1.c4-c3 Ke2-d1 = 
+  1.c4-c3 Dh1-d1 = 
+
+d) sTa2 
+
+  1.c4-c3 Ke2-d1 = 
+  1.c4-c3 Dh1-d1 = 
+
+e) sDa2 
+
+  1.c4-c3 Ke2-d1 = 
+  1.c4-c3 Dh1-d1 = 
+
+Loesung beendet. 
+
+

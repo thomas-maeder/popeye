@@ -1,0 +1,102 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+Hilmar Ebert, Hans Gruber & Joerg Kuhlmann
+  U4, Das Vielvaeterproblem, XI/1983
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8                                   8
+|                                   |
+7                                   7
+|                                   |
+6                                   6
+|                                   |
+5                                   5
+|                                   |
+4  -K   .   K                       4
+|                                   |
+3  -B   .   .                       3
+|                                   |
+2   .   B   .                       2
+|                                   |
+1                                   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         2 + 2
+              OhneSchach
+         UWFeldWeiss a4 b4 c4
+        UWFeldSchwarz a2 b2 c2
+
+a)
+
+  1.a3-a2=T b2-b4=D # 
+
+b) h=2
+
+  1.a3-a2=S b2-b4=L   2.Sa2-c3 Kc4*c3 = 
+
+Loesung beendet. 
+
+
+
+         Narayan Shankar RAM
+238c, Das Vielvaeterproblem, XII/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K                       8
+|                                   |
+7  -B   .   .                       7
+|                                   |
+6   .   B   .                       6
+|                                   |
+5   .   .   .                       5
+|                                   |
+4                                   4
+|                                   |
+3                                   3
+|                                   |
+2                                   2
+|                                   |
+1                                   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h##!3                       2 + 2
+        UWFeldSchwarz a5 b5 c5
+
+  1.a7-a5=D b6-b7 +   2.Ka8-a7 b7-b8=T   3.Da5-c5 + Kc8-b7 ##! 
+
+Loesung beendet. 
+
+
+
+         Narayan Shankar RAM 
+239, Das Vielvaeterproblem, XII/1989 
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K                       8
+|                                   |
+7  -B   .   .                       7
+|                                   |
+6   .   B   .                       6
+|                                   |
+5   .   .   .                       5
+|                                   |
+4   .   .   .                       4
+|                                   |
+3                                   3
+|                                   |
+2                                   2
+|                                   |
+1                                   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#4                        2 + 2
+        UWFeldSchwarz a4 b4 c4
+
+  1...a7-a5   2.Kc8-c7 a5-a4=D   3.Kc7-c8 Da4-a7   4.b6-b7 + Da7*b7 # 
+
+Loesung beendet. 
+
+

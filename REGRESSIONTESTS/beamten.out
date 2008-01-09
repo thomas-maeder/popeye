@@ -1,0 +1,325 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            J"org Kuhlmann
+          Achim Sch"oneberg
+     4216, feenschach 71, 11/1984
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S  -K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   T   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         2 + 2
+           Beamtet a8 b8 a6
+                Circe
+
+  1.bSa8-c7 bTa6-b6   2.bKb8-a8 Kd5-c6   3.bSc7-d5 bTb6-a6   4.bSd5-b6 Kc6*b6 [+sbSb8] # 
+
+Loesung beendet. 
+
+
+
+            J"org Kuhlmann
+          Achim Sch"oneberg
+      i, feenschach 71, 11/1984
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -D   .   .   .   .   T   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   K   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+           Beamtet a6 f6 f3
+
+  1.bDa6-a1 bTf6-a6   2.bDa1-f6 + bTa6-a1 # 
+
+Loesung beendet. 
+
+
+
+          Achim Sch"oneberg
+      ii, feenschach 71, 11/1984
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         2 + 2
+            Beamtet c8 a7
+
+  1.bBa7-a6 b6-b7 +   2.Ka8-a7 b7-b8=T = 
+
+Loesung beendet. 
+
+
+
+            J"org Kuhlmann
+      iv, feenschach 71, 11/1984
+       G"unter B"using gewidmet
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -S   .   T   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  -K   .   .  -S   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         1 + 3
+            BeamtenSchach
+
+  1.Sd1-b2 Td3-f3   2.Sb3-d2 Tf3-d3   3.Sd2-b1 Td3-a3 # 
+  1.Sb3-c1 Td3-c3   2.Sc1-a2 Tc3-d3   3.Sd1-b2 Td3-d1 # 
+
+Loesung beendet. 
+
+
+
+            J"org Kuhlmann
+          Achim Sch"oneberg
+      v, feenschach 71, 11/1984
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   B   .   .   .   7
+|                                   |
+6  -B  -T  -B   .   .   .   .   .   6
+|                                   |
+5   S  -K   .   .   .   .   .   .   5
+|                                   |
+4   .   B   .   .   .   .   .   .   4
+|                                   |
+3   .   .   L   L   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 5
+        Beamtet e7 b6 a5 d3 e2
+
+a)
+
+  1.bBe2-e1=bT bBe7-e8=bL   2.bTe1-e5 bLe8*c6 # 
+
+b) wbSa5-->c5
+
+  1.bBe2-e1=bD bBe7-e8=bS   2.bDe1-e7 bSe8-c7 # 
+
+Loesung beendet. 
+
+
+
+            Claus Wedekind
+     234, harmonie 45, 16.12.1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   D   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -T   B   K   .   7
+|                                   |
+6   T   .   .   .   .   T   .   .   6
+|                                   |
+5   .   .   .  -B  -K   .   S   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -S   .  -S   .   .   B   B   .   3
+|                                   |
+2  -B   S   .  -L  -L   .   .   .   2
+|                                   |
+1  -D   .   .   .   .   .   L   L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         11 + 9
+            BeamtenSchach
+
+  1.Lg1-a7 ! Drohung:
+          2.f3-f4 # 
+      1...Sa3-b1 
+          2.Sb2-c4 # 
+      1...Sa3-c4 
+          2.Sb2*c4 # 
+      1...Sa3-b5 
+          2.Sb2-c4 # 
+      1...Sc3-b1 
+          2.Sb2-d3 # 
+      1...Sc3-d1 
+          2.Sb2-d3 # 
+      1...Sc3-b5 
+          2.Sb2-d3 # 
+
+
+Loesung beendet. 
+
+
+
+            J"org Kuhlmann
+          Achim Sch"oneberg
+      vi, feenschach 71, 11/1984
+         Verbesserung 3/1999
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -L   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   .   .   .   .   7
+|                                   |
+6  -K   B   .   .   .   .   .   .   6
+|                                   |
+5  -B   .   .   .   T   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -S   .   4
+|                                   |
+3   .   .   .   .   L   .   .   .   3
+|                                   |
+2   .   .   K   .   .   .   L   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #7//1                       6 + 4
+  Beamtet b8 b7 a6 b6 a5 e5 g4 e3 c2
+                Circe
+
+  1  (bTe5-e4 )
+  2  (bTe5*a5 [+sbBa7] + )
+  3  (bTe5-b5 )
+  4  (bTe5-c5 )
+  5  (bTe5-d5 )
+  6  (bTe5-e8 )
+  7  (bTe5-e7 )
+  8  (bTe5-e6 )
+  9  (bTe5-h5 )
+ 10  (bTe5-g5 )
+ 11  (bTe5-f5 )
+ 12  (bLe3-c1 )
+ 13  (bLe3-d2 )
+ 14  (bLe3-g1 )
+ 15  (bLe3-f2 )
+ 16  (bLe3-h6 )
+ 17  (bLe3-g5 )
+ 18  (bLe3-f4 )
+ 19  (bLe3-c5 )
+ 20  (bLe3-d4 )
+ 21  (Lg2-f1 + )
+ 22  (Lg2-h1 )
+ 23  (Lg2-h3 )
+  1.Lg2-c6 ! 
+      1...bBa5-a4 
+          2.Lc6*a4 [+sbBa7] 
+              2...bBa7*b6 [+wbBb2] 
+                  3.La4-b3 
+                      3...bBb6-b5 
+                          4.Lb3-c4 
+                              4...bBb5*c4 [+wLf1] 
+                                  5.bTe5-b5 
+                                      5...bBc4-c3 
+                                          6.Lf1-g2 
+                                              6...bBc3*b2 
+                                                  7.bTb5-a5 # 
+
+ 24  (Lg2-c6 )
+ 25  (Lg2-d5 )
+ 26  (Lg2-e4 )
+ 27  (Lg2-f3 )
+
+Loesung beendet. 
+
+
+
+            J"org Kuhlmann
+          Achim Sch"oneberg
+     iii, feenschach 71, 11/1984
+           G"unter B"using
+  Verbesserung Europa Rochade Wann?
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -S   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   T   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#11                        1 + 3
+            BeamtenSchach
+
+  1  (Sa3-b1 )
+  1.Sa3-c2 Ta1-a2   2.Sc2-b4 Ta2-b2   3.Sb4-d3 Tb2-b3   4.Sd3-c5 Tb3-c3   5.Sc5-e4 Tc3-c4   6.Se4-d6 Tc4-d4   7.Sd6-f5 Td4-d5   8.Sf5-e7 Td5-e5   9.Se7-g6 Te5-e6  10.Sg6-f8 Te6-f6  11.Sf8-h7 Tf6-f8 # 
+  2  (Sa3-c2 )
+  3  (Sa3-c4 )
+  4  (Sa3-b5 )
+
+Loesung beendet. 
+
+

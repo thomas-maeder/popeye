@@ -1,0 +1,579 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+          Pavlos Moutecidis
+2120, Diagramme und Figuren 247, Wann?
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .  -D   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   B   .  -K   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#10                        2 + 3
+        SchwarzerLaengstzueger
+
+
+  1...Dh7-b1 # 
+
+  1.d2-d4 ! 
+      1...Dh7-b1 + 
+          2.Kd1-d2 
+              2...Db1-h7 
+                  3.d4-d5 
+                      3...Dh7-b1 
+                          4.d5-d6 
+                              4...Db1-h7 
+                                  5.d6-d7 
+                                      5...Dh7-b1 
+                                          6.d7-d8=D 
+                                              6...Db1-h7 
+                                                  7.Dd8-d3 
+                                                      7...Dh7-a7 
+                                                          8.Kd2-d1 
+                                                              8...Da7-h7 
+                                                                  9.Dd3-e3 + 
+                                                                      9...Kf2*e3 
+                                                                         10.Kd1-e1 
+                                                                             10...Dh7-b1 # 
+
+
+Loesung beendet. 
+
+
+
+           Albert H. Kniest
+           Feenschach 1963
+               2. Preis
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -L   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -K   4
+|                                   |
+3   K   .   .   .   .   .   .   .   3
+|                                   |
+2   T   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#7                         2 + 2
+             Gitterschach
+        SchwarzerLaengstzueger
+
+
+  1...Lh6-c1 # 
+
+  1.Ta2-h2 + ! 
+      1...Kh4-g5 
+          2.Th2-e2 
+              2...Lh6-f8 + 
+                  3.Te2-e7 
+                      3...Lf8-h6 
+                          4.Ka3-b2 
+                              4...Lh6-f8 
+                                  5.Kb2-c1 
+                                      5...Lf8-h6 
+                                          6.Te7-b7 
+                                              6...Lh6-f8 
+                                                  7.Tb7-b1 
+                                                      7...Lf8-a3 # 
+
+
+Loesung beendet. 
+
+
+
+           Zvonimir Hernitz
+   5713, feenschach 93, 11-12/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -T   .   .   .  -T   .   7
+|                                   |
+6  -B   .  -B   .   .   .   .   .   6
+|                                   |
+5  -S   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -B   .  -D   .   4
+|                                   |
+3  -B   .  -K   .  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   K   2
+|                                   |
+1   .   .  -S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#27                       1 + 11
+        SchwarzerLaengstzueger
+
+
+  1...Dg4-c8 
+      2.Kh2-h1 
+          2...Dc8-h3 # 
+
+  1.Kh2-h1 ! 
+      1...Dg4-c8 
+          2.Kh1-h2 
+              2...Dc8-h3 + 
+                  3.Kh2*h3 
+                      3...Tg7-g1 
+                          4.Kh3-h2 
+                              4...Tg1-g8 
+                                  5.Kh2-h1 
+                                      5...Tg8-g1 + 
+                                          6.Kh1*g1 
+                                              6...Tc7-h7 
+                                                  7.Kg1-g2 
+                                                      7...Th7-a7 
+                                                          8.Kg2-g3 
+                                                              8...Ta7-h7 
+                                                                  9.Kg3-f4 
+                                                                      9...Th7-a7 
+                                                                         10.Kf4-e5 
+                                                                             10...Ta7-h7 
+                                                                                 11.Ke5-d6 
+                                                                                     11...Th7-a7 
+                                                                                         12.Kd6-c5 
+                                                                                             12...Ta7-h7 
+                                                                                                 13.Kc5-b6 
+                                                                                                     13...Th7-a7 
+                                                                                                         14.Kb6*a5 
+                                                                                                             14...Ta7-h7 
+                                                                                                                 15.Ka5*a6 
+                                                                                                                     15...Th7-a7 + 
+                                                                                                                         16.Ka6-b6 
+                                                                                                                             16...Ta7-h7 
+                                                                                                                                 17.Kb6*c6 
+                                                                                                                                     17...Th7-a7 
+                                                                                                                                         18.Kc6-d5 
+                                                                                                                                             18...Ta7-h7 
+                                                                                                                                                 19.Kd5*e4 
+                                                                                                                                                     19...Th7-a7 
+                                                                                                                                                         20.Ke4*e3 
+                                                                                                                                                             20...Ta7-h7 
+                                                                                                                                                                 21.Ke3-f2 
+                                                                                                                                                                     21...Th7-a7 
+                                                                                                                                                                         22.Kf2-e1 
+                                                                                                                                                                             22...Ta7-h7 
+                                                                                                                                                                                 23.Ke1-d1 
+                                                                                                                                                                                     23...Th7-a7 
+                                                                                                                                                                                         24.Kd1*c1 
+                                                                                                                                                                                             24...Ta7-h7 
+                                                                                                                                                                                                 25.Kc1-b1 
+                                                                                                                                                                                                     25...Th7-a7 
+                                                                                                                                                                                                         26.Kb1-a2 
+                                                                                                                                                                                                             26...Ta7-h7 
+                                                                                                                                                                                                                 27.Ka2*a3 
+                                                                                                                                                                                                                     27...Th7-a7 # 
+
+
+Loesung beendet. 
+
+
+
+             Bo Lindgren
+   5721, feenschach 93, 11-12/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -L   .   .   .   .   .   .   .   7
+|                                   |
+6  -T   .   .   .   .  -B   .  -B   6
+|                                   |
+5   .   .   L   .  -B   .  -B   .   5
+|                                   |
+4  -B   .   .  -T   .  -B   K   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -K   .   L   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#5                        3 + 11
+        SchwarzerLaengstzueger
+
+a)
+
+  1...Lg2-f3 +   2.Ke2-f1 Lf3-e2 +   3.Kf1-g2 Le2-f1 +   4.Kg2-h1 Kg4-h3   5.Td4-d8 Lf1-g2 # 
+
+b) sKe2-->f2
+
+  1...Lc5-b6   2.Kf2-g1 Kg4-h3   3.La7-b8 Lb6-c7   4.Td4-d8 Lc7-d6   5.Td8-h8 Ld6-c5 # 
+
+Loesung beendet. 
+
+
+
+        Albert Heinrich Kniest
+    #6453a), Feenschach 9-10/1963
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -D   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   K   .   .   .   .   .   .   2
+|                                   |
+1   T   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#5                         2 + 1
+             Gitterschach
+        SchwarzerLaengstzueger
+
+  1.Ta1-d1 ! 
+      1...Da6-f1 
+          2.Kb2-c1 
+              2...Df1-a6 
+                  3.Td1-d3 
+                      3...Da6-h6 + 
+                          4.Td3-d2 
+                              4...Dh6-a6 
+                                  5.Td2-b2 
+                                      5...Da6-f1 # 
+
+
+Loesung beendet. 
+
+
+
+           Hans-Peter Reich
+         2794, PK-77, 10/1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   B   .   .   .   .   .   7
+|                                   |
+6  -B   .   .   .  -S   .   .   K   6
+|                                   |
+5  -B   .   .   .   .   .   .   .   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   B  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 6
+              Ohneschlag
+         WeisserLaengstzueger
+
+a)
+
+  1...c7-c8=L   2.c2-c1=S Lc8-d7 # 
+
+b) sBb3-->b5
+
+  1...c7-c8=D   2.c2-c1=T Dc8-c2 # 
+
+Loesung beendet. 
+
+
+
+            Horst Baecker
+        #2788, PK-77, 10/1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   T   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -B   .   .   B   .   L   .   6
+|                                   |
+5   .   .   .   B   .   .  -B   .   5
+|                                   |
+4   .   .  -B   .   .   .   .   .   4
+|                                   |
+3   .   .  -B  -S   .   .   .   .   3
+|                                   |
+2   K   .  -K   .  -B   .   .   .   2
+|                                   |
+1   .   T   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          6 + 7
+                Circe
+        SchwarzerLaengstzueger
+
+  1.Tb1-f1 ! Zugzwang.
+      1...e2*f1=D [+wTh1] 
+          2.Tf8*f1 [+sDd8] Zugzwang.
+              2...Dd8-h8 
+                  3.Tf1-f2 # 
+      1...e2*f1=S [+wTh1] 
+          2.Tf8-f2 + 
+              2...Sf1-d2 
+                  3.Th1-c1 # 
+      1...e2*f1=T [+wTh1] 
+          2.Ka2-a3 Zugzwang.
+              2...Tf1*f8 [+wTa1] 
+                  3.Ta1-a2 # 
+      1...e2*f1=L [+wTh1] 
+          2.e6-e7 Zugzwang.
+              2...Lf1-h3 
+                  3.Tf8-f2 # 
+
+
+Loesung beendet. 
+
+
+
+             Romeo Bedoni
+Preis, 7. PK-Kompositionsturnier 1991
+            PK-73, 2/1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  SB   .   .   .   .   .   .  BS   6
+|                                   |
+5   .  SB   .   .   .   .   .  BS   5
+|                                   |
+4   .   .  SB   .   .   .   .  BS   4
+|                                   |
+3  FE   .  -S   .   .   .   .  SB   3
+|                                   |
+2  -S   .   K   .   .   .  SB   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#9                     10 + 3
+        SchwarzerLaengstzueger
+         WeisserLaengstzueger
+
+  1.SBg2-g8=FE   2.BSh4-d8=FE   3.BSh5-e8=FE   4.SBc4-c8=FE   5.SBb5-b8=FE   6.BSh6-f8=FE   7.SBh3-h8=FE   8.SBa6-a8=FE   9.FEa3-b2 # 
+
+Loesung beendet. 
+
+
+
+           Hans Peter Rehm
+      1. Preis, Feenschach 1965
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -L   .   .  -L   .   8
+|                                   |
+7   .   .  -K   .   B   .   .   .   7
+|                                   |
+6   .   .   S   .   .   .  -B   .   6
+|                                   |
+5  -B   .   .  -B   K   .   .   .   5
+|                                   |
+4   .   B   .  -B   .  -S   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#9                         4 + 9
+        SchwarzerLaengstzueger
+         WeisserLaengstzueger
+
+  1.Sc6-b8 ! 
+      1...Lg8-e6 
+          2.Sb8-a6 + 
+              2...Kc7-b6 
+                  3.Sa6-c7 
+                      3...Le6-h3 
+                          4.Sc7-a8 + 
+                              4...Kb6-a7 
+                                  5.Sa8-b6 
+                                      5...Lh3-c8 
+                                          6.Sb6*c8 + 
+                                              6...Ka7-b8 
+                                                  7.Sc8-a7 
+                                                      7...Ld8-b6 
+                                                          8.Sa7-c6 + 
+                                                              8...Kb8-c7 
+                                                                  9.Sc6*d4 
+                                                                      9...Lb6*d4 # 
+
+
+Loesung beendet. 
+
+
+
+               T.Linss
+                f-107
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -T   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   T   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#7                         2 + 2
+            Laengstzueger
+                Duplex
+
+  1.Td4-d8 + ! 
+      1...Kb8-c7 
+          2.Td8-b8 Zugzwang.
+              2...Th6-a6 
+                  3.Ke7-e8 Zugzwang.
+                      3...Ta6-h6 
+                          4.Tb8-b7 + 
+                              4...Kc7-d6 
+                                  5.Ke8-d8 Zugzwang.
+                                      5...Th6-h1 
+                                          6.Tb7-b1 
+                                              6...Th1-h8 # 
+                                  5.Tb7-b1 Zugzwang.
+                                      5...Th6-h1 
+                                          6.Ke8-d8 
+                                              6...Th1-h8 # 
+          2.Ke7-e8 Zugzwang.
+              2...Th6-a6 
+                  3.Td8-b8 Zugzwang.
+                      3...Ta6-h6 
+                          4.Tb8-b7 + 
+                              4...Kc7-d6 
+                                  5.Tb7-b1 Zugzwang.
+                                      5...Th6-h1 
+                                          6.Ke8-d8 
+                                              6...Th1-h8 # 
+                                  5.Ke8-d8 Zugzwang.
+                                      5...Th6-h1 
+                                          6.Tb7-b1 
+                                              6...Th1-h8 # 
+      1...Kb8-a7 
+          2.Ke7-d7 Zugzwang.
+              2...Th6-a6 
+                  3.Kd7-c8 Zugzwang.
+                      3...Ta6-h6 
+                          4.Td8-d7 + 
+                              4...Ka7-b6 
+                                  5.Td7-d6 + 
+                                      5...Th6*d6 
+                                          6.Kc8-b8 Zugzwang.
+                                              6...Td6-d1 
+                                                  7.Kb8-a8 
+                                                      7...Td1-d8 # 
+
+
+  1.Th6-d6 ! Zugzwang.
+      1...Td4-h4 
+          2.Td6-d3 Drohung:
+                  3.Td3-e3 + 
+                      3...Th4-e4 
+                          4.Kb8-c8 Zugzwang.
+                              4...Te4-e6 
+                                  5.Te3-f3 Zugzwang.
+                                      5...Te6-e1 
+                                          6.Tf3-f7 + 
+                                              6...Ke7-d6 
+                                                  7.Tf7-b7 
+                                                      7...Te1-e8 # 
+
+
+Loesung beendet. 
+
+
+
+               T.Linss
+                f-107
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -T   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   T   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#7                         2 + 2
+            Laengstzueger
+              HalbDuplex
+
+  1.Th6-d6 ! Zugzwang.
+      1...Td4-h4 
+          2.Td6-d3 Drohung:
+                  3.Td3-e3 + 
+                      3...Th4-e4 
+                          4.Kb8-c8 Zugzwang.
+                              4...Te4-e6 
+                                  5.Te3-f3 Zugzwang.
+                                      5...Te6-e1 
+                                          6.Tf3-f7 + 
+                                              6...Ke7-d6 
+                                                  7.Tf7-b7 
+                                                      7...Te1-e8 # 
+
+
+Loesung beendet. 
+
+

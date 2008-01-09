@@ -1,0 +1,712 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+           Theodor Steudel
+       Problemkiste 57, 7/1988
+      7, 4. PK-Kompositionsthema
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   L  -K   7
+|                                   |
+6   .   .   .   .   .   B   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -B   .   4
+|                                   |
+3   .   .   .   .   .   .   B   .   3
+|                                   |
+2   .   .   .   .   .   K   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          4 + 2
+         SchwarzerRandzueger
+
+  1.Lg7-h6 ! 
+      1...Kh7-h8 
+          2.f6-f7 
+              2...Kh8-h7 
+                  3.f7-f8=T 
+                      3...Kh7*h6 
+                          4.Tf8-h8 # 
+      1...Kh7*h6 
+          2.f6-f7 
+              2...Kh6-h7 
+                  3.f7-f8=T 
+                      3...Kh7-h6 
+                          4.Tf8-h8 # 
+              2...Kh6-h5 
+                  3.f7-f8=T 
+                      3...Kh5-h6 
+                          4.Tf8-h8 # 
+      1...Kh7-g8 
+          2.f6-f7 + 
+              2...Kg8-h7 
+                  3.f7-f8=T 
+                      3...Kh7*h6 
+                          4.Tf8-h8 # 
+              2...Kg8-h8 
+                  3.f7-f8=D + 
+                      3...Kh8-h7 
+                          4.Df8-g7 # 
+
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+       Problemkiste 57, 7/1988
+     11, 4. PK-Kompositionsthema
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -L   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   L   7
+|                                   |
+6   .  -S   .   .   .  -K   .   .   6
+|                                   |
+5   .   .   .   .   .   B   .   .   5
+|                                   |
+4  -B   .   .   .   .   .   .   .   4
+|                                   |
+3   B   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #7                          4 + 4
+         SchwarzerRandzueger
+
+  1.Lh7-g8 ! 
+      1...La8-h1 
+          2.Lg8-d5 
+              2...Sb6-a8 
+                  3.Ld5*a8 
+                      3...Lh1*a8 
+                          4.Ka1-b2 
+                              4...La8-h1 
+                                  5.Kb2-c3 
+                                      5...Lh1-a8 
+                                          6.Kc3-d4 
+                                              6...La8-h1 
+                                                  7.Kd4-e5 # 
+              2...Sb6-c8 
+                  3.Ka1-b2 
+                      3...Sc8-a7 
+                          4.Kb2-c3 
+                              4...Sa7-c8 
+                                  5.Kc3-d4 
+                                      5...Sc8-a7 
+                                          6.Kd4-e5 # 
+      1...Sb6-c8 
+          2.Ka1-b2 
+              2...Sc8-a7 
+                  3.Kb2-c3 
+                      3...La8-h1 
+                          4.Kc3-d4 
+                              4...Sa7-c8 
+                                  5.Kd4-e5 # 
+                              4...Lh1-a8 
+                                  5.Kd4-e5 # 
+                      3...Sa7-c8 
+                          4.Kc3-d4 
+                              4...La8-h1 
+                                  5.Kd4-e5 # 
+                              4...Sc8-a7 
+                                  5.Kd4-e5 # 
+              2...La8-h1 
+                  3.Kb2-c3 
+                      3...Sc8-a7 
+                          4.Kc3-d4 
+                              4...Sa7-c8 
+                                  5.Kd4-e5 # 
+                              4...Lh1-a8 
+                                  5.Kd4-e5 # 
+                      3...Lh1-a8 
+                          4.Kc3-d4 
+                              4...La8-h1 
+                                  5.Kd4-e5 # 
+                              4...Sc8-a7 
+                                  5.Kd4-e5 # 
+
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+       Problemkiste 57, 7/1988
+      6, 4. PK-Kompositionsthema
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -K   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   .   2
+|                                   |
+1   .  -S   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #5                          1 + 3
+         SchwarzerRandzueger
+
+  1.Ka4-b3 ! 
+      1...Sb1-a3 
+          2.Kb3*b2 
+              2...Sa3-b1 
+                  3.Kb2-c3 
+                      3...Sb1-a3 
+                          4.Kc3-d4 
+                              4...Sa3-b1 
+                                  5.Kd4-e5 # 
+
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+       Problemkiste 57, 7/1988
+      9, 4. PK-Kompositionsthema
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -S   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   K  -B   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   B   .   .   .   .   3
+|                                   |
+2   .   T   .   .   .   .   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .  -L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #5                          3 + 4
+         SchwarzerRandzueger
+
+  1.Kg6-h5 ! 
+      1...Lh1-a8 
+          2.Tb2-b7 
+              2...Ka1-a2 
+                  3.Tb7-a7 + 
+                      3...Ka2-b1 
+                          4.Ta7*a8 
+                              4...Kb1-c1 
+                                  5.Ta8-a1 # 
+
+
+Loesung beendet. 
+
+
+
+           Theodor Steudel
+       Problemkiste 57, 7/1988
+     10, 4. PK-Kompositionsthema
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   T   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -B  -B   .   .   5
+|                                   |
+4   .   .   .   .  -L  -B   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #5                          2 + 6
+         SchwarzerRandzueger
+
+
+  1...Le4-h1 
+      2.Tg7-g2 
+          2...Kh8-h7 
+              3.Tg2-h2 + 
+                  3...Kh7-g8 
+                      4.Th2*h1 
+                          4...Kg8-f8 
+                              5.Th1-h8 # 
+  1...Le4-a8 
+      2.Tg7-b7 
+          2...Kh8-g8 
+              3.Tb7-b8 + 
+                  3...Kg8-h7 
+                      4.Tb8*a8 
+                          4...Kh7-h6 
+                              5.Ta8-h8 # 
+
+  1.Kc1*c2 ! 
+      1...Le4-h1 
+          2.Tg7-g2 
+              2...Kh8-h7 
+                  3.Tg2-h2 + 
+                      3...Kh7-g8 
+                          4.Th2*h1 
+                              4...Kg8-f8 
+                                  5.Th1-h8 # 
+      1...Le4-a8 
+          2.Tg7-b7 
+              2...Kh8-g8 
+                  3.Tb7-b8 + 
+                      3...Kg8-h7 
+                          4.Tb8*a8 
+                              4...Kh7-h6 
+                                  5.Ta8-h8 # 
+
+
+Loesung beendet. 
+
+
+
+         Friedrich W. Friedl
+   6209, feenschach 100, 9-10/1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -K  -B   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   L   B   .   .  -L   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -T   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   T   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         4 + 4
+                KoeKo
+
+  1.Lg5-f6 Tg1-g7   2.Lf6-c3 Lc5-b4   3.e7-e5 d5*e6 ep. # 
+
+Loesung beendet. 
+
+
+
+           Norbert Geissler
+        7302, Springaren, 1992
+        6. ehrende Erwaehnung
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   T   .   .  -B  -K   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   B   .   .   5
+|                                   |
+4   .   .  -B   B   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -S   .   .   .   3
+|                                   |
+2   .   .   K   .  -D   .   .   .   2
+|                                   |
+1   L   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 5
+                KoeKo
+
+  1.c4*d3 ep. + Kc2-b1   2.e7-e5 f5*e6 ep. # 
+
+Loesung beendet. 
+
+
+
+             Heinz Zander
+       Problemkiste-85, 2/1993
+          NL, eigentlich h#3
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   K   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   B   5
+|                                   |
+4   .   .  -B   B  -K   S   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 2
+               NeuKoeko
+
+  1.Ke4-f3 Sf4-d5   2.Kf3-f4 Ke6-f5 # 
+
+Loesung beendet. 
+
+
+
+             Heinz Zander
+         Problemkiste-85/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -L   .   .   .   .   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   .   B   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   .   .  -B   3
+|                                   |
+2   L   .   .   .   .   .   .   .   2
+|                                   |
+1   T   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 5
+               NeuKoeko
+
+  1.La2-b1 ! Drohung:
+          2.Kc8-b8 # 
+      1...Ld7-g4 
+          2.Lb1-f5 # 
+
+
+Loesung beendet. 
+
+
+
+            Kjell Widlert
+    2374b, Problemkiste 69, 6/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   T   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -K  -B   .   .  -B   .  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#5                     2 + 4
+                KoeKo
+
+  1.g2-g1=T   2.Tg1-d1   3.e2-e1=L   4.Td1-a1   5.b2-b1=L Th4-h2 # 
+
+Loesung beendet. 
+
+
+
+             Rudolf Queck
+      Original f"ur Die Schwalbe
+Michael Barth und Sven Trommler gewidmet
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   T   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   B   7
+|                                   |
+6   .   .   .   .   .   D   .   L   6
+|                                   |
+5   .   .   .   .   .   .  -L   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   B   3
+|                                   |
+2   .   .   .   .   .   .   S   .   2
+|                                   |
+1   T   .   L   S   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#5                        10 + 2
+                Circe
+            KontaktGitter
+
+  1.Sd1-f2 ! Drohung:
+          2.Sg2-h4 Zugzwang.
+              2...Lg5-d2 
+                  3.Df6-f3 Zugzwang.
+                      3...Ld2*h6 
+                          4.Lc1-e3 + 
+                              4...Kd4*e3 
+                                  5.Td8-d1 
+                                      5...Ke3-d2 # 
+                      3...Ld2-g5 
+                          4.Lc1-e3 + 
+                              4...Kd4*e3 
+                                  5.Td8-d1 
+                                      5...Ke3-d2 # 
+      1...Lg5-d2 
+          2.Df6-g7 Zugzwang.
+              2...Ld2*h6 
+                  3.Lc1*h6 [+sLf8] Zugzwang.
+                      3...Lf8*g7 [+wDd1] 
+                          4.Dd1-f3 Zugzwang.
+                              4...Lg7*h6 
+                                  5.Ta1-d1 
+                                      5...Lh6-d2 # 
+
+
+Loesung beendet. 
+
+
+
+            Kjell Widlert
+    Lob, RQu-80-Jubil"aumsturnier
+       Problemkiste 72, 12/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .  -B   .   6
+|                                   |
+5   .   .   .   .   .   .   K   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -K   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#9                         2 + 3
+             Gitterschach
+
+  1.Kc3-b3 Kg5-f4   2.Kb3-c2 Kf4-e5   3.Kc2-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 # 
+  1.Kc3-d2 Kg5-f4   2.Kd2-e2 Kf4-e5   3.Ke2-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 # 
+  1.Kc3-d2 Kg5-f4   2.Kd2-e3 Kf4-e5   3.Ke3-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 # 
+  1.Kc3-d2 Kg5-f4   2.Kd2-e3 Kf4-e5   3.Ke3-f2 Ke5-d5   4.Kf2-g3 Kd5-e6   5.Kg3-f4 Ke6-f7   6.Kf4-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 # 
+  1.Kc3-d2 Kg5-f4   2.Kd2-e3 Kf4-e5   3.Ke3-f2 Ke5-d6   4.Kf2-g3 Kd6-e6   5.Kg3-f4 Ke6-f7   6.Kf4-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 # 
+  1.Kc3-b2 Kg5-f4   2.Kb2-c2 Kf4-e5   3.Kc2-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 # 
+
+Loesung beendet. 
+
+
+
+             Rudolf Queck
+             Hans Gruber
+   4687, feenschach 76, 8. 11. 1985
+     Albert H. Kniest in memoriam
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8                                   8
+|                                   |
+7                                   7
+|                                   |
+6   .   .   .   .   .   .           6
+|                                   |
+5   .   .   .   .   .   .           5
+|                                   |
+4   .   .   .   .   .   .           4
+|                                   |
+3   .   .   .   .   .  -K           3
+|                                   |
+2   .   .   .   .  -G   .           2
+|                                   |
+1   .   .   .   S   .   .           1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  =6                          1 + 2
+             Gitterschach
+        SchwarzerLaengstzueger
+
+  1.Sd1-e3 ! 
+      1...Ge2-e4 
+          2.Se3-c2 
+              2...Ge4-b1 
+                  3.Sc2-b4 
+                      3...Gb1-b5 
+                          4.Sb4-d5 
+                              4...Gb5-e5 
+                                  5.Sd5-e3 
+                                      5...Ge5-e2 
+                                          6.Se3-d1 = 
+
+  1.Sd1-c3 ! 
+      1...Kf3-f2 
+          2.Sc3-b5 
+              2...Ge2-a6 
+                  3.Sb5-d6 
+                      3...Ga6-e6 
+                          4.Sd6-f5 
+                              4...Kf2-f3 
+                                  5.Sf5-e3 
+                                      5...Ge6-e2 
+                                          6.Se3-d1 = 
+
+
+Loesung beendet. 
+
+
+
+            Kjell Widlert
+  F1312, The Problemist 14/4, 7/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -D   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -B   .   .   .   6
+|                                   |
+5   .   K   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -B   3
+|                                   |
+2  -L   T   .   .   .   .   .   .   2
+|                                   |
+1   .  -K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#6                         2 + 5
+             Gitterschach
+        SchwarzerLaengstzueger
+
+  1.Kb5-b4 ! 
+      1...Dd8-d1 
+          2.Kb4-c3 
+              2...Dd1-d8 
+                  3.Tb2-b5 + 
+                      3...La2-b3 
+                          4.Tb5-h5 
+                              4...Dd8-d1 
+                                  5.Kc3-d2 
+                                      5...Dd1*h5 
+                                          6.Kd2-e1 
+                                              6...Dh5-a5 # 
+
+
+Loesung beendet. 
+
+
+
+            Maryan Kerhuel
+       Problemkiste-72, 12/1990
+           Lob, 17, RQu-80
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -L   .   .   .   .   .   .  -L   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -G   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -B   .   .   4
+|                                   |
+3   .   .   .   K   G   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .  -G   .  -K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#19                     2 + 6
+             Gitterschach
+
+  1.Kd3-c2   2.Kc2-b3   3.Ge3-a3   4.Kb3-c4   5.Kc4-c5   6.Kc5-b6   7.Kb6-c7   8.Kc7-d6   9.Kd6-e6  10.Ke6-f7  11.Kf7-g6  12.Kg6-f5  13.Kf5*f4  14.Kf4-g3  15.Kg3-f2  16.Kf2-e3  17.Ke3-d3  18.Ga3-e3  19.Kd3-e2 # 
+
+Loesung beendet. 
+
+
+
+           Torsten Lin"s &
+            Markus Manhart
+      2. ehr. Erw., RQu-80 1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -D   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -B   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   L   .   .   T   .   .   .   5
+|                                   |
+4   .   .  -T   .  -L   .  -B  -B   4
+|                                   |
+3   .   S   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .  -K   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 8
+             Gitterschach
+
+  1.Ke2-e3 Te5*e4   2.Tc4-c7 Te4-e5 # 
+  1.Ke2-d3 Lb5*c4   2.Le4-b7 Lc4-b5 # 
+
+Loesung beendet. 
+
+

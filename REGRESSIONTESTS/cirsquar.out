@@ -1,0 +1,875 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            J"org Kuhlmann
+           feenschach 1972
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   K   .   .   7
+|                                   |
+6   .   .   .  -K   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   L   .   .   .  -T   .   .   L   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 2
+              SuperCirce
+
+  1.Te4*h4 [+wLe4] Se2-g3   2.Th4*e4 [+wLh2] Sg3*e4 [+sTd5] # 
+
+Loesung beendet. 
+
+
+
+             Erich Bartel
+    2577, Problemkiste-72, 12/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   D   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .  -B   .  -B   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         3 + 3
+             SpiegelCirce
+
+  1...g7-g8=D   2.h2-h1=L Dg8-g2 = 
+  1...g7-g8=T   2.h2-h1=S Tg8-g3 = 
+
+Loesung beendet. 
+
+
+
+            Marjan Kerhuel
+    140, Rex Multiplex 6, 4-6/1983
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   L   .   .   .   .   .  -K   .   5
+|                                   |
+4   .   .   .   .   .   .   .   S   4
+|                                   |
+3   .   .   K   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         3 + 1
+          PlatzwechselCirce
+
+  1.Kg5-g4 La5-c7   2.Kg4-h3 Lc7-h2   3.Kh3*h2 [+wLh3] Sh4-f3 +   4.Kh2-h1 Lh3-g2 # 
+  1.Kg5-f6 Sh4-g6   2.Kf6*g6 [+wSf6] La5-b4   3.Kg6-g7 Lb4-f8 +   4.Kg7-h8 Lf8-g7 # 
+
+Loesung beendet. 
+
+
+
+            Theodor Tauber
+        f-95, 6-9/1991, S. 303
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   T   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   K  -B   .   .   D   .   6
+|                                   |
+5   .   S   .   B   .   .   .   .   5
+|                                   |
+4   .   .   .  -B   .   .   .   .   4
+|                                   |
+3  -B   S  -B   .  -K   .   .   .   3
+|                                   |
+2  -T   .   .   .  -S  -S   .  -B   2
+|                                   |
+1   .   .   .   .   .   L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 9
+
+a)
+
+  1.Sb5*d6 ! Drohung:
+          2.Sd6-c4 # 
+      1...Se2-f4 
+          2.Dg6-g3 # 
+      1...Sf2-e4 
+          2.Dg6*e4 # 
+
+
+b) FileCirce
+
+  1.Sb5*a3 [+sBa7] ! Drohung:
+          2.Sa3-c4 # 
+      1...Ta2*a3 [+wSa1] 
+          2.Sa1-c2 # 
+      1...Se2-f4 
+          2.Dg6-e4 # 
+      1...Sf2-e4 
+          2.Dg6-g3 # 
+
+  1.Lf1-g2 ! Drohung:
+          2.Tf8-f3 # 
+      1...Se2-c1 
+          2.Dg6-e4 # 
+      1...Se2-g1 
+          2.Dg6-e4 # 
+      1...Se2-g3 
+          2.Dg6-e4 # 
+      1...Se2-f4 
+          2.Dg6-e4 # 
+
+
+Loesung beendet. 
+
+
+
+            J"org Kuhlmann
+          Thorsten Zirkwitz
+       2. Preis, Andernach 1989
+  Korrektur: feenschach 113, 11/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -K   .   .   5
+|                                   |
+4   .   K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .  SS   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         3 + 2
+            DiametralCirce
+
+a)
+
+  1.a2-a1=D b6-b7   2.Da1-a8 b7*a8=SS   3.Kf5-f4 SSa8-g7 = 
+
+b) wSSe1-->f8
+
+  1.a2-a1=SS b6-b7   2.SSa1-c8 b7*c8=D +   3.Kf5-g5 Dc8-h3 = 
+
+Loesung beendet. 
+
+
+
+            Torsten Lin"s
+  3271, Problemkiste 89/90, 10/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -S   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -K   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -L   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-ze320                   1 + 3
+            AntipodenCirce
+
+  1.Kh1-g2   2.Kg2-f1   3.Kf1-e2   4.Ke2-d3   5.Kd3-e4   6.Ke4-e5   7.Ke5-f6   8.Kf6-g7   9.Kg7*h8 [+sSd4]  10.Kh8-g7  11.Kg7-f6  12.Kf6-e5  13.Ke5-e4  14.Ke4-d3  15.Kd3-d2  16.Kd2-e1  17.Ke1-f1  18.Kf1*g1 [+sLc5]  19.Kg1-f2  20.Kf2-e3 z 
+
+Loesung beendet. 
+
+
+
+            N. Shankar Ram
+          Rex Multiplex 1986
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -S   .   .   .   .   .   8
+|                                   |
+7  -D   .   .  -B   .   B  -S   .   7
+|                                   |
+6   .   .   .  -B   .   .   .   .   6
+|                                   |
+5   .   K   .  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   B   .   .   4
+|                                   |
+3   .   .   .   .   S   .   .   .   3
+|                                   |
+2   D   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   . -EL   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          5 + 7
+        Paralysierend a7 f7 a2
+            DiagrammCirce
+
+  1.pBf7-f8=pD ? Drohung:
+          2.Kb5-c5 # 
+          2.Kb5-b6 # 
+      1...ELg1*f8 [+wpDf7] 
+          2.Kb5-c6 # 
+          2.Kb5-c4 # 
+      1...ELg1-e4 
+          2.Kb5-b6 # 
+    Aber
+      1...ELg1-h8  !
+
+  1.pBf7-f8=pS ? Drohung:
+          2.Kb5-c6 # 
+      1...ELg1*f8 [+wpSf7] 
+          2.Kb5-c5 # 
+      1...Sc8-e7 
+          2.Kb5-b6 # 
+    Aber
+      1...ELg1-d3  !
+
+  1.pBf7-f8=pT ? Drohung:
+          2.Kb5-b6 # 
+      1...ELg1*f8 [+wpTf7] 
+          2.Kb5-c6 # 
+    Aber
+      1...Sg7-e8  !
+
+  1.pBf7-f8=pL ? Drohung:
+          2.Kb5-c5 # 
+      1...ELg1*f8 [+wpLf7] 
+          2.Kb5-c4 # 
+      1...Sc8-e7 
+          2.Kb5-b6 # 
+    Aber
+      1...ELg1-e4  !
+
+  1.pBf7-f8=pEL ! Drohung:
+          2.Kb5-c4 # 
+      1...ELg1*f8 [+wpELf7] 
+          2.Kb5-b6 # 
+      1...Sc8-e7 
+          2.Kb5-b6 # 
+
+
+Loesung beendet. 
+
+
+
+              Hemmo Axt
+           feenschach 1984
+        Peter Kniest gewidmet
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   T   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -B   .   .   T   B   .   5
+|                                   |
+4  -T   .   .   .   .   .   B   K   4
+|                                   |
+3   .  -B   .   .   .   .   B   .   3
+|                                   |
+2   .   .   .   .  -B   .   B   .   2
+|                                   |
+1   .   .  -L   .  -D   .  -T  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         7 + 8
+            DiagrammCirce
+
+a)
+
+  1.De1-c3 Tf5-f2   2.Dc3*g3 + Kh4*g3 [+sDe1] # 
+
+b) wLf5 
+
+  1.Ta4-f4 Lf5-e4   2.Tf4*g4 + Kh4*g4 [+sTa4] # 
+
+c) wSf5 
+
+  1.Lc1-f4 Sf5-e3   2.Lf4*g5 + Kh4*g5 [+sLc1] # 
+
+Loesung beendet. 
+
+
+
+            Unto Heinonen
+   Preis, 44. feenschach-TT 1986-87
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -B   .   .   .   7
+|                                   |
+6  -S  -D  -B   .   .   .   .   .   6
+|                                   |
+5  -K  -T   .   T   .  -B   K   .   5
+|                                   |
+4  -T  -L   .   .   .   .   .   .   4
+|                                   |
+3   B  -B   L   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        4 + 10
+            DiagrammCirce
+
+a)
+
+  1.Db6-d8 Lc3-e5   2.Lb4-e1 Le5-c7 # 
+
+b) wBa3-->c4
+
+  1.Ta4-a1 Td5-d2   2.Tb5-e5 Td2-a2 # 
+
+Loesung beendet. 
+
+
+
+          Manfred Rittirsch
+ ehr. Erw., 44. feenschach-TT 1986-87
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   L   .   .   .   .   8
+|                                   |
+7   .  -B  -B   .   .   .   .   .   7
+|                                   |
+6  -L   B  -T   .   .   .   .   T   6
+|                                   |
+5  -B  -K   .   .   .   .   K   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   B   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 6
+            DiagrammCirce
+
+a)
+
+  1.c7*b6 Ld8-e7   2.Tc6-c7 Th6*b6 # 
+
+b) sKb5<-->sBa5
+
+  1.Tc6*b6 Th6-h4   2.c7-c6 Ld8*b6 # 
+
+Loesung beendet. 
+
+
+
+            G"unter Gla"s
+         2776, PK-76, 8/1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -L  -K  -T   .   .   .   .   8
+|                                   |
+7   .   .  -B   .   B   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -S   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         1 + 5
+            DiagrammCirce
+
+  1.Se5-d7 e7*d8=T +   2.Kc8*d8 [+wTe7] Te7-e8 # 
+  1.Lb8-a7 e7-e8=D   2.Td8*e8 [+wDe7] De7*c7 # 
+  1.Td8-d6 e7-e8=S   2.Se5-d7 Se8*d6 [+sTd8] # 
+
+Loesung beendet. 
+
+
+
+          Alexander Lehmkuhl
+         2416, PK-68, 4/1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -T   .   5
+|                                   |
+4   .   .   .   B   B   .   .   .   4
+|                                   |
+3   .   .   .   .  -S   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 3
+            DiagrammCirce
+
+a)
+
+  1.Tg5-e5 Ke8-f8   2.Se3-f5 e4*f5 [+sSe3] +   3.Ke6-f6 d4*e5 [+sTg5] # 
+
+b) sTg5-->e5
+
+  1.Te5-c5 Ke8-d8   2.Se3-d5 e4*d5 [+sSe3] +   3.Ke6-d6 d4*c5 [+sTe5] # 
+
+Loesung beendet. 
+
+
+
+   Maryan Kerhuel & N. Shankar Ram
+             207,fmo-3/2 
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=8                     2 + 2
+          EquipollentsCirce
+
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-a5   7.Da5*b6 [+wBc7]   8.Db6-b8 + c7*b8=L = 
+
+Loesung beendet. 
+
+
+
+              V. Crisan
+     1402a, Phenix-19/20, 12/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -S   .   .   .   7
+|                                   |
+6   .   .   T   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   L  -K   .   .   .   4
+|                                   |
+3   .   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 3
+          EquipollentsCirce
+
+  1.Se7*c6 [+wTa5] Ta5-f5   2.Sc6*d4 [+wLe2] Le2-d3 # 
+
+Loesung beendet. 
+
+
+
+              V. Crisan
+     1402b, Phenix-19/20, 12/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   T   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -S   .   .   .   5
+|                                   |
+4   .   .   .   L  -K   .   .   .   4
+|                                   |
+3   .   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 3
+          EquipollentsCirce
+
+  1.Ke4*d4 [+wLc4] Tc6-f6   2.Kd4-e4 Tf6-f4 # 
+
+Loesung beendet. 
+
+
+
+            Torsten Lin"s
+    3402, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  =B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  =B   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   K   .   .  =B  -K  =B   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    1 + 1 + 4n
+            CouscousCirce
+
+  1.Ke2*d2 [+nBe8=nT] nTe8*e6 [+nBh1=nS]   2.nSh1*f2 [+nBb8=nL] nLb8*f4 [+nBc1=nD] # 
+
+Loesung beendet. 
+
+
+
+            Michal Dragoun
+             #5969, f-98
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   K   .   8
+|                                   |
+7   .   .   .   .   .   D  -B   .   7
+|                                   |
+6   .   .   .  -K   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .  -T   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 3
+            CouscousCirce
+
+  1.Tc1-c6 Df7*g7 [+sBd1=sT]   2.Td1-d5 Dg7-e7 # 
+  1.Tc1-c5 Kg8*g7 [+sBe1=sT]   2.Te1-e5 Df7-d7 # 
+
+Loesung beendet. 
+
+
+
+          Christian Poisson
+          Jacques Rotenberg
+        1. Preis, Oxfort 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  LE   .   8
+|                                   |
+7 -LE   D   .   .   .   B   .   K   7
+|                                   |
+6   .  LE   .   .   B   .   .   .   6
+|                                   |
+5   .   .  -L   .   L  -K   .   .   5
+|                                   |
+4   .   .   S  LE   .   .  LE   B   4
+|                                   |
+3 -LE  -B   .  -T   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .  -D   .   L   .   .   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         13 + 7
+            SymmetrieCirce
+
+  1.LEd4-f2 ! Drohung:
+          2.Sc4-e3 # 
+          2.Sc4-d6 # 
+      1...Db1*d1 [+wLe8] 
+          2.Sc4-e3 # 
+      1...Td3*d1 [+wLe8] 
+          2.Sc4-e3 # 
+      1...Td3-d6 
+          2.LEg8-f8 # 
+      1...Td3-d5 
+          2.Sc4-d6 # 
+      1...Td3-d4 
+          2.LEg4-f4 # 
+      1...Td3-e3 
+          2.Ld1-f3 # 
+      1...Lc5-e3 
+          2.Sh1-g3 # 
+      1...Lc5-d4 
+          2.LEb6-c5 # 
+      1...Lc5-d6 
+          2.LEg8-c8 # 
+
+
+Loesung beendet. 
+
+
+
+          Bernd Ellinghoven
+           Hans Peter Rehm
+             Hans Gruber
+        ehr. Erw., Oxfort 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -T   .   .   8
+|                                   |
+7   .   .   .  -T   .   .   .   .   7
+|                                   |
+6  -B   .   .  -B   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   D  -B   .   5
+|                                   |
+4   K   .   .   .   .   .   L  -K   4
+|                                   |
+3   .  -B   .   .   .   .   .   B   3
+|                                   |
+2   .   .   .   .   .   .   .   B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          5 + 7
+            SymmetrieCirce
+
+  1.Df5-f7 ! Drohung:
+          2.Df7-h5 # 
+      1...Td7*f7 [+wDc2] 
+          2.Dc2-f2 + 
+              2...Tf7*f2 [+wDc7] 
+                  3.Dc7-h7 # 
+      1...Tf8*f7 [+wDc2] 
+          2.Dc2-h7 + 
+              2...Tf7*h7 [+wDa2] 
+                  3.Da2-f2 # 
+      1...Tf8-h8 
+          2.Df7-f2 # 
+
+
+Loesung beendet. 
+
+
+
+             John M. Rice
+           Lob, Oxfort 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -L   .   .   .   L   .   .   8
+|                                   |
+7  -D   .  -T   .   .   .   .   .   7
+|                                   |
+6  -B   .   D   .  -L  -S   S   .   6
+|                                   |
+5   .   .   .   .   .   B   .   .   5
+|                                   |
+4   .   S   .  -K   L   .   .   .   4
+|                                   |
+3   .  -B   .   B   .   .   .   .   3
+|                                   |
+2   .   B   .   B   .   .   B   .   2
+|                                   |
+1   .   .   K  -S   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         11 + 9
+            SymmetrieCirce
+
+  1.Le4-d5 ! Drohung:
+          2.Dc6-c5 # 
+      1...Le6*d5 [+wLe4] 
+          2.Dc6*f6 [+sSc3] # 
+      1...Sf6*d5 [+wLe4] 
+          2.Dc6-c3 # 
+      1...Sf6-e4 
+          2.Dc6-c3 # 
+      1...Da7-c5 + 
+          2.Lf8*c5 [+sDf4] # 
+      1...Tc7*c6 [+wDf3] + 
+          2.Sb4*c6 # 
+      1...Tc7-e7 
+          2.Dc6-c4 # 
+
+
+Loesung beendet. 
+
+
+
+           Brian Stephenson
+     F1356, The Problemist 1/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   L   .   .   .   8
+|                                   |
+7   .   T   .   .   .   .  -B   .   7
+|                                   |
+6   .  -T   .   L   .   .   .   .   6
+|                                   |
+5  -B   .  -D   .   S  -B   K  -S   5
+|                                   |
+4  -T  -K  -B   .   S   .   .   .   4
+|                                   |
+3  -B   .  -L  -B  -B   .   .   .   3
+|                                   |
+2   B   .   .   .   .   .   D   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         8 + 13
+            SymmetrieCirce
+
+  1.Dg2-c2 ! Drohung:
+          2.Dc2*a4 # 
+      1...d3*c2 [+wDf7] 
+          2.Df7*c4 # 
+      1...Sh5-f4 
+          2.Ld6*c5 # 
+      1...Sh5-g3 
+          2.Tb7*b6 # 
+      1...Sh5-f6 
+          2.Dc2*c3 # 
+      1...Tb6-b5 
+          2.Se5-c6 # 
+
+
+Loesung beendet. 
+
+
+
+            Antoine Tricon
+          feenschach, 3/1979
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K   .   .   8
+|                                   |
+7   .  -B   .   .  -B   B  -B  -B   7
+|                                   |
+6   .  -B   .   .   .   .   B   .   6
+|                                   |
+5   .   .   B   .   .   .   B  -T   5
+|                                   |
+4  -B   L   .   .   .   .   K  -L   4
+|                                   |
+3   .   .   .   .   .   .   .   B   3
+|                                   |
+2   B   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h==3                        9 + 9
+            SymmetrieCirce
+         SymmetrieImmunSchach
+
+  1.a4-a3 Kg4*h5 [+sTa4]   2.h7-h6 Kh5*h4 [+sLa5]   3.h6-h5 c5*b6 [+sBg3] == 
+  1  (a4-a3 )
+  2  (Lh4-e1 )
+  3  (Lh4-f2 )
+  4  (Lh4-g3 )
+  5  (Th5-h6 )
+  6  (b6-b5 )
+  7  (b6*c5 [+wBf4] )
+  8  (e7-e5 )
+  9  (e7-e6 )
+ 10  (h7-h6 )
+ 11  (h7*g6 [+wBb3] )
+ 12  (Kf8-g8 )
+ 13  (Kf8-e8 )
+ 14  (Kf8*f7 [+wBc2] )
+
+Loesung beendet. 
+
+

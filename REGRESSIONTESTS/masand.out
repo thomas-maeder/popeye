@@ -1,0 +1,443 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            Petko Petkov 
+        feenschach 2001 (v) SE
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   T   .   .   .   .   .  -L  -B   3
+|                                   |
+2   .   .   .   .   .   .   .  -K   2
+|                                   |
+1  -T   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 4
+                Masand
+
+  1.Ta1-f1 Ta3-f3   2.Lg3-f4 Tf3-f2 # 
+  1.Ta1-e1 Ta3-e3   2.Lg3-e5 Te3-e2 # 
+  1.Ta1-d1 Ta3-d3   2.Lg3-d6 Td3-d2 # 
+  1.Ta1-c1 Ta3-c3   2.Lg3-c7 + Tc3-c2 # 
+  1.Ta1-b1 Ta3-b3   2.Lg3-b8 Tb3-b2 # 
+
+Loesung beendet. 
+
+
+
+            Petko Petkov 
+           feenschach 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   D   K   B   .   S   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   T   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#6;0,1                     5 + 1
+                Masand
+
+  1.Tg1-g6 ! 
+      1...Kh8-h7 
+          2.Ke3-f2 
+              2...Kh7-h8 
+                  3.Kf2-g1 
+                      3...Kh8-h7 
+                          4.Sh3-g5 + 
+                              4...Kh7-h8 
+                                  5.Kg1-h1 
+                                      5...f3-f2 
+                                          6.Dd3-h3 + 
+                                              6...f2-f1=D # 
+
+
+Loesung beendet. 
+
+
+
+            Petko Petkov 
+           feenschach 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   L   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   B   7
+|                                   |
+6   .   .   .   .   .   .   D   .   6
+|                                   |
+5   .   .   .  -B   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .  -K   4
+|                                   |
+3   K   .   .   .   .   .   .   S   3
+|                                   |
+2  -S   .   B   .  -B  -B   .   B   2
+|                                   |
+1   .  -D   .   .   .  -L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 8
+                Masand
+
+  1.h7-h8=T ! Drohung:
+          2.Th8*h5 # 
+      1...Db1-b4 + 
+          2.Dg6-e4 # 
+      1...Db1-b3 + 
+          2.Dg6-g3 # 
+      1...Db1-b2 + 
+          2.Dg6-f6 # 
+      1...Db1-c1 + 
+          2.Dg6-g5 # 
+
+
+Loesung beendet. 
+
+
+
+            Petko Petkov 
+           feenschach 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   S   T   .   .  -T   8
+|                                   |
+7   .   B   .   .   .   .   .   .   7
+|                                   |
+6   .  -B   .   .   .   .   .   .   6
+|                                   |
+5   B   B   B   .   .   .  -B   .   5
+|                                   |
+4   .   K   B  -K   .   .   .   .   4
+|                                   |
+3   .   .   .   B   .  -B   .   .   3
+|                                   |
+2   .   .   .   .   .   S   B   .   2
+|                                   |
+1   .   .   .   .   T   .  -T   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         12 + 6
+                Masand
+
+  1.Te8-e4 + ? 
+    Aber
+      1...Te1*e4  !
+
+  1.Te8-e6 ? Drohung:
+          2.Te6-d6 # 
+      1...Tg1*e1 
+          2.Te6-e4 # 
+      1...b6*a5 + 
+          2.Sd8-c6 # 
+    Aber
+      1...b6*c5 +  !
+
+  1.Te8-e7 ? Drohung:
+          2.Te7-d7 # 
+      1...Tg1*e1 
+          2.Te7-e4 # 
+      1...b6*a5 + 
+          2.Sd8-c6 # 
+      1...b6*c5 + 
+          2.Sd8-e6 # 
+    Aber
+      1...Th8-h6  !
+
+  1.Te8*h8 ? Drohung:
+          2.Te1-e4 # 
+      1...b6*a5 + 
+          2.Sd8-c6 # 
+      1...b6*c5 + 
+          2.Sd8-e6 # 
+    Aber
+      1...Tg1*e1  !
+
+  1.Te8-g8 ? Drohung:
+          2.Te1-e4 # 
+      1...b6*a5 + 
+          2.Sd8-c6 # 
+      1...b6*c5 + 
+          2.Sd8-e6 # 
+    Aber
+      1...Tg1*e1  !
+
+  1.Te8-f8 ? Drohung:
+          2.Te1-e4 # 
+      1...b6*a5 + 
+          2.Sd8-c6 # 
+      1...b6*c5 + 
+          2.Sd8-e6 # 
+    Aber
+      1...Tg1*e1  !
+
+  1.b7-b8=L ! Drohung:
+          2.Lb8-e5 # 
+      1...Tg1*e1 
+          2.Te8-e4 # 
+      1...b6*a5 + 
+          2.Sd8-c6 # 
+      1...b6*c5 + 
+          2.Sd8-e6 # 
+      1...Th8*e8 
+          2.Te1-e4 # 
+
+  1.c5*b6 ? Drohung:
+          2.Sd8-e6 # 
+      1...Tg1*e1 
+          2.Te8-e4 # 
+      1...Th8*e8 
+          2.Te1-e4 # 
+    Aber
+      1...Th8-h6  !
+
+  1.a5-a6 ? Drohung:
+          2.Sd8-c6 # 
+      1...b6*c5 + 
+          2.Sd8-e6 # 
+    Aber
+      1...Th8-h6  !
+
+  1.a5*b6 ? Drohung:
+          2.Sd8-c6 # 
+    Aber
+      1...Th8-h6  !
+
+  1.Te1-e4 + ? 
+    Aber
+      1...Te8*e4  !
+
+
+Loesung beendet. 
+
+
+
+            Petko Petkov 
+        feenschach 2001 (v) SE
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -L   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   T   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   B   .   .   5
+|                                   |
+4   B   .   .   .  -B   .   .  -S   4
+|                                   |
+3   .   .   .   .   .   .   D   .   3
+|                                   |
+2   .   .   .   .   .   .   .   K   2
+|                                   |
+1   .   S  -K   L   .   T   S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          9 + 5
+                Masand
+
+
+  1...Sh4-f3 + 
+      2.Dg3-f4 # 
+  1...Lb8*g3 + 
+      2.Sg1-e2 # 
+  1...Lb8-e5 
+      2.Dg3-c3 # 
+  1...Lb8-d6 
+      2.Dg3-a3 # 
+  1...Lb8-c7 
+      2.Dg3-c3 # 
+
+  1.Tb6-b5 ! Drohung:
+          2.Dg3-c7 # 
+      1...Sh4-f3 + 
+          2.Dg3-f4 # 
+      1...Lb8*g3 + 
+          2.Sg1-e2 # 
+      1...Lb8-f4 
+          2.Dg3-e3 # 
+      1...Lb8-e5 
+          2.Dg3-c3 # 
+      1...Lb8-d6 
+          2.Dg3-a3 # 
+
+  1.Tb6*b8 ? Drohung:
+          2.Dg3-a3 # 
+          2.Dg3-c3 # 
+          2.Dg3-e3 # 
+      1...e4-e3 
+          2.Dg3*e3 # 
+      1...Sh4-g2 
+          2.Dg3-a3 # 
+          2.Dg3-c3 # 
+      1...Sh4*f5 
+          2.Dg3-a3 # 
+          2.Dg3-c3 # 
+    Aber
+      1...Sh4-f3 +  !
+
+  1.Dg3*b8 ? Drohung:
+          2.Db8-c8 # 
+          2.Tb6-c6 # 
+          2.Sg1-e2 # 
+      1...Sh4-f3 + 
+          2.Db8-f4 # 
+    Aber
+      1...a7*b6  !
+
+  1.Ld1-h5 + ? 
+    Aber
+      1...Kc1-c2  !
+
+  1.Ld1-g4 + ? 
+    Aber
+      1...Kc1-c2  !
+
+  1.Ld1-f3 + ? 
+    Aber
+      1...Kc1-c2  !
+
+  1.Ld1-e2 + ? 
+    Aber
+      1...Kc1-c2  !
+
+  1.Ld1-b3 + ? 
+    Aber
+      1...Kc1-b2  !
+
+  1.Ld1-c2 + ? 
+    Aber
+      1...Kc1*c2  !
+
+
+Loesung beendet. 
+
+
+
+             Petko Petkov
+           feenschach 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   L   .   .   .   .   .   .   8
+|                                   |
+7   .   K   .  -K   .  -B   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   D   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -S   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 3
+                Masand
+
+  1.Lb8-c7 ! Drohung:
+          2.De4-e8 # 
+      1...f7-f5 
+          2.De4-e6 # 
+      1...f7-f6 
+          2.De4-e7 # 
+
+
+Loesung beendet. 
+
+
+
+            Hubert Gockel
+       The Problemist vii/2006
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   S   .   K   .   .   .  -S   8
+|                                   |
+7   .   S  -B   .   .  -B   .   .   7
+|                                   |
+6   .  -B   .   .   .   B   .   .   6
+|                                   |
+5  -D   .   .  -K   .   .   .   .   5
+|                                   |
+4  -B   .  -T  -B   .   .  -B   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   .  -S   .   .   D   .   .   .   2
+|                                   |
+1   .   L   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         6 + 12
+                Masand
+
+  1.Kd8-d7 ? Drohung:
+          2.De2-e6 # 
+      1...Sb2-d3 
+          2.De2-f3 # 
+      1...d4-d3 
+          2.De2-e4 # 
+      1...Da5-c5 
+          2.De2*c4 # 
+      1...Da5-b5 + 
+          2.Tc4-c5 # 
+      1...Sh8-g6 
+          2.Lb1-e4 # 
+    Aber
+      1...Da5-b4  !
+
+  1.Kd8-e7 ! Drohung:
+          2.De2-e6 # 
+      1...d4-d3 
+          2.De2-e4 # 
+      1...Da5-b4 + 
+          2.Tc4*d4 # 
+      1...Da5-c5 + 
+          2.Tc4*c5 # 
+      1...Da5-b5 
+          2.De2*c4 # 
+      1...Sh8-g6 + 
+          2.Lb1-e4 # 
+
+  1.De2-e6 + ? 
+    Aber
+      1...Kd5*e6  !
+
+  1.De2-e5 + ? 
+    Aber
+      1...f6*e5  !
+
+
+Loesung beendet. 
+
+

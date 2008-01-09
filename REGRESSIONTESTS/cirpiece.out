@@ -1,0 +1,380 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            Torsten Lin"s
+          unver"offentlicht
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -L   .   .   .   L  -D   8
+|                                   |
+7   D   .   .   .   .   .  -B   .   7
+|                                   |
+6   .  -T   S  -B   .  -L   .   .   6
+|                                   |
+5   .   T   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .  -B  -K   .  -B   .   4
+|                                   |
+3  -S   .   .  -B   .   .   B   .   3
+|                                   |
+2   .   S   .  -S   .   K   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         7 + 13
+                Circe
+
+a)
+
+  1.Da7-d7 ! Drohung:
+          2.Lg8-d5 # 
+      1...Sa3*b5 [+wTh1] 
+          2.Th1-e1 # 
+      1...Tb6*b5 [+wTh1] 
+          2.Th1-e1 # 
+      1...Tb6*c6 [+wSb1] 
+          2.Sb1*d2 [+sSb8] # 
+      1...Lc8*d7 [+wDd1] 
+          2.Dd1-e1 # 
+      1...Dh8*g8 [+wLf1] 
+          2.Lf1*d3 # 
+
+
+b) ChamaeleonCirce	S->L->T->D->S
+
+  1.Da7-d7 ! Drohung:
+          2.Lg8-d5 # 
+      1...Sa3*b5 [+wDd1] 
+          2.Dd1-e1 # 
+      1...Tb6*b5 [+wDd1] 
+          2.Dd1-e1 # 
+      1...Tb6*c6 [+wLf1] 
+          2.Lf1*d3 # 
+      1...Lc8*d7 [+wSb1] 
+          2.Sb1*d2 [+sLf8] # 
+      1...Dh8*g8 [+wTh1] 
+          2.Th1-e1 # 
+
+
+c) CirceClone
+
+  1.Da7-d7 ! Drohung:
+          2.Lg8-d5 # 
+      1...Sa3*b5 [+wSb1] 
+          2.Sb1*d2 [+sSb8] # 
+      1...Tb6*b5 [+wTh1] 
+          2.Th1-e1 # 
+      1...Tb6*c6 [+wTh1] 
+          2.Th1-e1 # 
+      1...Lc8*d7 [+wLf1] 
+          2.Lf1*d3 [+sLc8] # 
+      1...Dh8*g8 [+wDd1] 
+          2.Dd1-e1 # 
+
+
+d) ChamaeleonCirce	S->D->T->L->S
+
+  1.Da7-d7 ! Drohung:
+          2.Lg8-d5 # 
+      1...Sa3*b5 [+wLf1] 
+          2.Lf1*d3 # 
+      1...Tb6*b5 [+wLf1] 
+          2.Lf1*d3 # 
+      1...Tb6*c6 [+wDd1] 
+          2.Dd1-e1 # 
+      1...Lc8*d7 [+wTh1] 
+          2.Th1-e1 # 
+      1...Dh8*g8 [+wSb1] 
+          2.Sb1*d2 [+sDd8] # 
+
+
+Loesung beendet. 
+
+
+
+           Michel Olausson
+              5968, f-98
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -K   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+           ChamaeleonCirce
+
+a)
+
+  1.c2-c1=S b7-b8=T   2.Sc1-a2 Tb8-b3 # 
+
+b) nBBc2   wKa5-->d1
+
+  1.nBBc2-b1=nL b7-b8=D   2.nLb1-a2 Db8-b3 # 
+
+Loesung beendet. 
+
+
+
+           Michel Olausson
+        942, Phenix-13,6/1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -K   .   .   .   .   .   .   .   3
+|                                   |
+2   .   T   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#3                     2 + 2
+           ChamaeleonCirce
+
+a)
+
+  1.Sb8-a6   2.Sa6-b4   3.Sb4-a2 Tb2-b3 # 
+
+b) sSb8-->c8
+
+  1.Sc8-b6   2.Sb6-a4   3.Sa4*b2 [+wDd1] Dd1-a4 # 
+
+Loesung beendet. 
+
+
+
+           Michel Olausson
+   2503a), diagrammes-98, 7-9/1991
+   nebenloesig - eigenlich ser-h#5
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   K   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .  -B   S   .   2
+|                                   |
+1   .   .   L   .   .   .   S  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#4                     4 + 2
+           ChamaeleonCirce
+
+  1.f2-f1=T   2.Tf1*c1 [+wTa1]   3.Tc1-c8   4.Tc8-h8 Sg1-f3 # 
+  1.f2-f1=T   2.Tf1*c1 [+wTa1]   3.Tc1-c7   4.Tc7-h7 Sg1-f3 # 
+  1.f2-f1=T   2.Tf1*c1 [+wTa1]   3.Tc1-c6   4.Tc6-h6 Sg1-f3 # 
+  1.f2-f1=T   2.Tf1*c1 [+wTa1]   3.Tc1-c5   4.Tc5-h5 Sg1-f3 # 
+  1.f2-f1=T   2.Tf1*c1 [+wTa1]   3.Tc1-c4   4.Tc4-h4 Sg1-f3 # 
+
+Loesung beendet. 
+
+
+
+           Vladimir Nebotov
+          Phenix-18, 9/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   D   .   L   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -B  -B   5
+|                                   |
+4   .   .   .   .   .   .  -B  -K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 4
+              CirceClone
+
+  1.Da8-f3 ! Zugzwang.
+      1...g4-g3 
+          2.Df3*h5 [+sDd8] # 
+      1...g4*f3 [+wBf2] 
+          2.g2-g3 # 
+
+
+Loesung beendet. 
+
+
+
+           Vladimir Nebotov
+          Phenix-18, 9/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -B   .   .   7
+|                                   |
+6  -B   T   .  -B   .   .   .   .   6
+|                                   |
+5   .  -S   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .   K   .  -K   4
+|                                   |
+3   .   .  -B   .  -B   .   .  -B   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -L   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        2 + 11
+              CirceClone
+
+  1.Lg1-f2 Tb6*d6 [+sTh8]   2.Sb5*d6 [+wSg1] Sg1-f3 # 
+  1.e3-e2 Kf4-f3   2.Lg1*b6 [+wLc1] Lc1-g5 # 
+  1.d6-d5 Tb6-g6   2.f7*g6 [+wBg2] g2-g3 # 
+  1.Sa8-c7 Tb6*a6 [+sTa8]   2.Ta8*a6 [+wTh1] Th1*h3 [+sTa8] # 
+
+Loesung beendet. 
+
+
+
+           Vladimir Nebotov
+          Phenix-18, 9/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .   .  -D   .   .   .   .   7
+|                                   |
+6   .   .   .  -B   .  -T   .   B   6
+|                                   |
+5   .   .   .  -B   .   B   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 5
+              CirceClone
+                Duplex
+
+  1.Dd7-e6 f5*e6 [+sBe7]   2.Tf6*h6 [+wTa1] Ta1-a8 # 
+
+  1.Kc1-d2 Dd7*f5 [+wDd1]   2.Kd2-e1 Df5-f2 # 
+
+Loesung beendet. 
+
+
+
+             A. Handurin
+          Phenix-18, 9/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -T   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   S   .   .  -L   6
+|                                   |
+5   .   .   .   .   .  -K   S   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   K   .   3
+|                                   |
+2  -L   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 4
+              CirceClone
+
+a)
+
+  1.Lh6*g5 [+wLc1] Lc1-b2   2.La2*e6 [+wLf1] Lf1-d3 # 
+
+b) wSg5-->e4
+
+  1.Te8*e6 [+wTh1] Th1*h6 [+sTh8]   2.Te6*e4 [+wTh1] Th1-h5 # 
+
+Loesung beendet. 
+
+
+
+           Vladimir Nebotov
+          Phenix-18, 9/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   .   .   K   8
+|                                   |
+7   .   B   .   .   .  -B   .   B   7
+|                                   |
+6   .   .   B   B   .   B   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   D   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         7 + 2
+              CirceClone
+
+  1.Df2-a2 ! Zugzwang.
+      1...Kd8-e8 
+          2.Da2*f7 [+sDd8] + 
+              2...Ke8*f7 [+wDd1] # 
+
+
+Loesung beendet. 
+
+

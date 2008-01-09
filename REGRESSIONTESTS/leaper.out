@@ -1,0 +1,52 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            Pierre Monreal
+            Fernand Calvet
+         The Problemist 1974
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   D   .  -L  -T   .   .   8
+|                                   |
+7   .   T   .   .   .   .   .   .   7
+|                                   |
+6  -B   . -BI  BI   .   .   .   .   6
+|                                   |
+5   B   .  -B  -B   .   .   .   .   5
+|                                   |
+4   .  -B  -K   .   .   .   .  -T   4
+|                                   |
+3   .   S   .   .   .  -B  -L   .   3
+|                                   |
+2   .   B   .   T -BI   .   .  BI   2
+|                                   |
+1   .   .   .   .   .   L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        10 + 12
+
+  1.Tb7-b8 ! Drohung:
+          2.Dc8*a6 # 
+      1...Lg3*d6 
+          2.BIh2-e1 # 
+      1...d5-d4 
+          2.Dc8-e6 # 
+      1...BIc6*b3 
+          2.BId6-a7 # 
+      1...BIc6-d3 
+          2.Td2-c2 # 
+      1...BIc6-f5 
+          2.Dc8*c5 # 
+      1...BIc6-f7 
+          2.BIh2-f5 # 
+      1...BIc6-a3 
+          2.Dc8*c5 # 
+      1...BIc6-e3 
+          2.Dc8*c5 # 
+      1...BIc6-f4 
+          2.Td2-d4 # 
+
+
+Loesung beendet. 
+
+

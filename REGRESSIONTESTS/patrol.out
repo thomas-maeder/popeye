@@ -1,0 +1,208 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+             Denys Bonner
+ F1011, The Problemist 12/22, 7/1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -L   L  -S   8
+|                                   |
+7  -D  -B   .   .   S   .   .   .   7
+|                                   |
+6   .   D   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .  -B   S   5
+|                                   |
+4   B   .   .   .   B   T   .   .   4
+|                                   |
+3  -T   .   L  -S   .   .   .   T   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   K  -T   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         11 + 9
+           PatrouilleSchach
+
+  1.Sh5-f6 ! Drohung:
+          2.Sf6-d5 # 
+      1...Ke5-d6 
+          2.Se7-d5 # 
+      1...Ke5*f6 
+          2.Se7-d5 # 
+      1...Ke5*f4 
+          2.Se7-d5 # 
+      1...Ke5-d4 
+          2.Db6-c5 # 
+
+
+Loesung beendet. 
+
+
+
+             Denys Bonner
+F1291, The Problemist 14/1-2, 1-3/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -L   .  -G   .  -T   D   K   8
+|                                   |
+7  -B   .   .   G   .   .   .   B   7
+|                                   |
+6   .   .   B   .   G   .   .   .   6
+|                                   |
+5   .   .  -K   T   .   .  -B  -D   5
+|                                   |
+4   L  -B   S  -S   .   .  -G  -B   4
+|                                   |
+3   B   B   .   .   .   .   .   B   3
+|                                   |
+2   .   .   .   B   .   .   .   .   2
+|                                   |
+1  -T  -L   S   T   .  -S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        15 + 14
+           PatrouilleSchach
+
+  1.a3*b4 ! Zugzwang.
+      1...Lb1-e4 
+          2.Sc1-d3 # 
+          2.Sc1-a2 # 
+      1...Ta1-a3 
+          2.Sc1-a2 # 
+          2.Sc1-d3 # 
+      1...Ta1-a2 
+          2.Sc1-d3 # 
+          2.Sc1*a2 # 
+      1...Lb1*h7 
+          2.Sc1-a2 # 
+      1...Lb1-g6 
+          2.Sc1-a2 # 
+      1...Lb1-f5 
+          2.Sc1-a2 # 
+          2.Sc4-e3 # 
+      1...Lb1-d3 
+          2.Sc1*d3 # 
+          2.Sc1-a2 # 
+      1...Lb1-c2 
+          2.Sc1-a2 # 
+      1...Lb1-a2 
+          2.Sc1*a2 # 
+          2.Sc1-d3 # 
+      1...Sf1-h2 
+          2.Sc4-e3 # 
+      1...Sf1-g3 
+          2.Sc4-e3 # 
+      1...Sf1-e3 
+          2.Sc4*e3 # 
+      1...Sf1*d2 
+          2.Sc4-e3 # 
+      1...Sd4*b3 
+          2.Sc1*b3 # 
+      1...Sd4-c2 
+          2.Sc1-d3 # 
+      1...Sd4-e2 
+          2.d2-d4 # 
+      1...Sd4-f3 
+          2.Sc4-e3 # 
+      1...Sd4-f5 
+          2.Ge6*g4 # 
+      1...Sd4*e6 
+          2.Dg8*e6 # 
+      1...Sd4*c6 
+          2.La4*c6 # 
+      1...Sd4-b5 
+          2.Ge6-b6 # 
+      1...Gg4*d7 
+          2.Td5-e5 # 
+      1...Gg4*c4 
+          2.b3*c4 # 
+      1...Gg4-g6 
+          2.Td5-e5 # 
+      1...Dh5-e8 
+          2.Td5-e5 # 
+      1...Dh5-f7 
+          2.Td5-e5 # 
+      1...Dh5-g6 
+          2.Td5-e5 # 
+      1...Dh5-h6 
+          2.Td5-e5 # 
+      1...a7-a5 
+          2.Sc4-b6 # 
+      1...a7-a6 
+          2.Sc4-b6 # 
+      1...Lb8-h2 
+          2.Sc4-b6 # 
+      1...Lb8-g3 
+          2.Sc4-b6 # 
+      1...Lb8-f4 
+          2.Sc4-b6 # 
+      1...Lb8-e5 
+          2.Sc4-b6 # 
+      1...Lb8-c7 
+          2.Gd7-b7 # 
+      1...Gd8-a8 
+          2.Gd7*d4 # 
+      1...Gd8*g8 
+          2.Gd7*d4 # 
+      1...Tf8-f2 
+          2.Gd7*d4 # 
+      1...Tf8-f3 
+          2.Gd7*d4 # 
+      1...Tf8-f4 
+          2.Td5-e5 # 
+      1...Tf8-f5 
+          2.Gd7*d4 # 
+      1...Tf8-f6 
+          2.Gd7*d4 # 
+      1...Tf8-f7 
+          2.Gd7*d4 # 
+      1...Tf8-e8 
+          2.Sc4-e3 # 
+
+
+Loesung beendet. 
+
+
+
+           Walerij Nebotow
+ F1222, The Problemist 13/15, 5/1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   L   .   .   .   .   .   .  -T   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -L   .   .   .   .   .   .   6
+|                                   |
+5  -S  -S   T   .   B   B   .  -L   5
+|                                   |
+4   T   .   .   .  -K  -B   .   B   4
+|                                   |
+3   .   .   B   .   .   S   .   .   3
+|                                   |
+2   .   .   .   .   B   .   .   S   2
+|                                   |
+1   .  -D   .   .   K   .   .   D   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         12 + 8
+           PatrouilleSchach
+
+  1.Sf3-g5 + ! 
+      1...Ke4*f5 
+          2.La8-e4 # 
+      1...Ke4*e5 
+          2.Sg5-e4 # 
+      1...Ke4-e3 
+          2.Ta4-e4 # 
+      1...Ke4-d5 
+          2.Dh1-e4 # 
+
+
+Loesung beendet. 
+
+

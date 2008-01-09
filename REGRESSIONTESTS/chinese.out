@@ -1,0 +1,683 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            N. Shankar Ram
+       harmonie 23, 31.12.1988
+     3. Lob, 1. harmonie-TT 1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   . -NA   .   .   . -NA   7
+|                                   |
+6   .   .   .   .  -B   .   .   .   6
+|                                   |
+5   . -NA   .   .   .   B   .   .   5
+|                                   |
+4   .   .   .   .   .   .   S   .   4
+|                                   |
+3   .  -S  NA   .   K -NA   T   .   3
+|                                   |
+2   .   .   S   .   T   B   .   .   2
+|                                   |
+1   .   .   .   .   .  -K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 7
+
+  1.f5*e6 ! Drohung:
+          2.NAc3-d5 # 
+      1...NAb5-c7 
+          2.Sg4-h2 # 
+      1...NAd7-f6 
+          2.Tg3-g1 # 
+      1...NAh7-d5 
+          2.Te2-e1 # 
+
+  1.Sg4-h2 + ? 
+    Aber
+      1...NAb5*h2  !
+
+  1.Sg4-e5 ? Drohung:
+          2.Tg3-g1 # 
+      1...NAf3-b1 
+          2.Te2-e1 # 
+      1...NAf3-d2 
+          2.Te2-e1 # 
+      1...NAf3-e1 
+          2.Te2*e1 # 
+      1...NAf3-g1 
+          2.Te2-e1 # 
+      1...NAf3-h2 
+          2.Te2-e1 # 
+      1...NAf3-h4 
+          2.Te2-e1 # 
+      1...NAf3-d4 
+          2.Te2-e1 # 
+    Aber
+      1...NAf3-g5  !
+
+  1.Tg3-g1 + ? 
+    Aber
+      1...NAd7*g1  !
+
+  1.NAc3-g5 ? Drohung:
+          2.Te2-e1 # 
+      1...NAf3-b1 
+          2.Sg4-h2 # 
+      1...NAf3-d2 
+          2.Sg4-h2 # 
+      1...NAf3-e1 
+          2.Sg4-h2 # 
+      1...NAf3-g1 
+          2.Sg4-h2 # 
+      1...NAf3-h2 
+          2.Sg4*h2 # 
+      1...NAf3-h4 
+          2.Sg4-h2 # 
+      1...NAf3-e5 
+          2.Sg4-h2 # 
+      1...NAb5-a3 
+          2.Sg4-h2 # 
+    Aber
+      1...NAf3-d4  !
+
+  1.NAc3-d5 + ? 
+    Aber
+      1...e6*d5  !
+
+  1.Te2-e1 + ? 
+    Aber
+      1...NAh7*e1  !
+
+  1.Sc2-d4 ? Drohung:
+          2.Sg4-h2 # 
+      1...NAf3-b1 
+          2.Tg3-g1 # 
+      1...NAf3-d2 
+          2.Tg3-g1 # 
+      1...NAf3-e1 
+          2.Tg3-g1 # 
+      1...NAf3-g1 
+          2.Tg3*g1 # 
+      1...NAf3-h2 
+          2.Tg3-g1 # 
+      1...NAf3-h4 
+          2.Tg3-g1 # 
+      1...NAf3-g5 
+          2.Tg3-g1 # 
+    Aber
+      1...NAf3-e5  !
+
+
+Loesung beendet. 
+
+
+
+           Reto Aschwanden
+  F138, Probleemblad 57/5, 9-10/1999
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  PA   .   .   .   .  VA   K   8
+|                                   |
+7  LH  NA   .   .  LH  NA   L   .   7
+|                                   |
+6   .   .   .   .   B   .  PA   .   6
+|                                   |
+5   B  -B  -K   .  VA   .   .   .   5
+|                                   |
+4 -LH   .   .   .   .   .   T   .   4
+|                                   |
+3   .   .   S  NA   .   .   .   .   3
+|                                   |
+2   .  -B   . -MO  -T -NA  VA   .   2
+|                                   |
+1   .   .   .  PA   .  VA   .  NA   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         19 + 7
+
+  1.NAf7-d6 + ? 
+    Aber
+      1...Kc5-c6  !
+
+  1.NAf7-h3 ? Drohung:
+          2.NAh3-b6 # 
+      1...MOd2-e4 
+          2.NAb7-d6 # 
+      1...NAf2-e4 
+          2.VAe5-d6 # 
+    Aber
+      1...Te2-e4  !
+
+  1.NAb7-h4 ? Drohung:
+          2.PAb8-b6 # 
+      1...MOd2-e4 
+          2.NAf7-d6 # 
+      1...Te2-e4 
+          2.VAe5-d6 # 
+    Aber
+      1...NAf2-e4  !
+
+  1.NAb7-f5 ? Drohung:
+          2.PAb8-b6 # 
+      1...MOd2-e4 
+          2.NAf7-d6 # 
+      1...Te2-e4 
+          2.VAe5-d6 # 
+    Aber
+      1...NAf2-e4  !
+
+  1.NAb7-d6 + ? 
+    Aber
+      1...Kc5-c6  !
+
+  1.NAb7-d8 ? Drohung:
+          2.PAb8-b6 # 
+      1...MOd2-e4 
+          2.NAf7-d6 # 
+      1...Te2-e4 
+          2.VAe5-d6 # 
+    Aber
+      1...NAf2-e4  !
+
+  1.VAe5-c7 ? Drohung:
+          2.VAc7-b6 # 
+      1...Te2-e4 
+          2.NAb7-d6 # 
+      1...NAf2-e4 
+          2.NAf7-d6 # 
+    Aber
+      1...MOd2-e4  !
+
+  1.VAe5-d6 + ? 
+    Aber
+      1...Kc5-c6  !
+
+  1.NAd3-f4 ! Drohung:
+          2.NAf4-b6 # 
+      1...MOd2-e4 
+          2.VAe5-d6 # 
+      1...Te2-e4 
+          2.NAf7-d6 # 
+      1...NAf2-e4 
+          2.NAb7-d6 # 
+
+  1.Sc3*a4 + ? 
+      1...Kc5-d5 
+          2.Sa4-b6 # 
+    Aber
+      1...b5*a4  !
+
+  1.NAh1-g3 ? Drohung:
+          2.Tg4-e4 # 
+    Aber
+      1...Te2-e3  !
+
+
+Loesung beendet. 
+
+
+LEo f8, VAo c8, MAo e8, NAo b8, ZEbra a5, 1+1 Turm-Huepfer, 0+3 Laeufer-Huepfer
+
+            Janez Nastran
+        The Problemist 7/1997
+             3. Ehr. Erw.
+            (Verbesserung)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  NA  VA   .  MA  LE   K   .   8
+|                                   |
+7   .  -B   .   .   .   .   B   .   7
+|                                   |
+6   .   .   .  -B   .   . -LH   .   6
+|                                   |
+5   Z  TH   .   .  -B   .   S   .   5
+|                                   |
+4   .   .   .   .   B   .  -K   B   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   T   L   .   .   2
+|                                   |
+1 -LH -LH   . -TH   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         13 + 8
+
+
+  1...LHa1-f6 
+      2.MAe8*f6 # 
+  1...LHg6-d3 
+      2.THb5-f5 # 
+
+  1.LEf8-f5 + ? 
+      1...Kg4-f4 
+          2.Za5-c2 # 
+    Aber
+      1...THd1-d7  !
+
+  1.MAe8-f6 + ? 
+    Aber
+      1...LHa1*f6  !
+
+  1.THb5-f5 + ? 
+    Aber
+      1...THd1-d7  !
+
+  1.Za5-c2 ? Zugzwang.
+      1...LHa1-f6 
+          2.MAe8*f6 # 
+          2.NAb8-d7 # 
+      1...LHb1-d3 
+          2.LEf8-f5 # 
+          2.THb5-f5 # 
+      1...Kg4-h5 
+          2.THb5-f5 # 
+      1...d6-d5 
+          2.LEf8-f5 # 
+      1...LHg6-d3 
+          2.LEf8-f5 # 
+          2.THb5-f5 # 
+    Aber
+      1...b7-b6  !
+
+  1.Za5-d7 + ? 
+    Aber
+      1...LHb1-f5  !
+
+  1.Te2-b2 ? Drohung:
+          2.MAe8-f6 # 
+      1...Kg4-f4 
+          2.THb5-f5 # 
+      1...Kg4-h5 
+          2.Za5-d7 # 
+    Aber
+      1...LHa1-c3  !
+
+  1.Te2-c2 ! Drohung:
+          2.Za5-d7 # 
+      1...LHa1-f6 
+          2.MAe8*f6 # 
+          2.NAb8-d7 # 
+      1...LHb1-d3 
+          2.THb5-f5 # 
+      1...Kg4-f4 
+          2.MAe8-f6 # 
+      1...Kg4-h5 
+          2.THb5-f5 # 
+      1...LHg6-d3 
+          2.THb5-f5 # 
+
+  1.Te2-d2 ? Drohung:
+          2.THb5-f5 # 
+      1...LHa1-f6 
+          2.MAe8*f6 # 
+      1...THd1-d3 
+          2.Za5-d7 # 
+      1...Kg4-f4 
+          2.Za5-d7 # 
+      1...Kg4-h5 
+          2.MAe8-f6 # 
+    Aber
+      1...d6-d5  !
+
+
+Loesung beendet. 
+
+
+
+    Janez Nastran & Peter Gvozdjak
+      Brabec-60 JT C, 26.5.1998
+             1.-5. Preis
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .   .   .  -K -VA -VA  PA   8
+|                                   |
+7 -VA -VA   .   .   .   .   .   D   7
+|                                   |
+6  NA  LE   .   .   .  LE  NA   .   6
+|                                   |
+5 -LE   .  -B   .  -L   .   .  -B   5
+|                                   |
+4   . -VA   B   .  -B   .   .   .   4
+|                                   |
+3   .   .   B   .   .   .  LE   .   3
+|                                   |
+2   .   .   .  -B   .   . -PA   .   2
+|                                   |
+1  NA   .   .   K   . -VA -NA  NA   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        12 + 16
+
+
+  1...NAg1-h3 
+      2.Dh7-d7 # 
+  1...NAg1-e2 
+      2.Dh7-d7 # 
+      2.Dh7-c7 # 
+  1...PAg2-e2 
+      2.Dh7-c7 # 
+      2.LEg3*g8 # 
+  1...PAg2-f2 
+      2.LEg3*g8 # 
+  1...PAg2*g6 
+      2.LEg3*g8 # 
+  1...PAg2-h2 
+      2.LEg3*g8 # 
+  1...LEa5-b5 
+      2.Dh7-c7 # 
+  1...Le5*c3 
+      2.Dh7-d7 # 
+  1...Le5-d4 
+      2.Dh7-d7 # 
+  1...Le5*g3 
+      2.Dh7-d7 # 
+  1...Le5-f4 
+      2.Dh7-d7 # 
+  1...Le5*f6 
+      2.Dh7-d7 # 
+  1...Le5-b8 
+      2.Dh7-d7 # 
+  1...Le5-d6 
+      2.Dh7-d7 # 
+  1...Ke8-d8 
+      2.Dh7-c7 # 
+      2.Dh7-e7 # 
+
+  1.Dh7-c7 + ? 
+    Aber
+      1...VAf1*a6  !
+
+  1.Dh7-d7 + ? 
+    Aber
+      1...NAg1*d7  !
+
+  1.Dh7-e7 + ? 
+    Aber
+      1...VAb4*e7  !
+
+  1.Dh7-f7 + ? 
+      1...Ke8-d8 
+          2.Df7-c7 # 
+          2.Df7-e7 # 
+    Aber
+      1...Ke8*f7  !
+
+  1.LEf6-c6 ? Drohung:
+          2.Dh7-d7 # 
+      1...0-0-0 
+          2.Dh7-c7 # 
+          2.NAa6-c7 # 
+      1...Ke8-d8 
+          2.Dh7-c7 # 
+    Aber
+      1...Le5-g7  !
+
+  1.LEf6-d6 ? Drohung:
+          2.Dh7-e7 # 
+      1...Le5-f6 
+          2.Dh7-d7 # 
+      1...Le5*d6 
+          2.Dh7-d7 # 
+      1...0-0-0 
+          2.NAa6*e4 # 
+    Aber
+      1...Le5-g7  !
+
+  1.LEf6-e6 ? Drohung:
+          2.Dh7-e7 # 
+      1...0-0-0 
+          2.Dh7-d7 # 
+      1...Ke8-d8 
+          2.Dh7-c7 # 
+    Aber
+      1...Le5-g7  !
+
+  1.LEb6-c7 + ? 
+      1...Ke8-d8 
+          2.Dh7-e7 # 
+    Aber
+      1...VAf1*a6  !
+
+  1.LEb6-b5 ? Drohung:
+          2.Dh7-c7 # 
+          2.Dh7-d7 # 
+      1...VAf1*b5 
+          2.Dh7-c7 # 
+      1...PAg2*g6 
+          2.Dh7-d7 # 
+          2.LEg3*g8 # 
+      1...LEa5-d8 + 
+          2.Dh7-d7 # 
+      1...VAa7-b6 
+          2.Dh7-d7 # 
+      1...VAa7-b8 
+          2.Dh7-d7 # 
+      1...Ke8-d8 
+          2.Dh7-e7 # 
+    Aber
+      1...0-0-0  !
+
+  1.LEb6-e6 ? Drohung:
+          2.Dh7-e7 # 
+          2.NAg6-e7 # 
+      1...PAg2*g6 
+          2.Dh7-e7 # 
+          2.LEg3*g8 # 
+      1...LEa5-a2 
+          2.Dh7-e7 # 
+      1...Le5*f6 
+          2.Dh7-d7 # 
+          2.Dh7-e7 # 
+      1...0-0-0 
+          2.Dh7-d7 # 
+          2.LEf6-f5 # 
+      1...Ke8-d8 
+          2.Dh7-e7 # 
+    Aber
+      1...LEa5-d8 +  !
+
+  1.LEb6-d6 ? Drohung:
+          2.Dh7-e7 # 
+      1...Le5*f6 
+          2.Dh7-d7 # 
+      1...Le5*d6 
+          2.Dh7-d7 # 
+    Aber
+      1...0-0-0  !
+
+  1.LEb6-c6 ! Drohung:
+          2.Dh7-d7 # 
+      1...0-0-0 
+          2.Dh7-c7 # 
+      1...Ke8-d8 
+          2.Dh7-e7 # 
+
+  1.LEg3*g1 ? Drohung:
+          2.Dh7-d7 # 
+      1...0-0-0 
+          2.Dh7-e7 # 
+    Aber
+      1...Ta8-d8  !
+
+  1.LEg3-d3 ? Drohung:
+          2.Dh7-c7 # 
+      1...0-0-0 
+          2.Dh7-e7 # 
+      1...Ke8-d8 
+          2.Dh7-d7 # 
+    Aber
+      1...VAa7-b8  !
+
+  1.LEg3*g8 + ? 
+    Aber
+      1...PAg2*g8  !
+
+  1.c3*b4 ? Drohung:
+          2.Dh7-e7 # 
+      1...Le5*f6 
+          2.Dh7-d7 # 
+      1...Le5-d6 
+          2.Dh7-d7 # 
+    Aber
+      1...0-0-0  !
+
+  1.NAh1-d3 ? Drohung:
+          2.Dh7-c7 # 
+      1...0-0-0 
+          2.Dh7*b7 # 
+    Aber
+      1...VAa7-b8  !
+
+
+Loesung beendet. 
+
+
+2+0 Nachtreiter, 0+1 VAo g1, 2+1 PAos, 1+1 RAos, 2+10 dummy Bauern, 0+1 dummy Koenig d6
+
+           Reto Aschwanden
+     4250v, diagrammes, 4-6/1999
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  DU   .   .   . -DU   .   8
+|                                   |
+7   .   . -DU   .   .  DU   .  -T   7
+|                                   |
+6   .  PA   . -DU   . -DU   .   .   6
+|                                   |
+5 -PA -DU   .  -T   .   . -DU   .   5
+|                                   |
+4 -DU   .  RA   . -DU   .   N  PA   4
+|                                   |
+3   .   . -RA -DU   .   .  -L   .   3
+|                                   |
+2  -B  -L   .   .  -T -DU   K   .   2
+|                                   |
+1 -DU   .  -L   N   .   . -VA   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         8 + 21
+            Koeniglich d6
+              AntiCirce
+
+
+  1...Lc1-e3 
+      2.Ng4*e3[wNe3->e8] # 
+      2.Nd1*e3[wNe3->e8] # 
+  1...Lc1-d2 
+      2.RAc4-f1 # 
+  1...VAg1-h2 
+      2.Ng4-c6 # 
+  1...Te2-d2 
+      2.RAc4-f1 # 
+  1...Te2-e3 
+      2.Ng4-c6 # 
+  1...RAc3-b1 
+      2.Ng4-c6 # 
+  1...Lg3*h4[sLh4->f8] 
+      2.RAc4-a3 # 
+  1...Lg3-e5 
+      2.Nd1-f5 # 
+  1...PAa5-a8 
+      2.Nd1-f5 # 
+  1...Td5-d4 
+      2.Ng4-c6 # 
+  1...Td5-e5 
+      2.Ng4*e5[wNe5->e8] # 
+  1...Th7*f7[sTf7->a8] 
+      2.PAh4-h6 # 
+      2.Nd1-f5 # 
+
+  1.PAb6-a6 ? Drohung:
+          2.Ng4-c6 # 
+      1...Lc1-e3 
+          2.Ng4*e3[wNe3->e8] # 
+          2.Nd1*e3[wNe3->e8] # 
+      1...Lg3-e5 
+          2.Nd1-f5 # 
+      1...Td5-e5 
+          2.Ng4*e5[wNe5->e8] # 
+      1...Th7*f7[sTf7->a8] 
+          2.PAh4-h6 # 
+          2.Nd1-f5 # 
+    Aber
+      1...Td5-c5  !
+
+  1.PAb6*f6[wPAf6->f8] ? Drohung:
+          2.RAc4-a3 # 
+    Aber
+      1...Lb2-a3  !
+
+  1.PAh4-h6 + ? 
+    Aber
+      1...Th7*h6[sTh6->h8]  !
+
+  1.Ng4*f6[wNf6->f8] ? Drohung:
+          2.RAc4-a3 # 
+    Aber
+      1...Lb2-a3  !
+
+  1.Ng4-c6 + ? 
+    Aber
+      1...VAg1*b6[sVAb6->b1]  !
+
+  1.Ng4-e5 ! Drohung:
+          2.Nd1-f5 # 
+      1...Lc1-e3 
+          2.Nd1*e3[wNe3->e8] # 
+      1...Te2-e3 
+          2.Ne5-c6 # 
+      1...Lg3*e5[sLe5->f8] 
+          2.RAc4-a3 # 
+      1...Td5*e5[sTe5->h8] 
+          2.PAh4-h6 # 
+
+  1.RAc4-a3 + ? 
+    Aber
+      1...Lb2*a3[sLa3->f8]  !
+
+  1.RAc4-d2 + ? 
+      1...Te2*d2[sTd2->h8] 
+          2.PAh4-h6 # 
+    Aber
+      1...Lc1*d2[sLd2->f8]  !
+
+  1.RAc4-e5 ? Drohung:
+          2.Nd1-f5 # 
+      1...Lc1-e3 
+          2.Ng4*e3[wNe3->e8] # 
+          2.Nd1*e3[wNe3->e8] # 
+      1...Te2-e3 
+          2.RAe5-c6 # 
+      1...Td5*e5[sTe5->h8] 
+          2.PAh4-h6 # 
+    Aber
+      1...Lg3*e5[sLe5->f8]  !
+
+  1.Nd1-f5 + ? 
+    Aber
+      1...Td5*f5[sTf5->a8]  !
+
+  1.Nd1-e3 ? Drohung:
+          2.Ng4-c6 # 
+      1...Lc1*e3[sLe3->f8] 
+          2.RAc4-a3 # 
+      1...Te2*e3[sTe3->h8] 
+          2.PAh4-h6 # 
+      1...Lg3-e5 
+          2.Ne3-f5 # 
+      1...Td5-e5 
+          2.Ng4*e5[wNe5->e8] # 
+    Aber
+      1...Td5-c5  !
+
+
+Loesung beendet. 
+
+

@@ -1,0 +1,128 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+         Ladislav Salai sr. 
+   3 H.M. Umenie 64 1999 (SAT #66)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -T   8
+|                                   |
+7   .   .   .   .   .   .   .  -B   7
+|                                   |
+6   .   .   .   .   .   .   .   B   6
+|                                   |
+5   .   .   S   .   .   .   .   .   5
+|                                   |
+4   .  -B   L   B   .   .   .   .   4
+|                                   |
+3   .   .   .  -S   L  -B   .   .   3
+|                                   |
+2  -B   .   .   B  -K  -S   .   B   2
+|                                   |
+1   T   .   .   .   K   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 8
+              StrictSAT
+
+  1.Lc4-g8 ! Zugzwang.
+      1...Sf2-e4 
+          2.Sc5*d3 # 
+      1...Sf2-d1 
+          2.Sc5*d3 # 
+      1...Sf2*h1 
+          2.Sc5*d3 # 
+      1...Sf2-h3 
+          2.Sc5*d3 # 
+      1...Sf2-g4 
+          2.Sc5*d3 # 
+      1...Sd3-b2 
+          2.d2-d3 # 
+      1...Sd3-c1 
+          2.d2-d3 # 
+      1...Sd3-f4 
+          2.d2-d3 # 
+      1...Sd3-e5 
+          2.d2-d3 # 
+      1...b4-b3 
+          2.0-0-0 # 
+      1...Th8*g8 
+          2.0-0 # 
+
+
+Loesung beendet. 
+
+
+
+         Ladislav Salai sr. 
+     Lob Umenie 64 1999 (SAT #64)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   T   8
+|                                   |
+7   B   .   .   .   .   .  -T   .   7
+|                                   |
+6   K  -B   .   .   .   .   .   .   6
+|                                   |
+5  -L   B   .   .   .   .   .   .   5
+|                                   |
+4   .  -B   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   L   .   2
+|                                   |
+1   .   .   .   .   .   .   .   D   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 5
+              StrictSAT
+
+  1.Th8-h3 ? Drohung:
+          2.Th3-f3 # 
+    Aber
+      1...Tg7-g3  !
+
+  1.Th8-h4 ? Drohung:
+          2.Th4-e4 # 
+    Aber
+      1...Tg7-g4  !
+
+  1.Th8-h5 ? Drohung:
+          2.Th5-d5 # 
+    Aber
+      1...Tg7-g5  !
+
+  1.Th8-h6 ? Drohung:
+          2.Th6-c6 # 
+    Aber
+      1...Tg7-g6  !
+
+  1.Th8-b8 ! Drohung:
+          2.Tb8-b7 # 
+
+  1.Th8-c8 ? Drohung:
+          2.Tc8-c6 # 
+    Aber
+      1...Tg7-c7  !
+
+  1.Th8-d8 ? Drohung:
+          2.Td8-d5 # 
+    Aber
+      1...Tg7-d7  !
+
+  1.Th8-e8 ? Drohung:
+          2.Te8-e4 # 
+    Aber
+      1...Tg7-e7  !
+
+  1.Th8-f8 ? Drohung:
+          2.Tf8-f3 # 
+    Aber
+      1...Tg7-f7  !
+
+
+Loesung beendet. 
+
+

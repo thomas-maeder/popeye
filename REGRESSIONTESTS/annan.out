@@ -1,0 +1,345 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+              M.Hanazawa
+           Chessics #4 1977
+NL, selbst mit Vorschlag +wBb6 in Chessics #8
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   .   .   .   7
+|                                   |
+6  -L   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -K   .   .   .   .   .   .   5
+|                                   |
+4   .   S   T   .   K   .   .   .   4
+|                                   |
+3   .   L   T   .   .   .   .   .   3
+|                                   |
+2   .   .   L   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 3
+             Annanschach	
+
+  1.Tc4-c5 + ! 
+      1...Kb5-b6 
+          2.Tc3-f6 # 
+
+  1.Sb4-a3 + ! 
+      1...Kb5-b6 
+          2.Tc3-f6 # 
+          2.Tc4-a4 # 
+          2.Lb3-a4 # 
+
+  1.Sb4-c5 + ! 
+      1...Kb5-b6 
+          2.Tc3-f6 # 
+
+  1.Sb4-a5 ! Zugzwang.
+      1...Kb5-b6 
+          2.Lb3-a4 # 
+      1...b7-b6 
+          2.Tc3-b2 # 
+
+  1.Tc3-b2 ! Zugzwang.
+      1...Kb5-b6 
+          2.Sb4-c3 # 
+      1...Kb5*c4 
+          2.Lc2-d3 # 
+      1...Kb5-a4 
+          2.Sb4-c5 # 
+      1...b7-b6 
+          2.Sb4-a3 # 
+          2.Sb4-d2 # 
+          2.Sb4-d6 # 
+          2.Sb4-a5 # 
+
+  1.Tc3-f6 ! Drohung:
+          2.Sb4-c5 # 
+      1...b7-b6 
+          2.Tf6-f5 # 
+          2.Sb4-a3 # 
+          2.Sb4-d6 # 
+
+
+Loesung beendet. 
+
+
+
+              M.Hanazawa
+           Chessics #4 1977
+      original Teil (b) +sLd5 NL
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K  -S   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -K   .   .   .   3
+|                                   |
+2   .   .   .   .   .   S   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         2 + 2
+             Annanschach	
+
+  1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 # 
+
+Loesung beendet. 
+
+
+
+              M.Hanazawa
+           Chessics #4 1977
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   T   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -B   3
+|                                   |
+2   .   .   .   .   .   .   .  -S   2
+|                                   |
+1   .   .   .   .   .   K   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         2 + 3
+             Annanschach	
+
+  1.Tg4-g2 ! Zugzwang.
+      1...h3*g2 + 
+          2.Kf1-g1 + 
+              2...Kh1-g3 # 
+
+
+Loesung beendet. 
+
+
+
+              M.Hanazawa
+           Chessics #4 1977
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   .   .   .   7
+|                                   |
+6   .  -S   .  -B   .   .   .   .   6
+|                                   |
+5   .   S   .  -S   .   B   .   .   5
+|                                   |
+4   S   K   B  -K   .   .   .   .   4
+|                                   |
+3   T   .   .   .  -T   .   .   .   3
+|                                   |
+2   .   .   .   .   .   D   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         7 + 6
+             Annanschach	
+
+  1.c4-c5 ! Zugzwang.
+      1...Sb6*c5 
+          2.Kb4-a5 + 
+              2...Kd4*b5 # 
+      1...d6*c5 + 
+          2.Kb4-c4 + 
+              2...Kd4-c6 # 
+
+
+Loesung beendet. 
+
+
+ddlkl
+
+              M.Hanazawa
+           Chessics #4 1977
+                  NL
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -T   T   .   .   .   6
+|                                   |
+5   .   .   .  -D   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -K   .   .   .   .   3
+|                                   |
+2   .   K   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 3
+             Annanschach	
+
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-d4 Te3-a3 # 
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-b5 Te3-a3 # 
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-h5 Te3-a3 # 
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-g5 Te3-a3 # 
+
+Bearbeitung abgebrochen. 
+
+
+
+             G.P.Jelliss
+           Chessics #4 1977
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -L   .   8
+|                                   |
+7   .   .   .   .   .  -B   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   S   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   L   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 3
+             Annanschach	
+
+  1.La1-f6 ! Zugzwang.
+      1...Kh7-h8 
+          2.Kf5-g5 # 
+
+
+Loesung beendet. 
+
+
+Eingabe-Fehler:Kommando unbekannt
+Stoerende Eingabe: twin
+Eingabe-Fehler:Kommando unbekannt
+Stoerende Eingabe: polnisch
+
+       G.P.Jelliss / S.Emmerson
+Chessics #4 1977 / The Problemist, Mai 2007
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   L   K   .   .   .   .  -L  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 2
+             Annanschach	
+
+  1.Lg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Lh2-b8 La1-d4 # 
+
+Loesung beendet. 
+
+
+
+              S.Emmerson
+       The Problemist, Mai 2007
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   L   .   .   .   .  -L  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 2
+             Annanschach	
+
+  1.Kh8-g7 Lb8-a7   2.Kg7-a1 Ka8-e4   3.Lg8-a2 La7-d4 # 
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+           Torquay QT, 2007
+          Ehrende Erw"ahnung
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K  -L   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   L   .   4
+|                                   |
+3   .   .   .   .   .   B   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#13                    4 + 2
+             Annanschach	
+
+  1.Ka8-b7   2.Kb7-d5   3.Lb8-e5   4.Le5-d4   5.Ld4-e4   6.Kd5-e5   7.Ke5-f4   8.Le4*f3   9.Lf3-g3  10.Kf4-e4  11.Lg3-e5  12.Ke4-a8  13.Le5-b8 Lg4-f3 # 
+
+Loesung beendet. 
+
+

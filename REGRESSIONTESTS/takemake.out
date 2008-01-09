@@ -1,0 +1,1520 @@
+Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
+
+            Volker Guelke
+            Winus Mueller
+            Peter Schmidt
+               Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -T   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -S   B   .   .   .   4
+|                                   |
+3   .   .   .   .   S   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+           Take&MakeSchach
+
+  1.Sd4-f5 Se3*f5-h6   2.Tc5-d5 e4*d5-d8=D # 
+  1.Tc5-d5 Se3*d5-d6   2.Sd4-f5 e4*f5-e7 # 
+
+Loesung beendet. 
+
+
+
+            Volker Guelke
+             Hartmut Laue
+            Peter Schmidt
+               Original
+        Verb. Stephen Emmerson
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -T   .   .  -S  -T   .   .   8
+|                                   |
+7   .   .  -B   .   K   .   .   .   7
+|                                   |
+6   .   L  -B   .   L   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4   .   .   .   T   .   .   .   .   4
+|                                   |
+3   .   .   S   .   .  -B  -S   .   3
+|                                   |
+2   .   .   .  -B   .   .   .  -L   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        5 + 10
+           Take&MakeSchach
+
+a)
+
+  1.Sg3-e4 Td4*e4-g5 +   2.Tf8-f5 Le6*f5-f4 # 
+
+b) sBd2-->g5
+
+  1.Sg3-f5 + Le6*f5-g3 +   2.Tf8-f4 Td4*f4-f5 # 
+
+Loesung beendet. 
+
+
+
+            Peter Schmidt
+               Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   K   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   B   L   .   .   3
+|                                   |
+2   .   .   .   .   B  -K   B   B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 1
+           Take&MakeSchach
+
+a)
+
+  1...g2-g3   2.Kf2*f3-g4 h2-h3 # 
+
+b) wSf3 
+
+  1...h2-h3   2.Kf2*f3-h4 g2-g3 # 
+
++c) wKg6-->g7
+
+  1...g2-g4   2.Kf2*f3-g5 h2-h4 # 
+
++d) wLf3 
+
+  1...h2-h4   2.Kf2*f3-h5 g2-g4 # 
+
+Loesung beendet. 
+
+
+
+           Stephen Emmerson
+               Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  sx3                         2 + 2
+           Take&MakeSchach
+
+  1.b6*a7-a6 ! 
+      1...Ka8-a7 
+          2.Kc8-c7 
+              2...Ka7-a8 
+                  3.a6-a7 
+                      3...Ka8*a7-a8 x 
+
+
+Loesung beendet. 
+
+
+
+              Hemmo Axt
+       Andernach 2006, 1. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -S   T   .   .   7
+|                                   |
+6   .   .   .   .   .  -L   B   .   6
+|                                   |
+5   .  -L   .  -T   S   .   .   K   5
+|                                   |
+4   .   .  -B   .   .  -K   B   .   4
+|                                   |
+3   S   .   .   .   .  -B   .   .   3
+|                                   |
+2   .   .   .  -T   .   B   .   .   2
+|                                   |
+1   .   .   L   .   .  -S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       8 + 9
+           Take&MakeSchach
+
+a)
+
+  1...Sa3*c4-c3   2.Td5*e5-c4 Lc1*d2-d6 # 
+
+b) sTd2-->e3
+
+  1...Sa3*b5-d7   2.Td5*e5-c6 Tf7*f6-d4 # 
+
+Loesung beendet. 
+
+
+
+     Thomas Maeder & Ulrich Ring
+       Andernach 2006, 2. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -B   .   .   .   6
+|                                   |
+5   .  -B  -B   .  -L   .   .   .   5
+|                                   |
+4   .  -B  -L  -K   .  -B  -B  -S   4
+|                                   |
+3  -B   .   .   .  -T   .   .   .   3
+|                                   |
+2   L   .   K   .   .   .   B   S   2
+|                                   |
+1   .   .   .   .   T   .   .  -T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        5 + 14
+           Take&MakeSchach
+
+  1.Te3-e4 Te1-e3   2.Lc4-f1 Sh2*f1-e2 # 
+  1.Lc4-d5 La2-c4   2.Te3-f3 Sh2*f3-b3 # 
+
+Loesung beendet. 
+
+
+
+     Thomas Maeder & Ulrich Ring
+Andernach 2006, 2. Platz (Nach-Andernach-Version)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -S   .  -B   7
+|                                   |
+6   .   .   T  -T   .   .   .  -L   6
+|                                   |
+5   .   .   .  -B  -B   .  -K   .   5
+|                                   |
+4   .   .   .   S   B   .   .  -B   4
+|                                   |
+3   .   .   .  -B   K   .   .  -B   3
+|                                   |
+2   .   .   .   .  -L   .   .   .   2
+|                                   |
+1   .   .   .   L   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        5 + 11
+           Take&MakeSchach
+
+  1.Le2-h5 Ld1-g4   2.Td6-d7 Sd4-f3 # 
+  1.Td6-g6 Tc6-f6   2.Le2-f1 Sd4-e6 # 
+
+Loesung beendet. 
+
+
+
+    Dirk Borst & Ruud Beugelsdijk
+       Andernach 2006, 3. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   K   .   .   .   .   7
+|                                   |
+6  -B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -K   L   .   .   .   .   5
+|                                   |
+4   .  -B  -S   T   .   .   .   .   4
+|                                   |
+3   .  -T   B   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   .   .   .   2
+|                                   |
+1  -L  -D   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 8
+           Take&MakeSchach
+
+  1.Db1-h1 Td4*c4-e5   2.La1*c3-c4 Ld5*h1-g1 # 
+  1.Db1-d1 Ld5*c4-e3   2.Tb3*c3-c4 Td4*d1-h5 # 
+
+Loesung beendet. 
+
+
+
+    Oliver Sick & Norbert Geissler
+       Andernach 2006, 4. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -L   .   .   .   .   .   .  -T   8
+|                                   |
+7   .   L   .   .   .   .   .  -T   7
+|                                   |
+6  -B   K   .   .  -K   .   .  -S   6
+|                                   |
+5   .   .  -B   .  -L  -B   .   .   5
+|                                   |
+4   .   .  -B  -B  -B   .   .   .   4
+|                                   |
+3   .   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                        2 + 13
+           Take&MakeSchach
+
+a)
+
+  1.Th7-d7 Lb7-c8   2.La8-c6 Lc8*d7-b7   3.Ke6-d5 Kb6*c6-d7 # 
+
+b) wLb7-->b8
+
+  1.Th7-a7 Lb8*a7-g7   2.La8-c6 Lg7*h8-a8   3.Ke6-d5 Kb6*c6-d7 # 
+  1.Th7-c7 Lb8*c7-g7   2.La8-c6 Lg7*h8-a8   3.Ke6-d5 Kb6*c6-d7 # 
+  1.Th7-e7 Lb8-d6   2.La8-c6 Ld6*e7-b7   3.Ke6-d5 Kb6*c6-d7 # 
+  1.La8-d5 Lb8*e5-f6   2.Th7-c7 Lf6*h8-b8   3.Ke6-e5 Kb6*c7-e7 # 
+  1.La8-c6 Lb8-d6   2.Th7-c7 Ld6*c7-b7   3.Ke6-d5 Kb6*c6-d7 # 
+  1.La8-c6 Lb8-d6   2.Th7-e7 Ld6*e7-b7   3.Ke6-d5 Kb6*c6-d7 # 
+
+Loesung beendet. 
+
+
+
+    Oliver Sick & Norbert Geissler
+Andernach 2006, 4. Platz (Nach-Andernach-Version)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K   L   .   .   8
+|                                   |
+7   .   .  -B  -B   .   .   .   .   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   .  -B   .  -K   .   .   .   5
+|                                   |
+4   .   .   .  -D   .   .   .   .   4
+|                                   |
+3  -L   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -T   .   2
+|                                   |
+1   .   .   .   .   .  -T   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 9
+           Take&MakeSchach
+
+a)
+
+  1.Dd4-d5 Lf8*c5-c4   2.La3-e7 Lc4*f1-f8   3.Ke5-d6 Ke8*e7-f6 # 
+
+b) wLf8-->g8
+
+  1.d7-d6 Lg8-d5   2.Tf1-f7 Ld5*g2-g8   3.Ke5-d5 Ke8*f7-f5 # 
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+       Andernach 2006, 5. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   T   .   .   .   .   .   .   8
+|                                   |
+7   .   .   B  -K   B   .   T   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   B   .   .   .   .   5
+|                                   |
+4   .   .   S   .   .   .   .   .   4
+|                                   |
+3   .   B   K   .   .  -B   B   .   3
+|                                   |
+2   .   .   .   .   .  -B   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#3                     9 + 3
+           Take&MakeSchach
+
+  1.f2-f1=D   2.Df1*c4-b6   3.Db6*b8-d8 e7*d8-f8=D # 
+  1.f2-f1=S   2.Sf1*g3-g4   3.Sg4-f6 e7-e8=S # 
+  1.f2-f1=T   2.Tf1-h1   3.Th1-h5 e7-e8=L # 
+  1.f2-f1=L   2.Lf1-d3   3.Ld3-e4 e7-e8=T # 
+
+Loesung beendet. 
+
+
+
+    Volker Guelke & Peter Schmidt
+       Andernach 2006, 6. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -B   .  -B   .   7
+|                                   |
+6   .   .   .   .   L   .  -B  -B   6
+|                                   |
+5   .   .   .   .   T   .  -T  -S   5
+|                                   |
+4   .   .   .   .  -S   B  -T  -K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 9
+           Take&MakeSchach
+
+  1.Tg4*f4-f5 Te5*f5-f4 +   2.Tg5-g4 Le6*g4-g5 # 
+  1.Tg5-f5 Le6*f5-f6 +   2.Tg4-g5 Te5*g5-g4 # 
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+       Andernach 2006, 7. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -T   .   .   .   .  -D   7
+|                                   |
+6   .   .   .   .   .   K   .  -K   6
+|                                   |
+5   .   .   .   .   .   .   .  -T   5
+|                                   |
+4   .   .   .   .   .   .  -B   .   4
+|                                   |
+3   .   .   .  -L   .   .   .   .   3
+|                                   |
+2   .   .   .   B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 6
+           Take&MakeSchach
+
+  1.Ld3-g6 d2-d4   2.Tc7-c5 d4*c5-g5 # 
+  1.Ld3-c4 d2-d3   2.Tc7-e7 d3*c4-g8=S # 
+
+Loesung beendet. 
+
+
+
+   Hans Peter Rehm & Kjell Widlert
+       Andernach 2006, 8. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   L   .   .   8
+|                                   |
+7   .   .   .  -L   .   .   .   .   7
+|                                   |
+6   K   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .  -S   .   .   .   B   5
+|                                   |
+4   .   .  -B   .  -L   .  -T   .   4
+|                                   |
+3   .   .   .   .   .   T   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 6
+           Take&MakeSchach
+
+a)
+
+  1.Tg4-g6 h5*g6-g8=T   2.Le4-g6 Tg8*g6-e4 # 
+
+b) sLd7-->e5
+
+  1.Le4-g6 h5*g6-e8=L   2.Tg4-g6 Le8*g6-g4 # 
+
+Loesung beendet. 
+
+
+
+            Andreas Thoma
+       Andernach 2006, 9. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   T   .   .  -L   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -K   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h004                        2 + 2
+                Circe
+         WeisserLaengstzueger
+           Take&MakeSchach
+
+a)
+
+  1.Kh2-h3 Ta7*d7-g4 [+sLc8]   2.Kh3*g4-g6 [+wTh1] Th1-h8   3.Lc8-b7 Th8-h1   4.Lb7*h1-h5 [+wTh1] 0-0 
+
+b) sKh2-->b2
+
+  1.Kb2-b3 Ta7*d7-h3 [+sLc8] +   2.Lc8*h3-h4 [+wTh1] + Th1*h4-d8 [+sLf8]   3.Lf8-b4 + Td8-d2   4.Lb4*d2-a2 [+wTa1] 0-0-0 
+
+Loesung beendet. 
+
+
+
+       Wichard von Alvensleben
+      Andernach 2006, 10. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -B   .   .   .   6
+|                                   |
+5   .   .   .   .   T  -B   .   .   5
+|                                   |
+4  -B   .   K   .   .  -B   .   .   4
+|                                   |
+3   B  -S   .   .   .   B   .   .   3
+|                                   |
+2   .   L   .   .   B  -K   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 7
+           Take&MakeSchach
+
+a)
+
+  1.Sb3-d4 Te5-e3   2.Kf2*e3-e5 Kc4*d4-c6 # 
+
+b) wLb2-->a5
+
+  1.Sb3-c5 La5-e1 +   2.Kf2*e1-a5 Kc4*c5-b7 # 
+
+Loesung beendet. 
+
+
+
+       Wichard von Alvensleben
+      Andernach 2006, 11. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   K   .   .   S   L   S   .   6
+|                                   |
+5   .   .   .   .   .  -B   .  -K   5
+|                                   |
+4   .   .   .   .   B   .  -T   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -T   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#5                     6 + 4
+           Take&MakeSchach
+
+  1.f5*e4-e5   2.Tg4-d4   3.Kh5-g4   4.Kg4-f5   5.Tg1-g4 e2-e4 # 
+
+Loesung beendet. 
+
+
+
+            Andreas Thoma
+      Andernach 2006, 12. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -L   .   .   4
+|                                   |
+3   L   .   .   .   .   .   B   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h003.5                      3 + 2
+                Circe
+         WeisserLaengstzueger
+           Take&MakeSchach
+
+  1  (g3*f4-b8=D [+sLf8] + )
+  2  (g3*f4-b8=S [+sLf8] )
+  1...g3*f4-b8=T [+sLf8] +   2.Kc8*b8-b6 [+wTa1] La3*f8-h6 [+sLf8]   3.Lf8-b4 + Lh6-d2   4.Lb4-a5 0-0-0 
+  1...g3*f4-b8=T [+sLf8] +   2.Kc8*b8-b7 [+wTa1] La3*f8-h6 [+sLf8]   3.Lf8*h6-c1 Ta1*c1-h6 [+sLf8]   4.Lf8*h6-a6 [+wTa1] 0-0-0 
+  3  (g3*f4-b8=T [+sLf8] + )
+  4  (g3*f4-b8=L [+sLf8] )
+  5  (La3-f8 )
+
+Loesung beendet. 
+
+
+Es fehlt ein weisser oder schwarzer Koenig
+
+           Reto Aschwanden
+       Andernach 2006, 1. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   . -TL  -T   .   .   .   8
+|                                   |
+7  TL  LI -LL   .  -T  -B   L   .   7
+|                                   |
+6   .  -B   .   B  -K   .   .  TL   6
+|                                   |
+5   .  -B   .   .   .   .   .   T   5
+|                                   |
+4  -S   .   B  TL  TL   .   .   .   4
+|                                   |
+3  -L   B   .  LL   .  -T  -B  LL   3
+|                                   |
+2   .   .  TL   .  -B   .   .   .   2
+|                                   |
+1   .   .   .   .   S  -S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        14 + 14
+           Take&MakeSchach
+
+  1.TLd4-b4 ! Drohung:
+          2.TLc2-c6 # 
+      1...Sa4-c3 
+          2.LIb7*f3-e3 # 
+      1...Sa4-c5 
+          2.LIb7*f3-f5 # 
+      1...Te7-d7 
+          2.LIb7*f3-f6 # 
+
+  1.TLd4-g4 + ? 
+      1...Tf3*d3-f5 
+          2.LLh3*f5-f6 # 
+      1...Tf3-f5 
+          2.LLd3*f5-e5 # 
+          2.LLd3*f5-f6 # 
+      1...TLd8*d3-f5 
+          2.LIb7*f3-e3 # 
+    Aber
+      1...f7-f5  !
+
+  1.LLd3*b5-b4 ? Drohung:
+          2.TLc2-c6 # 
+      1...Sa4-c3 
+          2.LIb7*f3-f6 # 
+      1...Sa4-c5 
+          2.LIb7*f3-e3 # 
+      1...Te7-d7 
+          2.LIb7*f3-f5 # 
+    Aber
+      1...Tf3-c3  !
+
+  1.b3-b4 ? Drohung:
+          2.TLc2-c6 # 
+      1...Sa4-c3 
+          2.LIb7*f3-f6 # 
+      1...Te7-d7 
+          2.LIb7*f3-f5 # 
+      1...TLd8*d4-d1 
+          2.LIb7*f3-f5 # 
+      1...TLd8*d4-d2 
+          2.LIb7*f3-f5 # 
+    Aber
+      1...Sa4-c5  !
+
+  1.TLc2-c6 + ? 
+    Aber
+      1...La3*d6-d7  !
+
+  1.Se1*f3-f6 + ? 
+    Aber
+      1...Ke6*f6-g8  !
+
+  1.Se1*f3-f4 + ? 
+      1...LLc7*f4-d5 
+          2.LIb7*f7-f5 # 
+    Aber
+      1...LLc7*f4-g2  !
+
+
+Loesung beendet. 
+
+
+
+           Hans Peter Rehm
+       Andernach 2006, 2. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -S   .   8
+|                                   |
+7   L   .   .  -B   .   S  -B   .   7
+|                                   |
+6  -B   .   .   .  -B   .  -B  -D   6
+|                                   |
+5   .   .   .  -K   .   .  -L   .   5
+|                                   |
+4   .   .   .   .   .   .  -B   .   4
+|                                   |
+3   .   .   .  -B   .   B  -B   .   3
+|                                   |
+2   .   .   T   B   .   .   .   .   2
+|                                   |
+1   .   .   K   L   T   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #5                         8 + 12
+           Take&MakeSchach
+
+  1  (Sf7-d6 )
+  2  (Sf7-e5 )
+  3  (Sf7*g5-e3 + )
+  4  (Sf7*g5-f4 + )
+  5  (Sf7*g5-h4 )
+  6  (Sf7*g5-d8 )
+  7  (Sf7*g5-e7 + )
+  8  (Sf7*g5-f6 + )
+  9  (Sf7*h6-h1 )
+ 10  (Sf7*h6-h2 )
+ 11  (Sf7*h6-h3 )
+ 12  (Sf7*h6-h4 )
+ 13  (Sf7*h6-h5 )
+ 14  (Sf7*h6-h8 )
+ 15  (Sf7*h6-h7 )
+ 16  (Sf7-h8 )
+ 17  (Sf7-d8 )
+ 18  (La7-g1 )
+ 19  (La7-f2 )
+ 20  (La7-e3 )
+ 21  (La7-d4 )
+ 22  (La7-c5 )
+ 23  (La7-b6 )
+ 24  (La7-b8 )
+ 25  (f3-f4 )
+ 26  (Tc2-a2 )
+ 27  (Tc2-b2 )
+  1.Tc2-c8 ! Drohung:
+          2.Ld1-b3 # 
+      1...Sg8-e7 
+          2.Tc8-c7 Drohung:
+                  3.Ld1-b3 # 
+              2...Lg5-f4 
+                  3.Tc7-c3 Drohung:
+                          4.Ld1-b3 # 
+                      3...Lf4-e5 
+                          4.Te1*e5-d6 + 
+                              4...Kd5*d6-d5 
+                                  5.Ld1-b3 # 
+
+ 28  (Tc2-c8 )
+  1.Tc2-c7 ? Drohung:
+          2.Ld1-b3 # 
+      1...Lg5-f4 
+          2.Tc7-c3 Drohung:
+                  3.Ld1-b3 # 
+              2...Lf4-e5 
+                  3.Te1*e5-d6 + 
+                      3...Kd5*d6-d5 
+                          4.Ld1-b3 # 
+    Aber
+      1...Lg5-d8  !
+
+ 29  (Tc2-c7 )
+ 30  (Tc2-c6 )
+ 31  (Tc2-c5 + )
+ 32  (Tc2-c4 )
+  1.Tc2-c3 ? Drohung:
+          2.Ld1-b3 # 
+    Aber
+      1...Lg5-f6  !
+
+ 33  (Tc2-c3 )
+ 34  (Te1*e6-e5 + )
+ 35  (Te1-e5 + )
+ 36  (Te1-e4 )
+ 37  (Te1-e3 )
+ 38  (Te1-e2 )
+ 39  (Te1-h1 )
+ 40  (Te1-g1 )
+ 41  (Te1-f1 )
+ 42  (Ld1-e2 )
+ 43  (Kc1-b1 )
+ 44  (Kc1-b2 )
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+       Andernach 2006, 3. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   D   .   .   .   L   .   8
+|                                   |
+7   .   .   .  -B  -K   B   .   T   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -B   .   .   T   .   .   B   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -S   3
+|                                   |
+2   .   .   K   .   .   .   .   .   2
+|                                   |
+1   L   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 4
+           Take&MakeSchach
+
+  1.Dc8-b8 ! Drohung:
+          2.Td5-e5 # 
+      1...Sh3*g5-g6 
+          2.f7-f8=S # 
+      1...Sh3-f4 
+          2.f7-f8=T # 
+      1...d7-d6 
+          2.f7-f8=L # 
+      1...Ke7-e6 
+          2.f7-f8=D # 
+
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+Andernach 2006, 3. Platz (Nach-Andernach-Version)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   D   .   .   .   .   L   .   8
+|                                   |
+7   .   K   S  -B  -K   B   .   T   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   T   .   .   B   .   5
+|                                   |
+4   .   .   .  -B   .   .   .  -S   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 4
+           Take&MakeSchach
+
+  1.Sc7-b5 ! Drohung:
+          2.Td5-e5 # 
+      1...Sh4-f3 
+          2.f7-f8=T # 
+      1...Sh4-g6 
+          2.f7-f8=S # 
+      1...d7-d6 
+          2.f7-f8=L # 
+      1...Ke7-e6 
+          2.f7-f8=D # 
+
+
+Loesung beendet. 
+
+
+
+Uri Avner, Hans Peter Rehm, Kjell Widlert
+       Andernach 2006, 4. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .  -B   S   .   K  -B   7
+|                                   |
+6   .   .   .   .  -K   B  -B   B   6
+|                                   |
+5   .   .   .  -B   .   .   .  -B   5
+|                                   |
+4   D   .  -B   .   .   .   .  -T   4
+|                                   |
+3   .   .   S   .   .   .   .  -B   3
+|                                   |
+2   .   .   .   .   .   B   .   L   2
+|                                   |
+1   .   L  -L   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        10 + 11
+           Take&MakeSchach
+
+  1.b7-b8=D ? Drohung:
+          2.Db8-g8 # 
+      1...Lc1-f4 
+          2.Se7*d5-d4 # 
+      1...Th4-e4 
+          2.Sc3*e4-d4 # 
+      1...Th4-f4 
+          2.Se7*g6-g5 # 
+    Aber
+      1...Lc1-g5  !
+
+  1.Da4*a8-b6 + ? 
+    Aber
+      1...d7-d6  !
+
+  1.f2-f4 ! Drohung:
+          2.f4-f5 # 
+      1...Lc1*f4-f5 
+          2.Se7*g6-g5 # 
+      1...Th4*f4-f5 
+          2.Se7*d5-d4 # 
+      1...Ke6-d6 
+          2.Da4*a8-b6 # 
+
+
+Loesung beendet. 
+
+
+
+Uri Avner, Hans Peter Rehm, Kjell Widlert
+Andernach 2006, 4. Platz (Nach-Andernach-Version)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -L   .   K   .   .   .   8
+|                                   |
+7   .   .   .  -B   S   B   .  -B   7
+|                                   |
+6   .   .   .   .  -K   B  -B   .   6
+|                                   |
+5   T   .   .  -B   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -T   4
+|                                   |
+3   .   .   D   L   .   .   L   .   3
+|                                   |
+2   .  -T   .   .  -B   B   .   .   2
+|                                   |
+1   .   .  -L   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         9 + 10
+           Take&MakeSchach
+
+  1.f7-f8=D ? Drohung:
+          2.Df8-g8 # 
+      1...Lc1-f4 
+          2.Se7*d5-d4 # 
+      1...Th4-c4 
+          2.Ld3*c4-g4 # 
+      1...Th4-e4 
+          2.Ld3*e4-g4 # 
+      1...Th4-f4 
+          2.Se7*g6-g5 # 
+    Aber
+      1...Lc1-g5  !
+
+  1.f7-f8=S + ? 
+    Aber
+      1...Ke6*e7-g8  !
+
+  1.Se7*d5-d4 + ? 
+      1...Th4*d4-b3 
+          2.f7-f8=S # 
+      1...Th4*d4-c2 
+          2.f7-f8=S # 
+      1...Th4*d4-f3 
+          2.f7-f8=S # 
+      1...Th4*d4-f5 
+          2.f7-f8=S # 
+      1...Th4*d4-c6 
+          2.f7-f8=S # 
+          2.Dc3*c1-e3 # 
+    Aber
+      1...Th4*d4-b5  !
+
+  1.Se7*g6-g5 + ? 
+      1...Lc1*g5-f3 
+          2.f7-f8=S # 
+      1...Lc1*g5-h3 
+          2.f7-f8=S # 
+    Aber
+      1...Lc1*g5-e4  !
+
+  1.Se7*c8-b7 ? Drohung:
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+          2.Lg3*h4-h3 # 
+          2.Lg3*h4-g4 # 
+      1...Lc1-f4 
+          2.f7-f8=S # 
+          2.Lg3*h4-h3 # 
+          2.Lg3*h4-g4 # 
+      1...Lc1-e3 
+          2.f7-f8=S # 
+          2.Sb7-d8 # 
+          2.Lg3*h4-h3 # 
+          2.Lg3*h4-g4 # 
+      1...Tb2*b7-c5 
+          2.f7-f8=S # 
+      1...Tb2*b7-d6 
+          2.f7-f8=S # 
+          2.Lg3*h4-h3 # 
+          2.Lg3*h4-g4 # 
+      1...Tb2-b5 
+          2.f7-f8=S # 
+          2.Sb7-d8 # 
+          2.Lg3*h4-h3 # 
+          2.Lg3*h4-g4 # 
+      1...Tb2-b4 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+      1...Tb2-d2 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+      1...e2-e1=S 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+      1...Th4-h1 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+          2.Dc3*c1-e3 # 
+      1...Th4-h2 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+          2.Lg3*h2-h3 # 
+          2.Dc3*c1-e3 # 
+      1...Th4-h3 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+      1...Th4-a4 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+      1...Th4-b4 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+          2.Dc3*b4-g4 # 
+      1...Th4-c4 
+          2.f7-f8=S # 
+          2.Sb7-d8 # 
+          2.Ld3*c4-g4 # 
+          2.Dc3*c4-g4 # 
+      1...Th4-d4 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+          2.Dc3*d4-g4 # 
+      1...Th4-e4 
+          2.Ld3*e4-g4 # 
+      1...Th4-f4 
+          2.f7-f8=S # 
+          2.Lg3*f4-g4 # 
+      1...Th4-g4 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+      1...Th4-h6 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+          2.Dc3*c1-e3 # 
+      1...Th4-h5 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+      1...d5-d4 
+          2.f7-f8=S # 
+          2.Sb7-d8 # 
+          2.Lg3*h4-h3 # 
+          2.Lg3*h4-g4 # 
+      1...g6-g5 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+          2.Lg3*h4-g4 # 
+      1...d7-d6 
+          2.f7-f8=S # 
+          2.Sb7-d8 # 
+          2.Lg3*h4-h3 # 
+          2.Lg3*h4-g4 # 
+          2.Dc3-c8 # 
+      1...h7-h5 
+          2.f7-f8=S # 
+          2.Sb7-c5 # 
+          2.Sb7-d8 # 
+          2.Lg3*h4-h3 # 
+    Aber
+      1...Tb2*b7-d8 +  !
+
+  1.Lg3*h4-h3 + ? 
+    Aber
+      1...Ke6-d6  !
+
+  1.Lg3*h4-g4 + ? 
+    Aber
+      1...Ke6-d6  !
+
+  1.Dc3*b2-b6 + ? 
+    Aber
+      1...d7-d6  !
+
+  1.Dc3*c1-e3 + ? 
+      1...Th4-e4 
+          2.Se7*d5-d4 # 
+    Aber
+      1...Ke6*e7-c6  !
+
+  1.Dc3*c8-a6 + ? 
+      1...d7-d6 
+          2.Da6-c8 # 
+    Aber
+      1...Tb2-b6  !
+
+  1.f2-f4 ! Drohung:
+          2.f4-f5 # 
+      1...Lc1*f4-f5 
+          2.Se7*g6-g5 # 
+      1...Th4*f4-f5 
+          2.Se7*d5-d4 # 
+      1...Ke6-d6 
+          2.Dc3*b2-b6 # 
+
+
+Loesung beendet. 
+
+
+
+Volker Guelke, Stephen Rothwell, Peter Schmidt
+       Andernach 2006, 5. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   T   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B  -K   B   .   .   .   D   7
+|                                   |
+6  -B   .  -B   .   .   .  -B   B   6
+|                                   |
+5   .   .   L   .  -B   .   B  -T   5
+|                                   |
+4   .   .   B   .   .   B   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .  -S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          9 + 8
+           Take&MakeSchach
+
+  1.Ta8-c8 + ? 
+      1...Kc7*c8-a8 
+          2.Dh7-g8 # 
+          2.Dh7-h8 # 
+          2.d7-d8=D # 
+          2.d7-d8=T # 
+      1...Kc7*c8-b8 
+          2.d7-d8=D # 
+          2.d7-d8=T # 
+      1...Kc7*c8-d8 
+          2.Lc5-b6 # 
+    Aber
+      1...Kc7*c8-c7  !
+
+  1.Dh7-e7 ? Drohung:
+          2.d7-d8=S # 
+    Aber
+      1...Th5*h6-h7  !
+
+  1.Dh7-f7 ? Drohung:
+          2.d7-d8=S # 
+      1...b7-b6 
+          2.d7-d8=L # 
+    Aber
+      1...Th5*h6-h7  !
+
+  1.d7-d8=S + ? 
+    Aber
+      1...Kc7*d8-e6  !
+
+  1.d7-d8=T + ? 
+    Aber
+      1...Kc7*d8-d3  !
+
+  1.d7-d8=L + ? 
+    Aber
+      1...Kc7*d8-a5  !
+
+  1.f4-f5 ! Drohung:
+          2.d7-d8=S # 
+      1...g6*f5-f6 
+          2.d7-d8=T # 
+      1...b7-b6 
+          2.d7-d8=L # 
+
+  1.Kc1-c2 ? Drohung:
+          2.d7-d8=T # 
+      1...b7-b6 
+          2.d7-d8=D # 
+          2.d7-d8=L # 
+    Aber
+      1...Th5-h2 +  !
+
+  1.Kc1-d2 ? Drohung:
+          2.d7-d8=T # 
+      1...b7-b6 
+          2.d7-d8=D # 
+          2.d7-d8=L # 
+    Aber
+      1...Th5-h2 +  !
+
+
+Loesung beendet. 
+
+
+
+            Hubert Gockel
+       Andernach 2006, 6. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   S   .   .   .   .   8
+|                                   |
+7  -B   S   .   .  -B   .   .   .   7
+|                                   |
+6  -B  -K  -B   .   K   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -B   .   .   .   .   .  -B   4
+|                                   |
+3   .   B   .   .   .   B   D   B   3
+|                                   |
+2   .   .   .   B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          9 + 7
+           Take&MakeSchach
+
+  1.Dg3-b8 ! Zugzwang.
+      1...a6-a5 
+          2.Sb7-c5 # 
+      1...Kb6*b7-a5 
+          2.Db8-c7 # 
+      1...Kb6*b7-c5 
+          2.d2-d4 # 
+      1...c6-c5 
+          2.Sb7-a5 # 
+
+  1.Dg3-e5 ! Zugzwang.
+      1...a6-a5 
+          2.Sb7*a5-a4 # 
+      1...c6-c5 
+          2.Sb7*c5-c4 # 
+
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+       Andernach 2006, 7. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   L   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   B   B   B   B   .   .   .   7
+|                                   |
+6  -K   .   .   .   .  -S   .   T   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -B   S  -B   .   3
+|                                   |
+2   .   .   .   .   K   .   B   .   2
+|                                   |
+1   .   T   .   .   L   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#6                        11 + 5
+           Take&MakeSchach
+
+  1  (e7-e8=D )
+  2  (e7-e8=S )
+  1.e7-e8=T ! Drohung:
+          2.Sf3-g1 Zugzwang.
+              2...Sf6*e8-e6 
+                  3.Ke2-f1 
+                      3...e3-e2 # 
+      1...Sf6*e8-e6 
+          2.d7-d8=T Drohung:
+                  3.Sf3-g1 Zugzwang.
+                      3...Se6*d8-d6 
+                          4.Ke2-f1 
+                              4...e3-e2 # 
+              2...Se6*d8-d6 
+                  3.c7-c8=T Drohung:
+                          4.Sf3-g1 Zugzwang.
+                              4...Sd6*c8-c6 
+                                  5.Ke2-f1 
+                                      5...e3-e2 # 
+                      3...Sd6*c8-c6 
+                          4.b7-b8=T Zugzwang.
+                              4...Sc6*b8-b6 
+                                  5.Sf3-g1 Zugzwang.
+                                      5...Sb6*a8-c6 
+                                          6.Ke2-f1 
+                                              6...e3-e2 # 
+
+  3  (e7-e8=T )
+  4  (e7-e8=L )
+  5  (d7-d8=D )
+  6  (d7-d8=S )
+  7  (d7-d8=T )
+  8  (d7-d8=L )
+  9  (c7-c8=D )
+ 10  (c7-c8=S )
+ 11  (c7-c8=T )
+ 12  (c7-c8=L )
+ 13  (b7-b8=D )
+ 14  (b7-b8=S + )
+ 15  (b7-b8=T )
+ 16  (b7-b8=L )
+ 17  (Th6-h1 )
+ 18  (Th6-h2 )
+ 19  (Th6-h3 )
+ 20  (Th6-h4 )
+ 21  (Th6-h5 )
+ 22  (Th6*f6-d5 )
+ 23  (Th6*f6-e4 )
+ 24  (Th6*f6-g4 )
+ 25  (Th6*f6-h5 )
+ 26  (Th6*f6-h7 )
+ 27  (Th6*f6-g8 )
+ 28  (Th6*f6-e8 )
+ 29  (Th6-g6 )
+ 30  (Th6-h8 )
+ 31  (Th6-h7 )
+ 32  (Sf3-d2 )
+ 33  (Sf3-g1 )
+ 34  (Sf3-h2 )
+ 35  (Sf3-h4 )
+ 36  (Sf3-g5 )
+ 37  (Sf3-e5 )
+ 38  (Sf3-d4 )
+ 39  (Ke2-f2 )
+ 40  (Ke2*e3-e2 )
+ 41  (Ke2-d2 )
+ 42  (Ke2-d3 )
+ 43  (Ke2-f1 )
+ 44  (Ke2-d1 )
+ 45  (Le1-f2 )
+ 46  (Le1-a5 )
+ 47  (Le1-b4 )
+ 48  (Le1-c3 )
+ 49  (Le1-d2 )
+ 50  (Tb1-a1 + )
+ 51  (Tb1-b6 + )
+ 52  (Tb1-b5 )
+ 53  (Tb1-b4 )
+ 54  (Tb1-b3 )
+ 55  (Tb1-b2 )
+ 56  (Tb1-d1 )
+ 57  (Tb1-c1 )
+
+Loesung beendet. 
+
+
+
+            Andreas Thoma
+       Andernach 2006, 8. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   S   5
+|                                   |
+4   .   .   D   .   .   D   .   .   4
+|                                   |
+3   .   .  -B  -B   S   .   .  -K   3
+|                                   |
+2   .   .   T   .   B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   L   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         8 + 3
+           Take&MakeSchach
+
+  1.e2*d3-d2 ! Zugzwang.
+      1...c3*d2-d4 
+          2.Dc4-f1 + 
+              2...d4*e3-g2 # 
+      1...c3*d2-d3 
+          2.Df4-f1 + 
+              2...d3*c2-g2 # 
+
+
+Loesung beendet. 
+
+
+
+            Andreas Thoma
+       Andernach 2006, 9. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   L   .   .   T   .   8
+|                                   |
+7   .   .   .   .   .   .  -S  -T   7
+|                                   |
+6   .   .  -D   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -L   .   .   .   .   5
+|                                   |
+4   .   .   .   .   L  -B   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -L  -K   3
+|                                   |
+2   .   .   .   .   B   .   .   .   2
+|                                   |
+1   D   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         6 + 7
+                Circe
+           Take&MakeSchach
+
+  1.Da1*g7-f5 [+sSb8] + ! 
+      1...Ld5*g8-g4 
+          2.Le4-g2 + 
+              2...Kh3*g2-f1 # 
+              2...Dc6*g2-f1 # 
+
+
+Loesung beendet. 
+
+
