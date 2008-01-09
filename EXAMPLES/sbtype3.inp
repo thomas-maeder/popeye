@@ -1,5 +1,5 @@
 begin
-prot sbtype3.out
+prot sbtype3.ref
 
 title latent pawns' side decides which one to promote -> f2*e1 would be self-check
 cond singlebox type3

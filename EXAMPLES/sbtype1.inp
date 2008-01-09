@@ -1,5 +1,5 @@
 begin
-prot sbtype1.out
+prot sbtype1.ref
 
 title no check if pawn can't promote due to single box type 1
 condition singlebox type1

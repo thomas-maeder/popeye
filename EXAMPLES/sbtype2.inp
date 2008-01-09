@@ -1,5 +1,5 @@
 begin
-prot sbtype2.out
+prot sbtype2.ref
 
 title avoid self-check
 cond singlebox type2
