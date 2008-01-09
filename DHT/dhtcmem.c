@@ -8,6 +8,7 @@
  * and in place.
  */
 #include <stdio.h>
+#include <string.h>
 #if defined(FBSD)
 #include <stdlib.h>
 #else

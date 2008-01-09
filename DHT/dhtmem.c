@@ -9,6 +9,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #if defined(__BORLANDC__)
 #include <mem.h>
 #endif /*__BORLANDC__*/
