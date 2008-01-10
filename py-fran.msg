@@ -55,7 +55,7 @@
 54= Debordement de ligne d'entree
 55= pas debut probleme
 56= Erreur interne de popeye dans le commutateur de tk
-57= solution termine.
+57= solution terminee.
 58= blocus.\n
 59= menace:\n
 60= mais\n
