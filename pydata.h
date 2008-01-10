@@ -15,7 +15,7 @@
 **
 ** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
 **
-** 2007/06/01 SE   New piece: Radial knight (invented? )
+** 2007/06/01 SE   New piece: Radial knight (invented: C.J.Feather)
 **
 ** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
 **                 Transmuting/Reflecting Ks now take optional piece list

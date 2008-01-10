@@ -391,6 +391,7 @@ boolean verifieposition(void) {
           ErrorMsg(ColourChangeRestricted);
         }
       }
+      /* known limitation: will print rK rather than just K as usual */
       if (abs(e[*bnp]) == King && CondFlag[protean]) 
         SETFLAG(spec[*bnp], Royal);
     }

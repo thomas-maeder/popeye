@@ -19,7 +19,7 @@
  **
  ** 2007/05/01 SE   Extended Chopper types to eagles, mooses and sparrows 
  **
- ** 2007/06/01 SE   New piece: Radial knight (invented? )
+ ** 2007/06/01 SE   New piece: Radial knight (invented: C.J.Feather)
  **
  ** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
  **                 Transmuting/Reflecting Ks now take optional piece list
@@ -30,10 +30,6 @@
  ** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
  **
  ** 2008/01/01 SE   Bug fix: Isardam + Maximummer (reported V.Crisan)
- **
- ** 2007/06/01 SE   New piece: Radial knight (invented? )
- **
- ** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
  **
  **************************** End of List ******************************/
 

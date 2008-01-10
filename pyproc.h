@@ -10,7 +10,7 @@
 **
 ** 2007/05/04 SE   Bugfix: SAT + Ultraschachzwang
 **
-** 2007/06/01 SE   New piece: Radial knight (invented? )
+** 2007/06/01 SE   New piece: Radial knight (invented: C.J.Feather)
 **
 ** 2007/12/20 SE   New condition: Lortap (invented: F.H. von Meyenfeldt)
 **

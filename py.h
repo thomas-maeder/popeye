@@ -13,7 +13,7 @@
 **
 ** 2007/01/28 SE   New condition: Annan Chess 
 **
-** 2007/06/01 SE   New piece: Radial knight (invented? )
+** 2007/06/01 SE   New piece: Radial knight (invented: C.J.Feather)
 **
 ** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
 **                 Transmuting/Reflecting Ks now take optional piece list
@@ -24,19 +24,6 @@
 ** 2007/12/21 SE   Command-line switch: -b set low priority (Win32 only so far)
 **
 ** 2007/12/26 SE   Pragma: disable warnings on deprecated functions in VC8
-**
-** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
-**                 New condition: Protean Chess
-**                 New piece type: Protean man (invent A.H.Kniest?)
-**                 (Differs from Frankfurt chess in that royal riders
-**                 are not 'non-passant'. Too hard to do but possibly
-**                 implement as an independent condition later).
-**
-** 2007/06/01 SE   New piece: Radial knight (invented? )
-**
-** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
-**                 Transmuting/Reflecting Ks now take optional piece list
-**                 turning them into vaulting types
 **
 ** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
 **                 New condition: Protean Chess
