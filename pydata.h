@@ -1732,7 +1732,23 @@ enum {
   vec_leap35_start=105,           vec_leap35_end=  112,
   vec_leap15_start=113,           vec_leap15_end=  120,
   vec_leap25_start=121,           vec_leap25_end=  128,
-  vec_leap36_start=129,           vec_leap36_end=  136
+  vec_leap36_start=129,           vec_leap36_end=  136,
+  vec_leap03_start=137,           vec_leap03_end=  140,
+  vec_leap04_start=141,           vec_leap04_end=  144,
+  vec_leap06_start=145,           vec_leap06_end=  148,
+  vec_leap07_start=149,           vec_leap07_end=  152,
+  vec_leap33_start=153,           vec_leap33_end=  156,
+  vec_leap44_start=157,           vec_leap44_end=  160,
+  vec_leap66_start=161,           vec_leap66_end=  164,
+  vec_leap77_start=165,           vec_leap77_end=  168,
+  vec_leap26_start=169,           vec_leap26_end=  176,
+  vec_leap45_start=177,           vec_leap45_end=  184,
+  vec_leap46_start=185,           vec_leap46_end=  192,
+  vec_leap47_start=193,           vec_leap47_end=  200,
+  vec_leap56_start=201,           vec_leap56_end=  208,
+  vec_leap57_start=209,           vec_leap57_end=  216,
+  vec_leap67_start=217,           vec_leap67_end=  224,
+  vec_leap27_start=225,           vec_leap27_end=  232
 };
 
 
