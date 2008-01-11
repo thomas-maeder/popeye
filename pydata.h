@@ -34,6 +34,8 @@
 **
 ** 2008/01/02 NG   New condition: Geneva Chess 
 **
+** 2008/01/11 SE   New variant: Special Grids 
+**
 **************************** End of List ******************************/
 
 #ifndef PYDATA_H
@@ -437,6 +439,7 @@ EXTERN numecoup         tempcoup;
 EXTERN ply      	      tempply;
 EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 EXTERN boolean          rex_protean_ex;
+EXTERN int              gridvar, currentgridnum;
 
 #ifdef WE_ARE_EXTERN
 	extern PieTable PieNamString[LangCount];
@@ -899,7 +902,9 @@ EXTERN boolean          rex_protean_ex;
 	/*26*/  "SansRoquer",
 	/*27*/  "Quodlibet",
 	/*28*/  "FinApresSolutionsCourtes",
-	/*29*/  "Bip"
+	/*29*/  "Bip",
+	/*30*/  "SupprimezGrille",
+	/*31*/  "EcriVezGrille"
 	},{
 	/* Deutsch German Allemand */
 	/* 0*/  "Widerlegung",
@@ -931,7 +936,9 @@ EXTERN boolean          rex_protean_ex;
 	/*26*/  "KeineRochade",
 	/*27*/  "Quodlibet",
 	/*28*/  "StopNachKurzloesungen",
-	/*29*/  "Pieps"
+	/*29*/  "Pieps",
+	/*30*/  "UnterdruckenGitter",
+	/*31*/  "SchreibenGitter"
 	},{
 	/* English Anglais Englisch */
 	/* 0*/  "Defence",
@@ -963,7 +970,9 @@ EXTERN boolean          rex_protean_ex;
 	/*26*/  "NoCastling",
 	/*27*/  "Quodlibet",
 	/*28*/  "StopOnShortSolutions",
-	/*29*/  "Beep"
+	/*29*/  "Beep",
+	/*30*/  "SuppressGrid",
+	/*31*/  "WriteGrid"
 	}
 };
 #endif
@@ -1581,7 +1590,12 @@ EXTERN unsigned int StipFlags;
 	/*12*/  "Type3",
 	/*13*/  "Voisin",
 	/*14*/  "TypeC",
-	/*15*/  "TypeD"
+	/*15*/  "TypeD",
+	/*16*/  "RangeeTranslate",
+	/*17*/  "ColonneTranslate",
+	/*18*/  "RangeeColonneTranselate",
+	/*19*/  "Orthogonale",
+	/*20*/  "Irregulier"
 	},{
 	/* German */
 	/* 0*/  "TypB",
@@ -1599,7 +1613,12 @@ EXTERN unsigned int StipFlags;
 	/*12*/  "Typ3",
 	/*13*/  "Nachbar",
 	/*14*/  "TypC",
-	/*15*/  "TypD"
+	/*15*/  "TypD",
+	/*16*/  "ReiheVerschieben",
+	/*17*/  "LinieVerschieben",
+	/*18*/  "ReiheLinieVerschieben",
+	/*19*/  "Orthogonal",
+	/*20*/  "Unregelmassig"
 	},{
 	/* English */
 	/* 0*/  "TypeB",
@@ -1617,7 +1636,12 @@ EXTERN unsigned int StipFlags;
 	/*12*/  "Type3",
 	/*13*/  "Neighbour",
 	/*14*/  "TypeC",
-	/*15*/  "TypeD"
+	/*15*/  "TypeD",
+	/*16*/  "RankShift",
+	/*17*/  "FileShift",
+	/*18*/  "RankFileShift",
+	/*19*/  "Orthogonal",
+	/*20*/  "Irregular"
 	}
 	};
 #endif

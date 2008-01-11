@@ -34,6 +34,8 @@
 **
 ** 2008/01/02 NG   New condition: Geneva Chess 
 **
+** 2008/01/11 SE   New variant: Special Grids 
+**
 **************************** End of List ******************************/
 
 #ifndef PY_H
@@ -578,12 +580,14 @@ typedef square imarr[maxinum]; /* squares currently occupied by imitators */
 #define ReadBlRoyalSq           14
 #define ReadWhRoyalSq           15
 #define ReadNoCastlingSquares   16
+#define ReadGrid                17
 
 #define sq_spec         (zzzan - bas)
 #define sq_num          (zzzao - bas)
 #define NoEdge(i)       TSTFLAG(sq_spec[i], NoEdgeSq)
 #define SquareCol(i)    TSTFLAG(sq_spec[i], SqColor)
 #define GridNum(s)      (sq_spec[s] >> Grid)
+#define ClearGridNum(s) (sq_spec[s] &= ((1<<Grid)-1))
 
 #define BIT(pos)                (1<<(pos))
 #define TSTFLAG(bits,pos)       (((bits)&BIT(pos))!=0)
@@ -798,7 +802,12 @@ typedef PieceChar       PieTable[PieceCount];
 #define Neighbour              13
 #define TypeC                  14
 #define TypeD                  15
-#define VariantTypeCount       16
+#define ShiftRank              16
+#define ShiftFile              17
+#define ShiftRankFile          18
+#define Orthogonal             19
+#define Irregular              20
+#define VariantTypeCount       21
 
 /* for intelligent specification of one-sided conditions */
 #define maxi			0
@@ -919,7 +928,9 @@ typedef int Sort;
 #define quodlibet       27
 #define stoponshort     28
 #define beep            29
-#define OptCount        30
+#define suppressgrid    30
+#define writegrid       31
+#define OptCount        32
 typedef int Opt;
 /*--- End of } Opt; ---*/
 

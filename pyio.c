@@ -38,6 +38,8 @@
  **
  ** 2008/01/02 NG   New condition: Geneva Chess 
  **
+ ** 2008/01/11 SE   New variant: Special Grids 
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh    /* is always defined on macintosh's  SB */
@@ -1393,6 +1395,7 @@ static char *ParseStip(void) {
 
 static char *ReadSquares(smallint which) {
   char     *tok = ReadNextTokStr();
+  char *lastTok = tok;
   square   i;
   short    k, l;
   ply      n;
@@ -1400,9 +1403,10 @@ static char *ReadSquares(smallint which) {
 
   l=strlen(tok);
   if (l&1) {
-    if (which != ReadFrischAuf) {
+    if (which != ReadFrischAuf && which != ReadGrid) {
       IoErrorMsg(WrongFieldList, 0);
     }
+    currentgridnum = 0;
     return tok;
   }
   k= 0;
@@ -1474,6 +1478,12 @@ static char *ReadSquares(smallint which) {
         }
         break;
 
+      case ReadGrid:
+        k++;
+        ClearGridNum(i);
+        sq_spec[i]+= currentgridnum << Grid;
+      break;  
+
       default:
         SETFLAG(sq_spec[i], which);
         break;
@@ -1481,10 +1491,14 @@ static char *ReadSquares(smallint which) {
       tok+= 2;
     }
     else {
+      if (which == ReadGrid || k != 0) {
+        currentgridnum=0;
+        return lastTok;
+      }
       if (which != ReadFrischAuf || k != 0) {
         IoErrorMsg(WrongFieldList, 0);
+        return tok;
       }
-      return tok;
     }
   }
   if (which == ReadImitators) {
@@ -1520,6 +1534,7 @@ static char *ParseRex(boolean *rex, Cond what) {
 #define gpKoeko 4
 #define gpOsc 5
 #define gpAnnan 6
+#define gpGrid 7
 static char *ParseVariant(boolean *type, int group) {
   int       VariantType;
   char    *tok=ReadNextTokStr();
@@ -1664,6 +1679,86 @@ static char *ParseVariant(boolean *type, int group) {
       default:
         IoErrorMsg(WrongPieceName,0);
       }
+    }
+    else if (VariantType==ShiftRank && group==gpGrid)
+    {
+      square * bnp;
+      for (bnp= boardnum; *bnp; bnp++) 
+      {
+        ClearGridNum(*bnp);
+        sq_spec[*bnp] += (((*bnp%24 - 8)/2)+4*((*bnp/24-7)/2)) << Grid;
+      }
+      gridvar = 1;
+    }
+    else if (VariantType==ShiftFile && group==gpGrid)
+    {
+      square * bnp;
+      for (bnp= boardnum; *bnp; bnp++) 
+      {
+        ClearGridNum(*bnp);
+        sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-8)/2)) << Grid;
+      }
+      gridvar = 2;
+    }
+    else if (VariantType==ShiftRankFile && group==gpGrid)
+    {
+      square * bnp;
+      for (bnp= boardnum; *bnp; bnp++) 
+      {
+        ClearGridNum(*bnp);
+        sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-7)/2)) << Grid;
+      }
+      gridvar = 3;
+    }
+    else if (VariantType==Orthogonal && group==gpGrid)
+    {
+      square * bnp;
+      int files[8], ranks[8];
+      int filenum=1;
+      int i;
+      char c;
+      tok = ReadNextTokStr();
+      for (i=0; i<8; i++)
+        files[i]=ranks[i]=0;
+      while (c=*tok++)
+      {
+        if (c >= '1' && c <= '8')
+        {
+          for (i=(c-'1')+1; i<8; i++)
+            ranks[i]++;
+        }
+        else if (tolower(c) >= 'a' && tolower(c) <= 'h')
+        {
+          for (i=(tolower(c)-'a')+1; i<8; i++)
+          files[i]++;
+          filenum++;
+        }
+        else
+        {
+          IoErrorMsg(CondNotUniq, 0);
+          return tok;
+        }
+      }
+      for (bnp= boardnum; *bnp; bnp++) 
+      {
+        ClearGridNum(*bnp);
+        sq_spec[*bnp] += (files[*bnp%24-8]+filenum*ranks[*bnp/24-8]) << Grid;
+      }        
+      gridvar = 4;
+    }
+    else if (VariantType==Irregular && group==gpGrid)
+    {
+      square * bnp;
+      for (bnp= boardnum; *bnp; bnp++) 
+      ClearGridNum(*bnp);
+      gridvar = 5;
+      currentgridnum=1;
+      do 
+      {
+        tok=ReadSquares(ReadGrid);
+      }
+      while (currentgridnum++);
+        return tok;
     }
     else {
       IoErrorMsg(NonsenseCombination,0);
@@ -2435,6 +2530,9 @@ static char *ParseCond(void) {
     case refl_king:
     case trans_king:
       tok= ParseTransPieces(BIT(blanc) | BIT(noir));
+      break;
+    case gridchess: 
+      tok = ParseVariant(NULL, gpGrid);
       break;
     default:
       tok= ReadNextTokStr();
@@ -3877,6 +3975,30 @@ void WriteConditions(int alignment) {
       }
     }
 
+    if (cond == gridchess && OptFlag[suppressgrid]) {
+      strcat(CondLine, "  ");
+      switch (gridvar)
+      {
+        case 1:
+          strcat(CondLine, VariantTypeString[ActLang][ShiftRank]);
+          break;
+        case 2:
+          strcat(CondLine, VariantTypeString[ActLang][ShiftFile]);
+          break;
+        case 3:
+          strcat(CondLine, VariantTypeString[ActLang][ShiftRankFile]);
+          break;
+        case 4:
+          strcat(CondLine, VariantTypeString[ActLang][Orthogonal]);
+          /* to do - write lines */
+          break;
+        case 5:
+          strcat(CondLine, VariantTypeString[ActLang][Irregular]);
+          /* to do - write squares */
+          break;
+      }
+    }
+
     if ((cond == white_oscillatingKs) && OscillatingKingsTypeB[blanc]) {
       strcat(CondLine, "    ");
       strcat(CondLine, VariantTypeString[ActLang][TypeB]);
@@ -4032,6 +4154,9 @@ void WriteConditions(int alignment) {
     CondPrinted= True;
   }
 
+  if (CondFlag[gridchess] && OptFlag[writegrid])
+    WriteGrid();
+
   if (alignment == WCLaTeX && CondPrinted) {
     fprintf(LaTeXFile, "}%%\n");
   }
@@ -4150,6 +4275,17 @@ void WritePosition() {
         nWhite++;
       }
     }
+    if (CondFlag[gridchess] && !OptFlag[suppressgrid])
+    {
+      for (j=1, field-=8 ; j <= 8; j++, field++)
+      {
+        if (j < 8 && (GridNum(field) != GridNum(field+1)))
+          HLine1[4*j+2] = '|';
+        if (i < 7 && (GridNum(field) != GridNum(field-24)))
+          nextLine[4*j-1]=nextLine[4*j]=nextLine[4*j+1]='-';
+      }
+    }
+
     StdString(HLine1);
     StdString(nextLine);
     field-= 32;
@@ -4202,6 +4338,47 @@ void WritePosition() {
 
   SolFile= OrigSolFile;
 } /* WritePosition */
+
+
+void WriteGrid(void) 
+{
+  smallint field, i;
+  char    HLine1[40];
+  char    nextLine[40];
+
+  static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
+  static char HorizL[]="%c  %2d  %2d  %2d  %2d  %2d  %2d  %2d  %2d   %c\n";
+  static char BlankL[]="|                                   |\n";
+
+  StdChar('\n');
+  StdString(BorderL);
+  StdString(BlankL);
+  field= haut - 7;
+
+  for (i=0; i<8; i++) {
+    char *digits="87654321";
+    sprintf(HLine1,
+            HorizL, 
+            digits[i],  
+            GridNum(field++),
+            GridNum(field++),
+            GridNum(field++),
+            GridNum(field++),
+            GridNum(field++),
+            GridNum(field++),
+            GridNum(field++),
+            GridNum(field++),
+            digits[i]
+            );
+
+    strcpy(nextLine,BlankL);
+
+    StdString(HLine1);
+    StdString(nextLine);
+    field-= 32;
+  }
+  StdString(BorderL);
+}
 
 /**** LaTeX output ***** begin *****/
 
@@ -4617,8 +4794,81 @@ void LaTeXBeginDiagram(void) {
   fprintf(LaTeXFile, "}%%\n");
 
   /* conditions */
-  if (CondFlag[gridchess]) {
-    fprintf(LaTeXFile, " \\stdgrid%%\n");
+  if (CondFlag[gridchess] && !OptFlag[suppressgrid]) {
+    boolean entry=false;
+    square *bnp;
+    switch (gridvar)
+    {
+
+      case 0:
+        fprintf(LaTeXFile, " \\stdgrid%%\n");
+        break;
+
+      case 1:
+        fprintf(LaTeXFile, " \\gridlines{h018, h038, h058, h078, v208, v408, v608}%%\n");
+        break;
+
+      case 2:
+        fprintf(LaTeXFile, " \\gridlines{h028, h048, h068, v108, v308, v508, v708}%%\n");
+        break;
+
+      case 3:
+        fprintf(LaTeXFile, " \\gridlines{h018, h038, h058, h078, v108, v308, v508, v708}%%\n");
+        break;
+
+      case 4:
+        for (i=1; i<8; i++)
+          if (GridNum(bas+i-1) != GridNum(bas+i))
+          {
+            if (!entry)
+              fprintf(LaTeXFile, " \\gridlines{");
+            else
+              fprintf(LaTeXFile, ", ");
+            entry= true;
+            fprintf(LaTeXFile, " v%d08", i);
+          }
+        for (i=1; i<8; i++)
+          if (GridNum(bas+24*(i-1)) != GridNum(bas+24*i))
+          {
+            if (!entry)
+              fprintf(LaTeXFile, " \\gridlines{");
+            else
+              fprintf(LaTeXFile, ", ");
+            entry= true;
+            fprintf(LaTeXFile, " h0%d8", i);
+          }
+        if (entry)
+          fprintf(LaTeXFile, "}%%\n");    
+        break;
+      
+      /* of course, only the following block is necessary */
+      case 5:
+        for (bnp = boardnum; *bnp; bnp++)
+        {
+          int i= *bnp%24-8, j= *bnp/24-8;
+          if (i && GridNum((*bnp)-1) != GridNum(*bnp))
+          {
+            if (!entry)
+              fprintf(LaTeXFile, " \\gridlines{");
+            else
+              fprintf(LaTeXFile, ", ");
+            entry= true;
+            fprintf(LaTeXFile, " v%d%d1", i, j);
+          }
+          if (j && GridNum((*bnp)-24) != GridNum(*bnp))
+          {
+            if (!entry)
+              fprintf(LaTeXFile, " \\gridlines{");
+            else
+              fprintf(LaTeXFile, ", ");
+            entry= true;
+            fprintf(LaTeXFile, " h%d%d1", i, j);
+          }
+        }
+        if (entry)
+          fprintf(LaTeXFile, "}%%\n");    
+        break;
+    }
   }
   WriteConditions(WCLaTeX);
 

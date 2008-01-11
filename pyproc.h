@@ -16,6 +16,8 @@
 **
 ** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
 **
+** 2008/01/11 SE   New variant: Special Grids 
+**
 **************************** End of List ******************************/
 
 #ifndef PYPROC_H
@@ -38,6 +40,8 @@ void    StorePosition (void);
 void    WriteSquare (square a);
 void    WritePiece (piece p);
 boolean WriteSpec(Flags pspec, piece p);
+void    WriteGrid(void); 
+
 #ifndef MSC
 int     abs (int a);
 #endif

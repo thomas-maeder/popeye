@@ -20,6 +20,8 @@
  **
  ** 2007/12/26 SE   New condition: Protean Chess
  **
+ ** 2008/01/11 SE   New variant: Special Grids 
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	      /* is always defined on macintosh's  SB */
@@ -144,6 +146,7 @@ void InitCond(void) {
 
   ClrDiaRen(PieSpExFlags);
 
+  gridvar = 0;
   for (bnp= boardnum; *bnp; bnp++) {
 	smallint const file= *bnp%onerow - nr_of_slack_files_left_of_board;
 	smallint const row= *bnp/onerow - nr_of_slack_rows_below_board;
