@@ -4154,9 +4154,6 @@ void WriteConditions(int alignment) {
     CondPrinted= True;
   }
 
-  if (CondFlag[gridchess] && OptFlag[writegrid])
-    WriteGrid();
-
   if (alignment == WCLaTeX && CondPrinted) {
     fprintf(LaTeXFile, "}%%\n");
   }
@@ -4335,6 +4332,9 @@ void WritePosition() {
     CenterLine(OptString[ActLang][quodlibet]);
   }
   StdChar('\n');
+
+  if (CondFlag[gridchess] && OptFlag[writegrid])
+    WriteGrid();
 
   SolFile= OrigSolFile;
 } /* WritePosition */
