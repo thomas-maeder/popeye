@@ -1,4 +1,3 @@
-Popeye Linux-2.6.18.8-0.7-default-i686-32Bit v4.38dev (250 MB)
 
             Boris Bursa\'c
     3601, Problemkiste 96, 10/1994
@@ -4428,7 +4427,6 @@ Loesung beendet.
 
 Until v4.37, in intelligent mode, only a single sulution was
 found with a Knight or a Bishop on a2
-[ 1853514 ] Popeye misses ser-h= solutions in intelligent mode
 cf. http://sourceforge.net/tracker/index.php?func=detail&aid=1853514&group_id=200122&atid=972237
 
 
