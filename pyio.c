@@ -4347,7 +4347,7 @@ void WriteGrid(void)
   char    nextLine[40];
 
   static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
-  static char HorizL[]="%c  %2d  %2d  %2d  %2d  %2d  %2d  %2d  %2d   %c\n";
+  static char HorizL[]="%c                                   %c\n";
   static char BlankL[]="|                                   |\n";
 
   StdChar('\n');
@@ -4357,20 +4357,14 @@ void WriteGrid(void)
 
   for (i=0; i<8; i++) {
     char *digits="87654321";
-    sprintf(HLine1,
-            HorizL, 
-            digits[i],  
-            GridNum(field++),
-            GridNum(field++),
-            GridNum(field++),
-            GridNum(field++),
-            GridNum(field++),
-            GridNum(field++),
-            GridNum(field++),
-            GridNum(field++),
-            digits[i]
-            );
-
+    int j;
+    sprintf(HLine1, HorizL, digits[i], digits[i]);
+    for (j=0; j<8; j++)
+    {
+       char g = (GridNum(field++))%100;
+       HLine1[4*j+2]= g>9?(g/10)+'0':' ';
+       HLine1[4*j+3]= (g%10)+'0';
+    }
     strcpy(nextLine,BlankL);
 
     StdString(HLine1);
