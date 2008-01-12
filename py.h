@@ -49,7 +49,7 @@
      places, I introduced the following macro. It may be defined
      to nothing, to get the old code -- without var intialisation.
  */
-#define VARIABLE_INIT(var)	var=0
+#define VARIABLE_INIT(var)	(var)=0
 
 #ifdef C370
 /* On MVS-systems there's the problem that the C/370 compiler and the
@@ -584,10 +584,10 @@ typedef square imarr[maxinum]; /* squares currently occupied by imitators */
 
 #define sq_spec         (zzzan - bas)
 #define sq_num          (zzzao - bas)
-#define NoEdge(i)       TSTFLAG(sq_spec[i], NoEdgeSq)
-#define SquareCol(i)    TSTFLAG(sq_spec[i], SqColor)
-#define GridNum(s)      (sq_spec[s] >> Grid)
-#define ClearGridNum(s) (sq_spec[s] &= ((1<<Grid)-1))
+#define NoEdge(i)       TSTFLAG(sq_spec[(i)], NoEdgeSq)
+#define SquareCol(i)    TSTFLAG(sq_spec[(i)], SqColor)
+#define GridNum(s)      (sq_spec[(s)] >> Grid)
+#define ClearGridNum(s) (sq_spec[(s)] &= ((1<<Grid)-1))
 
 #define BIT(pos)                (1<<(pos))
 #define TSTFLAG(bits,pos)       (((bits)&BIT(pos))!=0)
@@ -1167,13 +1167,13 @@ enum {
 };
 
 #define DiaCirce        PieSpCount
-#define DiaRen(s)       (boardnum[(s >> DiaCirce)])
+#define DiaRen(s)       (boardnum[((s) >> DiaCirce)])
 #define DiaRenMask      ((1<<DiaCirce)-1)
-#define SetDiaRen(s, f) (s=((unsigned int)(((f-bas)/onerow)*8+(f-bas)%onerow)<<DiaCirce) + (s&DiaRenMask))
+#define SetDiaRen(s, f) ((s)=((unsigned int)((((f)-bas)/onerow)*8+((f)-bas)%onerow)<<DiaCirce) + ((s)&DiaRenMask))
 #define FrischAuf       PieSpCount
 
 /* needed for Twinning Reset. */
-#define ClrDiaRen(s)    (s-=((unsigned int)(s>>DiaCirce)<<DiaCirce))
+#define ClrDiaRen(s)    ((s)-=((unsigned int)((s)>>DiaCirce)<<DiaCirce))
 
 #define encore()        (nbcou > repere[nbply])
 #define advers(camp)    ((camp) ? blanc : noir)
@@ -1183,8 +1183,8 @@ enum {
 
 
 #define COLORFLAGS      (BIT(Black)+BIT(White)+BIT(Neutral))
-#define SETCOLOR(a,b)   a=(a&~COLORFLAGS)+(b&COLORFLAGS)
-#define CHANGECOLOR(a)  a^=BIT(Black)+BIT(White)
+#define SETCOLOR(a,b)   (a)=((a)&~COLORFLAGS)+((b)&COLORFLAGS)
+#define CHANGECOLOR(a)  (a)^=BIT(Black)+BIT(White)
 
 #define imcheck(i, j) (!CondFlag[imitators] || imok((i), (j)))
 #define imech(i, j) if (imcheck((i), (j))) return true
@@ -1195,10 +1195,10 @@ enum {
 #define maooaimcheck(sq, j, pass) (!CondFlag[imitators] || maooaimok((sq), (j), (pass)))   
 
 #define setneutre(i)            do {if (neutcoul != color(i)) change(i);} while(0)
-#define change(i)               do {register piece pp; nbpiece[pp= e[i]]--; nbpiece[e[i]= -pp]++;} while (0)
-#define finligne(i,k,p,sq)      do {register smallint kk= k; sq= i; while (e[(sq+=kk)]==vide); p= e[sq];} while (0)
+#define change(i)               do {register piece pp; nbpiece[pp= e[(i)]]--; nbpiece[e[(i)]= -pp]++;} while (0)
+#define finligne(i,k,p,sq)      do {register smallint kk= (k); (sq)= (i); while (e[(sq)+=(kk)]==vide); p= e[(sq)];} while (0)
 
-#define rightcolor(ej, camp)    (camp == blanc ? ej <= roin : ej >= roib)
+#define rightcolor(ej, camp)    ((camp) == blanc ? (ej) <= roin : (ej) >= roib)
 
 #define lrhopcheck(sq, ka, ke, p, ev)   riderhoppercheck(sq, ka, ke, p, 0, 0, ev)
 #define rhopcheck(sq, ka, ke, p, ev)    riderhoppercheck(sq, ka, ke, p, 0, 1, ev)
@@ -1217,18 +1217,20 @@ enum {
 #define shopcheck(sq, ka, ke, p, ev)     riderhoppercheck(sq, ka, ke, p, 1, 1, ev)
 #define geshop(sq, ka, ke, camp)        geriderhopper(sq, ka, ke, 1, 1, camp)
 
-#define PromSq(col,sq) (TSTFLAG(sq_spec[sq],(col)==blanc?WhPromSq:BlPromSq))
-#define ReversePromSq(col,sq) (TSTFLAG(sq_spec[sq],(col)==noir?WhPromSq:BlPromSq))
+#define PromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==blanc?WhPromSq:BlPromSq))
+#define ReversePromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==noir?WhPromSq:BlPromSq))
 
-#define ChamCircePiece(p)    (((p < vide) ? - NextChamCircePiece[-p] : \
-				NextChamCircePiece[p]))
+#define ChamCircePiece(p)    ((((p) < vide) ? - NextChamCircePiece[-(p)] : \
+                               NextChamCircePiece[(p)]))
 
-#define EndOfLine(from,dir,end)  {end = from; \
-				  do end+= dir; \
-				  while (e[end] == vide);}
+#define EndOfLine(from,dir,end)  {end = (from); \
+    do (end)+= (dir);                           \
+    while (e[(end)] == vide);}
 
 #define LegalAntiCirceMove(reb, cap, dep)  \
-      (e[reb] == vide || (!AntiCirCheylan && reb == cap) || (reb == dep))
+  (e[(reb)] == vide \
+   || (!AntiCirCheylan && (reb) == (cap)) \
+   || ((reb) == (dep)))
 
 #define BGL_infinity 10000000 	/* this will do I expect; e.g. max len = 980 maxply < 1000 */
 
