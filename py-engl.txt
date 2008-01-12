@@ -278,6 +278,9 @@ commands expect further parameters. Lets start with the simpler commands:
 	NormalPawn
 	BlackChecks
 	GenevaChess
+	Vaulting Kings
+	ProteanChess
+	Lortap
 
 	After the conditions Imitator, MagicField, Hole, FrischaufCirce,
 	WhitePromSquares, BlackPromSquares
@@ -302,10 +305,23 @@ commands expect further parameters. Lets start with the simpler commands:
 	After the Sentinelles condition "PionAdvers", "PionNeutre", "ParaSentinelles",
               or "Berolina" can be entered, and also "MaximumWhite", "MaximumBlack" 
               or "MaximumTotal" followed by a number.
-	After MessignyChess, (Bi)Woozles and (Bi)Heffalumps you can enter
+	After MessignyChess, (Bi)Woozles, (Bi)Heffalumps and Protean Chess you can enter
         "RexExclusiv".
 	After the WhiteOscillatingKings or BlackOscillatingKings condition "TypeB" or
 	      or "TypeC" can be entered.
+	After GridChess the variants RankShift, FileShift, RankFileShist can be entered 
+	(producing the normal grid shifted by one rank and/or file); also the variant
+	Orthogonal, after which can be given a list of files (to the left of any grid lines)
+	and ranks (below any grid lines) all without spaces between; also the variant Irregular
+	followed by space-separated lists of squares forming the grid regions. For example
+	the standard grid can be described by any of
+		cond grid
+		cond grid orthogonal bdf246
+		cond grid irregular a8a7b8b7 c8c7d8d7 ...
+	After any of the Transmuting Kings or Reflecting Kings condition, a list of pieces
+		may be given. The checked king will move only as one of the pieces in the list (also
+		as king for Reflecting Kings).
+		
 
  - option: Everything which should be in effect should be given here as
 	blank seperated list. The following is recognized:
@@ -367,7 +383,11 @@ commands expect further parameters. Lets start with the simpler commands:
 	StopOnShortSolutions  Calculation is terminated after detecting of
 			      short solutions.
 	Beep            This option can be followed by an integer. Each time
-			Popeye has found a solution it beeps a  number  of times.  
+			Popeye has found a solution it beeps a  number  of times. 
+	SuppressGrid    (Grid Chess) Suppress the rendition of grid lines. 
+		Affects output & LaTeX output only.
+	WriteGrid		 (Grid Chess) Draws a board with each square numbered according to membership of
+			grid region. Affects output only. Useful for displaying irregular grids. 
 
 
  - stipulation: popeye knows the following stipulations:
@@ -463,6 +483,7 @@ elaborate is the command
 	Functionary
 	HalfNeutral
 	HurdleColourChanging          (only for hoppers !)
+	Protean
 
 	may be given. All the pieces given after this will have these attributes.
 	After this specification follows the list of pieces: First the name
@@ -561,6 +582,7 @@ elaborate is the command
 	or      Orix                            English equihopper on queen lines
 	p       pawn
 	pa      pao   
+	pp      reverse pawn       moves opposite to normal p and promotes at opp end of board
 	pr      princess   
 	q       queen   
 	qe      equi english			equi approacher stopable
@@ -572,6 +594,7 @@ elaborate is the command
 	re      rook eagle
 	rf      root-50-leaper
 	rh      rook hopper
+	rk      radial leaper (or radial knight)
 	rl      rook-lion
 	rm      rook moose
 	rn      rose-lion
