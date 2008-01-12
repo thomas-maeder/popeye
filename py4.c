@@ -655,7 +655,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
           return true;
       }
       else if (stipulation == stip_target) {
-        if (sq_arrival != TargetField)
+        if (sq_arrival != TargetSquare)
           return true;
       }
       else if (stipulation == stip_capture
@@ -956,7 +956,7 @@ void geriderhopper(square   sq_departure,
         if (jump>1) {
           /* The jump up is a longer one.
              Check if there is an obstacle between
-             the hurdle and the target field
+             the hurdle and the target square
           */
           smallint jumped= jump;
           while (--jumped) {
@@ -2840,7 +2840,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
         flagactive= false;
         /* Unfortunately we have to check for
            duplicate generated moves now.
-           there's only ONE duplicate per arrival field
+           there's only ONE duplicate per arrival square
            possible !
         */
         for (l1= anf1 + 1; l1 <= anf2; l1++) {

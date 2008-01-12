@@ -635,7 +635,7 @@ int GetPieNamIndex(char a,char b) {
   return 0;
 }
 
-int FieldNum(char a,char b)
+int SquareNum(char a,char b)
 {
   if ('a' <= a && a <= 'h' && '1' <= b && b <= '8')
     return bas + a - 'a' + (b - '1') * onerow;
@@ -643,13 +643,13 @@ int FieldNum(char a,char b)
     return 0;
 }
 
-static boolean SetKing(smallint *kingfield, smallint field)
+static boolean SetKing(smallint *kingsquare, smallint square)
 {
-  if (*kingfield == initsquare) {
-    *kingfield= field;
+  if (*kingsquare == initsquare) {
+    *kingsquare= square;
     return False;
   }
-  else if (*kingfield != field) {
+  else if (*kingsquare != square) {
     IoErrorMsg(OneKing, 0);
     return True;
   }
@@ -728,29 +728,29 @@ char *LaTeXPiece(piece Name) {
     return LaTeXStdPie[Name];
 } /* LaTeXPiece */
 
-static char *ParseFieldList(
+static char *ParseSquareList(
   char  *tok,
   PieNam    Name,
   Flags Spec,
   char  echo)
 {
-  /* We interprete the tokenString as FieldList
+  /* We interprete the tokenString as SquareList
      If we return always the next tokenstring
   */
-  int     Field, FieldCnt= 0;
+  int     Square, SquareCnt= 0;
 
   while (True) {
-    if (*tok && tok[1] && (Field=FieldNum(*tok,tok[1]))) {
-      if (e[Field] != vide) {
+    if (*tok && tok[1] && (Square=SquareNum(*tok,tok[1]))) {
+      if (e[Square] != vide) {
         if (!echo) {
-          WriteSquare(Field);
+          WriteSquare(Square);
           StdChar(' ');
           Message(OverwritePiece);
         }
-        if (Field == rb) {
+        if (Square == rb) {
           rb= initsquare;
         }
-        if (Field == rn) {
+        if (Square == rn) {
           rn= initsquare;
         }
       }
@@ -759,54 +759,54 @@ static char *ParseFieldList(
         if (LaTeXout) {
           sprintf(GlobalStr,
                   "%s\\%c%s %c%c",
-                  e[Field] == vide ? "+" : "",
+                  e[Square] == vide ? "+" : "",
                   TSTFLAG(Spec, Neutral)
                   ? 'n'
                   : TSTFLAG(Spec, White) ? 'w' : 's',
                   LaTeXPiece(Name),
-                  'a'-nr_of_slack_files_left_of_board+Field%onerow,
-                  '1'-nr_of_slack_rows_below_board+Field/onerow);
+                  'a'-nr_of_slack_files_left_of_board+Square%onerow,
+                  '1'-nr_of_slack_rows_below_board+Square/onerow);
           strcat(ActTwin, GlobalStr);
         }
-        if (e[Field] == vide) {
+        if (e[Square] == vide) {
           StdChar(echo);
         }
         WriteSpec(Spec, Name);
         WritePiece(Name);
-        WriteSquare(Field);
+        WriteSquare(Square);
         StdChar(' ');
       }
       if (TSTFLAG(Spec, Neutral)) {
         Spec |= BIT(Black) + BIT(White);
       }
-      spec[Field] = Spec;
-      e[Field] = TSTFLAG(Spec, White)
+      spec[Square] = Spec;
+      e[Square] = TSTFLAG(Spec, White)
         ? Name
         : - Name;
       if (!CondFlag[dynasty]
           && (Name == King || TSTFLAG(Spec,Royal))) {
         if (TSTFLAG(Spec, White)) {
-          if (SetKing(&rb, Field)) {
+          if (SetKing(&rb, Square)) {
             return ReadNextTokStr();
           }
         }
         if (TSTFLAG(Spec, Black)) {
-          if (SetKing(&rn, Field)) {
+          if (SetKing(&rn, Square)) {
             return ReadNextTokStr();
           }
         }
       }
       tok+= 2;
-      FieldCnt++;
+      SquareCnt++;
       continue;
     }
-    if (FieldCnt) {
+    if (SquareCnt) {
       if (*tok) {
-        ErrorMsg(WrongFieldList);
+        ErrorMsg(WrongSquareList);
       }
       return ReadNextTokStr();
     }
-    ErrorMsg(MissngFieldList);
+    ErrorMsg(MissngSquareList);
     tok= ReadNextTokStr();
   }
 }
@@ -873,14 +873,14 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
       if (l >= 3 && !strchr("12345678",tok[1]))
         return btok;
       /* We return here not the next tokenstring
-      ** since this string is not a Men/Fieldlist
+      ** since this string is not a Men/Squarelist
       ** and therefore deserves processing by
       ** ParsePieSpec
       */
       NameCnt++;
       if (!*tok)
         tok= ReadNextTokStr();
-      tok= ParseFieldList(tok, Name, Spec, echo);
+      tok= ParseSquareList(tok, Name, Spec, echo);
       CLRFLAG(Spec, Royal);
     }
     else if (hunterseppos!=0)
@@ -1192,9 +1192,9 @@ static char *ParsStips(char *tok) {
     else if (ReciStip[0] == 'z') {
       ReciStipulation= stip_target;
       ReciAlphaEnd[2]= '\0';
-      ReciTargetField= FieldNum(ReciStip[1], ReciStip[2]);
-      if (!ReciTargetField) {
-        IoErrorMsg(MissngFieldList, 0);
+      ReciTargetSquare= SquareNum(ReciStip[1], ReciStip[2]);
+      if (!ReciTargetSquare) {
+        IoErrorMsg(MissngSquareList, 0);
         return (char *)0;
       }
     }
@@ -1279,9 +1279,9 @@ static char *ParsStips(char *tok) {
     }
     else if (tok[0] == 'z') {
       NonReciStipulation= stip_target;
-      NonReciTargetField= FieldNum(tok[1], tok[2]);
-      if (!NonReciTargetField) {
-        IoErrorMsg(MissngFieldList, 0);
+      NonReciTargetSquare= SquareNum(tok[1], tok[2]);
+      if (!NonReciTargetSquare) {
+        IoErrorMsg(MissngSquareList, 0);
         return (char *)0;
       }
       strcpy(NonReciAlphaEnd, " z");
@@ -1353,14 +1353,14 @@ static char *ParseStip(void) {
   if (tok) {
     /* set defaults */
     stipulation = NonReciStipulation;
-    TargetField = NonReciTargetField;
+    TargetSquare = NonReciTargetSquare;
     DoubleMate = NonReciDoubleMate;
     AlphaEnd = NonReciAlphaEnd;
 
     /* set reci stip if not parsed */
     if (FlowFlag(Reci) && !ParsedReciStip) {
       ReciStipulation= NonReciStipulation;
-      ReciTargetField = NonReciTargetField;
+      ReciTargetSquare = NonReciTargetSquare;
       ReciDoubleMate = NonReciDoubleMate;
       strcpy(ReciAlphaEnd, NonReciAlphaEnd);
     }
@@ -1404,14 +1404,14 @@ static char *ReadSquares(smallint which) {
   l=strlen(tok);
   if (l&1) {
     if (which != ReadFrischAuf && which != ReadGrid) {
-      IoErrorMsg(WrongFieldList, 0);
+      IoErrorMsg(WrongSquareList, 0);
     }
     currentgridnum = 0;
     return tok;
   }
   k= 0;
   while (*tok) {
-    i= FieldNum(*tok, tok[1]);
+    i= SquareNum(*tok, tok[1]);
     if (i != 0) {
       switch (which) {
       case ReadFrischAuf:
@@ -1496,7 +1496,7 @@ static char *ReadSquares(smallint which) {
         return lastTok;
       }
       if (which != ReadFrischAuf || k != 0) {
-        IoErrorMsg(WrongFieldList, 0);
+        IoErrorMsg(WrongSquareList, 0);
         return tok;
       }
     }
@@ -2823,9 +2823,9 @@ static char *ParseTwinMove(int indexx) {
   /* read the first square */
   while (sq1 == 0) {
     tok= ReadNextTokStr();
-    sq1= FieldNum(tok[0], tok[1]);
+    sq1= SquareNum(tok[0], tok[1]);
     if (sq1 == 0) {
-      ErrorMsg(WrongFieldList);
+      ErrorMsg(WrongSquareList);
       return ReadNextTokStr();
     }
   }
@@ -2833,9 +2833,9 @@ static char *ParseTwinMove(int indexx) {
   /* read the second square */
   while (sq2 == 0) {
     tok= ReadNextTokStr();
-    sq2= FieldNum(tok[0], tok[1]);
+    sq2= SquareNum(tok[0], tok[1]);
     if (sq2 == 0) {
-      ErrorMsg(WrongFieldList);
+      ErrorMsg(WrongSquareList);
       return ReadNextTokStr();
     }
   }
@@ -2942,18 +2942,18 @@ static char *ParseTwinShift(void) {
   /* read the first square */
   while (sq1 == 0) {
     tok= ReadNextTokStr();
-    sq1= FieldNum(tok[0], tok[1]);
+    sq1= SquareNum(tok[0], tok[1]);
     if (sq1 == 0) {
-      ErrorMsg(WrongFieldList);
+      ErrorMsg(WrongSquareList);
     }
   }
 
   /* read the second square */
   while (sq2 == 0) {
     tok= ReadNextTokStr();
-    sq2= FieldNum(tok[0], tok[1]);
+    sq2= SquareNum(tok[0], tok[1]);
     if (sq2 == 0) {
-      ErrorMsg(WrongFieldList);
+      ErrorMsg(WrongSquareList);
     }
   }
 
@@ -3060,19 +3060,19 @@ static char *ParseTwinRemove(void) {
       char *tok2= tok;
 
       while (*tok2 && !WrongList) {
-        if (FieldNum(tok2[0], tok2[1]) == 0) {
+        if (SquareNum(tok2[0], tok2[1]) == 0) {
           WrongList= True;
         }
         tok2 += 2;
       }
     }
     if (WrongList) {
-      ErrorMsg(WrongFieldList);
+      ErrorMsg(WrongSquareList);
     }
   } while (WrongList);
 
   while (*tok) {
-    sq= FieldNum(tok[0], tok[1]);
+    sq= SquareNum(tok[0], tok[1]);
 
     if (abs(e[sq]) < King) {
       WriteSquare(sq);
@@ -4160,7 +4160,9 @@ void WriteConditions(int alignment) {
 } /* WriteConditions */
 
 void WritePosition() {
-  smallint field, i, j, nBlack, nWhite, nNeutr;
+  smallint i, nBlack, nWhite, nNeutr;
+  square square;
+  smallint row, file;
   piece   p,pp;
   char    HLine1[40];
   char    nextLine[40];
@@ -4191,7 +4193,6 @@ void WritePosition() {
   StdChar('\n');
   StdString(BorderL);
   StdString(BlankL);
-  field= square_a8;
 
   /* Just for visualizing imitators on the board. */                 
   if (CondFlag[imitators]) {
@@ -4200,34 +4201,47 @@ void WritePosition() {
     }
   }
 
-  for (i=0; i<8; i++) {
+  for (row=1; row<=nr_rows_on_board; row++) {
     char *digits="87654321";
     strcpy(HLine1,HorizL);
-    HLine1[0]= digits[i];
-    HLine1[sizeof(HorizL)-3]= digits[i];
+    HLine1[0]= digits[row-1];
+    HLine1[sizeof(HorizL)-3]= digits[row-1];
 
     strcpy(nextLine,BlankL);
 
-    for (j= 1; j <= 8; j++, field++) {
-      char *h1;
-      h1= HLine1 + (j * 4);
-      if ((pp= abs(p= e[field])) < King) {
+    for (file= 1, square= square_a8+(row-1)*dir_down;
+         file <= nr_files_on_board;
+         file++, square += dir_right) {
+      char *h1= HLine1 + (file * 4);
+
+      if (CondFlag[gridchess] && !OptFlag[suppressgrid])
+      {
+        if (file < nr_files_on_board
+            && GridNum(square)!=GridNum(square+dir_right))
+          HLine1[4*file+2] = '|';
+
+        if (row < nr_rows_on_board
+            && (GridNum(square) != GridNum(square+dir_down)))
+          nextLine[4*file-1] = nextLine[4*file] = nextLine[4*file+1] = '-';
+      }
+
+      if ((pp= abs(p= e[square])) < King) {
         if (p == -1) {
           /* this is an imitator ! */
           *h1= 'I';
-          e[field]= vide; /* "delete" imitator */
+          e[square]= vide; /* "delete" imitator */
         }
         else if (p == obs) {
           /* this is a hole ! */
           *h1= ' ';
         }
-        /* else:  the field is empty ! */
+        /* else:  the square is empty ! */
         continue;
       }
 
       for (sp= Neutral + 1; sp < PieSpCount; sp++) {
-        if (TSTFLAG(spec[field], sp)) {
-          AddSquare(ListSpec[sp], field);
+        if (TSTFLAG(spec[square], sp)) {
+          AddSquare(ListSpec[sp], square);
         }
       }
 
@@ -4241,27 +4255,27 @@ void WritePosition() {
       else {
         char *n1 = nextLine + (h1-HLine1); /* current position on next line */
 
-        unsigned int const i = pp-Hunter0;
-        assert(i<maxnrhuntertypes);
+        unsigned int const hunterIndex = pp-Hunter0;
+        assert(hunterIndex<maxnrhuntertypes);
 
         *h1-- = '/';
-        if ((*h1= PieceTab[huntertypes[i].away][1]) != ' ') {
+        if ((*h1= PieceTab[huntertypes[hunterIndex].away][1]) != ' ') {
           *h1= UPCASE(*h1);
           h1--;
         }
-        *h1--= UPCASE(PieceTab[huntertypes[i].away][0]);
+        *h1--= UPCASE(PieceTab[huntertypes[hunterIndex].away][0]);
 
         --n1;   /* leave pos. below '/' empty */
-        if ((*n1= PieceTab[huntertypes[i].home][1]) != ' ') {
+        if ((*n1= PieceTab[huntertypes[hunterIndex].home][1]) != ' ') {
           *n1= UPCASE(*n1);
         }
-        *n1 = UPCASE(PieceTab[huntertypes[i].home][0]);
+        *n1 = UPCASE(PieceTab[huntertypes[hunterIndex].home][0]);
       }
 
       if (p < 0) {
         *h1= '-';
       }
-      if (TSTFLAG(spec[field], Neutral)) {
+      if (TSTFLAG(spec[square], Neutral)) {
         nNeutr++;
         *h1= '=';
       }
@@ -4272,20 +4286,9 @@ void WritePosition() {
         nWhite++;
       }
     }
-    if (CondFlag[gridchess] && !OptFlag[suppressgrid])
-    {
-      for (j=1, field-=8 ; j <= 8; j++, field++)
-      {
-        if (j < 8 && (GridNum(field) != GridNum(field+1)))
-          HLine1[4*j+2] = '|';
-        if (i < 7 && (GridNum(field) != GridNum(field-24)))
-          nextLine[4*j-1]=nextLine[4*j]=nextLine[4*j+1]='-';
-      }
-    }
 
     StdString(HLine1);
     StdString(nextLine);
-    field-= 32;
   }
   StdString(BorderL);
   if (nNeutr) {
@@ -4342,7 +4345,7 @@ void WritePosition() {
 
 void WriteGrid(void) 
 {
-  smallint field, i;
+  smallint square, i;
   char    HLine1[40];
   char    nextLine[40];
 
@@ -4353,7 +4356,7 @@ void WriteGrid(void)
   StdChar('\n');
   StdString(BorderL);
   StdString(BlankL);
-  field= haut - 7;
+  square= haut - 7;
 
   for (i=0; i<8; i++) {
     char *digits="87654321";
@@ -4361,7 +4364,7 @@ void WriteGrid(void)
     sprintf(HLine1, HorizL, digits[i], digits[i]);
     for (j=0; j<8; j++)
     {
-       char g = (GridNum(field++))%100;
+       char g = (GridNum(square++))%100;
        HLine1[4*j+2]= g>9?(g/10)+'0':' ';
        HLine1[4*j+3]= (g%10)+'0';
     }
@@ -4369,7 +4372,7 @@ void WriteGrid(void)
 
     StdString(HLine1);
     StdString(nextLine);
-    field-= 32;
+    square-= 32;
   }
   StdString(BorderL);
 }
@@ -4866,7 +4869,7 @@ void LaTeXBeginDiagram(void) {
   }
   WriteConditions(WCLaTeX);
 
-  /* magical fields with frame */
+  /* magical squares with frame */
   if (CondFlag[magic]) {
     char    MagicSqList[256] = "";
     boolean firstpiece= true;
@@ -5012,8 +5015,8 @@ int main() {
 #endif
 /* The input accepted by popeye is defined by the following grammar.
 ** If there is no space between two nonterminals, then there is also
-** no other character allowed in the input. This holds for <FieldName>
-** and <FieldList>. Other terminals must be seperated by any non
+** no other character allowed in the input. This holds for <SquareName>
+** and <SquareList>. Other terminals must be seperated by any non
 ** alpha or non numeric character.
 **
 ** <PopeyeInput>  ::= <BeginSpec> <PySpecList> <EndSpec>
@@ -5027,7 +5030,7 @@ int main() {
 **            <TitleSpec> | <RemarkSpec>
 ** <PieceSpec>    ::= pieces <PieceList>
 ** <KamikazeSpec> ::= kamikaze <PieceList>
-** <ImitatorSpec> ::= imitator <FieldList>
+** <ImitatorSpec> ::= imitator <SquareList>
 ** <PieceList>    ::= <MenSpec> <MenList> | <MenSpec> <MenList> <PieceList>
 ** <MenSpec>      ::= <ColorSpec> <AddSpecList>
 ** <ColorSpec>    ::= white | black | neutral
@@ -5035,11 +5038,11 @@ int main() {
 ** <AddSpec>      ::= royal
 ** <Empty>    ::=
 **
-** <MenList>      ::= <ManName> <FieldList> <Seperator> |
-**            <ManName> <FieldList> <MenList>
+** <MenList>      ::= <ManName> <SquareList> <Seperator> |
+**            <ManName> <SquareList> <MenList>
 ** <ManName>      ::= as actually defined in POPEYE.
-** <FieldList>    ::= <FieldName> | <FieldName><FieldList>
-** <FieldName>    ::= <ColName><RowName>
+** <SquareList>    ::= <SquareName> | <SquareName><SquareList>
+** <SquareName>    ::= <ColName><RowName>
 ** <ColName>      ::= a | b | c | d | e | f | g | h
 ** <RowName>      ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 **
@@ -5077,7 +5080,7 @@ int main() {
 ** b Ka3
 ** with the intention to place the black king on a3, popeye will balk,
 ** due to the fact that he interpretes b as piece with name ... and ka3
-** as fieldlist. So you are encouraged to use at least four characters
+** as squarelist. So you are encouraged to use at least four characters
 ** when switching from one color to the other.
 ** Therefore the above input could be shortened to
 ** beg

@@ -21,8 +21,8 @@
 20= monochrom + bichrom chess gives no sense
 21= wrong character: `%s'
 22= only one king allowed
-23= wrong terminated FieldList - ignored
-24= wrong or missing FieldList - please give one
+23= wrong terminated SquareList - ignored
+24= wrong or missing SquareList - please give one
 25= startmovenumber exceeds the limit: %s
 26= eiffel, madrasi, isardam, woozles or paralysing pieces incompatible with some fairy conditions
 27= circe and immunschach and rex inclusiv not allowed

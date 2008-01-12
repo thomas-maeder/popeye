@@ -374,7 +374,7 @@ EXTERN  boolean         flag_testlegality, k_cap,
 			flag_madrasi;
 EXTERN  boolean         is_phantomchess;
 EXTERN  square          marsid;
-EXTERN  square          TargetField, ReciTargetField, NonReciTargetField;
+EXTERN  square          TargetSquare, ReciTargetSquare, NonReciTargetSquare;
 
 EXTERN  boolean         DoubleMate, CounterMate, ReciDoubleMate, NonReciDoubleMate;
 

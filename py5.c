@@ -788,7 +788,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p) {
         flagactive= false;
         /* Unfortunately we have to check for
            duplicate generated moves now.
-           there's only ONE duplicate per arrival field
+           there's only ONE duplicate per arrival square
            possible !
         */
         for (l1= anf1 + 1; l1 <= anf2; l1++) {
@@ -3028,7 +3028,7 @@ boolean pattencore(couleur camp, square** pattfld) {
  * stalemate problem. */
 boolean patt(couleur camp)
 {
-  square *pattfield= boardnum;  /* local so allows nested calls to patt */
+  square *pattsquare= boardnum;  /* local so allows nested calls to patt */
 
   boolean const whbl_exact= camp==blanc ? wh_exact : bl_exact;
   if (!whbl_exact && !flag_testlegality) {
@@ -3065,7 +3065,7 @@ boolean patt(couleur camp)
       }
     }
 
-    while (pattencore(camp, &pattfield)) {
+    while (pattencore(camp, &pattsquare)) {
       if (jouecoup()
           || (CondFlag[blackultraschachzwang] && (camp == noir))
           || (CondFlag[whiteultraschachzwang] && (camp == blanc))
@@ -3133,7 +3133,7 @@ boolean patt(couleur camp)
 
 boolean stip_target(couleur camp)
 {
-  return move_generation_stack[nbcou].arrival == TargetField
+  return move_generation_stack[nbcou].arrival == TargetSquare
     && crenkam[nbply] == initsquare
     && !echecc(camp);
 }

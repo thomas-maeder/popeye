@@ -26,7 +26,7 @@
  ** pieces are present. The function TellSmallEncode and TellLargeEncode
  ** are used to decide what encoding to use. Which function to use is
  ** stored in encode.
- ** SmallEncode encodes for each piece the field where it is located.
+ ** SmallEncode encodes for each piece the square where it is located.
  ** LargeEncode uses the old scheme introduced by Torsten: eight
  ** bytes at the beginning give in 64 bits the locations of the pieces
  ** coded after the eight bytes. Both functions give for each piece its
@@ -829,13 +829,13 @@ boolean shsol(couleur camp, smallint n, boolean restartenabled) {
   /* reciprocal helpmovers -- let's check whether black can mate */
   if (FlowFlag(Reci)) {
 	stipulation = ReciStipulation;
-	TargetField = ReciTargetField;
+	TargetSquare = ReciTargetSquare;
 	DoubleMate = ReciDoubleMate;
 
 	flag2 = matant(camp, 1);
 
 	stipulation = NonReciStipulation;
-	TargetField = NonReciTargetField;
+	TargetSquare = NonReciTargetSquare;
 	DoubleMate = NonReciDoubleMate;
   }
 
@@ -910,7 +910,7 @@ boolean shsol(couleur camp, smallint n, boolean restartenabled) {
   if (flag && FlowFlag(Reci) && PrintReciSolution) {
 	/* reciprocal helpmover */
 	stipulation = ReciStipulation;
-	TargetField = ReciTargetField;
+	TargetSquare = ReciTargetSquare;
 	AlphaEnd = ReciAlphaEnd;
 	DoubleMate = ReciDoubleMate;
 
@@ -918,7 +918,7 @@ boolean shsol(couleur camp, smallint n, boolean restartenabled) {
 
 	PrintReciSolution = False;
 	stipulation = NonReciStipulation;
-	TargetField = NonReciTargetField;
+	TargetSquare = NonReciTargetSquare;
 	AlphaEnd = NonReciAlphaEnd;
 	DoubleMate = NonReciDoubleMate;
   }
@@ -941,13 +941,13 @@ boolean mataide(couleur camp, smallint n, boolean restartenabled) {
 	/* reciprocal helpmover */
 	if (n == 1 && FlowFlag(Reci)) {
       stipulation = ReciStipulation;
-      TargetField = ReciTargetField;
+      TargetSquare = ReciTargetSquare;
       DoubleMate = ReciDoubleMate;
 
       flag = !matant(camp, 1);
 
       stipulation = NonReciStipulation;
-      TargetField = NonReciTargetField;
+      TargetSquare = NonReciTargetSquare;
       DoubleMate = NonReciDoubleMate;
 	}
 	if (flag)
@@ -996,14 +996,14 @@ boolean mataide(couleur camp, smallint n, boolean restartenabled) {
 
 	if (flag && FlowFlag(Reci) && n == 1) {     /* reciprocal helpmover */
       stipulation = ReciStipulation;
-      TargetField = ReciTargetField;
+      TargetSquare = ReciTargetSquare;
       AlphaEnd = ReciAlphaEnd;
       DoubleMate = ReciDoubleMate;
 
       last_h_move(camp);
 
       stipulation = NonReciStipulation;
-      TargetField = NonReciTargetField;
+      TargetSquare = NonReciTargetSquare;
       AlphaEnd = NonReciAlphaEnd;
       DoubleMate = NonReciDoubleMate;
 	}
