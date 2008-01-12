@@ -4487,17 +4487,18 @@ void LaTeXEndDiagram(void) {
     IoErrorMsg(WrOpenError,0);
   }
 
-  if    (!(OptFlag[solmenaces]
-           || OptFlag[solflights]
-           || OptFlag[nontrivial]
-           || (OptFlag[intelligent]
-               && maxsol_per_matingpos)
-           || FlagTimeOut
-           || FlagMaxSolsReached
-           || (OptFlag[maxsols]
-               && (solutions >= maxsolutions))))
+  if (!(OptFlag[solmenaces]
+        || OptFlag[solflights]
+        || OptFlag[nontrivial]
+        || (OptFlag[intelligent] && maxsol_per_matingpos)
+        || FlagTimeOut
+        || FlagMaxSolsReached
+        || (OptFlag[maxsols] && solutions>=maxsolutions)))
   {
-    fprintf(LaTeXFile, " \\Co+%%%s\n", VERSIONSTRING);
+    fprintf(LaTeXFile, " \\Co+%%");
+    if (!flag_regression)
+      fprintf(LaTeXFile, "%s", VERSIONSTRING);
+    fprintf(LaTeXFile, "\n");
   }
 
   fprintf(LaTeXFile, "\\end{diagram}\n\\hfill\n");

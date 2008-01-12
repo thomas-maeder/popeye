@@ -4427,6 +4427,7 @@ Loesung beendet.
 
 Until v4.37, in intelligent mode, only a single sulution was
 found with a Knight or a Bishop on a2
+[ 1853514 ] Popeye misses ser-h= solutions in intelligent mode
 cf. http://sourceforge.net/tracker/index.php?func=detail&aid=1853514&group_id=200122&atid=972237
 
 

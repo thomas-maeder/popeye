@@ -1,5 +1,6 @@
 Es fehlt ein weisser oder schwarzer Koenig
 
+Thomas Maeder, Popeye test problem for promotion into white king
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -38,6 +39,7 @@ Loesung beendet.
 
 Es fehlt ein weisser oder schwarzer Koenig
 
+Thomas Maeder, Popeye test problem for promotion into black king
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -75,6 +77,7 @@ Loesung beendet.
 
 Es fehlt ein weisser oder schwarzer Koenig
 
+Thomas Maeder, Popeye test problem for promotion of berolina pawn into king
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -112,6 +115,7 @@ Loesung beendet.
 
 Es fehlt ein weisser oder schwarzer Koenig
 
+Thomas Maeder, Popeye test problem for correct initialization of castling possibilities
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
