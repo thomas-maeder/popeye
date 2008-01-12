@@ -1720,7 +1720,7 @@ static char *ParseVariant(boolean *type, int group) {
       tok = ReadNextTokStr();
       for (i=0; i<8; i++)
         files[i]=ranks[i]=0;
-      while (c=*tok++)
+      while ((c=*tok++))
       {
         if (c >= '1' && c <= '8')
         {
