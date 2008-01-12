@@ -2759,10 +2759,8 @@ int main(int argc, char *argv[]) {
       sprintf(MMString, " (%ld GB)\n", MaxMemory>>30);
   }
 
-  if (!flag_regression) {
-    pyfputs(StartUp, stdout);
-    pyfputs(MMString, stdout);
-  }
+  pyfputs(StartUp, stdout);
+  pyfputs(MMString, stdout);
 
   /* For the very first time we try to open any *.str
      When we reach the last remainig language, we force

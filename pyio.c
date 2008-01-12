@@ -3534,8 +3534,7 @@ Token ReadProblem(Token tk) {
         if ((TraceFile=fopen(ReadToEndOfLine(),open_mode)) == NULL) {
           IoErrorMsg(WrOpenError,0);
         }
-        else
-        {
+        else if (!flag_regression) {
           fputs(StartUp, TraceFile);
           fputs(MMString, TraceFile);
           fflush(TraceFile);
