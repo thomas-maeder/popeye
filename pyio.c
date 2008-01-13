@@ -4160,11 +4160,11 @@ void WriteConditions(int alignment) {
 
 void WritePosition() {
   smallint i, nBlack, nWhite, nNeutr;
-  square square;
+  square square, square_a;
   smallint row, file;
   piece   p,pp;
   char    HLine1[40];
-  char    nextLine[40];
+  char    HLine2[40];
   char    PieCnts[20];
   char    StipOptStr[40];
   PieSpec sp;
@@ -4172,7 +4172,7 @@ void WritePosition() {
   FILE    *OrigSolFile= SolFile;
 
   static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
-  static char HorizL[]="|   .   .   .   .   .   .   .   .   |\n";
+  static char HorizL[]="%c   .   .   .   .   .   .   .   .   %c\n";
   static char BlankL[]="|                                   |\n";
 
   SolFile= NULL;
@@ -4200,18 +4200,18 @@ void WritePosition() {
     }
   }
 
-  for (row=1; row<=nr_rows_on_board; row++) {
-    char *digits="87654321";
-    strcpy(HLine1,HorizL);
-    HLine1[0]= digits[row-1];
-    HLine1[sizeof(HorizL)-3]= digits[row-1];
+  for (row=1, square_a = square_a8;
+       row<=nr_rows_on_board;
+       row++, square_a += dir_down) {
+    char const *digits="87654321";
+    sprintf(HLine1, HorizL, digits[row-1], digits[row-1]);
 
-    strcpy(nextLine,BlankL);
+    strcpy(HLine2,BlankL);
 
-    for (file= 1, square= square_a8+(row-1)*dir_down;
+    for (file= 1, square= square_a;
          file <= nr_files_on_board;
          file++, square += dir_right) {
-      char *h1= HLine1 + (file * 4);
+      char *h1= HLine1 + 4*file;
 
       if (CondFlag[gridchess] && !OptFlag[suppressgrid])
       {
@@ -4221,7 +4221,7 @@ void WritePosition() {
 
         if (row < nr_rows_on_board
             && (GridNum(square) != GridNum(square+dir_down)))
-          nextLine[4*file-1] = nextLine[4*file] = nextLine[4*file+1] = '-';
+          HLine2[4*file-1] = HLine2[4*file] = HLine2[4*file+1] = '-';
       }
 
       if ((pp= abs(p= e[square])) < King) {
@@ -4252,7 +4252,7 @@ void WritePosition() {
         *h1--= UPCASE(PieceTab[pp][0]);
       }
       else {
-        char *n1 = nextLine + (h1-HLine1); /* current position on next line */
+        char *n1 = HLine2 + (h1-HLine1); /* current position on next line */
 
         unsigned int const hunterIndex = pp-Hunter0;
         assert(hunterIndex<maxnrhuntertypes);
@@ -4271,15 +4271,13 @@ void WritePosition() {
         *n1 = UPCASE(PieceTab[huntertypes[hunterIndex].home][0]);
       }
 
-      if (p < 0) {
-        *h1= '-';
-      }
       if (TSTFLAG(spec[square], Neutral)) {
         nNeutr++;
         *h1= '=';
       }
       else if (p < 0) {
         nBlack++;
+        *h1= '-';
       }
       else {
         nWhite++;
@@ -4287,8 +4285,9 @@ void WritePosition() {
     }
 
     StdString(HLine1);
-    StdString(nextLine);
+    StdString(HLine2);
   }
+
   StdString(BorderL);
   if (nNeutr) {
     sprintf(PieCnts, "%d + %d + %dn", nWhite, nBlack, nNeutr);
@@ -4344,9 +4343,9 @@ void WritePosition() {
 
 void WriteGrid(void) 
 {
-  smallint square, i;
-  char    HLine1[40];
-  char    nextLine[40];
+  square square, square_a;
+  smallint row, file;
+  char    HLine[40];
 
   static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
   static char HorizL[]="%c                                   %c\n";
@@ -4355,24 +4354,26 @@ void WriteGrid(void)
   StdChar('\n');
   StdString(BorderL);
   StdString(BlankL);
-  square= haut - 7;
 
-  for (i=0; i<8; i++) {
-    char *digits="87654321";
-    int j;
-    sprintf(HLine1, HorizL, digits[i], digits[i]);
-    for (j=0; j<8; j++)
+  for (row=0, square_a = square_a8;
+       row<nr_rows_on_board;
+       row++, square_a += dir_down) {
+    char const *digits="87654321";
+    sprintf(HLine, HorizL, digits[row], digits[row]);
+
+    for (file=0, square= square_a;
+         file<nr_files_on_board;
+         file++, square += dir_right)
     {
-       char g = (GridNum(square++))%100;
-       HLine1[4*j+2]= g>9?(g/10)+'0':' ';
-       HLine1[4*j+3]= (g%10)+'0';
+      char g = (GridNum(square))%100;
+      HLine[4*file+3]= g>9 ? (g/10)+'0' : ' ';
+      HLine[4*file+4]= (g%10)+'0';
     }
-    strcpy(nextLine,BlankL);
 
-    StdString(HLine1);
-    StdString(nextLine);
-    square-= 32;
+    StdString(HLine);
+    StdString(BlankL);
   }
+
   StdString(BorderL);
 }
 
