@@ -610,3 +610,50 @@ Loesung beendet.
 Loesung beendet. 
 
 
+test-beispiel für issue 1870463
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .   .   .  -K   .   .   .   8
+|                                   |
+7   .  -B   .   .  -B   .   .   .   7
+|                                   |
+6  -B   B   .   B  -B   .   .   .   6
+|                                   |
+5   K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   I   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h~1                         3 + 6
+             Imitator f4
+        SchwarzerLaengstzueger
+
+a)
+
+  1.0-0-0[Ig4] d6-d7[Ig5] 
+  1.0-0-0[Ig4] d6*e7[Ih5] 
+  1.0-0-0[Ig4] Ka5-b5[Ih4] 
+  1.0-0-0[Ig4] Ka5*a6[Ig5] 
+  1.0-0-0[Ig4] Ka5-a4[Ig3] 
+  1.0-0-0[Ig4] Ka5-b4[Ih3] 
+
+b) SchwarzerLaengstzueger
+
+  1.0-0-0 d6-d7 
+  1.0-0-0 d6*e7 
+  1.0-0-0 Ka5-b5 
+  1.0-0-0 Ka5*a6 
+  1.0-0-0 Ka5-a4 
+  1.0-0-0 Ka5-b4 
+
+Loesung beendet. 
+
+
