@@ -119,17 +119,6 @@ On all these machines this sources compile without any problems.
 	You can contact Stefan if you have problems or suggestions for 	
 	a better implementation.
 
-	The address is: 	
-	Stefan Brunzen
-	R"ubezahlstr. 20
-	81739 M"unchen 
-	Germany	
-
-	tel.:  089 / 600796-30
-	fax :  089 / 600796-50
-	email: stefan@brunzen.com
-
-
 8. Microsoft C  PWB:
 	PROBABLY NOT SUPPORTED NOW !
 	There should be no problems to compile with Microsoft C.
@@ -141,11 +130,6 @@ On all these machines this sources compile without any problems.
 	The name "C370" is due to the IBM C/370 compiler available
 	for IBM mainframes.
 	This MVS version is a release from Harald Denker !	
-	If you have any questions about this MVS version feel free
-	to contact him.
-	email: Harald_Denker@ms.maus.de  (< 16KB)
-	       harry@hal.westfalen.de    (no limits)
-
 
 10. DOS and GCC
 	Only for 80386 and higher !
