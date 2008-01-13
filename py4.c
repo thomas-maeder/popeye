@@ -2227,7 +2227,7 @@ void gfeerblanc(square i, piece p) {
     return;
 
   case reversepb:
-    genprotpb(i);
+    genreversepb(i);
     return;
 
   case amazb:
@@ -2413,8 +2413,8 @@ void gfeernoir(square i, piece p) {
     return;
 
   case reversepn:
-  genprotpn(i);
-  return;
+    genreversepn(i);
+    return;
 
   case amazn:
     genrid(i, vec_queen_start,vec_queen_end);
@@ -3745,8 +3745,7 @@ void genpn(square sq_departure) {
   }
 }
 
-/****************************  white protean pawn  ****************************/
-void genprotpb(square sq_departure) {
+void genreversepb(square sq_departure) {
   if (sq_departure > haut - 24) {
     /* pawn on last rank */
     if (CondFlag[parrain]
@@ -3770,10 +3769,9 @@ void genprotpb(square sq_departure) {
     /* double or single step? */
     gen_p_nocaptures(sq_departure, -24, (sq_departure > haut - 32) ? 2 : 1);
   }
-} /* end of genpb */
+}
 
-/****************************  black protean pawn  ****************************/
-void genprotpn(square sq_departure) {
+void genreversepn(square sq_departure) {
   if (sq_departure < bas + 24) {
     /* pawn on last rank */
     if ( CondFlag[parrain]

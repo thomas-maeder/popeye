@@ -57,10 +57,10 @@ void	genpb(square sq_departure);
 	/* generating function for white pawn */
 void	genpn(square sq_departure);
 	/* generating function for black pawn */
-void	genprotpb(square sq_departure);
-	/* generating function for white protean pawn */
-void	genprotpn(square sq_departure);
-	/* generating function for black protean pawn */
+void	genreversepb(square sq_departure);
+	/* generating function for white reverse pawn */
+void	genreversepn(square sq_departure);
+	/* generating function for black reverse pawn */
 void	genpbb(square sq_departure);
 	/* generating function for white berolina pawn */
 void	genpbn(square sq_departure);
