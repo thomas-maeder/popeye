@@ -540,7 +540,12 @@ void genrn_cast(void) {
       if (complex_castling_through_flag)
       {
         numecoup sic_nbcou= nbcou;
+
+        /* temporarily deactivate maximummer etc. */
+        boolean sic_flagblackmummer = flagblackmummer;
+        flagblackmummer = false;
         empile(square_e8,square_f8,square_f8);
+        flagblackmummer = sic_flagblackmummer;
         if (nbcou>sic_nbcou)
         {
           boolean ok= jouecoup() && !echecc(noir);
@@ -576,7 +581,12 @@ void genrn_cast(void) {
       if (complex_castling_through_flag)
       {
         numecoup sic_nbcou= nbcou;
+
+        /* temporarily deactivate maximummer etc. */
+        boolean sic_flagblackmummer = flagblackmummer;
+        flagblackmummer = false;
         empile(square_e8,square_d8,square_d8);
+        flagblackmummer = sic_flagblackmummer;
         if (nbcou>sic_nbcou)
         {
           boolean ok= (jouecoup() && !echecc(noir));
