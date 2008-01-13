@@ -3687,11 +3687,11 @@ void WritePieces(piece *p, char* CondLine)
 void WriteConditions(int alignment) {
   Cond  cond;
   char  CondLine[256];
-  int       i,cc=1;
+  int       i;
   boolean   CondPrinted= False;
 
-  for (cond= 1; cond < CondCount; cond++,cc++) {
-    if (!CondFlag[cond] || cc==8989)
+  for (cond= 1; cond < CondCount; cond++) {
+    if (!CondFlag[cond])
       continue;
 
     if (cond == rexexcl)
