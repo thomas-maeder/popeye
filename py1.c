@@ -193,6 +193,10 @@ void InitCond(void) {
   BGL_white= BGL_black= BGL_infinity;
   BGL_whiteinfinity= BGL_blackinfinity= true;
   BGL_global= false;
+
+  calc_whtrans_king= calc_bltrans_king= 
+  calc_whrefl_king= calc_blrefl_king= false;
+  whitenormaltranspieces = blacknormaltranspieces = true;
 } /* InitCond */
 
 void InitOpt(void) {
@@ -316,7 +320,6 @@ void InitAlways(void) {
   
   takemake_departuresquare= initsquare;
   takemake_capturesquare= initsquare;
-  whitenormaltranspieces = blacknormaltranspieces = true;
 } /* InitAlways */
 
 void initneutre(couleur c) {

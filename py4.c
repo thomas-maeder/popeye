@@ -2648,7 +2648,7 @@ void genrb(square sq_departure) {
 
   VARIABLE_INIT(anf);
 
-  if (CondFlag[whrefl_king] && !calctransmute) {
+  if (calc_whrefl_king && !calctransmute) {
     /* K im Schach zieht auch */
     piece   *ptrans;
 
@@ -2690,7 +2690,7 @@ void genrb(square sq_departure) {
   }
 
   /* K im Schach zieht nur */
-  if (CondFlag[whtrans_king] && flag)
+  if (calc_whtrans_king && flag)
     return;
   }
 

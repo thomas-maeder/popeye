@@ -197,8 +197,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
 			WhKingMoves[*bnp+vec[k]]= MoveNbr+1;
 			GoOn= True;
           }
-          if (CondFlag[whtrans_king]
-              || CondFlag[trans_king]) {
+          if (calc_whtrans_king) {
             sq= *bnp;
             while (e[sq+=vec[k]] != obs &&
                    WhKingMoves[sq] != -1) {
@@ -209,8 +208,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
             }
           } /* trans_king */
 		}
-        if (CondFlag[whtrans_king]
-            || CondFlag[trans_king]) {
+        if (calc_whtrans_king) {
           /* Knight moves */
           for (k= 16; k>8; k--) {
             sq= *bnp + vec[k];
@@ -238,8 +236,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
 			BlKingMoves[*bnp+vec[k]]= MoveNbr+1;
 			GoOn= True;
           }
-          if (CondFlag[bltrans_king]
-              || CondFlag[trans_king]) {
+          if (calc_bltrans_king) {
             sq= *bnp;
             while (e[sq+=vec[k]] != obs &&
                    BlKingMoves[sq] != -1) {
@@ -250,8 +247,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
             }
           } /* trans_king */
 		}
-        if (CondFlag[bltrans_king]
-            || CondFlag[trans_king]) {
+        if (calc_bltrans_king) {
           /* Knight moves */
           for (k= 16; k>8; k--) {
             sq= *bnp + vec[k];

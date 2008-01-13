@@ -318,9 +318,10 @@ commands expect further parameters. Lets start with the simpler commands:
 		cond grid
 		cond grid orthogonal bdf246
 		cond grid irregular a8a7b8b7 c8c7d8d7 ...
-	After any of the Transmuting Kings or Reflecting Kings condition, a list of pieces
-		may be given. The checked king will move only as one of the pieces in the list (also
-		as king for Reflecting Kings).
+	After any of the Vaulting Kings conditions, a list of pieces
+		may be given. The checked king will move additionally as one of the pieces in the list.
+		If the option Transmuting is given, the checked king will move only as one of the pieces in the list
+		(not as king). If no pieces are given, the checked king moves as equihopper.
 		
 
  - option: Everything which should be in effect should be given here as

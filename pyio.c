@@ -40,6 +40,8 @@
  **
  ** 2008/01/11 SE   New variant: Special Grids 
  **
+ ** 2008/01/13 SE   New conditions: White/Black Vaulting Kings 
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh    /* is always defined on macintosh's  SB */
@@ -1793,44 +1795,55 @@ static char *ParseExact(boolean *ex_flag, boolean *ul_flag)
 int  AntiCirType;
 char ChameleonSequence[256];
 
-static char *ParseTransPieces(Flags fl)
+static char *ParseVaultingPieces(Flags fl)
 {
   piece p;
   char  *tok;
-
   smallint tp = 0;
-  if (TSTFLAG(fl, blanc)) 
-    whitenormaltranspieces = true;
-  if (TSTFLAG(fl, noir)) 
-    blacknormaltranspieces = true;
-
+  boolean gotpiece;
 
   while (True) {
+    gotpiece = false;
     switch (strlen(tok= ReadNextTokStr())) {
     case 1:
       p= GetPieNamIndex(*tok,' ');
+      gotpiece = true;
       break;
 
     case 2:
       p= GetPieNamIndex(*tok,tok[1]);
+      gotpiece = true;
       break;
 
     default:
-      if (TSTFLAG(fl, blanc)) 
-        whitetransmpieces[tp] = vide;
-      if (TSTFLAG(fl, noir)) 
-        blacktransmpieces[tp] = vide;
-      return tok;
+      switch (GetUniqIndex(VariantTypeCount, VariantTypeTab, tok)) {
+        case Transmuting:
+          if (TSTFLAG(fl, blanc)) 
+            calc_whtrans_king= true;
+          if (TSTFLAG(fl, noir)) 
+            calc_bltrans_king= true;
+          break;
+
+        default:
+          return tok;
+      }
     }
-  if (TSTFLAG(fl, blanc)) {
-    whitenormaltranspieces = false;
-    whitetransmpieces[tp] = p;
-  }
-  if (TSTFLAG(fl, noir)) {
-    blacknormaltranspieces = false;
-    blacktransmpieces[tp] = p;
-  }
-  tp++;
+    if (gotpiece)
+    {
+      if (TSTFLAG(fl, blanc)) {
+        whitetransmpieces[tp] = p;
+      }
+      if (TSTFLAG(fl, noir)) {
+        blacktransmpieces[tp] = p;
+      }
+      tp++;
+      if (TSTFLAG(fl, blanc)) {
+        whitetransmpieces[tp] = vide;
+      }
+      if (TSTFLAG(fl, noir)) {
+        blacktransmpieces[tp] = vide;
+      }
+    }
   }
   return tok;
 }
@@ -2031,24 +2044,43 @@ static char *ParseCond(void) {
       flag_synchron= true;
       break;
     case trans_king:
-      CondFlag[whtrans_king]= true;
-      CondFlag[bltrans_king]= true;
-      CondFlag[whrefl_king]= true;
-      CondFlag[blrefl_king]= true;
+      calc_whtrans_king= true;
+      calc_bltrans_king= true;
+      calc_whrefl_king= true;
+      calc_blrefl_king= true;
       break;
     case refl_king:
-      CondFlag[whrefl_king]= true;
-      CondFlag[blrefl_king]= true;
+      calc_whrefl_king= true;
+      calc_blrefl_king= true;
+      break;
+    case whrefl_king:
+      calc_whrefl_king= true;
+      break;
+    case blrefl_king:
+      calc_blrefl_king= true;
       break;
     case whtrans_king:
-      CondFlag[whrefl_king]= true;
+      calc_whtrans_king= true;
+      calc_whrefl_king= true;
       break;
     case bltrans_king:
-      CondFlag[blrefl_king]= true;
+      calc_blrefl_king= true;
+      calc_blrefl_king= true;
       break;
-    case vaultingkings:
-      CondFlag[whrefl_king]= true;
-      CondFlag[blrefl_king]= true;
+    case whvault_king:
+      calc_whrefl_king= true;
+      whitenormaltranspieces = false;
+      whitetransmpieces[0]= equib;
+      whitetransmpieces[1]= vide;
+      break;
+    case blvault_king:
+      calc_blrefl_king= true;
+      blacknormaltranspieces = false;
+      blacktransmpieces[0]= equib;
+      blacktransmpieces[1]= vide;
+    case vault_king:
+      calc_whrefl_king= true;
+      calc_blrefl_king= true;
       whitenormaltranspieces = false;
       blacknormaltranspieces = false;
       whitetransmpieces[0]= equib;
@@ -2057,13 +2089,12 @@ static char *ParseCond(void) {
       blacktransmpieces[1]= vide;
       break;
     case whsupertrans_king:
-      CondFlag[whtrans_king]= true;
-      CondFlag[whrefl_king]= true;
+      calc_whrefl_king= true;
       flagwhitemummer= true;
       break;
     case blsupertrans_king:
-      CondFlag[bltrans_king]= true;
-      CondFlag[blrefl_king]= true;
+      calc_bltrans_king= true;
+      calc_blrefl_king= true;
       flagblackmummer= true;
       break;
     case antieinstein:
@@ -2519,17 +2550,18 @@ static char *ParseCond(void) {
     case geneva:
       tok= ParseRex(&rex_geneva, rexincl);
       break;
-    case whrefl_king:
-    case whtrans_king:
-      tok= ParseTransPieces(BIT(blanc));
+    case whvault_king:
+      whitenormaltranspieces = false;
+      tok= ParseVaultingPieces(BIT(blanc));
       break;
-    case blrefl_king:
-    case bltrans_king:
-      tok= ParseTransPieces(BIT(noir));
+    case blvault_king:
+      blacknormaltranspieces = false;
+      tok= ParseVaultingPieces(BIT(noir));
       break;
-    case refl_king:
-    case trans_king:
-      tok= ParseTransPieces(BIT(blanc) | BIT(noir));
+    case vault_king:
+      whitenormaltranspieces = false;
+      blacknormaltranspieces = false;
+      tok= ParseVaultingPieces(BIT(blanc) | BIT(noir));
       break;
     case gridchess: 
       tok = ParseVariant(NULL, gpGrid);
@@ -3655,11 +3687,11 @@ void WritePieces(piece *p, char* CondLine)
 void WriteConditions(int alignment) {
   Cond  cond;
   char  CondLine[256];
-  int       i;
+  int       i,cc=1;
   boolean   CondPrinted= False;
 
-  for (cond= 1; cond < CondCount; cond++) {
-    if (!CondFlag[cond])
+  for (cond= 1; cond < CondCount; cond++,cc++) {
+    if (!CondFlag[cond] || cc==8989)
       continue;
 
     if (cond == rexexcl)
@@ -3687,27 +3719,6 @@ void WriteConditions(int alignment) {
       continue;
 
     if (cond == tibet && CondFlag[dbltibet])
-      continue;
-
-  if (CondFlag[vaultingkings])
-    if ( cond == refl_king || cond == whrefl_king || cond == blrefl_king)
-      continue;
-
-    if (cond == refl_king && CondFlag[trans_king])
-      continue;
-
-    if (  cond == whrefl_king
-          && (CondFlag[refl_king] || CondFlag[whtrans_king]))
-      continue;
-
-    if (cond == blrefl_king
-        && (CondFlag[refl_king] || CondFlag[bltrans_king]))
-      continue;
-
-    if (cond == whtrans_king && (CondFlag[trans_king] || CondFlag[whsupertrans_king]))
-      continue;
-
-    if (cond == bltrans_king && (CondFlag[trans_king] || CondFlag[blsupertrans_king]))
       continue;
 
     if (cond == holes)
@@ -3789,13 +3800,31 @@ void WriteConditions(int alignment) {
       }
     }
 
-  if ( cond == whrefl_king || cond == whtrans_king || cond == refl_king || cond == trans_king)
-    if (!whitenormaltranspieces)
-      WritePieces(whitetransmpieces, CondLine);
+  if ( cond == whvault_king || cond == vault_king)
+  {
+      if (whitetransmpieces[0] != EquiHopper || whitetransmpieces[1] != vide) 
+        WritePieces(whitetransmpieces, CondLine);
+      if (calc_whtrans_king)
+      {
+        char LocalBuf[4];
+        sprintf(LocalBuf, " -%c",
+        UPCASE(PieceTab[King][0]));
+        strcat(CondLine, LocalBuf);
+      }
+  }
 
-  if (  cond == blrefl_king || cond == bltrans_king)
-    if (!blacknormaltranspieces)
-      WritePieces(blacktransmpieces, CondLine);
+  if ( cond == blvault_king )
+  {
+      if (blacktransmpieces[0] != EquiHopper || blacktransmpieces[1] != vide) 
+        WritePieces(blacktransmpieces, CondLine);
+      if (calc_bltrans_king)
+      {
+        char LocalBuf[4];
+        sprintf(LocalBuf, " -%c",
+        UPCASE(PieceTab[King][0]));
+        strcat(CondLine, LocalBuf);
+      }
+  }
        
     if (cond == promotiononly) {
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */

@@ -36,6 +36,8 @@
 **
 ** 2008/01/11 SE   New variant: Special Grids 
 **
+** 2008/01/13 SE   New conditions: White/Black Vaulting Kings 
+**
 **************************** End of List ******************************/
 
 #ifndef PY_H
@@ -807,7 +809,8 @@ typedef PieceChar       PieTable[PieceCount];
 #define ShiftRankFile          18
 #define Orthogonal             19
 #define Irregular              20
-#define VariantTypeCount       21
+#define Transmuting            21
+#define VariantTypeCount       22
 
 /* for intelligent specification of one-sided conditions */
 #define maxi			0
@@ -1100,10 +1103,12 @@ typedef int Opt;
 #define annan                  161
 #define normalp                162
 #define lortap                 163
-#define vaultingkings          164
+#define vault_king             164
 #define protean                165
 #define geneva                 166
-#define CondCount              167
+#define whvault_king           167 
+#define blvault_king           168 
+#define CondCount              169
 
 typedef int Cond;
 /*--- End of } Cond;---*/

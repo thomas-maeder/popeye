@@ -676,10 +676,10 @@ boolean verifieposition(void) {
 
   if (anymars||anyantimars) {
     totalortho= false;
-    if (CondFlag[whtrans_king]
-        || CondFlag[whrefl_king]
-        || CondFlag[bltrans_king]
-        || CondFlag[blrefl_king]
+    if (calc_whtrans_king
+        || calc_whrefl_king
+        || calc_bltrans_king
+        || calc_blrefl_king
         || CondFlag[bicolores]
         || CondFlag[sting]
         || flagsimplehoppers
@@ -906,7 +906,7 @@ boolean verifieposition(void) {
     || TSTFLAG(PieSpExFlags,HalfNeutral)
     || exist[Orphan]
     || exist[Friend]
-    || CondFlag[whrefl_king] || CondFlag[blrefl_king]
+    || calc_whrefl_king || calc_blrefl_king
     || CondFlag[phantom]
     || CondFlag[extinction]
     || CondFlag[amu]
@@ -1077,15 +1077,15 @@ boolean verifieposition(void) {
   if (blacknormaltranspieces) {
     blacktransmpieces[tp]= vide;
   }
-  if (CondFlag[whrefl_king] || CondFlag[blrefl_king]) {
+  if (calc_whrefl_king || calc_blrefl_king) {
     totalortho= false;
   }
   orphanpieces[op]= vide;
 
-  if (  (CondFlag[whrefl_king]
+  if (  (calc_whrefl_king
          && rb != initsquare
          && (e[rb] != roib || CondFlag[sting]))
-        || (CondFlag[blrefl_king]
+        || (calc_blrefl_king
             && rn != initsquare
             && (e[rn] != roin || CondFlag[sting])))
   {
@@ -1094,8 +1094,8 @@ boolean verifieposition(void) {
 
   if ((exist[Orphan]
        || exist[Friend]
-       || CondFlag[whrefl_king]
-       || CondFlag[blrefl_king])
+       || calc_whrefl_king
+       || calc_blrefl_king)
       && TSTFLAG(PieSpExFlags, Neutral))
   {
     return VerifieMsg(NeutralAndOrphanReflKing);

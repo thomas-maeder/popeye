@@ -36,6 +36,8 @@
 **
 ** 2008/01/11 SE   New variant: Special Grids 
 **
+** 2008/01/13 SE   New conditions: White/Black Vaulting Kings 
+**
 **************************** End of List ******************************/
 
 #ifndef PYDATA_H
@@ -440,6 +442,8 @@ EXTERN ply      	      tempply;
 EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 EXTERN boolean          rex_protean_ex;
 EXTERN int              gridvar, currentgridnum;
+EXTERN boolean          calc_whtrans_king, calc_bltrans_king, 
+                        calc_whrefl_king, calc_blrefl_king;
 
 #ifdef WE_ARE_EXTERN
 	extern PieTable PieNamString[LangCount];
@@ -1151,7 +1155,9 @@ EXTERN int              gridvar, currentgridnum;
     /*163*/ "Elliuortap",
     /*164*/ "RoisSautants",
     /*165*/ "ProteanEchecs",
-  	/*166*/ "EchecsGeneve"
+  	/*166*/ "EchecsGeneve",
+  	/*167*/ "BlancRoisSautant",
+  	/*168*/ "NoirRoisSautant"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1320,7 +1326,9 @@ EXTERN int              gridvar, currentgridnum;
     /*163*/ "Lortap",
     /*164*/ "SpringenKonigen",
     /*165*/ "ProteanSchach",
-  	/*166*/ "GenferSchach"
+  	/*166*/ "GenferSchach",
+  	/*167*/ "WeissSpringenKonig",
+  	/*168*/ "SchwarzSpringenKonig"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1489,7 +1497,9 @@ EXTERN int              gridvar, currentgridnum;
     /*163*/ "Lortap",
     /*164*/ "VaultingKings",
     /*165*/ "ProteanChess",
-    /*166*/ "GenevaChess"
+    /*166*/ "GenevaChess",
+  	/*167*/ "WhiteVaultingKing",
+  	/*168*/ "BlackVaultingKing"
     }
     };
 #endif
@@ -1595,7 +1605,8 @@ EXTERN unsigned int StipFlags;
 	/*17*/  "ColonneTranslate",
 	/*18*/  "RangeeColonneTranselate",
 	/*19*/  "Orthogonale",
-	/*20*/  "Irregulier"
+	/*20*/  "Irregulier",
+  /*21*/  "Transmutant"
 	},{
 	/* German */
 	/* 0*/  "TypB",
@@ -1618,7 +1629,8 @@ EXTERN unsigned int StipFlags;
 	/*17*/  "LinieVerschieben",
 	/*18*/  "ReiheLinieVerschieben",
 	/*19*/  "Orthogonal",
-	/*20*/  "Unregelmassig"
+	/*20*/  "Unregelmassig",
+  /*21*/  "Transmutierende"
 	},{
 	/* English */
 	/* 0*/  "TypeB",
@@ -1641,7 +1653,8 @@ EXTERN unsigned int StipFlags;
 	/*17*/  "FileShift",
 	/*18*/  "RankFileShift",
 	/*19*/  "Orthogonal",
-	/*20*/  "Irregular"
+	/*20*/  "Irregular",
+  /*21*/  "Transmuting"
 	}
 	};
 #endif

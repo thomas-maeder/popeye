@@ -1109,7 +1109,7 @@ boolean bspawncheck(square  sq_king,
   square sq_departure;
     
   if (p==bspawnn
-      || (CondFlag[blrefl_king] && p==roin))
+      || (calc_blrefl_king && p==roin))
   {
     if (sq_king<=square_h7) {          /* it can move from eigth rank */
       finligne(sq_king,+dir_up,p1,sq_departure);
@@ -1118,7 +1118,7 @@ boolean bspawncheck(square  sq_king,
     }
   }
   else {/* hopefully ((p == bspawnb)
-           || (CondFlag[whrefl_king] && p == roib)) */
+           || (calc_whrefl_king && p == roib)) */
     if (sq_king>=square_a2) {          /* it can move from first rank */
       finligne(sq_king,+dir_down,p1,sq_departure);
       if (p1==p && evaluate(sq_departure,sq_king,sq_king))
@@ -1138,7 +1138,7 @@ boolean spawncheck(square   sq_king,
   square sq_departure;
     
   if (p==spawnn
-      || (CondFlag[blrefl_king] && p==roin))
+      || (calc_blrefl_king && p==roin))
   {
     if (sq_king<=square_h7) {          /* it can move from eigth rank */
       finligne(sq_king,dir_up+dir_left,p1,sq_departure);
@@ -1151,7 +1151,7 @@ boolean spawncheck(square   sq_king,
     }
   }
   else {/* hopefully ((p == bspawnb)
-           || (CondFlag[whrefl_king] && p == roib)) */
+           || (calc_whrefl_king && p == roib)) */
     if (sq_king>=square_a2) {          /* it can move from first rank */
       finligne(sq_king,+dir_down+dir_right,p1,sq_departure);
       if (p1==p && evaluate(sq_departure,sq_king,sq_king))
@@ -1238,7 +1238,7 @@ boolean dragoncheck(square  sq_king,
     return true;
     
   if (p==dragonn
-      || (CondFlag[blrefl_king] && p==roin))
+      || (calc_blrefl_king && p==roin))
   {
     if (sq_king<=square_h6
         || CondFlag[parrain]
@@ -1258,7 +1258,7 @@ boolean dragoncheck(square  sq_king,
     }
   }
   else {/* hopefully ((p == dragonb)
-           || (CondFlag[whrefl_king] && p == roib)) */
+           || (calc_whrefl_king && p == roib)) */
     if (sq_king>=square_a3
         || CondFlag[parrain]
         || CondFlag[normalp])

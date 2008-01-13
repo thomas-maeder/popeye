@@ -611,7 +611,7 @@ void genrn(square sq_departure) {
 
   VARIABLE_INIT(anf);
 
-  if (CondFlag[blrefl_king] && !calctransmute) {
+  if (calc_blrefl_king && !calctransmute) {
     /* K im Schach zieht auch */
     piece *ptrans;
 
@@ -653,7 +653,7 @@ void genrn(square sq_departure) {
     }
 
     /* K im Schach zieht nur */
-    if (CondFlag[bltrans_king] && flag)
+    if (calc_bltrans_king && flag)
       return;
   }
 
@@ -1249,8 +1249,8 @@ boolean jouecoup(void) {
   {
     if (exist[Orphan]
         || exist[Friend]
-        || CondFlag[whrefl_king]
-        || CondFlag[blrefl_king]
+        || calc_whrefl_king
+        || calc_blrefl_king
         || CondFlag[phantom]) {
       while (move_generation_stack[nbcou].arrival == initsquare) {
         nbcou--;
