@@ -565,12 +565,13 @@ boolean verifieposition(void) {
       && TSTFLAG(spec[rb], Neutral);
   }
 
-  if (CondFlag[bicolores]) {
+  if (CondFlag[bicolores])
     if (TSTFLAG(PieSpExFlags, Neutral))
       return VerifieMsg(NeutralAndBicolor);
-    totalortho= false;
-  }
 
+  if (CondFlag[bicolores] || CondFlag[monochro])
+    totalortho= false;
+  
   eval_2= eval_white= eval_ortho;
 
   flaglegalsquare= flaglegalsquare
@@ -1121,7 +1122,7 @@ boolean verifieposition(void) {
   }
   checkhopim |= CondFlag[imitators];
 
-  totalortho &= !CondFlag[sentinelles];
+  totalortho = totalortho && !CondFlag[sentinelles];
   /* a nasty drawback */
 
   if (CondFlag[annan]) {
@@ -2308,9 +2309,7 @@ void dsr_sol(
       else {
         nbd= zugebene == 1
           ? dsr_def(ad,n-1,def)
-          : dsr_e(ad,n)
-          ? 0
-          : maxdefen+1;
+          : dsr_e(ad,n) ? 0 : maxdefen+1;
       }
 
       if (nbd <= maxdefen) {
