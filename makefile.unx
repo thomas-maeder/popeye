@@ -3,7 +3,7 @@
 # GNU make.
 
 # Revision info:
-# Id: problem.xsd,v 1.10 2007/06/20 12:26:07 thomasmaeder Exp $
+# $ Id: problem.xsd,v 1.10 2007/06/20 12:26:07 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 # This Makefile you are reading now, will not do it with:
@@ -109,7 +109,7 @@ COMPRESS = echo compress
 
 # Version numer; . separates major and minor version part
 # Append "dev" while development
-VERSION =       4.38dev
+VERSION =       4.41
 
 INCLUDES=       pydata.h py.h py1.h py4.h pyproc.h pymsg.h pymac.h     \
 		pylang.h pyproof.h DHT/*.h pyint.h pyhash.h pytime.h
