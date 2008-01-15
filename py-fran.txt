@@ -1,20 +1,17 @@
-	     D E S C R I P T I O N  D E  P O P E Y E    5 . 0
+	     D E S C R I P T I O N  D E  P O P E Y E    4 . 4
 
 Remarques au sujet de la distribution de Popeye:
 
-  Nous distribuons Popeye TOUJOURS en forme de code de source. C'est-a-dire que
-chaque version livre contient le code de source entier - meme si quelqu'un n'en
-a pas besoin. D'apres nous ce logiciel doit etre public est n'appartient pas a
-nous personnellement, meme si nous y avons investi considerablement de temps.
-Notre travail ne peut en tout cas pas etre paye, et nous ne le faisons pas pour
-gagner de l'argent. C'est pourquoi, nous distribuons Popeye presque
-gratuitement: si quelqu'un recoit de nous une disquette avec Popeye, il est prie
-de nous la retourner ou d'en envoyer une autre. Si on nous envoie une enveloppe
-de retour avec des timbres valables, nous envoyons Popeye. Nous n'objectons pas
-si quelqu'un distribue Popeye a d'autres, pourvu que la version distribue soit
-identique a celle recue de nous; c'est-a-dire qu'elle doit contenir tous les
-fichiers de la liste qui suit. Cette liste n'a pas d'importance pour vous si
-vous n'etes interesse qu'a l'emploi de Popeye.
+Popeye est un logiciel libre. Chaque version fournie contient le code
+de source entier - meme si quelqu'un n'en a pas besoin. D'apres nous
+ce logiciel doit etre public est n'appartient pas a nous
+personnellement, meme si nous y avons investi considerablement de
+temps. Notre travail ne peut en tout cas pas etre paye, et nous ne le
+faisons pas pour gagner de l'argent.
+
+La seule restriction concernant la distribution de Popeye est que
+Popeye doit etre distribue entierement - tous les fiches mentionnes
+dans la liste suivante doivent etre inclus.
 
 	py-fran.txt:    Le fichier que vous etes en train de lire
 	py-deut.txt:    Version allemande de ce fichier
@@ -27,9 +24,9 @@ vous n'etes interesse qu'a l'emploi de Popeye.
 	pydos32.exe:    Fichier executable pour MS-DOS (32 Bit, 80386)
 	pywin32.exe:    Fichier executable pour MS-Windows-NT/-2000/-XP
 	pywin98.exe:    Fichier executable pour MS-Windows-95/-98/-ME
-	py-*.str:       Fichier avec des textes de messages
+	py-*.str:       Fichier avec les textes d'une langue
 
-	Fichiers de source:
+Fichiers de source:
 	makefile.unx:   Makefile pour les systemes UNIX et pareils
 	py.h:           Fichier header pour tous les codes de source
 	pydata.h:       Fichier contenant toutes les donnees globales
@@ -43,8 +40,8 @@ vous n'etes interesse qu'a l'emploi de Popeye.
 	pyio.c:         Contient toute l'entree et la sortie de donnees
 	pymsg.c:        Contient les fonctions de sortie de texte
 	pylang.c        Contient les fonctions des langages differents
-	pyproof.c:      Contient les fonctions de partie justificatif.
-	pysignal.c:     Contient les fonctions de "signal handling under UNIX"
+	pyproof.c:      Contient les fonctions de partie justificatif et a=>b
+	pysignal.c:     Contient les fonctions de traitement de signaux Unix
 	pytime.c:       Contient les fonctions de mesure du temps
 	pymac.h:        Contient tous les specifications pour Macintosh
 	pymsg.h:        Contient tous les textes sortis par Popeye
@@ -52,7 +49,8 @@ vous n'etes interesse qu'a l'emploi de Popeye.
 	todef.awk:      awk-script pour la conversion de py.h
 	toenum.awk:     awk-script pour la conversion de py.h
 	py-*.msg:       Fichier avec des textes de messages
-	pie*.txt:       Fichier avec les pieces connues de Popeye pour LaTeX.
+	pie*.txt:       Fichier avec les types de pieces supportes par
+			Popeye pour LaTeX.
 	genpystr.c:     Fichier executable pour la generation de py-*.str
 	BEISPIEL:       Contient des exemples en langue allemande.
 	DHT:            Contient des fichiers pour "dynamic hashing"
@@ -64,14 +62,29 @@ Execution de Popeye:
 Change le nom du fichier executable prefere a   py.exe
 Avec entree du probleme sur l'ecran:            py
 Avec entree du probleme dans un fichier XX:     py XX
-					ou:     py < XX
 
 parametre de ligne de commande:
 -maxmem
-        par exemple:       py -maxmem 40960 XX 
-	deuxieme exemple:  py -maxmem 40M XX
-	Popeye utilise 40960 kilobyte (ou 40 megabyte) de memoir 
-	pour plus de vitesse de calculation.
+	Vous pouvez allouer p.ex. 40960 kilo-octets ou 40 mega-octets
+	de la facon suivante
+		-maxmem 40960   resp. -maxmem 40M
+	pour accelerer la resolution.
+
+-maxtime
+	Inidication du nombre maximal de secondes que Popeye investit
+	a la resolution de chaque probleme. Ce parametre est
+	equivalent a l'option maxtemps qui peut etre utilisee dans la
+	definition des problemes (voir plus bas).
+	Exemple:
+		-maxtime 60
+	Si un probleme n'est pas completement resolu apres une minute,
+	la resolution est continuee avec le probleme suivant.
+
+-regression
+	POUR DEVELOPPEURS
+	Informations sur la version de Popeye et les temps de
+	resolutions sont supprimes des fichiers ecrits.
+
 
 Finir execution de Popeye:
 
@@ -90,28 +103,30 @@ d'autres commandes parmi les suivantes:
 L'ordre de ces commandes ne joue aucun role, et les commandes peuvent etre
 repetees. En cas de repetition d'une commande de la deuxieme ligne, seulement
 la version finale est respectee.
-Chaque commande demande des parametres. Commencons avec les commandes simples:
+Chaque commande demande des parametres. Commencons avec les commandes
+simples:
 
- - remarque: Ce mot-cle est suivi par une remarque. Le texte suivant jusqu'a la
-	fin de la ligne n'a pas d'effet.
+ - remarque: Ce mot-cle est suivi par une remarque. Le texte suivant
+        jusqu'a la fin de la ligne n'a pas d'effet.
 
- - auteur: Cette commande est utilisee pour l'entree de l' (ou bien des)
-	auteur(s) du probleme. Tout le texte est place au-dessus du diagramme.
-	Cette entree est tout a fait volontaire est n'a pas d'effet sur le
-	fonctionnement du programme. En cas de repetition de la commande
-	'auteur', toutes le lignes entrees sont places au-dessus du diagramme.
+ - auteur: Cette commande est utilisee pour l'entree de l' (ou bien
+        des) auteur(s) du probleme. Tout le texte est place au-dessus
+        du diagramme.  Cette entree est tout a fait volontaire est n'a
+        pas d'effet sur le fonctionnement du programme. En cas de
+        repetition de la commande 'auteur', toutes le lignes entrees
+        sont places au-dessus du diagramme.
 
  - source: voir auteur
  - titre: voir auteur
 
- - protocol: demande l'entree d'un nom de fichier. Toutes les sorties de Popeye
-	seront protocolees dans ce fichier. Si le fichier existe deja, Popeye
-	ajoute les nouvelles sorties a la fin; le fichier n'est donc pas
-	efface auparavant.
+ - protocol: demande l'entree d'un nom de fichier. Toutes les sorties
+         de Popeye seront protocolees dans ce fichier. Si le fichier
+         existe deja, Popeye ajoute les nouvelles sorties a la fin; le
+         fichier n'est donc pas efface auparavant.
 
- - condition: Toutes les conditions du probleme sont a entrer apres ce mot-cle,
-	separees par des espaces ou par la fin d'une ligne. Les conditions
-	suivantes sont possibles a present:
+ - condition: Toutes les conditions du probleme sont a entrer apres ce
+         mot-cle, separees par des espaces ou par la fin d'une
+         ligne. Les conditions suivantes sont possibles a present:
 
 	RexInclusif
 	Circe
@@ -158,7 +173,7 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	Duelliste
 	CirceParrain
 	CirceSymmetrique
-	SansIProm       (= Les pions ne peuvent se promouvoir pas en imitator)
+	SansIProm      (= Les pions ne peuvent se promouvoir pas en imitator)
 	EchecsVogtlaender
 	EchecsEinstein
 	Bicolores
@@ -274,36 +289,78 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	PionNormale
 	NoirEchecs
 	EchecsGeneve
-		
-	Apres le mot-cle Imitator, CaseMagique, Trou, FrischaufCirce,
+	VaultingKings
+	BlancVaultingKing
+	NoirVaultingKing
+	EchecsProtee
+	Elliuortap
+
+	Apres les mots-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 
 	"...CaseForce..." il faut entrer les cases ou se trouvent les 
 	imitators, les cases magiques, les trous ou les pieces promues 
 	(FrischaufCirce), ou qui sont des cases de promotion blanc ou noir 
 	dans la position de diagramme.
-	Apres le mot-cle  PromSeul  il faut entrer une ou plus pieces.
-	Promotion est seulement calcule pour cettes pieces.
-	Apres le mot-cle CirceCameleon on peut entrer des pieces. C'est
-	l'ordre de promotion avant renaissance. (Par exemple: 
-		"CirceCameleon C F T D C" c'est le CirceCameleon normale, 
-		"CirceCameleon C D T F C" c'est CirceCameleon reverse).
-	Apres quelque conditions Circe, Immun, Madrasi, EchecsPhantom ou
-	EchecsGeneve on peut entrer le mot-cle "RexInclusif".
-	Pour tous les conditions AntiCirce, on peut indiquer s'il s'agit 
-	du type Cheylan ou Calvet. Si rien n'est indique, le type utilise 
-	est Calvet.
-	Pour la condition Isardam, on peut indiquer s'il s'agit du TypeB.
-	Pour la condition SingleBox, on peut indiquer s'il s'agit du Type1,
-		du Type2 ou du Type3.
-	Pour la condition Sentinelles, on peut indiquer s'il s'agit du 
-		type "PionAdvers", "PionNeutre", "ParaSentinelles" ou
-                "Berolina", de meme que "MaximumBlanc", "MaximumNoir" ou
-		"MaximumTotal" suit d'un nombre.
-	Apres quelque conditions EchecsMessigny, (Bi)Woozles ou 
-              (Bi)Heffalumps on peut entrer le mot-cle RexExclusif.
-	Pour les conditions BlancRoisOscillant ou NoirRoisOscillant
-		on peut indiquer s'il s'agit du TypeB ou TypeC.
 
+	Apres le mot-cle PromSeul il faut entrer le ou les type(s)
+	de pieces en le(s)quel(s) la promotion est permise.
+
+	Apres le mot-cle CirceCameleon on peut entrer une liste de
+	types de pieces qui definit l'ordre de promotion avant
+	renaissance. (Par exemple:
+		"CirceCameleon C F T D C" c'est le CirceCameleon normal, 
+		"CirceCameleon C D T F C" c'est CirceCameleon reverse).
+
+	Apres quelques conditions Circe, Immun, Madrasi, EchecsPhantom
+	ou EchecsGeneve, on peut entrer le mot-cle "RexInclusif".
+
+	Pour toutes les conditions AntiCirce, on peut indiquer s'il
+	s'agit du type Cheylan ou Calvet. Si rien n'est indique, le
+	type utilise est Calvet.
+
+	Pour la condition Isardam, on peut indiquer s'il s'agit du TypeB.
+
+	Pour la condition SingleBox, on peut indiquer s'il s'agit du
+	Type1, du Type2 ou du Type3.
+
+	Pour la condition Sentinelles, on peut indiquer s'il s'agit du
+	type "PionAdvers", "PionNeutre", "ParaSentinelles" ou
+	"Berolina", de meme que "MaximumBlanc", "MaximumNoir" ou
+	"MaximumTotal" suit d'un nombre.
+
+	Apres les conditions EchecsMessigny, (Bi)Woozles,
+	(Bi)Heffalumps ou ProteeChess, on peut entrer le mot-cle
+	RexExclusif.
+
+	Pour les conditions BlancRoisOscillant ou NoirRoisOscillant on
+	peut indiquer s'il s'agit du TypeB ou TypeC.
+
+	Apres Grille, un nombre de variantes peuvent etre indiquees.
+	VerticalDecalage, HorizontalDecalage et DiagonalDecalage
+	decalent la grille standard d'une rangee et/ou colonne.
+	P.ex. la cellule contenant la case a1 consiste de:
+		VerticalDecalage:	a1b1
+		HorizontalDecalage:	a1a2
+		DiagonalDecalage:	a1
+	Orthogonal suivi d'une liste de colonnes (a gauche de chaque
+	ligne de grille verticale ) et rangees (au-dessous de chaque
+	ligne de grille horizontale), sans espaces.
+	Irregulier suivi par une list separee d'espaces de groupes de
+	cases qui forment les cellules de la grille.
+	Par exemple, la grille standard peut etre indiquee par une des
+	trois possibilites suivantes:
+		condition grille
+		condition grille orthogonale bdf246
+		condition grille irreguliere a8a7b8b7 c8c7d8d7 ...
+
+	Chacune des conditions VaultingKings peut etre suivie par une
+	list separee d'espaces de types de pieces. Un VaultingKing en
+	echec bouge comme une piece d'un des types indiques. Si
+	l'option Transmute est indiquee, les VaultingKings en echec
+	bougent exclusivement comme une piece d'un des types indiques
+	(mais pas comme roi). Si aucun type de piece n'est indique,
+	les VaultingKings en echec bougent comme (des rois et) des
+	equihoppers.
 
  - option: Toutes les options demandees sont a introduire apres ce mot-cle,
 	separees par une espace. Les options suivantes seront reconnues:
@@ -346,31 +403,42 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 			inversees
 	ApresCle        La position est consideree atteinte apres la cle. 
 			Par consequence, seulement la solution sera calculee.
-	NonTrivial m n  Option pour la verification de longs problemes inverses
-			ou (semi)reflexe. Le deuxieme parametre n indique que 
-			les coups noirs menant a une solution en n coups seront 
-			consideres triviaux (les problemes correctes de plus 
-			de n coups auront toujours une variante qui ne mene pas 
-			a une solution en n coups). Le parametre m indique que 
-			m+1 est le nombre maximal de coups non-triviaux que les 
-			blancs peuvent accorder aux noirs (Exemple pour un mat 
-			inverse: 
+	NonTrivial m n  Option pour la verification de longs problemes
+			inverses ou (semi)reflexe. Le deuxieme
+			parametre n indique que les coups noirs menant
+			a une solution en n coups seront consideres
+			triviaux (les problemes correctes de plus de n
+			coups auront toujours une variante qui ne mene
+			pas a une solution en n coups). Le parametre m
+			indique que m+1 est le nombre maximal de coups
+			non-triviaux que les blancs peuvent accorder
+			aux noirs (Exemple pour un mat inverse:
 			nontr 0 1: seulement les coup blancs son pris en 
 				   consideration qui ne laissent aux noirs 
 				   qu'un coup ne menant pas a un s#1).
-	Intelligent     Verification intelligente (tres vite) des mats aides multicoups.
+
+	Intelligent     Verification intelligente (tres rapide) des mats
+			aides multicoups.
 			Apres l'option intelligent on peut entrer un chiffre.
-			Il s'agit du numero maximum des solutions par position de mat.
+			Il s'agit du numero maximum des solutions par
+			position de mat.
 	MaxTemps        Cette option dois etre suivie par un chiffre.
-			La verification est termine apres les seconds de calculation
-			numerotes par le chiffre indique.
-	SansRoquer	Il faut entrer les cases ou se trouve les pieces qui 
-			ne peuvent roquer plus dans la position de diagramme.
+			La verification d'un probleme est terminee
+			apres le nombre de secondes indiqué.
+	SansRoquer	Il faut entrer les cases ou se trouvent les pieces 
+			qui ne peuvent plus roquer dans la position de
+			diagramme.
 	QuodLibet       en s# ou r# un mat direct c'est une solution aussi.
 	FinApresSolutionCourtes  Calculation est termine apres detection des
 				 solutions courtes.
 	Bip             Cette option peut etre suivie par un nombre.
-			Popeye emet un certain nombre de bips apres chaque solution trouvee.
+			Popeye emet un certain nombre de bips apres chaque
+			solution trouvee.
+	SansGrille	(Grille) Supprime les lignes de grille dans
+			les diagrammes en texte et LaTeX.
+	AjouteGrille	(Grille) Ajoute un diagramme demontrant les
+			cellules de la grille. Utile pour les grilles
+			irregulieres.
 
 
  - enonce: Popeye reconnait les enonces suivantes:
@@ -406,7 +474,7 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	par exemple:
 
 	#3              mat en 3 coups
-	HZg74           les noirs aideent les blancs a atteindre la case
+	HZg74           les noirs aident les blancs a atteindre la case
 			d'arrivee g7 en 4 coups
 	S+2             echec inverse en 2 coups
 	R==3            pat double reflex en 3 coups
@@ -426,17 +494,22 @@ Chaque commande demande des parametres. Commencons avec les commandes simples:
 	reci-h(=)#4     (pat) mat aide alternative en 4 coups
 	ser-!=7         autopat serie en 7 coups
 	ser-ct10        Series-direct circuit (switchback) in 10 moves
-			(of W piece)
-	h<>3            help exchange place in 3 moves
-			(Bl helps W swap 2 pieces from diagram)
-	ser-sctr2       series self circuit by rebirth in 2 moves
-			(W forces Bl to complete switchback of a W piece)
-	ser-h<>r5       series help exchange place by rebirth in 5 moves
-			(Bl helps W complete by rebirth the exchange of 
-			 two Bl pieces)
+			(d'une piece blanche)
+	h<>3            echange de places aide en 3 coups
+			(les noirs aident les blancs a echanger
+			l'emplacement de deux de leurs pieces
+			relativement a leurs emplacement dans le
+			diagramme)
+	ser-sctr2       Retour inverse en serie par renaissance en 2 coups
+			(les blancs forcent les noirs a effectuer le
+			retour d'une piece blanche)
+	ser-h<>r5       echange de place aide serie par renaissance en 5
+			coups (les noirs aident les blancs a echanger
+			l'emplacement de deux pieces noires par
+			renaissance)
 	#=2             mat ou pat en 2 coups
 	h~1             tous les coups aides
-	HR#3            mat reflex aide en 3 coups   (= mat reflex aide force)
+	HR#3            mat reflexe aide en 3 coups   (= mat reflex aide force)
 
  - forsyth: Cette commande est utiliser pour l'entree de la position en
             notation forsyth.
@@ -462,11 +535,12 @@ suivante est un peu plus compliquee:
 	Fonctionnaire
 	DemiNeutre
 	CouleurEchangeantSautoir
+	Protee
 
-	Suit la liste des pieces comme d'habitude: nom de la piece suivi par
+	Suit la liste des pieces comme d'habitude: type de la piece suivi par
 	une liste de cases ou se trouve une telle piece. On peut toujours
 	changer la couleur des pieces a entrer en entrant le mot-cle convenant.
-	Popeye connait les pieces suivantes:
+	Popeye connait les types de piece suivantes:
 
 	15      1,5-cavalier
 	16      1,6-cavalier
@@ -498,6 +572,7 @@ suivante est un peu plus compliquee:
 	cc      cavalier racine carree cinquante
 	cd      cavalier spirale diagonale
 	ch      chameau
+	cl	cavalier radial
 	cn      chameau noctambule
 	cr      cavalier rebondissant
 	cs      cavalier spirale   
@@ -558,6 +633,7 @@ suivante est un peu plus compliquee:
 	pb      pion berolina   
 	pc      pion chinois
 	pi      piece impuissant
+	pv      pion renverse     joue en directions opposées du pion normal; se promeut sur la rangée opposée
 	pr      princesse   
 	qa      equi anglais
 	qf      equi francais
@@ -611,16 +687,16 @@ suivante est un peu plus compliquee:
     Echange <case1> <case2>: les pieces se trouvant sur case1 et case2 
 	echangent leurs places.
     Ote <case>: la piece place sur case est ote de la position.
-    Remplace <piece1> <piece2>: toutes les pieces de nature piece1 seront 
-	remplacees par des pieces de nature piece2; les pieces remplacantes 
+    Remplace <piece1> <piece2>: toutes les pieces de type <piece1> sont 
+	remplacees par des pieces de type <piece2>; les pieces remplacantes 
 	heritent la couleur et les attributs speciaux (paralysante etc.) 
 	des pieces remplacees. 
 	Exemple: Remplace T F: toutes les tours seront remplacees par des fous.
-    Ajoute <Couleur> <Attribut> <Piece><Liste de cases>: les pieces indiques 
-	ser nt ajoutees sur les cases indiquees; des pieces eventuellement 
+    Ajoute <Couleur> <Attribut> <Piece><Liste de cases>: les pieces indiquees
+	sont ajoutees sur les cases indiquees; des pieces eventuellement 
 	presentes sur ces cases seront remplacees. 
-	Exemple: jumeau ajoute noir para sna6: un noctambule sauteur paralysant 
-		est ajoute sur a6 (voir la commande piece).
+	Exemple: jumau ajoute noir para sna6: un noctambule sauteur 
+		 paralysant est ajoute sur a6 (voir la commande piece).
     Rotation n: Rotation de la position de n degrees (n=90, 180, 270). 
 	Exemple: jumeau rotation 180.
     Miroir a1<-->h1: axe verticale
@@ -732,11 +808,11 @@ VMS:
 
 
 
-Thomas Maeder, Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson
+Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
 janvier 2008
 
-Si quelqu'un veut nous envoyer des propositions,
-des communications d'erreurs etc.,
-il trouvera nos adresses dans les fichiers  history.txt  ou  readme.txt  .
+Si quelqu'un veut nous envoyer des propositions, des communications
+d'erreurs etc., il trouvera des informations de contact dans le
+fichier history.txt
 
 (Traduction : Thomas Maeder)

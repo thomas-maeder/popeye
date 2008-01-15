@@ -1104,10 +1104,10 @@ typedef int Opt;
 #define normalp                162
 #define lortap                 163
 #define vault_king             164
-#define protean                165
-#define geneva                 166
-#define whvault_king           167 
-#define blvault_king           168 
+#define whvault_king           165 
+#define blvault_king           166 
+#define protean                167
+#define geneva                 168
 #define CondCount              169
 
 typedef int Cond;

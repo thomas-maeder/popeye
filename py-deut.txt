@@ -1,22 +1,17 @@
-	     B E S C H R E I B U N G   V O N   P O P E Y E   5 . 0
+	     B E S C H R E I B U N G   V O N   P O P E Y E   4 . 4
 
 Bemerkungen zur Verteilung von Popeye:
 
-Wir verteilen Popeye IMMER im Quellformat. Das heisst, jeder der von uns
-eine Floppy bekommt erhaelt den gesamte Quellcode mit ausgeliefert - auch
-wenn er den gar nicht benoetigt. Wir stehen auf dem Standpunkt, dass diese
-Software oeffentlich sein soll, und nicht unser ureigenstes Eigentum darstellt;
-auch wenn wir inzwischen einiges an Arbeit investiert haben.
-Diese Arbeit ist sowieso nicht zu bezahlen, und wir investieren unsere Zeit
-nicht deswegen um damit Geld zu verdienen. Wir verteilen Popeye deswegen zum
-Selbstkostenpreis. Also, wenn jemand von uns eine Floppy erhaelt, dann sollte
-er auch uns wieder eine Floppy zukommen lassen. Er kann uns auch einen
-frankierten Rueckumschlag schicken, dann bekommt er Popeye von uns auch
-geschickt. Auch haben wir nichts dagegen, wenn jemand Popeye an dritte
-weitergibt. Allerdings sollte er dann Popeye so weitergeben wie er ihn erhalten
-hat, also alle Dateien, wie sie nachfolgend aufgelistet sind. Diese Liste
-koennen sie ohne weiteres uebergehen, falls sie nur an der Benutzung von
-Popeye interessiert sind.
+Popeye ist freie Software. Der Quellcode ist frei erhaeltlich. Wir
+stehen auf dem Standpunkt, dass diese Software oeffentlich sein soll,
+und nicht unser ureigenstes Eigentum darstellt, auch wenn wir
+inzwischen einiges an Arbeit investiert haben. Diese Arbeit ist
+sowieso nicht zu bezahlen, und wir investieren unsere Zeit nicht
+deswegen um damit Geld zu verdienen.
+
+Die einzige Einschraenkung besteht darin, dass Popeye vollstaendig
+weitergeben wird - einschliesslich aller im folgenden aufgezaehlten
+Dateien.
 
 	py-deut.txt:    Die Datei, die sie gerade lesen.
 	py-fran.txt:    Franzoesische Version dieser Datei.
@@ -24,13 +19,12 @@ Popeye interessiert sind.
 	license.txt:    Popeye Lizenz.
 	history.txt:    Hier schreiben die Entwickler welche Fehler bei
 			Popeye behoben wurden und was neu eingebaut wurde.
-	readme.txt:     Kurze Hinweise fuer diejenigen, die ihren Popeye selber
-			uebersetzen wollen.
+	readme.txt:     Kurze Hinweise fuer diejenigen, die ihren Popeye
+			selbst uebersetzen wollen.
 	pydos32.exe:    Ausfuehrbare Datei fuer MS-DOS (32 Bit, 80386)
 	pywin32.exe:    Ausfuehrbare Datei fuer MS-Windows-NT/-2000/-XP
 	pywin98.exe:    Ausfuehrbare Datei fuer MS-Windows-95/-98/-ME
-	py-*.str:       Diese Dateien enthalten den sprachabhaengigen Text
-			von Popeye, der im selben Verzeichnis wie py.exe liegen sollte.
+	py-*.str:       Diese Dateien enthalten die sprachabhaengigen Texte
 
 Liste der Quellfiles:
 	makefile.unx:   Makefile fuer UNIX-Systeme und Verwandte.
@@ -40,12 +34,15 @@ Liste der Quellfiles:
 	py1.c, py2.c, py3.c, py4.c (+py4.h), py5.c, py6.c
 			C-Quellcode von Popeye.
 	pyhash.c :      Dynamische Hash-Funktionen 
-	pyint.c:        Hier stehen die Prozeduren fuer den Intelligenz-Modus.
+	pyint.c:        Hier stehen die Prozeduren fuer den
+			Intelligenz-Modus.
 	pyio.c:         Hier ist die gesamte Ein-/Ausgabe codiert.
 	pymsg.c:        Hier stehen die Prozeduren zur Textausgabe.
-	pylang.c        Hier stehen die  Prozeduren fuer unterschiedliche Sprachen.
-	pyproof.c:      Berechnung Kuerzester Beweispartien.
-	pysignal.c:     Hier stehen die Prozeduren zur Signalbehandlung unter UNIX.
+	pylang.c        Hier stehen die Prozeduren fuer unterschiedliche
+			Sprachen.
+	pyproof.c:      Loesung Kuerzester Beweispartien (und a=>b)
+	pysignal.c:     Hier stehen die Prozeduren zur Signalbehandlung
+			unter UNIX.
 	pytime.c:       Hier stehen die Prozeduren zur Zeitmessung.
 	pymac.h:        Segmentspezifikationen fuer Macintosh's MPW
 	pymsg.h:        Hier stehen die gesamten Texte die Popeye ausgibt.
@@ -53,11 +50,14 @@ Liste der Quellfiles:
 	todef.awk:      awk-script zum Konvertieren von py.h
 	toenum.awk:     awk-script zum Konvertieren von py.h
 	py-*.msg:       Die sprachabhaengigen Dateien fuer Popeye Meldungen
-	pie*.txt:       Die Dateien fuer LaTeX Ausgabe der Figuren die Popeye kennt.
+	pie*.txt:       Die Dateien fuer LaTeX Ausgabe der von Popeye
+			unterstuetzten Figurenarten.
 	genpystr.c:     Programmdatei, die aus py-*.msg Dateien py-*.str 
 			Dateien macht
-	BEISPIEL:       Verzeichnis, das Beispiel-Eingabedateien in 
-			Deutsch und deren Ergebnisse enthaelt.
+	BEISPIEL:       Verzeichnis mit Beispiel-Eingabedateien in 
+			Deutsch
+	BEISPIEL:       Verzeichnis mit Beispiel-Eingabedateien in 
+			Englisch
 	DHT:            Verzeichnis, das die C-Dateien fuer das dynamische
 			Hash-Paket enthaelt.
 	LATEX:          Verzeichnis, das die LaTeX-Dateien enthaelt.
@@ -69,14 +69,30 @@ Starten von Popeye:
 Benennen Sie ihre ausgewaehlte ausfuehrbare Datei um in py.exe
 Starten mit Eingabe des Problems am Bildschirm:         py
 Starten mit Eingabe des Problems aus einer Datei XX:    py XX
-					       oder:    py < XX
 
 Kommandozeilenparameter:
 -maxmem
 	Sie koennen beispielsweise mit
-	py -maxmem 40960 XX   oder  py -maxmem 40M XX
-	Popeye 40960 Kilobyte (40 Megabyte) Speicher
-	zur Berechnungsbeschleunigung zur Verfuegung stellen.
+		-maxmem 40960   bzw.   -maxmem 40M
+	Popeye 40960 Kilobyte (bzw. 40 Megabyte) Speicher zur
+	Beschleunigung des Loesungsprozesses zur Verfuegung stellen.
+
+-maxtime
+	Angabe der maximalen Anzahl Sekunden, welche Popeye für die
+	Loesung jedes Problems verwendet. Dieser Parameter ist
+	gleichbedeutend mit der Option maxzeit, welche innerhalb der
+	Problemdefinition verwendet werden kann (siehe unten).
+	Beispiel:
+		-maxtime 60
+	Wenn ein Problem nach einer Minute noch nicht vollstaendig
+	geloest wird, wird mit dem naechsten Problem (sofern
+	vorhanden) weitergefahren.
+
+-regression
+	HAUPTSAECHLICH FUER ENTWICKLER
+	Unterdrueckt Popeye-Versionsinformation und Loesungszeiten in
+	den Ausgabedateien.
+
 
 Beenden von Popeye:
 
@@ -169,7 +185,7 @@ Kommandos:
 	DuellantenSchach
 	CirceParrain
 	SymmetrieCirce
-	OhneIUW                 (= Bauernumwandlungen in Imitator nicht erlaubt)
+	OhneIUW              (= Bauernumwandlungen in Imitator nicht erlaubt)
 	VogtlaenderSchach
 	AntiCirce
 	SpiegelFileCirce
@@ -286,38 +302,84 @@ Kommandos:
         NormalBauern
 	ScharzSchaecher
 	GenferSchach
+	VaultingKings
+	WeisserVaultingKing
+	SchwarzerVaultingKing
+	ProteischesSchach
+	Elliuortap
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
-	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines 
-	Zwangsfeldes sind die Felder einzugeben, 
-	auf denen die Imitatoren in der Diagrammstellung 
-	stehen bzw. wo die magischen Felder oder Loecher sind, bzw. welche
-	Figuren Umwandlungsfiguren bei FrischaufCirce sind, bzw. welche
-	Felder weisse oder schwarze Umwandlungsfelder sind. 
-	Dem Schluesselwort  UWnur  muss eine Liste von durch Leerzeichen
-	getrennten Figuren folgen. Es darf nur in die angegebenen Figuren 
-	umgewandelt werden.
-	Der Bedingung ChamaeleonCirce kann eine Liste von durch Leerzeichen
-	getrennten Figuren folgen. Diese definiert die Reihenfolge der
-	Umwandlungen vor der Wiedergeburt. (Z. B.: "ChamaeleonCirce S L T D S"
-	ergibt das normale ChamaeleonCirce, "ChamaeleonCirce S D T L S"
-	ist reverses ChamaeleonCirce.
-	Nach einigen Circe- bzw. Immunschachbedingungen, Madrasi, Phantomschach
-	sowie Genferschach kann wahlweise noch "RexInklusive" angegeben werden.
-	Nach allen Anticircearten kann wahlweise "Cheylan" oder "Calvet"
-	angegeben werden, entsprechend dem gew"unschten Typ. 
-	Standardannahme ist Calvet.
-	Nach der Isardam Bedingung kann wahlweise noch "TypB" angegeben werden.
-	Nach der NurPartiesatzsteine Bedingung kann wahlweise noch "Typ1",
-		"Typ2" oder "Typ3" angegeben werden.
-	Nach der Sentinelles Bedingung kann wahlweise noch "PionAdvers",
-		"PionNeutre", "ParaSentinelles" oder "Berolina" angegeben werden, 
-                sowie "MaximumWeiss", "MaximumSchwarz" oder "MaximumTotal" 
-                gefolgt von einer Zahl.
-	Nach MessignySchach, (Bi)Woozles und (Bi)Heffalumps kann wahlweise
-		RexExklusive angegeben werden.
-	Nach SchwarzeOszillierendeKoenige oder WeisseOszillierendeKoenige 
-		kann wahlweise noch "TypB" oder "TypC" angegeben werden.
+	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines
+	Zwangsfeldes sind die Felder einzugeben, auf denen die
+	Imitatoren in der Diagrammstellung stehen bzw. wo die
+	magischen Felder oder Loecher sind, bzw. welche Figuren
+	Umwandlungsfiguren bei FrischaufCirce sind, bzw. welche Felder
+	weisse oder schwarze Umwandlungsfelder sind.
+
+	Dem Schluesselwort UWnur muss eine Liste von durch Leerzeichen
+	getrennten Figurenarten folgen. Es darf nur in die angegebenen
+	Figurenarten umgewandelt werden.
+
+	Der Bedingung ChamaeleonCirce kann eine Liste von durch
+	Leerzeichen getrennten Figuren folgen. Diese definiert die
+	Reihenfolge der Umwandlungen vor der Wiedergeburt. (Z. B.:
+		"ChamaeleonCirce S L T D S" ergibt das normale
+		ChamaeleonCirce
+		"ChamaeleonCirce S D T L S" ist reverses ChamaeleonCirce.)
+
+	Nach einigen Circe- bzw. Immunschachbedingungen, Madrasi,
+	Phantomschach sowie Genferschach kann wahlweise noch
+	"RexInklusive" angegeben werden.
+
+	Nach allen Anticircearten kann wahlweise "Cheylan" oder
+	"Calvet" angegeben werden, entsprechend dem gew"unschten
+	Typ. Standardannahme ist Calvet.
+
+	Nach der Isardam Bedingung kann wahlweise noch "TypB"
+	angegeben werden.
+
+	Nach der NurPartiesatzsteine Bedingung kann wahlweise
+	"Typ1", "Typ2" oder "Typ3" angegeben werden.
+
+	Nach der Sentinelles Bedingung kann wahlweise noch
+	"PionAdvers", "PionNeutre", "ParaSentinelles" oder "Berolina"
+	angegeben werden, sowie "MaximumWeiss", "MaximumSchwarz" oder
+	"MaximumTotal" gefolgt von einer Zahl.
+
+	Nach MessignySchach, (Bi)Woozles, (Bi)Heffalumps und
+	ProteischesSchach kann RexExklusive angegeben werden.
+
+	Nach SchwarzeOszillierendeKoenige oder
+	WeisseOszillierendeKoenige kann wahlweise noch "TypB" oder
+	"TypC" angegeben werden.
+
+        Nach Gitterschach koennen eine Reihe von Varianten angegeben
+        werden.
+	VertikalVerschieben, HorizontalVerschieben und
+	DiagonalVerschieben verschieben Gitter um eine Reihe und/oder
+	Linie. Z.B. besteht die Zelle mit dem Feld a1 aus den Feldern:
+		VertikalVerschieben:	a1b1
+		HorizontalVerschieben:	a1a2
+		DiagonalVerschieben:	a1
+	Orthogonal gefolgt von einer Liste von Linien (links von jeder
+	vertikalen Gitterlinie) und Reihen (unterhalb jeder
+	horizontalen Gitterlinie) ohne Zwischenräumen.
+	Unregelmaessig gefolgt von einer durch Leerzeichen getrennten
+	Liste von Feldergruppen, welche die Gitterzellen bilden.
+	Zum Beispiel kann das Standardgitter durch jede der folgende
+	Angaben beschrieben werden:
+		bedingung gitterschach
+		bedingung gitterschach bdf246
+		bedingung gitterschach unregelmaessig a8a7b8b7 c8c7d8d7 ...
+
+	Nach den ValtingKings-Bedingungen kann eine durch Leerzeichen
+	getrennte Liste von Figurenarten angegeben werden. Ein
+	VaultingKing im Schach zieht zusaetzlich wie ein Stein einer
+	der angegebenen Arten. Wenn die Option Transmutierend
+	angegeben ist, zieht der Koenig ausschliesslich wie ein Stein
+	einer der Arten aus der Liste (aber nicht als Koenig). Wenn
+	keine Figurenart angegeben ist, ziehen VaultingKings im Schach
+	(zusaetzlich) wie Equihopper.
 
  - Option: Alles was zur Wirkung kommen soll ist einfach durch Zwischenraum
 	getrennt nach dem Schluesselwort anzugeben. Es wird folgendes erkannt:
@@ -380,10 +442,18 @@ Kommandos:
 			erreichen von  Zahl  Sekunden bricht Popeye ab.
 	KeineRochade    Es muessen die Felder der Figuren angegeben werden,
 			die in der Diagrammstellung nicht mehr rochieren koennen.
-	QuodLibet       Im s# oder r# gilt auch direktes Mattsetzen als Loesung.
-	StopNachKurzLoesungen   Ende der Berechnung nach Finden von Kurzloesungen
-	Pieps           Dieser Option kann eine Zahl folgen. Nach jeder gefundenen
-			Loesung gibt Popeye eine  Zahl  von Piepstoenen aus.
+	QuodLibet       Im s# oder r# gilt auch direktes Mattsetzen als
+			Loesung.
+	StopNachKurzLoesungen   Ende der Berechnung nach Finden von
+				Kurzloesungen
+	Pieps           Dieser Option kann eine Zahl folgen. Nach jeder
+			gefundenen Loesung gibt Popeye eine Zahl von
+			Piepstoenen aus.
+	OhneGitter	(GitterSchach) Ausgabe von Gitterlinien im Diagramm
+			wird unterdrueckt.
+	ZeichneGitter	(GitterSchach) Gibt ein zusaetzliches Diagramm
+			aus, welches die Gitterzellen verdeutlicht;
+			nuetzlich fuer unregelmaessige Gitter.
 
 
  - Forderung: Folgende Forderungen kennt Popeye:
@@ -439,12 +509,15 @@ Kommandos:
 	ser-!=7         Serienzug-Eigenpatt in 7 Zuegen
 	ser-ct10        Serienzug-Rueckkehr in 10 Zuegen
 	h<>3            Hilfsplatzwechsel in 3 Zuegen
-			(2 weisse Steine wechseln den Platz in der Diagrammstellung)
-	ser-sctr2       Serienzug-Selbstrueckkehr durch Wiedergeburt in 2 Zuegen
-			(Weiss zwingt Schwarz, einen weissen Stein wiedergebaeren zu lassen)
-	ser-h<>r5       Serienzug-Hilfsplatzwechsel durch Wiedergeburt in 5 Zuegen
-			(Schwarz hilft Weiss, den Platzwechsel zweier schwarze Figuren 
-			 per Widergeburt zu vervollstaendigen)
+			(2 weisse Steine wechseln den Platz in der
+			Diagrammstellung)
+	ser-sctr2	Serienzug-Selbstrueckkehr durch Wiedergeburt
+			in 2 Zuegen (Weiss zwingt Schwarz, einen
+			weissen Stein wiedergebaeren zu lassen)
+	ser-h<>r5	Serienzug-Hilfsplatzwechsel durch
+			Wiedergeburt in 5 Zuegen (Schwarz hilft Weiss,
+			den Platzwechsel zweier schwarze Figuren per
+			Widergeburt zu vervollstaendigen)
 	#=2             Matt oder Patt in 2 Zuegen
 	h~1		Alle moeglichen Hilfs-Zuege 
 	HR#3            Hilfsreflexmatt in 3 Zuegen
@@ -457,8 +530,8 @@ Kommandos:
 Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 
  - Steine: Dieses Kommando spezifiziert alle Steine die zum Problem gehoeren.
-	Nach dem Schluesselwort muss die Farbe des oder der folgenden Steine(s)
-	angegeben werden: 
+	Nach dem Schluesselwort muss die Farbe des oder der folgenden
+	Steine(s) angegeben werden:
 
 	Weiss
 	Schwarz
@@ -475,6 +548,7 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	Beamtet
 	Halbneutral
 	SprungbockFarbeWechselnd         (nur bei Huepfern !)
+	Proteisch
 
 	angegeben werden. 
 	Nach diesen Spezifikationen kommt die Liste der Figuren, 
@@ -483,7 +557,8 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	solche Figur plaziert werden soll. Zu jeder Zeit ist es moeglich
 	Figuren einer anderen Farbe anzugeben, einfach durch das Angeben des
 	entsprechenden Schluesselwortes.
-	Popeye kennt folgende Figuren:
+
+	Popeye kennt folgende Figurenarten:
 
 	15      1,5-Springer
 	16      1,6-Springer                    Flamingo
@@ -585,11 +660,13 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	qe      EquiEnglisch                    "EquiApproacher" kann unterbrochen werden
 	qf      EquiFranzoesisch                "EquiApproacher" kann nicht unterbrochen werden
 	ra      Rao                             chinesische Rose
+	rb      ReversBauer   zieht umgekehrt wie ein "normaler" Bauer; wandelt auf entgegengesetzter Reihe um
 	rd      Randschwein
 	rh      RosenHuepfer
 	rl      Reflektierender Laeufer   
 	rn      RosenLioN
 	ro      Rose   
+	rp	RadialsPringer
 	rs      Reflektierender Springer
 	s       Springer                        1,2 Springer
 	sb      Superbauer
@@ -616,9 +693,12 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	zh      Zebrareiterhuepfer
 	zr      Zebrareiter                     2,3 Reiter
         X/Y     X/Y-Jaeger                      allgemeiner Jaeger:
-                                                von der jeweiligen Grundreihe weg wie ein X,
-                                                in Richtung Grundreihe wie ein Y;
-                                                horizontale Zuege nicht erlaubt
+                                                von der jeweiligen
+                                                Grundreihe weg wie ein
+                                                X, in Richtung
+                                                Grundreihe wie ein Y;
+                                                horizontale Zuege
+                                                nicht erlaubt
 
  - Zwilling: Loesen/pruefen von Stellungen, die sich durch "einfache"
 	Veraenderungen aus der Ausgangsstellung ergeben. Folgende Angaben
@@ -634,15 +714,16 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	ihre Plaetze. Beispiel: zwilling tausche a3 b4.
     Entferne <Feld>: Die auf dem betreffenden Feld befindliche Figur wird
 	entfernt, z. B. zwilling entferne e5.
-    Ersetze <Figur1> <Figur2>: Alle Steine vom erstgenannten Typ werden durch
-	Steine des zweiten ersetzt. Farbe und weitere Steinspezifikationen
-	(wie paralysierend etc.) bleiben erhalten.
+    Ersetze <Figur1> <Figur2>: Alle Steine der Art <Figur1> werden durch
+	Steine der Art <Figur2> ersetzt. Farbe und weitere
+	Steinspezifikationen (wie paralysierend etc.) bleiben erhalten.
 	Beispiel: zwilling ersetze T L 
 		  alle Tuerme werden durch Laeufer ersetzt.
-    Hinzufuegen <Farbe> <Steinspezifikationen> <Stein><Feldliste>: Hinzufuegen
-	von Steinen, ggf. werden Steine ueberschrieben. Beispiel:
-	zwilling hinzufuegen schw para NHa6 - ein schwarzer paralysierender
-	Nachtreiterhuepfer wird auf a6 ergaenzt. Siehe auch das Steine-Kommando.
+    Hinzufuegen <Farbe> <Steinspezifikationen> <Steinart><Feldliste>:
+	Hinzufuegen von Steinen, ggf. werden Steine
+	ueberschrieben. Beispiel: zwilling hinzufuegen schw para NHa6
+	- ein schwarzer paralysierender Nachtreiterhuepfer wird auf a6
+	ergaenzt. Siehe auch das Steine-Kommando.
     Drehung n: Drehung um n Grad nach links (n=90, 180, 270). Beispiel:
 	zwilling drehung 180.
     Spiegelung a1<-->h1: Spiegelung an der vertikalen Mittellinie,
@@ -703,10 +784,11 @@ Stei    Weis Ka3 Ta8
 Opti    Zugn Verf Satz Vari
 Ende
 
-Es kann sein, dass sich in Zukunft die Laenge der eindeutigen Abkuerzungen
-aendert, wenn Popeye erweitert wird. Wir sind aber bestrebt die Schluesselworte
-mit den ersten vier Buchstaben immer eindeutig abkuerzbar zu halten. Wenn sie
-jetzt mit weniger abkuerzbar sind, ist das keine Gewaehr fuer die Zukunft.
+Es kann sein, dass sich in Zukunft die Laenge der eindeutigen
+Abkuerzungen aendert, wenn Popeye erweitert wird. Wir sind aber
+bestrebt die Schluesselworte mit den ersten vier Buchstaben immer
+eindeutig abkuerzbar zu halten. Wenn sie jetzt mit weniger abkuerzbar
+sind, ist das keine Gewaehr fuer die Zukunft.
 
 Wenn man mehrere Probleme in einem Rutsch loesen will, so kann man anstatt
 des letzten `EndeProblem' das Schluesselwort `WeiteresProblem' angeben.
@@ -759,9 +841,9 @@ VMS:
 
 
 
-Thomas Maeder, Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson
+Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
 Januar 2008
 
-Fuer den Fall dass jemand Anregungen, Fehler etc uns zukommen lassen will,
-so findet er unsere Adressen in den Dateien  history.txt  oder  readme.txt  .
+Fuer den Fall dass jemand Anregungen, Fehler etc uns zukommen lassen
+will, so findet er Kontakt-Informationen in history.txt.
 

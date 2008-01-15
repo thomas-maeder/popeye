@@ -578,8 +578,8 @@ EXTERN boolean          calc_whtrans_king, calc_bltrans_king,
     /*125*/ {'b','2'}, /* tour-bouncer */
     /*126*/ {'b','3'}, /* fou-bouncer */
     /*127*/ {'p','c'},  /* pion chinois */
-    /*128*/ {'r','k'},  /* Cavalier Radiale */
-    /*129*/ {'p','p'}  /* Pion Protean */
+    /*128*/ {'c','l'},  /* cavalier radial */
+    /*129*/ {'p','v'}  /* pion renverse */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '}, /* leer */
 	/*  1*/ {' ',' '}, /* ausserhalb des Brettes */
@@ -708,9 +708,9 @@ EXTERN boolean          calc_whtrans_king, calc_bltrans_king,
     /*124*/ {'b','1'}, /* Bouncer */
     /*125*/ {'b','2'}, /* Turm-bouncer */
     /*126*/ {'b','3'}, /* Laeufer-bouncer */
-    /*127*/ {'c','b'},  /* Chinesischer Bauer */
-    /*128*/ {'r','k'},  /* Radial Springer */
-    /*129*/ {'p','p'} /* Protean Bauer */
+    /*127*/ {'c','b'}, /* Chinesischer Bauer */
+    /*128*/ {'r','p'}, /* Radialspringer */
+    /*129*/ {'r','b'}  /* ReversBauer */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '}, /* empty */
 	/*  1*/ {' ',' '}, /* outside board */
@@ -907,8 +907,8 @@ EXTERN boolean          calc_whtrans_king, calc_bltrans_king,
 	/*27*/  "Quodlibet",
 	/*28*/  "FinApresSolutionsCourtes",
 	/*29*/  "Bip",
-	/*30*/  "SupprimezGrille",
-	/*31*/  "EcriVezGrille"
+	/*30*/  "SansGrille",
+	/*31*/  "AjouteGrille"
 	},{
 	/* Deutsch German Allemand */
 	/* 0*/  "Widerlegung",
@@ -941,8 +941,8 @@ EXTERN boolean          calc_whtrans_king, calc_bltrans_king,
 	/*27*/  "Quodlibet",
 	/*28*/  "StopNachKurzloesungen",
 	/*29*/  "Pieps",
-	/*30*/  "UnterdruckenGitter",
-	/*31*/  "SchreibenGitter"
+	/*30*/  "OhneGitter",
+	/*31*/  "ZeichneGitter"
 	},{
 	/* English Anglais Englisch */
 	/* 0*/  "Defence",
@@ -1153,11 +1153,11 @@ EXTERN boolean          calc_whtrans_king, calc_bltrans_king,
   	/*161*/ "AnnanEchecs" ,
   	/*162*/ "PionNormale",
     /*163*/ "Elliuortap",
-    /*164*/ "RoisSautants",
-    /*165*/ "ProteanEchecs",
-  	/*166*/ "EchecsGeneve",
-  	/*167*/ "BlancRoisSautant",
-  	/*168*/ "NoirRoisSautant"
+    /*164*/ "VaultingKings",
+  	/*165*/ "BlancVaultingKing",
+  	/*166*/ "NoirVaultingKing",
+    /*167*/ "EchecsProtee",
+  	/*168*/ "EchecsGeneve"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1323,12 +1323,12 @@ EXTERN boolean          calc_whtrans_king, calc_bltrans_king,
 	/*160*/ "SchwarzSchaecher",
 	/*161*/ "Annanschach",
 	/*162*/ "NormalBauern",
-    /*163*/ "Lortap",
-    /*164*/ "SpringenKonigen",
-    /*165*/ "ProteanSchach",
-  	/*166*/ "GenferSchach",
-  	/*167*/ "WeissSpringenKonig",
-  	/*168*/ "SchwarzSpringenKonig"
+    /*163*/ "Elliuortap",
+    /*164*/ "VaultingKings",
+  	/*165*/ "WeisserVaultingKing",
+  	/*166*/ "SchwarzerVaultingKing",
+    /*167*/ "ProteischesSchach",
+  	/*168*/ "GenferSchach"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1496,10 +1496,10 @@ EXTERN boolean          calc_whtrans_king, calc_bltrans_king,
 	/*162*/ "NormalPawn",
     /*163*/ "Lortap",
     /*164*/ "VaultingKings",
-    /*165*/ "ProteanChess",
-    /*166*/ "GenevaChess",
-  	/*167*/ "WhiteVaultingKing",
-  	/*168*/ "BlackVaultingKing"
+  	/*165*/ "WhiteVaultingKing",
+  	/*166*/ "BlackVaultingKing",
+    /*167*/ "ProteanChess",
+    /*168*/ "GenevaChess"
     }
     };
 #endif
@@ -1531,7 +1531,7 @@ EXTERN unsigned int StipFlags;
       "Fonctionnaire",
       "DemiNeutre",
       "CouleurEchangeantSautoir",
-      "Protean"
+      "Protee"
 	},{
       /* German */
       "Weiss",
@@ -1546,7 +1546,7 @@ EXTERN unsigned int StipFlags;
       "Beamtet",
       "HalbNeutral",
       "SprungbockFarbeWechselnd",
-      "Protean"
+      "Proteisch"
 	},{
       /* English */
       "White",
@@ -1592,8 +1592,8 @@ EXTERN unsigned int StipFlags;
 	/* 4*/  "PionNeutre",
 	/* 5*/  "MaximumNoir",
 	/* 6*/  "MaximumBlanc",
-        /* 7*/  "ParaSentinelles",
-        /* 8*/  "MaximumTotal",
+    /* 7*/  "ParaSentinelles",
+    /* 8*/  "MaximumTotal",
 	/* 9*/  "Berolina",
 	/*10*/  "Type1",
 	/*11*/  "Type2",
@@ -1601,12 +1601,12 @@ EXTERN unsigned int StipFlags;
 	/*13*/  "Voisin",
 	/*14*/  "TypeC",
 	/*15*/  "TypeD",
-	/*16*/  "RangeeTranslate",
-	/*17*/  "ColonneTranslate",
-	/*18*/  "RangeeColonneTranselate",
+	/*16*/  "VerticalDecalage",
+	/*17*/  "HorizontalDecalage",
+	/*18*/  "DiagonalDecalage",
 	/*19*/  "Orthogonale",
-	/*20*/  "Irregulier",
-  /*21*/  "Transmutant"
+	/*20*/  "Irreguliere",
+    /*21*/  "Transmute"
 	},{
 	/* German */
 	/* 0*/  "TypB",
@@ -1616,8 +1616,8 @@ EXTERN unsigned int StipFlags;
 	/* 4*/  "PionNeutre",
 	/* 5*/  "MaximumSchwarz",
 	/* 6*/  "MaximumWeiss",
-        /* 7*/  "ParaSentinelles",
-        /* 8*/  "MaximumTotal",
+    /* 7*/  "ParaSentinelles",
+    /* 8*/  "MaximumTotal",
 	/* 9*/  "Berolina",
 	/*10*/  "Typ1",
 	/*11*/  "Typ2",
@@ -1625,12 +1625,12 @@ EXTERN unsigned int StipFlags;
 	/*13*/  "Nachbar",
 	/*14*/  "TypC",
 	/*15*/  "TypD",
-	/*16*/  "ReiheVerschieben",
-	/*17*/  "LinieVerschieben",
-	/*18*/  "ReiheLinieVerschieben",
+	/*16*/  "VertikalVerschieben",
+	/*17*/  "HorizontalVerschieben",
+	/*18*/  "DiagonalVerschieben",
 	/*19*/  "Orthogonal",
-	/*20*/  "Unregelmassig",
-  /*21*/  "Transmutierende"
+	/*20*/  "Unregelmaessig",
+    /*21*/  "Transmutierende"
 	},{
 	/* English */
 	/* 0*/  "TypeB",
@@ -1640,8 +1640,8 @@ EXTERN unsigned int StipFlags;
 	/* 4*/  "PionNeutre",
 	/* 5*/  "MaximumBlack",
 	/* 6*/  "MaximumWhite",
-        /* 7*/  "ParaSentinelles",
-        /* 8*/  "MaximumTotal",
+    /* 7*/  "ParaSentinelles",
+    /* 8*/  "MaximumTotal",
 	/* 9*/  "Berolina",
 	/*10*/  "Type1",
 	/*11*/  "Type2",
@@ -1649,12 +1649,12 @@ EXTERN unsigned int StipFlags;
 	/*13*/  "Neighbour",
 	/*14*/  "TypeC",
 	/*15*/  "TypeD",
-	/*16*/  "RankShift",
-	/*17*/  "FileShift",
-	/*18*/  "RankFileShift",
+	/*16*/  "VerticalShift",
+	/*17*/  "HorizontalShift",
+	/*18*/  "DiagonalShift",
 	/*19*/  "Orthogonal",
 	/*20*/  "Irregular",
-  /*21*/  "Transmuting"
+    /*21*/  "Transmuting"
 	}
 	};
 #endif

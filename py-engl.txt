@@ -1,34 +1,32 @@
-     D E S C R I P T I O N   O F   P O P E Y E    5 . 0
+     D E S C R I P T I O N   O F   P O P E Y E    4 . 4
  
 
 Some remarks on the distribution of popeye:
 
-Popeye is free software. It means that everybody may get the source of
-popeye.  We believe that this software should be public und constitutes not our
-own personal property - even we have invested a lot of work. This work cannot
-be waged by money, and also we devote our time to popeye not to earn money.
-Therefore we distribute popeye for refunding our costs of material and shipping.
-It means, if someone gets a floppy from us, he should return a floppy.
-Its also possible to send us stamped return envelope with a floppy, we return 
-the floppy with popeye on it. We do not mind if someone redistributes popeye.
-The only thing we want to obeye is, that he distributes it as he gets it - 
-meaning all the files listed below.
+Popeye is free software. Everybody may get the source of popeye. We
+believe that this software should be public and does not constitute
+our own personal property - even we have invested a lot of work in
+it. This work cannot be waged by money, and also we devote our time to
+popeye not to earn money.
+
+The only restriction that we impose is that Popeye be distributed in
+its entirety - including all the files listed below.
 
 	py-engl.txt:    The file you are reading now
 	py-deut.txt:    German version of this file
 	py-fran.txt:    French version of this file
 	license.txt:    Popeye License.
-	history.txt:    The developpers describe here which bugs have been
+	history.txt:    The developers describe here which bugs have been
 			fixed and what's new in POPEYE.
-	readme.txt:     Short hints for those, who want to recompile popeye
+	readme.txt:     Short hints for those who want to recompile popeye
 	pydos32.exe:    Executable file for MS-DOS (32 Bit, 80386)
 	pywin32.exe:    Executable file for MS-Windows-NT/-2000/-XP
 	pywin98.exe:    Executable file for MS-Windows-95/-98/-ME
-	py-*.str:       These files contain the language dependant text
+	py-*.str:       These files contain the language dependant texts
 			for popeye. They must reside in the same directory
 			as the executable.
 
-List of source files:
+Source files:
 	makefile.unx:   Makefile for UNIX-systems and friends
 	py.h:           Header-file for all C-files.
 	pydata.h:       All global data are define here.
@@ -41,20 +39,25 @@ List of source files:
 	pyio.c:         Everything concerning I/O is coded here.
 	pymsg.c:        All procedures for output of messages.
 	pylang.c        Language dependent procedures.
-	pyproof.c:      Procedures for shortest proofgame calculation.
+	pyproof.c:      Procedures for shortest proofgame (and a=>b) solving
 	pysignal.c:     All procedures for UNIX signal handling.
 	pytime.c:       All procedures for meassuring time.
 	pymac.h:        Segmentspecification of Macintosh's MPW
 	pymsg.h:        Defines for the messages of popeye.
 	pyproc.h:       Definitions of the procedures.
-	todef.awk:      awk-script to convert enumerations in py.h to defines.
-	toenum.awk:     awk-script to convert defines in py.h to enumerations.
+	todef.awk:      awk-script to convert enumerations in py.h to
+			#defines.
+	toenum.awk:     awk-script to convert defines in py.h to
+			enumerations.
 	py-*.msg:       The language dependent files for Popeye-messages.
-	pie*.txt:       The files for LaTeX output of the pieces which Popeye knows.
+	pie*.txt:       The files for LaTeX output of the piece types
+			supported by Popeye.
 	genpystr.c:     Source of the program which generates the py-*.str
 			from py-*.msg.
-	BEISPIEL:       Directory which contains example-files in
-			german language and their results.
+	BEISPIEL:       Directory which contains example input files in
+			German
+	EXAMPLES:       Directory which contains example input files in
+			English
 	DHT:            Directory containing C-files for the dynamic
 			hashing package.
 	LATEX:          Directory containing LaTeX files.
@@ -65,14 +68,29 @@ Starting popeye:
 Change the name of your preferred executable to py.exe
 To operate it from the terminal:                py
 To solve problems recorded in file XX:          py XX
-				   or:          py < XX
 
 Commandline parameters:
 -maxmem
 	You can provide for Popeye for example 40960 kilobyte (or 40 megabye)
 	of memory with
-		py -maxmem 40960 XX    or   py -maxmem 40M XX
-	to make calculation of problems faster.
+		 -maxmem 40960    resp.    -maxmem 40M
+	to speed up solving.
+
+-maxtime
+	Indicate the maximum number of seconds that Popeye may spend
+	on each problem. This command line option is
+	equivalent to the option maxtime that can be used in the problem
+	definition (see below).
+	Example:
+		-maxtime 60
+	If a problem hasn't been solved after one minute, solving
+	continues with the next problem in the input file (if any).
+
+-regression
+	FOR DEVELOPERS MAINLY
+	Popeye version info and solving times are suppressed from
+	output files.
+
 
 Stopping Popeye:
 
@@ -153,7 +171,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	DiagramCirce
 	Tibet
 	DoubleTibet
-	Hole                    (= a field where you cannot move to)
+	Hole                    (= a square where you cannot move to)
 	BlackMustCapture
 	WhiteMustCapture
 	TransmutedKings
@@ -278,59 +296,86 @@ commands expect further parameters. Lets start with the simpler commands:
 	NormalPawn
 	BlackChecks
 	GenevaChess
-	Vaulting Kings
+	VaultingKings
+	WhiteVaultingKing
+	BlackVaultingKing
 	ProteanChess
 	Lortap
 
-	After the conditions Imitator, MagicField, Hole, FrischaufCirce,
-	WhitePromSquares, BlackPromSquares
-	or one of the ForcedSquares, list the fields on which the imitators 
-	are to be placed, where the special fields are located, where 
+	After the conditions Imitator, MagicSquare, Hole,
+	FrischaufCirce, WhitePromSquares, BlackPromSquares or one of
+	the ForcedSquares, list the squares on which the imitators are
+	to be placed, where the special squares are located, where
 	promoted pieces (FrischaufCirce) are located, or where the
-	white or black promotionsquares are located. 
-	The condition  PromOnly   must be followed by a list of pieces, separated 
-	through blanks. Promotion is only allowed for those pieces.
-	The list should be given in the same way as with the command pieces.
-	The condition ChameleonCirce can be followed by a list of pieces,
-	separated by blanks. The list determines how the pieces change before
-	rebirth. (Examples: "ChameleonCirce S B R Q S" is ordinary Chameleon-
-	Circe and equivalent to "ChameleonCirce", "ChameleonCirce S Q R B S"
-	gives reverse ChameleonCirce.)
+	white or black promotionsquares are located.
+
+	The condition PromOnly must be followed by a list of piece types,
+	separated through blanks. Promotion is only allowed into those
+	piece types.
+
+	The condition ChameleonCirce can be followed by a list of
+	piece types, separated by blanks. The list determines how
+	pieces change their type before being reborn. (Examples:
+		"ChameleonCirce S B R Q S" is ordinary Chameleon-Circe
+			and equivalent to "ChameleonCirce"
+		"ChameleonCirce S Q R B S" gives reverse ChameleonCirce.)
+
 	After some of the Circe, Immun, Madrasi, Phantomchess or Genevachess
 	conditions you can enter "RexInclusiv".
+
 	After all Anticirce conditions "Cheylan" or "Calvet" can be entered -
-	according to the type desired.
+	according to the type desired; Calvet is the default.
+
 	After the Isardam condition "TypeB" can be entered.
-	After the SingleBox condition "Type1", "Type2" or "Type3" can be entered.
-	After the Sentinelles condition "PionAdvers", "PionNeutre", "ParaSentinelles",
-              or "Berolina" can be entered, and also "MaximumWhite", "MaximumBlack" 
-              or "MaximumTotal" followed by a number.
-	After MessignyChess, (Bi)Woozles, (Bi)Heffalumps and Protean Chess you can enter
-        "RexExclusiv".
-	After the WhiteOscillatingKings or BlackOscillatingKings condition "TypeB" or
-	      or "TypeC" can be entered.
-	After GridChess the variants RankShift, FileShift, RankFileShist can be entered 
-	(producing the normal grid shifted by one rank and/or file); also the variant
-	Orthogonal, after which can be given a list of files (to the left of any grid lines)
-	and ranks (below any grid lines) all without spaces between; also the variant Irregular
-	followed by space-separated lists of squares forming the grid regions. For example
-	the standard grid can be described by any of
-		cond grid
-		cond grid orthogonal bdf246
-		cond grid irregular a8a7b8b7 c8c7d8d7 ...
-	After any of the Vaulting Kings conditions, a list of pieces
-		may be given. The checked king will move additionally as one of the pieces in the list.
-		If the option Transmuting is given, the checked king will move only as one of the pieces in the list
-		(not as king). If no pieces are given, the checked king moves as equihopper.
+
+	After the SingleBox condition "Type1", "Type2" or "Type3" can
+	be entered.
+
+	After the Sentinelles condition "PionAdvers", "PionNeutre",
+	"ParaSentinelles", or "Berolina" can be entered, and also
+	"MaximumWhite", "MaximumBlack" or "MaximumTotal" followed by a
+	number.
+
+	After MessignyChess, (Bi)Woozles, (Bi)Heffalumps and Protean
+	Chess you can enter "RexExclusiv".
+
+	After the WhiteOscillatingKings or BlackOscillatingKings
+	condition "TypeB" or or "TypeC" can be entered.
+
+	After GridChess, various variantes can be entered.
+	VerticalShift, HorizontalShift and DiagonalShift produce the
+	normal grid shifted by one rank and/or file. E.g. the cell
+	containing the square a1 consists of:
+		VerticalShift:		a1b1
+		HorizontalShift:	a1a2
+		DiagonalShift:		a1
+	Orthogonal followed by a list of files (to the left of any
+	grid lines) and ranks (below any grid lines) all without
+	spaces between.
+	Irregular followed by space-separated lists of square groups
+	forming the grid cells.
+	For example the standard grid can be described by any of
+		condition grid
+		condition grid orthogonal bdf246
+		condition grid irregular a8a7b8b7 c8c7d8d7 ...
+
+	After any of the VaultingKings conditions, a space-separated
+	list of piece types may be given. The checked king will move
+	additionally as one of the piece types in the list. If the
+	option Transmuting is given, the checked king will move only
+	as one of the pieces in the list (not as king). If no piece
+	type is given, the checked king (additionally) moves as
+	equihopper.
 		
 
  - option: Everything which should be in effect should be given here as
 	blank seperated list. The following is recognized:
 
 	Try             calculate if a move is a try.
-	Defence         this option is followed by a number indicating the number 
-			of defences which should be taken into consideration. 
-			For instance  Defence 1  all real tries are calculated.
+	Defence         this option is followed by a number indicating
+			the number of defences which should be taken
+			into consideration. For instance Defence 1 all
+			real tries are calculated.
 	SetPlay         calculate setplay.
 	Threat          for moremovers: This option must be followed
 			by an integer. The opposit party has defended
@@ -353,42 +398,48 @@ commands expect further parameters. Lets start with the simpler commands:
 			by an integer. The opposit party has defended
 			when the number of flightsquares for it's king
 			are more or equal this number.
-	EnPassant       Must be followed by at most two fields. A possible
-			enpassant-key to this field(s) is calculated.
+	EnPassant       Must be followed by at most two squares. A possible
+			enpassant-key to this square(s) is calculated.
 	NoBoard         The chessboard is not printed to screen or into file.
 	NoShortVariations  Short variations are suppressed on output.
 	HalfDuplex      calculate stipulation only for the opponent side.
 	PostKeyPlay     The position entered is considered to be the position
 			after the key. Just the solution play is analysed.
 	NonTrivial m n  A special option to solve/cook/test long self and
-			(semi)reflex problems. The second argument n deter-
-			mines which black moves are considered to be trivial -
-			a move that can be met by a s#n (or r=n resp.). In
-			long problems (more than n moves) black has at every
-			stage at least one nontrivial move. I. e. a move that
-			doesnot lead to a s#n. The first argument m determines
-			how many additional nontrivial moves can be granted to
-			black by white during the whole solving procedure.
-			Example: nontr 0 1. This is the most restrictive option.
-			White forced to play moves that leave black with only 
-			one move not met by a s#1.
+			(semi)reflex problems. The second argument n
+			deter- mines which black moves are considered
+			to be trivial - a move that can be met by a
+			s#n (or r=n resp.). In long problems (more
+			than n moves) black has at every stage at
+			least one nontrivial move. I. e. a move that
+			doesnot lead to a s#n. The first argument m
+			determines how many additional nontrivial
+			moves can be granted to black by white during
+			the whole solving procedure.  Example: nontr 0
+			1. This is the most restrictive option.  White
+			forced to play moves that leave black with
+			only one move not met by a s#1.
 	Intelligent     intelligent (quick) solving of helpmate-moremovers.
 			After the intelligent option, the maximum number of 
 			solutions per mating position can be given.
 	MaxTime         This option must be followed by an integer. Popeye
 			stops calculating if this number of seconds  
 			solving time are reached.
-	NoCastling	This option must be followed by the fields of those
-			pieces, that cannot castle anymore in the diagram position.
+
+	NoCastling	This option must be followed by the squares of those
+			pieces that cannot castle anymore in the
+			diagram position.
 	Quodlibet       In s# or r# also direct mates are a solution.
 	StopOnShortSolutions  Calculation is terminated after detecting of
 			      short solutions.
 	Beep            This option can be followed by an integer. Each time
-			Popeye has found a solution it beeps a  number  of times. 
-	SuppressGrid    (Grid Chess) Suppress the rendition of grid lines. 
-		Affects output & LaTeX output only.
-	WriteGrid		 (Grid Chess) Draws a board with each square numbered according to membership of
-			grid region. Affects output only. Useful for displaying irregular grids. 
+			Popeye has found a solution it beeps a number
+			of times.
+	SuppressGrid    (Grid Chess) Suppress the rendition of grid lines 
+			in text and LaTeX output.
+	WriteGrid	(Grid Chess) Writes an additional board that
+			the partition of the board into grid cells.
+			Useful for irregular grids.
 
 
  - stipulation: popeye knows the following stipulations:
@@ -424,10 +475,10 @@ commands expect further parameters. Lets start with the simpler commands:
 	for example:
 
 	#3              mate in three moves
-	HZg74           help-targetfield-g7 in 4 moves
+	HZg74           help-targetsquare-g7 in 4 moves
 	S+2             self-check in 2 moves
 	R==3            reflex-doublestalemate in 3 moves
-	HS#3            helpselfmate in 3 moves         (= help forced selfmate)
+	HS#3            helpselfmate in 3 moves      (= help forced selfmate)
 	SER-+7          series-check in 7 moves
 	SEMI-R+4        semi-reflex-check in 4 moves
 	x3              Capture in 3 moves
@@ -453,7 +504,7 @@ commands expect further parameters. Lets start with the simpler commands:
 			 of two Bl pieces)
 	#=2             mate or stalemate in 2 moves
 	h~1             any helpmove
-	HR#3            helpreflexmate in 3 moves         (= help forced reflexmate)
+	HR#3            helpreflexmate in 3 moves  (= help forced reflexmate)
 
 	SEMI is valid only in combination with direct reflex-play.
 
@@ -486,12 +537,13 @@ elaborate is the command
 	HurdleColourChanging          (only for hoppers !)
 	Protean
 
-	may be given. All the pieces given after this will have these attributes.
-	After this specification follows the list of pieces: First the name
-	of the piece followed by the list of fields the piece should be
-	placed on. By giving a new color specifiation pieces of another color
-	may be entered without repeating the pieces command. Popeye knows the
-	following pieces:
+	may be given. All the pieces given after this will have these
+	attributes.  After this specification follows the list of
+	pieces: First the type of the piece followed by the list of
+	squares the piece should be placed on. By giving a new color
+	specifiation pieces of another color may be entered without
+	repeating the pieces command. Popeye knows the following
+	piece types:
 
 	15      1,5-leaper
 	16      1,6-leaper
@@ -545,7 +597,7 @@ elaborate is the command
 	et      elephant			0,1+1,1+1,2 rider
 	f       friend
 	fe      fers
-	fr      fersrider                      like bishop, but different rebirthsquare
+	fr      fersrider           like bishop, but different rebirth square
 	g       grashopper
 	g2      grashopper-2
 	g3      grashopper-3
@@ -580,7 +632,7 @@ elaborate is the command
 	o       orphan
 	oa      moarider
 	ok      okapi                           knight + zebra
-	or      Orix                            English equihopper on queen lines
+	or      Orix                        English equihopper on queen lines
 	p       pawn
 	pa      pao   
 	pp      reverse pawn       moves opposite to normal p and promotes at opp end of board
@@ -595,7 +647,7 @@ elaborate is the command
 	re      rook eagle
 	rf      root-50-leaper
 	rh      rook hopper
-	rk      radial leaper (or radial knight)
+	rk      radial leaper (aka radial knight)
 	rl      rook-lion
 	rm      rook moose
 	rn      rose-lion
@@ -617,14 +669,14 @@ elaborate is the command
 	va      vao   
 	wa      waran   
 	we      wazir   
-	wr      wazirrider                     like rook, but different rebirthsquare
+	wr      wazirrider            like rook, but different rebirth square
 	z       zebra   
 	zh      zebrarider hopper
 	zr      zebrarider
-        X/Y     X/Y hunter                     generalized hunter:
-                                               away from the homebase like a n X,
-                                               in direction of the homebase like an Y;
-                                               horizontal moves not allowed
+        X/Y     X/Y hunter            generalized hunter:
+                                      away from the homebase like a n X,
+                                      in direction of the homebase like an Y;
+                                      horizontal moves not allowed
 
 
  - Twin: Solving/testing of positions obtained by small changes of the
@@ -640,11 +692,11 @@ elaborate is the command
 	exchange places. Example: twin exchange a3 b4.
     Remove <square>: The piece located on the square specified is removed.
 	Example: twin remove e5.
-    Substitute <piece1> <piece2>: All pieces of type 1 are replaced by
-	pieces of type 2. Colour and further piece specification (like
-	paralysing etc.) are not effected. Example: twin substitute R B.
-	All rooks are replaced by bishops.
-    Add <colour> <piecespecs> <type><fieldlist>: Adding pieces. Example:
+    Substitute <piece1> <piece2>: All pieces of type <piece1> are replaced
+	by pieces of type <piece2>. Colour and further piece specifications
+	(like paralysing etc.) are not affected. Example: twin
+	substitute R B.  All rooks are replaced by bishops.
+    Add <colour> <piecespecs> <type><squarelist>: Add pieces. Example:
 	twin add black para NHa6 - a black paralysing NightriderHopper is
 	added on a6. See the basic command "pieces".
     Rotate n: Turns the board by n degrees to the left (n=90, 180, 270).
@@ -672,8 +724,9 @@ elaborate is the command
 	to be solved. Example: zero move b4 d5
 			       twin move c5 b5.
 
-When all data have been entered to describe completely the problem, the solving
-may be started by giving the keyword `endproblem' to popeye.
+When all data have been entered to describe completely the problem,
+the solving may be started by giving the keyword `endproblem' to
+popeye.
 Immediately after reading this, provided no input errors were discovered,
 popeye starts to solve the problem.
 
@@ -753,10 +806,9 @@ VMS:
 
 
 
-Thomas Maeder, Elmar Bartel, Norbert Geissler, Torsten Linss, Stephen Emmerson
+Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
 january 2008
 
 If you have any suggestions, any errors you know of, etc., you are
-welcome to contact us.
-You will find our address in the files  history.txt  or readme.txt  .
+welcome to contact us. See history.txt for contact information.
  
