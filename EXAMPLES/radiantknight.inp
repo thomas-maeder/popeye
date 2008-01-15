@@ -1,0 +1,49 @@
+beg
+
+prot radiantknight.ref
+
+auth C.J.Feather
+orig FEENSCHACH March-April 1970
+stip ser-h#8
+pie wh Kf6 Pd3 RKc5 
+  blac  Kb6 Pb7 Pd4 RKa8
+
+next
+
+auth C.J.Feather
+orig Le Minotaure June 1971
+stip ser-h#13
+pie wh Ka6 Pc6 Pf2 RKe7 
+  blac Kh8 Pc7 Pf3 RKf7
+
+next
+
+auth C.J.Feather
+orig The Problemist November 1974
+stip #2
+opt try var
+pie wh Kb8 Rf7 Rh2 Bf1 Bg3 Ph3 
+  blac Kg1 RKe6
+
+next
+
+auth C.C.Lytton S.Emmerson
+orig Unpublished
+stip h=5
+pie wh pg2
+pie bl rkb4
+pie bl royal rkf1 
+opt nowk 
+cond blackmax
+
+next 
+
+auth S.Emmerson
+orig Unpublished
+stip h=5
+pie wh pc2
+blac pa4h7 
+blac roy rkf1
+opt nowk 
+
+end

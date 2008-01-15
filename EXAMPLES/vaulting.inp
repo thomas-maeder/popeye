@@ -1,0 +1,86 @@
+beg
+
+prot vaulting.ref
+
+auth J.G.Ingram 
+orig FCR #4017
+fors 4r1b1/3k3B/8/6P1/6K1/24
+stip h#4
+opt wh
+cond vault s
+
+next
+
+auth J.G.Ingram 
+orig FCR #4018
+fors 24/7k/2K5/8/R5b1/8
+stip h#2
+cond vault ca
+
+next
+
+auth J.G.Ingram 
+orig FCR #4020
+fors 8/5bpR/8/1k6/16/2K5/8
+stip h#4
+cond vault n
+
+next
+
+auth J.G.Ingram (corr. SE +bB)
+orig FCR #4021
+fors 3b4/4p1r1/7R/24/3K1k2/8
+stip h#3
+cond vault cr
+
+next
+
+auth J.G.Ingram 
+orig FCR #4022
+fors 3g4/4gK2/5S2/16/2k5/8/1G6
+stip h#3
+cond vault g
+
+next
+
+auth J.G.Ingram 
+orig FCR #8355 xi/1949
+title (b) cooked 
+fors 8/6.EQ.EQ/4p3/4K3/1p1R4/1P6/5.eq2/k7
+stip h#3
+opt maxsol 4
+cond vault
+twin remo h7
+remo e6
+add wh pb4
+stip h#4
+
+next
+
+auth J.G.Ingram 
+orig FCR #8356 xi/1949
+fors 8/5.EQ2/8/p3K3/1P1R4/1P6/8/k7
+stip h#3
+
+cond vault
+
+next
+
+auth J.G.Ingram 
+orig FCR #8357 xi/1949
+title cooked in 3 (should be h#4)
+fors 8/6.Eq1/8/4R3/3K2p1/8/8/1k2.eq3
+stip h#3
+
+cond vault
+
+end
+
+==========================
+rem untestable - no rankrider in Popeye yet
+
+auth J.G.Ingram 
+orig FCR #4019
+fors k7/r7/5P2/6pK/24/7R
+stip h#3
+cond refl RANKRIDER

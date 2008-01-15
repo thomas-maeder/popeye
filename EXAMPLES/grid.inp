@@ -1,0 +1,35 @@
+beg
+
+latex grids.tex
+prot grids.ref
+
+auth S.Emmerson
+orig Unpublished
+fors k1K5/p7/1P6
+stip ser-=17
+cond grid irreg a8a7b6 d8e8  f8 h6h5 h4 f2e2 d1 b2c2 a3a4 a5a6
+opt writegrid
+
+next
+
+auth B.Ostruh
+orig The Problemist I-III 1976
+stip ser-#14
+cond grid orthog ac16
+fors k1K5/p7/1P6
+
+next
+
+auth Th.Steudel
+orig feenschach IV-V 1976
+stip ser-#7
+opt halfdupl
+cond grid orthog 1234567 
+fors k1K5/p7/1P6
+
+
+
+
+end
+
+

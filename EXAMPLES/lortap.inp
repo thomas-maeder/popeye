@@ -1,0 +1,97 @@
+beg
+
+prot lortap.ref
+
+auth FH von Meyenfeldt
+orig Probleemblad 1989
+stip #2
+opt var
+cond lortap
+pie wh Kb5 Be3 Sd7d1 Pd6f5g3c2
+blac Kd4 Sa1 Pf6h6d5e4g4
+
+next
+
+stip h#4
+opt wh
+cond lortap
+pie wh kd6 pg2
+blac ke4 bc8
+
+next
+
+stip h#3
+opt wh
+cond lortap
+pie wh Kc8 Bf8 Pc5e5g5
+blac Ke6 Ra8 Be8d6 Pd7c6
+twin cond patr
+
+next
+
+stip h#2
+cond lortap
+pie wh Kh2 Rf4 Se3
+blac Ka4 Rc5 Sb4 Pb5
+
+next
+
+stip h#2
+pie wh Kg8 Rf8 Bh7 Pf2
+blac Kd3 Re4 Bd4 Pe2
+twin cond lortap
+
+next
+
+stip h#2
+pie wh Kd8 Bb5 Sd6 Pg4
+blac Kd5 Re6 Pc6c5
+twin cond lortap
+twin cond patr
+
+next
+
+stip h#2
+opt set
+cond lortap
+pie wh Kc7 Qg6 Ra5d3 Be6e5 Sf3 Pc3
+blac kd4
+
+next
+
+stip s#4
+opt var
+cond lortap blackmax
+pie wh Ka6 Pb7b6
+blac Ke7 Rc1 Bf5
+
+next
+
+stip h#1
+cond lortap anticir
+pie wh Kd3 Rh8 Ba1
+blac  Kd1 Ba8
+
+next
+
+stip #2
+opt try var
+cond lortap anticir
+pie wh Kd3 Qg4 Bh5
+blac Ke1 Ph3f2
+
+next
+
+stip dia3.0
+cond lortap
+pie wh Ke1 Qd1 Ra1h1 Ba6c1 Se2b1 Pa2b2c2d2f2g2h2
+blac Ke8 Qd8 Ra8h8 Bf8d7 Sb8g8 Pa7b7c7e7f7g7h7e4
+
+next
+
+stip h#1
+cond lortap trans
+pie wh Kd3
+blac Ke1 Pf2
+
+end

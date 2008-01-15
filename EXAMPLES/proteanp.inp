@@ -1,0 +1,19 @@
+beg
+
+prot proteanp.ref
+
+stip ser-=54
+auth Ian Shanahan
+orig The Problemist i/2008
+fors k1b5/2pr4/6rp/4rp1b/ps3s2/.pp7/2.pp2.pp1.pp/K7/
+cond prot 
+
+next
+
+stip ser-002
+pie wh ppa2 ppb2 sb3 ke1
+blac ra1 ke8
+cond protean
+twin remo a1
+
+end
