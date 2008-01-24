@@ -353,11 +353,29 @@ commands expect further parameters. Lets start with the simpler commands:
 	grid lines) and ranks (below any grid lines) all without
 	spaces between.
 	Irregular followed by space-separated lists of square groups
-	forming the grid cells.
+	forming the grid cells. N.B. The largest square group can be
+	omitted as all remaining squares not specified will form 
+	another group. 
 	For example the standard grid can be described by any of
 		condition grid
 		condition grid orthogonal bdf246
 		condition grid irregular a8a7b8b7 c8c7d8d7 ...
+	Specifying   
+	   condition grid irregular
+	with no squares listed will make all moves illegal.
+	GridLines followed by a list of lines will add extra lines to
+	the grid. This should be used only to specify partial lines that
+	do not subdivide a grid region, (i.e. to allow some moves to be
+	legal within a grid region) as specifying regions is more
+	efficient. The grid lines must be specified in 4 characters e.g.
+		condition grid gridlines Ha24 Vc61
+	will draw a horizontal grid line from the bottom-left corner of
+	a2 for 4 squares and a vertical line from the bottom-left corner
+	of c6 for 1 square, on top of the normal grid. 
+	To draw gridlines on a blank board, i.e. with no regular grid, 
+	specify
+		condition grid irregular gridlines Ha24 Vc61 etc... 
+	
 
 	After any of the VaultingKings conditions, a space-separated
 	list of piece types may be given. The checked king will move

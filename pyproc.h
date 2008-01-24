@@ -18,6 +18,8 @@
 **
 ** 2008/01/11 SE   New variant: Special Grids 
 **
+** 2008/01/24 SE   New variant: Gridlines  
+**
 **************************** End of List ******************************/
 
 #ifndef PYPROC_H
@@ -463,6 +465,7 @@ boolean eval_BGL(square departure, square arrival, square capture);
 char *WriteBGLNumber(char* a, long int b);
 boolean whannan(square rear, square front);
 boolean blannan(square rear, square front);
+boolean CrossesGridLines(square i, square j);
 
 boolean leapleapcheck(
   square	 sq_king,

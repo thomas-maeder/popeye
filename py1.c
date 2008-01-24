@@ -22,6 +22,8 @@
  **
  ** 2008/01/11 SE   New variant: Special Grids 
  **
+ ** 2008/01/24 SE   New variant: Gridlines  
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh	      /* is always defined on macintosh's  SB */
@@ -147,6 +149,7 @@ void InitCond(void) {
   ClrDiaRen(PieSpExFlags);
 
   gridvar = 0;
+  numgridlines = 0;
   for (bnp= boardnum; *bnp; bnp++) {
 	smallint const file= *bnp%onerow - nr_of_slack_files_left_of_board;
 	smallint const row= *bnp/onerow - nr_of_slack_rows_below_board;
@@ -524,7 +527,7 @@ boolean nogridcontact(square j)
 
   for (k= 8; k > 0; k--) {
 	p= e[j1= j + vec[k]];
-	if (p != vide && p != obs && GridNum(j1) != GridNum(j)) {
+	if (p != vide && p != obs && GridLegal(j1, j)) {
       return false;
 	}
   }
@@ -1015,4 +1018,36 @@ boolean blannan(square rear, square front)
     return rear != rn && front != rn;
   }
   return true;
+}
+
+boolean CrossesGridLines(square dep, square arr)
+{
+  int i, x1, y1, x2, y2, X1, Y1, X2, Y2, dx, dy, dX, dY, u1, u2, v;
+
+  X1= ((dep<<1) -15) % 24;
+  Y1= ((dep/24)<<1) - 15;
+  X2= ((arr<<1) -15) % 24;
+  Y2= ((arr/24)<<1) - 15;
+  dX= X2-X1;
+  dY= Y2-Y1;
+  for (i= 0; i < numgridlines; i++)
+  {
+    x1= gridlines[i][0];
+    y1= gridlines[i][1];
+    x2= gridlines[i][2];
+    y2= gridlines[i][3];
+    dx= x2-x1;
+    dy= y2-y1;
+    v=dY*dx-dX*dy;
+    if (!v)
+      continue;
+    u1= dX*(y1-Y1)-dY*(x1-X1);
+    if (v<0? (u1>=0 || u1<=v) : (u1<=0 || u1>=v))
+      continue;
+    u2= dx*(y1-Y1)-dy*(x1-X1);
+    if (v<0? (u2>=0 || u2<=v) : (u2<=0 || u2>=v))
+      continue;
+    return true;
+  }
+  return false;
 }

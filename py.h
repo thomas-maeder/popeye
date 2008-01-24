@@ -38,6 +38,8 @@
 **
 ** 2008/01/13 SE   New conditions: White/Black Vaulting Kings 
 **
+** 2008/01/24 SE   New variant: Gridlines  
+**
 **************************** End of List ******************************/
 
 #ifndef PY_H
@@ -809,8 +811,9 @@ typedef PieceChar       PieTable[PieceCount];
 #define ShiftRankFile          18
 #define Orthogonal             19
 #define Irregular              20
-#define Transmuting            21
-#define VariantTypeCount       22
+#define ExtraGridLines         21
+#define Transmuting            22
+#define VariantTypeCount       23
 
 /* for intelligent specification of one-sided conditions */
 #define maxi			0
@@ -1236,6 +1239,9 @@ enum {
   (e[(reb)] == vide \
    || (!AntiCirCheylan && (reb) == (cap)) \
    || ((reb) == (dep)))
+
+#define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \
+  (numgridlines && CrossesGridLines((sq1), (sq2))))
 
 #define BGL_infinity 10000000 	/* this will do I expect; e.g. max len = 980 maxply < 1000 */
 

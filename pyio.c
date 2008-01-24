@@ -42,6 +42,8 @@
  **
  ** 2008/01/13 SE   New conditions: White/Black Vaulting Kings 
  **
+ ** 2008/01/24 SE   New variant: Gridlines  
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh    /* is always defined on macintosh's  SB */
@@ -1760,13 +1762,64 @@ static char *ParseVariant(boolean *type, int group) {
         tok=ReadSquares(ReadGrid);
       }
       while (currentgridnum++);
-        return tok;
+      continue;
+    }
+    else if (VariantType==ExtraGridLines && group==gpGrid)
+    {
+      boolean parsed= true;
+      numgridlines= 0;
+      while (parsed && numgridlines < 100)
+      {
+        tok = ReadNextTokStr();
+        if (strlen(tok) == 4)
+        {
+          smallint f, r, l;
+          boolean horiz;
+          char c= tok[0];
+          if (tolower(c) == 'h')
+            horiz= true;
+          else if (tolower(c) == 'v')
+            horiz= false;
+          else
+            parsed= false;
+          c= tok[1];
+          if (tolower(c) >= 'a' && tolower(c) <= 'h')
+            f= (tolower(c)-'a');
+          else
+            parsed= false;
+          c= tok[2];
+          if (c >= '1' && c <= '8')
+            r=(c-'1');
+          else
+            parsed= false;
+          c= tok[3];
+          if (c >= '1' && c <= '8')
+            l=(c-'0');
+          else
+            parsed= false;
+          if (parsed)
+          {
+            gridlines[numgridlines][0]=2*f;
+            gridlines[numgridlines][1]=2*r;
+            gridlines[numgridlines][2]=2*f+(horiz?2*l:0);
+            gridlines[numgridlines][3]=2*r+(horiz?0:2*l);
+            numgridlines++;
+            gridvar= 5;
+          }
+        }
+        else
+        {
+          parsed= false;
+          continue;
+        }
+      }
+      continue;
     }
     else {
       IoErrorMsg(NonsenseCombination,0);
     }
     tok= ReadNextTokStr();
-  } while (group==gpSentinelles);
+  } while (group==gpSentinelles || group==gpGrid);
 
   return tok;
 }
@@ -4245,11 +4298,11 @@ void WritePosition() {
       if (CondFlag[gridchess] && !OptFlag[suppressgrid])
       {
         if (file < nr_files_on_board
-            && GridNum(square)!=GridNum(square+dir_right))
+            && GridLegal(square, square+dir_right))
           HLine1[4*file+2] = '|';
 
         if (row < nr_rows_on_board
-            && (GridNum(square) != GridNum(square+dir_down)))
+            && GridLegal(square, square+dir_down))
           HLine2[4*file-1] = HLine2[4*file] = HLine2[4*file+1] = '-';
       }
 
@@ -4873,7 +4926,7 @@ void LaTeXBeginDiagram(void) {
         for (bnp = boardnum; *bnp; bnp++)
         {
           int i= *bnp%24-8, j= *bnp/24-8;
-          if (i && GridNum((*bnp)-1) != GridNum(*bnp))
+          if (i && GridLegal((*bnp)-1, *bnp))
           {
             if (!entry)
               fprintf(LaTeXFile, " \\gridlines{");
@@ -4882,7 +4935,7 @@ void LaTeXBeginDiagram(void) {
             entry= true;
             fprintf(LaTeXFile, " v%d%d1", i, j);
           }
-          if (j && GridNum((*bnp)-24) != GridNum(*bnp))
+          if (j && GridLegal((*bnp)-24, *bnp))
           {
             if (!entry)
               fprintf(LaTeXFile, " \\gridlines{");

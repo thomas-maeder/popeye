@@ -38,6 +38,8 @@
 **
 ** 2008/01/13 SE   New conditions: White/Black Vaulting Kings 
 **
+** 2008/01/24 SE   New variant: Gridlines  
+**
 **************************** End of List ******************************/
 
 #ifndef PYDATA_H
@@ -444,6 +446,8 @@ EXTERN boolean          rex_protean_ex;
 EXTERN int              gridvar, currentgridnum;
 EXTERN boolean          calc_whtrans_king, calc_bltrans_king, 
                         calc_whrefl_king, calc_blrefl_king;
+EXTERN smallint         gridlines[100][4];
+EXTERN                  numgridlines;
 
 #ifdef WE_ARE_EXTERN
 	extern PieTable PieNamString[LangCount];
@@ -1606,7 +1610,8 @@ EXTERN unsigned int StipFlags;
 	/*18*/  "DiagonalDecalage",
 	/*19*/  "Orthogonale",
 	/*20*/  "Irreguliere",
-    /*21*/  "Transmute"
+	/*21*/  "GrilleLignes",
+    /*22*/  "Transmute"
 	},{
 	/* German */
 	/* 0*/  "TypB",
@@ -1630,7 +1635,8 @@ EXTERN unsigned int StipFlags;
 	/*18*/  "DiagonalVerschieben",
 	/*19*/  "Orthogonal",
 	/*20*/  "Unregelmaessig",
-    /*21*/  "Transmutierende"
+	/*21*/  "GitterLinien",
+    /*22*/  "Transmutierende"
 	},{
 	/* English */
 	/* 0*/  "TypeB",
@@ -1654,6 +1660,7 @@ EXTERN unsigned int StipFlags;
 	/*18*/  "DiagonalShift",
 	/*19*/  "Orthogonal",
 	/*20*/  "Irregular",
+	/*21*/  "GridLines",
     /*21*/  "Transmuting"
 	}
 	};

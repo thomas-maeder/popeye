@@ -26,6 +26,8 @@
  **
  ** 2008/01/02 NG   New condition: Geneva Chess 
  **
+ ** 2008/01/24 SE   New variant: Gridlines  
+ **
  **************************** End of List ******************************/
 
 #ifdef macintosh  /* is always defined on macintosh's  SB */
@@ -50,7 +52,7 @@ boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
       return(false);
   }
   if (CondFlag[gridchess]) {
-    if (GridNum(sq_departure) == GridNum(sq_arrival))
+    if (!GridLegal(sq_departure, sq_arrival))
       return(false);
   }
   if (CondFlag[blackedge]) {
