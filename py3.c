@@ -1126,6 +1126,8 @@ boolean rbsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_ca
 
 boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture) {
   killer_state const save_killer_state = current_killer_state;
+  move_generation_mode_type const save_move_generation_mode
+    = move_generation_mode;
   boolean check;
 
   /* if we_generate_consmoves is set this function is never called.
@@ -1139,12 +1141,14 @@ boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture) {
   current_killer_state.move.departure = sq_departure;
   current_killer_state.move.arrival = sq_arrival;
   current_killer_state.found = false;
+  move_generation_mode = move_generation_optimized_by_killer_move;
   trait[nbply]= noir;
   we_generate_exact = true;
   gen_bl_ply();
   finply();
   check = current_killer_state.found;
   we_generate_exact = false;
+  move_generation_mode = save_move_generation_mode;
   current_killer_state = save_killer_state;
 
   return  check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
@@ -1152,18 +1156,22 @@ boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture) {
 
 boolean rnultraech(square sq_departure, square sq_arrival, square sq_capture) {
   killer_state const save_killer_state = current_killer_state;
+  move_generation_mode_type const save_move_generation_mode
+    = move_generation_mode;
   boolean check;
 
   nextply();
   current_killer_state.move.departure = sq_departure;
   current_killer_state.move.arrival = sq_arrival;
   current_killer_state.found = false;
+  move_generation_mode = move_generation_optimized_by_killer_move;
   trait[nbply]= blanc;
   we_generate_exact = true;
   gen_wh_ply();
   finply();
   check = current_killer_state.found;
   we_generate_exact = false;
+  move_generation_mode = save_move_generation_mode;
   current_killer_state = save_killer_state;
 
   return check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
