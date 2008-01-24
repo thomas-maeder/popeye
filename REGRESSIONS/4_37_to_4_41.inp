@@ -1,0 +1,56 @@
+begin
+
+prot 4_37_to_4_41.ref
+
+auth reported V.Crisan
+title Incorrect: 1.Rh5# 
+title Correct: No sol
+title Fixed in 4.41
+stip #1
+cond isar blackmax
+fors 7k/8/6Q1/R7/16/K7/r7/
+
+next
+
+auth reported SE
+title Incorrect: Ma8
+title Correct: MAa8
+title Fixed in 4.41
+stip ~1
+fors .MA
+opt nowk nobk
+
+next
+
+Author reported P.Raican (orig. M.Caillaud??)
+title Incorrect: No sol found 
+title Correct: 1 sol
+title Fixed in 4.41
+Stipulation dia 3
+Condition CirceAssassin
+Pieces
+White Pb4 Pa2 Pc2 Pd2 Pe2 Pf2 Pg2 Ph2 Sb1 Bc1 Qd1 Ke1 Bf1 Sg1 Rh1
+Black Ra8 Sb8 Bc8 Qd8 Ke8 Rh8 Pa7 Pb7 Pc7 Pd7 Se7 Pf7 Pg7 Ph7 Pe6 Ba3
+Option Variation 
+
+next 
+
+Author reported P.Raican (orig. M.Caillaud??)
+title Incorrect: No sol found 
+title Correct: 1 sol
+title Fixed in 4.41
+stip dia3.5
+cond parr
+fors rsbqkbsr/pppppppp/1S6/24/PPPPPPPP/RSBQKB1R/
+ 
+next
+
+title Incorrect: No sol found
+title Correct: 1 sol
+title Fixed after 4.41
+pieces white bg7 black kh8
+stip h#1
+cond whitemaxi ultra mono
+opt nowk WhiteToPlay
+
+end
