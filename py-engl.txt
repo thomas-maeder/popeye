@@ -374,7 +374,12 @@ commands expect further parameters. Lets start with the simpler commands:
 	of c6 for 1 square, on top of the normal grid. 
 	To draw gridlines on a blank board, i.e. with no regular grid, 
 	specify
-		condition grid irregular gridlines Ha24 Vc61 etc... 
+		condition grid irregular gridlines Ha24 Vc61 etc...
+	(N.B. moves are measured as straight-lines from square centre
+	to square centre; pieces that do not move in straight lines
+	may not be calculated as expected; moves that touch the end of
+	a gridline are not deemed to have crossed it (e.g with gridline
+	Ve11 and wKd1, the move Ke1 is legal but Ke2 is not). 
 	
 
 	After any of the VaultingKings conditions, a space-separated
