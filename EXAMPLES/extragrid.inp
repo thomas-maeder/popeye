@@ -1,0 +1,34 @@
+beg
+latex extragrid.tex
+latexpieces
+k  K  king
+p  B  pawn
+q  D  queen
+s  S  knight
+r  T  rook
+b  L  bishop
+le DR leo
+ma SR mao
+pa TL pao
+va LL vao
+ro TR rose
+g  DU grashopper
+we TU wazir
+
+auth Bernd Schwarzkopf
+orig feenschach 1979
+stip ser-!=186
+cond grid irreg a8 a7b7b8 a5a6b5b6c6c7c8 a1a2a3 b1b2 c1c2d1d2 e1e2e3e4e5e6e7e8 f1f2f3g3h3 g1g2h2 h1 f4f5g4g5h4h5 f8f7f6g6h6 g7g8h7 h8 
+     gridline vb61 vc41 hc41 hd51 vd11 hg52
+pie wh pa2 blac ga1a5
+pie wh roy web1
+
+next 
+
+auth Erich Bartel
+orig D.u.F. 1965
+stip ser-h=22
+cond grid irreg gridline hb61 hb51 hb41 hb71 hc81 hc31 hd21 he81 hf71 hf21 hg61 hg51 hg41 hg31 vc31 vc71 vd21 vd81 ve11 vf11 vg21 vf71 vg61
+pie wh gie8
+pie bl roy wee7 
+end
