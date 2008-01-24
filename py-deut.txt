@@ -365,12 +365,38 @@ Kommandos:
 	vertikalen Gitterlinie) und Reihen (unterhalb jeder
 	horizontalen Gitterlinie) ohne Zwischenräumen.
 	Unregelmaessig gefolgt von einer durch Leerzeichen getrennten
-	Liste von Feldergruppen, welche die Gitterzellen bilden.
+	Liste von Feldergruppen, welche die Gitterzellen bilden. N.B. Die
+	groesste Gitterzelle kann weggelassen werden, weil aus den nicht
+	in Gruppen angegebenen Felder eine weitere Zelle gebildet wird.
 	Zum Beispiel kann das Standardgitter durch jede der folgende
 	Angaben beschrieben werden:
 		bedingung gitterschach
 		bedingung gitterschach bdf246
 		bedingung gitterschach unregelmaessig a8a7b8b7 c8c7d8d7 ...
+	Die Angabe   
+		bedingung gitterschach unregelmaessig
+	ohne Feldliste macht alle Zuege illegal.
+	GitterLinie gefolgt von einer Liste von Linien fuegt zusaetzliche
+	Linien zum Gitter hinzu. Diese Moeglichkeit sollte ausschliesslich
+	zur Angabe von partiellen Gitterlinien verwendet werden, welche
+	keine bestehende Gitterzelle vollstaendig zerschneiden (d.h. um
+	gewisse Zuege innerhalb einer Gitterzelle legal zu machen), da
+	Gitterzellen sparsamer angegeben werden koennen. Gitterlinien
+	werden mit 4 Zeichen angegeben, z.B. fuegt
+		bedingung gitter gitterlinie Ha24 Vc61
+	von der unteren linken Ecke des Felds a2 aus eine 4 Felder lange
+	horizontale und von der unteren linken Ecke von c6 aus eine 1 Feld
+	lange vertikale Gitterlinie zum Standardgitter hinzu. 
+	Um GitterLinien zum leeren Brett (also ohne Standardgitter)
+	hinzuzufugen, lautet die Angabe
+		bedingung gitter unregelmaessig gitterlinie Ha24 Vc61
+	(N.B. Im Kontext von Gitterschach gehen Zuege in einer geraden
+	Linie vom Feldmittelpunkt zu Feldmittelpunkt; Figuren, welche
+	sich nicht auf geraden Linien bewegen, koennen sich auf
+	unerwartete Weise verhalten; Zuege, welche das Ende einer
+	Gitterlinie nur beruehren, aber keine schneiden, gelten nicht
+	als Ueberschreitungen (z.B. ist bei Ve11 ein Zug von d1 nach
+	e1 legal, ein Zug von d1 nach e2 aber illegal).
 
 	Nach den ValtingKings-Bedingungen kann eine durch Leerzeichen
 	getrennte Liste von Figurenarten angegeben werden. Ein

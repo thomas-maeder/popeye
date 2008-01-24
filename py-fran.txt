@@ -345,13 +345,38 @@ simples:
 	Orthogonal suivi d'une liste de colonnes (a gauche de chaque
 	ligne de grille verticale ) et rangees (au-dessous de chaque
 	ligne de grille horizontale), sans espaces.
-	Irregulier suivi par une list separee d'espaces de groupes de
-	cases qui forment les cellules de la grille.
+	Irregulier suivi par une liste separee d'espaces de groupes de
+	cases qui forment les cellules de la grille. N.B. La cellule la
+	plus grande peut etre specifiee sans indication de ses cases,
+	parce qu'une cellule et ajoutee contenant les cases qui ne sont
+	pas mentionnes dans un groupe.
 	Par exemple, la grille standard peut etre indiquee par une des
 	trois possibilites suivantes:
 		condition grille
 		condition grille orthogonale bdf246
 		condition grille irreguliere a8a7b8b7 c8c7d8d7 ...
+	LigneGrille suivi par une list de lignes ajoute des lignes de
+	grille. Cette possibilite devrait exclusivement etre utilisee
+	pour ajouter des lignes de grille partielles, qui ne divisent
+	pas completement une ou plusieurs cellules (c'est-a-dire pour
+	rendre legaux certains coups dans une cellule) puisque
+	l'indication de cellules est plus efficace. LigneGrille sont
+	indiquees par 4 caracteres; p.ex.
+		condition grille lignegrille Ha24 Vc61
+	ajoute a la grille standard une ligne horizontale d'une
+	longueur de 4 cases a partir du coin bas gauche de la case a2
+	et une ligne verticale d'une longueur d'une case a partir du
+	coin bas gauche de la case c6.
+	Pour ajouters de lignes de grille a l'echiquier vide (sans
+	grille standard), on indique
+		condition grille irregulier lignegrille Ha24 Vc61
+	(N.B. Dans le contexte des echecs grille, les coups von d'un
+	centre de case a l'autre en ligne droite; les piece qui ne
+	bougent pas sur des lignes droites peuvent se comporter de
+	facon inattendue; les coups qui touchent la fin d'une ligne de
+	grille mais n'en croisent aucune ne sont pas legaux
+	(p.ex. Ve11 permet un coup de d1 a e1, mais un coup de d1 a e2
+	est illegal).
 
 	Chacune des conditions VaultingKings peut etre suivie par une
 	list separee d'espaces de types de pieces. Un VaultingKing en

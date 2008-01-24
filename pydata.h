@@ -1610,7 +1610,7 @@ EXTERN unsigned int StipFlags;
 	/*18*/  "DiagonalDecalage",
 	/*19*/  "Orthogonale",
 	/*20*/  "Irreguliere",
-	/*21*/  "GrilleLignes",
+	/*21*/  "LigneGrille",
     /*22*/  "Transmute"
 	},{
 	/* German */
@@ -1635,7 +1635,7 @@ EXTERN unsigned int StipFlags;
 	/*18*/  "DiagonalVerschieben",
 	/*19*/  "Orthogonal",
 	/*20*/  "Unregelmaessig",
-	/*21*/  "GitterLinien",
+	/*21*/  "GitterLinie",
     /*22*/  "Transmutierende"
 	},{
 	/* English */
@@ -1660,7 +1660,7 @@ EXTERN unsigned int StipFlags;
 	/*18*/  "DiagonalShift",
 	/*19*/  "Orthogonal",
 	/*20*/  "Irregular",
-	/*21*/  "GridLines",
+	/*21*/  "GridLine",
     /*21*/  "Transmuting"
 	}
 	};

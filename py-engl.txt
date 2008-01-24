@@ -363,25 +363,25 @@ commands expect further parameters. Lets start with the simpler commands:
 	Specifying   
 	   condition grid irregular
 	with no squares listed will make all moves illegal.
-	GridLines followed by a list of lines will add extra lines to
+	GridLine followed by a list of lines will add extra lines to
 	the grid. This should be used only to specify partial lines that
-	do not subdivide a grid region, (i.e. to allow some moves to be
-	legal within a grid region) as specifying regions is more
+	do not subdivide a grid cell, (i.e. to allow some moves to be
+	legal within a grid cell) as specifying cells is more
 	efficient. The grid lines must be specified in 4 characters e.g.
-		condition grid gridlines Ha24 Vc61
+		condition grid gridline Ha24 Vc61
 	will draw a horizontal grid line from the bottom-left corner of
 	a2 for 4 squares and a vertical line from the bottom-left corner
 	of c6 for 1 square, on top of the normal grid. 
-	To draw gridlines on a blank board, i.e. with no regular grid, 
+	To draw grid lines on a blank board, i.e. with no regular grid, 
 	specify
-		condition grid irregular gridlines Ha24 Vc61 etc...
-	(N.B. moves are measured as straight-lines from square centre
-	to square centre; pieces that do not move in straight lines
-	may not be calculated as expected; moves that touch the end of
-	a gridline are not deemed to have crossed it (e.g with gridline
-	Ve11 and wKd1, the move Ke1 is legal but Ke2 is not). 
+		condition grid irregular gridline Ha24 Vc61
+	(N.B. In the context of grid chess, moves go as straight lines
+	from square centre to square centre; pieces that do not move
+	in straight lines may not behave as expected; moves that
+	merely touch the end of a gridline are not deemed to have
+	crossed it (e.g with gridline Ve11 and wKd1, the move Ke1 is
+	legal but Ke2 is not).
 	
-
 	After any of the VaultingKings conditions, a space-separated
 	list of piece types may be given. The checked king will move
 	additionally as one of the piece types in the list. If the
