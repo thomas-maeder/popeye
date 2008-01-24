@@ -446,8 +446,8 @@ EXTERN boolean          rex_protean_ex;
 EXTERN int              gridvar, currentgridnum;
 EXTERN boolean          calc_whtrans_king, calc_bltrans_king, 
                         calc_whrefl_king, calc_blrefl_king;
-EXTERN smallint         gridlines[100][4];
-EXTERN                  numgridlines;
+EXTERN smallint         gridlines[112][4];
+EXTERN int              numgridlines;
 
 #ifdef WE_ARE_EXTERN
 	extern PieTable PieNamString[LangCount];

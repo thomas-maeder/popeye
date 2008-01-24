@@ -1042,10 +1042,10 @@ boolean CrossesGridLines(square dep, square arr)
     if (!v)
       continue;
     u1= dX*(y1-Y1)-dY*(x1-X1);
-    if (v<0? (u1>=0 || u1<=v) : (u1<=0 || u1>=v))
+    if (v<0? (u1>0 || u1<v) : (u1<0 || u1>v))
       continue;
     u2= dx*(y1-Y1)-dy*(x1-X1);
-    if (v<0? (u2>=0 || u2<=v) : (u2<=0 || u2>=v))
+    if (v<0? (u2>0 || u2<v) : (u2<0 || u2>v))
       continue;
     return true;
   }

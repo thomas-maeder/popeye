@@ -377,10 +377,9 @@ commands expect further parameters. Lets start with the simpler commands:
 		condition grid irregular gridline Ha24 Vc61
 	(N.B. In the context of grid chess, moves go as straight lines
 	from square centre to square centre; pieces that do not move
-	in straight lines may not behave as expected; moves that
-	merely touch the end of a gridline are not deemed to have
-	crossed it (e.g with gridline Ve11 and wKd1, the move Ke1 is
-	legal but Ke2 is not).
+	in straight lines may not behave as expected; moves are permitted
+	which merely touch the end of a gridline (e.g with gridline Ve11 
+	and wKd1, the move Kd1-e2 is legal).
 	
 	After any of the VaultingKings conditions, a space-separated
 	list of piece types may be given. The checked king will move

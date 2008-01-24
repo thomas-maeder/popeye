@@ -436,7 +436,7 @@
 #       define maxply  1002
 #else
 #ifdef WIN32
-#       define maxply   702
+#       define maxply   2702
 #elif OS2
 #       define maxply   302
 #else   

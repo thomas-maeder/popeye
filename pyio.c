@@ -1773,8 +1773,8 @@ static char *ParseVariant(boolean *type, int group) {
         tok = ReadNextTokStr();
         if (strlen(tok) == 4)
         {
-          smallint f, r, l;
-          boolean horiz;
+          smallint f=0, r=0, l=0;
+          boolean horiz=false;
           char c= tok[0];
           if (tolower(c) == 'h')
             horiz= true;
@@ -1809,8 +1809,7 @@ static char *ParseVariant(boolean *type, int group) {
         }
         else
         {
-          parsed= false;
-          continue;
+          break;
         }
       }
       continue;
