@@ -3,7 +3,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.15 2008/01/15 20:09:21 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.16 2008/01/25 21:21:03 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 # This Makefile you are reading now, will not do it with:
@@ -109,7 +109,7 @@ COMPRESS = echo compress
 
 # Version numer; . separates major and minor version part
 # Append "dev" while development
-VERSION =       4.41
+VERSION =       4.42
 
 INCLUDES=       pydata.h py.h py1.h py4.h pyproc.h pymsg.h pymac.h     \
 		pylang.h pyproof.h DHT/*.h pyint.h pyhash.h pytime.h
