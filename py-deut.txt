@@ -393,10 +393,10 @@ Kommandos:
 	(N.B. Im Kontext von Gitterschach gehen Zuege in einer geraden
 	Linie vom Feldmittelpunkt zu Feldmittelpunkt; Figuren, welche
 	sich nicht auf geraden Linien bewegen, koennen sich auf
-	unerwartete Weise verhalten; Zuege, welche das Ende einer
-	Gitterlinie nur beruehren, aber keine schneiden, gelten nicht
-	als Ueberschreitungen (z.B. ist bei Ve11 ein Zug von d1 nach
-	e1 legal, ein Zug von d1 nach e2 aber illegal).
+	unerwartete Weise verhalten; damit ein Zug legalist, reicht es
+	aus, dass er das Ende einer Gitterlinie nur beruehrt - es ist
+	nicht notwendig, dass er eine Gitterlinie schneidet
+	(z.B. erlaubt Ve11 Zuege von d1 nach e2).
 
 	Nach den ValtingKings-Bedingungen kann eine durch Leerzeichen
 	getrennte Liste von Figurenarten angegeben werden. Ein

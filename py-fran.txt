@@ -370,13 +370,12 @@ simples:
 	Pour ajouters de lignes de grille a l'echiquier vide (sans
 	grille standard), on indique
 		condition grille irregulier lignegrille Ha24 Vc61
-	(N.B. Dans le contexte des echecs grille, les coups von d'un
-	centre de case a l'autre en ligne droite; les piece qui ne
+	(N.B. Dans le contexte des echecs grille, les coups vont d'un
+	centre de case a l'autre en ligne droite; les pieces qui ne
 	bougent pas sur des lignes droites peuvent se comporter de
-	facon inattendue; les coups qui touchent la fin d'une ligne de
-	grille mais n'en croisent aucune ne sont pas legaux
-	(p.ex. Ve11 permet un coup de d1 a e1, mais un coup de d1 a e2
-	est illegal).
+	facon inattendue; pour etre legal, il suffit qu'un coup touche
+	la fin d'une ligne de grille - il n'est pas necessaire qu'il
+	croise une ligne de grille (p.ex. Ve11 permet un coup d1-e2).
 
 	Chacune des conditions VaultingKings peut etre suivie par une
 	list separee d'espaces de types de pieces. Un VaultingKing en
