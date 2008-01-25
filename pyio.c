@@ -1692,7 +1692,7 @@ static char *ParseVariant(boolean *type, int group) {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (((*bnp%24 - 8)/2)+4*((*bnp/24-7)/2)) << Grid;
       }
-      gridvar = 1;
+      gridvar = grid_vertical_shift;
     }
     else if (VariantType==ShiftFile && group==gpGrid)
     {
@@ -1702,7 +1702,7 @@ static char *ParseVariant(boolean *type, int group) {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-8)/2)) << Grid;
       }
-      gridvar = 2;
+      gridvar = grid_horizontal_shift;
     }
     else if (VariantType==ShiftRankFile && group==gpGrid)
     {
@@ -1712,7 +1712,7 @@ static char *ParseVariant(boolean *type, int group) {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-7)/2)) << Grid;
       }
-      gridvar = 3;
+      gridvar = grid_diagonal_shift;
     }
     else if (VariantType==Orthogonal && group==gpGrid)
     {
@@ -1748,14 +1748,14 @@ static char *ParseVariant(boolean *type, int group) {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (files[*bnp%24-8]+filenum*ranks[*bnp/24-8]) << Grid;
       }        
-      gridvar = 4;
+      gridvar = grid_orthogonal_lines;
     }
     else if (VariantType==Irregular && group==gpGrid)
     {
       square * bnp;
       for (bnp= boardnum; *bnp; bnp++) 
       ClearGridNum(*bnp);
-      gridvar = 5;
+      gridvar = grid_irregular;
       currentgridnum=1;
       do 
       {
@@ -1804,7 +1804,7 @@ static char *ParseVariant(boolean *type, int group) {
             gridlines[numgridlines][2]=2*f+(horiz?2*l:0);
             gridlines[numgridlines][3]=2*r+(horiz?0:2*l);
             numgridlines++;
-            gridvar= 5;
+            gridvar= grid_irregular;
           }
         }
         else
@@ -4059,20 +4059,20 @@ void WriteConditions(int alignment) {
       strcat(CondLine, "  ");
       switch (gridvar)
       {
-        case 1:
+        case grid_vertical_shift:
           strcat(CondLine, VariantTypeString[ActLang][ShiftRank]);
           break;
-        case 2:
+        case grid_horizontal_shift:
           strcat(CondLine, VariantTypeString[ActLang][ShiftFile]);
           break;
-        case 3:
+        case grid_diagonal_shift:
           strcat(CondLine, VariantTypeString[ActLang][ShiftRankFile]);
           break;
-        case 4:
+        case grid_orthogonal_lines:
           strcat(CondLine, VariantTypeString[ActLang][Orthogonal]);
           /* to do - write lines */
           break;
-        case 5:
+        case grid_irregular:
           strcat(CondLine, VariantTypeString[ActLang][Irregular]);
           /* to do - write squares */
           break;
@@ -4879,23 +4879,23 @@ void LaTeXBeginDiagram(void) {
     switch (gridvar)
     {
 
-      case 0:
+      case grid_normal:
         fprintf(LaTeXFile, " \\stdgrid%%\n");
         break;
 
-      case 1:
+      case grid_vertical_shift:
         fprintf(LaTeXFile, " \\gridlines{h018, h038, h058, h078, v208, v408, v608}%%\n");
         break;
 
-      case 2:
+      case grid_horizontal_shift:
         fprintf(LaTeXFile, " \\gridlines{h028, h048, h068, v108, v308, v508, v708}%%\n");
         break;
 
-      case 3:
+      case grid_diagonal_shift:
         fprintf(LaTeXFile, " \\gridlines{h018, h038, h058, h078, v108, v308, v508, v708}%%\n");
         break;
 
-      case 4:
+      case grid_orthogonal_lines:
         for (i=1; i<8; i++)
           if (GridNum(bas+i-1) != GridNum(bas+i))
           {
@@ -4921,7 +4921,7 @@ void LaTeXBeginDiagram(void) {
         break;
       
       /* of course, only the following block is necessary */
-      case 5:
+      case grid_irregular:
         for (bnp = boardnum; *bnp; bnp++)
         {
           int i= *bnp%24-8, j= *bnp/24-8;

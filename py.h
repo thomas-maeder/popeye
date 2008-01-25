@@ -1174,6 +1174,15 @@ enum {
   file_rook_kingside
 };
 
+enum {
+  grid_normal,
+  grid_vertical_shift,
+  grid_horizontal_shift,
+  grid_diagonal_shift,
+  grid_orthogonal_lines,
+  grid_irregular
+};
+
 #define DiaCirce        PieSpCount
 #define DiaRen(s)       (boardnum[((s) >> DiaCirce)])
 #define DiaRenMask      ((1<<DiaCirce)-1)

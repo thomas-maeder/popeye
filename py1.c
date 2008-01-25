@@ -148,7 +148,7 @@ void InitCond(void) {
 
   ClrDiaRen(PieSpExFlags);
 
-  gridvar = 0;
+  gridvar = grid_normal;
   numgridlines = 0;
   for (bnp= boardnum; *bnp; bnp++) {
 	smallint const file= *bnp%onerow - nr_of_slack_files_left_of_board;
