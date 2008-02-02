@@ -2,7 +2,7 @@
 #DBG=		-g
 OPT=		-O
 #OPT=		-O -Xc
-DEF=		-DFXF 
+override DEF+=		-DFXF 
 #CFLAGS=		-pedantic $(ARCH) $(DBG) $(OPT) $(DEF)
 CFLAGS=		$(ARCH) $(DBG) $(OPT) $(DEF)
 LDFLAGS=	$(DBG) $(OPT) $(ARCH)

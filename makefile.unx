@@ -3,7 +3,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.16 2008/01/25 21:21:03 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.17 2008/02/02 17:11:19 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 # This Makefile you are reading now, will not do it with:
@@ -46,6 +46,7 @@
 # when you want a popeye with no output at all		-DQUIET
 # when you want a message after canceling with a signal -DSIGNALS
 # when you want statistic about hashtable filling	-DTESTHASH
+# when you want to compile under MacOSX or FreeBSD      -DFBSD
 #
 # Choose the one you need/want from the above list and put them herein
 
@@ -65,6 +66,7 @@ OSVER=`uname -r`
 OSCPU=`uname -p`
 
 #DEF=-DUNIX -DBSD $(OPT)
+
 #CFLAGS= -DTIME -DBSD $(OPT)
 #CFLAGS= -DDOS -DSIXTEEN -Ox -M0s -dos -i -Gs -K -W3 -CSON
 #CFLAGS= -ansi -DUNIX $(OPT)
@@ -73,7 +75,7 @@ OSCPU=`uname -p`
 #CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS -DTESTHASH
 #CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS -DSIXTYFOUR
 #CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS
-CFLAGS= $(DBG) $(OPT) $(ARCH) \
+CFLAGS= $(DBG) $(OPT) $(ARCH) $(DEF) \
 	-DMSG_IN_MEM -DUNIX -DSIGNALS \
 	-DOSTYPE=\"$(OS)-$(OSVER)-$(OSCPU)\" \
         -DVERSION=$(VERSION)
@@ -189,7 +191,7 @@ pyallmsg.h:	$(MSGFILES) genpystr
 # Target for generating the dynamic hash table (DHT) library
 
 DHT/dhtlib.a:	DHT/*.c DHT/*.h
-		cd DHT; $(MAKE) -f makefile.unx CC=$(CC) RANLIB="$(RANLIB)" ARCH="$(ARCH)" DBG="$(DBG)" dhtlib.a
+		cd DHT; $(MAKE) -f makefile.unx CC=$(CC) RANLIB="$(RANLIB)" ARCH="$(ARCH)" DBG="$(DBG)" DEF="$(DEF)" dhtlib.a
 		$(RANLIB) $@
 
 
