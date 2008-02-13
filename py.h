@@ -1274,7 +1274,7 @@ typedef int DWORD;
 __declspec(dllimport)
 HANDLE 
 __stdcall
-GetCurrentProcess(VOID);
+GetCurrentProcess(void);
 
 __declspec(dllimport)
 BOOL 
