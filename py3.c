@@ -41,6 +41,7 @@
 #define assert(x)
 #endif	/* ASSERT */
 #include <stdio.h>
+#include <stdlib.h>
 #include "py.h"
 #include "pyproc.h"
 #include "pydata.h"
