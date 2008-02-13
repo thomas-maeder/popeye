@@ -44,10 +44,6 @@ void    WritePiece (piece p);
 boolean WriteSpec(Flags pspec, piece p);
 void    WriteGrid(void); 
 
-#ifndef MSC
-int     abs (int a);
-#endif
-
 typedef boolean (evalfunction_t)(square departure, square arrival, square capture);
 typedef boolean (checkfunction_t)(square, piece, evalfunction_t *);
 
