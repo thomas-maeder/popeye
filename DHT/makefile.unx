@@ -28,13 +28,13 @@ tar.gz tgz:	$(WHOLE)
 		rm -rf $(DISTDIR)
 
 dhtmanex:	dhtmanex.o dhtlib.a fxf.o
-		$(CC) -o $@ $(LDFLAGS) dhtmanex.o dhtlib.a
+		$(CCHOST) -o $@ $(LDFLAGS) dhtmanex.o dhtlib.a
 
 dhtexam1:	dhtexam1.o dhtlib.a  fxf.o
-		$(CC) -o $@ $(LDFLAGS) dhtexam1.o dhtlib.a
+		$(CCHOST) -o $@ $(LDFLAGS) dhtexam1.o dhtlib.a
 
 dhtexam2:	dhtexam2.o dhtlib.a fxf.o
-		$(CC) -o $@ $(LDFLAGS) dhtexam2.o dhtlib.a
+		$(CCHOST) -o $@ $(LDFLAGS) dhtexam2.o dhtlib.a
 
 dhtvalue.o:	dhtvalue.c dhtvalue.h
 dht.o:		dht.c dht.h dhtvalue.h
@@ -52,6 +52,9 @@ dhtlib.a:	dht.o dhtvalue.o dhtcmem.o dhtmem.o dhtsimpl.o dhtstrng.o dhtbcmem.o f
 dhtexam1.o:	dhtexam1.c dht.h dhtvalue.h dhtmem.h 
 
 dhtexam2.o:	dhtexam2.c dht.h dhtvalue.h dhtmem.h 
+
+%.o:		%.c
+		$(CCTARGET) $(CFLAGS) -c $<
 
 clean:
 		rm -f *.o *.a

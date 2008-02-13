@@ -3,7 +3,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.17 2008/02/02 17:11:19 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.18 2008/02/13 17:52:25 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 # This Makefile you are reading now, will not do it with:
@@ -61,9 +61,14 @@ OPT=-O2 -Wall
 #ARCH=-m64		# 64-Bit gcc
 ARCH=
 
-OS=`uname`
-OSVER=`uname -r`
-OSCPU=`uname -p`
+# HOST = platform *on* which we are building
+# TARGET = platform *for* which we are building
+CCHOST=$(CC)
+CCTARGET=$(CC)
+
+OSTARGET=`uname`
+OSVERTARGET=`uname -r`
+OSCPUTARGET=`uname -p`
 
 #DEF=-DUNIX -DBSD $(OPT)
 
@@ -77,14 +82,14 @@ OSCPU=`uname -p`
 #CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS
 CFLAGS= $(DBG) $(OPT) $(ARCH) $(DEF) \
 	-DMSG_IN_MEM -DUNIX -DSIGNALS \
-	-DOSTYPE=\"$(OS)-$(OSVER)-$(OSCPU)\" \
+	-DOSTYPE=\"$(OSTARGET)-$(OSVERTARGET)-$(OSCPUTARGET)\" \
         -DVERSION=$(VERSION)
 
 CC=gcc
 #CC=clcc
 #CC=cc
 
-DEPEND = $(CC) -MM $(CFLAGS)
+DEPEND = $(CCHOST) -MM $(CFLAGS)
 
 # Give here flags for the linker
 # and add needed libraries
@@ -141,7 +146,7 @@ all:		py
 # Target for creating the popeye executable with full dynamic hashing
 
 py:		$(OBJECTS) DHT/dhtlib.a
-		$(CC) -o py $(LDFLAGS) $(OBJECTS) DHT/dhtlib.a
+		$(CCTARGET) -o py $(LDFLAGS) $(OBJECTS) DHT/dhtlib.a
 
 
 # ===========================================================
@@ -163,16 +168,16 @@ include depend
 # Target for compiling .c source files into .o object files
 
 pyhash.o:	
-		$(CC) $(CFLAGS) -DFXF -c pyhash.c 
+		$(CCTARGET) $(CFLAGS) -DFXF -c pyhash.c 
 
 %.o:		%.c
-		$(CC) $(CFLAGS) -c $<
+		$(CCTARGET) $(CFLAGS) -c $<
 
 pyio:           pyio.c pydata.h py.h pydata.o pymac.h
-		$(CC) -DSTANDALONE $(CFLAGS) -o pyio pydata.o pyio.c
+		$(CCTARGET) -DSTANDALONE $(CFLAGS) -o pyio pydata.o pyio.c
 
 genpystr.o:     genpystr.c
-		$(CC) $(CFLAGS) -c genpystr.c
+		$(CCHOST) $(CFLAGS) -c genpystr.c
 
 
 # ===========================================================
@@ -180,7 +185,7 @@ genpystr.o:     genpystr.c
 # Target for generating utilities for string handling
 
 genpystr:       genpystr.o pylang.o
-		$(CC) -o $@ $(LDFLAGS) $^
+		$(CCHOST) -o $@ $(LDFLAGS) $^
 
 pyallmsg.h:	$(MSGFILES) genpystr
 		./genpystr
@@ -191,7 +196,7 @@ pyallmsg.h:	$(MSGFILES) genpystr
 # Target for generating the dynamic hash table (DHT) library
 
 DHT/dhtlib.a:	DHT/*.c DHT/*.h
-		cd DHT; $(MAKE) -f makefile.unx CC=$(CC) RANLIB="$(RANLIB)" ARCH="$(ARCH)" DBG="$(DBG)" DEF="$(DEF)" dhtlib.a
+		cd DHT; $(MAKE) -f makefile.unx CCTARGET=$(CCTARGET) RANLIB="$(RANLIB)" ARCH="$(ARCH)" DBG="$(DBG)" DEF="$(DEF)" dhtlib.a
 		$(RANLIB) $@
 
 
@@ -200,7 +205,7 @@ DHT/dhtlib.a:	DHT/*.c DHT/*.h
 # Target for generating the purify-ed popeye exectable
 
 purify-py:      DHT/dhtlib.a $(OBJECTS)
-		purify $(CC) -o purify-py $(LDFLAGS) $^
+		purify $(CCTARGET) -o purify-py $(LDFLAGS) $^
 
 
 # ===========================================================
@@ -238,7 +243,7 @@ toenum:
 TR_SYSV		= tr -cs '[0-9][A-Z]_[a-z]' '[\012*]'
 TR_BSD		= tr -cs '0-9A-Z_a-z' '\012'
 uniq:		
-		$(CC) -E $(CFLAGS) $(CFILES) | \
+		$(CCTARGET) -E $(CFLAGS) $(CFILES) | \
 		$(TR_SYSV) |\
 		sort -u | tee /tmp/id.all | \
 		cut -c1-7 | uniq -c | egrep -v '^ *1' > /tmp/id.mult
