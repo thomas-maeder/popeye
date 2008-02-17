@@ -2,7 +2,8 @@
 #DBG=		-g
 OPT=		-O
 #OPT=		-O -Xc
-override DEF+=		-DFXF 
+### what's this below ?? At least, it's not compatible to make ...
+###override DEF+=		-DFXF 
 #CFLAGS=		-pedantic $(ARCH) $(DBG) $(OPT) $(DEF)
 CFLAGS=		$(ARCH) $(DBG) $(OPT) $(DEF)
 LDFLAGS=	$(DBG) $(OPT) $(ARCH)

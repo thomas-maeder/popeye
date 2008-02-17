@@ -3,7 +3,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.18 2008/02/13 17:52:25 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.19 2008/02/17 23:02:44 popeye37 Exp $
 
 # +++++ Warning +++++++
 # This Makefile you are reading now, will not do it with:
@@ -70,7 +70,8 @@ OSTARGET=`uname`
 OSVERTARGET=`uname -r`
 OSCPUTARGET=`uname -p`
 
-#DEF=-DUNIX -DBSD $(OPT)
+DEF=-DFXF
+#DEF=-DUNIX -DBSD -DFXF $(OPT)
 
 #CFLAGS= -DTIME -DBSD $(OPT)
 #CFLAGS= -DDOS -DSIXTEEN -Ox -M0s -dos -i -Gs -K -W3 -CSON
@@ -97,7 +98,7 @@ DEPEND = $(CCHOST) -MM $(CFLAGS)
 LDFLAGS = $(DBG) $(OPT) $(ARCH)
 
 # Give here flags for the lint-Tool
-#LINTFLAGS = -a -b -c -h -p -x -DFXF
+#LINTFLAGS = -a -b -c -h -p -x $(DEF)
 
 # If you don't need (have) ranlib
 RANLIB = ranlib
@@ -168,7 +169,7 @@ include depend
 # Target for compiling .c source files into .o object files
 
 pyhash.o:	
-		$(CCTARGET) $(CFLAGS) -DFXF -c pyhash.c 
+		$(CCTARGET) $(CFLAGS) $(DEF) -c pyhash.c 
 
 %.o:		%.c
 		$(CCTARGET) $(CFLAGS) -c $<
