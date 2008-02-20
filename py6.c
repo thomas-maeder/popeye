@@ -50,6 +50,8 @@
  **
  ** 2008/01/02 NG   New condition: Geneva Chess 
  **
+ ** 2008/02/20 SE   Bugfix: Annan 
+ **
  ***************************** End of List ******************************/
 
 #ifdef macintosh    /* is always defined on macintosh's  SB */
@@ -573,6 +575,8 @@ boolean verifieposition(void) {
     totalortho= false;
   
   eval_2= eval_white= eval_ortho;
+  rbechec = &orig_rbechec;
+  rnechec = &orig_rnechec;
 
   flaglegalsquare= flaglegalsquare
     || CondFlag[bichro]

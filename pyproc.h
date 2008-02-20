@@ -20,6 +20,8 @@
 **
 ** 2008/01/24 SE   New variant: Gridlines  
 **
+** 2008/02/20 SE   Bugfix: Annan 
+**
 **************************** End of List ******************************/
 
 #ifndef PYPROC_H
@@ -232,6 +234,7 @@ boolean rbcircech (square departure, square arrival, square capture);
 extern boolean (*rbechec)(evalfunction_t *evaluate);
 boolean singleboxtype3_rbechec(evalfunction_t *evaluate);
 boolean annan_rbechec(evalfunction_t *evaluate);
+boolean orig_rbechec(evalfunction_t *evaluate);
 
 boolean rbimmunech (square departure, square arrival, square capture);
 boolean rcardech (square sq, square sqtest, numvec k, piece p, smallint x, evalfunction_t *evaluate );
@@ -252,6 +255,7 @@ boolean rncircech (square departure, square arrival, square capture);
 extern boolean (*rnechec)(evalfunction_t *evaluate);
 boolean singleboxtype3_rnechec(evalfunction_t *evaluate);
 boolean annan_rnechec(evalfunction_t *evaluate);
+boolean orig_rnechec(evalfunction_t *evaluate);
 
 boolean rnimmunech (square departure, square arrival, square capture);
 boolean rrefcech (square a, square b, smallint c, piece d, evalfunction_t *evaluate);
