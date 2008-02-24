@@ -243,5 +243,3 @@ beginchar(Equihopper+Black+OnBlack+LeftTurned, qs#, qs#, 0);
 	cullit;
 	currentpicture:= currentpicture + TurnLeft(BlackMan);
 endchar;
-
-%:map q :w!:!mf chess

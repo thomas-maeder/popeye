@@ -446,5 +446,3 @@ beginchar(Knight+Black+OnBlack+UpSideDown, qs#, qs#, 0);
 	cullit;
 	currentpicture:= currentpicture + TurnUpSideDown(BlackMan);
 endchar;
-
-%:map q :w:!mf chess

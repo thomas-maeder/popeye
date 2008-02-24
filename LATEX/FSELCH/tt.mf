@@ -65,5 +65,3 @@ z0  = .5[z0l,z0r] shifted 30up;
 draw CurlIt(z0l .. z0 .. z0r, 5, 0.1, 30);
 undraw(z0l3);
 showit;
-
-:map q :w:!mf %
