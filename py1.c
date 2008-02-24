@@ -671,6 +671,13 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
 	 */
 	e[sq_capture]= vide;
 
+  if (CondFlag[parrain] && pprise[nbply-1] != vide) {
+    cr= move_generation_stack[repere[nbply]].capture + sq_arrival - sq_departure;
+		if ((pc= e[cr]) == vide) {
+          e[cr]= pren;
+		}
+  }
+
 	if (pp != vide && pp != obs) {
       if (anycirce && abs(pp) > roib && !CondFlag[parrain]) {
 		/* This still doesn't work with neutral pieces.
