@@ -31,6 +31,8 @@
  **
  ** 2008/01/01 SE   Bug fix: Isardam + Maximummer (reported V.Crisan)
  **
+ ** 2008/02/24 SE   Bug fix: Gridchess
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -3278,17 +3280,6 @@ void GenMatingRook(square   sq_departure,
         if (sq2==sq_king)
           empile(sq_departure,sq_arrival,sq_arrival);
       }
-
-      /* it makes no sense to move away -- except for gridchess */
-      if (CondFlag[gridchess] && OriginalDistance<26) {
-        sq_arrival= sq_departure-k2;
-        while (e[sq_arrival]==vide) {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          sq_arrival-= k2;
-        }
-        if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
     }
     else {
       for (k= vec_rook_start; k<=vec_rook_end; k++) {
@@ -3393,16 +3384,6 @@ void GenMatingBishop(square sq_departure,
         if (sq2==sq_king)
           empile(sq_departure,sq_arrival,sq_arrival);
       }
-      /* it makes no sense to move away -- except for gridchess */
-      if (CondFlag[gridchess] && OriginalDistance<26) {
-        sq_arrival= sq_departure-k2;
-        while (e[sq_arrival]==vide) {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          sq_arrival-= k2;
-        }
-        if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
     }
     else {
       for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
@@ -3456,31 +3437,41 @@ void GenMatingMove(couleur camp) {
       for (j= 8; j > 0; j--, z++) {
         p= e[z];
         if (p != vide && TSTFLAG(spec[z], ColourMovingPiece)) {
-          switch(abs(p)) {
-          case King:
-            GenMatingKing(z,
-                          OpponentsKing, ColourMovingPiece);
-            break;
-          case Pawn:
-            GenMatingPawn(z,
-                          OpponentsKing, ColourMovingPiece);
-            break;
-          case Knight:
-            GenMatingKnight(z,
+          if (CondFlag[gridchess] && !GridLegal(z, OpponentsKing))
+          {
+            if (camp == blanc)
+              gen_wh_piece(z, p);
+            else
+              gen_bl_piece(z, p);
+          }
+          else
+          {
+            switch(abs(p)) {
+            case King:
+              GenMatingKing(z,
                             OpponentsKing, ColourMovingPiece);
-            break;
-          case Rook:
-            GenMatingRook(z,
-                          OpponentsKing, ColourMovingPiece);
-            break;
-          case Queen:
-            GenMatingQueen(z,
-                           OpponentsKing, ColourMovingPiece);
-            break;
-          case Bishop:
-            GenMatingBishop(z,
+              break;
+            case Pawn:
+              GenMatingPawn(z,
                             OpponentsKing, ColourMovingPiece);
-            break;
+              break;
+            case Knight:
+              GenMatingKnight(z,
+                              OpponentsKing, ColourMovingPiece);
+              break;
+            case Rook:
+              GenMatingRook(z,
+                            OpponentsKing, ColourMovingPiece);
+              break;
+            case Queen:
+              GenMatingQueen(z,
+                             OpponentsKing, ColourMovingPiece);
+              break;
+            case Bishop:
+              GenMatingBishop(z,
+                              OpponentsKing, ColourMovingPiece);
+              break;
+            }
           }
         }
       }
