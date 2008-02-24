@@ -77,7 +77,7 @@
 #include <stdlib.h>
 
 /* TurboC and BorlandC	TLi */
-#ifdef __TURBOC__
+#if defined(__TURBOC__)
 # include <mem.h>
 # include <alloc.h>
 # include <conio.h>
@@ -108,11 +108,11 @@ boolean one_byte_hash,
 
 #if defined(TESTHASH)
 #define ifTESTHASH(x)	x
-#if defined(UNIX)
+#if defined(__unix__)
 #include <unistd.h>
 static void *OldBreak;
 extern int dhtDebug;
-#endif /*UNIX*/
+#endif /*__unix__*/
 #else
 #define ifTESTHASH(x)
 #endif /*TESTHASH*/
@@ -164,7 +164,7 @@ smallint value_of_data(uLong Data)
   }
 } /* value_of_data */
 
-#ifdef OLD_COMPRESS
+#if defined(OLD_COMPRESS)
 void compresshash (void) {
   dhtElement	    *he;
   smallint	    min_val,x;
@@ -205,7 +205,7 @@ void compresshash (void) {
       he= dhtGetNextElement(pyhash);
 	}
   }
-#ifdef TESTHASH
+#if defined(TESTHASH)
   printf("%ld;", dhtKeyCount(pyhash));
   printf(" usage: %ld", use_pos);
   printf(" / %ld", use_all);
@@ -259,7 +259,7 @@ void compresshash (void) {
 	 */
   }
 
-#ifdef TESTHASH
+#if defined(TESTHASH)
   printf("\nmin_val: %d\n", min_val);
   printf("ToDelete: %ld\n", ToDelete);
   fflush(stdout);
@@ -270,7 +270,7 @@ void compresshash (void) {
   while (RemoveCnt < ToDelete) {
 	min_val++;
 
-#ifdef TESTHASH
+#if defined(TESTHASH)
 	printf("min_val: %d\n", min_val);
 	printf("RemoveCnt: %ld\n", RemoveCnt);
 	fflush(stdout);
@@ -283,7 +283,7 @@ void compresshash (void) {
 		RemoveCnt++;
 		totalRemoveCount++;
         dhtRemoveElement(pyhash, he->Key);
-#ifdef TESTHASH
+#if defined(TESTHASH)
 		if (RemoveCnt + dhtKeyCount(pyhash) != initCnt) {
           fprintf(stdout,
                   "dhtRemove failed on %ld-th element of run %ld. "
@@ -295,12 +295,12 @@ void compresshash (void) {
 		}
 #endif	/* TESTHASH */
       }
-#ifdef TESTHASH
+#if defined(TESTHASH)
       visitCnt++;
 #endif	/* TESTHASH */
       he= dhtGetNextElement(pyhash);
 	}
-#ifdef TESTHASH
+#if defined(TESTHASH)
     runCnt++;
     printf("run=%ld, RemoveCnt: %ld, missed: %ld\n", runCnt, RemoveCnt, initCnt-visitCnt);
     {
@@ -320,7 +320,7 @@ void compresshash (void) {
 #endif	/* TESTHASH */
 
   }
-#ifdef TESTHASH
+#if defined(TESTHASH)
   printf("%ld;", dhtKeyCount(pyhash));
   printf(" usage: %ld", use_pos);
   printf(" / %ld", use_all);
@@ -1078,12 +1078,6 @@ boolean ser_dsrsol(couleur camp, smallint n, boolean restartenabled)
           FlagTimeOut)
         break;
 	}
-#ifdef VERYSILLYTYPO
-	if (camp == blanc)
-      WhMovesLeft--;
-	else
-      BlMovesLeft--;
-#endif
 	if (camp == blanc)
       WhMovesLeft++;
 	else
@@ -1106,9 +1100,9 @@ void	inithash(void)
     StdString(GlobalStr)
     );
 
-#if defined(UNIX) && defined(TESTHASH)
+#if defined(__unix__) && defined(TESTHASH)
   OldBreak= sbrk(0);
-#endif /*UNIX,TESTHASH*/
+#endif /*__unix__,TESTHASH*/
 
 #if defined(FXF)
   if (fxfInit(MaxMemory) == -1)	/* we didn't get hashmemory ... */
@@ -1188,7 +1182,7 @@ void	closehash(void)
 	sprintf(GlobalStr, "Makes %ld%%\n", (100 * use_pos) / use_all);
 	StdString(GlobalStr);
   }
-#if defined(UNIX)
+#if defined(__unix__)
   {
 	unsigned long HashCount, HashMem, BytePerPos;
 #if defined(FXF)
@@ -1207,7 +1201,7 @@ void	closehash(void)
       sprintf(GlobalStr, "Nothing in hashtable\n");
     }
     StdString(GlobalStr);
-#endif /*UNIX*/
+#endif /*__unix__*/
   }
 #endif /*TESTHASH*/
 
@@ -1218,7 +1212,7 @@ void	closehash(void)
 
 } /* closehash */
 
-#ifdef NODEF	/* This functions is not used any longer.        */
+#if defined(NODEF)	/* This functions is not used any longer.        */
 /* Since when? TLi */
 boolean hashdefense(couleur camp, smallint n) {
   boolean flag = true;

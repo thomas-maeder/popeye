@@ -1,4 +1,4 @@
-#ifndef DHT_VALUE_INCLUDED
+#if !defined(DHT_VALUE_INCLUDED)
 #define DHT_VALUE_INCLUDED
 
 /* This is dhtvalue.h --  Version 1.5
@@ -19,11 +19,11 @@
 #define fxfFree(x,n)		free(x)
 #endif /*FXF*/
 
-#ifndef LOCAL
+#if !defined(LOCAL)
 #define LOCAL	static
 #endif
 
-#ifdef GDATA
+#if defined(GDATA)
 #define DATA
 #else
 #define DATA	extern
@@ -57,7 +57,7 @@ typedef enum {
 } dhtValueType;
 
 DATA char *dhtValueTypeToString[dhtValueTypeCnt]
-#ifdef GDATA
+#if defined(GDATA)
 	= { "dhtSimpleValue",
 	    "dhtStringValue",
 	    "dhtCompactMemoryValue",
@@ -99,7 +99,7 @@ extern dhtValueProcedures dhtBCMemoryProcs;
 #endif /*REGISTER_BCMEM*/
 
 DATA dhtValueProcedures *dhtProcedures[dhtValueTypeCnt]
-#ifdef GDATA
+#if defined(GDATA)
 	= {
 #if defined(REGISTER_SIMPLE)
 		&dhtSimpleProcs,

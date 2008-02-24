@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#ifdef __TURBOC__
+#if defined(__TURBOC__)
 # include <mem.h>
 #endif
 #include "py.h"
@@ -130,14 +130,8 @@ BCMemValue *ProofEncode(void) {
 smallint proofwkm[haut+25-(bas-25)+1];
 smallint proofbkm[haut+25-(bas-25)+1];
 
-#if defined(BC31_SUCKS)
-smallint *WhKingMoves=proofwkm-(bas-25);
-smallint *BlKingMoves=proofbkm-(bas-25);
-#else
 #define WhKingMoves  (proofwkm-(bas-25))
 #define BlKingMoves  (proofbkm-(bas-25))
-#endif /* BC31_SUCKS */
-/* above changed due to BorlandC V3.1 problems	*/
 
 void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
   square	*bnp, sq;

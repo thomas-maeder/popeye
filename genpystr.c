@@ -14,11 +14,11 @@
 #include <string.h>
 #include "pylang.h"
 
-#ifdef BSD
+#if defined(__bsdi__)
 #define strchr	index
 #endif
 
-#ifdef MSG_IN_MEM
+#if defined(MSG_IN_MEM)
 
 int main() {
     Lang	lan;

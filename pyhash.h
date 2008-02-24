@@ -6,7 +6,7 @@
 ** 
 **************************** End of List ******************************/ 
 
-#ifndef _PYHASH_H
+#if !defined(_PYHASH_H)
 #define _PYHASH_H
 
 /* typedefs */

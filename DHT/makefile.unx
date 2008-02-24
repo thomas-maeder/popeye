@@ -1,12 +1,10 @@
 #ARCH=
 #DBG=		-g
-OPT=		-O
-#OPT=		-O -Xc
-### what's this below ?? At least, it's not compatible to make ...
-###override DEF+=		-DFXF 
-#CFLAGS=		-pedantic $(ARCH) $(DBG) $(OPT) $(DEF)
-CFLAGS=		$(ARCH) $(DBG) $(OPT) $(DEF)
-LDFLAGS=	$(DBG) $(OPT) $(ARCH)
+OPTIM=		-O
+#OPTIM=		-O -Xc
+#CFLAGS=		-pedantic $(ARCH) $(DBG) $(OPTIM) $(DEFS)
+CFLAGS=		$(WARN) $(ARCH) $(DBG) $(OPTIM) $(DEFS) $(OTHER)
+LDFLAGS=	$(DBG) $(OPTIM) $(ARCH)
 
 PROGS=		dhtmanex dhtexam1 dhtexam2
 HEADER=		dht.h dhtcmem.h dhtmem.h dhtvalue.h dhtbcmem.h fxf.h
@@ -46,6 +44,9 @@ dhtsimpl.o:	dhtsimpl.c
 dhtstrng.o:	dhtstrng.c
 fxf.o:		fxf.c fxf.h
 
+.c.o:
+		$(CCTARGET) $(CFLAGS) -c $< -o $@
+
 dhtlib.a:	dht.o dhtvalue.o dhtcmem.o dhtmem.o dhtsimpl.o dhtstrng.o dhtbcmem.o fxf.o
 		ar rv $@ $?
 		$(RANLIB) dhtlib.a
@@ -53,9 +54,6 @@ dhtlib.a:	dht.o dhtvalue.o dhtcmem.o dhtmem.o dhtsimpl.o dhtstrng.o dhtbcmem.o f
 dhtexam1.o:	dhtexam1.c dht.h dhtvalue.h dhtmem.h 
 
 dhtexam2.o:	dhtexam2.c dht.h dhtvalue.h dhtmem.h 
-
-%.o:		%.c
-		$(CCTARGET) $(CFLAGS) -c $<
 
 clean:
 		rm -f *.o *.a

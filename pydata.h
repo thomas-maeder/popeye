@@ -42,17 +42,17 @@
 **
 **************************** End of List ******************************/
 
-#ifndef PYDATA_H
+#if !defined(PYDATA_H)
 #define PYDATA_H
 
 #include "pyproc.h"
 
-#ifndef EXTERN
+#if !defined(EXTERN)
 #       define EXTERN extern
 #       define WE_ARE_EXTERN
 #endif  /* EXTERN */
 
-#ifdef  WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 extern  unsigned long   MaxMemory;
 extern int MaxTime;
 extern  char    *StartUp;
@@ -61,7 +61,7 @@ extern  boolean LaTeXout;
 extern  int     GlobalThreadCounter;
 extern  boolean flag_regression;
 #else
-#	ifdef __TURBOC__ /* TurboC and BorlandC  TLi */
+#	if defined(__TURBOC__) /* TurboC and BorlandC  TLi */
    /* MaxPositions is either set in inithash() using the coreleft function
    ** or entered with the -maxpos option at the DOS prompt.    TLi
    */
@@ -117,7 +117,7 @@ EXTERN  square
 EXTERN  square          pattfld, patti, pattj;
 EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
-#ifdef  WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 EXTERN smallint maxinbox[];
 EXTERN unsigned int boxsize;
 #endif
@@ -133,7 +133,7 @@ EXTERN  ply             nbply;
 
 EXTERN  killer_state current_killer_state;
 
-#ifdef  WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 EXTERN  killer_state const null_killer_state;
 #endif
 
@@ -449,7 +449,7 @@ EXTERN boolean          calc_whtrans_king, calc_bltrans_king,
 EXTERN smallint         gridlines[112][4];
 EXTERN int              numgridlines;
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern PieTable PieNamString[LangCount];
 #else
 	PieTable PieNamString[LangCount] = {
@@ -850,7 +850,7 @@ EXTERN int              numgridlines;
 	};
 #endif
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern Lang     ActLang;
 	extern char     ActAuthor[];
 	extern char     ActOrigin[];
@@ -866,14 +866,14 @@ EXTERN int              numgridlines;
 	char            ActAward[256], ActStip[37];
 #endif
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern PieceChar *PieceTab;
 #else
 	PieceChar       *PieceTab=PieNamString[German];
 #endif
 				/* later set according to language */
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern boolean  OptFlag[OptCount];
 	extern char     *OptString[LangCount][OptCount];
 #else
@@ -985,7 +985,7 @@ EXTERN int              numgridlines;
 };
 #endif
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern boolean  CondFlag[CondCount];
 	extern char     *CondString[LangCount][CondCount];
 #else
@@ -1513,7 +1513,7 @@ EXTERN int              numgridlines;
 */
 EXTERN unsigned int StipFlags;
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern  char    *PieSpString[LangCount][PieSpCount];
 	extern  char    **PieSpTab;
 	extern  Flags   PieSpExFlags;
@@ -1570,7 +1570,7 @@ EXTERN unsigned int StipFlags;
 	};
 #endif
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern  char GlobalStr[];
 	extern  char *AlphaEnd;
 	extern  char ReciAlphaEnd[];
@@ -1582,7 +1582,7 @@ EXTERN unsigned int StipFlags;
 	char    NonReciAlphaEnd[5];
 #endif
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern char
 *VariantTypeString[LangCount][VariantTypeCount];
 #else
@@ -1666,7 +1666,7 @@ EXTERN unsigned int StipFlags;
 	};
 #endif
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern char *ExtraCondString[LangCount][ExtraCondCount];
 #else
 	char    *ExtraCondString[LangCount][ExtraCondCount] = {
@@ -1686,7 +1686,7 @@ EXTERN unsigned int StipFlags;
 	};
 #endif
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern  numvec mixhopdata[4][17];
 #else
 /* This are the vectors for hoppers which change directions after the hurdle */
@@ -1703,7 +1703,7 @@ EXTERN unsigned int StipFlags;
 	};
 #endif
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern  numvec vec[maxvec + 1];
 #else
 /* don't try to delete something like "duplicates" or change
@@ -1796,7 +1796,7 @@ enum {
 };
 
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern  square boardnum[65];
 #else
 /* This are the really used boardnumbers */
@@ -1813,7 +1813,7 @@ enum {
 #endif
 
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern  short move_diff_code[haut - bas + 1];
 #else
 /* This are the codes for the length-difference */
@@ -1847,7 +1847,7 @@ enum {
 			       };
 #endif
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
  extern  long int BGL_move_diff_code[haut - bas + 1];
 #else
  long int BGL_move_diff_code[haut - bas + 1]= {
@@ -1876,7 +1876,7 @@ enum {
           };
 #endif
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern  checkfunction_t *checkfunctions[derbla + 1];
 #else
 /* This are the used checkingfunctions  */
@@ -2024,7 +2024,7 @@ enum {
     };
 #endif
 
-#ifdef WE_ARE_EXTERN
+#if defined(WE_ARE_EXTERN)
 	extern  piece PAS[64];
 #else
 /* This is the InitialGameArray */

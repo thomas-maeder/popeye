@@ -1,4 +1,4 @@
-#ifndef _PYTIME_INCLUDED
+#if !defined(_PYTIME_INCLUDED)
 #define _PYTIME_INCLUDED
 
 int MilliSec();

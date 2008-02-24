@@ -1,4 +1,4 @@
-#ifndef DHTMEM_INCLUDED
+#if !defined(DHTMEM_INCLUDED)
 #define DHTMEM_INCLUDED
 /* This is dhtmem.h --  Version 1.5
  * This code is copyright by

@@ -33,7 +33,7 @@
  **
  **************************** End of List ******************************/
 
-#ifdef macintosh    /* is always defined on macintosh's  SB */
+#if defined(macintosh)    /* is always defined on macintosh's  SB */
 #   define SEGM2
 #   include "pymac.h"
 #endif

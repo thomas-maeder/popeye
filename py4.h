@@ -8,7 +8,7 @@
 **
 **************************** End of List ******************************/ 
  
-#ifndef	PY4_H
+#if !defined(PY4_H)
 #define	PY4_H
 
 short   len_max (square departure, square arrival, square capture);

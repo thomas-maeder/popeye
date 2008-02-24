@@ -1,4 +1,4 @@
-#ifndef DHT_INCLUDED
+#if !defined(DHT_INCLUDED)
 #define DHT_INCLUDED
 /* This is dht.h --  Version 1.5
  * This code is copyright by

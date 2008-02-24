@@ -17,7 +17,7 @@
 ** 2001/01/18 NG   new used: 11 (ColourChangeRestricted)
 **
 **************************** End of List ******************************/ 
-#ifndef PYMSG_H
+#if !defined(PYMSG_H)
 #define PYMSG_H
 
 /* This is the file where all language dependent defines

@@ -6,7 +6,7 @@
 ** 
 **************************** End of List ******************************/ 
 
-#ifndef _PYINT_H
+#if !defined(_PYINT_H)
 #define _PYINT_H
 
 boolean Redundant(void);

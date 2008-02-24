@@ -9,11 +9,8 @@
  */
 #include <stdio.h>
 #include <string.h>
-#if defined(FBSD)
 #include <stdlib.h>
-#else /*FBSD*/
-#include <malloc.h>
-#endif /*FBSD*/
+
 #include "dhtvalue.h"
 
 static unsigned long ConvertString(dhtValue v) {

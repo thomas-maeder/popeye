@@ -28,16 +28,16 @@
  **
  **************************** End of List ******************************/
 
-#ifdef macintosh	/* is always defined on macintosh's  SB */
+#if defined(macintosh)	/* is always defined on macintosh's  SB */
 #	define SEGM1
 #	include "pymac.h"
 #endif
 
-#ifdef ASSERT
+#if defined(ASSERT)
 #include <assert.h>
 #else
 /* When ASSERT is not defined, eliminate assert calls.
- * This way, "#ifdef ASSERT" is not clobbering the source.
+ * This way, "#if defined(ASSERT") is not clobbering the source.
  *						ElB, 2001-12-17.
  */
 #define assert(x)

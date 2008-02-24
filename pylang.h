@@ -6,7 +6,7 @@
 ** 
 **************************** End of List ******************************/ 
 
-#ifndef PYLANG_H
+#if !defined(PYLANG_H)
 #define PYLANG_H
 
 /*--- Start of typedef enum {---*/

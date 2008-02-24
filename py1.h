@@ -6,7 +6,7 @@
 ** 
 **************************** End of List ******************************/ 
  
-#ifndef PY1_INCLUDED
+#if !defined(PY1_INCLUDED)
 #define PY1_INCLUDED
 
 #include "pyproc.h"

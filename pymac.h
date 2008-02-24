@@ -13,14 +13,14 @@
  * (It can not be written into the source
  * due to precompiler problems on my PC-X.  NG)
  */
-#ifdef SEGM1
+#if defined(SEGM1)
 #       pragma segment seg1
 #endif
 
-#ifdef SEGM2
+#if defined(SEGM2)
 #       pragma segment seg2
 #endif
 
-#ifdef SEGMIO
+#if defined(SEGMIO)
 #       pragma segment segio
 #endif

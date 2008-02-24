@@ -6,7 +6,7 @@
 ** 
 **************************** End of List ******************************/ 
 
-#ifndef _PYPROOF_H
+#if !defined(_PYPROOF_H)
 #define _PYPROOF_H
 
 BCMemValue *ProofEncode(void);

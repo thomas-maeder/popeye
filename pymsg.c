@@ -11,12 +11,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef DOS
-#ifdef MSC
-#	ifdef SHARING		/* Import defines for locking regions  StH */
+#if defined(DOS)
+#if defined(_MSC_VER)
+#	if defined(SHARING)		/* Import defines for locking regions  StH */
 #		include <sys/locking.h>
 #	endif
-#endif	/* MSC */
+#endif	/* _MSC_VER */
 #endif	/* DOS */
 
 #define PYMSG
@@ -32,7 +32,7 @@ typedef unsigned char UnChar;
 typedef unsigned long UnLong;
 
 
-#ifndef SEEK_SET
+#if !defined(SEEK_SET)
 #	define SEEK_SET 0
 #endif	/* not SEEK_SET */
 
@@ -73,7 +73,7 @@ void logChrArg(char arg) {
     return;
 }
 
-#ifdef MSG_IN_MEM
+#if defined(MSG_IN_MEM)
 #include "pyallmsg.h"
 static char **ActualMsgTab;
 
@@ -137,22 +137,22 @@ char *GetMsgString(int nr) {
 	fseek(fstring, (UnLong)MsgOffset[nr], SEEK_SET);
     }
 
-#ifdef DOS
-#ifdef MSC
-#ifdef SHARING		 /* Lock the file region, which should be read */
+#if defined(DOS)
+#if defined(_MSC_VER)
+#if defined(SHARING)		 /* Lock the file region, which should be read */
     locking(fstring,LK_RLCK,MaxLeng);
 #endif	/* SHARING */
-#endif	/* MSC */
+#endif	/* _MSC_VER */
 #endif	/* DOS */
 
     fread(StringBuf, MaxLeng, 1, fstring);
 
-#ifdef DOS
-#ifdef MSC
-#ifdef SHARING		 /* Unlock the file region */
+#if defined(DOS)
+#if defined(_MSC_VER)
+#if defined(SHARING)		 /* Unlock the file region */
     locking(fstring,LK_UNLCK,MaxLeng);
 #endif
-#endif	/* MSC */
+#endif	/* _MSC_VER */
 #endif	/* DOS */
 
     spt= StringBuf;
@@ -273,18 +273,18 @@ char *MakeTimeString(void) {
 	  "%d:%02d:%02ld h:m:s", Hours, Minutes, Seconds);
     }
     else if (Minutes>0) {
-#if defined(UNIX) || defined(WIN32)
+#if defined(__unix__) || defined(_WIN32)
 	sprintf(TmString,"%d:%02ld.%03d m:s", Minutes, Seconds, MilliSec());
 #else
 	sprintf(TmString,"%d:%02ld m:s", Minutes, Seconds);
-#endif /*UNIX || WIN32*/
+#endif /*__unix__ || _WIN32*/
     }
     else {
-#if defined(UNIX) || defined(WIN32)
+#if defined(__unix__) || defined(_WIN32)
 	sprintf(TmString,"%ld.%03d s", Seconds, MilliSec());
 #else
 	sprintf(TmString,"%ld s", Seconds);
-#endif /*UNIX || WIN32*/
+#endif /*__unix__ || _WIN32*/
     }
     return TmString;
 }

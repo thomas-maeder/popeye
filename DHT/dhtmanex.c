@@ -9,11 +9,13 @@
  */
 
 #include <stdio.h>
-#if !defined(FBSD)
-#include <search.h>
-#endif /*FBSD*/
 #include <string.h>
 #include <stdlib.h>
+
+#if !defined(__FreeBSD__)
+#include <search.h>
+#endif /*__FreeBSD__*/
+
 #include "dhtvalue.h"
 #include "dht.h"
 

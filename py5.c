@@ -35,16 +35,16 @@
  **
  **************************** End of List ******************************/
 
-#ifdef macintosh /* is always defined on macintosh's  SB */
+#if defined(macintosh) /* is always defined on macintosh's  SB */
 # define SEGM2
 # include "pymac.h"
 #endif
 
-#ifdef ASSERT
+#if defined(ASSERT)
 #include <assert.h>
 #else
 /* When ASSERT is not defined, eliminate assert calls.
- * This way, "#ifdef ASSERT" is not clobbering the source.
+ * This way, "#if defined(ASSERT") is not clobbering the source.
  *      ElB, 2001-12-17.
  */
 #define assert(x)
@@ -52,18 +52,13 @@
 #include <stdio.h>
 #include <stdlib.h>  /* H.D. 10.02.93 prototype fuer exit */
 
-#ifdef DOS
-# ifdef GCC
+#if defined(DOS)
+# if defined(__GNUC__)
 #  include <pc.h>
 # else
 #  include <bios.h>
-# endif /* GCC */
+# endif /* __GNUC__ */
 #endif /* DOS */
-
-#ifdef OS2
-# ifdef GCC
-# endif /* GCC */
-#endif /* OS2 */
 
 #include "py.h"
 #include "pyproc.h"
@@ -232,7 +227,7 @@ piece inc_einstein(piece p)
    i: square whre the capturing piece just came from
    camp: colour of the moving=capturing side
 */
-#ifdef DOS
+#if defined(DOS)
 # pragma warn -par
 #endif
 
@@ -292,7 +287,7 @@ square renpwc(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 square renequipollents(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
   /* we have to solve the enpassant capture / locust capture problem in the future. */
-#ifdef WINCHLOE
+#if defined(WINCHLOE)
   return (j + ia - i);
 #endif
   return (j + j - i);
@@ -301,7 +296,7 @@ square renequipollents(piece p, Flags pspec, square j, square i, square ia, coul
 square renequipollents_anti(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
   /* we have to solve the enpassant capture / locust capture problem in the future. */
-#ifdef WINCHLOE
+#if defined(WINCHLOE)
   return (ia + ia - i);
 #endif
   return (j + j - i);
@@ -475,7 +470,7 @@ square rensuper(piece p, Flags pspec,
   return super[nbply];
 }
 
-#ifdef DOS
+#if defined(DOS)
 # pragma warn +par
 #endif
 
@@ -909,37 +904,32 @@ void genmove(couleur camp)
 {
   /* TODO hide away in one module per platform */
   /* Abbruch waehrend der gesammten Laufzeit mit <ESC> */
-#ifdef ATARI
+#if defined(ATARI)
 # include <osbind.h>
 # define STOP_ON_ESC
 # define interupt (Bconstat(2) && (Bconin(2) == 27))
 #endif /* ATARI */
 
-#ifdef DOS
-#   ifndef Windows
-# ifdef __TURBOC__
-# define STOP_ON_ESC
-# define interupt ((bioskey(1) != 0) && ((bioskey(0) >> 8) == 1))
-# endif /* __TURBOC__ */
-#   endif
+#if defined(DOS)
+#  if !defined(Windows)
+#    if defined(__TURBOC__)
+#      define STOP_ON_ESC
+#      define interupt ((bioskey(1) != 0) && ((bioskey(0) >> 8) == 1))
+#    endif /* __TURBOC__ */
+#  endif
 
-# ifdef MSC
-# define STOP_ON_ESC
-# define interupt (_bios_keybrd(_KEYBRD_READY) && ((_bios_keybrd(_KEYBRD_READ) >> 8) == 1))
-# endif /* MSC */
+#  if defined(_MSC_VER)
+#    define STOP_ON_ESC
+#    define interupt (_bios_keybrd(_KEYBRD_READY) && ((_bios_keybrd(_KEYBRD_READ) >> 8) == 1))
+#  endif /* _MSC_VER */
 
-# ifdef GCC
-# define STOP_ON_ESC
-# define interupt (kbhit() && (getkey() == 27)) /* ESC == 27 */
-# endif /* GCC */
+#  if defined(__GNUC__)
+#    define STOP_ON_ESC
+#    define interupt (kbhit() && (getkey() == 27)) /* ESC == 27 */
+#  endif /* __GNUC__ */
 #endif /* DOS */
 
-#ifdef OS2
-# ifdef GCC
-# endif /* GCC */
-#endif /* OS2 */
-
-#ifdef STOP_ON_ESC
+#if defined(STOP_ON_ESC)
   if (interupt) {
     StdString(GetMsgString(InterMessage));
     StdString(" ");
@@ -1169,7 +1159,7 @@ piece next_singlebox_prom(piece p, couleur c) {
   return vide;
 }
 
-#ifdef DEBUG
+#if defined(DEBUG)
 static  int nbrtimes = 0;
 #endif
 
@@ -1248,7 +1238,7 @@ boolean jouecoup(void) {
 
   move_generation_elmt* move_gen_top = move_generation_stack+nbcou;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   nbrtimes++;
 #endif
 
@@ -1629,7 +1619,7 @@ boolean jouecoup(void) {
               SETFLAG(spec_pi_moving, FrischAuf);
 
             if (pi_captured != vide && anyanticirce) {
-#ifdef BETTER_READABLE
+#if defined(BETTER_READABLE)
               /* this coding seems to be better redable */
               do {
                 sq_rebirth= (*antirenai)(pi_arriving,
@@ -2540,7 +2530,7 @@ void IncrementMoveNbr(void) {
     StdString("   ");
     PrintTime();
   }
-#ifdef HASHRATE
+#if defined(HASHRATE)
   StdString("   ");
   HashStats(0, NULL);
 #endif

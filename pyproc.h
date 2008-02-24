@@ -24,7 +24,7 @@
 **
 **************************** End of List ******************************/
 
-#ifndef PYPROC_H
+#if !defined(PYPROC_H)
 #define PYPROC_H
 
 #include "py4.h"
@@ -485,8 +485,8 @@ square fin_circle_line(square sq_departure,
                        numvec k1, numvec *k2, numvec delta_k);
 
 
-#ifdef WIN32
+#if defined(_WIN32)
 void WIN32SolvingTimeOver(int *WaitTime);
-#endif	/* WIN32 */
+#endif	/* _WIN32 */
 
 #endif  /* PYPROC_H */

@@ -20,13 +20,15 @@
 **
 **************************** End of List ******************************/
 
-#ifdef UNIX 
+#if defined(__unix__) 
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>	/* to import prototype of 'sleep' NG  */
 
-#ifdef SIGNALS
+#if defined(SIGNALS)
+/* TODO in some global config file #undef SIGNALS if __unix__ isn't
+ * defined */
 
 #include <signal.h>
 #include "py.h"
@@ -39,32 +41,32 @@
 extern int HashRateLevel;
 
 void IncHashRateLevel(int sig) {
-    HashRateLevel++;
-    StdString("  ");
-    PrintTime();
-    logIntArg(HashRateLevel);
-    Message(IncrementHashRateLevel);
-    HashStats(0, "\n");
-    signal(SIGUSR1, IncHashRateLevel);
+  HashRateLevel++;
+  StdString("  ");
+  PrintTime();
+  logIntArg(HashRateLevel);
+  Message(IncrementHashRateLevel);
+  HashStats(0, "\n");
+  signal(SIGUSR1, IncHashRateLevel);
 }
 
 void DecHashRateLevel(int sig) {
-    if (HashRateLevel > 0)
+  if (HashRateLevel > 0)
 	HashRateLevel--;
-    StdString("  ");
-    PrintTime();
-    logIntArg(HashRateLevel);
-    Message(DecrementHashRateLevel);
-    HashStats(0, "\n");
-    signal(SIGUSR2, DecHashRateLevel);
+  StdString("  ");
+  PrintTime();
+  logIntArg(HashRateLevel);
+  Message(DecrementHashRateLevel);
+  HashStats(0, "\n");
+  signal(SIGUSR2, DecHashRateLevel);
 }
 #endif /*HASHRATE*/
 
 
 void GotSignal(int sig) {
-    sprintf(GlobalStr, GetMsgString(Abort), sig, MakeTimeString());
-    StdString(GlobalStr);
-    exit(1);
+  sprintf(GlobalStr, GetMsgString(Abort), sig, MakeTimeString());
+  StdString(GlobalStr);
+  exit(1);
 }
 
 /* this initialisation is valid only for Unix.
@@ -73,104 +75,104 @@ void GotSignal(int sig) {
  * or windows?
  */
 static int SignalToCatch[] = {
-    SIGHUP,
-    SIGINT,
-    SIGQUIT,
-    SIGTERM,
-#if !defined(HPUX) && !defined(__GO32__)
-/* not supported by HP-UX */
-/* not supported by DJGPP */
-    SIGVTALRM,
-    SIGXCPU,
-    SIGXFSZ,
+  SIGHUP,
+  SIGINT,
+  SIGQUIT,
+  SIGTERM,
+#if !defined(_hpux) && !defined(__GO32__)
+  /* not supported by HP-UX */
+  /* not supported by DJGPP */
+  SIGVTALRM,
+  SIGXCPU,
+  SIGXFSZ,
 #endif /* HPUX, __GO32__ */
-    0
+  0
 };
 
 void ReDrawBoard(int sig) {
-    /* I did this, to see more accurately
-       what position popeye is working on.
-				ElB
-     */
-    /* If a position can be reached by 1000's
-       of move sequences than the position is of almost
-       no value. The history is more important.
-				TLi
-     */
-    ply pl;
+  /* I did this, to see more accurately
+     what position popeye is working on.
+     ElB
+  */
+  /* If a position can be reached by 1000's
+     of move sequences than the position is of almost
+     no value. The history is more important.
+     TLi
+  */
+  ply pl;
 
-    WritePosition();
+  WritePosition();
 
-    /* and write (some information about) the
-       sequences of moves that lead to this position.
-     */
-    for (pl= 3; pl < nbply; pl++) {
+  /* and write (some information about) the
+     sequences of moves that lead to this position.
+  */
+  for (pl= 3; pl < nbply; pl++) {
 	WritePiece(pjoue[pl-1]);
 	WriteSquare(move_generation_stack[repere[pl]].departure);
 	StdChar('-');
 	WriteSquare(move_generation_stack[repere[pl]].arrival);
 	if (norm_prom[pl-1]) {
-	    StdChar('=');
-	    WritePiece(norm_prom[pl-1]);
+      StdChar('=');
+      WritePiece(norm_prom[pl-1]);
 	}
 	StdString("   ");
-    }
-    StdChar('\n');
+  }
+  StdChar('\n');
 
-    signal(SIGHUP, ReDrawBoard);
+  signal(SIGHUP, ReDrawBoard);
 }
 
 void UNIXSolvingTimeOver(int sig) {
-    /*
-      To stop the calculation of a problem
-      after a given amount of time is over.
-     */
-    FlagTimeOut= true;
-    signal(SIGALRM,  UNIXSolvingTimeOver);
+  /*
+    To stop the calculation of a problem
+    after a given amount of time is over.
+  */
+  FlagTimeOut= true;
+  signal(SIGALRM,  UNIXSolvingTimeOver);
 }
 
 void pyInitSignal(void) {
-    int i;
+  int i;
 
-    i=0;
-    while (SignalToCatch[i]) {
+  i=0;
+  while (SignalToCatch[i]) {
 	signal(SignalToCatch[i], GotSignal);
 	i++;
-    }
+  }
 
-    /* this initialisation is very simple.
-     * this code would be much more robust, when
-     * some information about the signals were
-     * available without knowing the semantics of
-     * the Unix-Signal numbers.
-     * At least the maximum signal-number should be
-     * defined and for what signals the handling can
-     * be redefined
-     */
+  /* this initialisation is very simple.
+   * this code would be much more robust, when
+   * some information about the signals were
+   * available without knowing the semantics of
+   * the Unix-Signal numbers.
+   * At least the maximum signal-number should be
+   * defined and for what signals the handling can
+   * be redefined
+   */
 
 #if defined(HASHRATE)
-    signal(SIGUSR1, IncHashRateLevel);
-    signal(SIGUSR2, DecHashRateLevel);
+  signal(SIGUSR1, IncHashRateLevel);
+  signal(SIGUSR2, DecHashRateLevel);
 #endif /*HASHRATE*/
-    signal(SIGALRM,  UNIXSolvingTimeOver);
-    signal(SIGHUP,  ReDrawBoard);
+  signal(SIGALRM,  UNIXSolvingTimeOver);
+  signal(SIGHUP,  ReDrawBoard);
 }
 
 #endif /*SIGNALS*/
 
 void BeepOnSolution(int NumOfBeeps) {
-    while (NumOfBeeps > 0) {
+  while (NumOfBeeps > 0) {
 	fprintf(stderr, "\a");
-        fflush(stderr);
+    fflush(stderr);
 	NumOfBeeps--;
-    }
-     sleep(1);
+  }
+  sleep(1);
 }
 
-#endif /*UNIX*/
+#endif /* __unix__ */
 
 
-#ifdef WIN32
+#if defined(_WIN32)
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -180,33 +182,56 @@ void BeepOnSolution(int NumOfBeeps) {
 #include "pyproc.h"
 #include "pymsg.h"
 
-void WIN32SolvingTimeOver(int *WaitTime) {
-    /*
-     * This function is used by a WIN32-thread to wake up
-     * the thread after WaitTime seconds.
-     */
-    int mythread= GlobalThreadCounter;
+# if defined(_MSC_VER) && defined(_MT)
 
-    /* sleep under WIN32 seems to use milliseconds ... */
-    _sleep(1000 * (*WaitTime));
-    /* To avoid that a not "used" thread stops */
-    /* Popeye during "his" timeout	       */
-    /* GlobalThreadCounter is increased in py6.c */
-    /* every time a new problem is to be solved. */
-    if (mythread == GlobalThreadCounter) {
-	    FlagTimeOut= true;
-	    FlagTimerInUse= false;
-    }
-    _endthread();
+void WIN32SolvingTimeOver(int *WaitTime) {
+  /*
+   * This function is used by a WIN32-thread to wake up
+   * the thread after WaitTime seconds.
+   */
+  int mythread= GlobalThreadCounter;
+
+  /* sleep under WIN32 seems to use milliseconds ... */
+  _sleep(1000 * (*WaitTime));
+  /* To avoid that a not "used" thread stops */
+  /* Popeye during "his" timeout	       */
+  /* GlobalThreadCounter is increased in py6.c */
+  /* every time a new problem is to be solved. */
+  if (mythread == GlobalThreadCounter) {
+    FlagTimeOut= true;
+    FlagTimerInUse= false;
+  }
+  _endthread();
 }
+
+#endif /* _MSC_VER && _MT */
 
 void BeepOnSolution(int NumOfBeeps) {
-    while (NumOfBeeps > 0) {
+  while (NumOfBeeps > 0) {
 	fprintf(stderr, "\a");
-        fflush(stderr);
+    fflush(stderr);
 	NumOfBeeps--;
-    }
-     /* sleep under WIN32 seems to use milliseconds ... */
-    _sleep(500);
+  }
+  /* sleep under WIN32 seems to use milliseconds ... */
+  _sleep(500);
 }
-#endif	/* WIN32 */
+
+#endif	/* _WIN32 */
+
+
+#if defined(__APPLE__) && defined(__MACH__)
+
+#include <stdio.h>
+#include <unistd.h>
+
+void BeepOnSolution(int NumOfBeeps) {
+  while (NumOfBeeps > 0) {
+	fprintf(stderr, "\a");
+    fflush(stderr);
+	NumOfBeeps--;
+  }
+  
+  sleep(1);
+}
+
+#endif

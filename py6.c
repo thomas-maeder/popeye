@@ -54,16 +54,16 @@
  **
  ***************************** End of List ******************************/
 
-#ifdef macintosh    /* is always defined on macintosh's  SB */
+#if defined(macintosh)    /* is always defined on macintosh's  SB */
 #   define SEGM2
 #   include "pymac.h"
 #endif
 
-#ifdef ASSERT
+#if defined(ASSERT)
 #include <assert.h>
 #else
 /* When ASSERT is not defined, eliminate assert calls.
- * This way, "#ifdef ASSERT" is not clobbering the source.
+ * This way, "#if defined(ASSERT") is not clobbering the source.
  */
 #define assert(x)
 #endif  /* ASSERT */
@@ -71,20 +71,20 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#ifdef UNIX
+#if defined(__unix__)
 #   include <unistd.h>        /* alarm() prototype */
-#endif  /* UNIX */
+#endif  /* __unix__ */
 
 /* TurboC and BorlandC   TLi */
-#ifdef  __TURBOC__
+#if defined(__TURBOC__)
 #   include <mem.h>
 #   include <alloc.h>
 #   include <conio.h>
 #endif  /* __TURBOC__ */
 
-#ifdef WIN32
+#if defined(_WIN32)
 #include <process.h>
-#endif  /* WIN32 */
+#endif  /* _WIN32 */
 
 #include "py.h"
 #include "py1.h"
@@ -848,7 +848,7 @@ boolean verifieposition(void) {
   {
     return VerifieMsg(TwoMummerCond);
   }
-#ifndef DATABASE  /* TLi */
+#if !defined(DATABASE)  /* TLi */
   if ((CondFlag[whmin]
        || CondFlag[blmin]
        || CondFlag[whmax]
@@ -1267,7 +1267,7 @@ boolean verifieposition(void) {
   if (anytraitor) {
     totalortho= false;
   }
-#ifdef DEBUG
+#if defined(DEBUG)
   printf("int: %s, mate: %s, stalemate: %s, "
          "castling: %s, fee: %s, orth: %s, "
          "help: %s, direct: %s, series: %s\n",
@@ -1350,7 +1350,7 @@ boolean verifieposition(void) {
   if (OptFlag[appseul])
     flag_appseul= true;
 
-#ifndef DATABASE
+#if !defined(DATABASE)
   if (SortFlag(Proof)) {
     return ProofVerifie();
   }
@@ -1471,7 +1471,7 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
   return ret;
 }
 
-#ifdef DATABASE
+#if defined(DATABASE)
 extern boolean two_same_pieces;
 #endif
 
@@ -1520,7 +1520,7 @@ void editcoup(coup *mov) {
       {
         WritePiece(mov->pjzz);
       }
-#ifdef DATABASE
+#if defined(DATABASE)
       if (two_same_pieces) {
         WriteSquare(mov->cdzz);
         if (mov->ppri == vide)
@@ -1841,7 +1841,7 @@ void WriteForsyth(void)
     if (row>1) StdChar('/');
   }
   StdChar(' ');
-};
+}
 
 void linesolution(void) {
   smallint      num= 0;
@@ -1850,7 +1850,7 @@ void linesolution(void) {
   sic_coup= nbcou;
   sic_ply= nbply;
 
-#ifndef DATABASE
+#if !defined(DATABASE)
   if (OptFlag[intelligent]) {
     if (SolAlreadyFound()) {
       return;
@@ -1924,7 +1924,7 @@ void linesolution(void) {
 
 EXTERN smallint WhMovesLeft, BlMovesLeft;
 
-#ifndef DATABASE
+#if !defined(DATABASE)
 boolean last_h_move(couleur camp) {
   couleur ad= advers(camp);
   boolean flag= false;
@@ -2621,7 +2621,7 @@ void initduplex(void) {
   */
   square *bnp, rsq;
 
-#ifdef NODEF
+#if defined(NODEF)
   rsq= rb%onerow+onerow*((onerow-1)-rb/onerow);
   rb= rn%onerow+onerow*((onerow-1)-rn/onerow);
 #endif /* NODEF */
@@ -2653,7 +2653,7 @@ int main(int argc, char *argv[]) {
   int     i,l;
   boolean flag_starttimer;
   char    *ptr, ch= 'K';
-#ifdef WIN32            /* V3.54  NG */
+#if defined(_WIN32)            /* V3.54  NG */
   SetPriorityClass(GetCurrentProcess(),BELOW_NORMAL_PRIORITY_CLASS);
 #endif
   i=1;
@@ -2701,7 +2701,7 @@ int main(int argc, char *argv[]) {
 
   if (!MaxMemory) {
     /* TODO move to one module per platform */
-#ifdef DOS
+#if defined(DOS)
 #if defined(__TURBOC__)
     MaxMemory= (unsigned long)coreleft();
 #else /*! __TURBOC__*/
@@ -2709,25 +2709,25 @@ int main(int argc, char *argv[]) {
     MaxMemory= (unsigned long)256*1024;
 #endif /*__TURBOC__*/
 #else /* ! DOS */
-#if defined(WIN16)
+#if defined(_WIN16)
     MaxMemory= (unsigned long)1024*1024;
-#else /* ! WIN16 */
-#if defined(WIN32)
+#else /* ! _WIN16 */
+#if defined(_WIN32)
     /* get physical memory amount */
     MEMORYSTATUS Mem;
     Mem.dwLength= sizeof(MEMORYSTATUS);
     GlobalMemoryStatus(&Mem);
     MaxMemory= Mem.dwAvailPhys;
-#ifdef WIN98
+#if defined(_WIN98)
     /* WIN98 cannot handle more than 768MB */
     if (MaxMemory > (unsigned long)700*1024*1024)
       MaxMemory= (unsigned long)700*1024*1024;
-#endif  /* WIN98 */
-#else  /* ! WIN32 */
+#endif  /* _WIN98 */
+#else  /* ! _WIN32 */
     /* UNIX-default   2 MB */
     MaxMemory= (unsigned long)2048*1024;
-#endif /* ! WIN16 */
-#endif /* ! WIN32 */
+#endif /* ! _WIN16 */
+#endif /* ! _WIN32 */
 #endif /* ! DOS */
   }
 
@@ -2741,11 +2741,11 @@ int main(int argc, char *argv[]) {
   /* if we are running in an environment which supports
      signals, we initialize the signal handling here
   */
-#if defined(SIGNALS)
+#if defined(__unix__) && defined(SIGNALS)
   /* Set the timer (interrupt handling needs this !) */
   StartTimer();
   pyInitSignal();
-#endif /*SIGNALS*/
+#endif /*__unix__,SIGNALS*/
 
   /* We do not issue our startup message via the language
      dependant Msg-Tables, since there the version is
@@ -2790,9 +2790,9 @@ int main(int argc, char *argv[]) {
     InitStip();
 
     /* reset MaxTime timer mechanisms */
-#if defined(UNIX) && defined(SIGNALS)
+#if defined(__unix__) && defined(SIGNALS)
     alarm(0);
-#endif  /* defined(UNIX) && defined(SIGNALS) */
+#endif  /* defined(__unix__) && defined(SIGNALS) */
     FlagTimeOut= false;
     FlagTimerInUse= false;
     FlagMaxSolsReached= false;
@@ -2834,10 +2834,10 @@ int main(int argc, char *argv[]) {
             && (maxsolvingtime<=0 || MaxTime<maxsolvingtime))
           maxsolvingtime = MaxTime;
 
-#if defined(UNIX) && defined(SIGNALS)
+#if defined(__unix__) && defined(SIGNALS)
         alarm(maxsolvingtime);
 #endif
-#ifdef WIN32
+#if defined(_WIN32) && defined(_MSC_VER) && defined(_MT)
         GlobalThreadCounter++;
         _beginthread((void(*)(void*))WIN32SolvingTimeOver,
                      0, &maxsolvingtime);
@@ -2997,7 +2997,7 @@ int main(int argc, char *argv[]) {
   exit(0);
 } /*main */
 
-#ifdef NOMEMSET
+#if defined(NOMEMSET)
 void memset(char *poi, char val, int len)
 {
   while (len--)

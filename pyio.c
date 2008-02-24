@@ -46,16 +46,16 @@
  **
  **************************** End of List ******************************/
 
-#ifdef macintosh    /* is always defined on macintosh's  SB */
+#if defined(macintosh)    /* is always defined on macintosh's  SB */
 #   define SEGMIO
 #   include "pymac.h"
 #endif
 
-#ifdef ASSERT
+#if defined(ASSERT)
 #include <assert.h>
 #else
 /* When ASSERT is not defined, eliminate assert calls.
- * This way, "#ifdef ASSERT" is not clobbering the source.
+ * This way, "#if defined(ASSERT") is not clobbering the source.
  */
 #define assert(x)
 #endif  /* ASSERT */
@@ -78,7 +78,7 @@
 ** if necessary.
 */
 
-#ifndef DATABASE
+#if !defined(DATABASE)
 static
 #endif
 char AlphaStip[20];
@@ -316,7 +316,7 @@ static char SepraChar[] = "\n\r;,.:";
 
 void pyfputc(char c, FILE *f)
 {
-#ifndef QUIET
+#if !defined(QUIET)
   fputc(c,f);
   fflush(f);
   if (TraceFile) {
@@ -332,7 +332,7 @@ void pyfputc(char c, FILE *f)
 
 void pyfputs(char *s, FILE *f)
 {
-#ifndef QUIET
+#if !defined(QUIET)
   fputs(s,f);
   fflush(f);
   if (TraceFile) {
@@ -1079,7 +1079,7 @@ static char *ParseFlow(char *tok) {
     AlphaEnd= NonReciAlphaEnd;
     return tok+3;
   }
-#ifndef DATABASE
+#if !defined(DATABASE)
   /* transform position a into position b */
   if (strncmp("a=>b", tok, 4) == 0) {
     int i;
@@ -3325,7 +3325,7 @@ static char *ParseTwin(void) {
         TwinResetPosition();
       }
       else {
-#ifndef DATABASE
+#if !defined(DATABASE)
         if (SortFlag(Proof)) {
           /* fixes bug for continued twinning
              in proof games; changes were made
@@ -3685,8 +3685,8 @@ Token ReadProblem(Token tk) {
 
 void CenterLine(char *s) {
   /* TODO move into one module per platform */
-#ifdef ATARI
-#   ifdef __TURBOC__
+#if defined(ATARI)
+#   if defined(__TURBOC__)
   sprintf(GlobalStr, "%s\n", s);
 #   else    /* not __TURBOC__ */
   sprintf(GlobalStr, "%*s\n", (36+strlen(s))/2, s);
@@ -5026,9 +5026,9 @@ void LaTeXBeginDiagram(void) {
 /**** LaTeX output ***** end *****/
 
 void Tabulate() {
-#ifdef DEBUG
+#if defined(DEBUG)
   if (marge < 0)
-#ifdef STANDALONE
+#if defined(STANDALONE)
   {
     sprintf(GlobalStr, "error: marge = %d negative\n", marge);
     ErrString(GlobalStr);
@@ -5075,7 +5075,7 @@ void WriteSquare(square i) {
 
 
 /******************** for standalone testing *********************/
-#ifdef STANDALONE
+#if defined(STANDALONE)
 int main() {
   Token tk= BeginProblem;
   rb= rn= initsquare;

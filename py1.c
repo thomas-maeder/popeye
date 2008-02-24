@@ -26,7 +26,7 @@
  **
  **************************** End of List ******************************/
 
-#ifdef macintosh	      /* is always defined on macintosh's  SB */
+#if defined(macintosh)	      /* is always defined on macintosh's  SB */
 #	define SEGM1
 #	include "pymac.h"
 #endif
@@ -90,7 +90,7 @@ void nextply(void)
   BlackStrictSAT[nbply]= BlackStrictSAT[nbply-1];
 }
 
-#ifdef NODEF
+#if defined(NODEF)
 void nextply(void)
 {
   debut = nbcou;

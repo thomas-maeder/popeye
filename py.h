@@ -42,7 +42,7 @@
 **
 **************************** End of List ******************************/
 
-#ifndef PY_H
+#if !defined(PY_H)
 #define PY_H
 
 
@@ -55,7 +55,7 @@
  */
 #define VARIABLE_INIT(var)	(var)=0
 
-#ifdef C370
+#if defined(C370)
 /* On MVS-systems there's the problem that the C/370 compiler and the
    linker only take the first 8 significant characters valid for
    external functions and variables.
@@ -78,48 +78,48 @@
 
 #endif /* C370 */
 
-#ifndef OSBIT
-#if defined(SIXTEEN) || defined(WIN16)
+#if !defined(OSBIT)
+#if defined(SIXTEEN) || defined(_WIN16)
 #	define OSBIT "16"
 #else
-#ifdef SIXTYFOUR
+#if defined(SIXTYFOUR)
 #	define OSBIT "64"
 #else
 #	define OSBIT "32"
 #endif	/* Default */
 #endif	/* SIXTYFOUR */
-#endif	/* SIXTEEN || WIN16 */
+#endif	/* SIXTEEN || _WIN16 */
 
-#ifndef OSTYPE
-#ifdef DATABASE
+#if !defined(OSTYPE)
+#if defined(DATABASE)
 #       define OSTYPE "DATABASE"
 #else
-#ifdef C370
+#if defined(C370)
 #       define OSTYPE "MVS"
 #else
-#ifdef DOS
+#if defined(DOS)
 #       define OSTYPE "DOS"
 #else
-#ifdef ATARI
+#if defined(ATARI)
 #       define OSTYPE "ATARI"
 #else
-#if defined(WIN98)
+#if defined(_WIN98)
 #       define OSTYPE "WINDOWS98"
 #else
-#if defined(WIN16) || defined(WIN32)
+#if defined(_WIN16) || defined(_WIN32)
 #       define OSTYPE "WINDOWS"
 #else
-#ifdef UNIX
-#ifdef __GO32__
+#if defined(__unix__)
+#if defined(__GO32__)
 #       define OSTYPE "DOS"
 #else
 #       define OSTYPE "UNIX"
 #endif  /* __GO32__ */
 #else   /* ! UNIX: use default version string */
 #       define OSTYPE "C"
-#endif  /* UNIX */
-#endif  /* WIN16 || WIN32 */
-#endif  /* WIN98 */
+#endif  /* __unix__ */
+#endif  /* _WIN16 || _WIN32 */
+#endif  /* _WIN98 */
 #endif  /* ATARI */
 #endif  /* DOS */
 #endif  /* C370 */
@@ -136,18 +136,18 @@
 #define VERSIONSTRING "Popeye "OSTYPE"-"OSBIT"Bit v"STRINGIZE(VERSION)
 
 
-#ifdef BSD
+#if defined(__bsdi__)
 #       define  strchr  index
 #endif
 
-#ifdef DEBUG
+#if defined(DEBUG)
 #       define  DBG(x) fprintf x
 #else
 #       define DBG(x)
 #endif
 
 #if defined(TESTHASH)
-#       ifndef HASHRATE
+#       if !defined(HASHRATE)
 #               define HASHRATE
 #       endif   /* !HASHRATE */
 #endif  /* TESTHASH */
@@ -429,19 +429,19 @@
 #define haut            375
 #define bas             200
 
-#ifdef  DATABASE
+#if defined(DATABASE)
 #       define maxply   302
 #else
-#ifdef UNIX
+#if defined(__unix__)
 #       define maxply  1002
 #else
-#ifdef WIN32
+#if defined(_WIN32)
 #       define maxply   2702
-#elif OS2
+#elif defined(_OS2)
 #       define maxply   302
 #else   
-#ifdef SIXTEEN /* DOS 16 Bit, ... */
-#ifdef MSG_IN_MEM
+#if defined(SIXTEEN) /* DOS 16 Bit, ... */
+#if defined(MSG_IN_MEM)
 #       define maxply   26
 #else
 #       define maxply   48
@@ -449,8 +449,8 @@
 #else
 #	define maxply   702
 #endif	/* SIXTEEN */
-#endif  /* WIN32 */
-#endif  /* UNIX */
+#endif  /* _WIN32 */
+#endif  /* __unix__ */
 #endif /* DATABASE */
 
 #define toppile (60*maxply)
@@ -470,7 +470,7 @@
 typedef int     integer;
 typedef short   smallint;
 
-#ifdef SIXTEEN
+#if defined(SIXTEEN)
 	typedef char    boolean;
 	typedef char    piece;
 #else
@@ -1254,7 +1254,7 @@ enum {
 
 #define BGL_infinity 10000000 	/* this will do I expect; e.g. max len = 980 maxply < 1000 */
 
-#ifdef WIN32	
+#if defined(_WIN32)	
 typedef struct _MEMORYSTATUS {
     unsigned long dwLength;
     unsigned long dwMemoryLoad;
@@ -1280,8 +1280,8 @@ __declspec(dllimport)
 BOOL 
 __stdcall
 SetPriorityClass(
-  HANDLE hProcess,        // handle to process
-  DWORD dwPriorityClass   // priority class
+  HANDLE hProcess,        /* handle to process */
+  DWORD dwPriorityClass   /* priority class */
 );
 
 
@@ -1292,6 +1292,6 @@ GlobalMemoryStatus(
     LPMEMORYSTATUS lpBuffer
     );
 
-#endif  /* WIN32 */
+#endif  /* _WIN32 */
 
 #endif  /* PY_H */

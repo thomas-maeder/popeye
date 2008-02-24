@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-#ifdef macintosh        /* is always defined on macintosh's  SB */
+#if defined(macintosh)        /* is always defined on macintosh's  SB */
 #       define SEGMIO
 #       include "pymac.h"
 #endif

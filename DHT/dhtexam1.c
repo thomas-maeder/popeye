@@ -20,9 +20,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#if !defined(FBSD)
-#include <malloc.h>
-#endif /*FBSD*/
 #include <string.h>
 #include "dhtvalue.h"
 #include "dht.h"

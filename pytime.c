@@ -25,17 +25,17 @@
 **	  If there was no previous call to StartTimer the result
 **	  is undefined (in popeye this never happens).
 ** If there is need to reimplement these two functions, then
-** doit and add a #ifdef which can be selected in the Makefile.
+** doit and add a #if defined(which) can be selected in the Makefile.
 **
 */
 
 #include "pytime.h"
 
-#ifdef NOVOID
+#if defined(NOVOID)
 #	define	void	int
 #endif
 
-#ifdef UNIX
+#if defined(__unix__)
 #	include <sys/types.h>
 #	include <sys/param.h>
 #	include <sys/times.h>
@@ -83,9 +83,9 @@ int MilliSec() {
     return mSec;
 }
 
-#endif /* UNIX */
+#endif /* __unix__ */
 
-#ifdef VMS
+#if defined(__VMS)
 
 #	include <time.h>
 #	define	HZ	100
@@ -107,10 +107,10 @@ long StopTimer(void) {
 	   - StartBuffer.proc_user_time
 	   - StartBuffer.proc_system_time) / HZ;
 }
-#endif /* VMS */
+#endif /* __VMS */
 
-#ifdef DOS
-#	ifdef __TURBOC__
+#if defined(DOS)
+#	if defined(__TURBOC__)
 /* We do not use this code since it requires floating point
 ** arithmetic. This would be the only place we need it.
 ** Under DOS we can also use the time routine since we have
@@ -144,7 +144,7 @@ long StopTimer(void) {
 }
 #	else	/* not __TURBOC__ */
 
-#	ifdef MSC
+#	if defined(_MSC_VER)
 /* we are using MicroSoft C Compiler */
 
 #include <time.h>
@@ -159,8 +159,8 @@ long StopTimer(void) {
     return (clock() - ThisTime)/CLK_TCK;
 }
 
-#	else /* not MSC */
-#	ifdef GCC
+#	else /* not _MSC_VER */
+#	if defined(__GNUC__)
 	/* we are using GCC */
 
 #	include <time.h>
@@ -174,7 +174,7 @@ void StartTimer(void) {
 long StopTimer(void) {
     return time((time_t *)0) - ThisTime;
 }
-#	else	/* not GCC */
+#	else	/* not __GNUC__ */
 
 /* we are using any other C Compiler */
 
@@ -190,18 +190,18 @@ long StopTimer(void) {
     return (clock() - ThisTime)/CLK_TCK;
 }
 
-#endif /* GCC */
-#endif /* MSC */
+#endif /* __GNUC__ */
+#endif /* _MSC_VER */
 #endif /* __TURBOC__ */
 #endif /* DOS */
 
-#ifdef macintosh	/* is always defined on macintosh's  SB */
+#if defined(macintosh)	/* is always defined on macintosh's  SB */
 
 #	define SEGMIO
 #	include "pymac.h"
 #	include <Time.h>
 
-#	ifndef NULL
+#	if !defined(NULL)
 #		define NULL 0
 #	endif
 
@@ -219,7 +219,7 @@ long StopTimer(void) {
 }
 #endif	/* macintosh */
 
-#ifdef ATARI
+#if defined(ATARI)
 
 #		include <stddef.h>
 #		include <time.h>
@@ -237,7 +237,7 @@ long StopTimer(void) {
 #endif	/* ATARI */
 
 
-#ifdef BS2000
+#if defined(BS2000)
 
 #	include <time.h>
 
@@ -257,8 +257,8 @@ long StopTimer(void) {
 
 #endif	/* BS2000 */
 
-#ifdef OS2
-#	ifdef GCC
+#if defined(_OS2)
+#	if defined(__GNUC__)
 	/* we are using GCC */
 
 #	include <time.h>
@@ -273,10 +273,10 @@ long StopTimer(void) {
     return time((time_t *)0) - ThisTime;
 }
 
-#	endif /* GCC */
-#endif /* OS2 */
+#	endif /* __GNUC__ */
+#endif /* _OS2 */
 
-#ifdef C370
+#if defined(C370)
 #include <time.h>	 /* Diese Loesung ist ungenau, da nicht die */
 			 /* reine CPU-Zeit, sondern die Differenz   */
 static time_t ThisTime;  /* Startzeit - Stopzeit angegeben wird.    */
@@ -291,22 +291,28 @@ long StopTimer(void) {
 }
 #endif /* C370 */
 
-#ifdef WIN16
+#if defined(_WIN16)
+
 #include <time.h>
+
 static	clock_t ThisTime;
+
 void StartTimer(void) {
     ThisTime= clock();
 }
+
 long StopTimer(void) {
     return (clock() - ThisTime)/CLK_TCK;
 }
-#endif	/* WIN16 */
 
-#ifdef WIN32
-#	if defined(MSC) || defined(__BORLANDC__)
-	/* we are using Microsoft C++ compiler
-	** or BorlandC 4.something
-	*/
+#endif	/* _WIN16 */
+
+#if defined(_WIN32) || defined(__APPLE__) && defined(__MACH__)
+
+/* TODO
+   This is the Standard conforming way of doing things; make this the
+   default.
+*/
 
 #	include <time.h>
 
@@ -331,5 +337,4 @@ int MilliSec() {
     return mSec;
 }
 
-#	endif /* MSC || __BORLANDC__ */
-#endif /* WIN32 */
+#endif /* _WIN32 || __APPLE__ && __MACH__ */

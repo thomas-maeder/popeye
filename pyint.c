@@ -360,7 +360,7 @@ boolean SolAlreadyFound(void) {
 	}
   }
 
-#ifdef DEBUG
+#if defined(DEBUG)
   if (found) {
 	OptFlag[intelligent]= false;
 	StdString("solution already found:");
@@ -538,14 +538,14 @@ void StaleStoreMate(
   }
 
   if (unused) {
-#ifdef DETAILS
+#if defined(DETAILS)
 	WritePosition();
 	sprintf(GlobalStr, "unused= %d\n", unused);
 	StdString(GlobalStr);
 #endif
 	DeposeBlPiece(blmoves, whmoves, blpcallowed, whpcallowed);
   }
-#ifdef DEBUG
+#if defined(DEBUG)
   sprintf(GlobalStr,
           "unused: %d, WhMovesLeft: %d\n", unused, WhMovesLeft);
   StdString(GlobalStr);
@@ -563,7 +563,7 @@ void StaleStoreMate(
 
   MatesMax++;
 
-#ifdef DETAILS
+#if defined(DETAILS)
   sprintf(GlobalStr, "mate no. %d\n", MatesMax);
   StdString(GlobalStr);
   WritePosition();
@@ -573,7 +573,7 @@ void StaleStoreMate(
 	Mate[i].sq= initsquare;
   }
 
-#ifdef DEBUG
+#if defined(DEBUG)
   StdString("target position:\n");
   WritePosition();
 #endif
@@ -599,7 +599,7 @@ void StaleStoreMate(
   castling_supported= is_cast_supp;
   ep[1]= is_ep; ep2[1]= is_ep2;
 
-#ifdef DETAILS
+#if defined(DETAILS)
   {
 	smallint blm= 0, whm= 0, m;
 	for (bnp= boardnum; *bnp; bnp++)
@@ -670,7 +670,7 @@ void DeposeBlPiece(
 {
   square *bnp, *isbnp= deposebnp;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   marge++;Tabulate();
   sprintf(GlobalStr,
           "DeposeBlPiece(%d,%d,%d), *deposebnp=%d\n",
@@ -680,7 +680,7 @@ void DeposeBlPiece(
 
   for (bnp= deposebnp; *bnp; bnp++) {
 	if (e[*bnp] == vide) {
-#ifdef DEBUG
+#if defined(DEBUG)
       StdString("deposing piece on ");
       WriteSquare(*bnp);
       StdString(" ");
@@ -692,7 +692,7 @@ void DeposeBlPiece(
   }
 
   deposebnp= isbnp;
-#ifdef DEBUG
+#if defined(DEBUG)
   Tabulate();
   sprintf(GlobalStr,
           "leaving DeposeBlPiece, deposebnp=%d\n", *deposebnp);
@@ -776,7 +776,7 @@ void StoreMate(
 
   MatesMax++;
 
-#ifdef DETAILS
+#if defined(DETAILS)
   sprintf(GlobalStr, "mate no. %d\n", MatesMax);
   StdString(GlobalStr);
   WritePosition();
@@ -806,7 +806,7 @@ void StoreMate(
   ResetPosition();
   castling_supported= is_cast_supp;
 
-#ifdef DETAILS
+#if defined(DETAILS)
   for (bnp= boardnum; *bnp; bnp++) {
 	if (e[*bnp] != vide) {
       sp= spec[*bnp];
@@ -1066,7 +1066,7 @@ void DeposeWhKing(
 {
   piece f_p;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   marge++;Tabulate();
   sprintf(GlobalStr,
           "entering DeposeWhKing(%d,%d,%d,%d)\n",
@@ -1101,7 +1101,7 @@ void DeposeWhKing(
   whiteused[0]= False;
   rb= initsquare;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   Tabulate();StdString("leaving DeposeWhKing\n");marge--;
 #endif
 }
@@ -1117,7 +1117,7 @@ void ImmobilizeByBlBlock(
   smallint i, time, pcreq;
   piece f_p;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   marge++;Tabulate();
   sprintf(GlobalStr,
           "entering ImmobilizeByBlBlock(%d,%d,%d)\n",
@@ -1213,7 +1213,7 @@ void ImmobilizeByBlBlock(
   e[toblock]= vide;
   spec[toblock]= EmptySpec;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   Tabulate();StdString("leaving ImmobilizeByblBlock\n");marge--;
 #endif
 } /* ImmobilizeByBlBlock */
@@ -1232,7 +1232,7 @@ void ImmobilizeByWhBlock(
 	StdString("hu-hu!\n");
   }
 
-#ifdef DEBUG
+#if defined(DEBUG)
   marge++;Tabulate();
   sprintf(GlobalStr,
           "entering ImmobilizeByWhBlock(%d,%d,%d)\n",
@@ -1325,7 +1325,7 @@ void ImmobilizeByWhBlock(
   e[toblock]= vide;
   spec[toblock]= EmptySpec;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   Tabulate();StdString("leaving ImmobilizeByWhBlock\n");marge--;
 #endif
 } /* ImmobilizeByWhBlock */
@@ -1351,7 +1351,7 @@ void Immobilize(
   nopinpossible= true;
   pinnecessary= false;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   marge++;
   Tabulate();
   sprintf(GlobalStr,
@@ -1418,7 +1418,7 @@ void Immobilize(
   if (trouble == rn)
 	nopinpossible= true;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   if (trouble == initsquare) {
 	StdString("something is wrong\n");
   }
@@ -1482,7 +1482,7 @@ void Immobilize(
 	}
   }
 
-#ifdef DEBUG
+#if defined(DEBUG)
   Tabulate();StdString("leaving Immobilize\n");marge--;
 #endif
 } /* Immobilize */
@@ -1521,7 +1521,7 @@ void AvoidWhKingInCheck(
 	}
   }
 
-#ifdef DEBUG
+#if defined(DEBUG)
   if (md == 0) {
 	StdString("something's wrong\n");
 	WritePosition();
@@ -1549,7 +1549,7 @@ void AvoidCheckInStalemate(
 {
   smallint checkdirs[8], md= 0, i;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   marge++;
   Tabulate();
   sprintf(GlobalStr,
@@ -1561,7 +1561,7 @@ void AvoidCheckInStalemate(
 	return;
   }
 
-#ifdef DEBUG
+#if defined(DEBUG)
   if ( (*checkfunctions[Knight])(rn, cb, eval_ortho)
        || (*checkfunctions[Pawn])(rn, pb, eval_ortho)
        || (*checkfunctions[Fers])(rn, fb, eval_ortho)
@@ -1595,7 +1595,7 @@ void AvoidCheckInStalemate(
 	}
   }
 
-#ifdef DEBUG
+#if defined(DEBUG)
   if (md == 0) {
 	StdString("something's wrong\n");
 	WritePosition();
@@ -1612,7 +1612,7 @@ void AvoidCheckInStalemate(
                           whmoves, blpcallowed, whpcallowed, sq);
 	}
   }
-#ifdef DEBUG
+#if defined(DEBUG)
   Tabulate();
   sprintf(GlobalStr,"leaving AvoidCheckInStalemate\n");
   StdString(GlobalStr);
@@ -1929,7 +1929,7 @@ void GenerateBlocking(
   if (nbrfl == 0) {
 	/* check for stipulation */
 	if (stipulation == stip_stale || echecc(noir)) {
-#ifdef DEBUG
+#if defined(DEBUG)
       if (IllegalCheck(blanc)) {
 		StdString("oops!\n");
 		exit(0);
@@ -2056,7 +2056,7 @@ void GenerateGuarding(
   smallint	flights;
   boolean	unblockable= false;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   sprintf(GlobalStr,
           "GenerateGuarding(%d, %d, %d, %d)\n",
           actpwh, whmoves, blmoves, whcaptures);
@@ -2120,7 +2120,7 @@ void GenerateGuarding(
       return;
 	}
 
-#ifdef DEBUG
+#if defined(DEBUG)
 	WritePosition();
 	sprintf(GlobalStr, "flights: %d, ", flights);
 	StdString(GlobalStr);
@@ -2148,7 +2148,7 @@ void GenerateGuarding(
       }
 	}
 
-#ifdef DEBUG
+#if defined(DEBUG)
 	sprintf(GlobalStr,
             "GenerateBlocking with timetowaste=%d\n", blmoves-mtba);
     StdString(GlobalStr);
@@ -2257,7 +2257,7 @@ void GenerateChecking(smallint whmoves, smallint blmoves) {
   smallint	i, j, time;
   square	sq;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   sprintf(GlobalStr, "GenerateChecking(%d, %d)\n", whmoves, blmoves);
   StdString(GlobalStr);
 #endif
@@ -2325,7 +2325,7 @@ void GenerateBlackKing(smallint whmoves, smallint blmoves) {
   piece	p= black[0].p;
   Flags	sp= black[0].sp;
 
-#ifdef DEBUG
+#if defined(DEBUG)
   marge++;
   Tabulate();
   sprintf(GlobalStr,
@@ -2344,7 +2344,7 @@ void GenerateBlackKing(smallint whmoves, smallint blmoves) {
 	if (time <= blmoves) {
       SetPiece(p, sq, sp);
       rn= sq;
-#ifdef DEBUG
+#if defined(DEBUG)
       WriteSpec(spec[rn], vide);
       WritePiece(p);
       WriteSquare(sq);
@@ -2365,7 +2365,7 @@ void GenerateBlackKing(smallint whmoves, smallint blmoves) {
       break;
 	}
   }
-#ifdef DEBUG
+#if defined(DEBUG)
   Tabulate();
   sprintf(GlobalStr,"leaving GenerateBlackKing\n");
   StdString(GlobalStr);

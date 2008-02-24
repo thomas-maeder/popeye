@@ -1,123 +1,244 @@
-# This is the Makefile for py4.x, tested under Linux with GNU make.
+# This is the Makefile for py4.x, tested mainly under Linux with GNU
+# make.
 # It is expected to work pretty portably on Unix-ish platforms with
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.19 2008/02/17 23:02:44 popeye37 Exp $
+# CVS: $Id: makefile.unx,v 1.20 2008/02/24 14:56:00 thomasmaeder Exp $
 
 # +++++ Warning +++++++
+
 # This Makefile you are reading now, will not do it with:
 # Microsoft C  on DOS
 # Turbo C  on DOS
 # TopSpeed C  on DOS
 # Turbo C  on ATARI
 # MPW  on Macintosh
-# They are all great, but the options of the
-# commands are totaly different to UNIX ones.
-#	 GRRRHHH !!!
-# Use instead:
-# the makefile.msc file  for Microsoft C  with DOS
-# the py.prj file  for TURBO C  with DOS
-# the atari.prj file  for TURBO C  with ATARI
+
+# They are all great, but the options of the commands are totaly
+# different to UNIX ones.
+# GRRRHHH !!!
+
 # ++++ End Warning ++++
 
-# There are a few defines to set in CFLAGS for portablility
-# 
-# when you use POPEYE with Windows under DOS            -DSHARING
-# when you need some DEBUGGING Information:             -DDEBUG
-# when you compile with MICROSOFT's C-Compiler          -DMSC
-# when you compile with Borland's TURBO-C		-D__TURBOC__
-# when you compile for Windows 32-Bit environments      -DWIN32
-# when you compile under DOS or OS/2 with FSF's GCC	-DGCC
-# when you compile on ATARI:                            -DATARI
-# when you compile on Macintosh (set by default !):     -Dmacintosh
-# when you compile under MSDOS or compatibles:          -DDOS
-# when you compile for Win95, Win98 or WinME            -DWIN98
-# when you compile under UNIX:                          -DUNIX
-# when your system is BSD instead of SYSV:		-DBSD
-# when you compile under AIX				-DAIX
-# when you compile under OS/2				-DOS2
-# when you compile under BS2000				-DBS2000
-# when your library doesn't know memset nor bset	-DNOMEMSET
-# when you compile on a 16-bit machine                  -DSIXTEEN
-# when you compile on a 64-bit machine                  -DSIXTYFOUR
-# when you want to keep all messages in memory		-DMSG_IN_MEM
-# when you compile for HP-UX 8.05 or later		-Aa -D_POSIX_SOURCE
-# when you want a popeye with no output at all		-DQUIET
-# when you want a message after canceling with a signal -DSIGNALS
-# when you want statistic about hashtable filling	-DTESTHASH
-# when you want to compile under MacOSX or FreeBSD      -DFBSD
-#
-# Choose the one you need/want from the above list and put them herein
 
-#DBG= -pg
-#DBG=-g
-#OPT=+O4 +Oaggressive	#HP-UX
-#OPT=-O4 -ansi_alias -fast -inline speed -ifo	#OS ? TLi
-#OPT=-fast -Xc		#Sun Solaris
-OPT=-O2 -Wall
+# Current Popeye version
+# ======================
 
-#ARCH=-xarch=v9		# 64-Bit Solaris cc
-#ARCH=-m64		# 64-Bit gcc
-ARCH=
+# Version numer; . separates major and minor version part
+# developer versions have minor version numbers divisible by 2
+VERSION =       4.42
+
+
+# NOTES ON CONDITIONAL COMPILATION
+# ================================
+
+# cf. http://predef.sourceforge.net/preos.html
+
+# Some parts of the Popeye executable (attempted to) being built
+# depend on whether one or more specific macros are #defined. Some of
+# these macros are implicitly #defined by the C implementation
+# depending on the operating system, architecture or the C
+# implementation itself. Others can typically be passed to the C
+# compiler using some command line switch (for gcc and a number of
+# other compilers, that switch is -D).
+
+# To set one or more of these macros "by hand", use the DEFS
+# variable. Example:
+DEFS=-DSIGNALS -DMSG_IN_MEM -DFXF
+
+
+# Target operating system
+# -----------------------
+
+# The target operating system is the operating system where you want
+# to run the executable. This is not necessarily equal to the host
+# operating system (i.e. the operating system used for building the
+# executable).
+
+# The following macros are typically implicitly set by the C
+# implementation.
+
+# MSDOS or compatibles          DOS  (TODO NG)
+# Windows 32-Bit environments   _WIN32
+# UNIX, Linux                   __unix__
+# BSD                  	        __bsdi__
+# FreeBSD                       __FreeBSD__
+# HP-UX                         _hpux
+# Macintosh <=9                 macintosh
+# MacOSX                        __APPLE__ & __MACH__
+# OS/2                          _OS2
+# ATARI                         ATARI
+# BS2000                        BS2000
+# C370                          C370
+# VMS                           __VMS
+
+
+# You'll probably have to pass these to the compiler "by hand":
+
+# Windows 16-Bit enviromnments  _WIN16
+# Win95, Win98 or WinME         _WIN98
+
+
+# If you inted to use Popeye in the Windows DOS box, you want to set
+#                               SHARING
+
+
+# Target architecture
+# -------------------
+
+# You'll have to pass these to the compiler "by hand":
+
+# 16-bit                        SIXTEEN
+# 64-bit                        SIXTYFOUR
+
+
+
+# C implementation
+# ----------------
+
+# The following macros are set by the implementation.
+
+# GCC                           __GNUC__
+# MICROSOFT's C-Compiler        _MSC_VER
+#   multi-threading             _MT
+# Borland's TURBO-C             __TURBOC__
+
+# If the library of the C implementation doesn't have the Standard C
+# memset() function, you have to define
+
+#                               NOMEMSET
+
+
+# Optional Popeye features
+# ------------------------
+
+# to print some debugging information while solving           DEBUG
+# to print even more debugging information                    DETAILS
+# ?                                                           DBMALLOC
+# debugging output for dynamic hash tables                    DEBUG_DHT
+# to keep all messages in memory (not in an external file)    MSG_IN_MEM
+# to suppress all output                                      QUIET
+# to produce a message after canceling Popeye with a signal   SIGNALS
+# to produce statistics about hashtable fill rate             TESTHASH
+# to use the "FiXed and Fast memory allocator"                FXF
+# to generate tablebases (?)                                  DATABASE
+
+
+DEFS=-DSIGNALS -DMSG_IN_MEM -DFXF
+
+
+# Compiler selection
+# ==================
+
+CC=gcc
+#CC=clcc
+#CC=cc
 
 # HOST = platform *on* which we are building
 # TARGET = platform *for* which we are building
 CCHOST=$(CC)
 CCTARGET=$(CC)
 
+
+# Compiler options
+# ================
+
+# Warning level
+# -------------
+
+WARN=-W -Wall -pedantic -Wno-unused-parameter
+
+
+# Debugging and profiling options
+# -------------------------------
+
+#DBG=-pg
+#DBG=-g
+DBG=
+
+
+# Options related to the target architecture
+# ------------------------------------------
+
+#ARCH=-xarch=v9		# 64-Bit Solaris cc
+#ARCH=-m64		# 64-Bit gcc
+ARCH=
+
+
+# Options related to optimization
+# -------------------------------
+
+#OPTIM=+O4 +Oaggressive	#HP-UX
+#OPTIM=-O4 -ansi_alias -fast -inline speed -ifo	#OS ? TLi
+#OPTIM=-fast -Xc		#Sun Solaris
+OPTIM=-O2
+
+
+# Other options
+# -------------
+
+#OTHER=-Ox -M0s -dos -i -Gs -K -W3 -CSON
+OTHER=
+
+
+# Meta information
+# ----------------
+
 OSTARGET=`uname`
 OSVERTARGET=`uname -r`
 OSCPUTARGET=`uname -p`
 
-DEF=-DFXF
-#DEF=-DUNIX -DBSD -DFXF $(OPT)
+OSTYPE=$(OSTARGET)-$(OSVERTARGET)-$(OSCPUTARGET)
 
-#CFLAGS= -DTIME -DBSD $(OPT)
-#CFLAGS= -DDOS -DSIXTEEN -Ox -M0s -dos -i -Gs -K -W3 -CSON
-#CFLAGS= -ansi -DUNIX $(OPT)
-#CFLAGS= $(DBG) $(OPT) -kansi -DMSG_IN_MEM -DUNIX
-#CFLAGS= $(DBG) $(OPT) -DMSG_IN_MEM -DUNIX -Aa -D_POSIX_SOURCE
-#CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS -DTESTHASH
-#CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS -DSIXTYFOUR
-#CFLAGS= $(DBG) $(OPT) $(ARCH) -DMSG_IN_MEM -DUNIX -DSIGNALS
-CFLAGS= $(DBG) $(OPT) $(ARCH) $(DEF) \
-	-DMSG_IN_MEM -DUNIX -DSIGNALS \
-	-DOSTYPE=\"$(OSTARGET)-$(OSVERTARGET)-$(OSCPUTARGET)\" \
+
+# Putting it all together
+# -----------------------
+
+CFLAGS= $(WARN) $(DBG) $(OPTIM) $(ARCH) $(DEFS) $(OTHER) \
+	-DOSTYPE=\"$(OSTYPE)\" \
         -DVERSION=$(VERSION)
 
-CC=gcc
-#CC=clcc
-#CC=cc
 
-DEPEND = $(CCHOST) -MM $(CFLAGS)
+# How to determine build dependencies
+# -----------------------------------
+DEPEND = $(CCTARGET) -MM $(CFLAGS)
 
-# Give here flags for the linker
-# and add needed libraries
-#LDFLAGS = -M0s -dos -i -F 2000
-LDFLAGS = $(DBG) $(OPT) $(ARCH)
+
+# Linker options
+# --------------
+
+#LDFLAGS = -M0s -dos -i -F 2000       # ? (TM)
+LDFLAGS = $(DBG) $(OPTIM) $(ARCH)
+
+
+# Utilities
+# =====================
+
+# Lint options
+# ------------
 
 # Give here flags for the lint-Tool
-#LINTFLAGS = -a -b -c -h -p -x $(DEF)
+#LINTFLAGS = -a -b -c -h -p -x $(DEFS)
+LINTFLAGS=
 
-# If you don't need (have) ranlib
-RANLIB = ranlib
+
+# Archive index generator
+# -----------------------
+
 #RANLIB = echo ranlib
+RANLIB = ranlib
 
-# If you don't need (have) compress
-#COMPRESS = compress
+
+# compress
+# --------
+
 COMPRESS = echo compress
+#COMPRESS = compress
 
-#
-# No problems should raise from the length of function identifiers.
-# All function and procedure names are different in character
-# positions one through seven.
-# The other identifiers also need only a length of 7.
-# Now the code of the makefile itself:
 
-# Version numer; . separates major and minor version part
-# Append "dev" while development
-VERSION =       4.42
+# Popeye source and generated files
+# =================================
 
 INCLUDES=       pydata.h py.h py1.h py4.h pyproc.h pymsg.h pymac.h     \
 		pylang.h pyproof.h DHT/*.h pyint.h pyhash.h pytime.h
@@ -139,8 +260,16 @@ DFILES  =       $(INCLUDES) $(CFILES) $(DEVELOP) $(DOCFILES) $(UTILS)  \
 		$(MSGFILES)
 MINIFILES  =    py*.[ch] py*.msg py*.txt history.txt readme.txt makefile.unx
 
+
+
+# Default target
+# ==============
+
 all:		py 
 
+
+# Other targets
+# =============
 
 # ===========================================================
 
@@ -169,13 +298,18 @@ include depend
 # Target for compiling .c source files into .o object files
 
 pyhash.o:	
-		$(CCTARGET) $(CFLAGS) $(DEF) -c pyhash.c 
+		$(CCTARGET) $(CFLAGS) -c pyhash.c 
 
 %.o:		%.c
 		$(CCTARGET) $(CFLAGS) -c $<
 
 pyio:           pyio.c pydata.h py.h pydata.o pymac.h
 		$(CCTARGET) -DSTANDALONE $(CFLAGS) -o pyio pydata.o pyio.c
+
+# pylang.c is compiled both for the host and the target.
+# pylang-host.o is the object file for the host.
+pylang-host.o:  pylang.c
+		$(CCHOST) $(CFLAGS) -c pylang.c -o $@
 
 genpystr.o:     genpystr.c
 		$(CCHOST) $(CFLAGS) -c genpystr.c
@@ -185,7 +319,7 @@ genpystr.o:     genpystr.c
 
 # Target for generating utilities for string handling
 
-genpystr:       genpystr.o pylang.o
+genpystr:       genpystr.o pylang-host.o
 		$(CCHOST) -o $@ $(LDFLAGS) $^
 
 pyallmsg.h:	$(MSGFILES) genpystr
@@ -197,7 +331,7 @@ pyallmsg.h:	$(MSGFILES) genpystr
 # Target for generating the dynamic hash table (DHT) library
 
 DHT/dhtlib.a:	DHT/*.c DHT/*.h
-		cd DHT; $(MAKE) -f makefile.unx CCTARGET=$(CCTARGET) RANLIB="$(RANLIB)" ARCH="$(ARCH)" DBG="$(DBG)" DEF="$(DEF)" dhtlib.a
+		cd DHT; $(MAKE) -f makefile.unx CCTARGET=$(CCTARGET) WARN="$(WARN)" OPTIM="$(OPTIM)" RANLIB="$(RANLIB)" ARCH="$(ARCH)" DBG="$(DBG)" DEFS="$(DEFS)" OTHER="$(OTHER)" dhtlib.a
 		$(RANLIB) $@
 
 
