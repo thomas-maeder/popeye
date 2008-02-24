@@ -24,6 +24,8 @@
  **
  ** 2008/01/24 SE   New variant: Gridlines  
  **
+ ** 2008/02/24 SE   Bugfix: Koeko + Parrain  
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)	      /* is always defined on macintosh's  SB */
@@ -670,7 +672,7 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
 	e[sq_capture]= vide;
 
 	if (pp != vide && pp != obs) {
-      if (anycirce && abs(pp) > roib) {
+      if (anycirce && abs(pp) > roib && !CondFlag[parrain]) {
 		/* This still doesn't work with neutral pieces.
 		** Eventually we must add the colour of the side making
 		** the move or potentially giving the check to the
