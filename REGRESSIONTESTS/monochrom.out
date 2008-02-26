@@ -1,0 +1,37 @@
+Popeye Linux-2.6.18.8-0.9-default-i686-32Bit v4.42 (2048 KB)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   T  -B   5
+|                                   |
+4   .   .   B   .   .   .   B   .   4
+|                                   |
+3   .   D   .   .   .   .   .   .   3
+|                                   |
+2   .   B   .  -B   .   .   .   B   2
+|                                   |
+1   .  -K  -L   T   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          8 + 4
+          MonochromesSchach
+
+  1.Td1-h1 ! Zugzwang.
+      1...h5*g4 
+          2.h2-h4 Zugzwang.
+              2...g4*h3 ep. 
+                  3.Tg5-g1 Zugzwang.
+                      3...Lc1*b2 + 
+                          4.Tg1-g7 # 
+
+
+Loesung beendet. Zeit = 0.030 s
+
+

@@ -1,0 +1,14 @@
+anfang
+
+prot monochrom.out
+
+forderung #4
+
+steine weiss kh8 db3 td1g5 bb2c4h2g4
+       schwarz kb1 lc1 bd2h5
+
+bedingung MonochromesSchach
+
+option vari
+
+ende
