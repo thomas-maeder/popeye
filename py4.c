@@ -672,7 +672,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
           return true;
       }
     }
-    else if (totalortho
+    else if (optim_neutralretractable
              && TSTFLAG(spec[sq_departure], Neutral)
              && stipulation != stip_check)
     {
@@ -3417,7 +3417,7 @@ void GenMatingBishop(square sq_departure,
 } /* GenMatingBishop */
 
 void GenMatingMove(couleur camp) {
-  if (totalortho) {
+  if (optim_orthomatingmoves) {
     ColourSpec ColourMovingPiece = camp == blanc ? White : Black;
     square     i, j, z, OpponentsKing = camp == blanc ? rn : rb;
     piece      p;

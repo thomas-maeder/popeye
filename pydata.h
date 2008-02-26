@@ -276,7 +276,13 @@ EXTERN  numvec          ortho_opt_queen[2*(haut-bas)+1],
 #define CheckDirRook   (ortho_opt_rook+(haut-bas))
 #define CheckDirBishop (ortho_opt_bishop+(haut-bas))
 #define CheckDirKnight (ortho_opt_knight+(haut-bas))
-EXTERN  boolean         totalortho;
+
+/* should a mating move be considered refuted if it is executed by a
+ * neutral piece and the side to be mated can simply undo it?*/
+EXTERN  boolean         optim_neutralretractable;
+
+/* should we only look for orthodox mating moves? */
+EXTERN  boolean         optim_orthomatingmoves;
 
 EXTERN  smallint        zzzaa[derbla - dernoi + 1];     /* nbpiece */
 
