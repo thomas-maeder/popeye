@@ -1356,7 +1356,6 @@ static char *ParseStip(void) {
   tok= ParsStips(ParseSort(ParseFlow(tok)));
   if (tok) {
     /* set defaults */
-    stipulation = NonReciStipulation;
     TargetSquare = NonReciTargetSquare;
     DoubleMate = NonReciDoubleMate;
     AlphaEnd = NonReciAlphaEnd;

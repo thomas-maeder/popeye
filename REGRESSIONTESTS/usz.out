@@ -25,6 +25,10 @@ Test Problem - =1 durch 1.Kb4, oder S=1 durch 1.b4 b5?
 
 a)
 
+  1.Ka4-b4 = ! 
+
+  1.Ka4-b5 = ! 
+
 
 b) s=1
 
@@ -223,6 +227,40 @@ Loesung beendet.
            UltraSchachZwang
 
   1.ELf3-g7 + Kf1-h2   2.ELg7-f1 + Kh2-f3   3.ELf1-h2 + g2-g4   4.ELf6-g2 + Kf3-h4   5.ELg2-f5 + Kh4-f3   6.ELf5-g3 + Kf3-h4   7.ELh2-f3 + Kh4-g2   8.ELg3-f5 + Kg2-h5   9.ELf5-g2 + g4-g5  10.ELg2-f4 + g5-g6  11.ELf3-g5 + Kh5-f6  12.ELf4-h5 + Kf6-g4  13.ELg5-h7 + Kg4-f7  14.ELh7-g4 + g6-g7  15.ELg4-h6 + Kf7-h8  16.ELh6-g4 + g7-g8=T # 
+
+Loesung beendet. 
+
+
+test case for stalemate in Ultraschachzwang
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -S   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  =1                          1 + 1
+           UltraSchachZwang
+
+  1  (Ka1-b1 )
+  2  (Ka1-a2 )
+  1.Ka1-b2 = ! 
+
+  3  (Ka1-b2 )
 
 Loesung beendet. 
 

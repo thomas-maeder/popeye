@@ -69,4 +69,13 @@ stei weis kf1 lg1 bg2a7
 stei schw ka8 elf3f6
 bedi trans ultraschachzwang
 
+weiter
+
+bem test case for stalemate in Ultraschachzwang
+steine weiss ka1 schwarz se2
+forderung =1
+beding ultraschachz
+option zugnu ohnesk
+ende
+
 ende

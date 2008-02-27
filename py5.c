@@ -962,7 +962,7 @@ void genmove(couleur camp)
       gen_bl_ply();
 
     while (encore()) {
-      if (jouecoup() && (*stipulation)(camp))
+      if (jouecoup() && (*stip_checkers[stipulation])(camp))
         nbrmates++;
       repcoup();
     }
@@ -2990,11 +2990,10 @@ void repcoup(void) {
   } /* next_prom*/
 } /* end of repcoup */
 
-/* Generate (piece by piece) candidate moves to check if stalemate has
- * been reached in a mate or stalemate problem. Do *not* generate
- * moves by the king of the couleur to be (stale)mated; it has already
- * been taken care of. */
-boolean pattencore(couleur camp, square** pattfld) {
+/* Generate (piece by piece) candidate moves to check if camp is
+ * immobile. Do *not* generate moves by the camp's king; it has
+ * already been taken care of. */
+boolean immobile_encore(couleur camp, square** immobilesquare) {
   square i;
   piece p;
 
@@ -3004,7 +3003,7 @@ boolean pattencore(couleur camp, square** pattfld) {
   if (TSTFLAG(PieSpExFlags,Neutral))
     initneutre(advers(camp));
 
-  while ((i= *(*pattfld)++)) {
+  while ((i= *(*immobilesquare)++)) {
     if ((p= e[i]) != vide) {
       if (TSTFLAG(spec[i], Neutral))
         p= -p;
@@ -3022,13 +3021,12 @@ boolean pattencore(couleur camp, square** pattfld) {
     }
   }
   return false;
-} /* pattencore */
+} /* immobileencore */
 
-/* Have we reached the stalemate position looked for in a mate or
- * stalemate problem. */
-boolean patt(couleur camp)
+/* Is camp immobile? */
+boolean immobile(couleur camp)
 {
-  square *pattsquare= boardnum;  /* local so allows nested calls to patt */
+  square *immobilesquare= boardnum;  /* local to allow recursion */
 
   boolean const whbl_exact= camp==blanc ? wh_exact : bl_exact;
   if (!whbl_exact && !flag_testlegality) {
@@ -3048,9 +3046,7 @@ boolean patt(couleur camp)
     if (CondFlag[MAFF] || CondFlag[OWU]) {
       int k_fl= 0, w_unit= 0;
       while (encore()) {
-        if (jouecoup()
-            || (CondFlag[blackultraschachzwang] && (camp == noir))
-            || (CondFlag[whiteultraschachzwang] && (camp == blanc))          ) {
+        if (jouecoup()) {
           if (camp==noir ? pprise[nbply]>=roib : pprise[nbply]<=roib)
             w_unit++;        /* assuming OWU is OBU for checks to wK !! */
           if (!echecc(camp))
@@ -3058,18 +3054,15 @@ boolean patt(couleur camp)
         }
         repcoup();
       }
-      if ( (CondFlag[OWU] && (k_fl!=0 || w_unit!=1)) ||
-           (CondFlag[MAFF] && (k_fl!=1)) ) {
+      if ((CondFlag[OWU] && (k_fl!=0 || w_unit!=1)) ||
+          (CondFlag[MAFF] && (k_fl!=1)) ) {
         finply();
         return false;
       }
     }
 
-    while (pattencore(camp, &pattsquare)) {
-      if (jouecoup()
-          || (CondFlag[blackultraschachzwang] && (camp == noir))
-          || (CondFlag[whiteultraschachzwang] && (camp == blanc))
-        ) {
+    while (immobile_encore(camp, &immobilesquare)) {
+      if (jouecoup()) {
         if (! echecc(camp)) {
           repcoup();
           finply();
@@ -3129,16 +3122,16 @@ boolean patt(couleur camp)
     }
   }
   return true;
-} /* patt */
+} /* immobile */
 
-boolean stip_target(couleur camp)
+static boolean stipChecker_target(couleur camp)
 {
   return move_generation_stack[nbcou].arrival == TargetSquare
     && crenkam[nbply] == initsquare
     && !echecc(camp);
 }
 
-boolean stip_circuit(couleur camp) {
+static boolean stipChecker_circuit(couleur camp) {
   square cazz, renkam;
 
   cazz = move_generation_stack[nbcou].arrival;
@@ -3150,7 +3143,7 @@ boolean stip_circuit(couleur camp) {
      && !echecc(camp));
 }
 
-boolean stip_circuitB(couleur camp) {
+static boolean stipChecker_circuitB(couleur camp) {
   square sqren= sqrenais[nbply];
 
   return
@@ -3158,7 +3151,7 @@ boolean stip_circuitB(couleur camp) {
          && !echecc(camp));
 }
 
-boolean stip_exchange(couleur camp) {
+static boolean stipChecker_exchange(couleur camp) {
   square cazz, sq, renkam;
 
   cazz = move_generation_stack[nbcou].arrival;
@@ -3181,7 +3174,7 @@ boolean stip_exchange(couleur camp) {
   return false;
 }
 
-boolean stip_exchangeB(couleur camp) {
+static boolean stipChecker_exchangeB(couleur camp) {
   square sqren= sqrenais[nbply];
   square sq;
 
@@ -3192,11 +3185,11 @@ boolean stip_exchangeB(couleur camp) {
     && !echecc(camp);
 }
 
-boolean stip_capture(couleur camp) {
+static boolean stipChecker_capture(couleur camp) {
   return pprise[nbply] != vide && !echecc(camp);
 }
 
-boolean stip_mate(couleur camp) {
+static boolean stipChecker_mate(couleur camp) {
   boolean flag;
   couleur ad= advers(camp);
 
@@ -3204,7 +3197,7 @@ boolean stip_mate(couleur camp) {
     return false;
 
   if (TSTFLAG(PieSpExFlags,Paralyse)) {
-    if (!echecc(ad) || echecc(camp) || !patt(ad))
+    if (!echecc(ad) || echecc(camp) || !immobile(ad))
       return false;
     genmove(ad);
     flag= encore();
@@ -3212,11 +3205,24 @@ boolean stip_mate(couleur camp) {
     return flag;
   }
   else {
-    return (echecc(ad) && !echecc(camp) && patt(ad));
+    return (echecc(ad) && !echecc(camp) && immobile(ad));
   }
 }
 
-boolean para_patt(couleur camp) {
+/* ultraschachzwang isn't in vigor in mates */
+static boolean stipChecker_mate_ultraschachzwang(couleur camp) {
+  int cond = camp==blanc ? blackultraschachzwang : whiteultraschachzwang;
+  boolean saveflag = CondFlag[cond];
+  boolean result;
+  
+  CondFlag[cond] = false;
+  result = stipChecker_mate(camp);
+  CondFlag[cond] = saveflag;
+
+  return result;
+}
+
+boolean para_immobile(couleur camp) {
   if (echecc(camp)) {
     boolean flag;
     genmove(camp);
@@ -3225,11 +3231,11 @@ boolean para_patt(couleur camp) {
     return flag;
   }
   else {
-    return patt (camp);
+    return immobile(camp);
   }
 }
 
-boolean stip_stale(couleur camp) {
+static boolean stipChecker_stale(couleur camp) {
   /* modifiziert fuer paralysierende Steine */
   couleur ad= advers(camp);
 
@@ -3237,82 +3243,72 @@ boolean stip_stale(couleur camp) {
     return false;
 
   if (TSTFLAG(PieSpExFlags, Paralyse)) {
-    return para_patt(ad);
+    return para_immobile(ad);
   }
   else {
-    return (!echecc(ad) && patt(ad));
+    return (!echecc(ad) && immobile(ad));
   }
 }
 
-boolean stip_mate_or_stale(couleur camp) {
-  /* modifiziert fuer paralysierende Steine */
-  boolean flag;
-  couleur ad= advers(camp);
+static boolean stipChecker_mate_or_stale(couleur camp) {
+  /* This may be suboptimal if the standard stip_mate and stip_stale
+   * are used. On the other hand, it's correct for all stip_checkers,
+   * and how many problems with #= are there anyway? TM */
 
-  if (echecc(camp))
-    return false;
-
-  if (TSTFLAG(PieSpExFlags, Paralyse)) {
-    flag= para_patt(ad);
-  }
-  else {
-    flag= patt(ad);
-  }
-  if (flag) {
-    mate_or_stale_patt= !echecc(ad);
-  }
-
-  return flag;
+  /* used for writing the correct symbol in output */
+  mate_or_stale_patt = stip_checkers[stip_stale](camp);
+  
+  return mate_or_stale_patt || stip_checkers[stip_mate](camp);
 }
 
 
-boolean stip_dblstale(couleur camp) {
+static boolean stipChecker_dblstale(couleur camp) {
   /* ich glaube, fuer paral. Steine sind hier keine
      Modifizierungen erforderlich  TLi */
 
   couleur ad= advers(camp);
   if (TSTFLAG(PieSpExFlags, Paralyse)) {
-    return (para_patt(ad) && para_patt(camp));
+    return (para_immobile(ad) && para_immobile(camp));
   }
   else {
     return !echecc(ad) && !echecc(camp)
-      && patt(ad) && patt(camp);
+      && immobile(ad) && immobile(camp);
   }
 }
 
-boolean stip_autostale(couleur camp) {
+static boolean stipChecker_autostale(couleur camp) {
   if (echecc(advers(camp))) {
     return false;
   }
 
   if (TSTFLAG(PieSpExFlags, Paralyse)) {
-    return para_patt(camp);
+    return para_immobile(camp);
   }
   else {
-    return (!echecc(camp) && patt(camp));
+    return (!echecc(camp) && immobile(camp));
   }
 }
 
-boolean stip_check(couleur camp)
+static boolean stipChecker_check(couleur camp)
 {
   return (echecc(advers(camp)) && !echecc(camp));
 }
 
-boolean stip_steingewinn(couleur camp)
+static boolean stipChecker_steingewinn(couleur camp)
 {
   return pprise[nbply] != vide
     && (!anycirce || (sqrenais[nbply] == initsquare))
     && !echecc(camp);
 }
 
-boolean stip_ep(couleur camp)
+static boolean stipChecker_ep(couleur camp)
 {
   return move_generation_stack[nbcou].arrival != move_generation_stack[nbcou].capture
     && is_pawn(pjoue[nbply])
     && !echecc(camp);
 }
 
-boolean stip_doublemate(couleur camp) {
+static boolean stipChecker_doublemate(couleur camp) {
   boolean flag;
   couleur ad= advers(camp);
 
@@ -3334,12 +3330,12 @@ boolean stip_doublemate(couleur camp) {
   testdblmate= flag_nk;
   /* modified to allow isardam + ##  */
   /* may still have problem with isardam + nK + ##  !*/
-  flag=patt(ad) && patt(camp);
+  flag=immobile(ad) && immobile(camp);
   testdblmate=false;
   return flag;
 }
 
-boolean stip_castling(couleur camp) {
+static boolean stipChecker_castling(couleur camp) {
   unsigned char diff;
 
   diff= castling_flag[nbply-1]-castling_flag[nbply];
@@ -3351,10 +3347,39 @@ boolean stip_castling(couleur camp) {
     && !echecc(camp);
 }
 
-boolean stip_any(couleur camp)
+static boolean stipChecker_any(couleur camp)
 {
   return true;
 }
+
+stipulationfunction_t stip_checkers[nr_stipulations];
+
+void initStipCheckers() {
+  stip_checkers[stip_mate] = &stipChecker_mate;
+  stip_checkers[stip_stale] = &stipChecker_stale;
+  stip_checkers[stip_dblstale] = &stipChecker_dblstale;
+  stip_checkers[stip_target] = &stipChecker_target;
+  stip_checkers[stip_check] = &stipChecker_check;
+  stip_checkers[stip_capture] = &stipChecker_capture;
+  stip_checkers[stip_steingewinn] = &stipChecker_steingewinn;
+  stip_checkers[stip_ep] = &stipChecker_ep;
+  stip_checkers[stip_doublemate] = &stipChecker_doublemate;
+  stip_checkers[stip_castling] = &stipChecker_castling;
+  stip_checkers[stip_autostale] = &stipChecker_autostale;
+  stip_checkers[stip_circuit] = &stipChecker_circuit;
+  stip_checkers[stip_exchange] = &stipChecker_exchange;
+  stip_checkers[stip_circuitB] = &stipChecker_circuitB;
+  stip_checkers[stip_exchangeB] = &stipChecker_exchangeB;
+  stip_checkers[stip_mate_or_stale] = &stipChecker_mate_or_stale;
+  stip_checkers[stip_any] = &stipChecker_any;
+
+
+  if (CondFlag[blackultraschachzwang] || CondFlag[whiteultraschachzwang])
+    stip_checkers[stip_mate] = &stipChecker_mate_ultraschachzwang;
+
+  /* TODO use similar wrappers for amu, paralysing pieces etc. */
+}
+
 
 void find_mate_square(couleur camp)
 {
@@ -3366,7 +3391,7 @@ void find_mate_square(couleur camp)
         rn= sq;
         e[rn]= roin;
         nbpiece[roin]++;
-        if ((*stipulation)(camp)) {
+        if ((*stip_checkers[stipulation])(camp)) {
           return;
         }
         nbpiece[roin]--;
@@ -3381,7 +3406,7 @@ void find_mate_square(couleur camp)
         rb= sq;
         e[rb]= roib;
         nbpiece[roib]++;
-        if ((*stipulation)(camp)) {
+        if ((*stip_checkers[stipulation])(camp)) {
           return;
         }
         nbpiece[roib]--;

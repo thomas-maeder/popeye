@@ -1029,7 +1029,7 @@ boolean last_dsr_move(couleur camp)
   while (encore()) {
 	if (jouecoup()) {
       if (SortFlag(Direct)) {
-		if ((*stipulation)(camp)) {
+		if ((*stip_checkers[stipulation])(camp)) {
           linesolution();
           flag = true;
 		}
@@ -1380,7 +1380,7 @@ boolean matant(couleur camp, smallint n)
 		if (i)
           flag= !echecc(camp) && mate(ad,i);
 		else
-          flag= (*stipulation)(camp);
+          flag= (*stip_checkers[stipulation])(camp);
 		if (flag)
           coupfort();
       }
@@ -1415,7 +1415,7 @@ boolean invref(couleur	camp, smallint n) {
 	return true;
 
   if (!FlowFlag(Exact))
-	if ((*stipulation)(ad)) {
+	if ((*stip_checkers[stipulation])(ad)) {
       addtohash(WhDirSucc, n);
       return true;
 	}
@@ -1430,7 +1430,7 @@ boolean invref(couleur	camp, smallint n) {
 	while ((!flag && encore())) {
       if (jouecoup()) {
 		flag= !echecc(camp) && (!definvref(ad,i)||
-                                (OptFlag[quodlibet] && (*stipulation)(camp)));
+                                (OptFlag[quodlibet] && (*stip_checkers[stipulation])(camp)));
 		if (flag)
           coupfort();
       }
@@ -1592,7 +1592,7 @@ boolean definvref(couleur camp, smallint n) {
 	while (flag && encore()) {
       if (jouecoup() && !echecc(camp)) {
 		pat= false;
-		if (!(flag= n ? invref(ad,n) : (*stipulation)(camp))) {
+		if (!(flag= n ? invref(ad,n) : (*stip_checkers[stipulation])(camp))) {
           coupfort();
 		}
       }
@@ -1637,7 +1637,7 @@ boolean definvref(couleur camp, smallint n) {
       while (flag && selflastencore(camp)) {
 		if (jouecoup() && !echecc(camp)) {
           pat= false;
-          flag= (*stipulation)(camp);
+          flag= (*stip_checkers[stipulation])(camp);
           if (!flag) {
 			coupfort();
           }

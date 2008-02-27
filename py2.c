@@ -2427,7 +2427,7 @@ boolean pos_legal(void) {
       return false;
     }
 
-    if (echecc(ad) && !patt(ad)) {
+    if (echecc(ad) && !immobile(ad)) {
       return false;
     }
   }
@@ -2437,7 +2437,7 @@ boolean pos_legal(void) {
       FtlMsg(ChecklessUndecidable);
     }
 
-    if (!mateallowed[nbply] && (*stipulation)(trait[nbply])) {
+    if (!mateallowed[nbply] && (*stip_checkers[stipulation])(trait[nbply])) {
       return false;
     }
   }

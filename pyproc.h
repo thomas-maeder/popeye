@@ -228,7 +228,7 @@ boolean mate (couleur a,smallint b);
 void    nextply (void);
 boolean nocontact (square departure, square arrival, square capture);
 boolean nogridcontact (square a);
-boolean patt (couleur a);
+boolean immobile (couleur a);
 boolean rbcircech (square departure, square arrival, square capture);
 
 extern boolean (*rbechec)(evalfunction_t *evaluate);
@@ -281,12 +281,6 @@ boolean invref (couleur a, smallint b);
 boolean eval_madrasi (square departure, square arrival, square capture);
 piece   champiece (piece p);
 
-boolean stip_mate (couleur a);
-boolean stip_stale (couleur a);
-boolean stip_dblstale (couleur a);
-boolean stip_target (couleur a);
-boolean stip_check (couleur a);
-boolean stip_capture (couleur a);
 boolean testparalyse (square departure, square arrival, square capture);
 boolean paraechecc (square departure, square arrival, square capture);
 boolean paralysiert (square i);
@@ -333,10 +327,8 @@ void    logLngArg (long arg);
 
 void    GenMatingMove(couleur a);
 
-boolean stip_steingewinn (couleur a);
 boolean VerifieMsg (int a);
 
-boolean stip_ep (couleur a);
 piece   dec_einstein (piece p);
 piece   inc_einstein (piece p);
 piece   norskpiece (piece p);
@@ -392,15 +384,12 @@ void    linesolution(void);
 
 boolean introseries(couleur camp, smallint n, boolean restartenabled); 
 
-boolean stip_doublemate(couleur a);
-
-boolean stip_castling(couleur a);
-
 void	pyInitSignal(void);
 void	InitCond (void);
 void	InitStip(void);
 char	*MakeTimeString(void);
 
+void initStipCheckers();
 
 char *ReadPieces(int cond);
 
@@ -418,12 +407,7 @@ void LaTeXClose(void);
 void LaTeXBeginDiagram(void);
 void LaTeXEndDiagram(void);
 
-boolean stip_autostale(couleur camp);
 square renplus(piece p, Flags pspec, square j, square i, square ia, couleur camp);
-boolean stip_circuit (couleur a);
-boolean stip_exchange (couleur a);
-boolean stip_circuitB (couleur a);
-boolean stip_exchangeB (couleur a);
 
 void RotateMirror(int what);
 void genrb_cast(void);
@@ -432,9 +416,7 @@ void genrn_cast(void);
 boolean woohefflibre (square a, square b);
 boolean eval_wooheff(square departure, square arrival, square capture);
 
-boolean stip_mate_or_stale(couleur camp);
 boolean eval_shielded(square departure, square arrival, square capture);
-boolean stip_any (couleur a);
 
 void    grabbitb (square sq);
 void    grabbitn (square sq);

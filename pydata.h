@@ -309,9 +309,38 @@ EXTERN  boolean         promonly[derbla + 1];
 EXTERN  evalfunction_t *eval_white;
 EXTERN  evalfunction_t *eval_2;
 EXTERN  evalfunction_t *eval_black;
-EXTERN boolean		(* ReciStipulation)(couleur),
-		(* NonReciStipulation)(couleur),
-		(* stipulation)(couleur);
+
+typedef enum
+{
+  stip_mate,
+  stip_stale,
+  stip_dblstale,
+  stip_target,
+  stip_check,
+  stip_capture,
+  stip_steingewinn,
+  stip_ep,
+  stip_doublemate,
+  stip_castling,
+  stip_autostale,
+  stip_circuit,
+  stip_exchange,
+  stip_circuitB,
+  stip_exchangeB,
+  stip_mate_or_stale,
+  stip_any,
+
+  nr_stipulations
+} Stipulation;
+
+EXTERN Stipulation ReciStipulation;
+EXTERN Stipulation NonReciStipulation;
+EXTERN Stipulation stipulation;
+
+typedef boolean (*stipulationfunction_t)(couleur);
+
+extern stipulationfunction_t stip_checkers[nr_stipulations];
+
 EXTERN  short   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);
 

@@ -170,15 +170,15 @@ boolean is_simplehopper(piece p)
   case khb:
   case orixb:
 
-        case mooseb:
-        case rookmooseb:
-        case bishopmooseb:
-        case eagleb:
-        case rookeagleb:
-        case bishopeagleb:
-        case sparrb:
-        case rooksparrb:
-        case bishopsparrb:
+  case mooseb:
+  case rookmooseb:
+  case bishopmooseb:
+  case eagleb:
+  case rookeagleb:
+  case bishopeagleb:
+  case sparrb:
+  case rooksparrb:
+  case bishopsparrb:
         
     return true;
   default:  return false;
@@ -280,7 +280,7 @@ boolean verifieposition(void) {
         || (ReciStipulation == stip_check)
         || (ReciStipulation == stip_doublemate));
 
-  if (stipulation == stip_steingewinn
+  if (NonReciStipulation == stip_steingewinn
       && CondFlag[parrain])
   {
     return VerifieMsg(PercentAndParrain);
@@ -779,7 +779,7 @@ boolean verifieposition(void) {
         || CondFlag[koeko]
         || CondFlag[newkoeko]
         || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
-    || CondFlag[geneva]
+        || CondFlag[geneva]
         || TSTFLAG(PieSpExFlags, Kamikaze))
     {
       return VerifieMsg(SomeCondAndAntiCirce);
@@ -974,9 +974,9 @@ boolean verifieposition(void) {
     || CondFlag[noblackprom]
     || CondFlag[antikings]
     || CondFlag[norsk]
-  || CondFlag[SAT]
-  || CondFlag[strictSAT]
-  || CondFlag[takemake];
+    || CondFlag[SAT]
+    || CondFlag[strictSAT]
+    || CondFlag[takemake];
 
   if (CondFlag[dynasty]) {
     /* checking for TSTFLAG(spec[rb],Kamikaze) may not be sufficient
@@ -1033,8 +1033,8 @@ boolean verifieposition(void) {
     if (promonly[p]) {
       exist[p]= True;
     }
-  if (CondFlag[protean])
-    exist[reversepb]= true;
+    if (CondFlag[protean])
+      exist[reversepb]= true;
     if (exist[p]) {
       if ( p != pb
            && p != dummyb
@@ -1062,10 +1062,10 @@ boolean verifieposition(void) {
   for (p= roib; p <= derbla; p++) {
     if (exist[p] && p != dummyb && p != hamstb) {
       if (whitenormaltranspieces) {
-          whitetransmpieces[tp]= p;
+        whitetransmpieces[tp]= p;
       }
       if (blacknormaltranspieces) {
-          blacktransmpieces[tp]= p;
+        blacktransmpieces[tp]= p;
       }
       tp++;
       if ( p != Orphan
@@ -1148,12 +1148,12 @@ boolean verifieposition(void) {
     || NonReciStipulation == stip_steingewinn
     || NonReciStipulation == stip_castling;
 
-  if (   stipulation == stip_doublemate
-         && (SortFlag(Self)
-             || SortFlag(Direct)
-             || (FlowFlag(Reci)
-                 && CounterMate
-                 && ReciStipulation == stip_doublemate)))
+  if (NonReciStipulation == stip_doublemate
+      && (SortFlag(Self)
+          || SortFlag(Direct)
+          || (FlowFlag(Reci)
+              && CounterMate
+              && ReciStipulation == stip_doublemate)))
   {
     return VerifieMsg(StipNotSupported);
   }
@@ -1195,7 +1195,7 @@ boolean verifieposition(void) {
       SETFLAGMASK(castling_flag[0],ra8_cancastle);
   }
 
-  if (stipulation == stip_castling && !castling_supported) {
+  if (NonReciStipulation == stip_castling && !castling_supported) {
     return VerifieMsg(StipNotSupported);
   }
 
@@ -1227,7 +1227,7 @@ boolean verifieposition(void) {
   jouetestgenre=
     flag_testlegality
     || flagAssassin
-    || stipulation==stip_doublemate
+    || NonReciStipulation==stip_doublemate
     || ReciStipulation==stip_doublemate
     || CondFlag[patience]
     || CondFlag[republican]
@@ -1273,8 +1273,8 @@ boolean verifieposition(void) {
          "castling: %s, fee: %s, orth: %s, "
          "help: %s, direct: %s, series: %s\n",
          OptFlag[intelligent]?"true":"false",
-         stipulation == stip_mate?"true":"false",
-         stipulation == stip_stale?"true":"false",
+         NonReciStipulation == stip_mate?"true":"false",
+         NonReciStipulation == stip_stale?"true":"false",
          testcastling?"true":"false",
          flagfee?"true":"false",
          SortFlag(Help)?"true":"false",
@@ -1283,12 +1283,13 @@ boolean verifieposition(void) {
 #endif      /* DEBUG */
 
   if ( OptFlag[intelligent]
-       && (((stipulation != stip_mate) && (stipulation != stip_stale))
+       && (((NonReciStipulation != stip_mate)
+            && (NonReciStipulation != stip_stale))
            || flagfee
            || SortFlag(Self)
            || !(   SortFlag(Help)
-                || (SortFlag(Direct) && FlowFlag(Series))
-           )))
+                   || (SortFlag(Direct) && FlowFlag(Series))
+             )))
   {
     return VerifieMsg(IntelligentRestricted);
   }
@@ -1355,7 +1356,7 @@ boolean verifieposition(void) {
     return ProofVerifie();
   }
 #endif
-
+    
   return true;
 } /* verifieposition */
 
@@ -1833,10 +1834,10 @@ void WriteForsyth(void)
       }
     }
     if (cnt) {
-     char buf[3];
-     sprintf(buf, "%d", cnt);
-     StdString(buf);
-     cnt= 0;
+      char buf[3];
+      sprintf(buf, "%d", cnt);
+      StdString(buf);
+      cnt= 0;
     }
     if (row>1) StdChar('/');
   }
@@ -1931,12 +1932,12 @@ boolean last_h_move(couleur camp) {
 
   if (DoubleMate) {
     if (CounterMate) {
-      if (!stip_mate(ad)) {
+      if (!stip_checkers[stip_mate](ad)) {
         return false;
       }
     }
     else {
-      if (patt(camp)) {
+      if (immobile(camp)) {
         return false;
       }
     }
@@ -1947,9 +1948,9 @@ boolean last_h_move(couleur camp) {
   }
   else {
     if (SortFlag(Reflex) && !FlowFlag(Semi) && matant(camp, 1)) {
-        return false;
+      return false;
     } else {
-        genmove(camp);
+      genmove(camp);
     }
   }
 
@@ -1967,7 +1968,7 @@ boolean last_h_move(couleur camp) {
           GenMatingMove(ad);
           while (encore()) {
             if (jouecoup()
-                && (*stipulation)(ad))
+                && (*stip_checkers[stipulation])(ad))
             {
               flag = true;
               linesolution();
@@ -1978,7 +1979,7 @@ boolean last_h_move(couleur camp) {
         }
       }
       else {
-        if ((*stipulation)(camp)) {
+        if ((*stip_checkers[stipulation])(camp)) {
           flag= true;
           linesolution();
         }
@@ -2003,7 +2004,7 @@ smallint dsr_def(couleur camp, smallint n, smallint t) {
 
   if ((!FlowFlag(Exact) || enonce == 1)
       && SortFlag(Direct)
-      && (*stipulation)(ad))          /* to find short solutions */
+      && (*stip_checkers[stipulation])(ad)) /* to find short solutions */
   {
     return -1;
   }
@@ -2111,7 +2112,7 @@ boolean dsr_parmena(couleur camp, smallint n, smallint t) {
     if (jouecoup() && nowdanstab(t) && !echecc(camp)) {
       flag= !(  n == 1
                 && SortFlag(Direct)
-                ? (*stipulation)(camp)
+                ? (*stip_checkers[stipulation])(camp)
                 : dsr_e(ad, n));
       if (flag) {
         coupfort();
@@ -2136,7 +2137,7 @@ void dsr_vari(couleur camp, smallint n, smallint par, boolean appa) {
   if (!SortFlag(Direct) && (n == 1 || (appa && dsr_e(ad,1)))) {
     genmove(ad);
     while(encore()) {
-      if (jouecoup() && (*stipulation)(ad)) {
+      if (jouecoup() && (*stip_checkers[stipulation])(ad)) {
         StdString("\n");
         Tabulate();
         sprintf(GlobalStr,"%3d...",zugebene);
@@ -2229,7 +2230,7 @@ void dsr_vari(couleur camp, smallint n, smallint par, boolean appa) {
         : nrmena < 2 || !dsr_ant(camp,nrmena-1);
 
       if (!SortFlag(Direct) && indikator) {
-        indikator= !(*stipulation)(ad);
+        indikator= !(*stip_checkers[stipulation])(ad);
       }
       if (indikator && dsr_parmena(camp,nrmena,mena)) {
         Tabulate();
@@ -2302,11 +2303,11 @@ void dsr_sol(
     {
       alloctab(&def);
       if (n == 1 && SortFlag(Direct)) {
-        nbd= (*stipulation)(camp) ? 0 : maxdefen + 1;
+        nbd= (*stip_checkers[stipulation])(camp) ? 0 : maxdefen + 1;
       }
       else if (n == 1
                && OptFlag[quodlibet]
-               && (*stipulation)(camp))
+               && (*stip_checkers[stipulation])(camp))
       {
         nbd = 0;
       }
@@ -2321,7 +2322,7 @@ void dsr_sol(
           || nbd == -1
           || (n == 1
               && OptFlag[quodlibet]
-              && (*stipulation)(camp));
+              && (*stip_checkers[stipulation])(camp));
         if (DrohFlag) {
           Message(Threat);
           DrohFlag= false;
@@ -2826,7 +2827,7 @@ int main(int argc, char *argv[]) {
 
       /* Now set our timers for option MaxTime moved to this place. */
       if (MaxTime >=0 ) {
-          OptFlag[maxtime] = true;
+        OptFlag[maxtime] = true;
       }
       if (OptFlag[maxtime] && !FlagTimerInUse && !FlagTimeOut) {
         FlagTimerInUse= true;
@@ -2850,6 +2851,10 @@ int main(int argc, char *argv[]) {
       maincamp= OptFlag[halfduplex] ? noir : blanc;
 
       if (verifieposition()) {
+        initStipCheckers();
+
+        stipulation = NonReciStipulation;
+        
         if (!OptFlag[noboard]) {
           WritePosition();
         }
@@ -2863,44 +2868,44 @@ int main(int argc, char *argv[]) {
         }
         StorePosition();
         if (SortFlag(Proof)) {
-      ProofInitialise();
-      inithash();
-      /* no DUPLEX for SPG's ! */
-      if (FlowFlag(Alternate)) {
-        maincamp = flag_atob
-          ? (flag_appseul
-             ? blanc
-             : noir)
-          : blanc;
-        if (flag_atob
-            && OptFlag[solapparent]
-            && enonce>1) {
-          SatzFlag= true;
-          if (flag_atob && !FlowFlag(Exact)) {
-            StipFlags|= FlowBit(Exact);
-            for (i= 1; i<enonce-1; i++)
-              ProofSol(advers(maincamp), i, false);
-          }
-          ProofSol(advers(maincamp), enonce-1, OptFlag[movenbr]);
-          SatzFlag=false;
+          ProofInitialise();
+          inithash();
+          /* no DUPLEX for SPG's ! */
+          if (FlowFlag(Alternate)) {
+            maincamp = flag_atob
+              ? (flag_appseul
+                 ? blanc
+                 : noir)
+              : blanc;
+            if (flag_atob
+                && OptFlag[solapparent]
+                && enonce>1) {
+              SatzFlag= true;
+              if (flag_atob && !FlowFlag(Exact)) {
+                StipFlags|= FlowBit(Exact);
+                for (i= 1; i<enonce-1; i++)
+                  ProofSol(advers(maincamp), i, false);
               }
-        if (flag_atob && !FlowFlag(Exact)) {
-          StipFlags|= FlowBit(Exact);
-            for (i= 1; i<enonce; i++)
-              ProofSol(maincamp, i, false);
-        }
-              ProofSol(maincamp, enonce, OptFlag[movenbr]);
-      }
-      else {
-        if (flag_atob && !FlowFlag(Exact)) {
-          StipFlags|= FlowBit(Exact);
-          for (i= 1; i<enonce; i++)
-            SeriesProofSol(i, false);
-        }
-              SeriesProofSol(enonce, OptFlag[movenbr]);
-      }
-      closehash();
-      Message(NewLine);
+              ProofSol(advers(maincamp), enonce-1, OptFlag[movenbr]);
+              SatzFlag=false;
+            }
+            if (flag_atob && !FlowFlag(Exact)) {
+              StipFlags|= FlowBit(Exact);
+              for (i= 1; i<enonce; i++)
+                ProofSol(maincamp, i, false);
+            }
+            ProofSol(maincamp, enonce, OptFlag[movenbr]);
+          }
+          else {
+            if (flag_atob && !FlowFlag(Exact)) {
+              StipFlags|= FlowBit(Exact);
+              for (i= 1; i<enonce; i++)
+                SeriesProofSol(i, false);
+            }
+            SeriesProofSol(enonce, OptFlag[movenbr]);
+          }
+          closehash();
+          Message(NewLine);
         }
         else {
           do {
@@ -2932,14 +2937,12 @@ int main(int argc, char *argv[]) {
             if (OptFlag[duplex]) {
               /* Set next side to calculate for duplex "twin" */
               maincamp= advers(maincamp);
-              if (   (OptFlag[maxsols]
-                      && (solutions >= maxsolutions))
-                     || (OptFlag[stoponshort]
-                         && FlagShortSolsReached))
+              if ((OptFlag[maxsols] && solutions>=maxsolutions)
+                  || (OptFlag[stoponshort] && FlagShortSolsReached))
               {
                 FlagMaxSolsReached= true;
                 /* restart calculation of maxsolution after "twinning"
-                */
+                 */
                 solutions= 0;
               }
 #if defined(HASHRATE)

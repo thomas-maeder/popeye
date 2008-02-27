@@ -752,7 +752,7 @@ void StoreMate(
   square *bnp, _rb, _rn;
   Flags sp;
 
-  if (!patt(noir)) {
+  if (!immobile(noir)) {
 	NeutralizeMateGuardingPieces(blmoves, whmoves, blpc, whpc);
 	return;
   }
@@ -972,7 +972,7 @@ void ImmobilizeByPin(
 			  FroTo(f_p, white[i].sq, Bishop, sq, false);
 			if (time <= whmoves) {
               SetPiece(Bishop, sq, white[i].sp);
-              if (patt(noir)) {
+              if (immobile(noir)) {
 				StaleStoreMate(blmoves, whmoves-time,
                                blpcallowed-1, whpcallowed);
               }
@@ -987,7 +987,7 @@ void ImmobilizeByPin(
 			time= FroTo(f_p, white[i].sq, Rook, sq, false);
 			if (time <= whmoves) {
               SetPiece(Rook, sq, white[i].sp);
-              if (patt(noir)) {
+              if (immobile(noir)) {
 				StaleStoreMate(blmoves, whmoves-time,
                                blpcallowed-1, whpcallowed);
               }
@@ -1000,7 +1000,7 @@ void ImmobilizeByPin(
           time= FroTo(f_p, white[i].sq, Queen, sq, false);
           if (time <= whmoves) {
 			SetPiece(Queen, sq, white[i].sp);
-			if (patt(noir)) {
+			if (immobile(noir)) {
               StaleStoreMate(blmoves,
                              whmoves-time, blpcallowed-1,
                              whpcallowed);
@@ -1016,7 +1016,7 @@ void ImmobilizeByPin(
           time= FroTo(f_p, white[i].sq, f_p, sq, false);
           if (time <= whmoves) {
 			SetPiece(f_p, sq, white[i].sp);
-			if (patt(noir)) {
+			if (immobile(noir)) {
               StaleStoreMate(
                 blmoves, whmoves-time, blpcallowed-1,
                 whpcallowed);
@@ -1087,7 +1087,7 @@ void DeposeWhKing(
                             blpcallowed, whpcallowed);
 	}
 	else {
-      if (patt(noir)) {
+      if (immobile(noir)) {
 		StaleStoreMate(blmoves,
                        whmoves, blpcallowed, whpcallowed);
       }
@@ -1161,7 +1161,7 @@ void ImmobilizeByBlBlock(
                                       whmoves, blpcallowed, whpcallowed-1);
               }
               else {
-				if (patt(noir)) {
+				if (immobile(noir)) {
                   StaleStoreMate(blmoves-time,
                                  whmoves,
                                  blpcallowed, whpcallowed-1);
@@ -1196,7 +1196,7 @@ void ImmobilizeByBlBlock(
                                   blpcallowed-pcreq, whpcallowed-1);
           }
           else {
-			if (patt(noir)) {
+			if (immobile(noir)) {
               StaleStoreMate(blmoves-time, whmoves,
                              blpcallowed-pcreq, whpcallowed-1);
 			}
@@ -1266,7 +1266,7 @@ void ImmobilizeByWhBlock(
                                       whpcallowed);
               }
               else {
-				if (patt(noir)) {
+				if (immobile(noir)) {
                   StaleStoreMate(blmoves,
                                  whmoves-time,
                                  blpcallowed-1, whpcallowed);
@@ -1306,7 +1306,7 @@ void ImmobilizeByWhBlock(
                                 whpcallowed-pcreq);
 		}
 		else {
-          if (patt(noir)) {
+          if (immobile(noir)) {
 			StaleStoreMate(blmoves, whmoves-time,
                            blpcallowed-decpc, whpcallowed-pcreq);
           }
@@ -1857,7 +1857,7 @@ boolean Redundant(void) {
       p= e[sq]; sp= spec[sq];
       e[sq]= vide; spec[sq]= EmptySpec;
 
-      flag= echecc(noir) && patt(noir);
+      flag= echecc(noir) && immobile(noir);
 
       /* restore piece */
       e[sq]= p; spec[sq]= sp;
@@ -1941,7 +1941,7 @@ void GenerateBlocking(
                                 whmoves, blpcallowed, whpcallowed);
 		}
 		else {
-          if (patt(noir)) {
+          if (immobile(noir)) {
 			StaleStoreMate(timetowaste,
                            whmoves, blpcallowed, whpcallowed);
           }
