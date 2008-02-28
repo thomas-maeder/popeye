@@ -2437,7 +2437,7 @@ boolean pos_legal(void) {
       FtlMsg(ChecklessUndecidable);
     }
 
-    if (!mateallowed[nbply] && (*stip_checkers[stipulation])(trait[nbply])) {
+    if (!mateallowed[nbply] && stipulationChecker(trait[nbply])) {
       return false;
     }
   }

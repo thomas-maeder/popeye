@@ -829,12 +829,14 @@ boolean shsol(couleur camp, smallint n, boolean restartenabled) {
   /* reciprocal helpmovers -- let's check whether black can mate */
   if (FlowFlag(Reci)) {
 	stipulation = ReciStipulation;
+    stipulationChecker = ReciStipulationChecker;
 	TargetSquare = ReciTargetSquare;
 	DoubleMate = ReciDoubleMate;
 
 	flag2 = matant(camp, 1);
 
 	stipulation = NonReciStipulation;
+    stipulationChecker = NonReciStipulationChecker;
 	TargetSquare = NonReciTargetSquare;
 	DoubleMate = NonReciDoubleMate;
   }
@@ -910,6 +912,7 @@ boolean shsol(couleur camp, smallint n, boolean restartenabled) {
   if (flag && FlowFlag(Reci) && PrintReciSolution) {
 	/* reciprocal helpmover */
 	stipulation = ReciStipulation;
+    stipulationChecker = ReciStipulationChecker;
 	TargetSquare = ReciTargetSquare;
 	AlphaEnd = ReciAlphaEnd;
 	DoubleMate = ReciDoubleMate;
@@ -918,6 +921,7 @@ boolean shsol(couleur camp, smallint n, boolean restartenabled) {
 
 	PrintReciSolution = False;
 	stipulation = NonReciStipulation;
+    stipulationChecker = NonReciStipulationChecker;
 	TargetSquare = NonReciTargetSquare;
 	AlphaEnd = NonReciAlphaEnd;
 	DoubleMate = NonReciDoubleMate;
@@ -941,12 +945,14 @@ boolean mataide(couleur camp, smallint n, boolean restartenabled) {
 	/* reciprocal helpmover */
 	if (n == 1 && FlowFlag(Reci)) {
       stipulation = ReciStipulation;
+      stipulationChecker = ReciStipulationChecker;
       TargetSquare = ReciTargetSquare;
       DoubleMate = ReciDoubleMate;
 
       flag = !matant(camp, 1);
 
       stipulation = NonReciStipulation;
+      stipulationChecker = NonReciStipulationChecker;
       TargetSquare = NonReciTargetSquare;
       DoubleMate = NonReciDoubleMate;
 	}
@@ -996,6 +1002,7 @@ boolean mataide(couleur camp, smallint n, boolean restartenabled) {
 
 	if (flag && FlowFlag(Reci) && n == 1) {     /* reciprocal helpmover */
       stipulation = ReciStipulation;
+      stipulationChecker = ReciStipulationChecker;
       TargetSquare = ReciTargetSquare;
       AlphaEnd = ReciAlphaEnd;
       DoubleMate = ReciDoubleMate;
@@ -1003,6 +1010,7 @@ boolean mataide(couleur camp, smallint n, boolean restartenabled) {
       last_h_move(camp);
 
       stipulation = NonReciStipulation;
+      stipulationChecker = NonReciStipulationChecker;
       TargetSquare = NonReciTargetSquare;
       AlphaEnd = NonReciAlphaEnd;
       DoubleMate = NonReciDoubleMate;
@@ -1029,7 +1037,7 @@ boolean last_dsr_move(couleur camp)
   while (encore()) {
 	if (jouecoup()) {
       if (SortFlag(Direct)) {
-		if ((*stip_checkers[stipulation])(camp)) {
+		if (stipulationChecker(camp)) {
           linesolution();
           flag = true;
 		}
@@ -1380,7 +1388,7 @@ boolean matant(couleur camp, smallint n)
 		if (i)
           flag= !echecc(camp) && mate(ad,i);
 		else
-          flag= (*stip_checkers[stipulation])(camp);
+          flag= stipulationChecker(camp);
 		if (flag)
           coupfort();
       }
@@ -1415,7 +1423,7 @@ boolean invref(couleur	camp, smallint n) {
 	return true;
 
   if (!FlowFlag(Exact))
-	if ((*stip_checkers[stipulation])(ad)) {
+	if (stipulationChecker(ad)) {
       addtohash(WhDirSucc, n);
       return true;
 	}
@@ -1430,7 +1438,7 @@ boolean invref(couleur	camp, smallint n) {
 	while ((!flag && encore())) {
       if (jouecoup()) {
 		flag= !echecc(camp) && (!definvref(ad,i)||
-                                (OptFlag[quodlibet] && (*stip_checkers[stipulation])(camp)));
+                                (OptFlag[quodlibet] && stipulationChecker(camp)));
 		if (flag)
           coupfort();
       }
@@ -1592,7 +1600,7 @@ boolean definvref(couleur camp, smallint n) {
 	while (flag && encore()) {
       if (jouecoup() && !echecc(camp)) {
 		pat= false;
-		if (!(flag= n ? invref(ad,n) : (*stip_checkers[stipulation])(camp))) {
+		if (!(flag= n ? invref(ad,n) : stipulationChecker(camp))) {
           coupfort();
 		}
       }
@@ -1637,7 +1645,7 @@ boolean definvref(couleur camp, smallint n) {
       while (flag && selflastencore(camp)) {
 		if (jouecoup() && !echecc(camp)) {
           pat= false;
-          flag= (*stip_checkers[stipulation])(camp);
+          flag= stipulationChecker(camp);
           if (!flag) {
 			coupfort();
           }

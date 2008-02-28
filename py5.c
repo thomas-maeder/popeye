@@ -962,7 +962,7 @@ void genmove(couleur camp)
       gen_bl_ply();
 
     while (encore()) {
-      if (jouecoup() && (*stip_checkers[stipulation])(camp))
+      if (jouecoup() && stipulationChecker(camp))
         nbrmates++;
       repcoup();
     }
@@ -3352,8 +3352,6 @@ static boolean stipChecker_any(couleur camp)
   return true;
 }
 
-stipulationfunction_t stip_checkers[nr_stipulations];
-
 void initStipCheckers() {
   stip_checkers[stip_mate] = &stipChecker_mate;
   stip_checkers[stip_stale] = &stipChecker_stale;
@@ -3377,6 +3375,11 @@ void initStipCheckers() {
   if (CondFlag[blackultraschachzwang] || CondFlag[whiteultraschachzwang])
     stip_checkers[stip_mate] = &stipChecker_mate_ultraschachzwang;
 
+  NonReciStipulationChecker = stip_checkers[NonReciStipulation];
+  ReciStipulationChecker = stip_checkers[ReciStipulation];
+
+  stipulationChecker = NonReciStipulationChecker;
+
   /* TODO use similar wrappers for amu, paralysing pieces etc. */
 }
 
@@ -3391,7 +3394,7 @@ void find_mate_square(couleur camp)
         rn= sq;
         e[rn]= roin;
         nbpiece[roin]++;
-        if ((*stip_checkers[stipulation])(camp)) {
+        if (stipulationChecker(camp)) {
           return;
         }
         nbpiece[roin]--;
@@ -3406,7 +3409,7 @@ void find_mate_square(couleur camp)
         rb= sq;
         e[rb]= roib;
         nbpiece[roib]++;
-        if ((*stip_checkers[stipulation])(camp)) {
+        if (stipulationChecker(camp)) {
           return;
         }
         nbpiece[roib]--;

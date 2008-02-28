@@ -338,8 +338,11 @@ EXTERN Stipulation NonReciStipulation;
 EXTERN Stipulation stipulation;
 
 typedef boolean (*stipulationfunction_t)(couleur);
+EXTERN stipulationfunction_t stip_checkers[nr_stipulations];
 
-extern stipulationfunction_t stip_checkers[nr_stipulations];
+EXTERN stipulationfunction_t ReciStipulationChecker;
+EXTERN stipulationfunction_t NonReciStipulationChecker;
+EXTERN stipulationfunction_t stipulationChecker;
 
 EXTERN  short   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);

@@ -1968,7 +1968,7 @@ boolean last_h_move(couleur camp) {
           GenMatingMove(ad);
           while (encore()) {
             if (jouecoup()
-                && (*stip_checkers[stipulation])(ad))
+                && stipulationChecker(ad))
             {
               flag = true;
               linesolution();
@@ -1979,7 +1979,7 @@ boolean last_h_move(couleur camp) {
         }
       }
       else {
-        if ((*stip_checkers[stipulation])(camp)) {
+        if (stipulationChecker(camp)) {
           flag= true;
           linesolution();
         }
@@ -2004,7 +2004,7 @@ smallint dsr_def(couleur camp, smallint n, smallint t) {
 
   if ((!FlowFlag(Exact) || enonce == 1)
       && SortFlag(Direct)
-      && (*stip_checkers[stipulation])(ad)) /* to find short solutions */
+      && stipulationChecker(ad)) /* to find short solutions */
   {
     return -1;
   }
@@ -2112,7 +2112,7 @@ boolean dsr_parmena(couleur camp, smallint n, smallint t) {
     if (jouecoup() && nowdanstab(t) && !echecc(camp)) {
       flag= !(  n == 1
                 && SortFlag(Direct)
-                ? (*stip_checkers[stipulation])(camp)
+                ? stipulationChecker(camp)
                 : dsr_e(ad, n));
       if (flag) {
         coupfort();
@@ -2137,7 +2137,7 @@ void dsr_vari(couleur camp, smallint n, smallint par, boolean appa) {
   if (!SortFlag(Direct) && (n == 1 || (appa && dsr_e(ad,1)))) {
     genmove(ad);
     while(encore()) {
-      if (jouecoup() && (*stip_checkers[stipulation])(ad)) {
+      if (jouecoup() && stipulationChecker(ad)) {
         StdString("\n");
         Tabulate();
         sprintf(GlobalStr,"%3d...",zugebene);
@@ -2230,7 +2230,7 @@ void dsr_vari(couleur camp, smallint n, smallint par, boolean appa) {
         : nrmena < 2 || !dsr_ant(camp,nrmena-1);
 
       if (!SortFlag(Direct) && indikator) {
-        indikator= !(*stip_checkers[stipulation])(ad);
+        indikator= !stipulationChecker(ad);
       }
       if (indikator && dsr_parmena(camp,nrmena,mena)) {
         Tabulate();
@@ -2303,11 +2303,11 @@ void dsr_sol(
     {
       alloctab(&def);
       if (n == 1 && SortFlag(Direct)) {
-        nbd= (*stip_checkers[stipulation])(camp) ? 0 : maxdefen + 1;
+        nbd= stipulationChecker(camp) ? 0 : maxdefen + 1;
       }
       else if (n == 1
                && OptFlag[quodlibet]
-               && (*stip_checkers[stipulation])(camp))
+               && stipulationChecker(camp))
       {
         nbd = 0;
       }
@@ -2322,7 +2322,7 @@ void dsr_sol(
           || nbd == -1
           || (n == 1
               && OptFlag[quodlibet]
-              && (*stip_checkers[stipulation])(camp));
+              && stipulationChecker(camp));
         if (DrohFlag) {
           Message(Threat);
           DrohFlag= false;
@@ -2854,6 +2854,7 @@ int main(int argc, char *argv[]) {
         initStipCheckers();
 
         stipulation = NonReciStipulation;
+        stipulationChecker = NonReciStipulationChecker;
         
         if (!OptFlag[noboard]) {
           WritePosition();
