@@ -3433,8 +3433,8 @@ void GenMatingMove(couleur camp) {
        compiler-optimizations!) */
 
     z= bas;
-    for (i= 8; i > 0; i--, z+= 16) {
-      for (j= 8; j > 0; j--, z++) {
+    for (i= nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board) {
+      for (j= nr_files_on_board; j > 0; j--, z++) {
         p= e[z];
         if (p != vide && TSTFLAG(spec[z], ColourMovingPiece)) {
           if (CondFlag[gridchess] && !GridLegal(z, OpponentsKing))
