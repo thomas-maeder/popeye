@@ -71,9 +71,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#if defined(__unix__)
+#if defined(__unix)
 #   include <unistd.h>        /* alarm() prototype */
-#endif  /* __unix__ */
+#endif  /* __unix */
 
 /* TurboC and BorlandC   TLi */
 #if defined(__TURBOC__)
@@ -2742,11 +2742,11 @@ int main(int argc, char *argv[]) {
   /* if we are running in an environment which supports
      signals, we initialize the signal handling here
   */
-#if defined(__unix__) && defined(SIGNALS)
+#if defined(__unix) && defined(SIGNALS)
   /* Set the timer (interrupt handling needs this !) */
   StartTimer();
   pyInitSignal();
-#endif /*__unix__,SIGNALS*/
+#endif /*__unix,SIGNALS*/
 
   /* We do not issue our startup message via the language
      dependant Msg-Tables, since there the version is
@@ -2791,9 +2791,9 @@ int main(int argc, char *argv[]) {
     InitStip();
 
     /* reset MaxTime timer mechanisms */
-#if defined(__unix__) && defined(SIGNALS)
+#if defined(__unix) && defined(SIGNALS)
     alarm(0);
-#endif  /* defined(__unix__) && defined(SIGNALS) */
+#endif  /* defined(__unix) && defined(SIGNALS) */
     FlagTimeOut= false;
     FlagTimerInUse= false;
     FlagMaxSolsReached= false;
@@ -2835,7 +2835,7 @@ int main(int argc, char *argv[]) {
             && (maxsolvingtime<=0 || MaxTime<maxsolvingtime))
           maxsolvingtime = MaxTime;
 
-#if defined(__unix__) && defined(SIGNALS)
+#if defined(__unix) && defined(SIGNALS)
         alarm(maxsolvingtime);
 #endif
 #if defined(_WIN32) && defined(_MSC_VER) && defined(_MT)

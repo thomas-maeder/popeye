@@ -108,11 +108,11 @@ boolean one_byte_hash,
 
 #if defined(TESTHASH)
 #define ifTESTHASH(x)	x
-#if defined(__unix__)
+#if defined(__unix)
 #include <unistd.h>
 static void *OldBreak;
 extern int dhtDebug;
-#endif /*__unix__*/
+#endif /*__unix*/
 #else
 #define ifTESTHASH(x)
 #endif /*TESTHASH*/
@@ -1108,9 +1108,9 @@ void	inithash(void)
     StdString(GlobalStr)
     );
 
-#if defined(__unix__) && defined(TESTHASH)
+#if defined(__unix) && defined(TESTHASH)
   OldBreak= sbrk(0);
-#endif /*__unix__,TESTHASH*/
+#endif /*__unix,TESTHASH*/
 
 #if defined(FXF)
   if (fxfInit(MaxMemory) == -1)	/* we didn't get hashmemory ... */
@@ -1190,7 +1190,7 @@ void	closehash(void)
 	sprintf(GlobalStr, "Makes %ld%%\n", (100 * use_pos) / use_all);
 	StdString(GlobalStr);
   }
-#if defined(__unix__)
+#if defined(__unix)
   {
 	unsigned long HashCount, HashMem, BytePerPos;
 #if defined(FXF)
@@ -1209,7 +1209,7 @@ void	closehash(void)
       sprintf(GlobalStr, "Nothing in hashtable\n");
     }
     StdString(GlobalStr);
-#endif /*__unix__*/
+#endif /*__unix*/
   }
 #endif /*TESTHASH*/
 

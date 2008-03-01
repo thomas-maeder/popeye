@@ -1,0 +1,97 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on Solaris for Solaris
+# using the Sun C compiler.
+
+# Requirements:
+#
+# The following tools can be used to produce executables for the host
+# and target plarform and can be found in the $PATH
+# - cc
+# - ar
+# - ranlib
+# - strip
+
+
+# Compiler selection
+# ==================
+
+# Compiler for creating executables on host
+CCHOST=cc
+
+# Linker for creating executables on host
+LDHOST=cc
+
+# Compiler for creating executables on target
+CCTARGET=cc
+
+# Linker for creating executables on target
+LDTARGET=cc
+
+# Strip utility to remove unnecessary symbols from executable
+STRIPTARGET=strip
+
+
+# Librarian
+# ---------
+
+# A library is called archive on Unix-ish platforms
+
+# Archive generator
+ARCHIVER = ar rv
+
+# Archive index generator
+ARCHIVE_INDEXER = ranlib
+
+
+# Compiler options
+# ================
+
+# Select whether to produce an executable with debugging and profiling
+# info
+#DBG=-pg
+#DBG=-g
+DBG=
+
+# Indicate target architecture to compiler
+#ARCH=-xarch=v9		# 64-Bit Solaris cc
+ARCH=
+
+# Select target compiler optimization level
+CCOPTIM=-fast
+
+# Option for producing dependency information in makefile format
+DEPEND=-xM1
+
+# Option for compiling only
+COMPILEONLY=-c
+
+# Option for naming object file
+OBJFILE=-o 
+
+# Option for defining a C preprocessor macro
+DEFINEMACRO=-D
+
+
+# Linker options
+# ==============
+
+# Select target linker optimization level
+LDOPTIM=-fast
+
+# Option for naming objectfile
+EXEFILE=-o 
+
+
+# Platform spedific file name suffixes
+# ====================================
+
+# suffix for objects
+OBJ_SUFFIX=.o
+
+# suffix for libraries
+LIB_SUFFIX=lib.a
+
+# suffix for executables
+EXE_SUFFIX=

@@ -35,7 +35,7 @@
 #	define	void	int
 #endif
 
-#if defined(__unix__)
+#if defined(__unix)
 #	include <sys/types.h>
 #	include <sys/param.h>
 #	include <sys/times.h>
@@ -83,7 +83,7 @@ int MilliSec() {
     return mSec;
 }
 
-#endif /* __unix__ */
+#endif /* __unix */
 
 #if defined(__VMS)
 

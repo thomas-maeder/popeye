@@ -1,12 +1,18 @@
-#ARCH=
-#DBG=		-g
-OPTIM=		-O
-#OPTIM=		-O -Xc
-#CFLAGS=		-pedantic $(ARCH) $(DBG) $(OPTIM) $(DEFS)
-CFLAGS=		$(WARN) $(ARCH) $(DBG) $(OPTIM) $(DEFS) $(OTHER)
-LDFLAGS=	$(DBG) $(OPTIM) $(ARCH)
+# -*- Makefile -*-
+#
 
-PROGS=		dhtmanex dhtexam1 dhtexam2
+# Archive index generator
+# -----------------------
+ARCHIVE_INDEXER = @echo "no need to create archive index for"
+
+BASEPWD=../
+
+include $(BASEPWD)toolchains/$(TOOLCHAIN)/make.incl
+
+CFLAGS+=	$(WARN) $(ARCH) $(DBG) $(CCOPTIM) $(DEFS) $(OTHER) $(INCLUDEPATHS)
+LDFLAGS+=	$(DBG) $(LDOPTIM) $(ARCH) $(LIBRARYPATHS)
+
+PROGS=		dhtmanex$(EXE_SUFFIX) dhtexam1$(EXE_SUFFIX) dhtexam2$(EXE_SUFFIX)
 HEADER=		dht.h dhtcmem.h dhtmem.h dhtvalue.h dhtbcmem.h fxf.h
 SOURCE=		dht.c dhtcmem.c dhtexam1.c dhtmanex.c dhtmem.c \
 		dhtsimpl.c dhtstrng.c dhtvalue.c dhtbcmem.c dhtexam2.c \
@@ -15,10 +21,8 @@ SUPPORT=	dht.3 makefile.unx
 WHOLE=		$(SOURCE) $(HEADER) $(SUPPORT)
 VERSION=	1.4
 DISTDIR=	dht-$(VERSION)
-#RANLIB=	ranlib
-RANLIB=		echo ranlib
 
-all:		$(PROGS) dhtlib.a 
+all:		$(PROGS) dht$(LIB_SUFFIX) 
 
 tar.gz tgz:	$(WHOLE)
 		rm -rf $(DISTDIR); mkdir $(DISTDIR)
@@ -26,38 +30,38 @@ tar.gz tgz:	$(WHOLE)
 		tar cvf - $(DISTDIR) | gzip -9 > $(DISTDIR).tar.gz
 		rm -rf $(DISTDIR)
 
-dhtmanex:	dhtmanex.o dhtlib.a fxf.o
-		$(CCHOST) -o $@ $(LDFLAGS) dhtmanex.o dhtlib.a
+dhtmanex:	dhtmanex$(OBJ_SUFFIX) dht$(LIB_SUFFIX) fxf$(OBJ_SUFFIX)
+		$(CCHOST) $(EXEFILE)$@ $(LDFLAGS) dhtmanex$(OBJ_SUFFIX) dht$(LIB_SUFFIX)
 
-dhtexam1:	dhtexam1.o dhtlib.a  fxf.o
-		$(CCHOST) -o $@ $(LDFLAGS) dhtexam1.o dhtlib.a
+dhtexam1:	dhtexam1$(OBJ_SUFFIX) dht$(LIB_SUFFIX)  fxf$(OBJ_SUFFIX)
+		$(CCHOST) $(EXEFILE)$@ $(LDFLAGS) dhtexam1$(OBJ_SUFFIX) dht$(LIB_SUFFIX)
 
-dhtexam2:	dhtexam2.o dhtlib.a fxf.o
-		$(CCHOST) -o $@ $(LDFLAGS) dhtexam2.o dhtlib.a
+dhtexam2:	dhtexam2$(OBJ_SUFFIX) dht$(LIB_SUFFIX) fxf$(OBJ_SUFFIX)
+		$(CCHOST) $(EXEFILE)$@ $(LDFLAGS) dhtexam2$(OBJ_SUFFIX) dht$(LIB_SUFFIX)
 
-dhtvalue.o:	dhtvalue.c dhtvalue.h
-dht.o:		dht.c dht.h dhtvalue.h
-dhtcmem.o:	dhtcmem.c dhtcmem.h
-dhtmem.o:	dhtmem.c dhtmem.h
-dhtbcmem.o:	dhtbcmem.c dhtbcmem.h
-dhtsimpl.o:	dhtsimpl.c
-dhtstrng.o:	dhtstrng.c
-fxf.o:		fxf.c fxf.h
+dhtvalue$(OBJ_SUFFIX):	dhtvalue.c dhtvalue.h
+dht$(OBJ_SUFFIX):	dht.c dht.h dhtvalue.h
+dhtcmem$(OBJ_SUFFIX):	dhtcmem.c dhtcmem.h
+dhtmem$(OBJ_SUFFIX):	dhtmem.c dhtmem.h
+dhtbcmem$(OBJ_SUFFIX):	dhtbcmem.c dhtbcmem.h
+dhtsimpl$(OBJ_SUFFIX):	dhtsimpl.c
+dhtstrng$(OBJ_SUFFIX):	dhtstrng.c
+fxf$(OBJ_SUFFIX):	fxf.c fxf.h
 
-.c.o:
-		$(CCTARGET) $(CFLAGS) -c $< -o $@
+%$(OBJ_SUFFIX):	%.c
+		$(CCTARGET) $(CFLAGS) $(COMPILEONLY) $< $(OBJFILE)$@
 
-dhtlib.a:	dht.o dhtvalue.o dhtcmem.o dhtmem.o dhtsimpl.o dhtstrng.o dhtbcmem.o fxf.o
-		ar rv $@ $?
-		$(RANLIB) dhtlib.a
+dht$(LIB_SUFFIX):	dht$(OBJ_SUFFIX) dhtvalue$(OBJ_SUFFIX) dhtcmem$(OBJ_SUFFIX) dhtmem$(OBJ_SUFFIX) dhtsimpl$(OBJ_SUFFIX) dhtstrng$(OBJ_SUFFIX) dhtbcmem$(OBJ_SUFFIX) fxf$(OBJ_SUFFIX)
+		$(ARCHIVER) $(ARCHIVERFLAGS) $(LIBFILE)$@ $(^:%=$(ADDTOARCHIVE)%)
+		$(ARCHIVE_INDEXER) $@
 
-dhtexam1.o:	dhtexam1.c dht.h dhtvalue.h dhtmem.h 
+dhtexam1$(OBJ_SUFFIX):	dhtexam1.c dht.h dhtvalue.h dhtmem.h 
 
-dhtexam2.o:	dhtexam2.c dht.h dhtvalue.h dhtmem.h 
+dhtexam2$(OBJ_SUFFIX):	dhtexam2.c dht.h dhtvalue.h dhtmem.h 
 
 clean:
-		rm -f *.o *.a
-	
+		rm -f *$(OBJ_SUFFIX) *$(LIB_SUFFIX)
+
 clobber:	clean
-		rm -f *.a $(PROGS) core
+		rm -f *$(LIB_SUFFIX) $(PROGS) core
 		rm -rf dht 

@@ -1,0 +1,56 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on a Unix-ish i386
+# platform (host) for i386-mingmsvc (target)
+
+# Requirements:
+#
+# The following tools can be used to produce executables for the
+# target plarform and can be found in the $PATH:
+# - i386-mingw32msvc-gcc
+# - i386-mingw32msvc-ranlib
+# - i386-mingw32msvc-strip
+
+# The following tools can be used to produce executables for the host
+# platform and can be found in the $PATH:
+# - gcc
+
+
+# Include "regular" gcc settings
+include $(BASEPWD)toolchains/gcc/make.incl
+
+
+# Now override where necessary
+
+# Compiler selection
+# ==================
+
+# Compiler for creating executables on target
+CCTARGET=i386-mingw32msvc-gcc
+
+# Linker for creating executables on target
+LDTARGET=i386-mingw32msvc-gcc
+
+# Strip utility to remove unnecessary symbols from executable
+STRIPTARGET=i386-mingw32msvc-strip
+
+
+# Archive index generator
+# -----------------------
+ARCHIVE_INDEXER = i386-mingw32msvc-ranlib
+
+
+# Platform spedific file name suffixes
+# ====================================
+
+# suffix for objects
+OBJ_SUFFIX=.obj
+
+# suffix for executables
+EXE_SUFFIX=.exe
+
+
+# Meta information
+# ----------------
+OSTYPE=Windows

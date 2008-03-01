@@ -1,10 +1,12 @@
+# -*- Makefile -*-
+#
 # This is the Makefile for py4.x, tested mainly under Linux with GNU
 # make.
 # It is expected to work pretty portably on Unix-ish platforms with
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.20 2008/02/24 14:56:00 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.21 2008/03/01 17:46:47 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -27,7 +29,7 @@
 
 # Version numer; . separates major and minor version part
 # developer versions have minor version numbers divisible by 2
-VERSION =       4.42
+VERSION=4.42
 
 
 # NOTES ON CONDITIONAL COMPILATION
@@ -41,11 +43,11 @@ VERSION =       4.42
 # depending on the operating system, architecture or the C
 # implementation itself. Others can typically be passed to the C
 # compiler using some command line switch (for gcc and a number of
-# other compilers, that switch is -D).
+# other compilers, that switch is $(DEFINEMACRO)).
 
 # To set one or more of these macros "by hand", use the DEFS
 # variable. Example:
-DEFS=-DSIGNALS -DMSG_IN_MEM -DFXF
+DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
 
 
 # Target operating system
@@ -61,7 +63,7 @@ DEFS=-DSIGNALS -DMSG_IN_MEM -DFXF
 
 # MSDOS or compatibles          DOS  (TODO NG)
 # Windows 32-Bit environments   _WIN32
-# UNIX, Linux                   __unix__
+# UNIX, Linux                   __unix (Sun cc doesn't define __unix__!)
 # BSD                  	        __bsdi__
 # FreeBSD                       __FreeBSD__
 # HP-UX                         _hpux
@@ -125,54 +127,23 @@ DEFS=-DSIGNALS -DMSG_IN_MEM -DFXF
 # to generate tablebases (?)                                  DATABASE
 
 
-DEFS=-DSIGNALS -DMSG_IN_MEM -DFXF
-
-
-# Compiler selection
-# ==================
-
-CC=gcc
-#CC=clcc
-#CC=cc
-
-# HOST = platform *on* which we are building
-# TARGET = platform *for* which we are building
-CCHOST=$(CC)
-CCTARGET=$(CC)
+DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
 
 
 # Compiler options
 # ================
 
-# Warning level
-# -------------
-
-WARN=-W -Wall -pedantic -Wno-unused-parameter
-
-
-# Debugging and profiling options
-# -------------------------------
-
-#DBG=-pg
-#DBG=-g
-DBG=
-
-
 # Options related to the target architecture
 # ------------------------------------------
-
-#ARCH=-xarch=v9		# 64-Bit Solaris cc
-#ARCH=-m64		# 64-Bit gcc
 ARCH=
 
 
 # Options related to optimization
 # -------------------------------
 
-#OPTIM=+O4 +Oaggressive	#HP-UX
-#OPTIM=-O4 -ansi_alias -fast -inline speed -ifo	#OS ? TLi
-#OPTIM=-fast -Xc		#Sun Solaris
-OPTIM=-O2
+#CCOPTIM=+O4 +Oaggressive	#HP-UX
+#CCOPTIM=-O4 -ansi_alias -fast -inline speed -ifo	#OS ? TLi
+CCOPTIM=
 
 
 # Other options
@@ -192,28 +163,15 @@ OSCPUTARGET=`uname -p`
 OSTYPE=$(OSTARGET)-$(OSVERTARGET)-$(OSCPUTARGET)
 
 
-# Putting it all together
-# -----------------------
+# Platform defaults
+# =================
 
-CFLAGS= $(WARN) $(DBG) $(OPTIM) $(ARCH) $(DEFS) $(OTHER) \
-	-DOSTYPE=\"$(OSTYPE)\" \
-        -DVERSION=$(VERSION)
-
-
-# How to determine build dependencies
-# -----------------------------------
-DEPEND = $(CCTARGET) -MM $(CFLAGS)
-
-
-# Linker options
-# --------------
-
-#LDFLAGS = -M0s -dos -i -F 2000       # ? (TM)
-LDFLAGS = $(DBG) $(OPTIM) $(ARCH)
+# suffix for executables
+EXE_SUFFIX=
 
 
 # Utilities
-# =====================
+# =========
 
 # Lint options
 # ------------
@@ -223,11 +181,9 @@ LDFLAGS = $(DBG) $(OPTIM) $(ARCH)
 LINTFLAGS=
 
 
-# Archive index generator
-# -----------------------
-
-#RANLIB = echo ranlib
-RANLIB = ranlib
+# Strip utility to remove unnecessary symbols from executable
+# -----------------------------------------------------------
+STRIPTARGET = @echo "no need to strip"
 
 
 # compress
@@ -235,6 +191,40 @@ RANLIB = ranlib
 
 COMPRESS = echo compress
 #COMPRESS = compress
+
+
+# include toolchain-specific settings and overriders
+
+TOOLCHAIN=gcc
+
+include toolchains/$(TOOLCHAIN)/make.incl
+
+
+# Combined compiler options
+# -------------------------
+
+# append to those possibly set by toolchain specific make.incl
+
+CFLAGS += $(WARN) $(DBG) $(CCOPTIM) $(ARCH) $(DEFS) $(OTHER) \
+	$(INCLUDEPATHS) \
+	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
+        $(DEFINEMACRO)VERSION=$(VERSION)
+
+
+# How to determine build dependencies
+# -----------------------------------
+MAKEDEPEND = $(CCTARGET) $(DEPEND) $(DEFS) $(OTHER) $(INCLUDEPATHS) \
+	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
+        $(DEFINEMACRO)VERSION=$(VERSION)
+
+
+# Linker options
+# --------------
+
+# append to those possibly set by toolchain specific make.incl
+
+#LDFLAGS = -M0s -dos -i -F 2000       # ? (TM)
+LDFLAGS += $(DBG) $(LDOPTIM) $(ARCH) $(LIBRARYPATHS)
 
 
 # Popeye source and generated files
@@ -245,7 +235,7 @@ INCLUDES=       pydata.h py.h py1.h py4.h pyproc.h pymsg.h pymac.h     \
 PYCFILES  =     pydata.c py1.c py2.c py3.c py4.c py5.c py6.c pyio.c    \
 		pymsg.c pytime.c pylang.c pyhash.c pyproof.c	       \
 		pysignal.c pyint.c
-OBJECTS =       $(PYCFILES:%.c=%.o)
+OBJECTS =       $(PYCFILES:%.c=%$(OBJ_SUFFIX))
 CFILES  =       $(PYCFILES) DHT/*.c
 MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
 STRFILES=       py-fran.str py-deut.str py-engl.str
@@ -265,7 +255,7 @@ MINIFILES  =    py*.[ch] py*.msg py*.txt history.txt readme.txt makefile.unx
 # Default target
 # ==============
 
-all:		py 
+all:		py$(EXE_SUFFIX)
 
 
 # Other targets
@@ -275,71 +265,75 @@ all:		py
 
 # Target for creating the popeye executable with full dynamic hashing
 
-py:		$(OBJECTS) DHT/dhtlib.a
-		$(CCTARGET) -o py $(LDFLAGS) $(OBJECTS) DHT/dhtlib.a
+py$(EXE_SUFFIX):$(OBJECTS) DHT/dht$(LIB_SUFFIX)
+		$(LDTARGET) $(EXEFILE)$@ $(LDFLAGS) $(OBJECTS) DHT/dht$(LIB_SUFFIX)
+		$(STRIPTARGET) $@
 
 
 # ===========================================================
 
 # Target for generating source file dependencies file
 
+depend:
+
+ifdef DEPEND
 depend:	$(PYCFILES) $(INCLUDES)
-		if [ ! -f pyallmsg.h ]; then touch pyallmsg.h; fi 
-		for f in $(PYCFILES); \
-		do \
-			$(DEPEND) $$f; \
-		done > $@
+	if [ ! -f pyallmsg.h ]; then touch pyallmsg.h; fi 
+	for f in $(PYCFILES); \
+	do \
+		$(MAKEDEPEND) $$f | sed -e "s/[.]o:/\$$(OBJ_SUFFIX):/"; \
+	done > $@
+endif
 
 include depend
 
 
 # ===========================================================
 
-# Target for compiling .c source files into .o object files
+# Target for compiling .c source files into object files
 
-pyhash.o:	
-		$(CCTARGET) $(CFLAGS) -c pyhash.c 
+pyhash$(OBJ_SUFFIX):	
+		$(CCTARGET) $(CFLAGS) $(COMPILEONLY) pyhash.c $(OBJFILE)$@
 
-%.o:		%.c
-		$(CCTARGET) $(CFLAGS) -c $<
+%$(OBJ_SUFFIX):	%.c
+		$(CCTARGET) $(CFLAGS) $(COMPILEONLY) $< $(OBJFILE)$@
 
-pyio:           pyio.c pydata.h py.h pydata.o pymac.h
-		$(CCTARGET) -DSTANDALONE $(CFLAGS) -o pyio pydata.o pyio.c
+pyio:           pyio.c pydata.h py.h pydata$(OBJ_SUFFIX) pymac.h
+		$(CCTARGET) $(DEFINEMACRO)STANDALONE $(CFLAGS) $(EXEFILE)pyio pydata$(OBJ_SUFFIX) pyio.c
 
 # pylang.c is compiled both for the host and the target.
-# pylang-host.o is the object file for the host.
-pylang-host.o:  pylang.c
-		$(CCHOST) $(CFLAGS) -c pylang.c -o $@
+# pylang-host$(OBJ_SUFFIX) is the object file for the host.
+pylang-host$(OBJ_SUFFIX):  pylang.c
+		$(CCHOST) $(CFLAGS) $(COMPILEONLY) pylang.c $(OBJFILE)$@
 
-genpystr.o:     genpystr.c
-		$(CCHOST) $(CFLAGS) -c genpystr.c
+genpystr$(OBJ_SUFFIX):	genpystr.c
+			$(CCHOST) $(CFLAGS) $(COMPILEONLY) genpystr.c $(OBJFILE)$@
 
 
 # ===========================================================
 
 # Target for generating utilities for string handling
 
-genpystr:       genpystr.o pylang-host.o
-		$(CCHOST) -o $@ $(LDFLAGS) $^
+genpystr$(EXE_SUFFIX):	genpystr$(OBJ_SUFFIX) pylang-host$(OBJ_SUFFIX)
+			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^
 
-pyallmsg.h:	$(MSGFILES) genpystr
-		./genpystr
+pyallmsg.h:	$(MSGFILES) genpystr$(EXE_SUFFIX)
+		./genpystr$(EXE_SUFFIX)
 
 
 # ===========================================================
 
 # Target for generating the dynamic hash table (DHT) library
 
-DHT/dhtlib.a:	DHT/*.c DHT/*.h
-		cd DHT; $(MAKE) -f makefile.unx CCTARGET=$(CCTARGET) WARN="$(WARN)" OPTIM="$(OPTIM)" RANLIB="$(RANLIB)" ARCH="$(ARCH)" DBG="$(DBG)" DEFS="$(DEFS)" OTHER="$(OTHER)" dhtlib.a
-		$(RANLIB) $@
+DHT/dht$(LIB_SUFFIX):	DHT/*.c DHT/*.h
+		cd DHT; $(MAKE) -f makefile.unx TOOLCHAIN=$(TOOLCHAIN) WARN="$(WARN)" ARCH="$(ARCH)" DBG="$(DBG)" DEFS="$(DEFS)" OTHER="$(OTHER)" dht$(LIB_SUFFIX)
 
 
 # ===========================================================
 
 # Target for generating the purify-ed popeye exectable
 
-purify-py:      DHT/dhtlib.a $(OBJECTS)
+purify-py:      DHT/dht$(LIB_SUFFIX) $(OBJECTS)
 		purify $(CCTARGET) -o purify-py $(LDFLAGS) $^
 
 
@@ -348,11 +342,11 @@ purify-py:      DHT/dhtlib.a $(OBJECTS)
 # Targets for cleaning up after ourselves
 
 clean:
-		rm -f *.o core
-		cd DHT; $(MAKE) -f makefile.unx $@
+		rm -f *$(OBJ_SUFFIX) core
+		cd DHT; $(MAKE) -f makefile.unx TOOLCHAIN=$(TOOLCHAIN) $@
 
 clobber:	clean
-		rm -f py genpystr depend $(STRFILES); cd DHT; $(MAKE) -f makefile.unx $@
+		rm -f py$(EXE_SUFFIX) genpystr$(EXE_SUFFIX) $(STRFILES); cd DHT; $(MAKE) -f makefile.unx TOOLCHAIN=$(TOOLCHAIN) $@
 
 
 # ===========================================================

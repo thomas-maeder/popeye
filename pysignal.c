@@ -20,14 +20,14 @@
 **
 **************************** End of List ******************************/
 
-#if defined(__unix__) 
+#if defined(__unix) 
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>	/* to import prototype of 'sleep' NG  */
 
 #if defined(SIGNALS)
-/* TODO in some global config file #undef SIGNALS if __unix__ isn't
+/* TODO in some global config file #undef SIGNALS if __unix isn't
  * defined */
 
 #include <signal.h>
@@ -169,7 +169,7 @@ void BeepOnSolution(int NumOfBeeps) {
   sleep(1);
 }
 
-#endif /* __unix__ */
+#endif /* __unix */
 
 
 #if defined(_WIN32)

@@ -1,0 +1,206 @@
+pydata$(OBJ_SUFFIX): pydata.c py.h pylang.h pyproc.h py4.h pydata.h
+
+py.h:
+
+pylang.h:
+
+pyproc.h:
+
+py4.h:
+
+pydata.h:
+py1$(OBJ_SUFFIX): py1.c py.h pylang.h py1.h pyproc.h py4.h pydata.h
+
+py.h:
+
+pylang.h:
+
+py1.h:
+
+pyproc.h:
+
+py4.h:
+
+pydata.h:
+py2$(OBJ_SUFFIX): py2.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h
+
+py.h:
+
+pylang.h:
+
+pyproc.h:
+
+py4.h:
+
+pydata.h:
+
+pymsg.h:
+py3$(OBJ_SUFFIX): py3.c py.h pylang.h pyproc.h py4.h pydata.h
+
+py.h:
+
+pylang.h:
+
+pyproc.h:
+
+py4.h:
+
+pydata.h:
+py4$(OBJ_SUFFIX): py4.c py.h pylang.h py1.h pyproc.h py4.h pydata.h pymsg.h
+
+py.h:
+
+pylang.h:
+
+py1.h:
+
+pyproc.h:
+
+py4.h:
+
+pydata.h:
+
+pymsg.h:
+py5$(OBJ_SUFFIX): py5.c py.h pylang.h pyproc.h py4.h pyhash.h pydata.h pymsg.h
+
+py.h:
+
+pylang.h:
+
+pyproc.h:
+
+py4.h:
+
+pyhash.h:
+
+pydata.h:
+
+pymsg.h:
+py6$(OBJ_SUFFIX): py6.c py.h pylang.h py1.h pyproc.h py4.h pydata.h pymsg.h pyhash.h \
+  pyint.h DHT/dhtbcmem.h pyproof.h
+
+py.h:
+
+pylang.h:
+
+py1.h:
+
+pyproc.h:
+
+py4.h:
+
+pydata.h:
+
+pymsg.h:
+
+pyhash.h:
+
+pyint.h:
+
+DHT/dhtbcmem.h:
+
+pyproof.h:
+pyio$(OBJ_SUFFIX): pyio.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h
+
+py.h:
+
+pylang.h:
+
+pyproc.h:
+
+py4.h:
+
+pydata.h:
+
+pymsg.h:
+pymsg$(OBJ_SUFFIX): pymsg.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h pytime.h \
+  pyallmsg.h
+
+py.h:
+
+pylang.h:
+
+pyproc.h:
+
+py4.h:
+
+pydata.h:
+
+pymsg.h:
+
+pytime.h:
+
+pyallmsg.h:
+pytime$(OBJ_SUFFIX): pytime.c pytime.h
+
+pytime.h:
+pylang$(OBJ_SUFFIX): pylang.c pylang.h
+
+pylang.h:
+pyhash$(OBJ_SUFFIX): pyhash.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h pyhash.h \
+  pyint.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h DHT/dhtbcmem.h pyproof.h
+
+py.h:
+
+pylang.h:
+
+pyproc.h:
+
+py4.h:
+
+pydata.h:
+
+pymsg.h:
+
+pyhash.h:
+
+pyint.h:
+
+DHT/dhtvalue.h:
+
+DHT/fxf.h:
+
+DHT/dht.h:
+
+DHT/dhtbcmem.h:
+
+pyproof.h:
+pyproof$(OBJ_SUFFIX): pyproof.c py.h pylang.h pyproc.h py4.h pydata.h pyhash.h \
+  DHT/dhtbcmem.h pyproof.h pymsg.h
+
+py.h:
+
+pylang.h:
+
+pyproc.h:
+
+py4.h:
+
+pydata.h:
+
+pyhash.h:
+
+DHT/dhtbcmem.h:
+
+pyproof.h:
+
+pymsg.h:
+pysignal$(OBJ_SUFFIX): pysignal.c
+pyint$(OBJ_SUFFIX): pyint.c py.h pylang.h pyproc.h py4.h pyhash.h pymsg.h pyint.h \
+  pydata.h
+
+py.h:
+
+pylang.h:
+
+pyproc.h:
+
+py4.h:
+
+pyhash.h:
+
+pymsg.h:
+
+pyint.h:
+
+pydata.h:

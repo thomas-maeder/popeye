@@ -1,0 +1,114 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on Windows using
+# Microsoft Visual C++ v6
+# I.e. Windows (32bit) is both host and target platform
+
+# Requirements:
+#
+# The following tools can be used to produce executables for the host
+# and target plarform and can be found in the $PATH
+# - CL.EXE
+# - LIB.EXE
+# - LINK.EXE
+
+
+# Compiler selection
+# ==================
+
+# Compiler for creating executables on host
+CCHOST=bcc32.exe
+
+# Linker for creating executables on host
+LDHOST=bcc32.exe
+
+# Compiler for creating executables on target
+CCTARGET=bcc32.exe
+
+# Linker for creating executables on target
+LDTARGET=bcc32.exe
+
+# Librarian
+# ---------
+
+# A library is called archive on Unix-ish platforms
+
+# Archive generator
+ARCHIVER=tlib.exe
+
+# Archiver options
+ARCHIVERFLAGS=
+
+ADDTOARCHIVE=+-
+
+
+# Compiler options
+# ================
+
+# other options will be added by makefile.unx based on setttings below
+CFLAGS=-q -X
+
+# Select whether to produce an executable with debugging and profiling
+# info
+#DBG=/Zi /Yd
+DBG=
+
+# Select warning level
+# 255 is the maximal value for -g
+# TODO can we turn off warning W8070?
+WARN=-w -g255
+
+# Select target compiler optimization level
+CCOPTIM=-O2
+
+# Option for producing dependency information in makefile format
+# none - we re-use the dependency file generated using gcc
+# TODO: generate dependency information
+#-m
+
+# Option for compiling only
+COMPILEONLY=-c
+
+# Option for indicating generated object file
+# DOESN'T WORK!!!
+OBJFILE=-o
+
+# Option for defining a C preprocessor macro
+DEFINEMACRO=-D
+
+
+# Librarian options
+# =================
+
+# Option for indicating generated library file
+LIBFILE=
+
+
+# Linker options
+# ==============
+
+# suppress "logo" - other options will be added by makefile.unx based
+# on setttings below
+LDFLAGS=-q
+
+# Option for indicating generated executable file
+EXEFILE=-e
+
+
+# Platform spedific file name suffixes
+# ====================================
+
+# suffix for objects
+OBJ_SUFFIX=.obj
+
+# suffix for libraries
+LIB_SUFFIX=.lib
+
+# suffix for executables
+EXE_SUFFIX=.exe
+
+
+# Meta information
+# ----------------
+OSTYPE=Windows

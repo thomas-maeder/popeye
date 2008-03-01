@@ -1,0 +1,30 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on Cygwin for Windows
+
+# Requirements:
+#
+# The following tools can be used to produce executables for the
+# target plarform and can be found in the $PATH:
+# - gcc
+# - ranlib
+# - strip
+
+
+# Include "regular" gcc settings
+include $(BASEPWD)toolchains/gcc/make.incl
+
+
+# Now override where necessary
+
+# Platform spedific file name suffixes
+# ====================================
+
+# suffix for executables
+EXE_SUFFIX=.exe
+
+
+# Meta information
+# ----------------
+OSTYPE=Windows

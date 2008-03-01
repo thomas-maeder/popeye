@@ -109,7 +109,7 @@
 #if defined(_WIN16) || defined(_WIN32)
 #       define OSTYPE "WINDOWS"
 #else
-#if defined(__unix__)
+#if defined(__unix)
 #if defined(__GO32__)
 #       define OSTYPE "DOS"
 #else
@@ -117,7 +117,7 @@
 #endif  /* __GO32__ */
 #else   /* ! UNIX: use default version string */
 #       define OSTYPE "C"
-#endif  /* __unix__ */
+#endif  /* __unix */
 #endif  /* _WIN16 || _WIN32 */
 #endif  /* _WIN98 */
 #endif  /* ATARI */
@@ -432,7 +432,7 @@
 #if defined(DATABASE)
 #       define maxply   302
 #else
-#if defined(__unix__)
+#if defined(__unix)
 #       define maxply  1002
 #else
 #if defined(_WIN32)
@@ -450,7 +450,7 @@
 #	define maxply   702
 #endif	/* SIXTEEN */
 #endif  /* _WIN32 */
-#endif  /* __unix__ */
+#endif  /* __unix */
 #endif /* DATABASE */
 
 #define toppile (60*maxply)

@@ -273,18 +273,18 @@ char *MakeTimeString(void) {
 	  "%d:%02d:%02ld h:m:s", Hours, Minutes, Seconds);
     }
     else if (Minutes>0) {
-#if defined(__unix__) || defined(_WIN32)
+#if defined(__unix) || defined(_WIN32)
 	sprintf(TmString,"%d:%02ld.%03d m:s", Minutes, Seconds, MilliSec());
 #else
 	sprintf(TmString,"%d:%02ld m:s", Minutes, Seconds);
-#endif /*__unix__ || _WIN32*/
+#endif /*__unix || _WIN32*/
     }
     else {
-#if defined(__unix__) || defined(_WIN32)
+#if defined(__unix) || defined(_WIN32)
 	sprintf(TmString,"%ld.%03d s", Seconds, MilliSec());
 #else
 	sprintf(TmString,"%ld s", Seconds);
-#endif /*__unix__ || _WIN32*/
+#endif /*__unix || _WIN32*/
     }
     return TmString;
 }

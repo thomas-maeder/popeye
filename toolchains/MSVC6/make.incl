@@ -1,0 +1,114 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on Windows using
+# Microsoft Visual C++ v6
+# I.e. Windows (32bit) is both host and target platform
+
+# Requirements:
+#
+# The following tools can be used to produce executables for the host
+# and target plarform and can be found in the $PATH
+# - CL.EXE
+# - LIB.EXE
+# - LINK.EXE
+
+
+# Compiler selection
+# ==================
+
+# Compiler for creating executables on host
+CCHOST=CL.EXE
+
+# Linker for creating executables on host
+LDHOST=LINK.EXE
+
+# Compiler for creating executables on target
+CCTARGET=CL.EXE
+
+# Linker for creating executables on target
+LDTARGET=LINK.EXE
+
+
+# Librarian
+# ---------
+
+# A library is called archive on Unix-ish platforms
+
+# Archive generator
+ARCHIVER=LIB.EXE
+
+# Archiver options
+ARCHIVERFLAGS=/NOLOGO
+
+
+# Compiler options
+# ================
+
+# suppress logo - other options will be added by makefile.unx based
+# on setttings below
+CFLAGS=/nologo
+
+# Select whether to produce an executable with debugging and profiling
+# info
+#DBG=/Zi /Yd
+DBG=
+
+# Select target compiler optimization level
+CCOPTIM=/GAs /O2gitb2 /MT
+
+# Option for producing dependency information in makefile format
+# none - we re-use the dependency file generated using gcc
+
+# Option for compiling only
+COMPILEONLY=/c
+
+# Option for indicating generated object file
+OBJFILE=/Fo
+
+# Option for defining a C preprocessor macro
+DEFINEMACRO=/D
+
+INCLUDEPATHS=/IC:/Programme/VisualStudio/VC98/Include
+
+
+# Librarian options
+# =================
+
+# Option for indicating generated library file
+LIBFILE=/OUT:
+
+
+# Linker options
+# ==============
+
+# suppress "logo" - other options will be added by makefile.unx based
+# on setttings below
+LDFLAGS=/NOLOGO
+
+# Select taret linker optimization level
+LDOPTIM=
+
+# Option for indicating generated executable file
+EXEFILE=/OUT:
+
+# Path to library files to be linked
+LIBRARYPATHS=/LIBPATH:C:/Programme/VisualStudio/VC98/Lib
+
+
+# Platform spedific file name suffixes
+# ====================================
+
+# suffix for objects
+OBJ_SUFFIX=.obj
+
+# suffix for libraries
+LIB_SUFFIX=.lib
+
+# suffix for executables
+EXE_SUFFIX=.exe
+
+
+# Meta information
+# ----------------
+OSTYPE=Windows
