@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.21 2008/03/01 17:46:47 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.22 2008/03/05 13:28:50 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -246,8 +246,9 @@ DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
 EXAMPLES =      BEISPIEL/*.inp EXAMPLES/*.inp
 UTILS   =	todef.awk toenum.awk
 DEVELOP =       makefile.unx DHT/makefile.unx coding.txt
+TOOLCHAINS =    toolchains/*/make.incl toolchains/*/README*
 DFILES  =       $(INCLUDES) $(CFILES) $(DEVELOP) $(DOCFILES) $(UTILS)  \
-		$(MSGFILES)
+		$(MSGFILES) $(TOOLCHAINS)
 MINIFILES  =    py*.[ch] py*.msg py*.txt history.txt readme.txt makefile.unx
 
 
@@ -508,8 +509,8 @@ SOURCESZIPFILE = $(DISTFILESTEM)-sources.zip
 
 $(SOURCESZIPFILE): $(DFILES)
 		mkdir $(VERSIONDIR)
-		mkdir $(VERSIONDIR)/DHT
 		for i in $^ ; do  \
+			mkdir -p $(VERSIONDIR)/`dirname $$i` ;\
 			ln $$i $(VERSIONDIR)/$$i ;\
 		done
 		zip -r $(SOURCESZIPFILE) $(VERSIONDIR)
