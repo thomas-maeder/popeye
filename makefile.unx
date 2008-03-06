@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.22 2008/03/05 13:28:50 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.23 2008/03/06 17:20:07 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -127,7 +127,13 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
 # to generate tablebases (?)                                  DATABASE
 
 
-DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
+# Other
+# -----
+
+# turn off assert() checks                                    NDEBUG
+
+
+DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF $(DEFINEMACRO)NDEBUG
 
 
 # Compiler options

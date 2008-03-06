@@ -51,14 +51,7 @@
 #   include "pymac.h"
 #endif
 
-#if defined(ASSERT)
 #include <assert.h>
-#else
-/* When ASSERT is not defined, eliminate assert calls.
- * This way, "#if defined(ASSERT") is not clobbering the source.
- */
-#define assert(x)
-#endif  /* ASSERT */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
