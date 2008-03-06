@@ -59,14 +59,7 @@
 #   include "pymac.h"
 #endif
 
-#if defined(ASSERT)
 #include <assert.h>
-#else
-/* When ASSERT is not defined, eliminate assert calls.
- * This way, "#if defined(ASSERT") is not clobbering the source.
- */
-#define assert(x)
-#endif  /* ASSERT */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -2649,6 +2642,31 @@ void initduplex(void) {
   }
 }
 
+/* assert()s below this line must remain active even in "productive"
+ * executables. */
+#undef NDEBUG
+#include <assert.h>
+
+/* Check assumptions made throughout the program. Abort if one of them
+ * isn't met. */
+void checkGlobalAssumptions()
+{
+  /* Make sure that the characters relevant for entering problems are
+   * encoded contiguously and in the natural order. This is assumed
+   * in pyio.c.
+   *
+   * NB: There is no need for the analoguous check for digits, because
+   * decimal digits are guaranteed by the language to be encoded
+   * contiguously and in the natural order. */
+  assert('b'=='a'+1);
+  assert('c'=='b'+1);
+  assert('d'=='c'+1);
+  assert('e'=='d'+1);
+  assert('f'=='e'+1);
+  assert('g'=='f'+1);
+  assert('h'=='g'+1);
+}
+
 int main(int argc, char *argv[]) {
   Token   tk= BeginProblem;
   int     i,l;
@@ -2657,6 +2675,9 @@ int main(int argc, char *argv[]) {
 #if defined(_WIN32)            /* V3.54  NG */
   SetPriorityClass(GetCurrentProcess(),BELOW_NORMAL_PRIORITY_CLASS);
 #endif
+  
+  checkGlobalAssumptions();
+
   i=1;
   MaxMemory= 0;
   MaxTime = -1;
