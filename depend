@@ -185,7 +185,22 @@ DHT/dhtbcmem.h:
 pyproof.h:
 
 pymsg.h:
-pysignal$(OBJ_SUFFIX): pysignal.c
+pysignal$(OBJ_SUFFIX): pysignal.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h \
+  pyhash.h
+
+py.h:
+
+pylang.h:
+
+pyproc.h:
+
+py4.h:
+
+pydata.h:
+
+pymsg.h:
+
+pyhash.h:
 pyint$(OBJ_SUFFIX): pyint.c py.h pylang.h pyproc.h py4.h pyhash.h pymsg.h pyint.h \
   pydata.h
 
