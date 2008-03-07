@@ -64,7 +64,7 @@ DBG=
 ARCH=
 
 # Select target compiler optimization level
-CCOPTIM=-O2
+CCOPTIM=-O3
 
 # Option for producing dependency information in makefile format
 DEPEND=-MM -MP
