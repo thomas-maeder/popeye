@@ -1424,9 +1424,10 @@ void current(coup *mov) {
   mov->osc= oscillatedKs[nbply];
 }
 
-void alloctab(smallint *n) {
-  *n= ++(tabsol.nbr);
-  tabsol.cp[*n]= tabsol.cp[*n-1];
+smallint alloctab(void) {
+  smallint result = ++tabsol.nbr;
+  tabsol.cp[result]= tabsol.cp[result-1];
+  return result;
 }
 
 void freetab(void) {
@@ -2096,7 +2097,7 @@ boolean dsr_parmena(couleur camp, smallint n, smallint t) {
   boolean flag= false;
   couleur ad= advers(camp);
 
-  if (!tablen(t)) {
+  if (tablen(t)==0) {
     return true;
   }
 
@@ -2165,7 +2166,7 @@ void dsr_vari(couleur camp, smallint n, smallint par, boolean appa) {
   }
 
   n--;
-  alloctab(&mena);
+  mena = alloctab();
   if (appa || OptFlag[nothreat] || echecc(ad)) {
     StdString("\n");
   }
@@ -2175,7 +2176,7 @@ void dsr_vari(couleur camp, smallint n, smallint par, boolean appa) {
     marge+= 4;
     for (i= 1;i <= y;i++) {
       dsr_sol(camp,i,mena,False);
-      if (tablen(mena)) {
+      if (tablen(mena)>0) {
         nrmena= i;
         break;
       }
@@ -2233,14 +2234,14 @@ void dsr_vari(couleur camp, smallint n, smallint par, boolean appa) {
         StdString("\n");
         marge+= 4;
         for (i= FlowFlag(Exact) ? n : nrmena; i <= n; i++) {
-          alloctab(&mats);
+          mats = alloctab();
           dsr_sol (camp,i,mats, False);
           freetab();
-          if (tablen(mats)) {
+          if (tablen(mats)>0) {
             break;
           }
         }
-        if (!tablen(mats)) {
+        if (tablen(mats)==0) {
           marge+= 2;
           Tabulate();
           Message(Refutation);
@@ -2280,7 +2281,7 @@ void dsr_sol(
       StdString(GlobalStr);
       StipFlags|= SortBit(Direct);
       StipFlags|= FlowBit(Semi);
-      alloctab(&def);
+      def = alloctab();
       dsr_sol(camp,1,def,False);
       freetab();
       return;
@@ -2294,7 +2295,7 @@ void dsr_sol(
         && !(restartenabled && MoveNbr < RestartNbr)
         && (!echecc(camp)) && (!nowdanstab(t)))
     {
-      alloctab(&def);
+      def = alloctab();
       if (n == 1 && SortFlag(Direct)) {
         nbd= stipulationChecker(camp) ? 0 : maxdefen + 1;
       }
@@ -2588,7 +2589,7 @@ void SolveDirectProblems(couleur camp) {
       ErrorMsg(SetAndCheck);
     }
     else {
-      alloctab(&lsgn);
+      lsgn = alloctab();
       zugebene++;
       dsr_vari(camp, enonce, lsgn, !OptFlag[postkeyplay]);
       zugebene--;
@@ -2601,7 +2602,7 @@ void SolveDirectProblems(couleur camp) {
       ErrorMsg(KingCapture);
     }
     else {
-      alloctab(&lsgn);
+      lsgn = alloctab();
       dsr_sol(camp, enonce, lsgn, OptFlag[movenbr]);
       freetab();
     }
