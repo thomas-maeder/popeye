@@ -206,7 +206,7 @@ static void freeDirTable(dirTable *ht) {
 typedef struct {
     dirTable *ht;
     ht_dir *current;    /* current dir of this level */
-    int    index;   /* index to deliver next */
+    unsigned int index;   /* index to deliver next */
 } dirEnumerate;
 
 #define EndOfTable  (void *)-1
@@ -383,6 +383,7 @@ void dhtDestroy(HashTable *ht) {
   void *e;
 
   dEnum.index= 0;
+  dEnum.current = 0;
   dEnum.ht= &ht->DirTab;
 
   while ((e=stepDirTable(&dEnum)) != EndOfTable) {
@@ -424,6 +425,7 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f) {
   dcnt= hcnt=0;
 
   dEnum.index= 0;
+  dEnum.current = 0;
   dEnum.ht= &ht->DirTab;
 
   while ((e=stepDirTable(&dEnum)) != EndOfTable) {

@@ -80,7 +80,7 @@ typedef struct {
 #endif
 /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
 #if defined(SIXTYFOUR)
-#define fxfMINSIZE  8
+#define fxfMINSIZE  (size_t)8
 #else
 #define fxfMINSIZE  sizeof(char*)
 #endif
@@ -246,7 +246,7 @@ int fxfInit(unsigned long Size) {
 #define  GetNextPtr(ptr)       *(char **)ALIGN(ptr)
 #define  PutNextPtr(dst, ptr)  *(char **)ALIGN(dst)= ptr
 
-void *fxfAlloc(int size) {
+void *fxfAlloc(size_t size) {
   static char *myname= "fxfAlloc";
   SizeHead *sh;
   char *ptr;
@@ -305,7 +305,7 @@ void *fxfAlloc(int size) {
   return ptr;
 }
 
-int fxfFree(void *ptr, int size) {
+void fxfFree(void *ptr, size_t size) {
   static char *myname= "fxfFree";
   SizeHead *sh;
 
@@ -348,10 +348,9 @@ int fxfFree(void *ptr, int size) {
       sh->MallocCount-= 1;
     }
   }
-  return 0;
 }
 
-void *fxfReAlloc(void *ptr, int OldSize, int NewSize) {
+void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
   void *nptr= fxfAlloc(NewSize);
   memcpy(nptr, ptr, OldSize);
   fxfFree(ptr, OldSize);

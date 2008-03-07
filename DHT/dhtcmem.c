@@ -25,7 +25,7 @@ static unsigned long  ConvertCompactMemoryValue(dhtValue m) {
   uLong leng= ((CompactMemVal *)m)->Leng; 
   uChar *s= ((CompactMemVal *)m)->Data;
   unsigned long hash= 0;
-  int i;
+  uLong i;
   for (i=0; i<leng; i++) {
     hash+= s[i];
     hash+= hash << 10;
@@ -67,7 +67,7 @@ static void FreeCompactMemoryValue(dhtValue v) {
 }
 
 static void DumpCompactMemoryValue(dhtValue v, FILE *f) {
-  int i;
+  uLong i;
   fprintf(f, "(%ld)", ((CompactMemVal *)v)->Leng);
   for (i=0; i<((CompactMemVal*)v)->Leng; i++)
     fprintf(f, "%02x", ((CompactMemVal*)v)->Data[i] & 0xff);

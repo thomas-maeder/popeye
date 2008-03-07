@@ -24,7 +24,7 @@ static unsigned long  ConvertBCMemValue(dhtValue m) {
   uLong leng= ((BCMemValue *)m)->Leng; 
   uChar *s= ((BCMemValue *)m)->Data;
   unsigned long hash= 0;
-  int i;
+  uLong i;
   for (i=0; i<leng; i++) {
     hash+= s[i];
     hash+= hash << 10;
