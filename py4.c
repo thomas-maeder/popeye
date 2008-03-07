@@ -3182,7 +3182,7 @@ void GenMatingKing(square   sq_departure,
         sq_arrival= sq_departure+vec[k2];
         if ((e[sq_arrival]==vide
              || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-            && move_diff_code[abs(sq_king-sq_arrival)]>2)
+            && move_diff_code[abs(sq_king-sq_arrival)]>1+1) /* no contact */
           empile(sq_departure,sq_arrival,sq_arrival);
       }
 
@@ -3192,7 +3192,7 @@ void GenMatingKing(square   sq_departure,
         sq_arrival= sq_departure + vec[k2];
         if ((e[sq_arrival]==vide
              || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-            && move_diff_code[abs(sq_king-sq_arrival)]<3)
+            && move_diff_code[abs(sq_king-sq_arrival)]<=1+1)
           empile(sq_departure,sq_arrival,sq_arrival);
       }
   }
@@ -3230,8 +3230,8 @@ void GenMatingKnight(square sq_departure,
   k= abs(sq_king-sq_departure);
   if (Generate
       || (SquareCol(sq_departure) == SquareCol(sq_king)
-          && move_diff_code[k]<21
-          && move_diff_code[k]!=8))
+          && move_diff_code[k]<=move_diff_code[square_a3-square_e1]
+          && move_diff_code[k]!=move_diff_code[square_a3-square_c1]))
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       sq_arrival= sq_departure+vec[k];
       if (e[sq_arrival]==vide
