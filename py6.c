@@ -1317,6 +1317,12 @@ boolean verifieposition(void) {
     satXY= WhiteSATFlights > 1 || BlackSATFlights > 1;
   }
 
+  if (CondFlag[schwarzschacher])
+  {
+    optim_neutralretractable = optim_orthomatingmoves = false;
+    nonoptgenre= true;
+  }
+
   move_generation_mode_opti_per_couleur[blanc]
     = flagwhitemummer||nonoptgenre
     ? move_generation_optimized_by_killer_move
@@ -1325,12 +1331,6 @@ boolean verifieposition(void) {
     = flagblackmummer||nonoptgenre
     ? move_generation_optimized_by_killer_move
     : move_generation_optimized_by_nr_opponent_moves;
-
-  if (CondFlag[schwarzschacher])
-  {
-    optim_neutralretractable = optim_orthomatingmoves = false;
-    nonoptgenre= true;
-  }
 
   if (CondFlag[takemake])
     optim_neutralretractable = optim_orthomatingmoves = false;
