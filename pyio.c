@@ -1149,13 +1149,13 @@ static char *ParsStips(char *tok) {
   /* parsing reci stip */
   if (FlowFlag(Reci) && *tok == '(' && strchr(tok, ')')) {
     char ReciStip[128];
-    sprintf(ReciStip, "%s", tok+1);
+    strcpy(ReciStip,tok+1);
 
     tok= strchr(ReciStip, ')');
     *tok= '\0';
     tok++;
 
-    sprintf(ReciAlphaEnd, " %s", ReciStip);
+    strcpy(ReciAlphaEnd,ReciStip);
 
     /* parsing of ## and # exchange */
     if (strstr(tok, "##!")) {
