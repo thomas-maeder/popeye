@@ -1155,7 +1155,7 @@ static char *ParsStips(char *tok) {
     *tok= '\0';
     tok++;
 
-    strcpy(ReciAlphaEnd,ReciStip);
+    sprintf(ReciAlphaEnd, " %s", ReciStip);
 
     /* parsing of ## and # exchange */
     if (strstr(tok, "##!")) {
