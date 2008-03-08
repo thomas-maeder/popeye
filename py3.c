@@ -693,8 +693,6 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
       }
     }
   }
-  
-  sq_arrival= rb;
 
   if (nbpiece[cn])
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
