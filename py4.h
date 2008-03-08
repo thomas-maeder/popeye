@@ -11,29 +11,29 @@
 #if !defined(PY4_H)
 #define	PY4_H
 
-int   len_max (square departure, square arrival, square capture);
+unsigned int len_max (square departure, square arrival, square capture);
 	/* determines move length for maximummers */
-int   len_min (square departure, square arrival, square capture);
+unsigned int len_min (square departure, square arrival, square capture);
 	/* determines move length for minimummer */
-int   len_capt (square departure, square arrival, square capture);
+unsigned int len_capt (square departure, square arrival, square capture);
 	/* determines "move length" for must capture */
-int   len_follow (square departure, square arrival, square capture);
+unsigned int len_follow (square departure, square arrival, square capture);
 	/* determines "move length" for  follow my leader */
-int   len_whduell (square departure, square arrival, square capture);
+unsigned int len_whduell (square departure, square arrival, square capture);
 	/* determines "length" of white moves in duellist chess */
-int   len_blduell (square departure, square arrival, square capture);
+unsigned int len_blduell (square departure, square arrival, square capture);
 	/* determines "length" of black moves in duellist chess */
-int   len_check (square departure, square arrival, square capture);
+unsigned int len_check (square departure, square arrival, square capture);
 	/* determines "length" of moves in SchachZwang */
-int   len_direct (square departure, square arrival, square capture);
+unsigned int len_direct (square departure, square arrival, square capture);
 	/* determines "length" of moves in direct reflex */
-int   len_alphabetic (square departure, square arrival, square capture);
+unsigned int len_alphabetic (square departure, square arrival, square capture);
 	/* determines "length" of moves in alphabetic chess */
-int len_synchron(square departure, square arrival, square capture);
+unsigned int len_synchron(square departure, square arrival, square capture);
   /* determines "length" of moves in synchron chess */
-int len_antisynchron(square departure, square arrival, square capture);
+unsigned int len_antisynchron(square departure, square arrival, square capture);
   /* determines "length" of moves in antisynchron chess */
-int len_schwarzschacher (square i, square j, square cab);
+unsigned int len_schwarzschacher (square i, square j, square cab);
 	/* determines "length" of moves in schwarzschacher chess */
 
 boolean empile(square departure, square arrival, square capture);

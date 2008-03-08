@@ -370,8 +370,8 @@ boolean is_reversepawn (piece p);
 void    geskylla (square i, couleur camp);
 void    gecharybdis (square i, couleur camp);
 
-int len_whforcedsquare(square departure, square arrival, square capture);
-int len_blforcedsquare(square departure, square arrival, square capture);
+unsigned int len_whforcedsquare(square departure, square arrival, square capture);
+unsigned int len_blforcedsquare(square departure, square arrival, square capture);
 
 void    geriderhopper(square i, numvec kbeg, numvec kend,
 		      int run_up, int jump, couleur camp);

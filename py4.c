@@ -53,7 +53,7 @@
 
 #define MAX_OTHER_LEN 1000 /* needs to be at least the max of any value that can be returned in the len functions */
 
-int len_max(square sq_departure, square sq_arrival, square sq_capture)
+unsigned int len_max(square sq_departure, square sq_arrival, square sq_capture)
 {
   switch (sq_capture) {
   case messigny_exchange:
@@ -80,43 +80,43 @@ int len_max(square sq_departure, square sq_arrival, square sq_capture)
   }
 }
 
-int len_min(square sq_departure, square sq_arrival, square sq_capture) {
+unsigned int len_min(square sq_departure, square sq_arrival, square sq_capture) {
   return -len_max(sq_departure,sq_arrival,sq_capture);
 }
 
-int len_capt(square sq_departure, square sq_arrival, square sq_capture) {
+unsigned int len_capt(square sq_departure, square sq_arrival, square sq_capture) {
   return (e[sq_capture] != vide);
 }
 
-int len_follow(square sq_departure, square sq_arrival, square sq_capture) {
+unsigned int len_follow(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_arrival == move_generation_stack[repere[nbply]].departure);
 }
 
-int len_whduell(square sq_departure, square sq_arrival, square sq_capture) {
+unsigned int len_whduell(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_departure == whduell[nbply - 1]);
 }
 
-int len_blduell(square sq_departure, square sq_arrival, square sq_capture) {
+unsigned int len_blduell(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_departure == blduell[nbply - 1]);
 }
 
-int len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) {
+unsigned int len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) {
   return -((sq_departure/onerow) + onerow*(sq_departure%onerow));
 }
 
-int len_synchron(square sq_departure, square sq_arrival, square sq_capture) {
+unsigned int len_synchron(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_departure-sq_arrival
           == (move_generation_stack[repere[nbply]].departure
               - move_generation_stack[repere[nbply]].arrival));
 }
 
-int len_antisynchron(square sq_departure, square sq_arrival, square sq_capture) {
+unsigned int len_antisynchron(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_arrival-sq_departure
           == (move_generation_stack[repere[nbply]].departure
               - move_generation_stack[repere[nbply]].arrival));
 }
 
-int len_whforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
+unsigned int len_whforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
   if (we_generate_exact) {
     if (TSTFLAG(sq_spec[sq_arrival], WhConsForcedSq)) {
       there_are_consmoves = true;
@@ -131,7 +131,7 @@ int len_whforcedsquare(square sq_departure, square sq_arrival, square sq_capture
   }
 }
 
-int len_blforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
+unsigned int len_blforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
   if (we_generate_exact) {
     if (TSTFLAG(sq_spec[sq_arrival], BlConsForcedSq)) {
       there_are_consmoves = true;
@@ -146,7 +146,7 @@ int len_blforcedsquare(square sq_departure, square sq_arrival, square sq_capture
   }
 }
 
-int len_schwarzschacher(square id, square ia, square ip)
+unsigned int len_schwarzschacher(square id, square ia, square ip)
 {
    return ia==nullsquare ? 0 : 1;
 }

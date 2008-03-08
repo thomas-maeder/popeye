@@ -344,7 +344,7 @@ EXTERN stipulationfunction_t ReciStipulationChecker;
 EXTERN stipulationfunction_t NonReciStipulationChecker;
 EXTERN stipulationfunction_t stipulationChecker;
 
-EXTERN  int   (* white_length)(square departure, square arrival, square capture),
+EXTERN  unsigned int   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);
 
 typedef square  (* renaifunc)(piece, Flags, square, square, square, couleur);
