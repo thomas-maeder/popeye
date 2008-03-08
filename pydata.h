@@ -118,7 +118,7 @@ EXTERN  square          pattfld, patti, pattj;
 EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
 #if defined(WE_ARE_EXTERN)
-EXTERN smallint maxinbox[];
+EXTERN int maxinbox[];
 EXTERN unsigned int boxsize;
 #endif
 
@@ -140,7 +140,7 @@ EXTERN  killer_state const null_killer_state;
 EXTERN  pilecase        kpilcd;
 EXTERN  pilecase        kpilca;
 
-EXTERN  smallint        maxflights;
+EXTERN  int        maxflights;
 
 
 /* symbols for bits in castling_flag */
@@ -171,7 +171,7 @@ enum
 
 EXTERN  unsigned char   castling_flag[maxply + 1];
 EXTERN  unsigned char   no_castling;
-EXTERN  short           castling_supported;
+EXTERN  int           castling_supported;
 EXTERN  boolean         testcastling;
 
 /* Symbols for squares - using these makes code much more human-readable */
@@ -284,7 +284,7 @@ EXTERN  boolean         optim_neutralretractable;
 /* should we only look for orthodox mating moves? */
 EXTERN  boolean         optim_orthomatingmoves;
 
-EXTERN  smallint        zzzaa[derbla - dernoi + 1];     /* nbpiece */
+EXTERN  int        zzzaa[derbla - dernoi + 1];     /* nbpiece */
 
 EXTERN  piece           pjoue[maxply + 1], pprise[maxply + 1],
 			norm_prom[maxply + 1], cir_prom[maxply + 1],
@@ -344,7 +344,7 @@ EXTERN stipulationfunction_t ReciStipulationChecker;
 EXTERN stipulationfunction_t NonReciStipulationChecker;
 EXTERN stipulationfunction_t stipulationChecker;
 
-EXTERN  short   (* white_length)(square departure, square arrival, square capture),
+EXTERN  int   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);
 
 typedef square  (* renaifunc)(piece, Flags, square, square, square, couleur);
@@ -377,7 +377,7 @@ EXTERN  square          cirrenroib, cirrenroin,
 
 EXTERN  boolean         PrintReciSolution;
 
-EXTERN  smallint        marge;
+EXTERN  int        marge;
 EXTERN  numecoup        debut;
 EXTERN  numecoup        testdebut;
 EXTERN  tab             tabsol;
@@ -387,25 +387,25 @@ EXTERN  Flags           pprispec[maxply + 1];
 EXTERN  couleur         zzzag[haut - bas + 1];  /* sqcolor */
 
 EXTERN  Flags           spec[maxsquare+4];
-EXTERN  smallint        zzzaj[haut - bas + 1];  /* gridnumber */
+EXTERN  int        zzzaj[haut - bas + 1];  /* gridnumber */
 
-EXTERN  smallint        NonTrivialNumber, NonTrivialLength;
+EXTERN  int        NonTrivialNumber, NonTrivialLength;
 
 EXTERN  Flags           zzzan[haut - bas + 1];  /* sq_spec */
 EXTERN  boolean         we_generate_exact, there_are_consmoves,
 			wh_exact, bl_exact, wh_ultra, bl_ultra;
 
-EXTERN  smallint        inum[maxply + 1];       /* aktuelle Anzahl Imitatoren */
+EXTERN  int        inum[maxply + 1];       /* aktuelle Anzahl Imitatoren */
 
 EXTERN  imarr           isquare;                /* Imitatorstandfelder */
 
 EXTERN  boolean         Iprom[maxply + 1];      /* Imitatorumwandlung? */
 EXTERN  square          im0;                    /* Standort des ersten Imitators */
 
-EXTERN  smallint        enonce,
+EXTERN  int        enonce,
 			zugebene, maxdefen, droh;
-EXTERN  smallint        introenonce;
-EXTERN  smallint        MoveNbr, RestartNbr;
+EXTERN  int        introenonce;
+EXTERN  int        MoveNbr, RestartNbr;
 EXTERN  boolean         restartenabled;
 EXTERN  couleur         neutcoul;
 EXTERN  boolean         calctransmute;
@@ -441,9 +441,9 @@ EXTERN boolean          IsardamB,PatienceB,SentPionAdverse,SentPionNeutral,
 			flagAssassin,flag_nk,jouetestgenre;
 EXTERN boolean          flagdiastip, flag_dontaddk;
 EXTERN boolean          mate_or_stale_patt;
-EXTERN smallint         max_pn, max_pb;
+EXTERN int         max_pn, max_pb;
 EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;
-EXTERN smallint         max_pt;
+EXTERN int         max_pt;
 EXTERN boolean          isapril[derbla + 1];
 
 EXTERN boolean          checkhopim;
@@ -465,18 +465,18 @@ EXTERN square           superbas;
 EXTERN boolean          complex_castling_through_flag;
 EXTERN boolean          oscillatedKs[toppile + 1];
 EXTERN boolean          SATCheck, satXY, dont_generate_castling;
-EXTERN smallint         WhiteSATFlights, BlackSATFlights;
+EXTERN int         WhiteSATFlights, BlackSATFlights;
 EXTERN boolean          WhiteStrictSAT[maxply+1],BlackStrictSAT[maxply+1];
 EXTERN square           takemake_departuresquare;
 EXTERN square           takemake_capturesquare;
 EXTERN boolean          repub_k[toppile + 1];
 EXTERN boolean          flag_appseul;
-EXTERN smallint         zzzao[haut - bas + 1];
+EXTERN int         zzzao[haut - bas + 1];
 EXTERN boolean          flag_synchron;
 EXTERN long int         BGL_black, BGL_white;
 EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
 EXTERN boolean			  	blacknull, nullgenre, whitenull;
-EXTERN smallint         annanvar;
+EXTERN int         annanvar;
 EXTERN numecoup         tempcoup;
 EXTERN ply      	      tempply;
 EXTERN boolean          jouetestgenre1, jouetestgenre_save;
@@ -484,7 +484,7 @@ EXTERN boolean          rex_protean_ex;
 EXTERN int              gridvar, currentgridnum;
 EXTERN boolean          calc_whtrans_king, calc_bltrans_king, 
                         calc_whrefl_king, calc_blrefl_king;
-EXTERN smallint         gridlines[112][4];
+EXTERN int         gridlines[112][4];
 EXTERN int              numgridlines;
 
 #if defined(WE_ARE_EXTERN)
@@ -1852,14 +1852,14 @@ enum {
 
 
 #if defined(WE_ARE_EXTERN)
-	extern  short move_diff_code[haut - bas + 1];
+	extern  int move_diff_code[haut - bas + 1];
 #else
 /* This are the codes for the length-difference */
 /* between two squares */
 /* ATTENTION: use abs(square from - square to) for indexing this table. */
 /*        all move_down_codes are mapped this way to move_up_codes !    */
 
-	short move_diff_code[haut - bas + 1]= {
+	int move_diff_code[haut - bas + 1]= {
 	/* left/right   */        0,   1,   4,   9,  16,  25,  36,  49,
 	/* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
 	/* 1 left  up   */            50,  37,  26,  17,  10,   5,   2,

@@ -53,7 +53,7 @@
 
 #define MAX_OTHER_LEN 1000 /* needs to be at least the max of any value that can be returned in the len functions */
 
-short len_max(square sq_departure, square sq_arrival, square sq_capture)
+int len_max(square sq_departure, square sq_arrival, square sq_capture)
 {
   switch (sq_capture) {
   case messigny_exchange:
@@ -80,43 +80,43 @@ short len_max(square sq_departure, square sq_arrival, square sq_capture)
   }
 }
 
-short len_min(square sq_departure, square sq_arrival, square sq_capture) {
+int len_min(square sq_departure, square sq_arrival, square sq_capture) {
   return -len_max(sq_departure,sq_arrival,sq_capture);
 }
 
-short len_capt(square sq_departure, square sq_arrival, square sq_capture) {
+int len_capt(square sq_departure, square sq_arrival, square sq_capture) {
   return (e[sq_capture] != vide);
 }
 
-short len_follow(square sq_departure, square sq_arrival, square sq_capture) {
+int len_follow(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_arrival == move_generation_stack[repere[nbply]].departure);
 }
 
-short len_whduell(square sq_departure, square sq_arrival, square sq_capture) {
+int len_whduell(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_departure == whduell[nbply - 1]);
 }
 
-short len_blduell(square sq_departure, square sq_arrival, square sq_capture) {
+int len_blduell(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_departure == blduell[nbply - 1]);
 }
 
-short len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) {
+int len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) {
   return -((sq_departure/onerow) + onerow*(sq_departure%onerow));
 }
 
-short len_synchron(square sq_departure, square sq_arrival, square sq_capture) {
+int len_synchron(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_departure-sq_arrival
           == (move_generation_stack[repere[nbply]].departure
               - move_generation_stack[repere[nbply]].arrival));
 }
 
-short len_antisynchron(square sq_departure, square sq_arrival, square sq_capture) {
+int len_antisynchron(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_arrival-sq_departure
           == (move_generation_stack[repere[nbply]].departure
               - move_generation_stack[repere[nbply]].arrival));
 }
 
-short len_whforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
+int len_whforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
   if (we_generate_exact) {
     if (TSTFLAG(sq_spec[sq_arrival], WhConsForcedSq)) {
       there_are_consmoves = true;
@@ -131,7 +131,7 @@ short len_whforcedsquare(square sq_departure, square sq_arrival, square sq_captu
   }
 }
 
-short len_blforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
+int len_blforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
   if (we_generate_exact) {
     if (TSTFLAG(sq_spec[sq_arrival], BlConsForcedSq)) {
       there_are_consmoves = true;
@@ -146,7 +146,7 @@ short len_blforcedsquare(square sq_departure, square sq_arrival, square sq_captu
   }
 }
 
-short len_schwarzschacher(square id, square ia, square ip)
+int len_schwarzschacher(square id, square ia, square ip)
 {
    return ia==nullsquare ? 0 : 1;
 }
@@ -574,7 +574,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
         ** length of the new one is shorter or equal
         ** to the currently longest move.
         */
-        short len, curleng;
+        int len, curleng;
 
         if ( traitnbply == noir ? black_length : white_length)
         {
@@ -808,7 +808,7 @@ void gemoariderlion(square i, couleur camp) {
 
 static square generate_moves_on_line_segment(square sq_departure,
                                              square sq_base,
-                                             smallint k) {
+                                             int k) {
   square arr= sq_base+vec[k];
   while (e[arr]==vide && empile(sq_departure,arr,arr))
     arr+= vec[k];
@@ -904,8 +904,8 @@ void genleap(square sq_departure, numvec kbeg, numvec kend) {
 
 void geriderhopper(square   sq_departure,
                    numvec   kbeg, numvec    kend,
-                   smallint run_up,
-                   smallint jump,
+                   int run_up,
+                   int jump,
                    couleur  camp)
 {
   /* generate rider-hopper moves from vec[kbeg] to vec[kend] */
@@ -926,7 +926,7 @@ void geriderhopper(square   sq_departure,
            Check if there is an obstacle between the hopper
            and the hurdle
         */
-        smallint ran_up= run_up;
+        int ran_up= run_up;
         while (--ran_up) {
           sq_hurdle += vec[k];
           if (e[sq_hurdle]!=vide)
@@ -960,7 +960,7 @@ void geriderhopper(square   sq_departure,
              Check if there is an obstacle between
              the hurdle and the target square
           */
-          smallint jumped= jump;
+          int jumped= jump;
           while (--jumped) {
             sq_arrival+= vec[k];
             if (e[sq_arrival]!=vide)
@@ -1014,9 +1014,9 @@ void geriderhopper(square   sq_departure,
 
 static square generate_moves_on_circle_segment(square sq_departure,
                                                square sq_base,
-                                               smallint k1,
-                                               smallint *k2,
-                                               smallint delta_k) {
+                                               int k1,
+                                               int *k2,
+                                               int delta_k) {
   square sq_arrival= sq_base;
   do {
     sq_arrival+= vec[k1+*k2];
@@ -1111,7 +1111,7 @@ void ghamst(square sq_departure) {
 void gmhop(square   sq_departure,
            numvec   kanf,
            numvec   kend,
-           smallint m,
+           int m,
            couleur  camp)
 {
   piece hurdle;
@@ -1154,7 +1154,7 @@ void gmhop(square   sq_departure,
 }
 
 static void generate_locust_capture(square sq_departure, square sq_capture,
-                                    smallint k,
+                                    int k,
                                     couleur camp) {
   square sq_arrival;
   if (rightcolor(e[sq_capture],camp)) {
@@ -1411,7 +1411,7 @@ void gubi(square orig_departure,
 void grfou(square   orig_departure,
            square   in,
            numvec   k,
-           smallint x,
+           int x,
            couleur  camp,
            evalfunction_t *generate)
 {
@@ -1421,7 +1421,7 @@ void grfou(square   orig_departure,
      else
      use testempile() for generate !!
   */
-  smallint k1;
+  int k1;
 
   square sq_departure= orig_departure;
   square sq_arrival= in+k;
@@ -1451,7 +1451,7 @@ void grfou(square   orig_departure,
 void gcard(square   orig_departure,
            square   in,
            numvec   k,
-           smallint x,
+           int x,
            couleur  camp,
            evalfunction_t *generate)
 {
@@ -1461,7 +1461,7 @@ void gcard(square   orig_departure,
      else
      use testempile() for generate !!
   */
-  smallint k1;
+  int k1;
 
   square sq_departure= orig_departure;
   square sq_arrival= in+k;
@@ -1505,7 +1505,7 @@ void gcard(square   orig_departure,
 
 void  grefc(square orig_departure,
             square step_departure,
-            smallint x,
+            int x,
             couleur camp) {
   numvec k;
 
@@ -1548,8 +1548,8 @@ void gequi(square sq_departure, couleur camp) {
     if (hurdle!=obs) {
       finligne(sq_hurdle,vec[k],hurdle,end_of_line);
       {
-        smallint const dist_hurdle_end= abs(end_of_line-sq_hurdle);
-        smallint const dist_hurdle_dep= abs(sq_hurdle-sq_departure);
+        int const dist_hurdle_end= abs(end_of_line-sq_hurdle);
+        int const dist_hurdle_dep= abs(sq_hurdle-sq_departure);
         if (dist_hurdle_end>dist_hurdle_dep) {
           sq_arrival= sq_hurdle+sq_hurdle-sq_departure;
           if (hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
@@ -3268,7 +3268,7 @@ void GenMatingRook(square   sq_departure,
     }
   }
   else {
-    short OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
+    int OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
 
     k2= CheckDirRook[sq_king-sq_departure];
     if (k2!=0) {
@@ -3372,7 +3372,7 @@ void GenMatingBishop(square sq_departure,
     }
   }
   else if (SquareCol(sq_departure)==SquareCol(sq_king)) {
-    short OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
+    int OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
 
     k2= CheckDirBishop[sq_king-sq_departure];
     if (k2) {
@@ -3655,7 +3655,7 @@ void gen_p_captures(square sq_departure, square sq_arrival, couleur camp) {
   }
 } /* end gen_p_captures */
 
-void gen_p_nocaptures(square sq_departure, numvec dir, short steps)
+void gen_p_nocaptures(square sq_departure, numvec dir, int steps)
 {
   /* generates moves of a pawn in direction dir where steps single
      steps are possible.
@@ -3870,7 +3870,7 @@ void gorix(square sq_departure, couleur camp) {
   }
 }
 
-void genleapleap(square sq_departure, numvec kanf, numvec kend, smallint hurdletype, couleur camp)
+void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdletype, couleur camp)
 {
   square  sq_arrival, sq_hurdle;
   numvec  k, k1;

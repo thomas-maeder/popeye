@@ -640,7 +640,7 @@ int SquareNum(char a,char b)
     return 0;
 }
 
-static boolean SetKing(smallint *kingsquare, smallint square)
+static boolean SetKing(int *kingsquare, int square)
 {
   if (*kingsquare == initsquare) {
     *kingsquare= square;
@@ -1389,13 +1389,13 @@ static char *ParseStip(void) {
   return ReadNextTokStr();
 }
 
-static char *ReadSquares(smallint which) {
+static char *ReadSquares(int which) {
   char     *tok = ReadNextTokStr();
   char *lastTok = tok;
   square   i;
-  short    k, l;
+  int    k, l;
   ply      n;
-  smallint EpSquaresRead= 0;
+  int EpSquaresRead= 0;
 
   l=strlen(tok);
   if (l&1) {
@@ -1765,7 +1765,7 @@ static char *ParseVariant(boolean *type, int group) {
         tok = ReadNextTokStr();
         if (strlen(tok) == 4)
         {
-          smallint f=0, r=0, l=0;
+          int f=0, r=0, l=0;
           boolean horiz=false;
           char c= tok[0];
           if (tolower(c) == 'h')
@@ -1843,7 +1843,7 @@ static char *ParseVaultingPieces(Flags fl)
 {
   piece p;
   char  *tok;
-  smallint tp = 0;
+  int tp = 0;
   boolean gotpiece;
 
   while (True) {
@@ -4232,9 +4232,9 @@ void WriteConditions(int alignment) {
 } /* WriteConditions */
 
 void WritePosition() {
-  smallint i, nBlack, nWhite, nNeutr;
+  int i, nBlack, nWhite, nNeutr;
   square square, square_a;
-  smallint row, file;
+  int row, file;
   piece   p,pp;
   char    HLine1[40];
   char    HLine2[40];
@@ -4417,7 +4417,7 @@ void WritePosition() {
 void WriteGrid(void) 
 {
   square square, square_a;
-  smallint row, file;
+  int row, file;
   char    HLine[40];
 
   static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
@@ -4582,7 +4582,7 @@ void LaTeXBeginDiagram(void) {
   square *bnp;
   boolean firstpiece= true, fairypieces= false, holess= false,
     modifiedpieces=false;
-  smallint i;
+  int i;
   PieSpec sp;
   Flags remspec[PieceCount];
   char ListSpec[PieSpCount][256];

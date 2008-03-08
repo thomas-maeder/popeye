@@ -251,7 +251,7 @@ square renrank(piece p, Flags pspec, square j, square i, square ia, couleur camp
 
 square renfile(piece p, Flags pspec, square j, square i, square ia, couleur camp)
 {
-  smallint col= j % onerow;
+  int col= j % onerow;
 
   if (camp == noir) { /* white piece captured */
     if (is_pawn(p))
@@ -305,8 +305,8 @@ square renantipoden(piece p, Flags pspec,
                     square j, square i, square ia,
                     couleur camp)
 {
-  smallint const row= j/onerow - nr_of_slack_rows_below_board;
-  smallint const file= j%onerow - nr_of_slack_files_left_of_board;
+  int const row= j/onerow - nr_of_slack_rows_below_board;
+  int const file= j%onerow - nr_of_slack_files_left_of_board;
   
   i= j;
 
@@ -335,7 +335,7 @@ square rennormal(piece p, Flags pspec,
                  couleur camp)
 {
   square  Result;
-  smallint col, ran;
+  int col, ran;
   couleur  cou;
 
   col = j % onerow;
@@ -944,7 +944,7 @@ void genmove(couleur camp)
   init_move_generation_optimizer();
 
   if (CondFlag[exclusive]) {
-    smallint nbrmates= 0;
+    int nbrmates= 0;
 
     mateallowed[nbply]= true;
 
@@ -1172,7 +1172,7 @@ boolean jouecoup_ortho_test(void)
   return flag;
 }
 
-boolean jouecoup_legality_test(smallint oldnbpiece[derbla],
+boolean jouecoup_legality_test(int oldnbpiece[derbla],
                                square sq_rebirth) {
   if (CondFlag[schwarzschacher] && trait[nbply]==noir)
     return echecc(blanc);
@@ -1224,7 +1224,7 @@ boolean jouecoup(void) {
   Flags   spec_pi_captured;
   Flags   spec_pi_moving;
 
-  smallint prev_nbpiece[derbla];
+  int prev_nbpiece[derbla];
 
   couleur traitnbply= trait[nbply];
 
@@ -1506,7 +1506,7 @@ boolean jouecoup(void) {
     if (pi_captured==vide) {
       /* ep capture */
       if (CondFlag[phantom]) {
-        smallint col_diff, rank_j;
+        int col_diff, rank_j;
 
         col_diff= sq_arrival%onerow - sq_departure%onerow,
           rank_j= sq_arrival/onerow;

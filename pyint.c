@@ -21,7 +21,7 @@
   (s = (Flags)(s&((1<<DiaCirce)-1)) + (f<<DiaCirce))
 
 #define GetIndex(s)                             \
-  ((smallint)((s >> DiaCirce)))
+  ((int)((s >> DiaCirce)))
 
 typedef struct {
     square	sq;
@@ -35,36 +35,36 @@ typedef struct {
     piece	prom;
 } MOVE;
 
-boolean		(*solproc)(couleur, smallint, boolean);
+boolean		(*solproc)(couleur, int, boolean);
 couleur		solcamp;
-smallint	sollength;
+int	sollength;
 
-smallint MaxPieceAll, MaxPieceWhite, MaxPieceBlack;
-smallint WhMovesLeft, BlMovesLeft;
+int MaxPieceAll, MaxPieceWhite, MaxPieceBlack;
+int WhMovesLeft, BlMovesLeft;
 
 long MatesMax;
 
-extern short ProofKnightMoves[];
+extern int ProofKnightMoves[];
 
 PIECE white[64], black[64], final[64];
 boolean whiteused[64], blackused[64], is_cast_supp;
 square is_ep, is_ep2;
-smallint moves_to_prom[64];
+int moves_to_prom[64];
 square squarechecking, *deposebnp;
 piece piecechecking;
-smallint nbrchecking;
+int nbrchecking;
 
 MOVE **Sols;
-integer SolMax;
+int SolMax;
 
 PIECE Mate[64];
-smallint IndxChP;
+int IndxChP;
 
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
 
 boolean guards(square bk, piece p, square sq) {
-  smallint diff= bk - sq;
-  smallint dir= 0;
+  int diff= bk - sq;
+  int dir= 0;
 
   switch (p) {
   case Pawn:
@@ -144,7 +144,7 @@ boolean IllegalCheck(couleur camp) {
 }
 
 boolean impact(square bk, piece p, square sq) {
-  smallint	i;
+  int	i;
   boolean	ret= guards(bk, p, sq);
 
   e[bk]= vide;
@@ -158,9 +158,9 @@ boolean impact(square bk, piece p, square sq) {
   return ret;
 }
 
-smallint FroToKing(square f_sq, square t_sq) {
-  smallint diffcol= f_sq % onerow - t_sq % onerow;
-  smallint diffrow= f_sq / onerow - t_sq / onerow;
+int FroToKing(square f_sq, square t_sq) {
+  int diffcol= f_sq % onerow - t_sq % onerow;
+  int diffrow= f_sq / onerow - t_sq / onerow;
 
   if (diffcol < 0)
 	diffcol= -diffcol;
@@ -171,14 +171,14 @@ smallint FroToKing(square f_sq, square t_sq) {
   return (diffcol > diffrow) ? diffcol : diffrow;
 }
 
-smallint FroTo(
+int FroTo(
   piece	f_p,
   square	f_sq,
   piece	t_p,
   square	t_sq,
   boolean genchk)
 {
-  smallint diffcol, diffrow, minmoves, withcast;
+  int diffcol, diffrow, minmoves, withcast;
 
   if (f_sq == t_sq && f_p == t_p) {
 	if (genchk) {
@@ -299,7 +299,7 @@ smallint FroTo(
 	}
 	else {
       /* promotion */
-      smallint minmoves, curmoves;
+      int minmoves, curmoves;
       square v_sq, start;
 
       minmoves= maxply+1;
@@ -347,7 +347,7 @@ void StoreSol(void) {
 
 boolean SolAlreadyFound(void) {
   ply		cp;
-  integer	cs;
+  int	cs;
   boolean	found= false;
 
   repere[nbply+1]= nbcou;
@@ -372,13 +372,13 @@ boolean SolAlreadyFound(void) {
   return found;
 }
 
-integer  CurMate;
-smallint WhMovesRequired[maxply+1],
+int  CurMate;
+int WhMovesRequired[maxply+1],
   BlMovesRequired[maxply+1],
   CapturesLeft[maxply+1];
 
 boolean MatePossible(void) {
-  smallint	whmoves, blmoves, index, time, captures;
+  int	whmoves, blmoves, index, time, captures;
   piece	f_p;
   square	t_sq;
 
@@ -493,25 +493,25 @@ boolean MatePossible(void) {
 
 /* declarations */
 void ImmobilizeByBlBlock(
-  smallint, smallint, smallint, smallint, square, boolean);
-void DeposeBlPiece(smallint, smallint, smallint, smallint);
-void Immobilize(smallint, smallint, smallint, smallint);
-void AvoidCheckInStalemate(smallint, smallint, smallint, smallint);
-smallint MovesToBlock(square, smallint);
-void DeposeWhKing(smallint, smallint, smallint, smallint);
+  int, int, int, int, square, boolean);
+void DeposeBlPiece(int, int, int, int);
+void Immobilize(int, int, int, int);
+void AvoidCheckInStalemate(int, int, int, int);
+int MovesToBlock(square, int);
+void DeposeWhKing(int, int, int, int);
 void NeutralizeMateGuardingPieces(
-  smallint, smallint, smallint, smallint);
-void BlackPieceTo(square, smallint, smallint, smallint, smallint);
-void WhitePieceTo(square, smallint, smallint, smallint, smallint);
-void AvoidWhKingInCheck(smallint, smallint, smallint, smallint);
+  int, int, int, int);
+void BlackPieceTo(square, int, int, int, int);
+void WhitePieceTo(square, int, int, int, int);
+void AvoidWhKingInCheck(int, int, int, int);
 
 void StaleStoreMate(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpcallowed,
-  smallint	whpcallowed)
+  int	blmoves,
+  int	whmoves,
+  int	blpcallowed,
+  int	whpcallowed)
 {
-  smallint	i, index, unused= 0;
+  int	i, index, unused= 0;
   square	*bnp, _rb, _rn;
   Flags	sp;
 
@@ -601,7 +601,7 @@ void StaleStoreMate(
 
 #if defined(DETAILS)
   {
-	smallint blm= 0, whm= 0, m;
+	int blm= 0, whm= 0, m;
 	for (bnp= boardnum; *bnp; bnp++)
       if (e[*bnp] != vide) {
 	    sp= spec[*bnp];
@@ -663,10 +663,10 @@ void StaleStoreMate(
 } /* StaleStoreMate */
 
 void DeposeBlPiece(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpcallowed,
-  smallint	whpcallowed)
+  int	blmoves,
+  int	whmoves,
+  int	blpcallowed,
+  int	whpcallowed)
 {
   square *bnp, *isbnp= deposebnp;
 
@@ -703,10 +703,10 @@ void DeposeBlPiece(
 } /* DeposeBlPiece */
 
 void PreventCheckAgainstWhK(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpc,
-  smallint	whpc)
+  int	blmoves,
+  int	whmoves,
+  int	blpc,
+  int	whpc)
 {
   square trouble= initsquare;
   boolean fbm= flagblackmummer;
@@ -731,7 +731,7 @@ void PreventCheckAgainstWhK(
 
   if (is_rider(abs(e[trouble]))) {
 	square sq;
-	smallint dir= CheckDirQueen[rb-trouble];
+	int dir= CheckDirQueen[rb-trouble];
 
 	for (sq= trouble+dir; sq != rb; sq+=dir) {
       BlackPieceTo(sq, blmoves, whmoves, blpc, whpc);
@@ -743,12 +743,12 @@ void PreventCheckAgainstWhK(
 }
 
 void StoreMate(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpc,
-  smallint	whpc)
+  int	blmoves,
+  int	whmoves,
+  int	blpc,
+  int	whpc)
 {
-  smallint i, index;
+  int i, index;
   square *bnp, _rb, _rn;
   Flags sp;
 
@@ -857,13 +857,13 @@ void StoreMate(
 
 void PinBlPiece(
   square	topin,
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpc,
-  smallint	whpc)
+  int	blmoves,
+  int	whmoves,
+  int	blpc,
+  int	whpc)
 {
   square	sq= topin;
-  smallint	dir, time, i;
+  int	dir, time, i;
   boolean	diagonal;
   piece	f_p;
 
@@ -918,13 +918,13 @@ void PinBlPiece(
 }
 
 void ImmobilizeByPin(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpcallowed,
-  smallint	whpcallowed,
+  int	blmoves,
+  int	whmoves,
+  int	blpcallowed,
+  int	whpcallowed,
   square	topin)
 {
-  smallint	dir, time, i;
+  int	dir, time, i;
   boolean	diagonal;
   square	sq;
   piece	f_p;
@@ -1037,7 +1037,7 @@ void ImmobilizeByPin(
 } /* ImmobilizeByPin */
 
 boolean BlIllegalCheck(square from, piece p) {
-  smallint dir= from-rb;
+  int dir= from-rb;
   switch(p) {
   case -Queen:
 	return CheckDirQueen[dir] == dir;
@@ -1059,10 +1059,10 @@ boolean BlIllegalCheck(square from, piece p) {
 }
 
 void DeposeWhKing(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpcallowed,
-  smallint	whpcallowed)
+  int	blmoves,
+  int	whmoves,
+  int	blpcallowed,
+  int	whpcallowed)
 {
   piece f_p;
 
@@ -1107,14 +1107,14 @@ void DeposeWhKing(
 }
 
 void ImmobilizeByBlBlock(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpcallowed,
-  smallint	whpcallowed,
+  int	blmoves,
+  int	whmoves,
+  int	blpcallowed,
+  int	whpcallowed,
   square	toblock,
   boolean	morethanonecheck)
 {
-  smallint i, time, pcreq;
+  int i, time, pcreq;
   piece f_p;
 
 #if defined(DEBUG)
@@ -1135,7 +1135,7 @@ void ImmobilizeByBlBlock(
 		/* A rough check whether it is worth thinking about
 		   promotions.
 		*/
-		smallint moves= black[i].sq / onerow - 8;
+		int moves= black[i].sq / onerow - 8;
 		if (moves > 5) {
           /* double step possible */
           moves= 5;
@@ -1219,13 +1219,13 @@ void ImmobilizeByBlBlock(
 } /* ImmobilizeByBlBlock */
 
 void ImmobilizeByWhBlock(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpcallowed,
-  smallint	whpcallowed,
+  int	blmoves,
+  int	whmoves,
+  int	blpcallowed,
+  int	whpcallowed,
   square	toblock)
 {
-  smallint	 i, time, pcreq;
+  int	 i, time, pcreq;
   piece	f_p;
 
   if (blpcallowed < 0) {
@@ -1292,7 +1292,7 @@ void ImmobilizeByWhBlock(
 
 	time= FroTo(f_p, white[i].sq, f_p, toblock, false);
 	if (time <= whmoves) {
-      smallint decpc= i ? 1 : 0;
+      int decpc= i ? 1 : 0;
       SetPiece(f_p, toblock, white[i].sp);
       if (i == 0) {
 		rb= toblock;
@@ -1331,13 +1331,13 @@ void ImmobilizeByWhBlock(
 } /* ImmobilizeByWhBlock */
 
 void Immobilize(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpcallowed,
-  smallint	whpcallowed)
+  int	blmoves,
+  int	whmoves,
+  int	blpcallowed,
+  int	whpcallowed)
 {
   square	trouble, block, *bnp, blblock;
-  smallint	i, blockwhite, blockblack, bpl, wpl, mtba, weight;
+  int	i, blockwhite, blockblack, bpl, wpl, mtba, weight;
   boolean	nopinpossible, pinnecessary;
   echiquier	toblock;
 
@@ -1459,7 +1459,7 @@ void Immobilize(
       weight= 0;
       for (bnp= boardnum; *bnp && (mtba <= blmoves); bnp++) {
 		if (toblock[*bnp] > 1) {
-          smallint nw= MovesToBlock(*bnp, blmoves);
+          int nw= MovesToBlock(*bnp, blmoves);
           mtba += nw;
           if (nw > weight) {
 			weight= nw;
@@ -1488,12 +1488,12 @@ void Immobilize(
 } /* Immobilize */
 
 void AvoidWhKingInCheck(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpcallowed,
-  smallint	whpcallowed)
+  int	blmoves,
+  int	whmoves,
+  int	blpcallowed,
+  int	whpcallowed)
 {
-  smallint checkdirs[8], md= 0, i;
+  int checkdirs[8], md= 0, i;
 
   if (blpcallowed < 0 || whpcallowed < 0) {
 	return;
@@ -1542,12 +1542,12 @@ void AvoidWhKingInCheck(
 
 
 void AvoidCheckInStalemate(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpcallowed,
-  smallint	whpcallowed)
+  int	blmoves,
+  int	whmoves,
+  int	blpcallowed,
+  int	whpcallowed)
 {
-  smallint checkdirs[8], md= 0, i;
+  int checkdirs[8], md= 0, i;
 
 #if defined(DEBUG)
   marge++;
@@ -1622,12 +1622,12 @@ void AvoidCheckInStalemate(
 
 void BlackPieceTo(
   square	sq,
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpc,
-  smallint	whpc)
+  int	blmoves,
+  int	whmoves,
+  int	blpc,
+  int	whpc)
 {
-  smallint time, actpbl;
+  int time, actpbl;
 
   VARIABLE_INIT(time);
 
@@ -1646,7 +1646,7 @@ void BlackPieceTo(
           Flags sp= black[actpbl].sp;
           SetPiece(p, sq, sp);
           if (p == -Pawn) {
-			smallint diffcol= black[actpbl].sq%onerow - sq%onerow;
+			int diffcol= black[actpbl].sq%onerow - sq%onerow;
 			if (diffcol < 0) {
               diffcol= -diffcol;
 			}
@@ -1676,7 +1676,7 @@ void BlackPieceTo(
 		if (time <= blmoves) {
           piece pp= -getprompiece[vide];
           while (pp != vide) {
-			smallint diffcol;
+			int diffcol;
 			time= FroTo(p,
                         black[actpbl].sq, -pp, sq, false);
 			/* black piece */
@@ -1713,12 +1713,12 @@ void BlackPieceTo(
 
 void WhitePieceTo(
   square	sq,
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpc,
-  smallint	whpc)
+  int	blmoves,
+  int	whmoves,
+  int	blpc,
+  int	whpc)
 {
-  smallint time, actpwh;
+  int time, actpwh;
 
   VARIABLE_INIT(time);
 
@@ -1740,7 +1740,7 @@ void WhitePieceTo(
           continue;
 		}
 		if (p == Pawn) {
-          smallint diffcol= white[actpwh].sq%onerow - sq%onerow;
+          int diffcol= white[actpwh].sq%onerow - sq%onerow;
           if (diffcol < 0) {
 			diffcol= -diffcol;
           }
@@ -1770,7 +1770,7 @@ void WhitePieceTo(
       if (time <= whmoves) {
 		piece pp= getprompiece[vide];
 		while (pp != vide) {
-          smallint diffcol;
+          int diffcol;
           time= FroTo(p, white[actpwh].sq, pp, sq, false);
           if (pp == Bishop
 		      && SquareCol(sq)
@@ -1801,10 +1801,10 @@ void WhitePieceTo(
 } /* WhitePieceTo */
 
 void NeutralizeMateGuardingPieces(
-  smallint	blmoves,
-  smallint	whmoves,
-  smallint	blpc,
-  smallint	whpc)
+  int	blmoves,
+  int	whmoves,
+  int	blpc,
+  int	whpc)
 {
   square trouble, trto;
 
@@ -1829,7 +1829,7 @@ void NeutralizeMateGuardingPieces(
   PinBlPiece(trouble, blmoves, whmoves, blpc, whpc);
   if (is_rider(abs(e[trouble]))) {
 	square	 sq;
-	smallint dir= CheckDirQueen[trto-trouble];
+	int dir= CheckDirQueen[trto-trouble];
 
 	for (sq= trouble+dir; sq != trto; sq+=dir) {
       BlackPieceTo(sq, blmoves, whmoves, blpc, whpc);
@@ -1870,12 +1870,12 @@ boolean Redundant(void) {
   return false;
 } /* Redundant */
 
-smallint MovesToBlock(square sq, smallint blmoves) {
-  smallint i;
-  smallint mintime= maxply+1;
+int MovesToBlock(square sq, int blmoves) {
+  int i;
+  int mintime= maxply+1;
 
   for (i= 1; i < MaxPieceBlack; i++) {
-	smallint  time;
+	int  time;
 	piece	  p= black[i].p;
 
 	if (p!=-Pawn || sq>=square_a2) {
@@ -1888,7 +1888,7 @@ smallint MovesToBlock(square sq, smallint blmoves) {
 	/* pawn promotions */
 	if (p == -Pawn) {
       /* A rough check whether it is worth thinking about promotions. */
-      smallint moves= black[i].sq / onerow - 8;
+      int moves= black[i].sq / onerow - 8;
       if (moves > 5)
 		moves= 5;
 
@@ -1912,15 +1912,15 @@ smallint MovesToBlock(square sq, smallint blmoves) {
 } /* MovesToBlock */
 
 void GenerateBlocking(
-  smallint	whmoves,
-  smallint	nbrfl,
+  int	whmoves,
+  int	nbrfl,
   square	*toblock,
-  smallint	*mintime,
-  smallint	blpcallowed,
-  smallint	whpcallowed,
-  smallint	timetowaste)
+  int	*mintime,
+  int	blpcallowed,
+  int	whpcallowed,
+  int	timetowaste)
 {
-  smallint	actpbl, wasted;
+  int	actpbl, wasted;
   square	sq;
 
   if (OptFlag[maxsols] && (solutions >= maxsolutions))
@@ -1974,7 +1974,7 @@ void GenerateBlocking(
 			Flags sp= black[actpbl].sp;
 			SetPiece(p, sq, sp);
 			if (p == -Pawn) {
-              smallint diffcol;
+              int diffcol;
               diffcol= black[actpbl].sq%onerow - sq%onerow;
               if (diffcol < 0) {
 				diffcol= -diffcol;
@@ -1997,7 +1997,7 @@ void GenerateBlocking(
 		if (p == -Pawn) {
           /* A rough check whether it is worth thinking about
              promotions. */
-          smallint moves= black[actpbl].sq / onerow - 8;
+          int moves= black[actpbl].sq / onerow - 8;
           if (moves > 5)
 			moves= 5;
 
@@ -2007,7 +2007,7 @@ void GenerateBlocking(
           if (timetowaste >= moves-mintime[nbrfl]) {
             piece pp= -getprompiece[vide];
             while (pp != vide) {
-              smallint diffcol;
+              int diffcol;
               wasted= FroTo(p,
                             black[actpbl].sq, -pp, sq, false)
                 - mintime[nbrfl];
@@ -2047,13 +2047,13 @@ void GenerateBlocking(
 } /* GenerateBlocking */
 
 void GenerateGuarding(
-  smallint	actpwh,
-  smallint	whmoves,
-  smallint	blmoves,
-  smallint	whcaptures)
+  int	actpwh,
+  int	whmoves,
+  int	blmoves,
+  int	whcaptures)
 {
   square	*bnp, toblock[8];
-  smallint	flights;
+  int	flights;
   boolean	unblockable= false;
 
 #if defined(DEBUG)
@@ -2075,7 +2075,7 @@ void GenerateGuarding(
   }
 
   if (actpwh == MaxPieceWhite) {
-	smallint i, blpcallowed, mtba, mintime[8];
+	int i, blpcallowed, mtba, mintime[8];
 	boolean set_king= false;
 	flights= 0;
 
@@ -2179,7 +2179,7 @@ void GenerateGuarding(
 	whiteused[actpwh]= true;
 
 	for (bnp= boardnum; *bnp; bnp++) {
-      smallint time;
+      int time;
       if (e[*bnp] != vide)
 		continue;
 
@@ -2201,7 +2201,7 @@ void GenerateGuarding(
 		SetPiece(p, *bnp, sp);
 		if (!IllegalCheck(noir)) {
           if (p == Pawn) {
-			smallint diffcol= sq % onerow - *bnp % onerow;
+			int diffcol= sq % onerow - *bnp % onerow;
 			GenerateGuarding(actpwh+1, whmoves-time,
                              blmoves, whcaptures+abs(diffcol));
           }
@@ -2253,8 +2253,8 @@ void GenerateGuarding(
   }
 } /* GenerateGuarding */
 
-void GenerateChecking(smallint whmoves, smallint blmoves) {
-  smallint	i, j, time;
+void GenerateChecking(int whmoves, int blmoves) {
+  int	i, j, time;
   square	sq;
 
 #if defined(DEBUG)
@@ -2281,7 +2281,7 @@ void GenerateChecking(smallint whmoves, smallint blmoves) {
 		piecechecking= p;
 		squarechecking= sq;
 		if (p == Pawn) {
-          smallint diffcol= white[j].sq % onerow - sq % onerow;
+          int diffcol= white[j].sq % onerow - sq % onerow;
           GenerateGuarding(0,
                            whmoves-time, blmoves, abs(diffcol));
 		}
@@ -2319,8 +2319,8 @@ void GenerateChecking(smallint whmoves, smallint blmoves) {
   }
 } /* GenerateChecking */
 
-void GenerateBlackKing(smallint whmoves, smallint blmoves) {
-  smallint	i, time;
+void GenerateBlackKing(int whmoves, int blmoves) {
+  int	i, time;
   square	sq;
   piece	p= black[0].p;
   Flags	sp= black[0].sp;
@@ -2374,15 +2374,15 @@ void GenerateBlackKing(smallint whmoves, smallint blmoves) {
 } /* GenerateBlackKing */
 
 boolean Intelligent(
-  smallint	whmoves,
-  smallint	blmoves,
-  boolean	(*proc)(couleur, smallint, boolean),
+  int	whmoves,
+  int	blmoves,
+  boolean	(*proc)(couleur, int, boolean),
   couleur	camp,
-  smallint	length)
+  int	length)
 {
   square	*bnp;
   piece	p;
-  smallint	i;
+  int	i;
 
   solproc= proc;
   solcamp= camp;
@@ -2417,7 +2417,7 @@ boolean Intelligent(
       white[MaxPieceWhite].sq= *bnp;
       whiteused[MaxPieceWhite]= false;
       if (e[*bnp] == Pawn) {
-	    smallint	moves= 15 - *bnp / onerow;
+	    int	moves= 15 - *bnp / onerow;
 	    square	sq= *bnp;
 	    if (moves > 5)
           moves= 5;

@@ -467,9 +467,6 @@
 
 /* These typedefs should be judged for efficiency */
 
-typedef int     integer;
-typedef short   smallint;
-
 #if defined(SIXTEEN)
 	typedef char    boolean;
 	typedef char    piece;
@@ -480,13 +477,13 @@ typedef short   smallint;
 
 typedef unsigned long   Flags;
 
-typedef smallint        square;
-typedef integer         couleur;
-typedef integer         numecoup;
-typedef integer         ply;
-typedef smallint        numvec;
+typedef int        square;
+typedef int         couleur;
+typedef int         numecoup;
+typedef int         ply;
+typedef int        numvec;
 
-typedef smallint        echiquier [maxsquare+4];
+typedef piece           echiquier [maxsquare+4];
 typedef square          pilecase [maxply+1];
 typedef couleur         pilecouleur [maxply+1];
 
@@ -508,8 +505,8 @@ typedef struct {
 
 	piece           pjazz;
 	square          renkam;
-	smallint        numi;
-	smallint        sum;
+	int        numi;
+	int        sum;
 	boolean         promi,
 			echec,
 			bool_senti,
@@ -531,7 +528,7 @@ typedef struct {
 #define	tabmaxcp	2048
 
 typedef struct {
-	smallint        nbr,
+	int        nbr,
 			cp[3*maxply];
 	coup            liste[tabmaxcp];
 } tab;
@@ -1213,7 +1210,7 @@ enum {
 
 #define setneutre(i)            do {if (neutcoul != color(i)) change(i);} while(0)
 #define change(i)               do {register piece pp; nbpiece[pp= e[(i)]]--; nbpiece[e[(i)]= -pp]++;} while (0)
-#define finligne(i,k,p,sq)      do {register smallint kk= (k); (sq)= (i); while (e[(sq)+=(kk)]==vide); p= e[(sq)];} while (0)
+#define finligne(i,k,p,sq)      do {register int kk= (k); (sq)= (i); while (e[(sq)+=(kk)]==vide); p= e[(sq)];} while (0)
 
 #define rightcolor(ej, camp)    ((camp) == blanc ? (ej) <= roin : (ej) >= roib)
 

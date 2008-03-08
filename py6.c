@@ -212,7 +212,7 @@ boolean verifieposition(void) {
   square        *bnp;
   piece     p;
   ply           n;
-  smallint      cp, pp, tp, op;
+  int      cp, pp, tp, op;
   int           i;
   boolean          nonoptgenre;
 
@@ -1424,8 +1424,8 @@ void current(coup *mov) {
   mov->osc= oscillatedKs[nbply];
 }
 
-smallint alloctab(void) {
-  smallint result = ++tabsol.nbr;
+int alloctab(void) {
+  int result = ++tabsol.nbr;
   tabsol.cp[result]= tabsol.cp[result-1];
   return result;
 }
@@ -1434,7 +1434,7 @@ void freetab(void) {
   --(tabsol.nbr);
 }
 
-void pushtabsol(smallint n) {
+void pushtabsol(int n) {
   if (++(tabsol.cp[n]) > tabmaxcp)
     ErrorMsg(TooManySol);
   else
@@ -1442,7 +1442,7 @@ void pushtabsol(smallint n) {
   coupfort();
 }
 
-smallint tablen(smallint t) {
+int tablen(int t) {
   return tabsol.cp[t]-tabsol.cp[t-1];
 }
 
@@ -1473,7 +1473,7 @@ extern boolean two_same_pieces;
 void editcoup(coup *mov) {
   char    BlackChar= *GetMsgString(BlackColor);
   char    WhiteChar= *GetMsgString(WhiteColor);
-  short   icount, diff;
+  int   icount, diff;
   square sq;
 
   if (mov->cazz==nullsquare) return;
@@ -1724,9 +1724,9 @@ void editcoup(coup *mov) {
   StdChar(bl);
 } /* editcoup */
 
-boolean nowdanstab(smallint n)
+boolean nowdanstab(int n)
 {
-  smallint i;
+  int i;
   coup mov;
 
   current(&mov);
@@ -1768,8 +1768,8 @@ void ecritcoup(void) {
   editcoup(&mov);
 }
 
-void videtabsol(smallint t) {
-  smallint n;
+void videtabsol(int t) {
+  int n;
 
   if (tabsol.cp[t] != tabsol.cp[t-1]) {
     Tabulate();
@@ -1839,7 +1839,7 @@ void WriteForsyth(void)
 }
 
 void linesolution(void) {
-  smallint      num= 0;
+  int      num= 0;
   couleur       camp;
 
   sic_coup= nbcou;
@@ -1917,7 +1917,7 @@ void linesolution(void) {
   flag_writinglinesolution= false;
 } /* end of linesolution */
 
-EXTERN smallint WhMovesLeft, BlMovesLeft;
+EXTERN int WhMovesLeft, BlMovesLeft;
 
 #if !defined(DATABASE)
 boolean last_h_move(couleur camp) {
@@ -1991,10 +1991,10 @@ boolean last_h_move(couleur camp) {
   return flag;
 }
 
-smallint dsr_def(couleur camp, smallint n, smallint t) {
+int dsr_def(couleur camp, int n, int t) {
   couleur ad= advers(camp);
   boolean pat= true;
-  integer ntcount=0;
+  int ntcount=0;
 
   if ((!FlowFlag(Exact) || enonce == 1)
       && SortFlag(Direct)
@@ -2015,7 +2015,7 @@ smallint dsr_def(couleur camp, smallint n, smallint t) {
   }
 
   if (n > 2 && OptFlag[solflights]) {
-    integer zae = maxflights + 1;
+    int zae = maxflights + 1;
     square  x = camp == noir ? rn : rb;
     genmove(camp);
     while (encore() && (zae > 0)) {
@@ -2092,8 +2092,8 @@ smallint dsr_def(couleur camp, smallint n, smallint t) {
   return pat ? (maxdefen + 1) : tablen(t);
 } /* dsr_def */
 
-boolean dsr_parmena(couleur camp, smallint n, smallint t) {
-  smallint zaehler= 0;
+boolean dsr_parmena(couleur camp, int n, int t) {
+  int zaehler= 0;
   boolean flag= false;
   couleur ad= advers(camp);
 
@@ -2121,9 +2121,9 @@ boolean dsr_parmena(couleur camp, smallint n, smallint t) {
   return zaehler < tablen(t);
 }
 
-void dsr_vari(couleur camp, smallint n, smallint par, boolean appa) {
+void dsr_vari(couleur camp, int n, int par, boolean appa) {
   couleur   ad= advers(camp);
-  smallint  mats, mena, y, nrmena= 1, i, ntcount;
+  int  mats, mena, y, nrmena= 1, i, ntcount;
   boolean   indikator;
 
   VARIABLE_INIT(ntcount);
@@ -2262,12 +2262,12 @@ void dsr_vari(couleur camp, smallint n, smallint par, boolean appa) {
 
 void dsr_sol(
   couleur   camp,
-  smallint  n,
-  smallint  t,
+  int  n,
+  int  t,
   boolean   restartenabled)
 {
   couleur ad= advers(camp);
-  smallint nbd, def;
+  int nbd, def;
 
   if ((n == enonce) && !FlowFlag(Semi) && SortFlag(Reflex)) {
     if (matant(camp,1)) {
@@ -2364,14 +2364,14 @@ void dsr_sol(
   finply();
 } /* dsr_sol */
 
-boolean dsr_e(couleur camp, smallint n)
+boolean dsr_e(couleur camp, int n)
 {
   if (SortFlag(Direct))
     return (mate(camp,n-1));
   return (!definvref(camp,n));
 }
 
-boolean dsr_ant(couleur camp, smallint n)
+boolean dsr_ant(couleur camp, int n)
 {
   if (SortFlag(Direct))
     return (matant(camp,n));
@@ -2475,7 +2475,7 @@ void SolveSeriesProblems(couleur camp) {
 } /* SolveSeriesProblems */
 
 void SolveHelpProblems(couleur camp) {
-  smallint      n= 2*enonce, i;
+  int      n= 2*enonce, i;
   boolean       is_exact= FlowFlag(Exact);
 
   move_generation_mode= move_generation_not_optimized;
@@ -2580,7 +2580,7 @@ void SolveHelpProblems(couleur camp) {
 } /* SolveHelpProblems */
 
 void SolveDirectProblems(couleur camp) {
-  smallint lsgn;
+  int lsgn;
 
   if (  (OptFlag[solapparent] && (enonce > 1))
         || OptFlag[postkeyplay])

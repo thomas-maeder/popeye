@@ -30,7 +30,7 @@
 /* an array to store the position */
 static piece ProofPieces[32];
 static square ProofSquares[32];
-static smallint ProofNbrAllPieces;
+static int ProofNbrAllPieces;
 echiquier ProofBoard, PosA;
 static	byte buffer[256];
 square Proof_rb, Proof_rn, rbA, rnA;
@@ -38,10 +38,10 @@ Flags ProofSpec[64], SpecA[64];
 static imarr Proof_isquare;
 imarr isquareA;
 
-static smallint xxxxx[fb+fb+1];
+static int xxxxx[fb+fb+1];
 #define ProofNbrPiece (xxxxx+fb)
 
-static smallint ProofNbrWhitePieces, ProofNbrBlackPieces;
+static int ProofNbrWhitePieces, ProofNbrBlackPieces;
 
 static boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
   BlockedBishopc8, BlockedBishopf8, BlockedQueend8,
@@ -127,8 +127,8 @@ BCMemValue *ProofEncode(void) {
   return bcm;
 }
 
-smallint proofwkm[haut+25-(bas-25)+1];
-smallint proofbkm[haut+25-(bas-25)+1];
+int proofwkm[haut+25-(bas-25)+1];
+int proofbkm[haut+25-(bas-25)+1];
 
 #define WhKingMoves  (proofwkm-(bas-25))
 #define BlKingMoves  (proofbkm-(bas-25))
@@ -136,7 +136,7 @@ smallint proofbkm[haut+25-(bas-25)+1];
 void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
   square	*bnp, sq;
   numvec	k;
-  smallint	MoveNbr;
+  int	MoveNbr;
   boolean	GoOn;
 
   /* set all squares to a maximum */
@@ -468,7 +468,7 @@ boolean ProofIdentical(void) {
   return True;
 }
 
-short ProofKnightMoves[haut-bas+1]= {
+int ProofKnightMoves[haut-bas+1]= {
   /*   1-  7 */		0,  3,	2,  3,	2,  3,	4,  5,
   /* dummies  8- 16 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
   /*  17- 31*/		4,  3,	4,  3,	2,  1,	2,  3,	2, 1, 2, 3, 4, 3, 4,
@@ -486,9 +486,9 @@ short ProofKnightMoves[haut-bas+1]= {
   /* 161-175 */		6,  5,	4,  5,	4,  5,	4,  5,	4, 5, 4, 5, 4, 5, 6
 };
 
-smallint ProofBlKingMovesNeeded(void) {
-  smallint	cast;
-  smallint	needed= BlKingMoves[rn];
+int ProofBlKingMovesNeeded(void) {
+  int	cast;
+  int	needed= BlKingMoves[rn];
 
   if (TSTFLAGMASK(castling_flag[nbply],ke8_cancastle)) {
     if (TSTFLAGMASK(castling_flag[nbply],ra8_cancastle)) {
@@ -517,9 +517,9 @@ smallint ProofBlKingMovesNeeded(void) {
   return needed;
 }
 
-smallint ProofWhKingMovesNeeded(void) {
-  smallint	needed= WhKingMoves[rb];
-  smallint	cast;
+int ProofWhKingMovesNeeded(void) {
+  int	needed= WhKingMoves[rb];
+  int	cast;
 
   if (TSTFLAGMASK(castling_flag[nbply],ke1_cancastle)) {
     if (TSTFLAGMASK(castling_flag[nbply],ra1_cancastle)) {
@@ -604,9 +604,9 @@ void BlPawnMovesFromTo(
   }
 }
 
-smallint WhPawnMovesNeeded(square sq) {
-  smallint	MovesNeeded;
-  smallint	MovesNeeded1;
+int WhPawnMovesNeeded(square sq) {
+  int	MovesNeeded;
+  int	MovesNeeded1;
 
   /* The first time ProofWhPawnMovesNeeded is called the following
      test is always false. It has already been checked in
@@ -658,9 +658,9 @@ smallint WhPawnMovesNeeded(square sq) {
   return MovesNeeded+1;
 }
 
-smallint BlPawnMovesNeeded(square sq) {
-  smallint	MovesNeeded;
-  smallint	MovesNeeded1;
+int BlPawnMovesNeeded(square sq) {
+  int	MovesNeeded;
+  int	MovesNeeded1;
 
   /* The first time ProofBlPawnMovesNeeded is called the following
      test is always false. It has already been checked in
@@ -735,8 +735,8 @@ void PieceMovesFromTo(piece p, square from, square to, int *moves) {
 	*moves= ProofKnightMoves[abs(sqdiff)];
 	if (*moves > 1) {
       square	sqi, sqj;
-      smallint	i, j, testmov;
-      smallint	testmin= enonce;
+      int	i, j, testmov;
+      int	testmin= enonce;
       for (i= 9; i <= 16; i++) {
 		sqi= from+vec[i];
 		if (!BLOCKED(sqi) && e[sqi] != obs) {
@@ -1158,7 +1158,7 @@ int ArrangePawns(
 boolean ProofFairyImpossible(int MovesAvailable) {
   square	*bnp, sq;
   piece	p1, pparr;
-  smallint	NbrWh, NbrBl;
+  int	NbrWh, NbrBl;
 
   NbrWh = nbpiece[pb]
     + nbpiece[cb]
@@ -1184,7 +1184,7 @@ boolean ProofFairyImpossible(int MovesAvailable) {
 	}
 	if (CondFlag[andernach]
         && !anycirce) {
-      smallint count= 0;
+      int count= 0;
       /* in AndernachChess we need at least 1 capture if a pawn
          residing at his initial square has moved and has to be
          reestablished via a capture of the opposite side.
@@ -1218,7 +1218,7 @@ boolean ProofFairyImpossible(int MovesAvailable) {
 	}
   }
   else {
-	smallint	BlMovesLeft, WhMovesLeft;
+	int	BlMovesLeft, WhMovesLeft;
 
 	if (FlowFlag(Alternate)) {
       BlMovesLeft= WhMovesLeft= MovesAvailable/2;
@@ -1257,7 +1257,7 @@ boolean ProofFairyImpossible(int MovesAvailable) {
 
 	if (CondFlag[anti]) {
       /* note, that we are in the !change_moving_piece section */
-      smallint count= 0;
+      int count= 0;
       /* in AntiCirce we need at least 2 captures if a pawn
          residing at his initial square has moved and has to be
          reborn via capture because we need a second pawn to do
@@ -1688,7 +1688,7 @@ boolean ProofSeriesImpossible(int MovesAvailable) {
   return false;
 } /* ProofSeriesImpossible */
 
-boolean ProofSol(couleur camp, smallint n, boolean restartenabled) {
+boolean ProofSol(couleur camp, int n, boolean restartenabled) {
   boolean	flag= false;
   couleur	ad= advers(camp);
 
@@ -1737,7 +1737,7 @@ boolean ProofSol(couleur camp, smallint n, boolean restartenabled) {
   return flag;
 } /* ProofSol */
 
-boolean SeriesProofSol(smallint n, boolean restartenabled) {
+boolean SeriesProofSol(int n, boolean restartenabled) {
   /* no camp, because we play always with white ! */
   boolean flag= false;
 

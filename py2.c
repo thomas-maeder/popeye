@@ -98,8 +98,8 @@ boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
 
 boolean imok(square i, square j) {
   /* move i->j ok? */
-  smallint  count;
-  smallint  diff = j - i;
+  int  count;
+  int  diff = j - i;
   square    j2;
 
   for (count= inum[nbply]-1; count >= 0; count--) {
@@ -120,7 +120,7 @@ boolean maooaimok(square i, square j, square pass) {
   return ret;
 }
 
-boolean ridimok(square i, square j, smallint diff) {
+boolean ridimok(square i, square j, numvec diff) {
   /* move i->j in steps of diff ok? */
   square  i2= i;
   boolean ret;
@@ -166,11 +166,11 @@ boolean castlingimok(square i, square j) {
 }
 
             
-boolean hopimok(square i, square j, square k, smallint diff) {
+boolean hopimok(square i, square j, square k, numvec diff) {
   /* hop i->j hopping over k in steps of diff ok? */
   square    i2= i;
   piece p=e[i];
-  smallint  l;
+  int  l;
   boolean   ret= true;
 
   if (TSTFLAG(spec[i], ColourChange)) {
@@ -217,8 +217,8 @@ boolean hopimok(square i, square j, square k, smallint diff) {
 }
 
 
-void joueim(smallint diff) {
-  smallint i;
+void joueim(int diff) {
+  int i;
 
   for (i=inum[nbply]-1; i >= 0; i--)
     isquare[i]+= diff;
@@ -376,7 +376,7 @@ boolean gscoutcheck(
 
 boolean rrefcech(square sq_king,
                  square i1,
-                 smallint   x,
+                 int   x,
                  piece  p,
                  evalfunction_t *evaluate)
 {
@@ -2562,11 +2562,11 @@ boolean aux_whx(square sq_departure, square sq_arrival, square sq_capture) {
 
   /* sq_departure == sq_woo_from */
   if (CondFlag[heffalumps]) {
-    smallint cd1= sq_departure%onerow - sq_arrival%onerow;
-    smallint rd1= sq_departure/onerow - sq_arrival/onerow;
-    smallint cd2= sq_woo_to%onerow - sq_departure%onerow;
-    smallint rd2= sq_woo_to/onerow - sq_departure/onerow;
-    smallint t= 7;
+    int cd1= sq_departure%onerow - sq_arrival%onerow;
+    int rd1= sq_departure/onerow - sq_arrival/onerow;
+    int cd2= sq_woo_to%onerow - sq_departure%onerow;
+    int rd2= sq_woo_to/onerow - sq_departure/onerow;
+    int t= 7;
 
     if (cd1 != 0)
       t= abs(cd1);
@@ -2674,7 +2674,7 @@ boolean querquisitecheck(square sq_king,
                          evalfunction_t *evaluate)
 {
   numvec k;
-  smallint file_departure;
+  int file_departure;
   piece p1;
 
   square sq_departure;

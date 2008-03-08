@@ -13,8 +13,8 @@ boolean Redundant(void);
 boolean MatePossible(void);
 boolean SolAlreadyFound(void);
 void StoreSol(void);
-boolean Intelligent(smallint whmoves, smallint blmoves,
-                    boolean (*proc)(couleur, smallint, boolean),
-                    couleur camp, smallint length);
+boolean Intelligent(int whmoves, int blmoves,
+                    boolean (*proc)(couleur, int, boolean),
+                    couleur camp, int length);
 
 #endif

@@ -146,7 +146,7 @@ static unsigned long use_pos, use_all;
 static	byte		buffer[256];
 static	BCMemValue*	(*encode)(void);
 
-smallint value_of_data(uLong Data)
+int value_of_data(uLong Data)
 {
   if (FlowFlag(Intro)) {
 	return (GetFirstHashValue(Data)
@@ -167,7 +167,7 @@ smallint value_of_data(uLong Data)
 #if defined(OLD_COMPRESS)
 void compresshash (void) {
   dhtElement	    *he;
-  smallint	    min_val,x;
+  int	    min_val,x;
   uLong	    RemoveCnt, ToDelete;
 
   min_val= enonce;
@@ -228,7 +228,7 @@ void compresshash (void) {
 static uLong totalRemoveCount = 0;
 void compresshash (void) {
   dhtElement	    *he;
-  smallint	    min_val,x;
+  int	    min_val,x;
   uLong	    RemoveCnt, ToDelete, runCnt;
 #if defined(TESTHASH)
   uLong initCnt, visitCnt;
@@ -565,7 +565,7 @@ BCMemValue *LargeEncode(void) {
             ((byte)(piece_nbr[p]) << 4);
 		}
 		else {
-          smallint i;
+          int i;
           *bp++ = p;
           for (i = 0; i <= bytes_for_spec; i++) {
 			*bp++ = (byte)((pspec>>(8*i)) & 0xff);
@@ -622,7 +622,7 @@ BCMemValue *SmallEncode(void)
   return bcm;
 } /* SmallEncode */
 
-boolean inhash(hashwhat what, smallint val)
+boolean inhash(hashwhat what, int val)
 {
   BCMemValue	*cmv;
   dhtElement	*he;
@@ -673,9 +673,9 @@ boolean inhash(hashwhat what, smallint val)
   return False;
 } /* inhash */
 
-void addtohash(hashwhat what, smallint val)
+void addtohash(hashwhat what, int val)
 {
-  smallint	hv_1=0, hv_2=0;
+  int	hv_1=0, hv_2=0;
 
   BCMemValue	*cmv;
   unsigned long	dat;
@@ -754,9 +754,9 @@ void addtohash(hashwhat what, smallint val)
 #endif /*HASHRATE*/
 } /* addtohash */
 
-EXTERN smallint WhMovesLeft, BlMovesLeft;
+EXTERN int WhMovesLeft, BlMovesLeft;
 
-boolean introseries(couleur camp, smallint n, boolean restartenabled) {
+boolean introseries(couleur camp, int n, boolean restartenabled) {
   couleur ad = advers(camp);
   boolean flag1= false, flag2= false;
 
@@ -821,7 +821,7 @@ boolean introseries(couleur camp, smallint n, boolean restartenabled) {
   return flag1 || flag2;
 }
 
-boolean shsol(couleur camp, smallint n, boolean restartenabled) {
+boolean shsol(couleur camp, int n, boolean restartenabled) {
   couleur ad= advers(camp);
   boolean flag= false;
   boolean flag2= true;
@@ -929,7 +929,7 @@ boolean shsol(couleur camp, smallint n, boolean restartenabled) {
   return flag;
 } /* shsol */
 
-boolean mataide(couleur camp, smallint n, boolean restartenabled) {
+boolean mataide(couleur camp, int n, boolean restartenabled) {
   boolean flag= false;
 
   /* Let us check whether the position is already in the
@@ -1051,7 +1051,7 @@ boolean last_dsr_move(couleur camp)
   return flag;
 } /* last_dsr_move */
 
-boolean ser_dsrsol(couleur camp, smallint n, boolean restartenabled)
+boolean ser_dsrsol(couleur camp, int n, boolean restartenabled)
 {
   boolean flag= false;
 
@@ -1222,7 +1222,7 @@ void	closehash(void)
 
 #if defined(NODEF)	/* This functions is not used any longer.        */
 /* Since when? TLi */
-boolean hashdefense(couleur camp, smallint n) {
+boolean hashdefense(couleur camp, int n) {
   boolean flag = true;
 
   /* generate a ply */
@@ -1240,11 +1240,11 @@ boolean hashdefense(couleur camp, smallint n) {
 } /* hashdefense */
 #endif
 
-boolean mate(couleur camp, smallint n) {
+boolean mate(couleur camp, int n) {
   /* returns true if camp can defend against a mate in n */
   boolean flag= true, pat= true;
   couleur ad= advers(camp);
-  smallint ntcount=0;
+  int ntcount=0;
 
   /* check whether `black' can reach a position that is already
   ** marked unsolvable for white in the hash table. */
@@ -1256,7 +1256,7 @@ boolean mate(couleur camp, smallint n) {
   if (n > 1 && OptFlag[solflights]) {
 	/* Initialise the flight counter. The number of flights is counted
 	** down. */
-	integer zae = maxflights + 1;
+	int zae = maxflights + 1;
 
 	/* Store the square of the black king. */
 	square	x = camp == noir ? rn : rb;
@@ -1346,8 +1346,9 @@ boolean mate(couleur camp, smallint n) {
   return flag;
 } /* mate */
 
-boolean matant(couleur camp, smallint n)
-{   integer i;
+boolean matant(couleur camp, int n)
+{
+  int i;
   boolean flag= false;
   couleur ad= advers(camp);
 
@@ -1410,7 +1411,7 @@ boolean matant(couleur camp, smallint n)
 } /* matant */
 
 /* Is there a solution to a s# or r# in n? */
-boolean invref(couleur	camp, smallint n) {
+boolean invref(couleur	camp, int n) {
   boolean flag= false;
   couleur ad= advers(camp);
   int i;
@@ -1485,10 +1486,10 @@ boolean selflastencore(couleur camp) {
 } /* selflastencore */
 
 /* Can camp defend against a s# or r# in n? */
-boolean definvref(couleur camp, smallint n) {
+boolean definvref(couleur camp, int n) {
   boolean pat= true, flag= true;
   couleur ad= advers(camp);
-  integer ntcount=0;
+  int ntcount=0;
 
   if (SortFlag(Reflex)) {
 	if (matant(camp,1))
@@ -1531,7 +1532,7 @@ boolean definvref(couleur camp, smallint n) {
 	/* Initialise the flight counter. The number of flights is
 	   counted down.
     */
-	integer zae = maxflights + 1;
+	int zae = maxflights + 1;
 
 	/* generate a ply */
 	genmove(camp);

@@ -188,8 +188,8 @@ boolean eval_ortho (square departure, square arrival, square capture);
 boolean feebechec (evalfunction_t *evaluate );
 boolean feenechec (evalfunction_t *evaluate );
 void    finply (void);
-void    gchinb (smallint a, numvec b, numvec c);
-void    gchinn (smallint a, numvec b, numvec c);
+void    gchinb (int a, numvec b, numvec c);
+void    gchinn (int a, numvec b, numvec c);
 void    gcsb (square a, numvec b, numvec c);
 void    gcsn (square a, numvec b, numvec c);
 void    gen_wh_ply (void);
@@ -218,13 +218,13 @@ void    initneutre (couleur a);
 void jouecoup_no_test(void);
 boolean jouecoup_ortho_test(void);
 boolean jouecoup (void);
-void    joueim (smallint diff);
+void    joueim (int diff);
 boolean last_h_move (couleur a);
 boolean legalsquare (square departure, square arrival, square capture);
 boolean libre (square a, boolean b);
 
-boolean matant (couleur a,smallint b);
-boolean mate (couleur a,smallint b);
+boolean matant (couleur a,int b);
+boolean mate (couleur a,int b);
 void    nextply (void);
 boolean nocontact (square departure, square arrival, square capture);
 boolean nogridcontact (square a);
@@ -237,11 +237,11 @@ boolean annan_rbechec(evalfunction_t *evaluate);
 boolean orig_rbechec(evalfunction_t *evaluate);
 
 boolean rbimmunech (square departure, square arrival, square capture);
-boolean rcardech (square sq, square sqtest, numvec k, piece p, smallint x, evalfunction_t *evaluate );
+boolean rcardech (square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
 boolean rcsech (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 void    repcoup (void);
 void    restaure (void);
-boolean ridimok (square i, square j, smallint diff);
+boolean ridimok (square i, square j, int diff);
 
 typedef enum {
   angle_45,
@@ -258,26 +258,26 @@ boolean annan_rnechec(evalfunction_t *evaluate);
 boolean orig_rnechec(evalfunction_t *evaluate);
 
 boolean rnimmunech (square departure, square arrival, square capture);
-boolean rrefcech (square a, square b, smallint c, piece d, evalfunction_t *evaluate);
-boolean rrfouech (square sq, square sqtest, numvec k, piece p, smallint x, evalfunction_t *evaluate );
-boolean rubiech (square sq, square sqtest, piece p, /* echiquier */ smallint *e_ub, evalfunction_t *evaluate );
+boolean rrefcech (square a, square b, int c, piece d, evalfunction_t *evaluate);
+boolean rrfouech (square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
+boolean rubiech (square sq, square sqtest, piece p, /* echiquier */ int *e_ub, evalfunction_t *evaluate );
 boolean soutenu (square departure, square arrival, square capture);
 boolean notsoutenu (square a, square b, square c);
 
-boolean dsr_ant (couleur a, smallint b);
-boolean dsr_e (couleur a, smallint b);
-boolean dsr_parmena (couleur a, smallint b, smallint c);
-smallint dsr_def (couleur a, smallint b, smallint c);
-void    dsr_vari (couleur a, smallint b, smallint c, boolean d);
-void    dsr_sol (couleur a,smallint b, smallint c, boolean restartenabled);
+boolean dsr_ant (couleur a, int b);
+boolean dsr_e (couleur a, int b);
+boolean dsr_parmena (couleur a, int b, int c);
+int dsr_def (couleur a, int b, int c);
+void    dsr_vari (couleur a, int b, int c, boolean d);
+void    dsr_sol (couleur a,int b, int c, boolean restartenabled);
 
 extern void    (*gen_bl_piece)(square a, piece b);
 void    singleboxtype3_gen_bl_piece(square a, piece b);
 extern void    (*gen_wh_piece)(square a, piece b);
 void    singleboxtype3_gen_wh_piece(square a, piece b);
 
-boolean definvref (couleur a, smallint b);
-boolean invref (couleur a, smallint b);
+boolean definvref (couleur a, int b);
+boolean invref (couleur a, int b);
 boolean eval_madrasi (square departure, square arrival, square capture);
 piece   champiece (piece p);
 
@@ -359,7 +359,7 @@ square rensuper (piece p, Flags pspec, square j, square i, square ip, couleur ca
 
 void pyfputs (char *s, FILE *f);
 
-boolean hopimok(square i, square j, square k, smallint d);
+boolean hopimok(square i, square j, square k, numvec d);
 boolean is_rider (piece p);
 boolean is_leaper (piece p);
 boolean is_simplehopper (piece p);
@@ -370,19 +370,19 @@ boolean is_reversepawn (piece p);
 void    geskylla (square i, couleur camp);
 void    gecharybdis (square i, couleur camp);
 
-short len_whforcedsquare(square departure, square arrival, square capture);
-short len_blforcedsquare(square departure, square arrival, square capture);
+int len_whforcedsquare(square departure, square arrival, square capture);
+int len_blforcedsquare(square departure, square arrival, square capture);
 
 void    geriderhopper(square i, numvec kbeg, numvec kend,
-		      smallint run_up, smallint jump, couleur camp);
+		      int run_up, int jump, couleur camp);
 boolean riderhoppercheck(square i, numvec kanf, numvec kend, piece p,
-			 smallint run_up, smallint jump,
+			 int run_up, int jump,
 			 evalfunction_t *evaluate);
 
 boolean verifieposition(void);
 void    linesolution(void);
 
-boolean introseries(couleur camp, smallint n, boolean restartenabled); 
+boolean introseries(couleur camp, int n, boolean restartenabled); 
 
 void	pyInitSignal(void);
 void	InitCond (void);
@@ -453,7 +453,7 @@ boolean leapleapcheck(
   square	 sq_king,
   numvec	 kanf,
   numvec	 kend,
-  smallint hurdletype,
+  int hurdletype,
   piece	 p,
   evalfunction_t *evaluate);
 checkfunction_t radialknightcheck;

@@ -154,12 +154,12 @@ void InitCond(void) {
   gridvar = grid_normal;
   numgridlines = 0;
   for (bnp= boardnum; *bnp; bnp++) {
-	smallint const file= *bnp%onerow - nr_of_slack_files_left_of_board;
-	smallint const row= *bnp/onerow - nr_of_slack_rows_below_board;
+	int const file= *bnp%onerow - nr_of_slack_files_left_of_board;
+	int const row= *bnp/onerow - nr_of_slack_rows_below_board;
 
 	CLEARFL(sq_spec[*bnp]);
 	ClrDiaRen(spec[*bnp]);
-    sq_num[*bnp]= (smallint)(bnp-boardnum);
+    sq_num[*bnp]= (int)(bnp-boardnum);
 
 	/* initialise sq_spec and set grid number */
 	sq_spec[*bnp] += ((file/2)+4*(row/2)) << Grid;
@@ -375,7 +375,7 @@ boolean leapleapcheck(
   square	 sq_king,
   numvec	 kanf,
   numvec	 kend,
-  smallint hurdletype,
+  int hurdletype,
   piece	 p,
   evalfunction_t *evaluate)
 {
@@ -406,8 +406,8 @@ boolean riderhoppercheck(square	 sq_king,
                          numvec	 kanf,
                          numvec	 kend,
                          piece	 p,
-                         smallint	 run_up,
-                         smallint	 jump,
+                         int	 run_up,
+                         int	 jump,
                          evalfunction_t *evaluate)
 {
   /* detect "check" of a generalised rider-hopper p that runs up
@@ -429,7 +429,7 @@ boolean riderhoppercheck(square	 sq_king,
 	if (jump) {
       sq_hurdle= sq_king;
       if (jump>1) {
-		smallint jumped= jump;
+		int jumped= jump;
 		while (--jumped) {
           sq_hurdle+= vec[k];
           if (e[sq_hurdle]!=vide)
@@ -451,7 +451,7 @@ boolean riderhoppercheck(square	 sq_king,
 		/* contragrashopper */
 		sq_departure= sq_hurdle;
 		if (run_up>1) {
-          smallint ran_up= run_up;
+          int ran_up= run_up;
           while (--ran_up) {
             sq_hurdle+= vec[k];
             if (e[sq_hurdle]!=vide)
@@ -608,7 +608,7 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
   square	cr;
   piece	pj, pp, pren;
   piece	pc= obs;
-  short	flag_castling= 0;
+  int	flag_castling= 0;
   /* 0: NO, 1: SHORT, 2: LONG  castling */
 
   VARIABLE_INIT(cr);
@@ -753,13 +753,13 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
 
 Flags		sic_spec[64];
 piece		sic_e[64];
-smallint	sic_inum1;
+int	sic_inum1;
 imarr		sic_isquare;
 square		sic_im0, rn_sic, rb_sic;
 long int sic_BGL_W, sic_BGL_b;
 
 void StorePosition(void) {
-  smallint	    i;
+  int	    i;
 
   rn_sic= rn; rb_sic= rb;
   for (i= 0; i < 64; i++) {
@@ -779,7 +779,7 @@ void StorePosition(void) {
 }
 
 void ResetPosition(void) {
-  smallint	    i;
+  int	    i;
 
   for (i= dernoi; i <= derbla; i++)
 	nbpiece[i]= 0;
@@ -856,7 +856,7 @@ boolean orphancheck(square	 sq_king,
   boolean	flag= false;
   boolean	inited= false;
   square	olist[63], *bnp;
-  smallint	k, j, co= 0;
+  int	k, j, co= 0;
 
   for (porph= orphanpieces; *porph; porph++) {
 	if (nbpiece[*porph] || nbpiece[-*porph]) {
@@ -954,7 +954,7 @@ boolean friendcheck(
   boolean	flag= false;
   boolean	initialized= false;
   square	flist[63], *bnp;
-  smallint	k, j, cf= 0;
+  int	k, j, cf= 0;
 
   for (pfr= orphanpieces; *pfr; pfr++) {
 	cfr= p == friendb ? *pfr : -*pfr;
