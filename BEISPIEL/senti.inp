@@ -28,4 +28,18 @@ option		satz
 steine		weiss	gd8d1 lg4 ka2
 		schwarz	sb8b2 bg6g5e5c5c4c3e3 kd4
 
+weiteresproblem
+
+autor           Reto Aschwanden, Thomas Maeder
+quelle          Andernach TT 2000, 4. ehrende Erwähnung
+
+forderung       #2
+
+bedingung       sentinelles MaximumTotal 6
+
+option          satz varianten
+
+steine          weiss ka3 dd8 ta5 lg6h8 sb8 be3g4
+                schwarz ke6 df3 tf2h5 lh1 sf8 bd2d3e5
+
 endeproblem
