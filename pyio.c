@@ -1524,14 +1524,34 @@ static char *ParseRex(boolean *rex, Cond what) {
   return tok;
 }
 
-#define gpType 1
-#define gpSentinelles 2
-#define gpAntiCirce 3
-#define gpKoeko 4
-#define gpOsc 5
-#define gpAnnan 6
-#define gpGrid 7
-static char *ParseVariant(boolean *type, int group) {
+typedef enum
+{
+  gpType,
+  gpSentinelles,
+  gpAntiCirce,
+  gpKoeko,
+  gpOsc,
+  gpAnnan,
+  gpGrid
+} VariantGroup;
+
+static char *ParseMaximumPawn(unsigned int *result,
+                              unsigned int defaultVal,
+                              unsigned int boundary)
+{
+  char *tok= ReadNextTokStr();
+
+  char *end;
+  unsigned long tmp = strtoul(tok,&end,10);
+  if (tok==end || tmp>boundary)
+    *result = defaultVal;
+  else
+    *result = tmp;
+
+  return end;
+}
+
+static char *ParseVariant(boolean *type, VariantGroup group) {
   int       VariantType;
   char    *tok=ReadNextTokStr();
 
@@ -1539,8 +1559,7 @@ static char *ParseVariant(boolean *type, int group) {
     *type= False;
 
   do {
-    VariantType =
-      GetUniqIndex(VariantTypeCount, VariantTypeTab, tok);
+    VariantType = GetUniqIndex(VariantTypeCount, VariantTypeTab, tok);
 
     if (VariantType < -1) {
       break;
@@ -1583,35 +1602,15 @@ static char *ParseVariant(boolean *type, int group) {
       SentPionNeutral= True;
     }
     else if (VariantType==PionNoirMaximum && group==gpSentinelles) {
-      tok= ReadNextTokStr();
-      max_pn= atoi(tok);
-      while (*tok && '0' <= *tok && *tok <= '9') {
-        tok++;
-      }
-      if (max_pn < 0 || max_pn > 64)
-        max_pn=8;
+      tok = ParseMaximumPawn(&max_pn,8,64);
     }
     else if (VariantType==PionBlancMaximum && group==gpSentinelles)
     {
-      tok= ReadNextTokStr();
-      max_pb= atoi(tok);
-      while (*tok && '0' <= *tok && *tok <= '9') {
-        tok++;
-      }
-      if (max_pb < 0 || max_pb > 64) {
-        max_pb=8;
-      }
+      tok = ParseMaximumPawn(&max_pb,8,64);
     }
     else if (VariantType==PionTotalMaximum && group==gpSentinelles)
     {
-      tok= ReadNextTokStr();
-      max_pt= atoi(tok);
-      while (*tok && '0' <= *tok && *tok <= '9') {
-        tok++;
-      }
-      if (max_pb < 0 || max_pb > 64) {
-        max_pb=16;
-      }
+      tok = ParseMaximumPawn(&max_pt,16,64);
     }
     else if (VariantType==ParaSent && group==gpSentinelles) {
       flagparasent= true;
@@ -4125,11 +4124,11 @@ void WriteConditions(int alignment) {
                VariantTypeString[ActLang][PionNeutral]);
       }
       if (max_pn !=8 || max_pb != 8) {
-        sprintf(pawns, " %i/%i", max_pb, max_pn);
+        sprintf(pawns, " %u/%u", max_pb, max_pn);
         strcat (CondLine, pawns);
       }
       if (max_pt != 16) {
-        sprintf(pawns, " //%i", max_pt);
+        sprintf(pawns, " //%u", max_pt);
         strcat (CondLine, pawns);
       }
     }

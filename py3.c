@@ -172,8 +172,8 @@ boolean feebechec(
   piece   *pcheck;
 
   for (pcheck= checkpieces; *pcheck; pcheck++) {
-    if (   nbpiece[-*pcheck]
-           && (*checkfunctions[*pcheck])(rb, -*pcheck, evaluate))
+    if (nbpiece[-*pcheck]>0
+        && (*checkfunctions[*pcheck])(rb, -*pcheck, evaluate))
     {
       return true;
     }
@@ -185,8 +185,8 @@ boolean feenechec(evalfunction_t *evaluate) {
   piece   *pcheck;
 
   for (pcheck= checkpieces; *pcheck; pcheck++) {
-    if (   nbpiece[*pcheck]
-           && (*checkfunctions[*pcheck])(rn, *pcheck, evaluate))
+    if (nbpiece[*pcheck]>0
+        && (*checkfunctions[*pcheck])(rn, *pcheck, evaluate))
     {
       return true;
     }
@@ -338,7 +338,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
       else if (whitenormaltranspieces)
       {
         for (ptrans= whitetransmpieces; *ptrans; ptrans++) {
-          if (nbpiece[-*ptrans]
+          if (nbpiece[-*ptrans]>0
               && (*checkfunctions[*ptrans])(rb, -*ptrans, eval_ad))
           {
             flag= false;
@@ -375,7 +375,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     }
   }
   
-  if (nbpiece[pb]) {
+  if (nbpiece[pb]>0) {
     if (rn>=square_a3
         || CondFlag[parrain]
         || CondFlag[normalp]
@@ -423,7 +423,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
   }
 
 
-  if (nbpiece[cb])
+  if (nbpiece[cb]>0)
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       sq_departure= rn+vec[k];
       if (e[sq_departure]==cb
@@ -431,7 +431,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         imech(sq_departure,rn);
     }
 
-  if (nbpiece[db] || nbpiece[tb])
+  if (nbpiece[db]>0 || nbpiece[tb]>0)
     for (k= vec_rook_end; k>=vec_rook_start; k--) {
       finligne(rn,vec[k],p,sq_departure);
       if ((p==tb || p==db)
@@ -439,7 +439,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         ridimech(sq_departure,rn,vec[k]);
     }
   
-  if (nbpiece[db] || nbpiece[fb])
+  if (nbpiece[db]>0 || nbpiece[fb]>0)
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
       finligne(rn,vec[k],p,sq_departure);
       if ((p==fb || p==db)
@@ -609,7 +609,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
       else if (blacknormaltranspieces)
       {
         for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
-          if (nbpiece[*ptrans]
+          if (nbpiece[*ptrans]>0
               && (*checkfunctions[*ptrans])(rn, *ptrans, eval_ad)) {
             flag= false;
             if ((*checkfunctions[*ptrans])(rb, roin, evaluate)) {
@@ -646,7 +646,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     }
   }
 
-  if (nbpiece[pn]) {
+  if (nbpiece[pn]>0) {
     if (rb<=square_h6
         || CondFlag[parrain]
         || CondFlag[normalp]
@@ -694,7 +694,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     }
   }
 
-  if (nbpiece[cn])
+  if (nbpiece[cn]>0)
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       sq_departure= rb+vec[k];
       if (e[sq_departure]==cn
@@ -702,7 +702,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
         imech(sq_departure,rb);
     }
 
-  if (nbpiece[dn] || nbpiece[tn])
+  if (nbpiece[dn]>0 || nbpiece[tn]>0)
     for (k= vec_rook_end; k>=vec_rook_start; k--) {
       finligne(rb,vec[k],p,sq_departure);
       if ((p==tn || p==dn)
@@ -710,7 +710,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
         ridimech(sq_departure,rb,vec[k]);
     }
 
-  if (nbpiece[dn] || nbpiece[fn])
+  if (nbpiece[dn]>0 || nbpiece[fn]>0)
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
       finligne(rb,vec[k],p,sq_departure);
       if ((p==fn || p==dn)

@@ -118,7 +118,7 @@ EXTERN  square          pattfld, patti, pattj;
 EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
 #if defined(WE_ARE_EXTERN)
-EXTERN int maxinbox[];
+EXTERN unsigned int maxinbox[];
 EXTERN unsigned int boxsize;
 #endif
 
@@ -284,7 +284,7 @@ EXTERN  boolean         optim_neutralretractable;
 /* should we only look for orthodox mating moves? */
 EXTERN  boolean         optim_orthomatingmoves;
 
-EXTERN  int        zzzaa[derbla - dernoi + 1];     /* nbpiece */
+EXTERN  unsigned int    zzzaa[derbla - dernoi + 1];     /* nbpiece */
 
 EXTERN  piece           pjoue[maxply + 1], pprise[maxply + 1],
 			norm_prom[maxply + 1], cir_prom[maxply + 1],
@@ -441,9 +441,8 @@ EXTERN boolean          IsardamB,PatienceB,SentPionAdverse,SentPionNeutral,
 			flagAssassin,flag_nk,jouetestgenre;
 EXTERN boolean          flagdiastip, flag_dontaddk;
 EXTERN boolean          mate_or_stale_patt;
-EXTERN int         max_pn, max_pb;
+EXTERN unsigned int     max_pn, max_pb, max_pt;
 EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;
-EXTERN int         max_pt;
 EXTERN boolean          isapril[derbla + 1];
 
 EXTERN boolean          checkhopim;

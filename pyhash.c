@@ -962,7 +962,7 @@ boolean mataide(couleur camp, int n, boolean restartenabled) {
 	/* keep mating piece for helpmates ... */
 	if (OptFlag[keepmating]) {
       piece p= roib+1;
-      while (p < derbla && !nbpiece[maincamp == blanc ? p : -p])
+      while (p < derbla && nbpiece[maincamp == blanc ? p : -p]==0)
         p++;
       if (p == derbla)
         return false;
@@ -1369,7 +1369,7 @@ boolean matant(couleur camp, int n)
   /* keep mating piece for direct mates ... */
   if (OptFlag[keepmating]) {
     piece p= roib+1;
-    while (p < derbla && !nbpiece[camp == blanc ? p : -p])
+    while (p < derbla && nbpiece[camp == blanc ? p : -p]==0)
       p++;
     if (p == derbla)
       return false;
@@ -1515,7 +1515,7 @@ boolean definvref(couleur camp, int n) {
   /* Check whether black has still a piece left to mate */
   if (OptFlag[keepmating]) {
 	piece p = roib+1;
-	while (p < derbla && !nbpiece[camp == blanc ? p : -p]) {
+	while (p < derbla && nbpiece[camp == blanc ? p : -p]==0) {
       p++;
 	}
 	if (p == derbla) {

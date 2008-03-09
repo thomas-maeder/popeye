@@ -626,7 +626,7 @@ void genrn(square sq_departure) {
     else if (blacknormaltranspieces)
     {
       for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
-        if (nbpiece[*ptrans]
+        if (nbpiece[*ptrans]>0
             && (*checkfunctions[*ptrans])(sq_departure,*ptrans,eval_black))
         {
           flag = true;
@@ -638,7 +638,7 @@ void genrn(square sq_departure) {
     }
     calctransmute= false;
 
-    if (flag && nbpiece[orphanb]) {
+    if (flag && nbpiece[orphanb]>0) {
       piece king= e[rn];
       e[rn]= dummyn;
       if (!echecc(noir)) {
@@ -1172,7 +1172,7 @@ boolean jouecoup_ortho_test(void)
   return flag;
 }
 
-boolean jouecoup_legality_test(int oldnbpiece[derbla],
+boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
                                square sq_rebirth) {
   if (CondFlag[schwarzschacher] && trait[nbply]==noir)
     return echecc(blanc);
@@ -1180,7 +1180,7 @@ boolean jouecoup_legality_test(int oldnbpiece[derbla],
   if (CondFlag[extinction]) {
     piece p;
     for (p= roib; p<derbla; p++) {
-      if (oldnbpiece[p]
+      if (oldnbpiece[p]>0
           && !nbpiece[trait[nbply]==blanc ? p : -p])
       {
         return false;
@@ -1224,7 +1224,7 @@ boolean jouecoup(void) {
   Flags   spec_pi_captured;
   Flags   spec_pi_moving;
 
-  int prev_nbpiece[derbla];
+  unsigned int prev_nbpiece[derbla];
 
   couleur traitnbply= trait[nbply];
 

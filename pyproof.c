@@ -38,7 +38,7 @@ Flags ProofSpec[64], SpecA[64];
 static imarr Proof_isquare;
 imarr isquareA;
 
-static int xxxxx[fb+fb+1];
+static unsigned int xxxxx[fb+fb+1];
 #define ProofNbrPiece (xxxxx+fb)
 
 static int ProofNbrWhitePieces, ProofNbrBlackPieces;

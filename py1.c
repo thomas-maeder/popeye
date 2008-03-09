@@ -809,12 +809,13 @@ boolean ooorphancheck(square sq_king,
                       evalfunction_t *evaluate) {
   boolean	flag= false;
   square	olist[63], *bnp;
-  int		k, j, nrp, co;
+  unsigned int j, k, nrp, co;
 
   if ((*checkfunctions[abs(porph)])(sq_king,porph,evaluate))
 	return true;
 
-  if ((nrp= nbpiece[p]) == 0)
+  nrp= nbpiece[p];
+  if (nrp == 0)
 	return false;
 
   nbpiece[-p]--;
@@ -859,7 +860,7 @@ boolean orphancheck(square	 sq_king,
   int	k, j, co= 0;
 
   for (porph= orphanpieces; *porph; porph++) {
-	if (nbpiece[*porph] || nbpiece[-*porph]) {
+	if (nbpiece[*porph]>0 || nbpiece[-*porph]>0) {
       if (!inited) {
 		inited= true;
 		for (bnp= boardnum; *bnp; bnp++) {
@@ -905,12 +906,13 @@ boolean fffriendcheck(square	sq_king,
 {
   boolean	flag= false;
   square	flist[63], *bnp;
-  int		k, j, nrp, cf= 0;
+  unsigned int j, k, nrp, cf= 0;
 
   if ((*checkfunctions[abs(pfr)])(sq_king, pfr, evaluate))
     return true;
 
-  if ((nrp= nbpiece[p]-1) == 0)
+  nrp= nbpiece[p]-1;
+  if (nrp == 0)
     return false;
 
   nbpiece[p]--;
@@ -958,7 +960,7 @@ boolean friendcheck(
 
   for (pfr= orphanpieces; *pfr; pfr++) {
 	cfr= p == friendb ? *pfr : -*pfr;
-	if (nbpiece[cfr]) {
+	if (nbpiece[cfr]>0) {
       if (!initialized) {
 		initialized= true;
 		for (bnp= boardnum; *bnp; bnp++) {

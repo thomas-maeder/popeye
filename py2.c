@@ -1904,7 +1904,7 @@ boolean ep_not_libre(
   ply ply_dblstp= generating ? nbply-1 : nbply;
 
   return (ep[ply_dblstp]==sq || ep2[ply_dblstp]==sq)
-    && nbpiece[p]
+    && nbpiece[p]>0
     && (*checkfunc)(sq,
                     p,
                     flaglegalsquare ? legalsquare : eval_ortho);
@@ -1961,7 +1961,7 @@ boolean libre(square sq, boolean generating) {
     }
 
     flag = flag
-      && (!nbpiece[-p]
+      && (nbpiece[-p]==0
           || !(*checkfunctions[abs(p)])(sq, -p,
                                         flaglegalsquare ? legalsquare : eval_ortho));
   } /* if (CondFlag[madrasi] ... */
@@ -1989,7 +1989,7 @@ boolean libre(square sq, boolean generating) {
 
     if (test) {
       flag = flag
-        && (!nbpiece[eiffel_piece]
+        && (nbpiece[eiffel_piece]==0
             || !(*checkfunctions[abs(eiffel_piece)])(sq, eiffel_piece,
                                                      flaglegalsquare ? legalsquare : eval_ortho));
     }
@@ -2603,7 +2603,7 @@ boolean aux_whx(square sq_departure, square sq_arrival, square sq_capture) {
 boolean aux_wh(square sq_departure, square sq_arrival, square sq_capture) {
   if ((flaglegalsquare ? legalsquare : eval_ortho)(sq_departure,sq_arrival,sq_capture)) {
     piece const p= e[sq_woo_from];
-    return nbpiece[p]
+    return nbpiece[p]>0
       && (*checkfunctions[abs(p)])(sq_departure, e[sq_woo_from], aux_whx);
   }
   else
@@ -2632,7 +2632,7 @@ boolean woohefflibre(square to, square from) {
     else {
       p= *pcheck;
     }
-    if (nbpiece[p] && (*checkfunctions[*pcheck])(from, p, aux_wh)) {
+    if (nbpiece[p]>0 && (*checkfunctions[*pcheck])(from, p, aux_wh)) {
       return false;
     }
     pcheck++;

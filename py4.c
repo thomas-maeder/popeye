@@ -2690,7 +2690,7 @@ void genrb(square sq_departure) {
     }
     calctransmute= false;
 
-    if (flag && nbpiece[orphann]) {
+    if (flag && nbpiece[orphann]>0) {
       piece king= e[rb];
       e[rb]= dummyb;
       if (!echecc(blanc)) {
@@ -3512,7 +3512,7 @@ void gorph(square i, couleur camp) {
 
   anf= nbcou;
   for (porph= orphanpieces; *porph; porph++) {
-    if (nbpiece[*porph] || nbpiece[-*porph]) {
+    if (nbpiece[*porph]>0 || nbpiece[-*porph]>0) {
       if (camp == blanc) {
         if (ooorphancheck(i, -*porph, orphann, eval_white))
           gen_wh_piece(i, *porph);
@@ -3540,7 +3540,7 @@ void gfriend(square i, couleur camp) {
 
   anf= nbcou;
   for (pfr= orphanpieces; *pfr; pfr++) {
-    if (nbpiece[*pfr]) {
+    if (nbpiece[*pfr]>0) {
       if (camp == blanc) {
         if (fffriendcheck(i, *pfr, friendb, eval_white)) {
           gen_wh_piece(i, *pfr);
