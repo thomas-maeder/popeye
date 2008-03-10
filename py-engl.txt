@@ -466,31 +466,31 @@ commands expect further parameters. Lets start with the simpler commands:
 
  - stipulation: popeye knows the following stipulations:
 
-	any useful combination of
+	any meaningful combination of
 	
-						{  #= }
-						{  != }
-						{  00 }
-						{  %  }
-						{  ~  }
-						{  ep }
-				    {  H  }     {  #  }
-			{ SER-  }   {  S  }     {  =  }
- { m-> } + { EXACT-} +  { SEMI- } + {  R  }  +  {  == }   +   n
-			{ RECI- }   { HS  }     {  +  }
-				    { HR  }     { Zxy }
-						{  x  }
-						{  ## }
-						{ ##! }
-						{  ct }
-						{  <> }
-						{ ctr }
-						{ <>r }
-
-						{ dia }   +  n{.5}
-			{ SER- }             +  { dia }   +  n
-						{ a=>b }  +  n{.5}
-			{ SER-}              +  { a=>b }  +  n
+						{#= }	    {#=  }
+						{!= }	    {!=  }
+						{00 }	    {00  }
+						{%  }	    {%	 }
+						{~  }	    {~	 }
+						{ep }	    {ep  }
+				     {H }	{#  }	    {#	 }
+			   {SER- }   {S }	{=  }	    {=	 }
+	{m->} + {EXACT-} + {SEMI-} + {R } + ( + {== } + ) + {==  } + n
+			   {RECI-}   {HS}	{+  }	    {+	 }
+				     {HR}	{Zxy}	    {Zxy }
+						{x  }	    {x	 }
+						{## }	    {##  }
+						{##!}	    {##! }
+						{ct }	    {ct  }
+						{<> }	    {<>  }
+						{ctr}	    {ctr }
+						{<>r}	    {<>r }
+      
+							    {dia } + n{.5}
+			   {SER-}			  + {dia } + n
+							    {a=>b} + n{.5}
+			   {SER-}			  + {a=>b} + n
 
 	(m, n are the number of moves)
 
@@ -505,6 +505,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	SEMI-R+4        semi-reflex-check in 4 moves
 	x3              Capture in 3 moves
 	RECI-H#2        reciprocal helpmate in 2        (= Grazer helpmate)
+	RECI-H(=)#2	reciprocal help(stale)mate in 2 moves (black
+				 delivers stalemate or allows being mated)
 	SER-%4          series-Win_a_Piece in 4 moves
 	H##!4           help-"gegenmatt" in 4 moves
 	SER-H##3        series-help-"beidmatt" in 3 moves

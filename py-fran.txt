@@ -467,31 +467,31 @@ simples:
 
  - enonce: Popeye reconnait les enonces suivantes:
 
-	tout combinaison (faisant du sens) de la forme suivante:
+	toute combinaison raisonnable de
 	
-							{  #= }
-							{  != }
-							{  00 }
-							{  %  }
-							{  ~  }
-							{  ep }
-					{  H  }         {  #  }
-			{ SER-  }       {  S  }         {  =  }
-  { m-> } + { EXACT-} + { SEMI- }   +   {  R  }    +    {  == }   +   n
-			{ RECI- }       { HS  }         {  +  }
-					{ HR  }         { Zxy }
-							{  x  }
-							{  ## }
-							{ ##! }
-							{  ct }
-							{  <> }
-							{ ctr }
-							{ <>r }
-
-							{ dia }   +  n{.5}
-			{ SER-}                     +   { dia }   +  n
-							{ a=>b }  +  n{.5}
-			{ SER-}                     +   { a=>b }  +  n
+						{#= }	    {#=  }
+						{!= }	    {!=  }
+						{00 }	    {00  }
+						{%  }	    {%	 }
+						{~  }	    {~	 }
+						{ep }	    {ep  }
+				     {H }	{#  }	    {#	 }
+			   {SER- }   {S }	{=  }	    {=	 }
+	{m->} + {EXACT-} + {SEMI-} + {R } + ( + {== } + ) + {==  } + n
+			   {RECI-}   {HS}	{+  }	    {+	 }
+				     {HR}	{Zxy}	    {Zxy }
+						{x  }	    {x	 }
+						{## }	    {##  }
+						{##!}	    {##! }
+						{ct }	    {ct  }
+						{<> }	    {<>  }
+						{ctr}	    {ctr }
+						{<>r}	    {<>r }
+      
+							    {dia } + n{.5}
+			   {SER-}			  + {dia } + n
+							    {a=>b} + n{.5}
+			   {SER-}			  + {a=>b} + n
 
 	(m, n sont les nombres des coups)
 
@@ -502,11 +502,13 @@ simples:
 			d'arrivee g7 en 4 coups
 	S+2             echec inverse en 2 coups
 	R==3            pat double reflex en 3 coups
-	HS#3            mat inverse aide en 3 coups   (= mat inverse aide force)
+	HS#3            mat inverse aide en 3 coups (= mat inverse aide force)
 	SER-+7          echec serie en 7 coups
 	SEMI-R+4        echec semi-reflexe en 4 coups
 	x3              capture en 3 coups
 	RECI-H#2        mat aide reciproque en 2 coups (= mat aide Graz)
+	RECI-H(=)#2	(pat)mat aide reciproque en 2 coups (les noirs
+				 donnent pat ou permettent leur propre mat)
 	SER-%4          Gain_de_Piece serie en 4 coups
 	H##!4           "gegenmatt" aide en 4 coups
 	SER-H##3        "beidmatt" aide serie en 3 coups
