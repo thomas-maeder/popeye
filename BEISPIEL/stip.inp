@@ -598,4 +598,26 @@ bedingung       circe
 steine  weiss   kc7 td8
         schwarz kh8 dh1 tc8 la3 sa5g4 bh7
 
+weiteresproblem
+
+autor           Juraj Lörinc
+quelle          3121, Phénix 73 1999
+
+forderung       h##5
+option satz
+
+steine weiss    koeniglich eld3
+       weiss    ela4d2
+       schwarz  koeniglich elb2
+       schwarz  elb1c4
+
+bedingung       loch e1f1g1h1
+bedingung       loch e2f2g2h2
+bedingung       loch e3f3g3h3
+bedingung       loch e4f4g4h4
+bedingung       loch a5b5c5d5e5f5g5h5
+bedingung       loch a6b6c6d6e6f6g6h6
+bedingung       loch a7b7c7d7e7f7g7h7
+bedingung       loch a8b8c8d8e8f8g8h8
+
 endeproblem

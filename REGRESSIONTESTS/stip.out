@@ -2350,3 +2350,36 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+             Juraj Lörinc
+         3121, Phénix 73 1999
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8                                   8
+|                                   |
+7                                   7
+|                                   |
+6                                   6
+|                                   |
+5                                   5
+|                                   |
+4  EL   . -EL   .                   4
+|                                   |
+3   .   .   .  EL                   3
+|                                   |
+2   . -EL   .  EL                   2
+|                                   |
+1   . -EL   .   .                   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h##5                        3 + 3
+           Koeniglich d3 b2
+
+  1...kELd3-a1   2.ELb1-c3 ELa4-d3 +   3.ELc3-b1 ELd2-a3   4.ELb1-d4 ELa3-b1   5.ELc4-d2 + ELb1-c3 ## 
+
+  1.ELb1-d4 kELd3-b4   2.ELd4-a2 ELa4-c3   3.ELc4-a3 + kELb4-a1   4.ELa3-d4 ELd2-a3   5.ELa2-b4 + ELa3-c4 ## 
+
+Loesung beendet. 
+
+
