@@ -1132,7 +1132,7 @@ static char *ParseSort(char *tok)
   }
 }
 
-boolean ParsedReciStip;
+static boolean ParsedReciStip;
 
 static char *ParsStips(char *tok) {
   if (SortFlag(Proof)) {         /* proof games */
@@ -1148,88 +1148,85 @@ static char *ParsStips(char *tok) {
 
   /* parsing reci stip */
   if (FlowFlag(Reci) && *tok == '(' && strchr(tok, ')')) {
-    char ReciStip[128];
-    strcpy(ReciStip,tok+1);
+    char *endReciStip = strchr(tok, ')');
+    *endReciStip = '\0';
 
-    tok= strchr(ReciStip, ')');
-    *tok= '\0';
-    tok++;
-
-    sprintf(ReciAlphaEnd, " %s", ReciStip);
+    ++tok;
+    sprintf(ReciAlphaEnd, " %s", tok);
 
     /* parsing of ## and # exchange */
     if (strstr(tok, "##!")) {
       ReciStipulation= stip_doublemate;
       ReciDoubleMate = true;
       CounterMate = true;
-      strcpy(NonReciAlphaEnd, " ##!");
-      return tok+3;
     }
-    else if (strstr(ReciStip, "##")) {
+    else if (strstr(tok, "##")) {
       ReciStipulation= stip_doublemate;
       ReciDoubleMate = true;
     }
-    else if (strstr(ReciStip, "#=")) {
+    else if (strstr(tok, "#=")) {
       ReciStipulation= stip_mate_or_stale;
       ReciDoubleMate = true;
     }
-    else if (strstr(ReciStip, "#")) {
+    else if (strstr(tok, "#")) {
       ReciStipulation= stip_mate;
     }
-    else if (strstr(ReciStip, "==")) {
+    else if (strstr(tok, "==")) {
       /* parsing of == and = exchange */
       ReciStipulation= stip_dblstale;
     }
-    else if (strstr(ReciStip, "!=")) {
+    else if (strstr(tok, "!=")) {
       ReciStipulation= stip_autostale;
     }
-    else if (strstr(ReciStip, "=")) {
+    else if (strstr(tok, "=")) {
       ReciStipulation= stip_stale;
     }
-    else if (ReciStip[0] == 'z') {
+    else if (tok[0] == 'z') {
       ReciStipulation= stip_target;
       ReciAlphaEnd[2]= '\0';
-      ReciTargetSquare= SquareNum(ReciStip[1], ReciStip[2]);
+      ReciTargetSquare= SquareNum(tok[1], tok[2]);
       if (!ReciTargetSquare) {
         IoErrorMsg(MissngSquareList, 0);
-        return (char *)0;
+        return 0;
       }
     }
-    else if (strstr(ReciStip, "+")) {
+    else if (strstr(tok, "+")) {
       ReciStipulation= stip_check;
     }
-    else if (strstr(ReciStip, "x")) {
+    else if (strstr(tok, "x")) {
       ReciStipulation= stip_capture;
     }
-    else if (strstr(ReciStip, "%")) {
+    else if (strstr(tok, "%")) {
       ReciStipulation= stip_steingewinn;
     }
-    else if (strstr(ReciStip, "ep")) {
+    else if (strstr(tok, "ep")) {
       ReciStipulation= stip_ep;
     }
-    else if (strstr(ReciStip, "ctr")) {
+    else if (strstr(tok, "ctr")) {
       ReciStipulation= stip_circuitB;
     }
-    else if (strstr(ReciStip, "<>r")) {
+    else if (strstr(tok, "<>r")) {
       ReciStipulation= stip_exchangeB;
     }
-    else if (strstr(ReciStip, "ct")) {
+    else if (strstr(tok, "ct")) {
       ReciStipulation= stip_circuit;
     }
-    else if (strstr(ReciStip, "<>")) {
+    else if (strstr(tok, "<>")) {
       ReciStipulation= stip_exchange;
     }
-    else if (strstr(ReciStip, "00")) {
+    else if (strstr(tok, "00")) {
       ReciStipulation= stip_castling;
       ReciAlphaEnd[0]= '\0';
     }
-    else if (strstr(ReciStip, "~")) {
+    else if (strstr(tok, "~")) {
       ReciStipulation= stip_any;
     }
-    else { IoErrorMsg(UnrecStip, 0);
-      return (char *)0;
+    else {
+      IoErrorMsg(UnrecStip, 0);
+      return 0;
     }
     ParsedReciStip= true;
+    tok = endReciStip+1;
   } /* parsing reci stip */
 
   /* parsing ordinary stip */
@@ -1279,7 +1276,7 @@ static char *ParsStips(char *tok) {
       NonReciTargetSquare= SquareNum(tok[1], tok[2]);
       if (!NonReciTargetSquare) {
         IoErrorMsg(MissngSquareList, 0);
-        return (char *)0;
+        return 0;
       }
       strcpy(NonReciAlphaEnd, " z");
       return tok+3;
@@ -1336,7 +1333,7 @@ static char *ParsStips(char *tok) {
     }
     else {
       IoErrorMsg(UnrecStip, 0);
-      return (char *)0;
+      return 0;
     }
 } /* ParsStips */
 
