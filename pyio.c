@@ -1151,7 +1151,6 @@ static char *ParsPartialStip(char *tok, stipSettings_t *settings) {
   }
   else if (strstr(tok,"#=")==tok) {
     settings->stipulation= stip_mate_or_stale;
-    settings->doubleMate = true;
     strcpy(settings->alphaEnd, " #=");
     return tok+2;
   }
