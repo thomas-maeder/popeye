@@ -828,21 +828,17 @@ boolean shsol(couleur camp, int n, boolean restartenabled) {
 
   /* reciprocal helpmovers -- let's check whether black can mate */
   if (FlowFlag(Reci)) {
-	stipulation = ReciStipulation;
+	currentStipSettings = stipSettings[reciprocal];
     stipulationChecker = ReciStipulationChecker;
-	TargetSquare = ReciTargetSquare;
-	DoubleMate = ReciDoubleMate;
 
 	flag2 = matant(camp, 1);
 
-	stipulation = NonReciStipulation;
+	currentStipSettings = stipSettings[nonreciprocal];
     stipulationChecker = NonReciStipulationChecker;
-	TargetSquare = NonReciTargetSquare;
-	DoubleMate = NonReciDoubleMate;
   }
 
   n--;
-  if (CounterMate && n == 0) {
+  if (currentStipSettings.counterMate && n == 0) {
 	GenMatingMove(camp);
   }
   else {
@@ -911,20 +907,14 @@ boolean shsol(couleur camp, int n, boolean restartenabled) {
 
   if (flag && FlowFlag(Reci) && PrintReciSolution) {
 	/* reciprocal helpmover */
-	stipulation = ReciStipulation;
+	currentStipSettings = stipSettings[reciprocal];
     stipulationChecker = ReciStipulationChecker;
-	TargetSquare = ReciTargetSquare;
-	AlphaEnd = ReciAlphaEnd;
-	DoubleMate = ReciDoubleMate;
 
 	last_h_move(camp);
 
 	PrintReciSolution = False;
-	stipulation = NonReciStipulation;
+	currentStipSettings = stipSettings[nonreciprocal];
     stipulationChecker = NonReciStipulationChecker;
-	TargetSquare = NonReciTargetSquare;
-	AlphaEnd = NonReciAlphaEnd;
-	DoubleMate = NonReciDoubleMate;
   }
   return flag;
 } /* shsol */
@@ -944,17 +934,13 @@ boolean mataide(couleur camp, int n, boolean restartenabled) {
 
 	/* reciprocal helpmover */
 	if (n == 1 && FlowFlag(Reci)) {
-      stipulation = ReciStipulation;
+      currentStipSettings = stipSettings[reciprocal];
       stipulationChecker = ReciStipulationChecker;
-      TargetSquare = ReciTargetSquare;
-      DoubleMate = ReciDoubleMate;
 
       flag = !matant(camp, 1);
 
-      stipulation = NonReciStipulation;
+      currentStipSettings = stipSettings[nonreciprocal];
       stipulationChecker = NonReciStipulationChecker;
-      TargetSquare = NonReciTargetSquare;
-      DoubleMate = NonReciDoubleMate;
 	}
 	if (flag)
       return false;
@@ -968,7 +954,7 @@ boolean mataide(couleur camp, int n, boolean restartenabled) {
         return false;
 	}	/* keep mating ... */
 
-	if (CounterMate && n == 1)
+	if (currentStipSettings.counterMate && n == 1)
       GenMatingMove(camp);
 	else
       genmove(camp);
@@ -1001,19 +987,13 @@ boolean mataide(couleur camp, int n, boolean restartenabled) {
 	finply();
 
 	if (flag && FlowFlag(Reci) && n == 1) {     /* reciprocal helpmover */
-      stipulation = ReciStipulation;
+      currentStipSettings = stipSettings[reciprocal];
       stipulationChecker = ReciStipulationChecker;
-      TargetSquare = ReciTargetSquare;
-      AlphaEnd = ReciAlphaEnd;
-      DoubleMate = ReciDoubleMate;
 
       last_h_move(camp);
 
-      stipulation = NonReciStipulation;
+      currentStipSettings = stipSettings[nonreciprocal];
       stipulationChecker = NonReciStipulationChecker;
-      TargetSquare = NonReciTargetSquare;
-      AlphaEnd = NonReciAlphaEnd;
-      DoubleMate = NonReciDoubleMate;
 	}
   } else {   /* n == 0 */
 	flag= last_h_move(camp);
@@ -1614,7 +1594,7 @@ boolean definvref(couleur camp, int n) {
 	selfbnp= boardnum;
 
 	if (!(FlagMoveOrientatedStip
-	      && stipulation == stip_ep
+	      && currentStipSettings.stipulation == stip_ep
 	      && ep[nbply] == initsquare
 	      && ep2[nbply] == initsquare))
 	{

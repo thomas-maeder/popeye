@@ -315,9 +315,9 @@ void    gmoab (square a);
 void    gmoan (square a);
 boolean InitMsgTab (Lang l, boolean Force);
 Token   ReadProblem (Token tk);
-void    ErrString (char *s);
+void    ErrString (char const *s);
 void    StdChar (char c);
-void    StdString (char *s);
+void    StdString (char const *s);
 void    ErrorMsg (int nr);
 void    Message (int nr);
 void    logChrArg (char arg);
@@ -357,7 +357,7 @@ square rennormal (piece p, Flags pspec, square j, square i, square ip, couleur c
 square renspiegel (piece p, Flags pspec, square j, square i, square ip, couleur camp);
 square rensuper (piece p, Flags pspec, square j, square i, square ip, couleur camp);
 
-void pyfputs (char *s, FILE *f);
+void pyfputs (char const *s, FILE *f);
 
 boolean hopimok(square i, square j, square k, numvec d);
 boolean is_rider (piece p);

@@ -652,21 +652,21 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
 
   if (FlagGenMatingMove) {
     if (FlagMoveOrientatedStip) {
-      if (stipulation == stip_ep) {
+      if (currentStipSettings.stipulation == stip_ep) {
         if (sq_arrival != ep[nbply-1] && sq_arrival != ep2[nbply-1])
           return true;
       }
-      else if (stipulation == stip_target) {
-        if (sq_arrival != TargetSquare)
+      else if (currentStipSettings.stipulation == stip_target) {
+        if (sq_arrival != currentStipSettings.targetSquare)
           return true;
       }
-      else if (stipulation == stip_capture
-               || stipulation == stip_steingewinn)
+      else if (currentStipSettings.stipulation == stip_capture
+               || currentStipSettings.stipulation == stip_steingewinn)
       {
         if (e[sq_capture] == vide)
           return true;
       }
-      else if (stipulation == stip_castling)
+      else if (currentStipSettings.stipulation == stip_castling)
       {
         if (abs(e[sq_departure]) != King || abs(sq_departure-sq_arrival) != 2)
           return true;
@@ -674,7 +674,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
     }
     else if (optim_neutralretractable
              && TSTFLAG(spec[sq_departure], Neutral)
-             && stipulation != stip_check)
+             && currentStipSettings.stipulation != stip_check)
     {
       /* Check if a mating move by a neutral piece can be
       ** retracted by the opponent.
@@ -3187,7 +3187,7 @@ void GenMatingKing(square   sq_departure,
       }
 
     if (CondFlag[ColourCapturedPiece==White ? whiteedge : blackedge]
-        || DoubleMate)
+        || currentStipSettings.doubleMate)
       for (k2= vec_queen_start; k2<=vec_queen_end; k2++) {
         sq_arrival= sq_departure + vec[k2];
         if ((e[sq_arrival]==vide
@@ -3480,7 +3480,7 @@ void GenMatingMove(couleur camp) {
   }
   else {
     if (FlagMoveOrientatedStip) {
-      if (stipulation == stip_ep) {
+      if (currentStipSettings.stipulation == stip_ep) {
         if (  ep[nbply] == initsquare
               && ep2[nbply] == initsquare)
         {
@@ -3488,7 +3488,7 @@ void GenMatingMove(couleur camp) {
           return;
         }
       }
-      else if (stipulation == stip_castling) {
+      else if (currentStipSettings.stipulation == stip_castling) {
         if (camp == blanc
             ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
             : TSTFLAGMASK(castling_flag[nbply],bl_castlings)<=ke8_cancastle)

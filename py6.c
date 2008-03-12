@@ -265,29 +265,29 @@ boolean verifieposition(void) {
   }
 
   optim_neutralretractable = optim_orthomatingmoves =
-    ((NonReciStipulation == stip_mate)
-     || (NonReciStipulation == stip_check)
-     || (NonReciStipulation == stip_doublemate))
+    ((stipSettings[nonreciprocal].stipulation == stip_mate)
+     || (stipSettings[nonreciprocal].stipulation == stip_check)
+     || (stipSettings[nonreciprocal].stipulation == stip_doublemate))
     && (!FlowFlag(Reci)
-        || (ReciStipulation == stip_mate)
-        || (ReciStipulation == stip_check)
-        || (ReciStipulation == stip_doublemate));
+        || (stipSettings[reciprocal].stipulation == stip_mate)
+        || (stipSettings[reciprocal].stipulation == stip_check)
+        || (stipSettings[reciprocal].stipulation == stip_doublemate));
 
-  if (NonReciStipulation == stip_steingewinn
+  if (stipSettings[nonreciprocal].stipulation == stip_steingewinn
       && CondFlag[parrain])
   {
     return VerifieMsg(PercentAndParrain);
   }
 
   flagdiastip=
-    NonReciStipulation == stip_circuit
-    || NonReciStipulation == stip_exchange
-    || NonReciStipulation == stip_circuitB
-    || NonReciStipulation == stip_exchangeB
-    || ReciStipulation == stip_circuit
-    || ReciStipulation == stip_exchange
-    || ReciStipulation == stip_circuitB
-    || ReciStipulation == stip_exchangeB;
+    stipSettings[nonreciprocal].stipulation == stip_circuit
+    || stipSettings[nonreciprocal].stipulation == stip_exchange
+    || stipSettings[nonreciprocal].stipulation == stip_circuitB
+    || stipSettings[nonreciprocal].stipulation == stip_exchangeB
+    || stipSettings[reciprocal].stipulation == stip_circuit
+    || stipSettings[reciprocal].stipulation == stip_exchange
+    || stipSettings[reciprocal].stipulation == stip_circuitB
+    || stipSettings[reciprocal].stipulation == stip_exchangeB;
 
   for (p= roib; p <= derbla; p++) {
     nbpiece[p]= 0;
@@ -1130,26 +1130,26 @@ boolean verifieposition(void) {
   }
 
   FlagMoveOrientatedStip =
-    ReciStipulation == stip_target
-    || ReciStipulation == stip_ep
-    || ReciStipulation == stip_capture
-    || ReciStipulation == stip_steingewinn
-    || ReciStipulation == stip_castling
-    || NonReciStipulation == stip_target
-    || NonReciStipulation == stip_ep
-    || NonReciStipulation == stip_capture
-    || NonReciStipulation == stip_steingewinn
-    || NonReciStipulation == stip_castling;
+    stipSettings[reciprocal].stipulation == stip_target
+    || stipSettings[reciprocal].stipulation == stip_ep
+    || stipSettings[reciprocal].stipulation == stip_capture
+    || stipSettings[reciprocal].stipulation == stip_steingewinn
+    || stipSettings[reciprocal].stipulation == stip_castling
+    || stipSettings[nonreciprocal].stipulation == stip_target
+    || stipSettings[nonreciprocal].stipulation == stip_ep
+    || stipSettings[nonreciprocal].stipulation == stip_capture
+    || stipSettings[nonreciprocal].stipulation == stip_steingewinn
+    || stipSettings[nonreciprocal].stipulation == stip_castling;
 
-  if (NonReciStipulation == stip_doublemate
-      && (SortFlag(Self)
-          || SortFlag(Direct)
-          || (FlowFlag(Reci)
-              && CounterMate
-              && ReciStipulation == stip_doublemate)))
-  {
+  if (stipSettings[nonreciprocal].stipulation == stip_doublemate
+      && (SortFlag(Self) || SortFlag(Direct)))
     return VerifieMsg(StipNotSupported);
-  }
+
+  if (stipSettings[nonreciprocal].stipulation == stip_doublemate
+      && (FlowFlag(Reci)
+          && stipSettings[reciprocal].counterMate
+          && stipSettings[reciprocal].stipulation == stip_doublemate))
+    return VerifieMsg(StipNotSupported);
 
   /* check castling possibilities */
   CLEARFL(castling_flag[0]);
@@ -1188,9 +1188,9 @@ boolean verifieposition(void) {
       SETFLAGMASK(castling_flag[0],ra8_cancastle);
   }
 
-  if (NonReciStipulation == stip_castling && !castling_supported) {
+  if (stipSettings[nonreciprocal].stipulation==stip_castling
+      && !castling_supported)
     return VerifieMsg(StipNotSupported);
-  }
 
   castling_flag[0] &= no_castling;
   castling_flag[2]= castling_flag[1]= castling_flag[0];
@@ -1220,8 +1220,8 @@ boolean verifieposition(void) {
   jouetestgenre=
     flag_testlegality
     || flagAssassin
-    || NonReciStipulation==stip_doublemate
-    || ReciStipulation==stip_doublemate
+    || stipSettings[nonreciprocal].stipulation==stip_doublemate
+    || stipSettings[reciprocal].stipulation==stip_doublemate
     || CondFlag[patience]
     || CondFlag[republican]
     || CondFlag[blackultraschachzwang]
@@ -1266,8 +1266,8 @@ boolean verifieposition(void) {
          "castling: %s, fee: %s, orth: %s, "
          "help: %s, direct: %s, series: %s\n",
          OptFlag[intelligent]?"true":"false",
-         NonReciStipulation == stip_mate?"true":"false",
-         NonReciStipulation == stip_stale?"true":"false",
+         stipSettings[nonreciprocal].stipulation == stip_mate?"true":"false",
+         stipSettings[nonreciprocal].stipulation == stip_stale?"true":"false",
          testcastling?"true":"false",
          flagfee?"true":"false",
          SortFlag(Help)?"true":"false",
@@ -1276,8 +1276,8 @@ boolean verifieposition(void) {
 #endif      /* DEBUG */
 
   if ( OptFlag[intelligent]
-       && (((NonReciStipulation != stip_mate)
-            && (NonReciStipulation != stip_stale))
+       && (((stipSettings[nonreciprocal].stipulation != stip_mate)
+            && (stipSettings[nonreciprocal].stipulation != stip_stale))
            || flagfee
            || SortFlag(Self)
            || !(   SortFlag(Help)
@@ -1708,13 +1708,10 @@ void editcoup(coup *mov) {
     StdString(s);
   }
   if (flende) {
-    if (stipulation == stip_mate_or_stale) {
-      if (mate_or_stale_patt)
-        strcpy(AlphaEnd, " =");
-      else
-        strcpy(AlphaEnd, " #");
-    }
-    StdString(AlphaEnd);
+    if (currentStipSettings.stipulation == stip_mate_or_stale)
+      StdString(mate_or_stale_patt ? " =" : " #");
+    else
+      StdString(currentStipSettings.alphaEnd);
   }
   else {
     if (mov->echec)
@@ -1924,8 +1921,8 @@ boolean last_h_move(couleur camp) {
   couleur ad= advers(camp);
   boolean flag= false;
 
-  if (DoubleMate) {
-    if (CounterMate) {
+  if (currentStipSettings.doubleMate) {
+    if (currentStipSettings.counterMate) {
       if (!stip_checkers[stip_mate](ad)) {
         return false;
       }
@@ -2271,13 +2268,10 @@ void dsr_sol(
 
   if ((n == enonce) && !FlowFlag(Semi) && SortFlag(Reflex)) {
     if (matant(camp,1)) {
-      if (stipulation == stip_mate_or_stale) {
-        if (mate_or_stale_patt)
-          strcpy(AlphaEnd, " =");
-        else
-          strcpy(AlphaEnd, " #");
-      }
-      sprintf(GlobalStr, "%s1:\n", AlphaEnd);
+      if (currentStipSettings.stipulation == stip_mate_or_stale)
+        sprintf(GlobalStr, "%s1:\n", mate_or_stale_patt ? " =" : " #");
+      else
+        sprintf(GlobalStr, "%s1:\n", currentStipSettings.alphaEnd);
       StdString(GlobalStr);
       StipFlags|= SortBit(Direct);
       StipFlags|= FlowBit(Semi);
@@ -2875,7 +2869,7 @@ int main(int argc, char *argv[]) {
       if (verifieposition()) {
         initStipCheckers();
 
-        stipulation = NonReciStipulation;
+        currentStipSettings.stipulation = stipSettings[nonreciprocal].stipulation;
         stipulationChecker = NonReciStipulationChecker;
         
         if (!OptFlag[noboard]) {

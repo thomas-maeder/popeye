@@ -323,7 +323,7 @@ void pyfputc(char c, FILE *f)
 #endif
 }
 
-void pyfputs(char *s, FILE *f)
+void pyfputs(char const *s, FILE *f)
 {
 #if !defined(QUIET)
   fputs(s,f);
@@ -349,12 +349,12 @@ void ErrChar(char c)
   pyfputc(c, stderr);
 }
 
-void StdString(char *s)
+void StdString(char const *s)
 {
   pyfputs(s, stdout);
 }
 
-void ErrString(char *s)
+void ErrString(char const *s)
 {
   pyfputs(s, stderr);
 }
@@ -1068,8 +1068,8 @@ static char *ParseFlow(char *tok) {
   if (strncmp("dia", tok, 3) == 0) {
     StipFlags|= FlowBit(Exact);
     StipFlags|= SortBit(Proof);
-    strcpy(NonReciAlphaEnd, " dia");
-    AlphaEnd= NonReciAlphaEnd;
+    strcpy(stipSettings[nonreciprocal].alphaEnd, " dia");
+    strcpy(currentStipSettings.alphaEnd," dia");
     return tok+3;
   }
 #if !defined(DATABASE)
@@ -1077,8 +1077,8 @@ static char *ParseFlow(char *tok) {
   if (strncmp("a=>b", tok, 4) == 0) {
     int i;
     StipFlags|= SortBit(Proof);
-    strcpy(NonReciAlphaEnd, " a=>b");
-    AlphaEnd= NonReciAlphaEnd;
+    strcpy(stipSettings[nonreciprocal].alphaEnd, " a=>b");
+    strcpy(currentStipSettings.alphaEnd," a=>b");
     for (i=maxsquare-1; i>=0; i--) {
       PosA[i]=e[i];
     }
@@ -1132,209 +1132,135 @@ static char *ParseSort(char *tok)
   }
 }
 
-static boolean ParsedReciStip;
+static char *ParsPartialStip(char *tok, stipSettings_t *settings) {
+  settings->doubleMate = false;
+  settings->counterMate = false;
 
-static char *ParsStips(char *tok) {
-  if (SortFlag(Proof)) {         /* proof games */
-    return tok;
-  }
-
-  ParsedReciStip= false;
-
-  /* initialization */
-  ReciDoubleMate =
-    NonReciDoubleMate =
-    CounterMate = false;
-
-  /* parsing reci stip */
-  if (FlowFlag(Reci) && *tok == '(' && strchr(tok, ')')) {
-    char *endReciStip = strchr(tok, ')');
-    *endReciStip = '\0';
-
-    ++tok;
-    sprintf(ReciAlphaEnd, " %s", tok);
-
-    /* parsing of ## and # exchange */
-    if (strstr(tok, "##!")) {
-      ReciStipulation= stip_doublemate;
-      ReciDoubleMate = true;
-      CounterMate = true;
-    }
-    else if (strstr(tok, "##")) {
-      ReciStipulation= stip_doublemate;
-      ReciDoubleMate = true;
-    }
-    else if (strstr(tok, "#=")) {
-      ReciStipulation= stip_mate_or_stale;
-      ReciDoubleMate = true;
-    }
-    else if (strstr(tok, "#")) {
-      ReciStipulation= stip_mate;
-    }
-    else if (strstr(tok, "==")) {
-      /* parsing of == and = exchange */
-      ReciStipulation= stip_dblstale;
-    }
-    else if (strstr(tok, "!=")) {
-      ReciStipulation= stip_autostale;
-    }
-    else if (strstr(tok, "=")) {
-      ReciStipulation= stip_stale;
-    }
-    else if (tok[0] == 'z') {
-      ReciStipulation= stip_target;
-      ReciAlphaEnd[2]= '\0';
-      ReciTargetSquare= SquareNum(tok[1], tok[2]);
-      if (!ReciTargetSquare) {
-        IoErrorMsg(MissngSquareList, 0);
-        return 0;
-      }
-    }
-    else if (strstr(tok, "+")) {
-      ReciStipulation= stip_check;
-    }
-    else if (strstr(tok, "x")) {
-      ReciStipulation= stip_capture;
-    }
-    else if (strstr(tok, "%")) {
-      ReciStipulation= stip_steingewinn;
-    }
-    else if (strstr(tok, "ep")) {
-      ReciStipulation= stip_ep;
-    }
-    else if (strstr(tok, "ctr")) {
-      ReciStipulation= stip_circuitB;
-    }
-    else if (strstr(tok, "<>r")) {
-      ReciStipulation= stip_exchangeB;
-    }
-    else if (strstr(tok, "ct")) {
-      ReciStipulation= stip_circuit;
-    }
-    else if (strstr(tok, "<>")) {
-      ReciStipulation= stip_exchange;
-    }
-    else if (strstr(tok, "00")) {
-      ReciStipulation= stip_castling;
-      ReciAlphaEnd[0]= '\0';
-    }
-    else if (strstr(tok, "~")) {
-      ReciStipulation= stip_any;
-    }
-    else {
-      IoErrorMsg(UnrecStip, 0);
-      return 0;
-    }
-    ParsedReciStip= true;
-    tok = endReciStip+1;
-  } /* parsing reci stip */
-
-  /* parsing ordinary stip */
-  if (strstr(tok, "##!")) {
-    NonReciStipulation= stip_doublemate;
-    NonReciDoubleMate = true;
-    CounterMate = true;
-    strcpy(NonReciAlphaEnd, " ##!");
+  if (strstr(tok,"##!")==tok) {
+    settings->stipulation= stip_doublemate;
+    settings->doubleMate = true;
+    settings->counterMate = true;
+    strcpy(settings->alphaEnd, " ##!");
     return tok+3;
   }
-  else if (strstr(tok, "##")) {
-    NonReciStipulation= stip_doublemate;
-    NonReciDoubleMate = true;
-    strcpy(NonReciAlphaEnd, " ##");
+  else if (strstr(tok,"##")==tok) {
+    settings->stipulation= stip_doublemate;
+    settings->doubleMate = true;
+    strcpy(settings->alphaEnd, " ##");
     return tok+2;
   }
-  else if (strstr(tok, "#=")) {
-    NonReciStipulation= stip_mate_or_stale;
-    NonReciDoubleMate = true;
-    strcpy(NonReciAlphaEnd, " #=");
+  else if (strstr(tok,"#=")==tok) {
+    settings->stipulation= stip_mate_or_stale;
+    settings->doubleMate = true;
+    strcpy(settings->alphaEnd, " #=");
     return tok+2;
   }
-  else if (strstr(tok, "#")) {
-    NonReciStipulation= stip_mate;
-    strcpy(NonReciAlphaEnd, " #");
+  else if (strstr(tok,"#")==tok) {
+    settings->stipulation= stip_mate;
+    strcpy(settings->alphaEnd, " #");
     return tok+1;
   }
-  else if (strstr(tok, "==")) {
-    /* parsing of == and = exchange */
-    NonReciStipulation= stip_dblstale;
-    strcpy(NonReciAlphaEnd, " ==");
+  else if (strstr(tok,"==")==tok) {
+    settings->stipulation= stip_dblstale;
+    strcpy(settings->alphaEnd, " ==");
     return tok+2;
   }
-  else
-    if (strstr(tok, "!=")) {
-      NonReciStipulation= stip_autostale;
-      strcpy(NonReciAlphaEnd, " !=");
-      return tok+2;
-    }
-    else if (strstr(tok, "=")) {
-      NonReciStipulation= stip_stale;
-      strcpy(NonReciAlphaEnd, " =");
-      return tok+1;
-    }
-    else if (tok[0] == 'z') {
-      NonReciStipulation= stip_target;
-      NonReciTargetSquare= SquareNum(tok[1], tok[2]);
-      if (!NonReciTargetSquare) {
-        IoErrorMsg(MissngSquareList, 0);
-        return 0;
-      }
-      strcpy(NonReciAlphaEnd, " z");
-      return tok+3;
-    }
-    else if (strstr(tok, "+")) {
-      NonReciStipulation= stip_check;
-      strcpy(NonReciAlphaEnd, " +");
-      return tok+1;
-    }
-    else if (strstr(tok, "x")) {
-      NonReciStipulation= stip_capture;
-      strcpy(NonReciAlphaEnd, " x");
-      return tok+1;
-    }
-    else if (strstr(tok, "%")) {
-      NonReciStipulation= stip_steingewinn;
-      strcpy(NonReciAlphaEnd, " %");
-      return tok+1;
-    }
-    else if (strstr(tok, "ep")) {
-      NonReciStipulation= stip_ep;
-      strcpy(NonReciAlphaEnd, "");
-      return tok+2;
-    }
-    else if (strstr(tok, "ctr")) {
-      NonReciStipulation= stip_circuitB;
-      strcpy(NonReciAlphaEnd, "");
-      return tok+3;
-    }
-    else if (strstr(tok, "<>r")) {
-      NonReciStipulation= stip_exchangeB;
-      strcpy(NonReciAlphaEnd, "");
-      return tok+3;
-    }
-    else if (strstr(tok, "ct")) {
-      NonReciStipulation= stip_circuit;
-      strcpy(NonReciAlphaEnd, "");
-      return tok+2;
-    }
-    else if (strstr(tok, "<>")) {
-      NonReciStipulation= stip_exchange;
-      strcpy(NonReciAlphaEnd, "");
-      return tok+2;
-    }
-    else if (strstr(tok, "00")) {
-      NonReciStipulation= stip_castling;
-      strcpy(NonReciAlphaEnd, "");
-      return tok+2;
-    }
-    else if (strstr(tok, "~")) {
-      NonReciStipulation= stip_any;
-      strcpy(NonReciAlphaEnd, "");
-      return tok+1;
-    }
-    else {
-      IoErrorMsg(UnrecStip, 0);
+  else if (strstr(tok,"!=")==tok) {
+    settings->stipulation= stip_autostale;
+    strcpy(settings->alphaEnd, " !=");
+    return tok+2;
+  }
+  else if (strstr(tok,"=")==tok) {
+    settings->stipulation= stip_stale;
+    strcpy(settings->alphaEnd, " =");
+    return tok+1;
+  }
+  else if (tok[0] == 'z') {
+    settings->stipulation= stip_target;
+    settings->targetSquare= SquareNum(tok[1], tok[2]);
+    if (settings->targetSquare==0) {
+      IoErrorMsg(MissngSquareList, 0);
       return 0;
     }
+    else {
+      strcpy(settings->alphaEnd, " z");
+      return tok+3;
+    }
+  }
+  else if (strstr(tok,"+")==tok) {
+    settings->stipulation= stip_check;
+    strcpy(settings->alphaEnd, " +");
+    return tok+1;
+  }
+  else if (strstr(tok,"x")==tok) {
+    settings->stipulation= stip_capture;
+    strcpy(settings->alphaEnd, " x");
+    return tok+1;
+  }
+  else if (strstr(tok,"%")==tok) {
+    settings->stipulation= stip_steingewinn;
+    strcpy(settings->alphaEnd, " %");
+    return tok+1;
+  }
+  else if (strstr(tok,"ep")==tok) {
+    settings->stipulation= stip_ep;
+    strcpy(settings->alphaEnd, "");
+    return tok+2;
+  }
+  else if (strstr(tok,"ctr")==tok) {
+    settings->stipulation= stip_circuitB;
+    strcpy(settings->alphaEnd, "");
+    return tok+3;
+  }
+  else if (strstr(tok,"<>r")==tok) {
+    settings->stipulation= stip_exchangeB;
+    strcpy(settings->alphaEnd, "");
+    return tok+3;
+  }
+  else if (strstr(tok,"ct")==tok) {
+    settings->stipulation= stip_circuit;
+    strcpy(settings->alphaEnd, "");
+    return tok+2;
+  }
+  else if (strstr(tok,"<>")==tok) {
+    settings->stipulation= stip_exchange;
+    strcpy(settings->alphaEnd, "");
+    return tok+2;
+  }
+  else if (strstr(tok,"00")==tok) {
+    settings->stipulation= stip_castling;
+    strcpy(settings->alphaEnd, "");
+    return tok+2;
+  }
+  else if (strstr(tok,"~")==tok) {
+    settings->stipulation= stip_any;
+    strcpy(settings->alphaEnd, "");
+    return tok+1;
+  }
+  else {
+    IoErrorMsg(UnrecStip, 0);
+    return 0;
+  }
+}
+
+static char *ParsStips(char *tok) {
+  if (SortFlag(Proof))
+    return tok;
+
+  stipSettings[reciprocal].stipulation= no_stipulation;
+
+  /* test for reciprocal help play with different ends for Black and
+   * White; e.g. reci-h(=)#3 */
+  if (FlowFlag(Reci) && *tok == '(' && strchr(tok, ')')) {
+    ++tok; /* skip over '(' */
+    tok = ParsPartialStip(tok,&stipSettings[reciprocal]);
+    if (tok==0)
+      return 0;
+    else
+      ++tok; /* skip over ')' */
+  }
+
+  return ParsPartialStip(tok,&stipSettings[nonreciprocal]);
 } /* ParsStips */
 
 static char *ParseStip(void) {
@@ -1346,17 +1272,11 @@ static char *ParseStip(void) {
   tok= ParsStips(ParseSort(ParseFlow(tok)));
   if (tok) {
     /* set defaults */
-    TargetSquare = NonReciTargetSquare;
-    DoubleMate = NonReciDoubleMate;
-    AlphaEnd = NonReciAlphaEnd;
+    currentStipSettings = stipSettings[nonreciprocal];
 
     /* set reci stip if not parsed */
-    if (FlowFlag(Reci) && !ParsedReciStip) {
-      ReciStipulation= NonReciStipulation;
-      ReciTargetSquare = NonReciTargetSquare;
-      ReciDoubleMate = NonReciDoubleMate;
-      strcpy(ReciAlphaEnd, NonReciAlphaEnd);
-    }
+    if (FlowFlag(Reci) && stipSettings[reciprocal].stipulation==no_stipulation)
+      stipSettings[reciprocal] = stipSettings[nonreciprocal];
 
     if (!*tok) {
       tok= ReadNextTokStr();

@@ -3118,7 +3118,8 @@ boolean immobile(couleur camp)
 
 static boolean stipChecker_target(couleur camp)
 {
-  return move_generation_stack[nbcou].arrival == TargetSquare
+  return (move_generation_stack[nbcou].arrival
+          == currentStipSettings.targetSquare)
     && crenkam[nbply] == initsquare
     && !echecc(camp);
 }
@@ -3367,8 +3368,8 @@ void initStipCheckers() {
   if (CondFlag[blackultraschachzwang] || CondFlag[whiteultraschachzwang])
     stip_checkers[stip_mate] = &stipChecker_mate_ultraschachzwang;
 
-  NonReciStipulationChecker = stip_checkers[NonReciStipulation];
-  ReciStipulationChecker = stip_checkers[ReciStipulation];
+  NonReciStipulationChecker = stip_checkers[stipSettings[nonreciprocal].stipulation];
+  ReciStipulationChecker = stip_checkers[stipSettings[reciprocal].stipulation];
 
   stipulationChecker = NonReciStipulationChecker;
 

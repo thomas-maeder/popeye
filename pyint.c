@@ -131,7 +131,7 @@ boolean IllegalCheck(couleur camp) {
       checks++;
 	}
 
-	return checks > (stipulation == stip_stale ? 0 : 1);
+	return checks > (currentStipSettings.stipulation == stip_stale ? 0 : 1);
   }
   else {
 	return rb != initsquare
@@ -472,7 +472,7 @@ boolean MatePossible(void) {
 	}
   }
 
-  if (stipulation == stip_stale) {
+  if (currentStipSettings.stipulation == stip_stale) {
 	if (pprise[nbply] < vide) {
       captures--;
 	}
@@ -1928,14 +1928,14 @@ void GenerateBlocking(
 
   if (nbrfl == 0) {
 	/* check for stipulation */
-	if (stipulation == stip_stale || echecc(noir)) {
+	if (currentStipSettings.stipulation == stip_stale || echecc(noir)) {
 #if defined(DEBUG)
       if (IllegalCheck(blanc)) {
 		StdString("oops!\n");
 		exit(0);
       }
 #endif
-      if (stipulation == stip_stale) {
+      if (currentStipSettings.stipulation == stip_stale) {
 		if (echecc(noir)) {
           AvoidCheckInStalemate(timetowaste,
                                 whmoves, blpcallowed, whpcallowed);
@@ -2080,7 +2080,7 @@ void GenerateGuarding(
 	flights= 0;
 
 	/* check for check */
-	if (stipulation == stip_mate && !echecc(noir)) {
+	if (currentStipSettings.stipulation == stip_mate && !echecc(noir)) {
       return;
 	}
 
@@ -2101,7 +2101,7 @@ void GenerateGuarding(
 	genmove(noir);
 	while(encore() && !unblockable) {
       if (jouecoup()
-          && stipulation == stip_stale)
+          && currentStipSettings.stipulation == stip_stale)
       {
 		e[move_generation_stack[nbcou].departure]= obs;
       }
@@ -2350,7 +2350,7 @@ void GenerateBlackKing(int whmoves, int blmoves) {
       WriteSquare(sq);
       StdString("\n");
 #endif
-      if (stipulation == stip_mate) {
+      if (currentStipSettings.stipulation == stip_mate) {
 		GenerateChecking(whmoves, blmoves-time);
       }
       else {

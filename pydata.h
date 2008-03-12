@@ -330,12 +330,33 @@ typedef enum
   stip_mate_or_stale,
   stip_any,
 
-  nr_stipulations
+  nr_stipulations,
+  no_stipulation = nr_stipulations
 } Stipulation;
 
-EXTERN Stipulation ReciStipulation;
-EXTERN Stipulation NonReciStipulation;
-EXTERN Stipulation stipulation;
+enum ReciNonReci
+{
+  reciprocal,
+  nonreciprocal,
+
+  nr_ReciNonReci
+};
+
+typedef struct
+{
+    Stipulation stipulation;
+    square targetSquare;
+    boolean doubleMate;
+    boolean counterMate;
+    char alphaEnd[5];
+} stipSettings_t;
+
+/* settings for reciprocal and non-reciprocal branch */
+EXTERN stipSettings_t stipSettings[nr_ReciNonReci];
+
+/* settings currently used by solving algorithm (copy of one of the
+ * elements of stipSettings) */
+EXTERN stipSettings_t currentStipSettings;
 
 typedef boolean (*stipulationfunction_t)(couleur);
 EXTERN stipulationfunction_t stip_checkers[nr_stipulations];
@@ -416,9 +437,6 @@ EXTERN  boolean         flag_testlegality, k_cap,
 			flag_madrasi;
 EXTERN  boolean         is_phantomchess;
 EXTERN  square          marsid;
-EXTERN  square          TargetSquare, ReciTargetSquare, NonReciTargetSquare;
-
-EXTERN  boolean         DoubleMate, CounterMate, ReciDoubleMate, NonReciDoubleMate;
 
 EXTERN  piece           getprompiece[derbla + 1];       /* it's a inittable ! */
 EXTERN  piece           checkpieces[derbla - leob + 1]; /* only fairies ! */
@@ -1608,15 +1626,9 @@ EXTERN unsigned int StipFlags;
 #endif
 
 #if defined(WE_ARE_EXTERN)
-	extern  char GlobalStr[];
-	extern  char *AlphaEnd;
-	extern  char ReciAlphaEnd[];
-	extern  char NonReciAlphaEnd[];
+	extern char GlobalStr[];
 #else
-	char    GlobalStr[4*maxply];
-	char    *AlphaEnd;
-	char    ReciAlphaEnd[5];
-	char    NonReciAlphaEnd[5];
+	char GlobalStr[4*maxply];
 #endif
 
 #if defined(WE_ARE_EXTERN)
