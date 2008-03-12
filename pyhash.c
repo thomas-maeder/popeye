@@ -829,12 +829,8 @@ boolean shsol(couleur camp, int n, boolean restartenabled) {
   /* reciprocal helpmovers -- let's check whether black can mate */
   if (FlowFlag(Reci)) {
 	currentStipSettings = stipSettings[reciprocal];
-    stipulationChecker = ReciStipulationChecker;
-
 	flag2 = matant(camp, 1);
-
 	currentStipSettings = stipSettings[nonreciprocal];
-    stipulationChecker = NonReciStipulationChecker;
   }
 
   n--;
@@ -908,13 +904,9 @@ boolean shsol(couleur camp, int n, boolean restartenabled) {
   if (flag && FlowFlag(Reci) && PrintReciSolution) {
 	/* reciprocal helpmover */
 	currentStipSettings = stipSettings[reciprocal];
-    stipulationChecker = ReciStipulationChecker;
-
 	last_h_move(camp);
-
 	PrintReciSolution = False;
 	currentStipSettings = stipSettings[nonreciprocal];
-    stipulationChecker = NonReciStipulationChecker;
   }
   return flag;
 } /* shsol */
@@ -935,12 +927,8 @@ boolean mataide(couleur camp, int n, boolean restartenabled) {
 	/* reciprocal helpmover */
 	if (n == 1 && FlowFlag(Reci)) {
       currentStipSettings = stipSettings[reciprocal];
-      stipulationChecker = ReciStipulationChecker;
-
       flag = !matant(camp, 1);
-
       currentStipSettings = stipSettings[nonreciprocal];
-      stipulationChecker = NonReciStipulationChecker;
 	}
 	if (flag)
       return false;
@@ -988,12 +976,8 @@ boolean mataide(couleur camp, int n, boolean restartenabled) {
 
 	if (flag && FlowFlag(Reci) && n == 1) {     /* reciprocal helpmover */
       currentStipSettings = stipSettings[reciprocal];
-      stipulationChecker = ReciStipulationChecker;
-
       last_h_move(camp);
-
       currentStipSettings = stipSettings[nonreciprocal];
-      stipulationChecker = NonReciStipulationChecker;
 	}
   } else {   /* n == 0 */
 	flag= last_h_move(camp);
@@ -1017,7 +1001,7 @@ boolean last_dsr_move(couleur camp)
   while (encore()) {
 	if (jouecoup()) {
       if (SortFlag(Direct)) {
-		if (stipulationChecker(camp)) {
+		if (currentStipSettings.checker(camp)) {
           linesolution();
           flag = true;
 		}
@@ -1369,7 +1353,7 @@ boolean matant(couleur camp, int n)
 		if (i)
           flag= !echecc(camp) && mate(ad,i);
 		else
-          flag= stipulationChecker(camp);
+          flag= currentStipSettings.checker(camp);
 		if (flag)
           coupfort();
       }
@@ -1404,7 +1388,7 @@ boolean invref(couleur	camp, int n) {
 	return true;
 
   if (!FlowFlag(Exact))
-	if (stipulationChecker(ad)) {
+	if (currentStipSettings.checker(ad)) {
       addtohash(WhDirSucc, n);
       return true;
 	}
@@ -1419,7 +1403,8 @@ boolean invref(couleur	camp, int n) {
 	while ((!flag && encore())) {
       if (jouecoup()) {
 		flag= !echecc(camp) && (!definvref(ad,i)||
-                                (OptFlag[quodlibet] && stipulationChecker(camp)));
+                                (OptFlag[quodlibet]
+                                 && currentStipSettings.checker(camp)));
 		if (flag)
           coupfort();
       }
@@ -1581,7 +1566,7 @@ boolean definvref(couleur camp, int n) {
 	while (flag && encore()) {
       if (jouecoup() && !echecc(camp)) {
 		pat= false;
-		if (!(flag= n ? invref(ad,n) : stipulationChecker(camp))) {
+		if (!(flag= n ? invref(ad,n) : currentStipSettings.checker(camp))) {
           coupfort();
 		}
       }
@@ -1626,7 +1611,7 @@ boolean definvref(couleur camp, int n) {
       while (flag && selflastencore(camp)) {
 		if (jouecoup() && !echecc(camp)) {
           pat= false;
-          flag= stipulationChecker(camp);
+          flag= currentStipSettings.checker(camp);
           if (!flag) {
 			coupfort();
           }

@@ -342,6 +342,8 @@ enum ReciNonReci
   nr_ReciNonReci
 };
 
+typedef boolean (*stipulationfunction_t)(couleur);
+
 typedef struct
 {
     Stipulation stipulation;
@@ -349,6 +351,7 @@ typedef struct
     boolean doubleMate;
     boolean counterMate;
     char alphaEnd[5];
+    stipulationfunction_t checker;
 } stipSettings_t;
 
 /* settings for reciprocal and non-reciprocal branch */
@@ -358,12 +361,7 @@ EXTERN stipSettings_t stipSettings[nr_ReciNonReci];
  * elements of stipSettings) */
 EXTERN stipSettings_t currentStipSettings;
 
-typedef boolean (*stipulationfunction_t)(couleur);
-EXTERN stipulationfunction_t stip_checkers[nr_stipulations];
-
-EXTERN stipulationfunction_t ReciStipulationChecker;
-EXTERN stipulationfunction_t NonReciStipulationChecker;
-EXTERN stipulationfunction_t stipulationChecker;
+extern stipulationfunction_t const stip_checkers[nr_stipulations];
 
 EXTERN  unsigned int   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);

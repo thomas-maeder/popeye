@@ -954,7 +954,7 @@ void genmove(couleur camp)
       gen_bl_ply();
 
     while (encore()) {
-      if (jouecoup() && stipulationChecker(camp))
+      if (jouecoup() && currentStipSettings.checker(camp))
         nbrmates++;
       repcoup();
     }
@@ -3345,35 +3345,41 @@ static boolean stipChecker_any(couleur camp)
   return true;
 }
 
+stipulationfunction_t const stip_checkers[nr_stipulations] = {
+  &stipChecker_mate,
+  &stipChecker_stale,
+  &stipChecker_dblstale,
+  &stipChecker_target,
+  &stipChecker_check,
+  &stipChecker_capture,
+  &stipChecker_steingewinn,
+  &stipChecker_ep,
+  &stipChecker_doublemate,
+  &stipChecker_castling,
+  &stipChecker_autostale,
+  &stipChecker_circuit,
+  &stipChecker_exchange,
+  &stipChecker_circuitB,
+  &stipChecker_exchangeB,
+  &stipChecker_mate_or_stale,
+  &stipChecker_any
+};
+  
 void initStipCheckers() {
-  stip_checkers[stip_mate] = &stipChecker_mate;
-  stip_checkers[stip_stale] = &stipChecker_stale;
-  stip_checkers[stip_dblstale] = &stipChecker_dblstale;
-  stip_checkers[stip_target] = &stipChecker_target;
-  stip_checkers[stip_check] = &stipChecker_check;
-  stip_checkers[stip_capture] = &stipChecker_capture;
-  stip_checkers[stip_steingewinn] = &stipChecker_steingewinn;
-  stip_checkers[stip_ep] = &stipChecker_ep;
-  stip_checkers[stip_doublemate] = &stipChecker_doublemate;
-  stip_checkers[stip_castling] = &stipChecker_castling;
-  stip_checkers[stip_autostale] = &stipChecker_autostale;
-  stip_checkers[stip_circuit] = &stipChecker_circuit;
-  stip_checkers[stip_exchange] = &stipChecker_exchange;
-  stip_checkers[stip_circuitB] = &stipChecker_circuitB;
-  stip_checkers[stip_exchangeB] = &stipChecker_exchangeB;
-  stip_checkers[stip_mate_or_stale] = &stipChecker_mate_or_stale;
-  stip_checkers[stip_any] = &stipChecker_any;
-
-
-  if (CondFlag[blackultraschachzwang] || CondFlag[whiteultraschachzwang])
-    stip_checkers[stip_mate] = &stipChecker_mate_ultraschachzwang;
-
-  NonReciStipulationChecker = stip_checkers[stipSettings[nonreciprocal].stipulation];
-  ReciStipulationChecker = stip_checkers[stipSettings[reciprocal].stipulation];
-
-  stipulationChecker = NonReciStipulationChecker;
+  Stipulation nonreciStip = stipSettings[nonreciprocal].stipulation;
+  Stipulation reciStip = stipSettings[reciprocal].stipulation;
+  stipSettings[nonreciprocal].checker = stip_checkers[nonreciStip];
+  stipSettings[reciprocal].checker = stip_checkers[reciStip];
 
   /* TODO use similar wrappers for amu, paralysing pieces etc. */
+  if (CondFlag[blackultraschachzwang] || CondFlag[whiteultraschachzwang]) {
+    if (nonreciStip==stip_mate)
+      stipSettings[nonreciprocal].checker = &stipChecker_mate_ultraschachzwang;
+    if (reciStip==stip_mate)
+      stipSettings[reciprocal].checker = &stipChecker_mate_ultraschachzwang;
+  }
+
+  currentStipSettings = stipSettings[nonreciprocal];
 }
 
 
@@ -3387,7 +3393,7 @@ void find_mate_square(couleur camp)
         rn= sq;
         e[rn]= roin;
         nbpiece[roin]++;
-        if (stipulationChecker(camp)) {
+        if (currentStipSettings.checker(camp)) {
           return;
         }
         nbpiece[roin]--;
@@ -3402,7 +3408,7 @@ void find_mate_square(couleur camp)
         rb= sq;
         e[rb]= roib;
         nbpiece[roib]++;
-        if (stipulationChecker(camp)) {
+        if (currentStipSettings.checker(camp)) {
           return;
         }
         nbpiece[roib]--;
