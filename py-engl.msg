@@ -111,3 +111,5 @@
 110= RoyalDynasty and Circe rex inclusiv are incompatible\n
 111= RoyalDynasty and immunschach are incompatible\n
 112= Take&MakeChess is incompatible with some fairy conditions\n
+113= Magic pieces incompatible with some fairy pieces\n
+114= Too many magic calculations needed\n

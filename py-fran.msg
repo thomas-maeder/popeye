@@ -111,3 +111,5 @@
 110= DynastieRoyale et Circe rexinclusive ne sont pas compatibles\n
 111= DynastieRoyale et immunschach ne sont pas compatibles\n
 112= Take&MakeEchecs ne sont pas compatible avec certains genres feeriques\n
+113= Pieces magique ne sont pas compatible avec certains pieces feeriques\n
+114= Trop de calculations magique necessaire\n

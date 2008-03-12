@@ -28,6 +28,13 @@
  **
  ** 2008/01/24 SE   New variant: Gridlines  
  **
+ ** 2008/02/19 SE   New condition: AntiKoeko  
+ **
+ ** 2008/02/19 SE   New piece: RoseLocust  
+ **
+ ** 2008/02/25 SE   New piece type: Magic
+ **                 Adjusted Masand code
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)  /* is always defined on macintosh's  SB */
@@ -49,7 +56,11 @@ boolean eval_ortho(square sq_departure, square sq_arrival, square sq_capture) {
 
 boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
   if (CondFlag[koeko]) {
-    if (nocontact(sq_departure,sq_arrival,sq_capture))
+    if (nocontact(sq_departure,sq_arrival,sq_capture, koekofunc))
+      return(false);
+  }
+  if (CondFlag[antikoeko]) {
+    if (!nocontact(sq_departure,sq_arrival,sq_capture, antikoekofunc))
       return(false);
   }
   if (CondFlag[gridchess]) {
@@ -75,12 +86,12 @@ boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
       return(false);
   }
   if (TSTFLAG(spec[sq_departure], Jigger)) {
-    if (nocontact(sq_departure,sq_arrival,sq_capture))
+    if (nocontact(sq_departure,sq_arrival,sq_capture,nokingcontact))
       return(false);
   }
   if (CondFlag[newkoeko]) {
-    if (nocontact(sq_departure,sq_arrival,sq_capture)
-        != nocontact(initsquare,sq_departure,initsquare))
+    if (nocontact(sq_departure,sq_arrival,sq_capture,nokingcontact)
+        != nocontact(initsquare,sq_departure,initsquare,nokingcontact))
     {
       return false;
     }
@@ -754,7 +765,7 @@ boolean f_lioncheck(
 
 /* see comment in py4.c on how rose and rose based pieces are
  * handled */
-static boolean detect_rosecheck_on_line(square sq_king,
+boolean detect_rosecheck_on_line(square sq_king,
                                         piece p,
                                         numvec k, numvec k1,
                                         numvec delta_k,
@@ -784,7 +795,7 @@ boolean rosecheck(square    sq_king,
   return false;
 }
 
-static boolean detect_roselioncheck_on_line(square sq_king,
+boolean detect_roselioncheck_on_line(square sq_king,
                                             piece p,
                                             numvec k, numvec k1,
                                             numvec delta_k,
@@ -831,7 +842,7 @@ boolean roselioncheck(square    sq_king,
   return false;
 }
 
-static boolean detect_rosehoppercheck_on_line(square sq_king,
+boolean detect_rosehoppercheck_on_line(square sq_king,
                                               square sq_hurdle,
                                               piece p,
                                               numvec k, numvec k1,
@@ -870,6 +881,45 @@ boolean rosehoppercheck(square  sq_king,
   return false;
 }
 
+boolean detect_roselocustcheck_on_line(square sq_king,
+                                              square sq_arrival,
+                                              piece p,
+                                              numvec k, numvec k1,
+                                              numvec delta_k,
+                                              evalfunction_t *evaluate) {
+  square sq_departure= fin_circle_line(sq_king,k,&k1,delta_k);
+  return e[sq_departure]==p
+    && sq_departure!=sq_king
+    && evaluate(sq_departure,sq_arrival,sq_king);
+}
+
+boolean roselocustcheck(square  sq_king,
+                        piece   p,
+                        evalfunction_t *evaluate) {
+  /* detects check by a rose locust */
+  numvec  k;
+  square sq_arrival;
+
+  for (k= vec_knight_start; k <= vec_knight_end; k++) {
+    sq_arrival= sq_king-vec[k];
+    if (e[sq_arrival]==vide) {
+        /* k1==0 (and the equivalent
+         * vec_knight_end-vec_knight_start+1) were already used for
+         * sq_hurdle! */
+      if (detect_roselocustcheck_on_line(sq_king,sq_arrival,p,
+                                         k,1,+1,
+                                         evaluate))
+        return true;
+      if (detect_roselocustcheck_on_line(sq_king,sq_arrival,p,
+                                         k,vec_knight_end-vec_knight_start,-1,
+                                         evaluate))
+      return true;
+    }
+  }
+
+  return false;
+}
+ 
 boolean maocheck(square sq_king,
                  piece  p,
                  evalfunction_t *evaluate)
@@ -2806,10 +2856,9 @@ boolean pchincheck(square sq_king,
   return false;
 }
 
-square masand_square; 
-boolean eval_masand(square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square sq_capture) {
   return
-    sq_departure==masand_square
+    sq_departure==fromspecificsquare
     && (e[sq_departure]>vide ? eval_white : eval_black)(sq_departure,sq_arrival,sq_capture);
 }
 
@@ -2817,25 +2866,25 @@ boolean observed(square on_this, square by_that) {
   boolean flag;
   square k;
 
-  masand_square= by_that;
+  fromspecificsquare= by_that;
   if (e[by_that] > vide)
   {
     k= rn;
     rn= on_this;
-    flag= rnechec(eval_masand);
+    flag= rnechec(eval_fromspecificsquare);
     rn= k;
   }
   else
   {
     k= rb;
     rb= on_this;
-    flag= rbechec(eval_masand);
+    flag= rbechec(eval_fromspecificsquare);
     rb= k;
   }
   return flag;
 }
 
-void change_observed(square z)
+void change_observed(square z, boolean push)
 {
   square* bnp;
 
@@ -2845,16 +2894,9 @@ void change_observed(square z)
     {
       if (observed(*bnp, z))
       {
-        change(*bnp);
-        CHANGECOLOR(spec[*bnp]);
-        if (e[*bnp] == tb && *bnp == square_a1)
-          SETFLAGMASK(castling_flag[nbply],ra1_cancastle);  
-        if (e[*bnp] == tb && *bnp == square_h1)
-          SETFLAGMASK(castling_flag[nbply],rh1_cancastle);  
-        if (e[*bnp] == tn && *bnp == square_a8)
-          SETFLAGMASK(castling_flag[nbply],ra8_cancastle);  
-        if (e[*bnp] == tn && *bnp == square_h8)
-          SETFLAGMASK(castling_flag[nbply],rh8_cancastle);  
+        ChangeColour(*bnp);
+        if (push)
+          PushChangedColour(colour_change_sp[nbply], colour_change_stack_limit, *bnp, e[*bnp]);
       }
     }
   }

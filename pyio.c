@@ -44,6 +44,8 @@
  **
  ** 2008/01/24 SE   New variant: Gridlines  
  **
+ ** 2008/02/19 SE   New condition: AntiKoeko  
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -270,6 +272,7 @@ extern square Proof_rb, Proof_rn, rbA, rnA;
 extern Flags ProofSpec[64], SpecA[64];
 extern imarr  isquareA;
 boolean OscillatingKingsColour;  /* actually couleur but this is all a hack */
+static nocontactfunc_t *nocontactfunc;
 
 void    OpenInput(char *s)
 {
@@ -1555,31 +1558,31 @@ static char *ParseVariant(boolean *type, VariantGroup group) {
       case roib:
         break;
       case cb:
-        nocontactfunc= noknightcontact;
+        *nocontactfunc= noknightcontact;
         break;
       case vizirb:
-        nocontactfunc= nowazircontact;
+        *nocontactfunc= nowazircontact;
         break;
       case fersb:
-        nocontactfunc= noferscontact;
+        *nocontactfunc= noferscontact;
         break;
       case chb:
-        nocontactfunc= nocamelcontact;
+        *nocontactfunc= nocamelcontact;
         break;
       case alfilb:
-        nocontactfunc= noalfilcontact;
+        *nocontactfunc= noalfilcontact;
         break;
       case zb:
-        nocontactfunc= nozebracontact;
+        *nocontactfunc= nozebracontact;
         break;
       case dabb:
-        nocontactfunc= nodabbabacontact;
+        *nocontactfunc= nodabbabacontact;
         break;
       case gib:
-        nocontactfunc= nogiraffecontact;
+        *nocontactfunc= nogiraffecontact;
         break;
       case antilb:
-        nocontactfunc= noantelopecontact;
+        *nocontactfunc= noantelopecontact;
         break;
       default:
         IoErrorMsg(WrongPieceName,0);
@@ -2449,7 +2452,13 @@ static char *ParseCond(void) {
       tok= ReadPieces(april);
       break;
     case koeko:
-      nocontactfunc= nokingcontact;
+      koekofunc= nokingcontact;
+      nocontactfunc= &koekofunc;
+      tok= ParseVariant(NULL, gpKoeko);
+      break;
+    case antikoeko:
+      antikoekofunc= nokingcontact;
+      nocontactfunc= &antikoekofunc;
       tok= ParseVariant(NULL, gpKoeko);
       break;
     case white_oscillatingKs:
@@ -3705,26 +3714,27 @@ void WriteConditions(int alignment) {
       strcat(CondLine, CondTab[cond]);
     }
 
-    if (cond == koeko) {
+    if (cond == koeko || cond == antikoeko) {
       piece koekop = roib;
       char LocalBuf[4];
-      if (nocontactfunc == noknightcontact) 
+      nocontactfunc = cond==koeko ? &koekofunc : &antikoekofunc;
+      if (*nocontactfunc == noknightcontact) 
         koekop= cb;
-      if (nocontactfunc == nowazircontact) 
+      if (*nocontactfunc == nowazircontact) 
         koekop= vizirb;
-      if (nocontactfunc == noferscontact) 
+      if (*nocontactfunc == noferscontact) 
         koekop= fersb;
-      if (nocontactfunc == nodabbabacontact) 
+      if (*nocontactfunc == nodabbabacontact) 
         koekop= dabb;
-      if (nocontactfunc == noalfilcontact) 
+      if (*nocontactfunc == noalfilcontact) 
         koekop= alfilb;
-      if (nocontactfunc == nocamelcontact) 
+      if (*nocontactfunc == nocamelcontact) 
         koekop= chb;
-      if (nocontactfunc == nozebracontact) 
+      if (*nocontactfunc == nozebracontact) 
         koekop= zb;
-      if (nocontactfunc == nogiraffecontact) 
+      if (*nocontactfunc == nogiraffecontact) 
         koekop= gib;
-      if (nocontactfunc == noantelopecontact) 
+      if (*nocontactfunc == noantelopecontact) 
         koekop= antilb;
 
       if (koekop == roib)

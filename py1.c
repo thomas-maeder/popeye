@@ -26,6 +26,10 @@
  **
  ** 2008/02/24 SE   Bugfix: Koeko + Parrain  
  **
+ ** 2008/02/19 SE   New condition: AntiKoeko  
+ **
+ ** 2008/02/25 SE   New piece type: Magic  
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)	      /* is always defined on macintosh's  SB */
@@ -187,7 +191,8 @@ void InitCond(void) {
   memset((char *) promonly, 0, sizeof(promonly));
   memset((char *) isapril,0,sizeof(isapril));
   checkhopim = false;
-  nocontactfunc= nokingcontact;
+  koekofunc= nokingcontact;
+  antikoekofunc= nokingcontact;
   OscillatingKingsTypeB[blanc]= false;
   OscillatingKingsTypeB[noir]= false;
   OscillatingKingsTypeC[blanc]= false;
@@ -288,6 +293,8 @@ void InitAlways(void) {
   nbcou = 1;
   nbply = 1;
 
+  nbmagic = 0;
+
   flagAssassin=
     flag_writinglinesolution=
     flag_testlegality= k_cap=
@@ -316,11 +323,13 @@ void InitAlways(void) {
       Iprom[i]= false;
 	att_1[i]= true;
     oscillatedKs[i]= false;
+    colour_change_sp[i]= colour_change_stack;
   }
 
   initneutre(blanc);
   tabsol.nbr=
     tabsol.cp[0]= 0;
+  tabsol.liste[0].push_top= push_colour_change_stack;
   flag_atob= false;
   dont_generate_castling=false;
   
@@ -603,7 +612,7 @@ boolean noantelopecontact(square ia)
 }
 
 
-boolean nocontact(square sq_departure, square sq_arrival, square sq_capture) {
+boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, nocontactfunc_t nocontactfunc) {
   boolean	Result;
   square	cr;
   piece	pj, pp, pren;
@@ -1062,4 +1071,374 @@ boolean CrossesGridLines(square dep, square arr)
     return true;
   }
   return false;
+}
+
+void GetRoseAttackVectors(square from, square to)
+{
+  numvec  k;
+  for (k= vec_knight_start; k<=vec_knight_end; k++) {
+    if (detect_rosecheck_on_line(to,e[from],
+                                 k,0,+1,
+                                 eval_fromspecificsquare))
+      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] )
+    if (detect_rosecheck_on_line(to,e[from],
+                                 k,vec_knight_end-vec_knight_start+1,-1,
+                                 eval_fromspecificsquare))
+      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k])
+  }
+}
+
+void GetRoseLionAttackVectors(square from, square to)
+{
+  numvec  k;
+  for (k= vec_knight_start; k <= vec_knight_end; k++) {
+    if (detect_roselioncheck_on_line(to,e[from],
+                                     k,0,+1,
+                                     eval_fromspecificsquare))
+      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] )
+    if (detect_roselioncheck_on_line(to,e[from],
+                                        k,vec_knight_end-vec_knight_start+1,-1,
+                                        eval_fromspecificsquare))
+      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k])
+  }
+}
+
+void GetRoseHopperAttackVectors(square from, square to) {
+  numvec  k;
+  square sq_hurdle;
+
+  for (k= vec_knight_start; k <= vec_knight_end; k++) {
+    sq_hurdle= to+vec[k];
+    if (e[sq_hurdle]!=vide && e[sq_hurdle]!=obs) {
+        /* k1==0 (and the equivalent
+         * vec_knight_end-vec_knight_start+1) were already used for
+         * sq_hurdle! */
+      if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
+                                         k,1,+1,
+                                         eval_fromspecificsquare))
+        PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] );
+      if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
+                                         k,vec_knight_end-vec_knight_start,-1,
+                                         eval_fromspecificsquare))
+        PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k]);
+    }
+  }
+}
+
+void GetRoseLocustAttackVectors(square from, square to) {
+  /* detects check by a rose locust */
+  numvec  k;
+  square sq_arrival;
+
+  for (k= vec_knight_start; k <= vec_knight_end; k++) {
+    sq_arrival= to-vec[k];
+    if (e[sq_arrival]==vide) {
+        /* k1==0 (and the equivalent
+         * vec_knight_end-vec_knight_start+1) were already used for
+         * sq_hurdle! */
+      if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
+                                         k,1,+1,
+                                         eval_fromspecificsquare))
+        PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] );
+      if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
+                                         k,vec_knight_end-vec_knight_start,-1,
+                                         eval_fromspecificsquare))
+        PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k]);
+    }
+  }
+}
+
+void GetRMHopAttackVectors(square from, square to, numvec kend, numvec kanf, angle_t angle) {
+  square sq_hurdle;
+  numvec k, k1;
+  piece hopper;
+
+  square sq_departure;
+
+  for (k= kend; k>=kanf; k--) {
+    sq_hurdle= to+vec[k];
+    if (abs(e[sq_hurdle])>=roib) {
+      k1= 2*k;
+      finligne(sq_hurdle,mixhopdata[angle][k1],hopper,sq_departure);
+      if (hopper==e[from]) {
+        if (eval_fromspecificsquare(sq_departure,to,to))
+          PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[k] )
+      }
+      finligne(sq_hurdle,mixhopdata[angle][k1-1],hopper,sq_departure);
+      if (hopper==e[from]) {
+        if (eval_fromspecificsquare(sq_departure,to,to))
+          PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[k] )
+      }
+    }
+  }
+}
+
+void GetMooseAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
+}
+
+void GetRookMooseAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_45);
+}
+
+void GetBishopMooseAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_45);
+}
+
+void GetEagleAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
+}
+
+void GetRookEagleAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_90);
+}
+
+void GetBishopEagleAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_90);
+}
+
+void GetSparrowAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
+}
+
+void GetRookSparrowAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_135);
+}
+
+void GetBishopSparrowAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_135);
+}
+
+void GetMargueriteAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
+  if (scheck(to, e[from], eval_fromspecificsquare)) {
+    numvec attackVec;
+    if (to < from)
+      attackVec = move_vec_code[from - to];
+    else
+      attackVec = -move_vec_code[to - from];
+    if (attackVec)
+      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), attackVec)      
+  }
+}
+
+void GetZigZagAttackVectors(square from, square to,
+               numvec  k,
+               numvec  k1)
+{
+  square sq_departure= to+k;
+  square sq_arrival= to;
+  square sq_capture= to;
+
+  while (e[sq_departure] == vide) {
+    sq_departure+= k1;
+    if (e[sq_departure] != vide)
+      break;
+    else
+      sq_departure+= k;
+  }
+
+  if (e[sq_departure]==e[from]
+      && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
+    PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[500+k] );
+
+  sq_departure = to+k;
+  while (e[sq_departure]==vide) {
+    sq_departure-= k1;
+    if (e[sq_departure]!=vide)
+      break;
+    else
+      sq_departure+= k;
+  }
+
+  if (e[sq_departure]==e[from]
+      && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
+    PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[400+k] );
+}
+
+void GetBoyscoutAttackVectors(square from, square to) {
+  numvec  k;
+
+  for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
+    GetZigZagAttackVectors(from, to, vec[k], vec[13 - k]);
+  }
+}
+
+void GetGirlscoutAttackVectors(square from, square to) {
+  numvec  k;
+
+  for (k= vec_rook_start; k <= vec_rook_end; k++) {
+    GetZigZagAttackVectors(from, to, vec[k], vec[5 - k]);
+  }
+}
+
+void GetSpiralSpringerAttackVectors(square from, square to) {
+  numvec  k;
+
+  for (k= vec_knight_start; k <= vec_knight_end; k++) {
+    GetZigZagAttackVectors(from, to, vec[k], vec[25 - k]);
+  }
+}
+
+void GetDiagonalSpiralSpringerAttackVectors(square from, square to) {
+  numvec  k;
+
+  for (k= vec_knight_start; k <= 14; k++) {
+    GetZigZagAttackVectors(from, to, vec[k], vec[23 - k]); 
+  }
+  for (k= 15; k <= vec_knight_end; k++) {
+    GetZigZagAttackVectors(from, to, vec[k], vec[27 - k]); 
+  }
+}
+
+/* should never get called if validation works
+(disallow magic + piecetype) */
+void __unsupported_uncalled_attackfunction(square from, square to) {}
+
+void PushMagicViews(void)
+{
+  square *bnp, *bnp1, *royal, royal_save;
+  piece p;
+  
+  if (!flag_magic)
+    return;
+    
+  /*new stack */
+  nbmagic = magictop[nbply - 1];
+    
+  for (bnp= boardnum; *bnp; bnp++) 
+  {
+    if (TSTFLAG(spec[*bnp], Magic))
+    {
+      /* for each magic piece */
+      p= e[*bnp];
+      royal = (p <= roin) ? &rb : &rn;
+      royal_save= *royal;
+      fromspecificsquare= *bnp;
+      for (bnp1= boardnum; *bnp1; bnp1++) 
+      {
+        if (abs(e[*bnp1]) > obs 
+              && !TSTFLAG(spec[*bnp1], Magic)
+              && !TSTFLAG(spec[*bnp1], Royal)) {
+
+          /* for each non-magic piece 
+          (n.b. check *bnp != *bnp1 redundant above) */
+          *royal= *bnp1;
+
+          
+          if (!attackfunctions[abs(p)])
+          {
+            /* if single attack at most */
+            if ((*checkfunctions[abs(p)])(*royal, p, eval_fromspecificsquare))
+            {
+                numvec attackVec;
+                if (*royal < *bnp)
+                  attackVec = move_vec_code[*bnp - *royal];
+                else
+                  attackVec = -move_vec_code[*royal - *bnp];
+                if (attackVec)
+                  PushMagic(*royal, DiaRen(spec[*royal]), DiaRen(spec[fromspecificsquare]), attackVec)
+            }
+          }
+          else
+          {
+            /* call special function to determine all attacks */
+            (*attackfunctions[abs(p)])(fromspecificsquare, *royal);
+          }
+        }
+      }
+      *royal= royal_save;  
+    }
+  }   
+  magictop[nbply] = nbmagic;
+}
+
+void ChangeMagic(int ply, boolean push)
+{
+  square *bnp;
+  int i, j, k;
+  boolean dochange, newvec;
+
+  for (bnp= boardnum; *bnp; bnp++) 
+  {
+    for (i= magictop[ply - 1]; i < magictop[ply]; i++)
+    {
+      if (magicviews[i].piecesquare == *bnp)  
+        break;    /* a magic piece observes a non-magic */
+    }
+    if (i < magictop[ply])
+    {
+      dochange= false;
+
+      /* now check the rest of the nbply-stack for other attacks of same piece */
+      for (j= i; j <  magictop[ply]; j++)
+      {
+        if (magicviews[j].piecesquare == *bnp)
+        {
+          int currid= magicviews[j].pieceid;
+          int currmagid= magicviews[j].magicpieceid;
+          numvec currvec= magicviews[j].vecnum;
+          newvec= true;
+
+          /* and check (nbply-1)-stack to see if this is a new attack */
+          for (k= magictop[ply - 2]; k < magictop[ply - 1]; k++)
+          {
+            if (magicviews[k].pieceid == currid &&
+                magicviews[k].magicpieceid == currmagid &&
+                magicviews[k].vecnum == currvec)
+            {
+               newvec= false;
+               break;
+            }
+          }
+          /* only changes if attackee suffers odd-no. new attacks */
+          if (newvec)
+            dochange = dochange ^ true; 
+        }
+      }
+      if (dochange)
+      {
+        ChangeColour(*bnp);
+        /* don't store colour change of moving piece - it might undergo other changes */
+        if (push && *bnp != move_generation_stack[nbcou].arrival)
+          PushChangedColour(colour_change_sp[nbply], colour_change_stack_limit, *bnp, e[*bnp]);
+      }
+    }
+  }               
+}
+
+#ifdef DEBUG
+WriteMagicViews(int ply)
+{
+  int i;
+  for (i= magictop[ply - 1]; i < magictop[ply]; i++)
+  {
+    char buf[10];
+    WriteSquare(magicviews[i].piecesquare);
+    StdChar(' ');
+    WriteSquare(magicviews[i].pieceid);
+    StdChar(' ');
+    WriteSquare(magicviews[i].magicpieceid);
+    StdChar(' ');
+    sprintf(buf, "%i", magicviews[i].vecnum);
+    StdString(buf);
+    StdChar('\n');           
+  }
+}
+#endif
+
+void ChangeColour(square sq)
+{
+  change(sq);
+  CHANGECOLOR(spec[sq]);
+  if (e[sq] == tb && sq == square_a1)
+    SETFLAGMASK(castling_flag[nbply],ra1_cancastle);  
+  if (e[sq] == tb && sq == square_h1)
+    SETFLAGMASK(castling_flag[nbply],rh1_cancastle);  
+  if (e[sq] == tn && sq == square_a8)
+    SETFLAGMASK(castling_flag[nbply],ra8_cancastle);  
+  if (e[sq] == tn && sq == square_h8)
+    SETFLAGMASK(castling_flag[nbply],rh8_cancastle); 
 }

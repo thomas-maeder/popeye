@@ -3,6 +3,8 @@
 **
 ** made compilable with MPW on macintosh-computers.     14.02.91     SB
 **
+** 2008/02/25 SE   New piece type: Magic  
+**
 **************************** INFORMATION END **************************/
 
 #include <stdio.h>
@@ -28,3 +30,6 @@ killer_state const null_killer_state = {
     initsquare
   }
 };
+
+change_rec* colour_change_stack_limit = &colour_change_stack[colour_change_stack_size];
+change_rec* push_colour_change_stack_limit = &push_colour_change_stack[push_colour_change_stack_size];

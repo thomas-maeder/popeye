@@ -33,6 +33,11 @@
  **
  ** 2008/01/01 SE   Bug fix: Circe Assassin + proof game (reported P.Raican)
  **
+ ** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)  
+ **
+ ** 2008/02/25 SE   New piece type: Magic 
+ **                 Adjusted Masand code
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh) /* is always defined on macintosh's  SB */
@@ -465,6 +470,23 @@ square rensuper(piece p, Flags pspec,
 #if defined(DOS)
 # pragma warn +par
 #endif
+
+boolean is_short(piece p)
+{
+  switch (abs(p)) {
+  case  Pawn:
+  case  BerolinaPawn:
+  case  ReversePawn: 
+  case  Mao:
+  case  Moa:
+  case  Skylla:
+  case  Charybdis:
+  case  ChinesePawn:
+    return  True;
+  default:
+    return  False;
+  }
+}
 
 boolean is_pawn(piece p)
 {
@@ -938,6 +960,8 @@ void genmove(couleur camp)
 
   if (TSTFLAG(PieSpExFlags,Neutral))
     initneutre(advers(camp));
+  if (nbply == 1)
+    PushMagicViews();
   nextply();
   trait[nbply]= camp;
   we_generate_exact = false;
@@ -1757,6 +1781,25 @@ boolean jouecoup(void) {
       }
     } /* CondFlag[antiandernach] ... */
 
+    if (CondFlag[champursue]
+      && sq_arrival == move_generation_stack[repere[nbply]].departure
+      && sq_departure != prev_rn
+      && sq_departure != prev_rb)
+    {
+      /* the following also copes correctly with neutral */
+      CLRFLAG(spec_pi_moving, Black);
+      CLRFLAG(spec_pi_moving, White);
+      CLRFLAG(spec_pi_moving, Neutral);
+      if (traitnbply == noir) {
+        SETFLAG(spec_pi_moving, White);
+        pi_arriving= abs(pi_arriving);
+      }
+      else {
+        SETFLAG(spec_pi_moving, Black);
+        pi_arriving= -abs(pi_arriving);
+      }
+    } /* CondFlag[antiandernach] ... */
+
     if ((CondFlag[traitor]
          && traitnbply == noir
          && sq_arrival<=square_h4
@@ -1826,6 +1869,7 @@ boolean jouecoup(void) {
 
   if ((CondFlag[andernach] && pi_captured!=vide)
       || (CondFlag[antiandernach] && pi_captured==vide)
+      || (CondFlag[champursue] && sq_arrival == move_generation_stack[repere[nbply]].departure)
       || (CondFlag[norsk])
       || (CondFlag[protean]
           && (pi_captured!=vide || abs(pi_departing)==ReversePawn))
@@ -2487,12 +2531,23 @@ boolean jouecoup(void) {
       WhiteStrictSAT[nbply]= echecc_normal(blanc);
       BlackStrictSAT[nbply]= echecc_normal(noir);
     }
+    
+    if (flag_outputmultiplecolourchanges)
+    {
+      colour_change_sp[nbply] = colour_change_sp[nbply - 1];
+    }
 
     if (CondFlag[masand]
         && echecc(advers(traitnbply))
         && observed(traitnbply == blanc ? rn : rb,
                     move_gen_top->arrival))
-      change_observed(move_gen_top->arrival);
+      change_observed(move_gen_top->arrival, flag_outputmultiplecolourchanges);
+        
+    if (flag_magic)
+    {
+        PushMagicViews();
+        ChangeMagic(nbply, flag_outputmultiplecolourchanges);
+    }
         
     if (!BGL_whiteinfinity
         && (BGL_global || traitnbply == blanc))
@@ -2553,11 +2608,16 @@ void repcoup(void) {
       BGL_black += BGL_move_diff_code[abs(sq_departure-sq_arrival)];
     }
         
+    if (flag_magic)
+    {
+        ChangeMagic(nbply, false);
+    }
+    
     if (CondFlag[masand]
         && echecc(advers(trait[nbply]))
         && observed(trait[nbply] == blanc ? rn : rb,
                     sq_arrival))
-      change_observed(sq_arrival);
+      change_observed(sq_arrival, false);
 
     if (oscillatedKs[nbply])  /* for Osc Type C */
     {

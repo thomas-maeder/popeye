@@ -40,6 +40,14 @@
 **
 ** 2008/01/24 SE   New variant: Gridlines  
 **
+** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)  
+**
+** 2008/02/19 SE   New condition: AntiKoeko  
+**
+** 2008/02/19 SE   New piece: RoseLocust  
+**
+** 2008/02/25 SE   New piece type: Magic  
+**
 **************************** End of List ******************************/
 
 #if !defined(PYDATA_H)
@@ -141,6 +149,36 @@ EXTERN  pilecase        kpilcd;
 EXTERN  pilecase        kpilca;
 
 EXTERN  int        maxflights;
+
+/* magic pieces */
+#define magicviews_size 10000
+EXTERN  struct
+{
+  square piecesquare;
+  int pieceid;
+  int magicpieceid;
+  numvec vecnum;
+} magicviews[magicviews_size];
+EXTERN int magictop[maxply + 1];   
+EXTERN int nbmagic;
+EXTERN boolean flag_magic;
+
+/* used by masand and magic */
+EXTERN square fromspecificsquare;  
+
+#define colour_change_stack_size 10000
+#define push_colour_change_stack_size 2000
+
+#if defined(WE_ARE_EXTERN)
+EXTERN change_rec * colour_change_stack_limit;
+EXTERN change_rec * push_colour_change_stack_limit;
+#endif
+
+/* used by masand and magic for output only*/
+EXTERN change_rec colour_change_stack[colour_change_stack_size]; 
+EXTERN change_rec *colour_change_sp[maxply + 1];
+EXTERN change_rec push_colour_change_stack[push_colour_change_stack_size];
+EXTERN boolean flag_outputmultiplecolourchanges;
 
 
 /* symbols for bits in castling_flag */
@@ -467,7 +505,8 @@ EXTERN piece            sentinelb, sentineln;
 EXTERN boolean          anytraitor;
 EXTERN boolean          att_1[maxply + 1];
 EXTERN boolean          flag_atob;
-EXTERN boolean         (*nocontactfunc) (square ia);
+EXTERN nocontactfunc_t  koekofunc;
+EXTERN nocontactfunc_t  antikoekofunc;
 EXTERN boolean		OscillatingKingsTypeB[2], OscillatingKingsTypeC[2];
 EXTERN boolean		anyantimars;
 EXTERN square           cmren[toppile + 1];
@@ -635,7 +674,8 @@ EXTERN int              numgridlines;
     /*126*/ {'b','3'}, /* fou-bouncer */
     /*127*/ {'p','c'},  /* pion chinois */
     /*128*/ {'c','l'},  /* cavalier radial */
-    /*129*/ {'p','v'}  /* pion renverse */
+    /*129*/ {'p','v'},  /* pion renverse */
+    /*130*/ {'l','r'}   /*rose locuste */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '}, /* leer */
 	/*  1*/ {' ',' '}, /* ausserhalb des Brettes */
@@ -766,7 +806,8 @@ EXTERN int              numgridlines;
     /*126*/ {'b','3'}, /* Laeufer-bouncer */
     /*127*/ {'c','b'}, /* Chinesischer Bauer */
     /*128*/ {'r','p'}, /* Radialspringer */
-    /*129*/ {'r','b'}  /* ReversBauer */
+    /*129*/ {'r','b'},  /* ReversBauer */
+    /*130*/ {'l','r'}   /* RosenHeuschrecke */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '}, /* empty */
 	/*  1*/ {' ',' '}, /* outside board */
@@ -898,6 +939,7 @@ EXTERN int              numgridlines;
     /*127*/ {'c','p'},  /* chinese pawn */	
     /*128*/ {'r','k'},  /* radial knight */	
     /*129*/ {'p','p'},  /* protean pawn */	
+    /*130*/ {'l','s'}   /* Rose Locust */
   }
 	};
 #endif
@@ -1213,7 +1255,9 @@ EXTERN int              numgridlines;
   	/*165*/ "BlancVaultingKing",
   	/*166*/ "NoirVaultingKing",
     /*167*/ "EchecsProtee",
-  	/*168*/ "EchecsGeneve"
+    /*168*/ "EchecsGeneve",
+    /*169*/ "ChameleonPoursuite",
+    /*170*/ "AntiKoeko"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1384,7 +1428,9 @@ EXTERN int              numgridlines;
   	/*165*/ "WeisserVaultingKing",
   	/*166*/ "SchwarzerVaultingKing",
     /*167*/ "ProteischesSchach",
-  	/*168*/ "GenferSchach"
+    /*168*/ "GenferSchach",
+    /*169*/ "ChameleonPoursuite",
+    /*170*/ "AntiKoeko"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1555,7 +1601,9 @@ EXTERN int              numgridlines;
   	/*165*/ "WhiteVaultingKing",
   	/*166*/ "BlackVaultingKing",
     /*167*/ "ProteanChess",
-    /*168*/ "GenevaChess"
+    /*168*/ "GenevaChess",
+    /*169*/ "ChameleonPursuit",
+    /*170*/ "AntiKoeko"
     }
     };
 #endif
@@ -1587,7 +1635,8 @@ EXTERN unsigned int StipFlags;
       "Fonctionnaire",
       "DemiNeutre",
       "CouleurEchangeantSautoir",
-      "Protee"
+      "Protee",
+      "Magique"
 	},{
       /* German */
       "Weiss",
@@ -1602,7 +1651,8 @@ EXTERN unsigned int StipFlags;
       "Beamtet",
       "HalbNeutral",
       "SprungbockFarbeWechselnd",
-      "Proteisch"
+      "Proteisch",
+      "Magische"
 	},{
       /* English */
       "White",
@@ -1617,7 +1667,8 @@ EXTERN unsigned int StipFlags;
       "Functionary",
       "HalfNeutral",
       "HurdleColourChanging",
-      "Protean"
+      "Protean",
+      "Magic"
 	}
 	};
 #endif
@@ -1923,6 +1974,40 @@ enum {
 #endif
 
 #if defined(WE_ARE_EXTERN)
+	extern  int move_vec_code[haut - bas + 1];
+#else
+/* This are the codes for the length-difference */
+/* between two squares */
+/* ATTENTION: use abs(square from - square to) for indexing this table. */
+/*        all move_down_codes are mapped this way to move_up_codes !    */
+
+	int move_vec_code[haut - bas + 1]= {
+	/* left/right   */         0,   1,   1,   1,   1,   1,   1,   1,     
+	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+	/* 1 left  up   */             17,  18,  19,  20,  21,  22,  23,     
+	/* 1 right up   */        24,  25,  26,  27,  28,  29,  30,  31,     
+	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+	/* 2 left  up   */             41,  21,  43,  22,  45,  23,  47,     
+	/* 2 right up   */        24,  49,  25,  51,  26,  53,  27,  55,     
+	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+	/* 3 left  up   */             65,  22,  67,  68,  23,  70,  71,     
+	/* 3 right up   */        24,  73,  74,  25,  76,  77,  26,  79,     
+	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+	/* 4 left  up   */             89,  45,  91,  23,  93,  47,  95,     
+	/* 4 right up   */        24,  97,  49,  99,  25, 101,  51, 103,     
+	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+	/* 5 left  up   */            113, 114,  23, 116, 117, 118, 119,     
+	/* 5 right up   */        24, 121, 122, 123, 124,  25, 126, 127,     
+	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+	/* 6 left  up   */            137,  23, 139,  70,  47,  71, 143,     
+	/* 6 right up   */        24, 145,  73,  49,  74, 149,  25, 151,     
+	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+	/* 7 left  up   */             23, 162, 163, 164, 165, 166, 167,     
+	/* 7 right up   */        24, 169, 170, 171, 172, 173, 174,  25     
+			       };
+#endif
+
+#if defined(WE_ARE_EXTERN)
 	extern  checkfunction_t *checkfunctions[derbla + 1];
 #else
 /* This are the used checkingfunctions  */
@@ -2057,7 +2142,7 @@ enum {
 /*127 */	pchincheck,
 /*128 */  radialknightcheck,
 /*129 */  reversepcheck,
-/*130 */  huntercheck,
+/*130 */  roselocustcheck,
 /*131 */  huntercheck,
 /*132 */  huntercheck,
 /*133 */  huntercheck,
@@ -2066,7 +2151,169 @@ enum {
 /*136 */  huntercheck,
 /*137 */  huntercheck,
 /*138 */  huntercheck,
-/*139 */  huntercheck
+/*139 */  huntercheck,
+/*140 */  huntercheck
+    };
+#endif
+
+/* magic pieces - 
+for most types a magic piece of that type can only
+attack another unit from one direction in any given position. Therefore
+all that is needed is to see if it checks, and use the relative diff to
+calculate the vector. These types have NULL entries in the table below.
+
+More complicated types can attack from more than one direction and need 
+special functions listed below to calculate each potential direction.
+
+Unsupported types are listed below with the entry 
+__unsupported_uncalled_attackfunction
+*/
+#if defined(WE_ARE_EXTERN)
+	extern  attackfunction_t *attackfunctions[derbla + 1];
+#else
+/* This are the used checkingfunctions  */
+    attackfunction_t *attackfunctions[derbla + 1] = {
+/*  0 */        0, /* not used */
+/*  1 */        0, /* not used */
+/*  2 */        0,
+/*  3 */        0,
+/*  4 */        0,
+/*  5 */        0,
+/*  6 */        0,
+/*  7 */        0,
+/*  8 */        0,
+/*  9 */        0,
+/* 10 */        0,
+/* 11 */        0,
+/* 12 */        GetRoseAttackVectors,
+/* 13 */        0,
+/* 14 */        0,
+/* 15 */        0,
+/* 16 */        0,
+/* 17 */        0,
+/* 18 */        0,
+/* 19 */        0,
+/* 20 */        0,
+/* 21 */        0,
+/* 22 */        0,
+/* 23 */        0,
+/* 24 */        0,
+/* 25 */        0,
+/* 26 */        0,
+/* 27 */        0,
+/* 28 */        0,
+/* 29 */        0,
+/* 30 */        0,
+/* 31 */        0,
+/* 32 */        0,
+/* 33 */        0,
+/* 34 */        0,
+/* 35 */        0,
+/* 36 */        0,
+/* 37 */        GetSpiralSpringerAttackVectors,  
+/* 38 */        __unsupported_uncalled_attackfunction, /* ubiubi */
+/* 39 */        0,	
+/* 40 */        GetMooseAttackVectors,
+/* 41 */        GetEagleAttackVectors,
+/* 42 */        GetSparrowAttackVectors,
+/* 43 */        __unsupported_uncalled_attackfunction,  /* archbishop */
+/* 44 */        __unsupported_uncalled_attackfunction, /* ref B */
+/* 45 */        __unsupported_uncalled_attackfunction, /* cardinal */
+/* 46 */        0,
+/* 47 */        0,	
+/* 48 */        0,
+/* 49 */        0,
+/* 50 */        0,
+/* 51 */        0,
+/* 52 */        0,
+/* 53 */        0,
+/* 54 */        GetDiagonalSpiralSpringerAttackVectors,   
+/* 55 */        __unsupported_uncalled_attackfunction, /* bouncy knight */
+/* 56 */        0,
+/* 57 */        __unsupported_uncalled_attackfunction, /* cat */
+/* 58 */        0,
+/* 59 */        0,
+/* 60 */        0,
+/* 61 */        0,
+/* 62 */        0,               
+/* 63 */        0,
+/* 64 */        0,
+/* 65 */        __unsupported_uncalled_attackfunction,  /* orphan */
+/* 66 */        0,
+/* 67 */        0,
+/* 68 */        0,
+/* 69 */        0,
+/* 70 */        0,
+/* 71 */        0,
+/* 72 */        0,
+/* 73 */        0,
+/* 74 */        0,              
+/* 75 */        GetBoyscoutAttackVectors, /* boyscout */
+/* 76 */        GetGirlscoutAttackVectors, /* girlscout */
+/* 77 */        0, /* skylla - depends on vacant sq?? */
+/* 78 */        0, /* charybdis - depends on vacant sq?? */
+/* 79 */        0,
+/* 80 */        GetRoseLionAttackVectors,
+/* 81 */        GetRoseHopperAttackVectors,
+/* 82 */        0,
+/* 83 */        0,
+/* 84 */        0,
+/* 85 */        0,
+/* 86 */        0,
+/* 87 */        0,
+/* 88 */        0,
+/* 89 */        0,
+/* 90 */        0,
+/* 91 */        0,
+/* 92 */        0,
+/* 93 */        0,
+/* 94 */        0,
+/* 95 */        0,
+/* 96 */        0,
+/* 97 */        0,
+/* 98 */        0,              
+/* 99 */        0,               
+/*100 */        0,
+/*101 */        0,
+/*102 */        0,
+/*103 */        GetRookMooseAttackVectors,
+/*104 */        GetRookEagleAttackVectors,
+/*105 */        GetRookSparrowAttackVectors,
+/*106 */        GetBishopMooseAttackVectors,
+/*107 */        GetBishopEagleAttackVectors,
+/*108 */        GetBishopSparrowAttackVectors,
+/*109 */        GetRoseLionAttackVectors,  	/* rao checks like roselion */
+/*110 */        0,
+/*111 */        GetMargueriteAttackVectors, /* = G+M+EA+SW; magic - believe ok to treat as combination of these */
+/*112 */        0,
+/*113 */        0,
+/*114 */        0,
+/*115 */        0,  
+/*116 */        0,
+/*117 */        __unsupported_uncalled_attackfunction,    /*friend*/
+/*118 */        0,  /* dolphin - do g, g2 count as different vectors? */
+/*119 */        0,
+/*120 */        0,
+/*121 */	0,
+/*122 */	0,
+/*123 */	0,   
+/*124 */	0,      
+/*125 */	0,  
+/*126 */	0, 
+/*127 */	0,
+/*128 */  __unsupported_uncalled_attackfunction, /*radial k*/
+/*129 */  0,
+/*130 */  GetRoseLocustAttackVectors,
+/*131 */  __unsupported_uncalled_attackfunction,
+/*132 */  __unsupported_uncalled_attackfunction,
+/*133 */  __unsupported_uncalled_attackfunction,
+/*134 */  __unsupported_uncalled_attackfunction,
+/*135 */  __unsupported_uncalled_attackfunction,
+/*136 */  __unsupported_uncalled_attackfunction,
+/*137 */  __unsupported_uncalled_attackfunction,
+/*138 */  __unsupported_uncalled_attackfunction,
+/*139 */  __unsupported_uncalled_attackfunction,
+/*140 */  __unsupported_uncalled_attackfunction
     };
 #endif
 

@@ -15,6 +15,7 @@
 ** 2000/05/26 NG   not needed any more: 2 (PawnFirstRank)
 ** 2000/05/27 NG   new used: 2 (NoMemory)
 ** 2001/01/18 NG   new used: 11 (ColourChangeRestricted)
+** 2008/02/25 SE   New piece type: Magic  
 **
 **************************** End of List ******************************/ 
 #if !defined(PYMSG_H)
@@ -147,6 +148,8 @@ enum {
   DynastyAndCirceRexIncl= 110,
   DynastyAndImmun       = 111,
   TakeMakeAndFairy      = 112,
+  MagicAndFairyPieces   = 113,
+  TooManyMagic          = 114,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 };

@@ -22,6 +22,12 @@
 **
 ** 2008/02/20 SE   Bugfix: Annan 
 **
+** 2008/02/19 SE   New condition: AntiKoeko  
+**
+** 2008/02/19 SE   New piece: RoseLocust  
+**
+** 2008/02/25 SE   New piece type: Magic  
+**
 **************************** End of List ******************************/
 
 #if !defined(PYPROC_H)
@@ -48,6 +54,7 @@ void    WriteGrid(void);
 
 typedef boolean (evalfunction_t)(square departure, square arrival, square capture);
 typedef boolean (checkfunction_t)(square, piece, evalfunction_t *);
+typedef void (attackfunction_t)(square, square);
 
 checkfunction_t alfilcheck;
 checkfunction_t amazcheck;
@@ -163,6 +170,7 @@ checkfunction_t rooksparrcheck;
 checkfunction_t rosecheck;
 checkfunction_t rosehoppercheck;
 checkfunction_t roselioncheck;
+checkfunction_t roselocustcheck;
 checkfunction_t scheck;
 checkfunction_t scorpioncheck;
 checkfunction_t scorpioncheck;
@@ -226,7 +234,7 @@ boolean libre (square a, boolean b);
 boolean matant (couleur a,int b);
 boolean mate (couleur a,int b);
 void    nextply (void);
-boolean nocontact (square departure, square arrival, square capture);
+boolean nocontact (square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
 boolean nogridcontact (square a);
 boolean immobile (couleur a);
 boolean rbcircech (square departure, square arrival, square capture);
@@ -366,6 +374,7 @@ boolean is_simplehopper (piece p);
 boolean is_pawn (piece p);
 boolean is_forwardpawn (piece p);
 boolean is_reversepawn (piece p);
+boolean is_short(piece p);
 
 void    geskylla (square i, couleur camp);
 void    gecharybdis (square i, couleur camp);
@@ -441,7 +450,7 @@ boolean maooaimok(square i, square j, square pass);
 boolean echecc_normal(couleur camp);
 void gen_wh_piece_aux(square z, piece p);
 void gen_bl_piece_aux(square z, piece p);
-void change_observed(square z);
+void change_observed(square z, boolean push);
 boolean observed(square a, square b);
 boolean eval_BGL(square departure, square arrival, square capture);
 char *WriteBGLNumber(char* a, long int b);
@@ -458,7 +467,28 @@ boolean leapleapcheck(
   evalfunction_t *evaluate);
 checkfunction_t radialknightcheck;
 
-
+boolean detect_rosecheck_on_line(square sq_king,
+                                        piece p,
+                                        numvec k, numvec k1,
+                                        numvec delta_k,
+                                        evalfunction_t *evaluate);
+boolean detect_roselioncheck_on_line(square sq_king,
+                                            piece p,
+                                            numvec k, numvec k1,
+                                            numvec delta_k,
+                                            evalfunction_t *evaluate);
+boolean detect_rosehoppercheck_on_line(square sq_king,
+                                              square sq_hurdle,
+                                              piece p,
+                                              numvec k, numvec k1,
+                                              numvec delta_k,
+                                              evalfunction_t *evaluate);
+boolean detect_roselocustcheck_on_line(square sq_king,
+                                              square sq_arrival,
+                                              piece p,
+                                              numvec k, numvec k1,
+                                              numvec delta_k,
+                                              evalfunction_t *evaluate);
 void    init_move_generation_optimizer(void);
 void    finish_move_generation_optimizer(void);
 
@@ -466,6 +496,31 @@ void    finish_move_generation_optimizer(void);
 square fin_circle_line(square sq_departure,
                        numvec k1, numvec *k2, numvec delta_k);
 
+boolean eval_fromspecificsquare(square departure, square arrival, square capture);
+void PushMagicViews(void);                       
+void ChangeMagic(int ply, boolean push);
+
+attackfunction_t GetRoseAttackVectors;
+attackfunction_t GetRoseLionAttackVectors;
+attackfunction_t GetRoseHopperAttackVectors;
+attackfunction_t GetRoseLocustAttackVectors;
+attackfunction_t GetMooseAttackVectors;
+attackfunction_t GetRookMooseAttackVectors;
+attackfunction_t GetBishopMooseAttackVectors;
+attackfunction_t GetEagleAttackVectors;
+attackfunction_t GetRookEagleAttackVectors;
+attackfunction_t GetBishopEagleAttackVectors;
+attackfunction_t GetSparrowAttackVectors;
+attackfunction_t GetRookSparrowAttackVectors;
+attackfunction_t GetBishopSparrowAttackVectors;
+attackfunction_t __unsupported_uncalled_attackfunction;
+attackfunction_t GetMargueriteAttackVectors;
+attackfunction_t GetBoyscoutAttackVectors;
+attackfunction_t GetGirlscoutAttackVectors;
+attackfunction_t GetSpiralSpringerAttackVectors;
+attackfunction_t GetDiagonalSpiralSpringerAttackVectors;
+
+void ChangeColour(square sq);
 
 #if defined(_WIN32)
 void WIN32SolvingTimeOver(int *WaitTime);

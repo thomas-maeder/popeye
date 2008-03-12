@@ -40,6 +40,14 @@
 **
 ** 2008/01/24 SE   New variant: Gridlines  
 **
+** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)  
+**
+** 2008/02/19 SE   New condition: AntiKoeko  
+**
+** 2008/02/19 SE   New piece: RoseLocust  
+**
+** 2008/02/25 SE   New piece type: Magic  
+**
 **************************** End of List ******************************/
 
 #if !defined(PY_H)
@@ -292,7 +300,8 @@
 #define chinesepawnb   127
 #define radialknightb  128
 #define reversepb      129
-#define hunter0b       130
+#define roselocustb    130
+#define hunter0b       131
 #define derbla         (hunter0b+maxnrhuntertypes)
 #define roin    -2
 #define pn      -3
@@ -422,7 +431,8 @@
 #define chinesepawnn   -127  
 #define radialknightn  -128
 #define reversepn      -129
-#define hunter0n       -130
+#define roselocustn    -130
+#define hunter0n       -131
 #define dernoi         (hunter0n-maxnrhuntertypes)
 
 #define maxsquare       576
@@ -499,6 +509,11 @@ typedef struct {
 } killer_state;
 
 typedef struct {
+  square square;
+  piece pc;
+} change_rec;
+
+typedef struct {
 	square          cdzz, cazz, cpzz;
 	square          sqren;
 	piece           pjzz, ppri, ren_parrain, norm_prom, cir_prom;
@@ -523,6 +538,7 @@ typedef struct {
 	piece		sb3what;
 	square		mren;
 	boolean		osc;
+    change_rec *push_bottom, *push_top;
 } coup;
 
 #define	tabmaxcp	2048
@@ -778,7 +794,8 @@ typedef int Token;
 #define ChinesePawn    127
 #define RadialKnight   128
 #define ReversePawn    129
-#define Hunter0        130
+#define RoseLocust     130
+#define Hunter0        131
 #define PieceCount     (Hunter0+maxnrhuntertypes)
 typedef int PieNam;
 /*--- End of } PieNam;---*/
@@ -1108,7 +1125,9 @@ typedef int Opt;
 #define blvault_king           166 
 #define protean                167
 #define geneva                 168
-#define CondCount              169
+#define champursue             169
+#define antikoeko              170
+#define CondCount              171
 
 typedef int Cond;
 /*--- End of } Cond;---*/
@@ -1138,7 +1157,8 @@ typedef int Cond;
 #define HalfNeutral  10
 #define ColourChange 11
 #define Protean      12
-#define PieSpCount   13
+#define Magic        13
+#define PieSpCount   14
 typedef int PieSpec;
 /*--- End of } PieSpec;---*/
 
@@ -1179,6 +1199,8 @@ enum {
   grid_orthogonal_lines,
   grid_irregular
 };
+
+typedef boolean (*nocontactfunc_t)(square);
 
 #define DiaCirce        PieSpCount
 #define DiaRen(s)       (boardnum[((s) >> DiaCirce)])
@@ -1250,6 +1272,20 @@ enum {
   (numgridlines && CrossesGridLines((sq1), (sq2))))
 
 #define BGL_infinity 10000000 	/* this will do I expect; e.g. max len = 980 maxply < 1000 */
+#define PushMagic(sq, id1, id2, v) \
+{if (nbmagic < magicviews_size) \
+  {magicviews[nbmagic].piecesquare=(sq); \
+  magicviews[nbmagic].pieceid=(id1); \
+  magicviews[nbmagic].magicpieceid=(id2); \
+  magicviews[nbmagic++].vecnum=(v);}\
+ else {FtlMsg(5);}}
+
+#define PushChangedColour(stack, limit, sq, pie) \
+  {if ((stack) - (limit) < 0) {\
+    (stack)->square=(sq); \
+    (stack)->pc=(pie); \
+    (stack)++;}\
+  else {flag_outputmultiplecolourchanges=false;}}
 
 #if defined(_WIN32)	
 typedef struct _MEMORYSTATUS {

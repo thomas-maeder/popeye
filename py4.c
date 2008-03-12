@@ -33,6 +33,8 @@
  **
  ** 2008/02/24 SE   Bug fix: Gridchess
  **
+ ** 2008/02/19 SE   New piece: RoseLocust  
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -1093,6 +1095,17 @@ void grosehopper(square sq_departure,
   }
 }
 
+void groselocust(square sq_departure,
+                 numvec k1, numvec k2, numvec delta_k,
+                 couleur camp) {
+  square sq_capture= fin_circle_line(sq_departure,k1,&k2,delta_k);
+  if (sq_capture!=sq_departure && e[sq_capture]!=obs && rightcolor(e[sq_capture], camp)) {
+    square sq_arrival= sq_capture+vec[k1+k2];
+    if (e[sq_arrival]==vide)
+      empile(sq_departure,sq_arrival,sq_capture);
+  }
+}
+
 void ghamst(square sq_departure) {
   piece hurdle;
   numvec k;
@@ -1981,6 +1994,13 @@ void gfeerrest(square i, piece p, couleur camp) {
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       grosehopper(i, k, 0,+1, camp);
       grosehopper(i, k, vec_knight_end-vec_knight_start+1,-1, camp);
+    }
+    return;
+
+  case roselocustb:
+    for (k= vec_knight_start; k<=vec_knight_end; k++) {
+      groselocust(i, k, 0,+1, camp);
+      groselocust(i, k, vec_knight_end-vec_knight_start+1,-1, camp);
     }
     return;
 

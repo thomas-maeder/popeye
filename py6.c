@@ -52,6 +52,13 @@
  **
  ** 2008/02/20 SE   Bugfix: Annan 
  **
+ ** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)  
+ **
+ ** 2008/02/19 SE   New condition: AntiKoeko  
+ **
+ ** 2008/02/25 SE   New piece type: Magic 
+ **                 Adjusted Masand code
+ **
  ***************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -369,6 +376,9 @@ boolean verifieposition(void) {
       return VerifieMsg(TakeMakeAndFairy);
   }
 
+  flag_magic = TSTFLAG(PieSpExFlags, Magic);
+  flag_outputmultiplecolourchanges = flag_magic || CondFlag[masand];
+
   for (bnp= boardnum; *bnp; bnp++) {
     p= e[*bnp];
     if (p != vide) {
@@ -376,7 +386,7 @@ boolean verifieposition(void) {
         SETFLAG(spec[*bnp], Volage);
       }
 
-      if ((PieSpExFlags >> DiaCirce) || flagdiastip) {
+      if ((PieSpExFlags >> DiaCirce) || flagdiastip || flag_magic) {
         SetDiaRen(spec[*bnp], *bnp);
       }
       if (TSTFLAG(spec[*bnp], ColourChange)) {
@@ -387,7 +397,7 @@ boolean verifieposition(void) {
         }
       }
       /* known limitation: will print rK rather than just K as usual */
-      if (abs(e[*bnp]) == King && CondFlag[protean]) 
+      if (abs(e[*bnp]) == King && (CondFlag[protean] || flag_magic)) 
         SETFLAG(spec[*bnp], Royal);
     }
   }
@@ -411,7 +421,8 @@ boolean verifieposition(void) {
           flagleofamilyonly= false;
         flagveryfairy= true;
       }
-
+      if (flag_magic && attackfunctions[p] == __unsupported_uncalled_attackfunction)
+        return  VerifieMsg(MagicAndFairyPieces);
       if (CondFlag[einstein])
         return  VerifieMsg(EinsteinAndFairyPieces);
     }
@@ -430,7 +441,7 @@ boolean verifieposition(void) {
   flaglegalsquare=
     TSTFLAG(PieSpExFlags, Jigger)
     || CondFlag[newkoeko]
-    || CondFlag[gridchess] || CondFlag[koeko]
+    || CondFlag[gridchess] || CondFlag[koeko] || CondFlag[antikoeko]
     || CondFlag[blackedge] || CondFlag[whiteedge]
     || CondFlag[geneva];
 
@@ -583,6 +594,7 @@ boolean verifieposition(void) {
     }
     if (  (CondFlag[koeko]
            || CondFlag[newkoeko]
+           || CondFlag[antikoeko]
            || TSTFLAG(PieSpExFlags, Jigger))
           && anycirce
           && TSTFLAG(PieSpExFlags, Neutral))
@@ -619,7 +631,7 @@ boolean verifieposition(void) {
   }
 
   if ((CondFlag[supercirce] || CondFlag[april])
-      && (CondFlag[koeko] || CondFlag[newkoeko]))
+      && (CondFlag[koeko] || CondFlag[newkoeko] || CondFlag[antikoeko]))
   {
     return  VerifieMsg(SuperCirceAndOthers);
   }
@@ -771,6 +783,7 @@ boolean verifieposition(void) {
     if (CondFlag[couscous]
         || CondFlag[koeko]
         || CondFlag[newkoeko]
+        || CondFlag[antikoeko]
         || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
         || CondFlag[geneva]
         || TSTFLAG(PieSpExFlags, Kamikaze))
@@ -909,7 +922,8 @@ boolean verifieposition(void) {
     || CondFlag[extinction]
     || CondFlag[amu]
     || CondFlag[imitators]
-    || CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king];
+    || CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king]
+    || TSTFLAG(PieSpExFlags, Magic);
 
 
   change_moving_piece=
@@ -928,7 +942,8 @@ boolean verifieposition(void) {
     || CondFlag[traitor]
     || CondFlag[linechamchess]
     || CondFlag[chamchess]
-    || CondFlag[protean];
+    || CondFlag[protean]
+    || CondFlag[champursue];
 
   repgenre =
     CondFlag[sentinelles]
@@ -995,6 +1010,7 @@ boolean verifieposition(void) {
   if (TSTFLAG(PieSpExFlags, Jigger)
       || CondFlag[newkoeko]
       || CondFlag[koeko]
+      || CondFlag[antikoeko]
       || CondFlag[parrain]
       || flagwhitemummer
       || flagblackmummer
@@ -1013,7 +1029,8 @@ boolean verifieposition(void) {
       || CondFlag[antikings]
       || TSTFLAG(PieSpExFlags, HalfNeutral)
       || CondFlag[geneva]
-      || CondFlag[dynasty])
+      || CondFlag[dynasty]
+      || flag_magic)
   {
     optim_neutralretractable = optim_orthomatingmoves = false;
   }
@@ -1420,6 +1437,9 @@ void current(coup *mov) {
   mov->sb2what= sb2[nbply].what;
   mov->mren= cmren[nbcou];
   mov->osc= oscillatedKs[nbply];
+  /* following only overwritten if change stack is saved in pushtabsol */
+  /* redundant to init push_top */
+  mov->push_bottom= NULL; 
 }
 
 int alloctab(void) {
@@ -1437,6 +1457,17 @@ void pushtabsol(int n) {
     ErrorMsg(TooManySol);
   else
     current(&(tabsol.liste[tabsol.cp[n]]));
+  if (flag_outputmultiplecolourchanges)
+  {
+    change_rec *rec;
+    change_rec **sp= &tabsol.liste[tabsol.cp[n]].push_top;
+    *sp= tabsol.liste[tabsol.cp[n] - 1].push_top;
+    tabsol.liste[tabsol.cp[n]].push_bottom = *sp;
+    for (rec= colour_change_sp[nbply-1]; rec - colour_change_sp[nbply] < 0; rec++)
+    {
+      PushChangedColour(*sp, push_colour_change_stack_limit, rec->square, rec->pc)
+    }
+  }
   coupfort();
 }
 
@@ -1669,6 +1700,45 @@ void editcoup(coup *mov) {
       StdChar(hc == blanc ? WhiteChar : BlackChar);
       StdString("]");
     }
+    if (flag_outputmultiplecolourchanges)
+    {
+      if (mov->push_bottom != NULL) {
+
+        if (mov->push_top - mov->push_bottom > 0) 
+        {
+          change_rec * rec;
+          StdString(" [");
+          for (rec= mov->push_bottom; rec - mov->push_top < 0; rec++)
+          {
+              StdChar(rec->pc > vide ? WhiteChar : BlackChar);
+              WritePiece(rec->pc);
+              WriteSquare(rec->square);
+              if (mov->push_top - rec > 1)
+                  StdString(", ");
+          } 
+          StdChar(']');
+        }
+
+      } else {
+
+        if (colour_change_sp[nbply] - colour_change_sp[nbply - 1] > 0) 
+        {
+          change_rec * rec;
+          StdString(" [");
+          for (rec= colour_change_sp[nbply - 1]; rec - colour_change_sp[nbply] < 0; rec++)
+          {
+              StdChar(rec->pc > vide ? WhiteChar : BlackChar);
+              WritePiece(rec->pc);
+              WriteSquare(rec->square);
+              if (colour_change_sp[nbply] - rec > 1)
+                  StdString(", ");
+          } 
+          StdChar(']');
+        }
+
+      }
+    }
+
   } /* No castling */
 
   if (mov->numi && CondFlag[imitators]) {

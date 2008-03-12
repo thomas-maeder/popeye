@@ -15,6 +15,8 @@
  **
  ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
  **
+ ** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)  
+ **
  **************************** End of List ******************************/
 
 /**********************************************************************
@@ -407,7 +409,7 @@ int TellCommonEncodePosLeng(int len, int nbr_p) {
   if (CondFlag[duellist]) {
 	len+= 2;
   }
-  if (CondFlag[blfollow] || CondFlag[whfollow]) {
+  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue]) {
 	len++;
   }
   if (flag_synchron) {
@@ -488,7 +490,7 @@ byte *CommonEncode(byte *bp)
 	*bp++ = (byte)(whduell[nbply] - bas);
 	*bp++ = (byte)(blduell[nbply] - bas);
   }
-  if (CondFlag[blfollow] || CondFlag[whfollow]) {
+  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue]) {
 	*bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
   }
   if (flag_synchron) {
