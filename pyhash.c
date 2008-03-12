@@ -834,7 +834,7 @@ boolean shsol(couleur camp, int n, boolean restartenabled) {
   }
 
   n--;
-  if (currentStipSettings.counterMate && n == 0) {
+  if (currentStipSettings.stipulation==stip_countermate && n == 0) {
 	GenMatingMove(camp);
   }
   else {
@@ -942,7 +942,7 @@ boolean mataide(couleur camp, int n, boolean restartenabled) {
         return false;
 	}	/* keep mating ... */
 
-	if (currentStipSettings.counterMate && n == 1)
+	if (currentStipSettings.stipulation==stip_countermate && n == 1)
       GenMatingMove(camp);
 	else
       genmove(camp);

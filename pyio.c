@@ -1133,19 +1133,13 @@ static char *ParseSort(char *tok)
 }
 
 static char *ParsPartialStip(char *tok, stipSettings_t *settings) {
-  settings->doubleMate = false;
-  settings->counterMate = false;
-
   if (strstr(tok,"##!")==tok) {
-    settings->stipulation= stip_doublemate;
-    settings->doubleMate = true;
-    settings->counterMate = true;
+    settings->stipulation= stip_countermate;
     strcpy(settings->alphaEnd, " ##!");
     return tok+3;
   }
   else if (strstr(tok,"##")==tok) {
     settings->stipulation= stip_doublemate;
-    settings->doubleMate = true;
     strcpy(settings->alphaEnd, " ##");
     return tok+2;
   }

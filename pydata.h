@@ -321,6 +321,7 @@ typedef enum
   stip_steingewinn,
   stip_ep,
   stip_doublemate,
+  stip_countermate,
   stip_castling,
   stip_autostale,
   stip_circuit,
@@ -348,8 +349,6 @@ typedef struct
 {
     Stipulation stipulation;
     square targetSquare;
-    boolean doubleMate;
-    boolean counterMate;
     char alphaEnd[5];
     stipulationfunction_t checker;
 } stipSettings_t;

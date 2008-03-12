@@ -1145,10 +1145,8 @@ boolean verifieposition(void) {
       && (SortFlag(Self) || SortFlag(Direct)))
     return VerifieMsg(StipNotSupported);
 
-  if (stipSettings[nonreciprocal].stipulation == stip_doublemate
-      && (FlowFlag(Reci)
-          && stipSettings[reciprocal].counterMate
-          && stipSettings[reciprocal].stipulation == stip_doublemate))
+  if (FlowFlag(Reci)
+      && stipSettings[reciprocal].stipulation==stip_countermate)
     return VerifieMsg(StipNotSupported);
 
   /* check castling possibilities */
@@ -1921,17 +1919,14 @@ boolean last_h_move(couleur camp) {
   couleur ad= advers(camp);
   boolean flag= false;
 
-  if (currentStipSettings.doubleMate) {
-    if (currentStipSettings.counterMate) {
-      if (!stip_checkers[stip_mate](ad)) {
-        return false;
-      }
-    }
-    else {
-      if (immobile(camp)) {
-        return false;
-      }
-    }
+  if (currentStipSettings.stipulation==stip_countermate) {
+    if (!stip_checkers[stip_mate](ad))
+      return false;
+  }
+  
+  if (currentStipSettings.stipulation==stip_doublemate) {
+    if (immobile(camp))
+      return false;
   }
 
   if (!(SortFlag(Self) && SortFlag(Help))) {

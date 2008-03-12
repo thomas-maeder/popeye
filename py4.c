@@ -3187,7 +3187,7 @@ void GenMatingKing(square   sq_departure,
       }
 
     if (CondFlag[ColourCapturedPiece==White ? whiteedge : blackedge]
-        || currentStipSettings.doubleMate)
+        || currentStipSettings.stipulation==stip_doublemate)
       for (k2= vec_queen_start; k2<=vec_queen_end; k2++) {
         sq_arrival= sq_departure + vec[k2];
         if ((e[sq_arrival]==vide

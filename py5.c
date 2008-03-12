@@ -3355,6 +3355,7 @@ stipulationfunction_t const stip_checkers[nr_stipulations] = {
   &stipChecker_steingewinn,
   &stipChecker_ep,
   &stipChecker_doublemate,
+  &stipChecker_doublemate, /* for countermate */
   &stipChecker_castling,
   &stipChecker_autostale,
   &stipChecker_circuit,
