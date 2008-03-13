@@ -1,0 +1,63 @@
+beg
+
+prot magicpieces.ref
+
+stip #2
+auth Reto Aschwanden
+orig Springaren 2001
+title 1st Prize
+opt set var
+pie wh kh2 sh1 ra2 bc5 rh4
+pie wh mag ba8 pb7 sf6 qh6
+pie bl kf3 sg3f7 bb1 pe3h5
+pie bl mag pe2e6 sg1
+
+next
+
+stip #2
+auth Peter Gvozdjak
+auth Reto Aschwanden
+orig idee & form 2002
+opt try var
+rem <<< 3(K)2(Q)1/B1rP1(P)1(P)/2(p)p1s2/1R6/P1k(p)1(b)1(s)/4P1(S)1/(R)2(B)2b(b)/(b)1(S)(R)1(R)2/ NullScheme
+pie wh Ba7 Pd7 Rb5 Pa4 Pe3 
+pie bl rc7 pd6 sf6 kc4 bg2 
+pie wh mag Kd8 Qg8 Pf7 Ph7 Sg3 Ra2 Bd2 Sc1 Rd1 Rf1 
+pie bl mag pc6 pd4 bf4 sh4 bh2 ba1 
+rem >>>
+
+next
+
+stip #2
+auth Peter Gvozdjak
+auth Reto Aschwanden
+orig Pat a Mat 2007
+opt var
+rem <<< 7(B)/4P1(P)1/3Rp1s1/2r5/R1p2(Q)(p)(R)/(S)P1(P)1(P)(r)(q)/1k(B)(K)(b)1(s)1/2(S)1(R)3/ NullScheme
+pie wh Pe7 Rd6 Ra4 Pb3 
+pie bl pe6 sg6 rc5 pc4 kb2 
+pie wh mag Bh8 Pg7 Qf4 Rh4 Sa3 Pd3 Pf3 Bc2 Kd2 Sc1 Re1 
+pie bl mag pg4 rg3 qh3 be2 sg2 
+rem >>>
+twin add wh pe6
+twin cont add wh sg6
+twin cont add bl pe6
+
+next
+
+stip #2
+auth Peter Gvozdjak
+auth Reto Aschwanden
+orig Probleemblad 2003
+opt try var
+rem <<< (R)4(B)2/1(.LI)(p)1(P)p2/1sP1sPS1/.LIp5p/(.li)(k)5p/p(.li)5(.li)/(p)1(.LI)K2(.LI)b/3b4/ Lion1
+pie wh Pc6 Pf6 Sg6 LIa5 Kd2 
+pie bl pf7 sb6 se6 pb5 ph5 ph4 pa3 bh2 bd1 
+pie wh mag Ra8 Bf8 LIb7 Pe7 LIc2 LIg2 
+pie bl mag pc7 lia4 kb4 lib3 lih3 pa2 
+rem >>>
+
+
+end
+
+

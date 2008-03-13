@@ -1,0 +1,603 @@
+
+           Reto Aschwanden
+           Springaren 2001
+              1st Prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   B   .   .   .   .   .   .   .   8
+|                                   |
+7   .   P   .   .   .  -S   .   .   7
+|                                   |
+6   .   .   .   .  -P   S   .   Q   6
+|                                   |
+5   .   .   B   .   .   .   .  -P   5
+|                                   |
+4   .   .   .   .   .   .   .   R   4
+|                                   |
+3   .   .   .   .  -P  -K  -S   .   3
+|                                   |
+2   R   .   .   .  -P   .   .   K   2
+|                                   |
+1   .  -B   .   .   .   .  -S   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          9 + 9
+      Magic a8 b7 e6 f6 h6 e2 g1
+
+
+  1...mPe2-e1=mQ [wBb1, wPe3, wSg3] 
+      2.mPb7-b8=mS # 
+  1...mPe2-e1=mS 
+      2.mPb7-b8=mQ [wBb1, wSg3] # 
+  1...mPe2-e1=mR [wBb1, wPe3] 
+      2.mPb7-b8=mB [wSg3] # 
+  1...mPe2-e1=mB [wSg3] 
+      2.mPb7-b8=mR [wBb1] # 
+  1...Sg3*h1 
+      2.mPb7-b8=mQ [wBb1] # 
+      2.mPb7-b8=mR [wBb1] # 
+  1...Sf7-e5 
+      2.mSf6-d7 [bBc5, wSe5] # 
+
+  1.mQh6-g7 [wSg3, wSf7] ! threat:
+          2.Sf7-e5 # 
+      1...mPe2-e1=mQ [wBb1, wPe3, bSg3] 
+          2.mPb7-b8=mB [wSg3] # 
+      1...mPe2-e1=mS 
+          2.mPb7-b8=mR [wBb1] # 
+      1...mPe2-e1=mR [wBb1, wPe3] 
+          2.mPb7-b8=mS # 
+      1...mPe2-e1=mB [bSg3] 
+          2.mPb7-b8=mQ [wBb1, wSg3] # 
+
+  1.mQh6-g6 [wBb1, wSg3, wPh5, wSf7] ! threat:
+          2.Sf7-e5 # 
+      1...mPe2-e1=mQ [bBb1, wPe3, bSg3] 
+          2.mPb7-b8=mQ [wBb1, wSg3] # 
+      1...mPe2-e1=mS 
+          2.mPb7-b8=mS # 
+      1...mPe2-e1=mR [bBb1, wPe3] 
+          2.mPb7-b8=mR [wBb1] # 
+      1...mPe2-e1=mB [bSg3] 
+          2.mPb7-b8=mB [wSg3] # 
+
+  1.mQh6-h7 [wBb1, wSf7] ! threat:
+          2.Sf7-e5 # 
+      1...mPe2-e1=mQ [bBb1, wPe3, wSg3] 
+          2.mPb7-b8=mR [wBb1] # 
+      1...mPe2-e1=mS 
+          2.mPb7-b8=mB [wSg3] # 
+      1...mPe2-e1=mR [bBb1, wPe3] 
+          2.mPb7-b8=mQ [wBb1, wSg3] # 
+      1...mPe2-e1=mB [wSg3] 
+          2.mPb7-b8=mS # 
+      1...Sg3*h1 
+          2.mPb7-b8=mS # 
+          2.mPb7-b8=mB # 
+
+
+solution finished. 
+
+
+<<< 3(K)2(Q)1/B1rP1(P)1(P)/2(p)p1s2/1R6/P1k(p)1(b)1(s)/4P1(S)1/(R)2(B)2b(b)/(b)1(S)(R)1(R)2/ NullScheme
+>>>
+
+            Peter Gvozdjak
+           Reto Aschwanden
+           idee & form 2002
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   K   .   .   Q   .   8
+|                                   |
+7   B   .  -R   P   .   P   .   P   7
+|                                   |
+6   .   .  -P  -P   .  -S   .   .   6
+|                                   |
+5   .   R   .   .   .   .   .   .   5
+|                                   |
+4   P   .  -K  -P   .  -B   .  -S   4
+|                                   |
+3   .   .   .   .   P   .   S   .   3
+|                                   |
+2   R   .   .   B   .   .  -B  -B   2
+|                                   |
+1  -B   .   S   R   .   R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        15 + 11
+Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
+
+  1.mPf7-f8=mQ [wPd6, wSf6] + ? 
+    but
+      1...Bg2-d5  !
+
+  1.mPf7-f8=mR [wSf6] + ? 
+      1...d6-d5 [wRc7] 
+          2.Rc7*c6 # 
+    but
+      1...Bg2-d5  !
+
+  1.Rb5-c5 + ? 
+    but
+      1...d6*c5 [wRc7]  !
+
+  1.mSg3-e2 [wBg2] ? threat:
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mPd4-d3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mPd4*e3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4*e3 [wPd6, wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mBf4-g3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4-h6 [wPd6, wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mBf4-g5 [wPd6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...mSh4-f5 [bPe3, wPd6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...d6-d5=wP [wRc7] 
+          2.Rc7*c6 # 
+      1...Sf6-d5=wS 
+          2.Sd5-b6 # 
+    but
+      1...Sf6*g8  !
+
+  1.mSg3-h1 [wBg2] ? threat:
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mPd4-d3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mPd4*e3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4*e3 [wPd6, wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mBf4-g3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4-h6 [wPd6, wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mBf4-g5 [wPd6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...mSh4-f5 [bPe3, wPd6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...d6-d5=wP [wRc7] 
+          2.Rc7*c6 # 
+      1...Sf6-d5=wS 
+          2.Sd5-b6 # 
+    but
+      1...Sf6*g8  !
+
+  1.mSg3-h5 [wBg2, wSf6] ! threat:
+          2.mPf7-f8=mB [wPd6] # 
+      1...mPd4-d3 [bSf6] 
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mPd4*e3 [bSf6] 
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mBf4*e3 [wPd6, bSf6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...mBf4-g3 [bSf6] 
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mBf4-h6 [wPd6, bSf6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...mBf4-g5 [wPd6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mSh4-f5 [bPe3, wPd6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...d6-d5=wP [wRc7] 
+          2.Rc7*c6 # 
+
+  1.mSg3-f5 [wBg2, bPe3, wPd6] ? threat:
+          2.mPf7-f8=mR [wSf6] # 
+      1...mPd4-d3 [wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mBf4-h6 [bPd6] 
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mBf4-g5 [bPd6, wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4-e5 [wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mSh4*f5 [wPe3, bPd6] 
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...Sf6-d5=wS 
+          2.Sd5-b6 # 
+      1...Sf6*g8 
+          2.mPf7*g8=mB # 
+    but
+      1...e3*d2  !
+
+  1.mSg3-e4 [wBg2, wPd6, wSf6] ? threat:
+          2.mPf7-f8=mS [bPd7] # 
+      1...mPd4-d3 [bSf6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...mPd4*e3 [bSf6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...mBf4*e3 [bPd6, bSf6] 
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mBf4-g3 [bSf6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...mBf4-h6 [bPd6, bSf6] 
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mBf4-g5 [bPd6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4*d6 [bSf6, wRc7] 
+          2.mPf7-f8=mQ [wSf6] # 
+          2.mPf7-f8=mR [wSf6] # 
+      1...mSh4-f5 [bPe3, bPd6] 
+          2.mPf7-f8=mB [wPd6] # 
+    but
+      1...Rc7*d7=wR  !
+
+  1.mBd2-e1 [wBg2] ? threat:
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mPd4-d3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mPd4*e3 [wPd6, wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mBf4*e3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4*g3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4-h6 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mSh4-f5 [bPe3, wPd6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...d6-d5=wP [wRc7] 
+          2.Rc7*c6 # 
+      1...Sf6-d5=wS 
+          2.Sd5-b6 # 
+    but
+      1...Sf6*g8  !
+
+  1.mBd2-a5 [wBg2, wRc7] ? threat:
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+          2.Rc7*c6 # 
+      1...mPd4-d3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+          2.Rc7*c6 # 
+      1...mPd4*e3 [wPd6, wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+          2.Rc7*c6 # 
+          2.Bg2-d5 # 
+      1...mBf4*e3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+          2.Rc7*c6 # 
+      1...mBf4*g3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+          2.Rc7*c6 # 
+      1...mBf4-h6 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+          2.Rc7*c6 # 
+      1...mSh4-f3 
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mSh4-g6 
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mSh4-f5 [bPe3, wPd6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...mPc6-c5 
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...Sf6-d5=wS 
+          2.Rc7*c6 # 
+      1...Sf6*g8 
+          2.Rc7*c6 # 
+    but
+      1...d6-d5=wP [bRc7]  !
+
+  1.mBd2-b4 [wBg2, wPd6] ? threat:
+          2.mPf7-f8=mR [wSf6] # 
+      1...mPd4-d3 [wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mPd4*e3 [bPd6, wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4*e3 [wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mBf4*g3 [wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mBf4-h6 [wSf6] 
+          2.mPf7-f8=mS [bPd7] # 
+      1...mBf4*d6 [wSf6, wRc7] 
+          2.mPf7-f8=mS [bPd7] # 
+          2.mPf7-f8=mB # 
+      1...mSh4-f5 [bPe3, bPd6] 
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...Sf6-d5=wS 
+          2.Sd5-b6 # 
+      1...Sf6*g8 
+          2.mPf7*g8=mQ # 
+          2.mPf7*g8=mB # 
+    but
+      1...mPc6*b5 [bPa4]  !
+
+  1.mRa2-c2 + ? 
+    but
+      1...mBa1-c3  !
+
+  1.mRf1-f3 [bPe3] ? threat:
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mPd4-d3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4*g3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4-h6 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mSh4-f5 [wPe3, wPd6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...d6-d5=wP [wRc7] 
+          2.Rc7*c6 # 
+      1...Sf6-d5=wS 
+          2.Sd5-b6 # 
+    but
+      1...Sf6*g8  !
+
+  1.mRf1-f2 [wBg2] ? threat:
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mPd4-d3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mPd4*e3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4*e3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4*g3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4-h6 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mSh4-f5 [bPe3, wPd6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...d6-d5=wP [wRc7] 
+          2.Rc7*c6 # 
+      1...Sf6-d5=wS 
+          2.Sd5-b6 # 
+    but
+      1...Sf6*g8  !
+
+  1.mRf1-g1 [wBg2] ? threat:
+          2.mPf7-f8=mQ [wPd6, wSf6] # 
+      1...mPd4-d3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mPd4*e3 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4-g5 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mBf4-e5 [wSf6] 
+          2.mPf7-f8=mB [wPd6] # 
+      1...mSh4-f5 [bPe3, wPd6] 
+          2.mPf7-f8=mR [wSf6] # 
+      1...d6-d5=wP [wRc7] 
+          2.Rc7*c6 # 
+      1...Sf6-d5=wS 
+          2.Sd5-b6 # 
+    but
+      1...Sf6*g8  !
+
+
+solution finished. 
+
+
+<<< 7(B)/4P1(P)1/3Rp1s1/2r5/R1p2(Q)(p)(R)/(S)P1(P)1(P)(r)(q)/1k(B)(K)(b)1(s)1/2(S)1(R)3/ NullScheme
+>>>
+
+            Peter Gvozdjak
+           Reto Aschwanden
+            Pat a Mat 2007
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   B   8
+|                                   |
+7   .   .   .   .   P   .   P   .   7
+|                                   |
+6   .   .   .   R  -P   .  -S   .   6
+|                                   |
+5   .   .  -R   .   .   .   .   .   5
+|                                   |
+4   R   .  -P   .   .   Q  -P   R   4
+|                                   |
+3   S   P   .   P   .   P  -R  -Q   3
+|                                   |
+2   .  -K   B   K  -B   .  -S   .   2
+|                                   |
+1   .   .   S   .   R   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        15 + 10
+Magic h8 g7 f4 g4 h4 a3 d3 f3 g3 h3 c2 d2 e2 g2 c1 e1
+
+a)
+
+  1.mQf4-e3 [wRc5, wPe6] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, wSg6] 
+          2.mPg7-g8=mS [bPe7] # 
+      1...mSg2*e3 [wPc4] 
+          2.mPg7-g8=mR [wSg6] # 
+      1...mPg4*f3 [wPc4, bPe6, wSg6] 
+          2.mPg7-g8=mB [wPe6] # 
+
+  1.mQf4-g5 [wRc5, wSg6, bPe7] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, wPe6, bSg6] 
+          2.mPg7-g8=mR [wSg6] # 
+      1...mSg2-e3 [wPc4] 
+          2.mPg7-g8=mB [wPe6] # 
+      1...mPg4*f3 [wPc4, wPe6] 
+          2.mPg7-g8=mS [wPe7] # 
+
+  1.mQf4-f5 [wRc5, wPe6, wSg6] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, bPe6] 
+          2.mPg7-g8=mB [wPe6] # 
+      1...mSg2-e3 [wPc4] 
+          2.mPg7-g8=mS [bPe7] # 
+      1...mPg4*f3 [wPc4, bSg6] 
+          2.mPg7-g8=mR [wSg6] # 
+
+
+b) wPe6 
+
+  1.mQf4-e3 [wRc5, bPe6] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, wSg6] 
+          2.mPg7-g8=mB [wPe6] # 
+      1...mSg2*e3 [wPc4] 
+          2.mPg7-g8=mQ [wPe6, wSg6] # 
+      1...mPg4*f3 [wPc4, wPe6, wSg6] 
+          2.mPg7-g8=mS [bPe7] # 
+
+  1.mQf4-g5 [wRc5, wSg6, bPe7] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, bPe6, bSg6] 
+          2.mPg7-g8=mQ [wPe6, wSg6] # 
+      1...mSg2-e3 [wPc4] 
+          2.mPg7-g8=mS [wPe7] # 
+      1...mPg4*f3 [wPc4, bPe6] 
+          2.mPg7-g8=mB [wPe6] # 
+
+  1.mQf4-f5 [wRc5, bPe6, wSg6] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, wPe6] 
+          2.mPg7-g8=mS [bPe7] # 
+      1...mSg2-e3 [wPc4] 
+          2.mPg7-g8=mB [wPe6] # 
+      1...mPg4*f3 [wPc4, bSg6] 
+          2.mPg7-g8=mQ [wPe6, wSg6] # 
+
+
++c) wSg6 
+
+  1.mQf4-e3 [wRc5, bPe6] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, bSg6] 
+          2.mPg7-g8=mQ [wPe6, wSg6] # 
+      1...mSg2*e3 [wPc4] 
+          2.mPg7-g8=mB [wPe6] # 
+      1...mPg4*f3 [wPc4, wPe6, bSg6] 
+          2.mPg7-g8=mR [wSg6] # 
+
+  1.mQf4-g5 [wRc5, bSg6, bPe7] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, bPe6, wSg6] 
+          2.mPg7-g8=mB [wPe6] # 
+      1...mSg2-e3 [wPc4] 
+          2.mPg7-g8=mR [wSg6] # 
+      1...mPg4*f3 [wPc4, bPe6] 
+          2.mPg7-g8=mQ [wPe6, wSg6] # 
+
+  1.mQf4-f5 [wRc5, bPe6, bSg6] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, wPe6] 
+          2.mPg7-g8=mR [wSg6] # 
+      1...mSg2-e3 [wPc4] 
+          2.mPg7-g8=mQ [wPe6, wSg6] # 
+      1...mPg4*f3 [wPc4, wSg6] 
+          2.mPg7-g8=mB [wPe6] # 
+
+
++d) bPe6 
+
+  1.mQf4-e3 [wRc5, wPe6] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, bSg6] 
+          2.mPg7-g8=mR [wSg6] # 
+      1...mSg2*e3 [wPc4] 
+          2.mPg7-g8=mS [bPe7] # 
+      1...mPg4*f3 [wPc4, bPe6, bSg6] 
+          2.mPg7-g8=mQ [wPe6, wSg6] # 
+
+  1.mQf4-g5 [wRc5, bSg6, bPe7] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, wPe6, wSg6] 
+          2.mPg7-g8=mS [wPe7] # 
+      1...mSg2-e3 [wPc4] 
+          2.mPg7-g8=mQ [wPe6, wSg6] # 
+      1...mPg4*f3 [wPc4, wPe6] 
+          2.mPg7-g8=mR [wSg6] # 
+
+  1.mQf4-f5 [wRc5, wPe6, bSg6] ! threat:
+          2.mSa3*c4 [bRd6] # 
+      1...mBe2*d3 [wPc4, bPe6] 
+          2.mPg7-g8=mQ [wPe6, wSg6] # 
+      1...mSg2-e3 [wPc4] 
+          2.mPg7-g8=mR [wSg6] # 
+      1...mPg4*f3 [wPc4, wSg6] 
+          2.mPg7-g8=mS [bPe7] # 
+
+
+solution finished. 
+
+
+<<< (R)4(B)2/1(.LI)(p)1(P)p2/1sP1sPS1/.LIp5p/(.li)(k)5p/p(.li)5(.li)/(p)1(.LI)K2(.LI)b/3b4/ Lion1
+>>>
+
+            Peter Gvozdjak
+           Reto Aschwanden
+          Probleemblad 2003
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   R   .   .   .   .   B   .   .   8
+|                                   |
+7   .  LI  -P   .   P  -P   .   .   7
+|                                   |
+6   .  -S   P   .  -S   P   S   .   6
+|                                   |
+5  LI  -P   .   .   .   .   .  -P   5
+|                                   |
+4 -LI  -K   .   .   .   .   .  -P   4
+|                                   |
+3  -P -LI   .   .   .   .   . -LI   3
+|                                   |
+2  -P   .  LI   K   .   .  LI  -B   2
+|                                   |
+1   .   .   .  -B   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        11 + 15
+Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
+
+  1.mPe7-e8=mR [wSe6, wPf7] + ? 
+    but
+      1...Bh2-d6  !
+
+  1.LIa5-c3=bLI [bPc6] ? threat:
+          2.mRa8*a4 [wPa3] # 
+    but
+      1...Bd1*c2  !
+
+  1.mLIg2-g8 [wBh2, wSe6] ! threat:
+          2.mPe7-e8=mS [bPf6, wPf7] # 
+      1...Bd1-g4 [bSe6] 
+          2.mPe7-e8=mR [wSe6, wPf7] # 
+      1...mLIh3-c8 [bPc6] 
+          2.mPe7-e8=mB [wPc6] # 
+      1...mLIa4-g4 [bSe6] 
+          2.mPe7-e8=mR [wSe6, wPf7] # 
+      1...mLIa4-e4 [bSg6] 
+          2.mPe7-e8=mLI [wPb5, wSg6, wPf7] # 
+      1...mLIa4-c4 [bPc6, bSe6, wPf7] 
+          2.mPe7-e8=mQ [wPc6, wSe6] # 
+
+  1.mLIc2-e2 [wBd1, wBh2] ? threat:
+          2.mPe7-e8=mR [wSe6, wPf7] # 
+      1...mLIh3-c8 [bPc6] 
+          2.mPe7-e8=mQ [wPc6, wSe6] # 
+      1...mLIh3-h1 [wPh4, bPc6] 
+          2.mPe7-e8=mQ [wPc6, wSe6] # 
+      1...mLIa4-g4 [bBd1, wPh5, wSe6, bSg6] 
+          2.mPe7-e8=mLI [wPb5, wSg6, wPf7] # 
+      1...mLIa4-e4 [bPc6, wSe6] 
+          2.mPe7-e8=mB [wPc6] # 
+      1...mLIa4-c4 [wPb5, wSe6, wPf7] 
+          2.mPe7-e8=mS [bPf6, bPf7] # 
+      1...Se6-g5 [bSg6] 
+          2.mPe7-e8=mLI [wPb5, wSg6, wPf7] # 
+      1...Se6*f8 
+          2.mPe7*f8=mQ # 
+          2.mPe7*f8=mB [wPf7] # 
+    but
+      1...Se6-c5=wS  !
+
+
+solution finished. 
+
+

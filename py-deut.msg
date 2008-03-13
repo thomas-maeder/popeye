@@ -142,5 +142,5 @@
 110= KoenigsDynastie und Circe RexInklusive sind unvereinbar\n
 111= KoenigsDynastie und Immunschach sind unvereinbar\n
 112= Take&MakeSchach unvereinbar mit verschiedenen Maerchenbedingungen\n
-113= Magische Stein unvereinbar mit verschiedenen Maerchenfiguren\n
-114= Zuviele magische Berechnungen benoetigt \n
+113= Magische Steine unvereinbar mit verschiedenen Maerchenfiguren\n
+114= Zu viele magische Berechnungen benoetigt\n

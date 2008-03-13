@@ -151,7 +151,13 @@ EXTERN  pilecase        kpilca;
 EXTERN  int        maxflights;
 
 /* magic pieces */
-#define magicviews_size 10000
+enum
+{
+  magicviews_size = 10000,
+  colour_change_stack_size = 10000,
+  push_colour_change_stack_size = 2000
+};
+
 EXTERN  struct
 {
   square piecesquare;
@@ -165,9 +171,6 @@ EXTERN boolean flag_magic;
 
 /* used by masand and magic */
 EXTERN square fromspecificsquare;  
-
-#define colour_change_stack_size 10000
-#define push_colour_change_stack_size 2000
 
 #if defined(WE_ARE_EXTERN)
 EXTERN change_rec * colour_change_stack_limit;
@@ -1429,7 +1432,7 @@ EXTERN int              numgridlines;
   	/*166*/ "SchwarzerVaultingKing",
     /*167*/ "ProteischesSchach",
     /*168*/ "GenferSchach",
-    /*169*/ "ChameleonPoursuite",
+    /*169*/ "ChamaeleonVerfolgung",
     /*170*/ "AntiKoeko"
   },{
 	/* English Condition Names */
@@ -1652,7 +1655,7 @@ EXTERN unsigned int StipFlags;
       "HalbNeutral",
       "SprungbockFarbeWechselnd",
       "Proteisch",
-      "Magische"
+      "Magisch"
 	},{
       /* English */
       "White",
