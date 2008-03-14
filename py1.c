@@ -617,8 +617,7 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   square	cr;
   piece	pj, pp, pren;
   piece	pc= obs;
-  boolean	flag_castling= false;
-  square sq_castle_from, sq_castle_to;
+  square sq_castle_from=initsquare, sq_castle_to=initsquare;
 
   VARIABLE_INIT(cr);
 
@@ -722,23 +721,20 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
       {
         if (castling_supported) {
 		      if (sq_capture == kingside_castling) {
-            flag_castling= true;
             sq_castle_from = sq_arrival+dir_right;
             sq_castle_to = sq_arrival+dir_left;
 		      }
 		      else if (sq_capture == queenside_castling) {
             sq_castle_from = sq_arrival+2*dir_left;
             sq_castle_to = sq_arrival+dir_right;
-            flag_castling= true;
 		      }
         }
         else if (CondFlag[castlingchess] && sq_capture > maxsquare + bas)
         {
           sq_castle_to = (sq_arrival + sq_departure) / 2;
           sq_castle_from = sq_capture - maxsquare;
-          flag_castling= true;
         }
-        if (flag_castling)
+        if (sq_castle_from != initsquare)
         {
           e[sq_castle_to]= e[sq_castle_from];
           e[sq_castle_from]= vide;
@@ -760,7 +756,7 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
 
   e[sq_capture]= pp;
   e[sq_departure]= pj;
-  if (flag_castling) {
+  if (sq_castle_from != initsquare) {
 	  e[sq_castle_from]= e[sq_castle_to];
     e[sq_castle_to] = vide;
   }
