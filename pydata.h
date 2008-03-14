@@ -48,6 +48,8 @@
 **
 ** 2008/02/25 SE   New piece type: Magic  
 **
+** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
+**
 **************************** End of List ******************************/
 
 #if !defined(PYDATA_H)
@@ -542,6 +544,9 @@ EXTERN boolean          calc_whtrans_king, calc_bltrans_king,
                         calc_whrefl_king, calc_blrefl_king;
 EXTERN int         gridlines[112][4];
 EXTERN int              numgridlines;
+EXTERN square           rochade_sq[toppile + 1];
+EXTERN piece            rochade_pc[toppile + 1];
+EXTERN Flags            rochade_sp[toppile + 1];
 
 #if defined(WE_ARE_EXTERN)
 	extern PieTable PieNamString[LangCount];
@@ -1260,7 +1265,8 @@ EXTERN int              numgridlines;
     /*167*/ "EchecsProtee",
     /*168*/ "EchecsGeneve",
     /*169*/ "ChameleonPoursuite",
-    /*170*/ "AntiKoeko"
+    /*170*/ "AntiKoeko",
+    /*171*/ "EchecsRoque"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1433,7 +1439,8 @@ EXTERN int              numgridlines;
     /*167*/ "ProteischesSchach",
     /*168*/ "GenferSchach",
     /*169*/ "ChamaeleonVerfolgung",
-    /*170*/ "AntiKoeko"
+    /*170*/ "AntiKoeko",
+    /*171*/ "RochadeSchach"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1606,7 +1613,8 @@ EXTERN int              numgridlines;
     /*167*/ "ProteanChess",
     /*168*/ "GenevaChess",
     /*169*/ "ChameleonPursuit",
-    /*170*/ "AntiKoeko"
+    /*170*/ "AntiKoeko",
+    /*171*/ "CastlingChess"
     }
     };
 #endif

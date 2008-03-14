@@ -35,6 +35,8 @@
  **
  ** 2008/02/19 SE   New piece: RoseLocust  
  **
+ ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -2746,9 +2748,54 @@ void genrb(square sq_departure) {
               ==move_generation_stack[l2].arrival)
             move_generation_stack[l2].arrival= initsquare;
   }
+  
+  if (CondFlag[castlingchess] && !echecc(blanc)) {
+    for (k= vec_queen_end; k>= vec_queen_start; k--) {
+      square sq_passed, sq_castler, sq_arrival;  
+      piece p;
+      sq_passed= sq_departure + vec[k]; 
+      sq_arrival= sq_passed + vec[k];
+         
+      finligne(sq_departure,vec[k], p, sq_castler);
+      if (sq_castler != sq_passed && sq_castler != sq_arrival && abs(p) >= roib)
+      {
+        if (complex_castling_through_flag)  /* V3.80  SE */
+        {
+          numecoup sic_nbcou= nbcou;
+          empile (sq_departure, sq_passed, sq_passed);
+          if (nbcou > sic_nbcou)
+          {
+            boolean ok= (jouecoup() && !echecc(blanc));
+            repcoup();
+            if (ok)
+              empile(sq_departure, sq_arrival, maxsquare+sq_castler);
+          }
+        }
+        else
+        {
+          boolean checked;
+          e[sq_departure]= vide;
+          e[sq_passed]= roib;
+          rb= sq_passed;
+          checked = echecc(blanc);
+          if (!checked) {
+            empile(sq_departure, sq_arrival, maxsquare+sq_castler);
+            if (0) {
+              char buf[100];
+              sprintf(buf, "%i %i %i \n", sq_departure, sq_arrival, sq_castler);
+              StdString(buf);
+            }
+          }
+          e[sq_departure]= roib;
+          e[sq_passed]= vide;
+          rb= sq_departure;
+        }
+      }
+    }
+  }
 
   /* Now we test castling */
-  if (castling_supported)
+  else if (castling_supported)
     genrb_cast();
 }
 

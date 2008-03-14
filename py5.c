@@ -37,6 +37,8 @@
  **
  ** 2008/02/25 SE   New piece type: Magic 
  **                 Adjusted Masand code
+ ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
+ **
  **
  **************************** End of List ******************************/
 
@@ -697,8 +699,53 @@ void genrn(square sq_departure) {
             move_generation_stack[l2].arrival= initsquare;
   }
 
+  if (CondFlag[castlingchess] && !echecc(noir)) {
+    for (k= vec_queen_end; k>= vec_queen_start; k--) {
+      square sq_passed, sq_castler, sq_arrival;  
+      piece p;
+      sq_passed= sq_departure + vec[k]; 
+      sq_arrival= sq_passed + vec[k];
+         
+      finligne(sq_departure,vec[k], p, sq_castler);
+      if (sq_castler != sq_passed && sq_castler != sq_arrival && abs(p) >= roib)
+      {
+        if (complex_castling_through_flag)  /* V3.80  SE */
+        {
+          numecoup sic_nbcou= nbcou;
+          empile (sq_departure, sq_passed, sq_passed);
+          if (nbcou > sic_nbcou)
+          {
+            boolean ok= (jouecoup() && !echecc(noir));
+            repcoup();
+            if (ok)
+              empile(sq_departure, sq_arrival, maxsquare+sq_castler);
+          }
+        }
+        else
+        {
+          boolean checked;
+          e[sq_departure]= vide;
+          e[sq_passed]= roin;
+          rn= sq_passed;
+          checked = echecc(noir);
+          if (!checked) {
+            empile(sq_departure, sq_arrival, maxsquare+sq_castler);
+            if (0) {
+              char buf[100];
+              sprintf(buf, "%i %i %i \n", sq_departure, sq_arrival, sq_castler);
+              StdString(buf);
+            }
+          }
+          e[sq_departure]= roin;
+          e[sq_passed]= vide;
+          rn= sq_departure;
+        }
+      }
+    }
+  }
+
   /* Now we test castling */
-  if (castling_supported)
+  else if (castling_supported)
     genrn_cast();
 }
 
@@ -1247,6 +1294,7 @@ boolean jouecoup(void) {
     pi_hurdle;
   Flags   spec_pi_captured;
   Flags   spec_pi_moving;
+  boolean rochade=false;
 
   unsigned int prev_nbpiece[derbla];
 
@@ -1288,9 +1336,19 @@ boolean jouecoup(void) {
   sq_departure= sqdep[nbply]= move_gen_top->departure;
   sq_arrival= move_gen_top->arrival;
   sq_capture= move_gen_top->capture;
-
+  
   if (jouegenre)
   {
+    rochade_sq[nbcou]= initsquare;
+    if (sq_capture >= maxsquare + bas)
+    {
+      rochade_sq[nbcou]= sq_capture - maxsquare;
+      rochade_pc[nbcou]= e[rochade_sq[nbcou]];
+      rochade_sp[nbcou]= spec[rochade_sq[nbcou]];
+      sq_capture= sq_arrival;
+      rochade= true;
+    } 
+
     if (CondFlag[amu])
       att_1[nbply]= att_once(sq_departure);
 
@@ -1298,6 +1356,8 @@ boolean jouecoup(void) {
     {
       if (sq_capture == queenside_castling)
         joueim(+dir_right);
+      else if (rochade)
+        joueim((3*sq_arrival - sq_departure - rochade_sq[nbcou]) / 2);
       else if (sq_capture!=kingside_castling) /* joueim(0) (do nothing) if OO */
         joueim(sq_arrival-sq_departure);
     }
@@ -1457,6 +1517,15 @@ boolean jouecoup(void) {
     }
     break;
   } /* switch (sq_capture) */
+
+  if (rochade)
+  {
+     square sq_castle= (sq_departure + sq_arrival) / 2;
+     e[sq_castle] = e[rochade_sq[nbcou]];
+     spec[sq_castle] = spec[rochade_sq[nbcou]];
+     e[rochade_sq[nbcou]] = vide;
+     CLEARFL(spec[rochade_sq[nbcou]]);
+  }
 
   e[sq_departure]= CondFlag[haanerchess] ? obs : vide;
   spec[sq_departure]= 0;
@@ -2591,6 +2660,7 @@ void repcoup(void) {
   boolean next_prom = true;
   square nextsuper= initsquare;
   square sq_hurdle;
+  boolean rochade=false;
 
   move_generation_elmt* move_gen_top = move_generation_stack+nbcou;
 
@@ -2599,6 +2669,12 @@ void repcoup(void) {
   square sq_capture= move_gen_top->capture;
 
   if (jouegenre) {
+    if (sq_capture >= maxsquare + bas)
+    {
+       sq_capture= sq_arrival;
+       rochade= true;
+    }
+
     if (!BGL_whiteinfinity && (BGL_global || trait[nbply] == blanc))
     {
       BGL_white += BGL_move_diff_code[abs(sq_departure-sq_arrival)];
@@ -2853,6 +2929,8 @@ void repcoup(void) {
     {
       if (sq_capture == queenside_castling)
         joueim(+dir_left);
+      else if (rochade)
+        joueim((sq_departure + rochade_sq[nbcou] - 3*sq_arrival) / 2);
       else if (sq_capture != kingside_castling) /* joueim(0) (do nothing) if OO */
         joueim(sq_departure - sq_arrival);      /* verschoben TLi */
     }
@@ -2907,6 +2985,15 @@ void repcoup(void) {
   e[sq_departure]= pi_departing;
   spec[sq_departure] = spec_pi_moving;
   nbpiece[pi_departing]++;
+
+  if (rochade)
+  {
+     square sq_castle= (sq_departure + sq_arrival) / 2;
+     e[rochade_sq[nbcou]] = e[sq_castle];
+     spec[rochade_sq[nbcou]] = spec[sq_castle];
+     e[sq_castle] = vide;
+     CLEARFL(spec[sq_castle]);
+  }
 
   if (PatienceB) {
     ply nply;

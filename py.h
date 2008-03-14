@@ -48,6 +48,8 @@
 **
 ** 2008/02/25 SE   New piece type: Magic  
 **
+** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
+**
 **************************** End of List ******************************/
 
 #if !defined(PY_H)
@@ -539,6 +541,9 @@ typedef struct {
 	square		mren;
 	boolean		osc;
     change_rec *push_bottom, *push_top;
+    square      roch_sq;
+    piece       roch_pc;
+    Flags       roch_sp;
 } coup;
 
 #define	tabmaxcp	2048
@@ -1127,7 +1132,8 @@ typedef int Opt;
 #define geneva                 168
 #define champursue             169
 #define antikoeko              170
-#define CondCount              171
+#define castlingchess          171
+#define CondCount              172
 
 typedef int Cond;
 /*--- End of } Cond;---*/

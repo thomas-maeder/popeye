@@ -59,6 +59,8 @@
  ** 2008/02/25 SE   New piece type: Magic 
  **                 Adjusted Masand code
  **
+ ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
+ **
  ***************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -1359,6 +1361,12 @@ boolean verifieposition(void) {
   if (OptFlag[appseul])
     flag_appseul= true;
 
+  if (CondFlag[castlingchess])
+  {
+    optim_neutralretractable = optim_orthomatingmoves = false;
+    jouegenre= true;
+  }
+
 #if !defined(DATABASE)
   if (SortFlag(Proof)) {
     return ProofVerifie();
@@ -1439,7 +1447,10 @@ void current(coup *mov) {
   mov->osc= oscillatedKs[nbply];
   /* following only overwritten if change stack is saved in pushtabsol */
   /* redundant to init push_top */
-  mov->push_bottom= NULL; 
+  mov->push_bottom= NULL;
+  mov->roch_sq=rochade_sq[nbcou];
+  mov->roch_pc=rochade_pc[nbcou];
+  mov->roch_sp=rochade_sp[nbcou];
 }
 
 int alloctab(void) {
@@ -1568,7 +1579,7 @@ void editcoup(coup *mov) {
       else
         StdChar('*');
 #endif /* DATABASE */
-      if (mov->cpzz != mov->cazz) {
+      if (mov->cpzz != mov->cazz && mov->roch_sq == initsquare) {
         if (is_pawn(mov->pjzz) && !CondFlag[takemake]) {
           WriteSquare(mov->cazz);
           StdString(" ep.");
@@ -1602,6 +1613,15 @@ void editcoup(coup *mov) {
         WriteSpec(mov->new_spec, mov->speci != mov->new_spec);
         WritePiece(mov->pjazz);
       }
+    }
+
+    if (mov->roch_sq != initsquare) {
+      StdChar('/');
+      WriteSpec(mov->roch_sp, true);
+      WritePiece(mov->roch_pc);
+      WriteSquare(mov->roch_sq);
+      StdChar('-');
+      WriteSquare((mov->cdzz + mov->cazz) / 2);
     }
 
     if (mov->sqren != initsquare) {
