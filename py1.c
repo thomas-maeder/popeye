@@ -617,8 +617,8 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   square	cr;
   piece	pj, pp, pren;
   piece	pc= obs;
-  int	flag_castling= 0;
-  /* 0: NO, 1: SHORT, 2: LONG  castling */
+  boolean	flag_castling= false;
+  square sq_castle_from, sq_castle_to;
 
   VARIABLE_INIT(cr);
 
@@ -718,19 +718,33 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
       } /* anycirce && abs(pp) > roib */
 	} /* pp != vide && pp != obs */
 	else { /* no capture move */
-      if (abs(pj) == King && castling_supported) {
-		if (sq_capture == kingside_castling) {
-          flag_castling= 1;
-          e[sq_arrival+dir_left]= e[sq_arrival+dir_right];
-          e[sq_arrival+dir_right]= vide;
-		}
-		else if (sq_capture == queenside_castling) {
-          flag_castling= 2;
-          e[sq_arrival+dir_right]= e[sq_arrival+2*dir_left];
-          e[sq_arrival+2*dir_left]= vide;
-		}
+      if (abs(pj) == King)
+      {
+        if (castling_supported) {
+		      if (sq_capture == kingside_castling) {
+            flag_castling= true;
+            sq_castle_from = sq_arrival+dir_right;
+            sq_castle_to = sq_arrival+dir_left;
+		      }
+		      else if (sq_capture == queenside_castling) {
+            sq_castle_from = sq_arrival+2*dir_left;
+            sq_castle_to = sq_arrival+dir_right;
+            flag_castling= true;
+		      }
+        }
+        else if (CondFlag[castlingchess] && sq_capture > maxsquare + bas)
+        {
+          sq_castle_to = (sq_arrival + sq_departure) / 2;
+          sq_castle_from = sq_capture - maxsquare;
+          flag_castling= true;
+        }
+        if (flag_castling)
+        {
+          e[sq_castle_to]= e[sq_castle_from];
+          e[sq_castle_from]= vide;
+        }
       }
-	}
+    }
   }
 
   if (CondFlag[contactgrid]) {
@@ -746,14 +760,10 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
 
   e[sq_capture]= pp;
   e[sq_departure]= pj;
-  if (flag_castling == 1) {
-	e[sq_arrival+dir_right]= e[sq_arrival+dir_left];
-	e[sq_arrival+dir_left]= vide;
+  if (flag_castling) {
+	  e[sq_castle_from]= e[sq_castle_to];
+    e[sq_castle_to] = vide;
   }
-  else if (flag_castling == 2) {
-	e[sq_arrival+2*dir_left]= e[sq_arrival+dir_right];
-	e[sq_arrival+dir_right]= vide;
-  } 
 
   return Result;
 } /* nocontact */

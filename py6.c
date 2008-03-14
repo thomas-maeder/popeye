@@ -1364,6 +1364,7 @@ boolean verifieposition(void) {
   if (CondFlag[castlingchess])
   {
     optim_neutralretractable = optim_orthomatingmoves = false;
+    castling_supported= false;
     jouegenre= true;
   }
 

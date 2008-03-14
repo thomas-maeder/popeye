@@ -699,6 +699,10 @@ void genrn(square sq_departure) {
             move_generation_stack[l2].arrival= initsquare;
   }
 
+  /* Now we test castling */
+  if (castling_supported)
+    genrn_cast();
+
   if (CondFlag[castlingchess] && !echecc(noir)) {
     for (k= vec_queen_end; k>= vec_queen_start; k--) {
       square sq_passed, sq_castler, sq_arrival;  
@@ -743,10 +747,6 @@ void genrn(square sq_departure) {
       }
     }
   }
-
-  /* Now we test castling */
-  else if (castling_supported)
-    genrn_cast();
 }
 
 void gen_bl_ply(void) {
