@@ -2206,7 +2206,7 @@ boolean dsr_parmena(couleur camp, int n, int t) {
 
 void dsr_vari(couleur camp, int n, int par, boolean appa) {
   couleur   ad= advers(camp);
-  int  mats, mena, y, nrmena= 1, i, ntcount;
+  int  mena, y, nrmena= 1, i, ntcount;
   boolean   indikator;
 
   VARIABLE_INIT(ntcount);
@@ -2298,33 +2298,32 @@ void dsr_vari(couleur camp, int n, int par, boolean appa) {
 
   genmove(ad);
   while(encore()) {
-    if (jouecoup() && !echecc(ad) && (!nowdanstab(par))) {
+    if (jouecoup() && !echecc(ad) && !nowdanstab(par)) {
       indikator=
         appa
         ? dsr_ant(camp,n)
-        : OptFlag[noshort]
-        ? !dsr_ant(camp,n-1)
-        : nrmena < 2 || !dsr_ant(camp,nrmena-1);
+        : (OptFlag[noshort]
+           ? !dsr_ant(camp,n-1)
+           : nrmena < 2 || !dsr_ant(camp,nrmena-1));
 
       if (!SortFlag(Direct) && indikator) {
         indikator= !currentStipSettings.checker(ad);
       }
       if (indikator && dsr_parmena(camp,nrmena,mena)) {
+        boolean isRefutation = true; /* unless we prove otherwise */
         Tabulate();
         sprintf(GlobalStr,"%3d...",zugebene);
         StdString(GlobalStr);
         ecritcoup();
         StdString("\n");
         marge+= 4;
-        for (i= FlowFlag(Exact) ? n : nrmena; i <= n; i++) {
-          mats = alloctab();
-          dsr_sol (camp,i,mats, False);
+        for (i= FlowFlag(Exact) ? n : nrmena; i<=n && isRefutation; i++) {
+          int mats = alloctab();
+          dsr_sol(camp,i,mats,False);
           freetab();
-          if (tablen(mats)>0) {
-            break;
-          }
+          isRefutation = tablen(mats)==0;
         }
-        if (tablen(mats)==0) {
+        if (isRefutation) {
           marge+= 2;
           Tabulate();
           Message(Refutation);
