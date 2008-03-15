@@ -26,3 +26,6 @@ if [ -d ../BEISPIEL ]; then
 else
     echo "Please create a sibling directory to BEISPIEL and run $0 from there"
 fi
+
+echo -n "Solving examples ended at: "
+date
