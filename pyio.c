@@ -1135,111 +1135,63 @@ static char *ParseSort(char *tok)
   }
 }
 
-static char *ParsPartialStip(char *tok, stipSettings_t *settings) {
-  if (strstr(tok,"##!")==tok) {
-    settings->stipulation= stip_countermate;
-    strcpy(settings->alphaEnd, " ##!");
-    return tok+3;
-  }
-  else if (strstr(tok,"##")==tok) {
-    settings->stipulation= stip_doublemate;
-    strcpy(settings->alphaEnd, " ##");
-    return tok+2;
-  }
-  else if (strstr(tok,"#=")==tok) {
-    settings->stipulation= stip_mate_or_stale;
-    strcpy(settings->alphaEnd, " #=");
-    return tok+2;
-  }
-  else if (strstr(tok,"#")==tok) {
-    settings->stipulation= stip_mate;
-    strcpy(settings->alphaEnd, " #");
-    return tok+1;
-  }
-  else if (strstr(tok,"==")==tok) {
-    settings->stipulation= stip_dblstale;
-    strcpy(settings->alphaEnd, " ==");
-    return tok+2;
-  }
-  else if (strstr(tok,"!=")==tok) {
-    settings->stipulation= stip_autostale;
-    strcpy(settings->alphaEnd, " !=");
-    return tok+2;
-  }
-  else if (strstr(tok,"=")==tok) {
-    settings->stipulation= stip_stale;
-    strcpy(settings->alphaEnd, " =");
-    return tok+1;
-  }
-  else if (tok[0] == 'z') {
-    settings->stipulation= stip_target;
-    settings->targetSquare= SquareNum(tok[1], tok[2]);
-    if (settings->targetSquare==0) {
-      IoErrorMsg(MissngSquareList, 0);
-      return 0;
+/* map input strings to goals */
+typedef struct
+{
+    char const *inputText;
+    Stipulation goal;
+    char const *outputText;
+ } goalInputConfig_t;
+
+/* make sure that input strings that are substrings of other strings
+ * appear *after* them! */
+static goalInputConfig_t const goalInputConfig[nr_stipulations] =
+{
+  { "##!", stip_countermate,   " ##!" },
+  { "##",  stip_doublemate,    " ##"  },
+  { "#=",  stip_mate_or_stale, " #="  },
+  { "#",   stip_mate,          " #"   },
+  { "==",  stip_dblstale,      " =="  },
+  { "!=",  stip_autostale,     " !="  },
+  { "=",   stip_stale,         " ="   },
+  { "z",   stip_target,        " z"   },
+  { "+",   stip_check,         " +"   },
+  { "x",   stip_capture,       " x"   },
+  { "%",   stip_steingewinn,   " %"   },
+  { "ep",  stip_ep,            ""     },
+  { "ctr", stip_circuitB,      ""     },
+  { "ct",  stip_circuit,       ""     },
+  { "<>r", stip_exchangeB,     ""     },
+  { "<>",  stip_exchange,      ""     },
+  { "00",  stip_castling,      ""     },
+  { "~",   stip_any,           ""     }
+};
+
+static char *ParsPartialGoal(char *tok, stipSettings_t *settings) {
+  goalInputConfig_t const *gic;
+  for (gic = goalInputConfig; gic!=goalInputConfig+nr_stipulations; ++gic)
+    if (strstr(tok,gic->inputText)==tok) {
+      settings->stipulation = gic->goal;
+      strcpy(settings->alphaEnd,gic->outputText);
+
+      if (gic->goal==stip_target) {
+        settings->targetSquare= SquareNum(tok[1],tok[2]);
+        if (settings->targetSquare==0) {
+          IoErrorMsg(MissngSquareList, 0);
+          return 0;
+        }
+        else
+          return tok+3;
+      }
+      else
+        return tok+strlen(gic->inputText);
     }
-    else {
-      strcpy(settings->alphaEnd, " z");
-      return tok+3;
-    }
-  }
-  else if (strstr(tok,"+")==tok) {
-    settings->stipulation= stip_check;
-    strcpy(settings->alphaEnd, " +");
-    return tok+1;
-  }
-  else if (strstr(tok,"x")==tok) {
-    settings->stipulation= stip_capture;
-    strcpy(settings->alphaEnd, " x");
-    return tok+1;
-  }
-  else if (strstr(tok,"%")==tok) {
-    settings->stipulation= stip_steingewinn;
-    strcpy(settings->alphaEnd, " %");
-    return tok+1;
-  }
-  else if (strstr(tok,"ep")==tok) {
-    settings->stipulation= stip_ep;
-    strcpy(settings->alphaEnd, "");
-    return tok+2;
-  }
-  else if (strstr(tok,"ctr")==tok) {
-    settings->stipulation= stip_circuitB;
-    strcpy(settings->alphaEnd, "");
-    return tok+3;
-  }
-  else if (strstr(tok,"<>r")==tok) {
-    settings->stipulation= stip_exchangeB;
-    strcpy(settings->alphaEnd, "");
-    return tok+3;
-  }
-  else if (strstr(tok,"ct")==tok) {
-    settings->stipulation= stip_circuit;
-    strcpy(settings->alphaEnd, "");
-    return tok+2;
-  }
-  else if (strstr(tok,"<>")==tok) {
-    settings->stipulation= stip_exchange;
-    strcpy(settings->alphaEnd, "");
-    return tok+2;
-  }
-  else if (strstr(tok,"00")==tok) {
-    settings->stipulation= stip_castling;
-    strcpy(settings->alphaEnd, "");
-    return tok+2;
-  }
-  else if (strstr(tok,"~")==tok) {
-    settings->stipulation= stip_any;
-    strcpy(settings->alphaEnd, "");
-    return tok+1;
-  }
-  else {
-    IoErrorMsg(UnrecStip, 0);
-    return 0;
-  }
+
+  IoErrorMsg(UnrecStip, 0);
+  return 0;
 }
 
-static char *ParsStips(char *tok) {
+static char *ParseGoal(char *tok) {
   if (SortFlag(Proof))
     return tok;
 
@@ -1247,17 +1199,23 @@ static char *ParsStips(char *tok) {
 
   /* test for reciprocal help play with different ends for Black and
    * White; e.g. reci-h(=)#3 */
-  if (FlowFlag(Reci) && *tok == '(' && strchr(tok, ')')) {
-    ++tok; /* skip over '(' */
-    tok = ParsPartialStip(tok,&stipSettings[reciprocal]);
-    if (tok==0)
-      return 0;
-    else
-      ++tok; /* skip over ')' */
+  if (FlowFlag(Reci) && *tok == '(') {
+    char const *closingParenPos = strchr(tok,')');
+    if (closingParenPos!=0) {
+      tok = ParsPartialGoal(tok+1,&stipSettings[reciprocal]);
+      if (tok==0)
+        return 0;
+      else if (tok==closingParenPos)
+        ++tok;
+      else {
+        IoErrorMsg(UnrecStip, 0);
+        return 0;
+      }
+    }
   }
 
-  return ParsPartialStip(tok,&stipSettings[nonreciprocal]);
-} /* ParsStips */
+  return ParsPartialGoal(tok,&stipSettings[nonreciprocal]);
+}
 
 static char *ParseStip(void) {
   char *tok;
@@ -1265,7 +1223,7 @@ static char *ParseStip(void) {
   StipFlags= 0;
   tok= ReadNextTokStr();
   strcpy(AlphaStip,tok);
-  tok= ParsStips(ParseSort(ParseFlow(tok)));
+  tok= ParseGoal(ParseSort(ParseFlow(tok)));
   if (tok) {
     /* set defaults */
     currentStipSettings = stipSettings[nonreciprocal];
