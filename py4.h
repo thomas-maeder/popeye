@@ -11,29 +11,29 @@
 #if !defined(PY4_H)
 #define	PY4_H
 
-unsigned int len_max (square departure, square arrival, square capture);
+int len_max (square departure, square arrival, square capture);
 	/* determines move length for maximummers */
-unsigned int len_min (square departure, square arrival, square capture);
+int len_min (square departure, square arrival, square capture);
 	/* determines move length for minimummer */
-unsigned int len_capt (square departure, square arrival, square capture);
+int len_capt (square departure, square arrival, square capture);
 	/* determines "move length" for must capture */
-unsigned int len_follow (square departure, square arrival, square capture);
+int len_follow (square departure, square arrival, square capture);
 	/* determines "move length" for  follow my leader */
-unsigned int len_whduell (square departure, square arrival, square capture);
+int len_whduell (square departure, square arrival, square capture);
 	/* determines "length" of white moves in duellist chess */
-unsigned int len_blduell (square departure, square arrival, square capture);
+int len_blduell (square departure, square arrival, square capture);
 	/* determines "length" of black moves in duellist chess */
-unsigned int len_check (square departure, square arrival, square capture);
+int len_check (square departure, square arrival, square capture);
 	/* determines "length" of moves in SchachZwang */
-unsigned int len_direct (square departure, square arrival, square capture);
+int len_direct (square departure, square arrival, square capture);
 	/* determines "length" of moves in direct reflex */
-unsigned int len_alphabetic (square departure, square arrival, square capture);
+int len_alphabetic (square departure, square arrival, square capture);
 	/* determines "length" of moves in alphabetic chess */
-unsigned int len_synchron(square departure, square arrival, square capture);
+int len_synchron(square departure, square arrival, square capture);
   /* determines "length" of moves in synchron chess */
-unsigned int len_antisynchron(square departure, square arrival, square capture);
+int len_antisynchron(square departure, square arrival, square capture);
   /* determines "length" of moves in antisynchron chess */
-unsigned int len_schwarzschacher (square i, square j, square cab);
+int len_schwarzschacher (square i, square j, square cab);
 	/* determines "length" of moves in schwarzschacher chess */
 
 boolean empile(square departure, square arrival, square capture);

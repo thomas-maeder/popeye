@@ -405,7 +405,7 @@ EXTERN stipSettings_t currentStipSettings;
 
 extern stipulationfunction_t const stip_checkers[nr_stipulations];
 
-EXTERN  unsigned int   (* white_length)(square departure, square arrival, square capture),
+EXTERN  int   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);
 
 typedef square  (* renaifunc)(piece, Flags, square, square, square, couleur);
