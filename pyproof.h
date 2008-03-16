@@ -9,10 +9,9 @@
 #if !defined(_PYPROOF_H)
 #define _PYPROOF_H
 
-#include "pyhash.h"
+union HashBuffer;
 
-BCMemValue *ProofEncode(hashwhat what);
-void    ProofInitilise(void);
+void ProofEncode(HashBuffer *);
 boolean ProofSol(couleur camp, int n, boolean restartenabled);
 boolean SeriesProofSol(int n, boolean restartenabled);
 void    ProofInitialiseKingMoves(square ProofRB, square ProofRN);

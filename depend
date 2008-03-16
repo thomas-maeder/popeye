@@ -61,7 +61,8 @@ py4.h:
 pydata.h:
 
 pymsg.h:
-py5$(OBJ_SUFFIX): py5.c py.h pylang.h pyproc.h py4.h pyhash.h pydata.h pymsg.h
+py5$(OBJ_SUFFIX): py5.c py.h pylang.h pyproc.h py4.h pyhash.h DHT/dhtbcmem.h \
+  pydata.h pymsg.h
 
 py.h:
 
@@ -73,11 +74,13 @@ py4.h:
 
 pyhash.h:
 
+DHT/dhtbcmem.h:
+
 pydata.h:
 
 pymsg.h:
 py6$(OBJ_SUFFIX): py6.c py.h pylang.h py1.h pyproc.h py4.h pydata.h pymsg.h pyhash.h \
-  pyint.h DHT/dhtbcmem.h pyproof.h
+  DHT/dhtbcmem.h pyint.h pyproof.h
 
 py.h:
 
@@ -95,9 +98,9 @@ pymsg.h:
 
 pyhash.h:
 
-pyint.h:
-
 DHT/dhtbcmem.h:
+
+pyint.h:
 
 pyproof.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h
@@ -138,7 +141,7 @@ pylang$(OBJ_SUFFIX): pylang.c pylang.h
 
 pylang.h:
 pyhash$(OBJ_SUFFIX): pyhash.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h pyhash.h \
-  pyint.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h DHT/dhtbcmem.h pyproof.h
+  DHT/dhtbcmem.h pyint.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pyproof.h
 
 py.h:
 
@@ -154,6 +157,8 @@ pymsg.h:
 
 pyhash.h:
 
+DHT/dhtbcmem.h:
+
 pyint.h:
 
 DHT/dhtvalue.h:
@@ -161,8 +166,6 @@ DHT/dhtvalue.h:
 DHT/fxf.h:
 
 DHT/dht.h:
-
-DHT/dhtbcmem.h:
 
 pyproof.h:
 pyproof$(OBJ_SUFFIX): pyproof.c py.h pylang.h pyproc.h py4.h pydata.h pyhash.h \
@@ -186,7 +189,7 @@ pyproof.h:
 
 pymsg.h:
 pysignal$(OBJ_SUFFIX): pysignal.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h \
-  pyhash.h
+  pyhash.h DHT/dhtbcmem.h
 
 py.h:
 
@@ -201,8 +204,10 @@ pydata.h:
 pymsg.h:
 
 pyhash.h:
-pyint$(OBJ_SUFFIX): pyint.c py.h pylang.h pyproc.h py4.h pyhash.h pymsg.h pyint.h \
-  pydata.h
+
+DHT/dhtbcmem.h:
+pyint$(OBJ_SUFFIX): pyint.c py.h pylang.h pyproc.h py4.h pyhash.h DHT/dhtbcmem.h \
+  pymsg.h pyint.h pydata.h
 
 py.h:
 
@@ -213,6 +218,8 @@ pyproc.h:
 py4.h:
 
 pyhash.h:
+
+DHT/dhtbcmem.h:
 
 pymsg.h:
 

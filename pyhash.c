@@ -96,7 +96,6 @@
 #include "pyint.h"
 #include "DHT/dhtvalue.h"
 #include "DHT/dht.h"
-#include "DHT/dhtbcmem.h"
 #include "pyproof.h"
 
 typedef unsigned long   uLong;
@@ -146,8 +145,7 @@ static unsigned long use_pos, use_all;
 **          val2 = WhDirNoSucc
 */
 
-static  byte        buffer[256];
-static  BCMemValue* (*encode)(hashwhat what);
+void (*encode)(HashBuffer*);
 
 int value_of_data(uLong Data)
 {
@@ -389,7 +387,6 @@ void HashStats(int level, char *trailer) {
 int TellCommonEncodePosLeng(int len, int nbr_p) {
   int i;
 
-  len++; /* what */
   len++; /* Castling_Flag */
   if (CondFlag[haanerchess]) {
     /*
@@ -474,11 +471,9 @@ int TellSmallEncodePosLeng(void) {
   return TellCommonEncodePosLeng(len, nbr_p);
 } /* TellSmallEncodePosLeng */
 
-byte *CommonEncode(hashwhat what, byte *bp)
+byte *CommonEncode(byte *bp)
 {
   int i;
-
-  *bp++ = (byte)what;
 
   if (CondFlag[messigny]) {
     if (move_generation_stack[nbcou].capture == messigny_exchange) {
@@ -546,14 +541,12 @@ byte *CommonEncode(hashwhat what, byte *bp)
   return bp;
 } /* CommonEncode */
 
-BCMemValue *LargeEncode(hashwhat what) {
+void LargeEncode(HashBuffer *hb) {
   byte  *bp, *position;
   int       row, col;
   square    bnp;
-  BCMemValue    *bcm;
 
-  bcm= (BCMemValue *)buffer;
-  position= bp= bcm->Data;
+  position= bp= hb->cmv.Data;
   /* clear the bits for storing the position of pieces */
   memset(position, 0, 8);
   bp= position+8;
@@ -584,21 +577,18 @@ BCMemValue *LargeEncode(hashwhat what) {
     }
   }
   /* Now the rest of the party */
-  bp= CommonEncode(what,bp);
+  bp= CommonEncode(bp);
 
-  bcm->Leng= bp - bcm->Data;
-  return bcm;
+  hb->cmv.Leng= bp - hb->cmv.Data;
 } /* LargeEncode */
 
-BCMemValue *SmallEncode(hashwhat what)
+void SmallEncode(HashBuffer *hb)
 {
   byte  *bp;
   int       i, row, col;
   square    bnp;
-  BCMemValue    *bcm;
 
-  bcm= (BCMemValue *)buffer;
-  bp= bcm->Data;
+  bp= hb->cmv.Data;
   bnp= bas;
   for (row=0; row<8; row++, bnp+= 16) {
     for (col=0; col<8; col++, bnp++) {
@@ -624,16 +614,14 @@ BCMemValue *SmallEncode(hashwhat what)
     }
   }
   /* Now the rest of the party */
-  bp= CommonEncode(what,bp);
+  bp= CommonEncode(bp);
 
-  bcm->Leng= bp - bcm->Data;
-  return bcm;
+  hb->cmv.Leng= bp - hb->cmv.Data;
 } /* SmallEncode */
 
-boolean inhash(hashwhat what, int val)
+boolean inhash(hashwhat what, int val, HashBuffer *hb)
 {
-  BCMemValue *cmv= (*encode)(what);
-  dhtElement *he= dhtLookupElement(pyhash, (dhtValue)cmv);
+  dhtElement *he= dhtLookupElement(pyhash, (dhtValue)hb);
 
   ifHASHRATE(use_all++);
 
@@ -686,16 +674,14 @@ boolean inhash(hashwhat what, int val)
   return False; /* avoid compiler warning */
 } /* inhash */
 
-void addtohash(hashwhat what, int val)
+void addtohash(hashwhat what, int val, HashBuffer *hb)
 {
   int   hv_1=0, hv_2=0;
 
-  BCMemValue    *cmv;
   unsigned long dat;
   dhtElement    *he;
 
-  cmv= (*encode)(what);
-  he= dhtLookupElement(pyhash, (dhtValue)cmv);
+  he= dhtLookupElement(pyhash, (dhtValue)hb);
 
   if (he == dhtNilElement) { /* the position is new */
     switch (what) {
@@ -712,10 +698,10 @@ void addtohash(hashwhat what, int val)
       break;
     }
     dat= MakeHashData(hv_1, hv_2);
-    he= dhtEnterElement(pyhash, (dhtValue)cmv, (dhtValue)dat);
+    he= dhtEnterElement(pyhash, (dhtValue)hb, (dhtValue)dat);
     if (he==dhtNilElement || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
       compresshash();
-      he= dhtEnterElement(pyhash, (dhtValue)cmv, (dhtValue)dat);
+      he= dhtEnterElement(pyhash, (dhtValue)hb, (dhtValue)dat);
       if (he==dhtNilElement
           || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
 #if defined(FXF)
@@ -723,7 +709,7 @@ void addtohash(hashwhat what, int val)
           printf("make new hashtable, due to trashing\n"));
         inithash();
         he= dhtEnterElement(pyhash,
-                            (dhtValue)cmv, (dhtValue)dat);
+                            (dhtValue)hb, (dhtValue)dat);
         if (he==dhtNilElement
             || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
           fprintf(stderr,
@@ -808,16 +794,20 @@ boolean introseries(couleur camp, int n, boolean restartenabled) {
     /* generate a single move */
     genmove(camp);
     while (encore()) {
-      if (   jouecoup()
-             && !echecc(camp)
-             && !(restartenabled && MoveNbr < RestartNbr)
-             && !inhash(IntroSerNoSucc, n))
+      if (jouecoup()
+          && !echecc(camp)
+          && !(restartenabled && MoveNbr < RestartNbr))
       {
-        if (introseries(camp, n-1, False)) {
-          flag2= true;
-        }
-        else {
-          addtohash(IntroSerNoSucc, n);
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(IntroSerNoSucc, n, &hb))
+        {
+          if (introseries(camp, n-1, False)) {
+            flag2= true;
+          }
+          else {
+            addtohash(IntroSerNoSucc, n, &hb);
+          }
         }
       }
       if (restartenabled) {
@@ -867,13 +857,15 @@ boolean shsol(couleur camp, int n, boolean restartenabled) {
         && !echecc(camp)
         && !(restartenabled && MoveNbr < RestartNbr))
     {
-      if (n) {
+      if (n>0) {
         if (!echecc(ad)) {
-          if (!inhash(SerNoSucc, n+1)) {
+          HashBuffer hb;
+          (*encode)(&hb);
+          if (!inhash(SerNoSucc,n+1,&hb)) {
             if (shsol(camp, n, False))
               flag= true;
             else
-              addtohash(SerNoSucc, n+1);
+              addtohash(SerNoSucc,n+1,&hb);
           }
         }
       }
@@ -882,14 +874,16 @@ boolean shsol(couleur camp, int n, boolean restartenabled) {
           /* The following inquiry into the hash tables yields
           ** a significant speed up.
           */
-          if (FlowFlag(Reci) || !inhash(SerNoSucc, 1)) {
+          HashBuffer hb;
+          (*encode)(&hb);
+          if (FlowFlag(Reci) || !inhash(SerNoSucc,1,&hb)) {
             if (last_h_move(ad)) {
               flag= true;
               PrintReciSolution = True;
             }
             else {
               if (!FlowFlag(Reci))
-                addtohash(SerNoSucc, 1);
+                addtohash(SerNoSucc,1,&hb);
             }
           }
         }
@@ -926,13 +920,17 @@ boolean shsol(couleur camp, int n, boolean restartenabled) {
 
 boolean mataide(couleur camp, int n, boolean restartenabled) {
   boolean flag= false;
+  HashBuffer hb;
+  boolean const dohash = flag_hashall || n > 1;
 
   /* Let us check whether the position is already in the
   ** hash table and marked unsolvable.
   */
-  if ((flag_hashall || n > 1) &&
-      inhash((camp == blanc) ? WhHelpNoSucc : BlHelpNoSucc, n))
-    return false;
+  if (dohash) {
+    (*encode)(&hb);
+    if (inhash((camp == blanc) ? WhHelpNoSucc : BlHelpNoSucc, n, &hb))
+      return false;
+  }
 
   if (--n) {
     couleur ad= advers(camp);
@@ -995,9 +993,10 @@ boolean mataide(couleur camp, int n, boolean restartenabled) {
   } else {   /* n == 0 */
     flag= last_h_move(camp);
   }
+
   /* Add the position to the hash table if it has no solutions */
-  if (!flag && (flag_hashall || n > 0))
-    addtohash(camp == blanc ? WhHelpNoSucc : BlHelpNoSucc, n+1);
+  if (!flag && dohash)
+    addtohash(camp == blanc ? WhHelpNoSucc : BlHelpNoSucc, n+1, &hb);
 
   return flag;
 } /* mataide */
@@ -1049,11 +1048,13 @@ boolean ser_dsrsol(couleur camp, int n, boolean restartenabled)
           && !echecc(camp)
           && !echecc(ad) &&
           !(restartenabled && MoveNbr < RestartNbr)) {
-        if (!inhash(SerNoSucc, n)) {
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(SerNoSucc, n, &hb)) {
           if (ser_dsrsol(camp,n, False))
             flag= true;
           else
-            addtohash(SerNoSucc, n);
+            addtohash(SerNoSucc, n, &hb);
         }
       }
       if (restartenabled)
@@ -1197,26 +1198,6 @@ void    closehash(void)
 
 } /* closehash */
 
-#if defined(NODEF)  /* This functions is not used any longer.        */
-/* Since when? TLi */
-boolean hashdefense(couleur camp, int n) {
-  boolean flag = true;
-
-  /* generate a ply */
-  genmove(camp);
-  while (flag && encore()) {
-    /* search for the position in the hash table */
-    if (jouecoup() && inhash(WhDirNoSucc, n))
-      /* found and marked unsolvable */
-      flag = false;
-    repcoup();
-  }
-  finply();
-
-  return !flag;
-} /* hashdefense */
-#endif
-
 boolean mate(couleur camp, int n) {
   /* returns true if camp can defend against a mate in n */
   boolean flag= true, pat= true;
@@ -1328,17 +1309,20 @@ boolean matant(couleur camp, int n)
   int i;
   boolean flag= false;
   couleur ad= advers(camp);
+  HashBuffer hb;
+  boolean const dohash = (n > (FlagMoveOrientatedStip ? 1 : 0)
+                          && !SortFlag(Self) && !FlowFlag(Reci));
 
   /* Let's first have a look in the hash_table */
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to
   ** compute a "mate" in 1. TLi */
-  if (n > (FlagMoveOrientatedStip ? 1 : 0)
-      && !SortFlag(Self) && !FlowFlag(Reci)) {
+  if (dohash) {
     /* It is more likely that a position has no solution.           */
     /* Therefore let's check for "no solution" first.  TLi */
-    if (inhash(WhDirNoSucc, n))
+    (*encode)(&hb);
+    if (inhash(WhDirNoSucc, n, &hb))
       return false;
-    if (inhash(WhDirSucc, n))
+    if (inhash(WhDirSucc, n, &hb))
       return true;
   }
 
@@ -1377,12 +1361,13 @@ boolean matant(couleur camp, int n)
     finply();
   }
 
+  ++n;
+
   /* store the results in the hashtable */
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to
   ** compute a "mate" in 1. TLi */
-  if (++n > (FlagMoveOrientatedStip ? 1 : 0)
-      && !SortFlag(Self) && !FlowFlag(Reci))
-    addtohash(flag ? WhDirSucc : WhDirNoSucc, n);
+  if (dohash)
+    addtohash(flag ? WhDirSucc : WhDirNoSucc, n, &hb);
 
   return flag;
 } /* matant */
@@ -1392,20 +1377,29 @@ boolean invref(couleur  camp, int n) {
   boolean result= false;
   couleur ad= advers(camp);
   int i;
+  HashBuffer hb;
+  boolean const dohash = n > (FlagMoveOrientatedStip ? 1 : 0);
 
-  /* It is more likely that a position has no solution.           */
-  /* Therefore let's check for "no solution" first. TLi */
-  if (inhash(WhDirNoSucc,n)) {
-    assert(!inhash(WhDirSucc,n));
-    return false;
+  if (dohash)
+  {
+    /* It is more likely that a position has no solution.           */
+    /* Therefore let's check for "no solution" first. TLi */
+    (*encode)(&hb);
+    if (inhash(WhDirNoSucc,n,&hb)) {
+      assert(!inhash(WhDirSucc,n,&hb));
+      return false;
+    }
+    if (inhash(WhDirSucc,n,&hb))
+      return true;
   }
-  if (inhash(WhDirSucc,n))
-    return true;
 
   if (!FlowFlag(Exact))
     if (currentStipSettings.checker(ad)) {
-      addtohash(WhDirSucc, n);
-      assert(!inhash(WhDirNoSucc,n));
+      if (dohash)
+      {
+        addtohash(WhDirSucc, n, &hb);
+        assert(!inhash(WhDirNoSucc,n,&hb));
+      }
       return true;
     }
 
@@ -1418,9 +1412,10 @@ boolean invref(couleur  camp, int n) {
     genmove(camp);
     while ((!result && encore())) {
       if (jouecoup()) {
-        result= !echecc(camp) && (!definvref(ad,i)||
-                                  (OptFlag[quodlibet]
-                                   && currentStipSettings.checker(camp)));
+        result= (!echecc(camp)
+                 && (!definvref(ad,i)
+                     || (OptFlag[quodlibet]
+                         && currentStipSettings.checker(camp))));
         if (result)
           coupfort();
       }
@@ -1431,7 +1426,8 @@ boolean invref(couleur  camp, int n) {
     finply();
   }
 
-  addtohash(result ? WhDirSucc : WhDirNoSucc, n);
+  if (dohash)
+    addtohash(result ? WhDirSucc : WhDirNoSucc, n, &hb);
 
   return result;
 } /* invref */

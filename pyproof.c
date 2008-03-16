@@ -32,7 +32,6 @@ static piece ProofPieces[32];
 static square ProofSquares[32];
 static int ProofNbrAllPieces;
 echiquier ProofBoard, PosA;
-static	byte buffer[256];
 square Proof_rb, Proof_rn, rbA, rnA;
 Flags ProofSpec[64], SpecA[64];
 static imarr Proof_isquare;
@@ -76,17 +75,16 @@ boolean ProofVerifie(void) {
   return true;
 } /* ProofVerifie */
 
-BCMemValue *ProofEncode(hashwhat what) {
+void ProofEncode(HashBuffer *hb)
+{
   byte	*bp, *position, pieces;
   int		row, col;
   square	bnp;
-  BCMemValue	*bcm;
   boolean even= False;
 
   VARIABLE_INIT(pieces);
 
-  bcm= (BCMemValue *)buffer;
-  position= bp= bcm->Data;
+  position= bp= hb->cmv.Data;
   /* clear the bits for storing the position of pieces */
   memset(position, 0, 8);
   bp= position+8;
@@ -123,8 +121,7 @@ BCMemValue *ProofEncode(hashwhat what) {
 	*bp++ = (byte)(ep[nbply] - bas);
   }
 
-  bcm->Leng= bp - bcm->Data;
-  return bcm;
+  hb->cmv.Leng= bp - hb->cmv.Data;
 }
 
 int proofwkm[haut+25-(bas-25)+1];
@@ -1691,6 +1688,7 @@ boolean ProofSeriesImpossible(int MovesAvailable) {
 boolean ProofSol(couleur camp, int n, boolean restartenabled) {
   boolean	flag= false;
   couleur	ad= advers(camp);
+  HashBuffer hb;
 
   if ((OptFlag[maxsols] && (solutions >= maxsolutions))
       || FlagTimeOut)
@@ -1701,7 +1699,8 @@ boolean ProofSol(couleur camp, int n, boolean restartenabled) {
   /* Let us check whether the position is already in the
      hash table and marked unsolvable.
   */
-  if (inhash(camp == blanc ? WhHelpNoSucc : BlHelpNoSucc, n)) {
+  (*encode)(&hb);
+  if (inhash(camp == blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb)) {
 	return false;
   }
 
@@ -1731,7 +1730,7 @@ boolean ProofSol(couleur camp, int n, boolean restartenabled) {
 
   /* Add the position to the hash table if it has no solutions */
   if (!flag) {
-	addtohash(camp == blanc ? WhHelpNoSucc : BlHelpNoSucc, n);
+	addtohash(camp == blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb);
   }
 
   return flag;
@@ -1740,6 +1739,7 @@ boolean ProofSol(couleur camp, int n, boolean restartenabled) {
 boolean SeriesProofSol(int n, boolean restartenabled) {
   /* no camp, because we play always with white ! */
   boolean flag= false;
+  HashBuffer hb;
 
   if ((OptFlag[maxsols] && (solutions >= maxsolutions))
       || FlagTimeOut)
@@ -1750,7 +1750,8 @@ boolean SeriesProofSol(int n, boolean restartenabled) {
   /* Let us check whether the position is already in the
      hash table and marked unsolvable.
   */
-  if (inhash(SerNoSucc, n)) {
+  (*encode)(&hb);
+  if (inhash(SerNoSucc, n, &hb)) {
 	return false;
   }
 
@@ -1780,7 +1781,7 @@ boolean SeriesProofSol(int n, boolean restartenabled) {
 
   /* Add the position to the hash table if it has no solutions */
   if (!flag) {
-	addtohash(SerNoSucc, n+1);
+	addtohash(SerNoSucc, n+1, &hb);
   }
 
   return flag;
