@@ -1677,7 +1677,7 @@ static char *ParseVariant(boolean *type, VariantGroup group) {
       continue;
     }
     else {
-      IoErrorMsg(NonsenseCombination,0);
+      return tok;
     }
     tok= ReadNextTokStr();
   } while (group==gpSentinelles || group==gpGrid);
