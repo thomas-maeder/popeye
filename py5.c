@@ -1525,6 +1525,10 @@ boolean jouecoup(void) {
      spec[sq_castle] = spec[rochade_sq[nbcou]];
      e[rochade_sq[nbcou]] = vide;
      CLEARFL(spec[rochade_sq[nbcou]]);
+     if (rn == rochade_sq[nbcou])
+       rn= sq_castle;
+     if (rb == rochade_sq[nbcou])
+       rb= sq_castle;
   }
 
   e[sq_departure]= CondFlag[haanerchess] ? obs : vide;
@@ -2992,6 +2996,10 @@ void repcoup(void) {
      e[rochade_sq[nbcou]] = e[sq_castle];
      spec[rochade_sq[nbcou]] = spec[sq_castle];
      e[sq_castle] = vide;
+     if (rn == sq_castle)
+       rn= rochade_sq[nbcou];
+     if (rb == sq_castle)
+       rb= rochade_sq[nbcou];
      CLEARFL(spec[sq_castle]);
   }
 
