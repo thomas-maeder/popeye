@@ -79,7 +79,12 @@ unsigned int len_max(square sq_departure, square sq_arrival, square sq_capture)
       return 6;
 
     default:
-      return (move_diff_code[abs(sq_arrival-sq_departure)]);
+      if (CondFlag[castlingchess] && sq_capture > maxsquare + bas) {
+        return (move_diff_code[abs(sq_arrival-sq_departure)]) +
+          (move_diff_code[abs((sq_capture-maxsquare)-(sq_departure+sq_arrival)/2)]);
+      }
+      else
+       return (move_diff_code[abs(sq_arrival-sq_departure)]);
     }
   }
 }
