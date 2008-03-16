@@ -9,7 +9,9 @@
 #if !defined(_PYPROOF_H)
 #define _PYPROOF_H
 
-BCMemValue *ProofEncode(void);
+#include "pyhash.h"
+
+BCMemValue *ProofEncode(hashwhat what);
 void    ProofInitilise(void);
 boolean ProofSol(couleur camp, int n, boolean restartenabled);
 boolean SeriesProofSol(int n, boolean restartenabled);

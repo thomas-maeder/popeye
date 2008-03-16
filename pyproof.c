@@ -76,7 +76,7 @@ boolean ProofVerifie(void) {
   return true;
 } /* ProofVerifie */
 
-BCMemValue *ProofEncode(void) {
+BCMemValue *ProofEncode(hashwhat what) {
   byte	*bp, *position, pieces;
   int		row, col;
   square	bnp;

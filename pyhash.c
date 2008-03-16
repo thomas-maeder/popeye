@@ -39,10 +39,10 @@
  ** growth and shrinkage of the hashtable. See the relevant dht* files
  ** for more details. Two procedures are used:
  **   dhtLookupElement: This procedure delivers
- **	a nil pointer, when the given position is not in the hashtable,
- **	or a pointer to a hashelement.
+ ** a nil pointer, when the given position is not in the hashtable,
+ ** or a pointer to a hashelement.
  **   dhtEnterElement:  This procedure enters an encoded position
- **	with its values into the hashtable.
+ ** with its values into the hashtable.
  **
  ** When there is no more memory, or more than MaxPositions positions
  ** are stored in the hash-table, then some positions are removed
@@ -75,17 +75,18 @@
  **
  ***********************************************************************/
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-/* TurboC and BorlandC	TLi */
+/* TurboC and BorlandC  TLi */
 #if defined(__TURBOC__)
 # include <mem.h>
 # include <alloc.h>
 # include <conio.h>
 #else
 # include <memory.h>
-#endif	/* __TURBOC__ */
+#endif  /* __TURBOC__ */
 
 #include "py.h"
 #include "pyproc.h"
@@ -98,18 +99,18 @@
 #include "DHT/dhtbcmem.h"
 #include "pyproof.h"
 
-typedef unsigned long	uLong;
+typedef unsigned long   uLong;
 
 struct dht *pyhash;
 
-char	piece_nbr[PieceCount];
+char    piece_nbr[PieceCount];
 boolean one_byte_hash,
   flag_hashall,
   bytes_for_spec,
   bytes_for_piece;
 
 #if defined(TESTHASH)
-#define ifTESTHASH(x)	x
+#define ifTESTHASH(x)   x
 #if defined(__unix)
 #include <unistd.h>
 static void *OldBreak;
@@ -120,17 +121,17 @@ extern int dhtDebug;
 #endif /*TESTHASH*/
 
 #if defined(HASHRATE)
-#define ifHASHRATE(x)	x
+#define ifHASHRATE(x)   x
 static unsigned long use_pos, use_all;
 #else
 #define ifHASHRATE(x)
 #endif /*HASHRATE*/
 
 /* New Version for more ply's */
-#define BitsForPly	10		/* Up to 1023 ply possible */
-#define MaskForPly	((1<<BitsForPly)-1)
+#define BitsForPly  10      /* Up to 1023 ply possible */
+#define MaskForPly  ((1<<BitsForPly)-1)
 
-#define GetFirstHashValue(x)	(((unsigned)(x)>>BitsForPly)&MaskForPly)
+#define GetFirstHashValue(x)    (((unsigned)(x)>>BitsForPly)&MaskForPly)
 /* SerNoSucc, WhHelpNoSucc, WhDirSucc */
 #define GetSecondHashValue(x) (((unsigned)(x))&MaskForPly)
 /* BlHelpNoSucc, WhDirNoSucc, IntroSerNoSucc */
@@ -138,39 +139,39 @@ static unsigned long use_pos, use_all;
 #define MakeHashData(val1,val2)     (unsigned long)(((val1)<<BitsForPly)|(val2))
 /* V3.22  TLi
 ** Series movers:   val1 = SerNoSucc
-**		    val2 = IntroSerNoSucc
+**          val2 = IntroSerNoSucc
 ** Help problems:   val1 = WhHelpNoSucc
-**		    val2 = BlHelpNoSucc
+**          val2 = BlHelpNoSucc
 ** direct play:     val1 = WhDirSucc
-**		    val2 = WhDirNoSucc
+**          val2 = WhDirNoSucc
 */
 
-static	byte		buffer[256];
-static	BCMemValue*	(*encode)(void);
+static  byte        buffer[256];
+static  BCMemValue* (*encode)(hashwhat what);
 
 int value_of_data(uLong Data)
 {
   if (FlowFlag(Intro)) {
-	return (GetFirstHashValue(Data)
+    return (GetFirstHashValue(Data)
             + enonce*GetSecondHashValue(Data));
   }
   else {
-	if (GetFirstHashValue(Data) <= (unsigned)enonce
+    if (GetFirstHashValue(Data) <= (unsigned)enonce
         && GetFirstHashValue(Data) > GetSecondHashValue(Data))
-	{
+    {
       return GetFirstHashValue(Data);
-	}
-	else {
+    }
+    else {
       return GetSecondHashValue(Data);
-	}
+    }
   }
 } /* value_of_data */
 
 #if defined(OLD_COMPRESS)
 void compresshash (void) {
-  dhtElement	    *he;
-  int	    min_val,x;
-  uLong	    RemoveCnt, ToDelete;
+  dhtElement        *he;
+  int       min_val,x;
+  uLong     RemoveCnt, ToDelete;
 
   min_val= enonce;
 
@@ -178,34 +179,34 @@ void compresshash (void) {
 
   he= dhtGetFirstElement(pyhash);
   while (he) {
-	x= value_of_data((uLong)he->Data);
-	if (x < min_val)
+    x= value_of_data((uLong)he->Data);
+    if (x < min_val)
       min_val= x;
-	he= dhtGetNextElement(pyhash);
+    he= dhtGetNextElement(pyhash);
   }
   RemoveCnt= 0;
   ToDelete= (dhtKeyCount(pyhash)>>4) + 1;
   /* the former expression was based on MaxPosition.
    * This is now (and was probably before) wrong!!
    * Now we remove about 1/16 ~ 6% of the entries
-   *					V3.29 ElB
+   *                    V3.29 ElB
    */
   if (ToDelete >= dhtKeyCount(pyhash)) {
-	ToDelete= dhtKeyCount(pyhash);
-	/* this is pathologic: it may only occur, when we are so
-	 * low on memory, that only one or no position can be stored.
-	 */
+    ToDelete= dhtKeyCount(pyhash);
+    /* this is pathologic: it may only occur, when we are so
+     * low on memory, that only one or no position can be stored.
+     */
   }
   while (RemoveCnt < ToDelete) {
-	min_val++;
-	he= dhtGetFirstElement(pyhash);
-	while (he) {
+    min_val++;
+    he= dhtGetFirstElement(pyhash);
+    while (he) {
       if (value_of_data((uLong)he->Data) <= min_val) {
-		RemoveCnt++;
-		dhtRemoveElement(pyhash, he->Key);
+        RemoveCnt++;
+        dhtRemoveElement(pyhash, he->Key);
       }
       he= dhtGetNextElement(pyhash);
-	}
+    }
   }
 #if defined(TESTHASH)
   printf("%ld;", dhtKeyCount(pyhash));
@@ -229,9 +230,9 @@ void compresshash (void) {
 #else
 static uLong totalRemoveCount = 0;
 void compresshash (void) {
-  dhtElement	    *he;
-  int	    min_val,x;
-  uLong	    RemoveCnt, ToDelete, runCnt;
+  dhtElement        *he;
+  int       min_val,x;
+  uLong     RemoveCnt, ToDelete, runCnt;
 #if defined(TESTHASH)
   uLong initCnt, visitCnt;
 #endif
@@ -243,10 +244,10 @@ void compresshash (void) {
 
   he= dhtGetFirstElement(pyhash);
   while (he) {
-	x= value_of_data((uLong)he->Data);
-	if (x < min_val)
+    x= value_of_data((uLong)he->Data);
+    if (x < min_val)
       min_val= x;
-	he= dhtGetNextElement(pyhash);
+    he= dhtGetNextElement(pyhash);
   }
   RemoveCnt= 0;
   ToDelete= (dhtKeyCount(pyhash)>>4) + 1;
@@ -255,10 +256,10 @@ void compresshash (void) {
    * Now we remove about 1/16 ~ 6% of the entries
    */
   if (ToDelete >= dhtKeyCount(pyhash)) {
-	ToDelete= dhtKeyCount(pyhash);
-	/* this is pathologic: it may only occur, when we are so
-	 * low on memory, that only one or no position can be stored.
-	 */
+    ToDelete= dhtKeyCount(pyhash);
+    /* this is pathologic: it may only occur, when we are so
+     * low on memory, that only one or no position can be stored.
+     */
   }
 
 #if defined(TESTHASH)
@@ -266,27 +267,27 @@ void compresshash (void) {
   printf("ToDelete: %ld\n", ToDelete);
   fflush(stdout);
   initCnt= dhtKeyCount(pyhash);
-#endif	/* TESTHASH */
+#endif  /* TESTHASH */
 
   runCnt= 0;
   while (RemoveCnt < ToDelete) {
-	min_val++;
+    min_val++;
 
 #if defined(TESTHASH)
-	printf("min_val: %d\n", min_val);
-	printf("RemoveCnt: %ld\n", RemoveCnt);
-	fflush(stdout);
-	visitCnt= 0;
-#endif	/* TESTHASH */
+    printf("min_val: %d\n", min_val);
+    printf("RemoveCnt: %ld\n", RemoveCnt);
+    fflush(stdout);
+    visitCnt= 0;
+#endif  /* TESTHASH */
 
-	he= dhtGetFirstElement(pyhash);
-	while (he) {
+    he= dhtGetFirstElement(pyhash);
+    while (he) {
       if (value_of_data((uLong)he->Data) <= min_val) {
-		RemoveCnt++;
-		totalRemoveCount++;
+        RemoveCnt++;
+        totalRemoveCount++;
         dhtRemoveElement(pyhash, he->Key);
 #if defined(TESTHASH)
-		if (RemoveCnt + dhtKeyCount(pyhash) != initCnt) {
+        if (RemoveCnt + dhtKeyCount(pyhash) != initCnt) {
           fprintf(stdout,
                   "dhtRemove failed on %ld-th element of run %ld. "
                   "This was the %ld-th call to dhtRemoveElement.\n"
@@ -294,14 +295,14 @@ void compresshash (void) {
                   visitCnt, runCnt, totalRemoveCount,
                   RemoveCnt, dhtKeyCount(pyhash), initCnt);
           exit(1);
-		}
-#endif	/* TESTHASH */
+        }
+#endif  /* TESTHASH */
       }
 #if defined(TESTHASH)
       visitCnt++;
-#endif	/* TESTHASH */
+#endif  /* TESTHASH */
       he= dhtGetNextElement(pyhash);
-	}
+    }
 #if defined(TESTHASH)
     runCnt++;
     printf("run=%ld, RemoveCnt: %ld, missed: %ld\n", runCnt, RemoveCnt, initCnt-visitCnt);
@@ -310,16 +311,16 @@ void compresshash (void) {
       int KeyCount=dhtKeyCount(pyhash);
       dhtBucketStat(pyhash, counter, 16);
       for (l=0; l< 16-1; l++) {
-	    fprintf(stdout, "%d %d %d\n", KeyCount, l+1, counter[l]);
+        fprintf(stdout, "%d %d %d\n", KeyCount, l+1, counter[l]);
       }
       fprintf(stdout, "%d %d %d\n\n", KeyCount, l+1, counter[l]);
       if (runCnt > 9) {
-	    fprintf(stdout, "runCnt > 9 after %ld-th call to  dhtRemoveElement\n", totalRemoveCount);
+        fprintf(stdout, "runCnt > 9 after %ld-th call to  dhtRemoveElement\n", totalRemoveCount);
       }
       dhtDebug= runCnt == 9;
     }
     fflush(stdout);
-#endif	/* TESTHASH */
+#endif  /* TESTHASH */
 
   }
 #if defined(TESTHASH)
@@ -343,7 +344,7 @@ void compresshash (void) {
 } /* compresshash */
 #endif /*OLD_COMPRESS*/
 
-int HashRateLevel = 0;	/* Level = 0: No output of HashStat
+int HashRateLevel = 0;  /* Level = 0: No output of HashStat
                          * Level = 1: Output with every trace output
                          * Level = 2: Output at each table compression
                          * Level = 3: Output at every 1000th hash entry
@@ -357,29 +358,29 @@ void HashStats(int level, char *trailer) {
   char rate[60];
 
   if (level <= HashRateLevel) {
-	StdString("  ");
-	pos= dhtKeyCount(pyhash);
-	logIntArg(pos);
-	Message(HashedPositions);
-	if (use_all > 0) {
+    StdString("  ");
+    pos= dhtKeyCount(pyhash);
+    logIntArg(pos);
+    Message(HashedPositions);
+    if (use_all > 0) {
       if (use_all < 10000)
         sprintf(rate, " %ld/%ld = %ld%%",
                 use_pos, use_all, (use_pos*100) / use_all);
       else
         sprintf(rate, " %ld/%ld = %ld%%",
                 use_pos, use_all, use_pos / (use_all/100));
-	}
-	else
+    }
+    else
       sprintf(rate, " -");
-	StdString(rate);
-	if (HashRateLevel > 3) {
+    StdString(rate);
+    if (HashRateLevel > 3) {
       long Sec = StopTimer();
       if (Sec > 0) {
-		sprintf(rate, ", %ld pos/s", use_all/Sec);
-		StdString(rate);
+        sprintf(rate, ", %ld pos/s", use_all/Sec);
+        StdString(rate);
       }
-	}
-	if (trailer)
+    }
+    if (trailer)
       StdString(trailer);
   }
 #endif /*HASHRATE*/
@@ -388,51 +389,52 @@ void HashStats(int level, char *trailer) {
 int TellCommonEncodePosLeng(int len, int nbr_p) {
   int i;
 
-  len++;			/* Castling_Flag */
+  len++; /* what */
+  len++; /* Castling_Flag */
   if (CondFlag[haanerchess]) {
-	/*
-	** I assume an average of (64 - number of pieces)/2
-	** additional holes per position.
-	*/
-	/* That's far too much. In a ser-h#5 there won't be more
-	** than 5 holes in hashed positions.	  TLi
-	*/
-	int nbr_holes= FlowFlag(Series) != 0 ? enonce : 2*enonce;
-	if (nbr_holes > (64 - nbr_p) / 2) {
+    /*
+    ** I assume an average of (64 - number of pieces)/2
+    ** additional holes per position.
+    */
+    /* That's far too much. In a ser-h#5 there won't be more
+    ** than 5 holes in hashed positions.      TLi
+    */
+    int nbr_holes= FlowFlag(Series) != 0 ? enonce : 2*enonce;
+    if (nbr_holes > (64 - nbr_p) / 2) {
       nbr_holes= (64 - nbr_p) / 2;
-	}
-	len += bytes_for_piece * nbr_holes;
+    }
+    len += bytes_for_piece * nbr_holes;
   }
   if (CondFlag[messigny]) {
-	len+= 2;
+    len+= 2;
   }
   if (CondFlag[duellist]) {
-	len+= 2;
+    len+= 2;
   }
   if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue]) {
-	len++;
+    len++;
   }
   if (flag_synchron) {
     len++;
   }
   if (CondFlag[imitators]) {
-	for (i = 0; i < inum[nbply]; i++) {
+    for (i = 0; i < inum[nbply]; i++) {
       len++;
-	}
-	/* coding of no. of imitators and average of one
-	   imitator-promotion assumed.
+    }
+    /* coding of no. of imitators and average of one
+       imitator-promotion assumed.
     */
-	len+=2;
+    len+=2;
   }
   if (CondFlag[parrain]) {
-	/*
-	** only one out of three positions with a capture
-	** assumed.
-	*/
-	len++;
+    /*
+    ** only one out of three positions with a capture
+    ** assumed.
+    */
+    len++;
   }
   if (OptFlag[nontrivial]) {
-	len++;
+    len++;
   }
   if (FlowFlag(Exact)) {
     len++;
@@ -441,14 +443,14 @@ int TellCommonEncodePosLeng(int len, int nbr_p) {
 } /* TellCommonEncodePosLeng */
 
 int TellLargeEncodePosLeng(void) {
-  square	*bnp;
-  int		nbr_p= 0, len= 8;
+  square    *bnp;
+  int       nbr_p= 0, len= 8;
 
   for (bnp= boardnum; *bnp; bnp++) {
-	if (e[*bnp] != vide) {
+    if (e[*bnp] != vide) {
       len += bytes_for_piece;
-      nbr_p++;	/* count no. of pieces and holes */
-	}
+      nbr_p++;  /* count no. of pieces and holes */
+    }
   }
   if (CondFlag[BGL])
     len+= 2*sizeof(BGL_white);
@@ -461,74 +463,78 @@ int TellSmallEncodePosLeng(void) {
   int nbr_p= 0, len= 0;
 
   for (bnp= boardnum; *bnp; bnp++) {
-	/* piece	p;
-	** Flags	pspec;
-	*/
-	if (e[*bnp] != vide) {
+    /* piece    p;
+    ** Flags    pspec;
+    */
+    if (e[*bnp] != vide) {
       len += 1 + bytes_for_piece;
-      nbr_p++;		      /* count no. of pieces and holes */
-	}
+      nbr_p++;            /* count no. of pieces and holes */
+    }
   }
   return TellCommonEncodePosLeng(len, nbr_p);
 } /* TellSmallEncodePosLeng */
 
-byte *CommonEncode(byte *bp)
+byte *CommonEncode(hashwhat what, byte *bp)
 {
   int i;
 
+  *bp++ = (byte)what;
+
   if (CondFlag[messigny]) {
-	if (move_generation_stack[nbcou].capture == messigny_exchange) {
+    if (move_generation_stack[nbcou].capture == messigny_exchange) {
       *bp++ = (byte)(move_generation_stack[nbcou].arrival - bas);
       *bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
-	}
-	else {
+    }
+    else {
       *bp++ = (byte)(0);
       *bp++ = (byte)(0);
-	}
+    }
   }
   if (CondFlag[duellist]) {
-	*bp++ = (byte)(whduell[nbply] - bas);
-	*bp++ = (byte)(blduell[nbply] - bas);
+    *bp++ = (byte)(whduell[nbply] - bas);
+    *bp++ = (byte)(blduell[nbply] - bas);
   }
   if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue]) {
-	*bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
+    *bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
   }
   if (flag_synchron) {
-    *bp++= (byte)(sq_num[move_generation_stack[nbcou].departure]-sq_num[move_generation_stack[nbcou].arrival]+64);
+    *bp++= (byte)(sq_num[move_generation_stack[nbcou].departure]
+                  -sq_num[move_generation_stack[nbcou].arrival]
+                  +64);
   }
   if (CondFlag[imitators]) {
-	/* The number of imitators has to be coded too to
-	** avoid ambiguities.
-	*/
-	*bp++ = (byte)inum[nbply];
-	for (i = 0; i < inum[nbply]; i++) {
+    /* The number of imitators has to be coded too to
+    ** avoid ambiguities.
+    */
+    *bp++ = (byte)inum[nbply];
+    for (i = 0; i < inum[nbply]; i++) {
       *bp++ = (byte)(isquare[i] - bas);
-	}
+    }
   }
   if (OptFlag[nontrivial]) {
-	*bp++ = (byte)(NonTrivialNumber);
+    *bp++ = (byte)(NonTrivialNumber);
   }
   if (CondFlag[parrain]) {
-	/* a piece has been captured and can be reborn */
-	*bp++ = (byte)(move_generation_stack[nbcou].capture - bas);
-	if (one_byte_hash) {
+    /* a piece has been captured and can be reborn */
+    *bp++ = (byte)(move_generation_stack[nbcou].capture - bas);
+    if (one_byte_hash) {
       *bp++ = (byte)(pprispec[nbply]) +
         ((byte)(piece_nbr[abs(pprise[nbply])]) << 4);
-	}
-	else {
+    }
+    else {
       *bp++ = pprise[nbply];
       *bp++ = (byte)(pprispec[nbply]>>8);
       *bp++ = (byte)(pprispec[nbply]&0xff);
-	}
+    }
   }
   if (FlowFlag(Exact)) {
     *bp++ = (byte)(nbply);
   }
 
   if (ep[nbply]) {
-	*bp++ = (byte)(ep[nbply] - bas);
+    *bp++ = (byte)(ep[nbply] - bas);
   }
-  *bp++ = castling_flag[nbply];		/* Castling_Flag */
+  *bp++ = castling_flag[nbply];     /* Castling_Flag */
 
   if (CondFlag[BGL])
   { 
@@ -540,11 +546,11 @@ byte *CommonEncode(byte *bp)
   return bp;
 } /* CommonEncode */
 
-BCMemValue *LargeEncode(void) {
-  byte	*bp, *position;
-  int		row, col;
-  square	bnp;
-  BCMemValue	*bcm;
+BCMemValue *LargeEncode(hashwhat what) {
+  byte  *bp, *position;
+  int       row, col;
+  square    bnp;
+  BCMemValue    *bcm;
 
   bcm= (BCMemValue *)buffer;
   position= bp= bcm->Data;
@@ -554,71 +560,71 @@ BCMemValue *LargeEncode(void) {
 
   bnp= bas;
   for (row=0; row<8; row++, bnp+= 16) {
-	for (col=0; col<8; col++, bnp++) {
+    for (col=0; col<8; col++, bnp++) {
       piece p;
       if ((p= e[bnp]) != vide) {
-		Flags pspec= spec[bnp];
-		if (!TSTFLAG(pspec, Neutral)) {
+        Flags pspec= spec[bnp];
+        if (!TSTFLAG(pspec, Neutral)) {
           SETFLAG(pspec, (p < vide ? Black : White));
-		}
-		p= abs(p);
-		if (one_byte_hash) {
+        }
+        p= abs(p);
+        if (one_byte_hash) {
           *bp++ = (byte)(pspec) +
             ((byte)(piece_nbr[p]) << 4);
-		}
-		else {
+        }
+        else {
           int i;
           *bp++ = p;
           for (i = 0; i <= bytes_for_spec; i++) {
-			*bp++ = (byte)((pspec>>(8*i)) & 0xff);
+            *bp++ = (byte)((pspec>>(8*i)) & 0xff);
           }
-		}
-		position[row] |= BIT(col);
+        }
+        position[row] |= BIT(col);
       }
-	}
+    }
   }
   /* Now the rest of the party */
-  bp= CommonEncode(bp);
+  bp= CommonEncode(what,bp);
 
   bcm->Leng= bp - bcm->Data;
   return bcm;
 } /* LargeEncode */
 
-BCMemValue *SmallEncode(void)
+BCMemValue *SmallEncode(hashwhat what)
 {
-  byte	*bp;
-  int		i, row, col;
-  square	bnp;
-  BCMemValue	*bcm;
+  byte  *bp;
+  int       i, row, col;
+  square    bnp;
+  BCMemValue    *bcm;
 
   bcm= (BCMemValue *)buffer;
   bp= bcm->Data;
   bnp= bas;
   for (row=0; row<8; row++, bnp+= 16) {
-	for (col=0; col<8; col++, bnp++) {
+    for (col=0; col<8; col++, bnp++) {
       piece p;
       if ((p= e[bnp]) != vide) {
-		Flags pspec= spec[bnp];
-		if (!TSTFLAG(pspec, Neutral)) {
+        Flags pspec= spec[bnp];
+        if (!TSTFLAG(pspec, Neutral)) {
           SETFLAG(pspec, (p < vide ? Black : White));
-		}
-		p= abs(p);
-		*bp++= (row<<3)+col;
-		if (one_byte_hash) {
+        }
+        p= abs(p);
+        *bp++= (row<<3)+col;
+        if (one_byte_hash) {
           *bp++ = (byte)(pspec) +
             ((byte)(piece_nbr[p]) << 4);
-		}
-		else {
+        }
+        else {
           *bp++ = p;
           for (i = 0; i <= bytes_for_spec; i++) {
-			*bp++ = (byte)((pspec>>(8*i)) & 0xff);
+            *bp++ = (byte)((pspec>>(8*i)) & 0xff);
           }
-		}
+        }
       }
-	}
+    }
   }
   /* Now the rest of the party */
-  bp= CommonEncode(bp);
+  bp= CommonEncode(what,bp);
 
   bcm->Leng= bp - bcm->Data;
   return bcm;
@@ -626,68 +632,71 @@ BCMemValue *SmallEncode(void)
 
 boolean inhash(hashwhat what, int val)
 {
-  BCMemValue	*cmv;
-  dhtElement	*he;
-  boolean	ret;
-
-  cmv= (*encode)();
-  he= dhtLookupElement(pyhash, (dhtValue)cmv);
+  BCMemValue *cmv= (*encode)(what);
+  dhtElement *he= dhtLookupElement(pyhash, (dhtValue)cmv);
 
   ifHASHRATE(use_all++);
 
-  if (he != dhtNilElement) {
-	switch (what) {
-	case SerNoSucc:
-	case WhHelpNoSucc:
-      ret = FlowFlag(Exact)
+  if (he==dhtNilElement)
+    return False;
+  else
+    switch (what)
+    {
+    case SerNoSucc:
+    case WhHelpNoSucc:
+    {
+      boolean ret = FlowFlag(Exact)
         ? (GetFirstHashValue((uLong)he->Data) == (unsigned)val)
         : (GetFirstHashValue((uLong)he->Data) >= (unsigned)val);
       if (ret) {
-		ifHASHRATE(use_pos++);
-		return True;
+        ifHASHRATE(use_pos++);
+        return True;
       }
-      else {
-		return False;
-      }
-	case IntroSerNoSucc:
-	case BlHelpNoSucc:
-	case WhDirNoSucc:
-      ret = FlowFlag(Exact)
+      else
+        return False;
+    }
+    case IntroSerNoSucc:
+    case BlHelpNoSucc:
+    case WhDirNoSucc:
+    {
+      boolean ret = FlowFlag(Exact)
         ? (GetSecondHashValue((uLong)he->Data) == (unsigned)val)
         : (GetSecondHashValue((uLong)he->Data) >= (unsigned)val);
       if (ret) {
-		ifHASHRATE(use_pos++);
-		return True;
+        ifHASHRATE(use_pos++);
+        return True;
       } else
-		return False;
-
-	case WhDirSucc:
-      ret = FlowFlag(Exact)
+        return False;
+    }
+    case WhDirSucc:
+    {
+      boolean ret = FlowFlag(Exact)
         ? (GetFirstHashValue((uLong)he->Data) == (unsigned)val)
         : (GetFirstHashValue((uLong)he->Data) <= (unsigned)val);
       if (ret) {
-		ifHASHRATE(use_pos++);
-		return True;
+        ifHASHRATE(use_pos++);
+        return True;
       } else
-		return False;
-	}
-  }
-  return False;
+        return False;
+    }
+    default:
+      assert(0);
+    }
 } /* inhash */
 
 void addtohash(hashwhat what, int val)
 {
-  int	hv_1=0, hv_2=0;
+  int   hv_1=0, hv_2=0;
 
-  BCMemValue	*cmv;
-  unsigned long	dat;
-  dhtElement	*he;
+  BCMemValue    *cmv;
+  unsigned long dat;
+  dhtElement    *he;
 
-  cmv= (*encode)();
+  cmv= (*encode)(what);
   he= dhtLookupElement(pyhash, (dhtValue)cmv);
 
   if (he == dhtNilElement) { /* the position is new */
-	switch (what) {
+    switch (what) {
     case IntroSerNoSucc:
     case SerNoSucc:
     case WhHelpNoSucc:
@@ -699,39 +708,39 @@ void addtohash(hashwhat what, int val)
       hv_1= enonce + 1;
       hv_2= 0;
       break;
-	}
-	dat= MakeHashData(hv_1, hv_2);
-	he= dhtEnterElement(pyhash, (dhtValue)cmv, (dhtValue)dat);
-	if (he==dhtNilElement || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
+    }
+    dat= MakeHashData(hv_1, hv_2);
+    he= dhtEnterElement(pyhash, (dhtValue)cmv, (dhtValue)dat);
+    if (he==dhtNilElement || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
       compresshash();
       he= dhtEnterElement(pyhash, (dhtValue)cmv, (dhtValue)dat);
       if (he==dhtNilElement
-	      || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
+          || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
 #if defined(FXF)
-		ifTESTHASH(
-		  printf("make new hashtable, due to trashing\n"));
-		inithash();
-		he= dhtEnterElement(pyhash,
+        ifTESTHASH(
+          printf("make new hashtable, due to trashing\n"));
+        inithash();
+        he= dhtEnterElement(pyhash,
                             (dhtValue)cmv, (dhtValue)dat);
-		if (he==dhtNilElement
+        if (he==dhtNilElement
             || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
           fprintf(stderr,
                   "Sorry, cannot enter more hashelements "
                   "despite compression\n");
           exit(-2);
-		}
+        }
 #else
-		fprintf(stderr,
+        fprintf(stderr,
                 "Sorry, cannot enter more hashelements "
                 "despite compression\n");
-		exit(-2);
+        exit(-2);
 #endif /*FXF*/
       }
-	}
+    }
   }
   else { /* The position is already registered */
-	hv_1= GetFirstHashValue((uLong)he->Data);
-	hv_2= GetSecondHashValue((uLong)he->Data);
+    hv_1= GetFirstHashValue((uLong)he->Data);
+    hv_2= GetSecondHashValue((uLong)he->Data);
   }
   switch (what) {
   case SerNoSucc:
@@ -752,7 +761,7 @@ void addtohash(hashwhat what, int val)
   }
 #if defined(HASHRATE)
   if (dhtKeyCount(pyhash)%1000 == 0)
-	HashStats(3, "\n");
+    HashStats(3, "\n");
 #endif /*HASHRATE*/
 } /* addtohash */
 
@@ -766,58 +775,58 @@ boolean introseries(couleur camp, int n, boolean restartenabled) {
   if (OptFlag[solapparent]
       || (FlowFlag(Exact) ? n == 0 : n < introenonce))
   {
-	boolean is_exact= FlowFlag(Exact);
-	int i;
+    boolean is_exact= FlowFlag(Exact);
+    int i;
 
-	SatzFlag= True;
-	for (i= FlowFlag(Exact) ? enonce : 1; i <= enonce; i++) {
+    SatzFlag= True;
+    for (i= FlowFlag(Exact) ? enonce : 1; i <= enonce; i++) {
       if (SortFlag(Help)
           ? shsol(ad, i, False)
           : ser_dsrsol(ad, i, False))
       {
-		flag1= true;
-		StipFlags |= FlowBit(Exact);
-		if (OptFlag[stoponshort] && (i < enonce)) {
+        flag1= true;
+        StipFlags |= FlowBit(Exact);
+        if (OptFlag[stoponshort] && (i < enonce)) {
           FlagShortSolsReached= true;
           break;
-		}
+        }
       }
-	}
+    }
 
-	if (n == introenonce) {
+    if (n == introenonce) {
       Message(NewLine);
-	}
-	SatzFlag= False;
-	if (!is_exact) {
+    }
+    SatzFlag= False;
+    if (!is_exact) {
       StipFlags &= ~FlowBit(Exact);
-	}
+    }
   }
 
   if (n && !echecc(ad)) {
-	/* generate a single move */
-	genmove(camp);
-	while (encore()) {
+    /* generate a single move */
+    genmove(camp);
+    while (encore()) {
       if (   jouecoup()
              && !echecc(camp)
              && !(restartenabled && MoveNbr < RestartNbr)
              && !inhash(IntroSerNoSucc, n))
       {
-		if (introseries(camp, n-1, False)) {
+        if (introseries(camp, n-1, False)) {
           flag2= true;
-		}
-		else {
+        }
+        else {
           addtohash(IntroSerNoSucc, n);
-		}
+        }
       }
       if (restartenabled) {
-		IncrementMoveNbr();
+        IncrementMoveNbr();
       }
       repcoup();
       if (FlagTimeOut || FlagShortSolsReached) {
-		break;
+        break;
       }
-	} /* encore() */
-	finply();
+    } /* encore() */
+    finply();
   }
 
   return flag1 || flag2;
@@ -830,85 +839,85 @@ boolean shsol(couleur camp, int n, boolean restartenabled) {
 
   /* reciprocal helpmovers -- let's check whether black can mate */
   if (FlowFlag(Reci)) {
-	currentStipSettings = stipSettings[reciprocal];
-	flag2 = matant(camp, 1);
-	currentStipSettings = stipSettings[nonreciprocal];
+    currentStipSettings = stipSettings[reciprocal];
+    flag2 = matant(camp, 1);
+    currentStipSettings = stipSettings[nonreciprocal];
   }
 
   n--;
   if (currentStipSettings.stipulation==stip_countermate && n == 0) {
-	GenMatingMove(camp);
+    GenMatingMove(camp);
   }
   else {
-	genmove(camp);
+    genmove(camp);
   }
 
   if (camp == blanc) {
-	WhMovesLeft--;
+    WhMovesLeft--;
   }
   else {
-	BlMovesLeft--;
+    BlMovesLeft--;
   }
 
   while (encore()) {
-	if (jouecoup()
-	    && (!OptFlag[intelligent] || MatePossible())
-	    && !echecc(camp)
-	    && !(restartenabled && MoveNbr < RestartNbr))
-	{
+    if (jouecoup()
+        && (!OptFlag[intelligent] || MatePossible())
+        && !echecc(camp)
+        && !(restartenabled && MoveNbr < RestartNbr))
+    {
       if (n) {
-		if (!echecc(ad)) {
+        if (!echecc(ad)) {
           if (!inhash(SerNoSucc, n+1)) {
-			if (shsol(camp, n, False))
+            if (shsol(camp, n, False))
               flag= true;
-			else
+            else
               addtohash(SerNoSucc, n+1);
           }
-		}
+        }
       }
       else {
-		if (flag2) {
+        if (flag2) {
           /* The following inquiry into the hash tables yields
           ** a significant speed up.
           */
           if (FlowFlag(Reci) || !inhash(SerNoSucc, 1)) {
-			if (last_h_move(ad)) {
+            if (last_h_move(ad)) {
               flag= true;
               PrintReciSolution = True;
-			}
-			else {
+            }
+            else {
               if (!FlowFlag(Reci))
-				addtohash(SerNoSucc, 1);
-			}
+                addtohash(SerNoSucc, 1);
+            }
           }
-		}
+        }
       }
-	}
-	if (restartenabled) {
+    }
+    if (restartenabled) {
       IncrementMoveNbr();
-	}
-	repcoup();
-	if ((OptFlag[maxsols] && (solutions >= maxsolutions))
+    }
+    repcoup();
+    if ((OptFlag[maxsols] && (solutions >= maxsolutions))
         || FlagTimeOut)
-	{
+    {
       break;
-	}
+    }
   }
   if (camp == blanc) {
-	WhMovesLeft++;
+    WhMovesLeft++;
   }
   else {
-	BlMovesLeft++;
+    BlMovesLeft++;
   }
 
   finply();
 
   if (flag && FlowFlag(Reci) && PrintReciSolution) {
-	/* reciprocal helpmover */
-	currentStipSettings = stipSettings[reciprocal];
-	last_h_move(camp);
-	PrintReciSolution = False;
-	currentStipSettings = stipSettings[nonreciprocal];
+    /* reciprocal helpmover */
+    currentStipSettings = stipSettings[reciprocal];
+    last_h_move(camp);
+    PrintReciSolution = False;
+    currentStipSettings = stipSettings[nonreciprocal];
   }
   return flag;
 } /* shsol */
@@ -921,72 +930,72 @@ boolean mataide(couleur camp, int n, boolean restartenabled) {
   */
   if ((flag_hashall || n > 1) &&
       inhash((camp == blanc) ? WhHelpNoSucc : BlHelpNoSucc, n))
-	return false;
+    return false;
 
   if (--n) {
-	couleur ad= advers(camp);
+    couleur ad= advers(camp);
 
-	/* reciprocal helpmover */
-	if (n == 1 && FlowFlag(Reci)) {
+    /* reciprocal helpmover */
+    if (n == 1 && FlowFlag(Reci)) {
       currentStipSettings = stipSettings[reciprocal];
       flag = !matant(camp, 1);
       currentStipSettings = stipSettings[nonreciprocal];
-	}
-	if (flag)
+    }
+    if (flag)
       return false;
 
-	/* keep mating piece for helpmates ... */
-	if (OptFlag[keepmating]) {
+    /* keep mating piece for helpmates ... */
+    if (OptFlag[keepmating]) {
       piece p= roib+1;
       while (p < derbla && nbpiece[maincamp == blanc ? p : -p]==0)
         p++;
       if (p == derbla)
         return false;
-	}	/* keep mating ... */
+    }   /* keep mating ... */
 
-	if (currentStipSettings.stipulation==stip_countermate && n == 1)
+    if (currentStipSettings.stipulation==stip_countermate && n == 1)
       GenMatingMove(camp);
-	else
+    else
       genmove(camp);
 
-	if (camp == noir)
+    if (camp == noir)
       BlMovesLeft--;
-	else
+    else
       WhMovesLeft--;
 
-	while (encore()){
+    while (encore()){
       if (jouecoup()
           && (!OptFlag[intelligent] || MatePossible())
           && !echecc(camp)
           && !(restartenabled && MoveNbr < RestartNbr)
           && (mataide(ad, n, False)))
-		flag= true;
+        flag= true;
       if (restartenabled)
-		IncrementMoveNbr();
+        IncrementMoveNbr();
       repcoup();
       /* Stop solving if a given number of solutions was encountered */
       if ((OptFlag[maxsols] && (solutions >= maxsolutions)) ||
           FlagTimeOut)
         break;
-	}
-	if (camp == noir)
+    }
+    if (camp == noir)
       BlMovesLeft++;
-	else
+    else
       WhMovesLeft++;
 
-	finply();
+    finply();
 
-	if (flag && FlowFlag(Reci) && n == 1) {     /* reciprocal helpmover */
+    if (flag && FlowFlag(Reci) && n == 1) {     /* reciprocal helpmover */
       currentStipSettings = stipSettings[reciprocal];
       last_h_move(camp);
       currentStipSettings = stipSettings[nonreciprocal];
-	}
+    }
   } else {   /* n == 0 */
-	flag= last_h_move(camp);
+    flag= last_h_move(camp);
   }
   /* Add the position to the hash table if it has no solutions */
   if (!flag && (flag_hashall || n > 0))
-	addtohash(camp == blanc ? WhHelpNoSucc : BlHelpNoSucc, n+1);
+    addtohash(camp == blanc ? WhHelpNoSucc : BlHelpNoSucc, n+1);
 
   return flag;
 } /* mataide */
@@ -996,22 +1005,22 @@ boolean last_dsr_move(couleur camp)
   couleur ad= advers(camp);
   boolean flag = false;
   if (SortFlag(Direct))
-	GenMatingMove(camp);
+    GenMatingMove(camp);
   else
-	genmove(camp);
+    genmove(camp);
 
   while (encore()) {
-	if (jouecoup()) {
+    if (jouecoup()) {
       if (SortFlag(Direct)) {
-		if (currentStipSettings.checker(camp)) {
+        if (currentStipSettings.checker(camp)) {
           linesolution();
           flag = true;
-		}
+        }
       } else
-		if (!echecc(camp) && dsr_e(ad,1))
+        if (!echecc(camp) && dsr_e(ad,1))
           flag = last_h_move(ad);
-	}
-	repcoup();
+    }
+    repcoup();
   }
   finply();
   return flag;
@@ -1022,49 +1031,49 @@ boolean ser_dsrsol(couleur camp, int n, boolean restartenabled)
   boolean flag= false;
 
   if (SortFlag(Reflex) && matant(camp,1))
-	return false;
+    return false;
 
   if (--n) {
-	couleur ad= advers(camp);
-	genmove(camp);
-	if (camp == blanc)
+    couleur ad= advers(camp);
+    genmove(camp);
+    if (camp == blanc)
       WhMovesLeft--;
-	else
+    else
       BlMovesLeft--;
 
-	while (encore()) {
+    while (encore()) {
       if (jouecoup()
           && (!OptFlag[intelligent] || MatePossible())
           && !echecc(camp)
           && !echecc(ad) &&
           !(restartenabled && MoveNbr < RestartNbr)) {
-		if (!inhash(SerNoSucc, n)) {
+        if (!inhash(SerNoSucc, n)) {
           if (ser_dsrsol(camp,n, False))
-			flag= true;
+            flag= true;
           else
-			addtohash(SerNoSucc, n);
-		}
+            addtohash(SerNoSucc, n);
+        }
       }
       if (restartenabled)
-		IncrementMoveNbr();
+        IncrementMoveNbr();
       repcoup();
       if ((OptFlag[maxsols] && (solutions >= maxsolutions)) ||
           FlagTimeOut)
         break;
-	}
-	if (camp == blanc)
+    }
+    if (camp == blanc)
       WhMovesLeft++;
-	else
+    else
       BlMovesLeft++;
 
-	finply();
+    finply();
   } else
-	flag = last_dsr_move(camp);
+    flag = last_dsr_move(camp);
 
   return  flag;
 } /* ser_dsrsol */
 
-void	inithash(void)
+void    inithash(void)
 {
   int Small, Large;
   int i, j;
@@ -1079,7 +1088,7 @@ void	inithash(void)
 #endif /*__unix,TESTHASH*/
 
 #if defined(FXF)
-  if (fxfInit(MaxMemory) == -1)	/* we didn't get hashmemory ... */
+  if (fxfInit(MaxMemory) == -1) /* we didn't get hashmemory ... */
     FtlMsg(NoMemory);
   ifTESTHASH(fxfInfo(stdout));
 #endif /*FXF*/
@@ -1096,7 +1105,7 @@ void	inithash(void)
   /* check whether a piece can be coded in a single byte */
   j = 0;
   for (i = PieceCount; Empty < i; i--) {
-	if (exist[i])
+    if (exist[i])
       piece_nbr[i] = j++;
   }
   if (CondFlag[haanerchess])
@@ -1106,7 +1115,7 @@ void	inithash(void)
 
   bytes_for_spec= 0;
   for (i= 8; i < 24; i+=8)
-	if (PieSpExFlags >> i)
+    if (PieSpExFlags >> i)
       bytes_for_spec += 1;
   bytes_for_piece= one_byte_hash ? 1 : 1 + bytes_for_spec;
 
@@ -1116,22 +1125,22 @@ void	inithash(void)
   }
 
   if (SortFlag(Proof)) {
-	encode= ProofEncode;
-	if (MaxMemory && !MaxPositions)
+    encode= ProofEncode;
+    if (MaxMemory && !MaxPositions)
       MaxPositions= MaxMemory/(24+sizeof(char *)+1);
   } else {
-	Small= TellSmallEncodePosLeng();
-	Large= TellLargeEncodePosLeng();
-	if (Small <= Large) {
+    Small= TellSmallEncodePosLeng();
+    Large= TellLargeEncodePosLeng();
+    if (Small <= Large) {
       encode= SmallEncode;
       if (MaxMemory && !MaxPositions)
-		MaxPositions= MaxMemory/(Small+sizeof(char *)+1);
-	}
-	else {
+        MaxPositions= MaxMemory/(Small+sizeof(char *)+1);
+    }
+    else {
       encode= LargeEncode;
       if (MaxMemory && !MaxPositions)
-		MaxPositions= MaxMemory/(Large+sizeof(char *)+1);
-	}
+        MaxPositions= MaxMemory/(Large+sizeof(char *)+1);
+    }
   }
 
 #if defined(FXF)
@@ -1143,7 +1152,7 @@ void	inithash(void)
 #endif /*FXF*/
 } /* inithash */
 
-void	closehash(void)
+void    closehash(void)
 {
 #if defined(TESTHASH)
   sprintf(GlobalStr, "calling closehash\n");
@@ -1153,16 +1162,16 @@ void	closehash(void)
           use_pos, use_all);
   StdString(GlobalStr);
   if (use_all) {
-	sprintf(GlobalStr, "Makes %ld%%\n", (100 * use_pos) / use_all);
-	StdString(GlobalStr);
+    sprintf(GlobalStr, "Makes %ld%%\n", (100 * use_pos) / use_all);
+    StdString(GlobalStr);
   }
 #if defined(__unix)
   {
-	unsigned long HashCount, HashMem, BytePerPos;
+    unsigned long HashCount, HashMem, BytePerPos;
 #if defined(FXF)
-	HashMem= fxfTotal();
+    HashMem= fxfTotal();
 #else
-	HashMem= sbrk(0)-OldBreak;
+    HashMem= sbrk(0)-OldBreak;
 #endif /*FXF*/
     if ((HashCount=dhtKeyCount(pyhash))>0) {
       BytePerPos= (HashMem*100)/HashCount;
@@ -1186,7 +1195,7 @@ void	closehash(void)
 
 } /* closehash */
 
-#if defined(NODEF)	/* This functions is not used any longer.        */
+#if defined(NODEF)  /* This functions is not used any longer.        */
 /* Since when? TLi */
 boolean hashdefense(couleur camp, int n) {
   boolean flag = true;
@@ -1194,11 +1203,11 @@ boolean hashdefense(couleur camp, int n) {
   /* generate a ply */
   genmove(camp);
   while (flag && encore()) {
-	/* search for the position in the hash table */
-	if (jouecoup() && inhash(WhDirNoSucc, n))
+    /* search for the position in the hash table */
+    if (jouecoup() && inhash(WhDirNoSucc, n))
       /* found and marked unsolvable */
       flag = false;
-	repcoup();
+    repcoup();
   }
   finply();
 
@@ -1220,29 +1229,29 @@ boolean mate(couleur camp, int n) {
   ** using the solflights option. */
 
   if (n > 1 && OptFlag[solflights]) {
-	/* Initialise the flight counter. The number of flights is counted
-	** down. */
-	int zae = maxflights + 1;
+    /* Initialise the flight counter. The number of flights is counted
+    ** down. */
+    int zae = maxflights + 1;
 
-	/* Store the square of the black king. */
-	square	x = camp == noir ? rn : rb;
+    /* Store the square of the black king. */
+    square  x = camp == noir ? rn : rb;
 
-	/* generate a ply */
-	genmove(camp);
+    /* generate a ply */
+    genmove(camp);
 
-	/* test all possible moves */
-	while (encore() && zae) {
+    /* test all possible moves */
+    while (encore() && zae) {
       if (jouecoup()) {
-		/* Test whether the king has moved and this move is legal. */
-		if ((x != (camp == noir ? rn : rb)) && !echecc(camp))
+        /* Test whether the king has moved and this move is legal. */
+        if ((x != (camp == noir ? rn : rb)) && !echecc(camp))
           /* It is a legal king move. Hence decrement the flight counter */
           zae--;
       }
       repcoup();
-	}
-	finply();
+    }
+    finply();
 
-	if (zae == 0)
+    if (zae == 0)
       /* The number of flight squares is greater than allowed. */
       return false;
   } /* solflights */
@@ -1252,7 +1261,7 @@ boolean mate(couleur camp, int n) {
   ** droh is entered with the option solmenaces. */
 
   if (n > droh)
-	if (!(echecc(camp) || matant(ad,droh)))
+    if (!(echecc(camp) || matant(ad,droh)))
       return false;
 
   /* Check whether black has more non trivial moves than he is
@@ -1260,29 +1269,29 @@ boolean mate(couleur camp, int n) {
   ** is entered using the nontrivial option. */
 
   if (n > NonTrivialLength) {
-	ntcount= -1;
+    ntcount= -1;
 
-	/* generate a ply */
-	genmove(camp);
+    /* generate a ply */
+    genmove(camp);
 
-	/* test all possible moves */
-	while (encore() && (NonTrivialNumber >= ntcount)) {
+    /* test all possible moves */
+    while (encore() && (NonTrivialNumber >= ntcount)) {
       if (jouecoup()) {
-		/* Test whether the move is legal and not trivial. */
-		if (!echecc(camp) && !((NonTrivialLength > 0)
+        /* Test whether the move is legal and not trivial. */
+        if (!echecc(camp) && !((NonTrivialLength > 0)
                                && matant(ad, NonTrivialLength)))
           /* The move is legal and not trivial.
           ** Hence decrement the  counter. */
           ntcount++;
       }
       repcoup();
-	}
-	finply();
+    }
+    finply();
 
-	if (NonTrivialNumber < ntcount)
+    if (NonTrivialNumber < ntcount)
       return false;
 
-	NonTrivialNumber -= ntcount;
+    NonTrivialNumber -= ntcount;
   } /* nontrivial */
 
   if (flag) {
@@ -1304,10 +1313,10 @@ boolean mate(couleur camp, int n) {
   }
 
   if (n > NonTrivialLength)
-	NonTrivialNumber += ntcount;
+    NonTrivialNumber += ntcount;
 
   if (pat)
-	return false;
+    return false;
 
   return flag;
 } /* mate */
@@ -1320,14 +1329,14 @@ boolean matant(couleur camp, int n)
 
   /* Let's first have a look in the hash_table */
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to
-  ** compute a "mate" in 1.	TLi */
+  ** compute a "mate" in 1. TLi */
   if (n > (FlagMoveOrientatedStip ? 1 : 0)
       && !SortFlag(Self) && !FlowFlag(Reci)) {
     /* It is more likely that a position has no solution.           */
     /* Therefore let's check for "no solution" first.  TLi */
-	if (inhash(WhDirNoSucc, n))
+    if (inhash(WhDirNoSucc, n))
       return false;
-	if (inhash(WhDirSucc, n))
+    if (inhash(WhDirSucc, n))
       return true;
   }
 
@@ -1339,87 +1348,90 @@ boolean matant(couleur camp, int n)
       p++;
     if (p == derbla)
       return false;
-  }	/* keep mating ... */
+  } /* keep mating ... */
 
   n--;
   for (i= FlowFlag(Exact) ? n : 0; !flag && (i <= n); i++) {
-	if (i > droh)
+    if (i > droh)
       i= n;
-	if (i == 0)
+    if (i == 0)
       GenMatingMove(camp);
-	else
+    else
       genmove(camp);
 
-	while (encore() && !flag) {
+    while (encore() && !flag) {
       if (jouecoup()) {
-		if (i)
+        if (i)
           flag= !echecc(camp) && mate(ad,i);
-		else
+        else
           flag= currentStipSettings.checker(camp);
-		if (flag)
+        if (flag)
           coupfort();
       }
       repcoup();
       if (FlagTimeOut)
-		break;
-	}
-	finply();
+        break;
+    }
+    finply();
   }
 
   /* store the results in the hashtable */
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to
-  ** compute a "mate" in 1.	TLi */
+  ** compute a "mate" in 1. TLi */
   if (++n > (FlagMoveOrientatedStip ? 1 : 0)
       && !SortFlag(Self) && !FlowFlag(Reci))
-	addtohash(flag ? WhDirSucc : WhDirNoSucc, n);
+    addtohash(flag ? WhDirSucc : WhDirNoSucc, n);
 
   return flag;
 } /* matant */
 
 /* Is there a solution to a s# or r# in n? */
-boolean invref(couleur	camp, int n) {
-  boolean flag= false;
+boolean invref(couleur  camp, int n) {
+  boolean result= false;
   couleur ad= advers(camp);
   int i;
 
   /* It is more likely that a position has no solution.           */
   /* Therefore let's check for "no solution" first. TLi */
-  if (inhash(WhDirNoSucc, n))
-	return false;
-  if (inhash(WhDirSucc, n))
-	return true;
+  if (inhash(WhDirNoSucc,n)) {
+    assert(!inhash(WhDirSucc,n));
+    return false;
+  }
+  if (inhash(WhDirSucc,n))
+    return true;
 
   if (!FlowFlag(Exact))
-	if (currentStipSettings.checker(ad)) {
+    if (currentStipSettings.checker(ad)) {
       addtohash(WhDirSucc, n);
+      assert(!inhash(WhDirNoSucc,n));
       return true;
-	}
+    }
 
   if (SortFlag(Reflex) && !FlowFlag(Semi) && matant(camp, 1))
-	return false;
+    return false;
 
-  for (i = FlowFlag(Exact) ? n : 1; !flag && (i <= n); i++) {
-	if (i > droh || i > NonTrivialLength)
+  for (i = FlowFlag(Exact) ? n : 1; !result && (i <= n); i++) {
+    if (i > droh || i > NonTrivialLength)
       i = n;
-	genmove(camp);
-	while ((!flag && encore())) {
+    genmove(camp);
+    while ((!result && encore())) {
       if (jouecoup()) {
-		flag= !echecc(camp) && (!definvref(ad,i)||
-                                (OptFlag[quodlibet]
-                                 && currentStipSettings.checker(camp)));
-		if (flag)
+        result= !echecc(camp) && (!definvref(ad,i)||
+                                  (OptFlag[quodlibet]
+                                   && currentStipSettings.checker(camp)));
+        if (result)
           coupfort();
       }
       repcoup();
       if (FlagTimeOut)
-		break;
-	}
-	finply();
+        break;
+    }
+    finply();
   }
 
-  addtohash(flag ? WhDirSucc :WhDirNoSucc, n);
+  addtohash(result ? WhDirSucc : WhDirNoSucc, n);
 
-  return flag;
+  return result;
 } /* invref */
 
 square *selfbnp, initiallygenerated;
@@ -1431,22 +1443,22 @@ boolean selflastencore(couleur camp) {
   piece   p;
 
   if (encore())
-	return true;
+    return true;
   if (TSTFLAG(PieSpExFlags,Neutral))
-	initneutre(advers(camp));
+    initneutre(advers(camp));
   while (*selfbnp) {
-	if ((*selfbnp != initiallygenerated) && ((p= e[*selfbnp]) != vide)) {
+    if ((*selfbnp != initiallygenerated) && ((p= e[*selfbnp]) != vide)) {
       if (TSTFLAG(spec[*selfbnp], Neutral))
-		p= -p;
+        p= -p;
       if (camp == blanc) {
-		if (p > obs)
+        if (p > obs)
           gen_wh_piece(*selfbnp, p);
       } else
-		if (p < vide)
+        if (p < vide)
           gen_bl_piece(*selfbnp, p);
-	}
-	selfbnp++;
-	if (encore())
+    }
+    selfbnp++;
+    if (encore())
       return true;
   }
   return false;
@@ -1459,9 +1471,9 @@ boolean definvref(couleur camp, int n) {
   int ntcount=0;
 
   if (SortFlag(Reflex)) {
-	if (matant(camp,1))
+    if (matant(camp,1))
       return false;
-	if (n == 1)
+    if (n == 1)
       return true;
   }
 
@@ -1474,20 +1486,20 @@ boolean definvref(couleur camp, int n) {
   ** droh is entered with the option solmenaces. */
 
   if (n > droh) {
-	if  (!(echecc(camp) || !((droh > 0) && invref(ad,droh)))) {
+    if  (!(echecc(camp) || !((droh > 0) && invref(ad,droh)))) {
       return true;
-	}
+    }
   }
 
   /* Check whether black has still a piece left to mate */
   if (OptFlag[keepmating]) {
-	piece p = roib+1;
-	while (p < derbla && nbpiece[camp == blanc ? p : -p]==0) {
+    piece p = roib+1;
+    while (p < derbla && nbpiece[camp == blanc ? p : -p]==0) {
       p++;
-	}
-	if (p == derbla) {
+    }
+    if (p == derbla) {
       return true;
-	}
+    }
   } /* keepmating */
 
   /* Check whether the black king has more flight squares than he is
@@ -1496,29 +1508,29 @@ boolean definvref(couleur camp, int n) {
   */
 
   if (n > 1 && OptFlag[solflights]) {
-	/* Initialise the flight counter. The number of flights is
-	   counted down.
+    /* Initialise the flight counter. The number of flights is
+       counted down.
     */
-	int zae = maxflights + 1;
+    int zae = maxflights + 1;
 
-	/* generate a ply */
-	genmove(camp);
+    /* generate a ply */
+    genmove(camp);
 
-	/* test all possible moves */
-	while (encore() && zae) {
+    /* test all possible moves */
+    while (encore() && zae) {
       if (jouecoup() && !echecc(camp)) {
-		/* It is a legal move.
-		** Hence decrement the flight counter */
-		zae--;
+        /* It is a legal move.
+        ** Hence decrement the flight counter */
+        zae--;
       }
       repcoup();
-	}
-	finply();
+    }
+    finply();
 
-	if (zae == 0) {
+    if (zae == 0) {
       /* The number of flight squares is greater than allowed. */
       return true;
-	}
+    }
   } /* solflights */
 
 
@@ -1529,103 +1541,103 @@ boolean definvref(couleur camp, int n) {
   */
 
   if (n > NonTrivialLength) {
-	ntcount= -1;
+    ntcount= -1;
 
-	/* generate a ply */
-	genmove(camp);
+    /* generate a ply */
+    genmove(camp);
 
-	/* test all possible moves */
-	while (encore() && (NonTrivialNumber >= ntcount)) {
+    /* test all possible moves */
+    while (encore() && (NonTrivialNumber >= ntcount)) {
       if (jouecoup()
           && !echecc(camp)
           && !((NonTrivialLength > 0)
                && invref(ad, NonTrivialLength)))
       {
-		/* The move is legal and not trivial.
-		   Hence increment the	counter.
+        /* The move is legal and not trivial.
+           Hence increment the  counter.
         */
-		ntcount++;
+        ntcount++;
       }
       repcoup();
-	}
-	finply();
+    }
+    finply();
 
-	if (NonTrivialNumber < ntcount) {
+    if (NonTrivialNumber < ntcount) {
       /* The number of flight squares is greater than allowed. */
       return true;
-	}
-	NonTrivialNumber -= ntcount;
+    }
+    NonTrivialNumber -= ntcount;
   } /* nontrivial */
 
   if (n || (camp==noir ? flagblackmummer : flagwhitemummer)) {
-	move_generation_mode=
+    move_generation_mode=
       n>1
       ? move_generation_mode_opti_per_couleur[camp]
       : move_generation_optimized_by_killer_move;
-	genmove(camp);
-	move_generation_mode= move_generation_optimized_by_killer_move;
+    genmove(camp);
+    move_generation_mode= move_generation_optimized_by_killer_move;
 
-	while (flag && encore()) {
+    while (flag && encore()) {
       if (jouecoup() && !echecc(camp)) {
-		pat= false;
-		if (!(flag= n ? invref(ad,n) : currentStipSettings.checker(camp))) {
+        pat= false;
+        if (!(flag= n ? invref(ad,n) : currentStipSettings.checker(camp))) {
           coupfort();
-		}
+        }
       }
       repcoup();
-	}
-	finply();
+    }
+    finply();
   }
   else {
-	piece p;
-	selfbnp= boardnum;
+    piece p;
+    selfbnp= boardnum;
 
-	if (!(FlagMoveOrientatedStip
-	      && currentStipSettings.stipulation == stip_ep
-	      && ep[nbply] == initsquare
-	      && ep2[nbply] == initsquare))
-	{
+    if (!(FlagMoveOrientatedStip
+          && currentStipSettings.stipulation == stip_ep
+          && ep[nbply] == initsquare
+          && ep2[nbply] == initsquare))
+    {
       nextply();
       init_move_generation_optimizer();
       trait[nbply]= camp;
       if (TSTFLAG(PieSpExFlags,Neutral)) {
-		initneutre(advers(camp));
+        initneutre(advers(camp));
       }
       initiallygenerated= initsquare;
       p= e[current_killer_state.move.departure];
       if (p!=vide) {
-		if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
+        if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
           p= -p;
-		if (camp == blanc) {
+        if (camp == blanc) {
           if (p > obs) {
             initiallygenerated= current_killer_state.move.departure;
-			gen_wh_piece(initiallygenerated, p);
+            gen_wh_piece(initiallygenerated, p);
           }
-		}
-		else {
+        }
+        else {
           if (p < -obs) {
             initiallygenerated= current_killer_state.move.departure;
-			gen_bl_piece(initiallygenerated, p);
+            gen_bl_piece(initiallygenerated, p);
           }
-		}
+        }
       }
       finish_move_generation_optimizer();
       while (flag && selflastencore(camp)) {
-		if (jouecoup() && !echecc(camp)) {
+        if (jouecoup() && !echecc(camp)) {
           pat= false;
           flag= currentStipSettings.checker(camp);
           if (!flag) {
-			coupfort();
+            coupfort();
           }
-		}
-		repcoup();
+        }
+        repcoup();
       }
       finply();
-	}
+    }
   }
 
   if (n > NonTrivialLength) {
-	NonTrivialNumber += ntcount;
+    NonTrivialNumber += ntcount;
   }
 
   return !flag || pat;
