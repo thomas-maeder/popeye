@@ -682,6 +682,8 @@ boolean inhash(hashwhat what, int val)
     default:
       assert(0);
     }
+
+  return False; /* avoid compiler warning */
 } /* inhash */
 
 void addtohash(hashwhat what, int val)
