@@ -22,9 +22,9 @@
 /**********************************************************************
  ** We hash.
  **
- ** SmallEncode and LargeEncode are functions to encode the actual
+ ** SmallEncode and LargeEncode are functions to encode the current
  ** position. SmallEncode is used when the starting position contains
- ** less than or equal eight pieces. LargeEncode is used when more
+ ** less than or equal to eight pieces. LargeEncode is used when more
  ** pieces are present. The function TellSmallEncode and TellLargeEncode
  ** are used to decide what encoding to use. Which function to use is
  ** stored in encode.
@@ -51,22 +51,22 @@
  ** The selection of positions to remove is based on the value of
  ** information gathered about this position. The information about
  ** a position "unsolvable in 2 moves" is less valuable than "unsolvable
- ** in 5 moves", since the former can recomputed faster. For the other
- ** type of information ("solvable") the compare is the other way round.
+ ** in 5 moves", since the former can be recomputed faster. For the other
+ ** type of information ("solvable") the comparison is the other way round.
  ** The compression of the table is an expensive operation, in a lot
  ** of exeperiments it has shown to be quite effective in keeping the
  ** most valuable information, and speeds up the computation time
- ** considerable. But to be of any use, there must be enough memory to
+ ** considerably. But to be of any use, there must be enough memory to
  ** to store more than 800 positions.
  ** Now Torsten changed popeye so that all stipulations use hashing.
  ** There seems to be no real penalty in using hashing, even if the
- ** hit ratio, is very small and only about 5% it speeds up the
- ** computationtime, by 30%.
+ ** hit ratio is very small and only about 5%, it speeds up the
+ ** computation time by 30%.
  ** I changed the output of hashstat, since its really informative
  ** to see the hit rate.
  **
  ** inithash()
- **   -- enteres the startposition into the hash-table.
+ **   -- enters the startposition into the hash-table.
  **   -- determines which encode procedure to use
  **   -- Check's for the MaxPostion/MaxMemory settings
  **
@@ -619,6 +619,12 @@ void SmallEncode(HashBuffer *hb)
   hb->cmv.Leng= bp - hb->cmv.Data;
 } /* SmallEncode */
 
+/* WhDir(No)Succ
+   solvable in hv_1 (or more) moves
+   nil: enonce+1
+   not solvable in less than hv_2 (exact: in exactly hv_2-1) moves
+   nil: 0
+*/
 boolean inhash(hashwhat what, int val, HashBuffer *hb)
 {
   dhtElement *he= dhtLookupElement(pyhash, (dhtValue)hb);
@@ -645,11 +651,21 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
     }
     case IntroSerNoSucc:
     case BlHelpNoSucc:
-    case WhDirNoSucc:
     {
       boolean ret = FlowFlag(Exact)
         ? (GetSecondHashValue((uLong)he->Data) == (unsigned)val)
         : (GetSecondHashValue((uLong)he->Data) >= (unsigned)val);
+      if (ret) {
+        ifHASHRATE(use_pos++);
+        return True;
+      } else
+        return False;
+    }
+    case WhDirNoSucc:
+    {
+      boolean ret = FlowFlag(Exact)
+        ? (GetSecondHashValue((uLong)he->Data) == (unsigned)val+1)
+        : (GetSecondHashValue((uLong)he->Data) >= (unsigned)val+1);
       if (ret) {
         ifHASHRATE(use_pos++);
         return True;
@@ -699,7 +715,8 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
     }
     dat= MakeHashData(hv_1, hv_2);
     he= dhtEnterElement(pyhash, (dhtValue)hb, (dhtValue)dat);
-    if (he==dhtNilElement || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
+    if (he==dhtNilElement
+        || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
       compresshash();
       he= dhtEnterElement(pyhash, (dhtValue)hb, (dhtValue)dat);
       if (he==dhtNilElement
@@ -738,9 +755,12 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
     break;
   case IntroSerNoSucc:
   case BlHelpNoSucc:
-  case WhDirNoSucc:
     if (hv_2 < val)
       he->Data= (dhtValue)MakeHashData(hv_1, val);
+    break;
+  case WhDirNoSucc:
+    if (hv_2 < val+1)
+      he->Data= (dhtValue)MakeHashData(hv_1, val+1);
     break;
   case WhDirSucc:
     if (hv_1 > val)
@@ -1378,28 +1398,21 @@ boolean invref(couleur  camp, int n) {
   couleur ad= advers(camp);
   int i;
   HashBuffer hb;
-  boolean const dohash = n > (FlagMoveOrientatedStip ? 1 : 0);
 
-  if (dohash)
-  {
-    /* It is more likely that a position has no solution.           */
-    /* Therefore let's check for "no solution" first. TLi */
-    (*encode)(&hb);
-    if (inhash(WhDirNoSucc,n,&hb)) {
-      assert(!inhash(WhDirSucc,n,&hb));
-      return false;
-    }
-    if (inhash(WhDirSucc,n,&hb))
-      return true;
+  /* It is more likely that a position has no solution. */
+  /* Therefore let's check for "no solution" first. TLi */
+  (*encode)(&hb);
+  if (inhash(WhDirNoSucc,n,&hb)) {
+    assert(!inhash(WhDirSucc,n,&hb));
+    return false;
   }
+  if (inhash(WhDirSucc,n,&hb))
+    return true;
 
   if (!FlowFlag(Exact))
     if (currentStipSettings.checker(ad)) {
-      if (dohash)
-      {
-        addtohash(WhDirSucc, n, &hb);
-        assert(!inhash(WhDirNoSucc,n,&hb));
-      }
+      addtohash(WhDirSucc, n, &hb);
+      assert(!inhash(WhDirNoSucc,n,&hb));
       return true;
     }
 
@@ -1426,8 +1439,7 @@ boolean invref(couleur  camp, int n) {
     finply();
   }
 
-  if (dohash)
-    addtohash(result ? WhDirSucc : WhDirNoSucc, n, &hb);
+  addtohash(result ? WhDirSucc : WhDirNoSucc, n, &hb);
 
   return result;
 } /* invref */
