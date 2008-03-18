@@ -70,7 +70,8 @@ boolean ProofVerifie(void) {
     || CondFlag[takemake]
     || flagAssassin
     || CondFlag[messigny]
-    || CondFlag[mars];
+    || CondFlag[mars]
+    || CondFlag[castlingchess];
 
   return true;
 } /* ProofVerifie */
