@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # Compare the generated solutions to thos stored in ../REGRESSIONTESTS
 # Remove the matching files. In other words, the remaining files are

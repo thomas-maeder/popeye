@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # Script for solving all example problems from directories EXAMPLES
 # and BEISPIEL
