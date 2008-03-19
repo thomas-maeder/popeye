@@ -31,6 +31,8 @@ typedef union
 extern  void (*encode)(HashBuffer*);
 
 /* exported functions */
+void check_hash_assumptions(void);
+
 void    inithash (void);
 void    closehash (void);
 void	HashStats(int level, char *trailer);

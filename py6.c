@@ -2729,7 +2729,7 @@ void initduplex(void) {
 
 /* Check assumptions made throughout the program. Abort if one of them
  * isn't met. */
-void checkGlobalAssumptions()
+void checkGlobalAssumptions(void)
 {
   /* Make sure that the characters relevant for entering problems are
    * encoded contiguously and in the natural order. This is assumed
@@ -2745,6 +2745,8 @@ void checkGlobalAssumptions()
   assert('f'=='e'+1);
   assert('g'=='f'+1);
   assert('h'=='g'+1);
+
+  check_hash_assumptions();
 }
 
 int main(int argc, char *argv[]) {

@@ -98,15 +98,13 @@
 #include "DHT/dht.h"
 #include "pyproof.h"
 
-typedef unsigned long   uLong;
-
 struct dht *pyhash;
 
-char    piece_nbr[PieceCount];
-boolean one_byte_hash,
-  flag_hashall,
-  bytes_for_spec,
-  bytes_for_piece;
+static char    piece_nbr[PieceCount];
+static boolean one_byte_hash;
+static boolean flag_hashall;
+static boolean bytes_for_spec;
+static boolean bytes_for_piece;
 
 #if defined(TESTHASH)
 #define ifTESTHASH(x)   x
@@ -127,112 +125,101 @@ static unsigned long use_pos, use_all;
 #endif /*HASHRATE*/
 
 /* New Version for more ply's */
-#define BitsForPly  10      /* Up to 1023 ply possible */
-#define MaskForPly  ((1<<BitsForPly)-1)
-
-#define GetFirstHashValue(x)    (((unsigned)(x)>>BitsForPly)&MaskForPly)
-/* SerNoSucc, WhHelpNoSucc, WhDirSucc */
-#define GetSecondHashValue(x) (((unsigned)(x))&MaskForPly)
-/* BlHelpNoSucc, WhDirNoSucc, IntroSerNoSucc */
-
-#define MakeHashData(val1,val2)     (unsigned long)(((val1)<<BitsForPly)|(val2))
-/* V3.22  TLi
-** Series movers:   val1 = SerNoSucc
-**          val2 = IntroSerNoSucc
-** Help problems:   val1 = WhHelpNoSucc
-**          val2 = BlHelpNoSucc
-** direct play:     val1 = WhDirSucc
-**          val2 = WhDirNoSucc
-*/
+enum {
+ BitsForPly = 10      /* Up to 1023 ply possible */
+};
 
 void (*encode)(HashBuffer*);
 
-int value_of_data(uLong Data)
-{
-  if (FlowFlag(Intro)) {
-    return (GetFirstHashValue(Data)
-            + enonce*GetSecondHashValue(Data));
-  }
-  else {
-    if (GetFirstHashValue(Data) <= (unsigned)enonce
-        && GetFirstHashValue(Data) > GetSecondHashValue(Data))
+typedef struct {
+	dhtValue	Key;
+    struct
     {
-      return GetFirstHashValue(Data);
-    }
-    else {
-      return GetSecondHashValue(Data);
-    }
+        unsigned int dummy : BitsForPly+BitsForPly;
+        unsigned int what : 3;
+    } data;
+} genericElement_t;
+
+typedef struct {
+	dhtValue	Key;
+    struct
+    {
+        unsigned int notSolvableInLessThan : BitsForPly;
+        unsigned int solvableIn : BitsForPly;
+        unsigned int what : 3;
+    } data;
+} whDirElement_t;
+
+typedef struct {
+	dhtValue	Key;
+    struct
+    {
+        unsigned int blackNotSolvableIn : BitsForPly;
+        unsigned int whiteNotSolvableIn : BitsForPly;
+        unsigned int what : 3;
+    } data;
+} helpElement_t;
+
+typedef struct {
+	dhtValue	Key;
+    struct
+    {
+        unsigned int introNotSolvableIn : BitsForPly;
+        unsigned int serNotSolvableIn : BitsForPly;
+        unsigned int what : 3;
+    } data;
+} serElement_t;
+
+/* how much is element *he worth to us? This information is used to
+ * determine which elements to discard from the hash table if it has
+ * reached its capacity. */
+static int value_of_data(dhtElement const *he)
+{
+  genericElement_t const * const ge = (genericElement_t const *)he;
+  switch (ge->data.what) {
+  case SerNoSucc:
+  case IntroSerNoSucc:
+  {
+    serElement_t const * const se = (serElement_t const *)he;
+    return se->data.serNotSolvableIn + enonce*se->data.introNotSolvableIn;
   }
+  
+  case WhHelpNoSucc:
+  case BlHelpNoSucc:
+  {
+    helpElement_t const * const hle = (helpElement_t const *)he;
+    if (hle->data.blackNotSolvableIn > hle->data.whiteNotSolvableIn)
+      return hle->data.blackNotSolvableIn;
+    else
+      return hle->data.whiteNotSolvableIn;
+  }
+  
+  case WhDirSucc:
+  case WhDirNoSucc:
+  {
+    whDirElement_t const * const wde = (whDirElement_t const *)he;
+    if (wde->data.solvableIn <= (unsigned int)enonce
+        && wde->data.solvableIn+1 > wde->data.notSolvableInLessThan)
+      return wde->data.solvableIn;
+    else
+      return wde->data.notSolvableInLessThan-1;
+  }
+  
+  default:
+    assert(0);
+  }
+
+  return 0; /* avoid compiler warning */
 } /* value_of_data */
 
-#if defined(OLD_COMPRESS)
-void compresshash (void) {
+static unsigned long totalRemoveCount = 0;
+
+static void compresshash (void) {
   dhtElement        *he;
   int       min_val,x;
-  uLong     RemoveCnt, ToDelete;
-
-  min_val= enonce;
-
-  ifTESTHASH(printf("compressing: %ld -> ", dhtKeyCount(pyhash)));
-
-  he= dhtGetFirstElement(pyhash);
-  while (he) {
-    x= value_of_data((uLong)he->Data);
-    if (x < min_val)
-      min_val= x;
-    he= dhtGetNextElement(pyhash);
-  }
-  RemoveCnt= 0;
-  ToDelete= (dhtKeyCount(pyhash)>>4) + 1;
-  /* the former expression was based on MaxPosition.
-   * This is now (and was probably before) wrong!!
-   * Now we remove about 1/16 ~ 6% of the entries
-   *                    V3.29 ElB
-   */
-  if (ToDelete >= dhtKeyCount(pyhash)) {
-    ToDelete= dhtKeyCount(pyhash);
-    /* this is pathologic: it may only occur, when we are so
-     * low on memory, that only one or no position can be stored.
-     */
-  }
-  while (RemoveCnt < ToDelete) {
-    min_val++;
-    he= dhtGetFirstElement(pyhash);
-    while (he) {
-      if (value_of_data((uLong)he->Data) <= min_val) {
-        RemoveCnt++;
-        dhtRemoveElement(pyhash, he->Key);
-      }
-      he= dhtGetNextElement(pyhash);
-    }
-  }
+  unsigned long RemoveCnt, ToDelete, runCnt;
 #if defined(TESTHASH)
-  printf("%ld;", dhtKeyCount(pyhash));
-  printf(" usage: %ld", use_pos);
-  printf(" / %ld", use_all);
-  printf(" = %ld%%", (100 * use_pos) / use_all);
-#if defined(FREEMAP) && defined(FXF)
-  PrintFreeMap(stdout);
-#endif /*FREEMAP*/
-#if defined(__TURBOC__)
-  gotoxy(1, wherey());
-#else
-  printf("\n");
-#endif /*__TURBOC__*/
-#if defined(FXF)
-  printf("\n after compression:\n");
-  fxfInfo(stdout);
-#endif /*FXF*/
-#endif /*TESTHASH*/
-} /* compresshash */
-#else
-static uLong totalRemoveCount = 0;
-void compresshash (void) {
-  dhtElement        *he;
-  int       min_val,x;
-  uLong     RemoveCnt, ToDelete, runCnt;
-#if defined(TESTHASH)
-  uLong initCnt, visitCnt;
+  unsigned long initCnt, visitCnt;
 #endif
   flag_hashall= false;
 
@@ -242,20 +229,16 @@ void compresshash (void) {
 
   he= dhtGetFirstElement(pyhash);
   while (he) {
-    x= value_of_data((uLong)he->Data);
+    x= value_of_data(he);
     if (x < min_val)
       min_val= x;
     he= dhtGetNextElement(pyhash);
   }
   RemoveCnt= 0;
-  ToDelete= (dhtKeyCount(pyhash)>>4) + 1;
-  /* the former expression was based on MaxPosition.
-   * This is now (and was probably before) wrong!!
-   * Now we remove about 1/16 ~ 6% of the entries
-   */
+  ToDelete= dhtKeyCount(pyhash)/16 + 1;
   if (ToDelete >= dhtKeyCount(pyhash)) {
     ToDelete= dhtKeyCount(pyhash);
-    /* this is pathologic: it may only occur, when we are so
+    /* this is a pathological case: it may only occur, when we are so
      * low on memory, that only one or no position can be stored.
      */
   }
@@ -280,7 +263,7 @@ void compresshash (void) {
 
     he= dhtGetFirstElement(pyhash);
     while (he) {
-      if (value_of_data((uLong)he->Data) <= min_val) {
+      if (value_of_data(he) <= min_val) {
         RemoveCnt++;
         totalRemoveCount++;
         dhtRemoveElement(pyhash, he->Key);
@@ -340,15 +323,17 @@ void compresshash (void) {
 #endif /*FXF*/
 #endif /*TESTHASH*/
 } /* compresshash */
-#endif /*OLD_COMPRESS*/
 
-int HashRateLevel = 0;  /* Level = 0: No output of HashStat
-                         * Level = 1: Output with every trace output
-                         * Level = 2: Output at each table compression
-                         * Level = 3: Output at every 1000th hash entry
-                         * a call to HashStats with a value of 0 will
-                         * always print
-                         */
+#if defined(HASHRATE)
+/* Level = 0: No output of HashStat
+ * Level = 1: Output with every trace output
+ * Level = 2: Output at each table compression
+ * Level = 3: Output at every 1000th hash entry
+ * a call to HashStats with a value of 0 will
+ * always print
+ */
+static int HashRateLevel = 0;
+#endif
 
 void HashStats(int level, char *trailer) {
 #if defined(HASHRATE)
@@ -384,7 +369,7 @@ void HashStats(int level, char *trailer) {
 #endif /*HASHRATE*/
 }
 
-int TellCommonEncodePosLeng(int len, int nbr_p) {
+static int TellCommonEncodePosLeng(int len, int nbr_p) {
   int i;
 
   len++; /* Castling_Flag */
@@ -439,7 +424,7 @@ int TellCommonEncodePosLeng(int len, int nbr_p) {
   return len;
 } /* TellCommonEncodePosLeng */
 
-int TellLargeEncodePosLeng(void) {
+static int TellLargeEncodePosLeng(void) {
   square    *bnp;
   int       nbr_p= 0, len= 8;
 
@@ -455,7 +440,7 @@ int TellLargeEncodePosLeng(void) {
   return TellCommonEncodePosLeng(len, nbr_p);
 } /* TellLargeEncodePosLeng */
 
-int TellSmallEncodePosLeng(void) {
+static int TellSmallEncodePosLeng(void) {
   square  *bnp;
   int nbr_p= 0, len= 0;
 
@@ -471,7 +456,7 @@ int TellSmallEncodePosLeng(void) {
   return TellCommonEncodePosLeng(len, nbr_p);
 } /* TellSmallEncodePosLeng */
 
-byte *CommonEncode(byte *bp)
+static byte *CommonEncode(byte *bp)
 {
   int i;
 
@@ -541,7 +526,7 @@ byte *CommonEncode(byte *bp)
   return bp;
 } /* CommonEncode */
 
-void LargeEncode(HashBuffer *hb) {
+static void LargeEncode(HashBuffer *hb) {
   byte  *bp, *position;
   int       row, col;
   square    bnp;
@@ -582,7 +567,7 @@ void LargeEncode(HashBuffer *hb) {
   hb->cmv.Leng= bp - hb->cmv.Data;
 } /* LargeEncode */
 
-void SmallEncode(HashBuffer *hb)
+static void SmallEncode(HashBuffer *hb)
 {
   byte  *bp;
   int       i, row, col;
@@ -619,15 +604,9 @@ void SmallEncode(HashBuffer *hb)
   hb->cmv.Leng= bp - hb->cmv.Data;
 } /* SmallEncode */
 
-/* WhDir(No)Succ
-   solvable in hv_1 (or more) moves
-   nil: enonce+1
-   not solvable in less than hv_2 (exact: in exactly hv_2-1) moves
-   nil: 0
-*/
 boolean inhash(hashwhat what, int val, HashBuffer *hb)
 {
-  dhtElement *he= dhtLookupElement(pyhash, (dhtValue)hb);
+  dhtElement const * const he= dhtLookupElement(pyhash, (dhtValue)hb);
 
   ifHASHRATE(use_all++);
 
@@ -637,11 +616,12 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
     switch (what)
     {
     case SerNoSucc:
-    case WhHelpNoSucc:
     {
-      boolean ret = FlowFlag(Exact)
-        ? (GetFirstHashValue((uLong)he->Data) == (unsigned)val)
-        : (GetFirstHashValue((uLong)he->Data) >= (unsigned)val);
+      serElement_t const * const sere = (serElement_t*)he;
+      boolean const ret = FlowFlag(Exact)
+        ? sere->data.serNotSolvableIn == (unsigned)val
+        : sere->data.serNotSolvableIn >= (unsigned)val;
+      assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
       if (ret) {
         ifHASHRATE(use_pos++);
         return True;
@@ -650,11 +630,39 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
         return False;
     }
     case IntroSerNoSucc:
+    {
+      serElement_t const * const sere = (serElement_t*)he;
+      boolean const ret = FlowFlag(Exact)
+        ? sere->data.introNotSolvableIn == (unsigned)val
+        : sere->data.introNotSolvableIn >= (unsigned)val;
+      assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
+      if (ret) {
+        ifHASHRATE(use_pos++);
+        return True;
+      } else
+        return False;
+    }
+    case WhHelpNoSucc:
+    {
+      helpElement_t const * const hlpe = (helpElement_t*)he;
+      boolean const ret = FlowFlag(Exact)
+        ? hlpe->data.whiteNotSolvableIn == (unsigned)val
+        : hlpe->data.whiteNotSolvableIn >= (unsigned)val;
+      assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
+      if (ret) {
+        ifHASHRATE(use_pos++);
+        return True;
+      }
+      else
+        return False;
+    }
     case BlHelpNoSucc:
     {
-      boolean ret = FlowFlag(Exact)
-        ? (GetSecondHashValue((uLong)he->Data) == (unsigned)val)
-        : (GetSecondHashValue((uLong)he->Data) >= (unsigned)val);
+      helpElement_t const * const hlpe = (helpElement_t*)he;
+      boolean const ret = FlowFlag(Exact)
+        ? hlpe->data.blackNotSolvableIn == (unsigned)val
+        : hlpe->data.blackNotSolvableIn >= (unsigned)val;
+      assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
       if (ret) {
         ifHASHRATE(use_pos++);
         return True;
@@ -663,9 +671,11 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
     }
     case WhDirNoSucc:
     {
-      boolean ret = FlowFlag(Exact)
-        ? (GetSecondHashValue((uLong)he->Data) == (unsigned)val+1)
-        : (GetSecondHashValue((uLong)he->Data) >= (unsigned)val+1);
+      whDirElement_t const * const wde = (whDirElement_t*)he;
+      boolean const ret = FlowFlag(Exact)
+        ? wde->data.notSolvableInLessThan == (unsigned)val+1
+        : wde->data.notSolvableInLessThan >= (unsigned)val+1;
+      assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
       if (ret) {
         ifHASHRATE(use_pos++);
         return True;
@@ -674,9 +684,11 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
     }
     case WhDirSucc:
     {
-      boolean ret = FlowFlag(Exact)
-        ? (GetFirstHashValue((uLong)he->Data) == (unsigned)val)
-        : (GetFirstHashValue((uLong)he->Data) <= (unsigned)val);
+      whDirElement_t const * const wde = (whDirElement_t*)he;
+      boolean const ret = FlowFlag(Exact)
+        ? wde->data.solvableIn == (unsigned)val
+        : wde->data.solvableIn <= (unsigned)val;
+      assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
       if (ret) {
         ifHASHRATE(use_pos++);
         return True;
@@ -692,41 +704,21 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
 
 void addtohash(hashwhat what, int val, HashBuffer *hb)
 {
-  int   hv_1=0, hv_2=0;
-
-  unsigned long dat;
-  dhtElement    *he;
-
-  he= dhtLookupElement(pyhash, (dhtValue)hb);
+  dhtElement *he = dhtLookupElement(pyhash, (dhtValue)hb);
 
   if (he == dhtNilElement) { /* the position is new */
-    switch (what) {
-    case IntroSerNoSucc:
-    case SerNoSucc:
-    case WhHelpNoSucc:
-    case BlHelpNoSucc:
-      hv_1= hv_2= 0;
-      break;
-    case WhDirSucc:
-    case WhDirNoSucc:
-      hv_1= enonce + 1;
-      hv_2= 0;
-      break;
-    }
-    dat= MakeHashData(hv_1, hv_2);
-    he= dhtEnterElement(pyhash, (dhtValue)hb, (dhtValue)dat);
+    he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
     if (he==dhtNilElement
         || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
       compresshash();
-      he= dhtEnterElement(pyhash, (dhtValue)hb, (dhtValue)dat);
+      he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
       if (he==dhtNilElement
           || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
 #if defined(FXF)
         ifTESTHASH(
           printf("make new hashtable, due to trashing\n"));
         inithash();
-        he= dhtEnterElement(pyhash,
-                            (dhtValue)hb, (dhtValue)dat);
+        he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
         if (he==dhtNilElement
             || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
           fprintf(stderr,
@@ -742,30 +734,109 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
 #endif /*FXF*/
       }
     }
+    switch (what) {
+    case IntroSerNoSucc:
+    {
+      serElement_t * const sere = (serElement_t*)he;
+      sere->data.what = what;
+      sere->data.introNotSolvableIn = val;
+      sere->data.serNotSolvableIn = 0;
+      break;
+    }
+    case SerNoSucc:
+    {
+      serElement_t * const sere = (serElement_t*)he;
+      sere->data.what = what;
+      sere->data.serNotSolvableIn = val;
+      sere->data.introNotSolvableIn = 0;
+      break;
+    }
+    case WhHelpNoSucc:
+    {
+      helpElement_t * const hlpe = (helpElement_t*)he;
+      hlpe->data.what = what;
+      hlpe->data.whiteNotSolvableIn = val;
+      hlpe->data.blackNotSolvableIn = 0;
+      break;
+    }
+    case BlHelpNoSucc:
+    {
+      helpElement_t * const hlpe = (helpElement_t*)he;
+      hlpe->data.what = what;
+      hlpe->data.whiteNotSolvableIn = 0;
+      hlpe->data.blackNotSolvableIn = val;
+      break;
+    }
+    case WhDirSucc:
+    {
+      whDirElement_t * const wde = (whDirElement_t*)he;
+      wde->data.what = what;
+      wde->data.solvableIn = val;
+      wde->data.notSolvableInLessThan = 0;
+      break;
+    }
+    case WhDirNoSucc:
+    {
+      whDirElement_t * const wde = (whDirElement_t*)he;
+      wde->data.what = what;
+      wde->data.solvableIn = enonce+1;
+      wde->data.notSolvableInLessThan = val+1;
+      break;
+    }
+    }
   }
-  else { /* The position is already registered */
-    hv_1= GetFirstHashValue((uLong)he->Data);
-    hv_2= GetSecondHashValue((uLong)he->Data);
-  }
-  switch (what) {
-  case SerNoSucc:
-  case WhHelpNoSucc:
-    if (hv_1 < val)
-      he->Data= (dhtValue)MakeHashData(val, hv_2);
-    break;
-  case IntroSerNoSucc:
-  case BlHelpNoSucc:
-    if (hv_2 < val)
-      he->Data= (dhtValue)MakeHashData(hv_1, val);
-    break;
-  case WhDirNoSucc:
-    if (hv_2 < val+1)
-      he->Data= (dhtValue)MakeHashData(hv_1, val+1);
-    break;
-  case WhDirSucc:
-    if (hv_1 > val)
-      he->Data= (dhtValue)MakeHashData(val, hv_2);
-    break;
+  else
+  {
+    switch (what) {
+    case IntroSerNoSucc:
+    {
+      serElement_t * const sere = (serElement_t*)he;
+      assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
+      if (sere->data.introNotSolvableIn < val)
+        sere->data.introNotSolvableIn = val;
+      break;
+    }
+    case SerNoSucc:
+    {
+      serElement_t * const sere = (serElement_t*)he;
+      assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
+      if (sere->data.serNotSolvableIn < val)
+        sere->data.serNotSolvableIn = val;
+      break;
+    }
+    case WhHelpNoSucc:
+    {
+      helpElement_t * const hlpe = (helpElement_t*)he;
+      assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
+      if (hlpe->data.whiteNotSolvableIn < val)
+        hlpe->data.whiteNotSolvableIn = val;
+      break;
+    }
+    case BlHelpNoSucc:
+    {
+      helpElement_t * const hlpe = (helpElement_t*)he;
+      assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
+      if (hlpe->data.blackNotSolvableIn < val)
+        hlpe->data.blackNotSolvableIn = val;
+      break;
+    }
+    case WhDirSucc:
+    {
+      whDirElement_t * const wde = (whDirElement_t*)he;
+      assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
+      if (wde->data.solvableIn > val)
+        wde->data.solvableIn = val;
+      break;
+    }
+    case WhDirNoSucc:
+    {
+      whDirElement_t * const wde = (whDirElement_t*)he;
+      assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
+      if (wde->data.notSolvableInLessThan < val+1)
+        wde->data.notSolvableInLessThan = val+1;
+      break;
+    }
+    }
   }
 #if defined(HASHRATE)
   if (dhtKeyCount(pyhash)%1000 == 0)
@@ -822,22 +893,19 @@ boolean introseries(couleur camp, int n, boolean restartenabled) {
         (*encode)(&hb);
         if (!inhash(IntroSerNoSucc, n, &hb))
         {
-          if (introseries(camp, n-1, False)) {
+          if (introseries(camp, n-1, False))
             flag2= true;
-          }
-          else {
+          else
             addtohash(IntroSerNoSucc, n, &hb);
-          }
         }
       }
       if (restartenabled) {
         IncrementMoveNbr();
       }
       repcoup();
-      if (FlagTimeOut || FlagShortSolsReached) {
+      if (FlagTimeOut || FlagShortSolsReached)
         break;
-      }
-    } /* encore() */
+    }
     finply();
   }
 
@@ -1096,7 +1164,7 @@ boolean ser_dsrsol(couleur camp, int n, boolean restartenabled)
   return  flag;
 } /* ser_dsrsol */
 
-void    inithash(void)
+void inithash(void)
 {
   int Small, Large;
   int i, j;
@@ -1411,7 +1479,7 @@ boolean invref(couleur  camp, int n) {
 
   if (!FlowFlag(Exact))
     if (currentStipSettings.checker(ad)) {
-      addtohash(WhDirSucc, n, &hb);
+      addtohash(WhDirSucc,n,&hb);
       assert(!inhash(WhDirNoSucc,n,&hb));
       return true;
     }
@@ -1652,3 +1720,32 @@ boolean definvref(couleur camp, int n) {
 
   return !flag || pat;
 } /* definvref */
+
+/* assert()s below this line must remain active even in "productive"
+ * executables. */
+#undef NDEBUG
+#include <assert.h>
+
+/* Check assumptions made in the hashing module. Abort if one of them
+ * isn't met.
+ * This is called from checkGlobalAssumptions() once at program start.
+ */
+void check_hash_assumptions(void)
+{
+  assert(sizeof(dhtElement)==sizeof(genericElement_t));
+  assert(sizeof(dhtElement)==sizeof(whDirElement_t));
+  assert(sizeof(dhtElement)==sizeof(helpElement_t));
+  assert(sizeof(dhtElement)==sizeof(serElement_t));
+
+  {
+    genericElement_t ge;
+    
+    /* using this rather than &ge further down keeps gcc quiet: */
+    genericElement_t *pge = &ge;
+
+    ge.data.what = WhDirSucc;
+    assert(WhDirSucc==((whDirElement_t*)pge)->data.what);
+    assert(WhDirSucc==((helpElement_t*)pge)->data.what);
+    assert(WhDirSucc==((serElement_t*)pge)->data.what);
+  }
+}
