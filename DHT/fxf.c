@@ -74,9 +74,9 @@ typedef struct {
 
 /* The maximum size an fxfAlloc can handle */
 #if defined(SEGMENTED) || defined(__TURBOC__)
-#define fxfMAXSIZE  1024
+#define fxfMAXSIZE  (size_t)1024
 #else
-#define fxfMAXSIZE  2048  /* this is needed only when sizeof(void*)==8 */
+#define fxfMAXSIZE  (size_t)2048  /* this is needed only when sizeof(void*)==8 */
 #endif
 /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
 #if defined(SIXTYFOUR)
@@ -254,12 +254,12 @@ void *fxfAlloc(size_t size) {
   DBG((stderr, "%s(%d) =", myname, size));
   if (size < fxfMINSIZE) {
 #if !defined(SIXTYFOUR)
-    WARN_LOG3("%s: size=%d < %d\n", myname, size, fxfMINSIZE);
+    WARN_LOG3("%s: size=%u < %u\n", myname, (unsigned int)size, (unsigned int)fxfMINSIZE);
 #endif
     size= fxfMINSIZE;
   }
   if (size > fxfMAXSIZE) {
-    ERROR_LOG3("%s: size=%d > %d\n", myname, size, fxfMAXSIZE);
+    ERROR_LOG3("%s: size=%u > %u\n", myname, (unsigned int)size, (unsigned int)fxfMAXSIZE);
     return Nil(char);
   }
   if ( (size&PTRMASK) && size<ALIGNED_MINSIZE)
@@ -311,8 +311,8 @@ void fxfFree(void *ptr, size_t size) {
 
   DBG((df, "%s(0x%08x, %d)\n", myname, ptr, size));
   if (size > fxfMAXSIZE) {
-    fprintf(stderr, "%s: size=%d >= %d\n",
-            myname, size, fxfMAXSIZE);
+    fprintf(stderr, "%s: size=%u >= %u\n",
+            myname, (unsigned int)size, (unsigned int)fxfMAXSIZE);
     exit(-5);
   }
   if (size < fxfMINSIZE)
@@ -358,7 +358,7 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
 }
 
 unsigned long fxfTotal() {
-  int i;
+  unsigned int i;
   SizeHead *hd;
   unsigned long UsedBytes, FreeBytes;
 
@@ -374,7 +374,7 @@ unsigned long fxfTotal() {
 }
 
 void fxfInfo(FILE *f) {
-  int i, n;
+  unsigned int i;
   SizeHead *hd;
   unsigned long Used, Free;
   unsigned long UsedBytes, FreeBytes;
@@ -385,11 +385,11 @@ void fxfInfo(FILE *f) {
           - (ArenaSegCnt-ActualSeg-1)*ARENA_SEG_SIZE
 #endif /*SEGMENTED*/
     );
-  fprintf(f, "fxfMAXSIZE   = %d bytes\n", fxfMAXSIZE);
+  fprintf(f, "fxfMAXSIZE   = %u bytes\n", (unsigned int)fxfMAXSIZE);
   fprintf(f, "%12s  %10s%10s\n", "Size", "MallocCnt", "FreeCnt");
   UsedBytes= FreeBytes= Used= Free= 0;
   hd= SizeData;
-  for (n=i=0; i<=fxfMAXSIZE; i++,hd++) {
+  for (i=0; i<=fxfMAXSIZE; i++,hd++) {
     if (hd->MallocCount + hd->FreeCount) {
       fprintf(f, "%12d  %10ld%10ld\n", i,
               hd->MallocCount, hd->FreeCount);
@@ -397,7 +397,6 @@ void fxfInfo(FILE *f) {
       UsedBytes+= hd->MallocCount*i;
       Free+= hd->FreeCount;
       FreeBytes+= hd->FreeCount*i;
-      n++;
     }
   }
   fprintf(f, "%12s  %10lu%10lu\n", "Total:", Used, Free);
