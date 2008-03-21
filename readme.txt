@@ -42,18 +42,19 @@ Contents of this distribution:
 	EXAMPLES:	Directory containing english testfiles 
 	DHT:		Directory containing the dynamic hashing support C-Source files.
 	LATEX:		Directory containing files for LaTeX support.
+	scripts:	Some bash scripts useful for developers
+	toolchains:	contain makefile additions for different tool chains
 
 Motto:
-There is no C-Code portable to every compiler and every machine.
+There is no C code portable to every compiler and every machine.
 
-Nevertheless we want to provide C-Code as much portable as
-possible. But there are some problems which can be avoided
-if you read these few lines, before compiling POPEYE by yourself.
-If you do not want to read any further, take a glance at the
-makefile.unx .
+Nevertheless we want to provide C code as portable as possible. But
+there are some problems which can be avoided if you read these few
+lines, before compiling POPEYE by yourself.  If you do not want to
+read any further, take a glance at the makefile.unx .
 
 A lot of compiling this sources was done with the GNU C-Compiler
-Version 1.39 in ANSI-mode.
+Version 4.xx in ANSI-mode.
 
 On all these machines this sources compile without any problems.
 
@@ -71,35 +72,45 @@ On all these machines this sources compile without any problems.
 	so that later it is always possible to switch from one
 	version to the other.
 
-2. DOS and Borland's Turbo-C
-	There should be no problems to compile with Turbo-C.
-	Be sure to define DOS and TURBOC.
-	You cannot use the makefile written for unix.
-
-3. Compiling for UNIX:
-	Copy or link the file makefile.unx to makefile.
-	Be sure to define UNIX.
-	If your machine is BSD'ish, define also BSD.
-	This source compiles with gcc-1.39 in ANSI mode.
-
-4. One special candidate for porting-problems is pytime.c.
+2. One special candidate for porting-problems is pytime.c.
 	It should compile for every UNIX. But there
-	may be some problems with the #include's.
+	may be some problems with the #includes.
 	Be sure to include <sys/params.h> only once.
 	A special compile switch for TURBO-C (this file is the
 	only file which uses this switch [genpystr.c also uses this or "MSC"
 	- TLi]) is provided. For other DOS-compilers it is likely you have
 	to adapt or completely rewrite this code.
 
-6. On Atari Computers:
-	PROBABLY NOT SUPPORTED NOW !
-	It should compile with TURBO C without any problems.
-	Use the special compile switch ATARI !
-	For ATARI and GNU GCC please look at makefile.unx!
+3. Compiling for UNIX, Cygwin, MingW, MacOS X:
+	Copy or link the file makefile.unx to makefile.
+	The default tool chain used is gcc, with the target platform
+	equal to the host platform (i.e. no cross compilation).
+	To cross compilation, set the TOOLCHAIN parameter in the make
+	command; e.g.:
+		make TOOLCHAIN=cross-i386-mingw32msvc
+	to cross compile from Linux for MingW (Windows 32). See the
+	toolchains directory for support toolchains; and,of course,
+	feel free to add other tool chains!
 
-7. On Macintosh Computers:
-	PROBABLY NOT SUPPORTED NOW !
-	It should compile with MPW without any problems.
+4. Borland C++BuilderX
+	Copy or link the file makefile.unx to makefile.
+	Make sure that the C++BuilderX (e.g. bcc32.exe) executables
+	are in your PATH of a Cygwin bash shell. Do
+        	make TOOLCHAIN=C++BuilderX
+        In principle, this should also work for C++Builder (without
+        the X), but hasn't been tested, feedback is welcome!
+
+5. Microsoft Visual C++
+	Copy or link the file makefile.unx to makefile.
+	Make sure that the C++BuilderX (e.g. bcc32.exe) executables
+	are in your PATH of a Cygwin bash shell. Do
+        	make TOOLCHAIN=MSVC6
+        As "MSVC6" tells you, this was tested with Visual C++ 6. In
+        principle, later Visual C++s (Visual Studios) should work as
+        well, but they haven't been tested; feedback is welcome!
+
+6. On older (than MacOS X) Macintosh Computers:
+	Popeye should compile with MPW without any problems.
 	The compile switch  macintosh  will always be set by MPW !
 
 	hello out there !
@@ -119,21 +130,9 @@ On all these machines this sources compile without any problems.
 	You can contact Stefan if you have problems or suggestions for 	
 	a better implementation.
 
-8. Microsoft C  PWB:
-	PROBABLY NOT SUPPORTED NOW !
-	There should be no problems to compile with Microsoft C.
-
-9. IBM MVS:
-	PROBABLY NOT SUPPORTED NOW !
-	Anybody interested in porting and/or running popeye on IBM
-	mainframes under MVS or VM/CMS, please use  #define C370  .
-	The name "C370" is due to the IBM C/370 compiler available
-	for IBM mainframes.
-	This MVS version is a release from Harald Denker !	
-
-10. DOS and GCC
+7. DOS and GCC
 	Only for 80386 and higher !
-	It should compile without any problems.
+	Popeye should compile without any problems.
 	If you've a working installation of GCC (DJGPP) just
 	copy or link the file makefile.unx to makefile.
 	Adjust the PATH's of your DJGPP installation accordingly.
@@ -143,17 +142,9 @@ On all these machines this sources compile without any problems.
 	To create an executable pydos32.exe, you have to add a line
 		where your preferred 32-Bit extender is concatenated
 		to py to generate the binary.
-	This may last some time on a 80386.
+	This may take some time on a 80386.
 
-11. OS/2 and GCC
-	NOT SUPPORTED ANYMORE !
-	It should compile without any problems.
-	Use the special compile switches OS2 and GCC
-
-12. BS2000
-	NOT SUPPORTED ANYMORE !
-
-13. Hashing and low memory:
+8. Hashing and low memory:
 	If you are low on memory, you can save some space
 	if you edit the dhtvalue.h of the dht package, and
 	link only
@@ -168,11 +159,6 @@ On all these machines this sources compile without any problems.
 		dhtValueTypeToString
 		dhtProcedures
 					ElB 3.May 1994
-
-14. DEC VMS
-	NOT SUPPORTED ANYMORE !
-	Please use the following command procedures as a hint for
-	compiling and linking on your VMS system.
 
 -----  PY.COM  ---- simple command procedure for compiling and linking
 $ compile == "cc/define=(VMS,MSG_IN_MEM,HASH)"
@@ -237,11 +223,3 @@ $ compile dhtstrin
 $ compile dhtbcmem
 ---------------------
 						TLi, 06.05.1994
-
-
-15. Windows 32-Bit environment
-	Use the special compile switch WIN32 in any case.
-	Additionally use the special compile switch WIN98
-		if you have more than 256MB of memory
-		and use Win95, Win98 or WinME .
-
