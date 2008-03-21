@@ -1,0 +1,38 @@
+begi
+
+prot castlingchess.ref
+
+auth Nils Adrian Bakke
+orig feenschach 1991
+fors 32/2k5/8/7p/1K6
+stip ser-r=3
+cond cast
+
+next 
+
+auth Nils Adrian Bakke
+orig feenschach 1997
+fors r7/8/k6s/5p1p/24/6RK
+stip r#2
+opti var
+cond cast
+
+next 
+
+auth Nils Adrian Bakke
+orig feenschach 1997
+fors k7/7p/8/5p2/5p2/8/p6K/b7
+stip r#2
+opti var
+cond cast
+
+next 
+
+auth ?? Nils Adrian Bakke
+orig ?? (v. SE)
+fors k7/6P1/8/3K4/16/1P6/8
+stip ser-h#8
+cond cast
+
+end
+
