@@ -1,0 +1,62 @@
+BeginProblem
+
+prot 4_41_to_4_43.ref
+
+
+title 1897606
+title shouldn't affect following problems
+stip h#1
+cond annan
+pie wh ka1 blac kc1
+
+
+next
+
+title 1885404
+title 1 solution
+stip h#1
+cond grid
+pie wh ka7 qh8 bd4 ba2
+    blac qd1 kd2 rd3 pc2b4c5
+
+
+next
+
+title 1887888
+title 0 solutions
+fors 1K6/2s5/48
+cond koeko parr
+opt nobk
+stip ==1
+
+next
+
+title 1876729
+title 5 solutions
+fors 1s6/K7/P7/40
+condition koeko blackminimummer ParrainCirce
+stipulation h~1
+option nobk
+
+next
+
+title 2 solutions
+stip x1
+pie wh ba3
+pie bl pb4
+pie neut pb2
+cond patr
+opt nowk nobk
+
+next
+
+
+Stipulation s#1
+Condition AntiCirce
+
+Pieces
+White Sg7 Ke6 Pd5 Pe5 Bg4 Sh4 Qe3 Ph2
+Black Pe7 Kh3 Bd1 Rf1
+Option Try Variation NoBoard
+
+EndProblem
