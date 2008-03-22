@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.25 2008/03/22 07:40:18 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.26 2008/03/22 10:19:21 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -29,7 +29,7 @@
 
 # Version numer; . separates major and minor version part
 # developer versions have minor version numbers divisible by 2
-VERSION=4.43
+VERSION=4.44
 
 
 # NOTES ON CONDITIONAL COMPILATION
@@ -214,14 +214,14 @@ include toolchains/$(TOOLCHAIN)/make.incl
 CFLAGS += $(WARN) $(DBG) $(CCOPTIM) $(ARCH) $(DEFS) $(OTHER) \
 	$(INCLUDEPATHS) \
 	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
-        $(DEFINEMACRO)VERSION="$(VERSION) (NG50)"
+        $(DEFINEMACRO)VERSION=$(VERSION)
 
 
 # How to determine build dependencies
 # -----------------------------------
 MAKEDEPEND = $(CCTARGET) $(DEPEND) $(DEFS) $(OTHER) $(INCLUDEPATHS) \
 	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
-        $(DEFINEMACRO)VERSION="$(VERSION) (NG50)"
+        $(DEFINEMACRO)VERSION=$(VERSION)
 
 
 # Linker options
