@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.24 2008/03/16 10:48:55 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.25 2008/03/22 07:40:18 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -17,7 +17,7 @@
 # Turbo C  on ATARI
 # MPW  on Macintosh
 
-# They are all great, but the options of the commands are totaly
+# They are all great, but the options of the commands are totally
 # different to UNIX ones.
 # GRRRHHH !!!
 
@@ -29,7 +29,7 @@
 
 # Version numer; . separates major and minor version part
 # developer versions have minor version numbers divisible by 2
-VERSION=4.42
+VERSION=4.43
 
 
 # NOTES ON CONDITIONAL COMPILATION
@@ -214,14 +214,14 @@ include toolchains/$(TOOLCHAIN)/make.incl
 CFLAGS += $(WARN) $(DBG) $(CCOPTIM) $(ARCH) $(DEFS) $(OTHER) \
 	$(INCLUDEPATHS) \
 	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
-        $(DEFINEMACRO)VERSION=$(VERSION)
+        $(DEFINEMACRO)VERSION="$(VERSION) (NG50)"
 
 
 # How to determine build dependencies
 # -----------------------------------
 MAKEDEPEND = $(CCTARGET) $(DEPEND) $(DEFS) $(OTHER) $(INCLUDEPATHS) \
 	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
-        $(DEFINEMACRO)VERSION=$(VERSION)
+        $(DEFINEMACRO)VERSION="$(VERSION) (NG50)"
 
 
 # Linker options
@@ -313,6 +313,12 @@ pyio:           pyio.c pydata.h py.h pydata$(OBJ_SUFFIX) pymac.h
 # pylang-host$(OBJ_SUFFIX) is the object file for the host.
 pylang-host$(OBJ_SUFFIX):  pylang.c
 		$(CCHOST) $(CFLAGS) $(COMPILEONLY) pylang.c $(OBJFILE)$@
+# work around compilers that strictly derive object file name from
+# source file name
+		if [ -f pylang$(OBJ_SUFFIX) -a ! -f $@ ]; \
+		then \
+			mv pylang$(OBJ_SUFFIX) $@; \
+		fi
 
 genpystr$(OBJ_SUFFIX):	genpystr.c
 			$(CCHOST) $(CFLAGS) $(COMPILEONLY) genpystr.c $(OBJFILE)$@
@@ -452,8 +458,8 @@ COMPRESSDISTFILE = $(SOURCESTARFILE).Z
 
 compressdist:	/tmp/$(VERSIONDIR).compress
 		mkdir $(VERSIONDIR)
-		mkdir $(VERSIONDIR)/DHT
 		for i in $(DFILES) ; do  \
+			mkdir -p $(VERSIONDIR)/`dirname $$i` ;\
 			ln $$i $(VERSIONDIR)/$$i ;\
 		done
 		tar cfv $(SOURCESTARFILE) $(VERSIONDIR)
@@ -470,8 +476,8 @@ UUGZIPDISTFILE = $(GZIPDISTFILE).uu
 
 $(GZIPDISTFILE): $(DFILES)
 		mkdir $(VERSIONDIR)
-		mkdir $(VERSIONDIR)/DHT
 		for i in $^ ; do  \
+			mkdir -p $(VERSIONDIR)/`dirname $$i` ;\
 			ln $$i $(VERSIONDIR)/$$i ;\
 		done
 		tar cfv $(SOURCESTARFILE) $(VERSIONDIR)
