@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
 #if defined(__TURBOC__)
 # include <mem.h>
 #endif
@@ -78,49 +79,46 @@ boolean ProofVerifie(void) {
 
 void ProofEncode(HashBuffer *hb)
 {
-  byte	*bp, *position, pieces;
+  byte	  *position= hb->cmv.Data;
+  byte	  *bp= position+nr_rows_on_board;
+  byte	  pieces= 0;
   int		row, col;
-  square	bnp;
+  square a_square= square_a1;
   boolean even= False;
 
-  VARIABLE_INIT(pieces);
-
-  position= bp= hb->cmv.Data;
   /* clear the bits for storing the position of pieces */
-  memset(position, 0, 8);
-  bp= position+8;
+  memset(position, 0, nr_rows_on_board);
 
-  bnp= bas;
-  for (row=0; row<8; row++, bnp+= 16) {
-	for (col=0; col<8; col++, bnp++) {
-      piece   p;
-      if ((p= e[bnp]) != vide) {
-		if (!even) {
-          pieces= (byte)(p < vide ? 7-p : p);
-		}
-		else {
-          *bp++ = pieces+(((byte)(p < vide ? 7-p : p))<<4);
-		}
+  for (row=0; row<nr_rows_on_board; row++, a_square+= onerow) {
+    square curr_square = a_square;
+    for (col=0; col<nr_files_on_board; col++, curr_square+=dir_right) {
+      piece p= e[curr_square];
+      if (p!=vide) {
+		if (even)
+          *bp++ = pieces+(((byte)(p<vide ? 7-p : p))<<(CHAR_BIT/2));
+		else
+          pieces= (byte)(p<vide ? 7-p : p);
 		even= !even;
 		position[row] |= BIT(col);
       }
 	}
   }
+
   if (even)
-	*bp++ = pieces+(15<<4);
+	*bp++ = pieces+(15<<(CHAR_BIT/2));
+
   *bp++ = castling_flag[nbply];
 
   if (CondFlag[duellist]) {
     *bp++ = (byte)(whduell[nbply] - bas);
     *bp++ = (byte)(blduell[nbply] - bas);
   }
-  if (CondFlag[blfollow] || CondFlag[whfollow]) {
-    *bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
-  }
 
-  if (ep[nbply]) {
+  if (CondFlag[blfollow] || CondFlag[whfollow])
+    *bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
+
+  if (ep[nbply])
 	*bp++ = (byte)(ep[nbply] - bas);
-  }
 
   hb->cmv.Leng= bp - hb->cmv.Data;
 }

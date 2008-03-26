@@ -78,6 +78,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 /* TurboC and BorlandC  TLi */
 #if defined(__TURBOC__)
@@ -103,8 +104,8 @@ struct dht *pyhash;
 static char    piece_nbr[PieceCount];
 static boolean one_byte_hash;
 static boolean flag_hashall;
-static boolean bytes_for_spec;
-static boolean bytes_for_piece;
+static unsigned int bytes_per_spec;
+static unsigned int bytes_per_piece;
 
 #if defined(TESTHASH)
 #define ifTESTHASH(x)   x
@@ -126,7 +127,8 @@ static unsigned long use_pos, use_all;
 
 /* New Version for more ply's */
 enum {
- BitsForPly = 10      /* Up to 1023 ply possible */
+  ByteMask = (1u<<CHAR_BIT)-1,
+  BitsForPly = 10      /* Up to 1023 ply possible */
 };
 
 void (*encode)(HashBuffer*);
@@ -375,17 +377,16 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
   len++; /* Castling_Flag */
   if (CondFlag[haanerchess]) {
     /*
-    ** I assume an average of (64 - number of pieces)/2
-    ** additional holes per position.
+    ** I assume an average of (nr_files_on_board*nr_rows_on_board -
+    ** number of pieces)/2 additional holes per position.
     */
     /* That's far too much. In a ser-h#5 there won't be more
     ** than 5 holes in hashed positions.      TLi
     */
     int nbr_holes= FlowFlag(Series) != 0 ? enonce : 2*enonce;
-    if (nbr_holes > (64 - nbr_p) / 2) {
-      nbr_holes= (64 - nbr_p) / 2;
-    }
-    len += bytes_for_piece * nbr_holes;
+    if (nbr_holes > (nr_files_on_board*nr_rows_on_board-nbr_p)/2)
+      nbr_holes= (nr_files_on_board*nr_rows_on_board-nbr_p)/2;
+    len += bytes_per_piece*nbr_holes;
   }
   if (CondFlag[messigny]) {
     len+= 2;
@@ -430,12 +431,12 @@ static int TellLargeEncodePosLeng(void) {
 
   for (bnp= boardnum; *bnp; bnp++) {
     if (e[*bnp] != vide) {
-      len += bytes_for_piece;
+      len += bytes_per_piece;
       nbr_p++;  /* count no. of pieces and holes */
     }
   }
   if (CondFlag[BGL])
-    len+= 2*sizeof(BGL_white);
+    len+= sizeof BGL_white + sizeof BGL_black;
 
   return TellCommonEncodePosLeng(len, nbr_p);
 } /* TellLargeEncodePosLeng */
@@ -449,7 +450,7 @@ static int TellSmallEncodePosLeng(void) {
     ** Flags    pspec;
     */
     if (e[*bnp] != vide) {
-      len += 1 + bytes_for_piece;
+      len += 1 + bytes_per_piece;
       nbr_p++;            /* count no. of pieces and holes */
     }
   }
@@ -458,8 +459,6 @@ static int TellSmallEncodePosLeng(void) {
 
 static byte *CommonEncode(byte *bp)
 {
-  int i;
-
   if (CondFlag[messigny]) {
     if (move_generation_stack[nbcou].capture == messigny_exchange) {
       *bp++ = (byte)(move_generation_stack[nbcou].arrival - bas);
@@ -474,15 +473,17 @@ static byte *CommonEncode(byte *bp)
     *bp++ = (byte)(whduell[nbply] - bas);
     *bp++ = (byte)(blduell[nbply] - bas);
   }
-  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue]) {
+
+  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
     *bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
-  }
-  if (flag_synchron) {
+
+  if (flag_synchron)
     *bp++= (byte)(sq_num[move_generation_stack[nbcou].departure]
                   -sq_num[move_generation_stack[nbcou].arrival]
                   +64);
-  }
+
   if (CondFlag[imitators]) {
+    int i;
     /* The number of imitators has to be coded too to
     ** avoid ambiguities.
     */
@@ -491,76 +492,73 @@ static byte *CommonEncode(byte *bp)
       *bp++ = (byte)(isquare[i] - bas);
     }
   }
-  if (OptFlag[nontrivial]) {
+
+  if (OptFlag[nontrivial])
     *bp++ = (byte)(NonTrivialNumber);
-  }
+
   if (CondFlag[parrain]) {
     /* a piece has been captured and can be reborn */
     *bp++ = (byte)(move_generation_stack[nbcou].capture - bas);
     if (one_byte_hash) {
-      *bp++ = (byte)(pprispec[nbply]) +
-        ((byte)(piece_nbr[abs(pprise[nbply])]) << 4);
+      *bp++ = (byte)(pprispec[nbply])
+        + ((byte)(piece_nbr[abs(pprise[nbply])]) << (CHAR_BIT/2));
     }
     else {
       *bp++ = pprise[nbply];
-      *bp++ = (byte)(pprispec[nbply]>>8);
-      *bp++ = (byte)(pprispec[nbply]&0xff);
+      *bp++ = (byte)(pprispec[nbply]>>CHAR_BIT);
+      *bp++ = (byte)(pprispec[nbply]&ByteMask);
     }
   }
-  if (FlowFlag(Exact)) {
-    *bp++ = (byte)(nbply);
-  }
 
-  if (ep[nbply]) {
+  if (FlowFlag(Exact))
+    *bp++ = (byte)(nbply);
+
+  if (ep[nbply]!=initsquare)
     *bp++ = (byte)(ep[nbply] - bas);
-  }
+
   *bp++ = castling_flag[nbply];     /* Castling_Flag */
 
-  if (CondFlag[BGL])
-  { 
-    long int* lip= (long int*)bp;
-    *lip++= BGL_white;
-    *lip++= BGL_black;
-    bp=(byte*)lip;
+  if (CondFlag[BGL]) {
+    memcpy(bp, &BGL_white, sizeof BGL_white);
+    bp += sizeof BGL_white;
+    memcpy(bp, &BGL_black, sizeof BGL_black);
+    bp += sizeof BGL_black;
   }
+
   return bp;
 } /* CommonEncode */
 
 static void LargeEncode(HashBuffer *hb) {
-  byte  *bp, *position;
+  byte  *position= hb->cmv.Data;
+  byte  *bp= position+nr_rows_on_board;
   int       row, col;
-  square    bnp;
+  square a_square= square_a1;
 
-  position= bp= hb->cmv.Data;
   /* clear the bits for storing the position of pieces */
-  memset(position, 0, 8);
-  bp= position+8;
+  memset(position, 0, nr_rows_on_board);
 
-  bnp= bas;
-  for (row=0; row<8; row++, bnp+= 16) {
-    for (col=0; col<8; col++, bnp++) {
-      piece p;
-      if ((p= e[bnp]) != vide) {
-        Flags pspec= spec[bnp];
-        if (!TSTFLAG(pspec, Neutral)) {
+  for (row=0; row<nr_rows_on_board; row++, a_square+= onerow) {
+    square curr_square = a_square;
+    for (col=0; col<nr_files_on_board; col++, curr_square+= dir_right) {
+      piece p= e[curr_square];
+      if (p!=vide) {
+        Flags pspec= spec[curr_square];
+        if (!TSTFLAG(pspec, Neutral))
           SETFLAG(pspec, (p < vide ? Black : White));
-        }
         p= abs(p);
-        if (one_byte_hash) {
-          *bp++ = (byte)(pspec) +
-            ((byte)(piece_nbr[p]) << 4);
-        }
+        if (one_byte_hash)
+          *bp++ = (byte)pspec + ((byte)piece_nbr[p] << (CHAR_BIT/2));
         else {
-          int i;
+          unsigned int i;
           *bp++ = p;
-          for (i = 0; i <= bytes_for_spec; i++) {
-            *bp++ = (byte)((pspec>>(8*i)) & 0xff);
-          }
+          for (i = 0; i<bytes_per_spec; i++)
+            *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
         }
         position[row] |= BIT(col);
       }
     }
   }
+
   /* Now the rest of the party */
   bp= CommonEncode(bp);
 
@@ -569,35 +567,32 @@ static void LargeEncode(HashBuffer *hb) {
 
 static void SmallEncode(HashBuffer *hb)
 {
-  byte  *bp;
-  int       i, row, col;
-  square    bnp;
+  byte   *bp= hb->cmv.Data;
+  int    row, col;
+  square a_square= square_a1;
 
-  bp= hb->cmv.Data;
-  bnp= bas;
-  for (row=0; row<8; row++, bnp+= 16) {
-    for (col=0; col<8; col++, bnp++) {
-      piece p;
-      if ((p= e[bnp]) != vide) {
-        Flags pspec= spec[bnp];
-        if (!TSTFLAG(pspec, Neutral)) {
+  for (row=0; row<nr_rows_on_board; row++, a_square+= onerow) {
+    square curr_square= a_square;
+    for (col=0; col<nr_files_on_board; col++, curr_square+= dir_right) {
+      piece p= e[curr_square];
+      if (p!=vide) {
+        Flags pspec= spec[curr_square];
+        if (!TSTFLAG(pspec, Neutral))
           SETFLAG(pspec, (p < vide ? Black : White));
-        }
         p= abs(p);
-        *bp++= (row<<3)+col;
-        if (one_byte_hash) {
-          *bp++ = (byte)(pspec) +
-            ((byte)(piece_nbr[p]) << 4);
-        }
+        *bp++= (byte)((row<<(CHAR_BIT/2))+col);
+        if (one_byte_hash)
+          *bp++ = (byte)pspec + ((byte)piece_nbr[p] << (CHAR_BIT/2));
         else {
+          unsigned int i;
           *bp++ = p;
-          for (i = 0; i <= bytes_for_spec; i++) {
-            *bp++ = (byte)((pspec>>(8*i)) & 0xff);
-          }
+          for (i = 0; i<bytes_per_spec; i++)
+            *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
         }
       }
     }
   }
+
   /* Now the rest of the party */
   bp= CommonEncode(bp);
 
@@ -1202,34 +1197,36 @@ void inithash(void)
   if (CondFlag[haanerchess])
     piece_nbr[obs]= j++;
 
-  one_byte_hash = (j < 16) && (PieSpExFlags < 16);
+  one_byte_hash = j<(1<<(CHAR_BIT/2)) && PieSpExFlags<(1<<(CHAR_BIT/2));
 
-  bytes_for_spec= 0;
-  for (i= 8; i < 24; i+=8)
-    if (PieSpExFlags >> i)
-      bytes_for_spec += 1;
-  bytes_for_piece= one_byte_hash ? 1 : 1 + bytes_for_spec;
+  bytes_per_spec= 1;
+  if ((PieSpExFlags >> CHAR_BIT) != 0)
+    bytes_per_spec++;
+  if ((PieSpExFlags >> 2*CHAR_BIT) != 0)
+    bytes_per_spec++;
+
+  bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
 
   if (OptFlag[intelligent]) {
     one_byte_hash = false;
-    bytes_for_spec= 4;
+    bytes_per_spec= 5; /* TODO why so high??? */
   }
 
   if (SortFlag(Proof)) {
     encode= ProofEncode;
-    if (MaxMemory && !MaxPositions)
+    if (MaxMemory && MaxPositions==0)
       MaxPositions= MaxMemory/(24+sizeof(char *)+1);
   } else {
     Small= TellSmallEncodePosLeng();
     Large= TellLargeEncodePosLeng();
     if (Small <= Large) {
       encode= SmallEncode;
-      if (MaxMemory && !MaxPositions)
+      if (MaxMemory && MaxPositions==0)
         MaxPositions= MaxMemory/(Small+sizeof(char *)+1);
     }
     else {
       encode= LargeEncode;
-      if (MaxMemory && !MaxPositions)
+      if (MaxMemory && MaxPositions==0)
         MaxPositions= MaxMemory/(Large+sizeof(char *)+1);
     }
   }
@@ -1512,34 +1509,44 @@ boolean invref(couleur  camp, int n) {
   return result;
 } /* invref */
 
-square *selfbnp, initiallygenerated;
-
 /* Generate (piece by piece) candidate moves the last move of a s# or
  * r#. Do *not* generate moves for the piece on square
  * initiallygenerated; this piece has already been taken care of. */
-boolean selflastencore(couleur camp) {
-  piece   p;
-
+boolean selflastencore(couleur camp,
+                       square const **selfbnp,
+                       square initiallygenerated) {
   if (encore())
     return true;
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(camp));
-  while (*selfbnp) {
-    if ((*selfbnp != initiallygenerated) && ((p= e[*selfbnp]) != vide)) {
-      if (TSTFLAG(spec[*selfbnp], Neutral))
-        p= -p;
-      if (camp == blanc) {
-        if (p > obs)
-          gen_wh_piece(*selfbnp, p);
-      } else
-        if (p < vide)
-          gen_bl_piece(*selfbnp, p);
+  else {
+    square curr_square= **selfbnp;
+
+    if (TSTFLAG(PieSpExFlags,Neutral))
+      initneutre(advers(camp));
+
+    while (curr_square) {
+      if (curr_square!=initiallygenerated) {
+        piece p= e[curr_square];
+        if (p!=vide) {
+          if (TSTFLAG(spec[curr_square], Neutral))
+            p= -p;
+          if (camp==blanc) {
+            if (p>obs)
+              gen_wh_piece(curr_square,p);
+          } else
+            if (p<vide)
+              gen_bl_piece(curr_square,p);
+        }
+      }
+    
+      ++*selfbnp;
+      curr_square= **selfbnp;
+
+      if (encore())
+        return true;
     }
-    selfbnp++;
-    if (encore())
-      return true;
+
+    return false;
   }
-  return false;
 } /* selflastencore */
 
 /* Can camp defend against a s# or r# in n? */
@@ -1666,52 +1673,50 @@ boolean definvref(couleur camp, int n) {
     }
     finply();
   }
-  else {
+  else if (!(FlagMoveOrientatedStip
+             && currentStipSettings.stipulation == stip_ep
+             && ep[nbply] == initsquare
+             && ep2[nbply] == initsquare))
+  {
     piece p;
-    selfbnp= boardnum;
+    square const *selfbnp= boardnum;
+    square initiallygenerated= initsquare;
 
-    if (!(FlagMoveOrientatedStip
-          && currentStipSettings.stipulation == stip_ep
-          && ep[nbply] == initsquare
-          && ep2[nbply] == initsquare))
-    {
-      nextply();
-      init_move_generation_optimizer();
-      trait[nbply]= camp;
-      if (TSTFLAG(PieSpExFlags,Neutral)) {
-        initneutre(advers(camp));
-      }
-      initiallygenerated= initsquare;
-      p= e[current_killer_state.move.departure];
-      if (p!=vide) {
-        if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
-          p= -p;
-        if (camp == blanc) {
-          if (p > obs) {
-            initiallygenerated= current_killer_state.move.departure;
-            gen_wh_piece(initiallygenerated, p);
-          }
-        }
-        else {
-          if (p < -obs) {
-            initiallygenerated= current_killer_state.move.departure;
-            gen_bl_piece(initiallygenerated, p);
-          }
-        }
-      }
-      finish_move_generation_optimizer();
-      while (flag && selflastencore(camp)) {
-        if (jouecoup() && !echecc(camp)) {
-          pat= false;
-          flag= currentStipSettings.checker(camp);
-          if (!flag) {
-            coupfort();
-          }
-        }
-        repcoup();
-      }
-      finply();
+    nextply();
+    init_move_generation_optimizer();
+    trait[nbply]= camp;
+    if (TSTFLAG(PieSpExFlags,Neutral)) {
+      initneutre(advers(camp));
     }
+    p= e[current_killer_state.move.departure];
+    if (p!=vide) {
+      if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
+        p= -p;
+      if (camp == blanc) {
+        if (p > obs) {
+          initiallygenerated= current_killer_state.move.departure;
+          gen_wh_piece(initiallygenerated, p);
+        }
+      }
+      else {
+        if (p < -obs) {
+          initiallygenerated= current_killer_state.move.departure;
+          gen_bl_piece(initiallygenerated, p);
+        }
+      }
+    }
+    finish_move_generation_optimizer();
+    while (flag && selflastencore(camp,&selfbnp,initiallygenerated)) {
+      if (jouecoup() && !echecc(camp)) {
+        pat= false;
+        flag= currentStipSettings.checker(camp);
+        if (!flag) {
+          coupfort();
+        }
+      }
+      repcoup();
+    }
+    finply();
   }
 
   if (n > NonTrivialLength) {
@@ -1732,6 +1737,16 @@ boolean definvref(couleur camp, int n) {
  */
 void check_hash_assumptions(void)
 {
+  /* SmallEncode uses 1 byte for both row and file of a square */
+  assert(nr_rows_on_board<1<<(CHAR_BIT/2));
+  assert(nr_files_on_board<1<<(CHAR_BIT/2));
+
+  /* LargeEncode() uses 1 bit per square */
+  assert(nr_files_on_board<=CHAR_BIT);
+
+  /* the encoding functions encode Flags as 2 bytes */
+  assert(PieSpCount<=2*CHAR_BIT);
+  
   assert(sizeof(dhtElement)==sizeof(genericElement_t));
   assert(sizeof(dhtElement)==sizeof(whDirElement_t));
   assert(sizeof(dhtElement)==sizeof(helpElement_t));
