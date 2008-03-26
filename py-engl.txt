@@ -301,6 +301,9 @@ commands expect further parameters. Lets start with the simpler commands:
 	BlackVaultingKing
 	ProteanChess
 	Lortap
+	Antikoeko
+	CastlingChess
+	ChameleonPursuit
 
 	After the conditions Imitator, MagicSquare, Hole,
 	FrischaufCirce, WhitePromSquares, BlackPromSquares or one of
@@ -560,6 +563,7 @@ elaborate is the command
 	HalfNeutral
 	HurdleColourChanging          (only for hoppers !)
 	Protean
+        Magic
 
 	may be given. All the pieces given after this will have these
 	attributes.  After this specification follows the list of
@@ -641,6 +645,7 @@ elaborate is the command
 	li      lion
 	ln      nightrider locust
 	lr      rook locust
+        ls      rose locust
 	m       moose
 	ma      mao
 	mg      marguerite                      g+sw+ea+m+ha
