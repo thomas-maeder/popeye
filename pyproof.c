@@ -324,9 +324,13 @@ void ProofInitialise(void) {
 
   if (flag_atob) {
     char InitialLine[40];
-    sprintf(InitialLine,
-            "Initial (%s ->):\n",
-            PieSpString[ActLang][flag_appseul ? White : Black]);
+    PieSpec atMove;
+    if (FlowFlag(Alternate))
+      atMove = flag_appseul ? White : Black;
+    else
+      /* in series play, white is always at move */
+      atMove = White;
+    sprintf(InitialLine, "Initial (%s ->):\n", PieSpString[ActLang][atMove]);
 	StdString(InitialLine);
 	WritePosition();
   }
