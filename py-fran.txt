@@ -294,6 +294,9 @@ simples:
 	NoirVaultingKing
 	EchecsProtee
 	Elliuortap
+	ChameleonPoursuite
+	AntiKoeko
+	EchecsRoque
 
 	Apres les mots-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -562,6 +565,7 @@ suivante est un peu plus compliquee:
 	DemiNeutre
 	CouleurEchangeantSautoir
 	Protee
+	Magique
 
 	Suit la liste des pieces comme d'habitude: type de la piece suivi par
 	une liste de cases ou se trouve une telle piece. On peut toujours
@@ -637,6 +641,7 @@ suivante est un peu plus compliquee:
 	lf      fou locuste   
 	li      lion
 	ln      noctambule locuste   
+	lr	rose locuste
 	lt      tour locuste   
 	m       moineaux
 	ma      mao

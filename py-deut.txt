@@ -307,6 +307,9 @@ Kommandos:
 	SchwarzerVaultingKing
 	ProteischesSchach
 	Elliuortap
+	ChamaeleonVerfolgung
+	AntiKoeko
+	RochadeSchach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -577,6 +580,7 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	Halbneutral
 	SprungbockFarbeWechselnd         (nur bei Huepfern !)
 	Proteisch
+	Magisch
 
 	angegeben werden. 
 	Nach diesen Spezifikationen kommt die Liste der Figuren, 
@@ -664,6 +668,7 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	li      Lion                            0,1+1,1 beliebig weit Huepfer
 	lj      Laeufer/Turm-Jaeger
 	ll      Laeufer-Lion
+	lr	Rosen-Heuschrecke
 	ls      Laeuferspatz                    1,1 135 Grad Huepfer
 	ma      Mao                             (Wie Springer) Gerade-Diagonal
 	mg      Marguerite                      g+sp+ad+el+ha
