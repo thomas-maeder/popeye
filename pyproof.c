@@ -1741,51 +1741,58 @@ boolean ProofSol(couleur camp, int n, boolean restartenabled) {
 
 boolean SeriesProofSol(int n, boolean restartenabled) {
   /* no camp, because we play always with white ! */
-  boolean flag= false;
+  boolean result= false;
   HashBuffer hb;
 
-  if ((OptFlag[maxsols] && (solutions >= maxsolutions))
-      || FlagTimeOut)
-  {
+  if ((OptFlag[maxsols] && solutions>=maxsolutions)
+      || FlagTimeOut
+      || (OptFlag[stoponshort] && FlagShortSolsReached))
 	return false;
-  }
 
   /* Let us check whether the position is already in the
      hash table and marked unsolvable.
   */
   (*encode)(&hb);
-  if (inhash(SerNoSucc, n, &hb)) {
+  if (inhash(SerNoSucc,n,&hb))
 	return false;
-  }
 
-  n--;
   genmove(blanc);
-  while (encore()){
-	if (jouecoup() && !(restartenabled && MoveNbr < RestartNbr)) {
-      if (n ? (!ProofSeriesImpossible(n)
-               && !echecc(noir)
-               && !echecc(blanc)
-               && SeriesProofSol(n, False))
-		  : (ProofIdentical()
-		     && !echecc(blanc)))
-      {
-		flag= true;
-		if (!n) {
-          linesolution();
-		}
+
+  while (encore())
+	if (jouecoup()) {
+      if (!restartenabled || MoveNbr>=RestartNbr) {
+        if (!echecc(blanc)) {
+          if (n==1) {
+            if (ProofIdentical()) {
+              result = true;
+              linesolution();
+            }
+          } else {
+            if (!FlowFlag(Exact) && ProofIdentical())
+            {
+              FlagShortSolsReached = true;
+              result = true;
+              linesolution();
+            }
+            else if (!ProofSeriesImpossible(n-1)
+                     && !echecc(noir)
+                     && SeriesProofSol(n-1,False))
+              result = true;
+          }
+        }
+
+        if (restartenabled)
+          IncrementMoveNbr();
       }
-	}
-	if (restartenabled) {
-      IncrementMoveNbr();
-	}
-	repcoup();
-  }
+
+      repcoup();
+    }
+
   finply();
 
   /* Add the position to the hash table if it has no solutions */
-  if (!flag) {
-	addtohash(SerNoSucc, n+1, &hb);
-  }
+  if (!result)
+	addtohash(SerNoSucc,n,&hb);
 
-  return flag;
+  return result;
 } /* SeriesProofSol */

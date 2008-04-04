@@ -41,4 +41,10 @@ weit
 steine weiss Kd1 Lf2 schwarz Kc3 Ta2
 forderung ser-a=>b11
 steine weiss Kh5 Le1 schwarz Kc3 
+weiter
+bemerkung Test für StopNachKurzloesungen in Beweispartien und a=>b
+steine weiss Kd1 Lf2 schwarz Kc3 Ta2
+forderung ser-a=>b12
+steine weiss Kh5 Le1 schwarz Kc3
+option StopNachKurzloesungen
 ende

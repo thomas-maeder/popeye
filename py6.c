@@ -2997,14 +2997,8 @@ int main(int argc, char *argv[]) {
             }
             ProofSol(maincamp, enonce, OptFlag[movenbr]);
           }
-          else {
-            if (flag_atob && !FlowFlag(Exact)) {
-              StipFlags|= FlowBit(Exact);
-              for (i= 1; i<enonce; i++)
-                SeriesProofSol(i, false);
-            }
+          else
             SeriesProofSol(enonce, OptFlag[movenbr]);
-          }
           closehash();
           Message(NewLine);
         }
