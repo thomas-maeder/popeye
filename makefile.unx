@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.26 2008/03/22 10:19:21 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.27 2008/04/05 08:31:32 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -29,7 +29,7 @@
 
 # Version numer; . separates major and minor version part
 # developer versions have minor version numbers divisible by 2
-VERSION=4.44
+VERSION=4.45
 
 
 # NOTES ON CONDITIONAL COMPILATION
