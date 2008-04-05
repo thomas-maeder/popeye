@@ -1576,71 +1576,58 @@ boolean ProofImpossible(int MovesAvailable) {
 
 boolean ProofSeriesImpossible(int MovesAvailable) {
   square	*bnp, sq;
-  piece	p1, p2;
   int		BlPieToBeCapt, BlCapturesRequired;
   int		NbrBl;
   int		WhMovesLeft= MovesAvailable;
 
-  if (ProofFairy) {
+  if (ProofFairy)
 	return ProofFairyImpossible(MovesAvailable);
-  }
 
   /* too many pawns captured or promoted */
-  if (   ProofNbrPiece[pb] > nbpiece[pb]
-         || ProofNbrPiece[pn] > nbpiece[pn])
-  {
+  if (ProofNbrPiece[pb]>nbpiece[pb] || ProofNbrPiece[pn]>nbpiece[pn])
 	return true;
-  }
 
   NbrBl= nbpiece[pn]
     + nbpiece[cn]
     + nbpiece[tn]
     + nbpiece[fn]
     + nbpiece[dn]
-    + 1;
+    + nbpiece[roin];
 
   /* to many pieces captured	or */
   /* not enough time to capture the remaining pieces */
   BlPieToBeCapt= NbrBl - ProofNbrBlackPieces;
-  if (BlPieToBeCapt < 0 || BlPieToBeCapt > WhMovesLeft) {
+  if (BlPieToBeCapt<0 || BlPieToBeCapt>WhMovesLeft)
 	return true;
-  }
 
   /* has a white pawn on the second rank moved ? */
-  for (sq= 208; sq <= 215; sq++) {
-	if (ProofBoard[sq] == pb && e[sq] != pb) {
+  for (sq = square_a2; sq<=square_h2; sq += dir_right)
+	if (ProofBoard[sq]==pb && e[sq]!=pb)
       return true;
-	}
-  }
 
   /* has a black pawn on the seventh rank been captured ? */
-  for (sq= square_a7; sq <= square_h7; sq++) {
-	if (ProofBoard[sq] == pn && e[sq] != pn) {
+  for (sq = square_a7; sq<=square_h7; sq += dir_right)
+	if (ProofBoard[sq]==pn && e[sq]!=pn)
       return true;
-	}
-  }
 
   /* has a black piece on the eigth rank been captured ? */
-  for (sq= square_a8; sq <= square_h8; sq++) {
-	if (ProofBoard[sq] < roin && ProofBoard[sq] != e[sq]) {
+  for (sq = square_a8; sq<=square_h8; sq += dir_right)
+	if (ProofBoard[sq]<roin && ProofBoard[sq]!=e[sq])
       return true;
-	}
-  }
 
   WhMovesLeft -= ProofWhKingMovesNeeded();
-  if (WhMovesLeft < 0) {
+  if (WhMovesLeft < 0)
 	return true;
-  }
 
   /* collect the pieces for further investigations */
   ProofWhPawns.Nbr=
     ProofWhPieces.Nbr=
     CurrentWhPawns.Nbr=
     CurrentWhPieces.Nbr= 0;
-
+  
   for (bnp= boardnum; *bnp; bnp++) {
-	p1= ProofBoard[*bnp];
-	p2= e[*bnp];
+	piece const p1= ProofBoard[*bnp];
+	piece const p2= e[*bnp];
 
 	if (p1 != p2) {
       if (p1 > vide) {  /* it's a white piece */
@@ -1675,15 +1662,11 @@ boolean ProofSeriesImpossible(int MovesAvailable) {
 
   if (ArrangePawns(BlPieToBeCapt, blanc, &BlCapturesRequired)
       > WhMovesLeft)
-  {
 	return true;
-  }
 
   if (ArrangePieces(BlPieToBeCapt, blanc, BlCapturesRequired)
       > WhMovesLeft)
-  {
 	return true;
-  }
 
   return false;
 } /* ProofSeriesImpossible */
@@ -1774,9 +1757,10 @@ boolean SeriesProofSol(int n, boolean restartenabled) {
               result = true;
               linesolution();
             }
-            else if (!ProofSeriesImpossible(n-1)
-                     && !echecc(noir)
-                     && SeriesProofSol(n-1,False))
+            /* no else here; we might miss some solutions! */
+            if (!ProofSeriesImpossible(n-1)
+                && !echecc(noir)
+                && SeriesProofSol(n-1,False))
               result = true;
           }
         }
