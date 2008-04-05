@@ -1,0 +1,26 @@
+BeginProblem
+
+prot 4_43_to_4_45.ref
+
+title some solutions were not found in ser-a=>b without black king
+Pieces
+White Ka2
+Black Rh8 Pa4
+Stipulation ser-a=>b2
+Pieces
+White Ka4
+Black Rh8
+Option NoBk
+
+next
+
+title used to take several minutes in releases 4.37 to 4.43
+Pieces
+White Ke1 Bf2
+Black Kc3 Ra2
+Stipulation ser-a=>b12
+Pieces
+White Kh5 Be1
+Black Kc3 
+
+EndProblem
