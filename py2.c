@@ -158,13 +158,13 @@ boolean castlingimok(square i, square j) {
 
   switch (j-i)
   {
-  case 2:  /* 00 - can short-circuit here (only follow K, if ok rest will be ok) */
+  case 2*dir_right:  /* 00 - can short-circuit here (only follow K, if ok rest will be ok) */
     e[i]= vide;
     ret= imok(i, i+dir_right) && imok(i, i+2*dir_right);
     e[i]= p;
     break;
 
-  case -2:  /* 000 - follow K, (and move K as well), then follow R */
+  case 2*dir_left:  /* 000 - follow K, (and move K as well), then follow R */
     e[i]= vide;
     ret= imok(i, i+dir_left) && imok(i, i+2*dir_left);
     e[i+2*dir_left]= p;
