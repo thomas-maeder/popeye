@@ -53,4 +53,15 @@ stip h#1
 cond whitemaxi ultra mono
 opt nowk WhiteToPlay
 
+next
+
+title Popeye releases prior to 4.41 sometimes didn't generate castling
+title moves in Maximummer+Imitator problems
+author Alberto Armeni und Norbert Geissler
+origin F2622V, The Problemist, 3/2008 
+pieces white ka5 pa6d5 black ke8 ra8 pa7e7
+cond imitator c5 blackmax
+stipulation s#6
+option nothreat vari set
+
 end
