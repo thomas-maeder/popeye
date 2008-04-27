@@ -605,15 +605,15 @@ elaborate is the command
 	bw      bishop sparrow
 	c       cardinal
 	ca      camel
-	cg      contra grashopper
+	cg      contra grasshopper
 	ch      camelrider hopper
 	cp      chinese pawn
 	cr      camelrider
 	ct      CAT (cavalier trojan)
 	cy      charybdis
 	da      dabbabba
-	dg      doublegrashopper
-	do      dolphin                        grashopper + kangaroo
+	dg      doublegrasshopper
+	do      dolphin                        grasshopper + kangaroo
 	dr      dragon
 	ds      ("Diagonalspiralspringer")
 	du      dummy
@@ -626,9 +626,9 @@ elaborate is the command
 	f       friend
 	fe      fers
 	fr      fersrider           like bishop, but different rebirth square
-	g       grashopper
-	g2      grashopper-2
-	g3      grashopper-3
+	g       grasshopper
+	g2      grasshopper-2
+	g3      grasshopper-3
 	gh      gnurider hopper
 	gi      giraffe
 	gl      gral                           alfil + rookhopper
