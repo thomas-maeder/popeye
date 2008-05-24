@@ -49,8 +49,10 @@ static boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
   CapturedBishopc8, CapturedBishopf8, CapturedQueend8;
 
 boolean ProofVerifie(void) {
-  if (flagfee || PieSpExFlags&(~(BIT(White)+BIT(Black)))) {
-	return VerifieMsg(ProofAndFairyPieces);
+  if (flagfee || PieSpExFlags&(~(BIT(White)+BIT(Black))))
+  {
+    VerifieMsg(ProofAndFairyPieces);
+    return false;
   }
 
   ProofFairy= change_moving_piece
@@ -79,10 +81,10 @@ boolean ProofVerifie(void) {
 
 void ProofEncode(HashBuffer *hb)
 {
-  byte	  *position= hb->cmv.Data;
-  byte	  *bp= position+nr_rows_on_board;
-  byte	  pieces= 0;
-  int		row, col;
+  byte    *position= hb->cmv.Data;
+  byte    *bp= position+nr_rows_on_board;
+  byte    pieces= 0;
+  int       row, col;
   square a_square= square_a1;
   boolean even= False;
 
@@ -94,18 +96,18 @@ void ProofEncode(HashBuffer *hb)
     for (col=0; col<nr_files_on_board; col++, curr_square+=dir_right) {
       piece p= e[curr_square];
       if (p!=vide) {
-		if (even)
+        if (even)
           *bp++ = pieces+(((byte)(p<vide ? 7-p : p))<<(CHAR_BIT/2));
-		else
+        else
           pieces= (byte)(p<vide ? 7-p : p);
-		even= !even;
-		position[row] |= BIT(col);
+        even= !even;
+        position[row] |= BIT(col);
       }
-	}
+    }
   }
 
   if (even)
-	*bp++ = pieces+(15<<(CHAR_BIT/2));
+    *bp++ = pieces+(15<<(CHAR_BIT/2));
 
   *bp++ = castling_flag[nbply];
 
@@ -118,7 +120,7 @@ void ProofEncode(HashBuffer *hb)
     *bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
 
   if (ep[nbply])
-	*bp++ = (byte)(ep[nbply] - bas);
+    *bp++ = (byte)(ep[nbply] - bas);
 
   hb->cmv.Leng= bp - hb->cmv.Data;
 }
@@ -130,134 +132,132 @@ int proofbkm[haut+25-(bas-25)+1];
 #define BlKingMoves  (proofbkm-(bas-25))
 
 void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
-  square	*bnp, sq;
-  numvec	k;
-  int	MoveNbr;
-  boolean	GoOn;
+  square    *bnp, sq;
+  numvec    k;
+  int   MoveNbr;
+  boolean   GoOn;
 
   /* set all squares to a maximum */
   for (bnp= boardnum; *bnp; bnp++)
-	WhKingMoves[*bnp]= BlKingMoves[*bnp]= enonce;
+    WhKingMoves[*bnp]= BlKingMoves[*bnp]= enonce;
 
   /* mark squares occupied or garded by immobile pawns
      white pawns
   */
   for (sq= square_a2; sq <= square_h2; sq++) {
-	if (ProofBoard[sq] == pb) {
+    if (ProofBoard[sq] == pb) {
       WhKingMoves[sq]=
-	    BlKingMoves[sq]= -1;	/* blocked */
+        BlKingMoves[sq]= -1;    /* blocked */
       if (eval_white == eval_ortho) {
         BlKingMoves[sq+dir_up+dir_left]=
-          BlKingMoves[sq+dir_up+dir_right]= -2;	/* guarded */
+          BlKingMoves[sq+dir_up+dir_right]= -2; /* guarded */
       }
-	}
+    }
   }
 
   /* black pawns */
   for (sq= square_a7; sq <= square_h7; sq++) {
-	if (ProofBoard[sq] == pn) {
+    if (ProofBoard[sq] == pn) {
       BlKingMoves[sq]=
-	    WhKingMoves[sq]= -1;	/* blocked */
+        WhKingMoves[sq]= -1;    /* blocked */
       if (eval_black == eval_ortho) {
         WhKingMoves[sq+dir_down+dir_right]=
-          WhKingMoves[sq+dir_down+dir_left]= -2;	/* guarded */
+          WhKingMoves[sq+dir_down+dir_left]= -2;    /* guarded */
       }
-	}
+    }
   }
 
   /* cornered bishops */
   if (BlockedBishopc1)
-	WhKingMoves[square_c1]= BlKingMoves[square_c1]= -1;	/* blocked */
+    WhKingMoves[square_c1]= BlKingMoves[square_c1]= -1; /* blocked */
   if (BlockedBishopf1)
-	WhKingMoves[square_f1]= BlKingMoves[square_f1]= -1;	/* blocked */
+    WhKingMoves[square_f1]= BlKingMoves[square_f1]= -1; /* blocked */
   if (BlockedBishopc8)
-	WhKingMoves[square_c8]= BlKingMoves[square_c8]= -1;	/* blocked */
+    WhKingMoves[square_c8]= BlKingMoves[square_c8]= -1; /* blocked */
   if (BlockedBishopf8)
-	WhKingMoves[square_f8]= BlKingMoves[square_f8]= -1;	/* blocked */
+    WhKingMoves[square_f8]= BlKingMoves[square_f8]= -1; /* blocked */
 
   /* initialise wh king */
-  WhKingMoves[ProofRB]=
-    MoveNbr= 0;
+  WhKingMoves[ProofRB]= 0;
+  MoveNbr= 0;
   do {
-	GoOn= False;
-	for (bnp= boardnum; *bnp; bnp++) {
+    GoOn= False;
+    for (bnp= boardnum; *bnp; bnp++) {
       if (WhKingMoves[*bnp] == MoveNbr) {
-		for (k= 8; k; k--) {
-          if (WhKingMoves[*bnp+vec[k]] > MoveNbr) {
-			WhKingMoves[*bnp+vec[k]]= MoveNbr+1;
-			GoOn= True;
+        for (k= vec_queen_end; k>=vec_queen_start; k--) {
+          sq= *bnp+vec[k];
+          if (WhKingMoves[sq] > MoveNbr) {
+            WhKingMoves[sq]= MoveNbr+1;
+            GoOn= True;
           }
           if (calc_whtrans_king) {
-            sq= *bnp;
-            while (e[sq+=vec[k]] != obs &&
-                   WhKingMoves[sq] != -1) {
+            sq= *bnp+vec[k];
+            while (e[sq]!=obs && WhKingMoves[sq]!=-1) {
               if (WhKingMoves[sq] > MoveNbr) {
                 WhKingMoves[sq]= MoveNbr+1;
                 GoOn= True;
               }
+              sq += vec[k];
             }
           } /* trans_king */
-		}
+        }
         if (calc_whtrans_king) {
-          /* Knight moves */
-          for (k= 16; k>8; k--) {
-            sq= *bnp + vec[k];
-            if (e[sq] != obs &&
-                WhKingMoves[sq] > MoveNbr) {
+          for (k= vec_knight_end; k>=vec_knight_start; k--) {
+            sq= *bnp+vec[k];
+            if (e[sq]!=obs && WhKingMoves[sq]>MoveNbr) {
               WhKingMoves[sq]= MoveNbr+1;
               GoOn= True;
             }
           }
         } /* trans_king */
       }
-	}
-	MoveNbr++;
+    }
+    MoveNbr++;
   } while(GoOn);
 
   /* initialise bl king */
-  BlKingMoves[ProofRN]=
-    MoveNbr= 0;
+  BlKingMoves[ProofRN]= 0;
+  MoveNbr= 0;
   do {
-	GoOn= False;
-	for (bnp= boardnum; *bnp; bnp++) {
+    GoOn= False;
+    for (bnp= boardnum; *bnp; bnp++) {
       if (BlKingMoves[*bnp] == MoveNbr) {
-		for (k= 8; k; k--) {
-          if (BlKingMoves[*bnp+vec[k]] > MoveNbr) {
-			BlKingMoves[*bnp+vec[k]]= MoveNbr+1;
-			GoOn= True;
+        for (k= vec_queen_end; k>=vec_queen_start; k--) {
+          sq= *bnp+vec[k];
+          if (BlKingMoves[sq] > MoveNbr) {
+            BlKingMoves[sq]= MoveNbr+1;
+            GoOn= True;
           }
           if (calc_bltrans_king) {
-            sq= *bnp;
-            while (e[sq+=vec[k]] != obs &&
-                   BlKingMoves[sq] != -1) {
+            sq= *bnp+vec[k];
+            while (e[sq]!=obs && BlKingMoves[sq]!=-1) {
               if (BlKingMoves[sq] > MoveNbr) {
                 BlKingMoves[sq]= MoveNbr+1;
                 GoOn= True;
               }
+              sq += vec[k];
             }
           } /* trans_king */
-		}
+        }
         if (calc_bltrans_king) {
-          /* Knight moves */
-          for (k= 16; k>8; k--) {
-            sq= *bnp + vec[k];
-            if (e[sq] != obs &&
-                BlKingMoves[sq] > MoveNbr) {
+          for (k= vec_knight_end; k>=vec_knight_start; k--) {
+            sq= *bnp+vec[k];
+            if (e[sq]!=obs && BlKingMoves[sq]>MoveNbr) {
               BlKingMoves[sq]= MoveNbr+1;
               GoOn= True;
             }
           }
         } /* trans_king */
       }
-	}
-	MoveNbr++;
+    }
+    MoveNbr++;
   } while(GoOn);
 } /* ProofInitialiseKingMoves */
 
 /* a function to store the position and set the PAS */
 void ProofInitialise(void) {
-  int		i;
-  piece	p;
+  int       i;
+  piece p;
 
   Proof_rb= rb;
   Proof_rn= rn;
@@ -267,60 +267,64 @@ void ProofInitialise(void) {
     ProofNbrBlackPieces= 0;
 
   for (i= roib; i <= fb; i++) {
-	ProofNbrPiece[i]= nbpiece[i];
-	ProofNbrWhitePieces+= ProofNbrPiece[i];
-	ProofNbrPiece[-i]= nbpiece[-i];
-	ProofNbrBlackPieces+= ProofNbrPiece[-i];
+    ProofNbrPiece[i]= nbpiece[i];
+    ProofNbrWhitePieces+= ProofNbrPiece[i];
+    ProofNbrPiece[-i]= nbpiece[-i];
+    ProofNbrBlackPieces+= ProofNbrPiece[-i];
   }
 
   for (i= maxsquare - 1; i >= 0; i--) {
-	ProofBoard[i]= e[i];
+    ProofBoard[i]= e[i];
   }
 
   for (i = 0; i < 64; i++) {
-	ProofSpec[i]=spec[boardnum[i]];
+    ProofSpec[i]=spec[boardnum[i]];
     /* in case continued twinning
      * to other than proof game
      */
-	p= e[boardnum[i]];
-	if (p != vide) {
+    p= e[boardnum[i]];
+    if (p != vide) {
       ProofPieces[ProofNbrAllPieces]= p;
       ProofSquares[ProofNbrAllPieces++]= boardnum[i];
-	}
-	CLEARFL(spec[boardnum[i]]);
-	p= e[boardnum[i]]= flag_atob ? PosA[boardnum[i]] : PAS[i];
+    }
+    CLEARFL(spec[boardnum[i]]);
+    p= e[boardnum[i]]= flag_atob ? PosA[boardnum[i]] : PAS[i];
 
-	/* We must set spec[] for the PAS.
-	   This is used in jouecoup for andernachchess!*/
-	if (p >= roib) {
+    /* We must set spec[] for the PAS.
+       This is used in jouecoup for andernachchess!*/
+    if (p >= roib) {
       SETFLAG(spec[boardnum[i]], White);
-	}
-	else if (p <= roin) {
+    }
+    else if (p <= roin) {
       SETFLAG(spec[boardnum[i]], Black);
-	}
-	if (flag_atob)	{
+    }
+    if (flag_atob)  {
       spec[boardnum[i]]= SpecA[i];
-	}
+    }
   }
 
   if (CondFlag[imitators]) {
-	for (i= 0; i < maxinum; i++) {
+    for (i= 0; i < maxinum; i++) {
       Proof_isquare[i]= isquare[i];
-	}
+    }
   }
 
   /* set the king squares */
-  rb= square_e1;
-  rn= square_e8;
-  if (flag_atob) {
-	rb= rbA;
-	rn= rnA;
-	if (CondFlag[imitators]) {
-      for (i= 0; i < maxinum; i++) {
-		isquare[i]= isquareA[i];
-      }
-	}
+  if (!CondFlag[losingchess]) {
+    if (flag_atob) {
+      rb= rbA;
+      rn= rnA;
+    }
+    else
+    {
+      rb= square_e1;
+      rn= square_e8;
+    }
   }
+
+  if (flag_atob && CondFlag[imitators])
+    for (i= 0; i < maxinum; i++)
+      isquare[i]= isquareA[i];
 
   if (flag_atob) {
     char InitialLine[40];
@@ -331,8 +335,8 @@ void ProofInitialise(void) {
       /* in series play, white is always at move */
       atMove = White;
     sprintf(InitialLine, "Initial (%s ->):\n", PieSpString[ActLang][atMove]);
-	StdString(InitialLine);
-	WritePosition();
+    StdString(InitialLine);
+    WritePosition();
   }
 
   /* update nbpiece */
@@ -342,7 +346,7 @@ void ProofInitialise(void) {
   StorePosition();
 
   if (ProofFairy) {
-	return;
+    return;
   }
 
   /* determine pieces blocked */
@@ -446,49 +450,54 @@ boolean ProofIdentical(void) {
   for (i = 0; i < ProofNbrAllPieces; i++) {
     if (ProofPieces[i] != e[ProofSquares[i]]) {
       return False;
-	}
+    }
   }
 
   for (i = roib; i <= fb; i++) {
-	if (   ProofNbrPiece[i] != nbpiece[i]
+    if (   ProofNbrPiece[i] != nbpiece[i]
            || ProofNbrPiece[-i] != nbpiece[-i])
-	{
+    {
       return False;
-	}
+    }
   }
 
   if (CondFlag[imitators]) {
-	for (i= 0; i < inum[nbply]; i++) {
+    for (i= 0; i < inum[nbply]; i++) {
       if (Proof_isquare[i] != isquare[i]) {
-		return False;
+        return False;
       }
-	}
+    }
   }
 
   return True;
 }
 
 int ProofKnightMoves[haut-bas+1]= {
-  /*   1-  7 */		0,  3,	2,  3,	2,  3,	4,  5,
+  /*   1-  7 */     0,  3,  2,  3,  2,  3,  4,  5,
   /* dummies  8- 16 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  /*  17- 31*/		4,  3,	4,  3,	2,  1,	2,  3,	2, 1, 2, 3, 4, 3, 4,
+  /*  17- 31*/      4,  3,  4,  3,  2,  1,  2,  3,  2, 1, 2, 3, 4, 3, 4,
   /* dummies 32- 40 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  /*  41- 55 */		5,  4,	3,  2,	3,  4,	1,  2,	1, 4, 3, 2, 3, 4, 5,
+  /*  41- 55 */     5,  4,  3,  2,  3,  4,  1,  2,  1, 4, 3, 2, 3, 4, 5,
   /* dummies 56- 64 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  /*  65- 79*/		4,  3,	4,  3,	2,  3,	2,  3,	2, 3, 2, 3, 4, 3, 4,
+  /*  65- 79*/      4,  3,  4,  3,  2,  3,  2,  3,  2, 3, 2, 3, 4, 3, 4,
   /* dummies 80- 88 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
-  /*  89-103 */		5,  4,	3,  4,	3,  2,	3,  2,	3, 2, 3, 4, 3, 4, 5,
+  /*  89-103 */     5,  4,  3,  4,  3,  2,  3,  2,  3, 2, 3, 4, 3, 4, 5,
   /* dummies104-112 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
-  /* 113-127 */		4,  5,	4,  3,	4,  3,	4,  3,	4, 3, 4, 3, 4, 5, 4,
+  /* 113-127 */     4,  5,  4,  3,  4,  3,  4,  3,  4, 3, 4, 3, 4, 5, 4,
   /* dummies128-136 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
-  /* 137-151 */		5,  4,	5,  4,	3,  4,	3,  4,	3, 4, 3, 4, 5, 4, 5,
+  /* 137-151 */     5,  4,  5,  4,  3,  4,  3,  4,  3, 4, 3, 4, 5, 4, 5,
   /* dummies152-160 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
-  /* 161-175 */		6,  5,	4,  5,	4,  5,	4,  5,	4, 5, 4, 5, 4, 5, 6
+  /* 161-175 */     6,  5,  4,  5,  4,  5,  4,  5,  4, 5, 4, 5, 4, 5, 6
 };
 
 int ProofBlKingMovesNeeded(void) {
-  int	cast;
-  int	needed= BlKingMoves[rn];
+  int   cast;
+  int   needed= BlKingMoves[rn];
+
+  if (rn==initsquare)
+    /* no king in play, or king can be created by promotion
+     * -> no optimisation possible */
+    return 0;
 
   if (TSTFLAGMASK(castling_flag[nbply],ke8_cancastle)) {
     if (TSTFLAGMASK(castling_flag[nbply],ra8_cancastle)) {
@@ -518,15 +527,20 @@ int ProofBlKingMovesNeeded(void) {
 }
 
 int ProofWhKingMovesNeeded(void) {
-  int	needed= WhKingMoves[rb];
-  int	cast;
+  int   needed= WhKingMoves[rb];
+  int   cast;
+
+  if (rb==initsquare)
+    /* no king in play, or king can be created by promotion
+     * -> no optimisation possible */
+    return 0;
 
   if (TSTFLAGMASK(castling_flag[nbply],ke1_cancastle)) {
     if (TSTFLAGMASK(castling_flag[nbply],ra1_cancastle)) {
       /* wh long castling */
       /* WhKingMoves is the number of moves the wh king still
          needs after castling. It takes 1 move to castle, but we
-         might save a rook moves.
+         might save a rook move.
       */
       cast= WhKingMoves[square_c1];
       if (cast < needed) {
@@ -537,7 +551,7 @@ int ProofWhKingMovesNeeded(void) {
       /* wh short castling */
       /* WhKingMoves is the number of moves the wh king still
          needs after castling. It takes 1 move to castle, but we
-         might save a rook moves
+         might save a rook move
       */
       cast= WhKingMoves[square_g1];
       if (cast < needed) {
@@ -549,11 +563,11 @@ int ProofWhKingMovesNeeded(void) {
 }
 
 void WhPawnMovesFromTo(
-  square	from,
-  square	to,
-  int		*moves,
-  int		*captures,
-  int		captallowed)
+  square    from,
+  square    to,
+  int       *moves,
+  int       *captures,
+  int       captallowed)
 {
   int rank_to= to/onerow;
   int rank_from= from/onerow;
@@ -561,27 +575,27 @@ void WhPawnMovesFromTo(
   /* calculate number of captures */
   *captures= to%onerow-from%onerow;
   if (*captures < 0) {
-	*captures= -*captures;
+    *captures= -*captures;
   }
 
   /* calculate number of moves */
   *moves= rank_to-rank_from;
 
   if (*moves<0 || *moves<*captures || *captures>captallowed)
-	*moves= enonce;
+    *moves= enonce;
   else {
-	if (from<=square_h2 && *captures<*moves-1)
+    if (from<=square_h2 && *captures<*moves-1)
       /* double step possible */
       (*moves)--;
   }
 }
 
 void BlPawnMovesFromTo(
-  square	from,
-  square	to,
-  int		*moves,
-  int		*captures,
-  int		captallowed)
+  square    from,
+  square    to,
+  int       *moves,
+  int       *captures,
+  int       captallowed)
 {
   int rank_to= to/onerow;
   int rank_from= from/onerow;
@@ -589,78 +603,78 @@ void BlPawnMovesFromTo(
   /* calculate number of captures */
   *captures= to%onerow-from%onerow;
   if (*captures < 0) {
-	*captures= -*captures;
+    *captures= -*captures;
   }
 
   /* calculate number of moves */
   *moves= rank_from-rank_to;
 
   if (*moves<0 || *moves<*captures || *captures>captallowed)
-	*moves= enonce;
+    *moves= enonce;
   else {
-	if (from>=square_a7 && *captures < *moves-1)
+    if (from>=square_a7 && *captures < *moves-1)
       /* double step possible */
       (*moves)--;
   }
 }
 
 int WhPawnMovesNeeded(square sq) {
-  int	MovesNeeded;
-  int	MovesNeeded1;
+  int   MovesNeeded;
+  int   MovesNeeded1;
 
   /* The first time ProofWhPawnMovesNeeded is called the following
      test is always false. It has already been checked in
      ProofImpossible. But we need it here for the recursion.
   */
   if (e[sq]==pb && ProofBoard[sq]!=pb)
-	return 0;
+    return 0;
 
   if (sq<=square_h2)
-	/* there is no pawn at all that can enter this square */
-	return enonce;
+    /* there is no pawn at all that can enter this square */
+    return enonce;
 
   /* double step */
   if (square_a4<=sq && square_h4>=sq
       && e[sq+2*dir_down] == pb
       && ProofBoard[sq+2*dir_down] != pb) {
-	return 1;
+    return 1;
   }
 
   if (e[sq+dir_down+dir_right] != obs) {
-	MovesNeeded= WhPawnMovesNeeded(sq+dir_down+dir_right);
-	if (!MovesNeeded) {
+    MovesNeeded= WhPawnMovesNeeded(sq+dir_down+dir_right);
+    if (!MovesNeeded) {
       /* There is a free pawn on sq+dir_down+dir_right
       ** so it takes just 1 move */
       return 1;
-	}
+    }
   }
   else {
-	MovesNeeded= enonce;
+    MovesNeeded= enonce;
   }
 
   if (e[sq+dir_down+dir_left] != obs) {
-	MovesNeeded1= WhPawnMovesNeeded(sq+dir_down+dir_left);
-	if (!MovesNeeded1) {
+    MovesNeeded1= WhPawnMovesNeeded(sq+dir_down+dir_left);
+    if (!MovesNeeded1) {
       /* There is a free pawn on sq+dir_down+dir_left
       ** so it takes just 1 move */
       return 1;
-	}
-	if (MovesNeeded1 < MovesNeeded) {
+    }
+    if (MovesNeeded1 < MovesNeeded) {
       MovesNeeded= MovesNeeded1;
-	}
+    }
   }
 
   MovesNeeded1= WhPawnMovesNeeded(sq+dir_down);
   if (MovesNeeded1 < MovesNeeded) {
-	MovesNeeded= MovesNeeded1;
+    MovesNeeded= MovesNeeded1;
   }
 
   return MovesNeeded+1;
 }
 
 int BlPawnMovesNeeded(square sq) {
-  int	MovesNeeded;
-  int	MovesNeeded1;
+  int   MovesNeeded;
+  int   MovesNeeded1;
 
   /* The first time ProofBlPawnMovesNeeded is called the following
      test is always false. It has already been checked in
@@ -668,47 +682,47 @@ int BlPawnMovesNeeded(square sq) {
   */
 
   if (e[sq] == pn && ProofBoard[sq] != pn) {
-	return 0;
+    return 0;
   }
 
   if (sq>=square_a7)
-	/* there is no pawn at all that can enter this square */
-	return enonce;
+    /* there is no pawn at all that can enter this square */
+    return enonce;
 
   /* double step */
   if (square_a5<=sq && square_h5>=sq
       && e[sq+2*dir_up] == pn
       && ProofBoard[sq+2*dir_up] != pn) {
-	return 1;
+    return 1;
   }
 
   if (e[sq+dir_up+dir_left] != obs) {
-	MovesNeeded= BlPawnMovesNeeded(sq+dir_up+dir_left);
-	if (!MovesNeeded) {
+    MovesNeeded= BlPawnMovesNeeded(sq+dir_up+dir_left);
+    if (!MovesNeeded) {
       /* There is a free pawn on sq+dir_up+dir_left
       ** so it takes just 1 move */
       return 1;
-	}
+    }
   }
   else {
-	MovesNeeded= enonce;
+    MovesNeeded= enonce;
   }
 
   if (e[sq+dir_up+dir_right] != obs) {
-	MovesNeeded1= BlPawnMovesNeeded(sq+dir_up+dir_right);
-	if (!MovesNeeded1) {
+    MovesNeeded1= BlPawnMovesNeeded(sq+dir_up+dir_right);
+    if (!MovesNeeded1) {
       /* There is a free pawn on sq+dir_up+dir_right
       ** so it takes just 1 move */
       return 1;
-	}
-	if (MovesNeeded1 < MovesNeeded) {
+    }
+    if (MovesNeeded1 < MovesNeeded) {
       MovesNeeded= MovesNeeded1;
-	}
+    }
   }
 
   MovesNeeded1= BlPawnMovesNeeded(sq+dir_up);
   if (MovesNeeded1 < MovesNeeded) {
-	MovesNeeded= MovesNeeded1;
+    MovesNeeded= MovesNeeded1;
   }
 
   return MovesNeeded+1;
@@ -723,101 +737,100 @@ int BlPawnMovesNeeded(square sq) {
          && BlPawnMovesNeeded(sq) >= enonce))
 
 void PieceMovesFromTo(piece p, square from, square to, int *moves) {
-  numvec	dir;
-  int		sqdiff= from-to;
+  numvec    dir;
+  int       sqdiff= from-to;
 
   if (!sqdiff) {
-	*moves= 0;
-	return;
+    *moves= 0;
+    return;
   }
   switch (abs(p)) {
   case Knight:
-	*moves= ProofKnightMoves[abs(sqdiff)];
-	if (*moves > 1) {
-      square	sqi, sqj;
-      int	i, j, testmov;
-      int	testmin= enonce;
+    *moves= ProofKnightMoves[abs(sqdiff)];
+    if (*moves > 1) {
+      square    sqi, sqj;
+      int   i, j, testmov;
+      int   testmin= enonce;
       for (i= 9; i <= 16; i++) {
-		sqi= from+vec[i];
-		if (!BLOCKED(sqi) && e[sqi] != obs) {
+        sqi= from+vec[i];
+        if (!BLOCKED(sqi) && e[sqi] != obs) {
           for (j= 9; j <= 16; j++) {
-			sqj= to+vec[j];
-			if (!BLOCKED(sqj) && e[sqj] != obs) {
+            sqj= to+vec[j];
+            if (!BLOCKED(sqj) && e[sqj] != obs) {
               testmov= ProofKnightMoves[abs(sqi-sqj)]+2;
               if (testmov == *moves) {
-				return;
+                return;
               }
               if (testmov < testmin) {
-				testmin= testmov;
+                testmin= testmov;
               }
-			}
+            }
           }
-		}
+        }
       }
       *moves= testmin;
-	}
-	break;
+    }
+    break;
 
   case Bishop:
-	if (SquareCol(from) != SquareCol(to)) {
+    if (SquareCol(from) != SquareCol(to)) {
       *moves= enonce;
-	}
-	else {
+    }
+    else {
       dir= CheckDirBishop[sqdiff];
       if (dir) {
-		do {
+        do {
           from-= dir;
-		} while (to != from && !BLOCKED(from));
-		*moves= to == from ? 1 : 3;
+        } while (to != from && !BLOCKED(from));
+        *moves= to == from ? 1 : 3;
       }
       else {
-		*moves= 2;
+        *moves= 2;
       }
-	}
-	break;
+    }
+    break;
 
   case Rook:
-	dir= CheckDirRook[sqdiff];
-	if (dir) {
+    dir= CheckDirRook[sqdiff];
+    if (dir) {
       do {
-		from-= dir;
+        from-= dir;
       } while (to != from && !BLOCKED(from));
       *moves= to == from ? 1 : 3;
-	}
-	else {
+    }
+    else {
       *moves= 2;
-	}
-	break;
+    }
+    break;
 
   case Queen:
-	dir= CheckDirQueen[sqdiff];
-	if (dir) {
+    dir= CheckDirQueen[sqdiff];
+    if (dir) {
       do {
-		from-= dir;
+        from-= dir;
       } while (to != from && !BLOCKED(from));
       *moves= to == from ? 1 : 2;
-	}
-	else {
+    }
+    else {
       *moves= 2;
-	}
-	break;
+    }
+    break;
 
   default:
-	printf("error in PieceMovesFromTo\n");
-	WritePiece(p);
-	printf("\n");
+    StdString("error in PieceMovesFromTo - piece:");WritePiece(p);
+    StdString("\n");
   }
 } /* PieceMovesFromTo */
 
 void WhPromPieceMovesFromTo(
-  square	from,
-  square	to,
-  int		*moves,
-  int		*captures,
-  int		captallowed)
+  square    from,
+  square    to,
+  int       *moves,
+  int       *captures,
+  int       captallowed)
 {
-  int		i, mov1, mov2, cap1;
-  square	cenpromsq;
+  int       i, mov1, mov2, cap1;
+  square    cenpromsq;
 
   cenpromsq= (from%onerow
               + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow);
@@ -826,26 +839,26 @@ void WhPromPieceMovesFromTo(
   WhPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
   PieceMovesFromTo(ProofBoard[to], cenpromsq, to, &mov2);
   if (mov1+mov2 < *moves) {
-	*moves= mov1+mov2;
+    *moves= mov1+mov2;
   }
 
   for (i= 1; i <= captallowed; i++) {
-	if (cenpromsq+i <= square_h8) {
+    if (cenpromsq+i <= square_h8) {
       /* got out of range sometimes ! */
       WhPawnMovesFromTo(from, cenpromsq+i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq+i, to, &mov2);
       if (mov1+mov2 < *moves)
-		*moves= mov1+mov2;
-	}
-	if (cenpromsq-i>=square_a8) {
+        *moves= mov1+mov2;
+    }
+    if (cenpromsq-i>=square_a8) {
       /* got out of range sometimes ! */
       WhPawnMovesFromTo(from,
                         cenpromsq-i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq-i, to, &mov2);
       if (mov1+mov2 < *moves) {
-		*moves= mov1+mov2;
+        *moves= mov1+mov2;
       }
-	}
+    }
   }
 
   /* We cannot say for sure how many captures we really need.
@@ -855,14 +868,14 @@ void WhPromPieceMovesFromTo(
 } /* WhPromPieceMovesFromTo */
 
 void BlPromPieceMovesFromTo(
-  square	from,
-  square	to,
-  int		*moves,
-  int		*captures,
-  int		captallowed)
+  square    from,
+  square    to,
+  int       *moves,
+  int       *captures,
+  int       captallowed)
 {
-  square	cenpromsq;
-  int		i, mov1, mov2, cap1;
+  square    cenpromsq;
+  int       i, mov1, mov2, cap1;
 
   cenpromsq= from%onerow + nr_of_slack_rows_below_board*onerow;
   *moves= enonce;
@@ -870,26 +883,26 @@ void BlPromPieceMovesFromTo(
   BlPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
   PieceMovesFromTo(ProofBoard[to], cenpromsq, to, &mov2);
   if (mov1+mov2 < *moves) {
-	*moves= mov1+mov2;
+    *moves= mov1+mov2;
   }
 
   for (i= 1; i <= captallowed; i++) {
-	if (cenpromsq+i<=square_h1) {
+    if (cenpromsq+i<=square_h1) {
       /* got out of range sometimes !*/
       BlPawnMovesFromTo(from, cenpromsq+i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq+i, to, &mov2);
       if (mov1+mov2 < *moves)
-		*moves= mov1+mov2;
-	}
-	if (cenpromsq-i >= square_a1) {
+        *moves= mov1+mov2;
+    }
+    if (cenpromsq-i >= square_a1) {
       /* got out of range sometimes ! */
       BlPawnMovesFromTo(from,
                         cenpromsq-i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq-i, to, &mov2);
       if (mov1+mov2 < *moves) {
-		*moves= mov1+mov2;
+        *moves= mov1+mov2;
       }
-	}
+    }
   }
 
   /* We cannot say for sure how many captures we really need.
@@ -899,46 +912,46 @@ void BlPromPieceMovesFromTo(
 } /* BlPromPieceMovesFromTo */
 
 void WhPieceMovesFromTo(
-  square	from,
-  square	to,
-  int		*moves,
-  int		*captures,
-  int		captallowed,
-  int		captrequ)
+  square    from,
+  square    to,
+  int       *moves,
+  int       *captures,
+  int       captallowed,
+  int       captrequ)
 {
-  piece	pfrom= e[from];
-  piece	pto= ProofBoard[to];
+  piece pfrom= e[from];
+  piece pto= ProofBoard[to];
 
   *moves= enonce;
 
   switch (pto) {
   case pb:
-	if (pfrom == pb) {
+    if (pfrom == pb) {
       WhPawnMovesFromTo(from, to, moves, captures, captallowed);
-	}
-	break;
+    }
+    break;
 
   default:
-	if (pfrom == pto) {
+    if (pfrom == pto) {
       PieceMovesFromTo(pfrom, from, to, moves);
       *captures= 0;
-	}
-	else if (pfrom == pb) {
+    }
+    else if (pfrom == pb) {
       WhPromPieceMovesFromTo(from,
                              to, moves, captures, captallowed-captrequ);
-	}
+    }
   }
 }
 
 void BlPieceMovesFromTo(
-  square	from,
-  square	to,
-  int		*moves,
-  int		*captures,
-  int		captallowed,
-  int		captrequ)
+  square    from,
+  square    to,
+  int       *moves,
+  int       *captures,
+  int       captallowed,
+  int       captrequ)
 {
-  piece	pfrom, pto;
+  piece pfrom, pto;
 
   pfrom= e[from];
   pto= ProofBoard[to];
@@ -946,33 +959,33 @@ void BlPieceMovesFromTo(
 
   switch (pto) {
   case pn:
-	if (pfrom == pn) {
+    if (pfrom == pn) {
       BlPawnMovesFromTo(from, to, moves, captures, captallowed);
-	}
-	break;
+    }
+    break;
 
   default:
-	if (pfrom == pto) {
+    if (pfrom == pto) {
       PieceMovesFromTo(pfrom, from, to, moves);
       *captures= 0;
-	}
-	else if (pfrom == pn) {
+    }
+    else if (pfrom == pn) {
       BlPromPieceMovesFromTo(from,
                              to, moves, captures, captallowed-captrequ);
-	}
+    }
   }
 }
 
 typedef struct {
-    int		Nbr;
-    square	sq[16];
+    int     Nbr;
+    square  sq[16];
 } PieceList;
 
 typedef struct {
-    int		Nbr;
-    int		moves[16];
-    int		captures[16];
-    int		id[16];
+    int     Nbr;
+    int     moves[16];
+    int     captures[16];
+    int     id[16];
 } PieceList2;
 
 PieceList ProofWhPawns, CurrentWhPawns,
@@ -984,8 +997,8 @@ void PrintPieceList(PieceList *pl) {
   int i;
 
   for (i= 0; i < pl->Nbr; i++) {
-	WriteSquare(pl->sq[i]);
-	StdString(" ");
+    WriteSquare(pl->sq[i]);
+    StdString(" ");
   }
   StdString("\n");
 }
@@ -994,92 +1007,92 @@ void PrintPieceList2(PieceList2 *pl, int nto) {
   int i, j;
 
   for (i= 0; i < nto; i++) {
-	for (j= 0; j < pl[i].Nbr; j++) {
+    for (j= 0; j < pl[i].Nbr; j++) {
       printf("%2d %2d %2d   ",
              pl[i].id[j], pl[i].moves[j], pl[i].captures[j]);
-	}
-	printf("\n");
+    }
+    printf("\n");
   }
 }
 
 int ArrangeListedPieces(
-  PieceList2	*pl,
-  int		nto,
-  int		nfrom,
-  boolean	*taken,
-  int		CapturesAllowed)
+  PieceList2    *pl,
+  int       nto,
+  int       nfrom,
+  boolean   *taken,
+  int       CapturesAllowed)
 {
-  int		Diff, Diff2, i, id;
+  int       Diff, Diff2, i, id;
 
   Diff= enonce;
 
   if (nto == 0) {
-	return 0;
+    return 0;
   }
   for (i= 0; i < pl[0].Nbr; i++) {
-	id= pl[0].id[i];
-	if (taken[id] || pl[0].captures[i] > CapturesAllowed) {
+    id= pl[0].id[i];
+    if (taken[id] || pl[0].captures[i] > CapturesAllowed) {
       continue;
-	}
-	taken[id]= true;
-	Diff2= pl[0].moves[i]
+    }
+    taken[id]= true;
+    Diff2= pl[0].moves[i]
       + ArrangeListedPieces(pl+1, nto-1, nfrom,
                             taken, CapturesAllowed-pl[0].captures[i]);
 
-	if (Diff2 < Diff) {
+    if (Diff2 < Diff) {
       Diff= Diff2;
-	}
-	taken[id]= false;
+    }
+    taken[id]= false;
   }
   return Diff;
 }
 
 int ArrangePieces(
-  int		CapturesAllowed,
-  couleur	camp,
-  int		CapturesRequired)
+  int       CapturesAllowed,
+  couleur   camp,
+  int       CapturesRequired)
 {
-  int		ifrom, ito, moves, captures, Diff;
-  PieceList2	pl[16];
-  boolean	taken[16];
-  PieceList	*from, *to;
+  int       ifrom, ito, moves, captures, Diff;
+  PieceList2    pl[16];
+  boolean   taken[16];
+  PieceList *from, *to;
 
   from= camp == blanc
     ? &CurrentWhPieces
     : &CurrentBlPieces;
 
   to= camp == blanc
-	? &ProofWhPieces
-	: &ProofBlPieces;
+    ? &ProofWhPieces
+    : &ProofBlPieces;
 
   if (to->Nbr == 0) {
-	return 0;
+    return 0;
   }
 
   for (ito= 0; ito < to->Nbr; ito++) {
-	pl[ito].Nbr= 0;
-	for (ifrom= 0; ifrom < from->Nbr; ifrom++) {
+    pl[ito].Nbr= 0;
+    for (ifrom= 0; ifrom < from->Nbr; ifrom++) {
       if (camp == blanc) {
-		WhPieceMovesFromTo(from->sq[ifrom],
+        WhPieceMovesFromTo(from->sq[ifrom],
                            to->sq[ito], &moves, &captures,
                            CapturesAllowed, CapturesRequired);
       }
       else {
-		BlPieceMovesFromTo(from->sq[ifrom],
+        BlPieceMovesFromTo(from->sq[ifrom],
                            to->sq[ito], &moves, &captures,
                            CapturesAllowed, CapturesRequired);
       }
       if (moves < enonce) {
-		pl[ito].moves[pl[ito].Nbr]= moves;
-		pl[ito].captures[pl[ito].Nbr]= captures;
-		pl[ito].id[pl[ito].Nbr]= ifrom;
-		pl[ito].Nbr++;
+        pl[ito].moves[pl[ito].Nbr]= moves;
+        pl[ito].captures[pl[ito].Nbr]= captures;
+        pl[ito].id[pl[ito].Nbr]= ifrom;
+        pl[ito].Nbr++;
       }
-	}
+    }
   }
 
   for (ifrom= 0; ifrom < from->Nbr; ifrom++) {
-	taken[ifrom]= false;
+    taken[ifrom]= false;
   }
 
   /* determine minimal number of moves required */
@@ -1090,48 +1103,48 @@ int ArrangePieces(
 }
 
 int ArrangePawns(
-  int		CapturesAllowed,
-  couleur	camp,
-  int		*CapturesRequired)
+  int       CapturesAllowed,
+  couleur   camp,
+  int       *CapturesRequired)
 {
-  int		ifrom, ito, moves, captures, Diff;
-  PieceList2	pl[8];
-  boolean	taken[8];
-  PieceList	*from, *to;
+  int       ifrom, ito, moves, captures, Diff;
+  PieceList2    pl[8];
+  boolean   taken[8];
+  PieceList *from, *to;
 
   from= camp == blanc
     ? &CurrentWhPawns
     : &CurrentBlPawns;
   to= camp == blanc
-	? &ProofWhPawns
-	: &ProofBlPawns;
+    ? &ProofWhPawns
+    : &ProofBlPawns;
 
   if (to->Nbr == 0) {
-	*CapturesRequired= 0;
-	return 0;
+    *CapturesRequired= 0;
+    return 0;
   }
 
   for (ito= 0; ito < to->Nbr; ito++) {
-	pl[ito].Nbr= 0;
-	for (ifrom= 0; ifrom < from->Nbr; ifrom++) {
+    pl[ito].Nbr= 0;
+    for (ifrom= 0; ifrom < from->Nbr; ifrom++) {
       if (camp == blanc) {
-		WhPawnMovesFromTo(from->sq[ifrom],
+        WhPawnMovesFromTo(from->sq[ifrom],
                           to->sq[ito], &moves, &captures, CapturesAllowed);
       }
       else {
-		BlPawnMovesFromTo(from->sq[ifrom],
+        BlPawnMovesFromTo(from->sq[ifrom],
                           to->sq[ito], &moves, &captures, CapturesAllowed);
       }
       if (moves < enonce) {
-		pl[ito].moves[pl[ito].Nbr]= moves;
-		pl[ito].captures[pl[ito].Nbr]= captures;
-		pl[ito].id[pl[ito].Nbr]= ifrom;
-		pl[ito].Nbr++;
+        pl[ito].moves[pl[ito].Nbr]= moves;
+        pl[ito].captures[pl[ito].Nbr]= captures;
+        pl[ito].id[pl[ito].Nbr]= ifrom;
+        pl[ito].Nbr++;
       }
-	}
+    }
   }
   for (ifrom= 0; ifrom < from->Nbr; ifrom++) {
-	taken[ifrom]= false;
+    taken[ifrom]= false;
   }
 
   /* determine minimal number of moves required */
@@ -1139,7 +1152,7 @@ int ArrangePawns(
                             to->Nbr, from->Nbr, taken, CapturesAllowed);
 
   if (Diff == enonce) {
-	return enonce;
+    return enonce;
   }
 
   /* determine minimal number of captures required */
@@ -1147,7 +1160,7 @@ int ArrangePawns(
   while (ArrangeListedPieces(pl, to->Nbr, from->Nbr, taken, captures)
          == enonce)
   {
-	captures++;
+    captures++;
   }
 
   *CapturesRequired= captures;
@@ -1156,9 +1169,9 @@ int ArrangePawns(
 }
 
 boolean ProofFairyImpossible(int MovesAvailable) {
-  square	*bnp, sq;
-  piece	p1, pparr;
-  int	NbrWh, NbrBl;
+  square    *bnp, sq;
+  piece p1, pparr;
+  int   NbrWh, NbrBl;
 
   NbrWh = nbpiece[pb]
     + nbpiece[cb]
@@ -1176,13 +1189,13 @@ boolean ProofFairyImpossible(int MovesAvailable) {
 
   /* not enough time to capture the remaining pieces */
   if (change_moving_piece) {
-	if ( (NbrWh + NbrBl
+    if ( (NbrWh + NbrBl
           - ProofNbrWhitePieces
           - ProofNbrBlackPieces) > MovesAvailable)
-	{
+    {
       return true;
-	}
-	if (CondFlag[andernach]
+    }
+    if (CondFlag[andernach]
         && !anycirce) {
       int count= 0;
       /* in AndernachChess we need at least 1 capture if a pawn
@@ -1192,70 +1205,70 @@ boolean ProofFairyImpossible(int MovesAvailable) {
          captured?
       */
       for (sq= square_a2; sq <= square_h2; sq++) {
-		if (e[sq] != pb) {
+        if (e[sq] != pb) {
           if (ProofBoard[sq] == pb) {
-			count++;
+            count++;
           }
-		}
+        }
       }
       if ((16 - count) < ProofNbrBlackPieces) {
-		return true;
+        return true;
       }
       count= 0;
       /* has a black pawn on the seventh rank moved or has it
          been captured?
       */
       for (sq= square_a7; sq <= square_h7; sq++) {
-		if (e[sq] != pn) {
+        if (e[sq] != pn) {
           if (ProofBoard[sq] == pn) {
-			count++;
+            count++;
           }
-		}
+        }
       }
       if ((16 - count) < ProofNbrWhitePieces) {
-		return true;
+        return true;
       }
-	}
+    }
   }
   else {
-	int	BlMovesLeft, WhMovesLeft;
+    int BlMovesLeft, WhMovesLeft;
 
-	if (FlowFlag(Alternate)) {
+    if (FlowFlag(Alternate)) {
       BlMovesLeft= WhMovesLeft= MovesAvailable/2;
       if (MovesAvailable&1) {
-		if ((flag_atob&&!flag_appseul) != (enonce&1)) { /* TODO use % */
+        if ((flag_atob&&!flag_appseul) != (enonce&1)) { /* TODO use % */
           WhMovesLeft++;
-		}
-		else {
+        }
+        else {
           BlMovesLeft++;
-		}
+        }
       }
-	}
-	else {				/* ser-dia */
+    }
+    else {              /* ser-dia */
       BlMovesLeft= 0;
       WhMovesLeft= MovesAvailable;
-	}
+    }
 
-	/* not enough time to capture the remaining pieces */
-	if (NbrWh-ProofNbrWhitePieces > BlMovesLeft
-	    || NbrBl-ProofNbrBlackPieces > WhMovesLeft)
-	{
+    /* not enough time to capture the remaining pieces */
+    if (NbrWh-ProofNbrWhitePieces > BlMovesLeft
+        || NbrBl-ProofNbrBlackPieces > WhMovesLeft)
+    {
       return true;
-	}
+    }
 
     pparr = CondFlag[parrain] ? pprise[nbply] : vide;
-	if (!CondFlag[sentinelles]) {
+    if (!CondFlag[sentinelles]) {
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
       */
       if (ProofNbrPiece[pb] > nbpiece[pb]+(pparr==pb)
           || ProofNbrPiece[pn] > nbpiece[pn]+(pparr==pn))
       {
-		return true;
+        return true;
       }
-	}
+    }
 
-	if (CondFlag[anti]) {
+    if (CondFlag[anti]) {
       /* note, that we are in the !change_moving_piece section */
       int count= 0;
       /* in AntiCirce we need at least 2 captures if a pawn
@@ -1267,83 +1280,83 @@ boolean ProofFairyImpossible(int MovesAvailable) {
          captured?
       */
       for (sq= square_a2; sq <= square_h2; sq++) {
-		if (e[sq] != pb) {
+        if (e[sq] != pb) {
           if (ProofBoard[sq] == pb) {
-			if (   ProofBoard[sq+dir_up] != pb
+            if (   ProofBoard[sq+dir_up] != pb
                    && ProofBoard[sq+2*dir_up] != pb
                    && ProofBoard[sq+3*dir_up] != pb
                    && ProofBoard[sq+4*dir_up] != pb
                    && ProofBoard[sq+5*dir_up] != pb)
-			{
+            {
               count++;
-			}
+            }
           }
           else if (ProofBoard[sq+dir_up] == pb
                    && e[sq+dir_up] != pb)
           {
-			if (   ProofBoard[sq+2*dir_up] != pb
+            if (   ProofBoard[sq+2*dir_up] != pb
                    && ProofBoard[sq+3*dir_up] != pb
                    && ProofBoard[sq+4*dir_up] != pb
                    && ProofBoard[sq+5*dir_up] != pb)
-			{
+            {
               count++;
-			}
+            }
           }
-		}
+        }
       }
       if (count & 1) {
-		count++;
+        count++;
       }
       if ((16 - count) < ProofNbrBlackPieces) {
-		return true;
+        return true;
       }
       count= 0;
       /* has a black pawn on the seventh rank moved or has it
          been captured?
       */
       for (sq= square_a7; sq <= square_h7; sq++) {
-		if (e[sq] != pn) {
+        if (e[sq] != pn) {
           if (ProofBoard[sq] == pn) {
-			if (   ProofBoard[sq+dir_down] != pn
+            if (   ProofBoard[sq+dir_down] != pn
                    && ProofBoard[sq+2*dir_down] != pn
                    && ProofBoard[sq+3*dir_down] != pn
                    && ProofBoard[sq+4*dir_down] != pn
                    && ProofBoard[sq+5*dir_down] != pn)
-			{
+            {
               count++;
-			}
+            }
           }
           else if (ProofBoard[sq+dir_down] == pn
                    && e[sq+dir_down] != pn)
           {
-			if (   ProofBoard[sq+2*dir_down] != pn
+            if (   ProofBoard[sq+2*dir_down] != pn
                    && ProofBoard[sq+3*dir_down] != pn
                    && ProofBoard[sq+4*dir_down] != pn
                    && ProofBoard[sq+5*dir_down] != pn)
-			{
+            {
               count++;
-			}
+            }
           }
-		}
+        }
       }
       if (count & 1) {
-		count++;
+        count++;
       }
       if ((16 - count) < ProofNbrWhitePieces) {
-		return true;
+        return true;
       }
-	}
+    }
   }
 
   /* find a solution ... */
   MovesAvailable *= 2;
 
   for (bnp= boardnum; *bnp; bnp++) {
-	if ((p1= ProofBoard[*bnp]) != vide) {
+    if ((p1= ProofBoard[*bnp]) != vide) {
       if (p1 != e[*bnp]) {
-		MovesAvailable--;
+        MovesAvailable--;
       }
-	}
+    }
   }
 
   return MovesAvailable < 0;
@@ -1351,23 +1364,23 @@ boolean ProofFairyImpossible(int MovesAvailable) {
 } /* ProofFairyImpossible */
 
 boolean ProofImpossible(int MovesAvailable) {
-  square	*bnp;
-  int		WhMovesLeft, BlMovesLeft;
-  int		WhPieToBeCapt, BlPieToBeCapt,
+  square    *bnp;
+  int       WhMovesLeft, BlMovesLeft;
+  int       WhPieToBeCapt, BlPieToBeCapt,
     WhCapturesRequired, BlCapturesRequired;
-  piece	p1, p2;
-  square	sq;
-  int		NbrWh, NbrBl;
+  piece p1, p2;
+  square    sq;
+  int       NbrWh, NbrBl;
 
   if (ProofFairy) {
-	return ProofFairyImpossible(MovesAvailable);
+    return ProofFairyImpossible(MovesAvailable);
   }
 
   /* too many pawns captured or promoted */
   if (ProofNbrPiece[pb] > nbpiece[pb]
       || ProofNbrPiece[pn] > nbpiece[pn])
   {
-	return true;
+    return true;
   }
 
   NbrWh = nbpiece[pb]
@@ -1384,30 +1397,30 @@ boolean ProofImpossible(int MovesAvailable) {
     + nbpiece[dn]
     + nbpiece[roin];
 
-  /* to many pieces captured */
+  /* too many pieces captured */
   if (NbrWh < ProofNbrWhitePieces
       || NbrBl < ProofNbrBlackPieces)
   {
-	return true;
+    return true;
   }
 
   /* check if there is enough time left to capture the
      superfluos pieces
   */
   if (FlowFlag(Alternate)) {
-	BlMovesLeft= WhMovesLeft= MovesAvailable/2;
-	if (MovesAvailable&1) {
+    BlMovesLeft= WhMovesLeft= MovesAvailable/2;
+    if (MovesAvailable&1) {
       if ((flag_atob&&!flag_appseul) != (enonce&1)) { /* TODO use % */
-		WhMovesLeft++;
+        WhMovesLeft++;
       }
       else {
-		BlMovesLeft++;
+        BlMovesLeft++;
       }
-	}
+    }
   }
-  else {				/* ser-dia */
-	BlMovesLeft= 0;
-	WhMovesLeft= MovesAvailable;
+  else {                /* ser-dia */
+    BlMovesLeft= 0;
+    WhMovesLeft= MovesAvailable;
   }
 
   /* not enough time to capture the remaining pieces */
@@ -1416,7 +1429,7 @@ boolean ProofImpossible(int MovesAvailable) {
   if (   WhPieToBeCapt > BlMovesLeft
          || BlPieToBeCapt > WhMovesLeft)
   {
-	return true;
+    return true;
   }
 
   /* has one of the blocked pieces been captured ? */
@@ -1427,38 +1440,38 @@ boolean ProofImpossible(int MovesAvailable) {
          || (BlockedQueend1  && ProofBoard[square_d1] != db)
          || (BlockedQueend8  && ProofBoard[square_d8] != dn))
   {
-	return true;
+    return true;
   }
 
   /* has a white pawn on the second rank moved or has it
      been captured?
   */
   for (sq= square_a2; sq <= square_h2; sq++) {
-	if (ProofBoard[sq] == pb && e[sq] != pb) {
+    if (ProofBoard[sq] == pb && e[sq] != pb) {
       return true;
-	}
+    }
   }
 
   /* has a black pawn on the seventh rank moved or has it
      been captured?
   */
   for (sq= square_a7; sq <= square_h7; sq++) {
-	if (ProofBoard[sq] == pn && e[sq] != pn) {
+    if (ProofBoard[sq] == pn && e[sq] != pn) {
       return true;
-	}
+    }
   }
 
   WhMovesLeft -= ProofWhKingMovesNeeded();
   if (WhMovesLeft < 0) {
-	return True;
+    return True;
   }
   BlMovesLeft -= ProofBlKingMovesNeeded();
   if (BlMovesLeft < 0) {
-	return True;
+    return True;
   }
 
   if (CondFlag[haanerchess]) {
-	return (ProofBoard[move_generation_stack[nbcou].departure] != vide);
+    return (ProofBoard[move_generation_stack[nbcou].departure] != vide);
   }
 
   /* collect the pieces for further investigations */
@@ -1472,15 +1485,15 @@ boolean ProofImpossible(int MovesAvailable) {
     CurrentBlPieces.Nbr= 0;
 
   for (bnp= boardnum; *bnp; bnp++) {
-	p1= ProofBoard[*bnp];
-	p2= e[*bnp];
+    p1= ProofBoard[*bnp];
+    p2= e[*bnp];
 
-	if (p1 == p2)
+    if (p1 == p2)
       continue;
 
-	if (p1 != vide) {
+    if (p1 != vide) {
       if (p1 > vide) {  /* it's a white piece */
-		switch (p1) {
+        switch (p1) {
         case roib:
           break;
         case pb:
@@ -1490,10 +1503,10 @@ boolean ProofImpossible(int MovesAvailable) {
         default:
           ProofWhPieces.sq[ProofWhPieces.Nbr++]= *bnp;
           break;
-		}
+        }
       }
       else {  /* it's a black piece */
-		switch (p1) {
+        switch (p1) {
         case roin:
           break;
         case pn:
@@ -1503,13 +1516,13 @@ boolean ProofImpossible(int MovesAvailable) {
         default:
           ProofBlPieces.sq[ProofBlPieces.Nbr++]= *bnp;
           break;
-		}
+        }
       }
-	} /* p1 != vide */
+    } /* p1 != vide */
 
-	if (p2 != vide) {
+    if (p2 != vide) {
       if (p2 > vide) {  /* it's a white piece */
-		switch (p2) {
+        switch (p2) {
         case roib:
           break;
         case pb:
@@ -1524,10 +1537,10 @@ boolean ProofImpossible(int MovesAvailable) {
             CurrentWhPieces.sq[CurrentWhPieces.Nbr++]= *bnp;
           }
           break;
-		}
+        }
       }
       else {  /* it's a black piece */
-		switch (p2) {
+        switch (p2) {
         case roin:
           break;
         case pn:
@@ -1539,53 +1552,53 @@ boolean ProofImpossible(int MovesAvailable) {
                 &&!(CapturedBishopf1 && *bnp == square_f1 && p2 == fn)
                 &&!(CapturedQueend1 && *bnp == square_d1 && p2 == dn))
           {
-			CurrentBlPieces.sq[CurrentBlPieces.Nbr++]= *bnp;
+            CurrentBlPieces.sq[CurrentBlPieces.Nbr++]= *bnp;
           }
           break;
-		}
+        }
       }
-	} /* p2 != vide */
+    } /* p2 != vide */
   } /* for (bnp... */
 
   if (ArrangePawns(BlPieToBeCapt, blanc, &BlCapturesRequired)
       > WhMovesLeft)
   {
-	return True;
+    return True;
   }
 
   if (ArrangePawns(WhPieToBeCapt, noir, &WhCapturesRequired)
       > BlMovesLeft)
   {
-	return True;
+    return True;
   }
 
   if (ArrangePieces(BlPieToBeCapt, blanc, BlCapturesRequired)
       > WhMovesLeft)
   {
-	return True;
+    return True;
   }
 
   if (ArrangePieces(WhPieToBeCapt, noir, WhCapturesRequired)
       > BlMovesLeft)
   {
-	return True;
+    return True;
   }
 
   return false;
 } /* ProofImpossible */
 
 boolean ProofSeriesImpossible(int MovesAvailable) {
-  square	*bnp, sq;
-  int		BlPieToBeCapt, BlCapturesRequired;
-  int		NbrBl;
-  int		WhMovesLeft= MovesAvailable;
+  square    *bnp, sq;
+  int       BlPieToBeCapt, BlCapturesRequired;
+  int       NbrBl;
+  int       WhMovesLeft= MovesAvailable;
 
   if (ProofFairy)
-	return ProofFairyImpossible(MovesAvailable);
+    return ProofFairyImpossible(MovesAvailable);
 
   /* too many pawns captured or promoted */
   if (ProofNbrPiece[pb]>nbpiece[pb] || ProofNbrPiece[pn]>nbpiece[pn])
-	return true;
+    return true;
 
   NbrBl= nbpiece[pn]
     + nbpiece[cn]
@@ -1594,30 +1607,30 @@ boolean ProofSeriesImpossible(int MovesAvailable) {
     + nbpiece[dn]
     + nbpiece[roin];
 
-  /* to many pieces captured	or */
+  /* to many pieces captured    or */
   /* not enough time to capture the remaining pieces */
   BlPieToBeCapt= NbrBl - ProofNbrBlackPieces;
   if (BlPieToBeCapt<0 || BlPieToBeCapt>WhMovesLeft)
-	return true;
+    return true;
 
   /* has a white pawn on the second rank moved ? */
   for (sq = square_a2; sq<=square_h2; sq += dir_right)
-	if (ProofBoard[sq]==pb && e[sq]!=pb)
+    if (ProofBoard[sq]==pb && e[sq]!=pb)
       return true;
 
   /* has a black pawn on the seventh rank been captured ? */
   for (sq = square_a7; sq<=square_h7; sq += dir_right)
-	if (ProofBoard[sq]==pn && e[sq]!=pn)
+    if (ProofBoard[sq]==pn && e[sq]!=pn)
       return true;
 
   /* has a black piece on the eigth rank been captured ? */
   for (sq = square_a8; sq<=square_h8; sq += dir_right)
-	if (ProofBoard[sq]<roin && ProofBoard[sq]!=e[sq])
+    if (ProofBoard[sq]<roin && ProofBoard[sq]!=e[sq])
       return true;
 
   WhMovesLeft -= ProofWhKingMovesNeeded();
   if (WhMovesLeft < 0)
-	return true;
+    return true;
 
   /* collect the pieces for further investigations */
   ProofWhPawns.Nbr=
@@ -1626,12 +1639,12 @@ boolean ProofSeriesImpossible(int MovesAvailable) {
     CurrentWhPieces.Nbr= 0;
   
   for (bnp= boardnum; *bnp; bnp++) {
-	piece const p1= ProofBoard[*bnp];
-	piece const p2= e[*bnp];
+    piece const p1= ProofBoard[*bnp];
+    piece const p2= e[*bnp];
 
-	if (p1 != p2) {
+    if (p1 != p2) {
       if (p1 > vide) {  /* it's a white piece */
-		switch (p1) {
+        switch (p1) {
         case roib:
           break;
         case pb:
@@ -1641,11 +1654,11 @@ boolean ProofSeriesImpossible(int MovesAvailable) {
         default:
           ProofWhPieces.sq[ProofWhPieces.Nbr++]= *bnp;
           break;
-		}
+        }
       } /* p1 > vide */
 
       if (p2 > vide) {  /* it's a white piece */
-		switch (p2) {
+        switch (p2) {
         case roib:
           break;
         case pb:
@@ -1655,71 +1668,83 @@ boolean ProofSeriesImpossible(int MovesAvailable) {
         default:
           CurrentWhPieces.sq[CurrentWhPieces.Nbr++]= *bnp;
           break;
-		}
+        }
       } /* p2 > vide */
-	} /* p1 != p2 */
+    } /* p1 != p2 */
   } /* for (bnp... */
 
   if (ArrangePawns(BlPieToBeCapt, blanc, &BlCapturesRequired)
       > WhMovesLeft)
-	return true;
+    return true;
 
   if (ArrangePieces(BlPieToBeCapt, blanc, BlCapturesRequired)
       > WhMovesLeft)
-	return true;
+    return true;
 
   return false;
 } /* ProofSeriesImpossible */
 
 boolean ProofSol(couleur camp, int n, boolean restartenabled) {
-  boolean	flag= false;
-  couleur	ad= advers(camp);
+  boolean   result= false;
+  couleur   ad= advers(camp);
   HashBuffer hb;
 
-  if ((OptFlag[maxsols] && (solutions >= maxsolutions))
-      || FlagTimeOut)
-  {
-	return false;
-  }
+  if ((OptFlag[maxsols] && solutions>=maxsolutions)
+      || FlagTimeOut
+      || (OptFlag[stoponshort] && FlagShortSolsReached))
+    return false;
 
   /* Let us check whether the position is already in the
      hash table and marked unsolvable.
   */
   (*encode)(&hb);
-  if (inhash(camp == blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb)) {
-	return false;
-  }
+  if (inhash(camp==blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb))
+    return false;
 
-  n--;
   genmove(camp);
-  while (encore()){
-	if (jouecoup() && !(restartenabled && MoveNbr < RestartNbr)) {
-      if (n ? (!ProofImpossible(n)
-               && !echecc(camp)
-               && ProofSol(ad, n, False))
-		  : (ProofIdentical()
-		     && !echecc(camp)))
+
+  while (encore())
+    if (jouecoup())
+    {
+      if ((!restartenabled || MoveNbr>=RestartNbr)
+          && !echecc(camp))
       {
-		flag= true;
-		if (!n) {
-          linesolution();
-		}
+        if (n==1)
+        {
+          if (ProofIdentical())
+          {
+            result= true;
+            linesolution();
+          }
+        }
+        else
+        {
+          if (!FlowFlag(Exact) && ProofIdentical())
+          {
+            FlagShortSolsReached = true;
+            result = true;
+            linesolution();
+          }
+          /* no else here; we might miss some solutions! */
+          if (!ProofImpossible(n-1)
+              && ProofSol(ad,n-1,False))
+            result= true;
+        }
       }
-	}
-	if (restartenabled) {
-      IncrementMoveNbr();
-	}
-	repcoup();
-  }
+
+      if (restartenabled)
+        IncrementMoveNbr();
+    
+      repcoup();
+    }
+
   finply();
-  n++;
 
   /* Add the position to the hash table if it has no solutions */
-  if (!flag) {
-	addtohash(camp == blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb);
-  }
+  if (!result)
+    addtohash(camp==blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb);
 
-  return flag;
+  return result;
 } /* ProofSol */
 
 boolean SeriesProofSol(int n, boolean restartenabled) {
@@ -1730,44 +1755,49 @@ boolean SeriesProofSol(int n, boolean restartenabled) {
   if ((OptFlag[maxsols] && solutions>=maxsolutions)
       || FlagTimeOut
       || (OptFlag[stoponshort] && FlagShortSolsReached))
-	return false;
+    return false;
 
   /* Let us check whether the position is already in the
      hash table and marked unsolvable.
   */
   (*encode)(&hb);
   if (inhash(SerNoSucc,n,&hb))
-	return false;
+    return false;
 
   genmove(blanc);
 
   while (encore())
-	if (jouecoup()) {
-      if (!restartenabled || MoveNbr>=RestartNbr) {
-        if (!echecc(blanc)) {
-          if (n==1) {
-            if (ProofIdentical()) {
-              result = true;
-              linesolution();
-            }
-          } else {
-            if (!FlowFlag(Exact) && ProofIdentical())
-            {
-              FlagShortSolsReached = true;
-              result = true;
-              linesolution();
-            }
-            /* no else here; we might miss some solutions! */
-            if (!ProofSeriesImpossible(n-1)
-                && !echecc(noir)
-                && SeriesProofSol(n-1,False))
-              result = true;
+    if (jouecoup())
+    {
+      if ((!restartenabled || MoveNbr>=RestartNbr)
+          && !echecc(blanc))
+      {
+        if (n==1)
+        {
+          if (ProofIdentical())
+          {
+            result = true;
+            linesolution();
           }
         }
-
-        if (restartenabled)
-          IncrementMoveNbr();
+        else
+        {
+          if (!FlowFlag(Exact) && ProofIdentical())
+          {
+            FlagShortSolsReached = true;
+            result = true;
+            linesolution();
+          }
+          /* no else here; we might miss some solutions! */
+          if (!ProofSeriesImpossible(n-1)
+              && !echecc(noir)
+              && SeriesProofSol(n-1,False))
+            result = true;
+        }
       }
+
+      if (restartenabled)
+        IncrementMoveNbr();
 
       repcoup();
     }
@@ -1776,7 +1806,7 @@ boolean SeriesProofSol(int n, boolean restartenabled) {
 
   /* Add the position to the hash table if it has no solutions */
   if (!result)
-	addtohash(SerNoSucc,n,&hb);
+    addtohash(SerNoSucc,n,&hb);
 
   return result;
 } /* SeriesProofSol */
