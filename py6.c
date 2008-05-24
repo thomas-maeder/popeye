@@ -638,12 +638,10 @@ boolean verifieposition(void)
   }
   if (rb==initsquare && nbpiece[roib]==0
       && !OptFlag[sansrb]) {
-    StdString("missing wk\n");
     ErrorMsg(MissingKing);
   }
   if (rn==initsquare && nbpiece[roin]==0
       && !OptFlag[sansrn]) {
-    StdString("missing bk\n");
     ErrorMsg(MissingKing);
   }
 
