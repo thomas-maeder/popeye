@@ -2136,6 +2136,12 @@ boolean jouecoup(void) {
         }
       } /* castling_supported */
     } /* AntiCirce */
+        
+    if (flag_magic)
+    {
+      PushMagicViews();
+      ChangeMagic(nbply, flag_outputmultiplecolourchanges);
+    }
 
     if (CondFlag[sentinelles]) {
       if (sq_departure>=square_a2 && sq_departure<=square_h7
@@ -2621,12 +2627,6 @@ boolean jouecoup(void) {
         && observed(traitnbply == blanc ? rn : rb,
                     move_gen_top->arrival))
       change_observed(move_gen_top->arrival, flag_outputmultiplecolourchanges);
-        
-    if (flag_magic)
-    {
-        PushMagicViews();
-        ChangeMagic(nbply, flag_outputmultiplecolourchanges);
-    }
         
     if (!BGL_whiteinfinity
         && (BGL_global || traitnbply == blanc))
