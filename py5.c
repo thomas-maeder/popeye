@@ -2136,6 +2136,11 @@ boolean jouecoup(void) {
         }
       } /* castling_supported */
     } /* AntiCirce */
+    
+    if (flag_outputmultiplecolourchanges)
+    {
+      colour_change_sp[nbply] = colour_change_sp[nbply - 1];
+    }
         
     if (flag_magic)
     {
@@ -2615,11 +2620,6 @@ boolean jouecoup(void) {
     {
       WhiteStrictSAT[nbply]= echecc_normal(blanc);
       BlackStrictSAT[nbply]= echecc_normal(noir);
-    }
-    
-    if (flag_outputmultiplecolourchanges)
-    {
-      colour_change_sp[nbply] = colour_change_sp[nbply - 1];
     }
 
     if (CondFlag[masand]
