@@ -1074,7 +1074,8 @@ void DeposeWhKing(
   StdString(GlobalStr);
 #endif
 
-  if (e[rb= white[0].sq] != vide) {
+  rb= white[0].sq;
+  if (e[rb] != vide) {
 	rb= initsquare;
 	return;
   }
