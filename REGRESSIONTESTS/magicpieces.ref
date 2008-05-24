@@ -601,3 +601,69 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
 solution finished. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 0
+             Sentinelles
+
+a)
+
+  1.Ka5-b5[+wPa5] ! 
+
+  1.Ka5-a6[+wPa5] ! 
+
+  1.Ka5-a4[+wPa5] ! 
+
+  1.Ka5-b6[+wPa5] ! 
+
+  1.Ka5-b4[+wPa5] ! 
+
+
+b) wmKa5 
+
+  1.rmKa5-b5[+wPa5] ! 
+
+  1.rmKa5-a6[+wPa5] ! 
+
+  1.rmKa5-a4[+wPa5] ! 
+
+  1.rmKa5-b6[+wPa5] ! 
+
+  1.rmKa5-b4[+wPa5] ! 
+
+
+c) nmKa5 
+
+  1.nrmKa5-b5[+wPa5] ! 
+
+  1.nrmKa5-a6[+wPa5] ! 
+
+  1.nrmKa5-a4[+wPa5] ! 
+
+  1.nrmKa5-b6[+wPa5] ! 
+
+  1.nrmKa5-b4[+wPa5] ! 
+
+
+solution finished. 
+
+
