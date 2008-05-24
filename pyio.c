@@ -643,20 +643,6 @@ int SquareNum(char a,char b)
     return 0;
 }
 
-static boolean SetKing(int *kingsquare, int square)
-{
-  if (*kingsquare == initsquare) {
-    *kingsquare= square;
-    return False;
-  }
-  else if (*kingsquare != square) {
-    IoErrorMsg(OneKing, 0);
-    return True;
-  }
-  else
-    return False;
-}
-
 /* All following Parse - Procedures return the next StringToken or
 ** the last token they couldn't interprete.
 */
@@ -780,22 +766,7 @@ static char *ParseSquareList(
         Spec |= BIT(Black) + BIT(White);
       }
       spec[Square] = Spec;
-      e[Square] = TSTFLAG(Spec, White)
-        ? Name
-        : - Name;
-      if (!CondFlag[dynasty]
-          && (Name == King || TSTFLAG(Spec,Royal))) {
-        if (TSTFLAG(Spec, White)) {
-          if (SetKing(&rb, Square)) {
-            return ReadNextTokStr();
-          }
-        }
-        if (TSTFLAG(Spec, Black)) {
-          if (SetKing(&rn, Square)) {
-            return ReadNextTokStr();
-          }
-        }
-      }
+      e[Square] = TSTFLAG(Spec,White) ? Name : -Name;
       tok+= 2;
       SquareCnt++;
       continue;
@@ -904,7 +875,7 @@ square NextSquare(square sq) {
     return initsquare;
 }
 
-square SetSquare(square sq, piece p, boolean bw, boolean *neut)
+static square SetSquare(square sq, piece p, boolean bw, boolean *neut)
 {
   e[sq]= bw ? -p : p;
   spec[sq]= bw ? BIT(Black) : BIT(White);
@@ -912,12 +883,6 @@ square SetSquare(square sq, piece p, boolean bw, boolean *neut)
     spec[sq]= BIT(Black) | BIT(White) | BIT(Neutral);
     e[sq] = p;  /* must be 'white' for neutral */
     SETFLAG(PieSpExFlags, Neutral);
-  }
-  if (!CondFlag[dynasty] && p == King) {
-    if (bw)
-      SetKing(&rn, sq);
-    else
-      SetKing(&rb, sq);
   }
   *neut= false;
   return NextSquare(sq);
@@ -954,9 +919,11 @@ static char *ParseForsyth(boolean output) {
     }
     else if (isalpha((int)*tok)) {
       pc= GetPieNamIndex(tolower(*tok),' ');
-      if (pc >= King) {
-        sq= SetSquare(sq, pc,
-                      islower((int)InputLine[(tok++) - TokenLine]), &NeutralFlag);
+      if (pc>=King) {
+        sq= SetSquare(sq,
+                      pc,
+                      islower((int)InputLine[(tok++)-TokenLine]),
+                      &NeutralFlag);
         if (NeutralFlag) 
           SETFLAG(PieSpExFlags,Neutral);
       }
@@ -970,9 +937,11 @@ static char *ParseForsyth(boolean output) {
         tok++;
       }
       pc= GetPieNamIndex(tolower(*(tok+1)), tolower(*(tok+2)));
-      if (pc >= King) {
-        sq= SetSquare(sq, pc,
-                      islower((int)InputLine[(tok+1 - TokenLine)]), &NeutralFlag);
+      if (pc>=King) {
+        sq= SetSquare(sq,
+                      pc,
+                      islower((int)InputLine[(tok+1-TokenLine)]),
+                      &NeutralFlag);
         if (NeutralFlag) 
           SETFLAG(PieSpExFlags,Neutral);
       }
@@ -1313,11 +1282,11 @@ static char *ReadSquares(int which) {
         break;
 
       case ReadBlRoyalSq:
-        rn= bl_royal_sq= i;
+        bl_royal_sq= i;
         break;
 
       case ReadWhRoyalSq:
-        rb= wh_royal_sq= i;
+        wh_royal_sq= i;
         break;
 
       case ReadNoCastlingSquares:
