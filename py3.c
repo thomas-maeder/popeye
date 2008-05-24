@@ -752,6 +752,11 @@ boolean annan_rbechec(evalfunction_t *evaluate)
   return ret;
 }
 
+boolean losingchess_rbnechec(evalfunction_t *evaluate)
+{
+  return false;
+}
+
 boolean singleboxtype3_rbechec(evalfunction_t *evaluate)
 {
   unsigned int promotionstried = 0;

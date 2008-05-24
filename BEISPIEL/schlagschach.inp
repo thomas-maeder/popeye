@@ -1,0 +1,30 @@
+anfang
+
+protokoll schlagschach.out
+
+titel Koenigskontakt
+titel Schlagzug muss vorgezogen werden
+steine weiss ka1 schwarz ka2
+forderung ~1
+bedingung schlagschach
+
+weiter
+
+titel Umwandlung in K
+steine weiss ba7
+forderung a=>b0.5
+steine weiss ka8
+option ohnewk ohnesk weiss
+bedingung schlagschach
+
+weiter
+
+titel keine Optimierung mit Distanz Standfeld-Zielfeld der Koenige
+stei weis Ke1f8 Dd1 Ta1h1 lc1 sb1 Ba2b2c2d2e3f2h2
+stei schw Kf1e8 Dd8 Ta8 lc8 sb8 Ba7b4c7d7e7f7
+ford a=>b1
+stei weis Ke8 Dd1 Ta1h1 lc1 sb1 Ba2b2c2d2e3f2h2
+stei schw Ke1 Dd8 Ta8 lc8 sb8 Ba7b4c7d7e7f7
+bedi schlagschach
+
+ende

@@ -569,13 +569,15 @@ void genrn_cast(void) {
       {
         e[square_e8]= vide;
         e[square_f8]= roin;
-        rn= square_f8;
+        if (rn!=initsquare)
+          rn= square_f8;
 
         is_castling_possible= !echecc(noir);
 
         e[square_e8]= roin;
         e[square_f8]= vide;
-        rn= square_e8;
+        if (rn!=initsquare)
+          rn= square_e8;
 
         if (is_castling_possible)
           empile(square_e8,square_g8,kingside_castling);
@@ -610,13 +612,15 @@ void genrn_cast(void) {
       {
         e[square_e8]= vide;
         e[square_d8]= roin;
-        rn= square_d8;
+        if (rn!=initsquare)
+          rn= square_d8;
         
         is_castling_possible= !echecc(noir);
         
         e[square_e8]= roin;
         e[square_d8]= vide;
-        rn= square_e8;
+        if (rn!=initsquare)
+          rn= square_e8;
 
         if (is_castling_possible)
           empile(square_e8,square_c8,queenside_castling);
@@ -730,7 +734,8 @@ void genrn(square sq_departure) {
           boolean checked;
           e[sq_departure]= vide;
           e[sq_passed]= roin;
-          rn= sq_passed;
+          if (rn!=initsquare)
+            rn= sq_passed;
           checked = echecc(noir);
           if (!checked) {
             empile(sq_departure, sq_arrival, maxsquare+sq_castler);
@@ -742,7 +747,8 @@ void genrn(square sq_departure) {
           }
           e[sq_departure]= roin;
           e[sq_passed]= vide;
-          rn= sq_departure;
+          if (rn!=initsquare)
+            rn= sq_departure;
         }
       }
     }

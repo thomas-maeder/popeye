@@ -1133,7 +1133,8 @@ typedef int Opt;
 #define champursue             169
 #define antikoeko              170
 #define castlingchess          171
-#define CondCount              172
+#define losingchess            172
+#define CondCount              173
 
 typedef int Cond;
 /*--- End of } Cond;---*/

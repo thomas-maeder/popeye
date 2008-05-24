@@ -1,0 +1,144 @@
+
+            Koenigskontakt
+   Schlagzug muss vorgezogen werden
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -K   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+             Schlagschach
+
+  1.Ka1*a2 ! 
+
+
+Loesung beendet. 
+
+
+
+           Umwandlung in K
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b0.5                     1 + 0
+             Schlagschach
+
+Initial (Weiss ->):
+
+           Umwandlung in K
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b0.5                     1 + 0
+             Schlagschach
+
+  1.a7-a8=K a=>b 
+
+Loesung beendet. 
+
+
+
+keine Optimierung mit Distanz Standfeld-Zielfeld der Koenige
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T  -S  -L  -D   K   .   .   .   8
+|                                   |
+7  -B   .  -B  -B  -B  -B   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -B   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   B   .   .   .   3
+|                                   |
+2   B   B   B   B   .   B   .   B   2
+|                                   |
+1   T   S   L   D  -K   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1                     13 + 11
+             Schlagschach
+
+Initial (Schwarz ->):
+
+keine Optimierung mit Distanz Standfeld-Zielfeld der Koenige
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T  -S  -L  -D  -K   K   .   .   8
+|                                   |
+7  -B   .  -B  -B  -B  -B   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -B   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   B   .   .   .   3
+|                                   |
+2   B   B   B   B   .   B   .   B   2
+|                                   |
+1   T   S   L   D   K  -K   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1                     14 + 12
+             Schlagschach
+
+  1.Kf1*e1 Kf8*e8 a=>b 
+
+Loesung beendet. 
+
+

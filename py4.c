@@ -155,9 +155,14 @@ int len_blforcedsquare(square sq_departure, square sq_arrival, square sq_capture
   }
 }
 
-int len_schwarzschacher(square id, square ia, square ip)
+int len_schwarzschacher(square sq_departure, square sq_arrival, square sq_capture)
 {
-   return ia==nullsquare ? 0 : 1;
+   return sq_arrival==nullsquare ? 0 : 1;
+}
+
+int len_losingchess(square sq_departure, square sq_arrival, square sq_capture)
+{
+  return e[sq_capture]!=vide ? 1 : 0;
 }
 
 static boolean count_opponent_moves(int *nr_opponent_moves, couleur camp) {
@@ -2623,13 +2628,15 @@ void genrb_cast(void) {
       {
         e[square_e1]= vide;
         e[square_f1]= roib;
-        rb= square_f1;
+        if (rb!=initsquare)
+          rb= square_f1;
 
         is_castling_possible= !echecc(blanc);
 
         e[square_e1]= roib;
         e[square_f1]= vide;
-        rb= square_e1;
+        if (rb!=initsquare)
+          rb= square_e1;
 
         if (is_castling_possible)
           empile(square_e1,square_g1,kingside_castling);
@@ -2664,13 +2671,15 @@ void genrb_cast(void) {
       {
         e[square_e1]= vide;
         e[square_d1]= roib;
-        rb= square_d1;
+        if (rb!=initsquare)
+          rb= square_d1;
         
         is_castling_possible= !echecc(blanc);
         
         e[square_e1]= roib;
         e[square_d1]= vide;
-        rb= square_e1;
+        if (rb!=initsquare)
+          rb= square_e1;
 
         if (is_castling_possible)
           empile(square_e1,square_c1,queenside_castling);
@@ -2786,7 +2795,8 @@ void genrb(square sq_departure) {
           boolean checked;
           e[sq_departure]= vide;
           e[sq_passed]= roib;
-          rb= sq_passed;
+          if (rb!=initsquare)
+            rb= sq_passed;
           checked = echecc(blanc);
           if (!checked) {
             empile(sq_departure, sq_arrival, maxsquare+sq_castler);
@@ -2798,7 +2808,8 @@ void genrb(square sq_departure) {
           }
           e[sq_departure]= roib;
           e[sq_passed]= vide;
-          rb= sq_departure;
+          if (rb!=initsquare)
+            rb= sq_departure;
         }
       }
     }

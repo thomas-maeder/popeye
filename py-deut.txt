@@ -310,6 +310,7 @@ Kommandos:
 	ChamaeleonVerfolgung
 	AntiKoeko
 	RochadeSchach
+	Schlagschach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines
