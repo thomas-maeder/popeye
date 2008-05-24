@@ -407,7 +407,12 @@ boolean verifieposition(void)
     else
       rn = initsquare;
   }
-  else if (!CondFlag[losingchess])
+  else if (CondFlag[losingchess])
+  {
+    OptFlag[sansrn]= True;
+    OptFlag[sansrb]= True;
+  }
+  else
   {
     for (bnp= boardnum; *bnp; bnp++)
     {
