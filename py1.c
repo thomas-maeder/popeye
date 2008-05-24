@@ -42,6 +42,7 @@
 #include <string.h>
 
 #include "py.h"
+#include "pymsg.h"
 #include "py1.h"
 #include "pyproc.h"
 #include "pydata.h"
@@ -1301,7 +1302,7 @@ void GetDiagonalSpiralSpringerAttackVectors(square from, square to) {
 
 /* should never get called if validation works
 (disallow magic + piecetype) */
-void __unsupported_uncalled_attackfunction(square from, square to) {}
+void unsupported_uncalled_attackfunction(square from, square to) {}
 
 void PushMagicViews(void)
 {

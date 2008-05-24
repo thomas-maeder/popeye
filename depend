@@ -9,11 +9,13 @@ pyproc.h:
 py4.h:
 
 pydata.h:
-py1$(OBJ_SUFFIX): py1.c py.h pylang.h py1.h pyproc.h py4.h pydata.h
+py1$(OBJ_SUFFIX): py1.c py.h pylang.h pymsg.h py1.h pyproc.h py4.h pydata.h
 
 py.h:
 
 pylang.h:
+
+pymsg.h:
 
 py1.h:
 
