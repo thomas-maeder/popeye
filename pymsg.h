@@ -34,7 +34,8 @@
 ** Add a string for the enumerator in *each* language file.
 */
 
-enum {
+typedef enum
+{
   ErrFatal               = 0,
   MissingKing            = 1,
   NoMemory               = 2,
@@ -43,7 +44,7 @@ enum {
   TooManySol             = 5,
   KamikazeAndHaaner      = 6,
   TryInLessTwo           = 7,
-  NeutralAndOrphanReflKing       = 8,
+  NeutralAndOrphanReflKing = 8,
   LeoFamAndOrtho         = 9,
   CirceAndDummy          = 10,
   ColourChangeRestricted = 11,
@@ -142,16 +143,19 @@ enum {
   SingleBoxAndFairyPieces= 104,
   UndefLatexPiece       = 105,
   HunterTypeLimitReached= 106,
-  DynastyAndRoyalSquare = 107,
-  DynastyAndRepublican  = 108,
-  DynastyAndOscillatingKings= 109,
-  DynastyAndCirceRexIncl= 110,
-  DynastyAndImmun       = 111,
-  TakeMakeAndFairy      = 112,
-  MagicAndFairyPieces   = 113,
-  TooManyMagic          = 114,
+  IncompatibleRoyalSettings = 107,
+  TakeMakeAndFairy      = 108,
+  MagicAndFairyPieces   = 109,
+  TooManyMagic          = 110,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
-};
+} message_id_t;
+
+char const *GetMsgString (message_id_t id);
+
+void VerifieMsg(message_id_t id);
+void ErrorMsg(message_id_t id);
+void Message(message_id_t id);
+void FtlMsg(message_id_t id);
 
 #endif  /* PYMSG_H */
