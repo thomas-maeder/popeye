@@ -1266,7 +1266,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*168*/ "EchecsGeneve",
     /*169*/ "ChameleonPoursuite",
     /*170*/ "AntiKoeko",
-    /*171*/ "EchecsRoque"
+    /*171*/ "EchecsRoque",
+    /*172*/ "QuiPerdGagne"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1440,7 +1441,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*168*/ "GenferSchach",
     /*169*/ "ChamaeleonVerfolgung",
     /*170*/ "AntiKoeko",
-    /*171*/ "RochadeSchach"
+    /*171*/ "RochadeSchach",
+    /*172*/ "Schlagschach"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1614,7 +1616,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*168*/ "GenevaChess",
     /*169*/ "ChameleonPursuit",
     /*170*/ "AntiKoeko",
-    /*171*/ "CastlingChess"
+    /*171*/ "CastlingChess",
+    /*172*/ "LosingGame"
     }
     };
 #endif
@@ -2177,7 +2180,7 @@ More complicated types can attack from more than one direction and need
 special functions listed below to calculate each potential direction.
 
 Unsupported types are listed below with the entry 
-__unsupported_uncalled_attackfunction
+unsupported_uncalled_attackfunction
 */
 #if defined(WE_ARE_EXTERN)
 	extern  attackfunction_t *attackfunctions[derbla + 1];
@@ -2222,14 +2225,14 @@ __unsupported_uncalled_attackfunction
 /* 35 */        0,
 /* 36 */        0,
 /* 37 */        GetSpiralSpringerAttackVectors,  
-/* 38 */        __unsupported_uncalled_attackfunction, /* ubiubi */
+/* 38 */        unsupported_uncalled_attackfunction, /* ubiubi */
 /* 39 */        0,	
 /* 40 */        GetMooseAttackVectors,
 /* 41 */        GetEagleAttackVectors,
 /* 42 */        GetSparrowAttackVectors,
-/* 43 */        __unsupported_uncalled_attackfunction,  /* archbishop */
-/* 44 */        __unsupported_uncalled_attackfunction, /* ref B */
-/* 45 */        __unsupported_uncalled_attackfunction, /* cardinal */
+/* 43 */        unsupported_uncalled_attackfunction,  /* archbishop */
+/* 44 */        unsupported_uncalled_attackfunction, /* ref B */
+/* 45 */        unsupported_uncalled_attackfunction, /* cardinal */
 /* 46 */        0,
 /* 47 */        0,	
 /* 48 */        0,
@@ -2239,9 +2242,9 @@ __unsupported_uncalled_attackfunction
 /* 52 */        0,
 /* 53 */        0,
 /* 54 */        GetDiagonalSpiralSpringerAttackVectors,   
-/* 55 */        __unsupported_uncalled_attackfunction, /* bouncy knight */
+/* 55 */        unsupported_uncalled_attackfunction, /* bouncy knight */
 /* 56 */        0,
-/* 57 */        __unsupported_uncalled_attackfunction, /* cat */
+/* 57 */        unsupported_uncalled_attackfunction, /* cat */
 /* 58 */        0,
 /* 59 */        0,
 /* 60 */        0,
@@ -2249,7 +2252,7 @@ __unsupported_uncalled_attackfunction
 /* 62 */        0,               
 /* 63 */        0,
 /* 64 */        0,
-/* 65 */        __unsupported_uncalled_attackfunction,  /* orphan */
+/* 65 */        unsupported_uncalled_attackfunction,  /* orphan */
 /* 66 */        0,
 /* 67 */        0,
 /* 68 */        0,
@@ -2301,7 +2304,7 @@ __unsupported_uncalled_attackfunction
 /*114 */        0,
 /*115 */        0,  
 /*116 */        0,
-/*117 */        __unsupported_uncalled_attackfunction,    /*friend*/
+/*117 */        unsupported_uncalled_attackfunction,    /*friend*/
 /*118 */        0,  /* dolphin - do g, g2 count as different vectors? */
 /*119 */        0,
 /*120 */        0,
@@ -2312,19 +2315,19 @@ __unsupported_uncalled_attackfunction
 /*125 */	0,  
 /*126 */	0, 
 /*127 */	0,
-/*128 */  __unsupported_uncalled_attackfunction, /*radial k*/
+/*128 */  unsupported_uncalled_attackfunction, /*radial k*/
 /*129 */  0,
 /*130 */  GetRoseLocustAttackVectors,
-/*131 */  __unsupported_uncalled_attackfunction,
-/*132 */  __unsupported_uncalled_attackfunction,
-/*133 */  __unsupported_uncalled_attackfunction,
-/*134 */  __unsupported_uncalled_attackfunction,
-/*135 */  __unsupported_uncalled_attackfunction,
-/*136 */  __unsupported_uncalled_attackfunction,
-/*137 */  __unsupported_uncalled_attackfunction,
-/*138 */  __unsupported_uncalled_attackfunction,
-/*139 */  __unsupported_uncalled_attackfunction,
-/*140 */  __unsupported_uncalled_attackfunction
+/*131 */  unsupported_uncalled_attackfunction,
+/*132 */  unsupported_uncalled_attackfunction,
+/*133 */  unsupported_uncalled_attackfunction,
+/*134 */  unsupported_uncalled_attackfunction,
+/*135 */  unsupported_uncalled_attackfunction,
+/*136 */  unsupported_uncalled_attackfunction,
+/*137 */  unsupported_uncalled_attackfunction,
+/*138 */  unsupported_uncalled_attackfunction,
+/*139 */  unsupported_uncalled_attackfunction,
+/*140 */  unsupported_uncalled_attackfunction
     };
 #endif
 
