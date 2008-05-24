@@ -57,6 +57,14 @@ pie wh mag Ra8 Bf8 LIb7 Pe7 LIc2 LIg2
 pie bl mag pc7 lia4 kb4 lib3 lih3 pa2 
 rem >>>
 
+next
+
+pieces white ka5
+cond sentinelles
+option NoBk
+stip ~1
+twin add white magic ka5
+twin add neutral magic ka5
 
 end
 
