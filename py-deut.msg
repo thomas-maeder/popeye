@@ -136,11 +136,8 @@
 104= Maerchensteine nicht erlaubt in Single box
 105= LaTeXdatei nicht uebersetzbar: Maerchenstein nicht spezifiziert.\n
 106= Mehr als %s verschiedene Jaegertypen\n
-107= KoenigsDynastie und koenigliches Feld sind unvereinbar\n
-108= KoenigsDynastie und Republikanerschach sind unvereinbar\n
-109= KoenigsDynastie und OszillierendeKoenige sind unvereinbar\n
-110= KoenigsDynastie und Circe RexInklusive sind unvereinbar\n
-111= KoenigsDynastie und Immunschach sind unvereinbar\n
-112= Take&MakeSchach unvereinbar mit verschiedenen Maerchenbedingungen\n
-113= Magische Steine unvereinbar mit verschiedenen Maerchenfiguren\n
-114= Zu viele magische Berechnungen benoetigt\n
+107= Unvereinbare koenigliche Felder und/oder Steine\n
+108= Schlagschach nur mit den Forderungen dia oder a=>b\n
+109= Take&MakeSchach unvereinbar mit verschiedenen Maerchenbedingungen\n
+110= Magische Steine unvereinbar mit verschiedenen Maerchenfiguren\n
+111= Zu viele magische Berechnungen benoetigt\n

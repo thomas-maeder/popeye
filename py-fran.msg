@@ -105,11 +105,8 @@
 104= Les pieces feeriques ne sont pas permises dans SingleBox
 105= erreur dans FichierLaTeX : piece feerique inconnue\n
 106= Plus de %s types de chasseurs differents\n
-107= DynastieRoyale et champs royaux ne sont pas compatibles\n
-108= DynastieRoyale et EchecsRepublicain ne sont pas compatibles\n
-109= DynastieRoyale et RoisOscillant ne sont pas compatibles\n
-110= DynastieRoyale et Circe rexinclusive ne sont pas compatibles\n
-111= DynastieRoyale et immunschach ne sont pas compatibles\n
-112= Take&MakeEchecs ne sont pas compatibles avec certains genres feeriques\n
-113= Pieces magiques ne sont pas compatibles avec certaines pieces feeriques\n
-114= Trop de calculations magiques necessaires\n
+107= Cases et/ou pieces royales incompatibles\n
+108= QuiPerdGagne seulement avec les enonces dia ou a=>b\n
+109= Take&MakeEchecs ne sont pas compatibles avec certains genres feeriques\n
+110= Pieces magiques ne sont pas compatibles avec certaines pieces feeriques\n
+111= Trop de calculations magiques necessaires\n
