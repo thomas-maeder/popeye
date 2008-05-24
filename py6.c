@@ -370,6 +370,9 @@ boolean verifieposition(void)
     square *bnp;
     square s;
 
+    OptFlag[sansrn]= True;
+    OptFlag[sansrb]= True;
+
     if (nbpiece[roib]==1)
       for (bnp= boardnum; *bnp; bnp++)
       {
@@ -625,8 +628,10 @@ boolean verifieposition(void)
   }
 
   if (CondFlag[republican]) {
-    OptFlag[sansrb]= OptFlag[sansrn]= True;
-    optim_neutralretractable = optim_orthomatingmoves = False;
+    OptFlag[sansrn]= True;
+    OptFlag[sansrb]= True;
+    optim_neutralretractable = False;
+    optim_orthomatingmoves = False;
     flag_dontaddk=false;
   }
 
