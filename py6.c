@@ -217,14 +217,26 @@ boolean is_symmetricfairy(piece p)
 }
 
 
-boolean verifieposition(void) {
+static boolean SetKing(int *kingsquare, int square)
+{
+  if (*kingsquare==initsquare)
+  {
+    *kingsquare= square;
+    return true;
+  }
+  else
+    return false;
+}
+
+boolean verifieposition(void)
+{
   square        *bnp;
   piece     p;
   ply           n;
   int      cp, pp, tp, op;
   int           i;
   boolean          nonoptgenre;
-
+  
   if (CondFlag[glasgow] && CondFlag[circemalefique])
     anycirprom= True;
 
@@ -263,13 +275,17 @@ boolean verifieposition(void) {
       ErrorMsg(NoStopOnShortSolutions);
       OptFlag[stoponshort]= false;
     }
-    if (enonce > (maxply-1)/2) {
-      return VerifieMsg(BigNumMoves);
+    if (enonce > (maxply-1)/2)
+    {
+      VerifieMsg(BigNumMoves);
+      return false;
     }
   }
   else {
-    if (enonce >= maxply-2) {
-      return VerifieMsg(BigNumMoves);
+    if (enonce >= maxply-2)
+    {
+      VerifieMsg(BigNumMoves);
+      return false;
     }
   }
 
@@ -285,7 +301,8 @@ boolean verifieposition(void) {
   if (stipSettings[nonreciprocal].stipulation == stip_steingewinn
       && CondFlag[parrain])
   {
-    return VerifieMsg(PercentAndParrain);
+    VerifieMsg(PercentAndParrain);
+    return false;
   }
 
   flagdiastip=
@@ -330,52 +347,120 @@ boolean verifieposition(void) {
       nbpiece[e[*bnp]]++;
     }
   }
-  
+
+  if ((bl_royal_sq!=initsquare || wh_royal_sq!=initsquare
+       || CondFlag[republican]
+       || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
+       || rex_circe
+       || rex_immun)
+      && (CondFlag[dynasty] || CondFlag[losingchess]))
+  {
+    VerifieMsg(IncompatibleRoyalSettings);
+    return false;
+  }
+
+  rb = initsquare;
+  rn = initsquare;
+
+  if (TSTFLAG(PieSpExFlags,Neutral))
+    /* neutral king has to be white for initialisation of r[bn] */
+    initneutre(blanc);
+
   if (CondFlag[dynasty]) {
     square *bnp;
     square s;
 
-    if (bl_royal_sq!=initsquare || wh_royal_sq!=initsquare )
-      return VerifieMsg(DynastyAndRoyalSquare);
-
-    if (CondFlag[republican])
-      return VerifieMsg(DynastyAndRepublican);
-
-    if (CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs])
-      return VerifieMsg(DynastyAndOscillatingKings);
-
-    if (rex_circe) 
-      return VerifieMsg(DynastyAndCirceRexIncl);
-    
-    if (rex_immun)
-      return VerifieMsg(DynastyAndImmun);
-      
     if (nbpiece[roib]==1)
-      for (bnp= boardnum; *bnp; bnp++) {
+      for (bnp= boardnum; *bnp; bnp++)
+      {
         s = *bnp;
-        if (e[s] == roib) {
-          rb = s;
+        if (e[s]==roib)
+        {
+          if (!SetKing(&rb,s))
+          {
+            VerifieMsg(OneKing);
+            return false;
+          }
           break;
         }
       }
+    else
+      rb = initsquare;
 
     if (nbpiece[roin]==1)
-      for (bnp= boardnum; *bnp; bnp++) {
+      for (bnp= boardnum; *bnp; bnp++)
+      {
         s = *bnp;
-        if (e[s] == roin) {
-          rn = s;
+        if (e[s]==roin)
+        {
+          if (!SetKing(&rn,s))
+          {
+            VerifieMsg(OneKing);
+            return false;
+          }
           break;
         }
       }
+    else
+      rn = initsquare;
   }
+  else if (!CondFlag[losingchess])
+  {
+    for (bnp= boardnum; *bnp; bnp++)
+    {
+      square s = *bnp;
+      piece p = e[s];
+      if (p==roib
+          || (p>roib && TSTFLAG(spec[s],Royal)))
+      {
+        if (!SetKing(&rb,s))
+        {
+          VerifieMsg(OneKing);
+          return false;
+        }
+        if (TSTFLAG(spec[s],Neutral))
+          SetKing(&rn,s);
+      }
 
+      if (s==wh_royal_sq)
+      {
+        if (!SetKing(&rb,s))
+        {
+          VerifieMsg(OneKing);
+          return false;
+        }
+      }
+
+      if (p==roin
+          || (p<roin && TSTFLAG(spec[s],Royal)))
+      {
+        if (!SetKing(&rn,s))
+        {
+          VerifieMsg(OneKing);
+          return false;
+        }
+      }
+
+      if (s==bl_royal_sq)
+      {
+        if (!SetKing(&rn,s))
+        {
+          VerifieMsg(OneKing);
+          return false;
+        }
+      }
+    }
+  }
 
   if (CondFlag[takemake])
   {
     if (CondFlag[sentinelles]
         || CondFlag[nocapture]
         || anyanticirce)
-      return VerifieMsg(TakeMakeAndFairy);
+    {
+      VerifieMsg(TakeMakeAndFairy);
+      return false;
+    }
   }
 
   flag_magic = TSTFLAG(PieSpExFlags, Magic);
@@ -423,10 +508,17 @@ boolean verifieposition(void) {
           flagleofamilyonly= false;
         flagveryfairy= true;
       }
-      if (flag_magic && attackfunctions[p] == __unsupported_uncalled_attackfunction)
-        return  VerifieMsg(MagicAndFairyPieces);
+      if (flag_magic
+          && attackfunctions[p]==unsupported_uncalled_attackfunction)
+      {
+        VerifieMsg(MagicAndFairyPieces);
+        return false;
+      }
       if (CondFlag[einstein])
-        return  VerifieMsg(EinsteinAndFairyPieces);
+      {
+        VerifieMsg(EinsteinAndFairyPieces);
+        return false;
+      }
     }
   }
 
@@ -458,15 +550,18 @@ boolean verifieposition(void) {
         || anyanticirce       /* rebirth square may coincide with I */
         || CondFlag[parrain]) /* verkraftet nicht 2 IUW in einem Zug !!! */
     {
-      return VerifieMsg(ImitWFairy);
+      VerifieMsg(ImitWFairy);
+      return false;
     }
     optim_neutralretractable = optim_orthomatingmoves = false;
   }
 
   if (CondFlag[leofamily]) {
     for (p= db; p <= fb; p++) {
-      if (nbpiece[p] + nbpiece[-p] != 0) {
-        return VerifieMsg(LeoFamAndOrtho);
+      if (nbpiece[p] + nbpiece[-p] != 0)
+      {
+        VerifieMsg(LeoFamAndOrtho);
+        return false;
       }
       exist[p]= false;
     }
@@ -479,8 +574,10 @@ boolean verifieposition(void) {
     flagfee= true;
   }
   if (anycirce) {
-    if (exist[dummyb]) {
-      return VerifieMsg(CirceAndDummy);
+    if (exist[dummyb])
+    {
+      VerifieMsg(CirceAndDummy);
+      return false;
     }
     if (TSTFLAG(PieSpExFlags, Neutral)) {
       optim_neutralretractable = optim_orthomatingmoves = false;
@@ -517,8 +614,10 @@ boolean verifieposition(void) {
   }
 
   if (CondFlag[cavaliermajeur]) {
-    if (nbpiece[cb] + nbpiece[cn] > 0) {
-      return VerifieMsg(CavMajAndKnight);
+    if (nbpiece[cb] + nbpiece[cn] > 0)
+    {
+      VerifieMsg(CavMajAndKnight);
+      return false;
     }
     exist[cb]= false;
     exist[nb]= true;
@@ -531,18 +630,20 @@ boolean verifieposition(void) {
     flag_dontaddk=false;
   }
 
-  if (OptFlag[sansrb] && rb) {
+  if (OptFlag[sansrb] && rb!=initsquare) {
     OptFlag[sansrb]= False;
   }
-  if (OptFlag[sansrn] && rn) {
+  if (OptFlag[sansrn] && rn!=initsquare) {
     OptFlag[sansrn]= False;
   }
   if (rb==initsquare && nbpiece[roib]==0
       && !OptFlag[sansrb]) {
+    StdString("missing wk\n");
     ErrorMsg(MissingKing);
   }
   if (rn==initsquare && nbpiece[roin]==0
       && !OptFlag[sansrn]) {
+    StdString("missing bk\n");
     ErrorMsg(MissingKing);
   }
 
@@ -562,20 +663,21 @@ boolean verifieposition(void) {
       if (  ((! OptFlag[sansrb]) && rb!=initsquare && (e[rb] != roib))
             || ((! OptFlag[sansrn]) && rn!=initsquare && (e[rn] != roin)))
       {
-        return VerifieMsg(RoyalPWCRexCirce);
+        VerifieMsg(RoyalPWCRexCirce);
+        return false;
       }
     }
   }
 
-  if (TSTFLAG(PieSpExFlags, Neutral)) {
-    initneutre(blanc);
-    flag_nk= rb!=initsquare
-      && TSTFLAG(spec[rb], Neutral);
-  }
+  if (TSTFLAG(PieSpExFlags, Neutral))
+    flag_nk= rb!=initsquare && TSTFLAG(spec[rb],Neutral);
 
   if (CondFlag[bicolores])
     if (TSTFLAG(PieSpExFlags, Neutral))
-      return VerifieMsg(NeutralAndBicolor);
+    {
+      VerifieMsg(NeutralAndBicolor);
+      return false;
+    }
 
   if (CondFlag[bicolores] || CondFlag[monochro])
     optim_orthomatingmoves = false;
@@ -591,8 +693,10 @@ boolean verifieposition(void) {
   if (flaglegalsquare) {
     eval_white= legalsquare;
     eval_2= eval_ortho;
-    if (CondFlag[monochro] && CondFlag[bichro]) {
-      return VerifieMsg(MonoAndBiChrom);
+    if (CondFlag[monochro] && CondFlag[bichro])
+    {
+      VerifieMsg(MonoAndBiChrom);
+      return false;
     }
     if (  (CondFlag[koeko]
            || CondFlag[newkoeko]
@@ -601,13 +705,16 @@ boolean verifieposition(void) {
           && anycirce
           && TSTFLAG(PieSpExFlags, Neutral))
     {
-      return VerifieMsg(KoeKoCirceNeutral);
+      VerifieMsg(KoeKoCirceNeutral);
+      return false;
     }
   }
 
   if (flaglegalsquare || TSTFLAG(PieSpExFlags,Neutral)) {
-    if (CondFlag[volage]) {
-      return VerifieMsg(SomeCondAndVolage);
+    if (CondFlag[volage])
+    {
+      VerifieMsg(SomeCondAndVolage);
+      return false;
     }
   }
   if (TSTFLAG(PieSpExFlags,Paralyse)
@@ -620,14 +727,18 @@ boolean verifieposition(void) {
   }
   if (TSTFLAG(PieSpExFlags, Kamikaze)) {
     optim_neutralretractable = optim_orthomatingmoves = false;
-    if (CondFlag[haanerchess]) {
-      return VerifieMsg(KamikazeAndHaaner);
+    if (CondFlag[haanerchess])
+    {
+      VerifieMsg(KamikazeAndHaaner);
+      return false;
     }
     if (anycirce) {
       /* No Kamikaze and Circe with fairy pieces; taking and
          taken piece could be reborn on the same square! */
-      if (flagfee || CondFlag[volage]) {
-        return VerifieMsg(KamikazeAndSomeCond);
+      if (flagfee || CondFlag[volage])
+      {
+        VerifieMsg(KamikazeAndSomeCond);
+        return false;
       }
     }
   }
@@ -635,7 +746,8 @@ boolean verifieposition(void) {
   if ((CondFlag[supercirce] || CondFlag[april])
       && (CondFlag[koeko] || CondFlag[newkoeko] || CondFlag[antikoeko]))
   {
-    return  VerifieMsg(SuperCirceAndOthers);
+    VerifieMsg(SuperCirceAndOthers);
+    return false;
   }
 
   {
@@ -645,7 +757,10 @@ boolean verifieposition(void) {
     if (CondFlag[republican]) numsuper++;
     if (CondFlag[antisuper]) numsuper++;
     if (numsuper > 1)
-      return    VerifieMsg(SuperCirceAndOthers);
+    {
+      VerifieMsg(SuperCirceAndOthers);
+      return false;
+    }
   }
 
   if (CondFlag[patrouille]
@@ -671,8 +786,10 @@ boolean verifieposition(void) {
     }
   }
 
-  if (CondFlag[isardam] && flag_madrasi) {
-    return VerifieMsg(IsardamAndMadrasi);
+  if (CondFlag[isardam] && flag_madrasi)
+  {
+    VerifieMsg(IsardamAndMadrasi);
+    return false;
   }
 
   if (CondFlag[black_oscillatingKs] || CondFlag[white_oscillatingKs]) {
@@ -697,7 +814,8 @@ boolean verifieposition(void) {
         || flagsimplehoppers
         || (flagveryfairy && !flagleofamilyonly) )
     {
-      return VerifieMsg(MarsCirceAndOthers);
+      VerifieMsg(MarsCirceAndOthers);
+      return false;
     }
   }
 
@@ -713,7 +831,8 @@ boolean verifieposition(void) {
     if ( CondFlag[imitators]
          || TSTFLAG(PieSpExFlags,Paralyse))
     {
-      return VerifieMsg(MadrasiParaAndOthers);
+      VerifieMsg(MadrasiParaAndOthers);
+      return false;
     }
     if (!(CondFlag[patrouille]
           || CondFlag[beamten]
@@ -732,7 +851,8 @@ boolean verifieposition(void) {
          || CondFlag[imitators]
          || TSTFLAG(PieSpExFlags,Paralyse))
     {
-      return VerifieMsg(MadrasiParaAndOthers);
+      VerifieMsg(MadrasiParaAndOthers);
+      return false;
     }
     optim_neutralretractable = optim_orthomatingmoves = false;
     eval_2= eval_white;
@@ -752,19 +872,25 @@ boolean verifieposition(void) {
 
   if (flagAssassin) {
     if (TSTFLAG(PieSpExFlags,Neutral) /* Neutrals not implemented */
-        || CondFlag[bicolores]) {             /* others? */
-      return VerifieMsg(AssassinandOthers);
+        || CondFlag[bicolores])             /* others? */
+    {
+      VerifieMsg(AssassinandOthers);
+      return false;
     }
   }
   eval_black= eval_white;
   if (rex_circe || rex_immun) {
-    if (rex_circe && rex_immun) {
-      return VerifieMsg(RexCirceImmun);
+    if (rex_circe && rex_immun)
+    {
+      VerifieMsg(RexCirceImmun);
+      return false;
     }
-    if (anyanticirce) {
+    if (anyanticirce)
+    {
       /* an additional pointer to evaluate-functions is
          required  TLi */
-      return VerifieMsg(SomeCondAndAntiCirce);
+      VerifieMsg(SomeCondAndAntiCirce);
+      return false;
     }
     eval_2= eval_white;
     if (rex_circe) {
@@ -790,7 +916,8 @@ boolean verifieposition(void) {
         || CondFlag[geneva]
         || TSTFLAG(PieSpExFlags, Kamikaze))
     {
-      return VerifieMsg(SomeCondAndAntiCirce);
+      VerifieMsg(SomeCondAndAntiCirce);
+      return false;
     }
     optim_neutralretractable = optim_orthomatingmoves = false;
     eval_2= eval_white;
@@ -799,8 +926,10 @@ boolean verifieposition(void) {
   }
 
   if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type1)) {
-    if (flagfee) {
-      return VerifieMsg(SingleBoxAndFairyPieces);
+    if (flagfee)
+    {
+      VerifieMsg(SingleBoxAndFairyPieces);
+      return false;
     }
     optim_neutralretractable = optim_orthomatingmoves = false;
     eval_2= eval_white;
@@ -818,20 +947,27 @@ boolean verifieposition(void) {
 
   if ((CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]) 
       && (OptFlag[sansrb] || OptFlag[sansrn]))
-    return VerifieMsg(MissingKing);
+  {
+    VerifieMsg(MissingKing);
+    return false;
+  }
 
   if (wh_ultra && !CondFlag[whcapt]) {
     eval_2= eval_white;
     eval_black= rnultraech;
-    if (TSTFLAG(PieSpExFlags, Neutral)) {
-      return VerifieMsg(OthersNeutral);
+    if (TSTFLAG(PieSpExFlags, Neutral))
+    {
+      VerifieMsg(OthersNeutral);
+      return false;
     }
   }
   if (bl_ultra && !CondFlag[blcapt]) {
     eval_2= eval_white;
     eval_white= rbultraech;
-    if (TSTFLAG(PieSpExFlags, Neutral)) {
-      return VerifieMsg(OthersNeutral);
+    if (TSTFLAG(PieSpExFlags, Neutral))
+    {
+      VerifieMsg(OthersNeutral);
+      return false;
     }
   }
 
@@ -854,7 +990,8 @@ boolean verifieposition(void) {
            + CondFlag[blacksynchron]
            + CondFlag[blackantisynchron] > 1))
   {
-    return VerifieMsg(TwoMummerCond);
+    VerifieMsg(TwoMummerCond);
+    return false;
   }
 #if !defined(DATABASE)  /* TLi */
   if ((CondFlag[whmin]
@@ -889,7 +1026,8 @@ boolean verifieposition(void) {
           || exist[bishopsparrb]
           || exist[doublegb]))
   {
-    return VerifieMsg(SomePiecesAndMaxiHeffa);
+    VerifieMsg(SomePiecesAndMaxiHeffa);
+    return false;
   }
 #endif
 
@@ -898,7 +1036,8 @@ boolean verifieposition(void) {
           || CondFlag[sentinelles]
           || CondFlag[imitators]))
   {
-    return VerifieMsg(DiaStipandsomeCond);
+    VerifieMsg(DiaStipandsomeCond);
+    return false;
   }
 
   jouegenre =
@@ -986,7 +1125,8 @@ boolean verifieposition(void) {
     || CondFlag[norsk]
     || CondFlag[SAT]
     || CondFlag[strictSAT]
-    || CondFlag[takemake];
+    || CondFlag[takemake]
+    || CondFlag[losingchess];
 
   if (CondFlag[dynasty]) {
     /* checking for TSTFLAG(spec[rb],Kamikaze) may not be sufficient
@@ -1040,7 +1180,9 @@ boolean verifieposition(void) {
   superbas= CondFlag[antisuper] ? bas : bas - 1;
 
   pp= cp= 0;      /* init promotioncounter and checkcounter */
-  for (p= CondFlag[dynasty] ? roib : db; p <= derbla; p++) {
+  for (p= CondFlag[losingchess] || CondFlag[dynasty] ? roib : db;
+       p <= derbla;
+       p++) {
     getprompiece[p]= vide;
     if (promonly[p]) {
       exist[p]= True;
@@ -1106,7 +1248,8 @@ boolean verifieposition(void) {
             && rn != initsquare
             && (e[rn] != roin || CondFlag[sting])))
   {
-    return VerifieMsg(TransmRoyalPieces);
+    VerifieMsg(TransmRoyalPieces);
+    return false;
   }
 
   if ((exist[Orphan]
@@ -1115,11 +1258,14 @@ boolean verifieposition(void) {
        || calc_blrefl_king)
       && TSTFLAG(PieSpExFlags, Neutral))
   {
-    return VerifieMsg(NeutralAndOrphanReflKing);
+    VerifieMsg(NeutralAndOrphanReflKing);
+    return false;
   }
 
-  if ((eval_white==eval_isardam) && CondFlag[vogt]) {
-    return VerifieMsg(VogtlanderandIsardam);
+  if ((eval_white==eval_isardam) && CondFlag[vogt])
+  {
+    VerifieMsg(VogtlanderandIsardam);
+    return false;
   }
 
   for (n= 2; n <= maxply; inum[n++]= inum[1])
@@ -1128,7 +1274,8 @@ boolean verifieposition(void) {
   if (  (CondFlag[chamchess] || CondFlag[linechamchess])
         && TSTFLAG(PieSpExFlags, Chameleon))
   {
-    return VerifieMsg(ChameleonPiecesAndChess);
+    VerifieMsg(ChameleonPiecesAndChess);
+    return false;
   }
 
   if (TSTFLAG(PieSpExFlags, ColourChange)) {
@@ -1148,6 +1295,19 @@ boolean verifieposition(void) {
     rnechec= &annan_rnechec;
   }
 
+  if (CondFlag[losingchess])
+  {
+    /* no king is ever in check */
+    rbechec= &losingchess_rbnechec;
+    rnechec= &losingchess_rbnechec;
+
+    /* capturing moves are "longer" than non-capturing moves */
+    black_length= &len_losingchess;
+    white_length= &len_losingchess;
+    flagwhitemummer= true;
+    flagblackmummer= true;
+  }
+
   FlagMoveOrientatedStip =
     stipSettings[reciprocal].stipulation == stip_target
     || stipSettings[reciprocal].stipulation == stip_ep
@@ -1162,11 +1322,17 @@ boolean verifieposition(void) {
 
   if (stipSettings[nonreciprocal].stipulation == stip_doublemate
       && (SortFlag(Self) || SortFlag(Direct)))
-    return VerifieMsg(StipNotSupported);
+  {
+    VerifieMsg(StipNotSupported);
+    return false;
+  }
 
   if (FlowFlag(Reci)
       && stipSettings[reciprocal].stipulation==stip_countermate)
-    return VerifieMsg(StipNotSupported);
+  {
+    VerifieMsg(StipNotSupported);
+    return false;
+  }
 
   /* check castling possibilities */
   CLEARFL(castling_flag[0]);
@@ -1207,7 +1373,10 @@ boolean verifieposition(void) {
 
   if (stipSettings[nonreciprocal].stipulation==stip_castling
       && !castling_supported)
-    return VerifieMsg(StipNotSupported);
+  {
+    VerifieMsg(StipNotSupported);
+    return false;
+  }
 
   castling_flag[0] &= no_castling;
   castling_flag[2]= castling_flag[1]= castling_flag[0];
@@ -1301,7 +1470,8 @@ boolean verifieposition(void) {
                    || (SortFlag(Direct) && FlowFlag(Series))
              )))
   {
-    return VerifieMsg(IntelligentRestricted);
+    VerifieMsg(IntelligentRestricted);
+    return false;
   }
 
   if (InitChamCirce) {
@@ -2693,15 +2863,7 @@ void initduplex(void) {
     A hack to make the intelligent mode work with duplex.
     But anyway I have to think about the intelligent mode again
   */
-  square *bnp, rsq;
-
-#if defined(NODEF)
-  rsq= rb%onerow+onerow*((onerow-1)-rb/onerow);
-  rb= rn%onerow+onerow*((onerow-1)-rn/onerow);
-#endif /* NODEF */
-  rsq= rb==initsquare ? initsquare : rb%onerow+onerow*((onerow-1)-rb/onerow);
-  rb= rn==initsquare ? initsquare : rn%onerow+onerow*((onerow-1)-rn/onerow);
-  rn= rsq;
+  square *bnp;
   for (bnp= boardnum; *bnp; bnp++) {
     if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide) {
       e[*bnp]= -e[*bnp];
@@ -2982,18 +3144,8 @@ int main(int argc, char *argv[]) {
                 && OptFlag[solapparent]
                 && enonce>1) {
               SatzFlag= true;
-              if (flag_atob && !FlowFlag(Exact)) {
-                StipFlags|= FlowBit(Exact);
-                for (i= 1; i<enonce-1; i++)
-                  ProofSol(advers(maincamp), i, false);
-              }
               ProofSol(advers(maincamp), enonce-1, OptFlag[movenbr]);
               SatzFlag=false;
-            }
-            if (flag_atob && !FlowFlag(Exact)) {
-              StipFlags|= FlowBit(Exact);
-              for (i= 1; i<enonce; i++)
-                ProofSol(maincamp, i, false);
             }
             ProofSol(maincamp, enonce, OptFlag[movenbr]);
           }
