@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <string.h>
 
 #if defined(__unix__)
 #include <unistd.h>
