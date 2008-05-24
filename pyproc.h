@@ -35,11 +35,8 @@
 
 #include "py4.h"
 
-char    *GetMsgString (int nr);
-
 void    OpenInput (char *s);
 void    CloseInput (void);
-void    FtlMsg (int a);
 void    MultiCenter (char *s);
 void    StartTimer (void);
 long    StopTimer (void);
@@ -242,6 +239,7 @@ boolean rbcircech (square departure, square arrival, square capture);
 extern boolean (*rbechec)(evalfunction_t *evaluate);
 boolean singleboxtype3_rbechec(evalfunction_t *evaluate);
 boolean annan_rbechec(evalfunction_t *evaluate);
+boolean losingchess_rbnechec(evalfunction_t *evaluate);
 boolean orig_rbechec(evalfunction_t *evaluate);
 
 boolean rbimmunech (square departure, square arrival, square capture);
@@ -326,16 +324,12 @@ Token   ReadProblem (Token tk);
 void    ErrString (char const *s);
 void    StdChar (char c);
 void    StdString (char const *s);
-void    ErrorMsg (int nr);
-void    Message (int nr);
 void    logChrArg (char arg);
 void    logStrArg (char *arg);
 void    logIntArg (int arg);
 void    logLngArg (long arg);
 
 void    GenMatingMove(couleur a);
-
-boolean VerifieMsg (int a);
 
 piece   dec_einstein (piece p);
 piece   inc_einstein (piece p);
@@ -513,7 +507,7 @@ attackfunction_t GetBishopEagleAttackVectors;
 attackfunction_t GetSparrowAttackVectors;
 attackfunction_t GetRookSparrowAttackVectors;
 attackfunction_t GetBishopSparrowAttackVectors;
-attackfunction_t __unsupported_uncalled_attackfunction;
+attackfunction_t unsupported_uncalled_attackfunction;
 attackfunction_t GetMargueriteAttackVectors;
 attackfunction_t GetBoyscoutAttackVectors;
 attackfunction_t GetGirlscoutAttackVectors;
