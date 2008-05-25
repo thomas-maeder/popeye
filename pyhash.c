@@ -704,18 +704,18 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
   if (he == dhtNilElement) { /* the position is new */
     he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
     if (he==dhtNilElement
-        || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
+        || dhtKeyCount(pyhash) > MaxPositions) {
       compresshash();
       he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
       if (he==dhtNilElement
-          || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
+          || dhtKeyCount(pyhash) > MaxPositions) {
 #if defined(FXF)
         ifTESTHASH(
           printf("make new hashtable, due to trashing\n"));
         inithash();
         he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
         if (he==dhtNilElement
-            || dhtKeyCount(pyhash) > (unsigned long)MaxPositions) {
+            || dhtKeyCount(pyhash) > MaxPositions) {
           fprintf(stderr,
                   "Sorry, cannot enter more hashelements "
                   "despite compression\n");
@@ -1214,29 +1214,29 @@ void inithash(void)
 
   if (SortFlag(Proof)) {
     encode= ProofEncode;
-    if (MaxMemory && MaxPositions==0)
+    if (MaxMemory>0 && MaxPositions==0)
       MaxPositions= MaxMemory/(24+sizeof(char *)+1);
   } else {
     Small= TellSmallEncodePosLeng();
     Large= TellLargeEncodePosLeng();
     if (Small <= Large) {
       encode= SmallEncode;
-      if (MaxMemory && MaxPositions==0)
+      if (MaxMemory>0 && MaxPositions==0)
         MaxPositions= MaxMemory/(Small+sizeof(char *)+1);
     }
     else {
       encode= LargeEncode;
-      if (MaxMemory && MaxPositions==0)
+      if (MaxMemory>0 && MaxPositions==0)
         MaxPositions= MaxMemory/(Large+sizeof(char *)+1);
     }
   }
 
 #if defined(FXF)
-  ifTESTHASH(printf("MaxPositions: %7ld\n", MaxPositions));
-  ifTESTHASH(printf("MaxMemory:    %7ld KB\n", MaxMemory/1024));
+  ifTESTHASH(printf("MaxPositions: %7lu\n", MaxPositions));
+  ifTESTHASH(printf("MaxMemory:    %7lu KB\n", MaxMemory/1024));
 #else
   ifTESTHASH(
-    printf("room for up to %ld positions in hash table\n", MaxPositions));
+    printf("room for up to %lu positions in hash table\n", MaxPositions));
 #endif /*FXF*/
 } /* inithash */
 

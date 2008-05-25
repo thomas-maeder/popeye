@@ -66,20 +66,21 @@
 extern  unsigned long   MaxMemory;
 extern int MaxTime;
 extern  char    *StartUp;
-extern  long    MaxPositions;
+extern  unsigned long    MaxPositions;
 extern  boolean LaTeXout;
 extern  int     GlobalThreadCounter;
 extern  boolean flag_regression;
 #else
 #	if defined(__TURBOC__) /* TurboC and BorlandC  TLi */
-   /* MaxPositions is either set in inithash() using the coreleft function
-   ** or entered with the -maxpos option at the DOS prompt.    TLi
+   /* MaxPositions is either set in inithash() using the coreleft
+   ** function or entered indirectly with the -maxmemory option at the
+   ** DOS prompt.  TLi/TM
    */
    long         MaxPositions;
 #	else
    long         MaxPositions    = 1000000000L;
 #	endif
-unsigned long           MaxMemory       = 0L;
+unsigned long           MaxMemory       = 0UL;
 int MaxTime = -1;
 char            *StartUp = VERSIONSTRING;
 boolean         LaTeXout= false;

@@ -241,7 +241,7 @@ int fxfInit(unsigned long Size) {
  */
 #define PTRMASK            (sizeof(char *)-1)
 #define ALIGNED_MINSIZE    (sizeof(char *)+PTRMASK)
-#define ALIGN(ptr)         (((unsigned long)ptr+PTRMASK) & (~PTRMASK))
+#define ALIGN(ptr)         (((size_t)ptr+PTRMASK) & (~PTRMASK))
 
 #define  GetNextPtr(ptr)       *(char **)ALIGN(ptr)
 #define  PutNextPtr(dst, ptr)  *(char **)ALIGN(dst)= ptr

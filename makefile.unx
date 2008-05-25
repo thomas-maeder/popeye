@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.28 2008/04/05 09:04:22 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.29 2008/05/25 11:05:38 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -62,6 +62,7 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
 # implementation.
 
 # MSDOS or compatibles          DOS  (TODO NG)
+# Windows 64-Bit environments   _WIN64
 # Windows 32-Bit environments   _WIN32
 # UNIX, Linux                   __unix (Sun cc doesn't define __unix__!)
 # BSD                  	        __bsdi__
