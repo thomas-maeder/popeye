@@ -129,7 +129,7 @@
 97= Nur Mattforderung im RepublikanerSchach erlaubt\n
 98= , erhoehe HashRateLevel auf %s\n
 99= , vermindere HashRateLevel auf %s\n
-100= Intelligent Modus nur im h#, ser-# und ser-h#, ohne Maerchenbedingungen und -steine.\n
+100= Intelligent Modus nur im h#/=, ser-#/= und ser-h#/=, wenigen Maerchenbedingungen und keinen Maerchensteinen.\n
 101= Feld leer - kann keine Figur entfernen/versetzen.\n
 102= Option  MaxZeit  nicht unterstuetzt.\n
 103= Option  StopNachKurzloesungen  nicht unterstuetzt im direkten Spiel.\n

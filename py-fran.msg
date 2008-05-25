@@ -98,7 +98,7 @@
 97= enonce doit etre mat avec condition EchecsRepublicain\n
 98= , increment HashRateLevel a %s\n
 99= , decroissance HashRateLevel a %s\n
-100= mode intelligent seulement avec h#, ser-# et ser-h#, sans quelques genres ou pieces feeriques.\n
+100= mode intelligent seulement avec h#/=, ser-#/= et ser-h#/=, facultativement avec certaines conditions, et sans pieces feeriques.\n
 101= la case est vide - on ne peut pas oter ou deplacer une piece.\n
 102= L'option  MaxTemps  n'est pas soutenu.\n
 103= L'option  FinApresSolutionsCourtes  n'est pas soutenu au jeu direct.\n

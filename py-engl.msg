@@ -98,7 +98,7 @@
 97= Must stipulate mate with Republican Chess\n
 98= , increment HashRateLevel to %s\n
 99= , decrement HashRateLevel to %s\n
-100= Intelligent Mode only with h#, ser-# and ser-h#, without any fairy conditions and fairy pieces.\n
+100= Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces.\n
 101= square is empty - cannot (re)move any piece.\n
 102= Option  MaxTime  not supported.\n
 103= Option  StopOnShortSolutions  not supported with direct play.\n
