@@ -1469,19 +1469,6 @@ boolean verifieposition(void)
          FlowFlag(Series)?"true":"false");
 #endif      /* DEBUG */
 
-  if ( OptFlag[intelligent]
-       && (((stipSettings[nonreciprocal].stipulation != stip_mate)
-            && (stipSettings[nonreciprocal].stipulation != stip_stale))
-           || flagfee
-           || SortFlag(Self)
-           || !(   SortFlag(Help)
-                   || (SortFlag(Direct) && FlowFlag(Series))
-             )))
-  {
-    VerifieMsg(IntelligentRestricted);
-    return false;
-  }
-
   if (InitChamCirce) {
     if (CondFlag[leofamily]) {
       NextChamCircePiece[Leo]= Mao;
@@ -1534,6 +1521,19 @@ boolean verifieposition(void)
     flagfee= true;
     optim_neutralretractable = optim_orthomatingmoves = false;
     exist[reversepb]= true;
+  }
+
+  if (OptFlag[intelligent]
+      && (!(stipSettings[nonreciprocal].stipulation==stip_mate
+            || stipSettings[nonreciprocal].stipulation==stip_stale)
+          || flagfee
+          || SortFlag(Self)
+          || !(SortFlag(Help) || (SortFlag(Direct) && FlowFlag(Series)))
+          || anycirce
+          || anyanticirce))
+  {
+    VerifieMsg(IntelligentRestricted);
+    return false;
   }
 
   if (OptFlag[appseul])
@@ -2973,7 +2973,8 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  if (!MaxMemory) {
+  if (MaxMemory==0)
+  {
     /* TODO move to one module per platform */
 #if defined(DOS)
 #if defined(__TURBOC__)
@@ -2982,10 +2983,16 @@ int main(int argc, char *argv[]) {
     /* DOS-default  256 KB */
     MaxMemory= (unsigned long)256*1024;
 #endif /*__TURBOC__*/
+
 #else /* ! DOS */
-#if defined(_WIN16)
-    MaxMemory= (unsigned long)1024*1024;
-#else /* ! _WIN16 */
+
+#if defined(_WIN64)
+    /* get physical memory amount */
+    MEMORYSTATUS Mem;
+    Mem.dwLength= sizeof(MEMORYSTATUS);
+    GlobalMemoryStatus(&Mem);
+    MaxMemory= Mem.dwAvailPhys;
+#else /* !_WIN64 */
 #if defined(_WIN32)
     /* get physical memory amount */
     MEMORYSTATUS Mem;
@@ -2994,23 +3001,25 @@ int main(int argc, char *argv[]) {
     MaxMemory= Mem.dwAvailPhys;
 #if defined(_WIN98)
     /* WIN98 cannot handle more than 768MB */
-    if (MaxMemory > (unsigned long)700*1024*1024)
-      MaxMemory= (unsigned long)700*1024*1024;
+    if (MaxMemory>700ul*1024*1024)
+      MaxMemory= 700ul*1024*1024;
 #endif  /* _WIN98 */
 #else  /* ! _WIN32 */
+#if defined(_WIN16)
+    MaxMemory= (unsigned long)1024*1024;
+#else /* ! _WIN16 */
     /* UNIX-default   2 MB */
     MaxMemory= (unsigned long)2048*1024;
 #endif /* ! _WIN16 */
 #endif /* ! _WIN32 */
+#endif /* ! _WIN64 */
 #endif /* ! DOS */
   }
 
-  if (i < argc) {
+  if (i<argc)
     OpenInput(argv[i]);
-  }
-  else {
+  else
     OpenInput(" ");
-  }
 
   /* if we are running in an environment which supports
      signals, we initialize the signal handling here
@@ -3026,15 +3035,12 @@ int main(int argc, char *argv[]) {
      too easily changed, or not updated.
      StartUp is defined in pydata.h.
   */
-  if ((MaxMemory>>10) < 1024 || ch == 'K') {
-    sprintf(MMString, " (%ld KB)\n", MaxMemory/1024);
-  }
-  else {
-    if ((MaxMemory>>20) < 1024 || ch == 'M')
-      sprintf(MMString, " (%ld MB)\n", MaxMemory>>20);
-    else
-      sprintf(MMString, " (%ld GB)\n", MaxMemory>>30);
-  }
+  if ((MaxMemory>>10)<1024 || ch=='K')
+    sprintf(MMString, " (%lu KB)\n", MaxMemory>>10);
+  else if ((MaxMemory>>20)<1024 || ch=='M')
+    sprintf(MMString, " (%lu MB)\n", MaxMemory>>20);
+  else
+    sprintf(MMString, " (%lu GB)\n", MaxMemory>>30);
 
   pyfputs(StartUp, stdout);
   pyfputs(MMString, stdout);
