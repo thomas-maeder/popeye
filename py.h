@@ -1300,41 +1300,6 @@ typedef int HANDLE;
 typedef int BOOL;
 typedef unsigned int DWORD;
 
-#if defined(_WIN64)
-
-typedef unsigned long long DWORDLONG;
-
-typedef struct _MEMORYSTATUSEX {
-  DWORD dwLength;
-  DWORD dwMemoryLoad;
-  DWORDLONG ullTotalPhys;
-  DWORDLONG ullAvailPhys;
-  DWORDLONG ullTotalPageFile;
-  DWORDLONG ullAvailPageFile;
-  DWORDLONG ullTotalVirtual;
-  DWORDLONG ullAvailVirtual;
-  DWORDLONG ullAvailExtendedVirtual;
-} MEMORYSTATUSEX, *LPMEMORYSTATUSEX;
-
-__declspec(dllimport)
-  BOOL
-__stdcall
-GlobalMemoryStatusEx(
-  LPMEMORYSTATUSEX lpBuffer
-  );
-#endif
-
-typedef struct _MEMORYSTATUS {
-    DWORD dwLength;
-    DWORD dwMemoryLoad;
-    DWORD dwTotalPhys;
-    DWORD dwAvailPhys;
-    DWORD dwTotalPageFile;
-    DWORD dwAvailPageFile;
-    DWORD dwTotalVirtual;
-    DWORD dwAvailVirtual;
-} MEMORYSTATUS, *LPMEMORYSTATUS;
-
 #define BELOW_NORMAL_PRIORITY_CLASS       0x00004000
 
 __declspec(dllimport)
@@ -1349,14 +1314,6 @@ SetPriorityClass(
   HANDLE hProcess,        /* handle to process */
   DWORD dwPriorityClass   /* priority class */
 );
-
-
-__declspec(dllimport)
-void
-__stdcall
-GlobalMemoryStatus(
-    LPMEMORYSTATUS lpBuffer
-    );
 
 #endif  /* _WIN32 */
 

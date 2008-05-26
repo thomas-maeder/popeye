@@ -112,3 +112,10 @@ EXE_SUFFIX=.exe
 # Meta information
 # ----------------
 OSTYPE=Windows
+
+
+# Additional sources or includes
+================================
+
+# override implementation of adjustMaxmemory()
+PYCFILES = platform/windows32/maxmem.c

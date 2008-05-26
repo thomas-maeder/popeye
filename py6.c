@@ -98,6 +98,7 @@
 #include "DHT/dhtbcmem.h"
 #include "pyproof.h"
 #include "pyint.h"
+#include "platform/maxmem.h"
 
 boolean supergenre;
 
@@ -2924,8 +2925,8 @@ int main(int argc, char *argv[]) {
   int     i, l;
   boolean flag_starttimer;
   char    *ptr, ch = 'K';
-  size_t availablePhysicalMemory;
-  size_t totalPhysicalMemory = (size_t)-1;
+  size_t maxmemUsersetting = 0;
+
 #if defined(_WIN32)            /* V3.54  NG */
   SetPriorityClass(GetCurrentProcess(),BELOW_NORMAL_PRIORITY_CLASS);
 #endif
@@ -2936,7 +2937,7 @@ int main(int argc, char *argv[]) {
   MaxTime = -1;
   flag_regression= false;
   while (i<argc) {
-    if (strcmp(argv[i], "-maxpos")==0)
+    if (i+1<argc && strcmp(argv[i], "-maxpos")==0)
     {
       i++;
       MaxPositions = strtoul(argv[i], &ptr, 10);
@@ -2949,7 +2950,7 @@ int main(int argc, char *argv[]) {
       i++;
       continue;
     }
-    else if (strcmp(argv[i], "-maxtime")==0)
+    else if (i+1<argc && strcmp(argv[i], "-maxtime")==0)
     {
       i++;
       MaxTime = strtol(argv[i], &ptr, 10);
@@ -2961,29 +2962,29 @@ int main(int argc, char *argv[]) {
       i++;
       continue;
     }
-    else if (strcmp(argv[i], "-maxmem")==0)
+    else if (i+1<argc && strcmp(argv[i], "-maxmem")==0)
     {
       i++;
-      MaxMemory = strtoul(argv[i], &ptr, 10);
+      maxmemUsersetting = strtoul(argv[i], &ptr, 10);
       if (argv[i]==ptr)
       {
         /* conversion failure
          * -> set to 0 now and to default value further down */
-        MaxMemory = 0;
+        maxmemUsersetting = 0;
       }
       else if (*ptr=='G')
       {
-        MaxMemory <<= 30;
+        maxmemUsersetting <<= 30;
         ch = 'G';
       }
       else if (*ptr=='M')
       {
-        MaxMemory <<= 20;
+        maxmemUsersetting <<= 20;
         ch = 'M';
       }
       else
       {
-        MaxMemory <<= 10;
+        maxmemUsersetting <<= 10;
         ch = 'K';
       }
 
@@ -3001,65 +3002,8 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  /* TODO move to one module per platform */
-#if defined(DOS)
-#if defined(__TURBOC__)
-  availablePhysicalMemory = coreleft();
-#else /*! __TURBOC__*/
-  /* DOS-default  256 KB */
-  availablePhysicalMemory = 256u*1024;
-#endif /*__TURBOC__*/
-
-#else /* ! DOS */
-
-#if defined(_WIN64)
-  {
-    /* get physical memory amount from OS */
-    MEMORYSTATUSEX MemEx;
-    MemEx.dwLength = sizeof MemEx;
-    if (GlobalMemoryStatusEx(&MemEx))
-    {
-      availablePhysicalMemory = MemEx.ullAvailPhys;
-      totalPhysicalMemory = MemEx.ullTotalPhys;
-    }
-    else
-      availablePhysicalMemory = 2ull*1024*1024*1024; /* wild guess: 2G */
-  }
-#else /* !_WIN64 */
-#if defined(_WIN32)
-  {
-    /* get physical memory amount from OS */
-    MEMORYSTATUS Mem;
-    GlobalMemoryStatus(&Mem);
-    availablePhysicalMemory = Mem.dwAvailPhys;
-    totalPhysicalMemory = Mem.dwTotalPhys;
-  }
-#if defined(_WIN98)
-  /* WIN98 cannot handle more than 768MB */
-  totalPhysicalMemory = 700ul*1024*1024;
-  if (availablePhysicalMemory>totalPhysicalMemory)
-    availablePhysicalMemory = totalPhysicalMemory;
-#endif  /* _WIN98 */
-
-#else  /* ! _WIN32 */
-#if defined(_WIN16)
-  /* 1 MB */
-  availablePhysicalMemory = 1ul*1024*1024;
-#else /* ! _WIN16 */
-  /* UNIX-default   2 MB */
-  availablePhysicalMemory = 2ul*1024*1024;
-#endif /* ! _WIN16 */
-#endif /* ! _WIN32 */
-#endif /* ! _WIN64 */
-#endif /* ! DOS */
-
-  if (MaxMemory==0)
-    /* guess a good value for MaxMemory */
-    MaxMemory = availablePhysicalMemory;
-  else if (MaxMemory>totalPhysicalMemory)
-    /* attempt to make sure that we don't exceed the total memory */
-    MaxMemory = totalPhysicalMemory;
-
+  MaxMemory = adjustMaxmemory(maxmemUsersetting);
+  
   if (i<argc)
     OpenInput(argv[i]);
   else

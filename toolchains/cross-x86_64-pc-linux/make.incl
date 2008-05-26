@@ -54,3 +54,10 @@ WARN += -Wno-long-long
 # Meta information
 # ----------------
 OSTYPE=Windows
+
+
+# Additional sources or includes
+================================
+
+# override implementation of adjustMaxmemory()
+PYCFILES = platform/windows64/maxmem.c
