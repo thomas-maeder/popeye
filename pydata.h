@@ -62,8 +62,9 @@
 #       define WE_ARE_EXTERN
 #endif  /* EXTERN */
 
+
 #if defined(WE_ARE_EXTERN)
-extern  unsigned long   MaxMemory;
+extern size_t MaxMemory;
 extern int MaxTime;
 extern  char    *StartUp;
 extern  unsigned long    MaxPositions;
@@ -76,11 +77,11 @@ extern  boolean flag_regression;
    ** function or entered indirectly with the -maxmemory option at the
    ** DOS prompt.  TLi/TM
    */
-   long         MaxPositions;
+   size_t         MaxPositions;
 #	else
-   long         MaxPositions    = 1000000000L;
+   size_t         MaxPositions    = 1000000000L;
 #	endif
-unsigned long           MaxMemory       = 0UL;
+size_t MaxMemory = 0;
 int MaxTime = -1;
 char            *StartUp = VERSIONSTRING;
 boolean         LaTeXout= false;

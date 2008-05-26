@@ -2920,10 +2920,12 @@ void checkGlobalAssumptions(void)
 }
 
 int main(int argc, char *argv[]) {
-  Token   tk= BeginProblem;
-  int     i,l;
+  Token   tk = BeginProblem;
+  int     i, l;
   boolean flag_starttimer;
-  char    *ptr, ch= 'K';
+  char    *ptr, ch = 'K';
+  size_t availablePhysicalMemory;
+  size_t totalPhysicalMemory = (size_t)-1;
 #if defined(_WIN32)            /* V3.54  NG */
   SetPriorityClass(GetCurrentProcess(),BELOW_NORMAL_PRIORITY_CLASS);
 #endif
@@ -2931,40 +2933,66 @@ int main(int argc, char *argv[]) {
   checkGlobalAssumptions();
 
   i=1;
-  MaxMemory= 0;
   MaxTime = -1;
   flag_regression= false;
   while (i<argc) {
-    if (strcmp(argv[i], "-maxpos")==0) {
-      MaxPositions= atol(argv[++i]);
+    if (strcmp(argv[i], "-maxpos")==0)
+    {
       i++;
-      continue;
-    }
-    if (strcmp(argv[i], "-maxtime")==0) {
-      MaxTime= atol(argv[++i]);     /* V3.52  TLi */
-      i++;
-      continue;
-    }
-    else if (strcmp(argv[i], "-maxmem")==0) {
-      MaxMemory= strtol(argv[++i], &ptr, 10);
-      if (argv[i] == ptr) {
-        MaxMemory= 0;
-      }
-      else {
-        MaxMemory= MaxMemory<<10;
-        if (*ptr == 'M') {
-          MaxMemory= MaxMemory<<10;
-          ch= 'M';
-        } else if (*ptr == 'G') {
-          MaxMemory= MaxMemory<<20;
-          ch= 'G';
-        }
+      MaxPositions = strtoul(argv[i], &ptr, 10);
+      if (argv[i]==ptr)
+      {
+        /* conversion failure
+         * -> set to 0 now and to default value later */
+        MaxPositions = 0;
       }
       i++;
       continue;
     }
-    else if (strcmp(argv[i], "-regression")==0) {
-      flag_regression= true;
+    else if (strcmp(argv[i], "-maxtime")==0)
+    {
+      i++;
+      MaxTime = strtol(argv[i], &ptr, 10);
+      if (argv[i]==ptr)
+      {
+        /* conversion failure -> assume no max time */
+        MaxTime = -1;
+      }
+      i++;
+      continue;
+    }
+    else if (strcmp(argv[i], "-maxmem")==0)
+    {
+      i++;
+      MaxMemory = strtoul(argv[i], &ptr, 10);
+      if (argv[i]==ptr)
+      {
+        /* conversion failure
+         * -> set to 0 now and to default value further down */
+        MaxMemory = 0;
+      }
+      else if (*ptr=='G')
+      {
+        MaxMemory <<= 30;
+        ch = 'G';
+      }
+      else if (*ptr=='M')
+      {
+        MaxMemory <<= 20;
+        ch = 'M';
+      }
+      else
+      {
+        MaxMemory <<= 10;
+        ch = 'K';
+      }
+
+      i++;
+      continue;
+    }
+    else if (strcmp(argv[i], "-regression")==0)
+    {
+      flag_regression = true;
       i++;
       continue;
     }
@@ -2973,48 +3001,64 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  if (MaxMemory==0)
-  {
-    /* TODO move to one module per platform */
+  /* TODO move to one module per platform */
 #if defined(DOS)
 #if defined(__TURBOC__)
-    MaxMemory= (unsigned long)coreleft();
+  availablePhysicalMemory = coreleft();
 #else /*! __TURBOC__*/
-    /* DOS-default  256 KB */
-    MaxMemory= (unsigned long)256*1024;
+  /* DOS-default  256 KB */
+  availablePhysicalMemory = 256u*1024;
 #endif /*__TURBOC__*/
 
 #else /* ! DOS */
 
 #if defined(_WIN64)
-    /* get physical memory amount */
-    MEMORYSTATUS Mem;
-    Mem.dwLength= sizeof(MEMORYSTATUS);
-    GlobalMemoryStatus(&Mem);
-    MaxMemory= Mem.dwAvailPhys;
+  {
+    /* get physical memory amount from OS */
+    MEMORYSTATUSEX MemEx;
+    MemEx.dwLength = sizeof MemEx;
+    if (GlobalMemoryStatusEx(&MemEx))
+    {
+      availablePhysicalMemory = MemEx.ullAvailPhys;
+      totalPhysicalMemory = MemEx.ullTotalPhys;
+    }
+    else
+      availablePhysicalMemory = 2ull*1024*1024*1024; /* wild guess: 2G */
+  }
 #else /* !_WIN64 */
 #if defined(_WIN32)
-    /* get physical memory amount */
+  {
+    /* get physical memory amount from OS */
     MEMORYSTATUS Mem;
-    Mem.dwLength= sizeof(MEMORYSTATUS);
     GlobalMemoryStatus(&Mem);
-    MaxMemory= Mem.dwAvailPhys;
+    availablePhysicalMemory = Mem.dwAvailPhys;
+    totalPhysicalMemory = Mem.dwTotalPhys;
+  }
 #if defined(_WIN98)
-    /* WIN98 cannot handle more than 768MB */
-    if (MaxMemory>700ul*1024*1024)
-      MaxMemory= 700ul*1024*1024;
+  /* WIN98 cannot handle more than 768MB */
+  totalPhysicalMemory = 700ul*1024*1024;
+  if (availablePhysicalMemory>totalPhysicalMemory)
+    availablePhysicalMemory = totalPhysicalMemory;
 #endif  /* _WIN98 */
+
 #else  /* ! _WIN32 */
 #if defined(_WIN16)
-    MaxMemory= (unsigned long)1024*1024;
+  /* 1 MB */
+  availablePhysicalMemory = 1ul*1024*1024;
 #else /* ! _WIN16 */
-    /* UNIX-default   2 MB */
-    MaxMemory= (unsigned long)2048*1024;
+  /* UNIX-default   2 MB */
+  availablePhysicalMemory = 2ul*1024*1024;
 #endif /* ! _WIN16 */
 #endif /* ! _WIN32 */
 #endif /* ! _WIN64 */
 #endif /* ! DOS */
-  }
+
+  if (MaxMemory==0)
+    /* guess a good value for MaxMemory */
+    MaxMemory = availablePhysicalMemory;
+  else if (MaxMemory>totalPhysicalMemory)
+    /* attempt to make sure that we don't exceed the total memory */
+    MaxMemory = totalPhysicalMemory;
 
   if (i<argc)
     OpenInput(argv[i]);
@@ -3036,11 +3080,11 @@ int main(int argc, char *argv[]) {
      StartUp is defined in pydata.h.
   */
   if ((MaxMemory>>10)<1024 || ch=='K')
-    sprintf(MMString, " (%lu KB)\n", MaxMemory>>10);
+    sprintf(MMString, " (%lu KB)\n", (unsigned long)(MaxMemory>>10));
   else if ((MaxMemory>>20)<1024 || ch=='M')
-    sprintf(MMString, " (%lu MB)\n", MaxMemory>>20);
+    sprintf(MMString, " (%lu MB)\n", (unsigned long)(MaxMemory>>20));
   else
-    sprintf(MMString, " (%lu GB)\n", MaxMemory>>30);
+    sprintf(MMString, " (%lu GB)\n", (unsigned long)(MaxMemory>>30));
 
   pyfputs(StartUp, stdout);
   pyfputs(MMString, stdout);

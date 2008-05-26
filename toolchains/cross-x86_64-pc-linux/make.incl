@@ -48,6 +48,9 @@ EXE_SUFFIX=.exe
 # This is a 64-bit platform
 DEFS += $(DEFINEMACRO)SIXTYFOUR
 
+# suppress "warning: ISO C90 does not support 'long long'"
+WARN += -Wno-long-long
+
 # Meta information
 # ----------------
 OSTYPE=Windows
