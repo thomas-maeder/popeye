@@ -30,8 +30,7 @@ EXE_SUFFIX=.exe
 OSTYPE=Windows
 
 
-# Additional sources or includes
-================================
+# Selector for platform-specific files
+# ====================================
 
-# override implementation of adjustMaxmemory()
-PYCFILES = platform/windows32/maxmem.c
+PLATFORM=windows32

@@ -95,3 +95,9 @@ LIB_SUFFIX=lib.a
 
 # suffix for executables
 EXE_SUFFIX=
+
+
+# Selector for platform-specific files
+# ====================================
+
+PLATFORM=unix

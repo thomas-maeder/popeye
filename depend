@@ -82,7 +82,7 @@ pydata.h:
 
 pymsg.h:
 py6$(OBJ_SUFFIX): py6.c py.h pylang.h py1.h pyproc.h py4.h pydata.h pymsg.h pyhash.h \
-  DHT/dhtbcmem.h pyint.h pyproof.h
+  DHT/dhtbcmem.h pyint.h pyproof.h platform/maxmem.h
 
 py.h:
 
@@ -105,6 +105,8 @@ DHT/dhtbcmem.h:
 pyint.h:
 
 pyproof.h:
+
+platform/maxmem.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h
 
 py.h:
@@ -228,3 +230,6 @@ pymsg.h:
 pyint.h:
 
 pydata.h:
+maxmem$(OBJ_SUFFIX): platform/$(PLATFORM)/maxmem.c platform/$(PLATFORM)/../maxmem.h
+
+platform/$(PLATFORM)/../maxmem.h:

@@ -56,8 +56,7 @@ WARN += -Wno-long-long
 OSTYPE=Windows
 
 
-# Additional sources or includes
-================================
+# Selector for platform-specific files
+# ====================================
 
-# override implementation of adjustMaxmemory()
-PYCFILES = platform/windows64/maxmem.c
+PLATFORM=windows64
