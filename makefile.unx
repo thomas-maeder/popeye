@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.31 2008/05/26 19:21:28 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.32 2008/05/28 20:07:57 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -238,13 +238,14 @@ LDFLAGS += $(DBG) $(LDOPTIM) $(ARCH) $(LIBRARYPATHS)
 # ========================================
 
 INCLUDES =      pydata.h py.h py1.h py4.h pyproc.h pymsg.h pymac.h     \
-		pylang.h pyproof.h DHT/*.h pyint.h pyhash.h pytime.h \
-		platform/maxmem.h
+		pylang.h pyproof.h DHT/*.h pyint.h pyhash.h \
+		platform/maxmem.h platform/pytime.h
 PYCFILES =      pydata.c py1.c py2.c py3.c py4.c py5.c py6.c pyio.c    \
-		pymsg.c pytime.c pylang.c pyhash.c pyproof.c	       \
-		pysignal.c pyint.c platform/$(PLATFORM)/maxmem.c
+		pymsg.c pylang.c pyhash.c pyproof.c	       \
+		pysignal.c pyint.c \
+		platform/$(PLATFORM)/maxmem.c platform/$(PLATFORM)/pytime.c
 OBJECTS =       $(PYCFILES:%.c=%$(OBJ_SUFFIX))
-CFILES  =       $(PYCFILES) DHT/*.c
+CFILES  =       $(PYCFILES) DHT/*.c platform/$(PLATFORM)/*.c
 MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
 STRFILES=       py-fran.str py-deut.str py-engl.str
 TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \
@@ -291,7 +292,7 @@ depend:	$(PYCFILES) $(INCLUDES)
 	if [ ! -f pyallmsg.h ]; then touch pyallmsg.h; fi 
 	for f in $(PYCFILES); \
 	do \
-		$(MAKEDEPEND) $$f \
+		(echo -n "`dirname $$f`/"; $(MAKEDEPEND) $$f) \
 		| sed -e "s/[.]o:/\$$(OBJ_SUFFIX):/" \
 		| sed -e "s@platform/[A-Za-z0-9_]*/@platform/\$$(PLATFORM)/@g"; \
 	done > $@
@@ -309,6 +310,12 @@ pyhash$(OBJ_SUFFIX):
 
 %$(OBJ_SUFFIX):	%.c
 		$(CCTARGET) $(CFLAGS) $(COMPILEONLY) $< $(OBJFILE)$@
+# work around compilers that blindly put objects in the current
+# directory
+		if [ -f $(notdir $@) -a ! -f $@ ]; \
+		then \
+			mv $(notdir $@) $@; \
+		fi
 
 pyio:           pyio.c pydata.h py.h pydata$(OBJ_SUFFIX) pymac.h
 		$(CCTARGET) $(DEFINEMACRO)STANDALONE $(CFLAGS) $(EXEFILE)pyio pydata$(OBJ_SUFFIX) pyio.c
