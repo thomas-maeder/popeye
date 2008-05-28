@@ -347,7 +347,8 @@ void HashStats(int level, char *trailer) {
     pos= dhtKeyCount(pyhash);
     logIntArg(pos);
     Message(HashedPositions);
-    if (use_all > 0) {
+    if (use_all > 0)
+    {
       if (use_all < 10000)
         sprintf(rate, " %ld/%ld = %ld%%",
                 use_pos, use_all, (use_pos*100) / use_all);
@@ -358,10 +359,14 @@ void HashStats(int level, char *trailer) {
     else
       sprintf(rate, " -");
     StdString(rate);
-    if (HashRateLevel > 3) {
-      long Sec = StopTimer();
-      if (Sec > 0) {
-        sprintf(rate, ", %ld pos/s", use_all/Sec);
+    if (HashRateLevel > 3)
+    {
+      unsigned long msec;
+      unsigned long Seconds;
+      StopTimer(&Seconds,&msec);
+      if (Seconds > 0)
+      {
+        sprintf(rate, ", %lu pos/s", use_all/Seconds);
         StdString(rate);
       }
     }

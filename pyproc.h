@@ -38,8 +38,6 @@
 void    OpenInput (char *s);
 void    CloseInput (void);
 void    MultiCenter (char *s);
-void    StartTimer (void);
-long    StopTimer (void);
 void    Tabulate (void);
 void    WritePosition (void);
 void    ResetPosition (void);

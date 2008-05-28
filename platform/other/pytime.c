@@ -29,7 +29,10 @@
 **
 */
 
-#include "pytime.h"
+
+#if 0
+
+#include "platform/pytime.h"
 
 #if defined(NOVOID)
 #	define	void	int
@@ -338,3 +341,5 @@ int MilliSec() {
 }
 
 #endif /* _WIN32 || __APPLE__ && __MACH__ */
+
+#endif

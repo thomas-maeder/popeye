@@ -99,6 +99,7 @@
 #include "pyproof.h"
 #include "pyint.h"
 #include "platform/maxmem.h"
+#include "platform/pytime.h"
 
 boolean supergenre;
 

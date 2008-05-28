@@ -25,7 +25,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "pytime.h"
+#include "platform/pytime.h"
 
 typedef unsigned int UnInt;
 typedef unsigned char UnChar;
@@ -268,32 +268,38 @@ void VerifieMsg(message_id_t id)
 
 char *MakeTimeString(void)
 {
-  long	Seconds;
-  int		Hours, Minutes;
-  static char	TmString[32];
+  unsigned long msec;
+  unsigned long Seconds;
+  unsigned long Minutes;
+  unsigned long Hours;
 
-  Seconds= StopTimer();
+  static char TmString[32];
+
+  StopTimer(&Seconds,&msec);
   Hours= Seconds/3600;
   Minutes= (Seconds%3600)/60;
   Seconds= (Seconds%60);
-  if (Hours>0) {
-	sprintf(TmString,
-            "%d:%02d:%02ld h:m:s", Hours, Minutes, Seconds);
+  if (Hours>0)
+  {
+	sprintf(TmString,"%lu:%02lu:%02lu h:m:s",Hours,Minutes,Seconds);
   }
-  else if (Minutes>0) {
+  else if (Minutes>0)
+  {
 #if defined(__unix) || defined(_WIN32)
-	sprintf(TmString,"%d:%02ld.%03d m:s", Minutes, Seconds, MilliSec());
+	sprintf(TmString,"%lu:%02lu.%03lu m:s", Minutes, Seconds, msec);
 #else
-	sprintf(TmString,"%d:%02ld m:s", Minutes, Seconds);
+	sprintf(TmString,"%lu:%02lu m:s", Minutes, Seconds);
 #endif /*__unix || _WIN32*/
   }
-  else {
+  else
+  {
 #if defined(__unix) || defined(_WIN32)
-	sprintf(TmString,"%ld.%03d s", Seconds, MilliSec());
+	sprintf(TmString,"%lu.%03lu s", Seconds, msec);
 #else
-	sprintf(TmString,"%ld s", Seconds);
+	sprintf(TmString,"%lu s", Seconds);
 #endif /*__unix || _WIN32*/
   }
+
   return TmString;
 }
 
