@@ -285,19 +285,17 @@ char *MakeTimeString(void)
   }
   else if (Minutes>0)
   {
-#if defined(__unix) || defined(_WIN32)
-	sprintf(TmString,"%lu:%02lu.%03lu m:s", Minutes, Seconds, msec);
-#else
-	sprintf(TmString,"%lu:%02lu m:s", Minutes, Seconds);
-#endif /*__unix || _WIN32*/
+    if (msec==MSEC_NOT_SUPPORTED)
+      sprintf(TmString,"%lu:%02lu m:s", Minutes, Seconds);
+    else
+      sprintf(TmString,"%lu:%02lu.%03lu m:s", Minutes, Seconds, msec);
   }
   else
   {
-#if defined(__unix) || defined(_WIN32)
-	sprintf(TmString,"%lu.%03lu s", Seconds, msec);
-#else
-	sprintf(TmString,"%lu s", Seconds);
-#endif /*__unix || _WIN32*/
+    if (msec==MSEC_NOT_SUPPORTED)
+      sprintf(TmString,"%lu s", Seconds);
+    else
+      sprintf(TmString,"%lu.%03lu s", Seconds, msec);
   }
 
   return TmString;
