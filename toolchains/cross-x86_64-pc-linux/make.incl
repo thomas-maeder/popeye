@@ -36,6 +36,13 @@ STRIPTARGET=x86_64-pc-mingw32-strip
 ARCHIVE_INDEXER=x86_64-pc-mingw32-ranlib
 
 
+# Compiler options
+# ================
+
+# Select target compiler optimization level
+CCOPTIM=$(DEFINEMACRO)_MT
+
+
 # Platform spedific file name suffixes
 # ====================================
 
