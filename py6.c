@@ -100,6 +100,7 @@
 #include "pyint.h"
 #include "platform/maxmem.h"
 #include "platform/pytime.h"
+#include "platform/priority.h"
 
 boolean supergenre;
 
@@ -2928,9 +2929,7 @@ int main(int argc, char *argv[]) {
   char    *ptr, ch = 'K';
   size_t maxmemUsersetting = 0;
 
-#if defined(_WIN32)            /* V3.54  NG */
-  SetPriorityClass(GetCurrentProcess(),BELOW_NORMAL_PRIORITY_CLASS);
-#endif
+  set_nice_priority();
   
   checkGlobalAssumptions();
 

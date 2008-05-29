@@ -64,7 +64,7 @@ pydata.h:
 
 pymsg.h:
 ./py5$(OBJ_SUFFIX): py5.c py.h pylang.h pyproc.h py4.h pyhash.h DHT/dhtbcmem.h \
-  pydata.h pymsg.h
+ pydata.h pymsg.h
 
 py.h:
 
@@ -82,7 +82,8 @@ pydata.h:
 
 pymsg.h:
 ./py6$(OBJ_SUFFIX): py6.c py.h pylang.h py1.h pyproc.h py4.h pydata.h pymsg.h pyhash.h \
-  DHT/dhtbcmem.h pyint.h pyproof.h platform/maxmem.h platform/pytime.h
+ DHT/dhtbcmem.h pyint.h pyproof.h platform/maxmem.h platform/pytime.h \
+ platform/priority.h
 
 py.h:
 
@@ -109,6 +110,8 @@ pyproof.h:
 platform/maxmem.h:
 
 platform/pytime.h:
+
+platform/priority.h:
 ./pyio$(OBJ_SUFFIX): pyio.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h
 
 py.h:
@@ -123,7 +126,7 @@ pydata.h:
 
 pymsg.h:
 ./pymsg$(OBJ_SUFFIX): pymsg.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h \
-  platform/pytime.h pyallmsg.h
+ platform/pytime.h pyallmsg.h
 
 py.h:
 
@@ -144,7 +147,7 @@ pyallmsg.h:
 
 pylang.h:
 ./pyhash$(OBJ_SUFFIX): pyhash.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h pyhash.h \
-  DHT/dhtbcmem.h pyint.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pyproof.h
+ DHT/dhtbcmem.h pyint.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pyproof.h
 
 py.h:
 
@@ -172,7 +175,7 @@ DHT/dht.h:
 
 pyproof.h:
 ./pyproof$(OBJ_SUFFIX): pyproof.c py.h pylang.h pyproc.h py4.h pydata.h pyhash.h \
-  DHT/dhtbcmem.h pyproof.h pymsg.h
+ DHT/dhtbcmem.h pyproof.h pymsg.h
 
 py.h:
 
@@ -191,26 +194,21 @@ DHT/dhtbcmem.h:
 pyproof.h:
 
 pymsg.h:
-./pysignal$(OBJ_SUFFIX): pysignal.c py.h pylang.h pyproc.h py4.h pydata.h pymsg.h \
-  pyhash.h DHT/dhtbcmem.h
+./pysignal$(OBJ_SUFFIX): pysignal.c py.h pylang.h pydata.h pyproc.h py4.h pymsg.h
 
 py.h:
 
 pylang.h:
 
+pydata.h:
+
 pyproc.h:
 
 py4.h:
 
-pydata.h:
-
 pymsg.h:
-
-pyhash.h:
-
-DHT/dhtbcmem.h:
 ./pyint$(OBJ_SUFFIX): pyint.c py.h pylang.h pyproc.h py4.h pyhash.h DHT/dhtbcmem.h \
-  pymsg.h pyint.h pydata.h
+ pymsg.h pyint.h pydata.h
 
 py.h:
 
@@ -235,3 +233,7 @@ platform/$(PLATFORM)/../maxmem.h:
 platform/$(PLATFORM)/pytime$(OBJ_SUFFIX): platform/$(PLATFORM)/pytime.c platform/$(PLATFORM)/../pytime.h
 
 platform/$(PLATFORM)/../pytime.h:
+platform/$(PLATFORM)/priority$(OBJ_SUFFIX): platform/$(PLATFORM)/priority.c \
+ platform/$(PLATFORM)/../priority.h
+
+platform/$(PLATFORM)/../priority.h:

@@ -1300,21 +1300,6 @@ typedef int HANDLE;
 typedef int BOOL;
 typedef unsigned int DWORD;
 
-#define BELOW_NORMAL_PRIORITY_CLASS       0x00004000
-
-__declspec(dllimport)
-HANDLE 
-__stdcall
-GetCurrentProcess(void);
-
-__declspec(dllimport)
-BOOL 
-__stdcall
-SetPriorityClass(
-  HANDLE hProcess,        /* handle to process */
-  DWORD dwPriorityClass   /* priority class */
-);
-
 #endif  /* _WIN32 */
 
 #endif  /* PY_H */
