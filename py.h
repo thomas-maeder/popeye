@@ -1294,12 +1294,4 @@ typedef boolean (*nocontactfunc_t)(square);
     (stack)++;}\
   else {flag_outputmultiplecolourchanges=false;}}
 
-#if defined(_WIN32)
-
-typedef int HANDLE;
-typedef int BOOL;
-typedef unsigned int DWORD;
-
-#endif  /* _WIN32 */
-
 #endif  /* PY_H */
