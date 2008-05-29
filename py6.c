@@ -99,10 +99,14 @@
 #include "pyproof.h"
 #include "pyint.h"
 #include "platform/maxmem.h"
+#include "platform/maxtime.h"
 #include "platform/pytime.h"
 #include "platform/priority.h"
 
 boolean supergenre;
+
+sig_atomic_t volatile FlagTimeOut;
+sig_atomic_t volatile FlagTimerInUse;
 
 boolean is_rider(piece p)
 {
@@ -1084,7 +1088,7 @@ boolean verifieposition(void)
     || CondFlag[tibet]
     || CondFlag[andernach]
     || CondFlag[antiandernach]
-    || CondFlag[magic]
+    || CondFlag[magicsquare]
     || TSTFLAG(PieSpExFlags, Chameleon)
     || CondFlag[einstein]
     || CondFlag[volage]
@@ -1732,7 +1736,7 @@ void editcoup(coup *mov) {
         WritePiece(mov->sb3what);
         StdString("]");
       }
-      if (WriteSpec(mov->speci, vide)
+      if (WriteSpec(mov->speci, false)
           || (mov->pjzz != pb && mov->pjzz != pn))
       {
         WritePiece(mov->pjzz);
@@ -1819,7 +1823,7 @@ void editcoup(coup *mov) {
         ? -mov->ppri
         : mov->ppri;
       StdString(" [+");
-      WriteSpec(mov->ren_spec, p);
+      WriteSpec(mov->ren_spec, p!=vide);
       WritePiece(p);
 
       WriteSquare(mov->sqren);
@@ -1828,7 +1832,7 @@ void editcoup(coup *mov) {
       }
       if (mov->cir_prom) {
         StdChar('=');
-        WriteSpec(mov->ren_spec, p);
+        WriteSpec(mov->ren_spec, p!=vide);
         WritePiece(mov->cir_prom);
       }
 
@@ -1857,7 +1861,7 @@ void editcoup(coup *mov) {
     {
       SETFLAG(mov->ren_spec, mov->tr==blanc ? Black : White);
       StdString("[+");
-      WriteSpec(mov->ren_spec, roib);
+      WriteSpec(mov->ren_spec, true);
       WritePiece(roib);
       WriteSquare(sq);
       StdChar(']');
@@ -1877,7 +1881,7 @@ void editcoup(coup *mov) {
                               (is_reversepawn(mov->pjzz)
                                && !ReversePromSq(mov->tr, mov->cazz)))))) {
         StdChar('=');
-        WriteSpec(mov->speci, mov->tr == blanc ? 1 : -1);
+        WriteSpec(mov->speci, true);
         WritePiece(mov->norm_prom);
       }
       StdChar(']');
@@ -3009,14 +3013,7 @@ int main(int argc, char *argv[]) {
   else
     OpenInput(" ");
 
-  /* if we are running in an environment which supports
-     signals, we initialize the signal handling here
-  */
-#if defined(__unix) && defined(SIGNALS)
-  /* Set the timer (interrupt handling needs this !) */
-  StartTimer();
-  pyInitSignal();
-#endif /*__unix,SIGNALS*/
+  initMaxtime();
 
   /* We do not issue our startup message via the language
      dependant Msg-Tables, since there the version is
@@ -3050,7 +3047,8 @@ int main(int argc, char *argv[]) {
 
   InitCheckDir();
 
-  do {
+  do
+  {
     boolean printa= true;
     InitBoard();
     InitCond();
@@ -3070,51 +3068,50 @@ int main(int argc, char *argv[]) {
 
     flag_starttimer= true;
 
-    do {
+    do
+    {
       InitAlways();
 
       tk= ReadProblem(tk);
 
-      if (tk == ZeroPosition) {
-        if (!OptFlag[noboard]) {
+      if (tk == ZeroPosition)
+      {
+        if (!OptFlag[noboard])
           WritePosition();
-        }
+
         tk= ReadProblem(tk);
-        if (LaTeXout) {
+        if (LaTeXout)
           LaTeXBeginDiagram();
-        }
+
         printa= false;
       }
 
-      if (flag_starttimer) {
+      if (flag_starttimer)
+      {
         /* Set the timer for real calculation time */
         StartTimer();
         flag_starttimer= false;
       }
 
       /* Now set our timers for option MaxTime moved to this place. */
-      if (MaxTime >=0 ) {
+      if (MaxTime >=0 )
         OptFlag[maxtime] = true;
-      }
-      if (OptFlag[maxtime] && !FlagTimerInUse && !FlagTimeOut) {
+
+      if (OptFlag[maxtime] && !FlagTimerInUse && !FlagTimeOut)
+      {
         FlagTimerInUse= true;
         if (MaxTime>=0
             && (maxsolvingtime<=0 || MaxTime<maxsolvingtime))
           maxsolvingtime = MaxTime;
 
-#if defined(__unix) && defined(SIGNALS)
-        alarm(maxsolvingtime);
-#endif
-#if defined(_WIN32) && defined(_MSC_VER) && defined(_MT)
-        GlobalThreadCounter++;
-        _beginthread((void(*)(void*))WIN32SolvingTimeOver,
-                     0, &maxsolvingtime);
-#endif
+        setMaxtime(maxsolvingtime);
+
 #if defined(DOS)
         VerifieMsg(NoMaxTime);
         FlagTimeOut= true;
 #endif
       }
+
       maincamp= OptFlag[halfduplex] ? noir : blanc;
 
       if (verifieposition()) {

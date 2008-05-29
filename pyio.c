@@ -63,6 +63,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
+#include "platform/maxtime.h"
 
 /* This is pyio.c
 ** It comprises a new io-Module for popeye.
@@ -757,7 +758,7 @@ static char *ParseSquareList(
         if (e[Square] == vide) {
           StdChar(echo);
         }
-        WriteSpec(Spec, Name);
+        WriteSpec(Spec, Name!=vide);
         WritePiece(Name);
         WriteSquare(Square);
         StdChar(' ');
@@ -1855,7 +1856,7 @@ static char *ParseCond(void) {
     case whroyalsq:
       ReadSquares(ReadWhRoyalSq);
       break;
-    case magic:
+    case magicsquare:
       ReadSquares(MagicSq);
       break;
     case dbltibet:
@@ -2780,12 +2781,12 @@ static char *ParseTwinMove(int indexx) {
     strcat(ActTwin, GlobalStr);
   }
 
-  WriteSpec(spec[sq1], e[sq1]);
+  WriteSpec(spec[sq1], e[sq1]!=vide);
   WritePiece(e[sq1]);
   WriteSquare(sq1);
   if (indexx == TwinExchange) {
     StdString("<-->");
-    WriteSpec(spec[sq2], e[sq2]);
+    WriteSpec(spec[sq2], e[sq2]!=vide);
     WritePiece(e[sq2]);
     if (LaTeXout) {
       strcat(ActTwin, "{\\lra}");
@@ -3016,7 +3017,7 @@ static char *ParseTwinRemove(void) {
       }
 
       StdString(" -");
-      WriteSpec(spec[sq], e[sq]);
+      WriteSpec(spec[sq], e[sq]!=vide);
       WritePiece(e[sq]);
       WriteSquare(sq);
       e[sq]= vide;
@@ -3764,7 +3765,7 @@ void WriteConditions(int alignment) {
     if (cond == noiprom && !CondFlag[imitators])
       continue;
 
-    if (cond == magic) {
+    if (cond == magicsquare) {
       square  i;
       for (i= bas; i <= haut; i++) {
         if (TSTFLAG(sq_spec[i], MagicSq)) {
@@ -4790,7 +4791,7 @@ void LaTeXBeginDiagram(void) {
   WriteConditions(WCLaTeX);
 
   /* magical squares with frame */
-  if (CondFlag[magic]) {
+  if (CondFlag[magicsquare]) {
     char    MagicSqList[256] = "";
     boolean firstpiece= true;
     square  i;

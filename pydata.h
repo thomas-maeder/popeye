@@ -69,7 +69,6 @@ extern int MaxTime;
 extern  char    *StartUp;
 extern  unsigned long    MaxPositions;
 extern  boolean LaTeXout;
-extern  int     GlobalThreadCounter;
 extern  boolean flag_regression;
 #else
 #	if defined(__TURBOC__) /* TurboC and BorlandC  TLi */
@@ -85,7 +84,6 @@ size_t MaxMemory = 0;
 int MaxTime = -1;
 char            *StartUp = VERSIONSTRING;
 boolean         LaTeXout= false;
-int     	GlobalThreadCounter= 0;
 boolean         flag_regression= false;
 #endif  /* WE_ARE_EXTERN */
 
@@ -300,8 +298,6 @@ EXTERN  boolean         FlagShortSolsReached;
 /* Stop solving when a given time (in seconds) for solving is reached */
 
 EXTERN  int             maxsolvingtime;
-EXTERN  boolean         FlagTimeOut;
-EXTERN  boolean         FlagTimerInUse;
 
 /* beep maxbeep times if a solution is found */
 

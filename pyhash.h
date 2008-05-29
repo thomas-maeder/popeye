@@ -43,4 +43,7 @@ boolean shsol(couleur camp, int n, boolean restartenabled);
 boolean mataide(couleur camp, int n, boolean restartenabled);
 boolean last_dsr_move(couleur camp);
 
+void IncHashRateLevel(void);
+void DecHashRateLevel(void);
+
 #endif

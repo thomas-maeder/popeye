@@ -16,6 +16,7 @@
 #include "pymsg.h"
 #include "pyint.h"
 #include "pydata.h"
+#include "platform/maxtime.h"
 
 #define SetIndex(s, f)                                  \
   (s = (Flags)(s&((1<<DiaCirce)-1)) + (f<<DiaCirce))
@@ -2346,7 +2347,7 @@ void GenerateBlackKing(int whmoves, int blmoves) {
       SetPiece(p, sq, sp);
       rn= sq;
 #if defined(DEBUG)
-      WriteSpec(spec[rn], vide);
+      WriteSpec(spec[rn], false);
       WritePiece(p);
       WriteSquare(sq);
       StdString("\n");

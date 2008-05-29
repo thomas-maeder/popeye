@@ -55,6 +55,7 @@
 #if !defined(PY_H)
 #define PY_H
 
+#include "boolean.h"
 
 /*   Sometimes local variables are used, that can potentially be
      used without any propper initial value. At least the compiler
@@ -471,8 +472,6 @@
 #define bl      ' '
 #define blanc   0
 #define noir    1
-#define false   0
-#define true    1
 #define initsquare      0       /* to initialize square-variables */
 #define maxinum 10      /* max. number of imitators */
 #define nullsquare 1
@@ -480,10 +479,8 @@
 /* These typedefs should be judged for efficiency */
 
 #if defined(SIXTEEN)
-	typedef char    boolean;
 	typedef char    piece;
 #else
-	typedef int     boolean;        /* must be int on NSC machines. */
 	typedef int     piece;
 #endif
 
@@ -992,7 +989,7 @@ typedef int Opt;
 #define blmin                   28
 #define whmax                   29
 #define whmin                   30
-#define magic                   31
+#define magicsquare             31
 #define sentinelles             32
 #define tibet                   33
 #define dbltibet                34

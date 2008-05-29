@@ -34,6 +34,7 @@
 #define PYPROC_H
 
 #include "py4.h"
+#include "boolean.h"
 
 void    OpenInput (char *s);
 void    CloseInput (void);
@@ -44,7 +45,7 @@ void    ResetPosition (void);
 void    StorePosition (void);
 void    WriteSquare (square a);
 void    WritePiece (piece p);
-boolean WriteSpec(Flags pspec, piece p);
+boolean WriteSpec(Flags pspec, boolean printcolours);
 void    WriteGrid(void); 
 
 typedef boolean (evalfunction_t)(square departure, square arrival, square capture);
@@ -513,9 +514,5 @@ attackfunction_t GetSpiralSpringerAttackVectors;
 attackfunction_t GetDiagonalSpiralSpringerAttackVectors;
 
 void ChangeColour(square sq);
-
-#if defined(_WIN32)
-void WIN32SolvingTimeOver(int *WaitTime);
-#endif	/* _WIN32 */
 
 #endif  /* PYPROC_H */

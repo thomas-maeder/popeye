@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.33 2008/05/29 19:14:39 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.34 2008/05/29 22:11:04 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -241,11 +241,14 @@ LDFLAGS += $(DBG) $(LDOPTIM) $(ARCH) $(LIBRARYPATHS)
 
 INCLUDES =      pydata.h py.h py1.h py4.h pyproc.h pymsg.h pymac.h     \
 		pylang.h pyproof.h DHT/*.h pyint.h pyhash.h \
-		platform/maxmem.h platform/pytime.h platform/priority.h
+		platform/maxmem.h platform/maxtime.h \
+		platform/pytime.h platform/priority.h
 PYCFILES =      pydata.c py1.c py2.c py3.c py4.c py5.c py6.c pyio.c    \
 		pymsg.c pylang.c pyhash.c pyproof.c	       \
 		pysignal.c pyint.c \
-		platform/$(PLATFORM)/maxmem.c platform/$(PLATFORM)/pytime.c \
+		platform/$(PLATFORM)/maxmem.c \
+		platform/$(PLATFORM)/maxtime.c \
+		platform/$(PLATFORM)/pytime.c \
 		platform/$(PLATFORM)/priority.c
 OBJECTS =       $(PYCFILES:%.c=%$(OBJ_SUFFIX))
 CFILES  =       $(PYCFILES) DHT/*.c platform/$(PLATFORM)/*.c

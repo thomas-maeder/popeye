@@ -98,6 +98,7 @@
 #include "DHT/dhtvalue.h"
 #include "DHT/dht.h"
 #include "pyproof.h"
+#include "platform/maxtime.h"
 
 struct dht *pyhash;
 
@@ -334,7 +335,41 @@ static void compresshash (void) {
  * a call to HashStats with a value of 0 will
  * always print
  */
-static int HashRateLevel = 0;
+static unsigned int HashRateLevel = 0;
+
+void IncHashRateLevel(void)
+{
+  ++HashRateLevel;
+  StdString("  ");
+  PrintTime();
+  logIntArg(HashRateLevel);
+  Message(IncrementHashRateLevel);
+  HashStats(0, "\n");
+}
+
+void DecHashRateLevel(void)
+{
+  if (HashRateLevel>0)
+    --HashRateLevel;
+  StdString("  ");
+  PrintTime();
+  logIntArg(HashRateLevel);
+  Message(DecrementHashRateLevel);
+  HashStats(0, "\n");
+}
+
+#else
+
+void IncHashRateLevel(void)
+{
+  /* intentionally nothing */
+}
+
+void DecHashRateLevel(void)
+{
+  /* intentionally nothing */
+}
+
 #endif
 
 void HashStats(int level, char *trailer) {
