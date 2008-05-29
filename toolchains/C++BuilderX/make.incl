@@ -70,9 +70,11 @@ CCOPTIM=-O2
 # Option for compiling only
 COMPILEONLY=-c
 
-# Option for indicating generated object file
-# DOESN'T WORK!!!
+# Option for indicating generated object file (but see below!)
 OBJFILE=-o
+
+# Option for indicating generated object file DOESN'T WORK!!!
+OBJFILE_WORKS=0
 
 # Option for defining a C preprocessor macro
 DEFINEMACRO=-D
