@@ -3,15 +3,23 @@
 
 #include <signal.h>
 
-void initMaxtime(void);
-
 /* The semantics of the following two flags isn't entirely clear, but
  * from what I can tell, it is a very good idea to make them "as
- * atomic as possible". (TM 20080529)
+ * atomic as possible" to allow them to be accessed from different
+ * threads or a signal handler. (TM 20080529)
  */
 extern sig_atomic_t volatile FlagTimeOut;
 extern sig_atomic_t volatile FlagTimerInUse;
 
+/* Initialize maxtime machinery. To be called once at program start.
+ */
+void initMaxtime(void);
+
+/* Set the maximal solving time for the problem to be solved next.
+ * Sets FlagTimeOut after the requested number of seconds unless
+ * setMaxtime() has been called again in the meantime.
+ * @param seconds number of seconds until FlagTimeOut is to be set.
+ */
 void setMaxtime(unsigned int seconds);
 
 #endif
