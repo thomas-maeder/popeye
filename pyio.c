@@ -2490,13 +2490,19 @@ static char *ParseOpt(void) {
         break;
       }
     case maxtime:
+    {
+      char *end;
       tok= ReadNextTokStr();
-      if ((maxsolvingtime= atoi(tok)) <= 0) {
+      maxsolvingtime = strtoul(tok,&end,10);
+      if (*end!=0 || maxsolvingtime==0)
+      {
+        maxsolvingtime = UINT_MAX;
         OptFlag[maxtime]= False;
         IoErrorMsg(WrongInt, 0);
         return ReadNextTokStr();
       }
       break;
+    }
     case enpassant:
       ReadSquares(ReadEpSquares);
       break;

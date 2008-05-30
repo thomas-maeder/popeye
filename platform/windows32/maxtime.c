@@ -11,11 +11,12 @@ void initMaxtime(void)
 #include <windows.h>
 #include <process.h>
 
+#include <stdio.h>
 sig_atomic_t volatile currentProblem = 0;
 
 static void solvingTimeMeasureThread(void *v)
 {
-  unsigned int *seconds = (unsigned int *)(v);
+  unsigned int *seconds = (unsigned int *)v;
   
   /*
    * This function is used by a WIN32-thread to wake up
@@ -35,7 +36,7 @@ static void solvingTimeMeasureThread(void *v)
   _endthread();
 }
 
-void setMaxtime(unsigned int seconds)
+void setMaxtime(unsigned int *seconds)
 {
   /* To avoid that a not "used" thread stops Popeye when it times out,
    * currentProblem is increased every time a new problem is to
@@ -44,7 +45,10 @@ void setMaxtime(unsigned int seconds)
    */
   ++currentProblem;
 
-  _beginthread(&solvingTimeMeasureThread,0,&seconds);
+  /* this is the reason why we impose a restriction on *seconds in
+   * maxtime.h: *seconds must still have its value when it is read
+   * from within solvingTimeMeasureThread(). */
+  _beginthread(&solvingTimeMeasureThread,0,seconds);
 }
 
 #else

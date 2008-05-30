@@ -18,8 +18,12 @@ void initMaxtime(void);
 /* Set the maximal solving time for the problem to be solved next.
  * Sets FlagTimeOut after the requested number of seconds unless
  * setMaxtime() has been called again in the meantime.
- * @param seconds number of seconds until FlagTimeOut is to be set.
+ * @param seconds address of variable holding number of seconds until
+ *                FlagTimeOut is to be set; the variable must live
+ *                (and keep its value) until the problem is solved or
+ *                solving is aborted because *seconds seconds have
+ *                elapsed (whichever is shorter).
  */
-void setMaxtime(unsigned int seconds);
+void setMaxtime(unsigned int *seconds);
 
 #endif

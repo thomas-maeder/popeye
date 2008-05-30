@@ -2938,7 +2938,7 @@ int main(int argc, char *argv[]) {
   checkGlobalAssumptions();
 
   i=1;
-  MaxTime = -1;
+  MaxTime = UINT_MAX;
   flag_regression= false;
   while (i<argc) {
     if (i+1<argc && strcmp(argv[i], "-maxpos")==0)
@@ -2961,7 +2961,7 @@ int main(int argc, char *argv[]) {
       if (argv[i]==ptr)
       {
         /* conversion failure -> assume no max time */
-        MaxTime = -1;
+        MaxTime = UINT_MAX;
       }
       i++;
       continue;
@@ -3055,10 +3055,6 @@ int main(int argc, char *argv[]) {
     InitOpt();
     InitStip();
 
-    /* reset MaxTime timer mechanisms */
-#if defined(__unix) && defined(SIGNALS)
-    alarm(0);
-#endif  /* defined(__unix) && defined(SIGNALS) */
     FlagTimeOut= false;
     FlagTimerInUse= false;
     FlagMaxSolsReached= false;
@@ -3093,23 +3089,19 @@ int main(int argc, char *argv[]) {
         flag_starttimer= false;
       }
 
-      /* Now set our timers for option MaxTime moved to this place. */
-      if (MaxTime >=0 )
-        OptFlag[maxtime] = true;
-
-      if (OptFlag[maxtime] && !FlagTimerInUse && !FlagTimeOut)
+      /* Set maximal solving time if the user asks for it on the
+       * command line or as an option.
+       * If a maximal time is indicated both on the command line and
+       * as an option, use the smaller value.
+       */
+      if ((OptFlag[maxtime] || MaxTime<UINT_MAX)
+          && !FlagTimerInUse && !FlagTimeOut)
       {
         FlagTimerInUse= true;
-        if (MaxTime>=0
-            && (maxsolvingtime<=0 || MaxTime<maxsolvingtime))
+
+        if (MaxTime<maxsolvingtime)
           maxsolvingtime = MaxTime;
-
-        setMaxtime(maxsolvingtime);
-
-#if defined(DOS)
-        VerifieMsg(NoMaxTime);
-        FlagTimeOut= true;
-#endif
+        setMaxtime(&maxsolvingtime);
       }
 
       maincamp= OptFlag[halfduplex] ? noir : blanc;
@@ -3210,9 +3202,8 @@ int main(int argc, char *argv[]) {
         }
       } /* verifieposition */
       printa= false;
-      if (   (OptFlag[maxsols]
-              && (solutions >= maxsolutions))
-             || (OptFlag[stoponshort] && FlagShortSolsReached))
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || (OptFlag[stoponshort] && FlagShortSolsReached))
       {
         FlagMaxSolsReached= true;
         /* restart calculation of maxsolution after "twinning"*/
@@ -3220,10 +3211,9 @@ int main(int argc, char *argv[]) {
       }
     } while (tk == TwinProblem);
 
-    if ((FlagMaxSolsReached)
-        || (OptFlag[intelligent]
-            && maxsol_per_matingpos)
-        || (FlagTimeOut))
+    if (FlagMaxSolsReached
+        || (OptFlag[intelligent] && maxsol_per_matingpos)
+        || FlagTimeOut)
       StdString(GetMsgString(InterMessage));
     else
       StdString(GetMsgString(FinishProblem));

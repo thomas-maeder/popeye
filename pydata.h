@@ -56,6 +56,7 @@
 #define PYDATA_H
 
 #include "pyproc.h"
+#include <limits.h>
 
 #if !defined(EXTERN)
 #       define EXTERN extern
@@ -65,7 +66,7 @@
 
 #if defined(WE_ARE_EXTERN)
 extern size_t MaxMemory;
-extern int MaxTime;
+extern unsigned int MaxTime;
 extern  char    *StartUp;
 extern  unsigned long    MaxPositions;
 extern  boolean LaTeXout;
@@ -81,7 +82,7 @@ extern  boolean flag_regression;
    size_t         MaxPositions    = 1000000000L;
 #	endif
 size_t MaxMemory = 0;
-int MaxTime = -1;
+unsigned int MaxTime = UINT_MAX;
 char            *StartUp = VERSIONSTRING;
 boolean         LaTeXout= false;
 boolean         flag_regression= false;
@@ -297,7 +298,7 @@ EXTERN  boolean         FlagShortSolsReached;
 
 /* Stop solving when a given time (in seconds) for solving is reached */
 
-EXTERN  int             maxsolvingtime;
+EXTERN  unsigned int maxsolvingtime;
 
 /* beep maxbeep times if a solution is found */
 

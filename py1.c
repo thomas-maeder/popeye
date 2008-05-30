@@ -215,6 +215,7 @@ void InitOpt(void) {
   int i;
 
   maxflights= 64;
+  maxsolvingtime = UINT_MAX;
   maxdefen= 0;
   MoveNbr= RestartNbr= 0;
 
@@ -222,7 +223,9 @@ void InitOpt(void) {
   ep2[nbply]= ep[nbply]= initsquare;
   no_castling= bl_castlings|wh_castlings;
 
-  for (i= 0; i < OptCount; OptFlag[i++]= False);
+  for (i= 0; i < OptCount; i++)
+    OptFlag[i]= False;
+
   flag_appseul= false;
 }
 

@@ -7,7 +7,7 @@ void initMaxtime(void)
   /* no initialization necessary */
 }
 
-void setMaxtime(unsigned int seconds)
+void setMaxtime(unsigned int *seconds)
 {
   VerifieMsg(NoMaxTime);
   FlagTimeOut = true;

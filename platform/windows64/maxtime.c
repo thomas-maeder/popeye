@@ -35,7 +35,7 @@ static void solvingTimeMeasureThread(void *v)
   _endthread();
 }
 
-void setMaxtime(unsigned int seconds)
+void setMaxtime(unsigned int *seconds)
 {
   /* To avoid that a not "used" thread stops Popeye when it times out,
    * currentProblem is increased every time a new problem is to
@@ -44,14 +44,17 @@ void setMaxtime(unsigned int seconds)
    */
   ++currentProblem;
 
-  _beginthread(&solvingTimeMeasureThread,0,&seconds);
+  /* this is the reason why we impose a restriction on *seconds in
+   * maxtime.h: *seconds must still have its value when it is read
+   * from within solvingTimeMeasureThread(). */
+  _beginthread(&solvingTimeMeasureThread,0,seconds);
 }
 
 #else
 
 #include "../../pymsg.h"
 
-void setMaxtime(unsigned int seconds)
+void setMaxtime(unsigned int *seconds)
 {
   VerifieMsg(NoMaxTime);
   FlagTimeOut = true;

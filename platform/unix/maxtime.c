@@ -122,9 +122,9 @@ void initMaxtime(void)
   signal(SIGHUP,  &ReDrawBoard);
 }
 
-void setMaxtime(unsigned int seconds)
+void setMaxtime(unsigned int *seconds)
 {
-  alarm(seconds);
+  alarm(*seconds);
 }
 
 #else
@@ -134,7 +134,7 @@ void initMaxtime(void)
   /* no initialization necessary */
 }
 
-void setMaxtime(unsigned int seconds)
+void setMaxtime(unsigned int *seconds)
 {
   VerifieMsg(NoMaxTime);
   FlagTimeOut = true;
