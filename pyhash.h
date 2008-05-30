@@ -6,8 +6,8 @@
 ** 
 **************************** End of List ******************************/ 
 
-#if !defined(_PYHASH_H)
-#define _PYHASH_H
+#if !defined(PYHASH_H)
+#define PYHASH_H
 
 #include "DHT/dhtbcmem.h"
 

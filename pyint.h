@@ -6,8 +6,8 @@
 ** 
 **************************** End of List ******************************/ 
 
-#if !defined(_PYINT_H)
-#define _PYINT_H
+#if !defined(PYINT_H)
+#define PYINT_H
 
 boolean Redundant(void);
 boolean MatePossible(void);

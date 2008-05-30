@@ -6,8 +6,8 @@
 ** 
 **************************** End of List ******************************/ 
 
-#if !defined(_PYPROOF_H)
-#define _PYPROOF_H
+#if !defined(PYPROOF_H)
+#define PYPROOF_H
 
 union HashBuffer;
 
