@@ -339,6 +339,8 @@ void InitAlways(void) {
   
   takemake_departuresquare= initsquare;
   takemake_capturesquare= initsquare;
+
+  maxsol_per_matingpos = ULONG_MAX;
 } /* InitAlways */
 
 void initneutre(couleur c) {

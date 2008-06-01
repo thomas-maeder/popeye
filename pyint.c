@@ -343,7 +343,7 @@ void StoreSol(void) {
 
   SolMax++;
 
-  sol_per_matingpos++;
+  ++sol_per_matingpos;
 }
 
 boolean SolAlreadyFound(void) {
@@ -385,7 +385,7 @@ boolean MatePossible(void) {
 
   captures= CapturesLeft[nbply-1];
 
-  if ((maxsol_per_matingpos && sol_per_matingpos >= maxsol_per_matingpos)
+  if (sol_per_matingpos>=maxsol_per_matingpos
       || maxtime_status==MAXTIME_TIMEOUT)
   {
 	FlagMaxSolsReached= true;

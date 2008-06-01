@@ -2515,17 +2515,20 @@ static char *ParseOpt(void) {
       }
       break;
     case intelligent:
+    {
+      char *end;
       tok= ReadNextTokStr();
-      maxsol_per_matingpos= atoi(tok);
-      if (maxsol_per_matingpos > 0) {
-        /* we did use tok */
-        break;
-      }
-      else {
-        maxsol_per_matingpos= 0;
-        /* we did NOT use tok */
+      maxsol_per_matingpos= strtoul(tok,&end,10);
+      if (end==tok)
+      {
+        maxsol_per_matingpos = ULONG_MAX;
+        /* we did NOT consume tok */
         continue;
       }
+      else
+        /* we did use consume */
+        break;
+    }
     case restart:
       tok= ReadNextTokStr();
       if ((RestartNbr= atoi(tok)) <= 0) {
@@ -4417,10 +4420,10 @@ void LaTeXEndDiagram(void) {
   if (!(OptFlag[solmenaces]
         || OptFlag[solflights]
         || OptFlag[nontrivial]
-        || (OptFlag[intelligent] && maxsol_per_matingpos)
-        || maxtime_status==MAXTIME_TIMEOUT
+        || (OptFlag[intelligent] && maxsol_per_matingpos!=ULONG_MAX)
         || FlagMaxSolsReached
-        || (OptFlag[maxsols] && solutions>=maxsolutions)))
+        || (OptFlag[maxsols] && solutions>=maxsolutions)
+        || maxtime_status==MAXTIME_TIMEOUT))
   {
     fprintf(LaTeXFile, " \\Co+%%");
     if (!flag_regression)

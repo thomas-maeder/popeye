@@ -3210,7 +3210,7 @@ int main(int argc, char *argv[]) {
     } while (tk == TwinProblem);
 
     if (FlagMaxSolsReached
-        || (OptFlag[intelligent] && maxsol_per_matingpos)
+        || (OptFlag[intelligent] && maxsol_per_matingpos!=ULONG_MAX)
         || maxtime_status==MAXTIME_TIMEOUT)
       StdString(GetMsgString(InterMessage));
     else
