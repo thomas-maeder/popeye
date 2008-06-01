@@ -9,6 +9,7 @@ void initMaxtime(void)
 
 void setMaxtime(unsigned int *seconds)
 {
+  maxtime_status = MAXTIME_IDLE;
   VerifieMsg(NoMaxTime);
   FlagTimeOut = true;
 }

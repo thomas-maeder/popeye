@@ -60,6 +60,7 @@ void setMaxtime(unsigned int *seconds)
 
 void setMaxtime(unsigned int *seconds)
 {
+  maxtime_status = MAXTIME_IDLE;
   VerifieMsg(NoMaxTime);
   FlagTimeOut = true;
 }
