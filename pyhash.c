@@ -938,7 +938,8 @@ boolean introseries(couleur camp, int n, boolean restartenabled) {
         IncrementMoveNbr();
       }
       repcoup();
-      if (FlagTimeOut || FlagShortSolsReached)
+      if (maxtime_status==MAXTIME_TIMEOUT
+          || FlagShortSolsReached)
         break;
     }
     finply();
@@ -1016,8 +1017,8 @@ boolean shsol(couleur camp, int n, boolean restartenabled) {
       IncrementMoveNbr();
     }
     repcoup();
-    if ((OptFlag[maxsols] && (solutions >= maxsolutions))
-        || FlagTimeOut)
+    if ((OptFlag[maxsols] && solutions>=maxsolutions)
+        || maxtime_status==MAXTIME_TIMEOUT)
     {
       break;
     }
@@ -1097,8 +1098,8 @@ boolean mataide(couleur camp, int n, boolean restartenabled) {
         IncrementMoveNbr();
       repcoup();
       /* Stop solving if a given number of solutions was encountered */
-      if ((OptFlag[maxsols] && (solutions >= maxsolutions)) ||
-          FlagTimeOut)
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
     if (camp == noir)
@@ -1183,8 +1184,8 @@ boolean ser_dsrsol(couleur camp, int n, boolean restartenabled)
       if (restartenabled)
         IncrementMoveNbr();
       repcoup();
-      if ((OptFlag[maxsols] && (solutions >= maxsolutions)) ||
-          FlagTimeOut)
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
     if (camp == blanc)
@@ -1480,7 +1481,7 @@ boolean matant(couleur camp, int n)
           coupfort();
       }
       repcoup();
-      if (FlagTimeOut)
+      if (maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
     finply();
@@ -1538,7 +1539,7 @@ boolean invref(couleur  camp, int n) {
           coupfort();
       }
       repcoup();
-      if (FlagTimeOut)
+      if (maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
     finply();

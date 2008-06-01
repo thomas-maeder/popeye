@@ -28,27 +28,31 @@ static void solvingTimeMeasureThread(void *v)
   _sleep(*seconds*1000);
 
   if (myProblem==currentProblem)
-  {
-    FlagTimeOut = true;
-    FlagTimerInUse = false;
-  }
+    maxtime_status = MAXTIME_TIMEOUT;
 
   _endthread();
 }
 
 void setMaxtime(unsigned int *seconds)
 {
-  /* To avoid that a not "used" thread stops Popeye when it times out,
-   * currentProblem is increased every time a new problem is to
-   * be solved.
-   * TODO: kill thread when problem is fully solved before timeout
-   */
-  ++currentProblem;
+  if (*seconds==UINT_MAX)
+    maxtime_status = MAXTIME_IDLE;
+  else
+  {
+    maxtime_status = MAXTIME_TIMING;
 
-  /* this is the reason why we impose a restriction on *seconds in
-   * maxtime.h: *seconds must still have its value when it is read
-   * from within solvingTimeMeasureThread(). */
-  _beginthread(&solvingTimeMeasureThread,0,seconds);
+    /* To avoid that a not "used" thread stops Popeye when it times out,
+     * currentProblem is increased every time a new problem is to
+     * be solved.
+     * TODO: kill thread when problem is fully solved before timeout?
+     */
+    ++currentProblem;
+
+    /* this is the reason why we impose a restriction on *seconds in
+     * maxtime.h: *seconds must still have its value when it is read
+     * from within solvingTimeMeasureThread(). */
+    _beginthread(&solvingTimeMeasureThread,0,seconds);
+  }
 }
 
 #else

@@ -105,8 +105,7 @@
 
 boolean supergenre;
 
-sig_atomic_t volatile FlagTimeOut;
-sig_atomic_t volatile FlagTimerInUse;
+sig_atomic_t volatile maxtime_status;
 
 boolean is_rider(piece p)
 {
@@ -2415,8 +2414,8 @@ void dsr_vari(couleur camp, int n, int par, boolean appa) {
       }
       repcoup();
       if (zugebene == 1) {
-        if ((OptFlag[maxsols] && (solutions >= maxsolutions))
-            || FlagTimeOut)
+        if ((OptFlag[maxsols] && solutions>=maxsolutions)
+            || maxtime_status==MAXTIME_TIMEOUT)
         {
           break;
         }
@@ -2618,9 +2617,8 @@ void dsr_sol(
     }
     repcoup();
     if (zugebene == 1) {
-      if (   (OptFlag[maxsols] && (solutions >= maxsolutions))
-             || FlagTimeOut
-        )
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
   }
@@ -3055,8 +3053,6 @@ int main(int argc, char *argv[]) {
     InitOpt();
     InitStip();
 
-    FlagTimeOut= false;
-    FlagTimerInUse= false;
     FlagMaxSolsReached= false;
     FlagShortSolsReached= false;
 
@@ -3094,15 +3090,17 @@ int main(int argc, char *argv[]) {
        * If a maximal time is indicated both on the command line and
        * as an option, use the smaller value.
        */
-      if ((OptFlag[maxtime] || MaxTime<UINT_MAX)
-          && !FlagTimerInUse && !FlagTimeOut)
+      if (OptFlag[maxtime] || MaxTime<UINT_MAX)
       {
-        FlagTimerInUse= true;
-
         if (MaxTime<maxsolvingtime)
           maxsolvingtime = MaxTime;
-        setMaxtime(&maxsolvingtime);
       }
+      else
+        /* maxsolvingtime should already be ==UINT_MAX, but let's err
+         * on the safe side */
+        maxsolvingtime = UINT_MAX;
+      
+      setMaxtime(&maxsolvingtime);
 
       maincamp= OptFlag[halfduplex] ? noir : blanc;
 
@@ -3213,7 +3211,7 @@ int main(int argc, char *argv[]) {
 
     if (FlagMaxSolsReached
         || (OptFlag[intelligent] && maxsol_per_matingpos)
-        || FlagTimeOut)
+        || maxtime_status==MAXTIME_TIMEOUT)
       StdString(GetMsgString(InterMessage));
     else
       StdString(GetMsgString(FinishProblem));

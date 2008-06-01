@@ -4418,7 +4418,7 @@ void LaTeXEndDiagram(void) {
         || OptFlag[solflights]
         || OptFlag[nontrivial]
         || (OptFlag[intelligent] && maxsol_per_matingpos)
-        || FlagTimeOut
+        || maxtime_status==MAXTIME_TIMEOUT
         || FlagMaxSolsReached
         || (OptFlag[maxsols] && solutions>=maxsolutions)))
   {

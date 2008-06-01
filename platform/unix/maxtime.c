@@ -95,7 +95,7 @@ static void solvingTimeOver(int sig)
   /* To stop the calculation of a problem after a given amount of time
    * is over.
    */
-  FlagTimeOut = true;
+  maxtime_status = MAXTIME_TIMEOUT;
   
   signal(sig,&solvingTimeOver);
 }
@@ -124,7 +124,13 @@ void initMaxtime(void)
 
 void setMaxtime(unsigned int *seconds)
 {
-  alarm(*seconds);
+  if (*seconds==UINT_MAX)
+    maxtime_status = MAXTIME_IDLE;
+  else
+  {
+    maxtime_status = MAXTIME_TIMING;
+    alarm(*seconds);
+  }
 }
 
 #else

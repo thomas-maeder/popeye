@@ -1691,7 +1691,7 @@ boolean ProofSol(couleur camp, int n, boolean restartenabled) {
   HashBuffer hb;
 
   if ((OptFlag[maxsols] && solutions>=maxsolutions)
-      || FlagTimeOut
+      || maxtime_status==MAXTIME_TIMEOUT
       || (OptFlag[stoponshort] && FlagShortSolsReached))
     return false;
 
@@ -1754,7 +1754,7 @@ boolean SeriesProofSol(int n, boolean restartenabled) {
   HashBuffer hb;
 
   if ((OptFlag[maxsols] && solutions>=maxsolutions)
-      || FlagTimeOut
+      || maxtime_status==MAXTIME_TIMEOUT
       || (OptFlag[stoponshort] && FlagShortSolsReached))
     return false;
 

@@ -385,9 +385,8 @@ boolean MatePossible(void) {
 
   captures= CapturesLeft[nbply-1];
 
-  if ( (maxsol_per_matingpos
-        && sol_per_matingpos >= maxsol_per_matingpos)
-       || FlagTimeOut)
+  if ((maxsol_per_matingpos && sol_per_matingpos >= maxsol_per_matingpos)
+      || maxtime_status==MAXTIME_TIMEOUT)
   {
 	FlagMaxSolsReached= true;
 	return false;
@@ -516,9 +515,9 @@ void StaleStoreMate(
   square	*bnp, _rb, _rn;
   Flags	sp;
 
-  if ( blpcallowed < 0
-       || whpcallowed < 0
-       || FlagTimeOut)
+  if (blpcallowed < 0
+      || whpcallowed < 0
+      || maxtime_status==MAXTIME_TIMEOUT)
   {
 	return;
   }
@@ -2068,7 +2067,8 @@ void GenerateGuarding(
   if (OptFlag[maxsols] && (solutions >= maxsolutions))
     return;
 
-  if (whcaptures > MaxPieceBlack-1 || FlagTimeOut) {
+  if (whcaptures > MaxPieceBlack-1
+      || maxtime_status==MAXTIME_TIMEOUT) {
 	return;
   }
 
@@ -2363,7 +2363,7 @@ void GenerateBlackKing(int whmoves, int blmoves) {
       e[sq]= vide;
       spec[sq]= EmptySpec;
 	}
-	if (FlagTimeOut) {
+	if (maxtime_status==MAXTIME_TIMEOUT) {
       break;
 	}
   }
@@ -2487,7 +2487,7 @@ boolean Intelligent(
   ResetPosition();
 
   if (OptFlag[movenbr]
-      && !FlagTimeOut)
+      && maxtime_status!=MAXTIME_TIMEOUT)
   {
 	sprintf(GlobalStr, "%ld %s %d+%d",
             MatesMax, GetMsgString(PotentialMates), whmoves, blmoves);
