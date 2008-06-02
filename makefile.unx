@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.34 2008/05/29 22:11:04 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.35 2008/06/02 19:41:33 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -298,7 +298,9 @@ depend:	$(PYCFILES) $(INCLUDES)
 	if [ ! -f pyallmsg.h ]; then touch pyallmsg.h; fi 
 	for f in $(PYCFILES); \
 	do \
-		(echo -n "`dirname $$f`/"; $(MAKEDEPEND) $$f) \
+		$(MAKEDEPEND) \
+			-MT `echo $$f | sed -e "s/[.]c$$/$(OBJ_SUFFIX)/"` \
+			$$f \
 		| sed -e "s/[.]o:/\$$(OBJ_SUFFIX):/" \
 		| sed -e "s@platform/[A-Za-z0-9_]*/@platform/\$$(PLATFORM)/@g"; \
 	done > $@

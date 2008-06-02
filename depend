@@ -1,4 +1,4 @@
-./pydata$(OBJ_SUFFIX): pydata.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h
+pydata$(OBJ_SUFFIX): pydata.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h
 
 py.h:
 
@@ -11,7 +11,7 @@ pyproc.h:
 py4.h:
 
 pydata.h:
-./py1$(OBJ_SUFFIX): py1.c py.h boolean.h pylang.h pymsg.h py1.h pyproc.h py4.h \
+py1$(OBJ_SUFFIX): py1.c py.h boolean.h pylang.h pymsg.h py1.h pyproc.h py4.h \
   pydata.h
 
 py.h:
@@ -29,7 +29,7 @@ pyproc.h:
 py4.h:
 
 pydata.h:
-./py2$(OBJ_SUFFIX): py2.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h pymsg.h
+py2$(OBJ_SUFFIX): py2.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h pymsg.h
 
 py.h:
 
@@ -44,7 +44,7 @@ py4.h:
 pydata.h:
 
 pymsg.h:
-./py3$(OBJ_SUFFIX): py3.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h
+py3$(OBJ_SUFFIX): py3.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h
 
 py.h:
 
@@ -57,7 +57,7 @@ pyproc.h:
 py4.h:
 
 pydata.h:
-./py4$(OBJ_SUFFIX): py4.c py.h boolean.h pylang.h py1.h pyproc.h py4.h pydata.h \
+py4$(OBJ_SUFFIX): py4.c py.h boolean.h pylang.h py1.h pyproc.h py4.h pydata.h \
   pymsg.h
 
 py.h:
@@ -75,7 +75,7 @@ py4.h:
 pydata.h:
 
 pymsg.h:
-./py5$(OBJ_SUFFIX): py5.c py.h boolean.h pylang.h pyproc.h py4.h pyhash.h \
+py5$(OBJ_SUFFIX): py5.c py.h boolean.h pylang.h pyproc.h py4.h pyhash.h \
   DHT/dhtbcmem.h pydata.h pymsg.h
 
 py.h:
@@ -95,7 +95,7 @@ DHT/dhtbcmem.h:
 pydata.h:
 
 pymsg.h:
-./py6$(OBJ_SUFFIX): py6.c py.h boolean.h pylang.h py1.h pyproc.h py4.h pydata.h \
+py6$(OBJ_SUFFIX): py6.c py.h boolean.h pylang.h py1.h pyproc.h py4.h pydata.h \
   pymsg.h pyhash.h DHT/dhtbcmem.h pyint.h pyproof.h platform/maxmem.h \
   platform/maxtime.h platform/pytime.h platform/priority.h
 
@@ -130,7 +130,7 @@ platform/maxtime.h:
 platform/pytime.h:
 
 platform/priority.h:
-./pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h pymsg.h \
+pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h pymsg.h \
   platform/maxtime.h
 
 py.h:
@@ -148,7 +148,7 @@ pydata.h:
 pymsg.h:
 
 platform/maxtime.h:
-./pymsg$(OBJ_SUFFIX): pymsg.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h pymsg.h \
+pymsg$(OBJ_SUFFIX): pymsg.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h pymsg.h \
   platform/pytime.h pyallmsg.h
 
 py.h:
@@ -168,10 +168,10 @@ pymsg.h:
 platform/pytime.h:
 
 pyallmsg.h:
-./pylang$(OBJ_SUFFIX): pylang.c pylang.h
+pylang$(OBJ_SUFFIX): pylang.c pylang.h
 
 pylang.h:
-./pyhash$(OBJ_SUFFIX): pyhash.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h \
+pyhash$(OBJ_SUFFIX): pyhash.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h \
   pymsg.h pyhash.h DHT/dhtbcmem.h pyint.h DHT/dhtvalue.h DHT/fxf.h \
   DHT/dht.h pyproof.h platform/maxtime.h
 
@@ -204,7 +204,7 @@ DHT/dht.h:
 pyproof.h:
 
 platform/maxtime.h:
-./pyproof$(OBJ_SUFFIX): pyproof.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h \
+pyproof$(OBJ_SUFFIX): pyproof.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h \
   pyhash.h DHT/dhtbcmem.h pyproof.h pymsg.h platform/maxtime.h
 
 py.h:
@@ -228,8 +228,8 @@ pyproof.h:
 pymsg.h:
 
 platform/maxtime.h:
-./pysignal$(OBJ_SUFFIX): pysignal.c
-./pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pylang.h pyproc.h py4.h pyhash.h \
+pysignal$(OBJ_SUFFIX): pysignal.c
+pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pylang.h pyproc.h py4.h pyhash.h \
   DHT/dhtbcmem.h pymsg.h pyint.h pydata.h platform/maxtime.h
 
 py.h:
@@ -256,12 +256,13 @@ platform/maxtime.h:
 platform/$(PLATFORM)/maxmem$(OBJ_SUFFIX): platform/$(PLATFORM)/maxmem.c platform/$(PLATFORM)/../maxmem.h
 
 platform/$(PLATFORM)/../maxmem.h:
-platform/$(PLATFORM)/maxtime$(OBJ_SUFFIX): platform/$(PLATFORM)/maxtime.c platform/$(PLATFORM)/../maxtime.h \
-  platform/$(PLATFORM)/../../boolean.h platform/$(PLATFORM)/../../pymsg.h \
-  platform/$(PLATFORM)/../../py.h platform/$(PLATFORM)/../../boolean.h \
-  platform/$(PLATFORM)/../../pylang.h platform/$(PLATFORM)/../../pydata.h \
-  platform/$(PLATFORM)/../../pyproc.h platform/$(PLATFORM)/../../py4.h \
-  platform/$(PLATFORM)/../../pyhash.h platform/$(PLATFORM)/../../DHT/dhtbcmem.h
+platform/$(PLATFORM)/maxtime$(OBJ_SUFFIX): platform/$(PLATFORM)/maxtime.c \
+  platform/$(PLATFORM)/../maxtime.h platform/$(PLATFORM)/../../boolean.h \
+  platform/$(PLATFORM)/../../pymsg.h platform/$(PLATFORM)/../../py.h \
+  platform/$(PLATFORM)/../../boolean.h platform/$(PLATFORM)/../../pylang.h \
+  platform/$(PLATFORM)/../../pydata.h platform/$(PLATFORM)/../../pyproc.h \
+  platform/$(PLATFORM)/../../py4.h platform/$(PLATFORM)/../../pyhash.h \
+  platform/$(PLATFORM)/../../DHT/dhtbcmem.h
 
 platform/$(PLATFORM)/../maxtime.h:
 
@@ -287,6 +288,7 @@ platform/$(PLATFORM)/../../DHT/dhtbcmem.h:
 platform/$(PLATFORM)/pytime$(OBJ_SUFFIX): platform/$(PLATFORM)/pytime.c platform/$(PLATFORM)/../pytime.h
 
 platform/$(PLATFORM)/../pytime.h:
-platform/$(PLATFORM)/priority$(OBJ_SUFFIX): platform/$(PLATFORM)/priority.c platform/$(PLATFORM)/../priority.h
+platform/$(PLATFORM)/priority$(OBJ_SUFFIX): platform/$(PLATFORM)/priority.c \
+  platform/$(PLATFORM)/../priority.h
 
 platform/$(PLATFORM)/../priority.h:
