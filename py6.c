@@ -3028,6 +3028,11 @@ int main(int argc, char *argv[]) {
   pyfputs(StartUp, stdout);
   pyfputs(MMString, stdout);
 
+  /* start timer to be able to display a reasonable time if the user
+   * aborts execution before the timer is started for the first
+   * problem */
+  StartTimer();
+
   /* For the very first time we try to open any *.str
      When we reach the last remainig language, we force
      the existence of a *.str file. If none is found,
