@@ -106,7 +106,8 @@
 105= erreur dans FichierLaTeX : piece feerique inconnue\n
 106= Plus de %s types de chasseurs differents\n
 107= Cases et/ou pieces royales incompatibles\n
-108= QuiPerdGagne seulement avec les enonces dia ou a=>b\n
+108= QuiPerdGagne incompatible avec les enonces echec ou mat\n
 109= Take&MakeEchecs ne sont pas compatibles avec certains genres feeriques\n
 110= Pieces magiques ne sont pas compatibles avec certaines pieces feeriques\n
 111= Trop de calculations magiques necessaires\n
+112= EchecsRepublicains incompatible avec des conditions qui dependent du fait si un coup donne echec.\n

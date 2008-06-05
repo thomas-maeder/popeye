@@ -639,6 +639,13 @@ boolean verifieposition(void)
   }
 
   if (CondFlag[republican]) {
+    if (CondFlag[masand])
+    {
+      /* TODO what else should we prohibit here? */
+      VerifieMsg(NoRepublicanWithConditionsDependingOnCheck);
+      return false;
+    }
+
     OptFlag[sansrn]= True;
     OptFlag[sansrb]= True;
     optim_neutralretractable = False;
@@ -1311,6 +1318,17 @@ boolean verifieposition(void)
 
   if (CondFlag[losingchess])
   {
+    if (stipSettings[reciprocal].stipulation == stip_mate
+        || stipSettings[reciprocal].stipulation == stip_check
+        || stipSettings[reciprocal].stipulation == stip_mate_or_stale
+        || stipSettings[nonreciprocal].stipulation == stip_mate
+        || stipSettings[nonreciprocal].stipulation == stip_check
+        || stipSettings[nonreciprocal].stipulation == stip_mate_or_stale)
+    {
+      VerifieMsg(LosingChessNotInCheckOrMateStipulations);
+      return false;
+    }
+
     /* no king is ever in check */
     rbechec= &losingchess_rbnechec;
     rnechec= &losingchess_rbnechec;

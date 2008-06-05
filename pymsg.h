@@ -144,9 +144,11 @@ typedef enum
   UndefLatexPiece       = 105,
   HunterTypeLimitReached= 106,
   IncompatibleRoyalSettings = 107,
-  TakeMakeAndFairy      = 108,
-  MagicAndFairyPieces   = 109,
-  TooManyMagic          = 110,
+  LosingChessNotInCheckOrMateStipulations = 108,
+  TakeMakeAndFairy      = 109,
+  MagicAndFairyPieces   = 110,
+  TooManyMagic          = 111,
+  NoRepublicanWithConditionsDependingOnCheck = 112,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

@@ -106,7 +106,8 @@
 105= LaTeXFile will not compile: undefined fairy piece\n
 106= Limit of %s different hunter types exceeded\n
 107= Incompatible royal pieces and/or squares\n
-108= LosingChess only with stipulations dia or a=>b\n
+108= LosingChess incompatible with check or mate stipulations\n
 109= Take&MakeChess is incompatible with some fairy conditions\n
 110= Magic pieces incompatible with some fairy pieces\n
 111= Too many magic calculations needed\n
+112= RepublicanChess incompatible with conditions that depend on whether a certain move delivers check.\n
