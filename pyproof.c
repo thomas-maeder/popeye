@@ -49,36 +49,12 @@ static boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
   CapturedBishopc1, CapturedBishopf1, CapturedQueend1,
   CapturedBishopc8, CapturedBishopf8, CapturedQueend8;
 
-boolean ProofVerifie(void) {
-  if (flagfee || PieSpExFlags&(~(BIT(White)+BIT(Black))))
-  {
-    VerifieMsg(ProofAndFairyPieces);
-    return false;
-  }
+/* Functions determining that going on from a certain position will
+ * not lead to the required position. */
+typedef boolean (*ProofImpossible_fct_t)(int);
 
-  ProofFairy= change_moving_piece
-    || CondFlag[black_oscillatingKs]
-    || CondFlag[white_oscillatingKs]
-    || CondFlag[republican]
-    || anycirce
-    || CondFlag[sentinelles]
-    || anyanticirce
-    || CondFlag[singlebox]
-    || CondFlag[blroyalsq]
-    || CondFlag[whroyalsq]
-    || TSTFLAG(PieSpExFlags, ColourChange)
-    || CondFlag[actrevolving]
-    || CondFlag[arc]
-    || CondFlag[annan]
-    || CondFlag[glasgow]
-    || CondFlag[takemake]
-    || flagAssassin
-    || CondFlag[messigny]
-    || CondFlag[mars]
-    || CondFlag[castlingchess];
-
-  return true;
-} /* ProofVerifie */
+static ProofImpossible_fct_t alternateImpossible;
+static ProofImpossible_fct_t seriesImpossible;
 
 void ProofEncode(HashBuffer *hb)
 {
@@ -1169,7 +1145,11 @@ int ArrangePawns(
   return Diff;
 }
 
-boolean ProofFairyImpossible(int MovesAvailable) {
+static boolean NeverImpossible(int MovesAvailable) {
+  return false;
+}
+
+static boolean ProofFairyImpossible(int MovesAvailable) {
   square    *bnp, sq;
   piece p1, pparr;
   int   NbrWh, NbrBl;
@@ -1232,29 +1212,32 @@ boolean ProofFairyImpossible(int MovesAvailable) {
     }
   }
   else {
-    int BlMovesLeft, WhMovesLeft;
+    if (!CondFlag[masand])
+    {
+      int BlMovesLeft, WhMovesLeft;
 
-    if (FlowFlag(Alternate)) {
-      BlMovesLeft= WhMovesLeft= MovesAvailable/2;
-      if (MovesAvailable&1) {
-        if ((flag_atob&&!flag_appseul) != (enonce&1)) { /* TODO use % */
-          WhMovesLeft++;
-        }
-        else {
-          BlMovesLeft++;
+      if (FlowFlag(Alternate)) {
+        BlMovesLeft= WhMovesLeft= MovesAvailable/2;
+        if (MovesAvailable&1) {
+          if ((flag_atob&&!flag_appseul) != (enonce&1)) { /* TODO use % */
+            WhMovesLeft++;
+          }
+          else {
+            BlMovesLeft++;
+          }
         }
       }
-    }
-    else {              /* ser-dia */
-      BlMovesLeft= 0;
-      WhMovesLeft= MovesAvailable;
-    }
+      else {              /* ser-dia */
+        BlMovesLeft= 0;
+        WhMovesLeft= MovesAvailable;
+      }
 
-    /* not enough time to capture the remaining pieces */
-    if (NbrWh-ProofNbrWhitePieces > BlMovesLeft
-        || NbrBl-ProofNbrBlackPieces > WhMovesLeft)
-    {
-      return true;
+      /* not enough time to capture the remaining pieces */
+      if (NbrWh-ProofNbrWhitePieces > BlMovesLeft
+          || NbrBl-ProofNbrBlackPieces > WhMovesLeft)
+      {
+        return true;
+      }
     }
 
     pparr = CondFlag[parrain] ? pprise[nbply] : vide;
@@ -1364,7 +1347,7 @@ boolean ProofFairyImpossible(int MovesAvailable) {
 
 } /* ProofFairyImpossible */
 
-boolean ProofImpossible(int MovesAvailable) {
+static boolean ProofImpossible(int MovesAvailable) {
   square    *bnp;
   int       WhMovesLeft, BlMovesLeft;
   int       WhPieToBeCapt, BlPieToBeCapt,
@@ -1372,10 +1355,6 @@ boolean ProofImpossible(int MovesAvailable) {
   piece p1, p2;
   square    sq;
   int       NbrWh, NbrBl;
-
-  if (ProofFairy) {
-    return ProofFairyImpossible(MovesAvailable);
-  }
 
   /* too many pawns captured or promoted */
   if (ProofNbrPiece[pb] > nbpiece[pb]
@@ -1588,14 +1567,11 @@ boolean ProofImpossible(int MovesAvailable) {
   return false;
 } /* ProofImpossible */
 
-boolean ProofSeriesImpossible(int MovesAvailable) {
+static boolean ProofSeriesImpossible(int MovesAvailable) {
   square    *bnp, sq;
   int       BlPieToBeCapt, BlCapturesRequired;
   int       NbrBl;
   int       WhMovesLeft= MovesAvailable;
-
-  if (ProofFairy)
-    return ProofFairyImpossible(MovesAvailable);
 
   /* too many pawns captured or promoted */
   if (ProofNbrPiece[pb]>nbpiece[pb] || ProofNbrPiece[pn]>nbpiece[pn])
@@ -1685,6 +1661,56 @@ boolean ProofSeriesImpossible(int MovesAvailable) {
   return false;
 } /* ProofSeriesImpossible */
 
+boolean ProofVerifie(void) {
+  if (flagfee || PieSpExFlags&(~(BIT(White)+BIT(Black))))
+  {
+    VerifieMsg(ProofAndFairyPieces);
+    return false;
+  }
+
+  ProofFairy= change_moving_piece
+    || CondFlag[black_oscillatingKs]
+    || CondFlag[white_oscillatingKs]
+    || CondFlag[republican]
+    || anycirce
+    || CondFlag[sentinelles]
+    || anyanticirce
+    || CondFlag[singlebox]
+    || CondFlag[blroyalsq]
+    || CondFlag[whroyalsq]
+    || TSTFLAG(PieSpExFlags, ColourChange)
+    || CondFlag[actrevolving]
+    || CondFlag[arc]
+    || CondFlag[annan]
+    || CondFlag[glasgow]
+    || CondFlag[takemake]
+    || flagAssassin
+    || CondFlag[messigny]
+    || CondFlag[mars]
+    || CondFlag[castlingchess];
+
+  /* TODO Masand can't possibly be the only condition that doesn't
+   * allow any optimisation at all.
+   */
+  if (CondFlag[masand])
+  {
+    alternateImpossible = &NeverImpossible;
+    seriesImpossible = &NeverImpossible;
+  }
+  else if (ProofFairy)
+  {
+    alternateImpossible = &ProofFairyImpossible;
+    seriesImpossible = &ProofFairyImpossible;
+  }
+  else
+  {
+    alternateImpossible = &ProofImpossible;
+    seriesImpossible = &ProofSeriesImpossible;
+  }
+
+  return true;
+} /* ProofVerifie */
+
 boolean ProofSol(couleur camp, int n, boolean restartenabled) {
   boolean   result= false;
   couleur   ad= advers(camp);
@@ -1727,7 +1753,7 @@ boolean ProofSol(couleur camp, int n, boolean restartenabled) {
             linesolution();
           }
           /* no else here; we might miss some solutions! */
-          if (!ProofImpossible(n-1)
+          if (!(*alternateImpossible)(n-1)
               && ProofSol(ad,n-1,False))
             result= true;
         }
@@ -1790,7 +1816,7 @@ boolean SeriesProofSol(int n, boolean restartenabled) {
             linesolution();
           }
           /* no else here; we might miss some solutions! */
-          if (!ProofSeriesImpossible(n-1)
+          if (!(*seriesImpossible)(n-1)
               && !echecc(noir)
               && SeriesProofSol(n-1,False))
             result = true;
