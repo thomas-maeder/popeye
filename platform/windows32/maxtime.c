@@ -1,5 +1,6 @@
 #include "../maxtime.h"
 #include "../../boolean.h"
+#include <limits.h>
 
 void initMaxtime(void)
 {
@@ -12,6 +13,7 @@ void initMaxtime(void)
 #include <process.h>
 
 #include <stdio.h>
+
 sig_atomic_t volatile currentProblem = 0;
 
 static void solvingTimeMeasureThread(void *v)
@@ -59,11 +61,12 @@ void setMaxtime(unsigned int *seconds)
 
 #include "../../pymsg.h"
 
-void setMaxtime(unsigned int seconds)
+void setMaxtime(unsigned int *seconds)
 {
   maxtime_status = MAXTIME_IDLE;
-  VerifieMsg(NoMaxTime);
-  FlagTimeOut = true;
+
+  if (*seconds<UINT_MAX)
+    VerifieMsg(NoMaxTime);
 }
 
 #endif

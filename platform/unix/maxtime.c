@@ -3,6 +3,7 @@
 #include "../../pymsg.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #if defined(SIGNALS)
 
@@ -143,8 +144,9 @@ void initMaxtime(void)
 void setMaxtime(unsigned int *seconds)
 {
   maxtime_status = MAXTIME_IDLE;
-  VerifieMsg(NoMaxTime);
-  FlagTimeOut = true;
+
+  if (*seconds<UINT_MAX)
+    VerifieMsg(NoMaxTime);
 }
 
 #endif /*SIGNALS*/

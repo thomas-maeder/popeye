@@ -1,6 +1,7 @@
 #include "../maxtime.h"
 #include "../../boolean.h"
 #include "../../pymsg.h"
+#include <limits.h>
 
 void initMaxtime(void)
 {
@@ -10,6 +11,7 @@ void initMaxtime(void)
 void setMaxtime(unsigned int *seconds)
 {
   maxtime_status = MAXTIME_IDLE;
-  VerifieMsg(NoMaxTime);
-  FlagTimeOut = true;
+
+  if (*seconds<UINT_MAX)
+    VerifieMsg(NoMaxTime);
 }
