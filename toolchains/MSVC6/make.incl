@@ -118,3 +118,6 @@ OSTYPE=Windows
 # ====================================
 
 PLATFORM=windows32
+
+# tell Windows 98 version from regular Windows 32 version
+# OTHER=$(DEFINEMACRO)_WIN98
