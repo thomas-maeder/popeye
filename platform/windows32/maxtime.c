@@ -63,10 +63,13 @@ void setMaxtime(unsigned int *seconds)
 
 void setMaxtime(unsigned int *seconds)
 {
-  maxtime_status = MAXTIME_IDLE;
-
   if (*seconds<UINT_MAX)
+  {
     VerifieMsg(NoMaxTime);
+    maxtime_status = MAXTIME_TIMEOUT;
+  }
+  else
+    maxtime_status = MAXTIME_IDLE;
 }
 
 #endif
