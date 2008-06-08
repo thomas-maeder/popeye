@@ -40,7 +40,7 @@ ARCHIVE_INDEXER=x86_64-pc-mingw32-ranlib
 # ================
 
 # Select target compiler optimization level
-CCOPTIM=$(DEFINEMACRO)_MT
+#CCOPTIM=$(DEFINEMACRO)_MT
 
 
 # Platform spedific file name suffixes
