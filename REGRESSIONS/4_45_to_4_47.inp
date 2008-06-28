@@ -1,0 +1,11 @@
+begin
+
+prot 4_45_to_4_47.ref
+
+title from 4.41 to 4.45, pawns could "make" back to their base line
+pieces white ka1 pg6 black kd8 pf2h2
+stip h=4
+cond circe take
+
+end
+

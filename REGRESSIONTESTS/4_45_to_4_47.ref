@@ -1,0 +1,31 @@
+
+from 4.41 to 4.45, pawns could "make" back to their base line
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .  -P   .  -P   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=4                         2 + 3
+                Circe
+            Take&MakeChess
+
+  1.f2-f1=Q + Ka1-a2   2.Qf1-f7 + g6*f7-e8=Q +   3.Kd8*e8-a8 [+wQd1] Qd1-g1   4.h2*g1-b1=R [+wQd1] Qd1*b1-b6 = 
+
+solution finished. 
+
+
