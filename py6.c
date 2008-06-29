@@ -1671,17 +1671,22 @@ void pushtabsol(int n) {
     ErrorMsg(TooManySol);
   else
     current(&(tabsol.liste[tabsol.cp[n]]));
+
   if (flag_outputmultiplecolourchanges)
   {
     change_rec *rec;
     change_rec **sp= &tabsol.liste[tabsol.cp[n]].push_top;
     *sp= tabsol.liste[tabsol.cp[n] - 1].push_top;
     tabsol.liste[tabsol.cp[n]].push_bottom = *sp;
-    for (rec= colour_change_sp[nbply-1]; rec - colour_change_sp[nbply] < 0; rec++)
-    {
-      PushChangedColour(*sp, push_colour_change_stack_limit, rec->square, rec->pc)
-    }
+    for (rec= colour_change_sp[nbply-1];
+         rec-colour_change_sp[nbply]<0;
+         rec++)
+      PushChangedColour(*sp,
+                        push_colour_change_stack_limit,
+                        rec->square,
+                        rec->pc)
   }
+
   coupfort();
 }
 
@@ -2056,16 +2061,18 @@ void ecritcoup(void) {
   editcoup(&mov);
 }
 
-void videtabsol(int t) {
-  int n;
-
-  if (tabsol.cp[t] != tabsol.cp[t-1]) {
+void dsr_refutations(int t)
+{
+  if (tabsol.cp[t]!=tabsol.cp[t-1])
+  {
+    int n;
     Tabulate();
     Message(But);
-    for (n = tabsol.cp[t]; n > tabsol.cp[t-1]; n--) {
+    for (n = tabsol.cp[t]; n>tabsol.cp[t-1]; n--)
+    {
       Tabulate();
       StdString("  1...");
-      editcoup(&(tabsol.liste[n]));
+      editcoup(&tabsol.liste[n]);
       StdString(" !\n");
     }
   }
@@ -2243,7 +2250,7 @@ boolean last_h_move(couleur camp) {
         && (!OptFlag[intelligent] || MatePossible()))
     {
       if (SortFlag(Self) && SortFlag(Help)) {
-        if (! echecc(camp) && dsr_e(ad,1)) {
+        if (!echecc(camp) && dsr_e(ad,1)) {
           GenMatingMove(ad);
           while (encore()) {
             if (jouecoup()
@@ -2276,54 +2283,51 @@ boolean last_h_move(couleur camp) {
   return flag;
 }
 
-int dsr_def(couleur camp, int n, int t) {
+int dsr_def(couleur camp, int n, int t)
+{
   couleur ad= advers(camp);
   boolean pat= true;
   int ntcount=0;
 
-  if ((!FlowFlag(Exact) || enonce == 1)
+  if ((!FlowFlag(Exact) || enonce==1)
       && SortFlag(Direct)
       && currentStipSettings.checker(ad)) /* to find short solutions */
-  {
     return -1;
-  }
 
-  if (SortFlag(Reflex) && matant(camp,1)) {
+  if (SortFlag(Reflex) && matant(camp,1))
     return 0;
-  }
 
-  if ( n > droh
-       && !echecc(camp)
-       && !((droh > 0) && dsr_ant(ad,droh)))
+  if (n>droh
+      && !echecc(camp)
+      && !(droh>0 && dsr_ant(ad,droh)))
+    return maxdefen+1;
+
+  if (n>2 && OptFlag[solflights])
   {
-    return(maxdefen + 1);
-  }
-
-  if (n > 2 && OptFlag[solflights]) {
-    int zae = maxflights + 1;
-    square  x = camp == noir ? rn : rb;
+    int nrflleft = maxflights+1;
+    square save_rbn = camp==noir ? rn : rb;
     genmove(camp);
-    while (encore() && (zae > 0)) {
+    while (encore() && nrflleft>0)
+    {
       if (jouecoup()
-          && (x != (camp == noir ? rn : rb)))
+          && (save_rbn != (camp==noir ? rn : rb)))
       {
-        if (!echecc(camp)) {
-          zae--;
-        }
+        if (!echecc(camp))
+          nrflleft--;
       }
       repcoup();
     }
     finply();
-    if (zae == 0) {
-      return maxdefen + 1;
-    }
+    if (nrflleft==0)
+      return maxdefen+1;
   }
 
   /* Check whether black has more non trivial moves than he is
      allowed to have. The number of such moves allowed
      (NonTrivialNumber) is entered using the nontrivial option.
   */
-  if (n > NonTrivialLength) {
+  if (n>NonTrivialLength)
+  {
     ntcount= -1;
     /* Initialise the counter. It is counted down. */
 
@@ -2331,25 +2335,24 @@ int dsr_def(couleur camp, int n, int t) {
     genmove(camp);
 
     /* test all possible moves */
-    while (encore() && NonTrivialNumber >= ntcount) {
+    while (encore() && NonTrivialNumber>=ntcount)
+    {
       /* Test whether the move is legal and not trivial. */
       if (jouecoup()
           && !echecc(camp)
           && !((NonTrivialLength > 0)
-               && dsr_ant(ad, NonTrivialLength)))
-      {
+               && dsr_ant(ad,NonTrivialLength)))
         /* The move is legal and not trivial. Hence increment the
            counter.
         */
         ntcount++;
-      }
       repcoup();
     }
     finply();
 
-    if (NonTrivialNumber < ntcount) {
-      return (maxdefen+1);
-    }
+    if (NonTrivialNumber<ntcount)
+      return maxdefen+1;
+
     NonTrivialNumber -= ntcount;
   }
 
@@ -2359,22 +2362,22 @@ int dsr_def(couleur camp, int n, int t) {
   genmove(camp);
   move_generation_mode= move_generation_optimized_by_killer_move;
 
-  while (encore() && tablen(t) <= maxdefen) {
-    if (jouecoup() && !echecc(camp)) {
+  while (encore() && tablen(t)<=maxdefen)
+  {
+    if (jouecoup() && !echecc(camp))
+    {
       pat= false;
-      if(!dsr_ant(ad,n)) {
+      if (!dsr_ant(ad,n))
         pushtabsol(t);
-      }
     }
     repcoup();
   }
   finply();
 
-  if (n > NonTrivialLength) {
+  if (n>NonTrivialLength)
     NonTrivialNumber += ntcount;
-  }
 
-  return pat ? (maxdefen + 1) : tablen(t);
+  return pat ? maxdefen+1 : tablen(t);
 } /* dsr_def */
 
 boolean dsr_parmena(couleur camp, int n, int t) {
@@ -2406,45 +2409,62 @@ boolean dsr_parmena(couleur camp, int n, int t) {
   return zaehler < tablen(t);
 }
 
-void dsr_vari(couleur camp, int n, int par, boolean appa) {
+/* print all final moves of a self or reflex problem */
+void sr_last(couleur camp)
+{
+  genmove(camp);
+  while(encore())
+  {
+    if (jouecoup() && currentStipSettings.checker(camp))
+    {
+      StdString("\n");
+      Tabulate();
+      sprintf(GlobalStr,"%3d...",zugebene);
+      if (zugebene==1)
+      {
+        if (OptFlag[maxsols]) 
+          solutions++;
+        if (OptFlag[beep])
+          BeepOnSolution(maxbeep);
+      }
+      StdString(GlobalStr);
+      flende = true;
+      ecritcoup();
+    }
+    repcoup();
+    if (zugebene==1
+        && ((OptFlag[maxsols] && solutions>=maxsolutions)
+            || maxtime_status==MAXTIME_TIMEOUT))
+      break;
+  }
+  finply();
+  StdString("\n");
+}
+
+void dsr_vari(couleur camp, int n, int par, boolean appa)
+{
   couleur   ad= advers(camp);
-  int  mena, y, nrmena= 1, i, ntcount;
+  int  mena, nrmena= 1, i, ntcount;
   boolean   indikator;
 
   VARIABLE_INIT(ntcount);
 
-  if (!SortFlag(Direct) && (n == 1 || (appa && dsr_e(ad,1)))) {
-    genmove(ad);
-    while(encore()) {
-      if (jouecoup() && currentStipSettings.checker(ad)) {
-        StdString("\n");
-        Tabulate();
-        sprintf(GlobalStr,"%3d...",zugebene);
-        if (zugebene == 1) {
-          if  (OptFlag[maxsols]) 
-            solutions++;
-          if (OptFlag[beep])
-            BeepOnSolution(maxbeep);
-        }
-        StdString(GlobalStr);
-        flende= true;
-        ecritcoup();
-      }
-      repcoup();
-      if (zugebene == 1) {
-        if ((OptFlag[maxsols] && solutions>=maxsolutions)
-            || maxtime_status==MAXTIME_TIMEOUT)
-        {
-          break;
-        }
-      }
-    }
-    finply();
-    StdString("\n");
+  if (SortFlag(Reflex) && dsr_e(ad,1))
+  {
+    /* print mates/stalemates/checks forced by reflex, but no
+     * threats nor regular variations */
+    sr_last(ad);
     return;
   }
-  if ( !OptFlag[solvariantes]
-       || (SortFlag(Direct) && n == 1))
+
+  if (!SortFlag(Direct) && (n==1 || (appa && dsr_e(ad,1))))
+  {
+    sr_last(ad);
+    return;
+  }
+
+  if (!OptFlag[solvariantes]
+      || (SortFlag(Direct) && n==1))
   {
     Message(NewLine);
     return;
@@ -2452,29 +2472,33 @@ void dsr_vari(couleur camp, int n, int par, boolean appa) {
 
   n--;
   mena = alloctab();
-  if (appa || OptFlag[nothreat] || echecc(ad)) {
+  if (appa || OptFlag[nothreat] || echecc(ad))
     StdString("\n");
-  }
-  else {
-    y = n > droh ? droh : n;
+  else
+  {
+    int max_threat_length = n>droh ? droh : n;
     DrohFlag= true;
     marge+= 4;
-    for (i= 1;i <= y;i++) {
+    for (i = 1; i<=max_threat_length; i++)
+    {
       dsr_sol(camp,i,mena,False);
-      if (tablen(mena)>0) {
+      if (tablen(mena)>0)
+      {
         nrmena= i;
         break;
       }
     }
     marge-= 4;
-    if (DrohFlag) {
+    if (DrohFlag)
+    {
       Message(Zugzwang);
       DrohFlag= false;
     }
   }
 
   /* Update NonTrivial status */
-  if (n > NonTrivialLength) {
+  if (n>NonTrivialLength)
+  {
     ntcount= -1;
     /* generate a ply */
     genmove(ad);
@@ -2482,15 +2506,13 @@ void dsr_vari(couleur camp, int n, int par, boolean appa) {
     /* test all possible moves */
     while (encore()) {
       /* Test whether the move is legal and not trivial. */
-      if (  jouecoup()
-            && !echecc(ad)
-            && !((NonTrivialLength > 0)
-                 && dsr_ant(camp, NonTrivialLength)))
-      {
+      if (jouecoup()
+          && !echecc(ad)
+          && !(NonTrivialLength>0
+               && dsr_ant(camp, NonTrivialLength)))
         /* The move is legal and not trivial.
         ** Increment the counter. */
         ntcount++;
-      }
       repcoup();
     }
     finply();
@@ -2499,8 +2521,10 @@ void dsr_vari(couleur camp, int n, int par, boolean appa) {
   } /* nontrivial */
 
   genmove(ad);
-  while(encore()) {
-    if (jouecoup() && !echecc(ad) && !nowdanstab(par)) {
+  while(encore())
+  {
+    if (jouecoup() && !echecc(ad) && !nowdanstab(par))
+    {
       indikator=
         appa
         ? dsr_ant(camp,n)
@@ -2508,10 +2532,11 @@ void dsr_vari(couleur camp, int n, int par, boolean appa) {
            ? !dsr_ant(camp,n-1)
            : nrmena < 2 || !dsr_ant(camp,nrmena-1));
 
-      if (!SortFlag(Direct) && indikator) {
+      if (!SortFlag(Direct) && indikator)
         indikator= !currentStipSettings.checker(ad);
-      }
-      if (indikator && dsr_parmena(camp,nrmena,mena)) {
+
+      if (indikator && dsr_parmena(camp,nrmena,mena))
+      {
         boolean isRefutation = true; /* unless we prove otherwise */
         Tabulate();
         sprintf(GlobalStr,"%3d...",zugebene);
@@ -2519,13 +2544,15 @@ void dsr_vari(couleur camp, int n, int par, boolean appa) {
         ecritcoup();
         StdString("\n");
         marge+= 4;
-        for (i= FlowFlag(Exact) ? n : nrmena; i<=n && isRefutation; i++) {
+        for (i= FlowFlag(Exact) ? n : nrmena; i<=n && isRefutation; i++)
+        {
           int mats = alloctab();
           dsr_sol(camp,i,mats,False);
           freetab();
           isRefutation = tablen(mats)==0;
         }
-        if (isRefutation) {
+        if (isRefutation)
+        {
           marge+= 2;
           Tabulate();
           Message(Refutation);
@@ -2539,30 +2566,29 @@ void dsr_vari(couleur camp, int n, int par, boolean appa) {
   finply();
   freetab();
 
-  if (n > NonTrivialLength) {
+  if (n>NonTrivialLength)
     NonTrivialNumber += ntcount;
-  }
 } /* dsr_vari */
 
-void dsr_sol(
-  couleur   camp,
-  int  n,
-  int  t,
-  boolean   restartenabled)
+void dsr_sol(couleur   camp,
+             int  n,
+             int  t,
+             boolean   restartenabled)
 {
   couleur ad= advers(camp);
-  int nbd, def;
 
-  if ((n == enonce) && !FlowFlag(Semi) && SortFlag(Reflex)) {
-    if (matant(camp,1)) {
-      if (currentStipSettings.stipulation == stip_mate_or_stale)
+  if (n==enonce && !FlowFlag(Semi) && SortFlag(Reflex))
+  {
+    if (matant(camp,1))
+    {
+      int def = alloctab();
+      if (currentStipSettings.stipulation==stip_mate_or_stale)
         sprintf(GlobalStr, "%s1:\n", mate_or_stale_patt ? " =" : " #");
       else
         sprintf(GlobalStr, "%s1:\n", currentStipSettings.alphaEnd);
       StdString(GlobalStr);
       StipFlags|= SortBit(Direct);
       StipFlags|= FlowBit(Semi);
-      def = alloctab();
       dsr_sol(camp,1,def,False);
       freetab();
       return;
@@ -2571,34 +2597,35 @@ void dsr_sol(
 
   zugebene++;
   genmove(camp);
-  while (encore()) {
+  while (encore())
+  {
     if (jouecoup()
-        && !(restartenabled && MoveNbr < RestartNbr)
-        && (!echecc(camp)) && (!nowdanstab(t)))
+        && !(restartenabled && MoveNbr<RestartNbr)
+        && !echecc(camp)
+        && !nowdanstab(t))
     {
-      def = alloctab();
-      if (n == 1 && SortFlag(Direct)) {
-        nbd= currentStipSettings.checker(camp) ? 0 : maxdefen + 1;
-      }
-      else if (n == 1
+      int def = alloctab();
+      int numdefen;
+      if (n==1 && SortFlag(Direct))
+        numdefen = currentStipSettings.checker(camp) ? 0 : maxdefen+1;
+      else if (n==1
                && OptFlag[quodlibet]
                && currentStipSettings.checker(camp))
-      {
-        nbd = 0;
-      }
-      else {
-        nbd= zugebene == 1
+        numdefen = 0;
+      else
+        numdefen = zugebene==1
           ? dsr_def(ad,n-1,def)
           : dsr_e(ad,n) ? 0 : maxdefen+1;
-      }
 
-      if (nbd <= maxdefen) {
-        flende= (n == 1 && SortFlag(Direct))
-          || nbd == -1
-          || (n == 1
-              && OptFlag[quodlibet]
-              && currentStipSettings.checker(camp));
-        if (DrohFlag) {
+      if (numdefen<=maxdefen)
+      {
+        flende= ((n==1 && SortFlag(Direct))
+                 || numdefen==-1
+                 || (n==1
+                     && OptFlag[quodlibet]
+                     && currentStipSettings.checker(camp)));
+        if (DrohFlag)
+        {
           Message(Threat);
           DrohFlag= false;
         }
@@ -2606,39 +2633,39 @@ void dsr_sol(
         sprintf(GlobalStr,"%3d.",zugebene);
         StdString(GlobalStr);
         ecritcoup();
-        if (zugebene == 1) {
-          if (nbd < 1) {
+        if (zugebene==1)
+        {
+          if (numdefen<1)
+          {
             StdString("! ");
             if (OptFlag[maxsols])
               solutions++;
             if (OptFlag[beep])
               BeepOnSolution(maxbeep);
           }
-          else {
+          else
             StdString("? ");
-          }
         }
         marge+= 4;
         dsr_vari(camp,n,def,false);
-        if (zugebene == 1) {
-          videtabsol(def);
-        }
+        if (zugebene==1)
+          dsr_refutations(def);
         marge-= 4;
       }
       freetab();
-      if (nbd <= maxdefen) {
+      if (numdefen<=maxdefen)
         pushtabsol(t);
-      }
     }
-    if (restartenabled) {
+
+    if (restartenabled)
       IncrementMoveNbr();
-    }
+
     repcoup();
-    if (zugebene == 1) {
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
-        break;
-    }
+
+    if (zugebene==1
+        && ((OptFlag[maxsols] && solutions>=maxsolutions)
+            || maxtime_status==MAXTIME_TIMEOUT))
+      break;
   }
   zugebene--;
   finply();
@@ -2646,16 +2673,12 @@ void dsr_sol(
 
 boolean dsr_e(couleur camp, int n)
 {
-  if (SortFlag(Direct))
-    return (mate(camp,n-1));
-  return (!definvref(camp,n));
+  return SortFlag(Direct) ? mate(camp,n-1) : !definvref(camp,n);
 }
 
 boolean dsr_ant(couleur camp, int n)
 {
-  if (SortFlag(Direct))
-    return (matant(camp,n));
-  return (invref(camp,n));
+  return SortFlag(Direct) ? matant(camp,n) : invref(camp,n);
 }
 
 void SolveSeriesProblems(couleur camp) {
@@ -2685,20 +2708,20 @@ void SolveSeriesProblems(couleur camp) {
     introseries(camp, introenonce, OptFlag[movenbr]);
   }
   else {
-    if (   OptFlag[solapparent]
-           && !SortFlag(Direct) && !OptFlag[restart])
+    if (OptFlag[solapparent]
+        && !SortFlag(Direct) && !OptFlag[restart])
     {
       SatzFlag= True;
-      if (echecc(camp)) {
+      if (echecc(camp))
         ErrorMsg(KingCapture);
-      }
-      else {
-        if (SortFlag(Help)) {
+      else
+      {
+        if (SortFlag(Help))
           last_h_move(advers(camp));
-        }
-        else {
+        else
+        {
           zugebene++;
-          dsr_vari(camp, 1, 0, True);
+          dsr_vari(camp,1,0,True);
           zugebene--;
         }
       }
@@ -2709,9 +2732,8 @@ void SolveSeriesProblems(couleur camp) {
     if (OptFlag[maxsols])    /* reset after set play */
       solutions= 0;
 
-    if (echecc(advers(camp))) {
+    if (echecc(advers(camp)))
       ErrorMsg(KingCapture);
-    }
     else {
       int starti= FlowFlag(Exact)
         || OptFlag[restart] ? enonce : 1;
@@ -2862,13 +2884,13 @@ void SolveHelpProblems(couleur camp) {
 void SolveDirectProblems(couleur camp) {
   int lsgn;
 
-  if (  (OptFlag[solapparent] && (enonce > 1))
-        || OptFlag[postkeyplay])
+  if ((OptFlag[solapparent] && enonce>1)
+      || OptFlag[postkeyplay])
   {
-    if (echecc(camp)) {
+    if (echecc(camp))
       ErrorMsg(SetAndCheck);
-    }
-    else {
+    else
+    {
       lsgn = alloctab();
       zugebene++;
       dsr_vari(camp, enonce, lsgn, !OptFlag[postkeyplay]);
@@ -2877,11 +2899,13 @@ void SolveDirectProblems(couleur camp) {
       Message(NewLine);
     }
   }
-  if (!OptFlag[postkeyplay]) {
-    if (echecc(advers(camp))) {
+
+  if (!OptFlag[postkeyplay])
+  {
+    if (echecc(advers(camp)))
       ErrorMsg(KingCapture);
-    }
-    else {
+    else
+    {
       lsgn = alloctab();
       dsr_sol(camp, enonce, lsgn, OptFlag[movenbr]);
       freetab();
