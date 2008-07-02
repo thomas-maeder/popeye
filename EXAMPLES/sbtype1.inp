@@ -14,6 +14,7 @@ condition singlebox type1
 pieces white kb1 qe5 pf5
        black kc5 qd5 rd6f4 bh1d4 se6f6 pb2f2
 stipulation r=1
+option vari
 
 next
 

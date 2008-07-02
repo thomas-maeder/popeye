@@ -216,7 +216,7 @@ void InitOpt(void) {
 
   maxflights= 64;
   maxsolvingtime = UINT_MAX;
-  maxdefen= 0;
+  max_nr_refutations = 0;
   MoveNbr= RestartNbr= 0;
 
   droh= NonTrivialLength= maxply;

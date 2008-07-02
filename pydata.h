@@ -463,7 +463,7 @@ EXTERN  boolean         Iprom[maxply + 1];      /* Imitatorumwandlung? */
 EXTERN  square          im0;                    /* Standort des ersten Imitators */
 
 EXTERN  int        enonce,
-			zugebene, maxdefen, droh;
+			zugebene, max_nr_refutations, droh;
 EXTERN  int        introenonce;
 EXTERN  int        MoveNbr, RestartNbr;
 EXTERN  boolean         restartenabled;

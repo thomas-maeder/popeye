@@ -269,12 +269,11 @@ boolean rubiech (square sq, square sqtest, piece p, /* echiquier */ int *e_ub, e
 boolean soutenu (square departure, square arrival, square capture);
 boolean notsoutenu (square a, square b, square c);
 
-boolean dsr_ant (couleur a, int b);
-boolean dsr_e (couleur a, int b);
-boolean dsr_parmena (couleur a, int b, int c);
-int dsr_def (couleur a, int b, int c);
-void    dsr_vari (couleur a, int b, int c, boolean d);
-void    dsr_sol (couleur a,int b, int c, boolean restartenabled);
+boolean dsr_does_attacker_win(couleur a, int b);
+boolean dsr_does_defender_lose(couleur a, int b);
+boolean dsr_defends_threats(couleur a, int b, int c);
+int dsr_find_refutations(couleur a, int b, int c);
+void dsr_find_write_tries_solutions(couleur a,int b, int c, boolean restartenabled);
 
 extern void    (*gen_bl_piece)(square a, piece b);
 void    singleboxtype3_gen_bl_piece(square a, piece b);

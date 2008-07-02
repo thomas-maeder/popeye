@@ -881,62 +881,65 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
 
 EXTERN int WhMovesLeft, BlMovesLeft;
 
-boolean introseries(couleur camp, int n, boolean restartenabled) {
-  couleur ad = advers(camp);
-  boolean flag1= false, flag2= false;
+boolean introseries(couleur introside, int n, boolean restartenabled)
+{
+  couleur continuingside = advers(introside);
+  boolean flag1 = false, flag2 = false;
 
   /* set play */
   if (OptFlag[solapparent]
-      || (FlowFlag(Exact) ? n == 0 : n < introenonce))
+      || (FlowFlag(Exact) ? n==0 : n<introenonce))
   {
-    boolean is_exact= FlowFlag(Exact);
+    boolean is_exact = FlowFlag(Exact);
     int i;
 
-    SatzFlag= True;
-    for (i= FlowFlag(Exact) ? enonce : 1; i <= enonce; i++) {
+    SatzFlag = True;
+    for (i = FlowFlag(Exact) ? enonce : 1; i<=enonce; i++)
+    {
       if (SortFlag(Help)
-          ? shsol(ad, i, False)
-          : ser_dsrsol(ad, i, False))
+          ? ser_h_find_write_solutions(continuingside,i,False)
+          : ser_dsr_find_write_solutions(continuingside,i,False))
       {
         flag1= true;
         StipFlags |= FlowBit(Exact);
-        if (OptFlag[stoponshort] && (i < enonce)) {
+        if (OptFlag[stoponshort] && i<enonce)
+        {
           FlagShortSolsReached= true;
           break;
         }
       }
     }
 
-    if (n == introenonce) {
+    if (n==introenonce)
       Message(NewLine);
-    }
+
     SatzFlag= False;
-    if (!is_exact) {
+    if (!is_exact)
       StipFlags &= ~FlowBit(Exact);
-    }
   }
 
-  if (n && !echecc(ad)) {
+  if (n>0 && !echecc(continuingside))
+  {
     /* generate a single move */
-    genmove(camp);
-    while (encore()) {
+    genmove(introside);
+    while (encore())
+    {
       if (jouecoup()
-          && !echecc(camp)
+          && !echecc(introside)
           && !(restartenabled && MoveNbr < RestartNbr))
       {
         HashBuffer hb;
         (*encode)(&hb);
         if (!inhash(IntroSerNoSucc, n, &hb))
         {
-          if (introseries(camp, n-1, False))
+          if (introseries(introside,n-1,False))
             flag2= true;
           else
-            addtohash(IntroSerNoSucc, n, &hb);
+            addtohash(IntroSerNoSucc,n,&hb);
         }
       }
-      if (restartenabled) {
+      if (restartenabled)
         IncrementMoveNbr();
-      }
       repcoup();
       if (maxtime_status==MAXTIME_TIMEOUT
           || FlagShortSolsReached)
@@ -948,128 +951,143 @@ boolean introseries(couleur camp, int n, boolean restartenabled) {
   return flag1 || flag2;
 }
 
-boolean shsol(couleur camp, int n, boolean restartenabled) {
-  couleur ad= advers(camp);
-  boolean flag= false;
-  boolean flag2= true;
+boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restartenabled)
+{
+  couleur other_side = advers(series_side);
+  boolean found_solution = false;
+  boolean can_this_be_last_move_of_series_side;
 
-  /* reciprocal helpmovers -- let's check whether black can mate */
-  if (FlowFlag(Reci)) {
+  if (FlowFlag(Reci))
+  {
+    /* reciprocal helpmovers -- let's check whether black can mate */
     currentStipSettings = stipSettings[reciprocal];
-    flag2 = matant(camp, 1);
+    can_this_be_last_move_of_series_side = matant(series_side,1);
     currentStipSettings = stipSettings[nonreciprocal];
   }
+  else
+    can_this_be_last_move_of_series_side = true;
 
   n--;
-  if (currentStipSettings.stipulation==stip_countermate && n == 0) {
-    GenMatingMove(camp);
-  }
-  else {
-    genmove(camp);
-  }
+  if (currentStipSettings.stipulation==stip_countermate && n==0)
+    GenMatingMove(series_side);
+  else
+    genmove(series_side);
 
-  if (camp == blanc) {
+  if (series_side==blanc)
     WhMovesLeft--;
-  }
-  else {
+  else
     BlMovesLeft--;
-  }
 
-  while (encore()) {
+  while (encore())
+  {
     if (jouecoup()
         && (!OptFlag[intelligent] || MatePossible())
-        && !echecc(camp)
-        && !(restartenabled && MoveNbr < RestartNbr))
+        && !echecc(series_side)
+        && !(restartenabled && MoveNbr<RestartNbr))
     {
-      if (n>0) {
-        if (!echecc(ad)) {
+      if (n>0)
+      {
+        if (!echecc(other_side))
+        {
           HashBuffer hb;
           (*encode)(&hb);
-          if (!inhash(SerNoSucc,n+1,&hb)) {
-            if (shsol(camp, n, False))
-              flag= true;
+          if (!inhash(SerNoSucc,n+1,&hb))
+          {
+            if (ser_h_find_write_solutions(series_side,n,False))
+              found_solution = true;
             else
               addtohash(SerNoSucc,n+1,&hb);
           }
         }
       }
-      else {
-        if (flag2) {
-          /* The following inquiry into the hash tables yields
-          ** a significant speed up.
-          */
-          HashBuffer hb;
-          (*encode)(&hb);
-          if (FlowFlag(Reci) || !inhash(SerNoSucc,1,&hb)) {
-            if (last_h_move(ad)) {
-              flag= true;
-              PrintReciSolution = True;
-            }
-            else {
-              if (!FlowFlag(Reci))
-                addtohash(SerNoSucc,1,&hb);
-            }
+      else if (can_this_be_last_move_of_series_side)
+      {
+        /* The following inquiry into the hash tables yields
+        ** a significant speed up.
+        */
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (FlowFlag(Reci) || !inhash(SerNoSucc,1,&hb))
+        {
+          if (last_h_move(other_side))
+          {
+            found_solution = true;
+            PrintReciSolution = True;
           }
+          else if (!FlowFlag(Reci))
+            addtohash(SerNoSucc,1,&hb);
         }
       }
     }
-    if (restartenabled) {
+
+    if (restartenabled)
       IncrementMoveNbr();
-    }
+
     repcoup();
     if ((OptFlag[maxsols] && solutions>=maxsolutions)
         || maxtime_status==MAXTIME_TIMEOUT)
-    {
       break;
-    }
   }
-  if (camp == blanc) {
+
+  if (series_side==blanc)
     WhMovesLeft++;
-  }
-  else {
+  else
     BlMovesLeft++;
-  }
 
   finply();
 
-  if (flag && FlowFlag(Reci) && PrintReciSolution) {
+  if (found_solution && FlowFlag(Reci) && PrintReciSolution)
+  {
     /* reciprocal helpmover */
     currentStipSettings = stipSettings[reciprocal];
-    last_h_move(camp);
+    last_h_move(series_side);
     PrintReciSolution = False;
     currentStipSettings = stipSettings[nonreciprocal];
   }
-  return flag;
-} /* shsol */
 
-boolean mataide(couleur camp, int n, boolean restartenabled) {
-  boolean flag= false;
+  return found_solution;
+} /* ser_h_find_write_solutions */
+
+boolean mataide(couleur camp, int n, boolean restartenabled)
+{
+  boolean flag = false;
   HashBuffer hb;
   boolean const dohash = flag_hashall || n > 1;
 
   /* Let us check whether the position is already in the
   ** hash table and marked unsolvable.
   */
-  if (dohash) {
+  if (dohash)
+  {
     (*encode)(&hb);
-    if (inhash((camp == blanc) ? WhHelpNoSucc : BlHelpNoSucc, n, &hb))
+    if (inhash(camp==blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb))
       return false;
   }
 
-  if (--n) {
-    couleur ad= advers(camp);
+  --n;
+  if (n==0)
+    flag = last_h_move(camp);
+  else
+  {
+    couleur ad = advers(camp);
 
     /* reciprocal helpmover */
-    if (n == 1 && FlowFlag(Reci)) {
+    if (n==1 && FlowFlag(Reci))
+    {
       currentStipSettings = stipSettings[reciprocal];
-      flag = !matant(camp, 1);
+      flag = !matant(camp,1);
       currentStipSettings = stipSettings[nonreciprocal];
     }
+
+    /* TODO what's the exact semantics of flag (adapt name
+     * accordingly) and why on earth is it ok to return false if flag
+     * is equal to true here?? */
     if (flag)
       return false;
 
     /* keep mating piece for helpmates ... */
-    if (OptFlag[keepmating]) {
+    if (OptFlag[keepmating])
+    {
       piece p= roib+1;
       while (p < derbla && nbpiece[maincamp == blanc ? p : -p]==0)
         p++;
@@ -1087,118 +1105,152 @@ boolean mataide(couleur camp, int n, boolean restartenabled) {
     else
       WhMovesLeft--;
 
-    while (encore()){
+    while (encore())
+    {
       if (jouecoup()
           && (!OptFlag[intelligent] || MatePossible())
           && !echecc(camp)
           && !(restartenabled && MoveNbr < RestartNbr)
           && (mataide(ad, n, False)))
-        flag= true;
+        flag = true;
+
       if (restartenabled)
         IncrementMoveNbr();
+
       repcoup();
+
       /* Stop solving if a given number of solutions was encountered */
       if ((OptFlag[maxsols] && solutions>=maxsolutions)
           || maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
-    if (camp == noir)
+    
+    if (camp==noir)
       BlMovesLeft++;
     else
       WhMovesLeft++;
 
     finply();
 
-    if (flag && FlowFlag(Reci) && n == 1) {     /* reciprocal helpmover */
+    if (flag && FlowFlag(Reci) && n==1)     /* reciprocal helpmover */
+    {
       currentStipSettings = stipSettings[reciprocal];
       last_h_move(camp);
       currentStipSettings = stipSettings[nonreciprocal];
     }
-  } else {   /* n == 0 */
-    flag= last_h_move(camp);
   }
 
   /* Add the position to the hash table if it has no solutions */
   if (!flag && dohash)
-    addtohash(camp == blanc ? WhHelpNoSucc : BlHelpNoSucc, n+1, &hb);
+    addtohash(camp==blanc ? WhHelpNoSucc : BlHelpNoSucc, n+1, &hb);
 
   return flag;
 } /* mataide */
 
-boolean last_dsr_move(couleur camp)
+/* Determine and write final move of the attacker in a series
+ * direct/self/reflex stipulation, plus the (subsequent) final move of
+ * the defender if self/reflex.
+ * @param attacker attacking side
+ * @return true iff >= 1 final move (sequence) was found
+ */
+/* TODO separate versions for direct and self/reflex? */
+/* TODO is there a fundamental difference to the handling of final
+ * moves in non-series direct/self/reflex play? */
+boolean ser_dsr_find_write_final_moves(couleur attacker)
 {
-  couleur ad= advers(camp);
-  boolean flag = false;
-  if (SortFlag(Direct))
-    GenMatingMove(camp);
-  else
-    genmove(camp);
+  couleur defender = advers(attacker);
+  boolean solution_found = false;
 
-  while (encore()) {
-    if (jouecoup()) {
-      if (SortFlag(Direct)) {
-        if (currentStipSettings.checker(camp)) {
+  if (SortFlag(Direct))
+    GenMatingMove(attacker);
+  else
+    genmove(attacker);
+
+  while (encore())
+  {
+    if (jouecoup())
+    {
+      if (SortFlag(Direct))
+      {
+        if (currentStipSettings.checker(attacker))
+        {
           linesolution();
-          flag = true;
+          solution_found = true;
         }
-      } else
-        if (!echecc(camp) && dsr_e(ad,1))
-          flag = last_h_move(ad);
+      }
+      else if (!echecc(attacker) && !definvref(defender,1))
+        solution_found = last_h_move(defender);
     }
     repcoup();
   }
+
   finply();
-  return flag;
-} /* last_dsr_move */
 
-boolean ser_dsrsol(couleur camp, int n, boolean restartenabled)
+  return solution_found;
+} /* ser_dsr_find_write_final_moves */
+
+boolean ser_dsr_find_write_solutions(couleur attacker,
+                                     int n,
+                                     boolean restartenabled)
 {
-  boolean flag= false;
-
-  if (SortFlag(Reflex) && matant(camp,1))
+  if (SortFlag(Reflex) && matant(attacker,1))
     return false;
 
-  if (--n) {
-    couleur ad= advers(camp);
-    genmove(camp);
-    if (camp == blanc)
+  --n;
+
+  if (n==0)
+    return ser_dsr_find_write_final_moves(attacker);
+  else
+  {
+    boolean flag = false;
+    couleur defender = advers(attacker);
+
+    genmove(attacker);
+
+    if (attacker==blanc)
       WhMovesLeft--;
     else
       BlMovesLeft--;
 
-    while (encore()) {
+    while (encore())
+    {
       if (jouecoup()
           && (!OptFlag[intelligent] || MatePossible())
-          && !echecc(camp)
-          && !echecc(ad) &&
-          !(restartenabled && MoveNbr < RestartNbr)) {
+          && !echecc(attacker)
+          && !echecc(defender)
+          && !(restartenabled && MoveNbr<RestartNbr))
+      {
         HashBuffer hb;
         (*encode)(&hb);
-        if (!inhash(SerNoSucc, n, &hb)) {
-          if (ser_dsrsol(camp,n, False))
-            flag= true;
+        if (!inhash(SerNoSucc,n,&hb))
+        {
+          if (ser_dsr_find_write_solutions(attacker,n,False))
+            flag = true;
           else
-            addtohash(SerNoSucc, n, &hb);
+            addtohash(SerNoSucc,n,&hb);
         }
       }
+
       if (restartenabled)
         IncrementMoveNbr();
+
       repcoup();
+
       if ((OptFlag[maxsols] && solutions>=maxsolutions)
           || maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
-    if (camp == blanc)
+
+    if (attacker==blanc)
       WhMovesLeft++;
     else
       BlMovesLeft++;
 
     finply();
-  } else
-    flag = last_dsr_move(camp);
 
-  return  flag;
-} /* ser_dsrsol */
+    return  flag;
+  }
+} /* ser_dsr_find_write_solutions */
 
 void inithash(void)
 {
@@ -1324,43 +1376,57 @@ void    closehash(void)
 
 } /* closehash */
 
-boolean mate(couleur camp, int n) {
-  /* returns true if camp can defend against a mate in n */
-  boolean flag= true, pat= true;
-  couleur ad= advers(camp);
-  int ntcount=0;
+/* Determine whether mate can be forced on defender in n moves;
+ * defender is at move
+ * @param defender defending side (i.e. side to be mated)
+ * @param n number of moves left until mate has to be reached after
+ *          the defender has moved
+ * @return true iff mate can be forced and defender is not immobile
+ *         currently
+ * TODO determine usefulness of this immobility check
+ */
+boolean mate(couleur defender, int n)
+{
+  boolean no_refutation_found = true;
+  boolean is_defender_immobile = true;
+  couleur attacker = advers(defender);
+  int ntcount = 0;
 
   /* check whether `black' can reach a position that is already
   ** marked unsolvable for white in the hash table. */
+  /* TODO should we? i.e. do it or remove comment */
 
   /* Check whether the black king has more flight squares than he is
   ** allowed to have. The number of allowed flights (maxflights) is entered
   ** using the solflights option. */
 
-  if (n > 1 && OptFlag[solflights]) {
+  if (n>1 && OptFlag[solflights])
+  {
     /* Initialise the flight counter. The number of flights is counted
     ** down. */
-    int zae = maxflights + 1;
+    int nrflleft = maxflights+1;
 
     /* Store the square of the black king. */
-    square  x = camp == noir ? rn : rb;
+    square save_rbn = defender==noir ? rn : rb;
 
     /* generate a ply */
-    genmove(camp);
+    genmove(defender);
 
     /* test all possible moves */
-    while (encore() && zae) {
+    while (encore() && nrflleft>0)
+    {
       if (jouecoup()) {
         /* Test whether the king has moved and this move is legal. */
-        if ((x != (camp == noir ? rn : rb)) && !echecc(camp))
+        if (save_rbn != (defender==noir ? rn : rb)
+            && !echecc(defender))
           /* It is a legal king move. Hence decrement the flight counter */
-          zae--;
+          nrflleft--;
       }
       repcoup();
     }
     finply();
 
-    if (zae == 0)
+    if (nrflleft==0)
       /* The number of flight squares is greater than allowed. */
       return false;
   } /* solflights */
@@ -1369,26 +1435,29 @@ boolean mate(couleur camp, int n) {
   ** in a certain number of moves (droh). It is active if droh < enonce-1.
   ** droh is entered with the option solmenaces. */
 
-  if (n > droh)
-    if (!(echecc(camp) || matant(ad,droh)))
+  if (n>droh)
+    if (!(echecc(defender) || matant(attacker,droh)))
       return false;
 
   /* Check whether black has more non trivial moves than he is
   ** allowed to have. The number of such moves allowed (NonTrivialNumber)
   ** is entered using the nontrivial option. */
-
-  if (n > NonTrivialLength) {
+  if (n>NonTrivialLength)
+  {
     ntcount= -1;
 
     /* generate a ply */
-    genmove(camp);
+    genmove(defender);
 
     /* test all possible moves */
-    while (encore() && (NonTrivialNumber >= ntcount)) {
-      if (jouecoup()) {
+    while (encore() && NonTrivialNumber>=ntcount)
+    {
+      if (jouecoup())
+      {
         /* Test whether the move is legal and not trivial. */
-        if (!echecc(camp) && !((NonTrivialLength > 0)
-                               && matant(ad, NonTrivialLength)))
+        if (!echecc(defender)
+            && !(NonTrivialLength>0
+                 && matant(attacker, NonTrivialLength)))
           /* The move is legal and not trivial.
           ** Hence decrement the  counter. */
           ntcount++;
@@ -1397,94 +1466,111 @@ boolean mate(couleur camp, int n) {
     }
     finply();
 
-    if (NonTrivialNumber < ntcount)
+    if (NonTrivialNumber<ntcount)
       return false;
 
     NonTrivialNumber -= ntcount;
   } /* nontrivial */
 
-  if (flag) {
-    if (n>1)
-      move_generation_mode= move_generation_mode_opti_per_couleur[camp];
+  if (n>1)
+    move_generation_mode = move_generation_mode_opti_per_couleur[defender];
 
-    genmove(camp);
-    move_generation_mode= move_generation_optimized_by_killer_move;
+  genmove(defender);
+  move_generation_mode = move_generation_optimized_by_killer_move;
 
-    while (flag && encore()) {
-      if (jouecoup() && !echecc(camp)) {
-        pat= false;
-        if (!(flag= matant(ad,n)))
-          coupfort();
+  while (no_refutation_found && encore())
+  {
+    if (jouecoup() && !echecc(defender))
+    {
+      is_defender_immobile = false;
+      if (!matant(attacker,n))
+      {
+        no_refutation_found = false;
+        coupfort();
       }
-      repcoup();
     }
-    finply();
+    repcoup();
   }
+  finply();
 
-  if (n > NonTrivialLength)
+  if (n>NonTrivialLength)
     NonTrivialNumber += ntcount;
 
-  if (pat)
-    return false;
-
-  return flag;
+  return !is_defender_immobile && no_refutation_found;
 } /* mate */
 
-boolean matant(couleur camp, int n)
+/* Determine whether attacker can force mate in n moves.
+ * @param attacker attacking side (i.e. side attempting to force mate)
+ * @param n number of moves left until mate has to be reached
+ * @return true iff attacker can force mate in n moves
+ */
+boolean matant(couleur attacker, int n)
 {
   int i;
-  boolean flag= false;
-  couleur ad= advers(camp);
+  boolean forced_mate_found = false;
+  couleur defender = advers(attacker);
   HashBuffer hb;
+
   boolean const dohash = (n > (FlagMoveOrientatedStip ? 1 : 0)
                           && !SortFlag(Self) && !FlowFlag(Reci));
 
   /* Let's first have a look in the hash_table */
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to
   ** compute a "mate" in 1. TLi */
-  if (dohash) {
+  if (dohash)
+  {
     /* It is more likely that a position has no solution.           */
     /* Therefore let's check for "no solution" first.  TLi */
     (*encode)(&hb);
-    if (inhash(WhDirNoSucc, n, &hb))
+    if (inhash(WhDirNoSucc,n,&hb))
       return false;
-    if (inhash(WhDirSucc, n, &hb))
+    if (inhash(WhDirSucc,n,&hb))
       return true;
   }
 
-
   /* keep mating piece for direct mates ... */
-  if (OptFlag[keepmating]) {
-    piece p= roib+1;
-    while (p < derbla && nbpiece[camp == blanc ? p : -p]==0)
+  if (OptFlag[keepmating])
+  {
+    piece p = roib+1;
+    while (p<derbla && nbpiece[attacker == blanc ? p : -p]==0)
       p++;
-    if (p == derbla)
+    if (p==derbla)
       return false;
   } /* keep mating ... */
 
-  n--;
-  for (i= FlowFlag(Exact) ? n : 0; !flag && (i <= n); i++) {
-    if (i > droh)
-      i= n;
-    if (i == 0)
-      GenMatingMove(camp);
-    else
-      genmove(camp);
+  --n;
 
-    while (encore() && !flag) {
-      if (jouecoup()) {
-        if (i)
-          flag= !echecc(camp) && mate(ad,i);
+  for (i = FlowFlag(Exact) ? n : 0; !forced_mate_found && i<=n; i++)
+  {
+    if (i>droh)
+      i = n;
+
+    if (i==0)
+      GenMatingMove(attacker);
+    else
+      genmove(attacker);
+
+    while (encore() && !forced_mate_found)
+    {
+      if (jouecoup())
+      {
+        if (i==0)
+          forced_mate_found = currentStipSettings.checker(attacker);
         else
-          flag= currentStipSettings.checker(camp);
-        if (flag)
+          forced_mate_found = !echecc(attacker) && mate(defender,i);
+        if (forced_mate_found)
           coupfort();
       }
       repcoup();
+
       if (maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
+
     finply();
+
+    if (maxtime_status==MAXTIME_TIMEOUT)
+      break;
   }
 
   ++n;
@@ -1493,13 +1579,14 @@ boolean matant(couleur camp, int n)
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to
   ** compute a "mate" in 1. TLi */
   if (dohash)
-    addtohash(flag ? WhDirSucc : WhDirNoSucc, n, &hb);
+    addtohash(forced_mate_found ? WhDirSucc : WhDirNoSucc, n, &hb);
 
-  return flag;
+  return forced_mate_found;
 } /* matant */
 
 /* Is there a solution to a s# or r# in n? */
-boolean invref(couleur  camp, int n) {
+boolean invref(couleur  camp, int n)
+{
   boolean result= false;
   couleur ad= advers(camp);
   int i;
@@ -1508,7 +1595,8 @@ boolean invref(couleur  camp, int n) {
   /* It is more likely that a position has no solution. */
   /* Therefore let's check for "no solution" first. TLi */
   (*encode)(&hb);
-  if (inhash(WhDirNoSucc,n,&hb)) {
+  if (inhash(WhDirNoSucc,n,&hb))
+  {
     assert(!inhash(WhDirSucc,n,&hb));
     return false;
   }
@@ -1516,25 +1604,29 @@ boolean invref(couleur  camp, int n) {
     return true;
 
   if (!FlowFlag(Exact))
-    if (currentStipSettings.checker(ad)) {
+    if (currentStipSettings.checker(ad))
+    {
       addtohash(WhDirSucc,n,&hb);
       assert(!inhash(WhDirNoSucc,n,&hb));
       return true;
     }
 
-  if (SortFlag(Reflex) && !FlowFlag(Semi) && matant(camp, 1))
+  if (SortFlag(Reflex) && !FlowFlag(Semi) && matant(camp,1))
     return false;
 
-  for (i = FlowFlag(Exact) ? n : 1; !result && (i <= n); i++) {
-    if (i > droh || i > NonTrivialLength)
+  for (i = FlowFlag(Exact) ? n : 1; !result && i<=n; i++)
+  {
+    if (i>droh || i>NonTrivialLength)
       i = n;
     genmove(camp);
-    while ((!result && encore())) {
-      if (jouecoup()) {
-        result= (!echecc(camp)
-                 && (!definvref(ad,i)
-                     || (OptFlag[quodlibet]
-                         && currentStipSettings.checker(camp))));
+    while (!result && encore())
+    {
+      if (jouecoup())
+      {
+        result = (!echecc(camp)
+                  && (!definvref(ad,i)
+                      || (OptFlag[quodlibet]
+                          && currentStipSettings.checker(camp))));
         if (result)
           coupfort();
       }
@@ -1637,23 +1729,23 @@ boolean definvref(couleur camp, int n) {
     /* Initialise the flight counter. The number of flights is
        counted down.
     */
-    int zae = maxflights + 1;
+    int nrflleft = maxflights+1;
 
     /* generate a ply */
     genmove(camp);
 
     /* test all possible moves */
-    while (encore() && zae) {
+    while (encore() && nrflleft>0) {
       if (jouecoup() && !echecc(camp)) {
         /* It is a legal move.
         ** Hence decrement the flight counter */
-        zae--;
+        nrflleft--;
       }
       repcoup();
     }
     finply();
 
-    if (zae == 0) {
+    if (nrflleft==0) {
       /* The number of flight squares is greater than allowed. */
       return true;
     }

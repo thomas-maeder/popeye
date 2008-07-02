@@ -598,7 +598,7 @@ static void ReadBeginSpec(void) {
 
   while (True) {
     TokenTab= TokenString[0];
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
     for (ActLang= 0; ActLang<LangCount; ActLang++) {
       TokenTab= &(TokenString[ActLang][0]);
       if (GetUniqIndex(TokenCount,TokenTab,tok) == BeginProblem) {
@@ -680,7 +680,7 @@ static char *ParseLaTeXPieces(char *tok) {
         free(LaTeXPiecesFull[Name]);
       }
 
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       LaTeXPiecesAbbr[Name]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
       i= 0;
       while (tok[i]) {
@@ -691,11 +691,11 @@ static char *ParseLaTeXPieces(char *tok) {
       }
       LaTeXPiecesAbbr[Name][i]= tok[i];
 
-      tok= ReadToEndOfLine();
+      tok = ReadToEndOfLine();
       LaTeXPiecesFull[Name]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
       strcpy(LaTeXPiecesFull[Name], tok);
 
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
     }
   }
 
@@ -779,7 +779,7 @@ static char *ParseSquareList(
       return ReadNextTokStr();
     }
     ErrorMsg(MissngSquareList);
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
   }
 }
 
@@ -851,18 +851,18 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
       */
       NameCnt++;
       if (!*tok)
-        tok= ReadNextTokStr();
-      tok= ParseSquareList(tok, Name, Spec, echo);
+        tok = ReadNextTokStr();
+      tok = ParseSquareList(tok, Name, Spec, echo);
       CLRFLAG(Spec, Royal);
     }
     else if (hunterseppos!=0)
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
     else
       if (NameCnt > 0)
         return btok;
       else {
         IoErrorMsg(WrongPieceName,0);
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
       }
   }
 }
@@ -895,7 +895,7 @@ static char *ParseForsyth(boolean output) {
   square sq= square_a8;
   square *bnp;
   boolean NeutralFlag= false;
-  char* tok= ReadNextCaseSensitiveTokStr();
+  char* tok = ReadNextCaseSensitiveTokStr();
 
   for (bnp= boardnum; *bnp; bnp++)
     e[*bnp]= vide;
@@ -972,7 +972,7 @@ static char *ParsePieSpec(char echo) {
   char    *tok;
   Flags   ColorFlag= (BIT(White) | BIT(Black) | BIT(Neutral));
 
-  tok= ReadNextTokStr();
+  tok = ReadNextTokStr();
   while (True) {
     CLEARFL(PieSpFlags);
     while ((ps= GetUniqIndex(PieSpCount,PieSpTab,tok)) >= -1) {
@@ -992,10 +992,10 @@ static char *ParsePieSpec(char echo) {
           SETFLAG(PieSpExFlags,ps);
         }
       }
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
     }
     if (PieSpFlags & ColorFlag) {
-      tok= PrsPieNam(tok, PieSpFlags, echo);
+      tok = PrsPieNam(tok, PieSpFlags, echo);
       SpecCnt++;
     }
     else {
@@ -1003,7 +1003,7 @@ static char *ParsePieSpec(char echo) {
         return tok;
       }
       IoErrorMsg(NoColorSpec,0);
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
     }
   }
 }
@@ -1015,7 +1015,7 @@ static char *ParseFlow(char *tok) {
       IoErrorMsg(WrongInt, 0);
     }
     StipFlags |= FlowBit(Intro);
-    tok= strstr(tok, "->")+2;
+    tok = strstr(tok, "->")+2;
   }
   if (strncmp("exact-", tok, 6) == 0) {
     StipFlags|= FlowBit(Exact);
@@ -1191,9 +1191,9 @@ static char *ParseStip(void) {
   char *tok;
 
   StipFlags= 0;
-  tok= ReadNextTokStr();
+  tok = ReadNextTokStr();
   strcpy(AlphaStip,tok);
-  tok= ParseGoal(ParseSort(ParseFlow(tok)));
+  tok = ParseGoal(ParseSort(ParseFlow(tok)));
   if (tok) {
     /* set defaults */
     currentStipSettings = stipSettings[nonreciprocal];
@@ -1203,7 +1203,7 @@ static char *ParseStip(void) {
       stipSettings[reciprocal] = stipSettings[nonreciprocal];
 
     if (!*tok) {
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       strcat(AlphaStip, tok);
     }
     if (!(SortFlag(Proof) && FlowFlag(Alternate))) {
@@ -1357,10 +1357,10 @@ static char *ReadSquares(int which) {
 
 static char *ParseRex(boolean *rex, Cond what) {
   char    *tok;
-  tok= ReadNextTokStr();
+  tok = ReadNextTokStr();
   *rex= (what==GetUniqIndex(CondCount, CondTab, tok));
   if (*rex) {
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
   }
   return tok;
 }
@@ -1380,7 +1380,7 @@ static char *ParseMaximumPawn(unsigned int *result,
                               unsigned int defaultVal,
                               unsigned int boundary)
 {
-  char *tok= ReadNextTokStr();
+  char *tok = ReadNextTokStr();
 
   char *end;
   unsigned long tmp = strtoul(tok,&end,10);
@@ -1471,7 +1471,9 @@ static char *ParseVariant(boolean *type, VariantGroup group) {
     else if (VariantType==Neighbour && group==gpKoeko)
     {
       piece tmp_piece;
-      switch (strlen(tok= ReadNextTokStr())) {
+      tok = ReadNextTokStr();
+      switch (strlen(tok))
+      {
       case 1:
         tmp_piece= GetPieNamIndex(*tok,' ');
         break;
@@ -1649,7 +1651,7 @@ static char *ParseVariant(boolean *type, VariantGroup group) {
     else {
       return tok;
     }
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
   } while (group==gpSentinelles || group==gpGrid);
 
   return tok;
@@ -1659,18 +1661,18 @@ static char *ParseExact(boolean *ex_flag, boolean *ul_flag)
 {
   char    *tok;
 
-  tok= ReadNextTokStr();
+  tok = ReadNextTokStr();
   *ul_flag= (ultra==GetUniqIndex(CondCount, CondTab, tok));
   if (*ul_flag) {
     *ex_flag= true;
     CondFlag[ultra]= true;
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
   }
   else {
     *ex_flag= exact==GetUniqIndex(CondCount, CondTab, tok);
     if (*ex_flag) {
       CondFlag[exact]= true;
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
     }
   }
   return tok;
@@ -1688,7 +1690,9 @@ static char *ParseVaultingPieces(Flags fl)
 
   while (True) {
     gotpiece = false;
-    switch (strlen(tok= ReadNextTokStr())) {
+    tok = ReadNextTokStr();
+    switch (strlen(tok))
+    {
     case 1:
       p= GetPieNamIndex(*tok,' ');
       gotpiece = true;
@@ -1743,8 +1747,11 @@ char *ReadChameleonCirceSequence(void) {
   }
   ChameleonSequence[0]= '\0';
 
-  while (True) {
-    switch (strlen(tok= ReadNextTokStr())) {
+  while (True)
+  {
+    tok = ReadNextTokStr();
+    switch (strlen(tok))
+    {
     case 1:
       new_piece= GetPieNamIndex(*tok,' ');
       break;
@@ -1781,7 +1788,7 @@ static char *ParseCond(void) {
   int     indexx;
   int     CondCnt= 0;
 
-  tok= ReadNextTokStr();
+  tok = ReadNextTokStr();
   while ((indexx= GetUniqIndex(CondCount,CondTab,tok)) >= -2) {
 
     if (indexx == -2) {
@@ -1792,19 +1799,19 @@ static char *ParseCond(void) {
       switch (indexx) {
       case maxi:
         flagmaxi= true;
-        tok= ParseExact(&CondFlag[exact], &CondFlag[ultra]);
+        tok = ParseExact(&CondFlag[exact], &CondFlag[ultra]);
         CondCnt++;
         break;
 
       case ultraschachzwang:
         flagultraschachzwang= true;
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         CondCnt++;
         break;
 
       case -1:
         IoErrorMsg(CondNotUniq,0);
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       }
       continue;
@@ -1812,7 +1819,7 @@ static char *ParseCond(void) {
 
     if (indexx == -1) {
       IoErrorMsg(CondNotUniq,0);
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       continue;
     }
     CondFlag[indexx]= True;
@@ -2238,188 +2245,191 @@ static char *ParseCond(void) {
 
     switch (indexx) {
     case frischauf:
-      tok= ReadSquares(ReadFrischAuf);
+      tok = ReadSquares(ReadFrischAuf);
       break;
     case messigny:
-      tok= ParseRex(&rex_mess_ex, rexexcl);
+      tok = ParseRex(&rex_mess_ex, rexexcl);
       break;
     case woozles:
-      tok= ParseRex(&rex_wooz_ex, rexexcl);
+      tok = ParseRex(&rex_wooz_ex, rexexcl);
       break;
     case biwoozles:
-      tok= ParseRex(&rex_wooz_ex, rexexcl);
+      tok = ParseRex(&rex_wooz_ex, rexexcl);
       break;
     case immun:
-      tok= ParseRex(&rex_immun, rexincl);
+      tok = ParseRex(&rex_immun, rexincl);
       break;
     case immunmalefique:
-      tok= ParseRex(&rex_immun, rexincl);
+      tok = ParseRex(&rex_immun, rexincl);
       break;
     case immundiagramm:
-      tok= ParseRex(&rex_immun, rexincl);
+      tok = ParseRex(&rex_immun, rexincl);
       break;
     case chamcirce:
       ReadChameleonCirceSequence();
       break;
     case circe:
-      tok= ParseRex(&rex_circe, rexincl);
+      tok = ParseRex(&rex_circe, rexincl);
       break;
     case circemalefique:
-      tok= ParseRex(&rex_circe, rexincl);
+      tok = ParseRex(&rex_circe, rexincl);
       break;
     case circediagramm:
-      tok= ParseRex(&rex_circe, rexincl);
+      tok = ParseRex(&rex_circe, rexincl);
       break;
     case circeclone:
-      tok= ParseRex(&rex_circe, rexincl);
+      tok = ParseRex(&rex_circe, rexincl);
       break;
     case circeclonemalefique:
-      tok= ParseRex(&rex_circe, rexincl);
+      tok = ParseRex(&rex_circe, rexincl);
       break;
     case circemalefiquevertical:
-      tok= ParseRex(&rex_circe, rexincl);
+      tok = ParseRex(&rex_circe, rexincl);
       break;
     case protean:
-      tok= ParseRex(&rex_protean_ex, rexexcl);
+      tok = ParseRex(&rex_protean_ex, rexexcl);
       break;
     case phantom:
-      tok= ParseRex(&rex_phan, rexincl);
+      tok = ParseRex(&rex_phan, rexincl);
       break;
     case madras:
-      tok= ParseRex(&rex_mad, rexincl);
+      tok = ParseRex(&rex_mad, rexincl);
       flag_madrasi= true;
       break;
     case isardam:
-      tok= ParseVariant(&IsardamB, gpType);
+      tok = ParseVariant(&IsardamB, gpType);
       break;
     case annan:
       annanvar = 0;
-      tok= ParseVariant(NULL, gpAnnan);
+      tok = ParseVariant(NULL, gpAnnan);
       break;
     case patience:
-      tok= ParseVariant(&PatienceB, gpType);
+      tok = ParseVariant(&PatienceB, gpType);
       break;
     case sentinelles:
       SentPionNeutral=False;
-      tok= ParseVariant(&SentPionAdverse, gpSentinelles);
+      tok = ParseVariant(&SentPionAdverse, gpSentinelles);
       break;
 
       /*****  exact-maxis  *****/
     case blmax:
-      tok= ParseExact(&bl_exact, &bl_ultra);
+      tok = ParseExact(&bl_exact, &bl_ultra);
       break;
     case blmin:
-      tok= ParseExact(&bl_exact, &bl_ultra);
+      tok = ParseExact(&bl_exact, &bl_ultra);
       break;
     case blcapt:
-      tok= ParseExact(&bl_exact, &bl_ultra);
+      tok = ParseExact(&bl_exact, &bl_ultra);
       break;
     case whmax:
-      tok= ParseExact(&wh_exact, &wh_ultra);
+      tok = ParseExact(&wh_exact, &wh_ultra);
       break;
     case whmin:
-      tok= ParseExact(&wh_exact, &wh_ultra);
+      tok = ParseExact(&wh_exact, &wh_ultra);
       break;
     case whcapt:
-      tok= ParseExact(&wh_exact, &wh_ultra);
+      tok = ParseExact(&wh_exact, &wh_ultra);
       break;
 
       /*****  anticirce type    *****/
     case anti:
-      tok= ParseVariant(&AntiCirCheylan, gpAntiCirce);
+      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
       AntiCirType= AntiCirCheylan
         ? AntiCirTypeCheylan : AntiCirTypeCalvet;
       break;
     case antispiegel:
-      tok= ParseVariant(&AntiCirCheylan, gpAntiCirce);
+      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
       AntiCirType= AntiCirCheylan
         ? AntiCirTypeCheylan : AntiCirTypeCalvet;
       break;
     case antidiagramm:
-      tok= ParseVariant(&AntiCirCheylan, gpAntiCirce);
+      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
       AntiCirType= AntiCirCheylan
         ? AntiCirTypeCheylan : AntiCirTypeCalvet;
       break;
     case antifile:
-      tok= ParseVariant(&AntiCirCheylan, gpAntiCirce);
+      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
       AntiCirType= AntiCirCheylan
         ? AntiCirTypeCheylan : AntiCirTypeCalvet;
       break;
     case antisymmetrie:
-      tok= ParseVariant(&AntiCirCheylan, gpAntiCirce);
+      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
       AntiCirType= AntiCirCheylan
         ? AntiCirTypeCheylan : AntiCirTypeCalvet;
       break;
     case antispiegelfile:
-      tok= ParseVariant(&AntiCirCheylan, gpAntiCirce);
+      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
       AntiCirType= AntiCirCheylan
         ? AntiCirTypeCheylan : AntiCirTypeCalvet;
       break;
     case antiantipoden:
-      tok= ParseVariant(&AntiCirCheylan, gpAntiCirce);
+      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
       AntiCirType= AntiCirCheylan
         ? AntiCirTypeCheylan : AntiCirTypeCalvet;
       break;
     case antiequipollents:
-      tok= ParseVariant(&AntiCirCheylan, gpAntiCirce);
+      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
       AntiCirType= AntiCirCheylan
         ? AntiCirTypeCheylan : AntiCirTypeCalvet;
       break;
     case antisuper:
-      tok= ParseVariant(&AntiCirCheylan, gpAntiCirce);
+      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
       AntiCirType= AntiCirCheylan
         ? AntiCirTypeCheylan : AntiCirTypeCalvet;
       break;
     case singlebox:
-      tok= ParseVariant(NULL, gpType);
+      tok = ParseVariant(NULL, gpType);
       break;
     case promotiononly:
-      tok= ReadPieces(promotiononly);
+      tok = ReadPieces(promotiononly);
       break;
     case april:
-      tok= ReadPieces(april);
+      tok = ReadPieces(april);
       break;
     case koeko:
       koekofunc= nokingcontact;
       nocontactfunc= &koekofunc;
-      tok= ParseVariant(NULL, gpKoeko);
+      tok = ParseVariant(NULL, gpKoeko);
       break;
     case antikoeko:
       antikoekofunc= nokingcontact;
       nocontactfunc= &antikoekofunc;
-      tok= ParseVariant(NULL, gpKoeko);
+      tok = ParseVariant(NULL, gpKoeko);
       break;
     case white_oscillatingKs:
       OscillatingKingsColour= blanc;
-      tok= ParseVariant(NULL, gpOsc);
+      tok = ParseVariant(NULL, gpOsc);
       break;
     case black_oscillatingKs:
       OscillatingKingsColour= noir;
-      tok= ParseVariant(NULL, gpOsc);
+      tok = ParseVariant(NULL, gpOsc);
       break;
     case swappingkings:
       CondFlag[white_oscillatingKs]= True;
       OscillatingKingsTypeC[blanc]= True;
       CondFlag[black_oscillatingKs]= True;
       OscillatingKingsTypeC[noir]= True;
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       break;
     case SAT:
     case strictSAT:
-      WhiteSATFlights= strtol(tok= ReadNextTokStr(), &ptr, 10) + 1;
+      tok = ReadNextTokStr();
+      WhiteSATFlights= strtol(tok,&ptr,10) + 1;
       if (tok == ptr) {
         WhiteSATFlights= 1;
         BlackSATFlights= 1;
         break;
       }
-      BlackSATFlights= strtol(tok= ReadNextTokStr(), &ptr, 10) + 1;
+      tok = ReadNextTokStr();
+      BlackSATFlights= strtol(tok,&ptr,10) + 1;
       if (tok == ptr) {
         BlackSATFlights= WhiteSATFlights;
         break;
       }
     case BGL:
       BGL_global= false;
-      BGL_white= ReadBGLNumber(tok= ReadNextTokStr(), &ptr); 
+      tok = ReadNextTokStr();
+      BGL_white= ReadBGLNumber(tok,&ptr); 
       if (tok == ptr)  
       {
         BGL_white= BGL_black= BGL_infinity;
@@ -2427,7 +2437,8 @@ static char *ParseCond(void) {
       }
       else
       {
-        BGL_black= ReadBGLNumber(tok= ReadNextTokStr(), &ptr);
+        tok = ReadNextTokStr();
+        BGL_black= ReadBGLNumber(tok,&ptr);
         if (tok == ptr)
         {
           BGL_black= BGL_white;
@@ -2435,29 +2446,29 @@ static char *ParseCond(void) {
           return tok;
         }
       }
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       break;
     case geneva:
-      tok= ParseRex(&rex_geneva, rexincl);
+      tok = ParseRex(&rex_geneva, rexincl);
       break;
     case whvault_king:
       whitenormaltranspieces = false;
-      tok= ParseVaultingPieces(BIT(blanc));
+      tok = ParseVaultingPieces(BIT(blanc));
       break;
     case blvault_king:
       blacknormaltranspieces = false;
-      tok= ParseVaultingPieces(BIT(noir));
+      tok = ParseVaultingPieces(BIT(noir));
       break;
     case vault_king:
       whitenormaltranspieces = false;
       blacknormaltranspieces = false;
-      tok= ParseVaultingPieces(BIT(blanc) | BIT(noir));
+      tok = ParseVaultingPieces(BIT(blanc) | BIT(noir));
       break;
     case gridchess: 
       tok = ParseVariant(NULL, gpGrid);
       break;
     default:
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
     }
   }
   if (! CondCnt) {
@@ -2470,7 +2481,7 @@ static char *ParseOpt(void) {
   int     indexx,OptCnt= 0;
   char    *tok, *ptr;
 
-  tok= ReadNextTokStr();
+  tok = ReadNextTokStr();
   while ((indexx= GetUniqIndex(OptCount, OptTab, tok)) >= -1) {
     if (indexx == -1) {
       IoErrorMsg(OptNotUniq,0);
@@ -2480,7 +2491,7 @@ static char *ParseOpt(void) {
     OptCnt++;
     switch(indexx) {
     case beep:
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       if ((maxbeep= atoi(tok)) <= 0) {
         maxbeep= 1;
         /* we did NOT use tok */
@@ -2492,7 +2503,7 @@ static char *ParseOpt(void) {
     case maxtime:
     {
       char *end;
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       maxsolvingtime = strtoul(tok,&end,10);
       if (*end!=0 || maxsolvingtime==0)
       {
@@ -2507,7 +2518,7 @@ static char *ParseOpt(void) {
       ReadSquares(ReadEpSquares);
       break;
     case maxsols:
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       if ((maxsolutions= atoi(tok)) <= 0) {
         OptFlag[maxsols]= False;
         IoErrorMsg(WrongInt, 0);
@@ -2517,7 +2528,7 @@ static char *ParseOpt(void) {
     case intelligent:
     {
       char *end;
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       maxsol_per_matingpos= strtoul(tok,&end,10);
       if (end==tok)
       {
@@ -2530,7 +2541,7 @@ static char *ParseOpt(void) {
         break;
     }
     case restart:
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       if ((RestartNbr= atoi(tok)) <= 0) {
         OptFlag[restart]= False;
         IoErrorMsg(WrongInt, 0);
@@ -2539,39 +2550,50 @@ static char *ParseOpt(void) {
       OptFlag[movenbr]= True;
       break;
     case solmenaces:
-      droh= strtol(tok= ReadNextTokStr(), &ptr, 10);
-      if (tok == ptr) {
+      tok = ReadNextTokStr();
+      droh= strtol(tok, &ptr, 10);
+      if (tok==ptr)
+      {
         droh= maxply;
         IoErrorMsg(WrongInt, 0);
         return ReadNextTokStr();
       }
       break;
     case solflights:
-      maxflights= strtol(tok= ReadNextTokStr(), &ptr, 10);
-      if (tok == ptr) {
+      tok = ReadNextTokStr();
+      maxflights= strtol(tok, &ptr, 10);
+      if (tok==ptr)
+      {
         IoErrorMsg(WrongInt, 0);
         maxflights = 64;
         return ReadNextTokStr();
       }
       break;
     case soltout:
-      if ((maxdefen= atoi(tok= ReadNextTokStr())) <= 0) {
+      tok = ReadNextTokStr();
+      max_nr_refutations = strtol(tok, &ptr, 10);
+      if (tok==ptr)
+      {
         IoErrorMsg(WrongInt, 0);
+        max_nr_refutations = 0;
         return ReadNextTokStr();
       }
       break;
     case solessais:
       /* for compatibility to older versions. */
       OptFlag[soltout]= True;
-      maxdefen= 1;
+      max_nr_refutations = 1;
       break;
     case nontrivial:
-      NonTrivialNumber= strtol(tok= ReadNextTokStr(), &ptr, 10);
+      tok = ReadNextTokStr();
+      NonTrivialNumber= strtol(tok, &ptr, 10);
       if (tok == ptr) {
         IoErrorMsg(WrongInt, 0);
         return ReadNextTokStr();
       }
-      NonTrivialLength= strtol(tok= ReadNextTokStr(), &ptr, 10);
+
+      tok = ReadNextTokStr();
+      NonTrivialLength= strtol(tok, &ptr, 10);
       if (tok == ptr) {
         IoErrorMsg(WrongInt, 0);
         NonTrivialLength = maxply;
@@ -2586,7 +2608,7 @@ static char *ParseOpt(void) {
       ReadSquares(ReadNoCastlingSquares);
       break;
     }
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
   }
   if (! OptCnt) {
     IoErrorMsg(UnrecOption,0);
@@ -2693,7 +2715,7 @@ void RotateMirror(int what) {
 } /* RotateMirror */
 
 static char *ParseTwinRotate(void) {
-  char *tok= ReadNextTokStr();
+  char *tok = ReadNextTokStr();
 
   if (strcmp(tok, "90") == 0) {
     RotateMirror(rot90);
@@ -2721,7 +2743,7 @@ static char *ParseTwinRotate(void) {
 }
 
 static char *ParseTwinMirror(void) {
-  char *tok= ReadNextTokStr();
+  char *tok = ReadNextTokStr();
   int indexx= GetUniqIndex(TwinCount,TwinTab,tok);
 
   if (indexx == -1) {
@@ -2753,7 +2775,7 @@ static char *ParseTwinMove(int indexx) {
 
   /* read the first square */
   while (sq1 == 0) {
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
     sq1= SquareNum(tok[0], tok[1]);
     if (sq1 == 0) {
       ErrorMsg(WrongSquareList);
@@ -2763,7 +2785,7 @@ static char *ParseTwinMove(int indexx) {
 
   /* read the second square */
   while (sq2 == 0) {
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
     sq2= SquareNum(tok[0], tok[1]);
     if (sq2 == 0) {
       ErrorMsg(WrongSquareList);
@@ -2872,7 +2894,7 @@ static char *ParseTwinShift(void) {
 
   /* read the first square */
   while (sq1 == 0) {
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
     sq1= SquareNum(tok[0], tok[1]);
     if (sq1 == 0) {
       ErrorMsg(WrongSquareList);
@@ -2881,7 +2903,7 @@ static char *ParseTwinShift(void) {
 
   /* read the second square */
   while (sq2 == 0) {
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
     sq2= SquareNum(tok[0], tok[1]);
     if (sq2 == 0) {
       ErrorMsg(WrongSquareList);
@@ -2982,7 +3004,7 @@ static char *ParseTwinRemove(void) {
 
   do {
     WrongList= False;
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
 
     if (strlen(tok) % 2) {
       WrongList= True;
@@ -3073,7 +3095,9 @@ static char *ParseTwinSubstitute(void) {
   piece p_old, p_new;
   char  *tok;
 
-  switch (strlen(tok= ReadNextTokStr())) {
+  tok = ReadNextTokStr();
+  switch (strlen(tok))
+  {
   case 1:
     p_old= GetPieNamIndex(*tok,' ');
     break;
@@ -3084,8 +3108,10 @@ static char *ParseTwinSubstitute(void) {
     IoErrorMsg(WrongPieceName,0);
     return tok;
   }
-
-  switch (strlen(tok= ReadNextTokStr())) {
+  
+  tok = ReadNextTokStr();
+  switch (strlen(tok))
+  {
   case 1:
     p_new= GetPieNamIndex(*tok,' ');
     break;
@@ -3129,7 +3155,7 @@ static char *ParseTwin(void) {
   TwinChar++;
   OptFlag[noboard]= True;
 
-  tok= ReadNextTokStr();
+  tok = ReadNextTokStr();
 
   while (True) {
     Token tk= StringToToken(tok);
@@ -3148,12 +3174,12 @@ static char *ParseTwin(void) {
     switch (indexx= GetUniqIndex(TwinCount,TwinTab,tok)) {
     case -1:
       IoErrorMsg(OptNotUniq,0);
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       continue;
 
     case -2:
       IoErrorMsg(ComNotKnown,0);
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       continue;
 
     case TwinContinued:
@@ -3163,7 +3189,7 @@ static char *ParseTwin(void) {
       else {
         continued= True;
       }
-      tok= ReadNextTokStr();
+      tok = ReadNextTokStr();
       continue;
     }
 
@@ -3218,20 +3244,20 @@ static char *ParseTwin(void) {
     TwinRead= True;
     switch(indexx) {
     case TwinMove:
-      tok= ParseTwinMove(indexx);
+      tok = ParseTwinMove(indexx);
       break;
     case TwinExchange:
-      tok= ParseTwinMove(indexx);
+      tok = ParseTwinMove(indexx);
       break;
     case TwinRotate:
-      tok= ParseTwinRotate();
+      tok = ParseTwinRotate();
       break;
     case TwinMirror:
-      tok= ParseTwinMirror();
+      tok = ParseTwinMirror();
       break;
     case TwinStip:
       InitStip();
-      tok= ParseStip();
+      tok = ParseStip();
 
       /* issue the twinning */
       StdString(AlphaStip);
@@ -3249,27 +3275,27 @@ static char *ParseTwin(void) {
       }
       break;
     case TwinAdd:
-      tok= ParsePieSpec('+');
+      tok = ParsePieSpec('+');
       break;
     case TwinCond:
       InitCond();
-      tok= ParseCond();
+      tok = ParseCond();
       WriteConditions(WCleft);
       break;
     case TwinRemove:
-      tok= ParseTwinRemove();
+      tok = ParseTwinRemove();
       break;
     case TwinPolish:
-      tok= ParseTwinPolish();
+      tok = ParseTwinPolish();
       break;
     case TwinShift:
-      tok= ParseTwinShift();
+      tok = ParseTwinShift();
       break;
     case TwinSubstitute:
-      tok= ParseTwinSubstitute();
+      tok = ParseTwinSubstitute();
       break;
     case TwinForsyth:
-      tok= ParseForsyth(true);
+      tok = ParseForsyth(true);
       break;
     }
   }
@@ -3284,8 +3310,10 @@ char *ReadPieces(int condition) {
   boolean   piece_read= False;
 
   fflush(stdout);
-  while (True) {
-    switch (strlen(tok= ReadNextTokStr())) {
+  while (True)
+  {
+    tok = ReadNextTokStr();
+    switch (strlen(tok)) {
     case 1:
       tmp_piece= GetPieNamIndex(*tok,' ');
       piece_read= True;
@@ -3339,56 +3367,56 @@ Token ReadProblem(Token tk) {
       TwinChar= 'a'-1;
       TwinStorePosition();
     }
-    tok= ParseTwin();
+    tok = ParseTwin();
     while (True) {
       switch (tk= StringToToken(tok)) {
       case -1:
         IoErrorMsg(ComNotUniq,0);
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case TwinProblem:
         if (enonce) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case NextProblem:
         if (enonce) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case EndProblem:
         if (enonce) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       default:
         IoErrorMsg(ComNotKnown,0);
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       }
     }
   }
   else {
-    tok= ReadNextTokStr();
+    tok = ReadNextTokStr();
     TwinChar= 'a';
     while (True) {
       switch (tk= StringToToken(tok)) {
       case -1:
         IoErrorMsg(ComNotUniq,0);
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case -2:
         IoErrorMsg(ComNotKnown,0);
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case BeginProblem:
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case TwinProblem:
         if (TwinChar == 'a') {
@@ -3399,49 +3427,49 @@ Token ReadProblem(Token tk) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case EndProblem:
         if (enonce) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case ZeroPosition:
         return tk;
       case StipToken:
         *AlphaStip='\0';
-        tok= ParseStip();
+        tok = ParseStip();
         break;
       case Author:
         strcat(ActAuthor,ReadToEndOfLine());
         strcat(ActAuthor,"\n");
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case Award:
         strcpy(ActAward,ReadToEndOfLine());
         strcat(ActAward, "\n");
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case Origin:
         strcat(ActOrigin,ReadToEndOfLine());
         strcat(ActOrigin,"\n");
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case TitleToken:
         strcat(ActTitle,ReadToEndOfLine());
         strcat(ActTitle,"\n");
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case PieceToken:
-        tok= ParsePieSpec('\0');
+        tok = ParsePieSpec('\0');
         break;
       case CondToken:
-        tok= ParseCond();
+        tok = ParseCond();
         break;
       case OptToken:
-        tok= ParseOpt();
+        tok = ParseOpt();
         break;
       case RemToken:
         if (LastChar != '\n') {
@@ -3452,11 +3480,11 @@ Token ReadProblem(Token tk) {
           }
           Message(NewLine);
         }
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case InputToken:
         PushInput(ReadToEndOfLine());
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case TraceToken:
         if (TraceFile) {
@@ -3470,10 +3498,10 @@ Token ReadProblem(Token tk) {
           fputs(MMString, TraceFile);
           fflush(TraceFile);
         }
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case LaTeXPieces:
-        tok= ParseLaTeXPieces(ReadNextTokStr());
+        tok = ParseLaTeXPieces(ReadNextTokStr());
         break;
       case LaTeXToken:
         LaTeXout= true;
@@ -3495,13 +3523,13 @@ Token ReadProblem(Token tk) {
         if ((SolFile= tmpfile()) == NULL) {
           IoErrorMsg(WrOpenError,0);
         }
-        tok= ParseLaTeXPieces(ReadNextTokStr());
+        tok = ParseLaTeXPieces(ReadNextTokStr());
         break;
       case SepToken:
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         break;
       case Array:
-        tok= ReadNextTokStr();
+        tok = ReadNextTokStr();
         {
           piece p;
           int i;
@@ -3521,7 +3549,7 @@ Token ReadProblem(Token tk) {
         }
         break;
       case Forsyth:
-        tok= ParseForsyth(false);
+        tok = ParseForsyth(false);
         break;
       default:
         FtlMsg(InternalError);

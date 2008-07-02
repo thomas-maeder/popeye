@@ -38,10 +38,9 @@ void    closehash (void);
 void	HashStats(int level, char *trailer);
 boolean inhash(hashwhat what, int val, HashBuffer *);
 void addtohash(hashwhat what, int val, HashBuffer *);
-boolean ser_dsrsol(couleur camp, int n, boolean restartenabled);
-boolean shsol(couleur camp, int n, boolean restartenabled);
+boolean ser_dsr_find_write_solutions(couleur camp, int n, boolean restartenabled);
+boolean ser_h_find_write_solutions(couleur camp, int n, boolean restartenabled);
 boolean mataide(couleur camp, int n, boolean restartenabled);
-boolean last_dsr_move(couleur camp);
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
