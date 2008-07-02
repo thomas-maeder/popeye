@@ -273,7 +273,8 @@ boolean dsr_does_attacker_win(couleur a, int b);
 boolean dsr_does_defender_lose(couleur a, int b);
 boolean dsr_defends_threats(couleur a, int b, int c);
 int dsr_find_refutations(couleur a, int b, int c);
-void dsr_find_write_tries_solutions(couleur a,int b, int c, boolean restartenabled);
+void dsr_find_write_tries_solutions(couleur a, int b, boolean restartenabled);
+void dsr_find_write_continuations(couleur attacker, int n, int t);
 
 extern void    (*gen_bl_piece)(square a, piece b);
 void    singleboxtype3_gen_bl_piece(square a, piece b);
