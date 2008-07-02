@@ -2534,9 +2534,8 @@ void dsr_write_variation(couleur attacker, int n)
  * @param attacker attacking side
  * @param n number of moves until end state has to be reached,
  *          including the virtual key move
- * @param par TODO
  */
-void dsr_find_write_setplay(couleur attacker, int n, int par)
+void dsr_find_write_setplay(couleur attacker, int n)
 {
   couleur defender = advers(attacker);
   int ntcount = 0;
@@ -2572,8 +2571,7 @@ void dsr_find_write_setplay(couleur attacker, int n, int par)
   genmove(defender);
   while(encore())
   {
-    /* TODO is this nowdanstab() check useful in any way? */
-    if (jouecoup() && !echecc(defender) && !nowdanstab(par))
+    if (jouecoup() && !echecc(defender))
     {
       if (!SortFlag(Direct) && currentStipSettings.checker(defender))
         ; /* oops, wrong side! */
@@ -2875,7 +2873,7 @@ void SolveSeriesProblems(couleur camp)
         else
         {
           zugebene++;
-          dsr_find_write_setplay(camp,1,0);
+          dsr_find_write_setplay(camp,1);
           zugebene--;
         }
       }
@@ -3074,11 +3072,9 @@ void SolveDirectProblems(couleur camp)
         ErrorMsg(SetAndCheck);
       else
       {
-        int lsgn = alloctab();
         zugebene++;
-        dsr_find_write_setplay(camp,enonce,lsgn);
+        dsr_find_write_setplay(camp,enonce);
         zugebene--;
-        freetab();
         Message(NewLine);
       }
     }
