@@ -2645,22 +2645,26 @@ boolean jouecoup(void) {
   return jouecoup_legality_test(prev_nbpiece,sq_rebirth);
 } /* end of jouecoup */
 
-void IncrementMoveNbr(void) {
-  if (MoveNbr++ < RestartNbr)
-    return;
+void IncrementMoveNbr(void)
+{
+  MoveNbr++;
 
-  sprintf(GlobalStr,"%3d  (", MoveNbr);
-  StdString(GlobalStr);
-  ecritcoup();
-  if (!flag_regression) {
-    StdString("   ");
-    PrintTime();
-  }
+  if (MoveNbr>=RestartNbr)
+  {
+    sprintf(GlobalStr,"%3d  (", MoveNbr);
+    StdString(GlobalStr);
+    ecritcoup(false);
+    if (!flag_regression)
+    {
+      StdString("   ");
+      PrintTime();
+    }
 #if defined(HASHRATE)
-  StdString("   ");
-  HashStats(0, NULL);
+    StdString("   ");
+    HashStats(0, NULL);
 #endif
-  StdString(")\n");
+    StdString(")\n");
+  }
 }
 
 void repcoup(void) {

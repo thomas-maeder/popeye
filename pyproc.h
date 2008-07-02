@@ -185,7 +185,7 @@ checkfunction_t zebridcheck;
 square  coinequis (square a);
 
 boolean echecc (couleur a);
-void    ecritcoup (void);
+void ecritcoup(boolean write_end_marker);
 
 boolean eval_ortho (square departure, square arrival, square capture);
 

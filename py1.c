@@ -302,7 +302,6 @@ void InitAlways(void) {
   flagAssassin=
     flag_writinglinesolution=
     flag_testlegality= k_cap=
-    flende =
     flagfee =
     flagriders	    =
     flagleapers     =

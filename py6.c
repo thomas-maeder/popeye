@@ -1723,7 +1723,8 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
 extern boolean two_same_pieces;
 #endif
 
-void editcoup(coup *mov) {
+void editcoup(coup *mov, boolean write_end_marker)
+{
   char    BlackChar= *GetMsgString(BlackColor);
   char    WhiteChar= *GetMsgString(WhiteColor);
   int   icount, diff;
@@ -2008,17 +2009,18 @@ void editcoup(coup *mov) {
     }
     StdString(s);
   }
-  if (flende) {
-    if (currentStipSettings.stipulation == stip_mate_or_stale)
+  if (write_end_marker)
+  {
+    if (currentStipSettings.stipulation==stip_mate_or_stale)
       StdString(mate_or_stale_patt ? " =" : " #");
     else
       StdString(currentStipSettings.alphaEnd);
   }
-  else {
+  else
+  {
     if (mov->echec)
       StdString(" +");
   }
-  flende= false;
   StdChar(bl);
 } /* editcoup */
 
@@ -2059,11 +2061,12 @@ boolean nowdanstab(int n)
   return false;
 }
 
-void ecritcoup(void) {
+void ecritcoup(boolean write_end_marker)
+{
   coup mov;
 
   current(&mov);
-  editcoup(&mov);
+  editcoup(&mov,write_end_marker);
 }
 
 void WriteForsyth(void)
@@ -2123,6 +2126,7 @@ void WriteForsyth(void)
 void linesolution(void) {
   int      num= 0;
   couleur       camp;
+  boolean write_end_marker;
 
   sic_coup= nbcou;
   sic_ply= nbply;
@@ -2162,13 +2166,14 @@ void linesolution(void) {
   }
 
   /* seriesmovers with introductory move */
-  if (FlowFlag(Intro) && !SatzFlag) {
+  if (FlowFlag(Intro) && !SatzFlag)
+  {
     StdString("  1.");
     num= 1;
     nbcou= repere[nbply+1];
     initneutre(advers(trait[nbply]));
     jouecoup_no_test();
-    ecritcoup();
+    ecritcoup(false);
     nbply++;
     camp= advers(camp);
   }
@@ -2185,11 +2190,11 @@ void linesolution(void) {
       sprintf(GlobalStr,"%3d.",++num);
       StdString(GlobalStr);
     }
-    flende= sic_ply == nbply;
+    write_end_marker = sic_ply==nbply;
     nbcou= repere[nbply + 1];
     initneutre(advers(trait[nbply]));
     jouecoup_no_test();
-    ecritcoup();
+    ecritcoup(write_end_marker);
     nbply++;
   }
   Message(NewLine);
@@ -2447,8 +2452,7 @@ void sr_find_write_final_moves(couleur defender)
           BeepOnSolution(maxbeep);
       }
       StdString(GlobalStr);
-      flende = true;
-      ecritcoup();
+      ecritcoup(true);
     }
     repcoup();
     if (zugebene==1
@@ -2507,7 +2511,7 @@ void dsr_write_variation(couleur attacker, int n)
   Tabulate();
   sprintf(GlobalStr,"%3d...",zugebene);
   StdString(GlobalStr);
-  ecritcoup();
+  ecritcoup(false);
   StdString("\n");
   marge+= 4;
 
@@ -2703,7 +2707,7 @@ void dsr_write_refutations(int t)
     {
       Tabulate();
       StdString("  1...");
-      editcoup(&tabsol.liste[n]);
+      editcoup(&tabsol.liste[n],false);
       StdString(" !\n");
     }
   }
@@ -2732,21 +2736,27 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
         && !nowdanstab(t))
     {
       boolean is_continuation;
+      boolean write_end_marker;
       if (n==1 && SortFlag(Direct))
+      {
         is_continuation = currentStipSettings.checker(attacker);
+        write_end_marker = true;
+      }
       else if (n==1
                && OptFlag[quodlibet]
                && currentStipSettings.checker(attacker))
+      {
         is_continuation = true;
+        write_end_marker = true;
+      }
       else
+      {
         is_continuation = dsr_does_defender_lose(defender,n);
+        write_end_marker = false;
+      }
 
       if (is_continuation)
       {
-        flende= (n==1
-                 && (SortFlag(Direct)
-                     || (OptFlag[quodlibet]
-                         && currentStipSettings.checker(attacker))));
         if (DrohFlag)
         {
           Message(Threat);
@@ -2755,7 +2765,7 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
         Tabulate();
         sprintf(GlobalStr,"%3d.",zugebene);
         StdString(GlobalStr);
-        ecritcoup();
+        ecritcoup(write_end_marker);
         marge+= 4;
         dsr_find_write_threats_variations(attacker,n,alloctab());
         freetab();
@@ -2824,15 +2834,15 @@ void dsr_find_write_tries_solutions(couleur attacker,
 
         if (nr_refutations<=max_nr_refutations)
         {
-          flende= ((n==1 && SortFlag(Direct))
-                   || nr_refutations==-1
-                   || (n==1
-                       && OptFlag[quodlibet]
-                       && currentStipSettings.checker(attacker)));
+          boolean write_end_marker = ((n==1 && SortFlag(Direct))
+                                      || nr_refutations==-1
+                                      || (n==1
+                                          && OptFlag[quodlibet]
+                                          && currentStipSettings.checker(attacker)));
           Tabulate();
           sprintf(GlobalStr,"  1.");
           StdString(GlobalStr);
-          ecritcoup();
+          ecritcoup(write_end_marker);
           if (nr_refutations<1)
           {
             StdString("! ");
