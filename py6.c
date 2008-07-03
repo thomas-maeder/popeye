@@ -2299,10 +2299,9 @@ int dsr_find_refutations(couleur defender, int n, int t)
   boolean is_defender_immobile = true;
   int ntcount = 0;
 
-  /* TODO make sure that we don't do this check twice */
-  if ((!FlowFlag(Exact) || enonce==1)
+  if ((!FlowFlag(Exact) || n==1)
       && SortFlag(Direct)
-      && currentStipSettings.checker(attacker)) /* find short solutions */
+      && currentStipSettings.checker(attacker))
     return -1;
 
   if (SortFlag(Reflex) && matant(defender,1))
@@ -2815,19 +2814,16 @@ void dsr_write_key(boolean write_end_marker, boolean is_try)
  * current ply.
  * @param attacker attacking side
  * @param n number of moves until end state has to be reached
- * @param write_end_marker true iff the key reaches the end state itself
- * @param nr_refutations number of refutations (may be -1 if the key
- *                       reaches the end state itself in self/reflex
- *                       play)
+ * @param nr_refutations number of refutations (-1 if the key reaches
+ *                       the end state itself)
  * @param refutations table containing refutations
  */
 void dsr_write_key_postkey(couleur attacker,
                            int n,
-                           boolean write_end_marker,
                            int nr_refutations,
                            int refutations)
 {
-  dsr_write_key(write_end_marker, nr_refutations>=1);
+  dsr_write_key(nr_refutations==-1, nr_refutations>=1);
   marge+= 4;
   dsr_find_write_threats_variations(attacker,n,refutations);
   dsr_write_refutations(refutations);
@@ -2896,19 +2892,14 @@ void dsr_find_write_quodlibet_solutions_in_1(couleur attacker,
     if (jouecoup() && !echecc(attacker))
     {
       int refutations = alloctab();
-      boolean endstate_reached = currentStipSettings.checker(attacker);
       int nr_refutations;
-      if (endstate_reached)
-        nr_refutations = 0;
+      if (currentStipSettings.checker(attacker))
+        nr_refutations = -1;
       else
         nr_refutations = dsr_find_refutations(defender,0,refutations);
 
       if (nr_refutations<=max_nr_refutations)
-        dsr_write_key_postkey(attacker,
-                              1,
-                              endstate_reached || nr_refutations==-1,
-                              nr_refutations,
-                              refutations);
+        dsr_write_key_postkey(attacker,1,nr_refutations,refutations);
       freetab();
     }
 
@@ -2946,13 +2937,7 @@ void dsr_find_write_regular_tries_solutions(couleur attacker,
                                                 n-1,
                                                 refutations);
       if (nr_refutations<=max_nr_refutations)
-        dsr_write_key_postkey(attacker,
-                              n,
-                              nr_refutations==-1
-                              || (SortFlag(Direct)
-                                  && currentStipSettings.checker(attacker)),
-                              nr_refutations,
-                              refutations);
+        dsr_write_key_postkey(attacker,n,nr_refutations,refutations);
       freetab();
     }
 
