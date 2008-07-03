@@ -2299,6 +2299,7 @@ int dsr_find_refutations(couleur defender, int n, int t)
   boolean is_defender_immobile = true;
   int ntcount = 0;
 
+  /* TODO make sure that we don't do this check twice */
   if ((!FlowFlag(Exact) || enonce==1)
       && SortFlag(Direct)
       && currentStipSettings.checker(attacker)) /* find short solutions */
@@ -2388,7 +2389,7 @@ int dsr_find_refutations(couleur defender, int n, int t)
     NonTrivialNumber += ntcount;
 
   return is_defender_immobile ? max_nr_refutations+1 : tablen(t);
-} /* dsr_def */
+} /* dsr_find_refutations */
 
 /* Determine whether the move of the defending side in
  * direct/self/reflex play defends against the threats.
@@ -2500,6 +2501,7 @@ int count_non_trivial(couleur defender)
  * direct/self/reflex stipulation. The move of the defending side that
  * starts the variation has already been played in the current ply.
  * Only continuations of minimal length are looked for and written.
+ * This is an indirectly recursive function.
  * @param attacker attacking side
  * @param n number of moves until end state has to be reached from now
  */
@@ -2595,6 +2597,7 @@ void dsr_find_write_setplay(couleur attacker, int n)
  * play after the move that has just been played in the current ply.
  * We have already determined that this move doesn't have more
  * refutations than allowed.
+ * This is an indirectly recursive function.
  * @param attacker attacking side (i.e. side that has just played)
  * @param n number of moves until end state has to be reached,
  *          including the move just played
@@ -2717,6 +2720,7 @@ void dsr_write_refutations(int t)
 /* Determine and write the continuations in the current position in
  * direct/self/reflex play (i.e. attacker's moves winning after a
  * defender's move that refuted the threat).
+ * This is an indirectly recursive function.
  * @param attacker attacking side
  * @param n number of moves until end state has to be reached
  * @param t table where to store continuing moves (i.e. threats)
@@ -2782,97 +2786,214 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
   zugebene--;
 } /* dsr_find_write_continuations */
 
+/* Write the key of a direct/self/reflex phase.
+ * The key is the current move of the current ply.
+ * @param write_end_marker true iff key reaches end state
+ * @param is_try true if key is first move of try, false if key is
+ *               first move of solution
+ */
+void dsr_write_key(boolean write_end_marker, boolean is_try)
+{
+  Tabulate();
+  sprintf(GlobalStr,"  1.");
+  StdString(GlobalStr);
+  ecritcoup(write_end_marker);
+  if (is_try)
+    StdString("? ");
+  else
+  {
+    StdString("! ");
+    if (OptFlag[maxsols])
+      solutions++;
+    if (OptFlag[beep])
+      BeepOnSolution(maxbeep);
+  }
+}
+
+/* Write the key and postkey play of a solution or try in a
+ * direct/self/reflex stipulation; the key is the current move in the
+ * current ply.
+ * @param attacker attacking side
+ * @param n number of moves until end state has to be reached
+ * @param write_end_marker true iff the key reaches the end state itself
+ * @param nr_refutations number of refutations (may be -1 if the key
+ *                       reaches the end state itself in self/reflex
+ *                       play)
+ * @param refutations table containing refutations
+ */
+void dsr_write_key_postkey(couleur attacker,
+                           int n,
+                           boolean write_end_marker,
+                           int nr_refutations,
+                           int refutations)
+{
+  dsr_write_key(write_end_marker, nr_refutations>=1);
+  marge+= 4;
+  dsr_find_write_threats_variations(attacker,n,refutations);
+  dsr_write_refutations(refutations);
+  marge-= 4;
+}
+
+/* Determine and write forced end moves in 1 by the attacker in reflex
+ * stipulations; we know that at least 1 exists.
+ * @param attacker attacking side
+ */
+void r_find_write_forced_keys(couleur attacker)
+{
+  if (currentStipSettings.stipulation==stip_mate_or_stale)
+    sprintf(GlobalStr, "%s1:\n", mate_or_stale_patt ? " =" : " #");
+  else
+    sprintf(GlobalStr, "%s1:\n", currentStipSettings.alphaEnd);
+  StdString(GlobalStr);
+  StipFlags|= SortBit(Direct);
+  StipFlags|= FlowBit(Semi);
+  dsr_find_write_continuations(attacker,1,alloctab());
+  freetab();
+}
+
+/* Determine and write keys in a direct stipulation in 1 move
+ * @param attacker attacking side
+ * @param restartenabled true iff the written solution should only
+ *                       start at the Nth legal move of attacker
+ *                       (determined by user input)
+ */
+void d_find_write_keys_in_1(couleur attacker, boolean restartenabled)
+{
+  genmove(attacker);
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(attacker)
+        && currentStipSettings.checker(attacker))
+    {
+      dsr_write_key(true,false);
+      StdString("\n\n");
+    }
+
+    if (restartenabled)
+      IncrementMoveNbr();
+
+    repcoup();
+  }
+  finply();
+}
+
+/* Determine and write solutions in a quodlibet direct/self/reflex
+ * stipulation in 1.
+ * @param attacker attacking side
+ * @param restartenabled true iff the written solution should only
+ *                       start at the Nth legal move of attacker
+ *                       (determined by user input)
+ */
+void dsr_find_write_quodlibet_solutions_in_1(couleur attacker,
+                                             boolean restartenabled)
+{
+  couleur defender = advers(attacker);
+
+  genmove(attacker);
+  while (encore())
+  {
+    if (jouecoup() && !echecc(attacker))
+    {
+      int refutations = alloctab();
+      boolean endstate_reached = currentStipSettings.checker(attacker);
+      int nr_refutations;
+      if (endstate_reached)
+        nr_refutations = 0;
+      else
+        nr_refutations = dsr_find_refutations(defender,0,refutations);
+
+      if (nr_refutations<=max_nr_refutations)
+        dsr_write_key_postkey(attacker,
+                              1,
+                              endstate_reached || nr_refutations==-1,
+                              nr_refutations,
+                              refutations);
+      freetab();
+    }
+
+    if (restartenabled)
+      IncrementMoveNbr();
+
+    repcoup();
+  }
+  finply();
+}
+
+/* Determine and write tries and solutios in a "regular"
+ * direct/self/reflex stipulation.
+ * @param attacker attacking side
+ * @param n number of moves until end state has to be reached
+ * @param restartenabled true iff the written solution should only
+ *                       start at the Nth legal move of attacker
+ *                       (determined by user input)
+ */
+void dsr_find_write_regular_tries_solutions(couleur attacker,
+                                            int n,
+                                            boolean restartenabled)
+{
+  couleur defender = advers(attacker);
+
+  genmove(attacker);
+  while (encore())
+  {
+    if (jouecoup()
+        && !(restartenabled && MoveNbr<RestartNbr)
+        && !echecc(attacker))
+    {
+      int refutations = alloctab();
+      int nr_refutations = dsr_find_refutations(defender,
+                                                n-1,
+                                                refutations);
+      if (nr_refutations<=max_nr_refutations)
+        dsr_write_key_postkey(attacker,
+                              n,
+                              nr_refutations==-1
+                              || (SortFlag(Direct)
+                                  && currentStipSettings.checker(attacker)),
+                              nr_refutations,
+                              refutations);
+      freetab();
+    }
+
+    if (restartenabled)
+      IncrementMoveNbr();
+
+    repcoup();
+
+    if ((OptFlag[maxsols] && solutions>=maxsolutions)
+        || maxtime_status==MAXTIME_TIMEOUT)
+      break;
+  }
+  finply();
+}
+
 /* Determine and write the solutions and tries in the current position
  * in direct/self/reflex play.
  * @param attacker attacking side
  * @param n number of moves until end state has to be reached
  * @param restartenabled true iff the written solution should only
- *        start at the Nth legal move of attacker (determined by user
- *        input)
+ *                       start at the Nth legal move of attacker
+ *                       (determined by user input)
  */
 void dsr_find_write_tries_solutions(couleur attacker,
                                     int n,
                                     boolean restartenabled)
 {
   if (!FlowFlag(Semi) && SortFlag(Reflex) && matant(attacker,1))
-  {
-    if (currentStipSettings.stipulation==stip_mate_or_stale)
-      sprintf(GlobalStr, "%s1:\n", mate_or_stale_patt ? " =" : " #");
-    else
-      sprintf(GlobalStr, "%s1:\n", currentStipSettings.alphaEnd);
-    StdString(GlobalStr);
-    StipFlags|= SortBit(Direct);
-    StipFlags|= FlowBit(Semi);
-    dsr_find_write_continuations(attacker,1,alloctab());
-    freetab();
-  }
+    r_find_write_forced_keys(attacker);
+  else if (n==1 && SortFlag(Direct))
+    d_find_write_keys_in_1(attacker,restartenabled);
   else
   {
-    couleur defender = advers(attacker);
+    zugebene = 1;
 
-    zugebene++;
+    if (n==1 && OptFlag[quodlibet])
+      dsr_find_write_quodlibet_solutions_in_1(attacker,restartenabled);
+    else
+      dsr_find_write_regular_tries_solutions(attacker,n,restartenabled);
 
-    genmove(attacker);
-    while (encore())
-    {
-      if (jouecoup()
-          && !(restartenabled && MoveNbr<RestartNbr)
-          && !echecc(attacker))
-      {
-        int refutations = alloctab();
-        int nr_refutations;
-        if (n==1 && SortFlag(Direct))
-          nr_refutations = (currentStipSettings.checker(attacker)
-                            ? 0
-                            : max_nr_refutations+1);
-        else if (n==1
-                 && OptFlag[quodlibet]
-                 && currentStipSettings.checker(attacker))
-          nr_refutations = 0;
-        else
-          nr_refutations = dsr_find_refutations(defender,n-1,refutations);
-
-        if (nr_refutations<=max_nr_refutations)
-        {
-          boolean write_end_marker = ((n==1 && SortFlag(Direct))
-                                      || nr_refutations==-1
-                                      || (n==1
-                                          && OptFlag[quodlibet]
-                                          && currentStipSettings.checker(attacker)));
-          Tabulate();
-          sprintf(GlobalStr,"  1.");
-          StdString(GlobalStr);
-          ecritcoup(write_end_marker);
-          if (nr_refutations<1)
-          {
-            StdString("! ");
-            if (OptFlag[maxsols])
-              solutions++;
-            if (OptFlag[beep])
-              BeepOnSolution(maxbeep);
-          }
-          else
-            StdString("? ");
-          marge+= 4;
-          dsr_find_write_threats_variations(attacker,n,refutations);
-          dsr_write_refutations(refutations);
-          marge-= 4;
-        }
-        freetab();
-      }
-
-      if (restartenabled)
-        IncrementMoveNbr();
-
-      repcoup();
-
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
-        break;
-    }
-    finply();
-
-    zugebene--;
+    zugebene = 0;
   }
 } /* dsr_find_write_tries_solutions */
 
