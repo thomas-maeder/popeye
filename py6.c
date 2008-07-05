@@ -2287,6 +2287,8 @@ int count_non_trivial(couleur defender)
   couleur attacker = advers(defender);
   int result = -1;
 
+  genmove(defender);
+
   while (encore() && max_nr_nontrivial>=result)
   {
     if (jouecoup()
@@ -2295,6 +2297,8 @@ int count_non_trivial(couleur defender)
       ++result;
     repcoup();
   }
+
+  finply();
 
   return result;
 }
@@ -2355,28 +2359,20 @@ int dsr_find_refutations(couleur defender, int n, int t)
       return max_nr_refutations+1;
   }
 
+  if (n>min_length_nontrivial)
+  {
+    ntcount = count_non_trivial(defender);
+    if (max_nr_nontrivial<ntcount)
+      return max_nr_refutations+1;
+    else
+      max_nr_nontrivial -= ntcount;
+  }
+
   if (n>2)
     move_generation_mode= move_generation_mode_opti_per_couleur[defender];
 
   genmove(defender);
   move_generation_mode= move_generation_optimized_by_killer_move;
-
-  if (n>min_length_nontrivial)
-  {
-    numecoup const save_nbcou = nbcou;
-    ntcount = count_non_trivial(defender);
-    if (max_nr_nontrivial<ntcount)
-    {
-      finply();
-      return max_nr_refutations+1;
-    }
-    else
-    {
-      nbcou = save_nbcou;
-      initply();
-      max_nr_nontrivial -= ntcount;
-    }
-  }
 
   while (encore() && tablen(t)<=max_nr_refutations)
   {
@@ -2539,17 +2535,13 @@ void dsr_find_write_setplay(couleur attacker, int n)
 
   n--;
 
-  genmove(defender);
-  
   if (n>min_length_nontrivial)
   {
-    numecoup const save_nbcou = nbcou;
     ntcount = count_non_trivial(defender);
-    initply();
-    nbcou = save_nbcou;
     max_nr_nontrivial -= ntcount;
   }
 
+  genmove(defender);
   while(encore())
   {
     if (jouecoup() && !echecc(defender))
@@ -2637,17 +2629,13 @@ void dsr_find_write_threats_variations(couleur attacker,
     }
   }
 
-  genmove(defender);
-  
   if (n>min_length_nontrivial)
   {
-    numecoup const save_nbcou = nbcou;
     ntcount = count_non_trivial(defender);
-    nbcou = save_nbcou;
-    initply();
     max_nr_nontrivial -= ntcount;
   }
 
+  genmove(defender);
   while(encore())
   {
     if (jouecoup() && !echecc(defender) && !nowdanstab(refutations))
