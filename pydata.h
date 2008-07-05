@@ -437,7 +437,6 @@ EXTERN  square          cirrenroib, cirrenroin,
 EXTERN  boolean         PrintReciSolution;
 
 EXTERN  int        marge;
-EXTERN  numecoup        debut;
 EXTERN  numecoup        testdebut;
 EXTERN  tab             tabsol;
 

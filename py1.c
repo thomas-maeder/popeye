@@ -47,20 +47,10 @@
 #include "pyproc.h"
 #include "pydata.h"
 
-void finply()
+void initply(void)
 {
-  nbcou = repere[nbply];
-  nbply--;
-}
-
-void nextply(void)
-{
-  debut = nbcou;
-  nbply++;
-  repere[nbply]= nbcou;
-
-  ep2[nbply]=
-    ep[nbply]= initsquare;
+  ep2[nbply] = initsquare;
+  ep[nbply] = initsquare;
 
   /*
     The current implementation of promotions works as follows:
@@ -78,43 +68,38 @@ void nextply(void)
     - as a consequence, we have to clear the position nbply in the
     abovementioned arrays, either in finply() or here
   */
-  norm_prom[nbply]=
-    cir_prom[nbply]= vide;
-  norm_cham_prom[nbply]=
-    cir_cham_prom[nbply]=
-    Iprom[nbply] = false;
+  norm_prom[nbply] = vide;
+  cir_prom[nbply] = vide;
+  norm_cham_prom[nbply] = false;
+  cir_cham_prom[nbply] = false;
+  Iprom[nbply] = false;
 
   /*
     Supercirce rebirths are implemented similarly to promotions ...
   */
-  super[nbply]= superbas;
+  super[nbply] = superbas;
 
   /*
     start with the castling rights of the upper level
   */
-  castling_flag[nbply]= castling_flag[nbply - 1];
-  WhiteStrictSAT[nbply]= WhiteStrictSAT[nbply-1];
-  BlackStrictSAT[nbply]= BlackStrictSAT[nbply-1];
+  castling_flag[nbply] = castling_flag[nbply - 1];
+  WhiteStrictSAT[nbply] = WhiteStrictSAT[nbply-1];
+  BlackStrictSAT[nbply] = BlackStrictSAT[nbply-1];
 }
 
-#if defined(NODEF)
+void finply()
+{
+  nbcou = repere[nbply];
+  nbply--;
+}
+
 void nextply(void)
 {
-  debut = nbcou;
   nbply++;
-  repere[nbply]= nbcou;
-  norm_prom[nbply]=
-    cir_prom[nbply]= vide;
-  ep2[nbply]=
-    ep[nbply]= initsquare;
-  norm_cham_prom[nbply]=				
-    cir_cham_prom[nbply]= false;
-  super[nbply]= superbas;
-  castling_flag[nbply]= castling_flag[nbply - 1];
-  WhiteStrictSAT[nbply]= WhiteStrictSAT[nbply-1];
-  BlackStrictSAT[nbply]= BlackStrictSAT[nbply-1];
+  repere[nbply] = nbcou;
+
+  initply();
 }
-#endif  /* NODEF */
 
 void InitCond(void) {
   square *bnp, i, j;

@@ -191,7 +191,6 @@ boolean eval_ortho (square departure, square arrival, square capture);
 
 boolean feebechec (evalfunction_t *evaluate );
 boolean feenechec (evalfunction_t *evaluate );
-void    finply (void);
 void    gchinb (int a, numvec b, numvec c);
 void    gchinn (int a, numvec b, numvec c);
 void    gcsb (square a, numvec b, numvec c);
@@ -229,7 +228,11 @@ boolean libre (square a, boolean b);
 
 boolean matant (couleur a,int b);
 boolean mate (couleur a,int b);
-void    nextply (void);
+
+void finply(void);
+void nextply(void);
+void initply(void);
+
 boolean nocontact (square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
 boolean nogridcontact (square a);
 boolean immobile (couleur a);

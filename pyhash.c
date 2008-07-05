@@ -1442,7 +1442,9 @@ boolean mate(couleur defender, int n)
   ** (max_nr_nontrivial) is entered using the nontrivial option. */
   if (n>min_length_nontrivial)
   {
+    genmove(defender);
     ntcount = count_non_trivial(defender);
+    finply();
     if (max_nr_nontrivial<ntcount)
       return false;
     else
@@ -1741,7 +1743,9 @@ boolean sr_does_defender_win(couleur defender, int n)
   */
   if (n>min_length_nontrivial)
   {
+    genmove(defender);
     ntcount = count_non_trivial(defender);
+    finply();
     if (max_nr_nontrivial<ntcount)
       return true;
     else
