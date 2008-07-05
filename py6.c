@@ -2293,7 +2293,8 @@ int count_non_trivial(couleur defender)
   {
     if (jouecoup()
         && !echecc(defender)
-        && !dsr_does_attacker_win(attacker,min_length_nontrivial))
+        && !(min_length_nontrivial>0
+             && dsr_does_attacker_win(attacker,min_length_nontrivial)))
       ++result;
     repcoup();
   }
