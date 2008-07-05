@@ -2291,7 +2291,7 @@ int count_non_trivial(couleur defender)
   genmove(defender);
 
   /* test all possible moves */
-  while (encore() && NonTrivialNumber>=result)
+  while (encore() && max_nr_nontrivial>=result)
   {
     /* Test whether the move is legal and not trivial. */
     if (jouecoup()
@@ -2366,10 +2366,10 @@ int dsr_find_refutations(couleur defender, int n, int t)
   if (n>min_length_nontrivial)
   {
     ntcount = count_non_trivial(defender);
-    if (NonTrivialNumber<ntcount)
+    if (max_nr_nontrivial<ntcount)
       return max_nr_refutations+1;
     else
-      NonTrivialNumber -= ntcount;
+      max_nr_nontrivial -= ntcount;
   }
 
   if (n>2)
@@ -2391,7 +2391,7 @@ int dsr_find_refutations(couleur defender, int n, int t)
   finply();
 
   if (n>min_length_nontrivial)
-    NonTrivialNumber += ntcount;
+    max_nr_nontrivial += ntcount;
 
   return is_defender_immobile ? max_nr_refutations+1 : tablen(t);
 } /* dsr_find_refutations */
@@ -2542,7 +2542,7 @@ void dsr_find_write_setplay(couleur attacker, int n)
   if (n>min_length_nontrivial)
   {
     ntcount = count_non_trivial(defender);
-    NonTrivialNumber -= ntcount;
+    max_nr_nontrivial -= ntcount;
   }
 
   /* TODO use same genmove() here and in count_non_trivial() and just
@@ -2563,7 +2563,7 @@ void dsr_find_write_setplay(couleur attacker, int n)
   finply();
 
   if (n>min_length_nontrivial)
-    NonTrivialNumber += ntcount;
+    max_nr_nontrivial += ntcount;
 } /* dsr_find_write_setplay */
 
 /* Determine and write the threat and variations in direct/self/reflex
@@ -2638,7 +2638,7 @@ void dsr_find_write_threats_variations(couleur attacker,
   if (n>min_length_nontrivial)
   {
     ntcount = count_non_trivial(defender);
-    NonTrivialNumber -= ntcount;
+    max_nr_nontrivial -= ntcount;
   }
 
   /* TODO use same genmove() here and in count_non_trivial() and just
@@ -2666,7 +2666,7 @@ void dsr_find_write_threats_variations(couleur attacker,
   freetab();
 
   if (n>min_length_nontrivial)
-    NonTrivialNumber += ntcount;
+    max_nr_nontrivial += ntcount;
 } /* dsr_find_write_threats_variations */
 
 /* Write the refutations stored in a table

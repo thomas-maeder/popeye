@@ -534,7 +534,7 @@ static byte *CommonEncode(byte *bp)
   }
 
   if (OptFlag[nontrivial])
-    *bp++ = (byte)(NonTrivialNumber);
+    *bp++ = (byte)(max_nr_nontrivial);
 
   if (CondFlag[parrain]) {
     /* a piece has been captured and can be reborn */
@@ -1439,14 +1439,14 @@ boolean mate(couleur defender, int n)
 
   /* Check whether defender has more non trivial moves than he is
   ** allowed to have. The number of such moves allowed
-  ** (NonTrivialNumber) is entered using the nontrivial option. */
+  ** (max_nr_nontrivial) is entered using the nontrivial option. */
   if (n>min_length_nontrivial)
   {
     ntcount = count_non_trivial(defender);
-    if (NonTrivialNumber<ntcount)
+    if (max_nr_nontrivial<ntcount)
       return false;
     else
-      NonTrivialNumber -= ntcount;
+      max_nr_nontrivial -= ntcount;
   } /* nontrivial */
 
   if (n>1)
@@ -1471,7 +1471,7 @@ boolean mate(couleur defender, int n)
   finply();
 
   if (n>min_length_nontrivial)
-    NonTrivialNumber += ntcount;
+    max_nr_nontrivial += ntcount;
 
   return !is_defender_immobile && no_refutation_found;
 } /* mate */
@@ -1735,18 +1735,17 @@ boolean sr_does_defender_win(couleur defender, int n)
   } /* solflights */
 
 
-  /* Check whether black has more non trivial moves than he is
-     allowed to have. The number of such moves allowed
-     (NonTrivialNumber)
-     is entered using the nontrivial option.
+  /* Check whether black has more non trivial moves than he is allowed
+     to have. The number of such moves allowed (max_nr_nontrivial) is
+     entered using the nontrivial option.
   */
   if (n>min_length_nontrivial)
   {
     ntcount = count_non_trivial(defender);
-    if (NonTrivialNumber<ntcount)
+    if (max_nr_nontrivial<ntcount)
       return true;
     else
-      NonTrivialNumber -= ntcount;
+      max_nr_nontrivial -= ntcount;
   } /* nontrivial */
 
   if (n>0 || (defender==noir ? flagblackmummer : flagwhitemummer))
@@ -1826,7 +1825,7 @@ boolean sr_does_defender_win(couleur defender, int n)
   }
 
   if (n>min_length_nontrivial)
-    NonTrivialNumber += ntcount;
+    max_nr_nontrivial += ntcount;
 
   return !no_win_found || is_defender_immobile;
 } /* sr_does_defender_win */

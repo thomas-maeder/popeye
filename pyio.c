@@ -2587,11 +2587,11 @@ static char *ParseOpt(void) {
       break;
     case nontrivial:
       tok = ReadNextTokStr();
-      NonTrivialNumber = strtol(tok, &ptr, 10);
-      if (tok==ptr || NonTrivialNumber<0)
+      max_nr_nontrivial = strtol(tok, &ptr, 10);
+      if (tok==ptr || max_nr_nontrivial<0)
       {
         IoErrorMsg(WrongInt, 0);
-        NonTrivialNumber = INT_MAX;
+        max_nr_nontrivial = INT_MAX;
         return ReadNextTokStr();
       }
 
@@ -4269,7 +4269,7 @@ void WritePosition() {
   if (min_length_nontrivial<enonce-1)
     sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%d",
-            NonTrivialNumber,
+            max_nr_nontrivial,
             min_length_nontrivial);
 
   sprintf(GlobalStr, "  %-20s%13s\n", StipOptStr, PieCnts);

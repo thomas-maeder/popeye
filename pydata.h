@@ -448,7 +448,7 @@ EXTERN  couleur         zzzag[haut - bas + 1];  /* sqcolor */
 EXTERN  Flags           spec[maxsquare+4];
 EXTERN  int        zzzaj[haut - bas + 1];  /* gridnumber */
 
-EXTERN  int        NonTrivialNumber, min_length_nontrivial;
+EXTERN  int        max_nr_nontrivial, min_length_nontrivial;
 
 EXTERN  Flags           zzzan[haut - bas + 1];  /* sq_spec */
 EXTERN  boolean         we_generate_exact, there_are_consmoves,
