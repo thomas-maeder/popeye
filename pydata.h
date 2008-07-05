@@ -448,7 +448,7 @@ EXTERN  couleur         zzzag[haut - bas + 1];  /* sqcolor */
 EXTERN  Flags           spec[maxsquare+4];
 EXTERN  int        zzzaj[haut - bas + 1];  /* gridnumber */
 
-EXTERN  int        NonTrivialNumber, NonTrivialLength;
+EXTERN  int        NonTrivialNumber, min_length_nontrivial;
 
 EXTERN  Flags           zzzan[haut - bas + 1];  /* sq_spec */
 EXTERN  boolean         we_generate_exact, there_are_consmoves,
@@ -462,7 +462,7 @@ EXTERN  boolean         Iprom[maxply + 1];      /* Imitatorumwandlung? */
 EXTERN  square          im0;                    /* Standort des ersten Imitators */
 
 EXTERN  int        enonce,
-			zugebene, max_nr_refutations, droh;
+			zugebene, max_nr_refutations, max_len_threat;
 EXTERN  int        introenonce;
 EXTERN  int        MoveNbr, RestartNbr;
 EXTERN  boolean         restartenabled;

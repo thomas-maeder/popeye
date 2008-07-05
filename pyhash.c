@@ -1178,7 +1178,7 @@ boolean ser_dsr_find_write_final_moves(couleur attacker)
           solution_found = true;
         }
       }
-      else if (!echecc(attacker) && !definvref(defender,1))
+      else if (!echecc(attacker) && !sr_does_defender_win(defender,1))
         solution_found = last_h_move(defender);
     }
     repcoup();
@@ -1415,10 +1415,11 @@ boolean mate(couleur defender, int n)
     /* test all possible moves */
     while (encore() && nrflleft>0)
     {
-      if (jouecoup()) {
+      if (jouecoup())
+      {
         /* Test whether the king has moved and this move is legal. */
-        if (save_rbn != (defender==noir ? rn : rb)
-            && !echecc(defender))
+        square const rbn = defender==noir ? rn : rb;
+        if (save_rbn!=rbn && !echecc(defender))
           /* It is a legal king move. Hence decrement the flight counter */
           nrflleft--;
       }
@@ -1431,45 +1432,21 @@ boolean mate(couleur defender, int n)
       return false;
   } /* solflights */
 
-  /* Threat restriction -- white must always check or threat mate in
-  ** in a certain number of moves (droh). It is active if droh < enonce-1.
-  ** droh is entered with the option solmenaces. */
+  if (n>max_len_threat
+      && !echecc(defender)
+      && !matant(attacker,max_len_threat))
+    return false;
 
-  if (n>droh)
-    if (!(echecc(defender) || matant(attacker,droh)))
-      return false;
-
-  /* Check whether black has more non trivial moves than he is
-  ** allowed to have. The number of such moves allowed (NonTrivialNumber)
-  ** is entered using the nontrivial option. */
-  if (n>NonTrivialLength)
+  /* Check whether defender has more non trivial moves than he is
+  ** allowed to have. The number of such moves allowed
+  ** (NonTrivialNumber) is entered using the nontrivial option. */
+  if (n>min_length_nontrivial)
   {
-    ntcount= -1;
-
-    /* generate a ply */
-    genmove(defender);
-
-    /* test all possible moves */
-    while (encore() && NonTrivialNumber>=ntcount)
-    {
-      if (jouecoup())
-      {
-        /* Test whether the move is legal and not trivial. */
-        if (!echecc(defender)
-            && !(NonTrivialLength>0
-                 && matant(attacker, NonTrivialLength)))
-          /* The move is legal and not trivial.
-          ** Hence decrement the  counter. */
-          ntcount++;
-      }
-      repcoup();
-    }
-    finply();
-
+    ntcount = count_non_trivial(defender);
     if (NonTrivialNumber<ntcount)
       return false;
-
-    NonTrivialNumber -= ntcount;
+    else
+      NonTrivialNumber -= ntcount;
   } /* nontrivial */
 
   if (n>1)
@@ -1493,7 +1470,7 @@ boolean mate(couleur defender, int n)
   }
   finply();
 
-  if (n>NonTrivialLength)
+  if (n>min_length_nontrivial)
     NonTrivialNumber += ntcount;
 
   return !is_defender_immobile && no_refutation_found;
@@ -1542,7 +1519,7 @@ boolean matant(couleur attacker, int n)
 
   for (i = FlowFlag(Exact) ? n : 0; !forced_mate_found && i<=n; i++)
   {
-    if (i>droh)
+    if (i>max_len_threat)
       i = n;
 
     if (i==0)
@@ -1584,11 +1561,15 @@ boolean matant(couleur attacker, int n)
   return forced_mate_found;
 } /* matant */
 
-/* Is there a solution to a s# or r# in n? */
-boolean invref(couleur  camp, int n)
+/* Determine whether the attacker wins in a self/reflex stipulation in n.
+ * @param attacker attacking side (at move)
+ * @param n number of moves until end state has to be reached
+ * @return true iff attacker wins
+ */
+boolean sr_does_attacker_win(couleur attacker, int n)
 {
-  boolean result= false;
-  couleur ad= advers(camp);
+  boolean win_found = false;
+  couleur defender = advers(attacker);
   int i;
   HashBuffer hb;
 
@@ -1604,43 +1585,44 @@ boolean invref(couleur  camp, int n)
     return true;
 
   if (!FlowFlag(Exact))
-    if (currentStipSettings.checker(ad))
+    if (currentStipSettings.checker(defender))
     {
       addtohash(WhDirSucc,n,&hb);
       assert(!inhash(WhDirNoSucc,n,&hb));
       return true;
     }
 
-  if (SortFlag(Reflex) && !FlowFlag(Semi) && matant(camp,1))
+  if (SortFlag(Reflex) && !FlowFlag(Semi) && matant(attacker,1))
     return false;
 
-  for (i = FlowFlag(Exact) ? n : 1; !result && i<=n; i++)
+  for (i = FlowFlag(Exact) ? n : 1; !win_found && i<=n; i++)
   {
-    if (i>droh || i>NonTrivialLength)
+    if (i>max_len_threat || i>min_length_nontrivial)
       i = n;
-    genmove(camp);
-    while (!result && encore())
+    genmove(attacker);
+    while (!win_found && encore())
     {
-      if (jouecoup())
+      if (jouecoup()
+          && !echecc(attacker)
+          && (!sr_does_defender_win(defender,i)
+              || (OptFlag[quodlibet]
+                  && currentStipSettings.checker(attacker))))
       {
-        result = (!echecc(camp)
-                  && (!definvref(ad,i)
-                      || (OptFlag[quodlibet]
-                          && currentStipSettings.checker(camp))));
-        if (result)
-          coupfort();
+        win_found = true;
+        coupfort();
       }
       repcoup();
+
       if (maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
     finply();
   }
 
-  addtohash(result ? WhDirSucc : WhDirNoSucc, n, &hb);
+  addtohash(win_found ? WhDirSucc : WhDirNoSucc, n, &hb);
 
-  return result;
-} /* invref */
+  return win_found;
+} /* sr_does_attacker_win */
 
 /* Generate (piece by piece) candidate moves the last move of a s# or
  * r#. Do *not* generate moves for the piece on square
@@ -1682,73 +1664,74 @@ boolean selflastencore(couleur camp,
   }
 } /* selflastencore */
 
-/* Can camp defend against a s# or r# in n? */
-boolean definvref(couleur camp, int n) {
-  boolean pat= true, flag= true;
-  couleur ad= advers(camp);
-  int ntcount=0;
+/* Determine whether the defender wins in a self/reflex stipulation in
+ * n.
+ * @param defender defending side (at move)
+ * @param n number of moves until end state has to be reached, including
+ *          the attacker's move just played
+ * @return true iff defender wins
+ */
+boolean sr_does_defender_win(couleur defender, int n)
+{
+  boolean is_defender_immobile = true;
+  boolean no_win_found = true;
+  couleur attacker = advers(defender);
+  int ntcount = 0;
 
-  if (SortFlag(Reflex)) {
-    if (matant(camp,1))
+  if (SortFlag(Reflex))
+  {
+    if (matant(defender,1))
       return false;
-    if (n == 1)
+    else if (n==1)
       return true;
   }
 
   n--;
 
-  /* seems to be little efficient !!!!  TLi */
-
-  /* Threat restriction -- white must always check or threat mate in
-  ** in a certain number of moves (droh). It is active if droh < enonce-1.
-  ** droh is entered with the option solmenaces. */
-
-  if (n > droh) {
-    if  (!(echecc(camp) || !((droh > 0) && invref(ad,droh)))) {
-      return true;
-    }
-  }
+  if (n>max_len_threat
+      && !echecc(defender)
+      && !sr_does_attacker_win(attacker,max_len_threat))
+    return true;
 
   /* Check whether black has still a piece left to mate */
-  if (OptFlag[keepmating]) {
+  if (OptFlag[keepmating])
+  {
     piece p = roib+1;
-    while (p < derbla && nbpiece[camp == blanc ? p : -p]==0) {
+    while (p<derbla && nbpiece[defender==blanc ? p : -p]==0)
       p++;
-    }
-    if (p == derbla) {
+    if (p==derbla)
       return true;
-    }
   } /* keepmating */
 
   /* Check whether the black king has more flight squares than he is
      allowed to have. The number of allowed flights (maxflights) is
      entered using the solflights option.
   */
-
-  if (n > 1 && OptFlag[solflights]) {
+  if (n>1 && OptFlag[solflights])
+  {
     /* Initialise the flight counter. The number of flights is
        counted down.
     */
     int nrflleft = maxflights+1;
 
     /* generate a ply */
-    genmove(camp);
+    genmove(defender);
 
     /* test all possible moves */
-    while (encore() && nrflleft>0) {
-      if (jouecoup() && !echecc(camp)) {
+    while (encore() && nrflleft>0)
+    {
+      if (jouecoup() && !echecc(defender))
         /* It is a legal move.
         ** Hence decrement the flight counter */
         nrflleft--;
-      }
+
       repcoup();
     }
     finply();
 
-    if (nrflleft==0) {
+    if (nrflleft==0)
       /* The number of flight squares is greater than allowed. */
       return true;
-    }
   } /* solflights */
 
 
@@ -1757,107 +1740,96 @@ boolean definvref(couleur camp, int n) {
      (NonTrivialNumber)
      is entered using the nontrivial option.
   */
-
-  if (n > NonTrivialLength) {
-    ntcount= -1;
-
-    /* generate a ply */
-    genmove(camp);
-
-    /* test all possible moves */
-    while (encore() && (NonTrivialNumber >= ntcount)) {
-      if (jouecoup()
-          && !echecc(camp)
-          && !((NonTrivialLength > 0)
-               && invref(ad, NonTrivialLength)))
-      {
-        /* The move is legal and not trivial.
-           Hence increment the  counter.
-        */
-        ntcount++;
-      }
-      repcoup();
-    }
-    finply();
-
-    if (NonTrivialNumber < ntcount) {
-      /* The number of flight squares is greater than allowed. */
+  if (n>min_length_nontrivial)
+  {
+    ntcount = count_non_trivial(defender);
+    if (NonTrivialNumber<ntcount)
       return true;
-    }
-    NonTrivialNumber -= ntcount;
+    else
+      NonTrivialNumber -= ntcount;
   } /* nontrivial */
 
-  if (n || (camp==noir ? flagblackmummer : flagwhitemummer)) {
+  if (n>0 || (defender==noir ? flagblackmummer : flagwhitemummer))
+  {
     move_generation_mode=
       n>1
-      ? move_generation_mode_opti_per_couleur[camp]
+      ? move_generation_mode_opti_per_couleur[defender]
       : move_generation_optimized_by_killer_move;
-    genmove(camp);
+    genmove(defender);
     move_generation_mode= move_generation_optimized_by_killer_move;
 
-    while (flag && encore()) {
-      if (jouecoup() && !echecc(camp)) {
-        pat= false;
-        if (!(flag= n ? invref(ad,n) : currentStipSettings.checker(camp))) {
+    while (no_win_found && encore())
+    {
+      if (jouecoup() && !echecc(defender))
+      {
+        is_defender_immobile = false;
+        no_win_found = (n>0
+                        ? sr_does_attacker_win(attacker,n)
+                        : currentStipSettings.checker(defender));
+        if (!no_win_found)
           coupfort();
-        }
       }
       repcoup();
     }
     finply();
   }
   else if (!(FlagMoveOrientatedStip
-             && currentStipSettings.stipulation == stip_ep
-             && ep[nbply] == initsquare
-             && ep2[nbply] == initsquare))
+             && currentStipSettings.stipulation==stip_ep
+             && ep[nbply]==initsquare
+             && ep2[nbply]==initsquare))
   {
     piece p;
-    square const *selfbnp= boardnum;
-    square initiallygenerated= initsquare;
+    square const *selfbnp = boardnum;
+    square initiallygenerated = initsquare;
 
     nextply();
     init_move_generation_optimizer();
-    trait[nbply]= camp;
-    if (TSTFLAG(PieSpExFlags,Neutral)) {
-      initneutre(advers(camp));
-    }
-    p= e[current_killer_state.move.departure];
+    trait[nbply]= defender;
+    if (TSTFLAG(PieSpExFlags,Neutral))
+      initneutre(attacker);
+
+    p = e[current_killer_state.move.departure];
     if (p!=vide) {
       if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
-        p= -p;
-      if (camp == blanc) {
-        if (p > obs) {
-          initiallygenerated= current_killer_state.move.departure;
-          gen_wh_piece(initiallygenerated, p);
+        p = -p;
+      if (defender==blanc)
+      {
+        if (p>obs)
+        {
+          initiallygenerated = current_killer_state.move.departure;
+          gen_wh_piece(initiallygenerated,p);
         }
       }
-      else {
-        if (p < -obs) {
-          initiallygenerated= current_killer_state.move.departure;
-          gen_bl_piece(initiallygenerated, p);
+      else
+      {
+        if (p<-obs)
+        {
+          initiallygenerated = current_killer_state.move.departure;
+          gen_bl_piece(initiallygenerated,p);
         }
       }
     }
     finish_move_generation_optimizer();
-    while (flag && selflastencore(camp,&selfbnp,initiallygenerated)) {
-      if (jouecoup() && !echecc(camp)) {
-        pat= false;
-        flag= currentStipSettings.checker(camp);
-        if (!flag) {
+    while (no_win_found
+           && selflastencore(defender,&selfbnp,initiallygenerated))
+    {
+      if (jouecoup() && !echecc(defender))
+      {
+        is_defender_immobile = false;
+        no_win_found = currentStipSettings.checker(defender);
+        if (!no_win_found)
           coupfort();
-        }
       }
       repcoup();
     }
     finply();
   }
 
-  if (n > NonTrivialLength) {
+  if (n>min_length_nontrivial)
     NonTrivialNumber += ntcount;
-  }
 
-  return !flag || pat;
-} /* definvref */
+  return !no_win_found || is_defender_immobile;
+} /* sr_does_defender_win */
 
 /* assert()s below this line must remain active even in "productive"
  * executables. */

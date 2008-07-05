@@ -219,7 +219,8 @@ void InitOpt(void) {
   max_nr_refutations = 0;
   MoveNbr= RestartNbr= 0;
 
-  droh= NonTrivialLength= maxply;
+  max_len_threat = maxply;
+  min_length_nontrivial = maxply;
   ep2[nbply]= ep[nbply]= initsquare;
   no_castling= bl_castlings|wh_castlings;
 

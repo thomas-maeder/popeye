@@ -269,6 +269,7 @@ boolean rubiech (square sq, square sqtest, piece p, /* echiquier */ int *e_ub, e
 boolean soutenu (square departure, square arrival, square capture);
 boolean notsoutenu (square a, square b, square c);
 
+int count_non_trivial(couleur defender);
 boolean dsr_does_attacker_win(couleur a, int b);
 boolean dsr_does_defender_lose(couleur a, int b);
 boolean dsr_defends_threats(couleur a, int b, int c);
@@ -281,8 +282,8 @@ void    singleboxtype3_gen_bl_piece(square a, piece b);
 extern void    (*gen_wh_piece)(square a, piece b);
 void    singleboxtype3_gen_wh_piece(square a, piece b);
 
-boolean definvref (couleur a, int b);
-boolean invref (couleur a, int b);
+boolean sr_does_defender_win(couleur a, int b);
+boolean sr_does_attacker_win(couleur a, int b);
 boolean eval_madrasi (square departure, square arrival, square capture);
 piece   champiece (piece p);
 

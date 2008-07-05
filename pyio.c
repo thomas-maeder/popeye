@@ -58,6 +58,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <limits.h>
 
 #include "py.h"
 #include "pyproc.h"
@@ -2551,11 +2552,11 @@ static char *ParseOpt(void) {
       break;
     case solmenaces:
       tok = ReadNextTokStr();
-      droh= strtol(tok, &ptr, 10);
-      if (tok==ptr)
+      max_len_threat = strtol(tok, &ptr, 10);
+      if (tok==ptr || max_len_threat<=0)
       {
-        droh= maxply;
-        IoErrorMsg(WrongInt, 0);
+        max_len_threat= maxply;
+        IoErrorMsg(WrongInt,0);
         return ReadNextTokStr();
       }
       break;
@@ -2586,17 +2587,20 @@ static char *ParseOpt(void) {
       break;
     case nontrivial:
       tok = ReadNextTokStr();
-      NonTrivialNumber= strtol(tok, &ptr, 10);
-      if (tok == ptr) {
+      NonTrivialNumber = strtol(tok, &ptr, 10);
+      if (tok==ptr || NonTrivialNumber<0)
+      {
         IoErrorMsg(WrongInt, 0);
+        NonTrivialNumber = INT_MAX;
         return ReadNextTokStr();
       }
 
       tok = ReadNextTokStr();
-      NonTrivialLength= strtol(tok, &ptr, 10);
-      if (tok == ptr) {
+      min_length_nontrivial = strtol(tok, &ptr, 10);
+      if (tok==ptr || min_length_nontrivial<0)
+      {
         IoErrorMsg(WrongInt, 0);
-        NonTrivialLength = maxply;
+        min_length_nontrivial = maxply;
         return ReadNextTokStr();
       }
       break;
@@ -4246,37 +4250,34 @@ void WritePosition() {
   }
 
   StdString(BorderL);
-  if (nNeutr) {
+  if (nNeutr>0)
     sprintf(PieCnts, "%d + %d + %dn", nWhite, nBlack, nNeutr);
-  }
-  else {
+  else
     sprintf(PieCnts, "%d + %d", nWhite, nBlack);
-  }
 
   strcpy(StipOptStr, AlphaStip);
 
-  if (droh < enonce - 1) {
-    sprintf(StipOptStr+strlen(StipOptStr), "/%d", droh);
-    if (maxflights < 64) {
+  if (max_len_threat<enonce-1)
+  {
+    sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_len_threat);
+    if (maxflights<64)
       sprintf(StipOptStr+strlen(StipOptStr), "/%d", maxflights);
-    }
   }
-  else if (maxflights < 64)
+  else if (maxflights<64)
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", maxflights);
 
-  if (NonTrivialLength < enonce - 1) {
+  if (min_length_nontrivial<enonce-1)
     sprintf(StipOptStr+strlen(StipOptStr),
-            ";%d,%d", NonTrivialNumber, NonTrivialLength);
-  }
+            ";%d,%d",
+            NonTrivialNumber,
+            min_length_nontrivial);
 
   sprintf(GlobalStr, "  %-20s%13s\n", StipOptStr, PieCnts);
   StdString(GlobalStr);
 
-  for (sp= Neutral + 1; sp < PieSpCount; sp++) {
-    if (TSTFLAG(PieSpExFlags, sp)) {
+  for (sp = Neutral+1; sp<PieSpCount; sp++)
+    if (TSTFLAG(PieSpExFlags,sp))
       CenterLine(ListSpec[sp]);
-    }
-  }
 
   WriteConditions(WCcentered);
 

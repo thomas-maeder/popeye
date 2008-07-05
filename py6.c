@@ -265,9 +265,8 @@ boolean verifieposition(void)
   if (! CondFlag[imitators])
     CondFlag[noiprom]= true;
 
-  if ((droh < 0) || (enonce <= droh)) {
-    droh= maxply;
-  }
+  if (enonce<=max_len_threat)
+    max_len_threat = maxply;
 
   zugebene= 0;
   if (FlowFlag(Alternate) && ! SortFlag(Proof)) {
@@ -2239,7 +2238,7 @@ boolean last_h_move(couleur camp)
     {
       if (SortFlag(Self) && SortFlag(Help))
       {
-        if (!echecc(camp) && !definvref(ad,1))
+        if (!echecc(camp) && !sr_does_defender_win(ad,1))
         {
           GenMatingMove(ad);
           while (encore())
@@ -2277,6 +2276,37 @@ boolean last_h_move(couleur camp)
   return solution_found;
 }
 
+/* Count all non-trivial moves of the defending side. Whether a
+ * particular move is non-trivial is determined by user input.
+ * @param defender defending side (i.e.side for which to count
+ *                 non-trivial moves)
+ * @return number of defender's non-trivial moves minus 1 (TODO: why?)
+ */
+int count_non_trivial(couleur defender)
+{
+  couleur attacker = advers(defender);
+  int result = -1;
+
+  /* generate a ply */
+  genmove(defender);
+
+  /* test all possible moves */
+  while (encore() && NonTrivialNumber>=result)
+  {
+    /* Test whether the move is legal and not trivial. */
+    if (jouecoup()
+        && !echecc(defender)
+        && !dsr_does_attacker_win(attacker,min_length_nontrivial))
+      /* The move is legal and not trivial. Increment the counter. */
+      ++result;
+    repcoup();
+  }
+
+  finply();
+
+  return result;
+}
+
 /* Count number of refutations after a move of the attacking side in
  * direct/self/reflex play.
  * @param defender defending side
@@ -2290,7 +2320,8 @@ boolean last_h_move(couleur camp)
  *            if the defending side is immobile (it shouldn't be here!)
  *            if the defending side has more non-trivial moves than allowed
  *            if the defending king has more flights than allowed
- *            ?? TODO (something related to threats)
+ *            if there is no threat in <= the maximal number threat
+ *               length as entered by the user
  *         number (0..max_nr_refutations) of refutations otherwise
  */
 int dsr_find_refutations(couleur defender, int n, int t)
@@ -2299,7 +2330,7 @@ int dsr_find_refutations(couleur defender, int n, int t)
   boolean is_defender_immobile = true;
   int ntcount = 0;
 
-  if ((!FlowFlag(Exact) || n==1)
+  if ((!FlowFlag(Exact) || n==0)
       && SortFlag(Direct)
       && currentStipSettings.checker(attacker))
     return -1;
@@ -2307,9 +2338,9 @@ int dsr_find_refutations(couleur defender, int n, int t)
   if (SortFlag(Reflex) && matant(defender,1))
     return 0;
 
-  if (n>droh
+  if (n>max_len_threat
       && !echecc(defender)
-      && !(droh>0 && dsr_does_attacker_win(attacker,droh)))
+      && !dsr_does_attacker_win(attacker,max_len_threat))
     return max_nr_refutations+1;
 
   if (n>2 && OptFlag[solflights])
@@ -2319,10 +2350,10 @@ int dsr_find_refutations(couleur defender, int n, int t)
     genmove(defender);
     while (encore() && nrflleft>0)
     {
-      if (jouecoup()
-          && (save_rbn != (defender==noir ? rn : rb)))
+      if (jouecoup())
       {
-        if (!echecc(defender))
+        square const rbn = defender==noir ? rn : rb;
+        if (save_rbn!=rbn && !echecc(defender))
           nrflleft--;
       }
       repcoup();
@@ -2332,38 +2363,13 @@ int dsr_find_refutations(couleur defender, int n, int t)
       return max_nr_refutations+1;
   }
 
-  /* Check whether black has more non trivial moves than he is
-     allowed to have. The number of such moves allowed
-     (NonTrivialNumber) is entered using the nontrivial option.
-  */
-  if (n>NonTrivialLength)
+  if (n>min_length_nontrivial)
   {
-    ntcount= -1;
-    /* Initialise the counter. It is counted down. */
-
-    /* generate a ply */
-    genmove(defender);
-
-    /* test all possible moves */
-    while (encore() && NonTrivialNumber>=ntcount)
-    {
-      /* Test whether the move is legal and not trivial. */
-      if (jouecoup()
-          && !echecc(defender)
-          && !((NonTrivialLength>0)
-               && dsr_does_attacker_win(attacker,NonTrivialLength)))
-        /* The move is legal and not trivial. Hence increment the
-           counter.
-        */
-        ntcount++;
-      repcoup();
-    }
-    finply();
-
+    ntcount = count_non_trivial(defender);
     if (NonTrivialNumber<ntcount)
       return max_nr_refutations+1;
-
-    NonTrivialNumber -= ntcount;
+    else
+      NonTrivialNumber -= ntcount;
   }
 
   if (n>2)
@@ -2384,7 +2390,7 @@ int dsr_find_refutations(couleur defender, int n, int t)
   }
   finply();
 
-  if (n>NonTrivialLength)
+  if (n>min_length_nontrivial)
     NonTrivialNumber += ntcount;
 
   return is_defender_immobile ? max_nr_refutations+1 : tablen(t);
@@ -2464,38 +2470,6 @@ void sr_find_write_final_moves(couleur defender)
   StdString("\n");
 }
 
-/* Count all non-trivial moves of the defending side. Whether there
- * are trivial moves and whether a particular move is non-trivial is
- * determined by user input.
- * @param defender defending side (i.e.side for which to count
- *                 non-trivial moves)
- */
-int count_non_trivial(couleur defender)
-{
-  couleur attacker = advers(defender);
-  int result = 0;
-
-  /* generate a ply */
-  genmove(defender);
-
-  /* test all possible moves */
-  while (encore())
-  {
-    /* Test whether the move is legal and not trivial. */
-    if (jouecoup()
-        && !echecc(defender)
-        && (NonTrivialLength==0
-            || !dsr_does_attacker_win(attacker,NonTrivialLength)))
-      /* The move is legal and not trivial. Increment the counter. */
-      ++result;
-    repcoup();
-  }
-
-  finply();
-
-  return result;
-}
-
 /* Write a variation in the try/solution/set play of a
  * direct/self/reflex stipulation. The move of the defending side that
  * starts the variation has already been played in the current ply.
@@ -2565,9 +2539,9 @@ void dsr_find_write_setplay(couleur attacker, int n)
 
   n--;
 
-  if (n>NonTrivialLength)
+  if (n>min_length_nontrivial)
   {
-    ntcount = count_non_trivial(defender)-1;
+    ntcount = count_non_trivial(defender);
     NonTrivialNumber -= ntcount;
   }
 
@@ -2588,7 +2562,7 @@ void dsr_find_write_setplay(couleur attacker, int n)
   }
   finply();
 
-  if (n>NonTrivialLength)
+  if (n>min_length_nontrivial)
     NonTrivialNumber += ntcount;
 } /* dsr_find_write_setplay */
 
@@ -2640,7 +2614,7 @@ void dsr_find_write_threats_variations(couleur attacker,
     StdString("\n");
   else
   {
-    int max_threat_length = n>droh ? droh : n;
+    int max_threat_length = n>max_len_threat ? max_len_threat : n;
     int i;
     DrohFlag = true;
     marge+= 4;
@@ -2661,9 +2635,9 @@ void dsr_find_write_threats_variations(couleur attacker,
     }
   }
 
-  if (n>NonTrivialLength)
+  if (n>min_length_nontrivial)
   {
-    ntcount = count_non_trivial(defender)-1;
+    ntcount = count_non_trivial(defender);
     NonTrivialNumber -= ntcount;
   }
 
@@ -2691,7 +2665,7 @@ void dsr_find_write_threats_variations(couleur attacker,
   finply();
   freetab();
 
-  if (n>NonTrivialLength)
+  if (n>min_length_nontrivial)
     NonTrivialNumber += ntcount;
 } /* dsr_find_write_threats_variations */
 
@@ -2733,10 +2707,7 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
   genmove(attacker);
   while (encore())
   {
-    /* TODO what's the purpose of this nowdanstab() check? */
-    if (jouecoup()
-        && !echecc(attacker)
-        && !nowdanstab(t))
+    if (jouecoup() && !echecc(attacker))
     {
       boolean is_continuation;
       boolean write_end_marker;
@@ -2984,12 +2955,16 @@ void dsr_find_write_tries_solutions(couleur attacker,
 
 boolean dsr_does_defender_lose(couleur defender, int n)
 {
-  return SortFlag(Direct) ? mate(defender,n-1) : !definvref(defender,n);
+  return (SortFlag(Direct)
+          ? mate(defender,n-1)
+          : !sr_does_defender_win(defender,n));
 }
 
 boolean dsr_does_attacker_win(couleur attacker, int n)
 {
-  return SortFlag(Direct) ? matant(attacker,n) : invref(attacker,n);
+  return (SortFlag(Direct)
+          ? matant(attacker,n)
+          : sr_does_attacker_win(attacker,n));
 }
 
 void SolveSeriesProblems(couleur camp)
