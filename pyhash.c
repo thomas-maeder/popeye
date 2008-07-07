@@ -1676,7 +1676,6 @@ boolean sr_does_defender_win(couleur defender, int n)
   boolean is_defender_immobile = true;
   boolean no_win_found = true;
   couleur attacker = advers(defender);
-  int ntcount = 0;
 
   if (SortFlag(Reflex))
   {
@@ -1703,53 +1702,133 @@ boolean sr_does_defender_win(couleur defender, int n)
       return true;
   } /* keepmating */
 
-  /* Check whether the black king has more flight squares than he is
-     allowed to have. The number of allowed flights (maxflights) is
-     entered using the solflights option.
-  */
-  if (n>1 && OptFlag[solflights])
+
+  if (n==0)
   {
-    /* Initialise the flight counter. The number of flights is
-       counted down.
-    */
-    int nrflleft = maxflights+1;
-
-    /* generate a ply */
-    genmove(defender);
-
-    /* test all possible moves */
-    while (encore() && nrflleft>0)
+    if (defender==noir ? flagblackmummer : flagwhitemummer)
     {
-      if (jouecoup() && !echecc(defender))
-        /* It is a legal move.
-        ** Hence decrement the flight counter */
-        nrflleft--;
+      move_generation_mode = move_generation_optimized_by_killer_move;
+      genmove(defender);
+      move_generation_mode = move_generation_optimized_by_killer_move;
 
-      repcoup();
+      while (no_win_found && encore())
+      {
+        if (jouecoup() && !echecc(defender))
+        {
+          is_defender_immobile = false;
+          no_win_found = currentStipSettings.checker(defender);
+          if (!no_win_found)
+            coupfort();
+        }
+        repcoup();
+      }
+      finply();
     }
-    finply();
-
-    if (nrflleft==0)
-      /* The number of flight squares is greater than allowed. */
-      return true;
-  } /* solflights */
-
-
-  /* Check whether black has more non trivial moves than he is allowed
-     to have. The number of such moves allowed (max_nr_nontrivial) is
-     entered using the nontrivial option.
-  */
-  if (n>min_length_nontrivial)
-  {
-    ntcount = count_non_trivial(defender);
-    if (max_nr_nontrivial<ntcount)
-      return true;
+    else if (currentStipSettings.stipulation==stip_ep
+             && ep[nbply]==initsquare
+             && ep2[nbply]==initsquare)
+    {
+      /* a little optimization if end "state" is en passant capture,
+       * but no en passant capture is possible */
+    }
     else
-      max_nr_nontrivial -= ntcount;
-  } /* nontrivial */
+    {
+      piece p;
+      square const *selfbnp = boardnum;
+      square initiallygenerated = initsquare;
 
-  if (n>0 || (defender==noir ? flagblackmummer : flagwhitemummer))
+      nextply();
+      init_move_generation_optimizer();
+      trait[nbply]= defender;
+      if (TSTFLAG(PieSpExFlags,Neutral))
+        initneutre(attacker);
+
+      p = e[current_killer_state.move.departure];
+      if (p!=vide)
+      {
+        if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
+          p = -p;
+        if (defender==blanc)
+        {
+          if (p>obs)
+          {
+            initiallygenerated = current_killer_state.move.departure;
+            gen_wh_piece(initiallygenerated,p);
+          }
+        }
+        else
+        {
+          if (p<-obs)
+          {
+            initiallygenerated = current_killer_state.move.departure;
+            gen_bl_piece(initiallygenerated,p);
+          }
+        }
+      }
+      finish_move_generation_optimizer();
+      while (no_win_found
+             && selflastencore(defender,&selfbnp,initiallygenerated))
+      {
+        if (jouecoup() && !echecc(defender))
+        {
+          is_defender_immobile = false;
+          no_win_found = currentStipSettings.checker(defender);
+          if (!no_win_found)
+            coupfort();
+        }
+        repcoup();
+      }
+      finply();
+    }
+  }
+  else
   {
+    int ntcount = 0;
+
+    /* Check whether the defender's king has more flight squares than
+       he is allowed to have. The number of allowed flights
+       (maxflights) is entered using the solflights option.
+    */
+    if (n>1 && OptFlag[solflights])
+    {
+      /* Initialise the flight counter. The number of flights is
+         counted down.
+      */
+      int nrflleft = maxflights+1;
+
+      /* generate a ply */
+      genmove(defender);
+
+      /* test all possible moves */
+      while (encore() && nrflleft>0)
+      {
+        if (jouecoup() && !echecc(defender))
+          /* It is a legal move.
+          ** Hence decrement the flight counter */
+          nrflleft--;
+
+        repcoup();
+      }
+      finply();
+
+      if (nrflleft==0)
+        /* The number of flight squares is greater than allowed. */
+        return true;
+    } /* solflights */
+
+    /* Check whether defender has more non trivial moves than he is
+       allowed to have. The number of such moves allowed
+       (max_nr_nontrivial) is entered using the nontrivial option.
+    */
+    if (n>min_length_nontrivial)
+    {
+      ntcount = count_non_trivial(defender);
+      if (max_nr_nontrivial<ntcount)
+        return true;
+      else
+        max_nr_nontrivial -= ntcount;
+    } /* nontrivial */
+
     move_generation_mode=
       n>1
       ? move_generation_mode_opti_per_couleur[defender]
@@ -1762,70 +1841,17 @@ boolean sr_does_defender_win(couleur defender, int n)
       if (jouecoup() && !echecc(defender))
       {
         is_defender_immobile = false;
-        no_win_found = (n>0
-                        ? sr_does_attacker_win(attacker,n)
-                        : currentStipSettings.checker(defender));
+        no_win_found = sr_does_attacker_win(attacker,n);
         if (!no_win_found)
           coupfort();
       }
       repcoup();
     }
     finply();
+
+    if (n>min_length_nontrivial)
+      max_nr_nontrivial += ntcount;
   }
-  else if (!(FlagMoveOrientatedStip
-             && currentStipSettings.stipulation==stip_ep
-             && ep[nbply]==initsquare
-             && ep2[nbply]==initsquare))
-  {
-    piece p;
-    square const *selfbnp = boardnum;
-    square initiallygenerated = initsquare;
-
-    nextply();
-    init_move_generation_optimizer();
-    trait[nbply]= defender;
-    if (TSTFLAG(PieSpExFlags,Neutral))
-      initneutre(attacker);
-
-    p = e[current_killer_state.move.departure];
-    if (p!=vide) {
-      if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
-        p = -p;
-      if (defender==blanc)
-      {
-        if (p>obs)
-        {
-          initiallygenerated = current_killer_state.move.departure;
-          gen_wh_piece(initiallygenerated,p);
-        }
-      }
-      else
-      {
-        if (p<-obs)
-        {
-          initiallygenerated = current_killer_state.move.departure;
-          gen_bl_piece(initiallygenerated,p);
-        }
-      }
-    }
-    finish_move_generation_optimizer();
-    while (no_win_found
-           && selflastencore(defender,&selfbnp,initiallygenerated))
-    {
-      if (jouecoup() && !echecc(defender))
-      {
-        is_defender_immobile = false;
-        no_win_found = currentStipSettings.checker(defender);
-        if (!no_win_found)
-          coupfort();
-      }
-      repcoup();
-    }
-    finply();
-  }
-
-  if (n>min_length_nontrivial)
-    max_nr_nontrivial += ntcount;
 
   return !no_win_found || is_defender_immobile;
 } /* sr_does_defender_win */
