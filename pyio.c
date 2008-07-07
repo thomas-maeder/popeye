@@ -2553,7 +2553,7 @@ static char *ParseOpt(void) {
     case solmenaces:
       tok = ReadNextTokStr();
       max_len_threat = strtol(tok, &ptr, 10);
-      if (tok==ptr || max_len_threat<=0)
+      if (tok==ptr || max_len_threat<0)
       {
         max_len_threat= maxply;
         IoErrorMsg(WrongInt,0);
@@ -2562,18 +2562,18 @@ static char *ParseOpt(void) {
       break;
     case solflights:
       tok = ReadNextTokStr();
-      maxflights= strtol(tok, &ptr, 10);
-      if (tok==ptr)
+      max_nr_flights= strtol(tok, &ptr, 10);
+      if (tok==ptr || max_nr_flights<0)
       {
         IoErrorMsg(WrongInt, 0);
-        maxflights = 64;
+        max_nr_flights = 64;
         return ReadNextTokStr();
       }
       break;
     case soltout:
       tok = ReadNextTokStr();
       max_nr_refutations = strtol(tok, &ptr, 10);
-      if (tok==ptr)
+      if (tok==ptr || max_nr_refutations<0)
       {
         IoErrorMsg(WrongInt, 0);
         max_nr_refutations = 0;
@@ -4260,11 +4260,11 @@ void WritePosition() {
   if (max_len_threat<enonce-1)
   {
     sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_len_threat);
-    if (maxflights<64)
-      sprintf(StipOptStr+strlen(StipOptStr), "/%d", maxflights);
+    if (max_nr_flights<64)
+      sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_nr_flights);
   }
-  else if (maxflights<64)
-    sprintf(StipOptStr+strlen(StipOptStr), "//%d", maxflights);
+  else if (max_nr_flights<64)
+    sprintf(StipOptStr+strlen(StipOptStr), "//%d", max_nr_flights);
 
   if (min_length_nontrivial<enonce-1)
     sprintf(StipOptStr+strlen(StipOptStr),

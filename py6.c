@@ -2304,6 +2304,38 @@ int count_non_trivial(couleur defender)
   return result;
 }
 
+/* Determine whether the defending side has more flights than allowed
+ * by the user.
+ * @param defender defending side
+ * @return true iff the defending side has too many flights.
+ */
+boolean has_too_many_flights(couleur defender)
+{
+  /* TODO is it more efficient to initialise a pointer here and save
+   * the repeated check further down? */
+  square save_rbn = defender==noir ? rn : rb;
+  if (save_rbn==initsquare)
+    return false;
+  else
+  {
+    int nrflleft = max_nr_flights+1;
+    genmove(defender);
+    while (encore() && nrflleft>0)
+    {
+      if (jouecoup())
+      {
+        square const rbn = defender==noir ? rn : rb;
+        if (save_rbn!=rbn && !echecc(defender))
+          nrflleft--;
+      }
+      repcoup();
+    }
+    finply();
+
+    return nrflleft==0;
+  }
+}
+
 /* Count number of refutations after a move of the attacking side in
  * direct/self/reflex play.
  * @param defender defending side
@@ -2340,25 +2372,8 @@ int dsr_find_refutations(couleur defender, int n, int t)
       && !dsr_does_attacker_win(attacker,max_len_threat))
     return max_nr_refutations+1;
 
-  if (n>2 && OptFlag[solflights])
-  {
-    int nrflleft = maxflights+1;
-    square save_rbn = defender==noir ? rn : rb;
-    genmove(defender);
-    while (encore() && nrflleft>0)
-    {
-      if (jouecoup())
-      {
-        square const rbn = defender==noir ? rn : rb;
-        if (save_rbn!=rbn && !echecc(defender))
-          nrflleft--;
-      }
-      repcoup();
-    }
-    finply();
-    if (nrflleft==0)
-      return max_nr_refutations+1;
-  }
+  if (n>2 && OptFlag[solflights] && has_too_many_flights(defender))
+    return max_nr_refutations+1;
 
   if (n>min_length_nontrivial)
   {

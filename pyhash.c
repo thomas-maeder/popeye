@@ -1397,14 +1397,14 @@ boolean mate(couleur defender, int n)
   /* TODO should we? i.e. do it or remove comment */
 
   /* Check whether the black king has more flight squares than he is
-  ** allowed to have. The number of allowed flights (maxflights) is entered
-  ** using the solflights option. */
+  ** allowed to have. The number of allowed flights (max_nr_flights)
+  ** is entered using the solflights option. */
 
   if (n>1 && OptFlag[solflights])
   {
     /* Initialise the flight counter. The number of flights is counted
     ** down. */
-    int nrflleft = maxflights+1;
+    int nrflleft = max_nr_flights+1;
 
     /* Store the square of the black king. */
     square save_rbn = defender==noir ? rn : rb;
@@ -1624,37 +1624,50 @@ boolean sr_does_attacker_win(couleur attacker, int n)
   return win_found;
 } /* sr_does_attacker_win */
 
-/* Generate (piece by piece) candidate moves the last move of a s# or
- * r#. Do *not* generate moves for the piece on square
- * initiallygenerated; this piece has already been taken care of. */
-boolean selflastencore(couleur camp,
-                       square const **selfbnp,
-                       square initiallygenerated) {
+/* Generate (piece by piece) candidate moves for the last move of a s#
+ * or r#. Do *not* generate moves for the piece on square
+ * initiallygenerated; this piece has already been taken care of.
+ * @param camp 
+ */
+/* TODO Find out whether selflastencore() is really more efficient
+ * than the usual genmove() */
+static boolean selflastencore(couleur camp,
+                              square const **selfbnp,
+                              square initiallygenerated)
+{
   if (encore())
     return true;
-  else {
-    square curr_square= **selfbnp;
+  else
+  {
+    square curr_square = **selfbnp;
 
     if (TSTFLAG(PieSpExFlags,Neutral))
       initneutre(advers(camp));
 
-    while (curr_square) {
-      if (curr_square!=initiallygenerated) {
+    while (curr_square!=NULL)
+    {
+      if (curr_square!=initiallygenerated)
+      {
         piece p= e[curr_square];
-        if (p!=vide) {
-          if (TSTFLAG(spec[curr_square], Neutral))
-            p= -p;
-          if (camp==blanc) {
+        if (p!=vide)
+        {
+          if (TSTFLAG(spec[curr_square],Neutral))
+            p = -p;
+          if (camp==blanc)
+          {
             if (p>obs)
               gen_wh_piece(curr_square,p);
-          } else
+          }
+          else
+          {
             if (p<vide)
               gen_bl_piece(curr_square,p);
+          }
         }
       }
     
       ++*selfbnp;
-      curr_square= **selfbnp;
+      curr_square = **selfbnp;
 
       if (encore())
         return true;
@@ -1730,6 +1743,8 @@ boolean sr_does_defender_win(couleur defender, int n)
     {
       /* a little optimization if end "state" is en passant capture,
        * but no en passant capture is possible */
+      /* TODO Should we play the same trick for castling? Other end
+       * states? */
     }
     else
     {
@@ -1785,36 +1800,8 @@ boolean sr_does_defender_win(couleur defender, int n)
   {
     int ntcount = 0;
 
-    /* Check whether the defender's king has more flight squares than
-       he is allowed to have. The number of allowed flights
-       (maxflights) is entered using the solflights option.
-    */
-    if (n>1 && OptFlag[solflights])
-    {
-      /* Initialise the flight counter. The number of flights is
-         counted down.
-      */
-      int nrflleft = maxflights+1;
-
-      /* generate a ply */
-      genmove(defender);
-
-      /* test all possible moves */
-      while (encore() && nrflleft>0)
-      {
-        if (jouecoup() && !echecc(defender))
-          /* It is a legal move.
-          ** Hence decrement the flight counter */
-          nrflleft--;
-
-        repcoup();
-      }
-      finply();
-
-      if (nrflleft==0)
-        /* The number of flight squares is greater than allowed. */
-        return true;
-    } /* solflights */
+    if (n>1 && OptFlag[solflights] && has_too_many_flights(defender))
+      return true;
 
     /* Check whether defender has more non trivial moves than he is
        allowed to have. The number of such moves allowed

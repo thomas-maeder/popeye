@@ -199,7 +199,7 @@ void InitCond(void) {
 void InitOpt(void) {
   int i;
 
-  maxflights= 64;
+  max_nr_flights = 64;
   maxsolvingtime = UINT_MAX;
   max_nr_refutations = 0;
   MoveNbr= RestartNbr= 0;

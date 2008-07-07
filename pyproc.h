@@ -273,6 +273,7 @@ boolean soutenu (square departure, square arrival, square capture);
 boolean notsoutenu (square a, square b, square c);
 
 int count_non_trivial(couleur defender);
+boolean has_too_many_flights(couleur defender);
 boolean dsr_does_attacker_win(couleur a, int b);
 boolean dsr_does_defender_lose(couleur a, int b);
 boolean dsr_defends_threats(couleur a, int b, int c);
