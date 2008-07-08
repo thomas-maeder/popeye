@@ -1644,7 +1644,7 @@ static boolean selflastencore(couleur camp,
     if (TSTFLAG(PieSpExFlags,Neutral))
       initneutre(advers(camp));
 
-    while (curr_square!=NULL)
+    while (curr_square!=initsquare)
     {
       if (curr_square!=initiallygenerated)
       {
