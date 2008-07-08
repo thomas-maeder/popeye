@@ -2566,7 +2566,7 @@ static char *ParseOpt(void) {
       if (tok==ptr || max_nr_flights<0)
       {
         IoErrorMsg(WrongInt, 0);
-        max_nr_flights = 64;
+        max_nr_flights = INT_MAX;
         return ReadNextTokStr();
       }
       break;

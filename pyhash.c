@@ -1396,41 +1396,8 @@ boolean mate(couleur defender, int n)
   ** marked unsolvable for white in the hash table. */
   /* TODO should we? i.e. do it or remove comment */
 
-  /* Check whether the black king has more flight squares than he is
-  ** allowed to have. The number of allowed flights (max_nr_flights)
-  ** is entered using the solflights option. */
-
-  if (n>1 && OptFlag[solflights])
-  {
-    /* Initialise the flight counter. The number of flights is counted
-    ** down. */
-    int nrflleft = max_nr_flights+1;
-
-    /* Store the square of the black king. */
-    square save_rbn = defender==noir ? rn : rb;
-
-    /* generate a ply */
-    genmove(defender);
-
-    /* test all possible moves */
-    while (encore() && nrflleft>0)
-    {
-      if (jouecoup())
-      {
-        /* Test whether the king has moved and this move is legal. */
-        square const rbn = defender==noir ? rn : rb;
-        if (save_rbn!=rbn && !echecc(defender))
-          /* It is a legal king move. Hence decrement the flight counter */
-          nrflleft--;
-      }
-      repcoup();
-    }
-    finply();
-
-    if (nrflleft==0)
-      /* The number of flight squares is greater than allowed. */
-      return false;
-  } /* solflights */
+  if (n>1 && OptFlag[solflights] && has_too_many_flights(defender))
+    return false;
 
   if (n>max_len_threat
       && !echecc(defender)
