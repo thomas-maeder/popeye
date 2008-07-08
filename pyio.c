@@ -1166,8 +1166,6 @@ static char *ParseGoal(char *tok) {
   if (SortFlag(Proof))
     return tok;
 
-  stipSettings[reciprocal].stipulation= no_stipulation;
-
   /* test for reciprocal help play with different ends for Black and
    * White; e.g. reci-h(=)#3 */
   if (FlowFlag(Reci) && *tok == '(') {
@@ -1200,7 +1198,8 @@ static char *ParseStip(void) {
     currentStipSettings = stipSettings[nonreciprocal];
 
     /* set reci stip if not parsed */
-    if (FlowFlag(Reci) && stipSettings[reciprocal].stipulation==no_stipulation)
+    if (FlowFlag(Reci)
+        && stipSettings[reciprocal].stipulation==no_stipulation)
       stipSettings[reciprocal] = stipSettings[nonreciprocal];
 
     if (!*tok) {

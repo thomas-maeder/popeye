@@ -268,9 +268,13 @@ void InitBoard(void) {
   nrhuntertypes = 0;
 } /* InitBoard */
 
-void InitStip(void) {
+void InitStip(void)
+{
   FlagGenMatingMove= FlagMoveOrientatedStip= False;
   enonce= 0;
+
+  stipSettings[nonreciprocal].stipulation = no_stipulation;
+  stipSettings[reciprocal].stipulation = no_stipulation;
 }
 
 void InitAlways(void) {
