@@ -219,22 +219,22 @@ piece inc_einstein(piece p)
   return p;
 }
 
-/* all renai-functions have the following parameters:
-   p: piece captured
-   pspec: specifications of the piece captured
-   j: square where the capture takes place
-   i: square whre the capturing piece just came from
-   camp: colour of the moving=capturing side
-*/
 #if defined(DOS)
 # pragma warn -par
 #endif
 
-square renplus(piece p, Flags pspec, square j, square i, square ia, couleur camp) {
+square renplus(piece p_captured, Flags p_captured_spec,
+               square sq_capture, square sq_departure, square sq_arrival,
+               couleur capturer) {
   /* Echecs plus */
-  if (j==square_d4 || j==square_e4 || j==square_d5 || j==square_e5) {
+  if (sq_capture==square_d4
+      || sq_capture==square_e4
+      || sq_capture==square_d5
+      || sq_capture==square_e5)
+  {
     square k;
-    switch (more_ren) {
+    switch (more_ren)
+    {
     case 0 : k= square_d4; break;
     case 1 : k= square_e4; break;
     case 2 : k= square_d5; break;
@@ -247,115 +247,140 @@ square renplus(piece p, Flags pspec, square j, square i, square ia, couleur camp
 
     return k;
   }
-  return j;
+  else
+    return sq_capture;
 }
 
-square renrank(piece p, Flags pspec, square j, square i, square ia, couleur camp) {
-  square sq= (j / onerow) & 1 ? rennormal (p, pspec, j, i, ia, camp) :
-    renspiegel(p, pspec, j, i, ia, camp);
-  return onerow * (j / onerow) + sq % onerow;
+square renrank(piece p_captured, Flags p_captured_spec,
+               square sq_capture, square sq_departure, square sq_arrival,
+               couleur capturer) {
+  square sq= ((sq_capture/onerow)%2==1
+              ? rennormal(p_captured,p_captured_spec,
+                          sq_capture,sq_departure,sq_arrival,capturer)
+              : renspiegel(p_captured,p_captured_spec,
+                           sq_capture,sq_departure,sq_arrival,capturer));
+  return onerow*(sq_capture/onerow) + sq%onerow;
 }
 
-square renfile(piece p, Flags pspec, square j, square i, square ia, couleur camp)
+square renfile(piece p_captured, Flags p_captured_spec,
+               square sq_capture, square sq_departure, square sq_arrival,
+               couleur capturer)
 {
-  int col= j % onerow;
+  int col= sq_capture % onerow;
 
-  if (camp == noir) { /* white piece captured */
-    if (is_pawn(p))
-      return (col + 216); /* TODO use symbols square_a2 ...*/
+  if (capturer==noir)
+  {
+    if (is_pawn(p_captured))
+      return col + (nr_of_slack_rows_below_board+1)*onerow;
     else
-      return (col + 192);
-  } else {  /* black piece captured */
-    if (is_pawn(p))
-      return (col + 336);
+      return col + nr_of_slack_rows_below_board*onerow;
+  }
+  else
+  {
+    if (is_pawn(p_captured))
+      return col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
     else
-      return (col + 360);
+      return col + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
   }
 }
 
-square renspiegelfile(piece p, Flags pspec, square j, square i, square ia, couleur camp)
+square renspiegelfile(piece p_captured, Flags p_captured_spec,
+                      square sq_capture,
+                      square sq_departure, square sq_arrival,
+                      couleur capturer)
 {
-  return renfile(p, pspec, j, i, ia, advers(camp));
+  return renfile(p_captured,p_captured_spec,
+                 sq_capture,sq_departure,sq_arrival,advers(capturer));
 } /* renspiegelfile */
 
-square renpwc(piece p, Flags pspec, square j, square i, square ia, couleur camp)
+square renpwc(piece p_captured, Flags p_captured_spec,
+              square sq_capture, square sq_departure, square sq_arrival,
+              couleur capturer)
 {
-  return i;
+  return sq_departure;
 } /* renpwc */
 
-square renequipollents(piece p, Flags pspec, square j, square i, square ia, couleur camp)
+square renequipollents(piece p_captured, Flags p_captured_spec,
+                       square sq_capture,
+                       square sq_departure, square sq_arrival,
+                       couleur capturer)
 {
   /* we have to solve the enpassant capture / locust capture problem in the future. */
 #if defined(WINCHLOE)
-  return (j + ia - i);
+  return sq_capture + sq_arrival - sq_departure;
 #endif
-  return (j + j - i);
+  return sq_capture + sq_capture - sq_departure;
 } /* renequipollents */
 
-square renequipollents_anti(piece p, Flags pspec, square j, square i, square ia, couleur camp)
+square renequipollents_anti(piece p_captured, Flags p_captured_spec,
+                            square sq_capture,
+                            square sq_departure, square sq_arrival,
+                            couleur capturer)
 {
   /* we have to solve the enpassant capture / locust capture problem in the future. */
 #if defined(WINCHLOE)
-  return (ia + ia - i);
+  return sq_arrival + sq_arrival - sq_departure;
 #endif
-  return (j + j - i);
+  return sq_capture + sq_capture - sq_departure;
 } /* renequipollents_anti */
 
-square rensymmetrie(piece p, Flags pspec,
-                    square j, square i, square ia,
-                    couleur camp)
+square rensymmetrie(piece p_captured, Flags p_captured_spec,
+                    square sq_capture,
+                    square sq_departure, square sq_arrival,
+                    couleur capturer)
 {
-  return (haut+bas) - j;
+  return (haut+bas) - sq_capture;
 } /* rensymmetrie */
 
-square renantipoden(piece p, Flags pspec,
-                    square j, square i, square ia,
-                    couleur camp)
+square renantipoden(piece p_captured, Flags p_captured_spec,
+                    square sq_capture,
+                    square sq_departure, square sq_arrival,
+                    couleur capturer)
 {
-  int const row= j/onerow - nr_of_slack_rows_below_board;
-  int const file= j%onerow - nr_of_slack_files_left_of_board;
+  int const row= sq_capture/onerow - nr_of_slack_rows_below_board;
+  int const file= sq_capture%onerow - nr_of_slack_files_left_of_board;
   
-  i= j;
+  sq_departure= sq_capture;
 
   if (row<nr_rows_on_board/2)
-    i+= nr_rows_on_board/2*dir_up;
+    sq_departure+= nr_rows_on_board/2*dir_up;
   else
-    i+= nr_rows_on_board/2*dir_down;
+    sq_departure+= nr_rows_on_board/2*dir_down;
 
   if (file<nr_files_on_board/2)
-    i+= nr_files_on_board/2*dir_right;
+    sq_departure+= nr_files_on_board/2*dir_right;
   else
-    i+= nr_files_on_board/2*dir_left;
+    sq_departure+= nr_files_on_board/2*dir_left;
 
-  return i;
+  return sq_departure;
 } /* renantipoden */
 
-square rendiagramm(piece p, Flags pspec,
-                   square j, square i, square ia,
-                   couleur camp)
+square rendiagramm(piece p_captured, Flags p_captured_spec,
+                   square sq_capture, square sq_departure, square sq_arrival,
+                   couleur capturer)
 {
-  return DiaRen(pspec);
+  return DiaRen(p_captured_spec);
 }
 
-square rennormal(piece p, Flags pspec,
-                 square j, square i, square ia,
-                 couleur camp)
+square rennormal(piece p_captured, Flags p_captured_spec,
+                 square sq_capture, square sq_departure, square sq_arrival,
+                 couleur capturer)
 {
   square  Result;
   int col, ran;
   couleur  cou;
 
-  col = j % onerow;
-  ran = j / onerow;
+  col = sq_capture % onerow;
+  ran = sq_capture / onerow;
 
-  p= abs(p);
+  p_captured= abs(p_captured);
 
   if (CondFlag[circemalefiquevertical]) {
     col= onerow-1 - col;
-    if (p == db)
-      p= roib;
-    else if (p == roib)
-      p= db;
+    if (p_captured == db)
+      p_captured= roib;
+    else if (p_captured == roib)
+      p_captured= db;
   }
 
   if ((ran&1) != (col&1))
@@ -364,19 +389,20 @@ square rennormal(piece p, Flags pspec,
     cou = noir;
 
   if (CondFlag[cavaliermajeur])
-    if (p == nb)
-      p = cb;
+    if (p_captured == nb)
+      p_captured = cb;
 
   /* Below is the reason for the define problems. What a "hack" ! */
   if (CondFlag[leofamily] &&
-      (p > Bishop) && (Vao >= p))
-    p-= 4;
+      (p_captured > Bishop) && (Vao >= p_captured))
+    p_captured-= 4;
 
-  if (camp == noir) {  /* captured white piece */
-    if (is_pawn(p))
+  if (capturer == noir)
+  {
+    if (is_pawn(p_captured))
       Result= col + (nr_of_slack_rows_below_board+1)*onerow;
     else {
-      if (!flagdiastip && TSTFLAG(pspec, FrischAuf)) {
+      if (!flagdiastip && TSTFLAG(p_captured_spec, FrischAuf)) {
         Result= (col
                  + (onerow
                     *(CondFlag[glasgow]
@@ -384,7 +410,7 @@ square rennormal(piece p, Flags pspec,
                       : nr_of_slack_rows_below_board+nr_rows_on_board-1)));
       }
       else
-        switch(p) {
+        switch(p_captured) {
         case roib:
           Result= square_e1;
           break;
@@ -408,11 +434,13 @@ square rennormal(piece p, Flags pspec,
                         : nr_of_slack_rows_below_board+nr_rows_on_board-1)));
         }
     }
-  } else {   /* captured black piece */
-    if (is_pawn(p))
+  }
+  else
+  {
+    if (is_pawn(p_captured))
       Result= col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
     else {
-      if (!flagdiastip && TSTFLAG(pspec, FrischAuf)) {
+      if (!flagdiastip && TSTFLAG(p_captured_spec, FrischAuf)) {
         Result= (col
                  + (onerow
                     *(CondFlag[glasgow]
@@ -420,7 +448,7 @@ square rennormal(piece p, Flags pspec,
                       : nr_of_slack_rows_below_board)));
       }
       else
-        switch(p) {
+        switch(p_captured) {
         case fb:
           Result= cou == blanc ? square_c8 : square_f8;
           break;
@@ -449,22 +477,28 @@ square rennormal(piece p, Flags pspec,
   return(Result);
 } /* rennormal */
 
-square rendiametral(piece p, Flags pspec,
-                    square j, square i, square ia,
-                    couleur camp) {
-  return haut+bas - rennormal(p,pspec,j,i,ia,camp);
+square rendiametral(piece p_captured, Flags p_captured_spec,
+                    square sq_capture,
+                    square sq_departure, square sq_arrival,
+                    couleur capturer) {
+  return (haut+bas
+          - rennormal(p_captured,p_captured_spec,
+                      sq_capture,sq_departure,sq_arrival,capturer));
 }
 
-square renspiegel(piece p, Flags pspec,
-                  square j, square i, square ia,
-                  couleur camp)
+square renspiegel(piece p_captured, Flags p_captured_spec,
+                  square sq_capture,
+                  square sq_departure, square sq_arrival,
+                  couleur capturer)
 {
-  return rennormal(p, pspec, j, i, ia, advers(camp));
+  return rennormal(p_captured,p_captured_spec,
+                   sq_capture,sq_departure,sq_arrival,advers(capturer));
 }
 
-square rensuper(piece p, Flags pspec,
-                square j, square i, square ia,
-                couleur camp)
+square rensuper(piece p_captured, Flags p_captured_spec,
+                square sq_capture,
+                square sq_departure, square sq_arrival,
+                couleur capturer)
 {
   return super[nbply];
 }
