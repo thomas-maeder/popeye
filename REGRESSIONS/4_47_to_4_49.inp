@@ -1,0 +1,17 @@
+begin
+
+title short play after key in reflex stipulations was missed
+prot 4_47_to_4_49.ref
+pieces white ka1 pa2a3 black pc2
+stip r#2
+option vari nobk
+
+next
+
+title losing chess proof games produced error message
+fors rsbqkbsr/pppppppp/8/8/8/P7/1PPPPPPP/RSBQKBSR
+stip dia0.5
+cond losing
+
+end
+
