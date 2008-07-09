@@ -485,8 +485,8 @@ boolean singleboxtype3_rnechec(
 
 boolean annan_rnechec(evalfunction_t *evaluate) 
 {
-  square annan_sq[64];
-  piece annan_p[64];
+  square annan_sq[nr_squares_on_board];
+  piece annan_p[nr_squares_on_board];
   int annan_cnt= 0;
   boolean ret;
 
@@ -726,8 +726,8 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
 
 boolean annan_rbechec(evalfunction_t *evaluate) 
 {
-  square annan_sq[64];
-  piece annan_p[64];
+  square annan_sq[nr_squares_on_board];
+  piece annan_p[nr_squares_on_board];
   int annan_cnt= 0;
   boolean ret;
 

@@ -35,7 +35,7 @@ static square ProofSquares[32];
 static int ProofNbrAllPieces;
 echiquier ProofBoard, PosA;
 square Proof_rb, Proof_rn, rbA, rnA;
-Flags ProofSpec[64], SpecA[64];
+Flags ProofSpec[nr_squares_on_board], SpecA[nr_squares_on_board];
 static imarr Proof_isquare;
 imarr isquareA;
 
@@ -254,7 +254,7 @@ void ProofInitialise(void) {
     ProofBoard[i]= e[i];
   }
 
-  for (i = 0; i < 64; i++) {
+  for (i = 0; i < nr_squares_on_board; i++) {
     ProofSpec[i]=spec[boardnum[i]];
     /* in case continued twinning
      * to other than proof game

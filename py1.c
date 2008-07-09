@@ -588,7 +588,8 @@ boolean noalfilcontact(square ia)
 
 boolean nodabbabacontact(square ia)
 {
-  return noleapcontact(ia, 61, 64);
+  /* TODO replace all these magic numbers by symbols */
+  return noleapcontact(ia, vec_dabbaba_start, vec_dabbaba_end);
 }
 
 boolean nozebracontact(square ia)
@@ -761,8 +762,8 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
 
 /* new versions of StorePosition() and ResetPosition() */
 
-Flags		sic_spec[64];
-piece		sic_e[64];
+Flags		sic_spec[nr_squares_on_board];
+piece		sic_e[nr_squares_on_board];
 int	sic_inum1;
 imarr		sic_isquare;
 square		sic_im0, rn_sic, rb_sic;
@@ -772,7 +773,7 @@ void StorePosition(void) {
   int	    i;
 
   rn_sic= rn; rb_sic= rb;
-  for (i= 0; i < 64; i++) {
+  for (i= 0; i < nr_squares_on_board; i++) {
 	sic_e[i]= e[boardnum[i]];
 	sic_spec[i]= spec[boardnum[i]];
   }
@@ -796,7 +797,7 @@ void ResetPosition(void) {
 
   rn= rn_sic; rb= rb_sic;
 
-  for (i= 0; i < 64; i++) {
+  for (i= 0; i < nr_squares_on_board; i++) {
 	nbpiece[e[boardnum[i]]= sic_e[i]]++;
 	spec[boardnum[i]]= sic_spec[i];
   }

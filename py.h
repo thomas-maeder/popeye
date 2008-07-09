@@ -1181,7 +1181,9 @@ enum {
   nr_of_slack_rows_below_board= 8,
 
   nr_files_on_board= 8,
-  nr_rows_on_board= 8
+  nr_rows_on_board= 8,
+
+  nr_squares_on_board = nr_files_on_board*nr_rows_on_board
 };
 
 enum {

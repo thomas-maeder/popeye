@@ -47,10 +47,10 @@ long MatesMax;
 
 extern int ProofKnightMoves[];
 
-PIECE white[64], black[64], final[64];
-boolean whiteused[64], blackused[64], is_cast_supp;
+PIECE white[nr_squares_on_board], black[nr_squares_on_board], final[nr_squares_on_board];
+boolean whiteused[nr_squares_on_board], blackused[nr_squares_on_board], is_cast_supp;
 square is_ep, is_ep2;
-int moves_to_prom[64];
+int moves_to_prom[nr_squares_on_board];
 square squarechecking, *deposebnp;
 piece piecechecking;
 int nbrchecking;
@@ -58,7 +58,7 @@ int nbrchecking;
 MOVE **Sols;
 int SolMax;
 
-PIECE Mate[64];
+PIECE Mate[nr_squares_on_board];
 int IndxChP;
 
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
@@ -2270,7 +2270,7 @@ void GenerateChecking(int whmoves, int blmoves) {
 
 	whiteused[j]= true;
 	nbrchecking= j;
-	for (i= 0; i < 64; i++) {
+	for (i= 0; i < nr_squares_on_board; i++) {
       sq= boardnum[i];
       if (e[sq] != vide) {
 		continue;
@@ -2336,7 +2336,7 @@ void GenerateBlackKing(int whmoves, int blmoves) {
   StdString(GlobalStr);
 #endif
 
-  for (i= 0; i < 64; i++) {
+  for (i= 0; i < nr_squares_on_board; i++) {
 	sq= boardnum[i];
 	if (e[sq] == obs)
       continue;
