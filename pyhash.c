@@ -1305,11 +1305,15 @@ void inithash(void)
     bytes_per_spec= 5; /* TODO why so high??? */
   }
 
-  if (SortFlag(Proof)) {
-    encode= ProofEncode;
+  if (currentStipSettings.stipulation==stip_proof
+      || currentStipSettings.stipulation==stip_atob)
+  {
+    encode = ProofEncode;
     if (MaxMemory>0 && MaxPositions==0)
       MaxPositions= MaxMemory/(24+sizeof(char *)+1);
-  } else {
+  }
+  else
+  {
     Small= TellSmallEncodePosLeng();
     Large= TellLargeEncodePosLeng();
     if (Small <= Large) {
@@ -1317,7 +1321,8 @@ void inithash(void)
       if (MaxMemory>0 && MaxPositions==0)
         MaxPositions= MaxMemory/(Small+sizeof(char *)+1);
     }
-    else {
+    else
+    {
       encode= LargeEncode;
       if (MaxMemory>0 && MaxPositions==0)
         MaxPositions= MaxMemory/(Large+sizeof(char *)+1);

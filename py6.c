@@ -269,7 +269,10 @@ boolean verifieposition(void)
     max_len_threat = maxply;
 
   zugebene= 0;
-  if (FlowFlag(Alternate) && ! SortFlag(Proof)) {
+  if (FlowFlag(Alternate)
+      && !(currentStipSettings.stipulation==stip_proof
+           || currentStipSettings.stipulation==stip_atob))
+  {
     if (enonce<2 && max_nr_refutations>0 && !SortFlag(Self))
     {
       ErrorMsg(TryInLessTwo);
@@ -1571,9 +1574,9 @@ boolean verifieposition(void)
   }
 
 #if !defined(DATABASE)
-  if (SortFlag(Proof)) {
+  if (currentStipSettings.stipulation==stip_proof
+      || currentStipSettings.stipulation==stip_atob)
     return ProofVerifie();
-  }
 #endif
     
   return true;
@@ -3485,7 +3488,9 @@ int main(int argc, char *argv[]) {
           }
         }
         StorePosition();
-        if (SortFlag(Proof)) {
+        if (currentStipSettings.stipulation==stip_proof
+            || currentStipSettings.stipulation==stip_atob)
+        {
           ProofInitialise();
           inithash();
           /* no DUPLEX for SPG's ! */

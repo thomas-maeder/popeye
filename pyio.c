@@ -1059,14 +1059,16 @@ static char *ParseSort(char *tok)
 {
   if (strncmp("dia", tok, 3) == 0)
   {
-    StipFlags |= SortBit(Proof);
+    /* TODO should we set SortBit(Help)? */
+    /* StipFlags |= SortBit(Proof); */
     return tok; /* "dia" also defines a goal */
   }
 
 #if !defined(DATABASE)
   if (strncmp("a=>b", tok, 4) == 0)
   {
-    StipFlags |= SortBit(Proof);
+    /* TODO should we set SortBit(Help)? */
+    /* StipFlags |= SortBit(Proof); */
     return tok; /* "a=>b" also defines a goal */
   }
 #endif
@@ -1243,7 +1245,9 @@ static char *ParseStip(void)
       tok = ReadNextTokStr();
       strcat(AlphaStip, tok);
     }
-    if (SortFlag(Proof) && FlowFlag(Alternate))
+    if ((currentStipSettings.stipulation==stip_proof
+         || currentStipSettings.stipulation==stip_atob)
+        && FlowFlag(Alternate))
     {
       if ((enonce=2*atoi(tok)) < 0)
         IoErrorMsg(WrongInt, 0);
@@ -3237,31 +3241,33 @@ static char *ParseTwin(void) {
       continue;
     }
 
-    if (!TwinRead) {
-      if (!continued) {
+    if (!TwinRead)
+    {
+      if (!continued)
         TwinResetPosition();
-      }
-      else {
+      else
+      {
 #if !defined(DATABASE)
-        if (SortFlag(Proof)) {
+        if (currentStipSettings.stipulation==stip_proof
+            || currentStipSettings.stipulation==stip_atob)
+        {
           /* fixes bug for continued twinning
              in proof games; changes were made
              to game array!
           */
-          for (i=maxsquare-1; i>=0; i--) {
-            e[i]=ProofBoard[i];
-          }
-          for (i= 0; i< nr_squares_on_board; i++) {
-            spec[boardnum[i]]=ProofSpec[i];
-          }
-          rn=Proof_rn;
-          rb=Proof_rb;
+          for (i = maxsquare-1; i>=0; i--)
+            e[i] = ProofBoard[i];
+
+          for (i= 0; i<nr_squares_on_board; i++)
+            spec[boardnum[i]] = ProofSpec[i];
+
+          rn = Proof_rn;
+          rb = Proof_rb;
         }
 #endif /* DATABASE */
         StdChar('+');
-        if (LaTeXout) {
+        if (LaTeXout)
           strcat(ActTwin, "+");
-        }
       }
 
       if (TwinChar <= 'z') {

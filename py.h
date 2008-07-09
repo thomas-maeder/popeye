@@ -854,8 +854,7 @@ typedef int Flow;
 #define Help            1
 #define Self            2
 #define Reflex          3
-#define Proof           4
-#define SortCount       5
+#define SortCount       4
 typedef int Sort;
 /*--- End of } Sort;---*/
 
