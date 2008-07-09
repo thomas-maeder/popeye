@@ -1059,16 +1059,14 @@ static char *ParseSort(char *tok)
 {
   if (strncmp("dia", tok, 3) == 0)
   {
-    /* TODO should we set SortBit(Help)? */
-    /* StipFlags |= SortBit(Proof); */
+    StipFlags |= SortBit(Help);
     return tok; /* "dia" also defines a goal */
   }
 
 #if !defined(DATABASE)
   if (strncmp("a=>b", tok, 4) == 0)
   {
-    /* TODO should we set SortBit(Help)? */
-    /* StipFlags |= SortBit(Proof); */
+    StipFlags |= SortBit(Help);
     return tok; /* "a=>b" also defines a goal */
   }
 #endif
@@ -1245,33 +1243,51 @@ static char *ParseStip(void)
       tok = ReadNextTokStr();
       strcat(AlphaStip, tok);
     }
-    if ((currentStipSettings.stipulation==stip_proof
-         || currentStipSettings.stipulation==stip_atob)
-        && FlowFlag(Alternate))
+
+    if (SortFlag(Help) && FlowFlag(Alternate))
     {
-      if ((enonce=2*atoi(tok)) < 0)
-        IoErrorMsg(WrongInt, 0);
-      while (*tok && '0' <= *tok && *tok <= '9')
-        tok++;
-      if (tok && *tok == '.' && (tok+1) && *(tok+1) == '5')
+      char *ptr;
+      enonce = strtol(tok,&ptr,10);
+
+      if (tok==ptr || enonce<0)
+        IoErrorMsg(WrongInt,0);
+      else
+      {
+        /* TODO why count half moves in proof games and full moves in
+         * regular help play? */
+        if (currentStipSettings.stipulation==stip_proof
+            || currentStipSettings.stipulation==stip_atob)
+          enonce *= 2;
+
+        tok = ptr;
+      }
+
+      if (strncmp(tok,".5",2)==0)
+      {
+        /* flag_appseul means half a move less at the beginning; in
+         * proof games, .5 means half a move less at the end.
+         * Once regular help play counts halve moves, this check and
+         * flag_appseul will be obsolete.
+         */
+        if (currentStipSettings.stipulation!=stip_proof
+            && currentStipSettings.stipulation!=stip_atob)
+          flag_appseul = true;
+
         enonce++;
+      }
     }
     else
     {
-      if ((enonce=atoi(tok)) < 1)
+      char *ptr;
+      enonce = strtol(tok,&ptr,10);
+      if (tok==ptr || enonce<0)
         IoErrorMsg(WrongInt, 0);
-      if (SortFlag(Help) && FlowFlag(Alternate))
-      {
-        while (*tok && '0' <= *tok && *tok <= '9')
-          tok++;
-        flag_appseul= (tok && *tok == '.' && (tok+1) && *(tok+1) == '5'); 
-        if (flag_appseul)
-          enonce++;
-      }
     }
   }
-  if (enonce && ActStip[0] == '\0')
+
+  if (enonce && ActStip[0]=='\0')
     strcpy(ActStip, AlphaStip);
+
   return ReadNextTokStr();
 }
 
