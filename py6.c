@@ -2318,8 +2318,6 @@ int count_non_trivial(couleur defender)
  */
 boolean has_too_many_flights(couleur defender)
 {
-  /* TODO is it more efficient to initialise a pointer here and save
-   * the repeated check further down? */
   square save_rbn = defender==noir ? rn : rb;
   if (save_rbn==initsquare)
     return false;
