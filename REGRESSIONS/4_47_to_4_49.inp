@@ -13,5 +13,14 @@ fors rsbqkbsr/pppppppp/8/8/8/P7/1PPPPPPP/RSBQKBSR
 stip dia0.5
 cond losing
 
+next
+
+title erroneous maxflight numbers weren't completely ignored
+pieces white ka8 pg2h2
+black kh1
+stipulation ct4
+condition antisupercirce
+option maxflight -1
+
 end
 

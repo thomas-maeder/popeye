@@ -59,3 +59,48 @@ losing chess proof games produced error message
 solution finished. 
 
 
+input-error:wrong integer
+offending item: -1
+
+erroneous maxflight numbers weren't completely ignored
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   P   P   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ct4                         3 + 1
+        AntiSuperCirce  Calvet
+
+  1.Ka8-b8 ! 
+
+  1.Ka8-a7 ! 
+
+  1.Ka8-b7 ! 
+
+  1.h2-h4 ! 
+
+  1.h2-h3 ! 
+
+  1.g2-g4 ! 
+
+  1.g2-g3 ! 
+
+
+solution finished. 
+
+
