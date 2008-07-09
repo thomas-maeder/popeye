@@ -1011,7 +1011,7 @@ static char *ParsePieSpec(char echo) {
 
 static char *ParseFlow(char *tok)
 {
-  /* seriesmovers with introducory moves */
+  /* seriesmovers with introductory moves */
   if (strstr(tok,"->"))
   {
     if ((introenonce= atoi(tok)) < 1)
@@ -1230,6 +1230,8 @@ static char *ParseStip(void)
   tok = ParseGoal(tok);
   if (tok)
   {
+    char *ptr;
+
     /* set defaults */
     currentStipSettings = stipSettings[nonreciprocal];
 
@@ -1244,48 +1246,27 @@ static char *ParseStip(void)
       strcat(AlphaStip, tok);
     }
 
+    enonce = strtol(tok,&ptr,10);
+    if (tok==ptr || enonce<0)
+    {
+      enonce = 0;
+      IoErrorMsg(WrongInt,0);
+    }
+
     if (SortFlag(Help) && FlowFlag(Alternate))
     {
-      char *ptr;
-      enonce = strtol(tok,&ptr,10);
-
-      if (tok==ptr || enonce<0)
-        IoErrorMsg(WrongInt,0);
-      else
-      {
-        /* TODO why count half moves in proof games and full moves in
-         * regular help play? */
-        if (currentStipSettings.stipulation==stip_proof
-            || currentStipSettings.stipulation==stip_atob)
-          enonce *= 2;
-
-        tok = ptr;
-      }
-
+      tok = ptr;
       if (strncmp(tok,".5",2)==0)
       {
-        /* flag_appseul means half a move less at the beginning; in
-         * proof games, .5 means half a move less at the end.
-         * Once regular help play counts halve moves, this check and
-         * flag_appseul will be obsolete.
-         */
-        if (currentStipSettings.stipulation!=stip_proof
-            && currentStipSettings.stipulation!=stip_atob)
-          flag_appseul = true;
-
-        enonce++;
+        ++enonce;
+        flag_appseul = true;
       }
-    }
-    else
-    {
-      char *ptr;
-      enonce = strtol(tok,&ptr,10);
-      if (tok==ptr || enonce<0)
-        IoErrorMsg(WrongInt, 0);
+
+      enonce *= 2; /* we count half moves in help play */
     }
   }
 
-  if (enonce && ActStip[0]=='\0')
+  if (enonce>0 && ActStip[0]=='\0')
     strcpy(ActStip, AlphaStip);
 
   return ReadNextTokStr();

@@ -269,28 +269,29 @@ boolean verifieposition(void)
     max_len_threat = maxply;
 
   zugebene= 0;
-  if (FlowFlag(Alternate)
-      && !(currentStipSettings.stipulation==stip_proof
-           || currentStipSettings.stipulation==stip_atob))
+  if (FlowFlag(Alternate) && !SortFlag(Help))
   {
     if (enonce<2 && max_nr_refutations>0 && !SortFlag(Self))
     {
       ErrorMsg(TryInLessTwo);
       max_nr_refutations = 0;
     }
-    if ( OptFlag[stoponshort]
-         && (SortFlag(Direct) || SortFlag(Self)))
+    if (OptFlag[stoponshort])
     {
       ErrorMsg(NoStopOnShortSolutions);
       OptFlag[stoponshort]= false;
     }
-    if (enonce > (maxply-1)/2)
+
+    /* ennonce means full moves */
+    if (enonce>(maxply-1)/2)
     {
       VerifieMsg(BigNumMoves);
       return false;
     }
   }
-  else {
+  else
+  {
+    /* ennonce means half moves */
     if (enonce >= maxply-2)
     {
       VerifieMsg(BigNumMoves);
@@ -3085,27 +3086,28 @@ void SolveSeriesProblems(couleur camp)
 
 void SolveHelpProblems(couleur camp)
 {
-  int n = 2*enonce;
+  int n = enonce;
   int i;
   boolean is_exact = FlowFlag(Exact);
 
-  move_generation_mode= move_generation_not_optimized;
+  if (flag_appseul)
+    /* reduction by one half move because user said so in options */
+    --n;
+
+  if (n%2==1)
+    camp = advers(camp);
 
   if (SortFlag(Self))
   {
     n--;
-    camp= advers(camp);
+    camp = advers(camp);
   }
 
-  if (flag_appseul)
-  {
-    n--;
-    camp= advers(camp);
-  }
+  move_generation_mode = move_generation_not_optimized;
 
   if (OptFlag[solapparent])
   {
-    SatzFlag= True;
+    SatzFlag = True;
     if (echecc(advers(camp)))
       ErrorMsg(KingCapture);
     else
@@ -3113,12 +3115,13 @@ void SolveHelpProblems(couleur camp)
       /* we are looking for shortest set plays only */
       int starti = (FlowFlag(Exact) || OptFlag[restart]
                     ? n-1
-                    : ((n-1)&1 ? 1 : 2));
+                    : ((n-1)%2==1 ? 1 : 2));
 
       if (OptFlag[intelligent])
       {
-        WhMovesLeft = BlMovesLeft = starti/2;
-        if (starti & 1)
+        WhMovesLeft = starti/2;
+        BlMovesLeft = starti/2;
+        if (starti%2==1)
           WhMovesLeft++;
 
         for (i = starti; i<=n-1; i += 2)
@@ -3140,24 +3143,25 @@ void SolveHelpProblems(couleur camp)
         }
     }
     StdChar('\n');
-    SatzFlag= False;
+    SatzFlag = False;
   }
 
   if (OptFlag[maxsols])    /* reset after set play */
-    solutions= 0;
+    solutions = 0;
 
   if (echecc(camp))
     ErrorMsg(KingCapture);
   else
   {
-    int starti= (FlowFlag(Exact) || OptFlag[restart]
-                 ? n
-                 : (n&1 ? 1 : 2));
+    int starti = (FlowFlag(Exact) || OptFlag[restart]
+                  ? n
+                  : (n%2==1 ? 1 : 2));
 
     if (OptFlag[intelligent])
     {
-      WhMovesLeft = BlMovesLeft = starti/2;
-      if (starti & 1)
+      WhMovesLeft = starti/2;
+      BlMovesLeft = starti/2;
+      if (starti%2==1)
         WhMovesLeft++;
 
       for (i = starti; i<=n; i += 2)
@@ -3167,7 +3171,7 @@ void SolveHelpProblems(couleur camp)
           StipFlags |= FlowBit(Exact);
           if (OptFlag[stoponshort] && i<n)
           {
-            FlagShortSolsReached= true;
+            FlagShortSolsReached = true;
             break;
           }
         }
@@ -3473,19 +3477,20 @@ int main(int argc, char *argv[]) {
 
       maincamp= OptFlag[halfduplex] ? noir : blanc;
 
-      if (verifieposition()) {
+      if (verifieposition())
+      {
         initStipCheckers();
         
-        if (!OptFlag[noboard]) {
+        if (!OptFlag[noboard])
           WritePosition();
-        }
-        if (printa) {
-          if (LaTeXout) {
+
+        if (printa)
+        {
+          if (LaTeXout)
             LaTeXBeginDiagram();
-          }
-          if (tk == TwinProblem) {
+
+          if (tk == TwinProblem)
             StdString("a)\n\n");
-          }
         }
         StorePosition();
         if (currentStipSettings.stipulation==stip_proof
@@ -3514,34 +3519,31 @@ int main(int argc, char *argv[]) {
           closehash();
           Message(NewLine);
         }
-        else {
-          do {
+        else
+        {
+          do
+          {
             inithash();
-            if (FlowFlag(Alternate)) {
-              if (SortFlag(Help)) {
-                if (OptFlag[duplex]
-                    && OptFlag[intelligent])
-                {
-                  SolveHelpProblems(blanc);
-                }
-                else {
-                  SolveHelpProblems(maincamp);
-                }
-              }
-              else {
-                SolveDirectProblems(maincamp);
-              }
-            }
-            else if (OptFlag[duplex]
-                     && OptFlag[intelligent])
+            if (FlowFlag(Alternate))
             {
+              if (SortFlag(Help))
+              {
+                if (OptFlag[duplex] && OptFlag[intelligent])
+                  SolveHelpProblems(blanc);
+                else
+                  SolveHelpProblems(maincamp);
+              }
+              else
+                SolveDirectProblems(maincamp);
+            }
+            else if (OptFlag[duplex] && OptFlag[intelligent])
               SolveSeriesProblems(blanc);
-            }
-            else {
+            else
               SolveSeriesProblems(maincamp);
-            }
+
             Message(NewLine);
-            if (OptFlag[duplex]) {
+            if (OptFlag[duplex])
+            {
               /* Set next side to calculate for duplex "twin" */
               maincamp= advers(maincamp);
               if ((OptFlag[maxsols] && solutions>=maxsolutions)
@@ -3555,11 +3557,11 @@ int main(int argc, char *argv[]) {
 #if defined(HASHRATE)
               HashStats(1, "\n\n");
 #endif
-              if (OptFlag[intelligent]) {
+              if (OptFlag[intelligent])
+              {
                 initduplex();
-                if (!verifieposition()) {
+                if (!verifieposition())
                   break;
-                }
               }
             } /* OptFlag[duplex] */
 
