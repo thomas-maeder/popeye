@@ -557,53 +557,52 @@ boolean noleapcontact(square ia, numvec kanf, numvec kend)
 
 boolean nokingcontact(square ia)
 {
-  return noleapcontact(ia, 1, 8);
+  return noleapcontact(ia, vec_queen_start, vec_queen_end);
 }
 
 boolean nowazircontact(square ia)
 {
-  return noleapcontact(ia, 1, 4); 
+  return noleapcontact(ia, vec_rook_start, vec_rook_end); 
 }
 
 boolean noferscontact(square ia)
 {
-  return noleapcontact(ia, 5, 8);
+  return noleapcontact(ia, vec_bishop_start, vec_bishop_end);
 }
 
 boolean noknightcontact(square ia)
 {
-  return noleapcontact(ia, 9, 16);
+  return noleapcontact(ia, vec_knight_start, vec_knight_end);
 }
 
 boolean nocamelcontact(square ia)
 {
-  return noleapcontact(ia, 33, 40);
+  return noleapcontact(ia, vec_chameau_start, vec_chameau_end);
 }
 
 boolean noalfilcontact(square ia)
 {
-  return noleapcontact(ia, 65, 68);
+  return noleapcontact(ia, vec_alfil_start, vec_alfil_end);
 }
 
 boolean nodabbabacontact(square ia)
 {
-  /* TODO replace all these magic numbers by symbols */
   return noleapcontact(ia, vec_dabbaba_start, vec_dabbaba_end);
 }
 
 boolean nozebracontact(square ia)
 {
-  return noleapcontact(ia, 25, 32);
+  return noleapcontact(ia, vec_zebre_start, vec_zebre_end);
 }
 
 boolean nogiraffecontact(square ia)
 {
-  return noleapcontact(ia, 41, 48);
+  return noleapcontact(ia, vec_girafe_start, vec_girafe_end);
 }
 
 boolean noantelopecontact(square ia)
 {
-  return noleapcontact(ia, 49, 56);
+  return noleapcontact(ia, vec_antilope_start, vec_antilope_end);
 }
 
 
