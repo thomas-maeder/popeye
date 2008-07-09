@@ -232,7 +232,8 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN) {
 } /* ProofInitialiseKingMoves */
 
 /* a function to store the position and set the PAS */
-void ProofInitialise(void) {
+void ProofInitialise(void)
+{
   int       i;
   piece p;
 
@@ -265,45 +266,45 @@ void ProofInitialise(void) {
       ProofSquares[ProofNbrAllPieces++]= boardnum[i];
     }
     CLEARFL(spec[boardnum[i]]);
-    p= e[boardnum[i]]= flag_atob ? PosA[boardnum[i]] : PAS[i];
+    p= e[boardnum[i]] = (currentStipSettings.stipulation==stip_atob
+                         ? PosA[boardnum[i]]
+                         : PAS[i]);
 
     /* We must set spec[] for the PAS.
        This is used in jouecoup for andernachchess!*/
-    if (p >= roib) {
+    if (p>=roib)
       SETFLAG(spec[boardnum[i]], White);
-    }
-    else if (p <= roin) {
+    else if (p<=roin)
       SETFLAG(spec[boardnum[i]], Black);
-    }
-    if (flag_atob)  {
+    if (currentStipSettings.stipulation==stip_atob)
       spec[boardnum[i]]= SpecA[i];
-    }
   }
 
-  if (CondFlag[imitators]) {
-    for (i= 0; i < maxinum; i++) {
+  if (CondFlag[imitators])
+    for (i= 0; i < maxinum; i++)
       Proof_isquare[i]= isquare[i];
-    }
-  }
 
   /* set the king squares */
-  if (!CondFlag[losingchess]) {
-    if (flag_atob) {
-      rb= rbA;
-      rn= rnA;
+  if (!CondFlag[losingchess])
+  {
+    if (currentStipSettings.stipulation==stip_atob)
+    {
+      rb = rbA;
+      rn = rnA;
     }
     else
     {
-      rb= square_e1;
-      rn= square_e8;
+      rb = square_e1;
+      rn = square_e8;
     }
   }
 
-  if (flag_atob && CondFlag[imitators])
+  if (currentStipSettings.stipulation==stip_atob && CondFlag[imitators])
     for (i= 0; i < maxinum; i++)
       isquare[i]= isquareA[i];
 
-  if (flag_atob) {
+  if (currentStipSettings.stipulation==stip_atob)
+  {
     char InitialLine[40];
     PieSpec atMove;
     if (FlowFlag(Alternate))
@@ -1145,11 +1146,13 @@ int ArrangePawns(
   return Diff;
 }
 
-static boolean NeverImpossible(int MovesAvailable) {
+static boolean NeverImpossible(int MovesAvailable)
+{
   return false;
 }
 
-static boolean ProofFairyImpossible(int MovesAvailable) {
+static boolean ProofFairyImpossible(int MovesAvailable)
+{
   square    *bnp, sq;
   piece p1, pparr;
   int   NbrWh, NbrBl;
@@ -1216,15 +1219,18 @@ static boolean ProofFairyImpossible(int MovesAvailable) {
     {
       int BlMovesLeft, WhMovesLeft;
 
-      if (FlowFlag(Alternate)) {
-        BlMovesLeft= WhMovesLeft= MovesAvailable/2;
-        if (MovesAvailable&1) {
-          if ((flag_atob&&!flag_appseul) != (enonce&1)) { /* TODO use % */
+      if (FlowFlag(Alternate))
+      {
+        BlMovesLeft = WhMovesLeft = MovesAvailable/2;
+        if (MovesAvailable&1)
+        {
+          boolean const enonce_is_odd = enonce%2==1;
+          if ((currentStipSettings.stipulation==stip_atob
+               && !flag_appseul)
+              != enonce_is_odd)
             WhMovesLeft++;
-          }
-          else {
+          else
             BlMovesLeft++;
-          }
         }
       }
       else {              /* ser-dia */
@@ -1390,12 +1396,13 @@ static boolean ProofImpossible(int MovesAvailable) {
   if (FlowFlag(Alternate)) {
     BlMovesLeft= WhMovesLeft= MovesAvailable/2;
     if (MovesAvailable&1) {
-      if ((flag_atob&&!flag_appseul) != (enonce&1)) { /* TODO use % */
+      boolean const enonce_is_odd = enonce%2==1;
+      if ((currentStipSettings.stipulation==stip_atob
+           && !flag_appseul)
+          != enonce_is_odd)
         WhMovesLeft++;
-      }
-      else {
+      else
         BlMovesLeft++;
-      }
     }
   }
   else {                /* ser-dia */

@@ -511,7 +511,6 @@ EXTERN square           chop[toppile + 1];
 EXTERN piece            sentinelb, sentineln;
 EXTERN boolean          anytraitor;
 EXTERN boolean          att_1[maxply + 1];
-EXTERN boolean          flag_atob;
 EXTERN nocontactfunc_t  koekofunc;
 EXTERN nocontactfunc_t  antikoekofunc;
 EXTERN boolean		OscillatingKingsTypeB[2], OscillatingKingsTypeC[2];

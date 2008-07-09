@@ -1182,8 +1182,6 @@ static char *ParsPartialGoal(char *tok, stipSettings_t *settings)
           isquare[i] = initsquare;
         }
 
-        flag_atob= true;
-
         return tok+4;
       }
 #endif

@@ -2153,12 +2153,15 @@ void linesolution(void) {
   repere[nbply + 1]= nbcou;
   camp= trait[nbply= 2];
   ResetPosition();
-  if (   ((!flag_atob && flag_appseul) || SatzFlag)
-         && !FlowFlag(Intro))
+  if (((currentStipSettings.stipulation!=stip_atob && flag_appseul)
+       || SatzFlag)
+      && !FlowFlag(Intro))
   {
     StdString("  1...");
     num= 1;
-    if (flag_appseul && SatzFlag && !flag_atob)
+    if (flag_appseul
+        && SatzFlag
+        && currentStipSettings.stipulation!=stip_atob)
       StdString("  ...");
     else
       camp= advers(camp);
@@ -3487,12 +3490,12 @@ int main(int argc, char *argv[]) {
           inithash();
           /* no DUPLEX for SPG's ! */
           if (FlowFlag(Alternate)) {
-            maincamp = flag_atob
+            maincamp = currentStipSettings.stipulation==stip_atob
               ? (flag_appseul
                  ? blanc
                  : noir)
               : blanc;
-            if (flag_atob
+            if (currentStipSettings.stipulation==stip_atob
                 && OptFlag[solapparent]
                 && enonce>1) {
               SatzFlag= true;

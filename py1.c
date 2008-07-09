@@ -323,7 +323,6 @@ void InitAlways(void) {
   tabsol.nbr=
     tabsol.cp[0]= 0;
   tabsol.liste[0].push_top= push_colour_change_stack;
-  flag_atob= false;
   dont_generate_castling=false;
   
   takemake_departuresquare= initsquare;
