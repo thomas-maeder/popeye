@@ -371,6 +371,11 @@ typedef enum
   stip_exchangeB,
   stip_mate_or_stale,
   stip_any,
+  stip_proof,
+#if !defined(DATABASE)
+  /* TODO why not if DATABASE? */
+  stip_atob, /* TODO remove? is there a difference to stip_proof? */
+#endif
 
   nr_stipulations,
   no_stipulation = nr_stipulations
@@ -2329,17 +2334,19 @@ unsupported_uncalled_attackfunction
 #endif
 
 #if defined(WE_ARE_EXTERN)
-	extern  piece PAS[64];
+	extern  piece PAS[nr_squares_on_board];
 #else
 /* This is the InitialGameArray */
-piece       PAS[64] = {   tb,   cb,   fb,   db, roib,   fb,   cb,   tb,
+piece       PAS[nr_squares_on_board] = {
+              tb,   cb,   fb,   db, roib,   fb,   cb,   tb,
 			  pb,   pb,   pb,   pb,   pb,   pb,   pb,   pb,
 			vide, vide, vide, vide, vide, vide, vide, vide,
 			vide, vide, vide, vide, vide, vide, vide, vide,
 			vide, vide, vide, vide, vide, vide, vide, vide,
 			vide, vide, vide, vide, vide, vide, vide, vide,
 			  pn,   pn,   pn,   pn,   pn,   pn,   pn,   pn,
-			  tn,   cn,   fn,   dn, roin,   fn,   cn,   tn};
+			  tn,   cn,   fn,   dn, roin,   fn,   cn,   tn
+};
 #endif
 
 typedef struct {

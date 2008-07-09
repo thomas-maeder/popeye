@@ -271,7 +271,7 @@ static  int NestLevel=0;
 
 extern echiquier ProofBoard, PosA;
 extern square Proof_rb, Proof_rn, rbA, rnA;
-extern Flags ProofSpec[64], SpecA[64];
+extern Flags ProofSpec[nr_squares_on_board], SpecA[nr_squares_on_board];
 extern imarr  isquareA;
 boolean OscillatingKingsColour;  /* actually couleur but this is all a hack */
 static nocontactfunc_t *nocontactfunc;
@@ -1009,99 +1009,93 @@ static char *ParsePieSpec(char echo) {
   }
 }
 
-static char *ParseFlow(char *tok) {
+static char *ParseFlow(char *tok)
+{
   /* seriesmovers with introducory moves */
-  if (strstr(tok,"->")) {
-    if ((introenonce= atoi(tok)) < 1) {
+  if (strstr(tok,"->"))
+  {
+    if ((introenonce= atoi(tok)) < 1)
+    {
       IoErrorMsg(WrongInt, 0);
     }
     StipFlags |= FlowBit(Intro);
     tok = strstr(tok, "->")+2;
   }
-  if (strncmp("exact-", tok, 6) == 0) {
-    StipFlags|= FlowBit(Exact);
+  if (strncmp("exact-", tok, 6) == 0)
+  {
+    StipFlags |= FlowBit(Exact);
     OptFlag[nothreat] = True;
     tok+= 6;
   }
-  if (strncmp("ser-", tok, 4) == 0) {
-    StipFlags|= FlowBit(Series);
+  if (strncmp("ser-", tok, 4) == 0)
+  {
+    StipFlags |= FlowBit(Series);
     tok+=4;
   }
-  else {
-    StipFlags|= FlowBit(Alternate);
+  else
+  {
+    StipFlags |= FlowBit(Alternate);
   }
-  if (strncmp("semi-", tok, 5) == 0) {
-    StipFlags|= FlowBit(Semi);
+  if (strncmp("semi-", tok, 5) == 0)
+  {
+    StipFlags |= FlowBit(Semi);
     return tok+5;
   }
-  if (strncmp("reci-", tok, 5) == 0) {
-    StipFlags|= FlowBit(Reci);
+  if (strncmp("reci-", tok, 5) == 0)
+  {
+    StipFlags |= FlowBit(Reci);
     return tok+5;
   }
-  /* proof games  V3.35  TLi */
-  if (strncmp("dia", tok, 3) == 0) {
-    StipFlags|= FlowBit(Exact);
-    StipFlags|= SortBit(Proof);
-    strcpy(stipSettings[nonreciprocal].alphaEnd, " dia");
-    strcpy(currentStipSettings.alphaEnd," dia");
-    return tok+3;
+  if (strncmp("dia", tok, 3) == 0)  /* proof games */
+  {
+    StipFlags |= FlowBit(Exact);
+    return tok; /* "dia" also defines a sort and goal */
   }
-#if !defined(DATABASE)
-  /* transform position a into position b */
-  if (strncmp("a=>b", tok, 4) == 0) {
-    int i;
-    StipFlags|= SortBit(Proof);
-    strcpy(stipSettings[nonreciprocal].alphaEnd, " a=>b");
-    strcpy(currentStipSettings.alphaEnd," a=>b");
-    for (i=maxsquare-1; i>=0; i--) {
-      PosA[i]=e[i];
-    }
-    for (i= 0; i< 64; i++) {
-      SpecA[i]=spec[boardnum[i]];
-      spec[i]= EmptySpec;
-      e[boardnum[i]]= vide;
-    }
-    rnA=rn;
-    rbA=rb;
-    rn=rb=initsquare;
-    for (i= 0; i < maxinum; i++) {
-      isquareA[i]= isquare[i];
-      isquare[i]= initsquare;
-    }
-    flag_atob= true;
-    return tok+4;
-  }
-#endif
+
   return tok;
 }
 
 static char *ParseSort(char *tok)
 {
-  if (SortFlag(Proof))   /* proof gamesd */
-    return tok;
+  if (strncmp("dia", tok, 3) == 0)
+  {
+    StipFlags |= SortBit(Proof);
+    return tok; /* "dia" also defines a goal */
+  }
 
-  switch (*tok) {
+#if !defined(DATABASE)
+  if (strncmp("a=>b", tok, 4) == 0)
+  {
+    StipFlags |= SortBit(Proof);
+    return tok; /* "a=>b" also defines a goal */
+  }
+#endif
+
+  switch (*tok)
+  {
   case 'h':
-    StipFlags|= SortBit(Help);
-    if (*(++tok) == 's') {
-      StipFlags|= SortBit(Self);
+    StipFlags |= SortBit(Help);
+    if (*(++tok) == 's')
+    {
+      StipFlags |= SortBit(Self);
       return tok+1;
     } else
-      if (*tok == 'r') {
-        StipFlags|= SortBit(Reflex);
-        StipFlags|= SortBit(Self);
+      if (*tok == 'r')
+      {
+        StipFlags |= SortBit(Reflex);
+        StipFlags |= SortBit(Self);
         return tok+1;
       } else
         return tok;
   case 'r':
-    StipFlags|= SortBit(Reflex);
-    StipFlags|= SortBit(Self);
+    StipFlags |= SortBit(Reflex);
+    StipFlags |= SortBit(Self);
     return tok+1;
   case 's':
-    StipFlags|= SortBit(Self);
+    StipFlags |= SortBit(Self);
     return tok+1;
   default:
-    StipFlags|= SortBit(Direct);
+    StipFlags |= SortBit(Direct);
     return tok;
   }
 }
@@ -1118,42 +1112,81 @@ typedef struct
  * appear *after* them! */
 static goalInputConfig_t const goalInputConfig[nr_stipulations] =
 {
-  { "##!", stip_countermate,   " ##!" },
-  { "##",  stip_doublemate,    " ##"  },
-  { "#=",  stip_mate_or_stale, " #="  },
-  { "#",   stip_mate,          " #"   },
-  { "==",  stip_dblstale,      " =="  },
-  { "!=",  stip_autostale,     " !="  },
-  { "=",   stip_stale,         " ="   },
-  { "z",   stip_target,        " z"   },
-  { "+",   stip_check,         " +"   },
-  { "x",   stip_capture,       " x"   },
-  { "%",   stip_steingewinn,   " %"   },
-  { "ep",  stip_ep,            ""     },
-  { "ctr", stip_circuitB,      ""     },
-  { "ct",  stip_circuit,       ""     },
-  { "<>r", stip_exchangeB,     ""     },
-  { "<>",  stip_exchange,      ""     },
-  { "00",  stip_castling,      ""     },
-  { "~",   stip_any,           ""     }
+  {   "##!",  stip_countermate,   " ##!"  }
+  , { "##",   stip_doublemate,    " ##"   }
+  , { "#=",   stip_mate_or_stale, " #="   }
+  , { "#",    stip_mate,          " #"    }
+  , { "==",   stip_dblstale,      " =="   }
+  , { "!=",   stip_autostale,     " !="   }
+  , { "=",    stip_stale,         " ="    }
+  , { "z",    stip_target,        " z"    }
+  , { "+",    stip_check,         " +"    }
+  , { "x",    stip_capture,       " x"    }
+  , { "%",    stip_steingewinn,   " %"    }
+  , { "ep",   stip_ep,            ""      }
+  , { "ctr",  stip_circuitB,      ""      }
+  , { "ct",   stip_circuit,       ""      }
+  , { "<>r",  stip_exchangeB,     ""      }
+  , { "<>",   stip_exchange,      ""      }
+  , { "00",   stip_castling,      ""      }
+  , { "~",    stip_any,           ""      }
+  , { "dia",  stip_proof,         " dia"  }
+#if !defined(DATABASE)
+  , { "a=>b", stip_atob,          " a=>b" }
+#endif
 };
 
-static char *ParsPartialGoal(char *tok, stipSettings_t *settings) {
+static char *ParsPartialGoal(char *tok, stipSettings_t *settings)
+{
   goalInputConfig_t const *gic;
   for (gic = goalInputConfig; gic!=goalInputConfig+nr_stipulations; ++gic)
-    if (strstr(tok,gic->inputText)==tok) {
+    if (strstr(tok,gic->inputText)==tok)
+    {
       settings->stipulation = gic->goal;
       strcpy(settings->alphaEnd,gic->outputText);
 
-      if (gic->goal==stip_target) {
+      if (gic->goal==stip_target)
+      {
         settings->targetSquare= SquareNum(tok[1],tok[2]);
-        if (settings->targetSquare==0) {
+        if (settings->targetSquare==0)
+        {
           IoErrorMsg(MissngSquareList, 0);
           return 0;
         }
         else
           return tok+3;
       }
+#if !defined(DATABASE)
+      else if (gic->goal==stip_atob)
+      {
+        int i;
+        for (i = maxsquare-1; i>=0; i--)
+          PosA[i] = e[i];
+
+        for (i = 0; i<nr_squares_on_board; i++)
+        {
+          SpecA[i] = spec[boardnum[i]];
+          spec[i] = EmptySpec;
+          e[boardnum[i]] = vide;
+        }
+
+        rnA = rn;
+        rbA = rb;
+
+        rn = initsquare;
+        rb = initsquare;
+
+        for (i = 0; i<maxinum; i++)
+        {
+          isquareA[i] = isquare[i];
+          isquare[i] = initsquare;
+        }
+
+        flag_atob= true;
+
+        return tok+4;
+      }
+#endif
       else
         return tok+strlen(gic->inputText);
     }
@@ -1162,21 +1195,22 @@ static char *ParsPartialGoal(char *tok, stipSettings_t *settings) {
   return 0;
 }
 
-static char *ParseGoal(char *tok) {
-  if (SortFlag(Proof))
-    return tok;
-
+static char *ParseGoal(char *tok)
+{
   /* test for reciprocal help play with different ends for Black and
    * White; e.g. reci-h(=)#3 */
-  if (FlowFlag(Reci) && *tok == '(') {
+  if (FlowFlag(Reci) && *tok=='(')
+  {
     char const *closingParenPos = strchr(tok,')');
-    if (closingParenPos!=0) {
+    if (closingParenPos!=0)
+    {
       tok = ParsPartialGoal(tok+1,&stipSettings[reciprocal]);
       if (tok==0)
         return 0;
       else if (tok==closingParenPos)
         ++tok;
-      else {
+      else
+      {
         IoErrorMsg(UnrecStip, 0);
         return 0;
       }
@@ -1186,14 +1220,18 @@ static char *ParseGoal(char *tok) {
   return ParsPartialGoal(tok,&stipSettings[nonreciprocal]);
 }
 
-static char *ParseStip(void) {
-  char *tok;
+static char *ParseStip(void)
+{
+  char *tok = ReadNextTokStr();
 
   StipFlags= 0;
-  tok = ReadNextTokStr();
+
   strcpy(AlphaStip,tok);
-  tok = ParseGoal(ParseSort(ParseFlow(tok)));
-  if (tok) {
+  tok = ParseFlow(tok);
+  tok = ParseSort(tok);
+  tok = ParseGoal(tok);
+  if (tok)
+  {
     /* set defaults */
     currentStipSettings = stipSettings[nonreciprocal];
 
@@ -1202,27 +1240,32 @@ static char *ParseStip(void) {
         && stipSettings[reciprocal].stipulation==no_stipulation)
       stipSettings[reciprocal] = stipSettings[nonreciprocal];
 
-    if (!*tok) {
+    if (*tok==0)
+    {
       tok = ReadNextTokStr();
       strcat(AlphaStip, tok);
     }
-    if (!(SortFlag(Proof) && FlowFlag(Alternate))) {
-      if ((enonce=atoi(tok)) < 1)
-        IoErrorMsg(WrongInt, 0);
-      if (SortFlag(Help) && FlowFlag(Alternate)) {
-        while (*tok && '0' <= *tok && *tok <= '9')
-          tok++;
-        flag_appseul= (tok && *tok == '.' && (tok+1) && *(tok+1) == '5'); 
-        if (flag_appseul)
-          enonce++;
-      }
-    } else {
+    if (SortFlag(Proof) && FlowFlag(Alternate))
+    {
       if ((enonce=2*atoi(tok)) < 0)
         IoErrorMsg(WrongInt, 0);
       while (*tok && '0' <= *tok && *tok <= '9')
         tok++;
       if (tok && *tok == '.' && (tok+1) && *(tok+1) == '5')
         enonce++;
+    }
+    else
+    {
+      if ((enonce=atoi(tok)) < 1)
+        IoErrorMsg(WrongInt, 0);
+      if (SortFlag(Help) && FlowFlag(Alternate))
+      {
+        while (*tok && '0' <= *tok && *tok <= '9')
+          tok++;
+        flag_appseul= (tok && *tok == '.' && (tok+1) && *(tok+1) == '5'); 
+        if (flag_appseul)
+          enonce++;
+      }
     }
   }
   if (enonce && ActStip[0] == '\0')
@@ -2623,8 +2666,8 @@ static char *ParseOpt(void) {
 
 unsigned int TwinChar;
 
-piece  twin_e[64];
-Flags  twin_spec[64];
+piece  twin_e[nr_squares_on_board];
+Flags  twin_spec[nr_squares_on_board];
 square twin_rb, twin_rn;
 imarr  twin_isquare;
 
@@ -2633,7 +2676,7 @@ void TwinStorePosition(void) {
 
   twin_rb= rb;
   twin_rn= rn;
-  for (i= 0; i < 64; i++) {
+  for (i= 0; i < nr_squares_on_board; i++) {
     twin_e[i]= e[boardnum[i]];
     twin_spec[i]= spec[boardnum[i]];
   }
@@ -2648,7 +2691,7 @@ void TwinResetPosition(void) {
 
   rb= twin_rb;
   rn= twin_rn;
-  for (i= 0; i < 64; i++) {
+  for (i= 0; i < nr_squares_on_board; i++) {
     e[boardnum[i]]= twin_e[i];
     spec[boardnum[i]]= twin_spec[i];
   }
@@ -2674,8 +2717,8 @@ square RotMirrSquare(square sq, int what) {
 }
 
 void RotateMirror(int what) {
-  piece t_e[64];
-  Flags t_spec[64];
+  piece t_e[nr_squares_on_board];
+  Flags t_spec[nr_squares_on_board];
   square    t_rb, t_rn, sq1, sq2;
   imarr t_isquare;
   int       i;
@@ -2683,7 +2726,7 @@ void RotateMirror(int what) {
   /* save the position to be mirrored/rotated */
   t_rb= rb;
   t_rn= rn;
-  for (i= 0; i < 64; i++) {
+  for (i= 0; i < nr_squares_on_board; i++) {
     t_e[i]= e[boardnum[i]];
     t_spec[i]= spec[boardnum[i]];
   }
@@ -2694,7 +2737,7 @@ void RotateMirror(int what) {
 
   /* now rotate/mirror */
   /* pieces */
-  for (i= 0; i < 64; i++) {
+  for (i= 0; i < nr_squares_on_board; i++) {
     sq1= boardnum[i];
     sq2= RotMirrSquare(sq1, what);
 
@@ -3210,7 +3253,7 @@ static char *ParseTwin(void) {
           for (i=maxsquare-1; i>=0; i--) {
             e[i]=ProofBoard[i];
           }
-          for (i= 0; i< 64; i++) {
+          for (i= 0; i< nr_squares_on_board; i++) {
             spec[boardnum[i]]=ProofSpec[i];
           }
           rn=Proof_rn;
@@ -3537,7 +3580,7 @@ Token ReadProblem(Token tk) {
           piece p;
           int i;
 
-          for (i = 0; i < 64; i++) {
+          for (i = 0; i < nr_squares_on_board; i++) {
             CLEARFL(spec[boardnum[i]]);
             p= e[boardnum[i]]= PAS[i];
             if (p >= roib) {
@@ -4259,10 +4302,10 @@ void WritePosition() {
   if (max_len_threat<enonce-1)
   {
     sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_len_threat);
-    if (max_nr_flights<64)
+    if (max_nr_flights<INT_MAX)
       sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_nr_flights);
   }
-  else if (max_nr_flights<64)
+  else if (max_nr_flights<INT_MAX)
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", max_nr_flights);
 
   if (min_length_nontrivial<enonce-1)
