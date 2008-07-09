@@ -1077,13 +1077,9 @@ boolean mataide(couleur camp, int n, boolean restartenabled)
       currentStipSettings = stipSettings[reciprocal];
       flag = !matant(camp,1);
       currentStipSettings = stipSettings[nonreciprocal];
+      if (flag)
+        return false;
     }
-
-    /* TODO what's the exact semantics of flag (adapt name
-     * accordingly) and why on earth is it ok to return false if flag
-     * is equal to true here?? */
-    if (flag)
-      return false;
 
     /* keep mating piece for helpmates ... */
     if (OptFlag[keepmating])
