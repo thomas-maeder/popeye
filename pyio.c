@@ -1253,16 +1253,22 @@ static char *ParseStip(void)
       IoErrorMsg(WrongInt,0);
     }
 
+    enonce *= 2; /* we count half moves in help play */
+
     if (SortFlag(Help) && FlowFlag(Alternate))
     {
       tok = ptr;
       if (strncmp(tok,".5",2)==0)
       {
-        ++enonce;
-        flag_appseul = true;
+        if (currentStipSettings.stipulation==stip_proof
+            || currentStipSettings.stipulation==stip_atob)
+          ++enonce;
+        else
+        {
+          enonce += 2;
+          flag_appseul = true;
+        }
       }
-
-      enonce *= 2; /* we count half moves in help play */
     }
   }
 
