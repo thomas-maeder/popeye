@@ -1253,10 +1253,9 @@ static char *ParseStip(void)
       IoErrorMsg(WrongInt,0);
     }
 
-    enonce *= 2; /* we count half moves in help play */
-
     if (SortFlag(Help) && FlowFlag(Alternate))
     {
+      enonce *= 2; /* we count half moves in help play */
       tok = ptr;
       if (strncmp(tok,".5",2)==0)
       {
