@@ -1002,20 +1002,31 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
       }
       else if (can_this_be_last_move_of_series_side)
       {
-        /* The following inquiry into the hash tables yields
-        ** a significant speed up.
-        */
-        HashBuffer hb;
-        (*encode)(&hb);
-        if (FlowFlag(Reci) || !inhash(SerNoSucc,1,&hb))
+        if (FlowFlag(Reci))
         {
           if (last_h_move(other_side))
           {
             found_solution = true;
             PrintReciSolution = True;
           }
-          else if (!FlowFlag(Reci))
-            addtohash(SerNoSucc,1,&hb);
+        }
+        else
+        {
+          /* The following inquiry into the hash tables yields
+          ** a significant speed up.
+          */
+          HashBuffer hb;
+          (*encode)(&hb);
+          if (!inhash(SerNoSucc,1,&hb))
+          {
+            if (last_h_move(other_side))
+            {
+              found_solution = true;
+              PrintReciSolution = True;
+            }
+            else
+              addtohash(SerNoSucc,1,&hb);
+          }
         }
       }
     }
@@ -1050,7 +1061,7 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
 
 boolean mataide(couleur camp, int n, boolean restartenabled)
 {
-  boolean flag = false;
+  boolean result = false;
   HashBuffer hb;
   boolean const dohash = flag_hashall || n > 1;
 
@@ -1066,7 +1077,7 @@ boolean mataide(couleur camp, int n, boolean restartenabled)
 
   --n;
   if (n==0)
-    flag = last_h_move(camp);
+    result = last_h_move(camp);
   else
   {
     couleur ad = advers(camp);
@@ -1074,10 +1085,11 @@ boolean mataide(couleur camp, int n, boolean restartenabled)
     /* reciprocal helpmover */
     if (n==1 && FlowFlag(Reci))
     {
+      boolean reci_first_mate_fails;
       currentStipSettings = stipSettings[reciprocal];
-      flag = !matant(camp,1);
+      reci_first_mate_fails = !matant(camp,1);
       currentStipSettings = stipSettings[nonreciprocal];
-      if (flag)
+      if (reci_first_mate_fails)
         return false;
     }
 
@@ -1108,7 +1120,7 @@ boolean mataide(couleur camp, int n, boolean restartenabled)
           && !echecc(camp)
           && !(restartenabled && MoveNbr < RestartNbr)
           && (mataide(ad, n, False)))
-        flag = true;
+        result = true;
 
       if (restartenabled)
         IncrementMoveNbr();
@@ -1128,7 +1140,7 @@ boolean mataide(couleur camp, int n, boolean restartenabled)
 
     finply();
 
-    if (flag && FlowFlag(Reci) && n==1)     /* reciprocal helpmover */
+    if (result && FlowFlag(Reci) && n==1)     /* reciprocal helpmover */
     {
       currentStipSettings = stipSettings[reciprocal];
       last_h_move(camp);
@@ -1137,10 +1149,10 @@ boolean mataide(couleur camp, int n, boolean restartenabled)
   }
 
   /* Add the position to the hash table if it has no solutions */
-  if (!flag && dohash)
+  if (!result && dohash)
     addtohash(camp==blanc ? WhHelpNoSucc : BlHelpNoSucc, n+1, &hb);
 
-  return flag;
+  return result;
 } /* mataide */
 
 /* Determine and write final move of the attacker in a series
@@ -1457,7 +1469,8 @@ boolean matant(couleur attacker, int n)
   HashBuffer hb;
 
   boolean const dohash = (n > (FlagMoveOrientatedStip ? 1 : 0)
-                          && !SortFlag(Self) && !FlowFlag(Reci));
+                          && !SortFlag(Self)
+                          && !FlowFlag(Reci));
 
   /* Let's first have a look in the hash_table */
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to
