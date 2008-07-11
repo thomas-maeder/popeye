@@ -1167,11 +1167,12 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
 
 /* Determine and write final move of the attacker in a series
  * direct stipulation.
+ * This is different from non-series play because series solutions are
+ * written one 1 line each, while non-series solutions are written in
+ * tree form.
  * @param attacker attacking side
  * @return true iff >= 1 final move (sequence) was found
  */
-/* TODO is there a fundamental difference to the handling of final
- * moves in non-series direct/self/reflex play? */
 boolean ser_d_find_write_final_moves(couleur attacker)
 {
   boolean solution_found = false;
@@ -1198,11 +1199,12 @@ boolean ser_d_find_write_final_moves(couleur attacker)
 /* Determine and write final move of the attacker in a series
  * self/reflex stipulation, plus the (subsequent) final move of the
  * defender.
+ * This is different from non-series play because series solutions are
+ * written one 1 line each, while non-series solutions are written in
+ * tree form.
  * @param attacker attacking side
  * @return true iff >= 1 final move (sequence) was found
  */
-/* TODO is there a fundamental difference to the handling of final
- * moves in non-series direct/self/reflex play? */
 boolean ser_sr_find_write_final_moves(couleur attacker)
 {
   couleur defender = advers(attacker);
