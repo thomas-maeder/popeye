@@ -1166,46 +1166,64 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
 } /* h_find_write_solutions */
 
 /* Determine and write final move of the attacker in a series
- * direct/self/reflex stipulation, plus the (subsequent) final move of
- * the defender if self/reflex.
+ * direct stipulation.
  * @param attacker attacking side
  * @return true iff >= 1 final move (sequence) was found
  */
-/* TODO separate versions for direct and self/reflex? */
 /* TODO is there a fundamental difference to the handling of final
  * moves in non-series direct/self/reflex play? */
-boolean ser_dsr_find_write_final_moves(couleur attacker)
+boolean ser_d_find_write_final_moves(couleur attacker)
 {
-  couleur defender = advers(attacker);
   boolean solution_found = false;
 
-  if (SortFlag(Direct))
-    GenMatingMove(attacker);
-  else
-    genmove(attacker);
+  GenMatingMove(attacker);
 
   while (encore())
   {
-    if (jouecoup())
+    if (jouecoup()
+        && currentStipSettings.checker(attacker))
     {
-      if (SortFlag(Direct))
-      {
-        if (currentStipSettings.checker(attacker))
-        {
-          linesolution();
-          solution_found = true;
-        }
-      }
-      else if (!echecc(attacker) && !sr_does_defender_win(defender,1))
-        solution_found = h_find_write_final_moves(defender);
+      linesolution();
+      solution_found = true;
     }
+
     repcoup();
   }
 
   finply();
 
   return solution_found;
-} /* ser_dsr_find_write_final_moves */
+} /* ser_d_find_write_final_moves */
+
+/* Determine and write final move of the attacker in a series
+ * self/reflex stipulation, plus the (subsequent) final move of the
+ * defender.
+ * @param attacker attacking side
+ * @return true iff >= 1 final move (sequence) was found
+ */
+/* TODO is there a fundamental difference to the handling of final
+ * moves in non-series direct/self/reflex play? */
+boolean ser_sr_find_write_final_moves(couleur attacker)
+{
+  couleur defender = advers(attacker);
+  boolean solution_found = false;
+
+  genmove(attacker);
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(attacker)
+        && !sr_does_defender_win(defender,1))
+      solution_found = h_find_write_final_moves(defender);
+
+    repcoup();
+  }
+
+  finply();
+
+  return solution_found;
+} /* ser_sr_find_write_final_moves */
 
 /* Determine and write solutions in a series direct/self/reflex
  * stipulation.
@@ -1221,7 +1239,12 @@ boolean ser_dsr_find_write_solutions(couleur attacker,
     return false;
 
   if (n==1)
-    return ser_dsr_find_write_final_moves(attacker);
+  {
+    if (SortFlag(Direct))
+      return ser_d_find_write_final_moves(attacker);
+    else
+      return ser_sr_find_write_final_moves(attacker);
+  }
   else
   {
     boolean solution_found = false;
