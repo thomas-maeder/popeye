@@ -36,15 +36,15 @@
 #include "py4.h"
 #include "boolean.h"
 
-void    OpenInput (char *s);
-void    CloseInput (void);
-void    MultiCenter (char *s);
-void    Tabulate (void);
-void    WritePosition (void);
-void    ResetPosition (void);
-void    StorePosition (void);
-void    WriteSquare (square a);
-void    WritePiece (piece p);
+void    OpenInput(char *s);
+void    CloseInput(void);
+void    MultiCenter(char *s);
+void    Tabulate(void);
+void    WritePosition(void);
+void    ResetPosition(void);
+void    StorePosition(void);
+void    WriteSquare(square a);
+void    WritePiece(piece p);
 boolean WriteSpec(Flags pspec, boolean printcolours);
 void    WriteGrid(void); 
 
@@ -182,61 +182,61 @@ checkfunction_t zcheck;
 checkfunction_t zebhopcheck;
 checkfunction_t zebridcheck;
 
-square  coinequis (square a);
+square  coinequis(square a);
 
-boolean echecc (couleur a);
+boolean echecc(couleur a);
 void ecritcoup(boolean write_end_marker);
 
-boolean eval_ortho (square departure, square arrival, square capture);
+boolean eval_ortho(square departure, square arrival, square capture);
 
-boolean feebechec (evalfunction_t *evaluate );
-boolean feenechec (evalfunction_t *evaluate );
-void    gchinb (int a, numvec b, numvec c);
-void    gchinn (int a, numvec b, numvec c);
-void    gcsb (square a, numvec b, numvec c);
-void    gcsn (square a, numvec b, numvec c);
-void    gen_wh_ply (void);
-void    genmove (couleur a);
-void    gen_bl_ply (void);
+boolean feebechec(evalfunction_t *evaluate );
+boolean feenechec(evalfunction_t *evaluate );
+void    gchinb(int a, numvec b, numvec c);
+void    gchinn(int a, numvec b, numvec c);
+void    gcsb(square a, numvec b, numvec c);
+void    gcsn(square a, numvec b, numvec c);
+void    gen_wh_ply(void);
+void    genmove(couleur a);
+void    gen_bl_ply(void);
 
-void    genrb (square a);
-void    genrn (square a);
-void    gfeerblanc (square a,piece b);
-void    gfeernoir (square a,piece b);
-void    gkangb (square sq);
-void    gkangn (square sq);
-void    glocb (square a);
-void    glocn (square a);
-void    gmaob (square a);
-void    gmaon (square a);
-void    gnequib (square a);
-void    gnequin (square a);
-void    groseb (square a);
-void    grosen (square a);
-void    gubib (square a, square b);
-void    gubin (square a, square b);
-void    hardinit (void);
-boolean imok (square i, square j);
-void    initneutre (couleur a);
+void    genrb(square a);
+void    genrn(square a);
+void    gfeerblanc(square a,piece b);
+void    gfeernoir(square a,piece b);
+void    gkangb(square sq);
+void    gkangn(square sq);
+void    glocb(square a);
+void    glocn(square a);
+void    gmaob(square a);
+void    gmaon(square a);
+void    gnequib(square a);
+void    gnequin(square a);
+void    groseb(square a);
+void    grosen(square a);
+void    gubib(square a, square b);
+void    gubin(square a, square b);
+void    hardinit(void);
+boolean imok(square i, square j);
+void    initneutre(couleur a);
 void jouecoup_no_test(void);
 boolean jouecoup_ortho_test(void);
-boolean jouecoup (void);
-void    joueim (int diff);
-boolean last_h_move (couleur a);
-boolean legalsquare (square departure, square arrival, square capture);
-boolean libre (square a, boolean b);
+boolean jouecoup(void);
+void    joueim(int diff);
+boolean h_find_write_final_moves(couleur a);
+boolean legalsquare(square departure, square arrival, square capture);
+boolean libre(square a, boolean b);
 
-boolean matant (couleur a,int b);
-boolean mate (couleur a,int b);
+boolean dsr_can_end(couleur a,int b);
+boolean dsr_is_defeated(couleur a,int b);
 
 void finply(void);
 void nextply(void);
 void initply(void);
 
-boolean nocontact (square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
-boolean nogridcontact (square a);
-boolean immobile (couleur a);
-boolean rbcircech (square departure, square arrival, square capture);
+boolean nocontact(square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
+boolean nogridcontact(square a);
+boolean immobile(couleur a);
+boolean rbcircech(square departure, square arrival, square capture);
 
 extern boolean (*rbechec)(evalfunction_t *evaluate);
 boolean singleboxtype3_rbechec(evalfunction_t *evaluate);
@@ -244,12 +244,12 @@ boolean annan_rbechec(evalfunction_t *evaluate);
 boolean losingchess_rbnechec(evalfunction_t *evaluate);
 boolean orig_rbechec(evalfunction_t *evaluate);
 
-boolean rbimmunech (square departure, square arrival, square capture);
-boolean rcardech (square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
-boolean rcsech (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
-void    repcoup (void);
-void    restaure (void);
-boolean ridimok (square i, square j, int diff);
+boolean rbimmunech(square departure, square arrival, square capture);
+boolean rcardech(square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
+boolean rcsech(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+void    repcoup(void);
+void    restaure(void);
+boolean ridimok(square i, square j, int diff);
 
 typedef enum {
   angle_45,
@@ -257,20 +257,20 @@ typedef enum {
   angle_135
 } angle_t;
 
-boolean rmhopech (square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);
-boolean rncircech (square departure, square arrival, square capture);
+boolean rmhopech(square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);
+boolean rncircech(square departure, square arrival, square capture);
 
-extern boolean (*rnechec)(evalfunction_t *evaluate);
+extern boolean(*rnechec)(evalfunction_t *evaluate);
 boolean singleboxtype3_rnechec(evalfunction_t *evaluate);
 boolean annan_rnechec(evalfunction_t *evaluate);
 boolean orig_rnechec(evalfunction_t *evaluate);
 
-boolean rnimmunech (square departure, square arrival, square capture);
-boolean rrefcech (square a, square b, int c, piece d, evalfunction_t *evaluate);
-boolean rrfouech (square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
-boolean rubiech (square sq, square sqtest, piece p, /* echiquier */ int *e_ub, evalfunction_t *evaluate );
-boolean soutenu (square departure, square arrival, square capture);
-boolean notsoutenu (square a, square b, square c);
+boolean rnimmunech(square departure, square arrival, square capture);
+boolean rrefcech(square a, square b, int c, piece d, evalfunction_t *evaluate);
+boolean rrfouech(square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
+boolean rubiech(square sq, square sqtest, piece p, /* echiquier */ int *e_ub, evalfunction_t *evaluate );
+boolean soutenu(square departure, square arrival, square capture);
+boolean notsoutenu(square a, square b, square c);
 
 int count_non_trivial(couleur defender);
 boolean has_too_many_flights(couleur defender);
@@ -281,67 +281,67 @@ int dsr_find_refutations(couleur a, int b, int c);
 void dsr_find_write_tries_solutions(couleur a, int b, boolean restartenabled);
 void dsr_find_write_continuations(couleur attacker, int n, int t);
 
-extern void    (*gen_bl_piece)(square a, piece b);
+extern void   (*gen_bl_piece)(square a, piece b);
 void    singleboxtype3_gen_bl_piece(square a, piece b);
-extern void    (*gen_wh_piece)(square a, piece b);
+extern void   (*gen_wh_piece)(square a, piece b);
 void    singleboxtype3_gen_wh_piece(square a, piece b);
 
 boolean sr_does_defender_win(couleur a, int b);
 boolean sr_does_attacker_win(couleur a, int b);
-boolean eval_madrasi (square departure, square arrival, square capture);
-piece   champiece (piece p);
+boolean eval_madrasi(square departure, square arrival, square capture);
+piece   champiece(piece p);
 
-boolean testparalyse (square departure, square arrival, square capture);
-boolean paraechecc (square departure, square arrival, square capture);
-boolean paralysiert (square i);
+boolean testparalyse(square departure, square arrival, square capture);
+boolean paraechecc(square departure, square arrival, square capture);
+boolean paralysiert(square i);
 
-void    PrintTime ();
-boolean leapcheck (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
-boolean ridcheck (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
-void    gebleap (square a, numvec b, numvec c);
-void    gebrid (square a, numvec b, numvec c);
-void    genleap (square a, numvec b, numvec c);
-void    genrid (square a, numvec b, numvec c);
+void    PrintTime();
+boolean leapcheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean ridcheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+void    gebleap(square a, numvec b, numvec c);
+void    gebrid(square a, numvec b, numvec c);
+void    genleap(square a, numvec b, numvec c);
+void    genrid(square a, numvec b, numvec c);
 
-boolean roicheck (square a, piece b, evalfunction_t *evaluate);
-boolean pioncheck (square a, piece b, evalfunction_t *evaluate);
-boolean cavcheck (square a, piece b, evalfunction_t *evaluate);
-boolean tourcheck (square a, piece b, evalfunction_t *evaluate);
-boolean damecheck (square a, piece b, evalfunction_t *evaluate);
-boolean foucheck (square a, piece b, evalfunction_t *evaluate);
+boolean roicheck(square a, piece b, evalfunction_t *evaluate);
+boolean pioncheck(square a, piece b, evalfunction_t *evaluate);
+boolean cavcheck(square a, piece b, evalfunction_t *evaluate);
+boolean tourcheck(square a, piece b, evalfunction_t *evaluate);
+boolean damecheck(square a, piece b, evalfunction_t *evaluate);
+boolean foucheck(square a, piece b, evalfunction_t *evaluate);
 
-boolean t_lioncheck (square i, piece p, evalfunction_t *evaluate);
-boolean f_lioncheck (square i, piece p, evalfunction_t *evaluate);
-boolean marincheck (square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
-boolean empile (square departure, square arrival, square capture);
-boolean testempile (square departure, square arrival, square capture);
-boolean ooorphancheck (square i, piece porph, piece p, evalfunction_t *evaluate);
-boolean reversepcheck (square a, piece b, evalfunction_t *evaluate);
-void    gorph (square a, couleur b);
-void    gfriend (square a, couleur b);
-void    gedgeh (square a, couleur b);
+boolean t_lioncheck(square i, piece p, evalfunction_t *evaluate);
+boolean f_lioncheck(square i, piece p, evalfunction_t *evaluate);
+boolean marincheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean empile(square departure, square arrival, square capture);
+boolean testempile(square departure, square arrival, square capture);
+boolean ooorphancheck(square i, piece porph, piece p, evalfunction_t *evaluate);
+boolean reversepcheck(square a, piece b, evalfunction_t *evaluate);
+void    gorph(square a, couleur b);
+void    gfriend(square a, couleur b);
+void    gedgeh(square a, couleur b);
 
-void    gmoab (square a);
-void    gmoan (square a);
-boolean InitMsgTab (Lang l, boolean Force);
-Token   ReadProblem (Token tk);
-void    ErrString (char const *s);
-void    StdChar (char c);
-void    StdString (char const *s);
-void    logChrArg (char arg);
-void    logStrArg (char *arg);
-void    logIntArg (int arg);
-void    logLngArg (long arg);
+void    gmoab(square a);
+void    gmoan(square a);
+boolean InitMsgTab(Lang l, boolean Force);
+Token   ReadProblem(Token tk);
+void    ErrString(char const *s);
+void    StdChar(char c);
+void    StdString(char const *s);
+void    logChrArg(char arg);
+void    logStrArg(char *arg);
+void    logIntArg(int arg);
+void    logLngArg(long arg);
 
 void    GenMatingMove(couleur a);
 
-piece   dec_einstein (piece p);
-piece   inc_einstein (piece p);
-piece   norskpiece (piece p);
-boolean rnanticircech (square departure, square arrival, square capture);
-boolean rbanticircech (square departure, square arrival, square capture);
-boolean rnultraech (square departure, square arrival, square capture);
-boolean rbultraech (square departure, square arrival, square capture);
+piece   dec_einstein(piece p);
+piece   inc_einstein(piece p);
+piece   norskpiece(piece p);
+boolean rnanticircech(square departure, square arrival, square capture);
+boolean rbanticircech(square departure, square arrival, square capture);
+boolean rnultraech(square departure, square arrival, square capture);
+boolean rbultraech(square departure, square arrival, square capture);
 
 boolean rnsingleboxtype1ech(square departure, square arrival, square capture);
 boolean rbsingleboxtype1ech(square departure, square arrival, square capture);
@@ -350,32 +350,32 @@ boolean rbsingleboxtype3ech(square departure, square arrival, square capture);
 square next_latent_pawn(square s, couleur c);
 piece next_singlebox_prom(piece p, couleur c);
 
-square renfile (piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renrank (piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renspiegelfile (piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renpwc (piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renequipollents (piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renequipollents_anti (piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square rensymmetrie (piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renantipoden (piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square rendiagramm (piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square rennormal (piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renspiegel (piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square rensuper (piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square renfile(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square renrank(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square renspiegelfile(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square renpwc(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square renequipollents(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square renequipollents_anti(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square rensymmetrie(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square renantipoden(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square rendiagramm(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square rennormal(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square renspiegel(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square rensuper(piece p, Flags pspec, square j, square i, square ip, couleur camp);
 
-void pyfputs (char const *s, FILE *f);
+void pyfputs(char const *s, FILE *f);
 
 boolean hopimok(square i, square j, square k, numvec d);
-boolean is_rider (piece p);
-boolean is_leaper (piece p);
-boolean is_simplehopper (piece p);
-boolean is_pawn (piece p);
-boolean is_forwardpawn (piece p);
-boolean is_reversepawn (piece p);
+boolean is_rider(piece p);
+boolean is_leaper(piece p);
+boolean is_simplehopper(piece p);
+boolean is_pawn(piece p);
+boolean is_forwardpawn(piece p);
+boolean is_reversepawn(piece p);
 boolean is_short(piece p);
 
-void    geskylla (square i, couleur camp);
-void    gecharybdis (square i, couleur camp);
+void    geskylla(square i, couleur camp);
+void    gecharybdis(square i, couleur camp);
 
 int len_whforcedsquare(square departure, square arrival, square capture);
 int len_blforcedsquare(square departure, square arrival, square capture);
@@ -392,7 +392,7 @@ void    linesolution(void);
 boolean introseries(couleur camp, int n, boolean restartenabled); 
 
 void	pyInitSignal(void);
-void	InitCond (void);
+void	InitCond(void);
 void	InitStip(void);
 char	*MakeTimeString(void);
 
@@ -420,15 +420,15 @@ void RotateMirror(int what);
 void genrb_cast(void);
 void genrn_cast(void);
 
-boolean woohefflibre (square a, square b);
+boolean woohefflibre(square a, square b);
 boolean eval_wooheff(square departure, square arrival, square capture);
 
 boolean eval_shielded(square departure, square arrival, square capture);
 
-void    grabbitb (square sq);
-void    grabbitn (square sq);
-void    gbobb (square sq);
-void    gbobn (square sq);
+void    grabbitb(square sq);
+void    grabbitn(square sq);
+void    gbobb(square sq);
+void    gbobn(square sq);
 
 void BeepOnSolution(int NumOfBeeps);
 

@@ -2213,27 +2213,32 @@ void linesolution(void) {
 EXTERN int WhMovesLeft, BlMovesLeft;
 
 #if !defined(DATABASE)
-boolean last_h_move(couleur camp)
+/* Determine and find final moves in a help stipulation
+ * @param side_at_move side to perform the final move
+ */
+boolean h_find_write_final_moves(couleur side_at_move)
 {
-  couleur ad = advers(camp);
-  boolean solution_found = false;
+  couleur other_side = advers(side_at_move);
+  boolean final_move_found = false;
 
   if (currentStipSettings.stipulation==stip_countermate
-      && !stip_checkers[stip_mate](ad))
+      && !stip_checkers[stip_mate](other_side))
     return false;
   
   if (currentStipSettings.stipulation==stip_doublemate
-      && immobile(camp))
+      && immobile(side_at_move))
     return false;
 
   if (!(SortFlag(Self) && SortFlag(Help)))
-    GenMatingMove(camp);
-  else if (SortFlag(Reflex) && !FlowFlag(Semi) && matant(camp,1))
+    GenMatingMove(side_at_move);
+  else if (SortFlag(Reflex)
+           && !FlowFlag(Semi)
+           && dsr_can_end(side_at_move,1))
     return false;
   else
-    genmove(camp);
+    genmove(side_at_move);
 
-  if (camp==blanc)
+  if (side_at_move==blanc)
     WhMovesLeft--;
   else
     BlMovesLeft--;
@@ -2245,15 +2250,15 @@ boolean last_h_move(couleur camp)
     {
       if (SortFlag(Self) && SortFlag(Help))
       {
-        if (!echecc(camp) && !sr_does_defender_win(ad,1))
+        if (!echecc(side_at_move) && !sr_does_defender_win(other_side,1))
         {
-          GenMatingMove(ad);
+          GenMatingMove(other_side);
           while (encore())
           {
             if (jouecoup()
-                && currentStipSettings.checker(ad))
+                && currentStipSettings.checker(other_side))
             {
-              solution_found = true;
+              final_move_found = true;
               linesolution();
             }
             repcoup();
@@ -2263,9 +2268,9 @@ boolean last_h_move(couleur camp)
       }
       else
       {
-        if (currentStipSettings.checker(camp))
+        if (currentStipSettings.checker(side_at_move))
         {
-          solution_found = true;
+          final_move_found = true;
           linesolution();
         }
       }
@@ -2273,14 +2278,14 @@ boolean last_h_move(couleur camp)
     repcoup();
   }
 
-  if (camp==blanc)
+  if (side_at_move==blanc)
     WhMovesLeft++;
   else
     BlMovesLeft++;
 
   finply();
 
-  return solution_found;
+  return final_move_found;
 }
 
 /* Count all non-trivial moves of the defending side. Whether a
@@ -2369,7 +2374,7 @@ int dsr_find_refutations(couleur defender, int n, int t)
       && currentStipSettings.checker(attacker))
     return -1;
 
-  if (SortFlag(Reflex) && matant(defender,1))
+  if (SortFlag(Reflex) && dsr_can_end(defender,1))
     return 0;
 
   if (n>max_len_threat
@@ -2949,7 +2954,7 @@ void dsr_find_write_tries_solutions(couleur attacker,
                                     int n,
                                     boolean restartenabled)
 {
-  if (!FlowFlag(Semi) && SortFlag(Reflex) && matant(attacker,1))
+  if (!FlowFlag(Semi) && SortFlag(Reflex) && dsr_can_end(attacker,1))
     r_find_write_forced_keys(attacker);
   else if (n==1 && SortFlag(Direct))
     d_find_write_keys_in_1(attacker,restartenabled);
@@ -2969,14 +2974,14 @@ void dsr_find_write_tries_solutions(couleur attacker,
 boolean dsr_does_defender_lose(couleur defender, int n)
 {
   return (SortFlag(Direct)
-          ? mate(defender,n-1)
+          ? dsr_is_defeated(defender,n-1)
           : !sr_does_defender_win(defender,n));
 }
 
 boolean dsr_does_attacker_win(couleur attacker, int n)
 {
   return (SortFlag(Direct)
-          ? matant(attacker,n)
+          ? dsr_can_end(attacker,n)
           : sr_does_attacker_win(attacker,n));
 }
 
@@ -3018,7 +3023,7 @@ void SolveSeriesProblems(couleur camp)
       else
       {
         if (SortFlag(Help))
-          last_h_move(advers(camp));
+          h_find_write_final_moves(advers(camp));
         else
         {
           zugebene++;
@@ -3124,7 +3129,10 @@ void SolveHelpProblems(couleur camp)
 
         for (i = starti; i<=n-1; i += 2)
         {
-          boolean flag = Intelligent(WhMovesLeft,BlMovesLeft,mataide,camp,i);
+          boolean flag = Intelligent(WhMovesLeft,BlMovesLeft,
+                                     h_find_write_solutions,
+                                     camp,
+                                     i);
 
           WhMovesLeft++;
           BlMovesLeft++;
@@ -3136,7 +3144,7 @@ void SolveHelpProblems(couleur camp)
       else
         for (i = starti; i<=n-1; i += 2)
         {
-          if (mataide(camp, i, OptFlag[movenbr] && i==n-1))
+          if (h_find_write_solutions(camp, i, OptFlag[movenbr] && i==n-1))
             break;
         }
     }
@@ -3164,7 +3172,9 @@ void SolveHelpProblems(couleur camp)
 
       for (i = starti; i<=n; i += 2)
       {
-        if (Intelligent(WhMovesLeft,BlMovesLeft,mataide,advers(camp),i))
+        if (Intelligent(WhMovesLeft,BlMovesLeft,
+                        h_find_write_solutions,
+                        advers(camp),i))
         {
           StipFlags |= FlowBit(Exact);
           if (OptFlag[stoponshort] && i<n)
@@ -3182,7 +3192,9 @@ void SolveHelpProblems(couleur camp)
     {
       for (i = starti; i<=n; i += 2)
       {
-        if (mataide(advers(camp), i, OptFlag[movenbr] && i==n))
+        if (h_find_write_solutions(advers(camp),
+                                   i,
+                                   OptFlag[movenbr] && i==n))
         {
           /* Exact has to be set to find ALL longer solutions */
           StipFlags |= FlowBit(Exact);

@@ -8,7 +8,7 @@
  **
  ** 2005/02/01 TLi  function hashdefense is not used anymore...
  **
- ** 2005/02/01 TLi  in matant and invref exchanged the inquiry into the hash
+ ** 2005/02/01 TLi  in dsr_can_end and invref exchanged the inquiry into the hash
  **                 table for "white can mate" and "white cannot mate" because
  **                 it is more likely that a position has no solution
  **                 This yields an incredible speedup of .5-1%  *fg*
@@ -951,24 +951,28 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
   return flag1 || flag2;
 }
 
+/* Find and write solutions in a series help stipulation
+ * @param series_side side doing the series
+ * @param n number of moves to reach end state
+ * @param restartenabled true iff option movenum is activated
+ */
 boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restartenabled)
 {
   couleur other_side = advers(series_side);
   boolean found_solution = false;
-  boolean can_this_be_last_move_of_series_side;
+  boolean side_at_move_can_end_in_1;
 
-  if (FlowFlag(Reci))
+  if (n==1 && FlowFlag(Reci))
   {
-    /* reciprocal helpmovers -- let's check whether black can mate */
+    /* reciprocal helpmovers -- let's check whether black can end */
     currentStipSettings = stipSettings[reciprocal];
-    can_this_be_last_move_of_series_side = matant(series_side,1);
+    side_at_move_can_end_in_1 = dsr_can_end(series_side,1);
     currentStipSettings = stipSettings[nonreciprocal];
   }
   else
-    can_this_be_last_move_of_series_side = true;
+    side_at_move_can_end_in_1 = true; /* avoid compiler warning */
 
-  n--;
-  if (currentStipSettings.stipulation==stip_countermate && n==0)
+  if (currentStipSettings.stipulation==stip_countermate && n==1)
     GenMatingMove(series_side);
   else
     genmove(series_side);
@@ -985,26 +989,12 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
         && !echecc(series_side)
         && !(restartenabled && MoveNbr<RestartNbr))
     {
-      if (n>0)
-      {
-        if (!echecc(other_side))
-        {
-          HashBuffer hb;
-          (*encode)(&hb);
-          if (!inhash(SerNoSucc,n+1,&hb))
-          {
-            if (ser_h_find_write_solutions(series_side,n,False))
-              found_solution = true;
-            else
-              addtohash(SerNoSucc,n+1,&hb);
-          }
-        }
-      }
-      else if (can_this_be_last_move_of_series_side)
+      if (n==1)
       {
         if (FlowFlag(Reci))
         {
-          if (last_h_move(other_side))
+          if (side_at_move_can_end_in_1
+              && h_find_write_final_moves(other_side))
           {
             found_solution = true;
             PrintReciSolution = True;
@@ -1012,20 +1002,35 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
         }
         else
         {
-          /* The following inquiry into the hash tables yields
-          ** a significant speed up.
-          */
+          /* The following inquiry into the hash tables yields a
+           * significant speed up.
+           */
           HashBuffer hb;
           (*encode)(&hb);
           if (!inhash(SerNoSucc,1,&hb))
           {
-            if (last_h_move(other_side))
+            if (h_find_write_final_moves(other_side))
             {
               found_solution = true;
               PrintReciSolution = True;
             }
             else
               addtohash(SerNoSucc,1,&hb);
+          }
+        }
+      }
+      else
+      {
+        if (!echecc(other_side))
+        {
+          HashBuffer hb;
+          (*encode)(&hb);
+          if (!inhash(SerNoSucc,n,&hb))
+          {
+            if (ser_h_find_write_solutions(series_side,n-1,False))
+              found_solution = true;
+            else
+              addtohash(SerNoSucc,n,&hb);
           }
         }
       }
@@ -1051,7 +1056,7 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
   {
     /* reciprocal helpmover */
     currentStipSettings = stipSettings[reciprocal];
-    last_h_move(series_side);
+    h_find_write_final_moves(series_side);
     PrintReciSolution = False;
     currentStipSettings = stipSettings[nonreciprocal];
   }
@@ -1059,11 +1064,17 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
   return found_solution;
 } /* ser_h_find_write_solutions */
 
-boolean mataide(couleur camp, int n, boolean restartenabled)
+/* Determine and write the solution(s) in a help stipulation.
+ * This is a recursive function.
+ * @param side_at_move side at the move
+ * @param n number of half moves until end state has to be reached
+ * @param restartenabled true iff option movenum is activated
+ */
+boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabled)
 {
-  boolean result = false;
+  boolean found_solution = false;
   HashBuffer hb;
-  boolean const dohash = flag_hashall || n > 1;
+  boolean const dohash = flag_hashall || n>1;
 
   /* Let us check whether the position is already in the
   ** hash table and marked unsolvable.
@@ -1071,25 +1082,24 @@ boolean mataide(couleur camp, int n, boolean restartenabled)
   if (dohash)
   {
     (*encode)(&hb);
-    if (inhash(camp==blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb))
+    if (inhash(side_at_move==blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb))
       return false;
   }
 
-  --n;
-  if (n==0)
-    result = last_h_move(camp);
+  if (n==1)
+    found_solution = h_find_write_final_moves(side_at_move);
   else
   {
-    couleur ad = advers(camp);
+    couleur other_side = advers(side_at_move);
 
     /* reciprocal helpmover */
-    if (n==1 && FlowFlag(Reci))
+    if (n==2 && FlowFlag(Reci))
     {
-      boolean reci_first_mate_fails;
+      boolean side_at_move_can_end_in_1;
       currentStipSettings = stipSettings[reciprocal];
-      reci_first_mate_fails = !matant(camp,1);
+      side_at_move_can_end_in_1 = dsr_can_end(side_at_move,1);
       currentStipSettings = stipSettings[nonreciprocal];
-      if (reci_first_mate_fails)
+      if (!side_at_move_can_end_in_1)
         return false;
     }
 
@@ -1097,18 +1107,18 @@ boolean mataide(couleur camp, int n, boolean restartenabled)
     if (OptFlag[keepmating])
     {
       piece p= roib+1;
-      while (p < derbla && nbpiece[maincamp == blanc ? p : -p]==0)
+      while (p<derbla && nbpiece[maincamp == blanc ? p : -p]==0)
         p++;
-      if (p == derbla)
+      if (p==derbla)
         return false;
     }   /* keep mating ... */
 
-    if (currentStipSettings.stipulation==stip_countermate && n == 1)
-      GenMatingMove(camp);
+    if (currentStipSettings.stipulation==stip_countermate && n==2)
+      GenMatingMove(side_at_move);
     else
-      genmove(camp);
+      genmove(side_at_move);
 
-    if (camp == noir)
+    if (side_at_move==noir)
       BlMovesLeft--;
     else
       WhMovesLeft--;
@@ -1117,10 +1127,10 @@ boolean mataide(couleur camp, int n, boolean restartenabled)
     {
       if (jouecoup()
           && (!OptFlag[intelligent] || MatePossible())
-          && !echecc(camp)
-          && !(restartenabled && MoveNbr < RestartNbr)
-          && (mataide(ad, n, False)))
-        result = true;
+          && !echecc(side_at_move)
+          && !(restartenabled && MoveNbr<RestartNbr)
+          && (h_find_write_solutions(other_side,n-1,False)))
+        found_solution = true;
 
       if (restartenabled)
         IncrementMoveNbr();
@@ -1133,27 +1143,27 @@ boolean mataide(couleur camp, int n, boolean restartenabled)
         break;
     }
     
-    if (camp==noir)
+    if (side_at_move==noir)
       BlMovesLeft++;
     else
       WhMovesLeft++;
 
     finply();
 
-    if (result && FlowFlag(Reci) && n==1)     /* reciprocal helpmover */
+    if (found_solution && FlowFlag(Reci) && n==2) /* reciprocal helpmover */
     {
       currentStipSettings = stipSettings[reciprocal];
-      last_h_move(camp);
+      h_find_write_final_moves(side_at_move);
       currentStipSettings = stipSettings[nonreciprocal];
     }
   }
 
   /* Add the position to the hash table if it has no solutions */
-  if (!result && dohash)
-    addtohash(camp==blanc ? WhHelpNoSucc : BlHelpNoSucc, n+1, &hb);
+  if (!found_solution && dohash)
+    addtohash(side_at_move==blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb);
 
-  return result;
-} /* mataide */
+  return found_solution;
+} /* h_find_write_solutions */
 
 /* Determine and write final move of the attacker in a series
  * direct/self/reflex stipulation, plus the (subsequent) final move of
@@ -1187,7 +1197,7 @@ boolean ser_dsr_find_write_final_moves(couleur attacker)
         }
       }
       else if (!echecc(attacker) && !sr_does_defender_win(defender,1))
-        solution_found = last_h_move(defender);
+        solution_found = h_find_write_final_moves(defender);
     }
     repcoup();
   }
@@ -1197,21 +1207,26 @@ boolean ser_dsr_find_write_final_moves(couleur attacker)
   return solution_found;
 } /* ser_dsr_find_write_final_moves */
 
+/* Determine and write solutions in a series direct/self/reflex
+ * stipulation.
+ * @param attacker attacking side (i.e. side performing the series)
+ * @param n number of moves to reach the end state
+ * @param restartenabled true iff option movenum is active
+ */
 boolean ser_dsr_find_write_solutions(couleur attacker,
                                      int n,
                                      boolean restartenabled)
 {
-  if (SortFlag(Reflex) && matant(attacker,1))
+  if (SortFlag(Reflex) && dsr_can_end(attacker,1))
     return false;
 
-  --n;
-
-  if (n==0)
+  if (n==1)
     return ser_dsr_find_write_final_moves(attacker);
   else
   {
-    boolean flag = false;
+    boolean solution_found = false;
     couleur defender = advers(attacker);
+    int const n_1 = n-1;
 
     genmove(attacker);
 
@@ -1230,12 +1245,12 @@ boolean ser_dsr_find_write_solutions(couleur attacker,
       {
         HashBuffer hb;
         (*encode)(&hb);
-        if (!inhash(SerNoSucc,n,&hb))
+        if (!inhash(SerNoSucc,n_1,&hb))
         {
-          if (ser_dsr_find_write_solutions(attacker,n,False))
-            flag = true;
+          if (ser_dsr_find_write_solutions(attacker,n_1,False))
+            solution_found = true;
           else
-            addtohash(SerNoSucc,n,&hb);
+            addtohash(SerNoSucc,n_1,&hb);
         }
       }
 
@@ -1256,7 +1271,7 @@ boolean ser_dsr_find_write_solutions(couleur attacker,
 
     finply();
 
-    return  flag;
+    return solution_found;
   }
 } /* ser_dsr_find_write_solutions */
 
@@ -1389,16 +1404,17 @@ void    closehash(void)
 
 } /* closehash */
 
-/* Determine whether mate can be forced on defender in n moves;
+/* Determine whether defender can be defeated in n moves;
  * defender is at move
- * @param defender defending side (i.e. side to be mated)
- * @param n number of moves left until mate has to be reached after
- *          the defender has moved
- * @return true iff mate can be forced and defender is not immobile
- *         currently
+ * This is a recursive function.
+ * @param defender defending side (i.e. side to be defeated)
+ * @param n number of moves left until the end state has to be reached
+ *          after the defender has moved
+ * @return true iff the end state can be forced and defender is not
+ *              immobile currently
  * TODO determine usefulness of this immobility check
  */
-boolean mate(couleur defender, int n)
+boolean dsr_is_defeated(couleur defender, int n)
 {
   boolean no_refutation_found = true;
   boolean is_defender_immobile = true;
@@ -1414,7 +1430,7 @@ boolean mate(couleur defender, int n)
 
   if (n>max_len_threat
       && !echecc(defender)
-      && !matant(attacker,max_len_threat))
+      && !dsr_can_end(attacker,max_len_threat))
     return false;
 
   /* Check whether defender has more non trivial moves than he is
@@ -1440,7 +1456,7 @@ boolean mate(couleur defender, int n)
     if (jouecoup() && !echecc(defender))
     {
       is_defender_immobile = false;
-      if (!matant(attacker,n))
+      if (!dsr_can_end(attacker,n))
       {
         no_refutation_found = false;
         coupfort();
@@ -1454,17 +1470,19 @@ boolean mate(couleur defender, int n)
     max_nr_nontrivial += ntcount;
 
   return !is_defender_immobile && no_refutation_found;
-} /* mate */
+} /* dsr_is_defeated */
 
-/* Determine whether attacker can force mate in n moves.
- * @param attacker attacking side (i.e. side attempting to force mate)
- * @param n number of moves left until mate has to be reached
- * @return true iff attacker can force mate in n moves
+/* Determine whether attacker can end in n moves.
+ * This is a recursive function.
+ * @param attacker attacking side (i.e. side attempting to reach the
+ * end)
+ * @param n number of moves left until the end state has to be reached
+ * @return true iff attacker can end in n moves
  */
-boolean matant(couleur attacker, int n)
+boolean dsr_can_end(couleur attacker, int n)
 {
   int i;
-  boolean forced_mate_found = false;
+  boolean forced_end_found = false;
   couleur defender = advers(attacker);
   HashBuffer hb;
 
@@ -1474,7 +1492,7 @@ boolean matant(couleur attacker, int n)
 
   /* Let's first have a look in the hash_table */
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to
-  ** compute a "mate" in 1. TLi */
+  ** compute an end in 1. TLi */
   if (dohash)
   {
     /* It is more likely that a position has no solution.           */
@@ -1498,7 +1516,7 @@ boolean matant(couleur attacker, int n)
 
   --n;
 
-  for (i = FlowFlag(Exact) ? n : 0; !forced_mate_found && i<=n; i++)
+  for (i = FlowFlag(Exact) ? n : 0; !forced_end_found && i<=n; i++)
   {
     if (i>max_len_threat)
       i = n;
@@ -1508,15 +1526,16 @@ boolean matant(couleur attacker, int n)
     else
       genmove(attacker);
 
-    while (encore() && !forced_mate_found)
+    while (encore() && !forced_end_found)
     {
       if (jouecoup())
       {
         if (i==0)
-          forced_mate_found = currentStipSettings.checker(attacker);
+          forced_end_found = currentStipSettings.checker(attacker);
         else
-          forced_mate_found = !echecc(attacker) && mate(defender,i);
-        if (forced_mate_found)
+          forced_end_found = (!echecc(attacker)
+                              && dsr_is_defeated(defender,i));
+        if (forced_end_found)
           coupfort();
       }
       repcoup();
@@ -1535,12 +1554,12 @@ boolean matant(couleur attacker, int n)
 
   /* store the results in the hashtable */
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to
-  ** compute a "mate" in 1. TLi */
+  ** compute an end in 1. TLi */
   if (dohash)
-    addtohash(forced_mate_found ? WhDirSucc : WhDirNoSucc, n, &hb);
+    addtohash(forced_end_found ? WhDirSucc : WhDirNoSucc, n, &hb);
 
-  return forced_mate_found;
-} /* matant */
+  return forced_end_found;
+} /* dsr_can_end */
 
 /* Determine whether the attacker wins in a self/reflex stipulation in n.
  * @param attacker attacking side (at move)
@@ -1573,7 +1592,7 @@ boolean sr_does_attacker_win(couleur attacker, int n)
       return true;
     }
 
-  if (SortFlag(Reflex) && !FlowFlag(Semi) && matant(attacker,1))
+  if (SortFlag(Reflex) && !FlowFlag(Semi) && dsr_can_end(attacker,1))
     return false;
 
   for (i = FlowFlag(Exact) ? n : 1; !win_found && i<=n; i++)
@@ -1673,7 +1692,7 @@ boolean sr_does_defender_win(couleur defender, int n)
 
   if (SortFlag(Reflex))
   {
-    if (matant(defender,1))
+    if (dsr_can_end(defender,1))
       return false;
     else if (n==1)
       return true;

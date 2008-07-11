@@ -40,7 +40,7 @@ boolean inhash(hashwhat what, int val, HashBuffer *);
 void addtohash(hashwhat what, int val, HashBuffer *);
 boolean ser_dsr_find_write_solutions(couleur camp, int n, boolean restartenabled);
 boolean ser_h_find_write_solutions(couleur camp, int n, boolean restartenabled);
-boolean mataide(couleur camp, int n, boolean restartenabled);
+boolean h_find_write_solutions(couleur camp, int n, boolean restartenabled);
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
