@@ -951,6 +951,63 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
   return flag1 || flag2;
 }
 
+/* Determine and write the final move / move pair in a reciprocal help
+ * stipulation.
+ * @param side_at_move side at move, which is going to end itself or
+ *                     allow the other side to end
+ * @return true iff final moves were found (and written)
+ */
+boolean reci_h_find_write_final_moves(couleur side_at_move)
+{
+  couleur other_side = advers(side_at_move);
+  boolean found_solution = false;
+  boolean side_at_move_can_end_in_1;
+
+  currentStipSettings = stipSettings[reciprocal];
+  side_at_move_can_end_in_1 = dsr_can_end(side_at_move,1);
+  currentStipSettings = stipSettings[nonreciprocal];
+  if (!side_at_move_can_end_in_1)
+    return false;
+
+  genmove(side_at_move);
+
+  if (side_at_move==blanc)
+    WhMovesLeft--;
+  else
+    BlMovesLeft--;
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(side_at_move)
+        && h_find_write_final_moves(other_side))
+      found_solution = true;
+
+    repcoup();
+
+    if ((OptFlag[maxsols] && solutions>=maxsolutions)
+        || maxtime_status==MAXTIME_TIMEOUT)
+      break;
+  }
+
+  if (side_at_move==blanc)
+    WhMovesLeft++;
+  else
+    BlMovesLeft++;
+
+  finply();
+
+  if (found_solution)
+  {
+    currentStipSettings = stipSettings[reciprocal];
+    h_find_write_final_moves(side_at_move);
+    currentStipSettings = stipSettings[nonreciprocal];
+    return true;
+  }
+  else
+    return false;
+} /* reci_h_find_write_final_moves */
+
 /* Find and write solutions in a series help stipulation
  * This is a recursive function.
  * @param series_side side doing the series
@@ -961,48 +1018,29 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
 {
   couleur other_side = advers(series_side);
   boolean found_solution = false;
-  boolean side_at_move_can_end_in_1;
-  boolean PrintReciSolution = false;
 
   if (n==1 && FlowFlag(Reci))
+    found_solution = reci_h_find_write_final_moves(series_side);
+  else
   {
-    /* reciprocal helpmovers -- let's check whether black can end */
-    currentStipSettings = stipSettings[reciprocal];
-    side_at_move_can_end_in_1 = dsr_can_end(series_side,1);
-    currentStipSettings = stipSettings[nonreciprocal];
-  }
-  else
-    side_at_move_can_end_in_1 = true; /* avoid compiler warning */
+    if (currentStipSettings.stipulation==stip_countermate && n==1)
+      GenMatingMove(series_side);
+    else
+      genmove(series_side);
 
-  if (currentStipSettings.stipulation==stip_countermate && n==1)
-    GenMatingMove(series_side);
-  else
-    genmove(series_side);
+    if (series_side==blanc)
+      WhMovesLeft--;
+    else
+      BlMovesLeft--;
 
-  if (series_side==blanc)
-    WhMovesLeft--;
-  else
-    BlMovesLeft--;
-
-  while (encore())
-  {
-    if (jouecoup()
-        && (!OptFlag[intelligent] || MatePossible())
-        && !echecc(series_side)
-        && !(restartenabled && MoveNbr<RestartNbr))
+    while (encore())
     {
-      if (n==1)
+      if (jouecoup()
+          && (!OptFlag[intelligent] || MatePossible())
+          && !echecc(series_side)
+          && !(restartenabled && MoveNbr<RestartNbr))
       {
-        if (FlowFlag(Reci))
-        {
-          if (side_at_move_can_end_in_1
-              && h_find_write_final_moves(other_side))
-          {
-            found_solution = true;
-            PrintReciSolution = True;
-          }
-        }
-        else
+        if (n==1)
         {
           /* The following inquiry into the hash tables yields a
            * significant speed up.
@@ -1017,46 +1055,38 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
               addtohash(SerNoSucc,1,&hb);
           }
         }
-      }
-      else
-      {
-        if (!echecc(other_side))
+        else
         {
-          HashBuffer hb;
-          (*encode)(&hb);
-          if (!inhash(SerNoSucc,n,&hb))
+          if (!echecc(other_side))
           {
-            if (ser_h_find_write_solutions(series_side,n-1,False))
-              found_solution = true;
-            else
-              addtohash(SerNoSucc,n,&hb);
+            HashBuffer hb;
+            (*encode)(&hb);
+            if (!inhash(SerNoSucc,n,&hb))
+            {
+              if (ser_h_find_write_solutions(series_side,n-1,False))
+                found_solution = true;
+              else
+                addtohash(SerNoSucc,n,&hb);
+            }
           }
         }
       }
+
+      if (restartenabled)
+        IncrementMoveNbr();
+
+      repcoup();
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || maxtime_status==MAXTIME_TIMEOUT)
+        break;
     }
 
-    if (restartenabled)
-      IncrementMoveNbr();
+    if (series_side==blanc)
+      WhMovesLeft++;
+    else
+      BlMovesLeft++;
 
-    repcoup();
-    if ((OptFlag[maxsols] && solutions>=maxsolutions)
-        || maxtime_status==MAXTIME_TIMEOUT)
-      break;
-  }
-
-  if (series_side==blanc)
-    WhMovesLeft++;
-  else
-    BlMovesLeft++;
-
-  finply();
-
-  if (found_solution && FlowFlag(Reci) && PrintReciSolution)
-  {
-    /* reciprocal helpmover */
-    currentStipSettings = stipSettings[reciprocal];
-    h_find_write_final_moves(series_side);
-    currentStipSettings = stipSettings[nonreciprocal];
+    finply();
   }
 
   return found_solution;
@@ -1086,20 +1116,11 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
 
   if (n==1)
     found_solution = h_find_write_final_moves(side_at_move);
+  else if (n==2 && FlowFlag(Reci))
+    found_solution = reci_h_find_write_final_moves(side_at_move);
   else
   {
     couleur other_side = advers(side_at_move);
-
-    /* reciprocal helpmover */
-    if (n==2 && FlowFlag(Reci))
-    {
-      boolean side_at_move_can_end_in_1;
-      currentStipSettings = stipSettings[reciprocal];
-      side_at_move_can_end_in_1 = dsr_can_end(side_at_move,1);
-      currentStipSettings = stipSettings[nonreciprocal];
-      if (!side_at_move_can_end_in_1)
-        return false;
-    }
 
     /* keep mating piece for helpmates ... */
     if (OptFlag[keepmating])
@@ -1127,7 +1148,7 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
           && (!OptFlag[intelligent] || MatePossible())
           && !echecc(side_at_move)
           && !(restartenabled && MoveNbr<RestartNbr)
-          && (h_find_write_solutions(other_side,n-1,False)))
+          && h_find_write_solutions(other_side,n-1,False))
         found_solution = true;
 
       if (restartenabled)
@@ -1147,13 +1168,6 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
       WhMovesLeft++;
 
     finply();
-
-    if (found_solution && FlowFlag(Reci) && n==2) /* reciprocal helpmover */
-    {
-      currentStipSettings = stipSettings[reciprocal];
-      h_find_write_final_moves(side_at_move);
-      currentStipSettings = stipSettings[nonreciprocal];
-    }
   }
 
   /* Add the position to the hash table if it has no solutions */
