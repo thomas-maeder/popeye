@@ -1173,7 +1173,7 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
  * @param attacker attacking side
  * @return true iff >= 1 final move (sequence) was found
  */
-boolean ser_d_find_write_final_moves(couleur attacker)
+boolean ser_dsr_find_write_final_move(couleur attacker)
 {
   boolean solution_found = false;
 
@@ -1194,7 +1194,28 @@ boolean ser_d_find_write_final_moves(couleur attacker)
   finply();
 
   return solution_found;
-} /* ser_d_find_write_final_moves */
+} /* ser_dsr_find_write_final_move */
+
+/* Determine and write final move of the defender in a series
+ * self/reflex stipulation.
+ * We already know that >=1 final move exists.
+ * @param defender defender side
+ */
+void ser_sr_find_write_final_defender_move(couleur defender)
+{
+  GenMatingMove(defender);
+
+  while (encore())
+  {
+    if (jouecoup()
+        && currentStipSettings.checker(defender))
+      linesolution();
+
+    repcoup();
+  }
+
+  finply();
+}
 
 /* Determine and write final move of the attacker in a series
  * self/reflex stipulation, plus the (subsequent) final move of the
@@ -1205,7 +1226,7 @@ boolean ser_d_find_write_final_moves(couleur attacker)
  * @param attacker attacking side
  * @return true iff >= 1 final move (sequence) was found
  */
-boolean ser_sr_find_write_final_moves(couleur attacker)
+boolean ser_sr_find_write_final_attacker_move(couleur attacker)
 {
   couleur defender = advers(attacker);
   boolean solution_found = false;
@@ -1217,7 +1238,10 @@ boolean ser_sr_find_write_final_moves(couleur attacker)
     if (jouecoup()
         && !echecc(attacker)
         && !sr_does_defender_win(defender,1))
-      solution_found = h_find_write_final_moves(defender);
+    {
+      solution_found = true;
+      ser_sr_find_write_final_defender_move(defender);
+    }
 
     repcoup();
   }
@@ -1225,7 +1249,7 @@ boolean ser_sr_find_write_final_moves(couleur attacker)
   finply();
 
   return solution_found;
-} /* ser_sr_find_write_final_moves */
+} /* ser_sr_find_write_final_attacker_move */
 
 /* Determine and write solutions in a series direct/self/reflex
  * stipulation.
@@ -1243,9 +1267,9 @@ boolean ser_dsr_find_write_solutions(couleur attacker,
   if (n==1)
   {
     if (SortFlag(Direct))
-      return ser_d_find_write_final_moves(attacker);
+      return ser_dsr_find_write_final_move(attacker);
     else
-      return ser_sr_find_write_final_moves(attacker);
+      return ser_sr_find_write_final_attacker_move(attacker);
   }
   else
   {
