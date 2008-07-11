@@ -439,8 +439,6 @@ EXTERN  boolean         flagfee,
 EXTERN  square          cirrenroib, cirrenroin,
 			immrenroib, immrenroin;
 
-EXTERN  boolean         PrintReciSolution;
-
 EXTERN  int        marge;
 EXTERN  numecoup        testdebut;
 EXTERN  tab             tabsol;

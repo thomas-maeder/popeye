@@ -952,6 +952,7 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
 }
 
 /* Find and write solutions in a series help stipulation
+ * This is a recursive function.
  * @param series_side side doing the series
  * @param n number of moves to reach end state
  * @param restartenabled true iff option movenum is activated
@@ -961,6 +962,7 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
   couleur other_side = advers(series_side);
   boolean found_solution = false;
   boolean side_at_move_can_end_in_1;
+  boolean PrintReciSolution = false;
 
   if (n==1 && FlowFlag(Reci))
   {
@@ -1010,10 +1012,7 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
           if (!inhash(SerNoSucc,1,&hb))
           {
             if (h_find_write_final_moves(other_side))
-            {
               found_solution = true;
-              PrintReciSolution = True;
-            }
             else
               addtohash(SerNoSucc,1,&hb);
           }
@@ -1057,7 +1056,6 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
     /* reciprocal helpmover */
     currentStipSettings = stipSettings[reciprocal];
     h_find_write_final_moves(series_side);
-    PrintReciSolution = False;
     currentStipSettings = stipSettings[nonreciprocal];
   }
 

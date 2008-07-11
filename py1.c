@@ -303,9 +303,8 @@ void InitAlways(void) {
   marge = 0;
   solutions= 0;
 
-  PrintReciSolution = False;
-
-  for (i= maxply; i > 0; i--) {
+  for (i= maxply; i > 0; i--)
+  {
 	whduell[i]= blduell[i]=
       kpilcd[i]= kpilca[i]=
       sqrenais[i]= initsquare;
