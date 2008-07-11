@@ -2229,14 +2229,17 @@ boolean h_find_write_final_moves(couleur side_at_move)
       && immobile(side_at_move))
     return false;
 
-  if (!(SortFlag(Self) && SortFlag(Help)))
-    GenMatingMove(side_at_move);
-  else if (SortFlag(Reflex)
-           && !FlowFlag(Semi)
-           && dsr_can_end(side_at_move,1))
-    return false;
+  if (SortFlag(Self)) /* helpselfmate? */
+  {
+    if (SortFlag(Reflex) /* helpreflexmate? */
+        && !FlowFlag(Semi)
+        && dsr_can_end(side_at_move,1))
+      return false;
+    else
+      genmove(side_at_move);
+  }
   else
-    genmove(side_at_move);
+    GenMatingMove(side_at_move);
 
   if (side_at_move==blanc)
     WhMovesLeft--;
@@ -2248,7 +2251,7 @@ boolean h_find_write_final_moves(couleur side_at_move)
     if (jouecoup()
         && (!OptFlag[intelligent] || MatePossible()))
     {
-      if (SortFlag(Self) && SortFlag(Help))
+      if (SortFlag(Self))
       {
         if (!echecc(side_at_move) && !sr_does_defender_win(other_side,1))
         {
