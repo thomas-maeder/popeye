@@ -1555,6 +1555,7 @@ boolean verifieposition(void)
       && (!(stipSettings[nonreciprocal].stipulation==stip_mate
             || stipSettings[nonreciprocal].stipulation==stip_stale)
           || flagfee
+          || FlowFlag(Reci)
           || SortFlag(Self)
           || !(SortFlag(Help) || (SortFlag(Direct) && FlowFlag(Series)))
           || anycirce
