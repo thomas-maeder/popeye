@@ -341,6 +341,7 @@ EXTERN  boolean         pwcprom[maxply + 1];
 EXTERN  pilecase        sqrenais,
 			crenkam,        /* rebirth square for taking kamikaze pieces */
 			super;          /* supercirce */
+EXTERN  pilecase        repub_k;
 EXTERN  Flags           jouespec[maxply + 1];
 EXTERN  numecoup        repere[maxply + 1];
 
@@ -526,7 +527,6 @@ EXTERN int         WhiteSATFlights, BlackSATFlights;
 EXTERN boolean          WhiteStrictSAT[maxply+1],BlackStrictSAT[maxply+1];
 EXTERN square           takemake_departuresquare;
 EXTERN square           takemake_capturesquare;
-EXTERN boolean          repub_k[toppile + 1];
 EXTERN boolean          flag_appseul;
 EXTERN int         zzzao[haut - bas + 1];
 EXTERN boolean          flag_synchron;
