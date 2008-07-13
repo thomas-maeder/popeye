@@ -3070,10 +3070,7 @@ void SolveHelpProblems(couleur camp)
     camp = advers(camp);
 
   if (SortFlag(Self))
-  {
-    n--;
     camp = advers(camp);
-  }
 
   move_generation_mode = move_generation_not_optimized;
 

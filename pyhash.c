@@ -964,17 +964,7 @@ boolean h_find_write_final_moves(couleur side_at_move)
       && immobile(side_at_move))
     return false;
 
-  if (SortFlag(Self)) /* helpselfmate? */
-  {
-    if (SortFlag(Reflex) /* helpreflexmate? */
-        && !FlowFlag(Semi)
-        && dsr_can_end(side_at_move,1))
-      return false;
-    else
-      genmove(side_at_move);
-  }
-  else
-    GenMatingMove(side_at_move);
+  GenMatingMove(side_at_move);
 
   if (side_at_move==blanc)
     WhMovesLeft--;
@@ -986,32 +976,10 @@ boolean h_find_write_final_moves(couleur side_at_move)
     if (jouecoup()
         && (!OptFlag[intelligent] || MatePossible()))
     {
-      if (SortFlag(Self))
+      if (currentStipSettings.checker(side_at_move))
       {
-        if (!echecc(side_at_move)
-            && !sr_does_defender_win(other_side,1))
-        {
-          GenMatingMove(other_side);
-          while (encore())
-          {
-            if (jouecoup()
-                && currentStipSettings.checker(other_side))
-            {
-              final_move_found = true;
-              linesolution();
-            }
-            repcoup();
-          }
-          finply();
-        }
-      }
-      else
-      {
-        if (currentStipSettings.checker(side_at_move))
-        {
-          final_move_found = true;
-          linesolution();
-        }
+        final_move_found = true;
+        linesolution();
       }
     }
     repcoup();
@@ -1095,13 +1063,48 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
                                      boolean restartenabled)
 {
   boolean found_solution = false;
+  couleur other_side = advers(side_at_move);
 
   if (FlowFlag(Reci))
     found_solution = reci_h_find_write_final_moves(side_at_move);
+  else if (SortFlag(Self)) /* helpselfmate? */
+  {
+    if (SortFlag(Reflex) /* helpreflexmate? */
+        && !FlowFlag(Semi)
+        && dsr_can_end(side_at_move,1))
+      return false;
+    else
+      genmove(side_at_move);
+
+    while (encore())
+    {
+      if (jouecoup()
+          && !echecc(side_at_move)
+          && !sr_does_defender_win(other_side,1))
+      {
+        GenMatingMove(other_side);
+        while (encore())
+        {
+          if (jouecoup()
+              && currentStipSettings.checker(other_side))
+          {
+            found_solution = true;
+            linesolution();
+          }
+
+          repcoup();
+        }
+
+        finply();
+      }
+
+      repcoup();
+    }
+
+    finply();
+  }
   else
   {
-    couleur other_side = advers(side_at_move);
-
     if (currentStipSettings.stipulation==stip_countermate)
       GenMatingMove(side_at_move);
     else
