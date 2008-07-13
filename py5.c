@@ -2487,43 +2487,50 @@ boolean jouecoup(void) {
     if (wh_royal_sq != initsquare)
       rb= wh_royal_sq;
 
-    if (CondFlag[republican]) {
-      if (traitnbply==blanc) {
+    if (CondFlag[republican])
+    {
+      if (traitnbply==blanc)
+      {
         if (flag_writinglinesolution
-            && repub_k[nbply] != initsquare) {
-          rn= repub_k[nbply];
-          e[rn]= roin;
+            && repub_k[nbply]!=initsquare)
+        {
+          rn = repub_k[nbply];
+          e[rn] = roin;
           nbpiece[roin]++;
         }
-        else if (!rn && !flag_dontaddk) {
-          flag_dontaddk= true;
+        else if (rn==initsquare && !flag_dontaddk)
+        {
+          flag_dontaddk = true;
           find_mate_square(blanc);
-          flag_dontaddk= false;
-          repub_k[nbply]= super[nbply]<= haut ? super[nbply] : initsquare;
+          flag_dontaddk = false;
+          repub_k[nbply] = super[nbply]<= haut ? super[nbply] : initsquare;
         }
         else
         {
-          repub_k[nbply]= initsquare;
-          super[nbply]= haut + 1;
+          repub_k[nbply] = initsquare;
+          super[nbply] = haut+1;
         }
       }
-      else {
+      else
+      {
         if (flag_writinglinesolution
-            && repub_k[nbply] != initsquare) {
-          rb= repub_k[nbply];
-          e[rb]= roib;
+            && repub_k[nbply]!=initsquare)
+        {
+          rb = repub_k[nbply];
+          e[rb] = roib;
           nbpiece[roib]++;
         }
-        else if (!rb && !flag_dontaddk) {
-          flag_dontaddk= true;
+        else if (rb==initsquare && !flag_dontaddk)
+        {
+          flag_dontaddk = true;
           find_mate_square(noir);
-          flag_dontaddk= false;
-          repub_k[nbply]= super[nbply]<= haut ? super[nbply] : initsquare;
+          flag_dontaddk = false;
+          repub_k[nbply] = super[nbply]<= haut ? super[nbply] : initsquare;
         }
         else
         {
-          repub_k[nbply]= initsquare;
-          super[nbply]= haut + 1;
+          repub_k[nbply] = initsquare;
+          super[nbply] = haut+1;
         }
       }
     } /* republican */
@@ -2531,7 +2538,8 @@ boolean jouecoup(void) {
     if (CondFlag[actrevolving])
       RotateMirror(rot270);
 
-    if (CondFlag[arc]) {
+    if (CondFlag[arc])
+    {
       if (sq_departure==square_d4 || sq_departure==square_e4
           || sq_departure==square_d5 || sq_departure==square_e5
           || sq_arrival==square_d4 || sq_arrival==square_e4
@@ -2952,16 +2960,20 @@ void repcoup(void) {
         ;
   }
 
-  if (CondFlag[republican]) {
-    square sq= repub_k[nbply];
-    if (sq != initsquare) {
-      e[sq]= vide;
-      if (sq==rn) {
-        rn=initsquare;
+  if (CondFlag[republican])
+  {
+    square sq = repub_k[nbply];
+    if (sq!=initsquare)
+    {
+      e[sq] = vide;
+      if (sq==rn)
+      {
+        rn = initsquare;
         nbpiece[roin]--;
       }
-      if (sq==rb) {
-        rb=initsquare;
+      if (sq==rb)
+      {
+        rb = initsquare;
         nbpiece[roib]--;
       }
     }
@@ -3079,11 +3091,11 @@ void repcoup(void) {
 
   /* at last modify promotion-counters and decrement nbcou */
   /* ortho- und pwc-Umwandlung getrennt */
-  if (CondFlag[republican]) {
-    next_prom= (super[nbply] > haut);
-    if (next_prom) {
-      super[nbply]= superbas;
-    }
+  if (CondFlag[republican])
+  {
+    next_prom = super[nbply]>haut;
+    if (next_prom)
+      super[nbply] = superbas;
   }
 
   if (next_prom) {
