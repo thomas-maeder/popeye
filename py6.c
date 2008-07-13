@@ -2254,7 +2254,8 @@ boolean h_find_write_final_moves(couleur side_at_move)
     {
       if (SortFlag(Self))
       {
-        if (!echecc(side_at_move) && !sr_does_defender_win(other_side,1))
+        if (!echecc(side_at_move)
+            && !sr_does_defender_win(other_side,1))
         {
           GenMatingMove(other_side);
           while (encore())
@@ -3091,11 +3092,61 @@ void SolveSeriesProblems(couleur camp)
     StipFlags &= ~FlowBit(Exact);
 } /* SolveSeriesProblems */
 
+/* Solve a help play problem in exactly N moves
+ * @param camp side moving first
+ * @param n number of half moves for reaching the end state
+ * @param restartenabled true iff option movenum is activated
+ * @return true iff >= 1 solution was found
+ */
+static boolean SolveHelpInN(couleur camp, int n, boolean restartenabled)
+{
+  if (n==1)
+    return h_find_write_final_moves(camp);
+  else if (OptFlag[intelligent])
+  {
+    int blmoves = n/2;
+
+    int whmoves = n/2;
+    if (n%2==1)
+      whmoves++;
+
+    return Intelligent(whmoves,blmoves,&h_find_write_solutions,camp,n);
+  }
+  else
+    return h_find_write_solutions(camp,n,restartenabled);
+}
+
+/* Solve a help play problem, signal whether short solution(s) were
+ * found 
+ * @param camp side moving first
+ * @param n number of half moves for reaching the end state
+ * @param stop_on_short true iff (in non-exact mode) solving should
+ *                      stop after a short solution has been found
+ * @return true iff solving was stopped because short solutions were
+ *         found
+ */
+static boolean SolveHelpShortOrFull(couleur camp,
+                                    int n,
+                                    boolean stop_on_short)
+{
+  if (!FlowFlag(Exact) && !OptFlag[restart])
+  {
+    int const starti = n%2==1 ? 1 : 2;
+    int i;
+
+    for (i = starti; i<n; i += 2)
+      if (SolveHelpInN(camp,i,false)
+          && stop_on_short)
+        return true;
+  }
+
+  SolveHelpInN(camp,n,OptFlag[movenbr]);
+  return false;
+}
+
 void SolveHelpProblems(couleur camp)
 {
   int n = enonce;
-  int i;
-  boolean is_exact = FlowFlag(Exact);
 
   if (flag_appseul)
     /* reduction by one half move because user said so in options */
@@ -3114,46 +3165,15 @@ void SolveHelpProblems(couleur camp)
 
   if (OptFlag[solapparent])
   {
-    SatzFlag = True;
     if (echecc(advers(camp)))
       ErrorMsg(KingCapture);
     else
     {
-      /* we are looking for shortest set plays only */
-      int starti = (FlowFlag(Exact) || OptFlag[restart]
-                    ? n-1
-                    : ((n-1)%2==1 ? 1 : 2));
-
-      if (OptFlag[intelligent])
-      {
-        WhMovesLeft = starti/2;
-        BlMovesLeft = starti/2;
-        if (starti%2==1)
-          WhMovesLeft++;
-
-        for (i = starti; i<=n-1; i += 2)
-        {
-          boolean flag = Intelligent(WhMovesLeft,BlMovesLeft,
-                                     h_find_write_solutions,
-                                     camp,
-                                     i);
-
-          WhMovesLeft++;
-          BlMovesLeft++;
-
-          if (flag)
-            break;
-        }
-      }
-      else
-        for (i = starti; i<=n-1; i += 2)
-        {
-          if (h_find_write_solutions(camp, i, OptFlag[movenbr] && i==n-1))
-            break;
-        }
+      SatzFlag = True;
+      SolveHelpShortOrFull(camp,n-1,true);
+      SatzFlag = False;
     }
     StdChar('\n');
-    SatzFlag = False;
   }
 
   if (OptFlag[maxsols])    /* reset after set play */
@@ -3162,58 +3182,9 @@ void SolveHelpProblems(couleur camp)
   if (echecc(camp))
     ErrorMsg(KingCapture);
   else
-  {
-    int starti = (FlowFlag(Exact) || OptFlag[restart]
-                  ? n
-                  : (n%2==1 ? 1 : 2));
-
-    if (OptFlag[intelligent])
-    {
-      WhMovesLeft = starti/2;
-      BlMovesLeft = starti/2;
-      if (starti%2==1)
-        WhMovesLeft++;
-
-      for (i = starti; i<=n; i += 2)
-      {
-        if (Intelligent(WhMovesLeft,BlMovesLeft,
-                        h_find_write_solutions,
-                        advers(camp),i))
-        {
-          StipFlags |= FlowBit(Exact);
-          if (OptFlag[stoponshort] && i<n)
-          {
-            FlagShortSolsReached = true;
-            break;
-          }
-        }
-        
-        WhMovesLeft++;
-        BlMovesLeft++;
-      }
-    }
-    else
-    {
-      for (i = starti; i<=n; i += 2)
-      {
-        if (h_find_write_solutions(advers(camp),
-                                   i,
-                                   OptFlag[movenbr] && i==n))
-        {
-          /* Exact has to be set to find ALL longer solutions */
-          StipFlags |= FlowBit(Exact);
-          if (OptFlag[stoponshort] && i<n)
-          {
-            FlagShortSolsReached = true;
-            break;
-          }
-        }
-      }
-    } /* OptFlag[intelligent] */
-  }
-
-  if (!is_exact)
-    StipFlags &= ~FlowBit(Exact);
+    FlagShortSolsReached = SolveHelpShortOrFull(advers(camp),
+                                                n,
+                                                OptFlag[stoponshort]);
 } /* SolveHelpProblems */
 
 void SolveDirectProblems(couleur camp)

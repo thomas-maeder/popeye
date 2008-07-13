@@ -1008,6 +1008,73 @@ boolean reci_h_find_write_final_moves(couleur side_at_move)
     return false;
 } /* reci_h_find_write_final_moves */
 
+/* Determine and write the final move pair in a help stipulation.
+ * @param side_at_move side at the move
+ * @param no_succ_hash_category hash category for storing failures
+ * @return true iff >=1 move pair was found
+ */
+boolean h_find_write_final_move_pair(couleur side_at_move,
+                                     hashwhat no_succ_hash_category,
+                                     boolean restartenabled)
+{
+  boolean found_solution = false;
+
+  if (FlowFlag(Reci))
+    found_solution = reci_h_find_write_final_moves(side_at_move);
+  else
+  {
+    couleur other_side = advers(side_at_move);
+
+    if (currentStipSettings.stipulation==stip_countermate)
+      GenMatingMove(side_at_move);
+    else
+      genmove(side_at_move);
+
+    if (side_at_move==noir)
+      BlMovesLeft--;
+    else
+      WhMovesLeft--;
+
+    while (encore())
+    {
+      if (jouecoup()
+          && (!OptFlag[intelligent] || MatePossible())
+          && !echecc(side_at_move)
+          && !(restartenabled && MoveNbr<RestartNbr))
+      {
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(no_succ_hash_category,1,&hb))
+        {
+          if (h_find_write_final_moves(other_side))
+            found_solution = true;
+          else
+            addtohash(no_succ_hash_category,1,&hb);
+        }
+      }
+
+      if (restartenabled)
+        IncrementMoveNbr();
+
+      repcoup();
+
+      /* Stop solving if a given number of solutions was encountered */
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || maxtime_status==MAXTIME_TIMEOUT)
+        break;
+    }
+    
+    if (side_at_move==noir)
+      BlMovesLeft++;
+    else
+      WhMovesLeft++;
+
+    finply();
+  }
+
+  return found_solution;
+}
+
 /* Find and write solutions in a series help stipulation
  * This is a recursive function.
  * @param series_side side doing the series
@@ -1016,17 +1083,17 @@ boolean reci_h_find_write_final_moves(couleur side_at_move)
  */
 boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restartenabled)
 {
-  couleur other_side = advers(series_side);
   boolean found_solution = false;
 
-  if (n==1 && FlowFlag(Reci))
-    found_solution = reci_h_find_write_final_moves(series_side);
+  if (n==1)
+    found_solution = h_find_write_final_move_pair(series_side,
+                                                  SerNoSucc,
+                                                  restartenabled);
   else
   {
-    if (currentStipSettings.stipulation==stip_countermate && n==1)
-      GenMatingMove(series_side);
-    else
-      genmove(series_side);
+    couleur other_side = advers(series_side);
+
+    genmove(series_side);
 
     if (series_side==blanc)
       WhMovesLeft--;
@@ -1038,37 +1105,17 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
       if (jouecoup()
           && (!OptFlag[intelligent] || MatePossible())
           && !echecc(series_side)
-          && !(restartenabled && MoveNbr<RestartNbr))
+          && !(restartenabled && MoveNbr<RestartNbr)
+          && !echecc(other_side))
       {
-        if (n==1)
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(SerNoSucc,n,&hb))
         {
-          /* The following inquiry into the hash tables yields a
-           * significant speed up.
-           */
-          HashBuffer hb;
-          (*encode)(&hb);
-          if (!inhash(SerNoSucc,1,&hb))
-          {
-            if (h_find_write_final_moves(other_side))
-              found_solution = true;
-            else
-              addtohash(SerNoSucc,1,&hb);
-          }
-        }
-        else
-        {
-          if (!echecc(other_side))
-          {
-            HashBuffer hb;
-            (*encode)(&hb);
-            if (!inhash(SerNoSucc,n,&hb))
-            {
-              if (ser_h_find_write_solutions(series_side,n-1,False))
-                found_solution = true;
-              else
-                addtohash(SerNoSucc,n,&hb);
-            }
-          }
+          if (ser_h_find_write_solutions(series_side,n-1,False))
+            found_solution = true;
+          else
+            addtohash(SerNoSucc,n,&hb);
         }
       }
 
@@ -1093,7 +1140,12 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
 } /* ser_h_find_write_solutions */
 
 /* Determine and write the solution(s) in a help stipulation.
+ *
  * This is a recursive function.
+ * Recursion works with decreasing parameter n; recursion stops at
+ * n==2 (e.g. h#1). For solving help play problems in 0.5, call
+ * h_find_write_final_moves() instead.
+ *
  * @param side_at_move side at the move
  * @param n number of half moves until end state has to be reached
  * @param restartenabled true iff option movenum is activated
@@ -1102,40 +1154,42 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
 {
   boolean found_solution = false;
   HashBuffer hb;
-  boolean const dohash = flag_hashall || n>1;
+  hashwhat what = side_at_move==blanc ? WhHelpNoSucc : BlHelpNoSucc;
 
-  /* Let us check whether the position is already in the
-  ** hash table and marked unsolvable.
-  */
-  if (dohash)
+  assert(n>=2);
+
+  /* Let us check whether the position is already in the hash table
+   * and marked unsolvable.
+   */
+  if (flag_hashall)
   {
     (*encode)(&hb);
-    if (inhash(side_at_move==blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb))
+    if (inhash(what,n,&hb))
       return false;
   }
 
-  if (n==1)
-    found_solution = h_find_write_final_moves(side_at_move);
-  else if (n==2 && FlowFlag(Reci))
-    found_solution = reci_h_find_write_final_moves(side_at_move);
+  /* keep mating piece for helpmates ... */
+  if (OptFlag[keepmating])
+  {
+    piece p= roib+1;
+    while (p<derbla && nbpiece[maincamp == blanc ? p : -p]==0)
+      p++;
+    if (p==derbla)
+      return false;
+  }   /* keep mating ... */
+
+  if (n==2)
+  {
+    hashwhat nextNoSucc = side_at_move==blanc ? BlHelpNoSucc : WhHelpNoSucc;
+    found_solution = h_find_write_final_move_pair(side_at_move,
+                                                  nextNoSucc,
+                                                  restartenabled);
+  }
   else
   {
     couleur other_side = advers(side_at_move);
 
-    /* keep mating piece for helpmates ... */
-    if (OptFlag[keepmating])
-    {
-      piece p= roib+1;
-      while (p<derbla && nbpiece[maincamp == blanc ? p : -p]==0)
-        p++;
-      if (p==derbla)
-        return false;
-    }   /* keep mating ... */
-
-    if (currentStipSettings.stipulation==stip_countermate && n==2)
-      GenMatingMove(side_at_move);
-    else
-      genmove(side_at_move);
+    genmove(side_at_move);
 
     if (side_at_move==noir)
       BlMovesLeft--;
@@ -1171,8 +1225,8 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
   }
 
   /* Add the position to the hash table if it has no solutions */
-  if (!found_solution && dohash)
-    addtohash(side_at_move==blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb);
+  if (!found_solution && flag_hashall)
+     addtohash(what,n,&hb);
 
   return found_solution;
 } /* h_find_write_solutions */
