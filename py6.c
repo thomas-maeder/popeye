@@ -1732,7 +1732,6 @@ void editcoup(coup *mov, boolean write_end_marker)
   char    BlackChar= *GetMsgString(BlackColor);
   char    WhiteChar= *GetMsgString(WhiteColor);
   int   icount, diff;
-  square sq;
 
   if (mov->cazz==nullsquare) return;
 
@@ -1888,14 +1887,13 @@ void editcoup(coup *mov, boolean write_end_marker)
     }
 
     if (CondFlag[republican]
-        && (sq= mov->repub_k) <= haut
-        && sq >= bas)
+        && mov->repub_k<=haut && mov->repub_k>=bas)
     {
       SETFLAG(mov->ren_spec, mov->tr==blanc ? Black : White);
       StdString("[+");
       WriteSpec(mov->ren_spec, true);
       WritePiece(roib);
-      WriteSquare(sq);
+      WriteSquare(mov->repub_k);
       StdChar(']');
     }
 
