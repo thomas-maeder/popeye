@@ -2973,9 +2973,7 @@ void SolveSeriesProblems(couleur camp)
       {
         for (i = starti; i <= enonce; i++)
         {
-          if (SortFlag(Help)
-              ? Intelligent(1,i,ser_h_find_write_solutions,camp,i)
-              : Intelligent(i,0,ser_dsr_find_write_solutions,camp,i))
+          if (Intelligent(1,i,ser_find_write_solutions,camp,i))
           {
             StipFlags |= FlowBit(Exact);
             if (OptFlag[stoponshort] && i<enonce)
@@ -2992,9 +2990,7 @@ void SolveSeriesProblems(couleur camp)
         {
           boolean restartenabled = OptFlag[movenbr] && i==enonce;
 
-          if (SortFlag(Help)
-              ? ser_h_find_write_solutions(camp,i,restartenabled)
-              : ser_dsr_find_write_solutions(camp,i,restartenabled))
+          if (ser_find_write_solutions(camp,i,restartenabled))
           {
             StipFlags |= FlowBit(Exact);
             if (OptFlag[stoponshort]&& i<enonce)

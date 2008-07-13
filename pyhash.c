@@ -895,10 +895,7 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
 
     SatzFlag = True;
     for (i = FlowFlag(Exact) ? enonce : 1; i<=enonce; i++)
-    {
-      if (SortFlag(Help)
-          ? ser_h_find_write_solutions(continuingside,i,False)
-          : ser_dsr_find_write_solutions(continuingside,i,False))
+      if (ser_find_write_solutions(continuingside,i,False))
       {
         flag1= true;
         StipFlags |= FlowBit(Exact);
@@ -908,7 +905,6 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
           break;
         }
       }
-    }
 
     if (n==introenonce)
       Message(NewLine);
@@ -1156,70 +1152,6 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
   return found_solution;
 }
 
-/* Find and write solutions in a series help stipulation
- * This is a recursive function.
- * @param series_side side doing the series
- * @param n number of moves to reach end state
- * @param restartenabled true iff option movenum is activated
- */
-boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restartenabled)
-{
-  boolean found_solution = false;
-
-  if (n==1)
-    found_solution = h_find_write_final_move_pair(series_side,
-                                                  SerNoSucc,
-                                                  restartenabled);
-  else
-  {
-    couleur other_side = advers(series_side);
-
-    genmove(series_side);
-
-    if (series_side==blanc)
-      WhMovesLeft--;
-    else
-      BlMovesLeft--;
-
-    while (encore())
-    {
-      if (jouecoup()
-          && (!OptFlag[intelligent] || MatePossible())
-          && !echecc(series_side)
-          && !(restartenabled && MoveNbr<RestartNbr)
-          && !echecc(other_side))
-      {
-        HashBuffer hb;
-        (*encode)(&hb);
-        if (!inhash(SerNoSucc,n,&hb))
-        {
-          if (ser_h_find_write_solutions(series_side,n-1,False))
-            found_solution = true;
-          else
-            addtohash(SerNoSucc,n,&hb);
-        }
-      }
-
-      if (restartenabled)
-        IncrementMoveNbr();
-
-      repcoup();
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
-        break;
-    }
-
-    if (series_side==blanc)
-      WhMovesLeft++;
-    else
-      BlMovesLeft++;
-
-    finply();
-  }
-
-  return found_solution;
-} /* ser_h_find_write_solutions */
-
 /* Determine and write the solution(s) in a help stipulation.
  *
  * This is a recursive function.
@@ -1316,7 +1248,7 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
  * @param attacker attacking side
  * @return true iff >= 1 final move (sequence) was found
  */
-boolean ser_dsr_find_write_final_move(couleur attacker)
+boolean ser_d_find_write_final_move(couleur attacker)
 {
   boolean solution_found = false;
 
@@ -1337,7 +1269,7 @@ boolean ser_dsr_find_write_final_move(couleur attacker)
   finply();
 
   return solution_found;
-} /* ser_dsr_find_write_final_move */
+} /* ser_d_find_write_final_move */
 
 /* Determine and write final move of the defender in a series
  * self/reflex stipulation.
@@ -1394,35 +1326,37 @@ boolean ser_sr_find_write_final_attacker_move(couleur attacker)
   return solution_found;
 } /* ser_sr_find_write_final_attacker_move */
 
-/* Determine and write solutions in a series direct/self/reflex
- * stipulation.
- * @param attacker attacking side (i.e. side performing the series)
+/* Determine and write solutions in a series stipulation.
+ * @param series_side side doing the series
  * @param n number of moves to reach the end state
  * @param restartenabled true iff option movenum is active
  */
-boolean ser_dsr_find_write_solutions(couleur attacker,
-                                     int n,
-                                     boolean restartenabled)
+boolean ser_find_write_solutions(couleur series_side,
+                                 int n,
+                                 boolean restartenabled)
 {
-  if (SortFlag(Reflex) && dsr_can_end(attacker,1))
+  if (SortFlag(Reflex) && dsr_can_end(series_side,1))
     return false;
 
   if (n==1)
   {
-    if (SortFlag(Direct))
-      return ser_dsr_find_write_final_move(attacker);
+    if (SortFlag(Help))
+      return h_find_write_final_move_pair(series_side,
+                                          SerNoSucc,
+                                          restartenabled);
+    else if (SortFlag(Direct))
+      return ser_d_find_write_final_move(series_side);
     else
-      return ser_sr_find_write_final_attacker_move(attacker);
+      return ser_sr_find_write_final_attacker_move(series_side);
   }
   else
   {
     boolean solution_found = false;
-    couleur defender = advers(attacker);
-    int const n_1 = n-1;
+    couleur other_side = advers(series_side);
 
-    genmove(attacker);
+    genmove(series_side);
 
-    if (attacker==blanc)
+    if (series_side==blanc)
       WhMovesLeft--;
     else
       BlMovesLeft--;
@@ -1430,19 +1364,19 @@ boolean ser_dsr_find_write_solutions(couleur attacker,
     while (encore())
     {
       if (jouecoup()
+          && !echecc(series_side)
+          && !(restartenabled && MoveNbr<RestartNbr)
           && (!OptFlag[intelligent] || MatePossible())
-          && !echecc(attacker)
-          && !echecc(defender)
-          && !(restartenabled && MoveNbr<RestartNbr))
+          && !echecc(other_side))
       {
         HashBuffer hb;
         (*encode)(&hb);
-        if (!inhash(SerNoSucc,n_1,&hb))
+        if (!inhash(SerNoSucc,n,&hb))
         {
-          if (ser_dsr_find_write_solutions(attacker,n_1,False))
+          if (ser_find_write_solutions(series_side,n-1,False))
             solution_found = true;
           else
-            addtohash(SerNoSucc,n_1,&hb);
+            addtohash(SerNoSucc,n,&hb);
         }
       }
 
@@ -1456,7 +1390,7 @@ boolean ser_dsr_find_write_solutions(couleur attacker,
         break;
     }
 
-    if (attacker==blanc)
+    if (series_side==blanc)
       WhMovesLeft++;
     else
       BlMovesLeft++;
@@ -1465,7 +1399,7 @@ boolean ser_dsr_find_write_solutions(couleur attacker,
 
     return solution_found;
   }
-} /* ser_dsr_find_write_solutions */
+} /* ser_find_write_solutions */
 
 void inithash(void)
 {
