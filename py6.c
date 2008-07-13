@@ -2209,8 +2209,6 @@ void linesolution(void) {
   flag_writinglinesolution= false;
 } /* end of linesolution */
 
-EXTERN int WhMovesLeft, BlMovesLeft;
-
 #if !defined(DATABASE)
 
 /* Count all non-trivial moves of the defending side. Whether a
