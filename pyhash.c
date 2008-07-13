@@ -1153,20 +1153,9 @@ boolean ser_h_find_write_solutions(couleur series_side, int n, boolean restarten
 boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabled)
 {
   boolean found_solution = false;
-  HashBuffer hb;
-  hashwhat what = side_at_move==blanc ? WhHelpNoSucc : BlHelpNoSucc;
+  hashwhat next_no_succ = side_at_move==blanc ? BlHelpNoSucc : WhHelpNoSucc;
 
   assert(n>=2);
-
-  /* Let us check whether the position is already in the hash table
-   * and marked unsolvable.
-   */
-  if (flag_hashall)
-  {
-    (*encode)(&hb);
-    if (inhash(what,n,&hb))
-      return false;
-  }
 
   /* keep mating piece for helpmates ... */
   if (OptFlag[keepmating])
@@ -1179,15 +1168,12 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
   }   /* keep mating ... */
 
   if (n==2)
-  {
-    hashwhat nextNoSucc = side_at_move==blanc ? BlHelpNoSucc : WhHelpNoSucc;
     found_solution = h_find_write_final_move_pair(side_at_move,
-                                                  nextNoSucc,
+                                                  next_no_succ,
                                                   restartenabled);
-  }
   else
   {
-    couleur other_side = advers(side_at_move);
+    couleur next_side = advers(side_at_move);
 
     genmove(side_at_move);
 
@@ -1201,9 +1187,23 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
       if (jouecoup()
           && (!OptFlag[intelligent] || MatePossible())
           && !echecc(side_at_move)
-          && !(restartenabled && MoveNbr<RestartNbr)
-          && h_find_write_solutions(other_side,n-1,False))
-        found_solution = true;
+          && !(restartenabled && MoveNbr<RestartNbr))
+      {
+        if (flag_hashall)
+        {
+          HashBuffer hb;
+          (*encode)(&hb);
+          if (!inhash(next_no_succ,n-1,&hb))
+          {
+            if (h_find_write_solutions(next_side,n-1,False))
+              found_solution = true;
+            else
+              addtohash(next_no_succ,n-1,&hb);
+          }
+        } else
+          if (h_find_write_solutions(next_side,n-1,False))
+            found_solution = true;
+      }
 
       if (restartenabled)
         IncrementMoveNbr();
@@ -1223,10 +1223,6 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
 
     finply();
   }
-
-  /* Add the position to the hash table if it has no solutions */
-  if (!found_solution && flag_hashall)
-     addtohash(what,n,&hb);
 
   return found_solution;
 } /* h_find_write_solutions */
