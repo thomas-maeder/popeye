@@ -2971,7 +2971,9 @@ void SolveSeriesProblems(couleur camp)
       {
         for (i = starti; i <= enonce; i++)
         {
-          if (Intelligent(1,i,ser_find_write_solutions,camp,i))
+          if (SortFlag(Help)
+              ? Intelligent(1,i,&ser_find_write_solutions,camp,i)
+              : Intelligent(i,0,&ser_find_write_solutions,camp,i))
           {
             StipFlags |= FlowBit(Exact);
             if (OptFlag[stoponshort] && i<enonce)
