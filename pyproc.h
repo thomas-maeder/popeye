@@ -222,7 +222,7 @@ void jouecoup_no_test(void);
 boolean jouecoup_ortho_test(void);
 boolean jouecoup(void);
 void    joueim(int diff);
-boolean h_find_write_final_moves(couleur a);
+boolean h_find_write_final_move(couleur a);
 boolean legalsquare(square departure, square arrival, square capture);
 boolean libre(square a, boolean b);
 

@@ -2946,7 +2946,7 @@ void SolveSeriesProblems(couleur camp)
       else
       {
         if (SortFlag(Help))
-          h_find_write_final_moves(advers(camp));
+          h_find_write_final_move(advers(camp));
         else
         {
           zugebene++;
@@ -3017,7 +3017,7 @@ void SolveSeriesProblems(couleur camp)
 static boolean SolveHelpInN(couleur camp, int n, boolean restartenabled)
 {
   if (n==1)
-    return h_find_write_final_moves(camp);
+    return h_find_write_final_move(camp);
   else if (OptFlag[intelligent])
   {
     int blmoves = n/2;

@@ -951,14 +951,9 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
 /* Determine and find final moves in a help stipulation
  * @param side_at_move side to perform the final move
  */
-boolean h_find_write_final_moves(couleur side_at_move)
+boolean h_find_write_final_move(couleur side_at_move)
 {
-  couleur other_side = advers(side_at_move);
   boolean final_move_found = false;
-
-  if (currentStipSettings.stipulation==stip_countermate
-      && !stip_checkers[stip_mate](other_side))
-    return false;
   
   if (currentStipSettings.stipulation==stip_doublemate
       && immobile(side_at_move))
@@ -1002,7 +997,7 @@ boolean h_find_write_final_moves(couleur side_at_move)
  *                     allow the other side to end
  * @return true iff final moves were found (and written)
  */
-boolean reci_h_find_write_final_moves(couleur side_at_move)
+boolean reci_h_find_write_final_move(couleur side_at_move)
 {
   couleur other_side = advers(side_at_move);
   boolean found_solution = false;
@@ -1025,7 +1020,7 @@ boolean reci_h_find_write_final_moves(couleur side_at_move)
   {
     if (jouecoup()
         && !echecc(side_at_move)
-        && h_find_write_final_moves(other_side))
+        && h_find_write_final_move(other_side))
       found_solution = true;
 
     repcoup();
@@ -1045,36 +1040,31 @@ boolean reci_h_find_write_final_moves(couleur side_at_move)
   if (found_solution)
   {
     currentStipSettings = stipSettings[reciprocal];
-    h_find_write_final_moves(side_at_move);
+    h_find_write_final_move(side_at_move);
     currentStipSettings = stipSettings[nonreciprocal];
     return true;
   }
   else
     return false;
-} /* reci_h_find_write_final_moves */
+} /* reci_h_find_write_final_move */
 
-/* Determine and write the final move pair in a help stipulation.
+/* Determine and write the final move pair in a helpself or helpreflex
+ * stipulation.
  * @param side_at_move side at the move
- * @param no_succ_hash_category hash category for storing failures
  * @return true iff >=1 move pair was found
  */
-boolean h_find_write_final_move_pair(couleur side_at_move,
-                                     hashwhat no_succ_hash_category,
-                                     boolean restartenabled)
+boolean hs_find_write_final_move_pair(couleur side_at_move)
 {
-  boolean found_solution = false;
-  couleur other_side = advers(side_at_move);
-
-  if (FlowFlag(Reci))
-    found_solution = reci_h_find_write_final_moves(side_at_move);
-  else if (SortFlag(Self)) /* helpselfmate? */
+  if (SortFlag(Reflex) /* helpreflexmate? */
+      && !FlowFlag(Semi)
+      && dsr_can_end(side_at_move,1))
+    return false;
+  else
   {
-    if (SortFlag(Reflex) /* helpreflexmate? */
-        && !FlowFlag(Semi)
-        && dsr_can_end(side_at_move,1))
-      return false;
-    else
-      genmove(side_at_move);
+    boolean found_solution = false;
+    couleur other_side = advers(side_at_move);
+
+    genmove(side_at_move);
 
     while (encore())
     {
@@ -1102,13 +1092,95 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
     }
 
     finply();
+
+    return found_solution;
   }
+}
+
+/* Determine and write the final move pair in help countermate.
+ * @param side_at_move side at the move
+ * @param no_succ_hash_category hash category for storing failures
+ * @param restartenabled true iff option movenum is activated
+ * @return true iff >=1 move pair was found
+ */
+boolean
+h_stip_cmate_find_write_final_move_pair(couleur side_at_move,
+                                        hashwhat no_succ_hash_category,
+                                        boolean restartenabled)
+{
+  boolean found_solution = false;
+  couleur other_side = advers(side_at_move);
+
+  GenMatingMove(side_at_move);
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(side_at_move)
+        && !(restartenabled && MoveNbr<RestartNbr))
+    {
+      HashBuffer hb;
+      (*encode)(&hb);
+      if (!inhash(no_succ_hash_category,1,&hb))
+      {
+        if (stip_checkers[stip_mate](side_at_move))
+        {
+          GenMatingMove(other_side);
+
+          while (encore())
+          {
+            if (jouecoup()
+                && currentStipSettings.checker(other_side))
+            {
+              found_solution = true;
+              linesolution();
+            }
+            repcoup();
+          }
+
+          finply();
+        }
+
+        if (!found_solution)
+          addtohash(no_succ_hash_category,1,&hb);
+      }
+    }
+
+    if (restartenabled)
+      IncrementMoveNbr();
+
+    repcoup();
+  }
+
+  finply();
+
+  return found_solution;
+}
+
+/* Determine and write the final move pair in a help stipulation.
+ * @param side_at_move side at the move
+ * @param no_succ_hash_category hash category for storing failures
+ * @param restartenabled true iff option movenum is activated
+ * @return true iff >=1 move pair was found
+ */
+boolean h_find_write_final_move_pair(couleur side_at_move,
+                                     hashwhat no_succ_hash_category,
+                                     boolean restartenabled)
+{
+  if (FlowFlag(Reci))
+    return reci_h_find_write_final_move(side_at_move);
+  else if (SortFlag(Self))
+    return hs_find_write_final_move_pair(side_at_move);
+  else if (currentStipSettings.stipulation==stip_countermate)
+    return h_stip_cmate_find_write_final_move_pair(side_at_move,
+                                                   no_succ_hash_category,
+                                                   restartenabled);
   else
   {
-    if (currentStipSettings.stipulation==stip_countermate)
-      GenMatingMove(side_at_move);
-    else
-      genmove(side_at_move);
+    boolean found_solution = false;
+    couleur other_side = advers(side_at_move);
+
+    genmove(side_at_move);
 
     if (side_at_move==noir)
       BlMovesLeft--;
@@ -1126,7 +1198,7 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
         (*encode)(&hb);
         if (!inhash(no_succ_hash_category,1,&hb))
         {
-          if (h_find_write_final_moves(other_side))
+          if (h_find_write_final_move(other_side))
             found_solution = true;
           else
             addtohash(no_succ_hash_category,1,&hb);
@@ -1137,11 +1209,6 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
         IncrementMoveNbr();
 
       repcoup();
-
-      /* Stop solving if a given number of solutions was encountered */
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
-        break;
     }
     
     if (side_at_move==noir)
@@ -1150,9 +1217,9 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
       WhMovesLeft++;
 
     finply();
-  }
 
-  return found_solution;
+    return found_solution;
+  }
 }
 
 /* Determine and write the solution(s) in a help stipulation.
@@ -1160,7 +1227,7 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
  * This is a recursive function.
  * Recursion works with decreasing parameter n; recursion stops at
  * n==2 (e.g. h#1). For solving help play problems in 0.5, call
- * h_find_write_final_moves() instead.
+ * h_find_write_final_move() instead.
  *
  * @param side_at_move side at the move
  * @param n number of half moves until end state has to be reached
