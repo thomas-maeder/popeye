@@ -377,18 +377,19 @@ typedef enum
   /* TODO why not if DATABASE? */
   stip_atob, /* TODO remove? is there a difference to stip_proof? */
 #endif
+  stip_reci,
 
   nr_stipulations,
   no_stipulation = nr_stipulations
 } Stipulation;
 
-enum ReciNonReci
+typedef enum
 {
   reciprocal,
   nonreciprocal,
 
   nr_ReciNonReci
-};
+} ReciNonReci;
 
 typedef boolean (*stipulationfunction_t)(couleur);
 
@@ -402,6 +403,8 @@ typedef struct
 
 /* settings for reciprocal and non-reciprocal branch */
 EXTERN stipSettings_t stipSettings[nr_ReciNonReci];
+
+EXTERN ReciNonReci currentReciMode;
 
 /* settings currently used by solving algorithm (copy of one of the
  * elements of stipSettings) */

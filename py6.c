@@ -299,11 +299,12 @@ boolean verifieposition(void)
     }
   }
 
+  /* TODO */
   optim_neutralretractable = optim_orthomatingmoves =
     ((stipSettings[nonreciprocal].stipulation == stip_mate)
      || (stipSettings[nonreciprocal].stipulation == stip_check)
      || (stipSettings[nonreciprocal].stipulation == stip_doublemate))
-    && (!FlowFlag(Reci)
+    && (currentStipSettings.stipulation != stip_reci
         || (stipSettings[reciprocal].stipulation == stip_mate)
         || (stipSettings[reciprocal].stipulation == stip_check)
         || (stipSettings[reciprocal].stipulation == stip_doublemate));
@@ -1363,7 +1364,7 @@ boolean verifieposition(void)
     return false;
   }
 
-  if (FlowFlag(Reci)
+  if (currentStipSettings.stipulation == stip_reci
       && stipSettings[reciprocal].stipulation==stip_countermate)
   {
     VerifieMsg(StipNotSupported);
@@ -1555,7 +1556,7 @@ boolean verifieposition(void)
       && (!(stipSettings[nonreciprocal].stipulation==stip_mate
             || stipSettings[nonreciprocal].stipulation==stip_stale)
           || flagfee
-          || FlowFlag(Reci)
+          || currentStipSettings.stipulation == stip_reci
           || SortFlag(Self)
           || !(SortFlag(Help) || (SortFlag(Direct) && FlowFlag(Series)))
           || anycirce
@@ -2015,6 +2016,8 @@ void editcoup(coup *mov, boolean write_end_marker)
   {
     if (currentStipSettings.stipulation==stip_mate_or_stale)
       StdString(mate_or_stale_patt ? " =" : " #");
+    else if (currentStipSettings.stipulation==stip_reci)
+      StdString(stipSettings[currentReciMode].alphaEnd);
     else
       StdString(currentStipSettings.alphaEnd);
   }

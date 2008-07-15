@@ -1003,9 +1003,9 @@ boolean reci_h_find_write_final_move(couleur side_at_move)
   boolean found_solution = false;
   boolean side_at_move_can_end_in_1;
 
-  currentStipSettings = stipSettings[reciprocal];
+  currentReciMode = reciprocal;
   side_at_move_can_end_in_1 = dsr_can_end(side_at_move,1);
-  currentStipSettings = stipSettings[nonreciprocal];
+  currentReciMode = nonreciprocal;
   if (!side_at_move_can_end_in_1)
     return false;
 
@@ -1039,9 +1039,9 @@ boolean reci_h_find_write_final_move(couleur side_at_move)
 
   if (found_solution)
   {
-    currentStipSettings = stipSettings[reciprocal];
+    currentReciMode = reciprocal;
     h_find_write_final_move(side_at_move);
-    currentStipSettings = stipSettings[nonreciprocal];
+    currentReciMode = nonreciprocal;
     return true;
   }
   else
@@ -1167,7 +1167,7 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
                                      hashwhat no_succ_hash_category,
                                      boolean restartenabled)
 {
-  if (FlowFlag(Reci))
+  if (currentStipSettings.stipulation==stip_reci)
     return reci_h_find_write_final_move(side_at_move);
   else if (SortFlag(Self))
     return hs_find_write_final_move_pair(side_at_move);
@@ -1209,6 +1209,10 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
         IncrementMoveNbr();
 
       repcoup();
+
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || maxtime_status==MAXTIME_TIMEOUT)
+        break;
     }
     
     if (side_at_move==noir)
@@ -1684,7 +1688,7 @@ boolean dsr_can_end(couleur attacker, int n)
 
   boolean const dohash = (n > (FlagMoveOrientatedStip ? 1 : 0)
                           && !SortFlag(Self)
-                          && !FlowFlag(Reci));
+                          && currentStipSettings.stipulation!=stip_reci);
 
   /* Let's first have a look in the hash_table */
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to

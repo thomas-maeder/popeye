@@ -842,10 +842,9 @@ typedef PieceChar       PieTable[PieceCount];
 #define Alternate       0
 #define Series          1
 #define Semi            2
-#define Reci            3
-#define Exact           4
-#define Intro           5
-#define FlowCount       6
+#define Exact           3
+#define Intro           4
+#define FlowCount       5
 typedef int Flow;
 /*--- End of } Flow;---*/
 

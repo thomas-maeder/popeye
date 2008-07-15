@@ -3556,6 +3556,11 @@ static boolean stipChecker_any(couleur camp)
   return true;
 }
 
+static boolean stipChecker_reci(couleur camp)
+{
+  return stipSettings[currentReciMode].checker(camp);
+}
+
 stipulationfunction_t const stip_checkers[nr_stipulations] = {
   &stipChecker_mate,
   &stipChecker_stale,
@@ -3574,24 +3579,43 @@ stipulationfunction_t const stip_checkers[nr_stipulations] = {
   &stipChecker_circuitB,
   &stipChecker_exchangeB,
   &stipChecker_mate_or_stale,
-  &stipChecker_any
+  &stipChecker_any,
+  0,
+#if !defined(DATABASE)
+  0,
+#endif
+  &stipChecker_reci
 };
   
-void initStipCheckers() {
-  Stipulation nonreciStip = stipSettings[nonreciprocal].stipulation;
-  Stipulation reciStip = stipSettings[reciprocal].stipulation;
-  stipSettings[nonreciprocal].checker = stip_checkers[nonreciStip];
-  stipSettings[reciprocal].checker = stip_checkers[reciStip];
+void initStipCheckers()
+{
+  Stipulation currentStip = currentStipSettings.stipulation;
+  currentStipSettings.checker = stip_checkers[currentStip];
 
   /* TODO use similar wrappers for amu, paralysing pieces etc. */
-  if (CondFlag[blackultraschachzwang] || CondFlag[whiteultraschachzwang]) {
-    if (nonreciStip==stip_mate)
-      stipSettings[nonreciprocal].checker = &stipChecker_mate_ultraschachzwang;
-    if (reciStip==stip_mate)
-      stipSettings[reciprocal].checker = &stipChecker_mate_ultraschachzwang;
+  if (CondFlag[blackultraschachzwang] || CondFlag[whiteultraschachzwang])
+  {
+    if (currentStipSettings.stipulation==stip_mate)
+      currentStipSettings.checker = &stipChecker_mate_ultraschachzwang;
   }
+  
+  if (currentStipSettings.stipulation==stip_reci)
+  {
+    Stipulation nonreciStip = stipSettings[nonreciprocal].stipulation;
+    Stipulation reciStip = stipSettings[reciprocal].stipulation;
+    stipSettings[nonreciprocal].checker = stip_checkers[nonreciStip];
+    stipSettings[reciprocal].checker = stip_checkers[reciStip];
 
-  currentStipSettings = stipSettings[nonreciprocal];
+    if (CondFlag[blackultraschachzwang] || CondFlag[whiteultraschachzwang])
+    {
+      if (nonreciStip==stip_mate)
+        stipSettings[nonreciprocal].checker =
+          &stipChecker_mate_ultraschachzwang;
+      if (reciStip==stip_mate)
+        stipSettings[reciprocal].checker =
+          &stipChecker_mate_ultraschachzwang;
+    }
+  }
 }
 
 

@@ -275,6 +275,7 @@ void InitStip(void)
 
   stipSettings[nonreciprocal].stipulation = no_stipulation;
   stipSettings[reciprocal].stipulation = no_stipulation;
+  currentStipSettings.stipulation = no_stipulation;
 }
 
 void InitAlways(void) {

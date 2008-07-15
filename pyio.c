@@ -1043,7 +1043,7 @@ static char *ParseFlow(char *tok)
   }
   if (strncmp("reci-", tok, 5) == 0)
   {
-    StipFlags |= FlowBit(Reci);
+    currentStipSettings.stipulation = stip_reci;
     return tok+5;
   }
   if (strncmp("dia", tok, 3) == 0)  /* proof games */
@@ -1197,7 +1197,7 @@ static char *ParseGoal(char *tok)
 {
   /* test for reciprocal help play with different ends for Black and
    * White; e.g. reci-h(=)#3 */
-  if (FlowFlag(Reci) && *tok=='(')
+  if (currentStipSettings.stipulation==stip_reci && *tok=='(')
   {
     char const *closingParenPos = strchr(tok,')');
     if (closingParenPos!=0)
@@ -1232,13 +1232,13 @@ static char *ParseStip(void)
   {
     char *ptr;
 
-    /* set defaults */
-    currentStipSettings = stipSettings[nonreciprocal];
-
-    /* set reci stip if not parsed */
-    if (FlowFlag(Reci)
-        && stipSettings[reciprocal].stipulation==no_stipulation)
-      stipSettings[reciprocal] = stipSettings[nonreciprocal];
+    if (currentStipSettings.stipulation==stip_reci)
+    {
+      if (stipSettings[reciprocal].stipulation==no_stipulation)
+        stipSettings[reciprocal] = stipSettings[nonreciprocal];
+    }
+    else
+      currentStipSettings = stipSettings[nonreciprocal];
 
     if (*tok==0)
     {
