@@ -577,7 +577,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
      * maximummer.....
      */
     if (!k_cap && traitnbply == noir ? flagblackmummer : flagwhitemummer) {
-      boolean       flag= true, flag_dontaddk_sic;
+      boolean       flag= true;
       numecoup      test;
       boolean is_new_longest_move;
 
@@ -640,20 +640,20 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
         if (!we_generate_exact) {
           /* not exact-maxi -> test for selfcheck */
           couleur oneutcoul= neutcoul;
+          boolean is_republican_suspended_sic = is_republican_suspended;
+          is_republican_suspended = true;
           test= nbcou++;
           move_generation_stack[nbcou].departure= sq_departure;
           move_generation_stack[nbcou].arrival= sq_arrival;
           move_generation_stack[nbcou].capture= sq_capture;
           cmren[nbcou]= mren;
           ctrans[nbcou]=current_trans_gen;
-          flag_dontaddk_sic= flag_dontaddk;
-          flag_dontaddk=true;
           while (test < nbcou) {
             if (jouecoup())
               flag= flag && echecc(traitnbply);
             repcoup();
           }
-          flag_dontaddk= flag_dontaddk_sic;
+          is_republican_suspended = is_republican_suspended_sic;
           initneutre(oneutcoul);
           if (flag)
             return true;

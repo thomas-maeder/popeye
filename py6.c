@@ -655,7 +655,7 @@ boolean verifieposition(void)
     OptFlag[sansrb]= True;
     optim_neutralretractable = False;
     optim_orthomatingmoves = False;
-    flag_dontaddk=false;
+    is_republican_suspended = false;
   }
 
   if (OptFlag[sansrb] && rb!=initsquare) {
@@ -1896,6 +1896,10 @@ void editcoup(coup *mov, boolean write_end_marker)
       WritePiece(roib);
       WriteSquare(mov->repub_k);
       StdChar(']');
+      if (RepublicanType==republican_type1)
+        /* in republican_type2, we sometimes should do this as well,
+         * but determining whether we should would cost time */
+        write_end_marker = true;
     }
 
     if (mov->renkam) {

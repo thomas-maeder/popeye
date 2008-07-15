@@ -2498,12 +2498,24 @@ boolean jouecoup(void) {
           e[rn] = roin;
           nbpiece[roin]++;
         }
-        else if (rn==initsquare && !flag_dontaddk)
+        else if (rn==initsquare && !is_republican_suspended)
         {
-          flag_dontaddk = true;
+          is_republican_suspended = true;
           find_mate_square(blanc);
-          flag_dontaddk = false;
           repub_k[nbply] = super[nbply]<= haut ? super[nbply] : initsquare;
+          if (RepublicanType==republican_type1)
+          {
+            /* In type 1, Republican chess is suspended (and hence
+             * play is over) once a king is inserted. */
+            if (repub_k[nbply]==initsquare)
+              is_republican_suspended = false;
+          }
+          else
+            /* In type 2, on the other hand, Republican chess is
+             * continued, and the side just "mated" can attempt to
+             * defend against the mate by inserting the opposite
+             * king. */
+            is_republican_suspended = false;
         }
         else
         {
@@ -2520,12 +2532,18 @@ boolean jouecoup(void) {
           e[rb] = roib;
           nbpiece[roib]++;
         }
-        else if (rb==initsquare && !flag_dontaddk)
+        else if (rb==initsquare && !is_republican_suspended)
         {
-          flag_dontaddk = true;
+          is_republican_suspended = true;
           find_mate_square(noir);
-          flag_dontaddk = false;
           repub_k[nbply] = super[nbply]<= haut ? super[nbply] : initsquare;
+          if (RepublicanType==republican_type1)
+          {
+            if (repub_k[nbply]==initsquare)
+              is_republican_suspended = false;
+          }
+          else
+            is_republican_suspended = false;
         }
         else
         {
@@ -2976,6 +2994,10 @@ void repcoup(void) {
         rb = initsquare;
         nbpiece[roib]--;
       }
+
+      if (RepublicanType==republican_type1)
+        /* Republican chess was suspended when the move was played. */
+        is_republican_suspended = false;
     }
   }
   
@@ -3629,29 +3651,25 @@ void find_mate_square(couleur camp)
         rn= sq;
         e[rn]= roin;
         nbpiece[roin]++;
-        if (currentStipSettings.checker(camp)) {
+        if (currentStipSettings.checker(camp))
           return;
-        }
         nbpiece[roin]--;
         e[rn]= vide;
       }
     }
     rn= initsquare;
-    return;
   } else {
     while ((sq= ++super[nbply]) <= haut) {
       if (e[sq] == vide) {
         rb= sq;
         e[rb]= roib;
         nbpiece[roib]++;
-        if (currentStipSettings.checker(camp)) {
+        if (currentStipSettings.checker(camp))
           return;
-        }
         nbpiece[roib]--;
         e[rb]= vide;
       }
     }
     rb= initsquare;
-    return;
   }
 }

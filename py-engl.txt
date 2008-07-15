@@ -330,10 +330,13 @@ commands expect further parameters. Lets start with the simpler commands:
 	After all Anticirce conditions "Cheylan" or "Calvet" can be entered -
 	according to the type desired; Calvet is the default.
 
-	After the Isardam condition "TypeB" can be entered.
+	After the Isardam condition, "TypeB" can be entered.
 
-	After the SingleBox condition "Type1", "Type2" or "Type3" can
+	After the SingleBox condition, "Type1", "Type2" or "Type3" can
 	be entered.
+
+	After the RepublicanChess condition, "Type1" or "Type2" can
+	be indicated; Type2 is the default.
 
 	After the Sentinelles condition "PionAdvers", "PionNeutre",
 	"ParaSentinelles", or "Berolina" can be entered, and also

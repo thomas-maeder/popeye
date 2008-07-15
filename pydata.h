@@ -430,6 +430,12 @@ EXTERN  enum
   singlebox_type3
 } SingleBoxType;
 
+EXTERN  enum
+{
+  republican_type1,
+  republican_type2
+} RepublicanType;
+
 EXTERN  pilecouleur     trait;
 EXTERN  boolean         flagfee,
 			flagriders, flagleapers, flagsimplehoppers, 
@@ -501,7 +507,7 @@ EXTERN  boolean         InitChamCirce;
 EXTERN unsigned char    more_ren;
 EXTERN boolean          IsardamB,PatienceB,SentPionAdverse,SentPionNeutral,
 			flagAssassin,flag_nk,jouetestgenre;
-EXTERN boolean          flagdiastip, flag_dontaddk;
+EXTERN boolean          flagdiastip, is_republican_suspended;
 EXTERN boolean          mate_or_stale_patt;
 EXTERN unsigned int     max_pn, max_pb, max_pt;
 EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;

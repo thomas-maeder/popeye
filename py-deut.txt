@@ -342,8 +342,11 @@ Kommandos:
 	Nach der Isardam Bedingung kann wahlweise noch "TypB"
 	angegeben werden.
 
-	Nach der NurPartiesatzsteine Bedingung kann wahlweise
+	Nach der Bedingung NurPartiesatzsteine kann wahlweise
 	"Typ1", "Typ2" oder "Typ3" angegeben werden.
+
+	Nach der Bedingung Republikanerscahch kann wahlweise
+	"Typ1" oder "Typ2" angegeben werden. Typ2 ist die Vorgabe.
 
 	Nach der Sentinelles Bedingung kann wahlweise noch
 	"PionAdvers", "PionNeutre", "ParaSentinelles" oder "Berolina"

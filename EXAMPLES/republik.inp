@@ -1,0 +1,79 @@
+begin
+
+protocol republican.ref
+
+title Type1: RepublicanChess is suspended when a side inserts the king
+pieces white ra1 be6
+       black rg2g3
+condition republican type1
+stipulation h#1
+twin stipulation #1
+
+next
+
+title Type2 ist Vorgabe; RepublicananerSchach wird nicht suspendiert
+pieces black ra1 be6 ph5
+       white rg2g3
+condition republican
+stipulation h#1
+twin condition republican type2
+
+next
+
+author Johan Christoffel van Gool
+origin Probleemblad III-IV/1989, p. 38
+pieces white ra7 sa8 ph6
+       black ba6 sa1 pb4b5b7d6e6e7h7
+condition republican type1
+stipulation #2
+option try variations
+
+next
+
+author Johan Christoffel van Gool
+origin Probleemblad III-IV/1989, p. 38
+pieces white be7 se3 pd5f6h4
+       black rh7 sc3 pd6d7e5f7h5
+condition republican type1
+stipulation #2
+option try variations
+
+next
+
+author Gerard Smits
+origin Probleemblad III-IV/1989, p. 38
+pieces white rf8 ba8 pe4
+       black bb8 pd7e5
+condition republican type1
+stipulation #2
+option variations
+
+next
+
+author Geoff Foster
+pieces white rb7b2
+       black rd1 bc5 pa6
+condition republican
+stipulation hs#2
+
+next
+
+author Christian Poisson
+origin 409 Pat a Mat 25 - Juli 1999
+pieces white bd3 sd8 pa3a5b5c5
+       black ba8 pa4d4d5
+stipulation #2
+condition republican
+option variations
+
+next
+
+author Juraj Lörinc
+origin 9424 Die Schwalbe Dezember 1996; dedicated to my father Juraj
+pieces white qh3 rc7e7 pb2f2
+       black chameleon bd1
+stipulation semi-r#2
+condition republican
+option variations try
+
+end

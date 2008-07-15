@@ -1420,7 +1420,8 @@ typedef enum
   gpKoeko,
   gpOsc,
   gpAnnan,
-  gpGrid
+  gpGrid,
+  gpRepublican
 } VariantGroup;
 
 static char *ParseMaximumPawn(unsigned int *result,
@@ -1482,6 +1483,12 @@ static char *ParseVariant(boolean *type, VariantGroup group) {
     }
     else if (VariantType==Type3 && group==gpType) {
       SingleBoxType = singlebox_type3;
+    }
+    else if (VariantType==Type1 && group==gpRepublican) {
+      *type = true;
+    }
+    else if (VariantType==Type2 && group==gpRepublican) {
+      *type = false;
     }
     else if (VariantType==PionAdverse && group==gpSentinelles) {
       *type= True;
@@ -2427,6 +2434,13 @@ static char *ParseCond(void) {
     case singlebox:
       tok = ParseVariant(NULL, gpType);
       break;
+    case republican:
+    {
+      boolean RepublicanType1 = false;
+      tok = ParseVariant(&RepublicanType1, gpRepublican);
+      RepublicanType = RepublicanType1 ? republican_type1 : republican_type2;
+      break;
+    }
     case promotiononly:
       tok = ReadPieces(promotiononly);
       break;
@@ -4044,6 +4058,14 @@ void WriteConditions(int alignment) {
         strcat(CondLine, VariantTypeString[ActLang][Type2]);
       if (SingleBoxType==singlebox_type3)
         strcat(CondLine, VariantTypeString[ActLang][Type3]);
+    }
+
+    if (CondFlag[republican])    {
+      strcat(CondLine, "    ");
+      if (RepublicanType==republican_type1)
+        strcat(CondLine, VariantTypeString[ActLang][Type1]);
+      if (RepublicanType==republican_type2)
+        strcat(CondLine, VariantTypeString[ActLang][Type2]);
     }
 
     if (cond == sentinelles) {
