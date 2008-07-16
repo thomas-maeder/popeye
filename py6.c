@@ -2408,6 +2408,11 @@ void dsr_write_defense(ecritcoup_mode mode)
  */
 void dsr_write_attack(ecritcoup_mode mode)
 {
+  if (DrohFlag)
+  {
+    Message(Threat);
+    DrohFlag = false;
+  }
   Tabulate();
   sprintf(GlobalStr,"%3d.",zugebene);
   StdString(GlobalStr);
@@ -2669,6 +2674,119 @@ void dsr_write_refutations(int t)
   StdChar('\n');
 }
 
+/* Determine and write the final attacker's move in direct play.
+ * @param attacker attacking side
+ * @param t table where to store continuing moves (i.e. threats)
+ */
+void d_find_write_end(couleur attacker, int t)
+{
+  GenMatingMove(attacker);
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(attacker)
+        && currentStipSettings.checker(attacker))
+    {
+      dsr_write_attack(ecritcoup_write_end_marker);
+      Message(NewLine);
+      pushtabsol(t);
+    }
+
+    repcoup();
+  }
+
+  finply();
+}
+
+/* Determine and write the final attacker's move in a quodlibet.
+ * @param attacker attacking side
+ * @param t table where to store continuing moves (i.e. threats)
+ */
+void dsr_find_write_end_quodlibet(couleur attacker, int t)
+{
+  genmove(attacker);
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(attacker))
+    {
+      if (currentStipSettings.checker(attacker))
+      {
+        dsr_write_attack(ecritcoup_write_end_marker);
+        Message(NewLine);
+        pushtabsol(t);
+      }
+      else
+      {
+        couleur defender = advers(attacker);
+        if (dsr_does_defender_lose(defender,1))
+        {
+          dsr_write_attack(ecritcoup_dont_write_end_marker);
+
+          marge+= 4;
+          sr_find_write_final_move(defender);
+          marge-= 4;
+
+          pushtabsol(t);
+        }
+      }
+    }
+
+    repcoup();
+  }
+
+  finply();
+}
+
+/* Determine and write the final attacker's move in self/reflex play.
+ * @param attacker attacking side
+ * @param t table where to store continuing moves (i.e. threats)
+ */
+void sr_find_write_end(couleur attacker, int t)
+{
+  couleur defender = advers(attacker);
+
+  genmove(attacker);
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(attacker)
+        && dsr_does_defender_lose(defender,1))
+    {
+      dsr_write_attack(ecritcoup_dont_write_end_marker);
+
+      marge+= 4;
+      sr_find_write_final_move(defender);
+      marge-= 4;
+
+      pushtabsol(t);
+    }
+
+    repcoup();
+  }
+
+  finply();
+}
+
+/* Determine and write the end in direct/self/reflex play
+ * (i.e. attacker's final move and possible play following it).
+ * This is an indirectly recursive function.
+ * @param attacker attacking side
+ * @param t table where to store continuing moves (i.e. threats)
+ */
+void dsr_find_write_end(couleur attacker, int t)
+{
+  if (SortFlag(Direct))
+    d_find_write_end(attacker,t);
+  else if (OptFlag[quodlibet])
+    dsr_find_write_end_quodlibet(attacker,t);
+  else
+    sr_find_write_end(attacker,t);
+}
+
 /* Determine and write the continuations in the current position in
  * direct/self/reflex play (i.e. attacker's moves winning after a
  * defender's move that refuted the threat).
@@ -2683,51 +2801,33 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
 
   zugebene++;
 
-  genmove(attacker);
-  while (encore())
+  if (n==1)
+    dsr_find_write_end(attacker,t);
+  else
   {
-    if (jouecoup() && !echecc(attacker))
-    {
-      boolean is_continuation;
-      ecritcoup_mode write_end_marker;
-      if (n==1 && SortFlag(Direct))
-      {
-        is_continuation = currentStipSettings.checker(attacker);
-        write_end_marker = ecritcoup_write_end_marker;
-      }
-      else if (n==1
-               && OptFlag[quodlibet]
-               && currentStipSettings.checker(attacker))
-      {
-        is_continuation = true;
-        write_end_marker = ecritcoup_write_end_marker;
-      }
-      else
-      {
-        is_continuation = dsr_does_defender_lose(defender,n);
-        write_end_marker = ecritcoup_dont_write_end_marker;
-      }
+    genmove(attacker);
 
-      if (is_continuation)
+    while (encore())
+    {
+      if (jouecoup()
+          && !echecc(attacker)
+          && dsr_does_defender_lose(defender,n))
       {
-        if (DrohFlag)
-        {
-          Message(Threat);
-          DrohFlag= false;
-        }
-        dsr_write_attack(write_end_marker);
+        dsr_write_attack(ecritcoup_dont_write_end_marker);
+
         marge+= 4;
         dsr_find_write_threats_variations(attacker,n,alloctab());
         freetab();
         marge-= 4;
-      }
-      if (is_continuation)
+
         pushtabsol(t);
+      }
+
+      repcoup();
     }
 
-    repcoup();
+    finply();
   }
-  finply();
 
   zugebene--;
 } /* dsr_find_write_continuations */
@@ -2767,10 +2867,12 @@ void dsr_write_key_postkey(couleur attacker,
                            int nr_refutations,
                            int refutations)
 {
-  dsr_write_key(nr_refutations==-1
-                ? ecritcoup_write_end_marker
-                : ecritcoup_dont_write_end_marker,
-                nr_refutations>=1);
+  ecritcoup_mode write_end_marker = (nr_refutations==-1
+                                     ? ecritcoup_write_end_marker
+                                     : ecritcoup_dont_write_end_marker);
+  boolean is_try = nr_refutations>=1;
+  dsr_write_key(write_end_marker,is_try);
+
   marge+= 4;
   dsr_find_write_threats_variations(attacker,n,refutations);
   dsr_write_refutations(refutations);
