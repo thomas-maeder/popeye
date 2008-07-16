@@ -1083,13 +1083,11 @@ static char *ParseSort(char *tok)
       if (*tok == 'r')
       {
         StipFlags |= SortBit(Reflex);
-        StipFlags |= SortBit(Self);
         return tok+1;
       } else
         return tok;
   case 'r':
     StipFlags |= SortBit(Reflex);
-    StipFlags |= SortBit(Self);
     return tok+1;
   case 's':
     StipFlags |= SortBit(Self);

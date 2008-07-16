@@ -271,7 +271,9 @@ boolean verifieposition(void)
   zugebene= 0;
   if (FlowFlag(Alternate) && !SortFlag(Help))
   {
-    if (enonce<2 && max_nr_refutations>0 && !SortFlag(Self))
+    if (enonce<2
+        && max_nr_refutations>0
+        && !(SortFlag(Self) || SortFlag(Reflex)))
     {
       ErrorMsg(TryInLessTwo);
       max_nr_refutations = 0;
@@ -1359,7 +1361,7 @@ boolean verifieposition(void)
     || stipSettings[nonreciprocal].stipulation == stip_castling;
 
   if (stipSettings[nonreciprocal].stipulation == stip_doublemate
-      && (SortFlag(Self) || SortFlag(Direct)))
+      && (SortFlag(Self) || SortFlag(Reflex) || SortFlag(Direct)))
   {
     VerifieMsg(StipNotSupported);
     return false;
@@ -1558,7 +1560,7 @@ boolean verifieposition(void)
             || stipSettings[nonreciprocal].stipulation==stip_stale)
           || flagfee
           || currentStipSettings.stipulation == stip_reci
-          || SortFlag(Self)
+          || SortFlag(Self) || SortFlag(Reflex)
           || !(SortFlag(Help) || (SortFlag(Direct) && FlowFlag(Series)))
           || anycirce
           || anyanticirce))
@@ -3208,7 +3210,7 @@ void SolveHelpProblems(couleur camp)
   if (n%2==1)
     camp = advers(camp);
 
-  if (SortFlag(Self))
+  if (SortFlag(Self) || SortFlag(Reflex))
     camp = advers(camp);
 
   move_generation_mode = move_generation_not_optimized;

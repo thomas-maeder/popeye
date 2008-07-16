@@ -1044,16 +1044,56 @@ boolean reci_h_find_write_final_move(couleur side_at_move)
     return false;
 } /* reci_h_find_write_final_move */
 
-/* Determine and write the final move pair in a helpself or helpreflex
+/* Determine and write the final move pair in a helpself
  * stipulation.
  * @param side_at_move side at the move
  * @return true iff >=1 move pair was found
  */
 boolean hs_find_write_final_move_pair(couleur side_at_move)
 {
-  if (SortFlag(Reflex) /* helpreflexmate? */
-      && !FlowFlag(Semi)
-      && dsr_can_end(side_at_move,1))
+  boolean found_solution = false;
+  couleur other_side = advers(side_at_move);
+
+  genmove(side_at_move);
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(side_at_move)
+        && !sr_does_defender_win(other_side,1))
+    {
+      GenMatingMove(other_side);
+      while (encore())
+      {
+        if (jouecoup()
+            && currentStipSettings.checker(other_side))
+        {
+          found_solution = true;
+          linesolution();
+        }
+
+        repcoup();
+      }
+
+      finply();
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  return found_solution;
+}
+
+/* Determine and write the final move pair in a helpreflex
+ * stipulation.
+ * @param side_at_move side at the move
+ * @return true iff >=1 move pair was found
+ */
+boolean hr_find_write_final_move_pair(couleur side_at_move)
+{
+  if (!FlowFlag(Semi) && dsr_can_end(side_at_move,1))
     return false;
   else
   {
@@ -1235,6 +1275,8 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
     return reci_h_find_write_final_move(side_at_move);
   else if (SortFlag(Self))
     return hs_find_write_final_move_pair(side_at_move);
+  else if (SortFlag(Reflex))
+    return hr_find_write_final_move_pair(side_at_move);
   else if (currentStipSettings.stipulation==stip_countermate)
     return h_stip_cmate_find_write_final_move_pair(side_at_move,
                                                    no_succ_hash_category,
@@ -1755,7 +1797,7 @@ boolean dsr_can_end(couleur attacker, int n)
   HashBuffer hb;
 
   boolean const dohash = (n > (FlagMoveOrientatedStip ? 1 : 0)
-                          && !SortFlag(Self)
+                          && !(SortFlag(Self) || SortFlag(Reflex))
                           && currentStipSettings.stipulation!=stip_reci);
 
   /* Let's first have a look in the hash_table */
