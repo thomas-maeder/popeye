@@ -2403,20 +2403,39 @@ void sr_find_write_final_move(couleur defender)
       StdString("\n");
       Tabulate();
       sprintf(GlobalStr,"%3d...",zugebene);
-      if (zugebene==1)
-      {
-        if (OptFlag[maxsols]) 
-          solutions++;
-        if (OptFlag[beep])
-          BeepOnSolution(maxbeep);
-      }
+      StdString(GlobalStr);
+      ecritcoup(true);
+    }
+
+    repcoup();
+  }
+  finply();
+  StdString("\n");
+}
+
+/* Determine and write all set mates of a self/reflex stipulation.
+ * @param defender defending side (i.e. side executing the set mates)
+ */
+void sr_find_write_set_mate(couleur defender)
+{
+  GenMatingMove(defender);
+  while(encore())
+  {
+    if (jouecoup() && currentStipSettings.checker(defender))
+    {
+      StdString("\n");
+      Tabulate();
+      sprintf(GlobalStr,"%3d...",zugebene);
+      if (OptFlag[maxsols]) 
+        solutions++;
+      if (OptFlag[beep])
+        BeepOnSolution(maxbeep);
       StdString(GlobalStr);
       ecritcoup(true);
     }
     repcoup();
-    if (zugebene==1
-        && ((OptFlag[maxsols] && solutions>=maxsolutions)
-            || maxtime_status==MAXTIME_TIMEOUT))
+    if ((OptFlag[maxsols] && solutions>=maxsolutions)
+        || maxtime_status==MAXTIME_TIMEOUT)
       break;
   }
   finply();
@@ -2477,14 +2496,14 @@ void dsr_find_write_setplay(couleur attacker, int n)
     if (SortFlag(Direct))
       Message(NewLine);
     else
-      sr_find_write_final_move(defender);
+      sr_find_write_set_mate(defender);
 
     return;
   }
 
   if (!SortFlag(Direct) && dsr_does_defender_lose(defender,1))
   {
-    sr_find_write_final_move(defender);
+    sr_find_write_set_mate(defender);
     return;
   }
 
