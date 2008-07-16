@@ -2713,7 +2713,7 @@ void IncrementMoveNbr(void)
   {
     sprintf(GlobalStr,"%3d  (", MoveNbr);
     StdString(GlobalStr);
-    ecritcoup(false);
+    ecritcoup(ecritcoup_dont_write_end_marker);
     if (!flag_regression)
     {
       StdString("   ");

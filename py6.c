@@ -1729,7 +1729,7 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
 extern boolean two_same_pieces;
 #endif
 
-void editcoup(coup *mov, boolean write_end_marker)
+void editcoup(coup *mov, ecritcoup_mode mode)
 {
   char    BlackChar= *GetMsgString(BlackColor);
   char    WhiteChar= *GetMsgString(WhiteColor);
@@ -1900,7 +1900,7 @@ void editcoup(coup *mov, boolean write_end_marker)
       if (RepublicanType==republican_type1)
         /* in republican_type2, we sometimes should do this as well,
          * but determining whether we should would cost time */
-        write_end_marker = true;
+        mode = ecritcoup_write_end_marker;
     }
 
     if (mov->renkam) {
@@ -2017,7 +2017,7 @@ void editcoup(coup *mov, boolean write_end_marker)
     }
     StdString(s);
   }
-  if (write_end_marker)
+  if (mode==ecritcoup_write_end_marker)
   {
     if (currentStipSettings.stipulation==stip_mate_or_stale)
       StdString(mate_or_stale_patt ? " =" : " #");
@@ -2071,12 +2071,11 @@ boolean nowdanstab(int n)
   return false;
 }
 
-void ecritcoup(boolean write_end_marker)
+void ecritcoup(ecritcoup_mode mode)
 {
   coup mov;
-
   current(&mov);
-  editcoup(&mov,write_end_marker);
+  editcoup(&mov,mode);
 }
 
 void WriteForsyth(void)
@@ -2136,7 +2135,7 @@ void WriteForsyth(void)
 void linesolution(void) {
   int      num= 0;
   couleur       camp;
-  boolean write_end_marker;
+  ecritcoup_mode write_end_marker;
 
   sic_coup= nbcou;
   sic_ply= nbply;
@@ -2186,7 +2185,7 @@ void linesolution(void) {
     nbcou= repere[nbply+1];
     initneutre(advers(trait[nbply]));
     jouecoup_no_test();
-    ecritcoup(false);
+    ecritcoup(ecritcoup_dont_write_end_marker);
     nbply++;
     camp= advers(camp);
   }
@@ -2203,7 +2202,9 @@ void linesolution(void) {
       sprintf(GlobalStr,"%3d.",++num);
       StdString(GlobalStr);
     }
-    write_end_marker = sic_ply==nbply;
+    write_end_marker = (sic_ply==nbply
+                        ? ecritcoup_write_end_marker
+                        : ecritcoup_dont_write_end_marker);
     nbcou= repere[nbply + 1];
     initneutre(advers(trait[nbply]));
     jouecoup_no_test();
@@ -2390,27 +2391,45 @@ boolean dsr_defends_threats(couleur attacker, int n, int t)
   return zaehler<tablen(t);
 }
 
+/* Write a move by the defending side in direct/self/reflex play.
+ * @param mode should we write mate/stalemate/... marker?
+ */
+void dsr_write_defense(ecritcoup_mode mode)
+{
+  Tabulate();
+  sprintf(GlobalStr,"%3d...",zugebene);
+  StdString(GlobalStr);
+  ecritcoup(mode);
+  StdString("\n");
+}
+
+/* Write a move by the attacking side in direct/self/reflex play.
+ * @param mode should we write mate/stalemate/... marker?
+ */
+void dsr_write_attack(ecritcoup_mode mode)
+{
+  Tabulate();
+  sprintf(GlobalStr,"%3d.",zugebene);
+  StdString(GlobalStr);
+  ecritcoup(mode);
+}
+
 /* Determine and write all final moves of a self/reflex variation.
  * @param defender defending side (i.e. side executing the final move(s))
  */
 void sr_find_write_final_move(couleur defender)
 {
+  StdString("\n");
   GenMatingMove(defender);
   while(encore())
   {
-    if (jouecoup() && currentStipSettings.checker(defender))
-    {
-      StdString("\n");
-      Tabulate();
-      sprintf(GlobalStr,"%3d...",zugebene);
-      StdString(GlobalStr);
-      ecritcoup(true);
-    }
+    if (jouecoup()
+        && currentStipSettings.checker(defender))
+      dsr_write_defense(ecritcoup_write_end_marker);
 
     repcoup();
   }
   finply();
-  StdString("\n");
 }
 
 /* Determine and write all set mates of a self/reflex stipulation.
@@ -2418,20 +2437,17 @@ void sr_find_write_final_move(couleur defender)
  */
 void sr_find_write_set_mate(couleur defender)
 {
+  StdString("\n");
   GenMatingMove(defender);
   while(encore())
   {
     if (jouecoup() && currentStipSettings.checker(defender))
     {
-      StdString("\n");
-      Tabulate();
-      sprintf(GlobalStr,"%3d...",zugebene);
+      dsr_write_defense(ecritcoup_write_end_marker);
       if (OptFlag[maxsols]) 
         solutions++;
       if (OptFlag[beep])
         BeepOnSolution(maxbeep);
-      StdString(GlobalStr);
-      ecritcoup(true);
     }
     repcoup();
     if ((OptFlag[maxsols] && solutions>=maxsolutions)
@@ -2439,7 +2455,6 @@ void sr_find_write_set_mate(couleur defender)
       break;
   }
   finply();
-  StdString("\n");
 }
 
 /* Write a variation in the try/solution/set play of a
@@ -2455,11 +2470,7 @@ void dsr_write_variation(couleur attacker, int n)
   boolean isRefutation = true; /* until we prove otherwise */
   int i;
 
-  Tabulate();
-  sprintf(GlobalStr,"%3d...",zugebene);
-  StdString(GlobalStr);
-  ecritcoup(false);
-  StdString("\n");
+  dsr_write_defense(ecritcoup_dont_write_end_marker);
   marge+= 4;
 
   for (i = FlowFlag(Exact) ? n : 1; i<=n && isRefutation; i++)
@@ -2651,7 +2662,7 @@ void dsr_write_refutations(int t)
     {
       Tabulate();
       StdString("  1...");
-      editcoup(&tabsol.liste[n],false);
+      editcoup(&tabsol.liste[n],ecritcoup_dont_write_end_marker);
       StdString(" !\n");
     }
   }
@@ -2678,23 +2689,23 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
     if (jouecoup() && !echecc(attacker))
     {
       boolean is_continuation;
-      boolean write_end_marker;
+      ecritcoup_mode write_end_marker;
       if (n==1 && SortFlag(Direct))
       {
         is_continuation = currentStipSettings.checker(attacker);
-        write_end_marker = true;
+        write_end_marker = ecritcoup_write_end_marker;
       }
       else if (n==1
                && OptFlag[quodlibet]
                && currentStipSettings.checker(attacker))
       {
         is_continuation = true;
-        write_end_marker = true;
+        write_end_marker = ecritcoup_write_end_marker;
       }
       else
       {
         is_continuation = dsr_does_defender_lose(defender,n);
-        write_end_marker = false;
+        write_end_marker = ecritcoup_dont_write_end_marker;
       }
 
       if (is_continuation)
@@ -2704,10 +2715,7 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
           Message(Threat);
           DrohFlag= false;
         }
-        Tabulate();
-        sprintf(GlobalStr,"%3d.",zugebene);
-        StdString(GlobalStr);
-        ecritcoup(write_end_marker);
+        dsr_write_attack(write_end_marker);
         marge+= 4;
         dsr_find_write_threats_variations(attacker,n,alloctab());
         freetab();
@@ -2730,12 +2738,9 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
  * @param is_try true if key is first move of try, false if key is
  *               first move of solution
  */
-void dsr_write_key(boolean write_end_marker, boolean is_try)
+void dsr_write_key(ecritcoup_mode mode, boolean is_try)
 {
-  Tabulate();
-  sprintf(GlobalStr,"  1.");
-  StdString(GlobalStr);
-  ecritcoup(write_end_marker);
+  dsr_write_attack(mode);
   if (is_try)
     StdString("? ");
   else
@@ -2762,7 +2767,10 @@ void dsr_write_key_postkey(couleur attacker,
                            int nr_refutations,
                            int refutations)
 {
-  dsr_write_key(nr_refutations==-1, nr_refutations>=1);
+  dsr_write_key(nr_refutations==-1
+                ? ecritcoup_write_end_marker
+                : ecritcoup_dont_write_end_marker,
+                nr_refutations>=1);
   marge+= 4;
   dsr_find_write_threats_variations(attacker,n,refutations);
   dsr_write_refutations(refutations);
@@ -2801,7 +2809,7 @@ void d_find_write_keys_in_1(couleur attacker, boolean restartenabled)
         && !echecc(attacker)
         && currentStipSettings.checker(attacker))
     {
-      dsr_write_key(true,false);
+      dsr_write_key(ecritcoup_write_end_marker,false);
       StdString("\n\n");
     }
 
@@ -3129,16 +3137,16 @@ void SolveHelpProblems(couleur camp)
 
 void SolveDirectProblems(couleur camp)
 {
+  zugebene++;
+
   if (OptFlag[postkeyplay])
   {
     if (echecc(camp))
       ErrorMsg(SetAndCheck);
     else
     {
-      zugebene++;
       dsr_find_write_threats_variations(camp,enonce,alloctab());
       freetab();
-      zugebene--;
       Message(NewLine);
     }
   }
@@ -3150,9 +3158,7 @@ void SolveDirectProblems(couleur camp)
         ErrorMsg(SetAndCheck);
       else
       {
-        zugebene++;
         dsr_find_write_setplay(camp,enonce);
-        zugebene--;
         Message(NewLine);
       }
     }
@@ -3162,6 +3168,8 @@ void SolveDirectProblems(couleur camp)
     else
       dsr_find_write_tries_solutions(camp,enonce,OptFlag[movenbr]);
   }
+
+  zugebene--;
 }
 
 void initduplex(void) {
