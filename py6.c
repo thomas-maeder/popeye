@@ -598,7 +598,8 @@ boolean verifieposition(void)
       VerifieMsg(CirceAndDummy);
       return false;
     }
-    if (TSTFLAG(PieSpExFlags, Neutral)) {
+    if (TSTFLAG(PieSpExFlags, Neutral)
+        || CondFlag[volage] || TSTFLAG(PieSpExFlags,Volage)) {
       optim_neutralretractable = optim_orthomatingmoves = false;
     }
   }
@@ -2392,9 +2393,9 @@ boolean dsr_defends_threats(couleur attacker, int n, int t)
 /* Determine and write all final moves of a self/reflex variation.
  * @param defender defending side (i.e. side executing the final move(s))
  */
-void sr_find_write_final_moves(couleur defender)
+void sr_find_write_final_move(couleur defender)
 {
-  genmove(defender);
+  GenMatingMove(defender);
   while(encore())
   {
     if (jouecoup() && currentStipSettings.checker(defender))
@@ -2476,14 +2477,14 @@ void dsr_find_write_setplay(couleur attacker, int n)
     if (SortFlag(Direct))
       Message(NewLine);
     else
-      sr_find_write_final_moves(defender);
+      sr_find_write_final_move(defender);
 
     return;
   }
 
   if (!SortFlag(Direct) && dsr_does_defender_lose(defender,1))
   {
-    sr_find_write_final_moves(defender);
+    sr_find_write_final_move(defender);
     return;
   }
 
@@ -2547,14 +2548,14 @@ void dsr_find_write_threats_variations(couleur attacker,
     if (SortFlag(Direct))
       Message(NewLine);
     else
-      sr_find_write_final_moves(defender);
+      sr_find_write_final_move(defender);
 
     return;
   }
 
   if (SortFlag(Reflex) && dsr_does_defender_lose(defender,1))
   {
-    sr_find_write_final_moves(defender);
+    sr_find_write_final_move(defender);
     return;
   }
 
