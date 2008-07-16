@@ -954,10 +954,6 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
 boolean h_find_write_final_move(couleur side_at_move)
 {
   boolean final_move_found = false;
-  
-  if (currentStipSettings.stipulation==stip_doublemate
-      && immobile(side_at_move))
-    return false;
 
   GenMatingMove(side_at_move);
 
@@ -1157,6 +1153,74 @@ h_stip_cmate_find_write_final_move_pair(couleur side_at_move,
   return found_solution;
 }
 
+/* Determine and write the final move pair in help doublemate.
+ * @param side_at_move side at the move
+ * @param no_succ_hash_category hash category for storing failures
+ * @param restartenabled true iff option movenum is activated
+ * @return true iff >=1 move pair was found
+ */
+boolean
+h_stip_dmate_find_write_final_move_pair(couleur side_at_move,
+                                        hashwhat no_succ_hash_category,
+                                        boolean restartenabled)
+{
+  boolean found_solution = false;
+  couleur other_side = advers(side_at_move);
+
+  genmove(side_at_move);
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(side_at_move)
+        && !(restartenabled && MoveNbr<RestartNbr))
+    {
+      HashBuffer hb;
+      (*encode)(&hb);
+      if (!inhash(no_succ_hash_category,1,&hb))
+      {
+        /* other side must not be mate. */
+        /* TODO this check doesn't seem to be sufficient; what if
+         * other_side is immobile, but not in check? */
+        if (!immobile(other_side))
+        {
+          GenMatingMove(other_side);
+
+          while (encore())
+          {
+            if (jouecoup()
+                && currentStipSettings.checker(other_side))
+            {
+              found_solution = true;
+              linesolution();
+            }
+
+            repcoup();
+          }
+
+          finply();
+        }
+
+        if (!found_solution)
+          addtohash(no_succ_hash_category,1,&hb);
+      }
+    }
+
+    if (restartenabled)
+      IncrementMoveNbr();
+
+    repcoup();
+
+    if ((OptFlag[maxsols] && solutions>=maxsolutions)
+        || maxtime_status==MAXTIME_TIMEOUT)
+      break;
+  }
+
+  finply();
+
+  return found_solution;
+}
+
 /* Determine and write the final move pair in a help stipulation.
  * @param side_at_move side at the move
  * @param no_succ_hash_category hash category for storing failures
@@ -1173,6 +1237,10 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
     return hs_find_write_final_move_pair(side_at_move);
   else if (currentStipSettings.stipulation==stip_countermate)
     return h_stip_cmate_find_write_final_move_pair(side_at_move,
+                                                   no_succ_hash_category,
+                                                   restartenabled);
+  else if (currentStipSettings.stipulation==stip_doublemate)
+    return h_stip_dmate_find_write_final_move_pair(side_at_move,
                                                    no_succ_hash_category,
                                                    restartenabled);
   else
