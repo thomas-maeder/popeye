@@ -271,11 +271,10 @@ void InitBoard(void) {
 void InitStip(void)
 {
   FlagGenMatingMove= FlagMoveOrientatedStip= False;
-  enonce= 0;
-
-  stipSettings[nonreciprocal].stipulation = no_stipulation;
-  stipSettings[reciprocal].stipulation = no_stipulation;
-  currentStipSettings.stipulation = no_stipulation;
+  phases[current_phase].length = 0;
+  phases[current_phase].is_exact = false;
+  phases[current_phase].goal = no_stipulation;
+  phases[current_phase].recigoal = no_stipulation;
 }
 
 void InitAlways(void) {

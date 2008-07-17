@@ -848,21 +848,9 @@ typedef PieceChar       PieTable[PieceCount];
 typedef int Flow;
 /*--- End of } Flow;---*/
 
-/*--- Start of typedef enum {---*/
-#define Direct          0
-#define Help            1
-#define Self            2
-#define Reflex          3
-#define SortCount       4
-typedef int Sort;
-/*--- End of } Sort;---*/
-
 /* Now let's define some BIT-Masks, to check some of the above set conditions */
 #define FlowBit(f)      (BIT(f))
-#define SortBit(s)      (BIT((FlowCount+(s))))
-
 #define FlowFlag(s)     ((FlowBit(s)&StipFlags) !=0)
-#define SortFlag(s)     ((SortBit(s)&StipFlags) !=0)
 
 #define BorderSpec      0
 #define EmptySpec       (BIT(Black)+BIT(White))

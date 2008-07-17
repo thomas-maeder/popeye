@@ -2487,7 +2487,8 @@ boolean pos_legal(void) {
       FtlMsg(ChecklessUndecidable);
     }
 
-    if (!mateallowed[nbply] && currentStipSettings.checker(trait[nbply])) {
+    if (!mateallowed[nbply]
+        && stip_checkers[phases[current_phase].goal](trait[nbply])) {
       return false;
     }
   }

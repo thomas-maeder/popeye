@@ -637,12 +637,12 @@ int GetPieNamIndex(char a,char b) {
   return 0;
 }
 
-int SquareNum(char a,char b)
+square SquareNum(char a,char b)
 {
-  if ('a' <= a && a <= 'h' && '1' <= b && b <= '8')
-    return bas + a - 'a' + (b - '1') * onerow;
+  if ('a'<=a && a<='h' && '1'<=b && b<='8')
+    return square_a1 + (a-'a')*dir_right +(b-'1')*dir_up;
   else
-    return 0;
+    return initsquare;
 }
 
 /* All following Parse - Procedures return the next StringToken or
@@ -1024,27 +1024,24 @@ static char *ParseFlow(char *tok)
   if (strncmp("exact-", tok, 6) == 0)
   {
     StipFlags |= FlowBit(Exact);
+    phases[current_phase].is_exact = true;
     OptFlag[nothreat] = True;
     tok+= 6;
   }
-  if (strncmp("ser-", tok, 4) == 0)
+  if (strncmp("ser-",tok,4) == 0)
   {
     StipFlags |= FlowBit(Series);
+    phases[current_phase].play = PSeries;
     tok+=4;
   }
   else
   {
     StipFlags |= FlowBit(Alternate);
   }
-  if (strncmp("semi-", tok, 5) == 0)
+  if (strncmp("semi-r", tok, 6) == 0)
   {
     StipFlags |= FlowBit(Semi);
-    return tok+5;
-  }
-  if (strncmp("reci-", tok, 5) == 0)
-  {
-    currentStipSettings.stipulation = stip_reci;
-    return tok+5;
+    return tok; /* "semi-reflex" also defines a sort and goal */
   }
   if (strncmp("dia", tok, 3) == 0)  /* proof games */
   {
@@ -1059,41 +1056,62 @@ static char *ParseSort(char *tok)
 {
   if (strncmp("dia", tok, 3) == 0)
   {
-    StipFlags |= SortBit(Help);
+    phases[current_phase].play = PHelp;
+    phases[current_phase].end = EDirect;
     return tok; /* "dia" also defines a goal */
   }
 
 #if !defined(DATABASE)
   if (strncmp("a=>b", tok, 4) == 0)
   {
-    StipFlags |= SortBit(Help);
+    phases[current_phase].play = PHelp;
+    phases[current_phase].end = EDirect;
     return tok; /* "a=>b" also defines a goal */
   }
 #endif
 
+  if (strncmp("semi-r", tok, 6) == 0)
+  {
+    phases[current_phase].play = PDirect;
+    phases[current_phase].end = ESemireflex;
+    return tok+6;
+  }
+
+  if (strncmp("reci-h", tok, 6) == 0)
+  {
+    phases[current_phase].play = PHelp;
+    phases[current_phase].end = EReciprocal;
+    return tok+6;
+  }
+
   switch (*tok)
   {
   case 'h':
-    StipFlags |= SortBit(Help);
-    if (*(++tok) == 's')
+    phases[current_phase].play = PHelp;
+    phases[current_phase].end = EHelp;
+    ++tok;
+    if (*tok == 's')
     {
-      StipFlags |= SortBit(Self);
+      phases[current_phase].end = ESelf;
+      return tok+1;
+    }
+    else if (*tok == 'r')
+    {
+      phases[current_phase].end = EReflex;
       return tok+1;
     } else
-      if (*tok == 'r')
-      {
-        StipFlags |= SortBit(Reflex);
-        return tok+1;
-      } else
-        return tok;
+      return tok;
   case 'r':
-    StipFlags |= SortBit(Reflex);
+    phases[current_phase].play = PDirect;
+    phases[current_phase].end = EReflex;
     return tok+1;
   case 's':
-    StipFlags |= SortBit(Self);
+    phases[current_phase].play = PDirect;
+    phases[current_phase].end = ESelf;
     return tok+1;
   default:
-    StipFlags |= SortBit(Direct);
+    phases[current_phase].play = PDirect;
+    phases[current_phase].end = EDirect;
     return tok;
   }
 }
@@ -1103,50 +1121,48 @@ typedef struct
 {
     char const *inputText;
     Stipulation goal;
-    char const *outputText;
  } goalInputConfig_t;
 
 /* make sure that input strings that are substrings of other strings
  * appear *after* them! */
 static goalInputConfig_t const goalInputConfig[nr_stipulations] =
 {
-  {   "##!",  stip_countermate,   " ##!"  }
-  , { "##",   stip_doublemate,    " ##"   }
-  , { "#=",   stip_mate_or_stale, " #="   }
-  , { "#",    stip_mate,          " #"    }
-  , { "==",   stip_dblstale,      " =="   }
-  , { "!=",   stip_autostale,     " !="   }
-  , { "=",    stip_stale,         " ="    }
-  , { "z",    stip_target,        " z"    }
-  , { "+",    stip_check,         " +"    }
-  , { "x",    stip_capture,       " x"    }
-  , { "%",    stip_steingewinn,   " %"    }
-  , { "ep",   stip_ep,            ""      }
-  , { "ctr",  stip_circuitB,      ""      }
-  , { "ct",   stip_circuit,       ""      }
-  , { "<>r",  stip_exchangeB,     ""      }
-  , { "<>",   stip_exchange,      ""      }
-  , { "00",   stip_castling,      ""      }
-  , { "~",    stip_any,           ""      }
-  , { "dia",  stip_proof,         " dia"  }
+  {   "##!",  stip_countermate   }
+  , { "##",   stip_doublemate    }
+  , { "#=",   stip_mate_or_stale }
+  , { "#",    stip_mate          }
+  , { "==",   stip_dblstale      }
+  , { "!=",   stip_autostale     }
+  , { "=",    stip_stale         }
+  , { "z",    stip_target        }
+  , { "+",    stip_check         }
+  , { "x",    stip_capture       }
+  , { "%",    stip_steingewinn   }
+  , { "ep",   stip_ep            }
+  , { "ctr",  stip_circuitB      }
+  , { "ct",   stip_circuit       }
+  , { "<>r",  stip_exchangeB     }
+  , { "<>",   stip_exchange      }
+  , { "00",   stip_castling      }
+  , { "~",    stip_any           }
+  , { "dia",  stip_proof         }
 #if !defined(DATABASE)
-  , { "a=>b", stip_atob,          " a=>b" }
+  , { "a=>b", stip_atob          }
 #endif
 };
 
-static char *ParsPartialGoal(char *tok, stipSettings_t *settings)
+static char *ParsPartialGoal(char *tok, Stipulation *goal, square *target)
 {
   goalInputConfig_t const *gic;
   for (gic = goalInputConfig; gic!=goalInputConfig+nr_stipulations; ++gic)
     if (strstr(tok,gic->inputText)==tok)
     {
-      settings->stipulation = gic->goal;
-      strcpy(settings->alphaEnd,gic->outputText);
+      *goal = gic->goal;
 
       if (gic->goal==stip_target)
       {
-        settings->targetSquare= SquareNum(tok[1],tok[2]);
-        if (settings->targetSquare==0)
+        *target = SquareNum(tok[1],tok[2]);
+        if (*target==0)
         {
           IoErrorMsg(MissngSquareList, 0);
           return 0;
@@ -1195,12 +1211,12 @@ static char *ParseGoal(char *tok)
 {
   /* test for reciprocal help play with different ends for Black and
    * White; e.g. reci-h(=)#3 */
-  if (currentStipSettings.stipulation==stip_reci && *tok=='(')
+  if (phases[current_phase].end==EReciprocal && *tok=='(')
   {
     char const *closingParenPos = strchr(tok,')');
     if (closingParenPos!=0)
     {
-      tok = ParsPartialGoal(tok+1,&stipSettings[reciprocal]);
+      tok = ParsPartialGoal(tok+1,&phases[current_phase].recigoal,0);
       if (tok==0)
         return 0;
       else if (tok==closingParenPos)
@@ -1213,7 +1229,9 @@ static char *ParseGoal(char *tok)
     }
   }
 
-  return ParsPartialGoal(tok,&stipSettings[nonreciprocal]);
+  return ParsPartialGoal(tok,
+                         &phases[current_phase].goal,
+                         &phases[current_phase].target);
 }
 
 static char *ParseStip(void)
@@ -1230,13 +1248,11 @@ static char *ParseStip(void)
   {
     char *ptr;
 
-    if (currentStipSettings.stipulation==stip_reci)
+    if (phases[current_phase].end==EReciprocal)
     {
-      if (stipSettings[reciprocal].stipulation==no_stipulation)
-        stipSettings[reciprocal] = stipSettings[nonreciprocal];
+      if (phases[current_phase].recigoal==no_stipulation)
+        phases[current_phase].recigoal = phases[current_phase].goal;
     }
-    else
-      currentStipSettings = stipSettings[nonreciprocal];
 
     if (*tok==0)
     {
@@ -1244,32 +1260,32 @@ static char *ParseStip(void)
       strcat(AlphaStip, tok);
     }
 
-    enonce = strtol(tok,&ptr,10);
-    if (tok==ptr || enonce<0)
+    phases[current_phase].length = strtol(tok,&ptr,10);
+    if (tok==ptr || phases[current_phase].length<0)
     {
-      enonce = 0;
+      phases[current_phase].length = 0;
       IoErrorMsg(WrongInt,0);
     }
 
-    if (SortFlag(Help) && FlowFlag(Alternate))
+    if (phases[current_phase].play==PHelp && FlowFlag(Alternate))
     {
-      enonce *= 2; /* we count half moves in help play */
+      phases[current_phase].length *= 2; /* we count half moves in help play */
       tok = ptr;
       if (strncmp(tok,".5",2)==0)
       {
-        if (currentStipSettings.stipulation==stip_proof
-            || currentStipSettings.stipulation==stip_atob)
-          ++enonce;
+        if (phases[current_phase].goal==stip_proof
+            || phases[current_phase].goal==stip_atob)
+          ++phases[current_phase].length;
         else
         {
-          enonce += 2;
+          phases[current_phase].length += 2;
           flag_appseul = true;
         }
       }
     }
   }
 
-  if (enonce>0 && ActStip[0]=='\0')
+  if (phases[current_phase].length>0 && ActStip[0]=='\0')
     strcpy(ActStip, AlphaStip);
 
   return ReadNextTokStr();
@@ -3262,8 +3278,8 @@ static char *ParseTwin(void) {
       else
       {
 #if !defined(DATABASE)
-        if (currentStipSettings.stipulation==stip_proof
-            || currentStipSettings.stipulation==stip_atob)
+        if (phases[current_phase].goal==stip_proof
+            || phases[current_phase].goal==stip_atob)
         {
           /* fixes bug for continued twinning
              in proof games; changes were made
@@ -3439,21 +3455,21 @@ Token ReadProblem(Token tk) {
         tok = ReadNextTokStr();
         break;
       case TwinProblem:
-        if (enonce) {
+        if (phases[current_phase].length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
         tok = ReadNextTokStr();
         break;
       case NextProblem:
-        if (enonce) {
+        if (phases[current_phase].length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
         tok = ReadNextTokStr();
         break;
       case EndProblem:
-        if (enonce) {
+        if (phases[current_phase].length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
@@ -3487,14 +3503,14 @@ Token ReadProblem(Token tk) {
           TwinStorePosition();
         }
       case NextProblem:
-        if (enonce) {
+        if (phases[current_phase].length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
         tok = ReadNextTokStr();
         break;
       case EndProblem:
-        if (enonce) {
+        if (phases[current_phase].length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
@@ -4325,7 +4341,7 @@ void WritePosition() {
 
   strcpy(StipOptStr, AlphaStip);
 
-  if (max_len_threat<enonce-1)
+  if (max_len_threat<phases[current_phase].length-1)
   {
     sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_len_threat);
     if (max_nr_flights<INT_MAX)
@@ -4334,7 +4350,7 @@ void WritePosition() {
   else if (max_nr_flights<INT_MAX)
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", max_nr_flights);
 
-  if (min_length_nontrivial<enonce-1)
+  if (min_length_nontrivial<phases[current_phase].length-1)
     sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%d",
             max_nr_nontrivial,

@@ -377,40 +377,51 @@ typedef enum
   /* TODO why not if DATABASE? */
   stip_atob, /* TODO remove? is there a difference to stip_proof? */
 #endif
-  stip_reci,
 
   nr_stipulations,
   no_stipulation = nr_stipulations
 } Stipulation;
 
-typedef enum
-{
-  reciprocal,
-  nonreciprocal,
-
-  nr_ReciNonReci
-} ReciNonReci;
+extern char const *stip_end_marker[nr_stipulations];
 
 typedef boolean (*stipulationfunction_t)(couleur);
+extern stipulationfunction_t stip_checkers[nr_stipulations];
+
+typedef enum
+{
+  PDirect,       /* alternate play attacker against defender */
+  PHelp,         /* alternate collaborative play */
+  PSeries        /* series play */
+} Play;
+
+typedef enum
+{
+  EDirect,       /* goal in 1 */
+  EHelp,         /* help-goal in 1 */
+  ESelf,         /* self-goal in 1 */
+  EReflex,       /* reflex-goal in 1 */
+  ESemireflex,   /* semireflex-goal in 1 */
+  EReciprocal,   /* reciprocal help-goal(recigoal) in 1 */
+  EQuodlibet,    /* goal or self-goal in 1 */
+  EDouble,       /* help-double-goal in 1 (mate only) */
+  ECounter,      /* help-counter-goal in 1 (mate only) */
+  ENext          /* continue play with next Phase */
+} End;
 
 typedef struct
 {
-    Stipulation stipulation;
-    square targetSquare;
-    char alphaEnd[5];
-    stipulationfunction_t checker;
-} stipSettings_t;
+    int length; /* full moves in Direct, half moves otherwise */
+    boolean is_exact; /* true iff length is exact */
+    Play play;
+    End end;
+    Stipulation goal; /* TODO rename to Goal */
+    square target; /* for target square goal */
+    Stipulation recigoal; /* for reciprocal end */
+} Phase;
 
-/* settings for reciprocal and non-reciprocal branch */
-EXTERN stipSettings_t stipSettings[nr_ReciNonReci];
+Phase phases[1];
 
-EXTERN ReciNonReci currentReciMode;
-
-/* settings currently used by solving algorithm (copy of one of the
- * elements of stipSettings) */
-EXTERN stipSettings_t currentStipSettings;
-
-extern stipulationfunction_t const stip_checkers[nr_stipulations];
+EXTERN unsigned int current_phase;
 
 EXTERN  int   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);
@@ -473,8 +484,7 @@ EXTERN  imarr           isquare;                /* Imitatorstandfelder */
 EXTERN  boolean         Iprom[maxply + 1];      /* Imitatorumwandlung? */
 EXTERN  square          im0;                    /* Standort des ersten Imitators */
 
-EXTERN  int        enonce,
-			zugebene, max_nr_refutations, max_len_threat;
+EXTERN  int        zugebene, max_nr_refutations, max_len_threat;
 EXTERN  int        introenonce;
 EXTERN  int        MoveNbr, RestartNbr;
 EXTERN  boolean         restartenabled;
