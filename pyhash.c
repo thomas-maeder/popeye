@@ -1463,28 +1463,6 @@ boolean ser_d_find_write_final_move(couleur attacker)
   return solution_found;
 } /* ser_d_find_write_final_move */
 
-/* Determine and write final move of the defender in a series
- * self/reflex stipulation.
- * We already know that >=1 final move exists.
- * @param defender defender side
- */
-void sr_find_write_final_move(couleur defender);
-void ser_sr_find_write_final_defender_move(couleur defender)
-{
-  GenMatingMove(defender);
-
-  while (encore())
-  {
-    if (jouecoup()
-        && goal_checkers[slices[current_slice].goal](defender))
-      linesolution();
-
-    repcoup();
-  }
-
-  finply();
-}
-
 /* Determine and write final move of the attacker in a series
  * self/reflex stipulation, plus the (subsequent) final move of the
  * defender.

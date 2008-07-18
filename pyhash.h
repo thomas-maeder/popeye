@@ -38,6 +38,7 @@ void    closehash (void);
 void	HashStats(int level, char *trailer);
 boolean inhash(hashwhat what, int val, HashBuffer *);
 void addtohash(hashwhat what, int val, HashBuffer *);
+void sr_find_write_final_move(couleur defender);
 boolean ser_find_write_solutions(couleur camp, int n, boolean restartenabled);
 boolean h_find_write_solutions(couleur camp, int n, boolean restartenabled);
 
