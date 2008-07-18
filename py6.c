@@ -265,17 +265,17 @@ boolean verifieposition(void)
   if (! CondFlag[imitators])
     CondFlag[noiprom]= true;
 
-  if (phases[current_phase].length<=max_len_threat)
+  if (slices[current_slice].length<=max_len_threat)
     max_len_threat = maxply;
 
   zugebene= 0;
-  if (FlowFlag(Alternate) && phases[current_phase].play!=PHelp)
+  if (FlowFlag(Alternate) && slices[current_slice].play!=PHelp)
   {
-    if (phases[current_phase].length<2
+    if (slices[current_slice].length<2
         && max_nr_refutations>0
-        && !(phases[current_phase].end==ESelf
-             || phases[current_phase].end==EReflex
-             || phases[current_phase].end==ESemireflex))
+        && !(slices[current_slice].end==ESelf
+             || slices[current_slice].end==EReflex
+             || slices[current_slice].end==ESemireflex))
     {
       ErrorMsg(TryInLessTwo);
       max_nr_refutations = 0;
@@ -287,7 +287,7 @@ boolean verifieposition(void)
     }
 
     /* ennonce means full moves */
-    if (phases[current_phase].length>(maxply-1)/2)
+    if (slices[current_slice].length>(maxply-1)/2)
     {
       VerifieMsg(BigNumMoves);
       return false;
@@ -296,7 +296,7 @@ boolean verifieposition(void)
   else
   {
     /* ennonce means half moves */
-    if (phases[current_phase].length >= maxply-2)
+    if (slices[current_slice].length >= maxply-2)
     {
       VerifieMsg(BigNumMoves);
       return false;
@@ -305,15 +305,15 @@ boolean verifieposition(void)
 
   /* TODO */
   optim_neutralretractable = optim_orthomatingmoves =
-    ((phases[current_phase].goal == stip_mate)
-     || (phases[current_phase].goal == stip_check)
-     || (phases[current_phase].goal == stip_doublemate))
-    && (phases[current_phase].end!=EReciprocal
-        || (phases[current_phase].recigoal == stip_mate)
-        || (phases[current_phase].recigoal == stip_check)
-        || (phases[current_phase].recigoal == stip_doublemate));
+    ((slices[current_slice].goal == goal_mate)
+     || (slices[current_slice].goal == goal_check)
+     || (slices[current_slice].goal == goal_doublemate))
+    && (slices[current_slice].end!=EReciprocal
+        || (slices[current_slice].recigoal == goal_mate)
+        || (slices[current_slice].recigoal == goal_check)
+        || (slices[current_slice].recigoal == goal_doublemate));
 
-  if (phases[current_phase].goal == stip_steingewinn
+  if (slices[current_slice].goal == goal_steingewinn
       && CondFlag[parrain])
   {
     VerifieMsg(PercentAndParrain);
@@ -321,14 +321,14 @@ boolean verifieposition(void)
   }
 
   flagdiastip=
-    phases[current_phase].goal == stip_circuit
-    || phases[current_phase].goal == stip_exchange
-    || phases[current_phase].goal == stip_circuitB
-    || phases[current_phase].goal == stip_exchangeB
-    || phases[current_phase].recigoal == stip_circuit
-    || phases[current_phase].recigoal == stip_exchange
-    || phases[current_phase].recigoal == stip_circuitB
-    || phases[current_phase].recigoal == stip_exchangeB;
+    slices[current_slice].goal == goal_circuit
+    || slices[current_slice].goal == goal_exchange
+    || slices[current_slice].goal == goal_circuitB
+    || slices[current_slice].goal == goal_exchangeB
+    || slices[current_slice].recigoal == goal_circuit
+    || slices[current_slice].recigoal == goal_exchange
+    || slices[current_slice].recigoal == goal_circuitB
+    || slices[current_slice].recigoal == goal_exchangeB;
 
   for (p= roib; p <= derbla; p++) {
     nbpiece[p]= 0;
@@ -1328,12 +1328,12 @@ boolean verifieposition(void)
 
   if (CondFlag[losingchess])
   {
-    if (phases[current_phase].recigoal == stip_mate
-        || phases[current_phase].recigoal == stip_check
-        || phases[current_phase].recigoal == stip_mate_or_stale
-        || phases[current_phase].goal == stip_mate
-        || phases[current_phase].goal == stip_check
-        || phases[current_phase].goal == stip_mate_or_stale)
+    if (slices[current_slice].recigoal == goal_mate
+        || slices[current_slice].recigoal == goal_check
+        || slices[current_slice].recigoal == goal_mate_or_stale
+        || slices[current_slice].goal == goal_mate
+        || slices[current_slice].goal == goal_check
+        || slices[current_slice].goal == goal_mate_or_stale)
     {
       VerifieMsg(LosingChessNotInCheckOrMateStipulations);
       return false;
@@ -1351,26 +1351,26 @@ boolean verifieposition(void)
   }
 
   FlagMoveOrientatedStip =
-    phases[current_phase].recigoal == stip_target
-    || phases[current_phase].recigoal == stip_ep
-    || phases[current_phase].recigoal == stip_capture
-    || phases[current_phase].recigoal == stip_steingewinn
-    || phases[current_phase].recigoal == stip_castling
-    || phases[current_phase].goal == stip_target
-    || phases[current_phase].goal == stip_ep
-    || phases[current_phase].goal == stip_capture
-    || phases[current_phase].goal == stip_steingewinn
-    || phases[current_phase].goal == stip_castling;
+    slices[current_slice].recigoal == goal_target
+    || slices[current_slice].recigoal == goal_ep
+    || slices[current_slice].recigoal == goal_capture
+    || slices[current_slice].recigoal == goal_steingewinn
+    || slices[current_slice].recigoal == goal_castling
+    || slices[current_slice].goal == goal_target
+    || slices[current_slice].goal == goal_ep
+    || slices[current_slice].goal == goal_capture
+    || slices[current_slice].goal == goal_steingewinn
+    || slices[current_slice].goal == goal_castling;
 
-  if (phases[current_phase].goal == stip_doublemate
-      && phases[current_phase].end!=EHelp)
+  if (slices[current_slice].goal == goal_doublemate
+      && slices[current_slice].end!=EHelp)
   {
     VerifieMsg(StipNotSupported);
     return false;
   }
 
-  if (phases[current_phase].end==EReciprocal
-      && phases[current_phase].recigoal==stip_countermate)
+  if (slices[current_slice].end==EReciprocal
+      && slices[current_slice].recigoal==goal_countermate)
   {
     VerifieMsg(StipNotSupported);
     return false;
@@ -1413,7 +1413,7 @@ boolean verifieposition(void)
       SETFLAGMASK(castling_flag[0],ra8_cancastle);
   }
 
-  if (phases[current_phase].goal==stip_castling
+  if (slices[current_slice].goal==goal_castling
       && !castling_supported)
   {
     VerifieMsg(StipNotSupported);
@@ -1448,8 +1448,8 @@ boolean verifieposition(void)
   jouetestgenre=
     flag_testlegality
     || flagAssassin
-    || phases[current_phase].goal==stip_doublemate
-    || phases[current_phase].recigoal==stip_doublemate
+    || slices[current_slice].goal==goal_doublemate
+    || slices[current_slice].recigoal==goal_doublemate
     || CondFlag[patience]
     || CondFlag[republican]
     || CondFlag[blackultraschachzwang]
@@ -1494,12 +1494,12 @@ boolean verifieposition(void)
          "castling: %s, fee: %s, orth: %s, "
          "help: %s, direct: %s, series: %s\n",
          OptFlag[intelligent]?"true":"false",
-         phases[current_phase].goal == stip_mate?"true":"false",
-         phases[current_phase].goal == stip_stale?"true":"false",
+         slices[current_slice].goal == goal_mate?"true":"false",
+         slices[current_slice].goal == goal_stale?"true":"false",
          testcastling?"true":"false",
          flagfee?"true":"false",
-         phases[current_phase].end==EHelp?"true":"false",
-         phases[current_phase].end==EDirect?"true":"false",
+         slices[current_slice].end==EHelp?"true":"false",
+         slices[current_slice].end==EDirect?"true":"false",
          FlowFlag(Series)?"true":"false");
 #endif      /* DEBUG */
 
@@ -1558,15 +1558,15 @@ boolean verifieposition(void)
   }
 
   if (OptFlag[intelligent]
-      && (!(phases[current_phase].goal==stip_mate
-            || phases[current_phase].goal==stip_stale)
+      && (!(slices[current_slice].goal==goal_mate
+            || slices[current_slice].goal==goal_stale)
           || flagfee
-          || phases[current_phase].end==EReciprocal
-          || phases[current_phase].end==ESelf
-          || phases[current_phase].end==EReflex
-          || phases[current_phase].end==ESemireflex
-          || !(phases[current_phase].play==PHelp
-               || (phases[current_phase].play==PDirect && FlowFlag(Series)))
+          || slices[current_slice].end==EReciprocal
+          || slices[current_slice].end==ESelf
+          || slices[current_slice].end==EReflex
+          || slices[current_slice].end==ESemireflex
+          || !(slices[current_slice].play==PHelp
+               || (slices[current_slice].play==PDirect && FlowFlag(Series)))
           || anycirce
           || anyanticirce))
   {
@@ -1585,8 +1585,8 @@ boolean verifieposition(void)
   }
 
 #if !defined(DATABASE)
-  if (phases[current_phase].goal==stip_proof
-      || phases[current_phase].goal==stip_atob)
+  if (slices[current_slice].goal==goal_proof
+      || slices[current_slice].goal==goal_atob)
     return ProofVerifie();
 #endif
     
@@ -2026,10 +2026,10 @@ void editcoup(coup *mov, ecritcoup_mode mode)
   }
   if (mode==ecritcoup_write_end_marker)
   {
-    if (phases[current_phase].goal==stip_mate_or_stale)
+    if (slices[current_slice].goal==goal_mate_or_stale)
       StdString(mate_or_stale_patt ? " =" : " #");
     else
-      StdString(stip_end_marker[phases[current_phase].goal]);
+      StdString(goal_end_marker[slices[current_slice].goal]);
   }
   else
   {
@@ -2168,7 +2168,7 @@ void linesolution(void) {
   repere[nbply + 1]= nbcou;
   camp= trait[nbply= 2];
   ResetPosition();
-  if (((phases[current_phase].goal!=stip_atob && flag_appseul)
+  if (((slices[current_slice].goal!=goal_atob && flag_appseul)
        || SatzFlag)
       && !FlowFlag(Intro))
   {
@@ -2176,7 +2176,7 @@ void linesolution(void) {
     num= 1;
     if (flag_appseul
         && SatzFlag
-        && phases[current_phase].goal!=stip_atob)
+        && slices[current_slice].goal!=goal_atob)
       StdString("  ...");
     else
       camp= advers(camp);
@@ -2307,12 +2307,12 @@ int dsr_find_refutations(couleur defender, int n, int t)
   int ntcount = 0;
 
   if ((!FlowFlag(Exact) || n==0)
-      && phases[current_phase].end==EDirect
-      && stip_checkers[phases[current_phase].goal](attacker))
+      && slices[current_slice].end==EDirect
+      && goal_checkers[slices[current_slice].goal](attacker))
     return -1;
 
-  if ((phases[current_phase].end==EReflex
-       || phases[current_phase].end==ESemireflex)
+  if ((slices[current_slice].end==EReflex
+       || slices[current_slice].end==ESemireflex)
       && dsr_can_end(defender,1))
     return 0;
 
@@ -2379,8 +2379,8 @@ boolean dsr_defends_threats(couleur attacker, int n, int t)
   {
     if (jouecoup() && nowdanstab(t) && !echecc(attacker))
     {
-      if (n==1 && phases[current_phase].end==EDirect)
-        defense_found = !stip_checkers[phases[current_phase].goal](attacker);
+      if (n==1 && slices[current_slice].end==EDirect)
+        defense_found = !goal_checkers[slices[current_slice].goal](attacker);
       else
         defense_found = !dsr_does_defender_lose(defender,n);
 
@@ -2436,7 +2436,7 @@ void sr_find_write_final_move(couleur defender)
   while(encore())
   {
     if (jouecoup()
-        && stip_checkers[phases[current_phase].goal](defender))
+        && goal_checkers[slices[current_slice].goal](defender))
       dsr_write_defense(ecritcoup_write_end_marker);
 
     repcoup();
@@ -2453,7 +2453,7 @@ void sr_find_write_set_mate(couleur defender)
   GenMatingMove(defender);
   while(encore())
   {
-    if (jouecoup() && stip_checkers[phases[current_phase].goal](defender))
+    if (jouecoup() && goal_checkers[slices[current_slice].goal](defender))
     {
       dsr_write_defense(ecritcoup_write_end_marker);
       if (OptFlag[maxsols]) 
@@ -2516,7 +2516,7 @@ void dsr_find_write_setplay(couleur attacker, int n)
 
   if (n==1)
   {
-    if (phases[current_phase].end==EDirect)
+    if (slices[current_slice].end==EDirect)
       Message(NewLine);
     else
       sr_find_write_set_mate(defender);
@@ -2524,7 +2524,7 @@ void dsr_find_write_setplay(couleur attacker, int n)
     return;
   }
 
-  if (phases[current_phase].end!=EDirect
+  if (slices[current_slice].end!=EDirect
       && dsr_does_defender_lose(defender,1))
   {
     sr_find_write_set_mate(defender);
@@ -2546,8 +2546,8 @@ void dsr_find_write_setplay(couleur attacker, int n)
   {
     if (jouecoup() && !echecc(defender))
     {
-      if (phases[current_phase].end!=EDirect
-          && stip_checkers[phases[current_phase].goal](defender))
+      if (slices[current_slice].end!=EDirect
+          && goal_checkers[slices[current_slice].goal](defender))
         ; /* oops, wrong side! */
       else if (dsr_does_attacker_win(attacker,n))
         /* yipee - this solves! */
@@ -2589,7 +2589,7 @@ void dsr_find_write_threats_variations(couleur attacker,
 
   if (n==1)
   {
-    if (phases[current_phase].end==EDirect)
+    if (slices[current_slice].end==EDirect)
       Message(NewLine);
     else
       sr_find_write_final_move(defender);
@@ -2597,8 +2597,8 @@ void dsr_find_write_threats_variations(couleur attacker,
     return;
   }
 
-  if ((phases[current_phase].end==EReflex
-       || phases[current_phase].end==ESemireflex)
+  if ((slices[current_slice].end==EReflex
+       || slices[current_slice].end==ESemireflex)
       && dsr_does_defender_lose(defender,1))
   {
     sr_find_write_final_move(defender);
@@ -2648,8 +2648,8 @@ void dsr_find_write_threats_variations(couleur attacker,
       else if (lenthreat>1 && dsr_does_attacker_win(attacker,lenthreat-1))
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
-      else if (phases[current_phase].end!=EDirect
-               && stip_checkers[phases[current_phase].goal](defender))
+      else if (slices[current_slice].end!=EDirect
+               && goal_checkers[slices[current_slice].goal](defender))
         ; /* oops! wrong side */
       else if (!dsr_defends_threats(attacker,lenthreat,mena))
         ; /* move doesn't defend against threat */
@@ -2698,7 +2698,7 @@ void d_find_write_end(couleur attacker, int t)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && stip_checkers[phases[current_phase].goal](attacker))
+        && goal_checkers[slices[current_slice].goal](attacker))
     {
       dsr_write_attack(ecritcoup_write_end_marker);
       Message(NewLine);
@@ -2724,7 +2724,7 @@ void dsr_find_write_end_quodlibet(couleur attacker, int t)
     if (jouecoup()
         && !echecc(attacker))
     {
-      if (stip_checkers[phases[current_phase].goal](attacker))
+      if (goal_checkers[slices[current_slice].goal](attacker))
       {
         dsr_write_attack(ecritcoup_write_end_marker);
         Message(NewLine);
@@ -2791,7 +2791,7 @@ void sr_find_write_end(couleur attacker, int t)
  */
 void dsr_find_write_end(couleur attacker, int t)
 {
-  if (phases[current_phase].end==EDirect)
+  if (slices[current_slice].end==EDirect)
     d_find_write_end(attacker,t);
   else if (OptFlag[quodlibet])
     dsr_find_write_end_quodlibet(attacker,t);
@@ -2844,7 +2844,7 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
   zugebene--;
 } /* dsr_find_write_continuations */
 
-/* Write the key of a direct/self/reflex phase.
+/* Write the key of a direct/self/reflex slice.
  * The key is the current move of the current ply.
  * @param write_end_marker true iff key reaches end state
  * @param is_try true if key is first move of try, false if key is
@@ -2897,15 +2897,15 @@ void dsr_write_key_postkey(couleur attacker,
  */
 void r_find_write_forced_keys(couleur attacker)
 {
-  if (phases[current_phase].goal==stip_mate_or_stale)
+  if (slices[current_slice].goal==goal_mate_or_stale)
     sprintf(GlobalStr, "%s1:\n", mate_or_stale_patt ? " =" : " #");
   else
     sprintf(GlobalStr,
             "%s1:\n",
-            stip_end_marker[phases[current_phase].goal]);
+            goal_end_marker[slices[current_slice].goal]);
   StdString(GlobalStr);
-  phases[current_phase].play = PDirect;
-  phases[current_phase].goal = ESemireflex;
+  slices[current_slice].play = PDirect;
+  slices[current_slice].goal = ESemireflex;
   dsr_find_write_continuations(attacker,1,alloctab());
   freetab();
 }
@@ -2923,7 +2923,7 @@ void d_find_write_keys_in_1(couleur attacker, boolean restartenabled)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && stip_checkers[phases[current_phase].goal](attacker))
+        && goal_checkers[slices[current_slice].goal](attacker))
     {
       dsr_write_key(ecritcoup_write_end_marker,false);
       StdString("\n\n");
@@ -2956,7 +2956,7 @@ void dsr_find_write_quodlibet_solutions_in_1(couleur attacker,
     {
       int refutations = alloctab();
       int nr_refutations;
-      if (stip_checkers[phases[current_phase].goal](attacker))
+      if (goal_checkers[slices[current_slice].goal](attacker))
         nr_refutations = -1;
       else
         nr_refutations = dsr_find_refutations(defender,0,refutations);
@@ -3028,9 +3028,9 @@ void dsr_find_write_tries_solutions(couleur attacker,
                                     int n,
                                     boolean restartenabled)
 {
-  if (phases[current_phase].end==EReflex && dsr_can_end(attacker,1))
+  if (slices[current_slice].end==EReflex && dsr_can_end(attacker,1))
     r_find_write_forced_keys(attacker);
-  else if (n==1 && phases[current_phase].end==EDirect)
+  else if (n==1 && slices[current_slice].end==EDirect)
     d_find_write_keys_in_1(attacker,restartenabled);
   else
   {
@@ -3047,14 +3047,14 @@ void dsr_find_write_tries_solutions(couleur attacker,
 
 boolean dsr_does_defender_lose(couleur defender, int n)
 {
-  return (phases[current_phase].end==EDirect
+  return (slices[current_slice].end==EDirect
           ? dsr_is_defeated(defender,n-1)
           : !sr_does_defender_win(defender,n));
 }
 
 boolean dsr_does_attacker_win(couleur attacker, int n)
 {
-  return (phases[current_phase].end==EDirect
+  return (slices[current_slice].end==EDirect
           ? dsr_can_end(attacker,n)
           : sr_does_attacker_win(attacker,n));
 }
@@ -3069,8 +3069,8 @@ void SolveSeriesProblems(couleur camp)
   flag_appseul= False;   /* -- no meaning in series movers would only
                             distort output */
 
-  if (phases[current_phase].end==EHelp
-      || phases[current_phase].end==EReciprocal)
+  if (slices[current_slice].end==EHelp
+      || slices[current_slice].end==EReciprocal)
     camp = advers(camp);
 
   if (FlowFlag(Intro))
@@ -3090,14 +3090,14 @@ void SolveSeriesProblems(couleur camp)
   else
   {
     if (OptFlag[solapparent]
-        && phases[current_phase].end!=EDirect && !OptFlag[restart])
+        && slices[current_slice].end!=EDirect && !OptFlag[restart])
     {
       SatzFlag= True;
       if (echecc(camp))
         ErrorMsg(KingCapture);
       else
       {
-        if (phases[current_phase].end==EHelp)
+        if (slices[current_slice].end==EHelp)
           h_find_write_final_move(advers(camp));
         else
         {
@@ -3117,18 +3117,18 @@ void SolveSeriesProblems(couleur camp)
       ErrorMsg(KingCapture);
     else {
       int starti = (FlowFlag(Exact) || OptFlag[restart]
-                    ? phases[current_phase].length
+                    ? slices[current_slice].length
                     : 1);
       if (OptFlag[intelligent])
       {
-        for (i = starti; i <= phases[current_phase].length; i++)
+        for (i = starti; i <= slices[current_slice].length; i++)
         {
-          if (phases[current_phase].end==EHelp
+          if (slices[current_slice].end==EHelp
               ? Intelligent(1,i,&ser_find_write_solutions,camp,i)
               : Intelligent(i,0,&ser_find_write_solutions,camp,i))
           {
             StipFlags |= FlowBit(Exact);
-            if (OptFlag[stoponshort] && i<phases[current_phase].length)
+            if (OptFlag[stoponshort] && i<slices[current_slice].length)
             {
               FlagShortSolsReached= true;
               break;
@@ -3138,20 +3138,20 @@ void SolveSeriesProblems(couleur camp)
       }
       else
       {
-        for (i = starti; i<=phases[current_phase].length; i++)
+        for (i = starti; i<=slices[current_slice].length; i++)
         {
           boolean restartenabled = (OptFlag[movenbr]
-                                    && i==phases[current_phase].length);
+                                    && i==slices[current_slice].length);
 
           if (ser_find_write_solutions(camp,i,restartenabled))
           {
             StipFlags |= FlowBit(Exact);
-            if (OptFlag[stoponshort]&& i<phases[current_phase].length)
+            if (OptFlag[stoponshort]&& i<slices[current_slice].length)
             {
               FlagShortSolsReached= true;
               break;
             }
-          } /* phases[current_phase].end==EHelp */
+          } /* slices[current_slice].end==EHelp */
         } /* for i */
       } /* OptFlag[intelligent] */
     } /* echecs(advers(camp)) */
@@ -3215,7 +3215,7 @@ static boolean SolveHelpShortOrFull(couleur camp,
 
 void SolveHelpProblems(couleur camp)
 {
-  int n = phases[current_phase].length;
+  int n = slices[current_slice].length;
 
   if (flag_appseul)
     /* reduction by one half move because user said so in options */
@@ -3224,9 +3224,9 @@ void SolveHelpProblems(couleur camp)
   if (n%2==1)
     camp = advers(camp);
 
-  if (phases[current_phase].end==ESelf
-      || phases[current_phase].end==EReflex
-      || phases[current_phase].end==ESemireflex)
+  if (slices[current_slice].end==ESelf
+      || slices[current_slice].end==EReflex
+      || slices[current_slice].end==ESemireflex)
     camp = advers(camp);
 
   move_generation_mode = move_generation_not_optimized;
@@ -3266,7 +3266,7 @@ void SolveDirectProblems(couleur camp)
     else
     {
       dsr_find_write_threats_variations(camp,
-                                        phases[current_phase].length,
+                                        slices[current_slice].length,
                                         alloctab());
       freetab();
       Message(NewLine);
@@ -3274,13 +3274,13 @@ void SolveDirectProblems(couleur camp)
   }
   else
   {
-    if (OptFlag[solapparent] && phases[current_phase].length>1)
+    if (OptFlag[solapparent] && slices[current_slice].length>1)
     {
       if (echecc(camp))
         ErrorMsg(SetAndCheck);
       else
       {
-        dsr_find_write_setplay(camp,phases[current_phase].length);
+        dsr_find_write_setplay(camp,slices[current_slice].length);
         Message(NewLine);
       }
     }
@@ -3289,7 +3289,7 @@ void SolveDirectProblems(couleur camp)
       ErrorMsg(KingCapture);
     else
       dsr_find_write_tries_solutions(camp,
-                                     phases[current_phase].length,
+                                     slices[current_slice].length,
                                      OptFlag[movenbr]);
   }
 
@@ -3532,7 +3532,7 @@ int main(int argc, char *argv[]) {
       
       setMaxtime(&maxsolvingtime);
 
-      current_phase = 0;
+      current_slice = 0;
 
       maincamp= OptFlag[halfduplex] ? noir : blanc;
 
@@ -3552,33 +3552,33 @@ int main(int argc, char *argv[]) {
             StdString("a)\n\n");
         }
         StorePosition();
-        if (phases[current_phase].goal==stip_proof
-            || phases[current_phase].goal==stip_atob)
+        if (slices[current_slice].goal==goal_proof
+            || slices[current_slice].goal==goal_atob)
         {
           ProofInitialise();
           inithash();
           /* no DUPLEX for SPG's ! */
           if (FlowFlag(Alternate)) {
-            maincamp = phases[current_phase].goal==stip_atob
+            maincamp = slices[current_slice].goal==goal_atob
               ? (flag_appseul
                  ? blanc
                  : noir)
               : blanc;
-            if (phases[current_phase].goal==stip_atob
+            if (slices[current_slice].goal==goal_atob
                 && OptFlag[solapparent]
-                && phases[current_phase].length>1) {
+                && slices[current_slice].length>1) {
               SatzFlag= true;
               ProofSol(advers(maincamp),
-                       phases[current_phase].length-1,
+                       slices[current_slice].length-1,
                        OptFlag[movenbr]);
               SatzFlag=false;
             }
             ProofSol(maincamp,
-                     phases[current_phase].length,
+                     slices[current_slice].length,
                      OptFlag[movenbr]);
           }
           else
-            SeriesProofSol(phases[current_phase].length, OptFlag[movenbr]);
+            SeriesProofSol(slices[current_slice].length, OptFlag[movenbr]);
           closehash();
           Message(NewLine);
         }
@@ -3589,7 +3589,7 @@ int main(int argc, char *argv[]) {
             inithash();
             if (FlowFlag(Alternate))
             {
-              if (phases[current_phase].play==PHelp)
+              if (slices[current_slice].play==PHelp)
               {
                 if (OptFlag[duplex] && OptFlag[intelligent])
                   SolveHelpProblems(blanc);

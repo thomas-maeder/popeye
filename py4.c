@@ -667,21 +667,21 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
 
   if (FlagGenMatingMove) {
     if (FlagMoveOrientatedStip) {
-      if (phases[current_phase].goal == stip_ep) {
+      if (slices[current_slice].goal == goal_ep) {
         if (sq_arrival != ep[nbply-1] && sq_arrival != ep2[nbply-1])
           return true;
       }
-      else if (phases[current_phase].goal == stip_target) {
-        if (sq_arrival != phases[current_phase].target)
+      else if (slices[current_slice].goal == goal_target) {
+        if (sq_arrival != slices[current_slice].target)
           return true;
       }
-      else if (phases[current_phase].goal == stip_capture
-               || phases[current_phase].goal == stip_steingewinn)
+      else if (slices[current_slice].goal == goal_capture
+               || slices[current_slice].goal == goal_steingewinn)
       {
         if (e[sq_capture] == vide)
           return true;
       }
-      else if (phases[current_phase].goal == stip_castling)
+      else if (slices[current_slice].goal == goal_castling)
       {
         if (abs(e[sq_departure]) != King || abs(sq_departure-sq_arrival) != 2)
           return true;
@@ -689,7 +689,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
     }
     else if (optim_neutralretractable
              && TSTFLAG(spec[sq_departure], Neutral)
-             && phases[current_phase].goal != stip_check)
+             && slices[current_slice].goal != goal_check)
     {
       /* Check if a mating move by a neutral piece can be
       ** retracted by the opponent.
@@ -3271,7 +3271,7 @@ void GenMatingKing(square   sq_departure,
       }
 
     if (CondFlag[ColourCapturedPiece==White ? whiteedge : blackedge]
-        || phases[current_phase].goal==stip_doublemate)
+        || slices[current_slice].goal==goal_doublemate)
       for (k2= vec_queen_start; k2<=vec_queen_end; k2++) {
         sq_arrival= sq_departure + vec[k2];
         if ((e[sq_arrival]==vide
@@ -3564,7 +3564,7 @@ void GenMatingMove(couleur camp) {
   }
   else {
     if (FlagMoveOrientatedStip) {
-      if (phases[current_phase].goal == stip_ep) {
+      if (slices[current_slice].goal == goal_ep) {
         if (  ep[nbply] == initsquare
               && ep2[nbply] == initsquare)
         {
@@ -3572,7 +3572,7 @@ void GenMatingMove(couleur camp) {
           return;
         }
       }
-      else if (phases[current_phase].goal == stip_castling) {
+      else if (slices[current_slice].goal == goal_castling) {
         if (camp == blanc
             ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
             : TSTFLAGMASK(castling_flag[nbply],bl_castlings)<=ke8_cancastle)

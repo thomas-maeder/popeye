@@ -1065,7 +1065,7 @@ void genmove(couleur camp)
       gen_bl_ply();
 
     while (encore()) {
-      if (jouecoup() && stip_checkers[phases[current_phase].goal](camp))
+      if (jouecoup() && goal_checkers[slices[current_slice].goal](camp))
         nbrmates++;
       repcoup();
     }
@@ -3352,7 +3352,7 @@ boolean immobile(couleur camp)
 static boolean stipChecker_target(couleur camp)
 {
   return (move_generation_stack[nbcou].arrival
-          == phases[current_phase].target)
+          == slices[current_slice].target)
     && crenkam[nbply] == initsquare
     && !echecc(camp);
 }
@@ -3477,14 +3477,14 @@ static boolean stipChecker_stale(couleur camp) {
 }
 
 static boolean stipChecker_mate_or_stale(couleur camp) {
-  /* This may be suboptimal if the standard stip_mate and stip_stale
-   * are used. On the other hand, it's correct for all stip_checkers,
+  /* This may be suboptimal if the standard goal_mate and goal_stale
+   * are used. On the other hand, it's correct for all goal_checkers,
    * and how many problems with #= are there anyway? TM */
 
   /* used for writing the correct symbol in output */
-  mate_or_stale_patt = stip_checkers[stip_stale](camp);
+  mate_or_stale_patt = goal_checkers[goal_stale](camp);
   
-  return mate_or_stale_patt || stip_checkers[stip_mate](camp);
+  return mate_or_stale_patt || goal_checkers[goal_mate](camp);
 }
 
 
@@ -3578,7 +3578,7 @@ static boolean stipChecker_any(couleur camp)
   return true;
 }
 
-stipulationfunction_t stip_checkers[nr_stipulations] = {
+goal_function_t goal_checkers[nr_goals] = {
   &stipChecker_mate,
   &stipChecker_stale,
   &stipChecker_dblstale,
@@ -3603,7 +3603,7 @@ stipulationfunction_t stip_checkers[nr_stipulations] = {
 #endif
 };
   
-char const *stip_end_marker[nr_stipulations] =
+char const *goal_end_marker[nr_goals] =
 {
   " #",
   " =",
@@ -3632,9 +3632,9 @@ char const *stip_end_marker[nr_stipulations] =
 void initStipCheckers()
 {
   if (CondFlag[blackultraschachzwang] || CondFlag[whiteultraschachzwang])
-    stip_checkers[stip_mate] = &stipChecker_mate_ultraschachzwang;
+    goal_checkers[goal_mate] = &stipChecker_mate_ultraschachzwang;
   else
-    stip_checkers[stip_mate] = &stipChecker_mate;
+    goal_checkers[goal_mate] = &stipChecker_mate;
 }
 
 
@@ -3648,7 +3648,7 @@ void find_mate_square(couleur camp)
         rn= sq;
         e[rn]= roin;
         nbpiece[roin]++;
-        if (stip_checkers[phases[current_phase].goal](camp))
+        if (goal_checkers[slices[current_slice].goal](camp))
           return;
         nbpiece[roin]--;
         e[rn]= vide;
@@ -3661,7 +3661,7 @@ void find_mate_square(couleur camp)
         rb= sq;
         e[rb]= roib;
         nbpiece[roib]++;
-        if (stip_checkers[phases[current_phase].goal](camp))
+        if (goal_checkers[slices[current_slice].goal](camp))
           return;
         nbpiece[roib]--;
         e[rb]= vide;

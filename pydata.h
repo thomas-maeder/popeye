@@ -354,38 +354,38 @@ EXTERN  evalfunction_t *eval_black;
 
 typedef enum
 {
-  stip_mate,
-  stip_stale,
-  stip_dblstale,
-  stip_target,
-  stip_check,
-  stip_capture,
-  stip_steingewinn,
-  stip_ep,
-  stip_doublemate,
-  stip_countermate,
-  stip_castling,
-  stip_autostale,
-  stip_circuit,
-  stip_exchange,
-  stip_circuitB,
-  stip_exchangeB,
-  stip_mate_or_stale,
-  stip_any,
-  stip_proof,
+  goal_mate,
+  goal_stale,
+  goal_dblstale,
+  goal_target,
+  goal_check,
+  goal_capture,
+  goal_steingewinn,
+  goal_ep,
+  goal_doublemate,
+  goal_countermate,
+  goal_castling,
+  goal_autostale,
+  goal_circuit,
+  goal_exchange,
+  goal_circuitB,
+  goal_exchangeB,
+  goal_mate_or_stale,
+  goal_any,
+  goal_proof,
 #if !defined(DATABASE)
   /* TODO why not if DATABASE? */
-  stip_atob, /* TODO remove? is there a difference to stip_proof? */
+  goal_atob, /* TODO remove? is there a difference to goal_proof? */
 #endif
 
-  nr_stipulations,
-  no_stipulation = nr_stipulations
-} Stipulation;
+  nr_goals,
+  no_goal = nr_goals
+} Goal;
 
-extern char const *stip_end_marker[nr_stipulations];
+extern char const *goal_end_marker[nr_goals];
 
-typedef boolean (*stipulationfunction_t)(couleur);
-extern stipulationfunction_t stip_checkers[nr_stipulations];
+typedef boolean (*goal_function_t)(couleur);
+extern goal_function_t goal_checkers[nr_goals];
 
 typedef enum
 {
@@ -405,23 +405,23 @@ typedef enum
   EQuodlibet,    /* goal or self-goal in 1 */
   EDouble,       /* help-double-goal in 1 (mate only) */
   ECounter,      /* help-counter-goal in 1 (mate only) */
-  ENext          /* continue play with next Phase */
+  ENext          /* continue play with next Slice */
 } End;
 
 typedef struct
 {
-    int length; /* full moves in Direct, half moves otherwise */
-    boolean is_exact; /* true iff length is exact */
+    int length; /* full moves if play==PDirect, half moves otherwise */
+    boolean is_exact; /* true iff length is to be considered exact */
     Play play;
     End end;
-    Stipulation goal; /* TODO rename to Goal */
-    square target; /* for target square goal */
-    Stipulation recigoal; /* for reciprocal end */
-} Phase;
+    Goal goal;
+    square target; /* for goal==goal_target */
+    Goal recigoal; /* for end==EReciprocal */
+} Slice;
 
-Phase phases[1];
+Slice slices[1];
 
-EXTERN unsigned int current_phase;
+EXTERN unsigned int current_slice;
 
 EXTERN  int   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);

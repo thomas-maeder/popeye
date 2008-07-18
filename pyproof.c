@@ -119,7 +119,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
 
   /* set all squares to a maximum */
   for (bnp= boardnum; *bnp; bnp++)
-    WhKingMoves[*bnp]= BlKingMoves[*bnp]= phases[current_phase].length;
+    WhKingMoves[*bnp]= BlKingMoves[*bnp]= slices[current_slice].length;
 
   /* mark squares occupied or garded by immobile pawns
      white pawns
@@ -288,7 +288,7 @@ void ProofInitialise(void)
       ProofSquares[ProofNbrAllPieces++]= boardnum[i];
     }
     CLEARFL(spec[boardnum[i]]);
-    p= e[boardnum[i]] = (phases[current_phase].goal==stip_atob
+    p= e[boardnum[i]] = (slices[current_slice].goal==goal_atob
                          ? PosA[boardnum[i]]
                          : PAS[i]);
 
@@ -298,7 +298,7 @@ void ProofInitialise(void)
       SETFLAG(spec[boardnum[i]], White);
     else if (p<=roin)
       SETFLAG(spec[boardnum[i]], Black);
-    if (phases[current_phase].goal==stip_atob)
+    if (slices[current_slice].goal==goal_atob)
       spec[boardnum[i]]= SpecA[i];
   }
 
@@ -309,7 +309,7 @@ void ProofInitialise(void)
   /* set the king squares */
   if (!CondFlag[losingchess])
   {
-    if (phases[current_phase].goal==stip_atob)
+    if (slices[current_slice].goal==goal_atob)
     {
       rb = rbA;
       rn = rnA;
@@ -321,11 +321,11 @@ void ProofInitialise(void)
     }
   }
 
-  if (phases[current_phase].goal==stip_atob && CondFlag[imitators])
+  if (slices[current_slice].goal==goal_atob && CondFlag[imitators])
     for (i= 0; i < maxinum; i++)
       isquare[i]= isquareA[i];
 
-  if (phases[current_phase].goal==stip_atob)
+  if (slices[current_slice].goal==goal_atob)
   {
     char InitialLine[40];
     PieSpec atMove;
@@ -576,7 +576,7 @@ void WhPawnMovesFromTo(
   *moves= rank_to-rank_from;
 
   if (*moves<0 || *moves<*captures || *captures>captallowed)
-    *moves= phases[current_phase].length;
+    *moves= slices[current_slice].length;
   else if (from<=square_h2 && *captures<*moves-1)
     /* double step possible */
     (*moves)--;
@@ -601,7 +601,7 @@ void BlPawnMovesFromTo(
   *moves= rank_from-rank_to;
 
   if (*moves<0 || *moves<*captures || *captures>captallowed)
-    *moves= phases[current_phase].length;
+    *moves= slices[current_slice].length;
   else if (from>=square_a7 && *captures < *moves-1)
     /* double step possible */
     (*moves)--;
@@ -621,7 +621,7 @@ int WhPawnMovesNeeded(square sq)
 
   if (sq<=square_h2)
     /* there is no pawn at all that can enter this square */
-    return phases[current_phase].length;
+    return slices[current_slice].length;
 
   /* double step */
   if (square_a4<=sq && square_h4>=sq
@@ -638,7 +638,7 @@ int WhPawnMovesNeeded(square sq)
       return 1;
   }
   else
-    MovesNeeded= phases[current_phase].length;
+    MovesNeeded= slices[current_slice].length;
 
   if (e[sq+dir_down+dir_left] != obs)
   {
@@ -672,7 +672,7 @@ int BlPawnMovesNeeded(square sq) {
 
   if (sq>=square_a7)
     /* there is no pawn at all that can enter this square */
-    return phases[current_phase].length;
+    return slices[current_slice].length;
 
   /* double step */
   if (square_a5<=sq && square_h5>=sq
@@ -689,7 +689,7 @@ int BlPawnMovesNeeded(square sq) {
       return 1;
   }
   else
-    MovesNeeded= phases[current_phase].length;
+    MovesNeeded= slices[current_slice].length;
 
   if (e[sq+dir_up+dir_right] != obs)
   {
@@ -712,10 +712,10 @@ int BlPawnMovesNeeded(square sq) {
 #define BLOCKED(sq)                             \
   (  (e[sq] == pb                               \
       && ProofBoard[sq] == pb                   \
-      && WhPawnMovesNeeded(sq) >= phases[current_phase].length)       \
+      && WhPawnMovesNeeded(sq) >= slices[current_slice].length)       \
      || (e[sq] == pn                            \
          && ProofBoard[sq] == pn                \
-         && BlPawnMovesNeeded(sq) >= phases[current_phase].length))
+         && BlPawnMovesNeeded(sq) >= slices[current_slice].length))
 
 void PieceMovesFromTo(piece p, square from, square to, int *moves) {
   numvec    dir;
@@ -734,7 +734,7 @@ void PieceMovesFromTo(piece p, square from, square to, int *moves) {
     {
       square    sqi, sqj;
       int   i, j, testmov;
-      int   testmin= phases[current_phase].length;
+      int   testmin= slices[current_slice].length;
       for (i= 9; i <= 16; i++)
       {
         sqi= from+vec[i];
@@ -758,7 +758,7 @@ void PieceMovesFromTo(piece p, square from, square to, int *moves) {
 
   case Bishop:
     if (SquareCol(from) != SquareCol(to))
-      *moves= phases[current_phase].length;
+      *moves= slices[current_slice].length;
     else
     {
       dir= CheckDirBishop[sqdiff];
@@ -818,7 +818,7 @@ void WhPromPieceMovesFromTo(
 
   cenpromsq= (from%onerow
               + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow);
-  *moves= phases[current_phase].length;
+  *moves= slices[current_slice].length;
 
   WhPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
   PieceMovesFromTo(ProofBoard[to], cenpromsq, to, &mov2);
@@ -863,7 +863,7 @@ void BlPromPieceMovesFromTo(
   int       i, mov1, mov2, cap1;
 
   cenpromsq= from%onerow + nr_of_slack_rows_below_board*onerow;
-  *moves= phases[current_phase].length;
+  *moves= slices[current_slice].length;
 
   BlPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
   PieceMovesFromTo(ProofBoard[to], cenpromsq, to, &mov2);
@@ -908,7 +908,7 @@ void WhPieceMovesFromTo(
   piece pfrom= e[from];
   piece pto= ProofBoard[to];
 
-  *moves= phases[current_phase].length;
+  *moves= slices[current_slice].length;
 
   switch (pto)
   {
@@ -941,7 +941,7 @@ void BlPieceMovesFromTo(
 
   pfrom= e[from];
   pto= ProofBoard[to];
-  *moves= phases[current_phase].length;
+  *moves= slices[current_slice].length;
 
   switch (pto)
   {
@@ -1011,7 +1011,7 @@ int ArrangeListedPieces(
 {
   int       Diff, Diff2, i, id;
 
-  Diff= phases[current_phase].length;
+  Diff= slices[current_slice].length;
 
   if (nto == 0)
     return 0;
@@ -1070,7 +1070,7 @@ int ArrangePieces(
         BlPieceMovesFromTo(from->sq[ifrom],
                            to->sq[ito], &moves, &captures,
                            CapturesAllowed, CapturesRequired);
-      if (moves < phases[current_phase].length)
+      if (moves < slices[current_slice].length)
       {
         pl[ito].moves[pl[ito].Nbr]= moves;
         pl[ito].captures[pl[ito].Nbr]= captures;
@@ -1124,7 +1124,7 @@ int ArrangePawns(
       else
         BlPawnMovesFromTo(from->sq[ifrom],
                           to->sq[ito], &moves, &captures, CapturesAllowed);
-      if (moves < phases[current_phase].length)
+      if (moves < slices[current_slice].length)
       {
         pl[ito].moves[pl[ito].Nbr]= moves;
         pl[ito].captures[pl[ito].Nbr]= captures;
@@ -1140,13 +1140,13 @@ int ArrangePawns(
   Diff= ArrangeListedPieces(pl,
                             to->Nbr, from->Nbr, taken, CapturesAllowed);
 
-  if (Diff == phases[current_phase].length)
-    return phases[current_phase].length;
+  if (Diff == slices[current_slice].length)
+    return slices[current_slice].length;
 
   /* determine minimal number of captures required */
   captures= 0;
   while (ArrangeListedPieces(pl, to->Nbr, from->Nbr, taken, captures)
-         == phases[current_phase].length)
+         == slices[current_slice].length)
     captures++;
 
   *CapturesRequired= captures;
@@ -1227,8 +1227,8 @@ static boolean ProofFairyImpossible(int MovesAvailable)
         black_moves_left = white_moves_left = MovesAvailable/2;
         if (MovesAvailable%2 == 1)
         {
-          boolean const enonce_is_odd = phases[current_phase].length%2==1;
-          if ((phases[current_phase].goal==stip_atob
+          boolean const enonce_is_odd = slices[current_slice].length%2==1;
+          if ((slices[current_slice].goal==goal_atob
                && !flag_appseul)
               != enonce_is_odd)
             white_moves_left++;
@@ -1390,8 +1390,8 @@ static boolean ProofImpossible(int MovesAvailable) {
     black_moves_left= white_moves_left= MovesAvailable/2;
     if (MovesAvailable%2 == 1)
     {
-      boolean const enonce_is_odd = phases[current_phase].length%2==1;
-      if ((phases[current_phase].goal==stip_atob
+      boolean const enonce_is_odd = slices[current_slice].length%2==1;
+      if ((slices[current_slice].goal==goal_atob
            && !flag_appseul)
           != enonce_is_odd)
         white_moves_left++;

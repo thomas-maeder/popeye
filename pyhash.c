@@ -184,7 +184,7 @@ static int value_of_data(dhtElement const *he)
   case IntroSerNoSucc:
   {
     serElement_t const * const se = (serElement_t const *)he;
-    return se->data.serNotSolvableIn + phases[current_phase].length*se->data.introNotSolvableIn;
+    return se->data.serNotSolvableIn + slices[current_slice].length*se->data.introNotSolvableIn;
   }
   
   case WhHelpNoSucc:
@@ -201,7 +201,7 @@ static int value_of_data(dhtElement const *he)
   case WhDirNoSucc:
   {
     whDirElement_t const * const wde = (whDirElement_t const *)he;
-    if (wde->data.solvableIn <= phases[current_phase].length
+    if (wde->data.solvableIn <= slices[current_slice].length
         && wde->data.solvableIn+1 > wde->data.notSolvableInLessThan)
       return wde->data.solvableIn;
     else
@@ -226,7 +226,7 @@ static void compresshash (void) {
 #endif
   flag_hashall= false;
 
-  min_val= phases[current_phase].length;
+  min_val= slices[current_slice].length;
 
   ifTESTHASH(printf("compressing: %ld -> ", dhtKeyCount(pyhash)));
 
@@ -423,7 +423,7 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
     /* That's far too much. In a ser-h#5 there won't be more
     ** than 5 holes in hashed positions.      TLi
     */
-    int nbr_holes= FlowFlag(Series) != 0 ? phases[current_phase].length : 2*phases[current_phase].length;
+    int nbr_holes= FlowFlag(Series) != 0 ? slices[current_slice].length : 2*slices[current_slice].length;
     if (nbr_holes > (nr_files_on_board*nr_rows_on_board-nbr_p)/2)
       nbr_holes= (nr_files_on_board*nr_rows_on_board-nbr_p)/2;
     len += bytes_per_piece*nbr_holes;
@@ -814,7 +814,7 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
     {
       whDirElement_t * const wde = (whDirElement_t*)he;
       wde->data.what = what;
-      wde->data.solvableIn = phases[current_phase].length+1;
+      wde->data.solvableIn = slices[current_slice].length+1;
       wde->data.notSolvableInLessThan = val+1;
       break;
     }
@@ -894,12 +894,12 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
     int i;
 
     SatzFlag = True;
-    for (i = FlowFlag(Exact) ? phases[current_phase].length : 1; i<=phases[current_phase].length; i++)
+    for (i = FlowFlag(Exact) ? slices[current_slice].length : 1; i<=slices[current_slice].length; i++)
       if (ser_find_write_solutions(continuingside,i,False))
       {
         flag1= true;
         StipFlags |= FlowBit(Exact);
-        if (OptFlag[stoponshort] && i<phases[current_phase].length)
+        if (OptFlag[stoponshort] && i<slices[current_slice].length)
         {
           FlagShortSolsReached= true;
           break;
@@ -967,7 +967,7 @@ boolean h_find_write_final_move(couleur side_at_move)
     if (jouecoup()
         && (!OptFlag[intelligent] || MatePossible()))
     {
-      if (stip_checkers[phases[current_phase].goal](side_at_move))
+      if (goal_checkers[slices[current_slice].goal](side_at_move))
       {
         final_move_found = true;
         linesolution();
@@ -1000,10 +1000,10 @@ boolean reci_h_find_write_final_move(couleur side_at_move)
 
   {
     boolean side_at_move_can_end_in_1;
-    Stipulation const goal_sav = phases[current_phase].goal;
-    phases[current_phase].goal = phases[current_phase].recigoal;
+    Goal const goal_sav = slices[current_slice].goal;
+    slices[current_slice].goal = slices[current_slice].recigoal;
     side_at_move_can_end_in_1 = dsr_can_end(side_at_move,1);
-    phases[current_phase].goal = goal_sav;
+    slices[current_slice].goal = goal_sav;
     if (!side_at_move_can_end_in_1)
       return false;
   }
@@ -1038,10 +1038,10 @@ boolean reci_h_find_write_final_move(couleur side_at_move)
 
   if (found_solution)
   {
-    Stipulation const goal_sav = phases[current_phase].goal;
-    phases[current_phase].goal = phases[current_phase].recigoal;
+    Goal const goal_sav = slices[current_slice].goal;
+    slices[current_slice].goal = slices[current_slice].recigoal;
     h_find_write_final_move(side_at_move);
-    phases[current_phase].goal = goal_sav;
+    slices[current_slice].goal = goal_sav;
     return true;
   }
   else
@@ -1070,7 +1070,7 @@ boolean hs_find_write_final_move_pair(couleur side_at_move)
       while (encore())
       {
         if (jouecoup()
-            && stip_checkers[phases[current_phase].goal](other_side))
+            && goal_checkers[slices[current_slice].goal](other_side))
         {
           found_solution = true;
           linesolution();
@@ -1116,7 +1116,7 @@ boolean hr_find_write_final_move_pair(couleur side_at_move)
         while (encore())
         {
           if (jouecoup()
-              && stip_checkers[phases[current_phase].goal](other_side))
+              && goal_checkers[slices[current_slice].goal](other_side))
           {
             found_solution = true;
             linesolution();
@@ -1144,7 +1144,7 @@ boolean hr_find_write_final_move_pair(couleur side_at_move)
  * @return true iff >=1 move pair was found
  */
 boolean
-h_stip_cmate_find_write_final_move_pair(couleur side_at_move,
+h_goal_cmate_find_write_final_move_pair(couleur side_at_move,
                                         hashwhat no_succ_hash_category,
                                         boolean restartenabled)
 {
@@ -1163,14 +1163,14 @@ h_stip_cmate_find_write_final_move_pair(couleur side_at_move,
       (*encode)(&hb);
       if (!inhash(no_succ_hash_category,1,&hb))
       {
-        if (stip_checkers[stip_mate](side_at_move))
+        if (goal_checkers[goal_mate](side_at_move))
         {
           GenMatingMove(other_side);
 
           while (encore())
           {
             if (jouecoup()
-                && stip_checkers[phases[current_phase].goal](other_side))
+                && goal_checkers[slices[current_slice].goal](other_side))
             {
               found_solution = true;
               linesolution();
@@ -1204,7 +1204,7 @@ h_stip_cmate_find_write_final_move_pair(couleur side_at_move,
  * @return true iff >=1 move pair was found
  */
 boolean
-h_stip_dmate_find_write_final_move_pair(couleur side_at_move,
+h_goal_dmate_find_write_final_move_pair(couleur side_at_move,
                                         hashwhat no_succ_hash_category,
                                         boolean restartenabled)
 {
@@ -1233,7 +1233,7 @@ h_stip_dmate_find_write_final_move_pair(couleur side_at_move,
           while (encore())
           {
             if (jouecoup()
-                && stip_checkers[phases[current_phase].goal](other_side))
+                && goal_checkers[slices[current_slice].goal](other_side))
             {
               found_solution = true;
               linesolution();
@@ -1275,19 +1275,19 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
                                      hashwhat no_succ_hash_category,
                                      boolean restartenabled)
 {
-  if (phases[current_phase].end==EReciprocal)
+  if (slices[current_slice].end==EReciprocal)
     return reci_h_find_write_final_move(side_at_move);
-  else if (phases[current_phase].end==ESelf)
+  else if (slices[current_slice].end==ESelf)
     return hs_find_write_final_move_pair(side_at_move);
-  else if (phases[current_phase].end==EReflex
-           || phases[current_phase].end==ESemireflex)
+  else if (slices[current_slice].end==EReflex
+           || slices[current_slice].end==ESemireflex)
     return hr_find_write_final_move_pair(side_at_move);
-  else if (phases[current_phase].goal==stip_countermate)
-    return h_stip_cmate_find_write_final_move_pair(side_at_move,
+  else if (slices[current_slice].goal==goal_countermate)
+    return h_goal_cmate_find_write_final_move_pair(side_at_move,
                                                    no_succ_hash_category,
                                                    restartenabled);
-  else if (phases[current_phase].goal==stip_doublemate)
-    return h_stip_dmate_find_write_final_move_pair(side_at_move,
+  else if (slices[current_slice].goal==goal_doublemate)
+    return h_goal_dmate_find_write_final_move_pair(side_at_move,
                                                    no_succ_hash_category,
                                                    restartenabled);
   else
@@ -1446,7 +1446,7 @@ boolean ser_d_find_write_final_move(couleur attacker)
   while (encore())
   {
     if (jouecoup()
-        && stip_checkers[phases[current_phase].goal](attacker))
+        && goal_checkers[slices[current_slice].goal](attacker))
     {
       linesolution();
       solution_found = true;
@@ -1472,7 +1472,7 @@ void ser_sr_find_write_final_defender_move(couleur defender)
   while (encore())
   {
     if (jouecoup()
-        && stip_checkers[phases[current_phase].goal](defender))
+        && goal_checkers[slices[current_slice].goal](defender))
       linesolution();
 
     repcoup();
@@ -1524,18 +1524,18 @@ boolean ser_find_write_solutions(couleur series_side,
                                  int n,
                                  boolean restartenabled)
 {
-  if (phases[current_phase].end==EReflex && dsr_can_end(series_side,1))
+  if (slices[current_slice].end==EReflex && dsr_can_end(series_side,1))
     return false;
 
   if (n==1)
   {
-    if (phases[current_phase].end==EHelp)
+    if (slices[current_slice].end==EHelp)
       return h_find_write_final_move_pair(series_side,
                                           SerNoSucc,
                                           restartenabled);
-    else if (phases[current_phase].end==EReciprocal)
+    else if (slices[current_slice].end==EReciprocal)
       return reci_h_find_write_final_move(series_side);
-    else if (phases[current_phase].end==EDirect)
+    else if (slices[current_slice].end==EDirect)
       return ser_d_find_write_final_move(series_side);
     else
       return ser_sr_find_write_final_attacker_move(series_side);
@@ -1645,8 +1645,8 @@ void inithash(void)
     bytes_per_spec= 5; /* TODO why so high??? */
   }
 
-  if (phases[current_phase].goal==stip_proof
-      || phases[current_phase].goal==stip_atob)
+  if (slices[current_slice].goal==goal_proof
+      || slices[current_slice].goal==goal_atob)
   {
     encode = ProofEncode;
     if (MaxMemory>0 && MaxPositions==0)
@@ -1804,10 +1804,10 @@ boolean dsr_can_end(couleur attacker, int n)
   HashBuffer hb;
 
   boolean const dohash = (n > (FlagMoveOrientatedStip ? 1 : 0)
-                          && !(phases[current_phase].end==ESelf
-                               || phases[current_phase].end==EReflex
-                               || phases[current_phase].end==ESemireflex)
-                          && phases[current_phase].end!=EReciprocal);
+                          && !(slices[current_slice].end==ESelf
+                               || slices[current_slice].end==EReflex
+                               || slices[current_slice].end==ESemireflex)
+                          && slices[current_slice].end!=EReciprocal);
 
   /* Let's first have a look in the hash_table */
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to
@@ -1850,7 +1850,7 @@ boolean dsr_can_end(couleur attacker, int n)
       if (jouecoup())
       {
         if (i==0)
-          forced_end_found = stip_checkers[phases[current_phase].goal](attacker);
+          forced_end_found = goal_checkers[slices[current_slice].goal](attacker);
         else
           forced_end_found = (!echecc(attacker)
                               && dsr_is_defeated(defender,i));
@@ -1904,14 +1904,14 @@ boolean sr_does_attacker_win(couleur attacker, int n)
     return true;
 
   if (!FlowFlag(Exact))
-    if (stip_checkers[phases[current_phase].goal](defender))
+    if (goal_checkers[slices[current_slice].goal](defender))
     {
       addtohash(WhDirSucc,n,&hb);
       assert(!inhash(WhDirNoSucc,n,&hb));
       return true;
     }
 
-  if (phases[current_phase].end==EReflex && dsr_can_end(attacker,1))
+  if (slices[current_slice].end==EReflex && dsr_can_end(attacker,1))
     return false;
 
   for (i = FlowFlag(Exact) ? n : 1; !win_found && i<=n; i++)
@@ -1925,7 +1925,7 @@ boolean sr_does_attacker_win(couleur attacker, int n)
           && !echecc(attacker)
           && (!sr_does_defender_win(defender,i)
               || (OptFlag[quodlibet]
-                  && stip_checkers[phases[current_phase].goal](attacker))))
+                  && goal_checkers[slices[current_slice].goal](attacker))))
       {
         win_found = true;
         coupfort();
@@ -2009,8 +2009,8 @@ boolean sr_does_defender_win(couleur defender, int n)
   boolean no_win_found = true;
   couleur attacker = advers(defender);
 
-  if (phases[current_phase].end==EReflex
-      || phases[current_phase].end==ESemireflex)
+  if (slices[current_slice].end==EReflex
+      || slices[current_slice].end==ESemireflex)
   {
     if (dsr_can_end(defender,1))
       return false;
@@ -2049,7 +2049,7 @@ boolean sr_does_defender_win(couleur defender, int n)
         if (jouecoup() && !echecc(defender))
         {
           is_defender_immobile = false;
-          no_win_found = stip_checkers[phases[current_phase].goal](defender);
+          no_win_found = goal_checkers[slices[current_slice].goal](defender);
           if (!no_win_found)
             coupfort();
         }
@@ -2057,7 +2057,7 @@ boolean sr_does_defender_win(couleur defender, int n)
       }
       finply();
     }
-    else if (phases[current_phase].goal==stip_ep
+    else if (slices[current_slice].goal==goal_ep
              && ep[nbply]==initsquare
              && ep2[nbply]==initsquare)
     {
@@ -2107,7 +2107,7 @@ boolean sr_does_defender_win(couleur defender, int n)
         if (jouecoup() && !echecc(defender))
         {
           is_defender_immobile = false;
-          no_win_found = stip_checkers[phases[current_phase].goal](defender);
+          no_win_found = goal_checkers[slices[current_slice].goal](defender);
           if (!no_win_found)
             coupfort();
         }

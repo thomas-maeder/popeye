@@ -1024,14 +1024,14 @@ static char *ParseFlow(char *tok)
   if (strncmp("exact-", tok, 6) == 0)
   {
     StipFlags |= FlowBit(Exact);
-    phases[current_phase].is_exact = true;
+    slices[current_slice].is_exact = true;
     OptFlag[nothreat] = True;
     tok+= 6;
   }
   if (strncmp("ser-",tok,4) == 0)
   {
     StipFlags |= FlowBit(Series);
-    phases[current_phase].play = PSeries;
+    slices[current_slice].play = PSeries;
     tok+=4;
   }
   else
@@ -1056,62 +1056,62 @@ static char *ParseSort(char *tok)
 {
   if (strncmp("dia", tok, 3) == 0)
   {
-    phases[current_phase].play = PHelp;
-    phases[current_phase].end = EDirect;
+    slices[current_slice].play = PHelp;
+    slices[current_slice].end = EDirect;
     return tok; /* "dia" also defines a goal */
   }
 
 #if !defined(DATABASE)
   if (strncmp("a=>b", tok, 4) == 0)
   {
-    phases[current_phase].play = PHelp;
-    phases[current_phase].end = EDirect;
+    slices[current_slice].play = PHelp;
+    slices[current_slice].end = EDirect;
     return tok; /* "a=>b" also defines a goal */
   }
 #endif
 
   if (strncmp("semi-r", tok, 6) == 0)
   {
-    phases[current_phase].play = PDirect;
-    phases[current_phase].end = ESemireflex;
+    slices[current_slice].play = PDirect;
+    slices[current_slice].end = ESemireflex;
     return tok+6;
   }
 
   if (strncmp("reci-h", tok, 6) == 0)
   {
-    phases[current_phase].play = PHelp;
-    phases[current_phase].end = EReciprocal;
+    slices[current_slice].play = PHelp;
+    slices[current_slice].end = EReciprocal;
     return tok+6;
   }
 
   switch (*tok)
   {
   case 'h':
-    phases[current_phase].play = PHelp;
-    phases[current_phase].end = EHelp;
+    slices[current_slice].play = PHelp;
+    slices[current_slice].end = EHelp;
     ++tok;
     if (*tok == 's')
     {
-      phases[current_phase].end = ESelf;
+      slices[current_slice].end = ESelf;
       return tok+1;
     }
     else if (*tok == 'r')
     {
-      phases[current_phase].end = EReflex;
+      slices[current_slice].end = EReflex;
       return tok+1;
     } else
       return tok;
   case 'r':
-    phases[current_phase].play = PDirect;
-    phases[current_phase].end = EReflex;
+    slices[current_slice].play = PDirect;
+    slices[current_slice].end = EReflex;
     return tok+1;
   case 's':
-    phases[current_phase].play = PDirect;
-    phases[current_phase].end = ESelf;
+    slices[current_slice].play = PDirect;
+    slices[current_slice].end = ESelf;
     return tok+1;
   default:
-    phases[current_phase].play = PDirect;
-    phases[current_phase].end = EDirect;
+    slices[current_slice].play = PDirect;
+    slices[current_slice].end = EDirect;
     return tok;
   }
 }
@@ -1120,46 +1120,46 @@ static char *ParseSort(char *tok)
 typedef struct
 {
     char const *inputText;
-    Stipulation goal;
+    Goal goal;
  } goalInputConfig_t;
 
 /* make sure that input strings that are substrings of other strings
  * appear *after* them! */
-static goalInputConfig_t const goalInputConfig[nr_stipulations] =
+static goalInputConfig_t const goalInputConfig[nr_goals] =
 {
-  {   "##!",  stip_countermate   }
-  , { "##",   stip_doublemate    }
-  , { "#=",   stip_mate_or_stale }
-  , { "#",    stip_mate          }
-  , { "==",   stip_dblstale      }
-  , { "!=",   stip_autostale     }
-  , { "=",    stip_stale         }
-  , { "z",    stip_target        }
-  , { "+",    stip_check         }
-  , { "x",    stip_capture       }
-  , { "%",    stip_steingewinn   }
-  , { "ep",   stip_ep            }
-  , { "ctr",  stip_circuitB      }
-  , { "ct",   stip_circuit       }
-  , { "<>r",  stip_exchangeB     }
-  , { "<>",   stip_exchange      }
-  , { "00",   stip_castling      }
-  , { "~",    stip_any           }
-  , { "dia",  stip_proof         }
+  {   "##!",  goal_countermate   }
+  , { "##",   goal_doublemate    }
+  , { "#=",   goal_mate_or_stale }
+  , { "#",    goal_mate          }
+  , { "==",   goal_dblstale      }
+  , { "!=",   goal_autostale     }
+  , { "=",    goal_stale         }
+  , { "z",    goal_target        }
+  , { "+",    goal_check         }
+  , { "x",    goal_capture       }
+  , { "%",    goal_steingewinn   }
+  , { "ep",   goal_ep            }
+  , { "ctr",  goal_circuitB      }
+  , { "ct",   goal_circuit       }
+  , { "<>r",  goal_exchangeB     }
+  , { "<>",   goal_exchange      }
+  , { "00",   goal_castling      }
+  , { "~",    goal_any           }
+  , { "dia",  goal_proof         }
 #if !defined(DATABASE)
-  , { "a=>b", stip_atob          }
+  , { "a=>b", goal_atob          }
 #endif
 };
 
-static char *ParsPartialGoal(char *tok, Stipulation *goal, square *target)
+static char *ParsPartialGoal(char *tok, Goal *goal, square *target)
 {
   goalInputConfig_t const *gic;
-  for (gic = goalInputConfig; gic!=goalInputConfig+nr_stipulations; ++gic)
+  for (gic = goalInputConfig; gic!=goalInputConfig+nr_goals; ++gic)
     if (strstr(tok,gic->inputText)==tok)
     {
       *goal = gic->goal;
 
-      if (gic->goal==stip_target)
+      if (gic->goal==goal_target)
       {
         *target = SquareNum(tok[1],tok[2]);
         if (*target==0)
@@ -1171,7 +1171,7 @@ static char *ParsPartialGoal(char *tok, Stipulation *goal, square *target)
           return tok+3;
       }
 #if !defined(DATABASE)
-      else if (gic->goal==stip_atob)
+      else if (gic->goal==goal_atob)
       {
         int i;
         for (i = maxsquare-1; i>=0; i--)
@@ -1211,12 +1211,12 @@ static char *ParseGoal(char *tok)
 {
   /* test for reciprocal help play with different ends for Black and
    * White; e.g. reci-h(=)#3 */
-  if (phases[current_phase].end==EReciprocal && *tok=='(')
+  if (slices[current_slice].end==EReciprocal && *tok=='(')
   {
     char const *closingParenPos = strchr(tok,')');
     if (closingParenPos!=0)
     {
-      tok = ParsPartialGoal(tok+1,&phases[current_phase].recigoal,0);
+      tok = ParsPartialGoal(tok+1,&slices[current_slice].recigoal,0);
       if (tok==0)
         return 0;
       else if (tok==closingParenPos)
@@ -1230,8 +1230,8 @@ static char *ParseGoal(char *tok)
   }
 
   return ParsPartialGoal(tok,
-                         &phases[current_phase].goal,
-                         &phases[current_phase].target);
+                         &slices[current_slice].goal,
+                         &slices[current_slice].target);
 }
 
 static char *ParseStip(void)
@@ -1248,10 +1248,10 @@ static char *ParseStip(void)
   {
     char *ptr;
 
-    if (phases[current_phase].end==EReciprocal)
+    if (slices[current_slice].end==EReciprocal)
     {
-      if (phases[current_phase].recigoal==no_stipulation)
-        phases[current_phase].recigoal = phases[current_phase].goal;
+      if (slices[current_slice].recigoal==no_goal)
+        slices[current_slice].recigoal = slices[current_slice].goal;
     }
 
     if (*tok==0)
@@ -1260,32 +1260,32 @@ static char *ParseStip(void)
       strcat(AlphaStip, tok);
     }
 
-    phases[current_phase].length = strtol(tok,&ptr,10);
-    if (tok==ptr || phases[current_phase].length<0)
+    slices[current_slice].length = strtol(tok,&ptr,10);
+    if (tok==ptr || slices[current_slice].length<0)
     {
-      phases[current_phase].length = 0;
+      slices[current_slice].length = 0;
       IoErrorMsg(WrongInt,0);
     }
 
-    if (phases[current_phase].play==PHelp && FlowFlag(Alternate))
+    if (slices[current_slice].play==PHelp && FlowFlag(Alternate))
     {
-      phases[current_phase].length *= 2; /* we count half moves in help play */
+      slices[current_slice].length *= 2; /* we count half moves in help play */
       tok = ptr;
       if (strncmp(tok,".5",2)==0)
       {
-        if (phases[current_phase].goal==stip_proof
-            || phases[current_phase].goal==stip_atob)
-          ++phases[current_phase].length;
+        if (slices[current_slice].goal==goal_proof
+            || slices[current_slice].goal==goal_atob)
+          ++slices[current_slice].length;
         else
         {
-          phases[current_phase].length += 2;
+          slices[current_slice].length += 2;
           flag_appseul = true;
         }
       }
     }
   }
 
-  if (phases[current_phase].length>0 && ActStip[0]=='\0')
+  if (slices[current_slice].length>0 && ActStip[0]=='\0')
     strcpy(ActStip, AlphaStip);
 
   return ReadNextTokStr();
@@ -3278,8 +3278,8 @@ static char *ParseTwin(void) {
       else
       {
 #if !defined(DATABASE)
-        if (phases[current_phase].goal==stip_proof
-            || phases[current_phase].goal==stip_atob)
+        if (slices[current_slice].goal==goal_proof
+            || slices[current_slice].goal==goal_atob)
         {
           /* fixes bug for continued twinning
              in proof games; changes were made
@@ -3455,21 +3455,21 @@ Token ReadProblem(Token tk) {
         tok = ReadNextTokStr();
         break;
       case TwinProblem:
-        if (phases[current_phase].length>0) {
+        if (slices[current_slice].length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
         tok = ReadNextTokStr();
         break;
       case NextProblem:
-        if (phases[current_phase].length>0) {
+        if (slices[current_slice].length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
         tok = ReadNextTokStr();
         break;
       case EndProblem:
-        if (phases[current_phase].length>0) {
+        if (slices[current_slice].length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
@@ -3503,14 +3503,14 @@ Token ReadProblem(Token tk) {
           TwinStorePosition();
         }
       case NextProblem:
-        if (phases[current_phase].length>0) {
+        if (slices[current_slice].length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
         tok = ReadNextTokStr();
         break;
       case EndProblem:
-        if (phases[current_phase].length>0) {
+        if (slices[current_slice].length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
@@ -4341,7 +4341,7 @@ void WritePosition() {
 
   strcpy(StipOptStr, AlphaStip);
 
-  if (max_len_threat<phases[current_phase].length-1)
+  if (max_len_threat<slices[current_slice].length-1)
   {
     sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_len_threat);
     if (max_nr_flights<INT_MAX)
@@ -4350,7 +4350,7 @@ void WritePosition() {
   else if (max_nr_flights<INT_MAX)
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", max_nr_flights);
 
-  if (min_length_nontrivial<phases[current_phase].length-1)
+  if (min_length_nontrivial<slices[current_slice].length-1)
     sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%d",
             max_nr_nontrivial,

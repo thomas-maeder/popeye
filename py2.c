@@ -2488,7 +2488,7 @@ boolean pos_legal(void) {
     }
 
     if (!mateallowed[nbply]
-        && stip_checkers[phases[current_phase].goal](trait[nbply])) {
+        && goal_checkers[slices[current_slice].goal](trait[nbply])) {
       return false;
     }
   }
