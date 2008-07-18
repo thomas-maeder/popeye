@@ -1008,114 +1008,6 @@ static char *ParsePieSpec(char echo) {
     }
   }
 }
-
-static char *ParseFlow(char *tok)
-{
-  /* seriesmovers with introductory moves */
-  if (strstr(tok,"->"))
-  {
-    if ((introenonce= atoi(tok)) < 1)
-    {
-      IoErrorMsg(WrongInt, 0);
-    }
-    StipFlags |= FlowBit(Intro);
-    tok = strstr(tok, "->")+2;
-  }
-  if (strncmp("exact-", tok, 6) == 0)
-  {
-    StipFlags |= FlowBit(Exact);
-    slices[current_slice].is_exact = true;
-    OptFlag[nothreat] = True;
-    tok+= 6;
-  }
-  if (strncmp("ser-",tok,4) == 0)
-  {
-    StipFlags |= FlowBit(Series);
-    slices[current_slice].play = PSeries;
-    tok+=4;
-  }
-  else
-  {
-    StipFlags |= FlowBit(Alternate);
-  }
-  if (strncmp("semi-r", tok, 6) == 0)
-  {
-    StipFlags |= FlowBit(Semi);
-    return tok; /* "semi-reflex" also defines a sort and goal */
-  }
-  if (strncmp("dia", tok, 3) == 0)  /* proof games */
-  {
-    StipFlags |= FlowBit(Exact);
-    return tok; /* "dia" also defines a sort and goal */
-  }
-
-  return tok;
-}
-
-static char *ParseSort(char *tok)
-{
-  if (strncmp("dia", tok, 3) == 0)
-  {
-    slices[current_slice].play = PHelp;
-    slices[current_slice].end = EDirect;
-    return tok; /* "dia" also defines a goal */
-  }
-
-#if !defined(DATABASE)
-  if (strncmp("a=>b", tok, 4) == 0)
-  {
-    slices[current_slice].play = PHelp;
-    slices[current_slice].end = EDirect;
-    return tok; /* "a=>b" also defines a goal */
-  }
-#endif
-
-  if (strncmp("semi-r", tok, 6) == 0)
-  {
-    slices[current_slice].play = PDirect;
-    slices[current_slice].end = ESemireflex;
-    return tok+6;
-  }
-
-  if (strncmp("reci-h", tok, 6) == 0)
-  {
-    slices[current_slice].play = PHelp;
-    slices[current_slice].end = EReciprocal;
-    return tok+6;
-  }
-
-  switch (*tok)
-  {
-  case 'h':
-    slices[current_slice].play = PHelp;
-    slices[current_slice].end = EHelp;
-    ++tok;
-    if (*tok == 's')
-    {
-      slices[current_slice].end = ESelf;
-      return tok+1;
-    }
-    else if (*tok == 'r')
-    {
-      slices[current_slice].end = EReflex;
-      return tok+1;
-    } else
-      return tok;
-  case 'r':
-    slices[current_slice].play = PDirect;
-    slices[current_slice].end = EReflex;
-    return tok+1;
-  case 's':
-    slices[current_slice].play = PDirect;
-    slices[current_slice].end = ESelf;
-    return tok+1;
-  default:
-    slices[current_slice].play = PDirect;
-    slices[current_slice].end = EDirect;
-    return tok;
-  }
-}
-
 /* map input strings to goals */
 typedef struct
 {
@@ -1209,9 +1101,14 @@ static char *ParsPartialGoal(char *tok, Goal *goal, square *target)
 
 static char *ParseGoal(char *tok)
 {
-  /* test for reciprocal help play with different ends for Black and
-   * White; e.g. reci-h(=)#3 */
-  if (slices[current_slice].end==EReciprocal && *tok=='(')
+  return ParsPartialGoal(tok,
+                         &slices[current_slice].goal,
+                         &slices[current_slice].target);
+}
+
+static char *ParseReciGoal(char *tok)
+{
+  if (*tok=='(')
   {
     char const *closingParenPos = strchr(tok,')');
     if (closingParenPos!=0)
@@ -1220,18 +1117,136 @@ static char *ParseGoal(char *tok)
       if (tok==0)
         return 0;
       else if (tok==closingParenPos)
-        ++tok;
+        return ParseGoal(tok+1);
       else
       {
         IoErrorMsg(UnrecStip, 0);
         return 0;
       }
     }
+    else
+    {
+      IoErrorMsg(UnrecStip, 0);
+      return 0;
+    }
+  }
+  else
+    return ParseGoal(tok);
+}
+
+static char *ParseEnd(char *tok)
+{
+  if (strncmp("dia", tok, 3) == 0)
+  {
+    slices[current_slice].end = EDirect;
+    return ParseGoal(tok);
   }
 
-  return ParsPartialGoal(tok,
-                         &slices[current_slice].goal,
-                         &slices[current_slice].target);
+#if !defined(DATABASE)
+  if (strncmp("a=>b", tok, 4) == 0)
+  {
+    slices[current_slice].end = EDirect;
+    return ParseGoal(tok);
+  }
+#endif
+
+  if (strncmp("semi-r", tok, 6) == 0)
+  {
+    slices[current_slice].end = ESemireflex;
+    return ParseGoal(tok+6);
+  }
+
+  if (strncmp("reci-h", tok, 6) == 0)
+  {
+    slices[current_slice].end = EReciprocal;
+    return ParseReciGoal(tok+6);
+  }
+
+  if (strncmp("hs", tok, 2) == 0)
+  {
+    slices[current_slice].end = ESelf;
+    return ParseGoal(tok+2);
+  }
+
+  if (strncmp("hr", tok, 2) == 0)
+  {
+    slices[current_slice].end = EReflex;
+    return ParseGoal(tok+2);
+  }
+
+  switch (*tok)
+  {
+  case 'h':
+    slices[current_slice].end = EHelp;
+    return ParseGoal(tok+1);
+  case 'r':
+    slices[current_slice].end = EReflex;
+    return ParseGoal(tok+1);
+  case 's':
+    slices[current_slice].end = ESelf;
+    return ParseGoal(tok+1);
+  default:
+    slices[current_slice].end = EDirect;
+    return ParseGoal(tok);
+  }
+}
+
+static char *ParsePlay(char *tok)
+{
+  /* seriesmovers with introductory moves */
+  char *arrowpos = strstr(tok,"->");
+  if (arrowpos!=0)
+  {
+    char *end;
+    introenonce= strtol(tok,&end,10);
+    if (introenonce<1 || tok==end || end!=arrowpos)
+      IoErrorMsg(WrongInt, 0);
+    StipFlags |= FlowBit(Intro);
+    return ParsePlay(arrowpos+2);
+  }
+
+  if (strncmp("exact-", tok, 6) == 0)
+  {
+    slices[current_slice].is_exact = true;
+    OptFlag[nothreat] = True;
+    return ParsePlay(tok+6);
+  }
+
+  if (strncmp("ser-",tok,4) == 0)
+  {
+    slices[current_slice].play = PSeries;
+    return ParseEnd(tok+4);
+  }
+
+  if (strncmp("reci-h",tok,6) == 0)
+  {
+    slices[current_slice].play = PHelp;
+    return ParseEnd(tok);
+  }
+
+  if (strncmp("dia",tok,3)==0)
+  {
+    slices[current_slice].play = PHelp;
+    slices[current_slice].is_exact = true;
+    return ParseEnd(tok);
+  }
+
+#if !defined(DATABASE)
+  if (strncmp("a=>b",tok,4)==0)
+  {
+    slices[current_slice].play = PHelp;
+    return ParseEnd(tok);
+  }
+#endif
+
+  if (*tok=='h')
+  {
+    slices[current_slice].play = PHelp;
+    return ParseEnd(tok);
+  }
+
+  slices[current_slice].play = PDirect;
+  return ParseEnd(tok);
 }
 
 static char *ParseStip(void)
@@ -1241,9 +1256,7 @@ static char *ParseStip(void)
   StipFlags= 0;
 
   strcpy(AlphaStip,tok);
-  tok = ParseFlow(tok);
-  tok = ParseSort(tok);
-  tok = ParseGoal(tok);
+  tok = ParsePlay(tok);
   if (tok)
   {
     char *ptr;
@@ -1267,7 +1280,7 @@ static char *ParseStip(void)
       IoErrorMsg(WrongInt,0);
     }
 
-    if (slices[current_slice].play==PHelp && FlowFlag(Alternate))
+    if (slices[current_slice].play==PHelp)
     {
       slices[current_slice].length *= 2; /* we count half moves in help play */
       tok = ptr;

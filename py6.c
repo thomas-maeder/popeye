@@ -269,7 +269,7 @@ boolean verifieposition(void)
     max_len_threat = maxply;
 
   zugebene= 0;
-  if (FlowFlag(Alternate) && slices[current_slice].play!=PHelp)
+  if (slices[current_slice].play==PDirect)
   {
     if (slices[current_slice].length<2
         && max_nr_refutations>0
@@ -1500,7 +1500,7 @@ boolean verifieposition(void)
          flagfee?"true":"false",
          slices[current_slice].end==EHelp?"true":"false",
          slices[current_slice].end==EDirect?"true":"false",
-         FlowFlag(Series)?"true":"false");
+         slices[current_slice].play==PSeries?"true":"false");
 #endif      /* DEBUG */
 
   if (InitChamCirce) {
@@ -1566,7 +1566,9 @@ boolean verifieposition(void)
           || slices[current_slice].end==EReflex
           || slices[current_slice].end==ESemireflex
           || !(slices[current_slice].play==PHelp
-               || (slices[current_slice].play==PDirect && FlowFlag(Series)))
+               || (slices[current_slice].play==PSeries
+                   && (slices[current_slice].end==EDirect
+                       || slices[current_slice].end==EHelp)))
           || anycirce
           || anyanticirce))
   {
@@ -2306,7 +2308,7 @@ int dsr_find_refutations(couleur defender, int n, int t)
   boolean is_defender_immobile = true;
   int ntcount = 0;
 
-  if ((!FlowFlag(Exact) || n==0)
+  if ((!slices[current_slice].is_exact || n==0)
       && slices[current_slice].end==EDirect
       && goal_checkers[slices[current_slice].goal](attacker))
     return -1;
@@ -2431,16 +2433,27 @@ void dsr_write_attack(ecritcoup_mode mode)
  */
 void sr_find_write_final_move(couleur defender)
 {
-  StdString("\n");
+  boolean const tree_mode = slices[0].play==PDirect;
+
+  if (tree_mode)
+    StdString("\n");
+
   GenMatingMove(defender);
+
   while(encore())
   {
     if (jouecoup()
         && goal_checkers[slices[current_slice].goal](defender))
-      dsr_write_defense(ecritcoup_write_end_marker);
+    {
+      if (tree_mode)
+        dsr_write_defense(ecritcoup_write_end_marker);
+      else
+        linesolution();
+    }
 
     repcoup();
   }
+
   finply();
 }
 
@@ -2485,7 +2498,7 @@ void dsr_write_variation(couleur attacker, int n)
   dsr_write_defense(ecritcoup_dont_write_end_marker);
   marge+= 4;
 
-  for (i = FlowFlag(Exact) ? n : 1; i<=n && isRefutation; i++)
+  for (i = slices[current_slice].is_exact ? n : 1; i<=n && isRefutation; i++)
   {
     int mats = alloctab();
     dsr_find_write_continuations(attacker,i,mats);
@@ -3061,7 +3074,7 @@ boolean dsr_does_attacker_win(couleur attacker, int n)
 
 void SolveSeriesProblems(couleur camp)
 {
-  boolean is_exact = FlowFlag(Exact);
+  boolean is_exact = slices[current_slice].is_exact;
   int i;
 
   move_generation_mode = move_generation_not_optimized;
@@ -3116,7 +3129,7 @@ void SolveSeriesProblems(couleur camp)
     if (echecc(advers(camp)))
       ErrorMsg(KingCapture);
     else {
-      int starti = (FlowFlag(Exact) || OptFlag[restart]
+      int starti = (slices[current_slice].is_exact || OptFlag[restart]
                     ? slices[current_slice].length
                     : 1);
       if (OptFlag[intelligent])
@@ -3127,7 +3140,7 @@ void SolveSeriesProblems(couleur camp)
               ? Intelligent(1,i,&ser_find_write_solutions,camp,i)
               : Intelligent(i,0,&ser_find_write_solutions,camp,i))
           {
-            StipFlags |= FlowBit(Exact);
+            slices[current_slice].is_exact = true;
             if (OptFlag[stoponshort] && i<slices[current_slice].length)
             {
               FlagShortSolsReached= true;
@@ -3145,7 +3158,7 @@ void SolveSeriesProblems(couleur camp)
 
           if (ser_find_write_solutions(camp,i,restartenabled))
           {
-            StipFlags |= FlowBit(Exact);
+            slices[current_slice].is_exact = true;
             if (OptFlag[stoponshort]&& i<slices[current_slice].length)
             {
               FlagShortSolsReached= true;
@@ -3158,7 +3171,7 @@ void SolveSeriesProblems(couleur camp)
   } /* FlowFlag(Intro) */
 
   if (!is_exact)
-    StipFlags &= ~FlowBit(Exact);
+    slices[current_slice].is_exact = false;
 } /* SolveSeriesProblems */
 
 /* Solve a help play problem in exactly N moves
@@ -3198,7 +3211,7 @@ static boolean SolveHelpShortOrFull(couleur camp,
                                     int n,
                                     boolean stop_on_short)
 {
-  if (!FlowFlag(Exact) && !OptFlag[restart])
+  if (!slices[current_slice].is_exact && !OptFlag[restart])
   {
     int const starti = n%2==1 ? 1 : 2;
     int i;
@@ -3558,7 +3571,10 @@ int main(int argc, char *argv[]) {
           ProofInitialise();
           inithash();
           /* no DUPLEX for SPG's ! */
-          if (FlowFlag(Alternate)) {
+          if (slices[current_slice].play==PSeries)
+            SeriesProofSol(slices[current_slice].length, OptFlag[movenbr]);
+          else
+          {
             maincamp = slices[current_slice].goal==goal_atob
               ? (flag_appseul
                  ? blanc
@@ -3577,8 +3593,6 @@ int main(int argc, char *argv[]) {
                      slices[current_slice].length,
                      OptFlag[movenbr]);
           }
-          else
-            SeriesProofSol(slices[current_slice].length, OptFlag[movenbr]);
           closehash();
           Message(NewLine);
         }
@@ -3587,22 +3601,22 @@ int main(int argc, char *argv[]) {
           do
           {
             inithash();
-            if (FlowFlag(Alternate))
+            if (slices[current_slice].play==PSeries)
             {
-              if (slices[current_slice].play==PHelp)
-              {
-                if (OptFlag[duplex] && OptFlag[intelligent])
-                  SolveHelpProblems(blanc);
-                else
-                  SolveHelpProblems(maincamp);
-              }
+              if (OptFlag[duplex] && OptFlag[intelligent])
+                SolveSeriesProblems(blanc);
               else
-                SolveDirectProblems(maincamp);
+                SolveSeriesProblems(maincamp);
             }
-            else if (OptFlag[duplex] && OptFlag[intelligent])
-              SolveSeriesProblems(blanc);
+            else if (slices[current_slice].play==PHelp)
+            {
+              if (OptFlag[duplex] && OptFlag[intelligent])
+                SolveHelpProblems(blanc);
+              else
+                SolveHelpProblems(maincamp);
+            }
             else
-              SolveSeriesProblems(maincamp);
+              SolveDirectProblems(maincamp);
 
             Message(NewLine);
             if (OptFlag[duplex])

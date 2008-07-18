@@ -423,7 +423,9 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
     /* That's far too much. In a ser-h#5 there won't be more
     ** than 5 holes in hashed positions.      TLi
     */
-    int nbr_holes= FlowFlag(Series) != 0 ? slices[current_slice].length : 2*slices[current_slice].length;
+    int nbr_holes= (slices[current_slice].play==PSeries
+                    ? slices[current_slice].length
+                    : 2*slices[current_slice].length);
     if (nbr_holes > (nr_files_on_board*nr_rows_on_board-nbr_p)/2)
       nbr_holes= (nr_files_on_board*nr_rows_on_board-nbr_p)/2;
     len += bytes_per_piece*nbr_holes;
@@ -459,7 +461,7 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
   if (OptFlag[nontrivial]) {
     len++;
   }
-  if (FlowFlag(Exact)) {
+  if (slices[current_slice].is_exact) {
     len++;
   }
   return len;
@@ -550,7 +552,7 @@ static byte *CommonEncode(byte *bp)
     }
   }
 
-  if (FlowFlag(Exact))
+  if (slices[current_slice].is_exact)
     *bp++ = (byte)(nbply);
 
   if (ep[nbply]!=initsquare)
@@ -653,7 +655,7 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
     case SerNoSucc:
     {
       serElement_t const * const sere = (serElement_t*)he;
-      boolean const ret = FlowFlag(Exact)
+      boolean const ret = slices[current_slice].is_exact
         ? sere->data.serNotSolvableIn == (unsigned)val
         : sere->data.serNotSolvableIn >= (unsigned)val;
       assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
@@ -667,7 +669,7 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
     case IntroSerNoSucc:
     {
       serElement_t const * const sere = (serElement_t*)he;
-      boolean const ret = FlowFlag(Exact)
+      boolean const ret = slices[current_slice].is_exact
         ? sere->data.introNotSolvableIn == (unsigned)val
         : sere->data.introNotSolvableIn >= (unsigned)val;
       assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
@@ -680,7 +682,7 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
     case WhHelpNoSucc:
     {
       helpElement_t const * const hlpe = (helpElement_t*)he;
-      boolean const ret = FlowFlag(Exact)
+      boolean const ret = slices[current_slice].is_exact
         ? hlpe->data.whiteNotSolvableIn == (unsigned)val
         : hlpe->data.whiteNotSolvableIn >= (unsigned)val;
       assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
@@ -694,7 +696,7 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
     case BlHelpNoSucc:
     {
       helpElement_t const * const hlpe = (helpElement_t*)he;
-      boolean const ret = FlowFlag(Exact)
+      boolean const ret = slices[current_slice].is_exact
         ? hlpe->data.blackNotSolvableIn == (unsigned)val
         : hlpe->data.blackNotSolvableIn >= (unsigned)val;
       assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
@@ -707,7 +709,7 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
     case WhDirNoSucc:
     {
       whDirElement_t const * const wde = (whDirElement_t*)he;
-      boolean const ret = FlowFlag(Exact)
+      boolean const ret = slices[current_slice].is_exact
         ? wde->data.notSolvableInLessThan == (unsigned)val+1
         : wde->data.notSolvableInLessThan >= (unsigned)val+1;
       assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
@@ -720,7 +722,7 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
     case WhDirSucc:
     {
       whDirElement_t const * const wde = (whDirElement_t*)he;
-      boolean const ret = FlowFlag(Exact)
+      boolean const ret = slices[current_slice].is_exact
         ? wde->data.solvableIn == (unsigned)val
         : wde->data.solvableIn <= (unsigned)val;
       assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
@@ -888,17 +890,17 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
 
   /* set play */
   if (OptFlag[solapparent]
-      || (FlowFlag(Exact) ? n==0 : n<introenonce))
+      || (slices[current_slice].is_exact ? n==0 : n<introenonce))
   {
-    boolean is_exact = FlowFlag(Exact);
+    boolean is_exact = slices[current_slice].is_exact;
     int i;
 
     SatzFlag = True;
-    for (i = FlowFlag(Exact) ? slices[current_slice].length : 1; i<=slices[current_slice].length; i++)
+    for (i = slices[current_slice].is_exact ? slices[current_slice].length : 1; i<=slices[current_slice].length; i++)
       if (ser_find_write_solutions(continuingside,i,False))
       {
         flag1= true;
-        StipFlags |= FlowBit(Exact);
+        slices[current_slice].is_exact = true;
         if (OptFlag[stoponshort] && i<slices[current_slice].length)
         {
           FlagShortSolsReached= true;
@@ -911,7 +913,7 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
 
     SatzFlag= False;
     if (!is_exact)
-      StipFlags &= ~FlowBit(Exact);
+      slices[current_slice].is_exact = false;
   }
 
   if (n>0 && !echecc(continuingside))
@@ -1097,7 +1099,8 @@ boolean hs_find_write_final_move_pair(couleur side_at_move)
  */
 boolean hr_find_write_final_move_pair(couleur side_at_move)
 {
-  if (!FlowFlag(Semi) && dsr_can_end(side_at_move,1))
+  if (slices[current_slice].end==EReflex
+      && dsr_can_end(side_at_move,1))
     return false;
   else
   {
@@ -1465,6 +1468,7 @@ boolean ser_d_find_write_final_move(couleur attacker)
  * We already know that >=1 final move exists.
  * @param defender defender side
  */
+void sr_find_write_final_move(couleur defender);
 void ser_sr_find_write_final_defender_move(couleur defender)
 {
   GenMatingMove(defender);
@@ -1504,7 +1508,7 @@ boolean ser_sr_find_write_final_attacker_move(couleur attacker)
         && !sr_does_defender_win(defender,1))
     {
       solution_found = true;
-      ser_sr_find_write_final_defender_move(defender);
+      sr_find_write_final_move(defender);
     }
 
     repcoup();
@@ -1835,7 +1839,7 @@ boolean dsr_can_end(couleur attacker, int n)
 
   --n;
 
-  for (i = FlowFlag(Exact) ? n : 0; !forced_end_found && i<=n; i++)
+  for (i = slices[current_slice].is_exact ? n : 0; !forced_end_found && i<=n; i++)
   {
     if (i>max_len_threat)
       i = n;
@@ -1903,7 +1907,7 @@ boolean sr_does_attacker_win(couleur attacker, int n)
   if (inhash(WhDirSucc,n,&hb))
     return true;
 
-  if (!FlowFlag(Exact))
+  if (!slices[current_slice].is_exact)
     if (goal_checkers[slices[current_slice].goal](defender))
     {
       addtohash(WhDirSucc,n,&hb);
@@ -1914,7 +1918,7 @@ boolean sr_does_attacker_win(couleur attacker, int n)
   if (slices[current_slice].end==EReflex && dsr_can_end(attacker,1))
     return false;
 
-  for (i = FlowFlag(Exact) ? n : 1; !win_found && i<=n; i++)
+  for (i = slices[current_slice].is_exact ? n : 1; !win_found && i<=n; i++)
   {
     if (i>max_len_threat || i>min_length_nontrivial)
       i = n;

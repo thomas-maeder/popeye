@@ -329,11 +329,11 @@ void ProofInitialise(void)
   {
     char InitialLine[40];
     PieSpec atMove;
-    if (FlowFlag(Alternate))
-      atMove = flag_appseul ? White : Black;
-    else
+    if (slices[current_slice].play==PSeries)
       /* in series play, white is always at move */
       atMove = White;
+    else
+      atMove = flag_appseul ? White : Black;
     sprintf(InitialLine, "Initial (%s ->):\n", PieSpString[ActLang][atMove]);
     StdString(InitialLine);
     WritePosition();
@@ -1222,7 +1222,12 @@ static boolean ProofFairyImpossible(int MovesAvailable)
       int black_moves_left;
       int white_moves_left;
 
-      if (FlowFlag(Alternate))
+      if (slices[current_slice].play==PSeries)
+      {
+        black_moves_left= 0;
+        white_moves_left= MovesAvailable;
+      }
+      else
       {
         black_moves_left = white_moves_left = MovesAvailable/2;
         if (MovesAvailable%2 == 1)
@@ -1235,11 +1240,6 @@ static boolean ProofFairyImpossible(int MovesAvailable)
           else
             black_moves_left++;
         }
-      }
-      else              /* ser-dia */
-      {
-        black_moves_left= 0;
-        white_moves_left= MovesAvailable;
       }
 
       /* not enough time to capture the remaining pieces */
@@ -1385,7 +1385,12 @@ static boolean ProofImpossible(int MovesAvailable) {
   /* check if there is enough time left to capture the
      superfluos pieces
   */
-  if (FlowFlag(Alternate))
+  if (slices[current_slice].play==PSeries)
+  {
+    black_moves_left= 0;
+    white_moves_left= MovesAvailable;
+  }
+  else
   {
     black_moves_left= white_moves_left= MovesAvailable/2;
     if (MovesAvailable%2 == 1)
@@ -1398,11 +1403,6 @@ static boolean ProofImpossible(int MovesAvailable) {
       else
         black_moves_left++;
     }
-  }
-  else
-  {                /* ser-dia */
-    black_moves_left= 0;
-    white_moves_left= MovesAvailable;
   }
 
   /* not enough time to capture the remaining pieces */
@@ -1730,7 +1730,7 @@ boolean ProofSol(couleur camp, int n, boolean restartenabled) {
         }
         else
         {
-          if (!FlowFlag(Exact) && ProofIdentical())
+          if (!slices[current_slice].is_exact && ProofIdentical())
           {
             FlagShortSolsReached = true;
             result = true;
@@ -1793,7 +1793,7 @@ boolean SeriesProofSol(int n, boolean restartenabled) {
         }
         else
         {
-          if (!FlowFlag(Exact) && ProofIdentical())
+          if (!slices[current_slice].is_exact && ProofIdentical())
           {
             FlagShortSolsReached = true;
             result = true;

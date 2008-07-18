@@ -839,12 +839,8 @@ typedef PieceChar       PieTable[PieceCount];
 /* names for flags used to distinguish stipulations */
 
 /*--- Start of typedef enum {---*/
-#define Alternate       0
-#define Series          1
-#define Semi            2
-#define Exact           3
-#define Intro           4
-#define FlowCount       5
+#define Intro           0
+#define FlowCount       1
 typedef int Flow;
 /*--- End of } Flow;---*/
 
