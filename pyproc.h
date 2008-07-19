@@ -233,9 +233,10 @@ boolean h_find_write_final_move(couleur a);
 boolean legalsquare(square departure, square arrival, square capture);
 boolean libre(square a, boolean b);
 
-boolean d_can_end_in_1(couleur attacker);
-boolean d_can_end(couleur a,int b);
-boolean d_is_defeated(couleur a,int b);
+boolean is_there_end_in_1(couleur attacker);
+boolean d_does_attacker_win_in_1(couleur attacker);
+boolean d_does_attacker_win(couleur a,int b);
+boolean d_does_defender_win(couleur a,int b);
 
 void finply(void);
 void nextply(void);
@@ -283,7 +284,6 @@ boolean notsoutenu(square a, square b, square c);
 int count_non_trivial(couleur defender);
 boolean has_too_many_flights(couleur defender);
 boolean dsr_does_attacker_win(couleur a, int b);
-boolean dsr_does_defender_lose(couleur a, int b);
 boolean dsr_defends_threats(couleur a, int b, int c);
 int dsr_find_refutations(couleur a, int b, int c);
 void dsr_find_write_tries_solutions(couleur a, int b, boolean restartenabled);

@@ -2237,6 +2237,33 @@ void linesolution(void) {
 
 #if !defined(DATABASE)
 
+/* Determine whether the defending side can defend itself in a
+ * direct/self/reflex stipulation after the attacker's move just
+ * played.
+ * @param defender defending side
+ * @param n number of moves until the goal has to be reached,
+ *          including the attacker's move just played
+ */
+boolean dsr_does_defender_win(couleur defender, int n)
+{
+  return (slices[current_slice].end==EDirect
+          ? d_does_defender_win(defender,n-1)
+          : sr_does_defender_win(defender,n));
+}
+
+/* Determine whether the attacking side can win in a
+ * direct/self/reflex stipulation after the defender's move just
+ * played.
+ * @param attacker attacking side
+ * @param n number of moves until the goal has to be reached
+ */
+boolean dsr_does_attacker_win(couleur attacker, int n)
+{
+  return (slices[current_slice].end==EDirect
+          ? d_does_attacker_win(attacker,n)
+          : sr_does_attacker_win(attacker,n));
+}
+
 /* Count all non-trivial moves of the defending side. Whether a
  * particular move is non-trivial is determined by user input.
  * @param defender defending side (i.e.side for which to count
@@ -2299,7 +2326,7 @@ boolean has_too_many_flights(couleur defender)
  * direct/self/reflex play.
  * @param defender defending side
  * @param n number of moves until end state has to be reached,
- *          including the move just played
+ *          not including the move just played
  * @param t table where to store refutations
  * @return -1 iff in direct play, the move just played reached the end
  *            state to be reached (mate, stalemate, ...)
@@ -2325,7 +2352,7 @@ int dsr_find_refutations(couleur defender, int n, int t)
 
   if ((slices[current_slice].end==EReflex
        || slices[current_slice].end==ESemireflex)
-      && d_can_end_in_1(defender))
+      && is_there_end_in_1(defender))
     return 0;
 
   if (n>max_len_threat
@@ -2379,35 +2406,38 @@ int dsr_find_refutations(couleur defender, int n, int t)
  */
 boolean dsr_defends_threats(couleur attacker, int n, int t)
 {
-  int zaehler = 0;
-  boolean defense_found = false;
-  couleur defender = advers(attacker);
-
   if (tablen(t)==0)
     return true;
-
-  genmove(attacker);
-  while (encore() && !defense_found)
+  else
   {
-    if (jouecoup() && nowdanstab(t) && !echecc(attacker))
+    int zaehler = 0;
+    boolean defense_found = false;
+    couleur defender = advers(attacker);
+
+    genmove(attacker);
+
+    while (encore() && !defense_found)
     {
-      if (n==1 && slices[current_slice].end==EDirect)
-        defense_found = !goal_checkers[slices[current_slice].goal](attacker);
-      else
-        defense_found = !dsr_does_defender_lose(defender,n);
-
-      if (defense_found)
+      if (jouecoup() && nowdanstab(t) && !echecc(attacker))
       {
-        coupfort();
+        defense_found = dsr_does_defender_win(defender,n);
+        if (defense_found)
+        {
+          coupfort();
+        }
+        else
+          zaehler++;
       }
-      else
-        zaehler++;
-    }
-    repcoup();
-  }
-  finply();
 
-  return zaehler<tablen(t);
+      repcoup();
+    }
+
+    finply();
+
+    /* this happens if we have found a defense or some threats can no
+     * longer be played after defender's defense. */
+    return zaehler<tablen(t);
+  }
 }
 
 /* Write a move by the defending side in direct/self/reflex play.
@@ -2548,7 +2578,7 @@ void dsr_find_write_setplay(couleur attacker, int n)
   }
 
   if (slices[current_slice].end!=EDirect
-      && dsr_does_defender_lose(defender,1))
+      && !sr_does_defender_win_in_1(defender))
   {
     sr_find_write_set_mate(defender);
     return;
@@ -2556,9 +2586,7 @@ void dsr_find_write_setplay(couleur attacker, int n)
 
   StdString("\n");
 
-  n--;
-
-  if (n>min_length_nontrivial)
+  if (n-1>min_length_nontrivial)
   {
     ntcount = count_non_trivial(defender);
     max_nr_nontrivial -= ntcount;
@@ -2572,15 +2600,15 @@ void dsr_find_write_setplay(couleur attacker, int n)
       if (slices[current_slice].end!=EDirect
           && goal_checkers[slices[current_slice].goal](defender))
         ; /* oops, wrong side! */
-      else if (dsr_does_attacker_win(attacker,n))
+      else if (dsr_does_attacker_win(attacker,n-1))
         /* yipee - this solves! */
-        dsr_write_variation(attacker,n);
+        dsr_write_variation(attacker,n-1);
     }
     repcoup();
   }
   finply();
 
-  if (n>min_length_nontrivial)
+  if (n-1>min_length_nontrivial)
     max_nr_nontrivial += ntcount;
 } /* dsr_find_write_setplay */
 
@@ -2622,19 +2650,18 @@ void dsr_find_write_threats_variations(couleur attacker,
 
   if ((slices[current_slice].end==EReflex
        || slices[current_slice].end==ESemireflex)
-      && dsr_does_defender_lose(defender,1))
+      && !sr_does_defender_win_in_1(defender))
   {
     sr_find_write_final_move(defender);
     return;
   }
 
-  n--;
   mena = alloctab();
   if (OptFlag[nothreat] || echecc(defender))
     StdString("\n");
   else
   {
-    int max_threat_length = n>max_len_threat ? max_len_threat : n;
+    int max_threat_length = n-1>max_len_threat ? max_len_threat : n-1;
     int i;
     DrohFlag = true;
     marge+= 4;
@@ -2655,7 +2682,7 @@ void dsr_find_write_threats_variations(couleur attacker,
     }
   }
 
-  if (n>min_length_nontrivial)
+  if (n-1>min_length_nontrivial)
   {
     ntcount = count_non_trivial(defender);
     max_nr_nontrivial -= ntcount;
@@ -2664,9 +2691,11 @@ void dsr_find_write_threats_variations(couleur attacker,
   genmove(defender);
   while(encore())
   {
-    if (jouecoup() && !echecc(defender) && !nowdanstab(refutations))
+    if (jouecoup()
+        && !echecc(defender)
+        && !nowdanstab(refutations))
     {
-      if (OptFlag[noshort] && dsr_does_attacker_win(attacker,n-1))
+      if (OptFlag[noshort] && dsr_does_attacker_win(attacker,n-2))
         ; /* variation shorter than stip; thanks, but no thanks! */
       else if (lenthreat>1 && dsr_does_attacker_win(attacker,lenthreat-1))
         ; /* variation shorter than threat */
@@ -2677,14 +2706,14 @@ void dsr_find_write_threats_variations(couleur attacker,
       else if (!dsr_defends_threats(attacker,lenthreat,mena))
         ; /* move doesn't defend against threat */
       else
-        dsr_write_variation(attacker,n);
+        dsr_write_variation(attacker,n-1);
     }
     repcoup();
   }
   finply();
   freetab();
 
-  if (n>min_length_nontrivial)
+  if (n-1>min_length_nontrivial)
     max_nr_nontrivial += ntcount;
 } /* dsr_find_write_threats_variations */
 
@@ -2756,7 +2785,7 @@ void dsr_find_write_end_quodlibet(couleur attacker, int t)
       else
       {
         couleur defender = advers(attacker);
-        if (dsr_does_defender_lose(defender,1))
+        if (!sr_does_defender_win_in_1(defender))
         {
           dsr_write_attack(ecritcoup_dont_write_end_marker);
 
@@ -2789,7 +2818,7 @@ void sr_find_write_end(couleur attacker, int t)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && dsr_does_defender_lose(defender,1))
+        && !sr_does_defender_win_in_1(defender))
     {
       dsr_write_attack(ecritcoup_dont_write_end_marker);
 
@@ -2869,7 +2898,7 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
     {
       if (jouecoup()
           && !echecc(attacker)
-          && dsr_does_defender_lose(defender,n))
+          && !dsr_does_defender_win(defender,n))
       {
         dsr_write_attack(ecritcoup_dont_write_end_marker);
 
@@ -3075,7 +3104,7 @@ void dsr_find_write_tries_solutions(couleur attacker,
                                     boolean restartenabled)
 {
   if (slices[current_slice].end==EReflex
-      && d_can_end_in_1(attacker))
+      && is_there_end_in_1(attacker))
     r_find_write_forced_keys(attacker);
   else if (n==1 && slices[current_slice].end==EDirect)
     d_find_write_keys_in_1(attacker,restartenabled);
@@ -3105,20 +3134,6 @@ void dsr_find_write_tries_solutions(couleur attacker,
     zugebene = 0;
   }
 } /* dsr_find_write_tries_solutions */
-
-boolean dsr_does_defender_lose(couleur defender, int n)
-{
-  return (slices[current_slice].end==EDirect
-          ? d_is_defeated(defender,n-1)
-          : !sr_does_defender_win(defender,n));
-}
-
-boolean dsr_does_attacker_win(couleur attacker, int n)
-{
-  return (slices[current_slice].end==EDirect
-          ? d_can_end(attacker,n)
-          : sr_does_attacker_win(attacker,n));
-}
 
 void SolveSeriesProblems(couleur camp)
 {
