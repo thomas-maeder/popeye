@@ -407,7 +407,7 @@ typedef enum
 
 typedef enum
 {
-  ESSimple,
+  ESLeaf,
   ESReciprocal,  /* reciprocal help-goal(recigoal) in 1 */
   ESQuodlibet,   /* goal or self/reflex-goal in 1 */
   ESNext         /* continue play with next Slice */

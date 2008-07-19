@@ -8,7 +8,7 @@
  **
  ** 2005/02/01 TLi  function hashdefense is not used anymore...
  **
- ** 2005/02/01 TLi  in dsr_can_end and invref exchanged the inquiry into the hash
+ ** 2005/02/01 TLi  in d_can_end and invref exchanged the inquiry into the hash
  **                 table for "white can mate" and "white cannot mate" because
  **                 it is more likely that a position has no solution
  **                 This yields an incredible speedup of .5-1%  *fg*
@@ -1004,7 +1004,7 @@ boolean reci_h_find_write_final_move(couleur side_at_move)
     boolean side_at_move_can_end_in_1;
     Goal const goal_sav = slices[current_slice].goal;
     slices[current_slice].goal = slices[current_slice].recigoal;
-    side_at_move_can_end_in_1 = dsr_can_end(side_at_move,1);
+    side_at_move_can_end_in_1 = d_can_end_in_1(side_at_move);
     slices[current_slice].goal = goal_sav;
     if (!side_at_move_can_end_in_1)
       return false;
@@ -1066,7 +1066,7 @@ boolean hs_find_write_final_move_pair(couleur side_at_move)
   {
     if (jouecoup()
         && !echecc(side_at_move)
-        && !sr_does_defender_win(other_side,1))
+        && !sr_does_defender_win_in_1(other_side))
     {
       GenMatingMove(other_side);
       while (encore())
@@ -1100,7 +1100,7 @@ boolean hs_find_write_final_move_pair(couleur side_at_move)
 boolean hr_find_write_final_move_pair(couleur side_at_move)
 {
   if (slices[current_slice].end==EReflex
-      && dsr_can_end(side_at_move,1))
+      && d_can_end_in_1(side_at_move))
     return false;
   else
   {
@@ -1113,7 +1113,7 @@ boolean hr_find_write_final_move_pair(couleur side_at_move)
     {
       if (jouecoup()
           && !echecc(side_at_move)
-          && !sr_does_defender_win(other_side,1))
+          && !sr_does_defender_win_in_1(other_side))
       {
         GenMatingMove(other_side);
         while (encore())
@@ -1268,6 +1268,58 @@ h_goal_dmate_find_write_final_move_pair(couleur side_at_move,
   return found_solution;
 }
 
+boolean h_regular_find_write_final_move_pair(couleur side_at_move,
+                                             hashwhat no_succ_hash_category,
+                                             boolean restartenabled)
+{
+  boolean found_solution = false;
+  couleur other_side = advers(side_at_move);
+
+  genmove(side_at_move);
+
+  if (side_at_move==noir)
+    BlMovesLeft--;
+  else
+    WhMovesLeft--;
+
+  while (encore())
+  {
+    if (jouecoup()
+        && (!OptFlag[intelligent] || MatePossible())
+        && !echecc(side_at_move)
+        && !(restartenabled && MoveNbr<RestartNbr))
+    {
+      HashBuffer hb;
+      (*encode)(&hb);
+      if (!inhash(no_succ_hash_category,1,&hb))
+      {
+        if (h_find_write_final_move(other_side))
+          found_solution = true;
+        else
+          addtohash(no_succ_hash_category,1,&hb);
+      }
+    }
+
+    if (restartenabled)
+      IncrementMoveNbr();
+
+    repcoup();
+
+    if ((OptFlag[maxsols] && solutions>=maxsolutions)
+        || maxtime_status==MAXTIME_TIMEOUT)
+      break;
+  }
+    
+  if (side_at_move==noir)
+    BlMovesLeft++;
+  else
+    WhMovesLeft++;
+
+  finply();
+
+  return found_solution;
+}
+
 /* Determine and write the final move pair in a help stipulation.
  * @param side_at_move side at the move
  * @param no_succ_hash_category hash category for storing failures
@@ -1278,69 +1330,47 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
                                      hashwhat no_succ_hash_category,
                                      boolean restartenabled)
 {
-  if (slices[current_slice].endstructure==ESReciprocal)
-    return reci_h_find_write_final_move(side_at_move);
-  else if (slices[current_slice].end==ESelf)
-    return hs_find_write_final_move_pair(side_at_move);
-  else if (slices[current_slice].end==EReflex
-           || slices[current_slice].end==ESemireflex)
-    return hr_find_write_final_move_pair(side_at_move);
-  else if (slices[current_slice].goal==goal_countermate)
-    return h_goal_cmate_find_write_final_move_pair(side_at_move,
-                                                   no_succ_hash_category,
-                                                   restartenabled);
-  else if (slices[current_slice].goal==goal_doublemate)
-    return h_goal_dmate_find_write_final_move_pair(side_at_move,
-                                                   no_succ_hash_category,
-                                                   restartenabled);
-  else
+  switch (slices[current_slice].endstructure)
   {
-    boolean found_solution = false;
-    couleur other_side = advers(side_at_move);
+  case ESReciprocal:
+    return reci_h_find_write_final_move(side_at_move);
 
-    genmove(side_at_move);
-
-    if (side_at_move==noir)
-      BlMovesLeft--;
-    else
-      WhMovesLeft--;
-
-    while (encore())
+  case ESLeaf:
+    switch (slices[current_slice].end)
     {
-      if (jouecoup()
-          && (!OptFlag[intelligent] || MatePossible())
-          && !echecc(side_at_move)
-          && !(restartenabled && MoveNbr<RestartNbr))
+    case ESelf:
+      return hs_find_write_final_move_pair(side_at_move);
+
+    case EReflex:
+    case ESemireflex:
+      return hr_find_write_final_move_pair(side_at_move);
+
+    case EHelp:
+      switch (slices[current_slice].goal)
       {
-        HashBuffer hb;
-        (*encode)(&hb);
-        if (!inhash(no_succ_hash_category,1,&hb))
-        {
-          if (h_find_write_final_move(other_side))
-            found_solution = true;
-          else
-            addtohash(no_succ_hash_category,1,&hb);
-        }
+      case goal_countermate:
+        return h_goal_cmate_find_write_final_move_pair(side_at_move,
+                                                       no_succ_hash_category,
+                                                       restartenabled);
+      case goal_doublemate:
+        return h_goal_dmate_find_write_final_move_pair(side_at_move,
+                                                       no_succ_hash_category,
+                                                       restartenabled);
+
+      default:
+        return h_regular_find_write_final_move_pair(side_at_move,
+                                                    no_succ_hash_category,
+                                                    restartenabled);
       }
 
-      if (restartenabled)
-        IncrementMoveNbr();
-
-      repcoup();
-
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
-        break;
+    default:
+      assert(0);
+      return false;
     }
-    
-    if (side_at_move==noir)
-      BlMovesLeft++;
-    else
-      WhMovesLeft++;
 
-    finply();
-
-    return found_solution;
+  default:
+    assert(0);
+    return false;
   }
 }
 
@@ -1483,7 +1513,7 @@ boolean ser_sr_find_write_final_attacker_move(couleur attacker)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && !sr_does_defender_win(defender,1))
+        && !sr_does_defender_win_in_1(defender))
     {
       solution_found = true;
       sr_find_write_final_move(defender);
@@ -1506,21 +1536,41 @@ boolean ser_find_write_solutions(couleur series_side,
                                  int n,
                                  boolean restartenabled)
 {
-  if (slices[current_slice].end==EReflex && dsr_can_end(series_side,1))
+  if (slices[current_slice].end==EReflex
+      && d_can_end_in_1(series_side))
     return false;
 
   if (n==1)
   {
-    if (slices[current_slice].endstructure==ESReciprocal)
+    switch (slices[current_slice].endstructure)
+    {
+    case ESReciprocal:
       return reci_h_find_write_final_move(series_side);
-    else if (slices[current_slice].end==EHelp)
-      return h_find_write_final_move_pair(series_side,
-                                          SerNoSucc,
-                                          restartenabled);
-    else if (slices[current_slice].end==EDirect)
-      return ser_d_find_write_final_move(series_side);
-    else
-      return ser_sr_find_write_final_attacker_move(series_side);
+
+    case ESLeaf:
+      switch (slices[current_slice].end)
+      {
+      case EHelp:
+        return h_find_write_final_move_pair(series_side,
+                                            SerNoSucc,
+                                            restartenabled);
+      case EDirect:
+        return ser_d_find_write_final_move(series_side);
+
+      case ESelf:
+      case EReflex:
+      case ESemireflex:
+        return ser_sr_find_write_final_attacker_move(series_side);
+
+      default:
+        assert(0);
+        return false;
+      }
+
+    default:
+      assert(0);
+      return false;
+    }
   }
   else
   {
@@ -1703,7 +1753,7 @@ void    closehash(void)
 
 } /* closehash */
 
-/* Determine whether defender can be defeated in n moves;
+/* Determine whether defender can be defeated in n moves of direct play;
  * defender is at move
  * This is a recursive function.
  * @param defender defending side (i.e. side to be defeated)
@@ -1713,7 +1763,7 @@ void    closehash(void)
  *              immobile currently
  * TODO determine usefulness of this immobility check
  */
-boolean dsr_is_defeated(couleur defender, int n)
+boolean d_is_defeated(couleur defender, int n)
 {
   boolean no_refutation_found = true;
   boolean is_defender_immobile = true;
@@ -1729,7 +1779,7 @@ boolean dsr_is_defeated(couleur defender, int n)
 
   if (n>max_len_threat
       && !echecc(defender)
-      && !dsr_can_end(attacker,max_len_threat))
+      && !d_can_end(attacker,max_len_threat))
     return false;
 
   /* Check whether defender has more non trivial moves than he is
@@ -1755,7 +1805,7 @@ boolean dsr_is_defeated(couleur defender, int n)
     if (jouecoup() && !echecc(defender))
     {
       is_defender_immobile = false;
-      if (!dsr_can_end(attacker,n))
+      if (!d_can_end(attacker,n))
       {
         no_refutation_found = false;
         coupfort();
@@ -1769,40 +1819,38 @@ boolean dsr_is_defeated(couleur defender, int n)
     max_nr_nontrivial += ntcount;
 
   return !is_defender_immobile && no_refutation_found;
-} /* dsr_is_defeated */
+} /* d_is_defeated */
 
-/* Determine whether attacker can end in n moves.
- * This is a recursive function.
+/* Determine whether attacker can end in 1 move in direct play.
  * @param attacker attacking side (i.e. side attempting to reach the
  * end)
- * @param n number of moves left until the end state has to be reached
- * @return true iff attacker can end in n moves
+ * @return true iff attacker can end in 1 move
  */
-boolean dsr_can_end(couleur attacker, int n)
+boolean d_can_end_in_1(couleur attacker)
 {
-  int i;
   boolean forced_end_found = false;
-  couleur defender = advers(attacker);
   HashBuffer hb;
 
-  boolean const dohash = (n > (FlagMoveOrientatedStip ? 1 : 0)
-                          && !(slices[current_slice].end==ESelf
-                               || slices[current_slice].end==EReflex
-                               || slices[current_slice].end==ESemireflex)
-                          && (slices[current_slice].endstructure
-                              !=ESReciprocal));
-
-  /* Let's first have a look in the hash_table */
-  /* In move orientated stipulations (%, z, x etc.) it's less expensive to
-  ** compute an end in 1. TLi */
-  if (dohash)
+  /* In move orientated stipulations (%, z, x etc.) it's less
+   * expensive to compute an end in 1. TLi
+   */
+  /* And hashing if goeal!=EDirect would produce a conflict if
+   * d_can_end_in_1() is invoked e.g. for detecting a forced
+   * reflexmate in 1.
+   * TODO use separate functions? 
+   */
+  boolean const do_hash = (!FlagMoveOrientatedStip
+                           && slices[current_slice].end==EDirect);
+  
+  if (do_hash)
   {
-    /* It is more likely that a position has no solution.           */
-    /* Therefore let's check for "no solution" first.  TLi */
+    /* It is more likely that a position has no solution. 
+     * Therefore let's check for "no solution" first.  TLi
+     */
     (*encode)(&hb);
-    if (inhash(WhDirNoSucc,n,&hb))
+    if (inhash(WhDirNoSucc,1,&hb))
       return false;
-    if (inhash(WhDirSucc,n,&hb))
+    if (inhash(WhDirSucc,1,&hb))
       return true;
   }
 
@@ -1816,52 +1864,110 @@ boolean dsr_can_end(couleur attacker, int n)
       return false;
   } /* keep mating ... */
 
-  --n;
 
-  for (i = slices[current_slice].is_exact ? n : 0; !forced_end_found && i<=n; i++)
+  GenMatingMove(attacker);
+
+  while (encore() && !forced_end_found)
   {
-    if (i>max_len_threat)
-      i = n;
-
-    if (i==0)
-      GenMatingMove(attacker);
-    else
-      genmove(attacker);
-
-    while (encore() && !forced_end_found)
+    if (jouecoup())
     {
-      if (jouecoup())
-      {
-        if (i==0)
-          forced_end_found = goal_checkers[slices[current_slice].goal](attacker);
-        else
-          forced_end_found = (!echecc(attacker)
-                              && dsr_is_defeated(defender,i));
-        if (forced_end_found)
-          coupfort();
-      }
-      repcoup();
-
-      if (maxtime_status==MAXTIME_TIMEOUT)
-        break;
+      forced_end_found = goal_checkers[slices[current_slice].goal](attacker);
+      if (forced_end_found)
+        coupfort();
     }
 
-    finply();
+    repcoup();
 
     if (maxtime_status==MAXTIME_TIMEOUT)
       break;
   }
 
-  ++n;
+  finply();
 
-  /* store the results in the hashtable */
-  /* In move orientated stipulations (%, z, x etc.) it's less expensive to
-  ** compute an end in 1. TLi */
-  if (dohash)
-    addtohash(forced_end_found ? WhDirSucc : WhDirNoSucc, n, &hb);
+  if (do_hash)
+    addtohash(forced_end_found ? WhDirSucc : WhDirNoSucc, 1, &hb);
 
   return forced_end_found;
-} /* dsr_can_end */
+}
+
+/* Determine whether attacker can end in n moves of direct play.
+ * This is a recursive function.
+ * @param attacker attacking side (i.e. side attempting to reach the
+ * end)
+ * @param n number of moves left until the end state has to be reached
+ * @return true iff attacker can end in n moves
+ */
+boolean d_can_end(couleur attacker, int n)
+{
+  if (n==1)
+    return d_can_end_in_1(attacker);
+  else
+  {
+    int i;
+    boolean forced_end_found = false;
+    couleur defender = advers(attacker);
+    HashBuffer hb;
+
+    /* It is more likely that a position has no solution.           */
+    /* Therefore let's check for "no solution" first.  TLi */
+    (*encode)(&hb);
+    if (inhash(WhDirNoSucc,n,&hb))
+      return false;
+    if (inhash(WhDirSucc,n,&hb))
+      return true;
+
+    /* keep mating piece for direct mates ... */
+    if (OptFlag[keepmating])
+    {
+      piece p = roib+1;
+      while (p<derbla && nbpiece[attacker == blanc ? p : -p]==0)
+        p++;
+      if (p==derbla)
+        return false;
+    }
+
+
+    for (i = slices[current_slice].is_exact ? n-1 : 0;
+         !forced_end_found && i<n;
+         i++)
+    {
+      if (i>max_len_threat)
+        i = n-1;
+
+      if (i==0)
+        GenMatingMove(attacker);
+      else
+        genmove(attacker);
+
+      while (encore() && !forced_end_found)
+      {
+        if (jouecoup())
+        {
+          if (i==0)
+            forced_end_found = goal_checkers[slices[current_slice].goal](attacker);
+          else
+            forced_end_found = (!echecc(attacker)
+                                && d_is_defeated(defender,i));
+          if (forced_end_found)
+            coupfort();
+        }
+        repcoup();
+
+        if (maxtime_status==MAXTIME_TIMEOUT)
+          break;
+      }
+
+      finply();
+
+      if (maxtime_status==MAXTIME_TIMEOUT)
+        break;
+    }
+
+    addtohash(forced_end_found ? WhDirSucc : WhDirNoSucc, n, &hb);
+
+    return forced_end_found;
+  }
+} /* d_can_end */
 
 /* Determine whether the attacker wins in a self/reflex stipulation in n.
  * @param attacker attacking side (at move)
@@ -1894,7 +2000,8 @@ boolean sr_does_attacker_win(couleur attacker, int n)
       return true;
     }
 
-  if (slices[current_slice].end==EReflex && dsr_can_end(attacker,1))
+  if (slices[current_slice].end==EReflex
+      && d_can_end_in_1(attacker))
     return false;
 
   for (i = slices[current_slice].is_exact ? n : 1; !win_found && i<=n; i++)
@@ -1906,9 +2013,7 @@ boolean sr_does_attacker_win(couleur attacker, int n)
     {
       if (jouecoup()
           && !echecc(attacker)
-          && (!sr_does_defender_win(defender,i)
-              || (slices[current_slice].endstructure==ESQuodlibet
-                  && goal_checkers[slices[current_slice].goal](attacker))))
+          && !sr_does_defender_win(defender,i))
       {
         win_found = true;
         coupfort();
@@ -1979,34 +2084,24 @@ static boolean selflastencore(couleur camp,
   }
 } /* selflastencore */
 
-/* Determine whether the defender wins in a self/reflex stipulation in
- * n.
+/* Determine whether the defender is not forced to end in 1 in a
+ * self/reflex.
  * @param defender defending side (at move)
- * @param n number of moves until end state has to be reached, including
- *          the attacker's move just played
  * @return true iff defender wins
  */
-boolean sr_does_defender_win(couleur defender, int n)
+boolean sr_does_defender_win_in_1(couleur defender)
 {
   boolean is_defender_immobile = true;
-  boolean no_win_found = true;
+  boolean win_found = false;
   couleur attacker = advers(defender);
 
+  if (slices[current_slice].endstructure==ESQuodlibet
+      && goal_checkers[slices[current_slice].goal](attacker))
+    return false;
+  
   if (slices[current_slice].end==EReflex
       || slices[current_slice].end==ESemireflex)
-  {
-    if (dsr_can_end(defender,1))
-      return false;
-    else if (n==1)
-      return true;
-  }
-
-  n--;
-
-  if (n>max_len_threat
-      && !echecc(defender)
-      && !sr_does_attacker_win(attacker,max_len_threat))
-    return true;
+    return !d_can_end_in_1(defender);
 
   /* Check whether black has still a piece left to mate */
   if (OptFlag[keepmating])
@@ -2019,89 +2114,129 @@ boolean sr_does_defender_win(couleur defender, int n)
   } /* keepmating */
 
 
-  if (n==0)
+  if (defender==noir ? flagblackmummer : flagwhitemummer)
   {
-    if (defender==noir ? flagblackmummer : flagwhitemummer)
-    {
-      move_generation_mode = move_generation_optimized_by_killer_move;
-      genmove(defender);
-      move_generation_mode = move_generation_optimized_by_killer_move;
+    move_generation_mode = move_generation_optimized_by_killer_move;
+    genmove(defender);
+    move_generation_mode = move_generation_optimized_by_killer_move;
 
-      while (no_win_found && encore())
-      {
-        if (jouecoup() && !echecc(defender))
-        {
-          is_defender_immobile = false;
-          no_win_found = goal_checkers[slices[current_slice].goal](defender);
-          if (!no_win_found)
-            coupfort();
-        }
-        repcoup();
-      }
-      finply();
-    }
-    else if (slices[current_slice].goal==goal_ep
-             && ep[nbply]==initsquare
-             && ep2[nbply]==initsquare)
+    while (!win_found && encore())
     {
-      /* a little optimization if end "state" is en passant capture,
-       * but no en passant capture is possible */
-      /* TODO Should we play the same trick for castling? Other end
-       * states? */
-    }
-    else
-    {
-      piece p;
-      square const *selfbnp = boardnum;
-      square initiallygenerated = initsquare;
-
-      nextply();
-      init_move_generation_optimizer();
-      trait[nbply]= defender;
-      if (TSTFLAG(PieSpExFlags,Neutral))
-        initneutre(attacker);
-
-      p = e[current_killer_state.move.departure];
-      if (p!=vide)
+      if (jouecoup() && !echecc(defender))
       {
-        if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
-          p = -p;
-        if (defender==blanc)
-        {
-          if (p>obs)
-          {
-            initiallygenerated = current_killer_state.move.departure;
-            gen_wh_piece(initiallygenerated,p);
-          }
-        }
-        else
-        {
-          if (p<-obs)
-          {
-            initiallygenerated = current_killer_state.move.departure;
-            gen_bl_piece(initiallygenerated,p);
-          }
-        }
+        is_defender_immobile = false;
+        win_found = !goal_checkers[slices[current_slice].goal](defender);
+        if (win_found)
+          coupfort();
       }
-      finish_move_generation_optimizer();
-      while (no_win_found
-             && selflastencore(defender,&selfbnp,initiallygenerated))
-      {
-        if (jouecoup() && !echecc(defender))
-        {
-          is_defender_immobile = false;
-          no_win_found = goal_checkers[slices[current_slice].goal](defender);
-          if (!no_win_found)
-            coupfort();
-        }
-        repcoup();
-      }
-      finply();
+      repcoup();
     }
+    finply();
+  }
+  else if (slices[current_slice].goal==goal_ep
+           && ep[nbply]==initsquare
+           && ep2[nbply]==initsquare)
+  {
+    /* a little optimization if end "state" is en passant capture,
+     * but no en passant capture is possible */
+    /* TODO Should we play the same trick for castling? Other end
+     * states? */
   }
   else
   {
+    piece p;
+    square const *selfbnp = boardnum;
+    square initiallygenerated = initsquare;
+
+    nextply();
+    init_move_generation_optimizer();
+    trait[nbply]= defender;
+    if (TSTFLAG(PieSpExFlags,Neutral))
+      initneutre(attacker);
+
+    p = e[current_killer_state.move.departure];
+    if (p!=vide)
+    {
+      if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
+        p = -p;
+      if (defender==blanc)
+      {
+        if (p>obs)
+        {
+          initiallygenerated = current_killer_state.move.departure;
+          gen_wh_piece(initiallygenerated,p);
+        }
+      }
+      else
+      {
+        if (p<-obs)
+        {
+          initiallygenerated = current_killer_state.move.departure;
+          gen_bl_piece(initiallygenerated,p);
+        }
+      }
+    }
+    finish_move_generation_optimizer();
+    while (!win_found
+           && selflastencore(defender,&selfbnp,initiallygenerated))
+    {
+      if (jouecoup() && !echecc(defender))
+      {
+        is_defender_immobile = false;
+        win_found = !goal_checkers[slices[current_slice].goal](defender);
+        if (win_found)
+          coupfort();
+      }
+      repcoup();
+    }
+    finply();
+  }
+
+  return win_found || is_defender_immobile;
+}
+
+/* Determine whether the defender wins in a self/reflex stipulation in
+ * n.
+ * @param defender defending side (at move)
+ * @param n number of moves until end state has to be reached, including
+ *          the attacker's move just played
+ * @return true iff defender wins
+ */
+boolean sr_does_defender_win(couleur defender, int n)
+{
+  if (n==1)
+    return sr_does_defender_win_in_1(defender);
+  else
+  {
+    boolean is_defender_immobile = true;
+    boolean win_found = false;
+    couleur attacker = advers(defender);
     int ntcount = 0;
+
+    if (!slices[current_slice].is_exact
+        && slices[current_slice].endstructure==ESQuodlibet
+        && goal_checkers[slices[current_slice].goal](attacker))
+      return false;
+  
+    if ((slices[current_slice].end==EReflex
+         || slices[current_slice].end==ESemireflex)
+        && d_can_end_in_1(defender))
+      return false;
+
+    if (n-1>max_len_threat
+        && !echecc(defender)
+        && !sr_does_attacker_win(attacker,max_len_threat))
+      return true;
+
+    /* Check whether black has still a piece left to mate */
+    if (OptFlag[keepmating])
+    {
+      piece p = roib+1;
+      while (p<derbla && nbpiece[defender==blanc ? p : -p]==0)
+        p++;
+      if (p==derbla)
+        return true;
+    } /* keepmating */
 
     if (n>1 && OptFlag[solflights] && has_too_many_flights(defender))
       return true;
@@ -2110,7 +2245,7 @@ boolean sr_does_defender_win(couleur defender, int n)
        allowed to have. The number of such moves allowed
        (max_nr_nontrivial) is entered using the nontrivial option.
     */
-    if (n>min_length_nontrivial)
+    if (n-1>min_length_nontrivial)
     {
       ntcount = count_non_trivial(defender);
       if (max_nr_nontrivial<ntcount)
@@ -2120,30 +2255,30 @@ boolean sr_does_defender_win(couleur defender, int n)
     } /* nontrivial */
 
     move_generation_mode=
-      n>1
+      n>2
       ? move_generation_mode_opti_per_couleur[defender]
       : move_generation_optimized_by_killer_move;
     genmove(defender);
     move_generation_mode= move_generation_optimized_by_killer_move;
 
-    while (no_win_found && encore())
+    while (!win_found && encore())
     {
       if (jouecoup() && !echecc(defender))
       {
         is_defender_immobile = false;
-        no_win_found = sr_does_attacker_win(attacker,n);
-        if (!no_win_found)
+        win_found = !sr_does_attacker_win(attacker,n-1);
+        if (win_found)
           coupfort();
       }
       repcoup();
     }
     finply();
 
-    if (n>min_length_nontrivial)
+    if (n-1>min_length_nontrivial)
       max_nr_nontrivial += ntcount;
-  }
 
-  return !no_win_found || is_defender_immobile;
+    return win_found || is_defender_immobile;
+  }
 } /* sr_does_defender_win */
 
 /* assert()s below this line must remain active even in "productive"

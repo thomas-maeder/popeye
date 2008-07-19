@@ -2696,7 +2696,7 @@ static char *ParseOpt(void) {
       OptFlag[solvariantes]= True;
       break;
     case quodlibet:
-      if (slices[current_slice].endstructure==ESSimple)
+      if (slices[current_slice].endstructure==ESLeaf)
         slices[current_slice].endstructure = ESQuodlibet;
       else
       {
@@ -4387,15 +4387,14 @@ void WritePosition() {
 
   WriteConditions(WCcentered);
 
-  if (OptFlag[halfduplex]) {
+  if (OptFlag[halfduplex])
     CenterLine(OptString[ActLang][halfduplex]);
-  }
-  else if (OptFlag[duplex]) {
+  else if (OptFlag[duplex])
     CenterLine(OptString[ActLang][duplex]);
-  }
-  if (slices[0].endstructure==ESQuodlibet) {
+
+  if (slices[0].endstructure==ESQuodlibet)
     CenterLine(OptString[ActLang][quodlibet]);
-  }
+
   StdChar('\n');
 
   if (CondFlag[gridchess] && OptFlag[writegrid])

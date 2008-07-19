@@ -2325,7 +2325,7 @@ int dsr_find_refutations(couleur defender, int n, int t)
 
   if ((slices[current_slice].end==EReflex
        || slices[current_slice].end==ESemireflex)
-      && dsr_can_end(defender,1))
+      && d_can_end_in_1(defender))
     return 0;
 
   if (n>max_len_threat
@@ -2814,12 +2814,35 @@ void sr_find_write_end(couleur attacker, int t)
  */
 void dsr_find_write_end(couleur attacker, int t)
 {
-  if (slices[current_slice].endstructure==ESQuodlibet)
+  switch (slices[current_slice].endstructure)
+  {
+  case ESQuodlibet:
     dsr_find_write_end_quodlibet(attacker,t);
-  else if (slices[current_slice].end==EDirect)
-    d_find_write_end(attacker,t);
-  else
-    sr_find_write_end(attacker,t);
+    break;
+
+  case ESLeaf:
+    switch (slices[current_slice].end)
+    {
+    case EDirect:
+      d_find_write_end(attacker,t);
+      break;
+
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      sr_find_write_end(attacker,t);
+      break;
+    
+    default:
+      assert(0);
+      break;
+    }
+    break;
+    
+  default:
+    assert(0);
+    break;
+  }
 }
 
 /* Determine and write the continuations in the current position in
@@ -3051,7 +3074,8 @@ void dsr_find_write_tries_solutions(couleur attacker,
                                     int n,
                                     boolean restartenabled)
 {
-  if (slices[current_slice].end==EReflex && dsr_can_end(attacker,1))
+  if (slices[current_slice].end==EReflex
+      && d_can_end_in_1(attacker))
     r_find_write_forced_keys(attacker);
   else if (n==1 && slices[current_slice].end==EDirect)
     d_find_write_keys_in_1(attacker,restartenabled);
@@ -3059,8 +3083,22 @@ void dsr_find_write_tries_solutions(couleur attacker,
   {
     zugebene = 1;
 
-    if (n==1 && slices[current_slice].endstructure==ESQuodlibet)
-      dsr_find_write_quodlibet_solutions_in_1(attacker,restartenabled);
+    if (n==1)
+    {
+      switch (slices[current_slice].endstructure)
+      {
+      case ESQuodlibet:
+        dsr_find_write_quodlibet_solutions_in_1(attacker,restartenabled);
+        break;
+
+      case ESLeaf:
+        dsr_find_write_regular_tries_solutions(attacker,1,restartenabled);
+        break;
+
+      default:
+        assert(0);
+      }
+    }
     else
       dsr_find_write_regular_tries_solutions(attacker,n,restartenabled);
 
@@ -3071,14 +3109,14 @@ void dsr_find_write_tries_solutions(couleur attacker,
 boolean dsr_does_defender_lose(couleur defender, int n)
 {
   return (slices[current_slice].end==EDirect
-          ? dsr_is_defeated(defender,n-1)
+          ? d_is_defeated(defender,n-1)
           : !sr_does_defender_win(defender,n));
 }
 
 boolean dsr_does_attacker_win(couleur attacker, int n)
 {
   return (slices[current_slice].end==EDirect
-          ? dsr_can_end(attacker,n)
+          ? d_can_end(attacker,n)
           : sr_does_attacker_win(attacker,n));
 }
 
@@ -3149,13 +3187,14 @@ void SolveSeriesProblems(couleur camp)
               ? Intelligent(1,i,&ser_find_write_solutions,camp,i)
               : Intelligent(i,0,&ser_find_write_solutions,camp,i))
           {
-            slices[current_slice].is_exact = true;
             if (OptFlag[stoponshort] && i<slices[current_slice].length)
             {
               FlagShortSolsReached= true;
               break;
             }
           }
+
+          slices[current_slice].is_exact = true;
         }
       }
       else
@@ -3167,13 +3206,14 @@ void SolveSeriesProblems(couleur camp)
 
           if (ser_find_write_solutions(camp,i,restartenabled))
           {
-            slices[current_slice].is_exact = true;
             if (OptFlag[stoponshort]&& i<slices[current_slice].length)
             {
               FlagShortSolsReached= true;
               break;
             }
           } /* slices[current_slice].end==EHelp */
+
+          slices[current_slice].is_exact = true;
         } /* for i */
       } /* OptFlag[intelligent] */
     } /* echecs(advers(camp)) */
