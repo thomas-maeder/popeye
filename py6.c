@@ -308,7 +308,7 @@ boolean verifieposition(void)
     ((slices[current_slice].goal == goal_mate)
      || (slices[current_slice].goal == goal_check)
      || (slices[current_slice].goal == goal_doublemate))
-    && (slices[current_slice].end!=EReciprocal
+    && (slices[current_slice].endstructure!=ESReciprocal
         || (slices[current_slice].recigoal == goal_mate)
         || (slices[current_slice].recigoal == goal_check)
         || (slices[current_slice].recigoal == goal_doublemate));
@@ -1369,8 +1369,18 @@ boolean verifieposition(void)
     return false;
   }
 
-  if (slices[current_slice].end==EReciprocal
-      && slices[current_slice].recigoal==goal_countermate)
+  if (slices[current_slice].endstructure==ESReciprocal
+      && (slices[current_slice].end!=EHelp
+          || slices[current_slice].recigoal==goal_countermate))
+  {
+    VerifieMsg(StipNotSupported);
+    return false;
+  }
+
+  if (slices[current_slice].endstructure==ESQuodlibet
+      && !(slices[current_slice].end==ESelf
+           || slices[current_slice].end==EReflex
+           || slices[current_slice].end==ESemireflex))
   {
     VerifieMsg(StipNotSupported);
     return false;
@@ -1561,7 +1571,7 @@ boolean verifieposition(void)
       && (!(slices[current_slice].goal==goal_mate
             || slices[current_slice].goal==goal_stale)
           || flagfee
-          || slices[current_slice].end==EReciprocal
+          || slices[current_slice].endstructure==ESReciprocal
           || slices[current_slice].end==ESelf
           || slices[current_slice].end==EReflex
           || slices[current_slice].end==ESemireflex
@@ -2804,10 +2814,10 @@ void sr_find_write_end(couleur attacker, int t)
  */
 void dsr_find_write_end(couleur attacker, int t)
 {
-  if (slices[current_slice].end==EDirect)
-    d_find_write_end(attacker,t);
-  else if (OptFlag[quodlibet])
+  if (slices[current_slice].endstructure==ESQuodlibet)
     dsr_find_write_end_quodlibet(attacker,t);
+  else if (slices[current_slice].end==EDirect)
+    d_find_write_end(attacker,t);
   else
     sr_find_write_end(attacker,t);
 }
@@ -3049,7 +3059,7 @@ void dsr_find_write_tries_solutions(couleur attacker,
   {
     zugebene = 1;
 
-    if (n==1 && OptFlag[quodlibet])
+    if (n==1 && slices[current_slice].endstructure==ESQuodlibet)
       dsr_find_write_quodlibet_solutions_in_1(attacker,restartenabled);
     else
       dsr_find_write_regular_tries_solutions(attacker,n,restartenabled);
@@ -3082,8 +3092,7 @@ void SolveSeriesProblems(couleur camp)
   flag_appseul= False;   /* -- no meaning in series movers would only
                             distort output */
 
-  if (slices[current_slice].end==EHelp
-      || slices[current_slice].end==EReciprocal)
+  if (slices[current_slice].end==EHelp)
     camp = advers(camp);
 
   if (FlowFlag(Intro))

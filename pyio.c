@@ -1158,7 +1158,8 @@ static char *ParseEnd(char *tok)
 
   if (strncmp("reci-h", tok, 6) == 0)
   {
-    slices[current_slice].end = EReciprocal;
+    slices[current_slice].endstructure = ESReciprocal;
+    slices[current_slice].end = EHelp;
     return ParseReciGoal(tok+6);
   }
 
@@ -1261,7 +1262,7 @@ static char *ParseStip(void)
   {
     char *ptr;
 
-    if (slices[current_slice].end==EReciprocal)
+    if (slices[current_slice].endstructure==ESReciprocal)
     {
       if (slices[current_slice].recigoal==no_goal)
         slices[current_slice].recigoal = slices[current_slice].goal;
@@ -2693,6 +2694,14 @@ static char *ParseOpt(void) {
       break;
     case postkeyplay:
       OptFlag[solvariantes]= True;
+      break;
+    case quodlibet:
+      if (slices[current_slice].endstructure==ESSimple)
+        slices[current_slice].endstructure = ESQuodlibet;
+      else
+      {
+        /* TODO */
+      }
       break;
     case nocastling:
       no_castling= bl_castlings|wh_castlings;
@@ -4384,7 +4393,7 @@ void WritePosition() {
   else if (OptFlag[duplex]) {
     CenterLine(OptString[ActLang][duplex]);
   }
-  if (OptFlag[quodlibet]) {
+  if (slices[0].endstructure==ESQuodlibet) {
     CenterLine(OptString[ActLang][quodlibet]);
   }
   StdChar('\n');
@@ -4757,7 +4766,7 @@ void LaTeXBeginDiagram(void) {
     strcat(ActTwin, OptTab[halfduplex]);
     strcat(ActTwin, "{\\newline}");
   }
-  if (OptFlag[quodlibet]) {
+  if (slices[0].endstructure==ESQuodlibet) {
     strcat(ActTwin, OptTab[quodlibet]);
     strcat(ActTwin, "{\\newline}");
   }

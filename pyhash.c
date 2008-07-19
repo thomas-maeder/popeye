@@ -1278,7 +1278,7 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
                                      hashwhat no_succ_hash_category,
                                      boolean restartenabled)
 {
-  if (slices[current_slice].end==EReciprocal)
+  if (slices[current_slice].endstructure==ESReciprocal)
     return reci_h_find_write_final_move(side_at_move);
   else if (slices[current_slice].end==ESelf)
     return hs_find_write_final_move_pair(side_at_move);
@@ -1511,12 +1511,12 @@ boolean ser_find_write_solutions(couleur series_side,
 
   if (n==1)
   {
-    if (slices[current_slice].end==EHelp)
+    if (slices[current_slice].endstructure==ESReciprocal)
+      return reci_h_find_write_final_move(series_side);
+    else if (slices[current_slice].end==EHelp)
       return h_find_write_final_move_pair(series_side,
                                           SerNoSucc,
                                           restartenabled);
-    else if (slices[current_slice].end==EReciprocal)
-      return reci_h_find_write_final_move(series_side);
     else if (slices[current_slice].end==EDirect)
       return ser_d_find_write_final_move(series_side);
     else
@@ -1789,7 +1789,8 @@ boolean dsr_can_end(couleur attacker, int n)
                           && !(slices[current_slice].end==ESelf
                                || slices[current_slice].end==EReflex
                                || slices[current_slice].end==ESemireflex)
-                          && slices[current_slice].end!=EReciprocal);
+                          && (slices[current_slice].endstructure
+                              !=ESReciprocal));
 
   /* Let's first have a look in the hash_table */
   /* In move orientated stipulations (%, z, x etc.) it's less expensive to
@@ -1906,7 +1907,7 @@ boolean sr_does_attacker_win(couleur attacker, int n)
       if (jouecoup()
           && !echecc(attacker)
           && (!sr_does_defender_win(defender,i)
-              || (OptFlag[quodlibet]
+              || (slices[current_slice].endstructure==ESQuodlibet
                   && goal_checkers[slices[current_slice].goal](attacker))))
       {
         win_found = true;

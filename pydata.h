@@ -401,22 +401,28 @@ typedef enum
   ESelf,         /* self-goal in 1 */
   EReflex,       /* reflex-goal in 1 */
   ESemireflex,   /* semireflex-goal in 1 */
-  EReciprocal,   /* reciprocal help-goal(recigoal) in 1 */
-  EQuodlibet,    /* goal or self-goal in 1 */
   EDouble,       /* help-double-goal in 1 (mate only) */
-  ECounter,      /* help-counter-goal in 1 (mate only) */
-  ENext          /* continue play with next Slice */
+  ECounter       /* help-counter-goal in 1 (mate only) */
 } End;
+
+typedef enum
+{
+  ESSimple,
+  ESReciprocal,  /* reciprocal help-goal(recigoal) in 1 */
+  ESQuodlibet,   /* goal or self/reflex-goal in 1 */
+  ESNext         /* continue play with next Slice */
+} EndStructure;
 
 typedef struct
 {
     int length; /* full moves if play==PDirect, half moves otherwise */
     boolean is_exact; /* true iff length is to be considered exact */
     Play play;
+    EndStructure endstructure;
     End end;
     Goal goal;
     square target; /* for goal==goal_target */
-    Goal recigoal; /* for end==EReciprocal */
+    Goal recigoal; /* for endstructure==ESReciprocal */
 } Slice;
 
 Slice slices[1];

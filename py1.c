@@ -275,6 +275,7 @@ void InitStip(void)
   slices[current_slice].is_exact = false;
   slices[current_slice].goal = no_goal;
   slices[current_slice].recigoal = no_goal;
+  slices[current_slice].endstructure = ESSimple; 
 }
 
 void InitAlways(void) {
