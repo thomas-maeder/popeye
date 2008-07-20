@@ -8,7 +8,7 @@
  **
  ** 2005/02/01 TLi  function hashdefense is not used anymore...
  **
- ** 2005/02/01 TLi  in d_does_attacker_win and invref exchanged the inquiry into the hash
+ ** 2005/02/01 TLi  in dsr_does_attacker_win and invref exchanged the inquiry into the hash
  **                 table for "white can mate" and "white cannot mate" because
  **                 it is more likely that a position has no solution
  **                 This yields an incredible speedup of .5-1%  *fg*
@@ -1066,7 +1066,7 @@ boolean hs_find_write_final_move_pair(couleur side_at_move)
   {
     if (jouecoup()
         && !echecc(side_at_move)
-        && !sr_does_defender_win_in_1(other_side))
+        && !sr_does_defender_win_in_0(other_side))
     {
       GenMatingMove(other_side);
       while (encore())
@@ -1113,7 +1113,7 @@ boolean hr_find_write_final_move_pair(couleur side_at_move)
     {
       if (jouecoup()
           && !echecc(side_at_move)
-          && !sr_does_defender_win_in_1(other_side))
+          && !sr_does_defender_win_in_0(other_side))
       {
         GenMatingMove(other_side);
         while (encore())
@@ -1371,6 +1371,21 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
   }
 }
 
+/* Determine whether the mating side still has a piece that could
+ * deliver the mate.
+ * @return true iff the mating side has such a piece
+ */
+static boolean is_a_mating_piece_left()
+{
+  boolean const is_white_mating = maincamp==blanc;
+
+  piece p = roib+1;
+  while (p<derbla && nbpiece[is_white_mating ? p : -p]==0)
+    p++;
+
+  return p<derbla;
+}
+
 /* Determine and write the solution(s) in a help stipulation.
  *
  * This is a recursive function.
@@ -1389,15 +1404,8 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
 
   assert(n>=2);
 
-  /* keep mating piece for helpmates ... */
-  if (OptFlag[keepmating])
-  {
-    piece p= roib+1;
-    while (p<derbla && nbpiece[maincamp == blanc ? p : -p]==0)
-      p++;
-    if (p==derbla)
-      return false;
-  }   /* keep mating ... */
+  if (OptFlag[keepmating] && !is_a_mating_piece_left())
+    return false;
 
   if (n==2)
     found_solution = h_find_write_final_move_pair(side_at_move,
@@ -1510,7 +1518,7 @@ boolean ser_sr_find_write_final_attacker_move(couleur attacker)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && !sr_does_defender_win_in_1(defender))
+        && !sr_does_defender_win_in_0(defender))
     {
       solution_found = true;
       sr_find_write_final_move(defender);
@@ -1804,80 +1812,6 @@ boolean d_does_defender_win_in_1(couleur defender)
   return is_defender_immobile || refutation_found;
 }
 
-/* Determine whether defender can avoid being defeated in n moves of
- * direct play; defender is at move
- * This is a recursive function.
- * @param defender defending side (i.e. side to be defeated)
- * @param n number of moves left until the end state has to be reached
- *          after the defender has moved
- * @return true iff the end state can be forced and defender is not
- *              immobile currently
- * TODO determine usefulness of this immobility check
- */
-boolean d_does_defender_win(couleur defender, int n)
-{
-  couleur attacker = advers(defender);
-
-  if (n==0)
-    return !goal_checkers[slices[current_slice].goal](attacker);
-  else if (n==1)
-    return d_does_defender_win_in_1(defender);
-  else
-  {
-    boolean refutation_found = false;
-    boolean is_defender_immobile = true;
-    int ntcount = 0;
-
-    /* check whether `black' can reach a position that is already
-    ** marked unsolvable for white in the hash table. */
-    /* TODO should we? i.e. do it or remove comment */
-
-    if (OptFlag[solflights] && has_too_many_flights(defender))
-      return true;
-
-    if (n>max_len_threat
-        && !echecc(defender)
-        && !d_does_attacker_win(attacker,max_len_threat))
-      return true;
-
-    /* Check whether defender has more non trivial moves than he is
-    ** allowed to have. The number of such moves allowed
-    ** (max_nr_nontrivial) is entered using the nontrivial option. */
-    if (n>min_length_nontrivial)
-    {
-      ntcount = count_non_trivial(defender);
-      if (max_nr_nontrivial<ntcount)
-        return true;
-      else
-        max_nr_nontrivial -= ntcount;
-    } /* nontrivial */
-
-    move_generation_mode = move_generation_mode_opti_per_couleur[defender];
-    genmove(defender);
-    move_generation_mode = move_generation_optimized_by_killer_move;
-
-    while (!refutation_found && encore())
-    {
-      if (jouecoup() && !echecc(defender))
-      {
-        is_defender_immobile = false;
-        if (!d_does_attacker_win(attacker,n))
-        {
-          refutation_found = true;
-          coupfort();
-        }
-      }
-      repcoup();
-    }
-    finply();
-
-    if (n>min_length_nontrivial)
-      max_nr_nontrivial += ntcount;
-
-    return is_defender_immobile || refutation_found;
-  }
-} /* d_does_defender_win */
-
 /* Determine whether attacker has an end in 1 move in reflex or
  * reciprocal play.
  * This is different from d_does_attacker_win_in_1() in that
@@ -1889,16 +1823,8 @@ boolean is_there_end_in_1(couleur side_at_move)
 {
   boolean end_found = false;
 
-  /* keep mating piece for direct mates ... */
-  if (OptFlag[keepmating])
-  {
-    piece p = roib+1;
-    while (p<derbla && nbpiece[side_at_move == blanc ? p : -p]==0)
-      p++;
-    if (p==derbla)
-      return false;
-  } /* keep mating ... */
-
+  if (OptFlag[keepmating] && !is_a_mating_piece_left())
+    return false;
 
   GenMatingMove(side_at_move);
 
@@ -1947,16 +1873,8 @@ boolean d_does_attacker_win_in_1(couleur attacker)
       return true;
   }
 
-  /* keep mating piece for direct mates ... */
-  if (OptFlag[keepmating])
-  {
-    piece p = roib+1;
-    while (p<derbla && nbpiece[attacker == blanc ? p : -p]==0)
-      p++;
-    if (p==derbla)
-      return false;
-  } /* keep mating ... */
-
+  if (OptFlag[keepmating] && !is_a_mating_piece_left())
+    return false;
 
   GenMatingMove(attacker);
 
@@ -1983,6 +1901,63 @@ boolean d_does_attacker_win_in_1(couleur attacker)
   return end_found;
 }
 
+/* Determine whether the attacker wins in a self/reflex stipulation in 1.
+ * @param attacker attacking side (at move)
+ * @return true iff attacker wins
+ */
+boolean sr_does_attacker_win_in_1(couleur attacker)
+{
+  boolean win_found = false;
+  couleur defender = advers(attacker);
+  HashBuffer hb;
+
+  /* It is more likely that a position has no solution. */
+  /* Therefore let's check for "no solution" first. TLi */
+  (*encode)(&hb);
+  if (inhash(WhDirNoSucc,1,&hb))
+  {
+    assert(!inhash(WhDirSucc,1,&hb));
+    return false;
+  }
+  if (inhash(WhDirSucc,1,&hb))
+    return true;
+
+  if (!slices[current_slice].is_exact)
+    if (goal_checkers[slices[current_slice].goal](defender))
+    {
+      addtohash(WhDirSucc,1,&hb);
+      assert(!inhash(WhDirNoSucc,1,&hb));
+      return true;
+    }
+
+  if (slices[current_slice].end==EReflex
+      && is_there_end_in_1(attacker))
+    return false;
+
+  genmove(attacker);
+
+  while (!win_found && encore())
+  {
+    if (jouecoup()
+        && !echecc(attacker)
+        && !sr_does_defender_win_in_0(defender))
+    {
+      win_found = true;
+      coupfort();
+    }
+    repcoup();
+
+    if (maxtime_status==MAXTIME_TIMEOUT)
+      break;
+  }
+
+  finply();
+
+  addtohash(win_found ? WhDirSucc : WhDirNoSucc, 1, &hb);
+
+  return win_found;
+}
+
 /* Determine whether attacker can end in n moves of direct play.
  * This is a recursive function.
  * @param attacker attacking side (i.e. side attempting to reach the
@@ -1990,10 +1965,23 @@ boolean d_does_attacker_win_in_1(couleur attacker)
  * @param n number of moves left until the end state has to be reached
  * @return true iff attacker can end in n moves
  */
-boolean d_does_attacker_win(couleur attacker, int n)
+boolean dsr_does_attacker_win(couleur attacker, int n)
 {
   if (n==1)
-    return d_does_attacker_win_in_1(attacker);
+    switch (slices[current_slice].end)
+    {
+      case EDirect:
+		return d_does_attacker_win_in_1(attacker);
+
+	  case ESelf:
+      case ESemireflex:
+	  case EReflex:
+		return sr_does_attacker_win_in_1(attacker);
+
+	  default:
+        assert(0);
+        return false;
+	}
   else
   {
     int i;
@@ -2012,13 +2000,40 @@ boolean d_does_attacker_win(couleur attacker, int n)
     if (inhash(WhDirSucc,n,&hb))
       return true;
 
-    /* keep mating piece for direct mates ... */
-    if (OptFlag[keepmating])
+    switch (slices[current_slice].end)
     {
-      piece p = roib+1;
-      while (p<derbla && nbpiece[attacker == blanc ? p : -p]==0)
-        p++;
-      if (p==derbla)
+      case EDirect:
+        if (OptFlag[keepmating] && !is_a_mating_piece_left())
+          return false;
+        break;
+
+      case ESelf:
+      case ESemireflex:
+        if (!slices[current_slice].is_exact)
+		  if (goal_checkers[slices[current_slice].goal](defender))
+          {
+            addtohash(WhDirSucc,n,&hb);
+            assert(!inhash(WhDirNoSucc,n,&hb));
+            return true;
+          }
+        break;
+
+	  case EReflex:
+		if (!slices[current_slice].is_exact)
+		  if (goal_checkers[slices[current_slice].goal](defender))
+          {
+            addtohash(WhDirSucc,n,&hb);
+            assert(!inhash(WhDirNoSucc,n,&hb));
+            return true;
+		  }
+
+        if (is_there_end_in_1(attacker))
+          return false;
+
+        break;
+
+	  default:
+        assert(0);
         return false;
     }
 
@@ -2028,21 +2043,39 @@ boolean d_does_attacker_win(couleur attacker, int n)
     {
       if (i==1)
       {
-        if (d_does_attacker_win_in_1(attacker))
-          return true;
+		switch (slices[current_slice].end)
+		{
+		  case EDirect:
+			if (d_does_attacker_win_in_1(attacker))
+			  return true;
+			else
+			  break;
+
+		  case ESelf:
+		  case ESemireflex:
+		  case EReflex:
+			if (sr_does_attacker_win_in_1(attacker))
+			  return true;
+			else
+			  break;
+
+		  default:
+			assert(0);
+			return false;
+		}
       }
       else
       {
-        if (i-1>max_len_threat)
+        if (i-1>max_len_threat || i>min_length_nontrivial)
           i = n;
 
         genmove(attacker);
 
-        while (encore() && !end_found)
+        while (!end_found && encore())
         {
           if (jouecoup()
               && !echecc(attacker)
-              && !d_does_defender_win(defender,i-1))
+              && !dsr_does_defender_win(defender,i-1))
           {
             end_found = true;
             coupfort();
@@ -2055,88 +2088,17 @@ boolean d_does_attacker_win(couleur attacker, int n)
         }
 
         finply();
-
-        if (maxtime_status==MAXTIME_TIMEOUT)
-          break;
       }
+
+      if (maxtime_status==MAXTIME_TIMEOUT)
+        break;
     }
 
     addtohash(end_found ? WhDirSucc : WhDirNoSucc, n, &hb);
 
     return end_found;
   }
-} /* d_does_attacker_win */
-
-/* Determine whether the attacker wins in a self/reflex stipulation in n.
- * This is a recursive function.
- * @param attacker attacking side (at move)
- * @param n number of moves until end state has to be reached
- * @return true iff attacker wins
- */
-boolean sr_does_attacker_win(couleur attacker, int n)
-{
-  boolean win_found = false;
-  couleur defender = advers(attacker);
-  int i;
-  HashBuffer hb;
-
-  /* It is more likely that a position has no solution. */
-  /* Therefore let's check for "no solution" first. TLi */
-  (*encode)(&hb);
-  if (inhash(WhDirNoSucc,n,&hb))
-  {
-    assert(!inhash(WhDirSucc,n,&hb));
-    return false;
-  }
-  if (inhash(WhDirSucc,n,&hb))
-    return true;
-
-  if (!slices[current_slice].is_exact)
-    if (goal_checkers[slices[current_slice].goal](defender))
-    {
-      addtohash(WhDirSucc,n,&hb);
-      assert(!inhash(WhDirNoSucc,n,&hb));
-      return true;
-    }
-
-  if (slices[current_slice].end==EReflex
-      && is_there_end_in_1(attacker))
-    return false;
-
-  for (i = slices[current_slice].is_exact ? n : 1;
-       !win_found && i<=n;
-       i++)
-  {
-    if (i>max_len_threat || i>min_length_nontrivial)
-      i = n;
-
-    genmove(attacker);
-
-    while (!win_found && encore())
-    {
-      if (jouecoup()
-          && !echecc(attacker)
-          && !sr_does_defender_win(defender,i))
-      {
-        win_found = true;
-        coupfort();
-      }
-      repcoup();
-
-      if (maxtime_status==MAXTIME_TIMEOUT)
-        break;
-    }
-
-    finply();
-
-    if (maxtime_status==MAXTIME_TIMEOUT)
-      break;
-  }
-
-  addtohash(win_found ? WhDirSucc : WhDirNoSucc, n, &hb);
-
-  return win_found;
-} /* sr_does_attacker_win */
+} /* dsr_does_attacker_win */
 
 /* Generate (piece by piece) candidate moves for the last move of a s#
  * or r#. Do *not* generate moves for the piece on square
@@ -2196,7 +2158,7 @@ static boolean selflastencore(couleur camp,
  * @param defender defending side (at move)
  * @return true iff defender wins
  */
-boolean sr_does_defender_win_in_1(couleur defender)
+boolean sr_does_defender_win_in_0(couleur defender)
 {
   boolean is_defender_immobile = true;
   boolean win_found = false;
@@ -2210,16 +2172,8 @@ boolean sr_does_defender_win_in_1(couleur defender)
       || slices[current_slice].end==ESemireflex)
     return !is_there_end_in_1(defender);
 
-  /* Check whether black has still a piece left to mate */
-  if (OptFlag[keepmating])
-  {
-    piece p = roib+1;
-    while (p<derbla && nbpiece[defender==blanc ? p : -p]==0)
-      p++;
-    if (p==derbla)
-      return true;
-  } /* keepmating */
-
+  if (OptFlag[keepmating] && !is_a_mating_piece_left())
+    return true;
 
   if (defender==noir ? flagblackmummer : flagwhitemummer)
   {
@@ -2302,91 +2256,134 @@ boolean sr_does_defender_win_in_1(couleur defender)
   return win_found || is_defender_immobile;
 }
 
+boolean dsr_leaf_does_defender_win(couleur defender, int n)
+{
+  couleur const attacker = advers(defender);
+  boolean is_defender_immobile = true;
+  boolean refutation_found = false;
+  int ntcount = 0;
+
+  /* check whether `black' can reach a position that is already
+  ** marked unsolvable for white in the hash table. */
+  /* TODO should we? i.e. do it or remove comment */
+
+  switch (slices[current_slice].end)
+  {
+	case EDirect:
+	  break;
+
+	case ESelf:
+	  if (OptFlag[keepmating] && !is_a_mating_piece_left())
+		return true;
+	  else
+		break;
+
+	case EReflex:
+	case ESemireflex:
+	  if (is_there_end_in_1(defender))
+		return false;
+	  else if (OptFlag[keepmating] && !is_a_mating_piece_left())
+		return true;
+	  else
+		break;
+
+	default:
+	  assert(0);
+	  return true;
+  }
+
+  if (n>max_len_threat
+	  && !echecc(defender)
+	  && !dsr_does_attacker_win(attacker,max_len_threat))
+	return true;
+
+  if (OptFlag[solflights] && has_too_many_flights(defender))
+	return true;
+
+  /* Check whether defender has more non trivial moves than he is
+	 allowed to have. The number of such moves allowed
+	 (max_nr_nontrivial) is entered using the nontrivial option.
+  */
+  if (n>min_length_nontrivial)
+  {
+	ntcount = count_non_trivial(defender);
+	if (max_nr_nontrivial<ntcount)
+	  return true;
+	else
+	  max_nr_nontrivial -= ntcount;
+  } /* nontrivial */
+
+  move_generation_mode=
+      n>1
+      ? move_generation_mode_opti_per_couleur[defender]
+      : move_generation_optimized_by_killer_move;
+  genmove(defender);
+  move_generation_mode= move_generation_optimized_by_killer_move;
+
+  while (!refutation_found && encore())
+  {
+	if (jouecoup() && !echecc(defender))
+	{
+	  is_defender_immobile = false;
+	  if (!dsr_does_attacker_win(attacker,n))
+	  {
+		refutation_found = true;
+		coupfort();
+	  }
+	}
+	repcoup();
+  }
+  finply();
+
+  if (n>min_length_nontrivial)
+	max_nr_nontrivial += ntcount;
+
+  return refutation_found || is_defender_immobile;
+}
+
 /* Determine whether the defender wins in a self/reflex stipulation in
  * n.
  * @param defender defending side (at move)
- * @param n number of moves until end state has to be reached, including
- *          the attacker's move just played
+ * @param n number of moves until end state has to be reached
  * @return true iff defender wins
  */
-boolean sr_does_defender_win(couleur defender, int n)
+boolean dsr_does_defender_win(couleur defender, int n)
 {
-  if (n==1)
-    return sr_does_defender_win_in_1(defender);
+  couleur const attacker = advers(defender);
+
+  if (n==0)
+	switch (slices[current_slice].end)
+	{
+	  case EDirect:
+		return !goal_checkers[slices[current_slice].goal](attacker);
+
+	  case ESelf:
+	  case EReflex:
+	  case ESemireflex:
+		return sr_does_defender_win_in_0(defender);
+
+	  default:
+		assert(0);
+		return true;
+	}
   else
-  {
-    boolean is_defender_immobile = true;
-    boolean win_found = false;
-    couleur attacker = advers(defender);
-    int ntcount = 0;
+    switch (slices[current_slice].endstructure)
+	{
+	  case ESQuodlibet:
+		if (!slices[current_slice].is_exact
+			&& goal_checkers[slices[current_slice].goal](attacker))
+		  return false;
+		else
+		  return dsr_leaf_does_defender_win(defender,n);
 
-    if (!slices[current_slice].is_exact
-        && slices[current_slice].endstructure==ESQuodlibet
-        && goal_checkers[slices[current_slice].goal](attacker))
-      return false;
-  
-    if ((slices[current_slice].end==EReflex
-         || slices[current_slice].end==ESemireflex)
-        && is_there_end_in_1(defender))
-      return false;
+	  case ESLeaf:
+		return dsr_leaf_does_defender_win(defender,n);
 
-    if (n-1>max_len_threat
-        && !echecc(defender)
-        && !sr_does_attacker_win(attacker,max_len_threat))
-      return true;
-
-    /* Check whether black has still a piece left to mate */
-    if (OptFlag[keepmating])
-    {
-      piece p = roib+1;
-      while (p<derbla && nbpiece[defender==blanc ? p : -p]==0)
-        p++;
-      if (p==derbla)
-        return true;
-    } /* keepmating */
-
-    if (n>1 && OptFlag[solflights] && has_too_many_flights(defender))
-      return true;
-
-    /* Check whether defender has more non trivial moves than he is
-       allowed to have. The number of such moves allowed
-       (max_nr_nontrivial) is entered using the nontrivial option.
-    */
-    if (n-1>min_length_nontrivial)
-    {
-      ntcount = count_non_trivial(defender);
-      if (max_nr_nontrivial<ntcount)
-        return true;
-      else
-        max_nr_nontrivial -= ntcount;
-    } /* nontrivial */
-
-    move_generation_mode=
-      n>2
-      ? move_generation_mode_opti_per_couleur[defender]
-      : move_generation_optimized_by_killer_move;
-    genmove(defender);
-    move_generation_mode= move_generation_optimized_by_killer_move;
-
-    while (!win_found && encore())
-    {
-      if (jouecoup() && !echecc(defender))
-      {
-        is_defender_immobile = false;
-        win_found = !sr_does_attacker_win(attacker,n-1);
-        if (win_found)
-          coupfort();
-      }
-      repcoup();
-    }
-    finply();
-
-    if (n-1>min_length_nontrivial)
-      max_nr_nontrivial += ntcount;
-
-    return win_found || is_defender_immobile;
-  }
-} /* sr_does_defender_win */
+	  default:
+		assert(0);
+		return true;
+	}
+} /* dsr_does_defender_win */
 
 /* assert()s below this line must remain active even in "productive"
  * executables. */

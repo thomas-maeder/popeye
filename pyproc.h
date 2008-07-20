@@ -235,8 +235,7 @@ boolean libre(square a, boolean b);
 
 boolean is_there_end_in_1(couleur attacker);
 boolean d_does_attacker_win_in_1(couleur attacker);
-boolean d_does_attacker_win(couleur a,int b);
-boolean d_does_defender_win(couleur a,int b);
+boolean dsr_does_defender_win(couleur a,int b);
 
 void finply(void);
 void nextply(void);
@@ -294,7 +293,7 @@ void    singleboxtype3_gen_bl_piece(square a, piece b);
 extern void   (*gen_wh_piece)(square a, piece b);
 void    singleboxtype3_gen_wh_piece(square a, piece b);
 
-boolean sr_does_defender_win_in_1(couleur defender);
+boolean sr_does_defender_win_in_0(couleur defender);
 boolean sr_does_defender_win(couleur a, int b);
 boolean sr_does_attacker_win(couleur a, int b);
 boolean eval_madrasi(square departure, square arrival, square capture);

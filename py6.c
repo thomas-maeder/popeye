@@ -2237,33 +2237,6 @@ void linesolution(void) {
 
 #if !defined(DATABASE)
 
-/* Determine whether the defending side can defend itself in a
- * direct/self/reflex stipulation after the attacker's move just
- * played.
- * @param defender defending side
- * @param n number of moves until the goal has to be reached,
- *          including the attacker's move just played
- */
-boolean dsr_does_defender_win(couleur defender, int n)
-{
-  return (slices[current_slice].end==EDirect
-          ? d_does_defender_win(defender,n-1)
-          : sr_does_defender_win(defender,n));
-}
-
-/* Determine whether the attacking side can win in a
- * direct/self/reflex stipulation after the defender's move just
- * played.
- * @param attacker attacking side
- * @param n number of moves until the goal has to be reached
- */
-boolean dsr_does_attacker_win(couleur attacker, int n)
-{
-  return (slices[current_slice].end==EDirect
-          ? d_does_attacker_win(attacker,n)
-          : sr_does_attacker_win(attacker,n));
-}
-
 /* Count all non-trivial moves of the defending side. Whether a
  * particular move is non-trivial is determined by user input.
  * @param defender defending side (i.e.side for which to count
@@ -2420,7 +2393,7 @@ boolean dsr_defends_threats(couleur attacker, int n, int t)
     {
       if (jouecoup() && nowdanstab(t) && !echecc(attacker))
       {
-        defense_found = dsr_does_defender_win(defender,n);
+        defense_found = dsr_does_defender_win(defender,n-1);
         if (defense_found)
         {
           coupfort();
@@ -2538,7 +2511,9 @@ void dsr_write_variation(couleur attacker, int n)
   dsr_write_defense(ecritcoup_dont_write_end_marker);
   marge+= 4;
 
-  for (i = slices[current_slice].is_exact ? n : 1; i<=n && isRefutation; i++)
+  for (i = slices[current_slice].is_exact ? n : 1;
+       i<=n && isRefutation;
+       i++)
   {
     int mats = alloctab();
     dsr_find_write_continuations(attacker,i,mats);
@@ -2578,7 +2553,7 @@ void dsr_find_write_setplay(couleur attacker, int n)
   }
 
   if (slices[current_slice].end!=EDirect
-      && !sr_does_defender_win_in_1(defender))
+      && !sr_does_defender_win_in_0(defender))
   {
     sr_find_write_set_mate(defender);
     return;
@@ -2650,7 +2625,7 @@ void dsr_find_write_threats_variations(couleur attacker,
 
   if ((slices[current_slice].end==EReflex
        || slices[current_slice].end==ESemireflex)
-      && !sr_does_defender_win_in_1(defender))
+      && !sr_does_defender_win_in_0(defender))
   {
     sr_find_write_final_move(defender);
     return;
@@ -2785,7 +2760,7 @@ void dsr_find_write_end_quodlibet(couleur attacker, int t)
       else
       {
         couleur defender = advers(attacker);
-        if (!sr_does_defender_win_in_1(defender))
+        if (!sr_does_defender_win_in_0(defender))
         {
           dsr_write_attack(ecritcoup_dont_write_end_marker);
 
@@ -2818,7 +2793,7 @@ void sr_find_write_end(couleur attacker, int t)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && !sr_does_defender_win_in_1(defender))
+        && !sr_does_defender_win_in_0(defender))
     {
       dsr_write_attack(ecritcoup_dont_write_end_marker);
 
@@ -2898,7 +2873,7 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
     {
       if (jouecoup()
           && !echecc(attacker)
-          && !dsr_does_defender_win(defender,n))
+          && !dsr_does_defender_win(defender,n-1))
       {
         dsr_write_attack(ecritcoup_dont_write_end_marker);
 
