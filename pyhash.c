@@ -1327,12 +1327,12 @@ boolean h_find_write_final_move_pair(couleur side_at_move,
                                      hashwhat no_succ_hash_category,
                                      boolean restartenabled)
 {
-  switch (slices[current_slice].endstructure)
+  switch (slices[current_slice].type)
   {
-  case ESReciprocal:
+  case STReciprocal:
     return reci_h_find_write_final_move(side_at_move);
 
-  case ESLeaf:
+  case STLeaf:
     switch (slices[current_slice].end)
     {
     case ESelf:
@@ -1547,12 +1547,12 @@ boolean ser_find_write_solutions(couleur series_side,
 
   if (n==1)
   {
-    switch (slices[current_slice].endstructure)
+    switch (slices[current_slice].type)
     {
-    case ESReciprocal:
+    case STReciprocal:
       return reci_h_find_write_final_move(series_side);
 
-    case ESLeaf:
+    case STLeaf:
       switch (slices[current_slice].end)
       {
       case EHelp:
@@ -2164,7 +2164,7 @@ boolean sr_does_defender_win_in_0(couleur defender)
   boolean win_found = false;
   couleur attacker = advers(defender);
 
-  if (slices[current_slice].endstructure==ESQuodlibet
+  if (slices[current_slice].type==STQuodlibet
       && goal_checkers[slices[current_slice].goal](attacker))
     return false;
   
@@ -2367,16 +2367,16 @@ boolean dsr_does_defender_win(couleur defender, int n)
 		return true;
 	}
   else
-    switch (slices[current_slice].endstructure)
+    switch (slices[current_slice].type)
 	{
-	  case ESQuodlibet:
+	  case STQuodlibet:
 		if (!slices[current_slice].is_exact
 			&& goal_checkers[slices[current_slice].goal](attacker))
 		  return false;
 		else
 		  return dsr_leaf_does_defender_win(defender,n);
 
-	  case ESLeaf:
+	  case STLeaf:
 		return dsr_leaf_does_defender_win(defender,n);
 
 	  default:

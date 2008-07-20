@@ -407,22 +407,22 @@ typedef enum
 
 typedef enum
 {
-  ESLeaf,
-  ESReciprocal,  /* reciprocal help-goal(recigoal) in 1 */
-  ESQuodlibet,   /* goal or self/reflex-goal in 1 */
-  ESNext         /* continue play with next Slice */
-} EndStructure;
+  STLeaf,
+  STReciprocal,  /* reciprocal help-goal(recigoal) in 1 */
+  STQuodlibet,   /* goal or self/reflex-goal in 1 */
+  STNext         /* continue play with next Slice */
+} SliceType;
 
 typedef struct
 {
+    SliceType type;
     int length; /* full moves if play==PDirect, half moves otherwise */
     boolean is_exact; /* true iff length is to be considered exact */
     Play play;
-    EndStructure endstructure;
     End end;
     Goal goal;
     square target; /* for goal==goal_target */
-    Goal recigoal; /* for endstructure==ESReciprocal */
+    Goal recigoal; /* for type==STReciprocal */
 } Slice;
 
 Slice slices[1];

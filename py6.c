@@ -308,7 +308,7 @@ boolean verifieposition(void)
     ((slices[current_slice].goal == goal_mate)
      || (slices[current_slice].goal == goal_check)
      || (slices[current_slice].goal == goal_doublemate))
-    && (slices[current_slice].endstructure!=ESReciprocal
+    && (slices[current_slice].type!=STReciprocal
         || (slices[current_slice].recigoal == goal_mate)
         || (slices[current_slice].recigoal == goal_check)
         || (slices[current_slice].recigoal == goal_doublemate));
@@ -1369,7 +1369,7 @@ boolean verifieposition(void)
     return false;
   }
 
-  if (slices[current_slice].endstructure==ESReciprocal
+  if (slices[current_slice].type==STReciprocal
       && (slices[current_slice].end!=EHelp
           || slices[current_slice].recigoal==goal_countermate))
   {
@@ -1377,7 +1377,7 @@ boolean verifieposition(void)
     return false;
   }
 
-  if (slices[current_slice].endstructure==ESQuodlibet
+  if (slices[current_slice].type==STQuodlibet
       && !(slices[current_slice].end==ESelf
            || slices[current_slice].end==EReflex
            || slices[current_slice].end==ESemireflex))
@@ -1571,7 +1571,7 @@ boolean verifieposition(void)
       && (!(slices[current_slice].goal==goal_mate
             || slices[current_slice].goal==goal_stale)
           || flagfee
-          || slices[current_slice].endstructure==ESReciprocal
+          || slices[current_slice].type==STReciprocal
           || slices[current_slice].end==ESelf
           || slices[current_slice].end==EReflex
           || slices[current_slice].end==ESemireflex
@@ -2818,13 +2818,13 @@ void sr_find_write_end(couleur attacker, int t)
  */
 void dsr_find_write_end(couleur attacker, int t)
 {
-  switch (slices[current_slice].endstructure)
+  switch (slices[current_slice].type)
   {
-  case ESQuodlibet:
+  case STQuodlibet:
     dsr_find_write_end_quodlibet(attacker,t);
     break;
 
-  case ESLeaf:
+  case STLeaf:
     switch (slices[current_slice].end)
     {
     case EDirect:
@@ -3089,13 +3089,13 @@ void dsr_find_write_tries_solutions(couleur attacker,
 
     if (n==1)
     {
-      switch (slices[current_slice].endstructure)
+      switch (slices[current_slice].type)
       {
-      case ESQuodlibet:
+      case STQuodlibet:
         dsr_find_write_quodlibet_solutions_in_1(attacker,restartenabled);
         break;
 
-      case ESLeaf:
+      case STLeaf:
         dsr_find_write_regular_tries_solutions(attacker,1,restartenabled);
         break;
 
