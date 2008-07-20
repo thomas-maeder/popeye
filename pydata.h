@@ -410,22 +410,34 @@ typedef enum
   STLeaf,
   STReciprocal,  /* reciprocal help-goal(recigoal) in 1 */
   STQuodlibet,   /* goal or self/reflex-goal in 1 */
-  STNext         /* continue play with next Slice */
+  STSequence     /* continue play with next Slice */
 } SliceType;
 
 typedef struct
 {
-    SliceType type;
-    int length; /* full moves if play==PDirect, half moves otherwise */
-    boolean is_exact; /* true iff length is to be considered exact */
-    Play play;
-    End end;
-    Goal goal;
-    square target; /* for goal==goal_target */
-    Goal recigoal; /* for type==STReciprocal */
+  SliceType type;
+  union U
+  {
+    struct /* for type==STLeaf */
+    {
+      End end;
+      Goal goal;
+      square target; /* for goal==goal_target */
+    } leaf;
+
+    struct /* for other values of type */
+    {
+      int length; /* full moves if play==PDirect, half moves otherwise */
+      boolean is_exact; /* true iff length is to be considered exact */
+      Play play;
+      Goal recigoal;    /* temporary, for type==STReciprocal */
+      unsigned int op1; /* operand 1, index into slices */
+      unsigned int op2; /* operand 2, index into slices */
+    } composite;
+  } u;
 } Slice;
 
-Slice slices[1];
+Slice slices[4];
 
 EXTERN unsigned int current_slice;
 

@@ -1065,7 +1065,7 @@ void genmove(couleur camp)
       gen_bl_ply();
 
     while (encore()) {
-      if (jouecoup() && goal_checkers[slices[current_slice].goal](camp))
+      if (jouecoup() && goal_checkers[slices[1].u.leaf.goal](camp))
         nbrmates++;
       repcoup();
     }
@@ -3351,10 +3351,9 @@ boolean immobile(couleur camp)
 
 static boolean stipChecker_target(couleur camp)
 {
-  return (move_generation_stack[nbcou].arrival
-          == slices[current_slice].target)
-    && crenkam[nbply] == initsquare
-    && !echecc(camp);
+  return (move_generation_stack[nbcou].arrival==slices[1].u.leaf.target
+          && crenkam[nbply] == initsquare
+          && !echecc(camp));
 }
 
 static boolean stipChecker_circuit(couleur camp) {
@@ -3648,7 +3647,7 @@ void find_mate_square(couleur camp)
         rn= sq;
         e[rn]= roin;
         nbpiece[roin]++;
-        if (goal_checkers[slices[current_slice].goal](camp))
+        if (goal_checkers[slices[1].u.leaf.goal](camp))
           return;
         nbpiece[roin]--;
         e[rn]= vide;
@@ -3661,7 +3660,7 @@ void find_mate_square(couleur camp)
         rb= sq;
         e[rb]= roib;
         nbpiece[roib]++;
-        if (goal_checkers[slices[current_slice].goal](camp))
+        if (goal_checkers[slices[1].u.leaf.goal](camp))
           return;
         nbpiece[roib]--;
         e[rb]= vide;

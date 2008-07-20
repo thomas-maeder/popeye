@@ -1102,8 +1102,8 @@ static char *ParsPartialGoal(char *tok, Goal *goal, square *target)
 static char *ParseGoal(char *tok)
 {
   return ParsPartialGoal(tok,
-                         &slices[current_slice].goal,
-                         &slices[current_slice].target);
+                         &slices[1].u.leaf.goal,
+                         &slices[1].u.leaf.target);
 }
 
 static char *ParseReciGoal(char *tok)
@@ -1113,7 +1113,7 @@ static char *ParseReciGoal(char *tok)
     char const *closingParenPos = strchr(tok,')');
     if (closingParenPos!=0)
     {
-      tok = ParsPartialGoal(tok+1,&slices[current_slice].recigoal,0);
+      tok = ParsPartialGoal(tok+1,&slices[0].u.composite.recigoal,0);
       if (tok==0)
         return 0;
       else if (tok==closingParenPos)
@@ -1138,56 +1138,56 @@ static char *ParseEnd(char *tok)
 {
   if (strncmp("dia", tok, 3) == 0)
   {
-    slices[current_slice].end = EDirect;
+    slices[1].u.leaf.end = EDirect;
     return ParseGoal(tok);
   }
 
 #if !defined(DATABASE)
   if (strncmp("a=>b", tok, 4) == 0)
   {
-    slices[current_slice].end = EDirect;
+    slices[1].u.leaf.end = EDirect;
     return ParseGoal(tok);
   }
 #endif
 
   if (strncmp("semi-r", tok, 6) == 0)
   {
-    slices[current_slice].end = ESemireflex;
+    slices[1].u.leaf.end = ESemireflex;
     return ParseGoal(tok+6);
   }
 
   if (strncmp("reci-h", tok, 6) == 0)
   {
     slices[current_slice].type = STReciprocal;
-    slices[current_slice].end = EHelp;
+    slices[1].u.leaf.end = EHelp;
     return ParseReciGoal(tok+6);
   }
 
   if (strncmp("hs", tok, 2) == 0)
   {
-    slices[current_slice].end = ESelf;
+    slices[1].u.leaf.end = ESelf;
     return ParseGoal(tok+2);
   }
 
   if (strncmp("hr", tok, 2) == 0)
   {
-    slices[current_slice].end = EReflex;
+    slices[1].u.leaf.end = EReflex;
     return ParseGoal(tok+2);
   }
 
   switch (*tok)
   {
   case 'h':
-    slices[current_slice].end = EHelp;
+    slices[1].u.leaf.end = EHelp;
     return ParseGoal(tok+1);
   case 'r':
-    slices[current_slice].end = EReflex;
+    slices[1].u.leaf.end = EReflex;
     return ParseGoal(tok+1);
   case 's':
-    slices[current_slice].end = ESelf;
+    slices[1].u.leaf.end = ESelf;
     return ParseGoal(tok+1);
   default:
-    slices[current_slice].end = EDirect;
+    slices[1].u.leaf.end = EDirect;
     return ParseGoal(tok);
   }
 }
@@ -1202,51 +1202,67 @@ static char *ParsePlay(char *tok)
     introenonce= strtol(tok,&end,10);
     if (introenonce<1 || tok==end || end!=arrowpos)
       IoErrorMsg(WrongInt, 0);
+    slices[0].type = STSequence;
+    slices[1].type = STLeaf;
     StipFlags |= FlowBit(Intro);
     return ParsePlay(arrowpos+2);
   }
 
   if (strncmp("exact-", tok, 6) == 0)
   {
-    slices[current_slice].is_exact = true;
+    slices[0].type = STSequence;
+    slices[1].type = STLeaf;
+    slices[0].u.composite.is_exact = true;
     OptFlag[nothreat] = True;
     return ParsePlay(tok+6);
   }
 
   if (strncmp("ser-",tok,4) == 0)
   {
-    slices[current_slice].play = PSeries;
+    slices[0].type = STSequence;
+    slices[1].type = STLeaf;
+    slices[0].u.composite.play = PSeries;
     return ParseEnd(tok+4);
   }
 
   if (strncmp("reci-h",tok,6) == 0)
   {
-    slices[current_slice].play = PHelp;
+    slices[0].type = STSequence;
+    slices[1].type = STLeaf;
+    slices[0].u.composite.play = PHelp;
     return ParseEnd(tok);
   }
 
   if (strncmp("dia",tok,3)==0)
   {
-    slices[current_slice].play = PHelp;
-    slices[current_slice].is_exact = true;
+    slices[0].type = STSequence;
+    slices[1].type = STLeaf;
+    slices[0].u.composite.play = PHelp;
+    slices[0].u.composite.is_exact = true;
     return ParseEnd(tok);
   }
 
 #if !defined(DATABASE)
   if (strncmp("a=>b",tok,4)==0)
   {
-    slices[current_slice].play = PHelp;
+    slices[0].type = STSequence;
+    slices[1].type = STLeaf;
+    slices[0].u.composite.play = PHelp;
     return ParseEnd(tok);
   }
 #endif
 
   if (*tok=='h')
   {
-    slices[current_slice].play = PHelp;
+    slices[0].type = STSequence;
+    slices[1].type = STLeaf;
+    slices[0].u.composite.play = PHelp;
     return ParseEnd(tok);
   }
 
-  slices[current_slice].play = PDirect;
+  slices[0].type = STSequence;
+  slices[1].type = STLeaf;
+  slices[0].u.composite.play = PDirect;
   return ParseEnd(tok);
 }
 
@@ -1264,8 +1280,8 @@ static char *ParseStip(void)
 
     if (slices[current_slice].type==STReciprocal)
     {
-      if (slices[current_slice].recigoal==no_goal)
-        slices[current_slice].recigoal = slices[current_slice].goal;
+      if (slices[0].u.composite.recigoal==no_goal)
+        slices[0].u.composite.recigoal = slices[1].u.leaf.goal;
     }
 
     if (*tok==0)
@@ -1274,32 +1290,32 @@ static char *ParseStip(void)
       strcat(AlphaStip, tok);
     }
 
-    slices[current_slice].length = strtol(tok,&ptr,10);
-    if (tok==ptr || slices[current_slice].length<0)
+    slices[0].u.composite.length = strtol(tok,&ptr,10);
+    if (tok==ptr || slices[0].u.composite.length<0)
     {
-      slices[current_slice].length = 0;
+      slices[0].u.composite.length = 0;
       IoErrorMsg(WrongInt,0);
     }
 
-    if (slices[current_slice].play==PHelp)
+    if (slices[0].u.composite.play==PHelp)
     {
-      slices[current_slice].length *= 2; /* we count half moves in help play */
+      slices[0].u.composite.length *= 2; /* we count half moves in help play */
       tok = ptr;
       if (strncmp(tok,".5",2)==0)
       {
-        if (slices[current_slice].goal==goal_proof
-            || slices[current_slice].goal==goal_atob)
-          ++slices[current_slice].length;
+        if (slices[1].u.leaf.goal==goal_proof
+            || slices[1].u.leaf.goal==goal_atob)
+          ++slices[0].u.composite.length;
         else
         {
-          slices[current_slice].length += 2;
+          slices[0].u.composite.length += 2;
           flag_appseul = true;
         }
       }
     }
   }
 
-  if (slices[current_slice].length>0 && ActStip[0]=='\0')
+  if (slices[0].u.composite.length>0 && ActStip[0]=='\0')
     strcpy(ActStip, AlphaStip);
 
   return ReadNextTokStr();
@@ -3300,8 +3316,8 @@ static char *ParseTwin(void) {
       else
       {
 #if !defined(DATABASE)
-        if (slices[current_slice].goal==goal_proof
-            || slices[current_slice].goal==goal_atob)
+        if (slices[1].u.leaf.goal==goal_proof
+            || slices[1].u.leaf.goal==goal_atob)
         {
           /* fixes bug for continued twinning
              in proof games; changes were made
@@ -3477,21 +3493,21 @@ Token ReadProblem(Token tk) {
         tok = ReadNextTokStr();
         break;
       case TwinProblem:
-        if (slices[current_slice].length>0) {
+        if (slices[0].u.composite.length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
         tok = ReadNextTokStr();
         break;
       case NextProblem:
-        if (slices[current_slice].length>0) {
+        if (slices[0].u.composite.length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
         tok = ReadNextTokStr();
         break;
       case EndProblem:
-        if (slices[current_slice].length>0) {
+        if (slices[0].u.composite.length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
@@ -3525,14 +3541,14 @@ Token ReadProblem(Token tk) {
           TwinStorePosition();
         }
       case NextProblem:
-        if (slices[current_slice].length>0) {
+        if (slices[0].u.composite.length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
         tok = ReadNextTokStr();
         break;
       case EndProblem:
-        if (slices[current_slice].length>0) {
+        if (slices[0].u.composite.length>0) {
           return tk;
         }
         IoErrorMsg(NoStipulation,0);
@@ -4363,7 +4379,7 @@ void WritePosition() {
 
   strcpy(StipOptStr, AlphaStip);
 
-  if (max_len_threat<slices[current_slice].length-1)
+  if (max_len_threat<slices[0].u.composite.length-1)
   {
     sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_len_threat);
     if (max_nr_flights<INT_MAX)
@@ -4372,7 +4388,7 @@ void WritePosition() {
   else if (max_nr_flights<INT_MAX)
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", max_nr_flights);
 
-  if (min_length_nontrivial<slices[current_slice].length-1)
+  if (min_length_nontrivial<slices[0].u.composite.length-1)
     sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%d",
             max_nr_nontrivial,

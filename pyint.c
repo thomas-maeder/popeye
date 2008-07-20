@@ -132,7 +132,7 @@ boolean IllegalCheck(couleur camp) {
       checks++;
 	}
 
-	return checks > (slices[current_slice].goal == goal_stale ? 0 : 1);
+	return checks > (slices[1].u.leaf.goal == goal_stale ? 0 : 1);
   }
   else {
 	return rb != initsquare
@@ -472,7 +472,7 @@ boolean MatePossible(void) {
 	}
   }
 
-  if (slices[current_slice].goal == goal_stale) {
+  if (slices[1].u.leaf.goal == goal_stale) {
 	if (pprise[nbply] < vide) {
       captures--;
 	}
@@ -1929,14 +1929,14 @@ void GenerateBlocking(
 
   if (nbrfl == 0) {
 	/* check for stipulation */
-	if (slices[current_slice].goal == goal_stale || echecc(noir)) {
+	if (slices[1].u.leaf.goal == goal_stale || echecc(noir)) {
 #if defined(DEBUG)
       if (IllegalCheck(blanc)) {
 		StdString("oops!\n");
 		exit(0);
       }
 #endif
-      if (slices[current_slice].goal == goal_stale) {
+      if (slices[1].u.leaf.goal == goal_stale) {
 		if (echecc(noir)) {
           AvoidCheckInStalemate(timetowaste,
                                 whmoves, blpcallowed, whpcallowed);
@@ -2082,7 +2082,7 @@ void GenerateGuarding(
 	flights= 0;
 
 	/* check for check */
-	if (slices[current_slice].goal == goal_mate && !echecc(noir)) {
+	if (slices[1].u.leaf.goal == goal_mate && !echecc(noir)) {
       return;
 	}
 
@@ -2103,7 +2103,7 @@ void GenerateGuarding(
 	genmove(noir);
 	while(encore() && !unblockable) {
       if (jouecoup()
-          && slices[current_slice].goal == goal_stale)
+          && slices[1].u.leaf.goal == goal_stale)
       {
 		e[move_generation_stack[nbcou].departure]= obs;
       }
@@ -2352,7 +2352,7 @@ void GenerateBlackKing(int whmoves, int blmoves) {
       WriteSquare(sq);
       StdString("\n");
 #endif
-      if (slices[current_slice].goal == goal_mate) {
+      if (slices[1].u.leaf.goal == goal_mate) {
 		GenerateChecking(whmoves, blmoves-time);
       }
       else {

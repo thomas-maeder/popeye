@@ -271,11 +271,15 @@ void InitBoard(void) {
 void InitStip(void)
 {
   FlagGenMatingMove= FlagMoveOrientatedStip= False;
-  slices[current_slice].length = 0;
-  slices[current_slice].is_exact = false;
-  slices[current_slice].goal = no_goal;
-  slices[current_slice].recigoal = no_goal;
-  slices[current_slice].type = STLeaf; 
+
+  /* TODO initialized properly */
+  slices[0].type = STSequence; 
+  slices[0].u.composite.length = 0;
+  slices[0].u.composite.is_exact = false;
+  slices[0].u.composite.recigoal = no_goal;
+
+  slices[1].type = STLeaf; 
+  slices[1].u.leaf.goal = no_goal;
 }
 
 void InitAlways(void) {
