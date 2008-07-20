@@ -431,15 +431,15 @@ typedef struct
       boolean is_exact; /* true iff length is to be considered exact */
       Play play;
       Goal recigoal;    /* temporary, for type==STReciprocal */
-      unsigned int op1; /* operand 1, index into slices */
-      unsigned int op2; /* operand 2, index into slices */
+      slice_index op1; /* operand 1, index into slices */
+      slice_index op2; /* operand 2, index into slices */
     } composite;
   } u;
 } Slice;
 
 Slice slices[4];
 
-EXTERN unsigned int current_slice;
+EXTERN slice_index current_slice;
 
 EXTERN  int   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);

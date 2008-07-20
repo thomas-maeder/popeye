@@ -1190,6 +1190,8 @@ enum {
 
 typedef boolean (*nocontactfunc_t)(square);
 
+typedef unsigned int slice_index;
+
 #define DiaCirce        PieSpCount
 #define DiaRen(s)       (boardnum[((s) >> DiaCirce)])
 #define DiaRenMask      ((1<<DiaCirce)-1)

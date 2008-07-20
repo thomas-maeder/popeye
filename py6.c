@@ -1378,9 +1378,11 @@ boolean verifieposition(void)
   }
 
   if (slices[current_slice].type==STQuodlibet
-      && !(slices[1].u.leaf.end==ESelf
-           || slices[1].u.leaf.end==EReflex
-           || slices[1].u.leaf.end==ESemireflex))
+      && (!(slices[1].u.leaf.end==ESelf
+            || slices[1].u.leaf.end==EReflex
+            || slices[1].u.leaf.end==ESemireflex)
+          || !(slices[2].u.leaf.end==EDirect
+               || slices[2].u.leaf.goal==goal_mate)))
   {
     VerifieMsg(StipNotSupported);
     return false;
@@ -2541,6 +2543,7 @@ void dsr_find_write_setplay(couleur attacker, int n)
 {
   couleur defender = advers(attacker);
   int ntcount = 0;
+  slice_index const op1 = slices[0].u.composite.op1;
 
   if (n==1)
   {
@@ -2552,8 +2555,8 @@ void dsr_find_write_setplay(couleur attacker, int n)
     return;
   }
 
-  if (slices[1].u.leaf.end!=EDirect
-      && !sr_does_defender_win_in_0(defender))
+  if (slices[op1].u.leaf.end!=EDirect
+      && !sr_does_defender_win_in_0(defender,op1))
   {
     sr_find_write_set_mate(defender);
     return;
@@ -2606,6 +2609,7 @@ void dsr_find_write_threats_variations(couleur attacker,
   int mena;
   int lenthreat = 1;
   int ntcount = 0;
+  slice_index const op1 = slices[0].u.composite.op1;
 
   if (!OptFlag[solvariantes])
   {
@@ -2623,9 +2627,9 @@ void dsr_find_write_threats_variations(couleur attacker,
     return;
   }
 
-  if ((slices[1].u.leaf.end==EReflex
-       || slices[1].u.leaf.end==ESemireflex)
-      && !sr_does_defender_win_in_0(defender))
+  if ((slices[op1].u.leaf.end==EReflex
+       || slices[op1].u.leaf.end==ESemireflex)
+      && !sr_does_defender_win_in_0(defender,op1))
   {
     sr_find_write_final_move(defender);
     return;
@@ -2742,7 +2746,7 @@ void d_find_write_end(couleur attacker, int t)
  * @param attacker attacking side
  * @param t table where to store continuing moves (i.e. threats)
  */
-void dsr_find_write_end_quodlibet(couleur attacker, int t)
+void dsr_find_write_end_quodlibet(couleur attacker, int t, slice_index si)
 {
   genmove(attacker);
 
@@ -2751,7 +2755,8 @@ void dsr_find_write_end_quodlibet(couleur attacker, int t)
     if (jouecoup()
         && !echecc(attacker))
     {
-      if (goal_checkers[slices[1].u.leaf.goal](attacker))
+      slice_index const op2 = slices[si].u.composite.op2;
+      if (goal_checkers[slices[op2].u.leaf.goal](attacker))
       {
         dsr_write_attack(ecritcoup_write_end_marker);
         Message(NewLine);
@@ -2759,8 +2764,9 @@ void dsr_find_write_end_quodlibet(couleur attacker, int t)
       }
       else
       {
+        slice_index const op1 = slices[si].u.composite.op1;
         couleur defender = advers(attacker);
-        if (!sr_does_defender_win_in_0(defender))
+        if (!sr_does_defender_win_in_0(defender,op1))
         {
           dsr_write_attack(ecritcoup_dont_write_end_marker);
 
@@ -2786,6 +2792,7 @@ void dsr_find_write_end_quodlibet(couleur attacker, int t)
 void sr_find_write_end(couleur attacker, int t)
 {
   couleur defender = advers(attacker);
+  slice_index const op1 = slices[0].u.composite.op1;
 
   genmove(attacker);
 
@@ -2793,7 +2800,7 @@ void sr_find_write_end(couleur attacker, int t)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && !sr_does_defender_win_in_0(defender))
+        && !sr_does_defender_win_in_0(defender,op1))
     {
       dsr_write_attack(ecritcoup_dont_write_end_marker);
 
@@ -2818,34 +2825,35 @@ void sr_find_write_end(couleur attacker, int t)
  */
 void dsr_find_write_end(couleur attacker, int t)
 {
+
   switch (slices[0].type)
   {
-  case STQuodlibet:
-    dsr_find_write_end_quodlibet(attacker,t);
-    break;
-
-  case STSequence:
-    switch (slices[1].u.leaf.end)
-    {
-    case EDirect:
-      d_find_write_end(attacker,t);
+    case STQuodlibet:
+      dsr_find_write_end_quodlibet(attacker,t,0);
       break;
 
-    case ESelf:
-    case EReflex:
-    case ESemireflex:
-      sr_find_write_end(attacker,t);
+    case STSequence:
+      switch (slices[1].u.leaf.end)
+      {
+        case EDirect:
+          d_find_write_end(attacker,t);
+          break;
+
+        case ESelf:
+        case EReflex:
+        case ESemireflex:
+          sr_find_write_end(attacker,t);
+          break;
+    
+        default:
+          assert(0);
+          break;
+      }
       break;
     
     default:
       assert(0);
       break;
-    }
-    break;
-    
-  default:
-    assert(0);
-    break;
   }
 }
 
@@ -3078,36 +3086,34 @@ void dsr_find_write_tries_solutions(couleur attacker,
                                     int n,
                                     boolean restartenabled)
 {
-  if (slices[1].u.leaf.end==EReflex
-      && is_there_end_in_1(attacker))
-    r_find_write_forced_keys(attacker);
-  else if (n==1 && slices[1].u.leaf.end==EDirect)
-    d_find_write_keys_in_1(attacker,restartenabled);
-  else
-  {
-    zugebene = 1;
+  zugebene = 1;
 
-    if (n==1)
+  if (n==1)
+  {
+    switch (slices[0].type)
     {
-      switch (slices[0].type)
-      {
       case STQuodlibet:
         dsr_find_write_quodlibet_solutions_in_1(attacker,restartenabled);
         break;
 
       case STSequence:
-        dsr_find_write_regular_tries_solutions(attacker,1,restartenabled);
+        if (slices[1].u.leaf.end==EReflex
+            && is_there_end_in_1(attacker))
+          r_find_write_forced_keys(attacker);
+        else if (n==1 && slices[1].u.leaf.end==EDirect)
+          d_find_write_keys_in_1(attacker,restartenabled);
+        else
+          dsr_find_write_regular_tries_solutions(attacker,1,restartenabled);
         break;
 
       default:
         assert(0);
-      }
     }
-    else
-      dsr_find_write_regular_tries_solutions(attacker,n,restartenabled);
-
-    zugebene = 0;
   }
+  else
+    dsr_find_write_regular_tries_solutions(attacker,n,restartenabled);
+
+  zugebene = 0;
 } /* dsr_find_write_tries_solutions */
 
 void SolveSeriesProblems(couleur camp)

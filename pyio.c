@@ -1203,6 +1203,7 @@ static char *ParsePlay(char *tok)
     if (introenonce<1 || tok==end || end!=arrowpos)
       IoErrorMsg(WrongInt, 0);
     slices[0].type = STSequence;
+    slices[0].u.composite.op1 = 1;
     slices[1].type = STLeaf;
     StipFlags |= FlowBit(Intro);
     return ParsePlay(arrowpos+2);
@@ -1211,8 +1212,9 @@ static char *ParsePlay(char *tok)
   if (strncmp("exact-", tok, 6) == 0)
   {
     slices[0].type = STSequence;
-    slices[1].type = STLeaf;
     slices[0].u.composite.is_exact = true;
+    slices[0].u.composite.op1 = 1;
+    slices[1].type = STLeaf;
     OptFlag[nothreat] = True;
     return ParsePlay(tok+6);
   }
@@ -1220,25 +1222,28 @@ static char *ParsePlay(char *tok)
   if (strncmp("ser-",tok,4) == 0)
   {
     slices[0].type = STSequence;
-    slices[1].type = STLeaf;
     slices[0].u.composite.play = PSeries;
+    slices[0].u.composite.op1 = 1;
+    slices[1].type = STLeaf;
     return ParseEnd(tok+4);
   }
 
   if (strncmp("reci-h",tok,6) == 0)
   {
     slices[0].type = STSequence;
-    slices[1].type = STLeaf;
     slices[0].u.composite.play = PHelp;
+    slices[0].u.composite.op1 = 1;
+    slices[1].type = STLeaf;
     return ParseEnd(tok);
   }
 
   if (strncmp("dia",tok,3)==0)
   {
     slices[0].type = STSequence;
-    slices[1].type = STLeaf;
-    slices[0].u.composite.play = PHelp;
     slices[0].u.composite.is_exact = true;
+    slices[0].u.composite.play = PHelp;
+    slices[0].u.composite.op1 = 1;
+    slices[1].type = STLeaf;
     return ParseEnd(tok);
   }
 
@@ -1246,8 +1251,9 @@ static char *ParsePlay(char *tok)
   if (strncmp("a=>b",tok,4)==0)
   {
     slices[0].type = STSequence;
-    slices[1].type = STLeaf;
     slices[0].u.composite.play = PHelp;
+    slices[0].u.composite.op1 = 1;
+    slices[1].type = STLeaf;
     return ParseEnd(tok);
   }
 #endif
@@ -1255,14 +1261,16 @@ static char *ParsePlay(char *tok)
   if (*tok=='h')
   {
     slices[0].type = STSequence;
-    slices[1].type = STLeaf;
     slices[0].u.composite.play = PHelp;
+    slices[0].u.composite.op1 = 1;
+    slices[1].type = STLeaf;
     return ParseEnd(tok);
   }
 
   slices[0].type = STSequence;
-  slices[1].type = STLeaf;
   slices[0].u.composite.play = PDirect;
+  slices[0].u.composite.op1 = 1;
+  slices[1].type = STLeaf;
   return ParseEnd(tok);
 }
 
@@ -2712,8 +2720,14 @@ static char *ParseOpt(void) {
       OptFlag[solvariantes]= True;
       break;
     case quodlibet:
-      if (slices[current_slice].type==STLeaf)
-        slices[current_slice].type = STQuodlibet;
+      if (slices[0].type==STSequence)
+      {
+        slices[0].type = STQuodlibet;
+        slices[0].u.composite.op2 = 2;
+        slices[2].type = STLeaf;
+        slices[2].u.leaf.end = EDirect;
+        slices[2].u.leaf.goal = slices[1].u.leaf.goal;
+      }
       else
       {
         /* TODO */

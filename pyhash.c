@@ -1059,6 +1059,7 @@ boolean hs_find_write_final_move_pair(couleur side_at_move)
 {
   boolean found_solution = false;
   couleur other_side = advers(side_at_move);
+  slice_index const op1 = slices[0].u.composite.op1;
 
   genmove(side_at_move);
 
@@ -1066,7 +1067,7 @@ boolean hs_find_write_final_move_pair(couleur side_at_move)
   {
     if (jouecoup()
         && !echecc(side_at_move)
-        && !sr_does_defender_win_in_0(other_side))
+        && !sr_does_defender_win_in_0(other_side,op1))
     {
       GenMatingMove(other_side);
       while (encore())
@@ -1106,6 +1107,7 @@ boolean hr_find_write_final_move_pair(couleur side_at_move)
   {
     boolean found_solution = false;
     couleur other_side = advers(side_at_move);
+    slice_index const op1 = slices[0].u.composite.op1;
 
     genmove(side_at_move);
 
@@ -1113,7 +1115,7 @@ boolean hr_find_write_final_move_pair(couleur side_at_move)
     {
       if (jouecoup()
           && !echecc(side_at_move)
-          && !sr_does_defender_win_in_0(other_side))
+          && !sr_does_defender_win_in_0(other_side,op1))
       {
         GenMatingMove(other_side);
         while (encore())
@@ -1511,6 +1513,7 @@ boolean ser_sr_find_write_final_attacker_move(couleur attacker)
 {
   couleur defender = advers(attacker);
   boolean solution_found = false;
+  slice_index const op1 = slices[0].u.composite.op1;
 
   genmove(attacker);
 
@@ -1518,7 +1521,7 @@ boolean ser_sr_find_write_final_attacker_move(couleur attacker)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && !sr_does_defender_win_in_0(defender))
+        && !sr_does_defender_win_in_0(defender,op1))
     {
       solution_found = true;
       sr_find_write_final_move(defender);
@@ -1910,6 +1913,7 @@ boolean sr_does_attacker_win_in_1(couleur attacker)
   boolean win_found = false;
   couleur defender = advers(attacker);
   HashBuffer hb;
+  slice_index const op1 = slices[0].u.composite.op1;
 
   /* It is more likely that a position has no solution. */
   /* Therefore let's check for "no solution" first. TLi */
@@ -1940,7 +1944,7 @@ boolean sr_does_attacker_win_in_1(couleur attacker)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && !sr_does_defender_win_in_0(defender))
+        && !sr_does_defender_win_in_0(defender,op1))
     {
       win_found = true;
       coupfort();
@@ -2158,7 +2162,7 @@ static boolean selflastencore(couleur camp,
  * @param defender defending side (at move)
  * @return true iff defender wins
  */
-boolean sr_does_defender_win_in_0(couleur defender)
+boolean sr_does_defender_win_in_0(couleur defender, slice_index si)
 {
   boolean is_defender_immobile = true;
   boolean win_found = false;
@@ -2168,8 +2172,8 @@ boolean sr_does_defender_win_in_0(couleur defender)
       && goal_checkers[slices[1].u.leaf.goal](attacker))
     return false;
   
-  if (slices[1].u.leaf.end==EReflex
-      || slices[1].u.leaf.end==ESemireflex)
+  if (slices[si].u.leaf.end==EReflex
+      || slices[si].u.leaf.end==ESemireflex)
     return !is_there_end_in_1(defender);
 
   if (OptFlag[keepmating] && !is_a_mating_piece_left())
@@ -2194,7 +2198,7 @@ boolean sr_does_defender_win_in_0(couleur defender)
     }
     finply();
   }
-  else if (slices[1].u.leaf.goal==goal_ep
+  else if (slices[si].u.leaf.goal==goal_ep
            && ep[nbply]==initsquare
            && ep2[nbply]==initsquare)
   {
@@ -2351,6 +2355,7 @@ boolean dsr_does_defender_win(couleur defender, int n)
 {
   couleur const attacker = advers(defender);
 
+  slice_index const op1 = slices[0].u.composite.op1;
   if (n==0)
 	switch (slices[1].u.leaf.end)
 	{
@@ -2360,7 +2365,7 @@ boolean dsr_does_defender_win(couleur defender, int n)
 	  case ESelf:
 	  case EReflex:
 	  case ESemireflex:
-		return sr_does_defender_win_in_0(defender);
+		return sr_does_defender_win_in_0(defender,op1);
 
 	  default:
 		assert(0);

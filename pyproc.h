@@ -293,7 +293,7 @@ void    singleboxtype3_gen_bl_piece(square a, piece b);
 extern void   (*gen_wh_piece)(square a, piece b);
 void    singleboxtype3_gen_wh_piece(square a, piece b);
 
-boolean sr_does_defender_win_in_0(couleur defender);
+boolean sr_does_defender_win_in_0(couleur defender, slice_index si);
 boolean sr_does_defender_win(couleur a, int b);
 boolean sr_does_attacker_win(couleur a, int b);
 boolean eval_madrasi(square departure, square arrival, square capture);
