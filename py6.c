@@ -102,6 +102,7 @@
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
 #include "platform/priority.h"
+#include "trace.h"
 
 boolean supergenre;
 
@@ -111,23 +112,23 @@ boolean is_rider(piece p)
 {
   switch (p)
   {
-  case    nb:
-  case    amazb:
-  case    impb:
-  case    princb:
-  case    waranb:
-  case    camridb:
-  case    zebridb:
-  case    gnuridb:
-  case    rhuntb:
-  case    bhuntb:
-  case    tb:
-  case    db:
-  case    fb:
-  case    vizridb:
-  case    fersridb:
-    return true;
-  default:  return false;
+    case    nb:
+    case    amazb:
+    case    impb:
+    case    princb:
+    case    waranb:
+    case    camridb:
+    case    zebridb:
+    case    gnuridb:
+    case    rhuntb:
+    case    bhuntb:
+    case    tb:
+    case    db:
+    case    fb:
+    case    vizridb:
+    case    fersridb:
+      return true;
+    default:  return false;
   }
 }
 
@@ -135,30 +136,30 @@ boolean is_leaper(piece p)
 {
   switch (p)
   {
-  case    zb:
-  case    chb:
-  case    gib:
-  case    rccinqb:
-  case    bub:
-  case    vizirb:
-  case    alfilb:
-  case    fersb:
-  case    dabb:
-  case    gnoub:
-  case    antilb:
-  case    ecurb:
-  case    ekingb:
-  case    okapib:
-  case    cb:
-  case    leap15b:
-  case    leap16b:
-  case    leap24b:
-  case    leap25b:
-  case    leap35b:
-  case    leap37b:
-  case    leap36b:
-    return true;
-  default:  return false;
+    case    zb:
+    case    chb:
+    case    gib:
+    case    rccinqb:
+    case    bub:
+    case    vizirb:
+    case    alfilb:
+    case    fersb:
+    case    dabb:
+    case    gnoub:
+    case    antilb:
+    case    ecurb:
+    case    ekingb:
+    case    okapib:
+    case    cb:
+    case    leap15b:
+    case    leap16b:
+    case    leap24b:
+    case    leap25b:
+    case    leap35b:
+    case    leap37b:
+    case    leap36b:
+      return true;
+    default:  return false;
   }
 } /* is_leaper */
 
@@ -166,30 +167,30 @@ boolean is_simplehopper(piece p)
 {
   switch (p)
   {
-  case sb:
-  case nsautb:
-  case camhopb:
-  case zebhopb:
-  case gnuhopb:
-  case equib:
-  case nequib:
-  case g2b:
-  case g3b:
-  case khb:
-  case orixb:
+    case sb:
+    case nsautb:
+    case camhopb:
+    case zebhopb:
+    case gnuhopb:
+    case equib:
+    case nequib:
+    case g2b:
+    case g3b:
+    case khb:
+    case orixb:
 
-  case mooseb:
-  case rookmooseb:
-  case bishopmooseb:
-  case eagleb:
-  case rookeagleb:
-  case bishopeagleb:
-  case sparrb:
-  case rooksparrb:
-  case bishopsparrb:
+    case mooseb:
+    case rookmooseb:
+    case bishopmooseb:
+    case eagleb:
+    case rookeagleb:
+    case bishopeagleb:
+    case sparrb:
+    case rooksparrb:
+    case bishopsparrb:
         
-    return true;
-  default:  return false;
+      return true;
+    default:  return false;
   }
 }
 
@@ -197,11 +198,11 @@ boolean is_simpledecomposedleaper(piece p)
 {
   switch (p)
   {
-  case maob:
-  case moab:
-    return true;
-  default:
-    return false;
+    case maob:
+    case moab:
+      return true;
+    default:
+      return false;
   }
 }
 
@@ -210,15 +211,15 @@ boolean is_symmetricfairy(piece p)
   /* any piece where, if p captures X is legal, then it's also legal if p and X are swapped */
   switch (p)
   {
-  case leob:
-  case vaob:
-  case paob:
-  case lionb:
-  case tlionb:
-  case flionb:
-    return true;
-  default:
-    return false;
+    case leob:
+    case vaob:
+    case paob:
+    case lionb:
+    case tlionb:
+    case flionb:
+      return true;
+    default:
+      return false;
   }
 }
 
@@ -303,15 +304,15 @@ boolean verifieposition(void)
     }
   }
 
-  /* TODO */
+  /* TODO true iff all goals are #,+,## */
   optim_neutralretractable = optim_orthomatingmoves =
-    ((slices[1].u.leaf.goal == goal_mate)
-     || (slices[1].u.leaf.goal == goal_check)
-     || (slices[1].u.leaf.goal == goal_doublemate))
-    && (slices[current_slice].type!=STReciprocal
-        || (slices[0].u.composite.recigoal == goal_mate)
-        || (slices[0].u.composite.recigoal == goal_check)
-        || (slices[0].u.composite.recigoal == goal_doublemate));
+      ((slices[slices[0].u.composite.op1].u.leaf.goal==goal_mate)
+       || (slices[slices[0].u.composite.op1].u.leaf.goal==goal_check)
+       || (slices[slices[0].u.composite.op1].u.leaf.goal==goal_doublemate))
+      && (slices[current_slice].type!=STReciprocal
+          || (slices[slices[0].u.composite.op2].u.leaf.goal==goal_mate)
+          || (slices[slices[0].u.composite.op2].u.leaf.goal==goal_check)
+          || (slices[slices[0].u.composite.op2].u.leaf.goal==goal_doublemate));
 
   if (slices[1].u.leaf.goal == goal_steingewinn
       && CondFlag[parrain])
@@ -320,15 +321,17 @@ boolean verifieposition(void)
     return false;
   }
 
+  /* TODO true iff all goals are <-> or circuit */
   flagdiastip=
-    slices[1].u.leaf.goal == goal_circuit
-    || slices[1].u.leaf.goal == goal_exchange
-    || slices[1].u.leaf.goal == goal_circuitB
-    || slices[1].u.leaf.goal == goal_exchangeB
-    || slices[0].u.composite.recigoal == goal_circuit
-    || slices[0].u.composite.recigoal == goal_exchange
-    || slices[0].u.composite.recigoal == goal_circuitB
-    || slices[0].u.composite.recigoal == goal_exchangeB;
+      slices[1].u.leaf.goal == goal_circuit
+      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_exchange
+      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_circuitB
+      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_exchangeB
+      || (slices[0].type==STReciprocal
+          && (slices[slices[0].u.composite.op2].u.leaf.goal==goal_circuit
+              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_exchange
+              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_circuitB
+              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_exchangeB));
 
   for (p= roib; p <= derbla; p++) {
     nbpiece[p]= 0;
@@ -556,11 +559,11 @@ boolean verifieposition(void)
       ;
 
   flaglegalsquare=
-    TSTFLAG(PieSpExFlags, Jigger)
-    || CondFlag[newkoeko]
-    || CondFlag[gridchess] || CondFlag[koeko] || CondFlag[antikoeko]
-    || CondFlag[blackedge] || CondFlag[whiteedge]
-    || CondFlag[geneva];
+      TSTFLAG(PieSpExFlags, Jigger)
+      || CondFlag[newkoeko]
+      || CondFlag[gridchess] || CondFlag[koeko] || CondFlag[antikoeko]
+      || CondFlag[blackedge] || CondFlag[whiteedge]
+      || CondFlag[geneva];
 
   if (CondFlag[imitators]) {
     if (flagveryfairy
@@ -718,8 +721,8 @@ boolean verifieposition(void)
   rnechec = &orig_rnechec;
 
   flaglegalsquare= flaglegalsquare
-    || CondFlag[bichro]
-    || CondFlag[monochro];
+      || CondFlag[bichro]
+      || CondFlag[monochro];
 
   if (flaglegalsquare) {
     eval_white= legalsquare;
@@ -871,8 +874,8 @@ boolean verifieposition(void)
     {
       eval_2= eval_white;
       eval_white= CondFlag[isardam]
-        ?   eval_isardam
-        : eval_madrasi;
+          ?   eval_isardam
+          : eval_madrasi;
     }
   }
 
@@ -1030,7 +1033,7 @@ boolean verifieposition(void)
        || CondFlag[whmax]
        || CondFlag[blmax]
        || CondFlag[heffalumps]
-        )
+       )
       && (exist[roseb]
           || exist[csb]
           || exist[ubib]
@@ -1072,92 +1075,92 @@ boolean verifieposition(void)
   }
 
   jouegenre =
-    CondFlag[black_oscillatingKs]
-    || CondFlag[white_oscillatingKs]
-    || CondFlag[republican]
-    || anycirce
-    || CondFlag[sentinelles]
-    || anyanticirce
-    || CondFlag[singlebox]
-    || CondFlag[blroyalsq]
-    || CondFlag[whroyalsq]
-    || CondFlag[dynasty]
-    || CondFlag[strictSAT]
-    || CondFlag[masand]
-    || CondFlag[BGL]
-    || CondFlag[duellist]
-    || TSTFLAG(PieSpExFlags,HalfNeutral)
-    || exist[Orphan]
-    || exist[Friend]
-    || calc_whrefl_king || calc_blrefl_king
-    || CondFlag[phantom]
-    || CondFlag[extinction]
-    || CondFlag[amu]
-    || CondFlag[imitators]
-    || CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king]
-    || TSTFLAG(PieSpExFlags, Magic);
+      CondFlag[black_oscillatingKs]
+      || CondFlag[white_oscillatingKs]
+      || CondFlag[republican]
+      || anycirce
+      || CondFlag[sentinelles]
+      || anyanticirce
+      || CondFlag[singlebox]
+      || CondFlag[blroyalsq]
+      || CondFlag[whroyalsq]
+      || CondFlag[dynasty]
+      || CondFlag[strictSAT]
+      || CondFlag[masand]
+      || CondFlag[BGL]
+      || CondFlag[duellist]
+      || TSTFLAG(PieSpExFlags,HalfNeutral)
+      || exist[Orphan]
+      || exist[Friend]
+      || calc_whrefl_king || calc_blrefl_king
+      || CondFlag[phantom]
+      || CondFlag[extinction]
+      || CondFlag[amu]
+      || CondFlag[imitators]
+      || CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king]
+      || TSTFLAG(PieSpExFlags, Magic);
 
 
   change_moving_piece=
-    TSTFLAG(PieSpExFlags, Kamikaze)
-    || TSTFLAG(PieSpExFlags, Protean)
-    || CondFlag[tibet]
-    || CondFlag[andernach]
-    || CondFlag[antiandernach]
-    || CondFlag[magicsquare]
-    || TSTFLAG(PieSpExFlags, Chameleon)
-    || CondFlag[einstein]
-    || CondFlag[volage]
-    || TSTFLAG(PieSpExFlags, Volage)
-    || CondFlag[degradierung]
-    || CondFlag[norsk]
-    || CondFlag[traitor]
-    || CondFlag[linechamchess]
-    || CondFlag[chamchess]
-    || CondFlag[protean]
-    || CondFlag[champursue];
+      TSTFLAG(PieSpExFlags, Kamikaze)
+      || TSTFLAG(PieSpExFlags, Protean)
+      || CondFlag[tibet]
+      || CondFlag[andernach]
+      || CondFlag[antiandernach]
+      || CondFlag[magicsquare]
+      || TSTFLAG(PieSpExFlags, Chameleon)
+      || CondFlag[einstein]
+      || CondFlag[volage]
+      || TSTFLAG(PieSpExFlags, Volage)
+      || CondFlag[degradierung]
+      || CondFlag[norsk]
+      || CondFlag[traitor]
+      || CondFlag[linechamchess]
+      || CondFlag[chamchess]
+      || CondFlag[protean]
+      || CondFlag[champursue];
 
   repgenre =
-    CondFlag[sentinelles]
-    || CondFlag[imitators]
-    || anycirce
-    || TSTFLAG(PieSpExFlags, Neutral)
-    || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
-    || anyanticirce;
+      CondFlag[sentinelles]
+      || CondFlag[imitators]
+      || anycirce
+      || TSTFLAG(PieSpExFlags, Neutral)
+      || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
+      || anyanticirce;
 
   empilegenre=
-    flaglegalsquare
-    || CondFlag[patrouille]
-    || CondFlag[lortap]
-    || CondFlag[ultrapatrouille]
-    || CondFlag[imitators]
-    || CondFlag[beamten]
-    || TSTFLAG(PieSpExFlags, Beamtet)
-    || CondFlag[central]
-    || anyimmun
-    || CondFlag[nocapture]
-    || CondFlag[nowhcapture]
-    || CondFlag[noblcapture]
-    || TSTFLAG(spec[rb], Kamikaze)
-    || TSTFLAG(spec[rn], Kamikaze)
-    || flagwhitemummer
-    || flagblackmummer
-    || TSTFLAG(PieSpExFlags, Paralyse)
-    || CondFlag[vogt]
-    || anyanticirce
-    || anymars
-    || anyantimars
-    || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
-    || CondFlag[messigny]
-    || CondFlag[woozles]
-    || CondFlag[nowhiteprom]
-    || CondFlag[noblackprom]
-    || CondFlag[antikings]
-    || CondFlag[norsk]
-    || CondFlag[SAT]
-    || CondFlag[strictSAT]
-    || CondFlag[takemake]
-    || CondFlag[losingchess];
+      flaglegalsquare
+      || CondFlag[patrouille]
+      || CondFlag[lortap]
+      || CondFlag[ultrapatrouille]
+      || CondFlag[imitators]
+      || CondFlag[beamten]
+      || TSTFLAG(PieSpExFlags, Beamtet)
+      || CondFlag[central]
+      || anyimmun
+      || CondFlag[nocapture]
+      || CondFlag[nowhcapture]
+      || CondFlag[noblcapture]
+      || TSTFLAG(spec[rb], Kamikaze)
+      || TSTFLAG(spec[rn], Kamikaze)
+      || flagwhitemummer
+      || flagblackmummer
+      || TSTFLAG(PieSpExFlags, Paralyse)
+      || CondFlag[vogt]
+      || anyanticirce
+      || anymars
+      || anyantimars
+      || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
+      || CondFlag[messigny]
+      || CondFlag[woozles]
+      || CondFlag[nowhiteprom]
+      || CondFlag[noblackprom]
+      || CondFlag[antikings]
+      || CondFlag[norsk]
+      || CondFlag[SAT]
+      || CondFlag[strictSAT]
+      || CondFlag[takemake]
+      || CondFlag[losingchess];
 
   if (CondFlag[dynasty]) {
     /* checking for TSTFLAG(spec[rb],Kamikaze) may not be sufficient
@@ -1175,10 +1178,10 @@ boolean verifieposition(void)
   }
 
   nonkilgenre= CondFlag[messigny]
-    || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
-    || CondFlag[whsupertrans_king]
-    || CondFlag[blsupertrans_king]
-    || CondFlag[takemake];
+      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
+      || CondFlag[whsupertrans_king]
+      || CondFlag[blsupertrans_king]
+      || CondFlag[takemake];
 
   if (TSTFLAG(PieSpExFlags, Jigger)
       || CondFlag[newkoeko]
@@ -1328,12 +1331,14 @@ boolean verifieposition(void)
 
   if (CondFlag[losingchess])
   {
-    if (slices[0].u.composite.recigoal == goal_mate
-        || slices[0].u.composite.recigoal == goal_check
-        || slices[0].u.composite.recigoal == goal_mate_or_stale
-        || slices[1].u.leaf.goal == goal_mate
-        || slices[1].u.leaf.goal == goal_check
-        || slices[1].u.leaf.goal == goal_mate_or_stale)
+    /* TODO true iff all goals are # + #= */
+    if (slices[slices[0].u.composite.op1].u.leaf.goal==goal_mate
+        || slices[slices[0].u.composite.op1].u.leaf.goal==goal_check
+        || slices[slices[0].u.composite.op1].u.leaf.goal==goal_mate_or_stale
+        || (slices[0].type==STReciprocal
+            && (slices[slices[0].u.composite.op2].u.leaf.goal==goal_mate
+                || slices[slices[0].u.composite.op2].u.leaf.goal==goal_check
+                || slices[slices[0].u.composite.op2].u.leaf.goal==goal_mate_or_stale)))
     {
       VerifieMsg(LosingChessNotInCheckOrMateStipulations);
       return false;
@@ -1350,39 +1355,44 @@ boolean verifieposition(void)
     flagblackmummer= true;
   }
 
+  /* TODO true iff all goals are z ep x 00 steingewinn */
   FlagMoveOrientatedStip =
-    slices[0].u.composite.recigoal == goal_target
-    || slices[0].u.composite.recigoal == goal_ep
-    || slices[0].u.composite.recigoal == goal_capture
-    || slices[0].u.composite.recigoal == goal_steingewinn
-    || slices[0].u.composite.recigoal == goal_castling
-    || slices[1].u.leaf.goal == goal_target
-    || slices[1].u.leaf.goal == goal_ep
-    || slices[1].u.leaf.goal == goal_capture
-    || slices[1].u.leaf.goal == goal_steingewinn
-    || slices[1].u.leaf.goal == goal_castling;
+      slices[slices[0].u.composite.op1].u.leaf.goal==goal_target
+      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_ep
+      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_capture
+      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_steingewinn
+      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_castling
+      || (slices[0].type==STReciprocal
+          && (slices[slices[0].u.composite.op2].u.leaf.goal==goal_target
+              || slices[slices[0].u.composite.op2].u.leaf.goal== goal_ep
+              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_capture
+              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_steingewinn
+              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_castling));
 
-  if (slices[1].u.leaf.goal == goal_doublemate
-      && slices[1].u.leaf.end!=EHelp)
+  /* TODO doublemate in leaf with end EHelp */
+  if (slices[slices[0].u.composite.op1].u.leaf.goal == goal_doublemate
+      && slices[slices[0].u.composite.op1].u.leaf.end!=EHelp)
+  {
+    VerifieMsg(StipNotSupported);
+    return false;
+  }
+  if (slices[0].type==STReciprocal
+      && (slices[slices[0].u.composite.op1].u.leaf.end!=EHelp
+          || (slices[slices[0].u.composite.op2].u.leaf.goal
+              ==goal_countermate)))
   {
     VerifieMsg(StipNotSupported);
     return false;
   }
 
-  if (slices[current_slice].type==STReciprocal
-      && (slices[1].u.leaf.end!=EHelp
-          || slices[0].u.composite.recigoal==goal_countermate))
-  {
-    VerifieMsg(StipNotSupported);
-    return false;
-  }
-
+  /* TODO quodlibet (currently) only into 2 leaves with end s r semi-r
+   * direct */
   if (slices[current_slice].type==STQuodlibet
-      && (!(slices[1].u.leaf.end==ESelf
-            || slices[1].u.leaf.end==EReflex
-            || slices[1].u.leaf.end==ESemireflex)
-          || !(slices[2].u.leaf.end==EDirect
-               || slices[2].u.leaf.goal==goal_mate)))
+      && (!(slices[slices[0].u.composite.op2].u.leaf.end==ESelf
+            || slices[slices[0].u.composite.op2].u.leaf.end==EReflex
+            || slices[slices[0].u.composite.op2].u.leaf.end==ESemireflex)
+          || !(slices[slices[0].u.composite.op1].u.leaf.end==EDirect
+               || slices[slices[0].u.composite.op1].u.leaf.goal==goal_mate)))
   {
     VerifieMsg(StipNotSupported);
     return false;
@@ -1393,18 +1403,18 @@ boolean verifieposition(void)
   /* castling_supported has to be adjusted if there are any problems */
   /* with castling and fairy conditions/pieces */
   castling_supported= !(
-    /* Let's see if transmuting kings can castle without
-       problems ... */
-    /* Unfortunately they can't ! So I had to exclude them
-       again ...  */
-    /* A wK moving from anywhere to e1 and then like a queen from
-       e1 to g1 would get the castling right when this last move is
-       retracted  (:-( */
-    /* transmuting kings and castling enabled again
-     */
-    CondFlag[patience]
-    || CondFlag[parrain]
-    || CondFlag[haanerchess]);
+      /* Let's see if transmuting kings can castle without
+         problems ... */
+      /* Unfortunately they can't ! So I had to exclude them
+         again ...  */
+      /* A wK moving from anywhere to e1 and then like a queen from
+         e1 to g1 would get the castling right when this last move is
+         retracted  (:-( */
+      /* transmuting kings and castling enabled again
+       */
+      CondFlag[patience]
+      || CondFlag[parrain]
+      || CondFlag[haanerchess]);
 
   complex_castling_through_flag= CondFlag[imitators];
 
@@ -1425,6 +1435,7 @@ boolean verifieposition(void)
       SETFLAGMASK(castling_flag[0],ra8_cancastle);
   }
 
+  /* TODO no castling goal if castling is not supported */
   if (slices[1].u.leaf.goal==goal_castling
       && !castling_supported)
   {
@@ -1437,10 +1448,10 @@ boolean verifieposition(void)
   /* At which ply do we begin ??  NG */
 
   testcastling=
-    TSTFLAGMASK(castling_flag[0],whq_castling&no_castling)==whq_castling
-    || TSTFLAGMASK(castling_flag[0],whk_castling&no_castling)==whk_castling
-    || TSTFLAGMASK(castling_flag[0],blq_castling&no_castling)==blq_castling
-    || TSTFLAGMASK(castling_flag[0],blk_castling&no_castling)==blk_castling;
+      TSTFLAGMASK(castling_flag[0],whq_castling&no_castling)==whq_castling
+      || TSTFLAGMASK(castling_flag[0],whk_castling&no_castling)==whk_castling
+      || TSTFLAGMASK(castling_flag[0],blq_castling&no_castling)==blq_castling
+      || TSTFLAGMASK(castling_flag[0],blk_castling&no_castling)==blk_castling;
 
   /* a small hack to enable ep keys */
   trait[1]= 2;
@@ -1458,36 +1469,37 @@ boolean verifieposition(void)
   }
 
   jouetestgenre=
-    flag_testlegality
-    || flagAssassin
-    || slices[1].u.leaf.goal==goal_doublemate
-    || slices[0].u.composite.recigoal==goal_doublemate
-    || CondFlag[patience]
-    || CondFlag[republican]
-    || CondFlag[blackultraschachzwang]
-    || CondFlag[whiteultraschachzwang]
-    || CondFlag[BGL];
+      flag_testlegality
+      || flagAssassin
+      /* TODO detect whether some end is ## */
+      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_doublemate
+      || slices[slices[0].u.composite.op2].u.leaf.goal==goal_doublemate
+      || CondFlag[patience]
+      || CondFlag[republican]
+      || CondFlag[blackultraschachzwang]
+      || CondFlag[whiteultraschachzwang]
+      || CondFlag[BGL];
   jouetestgenre_save= jouetestgenre;
 
   jouetestgenre1 = CondFlag[blackultraschachzwang]
-    || CondFlag[whiteultraschachzwang];      
+      || CondFlag[whiteultraschachzwang];      
 
 
   nonoptgenre= TSTFLAG(PieSpExFlags, Neutral)
-    || flag_testlegality
-    || anymars
-    || anyantimars
-    || CondFlag[brunner]
-    || CondFlag[blsupertrans_king]
-    || CondFlag[whsupertrans_king]
-    || CondFlag[republican]
-    || CondFlag[takemake];
+      || flag_testlegality
+      || anymars
+      || anyantimars
+      || CondFlag[brunner]
+      || CondFlag[blsupertrans_king]
+      || CondFlag[whsupertrans_king]
+      || CondFlag[republican]
+      || CondFlag[takemake];
 
   supergenre=
-    CondFlag[supercirce]
-    || CondFlag[antisuper]
-    || CondFlag[april]
-    || CondFlag[republican];
+      CondFlag[supercirce]
+      || CondFlag[antisuper]
+      || CondFlag[april]
+      || CondFlag[republican];
 
   if (CondFlag[extinction] || flagAssassin) {
     optim_neutralretractable = optim_orthomatingmoves = false;
@@ -1524,7 +1536,7 @@ boolean verifieposition(void)
     }
     else {
       piece actknight=
-        CondFlag[cavaliermajeur] ? NightRider : Knight;
+          CondFlag[cavaliermajeur] ? NightRider : Knight;
       NextChamCircePiece[actknight]= Bishop;
       NextChamCircePiece[Bishop]= Rook;
       NextChamCircePiece[Rook]= Queen;
@@ -1552,13 +1564,13 @@ boolean verifieposition(void)
   }
 
   move_generation_mode_opti_per_couleur[blanc]
-    = flagwhitemummer||nonoptgenre
-    ? move_generation_optimized_by_killer_move
-    : move_generation_optimized_by_nr_opponent_moves;
+      = flagwhitemummer||nonoptgenre
+      ? move_generation_optimized_by_killer_move
+      : move_generation_optimized_by_nr_opponent_moves;
   move_generation_mode_opti_per_couleur[noir]
-    = flagblackmummer||nonoptgenre
-    ? move_generation_optimized_by_killer_move
-    : move_generation_optimized_by_nr_opponent_moves;
+      = flagblackmummer||nonoptgenre
+      ? move_generation_optimized_by_killer_move
+      : move_generation_optimized_by_nr_opponent_moves;
 
   if (CondFlag[takemake])
     optim_neutralretractable = optim_orthomatingmoves = false;
@@ -1569,6 +1581,7 @@ boolean verifieposition(void)
     exist[reversepb]= true;
   }
 
+  /* TODO only h#/=, ser-h#/=, ser-#/= */
   if (OptFlag[intelligent]
       && (!(slices[1].u.leaf.goal==goal_mate
             || slices[1].u.leaf.goal==goal_stale)
@@ -1716,7 +1729,7 @@ void pushtabsol(int n)
                         push_colour_change_stack_limit,
                         rec->square,
                         rec->pc)
-  }
+          }
 
   coupfort();
 }
@@ -1750,7 +1763,7 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
 extern boolean two_same_pieces;
 #endif
 
-void editcoup(coup *mov, ecritcoup_mode mode)
+void editcoup(coup *mov, Goal goal)
 {
   char    BlackChar= *GetMsgString(BlackColor);
   char    WhiteChar= *GetMsgString(WhiteColor);
@@ -1866,16 +1879,16 @@ void editcoup(coup *mov, ecritcoup_mode mode)
 
     if (mov->sqren != initsquare) {
       piece   p= CondFlag[antieinstein]
-        ? inc_einstein(mov->ppri)
-        : CondFlag[parrain]
-        ? mov->ren_parrain
-        : CondFlag[chamcirce]
-        ? ChamCircePiece(mov->ppri)
-        : (anyclone && abs(mov->pjzz) != roib)
-        ? -mov->pjzz
-        : (anytraitor && abs(mov->ppri) >= roib)
-        ? -mov->ppri
-        : mov->ppri;
+          ? inc_einstein(mov->ppri)
+          : CondFlag[parrain]
+          ? mov->ren_parrain
+          : CondFlag[chamcirce]
+          ? ChamCircePiece(mov->ppri)
+          : (anyclone && abs(mov->pjzz) != roib)
+          ? -mov->pjzz
+          : (anytraitor && abs(mov->ppri) >= roib)
+          ? -mov->ppri
+          : mov->ppri;
       StdString(" [+");
       WriteSpec(mov->ren_spec, p!=vide);
       WritePiece(p);
@@ -1918,10 +1931,6 @@ void editcoup(coup *mov, ecritcoup_mode mode)
       WritePiece(roib);
       WriteSquare(mov->repub_k);
       StdChar(']');
-      if (RepublicanType==republican_type1)
-        /* in republican_type2, we sometimes should do this as well,
-         * but determining whether we should would cost time */
-        mode = ecritcoup_write_end_marker;
     }
 
     if (mov->renkam) {
@@ -1973,11 +1982,11 @@ void editcoup(coup *mov, ecritcoup_mode mode)
           StdString(" [");
           for (rec= mov->push_bottom; rec - mov->push_top < 0; rec++)
           {
-              StdChar(rec->pc > vide ? WhiteChar : BlackChar);
-              WritePiece(rec->pc);
-              WriteSquare(rec->square);
-              if (mov->push_top - rec > 1)
-                  StdString(", ");
+            StdChar(rec->pc > vide ? WhiteChar : BlackChar);
+            WritePiece(rec->pc);
+            WriteSquare(rec->square);
+            if (mov->push_top - rec > 1)
+              StdString(", ");
           } 
           StdChar(']');
         }
@@ -1990,11 +1999,11 @@ void editcoup(coup *mov, ecritcoup_mode mode)
           StdString(" [");
           for (rec= colour_change_sp[nbply - 1]; rec - colour_change_sp[nbply] < 0; rec++)
           {
-              StdChar(rec->pc > vide ? WhiteChar : BlackChar);
-              WritePiece(rec->pc);
-              WriteSquare(rec->square);
-              if (colour_change_sp[nbply] - rec > 1)
-                  StdString(", ");
+            StdChar(rec->pc > vide ? WhiteChar : BlackChar);
+            WritePiece(rec->pc);
+            WriteSquare(rec->square);
+            if (colour_change_sp[nbply] - rec > 1)
+              StdString(", ");
           } 
           StdChar(']');
         }
@@ -2038,12 +2047,12 @@ void editcoup(coup *mov, ecritcoup_mode mode)
     }
     StdString(s);
   }
-  if (mode==ecritcoup_write_end_marker)
+  if (goal!=no_goal)
   {
     if (slices[1].u.leaf.goal==goal_mate_or_stale)
       StdString(mate_or_stale_patt ? " =" : " #");
     else
-      StdString(goal_end_marker[slices[1].u.leaf.goal]);
+      StdString(goal_end_marker[goal]);
   }
   else
   {
@@ -2081,20 +2090,20 @@ boolean nowdanstab(int n)
                          || mov.repub_k == tabsol.liste[i].repub_k)
                      && (!CondFlag[antisuper]
                          || mov.renkam == tabsol.liste[i].renkam)
-               )
-           )
-      ) {
+                     )
+             )
+         ) {
       return true;
     }
   }
   return false;
 }
 
-void ecritcoup(ecritcoup_mode mode)
+void ecritcoup(Goal goal)
 {
   coup mov;
   current(&mov);
-  editcoup(&mov,mode);
+  editcoup(&mov,goal);
 }
 
 void WriteForsyth(void)
@@ -2151,10 +2160,11 @@ void WriteForsyth(void)
   StdChar(' ');
 }
 
-void linesolution(void) {
+void linesolution(slice_index si)
+{
   int      num= 0;
   couleur       camp;
-  ecritcoup_mode write_end_marker;
+  Goal end_marker;
 
   sic_coup= nbcou;
   sic_ply= nbply;
@@ -2182,7 +2192,7 @@ void linesolution(void) {
   repere[nbply + 1]= nbcou;
   camp= trait[nbply= 2];
   ResetPosition();
-  if (((slices[1].u.leaf.goal!=goal_atob && flag_appseul)
+  if (((slices[si].u.leaf.goal!=goal_atob && flag_appseul)
        || SatzFlag)
       && !FlowFlag(Intro))
   {
@@ -2190,7 +2200,7 @@ void linesolution(void) {
     num= 1;
     if (flag_appseul
         && SatzFlag
-        && slices[1].u.leaf.goal!=goal_atob)
+        && slices[si].u.leaf.goal!=goal_atob)
       StdString("  ...");
     else
       camp= advers(camp);
@@ -2204,7 +2214,7 @@ void linesolution(void) {
     nbcou= repere[nbply+1];
     initneutre(advers(trait[nbply]));
     jouecoup_no_test();
-    ecritcoup(ecritcoup_dont_write_end_marker);
+    ecritcoup(no_goal);
     nbply++;
     camp= advers(camp);
   }
@@ -2221,13 +2231,11 @@ void linesolution(void) {
       sprintf(GlobalStr,"%3d.",++num);
       StdString(GlobalStr);
     }
-    write_end_marker = (sic_ply==nbply
-                        ? ecritcoup_write_end_marker
-                        : ecritcoup_dont_write_end_marker);
+    end_marker = sic_ply==nbply ? slices[si].u.leaf.goal : no_goal;
     nbcou= repere[nbply + 1];
     initneutre(advers(trait[nbply]));
     jouecoup_no_test();
-    ecritcoup(write_end_marker);
+    ecritcoup(end_marker);
     nbply++;
   }
   Message(NewLine);
@@ -2245,7 +2253,7 @@ void linesolution(void) {
  *                 non-trivial moves)
  * @return number of defender's non-trivial moves minus 1 (TODO: why?)
  */
-int count_non_trivial(couleur defender)
+int count_non_trivial(couleur defender, slice_index si)
 {
   couleur attacker = advers(defender);
   int result = -1;
@@ -2257,7 +2265,7 @@ int count_non_trivial(couleur defender)
     if (jouecoup()
         && !echecc(defender)
         && !(min_length_nontrivial>0
-             && dsr_does_attacker_win(attacker,min_length_nontrivial)))
+             && dsr_does_attacker_win(attacker,min_length_nontrivial,si)))
       ++result;
     repcoup();
   }
@@ -2314,25 +2322,31 @@ boolean has_too_many_flights(couleur defender)
  *               length as entered by the user
  *         number (0..max_nr_refutations) of refutations otherwise
  */
-int dsr_find_refutations(couleur defender, int n, int t)
+int dsr_find_refutations(couleur defender, int n, int t, slice_index si)
 {
   couleur attacker = advers(defender);
   boolean is_defender_immobile = true;
   int ntcount = 0;
+  slice_index const op1 = slices[si].u.composite.op1;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
 
-  if ((!slices[0].u.composite.is_exact || n==0)
-      && slices[1].u.leaf.end==EDirect
-      && goal_checkers[slices[1].u.leaf.goal](attacker))
+  if ((!slices[si].u.composite.is_exact || n==0)
+      && slices[op1].type==STLeaf
+      && slices[op1].u.leaf.end==EDirect
+      && goal_checkers[slices[op1].u.leaf.goal](attacker))
     return -1;
 
-  if ((slices[1].u.leaf.end==EReflex
-       || slices[1].u.leaf.end==ESemireflex)
-      && is_there_end_in_1(defender))
+  if (slices[op1].type==STLeaf
+      && (slices[op1].u.leaf.end==EReflex
+          || slices[op1].u.leaf.end==ESemireflex)
+      && is_there_end_in_1(defender,op1))
     return 0;
 
   if (n>max_len_threat
       && !echecc(defender)
-      && !dsr_does_attacker_win(attacker,max_len_threat))
+      && !dsr_does_attacker_win(attacker,max_len_threat,si))
     return max_nr_refutations+1;
 
   if (n>2 && OptFlag[solflights] && has_too_many_flights(defender))
@@ -2340,7 +2354,7 @@ int dsr_find_refutations(couleur defender, int n, int t)
 
   if (n>min_length_nontrivial)
   {
-    ntcount = count_non_trivial(defender);
+    ntcount = count_non_trivial(defender,si);
     if (max_nr_nontrivial<ntcount)
       return max_nr_refutations+1;
     else
@@ -2355,11 +2369,17 @@ int dsr_find_refutations(couleur defender, int n, int t)
 
   while (encore() && tablen(t)<=max_nr_refutations)
   {
-    if (jouecoup() && !echecc(defender))
+    TraceValue("%d\n",n);
+    TraceCurrentMove();
+    if (jouecoup()
+        && !echecc(defender))
     {
       is_defender_immobile = false;
-      if (!dsr_does_attacker_win(attacker,n))
+      if (!dsr_does_attacker_win(attacker,n,si))
+      {
+        TraceText("refutes\n");
         pushtabsol(t);
+      }
     }
     repcoup();
   }
@@ -2379,8 +2399,12 @@ int dsr_find_refutations(couleur defender, int n, int t)
  * @return true iff the move just played defends against at least one
  *         of the threats
  */
-boolean dsr_defends_threats(couleur attacker, int n, int t)
+boolean dsr_defends_threats(couleur attacker, int n, int t, slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d",si);
+  TraceFunctionParam("%d\n",tablen(t));
   if (tablen(t)==0)
     return true;
   else
@@ -2393,11 +2417,16 @@ boolean dsr_defends_threats(couleur attacker, int n, int t)
 
     while (encore() && !defense_found)
     {
-      if (jouecoup() && nowdanstab(t) && !echecc(attacker))
+      TraceValue("%d\n",n);
+      TraceCurrentMove();
+      if (jouecoup()
+          && nowdanstab(t)
+          && !echecc(attacker))
       {
-        defense_found = dsr_does_defender_win(defender,n-1);
+        defense_found = dsr_does_defender_win(defender,n-1,si);
         if (defense_found)
         {
+          TraceText("defended\n");
           coupfort();
         }
         else
@@ -2418,19 +2447,19 @@ boolean dsr_defends_threats(couleur attacker, int n, int t)
 /* Write a move by the defending side in direct/self/reflex play.
  * @param mode should we write mate/stalemate/... marker?
  */
-void dsr_write_defense(ecritcoup_mode mode)
+void dsr_write_defense(Goal goal)
 {
   Tabulate();
   sprintf(GlobalStr,"%3d...",zugebene);
   StdString(GlobalStr);
-  ecritcoup(mode);
+  ecritcoup(goal);
   StdString("\n");
 }
 
 /* Write a move by the attacking side in direct/self/reflex play.
  * @param mode should we write mate/stalemate/... marker?
  */
-void dsr_write_attack(ecritcoup_mode mode)
+void dsr_write_attack(Goal goal)
 {
   if (DrohFlag)
   {
@@ -2440,15 +2469,15 @@ void dsr_write_attack(ecritcoup_mode mode)
   Tabulate();
   sprintf(GlobalStr,"%3d.",zugebene);
   StdString(GlobalStr);
-  ecritcoup(mode);
+  ecritcoup(goal);
 }
 
 /* Determine and write all final moves of a self/reflex variation.
  * @param defender defending side (i.e. side executing the final move(s))
  */
-void sr_find_write_final_move(couleur defender)
+void sr_find_write_final_move(couleur defender, slice_index si)
 {
-  boolean const tree_mode = slices[0].u.composite.play==PDirect;
+  boolean const tree_mode = slices[0].u.composite.play==PDirect; /* TODO */
 
   if (tree_mode)
     StdString("\n");
@@ -2458,12 +2487,12 @@ void sr_find_write_final_move(couleur defender)
   while(encore())
   {
     if (jouecoup()
-        && goal_checkers[slices[1].u.leaf.goal](defender))
+        && goal_checkers[slices[si].u.leaf.goal](defender))
     {
       if (tree_mode)
-        dsr_write_defense(ecritcoup_write_end_marker);
+        dsr_write_defense(slices[si].u.leaf.goal);
       else
-        linesolution();
+        linesolution(si);
     }
 
     repcoup();
@@ -2475,25 +2504,31 @@ void sr_find_write_final_move(couleur defender)
 /* Determine and write all set mates of a self/reflex stipulation.
  * @param defender defending side (i.e. side executing the set mates)
  */
-void sr_find_write_set_mate(couleur defender)
+void sr_find_write_set_mate(couleur defender, slice_index si)
 {
   StdString("\n");
+
   GenMatingMove(defender);
+
   while(encore())
   {
-    if (jouecoup() && goal_checkers[slices[1].u.leaf.goal](defender))
+    if (jouecoup()
+        && goal_checkers[slices[si].u.leaf.goal](defender))
     {
-      dsr_write_defense(ecritcoup_write_end_marker);
+      dsr_write_defense(slices[si].u.leaf.goal);
       if (OptFlag[maxsols]) 
         solutions++;
       if (OptFlag[beep])
         BeepOnSolution(maxbeep);
     }
+
     repcoup();
+
     if ((OptFlag[maxsols] && solutions>=maxsolutions)
         || maxtime_status==MAXTIME_TIMEOUT)
       break;
   }
+
   finply();
 }
 
@@ -2505,20 +2540,23 @@ void sr_find_write_set_mate(couleur defender)
  * @param attacker attacking side
  * @param n number of moves until end state has to be reached from now
  */
-void dsr_write_variation(couleur attacker, int n)
+void dsr_write_variation(couleur attacker, int n, slice_index si)
 {
   boolean isRefutation = true; /* until we prove otherwise */
   int i;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
 
-  dsr_write_defense(ecritcoup_dont_write_end_marker);
+  dsr_write_defense(no_goal);
   marge+= 4;
 
-  for (i = slices[0].u.composite.is_exact ? n : 1;
+  for (i = slices[si].u.composite.is_exact ? n : 1;
        i<=n && isRefutation;
        i++)
   {
     int mats = alloctab();
-    dsr_find_write_continuations(attacker,i,mats);
+    dsr_find_write_continuations(attacker,i,mats,si);
     isRefutation = tablen(mats)==0;
     freetab();
   }
@@ -2534,60 +2572,127 @@ void dsr_write_variation(couleur attacker, int n)
   marge-= 4;
 }
 
+boolean sr_short_end(couleur defender, slice_index si)
+{
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      switch (slices[si].u.leaf.end)
+      {
+        case ESelf:
+          if (goal_checkers[slices[si].u.leaf.goal](defender))
+            return true;
+
+        default:
+          break;
+      }
+
+    default:
+      break;
+  }
+
+  return false;
+}
+
 /* Determine and write set play of a direct/self/reflex stipulation
  * @param attacker attacking side
  * @param n number of moves until end state has to be reached,
  *          including the virtual key move
  */
-void dsr_find_write_setplay(couleur attacker, int n)
+void dsr_find_write_setplay(couleur attacker, int n, slice_index si)
 {
   couleur defender = advers(attacker);
   int ntcount = 0;
-  slice_index const op1 = slices[0].u.composite.op1;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
 
   if (n==1)
   {
-    if (slices[1].u.leaf.end==EDirect)
-      Message(NewLine);
-    else
-      sr_find_write_set_mate(defender);
-
-    return;
-  }
-
-  if (slices[op1].u.leaf.end!=EDirect
-      && !sr_does_defender_win_in_0(defender,op1))
-  {
-    sr_find_write_set_mate(defender);
-    return;
-  }
-
-  StdString("\n");
-
-  if (n-1>min_length_nontrivial)
-  {
-    ntcount = count_non_trivial(defender);
-    max_nr_nontrivial -= ntcount;
-  }
-
-  genmove(defender);
-  while(encore())
-  {
-    if (jouecoup() && !echecc(defender))
+    slice_index const op1 = slices[si].u.composite.op1;
+    switch (slices[op1].type)
     {
-      if (slices[1].u.leaf.end!=EDirect
-          && goal_checkers[slices[1].u.leaf.goal](defender))
-        ; /* oops, wrong side! */
-      else if (dsr_does_attacker_win(attacker,n-1))
-        /* yipee - this solves! */
-        dsr_write_variation(attacker,n-1);
-    }
-    repcoup();
-  }
-  finply();
+      case STLeaf:
+        switch (slices[op1].u.leaf.end)
+        {
+          case EDirect:
+            Message(NewLine);
+            break;
 
-  if (n-1>min_length_nontrivial)
-    max_nr_nontrivial += ntcount;
+          case ESelf:
+          case EReflex:
+          case ESemireflex:
+            sr_find_write_set_mate(defender,op1);
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+  }
+  else
+  {
+    slice_index const op1 = slices[si].u.composite.op1;
+    switch (slices[op1].type)
+    {
+      case STLeaf:
+        switch (slices[op1].u.leaf.end)
+        {
+          case ESelf:
+          case EReflex:
+          case ESemireflex:
+            if (!sr_does_defender_win_in_0(defender,op1))
+            {
+              sr_find_write_set_mate(defender,op1);
+              return;
+            }
+
+          default:
+            break;
+        }
+
+      default:
+        break;
+    }
+
+    StdString("\n");
+
+    if (n-1>min_length_nontrivial)
+    {
+      ntcount = count_non_trivial(defender,si);
+      max_nr_nontrivial -= ntcount;
+    }
+
+    genmove(defender);
+
+    while(encore())
+    {
+      TraceValue("%d\n",n);
+      TraceCurrentMove();
+      if (jouecoup()
+          && !echecc(defender))
+      {
+        if (sr_short_end(defender,op1))
+          ; /* oops */
+        else if (dsr_does_attacker_win(attacker,n-1,si))
+          /* yipee - this solves! */
+          dsr_write_variation(attacker,n-1,si);
+      }
+
+      repcoup();
+    }
+
+    finply();
+
+    if (n-1>min_length_nontrivial)
+      max_nr_nontrivial += ntcount;
+  }
 } /* dsr_find_write_setplay */
 
 /* Determine and write the threat and variations in direct/self/reflex
@@ -2603,13 +2708,17 @@ void dsr_find_write_setplay(couleur attacker, int n)
  */
 void dsr_find_write_threats_variations(couleur attacker,
                                        int n,
-                                       int refutations)
+                                       int refutations,
+                                       slice_index si)
 {
   couleur defender = advers(attacker);
   int mena;
   int lenthreat = 1;
   int ntcount = 0;
-  slice_index const op1 = slices[0].u.composite.op1;
+  slice_index const op1 = slices[si].u.composite.op1;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
 
   if (!OptFlag[solvariantes])
   {
@@ -2619,10 +2728,10 @@ void dsr_find_write_threats_variations(couleur attacker,
 
   if (n==1)
   {
-    if (slices[1].u.leaf.end==EDirect)
+    if (slices[op1].u.leaf.end==EDirect)
       Message(NewLine);
     else
-      sr_find_write_final_move(defender);
+      sr_find_write_final_move(defender,op1);
 
     return;
   }
@@ -2631,7 +2740,7 @@ void dsr_find_write_threats_variations(couleur attacker,
        || slices[op1].u.leaf.end==ESemireflex)
       && !sr_does_defender_win_in_0(defender,op1))
   {
-    sr_find_write_final_move(defender);
+    sr_find_write_final_move(defender,op1);
     return;
   }
 
@@ -2646,7 +2755,7 @@ void dsr_find_write_threats_variations(couleur attacker,
     marge+= 4;
     for (i = 1; i<=max_threat_length; i++)
     {
-      dsr_find_write_continuations(attacker,i,mena);
+      dsr_find_write_continuations(attacker,i,mena,si);
       if (tablen(mena)>0)
       {
         lenthreat = i;
@@ -2663,33 +2772,39 @@ void dsr_find_write_threats_variations(couleur attacker,
 
   if (n-1>min_length_nontrivial)
   {
-    ntcount = count_non_trivial(defender);
+    ntcount = count_non_trivial(defender,si);
     max_nr_nontrivial -= ntcount;
   }
 
   genmove(defender);
+
   while(encore())
   {
+    TraceValue("%d\n",n);
+    TraceCurrentMove();
     if (jouecoup()
         && !echecc(defender)
         && !nowdanstab(refutations))
     {
-      if (OptFlag[noshort] && dsr_does_attacker_win(attacker,n-2))
+      if (OptFlag[noshort] && dsr_does_attacker_win(attacker,n-2,si))
         ; /* variation shorter than stip; thanks, but no thanks! */
-      else if (lenthreat>1 && dsr_does_attacker_win(attacker,lenthreat-1))
+      else if (lenthreat>1
+               && dsr_does_attacker_win(attacker,lenthreat-1,si))
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
-      else if (slices[1].u.leaf.end!=EDirect
-               && goal_checkers[slices[1].u.leaf.goal](defender))
+      else if (slices[op1].u.leaf.end!=EDirect
+               && goal_checkers[slices[op1].u.leaf.goal](defender))
         ; /* oops! wrong side */
-      else if (!dsr_defends_threats(attacker,lenthreat,mena))
+      else if (!dsr_defends_threats(attacker,lenthreat,mena,si))
         ; /* move doesn't defend against threat */
       else
-        dsr_write_variation(attacker,n-1);
+        dsr_write_variation(attacker,n-1,si);
     }
     repcoup();
   }
+
   finply();
+
   freetab();
 
   if (n-1>min_length_nontrivial)
@@ -2710,7 +2825,7 @@ void dsr_write_refutations(int t)
     {
       Tabulate();
       StdString("  1...");
-      editcoup(&tabsol.liste[n],ecritcoup_dont_write_end_marker);
+      editcoup(&tabsol.liste[n],no_goal);
       StdString(" !\n");
     }
   }
@@ -2721,7 +2836,7 @@ void dsr_write_refutations(int t)
  * @param attacker attacking side
  * @param t table where to store continuing moves (i.e. threats)
  */
-void d_find_write_end(couleur attacker, int t)
+void d_find_write_end(couleur attacker, int t, slice_index si)
 {
   GenMatingMove(attacker);
 
@@ -2729,9 +2844,9 @@ void d_find_write_end(couleur attacker, int t)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && goal_checkers[slices[1].u.leaf.goal](attacker))
+        && goal_checkers[slices[si].u.leaf.goal](attacker))
     {
-      dsr_write_attack(ecritcoup_write_end_marker);
+      dsr_write_attack(slices[si].u.leaf.goal);
       Message(NewLine);
       pushtabsol(t);
     }
@@ -2755,23 +2870,23 @@ void dsr_find_write_end_quodlibet(couleur attacker, int t, slice_index si)
     if (jouecoup()
         && !echecc(attacker))
     {
-      slice_index const op2 = slices[si].u.composite.op2;
-      if (goal_checkers[slices[op2].u.leaf.goal](attacker))
+      slice_index const op1 = slices[si].u.composite.op1;
+      if (goal_checkers[slices[op1].u.leaf.goal](attacker))
       {
-        dsr_write_attack(ecritcoup_write_end_marker);
+        dsr_write_attack(slices[op1].u.leaf.goal);
         Message(NewLine);
         pushtabsol(t);
       }
       else
       {
-        slice_index const op1 = slices[si].u.composite.op1;
+        slice_index const op2 = slices[si].u.composite.op2;
         couleur defender = advers(attacker);
-        if (!sr_does_defender_win_in_0(defender,op1))
+        if (!sr_does_defender_win_in_0(defender,op2))
         {
-          dsr_write_attack(ecritcoup_dont_write_end_marker);
+          dsr_write_attack(no_goal);
 
           marge+= 4;
-          sr_find_write_final_move(defender);
+          sr_find_write_final_move(defender,op2);
           marge-= 4;
 
           pushtabsol(t);
@@ -2789,10 +2904,9 @@ void dsr_find_write_end_quodlibet(couleur attacker, int t, slice_index si)
  * @param attacker attacking side
  * @param t table where to store continuing moves (i.e. threats)
  */
-void sr_find_write_end(couleur attacker, int t)
+void sr_find_write_end(couleur attacker, int t, slice_index si)
 {
   couleur defender = advers(attacker);
-  slice_index const op1 = slices[0].u.composite.op1;
 
   genmove(attacker);
 
@@ -2800,12 +2914,12 @@ void sr_find_write_end(couleur attacker, int t)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && !sr_does_defender_win_in_0(defender,op1))
+        && !sr_does_defender_win_in_0(defender,si))
     {
-      dsr_write_attack(ecritcoup_dont_write_end_marker);
+      dsr_write_attack(no_goal);
 
       marge+= 4;
-      sr_find_write_final_move(defender);
+      sr_find_write_final_move(defender,si);
       marge-= 4;
 
       pushtabsol(t);
@@ -2823,34 +2937,45 @@ void sr_find_write_end(couleur attacker, int t)
  * @param attacker attacking side
  * @param t table where to store continuing moves (i.e. threats)
  */
-void dsr_find_write_end(couleur attacker, int t)
+void dsr_find_write_end(couleur attacker, int t, slice_index si)
 {
-
-  switch (slices[0].type)
+  switch (slices[si].type)
   {
     case STQuodlibet:
       dsr_find_write_end_quodlibet(attacker,t,0);
       break;
 
     case STSequence:
-      switch (slices[1].u.leaf.end)
+    {
+      slice_index const op1 = slices[si].u.composite.op1;
+      switch (slices[op1].type)
       {
-        case EDirect:
-          d_find_write_end(attacker,t);
-          break;
+        case STLeaf:
+          switch (slices[op1].u.leaf.end)
+          {
+            case EDirect:
+              d_find_write_end(attacker,t,op1);
+              break;
 
-        case ESelf:
-        case EReflex:
-        case ESemireflex:
-          sr_find_write_end(attacker,t);
-          break;
+            case ESelf:
+            case EReflex:
+            case ESemireflex:
+              sr_find_write_end(attacker,t,op1);
+              break;
+    
+            default:
+              assert(0);
+              break;
+          }
     
         default:
           assert(0);
           break;
       }
+      
       break;
-    
+    }
+
     default:
       assert(0);
       break;
@@ -2865,28 +2990,36 @@ void dsr_find_write_end(couleur attacker, int t)
  * @param n number of moves until end state has to be reached
  * @param t table where to store continuing moves (i.e. threats)
  */
-void dsr_find_write_continuations(couleur attacker, int n, int t)
+void dsr_find_write_continuations(couleur attacker,
+                                  int n,
+                                  int t,
+                                  slice_index si)
 {
   couleur defender = advers(attacker);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
 
   zugebene++;
 
   if (n==1)
-    dsr_find_write_end(attacker,t);
+    dsr_find_write_end(attacker,t,si);
   else
   {
     genmove(attacker);
 
     while (encore())
     {
+      TraceValue("%d\n",n);
+      TraceCurrentMove();
       if (jouecoup()
           && !echecc(attacker)
-          && !dsr_does_defender_win(defender,n-1))
+          && !dsr_does_defender_win(defender,n-1,si))
       {
-        dsr_write_attack(ecritcoup_dont_write_end_marker);
+        dsr_write_attack(no_goal);
 
         marge+= 4;
-        dsr_find_write_threats_variations(attacker,n,alloctab());
+        dsr_find_write_threats_variations(attacker,n,alloctab(),si);
         freetab();
         marge-= 4;
 
@@ -2908,9 +3041,9 @@ void dsr_find_write_continuations(couleur attacker, int n, int t)
  * @param is_try true if key is first move of try, false if key is
  *               first move of solution
  */
-void dsr_write_key(ecritcoup_mode mode, boolean is_try)
+void dsr_write_key(Goal goal, boolean is_try)
 {
-  dsr_write_attack(mode);
+  dsr_write_attack(goal);
   if (is_try)
     StdString("? ");
   else
@@ -2935,16 +3068,23 @@ void dsr_write_key(ecritcoup_mode mode, boolean is_try)
 void dsr_write_key_postkey(couleur attacker,
                            int n,
                            int nr_refutations,
-                           int refutations)
+                           int refutations,
+                           slice_index si)
 {
-  ecritcoup_mode write_end_marker = (nr_refutations==-1
-                                     ? ecritcoup_write_end_marker
-                                     : ecritcoup_dont_write_end_marker);
   boolean is_try = nr_refutations>=1;
-  dsr_write_key(write_end_marker,is_try);
+  boolean key_reaches_end = nr_refutations==-1;
+  Goal end_marker = (key_reaches_end
+                     ? slices[slices[si].u.composite.op1].u.leaf.goal
+                     : no_goal);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d",si);
+  TraceFunctionParam("%d\n",nr_refutations);
+
+  dsr_write_key(end_marker,is_try);
 
   marge+= 4;
-  dsr_find_write_threats_variations(attacker,n,refutations);
+  dsr_find_write_threats_variations(attacker,n,refutations,si);
   dsr_write_refutations(refutations);
   marge-= 4;
 }
@@ -2953,18 +3093,19 @@ void dsr_write_key_postkey(couleur attacker,
  * stipulations; we know that at least 1 exists.
  * @param attacker attacking side
  */
-void r_find_write_forced_keys(couleur attacker)
+void r_find_write_forced_keys(couleur attacker, slice_index si)
 {
-  if (slices[1].u.leaf.goal==goal_mate_or_stale)
+  slice_index const op1 = slices[si].u.composite.op1;
+  if (slices[op1].u.leaf.goal==goal_mate_or_stale)
     sprintf(GlobalStr, "%s1:\n", mate_or_stale_patt ? " =" : " #");
   else
     sprintf(GlobalStr,
             "%s1:\n",
-            goal_end_marker[slices[1].u.leaf.goal]);
+            goal_end_marker[slices[op1].u.leaf.goal]);
   StdString(GlobalStr);
-  slices[0].u.composite.play = PDirect;
-  slices[1].u.leaf.goal = ESemireflex;
-  dsr_find_write_continuations(attacker,1,alloctab());
+  slices[si].u.composite.play = PDirect;
+  slices[op1].u.leaf.goal = ESemireflex; /* TODO */
+  dsr_find_write_continuations(attacker,1,alloctab(),si);
   freetab();
 }
 
@@ -2973,17 +3114,23 @@ void r_find_write_forced_keys(couleur attacker)
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
+ * @return true iff >=1 key was found and written
  */
-void d_find_write_keys_in_1(couleur attacker, boolean restartenabled)
+boolean d_leaf_find_write_keys(couleur attacker,
+                               boolean restartenabled,
+                               slice_index si)
 {
+  boolean key_found = false;
+
   genmove(attacker);
   while (encore())
   {
     if (jouecoup()
         && !echecc(attacker)
-        && goal_checkers[slices[1].u.leaf.goal](attacker))
+        && goal_checkers[slices[si].u.leaf.goal](attacker))
     {
-      dsr_write_key(ecritcoup_write_end_marker,false);
+      key_found = true;
+      dsr_write_key(slices[si].u.leaf.goal,false);
       StdString("\n\n");
     }
 
@@ -2992,7 +3139,94 @@ void d_find_write_keys_in_1(couleur attacker, boolean restartenabled)
 
     repcoup();
   }
+
   finply();
+
+  return key_found;
+}
+
+/* Determine and write solutions in a self/reflex stipulation in 1 move
+ * @param attacker attacking side
+ * @param restartenabled true iff the written solution should only
+ *                       start at the Nth legal move of attacker
+ *                       (determined by user input)
+ * 
+ * @return true iff >=1 key was found and written
+ */
+boolean sr_leaf_find_write_solutions(couleur attacker,
+                                     boolean restartenabled,
+                                     slice_index si)
+{
+  couleur const defender = advers(attacker);
+  boolean key_found = false;
+
+  genmove(attacker);
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(attacker)
+        && !sr_does_defender_win_in_0(defender,si))
+    {
+      key_found = true;
+      dsr_write_key(no_goal,false);
+      marge += 4;
+      sr_find_write_final_move(defender,si);
+      marge -= 4;
+    }
+
+    if (restartenabled)
+      IncrementMoveNbr();
+
+    repcoup();
+  }
+
+  finply();
+
+  StdChar('\n');
+
+  return key_found;
+}
+
+/* Write the solutions of a leaf in direct/self/reflex play.
+ * @param attacker attacking side
+ * @param restartenabled true iff the written solution should only
+ *                       start at the Nth legal move of attacker
+ *                       (determined by user input)
+ * @param si slice index of the leaf slice
+ */
+int dsr_find_write_leaf_solutions(couleur attacker,
+                                  boolean restartenabled,
+                                  slice_index si)
+{
+  /* TODO first write forced reflex moves (if any); only if there are
+   * none, continue with solutions */
+  assert(slices[si].type==STLeaf);
+
+  switch (slices[si].u.leaf.end)
+  {
+    case EDirect:
+      return d_leaf_find_write_keys(attacker,restartenabled,si);
+
+    case EReflex:
+      if (is_there_end_in_1(attacker,si))
+      {
+        r_find_write_forced_keys(attacker,si);
+        return -1;
+      }
+      else
+      {
+        /* intentionally falling through */
+      }
+
+    case ESelf:
+    case ESemireflex:
+      return sr_leaf_find_write_solutions(attacker,restartenabled,si);
+
+    default:
+      assert(0);
+      return -1;
+  }
 }
 
 /* Determine and write solutions in a quodlibet direct/self/reflex
@@ -3003,33 +3237,28 @@ void d_find_write_keys_in_1(couleur attacker, boolean restartenabled)
  *                       (determined by user input)
  */
 void dsr_find_write_quodlibet_solutions_in_1(couleur attacker,
-                                             boolean restartenabled)
+                                             boolean restartenabled,
+                                             slice_index si)
 {
-  couleur defender = advers(attacker);
+  /* TODO first write forced reflex moves (if any); only if there are
+   * none, continue with solutions */
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
 
-  genmove(attacker);
-  while (encore())
+  switch (dsr_find_write_leaf_solutions(attacker,restartenabled,op1))
   {
-    if (jouecoup() && !echecc(attacker))
-    {
-      int refutations = alloctab();
-      int nr_refutations;
-      if (goal_checkers[slices[1].u.leaf.goal](attacker))
-        nr_refutations = -1;
-      else
-        nr_refutations = dsr_find_refutations(defender,0,refutations);
+    case -1:
+      break;
 
-      if (nr_refutations<=max_nr_refutations)
-        dsr_write_key_postkey(attacker,1,nr_refutations,refutations);
-      freetab();
+    case 0:
+    {
+      dsr_find_write_leaf_solutions(attacker,restartenabled,op2);
+      break;
     }
 
-    if (restartenabled)
-      IncrementMoveNbr();
-
-    repcoup();
+    default:
+      break;
   }
-  finply();
 }
 
 /* Determine and write tries and solutios in a "regular"
@@ -3039,16 +3268,24 @@ void dsr_find_write_quodlibet_solutions_in_1(couleur attacker,
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
+ * @return true iff >=1 solution was found and written
  */
-void dsr_find_write_regular_tries_solutions(couleur attacker,
-                                            int n,
-                                            boolean restartenabled)
+boolean dsr_find_write_regular_tries_solutions(couleur attacker,
+                                               int n,
+                                               boolean restartenabled,
+                                               slice_index si)
 {
+  boolean solution_found = false;
   couleur defender = advers(attacker);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
 
   genmove(attacker);
   while (encore())
   {
+    TraceValue("%d\n",n);
+    TraceCurrentMove();
     if (jouecoup()
         && !(restartenabled && MoveNbr<RestartNbr)
         && !echecc(attacker))
@@ -3056,9 +3293,15 @@ void dsr_find_write_regular_tries_solutions(couleur attacker,
       int refutations = alloctab();
       int nr_refutations = dsr_find_refutations(defender,
                                                 n-1,
-                                                refutations);
+                                                refutations,
+                                                si);
+      TraceValue("%d\n",nr_refutations);
       if (nr_refutations<=max_nr_refutations)
-        dsr_write_key_postkey(attacker,n,nr_refutations,refutations);
+      {
+        dsr_write_key_postkey(attacker,n,nr_refutations,refutations,si);
+        if (nr_refutations==0)
+          solution_found = true;
+      }
       freetab();
     }
 
@@ -3071,7 +3314,10 @@ void dsr_find_write_regular_tries_solutions(couleur attacker,
         || maxtime_status==MAXTIME_TIMEOUT)
       break;
   }
+
   finply();
+
+  return solution_found;
 }
 
 /* Determine and write the solutions and tries in the current position
@@ -3084,34 +3330,45 @@ void dsr_find_write_regular_tries_solutions(couleur attacker,
  */
 void dsr_find_write_tries_solutions(couleur attacker,
                                     int n,
-                                    boolean restartenabled)
+                                    boolean restartenabled,
+                                    slice_index si)
 {
   zugebene = 1;
 
   if (n==1)
   {
-    switch (slices[0].type)
+    switch (slices[si].type)
     {
       case STQuodlibet:
-        dsr_find_write_quodlibet_solutions_in_1(attacker,restartenabled);
+        dsr_find_write_quodlibet_solutions_in_1(attacker,
+                                                restartenabled,
+                                                si);
         break;
 
       case STSequence:
-        if (slices[1].u.leaf.end==EReflex
-            && is_there_end_in_1(attacker))
-          r_find_write_forced_keys(attacker);
-        else if (n==1 && slices[1].u.leaf.end==EDirect)
-          d_find_write_keys_in_1(attacker,restartenabled);
-        else
-          dsr_find_write_regular_tries_solutions(attacker,1,restartenabled);
+      {
+        slice_index const op1 = slices[si].u.composite.op1;
+        switch (slices[op1].type)
+        {
+          case STLeaf:
+            dsr_find_write_leaf_solutions(attacker,
+                                          restartenabled,
+                                          op1);
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
         break;
+      }
 
       default:
         assert(0);
     }
   }
   else
-    dsr_find_write_regular_tries_solutions(attacker,n,restartenabled);
+    dsr_find_write_regular_tries_solutions(attacker,n,restartenabled,si);
 
   zugebene = 0;
 } /* dsr_find_write_tries_solutions */
@@ -3136,12 +3393,12 @@ void SolveSeriesProblems(couleur camp)
     
     /* check whether a king can be captured */
     if ((OptFlag[solapparent] && echecc(camp))
-         || echecc(advers(camp)))
+        || echecc(advers(camp)))
     {
       ErrorMsg(KingCapture);
       return;
     }
-    introseries(camp,introenonce,OptFlag[movenbr]);
+    introseries(camp,introenonce,OptFlag[movenbr],0);
   }
   else
   {
@@ -3154,11 +3411,11 @@ void SolveSeriesProblems(couleur camp)
       else
       {
         if (slices[1].u.leaf.end==EHelp)
-          h_find_write_final_move(advers(camp));
+          h_find_write_final_move(advers(camp),1);
         else
         {
           zugebene++;
-          dsr_find_write_setplay(camp,1);
+          dsr_find_write_setplay(camp,1,0);
           zugebene--;
         }
       }
@@ -3200,7 +3457,7 @@ void SolveSeriesProblems(couleur camp)
           boolean restartenabled = (OptFlag[movenbr]
                                     && i==slices[0].u.composite.length);
 
-          if (ser_find_write_solutions(camp,i,restartenabled))
+          if (ser_find_write_solutions(camp,i,restartenabled,0))
           {
             if (OptFlag[stoponshort]&& i<slices[0].u.composite.length)
             {
@@ -3228,7 +3485,7 @@ void SolveSeriesProblems(couleur camp)
 static boolean SolveHelpInN(couleur camp, int n, boolean restartenabled)
 {
   if (n==1)
-    return h_find_write_final_move(camp);
+    return h_find_write_final_move(camp,1);
   else if (OptFlag[intelligent])
   {
     int blmoves = n/2;
@@ -3240,7 +3497,7 @@ static boolean SolveHelpInN(couleur camp, int n, boolean restartenabled)
     return Intelligent(whmoves,blmoves,&h_find_write_solutions,camp,n);
   }
   else
-    return h_find_write_solutions(camp,n,restartenabled);
+    return h_find_write_solutions(camp,n,restartenabled,0);
 }
 
 /* Solve a help play problem, signal whether short solution(s) were
@@ -3325,7 +3582,8 @@ void SolveDirectProblems(couleur camp)
     {
       dsr_find_write_threats_variations(camp,
                                         slices[0].u.composite.length,
-                                        alloctab());
+                                        alloctab(),
+                                        0);
       freetab();
       Message(NewLine);
     }
@@ -3338,7 +3596,7 @@ void SolveDirectProblems(couleur camp)
         ErrorMsg(SetAndCheck);
       else
       {
-        dsr_find_write_setplay(camp,slices[0].u.composite.length);
+        dsr_find_write_setplay(camp,slices[0].u.composite.length,0);
         Message(NewLine);
       }
     }
@@ -3348,7 +3606,8 @@ void SolveDirectProblems(couleur camp)
     else
       dsr_find_write_tries_solutions(camp,
                                      slices[0].u.composite.length,
-                                     OptFlag[movenbr]);
+                                     OptFlag[movenbr],
+                                     0);
   }
 
   zugebene--;
@@ -3617,26 +3876,30 @@ int main(int argc, char *argv[]) {
           inithash();
           /* no DUPLEX for SPG's ! */
           if (slices[0].u.composite.play==PSeries)
-            SeriesProofSol(slices[0].u.composite.length, OptFlag[movenbr]);
+            SeriesProofSol(slices[0].u.composite.length,
+                           OptFlag[movenbr],
+                           0);
           else
           {
             maincamp = slices[1].u.leaf.goal==goal_atob
-              ? (flag_appseul
-                 ? blanc
-                 : noir)
-              : blanc;
+                ? (flag_appseul
+                   ? blanc
+                   : noir)
+                : blanc;
             if (slices[1].u.leaf.goal==goal_atob
                 && OptFlag[solapparent]
                 && slices[0].u.composite.length>1) {
               SatzFlag= true;
               ProofSol(advers(maincamp),
                        slices[0].u.composite.length-1,
-                       OptFlag[movenbr]);
+                       OptFlag[movenbr],
+                       0);
               SatzFlag=false;
             }
             ProofSol(maincamp,
                      slices[0].u.composite.length,
-                     OptFlag[movenbr]);
+                     OptFlag[movenbr],
+                     0);
           }
           closehash();
           Message(NewLine);

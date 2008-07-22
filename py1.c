@@ -276,7 +276,6 @@ void InitStip(void)
   slices[0].type = STSequence; 
   slices[0].u.composite.length = 0;
   slices[0].u.composite.is_exact = false;
-  slices[0].u.composite.recigoal = no_goal;
 
   slices[1].type = STLeaf; 
   slices[1].u.leaf.goal = no_goal;

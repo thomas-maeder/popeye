@@ -1099,25 +1099,27 @@ static char *ParsPartialGoal(char *tok, Goal *goal, square *target)
   return 0;
 }
 
-static char *ParseGoal(char *tok)
+static char *ParseGoal(char *tok, slice_index si)
 {
   return ParsPartialGoal(tok,
-                         &slices[1].u.leaf.goal,
-                         &slices[1].u.leaf.target);
+                         &slices[si].u.leaf.goal,
+                         &slices[si].u.leaf.target);
 }
 
-static char *ParseReciGoal(char *tok)
+static char *ParseReciGoal(char *tok,
+                           slice_index si_nonreci,
+                           slice_index si_reci)
 {
   if (*tok=='(')
   {
     char const *closingParenPos = strchr(tok,')');
     if (closingParenPos!=0)
     {
-      tok = ParsPartialGoal(tok+1,&slices[0].u.composite.recigoal,0);
+      tok = ParsPartialGoal(tok+1,&slices[si_reci].u.leaf.goal,0);
       if (tok==0)
         return 0;
       else if (tok==closingParenPos)
-        return ParseGoal(tok+1);
+        return ParseGoal(tok+1,si_nonreci);
       else
       {
         IoErrorMsg(UnrecStip, 0);
@@ -1131,7 +1133,12 @@ static char *ParseReciGoal(char *tok)
     }
   }
   else
-    return ParseGoal(tok);
+  {
+    char *result = ParseGoal(tok,si_nonreci);
+    if (result)
+      slices[si_reci].u.leaf.goal = slices[si_nonreci].u.leaf.goal;
+    return result;
+  }
 }
 
 static char *ParseEnd(char *tok)
@@ -1139,56 +1146,63 @@ static char *ParseEnd(char *tok)
   if (strncmp("dia", tok, 3) == 0)
   {
     slices[1].u.leaf.end = EDirect;
-    return ParseGoal(tok);
+    return ParseGoal(tok,1);
   }
 
 #if !defined(DATABASE)
   if (strncmp("a=>b", tok, 4) == 0)
   {
     slices[1].u.leaf.end = EDirect;
-    return ParseGoal(tok);
+    return ParseGoal(tok,1);
   }
 #endif
 
   if (strncmp("semi-r", tok, 6) == 0)
   {
     slices[1].u.leaf.end = ESemireflex;
-    return ParseGoal(tok+6);
+    return ParseGoal(tok+6,1);
   }
 
   if (strncmp("reci-h", tok, 6) == 0)
   {
-    slices[current_slice].type = STReciprocal;
+    slices[0].type = STReciprocal;
+    slices[0].u.composite.op2 = 2;
+
+    slices[1].type = STLeaf;
     slices[1].u.leaf.end = EHelp;
-    return ParseReciGoal(tok+6);
+
+    slices[2].type = STLeaf;
+    slices[2].u.leaf.end = EDirect;
+
+    return ParseReciGoal(tok+6,1,2);
   }
 
   if (strncmp("hs", tok, 2) == 0)
   {
     slices[1].u.leaf.end = ESelf;
-    return ParseGoal(tok+2);
+    return ParseGoal(tok+2,1);
   }
 
   if (strncmp("hr", tok, 2) == 0)
   {
     slices[1].u.leaf.end = EReflex;
-    return ParseGoal(tok+2);
+    return ParseGoal(tok+2,1);
   }
 
   switch (*tok)
   {
   case 'h':
     slices[1].u.leaf.end = EHelp;
-    return ParseGoal(tok+1);
+    return ParseGoal(tok+1,1);
   case 'r':
     slices[1].u.leaf.end = EReflex;
-    return ParseGoal(tok+1);
+    return ParseGoal(tok+1,1);
   case 's':
     slices[1].u.leaf.end = ESelf;
-    return ParseGoal(tok+1);
+    return ParseGoal(tok+1,1);
   default:
     slices[1].u.leaf.end = EDirect;
-    return ParseGoal(tok);
+    return ParseGoal(tok,1);
   }
 }
 
@@ -1233,7 +1247,9 @@ static char *ParsePlay(char *tok)
     slices[0].type = STSequence;
     slices[0].u.composite.play = PHelp;
     slices[0].u.composite.op1 = 1;
+    slices[0].u.composite.op2 = 2;
     slices[1].type = STLeaf;
+    slices[2].type = STLeaf;
     return ParseEnd(tok);
   }
 
@@ -1285,12 +1301,6 @@ static char *ParseStip(void)
   if (tok)
   {
     char *ptr;
-
-    if (slices[current_slice].type==STReciprocal)
-    {
-      if (slices[0].u.composite.recigoal==no_goal)
-        slices[0].u.composite.recigoal = slices[1].u.leaf.goal;
-    }
 
     if (*tok==0)
     {
@@ -2724,9 +2734,10 @@ static char *ParseOpt(void) {
       {
         slices[0].type = STQuodlibet;
         slices[0].u.composite.op2 = 2;
-        slices[2].type = STLeaf;
-        slices[2].u.leaf.end = EDirect;
-        slices[2].u.leaf.goal = slices[1].u.leaf.goal;
+        /* 1 is tested before 2, so let's make 1 EDirect */
+        slices[2] = slices[1];
+        slices[1].type = STLeaf;
+        slices[1].u.leaf.end = EDirect;
       }
       else
       {

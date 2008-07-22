@@ -352,36 +352,6 @@ EXTERN  evalfunction_t *eval_white;
 EXTERN  evalfunction_t *eval_2;
 EXTERN  evalfunction_t *eval_black;
 
-typedef enum
-{
-  goal_mate,
-  goal_stale,
-  goal_dblstale,
-  goal_target,
-  goal_check,
-  goal_capture,
-  goal_steingewinn,
-  goal_ep,
-  goal_doublemate,
-  goal_countermate,
-  goal_castling,
-  goal_autostale,
-  goal_circuit,
-  goal_exchange,
-  goal_circuitB,
-  goal_exchangeB,
-  goal_mate_or_stale,
-  goal_any,
-  goal_proof,
-#if !defined(DATABASE)
-  /* TODO why not if DATABASE? */
-  goal_atob, /* TODO remove? is there a difference to goal_proof? */
-#endif
-
-  nr_goals,
-  no_goal = nr_goals
-} Goal;
-
 extern char const *goal_end_marker[nr_goals];
 
 typedef boolean (*goal_function_t)(couleur);
@@ -430,9 +400,8 @@ typedef struct
       int length; /* full moves if play==PDirect, half moves otherwise */
       boolean is_exact; /* true iff length is to be considered exact */
       Play play;
-      Goal recigoal;    /* temporary, for type==STReciprocal */
-      slice_index op1; /* operand 1, index into slices */
-      slice_index op2; /* operand 2, index into slices */
+      slice_index op1; /* operand 1 */
+      slice_index op2; /* operand 2 */
     } composite;
   } u;
 } Slice;

@@ -13,6 +13,7 @@
  **
  **************************** End of List ******************************/
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -1695,10 +1696,17 @@ boolean ProofVerifie(void) {
   return true;
 } /* ProofVerifie */
 
-boolean ProofSol(couleur camp, int n, boolean restartenabled) {
+boolean ProofSol(couleur camp,
+                 int n,
+                 boolean restartenabled,
+                 slice_index si) {
   boolean   result= false;
   couleur   ad= advers(camp);
   HashBuffer hb;
+  slice_index const op1 = slices[si].u.composite.op1;
+
+  assert(slices[si].type==STSequence);
+  assert(slices[op1].type==STLeaf);
 
   if ((OptFlag[maxsols] && solutions>=maxsolutions)
       || maxtime_status==MAXTIME_TIMEOUT
@@ -1725,7 +1733,7 @@ boolean ProofSol(couleur camp, int n, boolean restartenabled) {
           if (ProofIdentical())
           {
             result= true;
-            linesolution();
+            linesolution(op1);
           }
         }
         else
@@ -1734,11 +1742,11 @@ boolean ProofSol(couleur camp, int n, boolean restartenabled) {
           {
             FlagShortSolsReached = true;
             result = true;
-            linesolution();
+            linesolution(op1);
           }
           /* no else here; we might miss some solutions! */
           if (!(*alternateImpossible)(n-1)
-              && ProofSol(ad,n-1,False))
+              && ProofSol(ad,n-1,False,si))
             result= true;
         }
       }
@@ -1758,10 +1766,14 @@ boolean ProofSol(couleur camp, int n, boolean restartenabled) {
   return result;
 } /* ProofSol */
 
-boolean SeriesProofSol(int n, boolean restartenabled) {
+boolean SeriesProofSol(int n, boolean restartenabled, slice_index si) {
   /* no camp, because we play always with white ! */
   boolean result= false;
   HashBuffer hb;
+  slice_index const op1 = slices[si].u.composite.op1;
+
+  assert(slices[si].type==STSequence);
+  assert(slices[op1].type==STLeaf);
 
   if ((OptFlag[maxsols] && solutions>=maxsolutions)
       || maxtime_status==MAXTIME_TIMEOUT
@@ -1788,7 +1800,7 @@ boolean SeriesProofSol(int n, boolean restartenabled) {
           if (ProofIdentical())
           {
             result = true;
-            linesolution();
+            linesolution(op1);
           }
         }
         else
@@ -1797,12 +1809,12 @@ boolean SeriesProofSol(int n, boolean restartenabled) {
           {
             FlagShortSolsReached = true;
             result = true;
-            linesolution();
+            linesolution(op1);
           }
           /* no else here; we might miss some solutions! */
           if (!(*seriesImpossible)(n-1)
               && !echecc(noir)
-              && SeriesProofSol(n-1,False))
+              && SeriesProofSol(n-1,False,si))
             result = true;
         }
       }

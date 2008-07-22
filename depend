@@ -97,7 +97,7 @@ pydata.h:
 pymsg.h:
 py6$(OBJ_SUFFIX): py6.c py.h boolean.h pylang.h py1.h pyproc.h py4.h pydata.h \
   pymsg.h pyhash.h DHT/dhtbcmem.h pyint.h pyproof.h platform/maxmem.h \
-  platform/maxtime.h platform/pytime.h platform/priority.h
+  platform/maxtime.h platform/pytime.h platform/priority.h trace.h
 
 py.h:
 
@@ -130,6 +130,8 @@ platform/maxtime.h:
 platform/pytime.h:
 
 platform/priority.h:
+
+trace.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h pymsg.h \
   platform/maxtime.h
 
@@ -173,7 +175,7 @@ pylang$(OBJ_SUFFIX): pylang.c pylang.h
 pylang.h:
 pyhash$(OBJ_SUFFIX): pyhash.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h \
   pymsg.h pyhash.h DHT/dhtbcmem.h pyint.h DHT/dhtvalue.h DHT/fxf.h \
-  DHT/dht.h pyproof.h platform/maxtime.h
+  DHT/dht.h pyproof.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -204,6 +206,8 @@ DHT/dht.h:
 pyproof.h:
 
 platform/maxtime.h:
+
+trace.h:
 pyproof$(OBJ_SUFFIX): pyproof.c py.h boolean.h pylang.h pyproc.h py4.h pydata.h \
   pyhash.h DHT/dhtbcmem.h pyproof.h pymsg.h platform/maxtime.h
 

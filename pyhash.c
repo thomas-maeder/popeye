@@ -99,6 +99,7 @@
 #include "DHT/dht.h"
 #include "pyproof.h"
 #include "platform/maxtime.h"
+#include "trace.h"
 
 struct dht *pyhash;
 
@@ -180,36 +181,36 @@ static int value_of_data(dhtElement const *he)
 {
   genericElement_t const * const ge = (genericElement_t const *)he;
   switch (ge->data.what) {
-  case SerNoSucc:
-  case IntroSerNoSucc:
-  {
-    serElement_t const * const se = (serElement_t const *)he;
-    return se->data.serNotSolvableIn + slices[0].u.composite.length*se->data.introNotSolvableIn;
-  }
+    case SerNoSucc:
+    case IntroSerNoSucc:
+    {
+      serElement_t const * const se = (serElement_t const *)he;
+      return se->data.serNotSolvableIn + slices[0].u.composite.length*se->data.introNotSolvableIn;
+    }
   
-  case WhHelpNoSucc:
-  case BlHelpNoSucc:
-  {
-    helpElement_t const * const hle = (helpElement_t const *)he;
-    if (hle->data.blackNotSolvableIn > hle->data.whiteNotSolvableIn)
-      return hle->data.blackNotSolvableIn;
-    else
-      return hle->data.whiteNotSolvableIn;
-  }
+    case WhHelpNoSucc:
+    case BlHelpNoSucc:
+    {
+      helpElement_t const * const hle = (helpElement_t const *)he;
+      if (hle->data.blackNotSolvableIn > hle->data.whiteNotSolvableIn)
+        return hle->data.blackNotSolvableIn;
+      else
+        return hle->data.whiteNotSolvableIn;
+    }
   
-  case WhDirSucc:
-  case WhDirNoSucc:
-  {
-    whDirElement_t const * const wde = (whDirElement_t const *)he;
-    if (wde->data.solvableIn <= slices[0].u.composite.length
-        && wde->data.solvableIn+1 > wde->data.notSolvableInLessThan)
-      return wde->data.solvableIn;
-    else
-      return wde->data.notSolvableInLessThan-1;
-  }
+    case WhDirSucc:
+    case WhDirNoSucc:
+    {
+      whDirElement_t const * const wde = (whDirElement_t const *)he;
+      if (wde->data.solvableIn <= slices[0].u.composite.length
+          && wde->data.solvableIn+1 > wde->data.notSolvableInLessThan)
+        return wde->data.solvableIn;
+      else
+        return wde->data.notSolvableInLessThan-1;
+    }
   
-  default:
-    assert(0);
+    default:
+      assert(0);
   }
 
   return 0; /* avoid compiler warning */
@@ -543,7 +544,7 @@ static byte *CommonEncode(byte *bp)
     *bp++ = (byte)(move_generation_stack[nbcou].capture - bas);
     if (one_byte_hash) {
       *bp++ = (byte)(pprispec[nbply])
-        + ((byte)(piece_nbr[abs(pprise[nbply])]) << (CHAR_BIT/2));
+          + ((byte)(piece_nbr[abs(pprise[nbply])]) << (CHAR_BIT/2));
     }
     else {
       *bp++ = pprise[nbply];
@@ -652,88 +653,88 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
   else
     switch (what)
     {
-    case SerNoSucc:
-    {
-      serElement_t const * const sere = (serElement_t*)he;
-      boolean const ret = slices[0].u.composite.is_exact
-        ? sere->data.serNotSolvableIn == (unsigned)val
-        : sere->data.serNotSolvableIn >= (unsigned)val;
-      assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
-      if (ret) {
-        ifHASHRATE(use_pos++);
-        return True;
+      case SerNoSucc:
+      {
+        serElement_t const * const sere = (serElement_t*)he;
+        boolean const ret = slices[0].u.composite.is_exact
+            ? sere->data.serNotSolvableIn == (unsigned)val
+            : sere->data.serNotSolvableIn >= (unsigned)val;
+        assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
+        if (ret) {
+          ifHASHRATE(use_pos++);
+          return True;
+        }
+        else
+          return False;
       }
-      else
-        return False;
-    }
-    case IntroSerNoSucc:
-    {
-      serElement_t const * const sere = (serElement_t*)he;
-      boolean const ret = slices[0].u.composite.is_exact
-        ? sere->data.introNotSolvableIn == (unsigned)val
-        : sere->data.introNotSolvableIn >= (unsigned)val;
-      assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
-      if (ret) {
-        ifHASHRATE(use_pos++);
-        return True;
-      } else
-        return False;
-    }
-    case WhHelpNoSucc:
-    {
-      helpElement_t const * const hlpe = (helpElement_t*)he;
-      boolean const ret = slices[0].u.composite.is_exact
-        ? hlpe->data.whiteNotSolvableIn == (unsigned)val
-        : hlpe->data.whiteNotSolvableIn >= (unsigned)val;
-      assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
-      if (ret) {
-        ifHASHRATE(use_pos++);
-        return True;
+      case IntroSerNoSucc:
+      {
+        serElement_t const * const sere = (serElement_t*)he;
+        boolean const ret = slices[0].u.composite.is_exact
+            ? sere->data.introNotSolvableIn == (unsigned)val
+            : sere->data.introNotSolvableIn >= (unsigned)val;
+        assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
+        if (ret) {
+          ifHASHRATE(use_pos++);
+          return True;
+        } else
+          return False;
       }
-      else
-        return False;
-    }
-    case BlHelpNoSucc:
-    {
-      helpElement_t const * const hlpe = (helpElement_t*)he;
-      boolean const ret = slices[0].u.composite.is_exact
-        ? hlpe->data.blackNotSolvableIn == (unsigned)val
-        : hlpe->data.blackNotSolvableIn >= (unsigned)val;
-      assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
-      if (ret) {
-        ifHASHRATE(use_pos++);
-        return True;
-      } else
-        return False;
-    }
-    case WhDirNoSucc:
-    {
-      whDirElement_t const * const wde = (whDirElement_t*)he;
-      boolean const ret = slices[0].u.composite.is_exact
-        ? wde->data.notSolvableInLessThan == (unsigned)val+1
-        : wde->data.notSolvableInLessThan >= (unsigned)val+1;
-      assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
-      if (ret) {
-        ifHASHRATE(use_pos++);
-        return True;
-      } else
-        return False;
-    }
-    case WhDirSucc:
-    {
-      whDirElement_t const * const wde = (whDirElement_t*)he;
-      boolean const ret = slices[0].u.composite.is_exact
-        ? wde->data.solvableIn == (unsigned)val
-        : wde->data.solvableIn <= (unsigned)val;
-      assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
-      if (ret) {
-        ifHASHRATE(use_pos++);
-        return True;
-      } else
-        return False;
-    }
-    default:
-      assert(0);
+      case WhHelpNoSucc:
+      {
+        helpElement_t const * const hlpe = (helpElement_t*)he;
+        boolean const ret = slices[0].u.composite.is_exact
+            ? hlpe->data.whiteNotSolvableIn == (unsigned)val
+            : hlpe->data.whiteNotSolvableIn >= (unsigned)val;
+        assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
+        if (ret) {
+          ifHASHRATE(use_pos++);
+          return True;
+        }
+        else
+          return False;
+      }
+      case BlHelpNoSucc:
+      {
+        helpElement_t const * const hlpe = (helpElement_t*)he;
+        boolean const ret = slices[0].u.composite.is_exact
+            ? hlpe->data.blackNotSolvableIn == (unsigned)val
+            : hlpe->data.blackNotSolvableIn >= (unsigned)val;
+        assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
+        if (ret) {
+          ifHASHRATE(use_pos++);
+          return True;
+        } else
+          return False;
+      }
+      case WhDirNoSucc:
+      {
+        whDirElement_t const * const wde = (whDirElement_t*)he;
+        boolean const ret = slices[0].u.composite.is_exact
+            ? wde->data.notSolvableInLessThan == (unsigned)val+1
+            : wde->data.notSolvableInLessThan >= (unsigned)val+1;
+        assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
+        if (ret) {
+          ifHASHRATE(use_pos++);
+          return True;
+        } else
+          return False;
+      }
+      case WhDirSucc:
+      {
+        whDirElement_t const * const wde = (whDirElement_t*)he;
+        boolean const ret = slices[0].u.composite.is_exact
+            ? wde->data.solvableIn == (unsigned)val
+            : wde->data.solvableIn <= (unsigned)val;
+        assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
+        if (ret) {
+          ifHASHRATE(use_pos++);
+          return True;
+        } else
+          return False;
+      }
+      default:
+        assert(0);
     }
 
   return False; /* avoid compiler warning */
@@ -753,7 +754,7 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
           || dhtKeyCount(pyhash) > MaxPositions) {
 #if defined(FXF)
         ifTESTHASH(
-          printf("make new hashtable, due to trashing\n"));
+            printf("make new hashtable, due to trashing\n"));
         inithash();
         he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
         if (he==dhtNilElement
@@ -772,107 +773,107 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
       }
     }
     switch (what) {
-    case IntroSerNoSucc:
-    {
-      serElement_t * const sere = (serElement_t*)he;
-      sere->data.what = what;
-      sere->data.introNotSolvableIn = val;
-      sere->data.serNotSolvableIn = 0;
-      break;
-    }
-    case SerNoSucc:
-    {
-      serElement_t * const sere = (serElement_t*)he;
-      sere->data.what = what;
-      sere->data.serNotSolvableIn = val;
-      sere->data.introNotSolvableIn = 0;
-      break;
-    }
-    case WhHelpNoSucc:
-    {
-      helpElement_t * const hlpe = (helpElement_t*)he;
-      hlpe->data.what = what;
-      hlpe->data.whiteNotSolvableIn = val;
-      hlpe->data.blackNotSolvableIn = 0;
-      break;
-    }
-    case BlHelpNoSucc:
-    {
-      helpElement_t * const hlpe = (helpElement_t*)he;
-      hlpe->data.what = what;
-      hlpe->data.whiteNotSolvableIn = 0;
-      hlpe->data.blackNotSolvableIn = val;
-      break;
-    }
-    case WhDirSucc:
-    {
-      whDirElement_t * const wde = (whDirElement_t*)he;
-      wde->data.what = what;
-      wde->data.solvableIn = val;
-      wde->data.notSolvableInLessThan = 0;
-      break;
-    }
-    case WhDirNoSucc:
-    {
-      whDirElement_t * const wde = (whDirElement_t*)he;
-      wde->data.what = what;
-      wde->data.solvableIn = slices[0].u.composite.length+1;
-      wde->data.notSolvableInLessThan = val+1;
-      break;
-    }
+      case IntroSerNoSucc:
+      {
+        serElement_t * const sere = (serElement_t*)he;
+        sere->data.what = what;
+        sere->data.introNotSolvableIn = val;
+        sere->data.serNotSolvableIn = 0;
+        break;
+      }
+      case SerNoSucc:
+      {
+        serElement_t * const sere = (serElement_t*)he;
+        sere->data.what = what;
+        sere->data.serNotSolvableIn = val;
+        sere->data.introNotSolvableIn = 0;
+        break;
+      }
+      case WhHelpNoSucc:
+      {
+        helpElement_t * const hlpe = (helpElement_t*)he;
+        hlpe->data.what = what;
+        hlpe->data.whiteNotSolvableIn = val;
+        hlpe->data.blackNotSolvableIn = 0;
+        break;
+      }
+      case BlHelpNoSucc:
+      {
+        helpElement_t * const hlpe = (helpElement_t*)he;
+        hlpe->data.what = what;
+        hlpe->data.whiteNotSolvableIn = 0;
+        hlpe->data.blackNotSolvableIn = val;
+        break;
+      }
+      case WhDirSucc:
+      {
+        whDirElement_t * const wde = (whDirElement_t*)he;
+        wde->data.what = what;
+        wde->data.solvableIn = val;
+        wde->data.notSolvableInLessThan = 0;
+        break;
+      }
+      case WhDirNoSucc:
+      {
+        whDirElement_t * const wde = (whDirElement_t*)he;
+        wde->data.what = what;
+        wde->data.solvableIn = slices[0].u.composite.length+1;
+        wde->data.notSolvableInLessThan = val+1;
+        break;
+      }
     }
   }
   else
   {
     switch (what) {
-    case IntroSerNoSucc:
-    {
-      serElement_t * const sere = (serElement_t*)he;
-      assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
-      if (sere->data.introNotSolvableIn < val)
-        sere->data.introNotSolvableIn = val;
-      break;
-    }
-    case SerNoSucc:
-    {
-      serElement_t * const sere = (serElement_t*)he;
-      assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
-      if (sere->data.serNotSolvableIn < val)
-        sere->data.serNotSolvableIn = val;
-      break;
-    }
-    case WhHelpNoSucc:
-    {
-      helpElement_t * const hlpe = (helpElement_t*)he;
-      assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
-      if (hlpe->data.whiteNotSolvableIn < val)
-        hlpe->data.whiteNotSolvableIn = val;
-      break;
-    }
-    case BlHelpNoSucc:
-    {
-      helpElement_t * const hlpe = (helpElement_t*)he;
-      assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
-      if (hlpe->data.blackNotSolvableIn < val)
-        hlpe->data.blackNotSolvableIn = val;
-      break;
-    }
-    case WhDirSucc:
-    {
-      whDirElement_t * const wde = (whDirElement_t*)he;
-      assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
-      if (wde->data.solvableIn > val)
-        wde->data.solvableIn = val;
-      break;
-    }
-    case WhDirNoSucc:
-    {
-      whDirElement_t * const wde = (whDirElement_t*)he;
-      assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
-      if (wde->data.notSolvableInLessThan < val+1)
-        wde->data.notSolvableInLessThan = val+1;
-      break;
-    }
+      case IntroSerNoSucc:
+      {
+        serElement_t * const sere = (serElement_t*)he;
+        assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
+        if (sere->data.introNotSolvableIn < val)
+          sere->data.introNotSolvableIn = val;
+        break;
+      }
+      case SerNoSucc:
+      {
+        serElement_t * const sere = (serElement_t*)he;
+        assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
+        if (sere->data.serNotSolvableIn < val)
+          sere->data.serNotSolvableIn = val;
+        break;
+      }
+      case WhHelpNoSucc:
+      {
+        helpElement_t * const hlpe = (helpElement_t*)he;
+        assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
+        if (hlpe->data.whiteNotSolvableIn < val)
+          hlpe->data.whiteNotSolvableIn = val;
+        break;
+      }
+      case BlHelpNoSucc:
+      {
+        helpElement_t * const hlpe = (helpElement_t*)he;
+        assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
+        if (hlpe->data.blackNotSolvableIn < val)
+          hlpe->data.blackNotSolvableIn = val;
+        break;
+      }
+      case WhDirSucc:
+      {
+        whDirElement_t * const wde = (whDirElement_t*)he;
+        assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
+        if (wde->data.solvableIn > val)
+          wde->data.solvableIn = val;
+        break;
+      }
+      case WhDirNoSucc:
+      {
+        whDirElement_t * const wde = (whDirElement_t*)he;
+        assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
+        if (wde->data.notSolvableInLessThan < val+1)
+          wde->data.notSolvableInLessThan = val+1;
+        break;
+      }
     }
   }
 #if defined(HASHRATE)
@@ -883,25 +884,28 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
 
 EXTERN int WhMovesLeft, BlMovesLeft;
 
-boolean introseries(couleur introside, int n, boolean restartenabled)
+boolean introseries(couleur introside,
+                    int n,
+                    boolean restartenabled,
+                    slice_index si)
 {
   couleur continuingside = advers(introside);
   boolean flag1 = false, flag2 = false;
 
   /* set play */
   if (OptFlag[solapparent]
-      || (slices[0].u.composite.is_exact ? n==0 : n<introenonce))
+      || (slices[si].u.composite.is_exact ? n==0 : n<introenonce))
   {
-    boolean is_exact = slices[0].u.composite.is_exact;
+    boolean is_exact = slices[si].u.composite.is_exact;
     int i;
 
     SatzFlag = True;
-    for (i = slices[0].u.composite.is_exact ? slices[0].u.composite.length : 1; i<=slices[0].u.composite.length; i++)
-      if (ser_find_write_solutions(continuingside,i,False))
+    for (i = slices[si].u.composite.is_exact ? slices[si].u.composite.length : 1; i<=slices[si].u.composite.length; i++)
+      if (ser_find_write_solutions(continuingside,i,False,si))
       {
         flag1= true;
-        slices[0].u.composite.is_exact = true;
-        if (OptFlag[stoponshort] && i<slices[0].u.composite.length)
+        slices[si].u.composite.is_exact = true;
+        if (OptFlag[stoponshort] && i<slices[si].u.composite.length)
         {
           FlagShortSolsReached= true;
           break;
@@ -913,7 +917,7 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
 
     SatzFlag= False;
     if (!is_exact)
-      slices[0].u.composite.is_exact = false;
+      slices[si].u.composite.is_exact = false;
   }
 
   if (n>0 && !echecc(continuingside))
@@ -930,7 +934,7 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
         (*encode)(&hb);
         if (!inhash(IntroSerNoSucc, n, &hb))
         {
-          if (introseries(introside,n-1,False))
+          if (introseries(introside,n-1,False,si))
             flag2= true;
           else
             addtohash(IntroSerNoSucc,n,&hb);
@@ -953,7 +957,7 @@ boolean introseries(couleur introside, int n, boolean restartenabled)
 /* Determine and find final moves in a help stipulation
  * @param side_at_move side to perform the final move
  */
-boolean h_find_write_final_move(couleur side_at_move)
+boolean h_find_write_final_move(couleur side_at_move, slice_index si)
 {
   boolean final_move_found = false;
 
@@ -969,10 +973,10 @@ boolean h_find_write_final_move(couleur side_at_move)
     if (jouecoup()
         && (!OptFlag[intelligent] || MatePossible()))
     {
-      if (goal_checkers[slices[1].u.leaf.goal](side_at_move))
+      if (goal_checkers[slices[si].u.leaf.goal](side_at_move))
       {
         final_move_found = true;
-        linesolution();
+        linesolution(si);
       }
     }
     repcoup();
@@ -989,26 +993,91 @@ boolean h_find_write_final_move(couleur side_at_move)
 }
 #endif
 
+/* Determine whether the mating side still has a piece that could
+ * deliver the mate.
+ * @return true iff the mating side has such a piece
+ */
+static boolean is_a_mating_piece_left()
+{
+  boolean const is_white_mating = maincamp==blanc;
+
+  piece p = roib+1;
+  while (p<derbla && nbpiece[is_white_mating ? p : -p]==0)
+    p++;
+
+  return p<derbla;
+}
+
+/* Determine whether attacker has an end in 1 move in reflex or
+ * reciprocal play.
+ * This is different from d_leaf_does_attacker_win() in that
+ * is_there_end_in_1() doesn't write to the hash table.
+ * @param side_at_move
+ * @return true iff side_at_move can end in 1 move
+ */
+boolean is_there_end_in_1(couleur side_at_move, slice_index si)
+{
+  boolean end_found = false;
+  Goal const goal = slices[si].u.leaf.goal;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  if (OptFlag[keepmating] && !is_a_mating_piece_left())
+    return false;
+
+  if (goal==goal_mate)
+    GenMatingMove(side_at_move);
+  else
+    genmove(side_at_move);
+
+  while (encore() && !end_found)
+  {
+    TraceCurrentMove();
+    if (jouecoup())
+    {
+      if (goal_checkers[goal](side_at_move))
+      {
+        TraceText("goal reached\n");
+        end_found = true;
+        coupfort();
+      }
+    }
+
+    repcoup();
+
+    if (maxtime_status==MAXTIME_TIMEOUT)
+      break;
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceValue("%d",si);
+  TraceFunctionResult("%d\n",end_found);
+  return end_found;
+}
+
 /* Determine and write the final move / move pair in a reciprocal help
  * stipulation.
  * @param side_at_move side at move, which is going to end itself or
  *                     allow the other side to end
  * @return true iff final moves were found (and written)
  */
-boolean reci_h_find_write_final_move(couleur side_at_move)
+boolean reci_h_find_write_final_move(couleur side_at_move,
+                                     slice_index si)
 {
   couleur other_side = advers(side_at_move);
   boolean found_solution = false;
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
 
-  {
-    boolean side_at_move_can_end_in_1;
-    Goal const goal_sav = slices[1].u.leaf.goal;
-    slices[1].u.leaf.goal = slices[0].u.composite.recigoal;
-    side_at_move_can_end_in_1 = is_there_end_in_1(side_at_move);
-    slices[1].u.leaf.goal = goal_sav;
-    if (!side_at_move_can_end_in_1)
-      return false;
-  }
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",si);
+  TraceFunctionParam("%d",op1);
+  TraceFunctionParam("%d\n",op2);
+
+  if (!is_there_end_in_1(side_at_move,op2))
+    return false;
 
   genmove(side_at_move);
 
@@ -1019,9 +1088,10 @@ boolean reci_h_find_write_final_move(couleur side_at_move)
 
   while (encore())
   {
+    TraceCurrentMove();
     if (jouecoup()
         && !echecc(side_at_move)
-        && h_find_write_final_move(other_side))
+        && h_find_write_final_move(other_side,op1))
       found_solution = true;
 
     repcoup();
@@ -1040,10 +1110,7 @@ boolean reci_h_find_write_final_move(couleur side_at_move)
 
   if (found_solution)
   {
-    Goal const goal_sav = slices[1].u.leaf.goal;
-    slices[1].u.leaf.goal = slices[0].u.composite.recigoal;
-    h_find_write_final_move(side_at_move);
-    slices[1].u.leaf.goal = goal_sav;
+    h_find_write_final_move(side_at_move,op2);
     return true;
   }
   else
@@ -1055,11 +1122,10 @@ boolean reci_h_find_write_final_move(couleur side_at_move)
  * @param side_at_move side at the move
  * @return true iff >=1 move pair was found
  */
-boolean hs_find_write_final_move_pair(couleur side_at_move)
+boolean hs_find_write_final_move_pair(couleur side_at_move, slice_index si)
 {
   boolean found_solution = false;
   couleur other_side = advers(side_at_move);
-  slice_index const op1 = slices[0].u.composite.op1;
 
   genmove(side_at_move);
 
@@ -1067,16 +1133,16 @@ boolean hs_find_write_final_move_pair(couleur side_at_move)
   {
     if (jouecoup()
         && !echecc(side_at_move)
-        && !sr_does_defender_win_in_0(other_side,op1))
+        && !sr_does_defender_win_in_0(other_side,si))
     {
       GenMatingMove(other_side);
       while (encore())
       {
         if (jouecoup()
-            && goal_checkers[slices[1].u.leaf.goal](other_side))
+            && goal_checkers[slices[si].u.leaf.goal](other_side))
         {
           found_solution = true;
-          linesolution();
+          linesolution(si);
         }
 
         repcoup();
@@ -1098,16 +1164,16 @@ boolean hs_find_write_final_move_pair(couleur side_at_move)
  * @param side_at_move side at the move
  * @return true iff >=1 move pair was found
  */
-boolean hr_find_write_final_move_pair(couleur side_at_move)
+boolean hr_find_write_final_move_pair(couleur side_at_move,
+                                      slice_index si)
 {
-  if (slices[1].u.leaf.end==EReflex
-      && is_there_end_in_1(side_at_move))
+  if (slices[si].u.leaf.end==EReflex
+      && is_there_end_in_1(side_at_move,si))
     return false;
   else
   {
     boolean found_solution = false;
     couleur other_side = advers(side_at_move);
-    slice_index const op1 = slices[0].u.composite.op1;
 
     genmove(side_at_move);
 
@@ -1115,16 +1181,16 @@ boolean hr_find_write_final_move_pair(couleur side_at_move)
     {
       if (jouecoup()
           && !echecc(side_at_move)
-          && !sr_does_defender_win_in_0(other_side,op1))
+          && !sr_does_defender_win_in_0(other_side,si))
       {
         GenMatingMove(other_side);
         while (encore())
         {
           if (jouecoup()
-              && goal_checkers[slices[1].u.leaf.goal](other_side))
+              && goal_checkers[slices[si].u.leaf.goal](other_side))
           {
             found_solution = true;
-            linesolution();
+            linesolution(si);
           }
 
           repcoup();
@@ -1151,7 +1217,8 @@ boolean hr_find_write_final_move_pair(couleur side_at_move)
 boolean
 h_goal_cmate_find_write_final_move_pair(couleur side_at_move,
                                         hashwhat no_succ_hash_category,
-                                        boolean restartenabled)
+                                        boolean restartenabled,
+                                        slice_index si)
 {
   boolean found_solution = false;
   couleur other_side = advers(side_at_move);
@@ -1175,10 +1242,10 @@ h_goal_cmate_find_write_final_move_pair(couleur side_at_move,
           while (encore())
           {
             if (jouecoup()
-                && goal_checkers[slices[1].u.leaf.goal](other_side))
+                && goal_checkers[slices[si].u.leaf.goal](other_side))
             {
               found_solution = true;
-              linesolution();
+              linesolution(si);
             }
             repcoup();
           }
@@ -1211,7 +1278,8 @@ h_goal_cmate_find_write_final_move_pair(couleur side_at_move,
 boolean
 h_goal_dmate_find_write_final_move_pair(couleur side_at_move,
                                         hashwhat no_succ_hash_category,
-                                        boolean restartenabled)
+                                        boolean restartenabled,
+                                        slice_index si)
 {
   boolean found_solution = false;
   couleur other_side = advers(side_at_move);
@@ -1235,10 +1303,10 @@ h_goal_dmate_find_write_final_move_pair(couleur side_at_move,
           while (encore())
           {
             if (jouecoup()
-                && goal_checkers[slices[1].u.leaf.goal](other_side))
+                && goal_checkers[slices[si].u.leaf.goal](other_side))
             {
               found_solution = true;
-              linesolution();
+              linesolution(si);
             }
 
             repcoup();
@@ -1267,9 +1335,18 @@ h_goal_dmate_find_write_final_move_pair(couleur side_at_move,
   return found_solution;
 }
 
+/* Determine and write the final move pair in help stipulation with
+ * "regular" goal. 
+ * @param side_at_move side at the move
+ * @param no_succ_hash_category hash category for storing failures
+ * @param restartenabled true iff option movenum is activated
+ * @param slice_index identifies current slice
+ * @return true iff >=1 move pair was found
+ */
 boolean h_regular_find_write_final_move_pair(couleur side_at_move,
                                              hashwhat no_succ_hash_category,
-                                             boolean restartenabled)
+                                             boolean restartenabled,
+                                             slice_index si)
 {
   boolean found_solution = false;
   couleur other_side = advers(side_at_move);
@@ -1292,7 +1369,7 @@ boolean h_regular_find_write_final_move_pair(couleur side_at_move,
       (*encode)(&hb);
       if (!inhash(no_succ_hash_category,1,&hb))
       {
-        if (h_find_write_final_move(other_side))
+        if (h_find_write_final_move(other_side,si))
           found_solution = true;
         else
           addtohash(no_succ_hash_category,1,&hb);
@@ -1319,73 +1396,108 @@ boolean h_regular_find_write_final_move_pair(couleur side_at_move,
   return found_solution;
 }
 
+/* Determine and write the solution of a help leaf slice in help play.
+ * @param side_at_move side at the move
+ * @param no_succ_hash_category hash category for storing failures
+ * @param restartenabled true iff option movenum is activated
+ * @param slice_index identifies current slice
+ * @return true iff >=1 move pair was found
+ */
+boolean leaf_h_find_write_final_move_pair(couleur side_at_move,
+                                          hashwhat no_succ_hash_category,
+                                          boolean restartenabled,
+                                          slice_index si)
+{
+  switch (slices[si].u.leaf.goal)
+  {
+    case goal_countermate:
+      return h_goal_cmate_find_write_final_move_pair(side_at_move,
+                                                     no_succ_hash_category,
+                                                     restartenabled,
+                                                     si);
+    case goal_doublemate:
+      return h_goal_dmate_find_write_final_move_pair(side_at_move,
+                                                     no_succ_hash_category,
+                                                     restartenabled,
+                                                     si);
+
+    default:
+      return h_regular_find_write_final_move_pair(side_at_move,
+                                                  no_succ_hash_category,
+                                                  restartenabled,
+                                                  si);
+  }
+}
+
+/* Determine and write the solution of a leaf slice in help play.
+ * @param side_at_move side at the move
+ * @param no_succ_hash_category hash category for storing failures
+ * @param restartenabled true iff option movenum is activated
+ * @param slice_index identifies current slice
+ * @return true iff >=1 move pair was found
+ */
+boolean h_leaf_find_write_final_move_pair(couleur side_at_move,
+                                          hashwhat no_succ_hash_category,
+                                          boolean restartenabled,
+                                          slice_index si)
+{
+  switch (slices[si].u.leaf.end)
+  {
+    case ESelf:
+      return hs_find_write_final_move_pair(side_at_move,si);
+
+    case EReflex:
+    case ESemireflex:
+      return hr_find_write_final_move_pair(side_at_move,si);
+
+    case EHelp:
+      return leaf_h_find_write_final_move_pair(side_at_move,
+                                               no_succ_hash_category,
+                                               restartenabled,
+                                               si);
+    default:
+      assert(0);
+      return false;
+  }
+}
+
 /* Determine and write the final move pair in a help stipulation.
  * @param side_at_move side at the move
  * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
  * @return true iff >=1 move pair was found
  */
-boolean h_find_write_final_move_pair(couleur side_at_move,
-                                     hashwhat no_succ_hash_category,
-                                     boolean restartenabled)
+boolean h_find_write_solutions_in_2(couleur side_at_move,
+                                    hashwhat no_succ_hash_category,
+                                    boolean restartenabled,
+                                    slice_index si)
 {
-  switch (slices[0].type)
+  switch (slices[si].type)
   {
-  case STReciprocal:
-    return reci_h_find_write_final_move(side_at_move);
+    case STReciprocal:
+      return reci_h_find_write_final_move(side_at_move,si);
 
-  case STSequence:
-    switch (slices[1].u.leaf.end)
+    case STSequence:
     {
-    case ESelf:
-      return hs_find_write_final_move_pair(side_at_move);
-
-    case EReflex:
-    case ESemireflex:
-      return hr_find_write_final_move_pair(side_at_move);
-
-    case EHelp:
-      switch (slices[1].u.leaf.goal)
+      slice_index const op1 = slices[si].u.composite.op1;
+      switch (slices[op1].type)
       {
-      case goal_countermate:
-        return h_goal_cmate_find_write_final_move_pair(side_at_move,
-                                                       no_succ_hash_category,
-                                                       restartenabled);
-      case goal_doublemate:
-        return h_goal_dmate_find_write_final_move_pair(side_at_move,
-                                                       no_succ_hash_category,
-                                                       restartenabled);
+        case STLeaf:
+          return h_leaf_find_write_final_move_pair(side_at_move,
+                                                   no_succ_hash_category,
+                                                   restartenabled,
+                                                   op1);
 
-      default:
-        return h_regular_find_write_final_move_pair(side_at_move,
-                                                    no_succ_hash_category,
-                                                    restartenabled);
+        default:
+          assert(0);
+          return false;
       }
+    }
 
     default:
       assert(0);
       return false;
-    }
-
-  default:
-    assert(0);
-    return false;
   }
-}
-
-/* Determine whether the mating side still has a piece that could
- * deliver the mate.
- * @return true iff the mating side has such a piece
- */
-static boolean is_a_mating_piece_left()
-{
-  boolean const is_white_mating = maincamp==blanc;
-
-  piece p = roib+1;
-  while (p<derbla && nbpiece[is_white_mating ? p : -p]==0)
-    p++;
-
-  return p<derbla;
 }
 
 /* Determine and write the solution(s) in a help stipulation.
@@ -1399,7 +1511,10 @@ static boolean is_a_mating_piece_left()
  * @param n number of half moves until end state has to be reached
  * @param restartenabled true iff option movenum is activated
  */
-boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabled)
+boolean h_find_write_solutions(couleur side_at_move,
+                               int n,
+                               boolean restartenabled,
+                               slice_index si)
 {
   boolean found_solution = false;
   hashwhat next_no_succ = side_at_move==blanc ? BlHelpNoSucc : WhHelpNoSucc;
@@ -1410,9 +1525,10 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
     return false;
 
   if (n==2)
-    found_solution = h_find_write_final_move_pair(side_at_move,
-                                                  next_no_succ,
-                                                  restartenabled);
+    found_solution = h_find_write_solutions_in_2(side_at_move,
+                                                 next_no_succ,
+                                                 restartenabled,
+                                                 si);
   else
   {
     couleur next_side = advers(side_at_move);
@@ -1437,13 +1553,13 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
           (*encode)(&hb);
           if (!inhash(next_no_succ,n-1,&hb))
           {
-            if (h_find_write_solutions(next_side,n-1,False))
+            if (h_find_write_solutions(next_side,n-1,False,si))
               found_solution = true;
             else
               addtohash(next_no_succ,n-1,&hb);
           }
         } else
-          if (h_find_write_solutions(next_side,n-1,False))
+          if (h_find_write_solutions(next_side,n-1,False,si))
             found_solution = true;
       }
 
@@ -1477,7 +1593,7 @@ boolean h_find_write_solutions(couleur side_at_move, int n, boolean restartenabl
  * @param attacker attacking side
  * @return true iff >= 1 final move (sequence) was found
  */
-boolean ser_d_find_write_final_move(couleur attacker)
+boolean ser_d_find_write_final_move(couleur attacker, slice_index si)
 {
   boolean solution_found = false;
 
@@ -1486,9 +1602,9 @@ boolean ser_d_find_write_final_move(couleur attacker)
   while (encore())
   {
     if (jouecoup()
-        && goal_checkers[slices[1].u.leaf.goal](attacker))
+        && goal_checkers[slices[si].u.leaf.goal](attacker))
     {
-      linesolution();
+      linesolution(si);
       solution_found = true;
     }
 
@@ -1509,22 +1625,26 @@ boolean ser_d_find_write_final_move(couleur attacker)
  * @param attacker attacking side
  * @return true iff >= 1 final move (sequence) was found
  */
-boolean ser_sr_find_write_final_attacker_move(couleur attacker)
+boolean ser_sr_find_write_final_attacker_move(couleur attacker,
+                                              slice_index si)
 {
   couleur defender = advers(attacker);
   boolean solution_found = false;
-  slice_index const op1 = slices[0].u.composite.op1;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
 
   genmove(attacker);
 
   while (encore())
   {
+    TraceCurrentMove();
     if (jouecoup()
         && !echecc(attacker)
-        && !sr_does_defender_win_in_0(defender,op1))
+        && !sr_does_defender_win_in_0(defender,si))
     {
+      TraceText("solution found\n");
       solution_found = true;
-      sr_find_write_final_move(defender);
+      sr_find_write_final_move(defender,si);
     }
 
     repcoup();
@@ -1542,38 +1662,57 @@ boolean ser_sr_find_write_final_attacker_move(couleur attacker)
  */
 boolean ser_find_write_solutions(couleur series_side,
                                  int n,
-                                 boolean restartenabled)
+                                 boolean restartenabled,
+                                 slice_index si)
 {
-  if (slices[1].u.leaf.end==EReflex
-      && is_there_end_in_1(series_side))
-    return false;
+  slice_index const op1 = slices[si].u.composite.op1;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
 
   if (n==1)
   {
-    switch (slices[0].type)
+    TraceValue("%d\n",slices[si].type);
+    switch (slices[si].type)
     {
-      case STReciprocal:
-        return reci_h_find_write_final_move(series_side);
-
       case STSequence:
-        switch (slices[1].u.leaf.end)
+        switch (slices[op1].type)
         {
-          case EHelp:
-            return h_find_write_final_move_pair(series_side,
-                                                SerNoSucc,
-                                                restartenabled);
-          case EDirect:
-            return ser_d_find_write_final_move(series_side);
+          case STLeaf:
+            switch (slices[op1].u.leaf.end)
+            {
+              case EHelp:
+                return leaf_h_find_write_final_move_pair(series_side,
+                                                         SerNoSucc,
+                                                         restartenabled,
+                                                         op1);
+              case EDirect:
+                return ser_d_find_write_final_move(series_side,op1);
 
-          case ESelf:
-          case EReflex:
-          case ESemireflex:
-            return ser_sr_find_write_final_attacker_move(series_side);
+              case EReflex:
+                if (is_there_end_in_1(series_side,op1))
+                  return false;
+                else
+                  return ser_sr_find_write_final_attacker_move(series_side,
+                                                               op1);
+
+              case ESelf:
+              case ESemireflex:
+                return ser_sr_find_write_final_attacker_move(series_side,
+                                                             op1);
+
+              default:
+                assert(0);
+                return false;
+            }
 
           default:
             assert(0);
             return false;
         }
+
+      case STReciprocal:
+        return reci_h_find_write_final_move(series_side,si);
 
       default:
         assert(0);
@@ -1585,6 +1724,11 @@ boolean ser_find_write_solutions(couleur series_side,
     boolean solution_found = false;
     couleur other_side = advers(series_side);
 
+    if (slices[op1].type==STLeaf
+        && slices[op1].u.leaf.end==EReflex
+        && is_there_end_in_1(series_side,op1))
+      return false;
+
     genmove(series_side);
 
     if (series_side==blanc)
@@ -1594,6 +1738,8 @@ boolean ser_find_write_solutions(couleur series_side,
 
     while (encore())
     {
+      TraceValue("%d\n",n);
+      TraceCurrentMove();
       if (jouecoup()
           && !echecc(series_side)
           && !(restartenabled && MoveNbr<RestartNbr)
@@ -1604,7 +1750,7 @@ boolean ser_find_write_solutions(couleur series_side,
         (*encode)(&hb);
         if (!inhash(SerNoSucc,n,&hb))
         {
-          if (ser_find_write_solutions(series_side,n-1,False))
+          if (ser_find_write_solutions(series_side,n-1,False,si))
             solution_found = true;
           else
             addtohash(SerNoSucc,n,&hb);
@@ -1638,9 +1784,9 @@ void inithash(void)
   int i, j;
 
   ifTESTHASH(
-    sprintf(GlobalStr, "calling inithash\n");
-    StdString(GlobalStr)
-    );
+      sprintf(GlobalStr, "calling inithash\n");
+      StdString(GlobalStr)
+      );
 
 #if defined(__unix) && defined(TESTHASH)
   OldBreak= sbrk(0);
@@ -1714,7 +1860,7 @@ void inithash(void)
   ifTESTHASH(printf("MaxMemory:    %7lu KB\n", MaxMemory/1024));
 #else
   ifTESTHASH(
-    printf("room for up to %lu positions in hash table\n", MaxPositions));
+      printf("room for up to %lu positions in hash table\n", MaxPositions));
 #endif /*FXF*/
 } /* inithash */
 
@@ -1761,102 +1907,12 @@ void    closehash(void)
 
 } /* closehash */
 
-/* Determine whether defender can avoid being defeated in 1 move of
- * direct play; defender is at move
- * @param defender defending side (i.e. side to be defeated)
- * @return true iff the end state can be forced and defender is not
- *              immobile currently
- * TODO determine usefulness of this immobility check
- */
-boolean d_does_defender_win_in_1(couleur defender)
-{
-  boolean refutation_found = false;
-  boolean is_defender_immobile = true;
-  couleur attacker = advers(defender);
-  int ntcount = 0;
-
-  if (max_len_threat==0  && !echecc(defender))
-    return true;
-
-  /* Check whether defender has more non trivial moves than he is
-  ** allowed to have. The number of such moves allowed
-  ** (max_nr_nontrivial) is entered using the nontrivial option. */
-  if (min_length_nontrivial==0)
-  {
-    ntcount = count_non_trivial(defender);
-    if (max_nr_nontrivial<ntcount)
-      return true;
-    else
-      max_nr_nontrivial -= ntcount;
-  } /* nontrivial */
-
-  genmove(defender);
-
-  while (!refutation_found && encore())
-  {
-    if (jouecoup() && !echecc(defender))
-    {
-      is_defender_immobile = false;
-      if (!d_does_attacker_win_in_1(attacker))
-      {
-        refutation_found = true;
-        coupfort();
-      }
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  if (min_length_nontrivial==0)
-    max_nr_nontrivial += ntcount;
-
-  return is_defender_immobile || refutation_found;
-}
-
-/* Determine whether attacker has an end in 1 move in reflex or
- * reciprocal play.
- * This is different from d_does_attacker_win_in_1() in that
- * is_there_end_in_1() doesn't write to the hash table.
- * @param side_at_move
- * @return true iff side_at_move can end in 1 move
- */
-boolean is_there_end_in_1(couleur side_at_move)
-{
-  boolean end_found = false;
-
-  if (OptFlag[keepmating] && !is_a_mating_piece_left())
-    return false;
-
-  GenMatingMove(side_at_move);
-
-  while (encore() && !end_found)
-  {
-    if (jouecoup())
-    {
-      end_found = goal_checkers[slices[1].u.leaf.goal](side_at_move);
-      if (end_found)
-        coupfort();
-    }
-
-    repcoup();
-
-    if (maxtime_status==MAXTIME_TIMEOUT)
-      break;
-  }
-
-  finply();
-
-  return end_found;
-}
-
 /* Determine whether attacker can end in 1 move in direct play.
  * @param attacker attacking side (i.e. side attempting to reach the
  * end)
  * @return true iff attacker can end in 1 move
  */
-boolean d_does_attacker_win_in_1(couleur attacker)
+boolean d_leaf_does_attacker_win(couleur attacker, slice_index si)
 {
   boolean end_found = false;
   HashBuffer hb;
@@ -1885,7 +1941,7 @@ boolean d_does_attacker_win_in_1(couleur attacker)
   {
     if (jouecoup())
     {
-      end_found = goal_checkers[slices[1].u.leaf.goal](attacker);
+      end_found = goal_checkers[slices[si].u.leaf.goal](attacker);
       if (end_found)
         coupfort();
     }
@@ -1904,51 +1960,119 @@ boolean d_does_attacker_win_in_1(couleur attacker)
   return end_found;
 }
 
+/* Determine whether defender can avoid being defeated in 1 move of
+ * direct play; defender is at move
+ * @param defender defending side (i.e. side to be defeated)
+ * @return true iff the end state can be forced and defender is not
+ *              immobile currently
+ * TODO determine usefulness of this immobility check
+ */
+boolean d_does_defender_win_in_1(couleur defender, slice_index si)
+{
+  boolean refutation_found = false;
+  boolean is_defender_immobile = true;
+  couleur attacker = advers(defender);
+  int ntcount = 0;
+
+  if (max_len_threat==0  && !echecc(defender))
+    return true;
+
+  /* Check whether defender has more non trivial moves than he is
+  ** allowed to have. The number of such moves allowed
+  ** (max_nr_nontrivial) is entered using the nontrivial option. */
+  if (min_length_nontrivial==0)
+  {
+    ntcount = count_non_trivial(defender,si);
+    if (max_nr_nontrivial<ntcount)
+      return true;
+    else
+      max_nr_nontrivial -= ntcount;
+  } /* nontrivial */
+
+  genmove(defender);
+
+  while (!refutation_found && encore())
+  {
+    if (jouecoup() && !echecc(defender))
+    {
+      is_defender_immobile = false;
+      if (!d_leaf_does_attacker_win(attacker,si))
+      {
+        refutation_found = true;
+        coupfort();
+      }
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  if (min_length_nontrivial==0)
+    max_nr_nontrivial += ntcount;
+
+  return is_defender_immobile || refutation_found;
+}
+
 /* Determine whether the attacker wins in a self/reflex stipulation in 1.
  * @param attacker attacking side (at move)
+ * @param si slice index of leaf slice
+ * @param parent_is_exact true iff parent of slice si has exact length
  * @return true iff attacker wins
  */
-boolean sr_does_attacker_win_in_1(couleur attacker)
+boolean sr_leaf_does_attacker_win(couleur attacker,
+                                  slice_index si,
+                                  boolean parent_is_exact,
+                                  boolean should_hash)
 {
   boolean win_found = false;
   couleur defender = advers(attacker);
   HashBuffer hb;
-  slice_index const op1 = slices[0].u.composite.op1;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
 
-  /* It is more likely that a position has no solution. */
-  /* Therefore let's check for "no solution" first. TLi */
-  (*encode)(&hb);
-  if (inhash(WhDirNoSucc,1,&hb))
+  if (should_hash)
   {
-    assert(!inhash(WhDirSucc,1,&hb));
-    return false;
+    /* It is more likely that a position has no solution. */
+    /*    Therefore let's check for "no solution" first. TLi */
+    (*encode)(&hb);
+    if (inhash(WhDirNoSucc,1,&hb))
+    {
+      assert(!inhash(WhDirSucc,1,&hb));
+      return false;
+    }
+    if (inhash(WhDirSucc,1,&hb))
+      return true;
   }
-  if (inhash(WhDirSucc,1,&hb))
-    return true;
 
-  if (!slices[0].u.composite.is_exact)
-    if (goal_checkers[slices[1].u.leaf.goal](defender))
+  if (!parent_is_exact)
+    if (goal_checkers[slices[si].u.leaf.goal](defender))
     {
       addtohash(WhDirSucc,1,&hb);
       assert(!inhash(WhDirNoSucc,1,&hb));
       return true;
     }
 
-  if (slices[1].u.leaf.end==EReflex
-      && is_there_end_in_1(attacker))
+  if (slices[si].u.leaf.end==EReflex
+      && is_there_end_in_1(attacker,si))
     return false;
 
   genmove(attacker);
 
   while (!win_found && encore())
   {
+    TraceCurrentMove();
     if (jouecoup()
-        && !echecc(attacker)
-        && !sr_does_defender_win_in_0(defender,op1))
+        && !echecc(attacker))
     {
-      win_found = true;
-      coupfort();
+      if (!sr_does_defender_win_in_0(defender,si))
+      {
+        TraceText("wins\n");
+        win_found = true;
+        coupfort();
+      }
     }
+
     repcoup();
 
     if (maxtime_status==MAXTIME_TIMEOUT)
@@ -1957,8 +2081,261 @@ boolean sr_does_attacker_win_in_1(couleur attacker)
 
   finply();
 
-  addtohash(win_found ? WhDirSucc : WhDirNoSucc, 1, &hb);
+  if (should_hash)
+    addtohash(win_found ? WhDirSucc : WhDirNoSucc, 1, &hb);
 
+  return win_found;
+}
+
+/* Determine whether the attacker wins in a direct/self/reflex
+ * stipulation in 1. 
+ * @param attacker attacking side (at move)
+ * @param si slice index of leaf slice
+ * @param parent_is_exact true iff parent of slice si has exact length
+ * @return true iff attacker wins
+ */
+boolean dsr_leaf_does_attacker_win(couleur attacker,
+                                   slice_index si,
+                                   boolean parent_is_exact,
+                                   boolean should_hash)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+  switch (slices[si].u.leaf.end)
+  {
+    case EDirect:
+      return d_leaf_does_attacker_win(attacker,si);
+
+    case ESelf:
+    case ESemireflex:
+    case EReflex:
+      return sr_leaf_does_attacker_win(attacker,
+                                       si,
+                                       parent_is_exact,
+                                       should_hash);
+
+    default:
+      assert(0);
+      return false;
+  }
+}
+
+/* Determine whether the attacker wins in a quodlibet
+ * @param attacker attacking side (at move)
+ * @param si slice index of leaf slice
+ * @param parent_is_exact true iff parent of slice si has exact length
+ * @return true iff attacker wins
+ */
+boolean dsr_quodlibet_does_attacker_win_in_1(couleur attacker,
+                                             slice_index si)
+{
+  boolean const is_exact = slices[si].u.composite.is_exact;
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  switch (slices[op1].type)
+  {
+    case STLeaf:
+    {
+      boolean const should_hash = true;
+      if (dsr_leaf_does_attacker_win(attacker,op1,is_exact,should_hash))
+        return true;
+      else
+        break;
+    }
+
+    default:
+      assert(0);
+      return false;
+  }
+
+  switch (slices[op2].type)
+  {
+    case STLeaf:
+    {
+      /* avoid conflict in hash table between op1 and op2 */
+      boolean const should_hash = false;
+      if (dsr_leaf_does_attacker_win(attacker,op2,is_exact,should_hash))
+        return true;
+      else
+        break;
+    }
+
+    default:
+      assert(0);
+      return false;
+  }
+
+  return false;
+}
+
+/* Determine whether the attacking side wins after we have played a
+ * direct sequence.
+ * @param attacker attacking side
+ * @param si slice identifier
+ */
+boolean dsr_sequence_does_attacker_win(couleur attacker, slice_index si)
+{
+  boolean result = false;
+  slice_index const op1 = slices[si].u.composite.op1;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+  switch (slices[op1].type)
+  {
+    case STLeaf:
+    {
+      boolean const should_hash = true;
+      result = dsr_leaf_does_attacker_win(attacker,
+                                          op1,
+                                          slices[si].u.composite.is_exact,
+                                          should_hash);
+    }
+
+    default:
+      assert(0);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceValue("%d",si);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+
+typedef enum
+{
+  short_win,
+  short_loss,
+  no_short_result
+} short_result_type;
+
+/* Determine whether there is a short win/loss for the attacking side in
+ * direct play.
+ * @param attacker attacking side
+ * @param si slice identifier
+ * @return whether there is a short win or loss
+ */
+/* TODO make one function for win and one for loss */
+short_result_type dsr_does_attacker_win_short(couleur attacker,
+                                              slice_index si)
+{
+  couleur const defender = advers(attacker);
+  slice_index const op1 = slices[si].u.composite.op1;
+  switch (slices[op1].type)
+  {
+    case STLeaf:
+      switch (slices[op1].u.leaf.end)
+      {
+        case EDirect:
+          if (OptFlag[keepmating] && !is_a_mating_piece_left())
+            return short_loss;
+          break;
+
+        case ESelf:
+        case ESemireflex:
+          if (!slices[si].u.composite.is_exact)
+          {
+            if (goal_checkers[slices[op1].u.leaf.goal](defender))
+              return short_win;
+          }
+          break;
+
+        case EReflex:
+          if (!slices[si].u.composite.is_exact)
+          {
+            if (goal_checkers[slices[op1].u.leaf.goal](defender))
+              return short_win;
+          }
+
+          if (is_there_end_in_1(attacker,op1))
+            return short_loss;
+
+          break;
+
+        default:
+          assert(0);
+          return no_short_result;
+      }
+
+    default:
+      assert(0);
+      return no_short_result;
+  }
+
+  return no_short_result;
+}
+
+/* Determine whether the attacking side wins in 1 in direct play.
+ * @param attacker attacking side
+ * @param si slice identifier
+ */
+boolean dsr_does_attacker_win_in_1(couleur attacker, slice_index si)
+{
+  boolean result = false;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",si);
+  TraceFunctionParam("%d\n",slices[si].type);
+  switch (slices[si].type)
+  {
+    case STQuodlibet:
+      result = dsr_quodlibet_does_attacker_win_in_1(attacker,si);
+      break;
+
+    case STSequence:
+      result = dsr_sequence_does_attacker_win(attacker,si);
+      break;
+
+    default:
+      assert(0);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceValue("si:%d",si);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Determine whether the attacking side wins in n (>1) in direct play.
+ * @param attacker attacking side
+ * @param si slice identifier
+ */
+boolean dsr_does_attacker_win_in_n(couleur attacker, int n, slice_index si)
+{
+  couleur const defender = advers(attacker);
+  boolean win_found = false;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
+
+  genmove(attacker);
+
+  while (!win_found && encore())
+  {
+    TraceValue("%d ",n);
+    TraceCurrentMove();
+    if (jouecoup()
+        && !echecc(attacker)
+        && !dsr_does_defender_win(defender,n-1,si))
+    {
+      TraceValue("%d",n);
+      TraceText("wins\n");
+      win_found = true;
+      coupfort();
+    }
+
+    repcoup();
+
+    if (maxtime_status==MAXTIME_TIMEOUT)
+      break;
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceValue("n:%d",n);
+  TraceFunctionResult("%d\n",win_found);
   return win_found;
 }
 
@@ -1969,28 +2346,17 @@ boolean sr_does_attacker_win_in_1(couleur attacker)
  * @param n number of moves left until the end state has to be reached
  * @return true iff attacker can end in n moves
  */
-boolean dsr_does_attacker_win(couleur attacker, int n)
+boolean dsr_does_attacker_win(couleur attacker, int n, slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
   if (n==1)
-    switch (slices[1].u.leaf.end)
-    {
-      case EDirect:
-		return d_does_attacker_win_in_1(attacker);
-
-	  case ESelf:
-      case ESemireflex:
-	  case EReflex:
-		return sr_does_attacker_win_in_1(attacker);
-
-	  default:
-        assert(0);
-        return false;
-	}
+    return dsr_does_attacker_win_in_1(attacker,si);
   else
   {
     int i;
     boolean end_found = false;
-    couleur defender = advers(attacker);
     HashBuffer hb;
 
     /* It is more likely that a position has no solution.           */
@@ -2004,94 +2370,35 @@ boolean dsr_does_attacker_win(couleur attacker, int n)
     if (inhash(WhDirSucc,n,&hb))
       return true;
 
-    switch (slices[1].u.leaf.end)
+    switch (dsr_does_attacker_win_short(attacker,si))
     {
-      case EDirect:
-        if (OptFlag[keepmating] && !is_a_mating_piece_left())
-          return false;
-        break;
+      case short_win:
+        addtohash(WhDirSucc,n,&hb);
+        assert(!inhash(WhDirNoSucc,n,&hb));
+        return true;
 
-      case ESelf:
-      case ESemireflex:
-        if (!slices[0].u.composite.is_exact)
-		  if (goal_checkers[slices[1].u.leaf.goal](defender))
-          {
-            addtohash(WhDirSucc,n,&hb);
-            assert(!inhash(WhDirNoSucc,n,&hb));
-            return true;
-          }
-        break;
-
-	  case EReflex:
-		if (!slices[0].u.composite.is_exact)
-		  if (goal_checkers[slices[1].u.leaf.goal](defender))
-          {
-            addtohash(WhDirSucc,n,&hb);
-            assert(!inhash(WhDirNoSucc,n,&hb));
-            return true;
-		  }
-
-        if (is_there_end_in_1(attacker))
-          return false;
-
-        break;
-
-	  default:
-        assert(0);
+      case short_loss:
         return false;
+
+      default:
+        ; /* nothing */
     }
 
-    for (i = slices[0].u.composite.is_exact ? n : 1;
+    for (i = slices[si].u.composite.is_exact ? n : 1;
          !end_found && i<=n;
          i++)
     {
       if (i==1)
       {
-		switch (slices[1].u.leaf.end)
-		{
-		  case EDirect:
-			if (d_does_attacker_win_in_1(attacker))
-			  return true;
-			else
-			  break;
-
-		  case ESelf:
-		  case ESemireflex:
-		  case EReflex:
-			if (sr_does_attacker_win_in_1(attacker))
-			  return true;
-			else
-			  break;
-
-		  default:
-			assert(0);
-			return false;
-		}
+        if (dsr_does_attacker_win_in_1(attacker,si))
+          return true;
       }
       else
       {
         if (i-1>max_len_threat || i>min_length_nontrivial)
           i = n;
 
-        genmove(attacker);
-
-        while (!end_found && encore())
-        {
-          if (jouecoup()
-              && !echecc(attacker)
-              && !dsr_does_defender_win(defender,i-1))
-          {
-            end_found = true;
-            coupfort();
-          }
-
-          repcoup();
-
-          if (maxtime_status==MAXTIME_TIMEOUT)
-            break;
-        }
-
-        finply();
+        end_found = dsr_does_attacker_win_in_n(attacker,i,si);
       }
 
       if (maxtime_status==MAXTIME_TIMEOUT)
@@ -2167,14 +2474,13 @@ boolean sr_does_defender_win_in_0(couleur defender, slice_index si)
   boolean is_defender_immobile = true;
   boolean win_found = false;
   couleur attacker = advers(defender);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",si);
+  TraceFunctionParam("%d\n",slices[si].u.leaf.goal);
 
-  if (slices[current_slice].type==STQuodlibet
-      && goal_checkers[slices[1].u.leaf.goal](attacker))
-    return false;
-  
   if (slices[si].u.leaf.end==EReflex
       || slices[si].u.leaf.end==ESemireflex)
-    return !is_there_end_in_1(defender);
+    return !is_there_end_in_1(defender,si);
 
   if (OptFlag[keepmating] && !is_a_mating_piece_left())
     return true;
@@ -2190,7 +2496,7 @@ boolean sr_does_defender_win_in_0(couleur defender, slice_index si)
       if (jouecoup() && !echecc(defender))
       {
         is_defender_immobile = false;
-        win_found = !goal_checkers[slices[1].u.leaf.goal](defender);
+        win_found = !goal_checkers[slices[si].u.leaf.goal](defender);
         if (win_found)
           coupfort();
       }
@@ -2245,60 +2551,118 @@ boolean sr_does_defender_win_in_0(couleur defender, slice_index si)
     while (!win_found
            && selflastencore(defender,&selfbnp,initiallygenerated))
     {
+      TraceCurrentMove();
       if (jouecoup() && !echecc(defender))
       {
         is_defender_immobile = false;
-        win_found = !goal_checkers[slices[1].u.leaf.goal](defender);
-        if (win_found)
+        if (!goal_checkers[slices[si].u.leaf.goal](defender))
+        {
+          TraceText("win_found\n");
+          win_found = true;
           coupfort();
+        }
       }
       repcoup();
     }
     finply();
   }
 
+  TraceFunctionExit(__func__);
+  TraceValue("%d",win_found);
+  TraceValue("%d",is_defender_immobile);
+  TraceFunctionResult("%d\n", win_found || is_defender_immobile);
   return win_found || is_defender_immobile;
 }
 
-boolean dsr_leaf_does_defender_win(couleur defender, int n)
+
+/* Determine whether there is a short win/loss for the defending side in
+ * direct play.
+ * @param defender defending side
+ * @param si slice identifier
+ * @return whether there is a short win or loss
+ */
+/* TODO make one function for win and one for loss? */
+short_result_type dsr_does_defender_win_short(couleur defender,
+                                              slice_index si)
+{
+  short_result_type result = no_short_result;
+  slice_index const op1 = slices[si].u.composite.op1;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",si);
+  TraceFunctionParam("%d\n",slices[op1].type);
+  switch (slices[op1].type)
+  {
+    case STLeaf:
+      switch (slices[op1].u.leaf.end)
+      {
+        case EDirect:
+          break;
+
+        case ESelf:
+          if (OptFlag[keepmating] && !is_a_mating_piece_left())
+            result = short_win;
+          break;
+
+        case EReflex:
+        case ESemireflex:
+          if (is_there_end_in_1(defender,op1))
+            result = short_loss;
+          else if (OptFlag[keepmating] && !is_a_mating_piece_left())
+            result = short_win;
+          break;
+
+        default:
+          assert(0);
+          result = short_win;
+          break;
+      }
+
+      break;
+
+    default:
+      assert(0);
+      result = short_win;
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Determine whether the defending side wins in n (>1) in direct play.
+ * @param defender defending side
+ * @param si slice identifier
+ */
+boolean dsr_does_defender_win_in_n(couleur defender, int n, slice_index si)
 {
   couleur const attacker = advers(defender);
   boolean is_defender_immobile = true;
   boolean refutation_found = false;
   int ntcount = 0;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
 
   /* check whether `black' can reach a position that is already
   ** marked unsolvable for white in the hash table. */
   /* TODO should we? i.e. do it or remove comment */
 
-  switch (slices[1].u.leaf.end)
+  switch (dsr_does_defender_win_short(defender,si))
   {
-	case EDirect:
-	  break;
+    case short_win:
+      return true;
 
-	case ESelf:
-	  if (OptFlag[keepmating] && !is_a_mating_piece_left())
-		return true;
-	  else
-		break;
+    case short_loss:
+      return false;
 
-	case EReflex:
-	case ESemireflex:
-	  if (is_there_end_in_1(defender))
-		return false;
-	  else if (OptFlag[keepmating] && !is_a_mating_piece_left())
-		return true;
-	  else
-		break;
-
-	default:
-	  assert(0);
-	  return true;
+    default:
+      ; /* nothing */
   }
 
   if (n>max_len_threat
 	  && !echecc(defender)
-	  && !dsr_does_attacker_win(attacker,max_len_threat))
+	  && !dsr_does_attacker_win(attacker,max_len_threat,si))
 	return true;
 
   if (OptFlag[solflights] && has_too_many_flights(defender))
@@ -2310,7 +2674,7 @@ boolean dsr_leaf_does_defender_win(couleur defender, int n)
   */
   if (n>min_length_nontrivial)
   {
-	ntcount = count_non_trivial(defender);
+	ntcount = count_non_trivial(defender,si);
 	if (max_nr_nontrivial<ntcount)
 	  return true;
 	else
@@ -2326,11 +2690,16 @@ boolean dsr_leaf_does_defender_win(couleur defender, int n)
 
   while (!refutation_found && encore())
   {
-	if (jouecoup() && !echecc(defender))
+    TraceValue("%d\n",n);
+    TraceCurrentMove();
+	if (jouecoup()
+        && !echecc(defender))
 	{
 	  is_defender_immobile = false;
-	  if (!dsr_does_attacker_win(attacker,n))
+	  if (!dsr_does_attacker_win(attacker,n,si))
 	  {
+        TraceValue("%d",n);
+        TraceText(" refutes\n");
 		refutation_found = true;
 		coupfort();
 	  }
@@ -2345,49 +2714,134 @@ boolean dsr_leaf_does_defender_win(couleur defender, int n)
   return refutation_found || is_defender_immobile;
 }
 
+/* Determine whether the defending side wins in 0 (its final half
+ * move) in direct play.
+ * @param defender defending side
+ * @param si slice identifier
+ */
+boolean dsr_leaf_does_defender_win_in_0(couleur defender, slice_index si)
+{
+  couleur const attacker = advers(defender);
+  switch (slices[si].u.leaf.end)
+  {
+    case EDirect:
+      return !goal_checkers[slices[si].u.leaf.goal](attacker);
+
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      return sr_does_defender_win_in_0(defender,si);
+
+    default:
+      assert(0);
+      return true;
+  }
+}
+
+/* Determine whether the defending side wins in 0 (its final half
+ * move) in direct play.
+ * @param defender defending side
+ * @param si slice identifier
+ */
+boolean dsr_sequence_does_defender_win_in_0(couleur defender,
+                                            slice_index si)
+{
+  slice_index const op1 = slices[si].u.composite.op1;
+  switch (slices[op1].type)
+  {
+    case STLeaf:
+      return dsr_leaf_does_defender_win_in_0(defender,op1);
+
+    default:
+      assert(0);
+      return true;
+  }
+}
+
+/* Determine whether the defending side wins in a quodlibet in direct play.
+ * @param defender defending side
+ * @param si slice identifier
+ */
+boolean dsr_quodlibet_does_defender_win_in_0(couleur defender,
+                                             slice_index si)
+{
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+
+  switch (slices[op1].type)
+  {
+    case STLeaf:
+      if (!dsr_leaf_does_defender_win_in_0(defender,op1))
+        return false;
+      else
+        break;
+
+    default:
+      assert(0);
+      return true;
+  }
+
+  switch (slices[op2].type)
+  {
+    case STLeaf:
+      if (!dsr_leaf_does_defender_win_in_0(defender,op2))
+        return false;
+      else
+        break;
+
+    default:
+      assert(0);
+      return true;
+  }
+
+  return true;
+}
+
+/* Determine whether the defending side wins in 0  in direct play.
+ * @param defender defending side
+ * @param si slice identifier
+ */
+boolean dsr_does_defender_win_in_0(couleur defender, slice_index si)
+{
+  switch (slices[si].type)
+  {
+    case STQuodlibet:
+      return dsr_quodlibet_does_defender_win_in_0(defender,si);
+
+    case STSequence:
+      return dsr_sequence_does_defender_win_in_0(defender,si);
+
+    default:
+      assert(0);
+      return true;
+  }
+}
+
 /* Determine whether the defender wins in a self/reflex stipulation in
  * n.
  * @param defender defending side (at move)
  * @param n number of moves until end state has to be reached
  * @return true iff defender wins
  */
-boolean dsr_does_defender_win(couleur defender, int n)
+boolean dsr_does_defender_win(couleur defender, int n, slice_index si)
 {
-  couleur const attacker = advers(defender);
-
-  slice_index const op1 = slices[0].u.composite.op1;
+  boolean result;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
   if (n==0)
-	switch (slices[1].u.leaf.end)
-	{
-	  case EDirect:
-		return !goal_checkers[slices[1].u.leaf.goal](attacker);
-
-	  case ESelf:
-	  case EReflex:
-	  case ESemireflex:
-		return sr_does_defender_win_in_0(defender,op1);
-
-	  default:
-		assert(0);
-		return true;
-	}
+    result = dsr_does_defender_win_in_0(defender,si);
+  else if (!slices[si].u.composite.is_exact
+           && !dsr_does_defender_win_in_0(defender,si))
+    result = false;
   else
-    switch (slices[0].type)
-	{
-	  case STQuodlibet:
-		if (!slices[0].u.composite.is_exact
-			&& goal_checkers[slices[1].u.leaf.goal](attacker))
-		  return false;
-		else
-		  return dsr_leaf_does_defender_win(defender,n);
+    result = dsr_does_defender_win_in_n(defender,n,si);
 
-	  case STSequence:
-		return dsr_leaf_does_defender_win(defender,n);
-
-	  default:
-		assert(0);
-		return true;
-	}
+  TraceFunctionExit(__func__);
+  TraceValue("n:%d",n);
+  TraceValue("%d",si);
+  TraceFunctionResult("%d\n",result);
+  return result;
 } /* dsr_does_defender_win */
 
 /* assert()s below this line must remain active even in "productive"

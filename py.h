@@ -1148,6 +1148,36 @@ typedef int Cond;
 typedef int PieSpec;
 /*--- End of } PieSpec;---*/
 
+typedef enum
+{
+  goal_mate,
+  goal_stale,
+  goal_dblstale,
+  goal_target,
+  goal_check,
+  goal_capture,
+  goal_steingewinn,
+  goal_ep,
+  goal_doublemate,
+  goal_countermate,
+  goal_castling,
+  goal_autostale,
+  goal_circuit,
+  goal_exchange,
+  goal_circuitB,
+  goal_exchangeB,
+  goal_mate_or_stale,
+  goal_any,
+  goal_proof,
+#if !defined(DATABASE)
+  /* TODO why not if DATABASE? */
+  goal_atob, /* TODO remove? is there a difference to goal_proof? */
+#endif
+
+  nr_goals,
+  no_goal = nr_goals
+} Goal;
+
 /* MAKROS */
 
 enum {

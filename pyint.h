@@ -14,7 +14,7 @@ boolean MatePossible(void);
 boolean SolAlreadyFound(void);
 void StoreSol(void);
 boolean Intelligent(int whmoves, int blmoves,
-                    boolean (*proc)(couleur, int, boolean),
+                    boolean (*proc)(couleur, int, boolean, slice_index),
                     couleur camp, int length);
 
 #endif
