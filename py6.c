@@ -305,15 +305,21 @@ boolean verifieposition(void)
     }
   }
 
-  /* TODO true iff all goals are #,+,## */
-  optim_neutralretractable = optim_orthomatingmoves =
-      ((slices[slices[0].u.composite.op1].u.leaf.goal==goal_mate)
-       || (slices[slices[0].u.composite.op1].u.leaf.goal==goal_check)
-       || (slices[slices[0].u.composite.op1].u.leaf.goal==goal_doublemate))
-      && (slices[0].type!=STReciprocal
-          || (slices[slices[0].u.composite.op2].u.leaf.goal==goal_mate)
-          || (slices[slices[0].u.composite.op2].u.leaf.goal==goal_check)
-          || (slices[slices[0].u.composite.op2].u.leaf.goal==goal_doublemate));
+  {
+    Goal const neutralretractableGoals[] =
+    {
+      goal_mate,
+      goal_check,
+      goal_doublemate
+    };
+
+    size_t const nrNeutralretractableGoals
+        = sizeof neutralretractableGoals / sizeof neutralretractableGoals[0];
+
+    optim_neutralretractable = stip_ends_only_in(neutralretractableGoals,
+                                                 nrNeutralretractableGoals);
+    optim_orthomatingmoves = optim_neutralretractable;
+  }
 
   if (slices[1].u.leaf.goal == goal_steingewinn
       && CondFlag[parrain])
@@ -322,17 +328,19 @@ boolean verifieposition(void)
     return false;
   }
 
-  /* TODO true iff all goals are <-> or circuit */
-  flagdiastip=
-      slices[1].u.leaf.goal == goal_circuit
-      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_exchange
-      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_circuitB
-      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_exchangeB
-      || (slices[0].type==STReciprocal
-          && (slices[slices[0].u.composite.op2].u.leaf.goal==goal_circuit
-              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_exchange
-              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_circuitB
-              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_exchangeB));
+  {
+    Goal const diastipGoals[] =
+    {
+      goal_circuit,
+      goal_exchange,
+      goal_circuitB,
+      goal_exchangeB
+    };
+
+    size_t const nrDiastipGoals
+        = sizeof diastipGoals / sizeof diastipGoals[0];
+    flagdiastip = stip_ends_only_in(diastipGoals,nrDiastipGoals);
+  }
 
   for (p= roib; p <= derbla; p++) {
     nbpiece[p]= 0;
@@ -1332,14 +1340,16 @@ boolean verifieposition(void)
 
   if (CondFlag[losingchess])
   {
-    /* TODO true iff all goals are # + #= */
-    if (slices[slices[0].u.composite.op1].u.leaf.goal==goal_mate
-        || slices[slices[0].u.composite.op1].u.leaf.goal==goal_check
-        || slices[slices[0].u.composite.op1].u.leaf.goal==goal_mate_or_stale
-        || (slices[0].type==STReciprocal
-            && (slices[slices[0].u.composite.op2].u.leaf.goal==goal_mate
-                || slices[slices[0].u.composite.op2].u.leaf.goal==goal_check
-                || slices[slices[0].u.composite.op2].u.leaf.goal==goal_mate_or_stale)))
+    Goal const incompatibleGoals[] =
+    {
+      goal_mate,
+      goal_check,
+      goal_mate_or_stale
+    };
+    size_t const nrIncompatibleGoals
+        = sizeof incompatibleGoals / sizeof incompatibleGoals[0];
+    
+    if (stip_ends_in(incompatibleGoals,nrIncompatibleGoals))
     {
       VerifieMsg(LosingChessNotInCheckOrMateStipulations);
       return false;
@@ -1356,47 +1366,30 @@ boolean verifieposition(void)
     flagblackmummer= true;
   }
 
-  /* TODO true iff all goals are z ep x 00 steingewinn */
-  FlagMoveOrientatedStip =
-      slices[slices[0].u.composite.op1].u.leaf.goal==goal_target
-      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_ep
-      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_capture
-      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_steingewinn
-      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_castling
-      || (slices[0].type==STReciprocal
-          && (slices[slices[0].u.composite.op2].u.leaf.goal==goal_target
-              || slices[slices[0].u.composite.op2].u.leaf.goal== goal_ep
-              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_capture
-              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_steingewinn
-              || slices[slices[0].u.composite.op2].u.leaf.goal==goal_castling));
-
-  /* TODO doublemate in leaf with end EHelp */
-  if (slices[slices[0].u.composite.op1].u.leaf.goal == goal_doublemate
-      && slices[slices[0].u.composite.op1].u.leaf.end!=EHelp)
   {
-    VerifieMsg(StipNotSupported);
-    return false;
-  }
-  if (slices[0].type==STReciprocal
-      && (slices[slices[0].u.composite.op1].u.leaf.end!=EHelp
-          || (slices[slices[0].u.composite.op2].u.leaf.goal
-              ==goal_countermate)))
-  {
-    VerifieMsg(StipNotSupported);
-    return false;
+    Goal const moveOrientatedGoals[] =
+    {
+      goal_mate,
+      goal_check,
+      goal_mate_or_stale
+    };
+    size_t const nrMoveOrientatedGoals
+        = sizeof moveOrientatedGoals / sizeof moveOrientatedGoals[0];
+    
+    FlagMoveOrientatedStip = stip_ends_only_in(moveOrientatedGoals,
+                                               nrMoveOrientatedGoals);
   }
 
-  /* TODO quodlibet (currently) only into 2 leaves with end s r semi-r
-   * direct */
-  if (slices[0].type==STQuodlibet
-      && (!(slices[slices[0].u.composite.op2].u.leaf.end==ESelf
-            || slices[slices[0].u.composite.op2].u.leaf.end==EReflex
-            || slices[slices[0].u.composite.op2].u.leaf.end==ESemireflex)
-          || !(slices[slices[0].u.composite.op1].u.leaf.end==EDirect
-               || slices[slices[0].u.composite.op1].u.leaf.goal==goal_mate)))
   {
-    VerifieMsg(StipNotSupported);
-    return false;
+    slice_index doubleMateLeaf;
+    for (doubleMateLeaf = find_next_goal(goal_doublemate,0);
+         doubleMateLeaf!=no_slice;
+         doubleMateLeaf = find_next_goal(goal_doublemate,doubleMateLeaf))
+      if (slices[doubleMateLeaf].u.leaf.end!=EHelp)
+      {
+        VerifieMsg(StipNotSupported);
+        return false;
+      }
   }
 
   /* check castling possibilities */
@@ -1436,8 +1429,7 @@ boolean verifieposition(void)
       SETFLAGMASK(castling_flag[0],ra8_cancastle);
   }
 
-  /* TODO no castling goal if castling is not supported */
-  if (slices[1].u.leaf.goal==goal_castling
+  if (find_next_goal(goal_castling,0)!=no_slice
       && !castling_supported)
   {
     VerifieMsg(StipNotSupported);
@@ -1472,9 +1464,7 @@ boolean verifieposition(void)
   jouetestgenre=
       flag_testlegality
       || flagAssassin
-      /* TODO detect whether some end is ## */
-      || slices[slices[0].u.composite.op1].u.leaf.goal==goal_doublemate
-      || slices[slices[0].u.composite.op2].u.leaf.goal==goal_doublemate
+      || find_next_goal(goal_doublemate,0)!=no_slice
       || CondFlag[patience]
       || CondFlag[republican]
       || CondFlag[blackultraschachzwang]
@@ -1582,24 +1572,25 @@ boolean verifieposition(void)
     exist[reversepb]= true;
   }
 
-  /* TODO only h#/=, ser-h#/=, ser-#/= */
-  if (OptFlag[intelligent]
-      && (!(slices[1].u.leaf.goal==goal_mate
-            || slices[1].u.leaf.goal==goal_stale)
-          || flagfee
-          || slices[0].type==STReciprocal
-          || slices[1].u.leaf.end==ESelf
-          || slices[1].u.leaf.end==EReflex
-          || slices[1].u.leaf.end==ESemireflex
-          || !(slices[0].u.composite.play==PHelp
-               || (slices[0].u.composite.play==PSeries
-                   && (slices[1].u.leaf.end==EDirect
-                       || slices[1].u.leaf.end==EHelp)))
-          || anycirce
-          || anyanticirce))
+  if (OptFlag[intelligent])
   {
-    VerifieMsg(IntelligentRestricted);
-    return false;
+    if (slices[0].type==STSequence
+        && slices[1].type==STLeaf
+        && (slices[1].u.leaf.goal==goal_mate
+            || slices[1].u.leaf.goal==goal_stale)
+        && ((slices[0].u.composite.play==PHelp
+             && slices[1].u.leaf.end==EHelp)
+            || (slices[0].u.composite.play==PSeries
+                && (slices[1].u.leaf.end==EHelp
+                    || slices[1].u.leaf.end==EDirect))))
+    {
+      /* ok */
+    }
+    else
+    {
+      VerifieMsg(IntelligentRestricted);
+      return false;
+    }
   }
 
   if (OptFlag[appseul])

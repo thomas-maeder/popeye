@@ -15,7 +15,7 @@ pygoal.h:
 
 pydata.h:
 py1$(OBJ_SUFFIX): py1.c py.h boolean.h pylang.h pymsg.h py1.h pyproc.h py4.h \
-  pygoal.h pydata.h
+  pygoal.h pydata.h pystip.h
 
 py.h:
 
@@ -34,8 +34,10 @@ py4.h:
 pygoal.h:
 
 pydata.h:
+
+pystip.h:
 py2$(OBJ_SUFFIX): py2.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pydata.h \
-  pymsg.h
+  pymsg.h pystip.h
 
 py.h:
 
@@ -52,6 +54,8 @@ pygoal.h:
 pydata.h:
 
 pymsg.h:
+
+pystip.h:
 py3$(OBJ_SUFFIX): py3.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pydata.h
 
 py.h:
@@ -68,7 +72,7 @@ pygoal.h:
 
 pydata.h:
 py4$(OBJ_SUFFIX): py4.c py.h boolean.h pylang.h py1.h pyproc.h py4.h pygoal.h \
-  pydata.h pymsg.h
+  pydata.h pymsg.h pystip.h
 
 py.h:
 
@@ -87,8 +91,10 @@ pygoal.h:
 pydata.h:
 
 pymsg.h:
+
+pystip.h:
 py5$(OBJ_SUFFIX): py5.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pyhash.h \
-  DHT/dhtbcmem.h pydata.h pymsg.h
+  DHT/dhtbcmem.h pydata.h pymsg.h pystip.h
 
 py.h:
 
@@ -109,10 +115,12 @@ DHT/dhtbcmem.h:
 pydata.h:
 
 pymsg.h:
+
+pystip.h:
 py6$(OBJ_SUFFIX): py6.c py.h boolean.h pylang.h py1.h pyproc.h py4.h pygoal.h \
   pydata.h pymsg.h pyhash.h DHT/dhtbcmem.h pyint.h pyproof.h \
   platform/maxmem.h platform/maxtime.h platform/pytime.h \
-  platform/priority.h trace.h
+  platform/priority.h trace.h pystip.h
 
 py.h:
 
@@ -149,8 +157,10 @@ platform/pytime.h:
 platform/priority.h:
 
 trace.h:
+
+pystip.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pydata.h \
-  pymsg.h platform/maxtime.h
+  pymsg.h pystip.h platform/maxtime.h
 
 py.h:
 
@@ -167,6 +177,8 @@ pygoal.h:
 pydata.h:
 
 pymsg.h:
+
+pystip.h:
 
 platform/maxtime.h:
 pymsg$(OBJ_SUFFIX): pymsg.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pydata.h \
@@ -196,7 +208,7 @@ pylang$(OBJ_SUFFIX): pylang.c pylang.h
 pylang.h:
 pyhash$(OBJ_SUFFIX): pyhash.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h \
   pydata.h pymsg.h pyhash.h DHT/dhtbcmem.h pyint.h DHT/dhtvalue.h \
-  DHT/fxf.h DHT/dht.h pyproof.h platform/maxtime.h trace.h
+  DHT/fxf.h DHT/dht.h pyproof.h pystip.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -228,11 +240,14 @@ DHT/dht.h:
 
 pyproof.h:
 
+pystip.h:
+
 platform/maxtime.h:
 
 trace.h:
 pyproof$(OBJ_SUFFIX): pyproof.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h \
-  pydata.h pyhash.h DHT/dhtbcmem.h pyproof.h pymsg.h platform/maxtime.h
+  pydata.h pyhash.h DHT/dhtbcmem.h pyproof.h pymsg.h pystip.h \
+  platform/maxtime.h
 
 py.h:
 
@@ -256,10 +271,12 @@ pyproof.h:
 
 pymsg.h:
 
+pystip.h:
+
 platform/maxtime.h:
 pysignal$(OBJ_SUFFIX): pysignal.c
 pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pyhash.h \
-  DHT/dhtbcmem.h pymsg.h pyint.h pydata.h platform/maxtime.h
+  DHT/dhtbcmem.h pymsg.h pyint.h pydata.h pystip.h platform/maxtime.h
 
 py.h:
 
@@ -283,9 +300,11 @@ pyint.h:
 
 pydata.h:
 
+pystip.h:
+
 platform/maxtime.h:
 pygoal$(OBJ_SUFFIX): pygoal.c pygoal.h boolean.h py.h pylang.h pydata.h pyproc.h \
-  py4.h
+  py4.h pystip.h
 
 pygoal.h:
 
@@ -300,6 +319,19 @@ pydata.h:
 pyproc.h:
 
 py4.h:
+
+pystip.h:
+pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pylang.h
+
+pystip.h:
+
+pygoal.h:
+
+boolean.h:
+
+py.h:
+
+pylang.h:
 platform/$(PLATFORM)/maxmem$(OBJ_SUFFIX): platform/$(PLATFORM)/maxmem.c platform/$(PLATFORM)/../maxmem.h
 
 platform/$(PLATFORM)/../maxmem.h:

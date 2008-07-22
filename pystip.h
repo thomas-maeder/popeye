@@ -54,6 +54,38 @@ typedef struct
   } u;
 } Slice;
 
-extern Slice slices[];
+enum
+{
+  max_nr_slices = 10,
+  no_slice = max_nr_slices
+};
+
+extern Slice slices[max_nr_slices];
+
+/* Do all leaves of the current stipulation have one of a set of goals?
+ * @param goals set of goals
+ * @param nrGoals number of elements of goals
+ * @return true iff all leaves have as goal one of the elements of goals.
+ */
+boolean stip_ends_only_in(Goal const goals[], unsigned int nrGoals);
+
+/* Does >= 1 leaf of the current stipulation have one of a set of goals?
+ * @param goals set of goals
+ * @param nrGoals number of elements of goals
+ * @return true iff >=1 leaf has as goal one of the elements of goals.
+ */
+boolean stip_ends_in(Goal const goals[], unsigned int nrGoals);
+
+/* Traversal of the stipulation tree up to the next slice with a
+ * specific goal. Repeated calls, with start set to the result of the
+ * previous call, result in a complete traversal.
+ * @param goal defines where to stop traversal
+ * @param start traversal starts (continues) at the identified slice
+ *              (excluding it, i.e. the result will be different from
+ *              start)
+ * @return if found, index of the next slice with the requested goal;
+ *         no_slice otherwise
+ */
+slice_index find_next_goal(Goal goal, slice_index start);
 
 #endif
