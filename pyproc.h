@@ -34,7 +34,9 @@
 #define PYPROC_H
 
 #include "py4.h"
+#include "pygoal.h"
 #include "boolean.h"
+#include <stdio.h>
 
 void    OpenInput(char *s);
 void    CloseInput(void);
@@ -401,8 +403,6 @@ void	pyInitSignal(void);
 void	InitCond(void);
 void	InitStip(void);
 char	*MakeTimeString(void);
-
-void initStipCheckers();
 
 char *ReadPieces(int cond);
 

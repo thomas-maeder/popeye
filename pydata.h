@@ -352,11 +352,6 @@ EXTERN  evalfunction_t *eval_white;
 EXTERN  evalfunction_t *eval_2;
 EXTERN  evalfunction_t *eval_black;
 
-extern char const *goal_end_marker[nr_goals];
-
-typedef boolean (*goal_function_t)(couleur);
-extern goal_function_t goal_checkers[nr_goals];
-
 typedef enum
 {
   PDirect,       /* alternate play attacker against defender */
