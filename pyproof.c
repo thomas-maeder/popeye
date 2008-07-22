@@ -28,6 +28,7 @@
 #include "DHT/dhtbcmem.h"
 #include "pyproof.h"
 #include "pymsg.h"
+#include "pystip.h"
 #include "platform/maxtime.h"
 
 /* an array to store the position */

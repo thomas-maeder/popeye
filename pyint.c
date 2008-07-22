@@ -16,6 +16,7 @@
 #include "pymsg.h"
 #include "pyint.h"
 #include "pydata.h"
+#include "pystip.h"
 #include "platform/maxtime.h"
 
 #define SetIndex(s, f)                                  \

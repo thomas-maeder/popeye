@@ -103,6 +103,7 @@
 #include "platform/pytime.h"
 #include "platform/priority.h"
 #include "trace.h"
+#include "pystip.h"
 
 boolean supergenre;
 
@@ -309,7 +310,7 @@ boolean verifieposition(void)
       ((slices[slices[0].u.composite.op1].u.leaf.goal==goal_mate)
        || (slices[slices[0].u.composite.op1].u.leaf.goal==goal_check)
        || (slices[slices[0].u.composite.op1].u.leaf.goal==goal_doublemate))
-      && (slices[current_slice].type!=STReciprocal
+      && (slices[0].type!=STReciprocal
           || (slices[slices[0].u.composite.op2].u.leaf.goal==goal_mate)
           || (slices[slices[0].u.composite.op2].u.leaf.goal==goal_check)
           || (slices[slices[0].u.composite.op2].u.leaf.goal==goal_doublemate));
@@ -1387,7 +1388,7 @@ boolean verifieposition(void)
 
   /* TODO quodlibet (currently) only into 2 leaves with end s r semi-r
    * direct */
-  if (slices[current_slice].type==STQuodlibet
+  if (slices[0].type==STQuodlibet
       && (!(slices[slices[0].u.composite.op2].u.leaf.end==ESelf
             || slices[slices[0].u.composite.op2].u.leaf.end==EReflex
             || slices[slices[0].u.composite.op2].u.leaf.end==ESemireflex)
@@ -1586,7 +1587,7 @@ boolean verifieposition(void)
       && (!(slices[1].u.leaf.goal==goal_mate
             || slices[1].u.leaf.goal==goal_stale)
           || flagfee
-          || slices[current_slice].type==STReciprocal
+          || slices[0].type==STReciprocal
           || slices[1].u.leaf.end==ESelf
           || slices[1].u.leaf.end==EReflex
           || slices[1].u.leaf.end==ESemireflex
@@ -3848,8 +3849,6 @@ int main(int argc, char *argv[]) {
         maxsolvingtime = UINT_MAX;
       
       setMaxtime(&maxsolvingtime);
-
-      current_slice = 0;
 
       maincamp= OptFlag[halfduplex] ? noir : blanc;
 

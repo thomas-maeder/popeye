@@ -64,6 +64,7 @@
 #include "pyhash.h"
 #include "pydata.h"
 #include "pymsg.h"
+#include "pystip.h"
 
 piece linechampiece(piece p, square sq) {
   piece pja= p;

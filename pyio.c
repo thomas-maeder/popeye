@@ -64,6 +64,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
+#include "pystip.h"
 #include "platform/maxtime.h"
 
 /* This is pyio.c

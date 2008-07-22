@@ -46,6 +46,7 @@
 #include "py1.h"
 #include "pyproc.h"
 #include "pydata.h"
+#include "pystip.h"
 
 void initply(void)
 {

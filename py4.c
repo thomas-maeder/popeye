@@ -54,6 +54,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
+#include "pystip.h"
 
 #define MAX_OTHER_LEN 1000 /* needs to be at least the max of any value that can be returned in the len functions */
 

@@ -49,6 +49,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
+#include "pystip.h"
 
 boolean eval_ortho(square sq_departure, square sq_arrival, square sq_capture) {
   return true;

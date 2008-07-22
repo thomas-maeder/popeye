@@ -98,6 +98,7 @@
 #include "DHT/dhtvalue.h"
 #include "DHT/dht.h"
 #include "pyproof.h"
+#include "pystip.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 
