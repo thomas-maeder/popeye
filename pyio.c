@@ -2694,19 +2694,10 @@ static char *ParseOpt(void) {
     {
       slice_index const current_slice = 0;
       if (slices[current_slice].type==STSequence)
-      {
-        /* 1 is tested before 2, so let's copy 1 to 2 and make 1
-         * EDirect */
-        slice_index const op1 = slices[current_slice].u.composite.op1;
-        slice_index const op2 = copy_slice(op1);
-        slices[current_slice].type = STQuodlibet;
-        slices[current_slice].u.composite.op2 = op2;
-        slices[op1].type = STLeaf;
-        slices[op1].u.leaf.end = EDirect;
-      }
+        transform_sequence_to_quodlibet(current_slice);
       else
       {
-        /* TODO */
+        /* TODO produce error message and ignore quodlibet */
       }
       break;
     }

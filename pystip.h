@@ -90,6 +90,11 @@ slice_index copy_slice(slice_index original);
  */
 void release_slices();
 
+/* Transform a sequence slice to quodlibet
+ * @param quodlibet_slice index of slice to be transformed
+ */
+void transform_sequence_to_quodlibet(slice_index quodlibet_slice);
+
 /* Do all leaves of the current stipulation have one of a set of goals?
  * @param goals set of goals
  * @param nrGoals number of elements of goals
