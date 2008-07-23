@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.40 2008/07/22 20:29:03 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.41 2008/07/23 11:28:52 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -117,6 +117,7 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
 # ------------------------
 
 # to print some debugging information while solving           DEBUG
+# new tracing machinery                                       DOTRACE
 # to print even more debugging information                    DETAILS
 # ?                                                           DBMALLOC
 # debugging output for dynamic hash tables                    DEBUG_DHT
@@ -244,10 +245,10 @@ INCLUDES =      pydata.h py.h py1.h py4.h pyproc.h pymsg.h pymac.h     \
 		platform/maxmem.h platform/maxtime.h \
 		platform/pytime.h platform/priority.h \
 		pygoal.h pystip.h \
-		boolean.h
+		boolean.h trace.h
 PYCFILES =      pydata.c py1.c py2.c py3.c py4.c py5.c py6.c pyio.c    \
 		pymsg.c pylang.c pyhash.c pyproof.c	       \
-		pysignal.c pyint.c pygoal.c pystip.c \
+		pysignal.c pyint.c pygoal.c pystip.c trace.c \
 		platform/$(PLATFORM)/maxmem.c \
 		platform/$(PLATFORM)/maxtime.c \
 		platform/$(PLATFORM)/pytime.c \

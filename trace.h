@@ -6,18 +6,23 @@
 #if defined(DOTRACE)
 
 void TraceFunctionEntry(char const *name);
-void TraceFunctionParam(char const *format, ...);
-void TraceValue(char const *format, ...);
-void TraceText(char const *text);
-void TraceCurrentMove();
-/* something along the lines of 
-  WriteSquare(move_generation_stack[nbcou].departure);
-  printf("-");
-  WriteSquare(move_generation_stack[nbcou].arrival);
-  printf("\n"); */
 
-void TraceFunctionExit(char const *format, ...);
-void TraceFunctionResult(char const *format, ...);
+void TraceValueImpl(char const *format, int value);
+
+#define TraceFunctionParam(format,name) \
+  TraceValueImpl(" ->" #name ":" format, name)
+
+#define TraceValue(format,name) \
+  TraceValueImpl(#name ":" format, name)
+
+void TraceText(char const *text);
+
+void TraceCurrentMove();
+
+void TraceFunctionExit(char const *name);
+
+#define TraceFunctionResult(format,name) \
+  TraceValueImpl(" <- " #name ":" format, name)
 
 #else
 
