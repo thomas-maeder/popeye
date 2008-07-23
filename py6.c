@@ -3175,8 +3175,6 @@ boolean sr_leaf_find_write_solutions(couleur attacker,
 
   finply();
 
-  StdChar('\n');
-
   return key_found;
 }
 
