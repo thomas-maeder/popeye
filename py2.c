@@ -2441,7 +2441,7 @@ boolean b_hopcheck(
   return rhopcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
-boolean pos_legal(void) {
+boolean pos_legal() {
   /* could be used for other genres e.g. Ohneschach */
   if (CondFlag[isardam]) {
     square z;
@@ -2482,12 +2482,18 @@ boolean pos_legal(void) {
 
   if (CondFlag[exclusive])
   {
-    if (nbply > maxply-1)
+    if (nbply>maxply-1)
       FtlMsg(ChecklessUndecidable);
 
-    if (!mateallowed[nbply]
-        && is_leaf_goal_reached(trait[nbply],1)) /* TODO use slice index */
-      return false;
+    if (!mateallowed[nbply])
+    {
+      /* TODO once republican chess has a moudule of its own, it might
+         be a good idea to cache si */
+      /* input validation makes sure that si!=no_goal */
+      slice_index const si = find_unique_goal();
+      if (is_leaf_goal_reached(trait[nbply],si))
+        return false;
+    }
   }
 
   return true;

@@ -121,6 +121,18 @@ boolean stip_ends_in(Goal const goals[], unsigned int nrGoals);
  */
 slice_index find_next_goal(Goal goal, slice_index start);
 
+/* Determine whether a side has reached the goal of a leaf slice.
+ * @param camp side
+ * @param leaf slice index of leaf slice
+ * @return true iff camp has reached leaf's goal
+ */
 boolean is_leaf_goal_reached(couleur camp, slice_index leaf);
+
+/* Determine whether the current stipulation has a unique goal, and
+ * return it.
+ * @return no_slice if goal is not unique; index of a slice with the
+ *         unique goal otherwise
+ */
+slice_index find_unique_goal();
 
 #endif

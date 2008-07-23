@@ -1449,9 +1449,17 @@ boolean verifieposition(void)
   /* a small hack to enable ep keys */
   trait[1]= 2;
 
-  if ( CondFlag[isardam]
-       || CondFlag[ohneschach]
-       || CondFlag[exclusive])
+  /* we have to know which goal has to be reached in a dual-free
+   * way */
+  if (CondFlag[exclusive] && find_unique_goal()==no_slice)
+  {
+    VerifieMsg(StipNotSupported);
+    return false;
+  }
+
+  if (CondFlag[isardam]
+      || CondFlag[ohneschach]
+      || CondFlag[exclusive])
   {
     flag_testlegality= true;
     optim_neutralretractable = optim_orthomatingmoves = false;

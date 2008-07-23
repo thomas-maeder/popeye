@@ -273,6 +273,11 @@ slice_index find_next_goal(Goal goal, slice_index start)
   return find_goal_recursive(goal,start,&active,0);
 }
 
+/* Determine whether a side has reached the goal of a leaf slice.
+ * @param camp side
+ * @param leaf slice index of leaf slice
+ * @return true iff camp has reached leaf's goal
+ */
 boolean is_leaf_goal_reached(couleur camp, slice_index leaf)
 {
   TraceFunctionEntry(__func__);
@@ -344,4 +349,58 @@ boolean is_leaf_goal_reached(couleur camp, slice_index leaf)
       assert(0);
       return false; /* TODO */
   }
+}
+
+static boolean are_goals_equal(slice_index si1, slice_index si2)
+{
+  return ((slices[si1].u.leaf.goal ==slices[si2].u.leaf.goal)
+          && (slices[si1].u.leaf.goal!=goal_target
+              || (slices[si1].u.leaf.target==slices[si2].u.leaf.target)));
+}
+
+static boolean find_unique_goal_recursive(slice_index current_slice,
+                                          slice_index *found_so_far)
+{
+  switch (slices[current_slice].type)
+  {
+    case STLeaf:
+      if (*found_so_far==no_slice)
+      {
+        *found_so_far = current_slice;
+        return true;
+      }
+      else
+        return are_goals_equal(*found_so_far,current_slice);
+
+    case STReciprocal:
+    case STQuodlibet:
+    {
+      slice_index const op1 = slices[current_slice].u.composite.op1;
+      slice_index const op2 = slices[current_slice].u.composite.op2;
+      return (find_unique_goal_recursive(op1,found_so_far)
+              && find_unique_goal_recursive(op2,found_so_far));
+    }
+    
+    case STSequence:
+    {
+      slice_index const op1 = slices[current_slice].u.composite.op1;
+      return find_unique_goal_recursive(op1,found_so_far);
+    }
+
+    default:
+      assert(0);
+      return false;
+  }
+}
+
+/* Determine whether the current stipulation has a unique goal, and
+ * return it.
+ * @return no_goal if goal is not unique; unique goal otherwise
+ */
+slice_index find_unique_goal()
+{
+  slice_index found_so_far = no_slice;
+  return (find_unique_goal_recursive(0,&found_so_far)
+          ? found_so_far
+          : no_slice);
 }
