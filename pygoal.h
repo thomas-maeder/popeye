@@ -42,13 +42,32 @@ typedef enum
 /* how to decorate a move that reached a goal */
 extern char const *goal_end_marker[nr_goals];
 
-/* how to determine whether a goal has been reached */
-typedef boolean (*goal_function_t)(couleur);
-extern goal_function_t goal_checkers[nr_goals];
-
 /* TODO get rid of this */
 extern boolean testdblmate;
 
-void initStipCheckers();
+/* Determine whether a goal has been reached by a side in the current
+ * position.
+ * @param camp side for which to test goal
+ * @return true iff side has reached goal
+ */
+boolean goal_checker_mate(couleur camp);
+boolean goal_checker_circuit(couleur camp);
+boolean goal_checker_circuitB(couleur camp);
+boolean goal_checker_exchange(couleur camp);
+boolean goal_checker_exchangeB(couleur camp);
+boolean goal_checker_capture(couleur camp);
+boolean goal_checker_mate_ultraschachzwang(couleur camp);
+boolean goal_checker_stale(couleur camp);
+boolean goal_checker_mate_or_stale(couleur camp);
+boolean goal_checker_dblstale(couleur camp);
+boolean goal_checker_autostale(couleur camp);
+boolean goal_checker_check(couleur camp);
+boolean goal_checker_steingewinn(couleur camp);
+boolean goal_checker_ep(couleur camp);
+boolean goal_checker_doublemate(couleur camp);
+boolean goal_checker_castling(couleur camp);
+boolean goal_checker_any(couleur camp);
+
+boolean goal_checker_target(couleur camp, square target);
 
 #endif

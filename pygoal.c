@@ -3,17 +3,14 @@
 
 boolean testdblmate= False;
 
-/* TODO we shouldn't need this: */
-#include "pystip.h"
-/* and slices[1] */
-static boolean stipChecker_target(couleur camp)
+boolean goal_checker_target(couleur camp, square target)
 {
-  return (move_generation_stack[nbcou].arrival==slices[1].u.leaf.target
+  return (move_generation_stack[nbcou].arrival==target
           && crenkam[nbply]==initsquare
           && !echecc(camp));
 }
 
-static boolean stipChecker_circuit(couleur camp)
+boolean goal_checker_circuit(couleur camp)
 {
   square const cazz = move_generation_stack[nbcou].arrival;
   square const renkam = crenkam[nbply];
@@ -23,7 +20,7 @@ static boolean stipChecker_circuit(couleur camp)
           && !echecc(camp));
 }
 
-static boolean stipChecker_circuitB(couleur camp)
+boolean goal_checker_circuitB(couleur camp)
 {
   square const sqren = sqrenais[nbply];
 
@@ -32,7 +29,7 @@ static boolean stipChecker_circuitB(couleur camp)
           && !echecc(camp));
 }
 
-static boolean stipChecker_exchange(couleur camp)
+boolean goal_checker_exchange(couleur camp)
 {
   square const sq_rebirth_kamikaze = crenkam[nbply];
   if (sq_rebirth_kamikaze==initsquare)
@@ -56,7 +53,7 @@ static boolean stipChecker_exchange(couleur camp)
   return false;
 }
 
-static boolean stipChecker_exchangeB(couleur camp)
+boolean goal_checker_exchangeB(couleur camp)
 {
   square const sqren = sqrenais[nbply];
 
@@ -73,12 +70,12 @@ static boolean stipChecker_exchangeB(couleur camp)
   return false;
 }
 
-static boolean stipChecker_capture(couleur camp)
+boolean goal_checker_capture(couleur camp)
 {
   return pprise[nbply]!=vide && !echecc(camp);
 }
 
-static boolean stipChecker_mate(couleur camp)
+boolean goal_checker_mate(couleur camp)
 {
   boolean flag;
   couleur ad= advers(camp);
@@ -99,21 +96,21 @@ static boolean stipChecker_mate(couleur camp)
     return echecc(ad) && !echecc(camp) && immobile(ad);
 }
 
-/* ultraschachzwang isn't in vigor in mates */
-static boolean stipChecker_mate_ultraschachzwang(couleur camp)
+/* ultraschachzwang is supspended in mates */
+boolean goal_checker_mate_ultraschachzwang(couleur camp)
 {
   int cond = camp==blanc ? blackultraschachzwang : whiteultraschachzwang;
   boolean saveflag = CondFlag[cond];
   boolean result;
   
   CondFlag[cond] = false;
-  result = stipChecker_mate(camp);
+  result = goal_checker_mate(camp);
   CondFlag[cond] = saveflag;
 
   return result;
 }
 
-static boolean para_immobile(couleur camp)
+boolean para_immobile(couleur camp)
 {
   if (echecc(camp))
   {
@@ -127,7 +124,7 @@ static boolean para_immobile(couleur camp)
     return immobile(camp);
 }
 
-static boolean stipChecker_stale(couleur camp)
+boolean goal_checker_stale(couleur camp)
 {
   /* modifiziert fuer paralysierende Steine */
   couleur ad= advers(camp);
@@ -141,20 +138,16 @@ static boolean stipChecker_stale(couleur camp)
     return !echecc(ad) && immobile(ad);
 }
 
-static boolean stipChecker_mate_or_stale(couleur camp)
+boolean goal_checker_mate_or_stale(couleur camp)
 {
-  /* This may be suboptimal if the standard goal_mate and goal_stale
-   * are used. On the other hand, it's correct for all goal_checkers,
-   * and how many problems with #= are there anyway? TM */
-
   /* used for writing the correct symbol in output */
-  mate_or_stale_patt = goal_checkers[goal_stale](camp);
-  
-  return mate_or_stale_patt || goal_checkers[goal_mate](camp);
+  /* TODO */
+  mate_or_stale_patt = goal_checker_stale(camp);
+  return mate_or_stale_patt || goal_checker_mate(camp);
 }
 
 
-static boolean stipChecker_dblstale(couleur camp)
+boolean goal_checker_dblstale(couleur camp)
 {
   /* ich glaube, fuer paral. Steine sind hier keine
      Modifizierungen erforderlich  TLi */
@@ -167,7 +160,7 @@ static boolean stipChecker_dblstale(couleur camp)
             && immobile(ad) && immobile(camp));
 }
 
-static boolean stipChecker_autostale(couleur camp)
+boolean goal_checker_autostale(couleur camp)
 {
   if (echecc(advers(camp)))
     return false;
@@ -178,19 +171,19 @@ static boolean stipChecker_autostale(couleur camp)
     return !echecc(camp) && immobile(camp);
 }
 
-static boolean stipChecker_check(couleur camp)
+boolean goal_checker_check(couleur camp)
 {
   return echecc(advers(camp)) && !echecc(camp);
 }
 
-static boolean stipChecker_steingewinn(couleur camp)
+boolean goal_checker_steingewinn(couleur camp)
 {
   return (pprise[nbply]!=vide
           && (!anycirce || sqrenais[nbply]==initsquare)
           && !echecc(camp));
 }
 
-static boolean stipChecker_ep(couleur camp)
+boolean goal_checker_ep(couleur camp)
 {
   return ((move_generation_stack[nbcou].arrival
            !=move_generation_stack[nbcou].capture)
@@ -198,7 +191,7 @@ static boolean stipChecker_ep(couleur camp)
           && !echecc(camp));
 }
 
-static boolean stipChecker_doublemate(couleur camp)
+boolean goal_checker_doublemate(couleur camp)
 {
   boolean flag;
   couleur ad= advers(camp);
@@ -227,7 +220,7 @@ static boolean stipChecker_doublemate(couleur camp)
   return flag;
 }
 
-static boolean stipChecker_castling(couleur camp)
+boolean goal_checker_castling(couleur camp)
 {
   unsigned char const diff = castling_flag[nbply-1]-castling_flag[nbply];
 
@@ -238,36 +231,10 @@ static boolean stipChecker_castling(couleur camp)
           && !echecc(camp));
 }
 
-static boolean stipChecker_any(couleur camp)
+boolean goal_checker_any(couleur camp)
 {
   return true;
 }
-
-goal_function_t goal_checkers[nr_goals] =
-{
-  &stipChecker_mate,
-  &stipChecker_stale,
-  &stipChecker_dblstale,
-  &stipChecker_target,
-  &stipChecker_check,
-  &stipChecker_capture,
-  &stipChecker_steingewinn,
-  &stipChecker_ep,
-  &stipChecker_doublemate,
-  &stipChecker_doublemate, /* for countermate */
-  &stipChecker_castling,
-  &stipChecker_autostale,
-  &stipChecker_circuit,
-  &stipChecker_exchange,
-  &stipChecker_circuitB,
-  &stipChecker_exchangeB,
-  &stipChecker_mate_or_stale,
-  &stipChecker_any,
-  0,
-#if !defined(DATABASE)
-  0
-#endif
-};
   
 char const *goal_end_marker[nr_goals] =
 {
@@ -294,11 +261,3 @@ char const *goal_end_marker[nr_goals] =
   " a=>b"
 #endif
 };
-
-void initStipCheckers()
-{
-  if (CondFlag[blackultraschachzwang] || CondFlag[whiteultraschachzwang])
-    goal_checkers[goal_mate] = &stipChecker_mate_ultraschachzwang;
-  else
-    goal_checkers[goal_mate] = &stipChecker_mate;
-}

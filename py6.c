@@ -2327,7 +2327,7 @@ int dsr_find_refutations(couleur defender, int n, int t, slice_index si)
   if ((!slices[si].u.composite.is_exact || n==0)
       && slices[op1].type==STLeaf
       && slices[op1].u.leaf.end==EDirect
-      && goal_checkers[slices[op1].u.leaf.goal](attacker))
+      && is_leaf_goal_reached(attacker,op1))
     return -1;
 
   if (slices[op1].type==STLeaf
@@ -2361,7 +2361,7 @@ int dsr_find_refutations(couleur defender, int n, int t, slice_index si)
 
   while (encore() && tablen(t)<=max_nr_refutations)
   {
-    TraceValue("%d\n",n);
+    TraceValue("%d ",n);
     TraceCurrentMove();
     if (jouecoup()
         && !echecc(defender))
@@ -2479,7 +2479,7 @@ void sr_find_write_final_move(couleur defender, slice_index si)
   while(encore())
   {
     if (jouecoup()
-        && goal_checkers[slices[si].u.leaf.goal](defender))
+        && is_leaf_goal_reached(defender,si))
     {
       if (tree_mode)
         dsr_write_defense(slices[si].u.leaf.goal);
@@ -2505,7 +2505,7 @@ void sr_find_write_set_mate(couleur defender, slice_index si)
   while(encore())
   {
     if (jouecoup()
-        && goal_checkers[slices[si].u.leaf.goal](defender))
+        && is_leaf_goal_reached(defender,si))
     {
       dsr_write_defense(slices[si].u.leaf.goal);
       if (OptFlag[maxsols]) 
@@ -2572,7 +2572,7 @@ boolean sr_short_end(couleur defender, slice_index si)
       switch (slices[si].u.leaf.end)
       {
         case ESelf:
-          if (goal_checkers[slices[si].u.leaf.goal](defender))
+          if (is_leaf_goal_reached(defender,si))
             return true;
 
         default:
@@ -2785,7 +2785,7 @@ void dsr_find_write_threats_variations(couleur attacker,
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
       else if (slices[op1].u.leaf.end!=EDirect
-               && goal_checkers[slices[op1].u.leaf.goal](defender))
+               && is_leaf_goal_reached(defender,op1))
         ; /* oops! wrong side */
       else if (!dsr_defends_threats(attacker,lenthreat,mena,si))
         ; /* move doesn't defend against threat */
@@ -2836,7 +2836,7 @@ void d_find_write_end(couleur attacker, int t, slice_index si)
   {
     if (jouecoup()
         && !echecc(attacker)
-        && goal_checkers[slices[si].u.leaf.goal](attacker))
+        && is_leaf_goal_reached(attacker,si))
     {
       dsr_write_attack(slices[si].u.leaf.goal);
       Message(NewLine);
@@ -2863,7 +2863,7 @@ void dsr_find_write_end_quodlibet(couleur attacker, int t, slice_index si)
         && !echecc(attacker))
     {
       slice_index const op1 = slices[si].u.composite.op1;
-      if (goal_checkers[slices[op1].u.leaf.goal](attacker))
+      if (is_leaf_goal_reached(attacker,op1))
       {
         dsr_write_attack(slices[op1].u.leaf.goal);
         Message(NewLine);
@@ -3119,7 +3119,7 @@ boolean d_leaf_find_write_keys(couleur attacker,
   {
     if (jouecoup()
         && !echecc(attacker)
-        && goal_checkers[slices[si].u.leaf.goal](attacker))
+        && is_leaf_goal_reached(attacker,si))
     {
       key_found = true;
       dsr_write_key(slices[si].u.leaf.goal,false);
@@ -3274,7 +3274,7 @@ boolean dsr_find_write_regular_tries_solutions(couleur attacker,
   genmove(attacker);
   while (encore())
   {
-    TraceValue("%d\n",n);
+    TraceValue("%d ",n);
     TraceCurrentMove();
     if (jouecoup()
         && !(restartenabled && MoveNbr<RestartNbr)
@@ -3373,7 +3373,7 @@ void SolveSeriesProblems(couleur camp)
   flag_appseul= False;   /* -- no meaning in series movers would only
                             distort output */
 
-  if (slices[1].u.leaf.end==EHelp)
+  if (slices[1].u.leaf.end==EHelp || slices[0].type==STReciprocal)
     camp = advers(camp);
 
   if (FlowFlag(Intro))
@@ -3843,8 +3843,6 @@ int main(int argc, char *argv[]) {
 
       if (verifieposition())
       {
-        initStipCheckers();
-        
         if (!OptFlag[noboard])
           WritePosition();
 

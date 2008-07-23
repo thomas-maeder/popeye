@@ -2462,36 +2462,32 @@ boolean pos_legal(void) {
 
   /* To avoid messing up the ???[nbply] arrays during output of
      the solution */
-  if (flag_writinglinesolution) {
+  if (flag_writinglinesolution)
     return true;
-  }
 
-  if (CondFlag[ohneschach]) {
+  if (CondFlag[ohneschach])
+  {
     couleur camp= trait[nbply];
     couleur ad= advers(camp);
 
-    if (nbply > maxply-1)  {
+    if (nbply > maxply-1)
       FtlMsg(ChecklessUndecidable);
-    }
 
-    if (echecc(camp)) {
+    if (echecc(camp))
       return false;
-    }
 
-    if (echecc(ad) && !immobile(ad)) {
+    if (echecc(ad) && !immobile(ad))
       return false;
-    }
   }
 
-  if (CondFlag[exclusive]) {
-    if (nbply > maxply-1) {
+  if (CondFlag[exclusive])
+  {
+    if (nbply > maxply-1)
       FtlMsg(ChecklessUndecidable);
-    }
 
     if (!mateallowed[nbply]
-        && goal_checkers[slices[1].u.leaf.goal](trait[nbply])) {
+        && is_leaf_goal_reached(trait[nbply],1)) /* TODO use slice index */
       return false;
-    }
   }
 
   return true;

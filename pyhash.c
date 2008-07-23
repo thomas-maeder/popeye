@@ -974,7 +974,7 @@ boolean h_find_write_final_move(couleur side_at_move, slice_index si)
     if (jouecoup()
         && (!OptFlag[intelligent] || MatePossible()))
     {
-      if (goal_checkers[slices[si].u.leaf.goal](side_at_move))
+      if (is_leaf_goal_reached(side_at_move,si))
       {
         final_move_found = true;
         linesolution(si);
@@ -1019,14 +1019,13 @@ static boolean is_a_mating_piece_left()
 boolean is_there_end_in_1(couleur side_at_move, slice_index si)
 {
   boolean end_found = false;
-  Goal const goal = slices[si].u.leaf.goal;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
   if (OptFlag[keepmating] && !is_a_mating_piece_left())
     return false;
 
-  if (goal==goal_mate)
+  if (slices[si].u.leaf.goal==goal_mate) /* TODO encapsulate? */
     GenMatingMove(side_at_move);
   else
     genmove(side_at_move);
@@ -1036,7 +1035,7 @@ boolean is_there_end_in_1(couleur side_at_move, slice_index si)
     TraceCurrentMove();
     if (jouecoup())
     {
-      if (goal_checkers[goal](side_at_move))
+      if (is_leaf_goal_reached(side_at_move,si))
       {
         TraceText("goal reached\n");
         end_found = true;
@@ -1140,7 +1139,7 @@ boolean hs_find_write_final_move_pair(couleur side_at_move, slice_index si)
       while (encore())
       {
         if (jouecoup()
-            && goal_checkers[slices[si].u.leaf.goal](other_side))
+            && is_leaf_goal_reached(other_side,si))
         {
           found_solution = true;
           linesolution(si);
@@ -1188,7 +1187,7 @@ boolean hr_find_write_final_move_pair(couleur side_at_move,
         while (encore())
         {
           if (jouecoup()
-              && goal_checkers[slices[si].u.leaf.goal](other_side))
+              && is_leaf_goal_reached(other_side,si))
           {
             found_solution = true;
             linesolution(si);
@@ -1236,14 +1235,14 @@ h_goal_cmate_find_write_final_move_pair(couleur side_at_move,
       (*encode)(&hb);
       if (!inhash(no_succ_hash_category,1,&hb))
       {
-        if (goal_checkers[goal_mate](side_at_move))
+        if (goal_checker_mate(side_at_move))
         {
           GenMatingMove(other_side);
 
           while (encore())
           {
             if (jouecoup()
-                && goal_checkers[slices[si].u.leaf.goal](other_side))
+                && is_leaf_goal_reached(other_side,si))
             {
               found_solution = true;
               linesolution(si);
@@ -1304,7 +1303,7 @@ h_goal_dmate_find_write_final_move_pair(couleur side_at_move,
           while (encore())
           {
             if (jouecoup()
-                && goal_checkers[slices[si].u.leaf.goal](other_side))
+                && is_leaf_goal_reached(other_side,si))
             {
               found_solution = true;
               linesolution(si);
@@ -1603,7 +1602,7 @@ boolean ser_d_find_write_final_move(couleur attacker, slice_index si)
   while (encore())
   {
     if (jouecoup()
-        && goal_checkers[slices[si].u.leaf.goal](attacker))
+        && is_leaf_goal_reached(attacker,si))
     {
       linesolution(si);
       solution_found = true;
@@ -1668,6 +1667,7 @@ boolean ser_find_write_solutions(couleur series_side,
 {
   slice_index const op1 = slices[si].u.composite.op1;
   TraceFunctionEntry(__func__);
+  TraceText(series_side==blanc ? " blanc" : " noir");
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
@@ -1942,7 +1942,7 @@ boolean d_leaf_does_attacker_win(couleur attacker, slice_index si)
   {
     if (jouecoup())
     {
-      end_found = goal_checkers[slices[si].u.leaf.goal](attacker);
+      end_found = is_leaf_goal_reached(attacker,si);
       if (end_found)
         coupfort();
     }
@@ -2047,7 +2047,7 @@ boolean sr_leaf_does_attacker_win(couleur attacker,
   }
 
   if (!parent_is_exact)
-    if (goal_checkers[slices[si].u.leaf.goal](defender))
+    if (is_leaf_goal_reached(defender,si))
     {
       addtohash(WhDirSucc,1,&hb);
       assert(!inhash(WhDirNoSucc,1,&hb));
@@ -2238,7 +2238,7 @@ short_result_type dsr_does_attacker_win_short(couleur attacker,
         case ESemireflex:
           if (!slices[si].u.composite.is_exact)
           {
-            if (goal_checkers[slices[op1].u.leaf.goal](defender))
+            if (is_leaf_goal_reached(defender,op1))
               return short_win;
           }
           break;
@@ -2246,7 +2246,7 @@ short_result_type dsr_does_attacker_win_short(couleur attacker,
         case EReflex:
           if (!slices[si].u.composite.is_exact)
           {
-            if (goal_checkers[slices[op1].u.leaf.goal](defender))
+            if (is_leaf_goal_reached(defender,op1))
               return short_win;
           }
 
@@ -2497,7 +2497,7 @@ boolean sr_does_defender_win_in_0(couleur defender, slice_index si)
       if (jouecoup() && !echecc(defender))
       {
         is_defender_immobile = false;
-        win_found = !goal_checkers[slices[si].u.leaf.goal](defender);
+        win_found = !is_leaf_goal_reached(defender,si);
         if (win_found)
           coupfort();
       }
@@ -2556,7 +2556,7 @@ boolean sr_does_defender_win_in_0(couleur defender, slice_index si)
       if (jouecoup() && !echecc(defender))
       {
         is_defender_immobile = false;
-        if (!goal_checkers[slices[si].u.leaf.goal](defender))
+        if (!is_leaf_goal_reached(defender,si))
         {
           TraceText("win_found\n");
           win_found = true;
@@ -2726,7 +2726,7 @@ boolean dsr_leaf_does_defender_win_in_0(couleur defender, slice_index si)
   switch (slices[si].u.leaf.end)
   {
     case EDirect:
-      return !goal_checkers[slices[si].u.leaf.goal](attacker);
+      return !is_leaf_goal_reached(attacker,si);
 
     case ESelf:
     case EReflex:

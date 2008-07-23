@@ -1066,7 +1066,7 @@ void genmove(couleur camp)
       gen_bl_ply();
 
     while (encore()) {
-      if (jouecoup() && goal_checkers[slices[1].u.leaf.goal](camp))
+      if (jouecoup() && is_leaf_goal_reached(camp,1))
         nbrmates++;
       repcoup();
     }
@@ -3359,7 +3359,7 @@ void find_mate_square(couleur camp)
         rn= sq;
         e[rn]= roin;
         nbpiece[roin]++;
-        if (goal_checkers[slices[1].u.leaf.goal](camp))
+        if (is_leaf_goal_reached(camp,1))
           return;
         nbpiece[roin]--;
         e[rn]= vide;
@@ -3372,7 +3372,7 @@ void find_mate_square(couleur camp)
         rb= sq;
         e[rb]= roib;
         nbpiece[roib]++;
-        if (goal_checkers[slices[1].u.leaf.goal](camp))
+        if (is_leaf_goal_reached(camp,1))
           return;
         nbpiece[roib]--;
         e[rb]= vide;

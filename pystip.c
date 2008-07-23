@@ -1,4 +1,6 @@
 #include "pystip.h"
+#include "pydata.h"
+#include "trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -269,4 +271,77 @@ slice_index find_next_goal(Goal goal, slice_index start)
   boolean active = start==0;
   /* TODO assert start < number of allocated slices */
   return find_goal_recursive(goal,start,&active,0);
+}
+
+boolean is_leaf_goal_reached(couleur camp, slice_index leaf)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+  assert(slices[leaf].type==STLeaf);
+  assert(slices[leaf].u.leaf.target!=initsquare);
+
+  switch (slices[leaf].u.leaf.goal)
+  {
+    case goal_mate:
+      if (CondFlag[blackultraschachzwang]
+          || CondFlag[whiteultraschachzwang])
+        return goal_checker_mate_ultraschachzwang(camp);
+      else
+        return goal_checker_mate(camp);
+
+    case goal_stale:
+      return goal_checker_stale(camp);
+
+    case goal_dblstale:
+      return goal_checker_dblstale(camp);
+
+    case goal_target:
+      return goal_checker_target(camp,slices[leaf].u.leaf.target);
+
+    case goal_check:
+      return goal_checker_check(camp);
+
+    case goal_capture:
+      return goal_checker_capture(camp);
+
+    case goal_steingewinn:
+      return goal_checker_steingewinn(camp);
+
+    case goal_ep:
+      return goal_checker_ep(camp);
+
+    case goal_doublemate:
+    case goal_countermate:
+      return goal_checker_doublemate(camp);
+
+    case goal_castling:
+      return goal_checker_castling(camp);
+
+    case goal_autostale:
+      return goal_checker_autostale(camp);
+
+    case goal_circuit:
+      return goal_checker_circuit(camp);
+
+    case goal_exchange:
+      return goal_checker_exchange(camp);
+
+    case goal_circuitB:
+      return goal_checker_circuitB(camp);
+
+    case goal_exchangeB:
+      return goal_checker_exchangeB(camp);
+
+    case goal_mate_or_stale:
+      return goal_checker_mate_or_stale(camp);
+
+    case goal_any:
+      return goal_checker_any(camp);
+
+    case goal_proof:
+    case goal_atob:
+    default:
+      assert(0);
+      return false; /* TODO */
+  }
 }

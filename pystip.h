@@ -121,4 +121,6 @@ boolean stip_ends_in(Goal const goals[], unsigned int nrGoals);
  */
 slice_index find_next_goal(Goal goal, slice_index start);
 
+boolean is_leaf_goal_reached(couleur camp, slice_index leaf);
+
 #endif

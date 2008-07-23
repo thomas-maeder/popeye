@@ -304,7 +304,25 @@ pystip.h:
 
 platform/maxtime.h:
 pygoal$(OBJ_SUFFIX): pygoal.c pygoal.h boolean.h py.h pylang.h pydata.h pyproc.h \
-  py4.h pystip.h
+  py4.h
+
+pygoal.h:
+
+boolean.h:
+
+py.h:
+
+pylang.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pylang.h pydata.h \
+  pyproc.h py4.h trace.h
+
+pystip.h:
 
 pygoal.h:
 
@@ -320,18 +338,25 @@ pyproc.h:
 
 py4.h:
 
-pystip.h:
-pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pylang.h
+trace.h:
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pylang.h pygoal.h \
+  pydata.h
 
-pystip.h:
+trace.h:
 
-pygoal.h:
+pyproc.h:
 
-boolean.h:
+py4.h:
 
 py.h:
 
+boolean.h:
+
 pylang.h:
+
+pygoal.h:
+
+pydata.h:
 platform/$(PLATFORM)/maxmem$(OBJ_SUFFIX): platform/$(PLATFORM)/maxmem.c platform/$(PLATFORM)/../maxmem.h
 
 platform/$(PLATFORM)/../maxmem.h:
@@ -340,8 +365,8 @@ platform/$(PLATFORM)/maxtime$(OBJ_SUFFIX): platform/$(PLATFORM)/maxtime.c \
   platform/$(PLATFORM)/../../pymsg.h platform/$(PLATFORM)/../../py.h \
   platform/$(PLATFORM)/../../boolean.h platform/$(PLATFORM)/../../pylang.h \
   platform/$(PLATFORM)/../../pydata.h platform/$(PLATFORM)/../../pyproc.h \
-  platform/$(PLATFORM)/../../py4.h platform/$(PLATFORM)/../../pygoal.h \
-  platform/$(PLATFORM)/../../py.h platform/$(PLATFORM)/../../pyhash.h \
+  platform/$(PLATFORM)/../../py4.h platform/$(PLATFORM)/../../py.h \
+  platform/$(PLATFORM)/../../pygoal.h platform/$(PLATFORM)/../../pyhash.h \
   platform/$(PLATFORM)/../../DHT/dhtbcmem.h
 
 platform/$(PLATFORM)/../maxtime.h:
@@ -362,9 +387,9 @@ platform/$(PLATFORM)/../../pyproc.h:
 
 platform/$(PLATFORM)/../../py4.h:
 
-platform/$(PLATFORM)/../../pygoal.h:
-
 platform/$(PLATFORM)/../../py.h:
+
+platform/$(PLATFORM)/../../pygoal.h:
 
 platform/$(PLATFORM)/../../pyhash.h:
 
