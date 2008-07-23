@@ -5,6 +5,77 @@
 
 Slice slices[max_nr_slices];
 
+static slice_index next_slice;
+
+/* Allocate a composite slice.
+ * Initializes type to STSequence and composite fields to null values
+ * @return index of allocated slice
+ */
+slice_index alloc_composite_slice(SliceType type, Play play)
+{
+  slice_index const result = next_slice++;
+
+  slices[result].type = type; 
+  slices[result].u.composite.play = play;
+  slices[result].u.composite.length = 0;
+  slices[result].u.composite.is_exact = false;
+  slices[result].u.composite.op1 = no_slice;
+  slices[result].u.composite.op2 = no_slice;
+
+  return result;
+}
+
+/* Allocate a target leaf slice.
+ * Initializes type to STLeaf and leaf fields according to arguments
+ * @return index of allocated slice
+ */
+slice_index alloc_target_leaf_slice(End end, square s)
+{
+  slice_index const result = next_slice++;
+
+  slices[result].type = STLeaf; 
+  slices[result].u.leaf.end = end;
+  slices[result].u.leaf.goal = goal_target;
+  slices[result].u.leaf.target = s;
+
+  return result;
+}
+
+/* Allocate a (non-target) leaf slice.
+ * Initializes type to STLeaf and leaf fields according to arguments
+ * @return index of allocated slice
+ */
+slice_index alloc_leaf_slice(End end, Goal goal)
+{
+  slice_index const result = next_slice++;
+
+  slices[result].type = STLeaf; 
+  slices[result].u.leaf.end = end;
+  slices[result].u.leaf.goal = goal;
+  slices[result].u.leaf.target = initsquare;
+
+  return result;
+}
+
+/* Allocate a slice as copy of an existing slice
+ * @param index of original slice
+ * @return index of allocated slice
+ */
+slice_index copy_slice(slice_index original)
+{
+  slice_index const result = next_slice++;
+  slices[result] = slices[original];
+  return result;
+}
+
+/* Release all slices
+ */
+void release_slices()
+{
+  next_slice = 0;
+}
+
+
 /* Does a leaf have one of a set of goals?
  * @param goals set of goals
  * @param nrGoals number of elements of goals

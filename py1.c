@@ -273,13 +273,7 @@ void InitStip(void)
 {
   FlagGenMatingMove= FlagMoveOrientatedStip= False;
 
-  /* TODO initialized properly */
-  slices[0].type = STSequence; 
-  slices[0].u.composite.length = 0;
-  slices[0].u.composite.is_exact = false;
-
-  slices[1].type = STLeaf; 
-  slices[1].u.leaf.goal = no_goal;
+  release_slices();
 }
 
 void InitAlways(void) {

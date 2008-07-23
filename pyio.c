@@ -1044,18 +1044,16 @@ static goalInputConfig_t const goalInputConfig[nr_goals] =
 #endif
 };
 
-static char *ParsPartialGoal(char *tok, Goal *goal, square *target)
+static char *ParseGoal(char *tok, End end, slice_index *si)
 {
   goalInputConfig_t const *gic;
   for (gic = goalInputConfig; gic!=goalInputConfig+nr_goals; ++gic)
     if (strstr(tok,gic->inputText)==tok)
     {
-      *goal = gic->goal;
-
       if (gic->goal==goal_target)
       {
-        *target = SquareNum(tok[1],tok[2]);
-        if (*target==0)
+        *si = alloc_target_leaf_slice(end,SquareNum(tok[1],tok[2]));
+        if (slices[*si].u.leaf.target==initsquare)
         {
           IoErrorMsg(MissngSquareList, 0);
           return 0;
@@ -1063,64 +1061,62 @@ static char *ParsPartialGoal(char *tok, Goal *goal, square *target)
         else
           return tok+3;
       }
-#if !defined(DATABASE)
-      else if (gic->goal==goal_atob)
-      {
-        int i;
-        for (i = maxsquare-1; i>=0; i--)
-          PosA[i] = e[i];
-
-        for (i = 0; i<nr_squares_on_board; i++)
-        {
-          SpecA[i] = spec[boardnum[i]];
-          spec[i] = EmptySpec;
-          e[boardnum[i]] = vide;
-        }
-
-        rnA = rn;
-        rbA = rb;
-
-        rn = initsquare;
-        rb = initsquare;
-
-        for (i = 0; i<maxinum; i++)
-        {
-          isquareA[i] = isquare[i];
-          isquare[i] = initsquare;
-        }
-
-        return tok+4;
-      }
-#endif
       else
+      {
+        *si = alloc_leaf_slice(end,gic->goal);
+        
+#if !defined(DATABASE)
+        if (gic->goal==goal_atob)
+        {
+          int i;
+          for (i = maxsquare-1; i>=0; i--)
+            PosA[i] = e[i];
+
+          for (i = 0; i<nr_squares_on_board; i++)
+          {
+            SpecA[i] = spec[boardnum[i]];
+            spec[i] = EmptySpec;
+            e[boardnum[i]] = vide;
+          }
+
+          rnA = rn;
+          rbA = rb;
+
+          rn = initsquare;
+          rb = initsquare;
+
+          for (i = 0; i<maxinum; i++)
+          {
+            isquareA[i] = isquare[i];
+            isquare[i] = initsquare;
+          }
+
+          return tok+4;
+        }
+#endif
+
         return tok+strlen(gic->inputText);
+      }
     }
 
   IoErrorMsg(UnrecStip, 0);
   return 0;
 }
 
-static char *ParseGoal(char *tok, slice_index si)
-{
-  return ParsPartialGoal(tok,
-                         &slices[si].u.leaf.goal,
-                         &slices[si].u.leaf.target);
-}
-
 static char *ParseReciGoal(char *tok,
-                           slice_index si_nonreci,
-                           slice_index si_reci)
+                           End end_nonreci, slice_index *si_nonreci,
+                           End end_reci, slice_index *si_reci)
 {
   if (*tok=='(')
   {
     char const *closingParenPos = strchr(tok,')');
     if (closingParenPos!=0)
     {
-      tok = ParsPartialGoal(tok+1,&slices[si_reci].u.leaf.goal,0);
+      tok = ParseGoal(tok+1,end_reci,si_reci);
       if (tok==0)
         return 0;
       else if (tok==closingParenPos)
-        return ParseGoal(tok+1,si_nonreci);
+        return ParseGoal(tok+1,end_nonreci,si_nonreci);
       else
       {
         IoErrorMsg(UnrecStip, 0);
@@ -1135,79 +1131,54 @@ static char *ParseReciGoal(char *tok,
   }
   else
   {
-    char *result = ParseGoal(tok,si_nonreci);
-    if (result)
-      slices[si_reci].u.leaf.goal = slices[si_nonreci].u.leaf.goal;
+    char *result = ParseGoal(tok,end_nonreci,si_nonreci);
+    if (result!=NULL)
+      *si_reci = alloc_leaf_slice(end_reci,slices[*si_nonreci].u.leaf.goal);
     return result;
   }
 }
 
-static char *ParseEnd(char *tok)
+static char *ParseEnd(char *tok, slice_index si_parent)
 {
   if (strncmp("dia", tok, 3) == 0)
-  {
-    slices[1].u.leaf.end = EDirect;
-    return ParseGoal(tok,1);
-  }
+    return ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
 
 #if !defined(DATABASE)
   if (strncmp("a=>b", tok, 4) == 0)
-  {
-    slices[1].u.leaf.end = EDirect;
-    return ParseGoal(tok,1);
-  }
+    return ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
 #endif
 
   if (strncmp("semi-r", tok, 6) == 0)
-  {
-    slices[1].u.leaf.end = ESemireflex;
-    return ParseGoal(tok+6,1);
-  }
+    return ParseGoal(tok+6,ESemireflex,&slices[si_parent].u.composite.op1);
 
   if (strncmp("reci-h", tok, 6) == 0)
-  {
-    slices[0].type = STReciprocal;
-    slices[0].u.composite.op2 = 2;
-
-    slices[1].type = STLeaf;
-    slices[1].u.leaf.end = EHelp;
-
-    slices[2].type = STLeaf;
-    slices[2].u.leaf.end = EDirect;
-
-    return ParseReciGoal(tok+6,1,2);
-  }
+    return ParseReciGoal(tok+6,
+                         EHelp,&slices[si_parent].u.composite.op1,
+                         EDirect,&slices[si_parent].u.composite.op2);
 
   if (strncmp("hs", tok, 2) == 0)
-  {
-    slices[1].u.leaf.end = ESelf;
-    return ParseGoal(tok+2,1);
-  }
+    return ParseGoal(tok+2,ESelf,&slices[si_parent].u.composite.op1);
 
   if (strncmp("hr", tok, 2) == 0)
-  {
-    slices[1].u.leaf.end = EReflex;
-    return ParseGoal(tok+2,1);
-  }
+    return ParseGoal(tok+2,EReflex,&slices[si_parent].u.composite.op1);
 
   switch (*tok)
   {
-  case 'h':
-    slices[1].u.leaf.end = EHelp;
-    return ParseGoal(tok+1,1);
-  case 'r':
-    slices[1].u.leaf.end = EReflex;
-    return ParseGoal(tok+1,1);
-  case 's':
-    slices[1].u.leaf.end = ESelf;
-    return ParseGoal(tok+1,1);
-  default:
-    slices[1].u.leaf.end = EDirect;
-    return ParseGoal(tok,1);
+    case 'h':
+      return ParseGoal(tok+1,EHelp,&slices[si_parent].u.composite.op1);
+
+    case 'r':
+      return ParseGoal(tok+1,EReflex,&slices[si_parent].u.composite.op1);
+
+    case 's':
+      return ParseGoal(tok+1,ESelf,&slices[si_parent].u.composite.op1);
+
+    default:
+      return ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
   }
 }
 
-static char *ParsePlay(char *tok)
+static char *ParsePlay(char *tok, slice_index *si)
 {
   /* seriesmovers with introductory moves */
   char *arrowpos = strstr(tok,"->");
@@ -1217,88 +1188,74 @@ static char *ParsePlay(char *tok)
     introenonce= strtol(tok,&end,10);
     if (introenonce<1 || tok==end || end!=arrowpos)
       IoErrorMsg(WrongInt, 0);
-    slices[0].type = STSequence;
-    slices[0].u.composite.op1 = 1;
-    slices[1].type = STLeaf;
     StipFlags |= FlowBit(Intro);
-    return ParsePlay(arrowpos+2);
+    return ParsePlay(arrowpos+2,si);
   }
 
   if (strncmp("exact-", tok, 6) == 0)
   {
-    slices[0].type = STSequence;
-    slices[0].u.composite.is_exact = true;
-    slices[0].u.composite.op1 = 1;
-    slices[1].type = STLeaf;
-    OptFlag[nothreat] = True;
-    return ParsePlay(tok+6);
+    char *result = ParsePlay(tok+6,si);
+    if (result!=0)
+    {
+      OptFlag[nothreat] = True;
+      slices[*si].u.composite.is_exact = true;
+    }
+
+    return result;
+  }
+
+  if (strncmp("ser-reci-h",tok,10) == 0)
+  {
+    *si = alloc_composite_slice(STReciprocal,PSeries);
+    return ParseEnd(tok+4,*si); /* skip over "ser-" */
   }
 
   if (strncmp("ser-",tok,4) == 0)
   {
-    slices[0].type = STSequence;
-    slices[0].u.composite.play = PSeries;
-    slices[0].u.composite.op1 = 1;
-    slices[1].type = STLeaf;
-    return ParseEnd(tok+4);
+    *si = alloc_composite_slice(STSequence,PSeries);
+    return ParseEnd(tok+4,*si);
   }
 
   if (strncmp("reci-h",tok,6) == 0)
   {
-    slices[0].type = STSequence;
-    slices[0].u.composite.play = PHelp;
-    slices[0].u.composite.op1 = 1;
-    slices[0].u.composite.op2 = 2;
-    slices[1].type = STLeaf;
-    slices[2].type = STLeaf;
-    return ParseEnd(tok);
+    *si = alloc_composite_slice(STReciprocal,PHelp);
+    return ParseEnd(tok,*si);
   }
 
   if (strncmp("dia",tok,3)==0)
   {
-    slices[0].type = STSequence;
-    slices[0].u.composite.is_exact = true;
-    slices[0].u.composite.play = PHelp;
-    slices[0].u.composite.op1 = 1;
-    slices[1].type = STLeaf;
-    return ParseEnd(tok);
+    *si = alloc_composite_slice(STSequence,PHelp);
+    slices[*si].u.composite.is_exact = true;
+    return ParseEnd(tok,*si);
   }
 
 #if !defined(DATABASE)
   if (strncmp("a=>b",tok,4)==0)
   {
-    slices[0].type = STSequence;
-    slices[0].u.composite.play = PHelp;
-    slices[0].u.composite.op1 = 1;
-    slices[1].type = STLeaf;
-    return ParseEnd(tok);
+    *si = alloc_composite_slice(STSequence,PHelp);
+    return ParseEnd(tok,*si);
   }
 #endif
 
   if (*tok=='h')
   {
-    slices[0].type = STSequence;
-    slices[0].u.composite.play = PHelp;
-    slices[0].u.composite.op1 = 1;
-    slices[1].type = STLeaf;
-    return ParseEnd(tok);
+    *si = alloc_composite_slice(STSequence,PHelp);
+    return ParseEnd(tok,*si);
   }
 
-  slices[0].type = STSequence;
-  slices[0].u.composite.play = PDirect;
-  slices[0].u.composite.op1 = 1;
-  slices[1].type = STLeaf;
-  return ParseEnd(tok);
+  *si = alloc_composite_slice(STSequence,PDirect);
+  return ParseEnd(tok,*si);
 }
 
 static char *ParseStip(void)
 {
   char *tok = ReadNextTokStr();
+  slice_index current_slice;
 
   StipFlags= 0;
 
   strcpy(AlphaStip,tok);
-  tok = ParsePlay(tok);
+  tok = ParsePlay(tok,&current_slice);
   if (tok)
   {
     char *ptr;
@@ -1309,32 +1266,35 @@ static char *ParseStip(void)
       strcat(AlphaStip, tok);
     }
 
-    slices[0].u.composite.length = strtol(tok,&ptr,10);
-    if (tok==ptr || slices[0].u.composite.length<0)
+    slices[current_slice].u.composite.length = strtol(tok,&ptr,10);
+    if (tok==ptr || slices[current_slice].u.composite.length<0)
     {
-      slices[0].u.composite.length = 0;
+      slices[current_slice].u.composite.length = 0;
       IoErrorMsg(WrongInt,0);
     }
 
-    if (slices[0].u.composite.play==PHelp)
+    if (slices[current_slice].u.composite.play==PHelp)
     {
-      slices[0].u.composite.length *= 2; /* we count half moves in help play */
+      /* we count half moves in help play */
+      slices[current_slice].u.composite.length *= 2;
+
       tok = ptr;
       if (strncmp(tok,".5",2)==0)
       {
-        if (slices[1].u.leaf.goal==goal_proof
-            || slices[1].u.leaf.goal==goal_atob)
-          ++slices[0].u.composite.length;
+        slice_index const op1 = slices[current_slice].u.composite.op1;
+        if (slices[op1].u.leaf.goal==goal_proof
+            || slices[op1].u.leaf.goal==goal_atob)
+          ++slices[current_slice].u.composite.length;
         else
         {
-          slices[0].u.composite.length += 2;
+          slices[current_slice].u.composite.length += 2;
           flag_appseul = true;
         }
       }
     }
   }
 
-  if (slices[0].u.composite.length>0 && ActStip[0]=='\0')
+  if (slices[current_slice].u.composite.length>0 && ActStip[0]=='\0')
     strcpy(ActStip, AlphaStip);
 
   return ReadNextTokStr();
@@ -2731,20 +2691,25 @@ static char *ParseOpt(void) {
       OptFlag[solvariantes]= True;
       break;
     case quodlibet:
-      if (slices[0].type==STSequence)
+    {
+      slice_index const current_slice = 0;
+      if (slices[current_slice].type==STSequence)
       {
-        slices[0].type = STQuodlibet;
-        slices[0].u.composite.op2 = 2;
-        /* 1 is tested before 2, so let's make 1 EDirect */
-        slices[2] = slices[1];
-        slices[1].type = STLeaf;
-        slices[1].u.leaf.end = EDirect;
+        /* 1 is tested before 2, so let's copy 1 to 2 and make 1
+         * EDirect */
+        slice_index const op1 = slices[current_slice].u.composite.op1;
+        slice_index const op2 = copy_slice(op1);
+        slices[current_slice].type = STQuodlibet;
+        slices[current_slice].u.composite.op2 = op2;
+        slices[op1].type = STLeaf;
+        slices[op1].u.leaf.end = EDirect;
       }
       else
       {
         /* TODO */
       }
       break;
+    }
     case nocastling:
       no_castling= bl_castlings|wh_castlings;
       ReadSquares(ReadNoCastlingSquares);
@@ -3342,8 +3307,10 @@ static char *ParseTwin(void) {
       else
       {
 #if !defined(DATABASE)
-        if (slices[1].u.leaf.goal==goal_proof
-            || slices[1].u.leaf.goal==goal_atob)
+        slice_index const current_slice = 0;
+        slice_index const op1 = slices[current_slice].u.composite.op1;
+        if (slices[op1].u.leaf.goal==goal_proof
+            || slices[op1].u.leaf.goal==goal_atob)
         {
           /* fixes bug for continued twinning
              in proof games; changes were made
@@ -3499,204 +3466,250 @@ Token ReadProblem(Token tk) {
   /* open mode for protocol and/or TeX file; overwrite existing file(s)
    * if we are doing a regression test */
   char const *open_mode = flag_regression ? "w" : "a";
+  slice_index const current_slice = 0;
 
   if (tk == BeginProblem) {
     LastChar= ' ';
     ReadBeginSpec();
   }
-  if (tk == TwinProblem || tk == ZeroPosition) {
-    if (tk == ZeroPosition) {
+  if (tk == TwinProblem || tk == ZeroPosition)
+  {
+    if (tk == ZeroPosition)
+    {
       StdString(TokenTab[ZeroPosition]);
       StdString("\n\n");
       TwinChar= 'a'-1;
       TwinStorePosition();
     }
     tok = ParseTwin();
-    while (True) {
-      switch (tk= StringToToken(tok)) {
-      case -1:
-        IoErrorMsg(ComNotUniq,0);
-        tok = ReadNextTokStr();
-        break;
-      case TwinProblem:
-        if (slices[0].u.composite.length>0) {
-          return tk;
-        }
-        IoErrorMsg(NoStipulation,0);
-        tok = ReadNextTokStr();
-        break;
-      case NextProblem:
-        if (slices[0].u.composite.length>0) {
-          return tk;
-        }
-        IoErrorMsg(NoStipulation,0);
-        tok = ReadNextTokStr();
-        break;
-      case EndProblem:
-        if (slices[0].u.composite.length>0) {
-          return tk;
-        }
-        IoErrorMsg(NoStipulation,0);
-        tok = ReadNextTokStr();
-        break;
-      default:
-        IoErrorMsg(ComNotKnown,0);
-        tok = ReadNextTokStr();
-        break;
+    while (True)
+    {
+      switch (tk= StringToToken(tok))
+      {
+        case -1:
+          IoErrorMsg(ComNotUniq,0);
+          tok = ReadNextTokStr();
+          break;
+        case TwinProblem:
+          if (slices[current_slice].u.composite.length>0)
+            return tk;
+          else
+          {
+            IoErrorMsg(NoStipulation,0);
+            tok = ReadNextTokStr();
+            break;
+          }
+        case NextProblem:
+          if (slices[current_slice].u.composite.length>0)
+            return tk;
+          else
+          {
+            IoErrorMsg(NoStipulation,0);
+            tok = ReadNextTokStr();
+            break;
+          }
+        case EndProblem:
+          if (slices[current_slice].u.composite.length>0)
+            return tk;
+          else
+          {
+            IoErrorMsg(NoStipulation,0);
+            tok = ReadNextTokStr();
+            break;
+          }
+        default:
+          IoErrorMsg(ComNotKnown,0);
+          tok = ReadNextTokStr();
+          break;
       }
     }
   }
-  else {
+  else
+  {
     tok = ReadNextTokStr();
     TwinChar= 'a';
-    while (True) {
-      switch (tk= StringToToken(tok)) {
-      case -1:
-        IoErrorMsg(ComNotUniq,0);
-        tok = ReadNextTokStr();
-        break;
-      case -2:
-        IoErrorMsg(ComNotKnown,0);
-        tok = ReadNextTokStr();
-        break;
-      case BeginProblem:
-        tok = ReadNextTokStr();
-        break;
-      case TwinProblem:
-        if (TwinChar == 'a') {
-          TwinStorePosition();
-        }
-      case NextProblem:
-        if (slices[0].u.composite.length>0) {
+    while (True)
+    {
+      tk = StringToToken(tok);
+      switch (tk)
+      {
+        case -1:
+          IoErrorMsg(ComNotUniq,0);
+          tok = ReadNextTokStr();
+          break;
+
+        case -2:
+          IoErrorMsg(ComNotKnown,0);
+          tok = ReadNextTokStr();
+          break;
+
+        case BeginProblem:
+          tok = ReadNextTokStr();
+          break;
+
+        case TwinProblem:
+          if (TwinChar == 'a')
+            TwinStorePosition();
+
+        case NextProblem:
+          if (slices[current_slice].u.composite.length>0)
+            return tk;
+          else
+          {
+            IoErrorMsg(NoStipulation,0);
+            tok = ReadNextTokStr();
+            break;
+          }
+
+        case EndProblem:
+          if (slices[current_slice].u.composite.length>0)
+            return tk;
+          else
+          {
+            IoErrorMsg(NoStipulation,0);
+            tok = ReadNextTokStr();
+            break;
+          }
+
+        case ZeroPosition:
           return tk;
-        }
-        IoErrorMsg(NoStipulation,0);
-        tok = ReadNextTokStr();
-        break;
-      case EndProblem:
-        if (slices[0].u.composite.length>0) {
-          return tk;
-        }
-        IoErrorMsg(NoStipulation,0);
-        tok = ReadNextTokStr();
-        break;
-      case ZeroPosition:
-        return tk;
-      case StipToken:
-        *AlphaStip='\0';
-        tok = ParseStip();
-        break;
-      case Author:
-        strcat(ActAuthor,ReadToEndOfLine());
-        strcat(ActAuthor,"\n");
-        tok = ReadNextTokStr();
-        break;
-      case Award:
-        strcpy(ActAward,ReadToEndOfLine());
-        strcat(ActAward, "\n");
-        tok = ReadNextTokStr();
-        break;
-      case Origin:
-        strcat(ActOrigin,ReadToEndOfLine());
-        strcat(ActOrigin,"\n");
-        tok = ReadNextTokStr();
-        break;
-      case TitleToken:
-        strcat(ActTitle,ReadToEndOfLine());
-        strcat(ActTitle,"\n");
-        tok = ReadNextTokStr();
-        break;
-      case PieceToken:
-        tok = ParsePieSpec('\0');
-        break;
-      case CondToken:
-        tok = ParseCond();
-        break;
-      case OptToken:
-        tok = ParseOpt();
-        break;
-      case RemToken:
-        if (LastChar != '\n') {
-          ReadToEndOfLine();
-          if (TraceFile) {
-            fputs(InputLine, TraceFile);
+
+        case StipToken:
+          *AlphaStip='\0';
+          tok = ParseStip();
+          break;
+
+        case Author:
+          strcat(ActAuthor,ReadToEndOfLine());
+          strcat(ActAuthor,"\n");
+          tok = ReadNextTokStr();
+          break;
+
+        case Award:
+          strcpy(ActAward,ReadToEndOfLine());
+          strcat(ActAward, "\n");
+          tok = ReadNextTokStr();
+          break;
+
+        case Origin:
+          strcat(ActOrigin,ReadToEndOfLine());
+          strcat(ActOrigin,"\n");
+          tok = ReadNextTokStr();
+          break;
+
+        case TitleToken:
+          strcat(ActTitle,ReadToEndOfLine());
+          strcat(ActTitle,"\n");
+          tok = ReadNextTokStr();
+          break;
+
+        case PieceToken:
+          tok = ParsePieSpec('\0');
+          break;
+
+        case CondToken:
+          tok = ParseCond();
+          break;
+
+        case OptToken:
+          tok = ParseOpt();
+          break;
+
+        case RemToken:
+          if (LastChar != '\n')
+          {
+            ReadToEndOfLine();
+            if (TraceFile!=NULL)
+            {
+              fputs(InputLine, TraceFile);
+              fflush(TraceFile);
+            }
+            Message(NewLine);
+          }
+          tok = ReadNextTokStr();
+          break;
+
+        case InputToken:
+          PushInput(ReadToEndOfLine());
+          tok = ReadNextTokStr();
+          break;
+
+        case TraceToken:
+          if (TraceFile!=NULL)
+            fclose(TraceFile);
+
+          TraceFile = fopen(ReadToEndOfLine(),open_mode);
+          if (TraceFile==NULL)
+            IoErrorMsg(WrOpenError,0);
+          else if (!flag_regression)
+          {
+            fputs(StartUp, TraceFile);
+            fputs(MMString, TraceFile);
             fflush(TraceFile);
           }
-          Message(NewLine);
-        }
-        tok = ReadNextTokStr();
-        break;
-      case InputToken:
-        PushInput(ReadToEndOfLine());
-        tok = ReadNextTokStr();
-        break;
-      case TraceToken:
-        if (TraceFile) {
-          fclose(TraceFile);
-        }
-        if ((TraceFile=fopen(ReadToEndOfLine(),open_mode)) == NULL) {
-          IoErrorMsg(WrOpenError,0);
-        }
-        else if (!flag_regression) {
-          fputs(StartUp, TraceFile);
-          fputs(MMString, TraceFile);
-          fflush(TraceFile);
-        }
-        tok = ReadNextTokStr();
-        break;
-      case LaTeXPieces:
-        tok = ParseLaTeXPieces(ReadNextTokStr());
-        break;
-      case LaTeXToken:
-        LaTeXout= true;
-        if (LaTeXFile) {
-          LaTeXClose();
-          fclose(LaTeXFile);
-        }
-        if ((LaTeXFile= fopen(ReadToEndOfLine(),open_mode)) == NULL) {
-          IoErrorMsg(WrOpenError,0);
-          LaTeXout= false;
-        }
-        else {
-          LaTeXOpen();
-        }
+          tok = ReadNextTokStr();
+          break;
 
-        if (SolFile) {
-          fclose(SolFile);
-        }
-        if ((SolFile= tmpfile()) == NULL) {
-          IoErrorMsg(WrOpenError,0);
-        }
-        tok = ParseLaTeXPieces(ReadNextTokStr());
-        break;
-      case SepToken:
-        tok = ReadNextTokStr();
-        break;
-      case Array:
-        tok = ReadNextTokStr();
-        {
-          piece p;
-          int i;
+        case LaTeXPieces:
+          tok = ParseLaTeXPieces(ReadNextTokStr());
+          break;
 
-          for (i = 0; i < nr_squares_on_board; i++) {
-            CLEARFL(spec[boardnum[i]]);
-            p= e[boardnum[i]]= PAS[i];
-            if (p >= roib) {
-              SETFLAG(spec[boardnum[i]], White);
-            }
-            else if (p <= roin) {
-              SETFLAG(spec[boardnum[i]], Black);
-            }
+        case LaTeXToken:
+          LaTeXout = true;
+          if (LaTeXFile!=NULL)
+          {
+            LaTeXClose();
+            fclose(LaTeXFile);
           }
-          rb= square_e1;
-          rn= square_e8;
-        }
-        break;
-      case Forsyth:
-        tok = ParseForsyth(false);
-        break;
-      default:
-        FtlMsg(InternalError);
+
+          LaTeXFile= fopen(ReadToEndOfLine(),open_mode);
+          if (LaTeXFile==NULL)
+          {
+            IoErrorMsg(WrOpenError,0);
+            LaTeXout= false;
+          }
+          else
+            LaTeXOpen();
+
+          if (SolFile!=NULL)
+            fclose(SolFile);
+
+          SolFile = tmpfile();
+          if (SolFile==NULL)
+            IoErrorMsg(WrOpenError,0);
+          else
+            tok = ParseLaTeXPieces(ReadNextTokStr());
+          break;
+
+        case SepToken:
+          tok = ReadNextTokStr();
+          break;
+
+        case Array:
+          tok = ReadNextTokStr();
+          {
+            int i;
+            for (i = 0; i<nr_squares_on_board; i++)
+            {
+              piece const p = PAS[i];
+              e[boardnum[i]] = PAS[i];
+              CLEARFL(spec[boardnum[i]]);
+              if (p >= roib)
+                SETFLAG(spec[boardnum[i]], White);
+              else if (p <= roin)
+                SETFLAG(spec[boardnum[i]], Black);
+            }
+            rb = square_e1;
+            rn = square_e8;
+          }
+          break;
+
+        case Forsyth:
+          tok = ParseForsyth(false);
+          break;
+
+        default:
+          FtlMsg(InternalError);
       }
     } /* while */
   }
@@ -4284,11 +4297,12 @@ void WritePosition() {
   static char HorizL[]="%c   .   .   .   .   .   .   .   .   %c\n";
   static char BlankL[]="|                                   |\n";
 
+  slice_index const current_slice = 0;
+
   SolFile= NULL;
 
-  for (sp= Neutral; sp < PieSpCount; sp++) {
+  for (sp= Neutral; sp < PieSpCount; sp++)
     strcpy(ListSpec[sp], PieSpString[ActLang][sp]);
-  }
 
   StdChar('\n');
   MultiCenter(ActAuthor);
@@ -4303,15 +4317,14 @@ void WritePosition() {
   StdString(BlankL);
 
   /* Just for visualizing imitators on the board. */                 
-  if (CondFlag[imitators]) {
-    for (i= 0; i < inum[1]; i++) {
+  if (CondFlag[imitators])
+    for (i= 0; i<inum[1]; i++)
       e[isquare[i]]= -1; 
-    }
-  }
 
   for (row=1, square_a = square_a8;
        row<=nr_rows_on_board;
-       row++, square_a += dir_down) {
+       row++, square_a += dir_down)
+  {
     char const *digits="87654321";
     sprintf(HLine1, HorizL, digits[row-1], digits[row-1]);
 
@@ -4333,64 +4346,67 @@ void WritePosition() {
           HLine2[4*file-1] = HLine2[4*file] = HLine2[4*file+1] = '-';
       }
 
-      if ((pp= abs(p= e[square])) < King) {
-        if (p == -1) {
+      if ((pp= abs(p= e[square])) < King)
+      {
+        if (p == -1)
+        {
           /* this is an imitator ! */
           *h1= 'I';
           e[square]= vide; /* "delete" imitator */
         }
-        else if (p == obs) {
+        else if (p == obs)
           /* this is a hole ! */
           *h1= ' ';
-        }
         /* else:  the square is empty ! */
         continue;
       }
 
-      for (sp= Neutral + 1; sp < PieSpCount; sp++) {
-        if (TSTFLAG(spec[square], sp)) {
+      for (sp= Neutral + 1; sp < PieSpCount; sp++)
+        if (TSTFLAG(spec[square], sp))
           AddSquare(ListSpec[sp], square);
-        }
-      }
 
-      if (pp<Hunter0 || pp >= (Hunter0 + maxnrhuntertypes)) {
-        if ((*h1= PieceTab[pp][1]) != ' ') {
+      if (pp<Hunter0 || pp >= (Hunter0 + maxnrhuntertypes))
+      {
+        if ((*h1= PieceTab[pp][1]) != ' ')
+        {
           *h1= UPCASE(*h1);
           h1--;
         }
         *h1--= UPCASE(PieceTab[pp][0]);
       }
-      else {
+      else
+      {
         char *n1 = HLine2 + (h1-HLine1); /* current position on next line */
 
         unsigned int const hunterIndex = pp-Hunter0;
         assert(hunterIndex<maxnrhuntertypes);
 
         *h1-- = '/';
-        if ((*h1= PieceTab[huntertypes[hunterIndex].away][1]) != ' ') {
+        if ((*h1= PieceTab[huntertypes[hunterIndex].away][1]) != ' ')
+        {
           *h1= UPCASE(*h1);
           h1--;
         }
         *h1--= UPCASE(PieceTab[huntertypes[hunterIndex].away][0]);
 
         --n1;   /* leave pos. below '/' empty */
-        if ((*n1= PieceTab[huntertypes[hunterIndex].home][1]) != ' ') {
+        if ((*n1= PieceTab[huntertypes[hunterIndex].home][1]) != ' ')
           *n1= UPCASE(*n1);
-        }
         *n1 = UPCASE(PieceTab[huntertypes[hunterIndex].home][0]);
       }
 
-      if (TSTFLAG(spec[square], Neutral)) {
+      if (TSTFLAG(spec[square], Neutral))
+      {
         nNeutr++;
         *h1= '=';
       }
-      else if (p < 0) {
+      else if (p < 0)
+      {
         nBlack++;
         *h1= '-';
       }
-      else {
+      else
         nWhite++;
-      }
     }
 
     StdString(HLine1);
@@ -4405,7 +4421,7 @@ void WritePosition() {
 
   strcpy(StipOptStr, AlphaStip);
 
-  if (max_len_threat<slices[0].u.composite.length-1)
+  if (max_len_threat<slices[current_slice].u.composite.length-1)
   {
     sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_len_threat);
     if (max_nr_flights<INT_MAX)
@@ -4414,7 +4430,7 @@ void WritePosition() {
   else if (max_nr_flights<INT_MAX)
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", max_nr_flights);
 
-  if (min_length_nontrivial<slices[0].u.composite.length-1)
+  if (min_length_nontrivial<slices[current_slice].u.composite.length-1)
     sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%d",
             max_nr_nontrivial,
@@ -4434,7 +4450,7 @@ void WritePosition() {
   else if (OptFlag[duplex])
     CenterLine(OptString[ActLang][duplex]);
 
-  if (slices[0].type==STQuodlibet)
+  if (slices[current_slice].type==STQuodlibet)
     CenterLine(OptString[ActLang][quodlibet]);
 
   StdChar('\n');
@@ -4807,7 +4823,7 @@ void LaTeXBeginDiagram(void) {
     strcat(ActTwin, OptTab[halfduplex]);
     strcat(ActTwin, "{\\newline}");
   }
-  if (slices[0].type==STQuodlibet) {
+  if (OptFlag[quodlibet]) {
     strcat(ActTwin, OptTab[quodlibet]);
     strcat(ActTwin, "{\\newline}");
   }

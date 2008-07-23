@@ -62,6 +62,34 @@ enum
 
 extern Slice slices[max_nr_slices];
 
+/* Allocate a composite slice.
+ * Initializes type to STSequence and composite fields to null values
+ * @return index of allocated slice
+ */
+slice_index alloc_composite_slice(SliceType type, Play play);
+
+/* Allocate a target leaf slice.
+ * Initializes type to STLeaf and leaf fields according to arguments
+ * @return index of allocated slice
+ */
+slice_index alloc_target_leaf_slice(End end, square s);
+
+/* Allocate a (non-target) leaf slice.
+ * Initializes type to STLeaf and leaf fields according to arguments
+ * @return index of allocated slice
+ */
+slice_index alloc_leaf_slice(End end, Goal goal);
+
+/* Allocate a slice as copy of an existing slice
+ * @param index of original slice
+ * @return index of allocated slice
+ */
+slice_index copy_slice(slice_index original);
+
+/* Release all slices
+ */
+void release_slices();
+
 /* Do all leaves of the current stipulation have one of a set of goals?
  * @param goals set of goals
  * @param nrGoals number of elements of goals
