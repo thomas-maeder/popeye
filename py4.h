@@ -11,6 +11,8 @@
 #if !defined(PY4_H)
 #define	PY4_H
 
+#include "py.h"
+
 int len_max (square departure, square arrival, square capture);
 	/* determines move length for maximummers */
 int len_min (square departure, square arrival, square capture);
