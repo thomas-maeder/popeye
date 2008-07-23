@@ -21,7 +21,7 @@ Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =1                          9 + 3
-       NurPartiesatzSteine	Typ1
+     NurPartiesatzSteine    Typ1
 
   1.Lb8-d6 = ! 
 
@@ -52,11 +52,10 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   r=1                        3 + 10
-       NurPartiesatzSteine	Typ1
+     NurPartiesatzSteine    Typ1
 
   1.Kb1-a1 ! 
       1...Lh1-e4 = 
-
 
 Loesung beendet. 
 
@@ -84,7 +83,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          4 + 1
-       NurPartiesatzSteine	Typ1
+     NurPartiesatzSteine    Typ1
 
   1.a7-a8=D # ! 
 
@@ -115,7 +114,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                         3 + 4
-       NurPartiesatzSteine	Typ1
+     NurPartiesatzSteine    Typ1
 
   1.d2-d1=T Sg5-f3 # 
 
@@ -146,7 +145,7 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #4                          6 + 6
-       NurPartiesatzSteine	Typ1
+     NurPartiesatzSteine    Typ1
 
   1.Sf5-g7 ! Drohung:
           2.Sg7-e6 + 
@@ -231,7 +230,7 @@ Beispiel 1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #6                          6 + 5
-       NurPartiesatzSteine	Typ1
+     NurPartiesatzSteine    Typ1
 
   1.Dd3-h3 + ! 
       1...Th1*h3 
@@ -334,7 +333,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                          9 + 9
-       NurPartiesatzSteine	Typ1
+     NurPartiesatzSteine    Typ1
 
   1.e6-e7 ! Drohung:
           2.Sf2*e4 + 
