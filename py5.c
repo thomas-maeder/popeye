@@ -66,6 +66,7 @@
 #include "pymsg.h"
 #include "pystip.h"
 #include "pyleaf.h"
+#include "trace.h"
 
 piece linechampiece(piece p, square sq) {
   piece pja= p;
@@ -3253,23 +3254,30 @@ boolean immobile_encore(couleur camp, square** immobilesquare) {
 boolean immobile(couleur camp)
 {
   square *immobilesquare= boardnum;  /* local to allow recursion */
-
   boolean const whbl_exact= camp==blanc ? wh_exact : bl_exact;
-  if (!whbl_exact && !flag_testlegality) {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",camp);
+
+  if (!whbl_exact && !flag_testlegality)
+  {
     nextply();
     current_killer_state= null_killer_state;
     trait[nbply]= camp;
     if (TSTFLAG(PieSpExFlags,Neutral))
       initneutre(advers(camp));
-    if (camp == blanc) {
+    if (camp == blanc)
+    {
       if (rb != initsquare)
         gen_wh_piece(rb, abs(e[rb]));
-    } else {
+    }
+    else
+    {
       if (rn != initsquare)
         gen_bl_piece(rn, -abs(e[rn]));
     }
 
-    if (CondFlag[MAFF] || CondFlag[OWU]) {
+    if (CondFlag[MAFF] || CondFlag[OWU])
+    {
       int k_fl= 0, w_unit= 0;
       while (encore()) {
         if (jouecoup()) {
@@ -3280,52 +3288,74 @@ boolean immobile(couleur camp)
         }
         repcoup();
       }
-      if ((CondFlag[OWU] && (k_fl!=0 || w_unit!=1)) ||
-          (CondFlag[MAFF] && (k_fl!=1)) ) {
+      if ((CondFlag[OWU] && (k_fl!=0 || w_unit!=1))
+          || (CondFlag[MAFF] && (k_fl!=1)) )
+      {
         finply();
+        TraceFunctionExit(__func__);
+        TraceFunctionResult("%d\n",false);
         return false;
       }
     }
 
-    while (immobile_encore(camp, &immobilesquare)) {
-      if (jouecoup()) {
-        if (! echecc(camp)) {
+    while (immobile_encore(camp,&immobilesquare))
+    {
+      TraceCurrentMove();
+      if (jouecoup())
+        if (!echecc(camp))
+        {
           repcoup();
           finply();
+          TraceFunctionExit(__func__);
+          TraceFunctionResult("%d\n",false);
           return false;
         }
-      }
+
       repcoup();
     }
     finply();
-  } else {
+  }
+  else
+  {
     couleur ad= advers(camp);
 
     /* exact-maxis, ohneschach */
     move_generation_mode= move_generation_optimized_by_killer_move;
     if (!CondFlag[ohneschach]) {
       genmove(camp);
-      while (encore()) {
-        if (jouecoup()) {
-          if (! echecc(camp)) {
+      while (encore())
+      {
+        TraceCurrentMove();
+        if (jouecoup())
+        {
+          if (!echecc(camp))
+          {
             repcoup();
             finply();
+            TraceFunctionExit(__func__);
+            TraceFunctionResult("%d\n",false);
             return false;
           }
         }
+
         repcoup();
       }
-      finply();
 
+      finply();
     } else {
       genmove(camp);
-      while (encore()) {
+      while (encore())
+      {
         CondFlag[ohneschach]= false;
+        TraceCurrentMove();
         jouecoup();
         CondFlag[ohneschach]= true;
-        if (!echecc(ad) && pos_legal()) {
+        if (!echecc(ad) && pos_legal())
+        {
           repcoup();
           finply();
+          TraceFunctionExit(__func__);
+          TraceFunctionResult("%d\n",false);
           return false;
         }
         repcoup();
@@ -3333,13 +3363,18 @@ boolean immobile(couleur camp)
       finply();
       move_generation_mode= move_generation_optimized_by_killer_move;
       genmove(camp);
-      while (encore()) {
+      while (encore())
+      {
         CondFlag[ohneschach]= false;
+        TraceCurrentMove();
         jouecoup();
         CondFlag[ohneschach]= true;
-        if (echecc(ad) && pos_legal()) {
+        if (echecc(ad) && pos_legal())
+        {
           repcoup();
           finply();
+          TraceFunctionExit(__func__);
+          TraceFunctionResult("%d\n",false);
           return false;
         }
         repcoup();
@@ -3347,6 +3382,9 @@ boolean immobile(couleur camp)
       finply();
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",true);
   return true;
 } /* immobile */
 
