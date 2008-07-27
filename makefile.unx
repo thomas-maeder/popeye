@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.41 2008/07/23 11:28:52 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.42 2008/07/27 06:49:00 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -245,10 +245,14 @@ INCLUDES =      pydata.h py.h py1.h py4.h pyproc.h pymsg.h pymac.h     \
 		platform/maxmem.h platform/maxtime.h \
 		platform/pytime.h platform/priority.h \
 		pygoal.h pystip.h \
+		pyleaf.h pycompos.h pyquodli.h pysequen.h pyrecipr.h \
 		boolean.h trace.h
 PYCFILES =      pydata.c py1.c py2.c py3.c py4.c py5.c py6.c pyio.c    \
 		pymsg.c pylang.c pyhash.c pyproof.c	       \
-		pysignal.c pyint.c pygoal.c pystip.c trace.c \
+		pysignal.c pyint.c \
+		pygoal.c pystip.c \
+		pycompos.c pyleaf.c pyquodli.c pysequen.c pyrecipr.c \
+		trace.c \
 		platform/$(PLATFORM)/maxmem.c \
 		platform/$(PLATFORM)/maxtime.c \
 		platform/$(PLATFORM)/pytime.c \
