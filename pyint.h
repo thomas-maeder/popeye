@@ -9,6 +9,8 @@
 #if !defined(PYINT_H)
 #define PYINT_H
 
+extern int WhMovesLeft, BlMovesLeft;
+
 boolean Redundant(void);
 boolean MatePossible(void);
 boolean SolAlreadyFound(void);
