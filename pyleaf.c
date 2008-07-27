@@ -19,7 +19,6 @@ boolean leaf_is_goal_reached(couleur just_moved, slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].u.leaf.target!=initsquare);
 
   switch (slices[leaf].u.leaf.goal)
   {
@@ -40,6 +39,7 @@ boolean leaf_is_goal_reached(couleur just_moved, slice_index leaf)
       break;
 
     case goal_target:
+      assert(slices[leaf].u.leaf.target!=initsquare);
       result = goal_checker_target(just_moved,slices[leaf].u.leaf.target);
       break;
 
