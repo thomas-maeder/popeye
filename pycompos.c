@@ -409,7 +409,7 @@ boolean d_composite_end_has_defender_won(couleur attacker, slice_index si)
   switch (slices[op1].type)
   {
     case STLeaf:
-      result = leaf_is_unsolvable(attacker,op1);
+      result = d_leaf_is_unsolvable(attacker,op1);
       break;
 
     default:
@@ -763,7 +763,8 @@ static boolean ser_composite_end_is_unsolvable(couleur series_side, slice_index 
   switch (slices[op1].type)
   {
     case STLeaf:
-      if (leaf_is_unsolvable(series_side,op1))
+      /* TODO this doesn't look right */
+      if (d_leaf_is_unsolvable(series_side,op1))
       {
         TraceText("unsolvable\n");
         result = true;

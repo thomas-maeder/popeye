@@ -79,9 +79,9 @@ void d_quodlibet_end_solve(couleur attacker,
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
 
-  if (leaf_is_unsolvable(attacker,op1))
+  if (d_leaf_is_unsolvable(attacker,op1))
     d_leaf_write_unsolvability(attacker,op1);
-  else if (leaf_is_unsolvable(attacker,op2))
+  else if (d_leaf_is_unsolvable(attacker,op2))
     d_leaf_write_unsolvability(attacker,op2);
   else
   {
