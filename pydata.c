@@ -20,7 +20,7 @@
 #include "pydata.h"
 
 unsigned int maxinbox[] = {0,0,0,0,1,2,2,2};
-unsigned int boxsize = sizeof maxinbox / sizeof maxinbox[0];
+piece boxsize = sizeof maxinbox / sizeof maxinbox[0];
 
 killer_state const null_killer_state = {
   false,

@@ -130,7 +130,7 @@ EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
 #if defined(WE_ARE_EXTERN)
 EXTERN unsigned int maxinbox[];
-EXTERN unsigned int boxsize;
+EXTERN piece boxsize;
 #endif
 
 EXTERN struct

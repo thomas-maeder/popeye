@@ -80,7 +80,6 @@ void release_slices()
 void transform_sequence_to_quodlibet(slice_index quodlibet_slice)
 {
   assert(slices[quodlibet_slice].type==STSequence);
-  assert(slices[op1].type==STLeaf);
 
   slices[quodlibet_slice].type = STQuodlibet;
 
@@ -88,6 +87,7 @@ void transform_sequence_to_quodlibet(slice_index quodlibet_slice)
     /* 1 is tested before 2, so let's copy 1 to 2 and make 1
      * EDirect */
     slice_index const op1 = slices[quodlibet_slice].u.composite.op1;
+    assert(slices[op1].type==STLeaf);
     slices[quodlibet_slice].u.composite.op2 = copy_slice(op1);
     slices[op1].u.leaf.end = EDirect;
   }

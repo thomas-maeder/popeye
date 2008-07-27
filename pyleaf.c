@@ -118,8 +118,6 @@ static boolean selflastencore(couleur camp,
                               square const **selfbnp,
                               square initiallygenerated)
 {
-  assert(slices[leaf].type==STLeaf);
-
   if (encore())
     return true;
   else
@@ -471,7 +469,7 @@ void d_leaf_write_unsolvability(couleur attacker, slice_index leaf)
  */
 static boolean d_leaf_d_solve(couleur attacker,
                               boolean restartenabled,
-                              slice_index si,
+                              slice_index leaf,
                               int solutions)
 {
   boolean const is_try = false;
@@ -484,10 +482,10 @@ static boolean d_leaf_d_solve(couleur attacker,
   {
     if (jouecoup()
         && !echecc(attacker)
-        && leaf_is_goal_reached(attacker,si))
+        && leaf_is_goal_reached(attacker,leaf))
     {
       key_found = true;
-      d_write_key(slices[si].u.leaf.goal,is_try);
+      d_write_key(slices[leaf].u.leaf.goal,is_try);
       pushtabsol(solutions);
       StdString("\n\n");
     }
@@ -1007,7 +1005,7 @@ static boolean d_leaf_sr_does_attacker_win(couleur attacker,
  * @return true iff attacker wins
  */
 boolean d_leaf_does_attacker_win(couleur attacker,
-                                 slice_index si,
+                                 slice_index leaf,
                                  boolean should_hash)
 {
   boolean result = false;
@@ -1015,18 +1013,18 @@ boolean d_leaf_does_attacker_win(couleur attacker,
   assert(slices[leaf].type==STLeaf);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%d\n",leaf);
 
-  switch (slices[si].u.leaf.end)
+  switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      result = d_leaf_d_does_attacker_win(attacker,si,should_hash);
+      result = d_leaf_d_does_attacker_win(attacker,leaf,should_hash);
       break;
 
     case ESelf:
     case ESemireflex:
     case EReflex:
-      result = d_leaf_sr_does_attacker_win(attacker,si,should_hash);
+      result = d_leaf_sr_does_attacker_win(attacker,leaf,should_hash);
       break;
 
     default:
