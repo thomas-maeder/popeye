@@ -1,6 +1,7 @@
 #include "pystip.h"
 #include "pydata.h"
 #include "trace.h"
+#include "pyleaf.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -325,4 +326,60 @@ slice_index find_unique_goal()
   return (find_unique_goal_recursive(0,&found_so_far)
           ? found_so_far
           : no_slice);
+}
+
+/* Determine whether a slice has >=1 solution
+ * @param side_at_move side doing the first move
+ * @param si slice index
+ * @return true iff slice has >=1 solution(s)
+ */
+boolean slice_is_solvable(couleur side_at_move, slice_index si)
+{
+  boolean result = false;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      result = leaf_is_solvable(side_at_move,si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Solve a slice (i.e. find and write all solutions)
+ * @param side_at_move side doing the first move
+ * @param si slice index
+ * @return true iff slice has >=1 solution(s)
+ */
+boolean slice_solve(couleur side_at_move, slice_index si)
+{
+  boolean result = false;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      result = leaf_solve(side_at_move,si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }

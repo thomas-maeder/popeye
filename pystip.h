@@ -128,4 +128,18 @@ slice_index find_next_goal(Goal goal, slice_index start);
  */
 slice_index find_unique_goal();
 
+/* Determine whether a slice has >=1 solution
+ * @param side_at_move side doing the first move
+ * @param si slice index
+ * @return true iff slice has >=1 solution(s)
+ */
+boolean slice_is_solvable(couleur side_at_move, slice_index si);
+
+/* Solve a slice (i.e. find and write all solutions)
+ * @param side_at_move side doing the first move
+ * @param si slice index
+ * @return true iff slice has >=1 solution(s)
+ */
+boolean slice_solve(couleur side_at_move, slice_index si);
+
 #endif
