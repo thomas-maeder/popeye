@@ -28,6 +28,8 @@ typedef union
     byte buffer[256];
 } HashBuffer;
 
+extern boolean flag_hashall;
+
 extern  void (*encode)(HashBuffer*);
 
 /* exported functions */
@@ -38,15 +40,8 @@ void    closehash (void);
 void	HashStats(int level, char *trailer);
 boolean inhash(hashwhat what, int val, HashBuffer *);
 void addtohash(hashwhat what, int val, HashBuffer *);
-void sr_find_write_final_move(couleur defender, slice_index si);
-boolean ser_find_write_solutions(couleur camp,
-                                 int n,
-                                 boolean restartenabled,
-                                 slice_index si);
-boolean h_find_write_solutions(couleur camp,
-                               int n,
-                               boolean restartenabled,
-                               slice_index si);
+
+boolean is_a_mating_piece_left(couleur mating_side);
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
