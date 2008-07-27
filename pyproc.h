@@ -225,14 +225,8 @@ void jouecoup_no_test(void);
 boolean jouecoup_ortho_test(void);
 boolean jouecoup(void);
 void    joueim(int diff);
-boolean h_find_write_final_move(couleur a, slice_index si);
 boolean legalsquare(square departure, square arrival, square capture);
 boolean libre(square a, boolean b);
-
-boolean is_there_end_in_1(couleur attacker, slice_index si);
-boolean d_does_attacker_win_in_1(couleur attacker,
-                                 slice_index si);
-boolean dsr_does_defender_win(couleur a,int b, slice_index si);
 
 void finply(void);
 void nextply(void);
@@ -262,6 +256,12 @@ typedef enum {
   angle_135
 } angle_t;
 
+int alloctab(void);
+void freetab(void);
+void pushtabsol(int n);
+int tablen(int t);
+boolean nowdanstab(int n);
+
 boolean rmhopech(square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);
 boolean rncircech(square departure, square arrival, square capture);
 
@@ -277,22 +277,18 @@ boolean rubiech(square sq, square sqtest, piece p, /* echiquier */ int *e_ub, ev
 boolean soutenu(square departure, square arrival, square capture);
 boolean notsoutenu(square a, square b, square c);
 
-int count_non_trivial(couleur defender, slice_index si);
 boolean has_too_many_flights(couleur defender);
-boolean dsr_does_attacker_win(couleur a, int b, slice_index si);
-boolean dsr_defends_threats(couleur a, int b, int c, slice_index si);
-int dsr_find_refutations(couleur a, int b, int c, slice_index si);
-void dsr_find_write_tries_solutions(couleur a, int b, boolean restartenabled, slice_index si);
-void dsr_find_write_continuations(couleur attacker, int n, int t, slice_index si);
+
+void d_write_refutations(int t);
+void d_write_attack(Goal goal);
+void d_write_defense(Goal goal);
+void d_write_key(Goal goal, boolean is_try);
 
 extern void   (*gen_bl_piece)(square a, piece b);
 void    singleboxtype3_gen_bl_piece(square a, piece b);
 extern void   (*gen_wh_piece)(square a, piece b);
 void    singleboxtype3_gen_wh_piece(square a, piece b);
 
-boolean sr_does_defender_win_in_0(couleur defender, slice_index si);
-boolean sr_does_defender_win(couleur a, int b, slice_index si);
-boolean sr_does_attacker_win(couleur a, int b);
 boolean eval_madrasi(square departure, square arrival, square capture);
 piece   champiece(piece p);
 
