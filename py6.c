@@ -104,6 +104,8 @@
 #include "platform/priority.h"
 #include "trace.h"
 #include "pystip.h"
+#include "pyleaf.h"
+#include "pycompos.h"
 
 boolean supergenre;
 
@@ -234,6 +236,79 @@ static boolean SetKing(int *kingsquare, int square)
   }
   else
     return false;
+}
+
+static boolean isIntelligentModeAllowed(void)
+{
+  /* This is a complex structure, but nested ifs would be, as well,
+   * and this is easier to extend once intelligent mode is allowed for
+   * something new
+   */
+  switch (slices[0].type)
+  {
+    case STSequence:
+      switch (slices[0].u.composite.play)
+      {
+        case PHelp:
+          switch (slices[1].type)
+          {
+            case STLeaf:
+              switch (slices[1].u.leaf.end)
+              {
+                case EHelp:
+                  switch (slices[1].u.leaf.goal)
+                  {
+                    case goal_mate:
+                    case goal_stale:
+                      return true;
+
+                    default:
+                      break;
+                  }
+
+                default:
+                  break;
+              }
+
+            default:
+              break;
+          }
+
+        case PSeries:
+          switch (slices[1].type)
+          {
+            case STLeaf:
+              switch (slices[1].u.leaf.end)
+              {
+                case EDirect:
+                case EHelp:
+                  switch (slices[1].u.leaf.goal)
+                  {
+                    case goal_mate:
+                    case goal_stale:
+                      return true;
+
+                    default:
+                      break;
+                  }
+
+                default:
+                  break;
+              }
+
+            default:
+              break;
+          }
+
+        default:
+          break;
+      }
+
+    default:
+      break;
+  }
+
+  return false;
 }
 
 boolean verifieposition(void)
@@ -1580,25 +1655,10 @@ boolean verifieposition(void)
     exist[reversepb]= true;
   }
 
-  if (OptFlag[intelligent])
+  if (OptFlag[intelligent] && !isIntelligentModeAllowed())
   {
-    if (slices[0].type==STSequence
-        && slices[1].type==STLeaf
-        && (slices[1].u.leaf.goal==goal_mate
-            || slices[1].u.leaf.goal==goal_stale)
-        && ((slices[0].u.composite.play==PHelp
-             && slices[1].u.leaf.end==EHelp)
-            || (slices[0].u.composite.play==PSeries
-                && (slices[1].u.leaf.end==EHelp
-                    || slices[1].u.leaf.end==EDirect))))
-    {
-      /* ok */
-    }
-    else
-    {
-      VerifieMsg(IntelligentRestricted);
-      return false;
-    }
+    VerifieMsg(IntelligentRestricted);
+    return false;
   }
 
   if (OptFlag[appseul])
@@ -2247,34 +2307,6 @@ void linesolution(slice_index si)
 
 #if !defined(DATABASE)
 
-/* Count all non-trivial moves of the defending side. Whether a
- * particular move is non-trivial is determined by user input.
- * @param defender defending side (i.e.side for which to count
- *                 non-trivial moves)
- * @return number of defender's non-trivial moves minus 1 (TODO: why?)
- */
-int count_non_trivial(couleur defender, slice_index si)
-{
-  couleur attacker = advers(defender);
-  int result = -1;
-
-  genmove(defender);
-
-  while (encore() && max_nr_nontrivial>=result)
-  {
-    if (jouecoup()
-        && !echecc(defender)
-        && !(min_length_nontrivial>0
-             && dsr_does_attacker_win(attacker,min_length_nontrivial,si)))
-      ++result;
-    repcoup();
-  }
-
-  finply();
-
-  return result;
-}
-
 /* Determine whether the defending side has more flights than allowed
  * by the user.
  * @param defender defending side
@@ -2305,149 +2337,10 @@ boolean has_too_many_flights(couleur defender)
   }
 }
 
-/* Count number of refutations after a move of the attacking side in
- * direct/self/reflex play.
- * @param defender defending side
- * @param n number of moves until end state has to be reached,
- *          not including the move just played
- * @param t table where to store refutations
- * @return -1 iff in direct play, the move just played reached the end
- *            state to be reached (mate, stalemate, ...)
- *         0  if the defending side has at >=1 final move in reflex play
- *         max_nr_refutations+1 if
- *            if the defending side is immobile (it shouldn't be here!)
- *            if the defending side has more non-trivial moves than allowed
- *            if the defending king has more flights than allowed
- *            if there is no threat in <= the maximal number threat
- *               length as entered by the user
- *         number (0..max_nr_refutations) of refutations otherwise
- */
-int dsr_find_refutations(couleur defender, int n, int t, slice_index si)
-{
-  couleur attacker = advers(defender);
-  boolean is_defender_immobile = true;
-  int ntcount = 0;
-  slice_index const op1 = slices[si].u.composite.op1;
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
-
-  if ((!slices[si].u.composite.is_exact || n==0)
-      && slices[op1].type==STLeaf
-      && slices[op1].u.leaf.end==EDirect
-      && is_leaf_goal_reached(attacker,op1))
-    return -1;
-
-  if (slices[op1].type==STLeaf
-      && (slices[op1].u.leaf.end==EReflex
-          || slices[op1].u.leaf.end==ESemireflex)
-      && is_there_end_in_1(defender,op1))
-    return 0;
-
-  if (n>max_len_threat
-      && !echecc(defender)
-      && !dsr_does_attacker_win(attacker,max_len_threat,si))
-    return max_nr_refutations+1;
-
-  if (n>2 && OptFlag[solflights] && has_too_many_flights(defender))
-    return max_nr_refutations+1;
-
-  if (n>min_length_nontrivial)
-  {
-    ntcount = count_non_trivial(defender,si);
-    if (max_nr_nontrivial<ntcount)
-      return max_nr_refutations+1;
-    else
-      max_nr_nontrivial -= ntcount;
-  }
-
-  if (n>2)
-    move_generation_mode= move_generation_mode_opti_per_couleur[defender];
-
-  genmove(defender);
-  move_generation_mode= move_generation_optimized_by_killer_move;
-
-  while (encore() && tablen(t)<=max_nr_refutations)
-  {
-    TraceValue("%d ",n);
-    TraceCurrentMove();
-    if (jouecoup()
-        && !echecc(defender))
-    {
-      is_defender_immobile = false;
-      if (!dsr_does_attacker_win(attacker,n,si))
-      {
-        TraceText("refutes\n");
-        pushtabsol(t);
-      }
-    }
-    repcoup();
-  }
-  finply();
-
-  if (n>min_length_nontrivial)
-    max_nr_nontrivial += ntcount;
-
-  return is_defender_immobile ? max_nr_refutations+1 : tablen(t);
-} /* dsr_find_refutations */
-
-/* Determine whether the move of the defending side in
- * direct/self/reflex play defends against the threats.
- * @param attacker attacking side
- * @param n number of moves until end state has to be reached from now
- * @param t table containing the threats
- * @return true iff the move just played defends against at least one
- *         of the threats
- */
-boolean dsr_defends_threats(couleur attacker, int n, int t, slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",tablen(t));
-  if (tablen(t)==0)
-    return true;
-  else
-  {
-    int zaehler = 0;
-    boolean defense_found = false;
-    couleur defender = advers(attacker);
-
-    genmove(attacker);
-
-    while (encore() && !defense_found)
-    {
-      TraceValue("%d\n",n);
-      TraceCurrentMove();
-      if (jouecoup()
-          && nowdanstab(t)
-          && !echecc(attacker))
-      {
-        defense_found = dsr_does_defender_win(defender,n-1,si);
-        if (defense_found)
-        {
-          TraceText("defended\n");
-          coupfort();
-        }
-        else
-          zaehler++;
-      }
-
-      repcoup();
-    }
-
-    finply();
-
-    /* this happens if we have found a defense or some threats can no
-     * longer be played after defender's defense. */
-    return zaehler<tablen(t);
-  }
-}
-
 /* Write a move by the defending side in direct/self/reflex play.
- * @param mode should we write mate/stalemate/... marker?
+ * @param goal if !=no_goal, the corresponding mark is appended
  */
-void dsr_write_defense(Goal goal)
+void d_write_defense(Goal goal)
 {
   Tabulate();
   sprintf(GlobalStr,"%3d...",zugebene);
@@ -2456,10 +2349,10 @@ void dsr_write_defense(Goal goal)
   StdString("\n");
 }
 
-/* Write a move by the attacking side in direct/self/reflex play.
- * @param mode should we write mate/stalemate/... marker?
+/* Write a move by the attacking side in direct play.
+ * @param goal if !=no_goal, the corresponding mark is appended
  */
-void dsr_write_attack(Goal goal)
+void d_write_attack(Goal goal)
 {
   if (DrohFlag)
   {
@@ -2472,349 +2365,31 @@ void dsr_write_attack(Goal goal)
   ecritcoup(goal);
 }
 
-/* Determine and write all final moves of a self/reflex variation.
- * @param defender defending side (i.e. side executing the final move(s))
+/* Write the key of a direct/self/reflex slice.
+ * The key is the current move of the current ply.
+ * @param goal if !=no_goal, the corresponding mark is appended
+ * @param is_try true if key is first move of try, false if key is
+ *               first move of solution
  */
-void sr_find_write_final_move(couleur defender, slice_index si)
+void d_write_key(Goal goal, boolean is_try)
 {
-  boolean const tree_mode = slices[0].u.composite.play==PDirect; /* TODO */
-
-  if (tree_mode)
-    StdString("\n");
-
-  GenMatingMove(defender);
-
-  while(encore())
-  {
-    if (jouecoup()
-        && is_leaf_goal_reached(defender,si))
-    {
-      if (tree_mode)
-        dsr_write_defense(slices[si].u.leaf.goal);
-      else
-        linesolution(si);
-    }
-
-    repcoup();
-  }
-
-  finply();
-}
-
-/* Determine and write all set mates of a self/reflex stipulation.
- * @param defender defending side (i.e. side executing the set mates)
- */
-void sr_find_write_set_mate(couleur defender, slice_index si)
-{
-  StdString("\n");
-
-  GenMatingMove(defender);
-
-  while(encore())
-  {
-    if (jouecoup()
-        && is_leaf_goal_reached(defender,si))
-    {
-      dsr_write_defense(slices[si].u.leaf.goal);
-      if (OptFlag[maxsols]) 
-        solutions++;
-      if (OptFlag[beep])
-        BeepOnSolution(maxbeep);
-    }
-
-    repcoup();
-
-    if ((OptFlag[maxsols] && solutions>=maxsolutions)
-        || maxtime_status==MAXTIME_TIMEOUT)
-      break;
-  }
-
-  finply();
-}
-
-/* Write a variation in the try/solution/set play of a
- * direct/self/reflex stipulation. The move of the defending side that
- * starts the variation has already been played in the current ply.
- * Only continuations of minimal length are looked for and written.
- * This is an indirectly recursive function.
- * @param attacker attacking side
- * @param n number of moves until end state has to be reached from now
- */
-void dsr_write_variation(couleur attacker, int n, slice_index si)
-{
-  boolean isRefutation = true; /* until we prove otherwise */
-  int i;
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
-
-  dsr_write_defense(no_goal);
-  marge+= 4;
-
-  for (i = slices[si].u.composite.is_exact ? n : 1;
-       i<=n && isRefutation;
-       i++)
-  {
-    int mats = alloctab();
-    dsr_find_write_continuations(attacker,i,mats,si);
-    isRefutation = tablen(mats)==0;
-    freetab();
-  }
-
-  if (isRefutation)
-  {
-    marge+= 2;
-    Tabulate();
-    Message(Refutation);
-    marge-= 2;
-  }
-
-  marge-= 4;
-}
-
-boolean sr_short_end(couleur defender, slice_index si)
-{
-  switch (slices[si].type)
-  {
-    case STLeaf:
-      switch (slices[si].u.leaf.end)
-      {
-        case ESelf:
-          if (is_leaf_goal_reached(defender,si))
-            return true;
-
-        default:
-          break;
-      }
-
-    default:
-      break;
-  }
-
-  return false;
-}
-
-/* Determine and write set play of a direct/self/reflex stipulation
- * @param attacker attacking side
- * @param n number of moves until end state has to be reached,
- *          including the virtual key move
- */
-void dsr_find_write_setplay(couleur attacker, int n, slice_index si)
-{
-  couleur defender = advers(attacker);
-  int ntcount = 0;
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
-
-  if (n==1)
-  {
-    slice_index const op1 = slices[si].u.composite.op1;
-    switch (slices[op1].type)
-    {
-      case STLeaf:
-        switch (slices[op1].u.leaf.end)
-        {
-          case EDirect:
-            Message(NewLine);
-            break;
-
-          case ESelf:
-          case EReflex:
-          case ESemireflex:
-            sr_find_write_set_mate(defender,op1);
-            break;
-
-          default:
-            assert(0);
-            break;
-        }
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
+  d_write_attack(goal);
+  if (is_try)
+    StdString("? ");
   else
   {
-    slice_index const op1 = slices[si].u.composite.op1;
-    switch (slices[op1].type)
-    {
-      case STLeaf:
-        switch (slices[op1].u.leaf.end)
-        {
-          case ESelf:
-          case EReflex:
-          case ESemireflex:
-            if (!sr_does_defender_win_in_0(defender,op1))
-            {
-              sr_find_write_set_mate(defender,op1);
-              return;
-            }
-
-          default:
-            break;
-        }
-
-      default:
-        break;
-    }
-
-    StdString("\n");
-
-    if (n-1>min_length_nontrivial)
-    {
-      ntcount = count_non_trivial(defender,si);
-      max_nr_nontrivial -= ntcount;
-    }
-
-    genmove(defender);
-
-    while(encore())
-    {
-      TraceValue("%d\n",n);
-      TraceCurrentMove();
-      if (jouecoup()
-          && !echecc(defender))
-      {
-        if (sr_short_end(defender,op1))
-          ; /* oops */
-        else if (dsr_does_attacker_win(attacker,n-1,si))
-          /* yipee - this solves! */
-          dsr_write_variation(attacker,n-1,si);
-      }
-
-      repcoup();
-    }
-
-    finply();
-
-    if (n-1>min_length_nontrivial)
-      max_nr_nontrivial += ntcount;
+    StdString("! ");
+    if (OptFlag[maxsols])
+      solutions++;
+    if (OptFlag[beep])
+      BeepOnSolution(maxbeep);
   }
-} /* dsr_find_write_setplay */
-
-/* Determine and write the threat and variations in direct/self/reflex
- * play after the move that has just been played in the current ply.
- * We have already determined that this move doesn't have more
- * refutations than allowed.
- * This is an indirectly recursive function.
- * @param attacker attacking side (i.e. side that has just played)
- * @param n number of moves until end state has to be reached,
- *          including the move just played
- * @param refutations table containing refutations after move just
- *                    played
- */
-void dsr_find_write_threats_variations(couleur attacker,
-                                       int n,
-                                       int refutations,
-                                       slice_index si)
-{
-  couleur defender = advers(attacker);
-  int mena;
-  int lenthreat = 1;
-  int ntcount = 0;
-  slice_index const op1 = slices[si].u.composite.op1;
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
-
-  if (!OptFlag[solvariantes])
-  {
-    Message(NewLine);
-    return;
-  }
-
-  if (n==1)
-  {
-    if (slices[op1].u.leaf.end==EDirect)
-      Message(NewLine);
-    else
-      sr_find_write_final_move(defender,op1);
-
-    return;
-  }
-
-  if ((slices[op1].u.leaf.end==EReflex
-       || slices[op1].u.leaf.end==ESemireflex)
-      && !sr_does_defender_win_in_0(defender,op1))
-  {
-    sr_find_write_final_move(defender,op1);
-    return;
-  }
-
-  mena = alloctab();
-  if (OptFlag[nothreat] || echecc(defender))
-    StdString("\n");
-  else
-  {
-    int max_threat_length = n-1>max_len_threat ? max_len_threat : n-1;
-    int i;
-    DrohFlag = true;
-    marge+= 4;
-    for (i = 1; i<=max_threat_length; i++)
-    {
-      dsr_find_write_continuations(attacker,i,mena,si);
-      if (tablen(mena)>0)
-      {
-        lenthreat = i;
-        break;
-      }
-    }
-    marge-= 4;
-    if (DrohFlag)
-    {
-      Message(Zugzwang);
-      DrohFlag = false;
-    }
-  }
-
-  if (n-1>min_length_nontrivial)
-  {
-    ntcount = count_non_trivial(defender,si);
-    max_nr_nontrivial -= ntcount;
-  }
-
-  genmove(defender);
-
-  while(encore())
-  {
-    TraceValue("%d\n",n);
-    TraceCurrentMove();
-    if (jouecoup()
-        && !echecc(defender)
-        && !nowdanstab(refutations))
-    {
-      if (OptFlag[noshort] && dsr_does_attacker_win(attacker,n-2,si))
-        ; /* variation shorter than stip; thanks, but no thanks! */
-      else if (lenthreat>1
-               && dsr_does_attacker_win(attacker,lenthreat-1,si))
-        ; /* variation shorter than threat */
-      /* TODO avoid double calculation if lenthreat==n*/
-      else if (slices[op1].u.leaf.end!=EDirect
-               && is_leaf_goal_reached(defender,op1))
-        ; /* oops! wrong side */
-      else if (!dsr_defends_threats(attacker,lenthreat,mena,si))
-        ; /* move doesn't defend against threat */
-      else
-        dsr_write_variation(attacker,n-1,si);
-    }
-    repcoup();
-  }
-
-  finply();
-
-  freetab();
-
-  if (n-1>min_length_nontrivial)
-    max_nr_nontrivial += ntcount;
-} /* dsr_find_write_threats_variations */
+}
 
 /* Write the refutations stored in a table
  * @param t table containing refutations
  */
-void dsr_write_refutations(int t)
+void d_write_refutations(int t)
 {
   if (tabsol.cp[t]!=tabsol.cp[t-1])
   {
@@ -2831,545 +2406,6 @@ void dsr_write_refutations(int t)
   }
   StdChar('\n');
 }
-
-/* Determine and write the final attacker's move in direct play.
- * @param attacker attacking side
- * @param t table where to store continuing moves (i.e. threats)
- */
-void d_find_write_end(couleur attacker, int t, slice_index si)
-{
-  GenMatingMove(attacker);
-
-  while (encore())
-  {
-    if (jouecoup()
-        && !echecc(attacker)
-        && is_leaf_goal_reached(attacker,si))
-    {
-      dsr_write_attack(slices[si].u.leaf.goal);
-      Message(NewLine);
-      pushtabsol(t);
-    }
-
-    repcoup();
-  }
-
-  finply();
-}
-
-/* Determine and write the final attacker's move in a quodlibet.
- * @param attacker attacking side
- * @param t table where to store continuing moves (i.e. threats)
- */
-void dsr_find_write_end_quodlibet(couleur attacker, int t, slice_index si)
-{
-  genmove(attacker);
-
-  while (encore())
-  {
-    if (jouecoup()
-        && !echecc(attacker))
-    {
-      slice_index const op1 = slices[si].u.composite.op1;
-      if (is_leaf_goal_reached(attacker,op1))
-      {
-        dsr_write_attack(slices[op1].u.leaf.goal);
-        Message(NewLine);
-        pushtabsol(t);
-      }
-      else
-      {
-        slice_index const op2 = slices[si].u.composite.op2;
-        couleur defender = advers(attacker);
-        if (!sr_does_defender_win_in_0(defender,op2))
-        {
-          dsr_write_attack(no_goal);
-
-          marge+= 4;
-          sr_find_write_final_move(defender,op2);
-          marge-= 4;
-
-          pushtabsol(t);
-        }
-      }
-    }
-
-    repcoup();
-  }
-
-  finply();
-}
-
-/* Determine and write the final attacker's move in self/reflex play.
- * @param attacker attacking side
- * @param t table where to store continuing moves (i.e. threats)
- */
-void sr_find_write_end(couleur attacker, int t, slice_index si)
-{
-  couleur defender = advers(attacker);
-
-  genmove(attacker);
-
-  while (encore())
-  {
-    if (jouecoup()
-        && !echecc(attacker)
-        && !sr_does_defender_win_in_0(defender,si))
-    {
-      dsr_write_attack(no_goal);
-
-      marge+= 4;
-      sr_find_write_final_move(defender,si);
-      marge-= 4;
-
-      pushtabsol(t);
-    }
-
-    repcoup();
-  }
-
-  finply();
-}
-
-/* Determine and write the end in direct/self/reflex play
- * (i.e. attacker's final move and possible play following it).
- * This is an indirectly recursive function.
- * @param attacker attacking side
- * @param t table where to store continuing moves (i.e. threats)
- */
-void dsr_find_write_end(couleur attacker, int t, slice_index si)
-{
-  switch (slices[si].type)
-  {
-    case STQuodlibet:
-      dsr_find_write_end_quodlibet(attacker,t,0);
-      break;
-
-    case STSequence:
-    {
-      slice_index const op1 = slices[si].u.composite.op1;
-      switch (slices[op1].type)
-      {
-        case STLeaf:
-          switch (slices[op1].u.leaf.end)
-          {
-            case EDirect:
-              d_find_write_end(attacker,t,op1);
-              break;
-
-            case ESelf:
-            case EReflex:
-            case ESemireflex:
-              sr_find_write_end(attacker,t,op1);
-              break;
-    
-            default:
-              assert(0);
-              break;
-          }
-    
-        default:
-          assert(0);
-          break;
-      }
-      
-      break;
-    }
-
-    default:
-      assert(0);
-      break;
-  }
-}
-
-/* Determine and write the continuations in the current position in
- * direct/self/reflex play (i.e. attacker's moves winning after a
- * defender's move that refuted the threat).
- * This is an indirectly recursive function.
- * @param attacker attacking side
- * @param n number of moves until end state has to be reached
- * @param t table where to store continuing moves (i.e. threats)
- */
-void dsr_find_write_continuations(couleur attacker,
-                                  int n,
-                                  int t,
-                                  slice_index si)
-{
-  couleur defender = advers(attacker);
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
-
-  zugebene++;
-
-  if (n==1)
-    dsr_find_write_end(attacker,t,si);
-  else
-  {
-    genmove(attacker);
-
-    while (encore())
-    {
-      TraceValue("%d\n",n);
-      TraceCurrentMove();
-      if (jouecoup()
-          && !echecc(attacker)
-          && !dsr_does_defender_win(defender,n-1,si))
-      {
-        dsr_write_attack(no_goal);
-
-        marge+= 4;
-        dsr_find_write_threats_variations(attacker,n,alloctab(),si);
-        freetab();
-        marge-= 4;
-
-        pushtabsol(t);
-      }
-
-      repcoup();
-    }
-
-    finply();
-  }
-
-  zugebene--;
-} /* dsr_find_write_continuations */
-
-/* Write the key of a direct/self/reflex slice.
- * The key is the current move of the current ply.
- * @param write_end_marker true iff key reaches end state
- * @param is_try true if key is first move of try, false if key is
- *               first move of solution
- */
-void dsr_write_key(Goal goal, boolean is_try)
-{
-  dsr_write_attack(goal);
-  if (is_try)
-    StdString("? ");
-  else
-  {
-    StdString("! ");
-    if (OptFlag[maxsols])
-      solutions++;
-    if (OptFlag[beep])
-      BeepOnSolution(maxbeep);
-  }
-}
-
-/* Write the key and postkey play of a solution or try in a
- * direct/self/reflex stipulation; the key is the current move in the
- * current ply.
- * @param attacker attacking side
- * @param n number of moves until end state has to be reached
- * @param nr_refutations number of refutations (-1 if the key reaches
- *                       the end state itself)
- * @param refutations table containing refutations
- */
-void dsr_write_key_postkey(couleur attacker,
-                           int n,
-                           int nr_refutations,
-                           int refutations,
-                           slice_index si)
-{
-  boolean is_try = nr_refutations>=1;
-  boolean key_reaches_end = nr_refutations==-1;
-  Goal end_marker = (key_reaches_end
-                     ? slices[slices[si].u.composite.op1].u.leaf.goal
-                     : no_goal);
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",nr_refutations);
-
-  dsr_write_key(end_marker,is_try);
-
-  marge+= 4;
-  dsr_find_write_threats_variations(attacker,n,refutations,si);
-  dsr_write_refutations(refutations);
-  marge-= 4;
-}
-
-/* Determine and write forced end moves in 1 by the attacker in reflex
- * stipulations; we know that at least 1 exists.
- * @param attacker attacking side
- */
-void r_find_write_forced_keys(couleur attacker, slice_index si)
-{
-  slice_index const op1 = slices[si].u.composite.op1;
-  if (slices[op1].u.leaf.goal==goal_mate_or_stale)
-    sprintf(GlobalStr, "%s1:\n", mate_or_stale_patt ? " =" : " #");
-  else
-    sprintf(GlobalStr,
-            "%s1:\n",
-            goal_end_marker[slices[op1].u.leaf.goal]);
-  StdString(GlobalStr);
-  slices[si].u.composite.play = PDirect;
-  slices[op1].u.leaf.goal = ESemireflex; /* TODO */
-  dsr_find_write_continuations(attacker,1,alloctab(),si);
-  freetab();
-}
-
-/* Determine and write keys in a direct stipulation in 1 move
- * @param attacker attacking side
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- * @return true iff >=1 key was found and written
- */
-boolean d_leaf_find_write_keys(couleur attacker,
-                               boolean restartenabled,
-                               slice_index si)
-{
-  boolean key_found = false;
-
-  genmove(attacker);
-  while (encore())
-  {
-    if (jouecoup()
-        && !echecc(attacker)
-        && is_leaf_goal_reached(attacker,si))
-    {
-      key_found = true;
-      dsr_write_key(slices[si].u.leaf.goal,false);
-      StdString("\n\n");
-    }
-
-    if (restartenabled)
-      IncrementMoveNbr();
-
-    repcoup();
-  }
-
-  finply();
-
-  return key_found;
-}
-
-/* Determine and write solutions in a self/reflex stipulation in 1 move
- * @param attacker attacking side
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- * 
- * @return true iff >=1 key was found and written
- */
-boolean sr_leaf_find_write_solutions(couleur attacker,
-                                     boolean restartenabled,
-                                     slice_index si)
-{
-  couleur const defender = advers(attacker);
-  boolean key_found = false;
-
-  genmove(attacker);
-
-  while (encore())
-  {
-    if (jouecoup()
-        && !echecc(attacker)
-        && !sr_does_defender_win_in_0(defender,si))
-    {
-      key_found = true;
-      dsr_write_key(no_goal,false);
-      marge += 4;
-      sr_find_write_final_move(defender,si);
-      marge -= 4;
-    }
-
-    if (restartenabled)
-      IncrementMoveNbr();
-
-    repcoup();
-  }
-
-  finply();
-
-  return key_found;
-}
-
-/* Write the solutions of a leaf in direct/self/reflex play.
- * @param attacker attacking side
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- * @param si slice index of the leaf slice
- */
-int dsr_find_write_leaf_solutions(couleur attacker,
-                                  boolean restartenabled,
-                                  slice_index si)
-{
-  /* TODO first write forced reflex moves (if any); only if there are
-   * none, continue with solutions */
-  assert(slices[si].type==STLeaf);
-
-  switch (slices[si].u.leaf.end)
-  {
-    case EDirect:
-      return d_leaf_find_write_keys(attacker,restartenabled,si);
-
-    case EReflex:
-      if (is_there_end_in_1(attacker,si))
-      {
-        r_find_write_forced_keys(attacker,si);
-        return -1;
-      }
-      else
-      {
-        /* intentionally falling through */
-      }
-
-    case ESelf:
-    case ESemireflex:
-      return sr_leaf_find_write_solutions(attacker,restartenabled,si);
-
-    default:
-      assert(0);
-      return -1;
-  }
-}
-
-/* Determine and write solutions in a quodlibet direct/self/reflex
- * stipulation in 1.
- * @param attacker attacking side
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- */
-void dsr_find_write_quodlibet_solutions_in_1(couleur attacker,
-                                             boolean restartenabled,
-                                             slice_index si)
-{
-  /* TODO first write forced reflex moves (if any); only if there are
-   * none, continue with solutions */
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
-
-  switch (dsr_find_write_leaf_solutions(attacker,restartenabled,op1))
-  {
-    case -1:
-      break;
-
-    case 0:
-    {
-      dsr_find_write_leaf_solutions(attacker,restartenabled,op2);
-      break;
-    }
-
-    default:
-      break;
-  }
-}
-
-/* Determine and write tries and solutios in a "regular"
- * direct/self/reflex stipulation.
- * @param attacker attacking side
- * @param n number of moves until end state has to be reached
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- * @return true iff >=1 solution was found and written
- */
-boolean dsr_find_write_regular_tries_solutions(couleur attacker,
-                                               int n,
-                                               boolean restartenabled,
-                                               slice_index si)
-{
-  boolean solution_found = false;
-  couleur defender = advers(attacker);
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
-
-  genmove(attacker);
-  while (encore())
-  {
-    TraceValue("%d ",n);
-    TraceCurrentMove();
-    if (jouecoup()
-        && !(restartenabled && MoveNbr<RestartNbr)
-        && !echecc(attacker))
-    {
-      int refutations = alloctab();
-      int nr_refutations = dsr_find_refutations(defender,
-                                                n-1,
-                                                refutations,
-                                                si);
-      TraceValue("%d\n",nr_refutations);
-      if (nr_refutations<=max_nr_refutations)
-      {
-        dsr_write_key_postkey(attacker,n,nr_refutations,refutations,si);
-        if (nr_refutations==0)
-          solution_found = true;
-      }
-      freetab();
-    }
-
-    if (restartenabled)
-      IncrementMoveNbr();
-
-    repcoup();
-
-    if ((OptFlag[maxsols] && solutions>=maxsolutions)
-        || maxtime_status==MAXTIME_TIMEOUT)
-      break;
-  }
-
-  finply();
-
-  return solution_found;
-}
-
-/* Determine and write the solutions and tries in the current position
- * in direct/self/reflex play.
- * @param attacker attacking side
- * @param n number of moves until end state has to be reached
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- */
-void dsr_find_write_tries_solutions(couleur attacker,
-                                    int n,
-                                    boolean restartenabled,
-                                    slice_index si)
-{
-  zugebene = 1;
-
-  if (n==1)
-  {
-    switch (slices[si].type)
-    {
-      case STQuodlibet:
-        dsr_find_write_quodlibet_solutions_in_1(attacker,
-                                                restartenabled,
-                                                si);
-        break;
-
-      case STSequence:
-      {
-        slice_index const op1 = slices[si].u.composite.op1;
-        switch (slices[op1].type)
-        {
-          case STLeaf:
-            dsr_find_write_leaf_solutions(attacker,
-                                          restartenabled,
-                                          op1);
-            break;
-
-          default:
-            assert(0);
-            break;
-        }
-        break;
-      }
-
-      default:
-        assert(0);
-    }
-  }
-  else
-    dsr_find_write_regular_tries_solutions(attacker,n,restartenabled,si);
-
-  zugebene = 0;
-} /* dsr_find_write_tries_solutions */
 
 void SolveSeriesProblems(couleur camp)
 {
@@ -3409,11 +2445,11 @@ void SolveSeriesProblems(couleur camp)
       else
       {
         if (slices[1].u.leaf.end==EHelp)
-          h_find_write_final_move(advers(camp),1);
+          h_leaf_solve_setplay(advers(camp),1);
         else
         {
           zugebene++;
-          dsr_find_write_setplay(camp,1,0);
+          d_composite_solve_setplay(camp,1,0);
           zugebene--;
         }
       }
@@ -3435,8 +2471,8 @@ void SolveSeriesProblems(couleur camp)
         for (i = starti; i <= slices[0].u.composite.length; i++)
         {
           if (slices[1].u.leaf.end==EHelp
-              ? Intelligent(1,i,&ser_find_write_solutions,camp,i)
-              : Intelligent(i,0,&ser_find_write_solutions,camp,i))
+              ? Intelligent(1,i,&ser_composite_solve,camp,i)
+              : Intelligent(i,0,&ser_composite_solve,camp,i))
           {
             if (OptFlag[stoponshort] && i<slices[0].u.composite.length)
             {
@@ -3455,7 +2491,7 @@ void SolveSeriesProblems(couleur camp)
           boolean restartenabled = (OptFlag[movenbr]
                                     && i==slices[0].u.composite.length);
 
-          if (ser_find_write_solutions(camp,i,restartenabled,0))
+          if (ser_composite_solve(camp,i,restartenabled,0))
           {
             if (OptFlag[stoponshort]&& i<slices[0].u.composite.length)
             {
@@ -3483,7 +2519,7 @@ void SolveSeriesProblems(couleur camp)
 static boolean SolveHelpInN(couleur camp, int n, boolean restartenabled)
 {
   if (n==1)
-    return h_find_write_final_move(camp,1);
+    return h_leaf_solve_setplay(camp,1);
   else if (OptFlag[intelligent])
   {
     int blmoves = n/2;
@@ -3492,10 +2528,10 @@ static boolean SolveHelpInN(couleur camp, int n, boolean restartenabled)
     if (n%2==1)
       whmoves++;
 
-    return Intelligent(whmoves,blmoves,&h_find_write_solutions,camp,n);
+    return Intelligent(whmoves,blmoves,&h_composite_solve,camp,n);
   }
   else
-    return h_find_write_solutions(camp,n,restartenabled,0);
+    return h_composite_solve(camp,n,restartenabled,0);
 }
 
 /* Solve a help play problem, signal whether short solution(s) were
@@ -3578,11 +2614,7 @@ void SolveDirectProblems(couleur camp)
       ErrorMsg(SetAndCheck);
     else
     {
-      dsr_find_write_threats_variations(camp,
-                                        slices[0].u.composite.length,
-                                        alloctab(),
-                                        0);
-      freetab();
+      d_composite_solve_postkey(camp,slices[0].u.composite.length,0);
       Message(NewLine);
     }
   }
@@ -3594,7 +2626,7 @@ void SolveDirectProblems(couleur camp)
         ErrorMsg(SetAndCheck);
       else
       {
-        dsr_find_write_setplay(camp,slices[0].u.composite.length,0);
+        d_composite_solve_setplay(camp,slices[0].u.composite.length,0);
         Message(NewLine);
       }
     }
@@ -3602,10 +2634,10 @@ void SolveDirectProblems(couleur camp)
     if (echecc(advers(camp)))
       ErrorMsg(KingCapture);
     else
-      dsr_find_write_tries_solutions(camp,
-                                     slices[0].u.composite.length,
-                                     OptFlag[movenbr],
-                                     0);
+      d_composite_solve(camp,
+                        slices[0].u.composite.length,
+                        OptFlag[movenbr],
+                        0);
   }
 
   zugebene--;
