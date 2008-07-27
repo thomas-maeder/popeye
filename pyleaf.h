@@ -11,18 +11,11 @@
  */
 
 /* Determine whether a side has reached the goal of a leaf slice.
- * @param camp side
+ * @param just_moved side that has just moved
  * @param leaf slice index of leaf slice
- * @return true iff camp has reached leaf's goal
+ * @return true iff just_moved has reached leaf's goal
  */
 boolean leaf_is_goal_reached(couleur just_moved, slice_index leaf);
-
-/* Detect a priori unsolvability of a leaf in direct play
- * (e.g. because of forced reflex mates)
- * @param attacker attacking side
- * @param leaf leaf's slice index
- */
-boolean leaf_is_unsolvable(couleur attacker, slice_index leaf);
 
 /* Determine whether attacker has an end in 1.
  * This is different from d_leaf_does_attacker_win() in that
@@ -33,6 +26,13 @@ boolean leaf_is_unsolvable(couleur attacker, slice_index leaf);
  */
 /* TODO find out if this difference makes sense */
 boolean leaf_is_end_in_1_possible(couleur side_at_move, slice_index leaf);
+
+/* Detect a priori unsolvability of a leaf in direct play
+ * (e.g. because of forced reflex mates)
+ * @param attacker attacking side
+ * @param leaf leaf's slice index
+ */
+boolean d_leaf_is_unsolvable(couleur attacker, slice_index leaf);
 
 /* Determine whether the defender has lost with his move just played.
  * Assumes that there is no short win for the defending side.
@@ -175,5 +175,19 @@ boolean ser_leaf_solve(couleur series_side,
                        hashwhat no_succ_hash_category,
                        boolean restartenabled,
                        slice_index leaf);
+
+/* Determine whether there is >= 1 solution for the leaf
+ * @param side_at_move side at the move
+ * @param leaf slice index of leaf slice
+ * @return true iff side_at_move has >=1 solution
+ */
+boolean leaf_is_solvable(couleur side_at_move, slice_index leaf);
+
+/* Solve a slice (i.e. find and write all solutions)
+ * @param side_at_move side at the move
+ * @param leaf slice index of leaf slice
+ * @return true iff side_at_move has >=1 solution
+ */
+boolean leaf_solve(couleur side_at_move, slice_index leaf);
 
 #endif

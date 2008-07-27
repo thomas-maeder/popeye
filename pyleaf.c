@@ -17,9 +17,11 @@ boolean leaf_is_goal_reached(couleur just_moved, slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",just_moved);
   TraceFunctionParam("%d\n",leaf);
   assert(slices[leaf].type==STLeaf);
 
+  TraceValue("%d\n",slices[leaf].u.leaf.goal);
   switch (slices[leaf].u.leaf.goal)
   {
     case goal_mate:
@@ -27,7 +29,11 @@ boolean leaf_is_goal_reached(couleur just_moved, slice_index leaf)
           || CondFlag[whiteultraschachzwang])
         result = goal_checker_mate_ultraschachzwang(just_moved);
       else
+      {
+        TraceValue("%d\n",echecc(advers(just_moved)));
+        TraceValue("%d\n",echecc(just_moved));
         result = goal_checker_mate(just_moved);
+      }
       break;
 
     case goal_stale:
@@ -325,7 +331,7 @@ boolean leaf_is_end_in_1_possible(couleur side_at_move, slice_index leaf)
  * @param attacker attacking side
  * @param leaf leaf's slice index
  */
-boolean leaf_is_unsolvable(couleur attacker, slice_index leaf)
+boolean d_leaf_is_unsolvable(couleur attacker, slice_index leaf)
 {
   boolean result = false;
 
@@ -460,34 +466,44 @@ void d_leaf_write_unsolvability(couleur attacker, slice_index leaf)
   }
 }
 
-/* Determine and write keys in a direct stipulation in 1 move
+/* Determine and write keys if the end is direct
  * @param attacker attacking side
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @return true iff >=1 key was found and written
  */
-static boolean d_leaf_d_solve(couleur attacker,
-                              boolean restartenabled,
-                              slice_index leaf,
-                              int solutions)
+static boolean leaf_d_solve(couleur attacker,
+                            boolean restartenabled,
+                            slice_index leaf,
+                            int solutions)
 {
   boolean const is_try = false;
   boolean key_found = false;
+  boolean const tree_mode = slices[0].u.composite.play==PDirect; /* TODO */
 
   assert(slices[leaf].type==STLeaf);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
 
   genmove(attacker);
   while (encore())
   {
+    TraceCurrentMove();
     if (jouecoup()
         && !echecc(attacker)
         && leaf_is_goal_reached(attacker,leaf))
     {
       key_found = true;
-      d_write_key(slices[leaf].u.leaf.goal,is_try);
+      if (tree_mode)
+      {
+        d_write_key(slices[leaf].u.leaf.goal,is_try);
+        StdString("\n\n");
+      }
+      else
+        linesolution(leaf);
       pushtabsol(solutions);
-      StdString("\n\n");
     }
 
     if (restartenabled)
@@ -498,6 +514,8 @@ static boolean d_leaf_d_solve(couleur attacker,
 
   finply();
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",key_found);
   return key_found;
 }
 
@@ -505,7 +523,7 @@ static boolean d_leaf_d_solve(couleur attacker,
  * @param defender defending side (i.e. side executing the final move(s))
  * @param leaf slice index of the leaf slice
  */
-static void d_leaf_sr_solve_final_move(couleur defender, slice_index leaf)
+static void leaf_sr_solve_final_move(couleur defender, slice_index leaf)
 {
   boolean const tree_mode = slices[0].u.composite.play==PDirect; /* TODO */
 
@@ -564,7 +582,7 @@ static boolean d_leaf_s_solve(couleur attacker,
       d_write_key(no_goal,false);
       pushtabsol(solutions);
       marge += 4;
-      d_leaf_sr_solve_final_move(defender,leaf);
+      leaf_sr_solve_final_move(defender,leaf);
       marge -= 4;
     }
 
@@ -610,7 +628,7 @@ static boolean d_leaf_r_solve(couleur attacker,
       d_write_key(no_goal,false);
       pushtabsol(solutions);
       marge += 4;
-      d_leaf_sr_solve_final_move(defender,leaf);
+      leaf_sr_solve_final_move(defender,leaf);
       marge -= 4;
     }
 
@@ -646,7 +664,7 @@ boolean d_leaf_solve(couleur attacker,
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      return d_leaf_d_solve(attacker,restartenabled,leaf,solutions);
+      return leaf_d_solve(attacker,restartenabled,leaf,solutions);
 
     case ESelf:
       return d_leaf_s_solve(attacker,restartenabled,leaf,solutions);
@@ -885,6 +903,9 @@ static boolean d_leaf_d_does_attacker_win(couleur attacker,
 
   assert(slices[leaf].type==STLeaf);
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
   /* In move orientated stipulations (%, z, x etc.) it's less
    * expensive to compute an end in 1. TLi
    */
@@ -895,13 +916,25 @@ static boolean d_leaf_d_does_attacker_win(couleur attacker,
      */
     (*encode)(&hb);
     if (inhash(WhDirNoSucc,1,&hb))
+    {
+      TraceFunctionExit(__func__);
+      TraceFunctionResult("%d\n",false);
       return false;
+    }
     if (inhash(WhDirSucc,1,&hb))
+    {
+      TraceFunctionExit(__func__);
+      TraceFunctionResult("%d\n",true);
       return true;
+    }
   }
 
   if (OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%d\n",false);
     return false;
+  }
 
   GenMatingMove(attacker);
 
@@ -925,6 +958,8 @@ static boolean d_leaf_d_does_attacker_win(couleur attacker,
   if (should_hash && !FlagMoveOrientatedStip)
     addtohash(end_found ? WhDirSucc : WhDirNoSucc, 1, &hb);
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",end_found);
   return end_found;
 }
 
@@ -968,7 +1003,8 @@ static boolean d_leaf_sr_does_attacker_win(couleur attacker,
 
   genmove(attacker);
 
-  while (!win_found && encore())
+  while (!win_found
+         && encore())
   {
     TraceCurrentMove();
     if (jouecoup()
@@ -1162,7 +1198,7 @@ void d_leaf_solve_variations(couleur defender, slice_index leaf)
     case ESelf:
     case EReflex:
     case ESemireflex:
-      d_leaf_sr_solve_final_move(defender,leaf);
+      leaf_sr_solve_final_move(defender,leaf);
       break;
     
     default:
@@ -1664,6 +1700,10 @@ boolean h_leaf_solve(couleur side_at_move,
 
   switch (slices[leaf].u.leaf.end)
   {
+    case EDirect:
+      leaf_sr_solve_final_move(side_at_move,leaf); /* TODO name of fct. */
+      break;
+
     case ESelf:
       result = h_leaf_s_solve(side_at_move,leaf);
       break;
@@ -1681,6 +1721,7 @@ boolean h_leaf_solve(couleur side_at_move,
       break;
 
     default:
+      TraceValue("(unexpected value):%d\n",slices[leaf].u.leaf.end);
       assert(0);
       break;
   }
@@ -1801,7 +1842,7 @@ static boolean ser_leaf_sr_solve(couleur attacker, slice_index leaf)
     {
       TraceText("solution found\n");
       solution_found = true;
-      d_leaf_sr_solve_final_move(defender,leaf);
+      leaf_sr_solve_final_move(defender,leaf);
     }
 
     repcoup();
@@ -1860,6 +1901,91 @@ boolean ser_leaf_solve(couleur series_side,
     default:
       assert(0);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+
+/* Determine whether there is >= 1 solution for the leaf
+ * @param side_at_move side at the move
+ * @param leaf slice index of leaf slice
+ * @return true iff side_at_move has >=1 solution
+ */
+boolean leaf_is_solvable(couleur side_at_move, slice_index leaf)
+{
+  boolean result = false;
+  
+  assert(slices[leaf].type==STLeaf);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+  switch (slices[leaf].u.leaf.end)
+  {
+    case EDirect:
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      /* TODO ? directly treat these ends differently here? */
+      if (d_leaf_is_unsolvable(side_at_move,leaf))
+        ; /* intentionally nothing */
+      else if (d_leaf_has_defender_lost(advers(side_at_move),leaf))
+        result = true;
+      else
+      {
+        boolean const should_hash = true;
+        result = d_leaf_does_attacker_win(side_at_move,leaf,should_hash);
+      }
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+boolean leaf_solve(couleur side_at_move, slice_index leaf)
+{
+  boolean result = false;
+  boolean const restartenabled = false;
+  int const solutions = alloctab();
+  
+  assert(slices[leaf].type==STLeaf);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+  switch (slices[leaf].u.leaf.end)
+  {
+    case EDirect:
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      ++zugebene;
+      result = d_leaf_solve(side_at_move,restartenabled,leaf,solutions);
+      --zugebene;
+      break;
+
+    case EHelp:
+    {
+      boolean const save_flag_hashall = flag_hashall;
+      flag_hashall = true; /* TODO */
+      result = h_leaf_solve(side_at_move,BlHelpNoSucc,restartenabled,leaf);
+      flag_hashall = save_flag_hashall;
+      break;
+    }
+
+    default:
+      TraceValue("(unexpected value):%d\n",slices[leaf].u.leaf.end);
+      assert(0);
+      break;
+  }
+
+  freetab();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
