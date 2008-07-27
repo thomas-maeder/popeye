@@ -202,10 +202,12 @@ boolean d_sequence_end_does_attacker_win(couleur attacker, slice_index si)
     {
       boolean const should_hash = true;
       result = d_leaf_does_attacker_win(attacker,op1,should_hash);
+      break;
     }
 
     default:
       assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -227,9 +229,11 @@ void d_sequence_end_solve_variations(couleur attacker, slice_index si)
   {
     case STLeaf:
       d_leaf_solve_variations(attacker,op1);
+      break;
 
     default:
       assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
