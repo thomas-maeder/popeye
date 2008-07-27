@@ -6,14 +6,18 @@
 
 #if defined(DOTRACE)
 
+static unsigned int level;
+
 void TraceFunctionEntry(char const *name)
 {
-  printf("> %s",name);
+  ++level;
+  printf("> #%d %s",level,name);
 }
 
 void TraceFunctionExit(char const *name)
 {
-  printf("< %s",name);
+  printf("< #%d %s",level,name);
+  --level;
 }
 
 void TraceValueImpl(char const *format, int value)
@@ -23,14 +27,13 @@ void TraceValueImpl(char const *format, int value)
 
 void TraceText(char const *text)
 {
-  printf("%s",text);
+  printf("  #%d %s",level,text);
 }
 
 void TraceCurrentMove()
 {
-  WriteSquare(move_generation_stack[nbcou].departure);
-  printf("-");
-  WriteSquare(move_generation_stack[nbcou].arrival);
+  printf(" #%d ",level);
+  ecritcoup(no_goal);
   printf("\n");
 }
 
