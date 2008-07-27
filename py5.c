@@ -65,6 +65,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pystip.h"
+#include "pyleaf.h"
 
 piece linechampiece(piece p, square sq) {
   piece pja= p;
@@ -1066,7 +1067,7 @@ void genmove(couleur camp)
       gen_bl_ply();
 
     while (encore()) {
-      if (jouecoup() && is_leaf_goal_reached(camp,1))
+      if (jouecoup() && leaf_is_goal_reached(camp,1))
         nbrmates++;
       repcoup();
     }
@@ -3359,7 +3360,7 @@ void find_mate_square(couleur camp)
         rn= sq;
         e[rn]= roin;
         nbpiece[roin]++;
-        if (is_leaf_goal_reached(camp,1))
+        if (leaf_is_goal_reached(camp,1))
           return;
         nbpiece[roin]--;
         e[rn]= vide;
@@ -3372,7 +3373,7 @@ void find_mate_square(couleur camp)
         rb= sq;
         e[rb]= roib;
         nbpiece[roib]++;
-        if (is_leaf_goal_reached(camp,1))
+        if (leaf_is_goal_reached(camp,1))
           return;
         nbpiece[roib]--;
         e[rb]= vide;

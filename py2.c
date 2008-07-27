@@ -50,6 +50,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pystip.h"
+#include "pyleaf.h"
 
 boolean eval_ortho(square sq_departure, square sq_arrival, square sq_capture) {
   return true;
@@ -2491,7 +2492,7 @@ boolean pos_legal() {
          be a good idea to cache si */
       /* input validation makes sure that si!=no_goal */
       slice_index const si = find_unique_goal();
-      if (is_leaf_goal_reached(trait[nbply],si))
+      if (leaf_is_goal_reached(trait[nbply],si))
         return false;
     }
   }
