@@ -1334,6 +1334,7 @@ static void d_composite_end_solve(couleur attacker,
 
     case STSequence:
       d_sequence_end_solve(attacker,restartenabled,si);
+      break;
 
     default:
       assert(0);
