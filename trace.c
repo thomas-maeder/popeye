@@ -8,34 +8,53 @@
 
 static unsigned int level;
 
+static boolean deactivated = false;
+
+static unsigned long move_counter;
+
+void TraceDeactivate()
+{
+  deactivated = true;
+}
+
 void TraceFunctionEntry(char const *name)
 {
-  ++level;
-  printf("> #%d %s",level,name);
+  if (!deactivated)
+  {
+    ++level;
+    printf("> #%d %s",level,name);
+  }
 }
 
 void TraceFunctionExit(char const *name)
 {
-  printf("< #%d %s",level,name);
-  --level;
+  if (!deactivated)
+  {
+    printf("< #%d %s",level,name);
+    --level;
+  }
 }
 
 void TraceValueImpl(char const *format, int value)
 {
-  printf(format,value);
+  if (!deactivated)
+    printf(format,value);
 }
 
 void TraceText(char const *text)
 {
-  printf("  #%d %s",level,text);
+  if (!deactivated)
+    printf("  #%d %s",level,text);
 }
 
 void TraceCurrentMove()
 {
-  printf(" #%d ",level);
-  ecritcoup(no_goal);
-  printf("\n");
+  if (!deactivated)
+  {
+    printf(" #%d %ld ",level,move_counter++);
+    ecritcoup(no_goal);
+    printf("\n");
+  }
 }
-
 
 #endif

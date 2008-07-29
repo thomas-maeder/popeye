@@ -9,6 +9,11 @@
 
 #if defined(DOTRACE)
 
+/* Deactivate trace output until program termination.
+ * Useful while debugging to suppress trace output from the command line.
+ */
+void TraceDeactivate();
+
 /* Trace function entry
  * e.g. > #17 func
  * (where 17 is the current trace recursion level)
