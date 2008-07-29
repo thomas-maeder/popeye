@@ -23,7 +23,7 @@ short play after key in reflex stipulations was missed
   r#2                         3 + 1
 
   1.a3-a4 ! 
-      1...c2-c1=Q # 
+          1...c2-c1=Q # 
 
 
 solution finished. 
@@ -100,6 +100,35 @@ erroneous maxflight numbers weren't completely ignored
 
   1.g2-g3 ! 
 
+
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .   .  -K   .   .  -R   8
+|                                   |
+7   .  -B   .   .   .  -P   .  -P   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5   .   .   .   .   B   .   .   R   5
+|                                   |
+4   S   .   .   P  -P   .   .   P   4
+|                                   |
+3   .   .   .   .  -B   .  -S   S   3
+|                                   |
+2   .   .   .   .   .   .   K  -P   2
+|                                   |
+1   .   .   .   .   .  -S   R   B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h#1                   9 + 12
+
+  1.0-0-0 Sa4-b6 # 
+  1.e4*d3 ep. # 
 
 solution finished. 
 
