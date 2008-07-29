@@ -22,5 +22,14 @@ stipulation ct4
 condition antisupercirce
 option maxflight -1
 
+next
+
+title make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
+stip reci-h#1
+pieces
+white kg2 rg1h5 bh1e5 sa4h3 pd4h4
+black ke8 ra8h8 bb7e3 sf1g3 pe4e6f7h2h7
+option enpassant d3
+
 end
 

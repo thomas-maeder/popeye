@@ -105,6 +105,7 @@ solution finished.
 
 
 
+make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
