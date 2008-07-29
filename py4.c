@@ -3106,7 +3106,10 @@ void GenMatingPawn(square   sq_departure,
       if (ep[nbply-1]!=initsquare
           && trait[nbply-1]!=trait[nbply]
           && (sq_departure+dir_up+dir_right==ep[nbply-1]
-              || sq_departure+dir_up+dir_left==ep[nbply-1])) {
+              || sq_departure+dir_up+dir_left==ep[nbply-1]))
+      {
+        if (nbply==2)    /* ep.-key  standard pawn */
+          move_generation_stack[repere[2]].arrival= ep[nbply-1]+dir_down;
         empile(sq_departure,
                ep[nbply-1],
                move_generation_stack[repere[nbply]].arrival);
@@ -3169,7 +3172,10 @@ void GenMatingPawn(square   sq_departure,
     if (ep[nbply-1]!=initsquare
         && trait[nbply-1] != trait[nbply]
         && (sq_departure+dir_down+dir_left==ep[nbply-1]
-            || sq_departure+dir_down+dir_right==ep[nbply-1])) {
+            || sq_departure+dir_down+dir_right==ep[nbply-1]))
+    {
+      if (nbply==2)    /* ep.-key  standard pawn */
+        move_generation_stack[repere[2]].arrival= ep[nbply-1]+dir_up;
       empile(sq_departure,
              ep[nbply-1],
              move_generation_stack[repere[nbply]].arrival);
