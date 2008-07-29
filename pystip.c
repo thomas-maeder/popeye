@@ -18,6 +18,10 @@ slice_index alloc_composite_slice(SliceType type, Play play)
 {
   slice_index const result = next_slice++;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",type);
+  TraceFunctionParam("%d\n",play);
+
   slices[result].type = type; 
   slices[result].u.composite.play = play;
   slices[result].u.composite.length = 0;
@@ -25,6 +29,8 @@ slice_index alloc_composite_slice(SliceType type, Play play)
   slices[result].u.composite.op1 = no_slice;
   slices[result].u.composite.op2 = no_slice;
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
   return result;
 }
 
@@ -36,11 +42,16 @@ slice_index alloc_target_leaf_slice(End end, square s)
 {
   slice_index const result = next_slice++;
 
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   slices[result].type = STLeaf; 
   slices[result].u.leaf.end = end;
   slices[result].u.leaf.goal = goal_target;
   slices[result].u.leaf.target = s;
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
   return result;
 }
 
@@ -52,11 +63,17 @@ slice_index alloc_leaf_slice(End end, Goal goal)
 {
   slice_index const result = next_slice++;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",end);
+  TraceFunctionParam("%d\n",goal);
+
   slices[result].type = STLeaf; 
   slices[result].u.leaf.end = end;
   slices[result].u.leaf.goal = goal;
   slices[result].u.leaf.target = initsquare;
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
   return result;
 }
 
@@ -67,31 +84,85 @@ slice_index alloc_leaf_slice(End end, Goal goal)
 slice_index copy_slice(slice_index original)
 {
   slice_index const result = next_slice++;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   slices[result] = slices[original];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
   return result;
 }
 
 /* Release all slices
  */
-void release_slices()
+void release_slices(void)
 {
   next_slice = 0;
 }
 
-void transform_sequence_to_quodlibet(slice_index quodlibet_slice)
+static void transform_to_quodlibet_recursive(slice_index *hook)
 {
-  assert(slices[quodlibet_slice].type==STSequence);
+  slice_index const index = *hook;
 
-  slices[quodlibet_slice].type = STQuodlibet;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",*hook);
 
+  TraceValue("%d\n",slices[index].type);
+  switch (slices[index].type)
   {
-    /* 1 is tested before 2, so let's copy 1 to 2 and make 1
-     * EDirect */
-    slice_index const op1 = slices[quodlibet_slice].u.composite.op1;
-    assert(slices[op1].type==STLeaf);
-    slices[quodlibet_slice].u.composite.op2 = copy_slice(op1);
-    slices[op1].u.leaf.end = EDirect;
+    case STLeaf:
+      if (slices[index].u.leaf.end==ESelf
+          || slices[index].u.leaf.end==EReflex
+          || slices[index].u.leaf.end==ESemireflex)
+      {
+        Goal const goal = slices[index].u.leaf.goal;
+        *hook = alloc_composite_slice(STQuodlibet,PDirect);
+        TraceValue("allocated quodlibet slice %d\n",*hook);
+        /* 1 is tested before 2, so make 1 EDirect and attach *hook at
+         * 2 */
+        slices[*hook].u.composite.op1 = alloc_leaf_slice(EDirect,goal);
+        slices[*hook].u.composite.op2 = index;
+
+        slices[*hook].u.composite.is_exact = false;
+        slices[*hook].u.composite.length = (slices[0].u.composite.play==PHelp
+                                            ? 2
+                                            : 1); /* TODO */
+      }
+      break;
+
+    case STQuodlibet:
+    case STReciprocal:
+      transform_to_quodlibet_recursive(&slices[index].u.composite.op1);
+      transform_to_quodlibet_recursive(&slices[index].u.composite.op2);
+      break;
+
+    case STSequence:
+      transform_to_quodlibet_recursive(&slices[index].u.composite.op1);
+      break;
+
+    default:
+      assert(0);
+      break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+void transform_to_quodlibet(void)
+{
+  slice_index start = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  transform_to_quodlibet_recursive(&start);
+  assert(start==0);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Does a leaf have one of a set of goals?
@@ -215,10 +286,6 @@ static slice_index find_goal_recursive(Goal goal,
 {
   slice_index result = no_slice;
 
-  /* Either this is the first run (-> si==0) or we start from the
-   * previous result, which must have been a leaf. */
-  assert(si==0 || slices[si].type==STLeaf);
-
   switch (slices[si].type)
   {
     case STLeaf:
@@ -270,7 +337,13 @@ static slice_index find_goal_recursive(Goal goal,
 slice_index find_next_goal(Goal goal, slice_index start)
 {
   boolean active = start==0;
+
   assert(start<next_slice);
+
+  /* Either this is the first run (-> si==0) or we start from the
+   * previous result, which must have been a leaf. */
+  assert(start==0 || slices[start].type==STLeaf);
+
   return find_goal_recursive(goal,start,&active,0);
 }
 
@@ -320,7 +393,7 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
  * return it.
  * @return no_goal if goal is not unique; unique goal otherwise
  */
-slice_index find_unique_goal()
+slice_index find_unique_goal(void)
 {
   slice_index found_so_far = no_slice;
   return (find_unique_goal_recursive(0,&found_so_far)

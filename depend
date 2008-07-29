@@ -37,7 +37,7 @@ pydata.h:
 
 pystip.h:
 py2$(OBJ_SUFFIX): py2.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pydata.h \
-  pymsg.h pystip.h pyleaf.h pyhash.h DHT/dhtbcmem.h
+  pymsg.h pystip.h pyleaf.h pycompos.h pyhash.h DHT/dhtbcmem.h
 
 py.h:
 
@@ -58,6 +58,8 @@ pymsg.h:
 pystip.h:
 
 pyleaf.h:
+
+pycompos.h:
 
 pyhash.h:
 
@@ -100,7 +102,7 @@ pymsg.h:
 
 pystip.h:
 py5$(OBJ_SUFFIX): py5.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pyhash.h \
-  DHT/dhtbcmem.h pydata.h pymsg.h pystip.h pyleaf.h trace.h
+  DHT/dhtbcmem.h pydata.h pymsg.h pystip.h pyleaf.h pycompos.h trace.h
 
 py.h:
 
@@ -125,6 +127,8 @@ pymsg.h:
 pystip.h:
 
 pyleaf.h:
+
+pycompos.h:
 
 trace.h:
 py6$(OBJ_SUFFIX): py6.c py.h boolean.h pylang.h py1.h pyproc.h py4.h pygoal.h \
@@ -337,7 +341,7 @@ pyproc.h:
 
 py4.h:
 pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pylang.h pydata.h \
-  pyproc.h py4.h trace.h pyleaf.h pyhash.h DHT/dhtbcmem.h
+  pyproc.h py4.h trace.h pyleaf.h pycompos.h pyhash.h DHT/dhtbcmem.h
 
 pystip.h:
 
@@ -358,6 +362,8 @@ py4.h:
 trace.h:
 
 pyleaf.h:
+
+pycompos.h:
 
 pyhash.h:
 
@@ -405,7 +411,7 @@ trace.h:
 
 platform/maxtime.h:
 pyleaf$(OBJ_SUFFIX): pyleaf.c pyleaf.h boolean.h pystip.h pygoal.h py.h pylang.h \
-  pyhash.h DHT/dhtbcmem.h trace.h pydata.h pyproc.h py4.h \
+  pycompos.h pyhash.h DHT/dhtbcmem.h trace.h pydata.h pyproc.h py4.h \
   platform/maxtime.h pymsg.h pyint.h
 
 pyleaf.h:
@@ -419,6 +425,8 @@ pygoal.h:
 py.h:
 
 pylang.h:
+
+pycompos.h:
 
 pyhash.h:
 
@@ -437,8 +445,9 @@ platform/maxtime.h:
 pymsg.h:
 
 pyint.h:
-pyquodli$(OBJ_SUFFIX): pyquodli.c pyquodli.h py.h boolean.h pylang.h pyleaf.h \
-  pystip.h pygoal.h pyhash.h DHT/dhtbcmem.h pyproc.h py4.h trace.h
+pyquodli$(OBJ_SUFFIX): pyquodli.c pyquodli.h py.h boolean.h pylang.h pycompos.h \
+  pystip.h pygoal.h pyleaf.h pyhash.h DHT/dhtbcmem.h pyproc.h py4.h \
+  trace.h
 
 pyquodli.h:
 
@@ -448,11 +457,13 @@ boolean.h:
 
 pylang.h:
 
-pyleaf.h:
+pycompos.h:
 
 pystip.h:
 
 pygoal.h:
+
+pyleaf.h:
 
 pyhash.h:
 
@@ -464,7 +475,8 @@ py4.h:
 
 trace.h:
 pysequen$(OBJ_SUFFIX): pysequen.c pysequen.h py.h boolean.h pylang.h pyhash.h \
-  DHT/dhtbcmem.h pystip.h pygoal.h pyleaf.h pyproc.h py4.h trace.h
+  DHT/dhtbcmem.h pycompos.h pystip.h pygoal.h pyleaf.h pyproc.h py4.h \
+  trace.h
 
 pysequen.h:
 
@@ -477,6 +489,8 @@ pylang.h:
 pyhash.h:
 
 DHT/dhtbcmem.h:
+
+pycompos.h:
 
 pystip.h:
 

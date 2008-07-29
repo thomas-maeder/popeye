@@ -2,6 +2,7 @@
 #include "pystip.h"
 #include "pyleaf.h"
 #include "pyproc.h"
+#include "pycompos.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -16,16 +17,35 @@ void d_sequence_end_solve_continuations(couleur attacker,
                                         slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  TraceValue("%d ",op1);
+  TraceValue("%d\n",slices[op1].type);
   switch (slices[op1].type)
   {
     case STLeaf:
       d_leaf_solve_continuations(attacker,table,op1);
       break;
     
+    case STQuodlibet:
+    case STSequence:
+    case STReciprocal:
+      TraceValue("%d\n",slices[op1].u.composite.length);
+      d_composite_solve_continuations(attacker,
+                                      slices[op1].u.composite.length,
+                                      table,
+                                      op1);
+      break;
+
     default:
       assert(0);
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Find and write defender's set play
@@ -200,10 +220,17 @@ boolean d_sequence_end_does_attacker_win(couleur attacker, slice_index si)
   {
     case STLeaf:
     {
-      boolean const should_hash = true;
-      result = d_leaf_does_attacker_win(attacker,op1,should_hash);
+      result = d_leaf_does_attacker_win(attacker,op1);
       break;
     }
+
+    case STQuodlibet:
+    case STSequence:
+    case STReciprocal:
+      result = d_composite_does_attacker_win(attacker,
+                                             slices[op1].u.composite.length,
+                                             op1);
+      break;
 
     default:
       assert(0);
@@ -220,15 +247,33 @@ boolean d_sequence_end_does_attacker_win(couleur attacker, slice_index si)
  * @param defender attacking side
  * @param leaf slice index
  */
-void d_sequence_end_solve_variations(couleur attacker, slice_index si)
+void d_sequence_end_solve_variations(couleur attacker,
+                                     int len_threat,
+                                     int threats,
+                                     int refutations,
+                                     slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
+
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",len_threat);
   TraceFunctionParam("%d\n",si);
+
   switch (slices[op1].type)
   {
     case STLeaf:
       d_leaf_solve_variations(attacker,op1);
+      break;
+
+    case STQuodlibet:
+    case STSequence:
+    case STReciprocal:
+      d_composite_solve_variations(attacker,
+                                   slices[op1].u.composite.length,
+                                   len_threat,
+                                   threats,
+                                   refutations,
+                                   op1);
       break;
 
     default:
@@ -244,18 +289,66 @@ void d_sequence_end_solve_variations(couleur attacker, slice_index si)
  * @param defender defending side
  * @param si slice identifier
  */
-boolean d_sequence_end_does_defender_win(couleur defender, slice_index si)
+d_composite_win_type d_sequence_end_does_defender_win(couleur defender,
+                                                      slice_index si)
 {
-  boolean result = false;
+  d_composite_win_type result = win;
   slice_index const op1 = slices[si].u.composite.op1;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",defender);
   TraceFunctionParam("%d\n",si);
 
   switch (slices[op1].type)
   {
     case STLeaf:
       result = d_leaf_does_defender_win(defender,op1);
+      break;
+
+    case STQuodlibet:
+    case STSequence:
+    case STReciprocal:
+      result = d_composite_does_defender_win(defender,
+                                             slices[op1].u.composite.length,
+                                             op1);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Determine whether the defender has lost in direct play with his move
+ * just played.
+ * Assumes that there is no short win for the defending side.
+ * @param attacker attacking side
+ * @param si slice identifier
+ * @return whether there is a short win or loss
+ */
+boolean d_sequence_end_has_defender_lost(couleur attacker, slice_index si)
+{
+  boolean result = false;
+  slice_index const op1 = slices[si].u.composite.op1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",attacker);
+  TraceFunctionParam("%d\n",si);
+
+  switch (slices[op1].type)
+  {
+    case STLeaf:
+      result = d_leaf_has_defender_lost(attacker,op1);
+      break;
+
+    case STQuodlibet:
+    case STSequence:
+    case STReciprocal:
+      result = d_composite_has_defender_lost(attacker,op1);
       break;
 
     default:

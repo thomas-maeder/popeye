@@ -1061,6 +1061,15 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
         else
           return tok+3;
       }
+      else if (gic->goal==goal_mate_or_stale)
+      {
+        *si = alloc_composite_slice(STQuodlibet,PDirect);
+        slices[*si].u.composite.length = 1;
+        slices[*si].u.composite.is_exact = false; /* TODO does this matter */
+        slices[*si].u.composite.op1 =  alloc_leaf_slice(end,goal_mate);
+        slices[*si].u.composite.op2 =  alloc_leaf_slice(end,goal_stale);
+        return tok+2;
+      }
       else
       {
         *si = alloc_leaf_slice(end,gic->goal);
@@ -2691,16 +2700,8 @@ static char *ParseOpt(void) {
       OptFlag[solvariantes]= True;
       break;
     case quodlibet:
-    {
-      slice_index const current_slice = 0;
-      if (slices[current_slice].type==STSequence)
-        transform_sequence_to_quodlibet(current_slice);
-      else
-      {
-        /* TODO produce error message and ignore quodlibet */
-      }
+      transform_to_quodlibet();
       break;
-    }
     case nocastling:
       no_castling= bl_castlings|wh_castlings;
       ReadSquares(ReadNoCastlingSquares);
@@ -4441,7 +4442,7 @@ void WritePosition() {
   else if (OptFlag[duplex])
     CenterLine(OptString[ActLang][duplex]);
 
-  if (slices[current_slice].type==STQuodlibet)
+  if (OptFlag[quodlibet])
     CenterLine(OptString[ActLang][quodlibet]);
 
   StdChar('\n');

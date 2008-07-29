@@ -27,13 +27,13 @@ typedef enum
   goal_exchange,
   goal_circuitB,
   goal_exchangeB,
-  goal_mate_or_stale,
   goal_any,
   goal_proof,
 #if !defined(DATABASE)
   /* TODO why not if DATABASE? */
   goal_atob, /* TODO remove? is there a difference to goal_proof? */
 #endif
+  goal_mate_or_stale, /* not really a goal */
 
   nr_goals,
   no_goal = nr_goals
@@ -58,7 +58,6 @@ boolean goal_checker_exchangeB(couleur camp);
 boolean goal_checker_capture(couleur camp);
 boolean goal_checker_mate_ultraschachzwang(couleur camp);
 boolean goal_checker_stale(couleur camp);
-boolean goal_checker_mate_or_stale(couleur camp);
 boolean goal_checker_dblstale(couleur camp);
 boolean goal_checker_autostale(couleur camp);
 boolean goal_checker_check(couleur camp);

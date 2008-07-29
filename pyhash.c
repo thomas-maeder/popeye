@@ -105,6 +105,8 @@
 
 struct dht *pyhash;
 
+boolean hashing_suspended; /* TODO */
+
 static char    piece_nbr[PieceCount];
 static boolean one_byte_hash;
 boolean flag_hashall;
@@ -647,7 +649,8 @@ static void SmallEncode(HashBuffer *hb)
 boolean inhash(hashwhat what, int val, HashBuffer *hb)
 {
   dhtElement const * const he= dhtLookupElement(pyhash, (dhtValue)hb);
-
+  if (hashing_suspended) return false;
+  
   ifHASHRATE(use_all++);
 
   if (he==dhtNilElement)
@@ -745,6 +748,7 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
 void addtohash(hashwhat what, int val, HashBuffer *hb)
 {
   dhtElement *he = dhtLookupElement(pyhash, (dhtValue)hb);
+  if (hashing_suspended) return;
 
   if (he == dhtNilElement) { /* the position is new */
     he= dhtEnterElement(pyhash, (dhtValue)hb, 0);

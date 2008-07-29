@@ -88,12 +88,12 @@ slice_index copy_slice(slice_index original);
 
 /* Release all slices
  */
-void release_slices();
+void release_slices(void);
 
 /* Transform a sequence slice to quodlibet
  * @param quodlibet_slice index of slice to be transformed
  */
-void transform_sequence_to_quodlibet(slice_index quodlibet_slice);
+void transform_to_quodlibet(void);
 
 /* Do all leaves of the current stipulation have one of a set of goals?
  * @param goals set of goals
@@ -126,7 +126,7 @@ slice_index find_next_goal(Goal goal, slice_index start);
  * @return no_slice if goal is not unique; index of a slice with the
  *         unique goal otherwise
  */
-slice_index find_unique_goal();
+slice_index find_unique_goal(void);
 
 /* Determine whether a slice has >=1 solution
  * @param side_at_move side doing the first move

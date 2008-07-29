@@ -29,11 +29,7 @@ boolean leaf_is_goal_reached(couleur just_moved, slice_index leaf)
           || CondFlag[whiteultraschachzwang])
         result = goal_checker_mate_ultraschachzwang(just_moved);
       else
-      {
-        TraceValue("%d\n",echecc(advers(just_moved)));
-        TraceValue("%d\n",echecc(just_moved));
         result = goal_checker_mate(just_moved);
-      }
       break;
 
     case goal_stale:
@@ -94,18 +90,16 @@ boolean leaf_is_goal_reached(couleur just_moved, slice_index leaf)
       result = goal_checker_exchangeB(just_moved);
       break;
 
-    case goal_mate_or_stale:
-      result = goal_checker_mate_or_stale(just_moved);
-      break;
-
     case goal_any:
       result = goal_checker_any(just_moved);
       break;
 
+    case goal_mate_or_stale:
     case goal_proof:
     case goal_atob:
     default:
       assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -276,13 +270,10 @@ static boolean leaf_is_end_in_1_forced(couleur side_at_move,
 }
 
 /* Determine whether attacker has an end in 1.
- * This is different from d_leaf_does_attacker_win() in that
- * leaf_is_end_in_1_possible() doesn't write to the hash table.
  * @param side_at_move
  * @param leaf slice index
  * @return true iff side_at_move can end in 1 move
  */
-/* TODO find out if this difference makes sense */
 boolean leaf_is_end_in_1_possible(couleur side_at_move, slice_index leaf)
 {
   boolean end_found = false;
@@ -365,24 +356,36 @@ boolean d_leaf_is_unsolvable(couleur attacker, slice_index leaf)
  * @param si slice identifier
  * @return whether there is a short win or loss
  */
-boolean d_leaf_has_defender_lost(couleur defender, slice_index leaf)
+boolean d_leaf_has_defender_lost(couleur attacker, slice_index leaf)
 {
+  couleur const defender = advers(attacker);
+  boolean result = false;
+
   assert(slices[leaf].type==STLeaf);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",defender);
+  TraceFunctionParam("%d\n",leaf);
 
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      return false;
+      break;
 
     case ESelf:
     case EReflex:
     case ESemireflex:
-      return leaf_is_goal_reached(defender,leaf);
+      result = leaf_is_goal_reached(defender,leaf);
+      break;
 
     default:
       assert(0);
-      return false;
+      break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 /* Determine whether a side has just solved a leaf slice in direct play.
@@ -685,14 +688,15 @@ boolean d_leaf_solve(couleur attacker,
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-boolean d_leaf_s_does_defender_win(couleur defender, slice_index leaf)
+static d_composite_win_type d_leaf_s_does_defender_win(couleur defender,
+                                                       slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
   if (OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-    return true;
+    return short_win;
   else
-    return !leaf_is_end_in_1_forced(defender,leaf);
+    return leaf_is_end_in_1_forced(defender,leaf) ? short_loss : short_win;
 }
 
 /* Determine whether the defender is not forced to end in 1 in a
@@ -701,14 +705,15 @@ boolean d_leaf_s_does_defender_win(couleur defender, slice_index leaf)
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-static boolean d_leaf_r_does_defender_win(couleur defender, slice_index leaf)
+static d_composite_win_type d_leaf_r_does_defender_win(couleur defender,
+                                                       slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
   if (OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-    return true;
+    return short_win;
   else
-    return !leaf_is_end_in_1_possible(defender,leaf);
+    return leaf_is_end_in_1_possible(defender,leaf) ? short_loss : short_win;
 }
 
 /* Determine whether the defending side wins
@@ -716,9 +721,10 @@ static boolean d_leaf_r_does_defender_win(couleur defender, slice_index leaf)
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-boolean d_leaf_does_defender_win(couleur defender, slice_index leaf)
+d_composite_win_type d_leaf_does_defender_win(couleur defender,
+                                              slice_index leaf)
 {
-  boolean result = true;
+  d_composite_win_type result = win;
 
   assert(slices[leaf].type==STLeaf);
 
@@ -730,7 +736,7 @@ boolean d_leaf_does_defender_win(couleur defender, slice_index leaf)
     case EDirect:
     {
       couleur const attacker = advers(defender);
-      result = !leaf_is_goal_reached(attacker,leaf);
+      result = leaf_is_goal_reached(attacker,leaf) ? short_loss : short_win;
       break;
     }
 
@@ -890,13 +896,9 @@ boolean d_leaf_has_attacker_won(couleur defender, slice_index leaf)
  * @param attacker attacking side (i.e. side attempting to reach the
  * end)
  * @param leaf slice index of leaf slice
- * @param should_hash true iff the findings should be added to the
- *                    hash table
  * @return true iff attacker can end in 1 move
  */
-static boolean d_leaf_d_does_attacker_win(couleur attacker,
-                                          slice_index leaf,
-                                          boolean should_hash)
+static boolean d_leaf_d_does_attacker_win(couleur attacker, slice_index leaf)
 {
   boolean end_found = false;
   HashBuffer hb;
@@ -909,7 +911,7 @@ static boolean d_leaf_d_does_attacker_win(couleur attacker,
   /* In move orientated stipulations (%, z, x etc.) it's less
    * expensive to compute an end in 1. TLi
    */
-  if (should_hash && !FlagMoveOrientatedStip)
+  if (!FlagMoveOrientatedStip)
   {
     /* It is more likely that a position has no solution. 
      * Therefore let's check for "no solution" first.  TLi
@@ -917,12 +919,14 @@ static boolean d_leaf_d_does_attacker_win(couleur attacker,
     (*encode)(&hb);
     if (inhash(WhDirNoSucc,1,&hb))
     {
+      TraceText("WhDirNoSucc\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%d\n",false);
       return false;
     }
     if (inhash(WhDirSucc,1,&hb))
     {
+      TraceText("WhDirSucc\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%d\n",true);
       return true;
@@ -931,6 +935,7 @@ static boolean d_leaf_d_does_attacker_win(couleur attacker,
 
   if (OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
   {
+    TraceText("!is_a_mating_piece_left\n");
     TraceFunctionExit(__func__);
     TraceFunctionResult("%d\n",false);
     return false;
@@ -940,11 +945,15 @@ static boolean d_leaf_d_does_attacker_win(couleur attacker,
 
   while (encore() && !end_found)
   {
+    TraceCurrentMove();
     if (jouecoup())
     {
       end_found = leaf_is_goal_reached(attacker,leaf);
       if (end_found)
+      {
+        TraceText("wins\n");
         coupfort();
+      }
     }
 
     repcoup();
@@ -955,7 +964,7 @@ static boolean d_leaf_d_does_attacker_win(couleur attacker,
 
   finply();
 
-  if (should_hash && !FlagMoveOrientatedStip)
+  if (!FlagMoveOrientatedStip)
     addtohash(end_found ? WhDirSucc : WhDirNoSucc, 1, &hb);
 
   TraceFunctionExit(__func__);
@@ -969,8 +978,7 @@ static boolean d_leaf_d_does_attacker_win(couleur attacker,
  * @return true iff attacker wins
  */
 static boolean d_leaf_sr_does_attacker_win(couleur attacker,
-                                           slice_index leaf,
-                                           boolean should_hash)
+                                           slice_index leaf)
 {
   boolean win_found = false;
   couleur defender = advers(attacker);
@@ -981,24 +989,21 @@ static boolean d_leaf_sr_does_attacker_win(couleur attacker,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
 
-  if (should_hash)
+  /* It is more likely that a position has no solution. */
+  /*    Therefore let's check for "no solution" first. TLi */
+  (*encode)(&hb);
+  if (inhash(WhDirNoSucc,1,&hb))
   {
-    /* It is more likely that a position has no solution. */
-    /*    Therefore let's check for "no solution" first. TLi */
-    (*encode)(&hb);
-    if (inhash(WhDirNoSucc,1,&hb))
-    {
-      assert(!inhash(WhDirSucc,1,&hb));
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%d\n",false);
-      return false;
-    }
-    if (inhash(WhDirSucc,1,&hb))
-    {
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%d\n",true);
-      return true;
-    }
+    assert(!inhash(WhDirSucc,1,&hb));
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%d\n",false);
+    return false;
+  }
+  if (inhash(WhDirSucc,1,&hb))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%d\n",true);
+    return true;
   }
 
   genmove(attacker);
@@ -1009,7 +1014,7 @@ static boolean d_leaf_sr_does_attacker_win(couleur attacker,
     TraceCurrentMove();
     if (jouecoup()
         && !echecc(attacker)
-        && !d_leaf_does_defender_win(defender,leaf))
+        && d_leaf_does_defender_win(defender,leaf)>=loss)
     {
       TraceText("wins\n");
       win_found = true;
@@ -1024,8 +1029,7 @@ static boolean d_leaf_sr_does_attacker_win(couleur attacker,
 
   finply();
 
-  if (should_hash)
-    addtohash(win_found ? WhDirSucc : WhDirNoSucc, 1, &hb);
+  addtohash(win_found ? WhDirSucc : WhDirNoSucc, 1, &hb);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",win_found);
@@ -1036,13 +1040,9 @@ static boolean d_leaf_sr_does_attacker_win(couleur attacker,
  * stipulation
  * @param attacker attacking side (at move)
  * @param leaf slice index
- * @param should_hash true iff the findings should be added to the
- *                    hash table
  * @return true iff attacker wins
  */
-boolean d_leaf_does_attacker_win(couleur attacker,
-                                 slice_index leaf,
-                                 boolean should_hash)
+boolean d_leaf_does_attacker_win(couleur attacker, slice_index leaf)
 {
   boolean result = false;
 
@@ -1054,13 +1054,13 @@ boolean d_leaf_does_attacker_win(couleur attacker,
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      result = d_leaf_d_does_attacker_win(attacker,leaf,should_hash);
+      result = d_leaf_d_does_attacker_win(attacker,leaf);
       break;
 
     case ESelf:
     case ESemireflex:
     case EReflex:
-      result = d_leaf_sr_does_attacker_win(attacker,leaf,should_hash);
+      result = d_leaf_sr_does_attacker_win(attacker,leaf);
       break;
 
     default:
@@ -1155,7 +1155,7 @@ boolean d_leaf_solve_complete_set(couleur defender, slice_index leaf)
   switch (slices[leaf].u.leaf.end)
   {
     case ESelf:
-      if (!d_leaf_s_does_defender_win(defender,leaf))
+      if (d_leaf_s_does_defender_win(defender,leaf)>=loss)
       {
         d_leaf_sr_solve_setplay(defender,leaf);
         return true;
@@ -1165,7 +1165,7 @@ boolean d_leaf_solve_complete_set(couleur defender, slice_index leaf)
 
     case EReflex:
     case ESemireflex:
-      if (!d_leaf_r_does_defender_win(defender,leaf))
+      if (d_leaf_r_does_defender_win(defender,leaf)>=loss)
       {
         d_leaf_sr_solve_setplay(defender,leaf);
         return true;
@@ -1218,6 +1218,9 @@ void d_leaf_solve_continuations(couleur attacker,
 {
   couleur defender = advers(attacker);
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
   assert(slices[leaf].type==STLeaf);
 
   if (slices[leaf].u.leaf.end==EDirect)
@@ -1227,6 +1230,7 @@ void d_leaf_solve_continuations(couleur attacker,
 
   while (encore())
   {
+    TraceCurrentMove();
     if (jouecoup()
         && !echecc(attacker)
         && d_leaf_is_solved(attacker,leaf))
@@ -1246,6 +1250,9 @@ void d_leaf_solve_continuations(couleur attacker,
   }
 
   finply();
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Find the final (ending) move in a self stipulation
@@ -1260,7 +1267,7 @@ static boolean h_leaf_s_solve_final_move(couleur side_at_move,
 
   assert(slices[leaf].type==STLeaf);
 
-  if (!d_leaf_s_does_defender_win(side_at_move,leaf))
+  if (d_leaf_s_does_defender_win(side_at_move,leaf)>=loss)
   {
     GenMatingMove(side_at_move);
 
@@ -1324,7 +1331,7 @@ static boolean h_leaf_r_solve_final_move(couleur side_at_move,
 
   assert(slices[leaf].type==STLeaf);
 
-  if (!d_leaf_r_does_defender_win(side_at_move,leaf))
+  if (d_leaf_r_does_defender_win(side_at_move,leaf)>=loss)
   {
     GenMatingMove(side_at_move);
     while (encore())
@@ -1838,7 +1845,7 @@ static boolean ser_leaf_sr_solve(couleur attacker, slice_index leaf)
     TraceCurrentMove();
     if (jouecoup()
         && !echecc(attacker)
-        && !d_leaf_does_defender_win(defender,leaf))
+        && d_leaf_does_defender_win(defender,leaf)>=loss)
     {
       TraceText("solution found\n");
       solution_found = true;
@@ -1933,10 +1940,7 @@ boolean leaf_is_solvable(couleur side_at_move, slice_index leaf)
       else if (d_leaf_has_defender_lost(advers(side_at_move),leaf))
         result = true;
       else
-      {
-        boolean const should_hash = true;
-        result = d_leaf_does_attacker_win(side_at_move,leaf,should_hash);
-      }
+        result = d_leaf_does_attacker_win(side_at_move,leaf);
       break;
 
     default:

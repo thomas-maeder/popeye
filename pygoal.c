@@ -138,15 +138,6 @@ boolean goal_checker_stale(couleur camp)
     return !echecc(ad) && immobile(ad);
 }
 
-boolean goal_checker_mate_or_stale(couleur camp)
-{
-  /* used for writing the correct symbol in output */
-  /* TODO */
-  mate_or_stale_patt = goal_checker_stale(camp);
-  return mate_or_stale_patt || goal_checker_mate(camp);
-}
-
-
 boolean goal_checker_dblstale(couleur camp)
 {
   /* ich glaube, fuer paral. Steine sind hier keine
@@ -238,26 +229,26 @@ boolean goal_checker_any(couleur camp)
   
 char const *goal_end_marker[nr_goals] =
 {
-  " #",
-  " =",
-  " ==",
-  " z",
-  " +",
-  " x",
-  " %",
-  "",
-  " ##",
-  " ##!",
-  "",
-  " !=",
-  "",
-  "",
-  "",
-  "",
-  " #=",
-  "",
-  " dia",
+  " #"
+  , " ="
+  , " =="
+  , " z"
+  , " +"
+  , " x"
+  , " %"
+  , ""
+  , " ##"
+  , " ##!"
+  , ""
+  , " !="
+  , ""
+  , ""
+  , ""
+  , ""
+  , ""
+  , " dia"
 #if !defined(DATABASE)
-  " a=>b"
+  , " a=>b"
 #endif
+  , " #="
 };

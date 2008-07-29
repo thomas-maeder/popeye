@@ -12,6 +12,8 @@
 
 #include <assert.h>
 
+extern boolean hashing_suspended; /* TODO */
+
 /* Determine whether the current position is stored in the hash table
  * and how.
  * @param hb address of HashBuffer to hold the encoded current position
@@ -27,7 +29,7 @@ static boolean d_composite_is_in_hash(HashBuffer *hb, int n, boolean *result)
   (*encode)(hb);
   if (inhash(WhDirNoSucc,n,hb))
   {
-    assert(!inhash(WhDirSucc,n,hb));
+    assert(hashing_suspended || !inhash(WhDirSucc,n,hb));
     *result = false;
     return true;
   } else if (inhash(WhDirSucc,n,hb))
@@ -45,11 +47,13 @@ static boolean d_composite_is_in_hash(HashBuffer *hb, int n, boolean *result)
  * @param si slice identifier
  * @return true iff defender wins
  */
-static boolean d_composite_end_does_defender_win(couleur defender,
-                                                 slice_index si)
+static
+d_composite_win_type d_composite_end_does_defender_win(couleur defender,
+                                                       slice_index si)
 {
-  boolean result = true;
+  d_composite_win_type result = win;
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",defender);
   TraceFunctionParam("%d\n",si);
 
   switch (slices[si].type)
@@ -72,16 +76,6 @@ static boolean d_composite_end_does_defender_win(couleur defender,
   return result;
 }
 
-typedef enum
-{
-  already_won,
-  short_win,
-  win,
-  loss,
-  short_loss,
-  already_lost
-} d_composite_win_type;
-
 /* Determine whether the attacker has lost with his last move in
  * direct play. 
  * Assumes that he has not won with his last move.
@@ -89,20 +83,24 @@ typedef enum
  * @param si slice identifier
  * @return true iff attacker has lost
  */
-static boolean d_composite_end_has_attacker_lost(couleur defender,
-                                                 slice_index si)
+boolean d_composite_has_attacker_lost(couleur defender, slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",slices[op1].type);
+  TraceFunctionParam("%d",defender);
+  TraceFunctionParam("%d\n",si);
 
+  TraceValue("%d\n",slices[op1].type);
   switch (slices[op1].type)
   {
     case STLeaf:
       result = d_leaf_has_attacker_lost(defender,op1);
+      break;
+
+    case STQuodlibet:
+      result = d_quodlibet_end_has_attacker_lost(defender,op1);
       break;
 
     default:
@@ -147,9 +145,9 @@ static boolean d_composite_end_does_attacker_win(couleur attacker,
   return result;
 }
 
-static boolean d_composite_does_attacker_win(couleur attacker,
-                                             int n,
-                                             slice_index si);
+boolean d_composite_does_attacker_win(couleur attacker,
+                                      int n,
+                                      slice_index si);
 
 /* Count all non-trivial moves of the defending side. Whether a
  * particular move is non-trivial is determined by user input.
@@ -254,8 +252,7 @@ d_composite_win_type d_composite_middle_does_defender_win(couleur defender,
 	  is_defender_immobile = false;
 	  if (!d_composite_does_attacker_win(attacker,n,si))
 	  {
-        TraceValue("%d",n);
-        TraceText(" refutes\n");
+        TraceText("refutes\n");
 		refutation_found = true;
 		coupfort();
 	  }
@@ -282,12 +279,13 @@ d_composite_win_type d_composite_middle_does_defender_win(couleur defender,
  * @param si slice identifier
  * @return true iff attacker has won
  */
-boolean d_composite_end_has_attacker_won(couleur defender, slice_index si)
+boolean d_composite_has_attacker_won(couleur defender, slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",defender);
   TraceFunctionParam("%d",si);
   TraceFunctionParam("%d\n",slices[op1].type);
 
@@ -295,6 +293,10 @@ boolean d_composite_end_has_attacker_won(couleur defender, slice_index si)
   {
     case STLeaf:
       result = d_leaf_has_attacker_won(defender,op1);
+      break;
+
+    case STQuodlibet:
+      result = d_quodlibet_end_has_attacker_won(defender,op1);
       break;
 
     default:
@@ -320,21 +322,20 @@ d_composite_win_type d_composite_does_defender_win(couleur defender,
   d_composite_win_type result;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d",defender);
   TraceFunctionParam("%d\n",si);
-  if (d_composite_end_has_attacker_lost(defender,si))
+  if (d_composite_has_attacker_lost(defender,si))
     result = already_won;
   else if (n==0)
   {
-    if (d_composite_end_has_attacker_won(defender,si))
+    if (d_composite_has_attacker_won(defender,si))
       result = short_loss;
     else
-      result = (d_composite_end_does_defender_win(defender,si)
-                ? short_win
-                : loss);
+      result = d_composite_end_does_defender_win(defender,si);
   }
   else if (slices[si].u.composite.is_exact)
     result = d_composite_middle_does_defender_win(defender,n,si);
-  else if (d_composite_end_has_attacker_won(defender,si))
+  else if (d_composite_has_attacker_won(defender,si))
     result = short_loss;
   else
     result = d_composite_middle_does_defender_win(defender,n,si);
@@ -398,18 +399,23 @@ static boolean d_composite_middle_does_attacker_win(couleur attacker,
  * @param si slice identifier
  * @return whether there is a short win or loss
  */
-boolean d_composite_end_has_defender_won(couleur attacker, slice_index si)
+boolean d_composite_has_defender_won(couleur attacker, slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",attacker);
   TraceFunctionParam("%d\n",si);
 
   switch (slices[op1].type)
   {
     case STLeaf:
       result = d_leaf_is_unsolvable(attacker,op1);
+      break;
+
+    case STQuodlibet:
+      result = d_quodlibet_end_has_defender_won(attacker,op1);
       break;
 
     default:
@@ -429,19 +435,26 @@ boolean d_composite_end_has_defender_won(couleur attacker, slice_index si)
  * @param si slice identifier
  * @return whether there is a short win or loss
  */
-boolean d_composite_end_has_defender_lost(couleur attacker, slice_index si)
+boolean d_composite_has_defender_lost(couleur attacker, slice_index si)
 {
-  couleur const defender = advers(attacker);
-  slice_index const op1 = slices[si].u.composite.op1;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",attacker);
   TraceFunctionParam("%d\n",si);
 
-  switch (slices[op1].type)
+  switch (slices[si].type)
   {
     case STLeaf:
-      result = d_leaf_has_defender_lost(defender,op1);
+      result = d_leaf_has_defender_lost(attacker,si);
+      break;
+
+    case STSequence:
+      result = d_sequence_end_has_defender_lost(attacker,si);
+      break;
+
+    case STQuodlibet:
+      result = d_quodlibet_end_has_defender_lost(attacker,si);
       break;
 
     default:
@@ -461,21 +474,22 @@ boolean d_composite_end_has_defender_lost(couleur attacker, slice_index si)
  * @param n number of moves left until the end state has to be reached
  * @return true iff attacker can end in n moves
  */
-static boolean d_composite_does_attacker_win(couleur attacker,
-                                             int n,
-                                             slice_index si)
+boolean d_composite_does_attacker_win(couleur attacker,
+                                      int n,
+                                      slice_index si)
 {
   boolean result = false;
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",attacker);
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  if (d_composite_end_has_defender_won(attacker,si))
+  if (d_composite_has_defender_won(attacker,si))
     ; /* intentionally nothing */
   else if (n==1)
   {
     TraceText("n==1\n");
-    if (d_composite_end_has_defender_lost(attacker,si))
+    if (d_composite_has_defender_lost(attacker,si))
       result = true;
     else
       result = d_composite_end_does_attacker_win(attacker,si);
@@ -491,7 +505,7 @@ static boolean d_composite_does_attacker_win(couleur attacker,
       addtohash(result ? WhDirSucc : WhDirNoSucc, n, &hb);
     }
   }
-  else if (d_composite_end_has_defender_lost(attacker,si))
+  else if (d_composite_has_defender_lost(attacker,si))
     result = true;
   else
   {
@@ -616,7 +630,11 @@ static int d_composite_find_refutations(couleur defender,
   return result;
 } /* d_composite_find_refutations */
 
-void d_composite_end_solve_variations(couleur attacker, slice_index si)
+void d_composite_end_solve_variations(couleur attacker,
+                                      int len_threat,
+                                      int threats,
+                                      int refutations,
+                                      slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",si);
@@ -624,11 +642,19 @@ void d_composite_end_solve_variations(couleur attacker, slice_index si)
   switch (slices[si].type)
   {
     case STQuodlibet:
-      d_quodlibet_end_solve_variations(attacker,si);
+      d_quodlibet_end_solve_variations(attacker,
+                                       len_threat,
+                                       threats,
+                                       refutations,
+                                       si);
       break;
 
     case STSequence:
-      d_sequence_end_solve_variations(attacker,si);
+      d_sequence_end_solve_variations(attacker,
+                                      len_threat,
+                                      threats,
+                                      refutations,
+                                      si);
       break;
 
     default:
@@ -650,21 +676,33 @@ static boolean h_composite_end_solve(couleur side_at_move,
                                      boolean restartenabled,
                                      slice_index si)
 {
+  boolean result = false;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",side_at_move);
+  TraceFunctionParam("%d\n",si);
+
+  TraceValue("%d\n",slices[si].type);
   switch (slices[si].type)
   {
     case STReciprocal:
-      return h_reci_end_solve(side_at_move,si);
+      result = h_reci_end_solve(side_at_move,si);
+      break;
 
     case STSequence:
-      return h_sequence_end_solve(side_at_move,
-                                  no_succ_hash_category,
-                                  restartenabled,
-                                  si);
+      result = h_sequence_end_solve(side_at_move,
+                                    no_succ_hash_category,
+                                    restartenabled,
+                                    si);
+      break;
 
     default:
       assert(0);
-      return false;
+      break;
   }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 /* Determine and write the solution(s) in a help stipulation.
@@ -685,13 +723,16 @@ boolean h_composite_solve(couleur side_at_move,
 {
   boolean found_solution = false;
   hashwhat next_no_succ = side_at_move==blanc ? BlHelpNoSucc : WhHelpNoSucc;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",side_at_move);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
 
   assert(n>=2);
 
   if (OptFlag[keepmating] && !is_a_mating_piece_left(maincamp))
-    return false;
-
-  if (n==2)
+    TraceText("!is_a_mating_piece_left(maincamp)");
+  else if (n==2)
     found_solution = h_composite_end_solve(side_at_move,
                                            next_no_succ,
                                            restartenabled,
@@ -709,6 +750,7 @@ boolean h_composite_solve(couleur side_at_move,
 
     while (encore())
     {
+      TraceCurrentMove();
       if (jouecoup()
           && (!OptFlag[intelligent] || MatePossible())
           && !echecc(side_at_move)
@@ -749,6 +791,8 @@ boolean h_composite_solve(couleur side_at_move,
     finply();
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",found_solution);
   return found_solution;
 } /* h_composite_solve */
 
@@ -948,10 +992,10 @@ static boolean d_composite_defends_against_threats(couleur attacker,
   return result;
 }
 
-static void d_composite_solve_continuations(couleur attacker,
-                                            int n,
-                                            int t,
-                                            slice_index si);
+void d_composite_solve_continuations(couleur attacker,
+                                     int n,
+                                     int t,
+                                     slice_index si);
 
 /* Write a variation in the try/solution/set play of a
  * direct/self/reflex stipulation. The move of the defending side that
@@ -972,6 +1016,8 @@ static void d_composite_write_variation(couleur attacker, int n, slice_index si)
   d_write_defense(no_goal);
   marge+= 4;
 
+  zugebene++;
+
   for (i = slices[si].u.composite.is_exact ? n : 1;
        i<=n && isRefutation;
        i++)
@@ -989,6 +1035,8 @@ static void d_composite_write_variation(couleur attacker, int n, slice_index si)
     Message(Refutation);
     marge-= 2;
   }
+
+  zugebene--;
 
   marge-= 4;
 
@@ -1028,6 +1076,8 @@ static int d_composite_middle_solve_threats(couleur attacker,
 
     marge+= 4;
 
+    zugebene++;
+
     for (i = 1; i<=max_threat_length; i++)
     {
       d_composite_solve_continuations(attacker,i,threats,si);
@@ -1037,6 +1087,8 @@ static int d_composite_middle_solve_threats(couleur attacker,
         break;
       }
     }
+
+    zugebene--;
 
     marge-= 4;
 
@@ -1065,16 +1117,15 @@ static int d_composite_middle_solve_threats(couleur attacker,
  * @param refutations table containing refutations after move just
  *                    played
  */
-static void d_composite_middle_solve_variations(couleur attacker,
-                                                int n,
-                                                int len_threat,
-                                                int threats,
-                                                int refutations,
-                                                slice_index si)
+void d_composite_solve_variations(couleur attacker,
+                                  int n,
+                                  int len_threat,
+                                  int threats,
+                                  int refutations,
+                                  slice_index si)
 {
   couleur defender = advers(attacker);
   int ntcount = 0;
-  slice_index const op1 = slices[si].u.composite.op1;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d",len_threat);
@@ -1102,7 +1153,7 @@ static void d_composite_middle_solve_variations(couleur attacker,
                && d_composite_does_attacker_win(attacker,len_threat-1,si))
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
-      else if (d_leaf_has_defender_lost(defender,op1)) /* TODO exact */
+      else if (d_composite_has_defender_lost(attacker,si)) /* TODO exact */
         ; /* oops! short end */
       else if (!d_composite_defends_against_threats(attacker,
                                                     len_threat,
@@ -1121,7 +1172,7 @@ static void d_composite_middle_solve_variations(couleur attacker,
     max_nr_nontrivial += ntcount;
   
   TraceFunctionExit(__func__);
-} /* d_composite_middle_solve_variations */
+} /* d_composite_solve_variations */
 
 void d_composite_middle_solve_postkey(couleur attacker,
                                       int n,
@@ -1133,12 +1184,12 @@ void d_composite_middle_solve_postkey(couleur attacker,
                                                     n,
                                                     threats,
                                                     si);
-  d_composite_middle_solve_variations(attacker,
-                                      n,
-                                      len_threat,
-                                      threats,
-                                      refutations,
-                                      si);
+  d_composite_solve_variations(attacker,
+                               n,
+                               len_threat,
+                               threats,
+                               refutations,
+                               si);
   freetab();
 }
 
@@ -1148,10 +1199,14 @@ void d_composite_middle_solve_postkey(couleur attacker,
  * @param attacker attacking side
  * @param t table where to store continuing moves (i.e. threats)
  */
-static void d_composite_end_write_continuations(couleur attacker,
+static void d_composite_end_solve_continuations(couleur attacker,
                                                 int t,
                                                 slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  TraceValue("%d\n",slices[si].type);
   switch (slices[si].type)
   {
     case STQuodlibet:
@@ -1166,6 +1221,9 @@ static void d_composite_end_write_continuations(couleur attacker,
       assert(0);
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Determine and write the continuations in the current position in
@@ -1176,20 +1234,18 @@ static void d_composite_end_write_continuations(couleur attacker,
  * @param n number of moves until end state has to be reached
  * @param t table where to store continuing moves (i.e. threats)
  */
-static void d_composite_solve_continuations(couleur attacker,
-                                            int n,
-                                            int t,
-                                            slice_index si)
+void d_composite_solve_continuations(couleur attacker,
+                                     int n,
+                                     int t,
+                                     slice_index si)
 {
   couleur defender = advers(attacker);
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  zugebene++;
-
   if (n==1)
-    d_composite_end_write_continuations(attacker,t,si);
+    d_composite_end_solve_continuations(attacker,t,si);
   else
   {
     genmove(attacker);
@@ -1202,7 +1258,7 @@ static void d_composite_solve_continuations(couleur attacker,
       {
         d_composite_win_type const defender_success =
             d_composite_does_defender_win(defender,n-1,si);
-        TraceValue("%d ",defender_success);
+        TraceValue("%d\n",defender_success);
         if (defender_success>=loss)
         {
           d_write_attack(no_goal);
@@ -1210,7 +1266,15 @@ static void d_composite_solve_continuations(couleur attacker,
           marge+= 4;
           if (!slices[si].u.composite.is_exact
               && defender_success>=short_loss)
-            d_composite_end_solve_variations(defender,0);
+          {
+            d_composite_end_solve_variations(defender,
+                                             0,
+                                             alloctab(),
+                                             alloctab(),
+                                             si);
+            freetab();
+            freetab();
+          }
           else
           {
             d_composite_middle_solve_postkey(attacker,n,alloctab(),si);
@@ -1228,9 +1292,8 @@ static void d_composite_solve_continuations(couleur attacker,
     finply();
   }
 
-  zugebene--;
-
   TraceFunctionExit(__func__);
+  TraceText("\n");
 } /* d_composite_solve_continuations */
 
 static void d_composite_end_solve_setplay(couleur defender, slice_index si)
@@ -1304,7 +1367,7 @@ void d_composite_solve_setplay(couleur attacker, int n, slice_index si)
           && !echecc(defender))
       {
         /* TODO exact? */
-        if (d_composite_end_has_defender_lost(attacker,si))
+        if (d_composite_has_defender_lost(attacker,si))
           ; /* oops */
         else if (d_composite_does_attacker_win(attacker,n-1,si))
           /* yipee - this solves! */
@@ -1370,11 +1433,11 @@ static void d_composite_end_write_key_solve_postkey(couleur attacker,
   }
 }
 
-static void d_composite_middle_write_key_solve_postkey(couleur attacker,
-                                                       int n,
-                                                       int refutations,
-                                                       slice_index si,
-                                                       boolean is_try)
+void d_composite_write_key_solve_postkey(couleur attacker,
+                                         int n,
+                                         int refutations,
+                                         slice_index si,
+                                         boolean is_try)
 {
   d_write_key(no_goal,is_try);
 
@@ -1395,14 +1458,22 @@ void d_composite_solve_postkey(couleur attacker, int n, slice_index si)
   couleur const defender = advers(attacker);
 
   if (n==1)
-    d_composite_end_solve_variations(attacker,si);
+  {
+    d_composite_end_solve_variations(attacker,0,alloctab(),alloctab(),si);
+    freetab();
+    freetab();
+  }
   else if (slices[si].u.composite.is_exact)
   {
     d_composite_middle_solve_postkey(attacker,n,alloctab(),si);
     freetab();
   }
-  else if (d_composite_end_has_attacker_won(defender,si))
-    d_composite_end_solve_variations(defender,si);
+  else if (d_composite_has_attacker_won(defender,si))
+  {
+    d_composite_end_solve_variations(attacker,0,alloctab(),alloctab(),si);
+    freetab();
+    freetab();
+  }
   else
   {
     d_composite_middle_solve_postkey(attacker,n,alloctab(),si);
@@ -1440,7 +1511,7 @@ static void d_composite_middle_solve(couleur attacker,
         && !echecc(attacker))
     {
       if (!slices[si].u.composite.is_exact
-          && d_composite_end_has_attacker_won(defender,si))
+          && d_composite_has_attacker_won(defender,si))
       {
         int refutations = alloctab();
         boolean const is_try = false;
@@ -1461,11 +1532,11 @@ static void d_composite_middle_solve(couleur attacker,
         if (nr_refutations<=max_nr_refutations)
         {
           boolean const is_try = tablen(refutations)>=1;
-          d_composite_middle_write_key_solve_postkey(attacker,
-                                                     n,
-                                                     refutations,
-                                                     si,
-                                                     is_try);
+          d_composite_write_key_solve_postkey(attacker,
+                                              n,
+                                              refutations,
+                                              si,
+                                              is_try);
         }
 
         freetab();
@@ -1502,9 +1573,9 @@ void d_composite_solve(couleur attacker,
 {
   zugebene = 1;
 
-  if (d_composite_end_has_defender_lost(attacker,si))
+  if (d_composite_has_defender_lost(attacker,si))
     ; /* TODO  - write this? */
-  else if (d_composite_end_has_defender_won(attacker,si))
+  else if (d_composite_has_defender_won(attacker,si))
     ; /* TODO if attacker has to deliver reflex mate, write it? */
   else if (n==1)
     d_composite_end_solve(attacker,restartenabled,si);

@@ -3,6 +3,7 @@
 
 #include "boolean.h"
 #include "pystip.h"
+#include "pycompos.h"
 #include "py.h"
 #include "pyhash.h"
 
@@ -18,45 +19,47 @@
 boolean leaf_is_goal_reached(couleur just_moved, slice_index leaf);
 
 /* Determine whether attacker has an end in 1.
- * This is different from d_leaf_does_attacker_win() in that
- * leaf_is_end_in_1_possible() doesn't write to the hash table.
  * @param side_at_move
  * @param leaf slice index
  * @return true iff side_at_move can end in 1 move
  */
-/* TODO find out if this difference makes sense */
 boolean leaf_is_end_in_1_possible(couleur side_at_move, slice_index leaf);
 
 /* Detect a priori unsolvability of a leaf in direct play
  * (e.g. because of forced reflex mates)
  * @param attacker attacking side
  * @param leaf leaf's slice index
+ * @return true iff leaf is unsolvable
  */
 boolean d_leaf_is_unsolvable(couleur attacker, slice_index leaf);
 
-/* Determine whether the defender has lost with his move just played.
+/* Determine whether the defender has directly lost with his move just
+ * played. 
  * Assumes that there is no short win for the defending side.
  * @param attacker attacking side
  * @param si slice identifier
- * @return whether there is a short win or loss
+ * @return true iff the defending side has directly lost
  */
-boolean d_leaf_has_defender_lost(couleur defender, slice_index leaf);
+boolean d_leaf_has_defender_lost(couleur attacker, slice_index leaf);
 
 /* Write a priori unsolvability (if any) of a leaf in direct play
- * (e.g. forced reflex mates)
+ * (e.g. forced reflex mates).
+ * Assumes d_leaf_is_unsolvable()
  * @param attacker attacking side
  * @param leaf leaf's slice index
  */
 void d_leaf_write_unsolvability(couleur attacker, slice_index leaf);
 
 /* Find and write the solution(s) of a leaf.
- * Unsolvability (e.g. because of a forced reflex move) has already
- * been dealt with.
+ * Assumes that unsolvability (e.g. because of a forced reflex move)
+ * has already been dealt with.
  * @param attacker attacking side
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
- * @param leaf slice index 
+ * @param leaf slice index
+ * @param solutions table where to add solutions
+ * @return true iff >=1 solution was found
  */
 boolean d_leaf_solve(couleur attacker,
                      boolean restartenabled,
@@ -69,8 +72,8 @@ boolean d_leaf_solve(couleur attacker,
  */
 void d_leaf_solve_setplay(couleur defender, slice_index leaf);
 
-/* Find and write defender's set play in self/reflex play if every
- * set move leads to end
+/* Find and write defender's set play in direct play if every set move
+ * leads to end
  * @param defender defending side
  * @param leaf slice index
  * @return true iff every defender's move leads to end
@@ -109,9 +112,10 @@ void d_leaf_solve_continuations(couleur attacker,
 /* Determine whether the defending side (at the move) wins
  * @param defender defending side
  * @param leaf slice identifier
- * @return true iff defender wins
+ * @return "how much or few" the defending side wins
  */
-boolean d_leaf_does_defender_win(couleur defender, slice_index leaf);
+d_composite_win_type d_leaf_does_defender_win(couleur defender,
+                                              slice_index leaf);
 
 /* Determine whether the attacking side has immediately lost with its
  * move just played.
@@ -132,17 +136,15 @@ boolean d_leaf_has_attacker_won(couleur defender, slice_index leaf);
 /* Determine whether the attacker wins in a direct/self/reflex
  * stipulation in 1. 
  * @param attacker attacking side (at move)
- * @param si slice index of leaf slice
- * @param parent_is_exact true iff parent of slice si has exact length
+ * @param leaf slice index of leaf slice
  * @return true iff attacker wins
  */
-boolean d_leaf_does_attacker_win(couleur attacker,
-                                 slice_index si,
-                                 boolean should_hash);
+boolean d_leaf_does_attacker_win(couleur attacker, slice_index leaf);
 
 /* Determine and find final moves in a help stipulation
  * @param side_at_move side to perform the final move
  * @param leaf slice index
+ * @return true if >=1 ending move was found
  */
 boolean h_leaf_h_solve_ending_move(couleur side_at_move, slice_index leaf);
 
@@ -151,7 +153,7 @@ boolean h_leaf_h_solve_ending_move(couleur side_at_move, slice_index leaf);
  * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
  * @param leaf identifies leaf slice
- * @return true iff >=1 move pair was found
+ * @return true iff >=1 solution was found
  */
 boolean h_leaf_solve(couleur side_at_move,
                      hashwhat no_succ_hash_category,
@@ -161,6 +163,7 @@ boolean h_leaf_solve(couleur side_at_move,
 /* Solve the set play in a help stipulation
  * @param side_at_move side at move (going to play set move)
  * @param leaf slice index
+ * @return true iff >= 1 set play was found
  */
 boolean h_leaf_solve_setplay(couleur side_at_move, slice_index leaf);
 
@@ -169,7 +172,7 @@ boolean h_leaf_solve_setplay(couleur side_at_move, slice_index leaf);
  * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
  * @param leaf identifies leaf slice
- * @return true iff >=1 move pair was found
+ * @return true iff >=1 solution was found
  */
 boolean ser_leaf_solve(couleur series_side,
                        hashwhat no_succ_hash_category,

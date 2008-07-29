@@ -106,6 +106,7 @@
 #include "pystip.h"
 #include "pyleaf.h"
 #include "pycompos.h"
+#include "trace.h"
 
 boolean supergenre;
 
@@ -2107,18 +2108,13 @@ void editcoup(coup *mov, Goal goal)
     }
     StdString(s);
   }
-  if (goal!=no_goal)
-  {
-    if (slices[1].u.leaf.goal==goal_mate_or_stale)
-      StdString(mate_or_stale_patt ? " =" : " #");
-    else
-      StdString(goal_end_marker[goal]);
-  }
-  else
+  if (goal==no_goal)
   {
     if (mov->echec)
       StdString(" +");
   }
+  else
+    StdString(goal_end_marker[goal]);
   StdChar(bl);
 } /* editcoup */
 
@@ -2518,8 +2514,13 @@ void SolveSeriesProblems(couleur camp)
  */
 static boolean SolveHelpInN(couleur camp, int n, boolean restartenabled)
 {
+  boolean result = false;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",camp);
+  TraceFunctionParam("%d\n",n);
+
   if (n==1)
-    return h_leaf_solve_setplay(camp,1);
+    result = h_leaf_solve_setplay(camp,1);
   else if (OptFlag[intelligent])
   {
     int blmoves = n/2;
@@ -2528,10 +2529,14 @@ static boolean SolveHelpInN(couleur camp, int n, boolean restartenabled)
     if (n%2==1)
       whmoves++;
 
-    return Intelligent(whmoves,blmoves,&h_composite_solve,camp,n);
+    result = Intelligent(whmoves,blmoves,&h_composite_solve,camp,n);
   }
   else
-    return h_composite_solve(camp,n,restartenabled,0);
+    result = h_composite_solve(camp,n,restartenabled,0);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 /* Solve a help play problem, signal whether short solution(s) were
@@ -2768,6 +2773,12 @@ int main(int argc, char *argv[]) {
     else if (strcmp(argv[i], "-regression")==0)
     {
       flag_regression = true;
+      i++;
+      continue;
+    }
+    else if (strcmp(argv[i], "-notrace")==0)
+    {
+      TraceDeactivate();
       i++;
       continue;
     }
