@@ -2041,7 +2041,7 @@ static char *ParseCond(void) {
       calc_whrefl_king= true;
       break;
     case bltrans_king:
-      calc_blrefl_king= true;
+      calc_bltrans_king= true;
       calc_blrefl_king= true;
       break;
     case whvault_king:

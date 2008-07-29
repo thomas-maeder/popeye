@@ -31,5 +31,16 @@ white kg2 rg1h5 bh1e5 sa4h3 pd4h4
 black ke8 ra8h8 bb7e3 sf1g3 pe4e6f7h2h7
 option enpassant d3
 
+next
+
+origin 5576 Phenix 168
+stip h#2
+pieces White Ka5
+pieces Black Ka7 Pb7c7c5
+cond WhiteSuperTransmutingKing
+cond BlackTransmutedKing
+cond CirceTurncoats
+cond NoBlackCapture
+
 end
 

@@ -134,3 +134,38 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
 solution finished. 
 
 
+
+           5576 Phenix 168
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -K  -P  -P   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   K   .  -P   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         1 + 4
+         BlackTransmutedKing
+            NoBlackCapture
+            CirceTurncoats
+      WhiteSuperTransmutingKing
+
+  1.Ka7-a8 Ka5-a4   2.b7-b5 + Ka4*b5=P [+wPb7] # 
+  1.Ka7-b8 Ka5-b5   2.c7-c6 + Kb5*c6=P [+wPc7] # 
+  1.b7-b6 + Ka5-a6=P   2.Ka7-b8 a6-a7 # 
+
+solution finished. 
+
+
