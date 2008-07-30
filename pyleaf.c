@@ -1977,8 +1977,11 @@ boolean leaf_solve(couleur side_at_move, slice_index leaf)
     case EHelp:
     {
       boolean const save_flag_hashall = flag_hashall;
+      hashwhat next_no_succ = (side_at_move==blanc
+                               ? WhHelpNoSucc
+                               : BlHelpNoSucc);
       flag_hashall = true; /* TODO */
-      result = h_leaf_solve(side_at_move,BlHelpNoSucc,restartenabled,leaf);
+      result = h_leaf_solve(side_at_move,next_no_succ,restartenabled,leaf);
       flag_hashall = save_flag_hashall;
       break;
     }
