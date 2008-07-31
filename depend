@@ -178,7 +178,7 @@ pyleaf.h:
 
 pycompos.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pydata.h \
-  pymsg.h pystip.h platform/maxtime.h
+  pymsg.h pystip.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -199,6 +199,8 @@ pymsg.h:
 pystip.h:
 
 platform/maxtime.h:
+
+trace.h:
 pymsg$(OBJ_SUFFIX): pymsg.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pydata.h \
   pymsg.h platform/pytime.h pyallmsg.h
 
