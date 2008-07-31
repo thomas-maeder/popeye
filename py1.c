@@ -330,7 +330,8 @@ void InitAlways(void) {
   maxsol_per_matingpos = ULONG_MAX;
 } /* InitAlways */
 
-void initneutre(couleur c) {
+void initneutre(Side c)
+{
   /* I don't know why, but the solution below is not slower */
   /* than the double loop solution of genblanc(). NG */ 
 

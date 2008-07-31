@@ -228,7 +228,7 @@ piece inc_einstein(piece p)
 
 square renplus(piece p_captured, Flags p_captured_spec,
                square sq_capture, square sq_departure, square sq_arrival,
-               couleur capturer) {
+               Side capturer) {
   /* Echecs plus */
   if (sq_capture==square_d4
       || sq_capture==square_e4
@@ -256,7 +256,7 @@ square renplus(piece p_captured, Flags p_captured_spec,
 
 square renrank(piece p_captured, Flags p_captured_spec,
                square sq_capture, square sq_departure, square sq_arrival,
-               couleur capturer) {
+               Side capturer) {
   square sq= ((sq_capture/onerow)%2==1
               ? rennormal(p_captured,p_captured_spec,
                           sq_capture,sq_departure,sq_arrival,capturer)
@@ -267,7 +267,7 @@ square renrank(piece p_captured, Flags p_captured_spec,
 
 square renfile(piece p_captured, Flags p_captured_spec,
                square sq_capture, square sq_departure, square sq_arrival,
-               couleur capturer)
+               Side capturer)
 {
   int col= sq_capture % onerow;
 
@@ -290,7 +290,7 @@ square renfile(piece p_captured, Flags p_captured_spec,
 square renspiegelfile(piece p_captured, Flags p_captured_spec,
                       square sq_capture,
                       square sq_departure, square sq_arrival,
-                      couleur capturer)
+                      Side capturer)
 {
   return renfile(p_captured,p_captured_spec,
                  sq_capture,sq_departure,sq_arrival,advers(capturer));
@@ -298,7 +298,7 @@ square renspiegelfile(piece p_captured, Flags p_captured_spec,
 
 square renpwc(piece p_captured, Flags p_captured_spec,
               square sq_capture, square sq_departure, square sq_arrival,
-              couleur capturer)
+              Side capturer)
 {
   return sq_departure;
 } /* renpwc */
@@ -306,7 +306,7 @@ square renpwc(piece p_captured, Flags p_captured_spec,
 square renequipollents(piece p_captured, Flags p_captured_spec,
                        square sq_capture,
                        square sq_departure, square sq_arrival,
-                       couleur capturer)
+                       Side capturer)
 {
   /* we have to solve the enpassant capture / locust capture problem in the future. */
 #if defined(WINCHLOE)
@@ -318,7 +318,7 @@ square renequipollents(piece p_captured, Flags p_captured_spec,
 square renequipollents_anti(piece p_captured, Flags p_captured_spec,
                             square sq_capture,
                             square sq_departure, square sq_arrival,
-                            couleur capturer)
+                            Side capturer)
 {
   /* we have to solve the enpassant capture / locust capture problem in the future. */
 #if defined(WINCHLOE)
@@ -330,7 +330,7 @@ square renequipollents_anti(piece p_captured, Flags p_captured_spec,
 square rensymmetrie(piece p_captured, Flags p_captured_spec,
                     square sq_capture,
                     square sq_departure, square sq_arrival,
-                    couleur capturer)
+                    Side capturer)
 {
   return (haut+bas) - sq_capture;
 } /* rensymmetrie */
@@ -338,7 +338,7 @@ square rensymmetrie(piece p_captured, Flags p_captured_spec,
 square renantipoden(piece p_captured, Flags p_captured_spec,
                     square sq_capture,
                     square sq_departure, square sq_arrival,
-                    couleur capturer)
+                    Side capturer)
 {
   int const row= sq_capture/onerow - nr_of_slack_rows_below_board;
   int const file= sq_capture%onerow - nr_of_slack_files_left_of_board;
@@ -360,18 +360,18 @@ square renantipoden(piece p_captured, Flags p_captured_spec,
 
 square rendiagramm(piece p_captured, Flags p_captured_spec,
                    square sq_capture, square sq_departure, square sq_arrival,
-                   couleur capturer)
+                   Side capturer)
 {
   return DiaRen(p_captured_spec);
 }
 
 square rennormal(piece p_captured, Flags p_captured_spec,
                  square sq_capture, square sq_departure, square sq_arrival,
-                 couleur capturer)
+                 Side capturer)
 {
   square  Result;
   int col, ran;
-  couleur  cou;
+  Side  cou;
 
   col = sq_capture % onerow;
   ran = sq_capture / onerow;
@@ -483,7 +483,7 @@ square rennormal(piece p_captured, Flags p_captured_spec,
 square rendiametral(piece p_captured, Flags p_captured_spec,
                     square sq_capture,
                     square sq_departure, square sq_arrival,
-                    couleur capturer) {
+                    Side capturer) {
   return (haut+bas
           - rennormal(p_captured,p_captured_spec,
                       sq_capture,sq_departure,sq_arrival,capturer));
@@ -492,7 +492,7 @@ square rendiametral(piece p_captured, Flags p_captured_spec,
 square renspiegel(piece p_captured, Flags p_captured_spec,
                   square sq_capture,
                   square sq_departure, square sq_arrival,
-                  couleur capturer)
+                  Side capturer)
 {
   return rennormal(p_captured,p_captured_spec,
                    sq_capture,sq_departure,sq_arrival,advers(capturer));
@@ -501,7 +501,7 @@ square renspiegel(piece p_captured, Flags p_captured_spec,
 square rensuper(piece p_captured, Flags p_captured_spec,
                 square sq_capture,
                 square sq_departure, square sq_arrival,
-                couleur capturer)
+                Side capturer)
 {
   return super[nbply];
 }
@@ -1004,7 +1004,7 @@ void singleboxtype3_gen_bl_piece(square z, piece p) {
 
 void (*gen_bl_piece)(square z, piece p) = &orig_gen_bl_piece;
 
-void genmove(couleur camp)
+void genmove(Side camp)
 {
   /* TODO hide away in one module per platform */
   /* Abbruch waehrend der gesammten Laufzeit mit <ESC> */
@@ -1182,7 +1182,7 @@ boolean patience_legal()
            (bl_last_vacated && e[bl_last_vacated]));
 }
 
-void find_mate_square(couleur camp);
+void find_mate_square(Side camp);
 
 int direction(square from, square to) {
   int dir= to-from;
@@ -1225,7 +1225,7 @@ boolean att_once(square id)
   return cnt==1;
 }
 
-square next_latent_pawn(square s, couleur c) {
+square next_latent_pawn(square s, Side c) {
   piece pawn;
   int  i, delta;
 
@@ -1250,7 +1250,7 @@ square next_latent_pawn(square s, couleur c) {
   return initsquare;
 }
 
-piece next_singlebox_prom(piece p, couleur c) {
+piece next_singlebox_prom(piece p, Side c) {
   piece pprom;
   for (pprom = getprompiece[p];
        pprom!=vide;
@@ -1340,7 +1340,7 @@ boolean jouecoup(void) {
 
   unsigned int prev_nbpiece[derbla];
 
-  couleur traitnbply= trait[nbply];
+  Side traitnbply= trait[nbply];
 
   move_generation_elmt* move_gen_top = move_generation_stack+nbcou;
 
@@ -2072,7 +2072,7 @@ boolean jouecoup(void) {
     }
 
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type2) {
-      couleur adv = advers(traitnbply);
+      Side adv = advers(traitnbply);
 
       if (sb2[nbply].where==initsquare) {
         assert(sb2[nbply].what==vide);
@@ -2837,7 +2837,7 @@ void repcoup(void) {
       sb2[nbply+1].what = vide;
 
       if (sb2[nbply].where!=initsquare) {
-        couleur adv = advers(trait[nbply]);
+        Side adv = advers(trait[nbply]);
 
         assert(sb2[nbply].what!=vide);
         --nbpiece[e[sb2[nbply].where]];
@@ -3220,7 +3220,7 @@ void repcoup(void) {
 /* Generate (piece by piece) candidate moves to check if camp is
  * immobile. Do *not* generate moves by the camp's king; it has
  * already been taken care of. */
-boolean immobile_encore(couleur camp, square** immobilesquare) {
+boolean immobile_encore(Side camp, square** immobilesquare) {
   square i;
   piece p;
 
@@ -3251,7 +3251,7 @@ boolean immobile_encore(couleur camp, square** immobilesquare) {
 } /* immobileencore */
 
 /* Is camp immobile? */
-boolean immobile(couleur camp)
+boolean immobile(Side camp)
 {
   square *immobilesquare= boardnum;  /* local to allow recursion */
   boolean const whbl_exact= camp==blanc ? wh_exact : bl_exact;
@@ -3317,7 +3317,7 @@ boolean immobile(couleur camp)
   }
   else
   {
-    couleur ad= advers(camp);
+    Side ad= advers(camp);
 
     /* exact-maxis, ohneschach */
     move_generation_mode= move_generation_optimized_by_killer_move;
@@ -3388,7 +3388,7 @@ boolean immobile(couleur camp)
   return true;
 } /* immobile */
 
-void find_mate_square(couleur camp)
+void find_mate_square(Side camp)
 {
   square sq;
 

@@ -308,7 +308,7 @@ EXTERN  int             maxbeep;
 EXTERN  empile_optimization_table_elmt       empile_optimization_table[100];
 EXTERN  int             empile_optimization_table_count;
 EXTERN  move_generation_mode_type  move_generation_mode;
-EXTERN  move_generation_mode_type move_generation_mode_opti_per_couleur[2];
+EXTERN  move_generation_mode_type move_generation_mode_opti_per_side[2];
 		
 EXTERN  numvec          ortho_opt_queen[2*(haut-bas)+1],
 			ortho_opt_rook[2*(haut-bas)+1],
@@ -355,7 +355,7 @@ EXTERN  evalfunction_t *eval_black;
 EXTERN  int   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);
 
-typedef square  (* renaifunc)(piece, Flags, square, square, square, couleur);
+typedef square  (* renaifunc)(piece, Flags, square, square, square, Side);
 
 EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai, genevarenai;
 
@@ -376,7 +376,7 @@ EXTERN  enum
   republican_type2
 } RepublicanType;
 
-EXTERN  pilecouleur     trait;
+EXTERN  pileside     trait;
 EXTERN  boolean         flagfee,
 			flagriders, flagleapers, flagsimplehoppers, 
                         flagsimpledecomposedleapers, flagsymmetricfairy,
@@ -394,8 +394,6 @@ EXTERN  numecoup        testdebut;
 EXTERN  tab             tabsol;
 
 EXTERN  Flags           pprispec[maxply + 1];
-
-EXTERN  couleur         zzzag[haut - bas + 1];  /* sqcolor */
 
 EXTERN  Flags           spec[maxsquare+4];
 EXTERN  int        zzzaj[haut - bas + 1];  /* gridnumber */
@@ -416,7 +414,7 @@ EXTERN  square          im0;                    /* Standort des ersten Imitators
 EXTERN  int        zugebene, max_nr_refutations, max_len_threat;
 EXTERN  int        MoveNbr, RestartNbr;
 EXTERN  boolean         restartenabled;
-EXTERN  couleur         neutcoul;
+EXTERN  Side         neutcoul;
 EXTERN  boolean         calctransmute;
 
 EXTERN  boolean         flag_testlegality, k_cap,
@@ -437,7 +435,7 @@ EXTERN  piece           orphanpieces[derbla + 1];
 
 EXTERN  boolean         ProofFairy;
 
-EXTERN  couleur         maincamp;
+EXTERN  Side         maincamp;
 
 EXTERN  piece           NextChamCircePiece[PieceCount];
 EXTERN  boolean         InitChamCirce;

@@ -44,18 +44,18 @@ boolean empile(square departure, square arrival, square capture);
 boolean testempile(square departure, square arrival, square capture);
 
 
-void	gemoarider(square i, couleur camp);
-void	gemaorider(square i, couleur camp);
+void	gemoarider(square i, Side camp);
+void	gemaorider(square i, Side camp);
 void	gebrid(square i, numvec kbeg, numvec kend);
 void	genrid(square i, numvec kbeg, numvec kend);
 void    gebleap(square i, numvec kbeg, numvec kend);
 void    genleap(square i, numvec kbeg, numvec kend);
 void    geriderhopper(square i, numvec kbeg, numvec kend,
-		      int run_up, int jump, couleur camp);
+		      int run_up, int jump, Side camp);
 void grose(square sq_departure,
            numvec k1, numvec k2, numvec delta_k,
-           couleur camp);
-void genradialknight(square sq_departure, couleur camp);
+           Side camp);
+void genradialknight(square sq_departure, Side camp);
 
 void	genpb(square sq_departure);
 	/* generating function for white pawn */

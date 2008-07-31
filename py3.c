@@ -197,7 +197,7 @@ boolean feenechec(evalfunction_t *evaluate) {
 #define marsmap(p) ((p)==maob ? moab : ((p)==moab ? maob : (p)))
 
 boolean marsechecc(
-  couleur   camp,
+  Side   camp,
   evalfunction_t *evaluate)
 {
   piece p;
@@ -206,7 +206,7 @@ boolean marsechecc(
   Flags psp;
   boolean ch;
 
-  /* detect mars circe check of k of couleur camp */
+  /* detect mars circe check of k of Side camp */
 
   for (ii= 8, z= haut; ii > 0; ii--, z-= 16) {
     for (jj= 8; jj > 0; jj--, z--) {
@@ -247,7 +247,7 @@ boolean marsechecc(
 static boolean calc_rnechec(evalfunction_t *evaluate);
 boolean orig_rnechec(evalfunction_t *evaluate)
 {
-  couleur neutcoul_save = neutcoul;
+  Side neutcoul_save = neutcoul;
   boolean flag;
   if (TSTFLAG(PieSpExFlags,Neutral))
     initneutre(blanc);
@@ -516,7 +516,7 @@ boolean (*rnechec)(evalfunction_t *evaluate);
 static boolean calc_rbechec(evalfunction_t *evaluate);
 boolean orig_rbechec(evalfunction_t *evaluate)
 {
-  couleur neutcoul_save = neutcoul;
+  Side neutcoul_save = neutcoul;
   boolean flag;
   if (TSTFLAG(PieSpExFlags,Neutral))
     initneutre(noir);
@@ -829,7 +829,7 @@ boolean rbimmunech(square sq_departure, square sq_arrival, square sq_capture) {
   }
 }
 
-boolean echecc(couleur camp)
+boolean echecc(Side camp)
 {
   if ((camp==blanc) != CondFlag[vogt]) {
     
@@ -1076,7 +1076,7 @@ boolean bhuntcheck(
 boolean AntiCirceEch(square sq_departure,
                      square sq_arrival,
                      square sq_capture,
-                     couleur    camp)
+                     Side    camp)
 {
   if (CondFlag[antisuper])
   {
@@ -1243,7 +1243,7 @@ boolean charybdischeck(
     || skycharcheck(p, i, i+dir_down+dir_right, i+dir_left, i + 24, evaluate);
 }
 
-boolean echecc_normal(couleur camp)
+boolean echecc_normal(Side camp)
 {
   /* for strict SAT - need to compute whether the K square is normally checked */
   boolean flag;

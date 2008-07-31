@@ -12,10 +12,7 @@
 union HashBuffer;
 
 void ProofEncode(HashBuffer *);
-boolean ProofSol(couleur camp,
-                 int n,
-                 boolean restartenabled,
-                 slice_index si);
+boolean ProofSol(Side camp, int n, boolean restartenabled, slice_index si);
 boolean SeriesProofSol(int n, boolean restartenabled, slice_index si);
 void    ProofInitialiseKingMoves(square ProofRB, square ProofRN);
 boolean ProofVerifie(void);

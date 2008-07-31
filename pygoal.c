@@ -3,14 +3,14 @@
 
 boolean testdblmate= False;
 
-boolean goal_checker_target(couleur camp, square target)
+boolean goal_checker_target(Side camp, square target)
 {
   return (move_generation_stack[nbcou].arrival==target
           && crenkam[nbply]==initsquare
           && !echecc(camp));
 }
 
-boolean goal_checker_circuit(couleur camp)
+boolean goal_checker_circuit(Side camp)
 {
   square const cazz = move_generation_stack[nbcou].arrival;
   square const renkam = crenkam[nbply];
@@ -20,7 +20,7 @@ boolean goal_checker_circuit(couleur camp)
           && !echecc(camp));
 }
 
-boolean goal_checker_circuitB(couleur camp)
+boolean goal_checker_circuitB(Side camp)
 {
   square const sqren = sqrenais[nbply];
 
@@ -29,7 +29,7 @@ boolean goal_checker_circuitB(couleur camp)
           && !echecc(camp));
 }
 
-boolean goal_checker_exchange(couleur camp)
+boolean goal_checker_exchange(Side camp)
 {
   square const sq_rebirth_kamikaze = crenkam[nbply];
   if (sq_rebirth_kamikaze==initsquare)
@@ -53,7 +53,7 @@ boolean goal_checker_exchange(couleur camp)
   return false;
 }
 
-boolean goal_checker_exchangeB(couleur camp)
+boolean goal_checker_exchangeB(Side camp)
 {
   square const sqren = sqrenais[nbply];
 
@@ -70,15 +70,15 @@ boolean goal_checker_exchangeB(couleur camp)
   return false;
 }
 
-boolean goal_checker_capture(couleur camp)
+boolean goal_checker_capture(Side camp)
 {
   return pprise[nbply]!=vide && !echecc(camp);
 }
 
-boolean goal_checker_mate(couleur camp)
+boolean goal_checker_mate(Side camp)
 {
   boolean flag;
-  couleur ad= advers(camp);
+  Side ad= advers(camp);
 
   if (CondFlag[amu] && !att_1[nbply])
     return false;
@@ -97,7 +97,7 @@ boolean goal_checker_mate(couleur camp)
 }
 
 /* ultraschachzwang is supspended in mates */
-boolean goal_checker_mate_ultraschachzwang(couleur camp)
+boolean goal_checker_mate_ultraschachzwang(Side camp)
 {
   int cond = camp==blanc ? blackultraschachzwang : whiteultraschachzwang;
   boolean saveflag = CondFlag[cond];
@@ -110,7 +110,7 @@ boolean goal_checker_mate_ultraschachzwang(couleur camp)
   return result;
 }
 
-boolean para_immobile(couleur camp)
+boolean para_immobile(Side camp)
 {
   if (echecc(camp))
   {
@@ -124,10 +124,10 @@ boolean para_immobile(couleur camp)
     return immobile(camp);
 }
 
-boolean goal_checker_stale(couleur camp)
+boolean goal_checker_stale(Side camp)
 {
   /* modifiziert fuer paralysierende Steine */
-  couleur ad= advers(camp);
+  Side ad= advers(camp);
 
   if (echecc(camp))
     return false;
@@ -138,12 +138,12 @@ boolean goal_checker_stale(couleur camp)
     return !echecc(ad) && immobile(ad);
 }
 
-boolean goal_checker_dblstale(couleur camp)
+boolean goal_checker_dblstale(Side camp)
 {
   /* ich glaube, fuer paral. Steine sind hier keine
      Modifizierungen erforderlich  TLi */
 
-  couleur ad= advers(camp);
+  Side ad= advers(camp);
   if (TSTFLAG(PieSpExFlags, Paralyse))
     return (para_immobile(ad) && para_immobile(camp));
   else
@@ -151,7 +151,7 @@ boolean goal_checker_dblstale(couleur camp)
             && immobile(ad) && immobile(camp));
 }
 
-boolean goal_checker_autostale(couleur camp)
+boolean goal_checker_autostale(Side camp)
 {
   if (echecc(advers(camp)))
     return false;
@@ -162,19 +162,19 @@ boolean goal_checker_autostale(couleur camp)
     return !echecc(camp) && immobile(camp);
 }
 
-boolean goal_checker_check(couleur camp)
+boolean goal_checker_check(Side camp)
 {
   return echecc(advers(camp)) && !echecc(camp);
 }
 
-boolean goal_checker_steingewinn(couleur camp)
+boolean goal_checker_steingewinn(Side camp)
 {
   return (pprise[nbply]!=vide
           && (!anycirce || sqrenais[nbply]==initsquare)
           && !echecc(camp));
 }
 
-boolean goal_checker_ep(couleur camp)
+boolean goal_checker_ep(Side camp)
 {
   return ((move_generation_stack[nbcou].arrival
            !=move_generation_stack[nbcou].capture)
@@ -182,10 +182,10 @@ boolean goal_checker_ep(couleur camp)
           && !echecc(camp));
 }
 
-boolean goal_checker_doublemate(couleur camp)
+boolean goal_checker_doublemate(Side camp)
 {
   boolean flag;
-  couleur ad= advers(camp);
+  Side ad= advers(camp);
 
   if (!echecc(ad) || !echecc(camp))
     return false;
@@ -211,7 +211,7 @@ boolean goal_checker_doublemate(couleur camp)
   return flag;
 }
 
-boolean goal_checker_castling(couleur camp)
+boolean goal_checker_castling(Side camp)
 {
   unsigned char const diff = castling_flag[nbply-1]-castling_flag[nbply];
 
@@ -222,7 +222,7 @@ boolean goal_checker_castling(couleur camp)
           && !echecc(camp));
 }
 
-boolean goal_checker_any(couleur camp)
+boolean goal_checker_any(Side camp)
 {
   return true;
 }

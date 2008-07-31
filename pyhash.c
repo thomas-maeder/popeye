@@ -892,7 +892,7 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
  * deliver the mate.
  * @return true iff the mating side has such a piece
  */
-boolean is_a_mating_piece_left(couleur mating_side)
+boolean is_a_mating_piece_left(Side mating_side)
 {
   boolean const is_white_mating = mating_side==blanc;
 

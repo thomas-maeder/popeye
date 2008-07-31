@@ -186,7 +186,7 @@ checkfunction_t zebridcheck;
 
 square  coinequis(square a);
 
-boolean echecc(couleur a);
+boolean echecc(Side a);
 
 void ecritcoup(Goal goal);
 
@@ -199,7 +199,7 @@ void    gchinn(int a, numvec b, numvec c);
 void    gcsb(square a, numvec b, numvec c);
 void    gcsn(square a, numvec b, numvec c);
 void    gen_wh_ply(void);
-void    genmove(couleur a);
+void    genmove(Side a);
 void    gen_bl_ply(void);
 
 void    genrb(square a);
@@ -220,7 +220,7 @@ void    gubib(square a, square b);
 void    gubin(square a, square b);
 void    hardinit(void);
 boolean imok(square i, square j);
-void    initneutre(couleur a);
+void    initneutre(Side a);
 void jouecoup_no_test(void);
 boolean jouecoup_ortho_test(void);
 boolean jouecoup(void);
@@ -234,7 +234,7 @@ void initply(void);
 
 boolean nocontact(square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
 boolean nogridcontact(square a);
-boolean immobile(couleur a);
+boolean immobile(Side a);
 boolean rbcircech(square departure, square arrival, square capture);
 
 extern boolean (*rbechec)(evalfunction_t *evaluate);
@@ -277,7 +277,7 @@ boolean rubiech(square sq, square sqtest, piece p, /* echiquier */ int *e_ub, ev
 boolean soutenu(square departure, square arrival, square capture);
 boolean notsoutenu(square a, square b, square c);
 
-boolean has_too_many_flights(couleur defender);
+boolean has_too_many_flights(Side defender);
 
 void d_write_refutations(int t);
 void d_write_attack(Goal goal);
@@ -318,9 +318,9 @@ boolean empile(square departure, square arrival, square capture);
 boolean testempile(square departure, square arrival, square capture);
 boolean ooorphancheck(square i, piece porph, piece p, evalfunction_t *evaluate);
 boolean reversepcheck(square a, piece b, evalfunction_t *evaluate);
-void    gorph(square a, couleur b);
-void    gfriend(square a, couleur b);
-void    gedgeh(square a, couleur b);
+void    gorph(square a, Side b);
+void    gfriend(square a, Side b);
+void    gedgeh(square a, Side b);
 
 void    gmoab(square a);
 void    gmoan(square a);
@@ -334,7 +334,7 @@ void    logStrArg(char *arg);
 void    logIntArg(int arg);
 void    logLngArg(long arg);
 
-void    GenMatingMove(couleur a);
+void    GenMatingMove(Side a);
 
 piece   dec_einstein(piece p);
 piece   inc_einstein(piece p);
@@ -348,21 +348,21 @@ boolean rnsingleboxtype1ech(square departure, square arrival, square capture);
 boolean rbsingleboxtype1ech(square departure, square arrival, square capture);
 boolean rnsingleboxtype3ech(square departure, square arrival, square capture);
 boolean rbsingleboxtype3ech(square departure, square arrival, square capture);
-square next_latent_pawn(square s, couleur c);
-piece next_singlebox_prom(piece p, couleur c);
+square next_latent_pawn(square s, Side c);
+piece next_singlebox_prom(piece p, Side c);
 
-square renfile(piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renrank(piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renspiegelfile(piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renpwc(piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renequipollents(piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renequipollents_anti(piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square rensymmetrie(piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renantipoden(piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square rendiagramm(piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square rennormal(piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square renspiegel(piece p, Flags pspec, square j, square i, square ip, couleur camp);
-square rensuper(piece p, Flags pspec, square j, square i, square ip, couleur camp);
+square renfile(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renrank(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renspiegelfile(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renpwc(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renequipollents(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renequipollents_anti(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square rensymmetrie(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renantipoden(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square rendiagramm(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square rennormal(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renspiegel(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square rensuper(piece p, Flags pspec, square j, square i, square ip, Side camp);
 
 void pyfputs(char const *s, FILE *f);
 
@@ -375,14 +375,14 @@ boolean is_forwardpawn(piece p);
 boolean is_reversepawn(piece p);
 boolean is_short(piece p);
 
-void    geskylla(square i, couleur camp);
-void    gecharybdis(square i, couleur camp);
+void    geskylla(square i, Side camp);
+void    gecharybdis(square i, Side camp);
 
 int len_whforcedsquare(square departure, square arrival, square capture);
 int len_blforcedsquare(square departure, square arrival, square capture);
 
 void    geriderhopper(square i, numvec kbeg, numvec kend,
-		      int run_up, int jump, couleur camp);
+		      int run_up, int jump, Side camp);
 boolean riderhoppercheck(square i, numvec kanf, numvec kend, piece p,
 			 int run_up, int jump,
 			 evalfunction_t *evaluate);
@@ -401,17 +401,17 @@ char *ReadPieces(int cond);
 boolean eval_isardam(square departure, square arrival, square capture);
 boolean pos_legal(void);                              
 void IncrementMoveNbr(void);
-square rendiametral(piece p, Flags pspec, square j, square i, square ia, couleur camp);
+square rendiametral(piece p, Flags pspec, square j, square i, square ia, Side camp);
 
-void    gequi(square i, couleur camp);
-void    gorix(square i, couleur camp);
+void    gequi(square i, Side camp);
+void    gorix(square i, Side camp);
 
 void LaTeXOpen(void);
 void LaTeXClose(void);
 void LaTeXBeginDiagram(void);
 void LaTeXEndDiagram(void);
 
-square renplus(piece p, Flags pspec, square j, square i, square ia, couleur camp);
+square renplus(piece p, Flags pspec, square j, square i, square ia, Side camp);
 
 void RotateMirror(int what);
 void genrb_cast(void);
@@ -442,7 +442,7 @@ boolean noantelopecontact(square ia);
 
 boolean castlingimok(square i, square j);
 boolean maooaimok(square i, square j, square pass);
-boolean echecc_normal(couleur camp);
+boolean echecc_normal(Side camp);
 void gen_wh_piece_aux(square z, piece p);
 void gen_bl_piece_aux(square z, piece p);
 void change_observed(square z, boolean push);

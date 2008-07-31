@@ -37,8 +37,8 @@ typedef struct {
     piece	prom;
 } MOVE;
 
-boolean		(*solproc)(couleur, int, boolean, slice_index);
-couleur		solcamp;
+boolean		(*solproc)(Side, int, boolean, slice_index);
+Side		solcamp;
 int	sollength;
 
 int MaxPieceAll, MaxPieceWhite, MaxPieceBlack;
@@ -105,7 +105,7 @@ boolean guards(square bk, piece p, square sq) {
   return false;
 } /* guards */
 
-boolean IllegalCheck(couleur camp) {
+boolean IllegalCheck(Side camp) {
   int		checks= 0;
   numvec	k;
 
@@ -2379,8 +2379,8 @@ void GenerateBlackKing(int whmoves, int blmoves) {
 boolean Intelligent(
   int	whmoves,
   int	blmoves,
-  boolean	(*proc)(couleur, int, boolean, slice_index),
-  couleur	camp,
+  boolean	(*proc)(Side, int, boolean, slice_index),
+  Side	camp,
   int	length)
 {
   square	*bnp;

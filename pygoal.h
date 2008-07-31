@@ -50,23 +50,23 @@ extern boolean testdblmate;
  * @param camp side for which to test goal
  * @return true iff side has reached goal
  */
-boolean goal_checker_mate(couleur camp);
-boolean goal_checker_circuit(couleur camp);
-boolean goal_checker_circuitB(couleur camp);
-boolean goal_checker_exchange(couleur camp);
-boolean goal_checker_exchangeB(couleur camp);
-boolean goal_checker_capture(couleur camp);
-boolean goal_checker_mate_ultraschachzwang(couleur camp);
-boolean goal_checker_stale(couleur camp);
-boolean goal_checker_dblstale(couleur camp);
-boolean goal_checker_autostale(couleur camp);
-boolean goal_checker_check(couleur camp);
-boolean goal_checker_steingewinn(couleur camp);
-boolean goal_checker_ep(couleur camp);
-boolean goal_checker_doublemate(couleur camp);
-boolean goal_checker_castling(couleur camp);
-boolean goal_checker_any(couleur camp);
+boolean goal_checker_mate(Side camp);
+boolean goal_checker_circuit(Side camp);
+boolean goal_checker_circuitB(Side camp);
+boolean goal_checker_exchange(Side camp);
+boolean goal_checker_exchangeB(Side camp);
+boolean goal_checker_capture(Side camp);
+boolean goal_checker_mate_ultraschachzwang(Side camp);
+boolean goal_checker_stale(Side camp);
+boolean goal_checker_dblstale(Side camp);
+boolean goal_checker_autostale(Side camp);
+boolean goal_checker_check(Side camp);
+boolean goal_checker_steingewinn(Side camp);
+boolean goal_checker_ep(Side camp);
+boolean goal_checker_doublemate(Side camp);
+boolean goal_checker_castling(Side camp);
+boolean goal_checker_any(Side camp);
 
-boolean goal_checker_target(couleur camp, square target);
+boolean goal_checker_target(Side camp, square target);
 
 #endif

@@ -1639,11 +1639,11 @@ boolean verifieposition(void)
     nonoptgenre= true;
   }
 
-  move_generation_mode_opti_per_couleur[blanc]
+  move_generation_mode_opti_per_side[blanc]
       = flagwhitemummer||nonoptgenre
       ? move_generation_optimized_by_killer_move
       : move_generation_optimized_by_nr_opponent_moves;
-  move_generation_mode_opti_per_couleur[noir]
+  move_generation_mode_opti_per_side[noir]
       = flagblackmummer||nonoptgenre
       ? move_generation_optimized_by_killer_move
       : move_generation_optimized_by_nr_opponent_moves;
@@ -2027,7 +2027,7 @@ void editcoup(coup *mov, Goal goal)
     if (TSTFLAG(mov->speci, ColourChange)
         && (abs(e[mov->hurdle])>roib))
     {
-      couleur hc= e[mov->hurdle] < vide ? noir : blanc;
+      Side hc= e[mov->hurdle] < vide ? noir : blanc;
       StdString("[");
       WriteSquare(mov->hurdle);
       StdString("=");
@@ -2222,7 +2222,7 @@ slice_index active_slice[maxply];
 void linesolution(slice_index si)
 {
   int      num= 0;
-  couleur       camp;
+  Side       camp;
   Goal end_marker;
   slice_index slice;
 
@@ -2307,7 +2307,7 @@ void linesolution(slice_index si)
  * @param defender defending side
  * @return true iff the defending side has too many flights.
  */
-boolean has_too_many_flights(couleur defender)
+boolean has_too_many_flights(Side defender)
 {
   square save_rbn = defender==noir ? rn : rb;
   if (save_rbn==initsquare)
@@ -2402,7 +2402,7 @@ void d_write_refutations(int t)
   StdChar('\n');
 }
 
-void SolveSeriesProblems(couleur camp)
+static void SolveSeriesProblems(Side camp)
 {
   int i;
 
@@ -2474,7 +2474,7 @@ void SolveSeriesProblems(couleur camp)
  * @param restartenabled true iff option movenum is activated
  * @return true iff >= 1 solution was found
  */
-static boolean SolveHelpInN(couleur camp, int n, boolean restartenabled)
+static boolean SolveHelpInN(Side camp, int n, boolean restartenabled)
 {
   boolean result = false;
   TraceFunctionEntry(__func__);
@@ -2510,7 +2510,7 @@ static boolean SolveHelpInN(couleur camp, int n, boolean restartenabled)
  * @return true iff solving was stopped because short solutions were
  *         found
  */
-static boolean SolveHelpShortOrFull(couleur camp,
+static boolean SolveHelpShortOrFull(Side camp,
                                     int n,
                                     boolean stop_on_short)
 {
@@ -2534,7 +2534,7 @@ static boolean SolveHelpShortOrFull(couleur camp,
  * number of moves is odd, flag_appseul is set and in set play, the
  * starting side may be different.
  */
-void SolveHelpProblems(couleur camp)
+static void SolveHelpProblems(Side camp)
 {
   int n = slices[0].u.composite.length;
 
@@ -2571,7 +2571,7 @@ void SolveHelpProblems(couleur camp)
                                                 OptFlag[stoponshort]);
 } /* SolveHelpProblems */
 
-void SolveDirectProblems(couleur camp)
+static void SolveDirectProblems(Side camp)
 {
   zugebene++;
 
@@ -2665,27 +2665,28 @@ void checkGlobalAssumptions(void)
 
 static void solveHalfADuplex(boolean is_duplex)
 {
-  int const regular_starter = who_starts(0);
-  couleur starting_camp = regular_starter==White ? blanc : noir;
+  slice_index const first_slice = 0;
+
+  
+  /* intelligent AND duplex means that the board is mirrored and the
+     colors swapped by initduplex() -> start with the regular side. */
+  Side const starter = composite_who_starts(first_slice,
+                                            is_duplex
+                                            && !OptFlag[intelligent]);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",is_duplex);
 
-  assert(regular_starter!=Neutral); /* TODO ErrorMsg() */
-
-  if (!OptFlag[intelligent] && is_duplex)
-    /* intelligent AND duplex means that the board is mirrored and the
-       colors swapped by initduplex(); start with the regular side. */
-    starting_camp = advers(starting_camp);
+  assert(starter!=no_side); /* TODO ErrorMsg() */
 
   inithash();
 
   if (slices[0].u.composite.play==PSeries)
-    SolveSeriesProblems(starting_camp);
+    SolveSeriesProblems(starter);
   else if (slices[0].u.composite.play==PHelp)
-    SolveHelpProblems(starting_camp);
+    SolveHelpProblems(starter);
   else
-    SolveDirectProblems(starting_camp);
+    SolveDirectProblems(starter);
 
   closehash();
 

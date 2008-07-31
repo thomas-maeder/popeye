@@ -6,7 +6,7 @@
 
 #include <assert.h>
 
-static void solve_continuations_delegator(couleur attacker,
+static void solve_continuations_delegator(Side attacker,
                                           int table,
                                           slice_index operand)
 {
@@ -36,7 +36,7 @@ static void solve_continuations_delegator(couleur attacker,
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of quodlibet slice
  */
-void d_quodlibet_end_solve_continuations(couleur attacker,
+void d_quodlibet_end_solve_continuations(Side attacker,
                                          int table,
                                          slice_index si)
 {
@@ -50,7 +50,7 @@ void d_quodlibet_end_solve_continuations(couleur attacker,
   TraceText("\n");
 }
 
-static void solve_setplay_delegator(couleur defender, slice_index operand)
+static void solve_setplay_delegator(Side defender, slice_index operand)
 {
   switch (slices[operand].type)
   {
@@ -76,13 +76,13 @@ static void solve_setplay_delegator(couleur defender, slice_index operand)
  * @param defender defending side
  * @param si slice index
  */
-void d_quodlibet_end_solve_setplay(couleur defender, slice_index si)
+void d_quodlibet_end_solve_setplay(Side defender, slice_index si)
 {
   solve_setplay_delegator(defender,slices[si].u.composite.op1);
   solve_setplay_delegator(defender,slices[si].u.composite.op2);
 }
 
-boolean d_quodlibet_end_solve_complete_set(couleur defender, slice_index si)
+boolean d_quodlibet_end_solve_complete_set(Side defender, slice_index si)
 {
   /* TODO */
   return false;
@@ -96,7 +96,7 @@ boolean d_quodlibet_end_solve_complete_set(couleur defender, slice_index si)
  *                       (determined by user input)
  * @param si slice index
  */
-void d_quodlibet_end_solve(couleur attacker,
+void d_quodlibet_end_solve(Side attacker,
                            boolean restartenabled,
                            slice_index si)
 {
@@ -116,7 +116,7 @@ void d_quodlibet_end_solve(couleur attacker,
   }
 }
 
-static void write_key_solve_postkey_delegator(couleur attacker,
+static void write_key_solve_postkey_delegator(Side attacker,
                                               int refutations,
                                               slice_index operand,
                                               boolean is_try)
@@ -151,7 +151,7 @@ static void write_key_solve_postkey_delegator(couleur attacker,
  * @param si slice index
  * @param is_try true iff what we are solving is a try
  */
-void d_quodlibet_end_write_key_solve_postkey(couleur attacker,
+void d_quodlibet_end_write_key_solve_postkey(Side attacker,
                                              int refutations,
                                              slice_index si,
                                              boolean is_try)
@@ -168,7 +168,7 @@ void d_quodlibet_end_write_key_solve_postkey(couleur attacker,
 
 extern boolean hashing_suspended; /* TODO */
 
-static boolean does_attacker_win_delegator(couleur attacker,
+static boolean does_attacker_win_delegator(Side attacker,
                                            slice_index operand)
 {
   boolean result = false;
@@ -203,7 +203,7 @@ static boolean does_attacker_win_delegator(couleur attacker,
  * @param parent_is_exact true iff parent of slice si has exact length
  * @return true iff attacker wins
  */
-boolean d_quodlibet_end_does_attacker_win(couleur attacker, slice_index si)
+boolean d_quodlibet_end_does_attacker_win(Side attacker, slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
@@ -228,7 +228,7 @@ boolean d_quodlibet_end_does_attacker_win(couleur attacker, slice_index si)
   return result;
 }
 
-static void solve_variations_delegator(couleur attacker,
+static void solve_variations_delegator(Side attacker,
                                        int len_threat,
                                        int threats,
                                        int refutations,
@@ -262,7 +262,7 @@ static void solve_variations_delegator(couleur attacker,
  * @param defender attacking side
  * @param si slice index
  */
-void d_quodlibet_end_solve_variations(couleur attacker,
+void d_quodlibet_end_solve_variations(Side attacker,
                                       int len_threat,
                                       int threats,
                                       int refutations,
@@ -286,7 +286,7 @@ void d_quodlibet_end_solve_variations(couleur attacker,
   TraceFunctionExit(__func__);
 }
 
-static d_composite_win_type does_defender_win_delegator(couleur defender,
+static d_composite_win_type does_defender_win_delegator(Side defender,
                                                         slice_index operand)
 {
   d_composite_win_type result = win;
@@ -318,7 +318,7 @@ static d_composite_win_type does_defender_win_delegator(couleur defender,
  * @param defender defending side
  * @param si slice identifier
  */
-d_composite_win_type d_quodlibet_end_does_defender_win(couleur defender,
+d_composite_win_type d_quodlibet_end_does_defender_win(Side defender,
                                                        slice_index si)
 {
   d_composite_win_type result = win;
@@ -342,7 +342,7 @@ d_composite_win_type d_quodlibet_end_does_defender_win(couleur defender,
   return result;
 }
 
-static boolean has_defender_lost_delegator(couleur attacker,
+static boolean has_defender_lost_delegator(Side attacker,
                                            slice_index operand)
 {
   boolean result = false;
@@ -374,7 +374,7 @@ static boolean has_defender_lost_delegator(couleur attacker,
  * @param si slice identifier
  * @return whether there is a short win or loss
  */
-boolean d_quodlibet_end_has_defender_lost(couleur attacker, slice_index si)
+boolean d_quodlibet_end_has_defender_lost(Side attacker, slice_index si)
 {
   boolean result = true;
   boolean const save_hashing_suspended = hashing_suspended;
@@ -397,7 +397,7 @@ boolean d_quodlibet_end_has_defender_lost(couleur attacker, slice_index si)
   return result;
 }
 
-static boolean has_defender_won_delegator(couleur attacker,
+static boolean has_defender_won_delegator(Side attacker,
                                           slice_index operand)
 {
   boolean result = false;
@@ -428,7 +428,7 @@ static boolean has_defender_won_delegator(couleur attacker,
  * @param si slice identifier
  * @return true iff the defending side has directly won
  */
-boolean d_quodlibet_end_has_defender_won(couleur attacker, slice_index si)
+boolean d_quodlibet_end_has_defender_won(Side attacker, slice_index si)
 {
   boolean result = true;
   boolean const save_hashing_suspended = hashing_suspended;
@@ -450,7 +450,7 @@ boolean d_quodlibet_end_has_defender_won(couleur attacker, slice_index si)
   return result;
 }
 
-static boolean has_attacker_won_delegator(couleur defender,
+static boolean has_attacker_won_delegator(Side defender,
                                           slice_index operand)
 {
   boolean result = false;
@@ -481,7 +481,7 @@ static boolean has_attacker_won_delegator(couleur defender,
  * @param si slice identifier
  * @return true iff the attacking side has directly won
  */
-boolean d_quodlibet_end_has_attacker_won(couleur defender, slice_index si)
+boolean d_quodlibet_end_has_attacker_won(Side defender, slice_index si)
 {
   boolean result = true;
   boolean const save_hashing_suspended = hashing_suspended;
@@ -504,7 +504,7 @@ boolean d_quodlibet_end_has_attacker_won(couleur defender, slice_index si)
   return result;
 }
 
-static boolean has_attacker_lost_delegator(couleur defender,
+static boolean has_attacker_lost_delegator(Side defender,
                                            slice_index operand)
 {
   boolean result = false;
@@ -535,7 +535,7 @@ static boolean has_attacker_lost_delegator(couleur defender,
  * @param si slice identifier
  * @return true iff the attacking side has directly lost
  */
-boolean d_quodlibet_end_has_attacker_lost(couleur defender, slice_index si)
+boolean d_quodlibet_end_has_attacker_lost(Side defender, slice_index si)
 {
   boolean result = true;
   boolean const save_hashing_suspended = hashing_suspended;
@@ -553,6 +553,39 @@ boolean d_quodlibet_end_has_attacker_lost(couleur defender, slice_index si)
 
   hashing_suspended = save_hashing_suspended;
   
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Attempt to deremine which side is at the move
+ * at the start of a slice.
+ * @param si identifies slice
+ * @param is_duplex is this for duplex?
+ * @return one of blanc, noir, no_side (the latter if we can't
+ *         determine which side is at the move)
+ */
+Side quodlibet_who_starts(slice_index si, boolean is_duplex)
+{
+  Side result = no_side;
+
+  slice_index const op1 = slices[si].u.composite.op1;
+  int const op1_result = composite_who_starts(op1,is_duplex);
+
+  slice_index const op2 = slices[si].u.composite.op2;
+  int const op2_result = composite_who_starts(op2,is_duplex);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",si);
+  TraceFunctionParam("%d\n",is_duplex);
+
+  if (op1_result==no_side && slices[op1].type==STLeaf)
+    result = op2_result;
+  else if (op2_result==no_side && slices[op2].type==STLeaf)
+    result = op1_result;
+  else if (op1_result==op2_result)
+    result = op1_result;
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
   return result;

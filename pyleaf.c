@@ -13,7 +13,7 @@
  * @param leaf slice index of leaf slice
  * @return true iff camp has reached leaf's goal
  */
-boolean leaf_is_goal_reached(couleur just_moved, slice_index leaf)
+boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
 {
   boolean result = false;
 
@@ -115,7 +115,7 @@ boolean leaf_is_goal_reached(couleur just_moved, slice_index leaf)
  */
 /* TODO Find out whether selflastencore() is really more efficient
  * than the usual genmove() */
-static boolean selflastencore(couleur camp,
+static boolean selflastencore(Side camp,
                               square const **selfbnp,
                               square initiallygenerated)
 {
@@ -165,7 +165,7 @@ static boolean selflastencore(couleur camp,
  * @param side_at_move
  * @return true iff side_at_move can end in 1 move
  */
-static boolean leaf_is_end_in_1_forced(couleur side_at_move,
+static boolean leaf_is_end_in_1_forced(Side side_at_move,
                                        slice_index leaf)
 {
   boolean is_side_at_move_immobile = true;
@@ -212,7 +212,7 @@ static boolean leaf_is_end_in_1_forced(couleur side_at_move,
     piece p;
     square const *selfbnp = boardnum;
     square initiallygenerated = initsquare;
-    couleur other_side = advers(side_at_move);
+    Side other_side = advers(side_at_move);
 
     nextply();
     init_move_generation_optimizer();
@@ -275,7 +275,7 @@ static boolean leaf_is_end_in_1_forced(couleur side_at_move,
  * @param leaf slice index
  * @return true iff side_at_move can end in 1 move
  */
-boolean leaf_is_end_in_1_possible(couleur side_at_move, slice_index leaf)
+boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
 {
   boolean end_found = false;
 
@@ -323,7 +323,7 @@ boolean leaf_is_end_in_1_possible(couleur side_at_move, slice_index leaf)
  * @param attacker attacking side
  * @param leaf leaf's slice index
  */
-boolean d_leaf_is_unsolvable(couleur attacker, slice_index leaf)
+boolean d_leaf_is_unsolvable(Side attacker, slice_index leaf)
 {
   boolean result = false;
 
@@ -357,9 +357,9 @@ boolean d_leaf_is_unsolvable(couleur attacker, slice_index leaf)
  * @param si slice identifier
  * @return whether there is a short win or loss
  */
-boolean d_leaf_has_defender_lost(couleur attacker, slice_index leaf)
+boolean d_leaf_has_defender_lost(Side attacker, slice_index leaf)
 {
-  couleur const defender = advers(attacker);
+  Side const defender = advers(attacker);
   boolean result = false;
 
   assert(slices[leaf].type==STLeaf);
@@ -394,7 +394,7 @@ boolean d_leaf_has_defender_lost(couleur attacker, slice_index leaf)
  * @param leaf slice index
  * @return true iff attacker has just solved leaf
  */
-static boolean d_leaf_is_solved(couleur attacker, slice_index leaf)
+static boolean d_leaf_is_solved(Side attacker, slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
@@ -405,14 +405,14 @@ static boolean d_leaf_is_solved(couleur attacker, slice_index leaf)
 
     case ESelf:
     {
-      couleur const defender = advers(attacker);
+      Side const defender = advers(attacker);
       return leaf_is_end_in_1_forced(defender,leaf);
     }
 
     case EReflex:
     case ESemireflex:
     {
-      couleur const defender = advers(attacker);
+      Side const defender = advers(attacker);
       return leaf_is_end_in_1_possible(defender,leaf);
     }
 
@@ -426,7 +426,7 @@ static boolean d_leaf_is_solved(couleur attacker, slice_index leaf)
  * stipulations; we know that at least 1 exists.
  * @param attacker attacking side
  */
-static void d_leaf_r_solve_forced_keys(couleur attacker, slice_index leaf)
+static void d_leaf_r_solve_forced_keys(Side attacker, slice_index leaf)
 {
   Goal const goal = slices[leaf].u.leaf.goal;
 
@@ -456,7 +456,7 @@ static void d_leaf_r_solve_forced_keys(couleur attacker, slice_index leaf)
  * @param attacker attacking side
  * @param leaf leaf's slice index
  */
-void d_leaf_write_unsolvability(couleur attacker, slice_index leaf)
+void d_leaf_write_unsolvability(Side attacker, slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
@@ -478,7 +478,7 @@ void d_leaf_write_unsolvability(couleur attacker, slice_index leaf)
  *                       (determined by user input)
  * @return true iff >=1 key was found and written
  */
-static boolean leaf_d_solve(couleur attacker,
+static boolean leaf_d_solve(Side attacker,
                             boolean restartenabled,
                             slice_index leaf,
                             int solutions)
@@ -530,7 +530,7 @@ static boolean leaf_d_solve(couleur attacker,
  * @param defender defending side (i.e. side executing the final move(s))
  * @param leaf slice index of the leaf slice
  */
-static void leaf_sr_solve_final_move(couleur defender, slice_index leaf)
+static void leaf_sr_solve_final_move(Side defender, slice_index leaf)
 {
   boolean const tree_mode = slices[0].u.composite.play==PDirect; /* TODO */
 
@@ -568,12 +568,12 @@ static void leaf_sr_solve_final_move(couleur defender, slice_index leaf)
  * @param leaf slice index of the leaf slice
  * @return true iff >=1 key was found and written
  */
-static boolean d_leaf_s_solve(couleur attacker,
+static boolean d_leaf_s_solve(Side attacker,
                               boolean restartenabled,
                               slice_index leaf,
                               int solutions)
 {
-  couleur const defender = advers(attacker);
+  Side const defender = advers(attacker);
   boolean key_found = false;
 
   assert(slices[leaf].type==STLeaf);
@@ -615,12 +615,12 @@ static boolean d_leaf_s_solve(couleur attacker,
  * @param solutions table where to add found solutions
  * @return true iff >=1 key was found and written
  */
-static boolean d_leaf_r_solve(couleur attacker,
+static boolean d_leaf_r_solve(Side attacker,
                               boolean restartenabled,
                               slice_index leaf,
                               int solutions)
 {
-  couleur const defender = advers(attacker);
+  Side const defender = advers(attacker);
   boolean key_found = false;
 
   assert(slices[leaf].type==STLeaf);
@@ -664,7 +664,7 @@ static boolean d_leaf_r_solve(couleur attacker,
  * @param solutions table where to add found solutions
  * @return true iff >=1 key was found and written
  */
-boolean d_leaf_solve(couleur attacker,
+boolean d_leaf_solve(Side attacker,
                      boolean restartenabled,
                      slice_index leaf,
                      int solutions)
@@ -695,7 +695,7 @@ boolean d_leaf_solve(couleur attacker,
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-static d_composite_win_type d_leaf_s_does_defender_win(couleur defender,
+static d_composite_win_type d_leaf_s_does_defender_win(Side defender,
                                                        slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
@@ -712,7 +712,7 @@ static d_composite_win_type d_leaf_s_does_defender_win(couleur defender,
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-static d_composite_win_type d_leaf_r_does_defender_win(couleur defender,
+static d_composite_win_type d_leaf_r_does_defender_win(Side defender,
                                                        slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
@@ -728,7 +728,7 @@ static d_composite_win_type d_leaf_r_does_defender_win(couleur defender,
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-d_composite_win_type d_leaf_does_defender_win(couleur defender,
+d_composite_win_type d_leaf_does_defender_win(Side defender,
                                               slice_index leaf)
 {
   d_composite_win_type result = win;
@@ -742,7 +742,7 @@ d_composite_win_type d_leaf_does_defender_win(couleur defender,
   {
     case EDirect:
     {
-      couleur const attacker = advers(defender);
+      Side const attacker = advers(defender);
       result = leaf_is_goal_reached(attacker,leaf) ? short_loss : short_win;
       break;
     }
@@ -804,10 +804,10 @@ static void d_leaf_write_key(boolean is_try, slice_index leaf)
  * @param refutations table containing refutations
  * @param leaf slice index
  */
-static void d_leaf_solve_threats_variations(couleur attacker,
+static void d_leaf_solve_threats_variations(Side attacker,
                                             slice_index leaf)
 {
-  couleur defender = advers(attacker);
+  Side defender = advers(attacker);
 
   assert(slices[leaf].type==STLeaf);
 
@@ -822,7 +822,7 @@ static void d_leaf_solve_threats_variations(couleur attacker,
  * @param leaf slice index
  * @param is_try key true iff we are writing the key of a try
  */
-void d_leaf_write_key_solve_postkey(couleur attacker,
+void d_leaf_write_key_solve_postkey(Side attacker,
                                     int refutations,
                                     slice_index leaf,
                                     boolean is_try)
@@ -849,7 +849,7 @@ void d_leaf_write_key_solve_postkey(couleur attacker,
  * @param leaf slice index
  * @return true iff the attacking side has directly lost
  */
-boolean d_leaf_has_attacker_lost(couleur defender, slice_index leaf)
+boolean d_leaf_has_attacker_lost(Side defender, slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
@@ -875,9 +875,9 @@ boolean d_leaf_has_attacker_lost(couleur defender, slice_index leaf)
  * @param leaf slice index
  * @return true iff the attacking side has directly won
  */
-boolean d_leaf_has_attacker_won(couleur defender, slice_index leaf)
+boolean d_leaf_has_attacker_won(Side defender, slice_index leaf)
 {
-  couleur const attacker = advers(defender);
+  Side const attacker = advers(defender);
 
   assert(slices[leaf].type==STLeaf);
 
@@ -905,7 +905,7 @@ boolean d_leaf_has_attacker_won(couleur defender, slice_index leaf)
  * @param leaf slice index of leaf slice
  * @return true iff attacker can end in 1 move
  */
-static boolean d_leaf_d_does_attacker_win(couleur attacker, slice_index leaf)
+static boolean d_leaf_d_does_attacker_win(Side attacker, slice_index leaf)
 {
   boolean end_found = false;
   HashBuffer hb;
@@ -984,11 +984,11 @@ static boolean d_leaf_d_does_attacker_win(couleur attacker, slice_index leaf)
  * @param leaf slice index of leaf slice
  * @return true iff attacker wins
  */
-static boolean d_leaf_sr_does_attacker_win(couleur attacker,
+static boolean d_leaf_sr_does_attacker_win(Side attacker,
                                            slice_index leaf)
 {
   boolean win_found = false;
-  couleur defender = advers(attacker);
+  Side defender = advers(attacker);
   HashBuffer hb;
 
   assert(slices[leaf].type==STLeaf);
@@ -1049,7 +1049,7 @@ static boolean d_leaf_sr_does_attacker_win(couleur attacker,
  * @param leaf slice index
  * @return true iff attacker wins
  */
-boolean d_leaf_does_attacker_win(couleur attacker, slice_index leaf)
+boolean d_leaf_does_attacker_win(Side attacker, slice_index leaf)
 {
   boolean result = false;
 
@@ -1084,7 +1084,7 @@ boolean d_leaf_does_attacker_win(couleur attacker, slice_index leaf)
  * @param defender defending side (i.e. side executing the set play)
  * @param leaf slice index of the leaf slice
  */
-static void d_leaf_sr_solve_setplay(couleur defender, slice_index leaf)
+static void d_leaf_sr_solve_setplay(Side defender, slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
@@ -1119,7 +1119,7 @@ static void d_leaf_sr_solve_setplay(couleur defender, slice_index leaf)
  * @param defender defending side
  * @param leaf slice index
  */
-void d_leaf_solve_setplay(couleur defender, slice_index leaf)
+void d_leaf_solve_setplay(Side defender, slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
@@ -1156,7 +1156,7 @@ void d_leaf_solve_setplay(couleur defender, slice_index leaf)
  * @param leaf slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_leaf_solve_complete_set(couleur defender, slice_index leaf)
+boolean d_leaf_solve_complete_set(Side defender, slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
@@ -1193,7 +1193,7 @@ boolean d_leaf_solve_complete_set(couleur defender, slice_index leaf)
  * @param defender attacking side
  * @param leaf slice index
  */
-void d_leaf_solve_variations(couleur defender, slice_index leaf)
+void d_leaf_solve_variations(Side defender, slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
@@ -1220,11 +1220,11 @@ void d_leaf_solve_variations(couleur defender, slice_index leaf)
  * @param solutions table where to append continuations found and written
  * @param leaf slice index
  */
-void d_leaf_solve_continuations(couleur attacker,
+void d_leaf_solve_continuations(Side attacker,
                                 int solutions,
                                 slice_index leaf)
 {
-  couleur defender = advers(attacker);
+  Side defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
@@ -1270,7 +1270,7 @@ void d_leaf_solve_continuations(couleur attacker,
  * @param leaf slice index
  * @return true iff >=1 ending move was found
  */
-static boolean h_leaf_s_solve_final_move(couleur side_at_move,
+static boolean h_leaf_s_solve_final_move(Side side_at_move,
                                          slice_index leaf)
 {
   boolean found_solution = false;
@@ -1307,10 +1307,10 @@ static boolean h_leaf_s_solve_final_move(couleur side_at_move,
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_s_solve(couleur side_at_move, slice_index leaf)
+static boolean h_leaf_s_solve(Side side_at_move, slice_index leaf)
 {
   boolean found_solution = false;
-  couleur other_side = advers(side_at_move);
+  Side other_side = advers(side_at_move);
 
   assert(slices[leaf].type==STLeaf);
 
@@ -1336,8 +1336,7 @@ static boolean h_leaf_s_solve(couleur side_at_move, slice_index leaf)
  * @param leaf slice index
  * @return true iff >=1 ending move was found
  */
-static boolean h_leaf_r_solve_final_move(couleur side_at_move,
-                                         slice_index leaf)
+static boolean h_leaf_r_solve_final_move(Side side_at_move, slice_index leaf)
 {
   boolean found_solution = false;
 
@@ -1372,7 +1371,7 @@ static boolean h_leaf_r_solve_final_move(couleur side_at_move,
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_r_solve(couleur side_at_move, slice_index leaf)
+static boolean h_leaf_r_solve(Side side_at_move, slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
@@ -1382,7 +1381,7 @@ static boolean h_leaf_r_solve(couleur side_at_move, slice_index leaf)
   else
   {
     boolean found_solution = false;
-    couleur other_side = advers(side_at_move);
+    Side other_side = advers(side_at_move);
 
     genmove(side_at_move);
     active_slice[nbply] = leaf;
@@ -1408,7 +1407,7 @@ static boolean h_leaf_r_solve(couleur side_at_move, slice_index leaf)
  * @param leaf slice index
  * @return true iff >= 1 solution was found
  */
-boolean h_leaf_h_solve_ending_move(couleur side_at_move, slice_index leaf)
+boolean h_leaf_h_solve_ending_move(Side side_at_move, slice_index leaf)
 {
   boolean final_move_found = false;
 
@@ -1460,13 +1459,13 @@ boolean h_leaf_h_solve_ending_move(couleur side_at_move, slice_index leaf)
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_cmate_solve(couleur side_at_move,
+static boolean h_leaf_h_cmate_solve(Side side_at_move,
                                     hashwhat no_succ_hash_category,
                                     boolean restartenabled,
                                     slice_index leaf)
 {
   boolean found_solution = false;
-  couleur other_side = advers(side_at_move);
+  Side other_side = advers(side_at_move);
 
   assert(slices[leaf].type==STLeaf);
 
@@ -1525,13 +1524,13 @@ static boolean h_leaf_h_cmate_solve(couleur side_at_move,
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_dmate_solve(couleur side_at_move,
+static boolean h_leaf_h_dmate_solve(Side side_at_move,
                                     hashwhat no_succ_hash_category,
                                     boolean restartenabled,
                                     slice_index leaf)
 {
   boolean found_solution = false;
-  couleur other_side = advers(side_at_move);
+  Side other_side = advers(side_at_move);
 
   assert(slices[leaf].type==STLeaf);
 
@@ -1596,13 +1595,13 @@ static boolean h_leaf_h_dmate_solve(couleur side_at_move,
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_othergoals_solve(couleur side_at_move,
+static boolean h_leaf_h_othergoals_solve(Side side_at_move,
                                          hashwhat no_succ_hash_category,
                                          boolean restartenabled,
                                          slice_index leaf)
 {
   boolean found_solution = false;
-  couleur other_side = advers(side_at_move);
+  Side other_side = advers(side_at_move);
 
   assert(slices[leaf].type==STLeaf);
 
@@ -1665,7 +1664,7 @@ static boolean h_leaf_h_othergoals_solve(couleur side_at_move,
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_solve(couleur side_at_move,
+static boolean h_leaf_h_solve(Side side_at_move,
                               hashwhat no_succ_hash_category,
                               boolean restartenabled,
                               slice_index leaf)
@@ -1714,7 +1713,7 @@ static boolean h_leaf_h_solve(couleur side_at_move,
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-boolean h_leaf_solve(couleur side_at_move,
+boolean h_leaf_solve(Side side_at_move,
                      hashwhat no_succ_hash_category,
                      boolean restartenabled,
                      slice_index leaf)
@@ -1764,7 +1763,7 @@ boolean h_leaf_solve(couleur side_at_move,
  * @param leaf slice index
  * @return true iff >=1 set play was found
  */
-boolean h_leaf_solve_setplay(couleur side_at_move, slice_index leaf)
+boolean h_leaf_solve_setplay(Side side_at_move, slice_index leaf)
 {
   boolean result = false;
 
@@ -1808,7 +1807,7 @@ boolean h_leaf_solve_setplay(couleur side_at_move, slice_index leaf)
  * @param leaf slice index
  * @return true iff >= 1 final move (sequence) was found
  */
-static boolean ser_leaf_d_solve(couleur attacker, slice_index leaf)
+static boolean ser_leaf_d_solve(Side attacker, slice_index leaf)
 {
   boolean solution_found = false;
 
@@ -1852,9 +1851,9 @@ static boolean ser_leaf_d_solve(couleur attacker, slice_index leaf)
  * @param leaf slice index
  * @return true iff >= 1 final move (sequence) was found
  */
-static boolean ser_leaf_sr_solve(couleur attacker, slice_index leaf)
+static boolean ser_leaf_sr_solve(Side attacker, slice_index leaf)
 {
-  couleur defender = advers(attacker);
+  Side defender = advers(attacker);
   boolean solution_found = false;
 
   assert(slices[leaf].type==STLeaf);
@@ -1895,7 +1894,7 @@ static boolean ser_leaf_sr_solve(couleur attacker, slice_index leaf)
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-boolean ser_leaf_solve(couleur series_side,
+boolean ser_leaf_solve(Side series_side,
                        hashwhat no_succ_hash_category,
                        boolean restartenabled,
                        slice_index leaf)
@@ -1947,7 +1946,7 @@ boolean ser_leaf_solve(couleur series_side,
  * @param leaf slice index of leaf slice
  * @return true iff side_at_move has >=1 solution
  */
-boolean leaf_is_solvable(couleur side_at_move, slice_index leaf)
+boolean leaf_is_solvable(Side side_at_move, slice_index leaf)
 {
   boolean result = false;
   
@@ -1980,7 +1979,7 @@ boolean leaf_is_solvable(couleur side_at_move, slice_index leaf)
   return result;
 }
 
-boolean leaf_solve(couleur side_at_move, slice_index leaf)
+boolean leaf_solve(Side side_at_move, slice_index leaf)
 {
   boolean result = false;
   boolean const restartenabled = false;
@@ -2020,6 +2019,49 @@ boolean leaf_solve(couleur side_at_move, slice_index leaf)
   }
 
   freetab();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Attempt to deremine which side is at the move
+ * at the start of a slice.
+ * @param leaf identifies leaf
+ * @param is_duplex is this for duplex?
+ * @return one of blanc, noir, no_side (the latter if we can't
+ *         determine which side is at the move)
+ */
+Side leaf_who_starts(slice_index leaf, boolean is_duplex)
+{
+  Side result = no_side;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",leaf);
+  TraceFunctionParam("%d\n",is_duplex);
+
+  switch (slices[leaf].u.leaf.end)
+  {
+    case EDirect:
+      /* normally blanc, but noir in reci-h# */
+      break;
+
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      result = is_duplex ? noir : blanc;
+      break;
+          
+    case EHelp:
+    case EDouble:
+    case ECounter:
+      result = is_duplex ? blanc : noir;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);

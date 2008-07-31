@@ -470,8 +470,16 @@
 #define maxvec          232
 
 #define bl      ' '
-#define blanc   0
-#define noir    1
+
+typedef enum
+{
+  blanc,
+  noir,
+
+  nr_sides,
+  no_side = nr_sides
+} Side;
+
 #define initsquare      0       /* to initialize square-variables */
 #define maxinum 10      /* max. number of imitators */
 #define nullsquare 1
@@ -487,14 +495,13 @@
 typedef unsigned long   Flags;
 
 typedef int        square;
-typedef int         couleur;
 typedef int         numecoup;
 typedef int         ply;
 typedef int        numvec;
 
-typedef piece           echiquier [maxsquare+4];
-typedef square          pilecase [maxply+1];
-typedef couleur         pilecouleur [maxply+1];
+typedef piece        echiquier[maxsquare+4];
+typedef square       pilecase[maxply+1];
+typedef Side         pileside[maxply+1];
 
 typedef struct {
     square departure;

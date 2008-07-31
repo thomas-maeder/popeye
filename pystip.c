@@ -406,7 +406,7 @@ slice_index find_unique_goal(void)
  * @param si slice index
  * @return true iff slice has >=1 solution(s)
  */
-boolean slice_is_solvable(couleur side_at_move, slice_index si)
+boolean slice_is_solvable(Side side_at_move, slice_index si)
 {
   boolean result = false;
   
@@ -434,7 +434,7 @@ boolean slice_is_solvable(couleur side_at_move, slice_index si)
  * @param si slice index
  * @return true iff slice has >=1 solution(s)
  */
-boolean slice_solve(couleur side_at_move, slice_index si)
+boolean slice_solve(Side side_at_move, slice_index si)
 {
   boolean result = false;
   
@@ -451,114 +451,6 @@ boolean slice_solve(couleur side_at_move, slice_index si)
       assert(0);
       break;
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-/* Attempt to deremine which side is at the move (in non-duplex play)
- * at the start of a slice.
- * @param si identifies slice
- * @return one White, Black, Neutral (the latter if we can't determine
- *         which side is at the move)
- */
-int who_starts(slice_index si)
-{
-  int result = Neutral;
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  switch (slices[si].type)
-  {
-    case STLeaf:
-      switch (slices[si].u.leaf.end)
-      {
-        case EDirect:
-          result = Neutral; /* normally White, but Black in reci-h# */
-          break;
-
-        case ESelf:
-        case EReflex:
-        case ESemireflex:
-          result = White;
-          break;
-          
-        case EHelp:
-        case EDouble:
-        case ECounter:
-          result = Black;
-          break;
-
-        default:
-          assert(0);
-      }
-      break;
-
-    case STSequence:
-    {
-      slice_index const op1 = slices[si].u.composite.op1;
-      int const op1_result = who_starts(op1);
-      switch (slices[op1].type)
-      {
-        case STSequence:
-          if (op1_result==Neutral)
-            result = Neutral;
-          else
-            result = 1-op1_result;
-          break;
-
-        case STLeaf:
-          if (op1_result==Neutral)
-            result = White; /* not reci-h */
-          else
-            result = op1_result;
-          break;
-
-        default:
-          result = op1_result;
-      }
-      
-      break;
-    }
-
-    case STReciprocal:
-    case STQuodlibet:
-    {
-      slice_index const op1 = slices[si].u.composite.op1;
-      int const op1_result = who_starts(op1);
-
-      slice_index const op2 = slices[si].u.composite.op2;
-      int const op2_result = who_starts(op2);
-
-      if (op1_result==Neutral && slices[op1].type==STLeaf)
-        result = op2_result;
-      else if (op2_result==Neutral && slices[op2].type==STLeaf)
-        result = op1_result;
-      else if (op1_result==op2_result)
-        result = op1_result;
-      else
-        result = Neutral;
-      break;
-    }
-  }
-
-  if (slices[si].type!=STLeaf
-      && slices[si].u.composite.play==PHelp
-      && slices[si].u.composite.length%2 == 1)
-    switch (result)
-    {
-      case Black:
-        result = White;
-        break;
-
-      case White:
-        result = Black;
-        break;
-
-      default:
-        break;
-    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);

@@ -16,14 +16,14 @@
  * @param leaf slice index of leaf slice
  * @return true iff just_moved has reached leaf's goal
  */
-boolean leaf_is_goal_reached(couleur just_moved, slice_index leaf);
+boolean leaf_is_goal_reached(Side just_moved, slice_index leaf);
 
 /* Determine whether attacker has an end in 1.
  * @param side_at_move
  * @param leaf slice index
  * @return true iff side_at_move can end in 1 move
  */
-boolean leaf_is_end_in_1_possible(couleur side_at_move, slice_index leaf);
+boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf);
 
 /* Detect a priori unsolvability of a leaf in direct play
  * (e.g. because of forced reflex mates)
@@ -31,7 +31,7 @@ boolean leaf_is_end_in_1_possible(couleur side_at_move, slice_index leaf);
  * @param leaf leaf's slice index
  * @return true iff leaf is unsolvable
  */
-boolean d_leaf_is_unsolvable(couleur attacker, slice_index leaf);
+boolean d_leaf_is_unsolvable(Side attacker, slice_index leaf);
 
 /* Determine whether the defender has directly lost with his move just
  * played. 
@@ -40,7 +40,7 @@ boolean d_leaf_is_unsolvable(couleur attacker, slice_index leaf);
  * @param si slice identifier
  * @return true iff the defending side has directly lost
  */
-boolean d_leaf_has_defender_lost(couleur attacker, slice_index leaf);
+boolean d_leaf_has_defender_lost(Side attacker, slice_index leaf);
 
 /* Write a priori unsolvability (if any) of a leaf in direct play
  * (e.g. forced reflex mates).
@@ -48,7 +48,7 @@ boolean d_leaf_has_defender_lost(couleur attacker, slice_index leaf);
  * @param attacker attacking side
  * @param leaf leaf's slice index
  */
-void d_leaf_write_unsolvability(couleur attacker, slice_index leaf);
+void d_leaf_write_unsolvability(Side attacker, slice_index leaf);
 
 /* Find and write the solution(s) of a leaf.
  * Assumes that unsolvability (e.g. because of a forced reflex move)
@@ -61,7 +61,7 @@ void d_leaf_write_unsolvability(couleur attacker, slice_index leaf);
  * @param solutions table where to add solutions
  * @return true iff >=1 solution was found
  */
-boolean d_leaf_solve(couleur attacker,
+boolean d_leaf_solve(Side attacker,
                      boolean restartenabled,
                      slice_index leaf,
                      int solutions);
@@ -70,7 +70,7 @@ boolean d_leaf_solve(couleur attacker,
  * @param defender defending side
  * @param leaf slice index
  */
-void d_leaf_solve_setplay(couleur defender, slice_index leaf);
+void d_leaf_solve_setplay(Side defender, slice_index leaf);
 
 /* Find and write defender's set play in direct play if every set move
  * leads to end
@@ -78,14 +78,14 @@ void d_leaf_solve_setplay(couleur defender, slice_index leaf);
  * @param leaf slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_leaf_solve_complete_set(couleur defender, slice_index leaf);
+boolean d_leaf_solve_complete_set(Side defender, slice_index leaf);
 
 /* Find and write variations (i.e. nothing resp. defender's final
  * moves). 
  * @param defender attacking side
  * @param leaf slice index
  */
-void d_leaf_solve_variations(couleur defender, slice_index leaf);
+void d_leaf_solve_variations(Side defender, slice_index leaf);
 
 /* Write the key just played, solve the post key play (threats,
  * variations) and write the refutations (if any)
@@ -94,7 +94,7 @@ void d_leaf_solve_variations(couleur defender, slice_index leaf);
  * @param leaf slice index
  * @param is_try true iff what we are solving is a try
  */
-void d_leaf_write_key_solve_postkey(couleur attacker,
+void d_leaf_write_key_solve_postkey(Side attacker,
                                     int refutations,
                                     slice_index leaf,
                                     boolean is_try);
@@ -105,7 +105,7 @@ void d_leaf_write_key_solve_postkey(couleur attacker,
  *                      written
  * @param leaf slice index
  */
-void d_leaf_solve_continuations(couleur attacker,
+void d_leaf_solve_continuations(Side attacker,
                                 int continuations,
                                 slice_index leaf);
 
@@ -114,7 +114,7 @@ void d_leaf_solve_continuations(couleur attacker,
  * @param leaf slice identifier
  * @return "how much or few" the defending side wins
  */
-d_composite_win_type d_leaf_does_defender_win(couleur defender,
+d_composite_win_type d_leaf_does_defender_win(Side defender,
                                               slice_index leaf);
 
 /* Determine whether the attacking side has immediately lost with its
@@ -123,7 +123,7 @@ d_composite_win_type d_leaf_does_defender_win(couleur defender,
  * @param leaf slice identifier
  * @return true iff attacker has lost
  */
-boolean d_leaf_has_attacker_lost(couleur defender, slice_index leaf);
+boolean d_leaf_has_attacker_lost(Side defender, slice_index leaf);
 
 /* Determine whether the attacking side has immediately won with its
  * move just played.
@@ -131,7 +131,7 @@ boolean d_leaf_has_attacker_lost(couleur defender, slice_index leaf);
  * @param leaf slice identifier
  * @return true iff attacker has lost
  */
-boolean d_leaf_has_attacker_won(couleur defender, slice_index leaf);
+boolean d_leaf_has_attacker_won(Side defender, slice_index leaf);
 
 /* Determine whether the attacker wins in a direct/self/reflex
  * stipulation in 1. 
@@ -139,14 +139,14 @@ boolean d_leaf_has_attacker_won(couleur defender, slice_index leaf);
  * @param leaf slice index of leaf slice
  * @return true iff attacker wins
  */
-boolean d_leaf_does_attacker_win(couleur attacker, slice_index leaf);
+boolean d_leaf_does_attacker_win(Side attacker, slice_index leaf);
 
 /* Determine and find final moves in a help stipulation
  * @param side_at_move side to perform the final move
  * @param leaf slice index
  * @return true if >=1 ending move was found
  */
-boolean h_leaf_h_solve_ending_move(couleur side_at_move, slice_index leaf);
+boolean h_leaf_h_solve_ending_move(Side side_at_move, slice_index leaf);
 
 /* Determine and write the solution of a leaf slice in help play.
  * @param side_at_move side at the move
@@ -155,7 +155,7 @@ boolean h_leaf_h_solve_ending_move(couleur side_at_move, slice_index leaf);
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
  */
-boolean h_leaf_solve(couleur side_at_move,
+boolean h_leaf_solve(Side side_at_move,
                      hashwhat no_succ_hash_category,
                      boolean restartenabled,
                      slice_index leaf);
@@ -165,7 +165,7 @@ boolean h_leaf_solve(couleur side_at_move,
  * @param leaf slice index
  * @return true iff >= 1 set play was found
  */
-boolean h_leaf_solve_setplay(couleur side_at_move, slice_index leaf);
+boolean h_leaf_solve_setplay(Side side_at_move, slice_index leaf);
 
 /* Determine and write the solution of a leaf slice in series play.
  * @param series_side side doing the series
@@ -174,7 +174,7 @@ boolean h_leaf_solve_setplay(couleur side_at_move, slice_index leaf);
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
  */
-boolean ser_leaf_solve(couleur series_side,
+boolean ser_leaf_solve(Side series_side,
                        hashwhat no_succ_hash_category,
                        boolean restartenabled,
                        slice_index leaf);
@@ -184,13 +184,22 @@ boolean ser_leaf_solve(couleur series_side,
  * @param leaf slice index of leaf slice
  * @return true iff side_at_move has >=1 solution
  */
-boolean leaf_is_solvable(couleur side_at_move, slice_index leaf);
+boolean leaf_is_solvable(Side side_at_move, slice_index leaf);
 
 /* Solve a slice (i.e. find and write all solutions)
  * @param side_at_move side at the move
  * @param leaf slice index of leaf slice
  * @return true iff side_at_move has >=1 solution
  */
-boolean leaf_solve(couleur side_at_move, slice_index leaf);
+boolean leaf_solve(Side side_at_move, slice_index leaf);
+
+/* Attempt to deremine which side is at the move
+ * at the start of a slice.
+ * @param leaf identifies leaf
+ * @param is_duplex is this for duplex?
+ * @return one of blanc, noir, no_side (the latter if we can't
+ *         determine which side is at the move)
+ */
+Side leaf_who_starts(slice_index leaf, boolean is_duplex);
 
 #endif

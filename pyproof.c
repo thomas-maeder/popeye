@@ -1041,7 +1041,7 @@ int ArrangeListedPieces(
 
 int ArrangePieces(
   int       CapturesAllowed,
-  couleur   camp,
+  Side   camp,
   int       CapturesRequired)
 {
   int       ifrom, ito, moves, captures, Diff;
@@ -1095,7 +1095,7 @@ int ArrangePieces(
 
 int ArrangePawns(
   int       CapturesAllowed,
-  couleur   camp,
+  Side   camp,
   int       *CapturesRequired)
 {
   int       ifrom, ito, moves, captures, Diff;
@@ -1698,12 +1698,12 @@ boolean ProofVerifie(void) {
   return true;
 } /* ProofVerifie */
 
-boolean ProofSol(couleur camp,
+boolean ProofSol(Side camp,
                  int n,
                  boolean restartenabled,
                  slice_index si) {
   boolean   result= false;
-  couleur   ad= advers(camp);
+  Side   ad= advers(camp);
   HashBuffer hb;
   slice_index const op1 = slices[si].u.composite.op1;
 

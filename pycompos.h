@@ -15,7 +15,7 @@
  * @param n number of moves left until the end state has to be reached
  * @return true iff attacker can end in n moves
  */
-boolean d_composite_does_attacker_win(couleur attacker,
+boolean d_composite_does_attacker_win(Side attacker,
                                       int n,
                                       slice_index si);
 
@@ -35,7 +35,7 @@ typedef enum
  * @param n number of moves until end state has to be reached
  * @return "how much or few" the defending side wins
  */
-d_composite_win_type d_composite_does_defender_win(couleur defender,
+d_composite_win_type d_composite_does_defender_win(Side defender,
                                                    int n,
                                                    slice_index si);
 
@@ -46,7 +46,7 @@ d_composite_win_type d_composite_does_defender_win(couleur defender,
  * @param si slice identifier
  * @return whether there is a short loss
  */
-boolean d_composite_has_defender_lost(couleur attacker, slice_index si);
+boolean d_composite_has_defender_lost(Side attacker, slice_index si);
 
 /* Determine whether the defender has won the direct play sequence
  * with his move just played.
@@ -54,7 +54,7 @@ boolean d_composite_has_defender_lost(couleur attacker, slice_index si);
  * @param si slice identifier
  * @return whether there is a short win
  */
-boolean d_composite_has_defender_won(couleur attacker, slice_index si);
+boolean d_composite_has_defender_won(Side attacker, slice_index si);
 
 /* Determine whether the attacker has won the composite slice with his
  * last move in direct play. 
@@ -62,7 +62,7 @@ boolean d_composite_has_defender_won(couleur attacker, slice_index si);
  * @param si slice identifier
  * @return true iff attacker has won
  */
-boolean d_composite_has_attacker_won(couleur defender, slice_index si);
+boolean d_composite_has_attacker_won(Side defender, slice_index si);
 
 /* Determine whether the attacker has lost with his last move in
  * direct play. 
@@ -71,7 +71,7 @@ boolean d_composite_has_attacker_won(couleur defender, slice_index si);
  * @param si slice identifier
  * @return true iff attacker has lost
  */
-boolean d_composite_has_attacker_lost(couleur defender, slice_index si);
+boolean d_composite_has_attacker_lost(Side defender, slice_index si);
 
 /* Determine and write set play of a direct/self/reflex stipulation
  * @param attacker attacking side
@@ -79,7 +79,7 @@ boolean d_composite_has_attacker_lost(couleur defender, slice_index si);
  *          including the virtual key move
  * @param si slice index
  */
-void d_composite_solve_setplay(couleur attacker, int n, slice_index si);
+void d_composite_solve_setplay(Side attacker, int n, slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
  * variations) and write the refutations (if any), starting at the end
@@ -90,7 +90,7 @@ void d_composite_solve_setplay(couleur attacker, int n, slice_index si);
  * @param si slice index
  * @param is_try true iff what we are solving is a try
  */
-void d_composite_write_key_solve_postkey(couleur attacker,
+void d_composite_write_key_solve_postkey(Side attacker,
                                          int n,
                                          int refutations,
                                          slice_index si,
@@ -109,7 +109,7 @@ void d_composite_write_key_solve_postkey(couleur attacker,
  * @param refutations table containing refutations after move just
  *                    played
  */
-void d_composite_solve_variations(couleur attacker,
+void d_composite_solve_variations(Side attacker,
                                   int n,
                                   int len_threat,
                                   int threats,
@@ -125,7 +125,7 @@ void d_composite_solve_variations(couleur attacker,
  *                       (determined by user input)
  * @param si slice index
  */
-void d_composite_solve(couleur attacker,
+void d_composite_solve(Side attacker,
                        int n,
                        boolean restartenabled,
                        slice_index si);
@@ -136,7 +136,7 @@ void d_composite_solve(couleur attacker,
  * @param n number of moves until end state has to be reached
  * @param si slice index
  */
-void d_composite_solve_postkey(couleur attacker, int n, slice_index si);
+void d_composite_solve_postkey(Side attacker, int n, slice_index si);
 
 /* Determine and write the continuations in the current position in
  * direct/self/reflex play (i.e. attacker's moves winning after a
@@ -148,7 +148,7 @@ void d_composite_solve_postkey(couleur attacker, int n, slice_index si);
  *                      (i.e. threats)
  * @param si slice index
  */
-void d_composite_solve_continuations(couleur attacker,
+void d_composite_solve_continuations(Side attacker,
                                      int n,
                                      int continuations,
                                      slice_index si);
@@ -163,7 +163,7 @@ void d_composite_solve_continuations(couleur attacker,
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_exact_solve(couleur attacker,
+boolean ser_composite_exact_solve(Side attacker,
                                   int n,
                                   boolean restartenabled,
                                   slice_index si);
@@ -174,7 +174,7 @@ boolean ser_composite_exact_solve(couleur attacker,
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_solve(couleur series_side,
+boolean ser_composite_solve(Side series_side,
                             boolean restartenabled,
                             slice_index si);
 
@@ -183,7 +183,7 @@ boolean ser_composite_solve(couleur series_side,
  * @param restartenabled true iff option movenum is active
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_slice0_solve(couleur series_side,
+boolean ser_composite_slice0_solve(Side series_side,
                                    int n,
                                    boolean restartenabled);
 
@@ -197,9 +197,18 @@ boolean ser_composite_slice0_solve(couleur series_side,
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
-boolean h_composite_solve(couleur side_at_move,
+boolean h_composite_solve(Side side_at_move,
                           int n,
                           boolean restartenabled,
                           slice_index si);
+
+/* Attempt to deremine which side is at the move
+ * at the start of a slice.
+ * @param si identifies slice
+ * @param is_duplex is this for duplex?
+ * @return one of blanc, noir, no_side (the latter if we can't
+ *         determine which side is at the move)
+ */
+Side composite_who_starts(slice_index si, boolean is_duplex);
 
 #endif

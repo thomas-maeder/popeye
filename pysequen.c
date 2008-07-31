@@ -12,7 +12,7 @@
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of sequence slice
  */
-void d_sequence_end_solve_continuations(couleur attacker,
+void d_sequence_end_solve_continuations(Side attacker,
                                         int table,
                                         slice_index si)
 {
@@ -52,7 +52,7 @@ void d_sequence_end_solve_continuations(couleur attacker,
  * @param defender defending side
  * @param leaf slice index
  */
-void d_sequence_end_solve_setplay(couleur defender, slice_index si)
+void d_sequence_end_solve_setplay(Side defender, slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   switch (slices[op1].type)
@@ -73,7 +73,7 @@ void d_sequence_end_solve_setplay(couleur defender, slice_index si)
  * @param leaf slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_sequence_end_solve_complete_set(couleur defender, slice_index si)
+boolean d_sequence_end_solve_complete_set(Side defender, slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   switch (slices[op1].type)
@@ -97,7 +97,7 @@ boolean d_sequence_end_solve_complete_set(couleur defender, slice_index si)
  *                       (determined by user input)
  * @param leaf slice index 
  */
-void d_sequence_end_solve(couleur attacker,
+void d_sequence_end_solve(Side attacker,
                           boolean restartenabled,
                           slice_index si)
 {
@@ -125,7 +125,7 @@ void d_sequence_end_solve(couleur attacker,
  * @param leaf slice index
  * @param is_try true iff what we are solving is a try
  */
-void d_sequence_end_write_key_solve_postkey(couleur attacker,
+void d_sequence_end_write_key_solve_postkey(Side attacker,
                                             int refutations,
                                             slice_index si,
                                             boolean is_try)
@@ -150,7 +150,7 @@ void d_sequence_end_write_key_solve_postkey(couleur attacker,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_sequence_end_solve(couleur side_at_move,
+boolean h_sequence_end_solve(Side side_at_move,
                              hashwhat no_succ_hash_category,
                              boolean restartenabled,
                              slice_index si)
@@ -179,7 +179,7 @@ extern boolean hashing_suspended; /* TODO */
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean ser_sequence_end_solve(couleur series_side,
+boolean ser_sequence_end_solve(Side series_side,
                                boolean restartenabled,
                                slice_index si)
 {
@@ -205,9 +205,9 @@ boolean ser_sequence_end_solve(couleur series_side,
     case STSequence:
     case STReciprocal:
     {
-      couleur const at_move = (slices[op1].u.composite.play==PSeries
-                               ? advers(series_side)
-                               : series_side);
+      Side const at_move = (slices[op1].u.composite.play==PSeries
+                            ? advers(series_side)
+                            : series_side);
       solution_found = ser_composite_solve(at_move,restartenabled,op1);
       break;
     }
@@ -229,7 +229,7 @@ boolean ser_sequence_end_solve(couleur series_side,
  * @param si slice identifier
  * @return true iff attacker wins
  */
-boolean d_sequence_end_does_attacker_win(couleur attacker, slice_index si)
+boolean d_sequence_end_does_attacker_win(Side attacker, slice_index si)
 {
   boolean result = false;
   slice_index const op1 = slices[si].u.composite.op1;
@@ -264,7 +264,7 @@ boolean d_sequence_end_does_attacker_win(couleur attacker, slice_index si)
  * @param defender attacking side
  * @param leaf slice index
  */
-void d_sequence_end_solve_variations(couleur attacker,
+void d_sequence_end_solve_variations(Side attacker,
                                      int len_threat,
                                      int threats,
                                      int refutations,
@@ -307,7 +307,7 @@ void d_sequence_end_solve_variations(couleur attacker,
  * @param defender defending side
  * @param si slice identifier
  */
-d_composite_win_type d_sequence_end_does_defender_win(couleur defender,
+d_composite_win_type d_sequence_end_does_defender_win(Side defender,
                                                       slice_index si)
 {
   d_composite_win_type result = win;
@@ -348,7 +348,7 @@ d_composite_win_type d_sequence_end_does_defender_win(couleur defender,
  * @param si slice identifier
  * @return whether there is a short win or loss
  */
-boolean d_sequence_end_has_defender_lost(couleur attacker, slice_index si)
+boolean d_sequence_end_has_defender_lost(Side attacker, slice_index si)
 {
   boolean result = false;
   slice_index const op1 = slices[si].u.composite.op1;
@@ -371,6 +371,47 @@ boolean d_sequence_end_has_defender_lost(couleur attacker, slice_index si)
 
     default:
       assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Attempt to deremine which side is at the move
+ * at the start of a slice.
+ * @param si identifies slice
+ * @param is_duplex is this for duplex?
+ * @return one of blanc, noir, no_side (the latter if we can't
+ *         determine which side is at the move)
+ */
+Side sequence_who_starts(slice_index si, boolean is_duplex)
+{
+  Side result = no_side;
+  slice_index const op1 = slices[si].u.composite.op1;
+  int const op1_result = composite_who_starts(op1,is_duplex);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",si);
+  TraceFunctionParam("%d\n",is_duplex);
+
+  switch (slices[op1].type)
+  {
+    case STSequence:
+      if (op1_result!=no_side)
+        result = advers(op1_result);
+      break;
+
+    case STLeaf:
+      if (op1_result==no_side)
+        result = is_duplex ? noir : blanc; /* not reci-h */
+      else
+        result = op1_result;
+      break;
+
+    default:
+      result = op1_result;
       break;
   }
 

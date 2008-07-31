@@ -16,7 +16,7 @@
  *                      (e.g. threats)
  * @param si index of quodlibet slice
  */
-void d_quodlibet_end_solve_continuations(couleur attacker,
+void d_quodlibet_end_solve_continuations(Side attacker,
                                          int continuations,
                                          slice_index si);
 
@@ -24,7 +24,7 @@ void d_quodlibet_end_solve_continuations(couleur attacker,
  * @param defender defending side
  * @param si slice index
  */
-void d_quodlibet_end_solve_setplay(couleur defender, slice_index si);
+void d_quodlibet_end_solve_setplay(Side defender, slice_index si);
 
 /* Find and write defender's set play in self/reflex play if every
  * set move leads to end
@@ -32,7 +32,7 @@ void d_quodlibet_end_solve_setplay(couleur defender, slice_index si);
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_quodlibet_end_solve_complete_set(couleur defender, slice_index si);
+boolean d_quodlibet_end_solve_complete_set(Side defender, slice_index si);
 
 /* Determine and write solutions starting at the end of a quodlibet
  * @param attacker attacking side
@@ -41,7 +41,7 @@ boolean d_quodlibet_end_solve_complete_set(couleur defender, slice_index si);
  *                       (determined by user input)
  * @param si slice index
  */
-void d_quodlibet_end_solve(couleur attacker,
+void d_quodlibet_end_solve(Side attacker,
                            boolean restartenabled,
                            slice_index si);
 
@@ -53,7 +53,7 @@ void d_quodlibet_end_solve(couleur attacker,
  * @param si slice index
  * @param is_try true iff what we are solving is a try
  */
-void d_quodlibet_end_write_key_solve_postkey(couleur attacker,
+void d_quodlibet_end_write_key_solve_postkey(Side attacker,
                                              int refutations,
                                              slice_index si,
                                              boolean is_try);
@@ -63,7 +63,7 @@ void d_quodlibet_end_write_key_solve_postkey(couleur attacker,
  * @param si slice index of leaf slice
  * @return true iff attacker wins
  */
-boolean d_quodlibet_end_does_attacker_win(couleur attacker, slice_index si);
+boolean d_quodlibet_end_does_attacker_win(Side attacker, slice_index si);
 
 /* Find and write variations from the end of a quodlibet slice.
  * @param attacker attacking side
@@ -73,7 +73,7 @@ boolean d_quodlibet_end_does_attacker_win(couleur attacker, slice_index si);
  * @param refutations table containing refutations (written at end)
  * @param si slice index
  */
-void d_quodlibet_end_solve_variations(couleur attacker,
+void d_quodlibet_end_solve_variations(Side attacker,
                                       int len_threat,
                                       int threats,
                                       int refutations,
@@ -85,7 +85,7 @@ void d_quodlibet_end_solve_variations(couleur attacker,
  * @param si slice identifier
  * @return "how much or few" the defending side wins
  */
-d_composite_win_type d_quodlibet_end_does_defender_win(couleur defender,
+d_composite_win_type d_quodlibet_end_does_defender_win(Side defender,
                                                        slice_index si);
 
 /* Determine whether the defender has directly lost in direct play
@@ -95,7 +95,7 @@ d_composite_win_type d_quodlibet_end_does_defender_win(couleur defender,
  * @param si slice identifier
  * @return true iff the defending side has directly lost
  */
-boolean d_quodlibet_end_has_defender_lost(couleur attacker, slice_index si);
+boolean d_quodlibet_end_has_defender_lost(Side attacker, slice_index si);
 
 /* Determine whether the defender has immediately won in direct play
  * with his move just played.
@@ -103,7 +103,7 @@ boolean d_quodlibet_end_has_defender_lost(couleur attacker, slice_index si);
  * @param si slice identifier
  * @return true iff the defending side has directly won
  */
-boolean d_quodlibet_end_has_defender_won(couleur attacker, slice_index si);
+boolean d_quodlibet_end_has_defender_won(Side attacker, slice_index si);
 
 /* Determine whether the attacker has immediately won in direct play
  * with his move just played.
@@ -111,7 +111,7 @@ boolean d_quodlibet_end_has_defender_won(couleur attacker, slice_index si);
  * @param si slice identifier
  * @return true iff the attacking side has directly won
  */
-boolean d_quodlibet_end_has_attacker_won(couleur defender, slice_index si);
+boolean d_quodlibet_end_has_attacker_won(Side defender, slice_index si);
 
 /* Determine whether the attacker has immediately lost in direct play
  * with his move just played.
@@ -119,6 +119,15 @@ boolean d_quodlibet_end_has_attacker_won(couleur defender, slice_index si);
  * @param si slice identifier
  * @return true iff the attacking side has directly lost
  */
-boolean d_quodlibet_end_has_attacker_lost(couleur defender, slice_index si);
+boolean d_quodlibet_end_has_attacker_lost(Side defender, slice_index si);
+
+/* Attempt to deremine which side is at the move
+ * at the start of a slice.
+ * @param si identifies slice
+ * @param is_duplex is this for duplex?
+ * @return one of blanc, noir, no_side (the latter if we can't
+ *         determine which side is at the move)
+ */
+Side quodlibet_who_starts(slice_index si, boolean is_duplex);
 
 #endif

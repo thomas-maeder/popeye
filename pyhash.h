@@ -41,7 +41,7 @@ void	HashStats(int level, char *trailer);
 boolean inhash(hashwhat what, int val, HashBuffer *);
 void addtohash(hashwhat what, int val, HashBuffer *);
 
-boolean is_a_mating_piece_left(couleur mating_side);
+boolean is_a_mating_piece_left(Side mating_side);
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);

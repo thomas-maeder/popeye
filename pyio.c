@@ -275,7 +275,7 @@ extern echiquier ProofBoard, PosA;
 extern square Proof_rb, Proof_rn, rbA, rnA;
 extern Flags ProofSpec[nr_squares_on_board], SpecA[nr_squares_on_board];
 extern imarr  isquareA;
-boolean OscillatingKingsColour;  /* actually couleur but this is all a hack */
+boolean OscillatingKingsSide;  /* this is all a hack */
 static nocontactfunc_t *nocontactfunc;
 
 void    OpenInput(char *s)
@@ -1567,10 +1567,10 @@ static char *ParseVariant(boolean *type, VariantGroup group) {
       *type= True;
     }
     else if (VariantType==TypeB && group==gpOsc) {
-      OscillatingKingsTypeB[OscillatingKingsColour]= True;
+      OscillatingKingsTypeB[OscillatingKingsSide]= True;
     }
     else if (VariantType==TypeC && group==gpOsc) {
-      OscillatingKingsTypeC[OscillatingKingsColour]= True;
+      OscillatingKingsTypeC[OscillatingKingsSide]= True;
     }
     else if (VariantType==TypeB && group==gpAnnan) {
       annanvar= 1;
@@ -2564,11 +2564,11 @@ static char *ParseCond(void) {
       tok = ParseVariant(NULL, gpKoeko);
       break;
     case white_oscillatingKs:
-      OscillatingKingsColour= blanc;
+      OscillatingKingsSide= blanc;
       tok = ParseVariant(NULL, gpOsc);
       break;
     case black_oscillatingKs:
-      OscillatingKingsColour= noir;
+      OscillatingKingsSide= noir;
       tok = ParseVariant(NULL, gpOsc);
       break;
     case swappingkings:

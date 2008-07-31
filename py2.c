@@ -2468,8 +2468,8 @@ boolean pos_legal() {
 
   if (CondFlag[ohneschach])
   {
-    couleur camp= trait[nbply];
-    couleur ad= advers(camp);
+    Side camp= trait[nbply];
+    Side ad= advers(camp);
 
     if (nbply > maxply-1)
       FtlMsg(ChecklessUndecidable);
@@ -2502,7 +2502,7 @@ boolean pos_legal() {
 
 boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture) {
   boolean flag=false;
-  couleur camp;
+  Side camp;
 
   /* the following does not suffice if we have neutral kings,
      but we have no chance to recover the information who is to
@@ -2609,7 +2609,7 @@ boolean gralcheck(
 
 square  sq_woo_from;
 square  sq_woo_to;
-couleur col_woo;
+Side col_woo;
 
 boolean aux_whx(square sq_departure, square sq_arrival, square sq_capture) {
   if (sq_departure != sq_woo_from)
