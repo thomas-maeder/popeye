@@ -1697,6 +1697,8 @@ boolean ProofVerifie(void) {
   return true;
 } /* ProofVerifie */
 
+extern slice_index generating_slice[maxply]; /* TODO */
+
 boolean ProofSol(couleur camp,
                  int n,
                  boolean restartenabled,
@@ -1722,6 +1724,7 @@ boolean ProofSol(couleur camp,
     return false;
 
   genmove(camp);
+  generating_slice[nbply] = si;
 
   while (encore())
     if (jouecoup())
@@ -1789,6 +1792,7 @@ boolean SeriesProofSol(int n, boolean restartenabled, slice_index si) {
     return false;
 
   genmove(blanc);
+  generating_slice[nbply] = si;
 
   while (encore())
     if (jouecoup())

@@ -170,6 +170,8 @@ boolean h_sequence_end_solve(couleur side_at_move,
   }
 }
 
+extern boolean hashing_suspended; /* TODO */
+
 /* Continue solving series play at the end of a sequence slice
  * @param side_at_move side at the move
  * @param no_succ_hash_category hash category for storing failures
@@ -183,8 +185,12 @@ boolean ser_sequence_end_solve(couleur series_side,
 {
   boolean solution_found = false;
   slice_index const op1 = slices[si].u.composite.op1;
+  boolean const save_hashing_suspended = hashing_suspended;
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",series_side);
   TraceFunctionParam("%d\n",si);
+
+  hashing_suspended = true;
 
   switch (slices[op1].type)
   {
@@ -195,10 +201,23 @@ boolean ser_sequence_end_solve(couleur series_side,
                                       op1);
       break;
 
+    case STQuodlibet:
+    case STSequence:
+    case STReciprocal:
+    {
+      couleur const at_move = (slices[op1].u.composite.play==PSeries
+                               ? advers(series_side)
+                               : series_side);
+      solution_found = ser_composite_solve(at_move,restartenabled,op1);
+      break;
+    }
+
     default:
       assert(0);
       break;
   }
+
+  hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",solution_found);
@@ -219,10 +238,8 @@ boolean d_sequence_end_does_attacker_win(couleur attacker, slice_index si)
   switch (slices[op1].type)
   {
     case STLeaf:
-    {
       result = d_leaf_does_attacker_win(attacker,op1);
       break;
-    }
 
     case STQuodlibet:
     case STSequence:
@@ -282,6 +299,7 @@ void d_sequence_end_solve_variations(couleur attacker,
   }
 
   TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Determine whether the defending side wins in 0 (its final half

@@ -662,7 +662,10 @@ void d_composite_end_solve_variations(couleur attacker,
   }
 
   TraceFunctionExit(__func__);
+  TraceText("\n");
 }
+
+extern slice_index generating_slice[maxply]; /* TODO */
 
 /* Continue solving at the end of a composite slice
  * @param side_at_move side at the move
@@ -742,7 +745,8 @@ boolean h_composite_solve(couleur side_at_move,
     couleur next_side = advers(side_at_move);
 
     genmove(side_at_move);
-
+    generating_slice[nbply] = si;
+  
     if (side_at_move==noir)
       BlMovesLeft--;
     else
@@ -796,12 +800,14 @@ boolean h_composite_solve(couleur side_at_move,
   return found_solution;
 } /* h_composite_solve */
 
-static boolean ser_composite_end_is_unsolvable(couleur series_side, slice_index si)
+static boolean ser_composite_end_is_unsolvable(couleur series_side,
+                                               slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",series_side);
   TraceFunctionParam("%d\n",si);
 
   switch (slices[op1].type)
@@ -830,6 +836,7 @@ static boolean ser_composite_end_solve(couleur series_side,
 {
   boolean solution_found = false;
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",series_side);
   TraceFunctionParam("%d\n",si);
 
   switch (slices[si].type)
@@ -854,17 +861,19 @@ static boolean ser_composite_end_solve(couleur series_side,
 
 /* Solve a composite clide with series play
  * @param series_side side doing the series
- * @param n number of moves to reach the end state
+ * @param n exact number of moves to reach the end state
  * @param restartenabled true iff option movenum is active
+ * @param si slice index
+ * @return true iff >= 1 solution was found
  */
-boolean ser_composite_solve(couleur series_side,
-                            int n,
-                            boolean restartenabled,
-                            slice_index si)
+boolean ser_composite_exact_solve(couleur series_side,
+                                  int n,
+                                  boolean restartenabled,
+                                  slice_index si)
 {
   boolean solution_found = false;
   TraceFunctionEntry(__func__);
-  TraceText(series_side==blanc ? " blanc" : " noir");
+  TraceFunctionParam("%d",series_side);
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
@@ -877,6 +886,7 @@ boolean ser_composite_solve(couleur series_side,
     if (!ser_composite_end_is_unsolvable(series_side,si))
     {
       genmove(series_side);
+      generating_slice[nbply] = si;
 
       if (series_side==blanc)
         WhMovesLeft--;
@@ -890,8 +900,6 @@ boolean ser_composite_solve(couleur series_side,
           TraceText("!jouecoup()\n");
         else if (echecc(series_side))
           TraceText("echecc(series_side)\n");
-        else if (restartenabled && MoveNbr<RestartNbr)
-          TraceText("restartenabled && MoveNbr<RestartNbr\n");
         else if (OptFlag[intelligent] && !MatePossible())
           TraceText("OptFlag[intelligent] && !MatePossible()\n");
         else if (echecc(other_side))
@@ -902,7 +910,7 @@ boolean ser_composite_solve(couleur series_side,
           (*encode)(&hb);
           if (inhash(SerNoSucc,n,&hb))
             TraceText("in hash\n");
-          else if (ser_composite_solve(series_side,n-1,False,si))
+          else if (ser_composite_exact_solve(series_side,n-1,False,si))
             solution_found = true;
           else
             addtohash(SerNoSucc,n,&hb);
@@ -930,7 +938,165 @@ boolean ser_composite_solve(couleur series_side,
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",solution_found);
   return solution_found;
-} /* ser_composite_solve */
+} /* ser_composite_exact_solve */
+
+/* Solve a composite clide with series play
+ * @param series_side side doing the series
+ * @param n maximal number of moves to reach the end state
+ * @param restartenabled true iff option movenum is active
+ * @param si slice index
+ * @return true iff >= 1 solution was found
+ */
+static boolean ser_composite_maximal_solve(couleur series_side,
+                                           int n,
+                                           boolean restartenabled,
+                                           slice_index si)
+{
+  boolean solution_found;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",series_side);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
+
+  solution_found = ser_composite_end_solve(series_side,restartenabled,si);
+
+  if (n>1)
+  {
+    couleur other_side = advers(series_side);
+
+    if (!ser_composite_end_is_unsolvable(series_side,si))
+    {
+      genmove(series_side);
+      generating_slice[nbply] = si;
+
+      if (series_side==blanc)
+        WhMovesLeft--;
+      else
+        BlMovesLeft--;
+
+      while (encore())
+      {
+        TraceCurrentMove();
+        if (!jouecoup())
+          TraceText("!jouecoup()\n");
+        else if (echecc(series_side))
+          TraceText("echecc(series_side)\n");
+        else if (restartenabled && MoveNbr<RestartNbr)
+          TraceText("restartenabled && MoveNbr<RestartNbr\n");
+        else if (OptFlag[intelligent] && !MatePossible())
+          TraceText("OptFlag[intelligent] && !MatePossible()\n");
+        else if (echecc(other_side))
+          TraceText("echecc(other_side)\n");
+        else
+        {
+          HashBuffer hb;
+          (*encode)(&hb);
+          if (inhash(SerNoSucc,n,&hb))
+            TraceText("in hash\n");
+          else if (ser_composite_maximal_solve(series_side,n-1,False,si))
+            solution_found = true;
+          else
+            addtohash(SerNoSucc,n,&hb);
+        }
+
+        if (restartenabled)
+          IncrementMoveNbr();
+
+        repcoup();
+
+        if ((OptFlag[maxsols] && solutions>=maxsolutions)
+            || maxtime_status==MAXTIME_TIMEOUT)
+          break;
+      }
+
+      if (series_side==blanc)
+        WhMovesLeft++;
+      else
+        BlMovesLeft++;
+
+      finply();
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",solution_found);
+  return solution_found;
+} /* ser_composite_maximal_solve */
+
+/* Solve a composite clide with series play
+ * @param series_side side doing the series
+ * @param restartenabled true iff option movenum is active
+ * @param si slice index
+ * @return true iff >= 1 solution was found
+ */
+boolean ser_composite_solve(couleur series_side,
+                            boolean restartenabled,
+                            slice_index si)
+{
+  boolean result = false;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",series_side);
+  TraceFunctionParam("%d\n",si);
+
+  if (slices[si].u.composite.is_exact)
+    result = ser_composite_exact_solve(series_side,
+                                       slices[si].u.composite.length,
+                                       restartenabled,
+                                       si);
+  else
+  {
+    int i;
+    TraceFunctionParam("%d\n",slices[si].u.composite.length);
+    for (i = 1; i<slices[si].u.composite.length; i++)
+      if (ser_composite_exact_solve(series_side,i,false,si))
+      {
+        TraceText("solution found\n");
+        result = true;
+        if (OptFlag[stoponshort])
+        {
+          FlagShortSolsReached = true;
+          break;
+        }
+      }
+
+    if (!FlagShortSolsReached
+        && ser_composite_exact_solve(series_side,
+                                     slices[si].u.composite.length,
+                                     restartenabled,
+                                     si))
+      result = true;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Solve the composite slice with index 0 with series play
+ * @param series_side side doing the series
+ * @param restartenabled true iff option movenum is active
+ * @return true iff >= 1 solution was found
+ */
+boolean ser_composite_slice0_solve(couleur series_side,
+                                   int n,
+                                   boolean restartenabled)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",series_side);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",restartenabled);
+
+  if (OptFlag[restart])
+    result = ser_composite_maximal_solve(series_side,n,restartenabled,0);
+  else
+    result = ser_composite_solve(series_side,restartenabled,0);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
 
 /* Determine whether the move just played by the defending side
  * defends against the threats.

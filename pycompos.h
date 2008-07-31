@@ -156,17 +156,36 @@ void d_composite_solve_continuations(couleur attacker,
 /* Determine and write the solutions in the current position in series
  * play.
  * @param attacker attacking side
- * @param n number of moves until end state has to be reached
+ * @param n exact number of moves until end state has to be reached
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_solve(couleur attacker,
-                            int n,
+boolean ser_composite_exact_solve(couleur attacker,
+                                  int n,
+                                  boolean restartenabled,
+                                  slice_index si);
+
+/* Solve a composite clide with series play
+ * @param series_side side doing the series
+ * @param restartenabled true iff option movenum is active
+ * @param si slice index
+ * @return true iff >= 1 solution was found
+ */
+boolean ser_composite_solve(couleur series_side,
                             boolean restartenabled,
                             slice_index si);
+
+/* Solve the composite slice with index 0 with series play
+ * @param series_side side doing the series
+ * @param restartenabled true iff option movenum is active
+ * @return true iff >= 1 solution was found
+ */
+boolean ser_composite_slice0_solve(couleur series_side,
+                                   int n,
+                                   boolean restartenabled);
 
 /* Determine and write the solutions in the current position in help
  * play.

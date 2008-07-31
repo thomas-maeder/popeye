@@ -390,11 +390,6 @@ boolean riderhoppercheck(square i, numvec kanf, numvec kend, piece p,
 boolean verifieposition(void);
 void    linesolution(slice_index si);
 
-boolean introseries(couleur camp,
-                    int n,
-                    boolean restartenabled,
-                    slice_index si); 
-
 void	pyInitSignal(void);
 void	InitCond(void);
 void	InitStip(void);

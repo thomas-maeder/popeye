@@ -203,7 +203,8 @@ void InitOpt(void) {
   max_nr_flights = INT_MAX;
   maxsolvingtime = UINT_MAX;
   max_nr_refutations = 0;
-  MoveNbr= RestartNbr= 0;
+  MoveNbr = 1;
+  RestartNbr = 0;
 
   max_len_threat = maxply;
   min_length_nontrivial = maxply;

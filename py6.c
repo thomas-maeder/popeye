@@ -2216,11 +2216,14 @@ void WriteForsyth(void)
   StdChar(' ');
 }
 
+slice_index generating_slice[maxply]; /* TODO */
+
 void linesolution(slice_index si)
 {
   int      num= 0;
   couleur       camp;
   Goal end_marker;
+  slice_index slice;
 
   sic_coup= nbcou;
   sic_ply= nbply;
@@ -2246,11 +2249,12 @@ void linesolution(slice_index si)
 
   flag_writinglinesolution= true;
   repere[nbply + 1]= nbcou;
-  camp= trait[nbply= 2];
+  nbply = 2;
+  slice = generating_slice[nbply];
+  camp = trait[nbply];
   ResetPosition();
-  if (((slices[si].u.leaf.goal!=goal_atob && flag_appseul)
-       || SatzFlag)
-      && !FlowFlag(Intro))
+  if ((slices[si].u.leaf.goal!=goal_atob && flag_appseul)
+      || SatzFlag)
   {
     StdString("  1...");
     num= 1;
@@ -2262,31 +2266,24 @@ void linesolution(slice_index si)
       camp= advers(camp);
   }
 
-  /* seriesmovers with introductory move */
-  if (FlowFlag(Intro) && !SatzFlag)
+  while (nbply <= sic_ply)
   {
-    StdString("  1.");
-    num= 1;
-    nbcou= repere[nbply+1];
-    initneutre(advers(trait[nbply]));
-    jouecoup_no_test();
-    ecritcoup(no_goal);
-    nbply++;
-    camp= advers(camp);
-  }
-
-  while (nbply <= sic_ply) {
-    if (FlowFlag(Intro)
-        && trait[nbply] != camp
-        && nbply < sic_ply)
+    if (slice!=generating_slice[nbply])
     {
-      camp= advers(camp);
-      num= 0;
+      slice = generating_slice[nbply];
+      if (slices[slice].type!=STLeaf)
+      {
+        num = 0;
+        camp = trait[nbply];
+      }
     }
-    if (trait[nbply] == camp) {
+
+    if (trait[nbply] == camp)
+    {
       sprintf(GlobalStr,"%3d.",++num);
       StdString(GlobalStr);
     }
+
     end_marker = sic_ply==nbply ? slices[si].u.leaf.goal : no_goal;
     nbcou= repere[nbply + 1];
     initneutre(advers(trait[nbply]));
@@ -2294,6 +2291,7 @@ void linesolution(slice_index si)
     ecritcoup(end_marker);
     nbply++;
   }
+
   Message(NewLine);
   nbcou= sic_coup;
   nbply= sic_ply;
@@ -2405,7 +2403,6 @@ void d_write_refutations(int t)
 
 void SolveSeriesProblems(couleur camp)
 {
-  boolean is_exact = slices[0].u.composite.is_exact;
   int i;
 
   move_generation_mode = move_generation_not_optimized;
@@ -2413,97 +2410,61 @@ void SolveSeriesProblems(couleur camp)
   flag_appseul= False;   /* -- no meaning in series movers would only
                             distort output */
 
-  if (slices[1].u.leaf.end==EHelp || slices[0].type==STReciprocal)
-    camp = advers(camp);
-
-  if (FlowFlag(Intro))
+  if (OptFlag[solapparent] && !OptFlag[restart])
   {
-    /* seriesmovers with introductory move */
-    camp = advers(camp);
-    
-    /* check whether a king can be captured */
-    if ((OptFlag[solapparent] && echecc(camp))
-        || echecc(advers(camp)))
-    {
+    SatzFlag = True;
+    if (echecc(camp))
       ErrorMsg(KingCapture);
-      return;
+    else
+    {
+      if (slices[1].u.leaf.end==EHelp)
+        h_leaf_solve_setplay(advers(camp),1);
+      else
+      {
+        zugebene++;
+        d_composite_solve_setplay(camp,1,0);
+        zugebene--;
+      }
     }
-    introseries(camp,introenonce,OptFlag[movenbr],0);
+    SatzFlag = False;
+    Message(NewLine);
   }
+
+  if (OptFlag[maxsols])    /* reset after set play */
+    solutions= 0;
+
+  if (echecc(advers(camp)))
+    ErrorMsg(KingCapture);
   else
   {
-    if (OptFlag[solapparent]
-        && slices[1].u.leaf.end!=EDirect && !OptFlag[restart])
+    if (OptFlag[intelligent])
     {
-      SatzFlag= True;
-      if (echecc(camp))
-        ErrorMsg(KingCapture);
-      else
-      {
-        if (slices[1].u.leaf.end==EHelp)
-          h_leaf_solve_setplay(advers(camp),1);
-        else
-        {
-          zugebene++;
-          d_composite_solve_setplay(camp,1,0);
-          zugebene--;
-        }
-      }
-      SatzFlag= False;
-      Message(NewLine);
-    }
-
-    if (OptFlag[maxsols])    /* reset after set play */
-      solutions= 0;
-
-    if (echecc(advers(camp)))
-      ErrorMsg(KingCapture);
-    else {
-      int starti = (slices[0].u.composite.is_exact || OptFlag[restart]
+      boolean const is_exact = slices[0].u.composite.is_exact;
+      int starti = (is_exact || OptFlag[restart]
                     ? slices[0].u.composite.length
                     : 1);
-      if (OptFlag[intelligent])
+      for (i = starti; i <= slices[0].u.composite.length; i++)
       {
-        for (i = starti; i <= slices[0].u.composite.length; i++)
+        if (slices[1].u.leaf.end==EHelp
+            ? Intelligent(1,i,&ser_composite_exact_solve,camp,i)
+            : Intelligent(i,0,&ser_composite_exact_solve,camp,i))
         {
-          if (slices[1].u.leaf.end==EHelp
-              ? Intelligent(1,i,&ser_composite_solve,camp,i)
-              : Intelligent(i,0,&ser_composite_solve,camp,i))
+          if (OptFlag[stoponshort] && i<slices[0].u.composite.length)
           {
-            if (OptFlag[stoponshort] && i<slices[0].u.composite.length)
-            {
-              FlagShortSolsReached= true;
-              break;
-            }
+            FlagShortSolsReached= true;
+            break;
           }
-
-          slices[0].u.composite.is_exact = true;
         }
       }
-      else
-      {
-        for (i = starti; i<=slices[0].u.composite.length; i++)
-        {
-          boolean restartenabled = (OptFlag[movenbr]
-                                    && i==slices[0].u.composite.length);
 
-          if (ser_composite_solve(camp,i,restartenabled,0))
-          {
-            if (OptFlag[stoponshort]&& i<slices[0].u.composite.length)
-            {
-              FlagShortSolsReached= true;
-              break;
-            }
-          } /* slices[1].u.leaf.end==EHelp */
-
-          slices[0].u.composite.is_exact = true;
-        } /* for i */
-      } /* OptFlag[intelligent] */
-    } /* echecs(advers(camp)) */
-  } /* FlowFlag(Intro) */
-
-  if (!is_exact)
-    slices[0].u.composite.is_exact = false;
+      if (!is_exact)
+        slices[0].u.composite.is_exact = false;
+    }
+    else
+      ser_composite_slice0_solve(camp,
+                                 slices[0].u.composite.length,
+                                 OptFlag[movenbr]);
+  } /* echecs(advers(camp)) */
 } /* SolveSeriesProblems */
 
 /* Solve a help play problem in exactly N moves
@@ -2567,6 +2528,11 @@ static boolean SolveHelpShortOrFull(couleur camp,
   return false;
 }
 
+/* Solve a help problem
+ * @param camp starting in side if everything is "regular"; if the
+ * number of moves is odd, flag_appseul is set and in set play, the
+ * starting side may be different.
+ */
 void SolveHelpProblems(couleur camp)
 {
   int n = slices[0].u.composite.length;
@@ -2578,21 +2544,16 @@ void SolveHelpProblems(couleur camp)
   if (n%2==1)
     camp = advers(camp);
 
-  if (slices[1].u.leaf.end==ESelf
-      || slices[1].u.leaf.end==EReflex
-      || slices[1].u.leaf.end==ESemireflex)
-    camp = advers(camp);
-
   move_generation_mode = move_generation_not_optimized;
 
   if (OptFlag[solapparent])
   {
-    if (echecc(advers(camp)))
+    if (echecc(camp))
       ErrorMsg(KingCapture);
     else
     {
       SatzFlag = True;
-      SolveHelpShortOrFull(camp,n-1,true);
+      SolveHelpShortOrFull(advers(camp),n-1,true);
       SatzFlag = False;
     }
     StdChar('\n');
@@ -2601,10 +2562,10 @@ void SolveHelpProblems(couleur camp)
   if (OptFlag[maxsols])    /* reset after set play */
     solutions = 0;
 
-  if (echecc(camp))
+  if (echecc(advers(camp)))
     ErrorMsg(KingCapture);
   else
-    FlagShortSolsReached = SolveHelpShortOrFull(advers(camp),
+    FlagShortSolsReached = SolveHelpShortOrFull(camp,
                                                 n,
                                                 OptFlag[stoponshort]);
 } /* SolveHelpProblems */
@@ -2699,6 +2660,38 @@ void checkGlobalAssumptions(void)
   assert('h'=='g'+1);
 
   check_hash_assumptions();
+}
+
+static void solveHalfADuplex(boolean is_duplex)
+{
+  int const regular_starter = who_starts(0);
+  couleur starting_camp = regular_starter==White ? blanc : noir;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",is_duplex);
+
+  assert(regular_starter!=Neutral); /* TODO ErrorMsg() */
+
+  if (!OptFlag[intelligent] && is_duplex)
+    /* intelligent AND duplex means that the board is mirrored and the
+       colors swapped by initduplex(); start with the regular side. */
+    starting_camp = advers(starting_camp);
+
+  inithash();
+
+  if (slices[0].u.composite.play==PSeries)
+    SolveSeriesProblems(starting_camp);
+  else if (slices[0].u.composite.play==PHelp)
+    SolveHelpProblems(starting_camp);
+  else
+    SolveDirectProblems(starting_camp);
+
+  closehash();
+
+  Message(NewLine);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 int main(int argc, char *argv[]) {
@@ -2943,55 +2936,33 @@ int main(int argc, char *argv[]) {
         }
         else
         {
-          do
+          solveHalfADuplex(OptFlag[halfduplex]);
+
+          if (OptFlag[duplex])
           {
-            inithash();
-            if (slices[0].u.composite.play==PSeries)
+            /* Set next side to calculate for duplex "twin" */
+            maincamp= advers(maincamp);
+            if ((OptFlag[maxsols] && solutions>=maxsolutions)
+                || (OptFlag[stoponshort] && FlagShortSolsReached))
             {
-              if (OptFlag[duplex] && OptFlag[intelligent])
-                SolveSeriesProblems(blanc);
-              else
-                SolveSeriesProblems(maincamp);
+              FlagMaxSolsReached= true;
+              /* restart calculation of maxsolution after "twinning"
+               */
+              solutions= 0;
             }
-            else if (slices[0].u.composite.play==PHelp)
-            {
-              if (OptFlag[duplex] && OptFlag[intelligent])
-                SolveHelpProblems(blanc);
-              else
-                SolveHelpProblems(maincamp);
-            }
-            else
-              SolveDirectProblems(maincamp);
 
-            Message(NewLine);
-            if (OptFlag[duplex])
-            {
-              /* Set next side to calculate for duplex "twin" */
-              maincamp= advers(maincamp);
-              if ((OptFlag[maxsols] && solutions>=maxsolutions)
-                  || (OptFlag[stoponshort] && FlagShortSolsReached))
-              {
-                FlagMaxSolsReached= true;
-                /* restart calculation of maxsolution after "twinning"
-                 */
-                solutions= 0;
-              }
 #if defined(HASHRATE)
-              HashStats(1, "\n\n");
+            HashStats(1, "\n\n");
 #endif
-              if (OptFlag[intelligent])
-              {
-                initduplex();
-                if (!verifieposition())
-                  break;
-              }
-            } /* OptFlag[duplex] */
+            if (OptFlag[intelligent])
+              initduplex();
 
-            closehash();
+            if (verifieposition())
+              solveHalfADuplex(true);
 
-          } while (OptFlag[duplex]
-                   && maincamp == noir
-                   && verifieposition());
+            if (OptFlag[intelligent])
+              initduplex();
+          } /* OptFlag[duplex] */
         }
       } /* verifieposition */
       printa= false;

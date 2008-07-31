@@ -2709,8 +2709,6 @@ boolean jouecoup(void) {
 
 void IncrementMoveNbr(void)
 {
-  MoveNbr++;
-
   if (MoveNbr>=RestartNbr)
   {
     sprintf(GlobalStr,"%3d  (", MoveNbr);
@@ -2727,6 +2725,8 @@ void IncrementMoveNbr(void)
 #endif
     StdString(")\n");
   }
+
+  MoveNbr++;
 }
 
 void repcoup(void) {

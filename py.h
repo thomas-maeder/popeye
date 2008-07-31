@@ -836,17 +836,6 @@ typedef PieceChar       PieTable[PieceCount];
 #define ultraschachzwang	1
 #define ExtraCondCount		2
 
-/* names for flags used to distinguish stipulations */
-
-/*--- Start of typedef enum {---*/
-#define Intro           0
-#define FlowCount       1
-typedef int Flow;
-/*--- End of } Flow;---*/
-
-/* Now let's define some BIT-Masks, to check some of the above set conditions */
-#define FlowBit(f)      (BIT(f))
-#define FlowFlag(s)     ((FlowBit(s)&StipFlags) !=0)
 
 #define BorderSpec      0
 #define EmptySpec       (BIT(Black)+BIT(White))

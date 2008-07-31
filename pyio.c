@@ -66,6 +66,7 @@
 #include "pymsg.h"
 #include "pystip.h"
 #include "platform/maxtime.h"
+#include "trace.h"
 
 /* This is pyio.c
 ** It comprises a new io-Module for popeye.
@@ -1044,9 +1045,63 @@ static goalInputConfig_t const goalInputConfig[nr_goals] =
 #endif
 };
 
+static char *ParseLength(char *tok, slice_index si)
+{
+  char *end;
+  unsigned long length = strtoul(tok,&end,10);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  TraceText("tok:");TraceText(tok);TraceText("\n");
+
+  TraceValue("%ld\n",length);
+
+  if (tok==end || length>UINT_MAX)
+  {
+    slices[si].u.composite.length = 0;
+    IoErrorMsg(WrongInt,0);
+    tok = 0;
+  }
+  else
+  {
+    slices[si].u.composite.length = length;
+
+    tok = end;
+
+    if (slices[si].u.composite.play==PHelp)
+    {
+      /* we count half moves in help play */
+      slices[si].u.composite.length *= 2;
+
+      if (strncmp(tok,".5",2)==0)
+      {
+        slice_index const op1 = slices[si].u.composite.op1;
+        tok += 2;
+        if (slices[op1].u.leaf.goal==goal_proof
+            || slices[op1].u.leaf.goal==goal_atob)
+          ++slices[si].u.composite.length;
+        else
+        {
+          slices[si].u.composite.length += 2;
+          flag_appseul = true;
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("<- ");TraceText(tok==0 ? "" : tok);TraceText("\n");
+  return tok;
+}
+
 static char *ParseGoal(char *tok, End end, slice_index *si)
 {
   goalInputConfig_t const *gic;
+
+  TraceFunctionEntry(__func__);
+  TraceText("tok:");TraceText(tok);TraceText("\n");
+
   for (gic = goalInputConfig; gic!=goalInputConfig+nr_goals; ++gic)
     if (strstr(tok,gic->inputText)==tok)
     {
@@ -1056,10 +1111,11 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
         if (slices[*si].u.leaf.target==initsquare)
         {
           IoErrorMsg(MissngSquareList, 0);
-          return 0;
+          tok = 0;
         }
         else
-          return tok+3;
+          tok += 3;
+        break;
       }
       else if (gic->goal==goal_mate_or_stale)
       {
@@ -1068,7 +1124,8 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
         slices[*si].u.composite.is_exact = false; /* TODO does this matter */
         slices[*si].u.composite.op1 =  alloc_leaf_slice(end,goal_mate);
         slices[*si].u.composite.op2 =  alloc_leaf_slice(end,goal_stale);
-        return tok+2;
+        tok += 2;
+        break;
       }
       else
       {
@@ -1100,16 +1157,24 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
             isquare[i] = initsquare;
           }
 
-          return tok+4;
+          tok += 4;
         }
+        else
 #endif
-
-        return tok+strlen(gic->inputText);
+          tok += strlen(gic->inputText);
+        break;
       }
     }
 
-  IoErrorMsg(UnrecStip, 0);
-  return 0;
+  if (gic==goalInputConfig+nr_goals)
+  {
+    IoErrorMsg(UnrecStip, 0);
+    tok = 0;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("tok:");TraceText(tok==NULL ? "NULL" : tok);TraceText("\n");
+  return tok;
 }
 
 static char *ParseReciGoal(char *tok,
@@ -1149,111 +1214,151 @@ static char *ParseReciGoal(char *tok,
 
 static char *ParseEnd(char *tok, slice_index si_parent)
 {
+  TraceFunctionEntry(__func__);
+  TraceText("tok:");TraceText(tok);TraceText("\n");
+
   if (strncmp("dia", tok, 3) == 0)
-    return ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
+    tok = ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
 
 #if !defined(DATABASE)
-  if (strncmp("a=>b", tok, 4) == 0)
-    return ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
+  else if (strncmp("a=>b", tok, 4) == 0)
+    tok = ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
 #endif
 
-  if (strncmp("semi-r", tok, 6) == 0)
-    return ParseGoal(tok+6,ESemireflex,&slices[si_parent].u.composite.op1);
+  else if (strncmp("semi-r", tok, 6) == 0)
+    tok = ParseGoal(tok+6,ESemireflex,&slices[si_parent].u.composite.op1);
 
-  if (strncmp("reci-h", tok, 6) == 0)
-    return ParseReciGoal(tok+6,
+  else if (strncmp("reci-h", tok, 6) == 0)
+    tok = ParseReciGoal(tok+6,
                          EHelp,&slices[si_parent].u.composite.op1,
                          EDirect,&slices[si_parent].u.composite.op2);
 
-  if (strncmp("hs", tok, 2) == 0)
-    return ParseGoal(tok+2,ESelf,&slices[si_parent].u.composite.op1);
+  else if (strncmp("hs", tok, 2) == 0)
+    tok = ParseGoal(tok+2,ESelf,&slices[si_parent].u.composite.op1);
 
-  if (strncmp("hr", tok, 2) == 0)
-    return ParseGoal(tok+2,EReflex,&slices[si_parent].u.composite.op1);
+  else if (strncmp("hr", tok, 2) == 0)
+    tok = ParseGoal(tok+2,EReflex,&slices[si_parent].u.composite.op1);
 
-  switch (*tok)
+  else
+    switch (*tok)
+    {
+      case 'h':
+        tok = ParseGoal(tok+1,EHelp,&slices[si_parent].u.composite.op1);
+        break;
+
+      case 'r':
+        tok = ParseGoal(tok+1,EReflex,&slices[si_parent].u.composite.op1);
+        break;
+
+      case 's':
+        tok = ParseGoal(tok+1,ESelf,&slices[si_parent].u.composite.op1);
+        break;
+
+      default:
+        tok = ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
+        break;
+    }
+
+  if (tok!=0)
   {
-    case 'h':
-      return ParseGoal(tok+1,EHelp,&slices[si_parent].u.composite.op1);
-
-    case 'r':
-      return ParseGoal(tok+1,EReflex,&slices[si_parent].u.composite.op1);
-
-    case 's':
-      return ParseGoal(tok+1,ESelf,&slices[si_parent].u.composite.op1);
-
-    default:
-      return ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
+    if (*tok==0)
+      /* allow white space between goal and length, e.g. "dia 4" */
+    {
+      tok = ReadNextTokStr();
+      if (tok!=0)
+        strcat(AlphaStip,tok); /* append to printed stipulation */
+    }
+    tok = ParseLength(tok,si_parent);
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+  return tok;
 }
 
 static char *ParsePlay(char *tok, slice_index *si)
 {
   /* seriesmovers with introductory moves */
   char *arrowpos = strstr(tok,"->");
+  char *result = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceText("tok:");TraceText(tok);TraceText("\n");
+
   if (arrowpos!=0)
   {
     char *end;
-    introenonce= strtol(tok,&end,10);
-    if (introenonce<1 || tok==end || end!=arrowpos)
+    unsigned long const intro_len= strtoul(tok,&end,10);
+    if (intro_len<1 || tok==end || end!=arrowpos)
       IoErrorMsg(WrongInt, 0);
-    StipFlags |= FlowBit(Intro);
-    return ParsePlay(arrowpos+2,si);
+    else
+    {
+      *si = alloc_composite_slice(STSequence,PSeries);
+      slices[*si].u.composite.length = intro_len+1; /* TODO recursion ends at 1 currently */
+      slices[*si].u.composite.is_exact = false;
+      result = ParsePlay(arrowpos+2,&slices[*si].u.composite.op1);
+    }
   }
 
-  if (strncmp("exact-", tok, 6) == 0)
+  else if (strncmp("exact-", tok, 6) == 0)
   {
-    char *result = ParsePlay(tok+6,si);
+    result = ParsePlay(tok+6,si);
     if (result!=0)
     {
       OptFlag[nothreat] = True;
       slices[*si].u.composite.is_exact = true;
     }
-
-    return result;
   }
 
-  if (strncmp("ser-reci-h",tok,10) == 0)
+  else if (strncmp("ser-reci-h",tok,10) == 0)
   {
     *si = alloc_composite_slice(STReciprocal,PSeries);
-    return ParseEnd(tok+4,*si); /* skip over "ser-" */
+    result = ParseEnd(tok+4,*si); /* skip over "ser-" */
   }
 
-  if (strncmp("ser-",tok,4) == 0)
+  else if (strncmp("ser-",tok,4) == 0)
   {
     *si = alloc_composite_slice(STSequence,PSeries);
-    return ParseEnd(tok+4,*si);
+    result = ParseEnd(tok+4,*si);
   }
 
-  if (strncmp("reci-h",tok,6) == 0)
+  else if (strncmp("reci-h",tok,6) == 0)
   {
     *si = alloc_composite_slice(STReciprocal,PHelp);
-    return ParseEnd(tok,*si);
+    result = ParseEnd(tok,*si);
   }
 
-  if (strncmp("dia",tok,3)==0)
+  else if (strncmp("dia",tok,3)==0)
   {
     *si = alloc_composite_slice(STSequence,PHelp);
     slices[*si].u.composite.is_exact = true;
-    return ParseEnd(tok,*si);
+    result = ParseEnd(tok,*si);
   }
 
 #if !defined(DATABASE)
-  if (strncmp("a=>b",tok,4)==0)
+  else if (strncmp("a=>b",tok,4)==0)
   {
     *si = alloc_composite_slice(STSequence,PHelp);
-    return ParseEnd(tok,*si);
+    result = ParseEnd(tok,*si);
   }
 #endif
 
-  if (*tok=='h')
+  else if (*tok=='h')
   {
     *si = alloc_composite_slice(STSequence,PHelp);
-    return ParseEnd(tok,*si);
+    result = ParseEnd(tok,*si);
   }
 
-  *si = alloc_composite_slice(STSequence,PDirect);
-  return ParseEnd(tok,*si);
+  else
+  {
+    *si = alloc_composite_slice(STSequence,PDirect);
+    result = ParseEnd(tok,*si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+
+  return result;
 }
 
 static char *ParseStip(void)
@@ -1261,51 +1366,20 @@ static char *ParseStip(void)
   char *tok = ReadNextTokStr();
   slice_index current_slice;
 
+  TraceFunctionEntry(__func__);
+  TraceText("tok:");TraceText(tok);TraceText("\n");
+
   StipFlags= 0;
 
   strcpy(AlphaStip,tok);
-  tok = ParsePlay(tok,&current_slice);
-  if (tok)
+  if (ParsePlay(tok,&current_slice))
   {
-    char *ptr;
-
-    if (*tok==0)
-    {
-      tok = ReadNextTokStr();
-      strcat(AlphaStip, tok);
-    }
-
-    slices[current_slice].u.composite.length = strtol(tok,&ptr,10);
-    if (tok==ptr || slices[current_slice].u.composite.length<0)
-    {
-      slices[current_slice].u.composite.length = 0;
-      IoErrorMsg(WrongInt,0);
-    }
-
-    if (slices[current_slice].u.composite.play==PHelp)
-    {
-      /* we count half moves in help play */
-      slices[current_slice].u.composite.length *= 2;
-
-      tok = ptr;
-      if (strncmp(tok,".5",2)==0)
-      {
-        slice_index const op1 = slices[current_slice].u.composite.op1;
-        if (slices[op1].u.leaf.goal==goal_proof
-            || slices[op1].u.leaf.goal==goal_atob)
-          ++slices[current_slice].u.composite.length;
-        else
-        {
-          slices[current_slice].u.composite.length += 2;
-          flag_appseul = true;
-        }
-      }
-    }
+    if (slices[0].u.composite.length>0 && ActStip[0]=='\0')
+      strcpy(ActStip, AlphaStip);
   }
 
-  if (slices[current_slice].u.composite.length>0 && ActStip[0]=='\0')
-    strcpy(ActStip, AlphaStip);
-
+  TraceFunctionExit(__func__);
+  TraceText("\n");
   return ReadNextTokStr();
 }
 

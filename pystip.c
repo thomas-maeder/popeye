@@ -456,3 +456,94 @@ boolean slice_solve(couleur side_at_move, slice_index si)
   TraceFunctionResult("%d\n",result);
   return result;
 }
+
+/* Attempt to deremine which side is at the move (in non-duplex play)
+ * at the start of a slice.
+ * @param si identifies slice
+ * @return one White, Black, Neutral (the latter if we can't determine
+ *         which side is at the move)
+ */
+int who_starts(slice_index si)
+{
+  int result = Neutral;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      switch (slices[si].u.leaf.end)
+      {
+        case EDirect:
+          result = Neutral; /* normally White, but Black in reci-h# */
+          break;
+
+        case ESelf:
+        case EReflex:
+        case ESemireflex:
+          result = White;
+          break;
+          
+        case EHelp:
+        case EDouble:
+        case ECounter:
+          result = Black;
+          break;
+
+        default:
+          assert(0);
+      }
+      break;
+
+    case STSequence:
+    {
+      slice_index const op1 = slices[si].u.composite.op1;
+      int const op1_result = who_starts(op1);
+      switch (slices[op1].type)
+      {
+        case STSequence:
+          if (op1_result==Neutral)
+            result = Neutral;
+          else
+            result = 1-op1_result;
+          break;
+
+        case STLeaf:
+          if (op1_result==Neutral)
+            result = White; /* not reci-h */
+          else
+            result = op1_result;
+          break;
+
+        default:
+          result = op1_result;
+      }
+      
+      break;
+    }
+
+    case STReciprocal:
+    case STQuodlibet:
+    {
+      slice_index const op1 = slices[si].u.composite.op1;
+      int const op1_result = who_starts(op1);
+
+      slice_index const op2 = slices[si].u.composite.op2;
+      int const op2_result = who_starts(op2);
+
+      if (op1_result==Neutral && slices[op1].type==STLeaf)
+        result = op2_result;
+      else if (op2_result==Neutral && slices[op2].type==STLeaf)
+        result = op1_result;
+      else if (op1_result==op2_result)
+        result = op1_result;
+      else
+        result = Neutral;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
