@@ -543,6 +543,23 @@ int who_starts(slice_index si)
     }
   }
 
+  if (slices[si].type!=STLeaf
+      && slices[si].u.composite.play==PHelp
+      && slices[si].u.composite.length%2 == 1)
+    switch (result)
+    {
+      case Black:
+        result = White;
+        break;
+
+      case White:
+        result = Black;
+        break;
+
+      default:
+        break;
+    }
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
   return result;

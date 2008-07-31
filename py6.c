@@ -2538,11 +2538,11 @@ void SolveHelpProblems(couleur camp)
   int n = slices[0].u.composite.length;
 
   if (flag_appseul)
+  {
     /* reduction by one half move because user said so in options */
     --n;
-
-  if (n%2==1)
     camp = advers(camp);
+  }
 
   move_generation_mode = move_generation_not_optimized;
 
