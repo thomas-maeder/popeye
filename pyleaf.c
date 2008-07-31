@@ -4,6 +4,7 @@
 #include "platform/maxtime.h"
 #include "pymsg.h"
 #include "pyint.h"
+#include "pyio.h"
 
 #include <assert.h>
 
@@ -421,8 +422,6 @@ static boolean d_leaf_is_solved(couleur attacker, slice_index leaf)
   }
 }
 
-extern slice_index generating_slice[maxply]; /* TODO */
-
 /* Determine and write forced end moves in 1 by the attacker in reflex
  * stipulations; we know that at least 1 exists.
  * @param attacker attacking side
@@ -436,7 +435,7 @@ static void d_leaf_r_solve_forced_keys(couleur attacker, slice_index leaf)
   ++zugebene;
 
   GenMatingMove(attacker);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while(encore())
   {
@@ -494,7 +493,7 @@ static boolean leaf_d_solve(couleur attacker,
   TraceFunctionParam("%d\n",leaf);
 
   genmove(attacker);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -541,7 +540,7 @@ static void leaf_sr_solve_final_move(couleur defender, slice_index leaf)
     StdString("\n");
 
   GenMatingMove(defender);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while(encore())
   {
@@ -580,7 +579,7 @@ static boolean d_leaf_s_solve(couleur attacker,
   assert(slices[leaf].type==STLeaf);
 
   genmove(attacker);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -627,7 +626,7 @@ static boolean d_leaf_r_solve(couleur attacker,
   assert(slices[leaf].type==STLeaf);
 
   genmove(attacker);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -1092,7 +1091,7 @@ static void d_leaf_sr_solve_setplay(couleur defender, slice_index leaf)
   StdString("\n");
 
   GenMatingMove(defender);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while(encore())
   {
@@ -1237,7 +1236,7 @@ void d_leaf_solve_continuations(couleur attacker,
   else
     genmove(attacker);
 
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -1281,7 +1280,7 @@ static boolean h_leaf_s_solve_final_move(couleur side_at_move,
   if (d_leaf_s_does_defender_win(side_at_move,leaf)>=loss)
   {
     GenMatingMove(side_at_move);
-    generating_slice[nbply] = leaf;
+    active_slice[nbply] = leaf;
 
     while (encore())
     {
@@ -1316,7 +1315,7 @@ static boolean h_leaf_s_solve(couleur side_at_move, slice_index leaf)
   assert(slices[leaf].type==STLeaf);
 
   genmove(side_at_move);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -1347,7 +1346,7 @@ static boolean h_leaf_r_solve_final_move(couleur side_at_move,
   if (d_leaf_r_does_defender_win(side_at_move,leaf)>=loss)
   {
     GenMatingMove(side_at_move);
-    generating_slice[nbply] = leaf;
+    active_slice[nbply] = leaf;
 
     while (encore())
     {
@@ -1386,7 +1385,7 @@ static boolean h_leaf_r_solve(couleur side_at_move, slice_index leaf)
     couleur other_side = advers(side_at_move);
 
     genmove(side_at_move);
-    generating_slice[nbply] = leaf;
+    active_slice[nbply] = leaf;
 
     while (encore())
     {
@@ -1419,7 +1418,7 @@ boolean h_leaf_h_solve_ending_move(couleur side_at_move, slice_index leaf)
   TraceFunctionParam("%d\n",leaf);
 
   GenMatingMove(side_at_move);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   if (side_at_move==blanc)
     WhMovesLeft--;
@@ -1472,7 +1471,7 @@ static boolean h_leaf_h_cmate_solve(couleur side_at_move,
   assert(slices[leaf].type==STLeaf);
 
   GenMatingMove(side_at_move);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -1487,7 +1486,7 @@ static boolean h_leaf_h_cmate_solve(couleur side_at_move,
         if (goal_checker_mate(side_at_move))
         {
           GenMatingMove(other_side);
-          generating_slice[nbply] = leaf;
+          active_slice[nbply] = leaf;
 
           while (encore())
           {
@@ -1537,7 +1536,7 @@ static boolean h_leaf_h_dmate_solve(couleur side_at_move,
   assert(slices[leaf].type==STLeaf);
 
   genmove(side_at_move);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -1552,7 +1551,7 @@ static boolean h_leaf_h_dmate_solve(couleur side_at_move,
         if (!immobile(other_side))
         {
           GenMatingMove(other_side);
-          generating_slice[nbply] = leaf;
+          active_slice[nbply] = leaf;
 
           while (encore())
           {
@@ -1611,7 +1610,7 @@ static boolean h_leaf_h_othergoals_solve(couleur side_at_move,
   TraceFunctionParam("%d\n",leaf);
 
   genmove(side_at_move);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   if (side_at_move==noir)
     BlMovesLeft--;
@@ -1820,7 +1819,7 @@ static boolean ser_leaf_d_solve(couleur attacker, slice_index leaf)
   TraceFunctionParam("%d\n",leaf);
 
   GenMatingMove(attacker);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -1865,7 +1864,7 @@ static boolean ser_leaf_sr_solve(couleur attacker, slice_index leaf)
   TraceFunctionParam("%d\n",leaf);
 
   genmove(attacker);
-  generating_slice[nbply] = leaf;
+  active_slice[nbply] = leaf;
 
   while (encore())
   {

@@ -7,6 +7,7 @@
 #include "pyproc.h"
 #include "pyint.h"
 #include "pymsg.h"
+#include "pyio.h"
 #include "trace.h"
 #include "platform/maxtime.h"
 
@@ -665,8 +666,6 @@ void d_composite_end_solve_variations(couleur attacker,
   TraceText("\n");
 }
 
-extern slice_index generating_slice[maxply]; /* TODO */
-
 /* Continue solving at the end of a composite slice
  * @param side_at_move side at the move
  * @param no_succ_hash_category hash category for storing failures
@@ -745,7 +744,7 @@ boolean h_composite_solve(couleur side_at_move,
     couleur next_side = advers(side_at_move);
 
     genmove(side_at_move);
-    generating_slice[nbply] = si;
+    active_slice[nbply] = si;
   
     if (side_at_move==noir)
       BlMovesLeft--;
@@ -886,7 +885,7 @@ boolean ser_composite_exact_solve(couleur series_side,
     if (!ser_composite_end_is_unsolvable(series_side,si))
     {
       genmove(series_side);
-      generating_slice[nbply] = si;
+      active_slice[nbply] = si;
 
       if (series_side==blanc)
         WhMovesLeft--;
@@ -967,7 +966,7 @@ static boolean ser_composite_maximal_solve(couleur series_side,
     if (!ser_composite_end_is_unsolvable(series_side,si))
     {
       genmove(series_side);
-      generating_slice[nbply] = si;
+      active_slice[nbply] = si;
 
       if (series_side==blanc)
         WhMovesLeft--;

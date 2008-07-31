@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.42 2008/07/27 06:49:00 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.43 2008/07/31 17:06:18 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -241,7 +241,7 @@ LDFLAGS += $(DBG) $(LDOPTIM) $(ARCH) $(LIBRARYPATHS)
 # ========================================
 
 INCLUDES =      pydata.h py.h py1.h py4.h pyproc.h pymsg.h pymac.h     \
-		pylang.h pyproof.h DHT/*.h pyint.h pyhash.h \
+		pylang.h pyproof.h DHT/*.h pyint.h pyhash.h pyio.h \
 		platform/maxmem.h platform/maxtime.h \
 		platform/pytime.h platform/priority.h \
 		pygoal.h pystip.h \

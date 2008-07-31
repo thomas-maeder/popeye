@@ -106,6 +106,7 @@
 #include "pystip.h"
 #include "pyleaf.h"
 #include "pycompos.h"
+#include "pyio.h"
 #include "trace.h"
 
 boolean supergenre;
@@ -2216,7 +2217,7 @@ void WriteForsyth(void)
   StdChar(' ');
 }
 
-slice_index generating_slice[maxply]; /* TODO */
+slice_index active_slice[maxply];
 
 void linesolution(slice_index si)
 {
@@ -2250,7 +2251,7 @@ void linesolution(slice_index si)
   flag_writinglinesolution= true;
   repere[nbply + 1]= nbcou;
   nbply = 2;
-  slice = generating_slice[nbply];
+  slice = active_slice[nbply];
   camp = trait[nbply];
   ResetPosition();
   if ((slices[si].u.leaf.goal!=goal_atob && flag_appseul)
@@ -2268,9 +2269,9 @@ void linesolution(slice_index si)
 
   while (nbply <= sic_ply)
   {
-    if (slice!=generating_slice[nbply])
+    if (slice!=active_slice[nbply])
     {
-      slice = generating_slice[nbply];
+      slice = active_slice[nbply];
       if (slices[slice].type!=STLeaf)
       {
         num = 0;
