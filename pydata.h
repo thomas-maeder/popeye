@@ -446,7 +446,6 @@ EXTERN unsigned char    more_ren;
 EXTERN boolean          IsardamB,PatienceB,SentPionAdverse,SentPionNeutral,
 			flagAssassin,flag_nk,jouetestgenre;
 EXTERN boolean          flagdiastip, is_republican_suspended;
-EXTERN boolean          mate_or_stale_patt;
 EXTERN unsigned int     max_pn, max_pb, max_pt;
 EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;
 EXTERN boolean          isapril[derbla + 1];
