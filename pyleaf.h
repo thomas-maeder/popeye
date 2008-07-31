@@ -193,13 +193,11 @@ boolean leaf_is_solvable(Side side_at_move, slice_index leaf);
  */
 boolean leaf_solve(Side side_at_move, slice_index leaf);
 
-/* Attempt to deremine which side is at the move
- * at the start of a slice.
+/* Intialize starter field with the starting side if possible, and
+ * no_side otherwise. 
  * @param leaf identifies leaf
  * @param is_duplex is this for duplex?
- * @return one of blanc, noir, no_side (the latter if we can't
- *         determine which side is at the move)
  */
-Side leaf_who_starts(slice_index leaf, boolean is_duplex);
+void leaf_init_starter(slice_index leaf, boolean is_duplex);
 
 #endif

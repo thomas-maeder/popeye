@@ -33,25 +33,27 @@ typedef enum
 
 typedef struct
 {
-  SliceType type;
-  union U
-  {
-    struct /* for type==STLeaf */
-    {
-      End end;
-      Goal goal;
-      square target; /* for goal==goal_target */
-    } leaf;
+    SliceType type;
+    Side starter;
 
-    struct /* for other values of type */
+    union U
     {
-      int length; /* full moves if play==PDirect, half moves otherwise */
-      boolean is_exact; /* true iff length is to be considered exact */
-      Play play;
-      slice_index op1; /* operand 1 */
-      slice_index op2; /* operand 2 */
-    } composite;
-  } u;
+        struct /* for type==STLeaf */
+        {
+            End end;
+            Goal goal;
+            square target; /* for goal==goal_target */
+        } leaf;
+
+        struct /* for other values of type */
+        {
+            int length; /* full moves if play==PDirect, half moves otherw. */
+            boolean is_exact; /* true iff length is to be considered exact */
+            Play play;
+            slice_index op1; /* operand 1 */
+            slice_index op2; /* operand 2 */
+        } composite;
+    } u;
 } Slice;
 
 enum

@@ -121,13 +121,11 @@ boolean d_quodlibet_end_has_attacker_won(Side defender, slice_index si);
  */
 boolean d_quodlibet_end_has_attacker_lost(Side defender, slice_index si);
 
-/* Attempt to deremine which side is at the move
- * at the start of a slice.
+/* Intialize starter field with the starting side if possible, and
+ * no_side otherwise. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
- * @return one of blanc, noir, no_side (the latter if we can't
- *         determine which side is at the move)
  */
-Side quodlibet_who_starts(slice_index si, boolean is_duplex);
+void quodlibet_init_starter(slice_index si, boolean is_duplex);
 
 #endif

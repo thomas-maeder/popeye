@@ -1750,35 +1750,32 @@ void d_composite_solve(Side attacker,
   zugebene = 0;
 } /* d_composite_solve */
 
-/* Attempt to deremine which side is at the move
- * at the start of a slice.
+/* Intialize starter field with the starting side if possible, and
+ * no_side otherwise. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
- * @return one of blanc, noir, no_side (the latter if we can't
- *         determine which side is at the move)
  */
-Side composite_who_starts(slice_index si, boolean is_duplex)
+void composite_init_starter(slice_index si, boolean is_duplex)
 {
-  Side result = no_side;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
   switch (slices[si].type)
   {
     case STLeaf:
-      result = leaf_who_starts(si,is_duplex);
+      leaf_init_starter(si,is_duplex);
       break;
 
     case STSequence:
-      result = sequence_who_starts(si,is_duplex);
+      sequence_init_starter(si,is_duplex);
       break;
 
     case STReciprocal:
-      result = reci_who_starts(si,is_duplex);
+      reci_init_starter(si,is_duplex);
       break;
 
     case STQuodlibet:
-      result = quodlibet_who_starts(si,is_duplex);
+      quodlibet_init_starter(si,is_duplex);
       break;
 
     default:
@@ -1790,13 +1787,13 @@ Side composite_who_starts(slice_index si, boolean is_duplex)
       && slices[si].u.composite.play==PHelp
       && slices[si].u.composite.length%2 == 1)
   {
-    if (result==no_side)
-      result = no_side;
+    if (slices[si].starter==no_side)
+      slices[si].starter = no_side;
     else
-      result = advers(result);
+      slices[si].starter = advers(slices[si].starter);
   }
 
+  TraceValue("%d\n",slices[si].starter);
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
+  TraceText("\n");
 }

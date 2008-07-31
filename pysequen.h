@@ -120,13 +120,11 @@ d_composite_win_type d_sequence_end_does_defender_win(Side defender,
  */
 boolean d_sequence_end_has_defender_lost(Side attacker, slice_index si);
 
-/* Attempt to deremine which side is at the move
- * at the start of a slice.
+/* Intialize starter field with the starting side if possible, and
+ * no_side otherwise. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
- * @return one of blanc, noir, no_side (the latter if we can't
- *         determine which side is at the move)
  */
-Side sequence_who_starts(slice_index si, boolean is_duplex);
+void sequence_init_starter(slice_index si, boolean is_duplex);
 
 #endif

@@ -2025,16 +2025,14 @@ boolean leaf_solve(Side side_at_move, slice_index leaf)
   return result;
 }
 
-/* Attempt to deremine which side is at the move
- * at the start of a slice.
+/* Intialize starter field with the starting side if possible, and
+ * no_side otherwise. 
  * @param leaf identifies leaf
  * @param is_duplex is this for duplex?
- * @return one of blanc, noir, no_side (the latter if we can't
- *         determine which side is at the move)
  */
-Side leaf_who_starts(slice_index leaf, boolean is_duplex)
+void leaf_init_starter(slice_index leaf, boolean is_duplex)
 {
-  Side result = no_side;
+  slices[leaf].starter = no_side;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",leaf);
@@ -2049,13 +2047,13 @@ Side leaf_who_starts(slice_index leaf, boolean is_duplex)
     case ESelf:
     case EReflex:
     case ESemireflex:
-      result = is_duplex ? noir : blanc;
+      slices[leaf].starter = is_duplex ? noir : blanc;
       break;
           
     case EHelp:
     case EDouble:
     case ECounter:
-      result = is_duplex ? blanc : noir;
+      slices[leaf].starter = is_duplex ? blanc : noir;
       break;
 
     default:
@@ -2063,7 +2061,7 @@ Side leaf_who_starts(slice_index leaf, boolean is_duplex)
       break;
   }
 
+  TraceValue("%d\n",slices[leaf].starter);
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
+  TraceText("\n");
 }

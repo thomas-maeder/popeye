@@ -41,37 +41,41 @@ boolean h_reci_end_solve(Side side_at_move, slice_index si)
   return found_solution;
 } /* h_reci_end_solve */
 
-/* Attempt to deremine which side is at the move
- * at the start of a slice.
+/* Intialize starter field with the starting side if possible, and
+ * no_side otherwise. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
- * @return one of blanc, noir, no_side (the latter if we can't
- *         determine which side is at the move)
  */
-Side reci_who_starts(slice_index si, boolean is_duplex)
+void reci_init_starter(slice_index si, boolean is_duplex)
 {
-  Side result = no_side;
-
   slice_index const op1 = slices[si].u.composite.op1;
-  int const op1_result = composite_who_starts(op1,is_duplex);
-
   slice_index const op2 = slices[si].u.composite.op2;
-  int const op2_result = composite_who_starts(op2,is_duplex);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",si);
   TraceFunctionParam("%d\n",is_duplex);
 
-  if (op1_result==no_side && slices[op1].type==STLeaf)
-    result = op2_result;
-  else if (op2_result==no_side && slices[op2].type==STLeaf)
-    result = op1_result;
-  else if (op1_result==op2_result)
-    result = op1_result;
-  else
-    result = no_side;
+  composite_init_starter(op1,is_duplex);
+  composite_init_starter(op2,is_duplex);
 
+  slices[si].starter = no_side;
+
+  if (slices[op1].starter==no_side && slices[op1].type==STLeaf)
+  {
+    /* op1 can't tell - let's tell him */
+    slices[si].starter = slices[op2].starter;
+    slices[op1].starter = slices[op2].starter;
+  }
+  else if (slices[op2].starter==no_side && slices[op2].type==STLeaf)
+  {
+    /* op2 can't tell - let's tell him */
+    slices[si].starter = slices[op1].starter;
+    slices[op2].starter = slices[op1].starter;
+  }
+  else if (slices[op1].starter==slices[op2].starter)
+    slices[si].starter = slices[op1].starter;
+
+  TraceValue("%d\n",slices[si].starter);
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
+  TraceText("\n");
 }

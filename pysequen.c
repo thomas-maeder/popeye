@@ -379,43 +379,47 @@ boolean d_sequence_end_has_defender_lost(Side attacker, slice_index si)
   return result;
 }
 
-/* Attempt to deremine which side is at the move
- * at the start of a slice.
+/* Intialize starter field with the starting side if possible, and
+ * no_side otherwise. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
- * @return one of blanc, noir, no_side (the latter if we can't
- *         determine which side is at the move)
  */
-Side sequence_who_starts(slice_index si, boolean is_duplex)
+void sequence_init_starter(slice_index si, boolean is_duplex)
 {
-  Side result = no_side;
   slice_index const op1 = slices[si].u.composite.op1;
-  int const op1_result = composite_who_starts(op1,is_duplex);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",si);
   TraceFunctionParam("%d\n",is_duplex);
 
+  composite_init_starter(op1,is_duplex);
+
+  slices[si].starter = no_side;
+
   switch (slices[op1].type)
   {
     case STSequence:
-      if (op1_result!=no_side)
-        result = advers(op1_result);
+      if (slices[op1].starter!=no_side)
+        slices[si].starter = advers(slices[op1].starter);
       break;
 
     case STLeaf:
-      if (op1_result==no_side)
-        result = is_duplex ? noir : blanc; /* not reci-h */
+      if (slices[op1].starter==no_side)
+      {
+        /* op1 can't tell - let's tell him */
+        slices[si].starter = is_duplex ? noir : blanc; /* not reci-h */
+        slices[op1].starter = slices[si].starter;
+      }
       else
-        result = op1_result;
+        slices[si].starter = slices[op1].starter;
       break;
 
     default:
-      result = op1_result;
+      slices[si].starter = slices[op1].starter;
       break;
   }
 
+  TraceValue("%d\n",slices[si].starter);
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
+  TraceText("\n");
 }

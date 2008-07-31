@@ -2402,7 +2402,7 @@ void d_write_refutations(int t)
   StdChar('\n');
 }
 
-static void SolveSeriesProblems(Side camp)
+static void SolveSeriesProblems(void)
 {
   int i;
 
@@ -2414,16 +2414,16 @@ static void SolveSeriesProblems(Side camp)
   if (OptFlag[solapparent] && !OptFlag[restart])
   {
     SatzFlag = True;
-    if (echecc(camp))
+    if (echecc(slices[0].starter))
       ErrorMsg(KingCapture);
     else
     {
       if (slices[1].u.leaf.end==EHelp)
-        h_leaf_solve_setplay(advers(camp),1);
+        h_leaf_solve_setplay(advers(slices[0].starter),1);
       else
       {
         zugebene++;
-        d_composite_solve_setplay(camp,1,0);
+        d_composite_solve_setplay(slices[0].starter,1,0);
         zugebene--;
       }
     }
@@ -2434,7 +2434,7 @@ static void SolveSeriesProblems(Side camp)
   if (OptFlag[maxsols])    /* reset after set play */
     solutions= 0;
 
-  if (echecc(advers(camp)))
+  if (echecc(advers(slices[0].starter)))
     ErrorMsg(KingCapture);
   else
   {
@@ -2447,8 +2447,8 @@ static void SolveSeriesProblems(Side camp)
       for (i = starti; i <= slices[0].u.composite.length; i++)
       {
         if (slices[1].u.leaf.end==EHelp
-            ? Intelligent(1,i,&ser_composite_exact_solve,camp,i)
-            : Intelligent(i,0,&ser_composite_exact_solve,camp,i))
+            ? Intelligent(1,i,&ser_composite_exact_solve,slices[0].starter,i)
+            : Intelligent(i,0,&ser_composite_exact_solve,slices[0].starter,i))
         {
           if (OptFlag[stoponshort] && i<slices[0].u.composite.length)
           {
@@ -2462,7 +2462,7 @@ static void SolveSeriesProblems(Side camp)
         slices[0].u.composite.is_exact = false;
     }
     else
-      ser_composite_slice0_solve(camp,
+      ser_composite_slice0_solve(slices[0].starter,
                                  slices[0].u.composite.length,
                                  OptFlag[movenbr]);
   } /* echecs(advers(camp)) */
@@ -2530,31 +2530,32 @@ static boolean SolveHelpShortOrFull(Side camp,
 }
 
 /* Solve a help problem
- * @param camp starting in side if everything is "regular"; if the
- * number of moves is odd, flag_appseul is set and in set play, the
- * starting side may be different.
  */
-static void SolveHelpProblems(Side camp)
+static void SolveHelpProblems(void)
 {
   int n = slices[0].u.composite.length;
+  Side starter = slices[0].starter;
 
   if (flag_appseul)
   {
-    /* reduction by one half move because user said so in options */
+    /* reduction by one half move because user said so in options
+     * don't modify slices[0] directly, because the next twin will do
+     * so again ...
+     */
     --n;
-    camp = advers(camp);
+    starter = advers(starter);
   }
 
   move_generation_mode = move_generation_not_optimized;
 
   if (OptFlag[solapparent])
   {
-    if (echecc(camp))
+    if (echecc(slices[0].starter))
       ErrorMsg(KingCapture);
     else
     {
       SatzFlag = True;
-      SolveHelpShortOrFull(advers(camp),n-1,true);
+      SolveHelpShortOrFull(advers(starter),n-1,true);
       SatzFlag = False;
     }
     StdChar('\n');
@@ -2563,25 +2564,27 @@ static void SolveHelpProblems(Side camp)
   if (OptFlag[maxsols])    /* reset after set play */
     solutions = 0;
 
-  if (echecc(advers(camp)))
+  if (echecc(advers(starter)))
     ErrorMsg(KingCapture);
   else
-    FlagShortSolsReached = SolveHelpShortOrFull(camp,
+    FlagShortSolsReached = SolveHelpShortOrFull(starter,
                                                 n,
                                                 OptFlag[stoponshort]);
 } /* SolveHelpProblems */
 
-static void SolveDirectProblems(Side camp)
+static void SolveDirectProblems(void)
 {
   zugebene++;
 
   if (OptFlag[postkeyplay])
   {
-    if (echecc(camp))
+    if (echecc(slices[0].starter))
       ErrorMsg(SetAndCheck);
     else
     {
-      d_composite_solve_postkey(camp,slices[0].u.composite.length,0);
+      d_composite_solve_postkey(slices[0].starter,
+                                slices[0].u.composite.length,
+                                0);
       Message(NewLine);
     }
   }
@@ -2589,19 +2592,21 @@ static void SolveDirectProblems(Side camp)
   {
     if (OptFlag[solapparent] && slices[0].u.composite.length>1)
     {
-      if (echecc(camp))
+      if (echecc(slices[0].starter))
         ErrorMsg(SetAndCheck);
       else
       {
-        d_composite_solve_setplay(camp,slices[0].u.composite.length,0);
+        d_composite_solve_setplay(slices[0].starter,
+                                  slices[0].u.composite.length,
+                                  0);
         Message(NewLine);
       }
     }
 
-    if (echecc(advers(camp)))
+    if (echecc(advers(slices[0].starter)))
       ErrorMsg(KingCapture);
     else
-      d_composite_solve(camp,
+      d_composite_solve(slices[0].starter,
                         slices[0].u.composite.length,
                         OptFlag[movenbr],
                         0);
@@ -2610,19 +2615,22 @@ static void SolveDirectProblems(Side camp)
   zugebene--;
 }
 
-void initduplex(void) {
-  /*
-    A hack to make the intelligent mode work with duplex.
-    But anyway I have to think about the intelligent mode again
-  */
+static void swapcolors(void) {
   square *bnp;
-  for (bnp= boardnum; *bnp; bnp++) {
-    if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide) {
+  for (bnp= boardnum; *bnp; bnp++)
+  {
+    if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide)
+    {
       e[*bnp]= -e[*bnp];
       spec[*bnp]^= BIT(White)+BIT(Black);
     }
   }
-  for (bnp= boardnum; *bnp < (bas+haut)/2; bnp++) {
+}
+
+static void reflectboard(void) {
+  square *bnp;
+  for (bnp= boardnum; *bnp < (bas+haut)/2; bnp++)
+  {
     square sq2= *bnp%onerow+onerow*((onerow-1)-*bnp/onerow);
 
     piece p= e[sq2];
@@ -2666,27 +2674,37 @@ void checkGlobalAssumptions(void)
 static void solveHalfADuplex(boolean is_duplex)
 {
   slice_index const first_slice = 0;
-
-  
-  /* intelligent AND duplex means that the board is mirrored and the
-     colors swapped by initduplex() -> start with the regular side. */
-  Side const starter = composite_who_starts(first_slice,
-                                            is_duplex
-                                            && !OptFlag[intelligent]);
+  assert(slices[first_slice].type!=STLeaf);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",is_duplex);
 
-  assert(starter!=no_side); /* TODO ErrorMsg() */
+  /* intelligent AND duplex means that the board is mirrored and the
+   * colors swapped by swapcolors() and reflectboard() -> start with
+   * the regular side. */
+  composite_init_starter(first_slice, is_duplex && !OptFlag[intelligent]);
+  assert(slices[first_slice].starter!=no_side); /* TODO ErrorMsg() */
 
   inithash();
 
-  if (slices[0].u.composite.play==PSeries)
-    SolveSeriesProblems(starter);
-  else if (slices[0].u.composite.play==PHelp)
-    SolveHelpProblems(starter);
-  else
-    SolveDirectProblems(starter);
+  switch (slices[first_slice].u.composite.play)
+  {
+    case PSeries:
+      SolveSeriesProblems();
+      break;
+
+    case PHelp:
+      SolveHelpProblems();
+      break;
+
+    case PDirect:
+      SolveDirectProblems();
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 
   closehash();
 
@@ -2957,13 +2975,24 @@ int main(int argc, char *argv[]) {
             HashStats(1, "\n\n");
 #endif
             if (OptFlag[intelligent])
-              initduplex();
+            {
+              /*
+               * A hack to make the intelligent mode work with duplex.
+               * But anyway I have to think about the intelligent mode again
+               */
+              swapcolors();
+              reflectboard();
+            }
 
             if (verifieposition())
               solveHalfADuplex(true);
 
             if (OptFlag[intelligent])
-              initduplex();
+            {
+              /* unhack - probably no necessary, but doesn't hurt */
+              reflectboard();
+              swapcolors();
+            }
           } /* OptFlag[duplex] */
         }
       } /* verifieposition */
