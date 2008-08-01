@@ -10,6 +10,20 @@
  */
 
 
+/* Detect a priori unsolvability of a slice (e.g. because of forced
+ * reflex mates)
+ * @param si slice index
+ * @return true iff slice is a priori unsolvable
+ */
+boolean quodlibet_end_is_unsolvable(slice_index si);
+
+/* Write a priori unsolvability (if any) of a slice in direct play
+ * (e.g. forced reflex mates).
+ * Assumes slice_is_unsolvable(si)
+ * @param si slice index
+ */
+void d_quodlibet_write_unsolvability(slice_index si);
+
 /* Determine and write continuations at end of quodlibet slice
  * @param continuations table where to store continuing moves
  *                      (e.g. threats)
@@ -24,11 +38,10 @@ void d_quodlibet_end_solve_setplay(slice_index si);
 
 /* Find and write defender's set play in self/reflex play if every
  * set move leads to end
- * @param defender defending side
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_quodlibet_end_solve_complete_set(Side defender, slice_index si);
+boolean d_quodlibet_end_solve_complete_set(slice_index si);
 
 /* Determine and write solutions starting at the end of a quodlibet
  * @param restartenabled true iff the written solution should only
@@ -73,7 +86,7 @@ boolean d_quodlibet_end_does_attacker_win(slice_index si);
  * @param si slice identifier
  * @return "how much or few" the defending side wins
  */
-d_composite_win_type d_quodlibet_end_does_defender_win(slice_index si);
+d_defender_win_type d_quodlibet_end_does_defender_win(slice_index si);
 
 /* Determine whether the defender has directly lost in direct play
  * with his move just played.

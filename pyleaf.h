@@ -25,12 +25,12 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf);
  */
 boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf);
 
-/* Detect a priori unsolvability of a leaf in direct play
- * (e.g. because of forced reflex mates)
+/* Detect a priori unsolvability of a leaf (e.g. because of forced
+ * reflex mates)
  * @param leaf leaf's slice index
- * @return true iff leaf is unsolvable
+ * @return true iff leaf is a priori unsolvable
  */
-boolean d_leaf_is_unsolvable(slice_index leaf);
+boolean leaf_is_unsolvable(slice_index leaf);
 
 /* Determine whether the defender has directly lost with his move just
  * played. 
@@ -42,7 +42,7 @@ boolean d_leaf_has_defender_lost(slice_index leaf);
 
 /* Write a priori unsolvability (if any) of a leaf in direct play
  * (e.g. forced reflex mates).
- * Assumes d_leaf_is_unsolvable()
+ * Assumes leaf_is_unsolvable()
  * @param leaf leaf's slice index
  */
 void d_leaf_write_unsolvability(slice_index leaf);
@@ -54,12 +54,9 @@ void d_leaf_write_unsolvability(slice_index leaf);
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param leaf slice index
- * @param solutions table where to add solutions
  * @return true iff >=1 solution was found
  */
-boolean d_leaf_solve(boolean restartenabled,
-                     slice_index leaf,
-                     int solutions);
+boolean d_leaf_solve(boolean restartenabled, slice_index leaf);
 
 /* Find and write defender's set play
  * @param leaf slice index
@@ -100,7 +97,7 @@ void d_leaf_solve_continuations(int continuations, slice_index leaf);
  * @param leaf slice identifier
  * @return "how much or few" the defending side wins
  */
-d_composite_win_type d_leaf_does_defender_win(slice_index leaf);
+d_defender_win_type d_leaf_does_defender_win(slice_index leaf);
 
 /* Determine whether the attacking side has immediately lost with its
  * move just played.
@@ -124,14 +121,11 @@ boolean d_leaf_has_attacker_won(slice_index leaf);
 boolean d_leaf_does_attacker_win(slice_index leaf);
 
 /* Determine and write the solution of a leaf slice in help play.
- * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
  */
-boolean h_leaf_solve(hashwhat no_succ_hash_category,
-                     boolean restartenabled,
-                     slice_index leaf);
+boolean h_leaf_solve(boolean restartenabled, slice_index leaf);
 
 /* Solve the set play in a help stipulation
  * @param leaf slice index
@@ -140,14 +134,11 @@ boolean h_leaf_solve(hashwhat no_succ_hash_category,
 boolean h_leaf_solve_setplay(slice_index leaf);
 
 /* Determine and write the solution of a leaf slice in series play.
- * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
  */
-boolean ser_leaf_solve(hashwhat no_succ_hash_category,
-                       boolean restartenabled,
-                       slice_index leaf);
+boolean ser_leaf_solve(boolean restartenabled, slice_index leaf);
 
 /* Determine whether there is >= 1 solution for the leaf
  * @param leaf slice index of leaf slice

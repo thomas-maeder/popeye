@@ -1,31 +1,50 @@
 #include "pyquodli.h"
 #include "pycompos.h"
-#include "pyleaf.h"
 #include "pyproc.h"
 #include "trace.h"
 
 #include <assert.h>
 
-static void solve_continuations_delegator(int table, slice_index operand)
+/* Detect a priori unsolvability of a slice (e.g. because of forced
+ * reflex mates)
+ * @param si si slice index
+ * @return true iff slice is a priori unsolvable
+ */
+boolean quodlibet_end_is_unsolvable(slice_index si)
 {
-  switch (slices[operand].type)
-  {
-    case STLeaf:
-      d_leaf_solve_continuations(table,operand);
-      break;
+  boolean result;
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
 
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      d_composite_solve_continuations(slices[operand].u.composite.length,
-                                      table,
-                                      operand);
-      break;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+  TraceValue("%d",op1);
+  TraceValue("%d\n",op2);
 
-    default:
-      assert(0);
-      break;
-  }
+  result = slice_is_unsolvable(op1) && slice_is_unsolvable(op2);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Write a priori unsolvability (if any) of a slice in direct play
+ * (e.g. forced reflex mates).
+ * Assumes slice_is_unsolvable(si)
+ * @param si slice index
+ */
+void d_quodlibet_write_unsolvability(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+  TraceValue("%d",slices[si].u.composite.op1);
+  TraceValue("%d\n",slices[si].u.composite.op2);
+
+  d_slice_write_unsolvability(slices[si].u.composite.op1);
+  d_slice_write_unsolvability(slices[si].u.composite.op2);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Determine and write continuations at end of quodlibet slice
@@ -37,31 +56,11 @@ void d_quodlibet_end_solve_continuations(int table, slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  solve_continuations_delegator(table,slices[si].u.composite.op1);
-  solve_continuations_delegator(table,slices[si].u.composite.op2);
+  d_slice_solve_continuations(table,slices[si].u.composite.op1);
+  d_slice_solve_continuations(table,slices[si].u.composite.op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
-}
-
-static void solve_setplay_delegator(slice_index operand)
-{
-  switch (slices[operand].type)
-  {
-    case STLeaf:
-      d_leaf_solve_setplay(operand);
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      d_composite_solve_setplay(slices[operand].u.composite.length,operand);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
 }
 
 /* Find and write defender's set play
@@ -69,14 +68,34 @@ static void solve_setplay_delegator(slice_index operand)
  */
 void d_quodlibet_end_solve_setplay(slice_index si)
 {
-  solve_setplay_delegator(slices[si].u.composite.op1);
-  solve_setplay_delegator(slices[si].u.composite.op2);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  d_slice_solve_setplay(slices[si].u.composite.op1);
+  d_slice_solve_setplay(slices[si].u.composite.op2);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
-boolean d_quodlibet_end_solve_complete_set(Side defender, slice_index si)
+/* Find and write defender's set play in self/reflex play if every
+ * set move leads to end
+ * @param si slice index
+ * @return true iff every defender's move leads to end
+ */
+boolean d_quodlibet_end_solve_complete_set(slice_index si)
 {
-  /* TODO */
-  return false;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  result = (d_slice_solve_complete_set(slices[si].u.composite.op1)
+            || d_slice_solve_complete_set(slices[si].u.composite.op2));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 /* Determine and write solutions starting at the end of a quodlibet
@@ -91,41 +110,14 @@ void d_quodlibet_end_solve(boolean restartenabled, slice_index si)
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
 
-  if (d_leaf_is_unsolvable(op1))
-    d_leaf_write_unsolvability(op1);
-  else if (d_leaf_is_unsolvable(op2))
-    d_leaf_write_unsolvability(op2);
+  if (slice_is_unsolvable(op1))
+    d_slice_write_unsolvability(op1);
+  else if (slice_is_unsolvable(op2))
+    d_slice_write_unsolvability(op2);
   else
   {
-    int solutions = alloctab();
-    d_leaf_solve(restartenabled,op1,solutions);
-    d_leaf_solve(restartenabled,op2,solutions);
-    freetab();
-  }
-}
-
-static void write_key_solve_postkey_delegator(int refutations,
-                                              slice_index operand,
-                                              boolean is_try)
-{
-  switch (slices[operand].type)
-  {
-    case STLeaf:
-      d_leaf_write_key_solve_postkey(refutations,operand,is_try);
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      d_composite_write_key_solve_postkey(slices[operand].u.composite.length,
-                                          refutations,
-                                          operand,
-                                          is_try);
-      break;
-
-    default:
-      assert(0);
-      break;
+    d_slice_solve(restartenabled,op1);
+    d_slice_solve(restartenabled,op2);
   }
 }
 
@@ -140,42 +132,15 @@ void d_quodlibet_end_write_key_solve_postkey(int refutations,
                                              slice_index si,
                                              boolean is_try)
 {
-  write_key_solve_postkey_delegator(refutations,
-                                    slices[si].u.composite.op1,
-                                    is_try);
-  write_key_solve_postkey_delegator(refutations,
-                                    slices[si].u.composite.op2,
-                                    is_try);
+  d_slice_write_key_solve_postkey(refutations,
+                                  slices[si].u.composite.op1,
+                                  is_try);
+  d_slice_write_key_solve_postkey(refutations,
+                                  slices[si].u.composite.op2,
+                                  is_try);
 }
 
 extern boolean hashing_suspended; /* TODO */
-
-static boolean does_attacker_win_delegator(slice_index operand)
-{
-  boolean result = false;
-
-  switch (slices[operand].type)
-  {
-    case STLeaf:
-      if (d_leaf_does_attacker_win(operand))
-        result = true;
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      if (d_composite_does_attacker_win(slices[operand].u.composite.length,
-                                        operand))
-        result = true;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  return result;
-}
 
 /* Determine whether the attacker wins at the end of a quodlibet slice
  * @param si slice index
@@ -192,47 +157,19 @@ boolean d_quodlibet_end_does_attacker_win(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  hashing_suspended = true;
-
   /* avoid conflict in hash table between op1 and op2 */
   /* TODO use disjoint "hash slots" to avoid this conflict while
    * hashing both in op1 and op2 */
-  result = (does_attacker_win_delegator(op1)
-            || does_attacker_win_delegator(op2));
+  hashing_suspended = true;
+
+  result = (d_slice_does_attacker_win(op1)
+            || d_slice_does_attacker_win(op2));
 
   hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%d\n",result);
   return result;
-}
-
-static void solve_variations_delegator(int len_threat,
-                                       int threats,
-                                       int refutations,
-                                       slice_index operand)
-{
-  switch (slices[operand].type)
-  {
-    case STLeaf:
-      d_leaf_solve_variations(operand);
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      d_composite_solve_variations(slices[operand].u.composite.length,
-                                   len_threat,
-                                   threats,
-                                   refutations,
-                                   operand);
-      freetab();
-      freetab();
-      break;
-
-    default:
-      assert(0);
-  }
 }
 
 /* Find and write variations from the end of a quodlibet slice.
@@ -251,50 +188,25 @@ void d_quodlibet_end_solve_variations(int len_threat,
   TraceFunctionParam("%d ",len_threat);
   TraceFunctionParam("%d\n",si);
 
-  solve_variations_delegator(len_threat,
-                             threats,
-                             refutations,
-                             slices[si].u.composite.op1);
-  solve_variations_delegator(len_threat,
-                             threats,
-                             refutations,
-                             slices[si].u.composite.op2);
+  d_slice_solve_variations(len_threat,
+                           threats,
+                           refutations,
+                           slices[si].u.composite.op1);
+  d_slice_solve_variations(len_threat,
+                           threats,
+                           refutations,
+                           slices[si].u.composite.op2);
 
   TraceFunctionExit(__func__);
-}
-
-static d_composite_win_type does_defender_win_delegator(slice_index operand)
-{
-  d_composite_win_type result = win;
-
-  switch (slices[operand].type)
-  {
-    case STLeaf:
-      result = d_leaf_does_defender_win(operand);
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      result = d_composite_does_defender_win(slices[operand].u.composite.length,
-                                             operand);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  return result;
 }
 
 /* Determine whether the defending side wins at the end of quodlibet
  * in direct play. 
  * @param si slice identifier
  */
-d_composite_win_type d_quodlibet_end_does_defender_win(slice_index si)
+d_defender_win_type d_quodlibet_end_does_defender_win(slice_index si)
 {
-  d_composite_win_type result = win;
+  d_defender_win_type result = win;
   boolean const save_hashing_suspended = hashing_suspended;
 
   TraceFunctionEntry(__func__);
@@ -302,38 +214,14 @@ d_composite_win_type d_quodlibet_end_does_defender_win(slice_index si)
 
   hashing_suspended = true;
 
-  if (does_defender_win_delegator(slices[si].u.composite.op1)>=loss
-      || does_defender_win_delegator(slices[si].u.composite.op2)>=loss)
+  if (d_slice_does_defender_win(slices[si].u.composite.op1)>=loss
+      || d_slice_does_defender_win(slices[si].u.composite.op2)>=loss)
     result = loss;
 
   hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-static boolean has_defender_lost_delegator(slice_index operand)
-{
-  boolean result = false;
-
-  switch (slices[operand].type)
-  {
-    case STLeaf:
-      result = d_leaf_has_defender_lost(operand);
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      result = d_composite_has_defender_lost(operand);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
   return result;
 }
 
@@ -353,37 +241,13 @@ boolean d_quodlibet_end_has_defender_lost(slice_index si)
 
   hashing_suspended = true;
 
-  result = (has_defender_lost_delegator(slices[si].u.composite.op1)
-            || has_defender_lost_delegator(slices[si].u.composite.op2));
+  result = (d_slice_has_defender_lost(slices[si].u.composite.op1)
+            ||d_slice_has_defender_lost(slices[si].u.composite.op2));
 
   hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-static boolean has_defender_won_delegator(slice_index operand)
-{
-  boolean result = false;
-
-  switch (slices[operand].type)
-  {
-    case STLeaf:
-      result = d_leaf_is_unsolvable(operand);
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      result = d_composite_has_defender_won(operand);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
   return result;
 }
 
@@ -402,37 +266,13 @@ boolean d_quodlibet_end_has_defender_won(slice_index si)
 
   hashing_suspended = true;
 
-  result = (has_defender_won_delegator(slices[si].u.composite.op1)
-            && has_defender_won_delegator(slices[si].u.composite.op2));
+  result = (d_slice_has_defender_won(slices[si].u.composite.op1)
+            && d_slice_has_defender_won(slices[si].u.composite.op2));
 
   hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-static boolean has_attacker_won_delegator(slice_index operand)
-{
-  boolean result = false;
-
-  switch (slices[operand].type)
-  {
-    case STLeaf:
-      result = d_leaf_has_attacker_won(operand);
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      result = d_composite_has_attacker_won(operand);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
   return result;
 }
 
@@ -451,37 +291,13 @@ boolean d_quodlibet_end_has_attacker_won(slice_index si)
 
   hashing_suspended = true;
 
-  result = (has_attacker_won_delegator(slices[si].u.composite.op1)
-            || has_attacker_won_delegator(slices[si].u.composite.op2));
+  result = (d_slice_has_attacker_won(slices[si].u.composite.op1)
+            || d_slice_has_attacker_won(slices[si].u.composite.op2));
 
   hashing_suspended = save_hashing_suspended;
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-static boolean has_attacker_lost_delegator(slice_index operand)
-{
-  boolean result = false;
-
-  switch (slices[operand].type)
-  {
-    case STLeaf:
-      result = d_leaf_has_attacker_lost(operand);
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      result = d_composite_has_attacker_lost(operand);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
   return result;
 }
 
@@ -500,8 +316,8 @@ boolean d_quodlibet_end_has_attacker_lost(slice_index si)
 
   hashing_suspended = true;
   
-  result = (has_attacker_lost_delegator(slices[si].u.composite.op1)
-            || has_attacker_lost_delegator(slices[si].u.composite.op2));
+  result = (d_slice_has_attacker_lost(slices[si].u.composite.op1)
+            || d_slice_has_attacker_lost(slices[si].u.composite.op2));
 
   hashing_suspended = save_hashing_suspended;
   
@@ -524,8 +340,8 @@ void quodlibet_init_starter(slice_index si, boolean is_duplex)
   TraceFunctionParam("%d",si);
   TraceFunctionParam("%d\n",is_duplex);
 
-  composite_init_starter(op1,is_duplex);
-  composite_init_starter(op2,is_duplex);
+  slice_init_starter(op1,is_duplex);
+  slice_init_starter(op2,is_duplex);
 
   slices[si].starter = no_side;
 

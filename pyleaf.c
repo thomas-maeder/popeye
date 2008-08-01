@@ -322,14 +322,14 @@ boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
 /* Detect a priori unsolvability of a leaf (e.g. because of a forced
  * reflex mate)
  * @param leaf leaf's slice index
+ * @return true iff leaf is a priory unsolvable
  */
-boolean d_leaf_is_unsolvable(slice_index leaf)
+boolean leaf_is_unsolvable(slice_index leaf)
 {
-  Side const attacker = slices[leaf].starter;
   boolean result = false;
 
   assert(slices[leaf].type==STLeaf);
-  assert(attacker!=no_side);
+  assert(slices[leaf].starter!=no_side);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
@@ -337,14 +337,87 @@ boolean d_leaf_is_unsolvable(slice_index leaf)
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
+    {
+      Side const attacker = slices[leaf].starter;
       result = OptFlag[keepmating] && !is_a_mating_piece_left(attacker);
       break;
+    }
 
     case EReflex:
-      result = leaf_is_end_in_1_possible(attacker,leaf);
+    {
+      Side const attacker = slices[leaf].starter;
+      Side const defender = advers(attacker);
+      result = (leaf_is_end_in_1_possible(attacker,leaf)
+                || (OptFlag[keepmating]
+                    && !is_a_mating_piece_left(defender)));
+      break;
+    }
+
+    case ESelf:
+    case ESemireflex:
+    {
+      Side const defender = advers(slices[leaf].starter);
+      result = OptFlag[keepmating] && !is_a_mating_piece_left(defender);
+      break;
+    }
+
+    case EHelp:
+    {
+      Side const final = advers(slices[leaf].starter);
+      result = OptFlag[keepmating] && !is_a_mating_piece_left(final);
+      break;
+    }
+
+    case EDouble:
+    case ECounter:
+    {
+      Side const at_move = slices[leaf].starter;
+      Side const final = advers(at_move);
+      result = (OptFlag[keepmating]
+                && !(is_a_mating_piece_left(at_move)
+                     && is_a_mating_piece_left(final)));
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Determine whether there is >= 1 solution for the leaf
+ * @param leaf slice index of leaf slice
+ * @return true iff side_at_move has >=1 solution
+ */
+boolean leaf_is_solvable(slice_index leaf)
+{
+  boolean result = false;
+  
+  assert(slices[leaf].type==STLeaf);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+  switch (slices[leaf].u.leaf.end)
+  {
+    case EDirect:
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      /* TODO ? directly treat these ends differently here? */
+      if (leaf_is_unsolvable(leaf))
+        ; /* intentionally nothing */
+      else if (d_leaf_has_defender_lost(leaf))
+        result = true;
+      else
+        result = d_leaf_does_attacker_win(leaf);
       break;
 
     default:
+      assert(0);
       break;
   }
 
@@ -480,9 +553,7 @@ void d_leaf_write_unsolvability(slice_index leaf)
  *                       (determined by user input)
  * @return true iff >=1 key was found and written
  */
-static boolean leaf_d_solve(boolean restartenabled,
-                            slice_index leaf,
-                            int solutions)
+static boolean leaf_d_solve(boolean restartenabled, slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
   boolean const is_try = false;
@@ -513,7 +584,6 @@ static boolean leaf_d_solve(boolean restartenabled,
       }
       else
         linesolution(leaf);
-      pushtabsol(solutions);
     }
 
     if (restartenabled)
@@ -571,9 +641,7 @@ static void leaf_sr_solve_final_move(slice_index leaf)
  * @param leaf slice index of the leaf slice
  * @return true iff >=1 key was found and written
  */
-static boolean d_leaf_s_solve(boolean restartenabled,
-                              slice_index leaf,
-                              int solutions)
+static boolean d_leaf_s_solve(boolean restartenabled, slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
   boolean key_found = false;
@@ -592,7 +660,6 @@ static boolean d_leaf_s_solve(boolean restartenabled,
     {
       key_found = true;
       d_write_key(no_goal,false);
-      pushtabsol(solutions);
       marge += 4;
       leaf_sr_solve_final_move(leaf);
       marge -= 4;
@@ -614,12 +681,9 @@ static boolean d_leaf_s_solve(boolean restartenabled,
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param leaf slice index of the leaf slice
- * @param solutions table where to add found solutions
  * @return true iff >=1 key was found and written
  */
-static boolean d_leaf_r_solve(boolean restartenabled,
-                              slice_index leaf,
-                              int solutions)
+static boolean d_leaf_r_solve(boolean restartenabled, slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
   Side const defender = advers(attacker);
@@ -639,7 +703,6 @@ static boolean d_leaf_r_solve(boolean restartenabled,
     {
       key_found = true;
       d_write_key(no_goal,false);
-      pushtabsol(solutions);
       marge += 4;
       leaf_sr_solve_final_move(leaf);
       marge -= 4;
@@ -663,24 +726,23 @@ static boolean d_leaf_r_solve(boolean restartenabled,
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param leaf slice index of the leaf slice
- * @param solutions table where to add found solutions
  * @return true iff >=1 key was found and written
  */
-boolean d_leaf_solve(boolean restartenabled, slice_index leaf, int solutions)
+boolean d_leaf_solve(boolean restartenabled, slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      return leaf_d_solve(restartenabled,leaf,solutions);
+      return leaf_d_solve(restartenabled,leaf);
 
     case ESelf:
-      return d_leaf_s_solve(restartenabled,leaf,solutions);
+      return d_leaf_s_solve(restartenabled,leaf);
 
     case EReflex:
     case ESemireflex:
-      return d_leaf_r_solve(restartenabled,leaf,solutions);
+      return d_leaf_r_solve(restartenabled,leaf);
 
     default:
       assert(0);
@@ -693,7 +755,7 @@ boolean d_leaf_solve(boolean restartenabled, slice_index leaf, int solutions)
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-static d_composite_win_type d_leaf_s_does_defender_win(slice_index leaf)
+static d_defender_win_type d_leaf_s_does_defender_win(slice_index leaf)
 {
   Side const defender = advers(slices[leaf].starter);
 
@@ -711,7 +773,7 @@ static d_composite_win_type d_leaf_s_does_defender_win(slice_index leaf)
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-static d_composite_win_type d_leaf_r_does_defender_win(slice_index leaf)
+static d_defender_win_type d_leaf_r_does_defender_win(slice_index leaf)
 {
   Side const defender = advers(slices[leaf].starter);
 
@@ -728,9 +790,9 @@ static d_composite_win_type d_leaf_r_does_defender_win(slice_index leaf)
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-d_composite_win_type d_leaf_does_defender_win(slice_index leaf)
+d_defender_win_type d_leaf_does_defender_win(slice_index leaf)
 {
-  d_composite_win_type result = win;
+  d_defender_win_type result = win;
 
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -1414,6 +1476,8 @@ static boolean h_leaf_h_solve_ending_move(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
 
+  TraceValue("%d\n",side_at_move);
+
   GenMatingMove(side_at_move);
   active_slice[nbply] = leaf;
 
@@ -1451,13 +1515,11 @@ static boolean h_leaf_h_solve_ending_move(slice_index leaf)
 #endif
 
 /* Determine and write the final move pair in help countermate.
- * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_cmate_solve(hashwhat no_succ_hash_category,
-                                    boolean restartenabled,
+static boolean h_leaf_h_cmate_solve(boolean restartenabled,
                                     slice_index leaf)
 {
   boolean found_solution = false;
@@ -1476,9 +1538,9 @@ static boolean h_leaf_h_cmate_solve(hashwhat no_succ_hash_category,
         && !echecc(side_at_move)
         && !(restartenabled && MoveNbr<RestartNbr))
     {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!inhash(no_succ_hash_category,1,&hb))
+/*       HashBuffer hb;
+         (*encode)(&hb);
+         if (!inhash(no_succ_hash_category,1,&hb))*/
       {
         if (goal_checker_mate(side_at_move))
         {
@@ -1499,8 +1561,8 @@ static boolean h_leaf_h_cmate_solve(hashwhat no_succ_hash_category,
           finply();
         }
 
-        if (!found_solution)
-          addtohash(no_succ_hash_category,1,&hb);
+/*         if (!found_solution)
+             addtohash(no_succ_hash_category,1,&hb);*/
       }
     }
 
@@ -1516,13 +1578,11 @@ static boolean h_leaf_h_cmate_solve(hashwhat no_succ_hash_category,
 }
 
 /* Determine and write the final move pair in help doublemate.
- * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_dmate_solve(hashwhat no_succ_hash_category,
-                                    boolean restartenabled,
+static boolean h_leaf_h_dmate_solve(boolean restartenabled,
                                     slice_index leaf)
 {
   boolean found_solution = false;
@@ -1541,9 +1601,9 @@ static boolean h_leaf_h_dmate_solve(hashwhat no_succ_hash_category,
         && !echecc(side_at_move)
         && !(restartenabled && MoveNbr<RestartNbr))
     {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!inhash(no_succ_hash_category,1,&hb))
+/*       HashBuffer hb;
+         (*encode)(&hb);
+         if (!inhash(no_succ_hash_category,1,&hb))*/
       {
         if (!immobile(other_side))
         {
@@ -1565,8 +1625,8 @@ static boolean h_leaf_h_dmate_solve(hashwhat no_succ_hash_category,
           finply();
         }
 
-        if (!found_solution)
-          addtohash(no_succ_hash_category,1,&hb);
+/*         if (!found_solution)
+             addtohash(no_succ_hash_category,1,&hb);*/
       }
     }
 
@@ -1587,13 +1647,11 @@ static boolean h_leaf_h_dmate_solve(hashwhat no_succ_hash_category,
 
 /* Determine and write the final move pair in help stipulation with
  * "regular" goal. 
- * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_othergoals_solve(hashwhat no_succ_hash_category,
-                                         boolean restartenabled,
+static boolean h_leaf_h_othergoals_solve(boolean restartenabled,
                                          slice_index leaf)
 {
   boolean found_solution = false;
@@ -1621,14 +1679,15 @@ static boolean h_leaf_h_othergoals_solve(hashwhat no_succ_hash_category,
         && !echecc(side_at_move)
         && !(restartenabled && MoveNbr<RestartNbr))
     {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!inhash(no_succ_hash_category,1,&hb))
+      /* TODO */
+/*       HashBuffer hb;
+         (*encode)(&hb);
+         if (!inhash(no_succ_hash_category,1,&hb))*/
       {
         if (h_leaf_h_solve_ending_move(leaf))
           found_solution = true;
-        else
-          addtohash(no_succ_hash_category,1,&hb);
+/*         else
+             addtohash(no_succ_hash_category,1,&hb);*/
       }
     }
 
@@ -1655,14 +1714,11 @@ static boolean h_leaf_h_othergoals_solve(hashwhat no_succ_hash_category,
 }
 
 /* Determine and write the solution of a help leaf slice in help play.
- * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_solve(hashwhat no_succ_hash_category,
-                              boolean restartenabled,
-                              slice_index leaf)
+static boolean h_leaf_h_solve(boolean restartenabled, slice_index leaf)
 {
   boolean result;
 
@@ -1675,22 +1731,16 @@ static boolean h_leaf_h_solve(hashwhat no_succ_hash_category,
   switch (slices[leaf].u.leaf.goal)
   {
     case goal_countermate:
-      result = h_leaf_h_cmate_solve(no_succ_hash_category,
-                                    restartenabled,
-                                    leaf);
+      result = h_leaf_h_cmate_solve(restartenabled,leaf);
       break;
 
     case goal_doublemate:
-      result = h_leaf_h_dmate_solve(no_succ_hash_category,
-                                    restartenabled,
-                                    leaf);
+      result = h_leaf_h_dmate_solve(restartenabled,leaf);
       break;
 
 
     default:
-      result = h_leaf_h_othergoals_solve(no_succ_hash_category,
-                                         restartenabled,
-                                         leaf);
+      result = h_leaf_h_othergoals_solve(restartenabled,leaf);
       break;
   }
 
@@ -1700,14 +1750,11 @@ static boolean h_leaf_h_solve(hashwhat no_succ_hash_category,
 }
 
 /* Determine and write the solution of a leaf slice in help play.
- * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-boolean h_leaf_solve(hashwhat no_succ_hash_category,
-                     boolean restartenabled,
-                     slice_index leaf)
+boolean h_leaf_solve(boolean restartenabled, slice_index leaf)
 {
   boolean result = false;
 
@@ -1720,7 +1767,7 @@ boolean h_leaf_solve(hashwhat no_succ_hash_category,
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      leaf_sr_solve_final_move(leaf); /* TODO name of fct. */
+      result = leaf_d_solve(restartenabled,leaf);
       break;
 
     case ESelf:
@@ -1733,7 +1780,7 @@ boolean h_leaf_solve(hashwhat no_succ_hash_category,
       break;
 
     case EHelp:
-      result = h_leaf_h_solve(no_succ_hash_category,restartenabled,leaf);
+      result = h_leaf_h_solve(restartenabled,leaf);
       break;
 
     default:
@@ -1877,14 +1924,11 @@ static boolean ser_leaf_sr_solve(slice_index leaf)
 } /* ser_leaf_sr_solve */
 
 /* Determine and write the solution of a leaf slice in series play.
- * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-boolean ser_leaf_solve(hashwhat no_succ_hash_category,
-                       boolean restartenabled,
-                       slice_index leaf)
+boolean ser_leaf_solve(boolean restartenabled, slice_index leaf)
 {
   boolean result = false;
 
@@ -1899,7 +1943,7 @@ boolean ser_leaf_solve(hashwhat no_succ_hash_category,
   switch (slices[leaf].u.leaf.end)
   {
     case EHelp:
-      result = h_leaf_h_solve(no_succ_hash_category,restartenabled,leaf);
+      result = h_leaf_h_solve(restartenabled,leaf);
       break;
 
     case EDirect:
@@ -1925,49 +1969,10 @@ boolean ser_leaf_solve(hashwhat no_succ_hash_category,
   return result;
 }
 
-
-/* Determine whether there is >= 1 solution for the leaf
- * @param leaf slice index of leaf slice
- * @return true iff side_at_move has >=1 solution
- */
-boolean leaf_is_solvable(slice_index leaf)
-{
-  boolean result = false;
-  
-  assert(slices[leaf].type==STLeaf);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-  switch (slices[leaf].u.leaf.end)
-  {
-    case EDirect:
-    case ESelf:
-    case EReflex:
-    case ESemireflex:
-      /* TODO ? directly treat these ends differently here? */
-      if (d_leaf_is_unsolvable(leaf))
-        ; /* intentionally nothing */
-      else if (d_leaf_has_defender_lost(leaf))
-        result = true;
-      else
-        result = d_leaf_does_attacker_win(leaf);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
 boolean leaf_solve(slice_index leaf)
 {
   boolean result = false;
   boolean const restartenabled = false;
-  int const solutions = alloctab();
   
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -1980,20 +1985,22 @@ boolean leaf_solve(slice_index leaf)
     case ESelf:
     case EReflex:
     case ESemireflex:
+    {
       ++zugebene;
-      result = d_leaf_solve(restartenabled,leaf,solutions);
+      result = d_leaf_solve(restartenabled,leaf);
       --zugebene;
       break;
+    }
 
     case EHelp:
     {
-      boolean const save_flag_hashall = flag_hashall;
-      hashwhat next_no_succ = (slices[leaf].starter==blanc
-                               ? WhHelpNoSucc
-                               : BlHelpNoSucc);
-      flag_hashall = true; /* TODO */
-      result = h_leaf_solve(next_no_succ,restartenabled,leaf);
-      flag_hashall = save_flag_hashall;
+/*       boolean const save_flag_hashall = flag_hashall;
+         hashwhat next_no_succ = (slices[leaf].starter==blanc
+                                  ? WhHelpNoSucc
+                                  : BlHelpNoSucc);
+         flag_hashall = true;*/ /* TODO */
+      result = h_leaf_solve(restartenabled,leaf);
+/*       flag_hashall = save_flag_hashall;*/
       break;
     }
 
@@ -2002,8 +2009,6 @@ boolean leaf_solve(slice_index leaf)
       assert(0);
       break;
   }
-
-  freetab();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);

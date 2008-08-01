@@ -697,17 +697,22 @@ boolean verifieposition(void)
     }
   }
 
-  if (flagmaxi) {
-    CondFlag[blmax]= (maincamp==blanc);
-    CondFlag[whmax] = (maincamp==noir);
-    if (maincamp==blanc) {
+  if (flagmaxi)
+  {
+    if (maincamp==blanc)
+    {
+      CondFlag[blmax] = true;
+      CondFlag[whmax] = false;
       bl_ultra= CondFlag[ultra];
       bl_exact= CondFlag[exact];
       black_length= len_max;
       flagblackmummer= true;
       flagwhitemummer= false;
     }
-    else {
+    else
+    {
+      CondFlag[blmax] = false;
+      CondFlag[whmax] = true;
       wh_ultra= CondFlag[ultra];
       wh_exact= CondFlag[exact];
       white_length= len_max;
@@ -716,9 +721,10 @@ boolean verifieposition(void)
     }
   }
   
-  if (flagultraschachzwang) {
-    CondFlag[blackultraschachzwang]= (maincamp==blanc);
-    CondFlag[whiteultraschachzwang]= (maincamp==noir);
+  if (flagultraschachzwang)
+  {
+    CondFlag[blackultraschachzwang]= maincamp==blanc;
+    CondFlag[whiteultraschachzwang]= maincamp==noir;
   }
   if (CondFlag[blackultraschachzwang]
       || CondFlag[whiteultraschachzwang])
@@ -2404,8 +2410,6 @@ void d_write_refutations(int t)
 
 static void SolveSeriesProblems(void)
 {
-  int i;
-
   move_generation_mode = move_generation_not_optimized;
 
   flag_appseul= False;   /* -- no meaning in series movers would only
@@ -2423,7 +2427,7 @@ static void SolveSeriesProblems(void)
       else
       {
         zugebene++;
-        d_composite_solve_setplay(1,0);
+        d_slice_solve_setplay(0);
         zugebene--;
       }
     }
@@ -2441,16 +2445,22 @@ static void SolveSeriesProblems(void)
     if (OptFlag[intelligent])
     {
       boolean const is_exact = slices[0].u.composite.is_exact;
-      int starti = (is_exact || OptFlag[restart]
-                    ? slices[0].u.composite.length
-                    : 1);
-      for (i = starti; i <= slices[0].u.composite.length; i++)
+      int const full_length = slices[0].u.composite.length;
+      int const start = (is_exact || OptFlag[restart]
+                         ? slices[0].u.composite.length
+                         : 1);
+      for (slices[0].u.composite.length = start;
+           slices[0].u.composite.length<=full_length;
+           ++slices[0].u.composite.length)
       {
         if (slices[1].u.leaf.end==EHelp
-            ? Intelligent(1,i,&ser_composite_exact_solve,i)
-            : Intelligent(i,0,&ser_composite_exact_solve,i))
+            ? Intelligent(1,slices[0].u.composite.length,
+                          &ser_composite_exact_solve)
+            : Intelligent(slices[0].u.composite.length,0,
+                          &ser_composite_exact_solve))
         {
-          if (OptFlag[stoponshort] && i<slices[0].u.composite.length)
+          if (OptFlag[stoponshort] &&
+              slices[0].u.composite.length<full_length)
           {
             FlagShortSolsReached= true;
             break;
@@ -2460,6 +2470,8 @@ static void SolveSeriesProblems(void)
 
       if (!is_exact)
         slices[0].u.composite.is_exact = false;
+
+      slices[0].u.composite.length = full_length;
     }
     else
       ser_composite_slice0_solve(slices[0].u.composite.length,
@@ -2468,30 +2480,30 @@ static void SolveSeriesProblems(void)
 } /* SolveSeriesProblems */
 
 /* Solve a help play problem in exactly N moves
- * @param n number of half moves for reaching the end state
  * @param restartenabled true iff option movenum is activated
  * @return true iff >= 1 solution was found
  */
-static boolean SolveHelpInN(int n, boolean restartenabled)
+static boolean SolveHelpInN(boolean restartenabled)
 {
   boolean result = false;
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",n);
 
-  if (n==1)
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  if (slices[0].u.composite.length==1)
     result = h_leaf_solve_setplay(1);
   else if (OptFlag[intelligent])
   {
-    int blmoves = n/2;
+    int blmoves = slices[0].u.composite.length/2;
 
-    int whmoves = n/2;
-    if (n%2==1)
+    int whmoves = slices[0].u.composite.length/2;
+    if (slices[0].u.composite.length%2==1)
       whmoves++;
 
-    result = Intelligent(whmoves,blmoves,&h_composite_solve,n);
+    result = Intelligent(whmoves,blmoves,&h_composite_solve);
   }
   else
-    result = h_composite_solve(n,restartenabled,0);
+    result = h_composite_solve(restartenabled,0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
@@ -2500,36 +2512,40 @@ static boolean SolveHelpInN(int n, boolean restartenabled)
 
 /* Solve a help play problem, signal whether short solution(s) were
  * found 
- * @param n number of half moves for reaching the end state
  * @param stop_on_short true iff (in non-exact mode) solving should
  *                      stop after a short solution has been found
  * @return true iff solving was stopped because short solutions were
  *         found
  */
-static boolean SolveHelpShortOrFull(int n, boolean stop_on_short)
+static boolean SolveHelpShortOrFull(boolean stop_on_short)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",stop_on_short);
 
   if (!slices[0].u.composite.is_exact && !OptFlag[restart])
   {
-    int const starti = n%2==1 ? 1 : 2;
-    int i;
+    int const full_length = slices[0].u.composite.length;
+    int const start = full_length%2==1 ? 1 : 2;
 
-    for (i = starti; i<n; i += 2)
-      if (SolveHelpInN(i,false)
-          && stop_on_short)
+    for (slices[0].u.composite.length = start;
+         slices[0].u.composite.length<full_length;
+         slices[0].u.composite.length += 2)
+    {
+      boolean const restartenabled = false;
+      if (SolveHelpInN(restartenabled) && stop_on_short)
       {
         result = true;
         break;
       }
+    }
+
+    slices[0].u.composite.length = full_length;
   }
 
   if (!result)
-    SolveHelpInN(n,OptFlag[movenbr]);
+    SolveHelpInN(OptFlag[movenbr]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
@@ -2562,7 +2578,9 @@ static void SolveHelpProblems(void)
     {
       SatzFlag = True;
       slices[0].starter = advers(slices[0].starter);
-      SolveHelpShortOrFull(slices[0].u.composite.length-1,true);
+      --slices[0].u.composite.length;
+      SolveHelpShortOrFull(true);
+      ++slices[0].u.composite.length;
       slices[0].starter = advers(slices[0].starter);
       SatzFlag = False;
     }
@@ -2575,8 +2593,7 @@ static void SolveHelpProblems(void)
   if (echecc(advers(slices[0].starter)))
     ErrorMsg(KingCapture);
   else
-    FlagShortSolsReached = SolveHelpShortOrFull(slices[0].u.composite.length,
-                                                OptFlag[stoponshort]);
+    FlagShortSolsReached = SolveHelpShortOrFull(OptFlag[stoponshort]);
 
   if (flag_appseul)
   {
@@ -2611,7 +2628,7 @@ static void SolveDirectProblems(void)
         ErrorMsg(SetAndCheck);
       else
       {
-        d_composite_solve_setplay(slices[0].u.composite.length,0);
+        d_slice_solve_setplay(0);
         Message(NewLine);
       }
     }
@@ -2619,7 +2636,7 @@ static void SolveDirectProblems(void)
     if (echecc(advers(slices[0].starter)))
       ErrorMsg(KingCapture);
     else
-      d_composite_solve(slices[0].u.composite.length,OptFlag[movenbr],0);
+      d_composite_solve(OptFlag[movenbr],0);
   }
 
   zugebene--;
@@ -2692,7 +2709,7 @@ static void solveHalfADuplex(boolean is_duplex)
   /* intelligent AND duplex means that the board is mirrored and the
    * colors swapped by swapcolors() and reflectboard() -> start with
    * the regular side. */
-  composite_init_starter(first_slice, is_duplex && !OptFlag[intelligent]);
+  slice_init_starter(first_slice, is_duplex && !OptFlag[intelligent]);
   assert(slices[first_slice].starter!=no_side); /* TODO ErrorMsg() */
 
   inithash();
@@ -2913,7 +2930,7 @@ int main(int argc, char *argv[]) {
       
       setMaxtime(&maxsolvingtime);
 
-      maincamp= OptFlag[halfduplex] ? noir : blanc;
+      maincamp = OptFlag[halfduplex] ? noir : blanc;
 
       if (verifieposition())
       {
@@ -2941,22 +2958,22 @@ int main(int argc, char *argv[]) {
                            0);
           else
           {
-            maincamp = slices[1].u.leaf.goal==goal_atob
-                ? (flag_appseul
-                   ? blanc
-                   : noir)
-                : blanc;
+            Side const starter = (slices[1].u.leaf.goal==goal_atob
+                                  ? (flag_appseul ? blanc : noir)
+                                  : blanc);
             if (slices[1].u.leaf.goal==goal_atob
                 && OptFlag[solapparent]
-                && slices[0].u.composite.length>1) {
+                && slices[0].u.composite.length>1)
+            {
               SatzFlag= true;
-              ProofSol(advers(maincamp),
+              ProofSol(advers(starter),
                        slices[0].u.composite.length-1,
                        OptFlag[movenbr],
                        0);
               SatzFlag=false;
             }
-            ProofSol(maincamp,
+
+            ProofSol(starter,
                      slices[0].u.composite.length,
                      OptFlag[movenbr],
                      0);
