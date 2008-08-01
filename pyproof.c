@@ -31,6 +31,7 @@
 #include "pystip.h"
 #include "pyio.h"
 #include "platform/maxtime.h"
+#include "trace.h"
 
 /* an array to store the position */
 static piece ProofPieces[32];
@@ -342,7 +343,7 @@ void ProofInitialise(void)
     WritePosition();
   }
 
-  updateNbpiece();
+  verifieposition(blanc);
 
   /* store the PAS to be set when linesolution is called */
   StorePosition();

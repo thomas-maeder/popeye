@@ -313,26 +313,7 @@ static boolean isIntelligentModeAllowed(void)
   return false;
 }
 
-void updateNbpiece(void)
-{
-  piece p;
-  square *bnp;
-
-  for (p = roib; p<=derbla; p++)
-  {
-    nbpiece[p] = 0;
-    nbpiece[-p] = 0;
-  }
-
-  for (bnp = boardnum; *bnp!=0; bnp++)
-  {
-    p = e[*bnp];
-    if (p!=vide)
-      ++nbpiece[p];
-  }
-}
-
-static boolean verifieposition(Side maincamp)
+boolean verifieposition(Side maincamp)
 {
   square        *bnp;
   piece     p;
@@ -341,6 +322,12 @@ static boolean verifieposition(Side maincamp)
   int           i;
   boolean          nonoptgenre;
   
+  for (p = roib; p<=derbla; p++)
+  {
+    nbpiece[p] = 0;
+    nbpiece[-p] = 0;
+  }
+
   if (CondFlag[glasgow] && CondFlag[circemalefique])
     anycirprom= True;
 
@@ -463,6 +450,8 @@ static boolean verifieposition(Side maincamp)
         exist[-p]= true;
       else if (p>fb)
         exist[p]= true;
+
+      ++nbpiece[p];
     }
   }
 
@@ -2946,7 +2935,6 @@ int main(int argc, char *argv[]) {
       
       setMaxtime(&maxsolvingtime);
 
-      updateNbpiece();
       if (verifieposition(OptFlag[halfduplex] ? noir : blanc))
       {
         if (!OptFlag[noboard])
