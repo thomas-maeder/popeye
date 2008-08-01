@@ -598,7 +598,7 @@ static boolean h_composite_solve_recursive(Side side_at_move,
   assert(n>=2);
 
   if (h_composite_end_is_unsolvable(si))
-    TraceText("!is_a_mating_piece_left(maincamp)");
+    TraceText("!h_composite_end_is_unsolvable\n");
   else if (n==2)
     found_solution = h_composite_end_solve(restartenabled,si);
   else
