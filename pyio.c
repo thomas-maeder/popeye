@@ -5169,14 +5169,13 @@ void WritePiece(piece p) {
   }
 }
 
-void WriteSquare(square i) {
-  StdChar('a' - nr_files_on_board + i % onerow);
-  if (OptFlag[duplex] && OptFlag[intelligent] && maincamp == noir) {
-    StdChar('8' + nr_rows_on_board - i / onerow);
-  }
-  else {
-    StdChar('1' - nr_rows_on_board + i / onerow);
-  }
+void WriteSquare(square i)
+{
+  StdChar('a' - nr_files_on_board + i%onerow);
+  if (isBoardReflected)
+    StdChar('8' + nr_rows_on_board - i/onerow);
+  else
+    StdChar('1' - nr_rows_on_board + i/onerow);
 }
 
 

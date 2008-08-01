@@ -342,8 +342,7 @@ void ProofInitialise(void)
     WritePosition();
   }
 
-  /* update nbpiece */
-  verifieposition();
+  updateNbpiece();
 
   /* store the PAS to be set when linesolution is called */
   StorePosition();

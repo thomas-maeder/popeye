@@ -435,7 +435,7 @@ EXTERN  piece           orphanpieces[derbla + 1];
 
 EXTERN  boolean         ProofFairy;
 
-EXTERN  Side         maincamp;
+EXTERN boolean isBoardReflected;
 
 EXTERN  piece           NextChamCircePiece[PieceCount];
 EXTERN  boolean         InitChamCirce;

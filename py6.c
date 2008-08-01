@@ -313,7 +313,26 @@ static boolean isIntelligentModeAllowed(void)
   return false;
 }
 
-boolean verifieposition(void)
+void updateNbpiece(void)
+{
+  piece p;
+  square *bnp;
+
+  for (p = roib; p<=derbla; p++)
+  {
+    nbpiece[p] = 0;
+    nbpiece[-p] = 0;
+  }
+
+  for (bnp = boardnum; *bnp!=0; bnp++)
+  {
+    p = e[*bnp];
+    if (p!=vide)
+      ++nbpiece[p];
+  }
+}
+
+static boolean verifieposition(Side maincamp)
 {
   square        *bnp;
   piece     p;
@@ -419,10 +438,6 @@ boolean verifieposition(void)
     flagdiastip = stip_ends_only_in(diastipGoals,nrDiastipGoals);
   }
 
-  for (p= roib; p <= derbla; p++) {
-    nbpiece[p]= 0;
-    nbpiece[-p]= 0;
-  }
   if (TSTFLAG(PieSpExFlags, HalfNeutral)) {
     SETFLAG(PieSpExFlags, Neutral);
   }
@@ -439,16 +454,15 @@ boolean verifieposition(void)
     exist[sentinelb]= exist[sentineln]= true;
   }
 
-  for (bnp= boardnum; *bnp; bnp++) {
-    p= e[*bnp];
-    if (p != vide) {
-      if (p < fn) {
+  for (bnp = boardnum; *bnp; bnp++)
+  {
+    p = e[*bnp];
+    if (p!=vide)
+    {
+      if (p<fn)
         exist[-p]= true;
-      }
-      else if (p > fb) {
+      else if (p>fb)
         exist[p]= true;
-      }
-      nbpiece[e[*bnp]]++;
     }
   }
 
@@ -670,7 +684,7 @@ boolean verifieposition(void)
 
   if (CondFlag[leofamily]) {
     for (p= db; p <= fb; p++) {
-      if (nbpiece[p] + nbpiece[-p] != 0)
+      if (nbpiece[p]+nbpiece[-p] != 0)
       {
         VerifieMsg(LeoFamAndOrtho);
         return false;
@@ -2669,6 +2683,8 @@ static void reflectboard(void) {
     e[*bnp]= p;
     spec[*bnp]= sp;
   }
+
+  isBoardReflected = !isBoardReflected;
 }
 
 /* assert()s below this line must remain active even in "productive"
@@ -2930,9 +2946,8 @@ int main(int argc, char *argv[]) {
       
       setMaxtime(&maxsolvingtime);
 
-      maincamp = OptFlag[halfduplex] ? noir : blanc;
-
-      if (verifieposition())
+      updateNbpiece();
+      if (verifieposition(OptFlag[halfduplex] ? noir : blanc))
       {
         if (!OptFlag[noboard])
           WritePosition();
@@ -2988,7 +3003,6 @@ int main(int argc, char *argv[]) {
           if (OptFlag[duplex])
           {
             /* Set next side to calculate for duplex "twin" */
-            maincamp= advers(maincamp);
             if ((OptFlag[maxsols] && solutions>=maxsolutions)
                 || (OptFlag[stoponshort] && FlagShortSolsReached))
             {
@@ -3011,7 +3025,7 @@ int main(int argc, char *argv[]) {
               reflectboard();
             }
 
-            if (verifieposition())
+            if (verifieposition(noir))
               solveHalfADuplex(true);
 
             if (OptFlag[intelligent])
