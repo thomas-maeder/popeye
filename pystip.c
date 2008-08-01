@@ -402,11 +402,10 @@ slice_index find_unique_goal(void)
 }
 
 /* Determine whether a slice has >=1 solution
- * @param side_at_move side doing the first move
  * @param si slice index
  * @return true iff slice has >=1 solution(s)
  */
-boolean slice_is_solvable(Side side_at_move, slice_index si)
+boolean slice_is_solvable(slice_index si)
 {
   boolean result = false;
   
@@ -416,7 +415,7 @@ boolean slice_is_solvable(Side side_at_move, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = leaf_is_solvable(side_at_move,si);
+      result = leaf_is_solvable(si);
       break;
 
     default:
@@ -434,7 +433,7 @@ boolean slice_is_solvable(Side side_at_move, slice_index si)
  * @param si slice index
  * @return true iff slice has >=1 solution(s)
  */
-boolean slice_solve(Side side_at_move, slice_index si)
+boolean slice_solve(slice_index si)
 {
   boolean result = false;
   
@@ -444,7 +443,7 @@ boolean slice_solve(Side side_at_move, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = leaf_solve(side_at_move,si);
+      result = leaf_solve(si);
       break;
 
     default:

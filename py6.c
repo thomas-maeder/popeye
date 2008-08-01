@@ -2419,11 +2419,11 @@ static void SolveSeriesProblems(void)
     else
     {
       if (slices[1].u.leaf.end==EHelp)
-        h_leaf_solve_setplay(advers(slices[0].starter),1);
+        h_leaf_solve_setplay(1);
       else
       {
         zugebene++;
-        d_composite_solve_setplay(slices[0].starter,1,0);
+        d_composite_solve_setplay(1,0);
         zugebene--;
       }
     }
@@ -2447,8 +2447,8 @@ static void SolveSeriesProblems(void)
       for (i = starti; i <= slices[0].u.composite.length; i++)
       {
         if (slices[1].u.leaf.end==EHelp
-            ? Intelligent(1,i,&ser_composite_exact_solve,slices[0].starter,i)
-            : Intelligent(i,0,&ser_composite_exact_solve,slices[0].starter,i))
+            ? Intelligent(1,i,&ser_composite_exact_solve,i)
+            : Intelligent(i,0,&ser_composite_exact_solve,i))
         {
           if (OptFlag[stoponshort] && i<slices[0].u.composite.length)
           {
@@ -2462,27 +2462,24 @@ static void SolveSeriesProblems(void)
         slices[0].u.composite.is_exact = false;
     }
     else
-      ser_composite_slice0_solve(slices[0].starter,
-                                 slices[0].u.composite.length,
+      ser_composite_slice0_solve(slices[0].u.composite.length,
                                  OptFlag[movenbr]);
   } /* echecs(advers(camp)) */
 } /* SolveSeriesProblems */
 
 /* Solve a help play problem in exactly N moves
- * @param camp side moving first
  * @param n number of half moves for reaching the end state
  * @param restartenabled true iff option movenum is activated
  * @return true iff >= 1 solution was found
  */
-static boolean SolveHelpInN(Side camp, int n, boolean restartenabled)
+static boolean SolveHelpInN(int n, boolean restartenabled)
 {
   boolean result = false;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",camp);
   TraceFunctionParam("%d\n",n);
 
   if (n==1)
-    result = h_leaf_solve_setplay(camp,1);
+    result = h_leaf_solve_setplay(1);
   else if (OptFlag[intelligent])
   {
     int blmoves = n/2;
@@ -2491,10 +2488,10 @@ static boolean SolveHelpInN(Side camp, int n, boolean restartenabled)
     if (n%2==1)
       whmoves++;
 
-    result = Intelligent(whmoves,blmoves,&h_composite_solve,camp,n);
+    result = Intelligent(whmoves,blmoves,&h_composite_solve,n);
   }
   else
-    result = h_composite_solve(camp,n,restartenabled,0);
+    result = h_composite_solve(n,restartenabled,0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
@@ -2503,47 +2500,56 @@ static boolean SolveHelpInN(Side camp, int n, boolean restartenabled)
 
 /* Solve a help play problem, signal whether short solution(s) were
  * found 
- * @param camp side moving first
  * @param n number of half moves for reaching the end state
  * @param stop_on_short true iff (in non-exact mode) solving should
  *                      stop after a short solution has been found
  * @return true iff solving was stopped because short solutions were
  *         found
  */
-static boolean SolveHelpShortOrFull(Side camp,
-                                    int n,
-                                    boolean stop_on_short)
+static boolean SolveHelpShortOrFull(int n, boolean stop_on_short)
 {
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",stop_on_short);
+
   if (!slices[0].u.composite.is_exact && !OptFlag[restart])
   {
     int const starti = n%2==1 ? 1 : 2;
     int i;
 
     for (i = starti; i<n; i += 2)
-      if (SolveHelpInN(camp,i,false)
+      if (SolveHelpInN(i,false)
           && stop_on_short)
-        return true;
+      {
+        result = true;
+        break;
+      }
   }
 
-  SolveHelpInN(camp,n,OptFlag[movenbr]);
-  return false;
+  if (!result)
+    SolveHelpInN(n,OptFlag[movenbr]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 /* Solve a help problem
  */
 static void SolveHelpProblems(void)
 {
-  int n = slices[0].u.composite.length;
-  Side starter = slices[0].starter;
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
 
   if (flag_appseul)
   {
-    /* reduction by one half move because user said so in options
-     * don't modify slices[0] directly, because the next twin will do
-     * so again ...
-     */
-    --n;
-    starter = advers(starter);
+    /* reduction by one half move because user said so in options */
+    --slices[0].u.composite.length;
+    slices[0].starter = advers(slices[0].starter);
+    TraceValue("%d",slices[0].starter);
+    TraceValue("%d\n",slices[0].u.composite.length);
   }
 
   move_generation_mode = move_generation_not_optimized;
@@ -2555,7 +2561,9 @@ static void SolveHelpProblems(void)
     else
     {
       SatzFlag = True;
-      SolveHelpShortOrFull(advers(starter),n-1,true);
+      slices[0].starter = advers(slices[0].starter);
+      SolveHelpShortOrFull(slices[0].u.composite.length-1,true);
+      slices[0].starter = advers(slices[0].starter);
       SatzFlag = False;
     }
     StdChar('\n');
@@ -2564,12 +2572,21 @@ static void SolveHelpProblems(void)
   if (OptFlag[maxsols])    /* reset after set play */
     solutions = 0;
 
-  if (echecc(advers(starter)))
+  if (echecc(advers(slices[0].starter)))
     ErrorMsg(KingCapture);
   else
-    FlagShortSolsReached = SolveHelpShortOrFull(starter,
-                                                n,
+    FlagShortSolsReached = SolveHelpShortOrFull(slices[0].u.composite.length,
                                                 OptFlag[stoponshort]);
+
+  if (flag_appseul)
+  {
+    /* the next twin will do the adjustment again */
+    ++slices[0].u.composite.length;
+    slices[0].starter = advers(slices[0].starter);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 } /* SolveHelpProblems */
 
 static void SolveDirectProblems(void)
@@ -2582,9 +2599,7 @@ static void SolveDirectProblems(void)
       ErrorMsg(SetAndCheck);
     else
     {
-      d_composite_solve_postkey(slices[0].starter,
-                                slices[0].u.composite.length,
-                                0);
+      d_composite_solve_postkey(slices[0].u.composite.length,0);
       Message(NewLine);
     }
   }
@@ -2596,9 +2611,7 @@ static void SolveDirectProblems(void)
         ErrorMsg(SetAndCheck);
       else
       {
-        d_composite_solve_setplay(slices[0].starter,
-                                  slices[0].u.composite.length,
-                                  0);
+        d_composite_solve_setplay(slices[0].u.composite.length,0);
         Message(NewLine);
       }
     }
@@ -2606,10 +2619,7 @@ static void SolveDirectProblems(void)
     if (echecc(advers(slices[0].starter)))
       ErrorMsg(KingCapture);
     else
-      d_composite_solve(slices[0].starter,
-                        slices[0].u.composite.length,
-                        OptFlag[movenbr],
-                        0);
+      d_composite_solve(slices[0].u.composite.length,OptFlag[movenbr],0);
   }
 
   zugebene--;

@@ -37,8 +37,7 @@ typedef struct {
     piece	prom;
 } MOVE;
 
-boolean		(*solproc)(Side, int, boolean, slice_index);
-Side		solcamp;
+boolean		(*solproc)(int, boolean, slice_index);
 int	sollength;
 
 int MaxPieceAll, MaxPieceWhite, MaxPieceBlack;
@@ -636,7 +635,7 @@ void StaleStoreMate(
 
   closehash();
   inithash();
-  (*solproc)(solcamp, sollength, false, 0);
+  (*solproc)(sollength, false, 0);
 
   /* reset the old mating position */
   for (bnp= boardnum; *bnp; bnp++) {
@@ -827,7 +826,7 @@ void StoreMate(
 
   closehash();
   inithash();
-  (*solproc)(solcamp, sollength, false, 0);
+  (*solproc)(sollength, false, 0);
 
   /* reset the old mating position */
   for (bnp= boardnum; *bnp; bnp++) {
@@ -2379,8 +2378,7 @@ void GenerateBlackKing(int whmoves, int blmoves) {
 boolean Intelligent(
   int	whmoves,
   int	blmoves,
-  boolean	(*proc)(Side, int, boolean, slice_index),
-  Side	camp,
+  boolean	(*proc)(int, boolean, slice_index),
   int	length)
 {
   square	*bnp;
@@ -2388,7 +2386,6 @@ boolean Intelligent(
   int	i;
 
   solproc= proc;
-  solcamp= camp;
   sollength= length;
 
   deposebnp= boardnum;

@@ -10,11 +10,10 @@
  */
 
 /* Continue solving at the end of a reciprocal slice
- * @param side_at_move side at the move
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_reci_end_solve(Side side_at_move, slice_index si);
+boolean h_reci_end_solve(slice_index si);
 
 /* Intialize starter field with the starting side if possible, and
  * no_side otherwise. 
