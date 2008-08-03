@@ -17,7 +17,10 @@
 #include "pyint.h"
 #include "pydata.h"
 #include "pystip.h"
+#include "pycompos.h"
+#include "pyproof.h"
 #include "platform/maxtime.h"
+#include "trace.h"
 
 #define SetIndex(s, f)                                  \
   (s = (Flags)(s&((1<<DiaCirce)-1)) + (f<<DiaCirce))
@@ -37,7 +40,7 @@ typedef struct {
     piece	prom;
 } MOVE;
 
-boolean		(*solproc)(boolean, slice_index);
+boolean isIntelligentModeActive;
 
 int MaxPieceAll, MaxPieceWhite, MaxPieceBlack;
 int WhMovesLeft, BlMovesLeft;
@@ -362,10 +365,10 @@ boolean SolAlreadyFound(void) {
 
 #if defined(DEBUG)
   if (found) {
-	OptFlag[intelligent]= false;
+	isIntelligentModeActive= false;
 	StdString("solution already found:");
 	linesolution();
-	OptFlag[intelligent]= true;
+	isIntelligentModeActive= true;
   }
 #endif
 
@@ -377,7 +380,8 @@ int WhMovesRequired[maxply+1],
   BlMovesRequired[maxply+1],
   CapturesLeft[maxply+1];
 
-boolean MatePossible(void) {
+static boolean isGoalReachableRegularGoals(void)
+{
   int	whmoves, blmoves, index, time, captures;
   piece	f_p;
   square	t_sq;
@@ -488,7 +492,7 @@ boolean MatePossible(void) {
   CapturesLeft[nbply]= captures;
 
   return true;
-} /* MatePossible */
+} /* isGoalReachableRegularGoals */
 
 /* declarations */
 void ImmobilizeByBlBlock(
@@ -634,7 +638,11 @@ void StaleStoreMate(
 
   closehash();
   inithash();
-  (*solproc)(false,0);
+
+  if (slices[0].u.composite.play==PHelp)
+    h_composite_solve(false,0);
+  else
+    ser_composite_exact_solve(false,0);
 
   /* reset the old mating position */
   for (bnp= boardnum; *bnp; bnp++) {
@@ -741,6 +749,37 @@ void PreventCheckAgainstWhK(
   return;
 }
 
+static boolean Redundant(void)
+{
+  square	*bnp, sq;
+  piece	p;
+  Flags	sp;
+  boolean	flag;
+
+  /* check for redundant white pieces */
+  for (bnp= boardnum; *bnp; bnp++)
+  {
+	if (e[sq= *bnp] > obs)
+    {
+      if (sq == rb)
+		continue;
+
+      /* remove piece */
+      p= e[sq]; sp= spec[sq];
+      e[sq]= vide; spec[sq]= EmptySpec;
+
+      flag= echecc(noir) && immobile(noir);
+
+      /* restore piece */
+      e[sq]= p; spec[sq]= sp;
+      if (flag)
+		return true;
+	}
+  }
+
+  return false;
+} /* Redundant */
+
 void StoreMate(
   int	blmoves,
   int	whmoves,
@@ -756,9 +795,8 @@ void StoreMate(
 	return;
   }
 
-  if (Redundant()) {
+  if (Redundant())
 	return;
-  }
 
   if (   (rb == initsquare)
          && (white[0].sq != initsquare)
@@ -825,7 +863,11 @@ void StoreMate(
 
   closehash();
   inithash();
-  (*solproc)(false,0);
+
+  if (slices[0].u.composite.play==PHelp)
+    h_composite_solve(false,0);
+  else
+    ser_composite_exact_solve(false,0);
 
   /* reset the old mating position */
   for (bnp= boardnum; *bnp; bnp++) {
@@ -1840,36 +1882,6 @@ void NeutralizeMateGuardingPieces(
   return;
 }
 
-boolean Redundant(void) {
-  square	*bnp, sq;
-  piece	p;
-  Flags	sp;
-  boolean	flag;
-
-  /* check for redundant white pieces */
-  for (bnp= boardnum; *bnp; bnp++) {
-	if (e[sq= *bnp] > obs) {
-      if (sq == rb) {
-		continue;
-      }
-
-      /* remove piece */
-      p= e[sq]; sp= spec[sq];
-      e[sq]= vide; spec[sq]= EmptySpec;
-
-      flag= echecc(noir) && immobile(noir);
-
-      /* restore piece */
-      e[sq]= p; spec[sq]= sp;
-      if (flag) {
-		return true;
-      }
-	}
-  }
-
-  return false;
-} /* Redundant */
-
 int MovesToBlock(square sq, int blmoves) {
   int i;
   int mintime= maxply+1;
@@ -2374,16 +2386,11 @@ void GenerateBlackKing(int whmoves, int blmoves) {
 #endif
 } /* GenerateBlackKing */
 
-boolean Intelligent(
-  int	whmoves,
-  int	blmoves,
-  boolean	(*proc)(boolean, slice_index))
+static boolean IntelligentRegularGoals(void)
 {
   square	*bnp;
   piece	p;
   int	i;
-
-  solproc= proc;
 
   deposebnp= boardnum;
   is_cast_supp= castling_supported;
@@ -2426,7 +2433,7 @@ boolean Intelligent(
           moves= maxply+1;
 
 	    /* a black pawn that needs a white sacrifice to move away */
-	    else if (whmoves < 7
+	    else if (WhMovesLeft < 7
                  && sq<=square_h2
                  && e[sq+dir_left] <= King && e[sq+dir_right] <= King
                  && (e[sq+dir_up] == -Pawn
@@ -2458,9 +2465,6 @@ boolean Intelligent(
   StorePosition();
   ep[1]= ep2[1]= initsquare;
 
-  WhMovesLeft= whmoves;
-  BlMovesLeft= blmoves;
-
   /* clear board */
   for (bnp= boardnum; *bnp; bnp++) {
 	if (e[*bnp] != obs) {
@@ -2469,15 +2473,12 @@ boolean Intelligent(
 	}
   }
 
-  SolMax=
-    MatesMax= 0;
-
   for (p= King; p <= Bishop; p++) {
 	nbpiece[-p]= nbpiece[p]= 2;
   }
 
   /* generate final positions */
-  GenerateBlackKing(whmoves, blmoves);
+  GenerateBlackKing(WhMovesLeft, BlMovesLeft);
 
   ResetPosition();
 
@@ -2485,7 +2486,7 @@ boolean Intelligent(
       && maxtime_status!=MAXTIME_TIMEOUT)
   {
 	sprintf(GlobalStr, "%ld %s %d+%d",
-            MatesMax, GetMsgString(PotentialMates), whmoves, blmoves);
+            MatesMax, GetMsgString(PotentialMates), WhMovesLeft, BlMovesLeft);
 	StdString(GlobalStr);
 	if (!flag_regression) {
       StdString("  (");
@@ -2506,4 +2507,92 @@ boolean Intelligent(
   ep[1]= is_ep; ep2[1]= is_ep2;
 
   return (SolMax > 0);
+}
+
+boolean Intelligent(boolean looking_for_short_solutions)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",looking_for_short_solutions);
+
+  TraceValue("%d\n",slices[0].u.composite.play);
+  if (slices[0].u.composite.play==PHelp)
+  {
+    BlMovesLeft = slices[0].u.composite.length/2;
+    WhMovesLeft = BlMovesLeft;
+    if (slices[0].u.composite.length%2==1)
+    {
+      if (slices[0].starter==blanc)
+        ++WhMovesLeft;
+      else
+        ++BlMovesLeft;
+    }
+  }
+  else /*if (slices[0].u.composite.play==PSeries)*/
+  {
+    if (slices[1].u.leaf.end==EHelp)
+    {
+      if (slices[1].u.leaf.goal==goal_atob
+          || slices[1].u.leaf.goal==goal_proof)
+      {
+        WhMovesLeft = slices[0].u.composite.length;
+        BlMovesLeft = 0;
+      }
+      else
+      {
+        WhMovesLeft = 1;
+        BlMovesLeft = slices[0].u.composite.length;
+      }
+    }
+    else
+    {
+      WhMovesLeft = slices[0].u.composite.length;
+      BlMovesLeft = 0;
+    }
+  }
+  TraceValue("%d ",WhMovesLeft);
+  TraceValue("%d\n",BlMovesLeft);
+
+  SolMax = 0;
+  MatesMax = 0;
+
+  if (slices[1].u.leaf.goal==goal_atob
+      || slices[1].u.leaf.goal==goal_proof)
+  {
+    boolean saveMovenbr = false;
+
+    ProofInitialiseIntelligent();
+
+    /* temporarily suppress output of move numbers if we are testing
+     * short solutions */
+    if (looking_for_short_solutions)
+    {
+      saveMovenbr = OptFlag[movenbr];
+      OptFlag[movenbr] = false;
+    }
+      
+    if (slices[0].u.composite.play==PHelp)
+      result = h_composite_solve(OptFlag[movenbr],0);
+    else
+      result = ser_composite_exact_solve(OptFlag[movenbr],0);
+
+    if (looking_for_short_solutions)
+      OptFlag[movenbr] = saveMovenbr;
+  }
+  else
+    result = IntelligentRegularGoals();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 } /* Intelligent */
+
+boolean isGoalReachable(void)
+{
+  if (slices[1].u.leaf.goal==goal_atob
+      || slices[1].u.leaf.goal==goal_proof)
+    return !(*alternateImpossible)();
+  else
+    return isGoalReachableRegularGoals();
+}

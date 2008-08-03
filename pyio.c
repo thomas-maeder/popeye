@@ -65,6 +65,8 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pystip.h"
+#include "pyproof.h"
+#include "pyint.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 
@@ -273,7 +275,6 @@ static  int NestLevel=0;
 
 extern echiquier ProofBoard, PosA;
 extern square Proof_rb, Proof_rn, rbA, rnA;
-extern Flags ProofSpec[nr_squares_on_board], SpecA[nr_squares_on_board];
 extern imarr  isquareA;
 boolean OscillatingKingsSide;  /* this is all a hack */
 static nocontactfunc_t *nocontactfunc;
@@ -1076,16 +1077,8 @@ static char *ParseLength(char *tok, slice_index si)
 
       if (strncmp(tok,".5",2)==0)
       {
-        slice_index const op1 = slices[si].u.composite.op1;
+        ++slices[si].u.composite.length;
         tok += 2;
-        if (slices[op1].u.leaf.goal==goal_proof
-            || slices[op1].u.leaf.goal==goal_atob)
-          ++slices[si].u.composite.length;
-        else
-        {
-          slices[si].u.composite.length += 2;
-          flag_appseul = true;
-        }
       }
     }
   }
@@ -1217,12 +1210,15 @@ static char *ParseEnd(char *tok, slice_index si_parent)
   TraceFunctionEntry(__func__);
   TraceText("tok:");TraceText(tok);TraceText("\n");
 
-  if (strncmp("dia", tok, 3) == 0)
-    tok = ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
+  if (strncmp("ser-dia",tok,7) == 0
+      || strncmp("ser-a=>b",tok,8) == 0)
+    tok = ParseGoal(tok+4,EDirect,&slices[si_parent].u.composite.op1);
+  else if (strncmp("dia", tok, 3) == 0)
+    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.composite.op1);
 
 #if !defined(DATABASE)
   else if (strncmp("a=>b", tok, 4) == 0)
-    tok = ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
+    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.composite.op1);
 #endif
 
   else if (strncmp("semi-r", tok, 6) == 0)
@@ -1308,6 +1304,14 @@ static char *ParsePlay(char *tok, slice_index *si)
       OptFlag[nothreat] = True;
       slices[*si].u.composite.is_exact = true;
     }
+  }
+
+  else if (strncmp("ser-dia",tok,7) == 0
+           || strncmp("ser-a=>b",tok,8) == 0)
+  {
+    /* special treatment: leaf always has end==EDirect */
+    *si = alloc_composite_slice(STSequence,PSeries);
+    result = ParseEnd(tok,*si); /* do *not* skip over "ser-" */
   }
 
   else if (strncmp("ser-reci-h",tok,10) == 0)
@@ -3443,7 +3447,7 @@ static char *ParseTwin(void) {
         if (OptFlag[solapparent]) {
           strcat(ActTwin, "*");
         }
-        if (OptFlag[appseul]) {
+        if (OptFlag[whitetoplay]) {
           char temp[10];        /* increased due to buffer overflow */
           sprintf(temp, " %c{\\ra}",
                   tolower(*PieSpString[ActLang][White]));
@@ -4678,7 +4682,7 @@ void LaTeXEndDiagram(void) {
   if (!(OptFlag[solmenaces]
         || OptFlag[solflights]
         || OptFlag[nontrivial]
-        || (OptFlag[intelligent] && maxsol_per_matingpos!=ULONG_MAX)
+        || (isIntelligentModeActive && maxsol_per_matingpos!=ULONG_MAX)
         || FlagMaxSolsReached
         || (OptFlag[maxsols] && solutions>=maxsolutions)
         || maxtime_status==MAXTIME_TIMEOUT))
@@ -4971,10 +4975,9 @@ void LaTeXBeginDiagram(void) {
   LaTeXStr(ActStip);
   if (OptFlag[solapparent])
     fprintf(LaTeXFile, "*");
-  if (OptFlag[appseul]) {
+  if (OptFlag[whitetoplay])
     fprintf(LaTeXFile,
             " %c{\\ra}", tolower(*PieSpString[ActLang][White]));
-  }
 
   fprintf(LaTeXFile, "}%%\n");
 

@@ -11,11 +11,11 @@
 
 extern int WhMovesLeft, BlMovesLeft;
 
-boolean Redundant(void);
-boolean MatePossible(void);
+extern boolean isIntelligentModeActive;
+
+boolean isGoalReachable(void);
 boolean SolAlreadyFound(void);
 void StoreSol(void);
-boolean Intelligent(int whmoves, int blmoves,
-                    boolean (*proc)(boolean, slice_index));
+boolean Intelligent(boolean looking_for_short_solutions);
 
 #endif

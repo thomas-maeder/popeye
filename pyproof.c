@@ -30,6 +30,7 @@
 #include "pymsg.h"
 #include "pystip.h"
 #include "pyio.h"
+#include "pyint.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 
@@ -53,11 +54,7 @@ static boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
   CapturedBishopc1, CapturedBishopf1, CapturedQueend1,
   CapturedBishopc8, CapturedBishopf8, CapturedQueend8;
 
-/* Functions determining that going on from a certain position will
- * not lead to the required position. */
-typedef boolean (*ProofImpossible_fct_t)(int);
-
-static ProofImpossible_fct_t alternateImpossible;
+ProofImpossible_fct_t alternateImpossible;
 static ProofImpossible_fct_t seriesImpossible;
 
 void ProofEncode(HashBuffer *hb)
@@ -123,7 +120,10 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
 
   /* set all squares to a maximum */
   for (bnp= boardnum; *bnp; bnp++)
-    WhKingMoves[*bnp]= BlKingMoves[*bnp]= slices[0].u.composite.length;
+  {
+    WhKingMoves[*bnp] = slices[0].u.composite.length;
+    BlKingMoves[*bnp] = slices[0].u.composite.length;
+  }
 
   /* mark squares occupied or garded by immobile pawns
      white pawns
@@ -131,12 +131,12 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
   for (sq= square_a2; sq <= square_h2; sq++)
     if (ProofBoard[sq] == pb)
     {
-      WhKingMoves[sq]=
-        BlKingMoves[sq]= -1;    /* blocked */
+      WhKingMoves[sq]= -1;
+      BlKingMoves[sq]= -1;    /* blocked */
       if (eval_white == eval_ortho)
       {
-        BlKingMoves[sq+dir_up+dir_left]=
-          BlKingMoves[sq+dir_up+dir_right]= -2; /* guarded */
+        BlKingMoves[sq+dir_up+dir_left]= -2;
+        BlKingMoves[sq+dir_up+dir_right]= -2; /* guarded */
       }
     }
 
@@ -144,23 +144,36 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
   for (sq= square_a7; sq <= square_h7; sq++)
     if (ProofBoard[sq] == pn)
     {
-      BlKingMoves[sq]= WhKingMoves[sq]= -1;    /* blocked */
+      BlKingMoves[sq]= -1;
+      WhKingMoves[sq]= -1;    /* blocked */
       if (eval_black == eval_ortho)
       {
-        WhKingMoves[sq+dir_down+dir_right]=
-          WhKingMoves[sq+dir_down+dir_left]= -2;    /* guarded */
+        WhKingMoves[sq+dir_down+dir_right]= -2;
+        WhKingMoves[sq+dir_down+dir_left]= -2;    /* guarded */
       }
     }
 
   /* cornered bishops */
   if (BlockedBishopc1)
-    WhKingMoves[square_c1]= BlKingMoves[square_c1]= -1; /* blocked */
+  {
+    WhKingMoves[square_c1]= -1;
+    BlKingMoves[square_c1]= -1; /* blocked */
+  }
   if (BlockedBishopf1)
-    WhKingMoves[square_f1]= BlKingMoves[square_f1]= -1; /* blocked */
+  {
+    WhKingMoves[square_f1]= -1;
+    BlKingMoves[square_f1]= -1; /* blocked */
+  }
   if (BlockedBishopc8)
-    WhKingMoves[square_c8]= BlKingMoves[square_c8]= -1; /* blocked */
+  {
+    WhKingMoves[square_c8]= -1;
+    BlKingMoves[square_c8]= -1; /* blocked */
+  }
   if (BlockedBishopf8)
-    WhKingMoves[square_f8]= BlKingMoves[square_f8]= -1; /* blocked */
+  {
+    WhKingMoves[square_f8]= -1;
+    BlKingMoves[square_f8]= -1; /* blocked */
+  }
 
   /* initialise wh king */
   WhKingMoves[ProofRB]= 0;
@@ -252,159 +265,77 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
           }
       }
     }
+
     MoveNbr++;
   } while(GoOn);
 } /* ProofInitialiseKingMoves */
 
-/* a function to store the position and set the PAS */
-void ProofInitialise(void)
+void ProofInitialiseIntelligent(void)
 {
-  int       i;
-  piece p;
+  int i;
 
-  Proof_rb= rb;
-  Proof_rn= rn;
+  ProofNbrWhitePieces = 0;
+  ProofNbrBlackPieces = 0;
 
-  ProofNbrAllPieces=
-    ProofNbrWhitePieces=
-    ProofNbrBlackPieces= 0;
-
-  for (i= roib; i <= fb; i++)
+  for (i = roib; i <= fb; i++)
   {
-    ProofNbrPiece[i]= nbpiece[i];
-    ProofNbrWhitePieces+= ProofNbrPiece[i];
-    ProofNbrPiece[-i]= nbpiece[-i];
-    ProofNbrBlackPieces+= ProofNbrPiece[-i];
+    ProofNbrWhitePieces += ProofNbrPiece[i];
+    ProofNbrBlackPieces += ProofNbrPiece[-i];
   }
-
-  for (i= maxsquare - 1; i >= 0; i--)
-    ProofBoard[i]= e[i];
-
-  for (i = 0; i < nr_squares_on_board; i++)
-  {
-    ProofSpec[i]=spec[boardnum[i]];
-    /* in case continued twinning
-     * to other than proof game
-     */
-    p= e[boardnum[i]];
-    if (p != vide) {
-      ProofPieces[ProofNbrAllPieces]= p;
-      ProofSquares[ProofNbrAllPieces++]= boardnum[i];
-    }
-    CLEARFL(spec[boardnum[i]]);
-    p= e[boardnum[i]] = (slices[1].u.leaf.goal==goal_atob
-                         ? PosA[boardnum[i]]
-                         : PAS[i]);
-
-    /* We must set spec[] for the PAS.
-       This is used in jouecoup for andernachchess!*/
-    if (p>=roib)
-      SETFLAG(spec[boardnum[i]], White);
-    else if (p<=roin)
-      SETFLAG(spec[boardnum[i]], Black);
-    if (slices[1].u.leaf.goal==goal_atob)
-      spec[boardnum[i]]= SpecA[i];
-  }
-
-  if (CondFlag[imitators])
-    for (i= 0; i < maxinum; i++)
-      Proof_isquare[i]= isquare[i];
-
-  /* set the king squares */
-  if (!CondFlag[losingchess])
-  {
-    if (slices[1].u.leaf.goal==goal_atob)
-    {
-      rb = rbA;
-      rn = rnA;
-    }
-    else
-    {
-      rb = square_e1;
-      rn = square_e8;
-    }
-  }
-
-  if (slices[1].u.leaf.goal==goal_atob && CondFlag[imitators])
-    for (i= 0; i < maxinum; i++)
-      isquare[i]= isquareA[i];
-
-  if (slices[1].u.leaf.goal==goal_atob)
-  {
-    char InitialLine[40];
-    PieSpec atMove;
-    if (slices[0].u.composite.play==PSeries)
-      /* in series play, white is always at move */
-      atMove = White;
-    else
-      atMove = flag_appseul ? White : Black;
-    sprintf(InitialLine, "Initial (%s ->):\n", PieSpString[ActLang][atMove]);
-    StdString(InitialLine);
-    WritePosition();
-  }
-
-  verifieposition(blanc);
-
-  /* store the PAS to be set when linesolution is called */
-  StorePosition();
-
-  if (ProofFairy)
-    return;
 
   /* determine pieces blocked */
-
-  BlockedBishopc1= ProofBoard[square_c1] == fb
+  BlockedBishopc1 = ProofBoard[square_c1] == fb
     && ProofBoard[square_b2] == pb
     && ProofBoard[square_d2] == pb;
 
-  BlockedBishopf1= ProofBoard[square_f1] == fb
+  BlockedBishopf1 = ProofBoard[square_f1] == fb
     && ProofBoard[square_e2] == pb
     && ProofBoard[square_g2] == pb;
 
-  BlockedBishopc8= ProofBoard[square_c8] == fn
+  BlockedBishopc8 = ProofBoard[square_c8] == fn
     && ProofBoard[square_b7] == pn
     && ProofBoard[square_d7] == pn;
 
-  BlockedBishopf8= ProofBoard[square_f8] == fn
+  BlockedBishopf8 = ProofBoard[square_f8] == fn
     && ProofBoard[square_e7] == pn
     && ProofBoard[square_g7] == pn;
 
-  BlockedQueend1= BlockedBishopc1
+  BlockedQueend1 = BlockedBishopc1
     && BlockedBishopf1
     && ProofBoard[square_d1] == db
     && ProofBoard[square_c2] == pb
     && ProofBoard[square_f2] == pb;
 
-  BlockedQueend8= BlockedBishopc8
+  BlockedQueend8 = BlockedBishopc8
     && BlockedBishopf8
     && ProofBoard[square_d8] == dn
     && ProofBoard[square_c7] == pn
     && ProofBoard[square_f7] == pn;
 
   /* determine pieces captured */
-  CapturedBishopc1= ProofBoard[square_c1] != fb
+  CapturedBishopc1 = ProofBoard[square_c1] != fb
     && ProofBoard[square_b2] == pb
     && ProofBoard[square_d2] == pb;
 
-  CapturedBishopf1= ProofBoard[square_f1] != fb
+  CapturedBishopf1 = ProofBoard[square_f1] != fb
     && ProofBoard[square_e2] == pb
     && ProofBoard[square_g2] == pb;
 
-  CapturedBishopc8= ProofBoard[square_c8] != fn
+  CapturedBishopc8 = ProofBoard[square_c8] != fn
     && ProofBoard[square_b7] == pn
     && ProofBoard[square_d7] == pn;
 
-  CapturedBishopf8= ProofBoard[square_f8] != fn
+  CapturedBishopf8 = ProofBoard[square_f8] != fn
     && ProofBoard[square_e7] == pn
     && ProofBoard[square_g7] == pn;
 
-  CapturedQueend1= BlockedBishopc1
+  CapturedQueend1 = BlockedBishopc1
     && BlockedBishopf1
     && ProofBoard[square_d1] != db
     && ProofBoard[square_c2] == pb
     && ProofBoard[square_f2] == pb;
 
-  CapturedQueend8= BlockedBishopc8
+  CapturedQueend8 = BlockedBishopc8
     && BlockedBishopf8
     && ProofBoard[square_d8] != dn
     && ProofBoard[square_c7] == pn
@@ -435,11 +366,91 @@ void ProofInitialise(void)
     /* no bl rook can castle, so the bl king cannot either */
     CLRFLAGMASK(castling_flag[0],ke8_cancastle);
 
-  castling_flag[2]= castling_flag[1]= castling_flag[0];
+  castling_flag[2] = castling_flag[1] = castling_flag[0];
 
   /* initialise king diff_move arrays */
   ProofInitialiseKingMoves(Proof_rb, Proof_rn);
+} /* ProofInitialiseIntelligent */
 
+/* a function to store the position and set the PAS */
+void ProofInitialise(void)
+{
+  int       i;
+  piece p;
+
+  Proof_rb = rb;
+  Proof_rn = rn;
+
+  for (i = roib; i <= fb; i++)
+  {
+    ProofNbrPiece[i] = nbpiece[i];
+    ProofNbrPiece[-i] = nbpiece[-i];
+  }
+
+  for (i = maxsquare - 1; i >= 0; i--)
+    ProofBoard[i] = e[i];
+
+  ProofNbrAllPieces = 0;
+
+  for (i = 0; i < nr_squares_on_board; i++)
+  {
+    ProofSpec[i] = spec[boardnum[i]];
+    /* in case continued twinning
+     * to other than proof game
+     */
+    p = e[boardnum[i]];
+    if (p != vide)
+    {
+      ProofPieces[ProofNbrAllPieces] = p;
+      ProofSquares[ProofNbrAllPieces] = boardnum[i];
+      ++ProofNbrAllPieces;
+    }
+    CLEARFL(spec[boardnum[i]]);
+    p = slices[1].u.leaf.goal==goal_atob ? PosA[boardnum[i]] : PAS[i];
+    e[boardnum[i]] = p;
+
+    /* We must set spec[] for the PAS.
+       This is used in jouecoup for andernachchess!*/
+    if (p>=roib)
+      SETFLAG(spec[boardnum[i]], White);
+    else if (p<=roin)
+      SETFLAG(spec[boardnum[i]], Black);
+    if (slices[1].u.leaf.goal==goal_atob)
+      spec[boardnum[i]] = SpecA[i];
+  }
+
+  if (CondFlag[imitators])
+    for (i = 0; i < maxinum; i++)
+      Proof_isquare[i] = isquare[i];
+
+  /* set the king squares */
+  if (!CondFlag[losingchess])
+  {
+    if (slices[1].u.leaf.goal==goal_atob)
+    {
+      rb = rbA;
+      rn = rnA;
+    }
+    else
+    {
+      rb = square_e1;
+      rn = square_e8;
+    }
+  }
+
+  if (slices[1].u.leaf.goal==goal_atob && CondFlag[imitators])
+    for (i = 0; i < maxinum; i++)
+      isquare[i] = isquareA[i];
+
+  if (slices[1].u.leaf.goal==goal_atob
+      && !OptFlag[noboard])
+  {
+    PieSpec const atMove = slices[0].starter==blanc ? White : Black;
+    char InitialLine[40];
+    sprintf(InitialLine, "Initial (%s ->):\n", PieSpString[ActLang][atMove]);
+    StdString(InitialLine);
+    WritePosition();
+  }
 } /* ProofInitialise */
 
 /* function that compares the current position with the desired one
@@ -524,7 +535,7 @@ int ProofBlKingMovesNeeded(void)
 
 int ProofWhKingMovesNeeded(void)
 {
-  int   needed= WhKingMoves[rb];
+  int   needed = WhKingMoves[rb];
   int   cast;
 
   if (rb==initsquare)
@@ -541,8 +552,8 @@ int ProofWhKingMovesNeeded(void)
          needs after castling. It takes 1 move to castle, but we
          might save a rook move.
       */
-      cast= WhKingMoves[square_c1];
-      if (cast < needed)
+      cast = WhKingMoves[square_c1];
+      if (cast<needed)
         needed= cast;
     }
     if (TSTFLAGMASK(castling_flag[nbply],rh1_cancastle))
@@ -552,11 +563,12 @@ int ProofWhKingMovesNeeded(void)
          needs after castling. It takes 1 move to castle, but we
          might save a rook move
       */
-      cast= WhKingMoves[square_g1];
-      if (cast < needed)
+      cast = WhKingMoves[square_g1];
+      if (cast<needed)
         needed= cast;
     }
   }
+
   return needed;
 }
 
@@ -1157,16 +1169,17 @@ int ArrangePawns(
   return Diff;
 }
 
-static boolean NeverImpossible(int MovesAvailable)
+static boolean NeverImpossible()
 {
   return false;
 }
 
-static boolean ProofFairyImpossible(int MovesAvailable)
+static boolean ProofFairyImpossible(void)
 {
   square    *bnp, sq;
   piece pparr;
   int   NbrWh, NbrBl;
+  int MovesAvailable = BlMovesLeft+WhMovesLeft;
 
   NbrWh = nbpiece[pb]
     + nbpiece[cb]
@@ -1222,32 +1235,9 @@ static boolean ProofFairyImpossible(int MovesAvailable)
   {
     if (!CondFlag[masand])
     {
-      int black_moves_left;
-      int white_moves_left;
-
-      if (slices[0].u.composite.play==PSeries)
-      {
-        black_moves_left= 0;
-        white_moves_left= MovesAvailable;
-      }
-      else
-      {
-        black_moves_left = white_moves_left = MovesAvailable/2;
-        if (MovesAvailable%2 == 1)
-        {
-          boolean const enonce_is_odd = slices[0].u.composite.length%2==1;
-          if ((slices[1].u.leaf.goal==goal_atob
-               && !flag_appseul)
-              != enonce_is_odd)
-            white_moves_left++;
-          else
-            black_moves_left++;
-        }
-      }
-
       /* not enough time to capture the remaining pieces */
-      if (NbrWh-ProofNbrWhitePieces > black_moves_left
-          || NbrBl-ProofNbrBlackPieces > white_moves_left)
+      if (NbrWh-ProofNbrWhitePieces > BlMovesLeft
+          || NbrBl-ProofNbrBlackPieces > WhMovesLeft)
         return true;
     }
 
@@ -1348,13 +1338,13 @@ static boolean ProofFairyImpossible(int MovesAvailable)
   }
 
   return MovesAvailable < 0;
-
 } /* ProofFairyImpossible */
 
-static boolean ProofImpossible(int MovesAvailable) {
+static boolean ProofImpossible(void)
+{
   square    *bnp;
-  int       black_moves_left;
-  int       white_moves_left;
+  int       black_moves_left = BlMovesLeft;
+  int       white_moves_left = WhMovesLeft;
   int       WhPieToBeCapt, BlPieToBeCapt,
     WhCapturesRequired, BlCapturesRequired;
   piece p1, p2;
@@ -1362,9 +1352,19 @@ static boolean ProofImpossible(int MovesAvailable) {
   int       NbrWh, NbrBl;
 
   /* too many pawns captured or promoted */
-  if (ProofNbrPiece[pb] > nbpiece[pb]
-      || ProofNbrPiece[pn] > nbpiece[pn])
+  if (ProofNbrPiece[pb] > nbpiece[pb])
+  {
+    TraceValue("%d ",ProofNbrPiece[pb]);
+    TraceValue("%d\n",nbpiece[pb]);
     return true;
+  }
+
+  if (ProofNbrPiece[pn] > nbpiece[pn])
+  {
+    TraceValue("%d ",ProofNbrPiece[pn]);
+    TraceValue("%d\n",nbpiece[pn]);
+    return true;
+  }
 
   NbrWh = nbpiece[pb]
     + nbpiece[cb]
@@ -1381,39 +1381,43 @@ static boolean ProofImpossible(int MovesAvailable) {
     + nbpiece[roin];
 
   /* too many pieces captured */
-  if (NbrWh < ProofNbrWhitePieces
-      || NbrBl < ProofNbrBlackPieces)
+  if (NbrWh < ProofNbrWhitePieces)
+  {
+    TraceValue("%d ",NbrWh);
+    TraceValue("%d\n",ProofNbrWhitePieces);
     return true;
+  }
+  if (NbrBl < ProofNbrBlackPieces)
+  {
+    TraceValue("%d ",NbrBl);
+    TraceValue("%d\n",ProofNbrBlackPieces);
+    return true;
+  }
 
   /* check if there is enough time left to capture the
      superfluos pieces
   */
-  if (slices[0].u.composite.play==PSeries)
-  {
-    black_moves_left= 0;
-    white_moves_left= MovesAvailable;
-  }
-  else
-  {
-    black_moves_left= white_moves_left= MovesAvailable/2;
-    if (MovesAvailable%2 == 1)
-    {
-      boolean const enonce_is_odd = slices[0].u.composite.length%2==1;
-      if ((slices[1].u.leaf.goal==goal_atob
-           && !flag_appseul)
-          != enonce_is_odd)
-        white_moves_left++;
-      else
-        black_moves_left++;
-    }
-  }
 
   /* not enough time to capture the remaining pieces */
-  WhPieToBeCapt= NbrWh - ProofNbrWhitePieces;
-  BlPieToBeCapt= NbrBl - ProofNbrBlackPieces;
-  if (WhPieToBeCapt > black_moves_left
-      || BlPieToBeCapt > white_moves_left)
+  WhPieToBeCapt = NbrWh-ProofNbrWhitePieces;
+  if (WhPieToBeCapt>black_moves_left)
+  {
+    TraceValue("%d ",WhPieToBeCapt);
+    TraceValue("%d\n",black_moves_left);
     return true;
+  }
+
+  BlPieToBeCapt = NbrBl - ProofNbrBlackPieces;
+    TraceValue("%d ",BlPieToBeCapt);
+    TraceValue("%d ",NbrBl);
+    TraceValue("%d ",ProofNbrBlackPieces);
+    TraceValue("%d\n",white_moves_left);
+  if (BlPieToBeCapt>white_moves_left)
+  {
+    TraceValue("%d ",BlPieToBeCapt);
+    TraceValue("%d\n",white_moves_left);
+    return true;
+  }
 
   /* has one of the blocked pieces been captured ? */
   if ((BlockedBishopc1 && ProofBoard[square_c1]!=fb)
@@ -1422,144 +1426,206 @@ static boolean ProofImpossible(int MovesAvailable) {
       || (BlockedBishopf8 && ProofBoard[square_f8]!=fn)
       || (BlockedQueend1  && ProofBoard[square_d1]!=db)
       || (BlockedQueend8  && ProofBoard[square_d8]!=dn))
+  {
+    TraceText("blocked piece was captured\n");
     return true;
-
+  }
+  
   /* has a white pawn on the second rank moved or has it
      been captured?
   */
-  for (sq= square_a2; sq <= square_h2; sq++)
-    if (ProofBoard[sq] == pb && e[sq] != pb)
+  for (sq= square_a2; sq<=square_h2; sq+=dir_right)
+    if (ProofBoard[sq]==pb && e[sq]!=pb)
+    {
+      TraceValue("%d ",sq);
+      TraceText("ProofBoard[sq]==pb && e[sq]!=pb\n");
       return true;
+    }
 
   /* has a black pawn on the seventh rank moved or has it
      been captured?
   */
-  for (sq= square_a7; sq <= square_h7; sq++)
-    if (ProofBoard[sq] == pn && e[sq] != pn)
+  for (sq= square_a7; sq<=square_h7; sq+=dir_right)
+    if (ProofBoard[sq]==pn && e[sq]!=pn)
+    {
+      TraceValue("%d ",sq);
+      TraceText("ProofBoard[sq]==pn && e[sq]!=pn\n");
       return true;
+    }
 
   white_moves_left -= ProofWhKingMovesNeeded();
   if (white_moves_left < 0)
+  {
+    TraceText("white_moves_left -= ProofWhKingMovesNeeded() < 0\n");
+    TraceValue("%d ",ProofWhKingMovesNeeded());
+    TraceValue("%d\n",white_moves_left);
     return True;
+  }
 
   black_moves_left -= ProofBlKingMovesNeeded();
   if (black_moves_left < 0)
+  {
+    TraceText("black_moves_left -= ProofBlKingMovesNeeded() < 0\n");
+    TraceValue("%d ",ProofBlKingMovesNeeded());
+    TraceValue("%d\n",black_moves_left);
     return True;
+  }
 
   if (CondFlag[haanerchess])
-    return (ProofBoard[move_generation_stack[nbcou].departure] != vide);
+  {
+    TraceText("impossible hole created\n");
+    return ProofBoard[move_generation_stack[nbcou].departure] != vide;
+  }
 
   /* collect the pieces for further investigations */
-  ProofWhPawns.Nbr=
-    ProofWhPieces.Nbr=
-    ProofBlPawns.Nbr=
-    ProofBlPieces.Nbr=
-    CurrentWhPawns.Nbr=
-    CurrentWhPieces.Nbr=
-    CurrentBlPawns.Nbr=
-    CurrentBlPieces.Nbr= 0;
+  ProofWhPawns.Nbr = 0;
+  ProofWhPieces.Nbr = 0;
+  ProofBlPawns.Nbr = 0;
+  ProofBlPieces.Nbr = 0;
+  CurrentWhPawns.Nbr = 0;
+  CurrentWhPieces.Nbr = 0;
+  CurrentBlPawns.Nbr = 0;
+  CurrentBlPieces.Nbr= 0;
 
-  for (bnp= boardnum; *bnp; bnp++) {
+  for (bnp= boardnum; *bnp; bnp++)
+  {
     p1= ProofBoard[*bnp];
     p2= e[*bnp];
 
     if (p1 == p2)
       continue;
 
-    if (p1 != vide) {
-      if (p1 > vide) {  /* it's a white piece */
-        switch (p1) {
-        case roib:
-          break;
-        case pb:
-          ProofWhPawns.sq[ProofWhPawns.Nbr++]= *bnp;
-          ProofWhPieces.sq[ProofWhPieces.Nbr++]= *bnp;
-          break;
-        default:
-          ProofWhPieces.sq[ProofWhPieces.Nbr++]= *bnp;
-          break;
+    if (p1 != vide)
+    {
+      if (p1 > vide)
+      {  /* it's a white piece */
+        switch (p1)
+        {
+          case roib:
+            break;
+
+          case pb:
+            ProofWhPawns.sq[ProofWhPawns.Nbr]= *bnp;
+            ProofWhPawns.Nbr++;
+            ProofWhPieces.sq[ProofWhPieces.Nbr]= *bnp;
+            ProofWhPieces.Nbr++;
+            break;
+
+          default:
+            ProofWhPieces.sq[ProofWhPieces.Nbr]= *bnp;
+            ProofWhPieces.Nbr++;
+            break;
         }
       }
-      else {  /* it's a black piece */
-        switch (p1) {
-        case roin:
-          break;
-        case pn:
-          ProofBlPawns.sq[ProofBlPawns.Nbr++]= *bnp;
-          ProofBlPieces.sq[ProofBlPieces.Nbr++]= *bnp;
-          break;
-        default:
-          ProofBlPieces.sq[ProofBlPieces.Nbr++]= *bnp;
-          break;
+      else
+      {  /* it's a black piece */
+        switch (p1)
+        {
+          case roin:
+            break;
+
+          case pn:
+            ProofBlPawns.sq[ProofBlPawns.Nbr]= *bnp;
+            ProofBlPawns.Nbr++;
+            ProofBlPieces.sq[ProofBlPieces.Nbr]= *bnp;
+            ProofBlPieces.Nbr++;
+            break;
+
+          default:
+            ProofBlPieces.sq[ProofBlPieces.Nbr]= *bnp;
+            ProofBlPieces.Nbr++;
+            break;
         }
       }
     } /* p1 != vide */
 
-    if (p2 != vide) {
-      if (p2 > vide) {  /* it's a white piece */
-        switch (p2) {
-        case roib:
-          break;
-        case pb:
-          CurrentWhPawns.sq[CurrentWhPawns.Nbr++]= *bnp;
-          CurrentWhPieces.sq[CurrentWhPieces.Nbr++]= *bnp;
-          break;
-        default:
-          if (  !(CapturedBishopc1 && *bnp == square_c1 && p2 == fb)
+    if (p2 != vide)
+    {
+      if (p2 > vide)  /* it's a white piece */
+      {
+        switch (p2)
+        {
+          case roib:
+            break;
+
+          case pb:
+            CurrentWhPawns.sq[CurrentWhPawns.Nbr]= *bnp;
+            CurrentWhPawns.Nbr++;
+            CurrentWhPieces.sq[CurrentWhPieces.Nbr]= *bnp;
+            CurrentWhPieces.Nbr++;
+            break;
+
+          default:
+            if (!(CapturedBishopc1 && *bnp == square_c1 && p2 == fb)
                 &&!(CapturedBishopf1 && *bnp == square_f1 && p2 == fb)
                 &&!(CapturedQueend1 && *bnp == square_d1 && p2 == db))
-          {
-            CurrentWhPieces.sq[CurrentWhPieces.Nbr++]= *bnp;
-          }
-          break;
+              CurrentWhPieces.sq[CurrentWhPieces.Nbr++]= *bnp;
+            break;
         }
       }
-      else {  /* it's a black piece */
-        switch (p2) {
-        case roin:
-          break;
-        case pn:
-          CurrentBlPawns.sq[CurrentBlPawns.Nbr++]= *bnp;
-          CurrentBlPieces.sq[CurrentBlPieces.Nbr++]= *bnp;
-          break;
-        default:
-          if (  !(CapturedBishopc1 && *bnp == square_c1 && p2 == fn)
+      else  /* it's a black piece */
+      {
+        switch (p2)
+        {
+          case roin:
+            break;
+          case pn:
+            CurrentBlPawns.sq[CurrentBlPawns.Nbr]= *bnp;
+            CurrentBlPawns.Nbr++;
+            CurrentBlPieces.sq[CurrentBlPieces.Nbr]= *bnp;
+            CurrentBlPieces.Nbr++;
+            break;
+          default:
+            if (!(CapturedBishopc1 && *bnp == square_c1 && p2 == fn)
                 &&!(CapturedBishopf1 && *bnp == square_f1 && p2 == fn)
                 &&!(CapturedQueend1 && *bnp == square_d1 && p2 == dn))
-          {
-            CurrentBlPieces.sq[CurrentBlPieces.Nbr++]= *bnp;
-          }
-          break;
+              CurrentBlPieces.sq[CurrentBlPieces.Nbr++]= *bnp;
+            break;
         }
       }
     } /* p2 != vide */
   } /* for (bnp... */
 
-  if (ArrangePawns(BlPieToBeCapt, blanc, &BlCapturesRequired)
-      > white_moves_left)
+  if (ArrangePawns(BlPieToBeCapt,blanc,&BlCapturesRequired)>white_moves_left)
+  {
+    TraceText("ArrangePawns(BlPieToBeCapt,blanc,&BlCapturesRequired)"
+              ">white_moves_left\n");
     return True;
+  }
 
-  if (ArrangePawns(WhPieToBeCapt, noir, &WhCapturesRequired)
-      > black_moves_left)
+  if (ArrangePawns(WhPieToBeCapt,noir,&WhCapturesRequired)>black_moves_left)
+  {
+    TraceText("ArrangePawns(WhPieToBeCapt,noir,&WhCapturesRequired)"
+              ">black_moves_left");
     return True;
+  }
 
-  if (ArrangePieces(BlPieToBeCapt, blanc, BlCapturesRequired)
-      > white_moves_left)
+  if (ArrangePieces(BlPieToBeCapt,blanc,BlCapturesRequired)>white_moves_left)
+  {
+    TraceText("(ArrangePieces(BlPieToBeCapt,blanc,BlCapturesRequired)"
+              ">white_moves_left");
     return True;
+  }
 
-  if (ArrangePieces(WhPieToBeCapt, noir, WhCapturesRequired)
-      > black_moves_left)
+  if (ArrangePieces(WhPieToBeCapt,noir,WhCapturesRequired)>black_moves_left)
+  {
+    TraceText("ArrangePieces(WhPieToBeCapt,noir,WhCapturesRequired)"
+              ">black_moves_left");
     return True;
+  }
 
+  TraceText("not ProofImpossible\n");
   return false;
 } /* ProofImpossible */
 
-static boolean ProofSeriesImpossible(int MovesAvailable) {
+static boolean ProofSeriesImpossible(void)
+{
   square    *bnp, sq;
   int       BlPieToBeCapt, BlCapturesRequired;
   int       NbrBl;
-  int       white_moves_left= MovesAvailable;
+  int       white_moves_left= BlMovesLeft+WhMovesLeft;
 
+  TraceValue("%d\n",BlMovesLeft+WhMovesLeft);
   /* too many pawns captured or promoted */
   if (ProofNbrPiece[pb]>nbpiece[pb] || ProofNbrPiece[pn]>nbpiece[pn])
     return true;
@@ -1697,143 +1763,3 @@ boolean ProofVerifie(void) {
 
   return true;
 } /* ProofVerifie */
-
-boolean ProofSol(Side camp,
-                 int n,
-                 boolean restartenabled,
-                 slice_index si) {
-  boolean   result= false;
-  Side   ad= advers(camp);
-  HashBuffer hb;
-  slice_index const op1 = slices[si].u.composite.op1;
-
-  assert(slices[si].type==STSequence);
-  assert(slices[op1].type==STLeaf);
-
-  if ((OptFlag[maxsols] && solutions>=maxsolutions)
-      || maxtime_status==MAXTIME_TIMEOUT
-      || (OptFlag[stoponshort] && FlagShortSolsReached))
-    return false;
-
-  /* Let us check whether the position is already in the
-     hash table and marked unsolvable.
-  */
-  (*encode)(&hb);
-  if (inhash(camp==blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb))
-    return false;
-
-  genmove(camp);
-  active_slice[nbply] = si;
-
-  while (encore())
-    if (jouecoup())
-    {
-      if ((!restartenabled || MoveNbr>=RestartNbr)
-          && !echecc(camp))
-      {
-        if (n==1)
-        {
-          if (ProofIdentical())
-          {
-            result= true;
-            linesolution(op1);
-          }
-        }
-        else
-        {
-          if (!slices[0].u.composite.is_exact && ProofIdentical())
-          {
-            FlagShortSolsReached = true;
-            result = true;
-            linesolution(op1);
-          }
-          /* no else here; we might miss some solutions! */
-          if (!(*alternateImpossible)(n-1)
-              && ProofSol(ad,n-1,False,si))
-            result= true;
-        }
-      }
-
-      if (restartenabled)
-        IncrementMoveNbr();
-    
-      repcoup();
-    }
-
-  finply();
-
-  /* Add the position to the hash table if it has no solutions */
-  if (!result)
-    addtohash(camp==blanc ? WhHelpNoSucc : BlHelpNoSucc, n, &hb);
-
-  return result;
-} /* ProofSol */
-
-boolean SeriesProofSol(int n, boolean restartenabled, slice_index si) {
-  /* no camp, because we play always with white ! */
-  boolean result= false;
-  HashBuffer hb;
-  slice_index const op1 = slices[si].u.composite.op1;
-
-  assert(slices[si].type==STSequence);
-  assert(slices[op1].type==STLeaf);
-
-  if ((OptFlag[maxsols] && solutions>=maxsolutions)
-      || maxtime_status==MAXTIME_TIMEOUT
-      || (OptFlag[stoponshort] && FlagShortSolsReached))
-    return false;
-
-  /* Let us check whether the position is already in the
-     hash table and marked unsolvable.
-  */
-  (*encode)(&hb);
-  if (inhash(SerNoSucc,n,&hb))
-    return false;
-
-  genmove(blanc);
-  active_slice[nbply] = si;
-
-  while (encore())
-    if (jouecoup())
-    {
-      if ((!restartenabled || MoveNbr>=RestartNbr)
-          && !echecc(blanc))
-      {
-        if (n==1)
-        {
-          if (ProofIdentical())
-          {
-            result = true;
-            linesolution(op1);
-          }
-        }
-        else
-        {
-          if (!slices[0].u.composite.is_exact && ProofIdentical())
-          {
-            FlagShortSolsReached = true;
-            result = true;
-            linesolution(op1);
-          }
-          /* no else here; we might miss some solutions! */
-          if (!(*seriesImpossible)(n-1)
-              && !echecc(noir)
-              && SeriesProofSol(n-1,False,si))
-            result = true;
-        }
-      }
-
-      if (restartenabled)
-        IncrementMoveNbr();
-
-      repcoup();
-    }
-
-  finply();
-
-  /* Add the position to the hash table if it has no solutions */
-  if (!result)
-    addtohash(SerNoSucc,n,&hb);
-
-  return result;
-} /* SeriesProofSol */

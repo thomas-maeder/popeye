@@ -646,6 +646,8 @@ static void SmallEncode(HashBuffer *hb)
   hb->cmv.Leng= bp - hb->cmv.Data;
 } /* SmallEncode */
 
+unsigned long inhash_calls_count;
+
 boolean inhash(hashwhat what, int val, HashBuffer *hb)
 {
   dhtElement const * const he= dhtLookupElement(pyhash, (dhtValue)hb);
@@ -951,7 +953,8 @@ void inithash(void)
 
   bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
 
-  if (OptFlag[intelligent]) {
+  if (isIntelligentModeActive)
+  {
     one_byte_hash = false;
     bytes_per_spec= 5; /* TODO why so high??? */
   }

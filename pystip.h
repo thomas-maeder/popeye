@@ -65,6 +65,10 @@ enum
 
 extern Slice slices[max_nr_slices];
 
+/* "Regular starting side" according to stipulation, i.e. starting
+ * side were it not for option "WhiteBegins" and set play checking */
+extern Side regular_starter;
+
 /* Allocate a composite slice.
  * Initializes type to STSequence and composite fields to null values
  * @return index of allocated slice
@@ -273,11 +277,16 @@ typedef enum
  */
 d_defender_win_type d_slice_does_defender_win(slice_index si);
 
-/* Intialize starter field with the starting side if possible, and
- * no_side otherwise. 
+/* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
  */
-void slice_init_starter(slice_index si, boolean is_duplex);
+void slice_detect_starter(slice_index si, boolean is_duplex);
+
+/* Impose the starting side on a slice.
+ * @param si identifies sequence
+ * @param s starting side of leaf
+ */
+void slice_impose_starter(slice_index si, Side s);
 
 #endif

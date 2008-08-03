@@ -900,7 +900,7 @@ typedef PieceChar       PieTable[PieceCount];
 /*--- Start of typedef enum {---*/
 #define soltout          0
 #define solapparent      1
-#define appseul          2
+#define whitetoplay      2
 #define solvariantes     3
 #define movenbr          4
 #define restart          5

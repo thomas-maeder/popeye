@@ -289,12 +289,11 @@ boolean d_sequence_end_has_attacker_won(slice_index si)
   return result;
 }
 
-/* Intialize starter field with the starting side if possible, and
- * no_side otherwise. 
+/* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
  */
-void sequence_init_starter(slice_index si, boolean is_duplex)
+void sequence_detect_starter(slice_index si, boolean is_duplex)
 {
   slice_index const op1 = slices[si].u.composite.op1;
 
@@ -302,7 +301,7 @@ void sequence_init_starter(slice_index si, boolean is_duplex)
   TraceFunctionParam("%d",si);
   TraceFunctionParam("%d\n",is_duplex);
 
-  slice_init_starter(op1,is_duplex);
+  slice_detect_starter(op1,is_duplex);
 
   slices[si].starter = no_side;
 
@@ -332,4 +331,43 @@ void sequence_init_starter(slice_index si, boolean is_duplex)
   TraceValue("%d\n",slices[si].starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
+}
+
+/* Impose the starting side on a slice.
+ * @param si identifies sequence
+ * @param s starting side of leaf
+ */
+void sequence_impose_starter(slice_index si, Side s)
+{
+  slice_index const op1 = slices[si].u.composite.op1;
+
+  Side next_starter;
+
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      next_starter = s;
+      break;
+
+    case PHelp:
+      /* help play in N.5 -> change starter */
+      next_starter = (slices[si].u.composite.length%2==1 ? advers(s) : s);
+      break;
+
+    case PSeries:
+      /* series sequence after series sequence == intro series
+       * -> change starter */
+      next_starter = (slices[op1].type==STSequence
+                      && slices[op1].u.composite.play==PSeries
+                      ? advers(s)
+                      : s);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  slices[si].starter = s;
+  slice_impose_starter(op1,next_starter);
 }

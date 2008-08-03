@@ -213,8 +213,6 @@ void InitOpt(void) {
 
   for (i= 0; i < OptCount; i++)
     OptFlag[i]= False;
-
-  flag_appseul= false;
 }
 
 void InitCheckDir(void) {
@@ -767,7 +765,8 @@ imarr		sic_isquare;
 square		sic_im0, rn_sic, rb_sic;
 long int sic_BGL_W, sic_BGL_b;
 
-void StorePosition(void) {
+void StorePosition(void)
+{
   int	    i;
 
   rn_sic= rn; rb_sic= rb;

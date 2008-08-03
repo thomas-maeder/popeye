@@ -27,6 +27,7 @@ boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf);
 
 /* Detect a priori unsolvability of a leaf (e.g. because of forced
  * reflex mates)
+ * @param n number of moves to go
  * @param leaf leaf's slice index
  * @return true iff leaf is a priori unsolvable
  */
@@ -152,11 +153,16 @@ boolean leaf_is_solvable(slice_index leaf);
  */
 boolean leaf_solve(slice_index leaf);
 
-/* Intialize starter field with the starting side if possible, and
- * no_side otherwise. 
+/* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
  * @param is_duplex is this for duplex?
  */
-void leaf_init_starter(slice_index leaf, boolean is_duplex);
+void leaf_detect_starter(slice_index leaf, boolean is_duplex);
+
+/* Impose the starting side on a leaf. 
+ * @param leaf identifies leaf
+ * @param s starting side of leaf
+ */
+void leaf_impose_starter(slice_index leaf, Side s);
 
 #endif

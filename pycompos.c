@@ -597,9 +597,7 @@ static boolean h_composite_solve_recursive(Side side_at_move,
 
   assert(n>=2);
 
-  if (h_composite_end_is_unsolvable(si))
-    TraceText("!h_composite_end_is_unsolvable\n");
-  else if (n==2)
+  if (n==2)
     found_solution = h_composite_end_solve(restartenabled,si);
   else
   {
@@ -617,24 +615,22 @@ static boolean h_composite_solve_recursive(Side side_at_move,
     {
       TraceCurrentMove();
       if (jouecoup()
-          && (!OptFlag[intelligent] || MatePossible())
+          && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(side_at_move)
-          && !(restartenabled && MoveNbr<RestartNbr))
+          && !(restartenabled && MoveNbr<RestartNbr)
+          && !h_composite_end_is_unsolvable(si))
       {
-        if (flag_hashall)
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (inhash(next_no_succ,n-1,&hb))
+          TraceText("inhash(next_no_succ,n-1,&hb)\n");
+        else
         {
-          HashBuffer hb;
-          (*encode)(&hb);
-          if (!inhash(next_no_succ,n-1,&hb))
-          {
-            if (h_composite_solve_recursive(next_side,n-1,False,si))
-              found_solution = true;
-            else
-              addtohash(next_no_succ,n-1,&hb);
-          }
-        } else
           if (h_composite_solve_recursive(next_side,n-1,False,si))
             found_solution = true;
+          else
+            addtohash(next_no_succ,n-1,&hb);
+        }
       }
 
       if (restartenabled)
@@ -739,8 +735,8 @@ static boolean ser_composite_exact_solve_recursive(int n,
           TraceText("!jouecoup()\n");
         else if (echecc(series_side))
           TraceText("echecc(series_side)\n");
-        else if (OptFlag[intelligent] && !MatePossible())
-          TraceText("OptFlag[intelligent] && !MatePossible()\n");
+        else if (isIntelligentModeActive && !isGoalReachable())
+          TraceText("isIntelligentModeActive && !isGoalReachable()\n");
         else if (echecc(other_side))
           TraceText("echecc(other_side)\n");
         else
@@ -832,8 +828,8 @@ static boolean ser_composite_maximal_solve(int n,
           TraceText("echecc(series_side)\n");
         else if (restartenabled && MoveNbr<RestartNbr)
           TraceText("restartenabled && MoveNbr<RestartNbr\n");
-        else if (OptFlag[intelligent] && !MatePossible())
-          TraceText("OptFlag[intelligent] && !MatePossible()\n");
+        else if (isIntelligentModeActive && !isGoalReachable())
+          TraceText("isIntelligentModeActive && !isGoalReachable()\n");
         else if (echecc(other_side))
           TraceText("echecc(other_side)\n");
         else

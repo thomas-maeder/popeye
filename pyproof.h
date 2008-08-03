@@ -9,13 +9,23 @@
 #if !defined(PYPROOF_H)
 #define PYPROOF_H
 
+extern Flags ProofSpec[nr_squares_on_board];
+extern Flags SpecA[nr_squares_on_board];
+
 union HashBuffer;
 
 void ProofEncode(HashBuffer *);
-boolean ProofSol(Side camp, int n, boolean restartenabled, slice_index si);
-boolean SeriesProofSol(int n, boolean restartenabled, slice_index si);
 void    ProofInitialiseKingMoves(square ProofRB, square ProofRN);
 boolean ProofVerifie(void);
 void    ProofInitialise(void);
+void    ProofInitialiseIntelligent(void);
+boolean ProofIdentical(void);
+
+
+/* Functions determining that going on from a certain position will
+ * not lead to the required position. */
+typedef boolean (*ProofImpossible_fct_t)(void);
+
+ProofImpossible_fct_t alternateImpossible; /* TODO */
 
 #endif

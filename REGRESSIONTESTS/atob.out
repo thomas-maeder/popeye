@@ -354,33 +354,6 @@ Initial (Weiss ->):
 +---a---b---c---d---e---f---g---h---+
   ser-a=>b12                  2 + 2
 
-  1.Lf2-h4   2.Kd1-c1   3.Kc1-b1   4.Kb1*a2   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lh4-e1 a=>b 
-  1.Lf2-g3   2.Kd1-c1   3.Kc1-b1   4.Kb1*a2   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lg3-e1 a=>b 
-  1.Kd1-c1   2.Lf2-h4   3.Kc1-b1   4.Kb1*a2   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lh4-e1 a=>b 
-  1.Kd1-c1   2.Lf2-g3   3.Kc1-b1   4.Kb1*a2   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lg3-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Lf2-h4   4.Kb1*a2   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lh4-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Lf2-g3   4.Kb1*a2   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lg3-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Lf2-h4   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lh4-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Lf2-g3   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lg3-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-a1   5.Ka1-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lf2-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Lf2-h4   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lh4-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Lf2-g3   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lg3-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Lf2-h4   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lh4-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Lf2-g3   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lg3-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Lf2-h4   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lh4-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Lf2-g3   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lg3-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e1   8.Ke1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lf2-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Lf2-h4   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lh4-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Lf2-g3   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Lg3-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-e3   9.Ke3-f3  10.Kf3-g4  11.Kg4-h5  12.Lf2-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-e3   9.Ke3-f4  10.Kf4-g4  11.Kg4-h5  12.Lf2-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-e3   9.Ke3-f4  10.Kf4-g5  11.Kg5-h5  12.Lf2-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g3  10.Kg3-g4  11.Kg4-h5  12.Lf2-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g3  10.Kg3-h4  11.Kh4-h5  12.Lf2-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-f4  10.Kf4-g4  11.Kg4-h5  12.Lf2-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-f4  10.Kf4-g5  11.Kg5-h5  12.Lf2-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g4  10.Kg4-h4  11.Kh4-h5  12.Lf2-e1 a=>b 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g4  10.Kg4-g5  11.Kg5-h5  12.Lf2-e1 a=>b 
   1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g4  10.Kg4-h5  11.Lf2-e1 a=>b 
 
 Bearbeitung abgebrochen. 

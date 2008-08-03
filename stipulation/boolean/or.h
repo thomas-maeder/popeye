@@ -118,11 +118,16 @@ boolean d_quodlibet_end_has_attacker_won(slice_index si);
  */
 boolean d_quodlibet_end_has_attacker_lost(slice_index si);
 
-/* Intialize starter field with the starting side if possible, and
- * no_side otherwise. 
+/* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
  */
-void quodlibet_init_starter(slice_index si, boolean is_duplex);
+void quodlibet_detect_starter(slice_index si, boolean is_duplex);
+
+/* Impose the starting side on a slice.
+ * @param si identifies sequence
+ * @param s starting side of slice
+ */
+void quodlibet_impose_starter(slice_index si, Side s);
 
 #endif

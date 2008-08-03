@@ -471,7 +471,6 @@ EXTERN int         WhiteSATFlights, BlackSATFlights;
 EXTERN boolean          WhiteStrictSAT[maxply+1],BlackStrictSAT[maxply+1];
 EXTERN square           takemake_departuresquare;
 EXTERN square           takemake_capturesquare;
-EXTERN boolean          flag_appseul;
 EXTERN int         zzzao[haut - bas + 1];
 EXTERN boolean          flag_synchron;
 EXTERN long int         BGL_black, BGL_white;

@@ -5,6 +5,7 @@
 #include "pymsg.h"
 #include "pyint.h"
 #include "pyio.h"
+#include "pyproof.h"
 
 #include <assert.h>
 
@@ -95,9 +96,12 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
       result = goal_checker_any(just_moved);
       break;
 
-    case goal_mate_or_stale:
     case goal_proof:
     case goal_atob:
+      result = ProofIdentical();
+      break;
+
+    case goal_mate_or_stale:
     default:
       assert(0);
       break;
@@ -566,7 +570,7 @@ static boolean leaf_d_solve(boolean restartenabled, slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
 
-  genmove(attacker);
+  GenMatingMove(attacker);
   active_slice[nbply] = leaf;
 
   while (encore())
@@ -1465,7 +1469,7 @@ static boolean h_leaf_r_solve(slice_index leaf)
  * @param leaf slice index
  * @return true iff >= 1 solution was found
  */
-static boolean h_leaf_h_solve_ending_move(slice_index leaf)
+static boolean h_leaf_h_solve_final_move(slice_index leaf)
 {
   boolean final_move_found = false;
   Side const side_at_move = advers(slices[leaf].starter);
@@ -1489,15 +1493,21 @@ static boolean h_leaf_h_solve_ending_move(slice_index leaf)
   while (encore())
   {
     TraceCurrentMove();
-    if (jouecoup()
-        && (!OptFlag[intelligent] || MatePossible()))
+    if (jouecoup())
     {
-      if (leaf_is_goal_reached(side_at_move,leaf))
+      if (isIntelligentModeActive && !isGoalReachable())
+        TraceText("isIntelligentModeActive && !isGoalReachable()\n");
+      else if (echecc(side_at_move))
+        TraceText("echecc(side_at_move)\n");
+      else if (!leaf_is_goal_reached(side_at_move,leaf))
+        TraceText("!leaf_is_goal_reached(side_at_move,leaf)\n");
+      else
       {
         final_move_found = true;
         linesolution(leaf);
       }
     }
+
     repcoup();
   }
 
@@ -1675,16 +1685,17 @@ static boolean h_leaf_h_othergoals_solve(boolean restartenabled,
   {
     TraceCurrentMove();
     if (jouecoup()
-        && (!OptFlag[intelligent] || MatePossible())
+        && (!isIntelligentModeActive || isGoalReachable())
         && !echecc(side_at_move)
-        && !(restartenabled && MoveNbr<RestartNbr))
+        && !(restartenabled && MoveNbr<RestartNbr)
+        && !leaf_is_unsolvable(leaf))
     {
       /* TODO */
 /*       HashBuffer hb;
          (*encode)(&hb);
          if (!inhash(no_succ_hash_category,1,&hb))*/
       {
-        if (h_leaf_h_solve_ending_move(leaf))
+        if (h_leaf_h_solve_final_move(leaf))
           found_solution = true;
 /*         else
              addtohash(no_succ_hash_category,1,&hb);*/
@@ -1820,7 +1831,7 @@ boolean h_leaf_solve_setplay(slice_index leaf)
       break;
 
     case EHelp:
-      result = h_leaf_h_solve_ending_move(leaf);
+      result = h_leaf_h_solve_final_move(leaf);
       break;
 
     default:
@@ -2015,12 +2026,11 @@ boolean leaf_solve(slice_index leaf)
   return result;
 }
 
-/* Intialize starter field with the starting side if possible, and
- * no_side otherwise. 
+/* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
  * @param is_duplex is this for duplex?
  */
-void leaf_init_starter(slice_index leaf, boolean is_duplex)
+void leaf_detect_starter(slice_index leaf, boolean is_duplex)
 {
   slices[leaf].starter = no_side;
 
@@ -2054,4 +2064,13 @@ void leaf_init_starter(slice_index leaf, boolean is_duplex)
   TraceValue("%d\n",slices[leaf].starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
+}
+
+/* Impose the starting side on a leaf. 
+ * @param leaf identifies leaf
+ * @param s starting side of leaf
+ */
+void leaf_impose_starter(slice_index leaf, Side s)
+{
+  slices[leaf].starter = s;
 }

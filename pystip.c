@@ -12,6 +12,8 @@
 
 Slice slices[max_nr_slices];
 
+Side regular_starter;
+
 static slice_index next_slice;
 
 /* Allocate a composite slice.
@@ -1029,12 +1031,11 @@ void d_slice_write_unsolvability(slice_index si)
   TraceText("\n");
 }
 
-/* Intialize starter field with the starting side if possible, and
- * no_side otherwise. 
+/* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
  */
-void slice_init_starter(slice_index si, boolean is_duplex)
+void slice_detect_starter(slice_index si, boolean is_duplex)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
@@ -1042,19 +1043,19 @@ void slice_init_starter(slice_index si, boolean is_duplex)
   switch (slices[si].type)
   {
     case STLeaf:
-      leaf_init_starter(si,is_duplex);
+      leaf_detect_starter(si,is_duplex);
       break;
 
     case STSequence:
-      sequence_init_starter(si,is_duplex);
+      sequence_detect_starter(si,is_duplex);
       break;
 
     case STReciprocal:
-      reci_init_starter(si,is_duplex);
+      reci_detect_starter(si,is_duplex);
       break;
 
     case STQuodlibet:
-      quodlibet_init_starter(si,is_duplex);
+      quodlibet_detect_starter(si,is_duplex);
       break;
 
     default:
@@ -1062,6 +1063,14 @@ void slice_init_starter(slice_index si, boolean is_duplex)
       break;
   }
 
+  if (si==0)
+  {
+    regular_starter = slices[0].starter;
+    TraceValue("%d\n",regular_starter);
+  }
+
+  TraceValue("%d\n",slices[si].u.composite.length);
+  TraceValue("%d\n",slices[si].u.composite.play);
   if (slices[si].type!=STLeaf
       && slices[si].u.composite.play==PHelp
       && slices[si].u.composite.length%2 == 1)
@@ -1075,4 +1084,34 @@ void slice_init_starter(slice_index si, boolean is_duplex)
   TraceValue("%d\n",slices[si].starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
+}
+
+/* Impose the starting side on a slice.
+ * @param si identifies sequence
+ * @param s starting side of leaf
+ */
+void slice_impose_starter(slice_index si, Side s)
+{
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      leaf_impose_starter(si,s);
+      break;
+
+    case STSequence:
+      sequence_impose_starter(si,s);
+      break;
+
+    case STReciprocal:
+      reci_impose_starter(si,s);
+      break;
+
+    case STQuodlibet:
+      quodlibet_impose_starter(si,s);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 }

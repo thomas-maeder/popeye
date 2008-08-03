@@ -387,7 +387,6 @@ boolean riderhoppercheck(square i, numvec kanf, numvec kend, piece p,
 			 int run_up, int jump,
 			 evalfunction_t *evaluate);
 
-boolean verifieposition(Side s);
 void    linesolution(slice_index si);
 
 void	pyInitSignal(void);
