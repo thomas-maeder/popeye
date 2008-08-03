@@ -9,6 +9,8 @@
 
 #if defined(DOTRACE)
 
+#include "py.h"
+
 /* Deactivate trace output until program termination.
  * Useful while debugging to suppress trace output from the command line.
  */
@@ -42,6 +44,13 @@ void TraceFunctionExit(char const *name);
  */
 void TraceText(char const *text);
 
+void TraceSquareImpl(char const *prefix, square s);
+
+/* Trace a square name
+ */
+#define TraceSquare(name) \
+  TraceSquareImpl(" " #name ":", name)
+
 /* Trace the current move in the top-level generation
  * Only tested right before calling jouecoup; writes the correct
  * departure and arrival square and sometimes the correct piece etc,
@@ -63,6 +72,7 @@ void TraceValueImpl(char const *format, int value);
 #define TraceFunctionParam(format,name)
 #define TraceValue(format,name)
 #define TraceText(text)
+#define TraceSquare(name)
 #define TraceCurrentMove()
 #define TraceFunctionExit(name)
 #define TraceFunctionResult(format,name);

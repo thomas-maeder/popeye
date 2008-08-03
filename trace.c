@@ -47,6 +47,15 @@ void TraceText(char const *text)
     printf("  #%d %s",level,text);
 }
 
+void TraceSquareImpl(char const *prefix, square s)
+{
+  if (!deactivated)
+  {
+    printf("%s",prefix);
+    WriteSquare(s);
+  }
+}
+
 void TraceCurrentMove()
 {
   if (!deactivated)
