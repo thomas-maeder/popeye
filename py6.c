@@ -317,13 +317,10 @@ static boolean isIntelligentModeAllowed(void)
   return false;
 }
 
-static boolean verifieposition(void)
+static void countPieces(void)
 {
   square        *bnp;
   piece     p;
-  ply           n;
-  int      cp, pp, tp, op;
-  boolean          nonoptgenre;
 
   for (p = roib; p<=derbla; p++)
   {
@@ -357,117 +354,33 @@ static boolean verifieposition(void)
     }
   }
 
-  if (CondFlag[glasgow] && CondFlag[circemalefique])
-    anycirprom= True;
+  if (CondFlag[leofamily])
+    for (p = db; p<=fb; p++)
+      exist[p]= false;
 
-  /* initialize promotion squares */
-  if (!CondFlag[einstein]) {
-    square i;
-    if (!CondFlag[whprom_sq]) {
-      for (i= 0; i < 8; i++)
-        SETFLAG(sq_spec[CondFlag[glasgow] ? square_h7-i : square_h8-i],
-                WhPromSq);
-    }
-    if (!CondFlag[blprom_sq]) {
-      for (i= 0; i < 8; i++)
-        SETFLAG(sq_spec[CondFlag[glasgow] ? square_a2+i : square_a1+i],
-                BlPromSq);
-    }
-  }
+  if (CondFlag[chinoises])
+    for (p= leob; p <= vaob; p++)
+      exist[p]= true;
 
-  im0= isquare[0];
-  if (! CondFlag[imitators])
-    CondFlag[noiprom]= true;
-
-  if (slices[0].u.composite.length<=max_len_threat)
-    max_len_threat = maxply;
-
-  zugebene= 0;
-  if (slices[0].u.composite.play==PDirect)
+  if (CondFlag[cavaliermajeur])
   {
-    if (slices[0].u.composite.length<2
-        && max_nr_refutations>0
-        && !(slices[1].u.leaf.end==ESelf
-             || slices[1].u.leaf.end==EReflex
-             || slices[1].u.leaf.end==ESemireflex))
-    {
-      ErrorMsg(TryInLessTwo);
-      max_nr_refutations = 0;
-    }
-    if (OptFlag[stoponshort])
-    {
-      ErrorMsg(NoStopOnShortSolutions);
-      OptFlag[stoponshort]= false;
-    }
-
-    /* ennonce means full moves */
-    if (slices[0].u.composite.length>(maxply-1)/2)
-    {
-      VerifieMsg(BigNumMoves);
-      return false;
-    }
-  }
-  else
-  {
-    /* ennonce means half moves */
-    if (slices[0].u.composite.length >= maxply-2)
-    {
-      VerifieMsg(BigNumMoves);
-      return false;
-    }
+    exist[cb]= false;
+    exist[nb]= true;
   }
 
-  {
-    Goal const neutralretractableGoals[] =
-    {
-      goal_mate,
-      goal_check,
-      goal_doublemate
-    };
+  for (p= CondFlag[losingchess] || CondFlag[dynasty] ? roib : db;
+       p <= derbla;
+       p++)
+    if (promonly[p])
+      exist[p]= True;
 
-    size_t const nrNeutralretractableGoals
-        = sizeof neutralretractableGoals / sizeof neutralretractableGoals[0];
+  if (CondFlag[protean])
+    exist[reversepb]= true;
+}
 
-    optim_neutralretractable = stip_ends_only_in(neutralretractableGoals,
-                                                 nrNeutralretractableGoals);
-    optim_orthomatingmoves = optim_neutralretractable;
-  }
-
-  if (slices[1].u.leaf.goal == goal_steingewinn
-      && CondFlag[parrain])
-  {
-    VerifieMsg(PercentAndParrain);
-    return false;
-  }
-
-  {
-    Goal const diastipGoals[] =
-    {
-      goal_circuit,
-      goal_exchange,
-      goal_circuitB,
-      goal_exchangeB
-    };
-
-    size_t const nrDiastipGoals
-        = sizeof diastipGoals / sizeof diastipGoals[0];
-    flagdiastip = stip_ends_only_in(diastipGoals,nrDiastipGoals);
-  }
-
-  if (TSTFLAG(PieSpExFlags, HalfNeutral)) {
-    SETFLAG(PieSpExFlags, Neutral);
-  }
-
-  if ((bl_royal_sq!=initsquare || wh_royal_sq!=initsquare
-       || CondFlag[republican]
-       || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
-       || rex_circe
-       || rex_immun)
-      && (CondFlag[dynasty] || CondFlag[losingchess]))
-  {
-    VerifieMsg(IncompatibleRoyalSettings);
-    return false;
-  }
+static boolean locateKings(void)
+{
+  square        *bnp;
 
   rb = initsquare;
   rn = initsquare;
@@ -476,7 +389,8 @@ static boolean verifieposition(void)
     /* neutral king has to be white for initialisation of r[bn] */
     initneutre(blanc);
 
-  if (CondFlag[dynasty]) {
+  if (CondFlag[dynasty])
+  {
     square *bnp;
     square s;
 
@@ -570,6 +484,129 @@ static boolean verifieposition(void)
     }
   }
 
+  return true;
+}
+
+static boolean verifieposition(void)
+{
+  square        *bnp;
+  piece     p;
+  ply           n;
+  int      cp, pp, tp, op;
+  boolean          nonoptgenre;
+
+  if (CondFlag[glasgow] && CondFlag[circemalefique])
+    anycirprom= True;
+
+  /* initialize promotion squares */
+  if (!CondFlag[einstein])
+  {
+    square i;
+    if (!CondFlag[whprom_sq])
+      for (i= 0; i < 8; i++)
+        SETFLAG(sq_spec[CondFlag[glasgow] ? square_h7-i : square_h8-i],
+                WhPromSq);
+
+    if (!CondFlag[blprom_sq])
+      for (i= 0; i < 8; i++)
+        SETFLAG(sq_spec[CondFlag[glasgow] ? square_a2+i : square_a1+i],
+                BlPromSq);
+
+  }
+
+  im0= isquare[0];
+  if (! CondFlag[imitators])
+    CondFlag[noiprom]= true;
+
+  if (slices[0].u.composite.length<=max_len_threat)
+    max_len_threat = maxply;
+
+  zugebene= 0;
+  if (slices[0].u.composite.play==PDirect)
+  {
+    if (slices[0].u.composite.length<2
+        && max_nr_refutations>0
+        && !(slices[1].u.leaf.end==ESelf
+             || slices[1].u.leaf.end==EReflex
+             || slices[1].u.leaf.end==ESemireflex))
+    {
+      ErrorMsg(TryInLessTwo);
+      max_nr_refutations = 0;
+    }
+    if (OptFlag[stoponshort])
+    {
+      ErrorMsg(NoStopOnShortSolutions);
+      OptFlag[stoponshort]= false;
+    }
+
+    /* ennonce means full moves */
+    if (slices[0].u.composite.length>(maxply-1)/2)
+    {
+      VerifieMsg(BigNumMoves);
+      return false;
+    }
+  }
+  else
+  {
+    /* ennonce means half moves */
+    if (slices[0].u.composite.length >= maxply-2)
+    {
+      VerifieMsg(BigNumMoves);
+      return false;
+    }
+  }
+
+  {
+    Goal const neutralretractableGoals[] =
+    {
+      goal_mate,
+      goal_check,
+      goal_doublemate
+    };
+
+    size_t const nrNeutralretractableGoals
+        = sizeof neutralretractableGoals / sizeof neutralretractableGoals[0];
+
+    optim_neutralretractable = stip_ends_only_in(neutralretractableGoals,
+                                                 nrNeutralretractableGoals);
+    optim_orthomatingmoves = optim_neutralretractable;
+  }
+
+  if (slices[1].u.leaf.goal == goal_steingewinn
+      && CondFlag[parrain])
+  {
+    VerifieMsg(PercentAndParrain);
+    return false;
+  }
+
+  {
+    Goal const diastipGoals[] =
+    {
+      goal_circuit,
+      goal_exchange,
+      goal_circuitB,
+      goal_exchangeB
+    };
+
+    size_t const nrDiastipGoals
+        = sizeof diastipGoals / sizeof diastipGoals[0];
+    flagdiastip = stip_ends_only_in(diastipGoals,nrDiastipGoals);
+  }
+
+  if (TSTFLAG(PieSpExFlags, HalfNeutral))
+    SETFLAG(PieSpExFlags, Neutral);
+
+  if ((bl_royal_sq!=initsquare || wh_royal_sq!=initsquare
+       || CondFlag[republican]
+       || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
+       || rex_circe
+       || rex_immun)
+      && (CondFlag[dynasty] || CondFlag[losingchess]))
+  {
+    VerifieMsg(IncompatibleRoyalSettings);
+    return false;
+  }
+
   if (CondFlag[takemake])
   {
     if (CondFlag[sentinelles]
@@ -584,18 +621,21 @@ static boolean verifieposition(void)
   flag_magic = TSTFLAG(PieSpExFlags, Magic);
   flag_outputmultiplecolourchanges = flag_magic || CondFlag[masand];
 
-  for (bnp= boardnum; *bnp; bnp++) {
+  for (bnp= boardnum; *bnp; bnp++)
+  {
     p= e[*bnp];
-    if (p != vide) {
-      if (CondFlag[volage] && rb != *bnp && rn != *bnp) {
+    if (p != vide)
+    {
+      if (CondFlag[volage] && rb != *bnp && rn != *bnp)
         SETFLAG(spec[*bnp], Volage);
-      }
 
-      if ((PieSpExFlags >> DiaCirce) || flagdiastip || flag_magic) {
+      if ((PieSpExFlags >> DiaCirce) || flagdiastip || flag_magic)
         SetDiaRen(spec[*bnp], *bnp);
-      }
-      if (TSTFLAG(spec[*bnp], ColourChange)) {
-        if (!is_simplehopper(abs(e[*bnp]))) {
+
+      if (TSTFLAG(spec[*bnp], ColourChange))
+      {
+        if (!is_simplehopper(abs(e[*bnp])))
+        {
           /* relies on imitators already having been implemented */
           CLRFLAG(spec[*bnp], ColourChange);
           ErrorMsg(ColourChangeRestricted);
@@ -608,8 +648,10 @@ static boolean verifieposition(void)
   }
 
   flagleofamilyonly= CondFlag[leofamily] ? true : false;
-  for (p= fb + 1; p <= derbla; p++) {
-    if (exist[p] || promonly[p]) {
+  for (p= fb + 1; p <= derbla; p++)
+  {
+    if (exist[p] || promonly[p])
+    {
       flagfee= true;
       if (is_rider(p))
         flagriders= true;
@@ -640,15 +682,17 @@ static boolean verifieposition(void)
     }
   }
 
-  if (CondFlag[sting]) {
-    optim_neutralretractable = optim_orthomatingmoves = false;
+  if (CondFlag[sting])
+  {
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
     flagfee= true;
     flagsimplehoppers= true;
   }
 
   if (!CondFlag[noiprom])
-    for (n= 0; n <= maxply; Iprom[n++]= false)
-      ;
+    for (n= 0; n <= maxply; n++)
+      Iprom[n]= false;
 
   flaglegalsquare=
       TSTFLAG(PieSpExFlags, Jigger)
@@ -657,7 +701,8 @@ static boolean verifieposition(void)
       || CondFlag[blackedge] || CondFlag[whiteedge]
       || CondFlag[geneva];
 
-  if (CondFlag[imitators]) {
+  if (CondFlag[imitators])
+  {
     if (flagveryfairy
         || flagsymmetricfairy
         || flaglegalsquare
@@ -671,37 +716,37 @@ static boolean verifieposition(void)
       VerifieMsg(ImitWFairy);
       return false;
     }
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
   }
 
   if (CondFlag[leofamily])
   {
-    for (p = db; p<=fb; p++) {
+    for (p = db; p<=fb; p++)
+    {
       if (nbpiece[p]+nbpiece[-p]!=0)
       {
         VerifieMsg(LeoFamAndOrtho);
         return false;
       }
-      exist[p]= false;
     }
   }
 
-  if (CondFlag[chinoises]) {
-    for (p= leob; p <= vaob; p++) {
-      exist[p]= true;
-    }
+  if (CondFlag[chinoises])
     flagfee= true;
-  }
 
-  if (anycirce) {
+  if (anycirce)
+  {
     if (exist[dummyb])
     {
       VerifieMsg(CirceAndDummy);
       return false;
     }
     if (TSTFLAG(PieSpExFlags, Neutral)
-        || CondFlag[volage] || TSTFLAG(PieSpExFlags,Volage)) {
-      optim_neutralretractable = optim_orthomatingmoves = false;
+        || CondFlag[volage] || TSTFLAG(PieSpExFlags,Volage))
+    {
+      optim_neutralretractable = false;
+      optim_orthomatingmoves = false;
     }
   }
 
@@ -743,18 +788,18 @@ static boolean verifieposition(void)
     }
   }
 
-  if (CondFlag[cavaliermajeur]) {
+  if (CondFlag[cavaliermajeur])
+  {
     if (nbpiece[cb] + nbpiece[cn] > 0)
     {
       VerifieMsg(CavMajAndKnight);
       return false;
     }
-    exist[cb]= false;
-    exist[nb]= true;
     flagfee= true;
   }
 
-  if (CondFlag[republican]) {
+  if (CondFlag[republican])
+  {
     if (CondFlag[masand])
     {
       /* TODO what else should we prohibit here? */
@@ -769,20 +814,19 @@ static boolean verifieposition(void)
     is_republican_suspended = false;
   }
 
-  if (OptFlag[sansrb] && rb!=initsquare) {
+  if (OptFlag[sansrb] && rb!=initsquare)
     OptFlag[sansrb]= False;
-  }
-  if (OptFlag[sansrn] && rn!=initsquare) {
+
+  if (OptFlag[sansrn] && rn!=initsquare)
     OptFlag[sansrn]= False;
-  }
+
   if (rb==initsquare && nbpiece[roib]==0
-      && !OptFlag[sansrb]) {
+      && !OptFlag[sansrb])
     ErrorMsg(MissingKing);
-  }
+
   if (rn==initsquare && nbpiece[roin]==0
-      && !OptFlag[sansrn]) {
+      && !OptFlag[sansrn])
     ErrorMsg(MissingKing);
-  }
 
   if (rex_circe) {
     /* why not royal pieces in PWC ??? TLi */
@@ -792,13 +836,14 @@ static boolean verifieposition(void)
     if (CondFlag[circeequipollents]
         || CondFlag[circeclone]
         || CondFlag[couscous]
-        || CondFlag[circeclonemalefique]) {
+        || CondFlag[circeclonemalefique])
+    {
       /* disallowed because of the call to (*circerenai)
          in echecc */
       /* would require knowledge of id. Other forms now allowed
        */
-      if (  ((! OptFlag[sansrb]) && rb!=initsquare && (e[rb] != roib))
-            || ((! OptFlag[sansrn]) && rn!=initsquare && (e[rn] != roin)))
+      if (((! OptFlag[sansrb]) && rb!=initsquare && (e[rb] != roib))
+          || ((! OptFlag[sansrn]) && rn!=initsquare && (e[rn] != roin)))
       {
         VerifieMsg(RoyalPWCRexCirce);
         return false;
@@ -827,7 +872,8 @@ static boolean verifieposition(void)
       || CondFlag[bichro]
       || CondFlag[monochro];
 
-  if (flaglegalsquare) {
+  if (flaglegalsquare)
+  {
     eval_white= legalsquare;
     eval_2= eval_ortho;
     if (CondFlag[monochro] && CondFlag[bichro])
@@ -847,13 +893,13 @@ static boolean verifieposition(void)
     }
   }
 
-  if (flaglegalsquare || TSTFLAG(PieSpExFlags,Neutral)) {
-    if (CondFlag[volage])
-    {
-      VerifieMsg(SomeCondAndVolage);
-      return false;
-    }
+  if ((flaglegalsquare || TSTFLAG(PieSpExFlags,Neutral))
+      && CondFlag[volage])
+  {
+    VerifieMsg(SomeCondAndVolage);
+    return false;
   }
+
   if (TSTFLAG(PieSpExFlags,Paralyse)
       && !(CondFlag[patrouille]
            || CondFlag[beamten]
@@ -862,7 +908,9 @@ static boolean verifieposition(void)
     eval_2= eval_white;
     eval_white= paraechecc;
   }
-  if (TSTFLAG(PieSpExFlags, Kamikaze)) {
+
+  if (TSTFLAG(PieSpExFlags, Kamikaze))
+  {
     optim_neutralretractable = optim_orthomatingmoves = false;
     if (CondFlag[haanerchess])
     {
@@ -915,9 +963,11 @@ static boolean verifieposition(void)
     eval_white= notsoutenu;
   }
 
-  if (CondFlag[nowhcapture] && CondFlag[noblcapture]) {
+  if (CondFlag[nowhcapture] && CondFlag[noblcapture])
+  {
     CondFlag[nocapture]= true;
-    if (CondFlag[nocapture]) {
+    if (CondFlag[nocapture])
+    {
       CondFlag[nowhcapture]= false;
       CondFlag[noblcapture]= false;
     }
@@ -929,16 +979,19 @@ static boolean verifieposition(void)
     return false;
   }
 
-  if (CondFlag[black_oscillatingKs] || CondFlag[white_oscillatingKs]) {
+  if (CondFlag[black_oscillatingKs] || CondFlag[white_oscillatingKs])
+  {
     if (rb==initsquare || rn==initsquare)
       CondFlag[black_oscillatingKs]= CondFlag[white_oscillatingKs]= false;
     else
-      optim_neutralretractable = optim_orthomatingmoves = false;
+    {
+      optim_neutralretractable = false;
+      optim_orthomatingmoves = false;
+    }
   }
-  if (CondFlag[black_oscillatingKs] && OscillatingKingsTypeC[blanc] &&
-      CondFlag[white_oscillatingKs] && OscillatingKingsTypeC[blanc]) {
+  if (CondFlag[black_oscillatingKs] && OscillatingKingsTypeC[blanc]
+      && CondFlag[white_oscillatingKs] && OscillatingKingsTypeC[blanc])
     CondFlag[swappingkings]= True;
-  }
 
   if (anymars||anyantimars) {
     optim_neutralretractable = optim_orthomatingmoves = false;
@@ -961,10 +1014,12 @@ static boolean verifieposition(void)
     eval_white= eval_BGL;
     BGL_whiteinfinity= BGL_white == BGL_infinity;
     BGL_blackinfinity= BGL_black == BGL_infinity;
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
   }
 
-  if (flag_madrasi || CondFlag[isardam]) {
+  if (flag_madrasi || CondFlag[isardam])
+  {
     if ( CondFlag[imitators]
          || TSTFLAG(PieSpExFlags,Paralyse))
     {
@@ -991,20 +1046,20 @@ static boolean verifieposition(void)
       VerifieMsg(MadrasiParaAndOthers);
       return false;
     }
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
     eval_2= eval_white;
     eval_white= eval_wooheff;
   }
 
-  if (CondFlag[brunner]) {
+  if (CondFlag[brunner])
     eval_white=eval_isardam;
-  }
-  if (CondFlag[isardam] && IsardamB) {
+
+  if (CondFlag[isardam] && IsardamB)
     eval_white=eval_ortho;
-  }
-  if (CondFlag[shieldedkings]) {
+
+  if (CondFlag[shieldedkings])
     eval_white=eval_shielded;
-  }
 
 
   if (flagAssassin) {
@@ -1056,7 +1111,8 @@ static boolean verifieposition(void)
       VerifieMsg(SomeCondAndAntiCirce);
       return false;
     }
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
     eval_2= eval_white;
     eval_white= rbanticircech;
     eval_black= rnanticircech;
@@ -1068,7 +1124,8 @@ static boolean verifieposition(void)
       VerifieMsg(SingleBoxAndFairyPieces);
       return false;
     }
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
     eval_2= eval_white;
     eval_white= rbsingleboxtype1ech;
     eval_black= rnsingleboxtype1ech;
@@ -1265,15 +1322,18 @@ static boolean verifieposition(void)
       || CondFlag[takemake]
       || CondFlag[losingchess];
 
-  if (CondFlag[dynasty]) {
+  if (CondFlag[dynasty])
+  {
     /* checking for TSTFLAG(spec[rb],Kamikaze) may not be sufficient
      * in dynasty */
     square *bnp;
     square s;
 
-    for (bnp= boardnum; *bnp; bnp++) {
+    for (bnp= boardnum; *bnp; bnp++)
+    {
       s = *bnp;
-      if (abs(e[s])==roib && TSTFLAG(spec[s],Kamikaze)) {
+      if (abs(e[s])==roib && TSTFLAG(spec[s],Kamikaze))
+      {
         empilegenre= true;
         break;
       }
@@ -1294,8 +1354,8 @@ static boolean verifieposition(void)
       || flagwhitemummer
       || flagblackmummer
       || CondFlag[vogt]
-      || (   eval_white != eval_ortho
-             && eval_white != legalsquare)
+      || (eval_white != eval_ortho
+          && eval_white != legalsquare)
       || (rb != initsquare && abs(e[rb]) != King)
       || (rn != initsquare && abs(e[rn]) != King)
       || TSTFLAG(PieSpExFlags, Chameleon)
@@ -1311,22 +1371,23 @@ static boolean verifieposition(void)
       || CondFlag[dynasty]
       || flag_magic)
   {
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
   }
 
   superbas= CondFlag[antisuper] ? bas : bas - 1;
 
-  pp= cp= 0;      /* init promotioncounter and checkcounter */
+  /* init promotioncounter and checkcounter */
+  pp= 0;
+  cp= 0;
   for (p= CondFlag[losingchess] || CondFlag[dynasty] ? roib : db;
        p <= derbla;
-       p++) {
+       p++)
+  {
     getprompiece[p]= vide;
-    if (promonly[p]) {
-      exist[p]= True;
-    }
-    if (CondFlag[protean])
-      exist[reversepb]= true;
-    if (exist[p]) {
+
+    if (exist[p])
+    {
       if ( p != pb
            && p != dummyb
            && p != pbb
@@ -1340,50 +1401,53 @@ static boolean verifieposition(void)
       }
       if (p > fb && p != dummyb) {
         /* only fairy pieces until now ! */
-        optim_neutralretractable = optim_orthomatingmoves = false;
-        if (p != hamstb) {
-          checkpieces[cp++]= p;
+        optim_neutralretractable = false;
+        optim_orthomatingmoves = false;
+        if (p != hamstb)
+        {
+          checkpieces[cp]= p;
+          cp++;
         }
       }
     }
   }
   checkpieces[cp]= vide;
 
-  tp= op= 0;
+  tp= 0;
+  op= 0;
   for (p= roib; p <= derbla; p++) {
-    if (exist[p] && p != dummyb && p != hamstb) {
-      if (whitenormaltranspieces) {
+    if (exist[p] && p != dummyb && p != hamstb)
+    {
+      if (whitenormaltranspieces)
         whitetransmpieces[tp]= p;
-      }
-      if (blacknormaltranspieces) {
+      if (blacknormaltranspieces)
         blacktransmpieces[tp]= p;
-      }
       tp++;
-      if ( p != Orphan
-           && p != Friend
-           && (exist[Orphan] || exist[Friend]))
-      {
+      if (p != Orphan
+          && p != Friend
+          && (exist[Orphan] || exist[Friend]))
         orphanpieces[op++]= p;
-      }
     }
   }
-  if (whitenormaltranspieces) {
+
+  if (whitenormaltranspieces)
     whitetransmpieces[tp]= vide;
-  }
-  if (blacknormaltranspieces) {
+  if (blacknormaltranspieces)
     blacktransmpieces[tp]= vide;
-  }
-  if (calc_whrefl_king || calc_blrefl_king) {
-    optim_neutralretractable = optim_orthomatingmoves = false;
+
+  if (calc_whrefl_king || calc_blrefl_king)
+  {
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
   }
   orphanpieces[op]= vide;
 
-  if (  (calc_whrefl_king
-         && rb != initsquare
-         && (e[rb] != roib || CondFlag[sting]))
-        || (calc_blrefl_king
-            && rn != initsquare
-            && (e[rn] != roin || CondFlag[sting])))
+  if ((calc_whrefl_king
+       && rb != initsquare
+       && (e[rb] != roib || CondFlag[sting]))
+      || (calc_blrefl_king
+          && rn != initsquare
+          && (e[rn] != roin || CondFlag[sting])))
   {
     VerifieMsg(TransmRoyalPieces);
     return false;
@@ -1405,29 +1469,36 @@ static boolean verifieposition(void)
     return false;
   }
 
-  for (n= 2; n <= maxply; inum[n++]= inum[1])
-    ;
+  for (n= 2; n <= maxply; n++)
+    inum[n]= inum[1];
 
-  if (  (CondFlag[chamchess] || CondFlag[linechamchess])
-        && TSTFLAG(PieSpExFlags, Chameleon))
+  if ((CondFlag[chamchess] || CondFlag[linechamchess])
+      && TSTFLAG(PieSpExFlags, Chameleon))
   {
     VerifieMsg(ChameleonPiecesAndChess);
     return false;
   }
 
-  if (TSTFLAG(PieSpExFlags, ColourChange)) {
+  if (TSTFLAG(PieSpExFlags, ColourChange))
+  {
     checkhopim = true;
-    optim_neutralretractable = optim_orthomatingmoves  = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves  = false;
     jouegenre = true;
   }
   checkhopim |= CondFlag[imitators];
 
   if (CondFlag[sentinelles])
+  {
     /* a nasty drawback */
-    optim_neutralretractable = optim_orthomatingmoves  = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves  = false;
+  }
 
-  if (CondFlag[annan]) {
-    optim_neutralretractable = optim_orthomatingmoves = false;
+  if (CondFlag[annan])
+  {
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
     rbechec= &annan_rbechec;
     rnechec= &annan_rnechec;
   }
@@ -1556,7 +1627,8 @@ static boolean verifieposition(void)
       || CondFlag[exclusive])
   {
     flag_testlegality= true;
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
   }
 
   if (!CondFlag[patience]) {           /* needed because of twinning */
@@ -1594,17 +1666,22 @@ static boolean verifieposition(void)
       || CondFlag[april]
       || CondFlag[republican];
 
-  if (CondFlag[extinction] || flagAssassin) {
-    optim_neutralretractable = optim_orthomatingmoves = false;
+  if (CondFlag[extinction] || flagAssassin)
+  {
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
   }
 
-  if (CondFlag[actrevolving] || CondFlag[arc]) {
+  if (CondFlag[actrevolving] || CondFlag[arc])
+  {
     jouegenre= true;
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
   }
 
   if (anytraitor) {
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
   }
 #if defined(DEBUG)
   printf("int: %s, mate: %s, stalemate: %s, "
@@ -1620,7 +1697,8 @@ static boolean verifieposition(void)
          slices[0].u.composite.play==PSeries?"true":"false");
 #endif      /* DEBUG */
 
-  if (InitChamCirce) {
+  if (InitChamCirce)
+  {
     if (CondFlag[leofamily]) {
       NextChamCircePiece[Leo]= Mao;
       NextChamCircePiece[Pao]= Leo;
@@ -1628,8 +1706,7 @@ static boolean verifieposition(void)
       NextChamCircePiece[Mao]= Vao;
     }
     else {
-      piece actknight=
-          CondFlag[cavaliermajeur] ? NightRider : Knight;
+      piece actknight= CondFlag[cavaliermajeur] ? NightRider : Knight;
       NextChamCircePiece[actknight]= Bishop;
       NextChamCircePiece[Bishop]= Rook;
       NextChamCircePiece[Rook]= Queen;
@@ -1643,7 +1720,8 @@ static boolean verifieposition(void)
   if (CondFlag[SAT] || CondFlag[strictSAT])
   {
     SATCheck= true;
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
     nonoptgenre= true;
     WhiteStrictSAT[1]= echecc_normal(blanc);
     BlackStrictSAT[1]= echecc_normal(noir);
@@ -1652,7 +1730,8 @@ static boolean verifieposition(void)
 
   if (CondFlag[schwarzschacher])
   {
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
     nonoptgenre= true;
   }
 
@@ -1666,12 +1745,16 @@ static boolean verifieposition(void)
       : move_generation_optimized_by_nr_opponent_moves;
 
   if (CondFlag[takemake])
-    optim_neutralretractable = optim_orthomatingmoves = false;
+  {
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
+  }
 
-  if (CondFlag[protean]) {
+  if (CondFlag[protean])
+  {
     flagfee= true;
-    optim_neutralretractable = optim_orthomatingmoves = false;
-    exist[reversepb]= true;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
   }
 
   if (OptFlag[intelligent] && !isIntelligentModeAllowed())
@@ -1682,7 +1765,8 @@ static boolean verifieposition(void)
 
   if (CondFlag[castlingchess])
   {
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
     castling_supported= false;
     jouegenre= true;
   }
@@ -2089,15 +2173,16 @@ void editcoup(coup *mov, Goal goal)
 
   } /* No castling */
 
-  if (mov->numi && CondFlag[imitators]) {
+  if (mov->numi && CondFlag[imitators])
+  {
     diff = im0 - isquare[0];
     StdChar('[');
-    for (icount = 1; icount <= mov->numi;) {
+    for (icount = 1; icount <= mov->numi;)
+    {
       StdChar('I');
       WriteSquare(isquare[icount-1] + mov->sum + diff);
-      if (icount++ < mov->numi) {
+      if (icount++ < mov->numi)
         StdChar(',');
-      }
     }
     StdChar(']');
   }
@@ -2114,13 +2199,11 @@ void editcoup(coup *mov, Goal goal)
   {
     char s[30], buf1[12], buf2[12];
     if (BGL_global)
-    {
       sprintf(s, " (%s)", WriteBGLNumber(buf1, BGL_white));
-    }
     else
-    {
-      sprintf(s, " (%s/%s)", WriteBGLNumber(buf1, BGL_white), WriteBGLNumber(buf2, BGL_black));
-    }
+      sprintf(s, " (%s/%s)",
+              WriteBGLNumber(buf1, BGL_white),
+              WriteBGLNumber(buf2, BGL_black));
     StdString(s);
   }
   if (goal==no_goal)
@@ -2804,17 +2887,6 @@ static boolean initAndVerify(Token tk,
       slice_impose_starter(0,regular_starter);
 
       isIntelligentModeActive = true;
-
-      if (verifieposition())
-      {
-        writeDiagram(tk,printa);
-        ProofInitialise();
-        verifieposition(); /* TODO 1 verifieposition call should suffice */
-        *shortenIfWhiteToPlay = false;
-        result = true;
-      }
-      else
-        result = false;
     }
     else
     {
@@ -2829,18 +2901,21 @@ static boolean initAndVerify(Token tk,
       /* hX0.5 are treated specially (currently? TODO) because
        * leaves normally are 2 half moves long */
       isIntelligentModeActive = slices[0].u.composite.length>1;
-
-      if (verifieposition())
-      {
-        writeDiagram(tk,printa);
-        ProofInitialise();
-        verifieposition(); /* TODO 1 verifieposition call should suffice */
-        *shortenIfWhiteToPlay = false;
-        result = true;
-      }
-      else
-        result = false;
     }
+
+    countPieces();
+    if (locateKings())
+    {
+      writeDiagram(tk,printa);
+      ProofInitialise();
+      if (slices[1].u.leaf.goal==goal_atob)
+        ProofAtoBWriteStartPosition();
+      *shortenIfWhiteToPlay = false;
+      countPieces();
+      result = locateKings() &&  verifieposition();
+    }
+    else
+      result = false;
   }
   else
   {
@@ -2850,15 +2925,22 @@ static boolean initAndVerify(Token tk,
      * and the colors swapped by swapcolors() and reflectboard()
      * -> start with the regular side. */
     slice_detect_starter(0, OptFlag[halfduplex] && !isIntelligentModeActive);
-    assert(slices[0].starter!=no_side); /* TODO ErrorMsg() */
+    if (slices[0].starter==no_side)
+    {
+      VerifieMsg(CantDecideWhoIsAtTheMove);
+      result = false;
+    }
+    else
+    {
+      *shortenIfWhiteToPlay = slices[0].u.composite.play==PHelp;
+      TraceValue("%d ",*shortenIfWhiteToPlay);
+      TraceValue("%d ",slices[0].starter);
+      TraceValue("%d\n",regular_starter);
 
-    *shortenIfWhiteToPlay = slices[0].u.composite.play==PHelp;
-    TraceValue("%d ",*shortenIfWhiteToPlay);
-    TraceValue("%d ",slices[0].starter);
-    TraceValue("%d\n",regular_starter);
-
-    result = verifieposition();
-    writeDiagram(tk,printa);
+      countPieces();
+      result = locateKings() && verifieposition();
+      writeDiagram(tk,printa);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -2989,12 +3071,10 @@ int main(int argc, char *argv[]) {
      See ReadBeginSpec in pyio.c
   */
   l= 0;
-  while (l<LangCount-1 && InitMsgTab(l, False) == False) {
+  while (l<LangCount-1 && InitMsgTab(l, False) == False)
     l++;
-  }
-  if (l == LangCount-1) {
+  if (l == LangCount-1)
     InitMsgTab(l, True);
-  }
 
   InitCheckDir();
 
@@ -3105,7 +3185,7 @@ int main(int argc, char *argv[]) {
               regular_starter = advers(regular_starter);
             }
 
-            if (verifieposition())
+            if (locateKings() && verifieposition())
               solveHalfADuplex();
 
             if (isIntelligentModeActive)

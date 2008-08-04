@@ -273,9 +273,6 @@ char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
 
 static  int NestLevel=0;
 
-extern echiquier ProofBoard, PosA;
-extern square Proof_rb, Proof_rn, rbA, rnA;
-extern imarr  isquareA;
 boolean OscillatingKingsSide;  /* this is all a hack */
 static nocontactfunc_t *nocontactfunc;
 
@@ -731,19 +728,20 @@ static char *ParseSquareList(
   int     Square, SquareCnt= 0;
 
   while (True) {
-    if (*tok && tok[1] && (Square=SquareNum(*tok,tok[1]))) {
-      if (e[Square] != vide) {
-        if (!echo) {
+    if (*tok && tok[1] && (Square=SquareNum(*tok,tok[1])))
+    {
+      if (e[Square] != vide)
+      {
+        if (!echo)
+        {
           WriteSquare(Square);
           StdChar(' ');
           Message(OverwritePiece);
         }
-        if (Square == rb) {
+        if (Square == rb)
           rb= initsquare;
-        }
-        if (Square == rn) {
+        if (Square == rn)
           rn= initsquare;
-        }
       }
       /* echo the piece if desired -- twinning */
       if (echo) {
@@ -871,7 +869,8 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
   }
 }
 
-square NextSquare(square sq) {
+square NextSquare(square sq)
+{
   if (sq%onerow<nr_of_slack_files_left_of_board+nr_files_on_board-1)
     return sq+1;
   else if (sq>=square_a2 && sq<=haut)
@@ -1128,27 +1127,17 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
         if (gic->goal==goal_atob)
         {
           int i;
-          for (i = maxsquare-1; i>=0; i--)
-            PosA[i] = e[i];
+          
+          ProofSaveStartPosition();
 
+          /* InitBoard() does much more than the following: */
           for (i = 0; i<nr_squares_on_board; i++)
           {
-            SpecA[i] = spec[boardnum[i]];
             spec[i] = EmptySpec;
             e[boardnum[i]] = vide;
           }
-
-          rnA = rn;
-          rbA = rb;
-
-          rn = initsquare;
-          rb = initsquare;
-
           for (i = 0; i<maxinum; i++)
-          {
-            isquareA[i] = isquare[i];
             isquare[i] = initsquare;
-          }
 
           tok += 4;
         }
@@ -2807,14 +2796,14 @@ void TwinStorePosition(void) {
 
   twin_rb= rb;
   twin_rn= rn;
-  for (i= 0; i < nr_squares_on_board; i++) {
+  for (i= 0; i < nr_squares_on_board; i++)
+  {
     twin_e[i]= e[boardnum[i]];
     twin_spec[i]= spec[boardnum[i]];
   }
 
-  for (i= 0; i < maxinum; i++) {
+  for (i= 0; i < maxinum; i++)
     twin_isquare[i]= isquare[i];
-  }
 }
 
 void TwinResetPosition(void) {
@@ -2827,9 +2816,8 @@ void TwinResetPosition(void) {
     spec[boardnum[i]]= twin_spec[i];
   }
 
-  for (i= 0; i < maxinum; i++) {
+  for (i= 0; i < maxinum; i++)
     isquare[i]= twin_isquare[i];
-  }
 }
 
 square RotMirrSquare(square sq, int what) {
@@ -2862,9 +2850,8 @@ void RotateMirror(int what) {
     t_spec[i]= spec[boardnum[i]];
   }
 
-  for (i= 0; i < maxinum; i++) {
+  for (i= 0; i < maxinum; i++)
     t_isquare[i]= isquare[i];
-  }
 
   /* now rotate/mirror */
   /* pieces */
@@ -2884,7 +2871,8 @@ void RotateMirror(int what) {
   }
 
   /* imitators */
-  for (i= 0; i < maxinum; i++) {
+  for (i= 0; i < maxinum; i++)
+  {
     sq1= t_isquare[i];
     sq2= RotMirrSquare(sq1, what);
     isquare[i]= sq2;
@@ -3324,7 +3312,7 @@ static char *ParseTwinSubstitute(void) {
 }
 
 static char *ParseTwin(void) {
-  int       indexx, i;
+  int       indexx;
   char  *tok;
   boolean   continued= False,
     TwinRead= False;
@@ -3381,20 +3369,10 @@ static char *ParseTwin(void) {
         slice_index const op1 = slices[current_slice].u.composite.op1;
         if (slices[op1].u.leaf.goal==goal_proof
             || slices[op1].u.leaf.goal==goal_atob)
-        {
-          /* fixes bug for continued twinning
-             in proof games; changes were made
-             to game array!
-          */
-          for (i = maxsquare-1; i>=0; i--)
-            e[i] = ProofBoard[i];
-
-          for (i= 0; i<nr_squares_on_board; i++)
-            spec[boardnum[i]] = ProofSpec[i];
-
-          rn = Proof_rn;
-          rb = Proof_rb;
-        }
+          /* fixes bug for continued twinning in proof games; changes
+           * were made to game array!
+           */
+          ProofRestoreTargetPosition();
 #endif /* DATABASE */
         StdChar('+');
         if (LaTeXout)
@@ -4020,11 +3998,9 @@ void WriteConditions(int alignment) {
         }
     }
 
-    if (cond == imitators) {
-      for (i= 0; i < inum[1]; i++) {
+    if (cond == imitators)
+      for (i= 0; i < inum[1]; i++)
         AddSquare(CondLine, isquare[i]);
-      }
-    }
 
     if (cond == noiprom && !CondFlag[imitators])
       continue;
@@ -4899,10 +4875,9 @@ void LaTeXBeginDiagram(void) {
   }
 
   /* Just for visualizing imitators on the board. */                 
-  if (CondFlag[imitators]) {
+  if (CondFlag[imitators])
     for (i= 0; i < inum[1]; i++)
       e[isquare[i]]= -1;
-  }
 
 
   fprintf(LaTeXFile, " \\pieces{");

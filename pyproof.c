@@ -38,11 +38,11 @@
 static piece ProofPieces[32];
 static square ProofSquares[32];
 static int ProofNbrAllPieces;
-echiquier ProofBoard, PosA;
-square Proof_rb, Proof_rn, rbA, rnA;
-Flags ProofSpec[nr_squares_on_board], SpecA[nr_squares_on_board];
+static echiquier ProofBoard, PosA;
+static square Proof_rb, Proof_rn, rbA, rnA;
+static Flags ProofSpec[nr_squares_on_board], SpecA[nr_squares_on_board];
 static imarr Proof_isquare;
-imarr isquareA;
+static imarr isquareA;
 
 static unsigned int xxxxx[fb+fb+1];
 #define ProofNbrPiece (xxxxx+fb)
@@ -372,8 +372,23 @@ void ProofInitialiseIntelligent(void)
   ProofInitialiseKingMoves(Proof_rb, Proof_rn);
 } /* ProofInitialiseIntelligent */
 
-/* a function to store the position and set the PAS */
-void ProofInitialise(void)
+void ProofSaveStartPosition(void)
+{
+  int i;
+  for (i = maxsquare-1; i>=0; i--)
+    PosA[i] = e[i];
+
+  for (i = 0; i<nr_squares_on_board; i++)
+    SpecA[i] = spec[boardnum[i]];
+
+  rnA = rn;
+  rbA = rb;
+
+  for (i = 0; i<maxinum; i++)
+    isquareA[i] = isquare[i];
+}
+
+static void ProofSaveTargetPosition(void)
 {
   int       i;
   piece p;
@@ -405,9 +420,34 @@ void ProofInitialise(void)
       ProofSquares[ProofNbrAllPieces] = boardnum[i];
       ++ProofNbrAllPieces;
     }
-    CLEARFL(spec[boardnum[i]]);
-    p = slices[1].u.leaf.goal==goal_atob ? PosA[boardnum[i]] : PAS[i];
+  }
+
+  if (CondFlag[imitators])
+    for (i = 0; i < maxinum; i++)
+      Proof_isquare[i] = isquare[i];
+}
+
+void ProofRestoreTargetPosition(void)
+{
+  int i;
+  for (i = maxsquare-1; i>=0; i--)
+    e[i] = ProofBoard[i];
+
+  for (i= 0; i<nr_squares_on_board; i++)
+    spec[boardnum[i]] = ProofSpec[i];
+
+  rn = Proof_rn;
+  rb = Proof_rb;
+}
+
+static void ProofRestoreStartPosition(void)
+{
+  int i;
+  for (i = 0; i < nr_squares_on_board; i++)
+  {
+    piece p = slices[1].u.leaf.goal==goal_atob ? PosA[boardnum[i]] : PAS[i];
     e[boardnum[i]] = p;
+    CLEARFL(spec[boardnum[i]]);
 
     /* We must set spec[] for the PAS.
        This is used in jouecoup for andernachchess!*/
@@ -418,10 +458,6 @@ void ProofInitialise(void)
     if (slices[1].u.leaf.goal==goal_atob)
       spec[boardnum[i]] = SpecA[i];
   }
-
-  if (CondFlag[imitators])
-    for (i = 0; i < maxinum; i++)
-      Proof_isquare[i] = isquare[i];
 
   /* set the king squares */
   if (!CondFlag[losingchess])
@@ -441,9 +477,18 @@ void ProofInitialise(void)
   if (slices[1].u.leaf.goal==goal_atob && CondFlag[imitators])
     for (i = 0; i < maxinum; i++)
       isquare[i] = isquareA[i];
+}
 
-  if (slices[1].u.leaf.goal==goal_atob
-      && !OptFlag[noboard])
+/* a function to store the position and set the PAS */
+void ProofInitialise(void)
+{
+  ProofSaveTargetPosition();
+  ProofRestoreStartPosition();
+} /* ProofInitialise */
+
+void ProofAtoBWriteStartPosition(void)
+{
+  if (!OptFlag[noboard])
   {
     PieSpec const atMove = slices[0].starter==blanc ? White : Black;
     char InitialLine[40];
@@ -451,7 +496,7 @@ void ProofInitialise(void)
     StdString(InitialLine);
     WritePosition();
   }
-} /* ProofInitialise */
+}
 
 /* function that compares the current position with the desired one
  * and returns True if they are identical. Otherwise it returns False.

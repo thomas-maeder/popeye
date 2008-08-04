@@ -142,3 +142,4 @@
 110= Magische Steine unvereinbar mit verschiedenen Maerchenfiguren\n
 111= Zu viele magische Berechnungen benoetigt\n
 112= Republikanerschach nicht mit Bedingungen, die davon abhangen, ob gewisse Zuege Schach bieten.\n
+113= Es ist nicht feststellbar, wer am Zug ist\n

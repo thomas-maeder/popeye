@@ -9,14 +9,16 @@
 #if !defined(PYPROOF_H)
 #define PYPROOF_H
 
-extern Flags ProofSpec[nr_squares_on_board];
-extern Flags SpecA[nr_squares_on_board];
-
 union HashBuffer;
 
 void ProofEncode(HashBuffer *);
 void    ProofInitialiseKingMoves(square ProofRB, square ProofRN);
 boolean ProofVerifie(void);
+
+void ProofRestoreTargetPosition(void);
+void ProofSaveStartPosition(void);
+void ProofAtoBWriteStartPosition(void);
+
 void    ProofInitialise(void);
 void    ProofInitialiseIntelligent(void);
 boolean ProofIdentical(void);

@@ -111,3 +111,4 @@
 110= Pieces magiques ne sont pas compatibles avec certaines pieces feeriques\n
 111= Trop de calculations magiques necessaires\n
 112= EchecsRepublicains incompatible avec des conditions qui dependent du fait si un coup donne echec.\n
+113= Popeye ne peut pas décider qui a le trait.\n

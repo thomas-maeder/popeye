@@ -111,3 +111,4 @@
 110= Magic pieces incompatible with some fairy pieces\n
 111= Too many magic calculations needed\n
 112= RepublicanChess incompatible with conditions that depend on whether a certain move delivers check.\n
+113= Can't decide which side is at the move\n
