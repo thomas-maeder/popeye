@@ -696,7 +696,7 @@ static boolean ser_composite_end_solve(boolean restartenabled,
   return solution_found;
 }
 
-/* Solve a composite clide with series play
+/* Solve a composite slice with series play
  * @param n exact number of moves to reach the end state
  * @param restartenabled true iff option movenum is active
  * @param si slice index
@@ -735,6 +735,8 @@ static boolean ser_composite_exact_solve_recursive(int n,
           TraceText("!jouecoup()\n");
         else if (echecc(series_side))
           TraceText("echecc(series_side)\n");
+        else if (restartenabled && MoveNbr<RestartNbr)
+          TraceText("restartenabled && MoveNbr<RestartNbr\n");
         else if (isIntelligentModeActive && !isGoalReachable())
           TraceText("isIntelligentModeActive && !isGoalReachable()\n");
         else if (echecc(other_side))
@@ -775,7 +777,7 @@ static boolean ser_composite_exact_solve_recursive(int n,
   return solution_found;
 } /* ser_composite_exact_solve */
 
-/* Solve a composite clide with series play
+/* Solve a composite slice with series play
  * @param restartenabled true iff option movenum is active
  * @param si slice index
  * @return true iff >= 1 solution was found
@@ -787,7 +789,7 @@ boolean ser_composite_exact_solve(boolean restartenabled, slice_index si)
                                              si);
 }
 
-/* Solve a composite clide with series play
+/* Solve a composite slice with series play
  * @param n maximal number of moves to reach the end state
  * @param restartenabled true iff option movenum is active
  * @param si slice index
@@ -802,7 +804,7 @@ static boolean ser_composite_maximal_solve(int n,
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  solution_found = ser_composite_end_solve(restartenabled,si);
+  solution_found = ser_composite_end_solve(n==1 && restartenabled, si);
 
   if (n>1)
   {
@@ -868,7 +870,7 @@ static boolean ser_composite_maximal_solve(int n,
   return solution_found;
 } /* ser_composite_maximal_solve */
 
-/* Solve a composite clide with series play
+/* Solve a composite slice with series play
  * @param restartenabled true iff option movenum is active
  * @param si slice index
  * @return true iff >= 1 solution was found
@@ -884,20 +886,22 @@ boolean ser_composite_solve(boolean restartenabled, slice_index si)
     result = ser_composite_exact_solve(restartenabled,si);
   else
   {
-    /* TODO avoid duplication with code in py6.c */
-    int i;
-    TraceFunctionParam("%d\n",slices[si].u.composite.length);
-    for (i = 1; i<slices[si].u.composite.length; i++)
-      if (ser_composite_exact_solve_recursive(i,false,si))
-      {
-        TraceText("solution found\n");
-        result = true;
-        if (OptFlag[stoponshort])
+    TraceValue("%d\n",slices[si].u.composite.length);
+    if (!slices[si].u.composite.is_exact)
+    {
+      int i;
+      for (i = 1; i<slices[si].u.composite.length; i++)
+        if (ser_composite_exact_solve_recursive(i,false,si))
         {
-          FlagShortSolsReached = true;
-          break;
+          TraceText("solution found\n");
+          result = true;
+          if (OptFlag[stoponshort])
+          {
+            FlagShortSolsReached = true;
+            break;
+          }
         }
-      }
+    }
 
     if (!FlagShortSolsReached
         && ser_composite_exact_solve(restartenabled,si))
@@ -922,7 +926,9 @@ boolean ser_composite_slice0_solve(int n, boolean restartenabled)
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",restartenabled);
 
-  if (OptFlag[restart])
+  if (slices[0].u.composite.is_exact)
+    result = ser_composite_exact_solve(restartenabled,0);
+  else if (OptFlag[restart])
     result = ser_composite_maximal_solve(n,restartenabled,0);
   else
     result = ser_composite_solve(restartenabled,0);

@@ -2541,30 +2541,26 @@ static void SolveSeriesProblems(void)
   {
     if (isIntelligentModeActive)
     {
-      boolean const is_exact = slices[0].u.composite.is_exact;
-      int const full_length = slices[0].u.composite.length;
-      int const start = (is_exact || OptFlag[restart]
-                         ? slices[0].u.composite.length
-                         : 1);
-
-      for (slices[0].u.composite.length = start;
-           slices[0].u.composite.length<full_length;
-           ++slices[0].u.composite.length)
+      if (!slices[0].u.composite.is_exact)
       {
-        boolean const looking_for_short_solutions = true;
-        if (Intelligent(looking_for_short_solutions))
-          if (OptFlag[stoponshort])
-          {
-            FlagShortSolsReached= true;
-            break;
-          }
+        int const full_length = slices[0].u.composite.length;
+        for (slices[0].u.composite.length = 1;
+             slices[0].u.composite.length<full_length;
+             ++slices[0].u.composite.length)
+        {
+          boolean const looking_for_short_solutions = true;
+          if (Intelligent(looking_for_short_solutions))
+            if (OptFlag[stoponshort])
+            {
+              FlagShortSolsReached= true;
+              break;
+            }
+        }
+
+        slices[0].u.composite.is_exact = false;
+        slices[0].u.composite.length = full_length;
       }
 
-      if (!is_exact)
-        slices[0].u.composite.is_exact = false;
-
-      slices[0].u.composite.length = full_length;
-      
       if (!FlagShortSolsReached)
       {
         boolean const looking_for_short_solutions = false;

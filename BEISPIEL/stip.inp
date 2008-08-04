@@ -626,5 +626,23 @@ titel Hilfsreflexmatt - nicht 1.Kc2 wegen 2.Dxa5#
 steine weiss kd1 bd2 da8 schwarz ka3 ba5e3
 forderung hr#2
 
+weiter
+
+titel eigentlich ser-h009, aber die Loesung in 9 darf nicht erscheinen
+titel zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
+ford exact-ser-h0010
+stei
+weis ke1 ta1 sc1d4 bd2
+schw kb4 lh1
+option zugn start 2
+
+weiter
+
+titel wegen exact nicht 1.Kf1/Kh3#
+ford exact-h#1.5
+steine
+weiss kg2 lh1
+schwarz ka8 la7b8 bh6
+
 endeproblem
 

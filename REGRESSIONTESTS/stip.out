@@ -2412,3 +2412,89 @@ Hilfsreflexmatt - nicht 1.Kc2 wegen 2.Dxa5#
 Loesung beendet. 
 
 
+
+eigentlich ser-h009, aber die Loesung in 9 darf nicht erscheinen
+zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -K   .   S   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   B   .   .   .   .   2
+|                                   |
+1   T   .   S   .   K   .   .  -L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  exact-ser-h0010             5 + 2
+
+  1.Lh1-b7   2.Lb7-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  2  (Lh1-b7 )
+  1.Lh1-c6   2.Lc6-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  3  (Lh1-c6 )
+  1.Lh1-d5   2.Ld5-a2   3.Kb4-a4   4.Ka4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  1.Lh1-d5   2.Ld5-a2   3.Kb4-a3   4.Ka3-b2   5.La2-b1   6.Kb2*c1   7.Kc1-b2   8.Lb1-a2   9.Kb2-a3  10.Ka3-a4 0-0-0 
+  1.Lh1-d5   2.Ld5-a2   3.Kb4-a3   4.Ka3-b2   5.La2-b1   6.Kb2*c1   7.Kc1-b2   8.Lb1-a2   9.Kb2-a3  10.Ka3-b4 0-0-0 
+  1.Lh1-d5   2.Ld5-b3   3.Lb3-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  1.Lh1-d5   2.Ld5-c4   3.Lc4-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  1.Lh1-d5   2.Ld5-g8   3.Lg8-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  1.Lh1-d5   2.Ld5-f7   3.Lf7-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  1.Lh1-d5   2.Ld5-e6   3.Le6-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  4  (Lh1-d5 )
+  1.Lh1-e4   2.Le4-b1   3.Lb1-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  1.Lh1-e4   2.Le4-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  5  (Lh1-e4 )
+  1.Lh1-f3   2.Lf3-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  6  (Lh1-f3 )
+  1.Lh1-g2   2.Lg2-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  7  (Lh1-g2 )
+  8  (Kb4-c4 )
+  9  (Kb4-b5 )
+ 10  (Kb4-a4 )
+ 11  (Kb4-b3 )
+ 12  (Kb4-a5 )
+ 13  (Kb4-c5 )
+ 14  (Kb4-c3 )
+ 15  (Kb4-a3 )
+
+Loesung beendet. 
+
+
+
+     wegen exact nicht 1.Kf1/Kh3#
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K  -L   .   .   .   .   .   .   8
+|                                   |
+7  -L   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -B   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   K   .   2
+|                                   |
+1   .   .   .   .   .   .   .   L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  exact-h#1.5                 2 + 4
+
+  1...Kg2-f3   2.h6-h5 Kf3-e2 # 
+
+Loesung beendet. 
+
+
