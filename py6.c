@@ -751,7 +751,6 @@ static boolean verifieposition(void)
   }
 
   {
-    /* TODO this is a mess */
     Side const restricted_side = (slices[0].u.composite.play==PHelp
                                   ? regular_starter
                                   : advers(regular_starter));
