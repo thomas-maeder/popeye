@@ -14,4 +14,12 @@ bedingung MonochromesSchach
 
 option vari
 
+weiter
+
+forderung ser-#2
+bedingung bichrom
+steine weiss kg7 bb7 schwarz kh8 bh3
+zwilling versetze b7 d7
+zwilling versetze b7 f7
+
 ende
