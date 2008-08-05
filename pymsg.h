@@ -150,6 +150,7 @@ typedef enum
   TooManyMagic          = 111,
   NoRepublicanWithConditionsDependingOnCheck = 112,
   CantDecideWhoIsAtTheMove = 113,
+  ThreatOptionAndExactStipulationIncompatible = 114,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

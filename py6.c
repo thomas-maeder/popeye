@@ -495,6 +495,12 @@ static boolean verifieposition(void)
   int      cp, pp, tp, op;
   boolean          nonoptgenre;
 
+  if (max_len_threat<maxply && slices[0].u.composite.is_exact)
+  {
+    VerifieMsg(ThreatOptionAndExactStipulationIncompatible);
+    return false;
+  }
+
   if (CondFlag[glasgow] && CondFlag[circemalefique])
     anycirprom= True;
 

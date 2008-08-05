@@ -112,3 +112,4 @@
 111= Too many magic calculations needed\n
 112= RepublicanChess incompatible with conditions that depend on whether a certain move delivers check.\n
 113= Can't decide which side is at the move\n
+114= Option \"Threat\" and exact stipulation incompatible\n
