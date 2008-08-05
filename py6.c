@@ -860,7 +860,7 @@ static boolean verifieposition(void)
       return false;
     }
 
-  if (CondFlag[bicolores] || CondFlag[monochro])
+  if (CondFlag[bichro] || CondFlag[monochro])
     optim_orthomatingmoves = false;
   
   eval_2= eval_white= eval_ortho;
