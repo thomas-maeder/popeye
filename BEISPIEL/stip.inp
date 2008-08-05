@@ -644,5 +644,22 @@ steine
 weiss kg2 lh1
 schwarz ka8 la7b8 bh6
 
+weiter
+
+titel sofortiges selbstmatt vermeiden
+steine weiss ka3 dd1 ba2a4b4h2
+       schwarz kc3 ba5c4g6
+forderung exact-s#2
+option verf vari
+
+weiter
+
+titel sofortiges forciertes Reflexmatt durch Weiss
+steine weiss ka6 bc7
+       schwarz ka8 ba5
+forderung r#2
+option vari
+ende
+
 endeproblem
 

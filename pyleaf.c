@@ -512,8 +512,6 @@ static void d_leaf_r_solve_forced_keys(slice_index leaf)
   assert(slices[leaf].type==STLeaf);
   assert(attacker!=no_side);
 
-  ++zugebene;
-
   GenMatingMove(attacker);
   active_slice[nbply] = leaf;
 
@@ -521,14 +519,15 @@ static void d_leaf_r_solve_forced_keys(slice_index leaf)
   {
     if (jouecoup()
         && leaf_is_goal_reached(attacker,leaf))
+    {
       d_write_attack(goal);
+      Message(NewLine);
+    }
 
     repcoup();
   }
 
   finply();
-
-  --zugebene;
 }
 
 /* Write a priori unsolvability (if any) of a leaf in direct play

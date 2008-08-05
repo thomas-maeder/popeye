@@ -335,14 +335,8 @@ boolean d_composite_does_attacker_win(int n, slice_index si)
 
   if (d_slice_has_defender_won(si))
     ; /* intentionally nothing */
-  else if (n==1)
-  {
-    TraceText("n==1\n");
-    if (d_slice_has_defender_lost(si))
-      result = true;
-    else
-      result = d_composite_end_does_attacker_win(si);
-  }
+  else if (n==1 && d_composite_end_does_attacker_win(si))
+    result = true;
   else if (slices[si].u.composite.is_exact)
   {
     HashBuffer hb;
@@ -1064,7 +1058,6 @@ static int d_composite_middle_solve_threats(int n,
     StdString("\n");
   else
   {
-    /* TODO exact? */
     int max_threat_length = n-1>max_len_threat ? max_len_threat : n-1;
     int i;
 
@@ -1149,8 +1142,10 @@ void d_composite_solve_variations(int n,
                && d_composite_does_attacker_win(len_threat-1,si))
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
-      else if (d_slice_has_defender_lost(si)) /* TODO exact */
-        ; /* oops! short end */
+      else if (d_slice_has_defender_lost(si))
+        ; /* oops! short end. NB: this can't happen if is_exact and
+           * n is too large, because that would make the current move
+           * a refutation */
       else if (!d_composite_defends_against_threats(len_threat, threats,si))
         ; /* move doesn't defend against threat */
       else
@@ -1333,7 +1328,6 @@ void d_composite_solve_setplay(slice_index si)
       if (jouecoup()
           && !echecc(defender))
       {
-        /* TODO exact? */
         if (d_slice_has_defender_lost(si))
           ; /* oops */
         else if (d_composite_does_attacker_win(n-1,si))
@@ -1515,19 +1509,12 @@ static void d_composite_middle_solve(boolean restartenabled, slice_index si)
  */
 void d_composite_solve(boolean restartenabled, slice_index si)
 {
-  zugebene = 1;
-
   if (d_slice_has_defender_lost(si))
-    ; /* TODO  - write this? */
+    ;
   else if (d_slice_has_defender_won(si))
-    ; /* TODO if attacker has to deliver reflex mate, write it? */
+    d_leaf_write_unsolvability(slices[si].u.composite.op1);
+  else if (slices[si].u.composite.length==1)
+    d_composite_end_solve(restartenabled,si);
   else
-  {
-    if (slices[si].u.composite.length==1)
-      d_composite_end_solve(restartenabled,si);
-    else
-      d_composite_middle_solve(restartenabled,si);
-  }
-
-  zugebene = 0;
+    d_composite_middle_solve(restartenabled,si);
 } /* d_composite_solve */
