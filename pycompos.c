@@ -1,5 +1,4 @@
 #include "pycompos.h"
-#include "pyleaf.h"
 #include "pyquodli.h"
 #include "pysequen.h"
 #include "pyrecipr.h"
@@ -33,7 +32,8 @@ static boolean d_composite_is_in_hash(HashBuffer *hb, int n, boolean *result)
     assert(hashing_suspended || !inhash(WhDirSucc,n,hb));
     *result = false;
     return true;
-  } else if (inhash(WhDirSucc,n,hb))
+  }
+  else if (inhash(WhDirSucc,n,hb))
   {
     *result = true;
     return true;
@@ -515,6 +515,10 @@ static boolean h_composite_end_solve(boolean restartenabled, slice_index si)
   TraceValue("%d\n",slices[si].type);
   switch (slices[si].type)
   {
+    case STQuodlibet:
+      result = h_quodlibet_end_solve(si);
+      break;
+
     case STReciprocal:
       result = h_reci_end_solve(si);
       break;
@@ -552,10 +556,6 @@ static boolean h_composite_end_is_unsolvable(slice_index si)
 
     case STSequence:
       result = sequence_end_is_unsolvable(si);
-      break;
-
-    case STLeaf:
-      result = leaf_is_unsolvable(si);
       break;
 
     default:
@@ -676,8 +676,12 @@ static boolean ser_composite_end_solve(boolean restartenabled,
       solution_found = ser_sequence_end_solve(restartenabled,si);
       break;
 
+    case STQuodlibet:
+      solution_found = ser_quodlibet_end_solve(restartenabled,si);
+      break;
+
     case STReciprocal:
-      solution_found = h_reci_end_solve(si);
+      solution_found = ser_reci_end_solve(restartenabled,si);
       break;
 
     default:
@@ -1512,7 +1516,7 @@ void d_composite_solve(boolean restartenabled, slice_index si)
   if (d_slice_has_defender_lost(si))
     ;
   else if (d_slice_has_defender_won(si))
-    d_leaf_write_unsolvability(slices[si].u.composite.op1);
+    d_slice_write_unsolvability(slices[si].u.composite.op1);
   else if (slices[si].u.composite.length==1)
     d_composite_end_solve(restartenabled,si);
   else

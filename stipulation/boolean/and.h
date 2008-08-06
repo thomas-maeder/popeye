@@ -114,6 +114,13 @@ void d_reci_end_write_key_solve_postkey(int refutations,
  */
 boolean h_reci_end_solve(slice_index si);
 
+/* Continue solving series play at the end of a reciprocal slice
+ * @param restartenabled true iff option movenum is activated
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean ser_reci_end_solve(boolean restartenabled, slice_index si);
+
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?

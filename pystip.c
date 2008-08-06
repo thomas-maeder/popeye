@@ -123,18 +123,19 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
           || slices[index].u.leaf.end==EReflex
           || slices[index].u.leaf.end==ESemireflex)
       {
+        /* Insert a new quodlibet node at *hook's current position.
+         * Move *hook to positon op2 of the new quodlibet node, and
+         * add a new direct leaf at op1 of that node.
+         * op1 is tested before op2, so it is more efficient to make
+         * op1 the new direct leaf.
+         */
         Goal const goal = slices[index].u.leaf.goal;
         *hook = alloc_composite_slice(STQuodlibet,PDirect);
         TraceValue("allocated quodlibet slice %d\n",*hook);
-        /* 1 is tested before 2, so make 1 EDirect and attach *hook at
-         * 2 */
         slices[*hook].u.composite.op1 = alloc_leaf_slice(EDirect,goal);
         slices[*hook].u.composite.op2 = index;
-
         slices[*hook].u.composite.is_exact = false;
-        slices[*hook].u.composite.length = (slices[0].u.composite.play==PHelp
-                                            ? 2
-                                            : 1); /* TODO */
+        slices[*hook].u.composite.length = 1;
       }
       break;
 
@@ -888,7 +889,7 @@ boolean d_slice_has_defender_won(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = leaf_is_unsolvable(si); /* TODO */
+      result = d_leaf_has_defender_won(si);
       break;
 
     case STQuodlibet:

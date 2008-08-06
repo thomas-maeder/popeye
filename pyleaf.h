@@ -33,6 +33,14 @@ boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf);
  */
 boolean leaf_is_unsolvable(slice_index leaf);
 
+/* Determine whether the defender has directly won with his move just
+ * played. 
+ * Assumes that there is no short win for the defending side.
+ * @param leaf slice identifier
+ * @return true iff the defending side has directly won
+ */
+boolean d_leaf_has_defender_won(slice_index leaf);
+
 /* Determine whether the defender has directly lost with his move just
  * played. 
  * Assumes that there is no short win for the defending side.

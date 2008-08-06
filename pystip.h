@@ -19,9 +19,7 @@ typedef enum
   EHelp,         /* help-goal in 1 */
   ESelf,         /* self-goal in 1 */
   EReflex,       /* reflex-goal in 1 */
-  ESemireflex,   /* semireflex-goal in 1 */
-  EDouble,       /* help-double-goal in 1 (mate only) */
-  ECounter       /* help-counter-goal in 1 (mate only) */
+  ESemireflex    /* semireflex-goal in 1 */
 } End;
 
 typedef enum
@@ -97,8 +95,8 @@ slice_index copy_slice(slice_index original);
  */
 void release_slices(void);
 
-/* Transform a sequence slice to quodlibet
- * @param quodlibet_slice index of slice to be transformed
+/* Transform a stipulation tree to "traditional quodlibet form",
+ * i.e. a logical OR of direct and self goal. 
  */
 void transform_to_quodlibet(void);
 
@@ -149,7 +147,9 @@ boolean slice_is_unsolvable(slice_index si);
  */
 void d_slice_write_unsolvability(slice_index si);
 
-/* Determine whether a slice has >=1 solution
+/* Determine whether a slice has >=1 solution; only to be called when
+ * play has reached the start of the slice, with the appropriate side
+ * at the move. 
  * @param si slice index
  * @return true iff slice has >=1 solution(s)
  */

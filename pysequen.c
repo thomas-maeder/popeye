@@ -7,8 +7,8 @@
 
 /* Detect a priori unsolvability of a slice (e.g. because of forced
  * reflex mates)
- * @param leaf leaf's slice index
- * @return true iff leaf is a priori unsolvable
+ * @param si slice index
+ * @return true iff slice is a priori unsolvable
  */
 boolean sequence_end_is_unsolvable(slice_index si)
 {
@@ -51,7 +51,7 @@ void d_sequence_end_solve_continuations(int table, slice_index si)
 }
 
 /* Find and write defender's set play
- * @param leaf slice index
+ * @param si slice index
  */
 void d_sequence_end_solve_setplay(slice_index si)
 {
@@ -90,7 +90,7 @@ boolean d_sequence_end_solve_complete_set(slice_index si)
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
- * @param leaf slice index 
+ * @param si slice index 
  */
 void d_sequence_end_solve(boolean restartenabled, slice_index si)
 {
@@ -101,7 +101,7 @@ void d_sequence_end_solve(boolean restartenabled, slice_index si)
  * slice to find and write the post key play (threats, variations) and
  * write the refutations (if any)
  * @param refutations table containing the refutations (if any)
- * @param leaf slice index
+ * @param si slice index
  * @param is_try true iff what we are solving is a try
  */
 void d_sequence_end_write_key_solve_postkey(int refutations,
@@ -335,7 +335,7 @@ void sequence_detect_starter(slice_index si, boolean is_duplex)
 
 /* Impose the starting side on a slice.
  * @param si identifies sequence
- * @param s starting side of leaf
+ * @param s starting side of slice
  */
 void sequence_impose_starter(slice_index si, Side s)
 {

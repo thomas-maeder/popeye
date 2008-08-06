@@ -372,19 +372,241 @@ boolean leaf_is_unsolvable(slice_index leaf)
       break;
     }
 
-    case EDouble:
-    case ECounter:
-    {
-      Side const at_move = slices[leaf].starter;
-      Side const final = advers(at_move);
-      result = (OptFlag[keepmating]
-                && !(is_a_mating_piece_left(at_move)
-                     && is_a_mating_piece_left(final)));
-      break;
-    }
-
     default:
       assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+static boolean leaf_h_cmate_is_solvable(slice_index leaf)
+{
+  boolean found_solution = false;
+  Side const side_at_move = slices[leaf].starter;
+  Side const other_side = advers(side_at_move);
+
+  assert(slices[leaf].type==STLeaf);
+  assert(slices[leaf].starter!=no_side);
+
+  GenMatingMove(side_at_move);
+
+  while (encore() && !found_solution)
+  {
+    if (jouecoup()
+        && !echecc(side_at_move))
+    {
+/*       HashBuffer hb;
+         (*encode)(&hb);
+         if (!inhash(no_succ_hash_category,1,&hb))*/
+      {
+        if (goal_checker_mate(side_at_move))
+        {
+          GenMatingMove(other_side);
+
+          while (encore() && !found_solution)
+          {
+            if (jouecoup())
+              found_solution =leaf_is_goal_reached(other_side,leaf);
+
+            repcoup();
+          }
+
+          finply();
+        }
+
+/*         if (!found_solution)
+             addtohash(no_succ_hash_category,1,&hb);*/
+      }
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  return found_solution;
+}
+
+static boolean leaf_h_dmate_is_solvable(slice_index leaf)
+{
+  boolean found_solution = false;
+  Side const side_at_move = slices[leaf].starter;
+  Side const other_side = advers(side_at_move);
+
+  assert(slices[leaf].type==STLeaf);
+  assert(slices[leaf].starter!=no_side);
+
+  genmove(side_at_move);
+
+  while (encore() && !found_solution)
+  {
+    if (jouecoup()
+        && !echecc(side_at_move))
+    {
+/*       HashBuffer hb;
+         (*encode)(&hb);
+         if (!inhash(no_succ_hash_category,1,&hb))*/
+      {
+        if (!immobile(other_side))
+        {
+          GenMatingMove(other_side);
+
+          while (encore() && !found_solution)
+          {
+            if (jouecoup())
+              found_solution = leaf_is_goal_reached(other_side,leaf);
+
+            repcoup();
+          }
+
+          finply();
+        }
+
+/*         if (!found_solution)
+             addtohash(no_succ_hash_category,1,&hb);*/
+      }
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  return found_solution;
+}
+
+static boolean h_leaf_h_exists_final_move(slice_index leaf)
+{
+  boolean final_move_found = false;
+  Side const side_at_move = advers(slices[leaf].starter);
+
+  assert(slices[leaf].type==STLeaf);
+  assert(slices[leaf].starter!=no_side);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  TraceValue("%d\n",side_at_move);
+
+  GenMatingMove(side_at_move);
+
+  if (side_at_move==blanc)
+    WhMovesLeft--;
+  else
+    BlMovesLeft--;
+
+  while (encore() && !final_move_found)
+  {
+    TraceCurrentMove();
+    if (jouecoup())
+    {
+      if (isIntelligentModeActive && !isGoalReachable())
+        TraceText("isIntelligentModeActive && !isGoalReachable()\n");
+      else if (echecc(side_at_move))
+        TraceText("echecc(side_at_move)\n");
+      else if (!leaf_is_goal_reached(side_at_move,leaf))
+        TraceText("!leaf_is_goal_reached(side_at_move,leaf)\n");
+      else
+        final_move_found = true;
+    }
+
+    repcoup();
+  }
+
+  if (side_at_move==blanc)
+    WhMovesLeft++;
+  else
+    BlMovesLeft++;
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",final_move_found);
+  return final_move_found;
+}
+
+static boolean leaf_h_othergoals_is_solvable(slice_index leaf)
+{
+  boolean found_solution = false;
+  Side const side_at_move = slices[leaf].starter;
+
+  assert(slices[leaf].type==STLeaf);
+  assert(side_at_move!=no_side);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  genmove(side_at_move);
+
+  if (side_at_move==noir)
+    BlMovesLeft--;
+  else
+    WhMovesLeft--;
+
+  while (encore() && !found_solution)
+  {
+    TraceCurrentMove();
+    if (jouecoup()
+        && (!isIntelligentModeActive || isGoalReachable())
+        && !echecc(side_at_move)
+        && !leaf_is_unsolvable(leaf))
+    {
+      /* TODO */
+/*       HashBuffer hb;
+         (*encode)(&hb);
+         if (!inhash(no_succ_hash_category,1,&hb))*/
+      {
+        if (h_leaf_h_exists_final_move(leaf))
+          found_solution = true;
+/*         else
+             addtohash(no_succ_hash_category,1,&hb);*/
+      }
+    }
+
+    repcoup();
+  }
+    
+  if (side_at_move==noir)
+    BlMovesLeft++;
+  else
+    WhMovesLeft++;
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",found_solution);
+  return found_solution;
+}
+
+/* Determine whether a leaf has >=1 help play solution.
+ * @param leaf slice index
+ * @return true iff the leaf has >=1 solution 
+ */
+static boolean leaf_h_is_solvable(slice_index leaf)
+{
+  boolean result;
+
+  assert(slices[leaf].type==STLeaf);
+  assert(slices[leaf].starter!=no_side);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  switch (slices[leaf].u.leaf.goal)
+  {
+    case goal_countermate:
+      result = leaf_h_cmate_is_solvable(leaf);
+      break;
+
+    case goal_doublemate:
+      result = leaf_h_dmate_is_solvable(leaf);
+      break;
+
+    default:
+      result = leaf_h_othergoals_is_solvable(leaf);
       break;
   }
 
@@ -411,13 +633,16 @@ boolean leaf_is_solvable(slice_index leaf)
     case ESelf:
     case EReflex:
     case ESemireflex:
-      /* TODO ? directly treat these ends differently here? */
       if (leaf_is_unsolvable(leaf))
         ; /* intentionally nothing */
       else if (d_leaf_has_defender_lost(leaf))
         result = true;
       else
         result = d_leaf_does_attacker_win(leaf);
+      break;
+
+    case EHelp:
+      result = leaf_h_is_solvable(leaf);
       break;
 
     default:
@@ -428,6 +653,17 @@ boolean leaf_is_solvable(slice_index leaf)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
   return result;
+}
+
+/* Determine whether the defender has directly won with his move just
+ * played. 
+ * Assumes that there is no short win for the defending side.
+ * @param leaf slice identifier
+ * @return true iff the defending side has directly won
+ */
+boolean d_leaf_has_defender_won(slice_index leaf)
+{
+  return leaf_is_unsolvable(leaf);
 }
 
 /* Determine whether the defender has lost with his move just played.
@@ -1533,7 +1769,7 @@ static boolean h_leaf_h_cmate_solve(boolean restartenabled,
 {
   boolean found_solution = false;
   Side const side_at_move = slices[leaf].starter;
-  Side other_side = advers(side_at_move);
+  Side const other_side = advers(side_at_move);
 
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -1596,7 +1832,7 @@ static boolean h_leaf_h_dmate_solve(boolean restartenabled,
 {
   boolean found_solution = false;
   Side const side_at_move = slices[leaf].starter;
-  Side other_side = advers(side_at_move);
+  Side const other_side = advers(side_at_move);
 
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -1747,7 +1983,6 @@ static boolean h_leaf_h_solve(boolean restartenabled, slice_index leaf)
     case goal_doublemate:
       result = h_leaf_h_dmate_solve(restartenabled,leaf);
       break;
-
 
     default:
       result = h_leaf_h_othergoals_solve(restartenabled,leaf);
@@ -2050,8 +2285,6 @@ void leaf_detect_starter(slice_index leaf, boolean is_duplex)
       break;
           
     case EHelp:
-    case EDouble:
-    case ECounter:
       slices[leaf].starter = is_duplex ? blanc : noir;
       break;
 

@@ -118,6 +118,19 @@ boolean d_quodlibet_end_has_attacker_won(slice_index si);
  */
 boolean d_quodlibet_end_has_attacker_lost(slice_index si);
 
+/* Continue solving at the end of a quodlibet slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean h_quodlibet_end_solve(slice_index si);
+
+/* Continue solving series play at the end of a quodlibet slice
+ * @param restartenabled true iff option movenum is activated
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean ser_quodlibet_end_solve(boolean restartenabled, slice_index si);
+
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?

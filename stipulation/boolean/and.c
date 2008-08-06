@@ -324,8 +324,9 @@ boolean h_reci_end_solve(slice_index si)
 
   hashing_suspended = true;
 
-  if (slice_is_solvable(op2))
-    found_solution = h_slice_solve(false,op1) && h_slice_solve(false,op2);
+  found_solution = (slice_is_solvable(op2)
+                    && h_slice_solve(false,op1)
+                    && h_slice_solve(false,op2));
 
   hashing_suspended = save_hashing_suspended;
 
@@ -333,6 +334,34 @@ boolean h_reci_end_solve(slice_index si)
   TraceFunctionResult("%d\n",found_solution);
   return found_solution;
 } /* h_reci_end_solve */
+
+/* Continue solving series play at the end of a reciprocal slice
+ * @param restartenabled true iff option movenum is activated
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean ser_reci_end_solve(boolean restartenabled, slice_index si)
+{
+  boolean solution_found = false;
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+  boolean const save_hashing_suspended = hashing_suspended;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  hashing_suspended = true;
+
+  solution_found = (slice_is_solvable(op2)
+                    && ser_slice_solve(false,op1)
+                    && ser_slice_solve(false,op2));
+
+  hashing_suspended = save_hashing_suspended;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",solution_found);
+  return solution_found;
+}
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
