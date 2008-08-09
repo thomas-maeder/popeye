@@ -367,7 +367,7 @@ boolean SolAlreadyFound(void) {
   if (found) {
 	isIntelligentModeActive= false;
 	StdString("solution already found:");
-	linesolution();
+	linesolution(0);
 	isIntelligentModeActive= true;
   }
 #endif
