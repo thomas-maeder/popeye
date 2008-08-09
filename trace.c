@@ -3,6 +3,7 @@
 #include "pydata.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 static boolean deactivated = false;
 
@@ -64,6 +65,21 @@ void TraceCurrentMove()
     ecritcoup(no_goal);
     printf("\n");
   }
+}
+
+void TracePosition(echiquier e, Flags flags[maxsquare+4])
+{
+  square *bnp;
+  for (bnp = boardnum; *bnp!=initsquare; ++bnp)
+    if (e[*bnp]!=vide && e[*bnp]!=obs)
+    {
+      WriteSpec(spec[*bnp],true);
+      WritePiece(abs(e[*bnp]));
+      WriteSquare(*bnp);
+      printf(" ");
+    }
+
+  printf("\n");
 }
 
 #endif

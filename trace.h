@@ -58,6 +58,10 @@ void TraceSquareImpl(char const *prefix, square s);
  */
 void TraceCurrentMove();
 
+/* Trace the notation of the current position
+ */
+void TracePosition(echiquier e, Flags flags[maxsquare+4]);
+
 /* Trace a function result.
  * Works best in SESE style functions.
  */
@@ -74,6 +78,7 @@ void TraceValueImpl(char const *format, int value);
 #define TraceText(text)
 #define TraceSquare(name)
 #define TraceCurrentMove()
+#define TracePosition(echiquier,flags);
 #define TraceFunctionExit(name)
 #define TraceFunctionResult(format,name);
 
