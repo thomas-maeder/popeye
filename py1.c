@@ -32,9 +32,9 @@
  **
  **************************** End of List ******************************/
 
-#if defined(macintosh)	      /* is always defined on macintosh's  SB */
-#	define SEGM1
-#	include "pymac.h"
+#if defined(macintosh)          /* is always defined on macintosh's  SB */
+#    define SEGM1
+#    include "pymac.h"
 #endif
  
 #include <stdio.h>
@@ -132,7 +132,7 @@ void InitCond(void) {
   calctransmute= false;
 
   for (p= vide; p < PieceCount; p++)
-	NextChamCircePiece[p]= p;
+    NextChamCircePiece[p]= p;
   InitChamCirce= True;
 
   max_pn= max_pb= 8;
@@ -145,45 +145,45 @@ void InitCond(void) {
   gridvar = grid_normal;
   numgridlines = 0;
   for (bnp= boardnum; *bnp; bnp++) {
-	int const file= *bnp%onerow - nr_of_slack_files_left_of_board;
-	int const row= *bnp/onerow - nr_of_slack_rows_below_board;
+    int const file= *bnp%onerow - nr_of_slack_files_left_of_board;
+    int const row= *bnp/onerow - nr_of_slack_rows_below_board;
 
-	CLEARFL(sq_spec[*bnp]);
-	ClrDiaRen(spec[*bnp]);
+    CLEARFL(sq_spec[*bnp]);
+    ClrDiaRen(spec[*bnp]);
     sq_num[*bnp]= (int)(bnp-boardnum);
 
-	/* initialise sq_spec and set grid number */
-	sq_spec[*bnp] += ((file/2)+4*(row/2)) << Grid;
-	if (file!=0 && file!=nr_files_on_board-1
+    /* initialise sq_spec and set grid number */
+    sq_spec[*bnp] += ((file/2)+4*(row/2)) << Grid;
+    if (file!=0 && file!=nr_files_on_board-1
         && row!=0 && row!=nr_rows_on_board-1)
       SETFLAG(sq_spec[*bnp], NoEdgeSq);
   }
 
-  for (i= bas; i < haut; i+= onerow) {
-	if (i > bas)
+  for (i= bas; i < haut; i+= onerow)
+  {
+    if (i > bas)
       if (!TSTFLAG(sq_spec[i+dir_down], SqColor))
-		SETFLAG(sq_spec[i], SqColor);
+        SETFLAG(sq_spec[i], SqColor);
     for (j= i+1; j < i+nr_files_on_board; j++)
       if (!TSTFLAG(sq_spec[j+dir_left], SqColor))
-		SETFLAG(sq_spec[j], SqColor);
+        SETFLAG(sq_spec[j], SqColor);
   }
 
-  for (i= 0; i < CondCount; CondFlag[i++]= False) {
-	;
-  }
+  for (i= 0; i < CondCount; ++i)
+    CondFlag[i]= False;
 
-  for (i= maxply; i > 0; inum[i--]= 0)
-	;
+  for (i= maxply; i > 0; --i)
+    inum[i]= 0;
 
   memset((char *) promonly, 0, sizeof(promonly));
   memset((char *) isapril,0,sizeof(isapril));
   checkhopim = false;
   koekofunc= nokingcontact;
   antikoekofunc= nokingcontact;
-  OscillatingKingsTypeB[blanc]= false;
-  OscillatingKingsTypeB[noir]= false;
-  OscillatingKingsTypeC[blanc]= false;
-  OscillatingKingsTypeC[noir]= false;
+  OscillatingKingsTypeB[White]= false;
+  OscillatingKingsTypeB[Black]= false;
+  OscillatingKingsTypeC[White]= false;
+  OscillatingKingsTypeC[Black]= false;
 
   black_length = NULL;
   white_length = NULL;
@@ -219,49 +219,60 @@ void InitCheckDir(void) {
   int i, j;
 
   for (i= -haut+bas; i <= haut-bas; i++)
-	CheckDirQueen[i]=
+    CheckDirQueen[i]=
       CheckDirRook[i]=
       CheckDirBishop[i]=
       CheckDirKnight[i]= 0;
 
   /* knight */
   for (i= 9; i <= 16; i++)
-	CheckDirKnight[vec[i]]= vec[i];
+    CheckDirKnight[vec[i]]= vec[i];
 
   /* rook + queen */
   for (i= 1; i <= 4; i++)
-	for (j= 1; j <= 7; j++)
+    for (j= 1; j <= 7; j++)
       CheckDirQueen[j*vec[i]]=
-	    CheckDirRook[j*vec[i]]= vec[i];
+        CheckDirRook[j*vec[i]]= vec[i];
 
   /* bishop + queen */
   for (i= 5; i <= 8; i++)
-	for (j= 1; j <= 7; j++)
+    for (j= 1; j <= 7; j++)
       CheckDirQueen[j*vec[i]]=
-	    CheckDirBishop[j*vec[i]]= vec[i];
+        CheckDirBishop[j*vec[i]]= vec[i];
 } /* InitCheckDir */
 
-void InitBoard(void) {
+void InitBoard(void)
+{
   square i, *bnp;
 
-  ActTitle[0]= ActAuthor[0]= ActOrigin[0]=
-    ActTwin[0]= ActAward[0] = ActStip[0]= '\0';
+  ActTitle[0] = '\0';
+  ActAuthor[0] = '\0';
+  ActOrigin[0] = '\0';
+  ActTwinning[0] = '\0';
+  ActAward[0] = '\0';
+  ActStip[0] = '\0';
 
-  for (i= maxsquare - 1; i >= 0; i--) {
-    e[i]= e_ubi[i]= e_ubi_mad[i]= obs;
-    spec[i]= BorderSpec;
+  for (i= maxsquare-1; i>=0; i--)
+  {
+    e[i] = obs;
+    e_ubi[i] = obs;
+    e_ubi_mad[i] = obs;
+    spec[i] = BorderSpec;
   }
 
   /* dummy squares for Messigny chess and castling -- must be empty */
-  e[messigny_exchange]= e[kingside_castling]= e[queenside_castling]= vide;
+  e[messigny_exchange] = vide;
+  e[kingside_castling] = vide;
+  e[queenside_castling] = vide;
   CLEARFL(spec[messigny_exchange]);
   CLEARFL(spec[kingside_castling]);
   CLEARFL(spec[queenside_castling]);
 
-  for (bnp= boardnum; *bnp; bnp++)
-	e[*bnp]= vide;
+  for (bnp = boardnum; *bnp; bnp++)
+    e[*bnp] = vide;
 
-  rb= rn= initsquare;
+  rb = initsquare;
+  rn = initsquare;
 
   CLEARFL(PieSpExFlags);
 
@@ -270,7 +281,8 @@ void InitBoard(void) {
 
 void InitStip(void)
 {
-  FlagGenMatingMove= FlagMoveOrientatedStip= False;
+  FlagGenMatingMove = False;
+  FlagMoveOrientatedStip = False;
 
   release_slices();
 }
@@ -287,40 +299,42 @@ void InitAlways(void) {
 
   nbmagic = 0;
 
-  flagAssassin=
-    flag_writinglinesolution=
-    flag_testlegality= k_cap=
-    flagfee =
-    flagriders	    =
-    flagleapers     =
-    flagsimplehoppers     =
-    flagsimpledecomposedleapers =
-    flagsymmetricfairy  =
-    flagveryfairy   = false;
+  flagAssassin = false;
+  flag_writinglinesolution = false;
+  flag_testlegality= k_cap = false;
+  flagfee = false;
+  flagriders = false;
+  flagleapers = false;
+  flagsimplehoppers = false;
+  flagsimpledecomposedleapers = false;
+  flagsymmetricfairy = false;
+  flagveryfairy = false;
 
   marge = 0;
-  solutions= 0;
+  solutions = 0;
 
   for (i= maxply; i > 0; i--)
   {
-	whduell[i]= blduell[i]=
-      kpilcd[i]= kpilca[i]=
-      sqrenais[i]= initsquare;
-	trait[i]= blanc;
-	crenkam[i]= initsquare;
-	pwcprom[i]=
-      senti[i]=
-      Iprom[i]= false;
-	att_1[i]= true;
-    oscillatedKs[i]= false;
-    colour_change_sp[i]= colour_change_stack;
+    whduell[i] = initsquare;
+    blduell[i] = initsquare;
+    kpilcd[i] = initsquare;
+    kpilca[i] = initsquare;
+    sqrenais[i] = initsquare;
+    trait[i] = White;
+    crenkam[i] = initsquare;
+    pwcprom[i] = false;
+    senti[i] = false;
+    Iprom[i] = false;
+    att_1[i] = true;
+    oscillatedKs[i] = false;
+    colour_change_sp[i] = colour_change_stack;
   }
 
-  initneutre(blanc);
-  tabsol.nbr=
-    tabsol.cp[0]= 0;
-  tabsol.liste[0].push_top= push_colour_change_stack;
-  dont_generate_castling=false;
+  initneutre(White);
+  tabsol.nbr = 0;
+  tabsol.cp[0] = 0;
+  tabsol.liste[0].push_top = push_colour_change_stack;
+  dont_generate_castling = false;
   
   takemake_departuresquare= initsquare;
   takemake_capturesquare= initsquare;
@@ -333,15 +347,13 @@ void initneutre(Side c)
   /* I don't know why, but the solution below is not slower */
   /* than the double loop solution of genblanc(). NG */ 
 
-  square *bnp;
-
-  if (neutcoul != c) {
-	neutcoul= c;
-	for (bnp= boardnum; *bnp; bnp++) {
-      if (TSTFLAG(spec[*bnp], Neutral)) {
-		change(*bnp);
-      }
-	}
+  if (neutcoul != c)
+  {
+    square *bnp;
+    neutcoul = c;
+    for (bnp = boardnum; *bnp; bnp++)
+      if (TSTFLAG(spec[*bnp],Neutral))
+        change(*bnp);
   }
 }
 
@@ -350,10 +362,10 @@ square coinequis(square i)
   return 75 + (onerow*(((i/onerow)+3)/2) + (((i%onerow)+3)/2));
 }
 
-boolean leapcheck(square	 sq_king,
-                  numvec	 kanf,
-                  numvec	 kend,
-                  piece	 p,
+boolean leapcheck(square     sq_king,
+                  numvec     kanf,
+                  numvec     kend,
+                  piece  p,
                   evalfunction_t *evaluate)
 {
   /* detect "check" of leaper p */
@@ -362,8 +374,8 @@ boolean leapcheck(square	 sq_king,
   square sq_departure;
 
   for (k= kanf; k<=kend; k++) {
-	sq_departure= sq_king+vec[k];
-	if (e[sq_departure]==p
+    sq_departure= sq_king+vec[k];
+    if (e[sq_departure]==p
         && evaluate(sq_departure,sq_king,sq_king)
         && imcheck(sq_departure,sq_king))
       return true;
@@ -373,11 +385,11 @@ boolean leapcheck(square	 sq_king,
 }
 
 boolean leapleapcheck(
-  square	 sq_king,
-  numvec	 kanf,
-  numvec	 kend,
+  square     sq_king,
+  numvec     kanf,
+  numvec     kend,
   int hurdletype,
-  piece	 p,
+  piece  p,
   evalfunction_t *evaluate)
 {
   /* detect "check" of leaper p */
@@ -403,21 +415,21 @@ boolean leapleapcheck(
   return false;
 }
 
-boolean riderhoppercheck(square	 sq_king,
-                         numvec	 kanf,
-                         numvec	 kend,
-                         piece	 p,
-                         int	 run_up,
-                         int	 jump,
+boolean riderhoppercheck(square  sq_king,
+                         numvec  kanf,
+                         numvec  kend,
+                         piece   p,
+                         int     run_up,
+                         int     jump,
                          evalfunction_t *evaluate)
 {
   /* detect "check" of a generalised rider-hopper p that runs up
      run_up squares and jumps jump squares. 0 indicates an
      potentially infinite run_up or jump.
-     examples:  grasshopper:	     run_up: 0	 jump: 1
-     grasshopper2:      run_up: 0	 jump: 2
-     contragrasshopper: run_up: 1	 jump: 0
-     lion:		     run_up: 0	 jump: 0
+     examples:  grasshopper:         run_up: 0   jump: 1
+     grasshopper2:      run_up: 0    jump: 2
+     contragrasshopper: run_up: 1    jump: 0
+     lion:           run_up: 0   jump: 0
   ********/
 
   piece   hurdle, hopper;
@@ -427,31 +439,31 @@ boolean riderhoppercheck(square	 sq_king,
   square sq_departure;
 
   for (k= kanf; k <= kend; k++) {
-	if (jump) {
+    if (jump) {
       sq_hurdle= sq_king;
       if (jump>1) {
-		int jumped= jump;
-		while (--jumped) {
+        int jumped= jump;
+        while (--jumped) {
           sq_hurdle+= vec[k];
           if (e[sq_hurdle]!=vide)
             break;
         }
       
-		if (jumped)
+        if (jumped)
           continue;
       }
       sq_hurdle+= vec[k];
       hurdle= e[sq_hurdle];
-	}
-	else
+    }
+    else
       /* e.g. lion, contragrashopper */
       finligne(sq_king,vec[k],hurdle,sq_hurdle);
 
-	if (abs(hurdle)>=roib) {
+    if (abs(hurdle)>=roib) {
       if (run_up) {
-		/* contragrashopper */
-		sq_departure= sq_hurdle;
-		if (run_up>1) {
+        /* contragrashopper */
+        sq_departure= sq_hurdle;
+        if (run_up>1) {
           int ran_up= run_up;
           while (--ran_up) {
             sq_hurdle+= vec[k];
@@ -459,29 +471,29 @@ boolean riderhoppercheck(square	 sq_king,
               break;
           }
           if (ran_up)
-			continue;
-		}
+            continue;
+        }
         sq_departure+= vec[k];
-		hopper= e[sq_departure];
+        hopper= e[sq_departure];
       }
       else
-		/* grashopper, lion */
-		finligne(sq_hurdle,vec[k],hopper,sq_departure);
+        /* grashopper, lion */
+        finligne(sq_hurdle,vec[k],hopper,sq_departure);
 
       if (hopper==p
-	      && evaluate(sq_departure,sq_king,sq_king)
-	      && hopimcheck(sq_departure,sq_king,sq_hurdle,-vec[k]))
-		return true;
-	}
+          && evaluate(sq_departure,sq_king,sq_king)
+          && hopimcheck(sq_departure,sq_king,sq_hurdle,-vec[k]))
+        return true;
+    }
   }
   return false;
 } /* end of riderhoppercheck */
 
-boolean ridcheck(square	sq_king,
-                 numvec	kanf,
-                 numvec	kend,
-                 piece	p,
-                 evalfunction_t	*evaluate)
+boolean ridcheck(square sq_king,
+                 numvec kanf,
+                 numvec kend,
+                 piece  p,
+                 evalfunction_t *evaluate)
 {
   /* detect "check" of rider p */
   piece rider;
@@ -490,8 +502,8 @@ boolean ridcheck(square	sq_king,
   square sq_departure;
 
   for (k= kanf; k<= kend; k++) {
-	finligne(sq_king,vec[k],rider,sq_departure);
-	if (rider==p
+    finligne(sq_king,vec[k],rider,sq_departure);
+    if (rider==p
         && evaluate(sq_departure,sq_king,sq_king)
         && ridimcheck(sq_departure,sq_king,vec[k]))
       return true;
@@ -499,10 +511,10 @@ boolean ridcheck(square	sq_king,
   return false;
 }
 
-boolean marincheck(square	sq_king,
-                   numvec	kanf,
-                   numvec	kend,
-                   piece	p,
+boolean marincheck(square   sq_king,
+                   numvec   kanf,
+                   numvec   kend,
+                   piece    p,
                    evalfunction_t *evaluate)
 {
   /* detect "check" of marin piece p or a locust */
@@ -514,11 +526,11 @@ boolean marincheck(square	sq_king,
 
   for (k= kanf; k<= kend; k++) {
     sq_arrival= sq_king-vec[k];
-	if (e[sq_arrival]==vide) {
+    if (e[sq_arrival]==vide) {
       finligne(sq_king,vec[k],marine,sq_departure);
       if (marine==p && evaluate(sq_departure,sq_arrival,sq_king))
-		return true;
-	}
+        return true;
+    }
   }
   return false;
 }
@@ -530,10 +542,10 @@ boolean nogridcontact(square j)
   piece   p;
 
   for (k= 8; k > 0; k--) {
-	p= e[j1= j + vec[k]];
-	if (p != vide && p != obs && GridLegal(j1, j)) {
+    p= e[j1= j + vec[k]];
+    if (p != vide && p != obs && GridLegal(j1, j)) {
       return false;
-	}
+    }
   }
   return true;
 }
@@ -605,10 +617,10 @@ boolean noantelopecontact(square ia)
 
 
 boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, nocontactfunc_t nocontactfunc) {
-  boolean	Result;
-  square	cr;
-  piece	pj, pp, pren;
-  piece	pc= obs;
+  boolean   Result;
+  square    cr;
+  piece pj, pp, pren;
+  piece pc= obs;
   square sq_castle_from=initsquare, sq_castle_to=initsquare;
 
   VARIABLE_INIT(cr);
@@ -617,109 +629,109 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   pp= e[sq_capture];
   /* does this work with neutral pieces ??? */
   if (CondFlag[haanerchess]) {
-	e[sq_departure]= obs;
+    e[sq_departure]= obs;
   }
   else if (CondFlag[sentinelles]
            && sq_departure>=square_a2 && sq_departure<=square_h7
            && !is_pawn(pj))
   {
-	if ((pj<=roin) != SentPionAdverse) {
+    if ((pj<=roin) != SentPionAdverse) {
       if (nbpiece[sentineln] < max_pn
-	      && nbpiece[sentinelb]+nbpiece[sentineln] < max_pt
-	      && (!flagparasent
+          && nbpiece[sentinelb]+nbpiece[sentineln] < max_pt
+          && (!flagparasent
               || (nbpiece[sentineln]
                   <= nbpiece[sentinelb]+(pp==sentinelb?1:0))))
       {
-		e[sq_departure]= sentineln;
+        e[sq_departure]= sentineln;
       }
       else {
-		e[sq_departure]= vide;
+        e[sq_departure]= vide;
       }
-	}
-	else { /* we assume  pj >= roib */
+    }
+    else { /* we assume  pj >= roib */
       if (nbpiece[sentinelb] < max_pb
-	      && nbpiece[sentinelb]+nbpiece[sentineln] < max_pt
-	      && (!flagparasent
+          && nbpiece[sentinelb]+nbpiece[sentineln] < max_pt
+          && (!flagparasent
               || (nbpiece[sentinelb]
                   <= nbpiece[sentineln]+(pp==sentineln?1:0))))
       {
         e[sq_departure]= sentinelb;
       }
       else {
-		e[sq_departure]= vide;
+        e[sq_departure]= vide;
       }
       /* don't think any change as a result of Sentinelles */
       /* PionNeutral is needed as piece specs not changed  */
-	}
+    }
   }
   else {
-	e[sq_departure]= vide;
-	/* e[sq_departure] = CondFlag[haanerchess] ? obs : vide;	   */
+    e[sq_departure]= vide;
+    /* e[sq_departure] = CondFlag[haanerchess] ? obs : vide;       */
   }
 
   if (sq_capture == messigny_exchange) {
-	e[sq_departure]= e[sq_arrival];
+    e[sq_departure]= e[sq_arrival];
   }
   else {
-	/* the pieces captured and reborn may be different: */
-	/* Clone, Chameleon Circe			    */
+    /* the pieces captured and reborn may be different: */
+    /* Clone, Chameleon Circe               */
     pp= e[sq_capture];
 
-	/* the pieces can be reborn at the square where it has been
-	 * captured. For example, when it is taken by a locust or a
-	 * similarly moving piece
-	 */
-	e[sq_capture]= vide;
+    /* the pieces can be reborn at the square where it has been
+     * captured. For example, when it is taken by a locust or a
+     * similarly moving piece
+     */
+    e[sq_capture]= vide;
 
   if (CondFlag[parrain] && pprise[nbply-1] != vide) {
     cr= move_generation_stack[repere[nbply]].capture + sq_arrival - sq_departure;
-		if ((pc= e[cr]) == vide) {
+        if ((pc= e[cr]) == vide) {
           e[cr]= pprise[nbply-1];
-		}
+        }
   }
 
-	if (pp != vide && pp != obs) {
+    if (pp != vide && pp != obs) {
       if (anycirce && abs(pp) > roib && !CondFlag[parrain]) {
-		/* This still doesn't work with neutral pieces.
-		** Eventually we must add the colour of the side making
-		** the move or potentially giving the check to the
-		** argument list!
-		*/
-		if (anyclone && sq_departure != rn && sq_departure != rb) {
+        /* This still doesn't work with neutral pieces.
+        ** Eventually we must add the colour of the side making
+        ** the move or potentially giving the check to the
+        ** argument list!
+        */
+        if (anyclone && sq_departure != rn && sq_departure != rb) {
           /* Circe Clone */
           pren = (pj * pp < 0) ? -pj : pj;
-		}
-		else {
+        }
+        else {
           /* Chameleon Circe or ordinary Circe type */
           pren= CondFlag[chamcirce]
             ? ChamCircePiece(pp)
             : pp;
-		}
+        }
 
-		if (CondFlag[couscous]) {
-          cr= (*circerenai)(pj, spec[sq_departure], sq_capture, sq_departure, sq_arrival, pp > vide ? blanc : noir);
-		}
-		else {
-          cr= (*circerenai)(pren, spec[sq_capture], sq_capture, sq_departure, sq_arrival, pp > vide ? noir : blanc);
-		}
+        if (CondFlag[couscous]) {
+          cr= (*circerenai)(pj, spec[sq_departure], sq_capture, sq_departure, sq_arrival, pp > vide ? White : Black);
+        }
+        else {
+          cr= (*circerenai)(pren, spec[sq_capture], sq_capture, sq_departure, sq_arrival, pp > vide ? Black : White);
+        }
 
-		if ((pc= e[cr]) == vide) {
+        if ((pc= e[cr]) == vide) {
           e[cr]= pren;
-		}
+        }
       } /* anycirce && abs(pp) > roib */
-	} /* pp != vide && pp != obs */
-	else { /* no capture move */
+    } /* pp != vide && pp != obs */
+    else { /* no capture move */
       if (abs(pj) == King)
       {
         if (castling_supported) {
-		      if (sq_capture == kingside_castling) {
+              if (sq_capture == kingside_castling) {
             sq_castle_from = sq_arrival+dir_right;
             sq_castle_to = sq_arrival+dir_left;
-		      }
-		      else if (sq_capture == queenside_castling) {
+              }
+              else if (sq_capture == queenside_castling) {
             sq_castle_from = sq_arrival+2*dir_left;
             sq_castle_to = sq_arrival+dir_right;
-		      }
+              }
         }
         else if (CondFlag[castlingchess] && sq_capture > maxsquare + bas)
         {
@@ -736,20 +748,20 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   }
 
   if (CondFlag[contactgrid]) {
-	Result= nogridcontact(sq_arrival);
+    Result= nogridcontact(sq_arrival);
   }
   else {
-	Result= (*nocontactfunc)(sq_arrival);
+    Result= (*nocontactfunc)(sq_arrival);
   }
 
   if (pc != obs) {
-	e[cr]= pc;
+    e[cr]= pc;
   }
 
   e[sq_capture]= pp;
   e[sq_departure]= pj;
   if (sq_castle_from != initsquare) {
-	  e[sq_castle_from]= e[sq_castle_to];
+      e[sq_castle_from]= e[sq_castle_to];
     e[sq_castle_to] = vide;
   }
 
@@ -758,27 +770,27 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
 
 /* new versions of StorePosition() and ResetPosition() */
 
-Flags		sic_spec[nr_squares_on_board];
-piece		sic_e[nr_squares_on_board];
-int	sic_inum1;
-imarr		sic_isquare;
-square		sic_im0, rn_sic, rb_sic;
+Flags       sic_spec[nr_squares_on_board];
+piece       sic_e[nr_squares_on_board];
+int sic_inum1;
+imarr       sic_isquare;
+square      sic_im0, rn_sic, rb_sic;
 long int sic_BGL_W, sic_BGL_b;
 
 void StorePosition(void)
 {
-  int	    i;
+  int       i;
 
   rn_sic= rn; rb_sic= rb;
   for (i= 0; i < nr_squares_on_board; i++) {
-	sic_e[i]= e[boardnum[i]];
-	sic_spec[i]= spec[boardnum[i]];
+    sic_e[i]= e[boardnum[i]];
+    sic_spec[i]= spec[boardnum[i]];
   }
 
   /* imitators */
   sic_inum1= inum[1];
   for (i= 0; i < maxinum; i++) {
-	sic_isquare[i]= isquare[i];
+    sic_isquare[i]= isquare[i];
   }
 
   sic_im0= im0;
@@ -787,26 +799,26 @@ void StorePosition(void)
 }
 
 void ResetPosition(void) {
-  int	    i;
+  int       i;
 
   for (i= dernoi; i <= derbla; i++)
-	nbpiece[i]= 0;
+    nbpiece[i]= 0;
 
   rn= rn_sic; rb= rb_sic;
 
   for (i= 0; i < nr_squares_on_board; i++) {
-	nbpiece[e[boardnum[i]]= sic_e[i]]++;
-	spec[boardnum[i]]= sic_spec[i];
+    nbpiece[e[boardnum[i]]= sic_e[i]]++;
+    spec[boardnum[i]]= sic_spec[i];
   }
 
   /* imitators */
   for (i= 1; i <= maxply; inum[i++]= sic_inum1)
-	;
+    ;
 
   for (i= 0; i < maxinum; i++)
     isquare[i]= sic_isquare[i];
   im0= sic_im0;
-  neutcoul= blanc;
+  neutcoul= White;
   BGL_white= sic_BGL_W;
   BGL_black= sic_BGL_b;
 }
@@ -815,41 +827,41 @@ boolean ooorphancheck(square sq_king,
                       piece porph,
                       piece p,
                       evalfunction_t *evaluate) {
-  boolean	flag= false;
-  square	olist[63], *bnp;
+  boolean   flag= false;
+  square    olist[63], *bnp;
   unsigned int j, k, nrp, co;
 
   if ((*checkfunctions[abs(porph)])(sq_king,porph,evaluate))
-	return true;
+    return true;
 
   nrp= nbpiece[p];
   if (nrp == 0)
-	return false;
+    return false;
 
   nbpiece[-p]--;
   e[sq_king]= dummyb;
   co= 0;
   for (bnp= boardnum; co < nrp; bnp++) {
-	if (e[*bnp] == p) {
+    if (e[*bnp] == p) {
       olist[co++]= *bnp;
-	}
+    }
   }
   for (k= 0; k < co; k++) {
-	j= 0;
-	while (j<co) {
+    j= 0;
+    while (j<co) {
       e[olist[j]]= k==j ? p : dummyb;
       j++;
-	}
-	if ((*checkfunctions[abs(porph)])(sq_king,p,evaluate)) {
+    }
+    if ((*checkfunctions[abs(porph)])(sq_king,p,evaluate)) {
       for (j= 0; j<co; j++)
-		e[olist[j]]= p;
+        e[olist[j]]= p;
       flag= ooorphancheck(olist[k],-porph,-p,evaluate);
       if (flag)
-		break;
-	}
-	else
+        break;
+    }
+    else
       for (j= 0; j<co; j++)
-		e[olist[j]]= p;
+        e[olist[j]]= p;
   }
 
   nbpiece[-p]++;
@@ -857,63 +869,63 @@ boolean ooorphancheck(square sq_king,
   return flag;
 }
 
-boolean orphancheck(square	 sq_king,
-                    piece	 p,
+boolean orphancheck(square   sq_king,
+                    piece    p,
                     evalfunction_t *evaluate)
 {
-  piece	*porph;
-  boolean	flag= false;
-  boolean	inited= false;
-  square	olist[63], *bnp;
-  int	k, j, co= 0;
+  piece *porph;
+  boolean   flag= false;
+  boolean   inited= false;
+  square    olist[63], *bnp;
+  int   k, j, co= 0;
 
   for (porph= orphanpieces; *porph; porph++) {
-	if (nbpiece[*porph]>0 || nbpiece[-*porph]>0) {
+    if (nbpiece[*porph]>0 || nbpiece[-*porph]>0) {
       if (!inited) {
-		inited= true;
-		for (bnp= boardnum; *bnp; bnp++) {
+        inited= true;
+        for (bnp= boardnum; *bnp; bnp++) {
           if (e[*bnp] == p) {
-			olist[co++]= *bnp;
+            olist[co++]= *bnp;
           }
-		}
+        }
       }
       for (k= 0; k < co; k++) {
-		j= 0;
-		while (j < co) {
+        j= 0;
+        while (j < co) {
           e[olist[j]]= (k == j) ? p : dummyb;
           j++;
-		}
-		if ((*checkfunctions[*porph])(sq_king, p, evaluate)) {
+        }
+        if ((*checkfunctions[*porph])(sq_king, p, evaluate)) {
           piece op;
           for (j= 0; j < co; e[olist[j++]]= p)
-			;
+            ;
           if (p == orphanb)
-			op = -*porph;
+            op = -*porph;
           else
-			op = *porph;
+            op = *porph;
           flag= ooorphancheck(olist[k], op, -p, evaluate);
           if (flag)
-			break;
-		}
-		else {
+            break;
+        }
+        else {
           for (j= 0; j < co; e[olist[j++]]= p)
-			;
-		}
+            ;
+        }
       }
       if (flag)
-	    return true;
-	}
+        return true;
+    }
   }
   return false;
 }
 
-boolean fffriendcheck(square	sq_king,
-                      piece	pfr,
-                      piece	p,
+boolean fffriendcheck(square    sq_king,
+                      piece pfr,
+                      piece p,
                       evalfunction_t *evaluate)
 {
-  boolean	flag= false;
-  square	flist[63], *bnp;
+  boolean   flag= false;
+  square    flist[63], *bnp;
   unsigned int j, k, nrp, cf= 0;
 
   if ((*checkfunctions[abs(pfr)])(sq_king, pfr, evaluate))
@@ -927,28 +939,28 @@ boolean fffriendcheck(square	sq_king,
   e[sq_king]= dummyb;
   for (bnp= boardnum; cf < nrp; bnp++) {
     if (e[*bnp] == p) {
-	  flist[cf++]= *bnp;
-	}
+      flist[cf++]= *bnp;
+    }
   }
 
   for (k= 0; k < cf; k++) {
-	j= 0;
-	while (j < cf) {
+    j= 0;
+    while (j < cf) {
       e[flist[j]]= (k == j) ? p : dummyb;
       j++;
-	}
-	if ((*checkfunctions[abs(pfr)])(sq_king, p, evaluate)) {
+    }
+    if ((*checkfunctions[abs(pfr)])(sq_king, p, evaluate)) {
       for (j= 0; j < cf; e[flist[j++]]= p)
-		;
+        ;
       flag= fffriendcheck(flist[k], pfr, p, evaluate);
       if (flag) {
-		break;
+        break;
       }
-	}
-	else {
+    }
+    else {
       for (j= 0; j < cf; e[flist[j++]]= p)
-		;
-	}
+        ;
+    }
   }
 
   nbpiece[p]++;
@@ -957,49 +969,49 @@ boolean fffriendcheck(square	sq_king,
 } /* fffriendcheck */
 
 boolean friendcheck(
-  square	i, piece p,
+  square    i, piece p,
   evalfunction_t *evaluate)
 {
-  piece	*pfr, cfr;
-  boolean	flag= false;
-  boolean	initialized= false;
-  square	flist[63], *bnp;
-  int	k, j, cf= 0;
+  piece *pfr, cfr;
+  boolean   flag= false;
+  boolean   initialized= false;
+  square    flist[63], *bnp;
+  int   k, j, cf= 0;
 
   for (pfr= orphanpieces; *pfr; pfr++) {
-	cfr= p == friendb ? *pfr : -*pfr;
-	if (nbpiece[cfr]>0) {
+    cfr= p == friendb ? *pfr : -*pfr;
+    if (nbpiece[cfr]>0) {
       if (!initialized) {
-		initialized= true;
-		for (bnp= boardnum; *bnp; bnp++) {
+        initialized= true;
+        for (bnp= boardnum; *bnp; bnp++) {
           if (e[*bnp] == p) {
-			flist[cf++]= *bnp;
+            flist[cf++]= *bnp;
           }
-		}
+        }
       }
       for (k= 0; k < cf; k++) {
-		j= 0;
-		while (j < cf) {
+        j= 0;
+        while (j < cf) {
           e[flist[j]]= (k == j) ? p : dummyb;
           j++;
-		}
-		if ((*checkfunctions[*pfr])(i, p, evaluate)) {
+        }
+        if ((*checkfunctions[*pfr])(i, p, evaluate)) {
           for (j= 0; j < cf; e[flist[j++]]= p)
-			;
+            ;
           flag= fffriendcheck(flist[k], cfr, p, evaluate);
           if (flag) {
-			break;
+            break;
           }
-		}
-		else {
+        }
+        else {
           for (j= 0; j < cf; e[flist[j++]]= p)
-			;
-		}
+            ;
+        }
       }
       if (flag) {
-		return true;
+        return true;
       }
-	}
+    }
   }
   return false;
 } /* friendcheck */

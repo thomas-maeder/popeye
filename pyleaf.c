@@ -142,7 +142,7 @@ static boolean selflastencore(square const **selfbnp,
         {
           if (TSTFLAG(spec[curr_square],Neutral))
             p = -p;
-          if (defender==blanc)
+          if (defender==White)
           {
             if (p>obs)
               gen_wh_piece(curr_square,p);
@@ -182,7 +182,7 @@ static boolean leaf_is_end_in_1_forced(slice_index leaf)
   TraceFunctionParam("%d",leaf);
   TraceFunctionParam("%d\n",slices[leaf].u.leaf.goal);
 
-  if (defender==noir ? flagblackmummer : flagwhitemummer)
+  if (defender==Black ? flagblackmummer : flagwhitemummer)
   {
     move_generation_mode = move_generation_optimized_by_killer_move;
     genmove(defender);
@@ -230,7 +230,7 @@ static boolean leaf_is_end_in_1_forced(slice_index leaf)
     {
       if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
         p = -p;
-      if (defender==blanc)
+      if (defender==White)
       {
         if (p>obs)
         {
@@ -293,7 +293,7 @@ boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
     return false;
 
   if (slices[leaf].u.leaf.goal==goal_mate)
-    GenMatingMove(side_at_move);
+    generate_move_reaching_goal(slices[leaf].u.leaf.goal,side_at_move);
   else
     genmove(side_at_move);
 
@@ -391,7 +391,7 @@ static boolean leaf_h_cmate_is_solvable(slice_index leaf)
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
 
-  GenMatingMove(side_at_move);
+  generate_move_reaching_goal(slices[leaf].u.leaf.goal,side_at_move);
 
   while (encore() && !found_solution)
   {
@@ -404,7 +404,7 @@ static boolean leaf_h_cmate_is_solvable(slice_index leaf)
       {
         if (goal_checker_mate(side_at_move))
         {
-          GenMatingMove(other_side);
+          generate_move_reaching_goal(slices[leaf].u.leaf.goal,other_side);
 
           while (encore() && !found_solution)
           {
@@ -452,7 +452,7 @@ static boolean leaf_h_dmate_is_solvable(slice_index leaf)
       {
         if (!immobile(other_side))
         {
-          GenMatingMove(other_side);
+          generate_move_reaching_goal(slices[leaf].u.leaf.goal,other_side);
 
           while (encore() && !found_solution)
           {
@@ -491,9 +491,9 @@ static boolean h_leaf_h_exists_final_move(slice_index leaf)
 
   TraceValue("%d\n",side_at_move);
 
-  GenMatingMove(side_at_move);
+  generate_move_reaching_goal(slices[leaf].u.leaf.goal,side_at_move);
 
-  if (side_at_move==blanc)
+  if (side_at_move==White)
     WhMovesLeft--;
   else
     BlMovesLeft--;
@@ -516,7 +516,7 @@ static boolean h_leaf_h_exists_final_move(slice_index leaf)
     repcoup();
   }
 
-  if (side_at_move==blanc)
+  if (side_at_move==White)
     WhMovesLeft++;
   else
     BlMovesLeft++;
@@ -541,7 +541,7 @@ static boolean leaf_h_othergoals_is_solvable(slice_index leaf)
 
   genmove(side_at_move);
 
-  if (side_at_move==noir)
+  if (side_at_move==Black)
     BlMovesLeft--;
   else
     WhMovesLeft--;
@@ -569,7 +569,7 @@ static boolean leaf_h_othergoals_is_solvable(slice_index leaf)
     repcoup();
   }
     
-  if (side_at_move==noir)
+  if (side_at_move==Black)
     BlMovesLeft++;
   else
     WhMovesLeft++;
@@ -748,7 +748,7 @@ static void d_leaf_r_solve_forced_keys(slice_index leaf)
   assert(slices[leaf].type==STLeaf);
   assert(attacker!=no_side);
 
-  GenMatingMove(attacker);
+  generate_move_reaching_goal(slices[leaf].u.leaf.goal,attacker);
   active_slice[nbply] = leaf;
 
   while(encore())
@@ -805,7 +805,7 @@ static boolean leaf_d_solve(boolean restartenabled, slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
 
-  GenMatingMove(attacker);
+  generate_move_reaching_goal(slices[leaf].u.leaf.goal,attacker);
   active_slice[nbply] = leaf;
 
   while (encore())
@@ -852,7 +852,7 @@ static void leaf_sr_solve_final_move(slice_index leaf)
   if (tree_mode)
     StdString("\n");
 
-  GenMatingMove(defender);
+  generate_move_reaching_goal(slices[leaf].u.leaf.goal,defender);
   active_slice[nbply] = leaf;
 
   while(encore())
@@ -1247,7 +1247,7 @@ static boolean d_leaf_d_does_attacker_win(slice_index leaf)
     return false;
   }
 
-  GenMatingMove(attacker);
+  generate_move_reaching_goal(slices[leaf].u.leaf.goal,attacker);
 
   while (encore() && !end_found)
   {
@@ -1390,7 +1390,7 @@ static void d_leaf_sr_solve_setplay(slice_index leaf)
 
   StdString("\n");
 
-  GenMatingMove(defender);
+  generate_move_reaching_goal(slices[leaf].u.leaf.goal,defender);
   active_slice[nbply] = leaf;
 
   while(encore())
@@ -1529,7 +1529,7 @@ void d_leaf_solve_continuations(int solutions, slice_index leaf)
   assert(slices[leaf].starter!=no_side);
 
   if (slices[leaf].u.leaf.end==EDirect)
-    GenMatingMove(attacker);
+    generate_move_reaching_goal(slices[leaf].u.leaf.goal,attacker);
   else
     genmove(attacker);
 
@@ -1576,7 +1576,7 @@ static boolean h_leaf_s_solve_final_move(slice_index leaf)
 
   if (d_leaf_s_does_defender_win(leaf)>=loss)
   {
-    GenMatingMove(defender);
+    generate_move_reaching_goal(slices[leaf].u.leaf.goal,defender);
     active_slice[nbply] = leaf;
 
     while (encore())
@@ -1641,7 +1641,7 @@ static boolean h_leaf_r_solve_final_move(slice_index leaf)
 
   if (d_leaf_r_does_defender_win(leaf)>=loss)
   {
-    GenMatingMove(defender);
+    generate_move_reaching_goal(slices[leaf].u.leaf.goal,defender);
     active_slice[nbply] = leaf;
 
     while (encore())
@@ -1717,10 +1717,10 @@ static boolean h_leaf_h_solve_final_move(slice_index leaf)
 
   TraceValue("%d\n",side_at_move);
 
-  GenMatingMove(side_at_move);
+  generate_move_reaching_goal(slices[leaf].u.leaf.goal,side_at_move);
   active_slice[nbply] = leaf;
 
-  if (side_at_move==blanc)
+  if (side_at_move==White)
     WhMovesLeft--;
   else
     BlMovesLeft--;
@@ -1746,7 +1746,7 @@ static boolean h_leaf_h_solve_final_move(slice_index leaf)
     repcoup();
   }
 
-  if (side_at_move==blanc)
+  if (side_at_move==White)
     WhMovesLeft++;
   else
     BlMovesLeft++;
@@ -1774,7 +1774,7 @@ static boolean h_leaf_h_cmate_solve(boolean restartenabled,
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
 
-  GenMatingMove(side_at_move);
+  generate_move_reaching_goal(slices[leaf].u.leaf.goal,side_at_move);
   active_slice[nbply] = leaf;
 
   while (encore())
@@ -1789,7 +1789,7 @@ static boolean h_leaf_h_cmate_solve(boolean restartenabled,
       {
         if (goal_checker_mate(side_at_move))
         {
-          GenMatingMove(other_side);
+          generate_move_reaching_goal(slices[leaf].u.leaf.goal,other_side);
           active_slice[nbply] = leaf;
 
           while (encore())
@@ -1852,7 +1852,7 @@ static boolean h_leaf_h_dmate_solve(boolean restartenabled,
       {
         if (!immobile(other_side))
         {
-          GenMatingMove(other_side);
+          generate_move_reaching_goal(slices[leaf].u.leaf.goal,other_side);
           active_slice[nbply] = leaf;
 
           while (encore())
@@ -1911,7 +1911,7 @@ static boolean h_leaf_h_othergoals_solve(boolean restartenabled,
   genmove(side_at_move);
   active_slice[nbply] = leaf;
 
-  if (side_at_move==noir)
+  if (side_at_move==Black)
     BlMovesLeft--;
   else
     WhMovesLeft--;
@@ -1947,7 +1947,7 @@ static boolean h_leaf_h_othergoals_solve(boolean restartenabled,
       break;
   }
     
-  if (side_at_move==noir)
+  if (side_at_move==Black)
     BlMovesLeft++;
   else
     WhMovesLeft++;
@@ -2099,7 +2099,7 @@ static boolean ser_leaf_d_solve(slice_index leaf)
   TraceFunctionParam("%d",attacker);
   TraceFunctionParam("%d\n",leaf);
 
-  GenMatingMove(attacker);
+  generate_move_reaching_goal(slices[leaf].u.leaf.goal,attacker);
   active_slice[nbply] = leaf;
 
   while (encore())
@@ -2240,7 +2240,7 @@ boolean leaf_solve(slice_index leaf)
     case EHelp:
     {
 /*       boolean const save_flag_hashall = flag_hashall;
-         hashwhat next_no_succ = (slices[leaf].starter==blanc
+         hashwhat next_no_succ = (slices[leaf].starter==White
                                   ? WhHelpNoSucc
                                   : BlHelpNoSucc);
          flag_hashall = true;*/ /* TODO */
@@ -2275,17 +2275,17 @@ void leaf_detect_starter(slice_index leaf, boolean is_duplex)
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      /* normally blanc, but noir in reci-h# */
+      /* normally White, but Black in reci-h# */
       break;
 
     case ESelf:
     case EReflex:
     case ESemireflex:
-      slices[leaf].starter = is_duplex ? noir : blanc;
+      slices[leaf].starter = is_duplex ? Black : White;
       break;
           
     case EHelp:
-      slices[leaf].starter = is_duplex ? blanc : noir;
+      slices[leaf].starter = is_duplex ? White : Black;
       break;
 
     default:

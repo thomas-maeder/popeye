@@ -172,26 +172,30 @@ void WriteConditions(int alignment);
 
 /***** twinning ***** */
 
-#define TwinMove     0
-#define TwinExchange     1
-#define TwinStip     2
-#define TwinAdd      3
-#define TwinRemove   4
-#define TwinContinued    5
-#define TwinRotate   6
-#define TwinCond     7
-#define TwinPolish   8
-#define TwinMirror   9
-#define TwinMirra1h1    10
-#define TwinMirra1a8    11
-#define TwinMirra1h8    12
-#define TwinMirra8h1    13
-#define TwinShift   14
-#define TwinSubstitute  15
-#define TwinForsyth 16
-#define TwinCount   17
+typedef enum
+{
+  TwinningMove,         /* 0 */
+  TwinningExchange,     /* 1 */
+  TwinningStip,         /* 2 */
+  TwinningAdd,          /* 3 */
+  TwinningRemove,       /* 4 */
+  TwinningContinued,    /* 5 */
+  TwinningRotate,       /* 6 */
+  TwinningCond,         /* 7 */
+  TwinningPolish,       /* 8 */
+  TwinningMirror,       /* 9 */
+  TwinningMirra1h1,    /* 10 */
+  TwinningMirra1a8,    /* 11 */
+  TwinningMirra1h8,    /* 12 */
+  TwinningMirra8h1,    /* 13 */
+  TwinningShift,       /* 14 */
+  TwinningSubstitute,  /* 15 */
+  TwinningForsyth,     /* 16 */
 
-char    *TwinString[LangCount][TwinCount] = {
+  TwinningCount   /* 17 */
+} TwinningType;
+
+char    *TwinningString[LangCount][TwinningCount] = {
   { /* francais */
     /* 0*/  "deplacement",
     /* 1*/  "echange",
@@ -259,7 +263,7 @@ static char **CondTab;  /* set according to language */
 
 static char  **VariantTypeTab;
 static char    **ExtraCondTab;
-static char **TwinTab;
+static char **TwinningTab;
 static char LastChar;
 
 static  FILE    *TraceFile;
@@ -400,14 +404,17 @@ static int PopInput() {
     return -1;
 }
 
-static char NextChar(void) {
+static char NextChar(void)
+{
   int ch;
   static boolean eof= False;
 
   if ((ch= getc(InputStack[NestLevel])) != -1)
     return LastChar=ch;
-  else {
-    if (eof) {
+  else
+  {
+    if (eof)
+    {
       if (PopInput() < 0)
         FtlMsg(EoFbeforeEoP);
       return NextChar();
@@ -489,47 +496,55 @@ static char *ReadNextCaseSensitiveTokStr(void) {
   return TokenLine;
 }
 
-boolean sncmp(char *a, char *b) {
-  while (*b) {
-    /*  if ((isupper(*a)?tolower(*a):*a) != *b++) { */
-    if ((isupper((int)*a)?tolower((int)*a):*a) != *b++) {
+static boolean sncmp(char *a, char *b)
+{
+  while (*b)
+  {
+    if ((isupper((int)*a) ? tolower((int)*a) : *a) == *b++)
       /* EBCDIC support ! HD */
+      ++a;
+    else
       return False;
-    }
-    a++;
   }
+
   return True;
 }
 
-int GetIndex(int indexx,int limit, char **list, char *tok) {
-  while (indexx < limit) {
-    if (sncmp(list[indexx],tok)) {
-      return indexx;
-    }
-    indexx++;
-  }
-  return -1;
+enum
+{
+  unrecognised_delta = 0,
+  ambiguous_delta = 1
+};
+
+static unsigned int GetIndex(unsigned int index, unsigned int limit,
+                             char **list, char *tok)
+{
+  while (index<limit)
+    if (sncmp(list[index],tok))
+      return index;
+    else
+      ++index;
+
+  return limit+unrecognised_delta;
 }
 
-int GetUniqIndex(int limit, char **list, char *tok) {
-  int indexx;
-
-  if ((indexx= GetIndex(0,limit,list,tok)) >= 0) {
-    if (   strlen(tok) == strlen(list[indexx])
-           || GetIndex(indexx + 1,limit,list,tok) < 0)
-    {
-      return indexx;
-    }
-    else {
-      return -1;
-    }
-  }
-  else {
-    return -2;
+static unsigned int GetUniqIndex(unsigned int limit, char **list, char *tok)
+{
+  unsigned int const index = GetIndex(0,limit,list,tok);
+  if (index==limit+unrecognised_delta)
+    return index;
+  else
+  {
+    if (strlen(tok)==strlen(list[index]))
+      return index;
+    else if (GetIndex(index+1,limit,list,tok)==limit+unrecognised_delta)
+      return index;
+    else
+      return limit+ambiguous_delta;
   }
 }
 
-Token StringToToken(char *tok)
+static Token StringToToken(char *tok)
 {
   return GetUniqIndex(TokenCount,TokenTab,tok);
 }
@@ -595,17 +610,18 @@ char* WriteBGLNumber(char* buf, long int num)
 }
 
 static void ReadBeginSpec(void) {
-  char *tok;
-
-  while (True) {
+  while (True)
+  {
+    char *tok = ReadNextTokStr();
     TokenTab= TokenString[0];
-    tok = ReadNextTokStr();
-    for (ActLang= 0; ActLang<LangCount; ActLang++) {
+    for (ActLang= 0; ActLang<LangCount; ActLang++)
+    {
       TokenTab= &(TokenString[ActLang][0]);
-      if (GetUniqIndex(TokenCount,TokenTab,tok) == BeginProblem) {
+      if (GetUniqIndex(TokenCount,TokenTab,tok)==BeginProblem)
+      {
         OptTab= &(OptString[ActLang][0]);
         CondTab= &(CondString[ActLang][0]);
-        TwinTab= &(TwinString[ActLang][0]);
+        TwinningTab= &(TwinningString[ActLang][0]);
         VariantTypeTab= &(VariantTypeString[ActLang][0]);
         ExtraCondTab= &(ExtraCondString[ActLang][0]);
         PieceTab= PieNamString[ActLang];
@@ -614,6 +630,7 @@ static void ReadBeginSpec(void) {
         return;
       }
     }
+
     IoErrorMsg(NoBegOfProblem, 0);
   }
 }
@@ -755,7 +772,7 @@ static char *ParseSquareList(
                   LaTeXPiece(Name),
                   'a'-nr_of_slack_files_left_of_board+Square%onerow,
                   '1'-nr_of_slack_rows_below_board+Square/onerow);
-          strcat(ActTwin, GlobalStr);
+          strcat(ActTwinning, GlobalStr);
         }
         if (e[Square] == vide) {
           StdChar(echo);
@@ -892,7 +909,8 @@ static square SetSquare(square sq, piece p, boolean bw, boolean *neut)
   return NextSquare(sq);
 }
 
-static char *ParseForsyth(boolean output) {
+static char *ParseForsyth(boolean output)
+{
   piece pc;
   int num;
   square sq= square_a8;
@@ -902,26 +920,31 @@ static char *ParseForsyth(boolean output) {
 
   for (bnp= boardnum; *bnp; bnp++)
     e[*bnp]= vide;
-  rb= rn= initsquare;
+
+  rb = initsquare;
+  rn = initsquare;
 
   sprintf(GlobalStr, "  %s  \n", tok);
   if (output)
-  {
     StdString(tok);
-  }
-  while (sq && *tok) {
-    if (isdigit((int)*tok)) {
+
+  while (sq && *tok)
+  {
+    if (isdigit((int)*tok))
+    {
       num= (*tok++) - '0';
       if (isdigit((int)*tok))
         num += num * 9 + (*tok++) - '0';
-      for (;num && sq;num--) {
+      for (;num && sq;num--)
+      {
         e[sq]= vide;
         spec[sq]= BorderSpec;
         sq= NextSquare(sq);
       }
       NeutralFlag= false;
     }
-    else if (isalpha((int)*tok)) {
+    else if (isalpha((int)*tok))
+    {
       pc= GetPieNamIndex(tolower(*tok),' ');
       if (pc>=King) {
         sq= SetSquare(sq,
@@ -931,17 +954,19 @@ static char *ParseForsyth(boolean output) {
         if (NeutralFlag) 
           SETFLAG(PieSpExFlags,Neutral);
       }
-      else {
+      else
         tok++;           /* error */
-      }
     }
-    else if (*tok == '.') {
-      if (*(tok+1) == '=') {
+    else if (*tok == '.')
+    {
+      if (*(tok+1) == '=')
+      {
         NeutralFlag= true;
         tok++;
       }
       pc= GetPieNamIndex(tolower(*(tok+1)), tolower(*(tok+2)));
-      if (pc>=King) {
+      if (pc>=King)
+      {
         sq= SetSquare(sq,
                       pc,
                       islower((int)InputLine[(tok+1-TokenLine)]),
@@ -951,17 +976,20 @@ static char *ParseForsyth(boolean output) {
       }
       tok += 3;
     }
-    else if (*tok == '=') {
+    else if (*tok == '=')
+    {
       NeutralFlag= true;
       tok++;
     }
     else
       tok++;
   }
+
   return ReadNextTokStr();
 }
 
-static char *ParsePieSpec(char echo) {
+static char *ParsePieSpec(char echo)
+{
   /* We read the PieceSpecifikation.
   ** The first token we cannot interprete as PieceSpec
   ** When a color specification was suplied we try to
@@ -969,42 +997,48 @@ static char *ParsePieSpec(char echo) {
   ** If no ColorSpec is given, and we had already one, we return
   ** the token, to the caller.
   */
-  PieSpec ps;
   Flags   PieSpFlags;
   int     SpecCnt= 0;
   char    *tok;
   Flags   ColorFlag= (BIT(White) | BIT(Black) | BIT(Neutral));
 
   tok = ReadNextTokStr();
-  while (True) {
+  while (True)
+  {
     CLEARFL(PieSpFlags);
-    while ((ps= GetUniqIndex(PieSpCount,PieSpTab,tok)) >= -1) {
-      if (ps == -1) {
+    while (true)
+    {
+      PieSpec const ps = GetUniqIndex(PieSpCount,PieSpTab,tok);
+      if (ps==PieSpCount+unrecognised_delta)
+        break;
+      else if (ps==PieSpCount+ambiguous_delta)
         IoErrorMsg(PieSpecNotUniq,0);
-      }
-      else {
+      else
+      {
         Flags TmpFlg= PieSpFlags&ColorFlag;
-        if (  TmpFlg
-              && (TmpFlg & BIT(ps))
-              && (TmpFlg != (Flags)BIT(ps)))
-        {
+        if (TmpFlg
+            && (TmpFlg & BIT(ps))
+            && (TmpFlg != (Flags)BIT(ps)))
           IoErrorMsg(WBNAllowed,0);
-        }
-        else {
+        else
+        {
           SETFLAG(PieSpFlags,ps);
           SETFLAG(PieSpExFlags,ps);
         }
       }
+
       tok = ReadNextTokStr();
     }
-    if (PieSpFlags & ColorFlag) {
+
+    if (PieSpFlags & ColorFlag)
+    {
       tok = PrsPieNam(tok, PieSpFlags, echo);
       SpecCnt++;
     }
-    else {
-      if (SpecCnt) {
+    else
+    {
+      if (SpecCnt)
         return tok;
-      }
       IoErrorMsg(NoColorSpec,0);
       tok = ReadNextTokStr();
     }
@@ -1501,13 +1535,12 @@ static char *ReadSquares(int which) {
   return tok;
 } /* ReadSquares */
 
-static char *ParseRex(boolean *rex, Cond what) {
-  char    *tok;
-  tok = ReadNextTokStr();
-  *rex= (what==GetUniqIndex(CondCount, CondTab, tok));
-  if (*rex) {
+static char *ParseRex(boolean *rex, Cond what)
+{
+  char *tok = ReadNextTokStr();
+  *rex = what==GetUniqIndex(CondCount,CondTab,tok);
+  if (*rex)
     tok = ReadNextTokStr();
-  }
   return tok;
 }
 
@@ -1539,139 +1572,117 @@ static char *ParseMaximumPawn(unsigned int *result,
   return end;
 }
 
-static char *ParseVariant(boolean *type, VariantGroup group) {
-  int       VariantType;
+static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
   char    *tok=ReadNextTokStr();
 
-  if (type != NULL)
-    *type= False;
+  if (is_variant_set!=NULL)
+    *is_variant_set= False;
 
-  do {
-    VariantType = GetUniqIndex(VariantTypeCount, VariantTypeTab, tok);
+  do
+  {
+    VariantType type = GetUniqIndex(VariantTypeCount,VariantTypeTab,tok);
 
-    if (VariantType < -1) {
+    if (type==VariantTypeCount+unrecognised_delta)
       break;
-    }
 
-    if (VariantType == -1) {
+    if (type==VariantTypeCount+ambiguous_delta)
       IoErrorMsg(CondNotUniq,0);
-    }
-    else if (VariantType==TypeB && group==gpType) {
-      *type= True;
-    }
-    else if (VariantType==TypeB && group==gpOsc) {
+    else if (type==TypeB && group==gpType)
+      *is_variant_set= True;
+    else if (type==TypeB && group==gpOsc)
       OscillatingKingsTypeB[OscillatingKingsSide]= True;
-    }
-    else if (VariantType==TypeC && group==gpOsc) {
+    else if (type==TypeC && group==gpOsc)
       OscillatingKingsTypeC[OscillatingKingsSide]= True;
-    }
-    else if (VariantType==TypeB && group==gpAnnan) {
+    else if (type==TypeB && group==gpAnnan)
       annanvar= 1;
-    }
-    else if (VariantType==TypeC && group==gpAnnan) {
+    else if (type==TypeC && group==gpAnnan)
       annanvar= 2;
-    }
-    else if (VariantType==TypeD && group==gpAnnan) {
+    else if (type==TypeD && group==gpAnnan)
       annanvar= 3;
-    }
-    else if (VariantType==Type1 && group==gpType) {
+    else if (type==Type1 && group==gpType)
       SingleBoxType = singlebox_type1;
-    }
-    else if (VariantType==Type2 && group==gpType) {
+    else if (type==Type2 && group==gpType)
       SingleBoxType = singlebox_type2;
-    }
-    else if (VariantType==Type3 && group==gpType) {
+    else if (type==Type3 && group==gpType)
       SingleBoxType = singlebox_type3;
-    }
-    else if (VariantType==Type1 && group==gpRepublican) {
-      *type = true;
-    }
-    else if (VariantType==Type2 && group==gpRepublican) {
-      *type = false;
-    }
-    else if (VariantType==PionAdverse && group==gpSentinelles) {
-      *type= True;
-    }
-    else if (VariantType==PionNeutral && group==gpSentinelles) {
+    else if (type==Type1 && group==gpRepublican)
+      *is_variant_set = true;
+    else if (type==Type2 && group==gpRepublican)
+      *is_variant_set = false;
+    else if (type==PionAdverse && group==gpSentinelles)
+      *is_variant_set= True;
+    else if (type==PionNeutral && group==gpSentinelles)
       SentPionNeutral= True;
-    }
-    else if (VariantType==PionNoirMaximum && group==gpSentinelles) {
+    else if (type==PionNoirMaximum && group==gpSentinelles)
       tok = ParseMaximumPawn(&max_pn,8,64);
-    }
-    else if (VariantType==PionBlancMaximum && group==gpSentinelles)
-    {
+    else if (type==PionBlancMaximum && group==gpSentinelles)
       tok = ParseMaximumPawn(&max_pb,8,64);
-    }
-    else if (VariantType==PionTotalMaximum && group==gpSentinelles)
-    {
+    else if (type==PionTotalMaximum && group==gpSentinelles)
       tok = ParseMaximumPawn(&max_pt,16,64);
-    }
-    else if (VariantType==ParaSent && group==gpSentinelles) {
+    else if (type==ParaSent && group==gpSentinelles)
       flagparasent= true;
-    }
-    else if (VariantType==SentBerolina && group==gpSentinelles) {
+    else if (type==SentBerolina && group==gpSentinelles)
+    {
       sentinelb= pbb;
       sentineln= pbn;
     }
-    else if (VariantType==AntiCirTypeCheylan && group==gpAntiCirce)
-    {
-      *type= True;
-    }
-    else if (VariantType==AntiCirTypeCalvet && group==gpAntiCirce)
-    {
-      *type= False;
-    }
-    else if (VariantType==Neighbour && group==gpKoeko)
+    else if (type==AntiCirTypeCheylan && group==gpAntiCirce)
+      *is_variant_set= True;
+    else if (type==AntiCirTypeCalvet && group==gpAntiCirce)
+      *is_variant_set= False;
+    else if (type==Neighbour && group==gpKoeko)
     {
       piece tmp_piece;
       tok = ReadNextTokStr();
       switch (strlen(tok))
       {
-      case 1:
-        tmp_piece= GetPieNamIndex(*tok,' ');
-        break;
-      case 2:
-        tmp_piece= GetPieNamIndex(*tok,tok[1]);
-        break;
-      default:
-        IoErrorMsg(WrongPieceName,0);
-        return tok;
+        case 1:
+          tmp_piece= GetPieNamIndex(*tok,' ');
+          break;
+        case 2:
+          tmp_piece= GetPieNamIndex(*tok,tok[1]);
+          break;
+        default:
+          IoErrorMsg(WrongPieceName,0);
+          return tok;
       }
-      switch (tmp_piece) {
-      case roib:
-        break;
-      case cb:
-        *nocontactfunc= noknightcontact;
-        break;
-      case vizirb:
-        *nocontactfunc= nowazircontact;
-        break;
-      case fersb:
-        *nocontactfunc= noferscontact;
-        break;
-      case chb:
-        *nocontactfunc= nocamelcontact;
-        break;
-      case alfilb:
-        *nocontactfunc= noalfilcontact;
-        break;
-      case zb:
-        *nocontactfunc= nozebracontact;
-        break;
-      case dabb:
-        *nocontactfunc= nodabbabacontact;
-        break;
-      case gib:
-        *nocontactfunc= nogiraffecontact;
-        break;
-      case antilb:
-        *nocontactfunc= noantelopecontact;
-        break;
-      default:
-        IoErrorMsg(WrongPieceName,0);
+
+      switch (tmp_piece)
+      {
+        case roib:
+          break;
+        case cb:
+          *nocontactfunc= noknightcontact;
+          break;
+        case vizirb:
+          *nocontactfunc= nowazircontact;
+          break;
+        case fersb:
+          *nocontactfunc= noferscontact;
+          break;
+        case chb:
+          *nocontactfunc= nocamelcontact;
+          break;
+        case alfilb:
+          *nocontactfunc= noalfilcontact;
+          break;
+        case zb:
+          *nocontactfunc= nozebracontact;
+          break;
+        case dabb:
+          *nocontactfunc= nodabbabacontact;
+          break;
+        case gib:
+          *nocontactfunc= nogiraffecontact;
+          break;
+        case antilb:
+          *nocontactfunc= noantelopecontact;
+          break;
+        default:
+          IoErrorMsg(WrongPieceName,0);
       }
     }
-    else if (VariantType==ShiftRank && group==gpGrid)
+    else if (type==ShiftRank && group==gpGrid)
     {
       square * bnp;
       for (bnp= boardnum; *bnp; bnp++) 
@@ -1681,7 +1692,7 @@ static char *ParseVariant(boolean *type, VariantGroup group) {
       }
       gridvar = grid_vertical_shift;
     }
-    else if (VariantType==ShiftFile && group==gpGrid)
+    else if (type==ShiftFile && group==gpGrid)
     {
       square * bnp;
       for (bnp= boardnum; *bnp; bnp++) 
@@ -1691,7 +1702,7 @@ static char *ParseVariant(boolean *type, VariantGroup group) {
       }
       gridvar = grid_horizontal_shift;
     }
-    else if (VariantType==ShiftRankFile && group==gpGrid)
+    else if (type==ShiftRankFile && group==gpGrid)
     {
       square * bnp;
       for (bnp= boardnum; *bnp; bnp++) 
@@ -1701,7 +1712,7 @@ static char *ParseVariant(boolean *type, VariantGroup group) {
       }
       gridvar = grid_diagonal_shift;
     }
-    else if (VariantType==Orthogonal && group==gpGrid)
+    else if (type==Orthogonal && group==gpGrid)
     {
       square * bnp;
       int files[8], ranks[8];
@@ -1737,7 +1748,7 @@ static char *ParseVariant(boolean *type, VariantGroup group) {
       }        
       gridvar = grid_orthogonal_lines;
     }
-    else if (VariantType==Irregular && group==gpGrid)
+    else if (type==Irregular && group==gpGrid)
     {
       square * bnp;
       for (bnp= boardnum; *bnp; bnp++) 
@@ -1751,7 +1762,7 @@ static char *ParseVariant(boolean *type, VariantGroup group) {
       while (currentgridnum++);
       continue;
     }
-    else if (VariantType==ExtraGridLines && group==gpGrid)
+    else if (type==ExtraGridLines && group==gpGrid)
     {
       boolean parsed= true;
       numgridlines= 0;
@@ -1815,15 +1826,18 @@ static char *ParseExact(boolean *ex_flag, boolean *ul_flag)
   char    *tok;
 
   tok = ReadNextTokStr();
-  *ul_flag= (ultra==GetUniqIndex(CondCount, CondTab, tok));
-  if (*ul_flag) {
+  *ul_flag= ultra==GetUniqIndex(CondCount,CondTab,tok);
+  if (*ul_flag)
+  {
     *ex_flag= true;
     CondFlag[ultra]= true;
     tok = ReadNextTokStr();
   }
-  else {
-    *ex_flag= exact==GetUniqIndex(CondCount, CondTab, tok);
-    if (*ex_flag) {
+  else
+  {
+    *ex_flag= exact==GetUniqIndex(CondCount,CondTab,tok);
+    if (*ex_flag)
+    {
       CondFlag[exact]= true;
       tok = ReadNextTokStr();
     }
@@ -1857,11 +1871,12 @@ static char *ParseVaultingPieces(Flags fl)
       break;
 
     default:
-      switch (GetUniqIndex(VariantTypeCount, VariantTypeTab, tok)) {
+      switch (GetUniqIndex(VariantTypeCount,VariantTypeTab,tok))
+      {
         case Transmuting:
-          if (TSTFLAG(fl, blanc)) 
+          if (TSTFLAG(fl, White)) 
             calc_whtrans_king= true;
-          if (TSTFLAG(fl, noir)) 
+          if (TSTFLAG(fl, Black)) 
             calc_bltrans_king= true;
           break;
 
@@ -1871,17 +1886,17 @@ static char *ParseVaultingPieces(Flags fl)
     }
     if (gotpiece)
     {
-      if (TSTFLAG(fl, blanc)) {
+      if (TSTFLAG(fl, White)) {
         whitetransmpieces[tp] = p;
       }
-      if (TSTFLAG(fl, noir)) {
+      if (TSTFLAG(fl, Black)) {
         blacktransmpieces[tp] = p;
       }
       tp++;
-      if (TSTFLAG(fl, blanc)) {
+      if (TSTFLAG(fl, White)) {
         whitetransmpieces[tp] = vide;
       }
-      if (TSTFLAG(fl, noir)) {
+      if (TSTFLAG(fl, Black)) {
         blacktransmpieces[tp] = vide;
       }
     }
@@ -1938,847 +1953,891 @@ char *ReadChameleonCirceSequence(void) {
 
 static char *ParseCond(void) {
   char    *tok, *ptr;
-  int     indexx;
-  int     CondCnt= 0;
+  unsigned int CondCnt = 0;
 
   tok = ReadNextTokStr();
-  while ((indexx= GetUniqIndex(CondCount,CondTab,tok)) >= -2) {
-
-    if (indexx == -2) {
-      indexx= GetUniqIndex(ExtraCondCount,ExtraCondTab,tok);
-      if (indexx == -2) {
+  while (true)
+  {
+    Cond const indexx = GetUniqIndex(CondCount,CondTab,tok);
+    if (indexx==CondCount+unrecognised_delta)
+    {
+      ExtraCond extra = GetUniqIndex(ExtraCondCount,ExtraCondTab,tok);
+      if (extra==ExtraCondCount+unrecognised_delta)
         break;
+      else
+      {
+        switch (extra)
+        {
+          case maxi:
+            flagmaxi= true;
+            tok = ParseExact(&CondFlag[exact],&CondFlag[ultra]);
+            CondCnt++;
+            break;
+
+          case ultraschachzwang:
+            flagultraschachzwang= true;
+            tok = ReadNextTokStr();
+            CondCnt++;
+            break;
+
+          case ExtraCondCount+ambiguous_delta:
+            IoErrorMsg(CondNotUniq,0);
+            tok = ReadNextTokStr();
+            break;
+
+          default:
+            IoErrorMsg(UnrecCondition,0);
+            break;
+        }
+        continue;
       }
-      switch (indexx) {
-      case maxi:
-        flagmaxi= true;
-        tok = ParseExact(&CondFlag[exact], &CondFlag[ultra]);
-        CondCnt++;
-        break;
-
-      case ultraschachzwang:
-        flagultraschachzwang= true;
-        tok = ReadNextTokStr();
-        CondCnt++;
-        break;
-
-      case -1:
-        IoErrorMsg(CondNotUniq,0);
-        tok = ReadNextTokStr();
-        break;
-      }
-      continue;
     }
 
-    if (indexx == -1) {
+    if (indexx==CondCount+ambiguous_delta)
+    {
       IoErrorMsg(CondNotUniq,0);
       tok = ReadNextTokStr();
       continue;
     }
+
     CondFlag[indexx]= True;
 
     CondCnt++;
-    switch (indexx) {
-    case rexincl:
-      if (CondFlag[exact])
-        IoErrorMsg(NonSenseRexiExact, 0);
-      break;
-    case biheffalumps:
-      CondFlag[heffalumps]= True;
-      CondFlag[biwoozles]= True;
-      CondFlag[woozles]= True;
-      break;
-    case heffalumps:
-      CondFlag[woozles]= True;
-      break;
-    case biwoozles:
-      CondFlag[woozles]= True;
-      break;
-    case hypervolage:
-      CondFlag[volage]= True;
-      break;
-    case leofamily:
-      CondFlag[chinoises]= True;
-      break;
-    case eiffel:
-      flag_madrasi= true;
-      break;
-    case contactgrid:
-      CondFlag[gridchess]=
-        CondFlag[koeko]= True;
-      break;
-    case imitators:
-      ReadSquares(ReadImitators);
-      break;
-    case blroyalsq:
-      ReadSquares(ReadBlRoyalSq);
-      break;
-    case whroyalsq:
-      ReadSquares(ReadWhRoyalSq);
-      break;
-    case magicsquare:
-      ReadSquares(MagicSq);
-      break;
-    case dbltibet:
-      CondFlag[tibet]= True;
-      break;
-    case holes:
-      ReadSquares(ReadHoles);
-      break;
-    case blmax:
-      black_length= len_max;
-      flagblackmummer= true;
-      break;
-    case blmin:
-      black_length= len_min;
-      flagblackmummer= true;
-      break;
-    case blcapt:
-      black_length= len_capt;
-      flagblackmummer= true;
-      break;
-    case blfollow:
-      black_length= len_follow;
-      flagblackmummer= true;
-      break;
-    case whmax:
-      white_length= len_max;
-      flagwhitemummer= true;
-      break;
-    case whmin:
-      white_length= len_min;
-      flagwhitemummer= true;
-      break;
-    case whcapt:
-      white_length= len_capt;
-      flagwhitemummer= true;
-      break;
-    case whfollow:
-      white_length= len_follow;
-      flagwhitemummer= true;
-      break;
-    case duellist:
-      white_length= len_whduell;
-      black_length= len_blduell;
-      flagwhitemummer= flagblackmummer= true;
-      break;
-    case alphabetic:
-      white_length= len_alphabetic;
-      black_length= len_alphabetic;
-      flagwhitemummer= flagblackmummer= true;
-      break;
-    case blacksynchron:
-      black_length= len_synchron;
-      flagblackmummer= true;
-      flag_synchron= true;
-      break;
-    case whitesynchron:
-      white_length= len_synchron;
-      flagwhitemummer= true;
-      flag_synchron= true;
-      break;
-    case blackantisynchron:
-      black_length= len_antisynchron;
-      flagblackmummer= true;
-      flag_synchron= true;
-      break;
-    case whiteantisynchron:
-      white_length= len_antisynchron;
-      flagwhitemummer= true;
-      flag_synchron= true;
-      break;
-    case trans_king:
-      calc_whtrans_king= true;
-      calc_bltrans_king= true;
-      calc_whrefl_king= true;
-      calc_blrefl_king= true;
-      break;
-    case refl_king:
-      calc_whrefl_king= true;
-      calc_blrefl_king= true;
-      break;
-    case whrefl_king:
-      calc_whrefl_king= true;
-      break;
-    case blrefl_king:
-      calc_blrefl_king= true;
-      break;
-    case whtrans_king:
-      calc_whtrans_king= true;
-      calc_whrefl_king= true;
-      break;
-    case bltrans_king:
-      calc_bltrans_king= true;
-      calc_blrefl_king= true;
-      break;
-    case whvault_king:
-      calc_whrefl_king= true;
-      whitenormaltranspieces = false;
-      whitetransmpieces[0]= equib;
-      whitetransmpieces[1]= vide;
-      break;
-    case blvault_king:
-      calc_blrefl_king= true;
-      blacknormaltranspieces = false;
-      blacktransmpieces[0]= equib;
-      blacktransmpieces[1]= vide;
-    case vault_king:
-      calc_whrefl_king= true;
-      calc_blrefl_king= true;
-      whitenormaltranspieces = false;
-      blacknormaltranspieces = false;
-      whitetransmpieces[0]= equib;
-      blacktransmpieces[0]= equib;
-      whitetransmpieces[1]= vide;
-      blacktransmpieces[1]= vide;
-      break;
-    case whsupertrans_king:
-      calc_whrefl_king= true;
-      flagwhitemummer= true;
-      break;
-    case blsupertrans_king:
-      calc_bltrans_king= true;
-      calc_blrefl_king= true;
-      flagblackmummer= true;
-      break;
-    case antieinstein:
-      CondFlag[einstein]= true;
-      break;
-    case reveinstein:
-      CondFlag[einstein]= true;
-      break;
-    case whforsqu:
-      ReadSquares(WhForcedSq);
-      white_length= len_whforcedsquare;
-      flagwhitemummer= true;
-      break;
-    case blforsqu:
-      ReadSquares(BlForcedSq);
-      black_length= len_blforcedsquare;
-      flagblackmummer= true;
-      break;
-    case whconforsqu:
-      ReadSquares(WhConsForcedSq);
-      wh_ultra=
-        wh_exact= true;
-      white_length= len_whforcedsquare;
-      flagwhitemummer= true;
-      break;
-    case blconforsqu:
-      ReadSquares(BlConsForcedSq);
-      bl_ultra=
-        bl_exact= true;
-      black_length= len_blforcedsquare;
-      flagblackmummer= true;
-      break;
-    case schwarzschacher:
-      flagblackmummer= true;
-      black_length= len_schwarzschacher;
-      nullgenre= true;
-      blacknull= true;
-      break;
 
-      /* different types of circe */
-    case couscousmirror:
-      anycirprom= true;
-      anycirce= true;
-      CondFlag[couscous]= true;
-      circerenai= renspiegel;
-      break;
-    case pwc:
-      circerenai= renpwc;
-      anycirprom= true;
-      anycirce= true;
-      break;
-    case couscous:
-      anycirprom= true;
-      anycirce= true;
-      break;
-    case parrain:
-      anycirprom= true;
-      anycirce= true;
-      break;
-    case circediametral:
-      circerenai= rendiametral;
-      anycirce= true;
-      break;
-    case frischauf:
-      anycirce= true;
-      break;
-    case circe:
-      anycirce= true;
-      break;
-    case chamcirce:
-      anycirce= true;
-      break;
-    case circemalefiquevertical:
-      anycirce= true;
-      break;
-    case supercirce:
-    case april:
-      circerenai= rensuper;
-      anycirprom= true;
-      anycirce= true;
-      break;
-    case circeequipollents:
-      circerenai= renequipollents;
-      anycirce= true;
-      anycirprom= true;
-      break;
-    case circemalefique:
-      circerenai= renspiegel;
-      anycirce= true;
-      break;
-    case circerank:
-      circerenai= renrank;
-      anycirce= true;
-      break;
-    case circefile:
-      circerenai= renfile;
-      anycirce= true;
-      break;
-    case circefilemalefique:
-      circerenai= renspiegelfile;
-      anycirce= true;
-      break;
-    case circediagramm:
-      SetDiaRen(PieSpExFlags, haut);
-      circerenai= rendiagramm;
-      anycirce= true;
-      break;
-    case circesymmetry:
-      circerenai= rensymmetrie;
-      anycirce= true;
-      anycirprom= true;
-      break;
-    case circeantipoden:
-      circerenai= renantipoden;
-      anycirce= true;
-      anycirprom= true;
-      break;
-    case circeclonemalefique:
-      circerenai= renspiegel;
-      anycirce= true;
-      anyclone= true;
-      break;
-    case circeclone:
-      anycirce=
-        anyclone= true;
-      break;
-    case circeassassin:
-      anycirce= true;
-      flagAssassin= true;
-      circerenai= rennormal;
-      break;
-
-      /* different types of anticirce */
-    case circeturncoats:
-      anycirce= true;
-      anytraitor= true;
-      circerenai= rennormal;
-      break;
-    case circedoubleagents:
-      anycirce= true;
-      anytraitor= true;
-      circerenai= renspiegel;
-      break;
-    case anti:
-      anyanticirce= true;
-      break;
-    case antispiegel:
-      antirenai= renspiegel;
-      anyanticirce= true;
-      break;
-    case antidiagramm:
-      SetDiaRen(PieSpExFlags, haut);
-      antirenai= rendiagramm;
-      anyanticirce= true;
-      break;
-    case antifile:
-      antirenai= renfile;
-      anyanticirce= true;
-      break;
-    case antisymmetrie:
-      antirenai= rensymmetrie;
-      anyanticirce= true;
-      break;
-    case antispiegelfile:
-      antirenai= renspiegelfile;
-      anyanticirce= true;
-      break;
-    case antiantipoden:
-      antirenai= renantipoden;
-      anyanticirce= true;
-      break;
-    case antiequipollents:
-      antirenai= renequipollents_anti;
-      anyanticirce= true;
-      break;
-    case antisuper:
-      antirenai= rensuper;
-      anyanticirce= true;
-      break;
-
-      /* different types of immunchess */
-    case immun:
-      anyimmun= true;
-      break;
-    case immunmalefique:
-      immunrenai= renspiegel;
-      anyimmun= true;
-      break;
-    case immunfile:
-      immunrenai= renfile;
-      anyimmun= true;
-      break;
-    case immundiagramm:
-      SetDiaRen(PieSpExFlags, haut);
-      immunrenai= rendiagramm;
-      anyimmun= true;
-      break;
-    case immunspiegelfile:
-      immunrenai= renspiegelfile;
-      anyimmun= true;
-      break;
-    case immunsymmetry:
-      immunrenai= rensymmetrie;
-      anyimmun= true;
-      break;
-    case immunantipoden:
-      immunrenai= renantipoden;
-      anyimmun= true;
-      break;
-    case immunequipollents:
-      immunrenai= renequipollents;
-      anyimmun= true;
-      break;
-
-      /* different types of mars circe */
-    case mars:
-      marsrenai= rennormal;
-      anymars= true;
-      break;
-    case marsmirror:
-      marsrenai= renspiegel;
-      anymars= true;
-      break;
-    case antimars:
-      marsrenai= rennormal;
-      anyantimars= true;
-      break;
-    case antimarsmirror:
-      marsrenai= renspiegel;
-      anyantimars= true;
-      break;
-    case antimarsantipodean:
-      marsrenai= renantipoden;
-      anyantimars= true;
-      break;
-    case phantom:
-      marsrenai= rennormal;
-      anymars= CondFlag[phantom]= true;
-      break;
-    case plus:
-      marsrenai= renplus;
-      anymars= true;
-      break;
-    case whprom_sq:
-      ReadSquares(WhPromSq);
-      break;
-    case blprom_sq:
-      ReadSquares(BlPromSq);
-      break;
-
-      /*****  different types of geneva chess   *****/
-    case geneva:
-      genevarenai= rennormal;
-      anygeneva= true;
-      break;
-    }
-
-    switch (indexx) {
-    case frischauf:
-      tok = ReadSquares(ReadFrischAuf);
-      break;
-    case messigny:
-      tok = ParseRex(&rex_mess_ex, rexexcl);
-      break;
-    case woozles:
-      tok = ParseRex(&rex_wooz_ex, rexexcl);
-      break;
-    case biwoozles:
-      tok = ParseRex(&rex_wooz_ex, rexexcl);
-      break;
-    case immun:
-      tok = ParseRex(&rex_immun, rexincl);
-      break;
-    case immunmalefique:
-      tok = ParseRex(&rex_immun, rexincl);
-      break;
-    case immundiagramm:
-      tok = ParseRex(&rex_immun, rexincl);
-      break;
-    case chamcirce:
-      ReadChameleonCirceSequence();
-      break;
-    case circe:
-      tok = ParseRex(&rex_circe, rexincl);
-      break;
-    case circemalefique:
-      tok = ParseRex(&rex_circe, rexincl);
-      break;
-    case circediagramm:
-      tok = ParseRex(&rex_circe, rexincl);
-      break;
-    case circeclone:
-      tok = ParseRex(&rex_circe, rexincl);
-      break;
-    case circeclonemalefique:
-      tok = ParseRex(&rex_circe, rexincl);
-      break;
-    case circemalefiquevertical:
-      tok = ParseRex(&rex_circe, rexincl);
-      break;
-    case protean:
-      tok = ParseRex(&rex_protean_ex, rexexcl);
-      break;
-    case phantom:
-      tok = ParseRex(&rex_phan, rexincl);
-      break;
-    case madras:
-      tok = ParseRex(&rex_mad, rexincl);
-      flag_madrasi= true;
-      break;
-    case isardam:
-      tok = ParseVariant(&IsardamB, gpType);
-      break;
-    case annan:
-      annanvar = 0;
-      tok = ParseVariant(NULL, gpAnnan);
-      break;
-    case patience:
-      tok = ParseVariant(&PatienceB, gpType);
-      break;
-    case sentinelles:
-      SentPionNeutral=False;
-      tok = ParseVariant(&SentPionAdverse, gpSentinelles);
-      break;
-
-      /*****  exact-maxis  *****/
-    case blmax:
-      tok = ParseExact(&bl_exact, &bl_ultra);
-      break;
-    case blmin:
-      tok = ParseExact(&bl_exact, &bl_ultra);
-      break;
-    case blcapt:
-      tok = ParseExact(&bl_exact, &bl_ultra);
-      break;
-    case whmax:
-      tok = ParseExact(&wh_exact, &wh_ultra);
-      break;
-    case whmin:
-      tok = ParseExact(&wh_exact, &wh_ultra);
-      break;
-    case whcapt:
-      tok = ParseExact(&wh_exact, &wh_ultra);
-      break;
-
-      /*****  anticirce type    *****/
-    case anti:
-      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-      AntiCirType= AntiCirCheylan
-        ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-      break;
-    case antispiegel:
-      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-      AntiCirType= AntiCirCheylan
-        ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-      break;
-    case antidiagramm:
-      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-      AntiCirType= AntiCirCheylan
-        ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-      break;
-    case antifile:
-      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-      AntiCirType= AntiCirCheylan
-        ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-      break;
-    case antisymmetrie:
-      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-      AntiCirType= AntiCirCheylan
-        ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-      break;
-    case antispiegelfile:
-      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-      AntiCirType= AntiCirCheylan
-        ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-      break;
-    case antiantipoden:
-      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-      AntiCirType= AntiCirCheylan
-        ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-      break;
-    case antiequipollents:
-      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-      AntiCirType= AntiCirCheylan
-        ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-      break;
-    case antisuper:
-      tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-      AntiCirType= AntiCirCheylan
-        ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-      break;
-    case singlebox:
-      tok = ParseVariant(NULL, gpType);
-      break;
-    case republican:
+    switch (indexx)
     {
-      boolean RepublicanType1 = false;
-      tok = ParseVariant(&RepublicanType1, gpRepublican);
-      RepublicanType = RepublicanType1 ? republican_type1 : republican_type2;
-      break;
+      case rexincl:
+        if (CondFlag[exact])
+          IoErrorMsg(NonSenseRexiExact, 0);
+        break;
+      case biheffalumps:
+        CondFlag[heffalumps]= True;
+        CondFlag[biwoozles]= True;
+        CondFlag[woozles]= True;
+        break;
+      case heffalumps:
+        CondFlag[woozles]= True;
+        break;
+      case biwoozles:
+        CondFlag[woozles]= True;
+        break;
+      case hypervolage:
+        CondFlag[volage]= True;
+        break;
+      case leofamily:
+        CondFlag[chinoises]= True;
+        break;
+      case eiffel:
+        flag_madrasi= true;
+        break;
+      case contactgrid:
+        CondFlag[gridchess] = True;
+        CondFlag[koeko] = True;
+        break;
+      case imitators:
+        ReadSquares(ReadImitators);
+        break;
+      case blroyalsq:
+        ReadSquares(ReadBlRoyalSq);
+        break;
+      case whroyalsq:
+        ReadSquares(ReadWhRoyalSq);
+        break;
+      case magicsquare:
+        ReadSquares(MagicSq);
+        break;
+      case dbltibet:
+        CondFlag[tibet]= True;
+        break;
+      case holes:
+        ReadSquares(ReadHoles);
+        break;
+      case blmax:
+        black_length= len_max;
+        flagblackmummer= true;
+        break;
+      case blmin:
+        black_length= len_min;
+        flagblackmummer= true;
+        break;
+      case blcapt:
+        black_length= len_capt;
+        flagblackmummer= true;
+        break;
+      case blfollow:
+        black_length= len_follow;
+        flagblackmummer= true;
+        break;
+      case whmax:
+        white_length= len_max;
+        flagwhitemummer= true;
+        break;
+      case whmin:
+        white_length= len_min;
+        flagwhitemummer= true;
+        break;
+      case whcapt:
+        white_length= len_capt;
+        flagwhitemummer= true;
+        break;
+      case whfollow:
+        white_length= len_follow;
+        flagwhitemummer= true;
+        break;
+      case duellist:
+        white_length= len_whduell;
+        black_length= len_blduell;
+        flagwhitemummer= flagblackmummer= true;
+        break;
+      case alphabetic:
+        white_length= len_alphabetic;
+        black_length= len_alphabetic;
+        flagwhitemummer= flagblackmummer= true;
+        break;
+      case blacksynchron:
+        black_length= len_synchron;
+        flagblackmummer= true;
+        flag_synchron= true;
+        break;
+      case whitesynchron:
+        white_length= len_synchron;
+        flagwhitemummer= true;
+        flag_synchron= true;
+        break;
+      case blackantisynchron:
+        black_length= len_antisynchron;
+        flagblackmummer= true;
+        flag_synchron= true;
+        break;
+      case whiteantisynchron:
+        white_length= len_antisynchron;
+        flagwhitemummer= true;
+        flag_synchron= true;
+        break;
+      case trans_king:
+        calc_whtrans_king= true;
+        calc_bltrans_king= true;
+        calc_whrefl_king= true;
+        calc_blrefl_king= true;
+        break;
+      case refl_king:
+        calc_whrefl_king= true;
+        calc_blrefl_king= true;
+        break;
+      case whrefl_king:
+        calc_whrefl_king= true;
+        break;
+      case blrefl_king:
+        calc_blrefl_king= true;
+        break;
+      case whtrans_king:
+        calc_whtrans_king= true;
+        calc_whrefl_king= true;
+        break;
+      case bltrans_king:
+        calc_bltrans_king= true;
+        calc_blrefl_king= true;
+        break;
+      case whvault_king:
+        calc_whrefl_king= true;
+        whitenormaltranspieces = false;
+        whitetransmpieces[0]= equib;
+        whitetransmpieces[1]= vide;
+        break;
+      case blvault_king:
+        calc_blrefl_king= true;
+        blacknormaltranspieces = false;
+        blacktransmpieces[0]= equib;
+        blacktransmpieces[1]= vide;
+      case vault_king:
+        calc_whrefl_king= true;
+        calc_blrefl_king= true;
+        whitenormaltranspieces = false;
+        blacknormaltranspieces = false;
+        whitetransmpieces[0]= equib;
+        blacktransmpieces[0]= equib;
+        whitetransmpieces[1]= vide;
+        blacktransmpieces[1]= vide;
+        break;
+      case whsupertrans_king:
+        calc_whrefl_king= true;
+        flagwhitemummer= true;
+        break;
+      case blsupertrans_king:
+        calc_bltrans_king= true;
+        calc_blrefl_king= true;
+        flagblackmummer= true;
+        break;
+      case antieinstein:
+        CondFlag[einstein]= true;
+        break;
+      case reveinstein:
+        CondFlag[einstein]= true;
+        break;
+      case whforsqu:
+        ReadSquares(WhForcedSq);
+        white_length= len_whforcedsquare;
+        flagwhitemummer= true;
+        break;
+      case blforsqu:
+        ReadSquares(BlForcedSq);
+        black_length= len_blforcedsquare;
+        flagblackmummer= true;
+        break;
+      case whconforsqu:
+        ReadSquares(WhConsForcedSq);
+        wh_ultra=
+            wh_exact= true;
+        white_length= len_whforcedsquare;
+        flagwhitemummer= true;
+        break;
+      case blconforsqu:
+        ReadSquares(BlConsForcedSq);
+        bl_ultra=
+            bl_exact= true;
+        black_length= len_blforcedsquare;
+        flagblackmummer= true;
+        break;
+      case schwarzschacher:
+        flagblackmummer= true;
+        black_length= len_schwarzschacher;
+        nullgenre= true;
+        blacknull= true;
+        break;
+
+        /* different types of circe */
+      case couscousmirror:
+        anycirprom= true;
+        anycirce= true;
+        CondFlag[couscous]= true;
+        circerenai= renspiegel;
+        break;
+      case pwc:
+        circerenai= renpwc;
+        anycirprom= true;
+        anycirce= true;
+        break;
+      case couscous:
+        anycirprom= true;
+        anycirce= true;
+        break;
+      case parrain:
+        anycirprom= true;
+        anycirce= true;
+        break;
+      case circediametral:
+        circerenai= rendiametral;
+        anycirce= true;
+        break;
+      case frischauf:
+        anycirce= true;
+        break;
+      case circe:
+        anycirce= true;
+        break;
+      case chamcirce:
+        anycirce= true;
+        break;
+      case circemalefiquevertical:
+        anycirce= true;
+        break;
+      case supercirce:
+      case april:
+        circerenai= rensuper;
+        anycirprom= true;
+        anycirce= true;
+        break;
+      case circeequipollents:
+        circerenai= renequipollents;
+        anycirce= true;
+        anycirprom= true;
+        break;
+      case circemalefique:
+        circerenai= renspiegel;
+        anycirce= true;
+        break;
+      case circerank:
+        circerenai= renrank;
+        anycirce= true;
+        break;
+      case circefile:
+        circerenai= renfile;
+        anycirce= true;
+        break;
+      case circefilemalefique:
+        circerenai= renspiegelfile;
+        anycirce= true;
+        break;
+      case circediagramm:
+        SetDiaRen(PieSpExFlags, haut);
+        circerenai= rendiagramm;
+        anycirce= true;
+        break;
+      case circesymmetry:
+        circerenai= rensymmetrie;
+        anycirce= true;
+        anycirprom= true;
+        break;
+      case circeantipoden:
+        circerenai= renantipoden;
+        anycirce= true;
+        anycirprom= true;
+        break;
+      case circeclonemalefique:
+        circerenai= renspiegel;
+        anycirce= true;
+        anyclone= true;
+        break;
+      case circeclone:
+        anycirce=
+            anyclone= true;
+        break;
+      case circeassassin:
+        anycirce= true;
+        flagAssassin= true;
+        circerenai= rennormal;
+        break;
+
+        /* different types of anticirce */
+      case circeturncoats:
+        anycirce= true;
+        anytraitor= true;
+        circerenai= rennormal;
+        break;
+      case circedoubleagents:
+        anycirce= true;
+        anytraitor= true;
+        circerenai= renspiegel;
+        break;
+      case anti:
+        anyanticirce= true;
+        break;
+      case antispiegel:
+        antirenai= renspiegel;
+        anyanticirce= true;
+        break;
+      case antidiagramm:
+        SetDiaRen(PieSpExFlags, haut);
+        antirenai= rendiagramm;
+        anyanticirce= true;
+        break;
+      case antifile:
+        antirenai= renfile;
+        anyanticirce= true;
+        break;
+      case antisymmetrie:
+        antirenai= rensymmetrie;
+        anyanticirce= true;
+        break;
+      case antispiegelfile:
+        antirenai= renspiegelfile;
+        anyanticirce= true;
+        break;
+      case antiantipoden:
+        antirenai= renantipoden;
+        anyanticirce= true;
+        break;
+      case antiequipollents:
+        antirenai= renequipollents_anti;
+        anyanticirce= true;
+        break;
+      case antisuper:
+        antirenai= rensuper;
+        anyanticirce= true;
+        break;
+
+        /* different types of immunchess */
+      case immun:
+        anyimmun= true;
+        break;
+      case immunmalefique:
+        immunrenai= renspiegel;
+        anyimmun= true;
+        break;
+      case immunfile:
+        immunrenai= renfile;
+        anyimmun= true;
+        break;
+      case immundiagramm:
+        SetDiaRen(PieSpExFlags, haut);
+        immunrenai= rendiagramm;
+        anyimmun= true;
+        break;
+      case immunspiegelfile:
+        immunrenai= renspiegelfile;
+        anyimmun= true;
+        break;
+      case immunsymmetry:
+        immunrenai= rensymmetrie;
+        anyimmun= true;
+        break;
+      case immunantipoden:
+        immunrenai= renantipoden;
+        anyimmun= true;
+        break;
+      case immunequipollents:
+        immunrenai= renequipollents;
+        anyimmun= true;
+        break;
+
+        /* different types of mars circe */
+      case mars:
+        marsrenai= rennormal;
+        anymars= true;
+        break;
+      case marsmirror:
+        marsrenai= renspiegel;
+        anymars= true;
+        break;
+      case antimars:
+        marsrenai= rennormal;
+        anyantimars= true;
+        break;
+      case antimarsmirror:
+        marsrenai= renspiegel;
+        anyantimars= true;
+        break;
+      case antimarsantipodean:
+        marsrenai= renantipoden;
+        anyantimars= true;
+        break;
+      case phantom:
+        marsrenai= rennormal;
+        anymars= CondFlag[phantom]= true;
+        break;
+      case plus:
+        marsrenai= renplus;
+        anymars= true;
+        break;
+      case whprom_sq:
+        ReadSquares(WhPromSq);
+        break;
+      case blprom_sq:
+        ReadSquares(BlPromSq);
+        break;
+
+        /*****  different types of geneva chess   *****/
+      case geneva:
+        genevarenai= rennormal;
+        anygeneva= true;
+        break;
+
+      default:
+        break;
     }
-    case promotiononly:
-      tok = ReadPieces(promotiononly);
-      break;
-    case april:
-      tok = ReadPieces(april);
-      break;
-    case koeko:
-      koekofunc= nokingcontact;
-      nocontactfunc= &koekofunc;
-      tok = ParseVariant(NULL, gpKoeko);
-      break;
-    case antikoeko:
-      antikoekofunc= nokingcontact;
-      nocontactfunc= &antikoekofunc;
-      tok = ParseVariant(NULL, gpKoeko);
-      break;
-    case white_oscillatingKs:
-      OscillatingKingsSide= blanc;
-      tok = ParseVariant(NULL, gpOsc);
-      break;
-    case black_oscillatingKs:
-      OscillatingKingsSide= noir;
-      tok = ParseVariant(NULL, gpOsc);
-      break;
-    case swappingkings:
-      CondFlag[white_oscillatingKs]= True;
-      OscillatingKingsTypeC[blanc]= True;
-      CondFlag[black_oscillatingKs]= True;
-      OscillatingKingsTypeC[noir]= True;
-      tok = ReadNextTokStr();
-      break;
-    case SAT:
-    case strictSAT:
-      tok = ReadNextTokStr();
-      WhiteSATFlights= strtol(tok,&ptr,10) + 1;
-      if (tok == ptr) {
-        WhiteSATFlights= 1;
-        BlackSATFlights= 1;
+
+    switch (indexx)
+    {
+      case frischauf:
+        tok = ReadSquares(ReadFrischAuf);
+        break;
+      case messigny:
+        tok = ParseRex(&rex_mess_ex, rexexcl);
+        break;
+      case woozles:
+        tok = ParseRex(&rex_wooz_ex, rexexcl);
+        break;
+      case biwoozles:
+        tok = ParseRex(&rex_wooz_ex, rexexcl);
+        break;
+      case immun:
+        tok = ParseRex(&rex_immun, rexincl);
+        break;
+      case immunmalefique:
+        tok = ParseRex(&rex_immun, rexincl);
+        break;
+      case immundiagramm:
+        tok = ParseRex(&rex_immun, rexincl);
+        break;
+      case chamcirce:
+        ReadChameleonCirceSequence();
+        break;
+      case circe:
+        tok = ParseRex(&rex_circe, rexincl);
+        break;
+      case circemalefique:
+        tok = ParseRex(&rex_circe, rexincl);
+        break;
+      case circediagramm:
+        tok = ParseRex(&rex_circe, rexincl);
+        break;
+      case circeclone:
+        tok = ParseRex(&rex_circe, rexincl);
+        break;
+      case circeclonemalefique:
+        tok = ParseRex(&rex_circe, rexincl);
+        break;
+      case circemalefiquevertical:
+        tok = ParseRex(&rex_circe, rexincl);
+        break;
+      case protean:
+        tok = ParseRex(&rex_protean_ex, rexexcl);
+        break;
+      case phantom:
+        tok = ParseRex(&rex_phan, rexincl);
+        break;
+      case madras:
+        tok = ParseRex(&rex_mad, rexincl);
+        flag_madrasi= true;
+        break;
+      case isardam:
+        tok = ParseVariant(&IsardamB, gpType);
+        break;
+      case annan:
+        annanvar = 0;
+        tok = ParseVariant(NULL, gpAnnan);
+        break;
+      case patience:
+        tok = ParseVariant(&PatienceB, gpType);
+        break;
+      case sentinelles:
+        SentPionNeutral=False;
+        tok = ParseVariant(&SentPionAdverse, gpSentinelles);
+        break;
+
+        /*****  exact-maxis  *****/
+      case blmax:
+        tok = ParseExact(&bl_exact, &bl_ultra);
+        break;
+      case blmin:
+        tok = ParseExact(&bl_exact, &bl_ultra);
+        break;
+      case blcapt:
+        tok = ParseExact(&bl_exact, &bl_ultra);
+        break;
+      case whmax:
+        tok = ParseExact(&wh_exact, &wh_ultra);
+        break;
+      case whmin:
+        tok = ParseExact(&wh_exact, &wh_ultra);
+        break;
+      case whcapt:
+        tok = ParseExact(&wh_exact, &wh_ultra);
+        break;
+
+        /*****  anticirce type    *****/
+      case anti:
+        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
+        AntiCirType= AntiCirCheylan
+            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
+        break;
+      case antispiegel:
+        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
+        AntiCirType= AntiCirCheylan
+            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
+        break;
+      case antidiagramm:
+        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
+        AntiCirType= AntiCirCheylan
+            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
+        break;
+      case antifile:
+        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
+        AntiCirType= AntiCirCheylan
+            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
+        break;
+      case antisymmetrie:
+        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
+        AntiCirType= AntiCirCheylan
+            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
+        break;
+      case antispiegelfile:
+        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
+        AntiCirType= AntiCirCheylan
+            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
+        break;
+      case antiantipoden:
+        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
+        AntiCirType= AntiCirCheylan
+            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
+        break;
+      case antiequipollents:
+        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
+        AntiCirType= AntiCirCheylan
+            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
+        break;
+      case antisuper:
+        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
+        AntiCirType= AntiCirCheylan
+            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
+        break;
+      case singlebox:
+        tok = ParseVariant(NULL, gpType);
+        break;
+      case republican:
+      {
+        boolean RepublicanType1 = false;
+        tok = ParseVariant(&RepublicanType1, gpRepublican);
+        RepublicanType = RepublicanType1 ? republican_type1 : republican_type2;
         break;
       }
-      tok = ReadNextTokStr();
-      BlackSATFlights= strtol(tok,&ptr,10) + 1;
-      if (tok == ptr) {
-        BlackSATFlights= WhiteSATFlights;
+      case promotiononly:
+        tok = ReadPieces(promotiononly);
         break;
-      }
-    case BGL:
-      BGL_global= false;
-      tok = ReadNextTokStr();
-      BGL_white= ReadBGLNumber(tok,&ptr); 
-      if (tok == ptr)  
-      {
-        BGL_white= BGL_black= BGL_infinity;
-        return tok;
-      }
-      else
-      {
+      case april:
+        tok = ReadPieces(april);
+        break;
+      case koeko:
+        koekofunc= nokingcontact;
+        nocontactfunc= &koekofunc;
+        tok = ParseVariant(NULL, gpKoeko);
+        break;
+      case antikoeko:
+        antikoekofunc= nokingcontact;
+        nocontactfunc= &antikoekofunc;
+        tok = ParseVariant(NULL, gpKoeko);
+        break;
+      case white_oscillatingKs:
+        OscillatingKingsSide= White;
+        tok = ParseVariant(NULL, gpOsc);
+        break;
+      case black_oscillatingKs:
+        OscillatingKingsSide= Black;
+        tok = ParseVariant(NULL, gpOsc);
+        break;
+      case swappingkings:
+        CondFlag[white_oscillatingKs]= True;
+        OscillatingKingsTypeC[White]= True;
+        CondFlag[black_oscillatingKs]= True;
+        OscillatingKingsTypeC[Black]= True;
         tok = ReadNextTokStr();
-        BGL_black= ReadBGLNumber(tok,&ptr);
-        if (tok == ptr)
+        break;
+      case SAT:
+      case strictSAT:
+        tok = ReadNextTokStr();
+        WhiteSATFlights= strtol(tok,&ptr,10) + 1;
+        if (tok == ptr) {
+          WhiteSATFlights= 1;
+          BlackSATFlights= 1;
+          break;
+        }
+        tok = ReadNextTokStr();
+        BlackSATFlights= strtol(tok,&ptr,10) + 1;
+        if (tok == ptr) {
+          BlackSATFlights= WhiteSATFlights;
+          break;
+        }
+      case BGL:
+        BGL_global= false;
+        tok = ReadNextTokStr();
+        BGL_white= ReadBGLNumber(tok,&ptr); 
+        if (tok == ptr)  
         {
-          BGL_black= BGL_white;
-          BGL_global= true;
+          BGL_white= BGL_black= BGL_infinity;
           return tok;
         }
-      }
-      tok = ReadNextTokStr();
-      break;
-    case geneva:
-      tok = ParseRex(&rex_geneva, rexincl);
-      break;
-    case whvault_king:
-      whitenormaltranspieces = false;
-      tok = ParseVaultingPieces(BIT(blanc));
-      break;
-    case blvault_king:
-      blacknormaltranspieces = false;
-      tok = ParseVaultingPieces(BIT(noir));
-      break;
-    case vault_king:
-      whitenormaltranspieces = false;
-      blacknormaltranspieces = false;
-      tok = ParseVaultingPieces(BIT(blanc) | BIT(noir));
-      break;
-    case gridchess: 
-      tok = ParseVariant(NULL, gpGrid);
-      break;
-    default:
-      tok = ReadNextTokStr();
+        else
+        {
+          tok = ReadNextTokStr();
+          BGL_black= ReadBGLNumber(tok,&ptr);
+          if (tok == ptr)
+          {
+            BGL_black= BGL_white;
+            BGL_global= true;
+            return tok;
+          }
+        }
+        tok = ReadNextTokStr();
+        break;
+      case geneva:
+        tok = ParseRex(&rex_geneva, rexincl);
+        break;
+      case whvault_king:
+        whitenormaltranspieces = false;
+        tok = ParseVaultingPieces(BIT(White));
+        break;
+      case blvault_king:
+        blacknormaltranspieces = false;
+        tok = ParseVaultingPieces(BIT(Black));
+        break;
+      case vault_king:
+        whitenormaltranspieces = false;
+        blacknormaltranspieces = false;
+        tok = ParseVaultingPieces(BIT(White) | BIT(Black));
+        break;
+      case gridchess: 
+        tok = ParseVariant(NULL, gpGrid);
+        break;
+      default:
+        tok = ReadNextTokStr();
     }
   }
-  if (! CondCnt) {
+
+  if (CondCnt==0)
     IoErrorMsg(UnrecCondition,0);
-  }
+
   return tok;
 } /* ParseCond */
 
-static char *ParseOpt(void) {
-  int     indexx,OptCnt= 0;
+static char *ParseOpt(void)
+{
+  Opt indexx;
+  unsigned int OptCnt = 0;
   char    *tok, *ptr;
 
   tok = ReadNextTokStr();
-  while ((indexx= GetUniqIndex(OptCount, OptTab, tok)) >= -1) {
-    if (indexx == -1) {
+  for (indexx = GetUniqIndex(OptCount,OptTab,tok);
+       indexx<OptCount+unrecognised_delta;
+       indexx = GetUniqIndex(OptCount,OptTab,tok))
+  {
+    if (indexx==OptCount+ambiguous_delta)
+    {
       IoErrorMsg(OptNotUniq,0);
       continue;
     }
     OptFlag[indexx]= True;
     OptCnt++;
-    switch(indexx) {
-    case beep:
-      tok = ReadNextTokStr();
-      if ((maxbeep= atoi(tok)) <= 0) {
-        maxbeep= 1;
-        /* we did NOT use tok */
-        continue;
-      } else {
-        /* we did use tok */
-        break;
-      }
-    case maxtime:
+
+    switch(indexx)
     {
-      char *end;
-      tok = ReadNextTokStr();
-      maxsolvingtime = strtoul(tok,&end,10);
-      if (*end!=0 || maxsolvingtime==0)
+      case beep:
+        tok = ReadNextTokStr();
+        if ((maxbeep= atoi(tok)) <= 0)
+        {
+          maxbeep= 1;
+          /* we did NOT use tok */
+          continue;
+        }
+        else
+          /* we did use tok */
+          break;
+
+      case maxtime:
       {
-        maxsolvingtime = UINT_MAX;
-        OptFlag[maxtime]= False;
-        IoErrorMsg(WrongInt, 0);
-        return ReadNextTokStr();
-      }
-      break;
-    }
-    case enpassant:
-      ReadSquares(ReadEpSquares);
-      break;
-    case maxsols:
-      tok = ReadNextTokStr();
-      if ((maxsolutions= atoi(tok)) <= 0) {
-        OptFlag[maxsols]= False;
-        IoErrorMsg(WrongInt, 0);
-        return ReadNextTokStr();
-      }
-      break;
-    case intelligent:
-    {
-      char *end;
-      tok = ReadNextTokStr();
-      maxsol_per_matingpos= strtoul(tok,&end,10);
-      if (end==tok)
-      {
-        maxsol_per_matingpos = ULONG_MAX;
-        /* we did NOT consume tok */
-        continue;
-      }
-      else
-        /* we did use consume */
+        char *end;
+        tok = ReadNextTokStr();
+        maxsolvingtime = strtoul(tok,&end,10);
+        if (*end!=0 || maxsolvingtime==0)
+        {
+          maxsolvingtime = UINT_MAX;
+          OptFlag[maxtime]= False;
+          IoErrorMsg(WrongInt, 0);
+          return ReadNextTokStr();
+        }
         break;
-    }
-    case restart:
-      tok = ReadNextTokStr();
-      if ((RestartNbr= atoi(tok)) <= 0) {
-        OptFlag[restart]= False;
-        IoErrorMsg(WrongInt, 0);
-        return ReadNextTokStr();
-      }
-      OptFlag[movenbr]= True;
-      break;
-    case solmenaces:
-      tok = ReadNextTokStr();
-      max_len_threat = strtol(tok, &ptr, 10);
-      if (tok==ptr || max_len_threat<0)
-      {
-        max_len_threat= maxply;
-        IoErrorMsg(WrongInt,0);
-        return ReadNextTokStr();
-      }
-      break;
-    case solflights:
-      tok = ReadNextTokStr();
-      max_nr_flights= strtol(tok, &ptr, 10);
-      if (tok==ptr || max_nr_flights<0)
-      {
-        IoErrorMsg(WrongInt, 0);
-        max_nr_flights = INT_MAX;
-        return ReadNextTokStr();
-      }
-      break;
-    case soltout:
-      tok = ReadNextTokStr();
-      max_nr_refutations = strtol(tok, &ptr, 10);
-      if (tok==ptr || max_nr_refutations<0)
-      {
-        IoErrorMsg(WrongInt, 0);
-        max_nr_refutations = 0;
-        return ReadNextTokStr();
-      }
-      break;
-    case solessais:
-      /* for compatibility to older versions. */
-      OptFlag[soltout]= True;
-      max_nr_refutations = 1;
-      break;
-    case nontrivial:
-      tok = ReadNextTokStr();
-      max_nr_nontrivial = strtol(tok, &ptr, 10);
-      if (tok==ptr || max_nr_nontrivial<0)
-      {
-        IoErrorMsg(WrongInt, 0);
-        max_nr_nontrivial = INT_MAX;
-        return ReadNextTokStr();
       }
 
-      tok = ReadNextTokStr();
-      min_length_nontrivial = strtol(tok, &ptr, 10);
-      if (tok==ptr || min_length_nontrivial<0)
+      case enpassant:
+        ReadSquares(ReadEpSquares);
+        break;
+
+      case maxsols:
+        tok = ReadNextTokStr();
+        if ((maxsolutions= atoi(tok)) <= 0) {
+          OptFlag[maxsols]= False;
+          IoErrorMsg(WrongInt, 0);
+          return ReadNextTokStr();
+        }
+        break;
+
+      case intelligent:
       {
-        IoErrorMsg(WrongInt, 0);
-        min_length_nontrivial = maxply;
-        return ReadNextTokStr();
+        char *end;
+        tok = ReadNextTokStr();
+        maxsol_per_matingpos= strtoul(tok,&end,10);
+        if (end==tok)
+        {
+          maxsol_per_matingpos = ULONG_MAX;
+          /* we did NOT consume tok */
+          continue;
+        }
+        else
+          /* we did use consume */
+          break;
       }
-      break;
-    case postkeyplay:
-      OptFlag[solvariantes]= True;
-      break;
-    case quodlibet:
-      transform_to_quodlibet();
-      break;
-    case nocastling:
-      no_castling= bl_castlings|wh_castlings;
-      ReadSquares(ReadNoCastlingSquares);
-      break;
+
+      case restart:
+        tok = ReadNextTokStr();
+        if ((RestartNbr= atoi(tok)) <= 0) {
+          OptFlag[restart]= False;
+          IoErrorMsg(WrongInt, 0);
+          return ReadNextTokStr();
+        }
+        OptFlag[movenbr]= True;
+        break;
+
+      case solmenaces:
+        tok = ReadNextTokStr();
+        max_len_threat = strtol(tok, &ptr, 10);
+        if (tok==ptr || max_len_threat<0)
+        {
+          max_len_threat= maxply;
+          IoErrorMsg(WrongInt,0);
+          return ReadNextTokStr();
+        }
+        break;
+
+      case solflights:
+        tok = ReadNextTokStr();
+        max_nr_flights= strtol(tok, &ptr, 10);
+        if (tok==ptr || max_nr_flights<0)
+        {
+          IoErrorMsg(WrongInt, 0);
+          max_nr_flights = INT_MAX;
+          return ReadNextTokStr();
+        }
+        break;
+
+      case soltout:
+        tok = ReadNextTokStr();
+        max_nr_refutations = strtol(tok, &ptr, 10);
+        if (tok==ptr || max_nr_refutations<0)
+        {
+          IoErrorMsg(WrongInt, 0);
+          max_nr_refutations = 0;
+          return ReadNextTokStr();
+        }
+        break;
+
+      case solessais:
+        /* for compatibility to older versions. */
+        OptFlag[soltout]= True;
+        max_nr_refutations = 1;
+        break;
+
+      case nontrivial:
+        tok = ReadNextTokStr();
+        max_nr_nontrivial = strtol(tok, &ptr, 10);
+        if (tok==ptr || max_nr_nontrivial<0)
+        {
+          IoErrorMsg(WrongInt, 0);
+          max_nr_nontrivial = INT_MAX;
+          return ReadNextTokStr();
+        }
+
+        tok = ReadNextTokStr();
+        min_length_nontrivial = strtol(tok, &ptr, 10);
+        if (tok==ptr || min_length_nontrivial<0)
+        {
+          IoErrorMsg(WrongInt, 0);
+          min_length_nontrivial = maxply;
+          return ReadNextTokStr();
+        }
+        break;
+
+      case postkeyplay:
+        OptFlag[solvariantes]= True;
+        break;
+
+      case quodlibet:
+        transform_to_quodlibet();
+        break;
+
+      case nocastling:
+        no_castling= bl_castlings|wh_castlings;
+        ReadSquares(ReadNoCastlingSquares);
+        break;
+
+      default:
+        /* no extra action required */
+        break;
     }
     tok = ReadNextTokStr();
   }
-  if (! OptCnt) {
+
+  if (OptCnt==0)
     IoErrorMsg(UnrecOption,0);
-  }
+
   return tok;
 }
 
@@ -2879,7 +2938,7 @@ void RotateMirror(int what) {
   }
 } /* RotateMirror */
 
-static char *ParseTwinRotate(void) {
+static char *ParseTwinningRotate(void) {
   char *tok = ReadNextTokStr();
 
   if (strcmp(tok, "90") == 0) {
@@ -2896,50 +2955,67 @@ static char *ParseTwinRotate(void) {
   }
 
   if (LaTeXout) {
-    sprintf(GlobalStr, "%s $%s^\\circ$", TwinTab[TwinRotate], tok);
-    strcat(ActTwin, GlobalStr);
+    sprintf(GlobalStr, "%s $%s^\\circ$", TwinningTab[TwinningRotate], tok);
+    strcat(ActTwinning, GlobalStr);
   }
 
-  StdString(TwinTab[TwinRotate]);
+  StdString(TwinningTab[TwinningRotate]);
   StdString(" ");
   StdString(tok);
 
   return ReadNextTokStr();
 }
 
-static char *ParseTwinMirror(void) {
+static char *ParseTwinningMirror(void)
+{
   char *tok = ReadNextTokStr();
-  int indexx= GetUniqIndex(TwinCount,TwinTab,tok);
+  TwinningType indexx= GetUniqIndex(TwinningCount,TwinningTab,tok);
 
-  if (indexx == -1) {
+  if (indexx==TwinningCount+ambiguous_delta)
     IoErrorMsg(OptNotUniq,0);
-  }
-  else {
-    switch (indexx) {
-    case TwinMirra1h1:  RotateMirror(mirra1h1);  break;
-    case TwinMirra1a8:  RotateMirror(mirra1a8);  break;
-    case TwinMirra1h8:  RotateMirror(mirra1h8);  break;
-    case TwinMirra8h1:  RotateMirror(mirra8h1);  break;
-    default:
-      IoErrorMsg(UnrecRotMirr,0);
+  else
+  {
+    switch (indexx)
+    {
+      case TwinningMirra1h1:
+        RotateMirror(mirra1h1);
+        break;
+
+      case TwinningMirra1a8:
+        RotateMirror(mirra1a8);
+        break;
+
+      case TwinningMirra1h8:
+        RotateMirror(mirra1h8);
+        break;
+
+      case TwinningMirra8h1:
+        RotateMirror(mirra8h1);
+        break;
+
+      default:
+        IoErrorMsg(UnrecRotMirr,0);
+        break;
     }
 
-    StdString(TwinTab[TwinMirror]);
+    StdString(TwinningTab[TwinningMirror]);
     StdString(" ");
-    StdString(TwinTab[indexx]);
+    StdString(TwinningTab[indexx]);
   }
 
   return ReadNextTokStr();
 }
 
-static char *ParseTwinMove(int indexx) {
+static char *ParseTwinningMove(int indexx)
+{
   square sq1= 0, sq2= 0;
   char *tok;
   piece p;
   Flags sp;
 
   /* read the first square */
-  while (sq1 == 0) {
+  while (sq1 == 0)
+  {
     tok = ReadNextTokStr();
     sq1= SquareNum(tok[0], tok[1]);
     if (sq1 == 0) {
@@ -2949,7 +3025,8 @@ static char *ParseTwinMove(int indexx) {
   }
 
   /* read the second square */
-  while (sq2 == 0) {
+  while (sq2 == 0)
+  {
     tok = ReadNextTokStr();
     sq2= SquareNum(tok[0], tok[1]);
     if (sq2 == 0) {
@@ -2958,7 +3035,8 @@ static char *ParseTwinMove(int indexx) {
     }
   }
 
-  if (e[sq1] == vide) {
+  if (e[sq1] == vide)
+  {
     WriteSquare(sq1);
     StdString(": ");
     ErrorMsg(NothingToRemove);
@@ -2966,7 +3044,8 @@ static char *ParseTwinMove(int indexx) {
   }
 
   /* issue the twinning */
-  if (LaTeXout) {
+  if (LaTeXout)
+  {
     sprintf(GlobalStr, "\\%c%s %c%c",
             TSTFLAG(spec[sq1], Neutral)
             ? 'n'
@@ -2974,30 +3053,30 @@ static char *ParseTwinMove(int indexx) {
             LaTeXPiece(e[sq1]),
             'a'-nr_files_on_board+sq1%onerow,
             '1'-nr_rows_on_board+sq1/onerow);
-    strcat(ActTwin, GlobalStr);
+    strcat(ActTwinning, GlobalStr);
   }
 
   WriteSpec(spec[sq1], e[sq1]!=vide);
   WritePiece(e[sq1]);
   WriteSquare(sq1);
-  if (indexx == TwinExchange) {
+  if (indexx == TwinningExchange) {
     StdString("<-->");
     WriteSpec(spec[sq2], e[sq2]!=vide);
     WritePiece(e[sq2]);
     if (LaTeXout) {
-      strcat(ActTwin, "{\\lra}");
+      strcat(ActTwinning, "{\\lra}");
       sprintf(GlobalStr, "\\%c%s ",
               TSTFLAG(spec[sq2], Neutral)
               ? 'n'
               : TSTFLAG(spec[sq2], White) ? 'w' : 's',
               LaTeXPiece(e[sq2]));
-      strcat(ActTwin, GlobalStr);
+      strcat(ActTwinning, GlobalStr);
     }
   }
   else {
     StdString("-->");
     if (LaTeXout) {
-      strcat(ActTwin, "{\\ra}");
+      strcat(ActTwinning, "{\\ra}");
     }
   }
   WriteSquare(sq2);
@@ -3005,7 +3084,7 @@ static char *ParseTwinMove(int indexx) {
     sprintf(GlobalStr, "%c%c",
             'a'-nr_files_on_board+sq2%onerow,
             '1'-nr_rows_on_board+sq2/onerow);
-    strcat(ActTwin, GlobalStr);
+    strcat(ActTwinning, GlobalStr);
   }
 
   /* store the piece in case they are exchanged */
@@ -3017,27 +3096,27 @@ static char *ParseTwinMove(int indexx) {
   spec[sq2]= spec[sq1];
 
   /* delete the other piece from p or delete sq1 */
-  e[sq1]= indexx == TwinMove ? vide : p;
-  spec[sq1]= indexx == TwinMove ? 0 : sp;
+  e[sq1]= indexx == TwinningMove ? vide : p;
+  spec[sq1]= indexx == TwinningMove ? 0 : sp;
 
   /* update king pointer */
   if (sq1 == rb) {
     rb= sq2;
   }
   else if (sq2 == rb) {
-    rb= indexx == TwinExchange ? sq1 : initsquare;
+    rb= indexx == TwinningExchange ? sq1 : initsquare;
   }
   if (sq1 == rn) {
     rn= sq2;
   }
   else if (sq2 == rn) {
-    rn= indexx == TwinExchange ? sq1 : initsquare;
+    rn= indexx == TwinningExchange ? sq1 : initsquare;
   }
 
   /* read next token */
   return ReadNextTokStr();
 
-} /* ParseTwinMove */
+} /* ParseTwinningMove */
 
 void MovePieceFromTo(square from, square to) {
   e[to]= e[from];
@@ -3052,7 +3131,7 @@ void MovePieceFromTo(square from, square to) {
   }
 } /* MovePieceFromTo */
 
-static char *ParseTwinShift(void) {
+static char *ParseTwinningShift(void) {
   square sq1= 0, sq2= 0, *bnp;
   char *tok;
   int diffrank, diffcol, minrank, maxrank, mincol, maxcol, r, c;
@@ -3078,15 +3157,15 @@ static char *ParseTwinShift(void) {
   /* issue the twinning */
   if (LaTeXout) {
     sprintf(GlobalStr, "%s %c%c$\\Rightarrow$%c%c",
-            TwinTab[TwinShift],
+            TwinningTab[TwinningShift],
             'a'-nr_files_on_board+sq1%onerow,
             '1'-nr_rows_on_board+sq1/onerow,
             'a'-nr_files_on_board+sq2%onerow,
             '1'-nr_rows_on_board+sq2/onerow);
-    strcat(ActTwin, GlobalStr);
+    strcat(ActTwinning, GlobalStr);
   }
 
-  StdString(TwinTab[TwinShift]);
+  StdString(TwinningTab[TwinningShift]);
   StdString(" ");
   WriteSquare(sq1);
   StdString(" ==> ");
@@ -3160,9 +3239,9 @@ static char *ParseTwinShift(void) {
   /* read next token */
   return ReadNextTokStr();
 
-} /* ParseTwinShift */
+} /* ParseTwinningShift */
 
-static char *ParseTwinRemove(void) {
+static char *ParseTwinningRemove(void) {
   square    sq;
   char  *tok;
   boolean   WrongList;
@@ -3199,17 +3278,17 @@ static char *ParseTwinRemove(void) {
     }
     else {
       if (LaTeXout) {
-        strcat(ActTwin, " --");
-        strcat(ActTwin,
+        strcat(ActTwinning, " --");
+        strcat(ActTwinning,
                TSTFLAG(spec[sq], Neutral)
                ? "\\n"
                : TSTFLAG(spec[sq], White) ? "\\w" : "\\s");
-        strcat(ActTwin,
+        strcat(ActTwinning,
                LaTeXPiece(e[sq]));
         sprintf(GlobalStr, " %c%c",
                 'a'-nr_files_on_board+sq%onerow,
                 '1'-nr_rows_on_board+sq/onerow);
-        strcat(ActTwin, GlobalStr);
+        strcat(ActTwinning, GlobalStr);
       }
 
       StdString(" -");
@@ -3229,9 +3308,9 @@ static char *ParseTwinRemove(void) {
   }
 
   return ReadNextTokStr();
-} /* ParseTwinRemove */
+} /* ParseTwinningRemove */
 
-static char *ParseTwinPolish(void) {
+static char *ParseTwinningPolish(void) {
   square *bnp;
   square king;
 
@@ -3246,16 +3325,16 @@ static char *ParseTwinPolish(void) {
     }
   }
 
-  StdString(TwinTab[TwinPolish]);
+  StdString(TwinningTab[TwinningPolish]);
 
   if (LaTeXout) {
-    strcat(ActTwin, TwinTab[TwinPolish]);
+    strcat(ActTwinning, TwinningTab[TwinningPolish]);
   }
 
   return ReadNextTokStr();
 }
 
-static char *ParseTwinSubstitute(void) {
+static char *ParseTwinningSubstitute(void) {
   square    *bnp;
   piece p_old, p_new;
   char  *tok;
@@ -3291,7 +3370,7 @@ static char *ParseTwinSubstitute(void) {
   if (LaTeXout) {
     sprintf(GlobalStr, "{\\w%s} $\\Rightarrow$ \\w%s",
             LaTeXPiece(p_old), LaTeXPiece(p_new));
-    strcat(ActTwin, GlobalStr);
+    strcat(ActTwinning, GlobalStr);
   }
 
   WritePiece(p_old);
@@ -3311,54 +3390,58 @@ static char *ParseTwinSubstitute(void) {
 
 }
 
-static char *ParseTwin(void) {
-  int       indexx;
-  char  *tok;
-  boolean   continued= False,
-    TwinRead= False;
+static char *ParseTwinning(void)
+{
+  char  *tok = ReadNextTokStr();
+  boolean continued= False;
+  boolean TwinningRead= False;
 
   TwinChar++;
   OptFlag[noboard]= True;
 
-  tok = ReadNextTokStr();
+  while (True)
+  {
+    TwinningType twinning;
+    Token tk = StringToToken(tok);
 
-  while (True) {
-    Token tk= StringToToken(tok);
-
-    if ( tk == TwinProblem
-         || tk == NextProblem
-         || tk == EndProblem)
+    if (tk==TwinProblem
+        || tk==NextProblem
+        || tk==EndProblem)
     {
       StdString("\n\n");
-      if (LaTeXout) {
-        strcat(ActTwin, "{\\newline}");
-      }
+      if (LaTeXout)
+        strcat(ActTwinning, "{\\newline}");
       return tok;
     }
+    
+    twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
+    switch (twinning)
+    {
+      case TwinningCount+ambiguous_delta:
+        IoErrorMsg(OptNotUniq,0);
+        tok = ReadNextTokStr();
+        continue;
 
-    switch (indexx= GetUniqIndex(TwinCount,TwinTab,tok)) {
-    case -1:
-      IoErrorMsg(OptNotUniq,0);
-      tok = ReadNextTokStr();
-      continue;
+      case TwinningCount+unrecognised_delta:
+        IoErrorMsg(ComNotKnown,0);
+        tok = ReadNextTokStr();
+        continue;
 
-    case -2:
-      IoErrorMsg(ComNotKnown,0);
-      tok = ReadNextTokStr();
-      continue;
+      case TwinningContinued:
+        if (TwinningRead == True) {
+          Message(ContinuedFirst);
+        }
+        else {
+          continued= True;
+        }
+        tok = ReadNextTokStr();
+        continue;
 
-    case TwinContinued:
-      if (TwinRead == True) {
-        Message(ContinuedFirst);
-      }
-      else {
-        continued= True;
-      }
-      tok = ReadNextTokStr();
-      continue;
+      default:
+        break;
     }
 
-    if (!TwinRead)
+    if (!TwinningRead)
     {
       if (!continued)
         TwinResetPosition();
@@ -3376,89 +3459,91 @@ static char *ParseTwin(void) {
 #endif /* DATABASE */
         StdChar('+');
         if (LaTeXout)
-          strcat(ActTwin, "+");
+          strcat(ActTwinning, "+");
       }
 
-      if (TwinChar <= 'z') {
+      if (TwinChar <= 'z')
         sprintf(GlobalStr, "%c) ", TwinChar);
-      }
-      else {
+      else
         sprintf(GlobalStr,
                 "%c%d) ",
                 'z',
                 (TwinChar-'z'-1));
-      }
+
       StdString(GlobalStr);
-      if (LaTeXout) {
-        strcat(ActTwin, GlobalStr);
-      }
+      if (LaTeXout)
+        strcat(ActTwinning, GlobalStr);
     }
-    else {
+    else
+    {
       StdString("  ");
-      if (LaTeXout) {
-        strcat(ActTwin, ", ");
-      }
-    } /* !TwinRead */
+      if (LaTeXout)
+        strcat(ActTwinning, ", ");
+    } /* !TwinningRead */
 
-    TwinRead= True;
-    switch(indexx) {
-    case TwinMove:
-      tok = ParseTwinMove(indexx);
-      break;
-    case TwinExchange:
-      tok = ParseTwinMove(indexx);
-      break;
-    case TwinRotate:
-      tok = ParseTwinRotate();
-      break;
-    case TwinMirror:
-      tok = ParseTwinMirror();
-      break;
-    case TwinStip:
-      InitStip();
-      tok = ParseStip();
+    TwinningRead= True;
+    switch(twinning)
+    {
+      case TwinningMove:
+        tok = ParseTwinningMove(twinning);
+        break;
+      case TwinningExchange:
+        tok = ParseTwinningMove(twinning);
+        break;
+      case TwinningRotate:
+        tok = ParseTwinningRotate();
+        break;
+      case TwinningMirror:
+        tok = ParseTwinningMirror();
+        break;
+      case TwinningStip:
+        InitStip();
+        tok = ParseStip();
 
-      /* issue the twinning */
-      StdString(AlphaStip);
-      if (LaTeXout) {
-        strcat(ActTwin, AlphaStip);
-        if (OptFlag[solapparent]) {
-          strcat(ActTwin, "*");
+        /* issue the twinning */
+        StdString(AlphaStip);
+        if (LaTeXout) {
+          strcat(ActTwinning, AlphaStip);
+          if (OptFlag[solapparent]) {
+            strcat(ActTwinning, "*");
+          }
+          if (OptFlag[whitetoplay]) {
+            char temp[10];        /* increased due to buffer overflow */
+            sprintf(temp, " %c{\\ra}",
+                    tolower(*PieSpString[ActLang][White]));
+            strcat(ActTwinning, temp);
+          }
         }
-        if (OptFlag[whitetoplay]) {
-          char temp[10];        /* increased due to buffer overflow */
-          sprintf(temp, " %c{\\ra}",
-                  tolower(*PieSpString[ActLang][White]));
-          strcat(ActTwin, temp);
-        }
-      }
-      break;
-    case TwinAdd:
-      tok = ParsePieSpec('+');
-      break;
-    case TwinCond:
-      InitCond();
-      tok = ParseCond();
-      WriteConditions(WCleft);
-      break;
-    case TwinRemove:
-      tok = ParseTwinRemove();
-      break;
-    case TwinPolish:
-      tok = ParseTwinPolish();
-      break;
-    case TwinShift:
-      tok = ParseTwinShift();
-      break;
-    case TwinSubstitute:
-      tok = ParseTwinSubstitute();
-      break;
-    case TwinForsyth:
-      tok = ParseForsyth(true);
-      break;
+        break;
+      case TwinningAdd:
+        tok = ParsePieSpec('+');
+        break;
+      case TwinningCond:
+        InitCond();
+        tok = ParseCond();
+        WriteConditions(WCleft);
+        break;
+      case TwinningRemove:
+        tok = ParseTwinningRemove();
+        break;
+      case TwinningPolish:
+        tok = ParseTwinningPolish();
+        break;
+      case TwinningShift:
+        tok = ParseTwinningShift();
+        break;
+      case TwinningSubstitute:
+        tok = ParseTwinningSubstitute();
+        break;
+      case TwinningForsyth:
+        tok = ParseForsyth(true);
+        break;
+      default:
+        /* no further action required */
+        break;
     }
   }
-} /* ParseTwin */
+} /* ParseTwinning */
 
 /***** twinning *****  end  *****/
 
@@ -3508,7 +3593,8 @@ char *ReadPieces(int condition) {
 }
 
 
-Token ReadProblem(Token tk) {
+Token ReadProblem(Token tk)
+{
   char *tok;
 
   /* open mode for protocol and/or TeX file; overwrite existing file(s)
@@ -3516,28 +3602,33 @@ Token ReadProblem(Token tk) {
   char const *open_mode = flag_regression ? "w" : "a";
   slice_index const current_slice = 0;
 
-  if (tk == BeginProblem) {
+  if (tk==BeginProblem)
+  {
     LastChar= ' ';
     ReadBeginSpec();
   }
+
   if (tk == TwinProblem || tk == ZeroPosition)
   {
-    if (tk == ZeroPosition)
+    if (tk==ZeroPosition)
     {
       StdString(TokenTab[ZeroPosition]);
       StdString("\n\n");
       TwinChar= 'a'-1;
       TwinStorePosition();
     }
-    tok = ParseTwin();
+    tok = ParseTwinning();
+
     while (True)
     {
-      switch (tk= StringToToken(tok))
+      tk = StringToToken(tok);
+      switch (tk)
       {
-        case -1:
+        case TokenCount+ambiguous_delta:
           IoErrorMsg(ComNotUniq,0);
           tok = ReadNextTokStr();
           break;
+
         case TwinProblem:
           if (slices[current_slice].u.composite.length>0)
             return tk;
@@ -3547,15 +3638,8 @@ Token ReadProblem(Token tk) {
             tok = ReadNextTokStr();
             break;
           }
+
         case NextProblem:
-          if (slices[current_slice].u.composite.length>0)
-            return tk;
-          else
-          {
-            IoErrorMsg(NoStipulation,0);
-            tok = ReadNextTokStr();
-            break;
-          }
         case EndProblem:
           if (slices[current_slice].u.composite.length>0)
             return tk;
@@ -3565,6 +3649,7 @@ Token ReadProblem(Token tk) {
             tok = ReadNextTokStr();
             break;
           }
+
         default:
           IoErrorMsg(ComNotKnown,0);
           tok = ReadNextTokStr();
@@ -3581,12 +3666,12 @@ Token ReadProblem(Token tk) {
       tk = StringToToken(tok);
       switch (tk)
       {
-        case -1:
+        case TokenCount+ambiguous_delta:
           IoErrorMsg(ComNotUniq,0);
           tok = ReadNextTokStr();
           break;
 
-        case -2:
+        case TokenCount+unrecognised_delta:
           IoErrorMsg(ComNotKnown,0);
           tok = ReadNextTokStr();
           break;
@@ -3599,7 +3684,6 @@ Token ReadProblem(Token tk) {
           if (TwinChar == 'a')
             TwinStorePosition();
 
-        case NextProblem:
           if (slices[current_slice].u.composite.length>0)
             return tk;
           else
@@ -3609,6 +3693,7 @@ Token ReadProblem(Token tk) {
             break;
           }
 
+        case NextProblem:
         case EndProblem:
           if (slices[current_slice].u.composite.length>0)
             return tk;
@@ -3860,8 +3945,8 @@ void WriteConditions(int alignment) {
       continue;
 
     /* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
-    if (((cond == white_oscillatingKs) && OscillatingKingsTypeC[blanc]) ||
-        ((cond == black_oscillatingKs) && OscillatingKingsTypeC[noir])) {
+    if (((cond == white_oscillatingKs) && OscillatingKingsTypeC[White]) ||
+        ((cond == black_oscillatingKs) && OscillatingKingsTypeC[Black])) {
       if (CondFlag[swappingkings])
         continue;
     }
@@ -4158,24 +4243,24 @@ void WriteConditions(int alignment) {
       }
     }
 
-    if ((cond == white_oscillatingKs) && OscillatingKingsTypeB[blanc]) {
+    if ((cond == white_oscillatingKs) && OscillatingKingsTypeB[White]) {
       strcat(CondLine, "    ");
       strcat(CondLine, VariantTypeString[ActLang][TypeB]);
     }
 
-    if ((cond == black_oscillatingKs) && OscillatingKingsTypeB[noir]) {
+    if ((cond == black_oscillatingKs) && OscillatingKingsTypeB[Black]) {
       strcat(CondLine, "    ");
       strcat(CondLine, VariantTypeString[ActLang][TypeB]);
     }
 
-    if ((cond == white_oscillatingKs) && OscillatingKingsTypeC[blanc]) {
+    if ((cond == white_oscillatingKs) && OscillatingKingsTypeC[White]) {
       if (! CondFlag[swappingkings]) {
         strcat(CondLine, "  ");
         strcat(CondLine, VariantTypeString[ActLang][TypeC]);
       }
     }
 
-    if ((cond == black_oscillatingKs) && OscillatingKingsTypeC[noir]) {
+    if ((cond == black_oscillatingKs) && OscillatingKingsTypeC[Black]) {
       if (! CondFlag[swappingkings]) {
         strcat(CondLine, "  ");
         strcat(CondLine, VariantTypeString[ActLang][TypeC]);
@@ -4308,13 +4393,13 @@ void WriteConditions(int alignment) {
     case WCleft:
       if (CondPrinted) {
         if (LaTeXout) {
-          strcat(ActTwin, ", ");
+          strcat(ActTwinning, ", ");
         }
         StdString("\n   ");
       }
       StdString(CondLine);
       if (LaTeXout) {
-        strcat(ActTwin, CondLine);
+        strcat(ActTwinning, CondLine);
       }
       break;
     }
@@ -4615,11 +4700,11 @@ void LaTeXEndDiagram(void) {
   char line[256];
 
   /* twins */
-  if (ActTwin[0] != '\0') {
+  if (ActTwinning[0] != '\0') {
     fprintf(LaTeXFile, " \\twins{");
     /* remove the last "{\\newline} */
-    ActTwin[strlen(ActTwin)-10]= '\0';
-    LaTeXStr(ActTwin);
+    ActTwinning[strlen(ActTwinning)-10]= '\0';
+    LaTeXStr(ActTwinning);
     fprintf(LaTeXFile, "}%%\n");
   }
 
@@ -4840,11 +4925,13 @@ void LaTeXBeginDiagram(void) {
   }
 
   /* award */
-  if (ActAward[0] != '\0') {
+  if (ActAward[0] != '\0')
+  {
     char *tour= strchr(ActAward, ',');
     char *eol= strchr(ActAward, '\n');
     *eol= '\0';
-    if (tour) {
+    if (tour)
+    {
       fprintf(LaTeXFile,
               " \\award{%.*s}%%\n", (int)(tour-ActAward), ActAward);
       while (*(++tour) == ' ');
@@ -4855,23 +4942,27 @@ void LaTeXBeginDiagram(void) {
   }
 
   /* dedication */
-  if (ActTitle[0] != '\0') {
+  if (ActTitle[0] != '\0')
+  {
     sprintf(GlobalStr, "\\dedication{%s}%%%%\n", ActTitle);
     LaTeXStr(GlobalStr);
   }
 
   /* pieces & twins */
-  if (OptFlag[duplex]) {
-    strcat(ActTwin, OptTab[duplex]);
-    strcat(ActTwin, "{\\newline}");
+  if (OptFlag[duplex])
+  {
+    strcat(ActTwinning, OptTab[duplex]);
+    strcat(ActTwinning, "{\\newline}");
   }
-  else if (OptFlag[halfduplex]) {
-    strcat(ActTwin, OptTab[halfduplex]);
-    strcat(ActTwin, "{\\newline}");
+  else if (OptFlag[halfduplex])
+  {
+    strcat(ActTwinning, OptTab[halfduplex]);
+    strcat(ActTwinning, "{\\newline}");
   }
-  if (OptFlag[quodlibet]) {
-    strcat(ActTwin, OptTab[quodlibet]);
-    strcat(ActTwin, "{\\newline}");
+  if (OptFlag[quodlibet])
+  {
+    strcat(ActTwinning, OptTab[quodlibet]);
+    strcat(ActTwinning, "{\\newline}");
   }
 
   /* Just for visualizing imitators on the board. */                 
@@ -5172,9 +5263,9 @@ int main() {
     memset((char *) CondFlag,0,sizeof(CondFlag));
     memset((char *) e,0,sizeof(e));
     tk= ReadProblem(tk);
-    if (!OptFlag[noboard]) {
+    if (!OptFlag[noboard])
       WritePosition();
-    }
+
   } while (tk == NextProblem);
 }
 #endif

@@ -490,9 +490,10 @@ void ProofAtoBWriteStartPosition(void)
 {
   if (!OptFlag[noboard])
   {
-    PieSpec const atMove = slices[0].starter==blanc ? White : Black;
     char InitialLine[40];
-    sprintf(InitialLine, "Initial (%s ->):\n", PieSpString[ActLang][atMove]);
+    sprintf(InitialLine,
+            "Initial (%s ->):\n",
+            PieSpString[ActLang][slices[0].starter]);
     StdString(InitialLine);
     WritePosition();
   }
@@ -1106,11 +1107,11 @@ int ArrangePieces(
   boolean   taken[16];
   PieceList *from, *to;
 
-  from= camp == blanc
+  from= camp == White
     ? &CurrentWhPieces
     : &CurrentBlPieces;
 
-  to= camp == blanc
+  to= camp == White
     ? &ProofWhPieces
     : &ProofBlPieces;
 
@@ -1122,7 +1123,7 @@ int ArrangePieces(
     pl[ito].Nbr= 0;
     for (ifrom= 0; ifrom < from->Nbr; ifrom++)
     {
-      if (camp == blanc)
+      if (camp == White)
         WhPieceMovesFromTo(from->sq[ifrom],
                            to->sq[ito], &moves, &captures,
                            CapturesAllowed, CapturesRequired);
@@ -1160,10 +1161,10 @@ int ArrangePawns(
   boolean   taken[8];
   PieceList *from, *to;
 
-  from= camp == blanc
+  from= camp == White
     ? &CurrentWhPawns
     : &CurrentBlPawns;
-  to= camp == blanc
+  to= camp == White
     ? &ProofWhPawns
     : &ProofBlPawns;
 
@@ -1178,7 +1179,7 @@ int ArrangePawns(
     pl[ito].Nbr= 0;
     for (ifrom= 0; ifrom<from->Nbr; ifrom++)
     {
-      if (camp == blanc)
+      if (camp == White)
         WhPawnMovesFromTo(from->sq[ifrom],
                           to->sq[ito], &moves, &captures, CapturesAllowed);
       else
@@ -1631,30 +1632,30 @@ static boolean ProofImpossible(void)
     } /* p2 != vide */
   } /* for (bnp... */
 
-  if (ArrangePawns(BlPieToBeCapt,blanc,&BlCapturesRequired)>white_moves_left)
+  if (ArrangePawns(BlPieToBeCapt,White,&BlCapturesRequired)>white_moves_left)
   {
-    TraceText("ArrangePawns(BlPieToBeCapt,blanc,&BlCapturesRequired)"
+    TraceText("ArrangePawns(BlPieToBeCapt,White,&BlCapturesRequired)"
               ">white_moves_left\n");
     return True;
   }
 
-  if (ArrangePawns(WhPieToBeCapt,noir,&WhCapturesRequired)>black_moves_left)
+  if (ArrangePawns(WhPieToBeCapt,Black,&WhCapturesRequired)>black_moves_left)
   {
-    TraceText("ArrangePawns(WhPieToBeCapt,noir,&WhCapturesRequired)"
+    TraceText("ArrangePawns(WhPieToBeCapt,Black,&WhCapturesRequired)"
               ">black_moves_left");
     return True;
   }
 
-  if (ArrangePieces(BlPieToBeCapt,blanc,BlCapturesRequired)>white_moves_left)
+  if (ArrangePieces(BlPieToBeCapt,White,BlCapturesRequired)>white_moves_left)
   {
-    TraceText("(ArrangePieces(BlPieToBeCapt,blanc,BlCapturesRequired)"
+    TraceText("(ArrangePieces(BlPieToBeCapt,White,BlCapturesRequired)"
               ">white_moves_left");
     return True;
   }
 
-  if (ArrangePieces(WhPieToBeCapt,noir,WhCapturesRequired)>black_moves_left)
+  if (ArrangePieces(WhPieToBeCapt,Black,WhCapturesRequired)>black_moves_left)
   {
-    TraceText("ArrangePieces(WhPieToBeCapt,noir,WhCapturesRequired)"
+    TraceText("ArrangePieces(WhPieToBeCapt,Black,WhCapturesRequired)"
               ">black_moves_left");
     return True;
   }
@@ -1748,11 +1749,11 @@ static boolean ProofSeriesImpossible(void)
     } /* p1 != p2 */
   } /* for (bnp... */
 
-  if (ArrangePawns(BlPieToBeCapt, blanc, &BlCapturesRequired)
+  if (ArrangePawns(BlPieToBeCapt, White, &BlCapturesRequired)
       > white_moves_left)
     return true;
 
-  if (ArrangePieces(BlPieToBeCapt, blanc, BlCapturesRequired)
+  if (ArrangePieces(BlPieToBeCapt, White, BlCapturesRequired)
       > white_moves_left)
     return true;
 

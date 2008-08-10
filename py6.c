@@ -387,7 +387,7 @@ static boolean locateKings(void)
 
   if (TSTFLAG(PieSpExFlags,Neutral))
     /* neutral king has to be white for initialisation of r[bn] */
-    initneutre(blanc);
+    initneutre(White);
 
   if (CondFlag[dynasty])
   {
@@ -762,7 +762,7 @@ static boolean verifieposition(void)
                                   : advers(regular_starter));
     if (flagmaxi)
     {
-      if (restricted_side==noir)
+      if (restricted_side==Black)
       {
         CondFlag[blmax] = true;
         CondFlag[whmax] = false;
@@ -786,8 +786,8 @@ static boolean verifieposition(void)
   
     if (flagultraschachzwang)
     {
-      CondFlag[blackultraschachzwang]= restricted_side==noir;
-      CondFlag[whiteultraschachzwang]= restricted_side==blanc;
+      CondFlag[blackultraschachzwang]= restricted_side==Black;
+      CondFlag[whiteultraschachzwang]= restricted_side==White;
       optim_neutralretractable = false;
       optim_orthomatingmoves = false;
     }
@@ -994,8 +994,8 @@ static boolean verifieposition(void)
       optim_orthomatingmoves = false;
     }
   }
-  if (CondFlag[black_oscillatingKs] && OscillatingKingsTypeC[blanc]
-      && CondFlag[white_oscillatingKs] && OscillatingKingsTypeC[blanc])
+  if (CondFlag[black_oscillatingKs] && OscillatingKingsTypeC[White]
+      && CondFlag[white_oscillatingKs] && OscillatingKingsTypeC[White])
     CondFlag[swappingkings]= True;
 
   if (anymars||anyantimars) {
@@ -1093,14 +1093,14 @@ static boolean verifieposition(void)
     if (rex_circe) {
       eval_white= rbcircech;
       eval_black= rncircech;
-      cirrenroib= (*circerenai)(roib, spec[rb], initsquare, initsquare, initsquare, noir);
-      cirrenroin= (*circerenai)(roin, spec[rn], initsquare, initsquare, initsquare, blanc);
+      cirrenroib= (*circerenai)(roib, spec[rb], initsquare, initsquare, initsquare, Black);
+      cirrenroin= (*circerenai)(roin, spec[rn], initsquare, initsquare, initsquare, White);
     }
     else {
       eval_white= rbimmunech;
       eval_black= rnimmunech;
-      immrenroib= (*immunrenai)(roib, spec[rb], initsquare, initsquare, initsquare, noir);
-      immrenroin= (*immunrenai)(roin, spec[rn], initsquare, initsquare, initsquare, blanc);
+      immrenroib= (*immunrenai)(roib, spec[rb], initsquare, initsquare, initsquare, Black);
+      immrenroin= (*immunrenai)(roin, spec[rn], initsquare, initsquare, initsquare, White);
     }
   }
 
@@ -1728,8 +1728,8 @@ static boolean verifieposition(void)
     optim_neutralretractable = false;
     optim_orthomatingmoves = false;
     nonoptgenre= true;
-    WhiteStrictSAT[1]= echecc_normal(blanc);
-    BlackStrictSAT[1]= echecc_normal(noir);
+    WhiteStrictSAT[1]= echecc_normal(White);
+    BlackStrictSAT[1]= echecc_normal(Black);
     satXY= WhiteSATFlights > 1 || BlackSATFlights > 1;
   }
 
@@ -1740,11 +1740,11 @@ static boolean verifieposition(void)
     nonoptgenre= true;
   }
 
-  move_generation_mode_opti_per_side[blanc]
+  move_generation_mode_opti_per_side[White]
       = flagwhitemummer||nonoptgenre
       ? move_generation_optimized_by_killer_move
       : move_generation_optimized_by_nr_opponent_moves;
-  move_generation_mode_opti_per_side[noir]
+  move_generation_mode_opti_per_side[Black]
       = flagblackmummer||nonoptgenre
       ? move_generation_optimized_by_killer_move
       : move_generation_optimized_by_nr_opponent_moves;
@@ -1801,8 +1801,8 @@ void current(coup *mov) {
   mov->sqren=           sqrenais[nbply];
   mov->cir_prom=        cir_prom[nbply];
 
-  if ((bl_exact && mov->tr == noir)
-      || (wh_exact && mov->tr == blanc))
+  if ((bl_exact && mov->tr == Black)
+      || (wh_exact && mov->tr == White))
   {
     mov->echec= false;
     /* A quick and dirty hack. But echecc destroys the 'current()'
@@ -2025,8 +2025,8 @@ void editcoup(coup *mov, Goal goal)
           StdString ("=I");
         }
       }
-      else if (!((CondFlag[white_oscillatingKs] && mov->tr == blanc && mov->pjzz == roib) ||
-                 (CondFlag[black_oscillatingKs] && mov->tr == noir && mov->pjzz == roin))) {
+      else if (!((CondFlag[white_oscillatingKs] && mov->tr == White && mov->pjzz == roib) ||
+                 (CondFlag[black_oscillatingKs] && mov->tr == Black && mov->pjzz == roin))) {
         StdChar('=');
         WriteSpec(mov->new_spec, mov->speci != mov->new_spec);
         WritePiece(mov->pjazz);
@@ -2072,7 +2072,7 @@ void editcoup(coup *mov, Goal goal)
           && SquareCol(mov->cpzz) != SquareCol(mov->sqren))
       {
         sprintf(GlobalStr, "=(%c)",
-                (mov->tr == blanc) ? WhiteChar : BlackChar);
+                (mov->tr == White) ? WhiteChar : BlackChar);
         StdString(GlobalStr);
       }
       StdChar(']');
@@ -2090,7 +2090,7 @@ void editcoup(coup *mov, Goal goal)
     if (CondFlag[republican]
         && mov->repub_k<=haut && mov->repub_k>=bas)
     {
-      SETFLAG(mov->ren_spec, mov->tr==blanc ? Black : White);
+      SETFLAG(mov->ren_spec,advers(mov->tr));
       StdString("[+");
       WriteSpec(mov->ren_spec, true);
       WritePiece(roib);
@@ -2120,7 +2120,7 @@ void editcoup(coup *mov, Goal goal)
     if (mov->bool_senti) {
       StdString("[+");
       StdChar((!SentPionNeutral || !TSTFLAG(mov->speci, Neutral))
-              ?  ((mov->tr==blanc) != SentPionAdverse
+              ?  ((mov->tr==White) != SentPionAdverse
                   ? WhiteChar
                   : BlackChar)
               : 'n');
@@ -2130,11 +2130,11 @@ void editcoup(coup *mov, Goal goal)
     if (TSTFLAG(mov->speci, ColourChange)
         && (abs(e[mov->hurdle])>roib))
     {
-      Side hc= e[mov->hurdle] < vide ? noir : blanc;
+      Side hc= e[mov->hurdle] < vide ? Black : White;
       StdString("[");
       WriteSquare(mov->hurdle);
       StdString("=");
-      StdChar(hc == blanc ? WhiteChar : BlackChar);
+      StdChar(hc == White ? WhiteChar : BlackChar);
       StdString("]");
     }
     if (flag_outputmultiplecolourchanges)
@@ -2418,7 +2418,7 @@ void linesolution(slice_index si)
  */
 boolean has_too_many_flights(Side defender)
 {
-  square save_rbn = defender==noir ? rn : rb;
+  square save_rbn = defender==Black ? rn : rb;
   if (save_rbn==initsquare)
     return false;
   else
@@ -2429,7 +2429,7 @@ boolean has_too_many_flights(Side defender)
     {
       if (jouecoup())
       {
-        square const rbn = defender==noir ? rn : rb;
+        square const rbn = defender==Black ? rn : rb;
         if (save_rbn!=rbn && !echecc(defender))
           nrflleft--;
       }
@@ -2884,7 +2884,7 @@ static boolean initAndVerify(Token tk,
   {
     if (slices[0].u.composite.play==PSeries)
     {
-      regular_starter = blanc;
+      regular_starter = White;
       slice_impose_starter(0,regular_starter);
 
       isIntelligentModeActive = true;
@@ -2892,9 +2892,9 @@ static boolean initAndVerify(Token tk,
     else
     {
       if (slices[1].u.leaf.goal==goal_proof)
-        regular_starter = blanc;
+        regular_starter = White;
       else
-        regular_starter = OptFlag[whitetoplay] ? blanc : noir;
+        regular_starter = OptFlag[whitetoplay] ? White : Black;
       TraceValue("%d\n",regular_starter);
 
       slice_impose_starter(0,regular_starter);

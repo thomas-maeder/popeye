@@ -271,7 +271,7 @@ square renfile(piece p_captured, Flags p_captured_spec,
 {
   int col= sq_capture % onerow;
 
-  if (capturer==noir)
+  if (capturer==Black)
   {
     if (is_pawn(p_captured))
       return col + (nr_of_slack_rows_below_board+1)*onerow;
@@ -387,9 +387,9 @@ square rennormal(piece p_captured, Flags p_captured_spec,
   }
 
   if ((ran&1) != (col&1))
-    cou = blanc;
+    cou = White;
   else
-    cou = noir;
+    cou = Black;
 
   if (CondFlag[cavaliermajeur])
     if (p_captured == nb)
@@ -400,7 +400,7 @@ square rennormal(piece p_captured, Flags p_captured_spec,
       (p_captured > Bishop) && (Vao >= p_captured))
     p_captured-= 4;
 
-  if (capturer == noir)
+  if (capturer == Black)
   {
     if (is_pawn(p_captured))
       Result= col + (nr_of_slack_rows_below_board+1)*onerow;
@@ -418,16 +418,16 @@ square rennormal(piece p_captured, Flags p_captured_spec,
           Result= square_e1;
           break;
         case cb:
-          Result= cou == blanc ? square_b1 : square_g1;
+          Result= cou == White ? square_b1 : square_g1;
           break;
         case tb:
-          Result= cou == blanc ? square_h1 : square_a1;
+          Result= cou == White ? square_h1 : square_a1;
           break;
         case db:
           Result= square_d1;
           break;
         case fb:
-          Result= cou == blanc ? square_f1 : square_c1;
+          Result= cou == White ? square_f1 : square_c1;
           break;
         default: /* fairy piece */
           Result= (col
@@ -453,16 +453,16 @@ square rennormal(piece p_captured, Flags p_captured_spec,
       else
         switch(p_captured) {
         case fb:
-          Result= cou == blanc ? square_c8 : square_f8;
+          Result= cou == White ? square_c8 : square_f8;
           break;
         case db:
           Result= square_d8;
           break;
         case tb:
-          Result= cou == blanc ? square_a8 : square_h8;
+          Result= cou == White ? square_a8 : square_h8;
           break;
         case cb:
-          Result= cou == blanc ? square_g8 : square_b8;
+          Result= cou == White ? square_g8 : square_b8;
           break;
         case roib:
           Result= square_e8;
@@ -577,7 +577,7 @@ void genrn_cast(void) {
   if (TSTFLAGMASK(castling_flag[nbply],bl_castlings)>ke8_cancastle
       && e[square_e8]==roin 
       /* then the king on e8 and at least one rook can castle !! */
-      && !echecc(noir))
+      && !echecc(Black))
   {
     /* 0-0 */
     if (TSTFLAGMASK(castling_flag[nbply],blk_castling)==blk_castling
@@ -596,7 +596,7 @@ void genrn_cast(void) {
         flagblackmummer = sic_flagblackmummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= jouecoup() && !echecc(noir);
+          boolean ok= jouecoup() && !echecc(Black);
           repcoup();
           if (ok)
             empile(square_e8,square_g8,kingside_castling);
@@ -609,7 +609,7 @@ void genrn_cast(void) {
         if (rn!=initsquare)
           rn= square_f8;
 
-        is_castling_possible= !echecc(noir);
+        is_castling_possible= !echecc(Black);
 
         e[square_e8]= roin;
         e[square_f8]= vide;
@@ -639,7 +639,7 @@ void genrn_cast(void) {
         flagblackmummer = sic_flagblackmummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= (jouecoup() && !echecc(noir));
+          boolean ok= (jouecoup() && !echecc(Black));
           repcoup();
           if (ok)
             empile(square_e8,square_c8,queenside_castling);
@@ -652,7 +652,7 @@ void genrn_cast(void) {
         if (rn!=initsquare)
           rn= square_d8;
         
-        is_castling_possible= !echecc(noir);
+        is_castling_possible= !echecc(Black);
         
         e[square_e8]= roin;
         e[square_d8]= vide;
@@ -679,7 +679,7 @@ void genrn(square sq_departure) {
 
     anf= nbcou;
     calctransmute= true;
-    if (!blacknormaltranspieces && echecc(noir))
+    if (!blacknormaltranspieces && echecc(Black))
     {
       for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
         flag = true;
@@ -706,7 +706,7 @@ void genrn(square sq_departure) {
     if (flag && nbpiece[orphanb]>0) {
       piece king= e[rn];
       e[rn]= dummyn;
-      if (!echecc(noir)) {
+      if (!echecc(Black)) {
         /* black king checked only by an orphan
         ** empowered by the king */
         flag= false;
@@ -720,7 +720,7 @@ void genrn(square sq_departure) {
   }
 
   if (CondFlag[sting])
-    gerhop(sq_departure,vec_queen_start,vec_queen_end,noir);
+    gerhop(sq_departure,vec_queen_start,vec_queen_end,Black);
 
   for (k= vec_queen_end; k>=vec_queen_start; k--) {
     square sq_arrival= sq_departure+vec[k];
@@ -744,7 +744,7 @@ void genrn(square sq_departure) {
   if (castling_supported)
     genrn_cast();
 
-  if (CondFlag[castlingchess] && !echecc(noir)) {
+  if (CondFlag[castlingchess] && !echecc(Black)) {
     for (k= vec_queen_end; k>= vec_queen_start; k--) {
       square sq_passed, sq_castler, sq_arrival;  
       piece p;
@@ -760,7 +760,7 @@ void genrn(square sq_departure) {
           empile (sq_departure, sq_passed, sq_passed);
           if (nbcou > sic_nbcou)
           {
-            boolean ok= (jouecoup() && !echecc(noir));
+            boolean ok= (jouecoup() && !echecc(Black));
             repcoup();
             if (ok)
               empile(sq_departure, sq_arrival, maxsquare+sq_castler);
@@ -773,7 +773,7 @@ void genrn(square sq_departure) {
           e[sq_passed]= roin;
           if (rn!=initsquare)
             rn= sq_passed;
-          checked = echecc(noir);
+          checked = echecc(Black);
           if (!checked) {
             empile(sq_departure, sq_arrival, maxsquare+sq_castler);
             if (0) {
@@ -873,7 +873,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p) {
       /* generate moves from rebirth square */
       flagactive= true;
       spec_departing=spec[sq_departure];
-      sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,blanc);
+      sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,White);
       /* if rebirth square is where the piece stands,
          we've already generated all the relevant moves.
       */
@@ -929,7 +929,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p) {
                                  sq_departure,
                                  initsquare,
                                  initsquare,
-                                 blanc);
+                                 White);
         if (sq_rebirth==sq_departure || e[sq_rebirth]==vide) {
           pi_departing= e[sq_departure]; /* Mars/Neutral bug */
           
@@ -968,14 +968,14 @@ void singleboxtype3_gen_bl_piece(square z, piece p) {
   numecoup save_nbcou = nbcou;
   unsigned int latent_prom = 0;
   square sq;
-  for (sq = next_latent_pawn(initsquare,noir);
+  for (sq = next_latent_pawn(initsquare,Black);
        sq!=initsquare;
-       sq = next_latent_pawn(sq,noir))
+       sq = next_latent_pawn(sq,Black))
   {
     piece pprom;
-    for (pprom = next_singlebox_prom(vide,noir);
+    for (pprom = next_singlebox_prom(vide,Black);
          pprom!=vide;
-         pprom = next_singlebox_prom(pprom,noir))
+         pprom = next_singlebox_prom(pprom,Black))
     {
       numecoup save_nbcou = nbcou;
       ++latent_prom;
@@ -1062,7 +1062,7 @@ void genmove(Side camp)
 
     mateallowed[nbply]= true;
 
-    if (camp == blanc)
+    if (camp == White)
       gen_wh_ply();
     else
       gen_bl_ply();
@@ -1077,7 +1077,7 @@ void genmove(Side camp)
   }
 
   /* exact and consequent maximummers */
-  if (camp == blanc) {
+  if (camp == White) {
     /* let's first generate consequent moves */
     if (wh_exact) {
       we_generate_exact = true;
@@ -1173,10 +1173,10 @@ boolean patience_legal()
      castling but not yet implemented */
 
   for (nply= nbply - 1 ; nply > 1 && !bl_last_vacated ; nply--)
-    if (trait[nply] == noir)
+    if (trait[nply] == Black)
       bl_last_vacated= sqdep[nply];
   for (nply= nbply - 1 ; nply > 1 && !wh_last_vacated ; nply--)
-    if (trait[nply] == blanc)
+    if (trait[nply] == White)
       wh_last_vacated= sqdep[nply];
   return !((wh_last_vacated && e[wh_last_vacated]) ||
            (bl_last_vacated && e[bl_last_vacated]));
@@ -1229,15 +1229,15 @@ square next_latent_pawn(square s, Side c) {
   piece pawn;
   int  i, delta;
 
-  pawn=  c==blanc ? pb : pn;
-  delta= c==blanc ?+dir_left :+dir_right;
+  pawn=  c==White ? pb : pn;
+  delta= c==White ?+dir_left :+dir_right;
 
   if (s==initsquare) {
     i = 0;
-    s = c==blanc ? haut : bas;
+    s = c==White ? haut : bas;
   }
   else {
-    i = c==blanc ? haut-s+1 : s-bas+1;
+    i = c==White ? haut-s+1 : s-bas+1;
     s += delta;
   }
 
@@ -1257,7 +1257,7 @@ piece next_singlebox_prom(piece p, Side c) {
        pprom = getprompiece[pprom])
   {
     assert(pprom<boxsize);
-    if (nbpiece[c==blanc ? pprom : -pprom] < maxinbox[pprom])
+    if (nbpiece[c==White ? pprom : -pprom] < maxinbox[pprom])
       return pprom;
   }
 
@@ -1287,14 +1287,14 @@ boolean jouecoup_ortho_test(void)
 
 boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
                                square sq_rebirth) {
-  if (CondFlag[schwarzschacher] && trait[nbply]==noir)
-    return echecc(blanc);
+  if (CondFlag[schwarzschacher] && trait[nbply]==Black)
+    return echecc(White);
 
   if (CondFlag[extinction]) {
     piece p;
     for (p= roib; p<derbla; p++) {
       if (oldnbpiece[p]>0
-          && !nbpiece[trait[nbply]==blanc ? p : -p])
+          && !nbpiece[trait[nbply]==White ? p : -p])
       {
         return false;
       }
@@ -1305,11 +1305,11 @@ boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
           || (
             (!jouetestgenre1 || (
                (!CondFlag[blackultraschachzwang]
-                || trait[nbply]==blanc
-                || echecc(blanc))
+                || trait[nbply]==White
+                || echecc(White))
                && (!CondFlag[whiteultraschachzwang]
-                   || trait[nbply]==noir
-                   || echecc(noir))
+                   || trait[nbply]==Black
+                   || echecc(Black))
               ))
             &&
             ((!flag_testlegality) || pos_legal())
@@ -1317,7 +1317,7 @@ boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
             && (!testdblmate || (rb!=initsquare && rn!=initsquare))
             && (!CondFlag[patience] || PatienceB || patience_legal())
             /* don't call patience_legal if TypeB as obs > vide ! */
-            && (trait[nbply] == blanc ? BGL_white >= 0 : BGL_black >= 0)
+            && (trait[nbply] == White ? BGL_white >= 0 : BGL_black >= 0)
             ));
 }
 
@@ -1367,7 +1367,7 @@ boolean jouecoup(void) {
     if (CondFlag[extinction]) {
       piece p;
       for (p= roib; p < derbla; p++) {
-        prev_nbpiece[p]= nbpiece[ traitnbply==blanc ? p : -p];
+        prev_nbpiece[p]= nbpiece[ traitnbply==White ? p : -p];
       }
     }
   }
@@ -1426,14 +1426,14 @@ boolean jouecoup(void) {
   if (jouegenre)
   {
     if (CondFlag[blsupertrans_king]
-        && traitnbply==noir
+        && traitnbply==Black
         && ctrans[nbcou]!=vide)
     {
       rn=initsquare;
       pi_arriving=ctrans[nbcou];
     }
     if (CondFlag[whsupertrans_king]
-        && traitnbply==blanc
+        && traitnbply==White
         && ctrans[nbcou]!=vide)
     {
       rb=initsquare;
@@ -1835,7 +1835,7 @@ boolean jouecoup(void) {
         && !is_pawn(pi_departing)
         && sq_departure != prev_rn
         && sq_departure != prev_rb
-        && (traitnbply == noir
+        && (traitnbply == Black
             ? sq_arrival>=square_a7 && sq_arrival<=square_h7
             : sq_arrival>=square_a2 && sq_arrival<=square_h2))
     {
@@ -1848,9 +1848,9 @@ boolean jouecoup(void) {
     if ((CondFlag[tibet]
          && pi_captured != vide
          && pi_arriving != -pi_captured
-         && (((traitnbply == noir)
+         && (((traitnbply == Black)
               && (sq_departure != prev_rn))
-             || ((traitnbply == blanc)
+             || ((traitnbply == White)
                  && CondFlag[dbltibet]
                  && (sq_departure != prev_rb))))
         || (CondFlag[andernach]
@@ -1869,7 +1869,7 @@ boolean jouecoup(void) {
       /* now the piece is white */
       /* has it to be changed? */
       if (TSTFLAG(spec_pi_moving, Black)
-          && (!TSTFLAG(spec_pi_moving, White) || neutcoul == noir))
+          && (!TSTFLAG(spec_pi_moving, White) || neutcoul == Black))
       {
         pi_arriving= -pi_arriving;
       }
@@ -1886,7 +1886,7 @@ boolean jouecoup(void) {
       CLRFLAG(spec_pi_moving, Black);
       CLRFLAG(spec_pi_moving, White);
       CLRFLAG(spec_pi_moving, Neutral);
-      if (traitnbply == noir) {
+      if (traitnbply == Black) {
         SETFLAG(spec_pi_moving, White);
         pi_arriving= abs(pi_arriving);
       }
@@ -1905,7 +1905,7 @@ boolean jouecoup(void) {
       CLRFLAG(spec_pi_moving, Black);
       CLRFLAG(spec_pi_moving, White);
       CLRFLAG(spec_pi_moving, Neutral);
-      if (traitnbply == noir) {
+      if (traitnbply == Black) {
         SETFLAG(spec_pi_moving, White);
         pi_arriving= abs(pi_arriving);
       }
@@ -1916,7 +1916,7 @@ boolean jouecoup(void) {
     } /* CondFlag[antiandernach] ... */
 
     if ((CondFlag[traitor]
-         && traitnbply == noir
+         && traitnbply == Black
          && sq_arrival<=square_h4
          && !TSTFLAG(spec_pi_moving, Neutral))
         || (TSTFLAG(spec_pi_moving, Volage)
@@ -2012,20 +2012,19 @@ boolean jouecoup(void) {
 
   if (TSTFLAG(spec_pi_moving, HalfNeutral))
   {
-    if (TSTFLAG(spec_pi_moving, Neutral)) {
-      CLRFLAG(spec_pi_moving,
-              traitnbply == blanc ? Black : White);
-
+    if (TSTFLAG(spec_pi_moving, Neutral))
+    {
+      CLRFLAG(spec_pi_moving,advers(traitnbply));
       CLRFLAG(spec_pi_moving, Neutral);
-      pi_arriving= traitnbply==noir ? -abs(pi_arriving) : abs(pi_arriving);
+      pi_arriving= traitnbply==Black ? -abs(pi_arriving) : abs(pi_arriving);
 
-      if (rn == sq_arrival && traitnbply == blanc)
+      if (rn == sq_arrival && traitnbply == White)
         rn= initsquare;
 
-      if (rb == sq_arrival && traitnbply == noir)
+      if (rb == sq_arrival && traitnbply == Black)
         rb= initsquare;
     }
-    else if (traitnbply==noir) {
+    else if (traitnbply==Black) {
       if (TSTFLAG(spec_pi_moving, Black)) {
         SETFLAG(spec_pi_moving, Neutral);
         SETFLAG(spec_pi_moving, White);
@@ -2034,7 +2033,7 @@ boolean jouecoup(void) {
           rb = sq_arrival;
       }
     }
-    else if (traitnbply==blanc) {
+    else if (traitnbply==White) {
       if (TSTFLAG(spec_pi_moving, White)) {
         SETFLAG(spec_pi_moving, Neutral);
         SETFLAG(spec_pi_moving, Black);
@@ -2061,7 +2060,7 @@ boolean jouecoup(void) {
 
     /* Duellantenschach */
     if (CondFlag[duellist]) {
-      if (traitnbply == noir) {
+      if (traitnbply == Black) {
         whduell[nbply]= whduell[nbply - 1];
         blduell[nbply]= sq_arrival;
       }
@@ -2085,10 +2084,10 @@ boolean jouecoup(void) {
       }
 
       if (sb2[nbply].where!=initsquare) {
-        assert(e[sb2[nbply].where] == (adv==blanc ? pb : pn));
+        assert(e[sb2[nbply].where] == (adv==White ? pb : pn));
         assert(sb2[nbply].what!=vide);
         --nbpiece[e[sb2[nbply].where]];
-        e[sb2[nbply].where] =   adv==blanc
+        e[sb2[nbply].where] =   adv==White
           ? sb2[nbply].what
           : -sb2[nbply].what;
         ++nbpiece[e[sb2[nbply].where]];
@@ -2194,7 +2193,7 @@ boolean jouecoup(void) {
             SETFLAG(spec[sq_departure], Neutral);
             setneutre(sq_departure);
           }
-          else if ((traitnbply==noir) != SentPionAdverse) {
+          else if ((traitnbply==Black) != SentPionAdverse) {
             nbpiece[e[sq_departure]= sentineln]++;
             SETFLAG(spec[sq_departure], Black);
           }
@@ -2218,7 +2217,7 @@ boolean jouecoup(void) {
             senti[nbply]= true;
           }
         }
-        else if ((traitnbply==noir) != SentPionAdverse) {
+        else if ((traitnbply==Black) != SentPionAdverse) {
           if (   nbpiece[sentineln] < max_pn
                  && nbpiece[sentinelb]+nbpiece[sentineln]<max_pt
                  && (  !flagparasent
@@ -2491,7 +2490,7 @@ boolean jouecoup(void) {
 
     if (CondFlag[republican])
     {
-      if (traitnbply==blanc)
+      if (traitnbply==White)
       {
         if (flag_writinglinesolution
             && repub_k[nbply]!=initsquare)
@@ -2503,7 +2502,7 @@ boolean jouecoup(void) {
         else if (rn==initsquare && !is_republican_suspended)
         {
           is_republican_suspended = true;
-          find_mate_square(blanc);
+          find_mate_square(White);
           repub_k[nbply] = super[nbply]<= haut ? super[nbply] : initsquare;
           if (RepublicanType==republican_type1)
           {
@@ -2537,7 +2536,7 @@ boolean jouecoup(void) {
         else if (rb==initsquare && !is_republican_suspended)
         {
           is_republican_suspended = true;
-          find_mate_square(noir);
+          find_mate_square(Black);
           repub_k[nbply] = super[nbply]<= haut ? super[nbply] : initsquare;
           if (RepublicanType==republican_type1)
           {
@@ -2602,7 +2601,7 @@ boolean jouecoup(void) {
       }
     }
 
-    if (traitnbply==blanc
+    if (traitnbply==White
         ? CondFlag[white_oscillatingKs]
         : CondFlag[black_oscillatingKs]) {
       boolean priorcheck= false;
@@ -2680,23 +2679,23 @@ boolean jouecoup(void) {
 
     if (CondFlag[strictSAT] && SATCheck)
     {
-      WhiteStrictSAT[nbply]= echecc_normal(blanc);
-      BlackStrictSAT[nbply]= echecc_normal(noir);
+      WhiteStrictSAT[nbply]= echecc_normal(White);
+      BlackStrictSAT[nbply]= echecc_normal(Black);
     }
 
     if (CondFlag[masand]
         && echecc(advers(traitnbply))
-        && observed(traitnbply == blanc ? rn : rb,
+        && observed(traitnbply == White ? rn : rb,
                     move_gen_top->arrival))
       change_observed(move_gen_top->arrival, flag_outputmultiplecolourchanges);
         
     if (!BGL_whiteinfinity
-        && (BGL_global || traitnbply == blanc))
+        && (BGL_global || traitnbply == White))
     {
       BGL_white -= BGL_move_diff_code[abs(move_gen_top->departure
                                           -move_gen_top->arrival)];
     }
-    if (!BGL_blackinfinity && (BGL_global || traitnbply == noir))
+    if (!BGL_blackinfinity && (BGL_global || traitnbply == Black))
     {
       BGL_black -= BGL_move_diff_code[abs(move_gen_top->departure
                                           -move_gen_top->arrival)];
@@ -2751,11 +2750,11 @@ void repcoup(void) {
        rochade= true;
     }
 
-    if (!BGL_whiteinfinity && (BGL_global || trait[nbply] == blanc))
+    if (!BGL_whiteinfinity && (BGL_global || trait[nbply] == White))
     {
       BGL_white += BGL_move_diff_code[abs(sq_departure-sq_arrival)];
     }
-    if (!BGL_blackinfinity && (BGL_global || trait[nbply] == noir))
+    if (!BGL_blackinfinity && (BGL_global || trait[nbply] == Black))
     {
       BGL_black += BGL_move_diff_code[abs(sq_departure-sq_arrival)];
     }
@@ -2767,7 +2766,7 @@ void repcoup(void) {
     
     if (CondFlag[masand]
         && echecc(advers(trait[nbply]))
-        && observed(trait[nbply] == blanc ? rn : rb,
+        && observed(trait[nbply] == White ? rn : rb,
                     sq_arrival))
       change_observed(sq_arrival, false);
 
@@ -2841,7 +2840,7 @@ void repcoup(void) {
 
         assert(sb2[nbply].what!=vide);
         --nbpiece[e[sb2[nbply].where]];
-        e[sb2[nbply].where] = adv==blanc ? pb : pn;
+        e[sb2[nbply].where] = adv==White ? pb : pn;
         ++nbpiece[e[sb2[nbply].where]];
 
         sb2[nbply].what = next_singlebox_prom(sb2[nbply].what,adv);
@@ -2871,7 +2870,7 @@ void repcoup(void) {
   if (jouegenre) {
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type3
         && sb3[nbcou].what!=vide) {
-      piece pawn = trait[nbply]==blanc ? pb : pn;
+      piece pawn = trait[nbply]==White ? pb : pn;
       e[sb3[nbcou].where] = pawn;
       if (sq_departure!=sb3[nbcou].where) {
         --nbpiece[sb3[nbcou].what];
@@ -3021,14 +3020,14 @@ void repcoup(void) {
 
     if (TSTFLAG(PieSpExFlags, Neutral)) {
       /* the following is faster !  TLi
-       * initneutre((pi_departing > vide) ? blanc : noir);
+       * initneutre((pi_departing > vide) ? White : Black);
        */
 
       if (TSTFLAG(spec_pi_moving, Neutral) &&
-          (pi_departing < vide ? noir : blanc) != neutcoul)
+          (pi_departing < vide ? Black : White) != neutcoul)
         pi_departing= -pi_departing;
       if (TSTFLAG(pprispec[nbply], Neutral) &&
-          (pi_captured < vide ? noir : blanc) != neutcoul)
+          (pi_captured < vide ? Black : White) != neutcoul)
         pi_captured= -pi_captured;
     }
     if ((sq_rebirth= sqrenais[nbply]) != initsquare) {
@@ -3234,7 +3233,7 @@ boolean immobile_encore(Side camp, square** immobilesquare) {
     if ((p= e[i]) != vide) {
       if (TSTFLAG(spec[i], Neutral))
         p= -p;
-      if (camp == blanc) {
+      if (camp == White) {
         if ((p > obs) && (i != rb)) {
           gen_wh_piece(i, p);
         }
@@ -3254,7 +3253,7 @@ boolean immobile_encore(Side camp, square** immobilesquare) {
 boolean immobile(Side camp)
 {
   square *immobilesquare= boardnum;  /* local to allow recursion */
-  boolean const whbl_exact= camp==blanc ? wh_exact : bl_exact;
+  boolean const whbl_exact= camp==White ? wh_exact : bl_exact;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",camp);
 
@@ -3265,7 +3264,7 @@ boolean immobile(Side camp)
     trait[nbply]= camp;
     if (TSTFLAG(PieSpExFlags,Neutral))
       initneutre(advers(camp));
-    if (camp == blanc)
+    if (camp == White)
     {
       if (rb != initsquare)
         gen_wh_piece(rb, abs(e[rb]));
@@ -3281,7 +3280,7 @@ boolean immobile(Side camp)
       int k_fl= 0, w_unit= 0;
       while (encore()) {
         if (jouecoup()) {
-          if (camp==noir ? pprise[nbply]>=roib : pprise[nbply]<=roib)
+          if (camp==Black ? pprise[nbply]>=roib : pprise[nbply]<=roib)
             w_unit++;        /* assuming OWU is OBU for checks to wK !! */
           if (!echecc(camp))
             k_fl++;
@@ -3392,7 +3391,7 @@ void find_mate_square(Side camp)
 {
   square sq;
 
-  if (camp == blanc) {
+  if (camp == White) {
     while ((sq= ++super[nbply]) <= haut) {
       if (e[sq] == vide) {
         rn= sq;

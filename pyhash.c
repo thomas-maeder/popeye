@@ -896,7 +896,7 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
  */
 boolean is_a_mating_piece_left(Side mating_side)
 {
-  boolean const is_white_mating = mating_side==blanc;
+  boolean const is_white_mating = mating_side==White;
 
   piece p = roib+1;
   while (p<derbla && nbpiece[is_white_mating ? p : -p]==0)

@@ -899,14 +899,14 @@ EXTERN Flags            rochade_sp[toppile + 1];
 	extern char     ActAuthor[];
 	extern char     ActOrigin[];
 	extern char     ActTitle[];
-	extern char     ActTwin[];
+	extern char     ActTwinning[];
 	extern char     ActAward[], ActStip[];
 #else
 	Lang            ActLang;
 	char            ActAuthor[256];
 	char            ActOrigin[256];
 	char            ActTitle[256];
-	char            ActTwin[1532];
+	char            ActTwinning[1532];
 	char            ActAward[256], ActStip[37];
 #endif
 

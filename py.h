@@ -471,15 +471,6 @@
 
 #define bl      ' '
 
-typedef enum
-{
-  blanc,
-  noir,
-
-  nr_sides,
-  no_side = nr_sides
-} Side;
-
 #define initsquare      0       /* to initialize square-variables */
 #define maxinum 10      /* max. number of imitators */
 #define nullsquare 1
@@ -501,7 +492,6 @@ typedef int        numvec;
 
 typedef piece        echiquier[maxsquare+4];
 typedef square       pilecase[maxply+1];
-typedef Side         pileside[maxply+1];
 
 typedef struct {
     square departure;
@@ -813,35 +803,43 @@ typedef char PieceChar[2];
 typedef PieceChar       PieTable[PieceCount];
 
 /* for multiple variants of conditions */
-#define TypeB                   0
-#define PionAdverse             1
-#define AntiCirTypeCheylan      2
-#define AntiCirTypeCalvet       3
-#define PionNeutral             4
-#define PionNoirMaximum         5
-#define PionBlancMaximum        6
-#define ParaSent		7
-#define PionTotalMaximum        8
-#define SentBerolina            9
-#define Type1                  10
-#define Type2                  11
-#define Type3                  12
-#define Neighbour              13
-#define TypeC                  14
-#define TypeD                  15
-#define ShiftRank              16
-#define ShiftFile              17
-#define ShiftRankFile          18
-#define Orthogonal             19
-#define Irregular              20
-#define ExtraGridLines         21
-#define Transmuting            22
-#define VariantTypeCount       23
+typedef enum
+{
+  TypeB,                   /* 0 */
+  PionAdverse,             /* 1 */
+  AntiCirTypeCheylan,      /* 2 */
+  AntiCirTypeCalvet,       /* 3 */
+  PionNeutral,             /* 4 */
+  PionNoirMaximum,         /* 5 */
+  PionBlancMaximum,        /* 6 */
+  ParaSent,                /* 7 */
+  PionTotalMaximum,        /* 8 */
+  SentBerolina,            /* 9 */
+  Type1,                  /* 10 */
+  Type2,                  /* 11 */
+  Type3,                  /* 12 */
+  Neighbour,              /* 13 */
+  TypeC,                  /* 14 */
+  TypeD,                  /* 15 */
+  ShiftRank,              /* 16 */
+  ShiftFile,              /* 17 */
+  ShiftRankFile,          /* 18 */
+  Orthogonal,             /* 19 */
+  Irregular,              /* 20 */
+  ExtraGridLines,         /* 21 */
+  Transmuting,            /* 22 */
+
+  VariantTypeCount        /* 23 */
+} VariantType;
 
 /* for intelligent specification of one-sided conditions */
-#define maxi			0
-#define ultraschachzwang	1
-#define ExtraCondCount		2
+typedef enum
+{
+  maxi,             /* 0 */
+  ultraschachzwang,	/* 1 */
+  
+  ExtraCondCount    /* 2 */
+} ExtraCond;
 
 
 #define BorderSpec      0
@@ -897,222 +895,223 @@ typedef PieceChar       PieTable[PieceCount];
 
 /* names for options */
 /* Please keep the 3 options 14, 15 and 16. I need them for my database project. TLi */
-/*--- Start of typedef enum {---*/
-#define soltout          0
-#define solapparent      1
-#define whitetoplay      2
-#define solvariantes     3
-#define movenbr          4
-#define restart          5
-#define sansrb           6
-#define duplex           7
-#define sansrn           8
-#define solmenaces       9
-#define nothreat        10
-#define solessais       11
-#define maxsols         12
-#define solflights      13
-#define search          14
-#define multi           15
-#define nosymmetry      16
-#define nontrivial      17
-#define keepmating      18
-#define enpassant       19
-#define noboard         20
-#define noshort         21
-#define halfduplex      22
-#define postkeyplay     23
-#define intelligent     24
-#define maxtime         25
-#define nocastling      26
-#define quodlibet       27
-#define stoponshort     28
-#define beep            29
-#define suppressgrid    30
-#define writegrid       31
-#define OptCount        32
-typedef int Opt;
-/*--- End of } Opt; ---*/
+typedef enum
+{
+  soltout,          /* 0 */
+  solapparent,      /* 1 */
+  whitetoplay,      /* 2 */
+  solvariantes,     /* 3 */
+  movenbr,          /* 4 */
+  restart,          /* 5 */
+  sansrb,           /* 6 */
+  duplex,           /* 7 */
+  sansrn,           /* 8 */
+  solmenaces,       /* 9 */
+  nothreat,        /* 10 */
+  solessais,       /* 11 */
+  maxsols,         /* 12 */
+  solflights,      /* 13 */
+  search,          /* 14 */
+  multi,           /* 15 */
+  nosymmetry,      /* 16 */
+  nontrivial,      /* 17 */
+  keepmating,      /* 18 */
+  enpassant,       /* 19 */
+  noboard,         /* 20 */
+  noshort,         /* 21 */
+  halfduplex,      /* 22 */
+  postkeyplay,     /* 23 */
+  intelligent,     /* 24 */
+  maxtime,         /* 25 */
+  nocastling,      /* 26 */
+  quodlibet,       /* 27 */
+  stoponshort,     /* 28 */
+  beep,            /* 29 */
+  suppressgrid,    /* 30 */
+  writegrid,       /* 31 */
+
+  OptCount        /* 32 */
+} Opt;
 
 /* Names for conditions */
-/*--- Start of typedef enum {---*/
-#define rexincl                  0
-#define circe                    1
-#define circemalefique           2
-#define madras                   3
-#define volage                   4
-#define hypervolage              5
-#define bichro                   6
-#define monochro                 7
-#define gridchess                8
-#define koeko                    9
-#define blackedge               10
-#define whiteedge               11
-#define leofamily               12
-#define chinoises               13
-#define patrouille              14
-#define pwc                     15
-#define nocapture               16
-#define immun                   17
-#define immunmalefique          18
-#define contactgrid             19
-#define imitators               20
-#define cavaliermajeur          21
-#define haanerchess             22
-#define chamcirce               23
-#define couscous                24
-#define circeequipollents       25
-#define circefile               26
-#define blmax                   27
-#define blmin                   28
-#define whmax                   29
-#define whmin                   30
-#define magicsquare             31
-#define sentinelles             32
-#define tibet                   33
-#define dbltibet                34
-#define circediagramm           35
-#define holes                   36
-#define blcapt                  37
-#define whcapt                  38
-#define refl_king               39
-#define trans_king              40
-#define blfollow                41
-#define whfollow                42
-#define duellist                43
-#define parrain                 44
-#define noiprom                 45
-#define circesymmetry           46
-#define vogt                    47
-#define einstein                48
-#define bicolores               49
-#define newkoeko                50
-#define circeclone              51
-#define anti                    52
-#define circefilemalefique      53
-#define circeantipoden          54
-#define circeclonemalefique     55
-#define antispiegel             56
-#define antidiagramm            57
-#define antifile                58
-#define antisymmetrie           59
-#define antispiegelfile         60
-#define antiantipoden           61
-#define antiequipollents        62
-#define immunfile               63
-#define immundiagramm           64
-#define immunspiegelfile        65
-#define immunsymmetry           66
-#define immunantipoden          67
-#define immunequipollents       68
-#define reveinstein             69
-#define supercirce              70
-#define degradierung            71
-#define norsk                   72
-#define exact                   73
-#define traitor                 74
-#define andernach               75
-#define whforsqu                76
-#define whconforsqu             77
-#define blforsqu                78
-#define blconforsqu             79
-#define ultra                   80
-#define chamchess               81
-#define beamten                 82
-#define glasgow                 83
-#define antiandernach           84
-#define frischauf               85
-#define circemalefiquevertical  86
-#define isardam                 87
-#define ohneschach              88
-#define circediametral          89
-#define promotiononly           90
-#define circerank               91
-#define exclusive               92
-#define mars                    93
-#define marsmirror              94
-#define phantom                 95
-#define whrefl_king             96
-#define blrefl_king             97
-#define whtrans_king            98
-#define bltrans_king            99
-#define antieinstein           100
-#define couscousmirror         101
-#define blroyalsq              102
-#define whroyalsq              103
-#define brunner                104
-#define plus                   105
-#define circeassassin          106
-#define patience               107
-#define republican           108
-#define extinction             109
-#define central                110
-#define actrevolving           111
-#define messigny               112
-#define woozles                113
-#define biwoozles              114
-#define heffalumps             115
-#define biheffalumps           116
-#define rexexcl                117
-#define whprom_sq              118
-#define blprom_sq              119
-#define nowhiteprom            120
-#define noblackprom            121
-#define eiffel                 122
-#define blackultraschachzwang  123
-#define whiteultraschachzwang  124
-#define arc                    125
-#define shieldedkings          126
-#define sting                  127
-#define linechamchess          128
-#define nowhcapture            129
-#define noblcapture            130
-#define april                  131
-#define alphabetic             132
-#define circeturncoats         133
-#define circedoubleagents      134
-#define amu                    135
-#define singlebox              136
-#define MAFF                   137
-#define OWU                    138
-#define white_oscillatingKs    139
-#define black_oscillatingKs    140
-#define antikings              141
-#define antimars               142
-#define antimarsmirror         143
-#define antimarsantipodean     144
-#define whsupertrans_king      145
-#define blsupertrans_king      146
-#define antisuper              147
-#define ultrapatrouille        148
-#define swappingkings          149
-#define dynasty                150
-#define SAT                    151
-#define strictSAT              152
-#define takemake               153
-#define blacksynchron          154
-#define whitesynchron          155
-#define blackantisynchron      156
-#define whiteantisynchron      157
-#define masand                 158
-#define BGL                    159
-#define schwarzschacher        160
-#define annan                  161
-#define normalp                162
-#define lortap                 163
-#define vault_king             164
-#define whvault_king           165 
-#define blvault_king           166 
-#define protean                167
-#define geneva                 168
-#define champursue             169
-#define antikoeko              170
-#define castlingchess          171
-#define losingchess            172
-#define CondCount              173
+typedef enum
+{
+  rexincl,                  /* 0 */
+  circe,                    /* 1 */
+  circemalefique,           /* 2 */
+  madras,                   /* 3 */
+  volage,                   /* 4 */
+  hypervolage,              /* 5 */
+  bichro,                   /* 6 */
+  monochro,                 /* 7 */
+  gridchess,                /* 8 */
+  koeko,                    /* 9 */
+  blackedge,               /* 10 */
+  whiteedge,               /* 11 */
+  leofamily,               /* 12 */
+  chinoises,               /* 13 */
+  patrouille,              /* 14 */
+  pwc,                     /* 15 */
+  nocapture,               /* 16 */
+  immun,                   /* 17 */
+  immunmalefique,          /* 18 */
+  contactgrid,             /* 19 */
+  imitators,               /* 20 */
+  cavaliermajeur,          /* 21 */
+  haanerchess,             /* 22 */
+  chamcirce,               /* 23 */
+  couscous,                /* 24 */
+  circeequipollents,       /* 25 */
+  circefile,               /* 26 */
+  blmax,                   /* 27 */
+  blmin,                   /* 28 */
+  whmax,                   /* 29 */
+  whmin,                   /* 30 */
+  magicsquare,             /* 31 */
+  sentinelles,             /* 32 */
+  tibet,                   /* 33 */
+  dbltibet,                /* 34 */
+  circediagramm,           /* 35 */
+  holes,                   /* 36 */
+  blcapt,                  /* 37 */
+  whcapt,                  /* 38 */
+  refl_king,               /* 39 */
+  trans_king,              /* 40 */
+  blfollow,                /* 41 */
+  whfollow,                /* 42 */
+  duellist,                /* 43 */
+  parrain,                 /* 44 */
+  noiprom,                 /* 45 */
+  circesymmetry,           /* 46 */
+  vogt,                    /* 47 */
+  einstein,                /* 48 */
+  bicolores,               /* 49 */
+  newkoeko,                /* 50 */
+  circeclone,              /* 51 */
+  anti,                    /* 52 */
+  circefilemalefique,      /* 53 */
+  circeantipoden,          /* 54 */
+  circeclonemalefique,     /* 55 */
+  antispiegel,             /* 56 */
+  antidiagramm,            /* 57 */
+  antifile,                /* 58 */
+  antisymmetrie,           /* 59 */
+  antispiegelfile,         /* 60 */
+  antiantipoden,           /* 61 */
+  antiequipollents,        /* 62 */
+  immunfile,               /* 63 */
+  immundiagramm,           /* 64 */
+  immunspiegelfile,        /* 65 */
+  immunsymmetry,           /* 66 */
+  immunantipoden,          /* 67 */
+  immunequipollents,       /* 68 */
+  reveinstein,             /* 69 */
+  supercirce,              /* 70 */
+  degradierung,            /* 71 */
+  norsk,                   /* 72 */
+  exact,                   /* 73 */
+  traitor,                 /* 74 */
+  andernach,               /* 75 */
+  whforsqu,                /* 76 */
+  whconforsqu,             /* 77 */
+  blforsqu,                /* 78 */
+  blconforsqu,             /* 79 */
+  ultra,                   /* 80 */
+  chamchess,               /* 81 */
+  beamten,                 /* 82 */
+  glasgow,                 /* 83 */
+  antiandernach,           /* 84 */
+  frischauf,               /* 85 */
+  circemalefiquevertical,  /* 86 */
+  isardam,                 /* 87 */
+  ohneschach,              /* 88 */
+  circediametral,          /* 89 */
+  promotiononly,           /* 90 */
+  circerank,               /* 91 */
+  exclusive,               /* 92 */
+  mars,                    /* 93 */
+  marsmirror,              /* 94 */
+  phantom,                 /* 95 */
+  whrefl_king,             /* 96 */
+  blrefl_king,             /* 97 */
+  whtrans_king,            /* 98 */
+  bltrans_king,            /* 99 */
+  antieinstein,           /* 100 */
+  couscousmirror,         /* 101 */
+  blroyalsq,              /* 102 */
+  whroyalsq,              /* 103 */
+  brunner,                /* 104 */
+  plus,                   /* 105 */
+  circeassassin,          /* 106 */
+  patience,               /* 107 */
+  republican,             /* 108 */
+  extinction,             /* 109 */
+  central,                /* 110 */
+  actrevolving,           /* 111 */
+  messigny,               /* 112 */
+  woozles,                /* 113 */
+  biwoozles,              /* 114 */
+  heffalumps,             /* 115 */
+  biheffalumps,           /* 116 */
+  rexexcl,                /* 117 */
+  whprom_sq,              /* 118 */
+  blprom_sq,              /* 119 */
+  nowhiteprom,            /* 120 */
+  noblackprom,            /* 121 */
+  eiffel,                 /* 122 */
+  blackultraschachzwang,  /* 123 */
+  whiteultraschachzwang,  /* 124 */
+  arc,                    /* 125 */
+  shieldedkings,          /* 126 */
+  sting,                  /* 127 */
+  linechamchess,          /* 128 */
+  nowhcapture,            /* 129 */
+  noblcapture,            /* 130 */
+  april,                  /* 131 */
+  alphabetic,             /* 132 */
+  circeturncoats,         /* 133 */
+  circedoubleagents,      /* 134 */
+  amu,                    /* 135 */
+  singlebox,              /* 136 */
+  MAFF,                   /* 137 */
+  OWU,                    /* 138 */
+  white_oscillatingKs,    /* 139 */
+  black_oscillatingKs,    /* 140 */
+  antikings,              /* 141 */
+  antimars,               /* 142 */
+  antimarsmirror,         /* 143 */
+  antimarsantipodean,     /* 144 */
+  whsupertrans_king,      /* 145 */
+  blsupertrans_king,      /* 146 */
+  antisuper,              /* 147 */
+  ultrapatrouille,        /* 148 */
+  swappingkings,          /* 149 */
+  dynasty,                /* 150 */
+  SAT,                    /* 151 */
+  strictSAT,              /* 152 */
+  takemake,               /* 153 */
+  blacksynchron,          /* 154 */
+  whitesynchron,          /* 155 */
+  blackantisynchron,      /* 156 */
+  whiteantisynchron,      /* 157 */
+  masand,                 /* 158 */
+  BGL,                    /* 159 */
+  schwarzschacher,        /* 160 */
+  annan,                  /* 161 */
+  normalp,                /* 162 */
+  lortap,                 /* 163 */
+  vault_king,             /* 164 */
+  whvault_king,           /* 165 */
+  blvault_king,           /* 166 */
+  protean,                /* 167 */
+  geneva,                 /* 168 */
+  champursue,             /* 169 */
+  antikoeko,              /* 170 */
+  castlingchess,          /* 171 */
+  losingchess,            /* 172 */
 
-typedef int Cond;
-/*--- End of } Cond;---*/
+  CondCount               /* 173 */
+} Cond;
 
 /* Some remarks to the conditions:
 **      if hypervolage is set, also volage will be set
@@ -1125,26 +1124,40 @@ typedef int Cond;
 **      if equipollents or coucou is set, also pwc will be set
 */
 
-/*--- Start of typedef enum {---*/
-#define White        0
-#define Black        1
-#define Neutral      2
-#define Kamikaze     3
-#define Royal        4
-#define Paralyse     5
-#define Chameleon    6
-#define Jigger       7
-#define Volage       8
-#define Beamtet      9
-#define HalfNeutral  10
-#define ColourChange 11
-#define Protean      12
-#define Magic        13
-#define PieSpCount   14
-typedef int PieSpec;
-/*--- End of } PieSpec;---*/
+/* Enumeration type for the two sides which move, deliver mate etc.
+ */
+typedef enum
+{
+  White,
+  Black,
 
-/* MAKROS */
+  nr_sides,
+  no_side = nr_sides
+} Side;
+
+/* Enumeration type for various piece properties
+ * Make sure to keep enumerators >= nr_sides
+ */
+typedef enum
+{
+  Neutral = nr_sides,
+  Kamikaze,
+  Royal,
+  Paralyse,
+  Chameleon,
+  Jigger,
+  Volage,
+  Beamtet,
+  HalfNeutral,
+  ColourChange,
+  Protean,
+  Magic,
+
+  PieSpCount
+} PieSpec;
+
+typedef Side         pileside[maxply+1];
+
 
 enum {
   /* if square1-square2==onerow, then square1 is one row higher than
@@ -1198,8 +1211,8 @@ typedef unsigned int slice_index;
 #define ClrDiaRen(s)    ((s)-=((unsigned int)((s)>>DiaCirce)<<DiaCirce))
 
 #define encore()        (nbcou > repere[nbply])
-#define advers(camp)    ((camp) ? blanc : noir)
-#define color(piesqu)   (e[(piesqu)] <= roin ? noir : blanc)
+#define advers(camp)    ((camp) ? White : Black)
+#define color(piesqu)   (e[(piesqu)]<=roin ? Black : White)
 
 #define coupfort()      {kpilcd[nbply]= move_generation_stack[nbcou].departure; kpilca[nbply]= move_generation_stack[nbcou].arrival;}
 
@@ -1220,7 +1233,7 @@ typedef unsigned int slice_index;
 #define change(i)               do {register piece pp; nbpiece[pp= e[(i)]]--; nbpiece[e[(i)]= -pp]++;} while (0)
 #define finligne(i,k,p,sq)      do {register int kk= (k); (sq)= (i); while (e[(sq)+=(kk)]==vide); p= e[(sq)];} while (0)
 
-#define rightcolor(ej, camp)    ((camp) == blanc ? (ej) <= roin : (ej) >= roib)
+#define rightcolor(ej, camp)    ((camp)==White ? (ej)<=roin : (ej)>=roib)
 
 #define lrhopcheck(sq, ka, ke, p, ev)   riderhoppercheck(sq, ka, ke, p, 0, 0, ev)
 #define rhopcheck(sq, ka, ke, p, ev)    riderhoppercheck(sq, ka, ke, p, 0, 1, ev)
@@ -1239,8 +1252,8 @@ typedef unsigned int slice_index;
 #define shopcheck(sq, ka, ke, p, ev)     riderhoppercheck(sq, ka, ke, p, 1, 1, ev)
 #define geshop(sq, ka, ke, camp)        geriderhopper(sq, ka, ke, 1, 1, camp)
 
-#define PromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==blanc?WhPromSq:BlPromSq))
-#define ReversePromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==noir?WhPromSq:BlPromSq))
+#define PromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==White?WhPromSq:BlPromSq))
+#define ReversePromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==Black?WhPromSq:BlPromSq))
 
 #define ChamCircePiece(p)    ((((p) < vide) ? - NextChamCircePiece[-(p)] : \
                                NextChamCircePiece[(p)]))

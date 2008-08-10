@@ -316,7 +316,7 @@ void sequence_detect_starter(slice_index si, boolean is_duplex)
       if (slices[op1].starter==no_side)
       {
         /* op1 can't tell - let's tell him */
-        slices[si].starter = is_duplex ? noir : blanc; /* not reci-h */
+        slices[si].starter = is_duplex ? Black : White; /* not reci-h */
         slices[op1].starter = slices[si].starter;
       }
       else

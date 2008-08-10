@@ -285,7 +285,8 @@ void save_as_killer_move(square capture) {
   current_killer_state.move.capture= capture;
 }
 
-boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
+boolean empile(square sq_departure, square sq_arrival, square sq_capture)
+{
   square  hcr, mren= initsquare;
   Side traitnbply;
 
@@ -398,7 +399,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
           e[sq_departure]= vide;    /* for sentinelles, need to calculate... */
           spec[sq_departure]= EmptySpec;
 
-          if (traitnbply == blanc)
+          if (traitnbply == White)
             gen_bl_piece_aux(sq_arrival, takemake_takenpiece);
           else
             gen_wh_piece_aux(sq_arrival, takemake_takenpiece);
@@ -443,12 +444,12 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
     }
 
     if (((CondFlag[nowhiteprom]
-          && traitnbply==blanc
-          && PromSq(blanc,sq_arrival)
+          && traitnbply==White
+          && PromSq(White,sq_arrival)
            )
          || (CondFlag[noblackprom]
-             && traitnbply==noir
-             && PromSq(noir,sq_arrival)
+             && traitnbply==Black
+             && PromSq(Black,sq_arrival)
            )
           )
         && is_forwardpawn(e[sq_departure]))
@@ -457,12 +458,12 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
     }
 
     if (((CondFlag[nowhiteprom]
-          && traitnbply==blanc
-          && ReversePromSq(blanc,sq_arrival)
+          && traitnbply==White
+          && ReversePromSq(White,sq_arrival)
            )
          || (CondFlag[noblackprom]
-             && traitnbply==noir
-             && ReversePromSq(noir,sq_arrival)
+             && traitnbply==Black
+             && ReversePromSq(Black,sq_arrival)
            )
           )
         && is_reversepawn(e[sq_departure]))
@@ -494,9 +495,9 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
 
       if (CondFlag[nocapture]
           || (CondFlag[nowhcapture]
-              && traitnbply==blanc)
+              && traitnbply==White)
           || (CondFlag[noblcapture]
-              && traitnbply==noir)
+              && traitnbply==Black)
           || TSTFLAG(spec[sq_departure], Paralyse))
       {
         return true;
@@ -529,34 +530,34 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
          * the function genrb(), but here, it works for all
          * royal pieces.
          * wegen neuer Funktionen genweiss/schwarz aus
-         * gennoir/blanc hierher verschoben
+         * gennoir/White hierher verschoben
          */
         /* capturing kamikaze pieces without circe condition are possible now */ 
         if (TSTFLAG(spec[sq_departure], Kamikaze)
-            &&  ((traitnbply == blanc)
-                 ? ((sq_departure == rb) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, noir)] != vide)))
-                 : ((sq_departure == rn) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, blanc)] != vide)))))
+            &&  ((traitnbply == White)
+                 ? ((sq_departure == rb) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide)))
+                 : ((sq_departure == rn) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide)))))
         {
           return true;
         }
 
         if ((CondFlag[vogt]
              || CondFlag[antikings])
-            && ((traitnbply == noir)
-                ? ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, noir)] != vide))
-                : ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, blanc)] != vide))))
+            && ((traitnbply == Black)
+                ? ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide))
+                : ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide))))
         {
           return true;
         }
 
         if (SATCheck &&
-            ((traitnbply == noir) ?
-             ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, noir)] != vide)) :
-             ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, blanc)] != vide))))
+            ((traitnbply == Black) ?
+             ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide)) :
+             ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide))))
           return true;
 
         if (anyanticirce
-            && (traitnbply==blanc
+            && (traitnbply==White
                 ? !rnanticircech(sq_departure,sq_arrival,sq_capture)
                 : !rbanticircech(sq_departure,sq_arrival,sq_capture)))
         {
@@ -577,7 +578,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
      *  needed for generation like follow my leader,
      * maximummer.....
      */
-    if (!k_cap && traitnbply == noir ? flagblackmummer : flagwhitemummer) {
+    if (!k_cap && traitnbply == Black ? flagblackmummer : flagwhitemummer) {
       boolean       flag= true;
       numecoup      test;
       boolean is_new_longest_move;
@@ -592,22 +593,22 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
         */
         int len, curleng;
 
-        if ( traitnbply == noir ? black_length : white_length)
+        if ( traitnbply == Black ? black_length : white_length)
         {
-          len = traitnbply == noir
+          len = traitnbply == Black
             ?  (*black_length)(sq_departure,sq_arrival,sq_capture)
             : (*white_length)(sq_departure,sq_arrival,sq_capture);
           curleng =
             (move_generation_mode==move_generation_optimized_by_killer_move
              && current_killer_state.found)
-            ? (traitnbply == noir
+            ? (traitnbply == Black
                ? (*black_length)(current_killer_state.move.departure,
                                  current_killer_state.move.arrival,
                                  current_killer_state.move.capture)
                : (*white_length)(current_killer_state.move.departure,
                                  current_killer_state.move.arrival,
                                  current_killer_state.move.capture))
-            : (traitnbply == noir
+            : (traitnbply == Black
                ? (*black_length)(move_generation_stack[nbcou].departure,
                                  move_generation_stack[nbcou].arrival,
                                  move_generation_stack[nbcou].capture)
@@ -621,7 +622,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
           curleng=0;
         }
         
-        if (traitnbply == blanc ? CondFlag[whsupertrans_king] : CondFlag[blsupertrans_king])
+        if (traitnbply == White ? CondFlag[whsupertrans_king] : CondFlag[blsupertrans_king])
         {
                 
           len+= MAX_OTHER_LEN * (current_trans_gen!=vide ? 1 : 0);
@@ -666,67 +667,75 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture) {
     }
   }
 
-  if (FlagGenMatingMove) {
-    if (FlagMoveOrientatedStip) {
-      if (slices[1].u.leaf.goal == goal_ep) {
-        if (sq_arrival != ep[nbply-1] && sq_arrival != ep2[nbply-1])
-          return true;
-      }
-      else if (slices[1].u.leaf.goal == goal_target) {
-        if (sq_arrival != slices[1].u.leaf.target)
-          return true;
-      }
-      else if (slices[1].u.leaf.goal == goal_capture
-               || slices[1].u.leaf.goal == goal_steingewinn)
-      {
-        if (e[sq_capture] == vide)
-          return true;
-      }
-      else if (slices[1].u.leaf.goal == goal_castling)
-      {
-        if (abs(e[sq_departure]) != King || abs(sq_departure-sq_arrival) != 2)
-          return true;
-      }
-    }
-    else if (optim_neutralretractable
-             && TSTFLAG(spec[sq_departure], Neutral)
-             && slices[1].u.leaf.goal != goal_check)
+  if (FlagGenMatingMove)
+    switch (slices[1].u.leaf.goal)
     {
-      /* Check if a mating move by a neutral piece can be
-      ** retracted by the opponent.
-      ** This works also in more general cases, but which?
-      */
-      if (rb == rn) {
-        if (rb == sq_departure) {
-          /*     if (e[sq_capture] != vide)    nK-bug ! */
-          if (e[sq_capture] == vide)
+      case goal_ep:
+        if (sq_arrival!=ep[nbply-1] && sq_arrival!=ep2[nbply-1])
+          return true;
+        else
+          break;
+
+      case goal_target:
+        if (sq_arrival!=slices[1].u.leaf.target)
+          return true;
+        else
+          break;
+
+      case goal_capture:
+      case goal_steingewinn:
+        if (e[sq_capture]==vide)
+          return true;
+        else
+          break;
+
+      case goal_castling:
+        if (sq_capture!=kingside_castling && sq_capture!=queenside_castling)
+          return true;
+        else
+          break;
+
+      case goal_check:
+        break; /* nothing, but for this goal, the neutralretractable
+                * optimisation can't be applied */
+
+      default:
+        if (optim_neutralretractable && TSTFLAG(spec[sq_departure],Neutral))
+        {
+          /* Check if a mating move by a neutral piece can be
+           * retracted by the opponent.
+           * This works also in more general cases, but which?
+           */
+          if (rb==rn)
+          {
+            if (rb==sq_departure)
+            {
+              if (e[sq_capture]==vide)
+                return true;
+            }
+            else if (abs(e[sq_departure])!=Pawn || e[sq_capture]==vide)
+              return true;
+          }
+          else if (e[sq_capture]==vide && abs(e[sq_departure])!=Pawn)
             return true;
         }
-        else if ( (e[sq_departure] != Pawn && e[sq_departure] != -Pawn)
-                  || e[sq_capture] == vide)
-        {
-          return true;
-        }
-      }
-      else if (e[sq_capture] == vide && e[sq_departure] != Pawn && e[sq_departure] != -Pawn)
-        return true;
     }
-  }
 
-  switch (move_generation_mode) {
-  case move_generation_optimized_by_nr_opponent_moves:
-    add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture);
-    break;
-  case move_generation_optimized_by_killer_move:
-    if (!is_killer_move(sq_departure,sq_arrival,sq_capture)
-        || nonkilgenre
-        || flag_testlegality)
+  switch (move_generation_mode)
+  {
+    case move_generation_optimized_by_nr_opponent_moves:
+      add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture);
+      break;
+    case move_generation_optimized_by_killer_move:
+      if (!is_killer_move(sq_departure,sq_arrival,sq_capture)
+          || nonkilgenre
+          || flag_testlegality)
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,mren);
+      else
+        save_as_killer_move(sq_capture);
+      break;
+    case move_generation_not_optimized:
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,mren);
-    else
-      save_as_killer_move(sq_capture);
-    break;
-  case move_generation_not_optimized:
-    add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,mren);
   }
 
   return true;
@@ -2038,7 +2047,7 @@ void gfeerrest(square i, piece p, Side camp) {
     return;
 
   case gralb:
-    if (camp==blanc)
+    if (camp==White)
       gebleap(i, vec_alfil_start,vec_alfil_end);    /* alfilb */
     else
       genleap(i, vec_alfil_start,vec_alfil_end);    /* alfiln */
@@ -2077,7 +2086,7 @@ void gfeerrest(square i, piece p, Side camp) {
     return;
 
   case scorpionb:
-    if (camp==blanc)
+    if (camp==White)
       gebleap(i, vec_queen_start,vec_queen_end);        /* ekingb */
     else
       genleap(i, vec_queen_start,vec_queen_end);        /* ekingn */
@@ -2120,29 +2129,29 @@ void gfeerrest(square i, piece p, Side camp) {
   case querqub:
     switch (i%onerow - nr_of_slack_files_left_of_board) {
     case file_rook_queenside:
-    case file_rook_kingside:    if (camp == blanc)
+    case file_rook_kingside:    if (camp == White)
         gebrid(i, vec_rook_start,vec_rook_end);
       else
         genrid(i, vec_rook_start,vec_rook_end);
       break;
     case file_bishop_queenside:
-    case file_bishop_kingside:  if (camp == blanc)
+    case file_bishop_kingside:  if (camp == White)
         gebrid(i, vec_bishop_start,vec_bishop_end);
       else
         genrid(i, vec_bishop_start,vec_bishop_end);
       break;
-    case file_queen:    if (camp == blanc)
+    case file_queen:    if (camp == White)
         gebrid(i, vec_queen_start,vec_queen_end);
       else
         genrid(i, vec_queen_start,vec_queen_end);
       break;
     case file_knight_queenside:
-    case file_knight_kingside:  if (camp == blanc)
+    case file_knight_kingside:  if (camp == White)
         gebleap(i, vec_knight_start,vec_knight_end);
       else
         genleap(i, vec_knight_start,vec_knight_end);
       break;
-    case file_king: if (camp == blanc)
+    case file_king: if (camp == White)
         gebleap(i, vec_queen_start,vec_queen_end);
       else
         genleap(i, vec_queen_start,vec_queen_end);
@@ -2321,13 +2330,13 @@ void gfeerblanc(square i, piece p) {
   case bspawnb:
     gen_sp_nocaptures(i,+dir_up+dir_left);
     gen_sp_nocaptures(i,+dir_up+dir_right);
-    gen_sp_captures(i,+dir_up, blanc);
+    gen_sp_captures(i,+dir_up, White);
     return;
 
   case spawnb:
     gen_sp_nocaptures(i,+dir_up);
-    gen_sp_captures(i,+dir_up+dir_left, blanc);
-    gen_sp_captures(i,+dir_up+dir_right, blanc);
+    gen_sp_captures(i,+dir_up+dir_left, White);
+    gen_sp_captures(i,+dir_up+dir_right, White);
     return;
 
   case rhuntb:
@@ -2397,7 +2406,7 @@ void gfeerblanc(square i, piece p) {
     return;
 
   default:
-    gfeerrest(i, p, blanc);
+    gfeerrest(i, p, White);
   }
 }
 
@@ -2507,13 +2516,13 @@ void gfeernoir(square i, piece p) {
   case bspawnn:
     gen_sp_nocaptures(i,+dir_down+dir_right);
     gen_sp_nocaptures(i,+dir_down+dir_left);
-    gen_sp_captures(i,+dir_down, noir);
+    gen_sp_captures(i,+dir_down, Black);
     return;
 
   case spawnn:
     gen_sp_nocaptures(i,+dir_down);
-    gen_sp_captures(i,+dir_down+dir_right, noir);
-    gen_sp_captures(i,+dir_down+dir_left, noir);
+    gen_sp_captures(i,+dir_down+dir_right, Black);
+    gen_sp_captures(i,+dir_down+dir_left, Black);
     return;
 
   case rhuntn:
@@ -2583,7 +2592,7 @@ void gfeernoir(square i, piece p) {
     return;
 
   default:
-    gfeerrest(i, p, noir);
+    gfeerrest(i, p, Black);
   }
 } /* end of gfeernoir */
 
@@ -2600,7 +2609,7 @@ void genrb_cast(void) {
   if (TSTFLAGMASK(castling_flag[nbply],wh_castlings)>ke1_cancastle
       && e[square_e1]==roib 
       /* then the king on e1 and at least one rook can castle !! */
-      && !echecc(blanc))
+      && !echecc(White))
   {
     /* 0-0 */
     if (TSTFLAGMASK(castling_flag[nbply],whk_castling)==whk_castling
@@ -2619,7 +2628,7 @@ void genrb_cast(void) {
         flagwhitemummer = sic_flagwhitemummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= jouecoup() && !echecc(blanc);
+          boolean ok= jouecoup() && !echecc(White);
           repcoup();
           if (ok)
             empile(square_e1,square_g1,kingside_castling);
@@ -2632,7 +2641,7 @@ void genrb_cast(void) {
         if (rb!=initsquare)
           rb= square_f1;
 
-        is_castling_possible= !echecc(blanc);
+        is_castling_possible= !echecc(White);
 
         e[square_e1]= roib;
         e[square_f1]= vide;
@@ -2662,7 +2671,7 @@ void genrb_cast(void) {
         flagwhitemummer = sic_flagwhitemummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= (jouecoup() && !echecc(blanc));
+          boolean ok= (jouecoup() && !echecc(White));
           repcoup();
           if (ok)
             empile(square_e1,square_c1,queenside_castling);
@@ -2675,7 +2684,7 @@ void genrb_cast(void) {
         if (rb!=initsquare)
           rb= square_d1;
         
-        is_castling_possible= !echecc(blanc);
+        is_castling_possible= !echecc(White);
         
         e[square_e1]= roib;
         e[square_d1]= vide;
@@ -2704,7 +2713,7 @@ void genrb(square sq_departure) {
 
     anf= nbcou;
     calctransmute= true;
-    if (!whitenormaltranspieces && echecc(blanc))
+    if (!whitenormaltranspieces && echecc(White))
     {
       for (ptrans= whitetransmpieces; *ptrans; ptrans++) {
         flag = true;
@@ -2731,7 +2740,7 @@ void genrb(square sq_departure) {
     if (flag && nbpiece[orphann]>0) {
       piece king= e[rb];
       e[rb]= dummyb;
-      if (!echecc(blanc)) {
+      if (!echecc(White)) {
         /* white king checked only by an orphan
         ** empowered by the king */
         flag= false;
@@ -2745,7 +2754,7 @@ void genrb(square sq_departure) {
   }
 
   if (CondFlag[sting])
-    gerhop(sq_departure,vec_queen_start,vec_queen_end,blanc);
+    gerhop(sq_departure,vec_queen_start,vec_queen_end,White);
 
   for (k= vec_queen_end; k >=vec_queen_start; k--) {
     sq_arrival= sq_departure+vec[k];
@@ -2769,7 +2778,7 @@ void genrb(square sq_departure) {
   if (castling_supported)
     genrb_cast();
   
-  if (CondFlag[castlingchess] && !echecc(blanc)) {
+  if (CondFlag[castlingchess] && !echecc(White)) {
     for (k= vec_queen_end; k>= vec_queen_start; k--) {
       square sq_passed, sq_castler, sq_arrival;  
       piece p;
@@ -2785,7 +2794,7 @@ void genrb(square sq_departure) {
           empile (sq_departure, sq_passed, sq_passed);
           if (nbcou > sic_nbcou)
           {
-            boolean ok= (jouecoup() && !echecc(blanc));
+            boolean ok= (jouecoup() && !echecc(White));
             repcoup();
             if (ok)
               empile(sq_departure, sq_arrival, maxsquare+sq_castler);
@@ -2798,7 +2807,7 @@ void genrb(square sq_departure) {
           e[sq_passed]= roib;
           if (rb!=initsquare)
             rb= sq_passed;
-          checked = echecc(blanc);
+          checked = echecc(White);
           if (!checked) {
             empile(sq_departure, sq_arrival, maxsquare+sq_castler);
             if (0) {
@@ -2913,7 +2922,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
       /* generate moves from rebirth square */
       flagactive= true;
       psp= spec[sq_departure];
-      mren= (*marsrenai)(p,psp,sq_departure,initsquare,initsquare,noir);
+      mren= (*marsrenai)(p,psp,sq_departure,initsquare,initsquare,Black);
       /* if rebirth square is where the piece stands,
          we've already generated all the relevant moves.
       */
@@ -2964,7 +2973,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
       more_ren=0;
       do {    /* Echecs Plus */
         psp=spec[sq_departure];
-        mren= (*marsrenai)(p,psp,sq_departure,initsquare,initsquare,noir);
+        mren= (*marsrenai)(p,psp,sq_departure,initsquare,initsquare,Black);
         if (mren==sq_departure || e[mren]==vide) {
           pp= e[sq_departure];      /* Mars/Neutral bug */
           e[sq_departure]= vide;
@@ -2999,14 +3008,14 @@ void singleboxtype3_gen_wh_piece(square z, piece p) {
   numecoup save_nbcou = nbcou;
   unsigned int latent_prom = 0;
   square sq;
-  for (sq = next_latent_pawn(initsquare,blanc);
+  for (sq = next_latent_pawn(initsquare,White);
        sq!=initsquare;
-       sq = next_latent_pawn(sq,blanc))
+       sq = next_latent_pawn(sq,White))
   {
     piece pprom;
-    for (pprom = next_singlebox_prom(vide,blanc);
+    for (pprom = next_singlebox_prom(vide,White);
          pprom!=vide;
-         pprom = next_singlebox_prom(pprom,blanc))
+         pprom = next_singlebox_prom(pprom,White))
     {
       numecoup save_nbcou = nbcou;
       ++latent_prom;
@@ -3034,569 +3043,6 @@ void (*gen_wh_piece)(square z, piece p)
   = &orig_gen_wh_piece;
 
 
-#define ColourSpec Flags
-#define OppsiteColour(s)  (s == White ? Black : White)
-
-boolean IsABattery(
-  square    KingSquare,
-  square    FrontSquare,
-  numvec    Direction,
-  ColourSpec    ColourMovingPiece,
-  piece BackPiece1,
-  piece BackPiece2)
-{
-  square sq;
-  piece p;
-
-  /* is the line between king and front piece empty? */
-  EndOfLine(FrontSquare, Direction, sq);
-  if (sq == KingSquare) {
-    /* the line is empty, but is there really an appropriate back
-    ** battery piece? */
-    EndOfLine(FrontSquare, -Direction, sq);
-    p= e[sq];
-    if (p < vide)
-      p= -p;
-    if (   (p == BackPiece1 || p == BackPiece2)
-           && TSTFLAG(spec[sq], ColourMovingPiece))
-    {
-      /* So, it is a battery. */
-      return true;
-    }
-  }
-  return false;
-} /* IsABattery */
-
-void GenMatingPawn(square   sq_departure,
-                   square   sq_king,
-                   ColourSpec   ColourMovingPiece)
-{
-  boolean Battery = false;
-  numvec k;
-  square sq_arrival;
-
-  k= CheckDirBishop[sq_king-sq_departure];
-  if (k!=0)
-    Battery=
-      IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
-  else {
-    k= CheckDirRook[sq_king-sq_departure];
-    if (k!=0)
-      Battery=
-        IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen);
-  }
-
-  /* if the pawn is not the front piece of a battery reset k,
-     otherwise normalise it to be positiv. This is necessary to
-     avoid moves along the battery line subsequently.
-  */
-  if (Battery) {
-    if (k<0)
-      k= -k;
-  }
-  else
-    k= 0;
-
-  if (ColourMovingPiece==White) {
-    if (sq_departure<=square_h1)
-      return;
-    else {
-      /* not first rank */
-      /* ep captures */
-      if (ep[nbply-1]!=initsquare
-          && trait[nbply-1]!=trait[nbply]
-          && (sq_departure+dir_up+dir_right==ep[nbply-1]
-              || sq_departure+dir_up+dir_left==ep[nbply-1]))
-      {
-        if (nbply==2)    /* ep.-key  standard pawn */
-          move_generation_stack[repere[2]].arrival= ep[nbply-1]+dir_down;
-        empile(sq_departure,
-               ep[nbply-1],
-               move_generation_stack[repere[nbply]].arrival);
-      }
-
-      /* single step */
-      if (k!=24) {
-        /* suppress moves along a battery line */
-        sq_arrival= sq_departure+dir_up;
-        if (e[sq_arrival]==vide) {
-          if (Battery
-              || sq_arrival+dir_up+dir_left == sq_king
-              || sq_arrival+dir_up+dir_right == sq_king
-              || (PromSq(blanc,sq_arrival)
-                  && (CheckDirQueen[sq_king-sq_arrival]
-                      || CheckDirKnight[sq_king-sq_arrival])))
-            empile(sq_departure,sq_arrival,sq_arrival);
-
-          /* double step */
-          if (sq_departure<=square_h2) {
-            sq_arrival+= onerow;
-            if (e[sq_arrival]==vide
-                && (Battery
-                    || sq_arrival+dir_up+dir_left==sq_king
-                    || sq_arrival+dir_up+dir_right==sq_king))
-              empile(sq_departure,sq_arrival,sq_arrival);
-          }
-        }
-      }
-
-      /* capture+dir_up+dir_left */
-      sq_arrival= sq_departure+dir_up+dir_left;
-      if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],Black))
-        if (Battery
-            || sq_arrival+dir_up+dir_left == sq_king
-            || sq_arrival+dir_up+dir_right == sq_king
-            || (PromSq(blanc,sq_arrival)
-                && (CheckDirQueen[sq_king-sq_arrival]
-                    || CheckDirKnight[sq_king-sq_arrival])))
-          empile(sq_departure,sq_arrival,sq_arrival);
-      
-      /* capture+dir_up+dir_right */
-      sq_arrival= sq_departure+dir_up+dir_right;
-      if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],Black))
-        if (Battery
-            || sq_arrival+dir_up+dir_left==sq_king
-            || sq_arrival+dir_up+dir_right==sq_king
-            || (PromSq(blanc,sq_arrival)
-                && (CheckDirQueen[sq_king-sq_arrival]
-                    || CheckDirKnight[sq_king-sq_arrival])))
-          empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-  else {
-    if (sq_departure>=square_a8)
-      return;
-
-    /* not last rank */
-    /* ep captures */
-    if (ep[nbply-1]!=initsquare
-        && trait[nbply-1] != trait[nbply]
-        && (sq_departure+dir_down+dir_left==ep[nbply-1]
-            || sq_departure+dir_down+dir_right==ep[nbply-1]))
-    {
-      if (nbply==2)    /* ep.-key  standard pawn */
-        move_generation_stack[repere[2]].arrival= ep[nbply-1]+dir_up;
-      empile(sq_departure,
-             ep[nbply-1],
-             move_generation_stack[repere[nbply]].arrival);
-    }
-
-    /* single step */
-    if (k!=24) {    /* suppress moves along a battery line */
-      sq_arrival= sq_departure+dir_down;
-      if (e[sq_arrival]==vide) {
-        if (Battery
-            || sq_arrival+dir_down+dir_right==sq_king
-            || sq_arrival+dir_down+dir_left==sq_king
-            || (PromSq(noir,sq_arrival)
-                && (CheckDirQueen[sq_king-sq_arrival]
-                    || CheckDirKnight[sq_king-sq_arrival])))
-          empile(sq_departure,sq_arrival,sq_arrival);
-
-        /* double step */
-        if (sq_departure>=square_a7) {
-          sq_arrival-= onerow;
-          if (e[sq_arrival] == vide
-              && (Battery
-                  || sq_arrival+dir_down+dir_right==sq_king
-                  || sq_arrival+dir_down+dir_left==sq_king))
-            empile(sq_departure,sq_arrival,sq_arrival);
-        }
-      }
-    }
-
-    /* capture+dir_up+dir_left */
-    sq_arrival= sq_departure+dir_down+dir_right;
-    if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],White)) {
-      if (Battery
-          || sq_arrival+dir_down+dir_right==sq_king
-          || sq_arrival+dir_down+dir_left==sq_king
-          || (PromSq(noir,sq_arrival)
-              && (CheckDirQueen[sq_king-sq_arrival]
-                  || CheckDirKnight[sq_king-sq_arrival])))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-
-    /* capture+dir_up+dir_right */
-    sq_arrival= sq_departure+dir_down+dir_left;
-    if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],White)) {
-      if (Battery
-          || sq_arrival+dir_down+dir_right==sq_king
-          || sq_arrival+dir_down+dir_left==sq_king
-          || (PromSq(noir,sq_arrival)
-              && (CheckDirQueen[sq_king-sq_arrival]
-                  || CheckDirKnight[sq_king-sq_arrival])))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-} /* GenMatingPawn */
-
-void GenMatingKing(square   sq_departure,
-                   square   sq_king,
-                   ColourSpec   ColourMovingPiece)
-{
-  numvec    k, k2;
-  boolean   Generate = false;
-  ColourSpec    ColourCapturedPiece = OppsiteColour(ColourMovingPiece);
-
-  square sq_arrival;
-
-  if (rb==rn) {
-    /* neutral kings */
-    for (k2= vec_queen_start; k2<=vec_queen_end; k2++) {
-      sq_arrival= sq_departure+vec[k2];
-      /* they must capture to mate the opponent */
-      if (e[sq_arrival]!=vide
-          && TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-  else {
-    /* check if the king is the front piece of a battery
-       that can fire */
-    k= CheckDirBishop[sq_king-sq_departure];
-    if (k!=0)
-      Generate=
-        IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
-    else {
-      k= CheckDirRook[sq_king-sq_departure];
-      if (k!=0)
-        Generate= IsABattery(sq_king,sq_departure,k,ColourMovingPiece,
-                             Rook,Queen);
-    }
-
-    if (Generate)
-      for (k2= vec_queen_start; k2<=vec_queen_end; k2++) {
-        /* prevent the king from moving along the battery line*/
-        if (k2==k || k2==-k)
-          continue;
-        sq_arrival= sq_departure+vec[k2];
-        if ((e[sq_arrival]==vide
-             || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-            && move_diff_code[abs(sq_king-sq_arrival)]>1+1) /* no contact */
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-
-    if (CondFlag[ColourCapturedPiece==White ? whiteedge : blackedge]
-        || slices[1].u.leaf.goal==goal_doublemate)
-      for (k2= vec_queen_start; k2<=vec_queen_end; k2++) {
-        sq_arrival= sq_departure + vec[k2];
-        if ((e[sq_arrival]==vide
-             || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-            && move_diff_code[abs(sq_king-sq_arrival)]<=1+1)
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-  }
-
-  /* castling */
-  if (castling_supported) {
-    if (ColourMovingPiece==White)
-      /* white to play */
-      genrb_cast();
-    else
-      /* black to play */
-      genrn_cast();
-  }
-}
-
-void GenMatingKnight(square sq_departure,
-                     square sq_king,
-                     ColourSpec ColourMovingPiece)
-{
-  numvec    k;
-  boolean   Generate = false;
-  ColourSpec    ColourCapturedPiece = OppsiteColour(ColourMovingPiece);
-
-  square sq_arrival;
-
-  /* check if the knight is the front piece of a battery that can
-     fire
-  */
-  if ((k = CheckDirBishop[sq_king-sq_departure])!=0)
-    Generate=
-      IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
-  else if ((k = CheckDirRook[sq_king-sq_departure])!=0)
-    Generate= IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen);
-
-  k= abs(sq_king-sq_departure);
-  if (Generate
-      || (SquareCol(sq_departure) == SquareCol(sq_king)
-          && move_diff_code[k]<=move_diff_code[square_a3-square_e1]
-          && move_diff_code[k]!=move_diff_code[square_a3-square_c1]))
-    for (k= vec_knight_start; k<=vec_knight_end; k++) {
-      sq_arrival= sq_departure+vec[k];
-      if (e[sq_arrival]==vide
-          || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-        if (Generate || CheckDirKnight[sq_arrival-sq_king]!=0)
-          empile(sq_departure,sq_arrival,sq_arrival);
-    }
-}
-
-void GenMatingRook(square   sq_departure,
-                   square   sq_king,
-                   ColourSpec   ColourMovingPiece)
-{
-  square    sq2;
-  numvec    k, k2;
-  ColourSpec    ColourCapturedPiece = OppsiteColour(ColourMovingPiece);
-
-  square sq_arrival;
-
-  /* check if the rook is the front piece of a battery that can fire
-   */
-  k= CheckDirBishop[sq_king-sq_departure];
-  if (k != 0
-      && IsABattery(sq_king, sq_departure, k, ColourMovingPiece, Bishop, Queen))
-  {
-    for (k= vec_rook_start; k<=vec_rook_end; k++) {
-      sq_arrival= sq_departure+vec[k];
-      while (e[sq_arrival]==vide) {
-        empile(sq_departure,sq_arrival,sq_arrival);
-        sq_arrival+= vec[k];
-      }
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-  else {
-    int OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
-
-    k2= CheckDirRook[sq_king-sq_departure];
-    if (k2!=0) {
-      /* the rook is already on a line with the king */
-      EndOfLine(sq_departure,k2,sq_arrival);
-      /* We are at the end of the line */
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece)) {
-        EndOfLine(sq_arrival,k2,sq2);
-        if (sq2==sq_king)
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-    }
-    else {
-      for (k= vec_rook_start; k<=vec_rook_end; k++) {
-        sq_arrival= sq_departure+vec[k];
-        if (e[sq_arrival]==obs)
-          continue;
-        if (move_diff_code[abs(sq_arrival-sq_king)]<OriginalDistance) {
-          /* The rook must move closer to the king! */
-          k2= CheckDirRook[sq_king-sq_arrival];
-          while (k2==0 && e[sq_arrival]==vide) {
-            sq_arrival+= vec[k];
-            k2= CheckDirRook[sq_king-sq_arrival];
-          }
-
-          /* We are at the end of the line or in checking
-             distance
-          */
-          if (k2==0)
-            continue;
-          if (e[sq_arrival]==vide
-              || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-          {
-            EndOfLine(sq_arrival,k2,sq2);
-            if (sq2==sq_king)
-              empile(sq_departure,sq_arrival,sq_arrival);
-          }
-        }
-      }
-    }
-  }
-}
-
-void GenMatingQueen(square  sq_departure,
-                    square  sq_king,
-                    ColourSpec  ColourMovingPiece)
-{
-  square sq2;
-  numvec  k, k2;
-  ColourSpec ColourCapturedPiece = OppsiteColour(ColourMovingPiece);
-
-  square sq_arrival;
-
-  for (k= vec_queen_start; k<=vec_queen_end; k++) {
-    sq_arrival= sq_departure+vec[k];
-    while (e[sq_arrival]==vide) {
-      k2= CheckDirQueen[sq_king-sq_arrival];
-      if (k2) {
-        EndOfLine(sq_arrival,k2,sq2);
-        if (sq2==sq_king)
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-      sq_arrival+= vec[k];
-    }
-    if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece)) {
-      k2= CheckDirQueen[sq_king-sq_arrival];
-      if (k2) {
-        EndOfLine(sq_arrival,k2,sq2);
-        if (sq2==sq_king)
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-    }
-  }
-}
-
-void GenMatingBishop(square sq_departure,
-                     square sq_king,
-                     ColourSpec ColourMovingPiece)
-{
-  square    sq2;
-  numvec    k, k2;
-  ColourSpec    ColourCapturedPiece = OppsiteColour(ColourMovingPiece);
-
-  square sq_arrival;
-
-  /* check if the bishop is the front piece of a battery that can
-     fire
-  */
-  k = CheckDirRook[sq_king-sq_departure];
-  if (k!=0
-      && IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen))
-  {
-    for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
-      sq_arrival= sq_departure+vec[k];
-      while (e[sq_arrival]==vide) {
-        empile(sq_departure,sq_arrival,sq_arrival);
-        sq_arrival+= vec[k];
-      }
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-  else if (SquareCol(sq_departure)==SquareCol(sq_king)) {
-    int OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
-
-    k2= CheckDirBishop[sq_king-sq_departure];
-    if (k2) {
-      /* the bishop is already on a line with the king */
-      EndOfLine(sq_departure,k2,sq_arrival);
-      /* We are at the end of the line */
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece)) {
-        EndOfLine(sq_arrival,k2,sq2);
-        if (sq2==sq_king)
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-    }
-    else {
-      for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
-        sq_arrival= sq_departure+vec[k];
-        if (e[sq_arrival]==obs)
-          continue;
-        if (move_diff_code[abs(sq_arrival-sq_king)]
-            <OriginalDistance) {
-          /* The bishop must move closer to the king! */
-          k2= CheckDirBishop[sq_king-sq_arrival];
-          while (k2==0 && e[sq_arrival]==vide) {
-            sq_arrival+= vec[k];
-            k2= CheckDirBishop[sq_king-sq_arrival];
-          }
-
-          /* We are at the end of the line or in checking
-             distance */
-          if (k2==0)
-            continue;
-          if (e[sq_arrival]==vide
-              || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-          {
-            EndOfLine(sq_arrival,k2,sq2);
-            if (sq2==sq_king)
-              empile(sq_departure,sq_arrival,sq_arrival);
-          }
-        }
-      }
-    }
-  }
-} /* GenMatingBishop */
-
-void GenMatingMove(Side camp) {
-  if (optim_orthomatingmoves) {
-    ColourSpec ColourMovingPiece = camp == blanc ? White : Black;
-    square     i, j, z, OpponentsKing = camp == blanc ? rn : rb;
-    piece      p;
-
-    nextply();
-    trait[nbply]= camp;
-    init_move_generation_optimizer();
-
-    FlagGenMatingMove= TSTFLAG(PieSpExFlags, Neutral);
-
-    /* Don't try to "optimize" by hand. The double-loop is tested
-       as the fastest way to compute (due to
-       compiler-optimizations!) */
-
-    z= bas;
-    for (i= nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board) {
-      for (j= nr_files_on_board; j > 0; j--, z++) {
-        p= e[z];
-        if (p != vide && TSTFLAG(spec[z], ColourMovingPiece)) {
-          if (CondFlag[gridchess] && !GridLegal(z, OpponentsKing))
-          {
-            if (camp == blanc)
-              gen_wh_piece(z, p);
-            else
-              gen_bl_piece(z, p);
-          }
-          else
-          {
-            switch(abs(p)) {
-            case King:
-              GenMatingKing(z,
-                            OpponentsKing, ColourMovingPiece);
-              break;
-            case Pawn:
-              GenMatingPawn(z,
-                            OpponentsKing, ColourMovingPiece);
-              break;
-            case Knight:
-              GenMatingKnight(z,
-                              OpponentsKing, ColourMovingPiece);
-              break;
-            case Rook:
-              GenMatingRook(z,
-                            OpponentsKing, ColourMovingPiece);
-              break;
-            case Queen:
-              GenMatingQueen(z,
-                             OpponentsKing, ColourMovingPiece);
-              break;
-            case Bishop:
-              GenMatingBishop(z,
-                              OpponentsKing, ColourMovingPiece);
-              break;
-            }
-          }
-        }
-      }
-    }
-    finish_move_generation_optimizer();
-  }
-  else {
-    if (FlagMoveOrientatedStip) {
-      if (slices[1].u.leaf.goal == goal_ep) {
-        if (ep[nbply] == initsquare
-            && ep2[nbply] == initsquare)
-        {
-          nextply();
-          return;
-        }
-      }
-      else if (slices[1].u.leaf.goal == goal_castling) {
-        if (camp == blanc
-            ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
-            : TSTFLAGMASK(castling_flag[nbply],bl_castlings)<=ke8_cancastle)
-        {
-          nextply();
-          return;
-        }
-      }
-      FlagGenMatingMove= ! (camp == blanc
-                            ? flagwhitemummer
-                            : flagblackmummer);
-    }
-    genmove(camp);
-  }
-  FlagGenMatingMove= False;
-} /* GenMatingMove */
-
 void gorph(square i, Side camp) {
   piece *porph;
   numecoup  anf, l1, l2;
@@ -3604,7 +3050,7 @@ void gorph(square i, Side camp) {
   anf= nbcou;
   for (porph= orphanpieces; *porph; porph++) {
     if (nbpiece[*porph]>0 || nbpiece[-*porph]>0) {
-      if (camp == blanc) {
+      if (camp == White) {
         if (ooorphancheck(i, -*porph, orphann, eval_white))
           gen_wh_piece(i, *porph);
       }
@@ -3632,7 +3078,7 @@ void gfriend(square i, Side camp) {
   anf= nbcou;
   for (pfr= orphanpieces; *pfr; pfr++) {
     if (nbpiece[*pfr]>0) {
-      if (camp == blanc) {
+      if (camp == White) {
         if (fffriendcheck(i, *pfr, friendb, eval_white)) {
           gen_wh_piece(i, *pfr);
         }
@@ -3732,7 +3178,7 @@ void gen_p_captures(square sq_departure, square sq_arrival, Side camp) {
       square prev_arrival;
 
       if (nbply==2) {    /* ep.-key  standard pawn */
-        if (camp==blanc)
+        if (camp==White)
           move_generation_stack[repere[2]].arrival= sq_arrival+dir_down;
         else
           move_generation_stack[repere[2]].arrival= sq_arrival+dir_up;
@@ -3770,8 +3216,8 @@ void genpb(square sq_departure) {
     || CondFlag[normalp]
         || abs(e[sq_departure]) == orphanb)
     {
-      gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, blanc);
-      gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, blanc);
+      gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, White);
+      gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, White);
       /* triple or single step? */
       gen_p_nocaptures(sq_departure,+dir_up, CondFlag[einstein] ? 3 : 1);
     }
@@ -3782,13 +3228,13 @@ void genpb(square sq_departure) {
   else {
     /* not first rank */
     if ( CondFlag[singlebox] && SingleBoxType==singlebox_type1
-         && PromSq(blanc,sq_departure+dir_up)
-         && next_singlebox_prom(vide,blanc)==vide)
+         && PromSq(White,sq_departure+dir_up)
+         && next_singlebox_prom(vide,White)==vide)
     {
       return;
     }
-    gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, blanc);
-    gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, blanc);
+    gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, White);
+    gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, White);
     /* double or single step? */
     gen_p_nocaptures(sq_departure,+dir_up, sq_departure<=square_h2 ? 2 : 1);
   }
@@ -3803,8 +3249,8 @@ void genpn(square sq_departure) {
         || CondFlag[einstein]
         || abs(e[sq_departure])==orphanb)
     {
-      gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, noir);
-      gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, noir);
+      gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, Black);
+      gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, Black);
       /* triple or single step? */
       gen_p_nocaptures(sq_departure,+dir_down, CondFlag[einstein] ? 3 : 1);
     }
@@ -3815,13 +3261,13 @@ void genpn(square sq_departure) {
   else {
     /* not last rank */
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type1
-        && PromSq(noir,sq_departure+dir_down)
-        && next_singlebox_prom(vide,noir)==vide)
+        && PromSq(Black,sq_departure+dir_down)
+        && next_singlebox_prom(vide,Black)==vide)
     {
       return;
     }
-    gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, noir);
-    gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, noir);
+    gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, Black);
+    gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, Black);
     /* double or single step? */
     gen_p_nocaptures(sq_departure,+dir_down, sq_departure>=square_a7 ? 2 : 1);
   }
@@ -3835,8 +3281,8 @@ void genreversepb(square sq_departure) {
     || CondFlag[normalp]
         || abs(e[sq_departure]) == orphanb)
     {
-      gen_p_captures(sq_departure, sq_departure - 23, blanc);
-      gen_p_captures(sq_departure, sq_departure - 25, blanc);
+      gen_p_captures(sq_departure, sq_departure - 23, White);
+      gen_p_captures(sq_departure, sq_departure - 25, White);
       /* triple or single step? */
       gen_p_nocaptures(sq_departure, -24, CondFlag[einstein] ? 3 : 1);
     }
@@ -3846,8 +3292,8 @@ void genreversepb(square sq_departure) {
   }
   else {
     /* not last rank */
-    gen_p_captures(sq_departure, sq_departure - 23, blanc);
-    gen_p_captures(sq_departure, sq_departure - 25, blanc);
+    gen_p_captures(sq_departure, sq_departure - 23, White);
+    gen_p_captures(sq_departure, sq_departure - 25, White);
     /* double or single step? */
     gen_p_nocaptures(sq_departure, -24, (sq_departure > haut - 32) ? 2 : 1);
   }
@@ -3861,8 +3307,8 @@ void genreversepn(square sq_departure) {
          || CondFlag[einstein]
          || abs(e[sq_departure]) == orphanb)
     {
-      gen_p_captures(sq_departure, sq_departure + 23, noir);
-      gen_p_captures(sq_departure, sq_departure + 25, noir);
+      gen_p_captures(sq_departure, sq_departure + 23, Black);
+      gen_p_captures(sq_departure, sq_departure + 25, Black);
       /* triple or single step? */
       gen_p_nocaptures(sq_departure, 24, CondFlag[einstein] ? 3 : 1);
     }
@@ -3871,8 +3317,8 @@ void genreversepn(square sq_departure) {
     }
   }
   else {
-    gen_p_captures(sq_departure, sq_departure + 23, noir);
-    gen_p_captures(sq_departure, sq_departure + 25, noir);
+    gen_p_captures(sq_departure, sq_departure + 23, Black);
+    gen_p_captures(sq_departure, sq_departure + 25, Black);
     /* double or single step? */
     gen_p_nocaptures(sq_departure, 24, (sq_departure < bas + 32) ? 2 : 1);
   }
@@ -3887,7 +3333,7 @@ void genpbb(square sq_departure) {
          || CondFlag[einstein]
          || abs(e[sq_departure]) == orphanb)
     {
-      gen_p_captures(sq_departure, sq_departure+dir_up, blanc);
+      gen_p_captures(sq_departure, sq_departure+dir_up, White);
       /* triple or single step? */
       gen_p_nocaptures(sq_departure,+dir_up+dir_left, CondFlag[einstein] ? 3 : 1);
       gen_p_nocaptures(sq_departure,+dir_up+dir_right, CondFlag[einstein] ? 3 : 1);
@@ -3898,7 +3344,7 @@ void genpbb(square sq_departure) {
   }
   else {
     /* not first rank */
-    gen_p_captures(sq_departure, sq_departure+dir_up, blanc);
+    gen_p_captures(sq_departure, sq_departure+dir_up, White);
     /* double or single step? */
     gen_p_nocaptures(sq_departure,+dir_up+dir_left, sq_departure<=square_h2 ? 2 : 1);
     gen_p_nocaptures(sq_departure,+dir_up+dir_right, sq_departure<=square_h2 ? 2 : 1);
@@ -3914,7 +3360,7 @@ void genpbn(square sq_departure) {
          || CondFlag[einstein]
          || abs(e[sq_departure]) == orphanb)
     {
-      gen_p_captures(sq_departure, sq_departure+dir_down, noir);
+      gen_p_captures(sq_departure, sq_departure+dir_down, Black);
       /* triple or single step? */
       gen_p_nocaptures(sq_departure,+dir_down+dir_right, CondFlag[einstein] ? 3 : 1);
       gen_p_nocaptures(sq_departure,+dir_down+dir_left, CondFlag[einstein] ? 3 : 1);
@@ -3925,7 +3371,7 @@ void genpbn(square sq_departure) {
   }
   else {
     /* not last rank */
-    gen_p_captures(sq_departure, sq_departure+dir_down, noir);
+    gen_p_captures(sq_departure, sq_departure+dir_down, Black);
     /* double or single step? */
     gen_p_nocaptures(sq_departure,+dir_down+dir_right,
                      sq_departure>=square_a7 ? 2 : 1);

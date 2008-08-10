@@ -100,10 +100,10 @@ boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
   }
   if (anygeneva) {
     if ((e[sq_capture] <= roin) && (rex_geneva || (sq_departure != rb)))
-      if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,noir)] != vide)
+      if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,Black)] != vide)
         return(false);
     if ((e[sq_capture] >= roib) && (rex_geneva || (sq_departure != rn)))
-      if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,blanc)] != vide)
+      if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,White)] != vide)
         return(false);
   }
   return(true);
@@ -2090,7 +2090,7 @@ boolean notsoutenu(square sq_departure,
     evaluate= eval_ortho;
   }
 
-  if ((color(sq_departure) == blanc)
+  if ((color(sq_departure) == White)
       ^ (CondFlag[beamten] || TSTFLAG(PieSpExFlags, Beamtet)))
   {
     if (  TSTFLAG(PieSpExFlags, Beamtet)
@@ -2160,7 +2160,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     evaluate= eval_ortho;
   }
 
-  if ((color(sq_departure)==blanc)
+  if ((color(sq_departure)==White)
       != (CondFlag[beamten] || TSTFLAG(PieSpExFlags, Beamtet)))
   {
     if (  TSTFLAG(PieSpExFlags, Beamtet)
@@ -2513,13 +2513,13 @@ boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture) 
     camp= neutcoul;
   }
   else if (sq_capture == rn) {
-    camp=blanc;
+    camp=White;
   }
   else if (sq_capture == rb) {
-    camp=noir;
+    camp=Black;
   }
   else {
-    camp= e[sq_departure]<0 ? noir : blanc;
+    camp= e[sq_departure]<0 ? Black : White;
   }
 
   nextply();
@@ -2533,14 +2533,11 @@ boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture) 
 
   while (encore() && !flag) {
     /* may be several K capture moves e.g. PxK=S,B,R,Q */
-    if (CondFlag[brunner]) {
+    if (CondFlag[brunner])
       /* For neutral Ks will need to return true always */
-      flag= jouecoup()
-        && (camp==blanc ? !echecc(blanc) : !echecc(noir));
-    }
-    else if (CondFlag[isardam]) {
+      flag= jouecoup() && !echecc(camp);
+    else if (CondFlag[isardam])
       flag= jouecoup();
-    }
     /* Isardam + Brunner may be possible! in which case this logic
        is correct
     */
@@ -2674,14 +2671,14 @@ boolean woohefflibre(square to, square from) {
 
   sq_woo_from= from;
   sq_woo_to= to;
-  col_woo= e[from] > vide ? blanc : noir;
+  col_woo= e[from] > vide ? White : Black;
 
   pcheck = whitetransmpieces;
   if (rex_wooz_ex)
     pcheck++;
 
   while (*pcheck) {
-    if (CondFlag[biwoozles] != (col_woo==noir)) {
+    if (CondFlag[biwoozles] != (col_woo==Black)) {
       p= -*pcheck;
     }
     else {

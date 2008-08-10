@@ -113,7 +113,7 @@ boolean IllegalCheck(Side camp) {
   if ((rb != initsquare) && (move_diff_code[abs(rb-rn)] < 3))
 	return true;
 
-  if (camp == noir) {
+  if (camp == Black) {
 	for (k= 1; k <= 4; k++) {
       if (e[rn+vec[k]] == Rook || e[rn+vec[k]] == Queen) {
 		checks++;
@@ -468,7 +468,7 @@ static boolean isGoalReachableRegularGoals(void)
 		time += FroTo(e[move_generation_stack[nbcou].arrival],
                       move_generation_stack[nbcou].arrival, Mate[index].p, t_sq, false);
       }
-      if (trait[nbply] == blanc)
+      if (trait[nbply] == White)
 		whmoves += time;
       else
 		blmoves += time;
@@ -558,7 +558,7 @@ void StaleStoreMate(
 	return;
 
   /* checks against the wKing should be coped with earlier !!! */
-  if (echecc(blanc)) {
+  if (echecc(White)) {
     AvoidWhKingInCheck(blmoves, whmoves, blpcallowed, whpcallowed); 
   }
 
@@ -719,7 +719,7 @@ void PreventCheckAgainstWhK(
   boolean fbm= flagblackmummer;
 
   flagblackmummer= false;
-  genmove(noir);
+  genmove(Black);
   flagblackmummer= fbm;
 
   while(encore() && (trouble == initsquare)) {
@@ -768,7 +768,7 @@ static boolean Redundant(void)
       p= e[sq]; sp= spec[sq];
       e[sq]= vide; spec[sq]= EmptySpec;
 
-      flag= echecc(noir) && immobile(noir);
+      flag= echecc(Black) && immobile(Black);
 
       /* restore piece */
       e[sq]= p; spec[sq]= sp;
@@ -790,7 +790,7 @@ void StoreMate(
   square *bnp, _rb, _rn;
   Flags sp;
 
-  if (!immobile(noir)) {
+  if (!immobile(Black)) {
 	NeutralizeMateGuardingPieces(blmoves, whmoves, blpc, whpc);
 	return;
   }
@@ -808,7 +808,7 @@ void StoreMate(
 	}
   }
 
-  if (echecc(blanc))
+  if (echecc(White))
 	PreventCheckAgainstWhK(blmoves, whmoves, blpc, whpc);
 
   MatesMax++;
@@ -1013,7 +1013,7 @@ void ImmobilizeByPin(
 			  FroTo(f_p, white[i].sq, Bishop, sq, false);
 			if (time <= whmoves) {
               SetPiece(Bishop, sq, white[i].sp);
-              if (immobile(noir)) {
+              if (immobile(Black)) {
 				StaleStoreMate(blmoves, whmoves-time,
                                blpcallowed-1, whpcallowed);
               }
@@ -1028,7 +1028,7 @@ void ImmobilizeByPin(
 			time= FroTo(f_p, white[i].sq, Rook, sq, false);
 			if (time <= whmoves) {
               SetPiece(Rook, sq, white[i].sp);
-              if (immobile(noir)) {
+              if (immobile(Black)) {
 				StaleStoreMate(blmoves, whmoves-time,
                                blpcallowed-1, whpcallowed);
               }
@@ -1041,7 +1041,7 @@ void ImmobilizeByPin(
           time= FroTo(f_p, white[i].sq, Queen, sq, false);
           if (time <= whmoves) {
 			SetPiece(Queen, sq, white[i].sp);
-			if (immobile(noir)) {
+			if (immobile(Black)) {
               StaleStoreMate(blmoves,
                              whmoves-time, blpcallowed-1,
                              whpcallowed);
@@ -1057,7 +1057,7 @@ void ImmobilizeByPin(
           time= FroTo(f_p, white[i].sq, f_p, sq, false);
           if (time <= whmoves) {
 			SetPiece(f_p, sq, white[i].sp);
-			if (immobile(noir)) {
+			if (immobile(Black)) {
               StaleStoreMate(
                 blmoves, whmoves-time, blpcallowed-1,
                 whpcallowed);
@@ -1123,13 +1123,13 @@ void DeposeWhKing(
   f_p= white[0].p;
   whiteused[0]= True;
   SetPiece(f_p, rb, white[0].sp);
-  if (!IllegalCheck(noir) && !IllegalCheck(blanc)) {
-	if (echecc(noir)) {
+  if (!IllegalCheck(Black) && !IllegalCheck(White)) {
+	if (echecc(Black)) {
       AvoidCheckInStalemate(blmoves, whmoves,
                             blpcallowed, whpcallowed);
 	}
 	else {
-      if (immobile(noir)) {
+      if (immobile(Black)) {
 		StaleStoreMate(blmoves,
                        whmoves, blpcallowed, whpcallowed);
       }
@@ -1203,7 +1203,7 @@ void ImmobilizeByBlBlock(
                                       whmoves, blpcallowed, whpcallowed-1);
               }
               else {
-				if (immobile(noir)) {
+				if (immobile(Black)) {
                   StaleStoreMate(blmoves-time,
                                  whmoves,
                                  blpcallowed, whpcallowed-1);
@@ -1238,7 +1238,7 @@ void ImmobilizeByBlBlock(
                                   blpcallowed-pcreq, whpcallowed-1);
           }
           else {
-			if (immobile(noir)) {
+			if (immobile(Black)) {
               StaleStoreMate(blmoves-time, whmoves,
                              blpcallowed-pcreq, whpcallowed-1);
 			}
@@ -1301,14 +1301,14 @@ void ImmobilizeByWhBlock(
           time= FroTo(f_p, white[i].sq, pp, toblock, false);
           if (time <= whmoves) {
 			SetPiece(pp, toblock, white[i].sp);
-			if (!IllegalCheck(noir)) {
-              if (echecc(noir)) {
+			if (!IllegalCheck(Black)) {
+              if (echecc(Black)) {
 				AvoidCheckInStalemate(blmoves,
                                       whmoves-time, blpcallowed-1,
                                       whpcallowed);
               }
               else {
-				if (immobile(noir)) {
+				if (immobile(Black)) {
                   StaleStoreMate(blmoves,
                                  whmoves-time,
                                  blpcallowed-1, whpcallowed);
@@ -1339,16 +1339,16 @@ void ImmobilizeByWhBlock(
       if (i == 0) {
 		rb= toblock;
       }
-      if (!IllegalCheck(noir)
-          && (i > 0 || !IllegalCheck(blanc)))
+      if (!IllegalCheck(Black)
+          && (i > 0 || !IllegalCheck(White)))
       {
-		if (echecc(noir)) {
+		if (echecc(Black)) {
           AvoidCheckInStalemate(blmoves,
                                 whmoves-time, blpcallowed-decpc,
                                 whpcallowed-pcreq);
 		}
 		else {
-          if (immobile(noir)) {
+          if (immobile(Black)) {
 			StaleStoreMate(blmoves, whmoves-time,
                            blpcallowed-decpc, whpcallowed-pcreq);
           }
@@ -1417,9 +1417,9 @@ void Immobilize(
 	toblock[*bnp]= 0;
   }
 
-  genmove(noir);
+  genmove(Black);
   while (encore() && (trouble != rn) && !pinnecessary) {
-	if (jouecoup() && !echecc(noir)) {
+	if (jouecoup() && !echecc(Black)) {
       trouble= move_generation_stack[nbcou].departure;
       switch (-e[move_generation_stack[nbcou].arrival]) {
       case Knight:
@@ -1550,7 +1550,7 @@ void AvoidWhKingInCheck(
   for (i= 8; i ; i--) {
 	if (e[rb+vec[i]] == dummyb) {
       e[rb+vec[i]] = vide;
-      if (echecc(blanc)) {
+      if (echecc(White)) {
 		checkdirs[md++]= vec[i];
       }
       e[rb+vec[i]]= dummyb;
@@ -1624,7 +1624,7 @@ void AvoidCheckInStalemate(
   for (i= 8; i ; i--) {
 	if (e[rn+vec[i]] == dummyb) {
       e[rn+vec[i]] = vide;
-      if (echecc(noir)) {
+      if (echecc(Black)) {
 		checkdirs[md++]= vec[i];
       }
       e[rn+vec[i]]= dummyb;
@@ -1778,7 +1778,7 @@ void WhitePieceTo(
       if (time <= whmoves) {
 		Flags sp= white[actpwh].sp;
 		SetPiece(p, sq, sp);
-		if (IllegalCheck(noir)) {
+		if (IllegalCheck(Black)) {
           continue;
 		}
 		if (p == Pawn) {
@@ -1826,7 +1826,7 @@ void WhitePieceTo(
           if (diffcol <= whpc && time <= whmoves) {
 			Flags sp= white[actpwh].sp;
 			SetPiece(pp, sq, sp);
-			if (!IllegalCheck(noir)) {
+			if (!IllegalCheck(Black)) {
               StoreMate(blmoves,
                         whmoves-time, blpc, whpc-diffcol);
 			}
@@ -1852,10 +1852,10 @@ void NeutralizeMateGuardingPieces(
 
   VARIABLE_INIT(trto);
   trouble= initsquare;
-  genmove(noir);
+  genmove(Black);
 
   while(encore() && (trouble == initsquare)) {
-	if (jouecoup() && !echecc(noir)) {
+	if (jouecoup() && !echecc(Black)) {
       trouble= move_generation_stack[nbcou].departure;
       trto= move_generation_stack[nbcou].arrival;
 	}
@@ -1940,20 +1940,20 @@ void GenerateBlocking(
 
   if (nbrfl == 0) {
 	/* check for stipulation */
-	if (slices[1].u.leaf.goal == goal_stale || echecc(noir)) {
+	if (slices[1].u.leaf.goal == goal_stale || echecc(Black)) {
 #if defined(DEBUG)
-      if (IllegalCheck(blanc)) {
+      if (IllegalCheck(White)) {
 		StdString("oops!\n");
 		exit(0);
       }
 #endif
       if (slices[1].u.leaf.goal == goal_stale) {
-		if (echecc(noir)) {
+		if (echecc(Black)) {
           AvoidCheckInStalemate(timetowaste,
                                 whmoves, blpcallowed, whpcallowed);
 		}
 		else {
-          if (immobile(noir)) {
+          if (immobile(Black)) {
 			StaleStoreMate(timetowaste,
                            whmoves, blpcallowed, whpcallowed);
           }
@@ -2093,7 +2093,7 @@ void GenerateGuarding(
 	flights= 0;
 
 	/* check for check */
-	if (slices[1].u.leaf.goal == goal_mate && !echecc(noir)) {
+	if (slices[1].u.leaf.goal == goal_mate && !echecc(Black)) {
       return;
 	}
 
@@ -2111,7 +2111,7 @@ void GenerateGuarding(
 	}
 
 	/* determine flights */
-	genmove(noir);
+	genmove(Black);
 	while(encore() && !unblockable) {
       if (jouecoup()
           && slices[1].u.leaf.goal == goal_stale)
@@ -2119,7 +2119,7 @@ void GenerateGuarding(
 		e[move_generation_stack[nbcou].departure]= obs;
       }
 
-      if (!echecc(noir)) {
+      if (!echecc(Black)) {
 		toblock[flights++]= move_generation_stack[nbcou].arrival;
 		if (pprise[nbply] != vide) {
           unblockable= true;
@@ -2212,7 +2212,7 @@ void GenerateGuarding(
           continue;
 		}
 		SetPiece(p, *bnp, sp);
-		if (!IllegalCheck(noir)) {
+		if (!IllegalCheck(Black)) {
           if (p == Pawn) {
 			int diffcol= sq % onerow - *bnp % onerow;
 			GenerateGuarding(actpwh+1, whmoves-time,
@@ -2242,7 +2242,7 @@ void GenerateGuarding(
                     && actpwh < nbrchecking))
               {
 				SetPiece(pp, *bnp, sp);
-				if (!IllegalCheck(noir))
+				if (!IllegalCheck(Black))
                   GenerateGuarding(actpwh+1,
                                    whmoves-time, blmoves,
                                    whcaptures);
@@ -2523,7 +2523,7 @@ boolean Intelligent(boolean looking_for_short_solutions)
     WhMovesLeft = BlMovesLeft;
     if (slices[0].u.composite.length%2==1)
     {
-      if (slices[0].starter==blanc)
+      if (slices[0].starter==White)
         ++WhMovesLeft;
       else
         ++BlMovesLeft;

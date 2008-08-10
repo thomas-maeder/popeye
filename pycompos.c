@@ -583,7 +583,7 @@ static boolean h_composite_solve_recursive(Side side_at_move,
                                            slice_index si)
 {
   boolean found_solution = false;
-  hashwhat next_no_succ = side_at_move==blanc ? BlHelpNoSucc : WhHelpNoSucc;
+  hashwhat next_no_succ = side_at_move==White ? BlHelpNoSucc : WhHelpNoSucc;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",side_at_move);
   TraceFunctionParam("%d",n);
@@ -600,7 +600,7 @@ static boolean h_composite_solve_recursive(Side side_at_move,
     genmove(side_at_move);
     active_slice[nbply] = si;
   
-    if (side_at_move==noir)
+    if (side_at_move==Black)
       BlMovesLeft--;
     else
       WhMovesLeft--;
@@ -638,7 +638,7 @@ static boolean h_composite_solve_recursive(Side side_at_move,
         break;
     }
     
-    if (side_at_move==noir)
+    if (side_at_move==Black)
       BlMovesLeft++;
     else
       WhMovesLeft++;
@@ -721,7 +721,7 @@ static boolean ser_composite_exact_solve_recursive(int n,
       genmove(series_side);
       active_slice[nbply] = si;
 
-      if (series_side==blanc)
+      if (series_side==White)
         WhMovesLeft--;
       else
         BlMovesLeft--;
@@ -761,7 +761,7 @@ static boolean ser_composite_exact_solve_recursive(int n,
           break;
       }
 
-      if (series_side==blanc)
+      if (series_side==White)
         WhMovesLeft++;
       else
         BlMovesLeft++;
@@ -814,7 +814,7 @@ static boolean ser_composite_maximal_solve(int n,
       genmove(series_side);
       active_slice[nbply] = si;
 
-      if (series_side==blanc)
+      if (series_side==White)
         WhMovesLeft--;
       else
         BlMovesLeft--;
@@ -854,7 +854,7 @@ static boolean ser_composite_maximal_solve(int n,
           break;
       }
 
-      if (series_side==blanc)
+      if (series_side==White)
         WhMovesLeft++;
       else
         BlMovesLeft++;

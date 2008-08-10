@@ -334,8 +334,6 @@ void    logStrArg(char *arg);
 void    logIntArg(int arg);
 void    logLngArg(long arg);
 
-void    GenMatingMove(Side a);
-
 piece   dec_einstein(piece p);
 piece   inc_einstein(piece p);
 piece   norskpiece(piece p);
