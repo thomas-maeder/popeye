@@ -42,15 +42,16 @@
 #  include "pymac.h"
 #endif
 
-
-#include <stdio.h>
-#include <stdlib.h>
 #include "py.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
 #include "pystip.h"
 #include "pyleaf.h"
+
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 boolean eval_ortho(square sq_departure, square sq_arrival, square sq_capture) {
   return true;
@@ -1887,7 +1888,7 @@ boolean reversepcheck(
   }
 
   if (p >= roib) {
-    if (sq_king <= haut - 2*onerow
+    if (sq_king <= square_h8 - 2*onerow
         || CondFlag[parrain]
         || CondFlag[normalp]
         || CondFlag[einstein]
@@ -1907,7 +1908,7 @@ boolean reversepcheck(
     }
   }
   else {      /* hopefully (p <= roin) */
-    if (sq_king >= bas + 2*onerow
+    if (sq_king >= square_a1 + 2*onerow
         || CondFlag[parrain]
         || CondFlag[normalp]
         || CondFlag[einstein]
@@ -1929,11 +1930,10 @@ boolean reversepcheck(
   return false;
 }
 
-boolean ep_not_libre(
-  piece p,
-  square    sq,
-  boolean   generating,
-  checkfunction_t   *checkfunc)
+boolean ep_not_libre(piece p,
+                     square    sq,
+                     boolean   generating,
+                     checkfunction_t   *checkfunc)
 {
   /* Returns true if a pawn who has just crossed the square sq is
      paralysed by a piece p due to the ugly Madrasi-ep-rule by a
@@ -1962,95 +1962,124 @@ boolean ep_not_libre(
                     flaglegalsquare ? legalsquare : eval_ortho);
 }
 
-boolean libre(square sq, boolean generating) {
-  piece   p= e[sq];
-  boolean flag= true, neutcoul_sic= neutcoul;
+boolean libre(square sq, boolean generating)
+{
+  piece p = e[sq];
+  boolean result = true;
+  boolean const neutcoul_sic = neutcoul;
 
   if ((CondFlag[madras] || CondFlag[isardam])
-      && (!rex_mad) && ((sq == rb) || (sq == rn)))
+      && !rex_mad && (sq==rb || sq==rn))
     return true;
 
-  if (TSTFLAG(spec[sq], Neutral)) {
+  if (TSTFLAG(spec[sq],Neutral))
+  {
     if (generating)
-      p= -p;
+      p = -p;
     else
       initneutre(advers(neutcoul));
   }
 
-  if (CondFlag[madras] || CondFlag[isardam]) {
+  if (CondFlag[madras] || CondFlag[isardam])
+  {
     /* The ep capture needs special handling. */
-    switch (p) {
-    case pb: /* white pawn */
-      if (ep_not_libre(pn, sq+dir_down, generating, pioncheck)) {
-        flag= False;
-      }
-      break;
+    switch (p)
+    {
+      case pb: /* white pawn */
+        if (ep_not_libre(pn, sq+dir_down,generating,pioncheck))
+          result = false;
+        break;
 
-    case pn: /* black pawn */
-      if (ep_not_libre(pb, sq+dir_up, generating, pioncheck)) {
-        flag= False;
-      }
-      break;
+      case pn: /* black pawn */
+        if (ep_not_libre(pb, sq+dir_up,generating,pioncheck))
+          result = false;
+        break;
 
-    case pbb: /* white berolina pawn */
-      if ( ep_not_libre(pbn, sq+dir_down+dir_right, generating, pbcheck)
-           || ep_not_libre(pbn, sq+dir_down+dir_left, generating, pbcheck))
-      {
-        flag= False;
-      }
-      break;
+      case pbb: /* white berolina pawn */
+        if (ep_not_libre(pbn,sq+dir_down+dir_right,generating,pbcheck)
+            || ep_not_libre(pbn,sq+dir_down+dir_left,generating,pbcheck))
+          result = false;
+        break;
 
-    case pbn: /* black berolina pawn */
-      if (ep_not_libre(pbb, sq+dir_up+dir_left, generating, pbcheck)
-          || ep_not_libre(pbb, sq+dir_up+dir_right, generating, pbcheck))
-      {
-        flag= False;
-      }
-      /* NB: Super (Berolina) pawns cannot neither be captured
-         ep nor capture ep themselves.
-      */
-      break;
+      case pbn: /* black berolina pawn */
+        if (ep_not_libre(pbb,sq+dir_up+dir_left,generating,pbcheck)
+            || ep_not_libre(pbb,sq+dir_up+dir_right,generating,pbcheck))
+          result = false;
+        /* NB: Super (Berolina) pawns cannot neither be captured
+         * ep nor capture ep themselves.
+         */
+        break;
+
+      default:
+        break;
     }
 
-    flag = flag
-      && (nbpiece[-p]==0
-          || !(*checkfunctions[abs(p)])(sq, -p,
-                                        flaglegalsquare ? legalsquare : eval_ortho));
+    result = (result
+              && (nbpiece[-p]==0
+                  || !(*checkfunctions[abs(p)])(sq,
+                                                -p,
+                                                (flaglegalsquare
+                                                 ? legalsquare
+                                                 : eval_ortho))));
   } /* if (CondFlag[madrasi] ... */
 
-  if (CondFlag[eiffel]) {
+  if (CondFlag[eiffel])
+  {
     boolean test= true;
     piece eiffel_piece;
 
-    switch (p) {
-    case pb: eiffel_piece= dn; break;
-    case db: eiffel_piece= tn; break;
-    case tb: eiffel_piece= fn; break;
-    case fb: eiffel_piece= cn; break;
-    case cb: eiffel_piece= pn; break;
-    case pn: eiffel_piece= db; break;
-    case dn: eiffel_piece= tb; break;
-    case tn: eiffel_piece= fb; break;
-    case fn: eiffel_piece= cb; break;
-    case cn: eiffel_piece= pb; break;
-    default:
-      test= false;
-      eiffel_piece= 0;   /* avoid compiler warning */
-      break;
+    switch (p)
+    {
+      case pb:
+        eiffel_piece = dn;
+        break;
+      case db:
+        eiffel_piece = tn;
+        break;
+      case tb:
+        eiffel_piece = fn;
+        break;
+      case fb:
+        eiffel_piece = cn;
+        break;
+      case cb:
+        eiffel_piece = pn;
+        break;
+      case pn:
+        eiffel_piece = db;
+        break;
+      case dn:
+        eiffel_piece = tb;
+        break;
+      case tn:
+        eiffel_piece = fb;
+        break;
+      case fn:
+        eiffel_piece = cb;
+        break;
+      case cn:
+        eiffel_piece = pb;
+        break;
+      default:
+        test = false;
+        eiffel_piece = vide;   /* avoid compiler warning */
+        break;
     }
 
-    if (test) {
-      flag = flag
-        && (nbpiece[eiffel_piece]==0
-            || !(*checkfunctions[abs(eiffel_piece)])(sq, eiffel_piece,
-                                                     flaglegalsquare ? legalsquare : eval_ortho));
-    }
+    if (test)
+      result = (result
+                && (nbpiece[eiffel_piece]==0
+                    || !(*checkfunctions[abs(eiffel_piece)])(sq,
+                                                             eiffel_piece,
+                                                             (flaglegalsquare
+                                                              ? legalsquare
+                                                              : eval_ortho))));
   } /* CondFlag[eiffel] */
 
-  if (TSTFLAG(spec[sq], Neutral) && !generating)
+  if (TSTFLAG(spec[sq],Neutral) && !generating)
     initneutre(neutcoul_sic);
 
-  return flag;
+  return result;
 } /* libre */
 
 boolean notsoutenu(square sq_departure,
@@ -2096,7 +2125,7 @@ boolean notsoutenu(square sq_departure,
     if (  TSTFLAG(PieSpExFlags, Beamtet)
           && !TSTFLAG(spec[sq_departure], Beamtet))
     {
-      Result= True;
+      Result= true;
     }
     else {
       sq_arrival= rn;
@@ -2109,7 +2138,7 @@ boolean notsoutenu(square sq_departure,
     if ( TSTFLAG(PieSpExFlags, Beamtet)
          && !TSTFLAG(spec[sq_departure], Beamtet))
     {
-      Result= True;
+      Result= true;
     }
     else {
       sq_arrival= rb;
@@ -2166,7 +2195,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     if (  TSTFLAG(PieSpExFlags, Beamtet)
           && !TSTFLAG(spec[sq_departure], Beamtet))
     {
-      Result= True;
+      Result= true;
     }
     else {
       sq_arrival= rn;
@@ -2179,7 +2208,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     if ( TSTFLAG(PieSpExFlags, Beamtet)
          && !TSTFLAG(spec[sq_departure], Beamtet))
     {
-      Result= True;
+      Result= true;
     }
     else {
       sq_arrival= rb;
@@ -2450,7 +2479,7 @@ boolean pos_legal() {
 
     initneutre(trait[nbply]);
     /* for e.p. captures */
-    z=haut;
+    z=square_h8;
     for (i=8; i>0; i--, z-=16)
       for (j=8; j>0; j--, z--) {
         if (e[z]!=vide) {
@@ -2843,7 +2872,7 @@ boolean pchincheck(square sq_king,
   /* chinese pawns can capture side-ways if standing on the half of
    * the board farther away from their camp's base line (i.e. if
    * black, on the lower half, if white on the upper half) */
-  if ((sq_king*2<(haut+bas)) == is_black) {
+  if ((sq_king*2<(square_h8+square_a1)) == is_black) {
     sq_departure= sq_king+dir_right;
     if (e[sq_departure]==p
         && evaluate(sq_departure,sq_king,sq_king))

@@ -508,8 +508,8 @@ static byte *CommonEncode(byte *bp)
 {
   if (CondFlag[messigny]) {
     if (move_generation_stack[nbcou].capture == messigny_exchange) {
-      *bp++ = (byte)(move_generation_stack[nbcou].arrival - bas);
-      *bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
+      *bp++ = (byte)(move_generation_stack[nbcou].arrival - square_a1);
+      *bp++ = (byte)(move_generation_stack[nbcou].departure - square_a1);
     }
     else {
       *bp++ = (byte)(0);
@@ -517,12 +517,12 @@ static byte *CommonEncode(byte *bp)
     }
   }
   if (CondFlag[duellist]) {
-    *bp++ = (byte)(whduell[nbply] - bas);
-    *bp++ = (byte)(blduell[nbply] - bas);
+    *bp++ = (byte)(whduell[nbply] - square_a1);
+    *bp++ = (byte)(blduell[nbply] - square_a1);
   }
 
   if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
-    *bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
+    *bp++ = (byte)(move_generation_stack[nbcou].departure - square_a1);
 
   if (flag_synchron)
     *bp++= (byte)(sq_num[move_generation_stack[nbcou].departure]
@@ -536,7 +536,7 @@ static byte *CommonEncode(byte *bp)
     */
     *bp++ = (byte)inum[nbply];
     for (i = 0; i < inum[nbply]; i++) {
-      *bp++ = (byte)(isquare[i] - bas);
+      *bp++ = (byte)(isquare[i] - square_a1);
     }
   }
 
@@ -545,7 +545,7 @@ static byte *CommonEncode(byte *bp)
 
   if (CondFlag[parrain]) {
     /* a piece has been captured and can be reborn */
-    *bp++ = (byte)(move_generation_stack[nbcou].capture - bas);
+    *bp++ = (byte)(move_generation_stack[nbcou].capture - square_a1);
     if (one_byte_hash) {
       *bp++ = (byte)(pprispec[nbply])
           + ((byte)(piece_nbr[abs(pprise[nbply])]) << (CHAR_BIT/2));
@@ -561,7 +561,7 @@ static byte *CommonEncode(byte *bp)
     *bp++ = (byte)(nbply);
 
   if (ep[nbply]!=initsquare)
-    *bp++ = (byte)(ep[nbply] - bas);
+    *bp++ = (byte)(ep[nbply] - square_a1);
 
   *bp++ = castling_flag[nbply];     /* Castling_Flag */
 
@@ -656,7 +656,7 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
   ifHASHRATE(use_all++);
 
   if (he==dhtNilElement)
-    return False;
+    return false;
   else
     switch (what)
     {
@@ -669,10 +669,10 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
         assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
         if (ret) {
           ifHASHRATE(use_pos++);
-          return True;
+          return true;
         }
         else
-          return False;
+          return false;
       }
       case IntroSerNoSucc:
       {
@@ -683,9 +683,9 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
         assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
         if (ret) {
           ifHASHRATE(use_pos++);
-          return True;
+          return true;
         } else
-          return False;
+          return false;
       }
       case WhHelpNoSucc:
       {
@@ -696,10 +696,10 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
         assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
         if (ret) {
           ifHASHRATE(use_pos++);
-          return True;
+          return true;
         }
         else
-          return False;
+          return false;
       }
       case BlHelpNoSucc:
       {
@@ -710,9 +710,9 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
         assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
         if (ret) {
           ifHASHRATE(use_pos++);
-          return True;
+          return true;
         } else
-          return False;
+          return false;
       }
       case WhDirNoSucc:
       {
@@ -723,9 +723,9 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
         assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
         if (ret) {
           ifHASHRATE(use_pos++);
-          return True;
+          return true;
         } else
-          return False;
+          return false;
       }
       case WhDirSucc:
       {
@@ -736,15 +736,15 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
         assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
         if (ret) {
           ifHASHRATE(use_pos++);
-          return True;
+          return true;
         } else
-          return False;
+          return false;
       }
       default:
         assert(0);
     }
 
-  return False; /* avoid compiler warning */
+  return false; /* avoid compiler warning */
 } /* inhash */
 
 void addtohash(hashwhat what, int val, HashBuffer *hb)

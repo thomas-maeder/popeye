@@ -218,76 +218,6 @@ EXTERN  unsigned char   no_castling;
 EXTERN  int           castling_supported;
 EXTERN  boolean         testcastling;
 
-/* Symbols for squares - using these makes code much more human-readable */
-enum
-{
-  square_a1 = 200,
-  square_b1 = 201,
-  square_c1 = 202,
-  square_d1 = 203,
-  square_e1 = 204,
-  square_f1 = 205,
-  square_g1 = 206,
-  square_h1 = 207,
-
-  square_a2 = 224,
-  square_b2 = 225,
-  square_c2 = 226,
-  square_d2 = 227,
-  square_e2 = 228,
-  square_f2 = 229,
-  square_g2 = 230,
-  square_h2 = 231,
-
-  square_a3 = 248,
-
-  square_a4 = 272,
-  square_d4 = 275,
-  square_e4 = 276,
-  square_h4 = 279,
-
-  square_a5 = 296,
-  square_d5 = 299,
-  square_e5 = 300,
-  square_h5 = 303,
-
-  square_h6 = 327,
-
-  square_a7 = 344,
-  square_b7 = 345,
-  square_c7 = 346,
-  square_d7 = 347,
-  square_e7 = 348,
-  square_f7 = 349,
-  square_g7 = 350,
-  square_h7 = 351,
-
-  square_a8 = 368,
-  square_b8 = 369,
-  square_c8 = 370,
-  square_d8 = 371,
-  square_e8 = 372,
-  square_f8 = 373,
-  square_g8 = 374,
-  square_h8 = 375,
-
-  /* the following values are used instead of capture square
-   * to indicate special moves */
-  messigny_exchange = maxsquare+1,
-  kingside_castling = maxsquare+2,
-  queenside_castling = maxsquare+3
-};
-
-/* Symbols for geometric calculations - please ALWAYS use these rather
- * than int literals */
-enum {
-  dir_left=   -1,
-  dir_right=  +1,
-
-  dir_up=     24,
-  dir_down=  -24
-};
-
 
 /* Stop solving when a given number of solutions is reached */
 
@@ -310,14 +240,14 @@ EXTERN  int             empile_optimization_table_count;
 EXTERN  move_generation_mode_type  move_generation_mode;
 EXTERN  move_generation_mode_type move_generation_mode_opti_per_side[2];
 		
-EXTERN  numvec          ortho_opt_queen[2*(haut-bas)+1],
-			ortho_opt_rook[2*(haut-bas)+1],
-			ortho_opt_bishop[2*(haut-bas)+1],
-			ortho_opt_knight[2*(haut-bas)+1];
-#define CheckDirQueen  (ortho_opt_queen+(haut-bas))
-#define CheckDirRook   (ortho_opt_rook+(haut-bas))
-#define CheckDirBishop (ortho_opt_bishop+(haut-bas))
-#define CheckDirKnight (ortho_opt_knight+(haut-bas))
+EXTERN  numvec          ortho_opt_queen[2*(square_h8-square_a1)+1],
+			ortho_opt_rook[2*(square_h8-square_a1)+1],
+			ortho_opt_bishop[2*(square_h8-square_a1)+1],
+			ortho_opt_knight[2*(square_h8-square_a1)+1];
+#define CheckDirQueen  (ortho_opt_queen+(square_h8-square_a1))
+#define CheckDirRook   (ortho_opt_rook+(square_h8-square_a1))
+#define CheckDirBishop (ortho_opt_bishop+(square_h8-square_a1))
+#define CheckDirKnight (ortho_opt_knight+(square_h8-square_a1))
 
 /* should a mating move be considered refuted if it is executed by a
  * neutral piece and the side to be mated can simply undo it?*/
@@ -396,11 +326,11 @@ EXTERN  tab             tabsol;
 EXTERN  Flags           pprispec[maxply + 1];
 
 EXTERN  Flags           spec[maxsquare+4];
-EXTERN  int        zzzaj[haut - bas + 1];  /* gridnumber */
+EXTERN  int        zzzaj[square_h8 - square_a1 + 1];  /* gridnumber */
 
 EXTERN  int        max_nr_nontrivial, min_length_nontrivial;
 
-EXTERN  Flags           zzzan[haut - bas + 1];  /* sq_spec */
+EXTERN  SquareFlags     zzzan[square_h8 - square_a1 + 1];  /* sq_spec */
 EXTERN  boolean         we_generate_exact, there_are_consmoves,
 			wh_exact, bl_exact, wh_ultra, bl_ultra;
 
@@ -471,7 +401,7 @@ EXTERN int         WhiteSATFlights, BlackSATFlights;
 EXTERN boolean          WhiteStrictSAT[maxply+1],BlackStrictSAT[maxply+1];
 EXTERN square           takemake_departuresquare;
 EXTERN square           takemake_capturesquare;
-EXTERN int         zzzao[haut - bas + 1];
+EXTERN int         zzzao[square_h8 - square_a1 + 1];
 EXTERN boolean          flag_synchron;
 EXTERN long int         BGL_black, BGL_white;
 EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
@@ -1854,27 +1784,27 @@ enum {
 #else
 /* This are the really used boardnumbers */
 	square boardnum[65] = {
-	/* first   rank */      bas, 201, 202, 203, 204, 205, 206, 207,
+	/* first   rank */      square_a1, 201, 202, 203, 204, 205, 206, 207,
 	/* second  rank */      224, 225, 226, 227, 228, 229, 230, 231,
 	/* third   rank */      248, 249, 250, 251, 252, 253, 254, 255,
 	/* fourth  rank */      272, 273, 274, 275, 276, 277, 278, 279,
 	/* fifth   rank */      296, 297, 298, 299, 300, 301, 302, 303,
 	/* sixth   rank */      320, 321, 322, 323, 324, 325, 326, 327,
 	/* seventh rank */      344, 345, 346, 347, 348, 349, 350, 351,
-	/* eighth  rank */      368, 369, 370, 371, 372, 373, 374, haut,
+	/* eighth  rank */      368, 369, 370, 371, 372, 373, 374, square_h8,
 	/* end marker   */    0};
 #endif
 
 
 #if defined(WE_ARE_EXTERN)
-	extern  int move_diff_code[haut - bas + 1];
+	extern  int move_diff_code[square_h8 - square_a1 + 1];
 #else
 /* This are the codes for the length-difference */
 /* between two squares */
 /* ATTENTION: use abs(square from - square to) for indexing this table. */
 /*        all move_down_codes are mapped this way to move_up_codes !    */
 
-	int move_diff_code[haut - bas + 1]= {
+	int move_diff_code[square_h8 - square_a1 + 1]= {
 	/* left/right   */        0,   1,   4,   9,  16,  25,  36,  49,
 	/* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
 	/* 1 left  up   */            50,  37,  26,  17,  10,   5,   2,
@@ -1901,9 +1831,9 @@ enum {
 #endif
 
 #if defined(WE_ARE_EXTERN)
- extern  long int BGL_move_diff_code[haut - bas + 1];
+ extern  long int BGL_move_diff_code[square_h8 - square_a1 + 1];
 #else
- long int BGL_move_diff_code[haut - bas + 1]= {
+ long int BGL_move_diff_code[square_h8 - square_a1 + 1]= {
  /* left/right   */        0,   100,   200,   300,  400,  500,  600,  700,
  /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
  /* 1 left  up   */            707,  608,  510,  412,  316,   224,   141,
@@ -1930,14 +1860,14 @@ enum {
 #endif
 
 #if defined(WE_ARE_EXTERN)
-	extern  int move_vec_code[haut - bas + 1];
+	extern  int move_vec_code[square_h8 - square_a1 + 1];
 #else
 /* This are the codes for the length-difference */
 /* between two squares */
 /* ATTENTION: use abs(square from - square to) for indexing this table. */
 /*        all move_down_codes are mapped this way to move_up_codes !    */
 
-	int move_vec_code[haut - bas + 1]= {
+	int move_vec_code[square_h8 - square_a1 + 1]= {
 	/* left/right   */         0,   1,   1,   1,   1,   1,   1,   1,     
 	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
 	/* 1 left  up   */             17,  18,  19,  20,  21,  22,  23,     

@@ -407,7 +407,7 @@ static int PopInput() {
 static char NextChar(void)
 {
   int ch;
-  static boolean eof= False;
+  static boolean eof= false;
 
   if ((ch= getc(InputStack[NestLevel])) != -1)
     return LastChar=ch;
@@ -419,7 +419,7 @@ static char NextChar(void)
         FtlMsg(EoFbeforeEoP);
       return NextChar();
     }
-    eof= True;
+    eof= true;
     return LastChar= ' ';
   }
 }
@@ -504,10 +504,10 @@ static boolean sncmp(char *a, char *b)
       /* EBCDIC support ! HD */
       ++a;
     else
-      return False;
+      return false;
   }
 
-  return True;
+  return true;
 }
 
 enum
@@ -610,7 +610,7 @@ char* WriteBGLNumber(char* buf, long int num)
 }
 
 static void ReadBeginSpec(void) {
-  while (True)
+  while (true)
   {
     char *tok = ReadNextTokStr();
     TokenTab= TokenString[0];
@@ -626,7 +626,7 @@ static void ReadBeginSpec(void) {
         ExtraCondTab= &(ExtraCondString[ActLang][0]);
         PieceTab= PieNamString[ActLang];
         PieSpTab= PieSpString[ActLang];
-        InitMsgTab(ActLang, True);
+        InitMsgTab(ActLang, true);
         return;
       }
     }
@@ -744,7 +744,7 @@ static char *ParseSquareList(
   */
   int     Square, SquareCnt= 0;
 
-  while (True) {
+  while (true) {
     if (*tok && tok[1] && (Square=SquareNum(*tok,tok[1])))
     {
       if (e[Square] != vide)
@@ -845,7 +845,7 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
   char    *btok;
   PieNam  Name;
 
-  while (True) {
+  while (true) {
     char const * const hunterseppos = strchr(tok,hunterseparator);
     btok = tok; /* Save it, if we want to return it */
     if (hunterseppos!=0 && hunterseppos-tok<=2) {
@@ -890,7 +890,7 @@ square NextSquare(square sq)
 {
   if (sq%onerow<nr_of_slack_files_left_of_board+nr_files_on_board-1)
     return sq+1;
-  else if (sq>=square_a2 && sq<=haut)
+  else if (sq>=square_a2 && sq<=square_h8)
     return sq - onerow - (nr_files_on_board-1);
   else
     return initsquare;
@@ -1003,7 +1003,7 @@ static char *ParsePieSpec(char echo)
   Flags   ColorFlag= (BIT(White) | BIT(Black) | BIT(Neutral));
 
   tok = ReadNextTokStr();
-  while (True)
+  while (true)
   {
     CLEARFL(PieSpFlags);
     while (true)
@@ -1324,7 +1324,7 @@ static char *ParsePlay(char *tok, slice_index *si)
     result = ParsePlay(tok+6,si);
     if (result!=0)
     {
-      OptFlag[nothreat] = True;
+      OptFlag[nothreat] = true;
       slices[*si].u.composite.is_exact = true;
     }
   }
@@ -1410,128 +1410,155 @@ static char *ParseStip(void)
   return ReadNextTokStr();
 }
 
-static char *ReadSquares(int which) {
-  char     *tok = ReadNextTokStr();
-  char *lastTok = tok;
-  square   i;
-  int    k, l;
-  ply      n;
-  int EpSquaresRead= 0;
 
-  l=strlen(tok);
-  if (l&1) {
-    if (which != ReadFrischAuf && which != ReadGrid) {
+/* to make function ReadSquares in PYIO.C more convenient define
+ * ReadImitators und ReadHoles and ReadEpSquares too. They can have
+ * any positiv number, but must not coincide with
+ * MagicSq...BlConsForcedSq.  TLi
+ * Must also not coincide with  WhPromSq  and  BlPromSq.   NG
+ */
+typedef enum
+{
+  ReadImitators = nrSquareFlags,
+  ReadHoles,             
+  ReadEpSquares,         
+  ReadFrischAuf,         
+  ReadBlRoyalSq,         
+  ReadWhRoyalSq,         
+  ReadNoCastlingSquares, 
+  ReadGrid
+} SquareListContext;
+
+static char *ReadSquares(SquareListContext context)
+{
+  char *tok = ReadNextTokStr();
+  char *lastTok = tok;
+  int k, l;
+  ply n;
+  int EpSquaresRead = 0;
+
+  l = strlen(tok);
+  if (l%2==1)
+  {
+    if (context!=ReadFrischAuf && context!=ReadGrid)
       IoErrorMsg(WrongSquareList, 0);
-    }
     currentgridnum = 0;
     return tok;
   }
-  k= 0;
-  while (*tok) {
-    i= SquareNum(*tok, tok[1]);
-    if (i != 0) {
-      switch (which) {
-      case ReadFrischAuf:
-        k++;
-        if (e[i] == vide || e[i] == obs || is_pawn(e[i])) {
-          Message(NoFrischAufPromPiece);
-        }
-        else {
-          SETFLAG(spec[i], FrischAuf);
-        }
-        break;
 
-      case ReadImitators:
-        isquare[k++]= i;
-        break;
-
-      case ReadHoles:
-        e[i]= obs;
-        break;
-
-      case ReadEpSquares:
-        switch (EpSquaresRead++) {
-        case 0:
-          ep[1]= i;
+  k = 0;
+  while (*tok)
+  {
+    square sq = SquareNum(*tok,tok[1]);
+    if (sq!=initsquare)
+    {
+      switch (context)
+      {
+        case ReadFrischAuf:
+          if (e[sq]==vide || e[sq]==obs || is_pawn(e[sq]))
+            Message(NoFrischAufPromPiece);
+          else
+            SETFLAG(spec[sq], FrischAuf);
+          ++k;
           break;
-        case 1:
-          ep2[1]= i;
+
+        case ReadImitators:
+          isquare[k] = sq;
+          ++k;
           break;
+
+        case ReadHoles:
+          e[sq]= obs;
+          break;
+
+        case ReadEpSquares:
+          switch (EpSquaresRead)
+          {
+            case 0:
+              ep[1]= sq;
+              break;
+            case 1:
+              ep2[1]= sq;
+              break;
+            default:
+              Message(ToManyEpKeySquares);
+          }
+          ++EpSquaresRead;
+          break;
+
+        case ReadBlRoyalSq:
+          bl_royal_sq= sq;
+          break;
+
+        case ReadWhRoyalSq:
+          wh_royal_sq= sq;
+          break;
+
+        case ReadNoCastlingSquares:
+          switch (sq)
+          {
+            case square_a1:
+              CLRFLAGMASK(no_castling,ra1_cancastle);
+              break;
+            case square_e1:
+              CLRFLAGMASK(no_castling,ke1_cancastle);
+              break;
+            case square_h1:
+              CLRFLAGMASK(no_castling,rh1_cancastle);
+              break;
+            case square_a8:
+              CLRFLAGMASK(no_castling,ra8_cancastle);
+              break;
+            case square_e8:
+              CLRFLAGMASK(no_castling,ke8_cancastle);
+              break;
+            case square_h8:
+              CLRFLAGMASK(no_castling,rh8_cancastle);
+              break;
+            default:
+              break;
+          }
+          break;
+
+        case ReadGrid:
+          ClearGridNum(sq);
+          sq_spec[sq] += currentgridnum << Grid;
+          k++;
+          break;  
+
         default:
-          Message(ToManyEpKeySquares);
-        }
-        break;
-
-      case ReadBlRoyalSq:
-        bl_royal_sq= i;
-        break;
-
-      case ReadWhRoyalSq:
-        wh_royal_sq= i;
-        break;
-
-      case ReadNoCastlingSquares:
-        switch (i) {
-        case square_a1:
-          CLRFLAGMASK(no_castling,ra1_cancastle);
+          SETFLAG(sq_spec[sq],context);
           break;
-        case square_e1:
-          CLRFLAGMASK(no_castling,ke1_cancastle);
-          break;
-        case square_h1:
-          CLRFLAGMASK(no_castling,rh1_cancastle);
-          break;
-        case square_a8:
-          CLRFLAGMASK(no_castling,ra8_cancastle);
-          break;
-        case square_e8:
-          CLRFLAGMASK(no_castling,ke8_cancastle);
-          break;
-        case square_h8:
-          CLRFLAGMASK(no_castling,rh8_cancastle);
-          break;
-        default:
-          break;
-        }
-        break;
-
-      case ReadGrid:
-        k++;
-        ClearGridNum(i);
-        sq_spec[i]+= currentgridnum << Grid;
-      break;  
-
-      default:
-        SETFLAG(sq_spec[i], which);
-        break;
       }
       tok+= 2;
     }
-    else {
-      if (which == ReadGrid || k != 0) {
+    else
+    {
+      if (context==ReadGrid || k!=0)
+      {
         currentgridnum=0;
         return lastTok;
       }
-      if (which != ReadFrischAuf || k != 0) {
+      if (context!=ReadFrischAuf || k!=0)
+      {
         IoErrorMsg(WrongSquareList, 0);
         return tok;
       }
     }
   }
-  if (which == ReadImitators) {
-    for (n= 1; n <= maxply; n++) {
+
+  if (context==ReadImitators)
+    for (n = 1; n<=maxply; n++)
       inum[n]= k;
-    }
-  }
 
   /* This is an ugly hack, but due to the new feature ReadFrischAuf,
      we need the returning of the token tok, and this leads to
      mistakes with other conditions that need reading
   */
   /* of a SquareList. */
-  if (which == ReadFrischAuf) {
+  if (context==ReadFrischAuf)
     tok = ReadNextTokStr();
-  }
+
   return tok;
 } /* ReadSquares */
 
@@ -1576,7 +1603,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
   char    *tok=ReadNextTokStr();
 
   if (is_variant_set!=NULL)
-    *is_variant_set= False;
+    *is_variant_set= false;
 
   do
   {
@@ -1588,11 +1615,11 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     if (type==VariantTypeCount+ambiguous_delta)
       IoErrorMsg(CondNotUniq,0);
     else if (type==TypeB && group==gpType)
-      *is_variant_set= True;
+      *is_variant_set= true;
     else if (type==TypeB && group==gpOsc)
-      OscillatingKingsTypeB[OscillatingKingsSide]= True;
+      OscillatingKingsTypeB[OscillatingKingsSide]= true;
     else if (type==TypeC && group==gpOsc)
-      OscillatingKingsTypeC[OscillatingKingsSide]= True;
+      OscillatingKingsTypeC[OscillatingKingsSide]= true;
     else if (type==TypeB && group==gpAnnan)
       annanvar= 1;
     else if (type==TypeC && group==gpAnnan)
@@ -1610,9 +1637,9 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     else if (type==Type2 && group==gpRepublican)
       *is_variant_set = false;
     else if (type==PionAdverse && group==gpSentinelles)
-      *is_variant_set= True;
+      *is_variant_set= true;
     else if (type==PionNeutral && group==gpSentinelles)
-      SentPionNeutral= True;
+      SentPionNeutral= true;
     else if (type==PionNoirMaximum && group==gpSentinelles)
       tok = ParseMaximumPawn(&max_pn,8,64);
     else if (type==PionBlancMaximum && group==gpSentinelles)
@@ -1627,9 +1654,9 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
       sentineln= pbn;
     }
     else if (type==AntiCirTypeCheylan && group==gpAntiCirce)
-      *is_variant_set= True;
+      *is_variant_set= true;
     else if (type==AntiCirTypeCalvet && group==gpAntiCirce)
-      *is_variant_set= False;
+      *is_variant_set= false;
     else if (type==Neighbour && group==gpKoeko)
     {
       piece tmp_piece;
@@ -1855,7 +1882,7 @@ static char *ParseVaultingPieces(Flags fl)
   int tp = 0;
   boolean gotpiece;
 
-  while (True) {
+  while (true) {
     gotpiece = false;
     tok = ReadNextTokStr();
     switch (strlen(tok))
@@ -1915,7 +1942,7 @@ char *ReadChameleonCirceSequence(void) {
   }
   ChameleonSequence[0]= '\0';
 
-  while (True)
+  while (true)
   {
     tok = ReadNextTokStr();
     switch (strlen(tok))
@@ -2000,7 +2027,7 @@ static char *ParseCond(void) {
       continue;
     }
 
-    CondFlag[indexx]= True;
+    CondFlag[indexx]= true;
 
     CondCnt++;
 
@@ -2011,28 +2038,28 @@ static char *ParseCond(void) {
           IoErrorMsg(NonSenseRexiExact, 0);
         break;
       case biheffalumps:
-        CondFlag[heffalumps]= True;
-        CondFlag[biwoozles]= True;
-        CondFlag[woozles]= True;
+        CondFlag[heffalumps]= true;
+        CondFlag[biwoozles]= true;
+        CondFlag[woozles]= true;
         break;
       case heffalumps:
-        CondFlag[woozles]= True;
+        CondFlag[woozles]= true;
         break;
       case biwoozles:
-        CondFlag[woozles]= True;
+        CondFlag[woozles]= true;
         break;
       case hypervolage:
-        CondFlag[volage]= True;
+        CondFlag[volage]= true;
         break;
       case leofamily:
-        CondFlag[chinoises]= True;
+        CondFlag[chinoises]= true;
         break;
       case eiffel:
         flag_madrasi= true;
         break;
       case contactgrid:
-        CondFlag[gridchess] = True;
-        CondFlag[koeko] = True;
+        CondFlag[gridchess] = true;
+        CondFlag[koeko] = true;
         break;
       case imitators:
         ReadSquares(ReadImitators);
@@ -2047,7 +2074,7 @@ static char *ParseCond(void) {
         ReadSquares(MagicSq);
         break;
       case dbltibet:
-        CondFlag[tibet]= True;
+        CondFlag[tibet]= true;
         break;
       case holes:
         ReadSquares(ReadHoles);
@@ -2269,7 +2296,7 @@ static char *ParseCond(void) {
         anycirce= true;
         break;
       case circediagramm:
-        SetDiaRen(PieSpExFlags, haut);
+        SetDiaRen(PieSpExFlags, square_h8);
         circerenai= rendiagramm;
         anycirce= true;
         break;
@@ -2317,7 +2344,7 @@ static char *ParseCond(void) {
         anyanticirce= true;
         break;
       case antidiagramm:
-        SetDiaRen(PieSpExFlags, haut);
+        SetDiaRen(PieSpExFlags, square_h8);
         antirenai= rendiagramm;
         anyanticirce= true;
         break;
@@ -2359,7 +2386,7 @@ static char *ParseCond(void) {
         anyimmun= true;
         break;
       case immundiagramm:
-        SetDiaRen(PieSpExFlags, haut);
+        SetDiaRen(PieSpExFlags, square_h8);
         immunrenai= rendiagramm;
         anyimmun= true;
         break;
@@ -2491,7 +2518,7 @@ static char *ParseCond(void) {
         tok = ParseVariant(&PatienceB, gpType);
         break;
       case sentinelles:
-        SentPionNeutral=False;
+        SentPionNeutral=false;
         tok = ParseVariant(&SentPionAdverse, gpSentinelles);
         break;
 
@@ -2596,10 +2623,10 @@ static char *ParseCond(void) {
         tok = ParseVariant(NULL, gpOsc);
         break;
       case swappingkings:
-        CondFlag[white_oscillatingKs]= True;
-        OscillatingKingsTypeC[White]= True;
-        CondFlag[black_oscillatingKs]= True;
-        OscillatingKingsTypeC[Black]= True;
+        CondFlag[white_oscillatingKs]= true;
+        OscillatingKingsTypeC[White]= true;
+        CondFlag[black_oscillatingKs]= true;
+        OscillatingKingsTypeC[Black]= true;
         tok = ReadNextTokStr();
         break;
       case SAT:
@@ -2685,7 +2712,7 @@ static char *ParseOpt(void)
       IoErrorMsg(OptNotUniq,0);
       continue;
     }
-    OptFlag[indexx]= True;
+    OptFlag[indexx]= true;
     OptCnt++;
 
     switch(indexx)
@@ -2710,7 +2737,7 @@ static char *ParseOpt(void)
         if (*end!=0 || maxsolvingtime==0)
         {
           maxsolvingtime = UINT_MAX;
-          OptFlag[maxtime]= False;
+          OptFlag[maxtime]= false;
           IoErrorMsg(WrongInt, 0);
           return ReadNextTokStr();
         }
@@ -2724,7 +2751,7 @@ static char *ParseOpt(void)
       case maxsols:
         tok = ReadNextTokStr();
         if ((maxsolutions= atoi(tok)) <= 0) {
-          OptFlag[maxsols]= False;
+          OptFlag[maxsols]= false;
           IoErrorMsg(WrongInt, 0);
           return ReadNextTokStr();
         }
@@ -2749,11 +2776,11 @@ static char *ParseOpt(void)
       case restart:
         tok = ReadNextTokStr();
         if ((RestartNbr= atoi(tok)) <= 0) {
-          OptFlag[restart]= False;
+          OptFlag[restart]= false;
           IoErrorMsg(WrongInt, 0);
           return ReadNextTokStr();
         }
-        OptFlag[movenbr]= True;
+        OptFlag[movenbr]= true;
         break;
 
       case solmenaces:
@@ -2791,7 +2818,7 @@ static char *ParseOpt(void)
 
       case solessais:
         /* for compatibility to older versions. */
-        OptFlag[soltout]= True;
+        OptFlag[soltout]= true;
         max_nr_refutations = 1;
         break;
 
@@ -2816,7 +2843,7 @@ static char *ParseOpt(void)
         break;
 
       case postkeyplay:
-        OptFlag[solvariantes]= True;
+        OptFlag[solvariantes]= true;
         break;
 
       case quodlibet:
@@ -2879,82 +2906,104 @@ void TwinResetPosition(void) {
     isquare[i]= twin_isquare[i];
 }
 
-square RotMirrSquare(square sq, int what) {
-  square ret= sq;
+static square transformSquare(square sq, SquareTransformation transformation)
+{
+  square ret = sq;
 
-  switch (what) {
-  case rot90:     ret= onerow*(sq%onerow)-sq/onerow+(onerow-1);      break;
-  case rot180:    ret= haut+bas - sq;             break;
-  case rot270:    ret= -onerow*(sq%onerow)+sq/onerow-(onerow-1)+haut+bas; break;
-  case mirra1a8:  ret= sq%onerow+onerow*((onerow-1)-sq/onerow);      break;
-  case mirra1h1:  ret= ((onerow-1)-sq%onerow)+onerow*(sq/onerow);    break;
-  case mirra8h1:  ret= onerow*(sq%onerow)+sq/onerow;          break;
-  case mirra1h8:  ret= ((onerow-1)-sq/onerow)+onerow*((onerow-1)-sq%onerow); break;
+  switch (transformation)
+  {
+    case rot90:
+      ret = onerow*(sq%onerow)-sq/onerow+(onerow-1);
+      break;
+
+    case rot180:
+      ret = square_h8+square_a1 - sq;
+      break;
+
+    case rot270:
+      ret = -onerow*(sq%onerow)+sq/onerow-(onerow-1)+square_h8+square_a1;
+      break;
+
+    case mirra1a8:
+      ret = sq%onerow+onerow*((onerow-1)-sq/onerow);
+      break;
+
+    case mirra1h1:
+      ret = ((onerow-1)-sq%onerow)+onerow*(sq/onerow);
+      break;
+
+    case mirra8h1:
+      ret = onerow*(sq%onerow)+sq/onerow;
+      break;
+
+    case mirra1h8:
+      ret = ((onerow-1)-sq/onerow)+onerow*((onerow-1)-sq%onerow);
+      break;
   }
+
   return ret;
 }
 
-void RotateMirror(int what) {
+void transformPosition(SquareTransformation transformation)
+{
   piece t_e[nr_squares_on_board];
   Flags t_spec[nr_squares_on_board];
-  square    t_rb, t_rn, sq1, sq2;
+  square t_rb, t_rn, sq1, sq2;
   imarr t_isquare;
-  int       i;
+  int i;
 
   /* save the position to be mirrored/rotated */
-  t_rb= rb;
-  t_rn= rn;
-  for (i= 0; i < nr_squares_on_board; i++) {
-    t_e[i]= e[boardnum[i]];
-    t_spec[i]= spec[boardnum[i]];
+  t_rb = rb;
+  t_rn = rn;
+  for (i = 0; i<nr_squares_on_board; i++)
+  {
+    t_e[i] = e[boardnum[i]];
+    t_spec[i] = spec[boardnum[i]];
   }
 
-  for (i= 0; i < maxinum; i++)
-    t_isquare[i]= isquare[i];
+  for (i = 0; i<maxinum; i++)
+    t_isquare[i] = isquare[i];
 
   /* now rotate/mirror */
   /* pieces */
-  for (i= 0; i < nr_squares_on_board; i++) {
-    sq1= boardnum[i];
-    sq2= RotMirrSquare(sq1, what);
+  for (i = 0; i<nr_squares_on_board; i++)
+  {
+    sq1 = boardnum[i];
+    sq2 = transformSquare(sq1,transformation);
 
-    e[sq2]= t_e[i];
-    spec[sq2]= t_spec[i];
+    e[sq2] = t_e[i];
+    spec[sq2] = t_spec[i];
 
-    if (sq1 == t_rb) {
-      rb= sq2;
-    }
-    if (sq1 == t_rn) {
-      rn= sq2;
-    }
+    if (sq1==t_rb)
+      rb = sq2;
+    if (sq1==t_rn)
+      rn = sq2;
   }
 
   /* imitators */
-  for (i= 0; i < maxinum; i++)
+  for (i= 0; i<maxinum; i++)
   {
-    sq1= t_isquare[i];
-    sq2= RotMirrSquare(sq1, what);
+    sq1 = t_isquare[i];
+    sq2 = transformSquare(sq1, transformation);
     isquare[i]= sq2;
   }
-} /* RotateMirror */
+} /* transformPosition */
 
-static char *ParseTwinningRotate(void) {
+static char *ParseTwinningRotate(void)
+{
   char *tok = ReadNextTokStr();
 
-  if (strcmp(tok, "90") == 0) {
-    RotateMirror(rot90);
-  }
-  else if (strcmp(tok, "180") == 0) {
-    RotateMirror(rot180);
-  }
-  else if (strcmp(tok, "270") == 0) {
-    RotateMirror(rot270);
-  }
-  else {
+  if (strcmp(tok,"90")==0)
+    transformPosition(rot90);
+  else if (strcmp(tok,"180")==0)
+    transformPosition(rot180);
+  else if (strcmp(tok,"270")==0)
+    transformPosition(rot270);
+  else
     IoErrorMsg(UnrecRotMirr,0);
-  }
 
-  if (LaTeXout) {
+  if (LaTeXout)
+  {
     sprintf(GlobalStr, "%s $%s^\\circ$", TwinningTab[TwinningRotate], tok);
     strcat(ActTwinning, GlobalStr);
   }
@@ -2978,19 +3027,19 @@ static char *ParseTwinningMirror(void)
     switch (indexx)
     {
       case TwinningMirra1h1:
-        RotateMirror(mirra1h1);
+        transformPosition(mirra1h1);
         break;
 
       case TwinningMirra1a8:
-        RotateMirror(mirra1a8);
+        transformPosition(mirra1a8);
         break;
 
       case TwinningMirra1h8:
-        RotateMirror(mirra1h8);
+        transformPosition(mirra1h8);
         break;
 
       case TwinningMirra8h1:
-        RotateMirror(mirra8h1);
+        transformPosition(mirra8h1);
         break;
 
       default:
@@ -3247,18 +3296,18 @@ static char *ParseTwinningRemove(void) {
   boolean   WrongList;
 
   do {
-    WrongList= False;
+    WrongList= false;
     tok = ReadNextTokStr();
 
     if (strlen(tok) % 2) {
-      WrongList= True;
+      WrongList= true;
     }
     else {
       char *tok2= tok;
 
       while (*tok2 && !WrongList) {
         if (SquareNum(tok2[0], tok2[1]) == 0) {
-          WrongList= True;
+          WrongList= true;
         }
         tok2 += 2;
       }
@@ -3393,13 +3442,13 @@ static char *ParseTwinningSubstitute(void) {
 static char *ParseTwinning(void)
 {
   char  *tok = ReadNextTokStr();
-  boolean continued= False;
-  boolean TwinningRead= False;
+  boolean continued= false;
+  boolean TwinningRead= false;
 
   TwinChar++;
-  OptFlag[noboard]= True;
+  OptFlag[noboard]= true;
 
-  while (True)
+  while (true)
   {
     TwinningType twinning;
     Token tk = StringToToken(tok);
@@ -3428,11 +3477,11 @@ static char *ParseTwinning(void)
         continue;
 
       case TwinningContinued:
-        if (TwinningRead == True) {
+        if (TwinningRead == true) {
           Message(ContinuedFirst);
         }
         else {
-          continued= True;
+          continued= true;
         }
         tok = ReadNextTokStr();
         continue;
@@ -3481,7 +3530,7 @@ static char *ParseTwinning(void)
         strcat(ActTwinning, ", ");
     } /* !TwinningRead */
 
-    TwinningRead= True;
+    TwinningRead= true;
     switch(twinning)
     {
       case TwinningMove:
@@ -3551,24 +3600,24 @@ static char *ParseTwinning(void)
 char *ReadPieces(int condition) {
   piece tmp_piece;
   char  *tok;
-  boolean   piece_read= False;
+  boolean   piece_read= false;
 
   fflush(stdout);
-  while (True)
+  while (true)
   {
     tok = ReadNextTokStr();
     switch (strlen(tok)) {
     case 1:
       tmp_piece= GetPieNamIndex(*tok,' ');
-      piece_read= True;
+      piece_read= true;
       break;
     case 2:
       tmp_piece= GetPieNamIndex(*tok,tok[1]);
-      piece_read= True;
+      piece_read= true;
       break;
     default:
       if (!piece_read) {
-        CondFlag[condition]= False;
+        CondFlag[condition]= false;
         IoErrorMsg(WrongPieceName,0);
       }
       return tok;
@@ -3579,10 +3628,10 @@ char *ReadPieces(int condition) {
     }
     switch (condition) {
     case promotiononly:
-      promonly[tmp_piece]= True;
+      promonly[tmp_piece]= true;
       break;
     case april:
-      isapril[tmp_piece]= True;
+      isapril[tmp_piece]= true;
       break;
     default:
       /* Never mind ... */
@@ -3619,7 +3668,7 @@ Token ReadProblem(Token tk)
     }
     tok = ParseTwinning();
 
-    while (True)
+    while (true)
     {
       tk = StringToToken(tok);
       switch (tk)
@@ -3661,7 +3710,7 @@ Token ReadProblem(Token tk)
   {
     tok = ReadNextTokStr();
     TwinChar= 'a';
-    while (True)
+    while (true)
     {
       tk = StringToToken(tok);
       switch (tk)
@@ -3905,7 +3954,7 @@ void WriteConditions(int alignment) {
   Cond  cond;
   char  CondLine[256];
   int       i;
-  boolean   CondPrinted= False;
+  boolean   CondPrinted= false;
 
   for (cond= 1; cond < CondCount; cond++) {
     if (!CondFlag[cond])
@@ -4092,7 +4141,7 @@ void WriteConditions(int alignment) {
 
     if (cond == magicsquare) {
       square  i;
-      for (i= bas; i <= haut; i++) {
+      for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], MagicSq)) {
           AddSquare(CondLine, i);
         }
@@ -4100,7 +4149,7 @@ void WriteConditions(int alignment) {
     }
     if (cond == whforsqu) {
       square  i;
-      for (i= bas; i <= haut; i++) {
+      for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], WhForcedSq)) {
           AddSquare(CondLine, i);
         }
@@ -4108,7 +4157,7 @@ void WriteConditions(int alignment) {
     }
     if (cond == blforsqu) {
       square  i;
-      for (i= bas; i <= haut; i++) {
+      for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], BlForcedSq)) {
           AddSquare(CondLine, i);
         }
@@ -4117,7 +4166,7 @@ void WriteConditions(int alignment) {
 
     if (cond == whconforsqu) {
       square  i;
-      for (i= bas; i <= haut; i++) {
+      for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], WhConsForcedSq)) {
           AddSquare(CondLine, i);
         }
@@ -4126,7 +4175,7 @@ void WriteConditions(int alignment) {
 
     if (cond == blconforsqu) {
       square  i;
-      for (i= bas; i <= haut; i++) {
+      for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], BlConsForcedSq)) {
           AddSquare(CondLine, i);
         }
@@ -4135,7 +4184,7 @@ void WriteConditions(int alignment) {
 
     if (cond == whprom_sq) {
       square  i;
-      for (i= bas; i <= haut; i++) {
+      for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], WhPromSq)) {
           AddSquare(CondLine, i);
         }
@@ -4143,7 +4192,7 @@ void WriteConditions(int alignment) {
     }
     if (cond == blprom_sq) {
       square  i;
-      for (i= bas; i <= haut; i++) {
+      for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], BlPromSq)) {
           AddSquare(CondLine, i);
         }
@@ -4403,7 +4452,7 @@ void WriteConditions(int alignment) {
       }
       break;
     }
-    CondPrinted= True;
+    CondPrinted= true;
   }
 
   if (alignment == WCLaTeX && CondPrinted) {
@@ -5072,7 +5121,7 @@ void LaTeXBeginDiagram(void) {
 
       case grid_orthogonal_lines:
         for (i=1; i<8; i++)
-          if (GridNum(bas+i-1) != GridNum(bas+i))
+          if (GridNum(square_a1+i-1) != GridNum(square_a1+i))
           {
             if (!entry)
               fprintf(LaTeXFile, " \\gridlines{");
@@ -5082,7 +5131,7 @@ void LaTeXBeginDiagram(void) {
             fprintf(LaTeXFile, " v%d08", i);
           }
         for (i=1; i<8; i++)
-          if (GridNum(bas+24*(i-1)) != GridNum(bas+24*i))
+          if (GridNum(square_a1+24*(i-1)) != GridNum(square_a1+24*i))
           {
             if (!entry)
               fprintf(LaTeXFile, " \\gridlines{");
@@ -5133,7 +5182,7 @@ void LaTeXBeginDiagram(void) {
     square  i;
  
     fprintf(LaTeXFile, " \\fieldframe{");
-    for (i= bas; i <= haut; i++)
+    for (i= square_a1; i <= square_h8; i++)
       if (TSTFLAG(sq_spec[i], MagicSq)) {
         if (!firstpiece)
           strcat(MagicSqList, ", ");
@@ -5214,7 +5263,7 @@ void Tabulate() {
 #endif    /* STANDALONE */
 #endif    /* DEBUG */
   if (marge > 0) {
-    sprintf(GlobalStr, "%*c", marge, bl);
+    sprintf(GlobalStr, "%*c", marge, blank);
     StdString(GlobalStr);
   }
 }

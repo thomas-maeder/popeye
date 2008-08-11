@@ -58,8 +58,8 @@
 #include "boolean.h"
 
 /*   Sometimes local variables are used, that can potentially be
-     used without any propper initial value. At least the compiler
-     cannot assure a propper initialisation.
+     used without any proper initial value. At least the compiler
+     cannot assure a proper initialisation.
      The programmer should verify these places. To spot these
      places, I introduced the following macro. It may be defined
      to nothing, to get the old code -- without var intialisation.
@@ -163,325 +163,448 @@
 #       endif   /* !HASHRATE */
 #endif  /* TESTHASH */
 
-#define rot90        0
-#define rot180       1
-#define rot270       2
-#define mirra1h1     3
-#define mirra1a8     4
-#define mirra1h8     5
-#define mirra8h1     6
+typedef enum
+{
+  rot90,        /* 0 */
+  rot180,       /* 1 */
+  rot270,       /* 2 */
+  mirra1h1,     /* 3 */
+  mirra1a8,     /* 4 */
+  mirra1h8,     /* 5 */
+  mirra8h1      /* 6 */
+} SquareTransformation;
 
-#define maxnrhuntertypes 10
+enum
+{
+  maxnrhuntertypes = 10
+};
 
-#define vide    0
-#define obs     1
-#define roib    2
-#define pb      3
-#define db      4
-#define cb      5
-#define tb      6
-#define fb      7
-#define leob    8
-#define maob    9
-#define paob    10
-#define vaob    11
-#define roseb   12
-#define sb      13
-#define nb      14
-#define zb      15
-#define chb     16
-#define gib     17
-#define rccinqb 18
-#define bub     19
-#define vizirb  20
-#define alfilb  21
-#define fersb   22
-#define dabb    23
-#define lionb   24
-#define nequib  25
-#define locb    26
-#define pbb     27
-#define amazb   28
-#define impb    29
-#define princb  30
-#define gnoub   31
-#define antilb  32
-#define ecurb   33
-#define waranb  34
-#define dragonb 35
-#define kangoub 36
-#define csb     37
-#define ubib    38
-#define hamstb  39
-#define mooseb  40
-#define eagleb  41
-#define sparrb  42
-#define archb   43
-#define reffoub 44
-#define cardb   45
-#define nsautb  46
-#define dummyb  47
-#define camridb 48
-#define zebridb 49
-#define gnuridb 50
-#define camhopb 51
-#define zebhopb 52
-#define gnuhopb 53
-#define dcsb    54
-#define refcb   55
-#define equib   56
-#define catb    57
-#define bspawnb 58
-#define spawnb  59
-#define tlionb  60
-#define flionb  61
-#define sireneb 62
-#define tritonb 63
-#define nereidb 64
-#define orphanb 65
-#define edgehb  66
-#define moab    67
-#define rhuntb  68
-#define bhuntb  69
-#define maoridb 70
-#define moaridb 71
-#define rookhopb        72
-#define bishophopb      73
-#define ekingb  74
-#define bscoutb 75
-#define gscoutb 76
-#define skyllab 77
-#define charybdisb      78
-#define contragrasb     79
-#define roselionb       80
-#define rosehopperb     81
-#define okapib          82
-#define leap37b         83
-#define g2b             84
-#define g3b             85
-#define leap16b         86
-#define leap24b         87
-#define leap35b         88
-#define doublegb        89
-#define khb             90
-#define orixb           91
-#define leap15b         92
-#define leap25b         93
-#define gralb           94
-#define rooklocustb     95
-#define bishoplocustb   96
-#define nightlocustb    97
-#define vizridb         98
-#define fersridb        99
-#define bisonb         100
-#define elephantb      101
-#define naob           102
-#define rookmooseb     103
-#define rookeagleb     104
-#define rooksparrb     105
-#define bishopmooseb   106
-#define bishopeagleb   107
-#define bishopsparrb   108
-#define raob           109
-#define scorpionb      110
-#define margueriteb    111
-#define	leap36b        112
-#define nrlionb	       113
-#define mrlionb	       114
-#define molionb        115
-#define andergb        116
-#define friendb        117
-#define dolphinb       118
-#define rabbitb        119
-#define bobb           120
-#define equiengb       121
-#define equifrab       122
-#define querqub        123
-#define bouncerb       124
-#define rookbouncerb   125
-#define bishopbouncerb 126
-#define chinesepawnb   127
-#define radialknightb  128
-#define reversepb      129
-#define roselocustb    130
-#define hunter0b       131
-#define derbla         (hunter0b+maxnrhuntertypes)
-#define roin    -2
-#define pn      -3
-#define dn      -4
-#define cn      -5
-#define tn      -6
-#define fn      -7
-#define leon    -8
-#define maon    -9
-#define paon    -10
-#define vaon    -11
-#define rosen   -12
-#define sn      -13
-#define nn      -14
-#define zn      -15
-#define chn     -16
-#define gin     -17
-#define rccinqn -18
-#define bun     -19
-#define vizirn  -20
-#define alfiln  -21
-#define fersn   -22
-#define dabn    -23
-#define lionn   -24
-#define nequin  -25
-#define locn    -26
-#define pbn     -27
-#define amazn   -28
-#define impn    -29
-#define princn  -30
-#define gnoun   -31
-#define antiln  -32
-#define ecurn   -33
-#define warann  -34
-#define dragonn -35
-#define kangoun -36
-#define csn     -37
-#define ubin    -38
-#define hamstn  -39
-#define moosen  -40
-#define eaglen  -41
-#define sparrn  -42
-#define archn   -43
-#define reffoun -44
-#define cardn   -45
-#define nsautn  -46
-#define dummyn  -47
-#define camridn -48
-#define zebridn -49
-#define gnuridn -50
-#define camhopn -51
-#define zebhopn -52
-#define gnuhopn -53
-#define dcsn    -54
-#define refcn   -55
-#define equin   -56
-#define catn    -57
-#define bspawnn -58
-#define spawnn  -59
-#define tlionn  -60
-#define flionn  -61
-#define sirenen -62
-#define tritonn -63
-#define nereidn -64
-#define orphann -65
-#define edgehn  -66
-#define moan    -67
-#define rhuntn  -68
-#define bhuntn  -69
-#define maoridn -70
-#define moaridn -71
-#define rookhopn        -72
-#define bishophopn      -73
-#define ekingn  -74
-#define bscoutn -75
-#define gscoutn -76
-#define skyllan -77
-#define charybdisn      -78
-#define contragrasn     -79
-#define roselionn       -80
-#define rosehoppern     -81
-#define okapin          -82
-#define leap37n         -83
-#define g2n             -84
-#define g3n             -85
-#define leap16n         -86
-#define leap24n         -87
-#define leap35n         -88
-#define doublegn        -89
-#define khn             -90
-#define orixn           -91
-#define leap15n         -92
-#define leap25n         -93
-#define graln           -94
-#define rooklocustn     -95
-#define bishoplocustn   -96
-#define	nightlocustn    -97
-#define vizridn         -98
-#define fersridn        -99
-#define bisonn         -100
-#define elephantn      -101
-#define naon           -102
-#define rookmoosen     -103
-#define rookeaglen     -104
-#define rooksparrn     -105
-#define bishopmoosen   -106
-#define bishopeaglen   -107
-#define bishopsparrn   -108
-#define raon           -109
-#define scorpionn      -110
-#define margueriten    -111
-#define	leap36n        -112
-#define nrlionn	       -113
-#define mrlionn	       -114
-#define molionn        -115
-#define andergn        -116
-#define friendn        -117
-#define dolphinn       -118
-#define rabbitn        -119
-#define bobn           -120
-#define equiengn       -121
-#define equifran       -122
-#define querqun        -123
-#define bouncern       -124
-#define rookbouncern   -125
-#define bishopbouncern -126
-#define chinesepawnn   -127  
-#define radialknightn  -128
-#define reversepn      -129
-#define roselocustn    -130
-#define hunter0n       -131
-#define dernoi         (hunter0n-maxnrhuntertypes)
+typedef enum
+{
+  vide,             /* 0 */
+  obs,              /* 1 */
 
-#define maxsquare       576
-#define haut            375
-#define bas             200
+  roib,             /* 2 */
+  pb,               /* 3 */
+  db,               /* 4 */
+  cb,               /* 5 */
+  tb,               /* 6 */
+  fb,               /* 7 */
+  leob,             /* 8 */
+  maob,             /* 9 */
+  paob,            /* 10 */
+  vaob,            /* 11 */
+  roseb,           /* 12 */
+  sb,              /* 13 */
+  nb,              /* 14 */
+  zb,              /* 15 */
+  chb,             /* 16 */
+  gib,             /* 17 */
+  rccinqb,         /* 18 */
+  bub,             /* 19 */
+  vizirb,          /* 20 */
+  alfilb,          /* 21 */
+  fersb,           /* 22 */
+  dabb,            /* 23 */
+  lionb,           /* 24 */
+  nequib,          /* 25 */
+  locb,            /* 26 */
+  pbb,             /* 27 */
+  amazb,           /* 28 */
+  impb,            /* 29 */
+  princb,          /* 30 */
+  gnoub,           /* 31 */
+  antilb,          /* 32 */
+  ecurb,           /* 33 */
+  waranb,          /* 34 */
+  dragonb,         /* 35 */
+  kangoub,         /* 36 */
+  csb,             /* 37 */
+  ubib,            /* 38 */
+  hamstb,          /* 39 */
+  mooseb,          /* 40 */
+  eagleb,          /* 41 */
+  sparrb,          /* 42 */
+  archb,           /* 43 */
+  reffoub,         /* 44 */
+  cardb,           /* 45 */
+  nsautb,          /* 46 */
+  dummyb,          /* 47 */
+  camridb,         /* 48 */
+  zebridb,         /* 49 */
+  gnuridb,         /* 50 */
+  camhopb,         /* 51 */
+  zebhopb,         /* 52 */
+  gnuhopb,         /* 53 */
+  dcsb,            /* 54 */
+  refcb,           /* 55 */
+  equib,           /* 56 */
+  catb,            /* 57 */
+  bspawnb,         /* 58 */
+  spawnb,          /* 59 */
+  tlionb,          /* 60 */
+  flionb,          /* 61 */
+  sireneb,         /* 62 */
+  tritonb,         /* 63 */
+  nereidb,         /* 64 */
+  orphanb,         /* 65 */
+  edgehb,          /* 66 */
+  moab,            /* 67 */
+  rhuntb,          /* 68 */
+  bhuntb,          /* 69 */
+  maoridb,         /* 70 */
+  moaridb,         /* 71 */
+  rookhopb,        /* 72 */
+  bishophopb,      /* 73 */
+  ekingb,          /* 74 */
+  bscoutb,         /* 75 */
+  gscoutb,         /* 76 */
+  skyllab,         /* 77 */
+  charybdisb,      /* 78 */
+  contragrasb,     /* 79 */
+  roselionb,       /* 80 */
+  rosehopperb,     /* 81 */
+  okapib,          /* 82 */
+  leap37b,         /* 83 */
+  g2b,             /* 84 */
+  g3b,             /* 85 */
+  leap16b,         /* 86 */
+  leap24b,         /* 87 */
+  leap35b,         /* 88 */
+  doublegb,        /* 89 */
+  khb,             /* 90 */
+  orixb,           /* 91 */
+  leap15b,         /* 92 */
+  leap25b,         /* 93 */
+  gralb,           /* 94 */
+  rooklocustb,     /* 95 */
+  bishoplocustb,   /* 96 */
+  nightlocustb,    /* 97 */
+  vizridb,         /* 98 */
+  fersridb,        /* 99 */
+  bisonb,         /* 100 */
+  elephantb,      /* 101 */
+  naob,           /* 102 */
+  rookmooseb,     /* 103 */
+  rookeagleb,     /* 104 */
+  rooksparrb,     /* 105 */
+  bishopmooseb,   /* 106 */
+  bishopeagleb,   /* 107 */
+  bishopsparrb,   /* 108 */
+  raob,           /* 109 */
+  scorpionb,      /* 110 */
+  margueriteb,    /* 111 */
+  leap36b,        /* 112 */
+  nrlionb	,       /* 113 */
+  mrlionb	,       /* 114 */
+  molionb,        /* 115 */
+  andergb,        /* 116 */
+  friendb,        /* 117 */
+  dolphinb,       /* 118 */
+  rabbitb,        /* 119 */
+  bobb,           /* 120 */
+  equiengb,       /* 121 */
+  equifrab,       /* 122 */
+  querqub,        /* 123 */
+  bouncerb,       /* 124 */
+  rookbouncerb,   /* 125 */
+  bishopbouncerb, /* 126 */
+  chinesepawnb,   /* 127 */
+  radialknightb,  /* 128 */
+  reversepb,      /* 129 */
+  roselocustb,    /* 130 */
+  hunter0b,       /* 131 */
+  derbla =        hunter0b+maxnrhuntertypes,
 
+  roin           = -roib,
+  pn             = -pb,
+  dn             = -db,
+  cn             = -cb,
+  tn             = -tb,
+  fn             = -fb,
+  leon           = -leob,
+  maon           = -maob,
+  paon           = -paob,
+  vaon           = -vaob,
+  rosen          = -roseb,
+  sn             = -sb,
+  nn             = -nb,
+  zn             = -zb,
+  chn            = -chb,
+  gin            = -gib,
+  rccinqn        = -rccinqb,
+  bun            = -bub,
+  vizirn         = -vizirb,
+  alfiln         = -alfilb,
+  fersn          = -fersb,
+  dabn           = -dabb,
+  lionn          = -lionb,
+  nequin         = -nequib,
+  locn           = -locb,
+  pbn            = -pbb,
+  amazn          = -amazb,
+  impn           = -impb,
+  princn         = -princb,
+  gnoun          = -gnoub,
+  antiln         = -antilb,
+  ecurn          = -ecurb,
+  warann         = -waranb,
+  dragonn        = -dragonb,
+  kangoun        = -kangoub,
+  csn            = -csb,
+  ubin           = -ubib,
+  hamstn         = -hamstb,
+  moosen         = -mooseb,
+  eaglen         = -eagleb,
+  sparrn         = -sparrb,
+  archn          = -archb,
+  reffoun        = -reffoub,
+  cardn          = -cardb,
+  nsautn         = -nsautb,
+  dummyn         = -dummyb,
+  camridn        = -camridb,
+  zebridn        = -zebridb,
+  gnuridn        = -gnuridb,
+  camhopn        = -camhopb,
+  zebhopn        = -zebhopb,
+  gnuhopn        = -gnuhopb,
+  dcsn           = -dcsb,
+  refcn          = -refcb,
+  equin          = -equib,
+  catn           = -catb,
+  bspawnn        = -bspawnb,
+  spawnn         = -spawnb,
+  tlionn         = -tlionb,
+  flionn         = -flionb,
+  sirenen        = -sireneb,
+  tritonn        = -tritonb,
+  nereidn        = -nereidb,
+  orphann        = -orphanb,
+  edgehn         = -edgehb,
+  moan           = -moab,
+  rhuntn         = -rhuntb,
+  bhuntn         = -bhuntb,
+  maoridn        = -maoridb,
+  moaridn        = -moaridb,
+  rookhopn       = -rookhopb,
+  bishophopn     = -bishophopb,
+  ekingn         = -ekingb,
+  bscoutn        = -bscoutb,
+  gscoutn        = -gscoutb,
+  skyllan        = -skyllab,
+  charybdisn     = -charybdisb,
+  contragrasn    = -contragrasb,
+  roselionn      = -roselionb,
+  rosehoppern    = -rosehopperb,
+  okapin         = -okapib,
+  leap37n        = -leap37b,
+  g2n            = -g2b,
+  g3n            = -g3b,
+  leap16n        = -leap16b,
+  leap24n        = -leap24b,
+  leap35n        = -leap35b,
+  doublegn       = -doublegb,
+  khn            = -khb,
+  orixn          = -orixb,
+  leap15n        = -leap15b,
+  leap25n        = -leap25b,
+  graln          = -gralb,
+  rooklocustn    = -rooklocustb,
+  bishoplocustn  = -bishoplocustb,
+  nightlocustn   = -nightlocustb,
+  vizridn        = -vizridb,
+  fersridn       = -fersridb,
+  bisonn         = -bisonb,
+  elephantn      = -elephantb,
+  naon           = -naob,
+  rookmoosen     = -rookmooseb,
+  rookeaglen     = -rookeagleb,
+  rooksparrn     = -rooksparrb,
+  bishopmoosen   = -bishopmooseb,
+  bishopeaglen   = -bishopeagleb,
+  bishopsparrn   = -bishopsparrb,
+  raon           = -raob,
+  scorpionn      = -scorpionb,
+  margueriten    = -margueriteb,
+  leap36n        = -leap36b,
+  nrlionn        = -nrlionb,
+  mrlionn        = -mrlionb,
+  molionn        = -molionb,
+  andergn        = -andergb,
+  friendn        = -friendb,
+  dolphinn       = -dolphinb,
+  rabbitn        = -rabbitb,
+  bobn           = -bobb,
+  equiengn       = -equiengb,
+  equifran       = -equifrab,
+  querqun        = -querqub,
+  bouncern       = -bouncerb,
+  rookbouncern   = -rookbouncerb,
+  bishopbouncern = -bishopbouncerb,
+  chinesepawnn   = -chinesepawnb,  
+  radialknightn  = -radialknightb,
+  reversepn      = -reversepb,
+  roselocustn    = -roselocustb,
+  hunter0n       = -hunter0b,
+  dernoi         = -derbla
+} piece;
+
+enum
+{
+  /* For reasons of code simplification of move generation, square a1
+   * doesn't have index 0; there are some slack rows at the top and
+   * bottom of the board, and some slack files at the left and right.
+   */
+  nr_of_slack_files_left_of_board = 8,
+  nr_of_slack_rows_below_board = 8,
+
+  nr_files_on_board = 8,
+  nr_rows_on_board = 8,
+
+  /* if square1-square2==onerow, then square1 is one row higher than
+   * square2 */
+  onerow = (nr_of_slack_files_left_of_board
+            +nr_files_on_board
+            +nr_of_slack_files_left_of_board),
+
+  nr_squares_on_board = nr_files_on_board*nr_rows_on_board,
+
+  maxsquare = ((nr_of_slack_rows_below_board
+                +nr_rows_on_board
+                +nr_of_slack_rows_below_board)
+               *onerow)
+};
+
+/* Symbols for geometric calculations - please ALWAYS use these rather
+ * than int literals */
+enum
+{
+  dir_left  =   -1,
+  dir_right =   +1,
+
+  dir_up    =   onerow,
+  dir_down  =  -onerow
+};
+
+/* Symbols for squares - using these makes code much more human-readable */
+enum
+{
+  square_a1 = (nr_of_slack_rows_below_board*onerow
+               +nr_of_slack_files_left_of_board),
+  square_b1,
+  square_c1,
+  square_d1,
+  square_e1,
+  square_f1,
+  square_g1,
+  square_h1,
+
+  square_a2 = square_a1+dir_up,
+  square_b2,
+  square_c2,
+  square_d2,
+  square_e2,
+  square_f2,
+  square_g2,
+  square_h2,
+
+  square_a3 = square_a2+dir_up,
+
+  square_a4 = square_a3+dir_up,
+  square_b4,
+  square_c4,
+  square_d4,
+  square_e4,
+  square_f4,
+  square_g4,
+  square_h4,
+
+  square_a5 = square_a4+dir_up,
+  square_b5,
+  square_c5,
+  square_d5,
+  square_e5,
+  square_f5,
+  square_g5,
+  square_h5,
+
+  square_a6 = square_a5+dir_up,
+  square_h6 = square_h5+dir_up,
+
+  square_a7 = square_a6+dir_up,
+  square_b7,
+  square_c7,
+  square_d7,
+  square_e7,
+  square_f7,
+  square_g7,
+  square_h7,
+
+  square_a8 = square_a7+dir_up,
+  square_b8,
+  square_c8,
+  square_d8,
+  square_e8,
+  square_f8,
+  square_g8,
+  square_h8
+};
+
+enum
+{
+  /* the following values are used instead of capture square
+   * to indicate special moves */
+  messigny_exchange = maxsquare+1,
+  kingside_castling = maxsquare+2,
+  queenside_castling = maxsquare+3
+};
+
+enum
+{
 #if defined(DATABASE)
-#       define maxply   302
+  maxply = 302
 #else
 #if defined(__unix)
-#       define maxply  1002
+  maxply =   1002
 #else
 #if defined(_WIN32)
-#       define maxply   2702
+  maxply = 2702
 #elif defined(_OS2)
-#       define maxply   302
+  maxply = 302
 #else   
 #if defined(SIXTEEN) /* DOS 16 Bit, ... */
 #if defined(MSG_IN_MEM)
-#       define maxply   26
+  maxply = 26
 #else
-#       define maxply   48
-#endif  /* MSG_IN_MEM */
+  maxply = 48
+#endif /* MSG_IN_MEM */
 #else
-#	define maxply   702
-#endif	/* SIXTEEN */
-#endif  /* _WIN32 */
-#endif  /* __unix */
+  maxply = 702
+#endif/* SIXTEEN */
+#endif /* _WIN32 */
+#endif /* __unix */
 #endif /* DATABASE */
+};
 
-#define toppile (60*maxply)
-#define maxvec          232
+enum
+{
+  toppile = 60*maxply,
+  maxvec = 232
+};
 
-#define bl      ' '
+enum
+{
+  blank = ' '
+};
 
-#define initsquare      0       /* to initialize square-variables */
-#define maxinum 10      /* max. number of imitators */
-#define nullsquare 1
+enum
+{
+  initsquare = 0,      /* to initialize square-variables */
+  maxinum    = 10,    /* max. number of imitators */
+  nullsquare = 1
+};
 
 /* These typedefs should be judged for efficiency */
-
-#if defined(SIXTEEN)
-	typedef char    piece;
-#else
-	typedef int     piece;
-#endif
 
 typedef unsigned long   Flags;
 
@@ -572,34 +695,24 @@ typedef square imarr[maxinum]; /* squares currently occupied by imitators */
 */
 #define nbpiece         (zzzaa - dernoi)
 
+typedef enum
+{
+  MagicSq,         /* 0 */
+  WhForcedSq,      /* 1 */
+  BlForcedSq,      /* 2 */
+  WhConsForcedSq,  /* 3 */
+  BlConsForcedSq,  /* 4 */
+  NoEdgeSq,        /* 5 */
+  SqColor,         /* 6 */
+  WhPromSq,        /* 7 */
+  BlPromSq,        /* 8 */
+  Grid,            /* 9 */
 
-#define MagicSq         0
-#define WhForcedSq      1
-#define BlForcedSq      2
-#define WhConsForcedSq  3
-#define BlConsForcedSq  4
-#define NoEdgeSq        5
-#define SqColor         6
-#define WhPromSq        7
-#define BlPromSq        8
-#define Grid            9
+  nrSquareFlags
+} SquareFlags;
 
-/* to make function ReadSquares in PYIO.C more convenient define
-** ReadImitators und ReadHoles and ReadEpSquares too. They can have any positiv
-** number, but must not coincide with MagicSq...BlConsForcedSq.   TLi
-** Must also not coincide with  WhPromSq  and  BlPromSq.   NG
-*/
-#define ReadImitators           10
-#define ReadHoles               11
-#define ReadEpSquares           12
-#define ReadFrischAuf           13
-#define ReadBlRoyalSq           14
-#define ReadWhRoyalSq           15
-#define ReadNoCastlingSquares   16
-#define ReadGrid                17
-
-#define sq_spec         (zzzan - bas)
-#define sq_num          (zzzao - bas)
+#define sq_spec         (zzzan - square_a1)
+#define sq_num          (zzzao - square_a1)
 #define NoEdge(i)       TSTFLAG(sq_spec[(i)], NoEdgeSq)
 #define SquareCol(i)    TSTFLAG(sq_spec[(i)], SqColor)
 #define GridNum(s)      (sq_spec[(s)] >> Grid)
@@ -615,189 +728,173 @@ typedef square imarr[maxinum]; /* squares currently occupied by imitators */
 #define CLRFLAGMASK(bits,mask)  ((bits) &= ~(mask))
 #define SETFLAGMASK(bits,mask)  ((bits) |= (mask))
 
-/* The following definitions of enumerated types follow
-** a certain template. If you add some more definitions
-** be sure not to put other things between lines where
-** identifiers for the enumerations occur.
-** This certain template of coding enumerations is used
-** in an awk script to change the enumerations to #defines
-** and backwards. Look at the scripts todef.awk and toenum.awk
-** If you want to give some comments to the identifiers, do it
-** in pydata.h. The comments there will be included in the
-** documentation.
-*/
-
-typedef enum {
-	False, True
-} Boolean;
-
-#define False   0
-#define True    1
-
 #include "pylang.h"
 
-/*--- Start of typedef enum {---*/
-#define BeginProblem    0
-#define EndProblem      1
-#define NextProblem     2
-#define StipToken       3
-#define Author  	4
-#define Origin   	5
-#define PieceToken      6
-#define CondToken       7
-#define OptToken        8
-#define RemToken        9
-#define TraceToken      10
-#define InputToken      11
-#define SepToken        12
-#define TitleToken      13
-#define TwinProblem     14
-#define ZeroPosition    15
-#define LaTeXToken      16
-#define LaTeXPieces     17
-#define Award           18
-#define Array		19
-#define Forsyth         20
-#define TokenCount      21
-typedef int Token;
-/*--- End of } Token;---*/
+typedef enum
+{
+  BeginProblem,    /* 0 */
+  EndProblem,      /* 1 */
+  NextProblem,     /* 2 */
+  StipToken,       /* 3 */
+  Author,          /* 4 */
+  Origin,          /* 5 */
+  PieceToken,      /* 6 */
+  CondToken,       /* 7 */
+  OptToken,        /* 8 */
+  RemToken,        /* 9 */
+  TraceToken,     /* 10 */
+  InputToken,     /* 11 */
+  SepToken,       /* 12 */
+  TitleToken,     /* 13 */
+  TwinProblem,    /* 14 */
+  ZeroPosition,   /* 15 */
+  LaTeXToken,     /* 16 */
+  LaTeXPieces,    /* 17 */
+  Award,          /* 18 */
+  Array,          /* 19 */
+  Forsyth,        /* 20 */
 
-/*--- Start of typedef enum {---*/
-#define Invalid 0
-#define Empty   1
-#define King    2
-#define Pawn    3
-#define Queen   4
-#define Knight  5
-#define Rook    6
-#define Bishop  7
-#define Leo     8
-#define Mao     9
-#define Pao     10
-#define Vao     11
-#define Rose    12
-#define Grashopper      13
-#define NightRider      14
-#define Zebra   15
-#define Camel   16
-#define Giraffe 17
-#define RootFiftyLeaper 18
-#define Bucephale       19
-#define Wesir   20
-#define Alfil   21
-#define Fers    22
-#define Dabbaba 23
-#define Lion    24
-#define NonStopEquihopper       25
-#define Locust  26
-#define BerolinaPawn    27
-#define Amazone 28
-#define Empress 29
-#define Princess        30
-#define Gnu     31
-#define Antilope        32
-#define Squirrel        33
-#define Waran   34
-#define Dragon  35
-#define Kangaroo        36
-#define SpiralSpringer  37
-#define UbiUbi  38
-#define Hamster 39
-#define Elk     40
-#define Eagle   41
-#define Sparrow 42
-#define Archbishop      43
-#define ReflectBishop   44
-#define Cardinal        45
-#define NightriderHopper        46
-#define Dummy   47
-#define Camelrider      48
-#define Zebrarider      49
-#define Gnurider        50
-#define CamelHopper     51
-#define ZebraHopper     52
-#define GnuHopper       53
-#define DiagonalSpiralSpringer  54
-#define BouncyKnight    55
-#define EquiHopper      56
-#define CAT     57
-#define SuperBerolinaPawn       58
-#define SuperPawn       59
-#define RookLion        60
-#define BishopLion      61
-#define Sirene  62
-#define Triton  63
-#define Nereide 64
-#define Orphan  65
-#define EdgeHog 66
-#define Moa     67
-#define RookHunter      68
-#define BishopHunter    69
-#define MaoRider        70
-#define MoaRider        71
-#define RookHopper      72
-#define BishopHopper    73
-#define ErlKing         74
-#define BoyScout        75
-#define GirlScout       76
-#define Skylla          77
-#define Charybdis       78
-#define ContraGras      79
-#define RoseLion        80
-#define RoseHopper      81
-#define Okapi           82
-#define Leap37          83
-#define GrassHopper2    84
-#define GrassHopper3    85
-#define Leap16          86
-#define Leap24          87
-#define Leap35          88
-#define DoubleGras      89
-#define KingHopper      90
-#define Orix            91
-#define Leap15          92
-#define Leap25          93
-#define Gral            94
-#define RookLocust      95
-#define BishopLocust    96
-#define NightLocust     97
-#define WesirRider      98
-#define FersRider       99
-#define Bison          100
-#define Elephant       101
-#define Nao            102
-#define RookMoose      103
-#define RookEagle      104
-#define RookSparrow    105
-#define BishopMoose    106
-#define BishopEagle    107
-#define BishopSparrow  108
-#define Rao            109
-#define Scorpion       110
-#define Marguerite     111
-#define Leap36         112
-#define NightRiderLion 113
-#define MaoRiderLion   114
-#define MoaRiderLion   115
-#define AndernachGrasshopper     116
-#define Friend         117
-#define Dolphin        118
-#define Rabbit         119
-#define Bob            120
-#define EquiEnglish    121
-#define EquiFrench     122
-#define Querquisite    123
-#define Bouncer        124
-#define RookBouncer    125
-#define BishopBouncer  126
-#define ChinesePawn    127
-#define RadialKnight   128
-#define ReversePawn    129
-#define RoseLocust     130
-#define Hunter0        131
-#define PieceCount     (Hunter0+maxnrhuntertypes)
-typedef int PieNam;
-/*--- End of } PieNam;---*/
+  TokenCount      /* 21 */
+} Token;
+
+/* TODO reduce to 1 piece kind enumeration type */
+typedef enum
+{
+  Invalid,                 /* 0 */
+  Empty,                   /* 1 */
+  King,                    /* 2 */
+  Pawn,                    /* 3 */
+  Queen,                   /* 4 */
+  Knight,                  /* 5 */
+  Rook,                    /* 6 */
+  Bishop,                  /* 7 */
+  Leo,                     /* 8 */
+  Mao,                     /* 9 */
+  Pao,                    /* 10 */
+  Vao,                    /* 11 */
+  Rose,                   /* 12 */
+  Grashopper,             /* 13 */
+  NightRider,             /* 14 */
+  Zebra,                  /* 15 */
+  Camel,                  /* 16 */
+  Giraffe,                /* 17 */
+  RootFiftyLeaper,        /* 18 */
+  Bucephale,              /* 19 */
+  Wesir,                  /* 20 */
+  Alfil,                  /* 21 */
+  Fers,                   /* 22 */
+  Dabbaba,                /* 23 */
+  Lion,                   /* 24 */
+  NonStopEquihopper,      /* 25 */
+  Locust,                 /* 26 */
+  BerolinaPawn,           /* 27 */
+  Amazone,                /* 28 */
+  Empress,                /* 29 */
+  Princess,               /* 30 */
+  Gnu,                    /* 31 */
+  Antilope,               /* 32 */
+  Squirrel,               /* 33 */
+  Waran,                  /* 34 */
+  Dragon,                 /* 35 */
+  Kangaroo,               /* 36 */
+  SpiralSpringer,         /* 37 */
+  UbiUbi,                 /* 38 */
+  Hamster,                /* 39 */
+  Elk,                    /* 40 */
+  Eagle,                  /* 41 */
+  Sparrow,                /* 42 */
+  Archbishop,             /* 43 */
+  ReflectBishop,          /* 44 */
+  Cardinal,               /* 45 */
+  NightriderHopper,       /* 46 */
+  Dummy,                  /* 47 */
+  Camelrider,             /* 48 */
+  Zebrarider,             /* 49 */
+  Gnurider,               /* 50 */
+  CamelHopper,            /* 51 */
+  ZebraHopper,            /* 52 */
+  GnuHopper,              /* 53 */
+  DiagonalSpiralSpringer, /* 54 */
+  BouncyKnight,           /* 55 */
+  EquiHopper,             /* 56 */
+  CAT,                    /* 57 */
+  SuperBerolinaPawn,      /* 58 */
+  SuperPawn,              /* 59 */
+  RookLion,               /* 60 */
+  BishopLion,             /* 61 */
+  Sirene,                 /* 62 */
+  Triton,                 /* 63 */
+  Nereide,                /* 64 */
+  Orphan,                 /* 65 */
+  EdgeHog,                /* 66 */
+  Moa,                    /* 67 */
+  RookHunter,             /* 68 */
+  BishopHunter,           /* 69 */
+  MaoRider,               /* 70 */
+  MoaRider,               /* 71 */
+  RookHopper,             /* 72 */
+  BishopHopper,           /* 73 */
+  ErlKing,                /* 74 */
+  BoyScout,               /* 75 */
+  GirlScout,              /* 76 */
+  Skylla,                 /* 77 */
+  Charybdis,              /* 78 */
+  ContraGras,             /* 79 */
+  RoseLion,               /* 80 */
+  RoseHopper,             /* 81 */
+  Okapi,                  /* 82 */
+  Leap37,                 /* 83 */
+  GrassHopper2,           /* 84 */
+  GrassHopper3,           /* 85 */
+  Leap16,                 /* 86 */
+  Leap24,                 /* 87 */
+  Leap35,                 /* 88 */
+  DoubleGras,             /* 89 */
+  KingHopper,             /* 90 */
+  Orix,                   /* 91 */
+  Leap15,                 /* 92 */
+  Leap25,                 /* 93 */
+  Gral,                   /* 94 */
+  RookLocust,             /* 95 */
+  BishopLocust,           /* 96 */
+  NightLocust,            /* 97 */
+  WesirRider,             /* 98 */
+  FersRider,              /* 99 */
+  Bison,                 /* 100 */
+  Elephant,              /* 101 */
+  Nao,                   /* 102 */
+  RookMoose,             /* 103 */
+  RookEagle,             /* 104 */
+  RookSparrow,           /* 105 */
+  BishopMoose,           /* 106 */
+  BishopEagle,           /* 107 */
+  BishopSparrow,         /* 108 */
+  Rao,                   /* 109 */
+  Scorpion,              /* 110 */
+  Marguerite,            /* 111 */
+  Leap36,                /* 112 */
+  NightRiderLion,        /* 113 */
+  MaoRiderLion,          /* 114 */
+  MoaRiderLion,          /* 115 */
+  AndernachGrasshopper,  /* 116 */
+  Friend,                /* 117 */
+  Dolphin,               /* 118 */
+  Rabbit,                /* 119 */
+  Bob,                   /* 120 */
+  EquiEnglish,           /* 121 */
+  EquiFrench,            /* 122 */
+  Querquisite,           /* 123 */
+  Bouncer,               /* 124 */
+  RookBouncer,           /* 125 */
+  BishopBouncer,         /* 126 */
+  ChinesePawn,           /* 127 */
+  RadialKnight,          /* 128 */
+  ReversePawn,           /* 129 */
+  RoseLocust,            /* 130 */
+  Hunter0,               /* 131 */
+
+  PieceCount             = Hunter0+maxnrhuntertypes
+} PieNam;
 
 typedef char PieceChar[2];
 typedef PieceChar       PieTable[PieceCount];
@@ -840,10 +937,6 @@ typedef enum
   
   ExtraCondCount    /* 2 */
 } ExtraCond;
-
-
-#define BorderSpec      0
-#define EmptySpec       (BIT(Black)+BIT(White))
 
 /* Some remarks to the efficiency of testing bits in C-code
 ** Look at the following C-fragment:
@@ -1156,28 +1249,17 @@ typedef enum
   PieSpCount
 } PieSpec;
 
-typedef Side         pileside[maxply+1];
+typedef Side pileside[maxply+1];
 
-
-enum {
-  /* if square1-square2==onerow, then square1 is one row higher than
-   * square2 */
-  onerow= 24,
-
-  /* For reasons of code simplification of move generation, square a1
-   * doesn't have index 0; there are some slack rows at the top and
-   * bottom of the board, and some slack files at the left and right.
-   */
-  nr_of_slack_files_left_of_board= 8,
-  nr_of_slack_rows_below_board= 8,
-
-  nr_files_on_board= 8,
-  nr_rows_on_board= 8,
-
-  nr_squares_on_board = nr_files_on_board*nr_rows_on_board
+enum
+{
+  BorderSpec = 0,
+  EmptySpec  = BIT(Black)+BIT(White)
 };
 
-enum {
+
+enum
+{
   file_rook_queenside,
   file_knight_queenside,
   file_bishop_queenside,
@@ -1188,7 +1270,8 @@ enum {
   file_rook_kingside
 };
 
-enum {
+enum
+{
   grid_normal,
   grid_vertical_shift,
   grid_horizontal_shift,
@@ -1204,7 +1287,7 @@ typedef unsigned int slice_index;
 #define DiaCirce        PieSpCount
 #define DiaRen(s)       (boardnum[((s) >> DiaCirce)])
 #define DiaRenMask      ((1<<DiaCirce)-1)
-#define SetDiaRen(s, f) ((s)=((unsigned int)((((f)-bas)/onerow)*8+((f)-bas)%onerow)<<DiaCirce) + ((s)&DiaRenMask))
+#define SetDiaRen(s, f) ((s)=((unsigned int)((((f)-square_a1)/onerow)*8+((f)-square_a1)%onerow)<<DiaCirce) + ((s)&DiaRenMask))
 #define FrischAuf       PieSpCount
 
 /* needed for Twinning Reset. */

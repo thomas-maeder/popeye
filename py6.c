@@ -372,7 +372,7 @@ static void countPieces(void)
        p <= derbla;
        p++)
     if (promonly[p])
-      exist[p]= True;
+      exist[p]= true;
 
   if (CondFlag[protean])
     exist[reversepb]= true;
@@ -394,8 +394,8 @@ static boolean locateKings(void)
     square *bnp;
     square s;
 
-    OptFlag[sansrn]= True;
-    OptFlag[sansrb]= True;
+    OptFlag[sansrn]= true;
+    OptFlag[sansrb]= true;
 
     if (nbpiece[roib]==1)
       for (bnp= boardnum; *bnp; bnp++)
@@ -433,8 +433,8 @@ static boolean locateKings(void)
   }
   else if (CondFlag[losingchess])
   {
-    OptFlag[sansrn]= True;
-    OptFlag[sansrb]= True;
+    OptFlag[sansrn]= true;
+    OptFlag[sansrb]= true;
   }
   else
   {
@@ -502,7 +502,7 @@ static boolean verifieposition(void)
   }
 
   if (CondFlag[glasgow] && CondFlag[circemalefique])
-    anycirprom= True;
+    anycirprom= true;
 
   /* initialize promotion squares */
   if (!CondFlag[einstein])
@@ -812,18 +812,18 @@ static boolean verifieposition(void)
       return false;
     }
 
-    OptFlag[sansrn]= True;
-    OptFlag[sansrb]= True;
-    optim_neutralretractable = False;
-    optim_orthomatingmoves = False;
+    OptFlag[sansrn]= true;
+    OptFlag[sansrb]= true;
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
     is_republican_suspended = false;
   }
 
   if (OptFlag[sansrb] && rb!=initsquare)
-    OptFlag[sansrb]= False;
+    OptFlag[sansrb]= false;
 
   if (OptFlag[sansrn] && rn!=initsquare)
-    OptFlag[sansrn]= False;
+    OptFlag[sansrn]= false;
 
   if (rb==initsquare && nbpiece[roib]==0
       && !OptFlag[sansrb])
@@ -996,7 +996,7 @@ static boolean verifieposition(void)
   }
   if (CondFlag[black_oscillatingKs] && OscillatingKingsTypeC[White]
       && CondFlag[white_oscillatingKs] && OscillatingKingsTypeC[White])
-    CondFlag[swappingkings]= True;
+    CondFlag[swappingkings]= true;
 
   if (anymars||anyantimars) {
     optim_neutralretractable = optim_orthomatingmoves = false;
@@ -1380,7 +1380,7 @@ static boolean verifieposition(void)
     optim_orthomatingmoves = false;
   }
 
-  superbas= CondFlag[antisuper] ? bas : bas - 1;
+  superbas= CondFlag[antisuper] ? square_a1 : square_a1 - 1;
 
   /* init promotioncounter and checkcounter */
   pp= 0;
@@ -1905,7 +1905,7 @@ int tablen(int t)
 }
 
 boolean WriteSpec(Flags sp, boolean printcolours) {
-  boolean ret= False;
+  boolean ret= false;
   PieSpec spname;
 
   if (printcolours && !TSTFLAG(sp, Neutral))
@@ -1918,7 +1918,7 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
          && TSTFLAG(sp, spname))
     {
       StdChar(tolower(*PieSpString[ActLang][spname]));
-      ret= True;
+      ret= true;
     }
   }
   return ret;
@@ -2088,7 +2088,7 @@ void editcoup(coup *mov, Goal goal)
     }
 
     if (CondFlag[republican]
-        && mov->repub_k<=haut && mov->repub_k>=bas)
+        && mov->repub_k<=square_h8 && mov->repub_k>=square_a1)
     {
       SETFLAG(mov->ren_spec,advers(mov->tr));
       StdString("[+");
@@ -2218,7 +2218,7 @@ void editcoup(coup *mov, Goal goal)
   }
   else
     StdString(goal_end_marker[goal]);
-  StdChar(bl);
+  StdChar(blank);
 } /* editcoup */
 
 boolean nowdanstab(int n)
@@ -2520,7 +2520,7 @@ static void SolveSeriesProblems(void)
 
   if (OptFlag[solapparent] && !OptFlag[restart])
   {
-    SatzFlag = True;
+    SatzFlag = true;
     if (echecc(slices[0].starter))
       ErrorMsg(KingCapture);
     else
@@ -2534,7 +2534,7 @@ static void SolveSeriesProblems(void)
         zugebene--;
       }
     }
-    SatzFlag = False;
+    SatzFlag = false;
     Message(NewLine);
   }
 
@@ -2709,11 +2709,11 @@ static void SolveHelpProblems(void)
       ErrorMsg(KingCapture);
     else
     {
-      SatzFlag = True;
+      SatzFlag = true;
       HelpPlayInitSetPlay(0);
       SolveHelpShortOrFull(true);
       HelpPlayRestoreFromSetPlay(0);
-      SatzFlag = False;
+      SatzFlag = false;
     }
     StdChar('\n');
   }
@@ -2780,7 +2780,7 @@ static void swapcolors(void) {
 
 static void reflectboard(void) {
   square *bnp;
-  for (bnp= boardnum; *bnp < (bas+haut)/2; bnp++)
+  for (bnp= boardnum; *bnp < (square_a1+square_h8)/2; bnp++)
   {
     square sq2= *bnp%onerow+onerow*((onerow-1)-*bnp/onerow);
 
@@ -3072,10 +3072,10 @@ int main(int argc, char *argv[]) {
      See ReadBeginSpec in pyio.c
   */
   l= 0;
-  while (l<LangCount-1 && InitMsgTab(l, False) == False)
+  while (l<LangCount-1 && InitMsgTab(l, false) == false)
     l++;
   if (l == LangCount-1)
-    InitMsgTab(l, True);
+    InitMsgTab(l, true);
 
   InitCheckDir();
 

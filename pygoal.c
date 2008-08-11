@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-boolean testdblmate= False;
+boolean testdblmate= false;
 
 boolean goal_checker_target(Side camp, square target)
 {
@@ -825,5 +825,5 @@ void generate_move_reaching_goal(Goal goal, Side side_at_move)
     genmove(side_at_move);
   }
 
-  FlagGenMatingMove= False;
+  FlagGenMatingMove= false;
 } /* generate_move_reaching_goal */

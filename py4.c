@@ -80,7 +80,7 @@ int len_max(square sq_departure, square sq_arrival, square sq_capture)
       return 6;
 
     default:
-      if (CondFlag[castlingchess] && sq_capture > maxsquare + bas) {
+      if (CondFlag[castlingchess] && sq_capture > maxsquare + square_a1) {
         return (move_diff_code[abs(sq_arrival-sq_departure)]) +
           (move_diff_code[abs((sq_capture-maxsquare)-(sq_departure+sq_arrival)/2)]);
       }
@@ -2210,7 +2210,7 @@ void gen_sp_captures(square sq_departure, numvec dir, Side camp) {
 
 void gencpn(square i) {
   genleap(i, 4, 4);
-  if (2*i < haut+bas) {
+  if (2*i < square_h8+square_a1) {
     genleap(i, 1, 1);
     genleap(i, 3, 3);
   }
@@ -2218,7 +2218,7 @@ void gencpn(square i) {
 
 void gencpb(square i) {
   gebleap(i, 2, 2);
-  if (2*i > haut+bas) {
+  if (2*i > square_h8+square_a1) {
     gebleap(i, 1, 1);
     gebleap(i, 3, 3);
   }
@@ -2834,7 +2834,7 @@ void gen_wh_ply(void) {
      the fastest way to compute (due to compiler-optimizations !)
      V3.14  NG
   */
-  z= bas;
+  z= square_a1;
   for (i= nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board)
     for (j= nr_files_on_board; j > 0; j--, z++) {
       if ((p = e[z]) != vide) {
@@ -3274,7 +3274,7 @@ void genpn(square sq_departure) {
 }
 
 void genreversepb(square sq_departure) {
-  if (sq_departure > haut - 24) {
+  if (sq_departure > square_h8 - 24) {
     /* pawn on last rank */
     if (CondFlag[parrain]
         || CondFlag[einstein]
@@ -3295,12 +3295,12 @@ void genreversepb(square sq_departure) {
     gen_p_captures(sq_departure, sq_departure - 23, White);
     gen_p_captures(sq_departure, sq_departure - 25, White);
     /* double or single step? */
-    gen_p_nocaptures(sq_departure, -24, (sq_departure > haut - 32) ? 2 : 1);
+    gen_p_nocaptures(sq_departure, -24, (sq_departure > square_h8 - 32) ? 2 : 1);
   }
 }
 
 void genreversepn(square sq_departure) {
-  if (sq_departure < bas + 24) {
+  if (sq_departure < square_a1 + 24) {
     /* pawn on last rank */
     if ( CondFlag[parrain]
          || CondFlag[normalp]
@@ -3320,7 +3320,7 @@ void genreversepn(square sq_departure) {
     gen_p_captures(sq_departure, sq_departure + 23, Black);
     gen_p_captures(sq_departure, sq_departure + 25, Black);
     /* double or single step? */
-    gen_p_nocaptures(sq_departure, 24, (sq_departure < bas + 32) ? 2 : 1);
+    gen_p_nocaptures(sq_departure, 24, (sq_departure < square_a1 + 32) ? 2 : 1);
   }
 }
 

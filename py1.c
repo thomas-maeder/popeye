@@ -133,7 +133,7 @@ void InitCond(void) {
 
   for (p= vide; p < PieceCount; p++)
     NextChamCircePiece[p]= p;
-  InitChamCirce= True;
+  InitChamCirce= true;
 
   max_pn= max_pb= 8;
   max_pt=16;
@@ -159,9 +159,9 @@ void InitCond(void) {
       SETFLAG(sq_spec[*bnp], NoEdgeSq);
   }
 
-  for (i= bas; i < haut; i+= onerow)
+  for (i= square_a1; i < square_h8; i+= onerow)
   {
-    if (i > bas)
+    if (i > square_a1)
       if (!TSTFLAG(sq_spec[i+dir_down], SqColor))
         SETFLAG(sq_spec[i], SqColor);
     for (j= i+1; j < i+nr_files_on_board; j++)
@@ -170,7 +170,7 @@ void InitCond(void) {
   }
 
   for (i= 0; i < CondCount; ++i)
-    CondFlag[i]= False;
+    CondFlag[i]= false;
 
   for (i= maxply; i > 0; --i)
     inum[i]= 0;
@@ -212,13 +212,13 @@ void InitOpt(void) {
   no_castling= bl_castlings|wh_castlings;
 
   for (i= 0; i < OptCount; i++)
-    OptFlag[i]= False;
+    OptFlag[i]= false;
 }
 
 void InitCheckDir(void) {
   int i, j;
 
-  for (i= -haut+bas; i <= haut-bas; i++)
+  for (i= -square_h8+square_a1; i <= square_h8-square_a1; i++)
     CheckDirQueen[i]=
       CheckDirRook[i]=
       CheckDirBishop[i]=
@@ -281,8 +281,8 @@ void InitBoard(void)
 
 void InitStip(void)
 {
-  FlagGenMatingMove = False;
-  FlagMoveOrientatedStip = False;
+  FlagGenMatingMove = false;
+  FlagMoveOrientatedStip = false;
 
   release_slices();
 }
@@ -733,7 +733,7 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
             sq_castle_to = sq_arrival+dir_right;
               }
         }
-        else if (CondFlag[castlingchess] && sq_capture > maxsquare + bas)
+        else if (CondFlag[castlingchess] && sq_capture > maxsquare + square_a1)
         {
           sq_castle_to = (sq_arrival + sq_departure) / 2;
           sq_castle_from = sq_capture - maxsquare;

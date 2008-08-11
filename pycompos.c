@@ -620,7 +620,7 @@ static boolean h_composite_solve_recursive(Side side_at_move,
           TraceText("inhash(next_no_succ,n-1,&hb)\n");
         else
         {
-          if (h_composite_solve_recursive(next_side,n-1,False,si))
+          if (h_composite_solve_recursive(next_side,n-1,false,si))
             found_solution = true;
           else
             addtohash(next_no_succ,n-1,&hb);
@@ -745,7 +745,7 @@ static boolean ser_composite_exact_solve_recursive(int n,
           (*encode)(&hb);
           if (inhash(SerNoSucc,n,&hb))
             TraceText("in hash\n");
-          else if (ser_composite_exact_solve_recursive(n-1,False,si))
+          else if (ser_composite_exact_solve_recursive(n-1,false,si))
             solution_found = true;
           else
             addtohash(SerNoSucc,n,&hb);
@@ -838,7 +838,7 @@ static boolean ser_composite_maximal_solve(int n,
           (*encode)(&hb);
           if (inhash(SerNoSucc,n,&hb))
             TraceText("in hash\n");
-          else if (ser_composite_maximal_solve(n-1,False,si))
+          else if (ser_composite_maximal_solve(n-1,false,si))
             solution_found = true;
           else
             addtohash(SerNoSucc,n,&hb);

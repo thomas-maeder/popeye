@@ -111,41 +111,79 @@ piece linechampiece(piece p, square sq) {
 piece champiece(piece p)
 {
   /* function realisiert Figurenwechsel bei Chamaeleoncirce */
-  if (CondFlag[leofamily]) {
-    switch (p) {
-    case leob: return maob;
-    case leon: return maon;
-    case maob: return vaob;
-    case maon: return vaon;
-    case vaob: return paob;
-    case vaon: return paon;
-    case paob: return leob;
-    case paon: return leon;
+  if (CondFlag[leofamily])
+  {
+    switch (p)
+    {
+      case leob:
+        return maob;
+      case leon:
+        return maon;
+      case maob:
+        return vaob;
+      case maon:
+        return vaon;
+      case vaob:
+        return paob;
+      case vaon:
+        return paon;
+      case paob:
+        return leob;
+      case paon:
+        return leon;
+      default:
+        break;
     }
-  } else
-    if (CondFlag[cavaliermajeur]) {
-      switch (p) {
-      case db: return nb;
-      case dn: return nn;
-      case nb: return fb;
-      case nn: return fn;
-      case fb: return tb;
-      case fn: return tn;
-      case tb: return db;
-      case tn: return dn;
-      }
-    } else {
-      switch (p) {
-      case db: return cb;
-      case dn: return cn;
-      case cb: return fb;
-      case cn: return fn;
-      case fb: return tb;
-      case fn: return tn;
-      case tb: return db;
-      case tn: return dn;
-      }
+  }
+  else if (CondFlag[cavaliermajeur])
+  {
+    switch (p)
+    {
+      case db:
+        return nb;
+      case dn:
+        return nn;
+      case nb:
+        return fb;
+      case nn:
+        return fn;
+      case fb:
+        return tb;
+      case fn:
+        return tn;
+      case tb:
+        return db;
+      case tn:
+        return dn;
+      default:
+        break;
     }
+  }
+  else
+  {
+    switch (p)
+    {
+      case db:
+        return cb;
+      case dn:
+        return cn;
+      case cb:
+        return fb;
+      case cn:
+        return fn;
+      case fb:
+        return tb;
+      case fn:
+        return tn;
+      case tb:
+        return db;
+      case tn:
+        return dn;
+      default:
+        break;
+    }
+  }
+
   return p;
 }
 
@@ -153,56 +191,105 @@ piece norskpiece(piece p)
 {
   /* function realisiert Figurenwechsel bei NorskSjakk */
   if (CondFlag[leofamily]) {
-    switch (p) {
-    case leob: return maob;
-    case leon: return maon;
-    case maob: return leob;
-    case maon: return leon;
-    case vaob: return paob;
-    case vaon: return paon;
-    case paob: return vaob;
-    case paon: return vaon;
+    switch (p)
+    {
+      case leob:
+        return maob;
+      case leon:
+        return maon;
+      case maob:
+        return leob;
+      case maon:
+        return leon;
+      case vaob:
+        return paob;
+      case vaon:
+        return paon;
+      case paob:
+        return vaob;
+      case paon:
+        return vaon;
+      default:
+        break;
     }
-  } else
-    if (CondFlag[cavaliermajeur]) {
-      switch (p) {
-      case db: return nb;
-      case dn: return nn;
-      case nb: return db;
-      case nn: return dn;
-      case fb: return tb;
-      case fn: return tn;
-      case tb: return fb;
-      case tn: return fn;
-      }
-    } else {
-      switch (p) {
-      case db: return cb;
-      case dn: return cn;
-      case cb: return db;
-      case cn: return dn;
-      case fb: return tb;
-      case fn: return tn;
-      case tb: return fb;
-      case tn: return fn;
-      }
+  }
+  else if (CondFlag[cavaliermajeur])
+  {
+    switch (p)
+    {
+      case db:
+        return nb;
+      case dn:
+        return nn;
+      case nb:
+        return db;
+      case nn:
+        return dn;
+      case fb:
+        return tb;
+      case fn:
+        return tn;
+      case tb:
+        return fb;
+      case tn:
+        return fn;
+      default:
+        break;
     }
+  }
+  else
+  {
+    switch (p)
+    {
+      case db:
+        return cb;
+      case dn:
+        return cn;
+      case cb:
+        return db;
+      case cn:
+        return dn;
+      case fb:
+        return tb;
+      case fn:
+        return tn;
+      case tb:
+        return fb;
+      case tn:
+        return fn;
+      default:
+        break;
+    }
+  }
+
   return p;
 } /* norskpiece */
 
 piece dec_einstein(piece p)
 {
   /* function realisiert Figurenwechsel bei Einsteinschach abwaerts */
-  switch (p) {
-  case db: return tb;
-  case dn: return tn;
-  case tb: return fb;
-  case tn: return fn;
-  case fb: return cb;
-  case fn: return cn;
-  case cb: return pb;
-  case cn: return pn;
+  switch (p)
+  {
+  case db:
+    return tb;
+    case dn:
+      return tn;
+    case tb:
+      return fb;
+    case tn:
+      return fn;
+    case fb:
+      return cb;
+    case fn:
+      return cn;
+    case cb:
+      return pb;
+    case cn:
+      return pn;
+    default:
+      break;
   }
+
   return p;
 }
 
@@ -210,15 +297,26 @@ piece inc_einstein(piece p)
 {
   /* function realisiert Figurenwechsel bei Einsteinschach aufwaerts */
   switch (p) {
-  case pb: return cb;
-  case pn: return cn;
-  case cb: return fb;
-  case cn: return fn;
-  case fb: return tb;
-  case fn: return tn;
-  case tb: return db;
-  case tn: return dn;
+    case pb:
+      return cb;
+    case pn:
+      return cn;
+    case cb:
+      return fb;
+    case cn:
+      return fn;
+    case fb:
+      return tb;
+    case fn:
+      return tn;
+    case tb:
+      return db;
+    case tn:
+      return dn;
+    default:
+      break;
   }
+
   return p;
 }
 
@@ -332,7 +430,7 @@ square rensymmetrie(piece p_captured, Flags p_captured_spec,
                     square sq_departure, square sq_arrival,
                     Side capturer)
 {
-  return (haut+bas) - sq_capture;
+  return (square_h8+square_a1) - sq_capture;
 } /* rensymmetrie */
 
 square renantipoden(piece p_captured, Flags p_captured_spec,
@@ -484,7 +582,7 @@ square rendiametral(piece p_captured, Flags p_captured_spec,
                     square sq_capture,
                     square sq_departure, square sq_arrival,
                     Side capturer) {
-  return (haut+bas
+  return (square_h8+square_a1
           - rennormal(p_captured,p_captured_spec,
                       sq_capture,sq_departure,sq_arrival,capturer));
 }
@@ -521,9 +619,9 @@ boolean is_short(piece p)
   case  Skylla:
   case  Charybdis:
   case  ChinesePawn:
-    return  True;
+    return  true;
   default:
-    return  False;
+    return  false;
   }
 }
 
@@ -535,9 +633,9 @@ boolean is_pawn(piece p)
   case  SuperBerolinaPawn:
   case  SuperPawn:        
   case  ReversePawn: 
-    return  True;
+    return  true;
   default:
-    return  False;
+    return  false;
   }
 }
 
@@ -548,9 +646,9 @@ boolean is_forwardpawn(piece p)
   case  BerolinaPawn:
   case  SuperBerolinaPawn:
   case  SuperPawn:        
-    return  True;
+    return  true;
   default:
-    return  False;
+    return  false;
   }
 }
 
@@ -558,9 +656,9 @@ boolean is_reversepawn(piece p)
 {
   switch (abs(p)) {
   case  ReversePawn: 
-    return  True;
+    return  true;
   default:
-    return  False;
+    return  false;
   }
 }
 
@@ -798,7 +896,7 @@ void gen_bl_ply(void) {
 
   /* Don't try to "optimize" by hand. The double-loop is tested as the  */
   /* fastest way to compute (due to compiler-optimizations !) */
-  z= haut;
+  z= square_h8;
   for (i= nr_rows_on_board; i > 0; i--, z-= onerow-nr_files_on_board)
     for (j= nr_files_on_board; j > 0; j--, z--) {
       if ((p = e[z]) != vide) {
@@ -1204,7 +1302,7 @@ boolean eval_spec(square sq_departure, square sq_arrival, square sq_capture) {
 boolean att_once(square id)
 {
   int i,j, cnt=0;
-  square z=bas;
+  square z=square_a1;
   piece p;
   square rb_=rb;
   rb=id ;
@@ -1234,10 +1332,10 @@ square next_latent_pawn(square s, Side c) {
 
   if (s==initsquare) {
     i = 0;
-    s = c==White ? haut : bas;
+    s = c==White ? square_h8 : square_a1;
   }
   else {
-    i = c==White ? haut-s+1 : s-bas+1;
+    i = c==White ? square_h8-s+1 : s-square_a1+1;
     s += delta;
   }
 
@@ -1382,7 +1480,7 @@ boolean jouecoup(void) {
   if (jouegenre)
   {
     rochade_sq[nbcou]= initsquare;
-    if (sq_capture >= maxsquare + bas)
+    if (sq_capture >= maxsquare + square_a1)
     {
       rochade_sq[nbcou]= sq_capture - maxsquare;
       rochade_pc[nbcou]= e[rochade_sq[nbcou]];
@@ -2503,7 +2601,7 @@ boolean jouecoup(void) {
         {
           is_republican_suspended = true;
           find_mate_square(White);
-          repub_k[nbply] = super[nbply]<= haut ? super[nbply] : initsquare;
+          repub_k[nbply] = super[nbply]<= square_h8 ? super[nbply] : initsquare;
           if (RepublicanType==republican_type1)
           {
             /* In type 1, Republican chess is suspended (and hence
@@ -2521,7 +2619,7 @@ boolean jouecoup(void) {
         else
         {
           repub_k[nbply] = initsquare;
-          super[nbply] = haut+1;
+          super[nbply] = square_h8+1;
         }
       }
       else
@@ -2537,7 +2635,7 @@ boolean jouecoup(void) {
         {
           is_republican_suspended = true;
           find_mate_square(Black);
-          repub_k[nbply] = super[nbply]<= haut ? super[nbply] : initsquare;
+          repub_k[nbply] = super[nbply]<= square_h8 ? super[nbply] : initsquare;
           if (RepublicanType==republican_type1)
           {
             if (repub_k[nbply]==initsquare)
@@ -2549,13 +2647,13 @@ boolean jouecoup(void) {
         else
         {
           repub_k[nbply] = initsquare;
-          super[nbply] = haut+1;
+          super[nbply] = square_h8+1;
         }
       }
     } /* republican */
 
     if (CondFlag[actrevolving])
-      RotateMirror(rot270);
+      transformPosition(rot270);
 
     if (CondFlag[arc])
     {
@@ -2744,7 +2842,7 @@ void repcoup(void) {
   square sq_capture= move_gen_top->capture;
 
   if (jouegenre) {
-    if (sq_capture >= maxsquare + bas)
+    if (sq_capture >= maxsquare + square_a1)
     {
        sq_capture= sq_arrival;
        rochade= true;
@@ -2783,12 +2881,12 @@ void repcoup(void) {
       rn= temp;
     }
 
-    if (CondFlag[actrevolving]) {
-      RotateMirror(rot90);
-    }
+    if (CondFlag[actrevolving])
+      transformPosition(rot90);
 
-    if (CondFlag[arc]) {
-      /* RotateMirror(rot90); */
+    if (CondFlag[arc])
+    {
+      /* transformPosition(rot90); */
       if (sq_departure==square_d4 || sq_departure==square_e4
           || sq_departure==square_d5 || sq_departure==square_e5
           || sq_arrival==square_d4 || sq_arrival==square_e4
@@ -2970,12 +3068,12 @@ void repcoup(void) {
       || (CondFlag[antisuper] && pi_captured != vide))
   {
     nextsuper= super[nbply];
-    while ((e[++nextsuper] != vide) && (nextsuper < haut))
+    while ((e[++nextsuper] != vide) && (nextsuper < square_h8))
       ;
     if (CondFlag[antisuper]
         && AntiCirCheylan
         && nextsuper==sq_capture)
-      while ((e[++nextsuper] != vide) && (nextsuper < haut))
+      while ((e[++nextsuper] != vide) && (nextsuper < square_h8))
         ;
   }
 
@@ -3116,7 +3214,7 @@ void repcoup(void) {
   /* ortho- und pwc-Umwandlung getrennt */
   if (CondFlag[republican])
   {
-    next_prom = super[nbply]>haut;
+    next_prom = super[nbply]>square_h8;
     if (next_prom)
       super[nbply] = superbas;
   }
@@ -3201,7 +3299,7 @@ void repcoup(void) {
             || (CondFlag[antisuper] && pi_captured != vide))
         {
           super[nbply]= nextsuper;
-          if ((super[nbply] > haut)
+          if ((super[nbply] > square_h8)
               || (CondFlag[antisuper]
                   && !LegalAntiCirceMove(nextsuper,sq_capture,sq_departure))) {
             super[nbply]= superbas;
@@ -3392,7 +3490,7 @@ void find_mate_square(Side camp)
   square sq;
 
   if (camp == White) {
-    while ((sq= ++super[nbply]) <= haut) {
+    while ((sq= ++super[nbply]) <= square_h8) {
       if (e[sq] == vide) {
         rn= sq;
         e[rn]= roin;
@@ -3405,7 +3503,7 @@ void find_mate_square(Side camp)
     }
     rn= initsquare;
   } else {
-    while ((sq= ++super[nbply]) <= haut) {
+    while ((sq= ++super[nbply]) <= square_h8) {
       if (e[sq] == vide) {
         rb= sq;
         e[rb]= roib;

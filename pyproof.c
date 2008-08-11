@@ -64,7 +64,7 @@ void ProofEncode(HashBuffer *hb)
   byte    pieces= 0;
   int       row, col;
   square a_square= square_a1;
-  boolean even= False;
+  boolean even= false;
 
   /* clear the bits for storing the position of pieces */
   memset(position, 0, nr_rows_on_board);
@@ -92,24 +92,24 @@ void ProofEncode(HashBuffer *hb)
   *bp++ = castling_flag[nbply];
 
   if (CondFlag[duellist]) {
-    *bp++ = (byte)(whduell[nbply] - bas);
-    *bp++ = (byte)(blduell[nbply] - bas);
+    *bp++ = (byte)(whduell[nbply] - square_a1);
+    *bp++ = (byte)(blduell[nbply] - square_a1);
   }
 
   if (CondFlag[blfollow] || CondFlag[whfollow])
-    *bp++ = (byte)(move_generation_stack[nbcou].departure - bas);
+    *bp++ = (byte)(move_generation_stack[nbcou].departure - square_a1);
 
   if (ep[nbply])
-    *bp++ = (byte)(ep[nbply] - bas);
+    *bp++ = (byte)(ep[nbply] - square_a1);
 
   hb->cmv.Leng= bp - hb->cmv.Data;
 }
 
-int proofwkm[haut+25-(bas-25)+1];
-int proofbkm[haut+25-(bas-25)+1];
+int proofwkm[square_h8+25-(square_a1-25)+1];
+int proofbkm[square_h8+25-(square_a1-25)+1];
 
-#define WhKingMoves  (proofwkm-(bas-25))
-#define BlKingMoves  (proofbkm-(bas-25))
+#define WhKingMoves  (proofwkm-(square_a1-25))
+#define BlKingMoves  (proofbkm-(square_a1-25))
 
 void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
 {
@@ -180,7 +180,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
   MoveNbr= 0;
   do
   {
-    GoOn= False;
+    GoOn= false;
     for (bnp= boardnum; *bnp; bnp++)
     {
       if (WhKingMoves[*bnp] == MoveNbr)
@@ -191,7 +191,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
           if (WhKingMoves[sq] > MoveNbr)
           {
             WhKingMoves[sq]= MoveNbr+1;
-            GoOn= True;
+            GoOn= true;
           }
           if (calc_whtrans_king) {
             sq= *bnp+vec[k];
@@ -200,7 +200,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
               if (WhKingMoves[sq] > MoveNbr)
               {
                 WhKingMoves[sq]= MoveNbr+1;
-                GoOn= True;
+                GoOn= true;
               }
               sq += vec[k];
             }
@@ -213,7 +213,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
             if (e[sq]!=obs && WhKingMoves[sq]>MoveNbr)
             {
               WhKingMoves[sq]= MoveNbr+1;
-              GoOn= True;
+              GoOn= true;
             }
           }
       }
@@ -221,12 +221,12 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
     MoveNbr++;
   } while(GoOn);
 
-  /* initialise bl king */
+  /* initialise blank king */
   BlKingMoves[ProofRN]= 0;
   MoveNbr= 0;
   do
   {
-    GoOn= False;
+    GoOn= false;
     for (bnp= boardnum; *bnp; bnp++)
     {
       if (BlKingMoves[*bnp] == MoveNbr)
@@ -237,7 +237,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
           if (BlKingMoves[sq] > MoveNbr)
           {
             BlKingMoves[sq]= MoveNbr+1;
-            GoOn= True;
+            GoOn= true;
           }
           if (calc_bltrans_king)
           {
@@ -247,7 +247,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
               if (BlKingMoves[sq] > MoveNbr)
               {
                 BlKingMoves[sq]= MoveNbr+1;
-                GoOn= True;
+                GoOn= true;
               }
               sq += vec[k];
             }
@@ -260,7 +260,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
             if (e[sq]!=obs && BlKingMoves[sq]>MoveNbr)
             {
               BlKingMoves[sq]= MoveNbr+1;
-              GoOn= True;
+              GoOn= true;
             }
           }
       }
@@ -351,11 +351,11 @@ void ProofInitialiseIntelligent(void)
     CLRFLAGMASK(castling_flag[0],rh1_cancastle);
 
   if (BlockedBishopc8)
-    /* bl long castling impossible */
+    /* blank long castling impossible */
     CLRFLAGMASK(castling_flag[0],ra8_cancastle);
 
   if (BlockedBishopf8)
-    /* bl short castling impossible */
+    /* blank short castling impossible */
     CLRFLAGMASK(castling_flag[0],rh8_cancastle);
 
   if (!TSTFLAGMASK(castling_flag[0],ra1_cancastle|rh1_cancastle))
@@ -363,7 +363,7 @@ void ProofInitialiseIntelligent(void)
     CLRFLAGMASK(castling_flag[0],ke1_cancastle);
 
   if (!TSTFLAGMASK(castling_flag[0],ra8_cancastle|rh8_cancastle))
-    /* no bl rook can castle, so the bl king cannot either */
+    /* no blank rook can castle, so the blank king cannot either */
     CLRFLAGMASK(castling_flag[0],ke8_cancastle);
 
   castling_flag[2] = castling_flag[1] = castling_flag[0];
@@ -500,7 +500,7 @@ void ProofAtoBWriteStartPosition(void)
 }
 
 /* function that compares the current position with the desired one
- * and returns True if they are identical. Otherwise it returns False.
+ * and returns true if they are identical. Otherwise it returns false.
  */
 boolean ProofIdentical(void)
 {
@@ -508,22 +508,22 @@ boolean ProofIdentical(void)
 
   for (i = 0; i < ProofNbrAllPieces; i++)
     if (ProofPieces[i] != e[ProofSquares[i]])
-      return False;
+      return false;
 
   for (i = roib; i <= fb; i++)
     if (ProofNbrPiece[i] != nbpiece[i]
         || ProofNbrPiece[-i] != nbpiece[-i])
-      return False;
+      return false;
 
   if (CondFlag[imitators])
     for (i= 0; i < inum[nbply]; i++)
       if (Proof_isquare[i] != isquare[i])
-        return False;
+        return false;
 
-  return True;
+  return true;
 }
 
-int ProofKnightMoves[haut-bas+1]= {
+int ProofKnightMoves[square_h8-square_a1+1]= {
   /*   1-  7 */     0,  3,  2,  3,  2,  3,  4,  5,
   /* dummies  8- 16 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
   /*  17- 31*/      4,  3,  4,  3,  2,  1,  2,  3,  2, 1, 2, 3, 4, 3, 4,
@@ -555,8 +555,8 @@ int ProofBlKingMovesNeeded(void)
   {
     if (TSTFLAGMASK(castling_flag[nbply],ra8_cancastle))
     {
-      /* bl long castling */
-      /* BlKingMoves is the number of moves the bl king
+      /* blank long castling */
+      /* BlKingMoves is the number of moves the blank king
          still needs after castling. It takes 1 move to castle,
          but we might save a rook move
       */
@@ -566,8 +566,8 @@ int ProofBlKingMovesNeeded(void)
     }
     if (TSTFLAGMASK(castling_flag[nbply],rh8_cancastle))
     {
-      /* bl short castling */
-      /* BlKingMoves is the number of moves the bl king still
+      /* blank short castling */
+      /* BlKingMoves is the number of moves the blank king still
          needs after castling. It takes 1 move to castle, but we
          might save a rook move
       */
@@ -1505,7 +1505,7 @@ static boolean ProofImpossible(void)
     TraceText("white_moves_left -= ProofWhKingMovesNeeded() < 0\n");
     TraceValue("%d ",ProofWhKingMovesNeeded());
     TraceValue("%d\n",white_moves_left);
-    return True;
+    return true;
   }
 
   black_moves_left -= ProofBlKingMovesNeeded();
@@ -1514,7 +1514,7 @@ static boolean ProofImpossible(void)
     TraceText("black_moves_left -= ProofBlKingMovesNeeded() < 0\n");
     TraceValue("%d ",ProofBlKingMovesNeeded());
     TraceValue("%d\n",black_moves_left);
-    return True;
+    return true;
   }
 
   if (CondFlag[haanerchess])
@@ -1636,28 +1636,28 @@ static boolean ProofImpossible(void)
   {
     TraceText("ArrangePawns(BlPieToBeCapt,White,&BlCapturesRequired)"
               ">white_moves_left\n");
-    return True;
+    return true;
   }
 
   if (ArrangePawns(WhPieToBeCapt,Black,&WhCapturesRequired)>black_moves_left)
   {
     TraceText("ArrangePawns(WhPieToBeCapt,Black,&WhCapturesRequired)"
               ">black_moves_left");
-    return True;
+    return true;
   }
 
   if (ArrangePieces(BlPieToBeCapt,White,BlCapturesRequired)>white_moves_left)
   {
     TraceText("(ArrangePieces(BlPieToBeCapt,White,BlCapturesRequired)"
               ">white_moves_left");
-    return True;
+    return true;
   }
 
   if (ArrangePieces(WhPieToBeCapt,Black,WhCapturesRequired)>black_moves_left)
   {
     TraceText("ArrangePieces(WhPieToBeCapt,Black,WhCapturesRequired)"
               ">black_moves_left");
-    return True;
+    return true;
   }
 
   TraceText("not ProofImpossible\n");

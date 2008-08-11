@@ -410,7 +410,7 @@ void LaTeXEndDiagram(void);
 
 square renplus(piece p, Flags pspec, square j, square i, square ia, Side camp);
 
-void RotateMirror(int what);
+void transformPosition(SquareTransformation transformation);
 void genrb_cast(void);
 void genrn_cast(void);
 

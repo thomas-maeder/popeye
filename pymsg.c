@@ -81,7 +81,7 @@ boolean InitMsgTab(Lang l, boolean Force)
 {
   StringCnt= MsgCount;
   ActualMsgTab= MessageTabs[l];
-  return True;
+  return true;
 }
 
 char const *GetMsgString(message_id_t id)
@@ -127,11 +127,11 @@ char const *GetMsgString(message_id_t id)
 {
   int l;
   char *spt;
-  boolean OutOfRange= False;
+  boolean OutOfRange= false;
 
   if (StringCnt<=id)
   {
-	OutOfRange= True;
+	OutOfRange= true;
 	fseek(fstring, (UnLong)MsgOffset[InternalError], SEEK_SET);
   }
   else
@@ -178,12 +178,12 @@ boolean InitMsgTab(Lang l, boolean Force)
   fstring = fopen(OurFile,"r");
   if (fstring==NULL)
   {
-	if (Force == True) {
+	if (Force == true) {
       fprintf(stderr,"No %s - sorry\n",OurFile);
       exit(-2);
 	}
 	else
-      return False;
+      return false;
   }
   else
   {
@@ -215,7 +215,7 @@ boolean InitMsgTab(Lang l, boolean Force)
       MsgOffset[s]= GetUnInt(&opt) + sizeof(Head);
 
     free(OfsBuf);
-    return True;
+    return true;
   }
 }
 #endif	/* MSG_IN_MEM */

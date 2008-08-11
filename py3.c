@@ -208,7 +208,7 @@ boolean marsechecc(
 
   /* detect mars circe check of k of Side camp */
 
-  for (ii= 8, z= haut; ii > 0; ii--, z-= 16) {
+  for (ii= 8, z= square_h8; ii > 0; ii--, z-= 16) {
     for (jj= 8; jj > 0; jj--, z--) {
       /* in marscirce the kings are included */
       /* in phantomchess the kings are not included, but with rex
@@ -491,7 +491,7 @@ boolean annan_rnechec(evalfunction_t *evaluate)
   boolean ret;
 
   square i,j,z,z1;
-  z= haut;
+  z= square_h8;
   for (i= nr_rows_on_board-1; i > 0; i--, z-= onerow-nr_files_on_board)
     for (j= nr_files_on_board; j > 0; j--, z--) {
       z1= z-onerow;
@@ -732,7 +732,7 @@ boolean annan_rbechec(evalfunction_t *evaluate)
   boolean ret;
 
   square i,j,z,z1;
-  z= bas;
+  z= square_a1;
   for (i= nr_rows_on_board-1; i > 0; i--, z+= onerow-nr_files_on_board)
     for (j= nr_files_on_board; j > 0; j--, z++) {
       z1= z+onerow;
@@ -1209,16 +1209,16 @@ boolean skycharcheck(piece  p,
   if (e[chp] == p) {
     if (e[sq_arrival1]==vide
         && evaluate(chp,sq_arrival1,sq_king)) {
-      return  True;
+      return  true;
     }
 
     if (e[sq_arrival2]==vide
         && evaluate(chp,sq_arrival2,sq_king)) {
-      return  True;
+      return  true;
     }
   }
   
-  return  False;
+  return  false;
 }
 
 boolean skyllacheck(
