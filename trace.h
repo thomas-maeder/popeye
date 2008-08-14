@@ -7,13 +7,16 @@
  * - no overhead if not active
  */
 
+#if defined(_MSC_VER)
 /* MSVC compilers before VC7 don't have __func__ at all; later ones
  * call it __FUNCTION__. */
-#if _MSC_VER < 1300
-#define __func__ "???"
-#else
-#define __func__ __FUNCTION__
+#  if _MSC_VER < 1300
+#    define __func__ "???"
+#  else
+#    define __func__ __FUNCTION__
+#  endif
 #endif
+
 
 #if defined(DOTRACE)
 
