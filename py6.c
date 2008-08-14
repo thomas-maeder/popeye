@@ -1539,9 +1539,16 @@ static boolean verifieposition(void)
   {
     Goal const moveOrientatedGoals[] =
     {
-      goal_mate,
-      goal_check,
-      goal_mate_or_stale
+      goal_target,
+      goal_ep,
+      goal_capture,
+      goal_steingewinn,
+      goal_castling,
+      goal_target,
+      goal_ep,
+      goal_capture,
+      goal_steingewinn,
+      goal_castling
     };
     size_t const nrMoveOrientatedGoals
         = sizeof moveOrientatedGoals / sizeof moveOrientatedGoals[0];
@@ -3232,9 +3239,9 @@ int main(int argc, char *argv[]) {
 
   CloseInput();
 
-  if (LaTeXout) {
+  if (LaTeXout)
     LaTeXClose();
-  }
+
   exit(0);
 } /*main */
 
