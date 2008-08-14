@@ -281,7 +281,7 @@ void InitBoard(void)
 
 void InitStip(void)
 {
-  FlagGenMatingMove = false;
+  empile_for_goal_of_leaf_slice = no_slice;
   FlagMoveOrientatedStip = false;
 
   release_slices();

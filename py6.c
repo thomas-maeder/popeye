@@ -562,22 +562,6 @@ static boolean verifieposition(void)
     }
   }
 
-  {
-    Goal const neutralretractableGoals[] =
-    {
-      goal_mate,
-      goal_check,
-      goal_doublemate
-    };
-
-    size_t const nrNeutralretractableGoals
-        = sizeof neutralretractableGoals / sizeof neutralretractableGoals[0];
-
-    optim_neutralretractable = stip_ends_only_in(neutralretractableGoals,
-                                                 nrNeutralretractableGoals);
-    optim_orthomatingmoves = optim_neutralretractable;
-  }
-
   if (slices[1].u.leaf.goal == goal_steingewinn
       && CondFlag[parrain])
   {
@@ -687,6 +671,12 @@ static boolean verifieposition(void)
       }
     }
   }
+
+  optim_orthomatingmoves = true;
+
+  /* otherwise, the optimisation would be correct, too, but we
+   * wouldn't care */
+  optim_neutralretractable = TSTFLAG(PieSpExFlags,Neutral);
 
   if (CondFlag[sting])
   {
@@ -1539,11 +1529,6 @@ static boolean verifieposition(void)
   {
     Goal const moveOrientatedGoals[] =
     {
-      goal_target,
-      goal_ep,
-      goal_capture,
-      goal_steingewinn,
-      goal_castling,
       goal_target,
       goal_ep,
       goal_capture,

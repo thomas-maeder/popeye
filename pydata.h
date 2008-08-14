@@ -93,7 +93,8 @@ EXTERN  char            MMString[37];   /* MaxMemory available for diagnostic me
 
 EXTERN  long            PositionCnt;
 
-EXTERN  boolean         FlagGenMatingMove, FlagMoveOrientatedStip;
+slice_index empile_for_goal_of_leaf_slice;
+EXTERN  boolean         FlagMoveOrientatedStip;
 EXTERN  boolean         flagpassive, flagcapture,
 			flagactive,
 			flagwhitemummer,

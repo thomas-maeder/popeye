@@ -44,17 +44,16 @@
 #   include "pymac.h"
 #endif
 
-#include <assert.h>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "py.h"
 #include "py1.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
 #include "pystip.h"
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define MAX_OTHER_LEN 1000 /* needs to be at least the max of any value that can be returned in the len functions */
 
@@ -667,8 +666,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     }
   }
 
-  if (FlagGenMatingMove)
-    switch (slices[1].u.leaf.goal)
+  if (empile_for_goal_of_leaf_slice!=no_slice)
+    switch (slices[empile_for_goal_of_leaf_slice].u.leaf.goal)
     {
       case goal_ep:
         if (sq_arrival!=ep[nbply-1] && sq_arrival!=ep2[nbply-1])
@@ -677,7 +676,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           break;
 
       case goal_target:
-        if (sq_arrival!=slices[1].u.leaf.target)
+        if (sq_arrival!=slices[empile_for_goal_of_leaf_slice].u.leaf.target)
           return true;
         else
           break;
@@ -695,16 +694,14 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         else
           break;
 
-      case goal_check:
-        break; /* nothing, but for this goal, the neutralretractable
-                * optimisation can't be applied */
-
-      default:
+      case goal_mate:
+      case goal_doublemate:
         if (optim_neutralretractable && TSTFLAG(spec[sq_departure],Neutral))
         {
           /* Check if a mating move by a neutral piece can be
            * retracted by the opponent.
-           * This works also in more general cases, but which?
+           * TODO can we optimise like this when we are not generating
+           * goal reaching moves?
            */
           if (rb==rn)
           {
@@ -719,6 +716,10 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           else if (e[sq_capture]==vide && abs(e[sq_departure])!=Pawn)
             return true;
         }
+        break;
+
+      default:
+        break;
     }
 
   switch (move_generation_mode)

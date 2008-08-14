@@ -69,11 +69,4 @@ boolean goal_checker_any(Side camp);
 
 boolean goal_checker_target(Side camp, square target);
 
-/* Generate moves for side side_at_move; optimise for moves reaching a
- * specific goal.
- * @param goal goal to be reached by generated move(s)
- * @param side_at_move side for which to generate moves
- */
-void generate_move_reaching_goal(Goal goal, Side side_at_move);
-
 #endif
