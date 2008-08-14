@@ -80,15 +80,16 @@ void TraceValueImpl(char const *format, int value);
 
 #else
 
+#define TraceDeactivate()
 #define TraceFunctionEntry(name)
 #define TraceFunctionParam(format,name)
 #define TraceValue(format,name)
 #define TraceText(text)
 #define TraceSquare(name)
 #define TraceCurrentMove()
-#define TracePosition(echiquier,flags);
+#define TracePosition(echiquier,flags)
 #define TraceFunctionExit(name)
-#define TraceFunctionResult(format,name);
+#define TraceFunctionResult(format,name)
 
 #endif
 

@@ -5,18 +5,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#if defined(DOTRACE)
+
 static boolean deactivated = false;
+
+static unsigned int level;
+
+static unsigned long move_counter;
 
 void TraceDeactivate()
 {
   deactivated = true;
 }
-
-#if defined(DOTRACE)
-
-static unsigned int level;
-
-static unsigned long move_counter;
 
 void TraceFunctionEntry(char const *name)
 {
