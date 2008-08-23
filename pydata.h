@@ -1490,7 +1490,7 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*169*/ "ChameleonPursuit",
     /*170*/ "AntiKoeko",
     /*171*/ "CastlingChess",
-    /*172*/ "LosingGame"
+    /*172*/ "LosingChess"
     }
     };
 #endif
