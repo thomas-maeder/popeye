@@ -1476,4 +1476,11 @@ option intel
 steine  weiss   le4 sd5 kh1
         schwarz kb7 ba7 tb8
 
+weiter
+beme startzugnummer im intelligent-Modus
+steine weiss ke2 bd2
+       schwarz kb4 db2 tf5g3 lb7g7 bc6d5
+forderung ser-h#8
+option intelligent zugnummer start 5
+
 endeproblem
