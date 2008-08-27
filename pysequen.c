@@ -365,6 +365,7 @@ void sequence_impose_starter(slice_index si, Side s)
 
     default:
       assert(0);
+      next_starter = s; /* avoid compiler warning */
       break;
   }
 
