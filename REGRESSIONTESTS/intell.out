@@ -3729,3 +3729,36 @@ intelligent mode bug: did not find mates ...
 Loesung beendet. 
 
 
+startzugnummer im intelligent-Modus
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -L   .   .   .   .  -L   .   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -B   .  -T   .   .   5
+|                                   |
+4   .  -K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -T   .   3
+|                                   |
+2   .  -D   .   B   K   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#8                     2 + 8
+
+0 moegliche Stellungen in 1+5
+0 moegliche Stellungen in 1+6
+1 moegliche Stellungen in 1+7
+  1.Kb4-c4   2.Db2-b4   3.Tg3-b3   4.Lg7-c3   5.d5-d4   6.Tf5-b5   7.c6-c5   8.Lb7-d5 d2-d3 # 
+16 moegliche Stellungen in 1+8
+
+Loesung beendet. 
+
+
