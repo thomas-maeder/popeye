@@ -156,14 +156,14 @@ typedef struct {
         unsigned int solvableIn : BitsForPly;
         unsigned int what : 3;
     } data;
-} whDirElement_t;
+} dirElement_t;
 
 typedef struct {
 	dhtValue	Key;
     struct
     {
-        unsigned int blackNotSolvableIn : BitsForPly;
-        unsigned int whiteNotSolvableIn : BitsForPly;
+        unsigned int notSolvableInOdd : BitsForPly;
+        unsigned int notSolvableInEven : BitsForPly;
         unsigned int what : 3;
     } data;
 } helpElement_t;
@@ -172,8 +172,8 @@ typedef struct {
 	dhtValue	Key;
     struct
     {
-        unsigned int introNotSolvableIn : BitsForPly;
         unsigned int serNotSolvableIn : BitsForPly;
+        unsigned int dummy : BitsForPly;
         unsigned int what : 3;
     } data;
 } serElement_t;
@@ -186,26 +186,25 @@ static int value_of_data(dhtElement const *he)
   genericElement_t const * const ge = (genericElement_t const *)he;
   switch (ge->data.what) {
     case SerNoSucc:
-    case IntroSerNoSucc:
     {
       serElement_t const * const se = (serElement_t const *)he;
-      return se->data.serNotSolvableIn + slices[0].u.composite.length*se->data.introNotSolvableIn;
+      return se->data.serNotSolvableIn;
     }
   
-    case WhHelpNoSucc:
-    case BlHelpNoSucc:
+    case HelpNoSuccOdd:
+    case HelpNoSuccEven:
     {
       helpElement_t const * const hle = (helpElement_t const *)he;
-      if (hle->data.blackNotSolvableIn > hle->data.whiteNotSolvableIn)
-        return hle->data.blackNotSolvableIn;
+      if (hle->data.notSolvableInEven>hle->data.notSolvableInOdd)
+        return hle->data.notSolvableInEven*2;
       else
-        return hle->data.whiteNotSolvableIn;
+        return hle->data.notSolvableInOdd*2+1;
     }
   
-    case WhDirSucc:
-    case WhDirNoSucc:
+    case DirSucc:
+    case DirNoSucc:
     {
-      whDirElement_t const * const wde = (whDirElement_t const *)he;
+      dirElement_t const * const wde = (dirElement_t const *)he;
       if (wde->data.solvableIn <= slices[0].u.composite.length
           && wde->data.solvableIn+1 > wde->data.notSolvableInLessThan)
         return wde->data.solvableIn;
@@ -666,7 +665,7 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
         boolean const ret = slices[0].u.composite.is_exact
             ? sere->data.serNotSolvableIn == (unsigned)val
             : sere->data.serNotSolvableIn >= (unsigned)val;
-        assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
+        assert(sere->data.what==SerNoSucc);
         if (ret) {
           ifHASHRATE(use_pos++);
           return true;
@@ -674,66 +673,58 @@ boolean inhash(hashwhat what, int val, HashBuffer *hb)
         else
           return false;
       }
-      case IntroSerNoSucc:
-      {
-        serElement_t const * const sere = (serElement_t*)he;
-        boolean const ret = slices[0].u.composite.is_exact
-            ? sere->data.introNotSolvableIn == (unsigned)val
-            : sere->data.introNotSolvableIn >= (unsigned)val;
-        assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
-        if (ret) {
-          ifHASHRATE(use_pos++);
-          return true;
-        } else
-          return false;
-      }
-      case WhHelpNoSucc:
+      case HelpNoSuccOdd:
       {
         helpElement_t const * const hlpe = (helpElement_t*)he;
-        boolean const ret = slices[0].u.composite.is_exact
-            ? hlpe->data.whiteNotSolvableIn == (unsigned)val
-            : hlpe->data.whiteNotSolvableIn >= (unsigned)val;
-        assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
-        if (ret) {
+        boolean const ret = (slices[0].u.composite.is_exact
+                             ? hlpe->data.notSolvableInOdd==(unsigned)val
+                             : hlpe->data.notSolvableInOdd>=(unsigned)val);
+        assert(hlpe->data.what==HelpNoSuccOdd
+               || hlpe->data.what==HelpNoSuccEven);
+        if (ret)
+        {
           ifHASHRATE(use_pos++);
           return true;
         }
         else
           return false;
       }
-      case BlHelpNoSucc:
+      case HelpNoSuccEven:
       {
         helpElement_t const * const hlpe = (helpElement_t*)he;
-        boolean const ret = slices[0].u.composite.is_exact
-            ? hlpe->data.blackNotSolvableIn == (unsigned)val
-            : hlpe->data.blackNotSolvableIn >= (unsigned)val;
-        assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
-        if (ret) {
+        boolean const ret = (slices[0].u.composite.is_exact
+                             ? hlpe->data.notSolvableInEven==(unsigned)val
+                             : hlpe->data.notSolvableInEven>=(unsigned)val);
+        assert(hlpe->data.what==HelpNoSuccOdd
+               || hlpe->data.what==HelpNoSuccEven);
+        if (ret)
+        {
           ifHASHRATE(use_pos++);
           return true;
-        } else
+        }
+        else
           return false;
       }
-      case WhDirNoSucc:
+      case DirNoSucc:
       {
-        whDirElement_t const * const wde = (whDirElement_t*)he;
+        dirElement_t const * const wde = (dirElement_t*)he;
         boolean const ret = slices[0].u.composite.is_exact
             ? wde->data.notSolvableInLessThan == (unsigned)val+1
             : wde->data.notSolvableInLessThan >= (unsigned)val+1;
-        assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
+        assert(wde->data.what==DirNoSucc || wde->data.what==DirSucc);
         if (ret) {
           ifHASHRATE(use_pos++);
           return true;
         } else
           return false;
       }
-      case WhDirSucc:
+      case DirSucc:
       {
-        whDirElement_t const * const wde = (whDirElement_t*)he;
+        dirElement_t const * const wde = (dirElement_t*)he;
         boolean const ret = slices[0].u.composite.is_exact
             ? wde->data.solvableIn == (unsigned)val
             : wde->data.solvableIn <= (unsigned)val;
-        assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
+        assert(wde->data.what==DirNoSucc || wde->data.what==DirSucc);
         if (ret) {
           ifHASHRATE(use_pos++);
           return true;
@@ -781,49 +772,40 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
       }
     }
     switch (what) {
-      case IntroSerNoSucc:
-      {
-        serElement_t * const sere = (serElement_t*)he;
-        sere->data.what = what;
-        sere->data.introNotSolvableIn = val;
-        sere->data.serNotSolvableIn = 0;
-        break;
-      }
       case SerNoSucc:
       {
         serElement_t * const sere = (serElement_t*)he;
         sere->data.what = what;
         sere->data.serNotSolvableIn = val;
-        sere->data.introNotSolvableIn = 0;
         break;
       }
-      case WhHelpNoSucc:
+      case HelpNoSuccOdd:
       {
         helpElement_t * const hlpe = (helpElement_t*)he;
         hlpe->data.what = what;
-        hlpe->data.whiteNotSolvableIn = val;
-        hlpe->data.blackNotSolvableIn = 0;
+        hlpe->data.notSolvableInOdd = val;
+        hlpe->data.notSolvableInEven = 0;
         break;
       }
-      case BlHelpNoSucc:
+      case HelpNoSuccEven:
       {
         helpElement_t * const hlpe = (helpElement_t*)he;
         hlpe->data.what = what;
-        hlpe->data.whiteNotSolvableIn = 0;
-        hlpe->data.blackNotSolvableIn = val;
+        hlpe->data.notSolvableInOdd = 0;
+        hlpe->data.notSolvableInEven = val;
         break;
       }
-      case WhDirSucc:
+      case DirSucc:
       {
-        whDirElement_t * const wde = (whDirElement_t*)he;
+        dirElement_t * const wde = (dirElement_t*)he;
         wde->data.what = what;
         wde->data.solvableIn = val;
         wde->data.notSolvableInLessThan = 0;
         break;
       }
-      case WhDirNoSucc:
+      case DirNoSucc:
       {
-        whDirElement_t * const wde = (whDirElement_t*)he;
+        dirElement_t * const wde = (dirElement_t*)he;
         wde->data.what = what;
         wde->data.solvableIn = slices[0].u.composite.length+1;
         wde->data.notSolvableInLessThan = val+1;
@@ -834,50 +816,44 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
   else
   {
     switch (what) {
-      case IntroSerNoSucc:
-      {
-        serElement_t * const sere = (serElement_t*)he;
-        assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
-        if (sere->data.introNotSolvableIn < val)
-          sere->data.introNotSolvableIn = val;
-        break;
-      }
       case SerNoSucc:
       {
         serElement_t * const sere = (serElement_t*)he;
-        assert(sere->data.what==SerNoSucc || sere->data.what==IntroSerNoSucc);
+        assert(sere->data.what==SerNoSucc);
         if (sere->data.serNotSolvableIn < val)
           sere->data.serNotSolvableIn = val;
         break;
       }
-      case WhHelpNoSucc:
+      case HelpNoSuccOdd:
       {
         helpElement_t * const hlpe = (helpElement_t*)he;
-        assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
-        if (hlpe->data.whiteNotSolvableIn < val)
-          hlpe->data.whiteNotSolvableIn = val;
+        assert(hlpe->data.what==HelpNoSuccOdd
+               || hlpe->data.what==HelpNoSuccEven);
+        if (hlpe->data.notSolvableInOdd<val)
+          hlpe->data.notSolvableInOdd = val;
         break;
       }
-      case BlHelpNoSucc:
+      case HelpNoSuccEven:
       {
         helpElement_t * const hlpe = (helpElement_t*)he;
-        assert(hlpe->data.what==WhHelpNoSucc || hlpe->data.what==BlHelpNoSucc);
-        if (hlpe->data.blackNotSolvableIn < val)
-          hlpe->data.blackNotSolvableIn = val;
+        assert(hlpe->data.what==HelpNoSuccOdd
+               || hlpe->data.what==HelpNoSuccEven);
+        if (hlpe->data.notSolvableInEven<val)
+          hlpe->data.notSolvableInEven = val;
         break;
       }
-      case WhDirSucc:
+      case DirSucc:
       {
-        whDirElement_t * const wde = (whDirElement_t*)he;
-        assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
+        dirElement_t * const wde = (dirElement_t*)he;
+        assert(wde->data.what==DirNoSucc || wde->data.what==DirSucc);
         if (wde->data.solvableIn > val)
           wde->data.solvableIn = val;
         break;
       }
-      case WhDirNoSucc:
+      case DirNoSucc:
       {
-        whDirElement_t * const wde = (whDirElement_t*)he;
-        assert(wde->data.what==WhDirNoSucc || wde->data.what==WhDirSucc);
+        dirElement_t * const wde = (dirElement_t*)he;
+        assert(wde->data.what==DirNoSucc || wde->data.what==DirSucc);
         if (wde->data.notSolvableInLessThan < val+1)
           wde->data.notSolvableInLessThan = val+1;
         break;
@@ -1057,7 +1033,7 @@ void check_hash_assumptions(void)
   assert(PieSpCount<=2*CHAR_BIT);
   
   assert(sizeof(dhtElement)==sizeof(genericElement_t));
-  assert(sizeof(dhtElement)==sizeof(whDirElement_t));
+  assert(sizeof(dhtElement)==sizeof(dirElement_t));
   assert(sizeof(dhtElement)==sizeof(helpElement_t));
   assert(sizeof(dhtElement)==sizeof(serElement_t));
 
@@ -1067,9 +1043,9 @@ void check_hash_assumptions(void)
     /* using this rather than &ge further down keeps gcc quiet: */
     genericElement_t *pge = &ge;
 
-    ge.data.what = WhDirSucc;
-    assert(WhDirSucc==((whDirElement_t*)pge)->data.what);
-    assert(WhDirSucc==((helpElement_t*)pge)->data.what);
-    assert(WhDirSucc==((serElement_t*)pge)->data.what);
+    ge.data.what = DirSucc;
+    assert(DirSucc==((dirElement_t*)pge)->data.what);
+    assert(DirSucc==((helpElement_t*)pge)->data.what);
+    assert(DirSucc==((serElement_t*)pge)->data.what);
   }
 }

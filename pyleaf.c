@@ -1819,16 +1819,16 @@ static boolean d_leaf_d_does_attacker_win(slice_index leaf)
      * Therefore let's check for "no solution" first.  TLi
      */
     (*encode)(&hb);
-    if (inhash(WhDirNoSucc,1,&hb))
+    if (inhash(DirNoSucc,1,&hb))
     {
-      TraceText("WhDirNoSucc\n");
+      TraceText("DirNoSucc\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%d\n",false);
       return false;
     }
-    if (inhash(WhDirSucc,1,&hb))
+    if (inhash(DirSucc,1,&hb))
     {
-      TraceText("WhDirSucc\n");
+      TraceText("DirSucc\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%d\n",true);
       return true;
@@ -1867,7 +1867,7 @@ static boolean d_leaf_d_does_attacker_win(slice_index leaf)
   finply();
 
   if (!FlagMoveOrientatedStip)
-    addtohash(end_found ? WhDirSucc : WhDirNoSucc, 1, &hb);
+    addtohash(end_found ? DirSucc : DirNoSucc, 1, &hb);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",end_found);
@@ -1893,14 +1893,14 @@ static boolean d_leaf_sr_does_attacker_win(slice_index leaf)
   /* It is more likely that a position has no solution. */
   /*    Therefore let's check for "no solution" first. TLi */
   (*encode)(&hb);
-  if (inhash(WhDirNoSucc,1,&hb))
+  if (inhash(DirNoSucc,1,&hb))
   {
-    assert(!inhash(WhDirSucc,1,&hb));
+    assert(!inhash(DirSucc,1,&hb));
     TraceFunctionExit(__func__);
     TraceFunctionResult("%d\n",false);
     return false;
   }
-  if (inhash(WhDirSucc,1,&hb))
+  if (inhash(DirSucc,1,&hb))
   {
     TraceFunctionExit(__func__);
     TraceFunctionResult("%d\n",true);
@@ -1930,7 +1930,7 @@ static boolean d_leaf_sr_does_attacker_win(slice_index leaf)
 
   finply();
 
-  addtohash(win_found ? WhDirSucc : WhDirNoSucc, 1, &hb);
+  addtohash(win_found ? DirSucc : DirNoSucc, 1, &hb);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",win_found);
@@ -2836,9 +2836,6 @@ boolean leaf_solve(slice_index leaf)
     case EHelp:
     {
 /*       boolean const save_flag_hashall = flag_hashall;
-         hashwhat next_no_succ = (slices[leaf].starter==White
-                                  ? WhHelpNoSucc
-                                  : BlHelpNoSucc);
          flag_hashall = true;*/ /* TODO */
       result = h_leaf_solve(restartenabled,leaf);
 /*       flag_hashall = save_flag_hashall;*/

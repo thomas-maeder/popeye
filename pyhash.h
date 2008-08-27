@@ -15,11 +15,10 @@
 typedef unsigned char   byte;
 typedef enum {
 	SerNoSucc,
-	IntroSerNoSucc,
-	WhHelpNoSucc,
-	BlHelpNoSucc,
-	WhDirSucc,
-	WhDirNoSucc
+	HelpNoSuccOdd,
+	HelpNoSuccEven,
+	DirSucc,
+	DirNoSucc
 } hashwhat;
 
 typedef union

@@ -27,13 +27,13 @@ static boolean d_composite_is_in_hash(HashBuffer *hb, int n, boolean *result)
   /* It is more likely that a position has no solution.           */
   /* Therefore let's check for "no solution" first.  TLi */
   (*encode)(hb);
-  if (inhash(WhDirNoSucc,n,hb))
+  if (inhash(DirNoSucc,n,hb))
   {
-    assert(hashing_suspended || !inhash(WhDirSucc,n,hb));
+    assert(hashing_suspended || !inhash(DirSucc,n,hb));
     *result = false;
     return true;
   }
-  else if (inhash(WhDirSucc,n,hb))
+  else if (inhash(DirSucc,n,hb))
   {
     *result = true;
     return true;
@@ -345,7 +345,7 @@ boolean d_composite_does_attacker_win(int n, slice_index si)
     {
       TraceText("not in hash\n");
       result = d_composite_middle_does_attacker_win(n,si);
-      addtohash(result ? WhDirSucc : WhDirNoSucc, n, &hb);
+      addtohash(result ? DirSucc : DirNoSucc, n, &hb);
     }
   }
   else if (d_slice_has_defender_lost(si))
@@ -373,7 +373,7 @@ boolean d_composite_does_attacker_win(int n, slice_index si)
         }
       }
 
-      addtohash(result ? WhDirSucc : WhDirNoSucc, n, &hb);
+      addtohash(result ? DirSucc : DirNoSucc, n, &hb);
     }
   }
 
@@ -583,7 +583,6 @@ static boolean h_composite_solve_recursive(Side side_at_move,
                                            slice_index si)
 {
   boolean found_solution = false;
-  hashwhat next_no_succ = side_at_move==White ? BlHelpNoSucc : WhHelpNoSucc;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",side_at_move);
   TraceFunctionParam("%d",n);
@@ -595,6 +594,9 @@ static boolean h_composite_solve_recursive(Side side_at_move,
     found_solution = h_composite_end_solve(restartenabled,si);
   else
   {
+    hashwhat const hash_no_succ = ((n-1)%2==0
+                                   ? HelpNoSuccEven
+                                   : HelpNoSuccOdd);
     Side next_side = advers(side_at_move);
 
     genmove(side_at_move);
@@ -616,14 +618,14 @@ static boolean h_composite_solve_recursive(Side side_at_move,
       {
         HashBuffer hb;
         (*encode)(&hb);
-        if (inhash(next_no_succ,n-1,&hb))
-          TraceText("inhash(next_no_succ,n-1,&hb)\n");
+        if (inhash(hash_no_succ,(n-1)/2,&hb))
+          TraceText("inhash(hash_no_succ,n-1,&hb)\n");
         else
         {
           if (h_composite_solve_recursive(next_side,n-1,false,si))
             found_solution = true;
           else
-            addtohash(next_no_succ,n-1,&hb);
+            addtohash(hash_no_succ,(n-1)/2,&hb);
         }
       }
 
