@@ -146,6 +146,10 @@ typedef struct
     data_type data;
 } element_t;
 
+
+/* Hashing properties of stipulation slices
+ */
+
 typedef struct
 {
     unsigned int size;
@@ -342,6 +346,13 @@ static void init_slice_properties(void)
   size_t offset = sizeof(data_type)*CHAR_BIT;
   init_slice_properties_recursive(si,offset);
 }
+
+
+/* Pseudo hash table element - template for fast initialization of
+ * newly created actual table elements
+ */
+static dhtElement template_element;
+
 
 static void set_value_direct(dhtElement *he,
                              slice_index si,
@@ -1396,7 +1407,7 @@ void addtohash(slice_index si, hashwhat what, int val, HashBuffer *hb)
       }
     }
 
-    init_element(he,0);
+    he->Data = template_element.Data;
   }
 
   switch (what)
@@ -1459,6 +1470,7 @@ void inithash(void)
 #endif /*FXF*/
 
   init_slice_properties();
+  init_element(&template_element,0);
 
   flag_hashall= true;
 
