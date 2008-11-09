@@ -372,7 +372,10 @@ boolean d_composite_does_attacker_win(int n, slice_index si)
     if (!d_composite_is_in_hash(si,&hb,n,&result))
     {
       TraceText("not in hash\n");
-      /* TODO the following seems only necessary if n>1 - verify */
+      /* TODO this may cause d_composite_end_does_attacker_win() to be
+       * invoked twice if (n==slack_length_direct) - find out how to
+       * avoid this.
+       */
       if (d_composite_end_does_attacker_win(si))
         result = true;
       else
