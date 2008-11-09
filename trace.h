@@ -49,7 +49,7 @@ void TraceFunctionExit(char const *name);
 /* Trace the value of some expression
  */
 #define TraceValue(format,name) \
-  TraceValueImpl(" " #name ":" format, name)
+  TraceValueImpl(" " #name ":" format, (int)name)
 
 /* Trace arbitrary text
  */
