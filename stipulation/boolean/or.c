@@ -140,8 +140,6 @@ void d_quodlibet_end_write_key_solve_postkey(int refutations,
                                   is_try);
 }
 
-extern boolean hashing_suspended; /* TODO */
-
 /* Determine whether the attacker wins at the end of a quodlibet slice
  * @param si slice index
  * @param parent_is_exact true iff parent of slice si has exact length
@@ -152,20 +150,12 @@ boolean d_quodlibet_end_does_attacker_win(slice_index si)
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
   boolean result;
-  boolean const save_hashing_suspended = hashing_suspended;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  /* avoid conflict in hash table between op1 and op2 */
-  /* TODO use disjoint "hash slots" to avoid this conflict while
-   * hashing both in op1 and op2 */
-  hashing_suspended = true;
-
   result = (d_slice_does_attacker_win(op1)
             || d_slice_does_attacker_win(op2));
-
-  hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%d\n",result);
@@ -207,18 +197,13 @@ void d_quodlibet_end_solve_variations(int len_threat,
 d_defender_win_type d_quodlibet_end_does_defender_win(slice_index si)
 {
   d_defender_win_type result = win;
-  boolean const save_hashing_suspended = hashing_suspended;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  hashing_suspended = true;
-
   if (d_slice_does_defender_win(slices[si].u.composite.op1)>=loss
       || d_slice_does_defender_win(slices[si].u.composite.op2)>=loss)
     result = loss;
-
-  hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
@@ -234,17 +219,12 @@ d_defender_win_type d_quodlibet_end_does_defender_win(slice_index si)
 boolean d_quodlibet_end_has_defender_lost(slice_index si)
 {
   boolean result = true;
-  boolean const save_hashing_suspended = hashing_suspended;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  hashing_suspended = true;
-
   result = (d_slice_has_defender_lost(slices[si].u.composite.op1)
             ||d_slice_has_defender_lost(slices[si].u.composite.op2));
-
-  hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
@@ -259,17 +239,11 @@ boolean d_quodlibet_end_has_defender_lost(slice_index si)
 boolean d_quodlibet_end_has_defender_won(slice_index si)
 {
   boolean result = true;
-  boolean const save_hashing_suspended = hashing_suspended;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  hashing_suspended = true;
-
   result = (d_slice_has_defender_won(slices[si].u.composite.op1)
             && d_slice_has_defender_won(slices[si].u.composite.op2));
-
-  hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
@@ -284,18 +258,13 @@ boolean d_quodlibet_end_has_defender_won(slice_index si)
 boolean d_quodlibet_end_has_attacker_won(slice_index si)
 {
   boolean result = true;
-  boolean const save_hashing_suspended = hashing_suspended;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  hashing_suspended = true;
-
   result = (d_slice_has_attacker_won(slices[si].u.composite.op1)
             || d_slice_has_attacker_won(slices[si].u.composite.op2));
 
-  hashing_suspended = save_hashing_suspended;
-  
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
   return result;
@@ -309,18 +278,13 @@ boolean d_quodlibet_end_has_attacker_won(slice_index si)
 boolean d_quodlibet_end_has_attacker_lost(slice_index si)
 {
   boolean result = true;
-  boolean const save_hashing_suspended = hashing_suspended;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  hashing_suspended = true;
-  
   result = (d_slice_has_attacker_lost(slices[si].u.composite.op1)
             || d_slice_has_attacker_lost(slices[si].u.composite.op2));
 
-  hashing_suspended = save_hashing_suspended;
-  
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
   return result;
@@ -337,20 +301,14 @@ boolean h_quodlibet_end_solve(slice_index si)
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
 
-  boolean const save_hashing_suspended = hashing_suspended;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
   TraceValue("%d",op1);
   TraceValue("%d\n",op2);
 
-  hashing_suspended = true;
-
   /* avoid short-cut boolean evaluation */
   found_solution_op1 = h_slice_solve(false,op1);
   found_solution_op2 = h_slice_solve(false,op2);
-
-  hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",found_solution_op1 || found_solution_op2);
@@ -368,18 +326,13 @@ boolean ser_quodlibet_end_solve(boolean restartenabled, slice_index si)
   boolean solution_found_op2 = false;
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
-  boolean const save_hashing_suspended = hashing_suspended;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  hashing_suspended = true;
-
   /* avoid short-cut boolean evaluation */
   solution_found_op1 = ser_slice_solve(restartenabled,op1);
   solution_found_op2 = ser_slice_solve(restartenabled,op2);
-
-  hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",solution_found_op1 || solution_found_op2);

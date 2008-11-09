@@ -105,8 +105,6 @@
 
 struct dht *pyhash;
 
-boolean hashing_suspended; /* TODO */
-
 static char    piece_nbr[PieceCount];
 static boolean one_byte_hash;
 boolean flag_hashall;
@@ -132,98 +130,610 @@ static unsigned long use_pos, use_all;
 #endif /*HASHRATE*/
 
 /* New Version for more ply's */
-enum {
+enum
+{
   ByteMask = (1u<<CHAR_BIT)-1,
   BitsForPly = 10      /* Up to 1023 ply possible */
 };
 
 void (*encode)(HashBuffer*);
 
-typedef struct {
-	dhtValue	Key;
-    struct
-    {
-        unsigned int dummy : BitsForPly+BitsForPly;
-        unsigned int what : 3;
-    } data;
-} genericElement_t;
+typedef unsigned int data_type;
 
-typedef struct {
-	dhtValue	Key;
-    struct
-    {
-        unsigned int notSolvableInLessThan : BitsForPly;
-        unsigned int solvableIn : BitsForPly;
-        unsigned int what : 3;
-    } data;
-} dirElement_t;
+typedef struct
+{
+	dhtValue Key;
+    data_type data;
+} element_t;
 
-typedef struct {
-	dhtValue	Key;
-    struct
-    {
-        unsigned int notSolvableInOdd : BitsForPly;
-        unsigned int notSolvableInEven : BitsForPly;
-        unsigned int what : 3;
-    } data;
-} helpElement_t;
+typedef struct
+{
+    unsigned int size;
 
-typedef struct {
-	dhtValue	Key;
-    struct
+    union
     {
-        unsigned int serNotSolvableIn : BitsForPly;
-        unsigned int dummy : BitsForPly;
-        unsigned int what : 3;
-    } data;
-} serElement_t;
+        struct
+        {
+            unsigned int offsetSucc;
+            unsigned int maskSucc;
+            unsigned int offsetNoSucc;
+            unsigned int maskNoSucc;
+        } d;
+        struct
+        {
+            unsigned int offsetNoSuccOdd;
+            unsigned int maskNoSuccOdd;
+            unsigned int offsetNoSuccEven;
+            unsigned int maskNoSuccEven;
+        } h;
+        struct
+        {
+            unsigned int offsetNoSucc;
+            unsigned int maskNoSucc;
+        } s;
+    } u;
+} slice_properties_t;
+
+static slice_properties_t slice_properties[max_nr_slices];
+
+static unsigned int bit_width(unsigned int value)
+{
+  unsigned int result = 0;
+  while (value!=0)
+  {
+    ++result;
+    value /= 2;
+  }
+
+  return result;
+}
+
+static size_t init_slice_properties_direct(slice_index si,
+                                           unsigned int length,
+                                           size_t offset)
+{
+  unsigned int const size = bit_width(length);
+  data_type const mask = (1<<size)-1;
+
+  slice_properties[si].size = size;
+
+  assert(offset>=size);
+  offset -= size;
+  slice_properties[si].u.d.offsetNoSucc = offset;
+  slice_properties[si].u.d.maskNoSucc = mask << offset;
+
+  assert(offset>=size);
+  offset -= size;
+  slice_properties[si].u.d.offsetSucc = offset;
+  slice_properties[si].u.d.maskSucc = mask << offset;
+
+  return offset;
+}
+
+static size_t init_slice_properties_help(slice_index si,
+                                         unsigned int length,
+                                         size_t offset)
+{
+  unsigned int const size = bit_width((length+1)/2);
+  data_type const mask = (1<<size)-1;
+
+  slice_properties[si].size = size;
+
+  assert(offset>=size);
+  offset -= size;
+  slice_properties[si].u.h.offsetNoSuccOdd = offset;
+  slice_properties[si].u.h.maskNoSuccOdd = mask << offset;
+
+  assert(offset>=size);
+  offset -= size;
+  slice_properties[si].u.h.offsetNoSuccEven = offset;
+  slice_properties[si].u.h.maskNoSuccEven = mask << offset;
+
+  return offset;
+}
+
+static size_t init_slice_properties_series(slice_index si,
+                                           unsigned int length,
+                                           size_t offset)
+{
+  unsigned int const size = bit_width(length);
+  data_type const mask = (1<<size)-1;
+
+  slice_properties[si].size = size;
+
+  assert(offset>=size);
+  offset -= size;
+  slice_properties[si].u.s.offsetNoSucc = offset;
+  slice_properties[si].u.s.maskNoSucc = mask << offset;
+
+  return offset;
+}
+
+static size_t init_slice_properties_recursive(slice_index si, size_t offset);
+
+static size_t init_slice_properties_composite(slice_index si, size_t offset)
+{
+  unsigned int const length = slices[si].u.composite.length;
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      offset = init_slice_properties_direct(si,
+                                            length-slack_length_direct,
+                                            offset);
+      break;
+
+    case PHelp:
+      offset = init_slice_properties_help(si,
+                                          length-slack_length_help,
+                                          offset);
+      break;
+
+    case PSeries:
+      offset = init_slice_properties_series(si,
+                                            length-slack_length_series,
+                                            offset);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      assert(0);
+
+    case STReciprocal:
+    case STQuodlibet:
+    {
+      slice_index const op1 = slices[si].u.composite.op1;
+      slice_index const op2 = slices[si].u.composite.op2;
+      offset = init_slice_properties_recursive(op1,offset);
+      offset = init_slice_properties_recursive(op2,offset);
+      break;
+    }
+
+    case STSequence:
+    {
+      slice_index const op1 = slices[si].u.composite.op1;
+      offset = init_slice_properties_recursive(op1,offset);
+      break;
+    }
+  }
+
+  return offset;
+}
+
+static size_t init_slice_properties_leaf(slice_index si, size_t offset)
+{
+  switch (slices[si].u.leaf.end)
+  {
+    case EHelp:
+      offset = init_slice_properties_help(si,2,offset);
+      break;
+
+    case EDirect:
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      offset = init_slice_properties_direct(si,1,offset);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  return offset;
+}
+
+static size_t init_slice_properties_recursive(slice_index si, size_t offset)
+{
+  if (slices[si].type==STLeaf)
+    return init_slice_properties_leaf(si,offset);
+  else
+    return init_slice_properties_composite(si,offset);
+}
+
+static void init_slice_properties(void)
+{
+  slice_index const si = 0;
+  size_t offset = sizeof(data_type)*CHAR_BIT;
+  init_slice_properties_recursive(si,offset);
+}
+
+static void set_value_direct(dhtElement *he,
+                             slice_index si,
+                             hashwhat what,
+                             data_type val)
+{
+  unsigned int const offset = (what==DirSucc
+                               ? slice_properties[si].u.d.offsetSucc
+                               : slice_properties[si].u.d.offsetNoSucc);
+  unsigned int const bits = val << offset;
+  unsigned int const mask = (what==DirSucc
+                             ? slice_properties[si].u.d.maskSucc
+                             : slice_properties[si].u.d.maskNoSucc);
+  element_t * const e = (element_t *)he;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%d ",what);
+  TraceFunctionParam("%d\n",val);
+  TraceValue("%d ",slice_properties[si].size);
+  TraceValue("%d ",offset);
+  TraceValue("%08x ",mask);
+  TraceValue("%p ",&e->data);
+  TraceValue("pre:%08x ",e->data);
+  TraceValue("%08x\n",bits);
+  assert((bits&mask)==bits);
+  e->data &= ~mask;
+  e->data |= bits;
+  TraceValue("post:%08x\n",e->data);
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+static void set_value_help(dhtElement *he,
+                           slice_index si,
+                           hashwhat what,
+                           data_type val)
+{
+  unsigned int const offset = (what==HelpNoSuccOdd
+                               ? slice_properties[si].u.h.offsetNoSuccOdd
+                               : slice_properties[si].u.h.offsetNoSuccEven);
+  unsigned int const bits = val << offset;
+  unsigned int const mask = (what==HelpNoSuccOdd
+                             ? slice_properties[si].u.h.maskNoSuccOdd
+                             : slice_properties[si].u.h.maskNoSuccEven);
+  element_t * const e = (element_t *)he;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%d\n",val);
+  TraceValue("%d ",slice_properties[si].size);
+  TraceValue("%d ",offset);
+  TraceValue("%08x ",mask);
+  TraceValue("pre:%08x ",e->data);
+  TraceValue("%08x\n",bits);
+  assert((bits&mask)==bits);
+  e->data &= ~mask;
+  e->data |= (val << offset);
+  TraceValue("post:%08x\n",e->data);
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+static void set_value_series(dhtElement *he,
+                             slice_index si,
+                             hashwhat what,
+                             data_type val)
+{
+  unsigned int const offset = slice_properties[si].u.s.offsetNoSucc;
+  unsigned int const bits = val << offset;
+  unsigned int const mask = slice_properties[si].u.s.maskNoSucc;
+  element_t * const e = (element_t *)he;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%d\n",val);
+  TraceValue("%d ",slice_properties[si].size);
+  TraceValue("%d ",offset);
+  TraceValue("%08x ",mask);
+  TraceValue("pre:%08x ",e->data);
+  TraceValue("%08x\n",bits);
+  assert((bits&mask)==bits);
+  e->data &= ~mask;
+  e->data |= (val << offset);
+  TraceValue("post:%08x\n",e->data);
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+static void set_value_composite(dhtElement *he,
+                                slice_index si,
+                                hashwhat what,
+                                data_type val)
+{
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      set_value_direct(he,si,what,val);
+      break;
+
+    case PHelp:
+      set_value_help(he,si,what,val);
+      break;
+
+    case PSeries:
+      set_value_series(he,si,what,val);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+}
+
+static void set_value_leaf(dhtElement *he,
+                           slice_index si,
+                           hashwhat what,
+                           data_type val)
+{
+  switch (slices[si].u.leaf.end)
+  {
+    case EHelp:
+      set_value_help(he,si,what,val);
+      break;
+
+    case EDirect:
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      set_value_direct(he,si,what,val);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+}
+
+static void set_value(dhtElement *he,
+                      slice_index si,
+                      hashwhat what,
+                      data_type val)
+{
+  if (slices[si].type==STLeaf)
+    set_value_leaf(he,si,what,val);
+  else
+    set_value_composite(he,si,what,val);
+}
+
+static data_type get_value_direct(dhtElement const *he,
+                                  slice_index si,
+                                  hashwhat what)
+{
+  unsigned int const offset = (what==DirSucc
+                               ? slice_properties[si].u.d.offsetSucc
+                               : slice_properties[si].u.d.offsetNoSucc);
+  unsigned int const mask = (what==DirSucc
+                             ? slice_properties[si].u.d.maskSucc
+                             : slice_properties[si].u.d.maskNoSucc);
+  element_t const * const e = (element_t const *)he;
+  data_type const result = (e->data & mask) >> offset;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%d\n",what);
+  TraceValue("%08x ",mask);
+  TraceValue("%p ",&e->data);
+  TraceValue("%08x\n",e->data);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+static data_type get_value_help(dhtElement const *he,
+                                slice_index si,
+                                hashwhat what)
+{
+  unsigned int const offset = (what==HelpNoSuccOdd
+                               ? slice_properties[si].u.h.offsetNoSuccOdd
+                               : slice_properties[si].u.h.offsetNoSuccEven);
+  unsigned int const  mask = (what==HelpNoSuccOdd
+                              ? slice_properties[si].u.h.maskNoSuccOdd
+                              : slice_properties[si].u.h.maskNoSuccEven);
+  element_t const * const e = (element_t const *)he;
+  data_type const result = (e->data & mask) >> offset;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%d\n",what);
+  TraceValue("%08x ",mask);
+  TraceValue("%08x\n",e->data);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+static data_type get_value_series(dhtElement const *he,
+                                  slice_index si,
+                                  hashwhat what)
+{
+  unsigned int const offset = slice_properties[si].u.s.offsetNoSucc;
+  unsigned int const mask = slice_properties[si].u.s.maskNoSucc;
+  element_t const * const e = (element_t const *)he;
+  data_type const result = (e->data & mask) >> offset;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%d\n",what);
+  TraceValue("%08x ",mask);
+  TraceValue("%08x\n",e->data);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+static data_type get_value_composite(dhtElement const *he,
+                                     slice_index si,
+                                     hashwhat what)
+{
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      return get_value_direct(he,si,what);
+
+    case PHelp:
+      return get_value_help(he,si,what);
+
+    case PSeries:
+      return get_value_series(he,si,what);
+
+    default:
+      assert(0);
+      return 0;
+  }
+}
+
+static data_type get_value_leaf(dhtElement const *he,
+                                slice_index si,
+                                hashwhat what)
+{
+  switch (slices[si].u.leaf.end)
+  {
+    case EHelp:
+      return get_value_help(he,si,what);
+
+    case EDirect:
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      return get_value_direct(he,si,what);
+
+    default:
+      assert(0);
+      return 0;
+  }
+}
+
+static data_type get_value(dhtElement const *he,
+                           slice_index si,
+                           hashwhat what)
+{
+  if (slices[si].type==STLeaf)
+    return get_value_leaf(he,si,what);
+  else
+    return get_value_composite(he,si,what);
+}
+
+static data_type own_value_of_data_direct(dhtElement const *he,
+                                          slice_index si)
+{
+  data_type const succ = get_value(he,si,DirSucc);
+  data_type const nosucc = get_value(he,si,DirNoSucc);
+  if (succ<=(unsigned)slices[si].u.composite.length
+      && succ+1>nosucc)
+    return succ;
+  else
+    return nosucc-1;
+}
+
+static data_type own_value_of_data_help(dhtElement const *he,
+                                        slice_index si)
+{
+  data_type const odd = get_value(he,si,HelpNoSuccOdd);
+  data_type const even = get_value(he,si,HelpNoSuccEven);
+  return even>odd ? even*2 : odd*2+1;
+}
+
+static data_type own_value_of_data_series(dhtElement const *he,
+                                          slice_index si)
+{
+  return get_value(he,si,SerNoSucc);
+}
+
+static data_type own_value_of_data_leaf(dhtElement const *he,
+                                        slice_index si)
+{
+  switch (slices[si].u.leaf.end)
+  {
+    case EHelp:
+      return own_value_of_data_help(he,si);
+
+    case EDirect:
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      return own_value_of_data_direct(he,si);
+
+    default:
+      assert(0);
+      return 0;
+  }
+}
+
+static data_type own_value_of_data_composite(dhtElement const *he,
+                                             slice_index si)
+{
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      return own_value_of_data_direct(he,si);
+
+    case PHelp:
+      return own_value_of_data_help(he,si);
+
+    case PSeries:
+      return own_value_of_data_series(he,si);
+
+    default:
+      assert(0);
+      return 0; /* avoid warning */
+  }
+}
+
+static data_type value_of_data_recursive(dhtElement const *he,
+                                         size_t offset,
+                                         slice_index si)
+{
+  offset -= slice_properties[si].size;
+
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      return own_value_of_data_leaf(he,si);
+
+    case STReciprocal:
+    case STQuodlibet:
+    {
+      data_type const own_value = own_value_of_data_composite(he,si);
+
+      slice_index const op1 = slices[si].u.composite.op1;
+      data_type const nested_value1 = value_of_data_recursive(he,offset,op1);
+
+      slice_index const op2 = slices[si].u.composite.op2;
+      data_type const nested_value2 = value_of_data_recursive(he,offset,op2);
+
+      data_type const nested_value = (nested_value1>nested_value2
+                                      ? nested_value1
+                                      : nested_value2);
+
+      return (own_value << offset) + nested_value;
+    }
+
+    case STSequence:
+    {
+      data_type const own_value = own_value_of_data_composite(he,si);
+
+      slice_index const op1 = slices[si].u.composite.op1;
+      data_type const nested_value = value_of_data_recursive(he,offset,op1);
+
+      return (own_value << offset) + nested_value;
+    }
+
+    default:
+      assert(0);
+      return 0;
+  }
+}
 
 /* how much is element *he worth to us? This information is used to
  * determine which elements to discard from the hash table if it has
  * reached its capacity. */
-static int value_of_data(dhtElement const *he)
+static data_type value_of_data(dhtElement const *he)
 {
-  genericElement_t const * const ge = (genericElement_t const *)he;
-  switch (ge->data.what) {
-    case SerNoSucc:
-    {
-      serElement_t const * const se = (serElement_t const *)he;
-      return se->data.serNotSolvableIn;
-    }
-  
-    case HelpNoSuccOdd:
-    case HelpNoSuccEven:
-    {
-      helpElement_t const * const hle = (helpElement_t const *)he;
-      if (hle->data.notSolvableInEven>hle->data.notSolvableInOdd)
-        return hle->data.notSolvableInEven*2;
-      else
-        return hle->data.notSolvableInOdd*2+1;
-    }
-  
-    case DirSucc:
-    case DirNoSucc:
-    {
-      dirElement_t const * const wde = (dirElement_t const *)he;
-      if (wde->data.solvableIn <= slices[0].u.composite.length
-          && wde->data.solvableIn+1 > wde->data.notSolvableInLessThan)
-        return wde->data.solvableIn;
-      else
-        return wde->data.notSolvableInLessThan-1;
-    }
-  
-    default:
-      assert(0);
-  }
-
-  return 0; /* avoid compiler warning */
-} /* value_of_data */
+  size_t const offset = sizeof(data_type)*CHAR_BIT;
+  slice_index const first_slice = 0;
+  return value_of_data_recursive(he,offset,first_slice);
+}
 
 static unsigned long totalRemoveCount = 0;
 
-static void compresshash (void) {
-  dhtElement        *he;
-  int       min_val,x;
+static void compresshash (void)
+{
+  dhtElement *he;
+  data_type min_val;
+  data_type x;
   unsigned long RemoveCnt, ToDelete, runCnt;
 #if defined(TESTHASH)
   unsigned long initCnt, visitCnt;
@@ -235,10 +745,11 @@ static void compresshash (void) {
   ifTESTHASH(printf("compressing: %ld -> ", dhtKeyCount(pyhash)));
 
   he= dhtGetFirstElement(pyhash);
-  while (he) {
-    x= value_of_data(he);
-    if (x < min_val)
-      min_val= x;
+  while (he)
+  {
+    x = value_of_data(he);
+    if (x<min_val)
+      min_val = x;
     he= dhtGetNextElement(pyhash);
   }
   RemoveCnt= 0;
@@ -270,7 +781,8 @@ static void compresshash (void) {
 
     he= dhtGetFirstElement(pyhash);
     while (he) {
-      if (value_of_data(he) <= min_val) {
+      if (value_of_data(he)<=min_val)
+      {
         RemoveCnt++;
         totalRemoveCount++;
         dhtRemoveElement(pyhash, he->Key);
@@ -647,110 +1159,222 @@ static void SmallEncode(HashBuffer *hb)
 
 unsigned long inhash_calls_count;
 
-boolean inhash(hashwhat what, int val, HashBuffer *hb)
+boolean inhash(slice_index si, hashwhat what, int val, HashBuffer *hb)
 {
+  boolean result = false;
   dhtElement const * const he= dhtLookupElement(pyhash, (dhtValue)hb);
-  if (hashing_suspended) return false;
-  
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%d ",what);
+  TraceFunctionParam("%d\n",val);
+
   ifHASHRATE(use_all++);
 
   if (he==dhtNilElement)
-    return false;
+    result = false;
   else
     switch (what)
     {
       case SerNoSucc:
       {
-        serElement_t const * const sere = (serElement_t*)he;
-        boolean const ret = slices[0].u.composite.is_exact
-            ? sere->data.serNotSolvableIn == (unsigned)val
-            : sere->data.serNotSolvableIn >= (unsigned)val;
-        assert(sere->data.what==SerNoSucc);
-        if (ret) {
+        data_type const nosucc = get_value(he,si,SerNoSucc);
+        if (slices[si].u.composite.is_exact
+            ? nosucc==(unsigned)val
+            : nosucc>=(unsigned)val)
+        {
           ifHASHRATE(use_pos++);
-          return true;
+          result = true;
         }
         else
-          return false;
+          result = false;
+        break;
       }
       case HelpNoSuccOdd:
       {
-        helpElement_t const * const hlpe = (helpElement_t*)he;
-        boolean const ret = (slices[0].u.composite.is_exact
-                             ? hlpe->data.notSolvableInOdd==(unsigned)val
-                             : hlpe->data.notSolvableInOdd>=(unsigned)val);
-        assert(hlpe->data.what==HelpNoSuccOdd
-               || hlpe->data.what==HelpNoSuccEven);
-        if (ret)
+        data_type const nosucc = get_value(he,si,HelpNoSuccOdd);
+        if (slices[si].u.composite.is_exact
+            ? nosucc==(unsigned)val
+            : nosucc>=(unsigned)val)
         {
           ifHASHRATE(use_pos++);
-          return true;
+          result = true;
         }
         else
-          return false;
+          result = false;
+        break;
       }
       case HelpNoSuccEven:
       {
-        helpElement_t const * const hlpe = (helpElement_t*)he;
-        boolean const ret = (slices[0].u.composite.is_exact
-                             ? hlpe->data.notSolvableInEven==(unsigned)val
-                             : hlpe->data.notSolvableInEven>=(unsigned)val);
-        assert(hlpe->data.what==HelpNoSuccOdd
-               || hlpe->data.what==HelpNoSuccEven);
-        if (ret)
+        data_type const nosucc = get_value(he,si,HelpNoSuccEven);
+        if (slices[si].u.composite.is_exact
+            ? nosucc==(unsigned)val
+            : nosucc>=(unsigned)val)
         {
           ifHASHRATE(use_pos++);
-          return true;
+          result = true;
         }
         else
-          return false;
+          result = false;
+        break;
       }
       case DirNoSucc:
       {
-        dirElement_t const * const wde = (dirElement_t*)he;
-        boolean const ret = slices[0].u.composite.is_exact
-            ? wde->data.notSolvableInLessThan == (unsigned)val+1
-            : wde->data.notSolvableInLessThan >= (unsigned)val+1;
-        assert(wde->data.what==DirNoSucc || wde->data.what==DirSucc);
-        if (ret) {
+        data_type const nosucc = get_value(he,si,DirNoSucc);
+        if (slices[si].u.composite.is_exact
+            ? nosucc==(unsigned)val
+            : nosucc>=(unsigned)val)
+        {
           ifHASHRATE(use_pos++);
-          return true;
+          result = true;
         } else
-          return false;
+          result = false;
+        break;
       }
       case DirSucc:
       {
-        dirElement_t const * const wde = (dirElement_t*)he;
-        boolean const ret = slices[0].u.composite.is_exact
-            ? wde->data.solvableIn == (unsigned)val
-            : wde->data.solvableIn <= (unsigned)val;
-        assert(wde->data.what==DirNoSucc || wde->data.what==DirSucc);
-        if (ret) {
+        data_type const succ = get_value(he,si,DirSucc);
+        if (slices[si].u.composite.is_exact
+            ? succ==(unsigned)val
+            : succ<=(unsigned)val)
+        {
           ifHASHRATE(use_pos++);
-          return true;
+          result = true;
         } else
-          return false;
+          result = false;
+        break;
       }
+
       default:
         assert(0);
+        break;
     }
 
-  return false; /* avoid compiler warning */
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result; /* avoid compiler warning */
 } /* inhash */
 
-void addtohash(hashwhat what, int val, HashBuffer *hb)
+static void init_element_direct(dhtElement *he,
+                                slice_index si,
+                                unsigned int length)
+{
+  /* TODO optimize? */
+  set_value(he,si,DirNoSucc,0);
+  set_value(he,si,DirSucc,length);
+}
+
+static void init_element_help(dhtElement *he, slice_index si)
+{
+  /* TODO optimize? */
+  set_value(he,si,HelpNoSuccEven,0);
+  set_value(he,si,HelpNoSuccOdd,0);
+}
+
+static void init_element_series(dhtElement *he, slice_index si)
+{
+  set_value(he,si,SerNoSucc,0);
+}
+
+static void init_element(dhtElement *he, slice_index si);
+
+static void init_element_composite(dhtElement *he, slice_index si)
+{
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      init_element_direct(he,
+                          si,
+                          slices[si].u.composite.length-slack_length_direct);
+      break;
+      
+    case PHelp:
+      init_element_help(he,si);
+      break;
+      
+    case PSeries:
+      init_element_series(he,si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  switch (slices[si].type)
+  {
+    case STReciprocal:
+    case STQuodlibet:
+      init_element(he,slices[si].u.composite.op1);
+      init_element(he,slices[si].u.composite.op2);
+      break;
+
+    case STSequence:
+      init_element(he,slices[si].u.composite.op1);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+}
+
+static void init_element_leaf(dhtElement *he, slice_index si)
+{
+  switch (slices[si].u.leaf.end)
+  {
+    case EHelp:
+      init_element_help(he,si);
+      break;
+
+    case EDirect:
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      init_element_direct(he,si,1);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+}
+
+static void init_element(dhtElement *he, slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",si);
+  TraceText("\n");
+
+  if (slices[si].type==STLeaf)
+    init_element_leaf(he,si);
+  else
+    init_element_composite(he,si);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+void addtohash(slice_index si, hashwhat what, int val, HashBuffer *hb)
 {
   dhtElement *he = dhtLookupElement(pyhash, (dhtValue)hb);
-  if (hashing_suspended) return;
 
-  if (he == dhtNilElement) { /* the position is new */
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%d ",what);
+  TraceFunctionParam("%d\n",val);
+
+  if (he == dhtNilElement)
+  { /* the position is new */
     he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
     if (he==dhtNilElement
-        || dhtKeyCount(pyhash) > MaxPositions) {
+        || dhtKeyCount(pyhash) > MaxPositions)
+    {
       compresshash();
       he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
       if (he==dhtNilElement
-          || dhtKeyCount(pyhash) > MaxPositions) {
+          || dhtKeyCount(pyhash) > MaxPositions)
+      {
 #if defined(FXF)
         ifTESTHASH(
             printf("make new hashtable, due to trashing\n"));
@@ -771,115 +1395,48 @@ void addtohash(hashwhat what, int val, HashBuffer *hb)
 #endif /*FXF*/
       }
     }
-    switch (what) {
-      case SerNoSucc:
-      {
-        serElement_t * const sere = (serElement_t*)he;
-        sere->data.what = what;
-        sere->data.serNotSolvableIn = val;
-        break;
-      }
-      case HelpNoSuccOdd:
-      {
-        helpElement_t * const hlpe = (helpElement_t*)he;
-        hlpe->data.what = what;
-        hlpe->data.notSolvableInOdd = val;
-        hlpe->data.notSolvableInEven = 0;
-        break;
-      }
-      case HelpNoSuccEven:
-      {
-        helpElement_t * const hlpe = (helpElement_t*)he;
-        hlpe->data.what = what;
-        hlpe->data.notSolvableInOdd = 0;
-        hlpe->data.notSolvableInEven = val;
-        break;
-      }
-      case DirSucc:
-      {
-        dirElement_t * const wde = (dirElement_t*)he;
-        wde->data.what = what;
-        wde->data.solvableIn = val;
-        wde->data.notSolvableInLessThan = 0;
-        break;
-      }
-      case DirNoSucc:
-      {
-        dirElement_t * const wde = (dirElement_t*)he;
-        wde->data.what = what;
-        wde->data.solvableIn = slices[0].u.composite.length+1;
-        wde->data.notSolvableInLessThan = val+1;
-        break;
-      }
-    }
+
+    init_element(he,0);
   }
-  else
+
+  switch (what)
   {
-    switch (what) {
-      case SerNoSucc:
-      {
-        serElement_t * const sere = (serElement_t*)he;
-        assert(sere->data.what==SerNoSucc);
-        if (sere->data.serNotSolvableIn < val)
-          sere->data.serNotSolvableIn = val;
-        break;
-      }
-      case HelpNoSuccOdd:
-      {
-        helpElement_t * const hlpe = (helpElement_t*)he;
-        assert(hlpe->data.what==HelpNoSuccOdd
-               || hlpe->data.what==HelpNoSuccEven);
-        if (hlpe->data.notSolvableInOdd<val)
-          hlpe->data.notSolvableInOdd = val;
-        break;
-      }
-      case HelpNoSuccEven:
-      {
-        helpElement_t * const hlpe = (helpElement_t*)he;
-        assert(hlpe->data.what==HelpNoSuccOdd
-               || hlpe->data.what==HelpNoSuccEven);
-        if (hlpe->data.notSolvableInEven<val)
-          hlpe->data.notSolvableInEven = val;
-        break;
-      }
-      case DirSucc:
-      {
-        dirElement_t * const wde = (dirElement_t*)he;
-        assert(wde->data.what==DirNoSucc || wde->data.what==DirSucc);
-        if (wde->data.solvableIn > val)
-          wde->data.solvableIn = val;
-        break;
-      }
-      case DirNoSucc:
-      {
-        dirElement_t * const wde = (dirElement_t*)he;
-        assert(wde->data.what==DirNoSucc || wde->data.what==DirSucc);
-        if (wde->data.notSolvableInLessThan < val+1)
-          wde->data.notSolvableInLessThan = val+1;
-        break;
-      }
-    }
+    /* TODO use optimized operation */
+    /* TODO change type of val to unsigned int? */
+    case SerNoSucc:
+      if (get_value(he,si,SerNoSucc)<(unsigned)val)
+        set_value(he,si,SerNoSucc,val);
+      break;
+
+    case HelpNoSuccOdd:
+      if (get_value(he,si,HelpNoSuccOdd)<(unsigned)val)
+        set_value(he,si,HelpNoSuccOdd,val);
+      break;
+
+    case HelpNoSuccEven:
+      if (get_value(he,si,HelpNoSuccEven)<(unsigned)val)
+        set_value(he,si,HelpNoSuccEven,val);
+      break;
+
+    case DirSucc:
+      if (get_value(he,si,DirSucc)>(unsigned)val)
+        set_value(he,si,DirSucc,val);
+      break;
+
+    case DirNoSucc:
+      if (get_value(he,si,DirNoSucc)<(unsigned)val)
+        set_value(he,si,DirNoSucc,val);
+      break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+
 #if defined(HASHRATE)
   if (dhtKeyCount(pyhash)%1000 == 0)
     HashStats(3, "\n");
 #endif /*HASHRATE*/
 } /* addtohash */
-
-/* Determine whether the mating side still has a piece that could
- * deliver the mate.
- * @return true iff the mating side has such a piece
- */
-boolean is_a_mating_piece_left(Side mating_side)
-{
-  boolean const is_white_mating = mating_side==White;
-
-  piece p = roib+1;
-  while (p<derbla && nbpiece[is_white_mating ? p : -p]==0)
-    p++;
-
-  return p<derbla;
-}
 
 void inithash(void)
 {
@@ -900,6 +1457,8 @@ void inithash(void)
     FtlMsg(NoMemory);
   ifTESTHASH(fxfInfo(stdout));
 #endif /*FXF*/
+
+  init_slice_properties();
 
   flag_hashall= true;
 
@@ -1005,6 +1564,7 @@ void    closehash(void)
 #endif /*TESTHASH*/
 
   dhtDestroy(pyhash);
+
 #if defined(TESTHASH) && defined(FXF)
   fxfInfo(stdout);
 #endif /*TESTHASH,FXF*/
@@ -1031,21 +1591,4 @@ void check_hash_assumptions(void)
 
   /* the encoding functions encode Flags as 2 bytes */
   assert(PieSpCount<=2*CHAR_BIT);
-  
-  assert(sizeof(dhtElement)==sizeof(genericElement_t));
-  assert(sizeof(dhtElement)==sizeof(dirElement_t));
-  assert(sizeof(dhtElement)==sizeof(helpElement_t));
-  assert(sizeof(dhtElement)==sizeof(serElement_t));
-
-  {
-    genericElement_t ge;
-    
-    /* using this rather than &ge further down keeps gcc quiet: */
-    genericElement_t *pge = &ge;
-
-    ge.data.what = DirSucc;
-    assert(DirSucc==((dirElement_t*)pge)->data.what);
-    assert(DirSucc==((helpElement_t*)pge)->data.what);
-    assert(DirSucc==((serElement_t*)pge)->data.what);
-  }
 }

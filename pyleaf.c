@@ -599,6 +599,21 @@ static void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
 } /* generate_move_reaching_goal */
 
 
+/* Determine whether the mating side still has a piece that could
+ * deliver the mate.
+ * @return true iff the mating side has such a piece
+ */
+static boolean is_a_mating_piece_left(Side mating_side)
+{
+  boolean const is_white_mating = mating_side==White;
+
+  piece p = roib+1;
+  while (p<derbla && nbpiece[is_white_mating ? p : -p]==0)
+    p++;
+
+  return p<derbla;
+}
+
 /* Determine whether a side has reached the goal of a leaf slice.
  * @param camp side
  * @param leaf slice index of leaf slice
@@ -988,9 +1003,9 @@ static boolean leaf_h_cmate_is_solvable(slice_index leaf)
     if (jouecoup()
         && !echecc(side_at_move))
     {
-/*       HashBuffer hb;
-         (*encode)(&hb);
-         if (!inhash(no_succ_hash_category,1,&hb))*/
+      HashBuffer hb;
+      (*encode)(&hb);
+      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
       {
         if (goal_checker_mate(side_at_move))
         {
@@ -999,7 +1014,7 @@ static boolean leaf_h_cmate_is_solvable(slice_index leaf)
           while (encore() && !found_solution)
           {
             if (jouecoup())
-              found_solution =leaf_is_goal_reached(other_side,leaf);
+              found_solution = leaf_is_goal_reached(other_side,leaf);
 
             repcoup();
           }
@@ -1007,8 +1022,8 @@ static boolean leaf_h_cmate_is_solvable(slice_index leaf)
           finply();
         }
 
-/*         if (!found_solution)
-             addtohash(no_succ_hash_category,1,&hb);*/
+        if (!found_solution)
+          addtohash(leaf,HelpNoSuccOdd,1,&hb);
       }
     }
 
@@ -1036,9 +1051,9 @@ static boolean leaf_h_dmate_is_solvable(slice_index leaf)
     if (jouecoup()
         && !echecc(side_at_move))
     {
-/*       HashBuffer hb;
-         (*encode)(&hb);
-         if (!inhash(no_succ_hash_category,1,&hb))*/
+      HashBuffer hb;
+      (*encode)(&hb);
+      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
       {
         if (!immobile(other_side))
         {
@@ -1055,8 +1070,8 @@ static boolean leaf_h_dmate_is_solvable(slice_index leaf)
           finply();
         }
 
-/*         if (!found_solution)
-             addtohash(no_succ_hash_category,1,&hb);*/
+        if (!found_solution)
+          addtohash(leaf,HelpNoSuccOdd,1,&hb);
       }
     }
 
@@ -1144,15 +1159,14 @@ static boolean leaf_h_othergoals_is_solvable(slice_index leaf)
         && !echecc(side_at_move)
         && !leaf_is_unsolvable(leaf))
     {
-      /* TODO */
-/*       HashBuffer hb;
-         (*encode)(&hb);
-         if (!inhash(no_succ_hash_category,1,&hb))*/
+      HashBuffer hb;
+      (*encode)(&hb);
+      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
       {
         if (h_leaf_h_exists_final_move(leaf))
           found_solution = true;
-/*         else
-             addtohash(no_succ_hash_category,1,&hb);*/
+        else
+          addtohash(leaf,HelpNoSuccOdd,1,&hb);
       }
     }
 
@@ -1819,14 +1833,14 @@ static boolean d_leaf_d_does_attacker_win(slice_index leaf)
      * Therefore let's check for "no solution" first.  TLi
      */
     (*encode)(&hb);
-    if (inhash(DirNoSucc,1,&hb))
+    if (inhash(leaf,DirNoSucc,1,&hb))
     {
       TraceText("DirNoSucc\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%d\n",false);
       return false;
     }
-    if (inhash(DirSucc,1,&hb))
+    if (inhash(leaf,DirSucc,0,&hb))
     {
       TraceText("DirSucc\n");
       TraceFunctionExit(__func__);
@@ -1867,7 +1881,12 @@ static boolean d_leaf_d_does_attacker_win(slice_index leaf)
   finply();
 
   if (!FlagMoveOrientatedStip)
-    addtohash(end_found ? DirSucc : DirNoSucc, 1, &hb);
+  {
+    if (end_found)
+      addtohash(leaf,DirSucc,0,&hb);
+    else
+      addtohash(leaf,DirNoSucc,1,&hb);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",end_found);
@@ -1893,14 +1912,14 @@ static boolean d_leaf_sr_does_attacker_win(slice_index leaf)
   /* It is more likely that a position has no solution. */
   /*    Therefore let's check for "no solution" first. TLi */
   (*encode)(&hb);
-  if (inhash(DirNoSucc,1,&hb))
+  if (inhash(leaf,DirNoSucc,1,&hb))
   {
-    assert(!inhash(DirSucc,1,&hb));
+    assert(!inhash(leaf,DirSucc,0,&hb));
     TraceFunctionExit(__func__);
     TraceFunctionResult("%d\n",false);
     return false;
   }
-  if (inhash(DirSucc,1,&hb))
+  if (inhash(leaf,DirSucc,0,&hb))
   {
     TraceFunctionExit(__func__);
     TraceFunctionResult("%d\n",true);
@@ -1930,7 +1949,10 @@ static boolean d_leaf_sr_does_attacker_win(slice_index leaf)
 
   finply();
 
-  addtohash(win_found ? DirSucc : DirNoSucc, 1, &hb);
+  if (win_found)
+    addtohash(leaf,DirSucc,0,&hb);
+  else
+    addtohash(leaf,DirNoSucc,1,&hb);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",win_found);
@@ -2379,9 +2401,9 @@ static boolean h_leaf_h_cmate_solve(boolean restartenabled,
         && !echecc(side_at_move)
         && !(restartenabled && MoveNbr<RestartNbr))
     {
-/*       HashBuffer hb;
-         (*encode)(&hb);
-         if (!inhash(no_succ_hash_category,1,&hb))*/
+      HashBuffer hb;
+      (*encode)(&hb);
+      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
       {
         if (goal_checker_mate(side_at_move))
         {
@@ -2402,8 +2424,8 @@ static boolean h_leaf_h_cmate_solve(boolean restartenabled,
           finply();
         }
 
-/*         if (!found_solution)
-             addtohash(no_succ_hash_category,1,&hb);*/
+        if (!found_solution)
+          addtohash(leaf,HelpNoSuccOdd,1,&hb);
       }
     }
 
@@ -2442,9 +2464,9 @@ static boolean h_leaf_h_dmate_solve(boolean restartenabled,
         && !echecc(side_at_move)
         && !(restartenabled && MoveNbr<RestartNbr))
     {
-/*       HashBuffer hb;
-         (*encode)(&hb);
-         if (!inhash(no_succ_hash_category,1,&hb))*/
+      HashBuffer hb;
+      (*encode)(&hb);
+      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
       {
         if (!immobile(other_side))
         {
@@ -2466,8 +2488,8 @@ static boolean h_leaf_h_dmate_solve(boolean restartenabled,
           finply();
         }
 
-/*         if (!found_solution)
-             addtohash(no_succ_hash_category,1,&hb);*/
+        if (!found_solution)
+          addtohash(leaf,HelpNoSuccOdd,1,&hb);
       }
     }
 
@@ -2521,15 +2543,14 @@ static boolean h_leaf_h_othergoals_solve(boolean restartenabled,
         && !(restartenabled && MoveNbr<RestartNbr)
         && !leaf_is_unsolvable(leaf))
     {
-      /* TODO */
-/*       HashBuffer hb;
-         (*encode)(&hb);
-         if (!inhash(no_succ_hash_category,1,&hb))*/
+      HashBuffer hb;
+      (*encode)(&hb);
+      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
       {
         if (h_leaf_h_solve_final_move(leaf))
           found_solution = true;
-/*         else
-             addtohash(no_succ_hash_category,1,&hb);*/
+        else
+          addtohash(leaf,HelpNoSuccOdd,1,&hb);
       }
     }
 

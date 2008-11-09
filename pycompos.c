@@ -12,34 +12,46 @@
 
 #include <assert.h>
 
-extern boolean hashing_suspended; /* TODO */
-
 /* Determine whether the current position is stored in the hash table
  * and how.
+ * @param si slice index
  * @param hb address of HashBuffer to hold the encoded current position
  * @param n number of moves until goal
  * @param result address where to write hash result (if any)
  * @return true iff the current position was found and *result was
  *              assigned
  */
-static boolean d_composite_is_in_hash(HashBuffer *hb, int n, boolean *result)
+static boolean d_composite_is_in_hash(slice_index si,
+                                      HashBuffer *hb,
+                                      int n,
+                                      boolean *hash_val)
 {
+  boolean result = false;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%d\n",n);
+
   /* It is more likely that a position has no solution.           */
   /* Therefore let's check for "no solution" first.  TLi */
   (*encode)(hb);
-  if (inhash(DirNoSucc,n,hb))
+  if (inhash(si,DirNoSucc,n,hb))
   {
-    assert(hashing_suspended || !inhash(DirSucc,n,hb));
-    *result = false;
-    return true;
+    TraceText("inhash(si,DirNoSucc,n,hb)\n");
+    assert(!inhash(si,DirSucc,n-1,hb));
+    *hash_val = false;
+    result = true;
   }
-  else if (inhash(DirSucc,n,hb))
+  else if (inhash(si,DirSucc,n-1,hb))
   {
-    *result = true;
-    return true;
+    TraceText("inhash(si,DirSucc,n-1,hb)\n");
+    *hash_val = true;
+    result = true;
   }
-  else
-    return false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 /* Determine whether the defending side wins at the end of a sequence
@@ -254,6 +266,7 @@ d_defender_win_type d_composite_does_defender_win(int n, slice_index si)
 
   if (d_slice_has_attacker_lost(si))
     result = already_won;
+  /* TODO use symbol slack_length_direct? */
   else if (n==0)
   {
     if (d_slice_has_attacker_won(si))
@@ -335,17 +348,20 @@ boolean d_composite_does_attacker_win(int n, slice_index si)
 
   if (d_slice_has_defender_won(si))
     ; /* intentionally nothing */
-  else if (n==1 && d_composite_end_does_attacker_win(si))
+  else if (n==slack_length_direct && d_composite_end_does_attacker_win(si))
     result = true;
   else if (slices[si].u.composite.is_exact)
   {
     HashBuffer hb;
     TraceText("slices[si].u.composite.is_exact\n");
-    if (!d_composite_is_in_hash(&hb,n,&result))
+    if (!d_composite_is_in_hash(si,&hb,n,&result))
     {
       TraceText("not in hash\n");
       result = d_composite_middle_does_attacker_win(n,si);
-      addtohash(result ? DirSucc : DirNoSucc, n, &hb);
+      if (result)
+        addtohash(si,DirSucc,n-1,&hb);
+      else
+        addtohash(si,DirNoSucc,n,&hb);
     }
   }
   else if (d_slice_has_defender_lost(si))
@@ -353,9 +369,10 @@ boolean d_composite_does_attacker_win(int n, slice_index si)
   else
   {
     HashBuffer hb;
-    if (!d_composite_is_in_hash(&hb,n,&result))
+    if (!d_composite_is_in_hash(si,&hb,n,&result))
     {
       TraceText("not in hash\n");
+      /* TODO the following seems only necessary if n>1 - verify */
       if (d_composite_end_does_attacker_win(si))
         result = true;
       else
@@ -373,7 +390,10 @@ boolean d_composite_does_attacker_win(int n, slice_index si)
         }
       }
 
-      addtohash(result ? DirSucc : DirNoSucc, n, &hb);
+      if (result)
+        addtohash(si,DirSucc,n-1,&hb);
+      else
+        addtohash(si,DirNoSucc,n,&hb);
     }
   }
 
@@ -416,7 +436,8 @@ static int d_composite_find_refutations(int t, slice_index si)
     return max_nr_refutations+1;
   }
 
-  if (n>2 && OptFlag[solflights] && has_too_many_flights(defender))
+  if (n>slack_length_direct+1
+      && OptFlag[solflights] && has_too_many_flights(defender))
   {
     TraceFunctionExit(__func__);
     TraceFunctionResult("%d\n",result);
@@ -436,7 +457,7 @@ static int d_composite_find_refutations(int t, slice_index si)
       max_nr_nontrivial -= ntcount;
   }
 
-  if (n>2)
+  if (n>slack_length_direct+1)
     move_generation_mode= move_generation_mode_opti_per_side[defender];
 
   genmove(defender);
@@ -588,9 +609,9 @@ static boolean h_composite_solve_recursive(Side side_at_move,
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  assert(n>=2);
+  assert(n>=slack_length_help);
 
-  if (n==2)
+  if (n==slack_length_help)
     found_solution = h_composite_end_solve(restartenabled,si);
   else
   {
@@ -618,14 +639,14 @@ static boolean h_composite_solve_recursive(Side side_at_move,
       {
         HashBuffer hb;
         (*encode)(&hb);
-        if (inhash(hash_no_succ,(n-1)/2,&hb))
-          TraceText("inhash(hash_no_succ,n-1,&hb)\n");
+        if (inhash(si,hash_no_succ,(n-1)/2,&hb))
+          TraceText("inhash(si,hash_no_succ,(n-1)/2,&hb)\n");
         else
         {
           if (h_composite_solve_recursive(next_side,n-1,false,si))
             found_solution = true;
           else
-            addtohash(hash_no_succ,(n-1)/2,&hb);
+            addtohash(si,hash_no_succ,(n-1)/2,&hb);
         }
       }
 
@@ -711,7 +732,7 @@ static boolean ser_composite_exact_solve_recursive(int n,
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  if (n==1)
+  if (n==slack_length_series)
     solution_found = ser_composite_end_solve(restartenabled,si);
   else
   {
@@ -745,12 +766,12 @@ static boolean ser_composite_exact_solve_recursive(int n,
         {
           HashBuffer hb;
           (*encode)(&hb);
-          if (inhash(SerNoSucc,n,&hb))
+          if (inhash(si,SerNoSucc,n-1,&hb))
             TraceText("in hash\n");
           else if (ser_composite_exact_solve_recursive(n-1,false,si))
             solution_found = true;
           else
-            addtohash(SerNoSucc,n,&hb);
+            addtohash(si,SerNoSucc,n-1,&hb);
         }
 
         if (restartenabled)
@@ -806,7 +827,7 @@ static boolean ser_composite_maximal_solve(int n,
 
   solution_found = ser_composite_end_solve(n==1 && restartenabled, si);
 
-  if (n>1)
+  if (n>slack_length_series)
   {
     Side const series_side = slices[si].starter;
     Side other_side = advers(series_side);
@@ -838,12 +859,12 @@ static boolean ser_composite_maximal_solve(int n,
         {
           HashBuffer hb;
           (*encode)(&hb);
-          if (inhash(SerNoSucc,n,&hb))
+          if (inhash(si,SerNoSucc,n-1,&hb))
             TraceText("in hash\n");
           else if (ser_composite_maximal_solve(n-1,false,si))
             solution_found = true;
           else
-            addtohash(SerNoSucc,n,&hb);
+            addtohash(si,SerNoSucc,n-1,&hb);
         }
 
         if (restartenabled)
@@ -1020,9 +1041,9 @@ static void d_composite_write_variation(int n, slice_index si)
        i<=n && isRefutation;
        i++)
   {
-    int const mats = alloctab();
-    d_composite_solve_continuations(i,mats,si);
-    isRefutation = tablen(mats)==0;
+    int const continuations = alloctab();
+    d_composite_solve_continuations(i,continuations,si);
+    isRefutation = tablen(continuations)==0;
     freetab();
   }
 
@@ -1039,6 +1060,7 @@ static void d_composite_write_variation(int n, slice_index si)
   marge-= 4;
 
   TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Determine and write the threats in direct/self/reflex
@@ -1230,7 +1252,7 @@ void d_composite_solve_continuations(int n,
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  if (n==1)
+  if (n==slack_length_direct)
     d_composite_end_solve_continuations(continuations,si);
   else
   {
@@ -1311,7 +1333,7 @@ void d_composite_solve_setplay(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  if (n==1)
+  if (n==slack_length_direct)
     d_composite_end_solve_setplay(si);
   else
   {
@@ -1421,7 +1443,7 @@ void d_composite_write_key_solve_postkey(int refutations,
 
 void d_composite_solve_postkey(int n, slice_index si)
 {
-  if (n==1)
+  if (n==slack_length_direct)
   {
     d_composite_end_solve_variations(0,alloctab(),alloctab(),si);
     freetab();

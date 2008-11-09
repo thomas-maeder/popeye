@@ -10,6 +10,7 @@
 #define PYHASH_H
 
 #include "DHT/dhtbcmem.h"
+#include "py.h"
 
 /* typedefs */
 typedef unsigned char   byte;
@@ -34,13 +35,11 @@ extern  void (*encode)(HashBuffer*);
 /* exported functions */
 void check_hash_assumptions(void);
 
-void    inithash (void);
-void    closehash (void);
-void	HashStats(int level, char *trailer);
-boolean inhash(hashwhat what, int val, HashBuffer *);
-void addtohash(hashwhat what, int val, HashBuffer *);
-
-boolean is_a_mating_piece_left(Side mating_side);
+void inithash (void);
+void closehash (void);
+void HashStats(int level, char *trailer);
+boolean inhash(slice_index si, hashwhat what, int val, HashBuffer *);
+void addtohash(slice_index si, hashwhat what, int val, HashBuffer *);
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);

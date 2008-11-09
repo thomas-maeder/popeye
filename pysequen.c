@@ -123,8 +123,6 @@ boolean h_sequence_end_solve(boolean restartenabled, slice_index si)
   return h_slice_solve(restartenabled,slices[si].u.composite.op1);
 }
 
-extern boolean hashing_suspended; /* TODO */
-
 /* Continue solving series play at the end of a sequence slice
  * @param no_succ_hash_category hash category for storing failures
  * @param restartenabled true iff option movenum is activated
@@ -134,17 +132,12 @@ extern boolean hashing_suspended; /* TODO */
 boolean ser_sequence_end_solve(boolean restartenabled, slice_index si)
 {
   boolean solution_found = false;
-  boolean const save_hashing_suspended = hashing_suspended;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  hashing_suspended = true;
-
   solution_found = ser_slice_solve(restartenabled,
                                    slices[si].u.composite.op1);
-
-  hashing_suspended = save_hashing_suspended;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",solution_found);
