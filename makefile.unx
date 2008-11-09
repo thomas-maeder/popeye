@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.43 2008/07/31 17:06:18 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.44 2008/11/09 10:27:27 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -166,7 +166,7 @@ OTHER=
 
 OSTARGET=`uname`
 OSVERTARGET=`uname -r`
-OSCPUTARGET=`uname -p`
+OSCPUTARGET="`uname -p`"
 
 OSTYPE=$(OSTARGET)-$(OSVERTARGET)-$(OSCPUTARGET)
 
