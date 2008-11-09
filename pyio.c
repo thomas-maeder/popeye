@@ -1313,7 +1313,7 @@ static char *ParsePlay(char *tok, slice_index *si)
     else
     {
       *si = alloc_composite_slice(STSequence,PSeries);
-      slices[*si].u.composite.length = intro_len+1; /* TODO recursion ends at 1 currently */
+      slices[*si].u.composite.length = intro_len+slack_length_series;
       slices[*si].u.composite.is_exact = false;
       result = ParsePlay(arrowpos+2,&slices[*si].u.composite.op1);
     }

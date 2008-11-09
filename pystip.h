@@ -55,6 +55,7 @@ typedef struct
     } u;
 } Slice;
 
+/* slice identification */
 enum
 {
   max_nr_slices = 10,
@@ -62,6 +63,60 @@ enum
 };
 
 extern Slice slices[max_nr_slices];
+
+/* Example contents of slices:
+ *
+ * #3:
+ *     type         starter length  play       op1 op2 (composite)
+ *     type         starter end     goal               (leaf)
+ * [0] STSequence   White   3       PDirect    1
+ * [1] STLeaf       White   EDirect goal_mate
+ *
+ * h=2.5:
+ *     type         starter length  play       op1 op2
+ *     type         starter end     goal
+ * [0] STSequence   White   5       PHelp      1
+ * [1] STLeaf       White   EHelp   goal_stale
+ *
+ * s#=2:
+ *     type         starter length  play       op1 op2
+ *     type         starter end     goal
+ * [0] STQuodlibet  White   2       PDirect    1   2
+ * [1] STLeaf       White   ESelf   goal_mate
+ * [2] STLeaf       White   ESelf   goal_stale
+ *
+ * reci-h#3:
+ *     type         starter length  play       op1 op2
+ *     type         starter end     goal
+ * [0] STReciprocal Black   6       PHelp      1   2
+ * [1] STLeaf       Black   EDirect goal_mate
+ * [2] STLeaf       Black   EHelp   goal_mate
+ *
+ * 8->ser-=3:
+ *     type         starter length  play       op1 op2
+ *     type         starter end     goal
+ * [0] STSequence   Black   9       PSeries    1
+ * [1] STSequence   White   3       PSeries    2
+ * [2] STLeaf       White   EDirect goal_stale
+ */
+
+/* Currently(?), the length field of a composite slice thus gives the
+ * number of (half) moves of the human-readable stipulation.
+ *
+ * This means that the recursion depth of solving the composite slice
+ * never reaches the value of length. At (maximal) recursion depth
+ * length-2 (help play) rexp. length-1 (non-help play), solving the
+ * operands is started.
+ *
+ * The following symbols represent the number the difference of length
+ * and the maximal recursion level:
+ */
+enum
+{
+  slack_length_direct = 1, /* moves */
+  slack_length_help = 2,   /* half moves */
+  slack_length_series = 1  /* moves */
+};
 
 /* "Regular starting side" according to stipulation, i.e. starting
  * side were it not for option "WhiteBegins" and set play checking */
