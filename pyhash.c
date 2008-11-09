@@ -397,7 +397,7 @@ static void set_value_help(dhtElement *he,
   TraceValue("%08x\n",bits);
   assert((bits&mask)==bits);
   e->data &= ~mask;
-  e->data |= (val << offset);
+  e->data |= bits;
   TraceValue("post:%08x\n",e->data);
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -422,7 +422,7 @@ static void set_value_series(dhtElement *he,
   TraceValue("%08x\n",bits);
   assert((bits&mask)==bits);
   e->data &= ~mask;
-  e->data |= (val << offset);
+  e->data |= bits;
   TraceValue("post:%08x\n",e->data);
   TraceFunctionExit(__func__);
   TraceText("\n");
