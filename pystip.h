@@ -315,22 +315,11 @@ void d_slice_solve_variations(int len_threat,
                               int refutations,
                               slice_index si);
 
-typedef enum
-{
-  already_won,
-  short_win,
-  win,
-  loss,
-  short_loss,
-  already_lost
-} d_defender_win_type;
-
-/* Determine whether the defending side wins in 0 (its final half
- * move) in direct play.
- * @param si slice identifier
- * @return "how much or few" the defending side wins
+/* Has the threat just played been refuted by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
  */
-d_defender_win_type d_slice_does_defender_win(slice_index si);
+boolean d_slice_is_threat_refuted(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

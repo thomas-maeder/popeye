@@ -1,8 +1,6 @@
 #include "pyrecipr.h"
-#include "pyproc.h"
-#include "pydata.h"
 #include "pystip.h"
-#include "pycompos.h"
+#include "pyproc.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -25,26 +23,6 @@ boolean reci_end_is_unsolvable(slice_index si)
   TraceValue("%d\n",op2);
 
   result = slice_is_unsolvable(op1) || slice_is_unsolvable(op2);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-/* Determine whether the defending side wins at the end of reciprocal
- * in direct play. 
- * @param si slice identifier
- */
-d_defender_win_type d_reci_end_does_defender_win(slice_index si)
-{
-  d_defender_win_type result = loss;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  if (d_slice_does_defender_win(slices[si].u.composite.op1)<=win
-      || d_slice_does_defender_win(slices[si].u.composite.op2)<=win)
-    result = win;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
@@ -288,6 +266,16 @@ void d_reci_end_write_key_solve_postkey(int refutations,
   d_slice_write_key_solve_postkey(refutations,
                                   slices[si].u.composite.op2,
                                   is_try);
+}
+
+/* Has the threat just played been refuted by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+boolean d_reci_end_is_threat_refuted(slice_index si)
+{
+  return (d_slice_is_threat_refuted(slices[si].u.composite.op1)
+          || d_slice_is_threat_refuted(slices[si].u.composite.op2));
 }
 
 /* Continue solving at the end of a reciprocal slice

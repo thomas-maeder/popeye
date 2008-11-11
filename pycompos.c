@@ -54,44 +54,6 @@ static boolean d_composite_is_in_hash(slice_index si,
   return result;
 }
 
-/* Determine whether the defending side wins at the end of a sequence
- * in direct play.
- * @param defender defending side
- * @param si slice identifier
- * @return true iff defender wins
- */
-static
-d_defender_win_type d_composite_end_does_defender_win(slice_index si)
-{
-  d_defender_win_type result = win;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  switch (slices[si].type)
-  {
-    case STQuodlibet:
-      result = d_quodlibet_end_does_defender_win(si);
-      break;
-
-    case STReciprocal:
-      result = d_reci_end_does_defender_win(si);
-      break;
-
-    case STSequence:
-      result = d_sequence_end_does_defender_win(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
 /* Determine whether the attacking side wins at end of composite slice
  * @param attacker attacking side
  * @param si slice identifier
@@ -155,6 +117,16 @@ static int count_non_trivial(slice_index si)
 
   return result;
 }
+
+typedef enum
+{
+  already_won,
+  short_win,
+  win,
+  loss,
+  short_loss,
+  already_lost
+} d_defender_win_type;
 
 /* Determine whether the defending side wins in n (>1) in direct play.
  * @param defender defending side
@@ -250,13 +222,13 @@ d_defender_win_type d_composite_middle_does_defender_win(int n,
   return result;
 }
 
-/* Determine whether the defender wins in a self/reflex stipulation in
- * n.
+/* Determine whether the defender wins after a move by the attacker
  * @param defender defending side (at move)
  * @param n number of moves until end state has to be reached
  * @return true iff defender wins
  */
-d_defender_win_type d_composite_does_defender_win(int n, slice_index si)
+static d_defender_win_type d_composite_does_defender_win(int n,
+                                                         slice_index si)
 {
   d_defender_win_type result;
 
@@ -264,19 +236,11 @@ d_defender_win_type d_composite_does_defender_win(int n, slice_index si)
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
+  assert(n>=slack_length_direct);
+
   if (d_slice_has_attacker_lost(si))
     result = already_won;
-  /* TODO use symbol slack_length_direct? */
-  else if (n==0)
-  {
-    if (d_slice_has_attacker_won(si))
-      result = short_loss;
-    else
-      result = d_composite_end_does_defender_win(si);
-  }
-  else if (slices[si].u.composite.is_exact)
-    result = d_composite_middle_does_defender_win(n,si);
-  else if (d_slice_has_attacker_won(si))
+  else if (!slices[si].u.composite.is_exact && d_slice_has_attacker_won(si))
     result = short_loss;
   else
     result = d_composite_middle_does_defender_win(n,si);
@@ -301,6 +265,8 @@ static boolean d_composite_middle_does_attacker_win(int n, slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
+
+  assert(n>slack_length_direct);
 
   genmove(attacker);
 
@@ -348,40 +314,38 @@ boolean d_composite_does_attacker_win(int n, slice_index si)
 
   if (d_slice_has_defender_won(si))
     ; /* intentionally nothing */
-  else if (n==slack_length_direct && d_composite_end_does_attacker_win(si))
-    result = true;
   else if (slices[si].u.composite.is_exact)
   {
-    HashBuffer hb;
-    TraceText("slices[si].u.composite.is_exact\n");
-    if (!d_composite_is_in_hash(si,&hb,n,&result))
+    if (n==slack_length_direct)
+      result = d_composite_end_does_attacker_win(si);
+    else
     {
-      TraceText("not in hash\n");
-      result = d_composite_middle_does_attacker_win(n,si);
-      if (result)
-        addtohash(si,DirSucc,n-1,&hb);
-      else
-        addtohash(si,DirNoSucc,n,&hb);
+      HashBuffer hb;
+      TraceText("slices[si].u.composite.is_exact\n");
+      if (!d_composite_is_in_hash(si,&hb,n,&result))
+      {
+        TraceText("not in hash\n");
+        result = d_composite_middle_does_attacker_win(n,si);
+        if (result)
+          addtohash(si,DirSucc,n-1,&hb);
+        else
+          addtohash(si,DirNoSucc,n,&hb);
+      }
     }
   }
-  else if (d_slice_has_defender_lost(si))
-    result = true;
   else
   {
-    HashBuffer hb;
-    if (!d_composite_is_in_hash(si,&hb,n,&result))
+    if (d_composite_end_does_attacker_win(si))
+      result = true;
+    else if (d_slice_has_defender_lost(si))
+      result = true;
+    else if (n>slack_length_direct)
     {
-      TraceText("not in hash\n");
-      /* TODO this may cause d_composite_end_does_attacker_win() to be
-       * invoked twice if (n==slack_length_direct) - find out how to
-       * avoid this.
-       */
-      if (d_composite_end_does_attacker_win(si))
-        result = true;
-      else
+      HashBuffer hb;
+      if (!d_composite_is_in_hash(si,&hb,n,&result))
       {
         int i;
-        for (i = 2; !result && i<=n; i++)
+        for (i = slack_length_direct+1; !result && i<=n; i++)
         {
           if (i-1>max_len_threat || i>min_length_nontrivial)
             i = n;
@@ -962,6 +926,68 @@ boolean ser_composite_slice0_solve(int n, boolean restartenabled)
   return result;
 }
 
+/* Has the threat just played been refuted by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+static boolean d_composite_end_is_threat_refuted(slice_index si)
+{
+  boolean result = true;
+
+  switch (slices[si].type)
+  {
+    case STQuodlibet:
+      result = d_quodlibet_end_is_threat_refuted(si);
+      break;
+
+    case STReciprocal:
+      result = d_reci_end_is_threat_refuted(si);
+      break;
+
+    case STSequence:
+      result = d_sequence_end_is_threat_refuted(si);
+      break;
+
+    default:
+      assert(0);
+  }
+
+  return result;
+}
+
+/* Has the threat just played been refuted by the preceding defense?
+ * @param n number of moves until end state has to be reached
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+static boolean d_composite_middle_is_threat_refuted(int n, slice_index si)
+{
+  boolean result;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
+
+  if (n==slack_length_direct)
+    result = d_composite_end_is_threat_refuted(si);
+  else
+    result = d_composite_does_defender_win(n-1,si)<=win;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Has the threat just played been refuted by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+boolean d_composite_is_threat_refuted(slice_index si)
+{
+  return d_composite_middle_is_threat_refuted(slices[si].u.composite.length,
+                                              si);
+}
+
 /* Determine whether the move just played by the defending side
  * defends against the threats.
  * @param n number of moves until end state has to be reached from now
@@ -982,7 +1008,7 @@ static boolean d_composite_defends_against_threats(int n,
   TraceFunctionParam("%d\n",tablen(threats));
   if (tablen(threats)>0)
   {
-    int zaehler = 0;
+    int nr_successful_threats = 0;
     boolean defense_found = false;
 
     genmove(attacker);
@@ -995,14 +1021,14 @@ static boolean d_composite_defends_against_threats(int n,
           && !echecc(attacker))
       {
         TraceText("checking threat\n");
-        defense_found = d_composite_does_defender_win(n-1,si)<=win;
+        defense_found = d_composite_middle_is_threat_refuted(n,si);
         if (defense_found)
         {
           TraceText("defended\n");
           coupfort();
         }
         else
-          zaehler++;
+          nr_successful_threats++;
       }
 
       repcoup();
@@ -1012,7 +1038,7 @@ static boolean d_composite_defends_against_threats(int n,
 
     /* this happens if we have found a defense or some threats can no
      * longer be played after defender's defense. */
-    result = zaehler<tablen(threats);
+    result = nr_successful_threats<tablen(threats);
   }
 
   TraceFunctionExit(__func__);

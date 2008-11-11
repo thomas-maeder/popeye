@@ -15,14 +15,6 @@
  */
 boolean d_composite_does_attacker_win(int n, slice_index si);
 
-/* Determine whether the defender wins in a self/reflex stipulation in
- * n.
- * @param defender defending side (at move)
- * @param n number of moves until end state has to be reached
- * @return "how much or few" the defending side wins
- */
-d_defender_win_type d_composite_does_defender_win(int n, slice_index si);
-
 /* Determine and write set play of a direct/self/reflex stipulation
  * @param si slice index
  */
@@ -85,6 +77,12 @@ void d_composite_solve_postkey(int n, slice_index si);
 void d_composite_solve_continuations(int n,
                                      int continuations,
                                      slice_index si);
+
+/* Has the threat just played been refuted by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+boolean d_composite_is_threat_refuted(slice_index si);
 
 /* Determine and write the solutions in the current position in series
  * play.

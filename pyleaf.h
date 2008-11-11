@@ -49,6 +49,12 @@ boolean d_leaf_has_defender_won(slice_index leaf);
  */
 boolean d_leaf_has_defender_lost(slice_index leaf);
 
+/* Determine whether a side has just solved a leaf slice in direct play.
+ * @param leaf slice index
+ * @return true iff the leaf's starter has just solved leaf
+ */
+boolean d_leaf_is_solved(slice_index leaf);
+
 /* Write a priori unsolvability (if any) of a leaf in direct play
  * (e.g. forced reflex mates).
  * Assumes leaf_is_unsolvable()
@@ -101,12 +107,6 @@ void d_leaf_write_key_solve_postkey(int refutations,
  * @param leaf slice index
  */
 void d_leaf_solve_continuations(int continuations, slice_index leaf);
-
-/* Determine whether the defending side (at the move) wins
- * @param leaf slice identifier
- * @return "how much or few" the defending side wins
- */
-d_defender_win_type d_leaf_does_defender_win(slice_index leaf);
 
 /* Determine whether the attacking side has immediately lost with its
  * move just played.

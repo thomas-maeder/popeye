@@ -3,7 +3,6 @@
 
 #include "boolean.h"
 #include "py.h"
-#include "pystip.h"
 
 /* This module provides functionality dealing with reciprocal
  * (i.e. logical AND) stipulation slices.
@@ -15,14 +14,6 @@
  * @return true iff slice is a priori unsolvable
  */
 boolean reci_end_is_unsolvable(slice_index si);
-
-/* Determine whether the defending side wins at the end of reciprocal
- * in direct play. 
- * @param defender defending side
- * @param si slice identifier
- * @return "how much or few" the defending side wins
- */
-d_defender_win_type d_reci_end_does_defender_win(slice_index si);
 
 /* Determine whether the attacker wins at the end of a reciprocal slice
  * @param si slice index of leaf slice
@@ -107,6 +98,12 @@ void d_reci_end_solve(boolean restartenabled, slice_index si);
 void d_reci_end_write_key_solve_postkey(int refutations,
                                         slice_index si,
                                         boolean is_try);
+
+/* Has the threat just played been refuted by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+boolean d_reci_end_is_threat_refuted(slice_index si);
 
 /* Continue solving at the end of a reciprocal slice
  * @param si slice index

@@ -1313,7 +1313,7 @@ boolean d_leaf_has_defender_lost(slice_index leaf)
  * @param leaf slice index
  * @return true iff attacker has just solved leaf
  */
-static boolean d_leaf_is_solved(slice_index leaf)
+boolean d_leaf_is_solved(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
 
@@ -1604,7 +1604,7 @@ boolean d_leaf_solve(boolean restartenabled, slice_index leaf)
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-static d_defender_win_type d_leaf_s_does_defender_win(slice_index leaf)
+static boolean d_leaf_s_does_defender_win(slice_index leaf)
 {
   Side const defender = advers(slices[leaf].starter);
 
@@ -1612,9 +1612,9 @@ static d_defender_win_type d_leaf_s_does_defender_win(slice_index leaf)
   assert(slices[leaf].starter!=no_side);
 
   if (OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-    return short_win;
+    return true;
   else
-    return leaf_is_end_in_1_forced(leaf) ? short_loss : short_win;
+    return !leaf_is_end_in_1_forced(leaf);
 }
 
 /* Determine whether the defender is not forced to end in 1 in a
@@ -1622,7 +1622,7 @@ static d_defender_win_type d_leaf_s_does_defender_win(slice_index leaf)
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-static d_defender_win_type d_leaf_r_does_defender_win(slice_index leaf)
+static boolean d_leaf_r_does_defender_win(slice_index leaf)
 {
   Side const defender = advers(slices[leaf].starter);
 
@@ -1630,18 +1630,18 @@ static d_defender_win_type d_leaf_r_does_defender_win(slice_index leaf)
   assert(slices[leaf].starter!=no_side);
 
   if (OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-    return short_win;
+    return true;
   else
-    return leaf_is_end_in_1_possible(defender,leaf) ? short_loss : short_win;
+    return !leaf_is_end_in_1_possible(defender,leaf);
 }
 
 /* Determine whether the defending side wins
  * @param leaf slice identifier
  * @return true iff defender wins
  */
-d_defender_win_type d_leaf_does_defender_win(slice_index leaf)
+static boolean d_leaf_does_defender_win(slice_index leaf)
 {
-  d_defender_win_type result = win;
+  boolean result = true;
 
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -1653,9 +1653,7 @@ d_defender_win_type d_leaf_does_defender_win(slice_index leaf)
   {
     case EDirect:
     {
-      result = (leaf_is_goal_reached(slices[leaf].starter,leaf)
-                ? short_loss
-                : short_win);
+      result = !leaf_is_goal_reached(slices[leaf].starter,leaf);
       break;
     }
 
@@ -1934,7 +1932,7 @@ static boolean d_leaf_sr_does_attacker_win(slice_index leaf)
     TraceCurrentMove();
     if (jouecoup()
         && !echecc(attacker)
-        && d_leaf_does_defender_win(leaf)>=loss)
+        && !d_leaf_does_defender_win(leaf))
     {
       TraceText("wins\n");
       win_found = true;
@@ -2080,7 +2078,7 @@ boolean d_leaf_solve_complete_set(slice_index leaf)
   switch (slices[leaf].u.leaf.end)
   {
     case ESelf:
-      if (d_leaf_s_does_defender_win(leaf)>=loss)
+      if (!d_leaf_s_does_defender_win(leaf))
       {
         d_leaf_sr_solve_setplay(leaf);
         return true;
@@ -2090,7 +2088,7 @@ boolean d_leaf_solve_complete_set(slice_index leaf)
 
     case EReflex:
     case ESemireflex:
-      if (d_leaf_r_does_defender_win(leaf)>=loss)
+      if (!d_leaf_r_does_defender_win(leaf))
       {
         d_leaf_sr_solve_setplay(leaf);
         return true;
@@ -2192,7 +2190,7 @@ static boolean h_leaf_s_solve_final_move(slice_index leaf)
   assert(slices[leaf].type==STLeaf);
   assert(defender!=no_side);
 
-  if (d_leaf_s_does_defender_win(leaf)>=loss)
+  if (!d_leaf_s_does_defender_win(leaf))
   {
     generate_move_reaching_goal(leaf,defender);
     active_slice[nbply] = leaf;
@@ -2257,7 +2255,7 @@ static boolean h_leaf_r_solve_final_move(slice_index leaf)
 
   assert(slices[leaf].type==STLeaf);
 
-  if (d_leaf_r_does_defender_win(leaf)>=loss)
+  if (!d_leaf_r_does_defender_win(leaf))
   {
     generate_move_reaching_goal(leaf,defender);
     active_slice[nbply] = leaf;
@@ -2768,7 +2766,7 @@ static boolean ser_leaf_sr_solve(slice_index leaf)
     TraceCurrentMove();
     if (jouecoup()
         && !echecc(attacker)
-        && d_leaf_does_defender_win(leaf)>=loss)
+        && !d_leaf_does_defender_win(leaf))
     {
       TraceText("solution found\n");
       solution_found = true;

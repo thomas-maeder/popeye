@@ -801,41 +801,6 @@ void d_slice_solve_variations(int len_threat,
   TraceText("\n");
 }
 
-/* Determine whether the defending side wins in 0 (its final half
- * move) in direct play.
- * @param si slice identifier
- * @return "how much or few" the defending side wins
- */
-d_defender_win_type d_slice_does_defender_win(slice_index si)
-{
-  d_defender_win_type result = win;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  switch (slices[si].type)
-  {
-    case STLeaf:
-      result = d_leaf_does_defender_win(si);
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      result = d_composite_does_defender_win(slices[si].u.composite.length,
-                                             si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
 /* Determine whether the defender has lost in direct play with his move
  * just played.
  * Assumes that there is no short win for the defending side.
@@ -1030,6 +995,39 @@ void d_slice_write_unsolvability(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceText("\n");
+}
+
+/* Has the threat just played been refuted by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+boolean d_slice_is_threat_refuted(slice_index si)
+{
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      result = !d_leaf_is_solved(si);
+      break;
+
+    case STQuodlibet:
+    case STSequence:
+    case STReciprocal:
+      result = d_composite_is_threat_refuted(si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 /* Detect starter field with the starting side if possible. 

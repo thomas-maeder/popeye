@@ -2,7 +2,6 @@
 #define PYQUODLI_H
 
 #include "py.h"
-#include "pycompos.h"
 #include "boolean.h"
 
 /* This module provides functionality dealing with quodlibet
@@ -80,14 +79,6 @@ void d_quodlibet_end_solve_variations(int len_threat,
  */
 boolean d_quodlibet_end_does_attacker_win(slice_index si);
 
-/* Determine whether the defending side wins at the end of quodlibet
- * in direct play. 
- * @param defender defending side
- * @param si slice identifier
- * @return "how much or few" the defending side wins
- */
-d_defender_win_type d_quodlibet_end_does_defender_win(slice_index si);
-
 /* Determine whether the defender has directly lost in direct play
  * with his move just played.
  * Assumes that there is no short win for the defending side.
@@ -117,6 +108,12 @@ boolean d_quodlibet_end_has_attacker_won(slice_index si);
  * @return true iff the attacking side has directly lost
  */
 boolean d_quodlibet_end_has_attacker_lost(slice_index si);
+
+/* Has the threat just played been refuted by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+boolean d_quodlibet_end_is_threat_refuted(slice_index si);
 
 /* Continue solving at the end of a quodlibet slice
  * @param si slice index

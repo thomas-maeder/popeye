@@ -187,24 +187,6 @@ void d_sequence_end_solve_variations(int len_threat,
   TraceText("\n");
 }
 
-/* Determine whether the defending side wins in 0 (its final half
- * move) in direct play.
- * @param si slice identifier
- */
-d_defender_win_type d_sequence_end_does_defender_win(slice_index si)
-{
-  d_defender_win_type result = win;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  result = d_slice_does_defender_win(slices[si].u.composite.op1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
 /* Determine whether the defender has lost in direct play with his move
  * just played.
  * Assumes that there is no short win for the defending side.
@@ -270,12 +252,30 @@ boolean d_sequence_end_has_attacker_lost(slice_index si)
  */
 boolean d_sequence_end_has_attacker_won(slice_index si)
 {
-  boolean result = false;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
   result = d_slice_has_attacker_won(slices[si].u.composite.op1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Has the threat just played been defended by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+boolean d_sequence_end_is_threat_refuted(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  result = d_slice_is_threat_refuted(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);

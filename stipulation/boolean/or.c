@@ -1,5 +1,5 @@
 #include "pyquodli.h"
-#include "pycompos.h"
+#include "pystip.h"
 #include "pyproc.h"
 #include "trace.h"
 
@@ -190,26 +190,6 @@ void d_quodlibet_end_solve_variations(int len_threat,
   TraceFunctionExit(__func__);
 }
 
-/* Determine whether the defending side wins at the end of quodlibet
- * in direct play. 
- * @param si slice identifier
- */
-d_defender_win_type d_quodlibet_end_does_defender_win(slice_index si)
-{
-  d_defender_win_type result = win;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  if (d_slice_does_defender_win(slices[si].u.composite.op1)>=loss
-      || d_slice_does_defender_win(slices[si].u.composite.op2)>=loss)
-    result = loss;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
 /* Determine whether the defender has lost in direct play with his move
  * just played.
  * Assumes that there is no short win for the defending side.
@@ -288,6 +268,16 @@ boolean d_quodlibet_end_has_attacker_lost(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
   return result;
+}
+
+/* Has the threat just played been refuted by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+boolean d_quodlibet_end_is_threat_refuted(slice_index si)
+{
+  return (d_slice_is_threat_refuted(slices[si].u.composite.op1)
+          && d_slice_is_threat_refuted(slices[si].u.composite.op2));
 }
 
 /* Continue solving at the end of a quodlibet slice
