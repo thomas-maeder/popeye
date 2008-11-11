@@ -490,8 +490,8 @@ pyint.h:
 pyio.h:
 
 pyproof.h:
-pyquodli$(OBJ_SUFFIX): pyquodli.c pyquodli.h py.h boolean.h pylang.h pycompos.h \
-  pystip.h pygoal.h pyhash.h DHT/dhtbcmem.h pyproc.h py4.h trace.h
+pyquodli$(OBJ_SUFFIX): pyquodli.c pyquodli.h py.h boolean.h pylang.h pystip.h \
+  pygoal.h pyhash.h DHT/dhtbcmem.h pyproc.h py4.h trace.h
 
 pyquodli.h:
 
@@ -501,8 +501,6 @@ boolean.h:
 
 pylang.h:
 
-pycompos.h:
-
 pystip.h:
 
 pygoal.h:
@@ -516,8 +514,8 @@ pyproc.h:
 py4.h:
 
 trace.h:
-pysequen$(OBJ_SUFFIX): pysequen.c pysequen.h py.h boolean.h pylang.h pyhash.h \
-  DHT/dhtbcmem.h pycompos.h pystip.h pygoal.h pyproc.h py4.h trace.h
+pysequen$(OBJ_SUFFIX): pysequen.c pysequen.h py.h boolean.h pylang.h pystip.h \
+  pygoal.h pyhash.h DHT/dhtbcmem.h pyproc.h py4.h trace.h
 
 pysequen.h:
 
@@ -527,15 +525,13 @@ boolean.h:
 
 pylang.h:
 
-pyhash.h:
-
-DHT/dhtbcmem.h:
-
-pycompos.h:
-
 pystip.h:
 
 pygoal.h:
+
+pyhash.h:
+
+DHT/dhtbcmem.h:
 
 pyproc.h:
 
@@ -543,8 +539,7 @@ py4.h:
 
 trace.h:
 pyrecipr$(OBJ_SUFFIX): pyrecipr.c pyrecipr.h boolean.h py.h pylang.h pystip.h \
-  pygoal.h pyhash.h DHT/dhtbcmem.h pyproc.h py4.h pydata.h pycompos.h \
-  trace.h
+  pygoal.h pyhash.h DHT/dhtbcmem.h pyproc.h py4.h trace.h
 
 pyrecipr.h:
 
@@ -565,10 +560,6 @@ DHT/dhtbcmem.h:
 pyproc.h:
 
 py4.h:
-
-pydata.h:
-
-pycompos.h:
 
 trace.h:
 trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pylang.h pyproc.h py4.h pygoal.h \
