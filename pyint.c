@@ -123,15 +123,15 @@ boolean IllegalCheck(Side camp)
   {
     int nrChecks= 0;
     numvec k;
-    for (k = 1; k<=4; k++)
+    for (k = vec_rook_start; k<=vec_rook_end; k++)
       if (e[rn+vec[k]]==Rook || e[rn+vec[k]]==Queen)
         nrChecks++;
 
-    for (k = 5; k<=8; k++)
+    for (k = vec_bishop_start; k<=vec_bishop_end; k++)
       if (e[rn+vec[k]]==Bishop || e[rn+vec[k]]==Queen)
         nrChecks++;
 
-    for (k = 9; k<=16; k++)
+    for (k = vec_knight_start; k<=vec_knight_end; k++)
       if (e[rn+vec[k]] == Knight)
         nrChecks++;
 

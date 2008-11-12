@@ -196,51 +196,56 @@ boolean feenechec(evalfunction_t *evaluate) {
 
 #define marsmap(p) ((p)==maob ? moab : ((p)==moab ? maob : (p)))
 
-boolean marsechecc(
-  Side   camp,
-  evalfunction_t *evaluate)
+boolean marsechecc(Side camp, evalfunction_t *evaluate)
 {
-  piece p;
-  square i,z;
-  int ii,jj;
-  Flags psp;
-  boolean ch;
+  int i,j;
+  square square_h = square_h8;
 
   /* detect mars circe check of k of Side camp */
-
-  for (ii= 8, z= square_h8; ii > 0; ii--, z-= 16) {
-    for (jj= 8; jj > 0; jj--, z--) {
+  for (i= nr_rows_on_board; i>0; i--, square_h += dir_down)
+  {
+    square z = square_h;
+    for (j= nr_files_on_board; j>0; j--, z += dir_left)
+    {
       /* in marscirce the kings are included */
       /* in phantomchess the kings are not included, but with rex
          inclusif they are */
-      if ( (!CondFlag[phantom]
-            || (e[z] != e[rb] && e[z] != e[rn])
-            || rex_phan)
-           && ( (e[z] != e[rb]
-                 || e[rb] != e[rn]) )   /* exclude nK */
-           && rightcolor(e[z],camp))
+      if ((!CondFlag[phantom]
+           || (e[z]!=e[rb] && e[z]!=e[rn])
+           || rex_phan)
+          && ((e[z]!=e[rb] || e[rb]!=e[rn]))   /* exclude nK */
+          && rightcolor(e[z],camp))
       {
         more_ren=0;
-        do {
-          i= (*marsrenai)(p=e[z],
-                          psp=spec[z], z, initsquare, initsquare,camp);
-          if ((e[i]==vide) || (i==z)) {
-            e[z]=vide;
-            e[i]=p;
-            spec[i]=psp;
-            ch=(*checkfunctions[marsmap((p > 0)?p:-p)])
-              (i, camp ? e[rn] : e[rb], evaluate);
-            e[i]=vide;
-            e[z]=p;
-            spec[z]=psp;
-            if (ch) {
+        do
+        {
+          piece const p = e[z];
+          Flags const psp = spec[z];
+          square const sq_rebirth = (*marsrenai)(p,
+                                                 psp,
+                                                 z,
+                                                 initsquare,
+                                                 initsquare,
+                                                 camp);
+          if (e[sq_rebirth]==vide || sq_rebirth==z)
+          {
+            boolean is_check;
+            e[z] = vide;
+            e[sq_rebirth] = p;
+            spec[sq_rebirth] = psp;
+            is_check = (*checkfunctions[marsmap(abs(p))])
+                (sq_rebirth, camp ? e[rn] : e[rb], evaluate);
+            e[sq_rebirth] = vide;
+            e[z] = p;
+            spec[z] = psp;
+            if (is_check)
               return true;
-            }
-          } /* if */
+          }
         } while (more_ren);
       }
     }
   }
+
   return false;
 } /* marsechecc */
 

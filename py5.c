@@ -1293,34 +1293,41 @@ int direction(square from, square to) {
   return dir/i;
 }
 
-square blpc;
+static square blpc;
 
-boolean eval_spec(square sq_departure, square sq_arrival, square sq_capture) {
+static boolean eval_spec(square sq_departure,
+                         square sq_arrival,
+                         square sq_capture)
+{
   return sq_departure==blpc;
 }
 
-boolean att_once(square id)
+static boolean att_once(square sq_departure)
 {
-  int i,j, cnt=0;
-  square z=square_a1;
-  piece p;
-  square rb_=rb;
-  rb=id ;
+  int i,j, count=0;
+  square square_a = square_a1;
 
-  for (i= 8; i > 0; i--, z+= 16)
-    for (j= 8; j > 0; j--, z++) {
-      if ((p = e[z]) != vide) {
-        if (p < -obs)
+  square const rb_=rb;
+  rb = sq_departure;
+
+  for (i = nr_rows_on_board; i>0; --i, square_a += dir_up)
+  {
+    square z = square_a;
+    for (j= nr_files_on_board; j>0; --j, z += dir_right)
+      if (e[z]<-obs)
+      {
+        blpc = z;
+        if (rbechec(eval_spec))
         {
-          blpc=z;
-          if (rbechec(eval_spec))
-            if (!++cnt)
-              break;      /* could modify to return int no. of attacks */
+          ++count;
+          break;
         }
       }
-    }
-  rb=rb_;
-  return cnt==1;
+  }
+
+  rb = rb_;
+
+  return count==1;
 }
 
 square next_latent_pawn(square s, Side c) {
