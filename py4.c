@@ -2971,7 +2971,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
       /* generate capturing moves now */
       flagpassive= false;
       flagcapture= true;
-      more_ren=0;
+      mars_circe_rebirth_state = 0;
       do {    /* Echecs Plus */
         psp=spec[sq_departure];
         mren= (*marsrenai)(p,psp,sq_departure,initsquare,initsquare,Black);
@@ -2989,7 +2989,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
           spec[sq_departure]= psp;
           e[sq_departure]= pp;
         }
-      } while (more_ren);
+      } while (mars_circe_rebirth_state);
       flagcapture= false;
     }
   }

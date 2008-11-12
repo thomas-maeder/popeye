@@ -216,7 +216,7 @@ boolean marsechecc(Side camp, evalfunction_t *evaluate)
           && ((e[z]!=e[rb] || e[rb]!=e[rn]))   /* exclude nK */
           && rightcolor(e[z],camp))
       {
-        more_ren=0;
+        mars_circe_rebirth_state = 0;
         do
         {
           piece const p = e[z];
@@ -241,7 +241,7 @@ boolean marsechecc(Side camp, evalfunction_t *evaluate)
             if (is_check)
               return true;
           }
-        } while (more_ren);
+        } while (mars_circe_rebirth_state);
       }
     }
   }

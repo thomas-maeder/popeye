@@ -374,7 +374,7 @@ EXTERN boolean isBoardReflected;
 EXTERN  piece           NextChamCircePiece[PieceCount];
 EXTERN  boolean         InitChamCirce;
 
-EXTERN unsigned char    more_ren;
+EXTERN unsigned int     mars_circe_rebirth_state;
 EXTERN boolean          IsardamB,PatienceB,SentPionAdverse,SentPionNeutral,
 			flagAssassin,flag_nk,jouetestgenre;
 EXTERN boolean          flagdiastip, is_republican_suspended;

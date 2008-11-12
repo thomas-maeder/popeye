@@ -334,17 +334,30 @@ square renplus(piece p_captured, Flags p_captured_spec,
       || sq_capture==square_e5)
   {
     square k;
-    switch (more_ren)
+    switch (mars_circe_rebirth_state)
     {
-    case 0 : k= square_d4; break;
-    case 1 : k= square_e4; break;
-    case 2 : k= square_d5; break;
-    case 3 : k= square_e5; break;
-    default: k= -1; /* avoid compiler warning */
+      case 0:
+        k= square_d4;
+        break;
+
+      case 1:
+        k= square_e4;
+        break;
+        
+      case 2:
+        k= square_d5;
+        break;
+        
+      case 3:
+        k= square_e5;
+        break;
+        
+      default:
+        k= initsquare;
+        break;
     }
-    more_ren++;
-    if (more_ren == 4)
-      more_ren= 0;
+
+    mars_circe_rebirth_state = (mars_circe_rebirth_state+1)%4;
 
     return k;
   }
@@ -971,14 +984,19 @@ static void orig_gen_bl_piece(square sq_departure, piece p) {
       /* generate moves from rebirth square */
       flagactive= true;
       spec_departing=spec[sq_departure];
-      sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,White);
+      sq_rebirth= (*marsrenai)(p,
+                               spec_departing,
+                               sq_departure,
+                               initsquare,
+                               initsquare,
+                               White);
       /* if rebirth square is where the piece stands,
          we've already generated all the relevant moves.
       */
-      if (sq_rebirth==sq_departure) {
+      if (sq_rebirth==sq_departure)
         return;
-      }
-      if (e[sq_rebirth] == vide) {
+      if (e[sq_rebirth] == vide)
+      {
         anf2= nbcou;
         pi_departing=e[sq_departure];   /* Mars/Neutral bug */
         e[sq_departure]= vide;
@@ -1019,7 +1037,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p) {
       /* generate capturing moves now */
       flagpassive= false;
       flagcapture= true;
-      more_ren=0;
+      mars_circe_rebirth_state = 0;
       do {   /* Echecs Plus */
         spec_departing= spec[sq_departure];
         sq_rebirth= (*marsrenai)(p,
@@ -1046,7 +1064,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p) {
           spec[sq_departure]= spec_departing;
           e[sq_departure]= pi_departing;
         }
-      } while (more_ren);
+      } while (mars_circe_rebirth_state);
       flagcapture= false;
     }
   }
