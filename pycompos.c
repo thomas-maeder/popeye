@@ -389,7 +389,7 @@ static int d_composite_find_refutations(int t, slice_index si)
   boolean is_defender_immobile = true;
   int ntcount = 0;
   int result = 0;
-  int const n = slices[si].u.composite.length-1;
+  stip_length_type const n = slices[si].u.composite.length-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",n);
@@ -1120,7 +1120,7 @@ static int d_composite_middle_solve_threats(stip_length_type n,
     stip_length_type max_threat_length = (n-1>max_len_threat
                                           ? max_len_threat
                                           : n-1);
-    int i;
+    stip_length_type i;
 
     DrohFlag = true;
 
@@ -1361,7 +1361,7 @@ static void d_composite_end_solve_setplay(slice_index si)
 void d_composite_solve_setplay(slice_index si)
 {
   Side const defender = advers(slices[si].starter);
-  int const n = slices[si].u.composite.length;
+  stip_length_type const n = slices[si].u.composite.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
