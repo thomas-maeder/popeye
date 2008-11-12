@@ -215,30 +215,34 @@ void InitOpt(void) {
     OptFlag[i]= false;
 }
 
-void InitCheckDir(void) {
+void InitCheckDir(void)
+{
   int i, j;
 
-  for (i= -square_h8+square_a1; i <= square_h8-square_a1; i++)
-    CheckDirQueen[i]=
-      CheckDirRook[i]=
-      CheckDirBishop[i]=
-      CheckDirKnight[i]= 0;
+  for (i = -(square_h8-square_a1); i<=square_h8-square_a1; i++)
+  {
+    CheckDirQueen[i] = 0;
+    CheckDirRook[i] = 0;
+    CheckDirBishop[i] = 0;
+    CheckDirKnight[i] = 0;
+  }
 
-  /* knight */
-  for (i= 9; i <= 16; i++)
-    CheckDirKnight[vec[i]]= vec[i];
+  for (i = vec_knight_start; i <= vec_knight_end; i++)
+    CheckDirKnight[vec[i]] = vec[i];
 
-  /* rook + queen */
-  for (i= 1; i <= 4; i++)
-    for (j= 1; j <= 7; j++)
-      CheckDirQueen[j*vec[i]]=
-        CheckDirRook[j*vec[i]]= vec[i];
+  for (i = vec_rook_start; i<=vec_rook_end; i++)
+    for (j = 1; j<=max_nr_straight_rider_steps; j++)
+    {
+      CheckDirQueen[j*vec[i]] = vec[i];
+      CheckDirRook[j*vec[i]] = vec[i];
+    }
 
-  /* bishop + queen */
-  for (i= 5; i <= 8; i++)
-    for (j= 1; j <= 7; j++)
-      CheckDirQueen[j*vec[i]]=
-        CheckDirBishop[j*vec[i]]= vec[i];
+  for (i = vec_bishop_start; i<=vec_bishop_end; i++)
+    for (j = 1; j<=max_nr_straight_rider_steps; j++)
+    {
+      CheckDirQueen[j*vec[i]] = vec[i];
+      CheckDirBishop[j*vec[i]] = vec[i];
+    }
 } /* InitCheckDir */
 
 void InitBoard(void)
