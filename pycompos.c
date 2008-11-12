@@ -23,7 +23,7 @@
  */
 static boolean d_composite_is_in_hash(slice_index si,
                                       HashBuffer *hb,
-                                      int n,
+                                      stip_length_type n,
                                       boolean *hash_val)
 {
   boolean result = false;
@@ -134,7 +134,7 @@ typedef enum
  * @return true iff defender wins
  */
 static
-d_defender_win_type d_composite_middle_does_defender_win(int n,
+d_defender_win_type d_composite_middle_does_defender_win(stip_length_type n,
                                                          slice_index si)
 {
   Side const attacker = slices[si].starter;
@@ -227,7 +227,7 @@ d_defender_win_type d_composite_middle_does_defender_win(int n,
  * @param n number of moves until end state has to be reached
  * @return true iff defender wins
  */
-static d_defender_win_type d_composite_does_defender_win(int n,
+static d_defender_win_type d_composite_does_defender_win(stip_length_type n,
                                                          slice_index si)
 {
   d_defender_win_type result;
@@ -257,7 +257,8 @@ static d_defender_win_type d_composite_does_defender_win(int n,
  * @param attacker attacking side
  * @param si slice identifier
  */
-static boolean d_composite_middle_does_attacker_win(int n, slice_index si)
+static boolean d_composite_middle_does_attacker_win(stip_length_type n,
+                                                    slice_index si)
 {
   Side const attacker = slices[si].starter;
   boolean win_found = false;
@@ -304,7 +305,7 @@ static boolean d_composite_middle_does_attacker_win(int n, slice_index si)
  * @param n number of moves left until the end state has to be reached
  * @return true iff attacker can end in n moves
  */
-boolean d_composite_does_attacker_win(int n, slice_index si)
+boolean d_composite_does_attacker_win(stip_length_type n, slice_index si)
 {
   boolean result = false;
 
@@ -344,7 +345,7 @@ boolean d_composite_does_attacker_win(int n, slice_index si)
       HashBuffer hb;
       if (!d_composite_is_in_hash(si,&hb,n,&result))
       {
-        int i;
+        stip_length_type i;
         for (i = slack_length_direct+1; !result && i<=n; i++)
         {
           if (i-1>max_len_threat || i>min_length_nontrivial)
@@ -566,7 +567,7 @@ static boolean h_composite_end_is_unsolvable(slice_index si)
  * @param restartenabled true iff option movenum is activated
  */
 static boolean h_composite_solve_recursive(Side side_at_move,
-                                           int n,
+                                           stip_length_type n,
                                            boolean restartenabled,
                                            slice_index si)
 {
@@ -690,7 +691,7 @@ static boolean ser_composite_end_solve(boolean restartenabled,
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
-static boolean ser_composite_exact_solve_recursive(int n,
+static boolean ser_composite_exact_solve_recursive(stip_length_type n,
                                                    boolean restartenabled,
                                                    slice_index si)
 {
@@ -783,7 +784,7 @@ boolean ser_composite_exact_solve(boolean restartenabled, slice_index si)
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
-static boolean ser_composite_maximal_solve(int n,
+static boolean ser_composite_maximal_solve(stip_length_type n,
                                            boolean restartenabled,
                                            slice_index si)
 {
@@ -877,7 +878,7 @@ boolean ser_composite_solve(boolean restartenabled, slice_index si)
     TraceValue("%d\n",slices[si].u.composite.length);
     if (!slices[si].u.composite.is_exact)
     {
-      int i;
+      stip_length_type i;
       for (i = 1; i<slices[si].u.composite.length; i++)
         if (ser_composite_exact_solve_recursive(i,false,si))
         {
@@ -906,7 +907,7 @@ boolean ser_composite_solve(boolean restartenabled, slice_index si)
  * @param restartenabled true iff option movenum is active
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_slice0_solve(int n, boolean restartenabled)
+boolean ser_composite_slice0_solve(stip_length_type n, boolean restartenabled)
 {
   boolean result = false;
 
@@ -960,7 +961,8 @@ static boolean d_composite_end_is_threat_refuted(slice_index si)
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-static boolean d_composite_middle_is_threat_refuted(int n, slice_index si)
+static boolean d_composite_middle_is_threat_refuted(stip_length_type n,
+                                                    slice_index si)
 {
   boolean result;
   
@@ -995,7 +997,7 @@ boolean d_composite_is_threat_refuted(slice_index si)
  * @return true iff the move just played defends against at least one
  *         of the threats
  */
-static boolean d_composite_defends_against_threats(int n,
+static boolean d_composite_defends_against_threats(stip_length_type n,
                                                    int threats,
                                                    slice_index si)
 {
@@ -1053,10 +1055,10 @@ static boolean d_composite_defends_against_threats(int n,
  * This is an indirectly recursive function.
  * @param n number of moves until end state has to be reached from now
  */
-static void d_composite_write_variation(int n, slice_index si)
+static void d_composite_write_variation(stip_length_type n, slice_index si)
 {
   boolean isRefutation = true; /* until we prove otherwise */
-  int i;
+  stip_length_type i;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
@@ -1101,7 +1103,7 @@ static void d_composite_write_variation(int n, slice_index si)
  *          including the move just played
  * @return the length of the shortest threat(s); 1 if there is no threat
  */
-static int d_composite_middle_solve_threats(int n,
+static int d_composite_middle_solve_threats(stip_length_type n,
                                             int threats,
                                             slice_index si)
 {
@@ -1115,7 +1117,9 @@ static int d_composite_middle_solve_threats(int n,
     StdString("\n");
   else
   {
-    int max_threat_length = n-1>max_len_threat ? max_len_threat : n-1;
+    stip_length_type max_threat_length = (n-1>max_len_threat
+                                          ? max_len_threat
+                                          : n-1);
     int i;
 
     DrohFlag = true;
@@ -1162,7 +1166,7 @@ static int d_composite_middle_solve_threats(int n,
  * @param refutations table containing refutations after move just
  *                    played
  */
-void d_composite_solve_variations(int n,
+void d_composite_solve_variations(stip_length_type n,
                                   int len_threat,
                                   int threats,
                                   int refutations,
@@ -1219,7 +1223,7 @@ void d_composite_solve_variations(int n,
   TraceFunctionExit(__func__);
 } /* d_composite_solve_variations */
 
-static void d_composite_middle_solve_postkey(int n,
+static void d_composite_middle_solve_postkey(stip_length_type n,
                                              int refutations,
                                              slice_index si)
 {
@@ -1271,7 +1275,7 @@ static void d_composite_end_solve_continuations(int t, slice_index si)
  * @param n number of moves until end state has to be reached
  * @param continuations table where to store continuing moves (i.e. threats)
  */
-void d_composite_solve_continuations(int n,
+void d_composite_solve_continuations(stip_length_type n,
                                      int continuations,
                                      slice_index si)
 {
@@ -1470,7 +1474,7 @@ void d_composite_write_key_solve_postkey(int refutations,
   marge-= 4;
 }
 
-void d_composite_solve_postkey(int n, slice_index si)
+void d_composite_solve_postkey(stip_length_type n, slice_index si)
 {
   if (n==slack_length_direct)
   {

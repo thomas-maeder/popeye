@@ -2785,8 +2785,8 @@ static char *ParseOpt(void)
 
       case solmenaces:
         tok = ReadNextTokStr();
-        max_len_threat = strtol(tok, &ptr, 10);
-        if (tok==ptr || max_len_threat<0)
+        max_len_threat = strtoul(tok,&ptr,10);
+        if (tok==ptr)
         {
           max_len_threat= maxply;
           IoErrorMsg(WrongInt,0);
@@ -2833,8 +2833,8 @@ static char *ParseOpt(void)
         }
 
         tok = ReadNextTokStr();
-        min_length_nontrivial = strtol(tok, &ptr, 10);
-        if (tok==ptr || min_length_nontrivial<0)
+        min_length_nontrivial = strtoul(tok, &ptr, 10);
+        if (tok==ptr)
         {
           IoErrorMsg(WrongInt, 0);
           min_length_nontrivial = maxply;
@@ -4603,7 +4603,7 @@ void WritePosition() {
 
   if (max_len_threat<slices[current_slice].u.composite.length-1)
   {
-    sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_len_threat);
+    sprintf(StipOptStr+strlen(StipOptStr), "/%u", max_len_threat);
     if (max_nr_flights<INT_MAX)
       sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_nr_flights);
   }
@@ -4612,7 +4612,7 @@ void WritePosition() {
 
   if (min_length_nontrivial<slices[current_slice].u.composite.length-1)
     sprintf(StipOptStr+strlen(StipOptStr),
-            ";%d,%d",
+            ";%d,%u",
             max_nr_nontrivial,
             min_length_nontrivial);
 

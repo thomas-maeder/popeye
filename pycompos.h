@@ -13,7 +13,7 @@
  * @param n number of moves left until the end state has to be reached
  * @return true iff attacker can end in n moves
  */
-boolean d_composite_does_attacker_win(int n, slice_index si);
+boolean d_composite_does_attacker_win(stip_length_type n, slice_index si);
 
 /* Determine and write set play of a direct/self/reflex stipulation
  * @param si slice index
@@ -43,7 +43,7 @@ void d_composite_write_key_solve_postkey(int refutations,
  * @param refutations table containing refutations after move just
  *                    played
  */
-void d_composite_solve_variations(int n,
+void d_composite_solve_variations(stip_length_type n,
                                   int len_threat,
                                   int threats,
                                   int refutations,
@@ -63,7 +63,7 @@ void d_composite_solve(boolean restartenabled, slice_index si);
  * @param n number of moves until end state has to be reached
  * @param si slice index
  */
-void d_composite_solve_postkey(int n, slice_index si);
+void d_composite_solve_postkey(stip_length_type n, slice_index si);
 
 /* Determine and write the continuations in the current position in
  * direct/self/reflex play (i.e. attacker's moves winning after a
@@ -74,7 +74,7 @@ void d_composite_solve_postkey(int n, slice_index si);
  *                      (i.e. threats)
  * @param si slice index
  */
-void d_composite_solve_continuations(int n,
+void d_composite_solve_continuations(stip_length_type n,
                                      int continuations,
                                      slice_index si);
 
@@ -105,7 +105,8 @@ boolean ser_composite_solve(boolean restartenabled, slice_index si);
  * @param restartenabled true iff option movenum is active
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_slice0_solve(int n, boolean restartenabled);
+boolean ser_composite_slice0_solve(stip_length_type n,
+                                   boolean restartenabled);
 
 /* Determine and write the solutions in the current position in help
  * play.

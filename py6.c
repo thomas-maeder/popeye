@@ -2541,8 +2541,10 @@ static void SolveSeriesProblems(void)
     {
       if (!slices[0].u.composite.is_exact)
       {
-        int const full_length = slices[0].u.composite.length;
-        int const start_length = OptFlag[restart] ? RestartNbr : 1;
+        stip_length_type const full_length = slices[0].u.composite.length;
+        stip_length_type const start_length = (OptFlag[restart]
+                                               ? RestartNbr
+                                               : 1);
         for (slices[0].u.composite.length = start_length;
              slices[0].u.composite.length<full_length;
              ++slices[0].u.composite.length)
@@ -2623,8 +2625,8 @@ static boolean SolveHelpShortOrFull(boolean stop_on_short)
 
   if (!slices[0].u.composite.is_exact && !OptFlag[restart])
   {
-    int const full_length = slices[0].u.composite.length;
-    int const start = full_length%2==1 ? 1 : 2;
+    stip_length_type const full_length = slices[0].u.composite.length;
+    stip_length_type const start = full_length%2==1 ? 1 : 2;
 
     for (slices[0].u.composite.length = start;
          slices[0].u.composite.length<full_length;

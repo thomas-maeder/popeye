@@ -541,7 +541,7 @@ int ProofKnightMoves[square_h8-square_a1+1]= {
   /* 161-175 */     6,  5,  4,  5,  4,  5,  4,  5,  4, 5, 4, 5, 4, 5, 6
 };
 
-int ProofBlKingMovesNeeded(void)
+static int ProofBlKingMovesNeeded(void)
 {
   int   cast;
   int   needed= BlKingMoves[rn];
@@ -579,7 +579,7 @@ int ProofBlKingMovesNeeded(void)
   return needed;
 }
 
-int ProofWhKingMovesNeeded(void)
+static int ProofWhKingMovesNeeded(void)
 {
   int   needed = WhKingMoves[rb];
   int   cast;
@@ -618,60 +618,64 @@ int ProofWhKingMovesNeeded(void)
   return needed;
 }
 
-void WhPawnMovesFromTo(
+static void WhPawnMovesFromTo(
   square    from,
   square    to,
-  int       *moves,
-  int       *captures,
-  int       captallowed)
+  stip_length_type *moves,
+  stip_length_type *captures,
+  stip_length_type captallowed)
 {
   int rank_to= to/onerow;
   int rank_from= from/onerow;
 
   /* calculate number of captures */
-  *captures= to%onerow-from%onerow;
-  if (*captures < 0)
-    *captures= -*captures;
+  *captures= abs(to%onerow-from%onerow);
 
   /* calculate number of moves */
-  *moves= rank_to-rank_from;
-
-  if (*moves<0 || *moves<*captures || *captures>captallowed)
+  if (rank_to<rank_from)
     *moves= slices[0].u.composite.length;
-  else if (from<=square_h2 && *captures<*moves-1)
-    /* double step possible */
-    (*moves)--;
+  else
+  {
+    *moves= rank_to-rank_from;
+    if (*moves<*captures || *captures>captallowed)
+      *moves= slices[0].u.composite.length;
+    else if (from<=square_h2 && *captures<*moves-1)
+      /* double step possible */
+      --*moves;
+  }
 }
 
-void BlPawnMovesFromTo(
+static void BlPawnMovesFromTo(
   square    from,
   square    to,
-  int       *moves,
-  int       *captures,
-  int       captallowed)
+  stip_length_type *moves,
+  stip_length_type *captures,
+  stip_length_type captallowed)
 {
   int rank_to= to/onerow;
   int rank_from= from/onerow;
 
   /* calculate number of captures */
-  *captures= to%onerow-from%onerow;
-  if (*captures < 0)
-    *captures= -*captures;
+  *captures= abs(to%onerow-from%onerow);
 
   /* calculate number of moves */
-  *moves= rank_from-rank_to;
-
-  if (*moves<0 || *moves<*captures || *captures>captallowed)
+  if (rank_from<rank_to)
     *moves= slices[0].u.composite.length;
-  else if (from>=square_a7 && *captures < *moves-1)
-    /* double step possible */
-    (*moves)--;
+  else
+  {
+    *moves= rank_from-rank_to;
+    if (*moves<*captures || *captures>captallowed)
+      *moves= slices[0].u.composite.length;
+    else if (from>=square_a7 && *captures < *moves-1)
+      /* double step possible */
+      --*moves;
+  }
 }
 
-int WhPawnMovesNeeded(square sq)
+static stip_length_type WhPawnMovesNeeded(square sq)
 {
-  int   MovesNeeded;
-  int   MovesNeeded1;
+  stip_length_type MovesNeeded;
+  stip_length_type MovesNeeded1;
 
   /* The first time ProofWhPawnMovesNeeded is called the following
      test is always false. It has already been checked in
@@ -713,15 +717,16 @@ int WhPawnMovesNeeded(square sq)
   }
 
   MovesNeeded1= WhPawnMovesNeeded(sq+dir_down);
-  if (MovesNeeded1 < MovesNeeded)
+  if (MovesNeeded1<MovesNeeded)
     MovesNeeded= MovesNeeded1;
 
   return MovesNeeded+1;
 }
 
-int BlPawnMovesNeeded(square sq) {
-  int   MovesNeeded;
-  int   MovesNeeded1;
+static stip_length_type BlPawnMovesNeeded(square sq)
+{
+  stip_length_type MovesNeeded;
+  stip_length_type MovesNeeded1;
 
   /* The first time ProofBlPawnMovesNeeded is called the following
      test is always false. It has already been checked in
@@ -773,14 +778,17 @@ int BlPawnMovesNeeded(square sq) {
 #define BLOCKED(sq)                             \
   (  (e[sq] == pb                               \
       && ProofBoard[sq] == pb                   \
-      && WhPawnMovesNeeded(sq) >= slices[0].u.composite.length)       \
+      && WhPawnMovesNeeded(sq)>=slices[0].u.composite.length)       \
      || (e[sq] == pn                            \
          && ProofBoard[sq] == pn                \
-         && BlPawnMovesNeeded(sq) >= slices[0].u.composite.length))
+         && BlPawnMovesNeeded(sq)>=slices[0].u.composite.length))
 
-void PieceMovesFromTo(piece p, square from, square to, int *moves) {
-  numvec    dir;
-  int       sqdiff= from-to;
+static void PieceMovesFromTo(piece p,
+                             square from, square to,
+                             stip_length_type *moves)
+{
+  numvec dir;
+  int    sqdiff= from-to;
 
   if (sqdiff==0)
   {
@@ -794,13 +802,14 @@ void PieceMovesFromTo(piece p, square from, square to, int *moves) {
     if (*moves > 1)
     {
       square    sqi, sqj;
-      int   i, j, testmov;
-      int   testmin= slices[0].u.composite.length;
-      for (i= 9; i <= 16; i++)
+      int   i, j;
+      stip_length_type testmov;
+      stip_length_type testmin = slices[0].u.composite.length;
+      for (i= vec_knight_start; i<=vec_knight_end; i++)
       {
         sqi= from+vec[i];
         if (!BLOCKED(sqi) && e[sqi] != obs)
-          for (j= 9; j <= 16; j++)
+          for (j= vec_knight_start; j<=vec_knight_end; j++)
           {
             sqj= to+vec[j];
             if (!BLOCKED(sqj) && e[sqj] != obs)
@@ -867,14 +876,15 @@ void PieceMovesFromTo(piece p, square from, square to, int *moves) {
   }
 } /* PieceMovesFromTo */
 
-void WhPromPieceMovesFromTo(
-  square    from,
-  square    to,
-  int       *moves,
-  int       *captures,
-  int       captallowed)
+static void WhPromPieceMovesFromTo(
+    square    from,
+    square    to,
+    stip_length_type *moves,
+    stip_length_type *captures,
+    stip_length_type captallowed)
 {
-  int       i, mov1, mov2, cap1;
+  stip_length_type i;
+  stip_length_type mov1, mov2, cap1;
   square    cenpromsq;
 
   cenpromsq= (from%onerow
@@ -886,7 +896,7 @@ void WhPromPieceMovesFromTo(
   if (mov1+mov2 < *moves)
     *moves= mov1+mov2;
 
-  for (i= 1; i <= captallowed; i++)
+  for (i= 1; i<=captallowed; i++)
   {
     if (cenpromsq+i <= square_h8) {
       /* got out of range sometimes ! */
@@ -898,8 +908,7 @@ void WhPromPieceMovesFromTo(
     if (cenpromsq-i>=square_a8)
     {
       /* got out of range sometimes ! */
-      WhPawnMovesFromTo(from,
-                        cenpromsq-i, &mov1, &cap1, captallowed);
+      WhPawnMovesFromTo(from, cenpromsq-i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq-i, to, &mov2);
       if (mov1+mov2 < *moves) {
         *moves= mov1+mov2;
@@ -913,15 +922,15 @@ void WhPromPieceMovesFromTo(
   *captures= 0;
 } /* WhPromPieceMovesFromTo */
 
-void BlPromPieceMovesFromTo(
-  square    from,
-  square    to,
-  int       *moves,
-  int       *captures,
-  int       captallowed)
+static void BlPromPieceMovesFromTo(
+    square    from,
+    square    to,
+    stip_length_type *moves,
+    stip_length_type *captures,
+    stip_length_type captallowed)
 {
   square    cenpromsq;
-  int       i, mov1, mov2, cap1;
+  stip_length_type i, mov1, mov2, cap1;
 
   cenpromsq= from%onerow + nr_of_slack_rows_below_board*onerow;
   *moves= slices[0].u.composite.length;
@@ -944,8 +953,7 @@ void BlPromPieceMovesFromTo(
     if (cenpromsq-i >= square_a1)
     {
       /* got out of range sometimes ! */
-      BlPawnMovesFromTo(from,
-                        cenpromsq-i, &mov1, &cap1, captallowed);
+      BlPawnMovesFromTo(from, cenpromsq-i, &mov1, &cap1, captallowed);
       PieceMovesFromTo(ProofBoard[to], cenpromsq-i, to, &mov2);
       if (mov1+mov2 < *moves)
         *moves= mov1+mov2;
@@ -958,13 +966,13 @@ void BlPromPieceMovesFromTo(
   *captures= 0;
 } /* BlPromPieceMovesFromTo */
 
-void WhPieceMovesFromTo(
-  square    from,
-  square    to,
-  int       *moves,
-  int       *captures,
-  int       captallowed,
-  int       captrequ)
+static void WhPieceMovesFromTo(
+    square    from,
+    square    to,
+    stip_length_type *moves,
+    stip_length_type *captures,
+    stip_length_type captallowed,
+    int       captrequ)
 {
   piece pfrom= e[from];
   piece pto= ProofBoard[to];
@@ -990,13 +998,13 @@ void WhPieceMovesFromTo(
   }
 }
 
-void BlPieceMovesFromTo(
-  square    from,
-  square    to,
-  int       *moves,
-  int       *captures,
-  int       captallowed,
-  int       captrequ)
+static void BlPieceMovesFromTo(
+    square    from,
+    square    to,
+    stip_length_type *moves,
+    stip_length_type *captures,
+    stip_length_type captallowed,
+    int       captrequ)
 {
   piece pfrom, pto;
 
@@ -1006,32 +1014,34 @@ void BlPieceMovesFromTo(
 
   switch (pto)
   {
-  case pn:
-    if (pfrom == pn)
-      BlPawnMovesFromTo(from, to, moves, captures, captallowed);
-    break;
+    case pn:
+      if (pfrom == pn)
+        BlPawnMovesFromTo(from, to, moves, captures, captallowed);
+      break;
 
-  default:
-    if (pfrom == pto)
-    {
-      PieceMovesFromTo(pfrom, from, to, moves);
-      *captures= 0;
-    }
-    else if (pfrom == pn)
-      BlPromPieceMovesFromTo(from,
-                             to, moves, captures, captallowed-captrequ);
+    default:
+      if (pfrom == pto)
+      {
+        PieceMovesFromTo(pfrom, from, to, moves);
+        *captures= 0;
+      }
+      else if (pfrom == pn)
+        BlPromPieceMovesFromTo(from,
+                               to, moves, captures, captallowed-captrequ);
   }
 }
 
-typedef struct {
+typedef struct
+{
     int     Nbr;
     square  sq[16];
 } PieceList;
 
-typedef struct {
+typedef struct
+{
     int     Nbr;
-    int     moves[16];
-    int     captures[16];
+    stip_length_type moves[16];
+    stip_length_type captures[16];
     int     id[16];
 } PieceList2;
 
@@ -1040,37 +1050,15 @@ PieceList ProofWhPawns, CurrentWhPawns,
   ProofBlPawns, CurrentBlPawns,
   ProofBlPieces, CurrentBlPieces;
 
-void PrintPieceList(PieceList *pl) {
-  int i;
-
-  for (i= 0; i < pl->Nbr; i++)
-  {
-    WriteSquare(pl->sq[i]);
-    StdString(" ");
-  }
-  StdString("\n");
-}
-
-void PrintPieceList2(PieceList2 *pl, int nto) {
-  int i, j;
-
-  for (i= 0; i < nto; i++)
-  {
-    for (j= 0; j < pl[i].Nbr; j++)
-      printf("%2d %2d %2d   ",
-             pl[i].id[j], pl[i].moves[j], pl[i].captures[j]);
-    printf("\n");
-  }
-}
-
-int ArrangeListedPieces(
+static stip_length_type ArrangeListedPieces(
   PieceList2    *pl,
   int       nto,
   int       nfrom,
   boolean   *taken,
-  int       CapturesAllowed)
+  stip_length_type CapturesAllowed)
 {
-  int       Diff, Diff2, i, id;
+  stip_length_type Diff, Diff2;
+  int i, id;
 
   Diff= slices[0].u.composite.length;
 
@@ -1080,7 +1068,7 @@ int ArrangeListedPieces(
   for (i= 0; i < pl[0].Nbr; i++)
   {
     id= pl[0].id[i];
-    if (taken[id] || pl[0].captures[i] > CapturesAllowed)
+    if (taken[id] || pl[0].captures[i]>CapturesAllowed)
       continue;
 
     taken[id]= true;
@@ -1097,12 +1085,13 @@ int ArrangeListedPieces(
   return Diff;
 }
 
-int ArrangePieces(
-  int       CapturesAllowed,
+static stip_length_type ArrangePieces(
+  stip_length_type CapturesAllowed,
   Side   camp,
-  int       CapturesRequired)
+  stip_length_type CapturesRequired)
 {
-  int       ifrom, ito, moves, captures, Diff;
+  int       ifrom, ito, Diff;
+  stip_length_type moves, captures;
   PieceList2    pl[16];
   boolean   taken[16];
   PieceList *from, *to;
@@ -1145,18 +1134,18 @@ int ArrangePieces(
     taken[ifrom]= false;
 
   /* determine minimal number of moves required */
-  Diff= ArrangeListedPieces(pl,
-                            to->Nbr, from->Nbr, taken, CapturesAllowed);
+  Diff= ArrangeListedPieces(pl, to->Nbr, from->Nbr, taken, CapturesAllowed);
 
   return Diff;
 }
 
-int ArrangePawns(
-  int       CapturesAllowed,
+static stip_length_type ArrangePawns(
+  stip_length_type CapturesAllowed,
   Side   camp,
-  int       *CapturesRequired)
+  stip_length_type *CapturesRequired)
 {
-  int       ifrom, ito, moves, captures, Diff;
+  int       ifrom, ito;
+  stip_length_type moves, captures, Diff;
   PieceList2    pl[8];
   boolean   taken[8];
   PieceList *from, *to;
@@ -1389,10 +1378,11 @@ static boolean ProofFairyImpossible(void)
 static boolean ProofImpossible(void)
 {
   square    *bnp;
-  int       black_moves_left = BlMovesLeft;
-  int       white_moves_left = WhMovesLeft;
-  int       WhPieToBeCapt, BlPieToBeCapt,
-    WhCapturesRequired, BlCapturesRequired;
+  stip_length_type black_moves_left = BlMovesLeft;
+  stip_length_type white_moves_left = WhMovesLeft;
+  stip_length_type WhPieToBeCapt, BlPieToBeCapt;
+  stip_length_type WhCapturesRequired, BlCapturesRequired;
+  stip_length_type white_king_moves_needed, black_king_moves_needed;
   piece p1, p2;
   square    sq;
   int       NbrWh, NbrBl;
@@ -1499,23 +1489,17 @@ static boolean ProofImpossible(void)
       return true;
     }
 
-  white_moves_left -= ProofWhKingMovesNeeded();
-  if (white_moves_left < 0)
-  {
-    TraceText("white_moves_left -= ProofWhKingMovesNeeded() < 0\n");
-    TraceValue("%d ",ProofWhKingMovesNeeded());
-    TraceValue("%d\n",white_moves_left);
+  white_king_moves_needed = ProofWhKingMovesNeeded();
+  if (white_moves_left<white_king_moves_needed)
     return true;
-  }
+  else
+    white_moves_left -= ProofWhKingMovesNeeded();
 
-  black_moves_left -= ProofBlKingMovesNeeded();
-  if (black_moves_left < 0)
-  {
-    TraceText("black_moves_left -= ProofBlKingMovesNeeded() < 0\n");
-    TraceValue("%d ",ProofBlKingMovesNeeded());
-    TraceValue("%d\n",black_moves_left);
+  black_king_moves_needed = ProofBlKingMovesNeeded();
+  if (black_moves_left<black_king_moves_needed)
     return true;
-  }
+  else
+    black_moves_left -= black_king_moves_needed;
 
   if (CondFlag[haanerchess])
   {
@@ -1667,9 +1651,10 @@ static boolean ProofImpossible(void)
 static boolean ProofSeriesImpossible(void)
 {
   square    *bnp, sq;
-  int       BlPieToBeCapt, BlCapturesRequired;
+  stip_length_type BlPieToBeCapt, BlCapturesRequired;
   int       NbrBl;
-  int       white_moves_left= BlMovesLeft+WhMovesLeft;
+  stip_length_type white_moves_left= BlMovesLeft+WhMovesLeft;
+  stip_length_type white_king_moves_needed;
 
   TraceValue("%d\n",BlMovesLeft+WhMovesLeft);
   /* too many pawns captured or promoted */
@@ -1685,10 +1670,15 @@ static boolean ProofSeriesImpossible(void)
 
   /* to many pieces captured    or */
   /* not enough time to capture the remaining pieces */
-  BlPieToBeCapt= NbrBl - ProofNbrBlackPieces;
-  if (BlPieToBeCapt<0 || BlPieToBeCapt>white_moves_left)
+  if (NbrBl<ProofNbrBlackPieces)
     return true;
-
+  else
+  {
+    BlPieToBeCapt= NbrBl - ProofNbrBlackPieces;
+    if (BlPieToBeCapt>white_moves_left)
+      return true;
+  }
+  
   /* has a white pawn on the second rank moved ? */
   for (sq = square_a2; sq<=square_h2; sq += dir_right)
     if (ProofBoard[sq]==pb && e[sq]!=pb)
@@ -1704,9 +1694,11 @@ static boolean ProofSeriesImpossible(void)
     if (ProofBoard[sq]<roin && ProofBoard[sq]!=e[sq])
       return true;
 
-  white_moves_left -= ProofWhKingMovesNeeded();
-  if (white_moves_left < 0)
+  white_king_moves_needed = ProofWhKingMovesNeeded();
+  if (white_moves_left<white_king_moves_needed)
     return true;
+  else
+    white_moves_left -= white_king_moves_needed;
 
   /* collect the pieces for further investigations */
   ProofWhPawns.Nbr=
@@ -1749,11 +1741,11 @@ static boolean ProofSeriesImpossible(void)
     } /* p1 != p2 */
   } /* for (bnp... */
 
-  if (ArrangePawns(BlPieToBeCapt, White, &BlCapturesRequired)
+  if (ArrangePawns(BlPieToBeCapt,White,&BlCapturesRequired)
       > white_moves_left)
     return true;
 
-  if (ArrangePieces(BlPieToBeCapt, White, BlCapturesRequired)
+  if (ArrangePieces(BlPieToBeCapt,White,BlCapturesRequired)
       > white_moves_left)
     return true;
 

@@ -559,6 +559,8 @@ enum
   queenside_castling = maxsquare+3
 };
 
+typedef unsigned int stip_length_type;
+
 enum
 {
 #if defined(DATABASE)

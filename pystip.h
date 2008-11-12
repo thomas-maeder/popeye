@@ -46,7 +46,8 @@ typedef struct
 
         struct /* for other values of type */
         {
-            int length; /* full moves if play==PDirect, half moves otherw. */
+            /* full moves if play==PDirect, half moves otherw. */
+            stip_length_type length;
             boolean is_exact; /* true iff length is to be considered exact */
             Play play;
             slice_index op1; /* operand 1 */

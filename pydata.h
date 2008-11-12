@@ -329,8 +329,6 @@ EXTERN  Flags           pprispec[maxply + 1];
 EXTERN  Flags           spec[maxsquare+4];
 EXTERN  int        zzzaj[square_h8 - square_a1 + 1];  /* gridnumber */
 
-EXTERN  int        max_nr_nontrivial, min_length_nontrivial;
-
 EXTERN  SquareFlags     zzzan[square_h8 - square_a1 + 1];  /* sq_spec */
 EXTERN  boolean         we_generate_exact, there_are_consmoves,
 			wh_exact, bl_exact, wh_ultra, bl_ultra;
@@ -342,7 +340,12 @@ EXTERN  imarr           isquare;                /* Imitatorstandfelder */
 EXTERN  boolean         Iprom[maxply + 1];      /* Imitatorumwandlung? */
 EXTERN  square          im0;                    /* Standort des ersten Imitators */
 
-EXTERN  int        zugebene, max_nr_refutations, max_len_threat;
+EXTERN  stip_length_type zugebene, max_len_threat;
+
+EXTERN  stip_length_type min_length_nontrivial;
+EXTERN  int max_nr_nontrivial;
+
+EXTERN  int max_nr_refutations;
 EXTERN  int        MoveNbr, RestartNbr;
 EXTERN  boolean         restartenabled;
 EXTERN  Side         neutcoul;
