@@ -38,8 +38,17 @@ void check_hash_assumptions(void);
 void inithash (void);
 void closehash (void);
 void HashStats(int level, char *trailer);
-boolean inhash(slice_index si, hashwhat what, int val, HashBuffer *);
-void addtohash(slice_index si, hashwhat what, int val, HashBuffer *);
+
+typedef unsigned int hash_value_type;
+
+boolean inhash(slice_index si,
+               hashwhat what,
+               hash_value_type val,
+               HashBuffer *);
+void addtohash(slice_index si,
+               hashwhat what,
+               hash_value_type val,
+               HashBuffer *);
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);

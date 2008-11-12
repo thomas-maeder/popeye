@@ -357,7 +357,7 @@ static dhtElement template_element;
 static void set_value_direct(dhtElement *he,
                              slice_index si,
                              hashwhat what,
-                             data_type val)
+                             hash_value_type val)
 {
   unsigned int const offset = (what==DirSucc
                                ? slice_properties[si].u.d.offsetSucc
@@ -388,7 +388,7 @@ static void set_value_direct(dhtElement *he,
 static void set_value_help(dhtElement *he,
                            slice_index si,
                            hashwhat what,
-                           data_type val)
+                           hash_value_type val)
 {
   unsigned int const offset = (what==HelpNoSuccOdd
                                ? slice_properties[si].u.h.offsetNoSuccOdd
@@ -417,7 +417,7 @@ static void set_value_help(dhtElement *he,
 static void set_value_series(dhtElement *he,
                              slice_index si,
                              hashwhat what,
-                             data_type val)
+                             hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.s.offsetNoSucc;
   unsigned int const bits = val << offset;
@@ -442,7 +442,7 @@ static void set_value_series(dhtElement *he,
 static void set_value_composite(dhtElement *he,
                                 slice_index si,
                                 hashwhat what,
-                                data_type val)
+                                hash_value_type val)
 {
   switch (slices[si].u.composite.play)
   {
@@ -467,7 +467,7 @@ static void set_value_composite(dhtElement *he,
 static void set_value_leaf(dhtElement *he,
                            slice_index si,
                            hashwhat what,
-                           data_type val)
+                           hash_value_type val)
 {
   switch (slices[si].u.leaf.end)
   {
@@ -491,7 +491,7 @@ static void set_value_leaf(dhtElement *he,
 static void set_value(dhtElement *he,
                       slice_index si,
                       hashwhat what,
-                      data_type val)
+                      hash_value_type val)
 {
   if (slices[si].type==STLeaf)
     set_value_leaf(he,si,what,val);
@@ -499,9 +499,9 @@ static void set_value(dhtElement *he,
     set_value_composite(he,si,what,val);
 }
 
-static data_type get_value_direct(dhtElement const *he,
-                                  slice_index si,
-                                  hashwhat what)
+static hash_value_type get_value_direct(dhtElement const *he,
+                                        slice_index si,
+                                        hashwhat what)
 {
   unsigned int const offset = (what==DirSucc
                                ? slice_properties[si].u.d.offsetSucc
@@ -523,9 +523,9 @@ static data_type get_value_direct(dhtElement const *he,
   return result;
 }
 
-static data_type get_value_help(dhtElement const *he,
-                                slice_index si,
-                                hashwhat what)
+static hash_value_type get_value_help(dhtElement const *he,
+                                      slice_index si,
+                                      hashwhat what)
 {
   unsigned int const offset = (what==HelpNoSuccOdd
                                ? slice_properties[si].u.h.offsetNoSuccOdd
@@ -546,9 +546,9 @@ static data_type get_value_help(dhtElement const *he,
   return result;
 }
 
-static data_type get_value_series(dhtElement const *he,
-                                  slice_index si,
-                                  hashwhat what)
+static hash_value_type get_value_series(dhtElement const *he,
+                                        slice_index si,
+                                        hashwhat what)
 {
   unsigned int const offset = slice_properties[si].u.s.offsetNoSucc;
   unsigned int const mask = slice_properties[si].u.s.maskNoSucc;
@@ -565,9 +565,9 @@ static data_type get_value_series(dhtElement const *he,
   return result;
 }
 
-static data_type get_value_composite(dhtElement const *he,
-                                     slice_index si,
-                                     hashwhat what)
+static hash_value_type get_value_composite(dhtElement const *he,
+                                           slice_index si,
+                                           hashwhat what)
 {
   switch (slices[si].u.composite.play)
   {
@@ -586,9 +586,9 @@ static data_type get_value_composite(dhtElement const *he,
   }
 }
 
-static data_type get_value_leaf(dhtElement const *he,
-                                slice_index si,
-                                hashwhat what)
+static hash_value_type get_value_leaf(dhtElement const *he,
+                                      slice_index si,
+                                      hashwhat what)
 {
   switch (slices[si].u.leaf.end)
   {
@@ -607,9 +607,9 @@ static data_type get_value_leaf(dhtElement const *he,
   }
 }
 
-static data_type get_value(dhtElement const *he,
-                           slice_index si,
-                           hashwhat what)
+static hash_value_type get_value(dhtElement const *he,
+                                 slice_index si,
+                                 hashwhat what)
 {
   if (slices[si].type==STLeaf)
     return get_value_leaf(he,si,what);
@@ -617,11 +617,11 @@ static data_type get_value(dhtElement const *he,
     return get_value_composite(he,si,what);
 }
 
-static data_type own_value_of_data_direct(dhtElement const *he,
-                                          slice_index si)
+static hash_value_type own_value_of_data_direct(dhtElement const *he,
+                                                slice_index si)
 {
-  data_type const succ = get_value(he,si,DirSucc);
-  data_type const nosucc = get_value(he,si,DirNoSucc);
+  hash_value_type const succ = get_value(he,si,DirSucc);
+  hash_value_type const nosucc = get_value(he,si,DirNoSucc);
   if (succ<=(unsigned)slices[si].u.composite.length
       && succ+1>nosucc)
     return succ;
@@ -629,22 +629,22 @@ static data_type own_value_of_data_direct(dhtElement const *he,
     return nosucc-1;
 }
 
-static data_type own_value_of_data_help(dhtElement const *he,
-                                        slice_index si)
+static hash_value_type own_value_of_data_help(dhtElement const *he,
+                                              slice_index si)
 {
-  data_type const odd = get_value(he,si,HelpNoSuccOdd);
-  data_type const even = get_value(he,si,HelpNoSuccEven);
+  hash_value_type const odd = get_value(he,si,HelpNoSuccOdd);
+  hash_value_type const even = get_value(he,si,HelpNoSuccEven);
   return even>odd ? even*2 : odd*2+1;
 }
 
-static data_type own_value_of_data_series(dhtElement const *he,
-                                          slice_index si)
+static hash_value_type own_value_of_data_series(dhtElement const *he,
+                                                slice_index si)
 {
   return get_value(he,si,SerNoSucc);
 }
 
-static data_type own_value_of_data_leaf(dhtElement const *he,
-                                        slice_index si)
+static hash_value_type own_value_of_data_leaf(dhtElement const *he,
+                                              slice_index si)
 {
   switch (slices[si].u.leaf.end)
   {
@@ -663,8 +663,8 @@ static data_type own_value_of_data_leaf(dhtElement const *he,
   }
 }
 
-static data_type own_value_of_data_composite(dhtElement const *he,
-                                             slice_index si)
+static hash_value_type own_value_of_data_composite(dhtElement const *he,
+                                                   slice_index si)
 {
   switch (slices[si].u.composite.play)
   {
@@ -683,9 +683,9 @@ static data_type own_value_of_data_composite(dhtElement const *he,
   }
 }
 
-static data_type value_of_data_recursive(dhtElement const *he,
-                                         size_t offset,
-                                         slice_index si)
+static hash_value_type value_of_data_recursive(dhtElement const *he,
+                                               size_t offset,
+                                               slice_index si)
 {
   offset -= slice_properties[si].size;
 
@@ -697,27 +697,33 @@ static data_type value_of_data_recursive(dhtElement const *he,
     case STReciprocal:
     case STQuodlibet:
     {
-      data_type const own_value = own_value_of_data_composite(he,si);
+      hash_value_type const own_value = own_value_of_data_composite(he,si);
 
       slice_index const op1 = slices[si].u.composite.op1;
-      data_type const nested_value1 = value_of_data_recursive(he,offset,op1);
+      hash_value_type const nested_value1 = value_of_data_recursive(he,
+                                                                    offset,
+                                                                    op1);
 
       slice_index const op2 = slices[si].u.composite.op2;
-      data_type const nested_value2 = value_of_data_recursive(he,offset,op2);
+      hash_value_type const nested_value2 = value_of_data_recursive(he,
+                                                                    offset,
+                                                                    op2);
 
-      data_type const nested_value = (nested_value1>nested_value2
-                                      ? nested_value1
-                                      : nested_value2);
+      hash_value_type const nested_value = (nested_value1>nested_value2
+                                            ? nested_value1
+                                            : nested_value2);
 
       return (own_value << offset) + nested_value;
     }
 
     case STSequence:
     {
-      data_type const own_value = own_value_of_data_composite(he,si);
+      hash_value_type const own_value = own_value_of_data_composite(he,si);
 
       slice_index const op1 = slices[si].u.composite.op1;
-      data_type const nested_value = value_of_data_recursive(he,offset,op1);
+      hash_value_type const nested_value = value_of_data_recursive(he,
+                                                                   offset,
+                                                                   op1);
 
       return (own_value << offset) + nested_value;
     }
@@ -731,7 +737,7 @@ static data_type value_of_data_recursive(dhtElement const *he,
 /* how much is element *he worth to us? This information is used to
  * determine which elements to discard from the hash table if it has
  * reached its capacity. */
-static data_type value_of_data(dhtElement const *he)
+static hash_value_type value_of_data(dhtElement const *he)
 {
   size_t const offset = sizeof(data_type)*CHAR_BIT;
   slice_index const first_slice = 0;
@@ -743,8 +749,8 @@ static unsigned long totalRemoveCount = 0;
 static void compresshash (void)
 {
   dhtElement *he;
-  data_type min_val;
-  data_type x;
+  hash_value_type min_val;
+  hash_value_type x;
   unsigned long RemoveCnt, ToDelete, runCnt;
 #if defined(TESTHASH)
   unsigned long initCnt, visitCnt;
@@ -1170,7 +1176,10 @@ static void SmallEncode(HashBuffer *hb)
 
 unsigned long inhash_calls_count;
 
-boolean inhash(slice_index si, hashwhat what, int val, HashBuffer *hb)
+boolean inhash(slice_index si,
+               hashwhat what,
+               hash_value_type val,
+               HashBuffer *hb)
 {
   boolean result = false;
   dhtElement const * const he= dhtLookupElement(pyhash, (dhtValue)hb);
@@ -1189,10 +1198,8 @@ boolean inhash(slice_index si, hashwhat what, int val, HashBuffer *hb)
     {
       case SerNoSucc:
       {
-        data_type const nosucc = get_value(he,si,SerNoSucc);
-        if (slices[si].u.composite.is_exact
-            ? nosucc==(unsigned)val
-            : nosucc>=(unsigned)val)
+        hash_value_type const nosucc = get_value(he,si,SerNoSucc);
+        if (slices[si].u.composite.is_exact ? nosucc==val : nosucc>=val)
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1203,10 +1210,8 @@ boolean inhash(slice_index si, hashwhat what, int val, HashBuffer *hb)
       }
       case HelpNoSuccOdd:
       {
-        data_type const nosucc = get_value(he,si,HelpNoSuccOdd);
-        if (slices[si].u.composite.is_exact
-            ? nosucc==(unsigned)val
-            : nosucc>=(unsigned)val)
+        hash_value_type const nosucc = get_value(he,si,HelpNoSuccOdd);
+        if (slices[si].u.composite.is_exact ? nosucc==val: nosucc>=val)
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1217,10 +1222,8 @@ boolean inhash(slice_index si, hashwhat what, int val, HashBuffer *hb)
       }
       case HelpNoSuccEven:
       {
-        data_type const nosucc = get_value(he,si,HelpNoSuccEven);
-        if (slices[si].u.composite.is_exact
-            ? nosucc==(unsigned)val
-            : nosucc>=(unsigned)val)
+        hash_value_type const nosucc = get_value(he,si,HelpNoSuccEven);
+        if (slices[si].u.composite.is_exact ? nosucc==val : nosucc>=val)
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1231,10 +1234,8 @@ boolean inhash(slice_index si, hashwhat what, int val, HashBuffer *hb)
       }
       case DirNoSucc:
       {
-        data_type const nosucc = get_value(he,si,DirNoSucc);
-        if (slices[si].u.composite.is_exact
-            ? nosucc==(unsigned)val
-            : nosucc>=(unsigned)val)
+        hash_value_type const nosucc = get_value(he,si,DirNoSucc);
+        if (slices[si].u.composite.is_exact ? nosucc==val : nosucc>=val)
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1244,10 +1245,8 @@ boolean inhash(slice_index si, hashwhat what, int val, HashBuffer *hb)
       }
       case DirSucc:
       {
-        data_type const succ = get_value(he,si,DirSucc);
-        if (slices[si].u.composite.is_exact
-            ? succ==(unsigned)val
-            : succ<=(unsigned)val)
+        hash_value_type const succ = get_value(he,si,DirSucc);
+        if (slices[si].u.composite.is_exact ? succ==val : succ<=val)
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1366,14 +1365,17 @@ static void init_element(dhtElement *he, slice_index si)
   TraceText("\n");
 }
 
-void addtohash(slice_index si, hashwhat what, int val, HashBuffer *hb)
+void addtohash(slice_index si,
+               hashwhat what,
+               hash_value_type val,
+               HashBuffer *hb)
 {
   dhtElement *he = dhtLookupElement(pyhash, (dhtValue)hb);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d ",si);
   TraceFunctionParam("%d ",what);
-  TraceFunctionParam("%d\n",val);
+  TraceFunctionParam("%u\n",val);
 
   if (he == dhtNilElement)
   { /* the position is new */
@@ -1413,29 +1415,28 @@ void addtohash(slice_index si, hashwhat what, int val, HashBuffer *hb)
   switch (what)
   {
     /* TODO use optimized operation */
-    /* TODO change type of val to unsigned int? */
     case SerNoSucc:
-      if (get_value(he,si,SerNoSucc)<(unsigned)val)
+      if (get_value(he,si,SerNoSucc)<val)
         set_value(he,si,SerNoSucc,val);
       break;
 
     case HelpNoSuccOdd:
-      if (get_value(he,si,HelpNoSuccOdd)<(unsigned)val)
+      if (get_value(he,si,HelpNoSuccOdd)<val)
         set_value(he,si,HelpNoSuccOdd,val);
       break;
 
     case HelpNoSuccEven:
-      if (get_value(he,si,HelpNoSuccEven)<(unsigned)val)
+      if (get_value(he,si,HelpNoSuccEven)<val)
         set_value(he,si,HelpNoSuccEven,val);
       break;
 
     case DirSucc:
-      if (get_value(he,si,DirSucc)>(unsigned)val)
+      if (get_value(he,si,DirSucc)>val)
         set_value(he,si,DirSucc,val);
       break;
 
     case DirNoSucc:
-      if (get_value(he,si,DirNoSucc)<(unsigned)val)
+      if (get_value(he,si,DirNoSucc)<val)
         set_value(he,si,DirNoSucc,val);
       break;
   }
