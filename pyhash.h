@@ -37,7 +37,7 @@ void check_hash_assumptions(void);
 
 void inithash (void);
 void closehash (void);
-void HashStats(int level, char *trailer);
+void HashStats(unsigned int level, char *trailer);
 
 typedef unsigned int hash_value_type;
 

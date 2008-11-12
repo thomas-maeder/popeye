@@ -340,11 +340,13 @@ static size_t init_slice_properties_recursive(slice_index si, size_t offset)
     return init_slice_properties_composite(si,offset);
 }
 
+static size_t min_offset;
+
 static void init_slice_properties(void)
 {
   slice_index const si = 0;
   size_t offset = sizeof(data_type)*CHAR_BIT;
-  init_slice_properties_recursive(si,offset);
+  min_offset = init_slice_properties_recursive(si,offset);
 }
 
 
@@ -750,6 +752,7 @@ static void compresshash (void)
 {
   dhtElement *he;
   hash_value_type min_val;
+  hash_value_type const val_step = 1<<min_offset;
   hash_value_type x;
   unsigned long RemoveCnt, ToDelete, runCnt;
 #if defined(TESTHASH)
@@ -757,12 +760,11 @@ static void compresshash (void)
 #endif
   flag_hashall= false;
 
-  min_val= slices[0].u.composite.length;
-
   ifTESTHASH(printf("compressing: %ld -> ", dhtKeyCount(pyhash)));
 
   he= dhtGetFirstElement(pyhash);
-  while (he)
+  min_val = value_of_data(he);
+  while ((he = dhtGetNextElement(pyhash)))
   {
     x = value_of_data(he);
     if (x<min_val)
@@ -779,18 +781,20 @@ static void compresshash (void)
   }
 
 #if defined(TESTHASH)
-  printf("\nmin_val: %d\n", min_val);
+  printf("\nmin_val: %x\n", min_val);
+  printf("\nmin_offset: %u\n", min_offset);
   printf("ToDelete: %ld\n", ToDelete);
   fflush(stdout);
   initCnt= dhtKeyCount(pyhash);
 #endif  /* TESTHASH */
 
   runCnt= 0;
-  while (RemoveCnt < ToDelete) {
-    min_val++;
+  while (RemoveCnt < ToDelete)
+  {
+    min_val += val_step;
 
 #if defined(TESTHASH)
-    printf("min_val: %d\n", min_val);
+    printf("min_val: %x\n", min_val);
     printf("RemoveCnt: %ld\n", RemoveCnt);
     fflush(stdout);
     visitCnt= 0;
@@ -822,18 +826,18 @@ static void compresshash (void)
     }
 #if defined(TESTHASH)
     runCnt++;
-    printf("run=%ld, RemoveCnt: %ld, missed: %ld\n", runCnt, RemoveCnt, initCnt-visitCnt);
+    printf("run=%ld, RemoveCnt: %ld, missed: %ld\n",
+           runCnt, RemoveCnt, initCnt-visitCnt);
     {
       int l, counter[16];
       int KeyCount=dhtKeyCount(pyhash);
       dhtBucketStat(pyhash, counter, 16);
-      for (l=0; l< 16-1; l++) {
+      for (l=0; l< 16-1; l++)
         fprintf(stdout, "%d %d %d\n", KeyCount, l+1, counter[l]);
-      }
-      fprintf(stdout, "%d %d %d\n\n", KeyCount, l+1, counter[l]);
-      if (runCnt > 9) {
-        fprintf(stdout, "runCnt > 9 after %ld-th call to  dhtRemoveElement\n", totalRemoveCount);
-      }
+      printf("%d %d %d\n\n", KeyCount, l+1, counter[l]);
+      if (runCnt > 9)
+        printf("runCnt > 9 after %ld-th call to  dhtRemoveElement\n",
+               totalRemoveCount);
       dhtDebug= runCnt == 9;
     }
     fflush(stdout);
@@ -842,9 +846,11 @@ static void compresshash (void)
   }
 #if defined(TESTHASH)
   printf("%ld;", dhtKeyCount(pyhash));
+#if defined(HASHRATE)
   printf(" usage: %ld", use_pos);
   printf(" / %ld", use_all);
   printf(" = %ld%%", (100 * use_pos) / use_all);
+#endif
 #if defined(FREEMAP) && defined(FXF)
   PrintFreeMap(stdout);
 #endif /*FREEMAP*/
@@ -905,12 +911,14 @@ void DecHashRateLevel(void)
 
 #endif
 
-void HashStats(int level, char *trailer) {
+void HashStats(unsigned int level, char *trailer)
+{
 #if defined(HASHRATE)
   int pos=dhtKeyCount(pyhash);
   char rate[60];
 
-  if (level <= HashRateLevel) {
+  if (level<=HashRateLevel)
+  {
     StdString("  ");
     pos= dhtKeyCount(pyhash);
     logIntArg(pos);
