@@ -472,7 +472,11 @@ enum
   maxsquare = ((nr_of_slack_rows_below_board
                 +nr_rows_on_board
                 +nr_of_slack_rows_below_board)
-               *onerow)
+               *onerow),
+
+  /* how many steps can a straight rider maximally make and still
+   * remain on the board? */
+  max_nr_straight_rider_steps = 7
 };
 
 /* Symbols for geometric calculations - please ALWAYS use these rather
