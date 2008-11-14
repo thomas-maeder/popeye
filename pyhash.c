@@ -192,90 +192,113 @@ static unsigned int bit_width(unsigned int value)
   return result;
 }
 
-static size_t init_slice_properties_direct(slice_index si,
-                                           unsigned int length,
-                                           size_t offset)
+/* Initialize the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a direct slice.
+ * @param si root slice of subtree
+ * @param length number of attacker's moves of help slice
+ * @param nr_bits_left number of bits left over by slices already init
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_direct(slice_index si,
+                                         unsigned int length,
+                                         size_t *nr_bits_left)
 {
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
 
   slice_properties[si].size = size;
 
-  assert(offset>=size);
-  offset -= size;
-  slice_properties[si].u.d.offsetNoSucc = offset;
-  slice_properties[si].u.d.maskNoSucc = mask << offset;
+  assert(*nr_bits_left>=size);
+  *nr_bits_left -= size;
+  slice_properties[si].u.d.offsetNoSucc = *nr_bits_left;
+  slice_properties[si].u.d.maskNoSucc = mask << *nr_bits_left;
 
-  assert(offset>=size);
-  offset -= size;
-  slice_properties[si].u.d.offsetSucc = offset;
-  slice_properties[si].u.d.maskSucc = mask << offset;
-
-  return offset;
+  assert(*nr_bits_left>=size);
+  *nr_bits_left -= size;
+  slice_properties[si].u.d.offsetSucc = *nr_bits_left;
+  slice_properties[si].u.d.maskSucc = mask << *nr_bits_left;
 }
 
-static size_t init_slice_properties_help(slice_index si,
-                                         unsigned int length,
-                                         size_t offset)
+/* Initialize the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a help slice.
+ * @param si root slice of subtree
+ * @param length number of half moves of help slice
+ * @param nr_bits_left number of bits left over by slices already init
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_help(slice_index si,
+                                       unsigned int length,
+                                       size_t *nr_bits_left)
 {
   unsigned int const size = bit_width((length+1)/2);
   data_type const mask = (1<<size)-1;
 
   slice_properties[si].size = size;
 
-  assert(offset>=size);
-  offset -= size;
-  slice_properties[si].u.h.offsetNoSuccOdd = offset;
-  slice_properties[si].u.h.maskNoSuccOdd = mask << offset;
+  assert(*nr_bits_left>=size);
+  *nr_bits_left -= size;
+  slice_properties[si].u.h.offsetNoSuccOdd = *nr_bits_left;
+  slice_properties[si].u.h.maskNoSuccOdd = mask << *nr_bits_left;
 
-  assert(offset>=size);
-  offset -= size;
-  slice_properties[si].u.h.offsetNoSuccEven = offset;
-  slice_properties[si].u.h.maskNoSuccEven = mask << offset;
-
-  return offset;
+  assert(*nr_bits_left>=size);
+  *nr_bits_left -= size;
+  slice_properties[si].u.h.offsetNoSuccEven = *nr_bits_left;
+  slice_properties[si].u.h.maskNoSuccEven = mask << *nr_bits_left;
 }
 
-static size_t init_slice_properties_series(slice_index si,
-                                           unsigned int length,
-                                           size_t offset)
+/* Initialize the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a series slice.
+ * @param si root slice of subtree
+ * @param length number of half moves of series slice
+ * @param nr_bits_left number of bits left over by slices already init
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_series(slice_index si,
+                                         unsigned int length,
+                                         size_t *nr_bits_left)
 {
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
 
   slice_properties[si].size = size;
 
-  assert(offset>=size);
-  offset -= size;
-  slice_properties[si].u.s.offsetNoSucc = offset;
-  slice_properties[si].u.s.maskNoSucc = mask << offset;
-
-  return offset;
+  assert(nr_bits_left>=size);
+  *nr_bits_left -= size;
+  slice_properties[si].u.s.offsetNoSucc = *nr_bits_left;
+  slice_properties[si].u.s.maskNoSucc = mask << *nr_bits_left;
 }
 
-static size_t init_slice_properties_recursive(slice_index si, size_t offset);
+static void init_slice_properties_recursive(slice_index si,
+                                            size_t *nr_bits_left);
 
-static size_t init_slice_properties_composite(slice_index si, size_t offset)
+/* Initialize the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a composite slice.
+ * @param si root slice of subtree
+ * @param nr_bits_left number of bits left over by slices already init
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_composite(slice_index si,
+                                            size_t *nr_bits_left)
 {
   unsigned int const length = slices[si].u.composite.length;
   switch (slices[si].u.composite.play)
   {
     case PDirect:
-      offset = init_slice_properties_direct(si,
-                                            length-slack_length_direct,
-                                            offset);
+     init_slice_properties_direct(si,
+                                  length-slack_length_direct,
+                                  nr_bits_left);
       break;
 
     case PHelp:
-      offset = init_slice_properties_help(si,
-                                          length-slack_length_help,
-                                          offset);
+      init_slice_properties_help(si,
+                                 length-slack_length_help,
+                                 nr_bits_left);
       break;
 
     case PSeries:
-      offset = init_slice_properties_series(si,
-                                            length-slack_length_series,
-                                            offset);
+      init_slice_properties_series(si,
+                                   length-slack_length_series,
+                                   nr_bits_left);
       break;
 
     default:
@@ -293,60 +316,69 @@ static size_t init_slice_properties_composite(slice_index si, size_t offset)
     {
       slice_index const op1 = slices[si].u.composite.op1;
       slice_index const op2 = slices[si].u.composite.op2;
-      offset = init_slice_properties_recursive(op1,offset);
-      offset = init_slice_properties_recursive(op2,offset);
+      init_slice_properties_recursive(op1,nr_bits_left);
+      init_slice_properties_recursive(op2,nr_bits_left);
       break;
     }
 
     case STSequence:
     {
       slice_index const op1 = slices[si].u.composite.op1;
-      offset = init_slice_properties_recursive(op1,offset);
+      init_slice_properties_recursive(op1,nr_bits_left);
       break;
     }
   }
-
-  return offset;
 }
 
-static size_t init_slice_properties_leaf(slice_index si, size_t offset)
+/* Initialize the slice_properties array according to a leaf slice
+ * @param leaf leaf slice
+ * @param nr_bits_left number of bits left over by slices already init
+ */
+static void init_slice_properties_leaf(slice_index leaf,
+                                       size_t *nr_bits_left)
 {
-  switch (slices[si].u.leaf.end)
+  switch (slices[leaf].u.leaf.end)
   {
     case EHelp:
-      offset = init_slice_properties_help(si,2,offset);
+      init_slice_properties_help(leaf,2,nr_bits_left);
       break;
 
     case EDirect:
     case ESelf:
     case EReflex:
     case ESemireflex:
-      offset = init_slice_properties_direct(si,1,offset);
+      init_slice_properties_direct(leaf,1,nr_bits_left);
       break;
 
     default:
       assert(0);
       break;
   }
-
-  return offset;
 }
 
-static size_t init_slice_properties_recursive(slice_index si, size_t offset)
+/* Initialize the slice_properties array according to a subtree of the
+ * current stipulation slices.
+ * @param si root slice of subtree
+ * @param nr_bits_left number of bits left over by slices already init
+ * @return number of bits left over for subsequent slices
+ */
+static void init_slice_properties_recursive(slice_index si,
+                                            size_t *nr_bits_left)
 {
   if (slices[si].type==STLeaf)
-    return init_slice_properties_leaf(si,offset);
+    init_slice_properties_leaf(si,nr_bits_left);
   else
-    return init_slice_properties_composite(si,offset);
+    init_slice_properties_composite(si,nr_bits_left);
 }
 
-static size_t min_offset;
-
+/* Initialize the slice_properties array according to the current
+ * stipulation slices.
+ */
 static void init_slice_properties(void)
 {
   slice_index const si = 0;
-  size_t offset = sizeof(data_type)*CHAR_BIT;
-  min_offset = init_slice_properties_recursive(si,offset);
+  size_t nr_bits_left = sizeof(data_type)*CHAR_BIT;
+  init_slice_properties_recursive(si,&nr_bits_left);
 }
 
 
@@ -619,6 +651,12 @@ static hash_value_type get_value(dhtElement const *he,
     return get_value_composite(he,si,what);
 }
 
+/* Determine the contribution of a direct slice to the value of
+ * a hasth table element node.
+ * @param he address of hash table element to determine value of
+ * @param leaf slice index of composite slice
+ * @return value of contribution of slice si to *he's value
+ */
 static hash_value_type own_value_of_data_direct(dhtElement const *he,
                                                 slice_index si)
 {
@@ -631,6 +669,12 @@ static hash_value_type own_value_of_data_direct(dhtElement const *he,
     return nosucc-1;
 }
 
+/* Determine the contribution of a help slice to the value of
+ * a hasth table element node.
+ * @param he address of hash table element to determine value of
+ * @param leaf slice index of composite slice
+ * @return value of contribution of slice si to *he's value
+ */
 static hash_value_type own_value_of_data_help(dhtElement const *he,
                                               slice_index si)
 {
@@ -639,25 +683,37 @@ static hash_value_type own_value_of_data_help(dhtElement const *he,
   return even>odd ? even*2 : odd*2+1;
 }
 
+/* Determine the contribution of a series slice to the value of
+ * a hasth table element node.
+ * @param he address of hash table element to determine value of
+ * @param leaf slice index of composite slice
+ * @return value of contribution of slice si to *he's value
+ */
 static hash_value_type own_value_of_data_series(dhtElement const *he,
                                                 slice_index si)
 {
   return get_value(he,si,SerNoSucc);
 }
 
+/* Determine the contribution of a leaf slice to the value of
+ * a hasth table element node.
+ * @param he address of hash table element to determine value of
+ * @param leaf slice index of composite slice
+ * @return value of contribution of the leaf slice to *he's value
+ */
 static hash_value_type own_value_of_data_leaf(dhtElement const *he,
-                                              slice_index si)
+                                              slice_index leaf)
 {
-  switch (slices[si].u.leaf.end)
+  switch (slices[leaf].u.leaf.end)
   {
     case EHelp:
-      return own_value_of_data_help(he,si);
+      return own_value_of_data_help(he,leaf);
 
     case EDirect:
     case ESelf:
     case EReflex:
     case ESemireflex:
-      return own_value_of_data_direct(he,si);
+      return own_value_of_data_direct(he,leaf);
 
     default:
       assert(0);
@@ -665,6 +721,12 @@ static hash_value_type own_value_of_data_leaf(dhtElement const *he,
   }
 }
 
+/* Determine the contribution of a composite slice to the value of
+ * a hasth table element node.
+ * @param he address of hash table element to determine value of
+ * @param si slice index of composite slice
+ * @return value of contribution of the slice si to *he's value
+ */
 static hash_value_type own_value_of_data_composite(dhtElement const *he,
                                                    slice_index si)
 {
@@ -685,16 +747,21 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
   }
 }
 
+/* Determine the contribution of a stipulation subtree to the value of
+ * a hasth table element node.
+ * @param he address of hash table element to determine value of
+ * @param offset bit offset for subtree
+ * @param si slice index of subtree root slice
+ * @return value of contribuation of the subtree to *he's value
+ */
 static hash_value_type value_of_data_recursive(dhtElement const *he,
                                                size_t offset,
                                                slice_index si)
 {
-  offset -= slice_properties[si].size;
-
   switch (slices[si].type)
   {
     case STLeaf:
-      return own_value_of_data_leaf(he,si);
+      return own_value_of_data_leaf(he,si) << offset;
 
     case STReciprocal:
     case STQuodlibet:
@@ -702,14 +769,18 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       hash_value_type const own_value = own_value_of_data_composite(he,si);
 
       slice_index const op1 = slices[si].u.composite.op1;
-      hash_value_type const nested_value1 = value_of_data_recursive(he,
-                                                                    offset,
-                                                                    op1);
-
       slice_index const op2 = slices[si].u.composite.op2;
-      hash_value_type const nested_value2 = value_of_data_recursive(he,
-                                                                    offset,
-                                                                    op2);
+
+      size_t const size1 = slice_properties[op1].size;
+      size_t const size2 = slice_properties[op2].size;
+      size_t const max_size = (size1>size2 ? size1 : size2);
+
+      size_t const nested_offset = offset-max_size;
+
+      hash_value_type const nested_value1 =
+          value_of_data_recursive(he,nested_offset,op1);
+      hash_value_type const nested_value2 =
+          value_of_data_recursive(he,nested_offset,op2);
 
       hash_value_type const nested_value = (nested_value1>nested_value2
                                             ? nested_value1
@@ -723,9 +794,9 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       hash_value_type const own_value = own_value_of_data_composite(he,si);
 
       slice_index const op1 = slices[si].u.composite.op1;
-      hash_value_type const nested_value = value_of_data_recursive(he,
-                                                                   offset,
-                                                                   op1);
+      size_t const nested_offset = offset-slice_properties[op1].size;
+      hash_value_type const nested_value =
+          value_of_data_recursive(he,nested_offset,op1);
 
       return (own_value << offset) + nested_value;
     }
@@ -736,13 +807,17 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
   }
 }
 
-/* how much is element *he worth to us? This information is used to
+/* How much is element *he worth to us? This information is used to
  * determine which elements to discard from the hash table if it has
- * reached its capacity. */
+ * reached its capacity.
+ * @param he address of hash table element to determine value of
+ * @return value of *he
+ */
 static hash_value_type value_of_data(dhtElement const *he)
 {
-  size_t const offset = sizeof(data_type)*CHAR_BIT;
   slice_index const first_slice = 0;
+  size_t offset = sizeof(data_type)*CHAR_BIT;
+  offset -= slice_properties[first_slice].size;
   return value_of_data_recursive(he,offset,first_slice);
 }
 
@@ -752,12 +827,13 @@ static void compresshash (void)
 {
   dhtElement *he;
   hash_value_type min_val;
-  hash_value_type const val_step = 1<<min_offset;
   hash_value_type x;
   unsigned long RemoveCnt, ToDelete, runCnt;
 #if defined(TESTHASH)
   unsigned long initCnt, visitCnt;
 #endif
+  size_t val_step = 1;
+  
   flag_hashall= false;
 
   ifTESTHASH(printf("compressing: %ld -> ", dhtKeyCount(pyhash)));
@@ -773,16 +849,18 @@ static void compresshash (void)
   }
   RemoveCnt= 0;
   ToDelete= dhtKeyCount(pyhash)/16 + 1;
-  if (ToDelete >= dhtKeyCount(pyhash)) {
+  if (ToDelete >= dhtKeyCount(pyhash))
     ToDelete= dhtKeyCount(pyhash);
-    /* this is a pathological case: it may only occur, when we are so
-     * low on memory, that only one or no position can be stored.
-     */
-  }
+  /* this is a pathological case: it may only occur, when we are so
+   * low on memory, that only one or no position can be stored.
+   */
+
+  while ((val_step&min_val)==0)
+    val_step <<= 1;
 
 #if defined(TESTHASH)
   printf("\nmin_val: %x\n", min_val);
-  printf("\nmin_offset: %u\n", min_offset);
+  printf("\nval_step: %x\n", val_step);
   printf("ToDelete: %ld\n", ToDelete);
   fflush(stdout);
   initCnt= dhtKeyCount(pyhash);
@@ -1273,6 +1351,11 @@ boolean inhash(slice_index si,
   return result; /* avoid compiler warning */
 } /* inhash */
 
+/* Initialize the bits representing a direct slice in a hash table
+ * element's data field with null values
+ * @param he address of hash table element
+ * @param si slice index of series slice
+ */
 static void init_element_direct(dhtElement *he,
                                 slice_index si,
                                 unsigned int length)
@@ -1282,6 +1365,11 @@ static void init_element_direct(dhtElement *he,
   set_value(he,si,DirSucc,length);
 }
 
+/* Initialize the bits representing a help slice in a hash table
+ * element's data field with null values
+ * @param he address of hash table element
+ * @param si slice index of series slice
+ */
 static void init_element_help(dhtElement *he, slice_index si)
 {
   /* TODO optimize? */
@@ -1289,6 +1377,11 @@ static void init_element_help(dhtElement *he, slice_index si)
   set_value(he,si,HelpNoSuccOdd,0);
 }
 
+/* Initialize the bits representing a series slice in a hash table
+ * element's data field with null values
+ * @param he address of hash table element
+ * @param si slice index of series slice
+ */
 static void init_element_series(dhtElement *he, slice_index si)
 {
   set_value(he,si,SerNoSucc,0);
@@ -1296,6 +1389,12 @@ static void init_element_series(dhtElement *he, slice_index si)
 
 static void init_element(dhtElement *he, slice_index si);
 
+/* Initialize the bits representing a composite slice (including its
+ * descendants) in a hash table element's data field with null values
+ * @param he address of hash table element
+ * @param si slice index of slice
+ * @note this is an indirectly recursive function
+ */
 static void init_element_composite(dhtElement *he, slice_index si)
 {
   switch (slices[si].u.composite.play)
@@ -1337,19 +1436,24 @@ static void init_element_composite(dhtElement *he, slice_index si)
   }
 }
 
-static void init_element_leaf(dhtElement *he, slice_index si)
+/* Initialize the bits representing a leaf slice in a hash table
+ * element's data field with null values 
+ * @param he address of hash table element
+ * @param leaf slice index of leaf slice
+ */
+static void init_element_leaf(dhtElement *he, slice_index leaf)
 {
-  switch (slices[si].u.leaf.end)
+  switch (slices[leaf].u.leaf.end)
   {
     case EHelp:
-      init_element_help(he,si);
+      init_element_help(he,leaf);
       break;
 
     case EDirect:
     case ESelf:
     case EReflex:
     case ESemireflex:
-      init_element_direct(he,si,1);
+      init_element_direct(he,leaf,1);
       break;
 
     default:
@@ -1358,6 +1462,11 @@ static void init_element_leaf(dhtElement *he, slice_index si)
   }
 }
 
+/* Initialize a hash table element's data field with null values.
+ * @param he address of hash table element
+ * @param si slice index of root element of stipulation (sub)tree
+ * @note this is an indirectly recursive function
+ */
 static void init_element(dhtElement *he, slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -1541,7 +1650,7 @@ void inithash(void)
 
 #if defined(FXF)
   ifTESTHASH(printf("MaxPositions: %7lu\n", MaxPositions));
-  ifTESTHASH(printf("MaxMemory:    %7lu KB\n", MaxMemory/1024));
+  ifTESTHASH(printf("MaxMemory:    %7u KB\n", MaxMemory/1024));
 #else
   ifTESTHASH(
       printf("room for up to %lu positions in hash table\n", MaxPositions));
@@ -1554,6 +1663,7 @@ void    closehash(void)
   sprintf(GlobalStr, "calling closehash\n");
   StdString(GlobalStr);
 
+#if defined(HASHRATE)
   sprintf(GlobalStr, "%ld enquiries out of %ld successful. ",
           use_pos, use_all);
   StdString(GlobalStr);
@@ -1561,6 +1671,7 @@ void    closehash(void)
     sprintf(GlobalStr, "Makes %ld%%\n", (100 * use_pos) / use_all);
     StdString(GlobalStr);
   }
+#endif
 #if defined(__unix)
   {
     unsigned long HashCount, HashMem, BytePerPos;
