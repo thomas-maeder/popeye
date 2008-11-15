@@ -31,8 +31,8 @@ static boolean IsABattery(square KingSquare,
     p= e[sq];
     if (p < vide)
       p= -p;
-    if (   (p == BackPiece1 || p == BackPiece2)
-           && TSTFLAG(spec[sq], ColourMovingPiece))
+    if ((p == BackPiece1 || p == BackPiece2)
+        && TSTFLAG(spec[sq], ColourMovingPiece))
     {
       /* So, it is a battery. */
       return true;
@@ -2854,10 +2854,7 @@ boolean leaf_solve(slice_index leaf)
 
     case EHelp:
     {
-/*       boolean const save_flag_hashall = flag_hashall;
-         flag_hashall = true;*/ /* TODO */
       result = h_leaf_solve(restartenabled,leaf);
-/*       flag_hashall = save_flag_hashall;*/
       break;
     }
 

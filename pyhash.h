@@ -13,7 +13,6 @@
 #include "py.h"
 
 /* typedefs */
-typedef unsigned char   byte;
 typedef enum {
 	SerNoSucc,
 	HelpNoSuccOdd,
@@ -22,15 +21,20 @@ typedef enum {
 	DirNoSucc
 } hashwhat;
 
+typedef unsigned char byte;
+
+enum
+{
+  hashbuf_length = 256
+};
+
 typedef union
 {
     BCMemValue cmv;
-    byte buffer[256];
+    byte buffer[hashbuf_length];
 } HashBuffer;
 
-extern boolean flag_hashall;
-
-extern  void (*encode)(HashBuffer*);
+extern void (*encode)(HashBuffer *);
 
 /* exported functions */
 void check_hash_assumptions(void);
