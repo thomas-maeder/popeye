@@ -107,7 +107,6 @@ struct dht *pyhash;
 
 static char    piece_nbr[PieceCount];
 static boolean one_byte_hash;
-boolean flag_hashall;
 static unsigned int bytes_per_spec;
 static unsigned int bytes_per_piece;
 
@@ -651,28 +650,28 @@ static hash_value_type get_value(dhtElement const *he,
     return get_value_composite(he,si,what);
 }
 
-/* Determine the contribution of a direct slice to the value of
- * a hasth table element node.
+/* Determine the contribution of a direct slice (or leaf slice with
+ * direct end) to the value of a hash table element node.
  * @param he address of hash table element to determine value of
- * @param leaf slice index of composite slice
+ * @param si slice index of slice
+ * @param length length of slice
  * @return value of contribution of slice si to *he's value
  */
 static hash_value_type own_value_of_data_direct(dhtElement const *he,
-                                                slice_index si)
+                                                slice_index si,
+                                                stip_length_type length)
 {
   hash_value_type const succ = get_value(he,si,DirSucc);
   hash_value_type const nosucc = get_value(he,si,DirNoSucc);
-  if (succ<=(unsigned)slices[si].u.composite.length
-      && succ+1>nosucc)
-    return succ;
-  else
-    return nosucc-1;
+  hash_value_type const succ_neg = length-succ;
+  assert(succ<=length);
+  return succ_neg>nosucc ? succ_neg : nosucc;
 }
 
-/* Determine the contribution of a help slice to the value of
- * a hasth table element node.
+/* Determine the contribution of a help slice (or leaf slice with help
+ * end) to the value of a hash table element node.
  * @param he address of hash table element to determine value of
- * @param leaf slice index of composite slice
+ * @param si slice index of help slice
  * @return value of contribution of slice si to *he's value
  */
 static hash_value_type own_value_of_data_help(dhtElement const *he,
@@ -684,9 +683,9 @@ static hash_value_type own_value_of_data_help(dhtElement const *he,
 }
 
 /* Determine the contribution of a series slice to the value of
- * a hasth table element node.
+ * a hash table element node.
  * @param he address of hash table element to determine value of
- * @param leaf slice index of composite slice
+ * @param si slice index of series slice
  * @return value of contribution of slice si to *he's value
  */
 static hash_value_type own_value_of_data_series(dhtElement const *he,
@@ -696,7 +695,7 @@ static hash_value_type own_value_of_data_series(dhtElement const *he,
 }
 
 /* Determine the contribution of a leaf slice to the value of
- * a hasth table element node.
+ * a hash table element node.
  * @param he address of hash table element to determine value of
  * @param leaf slice index of composite slice
  * @return value of contribution of the leaf slice to *he's value
@@ -713,7 +712,7 @@ static hash_value_type own_value_of_data_leaf(dhtElement const *he,
     case ESelf:
     case EReflex:
     case ESemireflex:
-      return own_value_of_data_direct(he,leaf);
+      return own_value_of_data_direct(he,leaf,1);
 
     default:
       assert(0);
@@ -722,7 +721,7 @@ static hash_value_type own_value_of_data_leaf(dhtElement const *he,
 }
 
 /* Determine the contribution of a composite slice to the value of
- * a hasth table element node.
+ * a hash table element node.
  * @param he address of hash table element to determine value of
  * @param si slice index of composite slice
  * @return value of contribution of the slice si to *he's value
@@ -733,7 +732,7 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
   switch (slices[si].u.composite.play)
   {
     case PDirect:
-      return own_value_of_data_direct(he,si);
+      return own_value_of_data_direct(he,si,slices[si].u.composite.length);
 
     case PHelp:
       return own_value_of_data_help(he,si);
@@ -748,7 +747,7 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
 }
 
 /* Determine the contribution of a stipulation subtree to the value of
- * a hasth table element node.
+ * a hash table element node.
  * @param he address of hash table element to determine value of
  * @param offset bit offset for subtree
  * @param si slice index of subtree root slice
@@ -834,8 +833,6 @@ static void compresshash (void)
 #endif
   size_t val_step = 1;
   
-  flag_hashall= false;
-
   ifTESTHASH(printf("compressing: %ld -> ", dhtKeyCount(pyhash)));
 
   he= dhtGetFirstElement(pyhash);
@@ -1589,8 +1586,6 @@ void inithash(void)
 
   init_slice_properties();
   init_element(&template_element,0);
-
-  flag_hashall= true;
 
   PositionCnt= 0;
   dhtRegisterValue(dhtBCMemValue, 0, &dhtBCMemoryProcs);
