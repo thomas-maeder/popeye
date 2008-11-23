@@ -44,7 +44,7 @@ void TraceFunctionExit(char const *name);
 /* Trace a function parameter
  */
 #define TraceFunctionParam(format,name)         \
-  TraceValueImpl(" ->" #name ":" format, name)
+  TraceValueImpl(" ->" #name ":" format, (int)name)
 
 /* Trace the value of some expression
  */
@@ -77,7 +77,7 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4]);
  * Works best in SESE style functions.
  */
 #define TraceFunctionResult(format,name) \
-  TraceValueImpl(" <- " #name ":" format, name)
+  TraceValueImpl(" <- " #name ":" format, (int)name)
 
 void TraceValueImpl(char const *format, int value);
 
