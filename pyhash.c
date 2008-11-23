@@ -103,7 +103,7 @@
 #include "platform/maxtime.h"
 #include "trace.h"
 
-struct dht *pyhash;
+static struct dht *pyhash;
 
 static char    piece_nbr[PieceCount];
 static boolean one_byte_hash;
@@ -261,7 +261,7 @@ static void init_slice_properties_series(slice_index si,
 
   slice_properties[si].size = size;
 
-  assert(nr_bits_left>=size);
+  assert(*nr_bits_left>=size);
   *nr_bits_left -= size;
   slice_properties[si].u.s.offsetNoSucc = *nr_bits_left;
   slice_properties[si].u.s.maskNoSucc = mask << *nr_bits_left;
@@ -875,15 +875,17 @@ static void compresshash (void)
     visitCnt= 0;
 #endif  /* TESTHASH */
 
-    he= dhtGetFirstElement(pyhash);
-    while (he) {
+    for (he = dhtGetFirstElement(pyhash);
+         he!=0;
+         he= dhtGetNextElement(pyhash))
       if (value_of_data(he)<=min_val)
       {
         RemoveCnt++;
         totalRemoveCount++;
         dhtRemoveElement(pyhash, he->Key);
 #if defined(TESTHASH)
-        if (RemoveCnt + dhtKeyCount(pyhash) != initCnt) {
+        if (RemoveCnt + dhtKeyCount(pyhash) != initCnt)
+        {
           fprintf(stdout,
                   "dhtRemove failed on %ld-th element of run %ld. "
                   "This was the %ld-th call to dhtRemoveElement.\n"
@@ -897,8 +899,6 @@ static void compresshash (void)
 #if defined(TESTHASH)
       visitCnt++;
 #endif  /* TESTHASH */
-      he= dhtGetNextElement(pyhash);
-    }
 #if defined(TESTHASH)
     runCnt++;
     printf("run=%ld, RemoveCnt: %ld, missed: %ld\n",
@@ -1495,7 +1495,7 @@ void addtohash(slice_index si,
   { /* the position is new */
     he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
     if (he==dhtNilElement
-        || dhtKeyCount(pyhash) > MaxPositions)
+        || dhtKeyCount(pyhash)>MaxPositions)
     {
       compresshash();
       he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
