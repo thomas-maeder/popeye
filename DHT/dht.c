@@ -7,10 +7,13 @@
  * comment with the above copyright notice is kept intact
  * and in place.
  */
+
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <string.h>
+#include "../boolean.h"
 
 #if defined(__unix__)
 #include <unistd.h>
@@ -27,6 +30,7 @@
 
 #include "dhtvalue.h"
 #include "dht.h"
+#include "../trace.h"
 
 #if defined(DEBUG_DHT)
 int dhtDebug= 0;
@@ -84,158 +88,275 @@ typedef struct {
     level_descr ld[MAX_LEVEL];
 } dirTable; 
 
+typedef struct {
+    dirTable *dt;
+    ht_dir *current;    /* current dir of this level */
+    unsigned int index;   /* index to deliver next */
+} dirEnumerate;
+
+typedef struct InternHsElement {
+    dhtElement      HsEl;
+    struct InternHsElement  *Next;
+} InternHsElement;
+
+#define NilInternHsElement  Nil(InternHsElement)
+#define NewInternHsElement  New(InternHsElement)
+#define FreeInternHsElement(h)  fxfFree(h, sizeof(InternHsElement))
+
+static InternHsElement EndOfTable;
+
 #define freeDir(t)  fxfFree(t, sizeof(ht_dir))
 
-static void **accessAdr(dirTable *ht, int x) {
+typedef unsigned long   uLong;
+typedef unsigned char   uChar;
+typedef unsigned short  uShort;
+
+static void **accessAdr(dirTable *dt, uLong x)
+{
   /* whether x is a valid index in the table is not checked */
-  ht_dir *dir;
-  dir= ht->ld[ht->level].dir;
-  switch (ht->level) {  /* all cases fall through */
+  ht_dir *dir = dt->ld[dt->level].dir;
+  void **result = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p ",dt);
+  TraceFunctionParam("%lu\n",x);
+
+  TraceValue("%lu\n",dt->level);
+
+  assert(dt->level<4);
+  switch (dt->level)
+  {  /* all cases fall through */
     /*
       case 7: dir= (ht_dir *)(*dir)[DIR_INDEX(7,x)];
       case 6: dir= (ht_dir *)(*dir)[DIR_INDEX(6,x)];
       case 5: dir= (ht_dir *)(*dir)[DIR_INDEX(5,x)];
       case 4: dir= (ht_dir *)(*dir)[DIR_INDEX(4,x)];
     */
-  case 3: dir= (ht_dir *)(*dir)[DIR_INDEX(3,x)];
-  case 2: dir= (ht_dir *)(*dir)[DIR_INDEX(2,x)];
-  case 1: dir= (ht_dir *)(*dir)[DIR_INDEX(1,x)];
-  case 0: return &(*dir)[DIR_INDEX(0,x)];
+    case 3:
+      dir= (ht_dir *)(*dir)[DIR_INDEX(3,x)];
+      TraceValue("%p\n",dir);
+    case 2:
+      dir= (ht_dir *)(*dir)[DIR_INDEX(2,x)];
+      TraceValue("%p\n",dir);
+    case 1:
+      dir= (ht_dir *)(*dir)[DIR_INDEX(1,x)];
+      TraceValue("%p\n",dir);
+    case 0:
+      result = &(*dir)[DIR_INDEX(0,x)];
+      TraceValue("%p\n",result);
   }
-  /* never reached - just to keep compiler quiet */
-  return & (*dir)[0];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%p\n",result);
+  return result;
 }
 
-int appendDirTable(dirTable *ht, void *x) {
-  int i, l;
-  ht_dir *dir, *ndir;
+/* Append a dir table element to a dir table. Increases the level of
+ * the dir table if all slots are occupied at the current level.
+ * As its name indicates, this is a recursive function; the maximal
+ * recursion level is dt->level+2.
+ * @param dt address of dir table
+ * @param elmt_to_append address of element to append
+ * @param elmt_depth indicates the depth of the element to be appended.
+ *                   elmt_depth==0: append a leaf
+ *                   ...
+ *                   elmt_depth==dt->level: insert at root level
+ *                   elmt_depth==dt->level+1: increase *dt's level to allow
+ *                                            appending
+ * @return true iff insertion was successful
+ */
+static boolean appendDirTable_recursive(dirTable *dt,
+                                        void *elmt_to_append,
+                                        int elmt_depth)
+{
+  boolean result = true;
 
-  i= ht->ld[0].valid;
-  if (i < PTR_PER_DIR) {
-    (*ht->ld[0].dir)[i]= x;
-    ht->ld[0].valid= i+1;
-    ht->count++;
-    return 0;
-  }
-  ndir= New(ht_dir);
-  if (ndir == Nil(ht_dir))
-    return -1;
-  (*ndir)[0]= x;
-  dir= ht->ld[0].dir;
-  ht->ld[0].dir= (void*)ndir;
-  ht->ld[0].valid= 1;
-  l= 0;
-  while (++l <= ht->level) {
-    ht_dir *nndir;
-    i= ht->ld[l].valid;
-    if (i < PTR_PER_DIR) {
-      (*ht->ld[l].dir)[i]= ndir;
-      ht->ld[l].valid= i+1;
-      ht->count++;
-      return 0;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p ",dt);
+  TraceFunctionParam("%p ",elmt_to_append);
+  TraceFunctionParam("%d\n",elmt_depth);
+
+  if (elmt_depth>dt->level)
+  {
+    /* All current slots are occupied -> increase dt->level
+     */
+    dt->ld[elmt_depth].dir = New(ht_dir);
+    if (dt->ld[elmt_depth].dir==Nil(ht_dir))
+      result = false;
+    else
+    {
+      TraceValue("%p\n",dt->ld[elmt_depth-1].dir);
+      (*dt->ld[elmt_depth].dir)[0] = dt->ld[elmt_depth-1].dir;
+      (*dt->ld[elmt_depth].dir)[1] = elmt_to_append;
+      dt->ld[elmt_depth].valid = 2;
+      dt->level = elmt_depth;
     }
-    dir= ht->ld[l].dir;
-    nndir= New(ht_dir);
-    if (nndir == Nil(ht_dir))
-      return -1;
-    (*nndir)[0]= (void*)ndir;
-    ndir= nndir;
-    ht->ld[l].valid= 1;
-    ht->ld[l].dir= ndir;
   }
-  ht->ld[l].dir= New(ht_dir);
-  if (ht->ld[l].dir == Nil(ht_dir))
-    return -1;
-  (*ht->ld[l].dir)[0]= dir;
-  (*ht->ld[l].dir)[1]= ndir;
-  ht->ld[l].valid= 2;
-  ht->level= l;
-  ht->count++;
-  return 0;
-}
-
-static void shrinkDirTable(dirTable *ht) {
-  int i, l;
-
-  i= ht->ld[0].valid;
-  if (i > 1) {
-    ht->ld[0].valid= i-1;
-    ht->count--;
-    return;
-  }
-  if (ht->level == 0) {
-    if (i > 0) {
-      ht->ld[0].valid= i-1;
-      ht->count--;
-    }
-    return;
-  }
-  l= 0;
-  while (l <= ht->level) {
-    if (--ht->ld[l].valid == 0) {
-      freeDir(ht->ld[l].dir);
-      l++;
+  else
+  {
+    int const nr_valid = dt->ld[elmt_depth].valid;
+    TraceValue("%p ",dt->ld[elmt_depth].dir);
+    TraceValue("%d ",dt->ld[elmt_depth].valid);
+    TraceValue("%d\n",PTR_PER_DIR);
+    if (nr_valid<PTR_PER_DIR)
+    {
+      /* Insert at the first free slot at level dt->level-elmt_depth
+       */
+      (*dt->ld[elmt_depth].dir)[nr_valid] = elmt_to_append;
+      dt->ld[elmt_depth].valid = nr_valid+1;
     }
     else
-      break;
+    {
+      /* Insert a new subtree of height elmt_depth+1. This must happen
+       * in the order:
+       * 1. allocate subtree root
+       * 2. recurse
+       * 3. insert or deallocate subtree root, depending on success of
+       *    2.
+       * If (part of) 3. is done before 2., the tree will be in an
+       * inconsistent state (and some memory will be leaked) if
+       * 2. fails.
+       */
+      ht_dir * const subtree_root = New(ht_dir);
+      TraceValue("%p\n",subtree_root);
+      if (subtree_root==Nil(ht_dir))
+        result = false;
+      else if (appendDirTable_recursive(dt,subtree_root,elmt_depth+1))
+      {
+        (*subtree_root)[0] = elmt_to_append;
+        dt->ld[elmt_depth].dir = subtree_root;
+        dt->ld[elmt_depth].valid = 1;
+      }
+      else
+      {
+        freeDir(subtree_root);
+        result = false;
+      }
+    }
   }
-  if (l == ht->level && ht->ld[l].valid == 1) {
-    l= l-1;
-    ht->level= l;
-    ht->ld[l].dir= (*ht->ld[l+1].dir)[0];
-    ht->ld[l].valid= PTR_PER_DIR;
-    freeDir(ht->ld[l+1].dir);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Append a dir table element to a dir table. Increases the level of
+ * the dir table if all slots are occupied at the current level.
+ * @param dt address of dir table
+ * @param elmt_to_append address of element to append
+ * @return true iff insertion was successful
+ */
+static boolean appendDirTable(dirTable *dt, void *elmt_to_append)
+{
+  if (appendDirTable_recursive(dt,elmt_to_append,0))
+  {
+    ++dt->count;
+    return true;
   }
-  while (--l>=0) {
-    ht->ld[l].dir= (*ht->ld[l+1].dir)[ht->ld[l+1].valid-1];
-    ht->ld[l].valid= PTR_PER_DIR;
+  else
+    return false;
+}
+
+/* TODO recursive implementation */
+static void shrinkDirTable(dirTable *dt)
+{
+  int const i = dt->ld[0].valid;
+  if (i>1)
+  {
+    dt->ld[0].valid = i-1;
+    dt->count--;
   }
-  ht->count--;
+  else
+  {
+    if (dt->level==0)
+    {
+      if (i>0)
+      {
+        dt->ld[0].valid = i-1;
+        dt->count--;
+      }
+    }
+    else
+    {
+      int l = 0;
+      while (l<=dt->level)
+      {
+        --dt->ld[l].valid;
+        if (dt->ld[l].valid==0)
+        {
+          freeDir(dt->ld[l].dir);
+          l++;
+        }
+        else
+          break;
+      }
+
+      if (l==dt->level && dt->ld[l].valid==1)
+      {
+        --l;
+        dt->level = l;
+        dt->ld[l].dir = (*dt->ld[l+1].dir)[0];
+        dt->ld[l].valid = PTR_PER_DIR;
+        freeDir(dt->ld[l+1].dir);
+      }
+
+      while (--l>=0)
+      {
+        dt->ld[l].dir= (*dt->ld[l+1].dir)[dt->ld[l+1].valid-1];
+        dt->ld[l].valid= PTR_PER_DIR;
+      }
+
+      dt->count--;
+    }
+  }
+}
+
+static void freeDirTable(dirTable *dt)
+{
+  while (dt->count > 1)
+  {
+    dt->ld[0].valid= 1;
+    dt->count=  ((dt->count-1) & ~DIR_IDX_MASK) + 1;
+    shrinkDirTable(dt);
+  }
+  TraceValue("%p being freed\n",dt->ld[0].dir);
+  freeDir(dt->ld[0].dir);
   return;
 }
 
-static void freeDirTable(dirTable *ht) {
-  while (ht->count > 1) {
-    ht->ld[0].valid= 1;
-    ht->count=  ((ht->count-1) & ~DIR_IDX_MASK) + 1;
-    shrinkDirTable(ht);
+static InternHsElement *stepDirTable(dirEnumerate *enumeration)
+{
+  InternHsElement *result = &EndOfTable;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p\n",enumeration);
+
+  TraceValue("%lu ",enumeration->index);
+  TraceValue("%lu\n",enumeration->dt->count);
+  if (enumeration->index<enumeration->dt->count)
+  {
+    dht_index_t di = enumeration->index & DIR_IDX_MASK;
+    TraceValue("%lu\n",di);
+    if (di==0)
+      enumeration->current= (ht_dir*)accessAdr(enumeration->dt,
+                                               enumeration->index);
+    enumeration->index++;
+    TraceValue("%p ",enumeration->current);
+    TraceValue("%p\n",*enumeration->current);
+    result = (*enumeration->current)[di];
   }
-  freeDir(ht->ld[0].dir);
-  return;
+  else
+  {
+    TraceText("returning address of end of table pseudo-element\n");
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%p\n",result);
+  return result;
 }
 
-typedef struct {
-    dirTable *ht;
-    ht_dir *current;    /* current dir of this level */
-    unsigned int index;   /* index to deliver next */
-} dirEnumerate;
-
-#define EndOfTable  (void *)-1
-
-void *stepDirTable(dirEnumerate *he) {
-  if (he->index < he->ht->count) {
-    dht_index_t di= he->index & DIR_IDX_MASK;
-    if (di == 0)
-      he->current= (ht_dir*)accessAdr(he->ht, he->index);
-    he->index++;
-    return (*he->current)[di];
-  }
-  return EndOfTable;
-}
-
-typedef unsigned long   uLong;
-typedef unsigned char   uChar;
-typedef unsigned short  uShort;
-
-typedef struct InternHsElement {
-    dhtElement      HsEl;
-    struct InternHsElement  *Next;
-} InternHsElement;
-#define NilInternHsElement  Nil(InternHsElement)
-#define NewInternHsElement  New(InternHsElement)
-#define FreeInternHsElement(h)  fxfFree(h, sizeof(InternHsElement))
-
-typedef struct {
+typedef struct
+{
     uLong       (*Hash)(dhtValue);
     int     (*Equal)(dhtValue, dhtValue);
     dhtValue    (*DupKey)(dhtValue);
@@ -381,22 +502,22 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
 
 void dhtDestroy(HashTable *ht) {
   dirEnumerate dEnum;
-  void *e;
+  InternHsElement *b;
 
   dEnum.index= 0;
   dEnum.current = 0;
-  dEnum.ht= &ht->DirTab;
+  dEnum.dt= &ht->DirTab;
 
-  while ((e=stepDirTable(&dEnum)) != EndOfTable) {
-    InternHsElement *b= (InternHsElement *)e;
-    while (b) {
+  for (b = stepDirTable(&dEnum); b!=&EndOfTable; b = stepDirTable(&dEnum))
+    while (b)
+    {
       InternHsElement *tmp= b;
       (ht->procs.FreeKey)(b->HsEl.Key);
       (ht->procs.FreeData)(b->HsEl.Data);
       b= b->Next;
       FreeInternHsElement(tmp);
     }
-  }
+
   freeDirTable(&ht->DirTab);
   FreeHashTable(ht);
 }
@@ -404,7 +525,7 @@ void dhtDestroy(HashTable *ht) {
 void dhtDumpIndented(int ind, HashTable *ht, FILE *f) {
   dirEnumerate dEnum;
   int dcnt, hcnt;
-  void *e;
+  InternHsElement *b;
 
   fprintf(f, "%*sSimple Values: \n", ind, "");
   fprintf(f, "%*sp (Next bucket to split) = %6lu\n",
@@ -427,11 +548,11 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f) {
 
   dEnum.index= 0;
   dEnum.current = 0;
-  dEnum.ht= &ht->DirTab;
+  dEnum.dt= &ht->DirTab;
 
-  while ((e=stepDirTable(&dEnum)) != EndOfTable) {
-    InternHsElement *b= (InternHsElement *)e;
-    while (b) {
+  for (b = stepDirTable(&dEnum); b!=&EndOfTable; b = stepDirTable(&dEnum))
+    while (b)
+    {
       fprintf(f, "%*s    ", ind, "");
       (ht->procs.DumpKey)(b->HsEl.Key, f);
       fputs("->", f);
@@ -440,7 +561,7 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f) {
       fputc('\n', f);
       hcnt++;
     }
-  }
+
   fprintf(f, "%*s%d records of %ld dumped\n\n",
           ind, "", hcnt, ht->KeyCount);
 }
@@ -449,94 +570,145 @@ void dhtDump(HashTable *ht, FILE *f) {
   dhtDumpIndented(0, ht, f);
 }
 
-dhtElement *dhtGetFirstElement(HashTable *ht) {
-  void *e;
+dhtElement *dhtGetFirstElement(HashTable *ht)
+{
+  InternHsElement *b;
+  dhtElement *result = dhtNilElement;
 
-  if (ht->KeyCount == 0)
-    return dhtNilElement;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p\n",ht);
 
-  ht->DirEnum.index= 0;
-  ht->DirEnum.ht= &ht->DirTab;
+  if (ht->KeyCount>0)
+  {
+    ht->DirEnum.index= 0;
+    TraceValue("%p\n",&ht->DirTab);
+    ht->DirEnum.dt = &ht->DirTab;
 
-  while ((e=stepDirTable(&ht->DirEnum)) != EndOfTable) {
-    if (e != 0) {
-      InternHsElement *b= (InternHsElement *)e;
-      ht->NextStep= b->Next;
-      return &b->HsEl;
+    for (b = stepDirTable(&ht->DirEnum);
+         b!=&EndOfTable;
+         b = stepDirTable(&ht->DirEnum))
+    {
+      TraceValue("%p\n",b);
+      if (b!=0)
+      {
+        ht->NextStep= b->Next;
+        result = &b->HsEl;
+        break;
+      }
     }
   }
-  return dhtNilElement;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%p\n",result);
+  return result;
 }
 
 dhtElement *dhtGetNextElement(HashTable *ht) {
-  void *e;
+  InternHsElement *b;
+
   if (ht->NextStep) {
     dhtElement *de= &ht->NextStep->HsEl;
     ht->NextStep= ht->NextStep->Next;
     return de;
   }
-  while ((e=stepDirTable(&ht->DirEnum)) != EndOfTable) {
-    if (e != 0) {
-      InternHsElement *b= (InternHsElement *)e;
+
+  for (b = stepDirTable(&ht->DirEnum);
+       b!=&EndOfTable;
+       b = stepDirTable(&ht->DirEnum))
+    if (b != 0) {
       ht->NextStep= b->Next;
       return &b->HsEl;
     }
-  }
+
   return dhtNilElement;
 }
 
-LOCAL uLong DynamicHash(uLong p, uLong maxp, uLong v) {
-  uLong h; 
+LOCAL uLong DynamicHash(uLong p, uLong maxp, uLong v)
+{
+  uLong const h = v % maxp;
+  uLong result;
 
-  h= v % maxp;
-  if (h < p)
-    return v % (maxp<<1);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%lu ",p);
+  TraceFunctionParam("%lu ",maxp);
+  TraceFunctionParam("%lu\n",v);
+
+  if (h<p)
+    result = v % (maxp<<1);
   else
-    return h;
+    result = h;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
-LOCAL dhtStatus ExpandHashTable(HashTable *ht) {
+LOCAL dhtStatus ExpandHashTable(HashTable *ht)
+{
   static char *myname= "ExpandHashTable";
   /* Need to expand the directory */
   uLong oldp= ht->p;
   uLong newp= ht->maxp + ht->p;
+  dhtStatus result = dhtFailedStatus;
 
-  if (appendDirTable(&ht->DirTab, 0) < 0) {
-    sprintf(dhtError, "%s: no memory\n", myname);
-    return dhtFailedStatus;
-  }
-  ht->CurrentSize++;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p\n",ht);
 
-  /* update bucket pointers */
-  ht->p++;
-  if (ht->p == ht->maxp) {
-    ht->maxp<<= 1;
-    ht->p= 0;
-  }
-
-  /* relocate records */
+  if (appendDirTable(&ht->DirTab,0))
   {
-    InternHsElement **new, **old;
+    ht->CurrentSize++;
 
-    new= (InternHsElement **)accessAdr(&ht->DirTab, newp);
-    old= (InternHsElement **)accessAdr(&ht->DirTab, oldp);
-    
-    while (*old) {
-      if (DynamicHash(ht->p, ht->maxp,
-                      (ht->procs.Hash)((*old)->HsEl.Key)) == newp) {
-        *new= *old;
-        *old= (*old)->Next;
-        new= &(*new)->Next;
-        *new= NilInternHsElement;
-      }
-      else
-        old= &(*old)->Next;
+    /* update bucket pointers */
+    ht->p++;
+    if (ht->p == ht->maxp)
+    {
+      ht->maxp<<= 1;
+      ht->p= 0;
     }
+
+    /* relocate records */
+    {
+      InternHsElement **new = (InternHsElement **)accessAdr(&ht->DirTab,
+                                                            newp);
+      InternHsElement **old = (InternHsElement **)accessAdr(&ht->DirTab,
+                                                            oldp);
+    
+      TraceValue("%lu ",oldp);
+      TraceValue("%p\n",old);
+      TraceValue("%lu ",newp);
+      TraceValue("%p\n",new);
+      while (*old)
+      {
+        InternHsElement const *oldElmt = *old;
+        TraceValue("%p ",*old);
+        {
+        uLong const hashVal = (ht->procs.Hash)(oldElmt->HsEl.Key);
+        TraceValue("%lu\n",hashVal);
+        if (DynamicHash(ht->p,ht->maxp,hashVal)==newp)
+        {
+          *new = *old;
+          *old = (*old)->Next;
+          new = &(*new)->Next;
+          *new = NilInternHsElement;
+        }
+        else
+          old= &(*old)->Next;
+        }
+      }
+    }
+
+    result = dhtOkStatus;
   }
-  return dhtOkStatus;
+  else
+    sprintf(dhtError, "%s: no memory\n", myname);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
-LOCAL void ShrinkHashTable(HashTable *ht) {
+LOCAL void ShrinkHashTable(HashTable *ht)
+{
   InternHsElement   **old, **new;
   uLong     oldp;
 
@@ -598,7 +770,8 @@ void dhtRemoveElement(HashTable *ht, dhtValue key) {
     (ht->procs.FreeKey)(he->HsEl.Key);
     FreeInternHsElement(he);
     ht->KeyCount--;
-    if (ActualLoadFactor(ht) < ht->MinLoadFactor) {
+    if (ActualLoadFactor(ht) < ht->MinLoadFactor)
+    {
       DEBUG_CODE(
         fprintf(stderr,
                 "%s: dumping before shrinking\n", myname);
@@ -621,48 +794,74 @@ void dhtRemoveElement(HashTable *ht, dhtValue key) {
 
 dhtStatus   dhtDupStatus;
 
-dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data) {
+dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
+{
   InternHsElement **phe, *he;
   dhtValue KeyV, DataV;
-  dhtStatus stat= dhtOkStatus;
+  dhtStatus stat = dhtOkStatus;
 
-  KeyV= (ht->procs.DupKey)(key);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p ",ht);
+  TraceFunctionParam("%p ",key);
+  TraceFunctionParam("%p\n",data);
+
+  KeyV = (ht->procs.DupKey)(key);
   if (dhtDupStatus != dhtOkStatus)
     return dhtNilElement;
-  DataV= (ht->procs.DupData)(data);
-  if (dhtDupStatus != dhtOkStatus) {
+
+  DataV = (ht->procs.DupData)(data);
+  if (dhtDupStatus != dhtOkStatus)
+  {
     (ht->procs.FreeKey)(KeyV);
     return dhtNilElement;
   }
-  phe= LookupInternHsElement(ht, key);
-  he= *phe;
-  if (!he) {
-    if (!(he=NewInternHsElement))
+
+  phe = LookupInternHsElement(ht,key);
+  TraceValue("%p ",phe);
+  he = *phe;
+  TraceValue("%p\n",he);
+  if (he==0)
+  {
+    he = NewInternHsElement;
+    TraceValue("%p\n",he);
+    if (he==0)
       return dhtNilElement;
-    *phe= he;
-    he->Next= NilInternHsElement;
-    ht->KeyCount++;
+    else
+    {
+      *phe = he;
+      he->Next = NilInternHsElement;
+      ht->KeyCount++;
+    }
   }
-  else {
+  else
+  {
     if (ht->DtaPolicy == dhtCopy)
       (ht->procs.FreeData)(he->HsEl.Data);
     if (ht->KeyPolicy == dhtCopy)
       (ht->procs.FreeKey)(he->HsEl.Key);
   }
-  he->HsEl.Key= KeyV;
-  he->HsEl.Data= DataV;
-  if (ActualLoadFactor(ht) > ht->MaxLoadFactor) {
+
+  he->HsEl.Key = KeyV;
+  he->HsEl.Data = DataV;
+
+  if (ActualLoadFactor(ht)>ht->MaxLoadFactor)
+  {
     /*
       fprintf(stderr, "Dumping Hash-Table before expansion\n");
       fDumpHashTable(ht, stderr);
     */
-    if ((stat=ExpandHashTable(ht)) != dhtOkStatus)
+    TraceValue("expanding hash table %p\n",ht);
+    stat = ExpandHashTable(ht);
+    if (stat!=dhtOkStatus)
       return dhtNilElement;
     /*
       fprintf(stderr, "Dumping Hash-Table after expansion\n");
       fDumpHashTable(ht, stderr);
     */
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%p\n",&he->HsEl);
   return &he->HsEl;
 }
 
