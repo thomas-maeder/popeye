@@ -562,20 +562,20 @@ pyproc.h:
 py4.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pylang.h pyproc.h py4.h pygoal.h \
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pylang.h pygoal.h \
   pydata.h
 
 trace.h:
+
+pyproc.h:
+
+py4.h:
 
 py.h:
 
 boolean.h:
 
 pylang.h:
-
-pyproc.h:
-
-py4.h:
 
 pygoal.h:
 
