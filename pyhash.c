@@ -110,6 +110,9 @@ static boolean one_byte_hash;
 static unsigned int bytes_per_spec;
 static unsigned int bytes_per_piece;
 
+unsigned long int compression_counter;
+
+
 #if defined(TESTHASH)
 #define ifTESTHASH(x)   x
 #if defined(__unix)
@@ -832,6 +835,8 @@ static void compresshash (void)
   unsigned long initCnt, visitCnt;
 #endif
   size_t val_step = 1;
+
+  ++compression_counter;
   
   ifTESTHASH(printf("compressing: %ld -> ", dhtKeyCount(pyhash)));
 
@@ -1583,6 +1588,8 @@ void inithash(void)
     FtlMsg(NoMemory);
   ifTESTHASH(fxfInfo(stdout));
 #endif /*FXF*/
+
+  compression_counter = 0;
 
   init_slice_properties();
   init_element(&template_element,0);

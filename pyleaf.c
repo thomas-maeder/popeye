@@ -2541,15 +2541,20 @@ static boolean h_leaf_h_othergoals_solve(boolean restartenabled,
         && !(restartenabled && MoveNbr<RestartNbr)
         && !leaf_is_unsolvable(leaf))
     {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+      if (compression_counter==0)
       {
-        if (h_leaf_h_solve_final_move(leaf))
-          found_solution = true;
-        else
-          addtohash(leaf,HelpNoSuccOdd,1,&hb);
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+        {
+          if (h_leaf_h_solve_final_move(leaf))
+            found_solution = true;
+          else
+            addtohash(leaf,HelpNoSuccOdd,1,&hb);
+        }
       }
+      else if (h_leaf_h_solve_final_move(leaf))
+        found_solution = true;
     }
 
     if (restartenabled)
