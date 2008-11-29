@@ -572,6 +572,9 @@ static boolean h_composite_solve_recursive(Side side_at_move,
                                            slice_index si)
 {
   boolean found_solution = false;
+  hashwhat const hash_no_succ = n%2==0 ? HelpNoSuccEven : HelpNoSuccOdd;
+  HashBuffer hb;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",side_at_move);
   TraceFunctionParam("%d",n);
@@ -579,62 +582,59 @@ static boolean h_composite_solve_recursive(Side side_at_move,
 
   assert(n>=slack_length_help);
 
-  if (n==slack_length_help)
-    found_solution = h_composite_end_solve(restartenabled,si);
+  /* TODO avoid hashing both at start and end of slice
+   */
+  (*encode)(&hb);
+  if (inhash(si,hash_no_succ,n/2,&hb))
+    TraceText("inhash(si,hash_no_succ,n/2,&hb)\n");
   else
   {
-    hashwhat const hash_no_succ = ((n-1)%2==0
-                                   ? HelpNoSuccEven
-                                   : HelpNoSuccOdd);
-    Side next_side = advers(side_at_move);
-
-    genmove(side_at_move);
-    active_slice[nbply] = si;
-  
-    if (side_at_move==Black)
-      BlMovesLeft--;
+    if (n==slack_length_help)
+      found_solution = h_composite_end_solve(restartenabled,si);
     else
-      WhMovesLeft--;
-
-    while (encore())
     {
-      TraceCurrentMove();
-      if (jouecoup()
-          && (!isIntelligentModeActive || isGoalReachable())
-          && !echecc(side_at_move)
-          && !(restartenabled && MoveNbr<RestartNbr)
-          && !h_composite_end_is_unsolvable(si))
+      Side next_side = advers(side_at_move);
+
+      genmove(side_at_move);
+      active_slice[nbply] = si;
+  
+      if (side_at_move==Black)
+        BlMovesLeft--;
+      else
+        WhMovesLeft--;
+
+      while (encore())
       {
-        HashBuffer hb;
-        (*encode)(&hb);
-        if (inhash(si,hash_no_succ,(n-1)/2,&hb))
-          TraceText("inhash(si,hash_no_succ,(n-1)/2,&hb)\n");
-        else
-        {
-          if (h_composite_solve_recursive(next_side,n-1,false,si))
-            found_solution = true;
-          else
-            addtohash(si,hash_no_succ,(n-1)/2,&hb);
-        }
+        TraceCurrentMove();
+        if (jouecoup()
+            && (!isIntelligentModeActive || isGoalReachable())
+            && !echecc(side_at_move)
+            && !(restartenabled && MoveNbr<RestartNbr)
+            && !h_composite_end_is_unsolvable(si)
+            && h_composite_solve_recursive(next_side,n-1,false,si))
+          found_solution = true;
+
+        if (restartenabled)
+          IncrementMoveNbr();
+
+        repcoup();
+
+        /* Stop solving if a given number of solutions was encountered */
+        if ((OptFlag[maxsols] && solutions>=maxsolutions)
+            || maxtime_status==MAXTIME_TIMEOUT)
+          break;
       }
-
-      if (restartenabled)
-        IncrementMoveNbr();
-
-      repcoup();
-
-      /* Stop solving if a given number of solutions was encountered */
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
-        break;
-    }
     
-    if (side_at_move==Black)
-      BlMovesLeft++;
-    else
-      WhMovesLeft++;
+      if (side_at_move==Black)
+        BlMovesLeft++;
+      else
+        WhMovesLeft++;
 
-    finply();
+      finply();
+    }
+
+    if (!found_solution)
+      addtohash(si,hash_no_succ,n/2,&hb);
   }
 
   TraceFunctionExit(__func__);
