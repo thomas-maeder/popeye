@@ -90,18 +90,29 @@ boolean d_composite_is_threat_refuted(slice_index si);
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param si slice index
+ * @param n number of moves until the slice's goal has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_exact_solve(boolean restartenabled, slice_index si);
+boolean ser_composite_exact_solve(boolean restartenabled,
+                                  slice_index si,
+                                  stip_length_type n);
 
 /* Solve a composite clide with series play
  * @param restartenabled true iff option movenum is active
  * @param si slice index
+ * @param n number of moves until the slice's goal has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_solve(boolean restartenabled, slice_index si);
+boolean ser_composite_solve(boolean restartenabled,
+                            slice_index si,
+                            stip_length_type n);
 
 /* Solve the composite slice with index 0 with series play
+ * @param n number of moves until the slice's goal has to be reached
  * @param restartenabled true iff option movenum is active
  * @return true iff >= 1 solution was found
  */
@@ -114,8 +125,13 @@ boolean ser_composite_slice0_solve(stip_length_type n,
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param si slice index
+ * @param n number of moves until the slice's goal has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean h_composite_solve(boolean restartenabled, slice_index si);
+boolean h_composite_solve(boolean restartenabled,
+                          slice_index si,
+                          stip_length_type n);
 
 #endif

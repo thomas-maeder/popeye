@@ -2541,16 +2541,14 @@ static void SolveSeriesProblems(void)
     {
       if (!slices[0].u.composite.is_exact)
       {
-        stip_length_type const full_length = slices[0].u.composite.length;
         stip_length_type const start_length = (OptFlag[restart]
                                                ? RestartNbr
                                                : 1);
-        for (slices[0].u.composite.length = start_length;
-             slices[0].u.composite.length<full_length;
-             ++slices[0].u.composite.length)
+        stip_length_type len;
+        for (len = start_length; len<slices[0].u.composite.length; ++len)
         {
           boolean const looking_for_short_solutions = true;
-          if (Intelligent(looking_for_short_solutions))
+          if (Intelligent(looking_for_short_solutions,len))
             if (OptFlag[stoponshort])
             {
               FlagShortSolsReached= true;
@@ -2559,13 +2557,13 @@ static void SolveSeriesProblems(void)
         }
 
         slices[0].u.composite.is_exact = false;
-        slices[0].u.composite.length = full_length;
       }
 
       if (!FlagShortSolsReached)
       {
         boolean const looking_for_short_solutions = false;
-        Intelligent(looking_for_short_solutions);
+        Intelligent(looking_for_short_solutions,
+                    slices[0].u.composite.length);
       }
     }
     else
@@ -2582,7 +2580,8 @@ static void SolveSeriesProblems(void)
  *                                    solutions
  * @return true iff >= 1 solution was found
  */
-static boolean SolveHelpInN(boolean looking_for_short_solutions)
+static boolean SolveHelpInN(boolean looking_for_short_solutions,
+                            stip_length_type len)
 {
   boolean result = false;
 
@@ -2591,17 +2590,17 @@ static boolean SolveHelpInN(boolean looking_for_short_solutions)
 
   TraceValue("%d ",slices[0].u.composite.length);
   TraceValue("%d\n",isIntelligentModeActive);
-  if (slices[0].u.composite.length==1)
+  if (len==1)
     result = h_leaf_solve_setplay(1);
   else if (isIntelligentModeActive)
-    result = Intelligent(looking_for_short_solutions);
+    result = Intelligent(looking_for_short_solutions,len);
   else
   {
     /* suppress output of move numbers if we are testing short
      * solutions */
     boolean const restartenabled = (OptFlag[movenbr]
                                     && !looking_for_short_solutions);
-    result = h_composite_solve(restartenabled,0);
+    result = h_composite_solve(restartenabled,0,len);
   }
 
   TraceFunctionExit(__func__);
@@ -2625,28 +2624,25 @@ static boolean SolveHelpShortOrFull(boolean stop_on_short)
 
   if (!slices[0].u.composite.is_exact && !OptFlag[restart])
   {
-    stip_length_type const full_length = slices[0].u.composite.length;
-    stip_length_type const start = full_length%2==1 ? 1 : 2;
-
-    for (slices[0].u.composite.length = start;
-         slices[0].u.composite.length<full_length;
-         slices[0].u.composite.length += 2)
+    stip_length_type const start = slices[0].u.composite.length%2==1 ? 1 : 2;
+    stip_length_type len;
+    for (len = start; len<slices[0].u.composite.length; len += 2)
     {
       boolean const looking_for_short_solutions = true;
-      if (SolveHelpInN(looking_for_short_solutions) && stop_on_short)
+      if (SolveHelpInN(looking_for_short_solutions,len)
+          && stop_on_short)
       {
         result = true;
         break;
       }
     }
-
-    slices[0].u.composite.length = full_length;
   }
 
   if (!result)
   {
     boolean const looking_for_short_solutions = false;
-    SolveHelpInN(looking_for_short_solutions);
+    SolveHelpInN(looking_for_short_solutions,
+                 slices[0].u.composite.length);
   }
 
   TraceFunctionExit(__func__);

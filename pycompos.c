@@ -557,14 +557,103 @@ static boolean h_composite_end_is_unsolvable(slice_index si)
   return result;
 }
 
+static boolean h_composite_solve_recursive(Side side_at_move,
+                                           stip_length_type n,
+                                           boolean restartenabled,
+                                           slice_index si);
+
+/* Determine and write the solution(s) in a help stipulation; don't
+ * consult nor fill the hash table regarding solutions of length n. 
+ *
+ * This is a recursive function.
+ * Recursion works with decreasing parameter n; recursion stops at
+ * n==2 (e.g. h#1).
+ *
+ * @param side_at_move side at move
+ * @param n number of half moves until end state has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
+ * @param restartenabled true iff option movenum is activated
+ * @param si slice index of slice being solved
+ * @return true iff >= 1 solution has been found
+ */
+static boolean h_composite_solve_recursive_nohash(Side side_at_move,
+                                                  stip_length_type n,
+                                                  boolean restartenabled,
+                                                  slice_index si)
+
+{
+  boolean found_solution = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",side_at_move);
+  TraceFunctionParam("%d",n);
+  TraceFunctionParam("%d\n",si);
+
+  assert(n>=slack_length_help);
+
+  if (n==slack_length_help)
+    found_solution = h_composite_end_solve(restartenabled,si);
+  else
+  {
+    Side next_side = advers(side_at_move);
+
+    genmove(side_at_move);
+    active_slice[nbply] = si;
+  
+    if (side_at_move==Black)
+      BlMovesLeft--;
+    else
+      WhMovesLeft--;
+
+    while (encore())
+    {
+      TraceCurrentMove();
+      if (jouecoup()
+          && (!isIntelligentModeActive || isGoalReachable())
+          && !echecc(side_at_move)
+          && !(restartenabled && MoveNbr<RestartNbr)
+          && !h_composite_end_is_unsolvable(si)
+          && h_composite_solve_recursive(next_side,n-1,false,si))
+        found_solution = true;
+
+      if (restartenabled)
+        IncrementMoveNbr();
+
+      repcoup();
+
+      /* Stop solving if a given number of solutions was encountered */
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || maxtime_status==MAXTIME_TIMEOUT)
+        break;
+    }
+    
+    if (side_at_move==Black)
+      BlMovesLeft++;
+    else
+      WhMovesLeft++;
+
+    finply();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",found_solution);
+  return found_solution;
+}
+
 /* Determine and write the solution(s) in a help stipulation.
  *
  * This is a recursive function.
  * Recursion works with decreasing parameter n; recursion stops at
  * n==2 (e.g. h#1).
  *
+ * @param side_at_move side at move
  * @param n number of half moves until end state has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
  * @param restartenabled true iff option movenum is activated
+ * @param si slice index of slice being solved
+ * @return true iff >= 1 solution has been found
  */
 static boolean h_composite_solve_recursive(Side side_at_move,
                                            stip_length_type n,
@@ -580,60 +669,12 @@ static boolean h_composite_solve_recursive(Side side_at_move,
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  assert(n>=slack_length_help);
-
-  /* TODO avoid hashing both at start and end of slice
-   */
   (*encode)(&hb);
-  if (inhash(si,hash_no_succ,n/2,&hb))
-    TraceText("inhash(si,hash_no_succ,n/2,&hb)\n");
-  else
+  if (!inhash(si,hash_no_succ,n/2,&hb))
   {
-    if (n==slack_length_help)
-      found_solution = h_composite_end_solve(restartenabled,si);
+    if (h_composite_solve_recursive_nohash(side_at_move,n,restartenabled,si))
+      found_solution = true;
     else
-    {
-      Side next_side = advers(side_at_move);
-
-      genmove(side_at_move);
-      active_slice[nbply] = si;
-  
-      if (side_at_move==Black)
-        BlMovesLeft--;
-      else
-        WhMovesLeft--;
-
-      while (encore())
-      {
-        TraceCurrentMove();
-        if (jouecoup()
-            && (!isIntelligentModeActive || isGoalReachable())
-            && !echecc(side_at_move)
-            && !(restartenabled && MoveNbr<RestartNbr)
-            && !h_composite_end_is_unsolvable(si)
-            && h_composite_solve_recursive(next_side,n-1,false,si))
-          found_solution = true;
-
-        if (restartenabled)
-          IncrementMoveNbr();
-
-        repcoup();
-
-        /* Stop solving if a given number of solutions was encountered */
-        if ((OptFlag[maxsols] && solutions>=maxsolutions)
-            || maxtime_status==MAXTIME_TIMEOUT)
-          break;
-      }
-    
-      if (side_at_move==Black)
-        BlMovesLeft++;
-      else
-        WhMovesLeft++;
-
-      finply();
-    }
-
-    if (!found_solution)
       addtohash(si,hash_no_succ,n/2,&hb);
   }
 
@@ -644,13 +685,37 @@ static boolean h_composite_solve_recursive(Side side_at_move,
 
 /* Determine and write the solution(s) in a help stipulation.
  * @param restartenabled true iff option movenum is activated
+ * @param si identifies slice being solved
+ * @param n number of moves until the slice's goal has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
+ * @return true iff >= 1 solution was found
  */
-boolean h_composite_solve(boolean restartenabled, slice_index si)
+boolean h_composite_solve(boolean restartenabled,
+                          slice_index si,
+                          stip_length_type n)
 {
-  return h_composite_solve_recursive(slices[si].starter,
-                                     slices[si].u.composite.length,
-                                     restartenabled,
-                                     si);
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",restartenabled);
+  TraceFunctionParam("%d",si);
+  TraceFunctionParam("%d\n",n);
+
+  if (n==slices[si].u.composite.length)
+    result = h_composite_solve_recursive_nohash(slices[si].starter,
+                                                n,
+                                                restartenabled,
+                                                si);
+  else
+    result = h_composite_solve_recursive(slices[si].starter,
+                                         n,
+                                         restartenabled,
+                                         si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 static boolean ser_composite_end_solve(boolean restartenabled,
@@ -769,13 +834,16 @@ static boolean ser_composite_exact_solve_recursive(stip_length_type n,
 /* Solve a composite slice with series play
  * @param restartenabled true iff option movenum is active
  * @param si slice index
+ * @param n number of moves until the slice's goal has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_exact_solve(boolean restartenabled, slice_index si)
+boolean ser_composite_exact_solve(boolean restartenabled,
+                                  slice_index si,
+                                  stip_length_type n)
 {
-  return ser_composite_exact_solve_recursive(slices[si].u.composite.length,
-                                             restartenabled,
-                                             si);
+  return ser_composite_exact_solve_recursive(n,restartenabled,si);
 }
 
 /* Solve a composite slice with series play
@@ -862,24 +930,29 @@ static boolean ser_composite_maximal_solve(stip_length_type n,
 /* Solve a composite slice with series play
  * @param restartenabled true iff option movenum is active
  * @param si slice index
+ * @param n number of moves until the slice's goal has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_solve(boolean restartenabled, slice_index si)
+boolean ser_composite_solve(boolean restartenabled,
+                            slice_index si,
+                            stip_length_type n)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%d\n",n);
 
   if (slices[si].u.composite.is_exact)
-    result = ser_composite_exact_solve(restartenabled,si);
+    result = ser_composite_exact_solve(restartenabled,si,n);
   else
   {
-    TraceValue("%d\n",slices[si].u.composite.length);
     if (!slices[si].u.composite.is_exact)
     {
       stip_length_type i;
-      for (i = 1; i<slices[si].u.composite.length; i++)
+      for (i = 1; i<n; i++)
         if (ser_composite_exact_solve_recursive(i,false,si))
         {
           TraceText("solution found\n");
@@ -893,7 +966,7 @@ boolean ser_composite_solve(boolean restartenabled, slice_index si)
     }
 
     if (!FlagShortSolsReached
-        && ser_composite_exact_solve(restartenabled,si))
+        && ser_composite_exact_solve(restartenabled,si,n))
       result = true;
   }
 
@@ -903,11 +976,14 @@ boolean ser_composite_solve(boolean restartenabled, slice_index si)
 }
 
 /* Solve the composite slice with index 0 with series play
- * @param series_side side doing the series
+ * @param n number of moves until the slice's goal has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
  * @param restartenabled true iff option movenum is active
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_slice0_solve(stip_length_type n, boolean restartenabled)
+boolean ser_composite_slice0_solve(stip_length_type n,
+                                   boolean restartenabled)
 {
   boolean result = false;
 
@@ -916,11 +992,11 @@ boolean ser_composite_slice0_solve(stip_length_type n, boolean restartenabled)
   TraceFunctionParam("%d\n",restartenabled);
 
   if (slices[0].u.composite.is_exact)
-    result = ser_composite_exact_solve(restartenabled,0);
+    result = ser_composite_exact_solve(restartenabled,0,n);
   else if (OptFlag[restart])
     result = ser_composite_maximal_solve(n,restartenabled,0);
   else
-    result = ser_composite_solve(restartenabled,0);
+    result = ser_composite_solve(restartenabled,0,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);

@@ -684,7 +684,9 @@ boolean h_slice_solve(boolean restartenabled, slice_index si)
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      return h_composite_solve(restartenabled,si);
+      return h_composite_solve(restartenabled,
+                               si,
+                               slices[si].u.composite.length);
 
     default:
       assert(0);
@@ -713,7 +715,9 @@ boolean ser_slice_solve(boolean restartenabled, slice_index si)
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      solution_found = ser_composite_solve(restartenabled,si);
+      solution_found = ser_composite_solve(restartenabled,
+                                           si,
+                                           slices[si].u.composite.length);
       break;
 
     default:
