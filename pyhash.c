@@ -1330,7 +1330,7 @@ boolean inhash(slice_index si,
       }
       case DirNoSucc:
       {
-        hash_value_type const nosucc = get_value_direct_succ(he,si);
+        hash_value_type const nosucc = get_value_direct_nosucc(he,si);
         if (slices[si].u.composite.is_exact ? nosucc==val : nosucc>=val)
         {
           ifHASHRATE(use_pos++);
@@ -1341,7 +1341,7 @@ boolean inhash(slice_index si,
       }
       case DirSucc:
       {
-        hash_value_type const succ = get_value_direct_nosucc(he,si);
+        hash_value_type const succ = get_value_direct_succ(he,si);
         if (slices[si].u.composite.is_exact ? succ==val : succ<=val)
         {
           ifHASHRATE(use_pos++);
