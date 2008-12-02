@@ -2348,8 +2348,6 @@ static boolean h_leaf_h_solve_final_move(slice_index leaf)
     {
       if (isIntelligentModeActive && !isGoalReachable())
         TraceText("isIntelligentModeActive && !isGoalReachable()\n");
-      else if (echecc(side_at_move))
-        TraceText("echecc(side_at_move)\n");
       else if (!leaf_is_goal_reached(side_at_move,leaf))
         TraceText("!leaf_is_goal_reached(side_at_move,leaf)\n");
       else

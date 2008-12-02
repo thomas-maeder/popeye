@@ -224,7 +224,7 @@ boolean goal_checker_castling(Side camp)
 
 boolean goal_checker_any(Side camp)
 {
-  return true;
+  return !echecc(camp);
 }
   
 char const *goal_end_marker[nr_goals] =
