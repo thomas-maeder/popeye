@@ -727,6 +727,7 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	wr      Wesirreiter                     wie Turm, aber anderes Wiedergeburtsfeld
 	wf      Wurzel-50-Springer              1,7+5,5-Springer
 	z       Zebra                           2,3 Springer
+	ze      Zebu                            1,3+1,4-Springer
 	zh      Zebrareiterhuepfer
 	zr      Zebrareiter                     2,3 Reiter
         X/Y     X/Y-Jaeger                      allgemeiner Jaeger:

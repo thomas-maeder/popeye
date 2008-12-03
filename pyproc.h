@@ -183,6 +183,7 @@ checkfunction_t warancheck;
 checkfunction_t zcheck;
 checkfunction_t zebhopcheck;
 checkfunction_t zebridcheck;
+checkfunction_t zebucheck;
 
 square  coinequis(square a);
 

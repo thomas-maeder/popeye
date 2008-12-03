@@ -1777,410 +1777,414 @@ void genhunt(square i, piece p, PieNam pabs)
   }
 }
 
-void gfeerrest(square i, piece p, Side camp) {
+void gfeerrest(square sq_departure, piece p, Side camp)
+{
   numvec k;
   square *bnp;
   PieNam const pabs = abs(p);
 
   switch  (abs(p)) {
   case maob:
-    gmao(i, camp);
+    gmao(sq_departure, camp);
     return;
 
   case paob:
-    gchin(i, vec_rook_start,vec_rook_end, camp);
+    gchin(sq_departure, vec_rook_start,vec_rook_end, camp);
     return;
 
   case leob:
-    gchin(i, vec_queen_start,vec_queen_end, camp);
+    gchin(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
   case vaob:
-    gchin(i, vec_bishop_start,vec_bishop_end, camp);
+    gchin(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     return;
   case naob:
-    gchin(i, vec_knight_start,vec_knight_end, camp);
+    gchin(sq_departure, vec_knight_start,vec_knight_end, camp);
     return;
 
   case roseb:
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
-      grose(i, k, 0,+1, camp);
-      grose(i, k, vec_knight_end-vec_knight_start+1,-1, camp);
+      grose(sq_departure, k, 0,+1, camp);
+      grose(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
     }
     return;
 
   case nequib:
-    gnequi(i, camp);
+    gnequi(sq_departure, camp);
     return;
 
   case locb:
-    glocust(i, vec_queen_start,vec_queen_end, camp);
+    glocust(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
   case nightlocustb:
-    glocust(i, vec_knight_start,vec_knight_end, camp);
+    glocust(sq_departure, vec_knight_start,vec_knight_end, camp);
     return;
 
   case bishoplocustb:
-    glocust(i, vec_bishop_start,vec_bishop_end, camp);
+    glocust(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     return;
 
   case rooklocustb:
-    glocust(i, vec_rook_start,vec_rook_end, camp);
+    glocust(sq_departure, vec_rook_start,vec_rook_end, camp);
     return;
 
   case kangoub:
-    gkang(i, camp);
+    gkang(sq_departure, camp);
     return;
 
   case csb:
     for (k= vec_knight_start; k<=vec_knight_end; k++)
-      gcs(i, vec[k], vec[25 - k], camp);
+      gcs(sq_departure, vec[k], vec[25 - k], camp);
     return;
 
   case hamstb:
-    ghamst(i);
+    ghamst(sq_departure);
     return;
 
   case ubib:
     for (bnp= boardnum; *bnp; bnp++)
       e_ubi[*bnp]= e[*bnp];
-    gubi(i, i, camp);
+    gubi(sq_departure, sq_departure, camp);
     return;
 
   case mooseb:
-    gmhop(i, vec_queen_start,vec_queen_end, 0, camp);
+    gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, camp);
     return;
 
   case eagleb:
-    gmhop(i, vec_queen_start,vec_queen_end, 1, camp);
+    gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, camp);
     return;
 
   case sparrb:
-    gmhop(i, vec_queen_start,vec_queen_end, 2, camp);
+    gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, camp);
     return;
 
   case margueriteb:
-    gmhop(i, vec_queen_start,vec_queen_end, 0, camp);
-    gmhop(i, vec_queen_start,vec_queen_end, 1, camp);
-    gmhop(i, vec_queen_start,vec_queen_end, 2, camp);
-    gerhop(i, vec_queen_start,vec_queen_end, camp);
-    ghamst(i);
+    gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, camp);
+    gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, camp);
+    gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, camp);
+    gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);
+    ghamst(sq_departure);
     return;
 
   case archb:
-    if (NoEdge(i)) {
+    if (NoEdge(sq_departure)) {
       for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-        grfou(i, i, vec[k], 1, camp, empile);
+        grfou(sq_departure, sq_departure, vec[k], 1, camp, empile);
     }
     else {
       for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-        grfou(i, i, vec[k], 1, camp, testempile);
+        grfou(sq_departure, sq_departure, vec[k], 1, camp, testempile);
     }
     return;
 
   case reffoub:
     for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-      grfou(i, i, vec[k], 4, camp, testempile);
+      grfou(sq_departure, sq_departure, vec[k], 4, camp, testempile);
     return;
 
   case cardb:
     for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-      gcard(i, i, vec[k], 1, camp, empile);
+      gcard(sq_departure, sq_departure, vec[k], 1, camp, empile);
     return;
 
   case dcsb:
     for (k= 9; k <= 14; k++)
-      gcs(i, vec[k], vec[23 - k], camp);
+      gcs(sq_departure, vec[k], vec[23 - k], camp);
     for (k= 15; k <= 16; k++)
-      gcs(i, vec[k], vec[27 - k], camp);
+      gcs(sq_departure, vec[k], vec[27 - k], camp);
     return;
 
   case refcb:
-    grefc(i, i, 2, camp);
+    grefc(sq_departure, sq_departure, 2, camp);
     return;
 
   case equib:
-    gequi(i, camp);
+    gequi(sq_departure, camp);
     return;
 
   case catb:
-    gcat(i, camp);
+    gcat(sq_departure, camp);
     return;
 
   case sireneb:
-    gmarin(i, vec_queen_start,vec_queen_end, camp);
+    gmarin(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
   case tritonb:
-    gmarin(i, vec_rook_start,vec_rook_end, camp);
+    gmarin(sq_departure, vec_rook_start,vec_rook_end, camp);
     return;
 
   case nereidb:
-    gmarin(i, vec_bishop_start,vec_bishop_end, camp);
+    gmarin(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     return;
 
   case orphanb:
-    gorph(i, camp);
+    gorph(sq_departure, camp);
     return;
 
   case friendb:
-    gfriend(i, camp);
+    gfriend(sq_departure, camp);
     return;
 
   case edgehb:
-    gedgeh(i, camp);
+    gedgeh(sq_departure, camp);
     return;
 
   case moab:
-    gmoa(i, camp);
+    gmoa(sq_departure, camp);
     return;
 
   case moaridb:
-    gemoarider(i, camp);
+    gemoarider(sq_departure, camp);
     return;
 
   case maoridb:
-    gemaorider(i, camp);
+    gemaorider(sq_departure, camp);
     return;
 
   case bscoutb:
     for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-      gcs(i, vec[k], vec[13 - k], camp);
+      gcs(sq_departure, vec[k], vec[13 - k], camp);
     return;
 
   case gscoutb:
     for (k= vec_rook_end; k >=vec_rook_start; k--)
-      gcs(i, vec[k], vec[5 - k], camp);
+      gcs(sq_departure, vec[k], vec[5 - k], camp);
     return;
 
   case skyllab:
-    geskylla(i, camp);
+    geskylla(sq_departure, camp);
     return;
 
   case charybdisb:
-    gecharybdis(i, camp);
+    gecharybdis(sq_departure, camp);
     return;
 
   case andergb:
   case sb:
-    gerhop(i, vec_queen_start,vec_queen_end, camp);
+    gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
   case lionb:
-    gelrhop(i, vec_queen_start,vec_queen_end, camp);
+    gelrhop(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
   case nsautb:
-    gerhop(i, vec_knight_start,vec_knight_end, camp);
+    gerhop(sq_departure, vec_knight_start,vec_knight_end, camp);
     return;
 
   case camhopb:
-    gerhop(i, vec_chameau_start,vec_chameau_end, camp);
+    gerhop(sq_departure, vec_chameau_start,vec_chameau_end, camp);
     return;
 
   case zebhopb:
-    gerhop(i, vec_zebre_start,vec_zebre_end, camp);
+    gerhop(sq_departure, vec_zebre_start,vec_zebre_end, camp);
     return;
 
   case gnuhopb:
-    gerhop(i, vec_chameau_start,vec_chameau_end, camp);
-    gerhop(i, vec_knight_start,vec_knight_end, camp);
+    gerhop(sq_departure, vec_chameau_start,vec_chameau_end, camp);
+    gerhop(sq_departure, vec_knight_start,vec_knight_end, camp);
     return;
 
   case tlionb:
-    gelrhop(i, vec_rook_start,vec_rook_end, camp);
+    gelrhop(sq_departure, vec_rook_start,vec_rook_end, camp);
     return;
 
   case flionb:
-    gelrhop(i, vec_bishop_start,vec_bishop_end, camp);
+    gelrhop(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     return;
 
   case rookhopb:
-    gerhop(i, vec_rook_start,vec_rook_end, camp);
+    gerhop(sq_departure, vec_rook_start,vec_rook_end, camp);
     return;
 
   case bishophopb:
-    gerhop(i, vec_bishop_start,vec_bishop_end, camp);
+    gerhop(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     return;
   case contragrasb:
-    gecrhop(i, vec_queen_start,vec_queen_end, camp);
+    gecrhop(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
   case roselionb:
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
-      groselion(i, k, 0,+1, camp);
-      groselion(i, k, vec_knight_end-vec_knight_start+1,-1, camp);
+      groselion(sq_departure, k, 0,+1, camp);
+      groselion(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
     }
     return;
 
   case rosehopperb:
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
-      grosehopper(i, k, 0,+1, camp);
-      grosehopper(i, k, vec_knight_end-vec_knight_start+1,-1, camp);
+      grosehopper(sq_departure, k, 0,+1, camp);
+      grosehopper(sq_departure, k,
+                  vec_knight_end-vec_knight_start+1,-1, camp);
     }
     return;
 
   case roselocustb:
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
-      groselocust(i, k, 0,+1, camp);
-      groselocust(i, k, vec_knight_end-vec_knight_start+1,-1, camp);
+      groselocust(sq_departure, k, 0,+1, camp);
+      groselocust(sq_departure, k,
+                  vec_knight_end-vec_knight_start+1,-1, camp);
     }
     return;
 
   case g2b:
-    gerhop2(i, vec_queen_start,vec_queen_end, camp);
+    gerhop2(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
   case g3b:
-    gerhop3(i, vec_queen_start,vec_queen_end, camp);
+    gerhop3(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
   case khb:
-    geshop(i, vec_queen_start,vec_queen_end, camp);
+    geshop(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
   case doublegb:
-    gdoubleg(i, camp);
+    gdoubleg(sq_departure, camp);
     return;
 
   case orixb:
-    gorix(i, camp);
+    gorix(sq_departure, camp);
     return;
 
   case gralb:
     if (camp==White)
-      gebleap(i, vec_alfil_start,vec_alfil_end);    /* alfilb */
+      gebleap(sq_departure, vec_alfil_start,vec_alfil_end);    /* alfilb */
     else
-      genleap(i, vec_alfil_start,vec_alfil_end);    /* alfiln */
-    gerhop(i, vec_rook_start,vec_rook_end, camp);      /* rookhopper */
+      genleap(sq_departure, vec_alfil_start,vec_alfil_end);    /* alfiln */
+    gerhop(sq_departure, vec_rook_start,vec_rook_end, camp);      /* rookhopper */
     return;
 
   case rookmooseb:
-    gmhop(i, vec_rook_start,vec_rook_end, 0, camp);
+    gmhop(sq_departure, vec_rook_start,vec_rook_end, 0, camp);
     return;
 
   case rookeagleb:
-    gmhop(i, vec_rook_start,vec_rook_end, 1, camp);
+    gmhop(sq_departure, vec_rook_start,vec_rook_end, 1, camp);
     return;
 
   case rooksparrb:
-    gmhop(i, vec_rook_start,vec_rook_end, 2, camp);
+    gmhop(sq_departure, vec_rook_start,vec_rook_end, 2, camp);
     return;
 
   case bishopmooseb:
-    gmhop(i, vec_bishop_start,vec_bishop_end, 0, camp);
+    gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 0, camp);
     return;
 
   case bishopeagleb:
-    gmhop(i, vec_bishop_start,vec_bishop_end, 1, camp);
+    gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 1, camp);
     return;
 
   case bishopsparrb:
-    gmhop(i, vec_bishop_start,vec_bishop_end, 2, camp);
+    gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 2, camp);
     return;
 
   case raob:
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
-      grao(i, k, 0,+1, camp);
-      grao(i, k, vec_knight_end-vec_knight_start+1,-1, camp);
+      grao(sq_departure, k, 0,+1, camp);
+      grao(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
     }
     return;
 
   case scorpionb:
     if (camp==White)
-      gebleap(i, vec_queen_start,vec_queen_end);        /* ekingb */
+      gebleap(sq_departure, vec_queen_start,vec_queen_end);        /* ekingb */
     else
-      genleap(i, vec_queen_start,vec_queen_end);        /* ekingn */
-    gerhop(i, vec_queen_start,vec_queen_end, camp);     /* grashopper */
+      genleap(sq_departure, vec_queen_start,vec_queen_end);        /* ekingn */
+    gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);     /* grashopper */
     return;
 
   case nrlionb:
-    gelrhop(i, vec_knight_start,vec_knight_end, camp);
+    gelrhop(sq_departure, vec_knight_start,vec_knight_end, camp);
     return;
 
   case mrlionb:
-    gemaoriderlion(i, camp);
+    gemaoriderlion(sq_departure, camp);
     return;
 
   case molionb:
-    gemoariderlion(i, camp);
+    gemoariderlion(sq_departure, camp);
     return;
 
   case dolphinb:
-    gkang(i, camp);
-    gerhop(i, vec_queen_start,vec_queen_end, camp);
+    gkang(sq_departure, camp);
+    gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
   case rabbitb:
-    grabbit(i, camp);
+    grabbit(sq_departure, camp);
     return;
 
   case bobb:
-    gbob(i, camp);
+    gbob(sq_departure, camp);
     return;
 
   case equiengb:
-    gequiapp(i, camp);
+    gequiapp(sq_departure, camp);
     return;
 
   case equifrab:
-    gnequiapp(i, camp);
+    gnequiapp(sq_departure, camp);
     return;
 
   case querqub:
-    switch (i%onerow - nr_of_slack_files_left_of_board) {
+    switch (sq_departure%onerow - nr_of_slack_files_left_of_board) {
     case file_rook_queenside:
-    case file_rook_kingside:    if (camp == White)
-        gebrid(i, vec_rook_start,vec_rook_end);
+    case file_rook_kingside:
+      if (camp == White)
+        gebrid(sq_departure, vec_rook_start,vec_rook_end);
       else
-        genrid(i, vec_rook_start,vec_rook_end);
+        genrid(sq_departure, vec_rook_start,vec_rook_end);
       break;
     case file_bishop_queenside:
     case file_bishop_kingside:  if (camp == White)
-        gebrid(i, vec_bishop_start,vec_bishop_end);
+        gebrid(sq_departure, vec_bishop_start,vec_bishop_end);
       else
-        genrid(i, vec_bishop_start,vec_bishop_end);
+        genrid(sq_departure, vec_bishop_start,vec_bishop_end);
       break;
     case file_queen:    if (camp == White)
-        gebrid(i, vec_queen_start,vec_queen_end);
+        gebrid(sq_departure, vec_queen_start,vec_queen_end);
       else
-        genrid(i, vec_queen_start,vec_queen_end);
+        genrid(sq_departure, vec_queen_start,vec_queen_end);
       break;
     case file_knight_queenside:
     case file_knight_kingside:  if (camp == White)
-        gebleap(i, vec_knight_start,vec_knight_end);
+        gebleap(sq_departure, vec_knight_start,vec_knight_end);
       else
-        genleap(i, vec_knight_start,vec_knight_end);
+        genleap(sq_departure, vec_knight_start,vec_knight_end);
       break;
     case file_king: if (camp == White)
-        gebleap(i, vec_queen_start,vec_queen_end);
+        gebleap(sq_departure, vec_queen_start,vec_queen_end);
       else
-        genleap(i, vec_queen_start,vec_queen_end);
+        genleap(sq_departure, vec_queen_start,vec_queen_end);
       break;
     }
     break;
 
   case bouncerb : 
-    genbouncer(i, vec_queen_start,vec_queen_end, camp);
+    genbouncer(sq_departure, vec_queen_start,vec_queen_end, camp);
     break;
 
   case rookbouncerb : 
-    genbouncer(i, vec_rook_start,vec_rook_end, camp);
+    genbouncer(sq_departure, vec_rook_start,vec_rook_end, camp);
     break;
 
   case bishopbouncerb : 
-    genbouncer(i, vec_bishop_start,vec_bishop_end, camp);
+    genbouncer(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     break;
 
   case radialknightb :
-    genradialknight(i, camp);
+    genradialknight(sq_departure, camp);
     break;
 
   default:
     /* Since pieces like DUMMY fall through 'default', we have */
     /* to check exactly if there is something to generate ...  */
     if ((pabs>=Hunter0) && (pabs<Hunter0+maxnrhuntertypes))
-      genhunt(i,p,pabs);
+      genhunt(sq_departure,p,pabs);
   }
 } /* gfeerrest */
 
@@ -2394,6 +2398,11 @@ void gfeerblanc(square i, piece p) {
     gebleap(i, vec_bison_start,vec_bison_end);
     return;
 
+  case zebub:
+    gebleap(i, vec_zebu_1_start,vec_zebu_1_end);
+    gebleap(i, vec_zebu_2_start,vec_zebu_2_end);
+    return;
+
   case elephantb:
     gebrid(i, vec_elephant_start,vec_elephant_end);
     return;
@@ -2578,6 +2587,11 @@ void gfeernoir(square i, piece p) {
 
   case bisonn:
     genleap(i, vec_bison_start,vec_bison_end);
+    return;
+
+  case zebun:
+    genleap(i, vec_zebu_1_start,vec_zebu_1_end);
+    genleap(i, vec_zebu_2_start,vec_zebu_2_end);
     return;
 
   case elephantn:

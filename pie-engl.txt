@@ -127,3 +127,4 @@ b1 I  bouncer
 b2 I  rook bouncer
 b3 I  bishop bouncer
 cp BR chinese pawn
+ze ZE Zebu

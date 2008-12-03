@@ -127,3 +127,4 @@ b1 I  Bouncer
 b2 I  TurmBouncer
 b3 I  LaeuferBouncer
 cb BR Chinesischer Bauer
+ze ZE Zebu

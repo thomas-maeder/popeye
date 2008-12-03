@@ -704,6 +704,7 @@ suivante est un peu plus compliquee:
 	vi      vizir
 	vs      vizir sauteur
 	z       zebre
+	ze      zebu                           Cavalier 1,3+1,4
 	zn      zebre noctambule
         X/Y     chasseur X/Y                   chasseur en general:
                                                s'eloigne de la ligne de base comme un X

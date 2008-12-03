@@ -611,6 +611,16 @@ boolean bisoncheck(
   return leapcheck(i, vec_bison_start, vec_bison_end, p, evaluate);    /* camel+zebra !!! */
 }
 
+boolean zebucheck(
+  square    i,
+  piece p,
+  evalfunction_t *evaluate)
+{
+  return (leapcheck(i, vec_zebu_1_start, vec_zebu_1_end, p, evaluate)
+          || leapcheck(i, vec_zebu_2_start, vec_zebu_2_end, p, evaluate));
+  /* camel+girafe !!! */
+}
+
 boolean elephantcheck(
   square    i,
   piece p,

@@ -559,7 +559,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*127*/ {'p','c'},  /* pion chinois */
     /*128*/ {'c','l'},  /* cavalier radial */
     /*129*/ {'p','v'},  /* pion renverse */
-    /*130*/ {'l','r'}   /*rose locuste */
+    /*130*/ {'l','r'},  /*rose locuste */
+    /*131*/ {'z','e'}   /*zebu */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '}, /* leer */
 	/*  1*/ {' ',' '}, /* ausserhalb des Brettes */
@@ -691,7 +692,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*127*/ {'c','b'}, /* Chinesischer Bauer */
     /*128*/ {'r','p'}, /* Radialspringer */
     /*129*/ {'r','b'},  /* ReversBauer */
-    /*130*/ {'l','r'}   /* RosenHeuschrecke */
+    /*130*/ {'l','r'},  /* RosenHeuschrecke */
+    /*131*/ {'z','e'}   /*Zebu */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '}, /* empty */
 	/*  1*/ {' ',' '}, /* outside board */
@@ -823,7 +825,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*127*/ {'c','p'},  /* chinese pawn */	
     /*128*/ {'r','k'},  /* radial knight */	
     /*129*/ {'p','p'},  /* protean pawn */	
-    /*130*/ {'l','s'}   /* Rose Locust */
+    /*130*/ {'l','s'},  /* Rose Locust */
+    /*131*/ {'z','e'}   /*zebu */
   }
 	};
 #endif
@@ -1748,9 +1751,11 @@ enum {
   vec_zebre_start=25,             vec_zebre_end=  32,
   vec_okapi_start=17,             vec_okapi_end=32,
   vec_chameau_start=33,           vec_chameau_end=  40,
+  vec_zebu_1_start=33,            vec_zebu_1_end=  40,
   vec_bison_start=25,             vec_bison_end=  40,
   vec_equi_nonintercept_start=17, vec_equi_nonintercept_end=40,
   vec_girafe_start=41,            vec_girafe_end=  48,
+  vec_zebu_2_start=41,            vec_zebu_2_end=  48,
   vec_antilope_start=49,          vec_antilope_end=  56,
   vec_bucephale_start=49,         vec_bucephale_end=  60,
   vec_dabbaba_start=61,           vec_dabbaba_end=  64,
@@ -2033,7 +2038,7 @@ enum {
 /*128 */  radialknightcheck,
 /*129 */  reversepcheck,
 /*130 */  roselocustcheck,
-/*131 */  huntercheck,
+/*131 */  zebucheck,
 /*132 */  huntercheck,
 /*133 */  huntercheck,
 /*134 */  huntercheck,
@@ -2042,7 +2047,8 @@ enum {
 /*137 */  huntercheck,
 /*138 */  huntercheck,
 /*139 */  huntercheck,
-/*140 */  huntercheck
+/*140 */  huntercheck,
+/*141 */  huntercheck
     };
 #endif
 
