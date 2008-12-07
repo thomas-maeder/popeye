@@ -1203,6 +1203,7 @@ static boolean verifieposition(void)
           || exist[gscoutb]
           || exist[dcsb]
           || exist[refcb]
+          || exist[refnb]
           || exist[catb]
           || exist[rosehopperb]
           || exist[roselionb]

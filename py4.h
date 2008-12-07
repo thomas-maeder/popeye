@@ -70,4 +70,8 @@ void	genpbb(square sq_departure);
 void	genpbn(square sq_departure);
 	/* generating function for black berolina pawn */
 
+void clearedgestraversed();
+boolean traversed(square edgesq);
+void settraversed(square edgesq);
+
 #endif	/* PY4_H */

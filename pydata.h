@@ -560,7 +560,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*128*/ {'c','l'},  /* cavalier radial */
     /*129*/ {'p','v'},  /* pion renverse */
     /*130*/ {'l','r'},  /*rose locuste */
-    /*131*/ {'z','e'}   /*zebu */
+    /*131*/ {'z','e'},  /*zebu */
+    /*132*/ {'n','r'}   /*noctambule rebondissant */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '}, /* leer */
 	/*  1*/ {' ',' '}, /* ausserhalb des Brettes */
@@ -693,7 +694,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*128*/ {'r','p'}, /* Radialspringer */
     /*129*/ {'r','b'},  /* ReversBauer */
     /*130*/ {'l','r'},  /* RosenHeuschrecke */
-    /*131*/ {'z','e'}   /*Zebu */
+    /*131*/ {'z','e'},  /*Zebu */
+    /*132*/ {'r','s'}   /*Reflektierender Nachreiter*/
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '}, /* empty */
 	/*  1*/ {' ',' '}, /* outside board */
@@ -826,7 +828,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*128*/ {'r','k'},  /* radial knight */	
     /*129*/ {'p','p'},  /* protean pawn */	
     /*130*/ {'l','s'},  /* Rose Locust */
-    /*131*/ {'z','e'}   /*zebu */
+    /*131*/ {'z','e'},   /*zebu */
+    /*132*/ {'b','n'}   /*Bouncy Nightrider */
   }
 	};
 #endif
@@ -2039,7 +2042,7 @@ enum {
 /*129 */  reversepcheck,
 /*130 */  roselocustcheck,
 /*131 */  zebucheck,
-/*132 */  huntercheck,
+/*132 */  refncheck,
 /*133 */  huntercheck,
 /*134 */  huntercheck,
 /*135 */  huntercheck,
@@ -2048,7 +2051,8 @@ enum {
 /*138 */  huntercheck,
 /*139 */  huntercheck,
 /*140 */  huntercheck,
-/*141 */  huntercheck
+/*141 */  huntercheck,
+/*142 */  huntercheck
     };
 #endif
 

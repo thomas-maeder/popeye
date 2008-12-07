@@ -314,7 +314,8 @@ typedef enum
   reversepb,      /* 129 */
   roselocustb,    /* 130 */
   zebub,          /* 131 */
-  hunter0b,       /* 132 */
+  refnb,          /* 132 */
+  hunter0b,       /* 133 */
   derbla =        hunter0b+maxnrhuntertypes,
 
   roin           = -roib,
@@ -448,6 +449,7 @@ typedef enum
   roselocustn    = -roselocustb,
   hunter0n       = -hunter0b,
   zebun          = -zebub,
+  refnn          = -refnb,
   dernoi         = -derbla
 } piece;
 
@@ -900,7 +902,8 @@ typedef enum
   ReversePawn,           /* 129 */
   RoseLocust,            /* 130 */
   Zebu,                  /* 131 */
-  Hunter0,               /* 132 */
+  BouncyNightrider,      /* 132 */
+  Hunter0,               /* 133 */
 
   PieceCount             = Hunter0+maxnrhuntertypes
 } PieNam;

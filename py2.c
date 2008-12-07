@@ -424,6 +424,37 @@ boolean rrefcech(square sq_king,
   return false;
 }
 
+boolean rrefnech(square sq_king,
+                 square i1,
+                 piece  p,
+                 evalfunction_t *evaluate)
+{
+  numvec k;
+
+  square sq_departure;
+
+  if (!NoEdge(i1))
+    settraversed(i1);
+
+  for (k= vec_knight_start; k<=vec_knight_end; k++) {
+    sq_departure= i1; 
+
+    while (e[sq_departure+=vec[k]]==vide)
+    {
+      if (!NoEdge(sq_departure) && 
+          !traversed(sq_departure)) {
+            if (rrefnech(sq_king,sq_departure,p,evaluate))
+              return true;
+        break;
+      }
+    }
+    if (e[sq_departure] == p &&
+      evaluate(sq_departure,sq_king,sq_king))
+        return true;
+  }
+  return false;
+}
+
 boolean nequicheck(square   sq_king,
                    piece    p,
                    evalfunction_t *evaluate)
@@ -1670,6 +1701,15 @@ boolean refccheck(
   evalfunction_t *evaluate)
 {
   return rrefcech(i, i, 2, p, evaluate);
+}
+
+boolean refncheck(
+  square    i,
+  piece p,
+  evalfunction_t *evaluate)
+{
+  clearedgestraversed();
+  return rrefnech(i, i, p, evaluate);
 }
 
 boolean equicheck(square    sq_king,

@@ -1573,6 +1573,70 @@ void  grefc(square orig_departure,
   }
 } /* grefc */
 
+boolean edgestraversed[28];
+void clearedgestraversed() {
+  int i;
+  for (i=0; i<28; i++)
+    edgestraversed[i]=0;
+}
+
+boolean traversed(square edgesq) {
+  if (edgesq < 208)
+    return edgestraversed[edgesq-200];
+  else if (edgesq > 367)
+    return edgestraversed[edgesq-360];
+  else {
+    int r= edgesq / 24;
+    if (edgesq % 24 == 8)
+      return edgestraversed[r + 7];
+    else
+      return edgestraversed[r + 13];
+  }
+  return 0;
+}
+
+void settraversed(square edgesq) {
+  if (edgesq < 208)
+    edgestraversed[edgesq-200] = 1;
+  else if (edgesq > 367)
+    edgestraversed[edgesq-360] = 1;
+  else {
+    int r= edgesq / 24;
+    if (edgesq % 24 == 8)
+      edgestraversed[r + 7] = 1;
+    else
+      edgestraversed[r + 13] = 1;
+  }
+}
+
+void  grefn(square orig_departure,
+            square step_departure,
+            Side camp) {
+  numvec k;
+
+  square sq_departure= orig_departure;
+  square sq_arrival;
+
+  if (!NoEdge(step_departure))
+    settraversed(step_departure);
+
+  for (k= vec_knight_start; k<=vec_knight_end; k++) {
+    sq_arrival= step_departure; 
+
+    while (e[sq_arrival+=vec[k]]==vide)
+    {
+      testempile(sq_departure,sq_arrival,sq_arrival);
+      if (!NoEdge(sq_arrival) && 
+          !traversed(sq_arrival)) {
+        grefn(orig_departure,sq_arrival,camp);
+        break;
+      }
+    }
+    if (rightcolor(e[sq_arrival], camp))
+      testempile(sq_departure,sq_arrival,sq_arrival);
+  }
+} /* grefc */
+
 void gequi(square sq_departure, Side camp) {
   /* Equihopper */
   numvec  k;
@@ -1900,6 +1964,11 @@ void gfeerrest(square sq_departure, piece p, Side camp)
 
   case refcb:
     grefc(sq_departure, sq_departure, 2, camp);
+    return;
+
+  case refnb:
+    clearedgestraversed();
+    grefn(sq_departure, sq_departure, camp);
     return;
 
   case equib:

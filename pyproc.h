@@ -156,6 +156,7 @@ checkfunction_t rabbitcheck;
 checkfunction_t rabbitcheck;
 checkfunction_t rccinqcheck;
 checkfunction_t refccheck;
+checkfunction_t refncheck;
 checkfunction_t reffoucheck;
 checkfunction_t rhuntcheck;
 checkfunction_t rookbouncercheck;
