@@ -1089,6 +1089,7 @@ void grao(square sq_departure,
 void groselion(square sq_departure,
                numvec k1, numvec k2, numvec delta_k,
                Side camp) {
+  square sq_end;
   square sq_hurdle= fin_circle_line(sq_departure,k1,&k2,delta_k);
   if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs) {
 #if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
@@ -1098,7 +1099,7 @@ void groselion(square sq_departure,
     piece save_piece = e[sq_departure];
     e[sq_departure] = vide;
 #endif
-    square sq_end= generate_moves_on_circle_segment(sq_departure,sq_hurdle,
+    sq_end= generate_moves_on_circle_segment(sq_departure,sq_hurdle,
                                                     k1,&k2,delta_k);
 #if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
     e[sq_departure] = save_piece;
