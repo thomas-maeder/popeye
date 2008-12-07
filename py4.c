@@ -1616,24 +1616,24 @@ void gequi(square sq_departure, Side camp) {
 void gequiapp(square sq_departure, Side camp) {
   /* (interceptable) Equistopper */
   numvec  k;
-  piece   hurdle;
+  piece   hurdle1, hurdle2;
   square  sq_hurdle1, sq_hurdle2;
 
   square sq_arrival;
 
   for (k= vec_queen_end; k>=vec_queen_start; k--) {     /* 0,2; 0,4; 0,6; 2,2; 4,4; 6,6; */
-    finligne(sq_departure,vec[k],hurdle,sq_hurdle1);
-    if (hurdle!=obs) {
+    finligne(sq_departure,vec[k],hurdle1,sq_hurdle1);
+    if (hurdle1!=obs) {
       sq_arrival= (sq_hurdle1+sq_departure)/2;
       if (!((sq_hurdle1/onerow+sq_departure/onerow)%2
             || (sq_hurdle1%onerow+sq_departure%onerow)%2)) /* is sq_arrival a square? */ 
         empile(sq_departure,sq_arrival,sq_arrival);
 
-      finligne(sq_hurdle1,vec[k],hurdle,sq_hurdle2);
-      if (hurdle!=obs
+      finligne(sq_hurdle1,vec[k],hurdle2,sq_hurdle2);
+      if (hurdle2!=obs
           && (abs(sq_hurdle2-sq_hurdle1)
               ==abs(sq_hurdle1-sq_departure))
-          && rightcolor(hurdle,camp)) {
+          && rightcolor(hurdle1,camp)) {
         sq_arrival= sq_hurdle1;
         empile(sq_departure,sq_arrival,sq_arrival);
       }
