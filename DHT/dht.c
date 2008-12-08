@@ -631,7 +631,7 @@ LOCAL uLong DynamicHash(uLong p, uLong maxp, uLong v)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%lu ",p);
   TraceFunctionParam("%lu ",maxp);
-  TraceFunctionParam("%lu\n",v);
+  TraceFunctionParam("%08x\n",v);
 
   if (h<p)
     result = v % (maxp<<1);
