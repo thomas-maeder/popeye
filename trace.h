@@ -62,6 +62,13 @@ void TraceSquareImpl(char const *prefix, square s);
 #define TraceSquare(name) \
   TraceSquareImpl(" " #name ":", name)
 
+void TracePieceImpl(char const *prefix, piece p);
+
+/* Trace a piece
+ */
+#define TracePiece(name) \
+  TracePieceImpl(" " #name ":", name)
+
 /* Trace the current move in the top-level generation
  * Only tested right before calling jouecoup; writes the correct
  * departure and arrival square and sometimes the correct piece etc,
@@ -89,6 +96,7 @@ void TraceValueImpl(char const *format, int value);
 #define TraceValue(format,name)
 #define TraceText(text)
 #define TraceSquare(name)
+#define TracePiece(name)
 #define TraceCurrentMove()
 #define TracePosition(echiquier,flags)
 #define TraceFunctionExit(name)
