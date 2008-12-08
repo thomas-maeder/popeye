@@ -1,0 +1,1215 @@
+"The four haunted houses"
+
+            Guy SOBRECASES
+    The Problemist Supplement 2008
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   R   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -S   .   .   .   .   .   5
+|                                   |
+4   .   .  -P   .   .   .  -K   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   P   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         2 + 4
+             Uncapturable
+              GhostChess
+
+  1.Bc3-e5 Rf8-f5   2.Kg4*f5 e2-e4 +   3.Kf5*e4[+wuRf5] uRf5-f3   4.Ke4-d4[+wuPe4] uRf3-d3 # 
+  1.Sc5-e4 Rf8-f4 +   2.Kg4*f4 e2-e3 +   3.Kf4*e3[+wuRf4] uRf4-f2   4.Ke3-d3[+wuPe3] uRf2-d2 # 
+
+solution finished. 
+
+
+"Ghostbuster"
+
+            Guy SOBRECASES
+    The Problemist Supplement 2008
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   B   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -Q   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   .  -P   .   .   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   R   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 4
+             Uncapturable
+              GhostChess
+
+a)
+
+  1.Qb6-e6 Bb8-e5   2.Ke4*e5 Ra3-e3 # 
+
+b) bPd5-->f4
+
+  1.Qb6-f2 Ra3-e3 +   2.Ke4*e3 Bb8-a7 # 
+
+solution finished. 
+
+
+
+    Vlaicu CRISAN & Laurent RIGUET
+Jubilé Feenschach-50, feenschach 1999, 3° Recommandé
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  =S   .   .   .   B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   R   .   .   .   K   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#4                3 + 1 + 1n
+             Uncapturable
+              GhostChess
+
+  1.nSa6-b4   2.nSb4*d3   3.nSd3-c1[+wuRd3]   4.nSc1-e2 uRd3-e3 # 
+  1.nSa6-c7   2.nSc7*e6   3.nSe6-f8[+wuBe6]   4.nSf8-g6 uBe6-f5 # 
+
+solution finished. 
+
+
+
+      Éric HUBER & Vlaicu CRISAN
+2° T.T. Quartz 1998-99, 1° Mention d'Honneur
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   R   5
+|                                   |
+4   .   .   .  -P  -K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -S   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 3
+             Uncapturable
+              GhostChess
+
+  1.Sg3*f1 Rh5-f5   2.Sf1-e3[+wuBf1] uBf1-d3 # 
+  1.Sg3*h5 Bf1-e2   2.Sh5-f4[+wuRh5] uRh5-e5 # 
+
+solution finished. 
+
+
+
+             Roméo BEDONI
+  2° T.T. Quartz 1998-99, Recommandé
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -K   .   .   .   .   .   8
+|                                   |
+7   .   .  -S   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   R   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   B   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+             Uncapturable
+              GhostChess
+
+a)
+
+  1.Sc7*e6 Be4-c6   2.Se6-c7[+wuRe6] uRe6-e8 # 
+
+b) bSc7-->d7
+
+  1.Kc8-d8 Re6-e8 +   2.Kd8*e8 Be4-g6 # 
+
+solution finished. 
+
+
+
+             Roméo BEDONI
+  2° T.T. Quartz 1998-99, Recommandé
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K  -B   .   .   8
+|                                   |
+7   .   .   .  -P   .  -B   R   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   P   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 4
+             Uncapturable
+              GhostChess
+
+a)
+
+  1.Bf8*g7 f5-f6   2.Bg7-h8[+wuRg7] uRg7-g8 # 
+
+b) wPf5-->h7
+
+  1.Bf7-g8 Rg7-e7 +   2.Bf8*e7 h7*g8=Q # 
+
+solution finished. 
+
+
+
+             Juraj LORINC
+ 2° T.T. Quartz 1998-99 (v), 1° Prix
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .   .   .   R   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -P   .   7
+|                                   |
+6   Q   .  -P   .   .   .  -K   .   6
+|                                   |
+5   .   .   .  -P  -S   .   .   .   5
+|                                   |
+4   .   S   .   .   .   .   P   B   4
+|                                   |
+3   .   .   .  -P  -P   .   .   .   3
+|                                   |
+2   .   .  -P   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-s#6                     5 + 9
+               Royal b4
+             Uncapturable
+              GhostChess
+
+a)
+
+  1.Bh4-f6   2.Qa6*c6   3.Qc6*c2[+buPc6]   4.Bf6*e5   5.Be5-f4[+buSe5]   6.Qc2*d3[+buPc2] + uSe5*d3 # 
+
+b)  -bPg7
+
+  1.Rf8-f5   2.Qa6*d3   3.Qd3*d5[+buPd3]   4.Rf5*e5   5.Re5-e7[+buSe5]   6.Qd5*c6[+buPd5] + uSe5*c6 # 
+
+solution finished. 
+
+
+
+            Vlaicu CRISAN
+  2° T.T. Quartz 1998-99, Recommandé
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -B   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   Q   .   .   .   .   .  -R   3
+|                                   |
+2   .   .   .   .   .   .   P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 3
+             Uncapturable
+              GhostChess
+
+  1.Rh3*b3 g2-g3   2.Rb3-e3[+wuQb3] uQb3-d5 # 
+  1.Bf7*b3 g2-g4   2.Bb3-d5[+wuQb3] uQb3-e3 # 
+
+solution finished. 
+
+
+
+            Vlaicu CRISAN
+  2° T.T. Quartz 1998-99, Recommandé
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   K   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -K   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -P   S   .   .   .   4
+|                                   |
+3   .   .   S   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   R   .  -Q   .   .   B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 3
+             Uncapturable
+              GhostChess
+
+a)
+
+  1.Qe1*c3 Se4-f6 +   2.Qc3-f3[+wuSc3] uSc3-b5 # 
+
+b) wKa7-->d8
+
+  1.Qe1*e4 Sc3-a4 +   2.Qe4-c2[+wuSe4] uSe4-d6 # 
+
+solution finished. 
+
+
+
+            Oswaldo FARIA
+            Chessics 1983
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .  -R   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   R   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+             Uncapturable
+              GhostChess
+
+  1.Rg7*g2 Kh8-h7   2.Rg2-g1[+wuRg2] uRg2-h2 # 
+
+solution finished. 
+
+
+
+           Didier INNOCENTI
+             Phénix 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -K   3
+|                                   |
+2   .   .   .   .   .   .   R   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=7                     1 + 1
+             Uncapturable
+              GhostChess
+
+  1.Kh3*g2   2.Kg2-h3[+wuRg2]   3.Kh3-h4   4.Kh4-h5   5.Kh5-h6   6.Kh6-h7   7.Kh7-h8 uRg2-g7 = 
+  1.Kh3*g2   2.Kg2-f1[+wuRg2]   3.Kf1-e1   4.Ke1-d1   5.Kd1-c1   6.Kc1-b1   7.Kb1-a1 uRg2-b2 = 
+
+solution finished. 
+
+
+
+           Didier INNOCENTI
+             Phénix 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   K   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   R   .   .   .   .   .   4
+|                                   |
+3   .  -K   .   .   .   .   .   .   3
+|                                   |
+2   R   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#4                     3 + 1
+             Uncapturable
+              GhostChess
+
+  1.Kb3*c4   2.Kc4-b3[+wuRc4]   3.Kb3*a2   4.Ka2-b1[+wuRa2] uRc4-c1 # 
+  1.Kb3*a2   2.Ka2-b3[+wuRa2]   3.Kb3*c4   4.Kc4-b5[+wuRc4] uRa2-a5 # 
+
+solution finished. 
+
+
+
+           Didier INNOCENTI
+             Phénix 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   S   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -K   .   .   .   .   .   4
+|                                   |
+3   .   .   P   .   .   .   K   .   3
+|                                   |
+2   .   .   P   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#5                         4 + 1
+             Uncapturable
+              GhostChess
+
+  1.Kc4*c3 Kg3-f4   2.Kc3*c2[+wuPc3] uPc3-c4   3.Kc2-c3[+wuPc2] Sc6-d4   4.Kc3*d4 uPc4-c5   5.Kd4-d5[+wuSd4] uPc2-c4 # 
+
+solution finished. 
+
+
+
+           Didier INNOCENTI
+             Phénix 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -Q   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   R   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   Q   .   .  -P   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -K   .   .   .   3
+|                                   |
+2   .   .  -R   S   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  r#2                         4 + 4
+             Uncapturable
+              GhostChess
+
+  1.Qa4*c2 ? threat:
+          2.Sd2-b1 
+              2...Qg8-g1 # 
+          2.Sd2-e4 
+              2...Qg8-g1 # 
+          2.Sd2-b3 
+              2...Qg8-g1 # 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+      1...Ke3-f2 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-e4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-d3[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b3[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+              2...uRc2*d2 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c3[+buRc2] 
+              2...uRc2-c1 # 
+      1...d4-d3 
+          2.Sd2-b1 
+              2...Qg8-g1 # 
+          2.Sd2-e4 
+              2...Qg8-g1 # 
+          2.Sd2-b3 
+              2...Qg8-g1 # 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b3[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c3[+buRc2] 
+              2...uRc2-c1 # 
+      1...Qg8-a2 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2*a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+      1...Qg8-b3 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+      1...Qg8-c4 
+          2.Qc2*c4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Sd2-b1 
+              2...Qc4-f1 # 
+          2.Sd2-f1 + 
+              2...Qc4*f1 # 
+          2.Sd2-e4 
+              2...Qc4-f1 # 
+          2.Sd2-b3 
+              2...Qc4-f1 # 
+          2.Qc2-b1[+buRc2] 
+              2...Qc4-e2 # 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...Qc4-e2 # 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...Qc4-e2 # 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...Qc4-e2 # 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...Qc4-e2 # 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...Qc4-e2 # 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...Qc4-e2 # 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...Qc4-e2 # 
+              2...uRc2-c1 # 
+          2.Kd1-e1 
+              2...Qc4-e2 # 
+      1...Qg8-d5 
+          2.Sd2-b1 
+              2...Qd5-h1 # 
+          2.Sd2-b3 
+              2...Qd5-h1 # 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+      1...Qg8-e6 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+      1...Qg8-g1 + 
+          2.Sd2-f1 + 
+              2...Qg1*f1 # 
+      1...Qg8-g4 + 
+          2.Kd1-e1 
+              2...Qg4-e2 # 
+      1...Qg8-g6 
+          2.Sd2-b1 
+              2...Qg6-g1 # 
+          2.Sd2-e4 
+              2...Qg6-g1 # 
+          2.Sd2-b3 
+              2...Qg6-g1 # 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2*g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+      1...Qg8-a8 
+          2.Sd2-b1 
+              2...Qa8-h1 # 
+          2.Sd2-b3 
+              2...Qa8-h1 # 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+      1...Qg8-b8 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+      1...Qg8-c8 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2*c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+      1...Qg8-d8 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+      1...Qg8-e8 
+          2.Qc2-b1[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-h7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-g6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-f5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-a4[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+          2.Qc2-a2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-b2[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c8[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c7[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c6[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c5[+buRc2] 
+              2...uRc2-c1 # 
+          2.Qc2-c4[+buRc2] 
+              2...uRc2-c1 # 
+    but
+      1...Ke3-f4  !
+
+  1.Qa4*d4 + ? 
+    but
+      1...Ke3*d4  !
+
+  1.Kd1*c2 ! threat:
+          2.Kc2-d1[+buRc2] 
+              2...uRc2-c1 # 
+      1...Ke3-e2 
+          2.Sd2-b1 
+              2...d4-d3 # 
+      1...Ke3-f4 
+          2.Kc2-d3[+buRc2] 
+              2...uRc2*d2 # 
+      1...Qg8-g1 
+          2.Sd2-b3 
+              2...d4-d3 # 
+      1...Qg8-g4 
+          2.Kc2-b1[+buRc2] 
+              2...Qg4-d1 # 
+
+
+solution finished. 
+
+
+
+  Vlaicu CRISAN & Christian POISSON
+Problemesis 2002, 2° Mention d'Honneur
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  =P   .  -B  -P  -K   .  =P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   K   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                    1 + 3 + 2n
+             Uncapturable
+              GhostChess
+
+  1...nPa7-a8=nR   2.nRa8-h8 nPg7*h8=nB   3.Ke7-d8 nBh8-f6[+nuRh8] # 
+
+  1.Bc7-g3 nPg7-g8=nQ   2.nQg8-b8 nPa7*b8=nS   3.Ke7-d8 nSb8-c6[+nuQb8] # 
+
+solution finished. 
+
+
+
+  Christian POISSON & Vlaicu CRISAN
+             Quartz 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  =P  =P   .   .   .   .   7
+|                                   |
+6   .  -K   .   .   .   .   .   .   6
+|                                   |
+5  -R  -P   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                  1 + 4 + 2n
+             Uncapturable
+              GhostChess
+
+  1...nPc7-c8=nQ   2.Ra5-a7 nPd7*c8=nR   3.Kb6-b7 nRc8-b8[+nuQc8] # 
+
+solution finished. 
+
+
+
+           Didier INNOCENTI
+             Phénix 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   K   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   P   7
+|                                   |
+6   .   .   .   .   S   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          3 + 1
+             Uncapturable
+              GhostChess
+
+  1.Se6-f8 ! 
+      1...Kh8-g7 
+          2.h7-h8=Q + 
+              2...Kg7*h8 
+                  3.Sf8-g6 # 
+              2...Kg7-f7 
+                  3.Qh8-g7 + 
+                      3...Kf7*g7 
+                          4.Sf8-e6 # 
+
+
+solution finished. 
+
+
+
+            Vlaicu CRISAN
+             Phénix 2002
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  CA   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -K   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   R   .   .   5
+|                                   |
+4   .   .   B  -Q   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#4                     3 + 2
+              GhostChess
+
+zeroposition
+
+a) wRf5-->e5
+
+  1.Qd4*e5   2.Kd6-c5   3.Kc5*c4   4.Qe5-c3[+wuRe5] uRe5-c5 # 
+
+b) wCAc7-->d7
+
+  1.Qd4*c4   2.Kd6-e6   3.Ke6*f5   4.Qc4-g4[+wuBc4] uBc4-e6 # 
+
+solution finished. 
+
+
+
+             Juraj LORINC
+The Macedonian Problemist 2000, Recommandé
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -K   6
+|                                   |
+5   .   .   .   .   B  -P   .   .   5
+|                                   |
+4   .   .   .   .   .  -P   .   .   4
+|                                   |
+3   .   .   .   .   .   B   .   .   3
+|                                   |
+2   .   .   K   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#12                    3 + 3
+             Uncapturable
+              GhostChess
+
+a)
+
+  1.Kh6-g6   2.Kg6-f7   3.Kf7-e6   4.Ke6*e5   5.Ke5-e6[+wuBe5]   6.Ke6-f7   7.Kf7-g6   8.Kg6-g5   9.Kg5-h4  10.Kh4-g3  11.Kg3*f3  12.Kf3-e3[+wuBf3] uBe5-d4 # 
+
+b) wKc2-->d8
+
+  1.Kh6-g5   2.Kg5-h4   3.Kh4-g3   4.Kg3*f3   5.Kf3-g3[+wuBf3]   6.Kg3-h4   7.Kh4-g5   8.Kg5-g6   9.Kg6-f7  10.Kf7-e6  11.Ke6*e5  12.Ke5-e6[+wuBe5] uBf3-d5 # 
+
+solution finished. 
+
+
+
+Jacques ROTENBERG & Christian POISSON
+          dédié à V. Crisan
+      Problemesis 2003, 2° Prix
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -S   .   K   .   8
+|                                   |
+7   .   S   .  -K   .  =P   .   .   7
+|                                   |
+6   .   .   .   P   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .  =P   .   .   2
+|                                   |
+1   .   .   .   .  =R   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    3 + 2 + 3n
+             Uncapturable
+              GhostChess
+
+  1.nPf2-f1=nQ nPf7-f8=nS +   2.nQf1*f8 + nQf8*e8[+nuSf8] # 
+
+solution finished. 
+
+
+
+             Ion MURARASU
+           Problemesis 2004
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -K   .   .   .  =S   .   .   .   2
+|                                   |
+1   .   .  =B   .  =R   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    0 + 1 + 3n
+             Uncapturable
+              GhostChess
+
+a)
+
+  1.nRe1*c1 nSe2-c3 +   2.nRc1*c3[+nuBc1] nRc3-a3[+nuSc3] # 
+
+b) nBc1-->d2
+
+  1.nBd2-c3 nSe2-c1 +   2.nRe1*c1 nRc1-a1[+nuSc1] # 
+
+solution finished. 
+
+
+neutral pieces and echecs bicolores not allowed
+problem ignored
+
+      Vlaicu CRISAN & Éric HUBER
+17° T.T. Chess Composition Microweb 2005, 3° Mention d'Honneur
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5 -DU   .   .  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  =R   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .  =B   .   .  -L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                  1 + 3 + 2n
+              Bicolores
+              GhostChess
+
+solution finished. 
+
+

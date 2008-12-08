@@ -305,6 +305,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	CastlingChess
 	ChameleonPursuit
 	LosingChess
+	GhostChess
 
 	After the conditions Imitator, MagicSquare, Hole,
 	FrischaufCirce, WhitePromSquares, BlackPromSquares or one of
@@ -567,7 +568,8 @@ elaborate is the command
 	HalfNeutral
 	HurdleColourChanging          (only for hoppers !)
 	Protean
-        Magic
+	Magic
+	Uncapturable
 
 	may be given. All the pieces given after this will have these
 	attributes.  After this specification follows the list of

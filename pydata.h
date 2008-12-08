@@ -340,6 +340,29 @@ EXTERN  imarr           isquare;                /* Imitatorstandfelder */
 EXTERN  boolean         Iprom[maxply + 1];      /* Imitatorumwandlung? */
 EXTERN  square          im0;                    /* Standort des ersten Imitators */
 
+
+typedef struct
+{
+    square ghost_square;
+    piece ghost_piece;
+    Flags ghost_flags;
+} ghost_record_type;
+
+enum
+{
+  ghost_capacity = 32,
+  ghost_not_found = ghost_capacity
+};
+
+typedef ghost_record_type ghosts_type[ghost_capacity];
+
+EXTERN ghosts_type ghosts;
+
+typedef unsigned int ghost_index_type;
+
+EXTERN ghost_index_type nr_ghosts;
+
+
 EXTERN  stip_length_type zugebene, max_len_threat;
 
 EXTERN  stip_length_type min_length_nontrivial;
@@ -1149,7 +1172,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*169*/ "ChameleonPoursuite",
     /*170*/ "AntiKoeko",
     /*171*/ "EchecsRoque",
-    /*172*/ "QuiPerdGagne"
+    /*172*/ "QuiPerdGagne",
+    /*173*/ "EchecsGhost"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1324,7 +1348,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*169*/ "ChamaeleonVerfolgung",
     /*170*/ "AntiKoeko",
     /*171*/ "RochadeSchach",
-    /*172*/ "Schlagschach"
+    /*172*/ "Schlagschach",
+    /*173*/ "Geisterschach"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1499,7 +1524,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*169*/ "ChameleonPursuit",
     /*170*/ "AntiKoeko",
     /*171*/ "CastlingChess",
-    /*172*/ "LosingChess"
+    /*172*/ "LosingChess",
+    /*173*/ "GhostChess"
     }
     };
 #endif
@@ -1532,7 +1558,8 @@ EXTERN unsigned int StipFlags;
       "DemiNeutre",
       "CouleurEchangeantSautoir",
       "Protee",
-      "Magique"
+      "Magique",
+      "Imprenable"
 	},{
       /* German */
       "Weiss",
@@ -1548,7 +1575,8 @@ EXTERN unsigned int StipFlags;
       "HalbNeutral",
       "SprungbockFarbeWechselnd",
       "Proteisch",
-      "Magisch"
+      "Magisch",
+      "Unschlagbar"
 	},{
       /* English */
       "White",
@@ -1564,7 +1592,8 @@ EXTERN unsigned int StipFlags;
       "HalfNeutral",
       "HurdleColourChanging",
       "Protean",
-      "Magic"
+      "Magic",
+      "Uncapturable"
 	}
 	};
 #endif

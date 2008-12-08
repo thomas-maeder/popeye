@@ -671,6 +671,8 @@ typedef struct {
     square      roch_sq;
     piece       roch_pc;
     Flags       roch_sp;
+    piece       ghost_piece;
+    Flags       ghost_flags;
 } coup;
 
 #define	tabmaxcp	2048
@@ -1214,8 +1216,9 @@ typedef enum
   antikoeko,              /* 170 */
   castlingchess,          /* 171 */
   losingchess,            /* 172 */
+  ghostchess,             /* 173 */
 
-  CondCount               /* 173 */
+  CondCount               /* 174 */
 } Cond;
 
 /* Some remarks to the conditions:
@@ -1257,6 +1260,7 @@ typedef enum
   ColourChange,
   Protean,
   Magic,
+  Uncapturable,
 
   PieSpCount
 } PieSpec;

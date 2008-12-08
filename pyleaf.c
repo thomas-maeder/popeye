@@ -493,6 +493,10 @@ static void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
 {
   Goal const goal = slices[leaf].u.leaf.goal;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d ",leaf);
+  TraceFunctionParam("%d\n",side_at_move);
+
   if (side_at_move==White ? !flagwhitemummer : !flagblackmummer)
     empile_for_goal_of_leaf_slice = leaf;
 
@@ -501,6 +505,7 @@ static void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
     case goal_mate:
     case goal_doublemate:
     case goal_check:
+      TraceValue("%d\n",optim_orthomatingmoves);
       if (optim_orthomatingmoves)
       {
         square square_a = square_a1;
@@ -596,6 +601,9 @@ static void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
   }
 
   empile_for_goal_of_leaf_slice = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 } /* generate_move_reaching_goal */
 
 

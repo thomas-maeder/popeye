@@ -113,3 +113,4 @@
 112= EchecsRepublicains incompatible avec des conditions qui dependent du fait si un coup donne echec.\n
 113= Popeye ne peut pas décider qui a le trait.\n
 114= Option \"menace\" et enonce exact incompatibles\n
+115= EchecsGhost incompatibles avec Circe, Anticirce, Kamikaze, Echecs de Haan\n

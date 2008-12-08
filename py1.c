@@ -774,43 +774,49 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
 
 /* new versions of StorePosition() and ResetPosition() */
 
-Flags       sic_spec[nr_squares_on_board];
-piece       sic_e[nr_squares_on_board];
-int sic_inum1;
-imarr       sic_isquare;
-square      sic_im0, rn_sic, rb_sic;
-long int sic_BGL_W, sic_BGL_b;
+static Flags       sic_spec[nr_squares_on_board];
+static piece       sic_e[nr_squares_on_board];
+static int sic_inum1;
+static imarr       sic_isquare;
+static square      sic_im0, rn_sic, rb_sic;
+static long int sic_BGL_W, sic_BGL_b;
+static ghosts_type sic_ghosts;
+static ghost_index_type sic_nr_ghosts;
 
 void StorePosition(void)
 {
   int       i;
 
   rn_sic= rn; rb_sic= rb;
-  for (i= 0; i < nr_squares_on_board; i++) {
+  for (i= 0; i < nr_squares_on_board; i++)
+  {
     sic_e[i]= e[boardnum[i]];
     sic_spec[i]= spec[boardnum[i]];
   }
 
   /* imitators */
   sic_inum1= inum[1];
-  for (i= 0; i < maxinum; i++) {
+  for (i= 0; i < maxinum; i++)
     sic_isquare[i]= isquare[i];
-  }
 
   sic_im0= im0;
   sic_BGL_W= BGL_white;
   sic_BGL_b= BGL_black;
+
+  sic_nr_ghosts = nr_ghosts;
+  memcpy(sic_ghosts, ghosts, nr_ghosts * sizeof ghosts[0]);
 }
 
 void ResetPosition(void) {
-  int       i;
+  int i;
 
   for (i= dernoi; i <= derbla; i++)
     nbpiece[i]= 0;
 
   rn= rn_sic; rb= rb_sic;
 
-  for (i= 0; i < nr_squares_on_board; i++) {
+  for (i= 0; i < nr_squares_on_board; i++)
+  {
     nbpiece[e[boardnum[i]]= sic_e[i]]++;
     spec[boardnum[i]]= sic_spec[i];
   }
@@ -825,6 +831,9 @@ void ResetPosition(void) {
   neutcoul= White;
   BGL_white= sic_BGL_W;
   BGL_black= sic_BGL_b;
+
+  nr_ghosts = sic_nr_ghosts;
+  memcpy(ghosts, sic_ghosts, nr_ghosts * sizeof ghosts[0]);
 }
 
 boolean ooorphancheck(square sq_king,

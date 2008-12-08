@@ -298,6 +298,7 @@ simples:
 	AntiKoeko
 	EchecsRoque
 	QuiPerdGagne
+	EchecsGhost
 
 	Apres les mots-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -570,6 +571,7 @@ suivante est un peu plus compliquee:
 	CouleurEchangeantSautoir
 	Protee
 	Magique
+	Imprenable
 
 	Suit la liste des pieces comme d'habitude: type de la piece suivi par
 	une liste de cases ou se trouve une telle piece. On peut toujours

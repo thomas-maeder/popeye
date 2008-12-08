@@ -1098,35 +1098,45 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
   return len;
 } /* TellCommonEncodePosLeng */
 
-static int TellLargeEncodePosLeng(void) {
+static int TellLargeEncodePosLeng(void)
+{
   square    *bnp;
   int       nbr_p= 0, len= 8;
 
-  for (bnp= boardnum; *bnp; bnp++) {
-    if (e[*bnp] != vide) {
+  for (bnp= boardnum; *bnp; bnp++)
+    if (e[*bnp] != vide)
+    {
       len += bytes_per_piece;
       nbr_p++;  /* count no. of pieces and holes */
     }
-  }
+
   if (CondFlag[BGL])
     len+= sizeof BGL_white + sizeof BGL_black;
+
+  len += nr_ghosts*bytes_per_piece;
 
   return TellCommonEncodePosLeng(len, nbr_p);
 } /* TellLargeEncodePosLeng */
 
-static int TellSmallEncodePosLeng(void) {
+static int TellSmallEncodePosLeng(void)
+{
   square  *bnp;
   int nbr_p= 0, len= 0;
 
-  for (bnp= boardnum; *bnp; bnp++) {
+  for (bnp= boardnum; *bnp; bnp++)
+  {
     /* piece    p;
     ** Flags    pspec;
     */
-    if (e[*bnp] != vide) {
+    if (e[*bnp] != vide)
+    {
       len += 1 + bytes_per_piece;
       nbr_p++;            /* count no. of pieces and holes */
     }
   }
+
+  len += nr_ghosts*bytes_per_piece;
+  
   return TellCommonEncodePosLeng(len, nbr_p);
 } /* TellSmallEncodePosLeng */
 
@@ -1201,76 +1211,125 @@ static byte *CommonEncode(byte *bp)
   return bp;
 } /* CommonEncode */
 
-static void LargeEncode(HashBuffer *hb) {
-  byte  *position= hb->cmv.Data;
-  byte  *bp= position+nr_rows_on_board;
-  int       row, col;
-  square a_square= square_a1;
+static byte *LargeEncodePiece(byte *bp, byte *position,
+                              int row, int col,
+                              piece p, Flags pspec)
+{
+  if (!TSTFLAG(pspec, Neutral))
+    SETFLAG(pspec, (p < vide ? Black : White));
+  p = abs(p);
+  if (one_byte_hash)
+    *bp++ = (byte)pspec + ((byte)piece_nbr[p] << (CHAR_BIT/2));
+  else
+  {
+    unsigned int i;
+    *bp++ = p;
+    for (i = 0; i<bytes_per_spec; i++)
+      *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
+  }
+
+  position[row] |= BIT(col);
+
+  return bp;
+}
+
+static void LargeEncode(HashBuffer *hb)
+{
+  byte *position = hb->cmv.Data;
+  byte *bp = position+nr_rows_on_board;
+  int row, col;
+  square a_square = square_a1;
+  ghost_index_type gi;
 
   /* clear the bits for storing the position of pieces */
-  memset(position, 0, nr_rows_on_board);
+  memset(position,0,nr_rows_on_board);
 
-  for (row=0; row<nr_rows_on_board; row++, a_square+= onerow) {
+  for (row=0; row<nr_rows_on_board; row++, a_square+= onerow)
+  {
     square curr_square = a_square;
-    for (col=0; col<nr_files_on_board; col++, curr_square+= dir_right) {
-      piece p= e[curr_square];
-      if (p!=vide) {
-        Flags pspec= spec[curr_square];
-        if (!TSTFLAG(pspec, Neutral))
-          SETFLAG(pspec, (p < vide ? Black : White));
-        p= abs(p);
-        if (one_byte_hash)
-          *bp++ = (byte)pspec + ((byte)piece_nbr[p] << (CHAR_BIT/2));
-        else {
-          unsigned int i;
-          *bp++ = p;
-          for (i = 0; i<bytes_per_spec; i++)
-            *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
-        }
-        position[row] |= BIT(col);
-      }
+    for (col=0; col<nr_files_on_board; col++, curr_square+= dir_right)
+    {
+      piece const p = e[curr_square];
+      if (p!=vide)
+        bp = LargeEncodePiece(bp,position,row,col,p,spec[curr_square]);
     }
   }
 
-  /* Now the rest of the party */
-  bp= CommonEncode(bp);
+  for (gi = 0; gi<nr_ghosts; ++gi)
+  {
+    square s = (ghosts[gi].ghost_square
+                - nr_of_slack_rows_below_board*onerow
+                - nr_of_slack_files_left_of_board);
+    row = s/onerow;
+    col = s%onerow;
+    bp = LargeEncodePiece(bp,position,
+                          row,col,
+                          ghosts[gi].ghost_piece,ghosts[gi].ghost_flags);
+  }
 
-  hb->cmv.Leng= bp - hb->cmv.Data;
+  /* Now the rest of the party */
+  bp = CommonEncode(bp);
+
+  hb->cmv.Leng = bp - hb->cmv.Data;
 } /* LargeEncode */
+
+static byte *SmallEncodePiece(byte *bp,
+                              int row, int col,
+                              piece p, Flags pspec)
+{
+  if (!TSTFLAG(pspec,Neutral))
+    SETFLAG(pspec, (p < vide ? Black : White));
+  p= abs(p);
+  *bp++= (byte)((row<<(CHAR_BIT/2))+col);
+  if (one_byte_hash)
+    *bp++ = (byte)pspec + ((byte)piece_nbr[p] << (CHAR_BIT/2));
+  else
+  {
+    unsigned int i;
+    *bp++ = p;
+    for (i = 0; i<bytes_per_spec; i++)
+      *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
+  }
+
+  return bp;
+}
 
 static void SmallEncode(HashBuffer *hb)
 {
-  byte   *bp= hb->cmv.Data;
-  int    row, col;
-  square a_square= square_a1;
+  byte *bp = hb->cmv.Data;
+  square a_square = square_a1;
+  int row;
+  int col;
+  ghost_index_type gi;
 
-  for (row=0; row<nr_rows_on_board; row++, a_square+= onerow) {
+  for (row=0; row<nr_rows_on_board; row++, a_square += onerow)
+  {
     square curr_square= a_square;
-    for (col=0; col<nr_files_on_board; col++, curr_square+= dir_right) {
-      piece p= e[curr_square];
-      if (p!=vide) {
-        Flags pspec= spec[curr_square];
-        if (!TSTFLAG(pspec, Neutral))
-          SETFLAG(pspec, (p < vide ? Black : White));
-        p= abs(p);
-        *bp++= (byte)((row<<(CHAR_BIT/2))+col);
-        if (one_byte_hash)
-          *bp++ = (byte)pspec + ((byte)piece_nbr[p] << (CHAR_BIT/2));
-        else {
-          unsigned int i;
-          *bp++ = p;
-          for (i = 0; i<bytes_per_spec; i++)
-            *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
-        }
-      }
+    for (col=0; col<nr_files_on_board; col++, curr_square += dir_right)
+    {
+      piece const p = e[curr_square];
+      if (p!=vide)
+        bp = SmallEncodePiece(bp,row,col,p,spec[curr_square]);
     }
   }
 
-  /* Now the rest of the party */
-  bp= CommonEncode(bp);
+  for (gi = 0; gi<nr_ghosts; ++gi)
+  {
+    square s = (ghosts[gi].ghost_square
+                - nr_of_slack_rows_below_board*onerow
+                - nr_of_slack_files_left_of_board);
+    row = s/onerow;
+    col = s%onerow;
+    bp = SmallEncodePiece(bp,
+                          row,col,
+                          ghosts[gi].ghost_piece,ghosts[gi].ghost_flags);
+  }
 
-  hb->cmv.Leng= bp - hb->cmv.Data;
-} /* SmallEncode */
+  /* Now the rest of the party */
+  bp = CommonEncode(bp);
+
+  hb->cmv.Leng = bp - hb->cmv.Data;
+}
 
 boolean inhash(slice_index si,
                hashwhat what,

@@ -293,7 +293,12 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       && (!nullgenre || sq_arrival != nullsquare))
     return true;
 
-  if (empilegenre) {
+  if (empilegenre)
+  {
+    if (CondFlag[ghostchess]
+        && TSTFLAG(spec[sq_arrival],Uncapturable))
+      return false;
+
     if (CondFlag[messigny]
         && sq_capture == messigny_exchange
         /* a swapping move */

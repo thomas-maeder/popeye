@@ -1230,6 +1230,22 @@ static boolean verifieposition(void)
     return false;
   }
 
+  if (CondFlag[ghostchess])
+  {
+    if (anycirce || anyanticirce
+        || CondFlag[haanerchess]
+        || TSTFLAG(PieSpExFlags,Kamikaze))
+    {
+      VerifieMsg(GhostChessAndCirceKamikazeHaanIncompatible);
+      return false;
+    }
+    else
+    {
+      SETFLAG(PieSpExFlags,Uncapturable);
+      optim_neutralretractable = false;
+    }
+  }
+
   jouegenre =
       CondFlag[black_oscillatingKs]
       || CondFlag[white_oscillatingKs]
@@ -1254,7 +1270,8 @@ static boolean verifieposition(void)
       || CondFlag[amu]
       || CondFlag[imitators]
       || CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king]
-      || TSTFLAG(PieSpExFlags, Magic);
+      || TSTFLAG(PieSpExFlags, Magic)
+      || CondFlag[ghostchess];
 
 
   change_moving_piece=
@@ -1282,7 +1299,8 @@ static boolean verifieposition(void)
       || anycirce
       || TSTFLAG(PieSpExFlags, Neutral)
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
-      || anyanticirce;
+      || anyanticirce
+      || CondFlag[ghostchess];
 
   empilegenre=
       flaglegalsquare
@@ -1316,7 +1334,9 @@ static boolean verifieposition(void)
       || CondFlag[SAT]
       || CondFlag[strictSAT]
       || CondFlag[takemake]
-      || CondFlag[losingchess];
+      || CondFlag[losingchess]
+      || CondFlag[ghostchess]
+      || TSTFLAG(PieSpExFlags,Uncapturable);
 
   if (CondFlag[dynasty])
   {
@@ -1853,6 +1873,9 @@ void current(coup *mov) {
   mov->roch_sq=rochade_sq[nbcou];
   mov->roch_pc=rochade_pc[nbcou];
   mov->roch_sp=rochade_sp[nbcou];
+
+  mov->ghost_piece = e[mov->cdzz];
+  mov->ghost_flags = spec[mov->cdzz];
 }
 
 int alloctab(void)
@@ -2193,6 +2216,16 @@ void editcoup(coup *mov, Goal goal)
     WritePiece(roib);
     StdString("]");
   }
+
+  if (CondFlag[ghostchess] && mov->ghost_piece!=vide)
+  {
+    StdString("[+");
+    WriteSpec(mov->ghost_flags, mov->ghost_piece);
+    WritePiece(mov->ghost_piece);
+    WriteSquare(mov->cdzz);
+    StdString("]");
+  }
+  
   if (CondFlag[BGL])
   {
     char s[30], buf1[12], buf2[12];

@@ -311,6 +311,7 @@ Kommandos:
 	AntiKoeko
 	RochadeSchach
 	Schlagschach
+	Geisterschach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -585,6 +586,7 @@ Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
 	SprungbockFarbeWechselnd         (nur bei Huepfern !)
 	Proteisch
 	Magisch
+	Unschlagbar
 
 	angegeben werden. 
 	Nach diesen Spezifikationen kommt die Liste der Figuren, 

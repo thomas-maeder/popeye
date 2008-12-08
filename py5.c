@@ -50,6 +50,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>  /* H.D. 10.02.93 prototype fuer exit */
+#include <string.h>
 
 #if defined(DOS)
 # if defined(__GNUC__)
@@ -1444,6 +1445,115 @@ boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
             ));
 }
 
+static ghost_index_type find_ghost(square sq_arrival)
+{
+  ghost_index_type current = nr_ghosts;
+  ghost_index_type result = ghost_not_found;
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceText("\n");
+
+  while (current>0)
+  {
+    --current;
+    if (ghosts[current].ghost_square==sq_arrival)
+    {
+      result = current;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+static void remember_ghost(square sq_arrival)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceText("\n");
+
+  assert(nr_ghosts<ghost_capacity);
+  ghosts[nr_ghosts].ghost_square = sq_arrival;
+  ghosts[nr_ghosts].ghost_piece = e[sq_arrival];
+  ghosts[nr_ghosts].ghost_flags = spec[sq_arrival];
+  ++nr_ghosts;
+  TraceValue("%u\n",nr_ghosts);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+static void forget_ghost_at_pos(ghost_index_type ghost_pos)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",ghost_pos);
+
+  assert(ghost_pos!=ghost_not_found);
+  assert(nr_ghosts>0);
+  --nr_ghosts;
+
+  TraceValue("->%u ",nr_ghosts);
+  TraceSquare(ghosts[ghost_pos].ghost_square);
+  TracePiece(ghosts[ghost_pos].ghost_piece);
+  TraceText("\n");
+  memmove(ghosts+ghost_pos, ghosts+ghost_pos+1,
+          (nr_ghosts-ghost_pos) * sizeof ghosts[0]);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+static void forget_ghost(square sq_arrival)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceText("\n");
+
+  forget_ghost_at_pos(find_ghost(sq_arrival));
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+static void summon_ghost(square sq_departure)
+{
+  ghost_index_type const ghost_pos = find_ghost(sq_departure);
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceText("\n");
+
+  TraceValue("%u\n",ghost_pos);
+
+  if (ghost_pos!=ghost_not_found)
+  {
+    piece const ghost_piece = ghosts[ghost_pos].ghost_piece;
+    e[sq_departure] = ghost_piece;
+    spec[sq_departure] = ghosts[ghost_pos].ghost_flags;
+    SETFLAG(spec[sq_departure],Uncapturable);
+    ++nbpiece[ghost_piece];
+    forget_ghost_at_pos(ghost_pos);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+static void ban_ghost(square sq_departure)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceText("\n");
+
+  CLRFLAG(spec[sq_departure],Uncapturable);
+  remember_ghost(sq_departure);
+  --nbpiece[e[sq_departure]];
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
 boolean jouecoup(void) {
   square  sq_departure,
     sq_arrival,
@@ -1572,6 +1682,9 @@ boolean jouecoup(void) {
         pi_departing = pi_arriving = sb3[nbcou].what;
       }
     }
+
+    if (CondFlag[ghostchess] && pi_captured!=vide)
+      remember_ghost(sq_arrival);
   }
 
   if (TSTFLAG(spec_pi_moving, ColourChange)) {
@@ -1733,25 +1846,24 @@ boolean jouecoup(void) {
     if (CondFlag[norsk])
       pi_arriving= norskpiece(pi_arriving);
 
-  if (pi_captured != vide
-      && ((CondFlag[protean]
-           && (!rex_protean_ex || !TSTFLAG(spec_pi_moving, Royal)))
-          || TSTFLAG(spec_pi_moving, Protean))) {
-    if (pi_departing < vide) {
-       pi_arriving = -pi_captured;
-       if (pi_arriving == pn)
-         pi_arriving = reversepn;
-       else if (pi_arriving == reversepn)
-         pi_arriving = pn;
-    } else {
-       pi_arriving = -pi_captured;
-       if (pi_arriving == pb)
-         pi_arriving = reversepb;
-       else if (pi_arriving == reversepb)
-         pi_arriving = pb;
+    if (pi_captured != vide
+        && ((CondFlag[protean]
+             && (!rex_protean_ex || !TSTFLAG(spec_pi_moving, Royal)))
+            || TSTFLAG(spec_pi_moving, Protean))) {
+      if (pi_departing < vide) {
+        pi_arriving = -pi_captured;
+        if (pi_arriving == pn)
+          pi_arriving = reversepn;
+        else if (pi_arriving == reversepn)
+          pi_arriving = pn;
+      } else {
+        pi_arriving = -pi_captured;
+        if (pi_arriving == pb)
+          pi_arriving = reversepb;
+        else if (pi_arriving == reversepb)
+          pi_arriving = pb;
+      }
     }
-  }
-
   } /* change_moving_piece */
 
   if (abs(pi_departing) == andergb) {
@@ -2176,7 +2288,11 @@ boolean jouecoup(void) {
     nbpiece[pi_arriving]++;
   }
 
-  if (jouegenre) {
+  if (jouegenre)
+  {
+    if (CondFlag[ghostchess])
+      summon_ghost(sq_departure);
+
     if (TSTFLAG(spec_pi_moving, HalfNeutral)
         && TSTFLAG(spec_pi_moving, Neutral))
       setneutre(sq_arrival);
@@ -2990,7 +3106,11 @@ void repcoup(void) {
     return;
   }
 
-  if (jouegenre) {
+  if (jouegenre)
+  {
+    if (CondFlag[ghostchess] && pi_captured!=vide)
+      forget_ghost(sq_arrival);
+
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type3
         && sb3[nbcou].what!=vide) {
       piece pawn = trait[nbply]==White ? pb : pn;
@@ -3126,7 +3246,11 @@ void repcoup(void) {
   }
   
   /* first delete all changes */
-  if (repgenre) {
+  if (repgenre)
+  {
+    if (CondFlag[ghostchess] && e[sq_departure]!=vide)
+      ban_ghost(sq_departure);
+
     if (senti[nbply]) {
       --nbpiece[e[sq_departure]];
       senti[nbply]= false;
