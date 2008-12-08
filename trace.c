@@ -23,13 +23,13 @@ void TraceFunctionEntry(char const *name)
   ++level;
     
   if (!deactivated)
-    fprintf(stderr,"> #%d %s",level,name);
+    fprintf(stdout,"> #%d %s",level,name);
 }
 
 void TraceFunctionExit(char const *name)
 {
   if (!deactivated)
-    fprintf(stderr,"< #%d %s",level,name);
+    fprintf(stdout,"< #%d %s",level,name);
 
   --level;
 }
@@ -37,21 +37,30 @@ void TraceFunctionExit(char const *name)
 void TraceValueImpl(char const *format, int value)
 {
   if (!deactivated)
-    fprintf(stderr,format,value);
+    fprintf(stdout,format,value);
 }
 
 void TraceText(char const *text)
 {
   if (!deactivated)
-    fprintf(stderr,"  #%d %s",level,text);
+    fprintf(stdout,"  #%d %s",level,text);
 }
 
 void TraceSquareImpl(char const *prefix, square s)
 {
   if (!deactivated)
   {
-    fprintf(stderr,"%s",prefix);
+    fprintf(stdout,"%s",prefix);
     WriteSquare(s);
+  }
+}
+
+void TracePieceImpl(char const *prefix, piece p)
+{
+  if (!deactivated)
+  {
+    fprintf(stdout,"%s",prefix);
+    WritePiece(p);
   }
 }
 
@@ -59,9 +68,9 @@ void TraceCurrentMove()
 {
   if (!deactivated)
   {
-    fprintf(stderr," #%d %ld ",level,move_counter++);
+    fprintf(stdout," #%d %ld ",level,move_counter++);
     ecritcoup(no_goal);
-    fprintf(stderr,"\n");
+    fprintf(stdout,"\n");
   }
 }
 
@@ -74,10 +83,10 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
       WriteSpec(spec[*bnp],true);
       WritePiece(abs(e[*bnp]));
       WriteSquare(*bnp);
-      fprintf(stderr," ");
+      fprintf(stdout," ");
     }
 
-  fprintf(stderr,"\n");
+  fprintf(stdout,"\n");
 }
 
 #endif
