@@ -151,7 +151,7 @@ typedef enum
   NoRepublicanWithConditionsDependingOnCheck = 112,
   CantDecideWhoIsAtTheMove = 113,
   ThreatOptionAndExactStipulationIncompatible = 114,
-  GhostChessAndCirceKamikazeHaanIncompatible = 115,
+  GhostHauntedChessAndCirceKamikazeHaanIncompatible = 115,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

@@ -346,6 +346,7 @@ typedef struct
     square ghost_square;
     piece ghost_piece;
     Flags ghost_flags;
+    boolean hidden;
 } ghost_record_type;
 
 enum
@@ -1173,7 +1174,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*170*/ "AntiKoeko",
     /*171*/ "EchecsRoque",
     /*172*/ "QuiPerdGagne",
-    /*173*/ "EchecsGhost"
+    /*173*/ "EchecsGhost",
+    /*174*/ "EchecsHantes"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1349,7 +1351,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*170*/ "AntiKoeko",
     /*171*/ "RochadeSchach",
     /*172*/ "Schlagschach",
-    /*173*/ "Geisterschach"
+    /*173*/ "Geisterschach",
+    /*174*/ "Spukschach"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1525,7 +1528,8 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*170*/ "AntiKoeko",
     /*171*/ "CastlingChess",
     /*172*/ "LosingChess",
-    /*173*/ "GhostChess"
+    /*173*/ "GhostChess",
+    /*174*/ "HauntedChess"
     }
     };
 #endif

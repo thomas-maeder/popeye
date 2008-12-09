@@ -1478,8 +1478,41 @@ static void remember_ghost(square sq_arrival)
   ghosts[nr_ghosts].ghost_square = sq_arrival;
   ghosts[nr_ghosts].ghost_piece = e[sq_arrival];
   ghosts[nr_ghosts].ghost_flags = spec[sq_arrival];
+  ghosts[nr_ghosts].hidden = false;
   ++nr_ghosts;
-  TraceValue("%u\n",nr_ghosts);
+  TraceValue("->%u\n",nr_ghosts);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+static void preempt_ghost(square sq_arrival)
+{
+  ghost_index_type const ghost_pos = find_ghost(sq_arrival);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceText("\n");
+
+  TraceValue("%u\n",ghost_pos);
+  if (ghost_pos!=ghost_not_found)
+    ghosts[ghost_pos].hidden = true;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+static void unpreempt_ghost(square sq_arrival)
+{
+  ghost_index_type const ghost_pos = find_ghost(sq_arrival);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceText("\n");
+
+  TraceValue("%u\n",ghost_pos);
+  if (ghost_pos!=ghost_not_found)
+    ghosts[ghost_pos].hidden = false;
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -1526,7 +1559,7 @@ static void summon_ghost(square sq_departure)
 
   TraceValue("%u\n",ghost_pos);
 
-  if (ghost_pos!=ghost_not_found)
+  if (ghost_pos!=ghost_not_found && !ghosts[ghost_pos].hidden)
   {
     piece const ghost_piece = ghosts[ghost_pos].ghost_piece;
     e[sq_departure] = ghost_piece;
@@ -1685,6 +1718,11 @@ boolean jouecoup(void) {
 
     if (CondFlag[ghostchess] && pi_captured!=vide)
       remember_ghost(sq_arrival);
+    if (CondFlag[hauntedchess] && pi_captured!=vide)
+    {
+      preempt_ghost(sq_arrival);
+      remember_ghost(sq_arrival);
+    }
   }
 
   if (TSTFLAG(spec_pi_moving, ColourChange)) {
@@ -2290,7 +2328,7 @@ boolean jouecoup(void) {
 
   if (jouegenre)
   {
-    if (CondFlag[ghostchess])
+    if (CondFlag[ghostchess] || CondFlag[hauntedchess])
       summon_ghost(sq_departure);
 
     if (TSTFLAG(spec_pi_moving, HalfNeutral)
@@ -3110,6 +3148,11 @@ void repcoup(void) {
   {
     if (CondFlag[ghostchess] && pi_captured!=vide)
       forget_ghost(sq_arrival);
+    if (CondFlag[hauntedchess] && pi_captured!=vide)
+    {
+      forget_ghost(sq_arrival);
+      unpreempt_ghost(sq_arrival);
+    }
 
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type3
         && sb3[nbcou].what!=vide) {
@@ -3248,7 +3291,8 @@ void repcoup(void) {
   /* first delete all changes */
   if (repgenre)
   {
-    if (CondFlag[ghostchess] && e[sq_departure]!=vide)
+    if ((CondFlag[ghostchess] || CondFlag[hauntedchess])
+        && e[sq_departure]!=vide)
       ban_ghost(sq_departure);
 
     if (senti[nbply]) {

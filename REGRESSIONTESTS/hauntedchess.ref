@@ -1,0 +1,271 @@
+
+          Mikhaïl MARANDYUK
+Sake, Portoroz 2002, 1° Mention d'Honneur
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -Q   S   B   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   S   Q   .   7
+|                                   |
+6   .   .   .   .   P   .   .   .   6
+|                                   |
+5   .  -R   .  -K   .  -R   .  -P   5
+|                                   |
+4  -P   B   .   .  -P   .   .   .   4
+|                                   |
+3   .   P   .   .   P   .   .   .   3
+|                                   |
+2   .   .  -S  -S   .   .   .   .   2
+|                                   |
+1   .  -B   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                         9 + 10
+             Uncapturable
+             HauntedChess
+
+  1.Qg7-c3 ! threat:
+          2.Qc3*d2 + 
+              2...Sc2-d4 
+                  3.Qd2*d4[+buSd2] # 
+      1...Sc2*e3 
+          2.Qc3-d4 + 
+              2...Kd5*d4 
+                  3.Bb4-c3 # 
+      1...Sd2*b3 
+          2.Qc3-c4 + 
+              2...Kd5*c4 
+                  3.Sf7-d6 # 
+      1...Rb5*b4 
+          2.Qc3-c5 + 
+              2...Kd5*c5 
+                  3.Sb8-d7 # 
+      1...Rf5*f7 
+          2.Qc3-e5 + 
+              2...Kd5*e5 
+                  3.Sb8-d7 # 
+                  3.Bb4-d6 # 
+      1...Qa8*b8 
+          2.Qc3-c6 + 
+              2...Kd5*c6 
+                  3.Sf7-d8 # 
+
+
+solution finished. 
+
+
+
+            Vlaicu CRISAN
+  Sake, Portoroz 2002, 3° Recommandé
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   B   .   .   7
+|                                   |
+6   .   .  -P   .  -S   .   .   .   6
+|                                   |
+5   .   R  -S  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -Q   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         4 + 5
+             Uncapturable
+             HauntedChess
+
+a)
+
+  1.Qf1*b5 Be3*c5   2.Kd5*c5 Bf7*e6 = 
+
+b) wRe3 
+
+  1.Qf1*f7 Re3*e6   2.Kd5*e6 Rb5*c5 = 
+
+solution finished. 
+
+
+
+Mario PARRINELLO & Alessandro CUPPINI
+  Sake, Portoroz 2002, 5° Recommandé
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   R   .   .   8
+|                                   |
+7   R   .   .   S   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -S   .   .   6
+|                                   |
+5   .   .   .   S   .  -Q  -B   .   5
+|                                   |
+4   B   .   .   .  -K   .   P   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         8 + 4
+             Uncapturable
+             HauntedChess
+
+  1.Qf5*g4 Ra7-a6   2.Ke4-f5 Ba4-c2 # 
+  1.Sf6*d5 Ba4-d1   2.Ke4-f4 Ra7-a4 # 
+
+solution finished. 
+
+
+
+          Mikhaïl MARANDYUK
+          Probleemblad 2003
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -B   .   .   K   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   R   R   .   .   .   .   .   6
+|                                   |
+5  -K   S   B   .   .  -P   .   .   5
+|                                   |
+4  -Q   .   .   .   .   .   .   .   4
+|                                   |
+3  -R  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   S   .   .   .   .   .   .   2
+|                                   |
+1   .  -S   .   .  -B   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          6 + 8
+             Uncapturable
+             HauntedChess
+
+  1.Sb5-d6 ! threat:
+          2.Rb6-b5 + 
+              2...Qa4*b5 
+                  3.Sd6-c4 # 
+          2.Bc5-b4 + 
+              2...Be1*b4 
+                  3.Sb2-c4 # 
+              2...Qa4*b4 
+                  3.Rb6-b5 # 
+      1...Sb1-d2 
+          2.Bc5-b4 + 
+              2...Qa4*b4 
+                  3.Rb6-b5 # 
+      1...Sb1-c3 
+          2.Sd6-c4 + 
+              2...Qa4*c4 
+                  3.Bc5-b4 # 
+
+
+solution finished. 
+
+
+
+          Mikhaïl MARANDYUK
+    Quartz 2002-03, 2° Recommandé
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   S   .   .  -B   .   .   8
+|                                   |
+7  -P   K   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   R   .   .   .  -B  -R   6
+|                                   |
+5   .   .   .  -K   .   .   .  -R   5
+|                                   |
+4   .   .   .   .   .   P   .   .   4
+|                                   |
+3   .   .   .   .   Q   .   .   .   3
+|                                   |
+2   .   P  -P   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          6 + 9
+             Uncapturable
+             HauntedChess
+
+  1.b2-b3 ! threat:
+          2.Rc6-d6 + 
+              2...Bf8*d6 
+                  3.Sc8-e7 # 
+      1...Qh1-e4 
+          2.Qe3-c5 + 
+              2...Bf8*c5 
+                  3.Rc6-d6 # 
+      1...Qh1-h4 
+          2.Qe3-d4 + 
+              2...Kd5*d4 
+                  3.Rc6-c4 # 
+      1...Bg6-e4 
+          2.Sc8-e7 + 
+              2...Bf8*e7 
+                  3.Qe3-c5 # 
+          2.Qe3-d2 + 
+              2...Be4-d3 
+                  3.Qd2*d3 # 
+
+
+solution finished. 
+
+
+
+           Zbigniew SZCZEP
+Sake, Portoroz 2002, 2° Mention d'Honneur
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -P   .   .   B   .   .   .   4
+|                                   |
+3   .   P   .   .   .   .   .   .   3
+|                                   |
+2  -S  -P   .   .   .   .   .  -P   2
+|                                   |
+1   .  -B  -K   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#5                         3 + 6
+             Uncapturable
+             HauntedChess
+
+  1  (Bb1*e4 )
+  2  (Bb1-d3 + )
+  3  (Bb1-c2 )
+  4  (Kc1-d1 )
+  5  (Kc1-c2 )
+  6  (Kc1-d2 )
+  7  (Sa2-c3 )
+  1.h2-h1=Q + Be4*h1   2.Kc1-c2 Kf1-e2   3.Kc2*b3 Bh1-a8[+buQh1]   4.uQh1*a8 Ke2-d2   5.uQa8-a3[+wuBa8] uBa8-d5 # 
+  8  (h2-h1=Q + )
+  9  (h2-h1=S )
+ 10  (h2-h1=R + )
+ 11  (h2-h1=B )
+
+solution finished. 
+
+

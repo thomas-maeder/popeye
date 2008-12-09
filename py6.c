@@ -1230,13 +1230,14 @@ static boolean verifieposition(void)
     return false;
   }
 
-  if (CondFlag[ghostchess])
+  if (CondFlag[ghostchess] || CondFlag[hauntedchess])
   {
     if (anycirce || anyanticirce
         || CondFlag[haanerchess]
-        || TSTFLAG(PieSpExFlags,Kamikaze))
+        || TSTFLAG(PieSpExFlags,Kamikaze)
+        || (CondFlag[ghostchess] && CondFlag[hauntedchess]))
     {
-      VerifieMsg(GhostChessAndCirceKamikazeHaanIncompatible);
+      VerifieMsg(GhostHauntedChessAndCirceKamikazeHaanIncompatible);
       return false;
     }
     else
@@ -1271,7 +1272,8 @@ static boolean verifieposition(void)
       || CondFlag[imitators]
       || CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king]
       || TSTFLAG(PieSpExFlags, Magic)
-      || CondFlag[ghostchess];
+      || CondFlag[ghostchess]
+      || CondFlag[hauntedchess];
 
 
   change_moving_piece=
@@ -1300,7 +1302,8 @@ static boolean verifieposition(void)
       || TSTFLAG(PieSpExFlags, Neutral)
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
       || anyanticirce
-      || CondFlag[ghostchess];
+      || CondFlag[ghostchess]
+      || CondFlag[hauntedchess];
 
   empilegenre=
       flaglegalsquare
@@ -1336,6 +1339,7 @@ static boolean verifieposition(void)
       || CondFlag[takemake]
       || CondFlag[losingchess]
       || CondFlag[ghostchess]
+      || CondFlag[hauntedchess] 
       || TSTFLAG(PieSpExFlags,Uncapturable);
 
   if (CondFlag[dynasty])
@@ -2217,7 +2221,8 @@ void editcoup(coup *mov, Goal goal)
     StdString("]");
   }
 
-  if (CondFlag[ghostchess] && mov->ghost_piece!=vide)
+  if ((CondFlag[ghostchess] || CondFlag[hauntedchess])
+      && mov->ghost_piece!=vide)
   {
     StdString("[+");
     WriteSpec(mov->ghost_flags, mov->ghost_piece);

@@ -144,4 +144,4 @@
 112= Republikanerschach nicht mit Bedingungen, die davon abhangen, ob gewisse Zuege Schach bieten.\n
 113= Es ist nicht feststellbar, wer am Zug ist\n
 114= Option \"Drohung\" und exact-Forderung unvereinbar\n
-115= Geisterschach unvereinbar mit Circe, Anticirce, Kamikaze, Haaner Schach\n
+115= Geisterschach und Spukschach unvereinbar mit Circe, Anticirce, Kamikaze, Haaner Schach\n

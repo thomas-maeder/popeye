@@ -1217,8 +1217,9 @@ typedef enum
   castlingchess,          /* 171 */
   losingchess,            /* 172 */
   ghostchess,             /* 173 */
+  hauntedchess,           /* 174 */
 
-  CondCount               /* 174 */
+  CondCount               /* 175 */
 } Cond;
 
 /* Some remarks to the conditions:
