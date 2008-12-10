@@ -1578,40 +1578,72 @@ void  grefc(square orig_departure,
   }
 } /* grefc */
 
-boolean edgestraversed[28];
-void clearedgestraversed() {
+enum
+{
+  nr_edge_squares_row = nr_files_on_board,
+  nr_edge_squares_file = nr_rows_on_board-2, /* count corners once only */
+
+  nr_edge_squares = 2*nr_edge_squares_row + 2*nr_edge_squares_file
+};
+
+typedef square edge_square_index;
+
+/* remember edge traversals by reflecting pieces
+ */
+static boolean edgestraversed[nr_edge_squares];
+
+/* clear edge traversal memory
+ */
+void clearedgestraversed()
+{
   int i;
-  for (i=0; i<28; i++)
-    edgestraversed[i]=0;
+  for (i=0; i<nr_edge_squares; i++)
+    edgestraversed[i] = false;
 }
 
-boolean traversed(square edgesq) {
-  if (edgesq < 208)
-    return edgestraversed[edgesq-200];
-  else if (edgesq > 367)
-    return edgestraversed[edgesq-360];
-  else {
-    int r= edgesq / 24;
-    if (edgesq % 24 == 8)
-      return edgestraversed[r + 7];
-    else
-      return edgestraversed[r + 13];
+/* map edge squares to indices into edgestraversed
+ * the mapping occurs in the order
+ * - bottom row
+ * - top row
+ * - left file
+ * - right file
+ * @param edge_square square on board edge
+ * @return index into edgestraversed where to remember traversal of
+ *         edge_square
+ */
+static edge_square_index square_2_edge_square_index(square edge_square)
+{
+  int const row = edge_square/onerow;
+  int const file =edge_square%onerow;
+
+  if (row==bottom_row)
+    return file-left_file;
+  else if (row==top_row)
+    return file-left_file + nr_edge_squares_row;
+  else if (file==left_file)
+    return row-bottom_row-1 + 2*nr_edge_squares_row;
+  else
+  {
+    assert(file==right_file);
+    return row-bottom_row-1 + 2*nr_edge_squares_row + nr_edge_squares_file;
   }
-  return 0;
 }
 
-void settraversed(square edgesq) {
-  if (edgesq < 208)
-    edgestraversed[edgesq-200] = 1;
-  else if (edgesq > 367)
-    edgestraversed[edgesq-360] = 1;
-  else {
-    int r= edgesq / 24;
-    if (edgesq % 24 == 8)
-      edgestraversed[r + 7] = 1;
-    else
-      edgestraversed[r + 13] = 1;
-  }
+/* query traversal of an edge square
+ * @param edge_square square on board edge
+ * @return has edge_square been traversed?
+ */
+boolean traversed(square edge_square)
+{
+  return edgestraversed[square_2_edge_square_index(edge_square)];
+}
+
+/* remember traversal of an edge square
+ * @param edge_square square on board edge
+ */
+void settraversed(square edge_square)
+{
+  edgestraversed[square_2_edge_square_index(edge_square)] = true;
 }
 
 void  grefn(square orig_departure,

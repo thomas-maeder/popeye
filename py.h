@@ -465,6 +465,12 @@ enum
   nr_files_on_board = 8,
   nr_rows_on_board = 8,
 
+  bottom_row = nr_of_slack_rows_below_board,
+  top_row = bottom_row+nr_rows_on_board-1,
+
+  left_file = nr_of_slack_files_left_of_board,
+  right_file = left_file+nr_files_on_board-1,
+
   /* if square1-square2==onerow, then square1 is one row higher than
    * square2 */
   onerow = (nr_of_slack_files_left_of_board
