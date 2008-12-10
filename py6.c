@@ -2556,12 +2556,13 @@ static void SolveSeriesProblems(void)
       ErrorMsg(KingCapture);
     else
     {
+      /* TODO */
       if (slices[1].u.leaf.end==EHelp)
         h_leaf_solve_setplay(1);
       else
       {
         zugebene++;
-        d_slice_solve_setplay(0);
+        d_leaf_solve_setplay(1);
         zugebene--;
       }
     }
