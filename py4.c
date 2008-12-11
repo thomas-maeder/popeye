@@ -2506,8 +2506,8 @@ void gfeerblanc(square i, piece p) {
     return;
 
   case zebub:
-    gebleap(i, vec_zebu_1_start,vec_zebu_1_end);
-    gebleap(i, vec_zebu_2_start,vec_zebu_2_end);
+    gebleap(i, vec_chameau_start,vec_chameau_end);
+    gebleap(i, vec_girafe_start,vec_girafe_end);
     return;
 
   case elephantb:
@@ -2697,8 +2697,8 @@ void gfeernoir(square i, piece p) {
     return;
 
   case zebun:
-    genleap(i, vec_zebu_1_start,vec_zebu_1_end);
-    genleap(i, vec_zebu_2_start,vec_zebu_2_end);
+    genleap(i, vec_chameau_start,vec_chameau_end);
+    genleap(i, vec_girafe_start,vec_girafe_end);
     return;
 
   case elephantn:

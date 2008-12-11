@@ -647,9 +647,8 @@ boolean zebucheck(
   piece p,
   evalfunction_t *evaluate)
 {
-  return (leapcheck(i, vec_zebu_1_start, vec_zebu_1_end, p, evaluate)
-          || leapcheck(i, vec_zebu_2_start, vec_zebu_2_end, p, evaluate));
-  /* camel+girafe !!! */
+  return (leapcheck(i,vec_chameau_start,vec_chameau_end,p,evaluate)
+          || leapcheck(i,vec_girafe_start,vec_girafe_end,p,evaluate));
 }
 
 boolean elephantcheck(
