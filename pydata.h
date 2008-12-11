@@ -264,7 +264,7 @@ EXTERN  piece           pjoue[maxply + 1], pprise[maxply + 1],
 			ren_parrain[maxply + 1],
 			jouearr[maxply + 1];
 
-EXTERN  boolean			SatzFlag,DrohFlag,              
+EXTERN  boolean			DrohFlag,              
 			rex_mad,rex_circe,rex_immun,rex_phan, rex_geneva,
                         rex_mess_ex, rex_wooz_ex;
 EXTERN  boolean         pwcprom[maxply + 1];

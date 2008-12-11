@@ -111,6 +111,8 @@
 
 boolean supergenre;
 
+static boolean SatzFlag;
+
 sig_atomic_t volatile maxtime_status;
 
 boolean is_rider(piece p)
