@@ -1,0 +1,20 @@
+beg
+
+prot champursue.ref
+
+cond chameleonp
+auth Lev Grolman
+orig The Problemist Sept 2008
+stip h#3 opt wh
+fors 16/4K3/1pk5/1p2p3/3n2N1/3n4/8
+
+next
+
+cond chameleonp
+auth Lev Grolman
+orig The Problemist Sept 2008
+stip h#2
+fors 3k4/1K1b1s2/8/4S3/6p1/8/4r1p1/16
+twin move d8 h3
+
+end
