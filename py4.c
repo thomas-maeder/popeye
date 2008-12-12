@@ -1613,20 +1613,23 @@ void clearedgestraversed()
  */
 static edge_square_index square_2_edge_square_index(square edge_square)
 {
-  int const row = edge_square/onerow;
-  int const file =edge_square%onerow;
+  int const row =  edge_square/onerow;
+  int const file = edge_square%onerow;
+  edge_square_index result;
 
+  assert(row==bottom_row || row==top_row
+         || file==left_file || file==right_file);
   if (row==bottom_row)
-    return file-left_file;
+    result = file-left_file;
   else if (row==top_row)
-    return file-left_file + nr_edge_squares_row;
+    result = file-left_file + nr_edge_squares_row;
   else if (file==left_file)
-    return row-bottom_row-1 + 2*nr_edge_squares_row;
+    result = row-bottom_row-1 + 2*nr_edge_squares_row;
   else
-  {
-    assert(file==right_file);
-    return row-bottom_row-1 + 2*nr_edge_squares_row + nr_edge_squares_file;
-  }
+    result = row-bottom_row-1 + 2*nr_edge_squares_row + nr_edge_squares_file;
+
+  assert(result<nr_edge_squares);
+  return result;
 }
 
 /* query traversal of an edge square
