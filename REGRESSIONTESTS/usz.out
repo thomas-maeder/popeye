@@ -256,11 +256,8 @@ test case for stalemate in Ultraschachzwang
   =1                          1 + 1
            UltraSchachZwang
 
-  1  (Ka1-b1 )
-  2  (Ka1-a2 )
   1.Ka1-b2 = ! 
 
-  3  (Ka1-b2 )
 
 Loesung beendet. 
 

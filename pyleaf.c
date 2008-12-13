@@ -1399,12 +1399,10 @@ void d_leaf_write_unsolvability(slice_index leaf)
 }
 
 /* Determine and write keys if the end is direct
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
+ * @param leaf leaf's slice index
  * @return true iff >=1 key was found and written
  */
-static boolean leaf_d_solve(boolean restartenabled, slice_index leaf)
+static boolean leaf_d_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
   boolean const is_try = false;
@@ -1436,9 +1434,6 @@ static boolean leaf_d_solve(boolean restartenabled, slice_index leaf)
       else
         linesolution(leaf);
     }
-
-    if (restartenabled)
-      IncrementMoveNbr();
 
     repcoup();
   }
@@ -1491,14 +1486,10 @@ static void leaf_sr_solve_final_move(slice_index leaf)
 }
 
 /* Determine and write solutions in a self stipulation in 1 move
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- * 
  * @param leaf slice index of the leaf slice
  * @return true iff >=1 key was found and written
  */
-static boolean d_leaf_s_solve(boolean restartenabled, slice_index leaf)
+static boolean d_leaf_s_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
   boolean key_found = false;
@@ -1522,9 +1513,6 @@ static boolean d_leaf_s_solve(boolean restartenabled, slice_index leaf)
       marge -= 4;
     }
 
-    if (restartenabled)
-      IncrementMoveNbr();
-
     repcoup();
   }
 
@@ -1534,13 +1522,10 @@ static boolean d_leaf_s_solve(boolean restartenabled, slice_index leaf)
 }
 
 /* Determine and write solutions in a reflex stipulation in 1 move
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
  * @param leaf slice index of the leaf slice
  * @return true iff >=1 key was found and written
  */
-static boolean d_leaf_r_solve(boolean restartenabled, slice_index leaf)
+static boolean d_leaf_r_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
   Side const defender = advers(attacker);
@@ -1565,9 +1550,6 @@ static boolean d_leaf_r_solve(boolean restartenabled, slice_index leaf)
       marge -= 4;
     }
 
-    if (restartenabled)
-      IncrementMoveNbr();
-
     repcoup();
   }
 
@@ -1579,27 +1561,24 @@ static boolean d_leaf_r_solve(boolean restartenabled, slice_index leaf)
 /* Write the solutions of a leaf in direct/self/reflex play.
  * Unsolvability (e.g. because of a forced reflex move) has already
  * been delat with.
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
  * @param leaf slice index of the leaf slice
  * @return true iff >=1 key was found and written
  */
-boolean d_leaf_solve(boolean restartenabled, slice_index leaf)
+boolean d_leaf_solve(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
 
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      return leaf_d_solve(restartenabled,leaf);
+      return leaf_d_solve(leaf);
 
     case ESelf:
-      return d_leaf_s_solve(restartenabled,leaf);
+      return d_leaf_s_solve(leaf);
 
     case EReflex:
     case ESemireflex:
-      return d_leaf_r_solve(restartenabled,leaf);
+      return d_leaf_r_solve(leaf);
 
     default:
       assert(0);
@@ -2382,12 +2361,10 @@ static boolean h_leaf_h_solve_final_move(slice_index leaf)
 #endif
 
 /* Determine and write the final move pair in help countermate.
- * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_cmate_solve(boolean restartenabled,
-                                    slice_index leaf)
+static boolean h_leaf_h_cmate_solve(slice_index leaf)
 {
   boolean found_solution = false;
   Side const side_at_move = slices[leaf].starter;
@@ -2402,8 +2379,7 @@ static boolean h_leaf_h_cmate_solve(boolean restartenabled,
   while (encore())
   {
     if (jouecoup()
-        && !echecc(side_at_move)
-        && !(restartenabled && MoveNbr<RestartNbr))
+        && !echecc(side_at_move))
     {
       HashBuffer hb;
       (*encode)(&hb);
@@ -2433,9 +2409,6 @@ static boolean h_leaf_h_cmate_solve(boolean restartenabled,
       }
     }
 
-    if (restartenabled)
-      IncrementMoveNbr();
-
     repcoup();
   }
 
@@ -2445,12 +2418,10 @@ static boolean h_leaf_h_cmate_solve(boolean restartenabled,
 }
 
 /* Determine and write the final move pair in help doublemate.
- * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_dmate_solve(boolean restartenabled,
-                                    slice_index leaf)
+static boolean h_leaf_h_dmate_solve(slice_index leaf)
 {
   boolean found_solution = false;
   Side const side_at_move = slices[leaf].starter;
@@ -2465,8 +2436,7 @@ static boolean h_leaf_h_dmate_solve(boolean restartenabled,
   while (encore())
   {
     if (jouecoup()
-        && !echecc(side_at_move)
-        && !(restartenabled && MoveNbr<RestartNbr))
+        && !echecc(side_at_move))
     {
       HashBuffer hb;
       (*encode)(&hb);
@@ -2497,9 +2467,6 @@ static boolean h_leaf_h_dmate_solve(boolean restartenabled,
       }
     }
 
-    if (restartenabled)
-      IncrementMoveNbr();
-
     repcoup();
 
     if ((OptFlag[maxsols] && solutions>=maxsolutions)
@@ -2514,12 +2481,10 @@ static boolean h_leaf_h_dmate_solve(boolean restartenabled,
 
 /* Determine and write the final move pair in help stipulation with
  * "regular" goal. 
- * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_othergoals_solve(boolean restartenabled,
-                                         slice_index leaf)
+static boolean h_leaf_h_othergoals_solve(slice_index leaf)
 {
   boolean found_solution = false;
   Side const side_at_move = slices[leaf].starter;
@@ -2544,7 +2509,6 @@ static boolean h_leaf_h_othergoals_solve(boolean restartenabled,
     if (jouecoup()
         && (!isIntelligentModeActive || isGoalReachable())
         && !echecc(side_at_move)
-        && !(restartenabled && MoveNbr<RestartNbr)
         && !leaf_is_unsolvable(leaf))
     {
       if (compression_counter==0)
@@ -2562,9 +2526,6 @@ static boolean h_leaf_h_othergoals_solve(boolean restartenabled,
       else if (h_leaf_h_solve_final_move(leaf))
         found_solution = true;
     }
-
-    if (restartenabled)
-      IncrementMoveNbr();
 
     repcoup();
 
@@ -2586,11 +2547,10 @@ static boolean h_leaf_h_othergoals_solve(boolean restartenabled,
 }
 
 /* Determine and write the solution of a help leaf slice in help play.
- * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-static boolean h_leaf_h_solve(boolean restartenabled, slice_index leaf)
+static boolean h_leaf_h_solve(slice_index leaf)
 {
   boolean result;
 
@@ -2603,15 +2563,15 @@ static boolean h_leaf_h_solve(boolean restartenabled, slice_index leaf)
   switch (slices[leaf].u.leaf.goal)
   {
     case goal_countermate:
-      result = h_leaf_h_cmate_solve(restartenabled,leaf);
+      result = h_leaf_h_cmate_solve(leaf);
       break;
 
     case goal_doublemate:
-      result = h_leaf_h_dmate_solve(restartenabled,leaf);
+      result = h_leaf_h_dmate_solve(leaf);
       break;
 
     default:
-      result = h_leaf_h_othergoals_solve(restartenabled,leaf);
+      result = h_leaf_h_othergoals_solve(leaf);
       break;
   }
 
@@ -2621,11 +2581,10 @@ static boolean h_leaf_h_solve(boolean restartenabled, slice_index leaf)
 }
 
 /* Determine and write the solution of a leaf slice in help play.
- * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-boolean h_leaf_solve(boolean restartenabled, slice_index leaf)
+boolean h_leaf_solve(slice_index leaf)
 {
   boolean result = false;
 
@@ -2638,7 +2597,7 @@ boolean h_leaf_solve(boolean restartenabled, slice_index leaf)
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      result = leaf_d_solve(restartenabled,leaf);
+      result = leaf_d_solve(leaf);
       break;
 
     case ESelf:
@@ -2651,7 +2610,7 @@ boolean h_leaf_solve(boolean restartenabled, slice_index leaf)
       break;
 
     case EHelp:
-      result = h_leaf_h_solve(restartenabled,leaf);
+      result = h_leaf_h_solve(leaf);
       break;
 
     default:
@@ -2795,11 +2754,10 @@ static boolean ser_leaf_sr_solve(slice_index leaf)
 } /* ser_leaf_sr_solve */
 
 /* Determine and write the solution of a leaf slice in series play.
- * @param restartenabled true iff option movenum is activated
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-boolean ser_leaf_solve(boolean restartenabled, slice_index leaf)
+boolean ser_leaf_solve(slice_index leaf)
 {
   boolean result = false;
 
@@ -2814,7 +2772,7 @@ boolean ser_leaf_solve(boolean restartenabled, slice_index leaf)
   switch (slices[leaf].u.leaf.end)
   {
     case EHelp:
-      result = h_leaf_h_solve(restartenabled,leaf);
+      result = h_leaf_h_solve(leaf);
       break;
 
     case EDirect:
@@ -2843,7 +2801,6 @@ boolean ser_leaf_solve(boolean restartenabled, slice_index leaf)
 boolean leaf_solve(slice_index leaf)
 {
   boolean result = false;
-  boolean const restartenabled = false;
   
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -2858,14 +2815,14 @@ boolean leaf_solve(slice_index leaf)
     case ESemireflex:
     {
       ++zugebene;
-      result = d_leaf_solve(restartenabled,leaf);
+      result = d_leaf_solve(leaf);
       --zugebene;
       break;
     }
 
     case EHelp:
     {
-      result = h_leaf_solve(restartenabled,leaf);
+      result = h_leaf_solve(leaf);
       break;
     }
 

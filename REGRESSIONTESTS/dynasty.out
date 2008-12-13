@@ -23,14 +23,8 @@ Thomas Maeder, Popeye test problem for promotion into white king
   zb81                        2 + 2
            KoenigsDynastie
 
-  1  (Ka8-b8 )
   1.b7-b8=K z ! 
 
-  2  (b7-b8=K )
-  3  (b7-b8=D )
-  4  (b7-b8=S )
-  5  (b7-b8=T )
-  6  (b7-b8=L )
 
 Loesung beendet. 
 
@@ -60,14 +54,7 @@ Thomas Maeder, Popeye test problem for promotion into black king
   hza11                       1 + 2
            KoenigsDynastie
 
-  1  (Ka1-b1 )
-  2  (Ka1-a2 )
   1.b2-b1=K Lh8*a1 z 
-  3  (b2-b1=K )
-  4  (b2-b1=D )
-  5  (b2-b1=S )
-  6  (b2-b1=T )
-  7  (b2-b1=L )
 
 Loesung beendet. 
 
@@ -97,14 +84,7 @@ Thomas Maeder, Popeye test problem for promotion of berolina pawn into king
   hza11                       1 + 2
            KoenigsDynastie
 
-  1  (Ka1-b1 )
-  2  (Ka1-b2 )
   1.BBa2-b1=K Ta8*a1 z 
-  3  (BBa2-b1=K )
-  4  (BBa2-b1=D )
-  5  (BBa2-b1=S )
-  6  (BBa2-b1=T )
-  7  (BBa2-b1=L )
 
 Loesung beendet. 
 
@@ -135,9 +115,6 @@ Thomas Maeder, Popeye test problem for correct initialization of castling possib
            KoenigsDynastie
 
   1.Sh2*f1 0-0-0 
-  1  (Sh2*f1 )
-  2  (Sh2-g4 )
-  3  (Sh2-f3 )
 
 Loesung beendet. 
 

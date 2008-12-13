@@ -6,7 +6,6 @@ bed koenigsdynastie
 steine  weiss   ka8 bb7
         schwarz lh1h2
 forderung zb81
-option zugnummer
 
 weiter
 
@@ -15,7 +14,6 @@ bed koenigsdynastie
 steine  weiss   lh8
         schwarz ka1 bb2
 forderung hza11
-option zugnummer
 
 weiter
 
@@ -24,7 +22,6 @@ bed koenigsdynastie
 steine  weiss   ta8
         schwarz ka1 bba2
 forderung hza11
-option zugnummer
 
 weiter
 
@@ -33,7 +30,6 @@ bed koenigsdynastie
 steine  weiss   ta1 ke1f1
         schwarz sh2
 forderung h001
-option zugnummer
 
 weiter
 

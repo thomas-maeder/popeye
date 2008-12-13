@@ -6,7 +6,6 @@ cond singlebox type3
 stip h#1
 pieces white kc1 qa7 rb7b8 bc8e1 sa8e3 pa6b6c7g8h8
        black ka1 pf2
-opti movenum
 
 next
 
@@ -15,7 +14,6 @@ cond singlebox type3
 stip #1
 pieces white ka8 sb5 pf7
        black kc8 qa2 rb2b1 bc1e8 sa1d1 pa3b3c2g1h1
-opti movenum
 
 next
 

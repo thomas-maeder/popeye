@@ -75,6 +75,6 @@ bem test case for stalemate in Ultraschachzwang
 steine weiss ka1 schwarz se2
 forderung =1
 beding ultraschachz
-option zugnu ohnesk
+option ohnesk
 
 ende

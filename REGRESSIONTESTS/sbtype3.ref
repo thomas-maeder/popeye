@@ -21,21 +21,10 @@ latent pawns' side decides which one to promote -> f2*e1 would be self-check
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                        13 + 2
-           SingleBox	Type3
+          SingleBox    Type3
 
-  1  (Ka1-b1 +)
-  2  (Ka1-a2)
-  3  (Ka1-b2 +)
-  4  (f2-f1=Q)
-  5  (f2-f1=S)
-  6  (f2-f1=R)
-  7  (f2-f1=B)
-  8  (f2*e1=Q +)
-  9  (f2*e1=S)
- 10  (f2*e1=R +)
- 11  (f2*e1=B)
 
-solution finished.
+solution finished. 
 
 
 
@@ -61,27 +50,10 @@ latent pawns' side which one to promote -> f7*e8 would be self-check
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                         3 + 13
-           SingleBox	Type3
+          SingleBox    Type3
 
-  1  (Ka8-b8 +)
-  2  (Ka8-a7)
-  3  (Ka8-b7 +)
-  4  (f7-f8=Q)
-  5  (f7-f8=S)
-  6  (f7-f8=R)
-  7  (f7-f8=B)
-  8  (f7*e8=Q +)
-  9  (f7*e8=S)
- 10  (f7*e8=R +)
- 11  (f7*e8=B)
- 12  (Sb5*a3)
- 13  (Sb5-c3)
- 14  (Sb5-d4)
- 15  (Sb5-d6 +)
- 16  (Sb5-c7)
- 17  (Sb5-a7 +)
 
-solution finished.
+solution finished. 
 
 
 
@@ -107,7 +79,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   +1                          3 + 6
-           SingleBox	Type3
+          SingleBox    Type3
 
   1.Sh4*f3 + ! 
 
@@ -116,7 +88,7 @@ solution finished.
   1.Se3*g2 + ! 
 
 
-solution finished.
+solution finished. 
 
 
 
@@ -142,11 +114,11 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h+1                         9 + 4
-           SingleBox	Type3
+          SingleBox    Type3
 
   1.g5*f4 [a8=S]Rg6*g1 + 
 
-solution finished.
+solution finished. 
 
 
 
@@ -172,11 +144,11 @@ pawn's side selects which pawn to promote -> Ra1 can't capture
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                        15 + 3
-           SingleBox	Type3
+          SingleBox    Type3
 
   1.a4-a3 Bc8-d7 # 
 
-solution finished.
+solution finished. 
 
 
 
@@ -202,14 +174,14 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          5 + 3
-           SingleBox	Type3
+          SingleBox    Type3
 
   1.[e8=R]Qd8-d4 # ! 
 
   1.[e8=S]Qd8-d5 # ! 
 
 
-solution finished.
+solution finished. 
 
 
 
@@ -235,7 +207,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         10 + 9
-           SingleBox	Type3
+          SingleBox    Type3
 
   1.d7-d8 ! zugzwang.
       1...Qf2*g1 
@@ -262,7 +234,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Qb2-d2 # 
 
 
-solution finished.
+solution finished. 
 
 
 
@@ -288,7 +260,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                        11 + 11
-           SingleBox	Type3
+          SingleBox    Type3
 
   1.f7-f8 ! threat:
           2.Qh1*e4 + 
@@ -332,6 +304,6 @@ solution finished.
       1...d5*e4  !
 
 
-solution finished.
+solution finished. 
 
 

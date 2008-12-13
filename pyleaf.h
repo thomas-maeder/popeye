@@ -65,13 +65,10 @@ void d_leaf_write_unsolvability(slice_index leaf);
 /* Find and write the solution(s) of a leaf.
  * Assumes that unsolvability (e.g. because of a forced reflex move)
  * has already been dealt with.
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
  * @param leaf slice index
  * @return true iff >=1 solution was found
  */
-boolean d_leaf_solve(boolean restartenabled, slice_index leaf);
+boolean d_leaf_solve(slice_index leaf);
 
 /* Find and write defender's set play
  * @param leaf slice index
@@ -130,11 +127,10 @@ boolean d_leaf_has_attacker_won(slice_index leaf);
 boolean d_leaf_does_attacker_win(slice_index leaf);
 
 /* Determine and write the solution of a leaf slice in help play.
- * @param restartenabled true iff option movenum is activated
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
  */
-boolean h_leaf_solve(boolean restartenabled, slice_index leaf);
+boolean h_leaf_solve(slice_index leaf);
 
 /* Solve the set play in a help stipulation
  * @param leaf slice index
@@ -143,11 +139,10 @@ boolean h_leaf_solve(boolean restartenabled, slice_index leaf);
 boolean h_leaf_solve_setplay(slice_index leaf);
 
 /* Determine and write the solution of a leaf slice in series play.
- * @param restartenabled true iff option movenum is activated
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
  */
-boolean ser_leaf_solve(boolean restartenabled, slice_index leaf);
+boolean ser_leaf_solve(slice_index leaf);
 
 /* Determine whether there is >= 1 solution for the leaf
  * @param leaf slice index of leaf slice

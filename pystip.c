@@ -622,7 +622,7 @@ void d_slice_solve(boolean restartenabled, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      d_leaf_solve(restartenabled,si);
+      d_leaf_solve(si);
       break;
       
     case STQuodlibet:
@@ -679,7 +679,7 @@ boolean h_slice_solve(boolean restartenabled, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      return h_leaf_solve(restartenabled,si);
+      return h_leaf_solve(si);
 
     case STQuodlibet:
     case STSequence:
@@ -709,7 +709,7 @@ boolean ser_slice_solve(boolean restartenabled, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      solution_found = ser_leaf_solve(restartenabled,si);
+      solution_found = ser_leaf_solve(si);
       break;
 
     case STQuodlibet:
