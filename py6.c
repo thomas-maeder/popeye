@@ -1569,18 +1569,6 @@ static boolean verifieposition(void)
                                                nrMoveOrientatedGoals);
   }
 
-  {
-    slice_index doubleMateLeaf;
-    for (doubleMateLeaf = find_next_goal(goal_doublemate,0);
-         doubleMateLeaf!=no_slice;
-         doubleMateLeaf = find_next_goal(goal_doublemate,doubleMateLeaf))
-      if (slices[doubleMateLeaf].u.leaf.end!=EHelp)
-      {
-        VerifieMsg(StipNotSupported);
-        return false;
-      }
-  }
-
   /* check castling possibilities */
   CLEARFL(castling_flag[0]);
   /* castling_supported has to be adjusted if there are any problems */

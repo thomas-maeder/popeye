@@ -808,10 +808,13 @@ static boolean leaf_is_end_in_1_forced(slice_index leaf)
           && !echecc(defender))
       {
         is_defender_immobile = false;
+        /* TODO this checks for echecc(defender) again (in most cases
+         * anyway); optimise? */
         escape_found = !leaf_is_goal_reached(defender,leaf);
         if (escape_found)
           coupfort();
       }
+
       repcoup();
     }
     finply();
@@ -869,6 +872,8 @@ static boolean leaf_is_end_in_1_forced(slice_index leaf)
           && !echecc(defender))
       {
         is_defender_immobile = false;
+        /* TODO this checks for echecc(defender) again (in most cases
+         * anyway); optimise? */
         if (!leaf_is_goal_reached(defender,leaf))
         {
           TraceText("escape_found\n");
@@ -1118,8 +1123,6 @@ static boolean h_leaf_h_exists_final_move(slice_index leaf)
     {
       if (isIntelligentModeActive && !isGoalReachable())
         TraceText("isIntelligentModeActive && !isGoalReachable()\n");
-      else if (echecc(side_at_move))
-        TraceText("echecc(side_at_move)\n");
       else if (!leaf_is_goal_reached(side_at_move,leaf))
         TraceText("!leaf_is_goal_reached(side_at_move,leaf)\n");
       else
@@ -1422,7 +1425,6 @@ static boolean leaf_d_solve(slice_index leaf)
   {
     TraceCurrentMove();
     if (jouecoup()
-        && !echecc(attacker)
         && leaf_is_goal_reached(attacker,leaf))
     {
       key_found = true;
@@ -1842,6 +1844,15 @@ static boolean d_leaf_d_does_attacker_win(slice_index leaf)
     return false;
   }
 
+  if (slices[leaf].u.leaf.goal==goal_doublemate
+      && immobile(attacker))
+  {
+    TraceText("attacker is immobile\n");
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%d\n",false);
+    return false;
+  }
+
   generate_move_reaching_goal(leaf,attacker);
 
   while (encore() && !end_found)
@@ -2185,7 +2196,6 @@ static boolean h_leaf_s_solve_final_move(slice_index leaf)
     while (encore())
     {
       if (jouecoup()
-          && !echecc(defender)
           && leaf_is_goal_reached(defender,leaf))
       {
         found_solution = true;
