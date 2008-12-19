@@ -1639,6 +1639,7 @@ static void d_composite_middle_solve(boolean restartenabled, slice_index si)
   finply();
 
   TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Determine and write the solutions and tries in the current position
@@ -1649,6 +1650,9 @@ static void d_composite_middle_solve(boolean restartenabled, slice_index si)
  */
 void d_composite_solve(boolean restartenabled, slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
   if (d_slice_has_defender_lost(si))
     ;
   else if (d_slice_has_defender_won(si))
@@ -1657,4 +1661,7 @@ void d_composite_solve(boolean restartenabled, slice_index si)
     d_composite_end_solve(restartenabled,si);
   else
     d_composite_middle_solve(restartenabled,si);
-} /* d_composite_solve */
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
