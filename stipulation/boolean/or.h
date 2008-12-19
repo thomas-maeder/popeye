@@ -2,6 +2,7 @@
 #define PYQUODLI_H
 
 #include "py.h"
+#include "pystip.h"
 #include "boolean.h"
 
 /* This module provides functionality dealing with quodlibet
@@ -55,11 +56,11 @@ void d_quodlibet_end_solve(boolean restartenabled, slice_index si);
  * of a quodlibet slice.
  * @param refutations table containing the refutations (if any)
  * @param si slice index
- * @param is_try true iff what we are solving is a try
+ * @param type type of attack
  */
 void d_quodlibet_end_write_key_solve_postkey(int refutations,
                                              slice_index si,
-                                             boolean is_try);
+                                             attack_type type);
 
 /* Find and write variations from the end of a quodlibet slice.
  * @param len_threat length of threat (shorter variations are suppressed) 

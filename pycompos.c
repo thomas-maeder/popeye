@@ -6,7 +6,7 @@
 #include "pyproc.h"
 #include "pyint.h"
 #include "pymsg.h"
-#include "pyio.h"
+#include "pyoutput.h"
 #include "trace.h"
 #include "platform/maxtime.h"
 
@@ -1139,7 +1139,7 @@ static void d_composite_write_variation(stip_length_type n, slice_index si)
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  d_write_defense(no_goal);
+  write_defense(no_goal);
   marge+= 4;
 
   zugebene++;
@@ -1190,7 +1190,7 @@ static int d_composite_middle_solve_threats(stip_length_type n,
   TraceFunctionParam("%d\n",si);
 
   if (OptFlag[nothreat] || echecc(defender))
-    StdString("\n");
+    write_attack_conclusion(attack_without_zugzwang);
   else
   {
     stip_length_type max_threat_length = (n-1>max_len_threat
@@ -1220,7 +1220,7 @@ static int d_composite_middle_solve_threats(stip_length_type n,
 
     if (DrohFlag)
     {
-      Message(Zugzwang);
+      write_attack_conclusion(attack_with_zugzwang);
       DrohFlag = false;
     }
   }
@@ -1378,7 +1378,7 @@ void d_composite_solve_continuations(stip_length_type n,
         TraceValue("%d\n",defender_success);
         if (defender_success>=loss)
         {
-          d_write_attack(no_goal);
+          write_attack(no_goal,attack_regular);
 
           marge+= 4;
           if (!slices[si].u.composite.is_exact
@@ -1508,20 +1508,20 @@ static void d_composite_end_solve(boolean restartenabled, slice_index si)
 
 static void d_composite_end_write_key_solve_postkey(int refutations,
                                                     slice_index si,
-                                                    boolean is_try)
+                                                    attack_type type)
 {
   switch (slices[si].type)
   {
     case STQuodlibet:
-      d_quodlibet_end_write_key_solve_postkey(refutations,si,is_try);
+      d_quodlibet_end_write_key_solve_postkey(refutations,si,type);
       break;
 
     case STReciprocal:
-      d_reci_end_write_key_solve_postkey(refutations,si,is_try);
+      d_reci_end_write_key_solve_postkey(refutations,si,type);
       break;
 
     case STSequence:
-      d_sequence_end_write_key_solve_postkey(refutations,si,is_try);
+      d_sequence_end_write_key_solve_postkey(refutations,si,type);
       break;
 
     default:
@@ -1532,9 +1532,9 @@ static void d_composite_end_write_key_solve_postkey(int refutations,
 
 void d_composite_write_key_solve_postkey(int refutations,
                                          slice_index si,
-                                         boolean is_try)
+                                         attack_type type)
 {
-  d_write_key(no_goal,is_try);
+  write_attack(no_goal,type);
 
   marge+= 4;
 
@@ -1543,9 +1543,9 @@ void d_composite_write_key_solve_postkey(int refutations,
                                      refutations,
                                      si);
   else
-    Message(NewLine);
+    write_attack_conclusion(attack_without_zugzwang);
 
-  d_write_refutations(refutations);
+  write_refutations(refutations);
 
   marge-= 4;
 }
@@ -1603,8 +1603,9 @@ static void d_composite_middle_solve(boolean restartenabled, slice_index si)
           && d_slice_has_attacker_won(si))
       {
         int refutations = alloctab();
-        boolean const is_try = false;
-        d_composite_end_write_key_solve_postkey(refutations,si,is_try);
+        d_composite_end_write_key_solve_postkey(refutations,
+                                                si,
+                                                attack_key);
         freetab();
       }
       else
@@ -1615,8 +1616,10 @@ static void d_composite_middle_solve(boolean restartenabled, slice_index si)
         TraceValue("%d\n",nr_refutations);
         if (nr_refutations<=max_nr_refutations)
         {
-          boolean const is_try = tablen(refutations)>=1;
-          d_composite_write_key_solve_postkey(refutations,si,is_try);
+          attack_type const type = (tablen(refutations)>=1
+                                    ? attack_try
+                                    : attack_key);
+          d_composite_write_key_solve_postkey(refutations,si,type);
         }
 
         freetab();

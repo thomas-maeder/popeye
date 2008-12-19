@@ -92,11 +92,11 @@ void d_leaf_solve_variations(slice_index leaf);
  * variations) and write the refutations (if any)
  * @param refutations table containing the refutations (if any)
  * @param leaf slice index
- * @param is_try true iff what we are solving is a try
+ * @param type type of attack
  */
 void d_leaf_write_key_solve_postkey(int refutations,
                                     slice_index leaf,
-                                    boolean is_try);
+                                    attack_type type);
 
 /* Find and write continuations (i.e. mating moves or final move pairs).
  * @param continuations table where to append continuations found and

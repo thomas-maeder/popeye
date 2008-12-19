@@ -2,6 +2,7 @@
 #define PYSEQUEN_H
 
 #include "py.h"
+#include "pystip.h"
 #include "boolean.h"
 
 /* This module provides functionality dealing with sequence
@@ -56,11 +57,11 @@ void d_sequence_end_solve(boolean restartenabled, slice_index si);
  * write the refutations (if any)
  * @param refutations table containing the refutations (if any)
  * @param si slice index
- * @param is_try true iff what we are solving is a try
+ * @param type type of attack
  */
 void d_sequence_end_write_key_solve_postkey(int refutations,
                                             slice_index si,
-                                            boolean is_try);
+                                            attack_type type);
 
 /* Continue solving help play at the end of a sequence slice
  * @param restartenabled true iff option movenum is activated

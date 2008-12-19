@@ -3,6 +3,7 @@
 
 #include "boolean.h"
 #include "py.h"
+#include "pystip.h"
 
 /* This module provides functionality dealing with reciprocal
  * (i.e. logical AND) stipulation slices.
@@ -93,11 +94,11 @@ void d_reci_end_solve(boolean restartenabled, slice_index si);
  * of a reciprocal slice.
  * @param refutations table containing the refutations (if any)
  * @param si slice index
- * @param is_try true iff what we are solving is a try
+ * @param type type of attack
  */
 void d_reci_end_write_key_solve_postkey(int refutations,
                                         slice_index si,
-                                        boolean is_try);
+                                        attack_type type);
 
 /* Has the threat just played been refuted by the preceding defense?
  * @param si identifies stipulation slice

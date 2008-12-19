@@ -102,15 +102,15 @@ void d_sequence_end_solve(boolean restartenabled, slice_index si)
  * write the refutations (if any)
  * @param refutations table containing the refutations (if any)
  * @param si slice index
- * @param is_try true iff what we are solving is a try
+ * @param type type of attack
  */
 void d_sequence_end_write_key_solve_postkey(int refutations,
                                             slice_index si,
-                                            boolean is_try)
+                                            attack_type type)
 {
   d_slice_write_key_solve_postkey(refutations,
                                   slices[si].u.composite.op1,
-                                  is_try);
+                                  type);
 }
 
 /* Continue solving at the end of a sequence slice

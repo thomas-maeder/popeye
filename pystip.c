@@ -645,22 +645,22 @@ void d_slice_solve(boolean restartenabled, slice_index si)
  * write the refutations (if any)
  * @param refutations table containing the refutations (if any)
  * @param si slice index
- * @param is_try true iff what we are solving is a try
+ * @param type type of attack
  */
 void d_slice_write_key_solve_postkey(int refutations,
                                      slice_index si,
-                                     boolean is_try)
+                                     attack_type type)
 {
   switch (slices[si].type)
   {
     case STLeaf:
-      d_leaf_write_key_solve_postkey(refutations,si,is_try);
+      d_leaf_write_key_solve_postkey(refutations,si,type);
       break;
 
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      d_composite_write_key_solve_postkey(refutations,si,is_try);
+      d_composite_write_key_solve_postkey(refutations,si,type);
       break;
 
     default:

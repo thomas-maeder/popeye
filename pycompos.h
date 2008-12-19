@@ -3,6 +3,7 @@
 
 #include "py.h"
 #include "pystip.h"
+#include "pyoutput.h"
 
 /* This module provides functionality dealing with composite
  * (i.e. non-leaf) stipulation slices.
@@ -25,11 +26,11 @@ void d_composite_solve_setplay(slice_index si);
  * of a quodlibet slice.
  * @param refutations table containing the refutations (if any)
  * @param si slice index
- * @param is_try true iff what we are solving is a try
+ * @param type type of attack
  */
 void d_composite_write_key_solve_postkey(int refutations,
                                          slice_index si,
-                                         boolean is_try);
+                                         attack_type type);
 
 /* Determine and write the threat and variations in direct/self/reflex
  * play after the move that has just been played in the current ply.

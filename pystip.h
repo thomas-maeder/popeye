@@ -244,16 +244,23 @@ boolean d_slice_solve_complete_set(slice_index si);
  */
 void d_slice_solve(boolean restartenabled, slice_index si);
 
+typedef enum
+{
+  attack_key,
+  attack_try,
+  attack_regular
+} attack_type;
+
 /* Write the key just played, then continue solving in the slice
  * to find and write the post key play (threats, variations) and
  * write the refutations (if any)
  * @param refutations table containing the refutations (if any)
  * @param si slice index
- * @param is_try true iff what we are solving is a try
+ * @param type type of attack
  */
 void d_slice_write_key_solve_postkey(int refutations,
                                      slice_index si,
-                                     boolean is_try);
+                                     attack_type type);
 
 /* Solve a slice
  * @param restartenabled true iff option movenum is activated

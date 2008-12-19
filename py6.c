@@ -106,12 +106,12 @@
 #include "pystip.h"
 #include "pyleaf.h"
 #include "pycompos.h"
-#include "pyio.h"
+#include "pyoutput.h"
 #include "trace.h"
 
 boolean supergenre;
 
-static boolean SatzFlag;
+boolean SatzFlag;
 
 sig_atomic_t volatile maxtime_status;
 
@@ -2340,96 +2340,6 @@ void WriteForsyth(void)
   StdChar(' ');
 }
 
-slice_index active_slice[maxply];
-
-void linesolution(slice_index si)
-{
-  int next_movenumber;
-  Side starting_side;
-  Goal end_marker;
-  slice_index slice;
-
-  sic_coup= nbcou;
-  sic_ply= nbply;
-
-#if !defined(DATABASE)
-  if (isIntelligentModeActive)
-  {
-    if (SolAlreadyFound())
-      return;
-    else
-    {
-      if (OptFlag[maxsols])
-        solutions++;
-      if (OptFlag[beep])
-        BeepOnSolution(maxbeep);
-    }
-    StoreSol();
-  }
-  else
-  {
-    if (OptFlag[maxsols])
-      solutions++;
-    if (OptFlag[beep])
-      BeepOnSolution(maxbeep);
-  }
-#endif
-
-  flag_writinglinesolution= true;
-  repere[nbply+1]= nbcou;
-  nbply = 2;
-  slice = active_slice[nbply];
-  starting_side = regular_starter;
-
-  ResetPosition();
-
-  if (regular_starter!=slices[0].starter)
-  {
-    StdString("  1...");
-    next_movenumber = 2;
-  }
-  else if (SatzFlag)
-  {
-    StdString("  1...  ...");
-    next_movenumber = 2;
-  }
-  else
-    next_movenumber = 1;
-
-  while (nbply <= sic_ply)
-  {
-    if (slice!=active_slice[nbply])
-    {
-      slice = active_slice[nbply];
-      if (slices[slice].type!=STLeaf)
-      {
-        next_movenumber = 1;
-        starting_side = trait[nbply];
-      }
-    }
-
-    if (trait[nbply]==starting_side)
-    {
-      sprintf(GlobalStr,"%3d.",next_movenumber);
-      ++next_movenumber;
-      StdString(GlobalStr);
-    }
-
-    end_marker = sic_ply==nbply ? slices[si].u.leaf.goal : no_goal;
-    nbcou= repere[nbply + 1];
-    initneutre(advers(trait[nbply]));
-    jouecoup_no_test();
-    ecritcoup(end_marker);
-    nbply++;
-  }
-
-  Message(NewLine);
-  nbcou= sic_coup;
-  nbply= sic_ply;
-
-  flag_writinglinesolution= false;
-} /* end of linesolution */
-
 #if !defined(DATABASE)
 
 /* Determine whether the defending side has more flights than allowed
@@ -2462,80 +2372,12 @@ boolean has_too_many_flights(Side defender)
   }
 }
 
-/* Write a move by the defending side in direct/self/reflex play.
- * @param goal if !=no_goal, the corresponding mark is appended
- */
-void d_write_defense(Goal goal)
-{
-  Tabulate();
-  sprintf(GlobalStr,"%3d...",zugebene);
-  StdString(GlobalStr);
-  ecritcoup(goal);
-  StdString("\n");
-}
-
-/* Write a move by the attacking side in direct play.
- * @param goal if !=no_goal, the corresponding mark is appended
- */
-void d_write_attack(Goal goal)
-{
-  if (DrohFlag)
-  {
-    Message(Threat);
-    DrohFlag = false;
-  }
-  Tabulate();
-  sprintf(GlobalStr,"%3d.",zugebene);
-  StdString(GlobalStr);
-  ecritcoup(goal);
-}
-
-/* Write the key of a direct/self/reflex slice.
- * The key is the current move of the current ply.
- * @param goal if !=no_goal, the corresponding mark is appended
- * @param is_try true if key is first move of try, false if key is
- *               first move of solution
- */
-void d_write_key(Goal goal, boolean is_try)
-{
-  d_write_attack(goal);
-  if (is_try)
-    StdString("? ");
-  else
-  {
-    StdString("! ");
-    if (OptFlag[maxsols])
-      solutions++;
-    if (OptFlag[beep])
-      BeepOnSolution(maxbeep);
-  }
-}
-
-/* Write the refutations stored in a table
- * @param t table containing refutations
- */
-void d_write_refutations(int t)
-{
-  if (tabsol.cp[t]!=tabsol.cp[t-1])
-  {
-    int n;
-    Tabulate();
-    Message(But);
-    for (n = tabsol.cp[t]; n>tabsol.cp[t-1]; n--)
-    {
-      Tabulate();
-      StdString("  1...");
-      editcoup(&tabsol.liste[n],no_goal);
-      StdString(" !\n");
-    }
-  }
-  StdChar('\n');
-}
-
 static void SolveSeriesProblems(void)
 {
   TraceFunctionEntry(__func__);
   TraceText("\n");
+
+  init_output_mode(output_mode_line);
 
   move_generation_mode = move_generation_not_optimized;
 
@@ -2722,6 +2564,8 @@ static void SolveHelpProblems(void)
   TraceValue("%d",slices[0].starter);
   TraceValue("%d\n",slices[0].u.composite.length);
 
+  init_output_mode(output_mode_line);
+
   move_generation_mode = move_generation_not_optimized;
 
   if (OptFlag[solapparent])
@@ -2753,6 +2597,8 @@ static void SolveHelpProblems(void)
 
 static void SolveDirectProblems(void)
 {
+  init_output_mode(output_mode_tree);
+
   zugebene++;
 
   if (OptFlag[postkeyplay])
@@ -3170,7 +3016,8 @@ int main(int argc, char *argv[]) {
             HelpPlayInitSetPlay(0);
           }
 
-          /* allow linesolution() to restore the initial position */
+          /* allow line-oriented output to restore the initial
+           * position */
           StorePosition();
           solveHalfADuplex();
 
@@ -3198,7 +3045,8 @@ int main(int argc, char *argv[]) {
               swapcolors();
               reflectboard();
 
-              /* allow linesolution() to restore the initial position */
+              /* allow line-oriented output to restore the initial
+               * position */
               StorePosition();
             }
             else

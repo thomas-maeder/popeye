@@ -29,7 +29,6 @@
 #include "pyproof.h"
 #include "pymsg.h"
 #include "pystip.h"
-#include "pyio.h"
 #include "pyint.h"
 #include "platform/maxtime.h"
 #include "trace.h"

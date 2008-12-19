@@ -281,11 +281,6 @@ boolean notsoutenu(square a, square b, square c);
 
 boolean has_too_many_flights(Side defender);
 
-void d_write_refutations(int t);
-void d_write_attack(Goal goal);
-void d_write_defense(Goal goal);
-void d_write_key(Goal goal, boolean is_try);
-
 extern void   (*gen_bl_piece)(square a, piece b);
 void    singleboxtype3_gen_bl_piece(square a, piece b);
 extern void   (*gen_wh_piece)(square a, piece b);
@@ -386,8 +381,6 @@ void    geriderhopper(square i, numvec kbeg, numvec kend,
 boolean riderhoppercheck(square i, numvec kanf, numvec kend, piece p,
 			 int run_up, int jump,
 			 evalfunction_t *evaluate);
-
-void    linesolution(slice_index si);
 
 void	pyInitSignal(void);
 void	InitCond(void);
