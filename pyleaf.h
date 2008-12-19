@@ -150,12 +150,6 @@ boolean ser_leaf_solve(slice_index leaf);
  */
 boolean leaf_is_solvable(slice_index leaf);
 
-/* Solve a slice (i.e. find and write all solutions)
- * @param leaf slice index of leaf slice
- * @return true iff side_at_move has >=1 solution
- */
-boolean leaf_solve(slice_index leaf);
-
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
  * @param is_duplex is this for duplex?

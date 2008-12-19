@@ -1462,6 +1462,9 @@ static boolean d_leaf_s_solve(slice_index leaf)
   Side const attacker = slices[leaf].starter;
   boolean key_found = false;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
   genmove(attacker);
   active_slice[nbply] = leaf;
 
@@ -1486,6 +1489,8 @@ static boolean d_leaf_s_solve(slice_index leaf)
 
   finply();
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",key_found);
   return key_found;
 }
 
@@ -1539,25 +1544,37 @@ static boolean d_leaf_r_solve(slice_index leaf)
  */
 boolean d_leaf_solve(slice_index leaf)
 {
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
 
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      return leaf_d_solve(leaf);
+      result = leaf_d_solve(leaf);
+      break;
 
     case ESelf:
-      return d_leaf_s_solve(leaf);
+      result = d_leaf_s_solve(leaf);
+      break;
 
     case EReflex:
     case ESemireflex:
-      return d_leaf_r_solve(leaf);
+      result = d_leaf_r_solve(leaf);
+      break;
 
     default:
       assert(0);
-      return false;
+      break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 /* Determine whether the defender is not forced to end in 1 in a
@@ -1568,11 +1585,17 @@ boolean d_leaf_solve(slice_index leaf)
 static boolean d_leaf_s_does_defender_win(slice_index leaf)
 {
   Side const defender = advers(slices[leaf].starter);
+  boolean result;
 
-  if (OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-    return true;
-  else
-    return !leaf_is_end_in_1_forced(leaf);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  result = ((OptFlag[keepmating] && !is_a_mating_piece_left(defender))
+            || !leaf_is_end_in_1_forced(leaf));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 /* Determine whether the defender is not forced to end in 1 in a
@@ -2200,6 +2223,9 @@ static boolean leaf_s_solve(slice_index leaf)
   boolean found_solution = false;
   Side const attacker = slices[leaf].starter; 
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
   genmove(attacker);
   active_slice[nbply] = leaf;
 
@@ -2218,6 +2244,8 @@ static boolean leaf_s_solve(slice_index leaf)
 
   finply();
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",found_solution);
   return found_solution;
 }
 
@@ -2572,6 +2600,8 @@ boolean h_leaf_solve(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
 
+  ++zugebene;
+
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
@@ -2599,6 +2629,8 @@ boolean h_leaf_solve(slice_index leaf)
       assert(0);
       break;
   }
+
+  --zugebene;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
@@ -2683,43 +2715,6 @@ boolean ser_leaf_solve(slice_index leaf)
 
     default:
       assert(0);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-boolean leaf_solve(slice_index leaf)
-{
-  boolean result = false;
-  
-  assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-  switch (slices[leaf].u.leaf.end)
-  {
-    case EDirect:
-    case ESelf:
-    case EReflex:
-    case ESemireflex:
-    {
-      ++zugebene;
-      result = d_leaf_solve(leaf);
-      --zugebene;
-      break;
-    }
-
-    case EHelp:
-      result = h_leaf_solve(leaf);
-      break;
-
-    default:
-      TraceValue("(unexpected value):%d\n",slices[leaf].u.leaf.end);
-      assert(0);
-      break;
   }
 
   TraceFunctionExit(__func__);

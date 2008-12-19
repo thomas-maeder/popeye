@@ -476,34 +476,6 @@ boolean slice_is_solvable(slice_index si)
   return result;
 }
 
-/* Solve a slice (i.e. find and write all solutions)
- * @param side_at_move side doing the first move
- * @param si slice index
- * @return true iff slice has >=1 solution(s)
- */
-boolean slice_solve(slice_index si)
-{
-  boolean result = false;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  switch (slices[si].type)
-  {
-    case STLeaf:
-      result = leaf_solve(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
 /* Determine and write continuations of a slice
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of sequence slice

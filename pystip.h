@@ -211,12 +211,6 @@ void d_slice_write_unsolvability(slice_index si);
  */
 boolean slice_is_solvable(slice_index si);
 
-/* Solve a slice (i.e. find and write all solutions)
- * @param si slice index
- * @return true iff slice has >=1 solution(s)
- */
-boolean slice_solve(slice_index si);
-
 /* Determine and write continuations of a slice
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of sequence slice
