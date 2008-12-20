@@ -62,14 +62,6 @@ boolean d_leaf_is_solved(slice_index leaf);
  */
 void d_leaf_write_unsolvability(slice_index leaf);
 
-/* Find and write the solution(s) of a leaf.
- * Assumes that unsolvability (e.g. because of a forced reflex move)
- * has already been dealt with.
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-boolean d_leaf_solve(slice_index leaf);
-
 /* Find and write defender's set play
  * @param leaf slice index
  */
@@ -89,7 +81,7 @@ boolean d_leaf_solve_complete_set(slice_index leaf);
 void d_leaf_solve_variations(slice_index leaf);
 
 /* Write the key just played, solve the post key play (threats,
- * variations) and write the refutations (if any)
+ * variations) and write the refutations (if any).
  * @param refutations table containing the refutations (if any)
  * @param leaf slice index
  * @param type type of attack
@@ -126,23 +118,17 @@ boolean d_leaf_has_attacker_won(slice_index leaf);
  */
 boolean d_leaf_does_attacker_win(slice_index leaf);
 
-/* Determine and write the solution of a leaf slice in help play.
- * @param leaf identifies leaf slice
- * @return true iff >=1 solution was found
- */
-boolean h_leaf_solve(slice_index leaf);
-
 /* Solve the set play in a help stipulation
  * @param leaf slice index
  * @return true iff >= 1 set play was found
  */
 boolean h_leaf_solve_setplay(slice_index leaf);
 
-/* Determine and write the solution of a leaf slice in series play.
+/* Determine and write the solution of a leaf slice.
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
  */
-boolean ser_leaf_solve(slice_index leaf);
+boolean leaf_solve(slice_index leaf);
 
 /* Determine whether there is >= 1 solution for the leaf
  * @param leaf slice index of leaf slice

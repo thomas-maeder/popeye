@@ -1389,7 +1389,7 @@ void d_leaf_write_unsolvability(slice_index leaf)
 static boolean leaf_d_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
-  boolean key_found = false;
+  boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
@@ -1403,7 +1403,7 @@ static boolean leaf_d_solve(slice_index leaf)
     if (jouecoup()
         && leaf_is_goal_reached(attacker,leaf))
     {
-      key_found = true;
+      solution_found = true;
       write_attack(slices[leaf].u.leaf.goal,attack_key);
       write_attack_conclusion(attack_without_zugzwang);
       write_end_of_solution();
@@ -1415,8 +1415,8 @@ static boolean leaf_d_solve(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",key_found);
-  return key_found;
+  TraceFunctionResult("%d\n",solution_found);
+  return solution_found;
 }
 
 /* Determine and write all final moves of a self/reflex variation.
@@ -1451,130 +1451,6 @@ static boolean leaf_sr_solve_final_move(slice_index leaf)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",found_solution);
   return found_solution;
-}
-
-/* Determine and write solutions in a self stipulation in 1 move
- * @param leaf slice index of the leaf slice
- * @return true iff >=1 key was found and written
- */
-static boolean d_leaf_s_solve(slice_index leaf)
-{
-  Side const attacker = slices[leaf].starter;
-  boolean key_found = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  genmove(attacker);
-  active_slice[nbply] = leaf;
-
-  while (encore())
-  {
-    if (jouecoup()
-        && !echecc(attacker)
-        && leaf_is_end_in_1_forced(leaf))
-    {
-      key_found = true;
-
-      write_attack(no_goal,attack_key);
-      write_attack_conclusion(attack_without_zugzwang);
-
-      marge += 4;
-      leaf_sr_solve_final_move(leaf);
-      marge -= 4;
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",key_found);
-  return key_found;
-}
-
-/* Determine and write solutions in a reflex stipulation in 1 move
- * @param leaf slice index of the leaf slice
- * @return true iff >=1 key was found and written
- */
-static boolean d_leaf_r_solve(slice_index leaf)
-{
-  Side const attacker = slices[leaf].starter;
-  Side const defender = advers(attacker);
-  boolean key_found = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  genmove(attacker);
-  active_slice[nbply] = leaf;
-
-  while (encore())
-  {
-    if (jouecoup()
-        && !echecc(attacker)
-        && leaf_is_end_in_1_possible(defender,leaf))
-    {
-      key_found = true;
-
-      write_attack(no_goal,attack_key);
-      write_attack_conclusion(attack_without_zugzwang);
-
-      marge += 4;
-      leaf_sr_solve_final_move(leaf);
-      marge -= 4;
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",key_found);
-  return key_found;
-}
-
-/* Write the solutions of a leaf in direct/self/reflex play.
- * Unsolvability (e.g. because of a forced reflex move) has already
- * been delat with.
- * @param leaf slice index of the leaf slice
- * @return true iff >=1 key was found and written
- */
-boolean d_leaf_solve(slice_index leaf)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
-
-  switch (slices[leaf].u.leaf.end)
-  {
-    case EDirect:
-      result = leaf_d_solve(leaf);
-      break;
-
-    case ESelf:
-      result = d_leaf_s_solve(leaf);
-      break;
-
-    case EReflex:
-    case ESemireflex:
-      result = d_leaf_r_solve(leaf);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
 }
 
 /* Determine whether the defender is not forced to end in 1 in a
@@ -1649,6 +1525,374 @@ static boolean d_leaf_does_defender_win(slice_index leaf)
 
     default:
       assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Determine and write solutions in a self stipulation in 1 move
+ * @param leaf slice index of the leaf slice
+ * @return true iff >=1 key was found and written
+ */
+static boolean leaf_s_solve(slice_index leaf)
+{
+  Side const attacker = slices[leaf].starter;
+  boolean found_solution = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  genmove(attacker);
+  active_slice[nbply] = leaf;
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(attacker)
+        && !d_leaf_s_does_defender_win(leaf))
+    {
+      found_solution = true;
+
+      write_attack(no_goal,attack_key);
+      write_attack_conclusion(attack_without_zugzwang);
+
+      marge += 4;
+      leaf_sr_solve_final_move(leaf);
+      marge -= 4;
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",found_solution);
+  return found_solution;
+}
+
+/* Determine and write the final move pair in a semireflex
+ * leaf.
+ * @param leaf slice index
+ * @return true iff >=1 move pair was found
+ */
+static boolean leaf_semir_solve(slice_index leaf)
+{
+  boolean found_solution = false;
+  Side const attacker = slices[leaf].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  genmove(attacker);
+  active_slice[nbply] = leaf;
+
+  while (encore())
+  {
+    TraceCurrentMove();
+    if (jouecoup()
+        && !echecc(attacker)
+        && !d_leaf_r_does_defender_win(leaf))
+    {
+      found_solution = true;
+
+      write_attack(no_goal,attack_key);
+      write_attack_conclusion(attack_without_zugzwang);
+
+      marge += 4;
+      leaf_sr_solve_final_move(leaf);
+      marge -= 4;
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",found_solution);
+  return found_solution;
+}
+
+/* Determine and write the final move pair in a reflex leaf.
+ * @param leaf slice index
+ * @return true iff >=1 move pair was found
+ */
+static boolean leaf_r_solve(slice_index leaf)
+{
+  boolean result = false;
+  Side const attacker = slices[leaf].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  if (!leaf_is_end_in_1_possible(attacker,leaf))
+    result = leaf_semir_solve(leaf);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Determine and write the final move pair in help countermate.
+ * @param leaf slice index
+ * @return true iff >=1 move pair was found
+ */
+static boolean leaf_h_cmate_solve(slice_index leaf)
+{
+  boolean found_solution = false;
+  Side const side_at_move = slices[leaf].starter;
+  Side const other_side = advers(side_at_move);
+
+  generate_move_reaching_goal(leaf,side_at_move);
+  active_slice[nbply] = leaf;
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(side_at_move))
+    {
+      HashBuffer hb;
+      (*encode)(&hb);
+      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+      {
+        if (goal_checker_mate(side_at_move))
+        {
+          generate_move_reaching_goal(leaf,other_side);
+          active_slice[nbply] = leaf;
+
+          while (encore())
+          {
+            if (jouecoup()
+                && leaf_is_goal_reached(other_side,leaf))
+            {
+              found_solution = true;
+              write_defense(goal_countermate);
+            }
+            repcoup();
+          }
+
+          finply();
+        }
+
+        if (!found_solution)
+          addtohash(leaf,HelpNoSuccOdd,1,&hb);
+      }
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  return found_solution;
+}
+
+/* Determine and write the final move pair in help doublemate.
+ * @param leaf slice index
+ * @return true iff >=1 move pair was found
+ */
+static boolean leaf_h_dmate_solve(slice_index leaf)
+{
+  boolean found_solution = false;
+  Side const side_at_move = slices[leaf].starter;
+  Side const other_side = advers(side_at_move);
+
+  genmove(side_at_move);
+  active_slice[nbply] = leaf;
+
+  while (encore())
+  {
+    if (jouecoup()
+        && !echecc(side_at_move))
+    {
+      HashBuffer hb;
+      (*encode)(&hb);
+      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+      {
+        if (!immobile(other_side))
+        {
+          generate_move_reaching_goal(leaf,other_side);
+          active_slice[nbply] = leaf;
+
+          while (encore())
+          {
+            if (jouecoup()
+                && leaf_is_goal_reached(other_side,leaf))
+            {
+              found_solution = true;
+              write_defense(goal_doublemate);
+            }
+
+            repcoup();
+          }
+
+          finply();
+        }
+
+        if (!found_solution)
+          addtohash(leaf,HelpNoSuccOdd,1,&hb);
+      }
+    }
+
+    repcoup();
+
+    if ((OptFlag[maxsols] && solutions>=maxsolutions)
+        || maxtime_status==MAXTIME_TIMEOUT)
+      break;
+  }
+
+  finply();
+
+  return found_solution;
+}
+
+#if !defined(DATABASE)
+/* Determine and find final moves of a help leaf
+ * @param side_at_move side to perform the final move
+ * @param leaf slice index
+ * @return true iff >= 1 solution was found
+ */
+static boolean leaf_h_solve_final_move(slice_index leaf)
+{
+  boolean final_move_found = false;
+  Side const side_at_move = advers(slices[leaf].starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  TraceValue("%d\n",side_at_move);
+
+  generate_move_reaching_goal(leaf,side_at_move);
+  active_slice[nbply] = leaf;
+
+  if (side_at_move==White)
+    WhMovesLeft--;
+  else
+    BlMovesLeft--;
+
+  while (encore())
+  {
+    TraceCurrentMove();
+    if (jouecoup())
+    {
+      if (isIntelligentModeActive && !isGoalReachable())
+        TraceText("isIntelligentModeActive && !isGoalReachable()\n");
+      else if (!leaf_is_goal_reached(side_at_move,leaf))
+        TraceText("!leaf_is_goal_reached(side_at_move,leaf)\n");
+      else
+      {
+        final_move_found = true;
+        write_defense(leaf);
+      }
+    }
+
+    repcoup();
+  }
+
+  if (side_at_move==White)
+    WhMovesLeft++;
+  else
+    BlMovesLeft++;
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",final_move_found);
+  return final_move_found;
+}
+#endif
+
+/* Determine and write the final move pair in help stipulation with
+ * "regular" goal. 
+ * @param leaf slice index
+ * @return true iff >=1 move pair was found
+ */
+static boolean leaf_h_regulargoals_solve(slice_index leaf)
+{
+  boolean found_solution = false;
+  Side const side_at_move = slices[leaf].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  genmove(side_at_move);
+  active_slice[nbply] = leaf;
+
+  if (side_at_move==Black)
+    BlMovesLeft--;
+  else
+    WhMovesLeft--;
+
+  while (encore())
+  {
+    TraceCurrentMove();
+    if (jouecoup()
+        && (!isIntelligentModeActive || isGoalReachable())
+        && !echecc(side_at_move)
+        && !leaf_is_unsolvable(leaf))
+    {
+      if (compression_counter==0)
+      {
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+        {
+          if (leaf_h_solve_final_move(leaf))
+            found_solution = true;
+          else
+            addtohash(leaf,HelpNoSuccOdd,1,&hb);
+        }
+      }
+      else if (leaf_h_solve_final_move(leaf))
+        found_solution = true;
+    }
+
+    repcoup();
+
+    if ((OptFlag[maxsols] && solutions>=maxsolutions)
+        || maxtime_status==MAXTIME_TIMEOUT)
+      break;
+  }
+    
+  if (side_at_move==Black)
+    BlMovesLeft++;
+  else
+    WhMovesLeft++;
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",found_solution);
+  return found_solution;
+}
+
+/* Determine and write the solution of a help leaf slice.
+ * @param leaf slice index
+ * @return true iff >=1 move pair was found
+ */
+static boolean leaf_h_solve(slice_index leaf)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  switch (slices[leaf].u.leaf.goal)
+  {
+    case goal_countermate:
+      result = leaf_h_cmate_solve(leaf);
+      break;
+
+    case goal_doublemate:
+      result = leaf_h_dmate_solve(leaf);
+      break;
+
+    default:
+      result = leaf_h_regulargoals_solve(leaf);
       break;
   }
 
@@ -2214,41 +2458,6 @@ void d_leaf_solve_continuations(int solutions, slice_index leaf)
   TraceText("\n");
 }
 
-/* Determine and write the final move pair in a self leaf.
- * @param leaf slice index
- * @return true iff >=1 move pair was found
- */
-static boolean leaf_s_solve(slice_index leaf)
-{
-  boolean found_solution = false;
-  Side const attacker = slices[leaf].starter; 
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  genmove(attacker);
-  active_slice[nbply] = leaf;
-
-  while (encore())
-  {
-    if (jouecoup()
-        && !echecc(attacker)
-        && !d_leaf_s_does_defender_win(leaf))
-    {
-      found_solution = true;
-      leaf_sr_solve_final_move(leaf);
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
-  return found_solution;
-}
-
 /* Find the final (ending) move of a reflex leaf
  * @param leaf slice index
  * @return true iff >=1 ending move was found
@@ -2266,375 +2475,6 @@ static boolean leaf_r_solve_final_move(slice_index leaf)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",found_solution);
   return found_solution;
-}
-
-/* Determine and write the final move pair in a semireflex
- * leaf.
- * @param leaf slice index
- * @return true iff >=1 move pair was found
- */
-static boolean leaf_semir_solve(slice_index leaf)
-{
-  boolean found_solution = false;
-  Side const attacker = slices[leaf].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  genmove(attacker);
-  active_slice[nbply] = leaf;
-
-  while (encore())
-  {
-    TraceCurrentMove();
-    if (jouecoup()
-        && !echecc(attacker)
-        && leaf_r_solve_final_move(leaf))
-      found_solution = true;
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
-  return found_solution;
-}
-
-/* Determine and write the final move pair in a reflex leaf.
- * @param leaf slice index
- * @return true iff >=1 move pair was found
- */
-static boolean leaf_r_solve(slice_index leaf)
-{
-  boolean result = false;
-  Side const attacker = slices[leaf].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  if (!leaf_is_end_in_1_possible(attacker,leaf))
-    result = leaf_semir_solve(leaf);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-#if !defined(DATABASE)
-/* Determine and find final moves of a help leaf
- * @param side_at_move side to perform the final move
- * @param leaf slice index
- * @return true iff >= 1 solution was found
- */
-static boolean leaf_h_solve_final_move(slice_index leaf)
-{
-  boolean final_move_found = false;
-  Side const side_at_move = advers(slices[leaf].starter);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  TraceValue("%d\n",side_at_move);
-
-  generate_move_reaching_goal(leaf,side_at_move);
-  active_slice[nbply] = leaf;
-
-  if (side_at_move==White)
-    WhMovesLeft--;
-  else
-    BlMovesLeft--;
-
-  while (encore())
-  {
-    TraceCurrentMove();
-    if (jouecoup())
-    {
-      if (isIntelligentModeActive && !isGoalReachable())
-        TraceText("isIntelligentModeActive && !isGoalReachable()\n");
-      else if (!leaf_is_goal_reached(side_at_move,leaf))
-        TraceText("!leaf_is_goal_reached(side_at_move,leaf)\n");
-      else
-      {
-        final_move_found = true;
-        write_defense(leaf);
-      }
-    }
-
-    repcoup();
-  }
-
-  if (side_at_move==White)
-    WhMovesLeft++;
-  else
-    BlMovesLeft++;
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",final_move_found);
-  return final_move_found;
-}
-#endif
-
-/* Determine and write the final move pair in help countermate.
- * @param leaf slice index
- * @return true iff >=1 move pair was found
- */
-static boolean leaf_h_cmate_solve(slice_index leaf)
-{
-  boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
-  Side const other_side = advers(side_at_move);
-
-  generate_move_reaching_goal(leaf,side_at_move);
-  active_slice[nbply] = leaf;
-
-  while (encore())
-  {
-    if (jouecoup()
-        && !echecc(side_at_move))
-    {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
-      {
-        if (goal_checker_mate(side_at_move))
-        {
-          generate_move_reaching_goal(leaf,other_side);
-          active_slice[nbply] = leaf;
-
-          while (encore())
-          {
-            if (jouecoup()
-                && leaf_is_goal_reached(other_side,leaf))
-            {
-              found_solution = true;
-              write_defense(goal_countermate);
-            }
-            repcoup();
-          }
-
-          finply();
-        }
-
-        if (!found_solution)
-          addtohash(leaf,HelpNoSuccOdd,1,&hb);
-      }
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  return found_solution;
-}
-
-/* Determine and write the final move pair in help doublemate.
- * @param leaf slice index
- * @return true iff >=1 move pair was found
- */
-static boolean leaf_h_dmate_solve(slice_index leaf)
-{
-  boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
-  Side const other_side = advers(side_at_move);
-
-  genmove(side_at_move);
-  active_slice[nbply] = leaf;
-
-  while (encore())
-  {
-    if (jouecoup()
-        && !echecc(side_at_move))
-    {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
-      {
-        if (!immobile(other_side))
-        {
-          generate_move_reaching_goal(leaf,other_side);
-          active_slice[nbply] = leaf;
-
-          while (encore())
-          {
-            if (jouecoup()
-                && leaf_is_goal_reached(other_side,leaf))
-            {
-              found_solution = true;
-              write_defense(goal_doublemate);
-            }
-
-            repcoup();
-          }
-
-          finply();
-        }
-
-        if (!found_solution)
-          addtohash(leaf,HelpNoSuccOdd,1,&hb);
-      }
-    }
-
-    repcoup();
-
-    if ((OptFlag[maxsols] && solutions>=maxsolutions)
-        || maxtime_status==MAXTIME_TIMEOUT)
-      break;
-  }
-
-  finply();
-
-  return found_solution;
-}
-
-/* Determine and write the final move pair in help stipulation with
- * "regular" goal. 
- * @param leaf slice index
- * @return true iff >=1 move pair was found
- */
-static boolean leaf_h_regulargoals_solve(slice_index leaf)
-{
-  boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  genmove(side_at_move);
-  active_slice[nbply] = leaf;
-
-  if (side_at_move==Black)
-    BlMovesLeft--;
-  else
-    WhMovesLeft--;
-
-  while (encore())
-  {
-    TraceCurrentMove();
-    if (jouecoup()
-        && (!isIntelligentModeActive || isGoalReachable())
-        && !echecc(side_at_move)
-        && !leaf_is_unsolvable(leaf))
-    {
-      if (compression_counter==0)
-      {
-        HashBuffer hb;
-        (*encode)(&hb);
-        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
-        {
-          if (leaf_h_solve_final_move(leaf))
-            found_solution = true;
-          else
-            addtohash(leaf,HelpNoSuccOdd,1,&hb);
-        }
-      }
-      else if (leaf_h_solve_final_move(leaf))
-        found_solution = true;
-    }
-
-    repcoup();
-
-    if ((OptFlag[maxsols] && solutions>=maxsolutions)
-        || maxtime_status==MAXTIME_TIMEOUT)
-      break;
-  }
-    
-  if (side_at_move==Black)
-    BlMovesLeft++;
-  else
-    WhMovesLeft++;
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
-  return found_solution;
-}
-
-/* Determine and write the solution of a help leaf slice.
- * @param leaf slice index
- * @return true iff >=1 move pair was found
- */
-static boolean leaf_h_solve(slice_index leaf)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  switch (slices[leaf].u.leaf.goal)
-  {
-    case goal_countermate:
-      result = leaf_h_cmate_solve(leaf);
-      break;
-
-    case goal_doublemate:
-      result = leaf_h_dmate_solve(leaf);
-      break;
-
-    default:
-      result = leaf_h_regulargoals_solve(leaf);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-/* Determine and write the solution of a leaf slice in help play.
- * @param leaf slice index
- * @return true iff >=1 move pair was found
- */
-boolean h_leaf_solve(slice_index leaf)
-{
-  boolean result = false;
-
-  assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  ++zugebene;
-
-  switch (slices[leaf].u.leaf.end)
-  {
-    case EDirect:
-      result = leaf_d_solve(leaf);
-      break;
-
-    case EHelp:
-      result = leaf_h_solve(leaf);
-      break;
-
-    case ESelf:
-      result = leaf_s_solve(leaf);
-      break;
-
-    case EReflex:
-      result = leaf_r_solve(leaf);
-      break;
-
-    case ESemireflex:
-      result = leaf_semir_solve(leaf);
-      break;
-
-    default:
-      TraceValue("(unexpected value):%d\n",slices[leaf].u.leaf.end);
-      assert(0);
-      break;
-  }
-
-  --zugebene;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
 }
 
 /* Solve the set play in a help stipulation
@@ -2677,11 +2517,11 @@ boolean h_leaf_solve_setplay(slice_index leaf)
   return result;
 }
 
-/* Determine and write the solution of a leaf slice in series play
+/* Determine and write the solution of a leaf slice
  * @param leaf slice index
  * @return true iff >=1 move pair was found
  */
-boolean ser_leaf_solve(slice_index leaf)
+boolean leaf_solve(slice_index leaf)
 {
   boolean result = false;
 
@@ -2714,7 +2554,9 @@ boolean ser_leaf_solve(slice_index leaf)
       break;
 
     default:
+      TraceValue("(unexpected value):%d\n",slices[leaf].u.leaf.end);
       assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);

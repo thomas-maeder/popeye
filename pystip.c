@@ -594,7 +594,7 @@ void d_slice_solve(boolean restartenabled, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      d_leaf_solve(si);
+      leaf_solve(si);
       break;
       
     case STQuodlibet:
@@ -648,22 +648,33 @@ void d_slice_write_key_solve_postkey(int refutations,
  */
 boolean h_slice_solve(boolean restartenabled, slice_index si)
 {
+  boolean solution_found = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
   switch (slices[si].type)
   {
     case STLeaf:
-      return h_leaf_solve(si);
+      solution_found = leaf_solve(si);
+      break;
 
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      return h_composite_solve(restartenabled,
-                               si,
-                               slices[si].u.composite.length);
+      solution_found = h_composite_solve(restartenabled,
+                                         si,
+                                         slices[si].u.composite.length);
+      break;
 
     default:
       assert(0);
-      return false;
+      break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",solution_found);
+  return solution_found;
 }
 
 /* Solve a slice
@@ -681,7 +692,7 @@ boolean ser_slice_solve(boolean restartenabled, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      solution_found = ser_leaf_solve(si);
+      solution_found = leaf_solve(si);
       break;
 
     case STQuodlibet:
