@@ -64,14 +64,16 @@ void TracePieceImpl(char const *prefix, piece p)
   }
 }
 
-void TraceCurrentMove()
+boolean TraceCurrentMove(void)
 {
   if (!deactivated)
   {
     fprintf(stdout," #%d %ld ",level,move_counter++);
-    ecritcoup(no_goal);
-    fprintf(stdout,"\n");
+    ecritcoup(nbply,no_goal);
+    fprintf(stdout," nbcou:%u\n",nbcou);
   }
+
+  return true;
 }
 
 void TracePosition(echiquier e, Flags flags[maxsquare+4])

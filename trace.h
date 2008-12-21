@@ -69,12 +69,11 @@ void TracePieceImpl(char const *prefix, piece p);
 #define TracePiece(name) \
   TracePieceImpl(" " #name ":", name)
 
-/* Trace the current move in the top-level generation
- * Only tested right before calling jouecoup; writes the correct
- * departure and arrival square and sometimes the correct piece etc,
- * but still very useful.
+/* Trace the current move in the top-level generation; use right after
+ * jouecoup() returned true.
+ * @return true (useful for if (jouecoup() && TraceCurrentMove()) ...
  */
-void TraceCurrentMove();
+boolean TraceCurrentMove(void);
 
 /* Trace the notation of the current position
  */
@@ -97,7 +96,7 @@ void TraceValueImpl(char const *format, int value);
 #define TraceText(text)
 #define TraceSquare(name)
 #define TracePiece(name)
-#define TraceCurrentMove()
+#define TraceCurrentMove() true
 #define TracePosition(echiquier,flags)
 #define TraceFunctionExit(name)
 #define TraceFunctionResult(format,name)
