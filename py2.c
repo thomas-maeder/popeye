@@ -2567,7 +2567,7 @@ boolean pos_legal(ply ply_id)
     square square_h = square_h8;
     int i;
 
-    initneutre(trait[nbply]);
+    initneutre(trait[ply_id]);
 
     /* for e.p. captures */
     for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
@@ -2580,17 +2580,12 @@ boolean pos_legal(ply ply_id)
     }
   }
 
-  /* To avoid messing up the ???[nbply] arrays during output of
-     the solution */
-  if (flag_writinglinesolution)
-    return true;
-
   if (CondFlag[ohneschach])
   {
-    Side camp= trait[nbply];
-    Side ad= advers(camp);
+    Side const camp = trait[ply_id];
+    Side const ad = advers(camp);
 
-    if (nbply > maxply-1)
+    if (ply_id>maxply-1)
       FtlMsg(ChecklessUndecidable);
 
     if (echecc(ply_id,camp))
@@ -2602,22 +2597,22 @@ boolean pos_legal(ply ply_id)
 
   if (CondFlag[exclusive])
   {
-    if (nbply>maxply-1)
+    if (ply_id>maxply-1)
       FtlMsg(ChecklessUndecidable);
 
-    if (!mateallowed[nbply])
+    if (!mateallowed[ply_id])
     {
       /* TODO once republican chess has a moudule of its own, it might
          be a good idea to cache si */
       /* input validation makes sure that si!=no_goal */
       slice_index const si = find_unique_goal();
-      if (leaf_is_goal_reached(trait[nbply],si))
+      if (leaf_is_goal_reached(trait[ply_id],si))
         return false;
     }
   }
 
   return true;
-} /* pos_legal */
+}
 
 boolean eval_isardam(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
   boolean flag=false;
