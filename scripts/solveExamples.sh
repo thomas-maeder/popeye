@@ -9,6 +9,8 @@
 #
 # Uses: nice
 
+ulimit -f 200
+
 if [ -d ../EXAMPLES ]; then
     for f in ../EXAMPLES/*inp
     do
