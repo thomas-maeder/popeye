@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pyint.h"
+#include "trace.h"
 
 static output_mode current_mode = output_mode_none;
 
@@ -17,8 +18,6 @@ slice_index active_slice[maxply];
 
 
 /* TODO */
-extern numecoup sic_coup;
-extern ply sic_ply;
 extern boolean SatzFlag;
 
 static void linesolution(void)
@@ -27,9 +26,10 @@ static void linesolution(void)
   Side starting_side;
   Goal end_marker;
   slice_index slice;
-
-  sic_coup= nbcou;
-  sic_ply= nbply;
+  ply current_ply;
+      
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
 
 #if !defined(DATABASE)
   if (isIntelligentModeActive)
@@ -55,9 +55,7 @@ static void linesolution(void)
 #endif
 
   flag_writinglinesolution= true;
-  repere[nbply+1]= nbcou;
-  nbply = 2;
-  slice = active_slice[nbply];
+  slice = active_slice[2];
   starting_side = regular_starter;
 
   ResetPosition();
@@ -75,40 +73,45 @@ static void linesolution(void)
   else
     next_movenumber = 1;
 
-  while (nbply <= sic_ply)
+  TraceValue("%u\n",nbply);
+  for (current_ply = 2; current_ply<=nbply; ++current_ply)
   {
-    if (slice!=active_slice[nbply])
+    TraceValue("%u",current_ply);
+    TraceValue("%u",slice);
+    TraceValue("%u\n",active_slice[current_ply]);
+    if (slice!=active_slice[current_ply])
     {
-      slice = active_slice[nbply];
+      slice = active_slice[current_ply];
       if (slices[slice].type!=STLeaf)
       {
         next_movenumber = 1;
-        starting_side = trait[nbply];
+        starting_side = trait[current_ply];
       }
     }
 
-    if (trait[nbply]==starting_side)
+    TraceValue("%u",trait[current_ply]);
+    TraceValue("%u\n",starting_side);
+    if (trait[current_ply]==starting_side)
     {
       sprintf(GlobalStr,"%3d.",next_movenumber);
       ++next_movenumber;
       StdString(GlobalStr);
     }
 
-    end_marker = (sic_ply==nbply
-                  ? slices[active_slice[nbply]].u.leaf.goal
+    end_marker = (nbply==current_ply
+                  ? slices[active_slice[current_ply]].u.leaf.goal
                   : no_goal);
-    nbcou= repere[nbply + 1];
-    initneutre(advers(trait[nbply]));
-    jouecoup_no_test();
-    ecritcoup(end_marker);
-    nbply++;
+    initneutre(advers(trait[current_ply]));
+    jouecoup_no_test(current_ply);
+    ecritcoup(current_ply,end_marker);
   }
 
   Message(NewLine);
-  nbcou= sic_coup;
-  nbply= sic_ply;
 
   flag_writinglinesolution= false;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Write a move of the attacking side in direct play
@@ -129,7 +132,7 @@ void write_attack(Goal goal, attack_type type)
     Tabulate();
     sprintf(GlobalStr,"%3d.",zugebene);
     StdString(GlobalStr);
-    ecritcoup(goal);
+    ecritcoup(nbply,goal);
 
     if (zugebene==1)
     {
@@ -180,7 +183,7 @@ void write_defense(Goal goal)
     Tabulate();
     sprintf(GlobalStr,"%3d...",zugebene);
     StdString(GlobalStr);
-    ecritcoup(goal);
+    ecritcoup(nbply,goal);
     Message(NewLine);
   }
   else
@@ -194,6 +197,8 @@ void write_end_of_solution(void)
   if (current_mode==output_mode_tree)
     Message(NewLine);
 }
+
+void editcoup(ply ply_id, coup *mov, Goal goal); /* TODO */
 
 /* Write the refutations stored in a table
  * @param t table containing refutations
@@ -209,7 +214,7 @@ void write_refutations(int t)
     {
       Tabulate();
       StdString("  1...");
-      editcoup(&tabsol.liste[n],no_goal);
+      editcoup(nbply,&tabsol.liste[n],no_goal);
       StdString(" !\n");
     }
   }

@@ -800,11 +800,11 @@ static boolean leaf_is_end_in_1_forced(slice_index leaf)
     while (!escape_found
            && encore())
     {
-      if (jouecoup()
-          && !echecc(defender))
+      if (jouecoup(nbply)
+          && !echecc(nbply,defender))
       {
         is_defender_immobile = false;
-        /* TODO this checks for echecc(defender) again (in most cases
+        /* TODO this checks for echecc(nbply,defender) again (in most cases
          * anyway); optimise? */
         escape_found = !leaf_is_goal_reached(defender,leaf);
         if (escape_found)
@@ -863,12 +863,11 @@ static boolean leaf_is_end_in_1_forced(slice_index leaf)
     while (!escape_found
            && selflastencore(&selfbnp,initiallygenerated,leaf))
     {
-      TraceCurrentMove();
-      if (jouecoup()
-          && !echecc(defender))
+      if (jouecoup(nbply) && TraceCurrentMove()
+          && !echecc(nbply,defender))
       {
         is_defender_immobile = false;
-        /* TODO this checks for echecc(defender) again (in most cases
+        /* TODO this checks for echecc(nbply,defender) again (in most cases
          * anyway); optimise? */
         if (!leaf_is_goal_reached(defender,leaf))
         {
@@ -916,8 +915,7 @@ boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
   while (encore()
          && !end_found)
   {
-    TraceCurrentMove();
-    if (jouecoup()
+    if (jouecoup(nbply) && TraceCurrentMove()
         && leaf_is_goal_reached(side_at_move,leaf))
     {
       TraceText("goal reached\n");
@@ -1007,8 +1005,8 @@ static boolean leaf_h_cmate_is_solvable(slice_index leaf)
 
   while (encore() && !found_solution)
   {
-    if (jouecoup()
-        && !echecc(side_at_move))
+    if (jouecoup(nbply)
+        && !echecc(nbply,side_at_move))
     {
       HashBuffer hb;
       (*encode)(&hb);
@@ -1020,7 +1018,7 @@ static boolean leaf_h_cmate_is_solvable(slice_index leaf)
 
           while (encore() && !found_solution)
           {
-            if (jouecoup())
+            if (jouecoup(nbply))
               found_solution = leaf_is_goal_reached(other_side,leaf);
 
             repcoup();
@@ -1052,8 +1050,8 @@ static boolean leaf_h_dmate_is_solvable(slice_index leaf)
 
   while (encore() && !found_solution)
   {
-    if (jouecoup()
-        && !echecc(side_at_move))
+    if (jouecoup(nbply)
+        && !echecc(nbply,side_at_move))
     {
       HashBuffer hb;
       (*encode)(&hb);
@@ -1065,7 +1063,7 @@ static boolean leaf_h_dmate_is_solvable(slice_index leaf)
 
           while (encore() && !found_solution)
           {
-            if (jouecoup())
+            if (jouecoup(nbply))
               found_solution = leaf_is_goal_reached(other_side,leaf);
 
             repcoup();
@@ -1106,8 +1104,7 @@ static boolean leaf_h_exists_final_move(slice_index leaf)
 
   while (encore() && !final_move_found)
   {
-    TraceCurrentMove();
-    if (jouecoup())
+    if (jouecoup(nbply) && TraceCurrentMove())
     {
       if (isIntelligentModeActive && !isGoalReachable())
         TraceText("isIntelligentModeActive && !isGoalReachable()\n");
@@ -1149,10 +1146,9 @@ static boolean leaf_h_regulargoals_is_solvable(slice_index leaf)
 
   while (encore() && !found_solution)
   {
-    TraceCurrentMove();
-    if (jouecoup()
+    if (jouecoup(nbply) && TraceCurrentMove()
         && (!isIntelligentModeActive || isGoalReachable())
-        && !echecc(side_at_move)
+        && !echecc(nbply,side_at_move)
         && !leaf_is_unsolvable(leaf))
     {
       HashBuffer hb;
@@ -1349,7 +1345,7 @@ static void d_leaf_r_solve_forced_keys(slice_index leaf)
 
   while(encore())
   {
-    if (jouecoup()
+    if (jouecoup(nbply)
         && leaf_is_goal_reached(attacker,leaf))
     {
       write_attack(goal,attack_regular);
@@ -1399,8 +1395,7 @@ static boolean leaf_d_solve(slice_index leaf)
 
   while (encore())
   {
-    TraceCurrentMove();
-    if (jouecoup()
+    if (jouecoup(nbply) && TraceCurrentMove()
         && leaf_is_goal_reached(attacker,leaf))
     {
       solution_found = true;
@@ -1436,7 +1431,7 @@ static boolean leaf_sr_solve_final_move(slice_index leaf)
 
   while(encore())
   {
-    if (jouecoup()
+    if (jouecoup(nbply)
         && leaf_is_goal_reached(defender,leaf))
     {
       found_solution = true;
@@ -1550,8 +1545,8 @@ static boolean leaf_s_solve(slice_index leaf)
 
   while (encore())
   {
-    if (jouecoup()
-        && !echecc(attacker)
+    if (jouecoup(nbply)
+        && !echecc(nbply,attacker)
         && !d_leaf_s_does_defender_win(leaf))
     {
       found_solution = true;
@@ -1592,9 +1587,8 @@ static boolean leaf_semir_solve(slice_index leaf)
 
   while (encore())
   {
-    TraceCurrentMove();
-    if (jouecoup()
-        && !echecc(attacker)
+    if (jouecoup(nbply) && TraceCurrentMove()
+        && !echecc(nbply,attacker)
         && !d_leaf_r_does_defender_win(leaf))
     {
       found_solution = true;
@@ -1652,8 +1646,8 @@ static boolean leaf_h_cmate_solve(slice_index leaf)
 
   while (encore())
   {
-    if (jouecoup()
-        && !echecc(side_at_move))
+    if (jouecoup(nbply)
+        && !echecc(nbply,side_at_move))
     {
       HashBuffer hb;
       (*encode)(&hb);
@@ -1666,7 +1660,7 @@ static boolean leaf_h_cmate_solve(slice_index leaf)
 
           while (encore())
           {
-            if (jouecoup()
+            if (jouecoup(nbply)
                 && leaf_is_goal_reached(other_side,leaf))
             {
               found_solution = true;
@@ -1706,8 +1700,8 @@ static boolean leaf_h_dmate_solve(slice_index leaf)
 
   while (encore())
   {
-    if (jouecoup()
-        && !echecc(side_at_move))
+    if (jouecoup(nbply)
+        && !echecc(nbply,side_at_move))
     {
       HashBuffer hb;
       (*encode)(&hb);
@@ -1720,7 +1714,7 @@ static boolean leaf_h_dmate_solve(slice_index leaf)
 
           while (encore())
           {
-            if (jouecoup()
+            if (jouecoup(nbply)
                 && leaf_is_goal_reached(other_side,leaf))
             {
               found_solution = true;
@@ -1776,8 +1770,7 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
 
   while (encore())
   {
-    TraceCurrentMove();
-    if (jouecoup())
+    if (jouecoup(nbply) && TraceCurrentMove())
     {
       if (isIntelligentModeActive && !isGoalReachable())
         TraceText("isIntelligentModeActive && !isGoalReachable()\n");
@@ -1829,10 +1822,9 @@ static boolean leaf_h_regulargoals_solve(slice_index leaf)
 
   while (encore())
   {
-    TraceCurrentMove();
-    if (jouecoup()
+    if (jouecoup(nbply) && TraceCurrentMove()
         && (!isIntelligentModeActive || isGoalReachable())
-        && !echecc(side_at_move)
+        && !echecc(nbply,side_at_move)
         && !leaf_is_unsolvable(leaf))
     {
       if (compression_counter==0)
@@ -2088,8 +2080,7 @@ static boolean d_leaf_d_does_attacker_win(slice_index leaf)
 
   while (encore() && !end_found)
   {
-    TraceCurrentMove();
-    if (jouecoup())
+    if (jouecoup(nbply) && TraceCurrentMove())
     {
       end_found = leaf_is_goal_reached(attacker,leaf);
       if (end_found)
@@ -2155,9 +2146,8 @@ static boolean d_leaf_sr_does_attacker_win(slice_index leaf)
   while (!win_found
          && encore())
   {
-    TraceCurrentMove();
-    if (jouecoup()
-        && !echecc(attacker)
+    if (jouecoup(nbply) && TraceCurrentMove()
+        && !echecc(nbply,attacker)
         && !d_leaf_does_defender_win(leaf))
     {
       TraceText("wins\n");
@@ -2233,7 +2223,7 @@ static void d_leaf_sr_solve_setplay(slice_index leaf)
 
   while(encore())
   {
-    if (jouecoup()
+    if (jouecoup(nbply)
         && leaf_is_goal_reached(defender,leaf))
     {
       write_defense(slices[leaf].u.leaf.goal);
@@ -2363,10 +2353,9 @@ static void d_leaf_d_solve_continuations(int solutions, slice_index leaf)
 
   while (encore())
   {
-    TraceCurrentMove();
     /* TODO optimise echecc() check into d_leaf_is_solved? */
-    if (jouecoup()
-        && !echecc(attacker)
+    if (jouecoup(nbply) && TraceCurrentMove()
+        && !echecc(nbply,attacker)
         && d_leaf_is_solved(leaf))
     {
       write_attack(slices[leaf].u.leaf.goal,attack_regular);
@@ -2400,10 +2389,9 @@ static void d_leaf_sr_solve_continuations(int solutions, slice_index leaf)
 
   while (encore())
   {
-    TraceCurrentMove();
     /* TODO optimise echecc() check into d_leaf_is_solved? */
-    if (jouecoup()
-        && !echecc(attacker)
+    if (jouecoup(nbply) && TraceCurrentMove()
+        && !echecc(nbply,attacker)
         && d_leaf_is_solved(leaf))
     {
       write_attack(no_goal,attack_regular);

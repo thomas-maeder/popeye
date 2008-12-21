@@ -1085,14 +1085,14 @@ static boolean verifieposition(void)
     if (rex_circe) {
       eval_white= rbcircech;
       eval_black= rncircech;
-      cirrenroib= (*circerenai)(roib, spec[rb], initsquare, initsquare, initsquare, Black);
-      cirrenroin= (*circerenai)(roin, spec[rn], initsquare, initsquare, initsquare, White);
+      cirrenroib= (*circerenai)(nbply, roib, spec[rb], initsquare, initsquare, initsquare, Black);
+      cirrenroin= (*circerenai)(nbply, roin, spec[rn], initsquare, initsquare, initsquare, White);
     }
     else {
       eval_white= rbimmunech;
       eval_black= rnimmunech;
-      immrenroib= (*immunrenai)(roib, spec[rb], initsquare, initsquare, initsquare, Black);
-      immrenroin= (*immunrenai)(roin, spec[rn], initsquare, initsquare, initsquare, White);
+      immrenroib= (*immunrenai)(nbply, roib, spec[rb], initsquare, initsquare, initsquare, Black);
+      immrenroin= (*immunrenai)(nbply, roin, spec[rn], initsquare, initsquare, initsquare, White);
     }
   }
 
@@ -1735,8 +1735,8 @@ static boolean verifieposition(void)
     optim_neutralretractable = false;
     optim_orthomatingmoves = false;
     nonoptgenre= true;
-    WhiteStrictSAT[1]= echecc_normal(White);
-    BlackStrictSAT[1]= echecc_normal(Black);
+    WhiteStrictSAT[1]= echecc_normal(nbply,White);
+    BlackStrictSAT[1]= echecc_normal(nbply,Black);
     satXY= WhiteSATFlights > 1 || BlackSATFlights > 1;
   }
 
@@ -1792,81 +1792,56 @@ static boolean verifieposition(void)
   return true;
 } /* verifieposition */
 
-numecoup sic_coup;
-ply sic_ply;
+static void current(ply ply_id, coup *mov)
+{
+  numecoup const coup_id = ply_id==nbply ? nbcou : repere[ply_id+1];
+  square sq = move_generation_stack[coup_id].arrival;
 
-void current(coup *mov) {
-  square sq = move_generation_stack[nbcou].arrival;
-
-  mov->tr=          trait[nbply];
-  mov->cdzz =           move_generation_stack[nbcou].departure;
+  mov->tr=          trait[ply_id];
+  mov->cdzz =           move_generation_stack[coup_id].departure;
   mov->cazz=            sq;
-  mov->cpzz=            move_generation_stack[nbcou].capture;
-  mov->pjzz=            pjoue[nbply];
-  mov->norm_prom=       norm_prom[nbply];
-  mov->ppri=            pprise[nbply];
-  mov->sqren=           sqrenais[nbply];
-  mov->cir_prom=        cir_prom[nbply];
+  mov->cpzz=            move_generation_stack[coup_id].capture;
+  mov->pjzz=            pjoue[ply_id];
+  mov->norm_prom=       norm_prom[ply_id];
+  mov->ppri=            pprise[ply_id];
+  mov->sqren=           sqrenais[ply_id];
+  mov->cir_prom=        cir_prom[ply_id];
 
-  if ((bl_exact && mov->tr == Black)
-      || (wh_exact && mov->tr == White))
-  {
-    mov->echec= false;
-    /* A quick and dirty hack. But echecc destroys the 'current()'
-     * entry  */
-  }
-  else if (CondFlag[isardam] || CondFlag[brunner] || SATCheck) {
-    if (flag_writinglinesolution) {
-      tempcoup= nbcou;
-      tempply= nbply;
-      nbcou= sic_coup;
-      nbply= sic_ply;
-      mov->echec= echecc(advers(mov->tr));
-      nbcou= tempcoup;
-      nbply= tempply;
-      /* Not such a quick hack, but probably dirtier! */
-      /* May work for the above exact conditions too    */
-    }
-    else {
-      mov->echec= echecc(advers(mov->tr));
-    }
-  }
-  else {
-    mov->echec= echecc(advers(mov->tr));
-  }
-  mov->renkam= crenkam[nbply];
-  mov->promi=  Iprom[nbply];
-  mov->numi=     inum[nbply] - (mov->promi ? 1 : 0);
+  mov->echec= echecc(ply_id,advers(mov->tr));
+
+  mov->renkam= crenkam[ply_id];
+  mov->promi=  Iprom[ply_id];
+  mov->numi=     inum[ply_id] - (mov->promi ? 1 : 0);
   /* Promoted imitator will be output 'normally'
      from the next move on. */
   mov->sum= isquare[0] - im0;
-  mov->speci= jouespec[nbply];
+  mov->speci= jouespec[ply_id];
 
   /* hope the following works with parrain too */
-  mov->ren_spec=  spec[sqrenais[nbply]];
-  mov->bool_senti= senti[nbply];
-  mov->ren_parrain= ren_parrain[nbply];
-  mov->bool_norm_cham_prom= norm_cham_prom[nbply];
-  mov->bool_cir_cham_prom= cir_cham_prom[nbply];
-  mov->pjazz=     jouearr[nbply];
-  mov->repub_k=   repub_k[nbply];
+  mov->ren_spec=  spec[sqrenais[ply_id]];
+  mov->bool_senti= senti[ply_id];
+  mov->ren_parrain= ren_parrain[ply_id];
+  mov->bool_norm_cham_prom= norm_cham_prom[ply_id];
+  mov->bool_cir_cham_prom= cir_cham_prom[ply_id];
+  mov->pjazz=     jouearr[ply_id];
+  mov->repub_k=   repub_k[ply_id];
   mov->new_spec=  spec[sq];
-  mov->hurdle=    chop[nbcou];
-  mov->sb3where=  sb3[nbcou].where;
-  mov->sb3what= sb3[nbcou].what;
-  if (mov->sb3what!=vide && mov->sb3where==mov->cdzz) {
+  mov->hurdle=    chop[coup_id];
+  mov->sb3where=  sb3[coup_id].where;
+  mov->sb3what= sb3[coup_id].what;
+  if (mov->sb3what!=vide && mov->sb3where==mov->cdzz)
     mov->pjzz= mov->pjazz= mov->sb3what;
-  }
-  mov->sb2where= sb2[nbply].where;
-  mov->sb2what= sb2[nbply].what;
-  mov->mren= cmren[nbcou];
-  mov->osc= oscillatedKs[nbply];
+
+  mov->sb2where= sb2[ply_id].where;
+  mov->sb2what= sb2[ply_id].what;
+  mov->mren= cmren[coup_id];
+  mov->osc= oscillatedKs[ply_id];
   /* following only overwritten if change stack is saved in pushtabsol */
   /* redundant to init push_top */
   mov->push_bottom= NULL;
-  mov->roch_sq=rochade_sq[nbcou];
-  mov->roch_pc=rochade_pc[nbcou];
-  mov->roch_sp=rochade_sp[nbcou];
+  mov->roch_sq=rochade_sq[coup_id];
+  mov->roch_pc=rochade_pc[coup_id];
+  mov->roch_sp=rochade_sp[coup_id];
 
   mov->ghost_piece = e[mov->cdzz];
   mov->ghost_flags = spec[mov->cdzz];
@@ -1889,7 +1864,7 @@ void pushtabsol(int n)
   if (++tabsol.cp[n] > tabmaxcp)
     ErrorMsg(TooManySol);
   else
-    current(&tabsol.liste[tabsol.cp[n]]);
+    current(nbply,&tabsol.liste[tabsol.cp[n]]);
 
   if (flag_outputmultiplecolourchanges)
   {
@@ -1938,7 +1913,9 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
 extern boolean two_same_pieces;
 #endif
 
-void editcoup(coup *mov, Goal goal)
+/* TODO what do we need the mov parameter for?
+ */
+void editcoup(ply ply_id, coup *mov, Goal goal)
 {
   char    BlackChar= *GetMsgString(BlackColor);
   char    WhiteChar= *GetMsgString(WhiteColor);
@@ -2168,16 +2145,16 @@ void editcoup(coup *mov, Goal goal)
 
       } else {
 
-        if (colour_change_sp[nbply] - colour_change_sp[nbply - 1] > 0) 
+        if (colour_change_sp[ply_id] - colour_change_sp[ply_id - 1] > 0) 
         {
           change_rec * rec;
           StdString(" [");
-          for (rec= colour_change_sp[nbply - 1]; rec - colour_change_sp[nbply] < 0; rec++)
+          for (rec= colour_change_sp[ply_id - 1]; rec - colour_change_sp[ply_id] < 0; rec++)
           {
             StdChar(rec->pc > vide ? WhiteChar : BlackChar);
             WritePiece(rec->pc);
             WriteSquare(rec->square);
-            if (colour_change_sp[nbply] - rec > 1)
+            if (colour_change_sp[ply_id] - rec > 1)
               StdString(", ");
           } 
           StdChar(']');
@@ -2247,16 +2224,16 @@ boolean nowdanstab(int n)
   int i;
   coup mov;
 
-  current(&mov);
+  current(nbply,&mov);
   for (i = tabsol.cp[n-1]+1; i <= tabsol.cp[n]; i++) {
     if ( mov.cdzz == tabsol.liste[i].cdzz
          && mov.cazz == tabsol.liste[i].cazz
          && mov.norm_prom == tabsol.liste[i].norm_prom
          && mov.cir_prom == tabsol.liste[i].cir_prom
-         && mov.bool_cir_cham_prom
-         == tabsol.liste[i].bool_cir_cham_prom
-         && mov.bool_norm_cham_prom
-         == tabsol.liste[i].bool_norm_cham_prom
+         && (mov.bool_cir_cham_prom
+             == tabsol.liste[i].bool_cir_cham_prom)
+         && (mov.bool_norm_cham_prom
+             == tabsol.liste[i].bool_norm_cham_prom)
          && mov.sb3where==tabsol.liste[i].sb3where
          && mov.sb3what==tabsol.liste[i].sb3what
          && mov.sb2where==tabsol.liste[i].sb2where
@@ -2264,13 +2241,12 @@ boolean nowdanstab(int n)
          && mov.hurdle==tabsol.liste[i].hurdle
          && (!CondFlag[takemake] || mov.cpzz==tabsol.liste[i].cpzz)
          && (!supergenre
-             || (    (!(CondFlag[supercirce] || CondFlag[april])
-                      || mov.sqren == tabsol.liste[i].sqren)
-                     && (!CondFlag[republican]
-                         || mov.repub_k == tabsol.liste[i].repub_k)
-                     && (!CondFlag[antisuper]
-                         || mov.renkam == tabsol.liste[i].renkam)
-                     )
+             || ((!(CondFlag[supercirce] || CondFlag[april])
+                  || mov.sqren == tabsol.liste[i].sqren)
+                 && (!CondFlag[republican]
+                     || mov.repub_k == tabsol.liste[i].repub_k)
+                 && (!CondFlag[antisuper]
+                     || mov.renkam == tabsol.liste[i].renkam))
              )
          ) {
       return true;
@@ -2279,11 +2255,11 @@ boolean nowdanstab(int n)
   return false;
 }
 
-void ecritcoup(Goal goal)
+void ecritcoup(ply ply_id, Goal goal)
 {
   coup mov;
-  current(&mov);
-  editcoup(&mov,goal);
+  current(ply_id,&mov);
+  editcoup(ply_id,&mov,goal);
 }
 
 void WriteForsyth(void)
@@ -2358,10 +2334,10 @@ boolean has_too_many_flights(Side defender)
     genmove(defender);
     while (encore() && nrflleft>0)
     {
-      if (jouecoup())
+      if (jouecoup(nbply))
       {
         square const rbn = defender==Black ? rn : rb;
-        if (save_rbn!=rbn && !echecc(defender))
+        if (save_rbn!=rbn && !echecc(nbply,defender))
           nrflleft--;
       }
       repcoup();
@@ -2384,7 +2360,7 @@ static void SolveSeriesProblems(void)
   if (OptFlag[solapparent] && !OptFlag[restart])
   {
     SatzFlag = true;
-    if (echecc(slices[0].starter))
+    if (echecc(nbply,slices[0].starter))
       ErrorMsg(KingCapture);
     else
     {
@@ -2405,7 +2381,7 @@ static void SolveSeriesProblems(void)
   if (OptFlag[maxsols])    /* reset after set play */
     solutions= 0;
 
-  if (echecc(advers(slices[0].starter)))
+  if (echecc(nbply,advers(slices[0].starter)))
     ErrorMsg(KingCapture);
   else
   {
@@ -2570,7 +2546,7 @@ static void SolveHelpProblems(void)
 
   if (OptFlag[solapparent])
   {
-    if (echecc(slices[0].starter))
+    if (echecc(nbply,slices[0].starter))
       ErrorMsg(KingCapture);
     else
     {
@@ -2586,7 +2562,7 @@ static void SolveHelpProblems(void)
   if (OptFlag[maxsols])    /* reset after set play */
     solutions = 0;
 
-  if (echecc(advers(slices[0].starter)))
+  if (echecc(nbply,advers(slices[0].starter)))
     ErrorMsg(KingCapture);
   else
     FlagShortSolsReached = SolveHelpShortOrFull(OptFlag[stoponshort]);
@@ -2603,7 +2579,7 @@ static void SolveDirectProblems(void)
 
   if (OptFlag[postkeyplay])
   {
-    if (echecc(slices[0].starter))
+    if (echecc(nbply,slices[0].starter))
       ErrorMsg(SetAndCheck);
     else
     {
@@ -2615,7 +2591,7 @@ static void SolveDirectProblems(void)
   {
     if (OptFlag[solapparent] && slices[0].u.composite.length>1)
     {
-      if (echecc(slices[0].starter))
+      if (echecc(nbply,slices[0].starter))
         ErrorMsg(SetAndCheck);
       else
       {
@@ -2624,7 +2600,7 @@ static void SolveDirectProblems(void)
       }
     }
 
-    if (echecc(advers(slices[0].starter)))
+    if (echecc(nbply,advers(slices[0].starter)))
       ErrorMsg(KingCapture);
     else
       d_composite_solve(OptFlag[movenbr],0);

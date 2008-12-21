@@ -105,8 +105,8 @@ static int count_non_trivial(slice_index si)
 
   while (encore() && max_nr_nontrivial>=result)
   {
-    if (jouecoup()
-        && !echecc(defender)
+    if (jouecoup(nbply)
+        && !echecc(nbply,defender)
         && !(min_length_nontrivial>0
              && d_composite_does_attacker_win(min_length_nontrivial,si)))
       ++result;
@@ -153,7 +153,7 @@ d_defender_win_type d_composite_middle_does_defender_win(stip_length_type n,
   /* TODO should we? i.e. do it or remove comment */
 
   if (n>max_len_threat
-	  && !echecc(defender)
+	  && !echecc(nbply,defender)
 	  && !d_composite_does_attacker_win(max_len_threat,si))
   {
     TraceFunctionExit(__func__);
@@ -194,9 +194,8 @@ d_defender_win_type d_composite_middle_does_defender_win(stip_length_type n,
 
   while (!refutation_found && encore())
   {
-    TraceCurrentMove();
-	if (jouecoup()
-        && !echecc(defender))
+	if (jouecoup(nbply) && TraceCurrentMove()
+        && !echecc(nbply,defender))
 	{
 	  is_defender_immobile = false;
 	  if (!d_composite_does_attacker_win(n,si))
@@ -273,9 +272,8 @@ static boolean d_composite_middle_does_attacker_win(stip_length_type n,
 
   while (!win_found && encore())
   {
-    TraceCurrentMove();
-    if (jouecoup()
-        && !echecc(attacker))
+    if (jouecoup(nbply) && TraceCurrentMove()
+        && !echecc(nbply,attacker))
     {
       if (d_composite_does_defender_win(n-1,si)>=loss)
       {
@@ -396,7 +394,7 @@ static int d_composite_find_refutations(int t, slice_index si)
   TraceFunctionParam("%d\n",si);
 
   if (n>max_len_threat
-      && !echecc(defender)
+      && !echecc(nbply,defender)
       && !d_composite_does_attacker_win(max_len_threat,si))
   {
     TraceFunctionExit(__func__);
@@ -434,9 +432,8 @@ static int d_composite_find_refutations(int t, slice_index si)
   while (encore()
          && tablen(t)<=max_nr_refutations)
   {
-    TraceCurrentMove();
-    if (jouecoup()
-        && !echecc(defender))
+    if (jouecoup(nbply) && TraceCurrentMove()
+        && !echecc(nbply,defender))
     {
       is_defender_immobile = false;
       if (!d_composite_does_attacker_win(n,si))
@@ -445,6 +442,7 @@ static int d_composite_find_refutations(int t, slice_index si)
         pushtabsol(t);
       }
     }
+
     repcoup();
   }
   finply();
@@ -608,10 +606,9 @@ static boolean h_composite_solve_recursive_nohash(Side side_at_move,
 
     while (encore())
     {
-      TraceCurrentMove();
-      if (jouecoup()
+      if (jouecoup(nbply) && TraceCurrentMove()
           && (!isIntelligentModeActive || isGoalReachable())
-          && !echecc(side_at_move)
+          && !echecc(nbply,side_at_move)
           && !(restartenabled && MoveNbr<RestartNbr)
           && !h_composite_end_is_unsolvable(si)
           && h_composite_solve_recursive(next_side,n-1,false,si))
@@ -784,17 +781,16 @@ static boolean ser_composite_exact_solve_recursive(stip_length_type n,
 
       while (encore())
       {
-        TraceCurrentMove();
-        if (!jouecoup())
-          TraceText("!jouecoup()\n");
-        else if (echecc(series_side))
-          TraceText("echecc(series_side)\n");
+        if (!(jouecoup(nbply) && TraceCurrentMove()))
+          TraceText("!jouecoup(nbply)\n");
+        else if (echecc(nbply,series_side))
+          TraceText("echecc(nbply,series_side)\n");
         else if (restartenabled && MoveNbr<RestartNbr)
           TraceText("restartenabled && MoveNbr<RestartNbr\n");
         else if (isIntelligentModeActive && !isGoalReachable())
           TraceText("isIntelligentModeActive && !isGoalReachable()\n");
-        else if (echecc(other_side))
-          TraceText("echecc(other_side)\n");
+        else if (echecc(nbply,other_side))
+          TraceText("echecc(nbply,other_side)\n");
         else
         {
           HashBuffer hb;
@@ -880,17 +876,16 @@ static boolean ser_composite_maximal_solve(stip_length_type n,
 
       while (encore())
       {
-        TraceCurrentMove();
-        if (!jouecoup())
-          TraceText("!jouecoup()\n");
-        else if (echecc(series_side))
-          TraceText("echecc(series_side)\n");
+        if (!(jouecoup(nbply) && TraceCurrentMove()))
+          TraceText("!jouecoup(nbply)\n");
+        else if (echecc(nbply,series_side))
+          TraceText("echecc(nbply,series_side)\n");
         else if (restartenabled && MoveNbr<RestartNbr)
           TraceText("restartenabled && MoveNbr<RestartNbr\n");
         else if (isIntelligentModeActive && !isGoalReachable())
           TraceText("isIntelligentModeActive && !isGoalReachable()\n");
-        else if (echecc(other_side))
-          TraceText("echecc(other_side)\n");
+        else if (echecc(nbply,other_side))
+          TraceText("echecc(nbply,other_side)\n");
         else
         {
           HashBuffer hb;
@@ -1093,10 +1088,9 @@ static boolean d_composite_defends_against_threats(stip_length_type n,
 
     while (encore() && !defense_found)
     {
-      TraceCurrentMove();
-      if (jouecoup()
+      if (jouecoup(nbply) && TraceCurrentMove()
           && nowdanstab(threats)
-          && !echecc(attacker))
+          && !echecc(nbply,attacker))
       {
         TraceText("checking threat\n");
         defense_found = d_composite_middle_is_threat_refuted(n,si);
@@ -1189,7 +1183,7 @@ static int d_composite_middle_solve_threats(stip_length_type n,
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  if (OptFlag[nothreat] || echecc(defender))
+  if (OptFlag[nothreat] || echecc(nbply,defender))
     write_attack_conclusion(attack_without_zugzwang);
   else
   {
@@ -1267,9 +1261,8 @@ void d_composite_solve_variations(stip_length_type n,
 
   while(encore())
   {
-    TraceCurrentMove();
-    if (jouecoup()
-        && !echecc(defender)
+    if (jouecoup(nbply) && TraceCurrentMove()
+        && !echecc(nbply,defender)
         && !nowdanstab(refutations))
     {
       if (n>2 && OptFlag[noshort]
@@ -1369,9 +1362,8 @@ void d_composite_solve_continuations(stip_length_type n,
 
     while (encore())
     {
-      TraceCurrentMove();
-      if (jouecoup()
-          && !echecc(attacker))
+      if (jouecoup(nbply) && TraceCurrentMove()
+          && !echecc(nbply,attacker))
       {
         d_defender_win_type const defender_success =
             d_composite_does_defender_win(n-1,si);
@@ -1461,9 +1453,8 @@ void d_composite_solve_setplay(slice_index si)
 
     while(encore())
     {
-      TraceCurrentMove();
-      if (jouecoup()
-          && !echecc(defender))
+      if (jouecoup(nbply) && TraceCurrentMove()
+          && !echecc(nbply,defender))
       {
         if (d_slice_has_defender_lost(si))
           ; /* oops */
@@ -1594,10 +1585,9 @@ static void d_composite_middle_solve(boolean restartenabled, slice_index si)
 
   while (encore())
   {
-    TraceCurrentMove();
-    if (jouecoup()
+    if (jouecoup(nbply) && TraceCurrentMove()
         && !(restartenabled && MoveNbr<RestartNbr)
-        && !echecc(attacker))
+        && !echecc(nbply,attacker))
     {
       if (!slices[si].u.composite.is_exact
           && d_slice_has_attacker_won(si))

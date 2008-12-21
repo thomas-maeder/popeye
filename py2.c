@@ -53,11 +53,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-boolean eval_ortho(square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_ortho(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
   return true;
 }
 
-boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
+boolean legalsquare(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
   if (CondFlag[koeko]) {
     if (nocontact(sq_departure,sq_arrival,sq_capture, koekofunc))
       return(false);
@@ -101,10 +101,10 @@ boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
   }
   if (anygeneva) {
     if ((e[sq_capture] <= roin) && (rex_geneva || (sq_departure != rb)))
-      if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,Black)] != vide)
+      if (e[(*genevarenai)(nbply,e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,Black)] != vide)
         return(false);
     if ((e[sq_capture] >= roib) && (rex_geneva || (sq_departure != rn)))
-      if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,White)] != vide)
+      if (e[(*genevarenai)(nbply,e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,White)] != vide)
         return(false);
   }
   return(true);
@@ -161,20 +161,20 @@ boolean castlingimok(square i, square j) {
 
   switch (j-i)
   {
-  case 2*dir_right:  /* 00 - can short-circuit here (only follow K, if ok rest will be ok) */
-    e[i]= vide;
-    ret= imok(i, i+dir_right) && imok(i, i+2*dir_right);
-    e[i]= p;
-    break;
+    case 2*dir_right:  /* 00 - can short-circuit here (only follow K, if ok rest will be ok) */
+      e[i]= vide;
+      ret= imok(i, i+dir_right) && imok(i, i+2*dir_right);
+      e[i]= p;
+      break;
 
-  case 2*dir_left:  /* 000 - follow K, (and move K as well), then follow R */
-    e[i]= vide;
-    ret= imok(i, i+dir_left) && imok(i, i+2*dir_left);
-    e[i+2*dir_left]= p;
-    ret= ret && imok(i, i+dir_left) && imok (i, i) && imok(i, i+dir_right);
-    e[i+2*dir_left]= vide;
-    e[i]= p;
-    break;
+    case 2*dir_left:  /* 000 - follow K, (and move K as well), then follow R */
+      e[i]= vide;
+      ret= imok(i, i+dir_left) && imok(i, i+2*dir_left);
+      e[i+2*dir_left]= p;
+      ret= ret && imok(i, i+dir_left) && imok (i, i) && imok(i, i+dir_right);
+      e[i+2*dir_left]= vide;
+      e[i]= p;
+      break;
   }
   return ret;
 }
@@ -239,7 +239,8 @@ void joueim(int diff) {
 
 }
 
-boolean rmhopech(square sq_king,
+boolean rmhopech(ply ply_id,
+                 square sq_king,
                  numvec kend,
                  numvec kanf,
                  angle_t angle,
@@ -274,12 +275,12 @@ boolean rmhopech(square sq_king,
       k1= 2*k;
       finligne(sq_hurdle,mixhopdata[angle][k1],hopper,sq_departure);
       if (hopper==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
+        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
           return true;
       }
       finligne(sq_hurdle,mixhopdata[angle][k1-1],hopper,sq_departure);
       if (hopper==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
+        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
           return true;
       }
     }
@@ -287,7 +288,8 @@ boolean rmhopech(square sq_king,
   return false;
 }
 
-boolean rcsech(square  sq_king,
+boolean rcsech(ply ply_id,
+               square  sq_king,
                numvec  k,
                numvec  k1,
                piece   p,
@@ -316,7 +318,7 @@ boolean rcsech(square  sq_king,
   }
 
   if (e[sq_departure]==p
-      && evaluate(sq_departure,sq_arrival,sq_capture))
+      && evaluate(ply_id,sq_departure,sq_arrival,sq_capture))
     return true;
 
   sq_departure = sq_king+k;
@@ -329,66 +331,67 @@ boolean rcsech(square  sq_king,
   }
 
   if (e[sq_departure]==p
-      && evaluate(sq_departure,sq_arrival,sq_capture))
+      && evaluate(ply_id,sq_departure,sq_arrival,sq_capture))
     return true;
 
   return false;
 }
 
-boolean nevercheck(
-  square  i,
-  piece   p,
-  evalfunction_t *evaluate)
+boolean nevercheck(ply ply_id,
+                   square  i,
+                   piece   p,
+                   evalfunction_t *evaluate)
 {
   return false;
 }
 
-boolean cscheck(
-  square  i,
-  piece   p,
-  evalfunction_t *evaluate)
+boolean cscheck(ply ply_id,
+                square  i,
+                piece   p,
+                evalfunction_t *evaluate)
 {
   numvec  k;
 
   for (k= vec_knight_start; k <= vec_knight_end; k++) {
-    if (rcsech(i, vec[k], vec[25 - k], p, evaluate)) {
+    if (rcsech(ply_id, i, vec[k], vec[25 - k], p, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean bscoutcheck(
-  square  i,
-  piece   p,
-  evalfunction_t *evaluate)
+boolean bscoutcheck(ply ply_id,
+                    square  i,
+                    piece   p,
+                    evalfunction_t *evaluate)
 {
   numvec  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
-    if (rcsech(i, vec[k], vec[13 - k], p, evaluate)) {
+    if (rcsech(ply_id, i, vec[k], vec[13 - k], p, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean gscoutcheck(
-  square  i,
-  piece   p,
-  evalfunction_t *evaluate)
+boolean gscoutcheck(ply ply_id,
+                    square  i,
+                    piece   p,
+                    evalfunction_t *evaluate)
 {
   numvec  k;
 
   for (k= vec_rook_end; k >= vec_rook_start; k--) {
-    if (rcsech(i, vec[k], vec[5 - k], p, evaluate)) {
+    if (rcsech(ply_id, i, vec[k], vec[5 - k], p, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean rrefcech(square sq_king,
+boolean rrefcech(ply ply_id,
+                 square sq_king,
                  square i1,
                  int   x,
                  piece  p,
@@ -405,26 +408,27 @@ boolean rrefcech(square sq_king,
       sq_departure= i1+vec[k];
       if (e[sq_departure]==vide) {
         if (!NoEdge(sq_departure)) {
-          if (rrefcech(sq_king,sq_departure,x-1,p,evaluate))
+          if (rrefcech(ply_id, sq_king,sq_departure,x-1,p,evaluate))
             return true;
         }
       }
       else if (e[sq_departure]==p
-               && evaluate(sq_departure,sq_king,sq_king))
+               && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
     }
     else
       for (k= vec_knight_start; k <= vec_knight_end; k++) {
         sq_departure= i1+vec[k];
         if (e[sq_departure]==p
-            && evaluate(sq_departure,sq_king,sq_king))
+            && evaluate(ply_id,sq_departure,sq_king,sq_king))
           return true;
       }
   
   return false;
 }
 
-boolean rrefnech(square sq_king,
+boolean rrefnech(ply ply_id,
+                 square sq_king,
                  square i1,
                  piece  p,
                  evalfunction_t *evaluate)
@@ -443,19 +447,20 @@ boolean rrefnech(square sq_king,
     {
       if (!NoEdge(sq_departure) && 
           !traversed(sq_departure)) {
-            if (rrefnech(sq_king,sq_departure,p,evaluate))
-              return true;
+        if (rrefnech(ply_id, sq_king,sq_departure,p,evaluate))
+          return true;
         break;
       }
     }
     if (e[sq_departure] == p &&
-      evaluate(sq_departure,sq_king,sq_king))
-        return true;
+        evaluate(ply_id,sq_departure,sq_king,sq_king))
+      return true;
   }
   return false;
 }
 
-boolean nequicheck(square   sq_king,
+boolean nequicheck(ply ply_id,
+                   square   sq_king,
                    piece    p,
                    evalfunction_t *evaluate)
 {
@@ -481,7 +486,7 @@ boolean nequicheck(square   sq_king,
       if (e[sq_hurdle]!=vide
           && e[sq_departure]==p
           && sq_king!=sq_departure
-          && evaluate(sq_departure,sq_king,sq_king)
+          && evaluate(ply_id,sq_departure,sq_king,sq_king)
           && hopimcheck(sq_departure,
                         sq_king,
                         sq_hurdle,
@@ -492,7 +497,8 @@ boolean nequicheck(square   sq_king,
   return false;
 }
 
-boolean equifracheck(square sq_king,
+boolean equifracheck(ply ply_id,
+                     square sq_king,
                      piece  p,
                      evalfunction_t *evaluate)
 {
@@ -511,195 +517,196 @@ boolean equifracheck(square sq_king,
         && e[sq_hurdle]!=obs
         && e[sq_departure]==p
         && sq_king!=sq_departure
-        && evaluate(sq_departure,sq_king,sq_king))
+        && evaluate(ply_id,sq_departure,sq_king,sq_king))
       return true;
   }
 
   return false;
 }
 
-boolean vizircheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean vizircheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_rook_start, vec_rook_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_rook_start, vec_rook_end, p, evaluate);
 }
 
-boolean dabcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean dabcheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_dabbaba_start, vec_dabbaba_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_dabbaba_start, vec_dabbaba_end, p, evaluate);
 }
 
-boolean ferscheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean ferscheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_bishop_start, vec_bishop_end, p, evaluate);
-}
-
-
-boolean alfilcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
-{
-  return leapcheck(i, vec_alfil_start, vec_alfil_end, p, evaluate);
-}
-
-boolean rccinqcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
-{
-  return leapcheck(i, vec_rccinq_start, vec_rccinq_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_bishop_start, vec_bishop_end, p, evaluate);
 }
 
 
-boolean bucheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean alfilcheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_bucephale_start, vec_bucephale_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_alfil_start, vec_alfil_end, p, evaluate);
+}
+
+boolean rccinqcheck(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
+{
+  return leapcheck(ply_id, i, vec_rccinq_start, vec_rccinq_end, p, evaluate);
 }
 
 
-boolean gicheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean bucheck(ply ply_id,
+                square    i,
+                piece p,
+                evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_girafe_start, vec_girafe_end, p, evaluate);
-}
-
-boolean chcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
-{
-  return leapcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_bucephale_start, vec_bucephale_end, p, evaluate);
 }
 
 
-boolean zcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean gicheck(ply ply_id,
+                square    i,
+                piece p,
+                evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_zebre_start, vec_zebre_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_girafe_start, vec_girafe_end, p, evaluate);
 }
 
-boolean leap16check(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean chcheck(ply ply_id,
+                square    i,
+                piece p,
+                evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap16_start, vec_leap16_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
-boolean leap24check(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+
+boolean zcheck(ply ply_id,
+               square    i,
+               piece p,
+               evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap24_start, vec_leap24_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_zebre_start, vec_zebre_end, p, evaluate);
 }
 
-boolean leap35check(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean leap16check(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap35_start, vec_leap35_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_leap16_start, vec_leap16_end, p, evaluate);
 }
 
-boolean leap37check(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean leap24check(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap37_start, vec_leap37_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_leap24_start, vec_leap24_end, p, evaluate);
 }
 
-boolean okapicheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean leap35check(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_okapi_start, vec_okapi_end, p, evaluate);   /* knight+zebra !!! */
+  return leapcheck(ply_id, i, vec_leap35_start, vec_leap35_end, p, evaluate);
 }
 
-boolean bisoncheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean leap37check(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_bison_start, vec_bison_end, p, evaluate);    /* camel+zebra !!! */
+  return leapcheck(ply_id, i, vec_leap37_start, vec_leap37_end, p, evaluate);
 }
 
-boolean zebucheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean okapicheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return (leapcheck(i,vec_chameau_start,vec_chameau_end,p,evaluate)
-          || leapcheck(i,vec_girafe_start,vec_girafe_end,p,evaluate));
+  return leapcheck(ply_id, i, vec_okapi_start, vec_okapi_end, p, evaluate);   /* knight+zebra */
 }
 
-boolean elephantcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean bisoncheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_elephant_start, vec_elephant_end, p, evaluate);    /* queen+nightrider  */
+  return leapcheck(ply_id, i, vec_bison_start, vec_bison_end, p, evaluate);    /* camel+zebra */
 }
 
-boolean ncheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean zebucheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_knight_start, vec_knight_end, p, evaluate);
+  return (leapcheck(ply_id, i,vec_chameau_start,vec_chameau_end,p,evaluate)
+          || leapcheck(ply_id, i,vec_girafe_start,vec_girafe_end,p,evaluate));
 }
 
-boolean scheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean elephantcheck(ply ply_id,
+                      square    i,
+                      piece p,
+                      evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return ridcheck(ply_id, i, vec_elephant_start, vec_elephant_end, p, evaluate);    /* queen+nightrider  */
 }
 
-boolean grasshop2check(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean ncheck(ply ply_id,
+               square    i,
+               piece p,
+               evalfunction_t *evaluate)
 {
-  return rhop2check(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return ridcheck(ply_id, i, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
-boolean grasshop3check(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean scheck(ply ply_id,
+               square    i,
+               piece p,
+               evalfunction_t *evaluate)
 {
-  return rhop3check(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return rhopcheck(ply_id, i, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean kinghopcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean grasshop2check(ply ply_id,
+                       square    i,
+                       piece p,
+                       evalfunction_t *evaluate)
 {
-  return shopcheck(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return rhop2check(ply_id, i, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean doublegrascheck(square  sq_king,
+boolean grasshop3check(ply ply_id,
+                       square    i,
+                       piece p,
+                       evalfunction_t *evaluate)
+{
+  return rhop3check(ply_id, i, vec_queen_start, vec_queen_end, p, evaluate);
+}
+
+boolean kinghopcheck(ply ply_id,
+                     square    i,
+                     piece p,
+                     evalfunction_t *evaluate)
+{
+  return shopcheck(ply_id, i, vec_queen_start, vec_queen_end, p, evaluate);
+}
+
+boolean doublegrascheck(ply ply_id,
+                        square  sq_king,
                         piece   p,
                         evalfunction_t *evaluate)
 {
@@ -722,7 +729,7 @@ boolean doublegrascheck(square  sq_king,
           if (abs(e[sq_hurdle1]) >= roib) {
             finligne(sq_hurdle1,vec[k1],doublegras,sq_departure);
             if (doublegras==p
-                && evaluate(sq_departure,sq_king,sq_king))
+                && evaluate(ply_id,sq_departure,sq_king,sq_king))
               return true;
           }
         }
@@ -734,102 +741,104 @@ boolean doublegrascheck(square  sq_king,
   return false;
 }
 
-boolean contragrascheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean contragrascheck(ply ply_id,
+                        square    i,
+                        piece p,
+                        evalfunction_t *evaluate)
 {
-  return crhopcheck(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return crhopcheck(ply_id, i, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean nightlocustcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean nightlocustcheck(ply ply_id,
+                         square    i,
+                         piece p,
+                         evalfunction_t *evaluate)
 {
-  return marincheck(i, vec_knight_start, vec_knight_end, p, evaluate);
+  return marincheck(ply_id, i, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
-boolean loccheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean loccheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
-  return marincheck(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return marincheck(ply_id, i, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean tritoncheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean tritoncheck(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return marincheck(i, vec_rook_start, vec_rook_end, p, evaluate);
+  return marincheck(ply_id, i, vec_rook_start, vec_rook_end, p, evaluate);
 }
 
-boolean nereidecheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean nereidecheck(ply ply_id,
+                     square    i,
+                     piece p,
+                     evalfunction_t *evaluate)
 {
-  return marincheck(i, vec_bishop_start, vec_bishop_end, p, evaluate);
+  return marincheck(ply_id, i, vec_bishop_start, vec_bishop_end, p, evaluate);
 }
 
-boolean nightriderlioncheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean nightriderlioncheck(ply ply_id,
+                            square    i,
+                            piece p,
+                            evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_knight_start, vec_knight_end, p, evaluate);
+  return lrhopcheck(ply_id, i, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
-boolean lioncheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean lioncheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return lrhopcheck(ply_id, i, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean t_lioncheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean t_lioncheck(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return lrhopcheck(ply_id, i, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
-boolean f_lioncheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean f_lioncheck(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return lrhopcheck(ply_id, i, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
 /* see comment in py4.c on how rose and rose based pieces are
  * handled */
-boolean detect_rosecheck_on_line(square sq_king,
-                                        piece p,
-                                        numvec k, numvec k1,
-                                        numvec delta_k,
-                                        evalfunction_t *evaluate) {
+boolean detect_rosecheck_on_line(ply ply_id,
+                                 square sq_king,
+                                 piece p,
+                                 numvec k, numvec k1,
+                                 numvec delta_k,
+                                 evalfunction_t *evaluate) {
   square sq_departure= fin_circle_line(sq_king,k,&k1,delta_k);
   return e[sq_departure]==p
-    && sq_departure!=sq_king /* pieces don't give check to themselves */
-    && evaluate(sq_departure,sq_king,sq_king);
+      && sq_departure!=sq_king /* pieces don't give check to themselves */
+      && evaluate(ply_id,sq_departure,sq_king,sq_king);
 }
 
-boolean rosecheck(square    sq_king,
+boolean rosecheck(ply ply_id,
+                  square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
   numvec  k;
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
-    if (detect_rosecheck_on_line(sq_king,p,
+    if (detect_rosecheck_on_line(ply_id,sq_king,p,
                                  k,0,+1,
                                  evaluate))
       return true;
-    if (detect_rosecheck_on_line(sq_king,p,
+    if (detect_rosecheck_on_line(ply_id,sq_king,p,
                                  k,vec_knight_end-vec_knight_start+1,-1,
                                  evaluate))
       return true;
@@ -838,11 +847,12 @@ boolean rosecheck(square    sq_king,
   return false;
 }
 
-boolean detect_roselioncheck_on_line(square sq_king,
-                                            piece p,
-                                            numvec k, numvec k1,
-                                            numvec delta_k,
-                                            evalfunction_t *evaluate) {
+boolean detect_roselioncheck_on_line(ply ply_id,
+                                     square sq_king,
+                                     piece p,
+                                     numvec k, numvec k1,
+                                     numvec delta_k,
+                                     evalfunction_t *evaluate) {
   square sq_hurdle= fin_circle_line(sq_king,k,&k1,delta_k);
   if (sq_hurdle!=sq_king && e[sq_hurdle]!=obs) {
     square sq_departure= fin_circle_line(sq_hurdle,k,&k1,delta_k);
@@ -853,31 +863,32 @@ boolean detect_roselioncheck_on_line(square sq_king,
       /* special case: king and rose lion are the only pieces on the
        * line -> king is hurdle, and what we thought to be the hurdle
        * is in fact the rose lion! */
-      if (evaluate(sq_hurdle,sq_king,sq_king))
+      if (evaluate(ply_id,sq_hurdle,sq_king,sq_king))
         return true;
     }
 #endif
 
     if (e[sq_departure]==p
         && sq_departure!=sq_king /* pieces don't give check to themselves */
-        && evaluate(sq_departure,sq_king,sq_king))
+        && evaluate(ply_id,sq_departure,sq_king,sq_king))
       return true;
   }
 
   return false;
 }
 
-boolean roselioncheck(square    sq_king,
+boolean roselioncheck(ply ply_id,
+                      square    sq_king,
                       piece p,
                       evalfunction_t *evaluate)
 {
   /* detects check by a rose lion */
   numvec  k;
   for (k= vec_knight_start; k <= vec_knight_end; k++)
-    if (detect_roselioncheck_on_line(sq_king,p,
+    if (detect_roselioncheck_on_line(ply_id,sq_king,p,
                                      k,0,+1,
                                      evaluate)
-        || detect_roselioncheck_on_line(sq_king,p,
+        || detect_roselioncheck_on_line(ply_id,sq_king,p,
                                         k,vec_knight_end-vec_knight_start+1,-1,
                                         evaluate))
       return true;
@@ -885,19 +896,21 @@ boolean roselioncheck(square    sq_king,
   return false;
 }
 
-boolean detect_rosehoppercheck_on_line(square sq_king,
-                                              square sq_hurdle,
-                                              piece p,
-                                              numvec k, numvec k1,
-                                              numvec delta_k,
-                                              evalfunction_t *evaluate) {
+boolean detect_rosehoppercheck_on_line(ply ply_id,
+                                       square sq_king,
+                                       square sq_hurdle,
+                                       piece p,
+                                       numvec k, numvec k1,
+                                       numvec delta_k,
+                                       evalfunction_t *evaluate) {
   square sq_departure= fin_circle_line(sq_hurdle,k,&k1,delta_k);
   return e[sq_departure]==p
-    && sq_departure!=sq_king
-    && evaluate(sq_departure,sq_king,sq_king);
+      && sq_departure!=sq_king
+      && evaluate(ply_id,sq_departure,sq_king,sq_king);
 }
 
-boolean rosehoppercheck(square  sq_king,
+boolean rosehoppercheck(ply ply_id,
+                        square  sq_king,
                         piece   p,
                         evalfunction_t *evaluate) {
   /* detects check by a rose hopper */
@@ -907,36 +920,38 @@ boolean rosehoppercheck(square  sq_king,
   for (k= vec_knight_start; k <= vec_knight_end; k++) {
     sq_hurdle= sq_king+vec[k];
     if (e[sq_hurdle]!=vide && e[sq_hurdle]!=obs) {
-        /* k1==0 (and the equivalent
-         * vec_knight_end-vec_knight_start+1) were already used for
-         * sq_hurdle! */
-      if (detect_rosehoppercheck_on_line(sq_king,sq_hurdle,p,
+      /* k1==0 (and the equivalent
+       * vec_knight_end-vec_knight_start+1) were already used for
+       * sq_hurdle! */
+      if (detect_rosehoppercheck_on_line(ply_id,sq_king,sq_hurdle,p,
                                          k,1,+1,
                                          evaluate))
         return true;
-      if (detect_rosehoppercheck_on_line(sq_king,sq_hurdle,p,
+      if (detect_rosehoppercheck_on_line(ply_id,sq_king,sq_hurdle,p,
                                          k,vec_knight_end-vec_knight_start,-1,
                                          evaluate))
-      return true;
+        return true;
     }
   }
 
   return false;
 }
 
-boolean detect_roselocustcheck_on_line(square sq_king,
-                                              square sq_arrival,
-                                              piece p,
-                                              numvec k, numvec k1,
-                                              numvec delta_k,
-                                              evalfunction_t *evaluate) {
+boolean detect_roselocustcheck_on_line(ply ply_id,
+                                       square sq_king,
+                                       square sq_arrival,
+                                       piece p,
+                                       numvec k, numvec k1,
+                                       numvec delta_k,
+                                       evalfunction_t *evaluate) {
   square sq_departure= fin_circle_line(sq_king,k,&k1,delta_k);
   return e[sq_departure]==p
-    && sq_departure!=sq_king
-    && evaluate(sq_departure,sq_arrival,sq_king);
+      && sq_departure!=sq_king
+      && evaluate(ply_id,sq_departure,sq_arrival,sq_king);
 }
 
-boolean roselocustcheck(square  sq_king,
+boolean roselocustcheck(ply ply_id,
+                        square  sq_king,
                         piece   p,
                         evalfunction_t *evaluate) {
   /* detects check by a rose locust */
@@ -946,24 +961,25 @@ boolean roselocustcheck(square  sq_king,
   for (k= vec_knight_start; k <= vec_knight_end; k++) {
     sq_arrival= sq_king-vec[k];
     if (e[sq_arrival]==vide) {
-        /* k1==0 (and the equivalent
-         * vec_knight_end-vec_knight_start+1) were already used for
-         * sq_hurdle! */
-      if (detect_roselocustcheck_on_line(sq_king,sq_arrival,p,
+      /* k1==0 (and the equivalent
+       * vec_knight_end-vec_knight_start+1) were already used for
+       * sq_hurdle! */
+      if (detect_roselocustcheck_on_line(ply_id,sq_king,sq_arrival,p,
                                          k,1,+1,
                                          evaluate))
         return true;
-      if (detect_roselocustcheck_on_line(sq_king,sq_arrival,p,
+      if (detect_roselocustcheck_on_line(ply_id,sq_king,sq_arrival,p,
                                          k,vec_knight_end-vec_knight_start,-1,
                                          evaluate))
-      return true;
+        return true;
     }
   }
 
   return false;
 }
  
-boolean maocheck(square sq_king,
+boolean maocheck(ply ply_id,
+                 square sq_king,
                  piece  p,
                  evalfunction_t *evaluate)
 {
@@ -972,14 +988,14 @@ boolean maocheck(square sq_king,
   if (e[sq_king+dir_up+dir_right]==vide) {
     sq_departure= sq_king+dir_up+2*dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_up+2*dir_right,
                             sq_king,
                             sq_king+dir_up+dir_right);
     }
     sq_departure= sq_king+2*dir_up+dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_up+dir_right,
                             sq_king,
                             sq_king+dir_up+dir_right);
@@ -989,14 +1005,14 @@ boolean maocheck(square sq_king,
   if (e[sq_king+dir_down+dir_left]==vide) {
     sq_departure= sq_king+dir_down+2*dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_down+2*dir_left,
                             sq_king,
                             sq_king+dir_down+dir_left);
     }
     sq_departure= sq_king+2*dir_down+dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_down+dir_left,
                             sq_king,
                             sq_king+dir_down+dir_left);
@@ -1006,14 +1022,14 @@ boolean maocheck(square sq_king,
   if (e[sq_king+dir_up+dir_left]==vide) {
     sq_departure= sq_king+dir_up+2*dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_up+2*dir_left,
                             sq_king,
                             sq_king+dir_up+dir_left);
     }
     sq_departure= sq_king+2*dir_up+dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_up+dir_left,
                             sq_king,
                             sq_king+dir_up+dir_left);
@@ -1023,14 +1039,14 @@ boolean maocheck(square sq_king,
   if (e[sq_king+dir_down+dir_right]==vide) {
     sq_departure= sq_king+2*dir_down+dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_down+dir_right,
                             sq_king,
                             sq_king+dir_down+dir_right);
     }
     sq_departure= sq_king+dir_down+2*dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_down+2*dir_right,
                             sq_king,
                             sq_king+dir_down+dir_right);
@@ -1040,7 +1056,8 @@ boolean maocheck(square sq_king,
   return false;
 }
 
-boolean moacheck(square sq_king,
+boolean moacheck(ply ply_id,
+                 square sq_king,
                  piece  p,
                  evalfunction_t *evaluate)
 {
@@ -1049,48 +1066,48 @@ boolean moacheck(square sq_king,
   if (e[sq_king+dir_up]==vide) {
     sq_departure= sq_king+2*dir_up+dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_up+dir_left, sq_king, sq_king+dir_up);
     }
     sq_departure= sq_king+2*dir_up+dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_up+dir_right, sq_king, sq_king+dir_up);
     }
   }
   if (e[sq_king+dir_down]==vide) {
     sq_departure= sq_king+2*dir_down+dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_down+dir_right, sq_king, sq_king+dir_down);
     }
     sq_departure= sq_king+2*dir_down+dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_down+dir_left, sq_king, sq_king+dir_down);
     }
   }
   if (e[sq_king+dir_right]==vide) {
     sq_departure= sq_king+dir_up+2*dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_up+2*dir_right, sq_king, sq_king+dir_right);
     }
     sq_departure= sq_king+dir_down+2*dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_down+2*dir_right, sq_king, sq_king+dir_right);
     }
   }
   if (e[sq_king+dir_left]==vide) {
     sq_departure= sq_king+dir_down+2*dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_down+2*dir_left, sq_king, sq_king+dir_left);
     }
     sq_departure= sq_king+dir_up+2*dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(sq_departure,sq_king,sq_king))
+      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_up+2*dir_left, sq_king, sq_king+dir_left);
     }
   }
@@ -1098,46 +1115,47 @@ boolean moacheck(square sq_king,
   return false;
 }
 
-boolean paocheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean paocheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return lrhopcheck(ply_id, i, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
-boolean vaocheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean vaocheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return lrhopcheck(ply_id, i, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
-boolean naocheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean naocheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_knight_start,vec_knight_end, p, evaluate);
+  return lrhopcheck(ply_id, i, vec_knight_start,vec_knight_end, p, evaluate);
 }
 
-boolean leocheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean leocheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return lrhopcheck(ply_id, i, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean pbcheck(square  sq_king,
+boolean pbcheck(ply ply_id,
+                square  sq_king,
                 piece   p,
                 evalfunction_t *evaluate)
 {
   if (anymars) {
     boolean anymarscheck=
-      (p==e[rb] && e[sq_king+dir_down]==p)
-      || (p==e[rn] && e[sq_king+dir_up]==p);
+        (p==e[rb] && e[sq_king+dir_down]==p)
+        || (p==e[rn] && e[sq_king+dir_up]==p);
     if (!CondFlag[phantom] || anymarscheck)
       return anymarscheck;
   }
@@ -1152,7 +1170,7 @@ boolean pbcheck(square  sq_king,
       square sq_departure= sq_king+dir_up;
             
       if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
+          && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
 
       if (ep[nbply]!=initsquare
@@ -1162,8 +1180,9 @@ boolean pbcheck(square  sq_king,
         /* ep captures of royal pawns */
         sq_departure= ep[nbply]+dir_up;
         if (e[sq_departure]==pbn
-            && evaluate(sq_departure,ep[nbply],sq_king))
-          imech(sq_departure,ep[nbply]);
+            && evaluate(ply_id,sq_departure,ep[nbply],sq_king))
+          if (imcheck(sq_departure,ep[nbply]))
+            return true;
       }
     }
   }
@@ -1177,7 +1196,7 @@ boolean pbcheck(square  sq_king,
       square sq_departure= sq_king+dir_down;
             
       if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
+          && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
       
       if (ep[nbply]!=initsquare
@@ -1187,8 +1206,9 @@ boolean pbcheck(square  sq_king,
         /* ep captures of royal pawns */
         sq_departure= ep[nbply]+dir_down;
         if (e[sq_departure] == pbb
-            && evaluate(sq_departure,ep[nbply],sq_king))
-          imech(sq_departure,ep[nbply]);
+            && evaluate(ply_id,sq_departure,ep[nbply],sq_king))
+          if (imcheck(sq_departure,ep[nbply]))
+            return true;
       }
     }
   }
@@ -1196,7 +1216,8 @@ boolean pbcheck(square  sq_king,
   return false;
 }
 
-boolean bspawncheck(square  sq_king,
+boolean bspawncheck(ply ply_id,
+                    square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
@@ -1209,7 +1230,7 @@ boolean bspawncheck(square  sq_king,
   {
     if (sq_king<=square_h7) {          /* it can move from eigth rank */
       finligne(sq_king,+dir_up,p1,sq_departure);
-      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1217,7 +1238,7 @@ boolean bspawncheck(square  sq_king,
            || (calc_whrefl_king && p == roib)) */
     if (sq_king>=square_a2) {          /* it can move from first rank */
       finligne(sq_king,+dir_down,p1,sq_departure);
-      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1225,7 +1246,8 @@ boolean bspawncheck(square  sq_king,
   return false;
 }
 
-boolean spawncheck(square   sq_king,
+boolean spawncheck(ply ply_id,
+                   square   sq_king,
                    piece    p,
                    evalfunction_t *evaluate)
 {
@@ -1238,11 +1260,11 @@ boolean spawncheck(square   sq_king,
   {
     if (sq_king<=square_h7) {          /* it can move from eigth rank */
       finligne(sq_king,dir_up+dir_left,p1,sq_departure);
-      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
 
       finligne(sq_king,+dir_up+dir_right,p1,sq_departure);
-      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1250,11 +1272,11 @@ boolean spawncheck(square   sq_king,
            || (calc_whrefl_king && p == roib)) */
     if (sq_king>=square_a2) {          /* it can move from first rank */
       finligne(sq_king,+dir_down+dir_right,p1,sq_departure);
-      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
 
       finligne(sq_king,+dir_down+dir_left,p1,sq_departure);
-      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1262,75 +1284,76 @@ boolean spawncheck(square   sq_king,
   return false;
 }
 
-boolean amazcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean amazcheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
-  return  leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-    || ridcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return  leapcheck(ply_id, i, vec_knight_start,vec_knight_end, p, evaluate)
+      || ridcheck(ply_id, i, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean impcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean impcheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
-  return  leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-    || ridcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return  leapcheck(ply_id, i, vec_knight_start,vec_knight_end, p, evaluate)
+      || ridcheck(ply_id, i, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
-boolean princcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean princcheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return  leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-    || ridcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return  leapcheck(ply_id, i, vec_knight_start,vec_knight_end, p, evaluate)
+      || ridcheck(ply_id, i, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
-boolean gnoucheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean gnoucheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
-  return  leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-    || leapcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return  leapcheck(ply_id, i, vec_knight_start,vec_knight_end, p, evaluate)
+      || leapcheck(ply_id, i, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
-boolean antilcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean antilcheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_antilope_start, vec_antilope_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_antilope_start, vec_antilope_end, p, evaluate);
 }
 
-boolean ecurcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean ecurcheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
-  return  leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-    || leapcheck(i, vec_ecureuil_start, vec_ecureuil_end, p, evaluate);
+  return  leapcheck(ply_id, i, vec_knight_start,vec_knight_end, p, evaluate)
+      || leapcheck(ply_id, i, vec_ecureuil_start, vec_ecureuil_end, p, evaluate);
 }
 
-boolean warancheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean warancheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return  ridcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-    || ridcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return  ridcheck(ply_id, i, vec_knight_start,vec_knight_end, p, evaluate)
+      || ridcheck(ply_id, i, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
-boolean dragoncheck(square  sq_king,
+boolean dragoncheck(ply ply_id,
+                    square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
   square sq_departure;
 
-  if (leapcheck(sq_king,vec_knight_start,vec_knight_end,p,evaluate))
+  if (leapcheck(ply_id,sq_king,vec_knight_start,vec_knight_end,p,evaluate))
     return true;
     
   if (p==dragonn
@@ -1342,13 +1365,13 @@ boolean dragoncheck(square  sq_king,
     {
       sq_departure= sq_king+dir_up+dir_left;
       if (e[sq_departure]==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
+        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
           return true;
       }
 
       sq_departure= sq_king+dir_up+dir_right;
       if (e[sq_departure]==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
+        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
           return true;
       }
     }
@@ -1361,13 +1384,13 @@ boolean dragoncheck(square  sq_king,
     {
       sq_departure= sq_king+dir_down+dir_right;
       if (e[sq_departure]==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
+        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
           return true;
       }
 
       sq_departure= sq_king+dir_down+dir_left;
       if (e[sq_departure]==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
+        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
           return true;
       }
     }
@@ -1376,7 +1399,8 @@ boolean dragoncheck(square  sq_king,
   return false;
 }
 
-boolean kangoucheck(square  sq_king,
+boolean kangoucheck(ply ply_id,
+                    square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
@@ -1392,7 +1416,7 @@ boolean kangoucheck(square  sq_king,
       finligne(sq_hurdle,vec[k],p1,sq_hurdle);
       if (p1!=obs) {
         finligne(sq_hurdle,vec[k],p1,sq_departure);
-        if (p1==p && evaluate(sq_departure,sq_king,sq_king))
+        if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
           return true;
       }
     }
@@ -1401,7 +1425,8 @@ boolean kangoucheck(square  sq_king,
   return false;
 }
 
-boolean rabbitcheck(square  sq_king,
+boolean rabbitcheck(ply ply_id,
+                    square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
@@ -1418,7 +1443,7 @@ boolean rabbitcheck(square  sq_king,
       finligne(sq_hurdle,vec[k],p1,sq_hurdle);
       if (p1!=obs) {
         finligne(sq_hurdle,vec[k],p1,sq_departure);
-        if (p1==p && evaluate(sq_departure,sq_king,sq_king))
+        if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
           return true;
       }
     }
@@ -1427,7 +1452,8 @@ boolean rabbitcheck(square  sq_king,
   return false;
 }
 
-boolean bobcheck(square sq_king,
+boolean bobcheck(ply ply_id,
+                 square sq_king,
                  piece  p,
                  evalfunction_t *evaluate)
 {
@@ -1448,7 +1474,7 @@ boolean bobcheck(square sq_king,
           finligne(sq_hurdle,vec[k],p1,sq_hurdle);
           if (p1!=obs) {
             finligne(sq_hurdle,vec[k],p1,sq_departure);
-            if (p1==p && evaluate(sq_departure,sq_king,sq_king))
+            if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
               return true;
           }
         }
@@ -1459,10 +1485,10 @@ boolean bobcheck(square sq_king,
   return false;
 }
 
-boolean ubicheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean ubicheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
   square  *bnp;
 
@@ -1470,248 +1496,249 @@ boolean ubicheck(
     for (bnp= boardnum; *bnp; bnp++) {
       e_ubi_mad[*bnp]= e[*bnp];
     }
-    return rubiech(i, i, p, e_ubi_mad, evaluate);
+    return rubiech(ply_id, i, i, p, e_ubi_mad, evaluate);
   }
   else {
     for (bnp= boardnum; *bnp; bnp++) {
       e_ubi[*bnp]= e[*bnp];
     }
-    return rubiech(i, i, p, e_ubi, evaluate);
+    return rubiech(ply_id, i, i, p, e_ubi, evaluate);
   }
 }
 
-boolean moosecheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean moosecheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_queen_end,vec_queen_start, angle_45, p, evaluate);
+  return rmhopech(ply_id, i, vec_queen_end,vec_queen_start, angle_45, p, evaluate);
 }
 
-boolean eaglecheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean eaglecheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_queen_end,vec_queen_start, angle_90, p, evaluate);
+  return rmhopech(ply_id, i, vec_queen_end,vec_queen_start, angle_90, p, evaluate);
 }
 
-boolean sparrcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean sparrcheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_queen_end,vec_queen_start, angle_135, p, evaluate);
+  return rmhopech(ply_id, i, vec_queen_end,vec_queen_start, angle_135, p, evaluate);
 }
 
-boolean margueritecheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean margueritecheck(ply ply_id,
+                        square    i,
+                        piece p,
+                        evalfunction_t *evaluate)
 {
-  return  sparrcheck(i, p, evaluate)
-    || eaglecheck(i, p, evaluate)
-    || moosecheck(i, p, evaluate)
-    || scheck(i, p, evaluate);
+  return  sparrcheck(ply_id, i, p, evaluate)
+      || eaglecheck(ply_id, i, p, evaluate)
+      || moosecheck(ply_id, i, p, evaluate)
+      || scheck(ply_id, i, p, evaluate);
 }
 
-boolean leap36check(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean leap36check(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap36_start, vec_leap36_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_leap36_start, vec_leap36_end, p, evaluate);
 }
 
-boolean rookmoosecheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean rookmoosecheck(ply ply_id,
+                       square    i,
+                       piece p,
+                       evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_rook_end,vec_rook_start, angle_45, p, evaluate);
+  return rmhopech(ply_id, i, vec_rook_end,vec_rook_start, angle_45, p, evaluate);
 }
 
-boolean rookeaglecheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean rookeaglecheck(ply ply_id,
+                       square    i,
+                       piece p,
+                       evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_90, p, evaluate);
+  return rmhopech(ply_id, i, vec_bishop_end,vec_bishop_start, angle_90, p, evaluate);
 }
 
-boolean rooksparrcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean rooksparrcheck(ply ply_id,
+                       square    i,
+                       piece p,
+                       evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_rook_end,vec_rook_start, angle_135, p, evaluate);
+  return rmhopech(ply_id, i, vec_rook_end,vec_rook_start, angle_135, p, evaluate);
 }
 
-boolean bishopmoosecheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean bishopmoosecheck(ply ply_id,
+                         square    i,
+                         piece p,
+                         evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_45, p, evaluate);
+  return rmhopech(ply_id, i, vec_bishop_end,vec_bishop_start, angle_45, p, evaluate);
 }
 
-boolean bishopeaglecheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean bishopeaglecheck(ply ply_id,
+                         square    i,
+                         piece p,
+                         evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_rook_end,vec_rook_start, angle_90, p, evaluate);
+  return rmhopech(ply_id, i, vec_rook_end,vec_rook_start, angle_90, p, evaluate);
 }
 
-boolean bishopsparrcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean bishopsparrcheck(ply ply_id,
+                         square    i,
+                         piece p,
+                         evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_135, p, evaluate);
+  return rmhopech(ply_id, i, vec_bishop_end,vec_bishop_start, angle_135, p, evaluate);
 }
 
-boolean archcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean archcheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
   numvec  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
-    if (rrfouech(i, i, vec[k], p, 1, evaluate)) {
+    if (rrfouech(ply_id, i, i, vec[k], p, 1, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean reffoucheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean reffoucheck(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
   numvec  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
-    if (rrfouech(i, i, vec[k], p, 4, evaluate)) {
+    if (rrfouech(ply_id, i, i, vec[k], p, 4, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean cardcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean cardcheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
   numvec  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
-    if (rcardech(i, i, vec[k], p, 1, evaluate)) {
+    if (rcardech(ply_id, i, i, vec[k], p, 1, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean nsautcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean nsautcheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_knight_start,vec_knight_end, p, evaluate);
+  return rhopcheck(ply_id, i, vec_knight_start,vec_knight_end, p, evaluate);
 }
 
-boolean camridcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean camridcheck(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return ridcheck(ply_id, i, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
-boolean zebridcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean zebridcheck(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_zebre_start, vec_zebre_end, p, evaluate);
+  return ridcheck(ply_id, i, vec_zebre_start, vec_zebre_end, p, evaluate);
 }
 
-boolean gnuridcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean gnuridcheck(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return  ridcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-    || ridcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return  ridcheck(ply_id, i, vec_knight_start,vec_knight_end, p, evaluate)
+      || ridcheck(ply_id, i, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
-boolean camhopcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean camhopcheck(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_chameau_end, vec_chameau_end, p, evaluate);
+  return rhopcheck(ply_id, i, vec_chameau_end, vec_chameau_end, p, evaluate);
 }
 
-boolean zebhopcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean zebhopcheck(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_zebre_start, vec_zebre_end, p, evaluate);
+  return rhopcheck(ply_id, i, vec_zebre_start, vec_zebre_end, p, evaluate);
 }
 
-boolean gnuhopcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean gnuhopcheck(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return  rhopcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-    || rhopcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return  rhopcheck(ply_id, i, vec_knight_start,vec_knight_end, p, evaluate)
+      || rhopcheck(ply_id, i, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
-boolean dcscheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean dcscheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
   numvec  k;
 
   for (k= vec_knight_start; k <= 14; k++) {
-    if (rcsech(i, vec[k], vec[23 - k], p, evaluate)) {
+    if (rcsech(ply_id, i, vec[k], vec[23 - k], p, evaluate)) {
       return true;
     }
   }
   for (k= 15; k <= vec_knight_end; k++) {
-    if (rcsech(i, vec[k], vec[27 - k], p, evaluate)) {
+    if (rcsech(ply_id, i, vec[k], vec[27 - k], p, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean refccheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean refccheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
-  return rrefcech(i, i, 2, p, evaluate);
+  return rrefcech(ply_id, i, i, 2, p, evaluate);
 }
 
-boolean refncheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean refncheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
   clearedgestraversed();
-  return rrefnech(i, i, p, evaluate);
+  return rrefnech(ply_id, i, i, p, evaluate);
 }
 
-boolean equicheck(square    sq_king,
+boolean equicheck(ply ply_id,
+                  square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
@@ -1727,7 +1754,7 @@ boolean equicheck(square    sq_king,
       finligne(sq_hurdle,vec[k],p1,sq_departure);
       if (p1==p
           && sq_departure-sq_hurdle==sq_hurdle-sq_king
-          && evaluate(sq_departure,sq_king,sq_king)
+          && evaluate(ply_id,sq_departure,sq_king,sq_king)
           && hopimcheck(sq_departure,
                         sq_king,
                         sq_hurdle,
@@ -1740,7 +1767,7 @@ boolean equicheck(square    sq_king,
     sq_departure= sq_king+2*vec[k];
     if (abs(e[sq_king+vec[k]])>=roib
         && e[sq_departure]==p
-        && evaluate(sq_departure,sq_king,sq_king)
+        && evaluate(ply_id,sq_departure,sq_king,sq_king)
         && hopimcheck(sq_departure,
                       sq_king,
                       sq_departure-vec[k],
@@ -1751,7 +1778,8 @@ boolean equicheck(square    sq_king,
   return false;
 }
 
-boolean equiengcheck(square sq_king,
+boolean equiengcheck(ply ply_id,
+                     square sq_king,
                      piece  p,
                      evalfunction_t *evaluate)
 {
@@ -1767,7 +1795,7 @@ boolean equiengcheck(square sq_king,
       finligne(sq_king,-vec[k],p1,sq_departure);
       if (p1==p
           && sq_departure-sq_king==sq_king-sq_hurdle
-          && evaluate(sq_departure,sq_king,sq_king))
+          && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1777,14 +1805,15 @@ boolean equiengcheck(square sq_king,
     sq_hurdle= sq_king+vec[k];
     if (abs(e[sq_hurdle])>=roib
         && e[sq_departure]==p
-        && evaluate(sq_departure,sq_king,sq_king))
+        && evaluate(ply_id,sq_departure,sq_king,sq_king))
       return true;
   }
   
   return false;
 }
 
-boolean catcheck(square sq_king,
+boolean catcheck(ply ply_id,
+                 square sq_king,
                  piece  p,
                  evalfunction_t *evaluate)
 {
@@ -1793,7 +1822,7 @@ boolean catcheck(square sq_king,
 
   square sq_departure;
     
-  if (leapcheck(sq_king,vec_knight_start,vec_knight_end,p,evaluate)) {
+  if (leapcheck(ply_id,sq_king,vec_knight_start,vec_knight_end,p,evaluate)) {
     return true;
   }
 
@@ -1802,12 +1831,12 @@ boolean catcheck(square sq_king,
     while (e[middle_square]==vide) {
       sq_departure= middle_square+mixhopdata[3][k-60];
       if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
+          && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
 
       sq_departure= middle_square+mixhopdata[3][k-56];
       if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
+          && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
 
       middle_square+= vec[k];
@@ -1817,47 +1846,48 @@ boolean catcheck(square sq_king,
   return false;
 }
 
-boolean roicheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean roicheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean cavcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean cavcheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_knight_start,vec_knight_end, p, evaluate);
 }
 
-boolean damecheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean damecheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return ridcheck(ply_id, i, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean tourcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean tourcheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return ridcheck(ply_id, i, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
-boolean foucheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean foucheck(ply ply_id,
+                 square    i,
+                 piece p,
+                 evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return ridcheck(ply_id, i, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
-boolean pioncheck(square sq_king,
+boolean pioncheck(ply ply_id,
+                  square sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
@@ -1865,12 +1895,12 @@ boolean pioncheck(square sq_king,
 
   if (anymars) {
     boolean anymarscheck=
-      (p==e[rb]
-       && (e[sq_king+dir_down+dir_right]==p
-           || e[sq_king+dir_down+dir_left]==p))
-      || (p==e[rn]
-          && (e[sq_king+dir_up+dir_left]==p
-              || e[sq_king+dir_up+dir_right]==p));
+        (p==e[rb]
+         && (e[sq_king+dir_down+dir_right]==p
+             || e[sq_king+dir_down+dir_left]==p))
+        || (p==e[rn]
+            && (e[sq_king+dir_up+dir_left]==p
+                || e[sq_king+dir_up+dir_right]==p));
     if (!CondFlag[phantom] || anymarscheck) {
       return anymarscheck;
     }
@@ -1886,12 +1916,12 @@ boolean pioncheck(square sq_king,
     {
       sq_departure= sq_king+dir_up+dir_left;
       if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
+          && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
 
       sq_departure= sq_king+dir_up+dir_right;
       if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
+          && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1905,12 +1935,12 @@ boolean pioncheck(square sq_king,
     {
       sq_departure= sq_king+dir_down+dir_right;
       if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
+          && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
 
       sq_departure= sq_king+dir_down+dir_left;
       if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
+          && evaluate(ply_id,sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1918,19 +1948,19 @@ boolean pioncheck(square sq_king,
   return false;
 }
 
-boolean reversepcheck(
-  square sq_king,
-  piece p,
-  evalfunction_t *evaluate)
+boolean reversepcheck(ply ply_id,
+                      square sq_king,
+                      piece p,
+                      evalfunction_t *evaluate)
 {
   if (anymars) {
     boolean anymarscheck=
-      (p==e[rb]
-       && (e[sq_king+dir_down+dir_right]==p
-           || e[sq_king+dir_down+dir_left]==p))
-      || (p==e[rn]
-          && (e[sq_king+dir_up+dir_right]==p
-              || e[sq_king+dir_up+dir_left]==p));
+        (p==e[rb]
+         && (e[sq_king+dir_down+dir_right]==p
+             || e[sq_king+dir_down+dir_left]==p))
+        || (p==e[rn]
+            && (e[sq_king+dir_up+dir_right]==p
+                || e[sq_king+dir_up+dir_left]==p));
     if (!is_phantomchess || anymarscheck) {
       return anymarscheck;
     }
@@ -1945,12 +1975,12 @@ boolean reversepcheck(
         || p>=hunter0b)
     {
       if (e[sq_king+dir_up+dir_right]==p) {
-        if ((*evaluate)(sq_king+dir_up+dir_right,sq_king,sq_king)) {
+        if ((*evaluate)(ply_id,sq_king+dir_up+dir_right,sq_king,sq_king)) {
           return true;
         }
       }
       if (e[sq_king+dir_up+dir_left]==p) {
-        if ((*evaluate)(sq_king+dir_up+dir_left,sq_king,sq_king)) {
+        if ((*evaluate)(ply_id,sq_king+dir_up+dir_left,sq_king,sq_king)) {
           return true;
         }
       }
@@ -1965,12 +1995,12 @@ boolean reversepcheck(
         || p<=hunter0n)
     {
       if (e[sq_king+dir_down+dir_right]==p) {
-        if ((*evaluate)(sq_king+dir_down+dir_right,sq_king,sq_king)) {
+        if ((*evaluate)(ply_id,sq_king+dir_down+dir_right,sq_king,sq_king)) {
           return true;
         }
       }
       if (e[sq_king+dir_down+dir_left]==p) {
-        if ((*evaluate)(sq_king+dir_down+dir_left,sq_king,sq_king)) {
+        if ((*evaluate)(ply_id,sq_king+dir_down+dir_left,sq_king,sq_king)) {
           return true;
         }
       }
@@ -1979,7 +2009,8 @@ boolean reversepcheck(
   return false;
 }
 
-boolean ep_not_libre(piece p,
+boolean ep_not_libre(ply ply_id,
+                     piece p,
                      square    sq,
                      boolean   generating,
                      checkfunction_t   *checkfunc)
@@ -2002,16 +2033,17 @@ boolean ep_not_libre(piece p,
      black berolina pawn  pbb     pbcheck
   */
 
-  ply ply_dblstp= generating ? nbply-1 : nbply;
+  ply const ply_dblstp= ply_id-1;
 
   return (ep[ply_dblstp]==sq || ep2[ply_dblstp]==sq)
-    && nbpiece[p]>0
-    && (*checkfunc)(sq,
-                    p,
-                    flaglegalsquare ? legalsquare : eval_ortho);
+      && nbpiece[p]>0
+      && (*checkfunc)(ply_id,
+                      sq,
+                      p,
+                      flaglegalsquare ? legalsquare : eval_ortho);
 }
 
-boolean libre(square sq, boolean generating)
+boolean libre(ply ply_id, square sq, boolean generating)
 {
   piece p = e[sq];
   boolean result = true;
@@ -2035,24 +2067,24 @@ boolean libre(square sq, boolean generating)
     switch (p)
     {
       case pb: /* white pawn */
-        if (ep_not_libre(pn, sq+dir_down,generating,pioncheck))
+        if (ep_not_libre(ply_id, pn, sq+dir_down,generating,pioncheck))
           result = false;
         break;
 
       case pn: /* black pawn */
-        if (ep_not_libre(pb, sq+dir_up,generating,pioncheck))
+        if (ep_not_libre(ply_id, pb, sq+dir_up,generating,pioncheck))
           result = false;
         break;
 
       case pbb: /* white berolina pawn */
-        if (ep_not_libre(pbn,sq+dir_down+dir_right,generating,pbcheck)
-            || ep_not_libre(pbn,sq+dir_down+dir_left,generating,pbcheck))
+        if (ep_not_libre(ply_id, pbn,sq+dir_down+dir_right,generating,pbcheck)
+            || ep_not_libre(ply_id, pbn,sq+dir_down+dir_left,generating,pbcheck))
           result = false;
         break;
 
       case pbn: /* black berolina pawn */
-        if (ep_not_libre(pbb,sq+dir_up+dir_left,generating,pbcheck)
-            || ep_not_libre(pbb,sq+dir_up+dir_right,generating,pbcheck))
+        if (ep_not_libre(ply_id, pbb,sq+dir_up+dir_left,generating,pbcheck)
+            || ep_not_libre(ply_id, pbb,sq+dir_up+dir_right,generating,pbcheck))
           result = false;
         /* NB: Super (Berolina) pawns cannot neither be captured
          * ep nor capture ep themselves.
@@ -2065,7 +2097,8 @@ boolean libre(square sq, boolean generating)
 
     result = (result
               && (nbpiece[-p]==0
-                  || !(*checkfunctions[abs(p)])(sq,
+                  || !(*checkfunctions[abs(p)])(ply_id,
+                                                sq,
                                                 -p,
                                                 (flaglegalsquare
                                                  ? legalsquare
@@ -2118,7 +2151,8 @@ boolean libre(square sq, boolean generating)
     if (test)
       result = (result
                 && (nbpiece[eiffel_piece]==0
-                    || !(*checkfunctions[abs(eiffel_piece)])(sq,
+                    || !(*checkfunctions[abs(eiffel_piece)])(ply_id,
+                                                             sq,
                                                              eiffel_piece,
                                                              (flaglegalsquare
                                                               ? legalsquare
@@ -2131,7 +2165,8 @@ boolean libre(square sq, boolean generating)
   return result;
 } /* libre */
 
-boolean notsoutenu(square sq_departure,
+boolean notsoutenu(ply ply_id,
+                   square sq_departure,
                    square sq_arrival,
                    square sq_capture) {
   piece p= 0;       /* avoid compiler warning */
@@ -2147,19 +2182,19 @@ boolean notsoutenu(square sq_departure,
     evaluate= soutenu;
   }
   else if (flaglegalsquare) {
-    if (!legalsquare(sq_departure, sq_arrival, sq_capture)) {
+    if (!legalsquare(ply_id,sq_departure, sq_arrival, sq_capture)) {
       return false;
     }
     evaluate= legalsquare;
   }
   else if (flag_madrasi) {
-    if (!eval_madrasi(sq_departure, sq_arrival, sq_capture)) {
+    if (!eval_madrasi(ply_id,sq_departure, sq_arrival, sq_capture)) {
       return false;
     }
     evaluate= eval_madrasi;
   }
   else if (TSTFLAG(PieSpExFlags,Paralyse)) {
-    if (!paraechecc(sq_departure, sq_arrival, sq_capture)) {
+    if (!paraechecc(ply_id,sq_departure, sq_arrival, sq_capture)) {
       return false;
     }
     evaluate= paraechecc;
@@ -2179,7 +2214,7 @@ boolean notsoutenu(square sq_departure,
     else {
       sq_arrival= rn;
       rn= sq_departure;
-      Result= !rnechec(evaluate);
+      Result= !rnechec(nbply,evaluate);
       rn= sq_arrival;
     }
   }
@@ -2192,7 +2227,7 @@ boolean notsoutenu(square sq_departure,
     else {
       sq_arrival= rb;
       rb= sq_departure;
-      Result= !rbechec(evaluate);
+      Result= !rbechec(nbply,evaluate);
       rb= sq_arrival;
     }
   }
@@ -2203,7 +2238,8 @@ boolean notsoutenu(square sq_departure,
   return(Result);
 }
 
-boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
+boolean soutenu(ply ply_id,
+                square sq_departure, square sq_arrival, square sq_capture) {
   piece p= 0;       /* avoid compiler warning */
   boolean   Result;
   evalfunction_t *evaluate;
@@ -2217,19 +2253,19 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     evaluate= soutenu;
   }
   else if (flaglegalsquare) {
-    if (!legalsquare(sq_departure,sq_arrival,sq_capture)) {
+    if (!legalsquare(ply_id,sq_departure,sq_arrival,sq_capture)) {
       return false;
     }
     evaluate= legalsquare;
   }
   else if (flag_madrasi) {
-    if (!eval_madrasi(sq_departure,sq_arrival,sq_capture)) {
+    if (!eval_madrasi(ply_id,sq_departure,sq_arrival,sq_capture)) {
       return false;
     }
     evaluate= eval_madrasi;
   }
   else if (TSTFLAG(PieSpExFlags,Paralyse)) {
-    if (!paraechecc(sq_departure,sq_arrival,sq_capture)) {
+    if (!paraechecc(ply_id,sq_departure,sq_arrival,sq_capture)) {
       return false;
     }
     evaluate= paraechecc;
@@ -2249,7 +2285,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     else {
       sq_arrival= rn;
       rn= sq_departure;
-      Result= rnechec(evaluate);
+      Result= rnechec(nbply,evaluate);
       rn= sq_arrival;
     }
   }
@@ -2262,7 +2298,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     else {
       sq_arrival= rb;
       rb= sq_departure;
-      Result= rbechec(evaluate);
+      Result= rbechec(nbply,evaluate);
       rb= sq_arrival;
     }
   }
@@ -2273,30 +2309,31 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
   return(Result);
 } /* soutenu */
 
-boolean eval_madrasi(square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_madrasi(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
   if (flaglegalsquare
-      && !legalsquare(sq_departure,sq_arrival,sq_capture)) {
+      && !legalsquare(ply_id,sq_departure,sq_arrival,sq_capture)) {
     return false;
   }
   else {
-    return libre(sq_departure, false) && 
-      (!CondFlag[BGL] || eval_2(sq_departure,sq_arrival,sq_capture));
+    return libre(ply_id, sq_departure, false) && 
+        (!CondFlag[BGL] || eval_2(ply_id,sq_departure,sq_arrival,sq_capture));
     /* is this just appropriate for BGL? in verifieposition eval_2 is set when madrasi is true,
        but never seems to be used here or in libre */
   }
 } /* eval_madrasi */
 
-boolean eval_shielded(square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_shielded(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
   if ((sq_departure==rn && sq_capture==rb)
       || (sq_departure==rb && sq_capture==rn)) {
-    return !soutenu(sq_capture,sq_departure,sq_departure);  /* won't work for locust Ks etc.*/
+    return !soutenu(ply_id,sq_capture,sq_departure,sq_departure);  /* won't work for locust Ks etc.*/
   }
   else {
     return true;
   }
 } /* eval_shielded */
 
-boolean edgehcheck(square   sq_king,
+boolean edgehcheck(ply ply_id,
+                   square   sq_king,
                    piece    p,
                    evalfunction_t *evaluate)
 {
@@ -2310,14 +2347,15 @@ boolean edgehcheck(square   sq_king,
     finligne(sq_king,vec[k],p1,sq_departure);
     if (p1==p
         && NoEdge(sq_king)!=NoEdge(sq_departure)
-        && evaluate(sq_departure,sq_king,sq_king))
+        && evaluate(ply_id,sq_departure,sq_king,sq_king))
       return true;
   }
 
   return false;
 }
 
-boolean maooaridercheck(square  sq_king,
+boolean maooaridercheck(ply ply_id,
+                        square  sq_king,
                         piece   p,
                         numvec  fir,
                         numvec  sec,
@@ -2334,75 +2372,76 @@ boolean maooaridercheck(square  sq_king,
   }
 
   return e[middle_square]==vide
-    && e[sq_departure]==p
-    && evaluate(sq_departure,sq_king,sq_king);
+      && e[sq_departure]==p
+      && evaluate(ply_id,sq_departure,sq_king,sq_king);
 }
 
-boolean moaridercheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean moaridercheck(ply ply_id,
+                      square    i,
+                      piece p,
+                      evalfunction_t *evaluate)
 {
-  if (maooaridercheck(i, p, +dir_up,+2*dir_up+dir_left, evaluate)) {
+  if (maooaridercheck(ply_id, i, p, +dir_up,+2*dir_up+dir_left, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p, +dir_up,+2*dir_up+dir_right, evaluate)) {
+  if (maooaridercheck(ply_id, i, p, +dir_up,+2*dir_up+dir_right, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p,+dir_down,+2*dir_down+dir_right, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,+dir_down,+2*dir_down+dir_right, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p,+dir_down,+2*dir_down+dir_left, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,+dir_down,+2*dir_down+dir_left, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p, +dir_right,+dir_up+2*dir_right, evaluate)) {
+  if (maooaridercheck(ply_id, i, p, +dir_right,+dir_up+2*dir_right, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p, +dir_right,+dir_down+2*dir_right, evaluate)) {
+  if (maooaridercheck(ply_id, i, p, +dir_right,+dir_down+2*dir_right, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p,+dir_left,+dir_down+2*dir_left, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,+dir_left,+dir_down+2*dir_left, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p,+dir_left,+dir_up+2*dir_left, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,+dir_left,+dir_up+2*dir_left, evaluate)) {
     return true;
   }
   return false;
 }
 
-boolean maoridercheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean maoridercheck(ply ply_id,
+                      square    i,
+                      piece p,
+                      evalfunction_t *evaluate)
 {
-  if (maooaridercheck(i, p,+dir_up+dir_right,+2*dir_up+dir_right, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,+dir_up+dir_right,+2*dir_up+dir_right, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p,+dir_up+dir_right,+dir_up+2*dir_right, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,+dir_up+dir_right,+dir_up+2*dir_right, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p,+dir_down+dir_right,+dir_down+2*dir_right, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,+dir_down+dir_right,+dir_down+2*dir_right, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p,+dir_down+dir_right,+2*dir_down+dir_right, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,+dir_down+dir_right,+2*dir_down+dir_right, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p,+dir_down+dir_left,+2*dir_down+dir_left, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,+dir_down+dir_left,+2*dir_down+dir_left, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p,+dir_down+dir_left,+dir_down+2*dir_left, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,+dir_down+dir_left,+dir_down+2*dir_left, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p,  dir_up+dir_left,+dir_up+2*dir_left, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,  dir_up+dir_left,+dir_up+2*dir_left, evaluate)) {
     return true;
   }
-  if (maooaridercheck(i, p,  dir_up+dir_left,+2*dir_up+dir_left, evaluate)) {
+  if (maooaridercheck(ply_id, i, p,  dir_up+dir_left,+2*dir_up+dir_left, evaluate)) {
     return true;
   }
   return false;
 }
 
-boolean maooariderlioncheck(square  sq_king,
+boolean maooariderlioncheck(ply ply_id,
+                            square  sq_king,
                             piece   p,
                             numvec  fir,
                             numvec  sec,
@@ -2418,7 +2457,7 @@ boolean maooariderlioncheck(square  sq_king,
   }
   if (e[middle_square]!=vide
       && e[sq_departure]==p
-      && evaluate(sq_departure,sq_king,sq_king))
+      && evaluate(ply_id,sq_departure,sq_king,sq_king))
     return true;
 
   if (e[middle_square]!=obs
@@ -2433,94 +2472,94 @@ boolean maooariderlioncheck(square  sq_king,
     }
     if (e[middle_square]==vide
         && e[sq_departure]==p
-        && evaluate(sq_departure,sq_king,sq_king))
+        && evaluate(ply_id,sq_departure,sq_king,sq_king))
       return true;
   }
 
   return false;
 }
 
-boolean maoriderlioncheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean maoriderlioncheck(ply ply_id,
+                          square    i,
+                          piece p,
+                          evalfunction_t *evaluate)
 {
-  if (maooariderlioncheck(i, p,+dir_up+dir_right,   +2*dir_up+dir_right, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_up+dir_right,   +2*dir_up+dir_right, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,+dir_up+dir_right,   +dir_up+2*dir_right, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_up+dir_right,   +dir_up+2*dir_right, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,+dir_down+dir_right,+dir_down+2*dir_right, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_down+dir_right,+dir_down+2*dir_right, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,+dir_down+dir_right,+2*dir_down+dir_right, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_down+dir_right,+2*dir_down+dir_right, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,+dir_down+dir_left,+2*dir_down+dir_left, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_down+dir_left,+2*dir_down+dir_left, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,+dir_down+dir_left,+dir_down+2*dir_left, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_down+dir_left,+dir_down+2*dir_left, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,  dir_up+dir_left,   +dir_up+2*dir_left, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,  dir_up+dir_left,   +dir_up+2*dir_left, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,  dir_up+dir_left,   +2*dir_up+dir_left, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,  dir_up+dir_left,   +2*dir_up+dir_left, evaluate)) {
     return true;
   }
   return false;
 }
 
-boolean moariderlioncheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean moariderlioncheck(ply ply_id,
+                          square    i,
+                          piece p,
+                          evalfunction_t *evaluate)
 {
-  if (maooariderlioncheck(i, p, +dir_up,+2*dir_up+dir_left, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p, +dir_up,+2*dir_up+dir_left, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p, +dir_up,+2*dir_up+dir_right, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p, +dir_up,+2*dir_up+dir_right, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,+dir_down,+2*dir_down+dir_right, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_down,+2*dir_down+dir_right, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,+dir_down,+2*dir_down+dir_left, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_down,+2*dir_down+dir_left, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,+dir_right,+dir_up+2*dir_right, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_right,+dir_up+2*dir_right, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,+dir_right,+dir_down+2*dir_right, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_right,+dir_down+2*dir_right, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,+dir_left,+dir_down+2*dir_left, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_left,+dir_down+2*dir_left, evaluate)) {
     return true;
   }
-  if (maooariderlioncheck(i, p,+dir_left,+dir_up+2*dir_left, evaluate)) {
+  if (maooariderlioncheck(ply_id, i, p,+dir_left,+dir_up+2*dir_left, evaluate)) {
     return true;
   }
   return false;
 }
 
-boolean r_hopcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean r_hopcheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return rhopcheck(ply_id, i, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
-boolean b_hopcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean b_hopcheck(ply ply_id,
+                   square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return rhopcheck(ply_id, i, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
-boolean pos_legal()
+boolean pos_legal(ply ply_id)
 {
   /* could be used for other genres e.g. Ohneschach */
   if (CondFlag[isardam])
@@ -2536,7 +2575,7 @@ boolean pos_legal()
       int j;
       square z = square_h;
       for (j = nr_files_on_board; j>0; j--, z += dir_left)
-        if (e[z]!=vide && !libre(z,false))
+        if (e[z]!=vide && !libre(ply_id, z,false))
           return false;
     }
   }
@@ -2554,10 +2593,10 @@ boolean pos_legal()
     if (nbply > maxply-1)
       FtlMsg(ChecklessUndecidable);
 
-    if (echecc(camp))
+    if (echecc(ply_id,camp))
       return false;
 
-    if (echecc(ad) && !immobile(ad))
+    if (echecc(ply_id,ad) && !immobile(ad))
       return false;
   }
 
@@ -2580,7 +2619,7 @@ boolean pos_legal()
   return true;
 } /* pos_legal */
 
-boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_isardam(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
   boolean flag=false;
   Side camp;
 
@@ -2615,9 +2654,9 @@ boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture) 
     /* may be several K capture moves e.g. PxK=S,B,R,Q */
     if (CondFlag[brunner])
       /* For neutral Ks will need to return true always */
-      flag= jouecoup() && !echecc(camp);
+      flag= jouecoup(nbply) && !echecc(ply_id,camp);
     else if (CondFlag[isardam])
-      flag= jouecoup();
+      flag= jouecoup(nbply);
     /* Isardam + Brunner may be possible! in which case this logic
        is correct
     */
@@ -2629,7 +2668,8 @@ boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture) 
 } /* eval_isardam */
 
 
-boolean orixcheck(square sq_king,
+boolean orixcheck(ply ply_id,
+                  square sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
@@ -2645,7 +2685,7 @@ boolean orixcheck(square sq_king,
       finligne(sq_hurdle,vec[k],p1,sq_departure);
       if (p1==p
           && sq_departure-sq_hurdle==sq_hurdle-sq_king
-          && evaluate(sq_departure,sq_king,sq_king)
+          && evaluate(ply_id,sq_departure,sq_king,sq_king)
           && hopimcheck(sq_departure,
                         sq_king,
                         sq_hurdle,
@@ -2657,29 +2697,29 @@ boolean orixcheck(square sq_king,
   return false;
 }
 
-boolean leap15check(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean leap15check(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap15_start, vec_leap15_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_leap15_start, vec_leap15_end, p, evaluate);
 }
 
-boolean leap25check(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean leap25check(ply ply_id,
+                    square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap25_start, vec_leap25_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_leap25_start, vec_leap25_end, p, evaluate);
 }
 
-boolean gralcheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean gralcheck(ply ply_id,
+                  square    i,
+                  piece p,
+                  evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_alfil_start, vec_alfil_end, p, evaluate)
-    || rhopcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return leapcheck(ply_id, i, vec_alfil_start, vec_alfil_end, p, evaluate)
+      || rhopcheck(ply_id, i, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
 /*** woozles + heffalumps ***/
@@ -2688,7 +2728,7 @@ square  sq_woo_from;
 square  sq_woo_to;
 Side col_woo;
 
-boolean aux_whx(square sq_departure, square sq_arrival, square sq_capture) {
+boolean aux_whx(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
   if (sq_departure != sq_woo_from)
     return false;
 
@@ -2729,20 +2769,20 @@ boolean aux_whx(square sq_departure, square sq_arrival, square sq_capture) {
     }
   }
 
-  return (flaglegalsquare ? legalsquare : eval_ortho)(sq_departure,sq_arrival,sq_capture);
+  return (flaglegalsquare ? legalsquare : eval_ortho)(ply_id,sq_departure,sq_arrival,sq_capture);
 } /* aux_whx */
 
-boolean aux_wh(square sq_departure, square sq_arrival, square sq_capture) {
-  if ((flaglegalsquare ? legalsquare : eval_ortho)(sq_departure,sq_arrival,sq_capture)) {
+boolean aux_wh(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+  if ((flaglegalsquare ? legalsquare : eval_ortho)(ply_id,sq_departure,sq_arrival,sq_capture)) {
     piece const p= e[sq_woo_from];
     return nbpiece[p]>0
-      && (*checkfunctions[abs(p)])(sq_departure, e[sq_woo_from], aux_whx);
+        && (*checkfunctions[abs(p)])(ply_id,sq_departure, e[sq_woo_from], aux_whx);
   }
   else
     return false;
 }
 
-boolean woohefflibre(square to, square from) {
+boolean woohefflibre(ply ply_id, square to, square from) {
   piece   *pcheck, p;
 
   if (rex_wooz_ex && (from == rb || from == rn)) {
@@ -2764,7 +2804,7 @@ boolean woohefflibre(square to, square from) {
     else {
       p= *pcheck;
     }
-    if (nbpiece[p]>0 && (*checkfunctions[*pcheck])(from, p, aux_wh)) {
+    if (nbpiece[p]>0 && (*checkfunctions[*pcheck])(ply_id, from, p, aux_wh)) {
       return false;
     }
     pcheck++;
@@ -2773,35 +2813,36 @@ boolean woohefflibre(square to, square from) {
   return true;
 }
 
-boolean eval_wooheff(square sq_departure, square sq_arrival, square sq_capture) {
-  if (flaglegalsquare && !legalsquare(sq_departure,sq_arrival,sq_capture)) {
+boolean eval_wooheff(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+  if (flaglegalsquare && !legalsquare(ply_id,sq_departure,sq_arrival,sq_capture)) {
     return false;
   }
   else {
-    return woohefflibre(sq_arrival, sq_departure);
+    return woohefflibre(ply_id, sq_arrival, sq_departure);
   }
 }
 
 
-boolean scorpioncheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean scorpioncheck(ply ply_id,
+                      square    i,
+                      piece p,
+                      evalfunction_t *evaluate)
 {
-  return  leapcheck(i, vec_queen_start,vec_queen_end, p, evaluate)
-    || rhopcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return  leapcheck(ply_id, i, vec_queen_start,vec_queen_end, p, evaluate)
+      || rhopcheck(ply_id, i, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean dolphincheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean dolphincheck(ply ply_id,
+                     square    i,
+                     piece p,
+                     evalfunction_t *evaluate)
 {
-  return  rhopcheck(i, vec_queen_start,vec_queen_end, p, evaluate)
-    || kangoucheck(i, p, evaluate);
+  return  rhopcheck(ply_id, i, vec_queen_start,vec_queen_end, p, evaluate)
+      || kangoucheck(ply_id, i, p, evaluate);
 }
 
-boolean querquisitecheck(square sq_king,
+boolean querquisitecheck(ply ply_id,
+                         square sq_king,
                          piece p,
                          evalfunction_t *evaluate)
 {
@@ -2818,7 +2859,7 @@ boolean querquisitecheck(square sq_king,
          || file_departure==file_queen
          || file_departure==file_rook_kingside)
         && p1==p
-        && evaluate(sq_departure,sq_king,sq_king)
+        && evaluate(ply_id,sq_departure,sq_king,sq_king)
         && ridimcheck(sq_departure,sq_king,vec[k]))
       return true;
   }
@@ -2830,7 +2871,7 @@ boolean querquisitecheck(square sq_king,
          || file_departure==file_queen
          || file_departure==file_bishop_kingside)
         && p1==p
-        && evaluate(sq_departure,sq_king,sq_king)
+        && evaluate(ply_id,sq_departure,sq_king,sq_king)
         && ridimcheck(sq_departure,sq_king,vec[k]))
       return true;
   }
@@ -2841,7 +2882,7 @@ boolean querquisitecheck(square sq_king,
     if (e[sq_departure]==p
         && (file_departure==file_knight_queenside
             || file_departure==file_knight_kingside)
-        && evaluate(sq_departure,sq_king,sq_king)
+        && evaluate(ply_id,sq_departure,sq_king,sq_king)
         && imcheck(sq_departure,sq_king))
       return true;
   }
@@ -2851,7 +2892,7 @@ boolean querquisitecheck(square sq_king,
     file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
     if (e[sq_departure]==p
         && file_departure==file_king
-        && evaluate(sq_departure,sq_king,sq_king)
+        && evaluate(ply_id,sq_departure,sq_king,sq_king)
         && imcheck(sq_departure,sq_king))
       return true;
   }
@@ -2859,7 +2900,8 @@ boolean querquisitecheck(square sq_king,
   return false;
 }
 
-boolean bouncerfamilycheck(square sq_king,
+boolean bouncerfamilycheck(ply ply_id,
+                           square sq_king,
                            numvec kbeg,
                            numvec kend,
                            piece    p,
@@ -2876,38 +2918,39 @@ boolean bouncerfamilycheck(square sq_king,
     finligne(sq_departure,vec[k],p2,sq_hurdle);  /* p2 can be obs - bounces off edges */
     if (sq_departure-sq_king==sq_hurdle-sq_departure
         && p1==p
-        && evaluate(sq_departure,sq_king,sq_king))
+        && evaluate(ply_id,sq_departure,sq_king,sq_king))
       return true;
   }
 
   return false;
 }
 
-boolean bouncercheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean bouncercheck(ply ply_id,
+                     square    i,
+                     piece p,
+                     evalfunction_t *evaluate)
 {
-  return bouncerfamilycheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return bouncerfamilycheck(ply_id, i, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean rookbouncercheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean rookbouncercheck(ply ply_id,
+                         square    i,
+                         piece p,
+                         evalfunction_t *evaluate)
 {
-  return bouncerfamilycheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return bouncerfamilycheck(ply_id, i, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
-boolean bishopbouncercheck(
-  square    i,
-  piece p,
-  evalfunction_t *evaluate)
+boolean bishopbouncercheck(ply ply_id,
+                           square    i,
+                           piece p,
+                           evalfunction_t *evaluate)
 {
-  return bouncerfamilycheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return bouncerfamilycheck(ply_id, i, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
-boolean pchincheck(square sq_king,
+boolean pchincheck(ply ply_id,
+                   square sq_king,
                    piece    p,
                    evalfunction_t *evaluate)
 {
@@ -2917,7 +2960,7 @@ boolean pchincheck(square sq_king,
 
   sq_departure= sq_king + (is_black ? dir_up :dir_down);
   if (e[sq_departure]==p
-      && evaluate(sq_departure,sq_king,sq_king))
+      && evaluate(ply_id,sq_departure,sq_king,sq_king))
     return true;
 
   /* chinese pawns can capture side-ways if standing on the half of
@@ -2926,22 +2969,22 @@ boolean pchincheck(square sq_king,
   if ((sq_king*2<(square_h8+square_a1)) == is_black) {
     sq_departure= sq_king+dir_right;
     if (e[sq_departure]==p
-        && evaluate(sq_departure,sq_king,sq_king))
+        && evaluate(ply_id,sq_departure,sq_king,sq_king))
       return true;
 
     sq_departure= sq_king+dir_left;
     if (e[sq_departure]==p
-        && evaluate(sq_departure,sq_king,sq_king))
+        && evaluate(ply_id,sq_departure,sq_king,sq_king))
       return true;
   }
 
   return false;
 }
 
-boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_fromspecificsquare(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
   return
-    sq_departure==fromspecificsquare
-    && (e[sq_departure]>vide ? eval_white : eval_black)(sq_departure,sq_arrival,sq_capture);
+      sq_departure==fromspecificsquare
+      && (e[sq_departure]>vide ? eval_white : eval_black)(ply_id,sq_departure,sq_arrival,sq_capture);
 }
 
 boolean observed(square on_this, square by_that) {
@@ -2953,14 +2996,14 @@ boolean observed(square on_this, square by_that) {
   {
     k= rn;
     rn= on_this;
-    flag= rnechec(eval_fromspecificsquare);
+    flag= rnechec(nbply,eval_fromspecificsquare);
     rn= k;
   }
   else
   {
     k= rb;
     rb= on_this;
-    flag= rbechec(eval_fromspecificsquare);
+    flag= rbechec(nbply,eval_fromspecificsquare);
     rb= k;
   }
   return flag;
@@ -2984,48 +3027,48 @@ void change_observed(square z, boolean push)
   }
 }
 
-boolean eval_BGL(square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_BGL(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
   return
-    BGL_move_diff_code[abs(sq_departure-sq_arrival)]
-    <= (e[sq_capture]<vide ? BGL_white : BGL_black);
+      BGL_move_diff_code[abs(sq_departure-sq_arrival)]
+      <= (e[sq_capture]<vide ? BGL_white : BGL_black);
 }
 
-boolean radialknightcheck(
-  square    sq_king,
-  piece p,
-  evalfunction_t *evaluate)
+boolean radialknightcheck(ply ply_id,
+                          square    sq_king,
+                          piece p,
+                          evalfunction_t *evaluate)
 {
-  return leapleapcheck(sq_king, vec_rook_start,vec_rook_end,0,p,evaluate)
-    || leapleapcheck(sq_king, vec_dabbaba_start,vec_dabbaba_end,0,p,evaluate)
-    || leapleapcheck(sq_king, vec_leap03_start,vec_leap03_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap04_start,vec_leap04_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_bucephale_start,vec_bucephale_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap06_start,vec_leap06_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap07_start,vec_leap07_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_bishop_start,vec_bishop_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_knight_start,vec_knight_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_chameau_start,vec_chameau_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_girafe_start,vec_girafe_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap15_start,vec_leap15_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap16_start,vec_leap16_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_rccinq_start,vec_rccinq_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_alfil_start,vec_alfil_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_zebre_start,vec_zebre_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap24_start,vec_leap24_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap25_start,vec_leap25_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap26_start,vec_leap26_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap27_start,vec_leap27_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap33_start,vec_leap33_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap35_start,vec_leap35_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap36_start,vec_leap36_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap37_start,vec_leap37_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap44_start,vec_leap44_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap45_start,vec_leap45_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap46_start,vec_leap46_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap47_start,vec_leap47_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap56_start,vec_leap56_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap57_start,vec_leap57_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap66_start,vec_leap66_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap67_start,vec_leap67_end, 0, p, evaluate)
-    || leapleapcheck(sq_king, vec_leap77_start,vec_leap77_end, 0, p, evaluate);
+  return leapleapcheck(ply_id,sq_king, vec_rook_start,vec_rook_end,0,p,evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_dabbaba_start,vec_dabbaba_end,0,p,evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap03_start,vec_leap03_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap04_start,vec_leap04_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_bucephale_start,vec_bucephale_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap06_start,vec_leap06_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap07_start,vec_leap07_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_bishop_start,vec_bishop_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_knight_start,vec_knight_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_chameau_start,vec_chameau_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_girafe_start,vec_girafe_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap15_start,vec_leap15_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap16_start,vec_leap16_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_rccinq_start,vec_rccinq_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_alfil_start,vec_alfil_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_zebre_start,vec_zebre_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap24_start,vec_leap24_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap25_start,vec_leap25_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap26_start,vec_leap26_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap27_start,vec_leap27_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap33_start,vec_leap33_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap35_start,vec_leap35_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap36_start,vec_leap36_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap37_start,vec_leap37_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap44_start,vec_leap44_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap45_start,vec_leap45_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap46_start,vec_leap46_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap47_start,vec_leap47_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap56_start,vec_leap56_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap57_start,vec_leap57_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap66_start,vec_leap66_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap67_start,vec_leap67_end, 0, p, evaluate)
+      || leapleapcheck(ply_id,sq_king, vec_leap77_start,vec_leap77_end, 0, p, evaluate);
 }

@@ -12,10 +12,11 @@
 #include "pyproc.h"
 
 boolean fffriendcheck(
-  square        i,
-  piece         pfr,
-  piece         p,
-  evalfunction_t *evaluate);
+    ply ply_id,
+    square        i,
+    piece         pfr,
+    piece         p,
+    evalfunction_t *evaluate);
 
 void InitCheckDir(void);
 void InitBoard(void);

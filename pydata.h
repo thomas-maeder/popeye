@@ -286,7 +286,7 @@ EXTERN  evalfunction_t *eval_black;
 EXTERN  int   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);
 
-typedef square  (* renaifunc)(piece, Flags, square, square, square, Side);
+typedef square  (* renaifunc)(ply, piece, Flags, square, square, square, Side);
 
 EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai, genevarenai;
 
@@ -435,7 +435,6 @@ EXTERN long int         BGL_black, BGL_white;
 EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
 EXTERN boolean			  	blacknull, nullgenre, whitenull;
 EXTERN int         annanvar;
-EXTERN numecoup         tempcoup;
 EXTERN ply      	      tempply;
 EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 EXTERN boolean          rex_protean_ex;

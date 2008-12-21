@@ -50,6 +50,8 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pystip.h"
+#include "trace.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -170,8 +172,8 @@ static boolean count_opponent_moves(int *nr_opponent_moves, Side camp) {
   numecoup      sic_nbc= nbcou;
 
   do {
-    if (jouecoup()) {
-      if (!flag && !echecc(camp)) {
+    if (jouecoup(nbply)) {
+      if (!flag && !echecc(nbply,camp)) {
         Side ad= advers(camp);
         flag= true;
         *nr_opponent_moves= 0;
@@ -179,8 +181,8 @@ static boolean count_opponent_moves(int *nr_opponent_moves, Side camp) {
         genmove(ad);
         move_generation_mode= move_generation_optimized_by_nr_opponent_moves;
         while (encore()) {
-          if (jouecoup()) {
-            if (!echecc(ad))
+          if (jouecoup(nbply)) {
+            if (!echecc(nbply,ad))
               (*nr_opponent_moves)++;
           }
           repcoup();
@@ -336,7 +338,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     }
 
     if (flaglegalsquare
-        && !legalsquare(sq_departure,sq_arrival,sq_capture))
+        && !legalsquare(nbply,sq_departure,sq_arrival,sq_capture))
     {
       return true;
     }
@@ -480,13 +482,13 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           || CondFlag[central]
           || CondFlag[ultrapatrouille])
     {
-      if (!soutenu(sq_departure,sq_arrival,sq_capture))
+      if (!soutenu(nbply,sq_departure,sq_arrival,sq_capture))
         return true;
     }
 
     if (e[sq_capture] != vide) {
       if (CondFlag[woozles]
-          && !woohefflibre(sq_arrival, sq_departure))
+          && !woohefflibre(nbply,sq_arrival, sq_departure))
       {
         return  true;
       }
@@ -508,7 +510,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
 
       if (anyimmun) {
-        hcr= (*immunrenai)(e[sq_capture], spec[sq_capture], sq_capture, sq_departure, sq_arrival, traitnbply);
+        hcr= (*immunrenai)(nbply, e[sq_capture], spec[sq_capture], sq_capture, sq_departure, sq_arrival, traitnbply);
         if (hcr != sq_departure && e[hcr] != vide) {
           return true;
         }
@@ -517,13 +519,13 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           && !(CondFlag[beamten]
                || TSTFLAG(PieSpExFlags, Beamtet)))
       {
-        if (!soutenu(sq_departure,sq_arrival,sq_capture)) {
+        if (!soutenu(nbply,sq_departure,sq_arrival,sq_capture)) {
           return true;
         }
       }
       if (CondFlag[lortap]) 
       {
-        if (soutenu(sq_departure,sq_arrival,sq_capture)) {
+        if (soutenu(nbply,sq_departure,sq_arrival,sq_capture)) {
           return true;
         }
       }
@@ -539,8 +541,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         /* capturing kamikaze pieces without circe condition are possible now */ 
         if (TSTFLAG(spec[sq_departure], Kamikaze)
             &&  ((traitnbply == White)
-                 ? ((sq_departure == rb) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide)))
-                 : ((sq_departure == rn) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide)))))
+                 ? ((sq_departure == rb) && (!anycirce ||  (!rex_circe || e[(*circerenai)(nbply, e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide)))
+                 : ((sq_departure == rn) && (!anycirce ||  (!rex_circe || e[(*circerenai)(nbply, e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide)))))
         {
           return true;
         }
@@ -548,22 +550,22 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         if ((CondFlag[vogt]
              || CondFlag[antikings])
             && ((traitnbply == Black)
-                ? ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide))
-                : ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide))))
+                ? ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(nbply, e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide))
+                : ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(nbply, e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide))))
         {
           return true;
         }
 
         if (SATCheck &&
             ((traitnbply == Black) ?
-             ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide)) :
-             ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide))))
+             ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(nbply, e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide)) :
+             ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(nbply, e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide))))
           return true;
 
         if (anyanticirce
             && (traitnbply==White
-                ? !rnanticircech(sq_departure,sq_arrival,sq_capture)
-                : !rbanticircech(sq_departure,sq_arrival,sq_capture)))
+                ? !rnanticircech(nbply,sq_departure,sq_arrival,sq_capture)
+                : !rbanticircech(nbply,sq_departure,sq_arrival,sq_capture)))
         {
           return true;
         }
@@ -655,8 +657,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           cmren[nbcou]= mren;
           ctrans[nbcou]=current_trans_gen;
           while (test < nbcou) {
-            if (jouecoup())
-              flag= flag && echecc(traitnbply);
+            if (jouecoup(nbply))
+              flag= flag && echecc(nbply,traitnbply);
             repcoup();
           }
           is_republican_suspended = is_republican_suspended_sic;
@@ -1451,12 +1453,14 @@ void gubi(square orig_departure,
   }
 }
 
+typedef boolean generatorfunction_t(square, square, square);
+
 void grfou(square   orig_departure,
            square   in,
            numvec   k,
            int x,
            Side  camp,
-           evalfunction_t *generate)
+           generatorfunction_t *generate)
 {
   /* ATTENTION:
      if first call of x is 1 and boolnoedge[i]
@@ -1496,7 +1500,7 @@ void gcard(square   orig_departure,
            numvec   k,
            int x,
            Side  camp,
-           evalfunction_t *generate)
+           generatorfunction_t *generate)
 {
   /* ATTENTION:
      if first call of x is 1
@@ -2734,7 +2738,7 @@ void genrb_cast(void) {
   if (TSTFLAGMASK(castling_flag[nbply],wh_castlings)>ke1_cancastle
       && e[square_e1]==roib 
       /* then the king on e1 and at least one rook can castle !! */
-      && !echecc(White))
+      && !echecc(nbply,White))
   {
     /* 0-0 */
     if (TSTFLAGMASK(castling_flag[nbply],whk_castling)==whk_castling
@@ -2753,7 +2757,7 @@ void genrb_cast(void) {
         flagwhitemummer = sic_flagwhitemummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= jouecoup() && !echecc(White);
+          boolean ok= jouecoup(nbply) && !echecc(nbply,White);
           repcoup();
           if (ok)
             empile(square_e1,square_g1,kingside_castling);
@@ -2766,7 +2770,7 @@ void genrb_cast(void) {
         if (rb!=initsquare)
           rb= square_f1;
 
-        is_castling_possible= !echecc(White);
+        is_castling_possible= !echecc(nbply,White);
 
         e[square_e1]= roib;
         e[square_f1]= vide;
@@ -2796,7 +2800,7 @@ void genrb_cast(void) {
         flagwhitemummer = sic_flagwhitemummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= (jouecoup() && !echecc(White));
+          boolean ok= (jouecoup(nbply) && !echecc(nbply,White));
           repcoup();
           if (ok)
             empile(square_e1,square_c1,queenside_castling);
@@ -2809,7 +2813,7 @@ void genrb_cast(void) {
         if (rb!=initsquare)
           rb= square_d1;
         
-        is_castling_possible= !echecc(White);
+        is_castling_possible= !echecc(nbply,White);
         
         e[square_e1]= roib;
         e[square_d1]= vide;
@@ -2838,7 +2842,7 @@ void genrb(square sq_departure) {
 
     anf= nbcou;
     calctransmute= true;
-    if (!whitenormaltranspieces && echecc(White))
+    if (!whitenormaltranspieces && echecc(nbply,White))
     {
       for (ptrans= whitetransmpieces; *ptrans; ptrans++) {
         flag = true;
@@ -2851,7 +2855,7 @@ void genrb(square sq_departure) {
     {
       for (ptrans= whitetransmpieces; *ptrans; ptrans++) {
         if (nbpiece[-*ptrans]
-            && (*checkfunctions[*ptrans])(sq_departure,-*ptrans,eval_white))
+            && (*checkfunctions[*ptrans])(nbply,sq_departure,-*ptrans,eval_white))
         {
           flag = true;
           current_trans_gen=*ptrans;
@@ -2865,7 +2869,7 @@ void genrb(square sq_departure) {
     if (flag && nbpiece[orphann]>0) {
       piece king= e[rb];
       e[rb]= dummyb;
-      if (!echecc(White)) {
+      if (!echecc(nbply,White)) {
         /* white king checked only by an orphan
         ** empowered by the king */
         flag= false;
@@ -2903,7 +2907,7 @@ void genrb(square sq_departure) {
   if (castling_supported)
     genrb_cast();
   
-  if (CondFlag[castlingchess] && !echecc(White)) {
+  if (CondFlag[castlingchess] && !echecc(nbply,White)) {
     for (k= vec_queen_end; k>= vec_queen_start; k--) {
       square sq_passed, sq_castler, sq_arrival;  
       piece p;
@@ -2919,7 +2923,7 @@ void genrb(square sq_departure) {
           empile (sq_departure, sq_passed, sq_passed);
           if (nbcou > sic_nbcou)
           {
-            boolean ok= (jouecoup() && !echecc(White));
+            boolean ok= (jouecoup(nbply) && !echecc(nbply,White));
             repcoup();
             if (ok)
               empile(sq_departure, sq_arrival, maxsquare+sq_castler);
@@ -2932,7 +2936,7 @@ void genrb(square sq_departure) {
           e[sq_passed]= roib;
           if (rb!=initsquare)
             rb= sq_passed;
-          checked = echecc(White);
+          checked = echecc(nbply,White);
           if (!checked) {
             empile(sq_departure, sq_arrival, maxsquare+sq_castler);
             if (0) {
@@ -2951,9 +2955,13 @@ void genrb(square sq_departure) {
   }
 }
 
-void gen_wh_ply(void) {
+void gen_wh_ply(void)
+{
   square i, j, z;
   piece p;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
 
   /* Don't try to "optimize" by hand. The double-loop is tested as
      the fastest way to compute (due to compiler-optimizations !)
@@ -2969,6 +2977,9 @@ void gen_wh_ply(void) {
           gen_wh_piece(z, p);
       }
     }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 void gen_wh_piece_aux(square z, piece p) {
@@ -3015,7 +3026,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
 
 
   if (flag_madrasi) {
-    if (!libre(sq_departure, true)) {
+    if (!libre(nbply,sq_departure, true)) {
       return;
     }
   }
@@ -3031,8 +3042,8 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
     Flags psp;
 
     if (CondFlag[phantom]) {
-      numecoup      anf1, anf2, l1, l2;
-      anf1= nbcou;
+      numecoup const anf1 = nbcou;
+      numecoup l1;
       /* generate standard moves first */
       flagactive= false;
       flagpassive= false;
@@ -3047,7 +3058,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
       /* generate moves from rebirth square */
       flagactive= true;
       psp= spec[sq_departure];
-      mren= (*marsrenai)(p,psp,sq_departure,initsquare,initsquare,Black);
+      mren= (*marsrenai)(nbply,p,psp,sq_departure,initsquare,initsquare,Black);
       /* if rebirth square is where the piece stands,
          we've already generated all the relevant moves.
       */
@@ -3055,7 +3066,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
         return;
       }
       if (e[mren] == vide) {
-        anf2= nbcou;
+        numecoup const anf2 = nbcou;
         pp=e[sq_departure];      /* Mars/Neutral bug */
         e[sq_departure]= vide;
         spec[sq_departure]= EmptySpec;
@@ -3073,15 +3084,20 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
            duplicate generated moves now.
            there's only ONE duplicate per arrival square
            possible !
+
+           TODO: avoid entries with arrival==initsquare by moving
+           the non-duplicate entries forward and reducing nbcou
         */
-        for (l1= anf1 + 1; l1 <= anf2; l1++) {
-          for (l2= anf2 + 1; l2 <= nbcou; l2++) {
+        for (l1= anf1 + 1; l1 <= anf2; l1++)
+        {
+          numecoup l2;
+          for (l2= anf2 + 1; l2 <= nbcou; l2++)
             if (move_generation_stack[l1].arrival
-                == move_generation_stack[l2].arrival) {
+                ==move_generation_stack[l2].arrival)
+            {
               move_generation_stack[l2].arrival= initsquare;
               break;  /* remember: ONE duplicate ! */
             }
-          }
         }
       }
     }
@@ -3098,7 +3114,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
       mars_circe_rebirth_state = 0;
       do {    /* Echecs Plus */
         psp=spec[sq_departure];
-        mren= (*marsrenai)(p,psp,sq_departure,initsquare,initsquare,Black);
+        mren= (*marsrenai)(nbply,p,psp,sq_departure,initsquare,initsquare,Black);
         if (mren==sq_departure || e[mren]==vide) {
           pp= e[sq_departure];      /* Mars/Neutral bug */
           e[sq_departure]= vide;
@@ -3176,11 +3192,11 @@ void gorph(square i, Side camp) {
   for (porph= orphanpieces; *porph; porph++) {
     if (nbpiece[*porph]>0 || nbpiece[-*porph]>0) {
       if (camp == White) {
-        if (ooorphancheck(i, -*porph, orphann, eval_white))
+        if (ooorphancheck(nbply, i, -*porph, orphann, eval_white))
           gen_wh_piece(i, *porph);
       }
       else {
-        if (ooorphancheck(i, *porph, orphanb, eval_black))
+        if (ooorphancheck(nbply, i, *porph, orphanb, eval_black))
           gen_bl_piece(i, -*porph);
       }
     }
@@ -3204,12 +3220,12 @@ void gfriend(square i, Side camp) {
   for (pfr= orphanpieces; *pfr; pfr++) {
     if (nbpiece[*pfr]>0) {
       if (camp == White) {
-        if (fffriendcheck(i, *pfr, friendb, eval_white)) {
+        if (fffriendcheck(nbply, i, *pfr, friendb, eval_white)) {
           gen_wh_piece(i, *pfr);
         }
       }
       else {
-        if (fffriendcheck(i, -*pfr, friendn, eval_black)) {
+        if (fffriendcheck(nbply, i, -*pfr, friendn, eval_black)) {
           gen_bl_piece(i, -*pfr);
         }
       }
