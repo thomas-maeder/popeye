@@ -611,3 +611,123 @@ solution finished.
 solution finished. 
 
 
+
+            Ladislav Salai
+        feenschach III/IV 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K  -Q   .   .   .   .  -S   .   8
+|                                   |
+7  -B  -B   .   .   .   .  -R   .   7
+|                                   |
+6   .   .   .   .   .   .  -P   R   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4  -R   .   .   .   .   .   .   .   4
+|                                   |
+3  -P   .   .  -P   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        2 + 12
+                 SAT
+              StrictSAT
+
+  1.g6-g5 Rh6-a6   2.h3-h2 Ra6*a7 # 
+  1.g6-g5 Rh6-a6   2.Ra4-g4 Ra6*a7 # 
+  1.g6-g5 Rh6-a6   2.Ba7-f2 Ra6-a7 # 
+  1.g6-g5 Rh6-a6   2.Ba7-f2 Ra6-h6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-f2 Ra6-g6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-f2 Ra6-f6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-f2 Ra6-e6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-f2 Ra6-b6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-e3 Ra6-a7 # 
+  1.g6-g5 Rh6-a6   2.Ba7-e3 Ra6-h6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-e3 Ra6-g6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-e3 Ra6-f6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-e3 Ra6-e6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-e3 Ra6-b6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-d4 Ra6-a7 # 
+  1.g6-g5 Rh6-a6   2.Ba7-d4 Ra6-h6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-d4 Ra6-g6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-d4 Ra6-f6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-d4 Ra6-e6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-d4 Ra6-b6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-c5 Ra6-a7 # 
+  1.g6-g5 Rh6-a6   2.Ba7-c5 Ra6-h6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-c5 Ra6-g6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-c5 Ra6-f6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-c5 Ra6-e6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-c5 Ra6-b6 # 
+  1.g6-g5 Rh6-a6   2.Ba7-b6 Ra6-a7 # 
+  1.Rg7-e7 Rh6-h7   2.Re7-e1 Rh7*b7 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-g3 Rh8*h3 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-g3 Rh8-h4 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-g3 Rh8-h5 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-g3 Rh8-h6 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-g3 Rh8-h7 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-g3 Rh8-b8 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-f4 Rh8*h3 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-f4 Rh8-h4 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-f4 Rh8-h5 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-f4 Rh8-h6 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-f4 Rh8-h7 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-f4 Rh8-b8 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-e5 Rh8*h3 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-e5 Rh8-h4 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-e5 Rh8-h5 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-e5 Rh8-h6 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-e5 Rh8-h7 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-e5 Rh8-b8 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-d6 Rh8*h3 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-d6 Rh8-h4 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-d6 Rh8-h5 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-d6 Rh8-h6 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-d6 Rh8-h7 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-d6 Rh8-b8 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-c7 Rh8*h3 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-c7 Rh8-h4 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-c7 Rh8-h5 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-c7 Rh8-h6 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-c7 Rh8-h7 # 
+  1.Sg8-e7 Rh6-h8   2.Qb8-c7 Rh8-b8 # 
+  1.Sg8-f6 Rh6-h8   2.Sf6-g4 Rh8*b8 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-g3 Rh8*h3 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-g3 Rh8-h4 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-g3 Rh8-h5 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-g3 Rh8-h6 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-g3 Rh8-h7 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-g3 Rh8-b8 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-f4 Rh8*h3 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-f4 Rh8-h4 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-f4 Rh8-h5 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-f4 Rh8-h6 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-f4 Rh8-h7 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-f4 Rh8-b8 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-e5 Rh8*h3 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-e5 Rh8-h4 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-e5 Rh8-h5 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-e5 Rh8-h6 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-e5 Rh8-h7 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-e5 Rh8-b8 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-d6 Rh8*h3 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-d6 Rh8-h4 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-d6 Rh8-h5 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-d6 Rh8-h6 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-d6 Rh8-h7 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-d6 Rh8-b8 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-c7 Rh8*h3 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-c7 Rh8-h4 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-c7 Rh8-h5 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-c7 Rh8-h6 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-c7 Rh8-h7 # 
+  1.Sg8-f6 Rh6-h8   2.Qb8-c7 Rh8-b8 # 
+
+solution finished. 
+
+

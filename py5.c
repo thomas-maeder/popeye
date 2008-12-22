@@ -1201,7 +1201,7 @@ void genmove(Side camp)
     initneutre(advers(camp));
   if (nbply == 1)
     PushMagicViews();
-  nextply();
+  nextply(nbply);
   trait[nbply]= camp;
   we_generate_exact = false;
   init_move_generation_optimizer();
@@ -1243,7 +1243,7 @@ void genmove(Side camp)
         */
         we_generate_exact = false;
         finply();
-        nextply();
+        nextply(nbply);
         init_move_generation_optimizer();
         gen_wh_ply();
       }
@@ -1268,7 +1268,7 @@ void genmove(Side camp)
         */
         we_generate_exact = false;
         finply();
-        nextply();
+        nextply(nbply);
         init_move_generation_optimizer();
         gen_bl_ply();
       }
@@ -3030,8 +3030,10 @@ boolean jouecoup(ply ply_id)
 
     if (CondFlag[strictSAT] && SATCheck)
     {
-      WhiteStrictSAT[ply_id]= echecc_normal(ply_id,White);
-      BlackStrictSAT[ply_id]= echecc_normal(ply_id,Black);
+      WhiteStrictSAT[ply_id]= (WhiteStrictSAT[parent_ply[ply_id]]
+                               || echecc_normal(ply_id,White));
+      BlackStrictSAT[ply_id]= (BlackStrictSAT[parent_ply[ply_id]]
+                               || echecc_normal(ply_id,Black));
     }
 
     if (CondFlag[masand]
@@ -3626,7 +3628,7 @@ boolean immobile(Side camp)
 
   if (!whbl_exact && !flag_testlegality)
   {
-    nextply();
+    nextply(nbply);
     current_killer_state= null_killer_state;
     trait[nbply]= camp;
     if (TSTFLAG(PieSpExFlags,Neutral))
@@ -3711,7 +3713,8 @@ boolean immobile(Side camp)
       while (encore())
       {
         CondFlag[ohneschach]= false;
-        jouecoup(nbply) && TraceCurrentMove();
+        jouecoup(nbply);
+        TraceCurrentMove();
         CondFlag[ohneschach]= true;
         if (!echecc(nbply,ad) && pos_legal(nbply))
         {
@@ -3729,7 +3732,8 @@ boolean immobile(Side camp)
       while (encore())
       {
         CondFlag[ohneschach]= false;
-        jouecoup(nbply) && TraceCurrentMove();
+        jouecoup(nbply);
+        TraceCurrentMove();
         CondFlag[ohneschach]= true;
         if (echecc(nbply,ad) && pos_legal(nbply))
         {

@@ -49,8 +49,10 @@
 #include "pystip.h"
 #include "trace.h"
 
-void initply(void)
+void initply(ply parent)
 {
+  parent_ply[nbply] = parent;
+
   ep2[nbply] = initsquare;
   ep[nbply] = initsquare;
 
@@ -84,15 +86,13 @@ void initply(void)
   /*
     start with the castling rights of the upper level
   */
-  castling_flag[nbply] = castling_flag[nbply-1];
-  WhiteStrictSAT[nbply] = WhiteStrictSAT[nbply-1];
-  BlackStrictSAT[nbply] = BlackStrictSAT[nbply-1];
+  castling_flag[nbply] = castling_flag[parent];
 }
 
-void nextply(void)
+void nextply(ply parent)
 {
   nbply++;
-  initply();
+  initply(parent);
   repere[nbply] = nbcou;
 }
 

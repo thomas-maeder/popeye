@@ -78,4 +78,12 @@ opt try var
 cond sat 
 fors 8/2pp4/3P4/7Q/3p4/2pp2p1/2pr4/2Sk2RK/
 
+next
+
+author Ladislav Salai
+origin feenschach III/IV 2001
+fors kq4s1/bb4r1/6pR/5p2/r7/p2p3p/8/7K
+stip h#2
+cond sat strict
+
 end

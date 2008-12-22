@@ -512,7 +512,7 @@ static void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
         square const OpponentsKing = side_at_move==White ? rn : rb;
         int i;
 
-        nextply();
+        nextply(nbply);
         trait[nbply]= side_at_move;
         init_move_generation_optimizer();
 
@@ -577,7 +577,7 @@ static void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
 
     case goal_ep:
       if (ep[nbply]==initsquare && ep2[nbply]==initsquare)
-        nextply();
+        nextply(nbply);
       else
         /* TODO only generate pawn moves? */
         genmove(side_at_move);
@@ -587,7 +587,7 @@ static void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
       if (side_at_move==White
           ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
           : TSTFLAGMASK(castling_flag[nbply],bl_castlings)<=ke8_cancastle)
-        nextply();
+        nextply(nbply);
       else
         /* TODO only generate king moves? */
         genmove(side_at_move);
@@ -831,7 +831,7 @@ static boolean leaf_is_end_in_1_forced(slice_index leaf)
     square initiallygenerated = initsquare;
     Side const attacker = advers(defender);
 
-    nextply();
+    nextply(nbply);
     init_move_generation_optimizer();
     trait[nbply]= defender;
     if (TSTFLAG(PieSpExFlags,Neutral))

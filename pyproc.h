@@ -231,7 +231,7 @@ boolean legalsquare(ply ply_id, square departure, square arrival, square capture
 boolean libre(ply ply_id, square a, boolean b);
 
 void finply(void);
-void nextply(void);
+void nextply(ply parent);
 
 boolean nocontact(square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
 boolean nogridcontact(square a);

@@ -289,15 +289,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
     boolean k_sq_checked = false;
 
     if (CondFlag[strictSAT])
-    {
-      ply ply;
-      for (ply = flag_writinglinesolution ? nbply : nbply-1; ply>0; ply--)
-        if (BlackStrictSAT[ply])
-        {
-          k_sq_checked = true;
-          break;
-        }
-    }
+      k_sq_checked = BlackStrictSAT[parent_ply[ply_id]];
 
     flagblackmummer = false;
     dont_generate_castling = true;
@@ -305,7 +297,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
     if ((satXY || k_sq_checked) && !echecc_normal(ply_id,Black))
       nr_flights--;
 
-    nextply();
+    nextply(ply_id);
 
     current_killer_state = null_killer_state;
     trait[nbply]= Black;
@@ -588,16 +580,9 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     boolean mummer_sic = flagwhitemummer;
     boolean k_sq_checked = false;  
 
+
     if (CondFlag[strictSAT])
-    {
-      ply ply;
-      for (ply= flag_writinglinesolution ? nbply : nbply-1; ply; ply--)
-        if (WhiteStrictSAT[ply])
-        {
-          k_sq_checked= true;
-          break;
-        }
-    }
+      k_sq_checked = WhiteStrictSAT[parent_ply[ply_id]];
     
     flagwhitemummer = false;
     dont_generate_castling= true;
@@ -605,7 +590,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     if ((satXY || k_sq_checked) && !echecc_normal(ply_id,White))
       nr_flights--;
 
-    nextply();
+    nextply(ply_id);
 
     current_killer_state= null_killer_state;
     trait[nbply]= White;
@@ -1240,7 +1225,7 @@ boolean rbultraech(ply ply_id,
     StdString(
         "rbultra is called while we_generate_exact is set!\n");
   }
-  nextply();
+  nextply(ply_id);
   current_killer_state.move.departure = sq_departure;
   current_killer_state.move.arrival = sq_arrival;
   current_killer_state.found = false;
@@ -1264,7 +1249,7 @@ boolean rnultraech(ply ply_id,
       = move_generation_mode;
   boolean check;
 
-  nextply();
+  nextply(ply_id);
   current_killer_state.move.departure = sq_departure;
   current_killer_state.move.arrival = sq_arrival;
   current_killer_state.found = false;

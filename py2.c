@@ -2636,7 +2636,7 @@ boolean eval_isardam(ply ply_id, square sq_departure, square sq_arrival, square 
     camp= e[sq_departure]<0 ? Black : White;
   }
 
-  nextply();
+  nextply(ply_id);
   trait[nbply]= camp;
 
   init_move_generation_optimizer();

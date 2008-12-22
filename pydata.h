@@ -275,6 +275,9 @@ EXTERN  pilecase        sqrenais,
 EXTERN  pilecase        repub_k;
 EXTERN  Flags           jouespec[maxply + 1];
 EXTERN  numecoup        repere[maxply + 1];
+EXTERN  ply             parent_ply[maxply + 1];
+
+
 
 EXTERN  boolean         exist[derbla + 1];
 EXTERN  boolean         promonly[derbla + 1];
