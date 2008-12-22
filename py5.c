@@ -722,7 +722,7 @@ void genrn_cast(void) {
         flagblackmummer = sic_flagblackmummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= jouecoup(nbply) && !echecc(nbply,Black);
+          boolean ok= jouecoup(nbply,first_play) && !echecc(nbply,Black);
           repcoup();
           if (ok)
             empile(square_e8,square_g8,kingside_castling);
@@ -765,7 +765,7 @@ void genrn_cast(void) {
         flagblackmummer = sic_flagblackmummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= (jouecoup(nbply) && !echecc(nbply,Black));
+          boolean ok= (jouecoup(nbply,first_play) && !echecc(nbply,Black));
           repcoup();
           if (ok)
             empile(square_e8,square_c8,queenside_castling);
@@ -886,7 +886,7 @@ void genrn(square sq_departure) {
           empile (sq_departure, sq_passed, sq_passed);
           if (nbcou > sic_nbcou)
           {
-            boolean ok= (jouecoup(nbply) && !echecc(nbply,Black));
+            boolean ok= (jouecoup(nbply,first_play) && !echecc(nbply,Black));
             repcoup();
             if (ok)
               empile(sq_departure, sq_arrival, maxsquare+sq_castler);
@@ -1218,7 +1218,7 @@ void genmove(Side camp)
       gen_bl_ply();
 
     while (encore()) {
-      if (jouecoup(nbply) && leaf_is_goal_reached(camp,1))
+      if (jouecoup(nbply,first_play) && leaf_is_goal_reached(camp,1))
         nbrmates++;
       repcoup();
     }
@@ -1451,7 +1451,7 @@ static  int nbrtimes = 0;
 void jouecoup_no_test(ply ply_id)
 {
   jouetestgenre= false;
-  jouecoup(ply_id);
+  jouecoup(ply_id,replay);
   jouetestgenre= jouetestgenre_save;
 }
 
@@ -1460,7 +1460,7 @@ boolean jouecoup_ortho_test(ply ply_id)
   boolean flag;
   boolean jtg1= jouetestgenre1; 
   jouetestgenre1= false;
-  flag= jouecoup(ply_id);
+  flag= jouecoup(ply_id,replay);
   jouetestgenre1= jtg1;
   return flag;
 }
@@ -1643,7 +1643,7 @@ static void ban_ghost(square sq_departure)
   TraceText("\n");
 }
 
-boolean jouecoup(ply ply_id)
+boolean jouecoup(ply ply_id, joue_type jt)
 {
   square  sq_departure,
     sq_arrival,
@@ -2843,7 +2843,7 @@ boolean jouecoup(ply ply_id)
     {
       if (traitnbply==White)
       {
-        if (flag_writinglinesolution
+        if (jt==replay
             && repub_k[ply_id]!=initsquare)
         {
           rn = repub_k[ply_id];
@@ -2854,7 +2854,7 @@ boolean jouecoup(ply ply_id)
         {
           is_republican_suspended = true;
           find_mate_square(White);
-          repub_k[ply_id] = super[ply_id]<= square_h8 ? super[ply_id] : initsquare;
+          repub_k[ply_id] = super[ply_id]<=square_h8 ? super[ply_id] : initsquare;
           if (RepublicanType==republican_type1)
           {
             /* In type 1, Republican chess is suspended (and hence
@@ -2877,7 +2877,7 @@ boolean jouecoup(ply ply_id)
       }
       else
       {
-        if (flag_writinglinesolution
+        if (jt==replay
             && repub_k[ply_id]!=initsquare)
         {
           rb = repub_k[ply_id];
@@ -2888,7 +2888,7 @@ boolean jouecoup(ply ply_id)
         {
           is_republican_suspended = true;
           find_mate_square(Black);
-          repub_k[ply_id] = super[ply_id]<= square_h8 ? super[ply_id] : initsquare;
+          repub_k[ply_id] = super[ply_id]<=square_h8 ? super[ply_id] : initsquare;
           if (RepublicanType==republican_type1)
           {
             if (repub_k[ply_id]==initsquare)
@@ -3648,7 +3648,7 @@ boolean immobile(Side camp)
     {
       int k_fl= 0, w_unit= 0;
       while (encore()) {
-        if (jouecoup(nbply)) {
+        if (jouecoup(nbply,first_play)) {
           if (camp==Black ? pprise[nbply]>=roib : pprise[nbply]<=roib)
             w_unit++;        /* assuming OWU is OBU for checks to wK !! */
           if (!echecc(nbply,camp))
@@ -3668,7 +3668,7 @@ boolean immobile(Side camp)
 
     while (immobile_encore(camp,&immobilesquare))
     {
-      if (jouecoup(nbply) && TraceCurrentMove())
+      if (jouecoup(nbply,first_play) && TraceCurrentMove())
         if (!echecc(nbply,camp))
         {
           repcoup();
@@ -3692,7 +3692,7 @@ boolean immobile(Side camp)
       genmove(camp);
       while (encore())
       {
-        if (jouecoup(nbply) && TraceCurrentMove())
+        if (jouecoup(nbply,first_play) && TraceCurrentMove())
         {
           if (!echecc(nbply,camp))
           {
@@ -3713,7 +3713,7 @@ boolean immobile(Side camp)
       while (encore())
       {
         CondFlag[ohneschach]= false;
-        jouecoup(nbply);
+        jouecoup(nbply,first_play);
         TraceCurrentMove();
         CondFlag[ohneschach]= true;
         if (!echecc(nbply,ad) && pos_legal(nbply))
@@ -3732,7 +3732,7 @@ boolean immobile(Side camp)
       while (encore())
       {
         CondFlag[ohneschach]= false;
-        jouecoup(nbply);
+        jouecoup(nbply,first_play);
         TraceCurrentMove();
         CondFlag[ohneschach]= true;
         if (echecc(nbply,ad) && pos_legal(nbply))

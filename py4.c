@@ -172,7 +172,7 @@ static boolean count_opponent_moves(int *nr_opponent_moves, Side camp) {
   numecoup      sic_nbc= nbcou;
 
   do {
-    if (jouecoup(nbply)) {
+    if (jouecoup(nbply,first_play)) {
       if (!flag && !echecc(nbply,camp)) {
         Side ad= advers(camp);
         flag= true;
@@ -181,7 +181,7 @@ static boolean count_opponent_moves(int *nr_opponent_moves, Side camp) {
         genmove(ad);
         move_generation_mode= move_generation_optimized_by_nr_opponent_moves;
         while (encore()) {
-          if (jouecoup(nbply)) {
+          if (jouecoup(nbply,first_play)) {
             if (!echecc(nbply,ad))
               (*nr_opponent_moves)++;
           }
@@ -657,7 +657,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           cmren[nbcou]= mren;
           ctrans[nbcou]=current_trans_gen;
           while (test < nbcou) {
-            if (jouecoup(nbply))
+            if (jouecoup(nbply,first_play))
               flag= flag && echecc(nbply,traitnbply);
             repcoup();
           }
@@ -2757,7 +2757,7 @@ void genrb_cast(void) {
         flagwhitemummer = sic_flagwhitemummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= jouecoup(nbply) && !echecc(nbply,White);
+          boolean ok= jouecoup(nbply,first_play) && !echecc(nbply,White);
           repcoup();
           if (ok)
             empile(square_e1,square_g1,kingside_castling);
@@ -2800,7 +2800,7 @@ void genrb_cast(void) {
         flagwhitemummer = sic_flagwhitemummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= (jouecoup(nbply) && !echecc(nbply,White));
+          boolean ok= (jouecoup(nbply,first_play) && !echecc(nbply,White));
           repcoup();
           if (ok)
             empile(square_e1,square_c1,queenside_castling);
@@ -2923,7 +2923,7 @@ void genrb(square sq_departure) {
           empile (sq_departure, sq_passed, sq_passed);
           if (nbcou > sic_nbcou)
           {
-            boolean ok= (jouecoup(nbply) && !echecc(nbply,White));
+            boolean ok= (jouecoup(nbply,first_play) && !echecc(nbply,White));
             repcoup();
             if (ok)
               empile(sq_departure, sq_arrival, maxsquare+sq_castler);

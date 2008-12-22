@@ -105,7 +105,7 @@ static int count_non_trivial(slice_index si)
 
   while (encore() && max_nr_nontrivial>=result)
   {
-    if (jouecoup(nbply)
+    if (jouecoup(nbply,first_play)
         && !echecc(nbply,defender)
         && !(min_length_nontrivial>0
              && d_composite_does_attacker_win(min_length_nontrivial,si)))
@@ -194,7 +194,7 @@ d_defender_win_type d_composite_middle_does_defender_win(stip_length_type n,
 
   while (!refutation_found && encore())
   {
-	if (jouecoup(nbply) && TraceCurrentMove()
+	if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,defender))
 	{
 	  is_defender_immobile = false;
@@ -272,7 +272,7 @@ static boolean d_composite_middle_does_attacker_win(stip_length_type n,
 
   while (!win_found && encore())
   {
-    if (jouecoup(nbply) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,attacker))
     {
       if (d_composite_does_defender_win(n-1,si)>=loss)
@@ -432,7 +432,7 @@ static int d_composite_find_refutations(int t, slice_index si)
   while (encore()
          && tablen(t)<=max_nr_refutations)
   {
-    if (jouecoup(nbply) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,defender))
     {
       is_defender_immobile = false;
@@ -606,7 +606,7 @@ static boolean h_composite_solve_recursive_nohash(Side side_at_move,
 
     while (encore())
     {
-      if (jouecoup(nbply) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move)
           && !(restartenabled && MoveNbr<RestartNbr)
@@ -781,8 +781,8 @@ static boolean ser_composite_exact_solve_recursive(stip_length_type n,
 
       while (encore())
       {
-        if (!(jouecoup(nbply) && TraceCurrentMove()))
-          TraceText("!jouecoup(nbply)\n");
+        if (!(jouecoup(nbply,first_play) && TraceCurrentMove()))
+          TraceText("!jouecoup(nbply,first_play)\n");
         else if (echecc(nbply,series_side))
           TraceText("echecc(nbply,series_side)\n");
         else if (restartenabled && MoveNbr<RestartNbr)
@@ -876,8 +876,8 @@ static boolean ser_composite_maximal_solve(stip_length_type n,
 
       while (encore())
       {
-        if (!(jouecoup(nbply) && TraceCurrentMove()))
-          TraceText("!jouecoup(nbply)\n");
+        if (!(jouecoup(nbply,first_play) && TraceCurrentMove()))
+          TraceText("!jouecoup(nbply,first_play)\n");
         else if (echecc(nbply,series_side))
           TraceText("echecc(nbply,series_side)\n");
         else if (restartenabled && MoveNbr<RestartNbr)
@@ -1088,7 +1088,7 @@ static boolean d_composite_defends_against_threats(stip_length_type n,
 
     while (encore() && !defense_found)
     {
-      if (jouecoup(nbply) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && nowdanstab(threats)
           && !echecc(nbply,attacker))
       {
@@ -1261,7 +1261,7 @@ void d_composite_solve_variations(stip_length_type n,
 
   while(encore())
   {
-    if (jouecoup(nbply) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,defender)
         && !nowdanstab(refutations))
     {
@@ -1362,7 +1362,7 @@ void d_composite_solve_continuations(stip_length_type n,
 
     while (encore())
     {
-      if (jouecoup(nbply) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && !echecc(nbply,attacker))
       {
         d_defender_win_type const defender_success =
@@ -1453,7 +1453,7 @@ void d_composite_solve_setplay(slice_index si)
 
     while(encore())
     {
-      if (jouecoup(nbply) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && !echecc(nbply,defender))
       {
         if (d_slice_has_defender_lost(si))
@@ -1585,7 +1585,7 @@ static void d_composite_middle_solve(boolean restartenabled, slice_index si)
 
   while (encore())
   {
-    if (jouecoup(nbply) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !(restartenabled && MoveNbr<RestartNbr)
         && !echecc(nbply,attacker))
     {

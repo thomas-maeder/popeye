@@ -2649,9 +2649,9 @@ boolean eval_isardam(ply ply_id, square sq_departure, square sq_arrival, square 
     /* may be several K capture moves e.g. PxK=S,B,R,Q */
     if (CondFlag[brunner])
       /* For neutral Ks will need to return true always */
-      flag= jouecoup(nbply) && !echecc(ply_id,camp);
+      flag= jouecoup(nbply,first_play) && !echecc(ply_id,camp);
     else if (CondFlag[isardam])
-      flag= jouecoup(nbply);
+      flag= jouecoup(nbply,first_play);
     /* Isardam + Brunner may be possible! in which case this logic
        is correct
     */

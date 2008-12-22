@@ -379,7 +379,6 @@ EXTERN  Side         neutcoul;
 EXTERN  boolean         calctransmute;
 
 EXTERN  boolean         flag_testlegality, k_cap,
-			flag_writinglinesolution,
 			anymars,
 			flag_madrasi;
 EXTERN  boolean         is_phantomchess;

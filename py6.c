@@ -2334,7 +2334,7 @@ boolean has_too_many_flights(Side defender)
     genmove(defender);
     while (encore() && nrflleft>0)
     {
-      if (jouecoup(nbply))
+      if (jouecoup(nbply,first_play))
       {
         square const rbn = defender==Black ? rn : rb;
         if (save_rbn!=rbn && !echecc(nbply,defender))

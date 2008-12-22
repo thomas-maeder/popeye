@@ -1431,7 +1431,7 @@ void Immobilize(int blmoves,
   genmove(Black);
   while (encore() && trouble!=rn && !pinnecessary)
   {
-    if (jouecoup(nbply) && !echecc(nbply,Black))
+    if (jouecoup(nbply,first_play) && !echecc(nbply,Black))
     {
       trouble = move_generation_stack[nbcou].departure;
       switch (-e[move_generation_stack[nbcou].arrival])
@@ -1880,7 +1880,7 @@ void NeutralizeMateGuardingPieces(
   genmove(Black);
 
   while(encore() && (trouble == initsquare)) {
-    if (jouecoup(nbply) && !echecc(nbply,Black)) {
+    if (jouecoup(nbply,first_play) && !echecc(nbply,Black)) {
       trouble= move_generation_stack[nbcou].departure;
       trto= move_generation_stack[nbcou].arrival;
     }
@@ -2140,7 +2140,7 @@ void GenerateGuarding(
     /* determine flights */
     genmove(Black);
     while(encore() && !unblockable) {
-      if (jouecoup(nbply)
+      if (jouecoup(nbply,first_play)
           && slices[1].u.leaf.goal == goal_stale)
       {
         e[move_generation_stack[nbcou].departure]= obs;

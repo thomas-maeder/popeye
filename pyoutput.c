@@ -54,7 +54,6 @@ static void linesolution(void)
   }
 #endif
 
-  flag_writinglinesolution= true;
   slice = active_slice[2];
   starting_side = regular_starter;
 
@@ -107,8 +106,6 @@ static void linesolution(void)
   }
 
   Message(NewLine);
-
-  flag_writinglinesolution= false;
 
   TraceFunctionExit(__func__);
   TraceText("\n");

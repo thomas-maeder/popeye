@@ -304,7 +304,6 @@ void InitAlways(void) {
   nbmagic = 0;
 
   flagAssassin = false;
-  flag_writinglinesolution = false;
   flag_testlegality= k_cap = false;
   flagfee = false;
   flagriders = false;
