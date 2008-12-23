@@ -225,7 +225,15 @@ boolean imok(square i, square j);
 void    initneutre(Side a);
 void jouecoup_no_test(ply ply_id);
 boolean jouecoup_ortho_test(ply ply_id);
-boolean jouecoup(ply ply_id);
+
+typedef enum
+{
+  first_play,
+  replay
+} joue_type;
+
+boolean jouecoup(ply ply_id, joue_type jt);
+
 void    joueim(int diff);
 boolean legalsquare(ply ply_id, square departure, square arrival, square capture);
 boolean libre(ply ply_id, square a, boolean b);
