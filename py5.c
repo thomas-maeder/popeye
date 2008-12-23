@@ -2841,67 +2841,49 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
     if (CondFlag[republican])
     {
-      if (traitnbply==White)
+      if (jt==replay)
       {
-        if (jt==replay
-            && repub_k[ply_id]!=initsquare)
+        if (repub_k[ply_id]!=initsquare)
         {
-          rn = repub_k[ply_id];
-          e[rn] = roin;
-          nbpiece[roin]++;
-        }
-        else if (rn==initsquare && !is_republican_suspended)
-        {
-          is_republican_suspended = true;
-          find_mate_square(White);
-          repub_k[ply_id] = super[ply_id]<=square_h8 ? super[ply_id] : initsquare;
-          if (RepublicanType==republican_type1)
+          if (traitnbply==White)
           {
-            /* In type 1, Republican chess is suspended (and hence
-             * play is over) once a king is inserted. */
-            if (repub_k[ply_id]==initsquare)
-              is_republican_suspended = false;
+            rn = repub_k[ply_id];
+            e[rn] = roin;
+            nbpiece[roin]++;
           }
           else
-            /* In type 2, on the other hand, Republican chess is
-             * continued, and the side just "mated" can attempt to
-             * defend against the mate by inserting the opposite
-             * king. */
-            is_republican_suspended = false;
+          {
+            rb = repub_k[ply_id];
+            e[rb] = roib;
+            nbpiece[roib]++;
+          }
         }
-        else
-        {
-          repub_k[ply_id] = initsquare;
-          super[ply_id] = square_h8+1;
-        }
+      }
+      else if (is_republican_suspended)
+      {
+        repub_k[ply_id] = initsquare;
+        super[ply_id] = square_h8+1;
       }
       else
       {
-        if (jt==replay
-            && repub_k[ply_id]!=initsquare)
+        is_republican_suspended = true;
+        find_mate_square(traitnbply);
+        repub_k[ply_id] = (super[ply_id]<=square_h8
+                           ? super[ply_id]
+                           : initsquare);
+        if (RepublicanType==republican_type1)
         {
-          rb = repub_k[ply_id];
-          e[rb] = roib;
-          nbpiece[roib]++;
-        }
-        else if (rb==initsquare && !is_republican_suspended)
-        {
-          is_republican_suspended = true;
-          find_mate_square(Black);
-          repub_k[ply_id] = super[ply_id]<=square_h8 ? super[ply_id] : initsquare;
-          if (RepublicanType==republican_type1)
-          {
-            if (repub_k[ply_id]==initsquare)
-              is_republican_suspended = false;
-          }
-          else
+          /* In type 1, Republican chess is suspended (and hence
+           * play is over) once a king is inserted. */
+          if (repub_k[ply_id]==initsquare)
             is_republican_suspended = false;
         }
         else
-        {
-          repub_k[ply_id] = initsquare;
-          super[ply_id] = square_h8+1;
-        }
+          /* In type 2, on the other hand, Republican chess is
+           * continued, and the side just "mated" can attempt to
+           * defend against the mate by inserting the opposite
+           * king. */
+          is_republican_suspended = false;
       }
     } /* republican */
 
