@@ -18,6 +18,19 @@ typedef enum
  */
 extern slice_index active_slice[maxply];
 
+/* Increase the indentation of output in tree mode
+ */
+void output_indent(void);
+
+/* Decrease the indentation of output in tree mode
+ */
+void output_outdent(void);
+
+/* Write the appropriate amount of whitespace for the following output
+ * to be correctely indented.
+ */
+void write_indentation(void);
+
 /* Select the inital output mode
  * @param initial_mode initial output mode
  */
@@ -48,6 +61,10 @@ void write_attack_conclusion(attack_conclusion_type type);
  *             reached by the move)
  */
 void write_defense(Goal goal);
+
+/* Mark the defense about to be written as refutation
+ */
+void write_refutation_mark(void);
 
 /* Write the refutations stored in a table
  * @param t table containing refutations

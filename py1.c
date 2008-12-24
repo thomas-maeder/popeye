@@ -313,7 +313,6 @@ void InitAlways(void) {
   flagsymmetricfairy = false;
   flagveryfairy = false;
 
-  marge = 0;
   solutions = 0;
 
   for (i= maxply; i > 0; i--)

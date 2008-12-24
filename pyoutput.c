@@ -4,7 +4,16 @@
 #include "pyint.h"
 #include "trace.h"
 
+#include <assert.h>
+
 static output_mode current_mode = output_mode_none;
+
+static unsigned int marge;
+
+extern boolean SatzFlag;
+
+slice_index active_slice[maxply];
+
 
 /* Select the inital output mode
  * @param output_mode initial output mode
@@ -14,11 +23,28 @@ void init_output_mode(output_mode initial_mode)
   current_mode = initial_mode;
 }
 
-slice_index active_slice[maxply];
+void output_indent(void)
+{
+  marge += 4;
+}
 
+void output_outdent(void)
+{
+  assert(marge>=4);
+  marge -= 4;
+}
 
-/* TODO */
-extern boolean SatzFlag;
+/* Write the appropriate amount of whitespace for the following output
+ * to be correctely indented.
+ */
+void write_indentation() {
+  /* sprintf() would print 1 blank if mage is ==0! */
+  if (marge>0)
+  {
+    sprintf(GlobalStr,"%*c",marge,blank);
+    StdString(GlobalStr);
+  }
+}
 
 static void linesolution(void)
 {
@@ -126,7 +152,7 @@ void write_attack(Goal goal, attack_type type)
       DrohFlag = false;
     }
 
-    Tabulate();
+    write_indentation();
     sprintf(GlobalStr,"%3d.",zugebene);
     StdString(GlobalStr);
     ecritcoup(nbply,goal);
@@ -177,7 +203,7 @@ void write_defense(Goal goal)
 {
   if (current_mode==output_mode_tree)
   {
-    Tabulate();
+    write_indentation();
     sprintf(GlobalStr,"%3d...",zugebene);
     StdString(GlobalStr);
     ecritcoup(nbply,goal);
@@ -185,6 +211,16 @@ void write_defense(Goal goal)
   }
   else
     linesolution();
+}
+
+/* Mark the defense about to be written as refutation
+ */
+void write_refutation_mark(void)
+{
+    marge += 2;
+    write_indentation();
+    Message(Refutation);
+    marge -= 2;
 }
 
 /* Write the end of a solution
@@ -205,11 +241,11 @@ void write_refutations(int t)
   if (tabsol.cp[t]!=tabsol.cp[t-1])
   {
     int n;
-    Tabulate();
+    write_indentation();
     Message(But);
     for (n = tabsol.cp[t]; n>tabsol.cp[t-1]; n--)
     {
-      Tabulate();
+      write_indentation();
       StdString("  1...");
       editcoup(nbply,&tabsol.liste[n],no_goal);
       StdString(" !\n");

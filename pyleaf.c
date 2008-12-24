@@ -1554,9 +1554,9 @@ static boolean leaf_s_solve(slice_index leaf)
       write_attack(no_goal,attack_key);
       write_attack_conclusion(attack_without_zugzwang);
 
-      marge += 4;
+      output_indent();
       leaf_sr_solve_final_move(leaf);
-      marge -= 4;
+      output_outdent();
     }
 
     repcoup();
@@ -1596,9 +1596,9 @@ static boolean leaf_semir_solve(slice_index leaf)
       write_attack(no_goal,attack_key);
       write_attack_conclusion(attack_without_zugzwang);
 
-      marge += 4;
+      output_indent();
       leaf_sr_solve_final_move(leaf);
-      marge -= 4;
+      output_outdent();
     }
 
     repcoup();
@@ -1940,16 +1940,16 @@ void d_leaf_write_key_solve_postkey(int refutations,
     case ESemireflex:
       write_attack(no_goal,type);
       write_attack_conclusion(attack_without_zugzwang);
-      marge += 4;
+      output_indent();
 
       if (OptFlag[solvariantes])
       {
-        marge += 4;
+        output_indent();
         leaf_sr_solve_final_move(leaf);
-        marge -= 4;
+        output_outdent();
       }
 
-      marge -= 4;
+      output_outdent();
       break;
 
     default:
@@ -1957,9 +1957,9 @@ void d_leaf_write_key_solve_postkey(int refutations,
       break;
   }
 
-  marge += 4;
+  output_indent();
   write_refutations(refutations);
-  marge -= 4;
+  output_outdent();
 }
 
 /* Determine whether the attacking side has directly lost by the move
@@ -2397,9 +2397,9 @@ static void d_leaf_sr_solve_continuations(int solutions, slice_index leaf)
       write_attack(no_goal,attack_regular);
       write_attack_conclusion(attack_without_zugzwang);
 
-      marge += 4;
+      output_indent();
       d_leaf_solve_final_defender_move(leaf);
-      marge -= 4;
+      output_outdent();
 
       pushtabsol(solutions);
     }

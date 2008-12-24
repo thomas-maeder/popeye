@@ -5249,25 +5249,6 @@ void LaTeXBeginDiagram(void) {
 } /* LaTeXBeginDiagram */
 /**** LaTeX output ***** end *****/
 
-void Tabulate() {
-#if defined(DEBUG)
-  if (marge < 0)
-#if defined(STANDALONE)
-  {
-    sprintf(GlobalStr, "error: marge = %d negative\n", marge);
-    ErrString(GlobalStr);
-    exit(9);
-  }
-#else
-  IoErrorMsg(9,0);
-#endif    /* STANDALONE */
-#endif    /* DEBUG */
-  if (marge > 0) {
-    sprintf(GlobalStr, "%*c", marge, blank);
-    StdString(GlobalStr);
-  }
-}
-
 void WritePiece(piece p) {
   char p1;
 

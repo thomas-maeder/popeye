@@ -41,7 +41,6 @@
 void    OpenInput(char *s);
 void    CloseInput(void);
 void    MultiCenter(char *s);
-void    Tabulate(void);
 void    WritePosition(void);
 void    ResetPosition(void);
 void    StorePosition(void);

@@ -1134,7 +1134,7 @@ static void d_composite_write_variation(stip_length_type n, slice_index si)
   TraceFunctionParam("%d\n",si);
 
   write_defense(no_goal);
-  marge+= 4;
+  output_indent();
 
   zugebene++;
 
@@ -1149,16 +1149,11 @@ static void d_composite_write_variation(stip_length_type n, slice_index si)
   }
 
   if (isRefutation)
-  {
-    marge+= 2;
-    Tabulate();
-    Message(Refutation);
-    marge-= 2;
-  }
+    write_refutation_mark();
 
   zugebene--;
 
-  marge-= 4;
+  output_outdent();
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -1194,7 +1189,7 @@ static int d_composite_middle_solve_threats(stip_length_type n,
 
     DrohFlag = true;
 
-    marge+= 4;
+    output_indent();
 
     zugebene++;
 
@@ -1210,7 +1205,7 @@ static int d_composite_middle_solve_threats(stip_length_type n,
 
     zugebene--;
 
-    marge-= 4;
+    output_outdent();
 
     if (DrohFlag)
     {
@@ -1372,7 +1367,7 @@ void d_composite_solve_continuations(stip_length_type n,
         {
           write_attack(no_goal,attack_regular);
 
-          marge+= 4;
+          output_indent();
           if (!slices[si].u.composite.is_exact
               && defender_success>=short_loss)
           {
@@ -1385,7 +1380,7 @@ void d_composite_solve_continuations(stip_length_type n,
             d_composite_middle_solve_postkey(n,alloctab(),si);
             freetab();
           }
-          marge-= 4;
+          output_outdent();
 
           pushtabsol(continuations);
         }
@@ -1527,7 +1522,7 @@ void d_composite_write_key_solve_postkey(int refutations,
 {
   write_attack(no_goal,type);
 
-  marge+= 4;
+  output_indent();
 
   if (OptFlag[solvariantes])
     d_composite_middle_solve_postkey(slices[si].u.composite.length,
@@ -1538,7 +1533,7 @@ void d_composite_write_key_solve_postkey(int refutations,
 
   write_refutations(refutations);
 
-  marge-= 4;
+  output_outdent();
 }
 
 void d_composite_solve_postkey(stip_length_type n, slice_index si)
