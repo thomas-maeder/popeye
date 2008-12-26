@@ -2026,18 +2026,13 @@ void d_composite_root_write_key_solve_postkey(int refutations,
 {
   write_attack(no_goal,type);
 
-  output_indent();
-
+  output_start_postkey_level();
   if (OptFlag[solvariantes])
     d_composite_root_solve_postkey(slices[si].u.composite.length,
                                    refutations,
                                    si);
-  else
-    write_attack_conclusion(attack_with_nothing);
-
   write_refutations(refutations);
-
-  output_outdent();
+  output_end_postkey_level();
 }
 
 /* Write the key just played, then solve the post key play (threats,
@@ -2049,9 +2044,9 @@ void d_composite_write_key_solve_postkey(slice_index si, attack_type type)
 {
   write_attack(no_goal,type);
 
-  output_indent();
+  output_start_postkey_level();
   d_composite_solve_postkey(slices[si].u.composite.length,si);
-  output_outdent();
+  output_end_postkey_level();
 }
 
 /* Solve the postkey only of a composite slice at root level.

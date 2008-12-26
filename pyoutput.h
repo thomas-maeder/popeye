@@ -50,6 +50,15 @@ void output_start_setplay_level(void);
 void output_end_setplay_level(void);
 
 
+/* Start a new output level consisting of post-key play
+ */
+void output_start_postkey_level(void);
+
+/* End the inner-most output level (which consists of post-key play)
+ */
+void output_end_postkey_level(void);
+
+
 /* Start a new output level consisting of threats
  */
 void output_start_threat_level(void);

@@ -58,7 +58,7 @@ typedef enum
 
 static output_attack_type output_attack_types[maxply];
 static unsigned int nr_continuations_written[maxply];
-
+static unsigned int nr_defenses_written[maxply];
 
 /* Start a new output level consisting of post-key only play
  */
@@ -68,6 +68,8 @@ void output_start_postkeyonly_level(void)
   TraceText("\n");
 
   zugebene++;
+  nr_continuations_written[zugebene] = 0;
+  nr_defenses_written[zugebene] = 0;
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -98,6 +100,7 @@ void output_start_setplay_level(void)
 
   output_indent();
   zugebene++;
+  nr_defenses_written[zugebene] = 0;
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -118,6 +121,39 @@ void output_end_setplay_level(void)
 }
 
 
+/* Start a new output level consisting of post-key play
+ */
+void output_start_postkey_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  output_indent();
+
+  nr_continuations_written[zugebene+1] = 0;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* End the inner-most output level (which consists of post-key play)
+ */
+void output_end_postkey_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  if (nr_defenses_written[zugebene]==0
+      && nr_continuations_written[zugebene+1]==0)
+    write_attack_conclusion(attack_with_nothing);
+
+  output_outdent();
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+
 /* Start a new output level consisting of threats
  */
 void output_start_threat_level(void)
@@ -126,11 +162,13 @@ void output_start_threat_level(void)
   TraceText("\n");
 
   output_indent();
+
   zugebene++;
+  nr_continuations_written[zugebene] = 0;
+  nr_defenses_written[zugebene] = 0;
 
   /* nbply will be increased by genmove() in a moment */
   output_attack_types[nbply+1] = threat_attack;
-  nr_continuations_written[zugebene] = 0;
 
   TraceValue("%u",nbply);
   TraceValue("%u\n",output_attack_types[nbply+1]);
@@ -171,11 +209,13 @@ void output_start_continuation_level(void)
   TraceText("\n");
 
   output_indent();
+
   zugebene++;
+  nr_continuations_written[zugebene] = 0;
+  nr_defenses_written[zugebene] = 0;
 
   /* nbply will be increased by genmove() in a moment */
   output_attack_types[nbply+1] = continuation_attack;
-  nr_continuations_written[zugebene] = 0;
 
   TraceValue("%u",nbply);
   TraceValue("%u\n",output_attack_types[nbply+1]);
@@ -398,6 +438,8 @@ void write_defense(Goal goal)
     StdString(GlobalStr);
     ecritcoup(nbply,goal);
     Message(NewLine);
+
+    ++nr_defenses_written[zugebene];
   }
   else
     linesolution();
@@ -439,6 +481,8 @@ void write_refutations(int t)
       StdString("  1...");
       editcoup(nbply,&tabsol.liste[n],no_goal);
       StdString(" !\n");
+
+      ++nr_defenses_written[zugebene];
     }
   }
   StdChar('\n');
