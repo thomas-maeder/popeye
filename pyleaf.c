@@ -1976,10 +1976,7 @@ void d_leaf_write_key_solve_postkey(slice_index leaf, attack_type type)
       write_attack(no_goal,type);
       write_attack_conclusion(attack_with_nothing);
       output_indent();
-
-      if (OptFlag[solvariantes])
-        leaf_sr_solve_final_move(leaf);
-
+      leaf_sr_solve_final_move(leaf);
       output_outdent();
       break;
 
