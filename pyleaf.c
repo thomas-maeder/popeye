@@ -1349,7 +1349,8 @@ static void d_leaf_r_solve_forced_keys(slice_index leaf)
         && leaf_is_goal_reached(attacker,leaf))
     {
       write_attack(goal,attack_regular);
-      write_attack_conclusion(attack_with_nothing);
+      output_start_leaf_variation_level();
+      output_end_leaf_variation_level();
     }
 
     repcoup();
@@ -1400,7 +1401,8 @@ static boolean leaf_d_solve(slice_index leaf)
     {
       solution_found = true;
       write_attack(slices[leaf].u.leaf.goal,attack_key);
-      write_attack_conclusion(attack_with_nothing);
+      output_start_leaf_variation_level();
+      output_end_leaf_variation_level();
       write_end_of_solution();
     }
 
@@ -1552,11 +1554,9 @@ static boolean leaf_s_solve(slice_index leaf)
       found_solution = true;
 
       write_attack(no_goal,attack_key);
-      write_attack_conclusion(attack_with_nothing);
-
-      output_indent();
+      output_start_postkey_level();
       leaf_sr_solve_final_move(leaf);
-      output_outdent();
+      output_end_postkey_level();
     }
 
     repcoup();
@@ -1594,11 +1594,9 @@ static boolean leaf_semir_solve(slice_index leaf)
       found_solution = true;
 
       write_attack(no_goal,attack_key);
-      write_attack_conclusion(attack_with_nothing);
-
-      output_indent();
+      output_start_postkey_level();
       leaf_sr_solve_final_move(leaf);
-      output_outdent();
+      output_end_postkey_level();
     }
 
     repcoup();
@@ -1929,20 +1927,19 @@ void d_leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
   {
     case EDirect:
       write_attack(slices[leaf].u.leaf.goal,type);
-      write_attack_conclusion(attack_with_nothing);
+      output_start_leaf_variation_level();
+      output_end_leaf_variation_level();
       break;
 
     case ESelf:
     case EReflex:
     case ESemireflex:
       write_attack(no_goal,type);
-      write_attack_conclusion(attack_with_nothing);
-      output_indent();
 
+      output_start_leaf_variation_level();
       if (OptFlag[solvariantes])
         leaf_sr_solve_final_move(leaf);
-
-      output_outdent();
+      output_end_leaf_variation_level();
       break;
 
     default:
@@ -1967,17 +1964,17 @@ void d_leaf_write_key_solve_postkey(slice_index leaf, attack_type type)
   {
     case EDirect:
       write_attack(slices[leaf].u.leaf.goal,type);
-      write_attack_conclusion(attack_with_nothing);
+      output_start_leaf_variation_level();
+      output_end_leaf_variation_level();
       break;
 
     case ESelf:
     case EReflex:
     case ESemireflex:
       write_attack(no_goal,type);
-      write_attack_conclusion(attack_with_nothing);
-      output_indent();
+      output_start_leaf_variation_level();
       leaf_sr_solve_final_move(leaf);
-      output_outdent();
+      output_end_leaf_variation_level();
       break;
 
     default:
@@ -2349,16 +2346,9 @@ void d_leaf_solve_variations(slice_index leaf)
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
 
-  /* We have just written an attacking move without knowing whether we
-   * have to signal Zugzwang in the output.
-   * (The occurence of this situation is the reason why write_attack()
-   * and write_attack_conclusion() are separate functions).
-   *
-   * When solving a leaf, we never signal Zugzwang:
-   */
-  write_attack_conclusion(attack_with_nothing);
-
+  output_start_leaf_variation_level();
   d_leaf_solve_final_defender_move(leaf);
+  output_end_leaf_variation_level();
 }
 
 /* Find and write continuations (i.e. mating moves).
@@ -2383,7 +2373,8 @@ static void d_leaf_d_solve_continuations(int solutions, slice_index leaf)
         && d_leaf_is_solved(leaf))
     {
       write_attack(slices[leaf].u.leaf.goal,attack_regular);
-      write_attack_conclusion(attack_with_nothing);
+      output_start_leaf_variation_level();
+      output_end_leaf_variation_level();
       pushtabsol(solutions);
     }
 
@@ -2419,12 +2410,9 @@ static void d_leaf_sr_solve_continuations(int solutions, slice_index leaf)
         && d_leaf_is_solved(leaf))
     {
       write_attack(no_goal,attack_regular);
-      write_attack_conclusion(attack_with_nothing);
-
-      output_indent();
+      output_start_postkey_level();
       d_leaf_solve_final_defender_move(leaf);
-      output_outdent();
-
+      output_end_postkey_level();
       pushtabsol(solutions);
     }
 

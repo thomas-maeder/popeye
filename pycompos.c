@@ -473,21 +473,15 @@ static void d_composite_end_solve_variations(slice_index si)
   switch (slices[si].type)
   {
     case STQuodlibet:
-      output_indent();
       d_quodlibet_end_solve_variations(si);
-      output_outdent();
       break;
 
     case STReciprocal:
-      output_indent();
       d_reci_end_solve_variations(si);
-      output_outdent();
       break;
 
     case STSequence:
-      output_indent();
       d_sequence_end_solve_variations(si);
-      output_outdent();
       break;
 
     default:
@@ -1541,9 +1535,7 @@ static int d_composite_solve_threats(stip_length_type n,
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  if (OptFlag[nothreat] || echecc(nbply,defender))
-    write_attack_conclusion(attack_with_nothing);
-  else
+  if (!(OptFlag[nothreat] || echecc(nbply,defender)))
   {
     stip_length_type max_threat_length = (n-1>max_len_threat
                                           ? max_len_threat
@@ -1726,9 +1718,13 @@ static void d_composite_root_solve_postkey(stip_length_type n,
 static void d_composite_solve_postkey(stip_length_type n, slice_index si)
 {
   int const threats = alloctab();
-  int len_threat = d_composite_solve_threats(n,threats,si);
+  int len_threat;
+
+  output_start_postkey_level();
+  len_threat = d_composite_solve_threats(n,threats,si);
   d_composite_solve_variations(n,len_threat,threats,si);
   freetab();
+  output_end_postkey_level();
 }
 
 /* Determine and write the end in direct/self/reflex play
@@ -1805,11 +1801,7 @@ void d_composite_solve_continuations(stip_length_type n,
               && defender_success>=short_loss)
             d_composite_end_solve_variations(si);
           else
-          {
-            output_indent();
             d_composite_solve_postkey(n,si);
-            output_outdent();
-          }
 
           pushtabsol(continuations);
         }
@@ -2043,10 +2035,7 @@ void d_composite_root_write_key_solve_postkey(int refutations,
 void d_composite_write_key_solve_postkey(slice_index si, attack_type type)
 {
   write_attack(no_goal,type);
-
-  output_start_postkey_level();
   d_composite_solve_postkey(slices[si].u.composite.length,si);
-  output_end_postkey_level();
 }
 
 /* Solve the postkey only of a composite slice at root level.
@@ -2060,19 +2049,11 @@ void d_composite_root_solve_postkeyonly(stip_length_type n, slice_index si)
   if (n==slack_length_direct)
     d_composite_end_solve_variations(si);
   else if (slices[si].u.composite.is_exact)
-  {
-    output_indent();
     d_composite_solve_postkey(n,si);
-    output_outdent();
-  }
   else if (d_slice_has_attacker_won(si))
     d_composite_end_solve_variations(si);
   else
-  {
-    output_indent();
     d_composite_solve_postkey(n,si);
-    output_outdent();
-  }
 
   output_end_postkeyonly_level();
 }

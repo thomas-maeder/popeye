@@ -18,13 +18,6 @@ typedef enum
  */
 extern slice_index active_slice[maxply];
 
-/* Increase the indentation of output in tree mode
- */
-void output_indent(void);
-
-/* Decrease the indentation of output in tree mode
- */
-void output_outdent(void);
 
 /* Write the appropriate amount of whitespace for the following output
  * to be correctely indented.
@@ -78,6 +71,15 @@ void output_start_continuation_level(void);
 void output_end_continuation_level(void);
 
 
+/* Start a new output level consisting of leaf variations
+ */
+void output_start_leaf_variation_level(void);
+
+/* End the inner-most output level (which consists of leaf variations)
+ */
+void output_end_leaf_variation_level(void);
+
+
 /* Select the inital output mode
  * @param initial_mode initial output mode
  */
@@ -89,20 +91,6 @@ void init_output_mode(output_mode initial_mode);
  * @param type of attack
  */
 void write_attack(Goal goal, attack_type type);
-
-typedef enum
-{
-  attack_with_zugzwang,
-  attack_with_threat,
-  attack_with_nothing
-} attack_conclusion_type;
-
-/* Conclude writing an attacker's move; each call to write_attack()
- * should be followed by a call to write_attack_conclusion(),
- * indicating whether we want to signal zugzwang in the ouptut.
- * @param type should we signal zugzwang in the output?
- */
-void write_attack_conclusion(attack_conclusion_type type);
 
 /* Write a defender's move
  * @param goal goal reached by the move (no_goal if no goal has been

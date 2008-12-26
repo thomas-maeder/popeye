@@ -686,7 +686,7 @@ void DeposeBlPiece(
   square *bnp, *isbnp= deposebnp;
 
 #if defined(DEBUG)
-  output_indent();write_indentation();
+  write_indentation();
   sprintf(GlobalStr,
           "DeposeBlPiece(%d,%d,%d), *deposebnp=%d\n",
           blmoves, whmoves, blpcallowed, *deposebnp);
@@ -712,7 +712,6 @@ void DeposeBlPiece(
   sprintf(GlobalStr,
           "leaving DeposeBlPiece, deposebnp=%d\n", *deposebnp);
   StdString(GlobalStr);
-  output_outdent();
 #endif
 
 } /* DeposeBlPiece */
@@ -1122,7 +1121,7 @@ void DeposeWhKing(int   blmoves,
   piece f_p;
 
 #if defined(DEBUG)
-  output_indent();write_indentation();
+  write_indentation();
   sprintf(GlobalStr,
           "entering DeposeWhKing(%d,%d,%d,%d)\n",
           blmoves, whmoves, blpcallowed, whpcallowed);
@@ -1158,7 +1157,7 @@ void DeposeWhKing(int   blmoves,
   rb= initsquare;
 
 #if defined(DEBUG)
-  write_indentation();StdString("leaving DeposeWhKing\n");output_outdent();
+  write_indentation();StdString("leaving DeposeWhKing\n");
 #endif
 }
 
@@ -1175,7 +1174,7 @@ void ImmobilizeByBlBlock(
   piece f_p;
 
 #if defined(DEBUG)
-  output_indent();write_indentation();
+  write_indentation();
   sprintf(GlobalStr,
           "entering ImmobilizeByBlBlock(%d,%d,%d)\n",
           blmoves, whmoves, toblock);
@@ -1273,7 +1272,7 @@ void ImmobilizeByBlBlock(
   spec[toblock]= EmptySpec;
 
 #if defined(DEBUG)
-  write_indentation();StdString("leaving ImmobilizeByblBlock\n");output_outdent();
+  write_indentation();StdString("leaving ImmobilizeByblBlock\n");
 #endif
 } /* ImmobilizeByBlBlock */
 
@@ -1293,7 +1292,7 @@ void ImmobilizeByWhBlock(
   }
 
 #if defined(DEBUG)
-  output_indent();write_indentation();
+  write_indentation();
   sprintf(GlobalStr,
           "entering ImmobilizeByWhBlock(%d,%d,%d)\n",
           blmoves, whmoves, toblock);
@@ -1386,7 +1385,7 @@ void ImmobilizeByWhBlock(
   spec[toblock]= EmptySpec;
 
 #if defined(DEBUG)
-  write_indentation();StdString("leaving ImmobilizeByWhBlock\n");output_outdent();
+  write_indentation();StdString("leaving ImmobilizeByWhBlock\n");
 #endif
 } /* ImmobilizeByWhBlock */
 
@@ -1412,7 +1411,6 @@ void Immobilize(int blmoves,
   pinnecessary= false;
 
 #if defined(DEBUG)
-  output_indent();
   write_indentation();
   sprintf(GlobalStr,
           "entering Immobilize(%d, %d,%d,%d)\n",
@@ -1549,7 +1547,7 @@ void Immobilize(int blmoves,
   }
 
 #if defined(DEBUG)
-  write_indentation();StdString("leaving Immobilize\n");output_outdent();
+  write_indentation();StdString("leaving Immobilize\n");
 #endif
 } /* Immobilize */
 
@@ -1618,7 +1616,6 @@ void AvoidCheckInStalemate(
   int checkdirs[8], md= 0, i;
 
 #if defined(DEBUG)
-  output_indent();
   write_indentation();
   sprintf(GlobalStr,
           "entering AvoidCheckInStaleMate(%d, %d)\n",
@@ -1684,7 +1681,6 @@ void AvoidCheckInStalemate(
   write_indentation();
   sprintf(GlobalStr,"leaving AvoidCheckInStalemate\n");
   StdString(GlobalStr);
-  output_outdent();
 #endif
 } /* AvoidCheckInStalemate */
 
@@ -2372,7 +2368,6 @@ void GenerateBlackKing(int whmoves, int blmoves, stip_length_type n) {
   Flags sp= black[0].sp;
 
 #if defined(DEBUG)
-  output_indent();
   write_indentation();
   sprintf(GlobalStr,
           "entering GenerateBlackKing(%d, %d)\n",
@@ -2415,7 +2410,6 @@ void GenerateBlackKing(int whmoves, int blmoves, stip_length_type n) {
   write_indentation();
   sprintf(GlobalStr,"leaving GenerateBlackKing\n");
   StdString(GlobalStr);
-  output_outdent();
 #endif
 } /* GenerateBlackKing */
 
