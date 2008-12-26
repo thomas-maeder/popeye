@@ -220,23 +220,28 @@ void d_slice_solve_continuations(int table, slice_index si);
 /* Find and write defender's set play
  * @param si slice index
  */
-void d_slice_solve_setplay(slice_index si);
+void d_slice_root_solve_setplay(slice_index si);
 
 /* Find and write defender's set play in self/reflex play if every
  * set move leads to end
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_slice_solve_complete_set(slice_index si);
+boolean d_slice_root_solve_complete_set(slice_index si);
 
 /* Determine and write the solutions and tries in the current position
- * in direct play.
+ * in direct play
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param si slice index
  */
-void d_slice_solve(boolean restartenabled, slice_index si);
+void d_slice_root_solve(boolean restartenabled, slice_index si);
+
+/* Determine and write the solutions at a nested level
+ * @param si slice index
+ */
+void d_slice_solve(slice_index si);
 
 typedef enum
 {
@@ -246,29 +251,45 @@ typedef enum
 } attack_type;
 
 /* Write the key just played, then continue solving in the slice
- * to find and write the post key play (threats, variations) and
- * write the refutations (if any)
- * @param refutations table containing the refutations (if any)
+ * to find and write the post key play (threats, variations)
  * @param si slice index
  * @param type type of attack
  */
-void d_slice_write_key_solve_postkey(int refutations,
-                                     slice_index si,
-                                     attack_type type);
+void d_slice_root_write_key_solve_postkey(slice_index si,
+                                          attack_type type);
 
-/* Solve a slice
+/* Write the key just played, then continue solving in the slice
+ * to find and write the post key play (threats, variations)
+ * @param si slice index
+ * @param type type of attack
+ */
+void d_slice_write_key_solve_postkey(slice_index si, attack_type type);
+
+/* Solve a slice at root level
  * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_slice_solve(boolean restartenabled, slice_index si);
+boolean h_slice_root_solve(boolean restartenabled, slice_index si);
 
 /* Solve a slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean h_slice_solve(slice_index si);
+
+/* Solve a slice at root level
  * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean ser_slice_solve(boolean restartenabled, slice_index si);
+boolean ser_slice_root_solve(boolean restartenabled, slice_index si);
+
+/* Solve a slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean ser_slice_solve(slice_index si);
 
 /* Determine whether the attacking side wins
  * @param si slice identifier
@@ -306,16 +327,9 @@ boolean d_slice_has_attacker_lost(slice_index si);
 boolean d_slice_has_attacker_won(slice_index si);
 
 /* Find and write variations
- * @param len_threat length of threat (shorter variations are suppressed)
- * @param threats table containing threats (variations not defending
- *                against all threats are suppressed)
- * @param refutations table containing refutations (written at end)
  * @param si slice index
  */
-void d_slice_solve_variations(int len_threat,
-                              int threats,
-                              int refutations,
-                              slice_index si);
+void d_slice_solve_variations(slice_index si);
 
 /* Has the threat just played been refuted by the preceding defense?
  * @param si identifies stipulation slice

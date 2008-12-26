@@ -8,11 +8,13 @@
 
 static output_mode current_mode = output_mode_none;
 
-static unsigned int marge;
+static unsigned int margin;
 
 extern boolean SatzFlag;
 
 slice_index active_slice[maxply];
+
+static stip_length_type zugebene;
 
 
 /* Select the inital output mode
@@ -25,13 +27,13 @@ void init_output_mode(output_mode initial_mode)
 
 void output_indent(void)
 {
-  marge += 4;
+  margin += 4;
 }
 
 void output_outdent(void)
 {
-  assert(marge>=4);
-  marge -= 4;
+  assert(margin>=4);
+  margin -= 4;
 }
 
 /* Write the appropriate amount of whitespace for the following output
@@ -39,12 +41,174 @@ void output_outdent(void)
  */
 void write_indentation() {
   /* sprintf() would print 1 blank if mage is ==0! */
-  if (marge>0)
+  assert(margin>=4);
+  if (margin-4>0)
   {
-    sprintf(GlobalStr,"%*c",marge,blank);
+    sprintf(GlobalStr,"%*c",margin-4,blank);
     StdString(GlobalStr);
   }
 }
+
+typedef enum
+{
+  unknown_attack,
+  continuation_attack,
+  threat_attack
+} output_attack_type;
+
+static output_attack_type output_attack_types[maxply];
+static unsigned int nr_continuations_written[maxply];
+
+
+/* Start a new output level consisting of post-key only play
+ */
+void output_start_postkeyonly_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  zugebene++;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* End the inner-most output level (which consists of post-key only play)
+ */
+void output_end_postkeyonly_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  Message(NewLine);
+
+  zugebene--;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+
+/* Start a new output level consisting of set play
+ */
+void output_start_setplay_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  output_indent();
+  zugebene++;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* End the inner-most output level (which consists of set play)
+ */
+void output_end_setplay_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  zugebene--;
+  output_outdent();
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+
+/* Start a new output level consisting of threats
+ */
+void output_start_threat_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  output_indent();
+  zugebene++;
+
+  /* nbply will be increased by genmove() in a moment */
+  output_attack_types[nbply+1] = threat_attack;
+  nr_continuations_written[zugebene] = 0;
+
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",output_attack_types[nbply+1]);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* End the inner-most output level (which consists of threats)
+ */
+void output_end_threat_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  if (nr_continuations_written[zugebene]==0)
+    write_attack_conclusion(attack_with_zugzwang);
+
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",output_attack_types[nbply+1]);
+
+  assert(output_attack_types[nbply+1]==threat_attack);
+  output_attack_types[nbply+1] = unknown_attack;
+
+  zugebene--;
+  output_outdent();
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+
+/* Start a new output level consisting of regular continuations
+ */
+void output_start_continuation_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  output_indent();
+  zugebene++;
+
+  /* nbply will be increased by genmove() in a moment */
+  output_attack_types[nbply+1] = continuation_attack;
+  nr_continuations_written[zugebene] = 0;
+
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",output_attack_types[nbply+1]);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* End the inner-most output level (which consists of regular
+ * continuations)
+ */
+void output_end_continuation_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  if (zugebene==2 && nr_continuations_written[zugebene]==0)
+    write_refutation_mark();
+
+  zugebene--;
+  output_outdent();
+
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",output_attack_types[nbply+1]);
+
+  assert(output_attack_types[nbply+1]==continuation_attack);
+
+  output_attack_types[nbply+1] = unknown_attack;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
 
 static void linesolution(void)
 {
@@ -146,11 +310,14 @@ void write_attack(Goal goal, attack_type type)
 {
   if (current_mode==output_mode_tree)
   {
-    if (DrohFlag)
-    {
-      Message(Threat);
-      DrohFlag = false;
-    }
+    assert(output_attack_types[nbply]==continuation_attack
+           || output_attack_types[nbply]==threat_attack);
+
+    if (output_attack_types[nbply]==threat_attack
+        && nr_continuations_written[zugebene]==0)
+      write_attack_conclusion(attack_with_threat);
+
+    ++nr_continuations_written[zugebene];
 
     write_indentation();
     sprintf(GlobalStr,"%3d.",zugebene);
@@ -193,7 +360,30 @@ void write_attack(Goal goal, attack_type type)
 void write_attack_conclusion(attack_conclusion_type type)
 {
   if (current_mode==output_mode_tree)
-    Message(type==attack_with_zugzwang ? Zugzwang : NewLine);
+  {
+    message_id_t message_id;
+
+    switch (type)
+    {
+      case attack_with_zugzwang:
+        message_id = Zugzwang;
+        break;
+
+      case attack_with_threat:
+        message_id = Threat;
+        break;
+
+      case attack_with_nothing:
+        message_id = NewLine;
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+
+    Message(message_id);
+  }
 }
 
 /* Write a move by the defending side in direct/self/reflex play.
@@ -217,10 +407,10 @@ void write_defense(Goal goal)
  */
 void write_refutation_mark(void)
 {
-    marge += 2;
+    margin += 2;
     write_indentation();
     Message(Refutation);
-    marge -= 2;
+    margin -= 2;
 }
 
 /* Write the end of a solution

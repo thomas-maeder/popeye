@@ -65,14 +65,14 @@ void d_leaf_write_unsolvability(slice_index leaf);
 /* Find and write defender's set play
  * @param leaf slice index
  */
-void d_leaf_solve_setplay(slice_index leaf);
+void d_leaf_root_solve_setplay(slice_index leaf);
 
 /* Find and write defender's set play in direct play if every set move
  * leads to end
  * @param leaf slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_leaf_solve_complete_set(slice_index leaf);
+boolean d_leaf_root_solve_complete_set(slice_index leaf);
 
 /* Find and write variations (i.e. nothing resp. defender's final
  * moves). 
@@ -81,14 +81,18 @@ boolean d_leaf_solve_complete_set(slice_index leaf);
 void d_leaf_solve_variations(slice_index leaf);
 
 /* Write the key just played, solve the post key play (threats,
- * variations) and write the refutations (if any).
- * @param refutations table containing the refutations (if any)
+ * variations)
  * @param leaf slice index
  * @param type type of attack
  */
-void d_leaf_write_key_solve_postkey(int refutations,
-                                    slice_index leaf,
-                                    attack_type type);
+void d_leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type);
+
+/* Write the key just played, solve the post key play (threats,
+ * variations)
+ * @param leaf slice index
+ * @param type type of attack
+ */
+void d_leaf_write_key_solve_postkey(slice_index leaf, attack_type type);
 
 /* Find and write continuations (i.e. mating moves or final move pairs).
  * @param continuations table where to append continuations found and
@@ -122,7 +126,13 @@ boolean d_leaf_does_attacker_win(slice_index leaf);
  * @param leaf slice index
  * @return true iff >= 1 set play was found
  */
-boolean h_leaf_solve_setplay(slice_index leaf);
+boolean h_leaf_root_solve_setplay(slice_index leaf);
+
+/* Determine and write the solution of a leaf slice at root level.
+ * @param leaf identifies leaf slice
+ * @return true iff >=1 solution was found
+ */
+boolean leaf_root_solve(slice_index leaf);
 
 /* Determine and write the solution of a leaf slice.
  * @param leaf identifies leaf slice

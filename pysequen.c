@@ -53,12 +53,12 @@ void d_sequence_end_solve_continuations(int table, slice_index si)
 /* Find and write defender's set play
  * @param si slice index
  */
-void d_sequence_end_solve_setplay(slice_index si)
+void d_sequence_root_end_solve_setplay(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  d_slice_solve_setplay(slices[si].u.composite.op1);
+  d_slice_root_solve_setplay(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -69,20 +69,33 @@ void d_sequence_end_solve_setplay(slice_index si)
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_sequence_end_solve_complete_set(slice_index si)
+boolean d_sequence_root_end_solve_complete_set(slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  result = d_slice_solve_complete_set(slices[si].u.composite.op1);
+  result = d_slice_root_solve_complete_set(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
   return result;
 }
 
+
+/* Solve at root level at the end of a sequence slice
+ * Unsolvability (e.g. because of a forced reflex move) has already
+ * been dealt with.
+ * @param restartenabled true iff the written solution should only
+ *                       start at the Nth legal move of attacker
+ *                       (determined by user input)
+ * @param si slice index 
+ */
+void d_sequence_root_end_solve(boolean restartenabled, slice_index si)
+{
+  d_slice_root_solve(restartenabled,slices[si].u.composite.op1);
+}
 
 /* Continue solving at the end of a sequence slice
  * Unsolvability (e.g. because of a forced reflex move) has already
@@ -92,52 +105,84 @@ boolean d_sequence_end_solve_complete_set(slice_index si)
  *                       (determined by user input)
  * @param si slice index 
  */
-void d_sequence_end_solve(boolean restartenabled, slice_index si)
+void d_sequence_end_solve(slice_index si)
 {
-  d_slice_solve(restartenabled,slices[si].u.composite.op1);
+  d_slice_solve(slices[si].u.composite.op1);
 }
 
 /* Write the key just played, then continue solving at end of sequence
- * slice to find and write the post key play (threats, variations) and
- * write the refutations (if any)
- * @param refutations table containing the refutations (if any)
+ * slice to find and write the post key play (threats, variations)
  * @param si slice index
  * @param type type of attack
  */
-void d_sequence_end_write_key_solve_postkey(int refutations,
-                                            slice_index si,
+void d_sequence_root_end_write_key_solve_postkey(slice_index si,
+                                                 attack_type type)
+{
+  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
+}
+
+/* Write the key just played, then continue solving at end of sequence
+ * slice to find and write the post key play (threats, variations)
+ * @param si slice index
+ * @param type type of attack
+ */
+void d_sequence_end_write_key_solve_postkey(slice_index si,
                                             attack_type type)
 {
-  d_slice_write_key_solve_postkey(refutations,
-                                  slices[si].u.composite.op1,
-                                  type);
+  d_slice_write_key_solve_postkey(slices[si].u.composite.op1,type);
+}
+
+/* Solve at root level at the end of a sequence slice
+ * @param restartenabled true iff option movenum is activated
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean h_sequence_root_end_solve(boolean restartenabled, slice_index si)
+{
+  return h_slice_root_solve(restartenabled,slices[si].u.composite.op1);
 }
 
 /* Continue solving at the end of a sequence slice
- * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_sequence_end_solve(boolean restartenabled, slice_index si)
+boolean h_sequence_end_solve(slice_index si)
 {
-  return h_slice_solve(restartenabled,slices[si].u.composite.op1);
+  return h_slice_solve(slices[si].u.composite.op1);
 }
 
-/* Continue solving series play at the end of a sequence slice
- * @param no_succ_hash_category hash category for storing failures
+/* Solve series play at root level at the end of a sequence slice
  * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean ser_sequence_end_solve(boolean restartenabled, slice_index si)
+boolean ser_sequence_root_end_solve(boolean restartenabled, slice_index si)
 {
   boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  solution_found = ser_slice_solve(restartenabled,
-                                   slices[si].u.composite.op1);
+  solution_found = ser_slice_root_solve(restartenabled,
+                                        slices[si].u.composite.op1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",solution_found);
+  return solution_found;
+}
+
+/* Continue solving series play at the end of a sequence slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean ser_sequence_end_solve(slice_index si)
+{
+  boolean solution_found = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  solution_found = ser_slice_solve(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",solution_found);
@@ -163,25 +208,14 @@ boolean d_sequence_end_does_attacker_win(slice_index si)
 }
 
 /* Find and write variations starting at end of sequence slice
- * @param len_threat length of threat (shorter variations are suppressed)
- * @param threats table containing threats (variations not defending
- *                against all threats are suppressed)
- * @param refutations table containing refutations (written at end)
  * @param si slice index
  */
-void d_sequence_end_solve_variations(int len_threat,
-                                     int threats,
-                                     int refutations,
-                                     slice_index si)
+void d_sequence_end_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",len_threat);
   TraceFunctionParam("%d\n",si);
 
-  d_slice_solve_variations(len_threat,
-                           threats,
-                           refutations,
-                           slices[si].u.composite.op1);
+  d_slice_solve_variations(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
   TraceText("\n");

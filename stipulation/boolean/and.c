@@ -164,30 +164,16 @@ void d_reci_write_unsolvability(slice_index si)
 }
 
 /* Find and write variations from the end of a reciprocal slice.
- * @param len_threat length of threat (shorter variations are suppressed) 
- * @param threats table containing threats (variations not defending
- *                against all threats are suppressed)
- * @param refutations table containing refutations (written at end)
  * @param si slice index
  */
-void d_reci_end_solve_variations(int len_threat,
-                                 int threats,
-                                 int refutations,
-                                 slice_index si)
+void d_reci_end_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",len_threat);
   TraceFunctionParam("%d\n",si);
 
   /* TODO solve variation after variation */
-  d_slice_solve_variations(len_threat,
-                           threats,
-                           refutations,
-                           slices[si].u.composite.op1);
-  d_slice_solve_variations(len_threat,
-                           threats,
-                           refutations,
-                           slices[si].u.composite.op2);
+  d_slice_solve_variations(slices[si].u.composite.op1);
+  d_slice_solve_variations(slices[si].u.composite.op2);
 
   TraceFunctionExit(__func__);
 }
@@ -211,61 +197,88 @@ void d_reci_end_solve_continuations(int table, slice_index si)
 /* Find and write defender's set play
  * @param si slice index
  */
-void d_reci_end_solve_setplay(slice_index si)
+void d_reci_root_end_solve_setplay(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
   /* TODO solve defense after defense */
-  d_slice_solve_setplay(slices[si].u.composite.op1);
-  d_slice_solve_setplay(slices[si].u.composite.op2);
+  d_slice_root_solve_setplay(slices[si].u.composite.op1);
+  d_slice_root_solve_setplay(slices[si].u.composite.op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
 
-/* Determine and write solutions starting at the end of a reciprocal
- * direct/self/reflex stipulation. 
+/* Determine and write solutions at root level starting at the end of
+ * a reciprocal direct/self/reflex stipulation.
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param si slice index
  */
-void d_reci_end_solve(boolean restartenabled, slice_index si)
+void d_reci_root_end_solve(boolean restartenabled, slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
 
-  /* TODO does this makes sense? */
+  /* TODO does this make sense? */
   if (slice_is_unsolvable(op1))
     d_slice_write_unsolvability(op1);
   else if (slice_is_unsolvable(op2))
     d_slice_write_unsolvability(op2);
   else
   {
-    d_slice_solve(restartenabled,op1);
-    d_slice_solve(restartenabled,op2);
+    d_slice_root_solve(restartenabled,op1);
+    d_slice_root_solve(restartenabled,op2);
+  }
+}
+
+/* Determine and write solutions starting at the end of a reciprocal
+ * direct/self/reflex stipulation. 
+ * @param si slice index
+ */
+void d_reci_end_solve(slice_index si)
+{
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+
+  /* TODO does this make sense? */
+  if (slice_is_unsolvable(op1))
+    d_slice_write_unsolvability(op1);
+  else if (slice_is_unsolvable(op2))
+    d_slice_write_unsolvability(op2);
+  else
+  {
+    d_slice_solve(op1);
+    d_slice_solve(op2);
   }
 }
 
 /* Write the key just played, then solve the post key play (threats,
- * variations) and write the refutations (if any), starting at the end
- * of a reciprocal slice.
- * @param refutations table containing the refutations (if any)
+ * variations), starting at the end of a reciprocal slice.
  * @param si slice index
  * @param type type of attack
  */
-void d_reci_end_write_key_solve_postkey(int refutations,
-                                        slice_index si,
+void d_reci_root_end_write_key_solve_postkey(slice_index si,
+                                             attack_type type)
+{
+  /* TODO does this make sense? */
+  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
+  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op2,type);
+}
+
+/* Write the key just played, then solve the post key play (threats,
+ * variations), starting at the end of a reciprocal slice.
+ * @param si slice index
+ * @param type type of attack
+ */
+void d_reci_end_write_key_solve_postkey(slice_index si,
                                         attack_type type)
 {
-  /* TODO does this makes sense? */
-  d_slice_write_key_solve_postkey(refutations,
-                                  slices[si].u.composite.op1,
-                                  type);
-  d_slice_write_key_solve_postkey(refutations,
-                                  slices[si].u.composite.op2,
-                                  type);
+  /* TODO does this make sense? */
+  d_slice_write_key_solve_postkey(slices[si].u.composite.op1,type);
+  d_slice_write_key_solve_postkey(slices[si].u.composite.op2,type);
 }
 
 /* Has the threat just played been refuted by the preceding defense?
@@ -276,6 +289,30 @@ boolean d_reci_end_is_threat_refuted(slice_index si)
 {
   return (d_slice_is_threat_refuted(slices[si].u.composite.op1)
           || d_slice_is_threat_refuted(slices[si].u.composite.op2));
+}
+
+/* Solve at root level at the end of a reciprocal slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean h_reci_root_end_solve(slice_index si)
+{
+  boolean found_solution = false;
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+  TraceValue("%d",op1);
+  TraceValue("%d\n",op2);
+
+  found_solution = (slice_is_solvable(op2)
+                    && h_slice_root_solve(false,op1)
+                    && h_slice_root_solve(false,op2));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",found_solution);
+  return found_solution;
 }
 
 /* Continue solving at the end of a reciprocal slice
@@ -294,20 +331,20 @@ boolean h_reci_end_solve(slice_index si)
   TraceValue("%d\n",op2);
 
   found_solution = (slice_is_solvable(op2)
-                    && h_slice_solve(false,op1)
-                    && h_slice_solve(false,op2));
+                    && h_slice_solve(op1)
+                    && h_slice_solve(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",found_solution);
   return found_solution;
-} /* h_reci_end_solve */
+}
 
-/* Continue solving series play at the end of a reciprocal slice
+/* Solve series play at root level at the end of a reciprocal slice
  * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean ser_reci_end_solve(boolean restartenabled, slice_index si)
+boolean ser_reci_root_end_solve(boolean restartenabled, slice_index si)
 {
   boolean solution_found = false;
   slice_index const op1 = slices[si].u.composite.op1;
@@ -317,8 +354,30 @@ boolean ser_reci_end_solve(boolean restartenabled, slice_index si)
   TraceFunctionParam("%d\n",si);
 
   solution_found = (slice_is_solvable(op2)
-                    && ser_slice_solve(false,op1)
-                    && ser_slice_solve(false,op2));
+                    && ser_slice_root_solve(restartenabled,op1)
+                    && ser_slice_root_solve(restartenabled,op2));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",solution_found);
+  return solution_found;
+}
+
+/* Continue solving series play at the end of a reciprocal slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean ser_reci_end_solve(slice_index si)
+{
+  boolean solution_found = false;
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  solution_found = (slice_is_solvable(op2)
+                    && ser_slice_solve(op1)
+                    && ser_slice_solve(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",solution_found);

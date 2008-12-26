@@ -647,9 +647,9 @@ void StaleStoreMate(
   inithash();
 
   if (slices[0].u.composite.play==PHelp)
-    h_composite_solve(false,0,n);
+    h_composite_root_solve(false,0,n);
   else
-    ser_composite_exact_solve(false,0,n);
+    ser_composite_root_exact_solve(false,0,n);
 
   /* reset the old mating position */
   for (bnp= boardnum; *bnp; bnp++) {
@@ -875,9 +875,9 @@ void StoreMate(
   inithash();
 
   if (slices[0].u.composite.play==PHelp)
-    h_composite_solve(false,0,n);
+    h_composite_root_solve(false,0,n);
   else
-    ser_composite_exact_solve(false,0,n);
+    ser_composite_root_exact_solve(false,0,n);
 
   /* reset the old mating position */
   for (bnp= boardnum; *bnp; bnp++) {
@@ -2608,9 +2608,9 @@ boolean Intelligent(boolean looking_for_short_solutions,
     }
       
     if (slices[0].u.composite.play==PHelp)
-      result = h_composite_solve(OptFlag[movenbr],0,n);
+      result = h_composite_root_solve(OptFlag[movenbr],0,n);
     else
-      result = ser_composite_exact_solve(OptFlag[movenbr],0,n);
+      result = ser_composite_root_exact_solve(OptFlag[movenbr],0,n);
 
     if (looking_for_short_solutions)
       OptFlag[movenbr] = saveMovenbr;

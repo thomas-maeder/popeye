@@ -512,28 +512,32 @@ void d_slice_solve_continuations(int table, slice_index si)
 /* Find and write defender's set play
  * @param si slice index
  */
-void d_slice_solve_setplay(slice_index si)
+void d_slice_root_solve_setplay(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
+
+  output_start_setplay_level();
 
   TraceValue("%d\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeaf:
-      d_leaf_solve_setplay(si);
+      d_leaf_root_solve_setplay(si);
       break;
 
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      d_composite_solve_setplay(si);
+      d_composite_root_solve_setplay(si);
       break;
 
     default:
       assert(0);
       break;
   }
+
+  output_end_setplay_level();
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -544,7 +548,7 @@ void d_slice_solve_setplay(slice_index si)
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_slice_solve_complete_set(slice_index si)
+boolean d_slice_root_solve_complete_set(slice_index si)
 {
   boolean result = false;
 
@@ -554,15 +558,15 @@ boolean d_slice_solve_complete_set(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = d_leaf_solve_complete_set(si);
+      result = d_leaf_root_solve_complete_set(si);
       break;
 
     case STSequence:
-      result = d_sequence_end_solve_complete_set(si);
+      result = d_sequence_root_end_solve_complete_set(si);
       break;
 
     case STQuodlibet:
-      result = d_quodlibet_end_solve_complete_set(si);
+      result = d_quodlibet_root_end_solve_complete_set(si);
       break;
 
     case STReciprocal:
@@ -580,13 +584,42 @@ boolean d_slice_solve_complete_set(slice_index si)
 }
 
 /* Determine and write the solutions and tries in the current position
- * in direct play.
+ * in direct play
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param si slice index
  */
-void d_slice_solve(boolean restartenabled, slice_index si)
+void d_slice_root_solve(boolean restartenabled, slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      leaf_root_solve(si);
+      break;
+      
+    case STQuodlibet:
+    case STSequence:
+    case STReciprocal:
+      d_composite_root_solve(restartenabled,si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Determine and write the solutions at a nested level
+ * @param si slice index
+ */
+void d_slice_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
@@ -600,7 +633,7 @@ void d_slice_solve(boolean restartenabled, slice_index si)
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      d_composite_solve(restartenabled,si);
+      d_composite_solve(si);
       break;
 
     default:
@@ -613,26 +646,23 @@ void d_slice_solve(boolean restartenabled, slice_index si)
 }
 
 /* Write the key just played, then continue solving in the slice
- * to find and write the post key play (threats, variations) and
- * write the refutations (if any)
- * @param refutations table containing the refutations (if any)
+ * to find and write the post key play (threats, variations)
  * @param si slice index
  * @param type type of attack
  */
-void d_slice_write_key_solve_postkey(int refutations,
-                                     slice_index si,
-                                     attack_type type)
+void d_slice_root_write_key_solve_postkey(slice_index si, attack_type type)
 {
   switch (slices[si].type)
   {
     case STLeaf:
-      d_leaf_write_key_solve_postkey(refutations,si,type);
+      d_leaf_root_write_key_solve_postkey(si,type);
       break;
 
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      d_composite_write_key_solve_postkey(refutations,si,type);
+      d_composite_root_write_key_solve_postkey(alloctab(),si,type);
+      freetab();
       break;
 
     default:
@@ -641,12 +671,37 @@ void d_slice_write_key_solve_postkey(int refutations,
   }
 }
 
-/* Solve a slice
+/* Write the key just played, then continue solving in the slice
+ * to find and write the post key play (threats, variations)
+ * @param si slice index
+ * @param type type of attack
+ */
+void d_slice_write_key_solve_postkey(slice_index si, attack_type type)
+{
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      d_leaf_write_key_solve_postkey(si,type);
+      break;
+
+    case STQuodlibet:
+    case STSequence:
+    case STReciprocal:
+      d_composite_write_key_solve_postkey(si,type);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+}
+
+/* Solve a slice at root level
  * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_slice_solve(boolean restartenabled, slice_index si)
+boolean h_slice_root_solve(boolean restartenabled, slice_index si)
 {
   boolean solution_found = false;
 
@@ -656,15 +711,15 @@ boolean h_slice_solve(boolean restartenabled, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      solution_found = leaf_solve(si);
+      solution_found = leaf_root_solve(si);
       break;
 
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      solution_found = h_composite_solve(restartenabled,
-                                         si,
-                                         slices[si].u.composite.length);
+      solution_found = h_composite_root_solve(restartenabled,
+                                              si,
+                                              slices[si].u.composite.length);
       break;
 
     default:
@@ -678,11 +733,10 @@ boolean h_slice_solve(boolean restartenabled, slice_index si)
 }
 
 /* Solve a slice
- * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean ser_slice_solve(boolean restartenabled, slice_index si)
+boolean h_slice_solve(slice_index si)
 {
   boolean solution_found = false;
 
@@ -698,9 +752,76 @@ boolean ser_slice_solve(boolean restartenabled, slice_index si)
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      solution_found = ser_composite_solve(restartenabled,
-                                           si,
-                                           slices[si].u.composite.length);
+      solution_found = h_composite_solve(si,slices[si].u.composite.length);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",solution_found);
+  return solution_found;
+}
+
+/* Solve a slice at root level
+ * @param restartenabled true iff option movenum is activated
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean ser_slice_root_solve(boolean restartenabled, slice_index si)
+{
+  boolean solution_found = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      solution_found = leaf_root_solve(si);
+      break;
+
+    case STQuodlibet:
+    case STSequence:
+    case STReciprocal:
+      solution_found = ser_composite_root_solve(restartenabled,
+                                                si,
+                                                slices[si].u.composite.length);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",solution_found);
+  return solution_found;
+}
+
+/* Solve a slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean ser_slice_solve(slice_index si)
+{
+  boolean solution_found = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      solution_found = leaf_solve(si);
+      break;
+
+    case STQuodlibet:
+    case STSequence:
+    case STReciprocal:
+      solution_found = ser_composite_solve(si,slices[si].u.composite.length);
       break;
 
     default:
@@ -748,19 +869,11 @@ boolean d_slice_does_attacker_win(slice_index si)
 }
 
 /* Find and write variations
- * @param len_threat length of threat (shorter variations are suppressed)
- * @param threats table containing threats (variations not defending
- *                against all threats are suppressed)
- * @param refutations table containing refutations (written at end)
  * @param si slice index
  */
-void d_slice_solve_variations(int len_threat,
-                              int threats,
-                              int refutations,
-                              slice_index si)
+void d_slice_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",len_threat);
   TraceFunctionParam("%d\n",si);
 
   switch (slices[si].type)
@@ -773,10 +886,11 @@ void d_slice_solve_variations(int len_threat,
     case STSequence:
     case STReciprocal:
       d_composite_solve_variations(slices[si].u.composite.length,
-                                   len_threat,
-                                   threats,
-                                   refutations,
+                                   alloctab(),
+                                   alloctab(),
                                    si);
+      freetab();
+      freetab();
       break;
 
     default:

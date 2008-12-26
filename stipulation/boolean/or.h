@@ -34,45 +34,49 @@ void d_quodlibet_end_solve_continuations(int continuations, slice_index si);
 /* Find and write defender's set play
  * @param si slice index
  */
-void d_quodlibet_end_solve_setplay(slice_index si);
+void d_quodlibet_root_end_solve_setplay(slice_index si);
 
 /* Find and write defender's set play in self/reflex play if every
  * set move leads to end
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_quodlibet_end_solve_complete_set(slice_index si);
+boolean d_quodlibet_root_end_solve_complete_set(slice_index si);
 
-/* Determine and write solutions starting at the end of a quodlibet
+/* Determine and write solutions at root level starting at the end of
+ * a quodlibet direct/self/reflex stipulation.
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param si slice index
  */
-void d_quodlibet_end_solve(boolean restartenabled, slice_index si);
+void d_quodlibet_root_end_solve(boolean restartenabled, slice_index si);
+
+/* Determine and write solutions starting at the end of a quodlibet
+ * @param si slice index
+ */
+void d_quodlibet_end_solve(slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
- * variations) and write the refutations (if any), starting at the end
- * of a quodlibet slice.
- * @param refutations table containing the refutations (if any)
+ * variations), starting at the end of a quodlibet slice.
  * @param si slice index
  * @param type type of attack
  */
-void d_quodlibet_end_write_key_solve_postkey(int refutations,
-                                             slice_index si,
+void d_quodlibet_root_end_write_key_solve_postkey(slice_index si,
+                                                  attack_type type);
+
+/* Write the key just played, then solve the post key play (threats,
+ * variations), starting at the end of a quodlibet slice.
+ * @param si slice index
+ * @param type type of attack
+ */
+void d_quodlibet_end_write_key_solve_postkey(slice_index si,
                                              attack_type type);
 
 /* Find and write variations from the end of a quodlibet slice.
- * @param len_threat length of threat (shorter variations are suppressed) 
- * @param threats table containing threats (variations not defending
- *                against all threats are suppressed)
- * @param refutations table containing refutations (written at end)
  * @param si slice index
  */
-void d_quodlibet_end_solve_variations(int len_threat,
-                                      int threats,
-                                      int refutations,
-                                      slice_index si);
+void d_quodlibet_end_solve_variations(slice_index si);
 
 /* Determine whether the attacker wins at the end of a quodlibet slice
  * @param si slice index of leaf slice
@@ -116,18 +120,30 @@ boolean d_quodlibet_end_has_attacker_lost(slice_index si);
  */
 boolean d_quodlibet_end_is_threat_refuted(slice_index si);
 
+/* Solve at root level at the end of a quodlibet slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean h_quodlibet_root_end_solve(slice_index si);
+
 /* Continue solving at the end of a quodlibet slice
  * @param si slice index
  * @return true iff >=1 solution was found
  */
 boolean h_quodlibet_end_solve(slice_index si);
 
-/* Continue solving series play at the end of a quodlibet slice
+/* Solve series play at root level at the end of a quodlibet slice
  * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean ser_quodlibet_end_solve(boolean restartenabled, slice_index si);
+boolean ser_quodlibet_root_end_solve(boolean restartenabled, slice_index si);
+
+/* Continue solving series play at the end of a quodlibet slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean ser_quodlibet_end_solve(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

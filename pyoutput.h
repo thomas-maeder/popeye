@@ -31,6 +31,44 @@ void output_outdent(void);
  */
 void write_indentation(void);
 
+
+/* Start a new output level consisting of post-key play
+ */
+void output_start_postkeyonly_level(void);
+
+/* End the inner-most output level (which consists of post-key play)
+ */
+void output_end_postkeyonly_level(void);
+
+
+/* Start a new output level consisting of set play
+ */
+void output_start_setplay_level(void);
+
+/* End the inner-most output level (which consists of set play)
+ */
+void output_end_setplay_level(void);
+
+
+/* Start a new output level consisting of threats
+ */
+void output_start_threat_level(void);
+
+/* End the inner-most output level (which consists of threats)
+ */
+void output_end_threat_level(void);
+
+
+/* Start a new output level consisting of regular continuations
+ */
+void output_start_continuation_level(void);
+
+/* End the inner-most output level (which consists of regular
+ * continuations)
+ */
+void output_end_continuation_level(void);
+
+
 /* Select the inital output mode
  * @param initial_mode initial output mode
  */
@@ -46,7 +84,8 @@ void write_attack(Goal goal, attack_type type);
 typedef enum
 {
   attack_with_zugzwang,
-  attack_without_zugzwang
+  attack_with_threat,
+  attack_with_nothing
 } attack_conclusion_type;
 
 /* Conclude writing an attacker's move; each call to write_attack()

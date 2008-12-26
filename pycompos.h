@@ -19,18 +19,24 @@ boolean d_composite_does_attacker_win(stip_length_type n, slice_index si);
 /* Determine and write set play of a direct/self/reflex stipulation
  * @param si slice index
  */
-void d_composite_solve_setplay(slice_index si);
+void d_composite_root_solve_setplay(slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
- * variations) and write the refutations (if any), starting at the end
- * of a quodlibet slice.
+ * variations) and write the refutations (if any).
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  * @param type type of attack
  */
-void d_composite_write_key_solve_postkey(int refutations,
-                                         slice_index si,
-                                         attack_type type);
+void d_composite_root_write_key_solve_postkey(int refutations,
+                                              slice_index si,
+                                              attack_type type);
+
+/* Write the key just played, then solve the post key play (threats,
+ * variations).
+ * @param si slice index
+ * @param type type of attack
+ */
+void d_composite_write_key_solve_postkey(slice_index si, attack_type type);
 
 /* Determine and write the threat and variations in direct/self/reflex
  * play after the move that has just been played in the current ply.
@@ -41,30 +47,32 @@ void d_composite_write_key_solve_postkey(int refutations,
  *          including the move just played
  * @param len_threat length of threats
  * @param threats table containing threats
- * @param refutations table containing refutations after move just
- *                    played
  */
 void d_composite_solve_variations(stip_length_type n,
                                   int len_threat,
                                   int threats,
-                                  int refutations,
                                   slice_index si);
 
 /* Determine and write the solutions and tries in the current position
- * in direct play.
+ * in direct/self/reflex play.
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
+ */
+void d_composite_root_solve(boolean restartenabled, slice_index si);
+
+/* Determine and write the solutions and tries in the current position
+ * in direct play.
  * @param si slice index
  */
-void d_composite_solve(boolean restartenabled, slice_index si);
+void d_composite_solve(slice_index si);
 
-/* Determine and write the post-key solution in the current position
- * in direct/self/reflex play.
+/* Determine and write only the post-key solution in the current
+ * position in direct/self/reflex play.
  * @param n number of moves until end state has to be reached
  * @param si slice index
  */
-void d_composite_solve_postkey(stip_length_type n, slice_index si);
+void d_composite_root_solve_postkeyonly(stip_length_type n, slice_index si);
 
 /* Determine and write the continuations in the current position in
  * direct/self/reflex play (i.e. attacker's moves winning after a
@@ -85,54 +93,68 @@ void d_composite_solve_continuations(stip_length_type n,
  */
 boolean d_composite_is_threat_refuted(slice_index si);
 
+/* Solve a composite slice with series play at root level
+ * @param restartenabled true iff option movenum is active
+ * @param si slice index
+ * @param n number of moves until the slice's goal has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
+ * @return true iff >= 1 solution was found
+ */
+boolean ser_composite_root_exact_solve(boolean restartenabled,
+                                       slice_index si,
+                                       stip_length_type n);
+
 /* Determine and write the solutions in the current position in series
  * play.
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
  * @param si slice index
  * @param n number of moves until the slice's goal has to be reached
  *          (this may be shorter than the slice's length if we are
  *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_exact_solve(boolean restartenabled,
-                                  slice_index si,
-                                  stip_length_type n);
+boolean ser_composite_exact_solve(slice_index si, stip_length_type n);
+
+/* Solve the root composite slice with series play
+ * @param restartenabled true iff option movenum is active
+ * @param si slice index
+ * @param n number of moves until the slice's goal has to be reached
+ * @return true iff >= 1 solution was found
+ */
+boolean ser_composite_root_solve(boolean restartenabled,
+                                 slice_index si,
+                                 stip_length_type n);
 
 /* Solve a composite clide with series play
- * @param restartenabled true iff option movenum is active
  * @param si slice index
  * @param n number of moves until the slice's goal has to be reached
  *          (this may be shorter than the slice's length if we are
  *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_solve(boolean restartenabled,
-                            slice_index si,
+boolean ser_composite_solve(slice_index si,
                             stip_length_type n);
 
-/* Solve the composite slice with index 0 with series play
+/* Determine and write the solution(s) in a help stipulation at root level.
+ * @param restartenabled true iff option movenum is activated
+ * @param si identifies slice being solved
  * @param n number of moves until the slice's goal has to be reached
- * @param restartenabled true iff option movenum is active
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_slice0_solve(stip_length_type n,
-                                   boolean restartenabled);
+boolean h_composite_root_solve(boolean restartenabled,
+                               slice_index si,
+                               stip_length_type n);
 
 /* Determine and write the solutions in the current position in help
  * play.
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
  * @param si slice index
  * @param n number of moves until the slice's goal has to be reached
  *          (this may be shorter than the slice's length if we are
  *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean h_composite_solve(boolean restartenabled,
-                          slice_index si,
-                          stip_length_type n);
+boolean h_composite_solve(slice_index si, stip_length_type n);
 
 #endif

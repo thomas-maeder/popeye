@@ -264,8 +264,7 @@ EXTERN  piece           pjoue[maxply + 1], pprise[maxply + 1],
 			ren_parrain[maxply + 1],
 			jouearr[maxply + 1];
 
-EXTERN  boolean			DrohFlag,              
-			rex_mad,rex_circe,rex_immun,rex_phan, rex_geneva,
+EXTERN  boolean			rex_mad,rex_circe,rex_immun,rex_phan, rex_geneva,
                         rex_mess_ex, rex_wooz_ex;
 EXTERN  boolean         pwcprom[maxply + 1];
 
@@ -366,7 +365,7 @@ typedef unsigned int ghost_index_type;
 EXTERN ghost_index_type nr_ghosts;
 
 
-EXTERN  stip_length_type zugebene, max_len_threat;
+EXTERN  stip_length_type max_len_threat;
 
 EXTERN  stip_length_type min_length_nontrivial;
 EXTERN  int max_nr_nontrivial;

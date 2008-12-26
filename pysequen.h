@@ -33,16 +33,16 @@ void d_sequence_end_solve_continuations(int continuations, slice_index si);
 /* Find and write defender's set play
  * @param si slice index
  */
-void d_sequence_end_solve_setplay(slice_index si);
+void d_sequence_root_end_solve_setplay(slice_index si);
 
 /* Find and write defender's set play in self/reflex play if every
  * set move leads to end
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_sequence_end_solve_complete_set(slice_index si);
+boolean d_sequence_root_end_solve_complete_set(slice_index si);
 
-/* Continue solving at the end of a sequence slice
+/* Solve at root level at the end of a sequence slice
  * Unsolvability (e.g. because of a forced reflex move) has already
  * been dealt with.
  * @param restartenabled true iff the written solution should only
@@ -50,45 +50,61 @@ boolean d_sequence_end_solve_complete_set(slice_index si);
  *                       (determined by user input)
  * @param si slice index 
  */
-void d_sequence_end_solve(boolean restartenabled, slice_index si);
+void d_sequence_root_end_solve(boolean restartenabled, slice_index si);
+
+/* Continue solving at the end of a sequence slice
+ * Unsolvability (e.g. because of a forced reflex move) has already
+ * been dealt with.
+ * @param si slice index 
+ */
+void d_sequence_end_solve(slice_index si);
 
 /* Write the key just played, then continue solving at end of sequence
- * slice to find and write the post key play (threats, variations) and
- * write the refutations (if any)
- * @param refutations table containing the refutations (if any)
+ * slice to find and write the post key play (threats, variations)
  * @param si slice index
  * @param type type of attack
  */
-void d_sequence_end_write_key_solve_postkey(int refutations,
-                                            slice_index si,
+void d_sequence_root_end_write_key_solve_postkey(slice_index si,
+                                                 attack_type type);
+
+/* Write the key just played, then continue solving at end of sequence
+ * slice to find and write the post key play (threats, variations)
+ * @param si slice index
+ * @param type type of attack
+ */
+void d_sequence_end_write_key_solve_postkey(slice_index si,
                                             attack_type type);
 
-/* Continue solving help play at the end of a sequence slice
+/* Solve at root level at the end of a sequence slice
  * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_sequence_end_solve(boolean restartenabled, slice_index si);
+boolean h_sequence_root_end_solve(boolean restartenabled, slice_index si);
+
+/* Continue solving help play at the end of a sequence slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean h_sequence_end_solve(slice_index si);
+
+/* Solve series play at root level at the end of a sequence slice
+ * @param restartenabled true iff option movenum is activated
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean ser_sequence_root_end_solve(boolean restartenabled, slice_index si);
 
 /* Continue solving series play at the end of a sequence slice
- * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean ser_sequence_end_solve(boolean restartenabled, slice_index si);
+boolean ser_sequence_end_solve(slice_index si);
 
 /* Find and write variations starting at end of sequence slice
- * @param attacker attacking side
- * @param len_threat length of threat (shorter variations are suppressed)
- * @param threats table containing threats (variations not defending
- *                against all threats are suppressed)
- * @param refutations table containing refutations (written at end)
  * @param si slice index
  */
-void d_sequence_end_solve_variations(int len_threat,
-                                     int threats,
-                                     int refutations,
-                                     slice_index si);
+void d_sequence_end_solve_variations(slice_index si);
 
 /* Determine whether the attacking side wins at the end of a sequence slice
  * @param si slice identifier

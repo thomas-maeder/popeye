@@ -58,16 +58,9 @@ boolean d_reci_end_has_attacker_won(slice_index si);
 void d_reci_write_unsolvability(slice_index si);
 
 /* Find and write variations from the end of a reciprocal slice.
- * @param len_threat length of threat (shorter variations are suppressed) 
- * @param threats table containing threats (variations not defending
- *                against all threats are suppressed)
- * @param refutations table containing refutations (written at end)
  * @param si slice index
  */
-void d_reci_end_solve_variations(int len_threat,
-                                 int threats,
-                                 int refutations,
-                                 slice_index si);
+void d_reci_end_solve_variations(slice_index si);
 
 /* Determine and write continuations at end of reciprocal slice
  * @param continuations table where to store continuing moves
@@ -79,26 +72,36 @@ void d_reci_end_solve_continuations(int continuations, slice_index si);
 /* Find and write defender's set play
  * @param si slice index
  */
-void d_reci_end_solve_setplay(slice_index si);
+void d_reci_root_end_solve_setplay(slice_index si);
 
-/* Determine and write solutions starting at the end of a reciprocal
+/* Determine and write solutions at root level starting at the end of
+ * a reciprocal direct/self/reflex stipulation.
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param si slice index
  */
-void d_reci_end_solve(boolean restartenabled, slice_index si);
+void d_reci_root_end_solve(boolean restartenabled, slice_index si);
+
+/* Determine and write solutions starting at the end of a reciprocal
+ * @param si slice index
+ */
+void d_reci_end_solve(slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
- * variations) and write the refutations (if any), starting at the end
- * of a reciprocal slice.
- * @param refutations table containing the refutations (if any)
+ * variations), starting at the end of a reciprocal slice.
  * @param si slice index
  * @param type type of attack
  */
-void d_reci_end_write_key_solve_postkey(int refutations,
-                                        slice_index si,
-                                        attack_type type);
+void d_reci_root_end_write_key_solve_postkey(slice_index si,
+                                             attack_type type);
+
+/* Write the key just played, then solve the post key play (threats,
+ * variations), starting at the end of a reciprocal slice.
+ * @param si slice index
+ * @param type type of attack
+ */
+void d_reci_end_write_key_solve_postkey(slice_index si, attack_type type);
 
 /* Has the threat just played been refuted by the preceding defense?
  * @param si identifies stipulation slice
@@ -106,18 +109,30 @@ void d_reci_end_write_key_solve_postkey(int refutations,
  */
 boolean d_reci_end_is_threat_refuted(slice_index si);
 
+/* Solve at root level at the end of a reciprocal slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean h_reci_root_end_solve(slice_index si);
+
 /* Continue solving at the end of a reciprocal slice
  * @param si slice index
  * @return true iff >=1 solution was found
  */
 boolean h_reci_end_solve(slice_index si);
 
-/* Continue solving series play at the end of a reciprocal slice
+/* Solve series play at root level at the end of a reciprocal slice
  * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean ser_reci_end_solve(boolean restartenabled, slice_index si);
+boolean ser_reci_root_end_solve(boolean restartenabled, slice_index si);
+
+/* Continue solving series play at the end of a reciprocal slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean ser_reci_end_solve(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

@@ -529,7 +529,6 @@ static boolean verifieposition(void)
   if (slices[0].u.composite.length<=max_len_threat)
     max_len_threat = maxply;
 
-  zugebene= 0;
   if (slices[0].u.composite.play==PDirect)
   {
     if (slices[0].u.composite.length<2
@@ -2366,13 +2365,9 @@ static void SolveSeriesProblems(void)
     {
       /* TODO */
       if (slices[1].u.leaf.end==EHelp)
-        h_leaf_solve_setplay(1);
+        h_leaf_root_solve_setplay(1);
       else
-      {
-        zugebene++;
-        d_leaf_solve_setplay(1);
-        zugebene--;
-      }
+        d_leaf_root_solve_setplay(1);
     }
     SatzFlag = false;
     Message(NewLine);
@@ -2415,8 +2410,7 @@ static void SolveSeriesProblems(void)
       }
     }
     else
-      ser_composite_slice0_solve(slices[0].u.composite.length,
-                                 OptFlag[movenbr]);
+      ser_slice_root_solve(OptFlag[movenbr],0);
   } /* echecs(advers(camp)) */
 
   TraceFunctionExit(__func__);
@@ -2439,7 +2433,7 @@ static boolean SolveHelpInN(boolean looking_for_short_solutions,
   TraceValue("%d ",slices[0].u.composite.length);
   TraceValue("%d\n",isIntelligentModeActive);
   if (len==1)
-    result = h_leaf_solve_setplay(1);
+    result = h_leaf_root_solve_setplay(1);
   else if (isIntelligentModeActive)
     result = Intelligent(looking_for_short_solutions,len);
   else
@@ -2448,7 +2442,7 @@ static boolean SolveHelpInN(boolean looking_for_short_solutions,
      * solutions */
     boolean const restartenabled = (OptFlag[movenbr]
                                     && !looking_for_short_solutions);
-    result = h_composite_solve(restartenabled,0,len);
+    result = h_composite_root_solve(restartenabled,0,len);
   }
 
   TraceFunctionExit(__func__);
@@ -2575,17 +2569,12 @@ static void SolveDirectProblems(void)
 {
   init_output_mode(output_mode_tree);
 
-  zugebene++;
-
   if (OptFlag[postkeyplay])
   {
     if (echecc(nbply,slices[0].starter))
       ErrorMsg(SetAndCheck);
     else
-    {
-      d_composite_solve_postkey(slices[0].u.composite.length,0);
-      Message(NewLine);
-    }
+      d_composite_root_solve_postkeyonly(slices[0].u.composite.length,0);
   }
   else
   {
@@ -2595,7 +2584,7 @@ static void SolveDirectProblems(void)
         ErrorMsg(SetAndCheck);
       else
       {
-        d_slice_solve_setplay(0);
+        d_slice_root_solve_setplay(0);
         Message(NewLine);
       }
     }
@@ -2603,10 +2592,8 @@ static void SolveDirectProblems(void)
     if (echecc(nbply,advers(slices[0].starter)))
       ErrorMsg(KingCapture);
     else
-      d_composite_solve(OptFlag[movenbr],0);
+      d_slice_root_solve(OptFlag[movenbr],0);
   }
-
-  zugebene--;
 }
 
 static void swapcolors(void) {

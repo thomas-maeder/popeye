@@ -1349,7 +1349,7 @@ static void d_leaf_r_solve_forced_keys(slice_index leaf)
         && leaf_is_goal_reached(attacker,leaf))
     {
       write_attack(goal,attack_regular);
-      write_attack_conclusion(attack_without_zugzwang);
+      write_attack_conclusion(attack_with_nothing);
     }
 
     repcoup();
@@ -1400,7 +1400,7 @@ static boolean leaf_d_solve(slice_index leaf)
     {
       solution_found = true;
       write_attack(slices[leaf].u.leaf.goal,attack_key);
-      write_attack_conclusion(attack_without_zugzwang);
+      write_attack_conclusion(attack_with_nothing);
       write_end_of_solution();
     }
 
@@ -1552,7 +1552,7 @@ static boolean leaf_s_solve(slice_index leaf)
       found_solution = true;
 
       write_attack(no_goal,attack_key);
-      write_attack_conclusion(attack_without_zugzwang);
+      write_attack_conclusion(attack_with_nothing);
 
       output_indent();
       leaf_sr_solve_final_move(leaf);
@@ -1594,7 +1594,7 @@ static boolean leaf_semir_solve(slice_index leaf)
       found_solution = true;
 
       write_attack(no_goal,attack_key);
-      write_attack_conclusion(attack_without_zugzwang);
+      write_attack_conclusion(attack_with_nothing);
 
       output_indent();
       leaf_sr_solve_final_move(leaf);
@@ -1917,13 +1917,10 @@ static void d_leaf_solve_final_defender_move(slice_index leaf)
 }
 
 /* Write the key and solve the remainder of a leaf in direct play
- * @param refutations table containing the refutations
  * @param leaf slice index
  * @param type type of attack
  */
-void d_leaf_write_key_solve_postkey(int refutations,
-                                    slice_index leaf,
-                                    attack_type type)
+void d_leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
 {
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -1932,22 +1929,18 @@ void d_leaf_write_key_solve_postkey(int refutations,
   {
     case EDirect:
       write_attack(slices[leaf].u.leaf.goal,type);
-      write_attack_conclusion(attack_without_zugzwang);
+      write_attack_conclusion(attack_with_nothing);
       break;
 
     case ESelf:
     case EReflex:
     case ESemireflex:
       write_attack(no_goal,type);
-      write_attack_conclusion(attack_without_zugzwang);
+      write_attack_conclusion(attack_with_nothing);
       output_indent();
 
       if (OptFlag[solvariantes])
-      {
-        output_indent();
         leaf_sr_solve_final_move(leaf);
-        output_outdent();
-      }
 
       output_outdent();
       break;
@@ -1957,9 +1950,43 @@ void d_leaf_write_key_solve_postkey(int refutations,
       break;
   }
 
-  output_indent();
-  write_refutations(refutations);
-  output_outdent();
+  /* TODO why here? */
+  Message(NewLine);
+}
+
+/* Write the key and solve the remainder of a leaf in direct play
+ * @param leaf slice index
+ * @param type type of attack
+ */
+void d_leaf_write_key_solve_postkey(slice_index leaf, attack_type type)
+{
+  assert(slices[leaf].type==STLeaf);
+  assert(slices[leaf].starter!=no_side);
+
+  switch (slices[leaf].u.leaf.end)
+  {
+    case EDirect:
+      write_attack(slices[leaf].u.leaf.goal,type);
+      write_attack_conclusion(attack_with_nothing);
+      break;
+
+    case ESelf:
+    case EReflex:
+    case ESemireflex:
+      write_attack(no_goal,type);
+      write_attack_conclusion(attack_with_nothing);
+      output_indent();
+
+      if (OptFlag[solvariantes])
+        leaf_sr_solve_final_move(leaf);
+
+      output_outdent();
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 }
 
 /* Determine whether the attacking side has directly lost by the move
@@ -2214,7 +2241,7 @@ boolean d_leaf_does_attacker_win(slice_index leaf)
 /* Determine and write all set play of a self/reflex stipulation.
  * @param leaf slice index of the leaf slice
  */
-static void d_leaf_sr_solve_setplay(slice_index leaf)
+static void d_leaf_root_sr_solve_setplay(slice_index leaf)
 {
   Side const defender = advers(slices[leaf].starter);
 
@@ -2246,7 +2273,7 @@ static void d_leaf_sr_solve_setplay(slice_index leaf)
 /* Find and write defender's set play in self/reflex play
  * @param leaf slice index
  */
-void d_leaf_solve_setplay(slice_index leaf)
+void d_leaf_root_solve_setplay(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -2263,7 +2290,7 @@ void d_leaf_solve_setplay(slice_index leaf)
         case ESelf:
         case EReflex:
         case ESemireflex:
-          d_leaf_sr_solve_setplay(leaf);
+          d_leaf_root_sr_solve_setplay(leaf);
           break;
 
         default:
@@ -2283,7 +2310,7 @@ void d_leaf_solve_setplay(slice_index leaf)
  * @param leaf slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_leaf_solve_complete_set(slice_index leaf)
+boolean d_leaf_root_solve_complete_set(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -2293,7 +2320,7 @@ boolean d_leaf_solve_complete_set(slice_index leaf)
     case ESelf:
       if (!d_leaf_s_does_defender_win(leaf))
       {
-        d_leaf_sr_solve_setplay(leaf);
+        d_leaf_root_sr_solve_setplay(leaf);
         return true;
       }
       else
@@ -2303,7 +2330,7 @@ boolean d_leaf_solve_complete_set(slice_index leaf)
     case ESemireflex:
       if (!d_leaf_r_does_defender_win(leaf))
       {
-        d_leaf_sr_solve_setplay(leaf);
+        d_leaf_root_sr_solve_setplay(leaf);
         return true;
       }
       else
@@ -2332,7 +2359,7 @@ void d_leaf_solve_variations(slice_index leaf)
    *
    * When solving a leaf, we never signal Zugzwang:
    */
-  write_attack_conclusion(attack_without_zugzwang);
+  write_attack_conclusion(attack_with_nothing);
 
   d_leaf_solve_final_defender_move(leaf);
 }
@@ -2359,7 +2386,7 @@ static void d_leaf_d_solve_continuations(int solutions, slice_index leaf)
         && d_leaf_is_solved(leaf))
     {
       write_attack(slices[leaf].u.leaf.goal,attack_regular);
-      write_attack_conclusion(attack_without_zugzwang);
+      write_attack_conclusion(attack_with_nothing);
       pushtabsol(solutions);
     }
 
@@ -2395,7 +2422,7 @@ static void d_leaf_sr_solve_continuations(int solutions, slice_index leaf)
         && d_leaf_is_solved(leaf))
     {
       write_attack(no_goal,attack_regular);
-      write_attack_conclusion(attack_without_zugzwang);
+      write_attack_conclusion(attack_with_nothing);
 
       output_indent();
       d_leaf_solve_final_defender_move(leaf);
@@ -2469,7 +2496,7 @@ static boolean leaf_r_solve_final_move(slice_index leaf)
  * @param leaf slice index
  * @return true iff >=1 set play was found
  */
-boolean h_leaf_solve_setplay(slice_index leaf)
+boolean h_leaf_root_solve_setplay(slice_index leaf)
 {
   boolean result = false;
 
@@ -2496,6 +2523,53 @@ boolean h_leaf_solve_setplay(slice_index leaf)
       break;
 
     default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Determine and write the solution of a leaf slice
+ * @param leaf slice index
+ * @return true iff >=1 move pair was found
+ */
+boolean leaf_root_solve(slice_index leaf)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  assert(slices[leaf].type==STLeaf);
+  assert(slices[leaf].starter!=no_side);
+
+  switch (slices[leaf].u.leaf.end)
+  {
+    case EDirect:
+      result = leaf_d_solve(leaf);
+      break;
+
+    case EHelp:
+      result = leaf_h_solve(leaf);
+      break;
+
+    case ESelf:
+      result = leaf_s_solve(leaf);
+      break;
+
+    case EReflex:
+      result = leaf_r_solve(leaf);
+      break;
+
+    case ESemireflex:
+      result = leaf_semir_solve(leaf);
+      break;
+
+    default:
+      TraceValue("(unexpected value):%d\n",slices[leaf].u.leaf.end);
       assert(0);
       break;
   }
