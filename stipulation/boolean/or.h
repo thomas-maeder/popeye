@@ -52,11 +52,6 @@ boolean d_quodlibet_root_end_solve_complete_set(slice_index si);
  */
 void d_quodlibet_root_end_solve(boolean restartenabled, slice_index si);
 
-/* Determine and write solutions starting at the end of a quodlibet
- * @param si slice index
- */
-void d_quodlibet_end_solve(slice_index si);
-
 /* Write the key just played, then solve the post key play (threats,
  * variations), starting at the end of a quodlibet slice.
  * @param si slice index
@@ -64,14 +59,6 @@ void d_quodlibet_end_solve(slice_index si);
  */
 void d_quodlibet_root_end_write_key_solve_postkey(slice_index si,
                                                   attack_type type);
-
-/* Write the key just played, then solve the post key play (threats,
- * variations), starting at the end of a quodlibet slice.
- * @param si slice index
- * @param type type of attack
- */
-void d_quodlibet_end_write_key_solve_postkey(slice_index si,
-                                             attack_type type);
 
 /* Find and write variations from the end of a quodlibet slice.
  * @param si slice index

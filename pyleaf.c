@@ -1890,38 +1890,6 @@ void d_leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
   Message(NewLine);
 }
 
-/* Write the key and solve the remainder of a leaf in direct play
- * @param leaf slice index
- * @param type type of attack
- */
-void d_leaf_write_key_solve_postkey(slice_index leaf, attack_type type)
-{
-  assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
-
-  switch (slices[leaf].u.leaf.end)
-  {
-    case EDirect:
-      write_attack(slices[leaf].u.leaf.goal,type);
-      output_start_leaf_variation_level();
-      output_end_leaf_variation_level();
-      break;
-
-    case ESelf:
-    case EReflex:
-    case ESemireflex:
-      write_attack(no_goal,type);
-      output_start_leaf_variation_level();
-      leaf_sr_solve_final_move(leaf);
-      output_end_leaf_variation_level();
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-}
-
 /* Determine whether the attacking side has directly lost by the move
  * that it has just played.
  * @param defender defending side

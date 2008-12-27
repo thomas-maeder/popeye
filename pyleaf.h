@@ -87,13 +87,6 @@ void d_leaf_solve_variations(slice_index leaf);
  */
 void d_leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type);
 
-/* Write the key just played, solve the post key play (threats,
- * variations)
- * @param leaf slice index
- * @param type type of attack
- */
-void d_leaf_write_key_solve_postkey(slice_index leaf, attack_type type);
-
 /* Find and write continuations (i.e. mating moves or final move pairs).
  * @param continuations table where to append continuations found and
  *                      written

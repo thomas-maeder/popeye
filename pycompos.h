@@ -31,13 +31,6 @@ void d_composite_root_write_key_solve_postkey(int refutations,
                                               slice_index si,
                                               attack_type type);
 
-/* Write the key just played, then solve the post key play (threats,
- * variations).
- * @param si slice index
- * @param type type of attack
- */
-void d_composite_write_key_solve_postkey(slice_index si, attack_type type);
-
 /* Determine and write the threat and variations in direct/self/reflex
  * play after the move that has just been played in the current ply.
  * We have already determined that this move doesn't have more
@@ -60,12 +53,6 @@ void d_composite_solve_variations(stip_length_type n,
  *                       (determined by user input)
  */
 void d_composite_root_solve(boolean restartenabled, slice_index si);
-
-/* Determine and write the solutions and tries in the current position
- * in direct play.
- * @param si slice index
- */
-void d_composite_solve(slice_index si);
 
 /* Determine and write only the post-key solution in the current
  * position in direct/self/reflex play.

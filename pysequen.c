@@ -97,19 +97,6 @@ void d_sequence_root_end_solve(boolean restartenabled, slice_index si)
   d_slice_root_solve(restartenabled,slices[si].u.composite.op1);
 }
 
-/* Continue solving at the end of a sequence slice
- * Unsolvability (e.g. because of a forced reflex move) has already
- * been dealt with.
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- * @param si slice index 
- */
-void d_sequence_end_solve(slice_index si)
-{
-  d_slice_solve(slices[si].u.composite.op1);
-}
-
 /* Write the key just played, then continue solving at end of sequence
  * slice to find and write the post key play (threats, variations)
  * @param si slice index
@@ -119,17 +106,6 @@ void d_sequence_root_end_write_key_solve_postkey(slice_index si,
                                                  attack_type type)
 {
   d_slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
-}
-
-/* Write the key just played, then continue solving at end of sequence
- * slice to find and write the post key play (threats, variations)
- * @param si slice index
- * @param type type of attack
- */
-void d_sequence_end_write_key_solve_postkey(slice_index si,
-                                            attack_type type)
-{
-  d_slice_write_key_solve_postkey(slices[si].u.composite.op1,type);
 }
 
 /* Solve at root level at the end of a sequence slice

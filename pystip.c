@@ -616,35 +616,6 @@ void d_slice_root_solve(boolean restartenabled, slice_index si)
   TraceText("\n");
 }
 
-/* Determine and write the solutions at a nested level
- * @param si slice index
- */
-void d_slice_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  switch (slices[si].type)
-  {
-    case STLeaf:
-      leaf_solve(si);
-      break;
-      
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      d_composite_solve(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-  
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
 /* Write the key just played, then continue solving in the slice
  * to find and write the post key play (threats, variations)
  * @param si slice index
@@ -663,31 +634,6 @@ void d_slice_root_write_key_solve_postkey(slice_index si, attack_type type)
     case STReciprocal:
       d_composite_root_write_key_solve_postkey(alloctab(),si,type);
       freetab();
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-}
-
-/* Write the key just played, then continue solving in the slice
- * to find and write the post key play (threats, variations)
- * @param si slice index
- * @param type type of attack
- */
-void d_slice_write_key_solve_postkey(slice_index si, attack_type type)
-{
-  switch (slices[si].type)
-  {
-    case STLeaf:
-      d_leaf_write_key_solve_postkey(si,type);
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      d_composite_write_key_solve_postkey(si,type);
       break;
 
     default:

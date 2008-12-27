@@ -83,11 +83,6 @@ void d_reci_root_end_solve_setplay(slice_index si);
  */
 void d_reci_root_end_solve(boolean restartenabled, slice_index si);
 
-/* Determine and write solutions starting at the end of a reciprocal
- * @param si slice index
- */
-void d_reci_end_solve(slice_index si);
-
 /* Write the key just played, then solve the post key play (threats,
  * variations), starting at the end of a reciprocal slice.
  * @param si slice index
@@ -95,13 +90,6 @@ void d_reci_end_solve(slice_index si);
  */
 void d_reci_root_end_write_key_solve_postkey(slice_index si,
                                              attack_type type);
-
-/* Write the key just played, then solve the post key play (threats,
- * variations), starting at the end of a reciprocal slice.
- * @param si slice index
- * @param type type of attack
- */
-void d_reci_end_write_key_solve_postkey(slice_index si, attack_type type);
 
 /* Has the threat just played been refuted by the preceding defense?
  * @param si identifies stipulation slice

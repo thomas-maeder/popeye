@@ -121,26 +121,6 @@ void d_quodlibet_root_end_solve(boolean restartenabled, slice_index si)
   }
 }
 
-/* Determine and write solutions starting at the end of a quodlibet
- * direct/self/reflex stipulation. 
- * @param si slice index
- */
-void d_quodlibet_end_solve(slice_index si)
-{
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
-
-  if (slice_is_unsolvable(op1))
-    d_slice_write_unsolvability(op1);
-  else if (slice_is_unsolvable(op2))
-    d_slice_write_unsolvability(op2);
-  else
-  {
-    d_slice_solve(op1);
-    d_slice_solve(op2);
-  }
-}
-
 /* Write the key just played, then solve the post key play (threats,
  * variations), starting at the end of a quodlibet slice.
  * @param si slice index
@@ -151,18 +131,6 @@ void d_quodlibet_root_end_write_key_solve_postkey(slice_index si,
 {
   d_slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
   d_slice_root_write_key_solve_postkey(slices[si].u.composite.op2,type);
-}
-
-/* Write the key just played, then solve the post key play (threats,
- * variations), starting at the end of a quodlibet slice.
- * @param si slice index
- * @param type type of attack
- */
-void d_quodlibet_end_write_key_solve_postkey(slice_index si,
-                                             attack_type type)
-{
-  d_slice_write_key_solve_postkey(slices[si].u.composite.op1,type);
-  d_slice_write_key_solve_postkey(slices[si].u.composite.op2,type);
 }
 
 /* Determine whether the attacker wins at the end of a quodlibet slice

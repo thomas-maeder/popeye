@@ -238,11 +238,6 @@ boolean d_slice_root_solve_complete_set(slice_index si);
  */
 void d_slice_root_solve(boolean restartenabled, slice_index si);
 
-/* Determine and write the solutions at a nested level
- * @param si slice index
- */
-void d_slice_solve(slice_index si);
-
 typedef enum
 {
   attack_key,
@@ -257,13 +252,6 @@ typedef enum
  */
 void d_slice_root_write_key_solve_postkey(slice_index si,
                                           attack_type type);
-
-/* Write the key just played, then continue solving in the slice
- * to find and write the post key play (threats, variations)
- * @param si slice index
- * @param type type of attack
- */
-void d_slice_write_key_solve_postkey(slice_index si, attack_type type);
 
 /* Solve a slice at root level
  * @param restartenabled true iff option movenum is activated

@@ -1922,32 +1922,6 @@ static void d_composite_root_end_solve(boolean restartenabled,
   }
 }
 
-/* Solve a composite slice in direct play.
- * We are the end of the slice and delegate to the child slice(s).
- * @param si slice index
- */
-static void d_composite_end_solve(slice_index si)
-{
-  switch (slices[si].type)
-  {
-    case STQuodlibet:
-      d_quodlibet_end_solve(si);
-      break;
-
-    case STReciprocal:
-      d_reci_end_solve(si);
-      break;
-
-    case STSequence:
-      d_sequence_end_solve(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-}
-
 /* Write the key just played, then solve the post key play (threats,
  * variations) and write the refutations (if any).
  * We are at the end of the slice and delegate to the child slice(s).
@@ -1978,35 +1952,6 @@ static void d_composite_root_end_write_key_solve_postkey(slice_index si,
 }
 
 /* Write the key just played, then solve the post key play (threats,
- * variations).
- * We are at the end of the slice and delegate to the child slice(s).
- * @param si slice index
- * @param type type of attack
- */
-static void d_composite_end_write_key_solve_postkey(slice_index si,
-                                                    attack_type type)
-{
-  switch (slices[si].type)
-  {
-    case STQuodlibet:
-      d_quodlibet_end_write_key_solve_postkey(si,type);
-      break;
-
-    case STReciprocal:
-      d_reci_end_write_key_solve_postkey(si,type);
-      break;
-
-    case STSequence:
-      d_sequence_end_write_key_solve_postkey(si,type);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-}
-
-/* Write the key just played, then solve the post key play (threats,
  * variations) and write the refutations (if any).
  * @param refutations table containing the refutations (if any)
  * @param si slice index
@@ -2025,17 +1970,6 @@ void d_composite_root_write_key_solve_postkey(int refutations,
                                    si);
   write_refutations(refutations);
   output_end_postkey_level();
-}
-
-/* Write the key just played, then solve the post key play (threats,
- * variations).
- * @param si slice index
- * @param type type of attack
- */
-void d_composite_write_key_solve_postkey(slice_index si, attack_type type)
-{
-  write_attack(no_goal,type);
-  d_composite_solve_postkey(slices[si].u.composite.length,si);
 }
 
 /* Solve the postkey only of a composite slice at root level.
@@ -2112,60 +2046,6 @@ void d_composite_root_solve(boolean restartenabled, slice_index si)
 
       if (restartenabled)
         IncrementMoveNbr();
-
-      repcoup();
-
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
-        break;
-    }
-
-    finply();
-  }
-
-  output_end_continuation_level();
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
-/* Continue solving in the current position in direct/self/reflex
- * play.
- * @param si slice index
- */
-void d_composite_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  output_start_continuation_level();
-
-  if (slices[si].u.composite.length==slack_length_direct)
-    d_composite_end_solve(si);
-  else
-  {
-    Side const attacker = slices[si].starter;
-
-    genmove(attacker);
-
-    while (encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
-          && !echecc(nbply,attacker))
-      {
-        if (!slices[si].u.composite.is_exact
-            && d_slice_has_attacker_won(si))
-          d_composite_end_write_key_solve_postkey(si,attack_key);
-        else
-        {
-          int refutations = alloctab();
-          int const nr_refutations =
-              d_composite_find_refutations(refutations,si);
-          if (nr_refutations<1)
-            d_composite_write_key_solve_postkey(si,attack_key);
-          freetab();
-        }
-      }
 
       repcoup();
 
