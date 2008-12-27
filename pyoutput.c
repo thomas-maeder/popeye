@@ -14,7 +14,7 @@ extern boolean SatzFlag;
 
 slice_index active_slice[maxply];
 
-static stip_length_type zugebene;
+static stip_length_type move_depth;
 
 
 /* Select the inital output mode
@@ -62,11 +62,14 @@ void output_start_postkeyonly_level(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  zugebene++;
-  nr_continuations_written[zugebene] = 0;
-  nr_defenses_written[zugebene] = 0;
-
-  TraceValue("%u\n",zugebene);
+  if (current_mode==output_mode_tree)
+  {
+    move_depth++;
+    nr_continuations_written[move_depth] = 0;
+    nr_defenses_written[move_depth] = 0;
+  
+    TraceValue("%u\n",move_depth);
+  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -79,9 +82,11 @@ void output_end_postkeyonly_level(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  Message(NewLine);
-
-  zugebene--;
+  if (current_mode==output_mode_tree)
+  {
+    Message(NewLine);
+    move_depth--;
+  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -95,12 +100,15 @@ void output_start_setplay_level(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  margin += 4;
-  zugebene++;
-  nr_continuations_written[zugebene+1] = 1; /* prevent initial newline */
-  nr_defenses_written[zugebene] = 0;
+  if (current_mode==output_mode_tree)
+  {
+    margin += 4;
+    move_depth++;
+    nr_continuations_written[move_depth+1] = 1; /* prevent initial newline */
+    nr_defenses_written[move_depth] = 0;
+  }
 
-  TraceValue("%u\n",zugebene);
+  TraceValue("%u\n",move_depth);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -113,8 +121,11 @@ void output_end_setplay_level(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  zugebene--;
-  margin -= 4;
+  if (current_mode==output_mode_tree)
+  {
+    move_depth--;
+    margin -= 4;
+  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -128,10 +139,12 @@ void output_start_postkey_level(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  margin += 4;
-
-  nr_defenses_written[zugebene] = 0;
-  nr_continuations_written[zugebene+1] = 0;
+  if (current_mode==output_mode_tree)
+  {
+    margin += 4;
+    nr_defenses_written[move_depth] = 0;
+    nr_continuations_written[move_depth+1] = 0;
+  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -144,12 +157,14 @@ void output_end_postkey_level(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  if (current_mode==output_mode_tree
-      && nr_defenses_written[zugebene]==0
-      && nr_continuations_written[zugebene+1]==0)
-    Message(NewLine);
+  if (current_mode==output_mode_tree)
+  {
+    if (nr_defenses_written[move_depth]==0
+        && nr_continuations_written[move_depth+1]==0)
+      Message(NewLine);
 
-  margin -= 4;
+    margin -= 4;
+  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -163,17 +178,20 @@ void output_start_threat_level(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  margin += 4;
+  if (current_mode==output_mode_tree)
+  {
+    margin += 4;
 
-  zugebene++;
-  nr_continuations_written[zugebene] = 0;
-  nr_defenses_written[zugebene] = 0;
-  nr_continuations_written[zugebene+1] = 0;
+    move_depth++;
+    nr_continuations_written[move_depth] = 0;
+    nr_defenses_written[move_depth] = 0;
+    nr_continuations_written[move_depth+1] = 0;
 
-  /* nbply will be increased by genmove() in a moment */
-  output_attack_types[nbply+1] = threat_attack;
+    /* nbply will be increased by genmove() in a moment */
+    output_attack_types[nbply+1] = threat_attack;
+  }
 
-  TraceValue("%u",zugebene);
+  TraceValue("%u",move_depth);
   TraceValue("%u",nbply);
   TraceValue("%u\n",output_attack_types[nbply+1]);
 
@@ -188,20 +206,23 @@ void output_end_threat_level(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  if (nr_continuations_written[zugebene]==0)
+  if (current_mode==output_mode_tree)
   {
-    Message(Zugzwang);
-    ++nr_continuations_written[zugebene];
+    if (nr_continuations_written[move_depth]==0)
+    {
+      Message(Zugzwang);
+      ++nr_continuations_written[move_depth];
+    }
+  
+    TraceValue("%u",nbply);
+    TraceValue("%u\n",output_attack_types[nbply+1]);
+
+    assert(output_attack_types[nbply+1]==threat_attack);
+    output_attack_types[nbply+1] = unknown_attack;
+
+    move_depth--;
+    margin -= 4;
   }
-
-  TraceValue("%u",nbply);
-  TraceValue("%u\n",output_attack_types[nbply+1]);
-
-  assert(output_attack_types[nbply+1]==threat_attack);
-  output_attack_types[nbply+1] = unknown_attack;
-
-  zugebene--;
-  margin -= 4;
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -215,20 +236,23 @@ void output_start_continuation_level(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  margin += 4;
+  if (current_mode==output_mode_tree)
+  {
+    margin += 4;
 
-  zugebene++;
+    move_depth++;
 
-  nr_continuations_written[zugebene] = 0;
-  nr_continuations_written[zugebene+1] = 0;
-  nr_defenses_written[zugebene] = 0;
+    nr_continuations_written[move_depth] = 0;
+    nr_continuations_written[move_depth+1] = 0;
+    nr_defenses_written[move_depth] = 0;
 
-  /* nbply will be increased by genmove() in a moment */
-  output_attack_types[nbply+1] = continuation_attack;
+    /* nbply will be increased by genmove() in a moment */
+    output_attack_types[nbply+1] = continuation_attack;
 
-  TraceValue("%u",zugebene);
-  TraceValue("%u",nbply);
-  TraceValue("%u\n",output_attack_types[nbply+1]);
+    TraceValue("%u",move_depth);
+    TraceValue("%u",nbply);
+    TraceValue("%u\n",output_attack_types[nbply+1]);
+  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -242,18 +266,21 @@ void output_end_continuation_level(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  if (zugebene==2 && nr_continuations_written[zugebene]==0)
-    write_refutation_mark();
+  if (current_mode==output_mode_tree)
+  {
+    if (move_depth==2 && nr_continuations_written[move_depth]==0)
+      write_refutation_mark();
 
-  zugebene--;
-  margin -= 4;
+    move_depth--;
+    margin -= 4;
 
-  TraceValue("%u",nbply);
-  TraceValue("%u\n",output_attack_types[nbply+1]);
+    TraceValue("%u",nbply);
+    TraceValue("%u\n",output_attack_types[nbply+1]);
 
-  assert(output_attack_types[nbply+1]==continuation_attack);
+    assert(output_attack_types[nbply+1]==continuation_attack);
 
-  output_attack_types[nbply+1] = unknown_attack;
+    output_attack_types[nbply+1] = unknown_attack;
+  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -396,17 +423,17 @@ void write_attack(Goal goal, attack_type type)
            || output_attack_types[nbply]==threat_attack);
 
     if (output_attack_types[nbply]==threat_attack
-        && nr_continuations_written[zugebene]==0)
+        && nr_continuations_written[move_depth]==0)
       Message(Threat);
 
-    ++nr_continuations_written[zugebene];
+    ++nr_continuations_written[move_depth];
 
     write_indentation();
-    sprintf(GlobalStr,"%3d.",zugebene);
+    sprintf(GlobalStr,"%3d.",move_depth);
     StdString(GlobalStr);
     ecritcoup(nbply,goal);
 
-    if (zugebene==1)
+    if (move_depth==1)
     {
       switch (type)
       {
@@ -444,17 +471,17 @@ void write_defense(Goal goal)
 
   if (current_mode==output_mode_tree)
   {
-    TraceValue("%u",nr_defenses_written[zugebene]);
-    TraceValue("%u\n",nr_continuations_written[zugebene+1]);
+    TraceValue("%u",nr_defenses_written[move_depth]);
+    TraceValue("%u\n",nr_continuations_written[move_depth+1]);
 
-    if (nr_defenses_written[zugebene]==0
-        && nr_continuations_written[zugebene+1]==0)
+    if (nr_defenses_written[move_depth]==0
+        && nr_continuations_written[move_depth+1]==0)
       Message(NewLine);
 
-    ++nr_defenses_written[zugebene];
+    ++nr_defenses_written[move_depth];
 
     write_indentation();
-    sprintf(GlobalStr,"%3d...",zugebene);
+    sprintf(GlobalStr,"%3d...",move_depth);
     StdString(GlobalStr);
     ecritcoup(nbply,goal);
     Message(NewLine);
@@ -495,8 +522,8 @@ void write_refutations(int t)
   {
     int n;
 
-    if (nr_defenses_written[zugebene]==0
-        && nr_continuations_written[zugebene+1]==0)
+    if (nr_defenses_written[move_depth]==0
+        && nr_continuations_written[move_depth+1]==0)
       Message(NewLine);
 
     write_indentation();
@@ -508,7 +535,7 @@ void write_refutations(int t)
       editcoup(nbply,&tabsol.liste[n],no_goal);
       StdString(" !\n");
 
-      ++nr_defenses_written[zugebene];
+      ++nr_defenses_written[move_depth];
     }
   }
   Message(NewLine);
