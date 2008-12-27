@@ -18,7 +18,8 @@ typedef enum {
 	HelpNoSuccOdd,
 	HelpNoSuccEven,
 	DirSucc,
-	DirNoSucc
+	DirNoSucc,
+    nr_hashwhat
 } hashwhat;
 
 typedef unsigned char byte;

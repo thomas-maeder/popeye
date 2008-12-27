@@ -1616,6 +1616,10 @@ void addtohash(slice_index si,
       case DirNoSucc:
         set_value_direct_nosucc(he,si,val);
         break;
+
+      default:
+        assert(0);
+        break;
     }
   }
   else
@@ -1645,6 +1649,10 @@ void addtohash(slice_index si,
       case DirNoSucc:
         if (get_value_direct_nosucc(he,si)<val)
           set_value_direct_nosucc(he,si,val);
+        break;
+
+      default:
+        assert(0);
         break;
     }
 
