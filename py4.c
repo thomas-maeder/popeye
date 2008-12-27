@@ -1105,6 +1105,18 @@ void groselion(square sq_departure,
      * itself */
     piece save_piece = e[sq_departure];
     e[sq_departure] = vide;
+    /* could be going for another 8 steps
+    let's make sure we don't run out of S vectors */
+    if (delta_k > 0)
+    {
+      if (k1+k2 > vec_knight_end)
+        k2-=8;
+    } 
+    else 
+    {
+      if (k1+k2 <= vec_knight_end)
+        k2+=8;
+    }
 #endif
     sq_end= generate_moves_on_circle_segment(sq_departure,sq_hurdle,
                                                     k1,&k2,delta_k);
