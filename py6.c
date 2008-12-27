@@ -2373,8 +2373,8 @@ static void SolveSeriesProblems(void)
     Message(NewLine);
   }
 
-  if (OptFlag[maxsols])    /* reset after set play */
-    solutions= 0;
+  solutions= 0;    /* reset after set play */
+  FlagShortSolsReached= false;
 
   if (echecc(nbply,advers(slices[0].starter)))
     ErrorMsg(KingCapture);
@@ -2553,8 +2553,8 @@ static void SolveHelpProblems(void)
     StdChar('\n');
   }
 
-  if (OptFlag[maxsols])    /* reset after set play */
-    solutions = 0;
+  solutions = 0;    /* reset after set play */
+   
 
   if (echecc(nbply,advers(slices[0].starter)))
     ErrorMsg(KingCapture);
@@ -2989,13 +2989,13 @@ int main(int argc, char *argv[]) {
             /* Set next side to calculate for duplex "twin" */
             if ((OptFlag[maxsols] && solutions>=maxsolutions)
                 || (OptFlag[stoponshort] && FlagShortSolsReached))
-            {
               FlagMaxSolsReached= true;
-              /* restart calculation of maxsolution after "twinning"
-               */
-              solutions= 0;
-            }
 
+            /* restart calculation of maxsolution after half-duplex */
+            solutions= 0;
+            FlagShortSolsReached= false;
+
+            /* Set next side to calculate for duplex "twin" */
 #if defined(HASHRATE)
             HashStats(1, "\n\n");
 #endif
@@ -3038,11 +3038,11 @@ int main(int argc, char *argv[]) {
 
       if ((OptFlag[maxsols] && solutions>=maxsolutions)
           || (OptFlag[stoponshort] && FlagShortSolsReached))
-      {
         FlagMaxSolsReached = true;
-        /* restart calculation of maxsolution after twinning */
-        solutions = 0;
-      }
+
+      /* restart calculation of maxsolution after twinning */
+      solutions = 0;
+      FlagShortSolsReached= false;
     } while (tk == TwinProblem);
 
     if (FlagMaxSolsReached
