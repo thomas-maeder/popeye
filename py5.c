@@ -2934,6 +2934,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
       }
     }
 
+    /* move to here to make sure it is definitely set through jouecoup
+    otherwise repcoup can osc Ks even if not oscillated in jouecoup */
+    oscillatedKs[ply_id]= false;
     if (traitnbply==White
         ? CondFlag[white_oscillatingKs]
         : CondFlag[black_oscillatingKs]) {
@@ -2942,7 +2945,6 @@ boolean jouecoup(ply ply_id, joue_type jt)
       piece temp1= e[rb];
       Flags temp2= spec[rb];
 
-      oscillatedKs[ply_id]= false;
       if (OscillatingKingsTypeB[traitnbply])
         priorcheck= echecc(ply_id,traitnbply);
       if ((oscillatedKs[ply_id]= (!OscillatingKingsTypeC[traitnbply]
