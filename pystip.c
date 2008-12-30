@@ -901,7 +901,7 @@ boolean d_slice_has_defender_won(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = d_leaf_has_defender_won(si);
+      result = leaf_is_unsolvable(si);
       break;
 
     case STQuodlibet:
