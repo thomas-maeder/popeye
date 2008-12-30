@@ -18,13 +18,6 @@
  */
 boolean leaf_is_goal_reached(Side just_moved, slice_index leaf);
 
-/* Determine whether attacker has an end in 1.
- * @param side_at_move
- * @param leaf slice index
- * @return true iff side_at_move can end in 1 move
- */
-boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf);
-
 /* Detect a priori unsolvability of a leaf (e.g. because of forced
  * reflex mates)
  * @param n number of moves to go

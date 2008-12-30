@@ -1393,8 +1393,8 @@ static boolean d_composite_end_is_threat_refuted(slice_index si)
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean d_composite_is_threat_in_n_refuted(stip_length_type n,
-                                           slice_index si)
+static boolean d_composite_is_threat_in_n_refuted(stip_length_type n,
+                                                  slice_index si)
 {
   boolean result;
   

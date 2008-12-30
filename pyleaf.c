@@ -893,7 +893,7 @@ static boolean leaf_is_end_in_1_forced(slice_index leaf)
  * @param leaf slice index
  * @return true iff side_at_move can end in 1 move
  */
-boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
+static boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
 {
   boolean end_found = false;
 
