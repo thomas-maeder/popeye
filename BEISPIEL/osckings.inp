@@ -2,11 +2,11 @@ anfa
 prot osckings.out
 auto A.Bell
 quel Variant Chess 1998
-tite ( b) sound; other parts cooked )
+tite a) cooks b) sound c) NL
 ford #2
 bedi schwarzeosz typb
-stei weis kc5 tg6g4 sf2 ba4b3d2h5
-stei schw kf5 bb4d3g5g7h6
+stei weis kc5 tb6 sf2h3 ba5c3d3h4
+stei schw kf5 bb7h5h6
 opti vari
 zwil bedi weisseosz typb
 zwil bedi schwarzeosz weisseosz typb
@@ -21,7 +21,7 @@ opti vari
 weit
 ford #2
 auto R.Turnbull
-quel Variant Chess 1998
+quel Variant Chess 1998 (corr. SE)
 opti vari   
 bedi schwarzeosz
 stei weis kh6 dg5 sh1
