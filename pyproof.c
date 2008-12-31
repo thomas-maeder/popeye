@@ -1203,7 +1203,7 @@ static stip_length_type ArrangePawns(
   return Diff;
 }
 
-static boolean NeverImpossible()
+static boolean NeverImpossible(void)
 {
   return false;
 }
