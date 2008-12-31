@@ -598,7 +598,7 @@ void d_slice_root_solve(boolean restartenabled, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      leaf_root_solve(si);
+      leaf_solve(si);
       break;
       
     case STQuodlibet:
@@ -657,7 +657,7 @@ boolean h_slice_root_solve(boolean restartenabled, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      solution_found = leaf_root_solve(si);
+      solution_found = leaf_solve(si);
       break;
 
     case STQuodlibet:
@@ -726,7 +726,7 @@ boolean ser_slice_root_solve(boolean restartenabled, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      solution_found = leaf_root_solve(si);
+      solution_found = leaf_solve(si);
       break;
 
     case STQuodlibet:

@@ -106,12 +106,6 @@ boolean d_leaf_does_attacker_win(slice_index leaf);
  */
 boolean h_leaf_root_solve_setplay(slice_index leaf);
 
-/* Determine and write the solution of a leaf slice at root level.
- * @param leaf identifies leaf slice
- * @return true iff >=1 solution was found
- */
-boolean leaf_root_solve(slice_index leaf);
-
 /* Determine and write the solution of a leaf slice.
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
