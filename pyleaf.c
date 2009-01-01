@@ -904,21 +904,19 @@ static boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
   TraceFunctionParam("%u ",side_at_move);
   TraceFunctionParam("%u\n",leaf);
 
-  if (OptFlag[keepmating] && !is_a_mating_piece_left(side_at_move))
-    return false;
+  generate_move_reaching_goal(leaf,side_at_move);
 
-  if (slices[leaf].u.leaf.goal==goal_mate)
-    generate_move_reaching_goal(leaf,side_at_move);
+  if (side_at_move==White)
+    WhMovesLeft--;
   else
-    genmove(side_at_move);
+    BlMovesLeft--;
 
-  while (encore()
-         && !end_found)
+  while (encore() && !end_found)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove()
+        && (!isIntelligentModeActive || isGoalReachable())
         && leaf_is_goal_reached(side_at_move,leaf))
     {
-      TraceText("goal reached\n");
       end_found = true;
       coupfort();
     }
@@ -928,6 +926,11 @@ static boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
     if (maxtime_status==MAXTIME_TIMEOUT)
       break;
   }
+
+  if (side_at_move==White)
+    WhMovesLeft++;
+  else
+    BlMovesLeft++;
 
   finply();
 
@@ -964,7 +967,8 @@ boolean leaf_is_unsolvable(slice_index leaf)
     {
       Side const attacker = slices[leaf].starter;
       Side const defender = advers(attacker);
-      result = (leaf_is_end_in_1_possible(attacker,leaf)
+      result = ((!(OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
+                 && leaf_is_end_in_1_possible(attacker,leaf))
                 || (OptFlag[keepmating]
                     && !is_a_mating_piece_left(defender)));
       break;
@@ -989,11 +993,42 @@ boolean leaf_is_unsolvable(slice_index leaf)
   return result;
 }
 
-static boolean leaf_h_cmate_is_solvable(slice_index leaf)
+/* Detect whether a move delivering countermate exists.
+ * @param leaf identifies leaf slice
+ * @return true iff such a move exists
+ */
+static boolean leaf_h_cmate_exists_final_move(slice_index leaf)
 {
   boolean found_solution = false;
   Side const side_at_move = slices[leaf].starter;
   Side const other_side = advers(side_at_move);
+
+  if (goal_checker_mate(side_at_move))
+  {
+    generate_move_reaching_goal(leaf,other_side);
+
+    while (encore() && !found_solution)
+    {
+      if (jouecoup(nbply,first_play))
+        found_solution = leaf_is_goal_reached(other_side,leaf);
+
+      repcoup();
+    }
+
+    finply();
+  }
+
+  return found_solution;
+}
+
+/* Detect whether a help countermate is solvable
+ * @param leaf identifies leaf slice
+ * @return true iff >=1 solution exists
+ */
+static boolean leaf_h_cmate_is_solvable(slice_index leaf)
+{
+  boolean found_solution = false;
+  Side const side_at_move = slices[leaf].starter;
 
   generate_move_reaching_goal(leaf,side_at_move);
 
@@ -1002,28 +1037,20 @@ static boolean leaf_h_cmate_is_solvable(slice_index leaf)
     if (jouecoup(nbply,first_play)
         && !echecc(nbply,side_at_move))
     {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+      if (compression_counter==0)
       {
-        if (goal_checker_mate(side_at_move))
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
         {
-          generate_move_reaching_goal(leaf,other_side);
-
-          while (encore() && !found_solution)
-          {
-            if (jouecoup(nbply,first_play))
-              found_solution = leaf_is_goal_reached(other_side,leaf);
-
-            repcoup();
-          }
-
-          finply();
+          if (leaf_h_cmate_exists_final_move(leaf))
+            found_solution = true;
+          else
+            addtohash(leaf,HelpNoSuccOdd,1,&hb);
         }
-
-        if (!found_solution)
-          addtohash(leaf,HelpNoSuccOdd,1,&hb);
       }
+      else if (leaf_h_cmate_exists_final_move(leaf))
+        found_solution = true;
     }
 
     repcoup();
@@ -1034,11 +1061,42 @@ static boolean leaf_h_cmate_is_solvable(slice_index leaf)
   return found_solution;
 }
 
-static boolean leaf_h_dmate_is_solvable(slice_index leaf)
+/* Detect whether a move delivering doublemate exists
+ * @param leaf identifies leaf slice
+ * @return true iff such a move exists
+ */
+static boolean leaf_h_dmate_exists_final_move(slice_index leaf)
 {
   boolean found_solution = false;
   Side const side_at_move = slices[leaf].starter;
   Side const other_side = advers(side_at_move);
+
+  if (!immobile(other_side))
+  {
+    generate_move_reaching_goal(leaf,other_side);
+
+    while (encore() && !found_solution)
+    {
+      if (jouecoup(nbply,first_play))
+        found_solution = leaf_is_goal_reached(other_side,leaf);
+
+      repcoup();
+    }
+
+    finply();
+  }
+
+  return found_solution;
+}
+
+/* Detect whether a help doublemate is solvable
+ * @param leaf identifies leaf slice
+ * @return true iff >=1 solution exists
+ */
+static boolean leaf_h_dmate_is_solvable(slice_index leaf)
+{
+  boolean found_solution = false;
+  Side const side_at_move = slices[leaf].starter;
 
   genmove(side_at_move);
 
@@ -1047,28 +1105,20 @@ static boolean leaf_h_dmate_is_solvable(slice_index leaf)
     if (jouecoup(nbply,first_play)
         && !echecc(nbply,side_at_move))
     {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+      if (compression_counter==0)
       {
-        if (!immobile(other_side))
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
         {
-          generate_move_reaching_goal(leaf,other_side);
-
-          while (encore() && !found_solution)
-          {
-            if (jouecoup(nbply,first_play))
-              found_solution = leaf_is_goal_reached(other_side,leaf);
-
-            repcoup();
-          }
-
-          finply();
+          if (leaf_h_dmate_exists_final_move(leaf))
+            found_solution = true;
+          else
+            addtohash(leaf,HelpNoSuccOdd,1,&hb);
         }
-
-        if (!found_solution)
-          addtohash(leaf,HelpNoSuccOdd,1,&hb);
       }
+      else if (leaf_h_dmate_exists_final_move(leaf))
+        found_solution = true;
     }
 
     repcoup();
@@ -1079,50 +1129,11 @@ static boolean leaf_h_dmate_is_solvable(slice_index leaf)
   return found_solution;
 }
 
-static boolean leaf_h_exists_final_move(slice_index leaf)
-{
-  boolean final_move_found = false;
-  Side const side_at_move = advers(slices[leaf].starter);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  TraceValue("%d\n",side_at_move);
-
-  generate_move_reaching_goal(leaf,side_at_move);
-
-  if (side_at_move==White)
-    WhMovesLeft--;
-  else
-    BlMovesLeft--;
-
-  while (encore() && !final_move_found)
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove())
-    {
-      if (isIntelligentModeActive && !isGoalReachable())
-        TraceText("isIntelligentModeActive && !isGoalReachable()\n");
-      else if (!leaf_is_goal_reached(side_at_move,leaf))
-        TraceText("!leaf_is_goal_reached(side_at_move,leaf)\n");
-      else
-        final_move_found = true;
-    }
-
-    repcoup();
-  }
-
-  if (side_at_move==White)
-    WhMovesLeft++;
-  else
-    BlMovesLeft++;
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",final_move_found);
-  return final_move_found;
-}
-
+/* Detect whether a help leaf with goal other than
+ * {double,counter}mate is solvable 
+ * @param leaf identifies leaf slice
+ * @return true iff >=1 solution exists
+ */
 static boolean leaf_h_regulargoals_is_solvable(slice_index leaf)
 {
   boolean found_solution = false;
@@ -1146,15 +1157,20 @@ static boolean leaf_h_regulargoals_is_solvable(slice_index leaf)
         && !echecc(nbply,side_at_move)
         && (!OptFlag[keepmating] || is_a_mating_piece_left(other_side)))
     {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+      if (compression_counter==0)
       {
-        if (leaf_h_exists_final_move(leaf))
-          found_solution = true;
-        else
-          addtohash(leaf,HelpNoSuccOdd,1,&hb);
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+        {
+          if (leaf_is_end_in_1_possible(other_side,leaf))
+            found_solution = true;
+          else
+            addtohash(leaf,HelpNoSuccOdd,1,&hb);
+        }
       }
+      else if (leaf_is_end_in_1_possible(other_side,leaf))
+        found_solution = true;
     }
 
     repcoup();
@@ -1315,27 +1331,6 @@ static boolean d_leaf_d_does_attacker_win(slice_index leaf)
   return result==DirSucc;
 }
 
-/* Determine whether the defender is not forced to end in 1 in a
- * reflex stipulation.
- * @param leaf slice identifier
- * @return true iff defender wins
- */
-static boolean d_leaf_r_does_defender_win(slice_index leaf)
-{
-  boolean result = true;
-  Side const defender = advers(slices[leaf].starter);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  if (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender)))
-    result = !leaf_is_end_in_1_possible(defender,leaf);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
 /* Determine whether the attacker wins in a semireflex leaf slice
  * @param leaf slice index of leaf slice
  * @return true iff attacker wins
@@ -1345,6 +1340,7 @@ static boolean d_leaf_semir_does_attacker_win(slice_index leaf)
   hashwhat result;
   HashBuffer hb;
   Side const attacker = slices[leaf].starter;
+  Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
@@ -1361,7 +1357,8 @@ static boolean d_leaf_semir_does_attacker_win(slice_index leaf)
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && !echecc(nbply,attacker)
-          && !d_leaf_r_does_defender_win(leaf))
+          && !(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
+          && leaf_is_end_in_1_possible(defender,leaf))
       {
         result = DirSucc;
         coupfort();
@@ -1383,27 +1380,6 @@ static boolean d_leaf_semir_does_attacker_win(slice_index leaf)
   return result==DirSucc;
 }
 
-/* Determine whether the defender is not forced to end in 1 in a
- * self stipulation.
- * @param leaf slice identifier
- * @return true iff defender wins
- */
-static boolean d_leaf_s_does_defender_win(slice_index leaf)
-{
-  Side const defender = advers(slices[leaf].starter);
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  result = ((OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-            || !leaf_is_end_in_1_forced(leaf));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
 /* Determine whether the attacker wins in a self/reflex leaf slice
  * @param leaf slice index of leaf slice
  * @return true iff attacker wins
@@ -1413,6 +1389,7 @@ static boolean d_leaf_s_does_attacker_win(slice_index leaf)
   hashwhat result;
   HashBuffer hb;
   Side const attacker = slices[leaf].starter;
+  Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
@@ -1429,7 +1406,8 @@ static boolean d_leaf_s_does_attacker_win(slice_index leaf)
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && !echecc(nbply,attacker)
-          && !d_leaf_s_does_defender_win(leaf))
+          && !(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
+          && leaf_is_end_in_1_forced(leaf))
       {
         result = DirSucc;
         coupfort();
@@ -1480,7 +1458,8 @@ boolean leaf_is_solvable(slice_index leaf)
     {
       Side const attacker = slices[leaf].starter;
       Side const defender = advers(attacker);
-      if (leaf_is_end_in_1_possible(attacker,leaf)
+      if ((!(OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
+           && leaf_is_end_in_1_possible(attacker,leaf))
           || (OptFlag[keepmating] && !is_a_mating_piece_left(defender)))
         ; /* intentionally nothing */
       else
@@ -1509,8 +1488,14 @@ boolean leaf_is_solvable(slice_index leaf)
     }
 
     case EHelp:
-      result = leaf_h_is_solvable(leaf);
+    {
+      Side const defender = advers(slices[leaf].starter);
+      if (OptFlag[keepmating] && !is_a_mating_piece_left(defender))
+        ; /* intentionally nothing */
+      else
+        result = leaf_h_is_solvable(leaf);
       break;
+    }
 
     default:
       assert(0);
@@ -1584,7 +1569,8 @@ boolean d_leaf_is_solved(slice_index leaf)
     case ESemireflex:
     {
       Side const defender = advers(attacker);
-      return leaf_is_end_in_1_possible(defender,leaf);
+      return (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
+              && leaf_is_end_in_1_possible(defender,leaf));
     }
 
     default:
@@ -1741,6 +1727,7 @@ static boolean leaf_s_solve(slice_index leaf)
 {
   boolean found_solution = false;
   Side const attacker = slices[leaf].starter;
+  Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
@@ -1752,7 +1739,8 @@ static boolean leaf_s_solve(slice_index leaf)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,attacker)
-        && !d_leaf_s_does_defender_win(leaf))
+        && !(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
+        && leaf_is_end_in_1_forced(leaf))
     {
       found_solution = true;
 
@@ -1781,6 +1769,7 @@ static boolean leaf_semir_solve(slice_index leaf)
 {
   boolean found_solution = false;
   Side const attacker = slices[leaf].starter;
+  Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
@@ -1792,7 +1781,8 @@ static boolean leaf_semir_solve(slice_index leaf)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,attacker)
-        && !d_leaf_r_does_defender_win(leaf))
+        && !(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
+        && leaf_is_end_in_1_possible(defender,leaf))
     {
       found_solution = true;
 
@@ -1812,6 +1802,38 @@ static boolean leaf_semir_solve(slice_index leaf)
   return found_solution;
 }
 
+/* Solve the final move for a countermate
+ * @param leaf identifies leaf slice
+ * @return true iff >=1 moves have been found and written
+ */
+static boolean leaf_h_cmate_solve_final_move(slice_index leaf)
+{
+  boolean found_solution = false;
+  Side const side_at_move = slices[leaf].starter;
+  Side const other_side = advers(slices[leaf].starter);
+
+  if (goal_checker_mate(side_at_move))
+  {
+    generate_move_reaching_goal(leaf,other_side);
+    active_slice[nbply] = leaf;
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play)
+          && leaf_is_goal_reached(other_side,leaf))
+      {
+        found_solution = true;
+        write_defense(goal_countermate);
+      }
+      repcoup();
+    }
+
+    finply();
+  }
+
+  return found_solution;
+}
+
 /* Determine and write the final move pair in help countermate.
  * @param leaf slice index
  * @return true iff >=1 move pair was found
@@ -1820,7 +1842,6 @@ static boolean leaf_h_cmate_solve(slice_index leaf)
 {
   boolean found_solution = false;
   Side const side_at_move = slices[leaf].starter;
-  Side const other_side = advers(side_at_move);
 
   generate_move_reaching_goal(leaf,side_at_move);
   active_slice[nbply] = leaf;
@@ -1830,38 +1851,58 @@ static boolean leaf_h_cmate_solve(slice_index leaf)
     if (jouecoup(nbply,first_play)
         && !echecc(nbply,side_at_move))
     {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+      if (compression_counter==0)
       {
-        if (goal_checker_mate(side_at_move))
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
         {
-          generate_move_reaching_goal(leaf,other_side);
-          active_slice[nbply] = leaf;
-
-          while (encore())
-          {
-            if (jouecoup(nbply,first_play)
-                && leaf_is_goal_reached(other_side,leaf))
-            {
-              found_solution = true;
-              write_defense(goal_countermate);
-            }
-            repcoup();
-          }
-
-          finply();
+          if (leaf_h_cmate_solve_final_move(leaf))
+            found_solution = true;
+          else
+            addtohash(leaf,HelpNoSuccOdd,1,&hb);
         }
-
-        if (!found_solution)
-          addtohash(leaf,HelpNoSuccOdd,1,&hb);
       }
+      else if (leaf_h_cmate_solve_final_move(leaf))
+        found_solution = true;
     }
 
     repcoup();
   }
 
   finply();
+
+  return found_solution;
+}
+
+/* Solve the final move for a doublemate
+ * @param leaf identifies leaf slice
+ * @return true iff >=1 moves have been found and written
+ */
+static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
+{
+  boolean found_solution = false;
+  Side const final_side = advers(slices[leaf].starter);
+
+  if (!immobile(final_side))
+  {
+    generate_move_reaching_goal(leaf,final_side);
+    active_slice[nbply] = leaf;
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play)
+          && leaf_is_goal_reached(final_side,leaf))
+      {
+        found_solution = true;
+        write_defense(goal_doublemate);
+      }
+
+      repcoup();
+    }
+
+    finply();
+  }
 
   return found_solution;
 }
@@ -1874,7 +1915,6 @@ static boolean leaf_h_dmate_solve(slice_index leaf)
 {
   boolean found_solution = false;
   Side const side_at_move = slices[leaf].starter;
-  Side const other_side = advers(side_at_move);
 
   genmove(side_at_move);
   active_slice[nbply] = leaf;
@@ -1884,33 +1924,20 @@ static boolean leaf_h_dmate_solve(slice_index leaf)
     if (jouecoup(nbply,first_play)
         && !echecc(nbply,side_at_move))
     {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+      if (compression_counter==0)
       {
-        if (!immobile(other_side))
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
         {
-          generate_move_reaching_goal(leaf,other_side);
-          active_slice[nbply] = leaf;
-
-          while (encore())
-          {
-            if (jouecoup(nbply,first_play)
-                && leaf_is_goal_reached(other_side,leaf))
-            {
-              found_solution = true;
-              write_defense(goal_doublemate);
-            }
-
-            repcoup();
-          }
-
-          finply();
+          if (leaf_h_dmate_solve_final_move(leaf))
+            found_solution = true;
+          else
+            addtohash(leaf,HelpNoSuccOdd,1,&hb);
         }
-
-        if (!found_solution)
-          addtohash(leaf,HelpNoSuccOdd,1,&hb);
       }
+      else if (leaf_h_dmate_solve_final_move(leaf))
+        found_solution = true;
     }
 
     repcoup();
@@ -2032,7 +2059,8 @@ static boolean leaf_r_solve(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
 
-  if (!leaf_is_end_in_1_possible(attacker,leaf))
+  if (((OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
+       || !leaf_is_end_in_1_possible(attacker,leaf)))
     result = leaf_semir_solve(leaf);
 
   TraceFunctionExit(__func__);
@@ -2126,7 +2154,11 @@ boolean d_leaf_has_attacker_won(slice_index leaf)
 
     case EReflex:
     case ESemireflex:
-      return leaf_is_end_in_1_possible(advers(slices[leaf].starter),leaf);
+    {
+      Side const defender = advers(slices[leaf].starter);
+      return (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
+              && leaf_is_end_in_1_possible(defender,leaf));
+    }
 
     default:
       assert(0);
@@ -2178,8 +2210,9 @@ boolean d_leaf_does_attacker_win(slice_index leaf)
 /* Determine and write all set play of a self/reflex stipulation.
  * @param leaf slice index of the leaf slice
  */
-static void d_leaf_root_sr_solve_setplay(slice_index leaf)
+static boolean d_leaf_root_sr_solve_setplay(slice_index leaf)
 {
+  boolean result = false;
   Side const defender = advers(slices[leaf].starter);
 
   generate_move_reaching_goal(leaf,defender);
@@ -2190,6 +2223,7 @@ static void d_leaf_root_sr_solve_setplay(slice_index leaf)
     if (jouecoup(nbply,first_play)
         && leaf_is_goal_reached(defender,leaf))
     {
+      result = true;
       write_defense(slices[leaf].u.leaf.goal);
       if (OptFlag[maxsols]) 
         solutions++;
@@ -2205,6 +2239,8 @@ static void d_leaf_root_sr_solve_setplay(slice_index leaf)
   }
 
   finply();
+
+  return result;
 }
 
 /* Find and write defender's set play in self/reflex play
@@ -2255,23 +2291,27 @@ boolean d_leaf_root_solve_complete_set(slice_index leaf)
   switch (slices[leaf].u.leaf.end)
   {
     case ESelf:
-      if (!d_leaf_s_does_defender_win(leaf))
+    {
+      Side const defender = advers(slices[leaf].starter);
+      if (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
+          && leaf_is_end_in_1_forced(leaf))
       {
         d_leaf_root_sr_solve_setplay(leaf);
         return true;
       }
       else
         break;
+    }
 
     case EReflex:
     case ESemireflex:
-      if (!d_leaf_r_does_defender_win(leaf))
-      {
-        d_leaf_root_sr_solve_setplay(leaf);
-        return true;
-      }
+    {
+      Side const defender = advers(slices[leaf].starter);
+      if (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender)))
+        return d_leaf_root_sr_solve_setplay(leaf);
       else
         break;
+    }
 
     default:
       break;
@@ -2402,6 +2442,7 @@ static void d_leaf_r_solve_continuations(int solutions, slice_index leaf)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,attacker)
+        && !(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
         && leaf_is_end_in_1_possible(defender,leaf))
     {
       write_attack(no_goal,attack_regular);
@@ -2456,25 +2497,6 @@ void d_leaf_solve_continuations(int solutions, slice_index leaf)
   TraceText("\n");
 }
 
-/* Find the final (ending) move of a reflex leaf
- * @param leaf slice index
- * @return true iff >=1 ending move was found
- */
-static boolean leaf_r_solve_final_move(slice_index leaf)
-{
-  boolean found_solution = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  if (!d_leaf_r_does_defender_win(leaf))
-    found_solution = leaf_h_solve_final_move(leaf);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
-  return found_solution;
-}
-
 /* Solve the set play in a help stipulation
  * @param leaf slice index
  * @return true iff >=1 set play was found
@@ -2492,13 +2514,21 @@ boolean h_leaf_root_solve_setplay(slice_index leaf)
   switch (slices[leaf].u.leaf.end)
   {
     case ESelf:
-      result = (!d_leaf_s_does_defender_win(leaf)
+    {
+      Side const defender = advers(slices[leaf].starter);
+      result = (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
+                && leaf_is_end_in_1_forced(leaf)
                 && leaf_h_solve_final_move(leaf));
       break;
+    }
 
     case EReflex:
-      result = leaf_r_solve_final_move(leaf);
+    {
+      Side const defender = advers(slices[leaf].starter);
+      result = ((!OptFlag[keepmating] || is_a_mating_piece_left(defender))
+                && leaf_h_solve_final_move(leaf));
       break;
+    }
 
     case EHelp:
     case ESemireflex:
