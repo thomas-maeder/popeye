@@ -1,47 +1,43 @@
 
                 A.Bell
           Variant Chess 1998
-   ( b) sound; other parts cooked )
+       a) cooks b) sound c) NL
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
 |                                   |
-7   .   .   .   .   .   .  -B   .   7
+7   .  -B   .   .   .   .   .   .   7
 |                                   |
-6   .   .   .   .   .   .   T  -B   6
+6   .   T   .   .   .   .   .  -B   6
 |                                   |
-5   .   .   K   .   .  -K  -B   B   5
+5   B   .   K   .   .  -K   .  -B   5
 |                                   |
-4   B  -B   .   .   .   .   T   .   4
+4   .   .   .   .   .   .   .   B   4
 |                                   |
-3   .   B   .  -B   .   .   .   .   3
+3   .   .   B   B   .   .   .   S   3
 |                                   |
-2   .   .   .   B   .   S   .   .   2
+2   .   .   .   .   .   S   .   .   2
 |                                   |
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  #2                          8 + 6
+  #2                          8 + 4
  SchwarzeOszillierendeKoenige    TypB
 
 a)
 
-  1.Tg4*b4 ! Zugzwang.
+  1.Tb6-f6 + ! 
+      1...Kf5*f6[wK<>sK] 
+          2.Sf2-e4 # 
       1...Kf5-e5[wK<>sK] 
-          2.Tb4-b5 # 
-          2.Tb4-c4 # 
-          2.Sf2*d3 # 
-      1...g5-g4[wK<>sK] 
-          2.Tb4-b5 # 
+          2.d3-d4 # 
 
-  1.Tg4-e4 ! Zugzwang.
-      1...g5-g4[wK<>sK] 
-          2.Te4-e5 # 
-
-  1.a4-a5 ! Zugzwang.
+  1.c3-c4 ! Zugzwang.
       1...Kf5-e5[wK<>sK] 
-          2.Sf2*d3 # 
+          2.Tb6-b5 # 
+          2.d3-d4 # 
+          2.Sf2-e4 # 
 
 
 b) WeisseOszillierendeKoenige    TypB
@@ -95,7 +91,7 @@ Loesung beendet.
 
 
               R.Turnbull
-          Variant Chess 1998
+    Variant Chess 1998 (corr. SE)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
