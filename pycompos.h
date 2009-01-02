@@ -46,14 +46,6 @@ void d_composite_solve_variations(stip_length_type n,
                                   int threats,
                                   slice_index si);
 
-/* Determine and write the solutions and tries in the current position
- * in direct/self/reflex play.
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- */
-void d_composite_root_solve(boolean restartenabled, slice_index si);
-
 /* Determine and write only the post-key solution in the current
  * position in direct/self/reflex play.
  * @param n number of moves until end state has to be reached

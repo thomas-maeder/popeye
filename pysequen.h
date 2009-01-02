@@ -16,19 +16,19 @@
  */
 boolean sequence_end_is_unsolvable(slice_index leaf);
 
-/* Write a priori unsolvability (if any) of a slice in direct play
- * (e.g. forced reflex mates).
+/* Write a priori unsolvability (if any) of a slice (e.g. forced
+ * reflex mates).
  * Assumes slice_is_unsolvable(si)
  * @param si slice index
  */
-void d_sequence_write_unsolvability(slice_index si);
+void sequence_write_unsolvability(slice_index si);
 
 /* Determine and write continuations at end of sequence slice
  * @param continuations table where to store continuing moves
  *                      (e.g. threats)
  * @param si index of sequence slice
  */
-void d_sequence_end_solve_continuations(int continuations, slice_index si);
+void sequence_end_solve_continuations(int continuations, slice_index si);
 
 /* Find and write defender's set play
  * @param si slice index
@@ -41,16 +41,6 @@ void d_sequence_root_end_solve_setplay(slice_index si);
  * @return true iff every defender's move leads to end
  */
 boolean d_sequence_root_end_solve_complete_set(slice_index si);
-
-/* Solve at root level at the end of a sequence slice
- * Unsolvability (e.g. because of a forced reflex move) has already
- * been dealt with.
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- * @param si slice index 
- */
-void d_sequence_root_end_solve(boolean restartenabled, slice_index si);
 
 /* Write the key just played, then continue solving at end of sequence
  * slice to find and write the post key play (threats, variations)

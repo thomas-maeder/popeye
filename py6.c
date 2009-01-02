@@ -2592,7 +2592,7 @@ static void SolveDirectProblems(void)
     if (echecc(nbply,advers(slices[0].starter)))
       ErrorMsg(KingCapture);
     else
-      d_slice_root_solve(OptFlag[movenbr],0);
+      slice_root_solve(OptFlag[movenbr],0);
   }
 }
 

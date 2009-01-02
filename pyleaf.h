@@ -40,12 +40,12 @@ boolean d_leaf_has_defender_lost(slice_index leaf);
  */
 boolean d_leaf_is_solved(slice_index leaf);
 
-/* Write a priori unsolvability (if any) of a leaf in direct play
- * (e.g. forced reflex mates).
+/* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
+ * mates).
  * Assumes leaf_is_unsolvable()
  * @param leaf leaf's slice index
  */
-void d_leaf_write_unsolvability(slice_index leaf);
+void leaf_write_unsolvability(slice_index leaf);
 
 /* Find and write defender's set play
  * @param leaf slice index

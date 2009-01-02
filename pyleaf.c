@@ -1609,11 +1609,11 @@ static void d_leaf_r_solve_forced_keys(slice_index leaf)
   finply();
 }
 
-/* Write a priori unsolvability (if any) of a leaf in direct play
- * (e.g. forced reflex mates)
+/* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
+ * mates)
  * @param leaf leaf's slice index
  */
-void d_leaf_write_unsolvability(slice_index leaf)
+void leaf_write_unsolvability(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);

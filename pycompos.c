@@ -570,7 +570,7 @@ static boolean composite_end_solve(slice_index si)
  * @param si slice index
  * @return true iff slice is a priori unsolvable
  */
-static boolean h_composite_end_is_unsolvable(slice_index si)
+static boolean composite_end_is_unsolvable(slice_index si)
 {
   boolean result = false;
   TraceFunctionEntry(__func__);
@@ -657,7 +657,7 @@ static boolean h_composite_root_solve_recursive_nohash(Side side_at_move,
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move)
           && !(restartenabled && MoveNbr<RestartNbr)
-          && !h_composite_end_is_unsolvable(si)
+          && !composite_end_is_unsolvable(si)
           && h_composite_solve_recursive(next_side,n-1,si))
         found_solution = true;
 
@@ -732,7 +732,7 @@ static boolean h_composite_solve_recursive_nohash(Side side_at_move,
       if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move)
-          && !h_composite_end_is_unsolvable(si)
+          && !composite_end_is_unsolvable(si)
           && h_composite_solve_recursive(next_side,n-1,si))
         found_solution = true;
 
@@ -1238,47 +1238,6 @@ static boolean ser_composite_root_solve(boolean restartenabled,
 /* Solve a composite slice at root level
  * @param restartenabled true iff option movenum is active
  * @param si slice index
- * @param n number of moves until the slice's goal has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
- * @return true iff >= 1 solution was found
- */
-boolean composite_root_solve(boolean restartenabled,
-                             slice_index si,
-                             stip_length_type n)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  switch (slices[si].u.composite.play)
-  {
-    case PDirect:
-      /* TODO */
-      break;
-
-    case PHelp:
-      result = h_composite_root_solve(restartenabled,si,n);
-      break;
-
-    case PSeries:
-      result = ser_composite_root_solve(restartenabled,si,n);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-/* Solve a composite slice at root level
- * @param restartenabled true iff option movenum is active
- * @param si slice index
  * @param n exact number of moves until the slice's goal has to be
  *          reached (this may be shorter than the slice's length if
  *          we are searching for short solutions only)
@@ -1764,12 +1723,12 @@ static void d_composite_solve_postkey(stip_length_type n, slice_index si)
   output_end_postkey_level();
 }
 
-/* Determine and write the end in direct/self/reflex play
+/* Determine and write the continuations in direct/self/reflex play
  * (i.e. attacker's final move and possible play following it).
  * This is an indirectly recursive function.
  * @param t table where to store continuing moves (i.e. threats)
  */
-static void d_composite_end_solve_continuations(int t, slice_index si)
+static void composite_end_solve_continuations(int t, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
@@ -1778,15 +1737,15 @@ static void d_composite_end_solve_continuations(int t, slice_index si)
   switch (slices[si].type)
   {
     case STQuodlibet:
-      d_quodlibet_end_solve_continuations(t,si);
+      quodlibet_end_solve_continuations(t,si);
       break;
 
     case STReciprocal:
-      d_reci_end_solve_continuations(t,si);
+      reci_end_solve_continuations(t,si);
       break;
 
     case STSequence:
-      d_sequence_end_solve_continuations(t,si);
+      sequence_end_solve_continuations(t,si);
       break;
 
     default:
@@ -1817,7 +1776,7 @@ void d_composite_solve_continuations(stip_length_type n,
   TraceFunctionParam("%d\n",si);
 
   if (n==slack_length_direct)
-    d_composite_end_solve_continuations(continuations,si);
+    composite_end_solve_continuations(continuations,si);
   else
   {
     genmove(attacker);
@@ -1932,33 +1891,6 @@ void d_composite_root_solve_setplay(slice_index si)
   TraceFunctionExit(__func__);
 }
 
-/* Solve a composite slice in direct play at root level.
- * We are the end of the slice and delegate to the child slice(s).
- * @param si slice index
- */
-static void d_composite_root_end_solve(boolean restartenabled,
-                                       slice_index si)
-{
-  switch (slices[si].type)
-  {
-    case STQuodlibet:
-      d_quodlibet_root_end_solve(restartenabled,si);
-      break;
-
-    case STReciprocal:
-      d_reci_root_end_solve(restartenabled,si);
-      break;
-
-    case STSequence:
-      d_sequence_root_end_solve(restartenabled,si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-}
-
 /* Write the key just played, then solve the post key play (threats,
  * variations) and write the refutations (if any).
  * We are at the end of the slice and delegate to the child slice(s).
@@ -2035,20 +1967,30 @@ void d_composite_root_solve_postkeyonly(stip_length_type n, slice_index si)
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
+ * @param n number of moves until the slice's goal has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
+ * @return true iff >= 1 solution was found
  */
-void d_composite_root_solve(boolean restartenabled, slice_index si)
+static boolean d_composite_root_solve(boolean restartenabled,
+                                      slice_index si,
+                                      stip_length_type n)
 {
+  boolean result = false;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",restartenabled);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
 
   output_start_continuation_level();
 
   if (d_slice_has_defender_lost(si))
-    ;
+    result = true;
   else if (d_slice_has_defender_won(si))
-    d_slice_write_unsolvability(slices[si].u.composite.op1);
+    slice_write_unsolvability(slices[si].u.composite.op1);
   else if (slices[si].u.composite.length==slack_length_direct)
-    d_composite_root_end_solve(restartenabled,si);
+    result = composite_root_end_solve(restartenabled,si);
   else
   {
     Side const attacker = slices[si].starter;
@@ -2075,6 +2017,9 @@ void d_composite_root_solve(boolean restartenabled, slice_index si)
                                       ? attack_try
                                       : attack_key);
             d_composite_root_write_key_solve_postkey(refutations,si,type);
+
+            if (nr_refutations==0)
+              result = true;
           }
 
           freetab();
@@ -2097,5 +2042,47 @@ void d_composite_root_solve(boolean restartenabled, slice_index si)
   output_end_continuation_level();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Solve a composite slice at root level
+ * @param restartenabled true iff option movenum is active
+ * @param si slice index
+ * @param n number of moves until the slice's goal has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
+ * @return true iff >= 1 solution was found
+ */
+boolean composite_root_solve(boolean restartenabled,
+                             slice_index si,
+                             stip_length_type n)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      d_composite_root_solve(restartenabled,si,n);
+      break;
+
+    case PHelp:
+      result = h_composite_root_solve(restartenabled,si,n);
+      break;
+
+    case PSeries:
+      result = ser_composite_root_solve(restartenabled,si,n);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }

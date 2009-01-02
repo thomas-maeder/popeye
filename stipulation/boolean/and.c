@@ -143,12 +143,12 @@ boolean d_reci_end_has_attacker_won(slice_index si)
   return result;
 }
 
-/* Write a priori unsolvability (if any) of a slice in direct play
- * (e.g. forced reflex mates).
+/* Write a priori unsolvability (if any) of a slice (e.g. forced
+ * reflex mates).
  * Assumes slice_is_unsolvable(si)
  * @param si slice index
  */
-void d_reci_write_unsolvability(slice_index si)
+void reci_write_unsolvability(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
@@ -156,8 +156,8 @@ void d_reci_write_unsolvability(slice_index si)
   TraceValue("%d",slices[si].u.composite.op1);
   TraceValue("%d\n",slices[si].u.composite.op2);
 
-  d_slice_write_unsolvability(slices[si].u.composite.op1);
-  d_slice_write_unsolvability(slices[si].u.composite.op2);
+  slice_write_unsolvability(slices[si].u.composite.op1);
+  slice_write_unsolvability(slices[si].u.composite.op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -182,7 +182,7 @@ void d_reci_end_solve_variations(slice_index si)
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of quodlibet slice
  */
-void d_reci_end_solve_continuations(int table, slice_index si)
+void reci_end_solve_continuations(int table, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
@@ -210,53 +210,6 @@ void d_reci_root_end_solve_setplay(slice_index si)
   TraceText("\n");
 }
 
-/* Determine and write solutions at root level starting at the end of
- * a reciprocal direct/self/reflex stipulation.
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- * @param si slice index
- */
-void d_reci_root_end_solve(boolean restartenabled, slice_index si)
-{
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
-
-  /* TODO does this make sense? */
-  if (slice_is_unsolvable(op1))
-    d_slice_write_unsolvability(op1);
-  else if (slice_is_unsolvable(op2))
-    d_slice_write_unsolvability(op2);
-  else
-  {
-    d_slice_root_solve(restartenabled,op1);
-    d_slice_root_solve(restartenabled,op2);
-  }
-}
-
-/* Write the key just played, then solve the post key play (threats,
- * variations), starting at the end of a reciprocal slice.
- * @param si slice index
- * @param type type of attack
- */
-void d_reci_root_end_write_key_solve_postkey(slice_index si,
-                                             attack_type type)
-{
-  /* TODO does this make sense? */
-  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
-  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op2,type);
-}
-
-/* Has the threat just played been refuted by the preceding defense?
- * @param si identifies stipulation slice
- * @return true iff the threat is refuted
- */
-boolean d_reci_end_is_threat_refuted(slice_index si)
-{
-  return (d_slice_is_threat_refuted(slices[si].u.composite.op1)
-          || d_slice_is_threat_refuted(slices[si].u.composite.op2));
-}
-
 /* Solve at root level at the end of a reciprocal slice
  * @param restartenabled true iff option movenum is activated
  * @param si slice index
@@ -280,6 +233,29 @@ boolean reci_root_end_solve(boolean restartenabled, slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",found_solution);
   return found_solution;
+}
+
+/* Write the key just played, then solve the post key play (threats,
+ * variations), starting at the end of a reciprocal slice.
+ * @param si slice index
+ * @param type type of attack
+ */
+void d_reci_root_end_write_key_solve_postkey(slice_index si,
+                                             attack_type type)
+{
+  /* TODO does this make sense? */
+  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
+  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op2,type);
+}
+
+/* Has the threat just played been refuted by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+boolean d_reci_end_is_threat_refuted(slice_index si)
+{
+  return (d_slice_is_threat_refuted(slices[si].u.composite.op1)
+          || d_slice_is_threat_refuted(slices[si].u.composite.op2));
 }
 
 /* Continue solving at the end of a reciprocal slice

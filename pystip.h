@@ -195,12 +195,12 @@ slice_index find_unique_goal(void);
  */
 boolean slice_is_unsolvable(slice_index si);
 
-/* Write a priori unsolvability (if any) of a slice in direct play
- * (e.g. forced reflex mates).
+/* Write a priori unsolvability (if any) of a slice (e.g. forced
+ * reflex mates).
  * Assumes slice_is_unsolvable(si)
  * @param si slice index
  */
-void d_slice_write_unsolvability(slice_index si);
+void slice_write_unsolvability(slice_index si);
 
 /* Determine whether a slice has >=1 solution; only to be called when
  * play has reached the start of the slice, with the appropriate side
@@ -227,15 +227,6 @@ void d_slice_root_solve_setplay(slice_index si);
  * @return true iff every defender's move leads to end
  */
 boolean d_slice_root_solve_complete_set(slice_index si);
-
-/* Determine and write the solutions and tries in the current position
- * in direct play
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- * @param si slice index
- */
-void d_slice_root_solve(boolean restartenabled, slice_index si);
 
 typedef enum
 {

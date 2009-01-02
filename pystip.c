@@ -586,39 +586,6 @@ boolean d_slice_root_solve_complete_set(slice_index si)
   return result;
 }
 
-/* Determine and write the solutions and tries in the current position
- * in direct play
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- * @param si slice index
- */
-void d_slice_root_solve(boolean restartenabled, slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  switch (slices[si].type)
-  {
-    case STLeaf:
-      leaf_solve(si);
-      break;
-      
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      d_composite_root_solve(restartenabled,si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-  
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
 /* Write the key just played, then continue solving in the slice
  * to find and write the post key play (threats, variations)
  * @param si slice index
@@ -947,7 +914,7 @@ boolean d_slice_has_attacker_won(slice_index si)
  * Assumes slice_is_unsolvable(si)
  * @param si slice index
  */
-void d_slice_write_unsolvability(slice_index si)
+void slice_write_unsolvability(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
@@ -955,19 +922,19 @@ void d_slice_write_unsolvability(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      d_leaf_write_unsolvability(si);
+      leaf_write_unsolvability(si);
       break;
 
     case STQuodlibet:
-      d_quodlibet_write_unsolvability(si);
+      quodlibet_write_unsolvability(si);
       break;
 
     case STSequence:
-      d_sequence_write_unsolvability(si);
+      sequence_write_unsolvability(si);
       break;
 
     case STReciprocal:
-      d_reci_write_unsolvability(si);
+      reci_write_unsolvability(si);
       break;
 
     default:

@@ -50,12 +50,12 @@ boolean d_reci_end_has_attacker_lost(slice_index si);
  */
 boolean d_reci_end_has_attacker_won(slice_index si);
 
-/* Write a priori unsolvability (if any) of a slice in direct play
- * (e.g. forced reflex mates).
+/* Write a priori unsolvability (if any) of a slice (e.g. forced
+ * reflex mates).
  * Assumes slice_is_unsolvable(si)
  * @param si slice index
  */
-void d_reci_write_unsolvability(slice_index si);
+void reci_write_unsolvability(slice_index si);
 
 /* Find and write variations from the end of a reciprocal slice.
  * @param si slice index
@@ -67,21 +67,12 @@ void d_reci_end_solve_variations(slice_index si);
  *                      (e.g. threats)
  * @param si index of quodlibet slice
  */
-void d_reci_end_solve_continuations(int continuations, slice_index si);
+void reci_end_solve_continuations(int continuations, slice_index si);
 
 /* Find and write defender's set play
  * @param si slice index
  */
 void d_reci_root_end_solve_setplay(slice_index si);
-
-/* Determine and write solutions at root level starting at the end of
- * a reciprocal direct/self/reflex stipulation.
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
- * @param si slice index
- */
-void d_reci_root_end_solve(boolean restartenabled, slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
  * variations), starting at the end of a reciprocal slice.

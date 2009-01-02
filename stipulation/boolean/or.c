@@ -28,20 +28,20 @@ boolean quodlibet_end_is_unsolvable(slice_index si)
   return result;
 }
 
-/* Write a priori unsolvability (if any) of a slice in direct play
- * (e.g. forced reflex mates).
+/* Write a priori unsolvability (if any) of a slice (e.g. forced
+ * reflex mates).
  * Assumes slice_is_unsolvable(si)
  * @param si slice index
  */
-void d_quodlibet_write_unsolvability(slice_index si)
+void quodlibet_write_unsolvability(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
   TraceValue("%d",slices[si].u.composite.op1);
   TraceValue("%d\n",slices[si].u.composite.op2);
 
-  d_slice_write_unsolvability(slices[si].u.composite.op1);
-  d_slice_write_unsolvability(slices[si].u.composite.op2);
+  slice_write_unsolvability(slices[si].u.composite.op1);
+  slice_write_unsolvability(slices[si].u.composite.op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -51,7 +51,7 @@ void d_quodlibet_write_unsolvability(slice_index si)
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of quodlibet slice
  */
-void d_quodlibet_end_solve_continuations(int table, slice_index si)
+void quodlibet_end_solve_continuations(int table, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
@@ -99,26 +99,36 @@ boolean d_quodlibet_root_end_solve_complete_set(slice_index si)
 }
 
 /* Determine and write solutions at root level starting at the end of
- * a quodlibet direct/self/reflex stipulation.
+ * a quodlibet stipulation.
  * @param restartenabled true iff the written solution should only
  *                       start at the Nth legal move of attacker
  *                       (determined by user input)
  * @param si slice index
  */
-void d_quodlibet_root_end_solve(boolean restartenabled, slice_index si)
+boolean quodlibet_root_end_solve(boolean restartenabled, slice_index si)
 {
+  boolean result = false;
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",restartenabled);
+  TraceFunctionParam("%u\n",si);
+
   if (slice_is_unsolvable(op1))
-    d_slice_write_unsolvability(op1);
+    slice_write_unsolvability(op1);
   else if (slice_is_unsolvable(op2))
-    d_slice_write_unsolvability(op2);
+    slice_write_unsolvability(op2);
   else
   {
-    d_slice_root_solve(restartenabled,op1);
-    d_slice_root_solve(restartenabled,op2);
+    result = true;
+    slice_root_solve(restartenabled,op1);
+    slice_root_solve(restartenabled,op2);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 /* Write the key just played, then solve the post key play (threats,
@@ -282,30 +292,6 @@ boolean quodlibet_end_solve(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",found_solution_op1 || found_solution_op2);
   return found_solution_op1 || found_solution_op2;
-}
-
-/* Solve at root level at the end of a quodlibet slice
- * @param restartenabled true iff option movenum is activated
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean quodlibet_root_end_solve(boolean restartenabled, slice_index si)
-{
-  boolean solution_found_op1 = false;
-  boolean solution_found_op2 = false;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  /* avoid short-cut boolean evaluation */
-  solution_found_op1 = slice_root_solve(restartenabled,op1);
-  solution_found_op2 = slice_root_solve(restartenabled,op2);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found_op1 || solution_found_op2);
-  return solution_found_op1 || solution_found_op2;
 }
 
 /* Detect starter field with the starting side if possible. 
