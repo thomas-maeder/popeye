@@ -113,9 +113,9 @@ void d_sequence_root_end_write_key_solve_postkey(slice_index si,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_sequence_root_end_solve(boolean restartenabled, slice_index si)
+boolean sequence_root_end_solve(boolean restartenabled, slice_index si)
 {
-  return h_slice_root_solve(restartenabled,slices[si].u.composite.op1);
+  return slice_root_solve(restartenabled,slices[si].u.composite.op1);
 }
 
 /* Continue solving at the end of a sequence slice
@@ -125,26 +125,6 @@ boolean h_sequence_root_end_solve(boolean restartenabled, slice_index si)
 boolean sequence_end_solve(slice_index si)
 {
   return slice_solve(slices[si].u.composite.op1);
-}
-
-/* Solve series play at root level at the end of a sequence slice
- * @param restartenabled true iff option movenum is activated
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean ser_sequence_root_end_solve(boolean restartenabled, slice_index si)
-{
-  boolean solution_found = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  solution_found = ser_slice_root_solve(restartenabled,
-                                        slices[si].u.composite.op1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found);
-  return solution_found;
 }
 
 /* Determine whether the attacking side wins at the end of a sequence slice

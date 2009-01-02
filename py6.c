@@ -2410,7 +2410,7 @@ static void SolveSeriesProblems(void)
       }
     }
     else
-      ser_slice_root_solve(OptFlag[movenbr],0);
+      slice_root_solve(OptFlag[movenbr],0);
   } /* echecs(advers(camp)) */
 
   TraceFunctionExit(__func__);
@@ -2442,7 +2442,7 @@ static boolean SolveHelpInN(boolean looking_for_short_solutions,
      * solutions */
     boolean const restartenabled = (OptFlag[movenbr]
                                     && !looking_for_short_solutions);
-    result = h_composite_root_solve(restartenabled,0,len);
+    result = composite_root_solve(restartenabled,0,len);
   }
 
   TraceFunctionExit(__func__);

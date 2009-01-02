@@ -645,42 +645,6 @@ void d_slice_root_write_key_solve_postkey(slice_index si, attack_type type)
   }
 }
 
-/* Solve a slice at root level
- * @param restartenabled true iff option movenum is activated
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean h_slice_root_solve(boolean restartenabled, slice_index si)
-{
-  boolean solution_found = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  switch (slices[si].type)
-  {
-    case STLeaf:
-      solution_found = leaf_solve(si);
-      break;
-
-    case STQuodlibet:
-    case STSequence:
-    case STReciprocal:
-      solution_found = h_composite_root_solve(restartenabled,
-                                              si,
-                                              slices[si].u.composite.length);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found);
-  return solution_found;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -719,7 +683,7 @@ boolean slice_solve(slice_index si)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean ser_slice_root_solve(boolean restartenabled, slice_index si)
+boolean slice_root_solve(boolean restartenabled, slice_index si)
 {
   boolean solution_found = false;
 
@@ -735,10 +699,11 @@ boolean ser_slice_root_solve(boolean restartenabled, slice_index si)
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      solution_found = ser_composite_root_solve(restartenabled,
-                                                si,
-                                                slices[si].u.composite.length);
+    {
+      stip_length_type const n = slices[si].u.composite.length;
+      solution_found = composite_root_solve(restartenabled,si,n);
       break;
+    }
 
     default:
       assert(0);

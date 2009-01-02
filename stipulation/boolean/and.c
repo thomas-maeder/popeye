@@ -258,10 +258,11 @@ boolean d_reci_end_is_threat_refuted(slice_index si)
 }
 
 /* Solve at root level at the end of a reciprocal slice
+ * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_reci_root_end_solve(slice_index si)
+boolean reci_root_end_solve(boolean restartenabled, slice_index si)
 {
   boolean found_solution = false;
   slice_index const op1 = slices[si].u.composite.op1;
@@ -273,8 +274,8 @@ boolean h_reci_root_end_solve(slice_index si)
   TraceValue("%d\n",op2);
 
   found_solution = (slice_is_solvable(op2)
-                    && h_slice_root_solve(false,op1)
-                    && h_slice_root_solve(false,op2));
+                    && slice_root_solve(restartenabled,op1)
+                    && slice_root_solve(restartenabled,op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",found_solution);
@@ -303,29 +304,6 @@ boolean reci_end_solve(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",found_solution);
   return found_solution;
-}
-
-/* Solve series play at root level at the end of a reciprocal slice
- * @param restartenabled true iff option movenum is activated
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean ser_reci_root_end_solve(boolean restartenabled, slice_index si)
-{
-  boolean solution_found = false;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  solution_found = (slice_is_solvable(op2)
-                    && ser_slice_root_solve(restartenabled,op1)
-                    && ser_slice_root_solve(restartenabled,op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found);
-  return solution_found;
 }
 
 /* Detect starter field with the starting side if possible. 

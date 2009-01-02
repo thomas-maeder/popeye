@@ -252,13 +252,6 @@ typedef enum
 void d_slice_root_write_key_solve_postkey(slice_index si,
                                           attack_type type);
 
-/* Solve a slice at root level
- * @param restartenabled true iff option movenum is activated
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean h_slice_root_solve(boolean restartenabled, slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -270,7 +263,7 @@ boolean slice_solve(slice_index si);
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean ser_slice_root_solve(boolean restartenabled, slice_index si);
+boolean slice_root_solve(boolean restartenabled, slice_index si);
 
 /* Determine whether the attacking side wins
  * @param si slice identifier

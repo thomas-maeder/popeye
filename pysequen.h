@@ -65,20 +65,13 @@ void d_sequence_root_end_write_key_solve_postkey(slice_index si,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_sequence_root_end_solve(boolean restartenabled, slice_index si);
+boolean sequence_root_end_solve(boolean restartenabled, slice_index si);
 
 /* Continue solving at the end of a sequence slice
  * @param si slice index
  * @return true iff >=1 solution was found
  */
 boolean sequence_end_solve(slice_index si);
-
-/* Solve series play at root level at the end of a sequence slice
- * @param restartenabled true iff option movenum is activated
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean ser_sequence_root_end_solve(boolean restartenabled, slice_index si);
 
 /* Find and write variations starting at end of sequence slice
  * @param si slice index
