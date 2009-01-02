@@ -263,7 +263,7 @@ boolean h_slice_root_solve(boolean restartenabled, slice_index si);
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_slice_solve(slice_index si);
+boolean slice_solve(slice_index si);
 
 /* Solve a slice at root level
  * @param restartenabled true iff option movenum is activated
@@ -271,12 +271,6 @@ boolean h_slice_solve(slice_index si);
  * @return true iff >=1 solution was found
  */
 boolean ser_slice_root_solve(boolean restartenabled, slice_index si);
-
-/* Solve a slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean ser_slice_solve(slice_index si);
 
 /* Determine whether the attacking side wins
  * @param si slice identifier

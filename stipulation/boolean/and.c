@@ -285,7 +285,7 @@ boolean h_reci_root_end_solve(slice_index si)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_reci_end_solve(slice_index si)
+boolean reci_end_solve(slice_index si)
 {
   boolean found_solution = false;
   slice_index const op1 = slices[si].u.composite.op1;
@@ -297,8 +297,8 @@ boolean h_reci_end_solve(slice_index si)
   TraceValue("%d\n",op2);
 
   found_solution = (slice_is_solvable(op2)
-                    && h_slice_solve(op1)
-                    && h_slice_solve(op2));
+                    && slice_solve(op1)
+                    && slice_solve(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",found_solution);
@@ -322,28 +322,6 @@ boolean ser_reci_root_end_solve(boolean restartenabled, slice_index si)
   solution_found = (slice_is_solvable(op2)
                     && ser_slice_root_solve(restartenabled,op1)
                     && ser_slice_root_solve(restartenabled,op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found);
-  return solution_found;
-}
-
-/* Continue solving series play at the end of a reciprocal slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean ser_reci_end_solve(slice_index si)
-{
-  boolean solution_found = false;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  solution_found = (slice_is_solvable(op2)
-                    && ser_slice_solve(op1)
-                    && ser_slice_solve(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",solution_found);

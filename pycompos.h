@@ -112,16 +112,6 @@ boolean ser_composite_root_solve(boolean restartenabled,
                                  slice_index si,
                                  stip_length_type n);
 
-/* Solve a composite clide with series play
- * @param si slice index
- * @param n number of moves until the slice's goal has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
- * @return true iff >= 1 solution was found
- */
-boolean ser_composite_solve(slice_index si,
-                            stip_length_type n);
-
 /* Determine and write the solution(s) in a help stipulation at root level.
  * @param restartenabled true iff option movenum is activated
  * @param si identifies slice being solved
@@ -134,14 +124,10 @@ boolean h_composite_root_solve(boolean restartenabled,
                                slice_index si,
                                stip_length_type n);
 
-/* Determine and write the solutions in the current position in help
- * play.
+/* Determine and write the solutions in the current position.
  * @param si slice index
- * @param n number of moves until the slice's goal has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean h_composite_solve(slice_index si, stip_length_type n);
+boolean composite_solve(slice_index si);
 
 #endif

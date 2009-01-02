@@ -533,7 +533,7 @@ static boolean h_composite_root_end_solve(boolean restartenabled,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-static boolean h_composite_end_solve(slice_index si)
+static boolean composite_end_solve(slice_index si)
 {
   boolean result = false;
   TraceFunctionEntry(__func__);
@@ -543,15 +543,15 @@ static boolean h_composite_end_solve(slice_index si)
   switch (slices[si].type)
   {
     case STQuodlibet:
-      result = h_quodlibet_end_solve(si);
+      result = quodlibet_end_solve(si);
       break;
 
     case STReciprocal:
-      result = h_reci_end_solve(si);
+      result = reci_end_solve(si);
       break;
 
     case STSequence:
-      result = h_sequence_end_solve(si);
+      result = sequence_end_solve(si);
       break;
 
     default:
@@ -714,7 +714,7 @@ static boolean h_composite_solve_recursive_nohash(Side side_at_move,
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    found_solution = h_composite_end_solve(si);
+    found_solution = composite_end_solve(si);
   else
   {
     Side next_side = advers(side_at_move);
@@ -879,19 +879,18 @@ boolean h_composite_root_solve(boolean restartenabled,
 
 /* Determine and write the solution(s) in a help stipulation.
  * @param si identifies slice being solved
- * @param n number of moves until the slice's goal has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean h_composite_solve(slice_index si, stip_length_type n)
+static boolean h_composite_solve(slice_index si)
 {
   boolean result;
+  unsigned int const n = slices[si].u.composite.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",restartenabled);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",n);
+  TraceFunctionParam("%d\n",si);
+
+  TraceValue("%d\n",n);
 
   if (n==slices[si].u.composite.length)
     result = h_composite_solve_recursive_nohash(slices[si].starter,n,si);
@@ -944,45 +943,6 @@ static boolean ser_composite_root_end_solve(boolean restartenabled,
 }
 
 /* Solve a composite slice with series play
- * We are at the end of a slice and delegate to the child slice(s).
- * @param si slice index
- * @param n number of moves until the slice's goal has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
- * @return true iff >= 1 solution was found
- */
-static boolean ser_composite_end_solve(slice_index si)
-{
-  boolean solution_found = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  switch (slices[si].type)
-  {
-    case STSequence:
-      solution_found = ser_sequence_end_solve(si);
-      break;
-
-    case STQuodlibet:
-      solution_found = ser_quodlibet_end_solve(si);
-      break;
-
-    case STReciprocal:
-      solution_found = ser_reci_end_solve(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found);
-  return solution_found;
-}
-
-/* Solve a composite slice with series play
  * @param n exact number of moves to reach the end state
  * @param si slice index
  * @return true iff >= 1 solution was found
@@ -996,7 +956,7 @@ static boolean ser_composite_exact_solve_recursive(stip_length_type n,
   TraceFunctionParam("%d\n",si);
 
   if (n==slack_length_series)
-    solution_found = ser_composite_end_solve(si);
+    solution_found = composite_end_solve(si);
   else
   {
     Side const series_side = slices[si].starter;
@@ -1176,7 +1136,7 @@ static boolean ser_composite_maximal_solve(stip_length_type n,
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  solution_found = ser_composite_end_solve(si);
+  solution_found = composite_end_solve(si);
 
   if (n>slack_length_series)
   {
@@ -1317,18 +1277,17 @@ boolean ser_composite_root_solve(boolean restartenabled,
 
 /* Solve a composite slice with series play
  * @param si slice index
- * @param n number of moves until the slice's goal has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean ser_composite_solve(slice_index si, stip_length_type n)
+static boolean ser_composite_solve(slice_index si)
 {
   boolean result = false;
+  unsigned int const n = slices[si].u.composite.length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
-  TraceFunctionParam("%d\n",n);
+  TraceFunctionParam("%d\n",si);
+
+  TraceValue("%d\n",n);
 
   if (slices[si].u.composite.is_exact)
     result = ser_composite_exact_solve(si,n);
@@ -1353,6 +1312,41 @@ boolean ser_composite_solve(slice_index si, stip_length_type n)
     if (!FlagShortSolsReached
         && ser_composite_exact_solve(si,n))
       result = true;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Determine and write the solutions in the current position.
+ * @param si slice index
+ * @return true iff >= 1 solution was found
+ */
+boolean composite_solve(slice_index si)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",si);
+
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      /* TODO */
+      break;
+
+    case PHelp:
+      result = h_composite_solve(si);
+      break;
+
+    case PSeries:
+      result = ser_composite_solve(si);
+      break;
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);

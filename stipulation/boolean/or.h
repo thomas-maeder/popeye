@@ -117,7 +117,7 @@ boolean h_quodlibet_root_end_solve(slice_index si);
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_quodlibet_end_solve(slice_index si);
+boolean quodlibet_end_solve(slice_index si);
 
 /* Solve series play at root level at the end of a quodlibet slice
  * @param restartenabled true iff option movenum is activated
@@ -125,12 +125,6 @@ boolean h_quodlibet_end_solve(slice_index si);
  * @return true iff >=1 solution was found
  */
 boolean ser_quodlibet_root_end_solve(boolean restartenabled, slice_index si);
-
-/* Continue solving series play at the end of a quodlibet slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean ser_quodlibet_end_solve(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

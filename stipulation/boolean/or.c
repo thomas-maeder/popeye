@@ -288,7 +288,7 @@ boolean h_quodlibet_root_end_solve(slice_index si)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean h_quodlibet_end_solve(slice_index si)
+boolean quodlibet_end_solve(slice_index si)
 {
   boolean found_solution_op1 = false;
   boolean found_solution_op2 = false;
@@ -301,8 +301,8 @@ boolean h_quodlibet_end_solve(slice_index si)
   TraceValue("%d\n",op2);
 
   /* avoid short-cut boolean evaluation */
-  found_solution_op1 = h_slice_solve(op1);
-  found_solution_op2 = h_slice_solve(op2);
+  found_solution_op1 = slice_solve(op1);
+  found_solution_op2 = slice_solve(op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",found_solution_op1 || found_solution_op2);
@@ -327,29 +327,6 @@ boolean ser_quodlibet_root_end_solve(boolean restartenabled, slice_index si)
   /* avoid short-cut boolean evaluation */
   solution_found_op1 = ser_slice_root_solve(restartenabled,op1);
   solution_found_op2 = ser_slice_root_solve(restartenabled,op2);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found_op1 || solution_found_op2);
-  return solution_found_op1 || solution_found_op2;
-}
-
-/* Continue solving series play at the end of a quodlibet slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean ser_quodlibet_end_solve(slice_index si)
-{
-  boolean solution_found_op1 = false;
-  boolean solution_found_op2 = false;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-
-  /* avoid short-cut boolean evaluation */
-  solution_found_op1 = ser_slice_solve(op1);
-  solution_found_op2 = ser_slice_solve(op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",solution_found_op1 || solution_found_op2);
