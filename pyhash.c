@@ -361,7 +361,6 @@ static void init_slice_properties_leaf(slice_index leaf,
     case EDirect:
     case ESelf:
     case EReflex:
-    case ESemireflex:
       init_slice_properties_direct(leaf,1,nr_bits_left);
       break;
 
@@ -686,7 +685,6 @@ static hash_value_type own_value_of_data_leaf(dhtElement const *he,
     case EDirect:
     case ESelf:
     case EReflex:
-    case ESemireflex:
       return own_value_of_data_direct(he,leaf,1);
 
     default:
@@ -1519,7 +1517,6 @@ static void init_element_leaf(dhtElement *he, slice_index leaf)
     case EDirect:
     case ESelf:
     case EReflex:
-    case ESemireflex:
       init_element_direct(he,leaf,1);
       break;
 

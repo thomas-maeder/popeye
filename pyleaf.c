@@ -975,7 +975,6 @@ boolean leaf_is_unsolvable(slice_index leaf)
     }
 
     case ESelf:
-    case ESemireflex:
     case EHelp:
     {
       Side const final = advers(slices[leaf].starter);
@@ -1232,16 +1231,10 @@ static hashwhat leaf_d_hash_lookup(slice_index leaf, HashBuffer *hb)
   if (inhash(leaf,DirNoSucc,1,hb))
   {
     assert(!inhash(leaf,DirSucc,0,hb));
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%d\n",false);
     return DirNoSucc;
   }
   else if (inhash(leaf,DirSucc,0,hb))
-  {
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%d\n",true);
     return DirSucc;
-  }
   else
     return nr_hashwhat;
 }
@@ -1331,53 +1324,72 @@ static boolean d_leaf_d_does_attacker_win(slice_index leaf)
   return result==DirSucc;
 }
 
-/* Determine whether the attacker wins in a semireflex leaf slice
+/* Determine whether the attacker wins in a help (semireflex) leaf
+ * slice
  * @param leaf slice index of leaf slice
  * @return true iff attacker wins
  */
-static boolean d_leaf_semir_does_attacker_win(slice_index leaf)
+static boolean d_leaf_h_does_attacker_win(slice_index leaf)
 {
-  hashwhat result;
-  HashBuffer hb;
-  Side const attacker = slices[leaf].starter;
-  Side const defender = advers(attacker);
+  boolean result = false;
+  Side const side_at_move = slices[leaf].starter;
+  Side const other_side = advers(side_at_move);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",leaf);
 
-  (*encode)(&hb);
-  result = leaf_d_hash_lookup(leaf,&hb);
+  genmove(side_at_move);
 
-  if (result==nr_hashwhat)
+  if (side_at_move==White)
+    WhMovesLeft--;
+  else
+    BlMovesLeft--;
+
+  while (!result && encore())
   {
-    genmove(attacker);
-
-    while (result!=DirSucc
-           && encore())
+    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+        && (!isIntelligentModeActive || isGoalReachable())
+        && !echecc(nbply,side_at_move)
+        && !(OptFlag[keepmating] && !is_a_mating_piece_left(other_side)))
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
-          && !echecc(nbply,attacker)
-          && !(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-          && leaf_is_end_in_1_possible(defender,leaf))
+      if (compression_counter==0)
       {
-        result = DirSucc;
+        HashBuffer hb;
+        (*encode)(&hb);
+        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+        {
+          if (leaf_is_end_in_1_possible(other_side,leaf))
+          {
+            result = true;
+            coupfort();
+          }
+          else
+            addtohash(leaf,HelpNoSuccOdd,1,&hb);
+        }
+      }
+      else if (leaf_is_end_in_1_possible(other_side,leaf))
+      {
+        result = true;
         coupfort();
       }
-
-      repcoup();
-
-      if (maxtime_status==MAXTIME_TIMEOUT)
-        break;
     }
 
-    finply();
+    repcoup();
 
-    leaf_d_hash_update(leaf,&hb,result);
+    if (maxtime_status==MAXTIME_TIMEOUT)
+      break;
   }
 
+  if (side_at_move==White)
+    WhMovesLeft++;
+  else
+    BlMovesLeft++;
+
+  finply();
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result==DirSucc);
-  return result==DirSucc;
+  TraceFunctionResult("%d\n",result);
+  return result;
 }
 
 /* Determine whether the attacker wins in a self/reflex leaf slice
@@ -1463,7 +1475,7 @@ boolean leaf_is_solvable(slice_index leaf)
           || (OptFlag[keepmating] && !is_a_mating_piece_left(defender)))
         ; /* intentionally nothing */
       else
-        result = d_leaf_semir_does_attacker_win(leaf);
+        result = d_leaf_h_does_attacker_win(leaf);
       break;
     }
 
@@ -1474,16 +1486,6 @@ boolean leaf_is_solvable(slice_index leaf)
         ; /* intentionally nothing */
       else
         result = d_leaf_s_does_attacker_win(leaf);
-      break;
-    }
-
-    case ESemireflex:
-    {
-      Side const defender = advers(slices[leaf].starter);
-      if (OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-        ; /* intentionally nothing */
-      else
-        result = d_leaf_semir_does_attacker_win(leaf);
       break;
     }
 
@@ -1531,7 +1533,7 @@ boolean d_leaf_has_defender_lost(slice_index leaf)
 
     case ESelf:
     case EReflex:
-    case ESemireflex:
+    case EHelp:
       result = leaf_is_goal_reached(defender,leaf);
       break;
 
@@ -1566,7 +1568,7 @@ boolean d_leaf_is_solved(slice_index leaf)
       return leaf_is_end_in_1_forced(leaf);
 
     case EReflex:
-    case ESemireflex:
+    case EHelp:
     {
       Side const defender = advers(attacker);
       return (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
@@ -1690,17 +1692,12 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove())
+    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+        && !(isIntelligentModeActive && !isGoalReachable())
+        && leaf_is_goal_reached(side_at_move,leaf))
     {
-      if (isIntelligentModeActive && !isGoalReachable())
-        TraceText("isIntelligentModeActive && !isGoalReachable()\n");
-      else if (!leaf_is_goal_reached(side_at_move,leaf))
-        TraceText("!leaf_is_goal_reached(side_at_move,leaf)\n");
-      else
-      {
-        final_move_found = true;
-        write_defense(slices[leaf].u.leaf.goal);
-      }
+      final_move_found = true;
+      write_final_help_move(slices[leaf].u.leaf.goal);
     }
 
     repcoup();
@@ -1718,6 +1715,43 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
   return final_move_found;
 }
 #endif
+
+/* Determine and find final moves of a self leaf
+ * @param side_at_move side to perform the final move
+ * @param leaf slice index
+ * @return true iff >= 1 solution was found
+ */
+static boolean leaf_s_solve_final_move(slice_index leaf)
+{
+  boolean final_move_found = false;
+  Side const side_at_move = advers(slices[leaf].starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
+  TraceValue("%d\n",side_at_move);
+
+  generate_move_reaching_goal(leaf,side_at_move);
+  active_slice[nbply] = leaf;
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+        && leaf_is_goal_reached(side_at_move,leaf))
+    {
+      final_move_found = true;
+      write_final_defense(slices[leaf].u.leaf.goal);
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",final_move_found);
+  return final_move_found;
+}
 
 /* Determine and write solutions in a self stipulation in 1 move
  * @param leaf slice index of the leaf slice
@@ -1746,49 +1780,7 @@ static boolean leaf_s_solve(slice_index leaf)
 
       write_attack(no_goal,attack_key);
       output_start_postkey_level();
-      leaf_h_solve_final_move(leaf);
-      output_end_postkey_level();
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
-  return found_solution;
-}
-
-/* Determine and write the final move pair in a semireflex
- * leaf.
- * @param leaf slice index
- * @return true iff >=1 move pair was found
- */
-static boolean leaf_semir_solve(slice_index leaf)
-{
-  boolean found_solution = false;
-  Side const attacker = slices[leaf].starter;
-  Side const defender = advers(attacker);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  genmove(attacker);
-  active_slice[nbply] = leaf;
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
-        && !echecc(nbply,attacker)
-        && !(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-        && leaf_is_end_in_1_possible(defender,leaf))
-    {
-      found_solution = true;
-
-      write_attack(no_goal,attack_key);
-      output_start_postkey_level();
-      leaf_h_solve_final_move(leaf);
+      leaf_s_solve_final_move(leaf);
       output_end_postkey_level();
     }
 
@@ -1823,7 +1815,7 @@ static boolean leaf_h_cmate_solve_final_move(slice_index leaf)
           && leaf_is_goal_reached(other_side,leaf))
       {
         found_solution = true;
-        write_defense(goal_countermate);
+        write_final_help_move(goal_countermate);
       }
       repcoup();
     }
@@ -1895,7 +1887,7 @@ static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
           && leaf_is_goal_reached(final_side,leaf))
       {
         found_solution = true;
-        write_defense(goal_doublemate);
+        write_final_help_move(goal_doublemate);
       }
 
       repcoup();
@@ -2061,7 +2053,7 @@ static boolean leaf_r_solve(slice_index leaf)
 
   if (((OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
        || !leaf_is_end_in_1_possible(attacker,leaf)))
-    result = leaf_semir_solve(leaf);
+    result = leaf_h_solve(leaf);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);
@@ -2087,7 +2079,7 @@ void d_leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
 
     case ESelf:
     case EReflex:
-    case ESemireflex:
+    case EHelp:
       write_attack(no_goal,type);
 
       output_start_leaf_variation_level();
@@ -2123,7 +2115,7 @@ boolean d_leaf_has_attacker_lost(slice_index leaf)
 
     case ESelf:
     case EReflex:
-    case ESemireflex:
+    case EHelp:
       return (OptFlag[keepmating]
               && !is_a_mating_piece_left(slices[leaf].starter));
 
@@ -2153,7 +2145,7 @@ boolean d_leaf_has_attacker_won(slice_index leaf)
       return false;
 
     case EReflex:
-    case ESemireflex:
+    case EHelp:
     {
       Side const defender = advers(slices[leaf].starter);
       return (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
@@ -2192,9 +2184,9 @@ boolean d_leaf_does_attacker_win(slice_index leaf)
       result = d_leaf_s_does_attacker_win(leaf);
       break;
 
-    case ESemireflex:
+    case EHelp:
     case EReflex:
-      result = d_leaf_semir_does_attacker_win(leaf);
+      result = d_leaf_h_does_attacker_win(leaf);
       break;
 
     default:
@@ -2224,7 +2216,7 @@ static boolean d_leaf_root_sr_solve_setplay(slice_index leaf)
         && leaf_is_goal_reached(defender,leaf))
     {
       result = true;
-      write_defense(slices[leaf].u.leaf.goal);
+      write_final_defense(slices[leaf].u.leaf.goal);
       if (OptFlag[maxsols]) 
         solutions++;
       if (OptFlag[beep])
@@ -2262,7 +2254,7 @@ void d_leaf_root_solve_setplay(slice_index leaf)
 
         case ESelf:
         case EReflex:
-        case ESemireflex:
+        case EHelp:
           d_leaf_root_sr_solve_setplay(leaf);
           break;
 
@@ -2304,7 +2296,7 @@ boolean d_leaf_root_solve_complete_set(slice_index leaf)
     }
 
     case EReflex:
-    case ESemireflex:
+    case EHelp:
     {
       Side const defender = advers(slices[leaf].starter);
       if (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender)))
@@ -2337,7 +2329,7 @@ void d_leaf_solve_variations(slice_index leaf)
 
     case ESelf:
     case EReflex:
-    case ESemireflex:
+    case EHelp:
       output_start_leaf_variation_level();
       leaf_h_solve_final_move(leaf);
       output_end_leaf_variation_level();
@@ -2408,7 +2400,7 @@ static void d_leaf_s_solve_continuations(int solutions, slice_index leaf)
     {
       write_attack(no_goal,attack_regular);
       output_start_postkey_level();
-      leaf_h_solve_final_move(leaf);
+      leaf_s_solve_final_move(leaf);
       output_end_postkey_level();
       pushtabsol(solutions);
     }
@@ -2484,7 +2476,7 @@ void d_leaf_solve_continuations(int solutions, slice_index leaf)
       break;
     
     case EReflex:
-    case ESemireflex:
+    case EHelp:
       d_leaf_r_solve_continuations(solutions,leaf);
       break;
     
@@ -2531,7 +2523,6 @@ boolean h_leaf_root_solve_setplay(slice_index leaf)
     }
 
     case EHelp:
-    case ESemireflex:
       result = leaf_h_solve_final_move(leaf);
       break;
 
@@ -2577,10 +2568,6 @@ boolean leaf_solve(slice_index leaf)
       result = leaf_r_solve(leaf);
       break;
 
-    case ESemireflex:
-      result = leaf_semir_solve(leaf);
-      break;
-
     default:
       TraceValue("(unexpected value):%d\n",slices[leaf].u.leaf.end);
       assert(0);
@@ -2598,34 +2585,33 @@ boolean leaf_solve(slice_index leaf)
  */
 void leaf_detect_starter(slice_index leaf, boolean is_duplex)
 {
-  slices[leaf].starter = no_side;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",leaf);
+
   TraceFunctionParam("%d\n",is_duplex);
 
-  switch (slices[leaf].u.leaf.end)
-  {
-    case EDirect:
-      /* normally White, but Black in reci-h# */
-      break;
+  if (slices[leaf].starter==no_side)
+    switch (slices[leaf].u.leaf.end)
+    {
+      case EDirect:
+        /* normally White, but Black in reci-h */
+        break;
 
-    case ESelf:
-    case EReflex:
-    case ESemireflex:
-      slices[leaf].starter = is_duplex ? Black : White;
-      break;
+      case ESelf:
+      case EReflex:
+        slices[leaf].starter = is_duplex ? Black : White;
+        break;
           
-    case EHelp:
-      slices[leaf].starter = is_duplex ? White : Black;
-      break;
+      case EHelp:
+        slices[leaf].starter = is_duplex ? White : Black;
+        break;
 
-    default:
-      assert(0);
-      break;
-  }
+      default:
+        assert(0);
+        break;
+    }
 
-  TraceValue("%d\n",slices[leaf].starter);
+  TraceValue("%u\n",slices[leaf].starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
 }

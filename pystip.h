@@ -18,8 +18,7 @@ typedef enum
   EDirect,       /* goal in 1 */
   EHelp,         /* help-goal in 1 */
   ESelf,         /* self-goal in 1 */
-  EReflex,       /* reflex-goal in 1 */
-  ESemireflex    /* semireflex-goal in 1 */
+  EReflex        /* reflex-goal in 1 */
 } End;
 
 typedef enum

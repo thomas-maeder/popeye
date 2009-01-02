@@ -92,11 +92,19 @@ void init_output_mode(output_mode initial_mode);
  */
 void write_attack(Goal goal, attack_type type);
 
-/* Write a defender's move
- * @param goal goal reached by the move (no_goal if no goal has been
- *             reached by the move)
+/* Write a defender's move that does not reach a goal
  */
-void write_defense(Goal goal);
+void write_defense(void);
+
+/* Write a defender's final move
+ * @param goal goal reached by the move (!=no_goal)
+ */
+void write_final_defense(Goal goal);
+
+/* Write the final move in a help leaf
+ * @param goal goal reached by the move (!=no_goal)
+ */
+void write_final_help_move(Goal goal);
 
 /* Mark the defense about to be written as refutation
  */

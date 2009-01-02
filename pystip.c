@@ -29,6 +29,7 @@ slice_index alloc_composite_slice(SliceType type, Play play)
   TraceFunctionParam("%d\n",play);
 
   slices[result].type = type; 
+  slices[result].starter = no_side; 
   slices[result].u.composite.play = play;
   slices[result].u.composite.length = 0;
   slices[result].u.composite.is_exact = false;
@@ -52,6 +53,7 @@ slice_index alloc_target_leaf_slice(End end, square s)
   TraceText("\n");
 
   slices[result].type = STLeaf; 
+  slices[result].starter = no_side; 
   slices[result].u.leaf.end = end;
   slices[result].u.leaf.goal = goal_target;
   slices[result].u.leaf.target = s;
@@ -74,6 +76,7 @@ slice_index alloc_leaf_slice(End end, Goal goal)
   TraceFunctionParam("%d\n",goal);
 
   slices[result].type = STLeaf; 
+  slices[result].starter = no_side; 
   slices[result].u.leaf.end = end;
   slices[result].u.leaf.goal = goal;
   slices[result].u.leaf.target = initsquare;
@@ -121,7 +124,7 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
     case STLeaf:
       if (slices[index].u.leaf.end==ESelf
           || slices[index].u.leaf.end==EReflex
-          || slices[index].u.leaf.end==ESemireflex)
+          || slices[index].u.leaf.end==EHelp)
       {
         /* Insert a new quodlibet node at *hook's current position.
          * Move *hook to positon op2 of the new quodlibet node, and

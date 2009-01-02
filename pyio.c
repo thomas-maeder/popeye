@@ -1245,8 +1245,11 @@ static char *ParseEnd(char *tok, slice_index si_parent)
 #endif
 
   else if (strncmp("semi-r", tok, 6) == 0)
-    tok = ParseGoal(tok+6,ESemireflex,&slices[si_parent].u.composite.op1);
-
+  {
+    tok = ParseGoal(tok+6,EHelp,&slices[si_parent].u.composite.op1);
+    /* the end of a sermi-r problem is hX1 with reversed coulours. */
+    slices[slices[si_parent].u.composite.op1].starter = White;
+  }
   else if (strncmp("reci-h", tok, 6) == 0)
     tok = ParseReciGoal(tok+6,
                          EHelp,&slices[si_parent].u.composite.op1,

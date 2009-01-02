@@ -535,7 +535,7 @@ static boolean verifieposition(void)
         && max_nr_refutations>0
         && !(slices[1].u.leaf.end==ESelf
              || slices[1].u.leaf.end==EReflex
-             || slices[1].u.leaf.end==ESemireflex))
+             || slices[1].u.leaf.end==EHelp))
     {
       ErrorMsg(TryInLessTwo);
       max_nr_refutations = 0;

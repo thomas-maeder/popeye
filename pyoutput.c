@@ -8,8 +8,6 @@
 
 static output_mode current_mode = output_mode_none;
 
-static unsigned int margin;
-
 extern boolean SatzFlag;
 
 slice_index active_slice[maxply];
@@ -29,19 +27,6 @@ void init_output_mode(output_mode initial_mode)
 
   TraceFunctionExit(__func__);
   TraceText("\n");
-}
-
-/* Write the appropriate amount of whitespace for the following output
- * to be correctely indented.
- */
-void write_indentation() {
-  /* sprintf() would print 1 blank if mage is ==0! */
-  assert(margin>=4);
-  if (margin-4>0)
-  {
-    sprintf(GlobalStr,"%*c",margin-4,blank);
-    StdString(GlobalStr);
-  }
 }
 
 typedef enum
@@ -102,7 +87,6 @@ void output_start_setplay_level(void)
 
   if (current_mode==output_mode_tree)
   {
-    margin += 4;
     move_depth++;
     nr_continuations_written[move_depth+1] = 1; /* prevent initial newline */
     nr_defenses_written[move_depth] = 0;
@@ -122,10 +106,7 @@ void output_end_setplay_level(void)
   TraceText("\n");
 
   if (current_mode==output_mode_tree)
-  {
     move_depth--;
-    margin -= 4;
-  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -141,7 +122,6 @@ void output_start_postkey_level(void)
 
   if (current_mode==output_mode_tree)
   {
-    margin += 4;
     nr_defenses_written[move_depth] = 0;
     nr_continuations_written[move_depth+1] = 0;
   }
@@ -157,14 +137,10 @@ void output_end_postkey_level(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  if (current_mode==output_mode_tree)
-  {
-    if (nr_defenses_written[move_depth]==0
-        && nr_continuations_written[move_depth+1]==0)
-      Message(NewLine);
-
-    margin -= 4;
-  }
+  if (current_mode==output_mode_tree
+      && nr_defenses_written[move_depth]==0
+      && nr_continuations_written[move_depth+1]==0)
+    Message(NewLine);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -180,8 +156,6 @@ void output_start_threat_level(void)
 
   if (current_mode==output_mode_tree)
   {
-    margin += 4;
-
     move_depth++;
     nr_continuations_written[move_depth] = 0;
     nr_defenses_written[move_depth] = 0;
@@ -221,7 +195,6 @@ void output_end_threat_level(void)
     output_attack_types[nbply+1] = unknown_attack;
 
     move_depth--;
-    margin -= 4;
   }
 
   TraceFunctionExit(__func__);
@@ -238,8 +211,6 @@ void output_start_continuation_level(void)
 
   if (current_mode==output_mode_tree)
   {
-    margin += 4;
-
     move_depth++;
 
     nr_continuations_written[move_depth] = 0;
@@ -272,7 +243,6 @@ void output_end_continuation_level(void)
       write_refutation_mark();
 
     move_depth--;
-    margin -= 4;
 
     TraceValue("%u",nbply);
     TraceValue("%u\n",output_attack_types[nbply+1]);
@@ -295,10 +265,7 @@ void output_start_leaf_variation_level(void)
   TraceText("\n");
 
   if (current_mode==output_mode_tree)
-  {
     Message(NewLine);
-    margin += 4;
-  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -310,9 +277,6 @@ void output_end_leaf_variation_level(void)
 {
   TraceFunctionEntry(__func__);
   TraceText("\n");
-
-  if (current_mode==output_mode_tree)
-    margin -= 4;
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -428,7 +392,11 @@ void write_attack(Goal goal, attack_type type)
 
     ++nr_continuations_written[move_depth];
 
-    write_indentation();
+    if (move_depth>1)
+    {
+      sprintf(GlobalStr,"%*c",8*move_depth-8,blank);
+      StdString(GlobalStr);
+    }
     sprintf(GlobalStr,"%3d.",move_depth);
     StdString(GlobalStr);
     ecritcoup(nbply,goal);
@@ -461,13 +429,11 @@ void write_attack(Goal goal, attack_type type)
   }
 }
 
-/* Write a move by the defending side in direct/self/reflex play.
- * @param goal if !=no_goal, the corresponding mark is appended
+/* Write a defender's move that does not reach a goal
  */
-void write_defense(Goal goal)
+void write_defense(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",goal);
 
   if (current_mode==output_mode_tree)
   {
@@ -480,7 +446,41 @@ void write_defense(Goal goal)
 
     ++nr_defenses_written[move_depth];
 
-    write_indentation();
+    sprintf(GlobalStr,"%*c",8*move_depth-4,blank);
+    StdString(GlobalStr);
+    sprintf(GlobalStr,"%3d...",move_depth);
+    StdString(GlobalStr);
+    ecritcoup(nbply,no_goal);
+    Message(NewLine);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Write a defender's final move
+ * @param goal goal reached by the move (!=no_goal)
+ */
+void write_final_defense(Goal goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",goal);
+
+  assert(goal!=no_goal);
+
+  if (current_mode==output_mode_tree)
+  {
+    TraceValue("%u",nr_defenses_written[move_depth]);
+    TraceValue("%u\n",nr_continuations_written[move_depth+1]);
+
+    if (nr_defenses_written[move_depth]==0
+        && nr_continuations_written[move_depth+1]==0)
+      Message(NewLine);
+
+    ++nr_defenses_written[move_depth];
+
+    sprintf(GlobalStr,"%*c",8*move_depth-4,blank);
+    StdString(GlobalStr);
     sprintf(GlobalStr,"%3d...",move_depth);
     StdString(GlobalStr);
     ecritcoup(nbply,goal);
@@ -493,14 +493,61 @@ void write_defense(Goal goal)
   TraceText("\n");
 }
 
+/* Write the final move in a help leaf
+ * @param goal goal reached by the move (!=no_goal)
+ */
+void write_final_help_move(Goal goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",goal);
+
+  assert(goal!=no_goal);
+
+  if (current_mode==output_mode_tree)
+  {
+    if (nbply==3 && nr_defenses_written[1]==0)
+    {
+      /* We only arrive here when solving a (semi-)rX1 problem and have
+       * just found a move pair solving the stipulation. Write the key
+       * move, then the final help move.
+       * We don't write the key move earlier because we have only
+       * found out that it is the key move when we found this final
+       * defense.
+       */
+      int const first_movenumber = 1;
+      ply const first_ply = 2;
+      
+      if (OptFlag[maxsols])
+        solutions++;
+      if (OptFlag[beep])
+        BeepOnSolution(maxbeep);
+
+      ResetPosition();
+      initneutre(advers(trait[first_ply]));
+      jouecoup_no_test(first_ply);
+
+      sprintf(GlobalStr,"%3d.",first_movenumber);
+      StdString(GlobalStr);
+      ecritcoup(first_ply,no_goal);
+      StdString("! ");
+    }
+
+    write_final_defense(goal);
+  }
+  else
+    linesolution();
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
 /* Mark the defense about to be written as refutation
  */
 void write_refutation_mark(void)
 {
-    margin += 2;
-    write_indentation();
+    sprintf(GlobalStr,"%*c",8*move_depth-2,blank);
+    StdString(GlobalStr);
     Message(Refutation);
-    margin -= 2;
 }
 
 /* Write the end of a solution
@@ -526,12 +573,12 @@ void write_refutations(int t)
         && nr_continuations_written[move_depth+1]==0)
       Message(NewLine);
 
-    write_indentation();
+    sprintf(GlobalStr,"%*c",4,blank);
+    StdString(GlobalStr);
     Message(But);
     for (n = tabsol.cp[t]; n>tabsol.cp[t-1]; n--)
     {
-      write_indentation();
-      StdString("  1...");
+      StdString("      1...");
       editcoup(nbply,&tabsol.liste[n],no_goal);
       StdString(" !\n");
 

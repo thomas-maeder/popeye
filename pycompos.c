@@ -1494,7 +1494,7 @@ static void d_composite_write_variation(stip_length_type n, slice_index si)
   TraceFunctionParam("%d",n);
   TraceFunctionParam("%d\n",si);
 
-  write_defense(no_goal);
+  write_defense();
 
   output_start_continuation_level();
   
