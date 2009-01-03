@@ -1547,12 +1547,12 @@ boolean d_leaf_has_defender_lost(slice_index leaf)
   return result;
 }
 
-/* Determine whether a side has just solved a leaf slice in direct play.
- * @param attacker attacking side of predecessor slice, has just moved
+/* Determine whether a leaf slice.has just been solved with the just
+ * played move by the starter 
  * @param leaf slice index
- * @return true iff attacker has just solved leaf
+ * @return true iff the leaf's starter has just solved leaf
  */
-boolean d_leaf_is_solved(slice_index leaf)
+boolean leaf_is_solved(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
 

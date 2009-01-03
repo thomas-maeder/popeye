@@ -34,11 +34,12 @@ boolean leaf_is_unsolvable(slice_index leaf);
  */
 boolean d_leaf_has_defender_lost(slice_index leaf);
 
-/* Determine whether a side has just solved a leaf slice in direct play.
+/* Determine whether a leaf slice.has just been solved with the just
+ * played move by the starter 
  * @param leaf slice index
  * @return true iff the leaf's starter has just solved leaf
  */
-boolean d_leaf_is_solved(slice_index leaf);
+boolean leaf_is_solved(slice_index leaf);
 
 /* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
  * mates).

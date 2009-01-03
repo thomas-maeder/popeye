@@ -960,7 +960,7 @@ boolean d_slice_is_threat_refuted(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = !d_leaf_is_solved(si);
+      result = !leaf_is_solved(si);
       break;
 
     case STQuodlibet:
