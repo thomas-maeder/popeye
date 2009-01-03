@@ -47,10 +47,11 @@ boolean d_leaf_is_solved(slice_index leaf);
  */
 void leaf_write_unsolvability(slice_index leaf);
 
-/* Find and write defender's set play
+/* Find and write set play
  * @param leaf slice index
+ * @return true iff >= 1 set play was found
  */
-void d_leaf_root_solve_setplay(slice_index leaf);
+boolean leaf_root_solve_setplay(slice_index leaf);
 
 /* Find and write defender's set play in direct play if every set move
  * leads to end
@@ -99,12 +100,6 @@ boolean d_leaf_has_attacker_won(slice_index leaf);
  * @return true iff attacker wins
  */
 boolean d_leaf_does_attacker_win(slice_index leaf);
-
-/* Solve the set play in a help stipulation
- * @param leaf slice index
- * @return true iff >= 1 set play was found
- */
-boolean h_leaf_root_solve_setplay(slice_index leaf);
 
 /* Determine and write the solution of a leaf slice.
  * @param leaf identifies leaf slice

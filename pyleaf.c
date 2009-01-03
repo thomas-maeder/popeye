@@ -1678,9 +1678,9 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
   Side const side_at_move = advers(slices[leaf].starter);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
-  TraceValue("%d\n",side_at_move);
+  TraceValue("%u\n",side_at_move);
 
   generate_move_reaching_goal(leaf,side_at_move);
   active_slice[nbply] = leaf;
@@ -2207,12 +2207,17 @@ static boolean d_leaf_root_sr_solve_setplay(slice_index leaf)
   boolean result = false;
   Side const defender = advers(slices[leaf].starter);
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
+
+  TraceValue("%u\n",defender);
+
   generate_move_reaching_goal(leaf,defender);
   active_slice[nbply] = leaf;
 
   while(encore())
   {
-    if (jouecoup(nbply,first_play)
+    if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && leaf_is_goal_reached(defender,leaf))
     {
       result = true;
@@ -2235,39 +2240,42 @@ static boolean d_leaf_root_sr_solve_setplay(slice_index leaf)
   return result;
 }
 
-/* Find and write defender's set play in self/reflex play
+/* Find and write defender's set play
  * @param leaf slice index
  */
-void d_leaf_root_solve_setplay(slice_index leaf)
+boolean leaf_root_solve_setplay(slice_index leaf)
 {
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d\n",leaf);
+
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
 
-  switch (slices[leaf].type)
+  switch (slices[leaf].u.leaf.end)
   {
-    case STLeaf:
-      switch (slices[leaf].u.leaf.end)
-      {
-        case EDirect:
-          /* nothing */
-          break;
+    case EDirect:
+      /* nothing */
+      break;
 
-        case ESelf:
-        case EReflex:
-        case EHelp:
-          d_leaf_root_sr_solve_setplay(leaf);
-          break;
+    case ESelf:
+    case EReflex:
+      result = d_leaf_root_sr_solve_setplay(leaf);
+      break;
 
-        default:
-          assert(0);
-          break;
-      }
+    case EHelp:
+      result = leaf_h_solve_final_move(leaf);
       break;
 
     default:
       assert(0);
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Find and write defender's set play in self/reflex play if every
@@ -2487,53 +2495,6 @@ void d_leaf_solve_continuations(int solutions, slice_index leaf)
 
   TraceFunctionExit(__func__);
   TraceText("\n");
-}
-
-/* Solve the set play in a help stipulation
- * @param leaf slice index
- * @return true iff >=1 set play was found
- */
-boolean h_leaf_root_solve_setplay(slice_index leaf)
-{
-  boolean result = false;
-
-  assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
-
-  switch (slices[leaf].u.leaf.end)
-  {
-    case ESelf:
-    {
-      Side const defender = advers(slices[leaf].starter);
-      result = (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-                && leaf_is_end_in_1_forced(leaf)
-                && leaf_h_solve_final_move(leaf));
-      break;
-    }
-
-    case EReflex:
-    {
-      Side const defender = advers(slices[leaf].starter);
-      result = ((!OptFlag[keepmating] || is_a_mating_piece_left(defender))
-                && leaf_h_solve_final_move(leaf));
-      break;
-    }
-
-    case EHelp:
-      result = leaf_h_solve_final_move(leaf);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
 }
 
 /* Determine and write the solution of a leaf slice

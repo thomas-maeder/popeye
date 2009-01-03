@@ -2376,9 +2376,9 @@ static void SolveSeriesProblems(void)
     {
       /* TODO */
       if (slices[1].u.leaf.end==EHelp)
-        h_leaf_root_solve_setplay(1);
+        leaf_root_solve_setplay(1);
       else
-        d_leaf_root_solve_setplay(1);
+        leaf_root_solve_setplay(1);
     }
     SatzFlag = false;
     Message(NewLine);
@@ -2444,7 +2444,7 @@ static boolean SolveHelpInN(boolean looking_for_short_solutions,
   TraceValue("%d ",slices[0].u.composite.length);
   TraceValue("%d\n",isIntelligentModeActive);
   if (len==1)
-    result = h_leaf_root_solve_setplay(1);
+    result = leaf_root_solve_setplay(1);
   else if (isIntelligentModeActive)
     result = Intelligent(looking_for_short_solutions,len);
   else

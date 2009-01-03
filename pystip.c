@@ -526,7 +526,7 @@ void d_slice_root_solve_setplay(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      d_leaf_root_solve_setplay(si);
+      leaf_root_solve_setplay(si);
       break;
 
     case STQuodlibet:
