@@ -87,12 +87,13 @@ boolean quodlibet_end_has_non_starter_refuted(slice_index si);
  */
 boolean d_quodlibet_end_has_attacker_won(slice_index si);
 
-/* Determine whether the attacker has immediately lost in direct play
- * with his move just played.
+/* Determine whether the starting side has lost with its move just
+ * played independently of his possible further play during the
+ * current slice.
  * @param si slice identifier
- * @return true iff the attacking side has directly lost
+ * @return true iff starter has lost
  */
-boolean d_quodlibet_end_has_attacker_lost(slice_index si);
+boolean quodlibet_end_has_starter_lost(slice_index si);
 
 /* Has the threat just played been refuted by the preceding defense?
  * @param si identifies stipulation slice

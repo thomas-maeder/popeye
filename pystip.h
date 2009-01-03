@@ -278,12 +278,13 @@ boolean slice_has_non_starter_solved(slice_index si);
  */
 boolean slice_end_has_non_starter_refuted(slice_index si);
 
-/* Determine whether the attacker has immediately lost in direct play
- * with his move just played.
+/* Determine whether the starting side has lost with its move just
+ * played independently of his possible further play during the
+ * current slice.
  * @param si slice identifier
- * @return true iff the defending side has directly won
+ * @return true iff starter has lost
  */
-boolean d_slice_has_attacker_lost(slice_index si);
+boolean slice_end_has_starter_lost(slice_index si);
 
 /* Determine whether the attacker has immediately won in direct play
  * with his move just played.

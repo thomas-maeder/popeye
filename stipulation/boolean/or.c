@@ -263,12 +263,13 @@ boolean d_quodlibet_end_has_attacker_won(slice_index si)
   return result;
 }
 
-/* Determine whether the attacker has immediately lost in direct play
- * with his move just played.
+/* Determine whether the starting side has lost with its move just
+ * played independently of his possible further play during the
+ * current slice.
  * @param si slice identifier
- * @return true iff the attacking side has directly lost
+ * @return true iff starter has lost
  */
-boolean d_quodlibet_end_has_attacker_lost(slice_index si)
+boolean quodlibet_end_has_starter_lost(slice_index si)
 {
   boolean result = true;
   slice_index const op1 = slices[si].u.composite.op1;
@@ -277,8 +278,8 @@ boolean d_quodlibet_end_has_attacker_lost(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = (d_slice_has_attacker_lost(op1)
-            || d_slice_has_attacker_lost(op2));
+  result = (slice_end_has_starter_lost(op1)
+            || slice_end_has_starter_lost(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

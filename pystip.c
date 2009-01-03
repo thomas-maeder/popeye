@@ -826,13 +826,13 @@ boolean slice_end_has_non_starter_refuted(slice_index si)
   return result;
 }
 
-/* Determine whether the attacker has lost with his last move in
- * direct play. 
- * Assumes that he has not won with his last move.
+/* Determine whether the starting side has lost with its move just
+ * played independently of his possible further play during the
+ * current slice.
  * @param si slice identifier
- * @return true iff attacker has lost
+ * @return true iff starter has lost
  */
-boolean d_slice_has_attacker_lost(slice_index si)
+boolean slice_end_has_starter_lost(slice_index si)
 {
   boolean result = false;
 
@@ -843,19 +843,19 @@ boolean d_slice_has_attacker_lost(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = d_leaf_has_attacker_lost(si);
+      result = leaf_has_starter_lost(si);
       break;
 
     case STSequence:
-      result = d_sequence_end_has_attacker_lost(si);
+      result = sequence_end_has_starter_lost(si);
       break;
 
     case STQuodlibet:
-      result = d_quodlibet_end_has_attacker_lost(si);
+      result = quodlibet_end_has_starter_lost(si);
       break;
 
     case STReciprocal:
-      result = d_reci_end_has_attacker_lost(si);
+      result = reci_end_has_starter_lost(si);
       break;
 
     default:

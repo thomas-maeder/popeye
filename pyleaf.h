@@ -79,12 +79,12 @@ void d_leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type);
  */
 void d_leaf_solve_continuations(int continuations, slice_index leaf);
 
-/* Determine whether the attacking side has immediately lost with its
- * move just played.
+/* Determine whether the starting side has lost with its move just
+ * played.
  * @param leaf slice identifier
- * @return true iff attacker has lost
+ * @return true iff starter has lost
  */
-boolean d_leaf_has_attacker_lost(slice_index leaf);
+boolean leaf_has_starter_lost(slice_index leaf);
 
 /* Determine whether the attacking side has immediately won with its
  * move just played.

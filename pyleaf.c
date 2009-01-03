@@ -2094,13 +2094,12 @@ void d_leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
   Message(NewLine);
 }
 
-/* Determine whether the attacking side has directly lost by the move
- * that it has just played.
- * @param defender defending side
- * @param leaf slice index
- * @return true iff the attacking side has directly lost
+/* Determine whether the starting side has lost with its move just
+ * played.
+ * @param leaf slice identifier
+ * @return true iff starter has lost
  */
-boolean d_leaf_has_attacker_lost(slice_index leaf)
+boolean leaf_has_starter_lost(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);

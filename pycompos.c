@@ -242,7 +242,7 @@ static d_defender_win_type d_composite_does_defender_win(stip_length_type n,
 
   assert(n>=slack_length_direct);
 
-  if (d_slice_has_attacker_lost(si))
+  if (slice_end_has_starter_lost(si))
     result = already_won;
   else if (!slices[si].u.composite.is_exact && d_slice_has_attacker_won(si))
     result = short_loss;
