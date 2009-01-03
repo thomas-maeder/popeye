@@ -64,19 +64,18 @@ void sequence_root_end_solve_setplay(slice_index si)
   TraceText("\n");
 }
 
-/* Find and write defender's set play in self/reflex play if every
- * set move leads to end
+/* Find and write set play provided every set move leads to end
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_sequence_root_end_solve_complete_set(slice_index si)
+boolean sequence_root_end_solve_complete_set(slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  result = d_slice_root_solve_complete_set(slices[si].u.composite.op1);
+  result = slice_root_solve_complete_set(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d\n",result);

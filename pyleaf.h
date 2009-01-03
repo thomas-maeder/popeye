@@ -54,12 +54,11 @@ void leaf_write_unsolvability(slice_index leaf);
  */
 boolean leaf_root_solve_setplay(slice_index leaf);
 
-/* Find and write defender's set play in direct play if every set move
- * leads to end
+/* Find and write set play provided every set move leads to end
  * @param leaf slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_leaf_root_solve_complete_set(slice_index leaf);
+boolean leaf_root_solve_complete_set(slice_index leaf);
 
 /* Find and write variations (i.e. nothing resp. defender's final
  * moves). 

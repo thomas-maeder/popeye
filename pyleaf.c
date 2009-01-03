@@ -1581,11 +1581,11 @@ boolean leaf_is_solved(slice_index leaf)
   }
 }
 
-/* Determine and write forced end moves in 1 by the attacker in reflex
- * stipulations; we know that at least 1 exists.
+/* Determine and write forced end moves in 1 by the attacker in a
+ * reflex leaf; we know that at least 1 exists.
  * @param leaf leaf's slice index
  */
-static void d_leaf_r_solve_forced_keys(slice_index leaf)
+static void leaf_r_solve_forced_keys(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
   Goal const goal = slices[leaf].u.leaf.goal;
@@ -1621,7 +1621,7 @@ void leaf_write_unsolvability(slice_index leaf)
   switch (slices[leaf].u.leaf.end)
   {
     case EReflex:
-      d_leaf_r_solve_forced_keys(leaf);
+      leaf_r_solve_forced_keys(leaf);
       break;
 
     default:
@@ -2278,12 +2278,11 @@ boolean leaf_root_solve_setplay(slice_index leaf)
   return result;
 }
 
-/* Find and write defender's set play in self/reflex play if every
- * set move leads to end
+/* Find and write set play provided every set move leads to end
  * @param leaf slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_leaf_root_solve_complete_set(slice_index leaf)
+boolean leaf_root_solve_complete_set(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);

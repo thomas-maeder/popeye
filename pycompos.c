@@ -1856,7 +1856,7 @@ void composite_root_solve_setplay(slice_index si)
   {
     int ntcount = 0;
 
-    if (!d_slice_root_solve_complete_set(si))
+    if (!slice_root_solve_complete_set(si))
       StdString("\n");
 
     if (n-1>min_length_nontrivial)

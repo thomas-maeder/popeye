@@ -546,12 +546,11 @@ void slice_root_solve_setplay(slice_index si)
   TraceText("\n");
 }
 
-/* Find and write defender's set play in self/reflex play if every
- * set move leads to end
+/* Find and write set play provided every set move leads to end
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_slice_root_solve_complete_set(slice_index si)
+boolean slice_root_solve_complete_set(slice_index si)
 {
   boolean result = false;
 
@@ -561,15 +560,15 @@ boolean d_slice_root_solve_complete_set(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = d_leaf_root_solve_complete_set(si);
+      result = leaf_root_solve_complete_set(si);
       break;
 
     case STSequence:
-      result = d_sequence_root_end_solve_complete_set(si);
+      result = sequence_root_end_solve_complete_set(si);
       break;
 
     case STQuodlibet:
-      result = d_quodlibet_root_end_solve_complete_set(si);
+      result = quodlibet_root_end_solve_complete_set(si);
       break;
 
     case STReciprocal:

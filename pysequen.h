@@ -35,12 +35,11 @@ void sequence_end_solve_continuations(int continuations, slice_index si);
  */
 void sequence_root_end_solve_setplay(slice_index si);
 
-/* Find and write defender's set play in self/reflex play if every
- * set move leads to end
+/* Find and write set play provided every set move leads to end
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean d_sequence_root_end_solve_complete_set(slice_index si);
+boolean sequence_root_end_solve_complete_set(slice_index si);
 
 /* Write the key just played, then continue solving at end of sequence
  * slice to find and write the post key play (threats, variations)
