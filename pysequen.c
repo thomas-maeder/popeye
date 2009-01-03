@@ -44,7 +44,7 @@ void sequence_end_solve_continuations(int table, slice_index si)
   TraceFunctionParam("%u\n",si);
 
   TraceValue("%u\n",slices[si].u.composite.op1);
-  d_slice_solve_continuations(table,slices[si].u.composite.op1);
+  slice_solve_continuations(table,slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
   TraceText("\n");

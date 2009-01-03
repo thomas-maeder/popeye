@@ -1527,6 +1527,12 @@ static boolean d_composite_defends_against_threats(stip_length_type n,
   return result;
 }
 
+/* TODO can we rearrange the functions so that this declaration is no
+ * necessary? */
+static void composite_d_solve_continuations_in_n(stip_length_type n,
+                                                 int continuations,
+                                                 slice_index si);
+
 /* Write a variation in the try/solution/set play of a
  * direct/self/reflex stipulation. The move of the defending side that
  * starts the variation has already been played in the current ply.
@@ -1551,7 +1557,7 @@ static void d_composite_write_variation(stip_length_type n, slice_index si)
        i++)
   {
     int const continuations = alloctab();
-    d_composite_solve_continuations(i,continuations,si);
+    composite_d_solve_continuations_in_n(i,continuations,si);
     isRefutation = tablen(continuations)==0;
     freetab();
   }
@@ -1594,7 +1600,7 @@ static int d_composite_solve_threats(stip_length_type n,
 
     for (i = 1; i<=max_threat_length; i++)
     {
-      d_composite_solve_continuations(i,threats,si);
+      composite_d_solve_continuations_in_n(i,threats,si);
       if (tablen(threats)>0)
       {
         result = i;
@@ -1809,17 +1815,18 @@ static void composite_end_solve_continuations(int t, slice_index si)
   TraceText("\n");
 }
 
-/* Determine and write the continuations in the current position in
- * direct/self/reflex play (i.e. attacker's moves winning after a
- * defender's move that refuted the threat).
+/* Determine and write the continuations in the current position
+ * (i.e. attacker's moves winning after a defender's move that refuted
+ * the threat).
  * This is an indirectly recursive function.
  * @param attacker attacking side
  * @param n number of moves until end state has to be reached
  * @param continuations table where to store continuing moves (i.e. threats)
+ * @param si slice index
  */
-void d_composite_solve_continuations(stip_length_type n,
-                                     int continuations,
-                                     slice_index si)
+static void composite_d_solve_continuations_in_n(stip_length_type n,
+                                                 int continuations,
+                                                 slice_index si)
 {
   Side const attacker = slices[si].starter;
 
@@ -1863,7 +1870,48 @@ void d_composite_solve_continuations(stip_length_type n,
 
   TraceFunctionExit(__func__);
   TraceText("\n");
-} /* d_composite_solve_continuations */
+}
+
+/* Determine and write the continuations in the current position
+ * (i.e. attacker's moves winning after a defender's move that refuted
+ * the threat).
+ * @param continuations table where to store continuing moves (i.e. threats)
+ * @param si slice index
+ */
+static void composite_d_solve_continuations(int continuations,
+                                            slice_index si)
+{
+  stip_length_type const n = slices[si].u.composite.length;
+  composite_d_solve_continuations_in_n(n,continuations,si);
+}
+
+/* Determine and write the continuations in the current position
+ * (i.e. attacker's moves winning after a defender's move that refuted
+ * the threat).
+ * @param continuations table where to store continuing moves (i.e. threats)
+ * @param si slice index
+ */
+void composite_solve_continuations(int continuations, slice_index si)
+{
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      composite_d_solve_continuations(continuations,si);
+      break;
+
+    case PHelp:
+      /* TODO */
+      break;
+
+    case PSeries:
+      /* TODO */
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+}
 
 /* Determine and write set play of a direct/self/reflex stipulation
  * We are at the end of a slice and delegate to the child slice(s)

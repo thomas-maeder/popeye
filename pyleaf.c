@@ -2345,7 +2345,7 @@ void d_leaf_solve_variations(slice_index leaf)
  * @param solutions table where to append continuations found and written
  * @param leaf slice index
  */
-static void d_leaf_d_solve_continuations(int solutions, slice_index leaf)
+static void leaf_d_solve_continuations(int solutions, slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
 
@@ -2381,7 +2381,7 @@ static void d_leaf_d_solve_continuations(int solutions, slice_index leaf)
  * @param solutions table where to append continuations found and written
  * @param leaf slice index
  */
-static void d_leaf_s_solve_continuations(int solutions, slice_index leaf)
+static void leaf_s_solve_continuations(int solutions, slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
 
@@ -2418,7 +2418,7 @@ static void d_leaf_s_solve_continuations(int solutions, slice_index leaf)
  * @param solutions table where to append continuations found and written
  * @param leaf slice index
  */
-static void d_leaf_r_solve_continuations(int solutions, slice_index leaf)
+static void leaf_h_solve_continuations(int solutions, slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
   Side const defender = advers(attacker);
@@ -2454,10 +2454,11 @@ static void d_leaf_r_solve_continuations(int solutions, slice_index leaf)
 }
 
 /* Find and write continuations (i.e. mating moves or final move pairs).
- * @param solutions table where to append continuations found and written
+ * @param solutions table where to append continuations found and
+ *                  written
  * @param leaf slice index
  */
-void d_leaf_solve_continuations(int solutions, slice_index leaf)
+void leaf_solve_continuations(int solutions, slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -2468,16 +2469,16 @@ void d_leaf_solve_continuations(int solutions, slice_index leaf)
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      d_leaf_d_solve_continuations(solutions,leaf);
+      leaf_d_solve_continuations(solutions,leaf);
       break;
 
     case ESelf:
-      d_leaf_s_solve_continuations(solutions,leaf);
+      leaf_s_solve_continuations(solutions,leaf);
       break;
     
     case EReflex:
     case EHelp:
-      d_leaf_r_solve_continuations(solutions,leaf);
+      leaf_h_solve_continuations(solutions,leaf);
       break;
     
     default:

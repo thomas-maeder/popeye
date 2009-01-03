@@ -52,18 +52,14 @@ void d_composite_solve_variations(stip_length_type n,
  */
 void d_composite_root_solve_postkeyonly(stip_length_type n, slice_index si);
 
-/* Determine and write the continuations in the current position in
- * direct/self/reflex play (i.e. attacker's moves winning after a
- * defender's move that refuted the threat).
+/* Determine and write the continuations in the current position
+ * (i.e. attacker's moves winning after a defender's move that refuted
+ * the threat).
  * This is an indirectly recursive function.
- * @param n number of moves until end state has to be reached
- * @param continuations table where to store continuing moves
- *                      (i.e. threats)
+ * @param continuations table where to store continuing moves (i.e. threats)
  * @param si slice index
  */
-void d_composite_solve_continuations(stip_length_type n,
-                                     int continuations,
-                                     slice_index si);
+void composite_solve_continuations(int continuations, slice_index si);
 
 /* Has the threat just played been refuted by the preceding defense?
  * @param si identifies stipulation slice

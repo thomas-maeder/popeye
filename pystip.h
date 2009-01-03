@@ -214,7 +214,7 @@ boolean slice_is_solvable(slice_index si);
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of sequence slice
  */
-void d_slice_solve_continuations(int table, slice_index si);
+void slice_solve_continuations(int table, slice_index si);
 
 /* Find and write set play
  * @param si slice index

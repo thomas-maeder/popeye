@@ -77,7 +77,7 @@ void d_leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type);
  *                      written
  * @param leaf slice index
  */
-void d_leaf_solve_continuations(int continuations, slice_index leaf);
+void leaf_solve_continuations(int continuations, slice_index leaf);
 
 /* Determine whether the starting side has lost with its move just
  * played.

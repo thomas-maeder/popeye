@@ -483,7 +483,7 @@ boolean slice_is_solvable(slice_index si)
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of sequence slice
  */
-void d_slice_solve_continuations(int table, slice_index si)
+void slice_solve_continuations(int table, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -492,15 +492,13 @@ void d_slice_solve_continuations(int table, slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      d_leaf_solve_continuations(table,si);
+      leaf_solve_continuations(table,si);
       break;
     
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      d_composite_solve_continuations(slices[si].u.composite.length,
-                                      table,
-                                      si);
+      composite_solve_continuations(table,si);
       break;
 
     default:
