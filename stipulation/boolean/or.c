@@ -180,21 +180,20 @@ void d_quodlibet_end_solve_variations(slice_index si)
   TraceFunctionExit(__func__);
 }
 
-/* Determine whether the defender has lost in direct play with his move
- * just played.
- * Assumes that there is no short win for the defending side.
+/* Determine whether a quodlibet slice.has just been solved with the
+ * just played move by the non-starter
  * @param si slice identifier
- * @return whether there is a short win or loss
+ * @return true iff the non-starting side has just solved
  */
-boolean d_quodlibet_end_has_defender_lost(slice_index si)
+boolean quodlibet_end_has_non_starter_solved(slice_index si)
 {
   boolean result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = (d_slice_has_defender_lost(slices[si].u.composite.op1)
-            ||d_slice_has_defender_lost(slices[si].u.composite.op2));
+  result = (slice_has_non_starter_solved(slices[si].u.composite.op1)
+            || slice_has_non_starter_solved(slices[si].u.composite.op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

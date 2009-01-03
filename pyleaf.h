@@ -26,20 +26,19 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf);
  */
 boolean leaf_is_unsolvable(slice_index leaf);
 
-/* Determine whether the defender has directly lost with his move just
- * played. 
- * Assumes that there is no short win for the defending side.
+/* Determine whether a leaf slice.has just been solved with the just
+ * played move by the non-starter 
  * @param si slice identifier
- * @return true iff the defending side has directly lost
+ * @return true iff the non-starting side has just solved
  */
-boolean d_leaf_has_defender_lost(slice_index leaf);
+boolean leaf_has_non_starter_solved(slice_index leaf);
 
 /* Determine whether a leaf slice.has just been solved with the just
  * played move by the starter 
  * @param leaf slice index
  * @return true iff the leaf's starter has just solved leaf
  */
-boolean leaf_is_solved(slice_index leaf);
+boolean leaf_has_starter_solved(slice_index leaf);
 
 /* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
  * mates).

@@ -494,8 +494,8 @@ static void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
   Goal const goal = slices[leaf].u.leaf.goal;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",leaf);
-  TraceFunctionParam("%d\n",side_at_move);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u\n",side_at_move);
 
   if (side_at_move==White ? !flagwhitemummer : !flagblackmummer)
     empile_for_goal_of_leaf_slice = leaf;
@@ -505,7 +505,7 @@ static void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
     case goal_mate:
     case goal_doublemate:
     case goal_check:
-      TraceValue("%d\n",optim_orthomatingmoves);
+      TraceValue("%u\n",optim_orthomatingmoves);
       if (optim_orthomatingmoves)
       {
         square square_a = square_a1;
@@ -630,12 +630,12 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",just_moved);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u",just_moved);
+  TraceFunctionParam("%u\n",leaf);
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
 
-  TraceValue("%d\n",slices[leaf].u.leaf.goal);
+  TraceValue("%u\n",slices[leaf].u.leaf.goal);
   switch (slices[leaf].u.leaf.goal)
   {
     case goal_mate:
@@ -720,7 +720,7 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -788,8 +788,8 @@ static boolean leaf_is_end_in_1_forced(slice_index leaf)
   boolean escape_found = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",leaf);
-  TraceFunctionParam("%d\n",slices[leaf].u.leaf.goal);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u\n",slices[leaf].u.leaf.goal);
 
   if (defender==Black ? flagblackmummer : flagwhitemummer)
   {
@@ -882,9 +882,9 @@ static boolean leaf_is_end_in_1_forced(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceValue("%d",escape_found);
-  TraceValue("%d",is_defender_immobile);
-  TraceFunctionResult("%d\n", !(escape_found || is_defender_immobile));
+  TraceValue("%u",escape_found);
+  TraceValue("%u",is_defender_immobile);
+  TraceFunctionResult("%u\n", !(escape_found || is_defender_immobile));
   return !(escape_found || is_defender_immobile);
 }
 
@@ -901,7 +901,7 @@ static boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
   assert(slices[leaf].starter!=no_side);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u ",side_at_move);
+  TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u\n",leaf);
 
   generate_move_reaching_goal(leaf,side_at_move);
@@ -935,7 +935,7 @@ static boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",end_found);
+  TraceFunctionResult("%u\n",end_found);
   return end_found;
 }
 
@@ -952,7 +952,7 @@ boolean leaf_is_unsolvable(slice_index leaf)
   assert(slices[leaf].starter!=no_side);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   switch (slices[leaf].u.leaf.end)
   {
@@ -988,7 +988,7 @@ boolean leaf_is_unsolvable(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -1140,7 +1140,7 @@ static boolean leaf_h_regulargoals_is_solvable(slice_index leaf)
   Side const other_side = advers(side_at_move);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   genmove(side_at_move);
 
@@ -1183,7 +1183,7 @@ static boolean leaf_h_regulargoals_is_solvable(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
+  TraceFunctionResult("%u\n",found_solution);
   return found_solution;
 }
 
@@ -1196,7 +1196,7 @@ static boolean leaf_h_is_solvable(slice_index leaf)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   switch (slices[leaf].u.leaf.goal)
   {
@@ -1214,7 +1214,7 @@ static boolean leaf_h_is_solvable(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -1264,7 +1264,7 @@ static boolean leaf_d_has_solution(slice_index leaf)
   Side const attacker = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   /* In move orientated stipulations (%, z, x etc.) it's less
    * expensive to compute an end in 1. TLi
@@ -1281,7 +1281,7 @@ static boolean leaf_d_has_solution(slice_index leaf)
     {
       TraceText("!is_a_mating_piece_left\n");
       TraceFunctionExit(__func__);
-      TraceFunctionResult("%d\n",false);
+      TraceFunctionResult("%u\n",false);
       return false;
     }
 
@@ -1290,7 +1290,7 @@ static boolean leaf_d_has_solution(slice_index leaf)
     {
       TraceText("attacker is immobile\n");
       TraceFunctionExit(__func__);
-      TraceFunctionResult("%d\n",false);
+      TraceFunctionResult("%u\n",false);
       return false;
     }
 
@@ -1318,7 +1318,7 @@ static boolean leaf_d_has_solution(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result==DirSucc);
+  TraceFunctionResult("%u\n",result==DirSucc);
   return result==DirSucc;
 }
 
@@ -1333,7 +1333,7 @@ static boolean leaf_h_has_solution(slice_index leaf)
   Side const other_side = advers(side_at_move);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   genmove(side_at_move);
 
@@ -1385,7 +1385,7 @@ static boolean leaf_h_has_solution(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -1401,7 +1401,7 @@ static boolean leaf_s_has_solution(slice_index leaf)
   Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   (*encode)(&hb);
   result = leaf_d_hash_lookup(leaf,&hb);
@@ -1434,7 +1434,7 @@ static boolean leaf_s_has_solution(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result==DirSucc);
+  TraceFunctionResult("%u\n",result==DirSucc);
   return result==DirSucc;
 }
 
@@ -1450,7 +1450,7 @@ boolean leaf_is_solvable(slice_index leaf)
   assert(slices[leaf].starter!=no_side);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
@@ -1502,16 +1502,16 @@ boolean leaf_is_solvable(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
-/* Determine whether the defender has lost with his move just played.
- * Assumes that there is no short win for the defending side.
+/* Determine whether a leaf slice.has just been solved with the just
+ * played move by the non-starter 
  * @param si slice identifier
- * @return whether there is a short win or loss
+ * @return true iff the non-starting side has just solved
  */
-boolean d_leaf_has_defender_lost(slice_index leaf)
+boolean leaf_has_non_starter_solved(slice_index leaf)
 {
   Side const defender = advers(slices[leaf].starter);
   boolean result = false;
@@ -1520,8 +1520,8 @@ boolean d_leaf_has_defender_lost(slice_index leaf)
   assert(slices[leaf].starter!=no_side);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",defender);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u",defender);
+  TraceFunctionParam("%u\n",leaf);
 
   switch (slices[leaf].u.leaf.end)
   {
@@ -1540,7 +1540,7 @@ boolean d_leaf_has_defender_lost(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -1549,7 +1549,7 @@ boolean d_leaf_has_defender_lost(slice_index leaf)
  * @param leaf slice index
  * @return true iff the leaf's starter has just solved leaf
  */
-boolean leaf_is_solved(slice_index leaf)
+boolean leaf_has_starter_solved(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
 
@@ -1636,7 +1636,7 @@ static boolean leaf_d_solve(slice_index leaf)
   boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   generate_move_reaching_goal(leaf,attacker);
   active_slice[nbply] = leaf;
@@ -1659,7 +1659,7 @@ static boolean leaf_d_solve(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found);
+  TraceFunctionResult("%u\n",solution_found);
   return solution_found;
 }
 
@@ -1708,7 +1708,7 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",final_move_found);
+  TraceFunctionResult("%u\n",final_move_found);
   return final_move_found;
 }
 #endif
@@ -1724,9 +1724,9 @@ static boolean leaf_s_solve_final_move(slice_index leaf)
   Side const side_at_move = advers(slices[leaf].starter);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
-  TraceValue("%d\n",side_at_move);
+  TraceValue("%u\n",side_at_move);
 
   generate_move_reaching_goal(leaf,side_at_move);
   active_slice[nbply] = leaf;
@@ -1746,7 +1746,7 @@ static boolean leaf_s_solve_final_move(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",final_move_found);
+  TraceFunctionResult("%u\n",final_move_found);
   return final_move_found;
 }
 
@@ -1761,7 +1761,7 @@ static boolean leaf_s_solve(slice_index leaf)
   Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   genmove(attacker);
   active_slice[nbply] = leaf;
@@ -1787,7 +1787,7 @@ static boolean leaf_s_solve(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
+  TraceFunctionResult("%u\n",found_solution);
   return found_solution;
 }
 
@@ -1953,7 +1953,7 @@ static boolean leaf_h_regulargoals_solve(slice_index leaf)
   Side const other_side = advers(side_at_move);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   genmove(side_at_move);
   active_slice[nbply] = leaf;
@@ -2001,7 +2001,7 @@ static boolean leaf_h_regulargoals_solve(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
+  TraceFunctionResult("%u\n",found_solution);
   return found_solution;
 }
 
@@ -2014,7 +2014,7 @@ static boolean leaf_h_solve(slice_index leaf)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   switch (slices[leaf].u.leaf.goal)
   {
@@ -2032,7 +2032,7 @@ static boolean leaf_h_solve(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -2046,14 +2046,14 @@ static boolean leaf_r_solve(slice_index leaf)
   Side const attacker = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   if (((OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
        || !leaf_is_end_in_1_possible(attacker,leaf)))
     result = leaf_h_solve(leaf);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -2167,7 +2167,7 @@ boolean leaf_has_solution(slice_index leaf)
   assert(slices[leaf].starter!=no_side);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   switch (slices[leaf].u.leaf.end)
   {
@@ -2190,7 +2190,7 @@ boolean leaf_has_solution(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -2243,7 +2243,7 @@ boolean leaf_root_solve_setplay(slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -2352,7 +2352,7 @@ static void d_leaf_d_solve_continuations(int solutions, slice_index leaf)
   Side const attacker = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   generate_move_reaching_goal(leaf,attacker);
   active_slice[nbply] = leaf;
@@ -2388,7 +2388,7 @@ static void d_leaf_s_solve_continuations(int solutions, slice_index leaf)
   Side const attacker = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   genmove(attacker);
 
@@ -2426,7 +2426,7 @@ static void d_leaf_r_solve_continuations(int solutions, slice_index leaf)
   Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   genmove(attacker);
 
@@ -2465,7 +2465,7 @@ void d_leaf_solve_continuations(int solutions, slice_index leaf)
   assert(slices[leaf].starter!=no_side);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   switch (slices[leaf].u.leaf.end)
   {
@@ -2500,7 +2500,7 @@ boolean leaf_solve(slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",leaf);
+  TraceFunctionParam("%u\n",leaf);
 
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -2524,13 +2524,13 @@ boolean leaf_solve(slice_index leaf)
       break;
 
     default:
-      TraceValue("(unexpected value):%d\n",slices[leaf].u.leaf.end);
+      TraceValue("(unexpected value):%u\n",slices[leaf].u.leaf.end);
       assert(0);
       break;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -2541,9 +2541,9 @@ boolean leaf_solve(slice_index leaf)
 void leaf_detect_starter(slice_index leaf, boolean is_duplex)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",leaf);
+  TraceFunctionParam("%u",leaf);
 
-  TraceFunctionParam("%d\n",is_duplex);
+  TraceFunctionParam("%u\n",is_duplex);
 
   if (slices[leaf].starter==no_side)
     switch (slices[leaf].u.leaf.end)

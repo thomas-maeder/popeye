@@ -748,13 +748,12 @@ void d_slice_solve_variations(slice_index si)
   TraceText("\n");
 }
 
-/* Determine whether the defender has lost in direct play with his move
- * just played.
- * Assumes that there is no short win for the defending side.
+/* Determine whether a slice.has just been solved with the just played
+ * move by the non-starter
  * @param si slice identifier
- * @return true iff there is a short win or loss
+ * @return true iff the non-starting side has just solved
  */
-boolean d_slice_has_defender_lost(slice_index si)
+boolean slice_has_non_starter_solved(slice_index si)
 {
   boolean result = false;
 
@@ -764,19 +763,19 @@ boolean d_slice_has_defender_lost(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = d_leaf_has_defender_lost(si);
+      result = leaf_has_non_starter_solved(si);
       break;
 
     case STSequence:
-      result = d_sequence_end_has_defender_lost(si);
+      result = sequence_end_has_non_starter_solved(si);
       break;
 
     case STQuodlibet:
-      result = d_quodlibet_end_has_defender_lost(si);
+      result = quodlibet_end_has_non_starter_solved(si);
       break;
 
     case STReciprocal:
-      result = d_reci_end_has_defender_lost(si);
+      result = reci_end_has_non_starter_solved(si);
       break;
 
     default:
@@ -958,7 +957,7 @@ boolean d_slice_is_threat_refuted(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = !leaf_is_solved(si);
+      result = !leaf_has_starter_solved(si);
       break;
 
     case STQuodlibet:

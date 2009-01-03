@@ -18,14 +18,14 @@ boolean reci_end_is_unsolvable(slice_index si)
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-  TraceValue("%d",op1);
-  TraceValue("%d\n",op2);
+  TraceFunctionParam("%u\n",si);
+  TraceValue("%u",op1);
+  TraceValue("%u\n",op2);
 
   result = slice_is_unsolvable(op1) || slice_is_unsolvable(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -41,35 +41,36 @@ boolean reci_end_has_solution(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = slice_has_solution(op1) && slice_has_solution(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%d\n",result);
+  TraceFunctionParam("%u\n",result);
   return result;
 }
 
-/* Determine whether the defender has immediately lost in direct play
- * with his move just played.
+/* Determine whether a reciprocal slice.has just been solved with the
+ * just played move by the non-starter
  * @param si slice identifier
- * @return true iff the defending side has directly lost
+ * @return true iff the non-starting side has just solved
  */
-boolean d_reci_end_has_defender_lost(slice_index si)
+boolean reci_end_has_non_starter_solved(slice_index si)
 {
   boolean result;
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-  TraceValue("%d",op1);
-  TraceValue("%d\n",op2);
+  TraceFunctionParam("%u\n",si);
+  TraceValue("%u",op1);
+  TraceValue("%u\n",op2);
 
-  result = d_slice_has_defender_lost(op1) && d_slice_has_defender_lost(op2);
+  result = (slice_has_non_starter_solved(op1)
+            && slice_has_non_starter_solved(op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -85,14 +86,14 @@ boolean d_reci_end_has_defender_won(slice_index si)
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-  TraceValue("%d",op1);
-  TraceValue("%d\n",op2);
+  TraceFunctionParam("%u\n",si);
+  TraceValue("%u",op1);
+  TraceValue("%u\n",op2);
 
   result = d_slice_has_defender_won(op1) || d_slice_has_defender_won(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -108,14 +109,14 @@ boolean d_reci_end_has_attacker_lost(slice_index si)
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-  TraceValue("%d",op1);
-  TraceValue("%d\n",op2);
+  TraceFunctionParam("%u\n",si);
+  TraceValue("%u",op1);
+  TraceValue("%u\n",op2);
 
   result = d_slice_has_attacker_lost(op1) || d_slice_has_attacker_lost(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -131,14 +132,14 @@ boolean d_reci_end_has_attacker_won(slice_index si)
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-  TraceValue("%d",op1);
-  TraceValue("%d\n",op2);
+  TraceFunctionParam("%u\n",si);
+  TraceValue("%u",op1);
+  TraceValue("%u\n",op2);
 
   result = d_slice_has_attacker_won(op1) && d_slice_has_attacker_won(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -150,10 +151,10 @@ boolean d_reci_end_has_attacker_won(slice_index si)
 void reci_write_unsolvability(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d",slices[si].u.composite.op1);
-  TraceValue("%d\n",slices[si].u.composite.op2);
+  TraceValue("%u",slices[si].u.composite.op1);
+  TraceValue("%u\n",slices[si].u.composite.op2);
 
   slice_write_unsolvability(slices[si].u.composite.op1);
   slice_write_unsolvability(slices[si].u.composite.op2);
@@ -168,7 +169,7 @@ void reci_write_unsolvability(slice_index si)
 void d_reci_end_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   /* TODO solve variation after variation */
   d_slice_solve_variations(slices[si].u.composite.op1);
@@ -184,7 +185,7 @@ void d_reci_end_solve_variations(slice_index si)
 void reci_end_solve_continuations(int table, slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   d_slice_solve_continuations(table,slices[si].u.composite.op1);
   d_slice_solve_continuations(table,slices[si].u.composite.op2);
@@ -199,7 +200,7 @@ void reci_end_solve_continuations(int table, slice_index si)
 void reci_root_end_solve_setplay(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   /* TODO solve defense after defense */
   slice_root_solve_setplay(slices[si].u.composite.op1);
@@ -221,16 +222,16 @@ boolean reci_root_end_solve(boolean restartenabled, slice_index si)
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-  TraceValue("%d",op1);
-  TraceValue("%d\n",op2);
+  TraceFunctionParam("%u\n",si);
+  TraceValue("%u",op1);
+  TraceValue("%u\n",op2);
 
   found_solution = (slice_is_solvable(op2)
                     && slice_root_solve(restartenabled,op1)
                     && slice_root_solve(restartenabled,op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
+  TraceFunctionResult("%u\n",found_solution);
   return found_solution;
 }
 
@@ -268,16 +269,16 @@ boolean reci_end_solve(slice_index si)
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-  TraceValue("%d",op1);
-  TraceValue("%d\n",op2);
+  TraceFunctionParam("%u\n",si);
+  TraceValue("%u",op1);
+  TraceValue("%u\n",op2);
 
   found_solution = (slice_is_solvable(op2)
                     && slice_solve(op1)
                     && slice_solve(op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
+  TraceFunctionResult("%u\n",found_solution);
   return found_solution;
 }
 
@@ -291,8 +292,8 @@ void reci_detect_starter(slice_index si, boolean is_duplex)
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",is_duplex);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",is_duplex);
 
   slice_detect_starter(op1,is_duplex);
   slice_detect_starter(op2,is_duplex);
@@ -314,7 +315,7 @@ void reci_detect_starter(slice_index si, boolean is_duplex)
   else if (slices[op1].starter==slices[op2].starter)
     slices[si].starter = slices[op1].starter;
 
-  TraceValue("%d\n",slices[si].starter);
+  TraceValue("%u\n",slices[si].starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
 }

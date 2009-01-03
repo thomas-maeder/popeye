@@ -23,12 +23,12 @@ boolean reci_end_is_unsolvable(slice_index si);
  */
 boolean reci_end_has_solution(slice_index si);
 
-/* Determine whether the defender has immediately lost in direct play
- * with his move just played.
+/* Determine whether a reciprocal slice.has just been solved with the
+ * just played move by the non-starter
  * @param si slice identifier
- * @return true iff the defending side has directly lost
+ * @return true iff the non-starting side has just solved
  */
-boolean d_reci_end_has_defender_lost(slice_index si);
+boolean reci_end_has_non_starter_solved(slice_index si);
 
 /* Determine whether the defender has immediately won in direct play
  * with his move just played.

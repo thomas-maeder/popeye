@@ -342,7 +342,7 @@ static boolean d_composite_has_solution_in_n(stip_length_type n,
   {
     if (composite_end_has_solution(si))
       result = true;
-    else if (d_slice_has_defender_lost(si))
+    else if (slice_has_non_starter_solved(si))
       result = true;
     else if (n>slack_length_direct)
     {
@@ -1657,7 +1657,7 @@ void d_composite_root_solve_variations(stip_length_type n,
                && d_composite_has_solution_in_n(len_threat-1,si))
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
-      else if (d_slice_has_defender_lost(si))
+      else if (slice_has_non_starter_solved(si))
         ; /* oops! short end. NB: this can't happen if is_exact and
            * n is too large, because that would make the current move
            * a refutation */
@@ -1722,7 +1722,7 @@ void d_composite_solve_variations(stip_length_type n,
                && d_composite_has_solution_in_n(len_threat-1,si))
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
-      else if (d_slice_has_defender_lost(si))
+      else if (slice_has_non_starter_solved(si))
         ; /* oops! short end. */
       else if (!d_composite_defends_against_threats(len_threat,threats,si))
         ; /* move doesn't defend against threat */
@@ -1923,7 +1923,7 @@ void composite_root_solve_setplay(slice_index si)
       if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && !echecc(nbply,defender))
       {
-        if (d_slice_has_defender_lost(si))
+        if (slice_has_non_starter_solved(si))
           ; /* oops */
         else if (d_composite_has_solution_in_n(n-1,si))
           /* yipee - this solves! */
@@ -2036,7 +2036,7 @@ static boolean d_composite_root_solve(boolean restartenabled,
 
   output_start_continuation_level();
 
-  if (d_slice_has_defender_lost(si))
+  if (slice_has_non_starter_solved(si))
     result = true;
   else if (d_slice_has_defender_won(si))
     slice_write_unsolvability(slices[si].u.composite.op1);
