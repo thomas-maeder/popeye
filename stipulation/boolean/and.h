@@ -69,10 +69,10 @@ void d_reci_end_solve_variations(slice_index si);
  */
 void reci_end_solve_continuations(int continuations, slice_index si);
 
-/* Find and write defender's set play
+/* Find and write set play
  * @param si slice index
  */
-void d_reci_root_end_solve_setplay(slice_index si);
+void reci_root_end_solve_setplay(slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
  * variations), starting at the end of a reciprocal slice.

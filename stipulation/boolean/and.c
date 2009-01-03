@@ -194,17 +194,17 @@ void reci_end_solve_continuations(int table, slice_index si)
   TraceText("\n");
 }
 
-/* Find and write defender's set play
+/* Find and write set play
  * @param si slice index
  */
-void d_reci_root_end_solve_setplay(slice_index si)
+void reci_root_end_solve_setplay(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
   /* TODO solve defense after defense */
-  d_slice_root_solve_setplay(slices[si].u.composite.op1);
-  d_slice_root_solve_setplay(slices[si].u.composite.op2);
+  slice_root_solve_setplay(slices[si].u.composite.op1);
+  slice_root_solve_setplay(slices[si].u.composite.op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");

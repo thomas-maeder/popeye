@@ -216,10 +216,10 @@ boolean slice_is_solvable(slice_index si);
  */
 void d_slice_solve_continuations(int table, slice_index si);
 
-/* Find and write defender's set play
+/* Find and write set play
  * @param si slice index
  */
-void d_slice_root_solve_setplay(slice_index si);
+void slice_root_solve_setplay(slice_index si);
 
 /* Find and write defender's set play in self/reflex play if every
  * set move leads to end

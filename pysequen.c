@@ -50,15 +50,15 @@ void sequence_end_solve_continuations(int table, slice_index si)
   TraceText("\n");
 }
 
-/* Find and write defender's set play
+/* Find and write set play
  * @param si slice index
  */
-void d_sequence_root_end_solve_setplay(slice_index si)
+void sequence_root_end_solve_setplay(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  d_slice_root_solve_setplay(slices[si].u.composite.op1);
+  slice_root_solve_setplay(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
   TraceText("\n");

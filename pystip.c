@@ -512,10 +512,10 @@ void d_slice_solve_continuations(int table, slice_index si)
   TraceText("\n");
 }
 
-/* Find and write defender's set play
+/* Find and write set play
  * @param si slice index
  */
-void d_slice_root_solve_setplay(slice_index si)
+void slice_root_solve_setplay(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
@@ -532,7 +532,7 @@ void d_slice_root_solve_setplay(slice_index si)
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      d_composite_root_solve_setplay(si);
+      composite_root_solve_setplay(si);
       break;
 
     default:

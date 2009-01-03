@@ -2595,7 +2595,7 @@ static void SolveDirectProblems(void)
         ErrorMsg(SetAndCheck);
       else
       {
-        d_slice_root_solve_setplay(0);
+        slice_root_solve_setplay(0);
         Message(NewLine);
       }
     }

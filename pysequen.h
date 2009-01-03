@@ -30,10 +30,10 @@ void sequence_write_unsolvability(slice_index si);
  */
 void sequence_end_solve_continuations(int continuations, slice_index si);
 
-/* Find and write defender's set play
+/* Find and write set play
  * @param si slice index
  */
-void d_sequence_root_end_solve_setplay(slice_index si);
+void sequence_root_end_solve_setplay(slice_index si);
 
 /* Find and write defender's set play in self/reflex play if every
  * set move leads to end

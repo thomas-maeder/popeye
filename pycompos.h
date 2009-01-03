@@ -19,7 +19,7 @@ boolean d_composite_does_attacker_win(stip_length_type n, slice_index si);
 /* Determine and write set play of a direct/self/reflex stipulation
  * @param si slice index
  */
-void d_composite_root_solve_setplay(slice_index si);
+void composite_root_solve_setplay(slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
  * variations) and write the refutations (if any).

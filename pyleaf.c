@@ -2199,10 +2199,10 @@ boolean d_leaf_does_attacker_win(slice_index leaf)
   return result;
 }
 
-/* Determine and write all set play of a self/reflex stipulation.
+/* Determine and write set play of a self/reflex stipulation.
  * @param leaf slice index of the leaf slice
  */
-static boolean d_leaf_root_sr_solve_setplay(slice_index leaf)
+static boolean leaf_root_sr_solve_setplay(slice_index leaf)
 {
   boolean result = false;
   Side const defender = advers(slices[leaf].starter);
@@ -2261,7 +2261,7 @@ boolean leaf_root_solve_setplay(slice_index leaf)
 
     case ESelf:
     case EReflex:
-      result = d_leaf_root_sr_solve_setplay(leaf);
+      result = leaf_root_sr_solve_setplay(leaf);
       break;
 
     case EHelp:
@@ -2296,7 +2296,7 @@ boolean d_leaf_root_solve_complete_set(slice_index leaf)
       if (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
           && leaf_is_end_in_1_forced(leaf))
       {
-        d_leaf_root_sr_solve_setplay(leaf);
+        leaf_root_sr_solve_setplay(leaf);
         return true;
       }
       else
@@ -2308,7 +2308,7 @@ boolean d_leaf_root_solve_complete_set(slice_index leaf)
     {
       Side const defender = advers(slices[leaf].starter);
       if (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender)))
-        return d_leaf_root_sr_solve_setplay(leaf);
+        return leaf_root_sr_solve_setplay(leaf);
       else
         break;
     }

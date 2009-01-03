@@ -1817,20 +1817,20 @@ void d_composite_solve_continuations(stip_length_type n,
  * We are at the end of a slice and delegate to the child slice(s)
  * @param si slice index
  */
-static void d_composite_root_end_solve_setplay(slice_index si)
+static void composite_root_end_solve_setplay(slice_index si)
 {
   switch (slices[si].type)
   {
     case STSequence:
-      d_sequence_root_end_solve_setplay(si);
+      sequence_root_end_solve_setplay(si);
       break;
 
     case STReciprocal:
-      d_reci_root_end_solve_setplay(si);
+      reci_root_end_solve_setplay(si);
       break;
 
     case STQuodlibet:
-      d_quodlibet_root_end_solve_setplay(si);
+      quodlibet_root_end_solve_setplay(si);
       break;
 
     default:
@@ -1842,7 +1842,7 @@ static void d_composite_root_end_solve_setplay(slice_index si)
 /* Determine and write set play of a direct/self/reflex stipulation
  * @param si slice index
  */
-void d_composite_root_solve_setplay(slice_index si)
+void composite_root_solve_setplay(slice_index si)
 {
   Side const defender = advers(slices[si].starter);
   stip_length_type const n = slices[si].u.composite.length;
@@ -1851,7 +1851,7 @@ void d_composite_root_solve_setplay(slice_index si)
   TraceFunctionParam("%d\n",si);
 
   if (n==slack_length_direct)
-    d_composite_root_end_solve_setplay(si);
+    composite_root_end_solve_setplay(si);
   else
   {
     int ntcount = 0;
