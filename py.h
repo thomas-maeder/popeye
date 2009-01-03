@@ -50,6 +50,8 @@
 **
 ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
 **
+** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+**
 **************************** End of List ******************************/
 
 #if !defined(PY_H)
@@ -1222,10 +1224,10 @@ typedef enum
   antikoeko,              /* 170 */
   castlingchess,          /* 171 */
   losingchess,            /* 172 */
-  ghostchess,             /* 173 */
-  hauntedchess,           /* 174 */
-
-  CondCount               /* 175 */
+  disparate,              /* 173 */
+  ghostchess,             /* 174 */
+  hauntedchess,           /* 175 */
+  CondCount               /* 176 */
 } Cond;
 
 /* Some remarks to the conditions:

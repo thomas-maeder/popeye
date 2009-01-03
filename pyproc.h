@@ -28,6 +28,8 @@
 **
 ** 2008/02/25 SE   New piece type: Magic  
 **
+** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+**
 **************************** End of List ******************************/
 
 #if !defined(PYPROC_H)
@@ -498,6 +500,8 @@ square fin_circle_line(square sq_departure,
 boolean eval_fromspecificsquare(ply ply_id, square departure, square arrival, square capture);
 void PushMagicViews(void);                       
 void ChangeMagic(int ply, boolean push);
+
+boolean eval_disp(ply ply_id, square sq_departure, square sq_arrival, square sq_capture);
 
 attackfunction_t GetRoseAttackVectors;
 attackfunction_t GetRoseLionAttackVectors;

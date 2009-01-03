@@ -37,6 +37,8 @@
  **
  ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
  **
+ ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -3037,7 +3039,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
   piece pp;
 
 
-  if (flag_madrasi) {
+  if (flag_libre_on_generate) {
     if (!libre(nbply,sq_departure, true)) {
       return;
     }

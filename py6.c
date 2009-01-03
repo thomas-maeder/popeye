@@ -61,6 +61,8 @@
  **
  ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
  **
+ ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+ **
  ***************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -959,6 +961,12 @@ static boolean verifieposition(void)
     eval_white= notsoutenu;
   }
 
+  if (CondFlag[disparate])
+  {
+    eval_white= eval_black= eval_disp;
+    optim_orthomatingmoves= false;
+  }
+
   if (CondFlag[nowhcapture] && CondFlag[noblcapture])
   {
     CondFlag[nocapture]= true;
@@ -1339,9 +1347,12 @@ static boolean verifieposition(void)
       || CondFlag[strictSAT]
       || CondFlag[takemake]
       || CondFlag[losingchess]
+      || CondFlag[disparate]
       || CondFlag[ghostchess]
       || CondFlag[hauntedchess] 
       || TSTFLAG(PieSpExFlags,Uncapturable);
+
+  flag_libre_on_generate = flag_madrasi || CondFlag[disparate];
 
   if (CondFlag[dynasty])
   {

@@ -50,6 +50,8 @@
 **
 ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
 **
+** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+**
 **************************** End of List ******************************/
 
 #if !defined(PYDATA_H)
@@ -446,6 +448,7 @@ EXTERN int              numgridlines;
 EXTERN square           rochade_sq[toppile + 1];
 EXTERN piece            rochade_pc[toppile + 1];
 EXTERN Flags            rochade_sp[toppile + 1];
+EXTERN boolean          flag_libre_on_generate;
 
 #if defined(WE_ARE_EXTERN)
 	extern PieTable PieNamString[LangCount];
@@ -1173,8 +1176,9 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*170*/ "AntiKoeko",
     /*171*/ "EchecsRoque",
     /*172*/ "QuiPerdGagne",
-    /*173*/ "EchecsGhost",
-    /*174*/ "EchecsHantes"
+    /*173*/ "Disparate",
+    /*174*/ "EchecsGhost",
+    /*175*/ "EchecsHantes"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1350,8 +1354,9 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*170*/ "AntiKoeko",
     /*171*/ "RochadeSchach",
     /*172*/ "Schlagschach",
-    /*173*/ "Geisterschach",
-    /*174*/ "Spukschach"
+    /*173*/ "Disparate",
+    /*174*/ "Geisterschach",
+    /*175*/ "Spukschach"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1527,8 +1532,9 @@ EXTERN Flags            rochade_sp[toppile + 1];
     /*170*/ "AntiKoeko",
     /*171*/ "CastlingChess",
     /*172*/ "LosingChess",
-    /*173*/ "GhostChess",
-    /*174*/ "HauntedChess"
+    /*173*/ "Disparate",
+    /*174*/ "GhostChess",
+    /*175*/ "HauntedChess"
     }
     };
 #endif

@@ -37,8 +37,10 @@
  **
  ** 2008/02/25 SE   New piece type: Magic 
  **                 Adjusted Masand code
+ **
  ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
  **
+ ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
  **
  **************************** End of List ******************************/
 
@@ -974,7 +976,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
 {
   piece pi_departing;
 
-  if (flag_madrasi) {
+  if (flag_libre_on_generate) {
     if (!libre(nbply,sq_departure, true)) {
       return;
     }

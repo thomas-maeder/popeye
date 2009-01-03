@@ -17,6 +17,8 @@
  **
  ** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)  
  **
+ ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+ **
  **************************** End of List ******************************/
 
 /**********************************************************************
@@ -1093,6 +1095,9 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
   if (slices[0].u.composite.is_exact) {
     len++;
   }
+  if (CondFlag[disparate]) {
+    len++;
+  }
   return len;
 } /* TellCommonEncodePosLeng */
 
@@ -1204,6 +1209,10 @@ static byte *CommonEncode(byte *bp)
     bp += sizeof BGL_white;
     memcpy(bp, &BGL_black, sizeof BGL_black);
     bp += sizeof BGL_black;
+  }
+
+  if (CondFlag[disparate]) {
+    *bp++ = (byte)(nbply>=2?pjoue[nbply]:vide);
   }
 
   return bp;

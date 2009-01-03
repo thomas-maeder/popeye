@@ -35,6 +35,8 @@
  ** 2008/02/25 SE   New piece type: Magic
  **                 Adjusted Masand code
  **
+ ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)  /* is always defined on macintosh's  SB */
@@ -2061,6 +2063,13 @@ boolean libre(ply ply_id, square sq, boolean generating)
       initneutre(advers(neutcoul));
   }
 
+  if (CondFlag[disparate])
+  {
+    if (nbply > 2 && trait[nbply] != trait[parent_ply[nbply]] && abs(p)==abs(pjoue[parent_ply[nbply]])) {
+      result= false;
+    }
+  }
+
   if (CondFlag[madras] || CondFlag[isardam])
   {
     /* The ep capture needs special handling. */
@@ -2981,6 +2990,40 @@ boolean eval_fromspecificsquare(ply ply_id, square sq_departure, square sq_arriv
       sq_departure==fromspecificsquare
       && (e[sq_departure]>vide ? eval_white : eval_black)(ply_id,sq_departure,sq_arrival,sq_capture);
 }
+
+boolean eval_disp(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+  boolean flag=false;
+  boolean traitnbply;
+  Side camp;
+
+  /* the following does not suffice if we have neutral kings,
+     but we have no chance to recover the information who is to
+     move from sq_departure, sq_arrival and sq_capture.
+     TLi
+  */
+  if (flag_nk) {        /* will this do for neutral Ks? */
+    camp= neutcoul;
+  }
+  else if (sq_capture == rn) {
+    camp=White;
+  }
+  else if (sq_capture == rb) {
+    camp=Black;
+  }
+  else {
+    camp= e[sq_departure]<0 ? Black : White;
+  }
+
+  nextply(ply_id);
+  traitnbply=trait[nbply]; 
+  trait[nbply]= camp;
+
+  flag = libre(ply_id, sq_departure, false); 
+  
+  trait[nbply]=traitnbply; 
+  finply();
+  return flag;
+} /* eval_disp */
 
 boolean observed(square on_this, square by_that) {
   boolean flag;

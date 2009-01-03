@@ -30,6 +30,8 @@
  **
  ** 2008/02/25 SE   New piece type: Magic  
  **
+ ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)          /* is always defined on macintosh's  SB */
@@ -337,6 +339,8 @@ void InitAlways(void) {
   tabsol.cp[0] = 0;
   tabsol.liste[0].push_top = push_colour_change_stack;
   dont_generate_castling = false;
+  flag_libre_on_generate= false;
+  flag_nk= false;
   
   takemake_departuresquare= initsquare;
   takemake_capturesquare= initsquare;
