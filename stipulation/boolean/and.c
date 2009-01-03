@@ -248,12 +248,12 @@ boolean reci_root_end_solve(boolean restartenabled, slice_index si)
  * @param si slice index
  * @param type type of attack
  */
-void d_reci_root_end_write_key_solve_postkey(slice_index si,
+void reci_root_end_write_key_solve_postkey(slice_index si,
                                              attack_type type)
 {
   /* TODO does this make sense? */
-  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
-  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op2,type);
+  slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
+  slice_root_write_key_solve_postkey(slices[si].u.composite.op2,type);
 }
 
 /* Has the threat just played been refuted by the preceding defense?

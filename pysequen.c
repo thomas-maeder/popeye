@@ -88,10 +88,10 @@ boolean sequence_root_end_solve_complete_set(slice_index si)
  * @param si slice index
  * @param type type of attack
  */
-void d_sequence_root_end_write_key_solve_postkey(slice_index si,
+void sequence_root_end_write_key_solve_postkey(slice_index si,
                                                  attack_type type)
 {
-  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
+  slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
 }
 
 /* Solve at root level at the end of a sequence slice

@@ -2061,7 +2061,7 @@ static boolean leaf_r_solve(slice_index leaf)
  * @param leaf slice index
  * @param type type of attack
  */
-void d_leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
+void leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
 {
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);
@@ -2078,7 +2078,6 @@ void d_leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
     case EReflex:
     case EHelp:
       write_attack(no_goal,type);
-
       output_start_leaf_variation_level();
       if (OptFlag[solvariantes])
         leaf_h_solve_final_move(leaf);

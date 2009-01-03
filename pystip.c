@@ -588,20 +588,23 @@ boolean slice_root_solve_complete_set(slice_index si)
  * @param si slice index
  * @param type type of attack
  */
-void d_slice_root_write_key_solve_postkey(slice_index si, attack_type type)
+void slice_root_write_key_solve_postkey(slice_index si, attack_type type)
 {
   switch (slices[si].type)
   {
     case STLeaf:
-      d_leaf_root_write_key_solve_postkey(si,type);
+      leaf_root_write_key_solve_postkey(si,type);
       break;
 
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      d_composite_root_write_key_solve_postkey(alloctab(),si,type);
+    {
+      int const refutations = alloctab();
+      composite_root_write_key_solve_postkey(refutations,si,type);
       freetab();
       break;
+    }
 
     default:
       assert(0);

@@ -1794,7 +1794,7 @@ void composite_solve_variations(slice_index si)
  *          including the move just played
  * @param si slice index
  */
-static void d_composite_root_solve_postkey(stip_length_type n,
+static void composite_d_root_solve_postkey(stip_length_type n,
                                            int refutations,
                                            slice_index si)
 {
@@ -2037,21 +2037,21 @@ void composite_root_solve_setplay(slice_index si)
  * @param si slice index
  * @param type type of attack
  */
-static void d_composite_root_end_write_key_solve_postkey(slice_index si,
-                                                         attack_type type)
+static void composite_root_end_write_key_solve_postkey(slice_index si,
+                                                       attack_type type)
 {
   switch (slices[si].type)
   {
     case STQuodlibet:
-      d_quodlibet_root_end_write_key_solve_postkey(si,type);
+      quodlibet_root_end_write_key_solve_postkey(si,type);
       break;
 
     case STReciprocal:
-      d_reci_root_end_write_key_solve_postkey(si,type);
+      reci_root_end_write_key_solve_postkey(si,type);
       break;
 
     case STSequence:
-      d_sequence_root_end_write_key_solve_postkey(si,type);
+      sequence_root_end_write_key_solve_postkey(si,type);
       break;
 
     default:
@@ -2066,19 +2066,49 @@ static void d_composite_root_end_write_key_solve_postkey(slice_index si,
  * @param si slice index
  * @param type type of attack
  */
-void d_composite_root_write_key_solve_postkey(int refutations,
-                                              slice_index si,
-                                              attack_type type)
+static void composite_d_root_write_key_solve_postkey(int refutations,
+                                                     slice_index si,
+                                                     attack_type type)
 {
   write_attack(no_goal,type);
 
   output_start_postkey_level();
   if (OptFlag[solvariantes])
-    d_composite_root_solve_postkey(slices[si].u.composite.length,
+    composite_d_root_solve_postkey(slices[si].u.composite.length,
                                    refutations,
                                    si);
   write_refutations(refutations);
   output_end_postkey_level();
+}
+
+/* Write the key just played, then solve the post key play (threats,
+ * variations) and write the refutations (if any).
+ * @param refutations table containing the refutations (if any)
+ * @param si slice index
+ * @param type type of attack
+ */
+void composite_root_write_key_solve_postkey(int refutations,
+                                            slice_index si,
+                                            attack_type type)
+{
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      composite_d_root_write_key_solve_postkey(refutations,si,type);
+      break;
+
+    case PHelp:
+      /* TODO */
+      break;
+
+    case PSeries:
+      /* TODO */
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 }
 
 /* Solve the postkey only of a composite slice at root level.
@@ -2144,7 +2174,7 @@ static boolean d_composite_root_solve(boolean restartenabled,
       {
         if (!slices[si].u.composite.is_exact
             && slice_end_has_starter_won(si))
-          d_composite_root_end_write_key_solve_postkey(si,attack_key);
+          composite_root_end_write_key_solve_postkey(si,attack_key);
         else
         {
           int refutations = alloctab();
@@ -2156,7 +2186,7 @@ static boolean d_composite_root_solve(boolean restartenabled,
             attack_type const type = (tablen(refutations)>=1
                                       ? attack_try
                                       : attack_key);
-            d_composite_root_write_key_solve_postkey(refutations,si,type);
+            composite_root_write_key_solve_postkey(refutations,si,type);
 
             if (nr_refutations==0)
               result = true;

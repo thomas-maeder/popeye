@@ -85,8 +85,8 @@ void reci_root_end_solve_setplay(slice_index si);
  * @param si slice index
  * @param type type of attack
  */
-void d_reci_root_end_write_key_solve_postkey(slice_index si,
-                                             attack_type type);
+void reci_root_end_write_key_solve_postkey(slice_index si,
+                                           attack_type type);
 
 /* Has the threat just played been refuted by the preceding defense?
  * @param si identifies stipulation slice

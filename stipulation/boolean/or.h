@@ -47,8 +47,8 @@ boolean quodlibet_root_end_solve_complete_set(slice_index si);
  * @param si slice index
  * @param type type of attack
  */
-void d_quodlibet_root_end_write_key_solve_postkey(slice_index si,
-                                                  attack_type type);
+void quodlibet_root_end_write_key_solve_postkey(slice_index si,
+                                                attack_type type);
 
 /* Find and write variations from the end of a quodlibet slice.
  * @param si slice index

@@ -148,11 +148,11 @@ boolean quodlibet_root_end_solve(boolean restartenabled, slice_index si)
  * @param si slice index
  * @param type type of attack
  */
-void d_quodlibet_root_end_write_key_solve_postkey(slice_index si,
-                                                  attack_type type)
+void quodlibet_root_end_write_key_solve_postkey(slice_index si,
+                                                attack_type type)
 {
-  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
-  d_slice_root_write_key_solve_postkey(slices[si].u.composite.op2,type);
+  slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
+  slice_root_write_key_solve_postkey(slices[si].u.composite.op2,type);
 }
 
 /* Determine whether there is a solution at the end of a quodlibet

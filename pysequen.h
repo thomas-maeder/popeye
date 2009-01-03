@@ -46,8 +46,8 @@ boolean sequence_root_end_solve_complete_set(slice_index si);
  * @param si slice index
  * @param type type of attack
  */
-void d_sequence_root_end_write_key_solve_postkey(slice_index si,
-                                                 attack_type type);
+void sequence_root_end_write_key_solve_postkey(slice_index si,
+                                               attack_type type);
 
 /* Solve at root level at the end of a sequence slice
  * @param restartenabled true iff option movenum is activated

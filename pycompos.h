@@ -26,9 +26,9 @@ void composite_root_solve_setplay(slice_index si);
  * @param si slice index
  * @param type type of attack
  */
-void d_composite_root_write_key_solve_postkey(int refutations,
-                                              slice_index si,
-                                              attack_type type);
+void composite_root_write_key_solve_postkey(int refutations,
+                                            slice_index si,
+                                            attack_type type);
 
 /* Determine and write the threat and variations in direct/self/reflex
  * play after the move that has just been played in the current ply.

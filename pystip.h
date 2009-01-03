@@ -239,8 +239,7 @@ typedef enum
  * @param si slice index
  * @param type type of attack
  */
-void d_slice_root_write_key_solve_postkey(slice_index si,
-                                          attack_type type);
+void slice_root_write_key_solve_postkey(slice_index si, attack_type type);
 
 /* Solve a slice
  * @param si slice index
