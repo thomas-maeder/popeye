@@ -2121,13 +2121,12 @@ boolean leaf_has_starter_lost(slice_index leaf)
   }
 }
 
-/* Determine whether the attacking side has directly won by the move
- * that it has just played.
- * @param defender defending side
- * @param leaf slice index
- * @return true iff the attacking side has directly won
+/* Determine whether the starting side has won with its move just
+ * played.
+ * @param leaf slice identifier
+ * @return true iff starter has won
  */
-boolean d_leaf_has_attacker_won(slice_index leaf)
+boolean leaf_has_starter_won(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].starter!=no_side);

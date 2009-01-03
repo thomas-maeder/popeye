@@ -126,12 +126,13 @@ boolean reci_end_has_starter_lost(slice_index si)
   return result;
 }
 
-/* Determine whether the attacker has immediately won in direct play
- * with his move just played.
+/* Determine whether the attacker has won with his move just played
+ * independently of the non-starter's possible further play during the
+ * current slice.
  * @param si slice identifier
- * @return true iff the attacking side has directly lost
+ * @return true iff the starter has won
  */
-boolean d_reci_end_has_attacker_won(slice_index si)
+boolean reci_end_has_starter_won(slice_index si)
 {
   boolean result;
   slice_index const op1 = slices[si].u.composite.op1;
@@ -142,7 +143,8 @@ boolean d_reci_end_has_attacker_won(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  result = d_slice_has_attacker_won(op1) && d_slice_has_attacker_won(op2);
+  result = (slice_end_has_starter_won(op1)
+            && slice_end_has_starter_won(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

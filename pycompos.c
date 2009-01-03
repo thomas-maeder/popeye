@@ -244,7 +244,8 @@ static d_defender_win_type d_composite_does_defender_win(stip_length_type n,
 
   if (slice_end_has_starter_lost(si))
     result = already_won;
-  else if (!slices[si].u.composite.is_exact && d_slice_has_attacker_won(si))
+  else if (!slices[si].u.composite.is_exact
+           && slice_end_has_starter_won(si))
     result = short_loss;
   else
     result = d_composite_helper_does_defender_win(n,si);
@@ -2004,7 +2005,7 @@ void d_composite_root_solve_postkeyonly(stip_length_type n, slice_index si)
     d_composite_end_solve_variations(si);
   else if (slices[si].u.composite.is_exact)
     d_composite_solve_postkey(n,si);
-  else if (d_slice_has_attacker_won(si))
+  else if (slice_end_has_starter_won(si))
     d_composite_end_solve_variations(si);
   else
     d_composite_solve_postkey(n,si);
@@ -2054,7 +2055,7 @@ static boolean d_composite_root_solve(boolean restartenabled,
           && !echecc(nbply,attacker))
       {
         if (!slices[si].u.composite.is_exact
-            && d_slice_has_attacker_won(si))
+            && slice_end_has_starter_won(si))
           d_composite_root_end_write_key_solve_postkey(si,attack_key);
         else
         {

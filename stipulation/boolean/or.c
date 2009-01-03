@@ -241,12 +241,13 @@ boolean quodlibet_end_has_non_starter_refuted(slice_index si)
   return result;
 }
 
-/* Determine whether the attacker has immediately won in direct play
- * with his move just played.
+/* Determine whether the attacker has won with his move just played
+ * independently of the non-starter's possible further play during the
+ * current slice.
  * @param si slice identifier
- * @return true iff the attacking side has directly won
+ * @return true iff the starter has won
  */
-boolean d_quodlibet_end_has_attacker_won(slice_index si)
+boolean quodlibet_end_has_starter_won(slice_index si)
 {
   boolean result = true;
   slice_index const op1 = slices[si].u.composite.op1;
@@ -255,8 +256,8 @@ boolean d_quodlibet_end_has_attacker_won(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = (d_slice_has_attacker_won(op1)
-            || d_slice_has_attacker_won(op2));
+  result = (slice_end_has_starter_won(op1)
+            || slice_end_has_starter_won(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

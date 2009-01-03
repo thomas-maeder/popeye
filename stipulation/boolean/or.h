@@ -79,13 +79,13 @@ boolean quodlibet_end_has_non_starter_solved(slice_index si);
  */
 boolean quodlibet_end_has_non_starter_refuted(slice_index si);
 
-/* Determine whether the attacker has immediately won in direct play
- * with his move just played.
- * @param defender defending side
+/* Determine whether the attacker has won with his move just played
+ * independently of the non-starter's possible further play during the
+ * current slice.
  * @param si slice identifier
- * @return true iff the attacking side has directly won
+ * @return true iff the starter has won
  */
-boolean d_quodlibet_end_has_attacker_won(slice_index si);
+boolean quodlibet_end_has_starter_won(slice_index si);
 
 /* Determine whether the starting side has lost with its move just
  * played independently of his possible further play during the

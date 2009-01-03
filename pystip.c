@@ -868,12 +868,13 @@ boolean slice_end_has_starter_lost(slice_index si)
   return result;
 }
 
-/* Determine whether the attacker has immediately won in direct play
- * with his move just played.
+/* Determine whether the attacker has won with his move just played
+ * independently of the non-starter's possible further play during the
+ * current slice.
  * @param si slice identifier
- * @return true iff the defending side has directly won
+ * @return true iff the starter has won
  */
-boolean d_slice_has_attacker_won(slice_index si)
+boolean slice_end_has_starter_won(slice_index si)
 {
   boolean result = false;
 
@@ -884,19 +885,19 @@ boolean d_slice_has_attacker_won(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = d_leaf_has_attacker_won(si);
+      result = leaf_has_starter_won(si);
       break;
 
     case STSequence:
-      result = d_sequence_end_has_attacker_won(si);
+      result = sequence_end_has_starter_won(si);
       break;
 
     case STQuodlibet:
-      result = d_quodlibet_end_has_attacker_won(si);
+      result = quodlibet_end_has_starter_won(si);
       break;
 
     case STReciprocal:
-      result = d_reci_end_has_attacker_won(si);
+      result = reci_end_has_starter_won(si);
       break;
 
     default:
