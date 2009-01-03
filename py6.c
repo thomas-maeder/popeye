@@ -2585,7 +2585,7 @@ static void SolveDirectProblems(void)
     if (echecc(nbply,slices[0].starter))
       ErrorMsg(SetAndCheck);
     else
-      d_composite_root_solve_postkeyonly(slices[0].u.composite.length,0);
+      composite_root_solve_postkeyonly(0);
   }
   else
   {

@@ -37,11 +37,10 @@ void composite_root_write_key_solve_postkey(int refutations,
 void composite_solve_variations(slice_index si);
 
 /* Determine and write only the post-key solution in the current
- * position in direct/self/reflex play.
- * @param n number of moves until end state has to be reached
+ * position
  * @param si slice index
  */
-void d_composite_root_solve_postkeyonly(stip_length_type n, slice_index si);
+void composite_root_solve_postkeyonly(slice_index si);
 
 /* Determine and write the continuations in the current position
  * (i.e. attacker's moves winning after a defender's move that refuted
@@ -58,28 +57,6 @@ void composite_solve_continuations(int continuations, slice_index si);
  */
 boolean composite_is_threat_refuted(slice_index si);
 
-/* Solve a composite slice with series play at root level
- * @param restartenabled true iff option movenum is active
- * @param si slice index
- * @param n number of moves until the slice's goal has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
- * @return true iff >= 1 solution was found
- */
-boolean ser_composite_root_exact_solve(boolean restartenabled,
-                                       slice_index si,
-                                       stip_length_type n);
-
-/* Determine and write the solutions in the current position in series
- * play.
- * @param si slice index
- * @param n number of moves until the slice's goal has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
- * @return true iff >= 1 solution was found
- */
-boolean ser_composite_exact_solve(slice_index si, stip_length_type n);
-
 /* Solve the root composite slice at root level.
  * @param restartenabled true iff option movenum is active
  * @param si slice index
@@ -89,6 +66,12 @@ boolean ser_composite_exact_solve(slice_index si, stip_length_type n);
 boolean composite_root_solve(boolean restartenabled,
                              slice_index si,
                              stip_length_type n);
+
+/* Determine and write the solutions in the current position.
+ * @param si slice index
+ * @return true iff >= 1 solution was found
+ */
+boolean composite_solve(slice_index si);
 
 /* Solve a composite slice at root level
  * @param restartenabled true iff option movenum is active
@@ -101,11 +84,5 @@ boolean composite_root_solve(boolean restartenabled,
 boolean composite_root_exact_solve(boolean restartenabled,
                                    slice_index si,
                                    stip_length_type n);
-
-/* Determine and write the solutions in the current position.
- * @param si slice index
- * @return true iff >= 1 solution was found
- */
-boolean composite_solve(slice_index si);
 
 #endif
