@@ -231,14 +231,14 @@ boolean sequence_end_has_starter_won(slice_index si)
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean d_sequence_end_is_threat_refuted(slice_index si)
+boolean sequence_end_is_threat_refuted(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = d_slice_is_threat_refuted(slices[si].u.composite.op1);
+  result = slice_is_threat_refuted(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

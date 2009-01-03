@@ -947,7 +947,7 @@ void slice_write_unsolvability(slice_index si)
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean d_slice_is_threat_refuted(slice_index si)
+boolean slice_is_threat_refuted(slice_index si)
 {
   boolean result = true;
 
@@ -963,7 +963,7 @@ boolean d_slice_is_threat_refuted(slice_index si)
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      result = d_composite_is_threat_refuted(si);
+      result = composite_is_threat_refuted(si);
       break;
 
     default:

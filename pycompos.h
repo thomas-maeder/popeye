@@ -56,7 +56,7 @@ void composite_solve_continuations(int continuations, slice_index si);
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean d_composite_is_threat_refuted(slice_index si);
+boolean composite_is_threat_refuted(slice_index si);
 
 /* Solve a composite slice with series play at root level
  * @param restartenabled true iff option movenum is active

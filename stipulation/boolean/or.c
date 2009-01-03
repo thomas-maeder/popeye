@@ -291,13 +291,13 @@ boolean quodlibet_end_has_starter_lost(slice_index si)
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean d_quodlibet_end_is_threat_refuted(slice_index si)
+boolean quodlibet_end_is_threat_refuted(slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
 
-  return (d_slice_is_threat_refuted(op1)
-          && d_slice_is_threat_refuted(op2));
+  return (slice_is_threat_refuted(op1)
+          && slice_is_threat_refuted(op2));
 }
 
 /* Continue solving at the end of a quodlibet slice

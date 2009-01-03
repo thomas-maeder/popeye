@@ -111,7 +111,7 @@ boolean sequence_end_has_starter_won(slice_index si);
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean d_sequence_end_is_threat_refuted(slice_index si);
+boolean sequence_end_is_threat_refuted(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

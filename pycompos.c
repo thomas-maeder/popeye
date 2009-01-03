@@ -1412,22 +1412,22 @@ boolean composite_solve(slice_index si)
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-static boolean d_composite_end_is_threat_refuted(slice_index si)
+static boolean composite_end_is_threat_refuted(slice_index si)
 {
   boolean result = true;
 
   switch (slices[si].type)
   {
     case STQuodlibet:
-      result = d_quodlibet_end_is_threat_refuted(si);
+      result = quodlibet_end_is_threat_refuted(si);
       break;
 
     case STReciprocal:
-      result = d_reci_end_is_threat_refuted(si);
+      result = reci_end_is_threat_refuted(si);
       break;
 
     case STSequence:
-      result = d_sequence_end_is_threat_refuted(si);
+      result = sequence_end_is_threat_refuted(si);
       break;
 
     default:
@@ -1441,7 +1441,7 @@ static boolean d_composite_end_is_threat_refuted(slice_index si)
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-static boolean d_composite_is_threat_in_n_refuted(stip_length_type n,
+static boolean composite_d_is_threat_in_n_refuted(stip_length_type n,
                                                   slice_index si)
 {
   boolean result;
@@ -1451,7 +1451,7 @@ static boolean d_composite_is_threat_in_n_refuted(stip_length_type n,
   TraceFunctionParam("%u\n",si);
 
   if (n==slack_length_direct)
-    result = d_composite_end_is_threat_refuted(si);
+    result = composite_end_is_threat_refuted(si);
   else
     result = d_composite_does_defender_win(n-1,si)<=win;
 
@@ -1464,10 +1464,40 @@ static boolean d_composite_is_threat_in_n_refuted(stip_length_type n,
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean d_composite_is_threat_refuted(slice_index si)
+static boolean composite_d_is_threat_refuted(slice_index si)
 {
-  return d_composite_is_threat_in_n_refuted(slices[si].u.composite.length,
-                                            si);
+  stip_length_type const n = slices[si].u.composite.length;
+  return composite_d_is_threat_in_n_refuted(n,si);
+}
+
+/* Has the threat just played been refuted by the preceding defense?
+ * @param si identifies stipulation slice
+ * @return true iff the threat is refuted
+ */
+boolean composite_is_threat_refuted(slice_index si)
+{
+  boolean result = false;
+
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      result = composite_d_is_threat_refuted(si);
+      break;
+
+    case PHelp:
+      /* TODO */
+      break;
+
+    case PSeries:
+      /* TODO */
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  return result;
 }
 
 /* Determine whether the move just played by the defending side
@@ -1502,7 +1532,7 @@ static boolean d_composite_defends_against_threats(stip_length_type n,
           && !echecc(nbply,attacker))
       {
         TraceText("checking threat\n");
-        defense_found = d_composite_is_threat_in_n_refuted(n,si);
+        defense_found = composite_d_is_threat_in_n_refuted(n,si);
         if (defense_found)
         {
           TraceText("defended\n");

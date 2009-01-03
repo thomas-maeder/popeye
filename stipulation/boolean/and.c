@@ -260,10 +260,10 @@ void reci_root_end_write_key_solve_postkey(slice_index si,
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean d_reci_end_is_threat_refuted(slice_index si)
+boolean reci_end_is_threat_refuted(slice_index si)
 {
-  return (d_slice_is_threat_refuted(slices[si].u.composite.op1)
-          || d_slice_is_threat_refuted(slices[si].u.composite.op2));
+  return (slice_is_threat_refuted(slices[si].u.composite.op1)
+          || slice_is_threat_refuted(slices[si].u.composite.op2));
 }
 
 /* Continue solving at the end of a reciprocal slice

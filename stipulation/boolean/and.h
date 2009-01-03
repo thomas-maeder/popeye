@@ -92,7 +92,7 @@ void reci_root_end_write_key_solve_postkey(slice_index si,
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean d_reci_end_is_threat_refuted(slice_index si);
+boolean reci_end_is_threat_refuted(slice_index si);
 
 /* Solve at root level at the end of a reciprocal slice
  * @param restartenabled true iff option movenum is activated

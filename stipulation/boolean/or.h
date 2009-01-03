@@ -99,7 +99,7 @@ boolean quodlibet_end_has_starter_lost(slice_index si);
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean d_quodlibet_end_is_threat_refuted(slice_index si);
+boolean quodlibet_end_is_threat_refuted(slice_index si);
 
 /* Continue solving at the end of a quodlibet slice
  * @param si slice index
