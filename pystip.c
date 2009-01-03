@@ -788,12 +788,15 @@ boolean slice_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the defender has immediately won in direct play
- * with his move just played.
+/* Determine whether the non-starter has refuted with his move just
+ * played independently of the starter's possible play during the
+ * current slice.
+ * Example: in direct play, the defender has just captured that last
+ * piece that could deliver mate.
  * @param si slice identifier
- * @return true iff the defending side has directly won
+ * @return true iff the non-starter has refuted
  */
-boolean d_slice_has_defender_won(slice_index si)
+boolean slice_end_has_non_starter_refuted(slice_index si)
 {
   boolean result = false;
 
@@ -804,15 +807,15 @@ boolean d_slice_has_defender_won(slice_index si)
       break;
 
     case STQuodlibet:
-      result = d_quodlibet_end_has_defender_won(si);
+      result = quodlibet_end_has_non_starter_refuted(si);
       break;
 
     case STSequence:
-      result = d_sequence_end_has_defender_won(si);
+      result = sequence_end_has_non_starter_refuted(si);
       break;
 
     case STReciprocal:
-      result = d_reci_end_has_defender_won(si);
+      result = reci_end_has_non_starter_refuted(si);
       break;
 
     default:

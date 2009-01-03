@@ -36,14 +36,17 @@ boolean quodlibet_end_is_unsolvable(slice_index si)
  */
 void quodlibet_write_unsolvability(slice_index si)
 {
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   TraceValue("%u",slices[si].u.composite.op1);
   TraceValue("%u\n",slices[si].u.composite.op2);
 
-  slice_write_unsolvability(slices[si].u.composite.op1);
-  slice_write_unsolvability(slices[si].u.composite.op2);
+  slice_write_unsolvability(op1);
+  slice_write_unsolvability(op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -55,11 +58,14 @@ void quodlibet_write_unsolvability(slice_index si)
  */
 void quodlibet_end_solve_continuations(int table, slice_index si)
 {
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  d_slice_solve_continuations(table,slices[si].u.composite.op1);
-  d_slice_solve_continuations(table,slices[si].u.composite.op2);
+  d_slice_solve_continuations(table,op1);
+  d_slice_solve_continuations(table,op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -70,11 +76,14 @@ void quodlibet_end_solve_continuations(int table, slice_index si)
  */
 void quodlibet_root_end_solve_setplay(slice_index si)
 {
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  slice_root_solve_setplay(slices[si].u.composite.op1);
-  slice_root_solve_setplay(slices[si].u.composite.op2);
+  slice_root_solve_setplay(op1);
+  slice_root_solve_setplay(op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -87,12 +96,14 @@ void quodlibet_root_end_solve_setplay(slice_index si)
 boolean quodlibet_root_end_solve_complete_set(slice_index si)
 {
   boolean result;
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = (slice_root_solve_complete_set(slices[si].u.composite.op1)
-            || slice_root_solve_complete_set(slices[si].u.composite.op2));
+  result = (slice_root_solve_complete_set(op1)
+            || slice_root_solve_complete_set(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -171,11 +182,14 @@ boolean quodlibet_end_has_solution(slice_index si)
  */
 void d_quodlibet_end_solve_variations(slice_index si)
 {
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  d_slice_solve_variations(slices[si].u.composite.op1);
-  d_slice_solve_variations(slices[si].u.composite.op2);
+  d_slice_solve_variations(op1);
+  d_slice_solve_variations(op2);
 
   TraceFunctionExit(__func__);
 }
@@ -188,31 +202,39 @@ void d_quodlibet_end_solve_variations(slice_index si)
 boolean quodlibet_end_has_non_starter_solved(slice_index si)
 {
   boolean result = true;
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = (slice_has_non_starter_solved(slices[si].u.composite.op1)
-            || slice_has_non_starter_solved(slices[si].u.composite.op2));
+  result = (slice_has_non_starter_solved(op1)
+            || slice_has_non_starter_solved(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
 }
 
-/* Determine whether the defender has immediately won in direct play
- * with his move just played.
+/* Determine whether the non-starter has refuted with his move just
+ * played independently of the starter's possible play during the
+ * current slice.
+ * Example: in direct play, the defender has just captured that last
+ * piece that could deliver mate.
  * @param si slice identifier
- * @return true iff the defending side has directly won
+ * @return true iff the non-starter has refuted
  */
-boolean d_quodlibet_end_has_defender_won(slice_index si)
+boolean quodlibet_end_has_non_starter_refuted(slice_index si)
 {
   boolean result = true;
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = (d_slice_has_defender_won(slices[si].u.composite.op1)
-            && d_slice_has_defender_won(slices[si].u.composite.op2));
+  result = (slice_end_has_non_starter_refuted(op1)
+            && slice_end_has_non_starter_refuted(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -227,12 +249,14 @@ boolean d_quodlibet_end_has_defender_won(slice_index si)
 boolean d_quodlibet_end_has_attacker_won(slice_index si)
 {
   boolean result = true;
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = (d_slice_has_attacker_won(slices[si].u.composite.op1)
-            || d_slice_has_attacker_won(slices[si].u.composite.op2));
+  result = (d_slice_has_attacker_won(op1)
+            || d_slice_has_attacker_won(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -247,12 +271,14 @@ boolean d_quodlibet_end_has_attacker_won(slice_index si)
 boolean d_quodlibet_end_has_attacker_lost(slice_index si)
 {
   boolean result = true;
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = (d_slice_has_attacker_lost(slices[si].u.composite.op1)
-            || d_slice_has_attacker_lost(slices[si].u.composite.op2));
+  result = (d_slice_has_attacker_lost(op1)
+            || d_slice_has_attacker_lost(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -265,8 +291,11 @@ boolean d_quodlibet_end_has_attacker_lost(slice_index si)
  */
 boolean d_quodlibet_end_is_threat_refuted(slice_index si)
 {
-  return (d_slice_is_threat_refuted(slices[si].u.composite.op1)
-          && d_slice_is_threat_refuted(slices[si].u.composite.op2));
+  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const op2 = slices[si].u.composite.op2;
+
+  return (d_slice_is_threat_refuted(op1)
+          && d_slice_is_threat_refuted(op2));
 }
 
 /* Continue solving at the end of a quodlibet slice

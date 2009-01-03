@@ -317,7 +317,7 @@ static boolean d_composite_has_solution_in_n(stip_length_type n,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
-  if (d_slice_has_defender_won(si))
+  if (slice_end_has_non_starter_refuted(si))
     ; /* intentionally nothing */
   else if (slices[si].u.composite.is_exact)
   {
@@ -2038,7 +2038,7 @@ static boolean d_composite_root_solve(boolean restartenabled,
 
   if (slice_has_non_starter_solved(si))
     result = true;
-  else if (d_slice_has_defender_won(si))
+  else if (slice_end_has_non_starter_refuted(si))
     slice_write_unsolvability(slices[si].u.composite.op1);
   else if (slices[si].u.composite.length==slack_length_direct)
     result = composite_root_end_solve(restartenabled,si);

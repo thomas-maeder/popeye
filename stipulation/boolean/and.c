@@ -74,12 +74,15 @@ boolean reci_end_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the defender has immediately won in direct play
- * with his move just played.
+/* Determine whether the non-starter has refuted with his move just
+ * played independently of the starter's possible play during the
+ * current slice.
+ * Example: in direct play, the defender has just captured that last
+ * piece that could deliver mate.
  * @param si slice identifier
- * @return true iff the defending side has directly won
+ * @return true iff the non-starter has refuted
  */
-boolean d_reci_end_has_defender_won(slice_index si)
+boolean reci_end_has_non_starter_refuted(slice_index si)
 {
   boolean result;
   slice_index const op1 = slices[si].u.composite.op1;
@@ -90,7 +93,8 @@ boolean d_reci_end_has_defender_won(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  result = d_slice_has_defender_won(op1) || d_slice_has_defender_won(op2);
+  result = (slice_end_has_non_starter_refuted(op1)
+            || slice_end_has_non_starter_refuted(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
