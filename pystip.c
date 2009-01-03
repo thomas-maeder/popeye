@@ -718,7 +718,7 @@ boolean slice_has_solution(slice_index si)
 /* Find and write variations
  * @param si slice index
  */
-void d_slice_solve_variations(slice_index si)
+void slice_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);

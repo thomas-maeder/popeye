@@ -66,7 +66,7 @@ void reci_write_unsolvability(slice_index si);
 /* Find and write variations from the end of a reciprocal slice.
  * @param si slice index
  */
-void d_reci_end_solve_variations(slice_index si);
+void reci_end_solve_variations(slice_index si);
 
 /* Determine and write continuations at end of reciprocal slice
  * @param continuations table where to store continuing moves

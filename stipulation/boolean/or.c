@@ -180,7 +180,7 @@ boolean quodlibet_end_has_solution(slice_index si)
 /* Find and write variations from the end of a quodlibet slice.
  * @param si slice index
  */
-void d_quodlibet_end_solve_variations(slice_index si)
+void quodlibet_end_solve_variations(slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
@@ -188,8 +188,8 @@ void d_quodlibet_end_solve_variations(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  d_slice_solve_variations(op1);
-  d_slice_solve_variations(op2);
+  slice_solve_variations(op1);
+  slice_solve_variations(op2);
 
   TraceFunctionExit(__func__);
 }

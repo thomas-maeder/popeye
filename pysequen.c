@@ -135,12 +135,12 @@ boolean sequence_end_has_solution(slice_index si)
 /* Find and write variations starting at end of sequence slice
  * @param si slice index
  */
-void d_sequence_end_solve_variations(slice_index si)
+void sequence_end_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  d_slice_solve_variations(slices[si].u.composite.op1);
+  slice_solve_variations(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
   TraceText("\n");

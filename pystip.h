@@ -296,7 +296,7 @@ boolean slice_end_has_starter_won(slice_index si);
 /* Find and write variations
  * @param si slice index
  */
-void d_slice_solve_variations(slice_index si);
+void slice_solve_variations(slice_index si);
 
 /* Has the threat just played been refuted by the preceding defense?
  * @param si identifies stipulation slice

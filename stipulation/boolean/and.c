@@ -174,14 +174,14 @@ void reci_write_unsolvability(slice_index si)
 /* Find and write variations from the end of a reciprocal slice.
  * @param si slice index
  */
-void d_reci_end_solve_variations(slice_index si)
+void reci_end_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   /* TODO solve variation after variation */
-  d_slice_solve_variations(slices[si].u.composite.op1);
-  d_slice_solve_variations(slices[si].u.composite.op2);
+  slice_solve_variations(slices[si].u.composite.op1);
+  slice_solve_variations(slices[si].u.composite.op2);
 
   TraceFunctionExit(__func__);
 }

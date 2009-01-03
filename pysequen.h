@@ -65,7 +65,7 @@ boolean sequence_end_solve(slice_index si);
 /* Find and write variations starting at end of sequence slice
  * @param si slice index
  */
-void d_sequence_end_solve_variations(slice_index si);
+void sequence_end_solve_variations(slice_index si);
 
 /* Determine whether there is a solution at the end of a quodlibet
  * slice. 

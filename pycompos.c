@@ -516,7 +516,7 @@ static int d_composite_find_refutations(int t, slice_index si)
  * We are at the end of a slice and delegate to the child slice(s)
  * @param si slice index
  */
-static void d_composite_end_solve_variations(slice_index si)
+static void composite_end_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -525,15 +525,15 @@ static void d_composite_end_solve_variations(slice_index si)
   switch (slices[si].type)
   {
     case STQuodlibet:
-      d_quodlibet_end_solve_variations(si);
+      quodlibet_end_solve_variations(si);
       break;
 
     case STReciprocal:
-      d_reci_end_solve_variations(si);
+      reci_end_solve_variations(si);
       break;
 
     case STSequence:
-      d_sequence_end_solve_variations(si);
+      sequence_end_solve_variations(si);
       break;
 
     default:
@@ -1628,7 +1628,7 @@ static int d_composite_solve_threats(stip_length_type n,
  * @param refutations table containing refutations after move just
  *                    played
  */
-void d_composite_root_solve_variations(stip_length_type n,
+void composite_d_root_solve_variations(stip_length_type n,
                                        int len_threat,
                                        int threats,
                                        int refutations,
@@ -1800,7 +1800,7 @@ static void composite_d_root_solve_postkey(stip_length_type n,
 {
   int const threats = alloctab();
   int const len_threat = d_composite_solve_threats(n,threats,si);
-  d_composite_root_solve_variations(n,len_threat,threats,refutations,si);
+  composite_d_root_solve_variations(n,len_threat,threats,refutations,si);
   freetab();
 }
 
@@ -1894,7 +1894,7 @@ static void composite_d_solve_continuations_in_n(stip_length_type n,
 
           if (!slices[si].u.composite.is_exact
               && defender_success>=short_loss)
-            d_composite_end_solve_variations(si);
+            composite_end_solve_variations(si);
           else
             d_composite_solve_postkey(n,si);
 
@@ -2120,11 +2120,11 @@ void d_composite_root_solve_postkeyonly(stip_length_type n, slice_index si)
   output_start_postkeyonly_level();
 
   if (n==slack_length_direct)
-    d_composite_end_solve_variations(si);
+    composite_end_solve_variations(si);
   else if (slices[si].u.composite.is_exact)
     d_composite_solve_postkey(n,si);
   else if (slice_end_has_starter_won(si))
-    d_composite_end_solve_variations(si);
+    composite_end_solve_variations(si);
   else
     d_composite_solve_postkey(n,si);
 

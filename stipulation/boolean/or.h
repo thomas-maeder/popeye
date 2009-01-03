@@ -53,7 +53,7 @@ void quodlibet_root_end_write_key_solve_postkey(slice_index si,
 /* Find and write variations from the end of a quodlibet slice.
  * @param si slice index
  */
-void d_quodlibet_end_solve_variations(slice_index si);
+void quodlibet_end_solve_variations(slice_index si);
 
 /* Determine whether there is a solution at the end of a quodlibet
  * slice. 
