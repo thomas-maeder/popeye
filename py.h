@@ -525,6 +525,13 @@ enum
   square_h2,
 
   square_a3 = square_a2+dir_up,
+  square_b3,
+  square_c3,
+  square_d3,
+  square_e3,
+  square_f3,
+  square_g3,
+  square_h3,
 
   square_a4 = square_a3+dir_up,
   square_b4,
@@ -545,7 +552,13 @@ enum
   square_h5,
 
   square_a6 = square_a5+dir_up,
-  square_h6 = square_h5+dir_up,
+  square_b6,
+  square_c6,
+  square_d6,
+  square_e6,
+  square_f6,
+  square_g6,
+  square_h6,
 
   square_a7 = square_a6+dir_up,
   square_b7,
