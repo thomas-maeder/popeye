@@ -1695,10 +1695,10 @@ void d_composite_root_solve_variations(stip_length_type n,
  * @param len_threat length of threats
  * @param threats table containing threats
  */
-void d_composite_solve_variations(stip_length_type n,
-                                  int len_threat,
-                                  int threats,
-                                  slice_index si)
+static void composite_d_solve_variations_in_n(stip_length_type n,
+                                              int len_threat,
+                                              int threats,
+                                              slice_index si)
 {
   Side const attacker = slices[si].starter;
   Side defender = advers(attacker);
@@ -1748,6 +1748,46 @@ void d_composite_solve_variations(stip_length_type n,
   TraceFunctionExit(__func__);
 }
 
+/* Determine and write the threat and variations in direct/self/reflex
+ * play after the move that has just been played in the current ply.
+ * @param si slice index
+ */
+static void composite_d_solve_variations(slice_index si)
+{
+  stip_length_type const n = slices[si].u.composite.length;
+  stip_length_type const max_threat_length = (n-1>max_len_threat
+                                              ? max_len_threat
+                                              : n-1);
+  int const threats = alloctab();
+  composite_d_solve_variations_in_n(n,max_threat_length,threats,si);
+  freetab();
+}
+
+/* Determine and write the threat and variations in direct/self/reflex
+ * play after the move that has just been played in the current ply.
+ * @param si slice index
+ */
+void composite_solve_variations(slice_index si)
+{
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      composite_d_solve_variations(si);
+      break;
+
+    case PHelp:
+      /* TODO */
+      break;
+
+    case PSeries:
+      /* TODO */
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+}
 
 /* Solve postkey play of a composite slice at root level.
  * @param n number of moves until end state has to be reached,
@@ -1759,7 +1799,7 @@ static void d_composite_root_solve_postkey(stip_length_type n,
                                            slice_index si)
 {
   int const threats = alloctab();
-  int len_threat = d_composite_solve_threats(n,threats,si);
+  int const len_threat = d_composite_solve_threats(n,threats,si);
   d_composite_root_solve_variations(n,len_threat,threats,refutations,si);
   freetab();
 }
@@ -1776,7 +1816,7 @@ static void d_composite_solve_postkey(stip_length_type n, slice_index si)
 
   output_start_postkey_level();
   len_threat = d_composite_solve_threats(n,threats,si);
-  d_composite_solve_variations(n,len_threat,threats,si);
+  composite_d_solve_variations_in_n(n,len_threat,threats,si);
   freetab();
   output_end_postkey_level();
 }

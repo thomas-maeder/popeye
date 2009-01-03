@@ -32,18 +32,9 @@ void d_composite_root_write_key_solve_postkey(int refutations,
 
 /* Determine and write the threat and variations in direct/self/reflex
  * play after the move that has just been played in the current ply.
- * We have already determined that this move doesn't have more
- * refutations than allowed.
- * This is an indirectly recursive function.
- * @param n number of moves until end state has to be reached,
- *          including the move just played
- * @param len_threat length of threats
- * @param threats table containing threats
+ * @param si slice index
  */
-void d_composite_solve_variations(stip_length_type n,
-                                  int len_threat,
-                                  int threats,
-                                  slice_index si);
+void composite_solve_variations(slice_index si);
 
 /* Determine and write only the post-key solution in the current
  * position in direct/self/reflex play.

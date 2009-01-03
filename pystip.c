@@ -723,18 +723,13 @@ void d_slice_solve_variations(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      d_leaf_solve_variations(si);
+      leaf_solve_variations(si);
       break;
 
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      d_composite_solve_variations(slices[si].u.composite.length,
-                                   alloctab(),
-                                   alloctab(),
-                                   si);
-      freetab();
-      freetab();
+      composite_solve_variations(si);
       break;
 
     default:

@@ -63,7 +63,7 @@ boolean leaf_root_solve_complete_set(slice_index leaf);
  * moves). 
  * @param leaf slice index
  */
-void d_leaf_solve_variations(slice_index leaf);
+void leaf_solve_variations(slice_index leaf);
 
 /* Write the key just played, solve the post key play (threats,
  * variations)
