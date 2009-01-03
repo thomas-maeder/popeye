@@ -94,12 +94,11 @@ boolean d_leaf_has_attacker_lost(slice_index leaf);
  */
 boolean d_leaf_has_attacker_won(slice_index leaf);
 
-/* Determine whether the attacker wins in a direct/self/reflex
- * stipulation in 1. 
+/* Determine whether there is a solution in a leaf.
  * @param leaf slice index of leaf slice
- * @return true iff attacker wins
+ * @return true iff leaf has >=1 solution
  */
-boolean d_leaf_does_attacker_win(slice_index leaf);
+boolean leaf_has_solution(slice_index leaf);
 
 /* Determine and write the solution of a leaf slice.
  * @param leaf identifies leaf slice

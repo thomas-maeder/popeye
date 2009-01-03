@@ -1253,13 +1253,11 @@ static void leaf_d_hash_update(slice_index leaf, HashBuffer *hb, hashwhat h)
     addtohash(leaf,DirNoSucc,1,hb);
 }
 
-/* Determine whether attacker can end in 1 move in direct play.
- * @param attacker attacking side (i.e. side attempting to reach the
- * end)
+/* Determine whether there is a solution in a direct leaf.
  * @param leaf slice index of leaf slice
  * @return true iff attacker can end in 1 move
  */
-static boolean d_leaf_d_does_attacker_win(slice_index leaf)
+static boolean leaf_d_has_solution(slice_index leaf)
 {
   hashwhat result = nr_hashwhat;
   HashBuffer hb;
@@ -1324,12 +1322,11 @@ static boolean d_leaf_d_does_attacker_win(slice_index leaf)
   return result==DirSucc;
 }
 
-/* Determine whether the attacker wins in a help (semireflex) leaf
- * slice
+/* Determine whether there is a solution in a help leaf.
  * @param leaf slice index of leaf slice
  * @return true iff attacker wins
  */
-static boolean d_leaf_h_does_attacker_win(slice_index leaf)
+static boolean leaf_h_has_solution(slice_index leaf)
 {
   boolean result = false;
   Side const side_at_move = slices[leaf].starter;
@@ -1392,11 +1389,11 @@ static boolean d_leaf_h_does_attacker_win(slice_index leaf)
   return result;
 }
 
-/* Determine whether the attacker wins in a self/reflex leaf slice
+/* Determine whether there is a solution in a self leaf.
  * @param leaf slice index of leaf slice
  * @return true iff attacker wins
  */
-static boolean d_leaf_s_does_attacker_win(slice_index leaf)
+static boolean leaf_s_has_solution(slice_index leaf)
 {
   hashwhat result;
   HashBuffer hb;
@@ -1462,7 +1459,7 @@ boolean leaf_is_solvable(slice_index leaf)
       if (OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
         ; /* intentionally nothing */
       else
-        result = d_leaf_d_does_attacker_win(leaf);
+        result = leaf_d_has_solution(leaf);
       break;
     }
 
@@ -1475,7 +1472,7 @@ boolean leaf_is_solvable(slice_index leaf)
           || (OptFlag[keepmating] && !is_a_mating_piece_left(defender)))
         ; /* intentionally nothing */
       else
-        result = d_leaf_h_does_attacker_win(leaf);
+        result = leaf_h_has_solution(leaf);
       break;
     }
 
@@ -1485,7 +1482,7 @@ boolean leaf_is_solvable(slice_index leaf)
       if (OptFlag[keepmating] && !is_a_mating_piece_left(defender))
         ; /* intentionally nothing */
       else
-        result = d_leaf_s_does_attacker_win(leaf);
+        result = leaf_s_has_solution(leaf);
       break;
     }
 
@@ -2158,13 +2155,11 @@ boolean d_leaf_has_attacker_won(slice_index leaf)
   }
 }
 
-/* Determine whether the attacker wins in a direct/self/reflex
- * stipulation
- * @param attacker attacking side (at move)
+/* Determine whether there is a solution in a leaf.
  * @param leaf slice index
- * @return true iff attacker wins
+ * @return true iff leaf has >=1 solution
  */
-boolean d_leaf_does_attacker_win(slice_index leaf)
+boolean leaf_has_solution(slice_index leaf)
 {
   boolean result = false;
 
@@ -2177,16 +2172,16 @@ boolean d_leaf_does_attacker_win(slice_index leaf)
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      result = d_leaf_d_does_attacker_win(leaf);
+      result = leaf_d_has_solution(leaf);
       break;
 
     case ESelf:
-      result = d_leaf_s_does_attacker_win(leaf);
+      result = leaf_s_has_solution(leaf);
       break;
 
     case EHelp:
     case EReflex:
-      result = d_leaf_h_does_attacker_win(leaf);
+      result = leaf_h_has_solution(leaf);
       break;
 
     default:

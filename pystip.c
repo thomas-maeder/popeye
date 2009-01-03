@@ -695,7 +695,7 @@ boolean d_slice_does_attacker_win(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = d_leaf_does_attacker_win(si);
+      result = leaf_has_solution(si);
       break;
 
     case STQuodlibet:
