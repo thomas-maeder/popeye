@@ -1,0 +1,30 @@
+beg
+
+prot disparate.ref
+
+cond disparate
+auth R.Bedoni
+orig phenix 2004
+pie wh kd7 blac pa6 kh3
+stip #3 
+opt var
+twin stip =3
+
+next
+
+cond disparate
+auth S.Emmerson
+orig unpublished
+fors k1K5/p7/1P6/40
+stip h=2
+opt wh
+
+next
+
+cond disparate
+auth R.Bedoni
+orig phenix 2004
+fors 3b1r2/K3P2b/3s4/24/p3r2p/k7
+stip h=3
+
+end
