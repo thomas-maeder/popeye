@@ -9,12 +9,11 @@
  * (i.e. non-leaf) stipulation slices.
  */
 
-/* Determine whether attacker can end in n moves of direct play.
- * This is a recursive function.
- * @param n number of moves left until the end state has to be reached
- * @return true iff attacker can end in n moves
+/* Determine whether a composite slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
  */
-boolean d_composite_does_attacker_win(stip_length_type n, slice_index si);
+boolean composite_has_solution(slice_index si);
 
 /* Determine and write set play of a direct/self/reflex stipulation
  * @param si slice index

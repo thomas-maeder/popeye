@@ -25,8 +25,8 @@ slice_index alloc_composite_slice(SliceType type, Play play)
   slice_index const result = next_slice++;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",type);
-  TraceFunctionParam("%d\n",play);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParam("%u\n",play);
 
   slices[result].type = type; 
   slices[result].starter = no_side; 
@@ -37,7 +37,7 @@ slice_index alloc_composite_slice(SliceType type, Play play)
   slices[result].u.composite.op2 = no_slice;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -59,7 +59,7 @@ slice_index alloc_target_leaf_slice(End end, square s)
   slices[result].u.leaf.target = s;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -72,8 +72,8 @@ slice_index alloc_leaf_slice(End end, Goal goal)
   slice_index const result = next_slice++;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",end);
-  TraceFunctionParam("%d\n",goal);
+  TraceFunctionParam("%u",end);
+  TraceFunctionParam("%u\n",goal);
 
   slices[result].type = STLeaf; 
   slices[result].starter = no_side; 
@@ -82,7 +82,7 @@ slice_index alloc_leaf_slice(End end, Goal goal)
   slices[result].u.leaf.target = initsquare;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -100,7 +100,7 @@ slice_index copy_slice(slice_index original)
   slices[result] = slices[original];
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -116,9 +116,9 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
   slice_index const index = *hook;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",*hook);
+  TraceFunctionParam("%u\n",*hook);
 
-  TraceValue("%d\n",slices[index].type);
+  TraceValue("%u\n",slices[index].type);
   switch (slices[index].type)
   {
     case STLeaf:
@@ -134,7 +134,7 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
          */
         Goal const goal = slices[index].u.leaf.goal;
         *hook = alloc_composite_slice(STQuodlibet,PDirect);
-        TraceValue("allocated quodlibet slice %d\n",*hook);
+        TraceValue("allocated quodlibet slice %u\n",*hook);
         slices[*hook].u.composite.op1 = alloc_leaf_slice(EDirect,goal);
         slices[*hook].u.composite.op2 = index;
         slices[*hook].u.composite.is_exact = false;
@@ -421,9 +421,9 @@ boolean slice_is_unsolvable(slice_index si)
   boolean result = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d\n",slices[si].type);
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeaf:
@@ -448,7 +448,7 @@ boolean slice_is_unsolvable(slice_index si)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -461,7 +461,7 @@ boolean slice_is_solvable(slice_index si)
   boolean result = false;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
@@ -475,7 +475,7 @@ boolean slice_is_solvable(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -486,9 +486,9 @@ boolean slice_is_solvable(slice_index si)
 void d_slice_solve_continuations(int table, slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d\n",slices[si].type);
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeaf:
@@ -518,11 +518,11 @@ void d_slice_solve_continuations(int table, slice_index si)
 void slice_root_solve_setplay(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   output_start_setplay_level();
 
-  TraceValue("%d\n",slices[si].type);
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeaf:
@@ -555,7 +555,7 @@ boolean slice_root_solve_complete_set(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
@@ -581,7 +581,7 @@ boolean slice_root_solve_complete_set(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -620,7 +620,7 @@ boolean slice_solve(slice_index si)
   boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
@@ -640,7 +640,7 @@ boolean slice_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found);
+  TraceFunctionResult("%u\n",solution_found);
   return solution_found;
 }
 
@@ -654,7 +654,7 @@ boolean slice_root_solve(boolean restartenabled, slice_index si)
   boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
@@ -677,20 +677,20 @@ boolean slice_root_solve(boolean restartenabled, slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found);
+  TraceFunctionResult("%u\n",solution_found);
   return solution_found;
 }
 
-/* Determine whether the attacking side wins
- * @param si slice identifier
- * @return true iff attacker wins
+/* Determine whether a composite slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
  */
-boolean d_slice_does_attacker_win(slice_index si)
+boolean slice_has_solution(slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
@@ -701,8 +701,7 @@ boolean d_slice_does_attacker_win(slice_index si)
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      result = d_composite_does_attacker_win(slices[si].u.composite.length,
-                                             si);
+      result = composite_has_solution(si);
       break;
 
     default:
@@ -711,7 +710,7 @@ boolean d_slice_does_attacker_win(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -721,7 +720,7 @@ boolean d_slice_does_attacker_win(slice_index si)
 void d_slice_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
@@ -760,7 +759,7 @@ boolean d_slice_has_defender_lost(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
@@ -786,7 +785,7 @@ boolean d_slice_has_defender_lost(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -836,9 +835,9 @@ boolean d_slice_has_attacker_lost(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d\n",slices[si].type);
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeaf:
@@ -863,7 +862,7 @@ boolean d_slice_has_attacker_lost(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -877,9 +876,9 @@ boolean d_slice_has_attacker_won(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d\n",slices[si].type);
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeaf:
@@ -904,7 +903,7 @@ boolean d_slice_has_attacker_won(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -916,7 +915,7 @@ boolean d_slice_has_attacker_won(slice_index si)
 void slice_write_unsolvability(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
@@ -954,7 +953,7 @@ boolean d_slice_is_threat_refuted(slice_index si)
   boolean result = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
@@ -974,7 +973,7 @@ boolean d_slice_is_threat_refuted(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -985,7 +984,7 @@ boolean d_slice_is_threat_refuted(slice_index si)
 void slice_detect_starter(slice_index si, boolean is_duplex)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
@@ -1013,11 +1012,11 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
   if (si==0)
   {
     regular_starter = slices[0].starter;
-    TraceValue("%d\n",regular_starter);
+    TraceValue("%u\n",regular_starter);
   }
 
-  TraceValue("%d\n",slices[si].u.composite.length);
-  TraceValue("%d\n",slices[si].u.composite.play);
+  TraceValue("%u\n",slices[si].u.composite.length);
+  TraceValue("%u\n",slices[si].u.composite.play);
   if (slices[si].type!=STLeaf
       && slices[si].u.composite.play==PHelp
       && slices[si].u.composite.length%2 == 1)
@@ -1028,7 +1027,7 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
       slices[si].starter = advers(slices[si].starter);
   }
 
-  TraceValue("%d\n",slices[si].starter);
+  TraceValue("%u\n",slices[si].starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
 }

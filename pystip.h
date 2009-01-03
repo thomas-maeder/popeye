@@ -255,11 +255,11 @@ boolean slice_solve(slice_index si);
  */
 boolean slice_root_solve(boolean restartenabled, slice_index si);
 
-/* Determine whether the attacking side wins
- * @param si slice identifier
- * @return true iff attacker wins
+/* Determine whether a composite slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
  */
-boolean d_slice_does_attacker_win(slice_index si);
+boolean slice_has_solution(slice_index si);
 
 /* Determine whether the defender has lost in direct play with his move
  * just played.

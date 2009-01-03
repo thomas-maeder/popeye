@@ -67,11 +67,12 @@ boolean sequence_end_solve(slice_index si);
  */
 void d_sequence_end_solve_variations(slice_index si);
 
-/* Determine whether the attacking side wins at the end of a sequence slice
- * @param si slice identifier
- * @return true iff attacker wins
+/* Determine whether there is a solution at the end of a quodlibet
+ * slice. 
+ * @param si slice index
+ * @return true iff slice si has a solution
  */
-boolean d_sequence_end_does_attacker_win(slice_index si);
+boolean sequence_end_has_solution(slice_index si);
 
 /* Determine whether the defender has directly lost in direct play
  * with his move just played.

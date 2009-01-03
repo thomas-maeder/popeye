@@ -16,11 +16,12 @@
  */
 boolean reci_end_is_unsolvable(slice_index si);
 
-/* Determine whether the attacker wins at the end of a reciprocal slice
- * @param si slice index of leaf slice
- * @return true iff attacker wins
+/* Determine whether there is a solution at the end of a quodlibet
+ * slice. 
+ * @param si slice index
+ * @return true iff slice si has a solution
  */
-boolean d_reci_end_does_attacker_win(slice_index si);
+boolean reci_end_has_solution(slice_index si);
 
 /* Determine whether the defender has immediately lost in direct play
  * with his move just played.

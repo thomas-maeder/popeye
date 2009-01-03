@@ -15,12 +15,12 @@ boolean sequence_end_is_unsolvable(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = slice_is_unsolvable(slices[si].u.composite.op1);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -41,9 +41,9 @@ void sequence_write_unsolvability(slice_index si)
 void sequence_end_solve_continuations(int table, slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d\n",slices[si].u.composite.op1);
+  TraceValue("%u\n",slices[si].u.composite.op1);
   d_slice_solve_continuations(table,slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
@@ -56,7 +56,7 @@ void sequence_end_solve_continuations(int table, slice_index si)
 void sequence_root_end_solve_setplay(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   slice_root_solve_setplay(slices[si].u.composite.op1);
 
@@ -73,12 +73,12 @@ boolean sequence_root_end_solve_complete_set(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = slice_root_solve_complete_set(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -113,21 +113,22 @@ boolean sequence_end_solve(slice_index si)
   return slice_solve(slices[si].u.composite.op1);
 }
 
-/* Determine whether the attacking side wins at the end of a sequence slice
- * @param si slice identifier
- * @return true iff attacker wins
+/* Determine whether there is a solution at the end of a quodlibet
+ * slice. 
+ * @param si slice index
+ * @return true iff slice si has a solution
  */
-boolean d_sequence_end_does_attacker_win(slice_index si)
+boolean sequence_end_has_solution(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  result = d_slice_does_attacker_win(slices[si].u.composite.op1);
+  result = slice_has_solution(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -137,7 +138,7 @@ boolean d_sequence_end_does_attacker_win(slice_index si)
 void d_sequence_end_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   d_slice_solve_variations(slices[si].u.composite.op1);
 
@@ -156,12 +157,12 @@ boolean d_sequence_end_has_defender_lost(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = d_slice_has_defender_lost(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -175,12 +176,12 @@ boolean d_sequence_end_has_defender_won(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = d_slice_has_defender_won(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -194,12 +195,12 @@ boolean d_sequence_end_has_attacker_lost(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = d_slice_has_attacker_lost(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -213,12 +214,12 @@ boolean d_sequence_end_has_attacker_won(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = d_slice_has_attacker_won(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -231,12 +232,12 @@ boolean d_sequence_end_is_threat_refuted(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = d_slice_is_threat_refuted(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -249,8 +250,8 @@ void sequence_detect_starter(slice_index si, boolean is_duplex)
   slice_index const op1 = slices[si].u.composite.op1;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",is_duplex);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",is_duplex);
 
   slice_detect_starter(op1,is_duplex);
 
@@ -279,7 +280,7 @@ void sequence_detect_starter(slice_index si, boolean is_duplex)
       break;
   }
 
-  TraceValue("%d\n",slices[si].starter);
+  TraceValue("%u\n",slices[si].starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
 }

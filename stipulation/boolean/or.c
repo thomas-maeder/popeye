@@ -17,14 +17,15 @@ boolean quodlibet_end_is_unsolvable(slice_index si)
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-  TraceValue("%d",op1);
-  TraceValue("%d\n",op2);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u",op1);
+  TraceValue("%u\n",op2);
 
   result = slice_is_unsolvable(op1) && slice_is_unsolvable(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -36,9 +37,10 @@ boolean quodlibet_end_is_unsolvable(slice_index si)
 void quodlibet_write_unsolvability(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-  TraceValue("%d",slices[si].u.composite.op1);
-  TraceValue("%d\n",slices[si].u.composite.op2);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u",slices[si].u.composite.op1);
+  TraceValue("%u\n",slices[si].u.composite.op2);
 
   slice_write_unsolvability(slices[si].u.composite.op1);
   slice_write_unsolvability(slices[si].u.composite.op2);
@@ -54,7 +56,7 @@ void quodlibet_write_unsolvability(slice_index si)
 void quodlibet_end_solve_continuations(int table, slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   d_slice_solve_continuations(table,slices[si].u.composite.op1);
   d_slice_solve_continuations(table,slices[si].u.composite.op2);
@@ -69,7 +71,7 @@ void quodlibet_end_solve_continuations(int table, slice_index si)
 void quodlibet_root_end_solve_setplay(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   slice_root_solve_setplay(slices[si].u.composite.op1);
   slice_root_solve_setplay(slices[si].u.composite.op2);
@@ -87,13 +89,13 @@ boolean quodlibet_root_end_solve_complete_set(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = (slice_root_solve_complete_set(slices[si].u.composite.op1)
             || slice_root_solve_complete_set(slices[si].u.composite.op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -126,7 +128,7 @@ boolean quodlibet_root_end_solve(boolean restartenabled, slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -142,25 +144,25 @@ void d_quodlibet_root_end_write_key_solve_postkey(slice_index si,
   d_slice_root_write_key_solve_postkey(slices[si].u.composite.op2,type);
 }
 
-/* Determine whether the attacker wins at the end of a quodlibet slice
+/* Determine whether there is a solution at the end of a quodlibet
+ * slice. 
  * @param si slice index
- * @param parent_is_exact true iff parent of slice si has exact length
- * @return true iff attacker wins
+ * @return true iff slice si has a solution
  */
-boolean d_quodlibet_end_does_attacker_win(slice_index si)
+boolean quodlibet_end_has_solution(slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  result = (d_slice_does_attacker_win(op1)
-            || d_slice_does_attacker_win(op2));
+  /* use shortcut evaluation */
+  result = slice_has_solution(op1) || slice_has_solution(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%d\n",result);
+  TraceFunctionParam("%u\n",result);
   return result;
 }
 
@@ -170,7 +172,7 @@ boolean d_quodlibet_end_does_attacker_win(slice_index si)
 void d_quodlibet_end_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   d_slice_solve_variations(slices[si].u.composite.op1);
   d_slice_solve_variations(slices[si].u.composite.op2);
@@ -189,13 +191,13 @@ boolean d_quodlibet_end_has_defender_lost(slice_index si)
   boolean result = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = (d_slice_has_defender_lost(slices[si].u.composite.op1)
             ||d_slice_has_defender_lost(slices[si].u.composite.op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -208,13 +210,13 @@ boolean d_quodlibet_end_has_defender_won(slice_index si)
 {
   boolean result = true;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = (d_slice_has_defender_won(slices[si].u.composite.op1)
             && d_slice_has_defender_won(slices[si].u.composite.op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -228,13 +230,13 @@ boolean d_quodlibet_end_has_attacker_won(slice_index si)
   boolean result = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = (d_slice_has_attacker_won(slices[si].u.composite.op1)
             || d_slice_has_attacker_won(slices[si].u.composite.op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -248,13 +250,13 @@ boolean d_quodlibet_end_has_attacker_lost(slice_index si)
   boolean result = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   result = (d_slice_has_attacker_lost(slices[si].u.composite.op1)
             || d_slice_has_attacker_lost(slices[si].u.composite.op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -280,16 +282,17 @@ boolean quodlibet_end_solve(slice_index si)
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
-  TraceValue("%d",op1);
-  TraceValue("%d\n",op2);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u",op1);
+  TraceValue("%u\n",op2);
 
   /* avoid short-cut boolean evaluation */
   found_solution_op1 = slice_solve(op1);
   found_solution_op2 = slice_solve(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution_op1 || found_solution_op2);
+  TraceFunctionResult("%u\n",found_solution_op1 || found_solution_op2);
   return found_solution_op1 || found_solution_op2;
 }
 
@@ -303,8 +306,8 @@ void quodlibet_detect_starter(slice_index si, boolean is_duplex)
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",is_duplex);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",is_duplex);
 
   slice_detect_starter(op1,is_duplex);
   slice_detect_starter(op2,is_duplex);
@@ -326,7 +329,7 @@ void quodlibet_detect_starter(slice_index si, boolean is_duplex)
   else if (slices[op1].starter==slices[op2].starter)
     slices[si].starter = slices[op1].starter;
 
-  TraceValue("%d\n",slices[si].starter);
+  TraceValue("%u\n",slices[si].starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
 }

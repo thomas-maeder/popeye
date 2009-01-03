@@ -29,8 +29,8 @@ static boolean d_composite_is_in_hash(slice_index si,
   boolean result = false;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
-  TraceFunctionParam("%d\n",n);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
 
   /* It is more likely that a position has no solution.           */
   /* Therefore let's check for "no solution" first.  TLi */
@@ -49,7 +49,7 @@ static boolean d_composite_is_in_hash(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -58,26 +58,26 @@ static boolean d_composite_is_in_hash(slice_index si,
  * @param si slice identifier
  * @return truee iff attacker wins
  */
-static boolean d_composite_end_does_attacker_win(slice_index si)
+static boolean composite_end_has_solution(slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",slices[si].type);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",slices[si].type);
 
   switch (slices[si].type)
   {
     case STQuodlibet:
-      result = d_quodlibet_end_does_attacker_win(si);
+      result = quodlibet_end_has_solution(si);
       break;
 
     case STReciprocal:
-      result = d_reci_end_does_attacker_win(si);
+      result = reci_end_has_solution(si);
       break;
 
     case STSequence:
-      result = d_sequence_end_does_attacker_win(si);
+      result = sequence_end_has_solution(si);
       break;
 
     default:
@@ -85,10 +85,16 @@ static boolean d_composite_end_does_attacker_win(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceValue("%d",si);
-  TraceFunctionResult("%d\n",result);
+  TraceValue("%u",si);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
+
+/* TODO find out whether we can arrange the functions so that this
+ * declaration is not necessary.
+ */
+static boolean d_composite_has_solution_in_n(stip_length_type n,
+                                             slice_index si);
 
 /* Count all non-trivial moves of the defending side. Whether a
  * particular move is non-trivial is determined by user input.
@@ -107,7 +113,7 @@ static int count_non_trivial(slice_index si)
     if (jouecoup(nbply,first_play)
         && !echecc(nbply,defender)
         && !(min_length_nontrivial>0
-             && d_composite_does_attacker_win(min_length_nontrivial,si)))
+             && d_composite_has_solution_in_n(min_length_nontrivial,si)))
       ++result;
     repcoup();
   }
@@ -144,8 +150,8 @@ d_defender_win_type d_composite_helper_does_defender_win(stip_length_type n,
   d_defender_win_type result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   /* check whether `black' can reach a position that is already
   ** marked unsolvable for white in the hash table. */
@@ -153,17 +159,17 @@ d_defender_win_type d_composite_helper_does_defender_win(stip_length_type n,
 
   if (n>max_len_threat
 	  && !echecc(nbply,defender)
-	  && !d_composite_does_attacker_win(max_len_threat,si))
+	  && !d_composite_has_solution_in_n(max_len_threat,si))
   {
     TraceFunctionExit(__func__);
-    TraceFunctionResult("%d\n",win);
+    TraceFunctionResult("%u\n",win);
 	return win;
   }
 
   if (OptFlag[solflights] && has_too_many_flights(defender))
   {
     TraceFunctionExit(__func__);
-    TraceFunctionResult("%d\n",win);
+    TraceFunctionResult("%u\n",win);
 	return win;
   }
 
@@ -177,7 +183,7 @@ d_defender_win_type d_composite_helper_does_defender_win(stip_length_type n,
 	if (max_nr_nontrivial<ntcount)
     {
       TraceFunctionExit(__func__);
-      TraceFunctionResult("%d\n",win);
+      TraceFunctionResult("%u\n",win);
 	  return win;
     }
 	else
@@ -197,7 +203,7 @@ d_defender_win_type d_composite_helper_does_defender_win(stip_length_type n,
         && !echecc(nbply,defender))
 	{
 	  is_defender_immobile = false;
-	  if (!d_composite_does_attacker_win(n,si))
+	  if (!d_composite_has_solution_in_n(n,si))
 	  {
         TraceText("refutes\n");
 		refutation_found = true;
@@ -216,7 +222,7 @@ d_defender_win_type d_composite_helper_does_defender_win(stip_length_type n,
   result = refutation_found || is_defender_immobile ? win : loss;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -231,8 +237,8 @@ static d_defender_win_type d_composite_does_defender_win(stip_length_type n,
   d_defender_win_type result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   assert(n>=slack_length_direct);
 
@@ -244,9 +250,9 @@ static d_defender_win_type d_composite_does_defender_win(stip_length_type n,
     result = d_composite_helper_does_defender_win(n,si);
 
   TraceFunctionExit(__func__);
-  TraceValue("%d",n);
-  TraceValue("%d",si);
-  TraceFunctionResult("%d\n",result);
+  TraceValue("%u",n);
+  TraceValue("%u",si);
+  TraceFunctionResult("%u\n",result);
   return result;
 } /* d_composite_does_defender_win */
 
@@ -255,15 +261,15 @@ static d_defender_win_type d_composite_does_defender_win(stip_length_type n,
  * @param attacker attacking side
  * @param si slice identifier
  */
-static boolean d_composite_helper_does_attacker_win(stip_length_type n,
-                                                    slice_index si)
+static boolean d_composite_helper_has_solution(stip_length_type n,
+                                               slice_index si)
 {
   Side const attacker = slices[si].starter;
   boolean win_found = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   assert(n>slack_length_direct);
 
@@ -276,7 +282,7 @@ static boolean d_composite_helper_does_attacker_win(stip_length_type n,
     {
       if (d_composite_does_defender_win(n-1,si)>=loss)
       {
-        TraceValue("%d",n);
+        TraceValue("%u",n);
         TraceText(" wins\n");
         win_found = true;
         coupfort();
@@ -292,8 +298,8 @@ static boolean d_composite_helper_does_attacker_win(stip_length_type n,
   finply();
 
   TraceFunctionExit(__func__);
-  TraceValue("%d",n);
-  TraceFunctionResult("%d\n",win_found);
+  TraceValue("%u",n);
+  TraceFunctionResult("%u\n",win_found);
   return win_found;
 }
 
@@ -302,20 +308,21 @@ static boolean d_composite_helper_does_attacker_win(stip_length_type n,
  * @param n number of moves left until the end state has to be reached
  * @return true iff attacker can end in n moves
  */
-boolean d_composite_does_attacker_win(stip_length_type n, slice_index si)
+static boolean d_composite_has_solution_in_n(stip_length_type n,
+                                             slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   if (d_slice_has_defender_won(si))
     ; /* intentionally nothing */
   else if (slices[si].u.composite.is_exact)
   {
     if (n==slack_length_direct)
-      result = d_composite_end_does_attacker_win(si);
+      result = composite_end_has_solution(si);
     else
     {
       HashBuffer hb;
@@ -323,7 +330,7 @@ boolean d_composite_does_attacker_win(stip_length_type n, slice_index si)
       (*encode)(&hb);
       if (!d_composite_is_in_hash(si,&hb,n,&result))
       {
-        result = d_composite_helper_does_attacker_win(n,si);
+        result = d_composite_helper_has_solution(n,si);
         if (result)
           addtohash(si,DirSucc,n-1,&hb);
         else
@@ -333,7 +340,7 @@ boolean d_composite_does_attacker_win(stip_length_type n, slice_index si)
   }
   else
   {
-    if (d_composite_end_does_attacker_win(si))
+    if (composite_end_has_solution(si))
       result = true;
     else if (d_slice_has_defender_lost(si))
       result = true;
@@ -349,7 +356,7 @@ boolean d_composite_does_attacker_win(stip_length_type n, slice_index si)
           if (i-1>max_len_threat || i>min_length_nontrivial)
             i = n;
 
-          result = d_composite_helper_does_attacker_win(i,si);
+          result = d_composite_helper_has_solution(i,si);
 
           if (maxtime_status==MAXTIME_TIMEOUT)
             break;
@@ -364,10 +371,54 @@ boolean d_composite_does_attacker_win(stip_length_type n, slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
-} /* d_composite_does_attacker_win */
+}
+
+/* Determine whether attacker can win in direct play.
+ * @param si slice index
+ * @return true iff attacker can win
+ */
+static boolean composite_d_has_solution(slice_index si)
+{
+  stip_length_type const n = slices[si].u.composite.length;
+  return d_composite_has_solution_in_n(n,si);
+}
+
+/* Determine whether a composite slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean composite_has_solution(slice_index si)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  switch (slices[si].u.composite.play)
+  {
+    case PDirect:
+      result = composite_d_has_solution(si);
+      break;
+
+    case PHelp:
+      /* TODO */
+      break;
+
+    case PSeries:
+      /* TODO */
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
 
 /* Find refutations after a move of the attacking side.
  * @param defender defending side
@@ -390,15 +441,15 @@ static int d_composite_find_refutations(int t, slice_index si)
   stip_length_type const n = slices[si].u.composite.length-1;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   if (n>max_len_threat
       && !echecc(nbply,defender)
-      && !d_composite_does_attacker_win(max_len_threat,si))
+      && !d_composite_has_solution_in_n(max_len_threat,si))
   {
     TraceFunctionExit(__func__);
-    TraceFunctionResult("%d\n",result);
+    TraceFunctionResult("%u\n",result);
     return max_nr_refutations+1;
   }
 
@@ -406,7 +457,7 @@ static int d_composite_find_refutations(int t, slice_index si)
       && OptFlag[solflights] && has_too_many_flights(defender))
   {
     TraceFunctionExit(__func__);
-    TraceFunctionResult("%d\n",result);
+    TraceFunctionResult("%u\n",result);
     return max_nr_refutations+1;
   }
 
@@ -416,7 +467,7 @@ static int d_composite_find_refutations(int t, slice_index si)
     if (max_nr_nontrivial<ntcount)
     {
       TraceFunctionExit(__func__);
-      TraceFunctionResult("%d\n",result);
+      TraceFunctionResult("%u\n",result);
       return max_nr_refutations+1;
     }
     else
@@ -436,7 +487,7 @@ static int d_composite_find_refutations(int t, slice_index si)
         && !echecc(nbply,defender))
     {
       is_defender_immobile = false;
-      if (!d_composite_does_attacker_win(n,si))
+      if (!d_composite_has_solution_in_n(n,si))
       {
         TraceText("refutes\n");
         pushtabsol(t);
@@ -453,7 +504,7 @@ static int d_composite_find_refutations(int t, slice_index si)
   result = is_defender_immobile ? max_nr_refutations+1 : tablen(t);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -467,8 +518,8 @@ static int d_composite_find_refutations(int t, slice_index si)
 static void d_composite_end_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",slices[si].type);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",slices[si].type);
 
   switch (slices[si].type)
   {
@@ -502,9 +553,9 @@ static boolean composite_root_end_solve(boolean restartenabled,
 {
   boolean result = false;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d\n",slices[si].type);
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STQuodlibet:
@@ -525,7 +576,7 @@ static boolean composite_root_end_solve(boolean restartenabled,
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -537,9 +588,9 @@ static boolean composite_end_solve(slice_index si)
 {
   boolean result = false;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d\n",slices[si].type);
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STQuodlibet:
@@ -560,7 +611,7 @@ static boolean composite_end_solve(slice_index si)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -574,9 +625,9 @@ static boolean composite_end_is_unsolvable(slice_index si)
 {
   boolean result = false;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d\n",slices[si].type);
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STReciprocal:
@@ -597,7 +648,7 @@ static boolean composite_end_is_unsolvable(slice_index si)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -631,9 +682,9 @@ static boolean h_composite_root_solve_recursive_nohash(Side side_at_move,
   boolean found_solution = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",side_at_move);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   assert(n>=slack_length_help);
 
@@ -681,7 +732,7 @@ static boolean h_composite_root_solve_recursive_nohash(Side side_at_move,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
+  TraceFunctionResult("%u\n",found_solution);
   return found_solution;
 }
 
@@ -707,9 +758,9 @@ static boolean h_composite_solve_recursive_nohash(Side side_at_move,
   boolean found_solution = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",side_at_move);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   assert(n>=slack_length_help);
 
@@ -753,7 +804,7 @@ static boolean h_composite_solve_recursive_nohash(Side side_at_move,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
+  TraceFunctionResult("%u\n",found_solution);
   return found_solution;
 }
 
@@ -781,9 +832,9 @@ static boolean h_composite_root_solve_recursive(Side side_at_move,
   HashBuffer hb;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",side_at_move);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   (*encode)(&hb);
   if (!inhash(si,hash_no_succ,n/2,&hb))
@@ -798,7 +849,7 @@ static boolean h_composite_root_solve_recursive(Side side_at_move,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
+  TraceFunctionResult("%u\n",found_solution);
   return found_solution;
 }
 
@@ -824,9 +875,9 @@ static boolean h_composite_solve_recursive(Side side_at_move,
   HashBuffer hb;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",side_at_move);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   (*encode)(&hb);
   if (!inhash(si,hash_no_succ,n/2,&hb))
@@ -838,7 +889,7 @@ static boolean h_composite_solve_recursive(Side side_at_move,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",found_solution);
+  TraceFunctionResult("%u\n",found_solution);
   return found_solution;
 }
 
@@ -857,9 +908,9 @@ static boolean h_composite_root_solve(boolean restartenabled,
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",restartenabled);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",n);
+  TraceFunctionParam("%u",restartenabled);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
 
   if (n==slices[si].u.composite.length)
     result = h_composite_root_solve_recursive_nohash(slices[si].starter,
@@ -873,7 +924,7 @@ static boolean h_composite_root_solve(boolean restartenabled,
                                               si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -887,10 +938,10 @@ static boolean h_composite_solve(slice_index si)
   stip_length_type const n = slices[si].u.composite.length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",restartenabled);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",restartenabled);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d\n",n);
+  TraceValue("%u\n",n);
 
   if (n==slices[si].u.composite.length)
     result = h_composite_solve_recursive_nohash(slices[si].starter,n,si);
@@ -898,7 +949,7 @@ static boolean h_composite_solve(slice_index si)
     result = h_composite_solve_recursive(slices[si].starter,n,si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -912,8 +963,8 @@ static boolean ser_composite_exact_solve_recursive(stip_length_type n,
 {
   boolean solution_found = false;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   if (n==slack_length_series)
     solution_found = composite_end_solve(si);
@@ -971,7 +1022,7 @@ static boolean ser_composite_exact_solve_recursive(stip_length_type n,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found);
+  TraceFunctionResult("%u\n",solution_found);
   return solution_found;
 }
 
@@ -987,8 +1038,8 @@ static boolean ser_composite_root_exact_solve_recursive(stip_length_type n,
 {
   boolean solution_found = false;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   if (n==slack_length_series)
     solution_found = composite_root_end_solve(restartenabled,si);
@@ -1051,7 +1102,7 @@ static boolean ser_composite_root_exact_solve_recursive(stip_length_type n,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found);
+  TraceFunctionResult("%u\n",solution_found);
   return solution_found;
 }
 
@@ -1093,8 +1144,8 @@ static boolean ser_composite_maximal_solve(stip_length_type n,
 {
   boolean solution_found;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   solution_found = composite_end_solve(si);
 
@@ -1152,7 +1203,7 @@ static boolean ser_composite_maximal_solve(stip_length_type n,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",solution_found);
+  TraceFunctionResult("%u\n",solution_found);
   return solution_found;
 }
 
@@ -1171,8 +1222,8 @@ static boolean ser_composite_root_solve(boolean restartenabled,
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",n);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
 
   if (slices[si].u.composite.is_exact)
     result = ser_composite_root_exact_solve(restartenabled,si,n);
@@ -1200,7 +1251,7 @@ static boolean ser_composite_root_solve(boolean restartenabled,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -1220,8 +1271,8 @@ static boolean ser_composite_root_solve(boolean restartenabled,
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",restartenabled);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",restartenabled);
 
   if (slices[si].u.composite.is_exact)
     result = ser_composite_root_exact_solve(restartenabled,si,n);
@@ -1231,7 +1282,7 @@ static boolean ser_composite_root_solve(boolean restartenabled,
     result = ser_composite_root_solve(restartenabled,si,n);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }*/
 
@@ -1250,7 +1301,7 @@ boolean composite_root_exact_solve(boolean restartenabled,
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].u.composite.play)
   {
@@ -1273,7 +1324,7 @@ boolean composite_root_exact_solve(boolean restartenabled,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -1287,9 +1338,9 @@ static boolean ser_composite_solve(slice_index si)
   stip_length_type const n = slices[si].u.composite.length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d\n",n);
+  TraceValue("%u\n",n);
 
   if (slices[si].u.composite.is_exact)
     result = ser_composite_exact_solve(si,n);
@@ -1317,7 +1368,7 @@ static boolean ser_composite_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -1330,7 +1381,7 @@ boolean composite_solve(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].u.composite.play)
   {
@@ -1352,7 +1403,7 @@ boolean composite_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -1395,8 +1446,8 @@ static boolean d_composite_is_threat_in_n_refuted(stip_length_type n,
   boolean result;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   if (n==slack_length_direct)
     result = d_composite_end_is_threat_refuted(si);
@@ -1404,7 +1455,7 @@ static boolean d_composite_is_threat_in_n_refuted(stip_length_type n,
     result = d_composite_does_defender_win(n-1,si)<=win;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -1433,9 +1484,9 @@ static boolean d_composite_defends_against_threats(stip_length_type n,
   boolean result = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d",si);
-  TraceFunctionParam("%d\n",tablen(threats));
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",tablen(threats));
   if (tablen(threats)>0)
   {
     int nr_successful_threats = 0;
@@ -1471,7 +1522,7 @@ static boolean d_composite_defends_against_threats(stip_length_type n,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -1487,8 +1538,8 @@ static void d_composite_write_variation(stip_length_type n, slice_index si)
   boolean isRefutation = true; /* until we prove otherwise */
   stip_length_type i;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   write_defense();
 
@@ -1528,8 +1579,8 @@ static int d_composite_solve_threats(stip_length_type n,
   int result = 1;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   if (!(OptFlag[nothreat] || echecc(nbply,defender)))
   {
@@ -1554,7 +1605,7 @@ static int d_composite_solve_threats(stip_length_type n,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -1581,9 +1632,9 @@ void d_composite_root_solve_variations(stip_length_type n,
   int ntcount = 0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d",len_threat);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",len_threat);
+  TraceFunctionParam("%u\n",si);
 
   if (n-1>min_length_nontrivial)
   {
@@ -1600,10 +1651,10 @@ void d_composite_root_solve_variations(stip_length_type n,
         && !nowdanstab(refutations))
     {
       if (n>2 && OptFlag[noshort]
-          && d_composite_does_attacker_win(n-2,si))
+          && d_composite_has_solution_in_n(n-2,si))
         ; /* variation shorter than stip; thanks, but no thanks! */
       else if (len_threat>1
-               && d_composite_does_attacker_win(len_threat-1,si))
+               && d_composite_has_solution_in_n(len_threat-1,si))
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
       else if (d_slice_has_defender_lost(si))
@@ -1647,9 +1698,9 @@ void d_composite_solve_variations(stip_length_type n,
   int ntcount = 0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d",len_threat);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",len_threat);
+  TraceFunctionParam("%u\n",si);
 
   if (n-1>min_length_nontrivial)
   {
@@ -1665,10 +1716,10 @@ void d_composite_solve_variations(stip_length_type n,
         && !echecc(nbply,defender))
     {
       if (n>2 && OptFlag[noshort]
-          && d_composite_does_attacker_win(n-2,si))
+          && d_composite_has_solution_in_n(n-2,si))
         ; /* variation shorter than stip; thanks, but no thanks! */
       else if (len_threat>1
-               && d_composite_does_attacker_win(len_threat-1,si))
+               && d_composite_has_solution_in_n(len_threat-1,si))
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
       else if (d_slice_has_defender_lost(si))
@@ -1731,9 +1782,9 @@ static void d_composite_solve_postkey(stip_length_type n, slice_index si)
 static void composite_end_solve_continuations(int t, slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%d\n",slices[si].type);
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STQuodlibet:
@@ -1772,8 +1823,8 @@ void d_composite_solve_continuations(stip_length_type n,
   Side const attacker = slices[si].starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",n);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
 
   if (n==slack_length_direct)
     composite_end_solve_continuations(continuations,si);
@@ -1788,7 +1839,7 @@ void d_composite_solve_continuations(stip_length_type n,
       {
         d_defender_win_type const defender_success =
             d_composite_does_defender_win(n-1,si);
-        TraceValue("%d\n",defender_success);
+        TraceValue("%u\n",defender_success);
         if (defender_success>=loss)
         {
           write_attack(no_goal,attack_regular);
@@ -1848,7 +1899,7 @@ void composite_root_solve_setplay(slice_index si)
   stip_length_type const n = slices[si].u.composite.length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   if (n==slack_length_direct)
     composite_root_end_solve_setplay(si);
@@ -1874,7 +1925,7 @@ void composite_root_solve_setplay(slice_index si)
       {
         if (d_slice_has_defender_lost(si))
           ; /* oops */
-        else if (d_composite_does_attacker_win(n-1,si))
+        else if (d_composite_has_solution_in_n(n-1,si))
           /* yipee - this solves! */
           d_composite_write_variation(n-1,si);
       }
@@ -2010,7 +2061,7 @@ static boolean d_composite_root_solve(boolean restartenabled,
           int refutations = alloctab();
           int const nr_refutations =
               d_composite_find_refutations(refutations,si);
-          TraceValue("%d\n",nr_refutations);
+          TraceValue("%u\n",nr_refutations);
           if (nr_refutations<=max_nr_refutations)
           {
             attack_type const type = (tablen(refutations)>=1
@@ -2061,7 +2112,7 @@ boolean composite_root_solve(boolean restartenabled,
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
 
   switch (slices[si].u.composite.play)
   {
@@ -2083,6 +2134,6 @@ boolean composite_root_solve(boolean restartenabled,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }

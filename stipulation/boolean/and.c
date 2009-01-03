@@ -29,12 +29,12 @@ boolean reci_end_is_unsolvable(slice_index si)
   return result;
 }
 
-/* Determine whether the attacker wins at the end of a reciprocal slice
+/* Determine whether there is a solution at the end of a quodlibet
+ * slice. 
  * @param si slice index
- * @param parent_is_exact true iff parent of slice si has exact length
- * @return true iff attacker wins
+ * @return true iff slice si has a solution
  */
-boolean d_reci_end_does_attacker_win(slice_index si)
+boolean reci_end_has_solution(slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
@@ -43,8 +43,7 @@ boolean d_reci_end_does_attacker_win(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
 
-  result = (d_slice_does_attacker_win(op1)
-            && d_slice_does_attacker_win(op2));
+  result = slice_has_solution(op1) && slice_has_solution(op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%d\n",result);
