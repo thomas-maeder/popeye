@@ -503,23 +503,24 @@ static boolean isGoalReachableRegularGoals(void)
 
 /* declarations */
 void ImmobilizeByBlBlock(
-    int, int, int, int, square, boolean, stip_length_type n);
-void DeposeBlPiece(int, int, int, int, stip_length_type n);
-void Immobilize(int, int, int, int, stip_length_type n);
-void AvoidCheckInStalemate(int, int, int, int, stip_length_type n);
+    int, int, int, int, square, boolean, stip_length_type n, Side starter);
+void DeposeBlPiece(int, int, int, int, stip_length_type n, Side starter);
+void Immobilize(int, int, int, int, stip_length_type n, Side starter);
+void AvoidCheckInStalemate(int, int, int, int, stip_length_type n, Side starter);
 int MovesToBlock(square, int);
-void DeposeWhKing(int, int, int, int, stip_length_type n);
-void NeutralizeMateGuardingPieces(int, int, int, int, stip_length_type n);
-void BlackPieceTo(square, int, int, int, int, stip_length_type n);
-void WhitePieceTo(square, int, int, int, int, stip_length_type n);
-void AvoidWhKingInCheck(int, int, int, int, stip_length_type n);
+void DeposeWhKing(int, int, int, int, stip_length_type n, Side starter);
+void NeutralizeMateGuardingPieces(int, int, int, int, stip_length_type n, Side starter);
+void BlackPieceTo(square, int, int, int, int, stip_length_type n, Side starter);
+void WhitePieceTo(square, int, int, int, int, stip_length_type n, Side starter);
+void AvoidWhKingInCheck(int, int, int, int, stip_length_type n, Side starter);
 
 void StaleStoreMate(
   int   blmoves,
   int   whmoves,
   int   blpcallowed,
   int   whpcallowed,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   int   i, index, unused= 0;
   square    *bnp, _rb, _rn;
@@ -537,7 +538,7 @@ void StaleStoreMate(
          && (white[0].sq != square_e1)
          && (whmoves == 0))
   {
-    DeposeWhKing(blmoves, whmoves, blpcallowed, whpcallowed, n);
+    DeposeWhKing(blmoves, whmoves, blpcallowed, whpcallowed, n, starter);
     return;
   }
 
@@ -553,7 +554,7 @@ void StaleStoreMate(
     sprintf(GlobalStr, "unused= %d\n", unused);
     StdString(GlobalStr);
 #endif
-    DeposeBlPiece(blmoves, whmoves, blpcallowed, whpcallowed, n);
+    DeposeBlPiece(blmoves, whmoves, blpcallowed, whpcallowed, n, starter);
   }
 #if defined(DEBUG)
   sprintf(GlobalStr,
@@ -566,7 +567,8 @@ void StaleStoreMate(
 
   /* checks against the wKing should be coped with earlier !!! */
   if (echecc(nbply,White)) {
-    AvoidWhKingInCheck(blmoves, whmoves, blpcallowed, whpcallowed, n); 
+    AvoidWhKingInCheck(blmoves, whmoves, blpcallowed, whpcallowed,
+                       n, starter); 
   }
 
   CapturesLeft[1]= unused;
@@ -646,7 +648,7 @@ void StaleStoreMate(
   closehash();
   inithash();
 
-  composite_root_exact_solve(false,0,n);
+  composite_root_exact_solve(false,0,n,starter);
 
   /* reset the old mating position */
   for (bnp= boardnum; *bnp; bnp++) {
@@ -678,7 +680,8 @@ void DeposeBlPiece(
   int   whmoves,
   int   blpcallowed,
   int   whpcallowed,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   square *bnp, *isbnp= deposebnp;
 
@@ -699,7 +702,8 @@ void DeposeBlPiece(
 #endif
       deposebnp= bnp;
       ImmobilizeByBlBlock(blmoves,
-                          whmoves, blpcallowed, whpcallowed, *bnp, false, n);
+                          whmoves, blpcallowed, whpcallowed, *bnp, false, n,
+                          starter);
     }
   }
 
@@ -718,7 +722,8 @@ void PreventCheckAgainstWhK(
   int   whmoves,
   int   blpc,
   int   whpc,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   square trouble= initsquare;
   boolean fbm= flagblackmummer;
@@ -746,8 +751,8 @@ void PreventCheckAgainstWhK(
     int dir= CheckDirQueen[rb-trouble];
 
     for (sq= trouble+dir; sq != rb; sq+=dir) {
-      BlackPieceTo(sq, blmoves, whmoves, blpc, whpc, n);
-      WhitePieceTo(sq, blmoves, whmoves, blpc, whpc, n);
+      BlackPieceTo(sq, blmoves, whmoves, blpc, whpc, n, starter);
+      WhitePieceTo(sq, blmoves, whmoves, blpc, whpc, n, starter);
     }
   }
 
@@ -790,14 +795,15 @@ void StoreMate(
   int   whmoves,
   int   blpc,
   int   whpc,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   int i, index;
   square *bnp, _rb, _rn;
   Flags sp;
 
   if (!immobile(Black)) {
-    NeutralizeMateGuardingPieces(blmoves, whmoves, blpc, whpc, n);
+    NeutralizeMateGuardingPieces(blmoves, whmoves, blpc, whpc, n, starter);
     return;
   }
 
@@ -815,7 +821,7 @@ void StoreMate(
   }
 
   if (echecc(nbply,White))
-    PreventCheckAgainstWhK(blmoves, whmoves, blpc, whpc, n);
+    PreventCheckAgainstWhK(blmoves, whmoves, blpc, whpc, n, starter);
 
   MatesMax++;
 
@@ -870,7 +876,7 @@ void StoreMate(
   closehash();
   inithash();
 
-  composite_root_exact_solve(false,0,n);
+  composite_root_exact_solve(false,0,n,starter);
 
   /* reset the old mating position */
   for (bnp= boardnum; *bnp; bnp++) {
@@ -905,7 +911,8 @@ void PinBlPiece(
   int   whmoves,
   int   blpc,
   int   whpc,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   square    sq= topin;
   int   dir, time, i;
@@ -928,7 +935,7 @@ void PinBlPiece(
             if (time <= whmoves) {
               SetPiece(Bishop, sq, white[i].sp);
               StoreMate(blmoves,
-                        whmoves-time, blpc, whpc,n);
+                        whmoves-time, blpc, whpc,n,starter);
             }
           }
           else {
@@ -937,21 +944,21 @@ void PinBlPiece(
             if (time <= whmoves) {
               SetPiece(Rook, sq, white[i].sp);
               StoreMate(blmoves,
-                        whmoves-time, blpc, whpc,n);
+                        whmoves-time, blpc, whpc,n,starter);
             }
           }
           time= FroTo(f_p, white[i].sq, Queen, sq, false);
           if (time <= whmoves) {
             SetPiece(Queen, sq, white[i].sp);
             StoreMate(blmoves,
-                      whmoves-time, blpc, whpc,n);
+                      whmoves-time, blpc, whpc,n,starter);
           }
         }
         else {
           time= FroTo(f_p, white[i].sq, f_p, sq, false);
           if (time <= whmoves) {
             SetPiece(f_p, sq, white[i].sp);
-            StoreMate(blmoves, whmoves-time, blpc, whpc, n);
+            StoreMate(blmoves, whmoves-time, blpc, whpc, n,starter);
           }
         }
         whiteused[i]= false;
@@ -968,7 +975,8 @@ void ImmobilizeByPin(
   int   blpcallowed,
   int   whpcallowed,
   square    topin,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   int   dir, time, i;
   boolean   diagonal;
@@ -1020,12 +1028,12 @@ void ImmobilizeByPin(
               SetPiece(Bishop, sq, white[i].sp);
               if (immobile(Black)) {
                 StaleStoreMate(blmoves, whmoves-time,
-                               blpcallowed-1, whpcallowed, n);
+                               blpcallowed-1, whpcallowed, n,starter);
               }
               else {
                 Immobilize(blmoves,
                            whmoves-time, blpcallowed-1,
-                           whpcallowed, n);
+                           whpcallowed, n, starter);
               }
             }
           }
@@ -1035,11 +1043,11 @@ void ImmobilizeByPin(
               SetPiece(Rook, sq, white[i].sp);
               if (immobile(Black)) {
                 StaleStoreMate(blmoves, whmoves-time,
-                               blpcallowed-1, whpcallowed, n);
+                               blpcallowed-1, whpcallowed, n,starter);
               }
               else {
                 Immobilize(blmoves, whmoves-time,
-                           blpcallowed-1, whpcallowed, n);
+                           blpcallowed-1, whpcallowed, n, starter);
               }
             }
           }
@@ -1049,12 +1057,12 @@ void ImmobilizeByPin(
             if (immobile(Black)) {
               StaleStoreMate(blmoves,
                              whmoves-time, blpcallowed-1,
-                             whpcallowed, n);
+                             whpcallowed, n,starter);
             }
             else {
               Immobilize(blmoves,
                          whmoves-time, blpcallowed-1,
-                         whpcallowed, n);
+                         whpcallowed, n, starter);
             }
           }
         }
@@ -1065,12 +1073,12 @@ void ImmobilizeByPin(
             if (immobile(Black)) {
               StaleStoreMate(
                 blmoves, whmoves-time, blpcallowed-1,
-                whpcallowed, n);
+                whpcallowed, n,starter);
             }
             else {
               Immobilize(blmoves,
                          whmoves-time, blpcallowed-1,
-                         whpcallowed, n);
+                         whpcallowed, n, starter);
             }
           }
         }
@@ -1110,7 +1118,8 @@ void DeposeWhKing(int   blmoves,
                   int   whmoves,
                   int   blpcallowed,
                   int   whpcallowed,
-                  stip_length_type n)
+                  stip_length_type n,
+                  Side starter)
 {
   piece f_p;
 
@@ -1133,15 +1142,15 @@ void DeposeWhKing(int   blmoves,
   if (!IllegalCheck(Black) && !IllegalCheck(White)) {
     if (echecc(nbply,Black)) {
       AvoidCheckInStalemate(blmoves, whmoves,
-                            blpcallowed, whpcallowed, n);
+                            blpcallowed, whpcallowed, n, starter);
     }
     else {
       if (immobile(Black)) {
         StaleStoreMate(blmoves,
-                       whmoves, blpcallowed, whpcallowed, n);
+                       whmoves, blpcallowed, whpcallowed, n, starter);
       }
       else {
-        Immobilize(blmoves, whmoves, blpcallowed, whpcallowed, n);
+        Immobilize(blmoves, whmoves, blpcallowed, whpcallowed, n, starter);
       }
     }
   }
@@ -1162,7 +1171,8 @@ void ImmobilizeByBlBlock(
   int   whpcallowed,
   square    toblock,
   boolean   morethanonecheck,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   int i, time, pcreq;
   piece f_p;
@@ -1209,18 +1219,18 @@ void ImmobilizeByBlBlock(
               if (morethanonecheck) {
                 AvoidCheckInStalemate(blmoves-time,
                                       whmoves, blpcallowed, whpcallowed-1,
-                                      n);
+                                      n, starter);
               }
               else {
                 if (immobile(Black)) {
                   StaleStoreMate(blmoves-time,
                                  whmoves,
-                                 blpcallowed, whpcallowed-1, n);
+                                 blpcallowed, whpcallowed-1, n,starter);
                 }
                 else {
                   Immobilize(blmoves-time, whmoves,
                              blpcallowed, whpcallowed-1,
-                             n);
+                             n, starter);
                 }
               }
             }
@@ -1245,16 +1255,17 @@ void ImmobilizeByBlBlock(
           SetPiece(f_p, toblock, black[i].sp);
           if (morethanonecheck) {
             AvoidCheckInStalemate(blmoves-time, whmoves,
-                                  blpcallowed-pcreq, whpcallowed-1, n);
+                                  blpcallowed-pcreq, whpcallowed-1, n,
+                                  starter);
           }
           else {
             if (immobile(Black)) {
               StaleStoreMate(blmoves-time, whmoves,
-                             blpcallowed-pcreq, whpcallowed-1, n);
+                             blpcallowed-pcreq, whpcallowed-1, n,starter);
             }
             else {
               Immobilize(blmoves-time, whmoves,
-                         blpcallowed-pcreq, whpcallowed-1, n);
+                         blpcallowed-pcreq, whpcallowed-1, n, starter);
             }
           }
         }
@@ -1276,7 +1287,8 @@ void ImmobilizeByWhBlock(
   int   blpcallowed,
   int   whpcallowed,
   square    toblock,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   int    i, time, pcreq;
   piece f_p;
@@ -1316,17 +1328,17 @@ void ImmobilizeByWhBlock(
               if (echecc(nbply,Black)) {
                 AvoidCheckInStalemate(blmoves,
                                       whmoves-time, blpcallowed-1,
-                                      whpcallowed, n);
+                                      whpcallowed, n, starter);
               }
               else {
                 if (immobile(Black)) {
                   StaleStoreMate(blmoves,
                                  whmoves-time,
-                                 blpcallowed-1, whpcallowed, n);
+                                 blpcallowed-1, whpcallowed, n,starter);
                 }
                 else {
                   Immobilize(blmoves, whmoves-time,
-                             blpcallowed-1, whpcallowed, n);
+                             blpcallowed-1, whpcallowed, n, starter);
                 }
               }
             }
@@ -1356,16 +1368,16 @@ void ImmobilizeByWhBlock(
         if (echecc(nbply,Black)) {
           AvoidCheckInStalemate(blmoves,
                                 whmoves-time, blpcallowed-decpc,
-                                whpcallowed-pcreq, n);
+                                whpcallowed-pcreq, n, starter);
         }
         else {
           if (immobile(Black)) {
             StaleStoreMate(blmoves, whmoves-time,
-                           blpcallowed-decpc, whpcallowed-pcreq, n);
+                           blpcallowed-decpc, whpcallowed-pcreq, n,starter);
           }
           else {
             Immobilize(blmoves, whmoves-time,
-                       blpcallowed-decpc, whpcallowed-pcreq, n);
+                       blpcallowed-decpc, whpcallowed-pcreq, n, starter);
           }
         }
       }
@@ -1387,7 +1399,8 @@ void Immobilize(int blmoves,
                 int whmoves,
                 int blpcallowed,
                 int whpcallowed,
-                stip_length_type n)
+                stip_length_type n,
+                Side starter)
 {
   square    trouble, block, *bnp, blblock;
   int   i, blockwhite, blockblack, bpl, wpl, mtba, weight;
@@ -1484,7 +1497,7 @@ void Immobilize(int blmoves,
   /* pin the trouble maker */
   if (!nopinpossible) {
     ImmobilizeByPin(blmoves,
-                    whmoves, blpcallowed, whpcallowed, trouble, n);
+                    whmoves, blpcallowed, whpcallowed, trouble, n, starter);
   }
 
   /* block the trouble maker */
@@ -1532,11 +1545,12 @@ void Immobilize(int blmoves,
 
     ImmobilizeByBlBlock(blmoves,
                         whmoves, blpcallowed, whpcallowed, blblock, false,
-                        n);
+                        n, starter);
 
     if ((blblock == block) && (-e[trouble] == Pawn)) {
       ImmobilizeByWhBlock(blmoves,
-                          whmoves, blpcallowed, whpcallowed, block, n);
+                          whmoves, blpcallowed, whpcallowed, block, n,
+                          starter);
     }
   }
 
@@ -1550,7 +1564,8 @@ void AvoidWhKingInCheck(
   int   whmoves,
   int   blpcallowed,
   int   whpcallowed,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   int checkdirs[8], md= 0, i;
 
@@ -1592,9 +1607,10 @@ void AvoidWhKingInCheck(
     square sq= rn;
     while (e[sq+=checkdirs[i]] == vide) {
       ImmobilizeByBlBlock(blmoves,
-                          whmoves, blpcallowed, whpcallowed, sq, md-1, n);
+                          whmoves, blpcallowed, whpcallowed, sq, md-1, n,
+                          starter);
       ImmobilizeByWhBlock(blmoves,
-                          whmoves, blpcallowed, whpcallowed, sq, n);
+                          whmoves, blpcallowed, whpcallowed, sq, n, starter);
     }
   }
 } /* AvoidWhKingInCheck */
@@ -1605,7 +1621,8 @@ void AvoidCheckInStalemate(
   int   whmoves,
   int   blpcallowed,
   int   whpcallowed,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   int checkdirs[8], md= 0, i;
 
@@ -1666,9 +1683,10 @@ void AvoidCheckInStalemate(
     square sq= rn;
     while (e[sq+=checkdirs[i]] == vide) {
       ImmobilizeByBlBlock(blmoves,
-                          whmoves, blpcallowed, whpcallowed, sq, md-1, n);
+                          whmoves, blpcallowed, whpcallowed, sq, md-1, n,
+                          starter);
       ImmobilizeByWhBlock(blmoves,
-                          whmoves, blpcallowed, whpcallowed, sq, n);
+                          whmoves, blpcallowed, whpcallowed, sq, n, starter);
     }
   }
 #if defined(DEBUG)
@@ -1684,7 +1702,8 @@ void BlackPieceTo(
   int   whmoves,
   int   blpc,
   int   whpc,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   int time, actpbl;
 
@@ -1711,11 +1730,11 @@ void BlackPieceTo(
             }
             if (diffcol <= blpc) {
               StoreMate(blmoves-time,
-                        whmoves, blpc-diffcol, whpc, n);
+                        whmoves, blpc-diffcol, whpc, n,starter);
             }
           }
           else {
-            StoreMate(blmoves-time, whmoves, blpc, whpc, n);
+            StoreMate(blmoves-time, whmoves, blpc, whpc, n,starter);
           }
         }
       }
@@ -1755,7 +1774,7 @@ void BlackPieceTo(
               Flags sp= black[actpbl].sp;
               SetPiece(pp, sq, sp);
               StoreMate(blmoves-time,
-                        whmoves, blpc-diffcol, whpc, n);
+                        whmoves, blpc-diffcol, whpc, n,starter);
             }
 
             /* get next promotion piece */
@@ -1776,7 +1795,8 @@ void WhitePieceTo(
   int   whmoves,
   int   blpc,
   int   whpc,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   int time, actpwh;
 
@@ -1806,11 +1826,11 @@ void WhitePieceTo(
           }
           if (diffcol <= whpc) {
             StoreMate(blmoves,
-                      whmoves-time, blpc, whpc-diffcol, n);
+                      whmoves-time, blpc, whpc-diffcol, n,starter);
           }
         }
         else {
-          StoreMate(blmoves, whmoves-time, blpc, whpc, n);
+          StoreMate(blmoves, whmoves-time, blpc, whpc, n,starter);
         }
       }
     }
@@ -1846,7 +1866,7 @@ void WhitePieceTo(
             SetPiece(pp, sq, sp);
             if (!IllegalCheck(Black)) {
               StoreMate(blmoves,
-                        whmoves-time, blpc, whpc-diffcol, n);
+                        whmoves-time, blpc, whpc-diffcol, n,starter);
             }
           }
           /* get next promotion piece */
@@ -1865,7 +1885,8 @@ void NeutralizeMateGuardingPieces(
   int   whmoves,
   int   blpc,
   int   whpc,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   square trouble, trto;
 
@@ -1887,18 +1908,16 @@ void NeutralizeMateGuardingPieces(
     FtlMsg(ErrUndef);
   }
 
-  PinBlPiece(trouble, blmoves, whmoves, blpc, whpc, n);
+  PinBlPiece(trouble, blmoves, whmoves, blpc, whpc, n, starter);
   if (is_rider(abs(e[trouble]))) {
     square   sq;
     int dir= CheckDirQueen[trto-trouble];
 
     for (sq= trouble+dir; sq != trto; sq+=dir) {
-      BlackPieceTo(sq, blmoves, whmoves, blpc, whpc, n);
-      WhitePieceTo(sq, blmoves, whmoves, blpc, whpc, n);
+      BlackPieceTo(sq, blmoves, whmoves, blpc, whpc, n, starter);
+      WhitePieceTo(sq, blmoves, whmoves, blpc, whpc, n, starter);
     }
   }
-
-  return;
 }
 
 int MovesToBlock(square sq, int blmoves) {
@@ -1950,7 +1969,8 @@ void GenerateBlocking(
   int   blpcallowed,
   int   whpcallowed,
   int   timetowaste,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   int   actpbl, wasted;
   square    sq;
@@ -1970,22 +1990,23 @@ void GenerateBlocking(
       if (slices[1].u.leaf.goal == goal_stale) {
         if (echecc(nbply,Black)) {
           AvoidCheckInStalemate(timetowaste,
-                                whmoves, blpcallowed, whpcallowed, n);
+                                whmoves, blpcallowed, whpcallowed, n,
+                                starter);
         }
         else {
           if (immobile(Black)) {
             StaleStoreMate(timetowaste,
-                           whmoves, blpcallowed, whpcallowed, n);
+                           whmoves, blpcallowed, whpcallowed, n,starter);
           }
           else {
             Immobilize(timetowaste,
-                       whmoves, blpcallowed, whpcallowed, n);
+                       whmoves, blpcallowed, whpcallowed, n, starter);
           }
         }
       }
       else {
         StoreMate(timetowaste,
-                  whmoves, blpcallowed, whpcallowed, n);
+                  whmoves, blpcallowed, whpcallowed, n,starter);
       }
     }
   }
@@ -2015,13 +2036,13 @@ void GenerateBlocking(
                 GenerateBlocking(whmoves,
                                  nbrfl, toblock, mintime,
                                  blpcallowed-diffcol, whpcallowed,
-                                 timetowaste-wasted, n);
+                                 timetowaste-wasted, n, starter);
               }
             }
             else {
               GenerateBlocking(whmoves,
                                nbrfl, toblock, mintime, blpcallowed,
-                               whpcallowed, timetowaste-wasted, n);
+                               whpcallowed, timetowaste-wasted, n, starter);
             }
           }
         }
@@ -2063,7 +2084,7 @@ void GenerateBlocking(
                 GenerateBlocking(whmoves,
                                  nbrfl, toblock, mintime,
                                  blpcallowed-diffcol, whpcallowed,
-                                 timetowaste-wasted, n);
+                                 timetowaste-wasted, n, starter);
               }
               /* get next promotion piece */
               pp= -getprompiece[-pp];
@@ -2083,7 +2104,8 @@ void GenerateGuarding(
   int   whmoves,
   int   blmoves,
   int   whcaptures,
-  stip_length_type n)
+  stip_length_type n,
+  Side starter)
 {
   square    *bnp, toblock[8];
   int   flights;
@@ -2194,7 +2216,7 @@ void GenerateGuarding(
       whiteused[0]= true;
       GenerateBlocking(whmoves,
                        flights, toblock, mintime, blpcallowed,
-                       MaxPieceBlack-1-whcaptures, blmoves-mtba, n);
+                       MaxPieceBlack-1-whcaptures, blmoves-mtba, n, starter);
       whiteused[0]= false;
       e[rb]= vide;
       spec[rb]= EmptySpec;
@@ -2203,7 +2225,7 @@ void GenerateGuarding(
     else {
       GenerateBlocking(whmoves, flights, toblock, mintime,
                        blpcallowed, MaxPieceBlack-1-whcaptures, blmoves-mtba,
-                       n);
+                       n, starter);
     }
   }
   else {
@@ -2238,11 +2260,11 @@ void GenerateGuarding(
           if (p == Pawn) {
             int diffcol= sq % onerow - *bnp % onerow;
             GenerateGuarding(actpwh+1, whmoves-time,
-                             blmoves, whcaptures+abs(diffcol), n);
+                             blmoves, whcaptures+abs(diffcol), n, starter);
           }
           else {
             GenerateGuarding(actpwh+1, whmoves-time,
-                             blmoves, whcaptures, n);
+                             blmoves, whcaptures, n, starter);
           }
         }
       }
@@ -2268,7 +2290,7 @@ void GenerateGuarding(
                   GenerateGuarding(actpwh+1,
                                    whmoves-time, blmoves,
                                    whcaptures,
-                                   n);
+                                   n, starter);
               }
             }
             /* get next promotion piece */
@@ -2285,11 +2307,13 @@ void GenerateGuarding(
       rb= initsquare;
     }
     whiteused[actpwh]= false;
-    GenerateGuarding(actpwh+1, whmoves, blmoves, whcaptures, n);
+    GenerateGuarding(actpwh+1, whmoves, blmoves, whcaptures, n, starter);
   }
 } /* GenerateGuarding */
 
-void GenerateChecking(int whmoves, int blmoves, stip_length_type n) {
+void GenerateChecking(int whmoves, int blmoves,
+                      stip_length_type n, Side starter)
+{
   int   i, j, time;
   square    sq;
 
@@ -2319,10 +2343,10 @@ void GenerateChecking(int whmoves, int blmoves, stip_length_type n) {
         if (p == Pawn) {
           int diffcol= white[j].sq % onerow - sq % onerow;
           GenerateGuarding(0,
-                           whmoves-time, blmoves, abs(diffcol), n);
+                           whmoves-time, blmoves, abs(diffcol), n, starter);
         }
         else {
-          GenerateGuarding(0, whmoves-time, blmoves, 0, n);
+          GenerateGuarding(0, whmoves-time, blmoves, 0, n, starter);
         }
       }
       /* pawn promotions */
@@ -2341,7 +2365,7 @@ void GenerateChecking(int whmoves, int blmoves, stip_length_type n) {
               squarechecking= sq;
               SetPiece(pp, sq, sp);
               GenerateGuarding(0,
-                               whmoves-time, blmoves, 0, n);
+                               whmoves-time, blmoves, 0, n, starter);
             }
             /* get next promotion piece */
             pp= getprompiece[pp];
@@ -2355,7 +2379,8 @@ void GenerateChecking(int whmoves, int blmoves, stip_length_type n) {
   }
 } /* GenerateChecking */
 
-void GenerateBlackKing(int whmoves, int blmoves, stip_length_type n) {
+void GenerateBlackKing(int whmoves, int blmoves,
+                       stip_length_type n, Side starter) {
   int   i, time;
   square    sq;
   piece p= black[0].p;
@@ -2386,12 +2411,12 @@ void GenerateBlackKing(int whmoves, int blmoves, stip_length_type n) {
       StdString("\n");
 #endif
       if (slices[1].u.leaf.goal == goal_mate) {
-        GenerateChecking(whmoves, blmoves-time, n);
+        GenerateChecking(whmoves, blmoves-time, n, starter);
       }
       else {
         /* stale mate */
         nbrchecking= -1;
-        GenerateGuarding(0, whmoves, blmoves-time, 0, n);
+        GenerateGuarding(0, whmoves, blmoves-time, 0, n, starter);
       }
       e[sq]= vide;
       spec[sq]= EmptySpec;
@@ -2407,7 +2432,7 @@ void GenerateBlackKing(int whmoves, int blmoves, stip_length_type n) {
 #endif
 } /* GenerateBlackKing */
 
-static boolean IntelligentRegularGoals(stip_length_type n)
+static boolean IntelligentRegularGoals(stip_length_type n, Side starter)
 {
   square    *bnp;
   piece p;
@@ -2499,7 +2524,7 @@ static boolean IntelligentRegularGoals(stip_length_type n)
   }
 
   /* generate final positions */
-  GenerateBlackKing(WhMovesLeft, BlMovesLeft, n);
+  GenerateBlackKing(WhMovesLeft, BlMovesLeft, n, starter);
 
   ResetPosition();
 
@@ -2530,23 +2555,23 @@ static boolean IntelligentRegularGoals(stip_length_type n)
   return (SolMax > 0);
 }
 
-boolean Intelligent(boolean looking_for_short_solutions,
-                    stip_length_type n)
+boolean Intelligent(stip_length_type n, Side starter)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",looking_for_short_solutions);
-  TraceFunctionParam("%d\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",starter);
 
-  TraceValue("%d\n",slices[0].u.composite.play);
+  TraceValue("%u",slices[0].u.composite.play);
+  TraceValue("%u\n",slices[0].u.composite.length);
   if (slices[0].u.composite.play==PHelp)
   {
     BlMovesLeft = n/2;
     WhMovesLeft = BlMovesLeft;
     if (n%2==1)
     {
-      if (slices[0].starter==White)
+      if (starter==White)
         ++WhMovesLeft;
       else
         ++BlMovesLeft;
@@ -2574,8 +2599,8 @@ boolean Intelligent(boolean looking_for_short_solutions,
       BlMovesLeft = 0;
     }
   }
-  TraceValue("%d ",WhMovesLeft);
-  TraceValue("%d\n",BlMovesLeft);
+  TraceValue("%u",WhMovesLeft);
+  TraceValue("%u\n",BlMovesLeft);
 
   SolMax = 0;
   MatesMax = 0;
@@ -2583,28 +2608,28 @@ boolean Intelligent(boolean looking_for_short_solutions,
   if (slices[1].u.leaf.goal==goal_atob
       || slices[1].u.leaf.goal==goal_proof)
   {
-    boolean saveMovenbr = false;
+    stip_length_type const saveMoveNbr = OptFlag[movenbr];
 
     ProofInitialiseIntelligent();
 
-    /* temporarily suppress output of move numbers if we are testing
-     * short solutions */
-    if (looking_for_short_solutions)
-    {
-      saveMovenbr = OptFlag[movenbr];
+    /* Proof games and a=>b are special because there is only 1 end
+     * position to be reached. We therefore output move numbers as if
+     * we were not in intelligent mode, and only if we are solving
+     * full-length.
+     * If n is smaller, temporarily disable move number output:
+     */
+    if (n<slices[0].u.composite.length)
       OptFlag[movenbr] = false;
-    }
-      
-    result = composite_root_exact_solve(OptFlag[movenbr],0,n);
+    
+    result = composite_root_exact_solve(OptFlag[movenbr],0,n,starter);
 
-    if (looking_for_short_solutions)
-      OptFlag[movenbr] = saveMovenbr;
+    OptFlag[movenbr] = saveMoveNbr;
   }
   else
-    result = IntelligentRegularGoals(n);
+    result = IntelligentRegularGoals(n,starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 } /* Intelligent */
 

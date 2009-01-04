@@ -205,17 +205,21 @@ void reci_end_solve_continuations(int table, slice_index si)
 /* Find and write set play
  * @param si slice index
  */
-void reci_root_end_solve_setplay(slice_index si)
+boolean reci_root_end_solve_setplay(slice_index si)
 {
+  boolean result1;
+  boolean result2;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   /* TODO solve defense after defense */
-  slice_root_solve_setplay(slices[si].u.composite.op1);
-  slice_root_solve_setplay(slices[si].u.composite.op2);
+  result1 = slice_root_solve_setplay(slices[si].u.composite.op1);
+  result2 = slice_root_solve_setplay(slices[si].u.composite.op2);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n", result1 || result2);
+  return result1 || result2;
 }
 
 /* Solve at root level at the end of a reciprocal slice

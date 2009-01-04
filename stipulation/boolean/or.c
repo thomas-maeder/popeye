@@ -74,19 +74,22 @@ void quodlibet_end_solve_continuations(int table, slice_index si)
 /* Find and write set play
  * @param si slice index
  */
-void quodlibet_root_end_solve_setplay(slice_index si)
+boolean quodlibet_root_end_solve_setplay(slice_index si)
 {
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
+  boolean result1;
+  boolean result2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  slice_root_solve_setplay(op1);
-  slice_root_solve_setplay(op2);
+  result1 = slice_root_solve_setplay(op1);
+  result2 = slice_root_solve_setplay(op2);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n", result1 || result2);
+  return result1 || result2;
 }
 
 /* Find and write set play provided every set move leads to end

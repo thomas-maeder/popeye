@@ -219,7 +219,7 @@ void slice_solve_continuations(int table, slice_index si);
 /* Find and write set play
  * @param si slice index
  */
-void slice_root_solve_setplay(slice_index si);
+boolean slice_root_solve_setplay(slice_index si);
 
 /* Find and write set play provided every set move leads to end
  * @param si slice index

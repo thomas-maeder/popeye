@@ -8,7 +8,7 @@
 
 static output_mode current_mode = output_mode_none;
 
-extern boolean SatzFlag;
+static boolean areWeSolvingSetplay;
 
 slice_index active_slice[maxply];
 
@@ -91,6 +91,8 @@ void output_start_setplay_level(void)
     nr_continuations_written[move_depth+1] = 1; /* prevent initial newline */
     nr_defenses_written[move_depth] = 0;
   }
+  else
+    areWeSolvingSetplay = true;
 
   TraceValue("%u\n",move_depth);
 
@@ -107,6 +109,8 @@ void output_end_setplay_level(void)
 
   if (current_mode==output_mode_tree)
     move_depth--;
+  else
+    areWeSolvingSetplay = false;
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -290,6 +294,8 @@ static void linesolution(void)
   Goal end_marker;
   slice_index slice;
   ply current_ply;
+
+  ply const start_ply = 2;
       
   TraceFunctionEntry(__func__);
   TraceText("\n");
@@ -317,26 +323,37 @@ static void linesolution(void)
   }
 #endif
 
-  slice = active_slice[2];
+  slice = active_slice[start_ply];
   starting_side = regular_starter;
 
   ResetPosition();
 
-  if (regular_starter!=slices[0].starter)
+  TraceValue("%u",regular_starter);
+  TraceValue("%u",slices[0].starter);
+  TraceValue("%u\n",areWeSolvingSetplay);
+
+  if (areWeSolvingSetplay)
   {
-    StdString("  1...");
-    next_movenumber = 2;
-  }
-  else if (SatzFlag)
-  {
-    StdString("  1...  ...");
+    if (regular_starter==slices[0].starter)
+      StdString("  1...");
+    else
+      StdString("  1...  ...");
+
     next_movenumber = 2;
   }
   else
-    next_movenumber = 1;
+  {
+    if (regular_starter==slices[0].starter)
+      next_movenumber = 1;
+    else
+    {
+      StdString("  1...");
+      next_movenumber = 2;
+    }
+  }
 
   TraceValue("%u\n",nbply);
-  for (current_ply = 2; current_ply<=nbply; ++current_ply)
+  for (current_ply = start_ply; current_ply<=nbply; ++current_ply)
   {
     TraceValue("%u",current_ply);
     TraceValue("%u",slice);

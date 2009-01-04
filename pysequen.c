@@ -53,15 +53,18 @@ void sequence_end_solve_continuations(int table, slice_index si)
 /* Find and write set play
  * @param si slice index
  */
-void sequence_root_end_solve_setplay(slice_index si)
+boolean sequence_root_end_solve_setplay(slice_index si)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  slice_root_solve_setplay(slices[si].u.composite.op1);
+  result = slice_root_solve_setplay(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Find and write set play provided every set move leads to end

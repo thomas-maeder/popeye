@@ -18,7 +18,7 @@ boolean composite_has_solution(slice_index si);
 /* Determine and write set play of a direct/self/reflex stipulation
  * @param si slice index
  */
-void composite_root_solve_setplay(slice_index si);
+boolean composite_root_solve_setplay(slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
  * variations) and write the refutations (if any).
@@ -60,12 +60,9 @@ boolean composite_is_threat_refuted(slice_index si);
 /* Solve the root composite slice at root level.
  * @param restartenabled true iff option movenum is active
  * @param si slice index
- * @param n number of moves until the slice's goal has to be reached
  * @return true iff >= 1 solution was found
  */
-boolean composite_root_solve(boolean restartenabled,
-                             slice_index si,
-                             stip_length_type n);
+boolean composite_root_solve(boolean restartenabled, slice_index si);
 
 /* Determine and write the solutions in the current position.
  * @param si slice index
@@ -74,6 +71,7 @@ boolean composite_root_solve(boolean restartenabled,
 boolean composite_solve(slice_index si);
 
 /* Solve a composite slice at root level
+ * This is the interface for intelligent mode.
  * @param restartenabled true iff option movenum is active
  * @param si slice index
  * @param n exact number of moves until the slice's goal has to be
@@ -83,6 +81,7 @@ boolean composite_solve(slice_index si);
  */
 boolean composite_root_exact_solve(boolean restartenabled,
                                    slice_index si,
-                                   stip_length_type n);
+                                   stip_length_type n,
+                                   Side starter);
 
 #endif

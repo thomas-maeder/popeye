@@ -513,24 +513,24 @@ void slice_solve_continuations(int table, slice_index si)
 /* Find and write set play
  * @param si slice index
  */
-void slice_root_solve_setplay(slice_index si)
+boolean slice_root_solve_setplay(slice_index si)
 {
+  boolean result = false;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
-
-  output_start_setplay_level();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeaf:
-      leaf_root_solve_setplay(si);
+      result = leaf_root_solve_setplay(si);
       break;
 
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      composite_root_solve_setplay(si);
+      result = composite_root_solve_setplay(si);
       break;
 
     default:
@@ -538,10 +538,9 @@ void slice_root_solve_setplay(slice_index si)
       break;
   }
 
-  output_end_setplay_level();
-
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Find and write set play provided every set move leads to end
@@ -666,11 +665,8 @@ boolean slice_root_solve(boolean restartenabled, slice_index si)
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-    {
-      stip_length_type const n = slices[si].u.composite.length;
-      solution_found = composite_root_solve(restartenabled,si,n);
+      solution_found = composite_root_solve(restartenabled,si);
       break;
-    }
 
     default:
       assert(0);

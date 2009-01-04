@@ -78,7 +78,7 @@ void reci_end_solve_continuations(int continuations, slice_index si);
 /* Find and write set play
  * @param si slice index
  */
-void reci_root_end_solve_setplay(slice_index si);
+boolean reci_root_end_solve_setplay(slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
  * variations), starting at the end of a reciprocal slice.

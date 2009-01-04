@@ -113,8 +113,6 @@
 
 boolean supergenre;
 
-boolean SatzFlag;
-
 sig_atomic_t volatile maxtime_status;
 
 boolean is_rider(piece p)
@@ -2369,7 +2367,7 @@ static void SolveSeriesProblems(void)
 
   if (OptFlag[solapparent] && !OptFlag[restart])
   {
-    SatzFlag = true;
+    output_start_setplay_level();
     if (echecc(nbply,slices[0].starter))
       ErrorMsg(KingCapture);
     else
@@ -2380,7 +2378,7 @@ static void SolveSeriesProblems(void)
       else
         leaf_root_solve_setplay(1);
     }
-    SatzFlag = false;
+    output_end_setplay_level();
     Message(NewLine);
   }
 
@@ -2400,25 +2398,17 @@ static void SolveSeriesProblems(void)
                                                : 1);
         stip_length_type len;
         for (len = start_length; len<slices[0].u.composite.length; ++len)
-        {
-          boolean const looking_for_short_solutions = true;
-          if (Intelligent(looking_for_short_solutions,len))
-            if (OptFlag[stoponshort])
-            {
-              FlagShortSolsReached= true;
-              break;
-            }
-        }
+          if (Intelligent(len,slices[0].starter) && OptFlag[stoponshort])
+          {
+            FlagShortSolsReached= true;
+            break;
+          }
 
         slices[0].u.composite.is_exact = false;
       }
 
       if (!FlagShortSolsReached)
-      {
-        boolean const looking_for_short_solutions = false;
-        Intelligent(looking_for_short_solutions,
-                    slices[0].u.composite.length);
-      }
+        Intelligent(slices[0].u.composite.length,slices[0].starter);
     }
     else
       slice_root_solve(OptFlag[movenbr],0);
@@ -2428,83 +2418,7 @@ static void SolveSeriesProblems(void)
   TraceText("\n");
 } /* SolveSeriesProblems */
 
-/* Solve a help play problem in exactly N moves
- * @param looking_for_short_solutions true iff we are looking for short
- *                                    solutions
- * @return true iff >= 1 solution was found
- */
-static boolean SolveHelpInN(boolean looking_for_short_solutions,
-                            stip_length_type len)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
-
-  TraceValue("%d ",slices[0].u.composite.length);
-  TraceValue("%d\n",isIntelligentModeActive);
-  if (len==1)
-    result = leaf_root_solve_setplay(1);
-  else if (isIntelligentModeActive)
-    result = Intelligent(looking_for_short_solutions,len);
-  else
-  {
-    /* suppress output of move numbers if we are testing short
-     * solutions */
-    boolean const restartenabled = (OptFlag[movenbr]
-                                    && !looking_for_short_solutions);
-    result = composite_root_solve(restartenabled,0,len);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-/* Solve a help play problem, signal whether short solution(s) were
- * found 
- * @param stop_on_short true iff (in non-exact mode) solving should
- *                      stop after a short solution has been found
- * @return true iff solving was stopped because short solutions were
- *         found
- */
-static boolean SolveHelpShortOrFull(boolean stop_on_short)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",stop_on_short);
-
-  if (!slices[0].u.composite.is_exact && !OptFlag[restart])
-  {
-    stip_length_type const start = slices[0].u.composite.length%2==1 ? 1 : 2;
-    stip_length_type len;
-    for (len = start; len<slices[0].u.composite.length; len += 2)
-    {
-      boolean const looking_for_short_solutions = true;
-      if (SolveHelpInN(looking_for_short_solutions,len)
-          && stop_on_short)
-      {
-        result = true;
-        break;
-      }
-    }
-  }
-
-  if (!result)
-  {
-    boolean const looking_for_short_solutions = false;
-    SolveHelpInN(looking_for_short_solutions,
-                 slices[0].u.composite.length);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-
-static void HelpPlayInitSetPlay(slice_index si)
+static void HelpPlayInitWhiteToPlay(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
@@ -2519,7 +2433,7 @@ static void HelpPlayInitSetPlay(slice_index si)
   TraceText("\n");
 }
 
-static void HelpPlayRestoreFromSetPlay(slice_index si)
+static void HelpPlayRestoreFromWhiteToPlay(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
@@ -2533,48 +2447,6 @@ static void HelpPlayRestoreFromSetPlay(slice_index si)
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
-
-
-/* Solve a help problem
- */
-static void SolveHelpProblems(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
-
-  TraceValue("%d",slices[0].starter);
-  TraceValue("%d\n",slices[0].u.composite.length);
-
-  init_output_mode(output_mode_line);
-
-  move_generation_mode = move_generation_not_optimized;
-
-  if (OptFlag[solapparent])
-  {
-    if (echecc(nbply,slices[0].starter))
-      ErrorMsg(KingCapture);
-    else
-    {
-      SatzFlag = true;
-      HelpPlayInitSetPlay(0);
-      SolveHelpShortOrFull(true);
-      HelpPlayRestoreFromSetPlay(0);
-      SatzFlag = false;
-    }
-    StdChar('\n');
-  }
-
-  solutions = 0;    /* reset after set play */
-   
-
-  if (echecc(nbply,advers(slices[0].starter)))
-    ErrorMsg(KingCapture);
-  else
-    FlagShortSolsReached = SolveHelpShortOrFull(OptFlag[stoponshort]);
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-} /* SolveHelpProblems */
 
 static void SolveDirectProblems(void)
 {
@@ -2679,7 +2551,7 @@ static void solveHalfADuplex(void)
       break;
 
     case PHelp:
-      SolveHelpProblems();
+      composite_root_solve(OptFlag[restart],first_slice);
       break;
 
     case PDirect:
@@ -2985,10 +2857,7 @@ int main(int argc, char *argv[]) {
         if (initAndVerify(tk,printa,&shortenIfWhiteToPlay))
         {
           if (OptFlag[whitetoplay] && shortenIfWhiteToPlay)
-          {
-            TraceText("adjustment for whitetoplay:");
-            HelpPlayInitSetPlay(0);
-          }
+            HelpPlayInitWhiteToPlay(0);
 
           /* allow line-oriented output to restore the initial
            * position */
@@ -3041,7 +2910,7 @@ int main(int argc, char *argv[]) {
           }
 
           if (OptFlag[whitetoplay] && shortenIfWhiteToPlay)
-            HelpPlayRestoreFromSetPlay(0);
+            HelpPlayRestoreFromWhiteToPlay(0);
         }
       }
 

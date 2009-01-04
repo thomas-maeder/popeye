@@ -33,7 +33,7 @@ void sequence_end_solve_continuations(int continuations, slice_index si);
 /* Find and write set play
  * @param si slice index
  */
-void sequence_root_end_solve_setplay(slice_index si);
+boolean sequence_root_end_solve_setplay(slice_index si);
 
 /* Find and write set play provided every set move leads to end
  * @param si slice index
