@@ -221,11 +221,11 @@ void slice_solve_continuations(int table, slice_index si);
  */
 boolean slice_root_solve_setplay(slice_index si);
 
-/* Find and write set play provided every set move leads to end
+/* Find and write set play provided every set move solves
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean slice_root_solve_complete_set(slice_index si);
+boolean slice_root_end_solve_complete_set(slice_index si);
 
 typedef enum
 {

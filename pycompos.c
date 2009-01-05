@@ -2010,7 +2010,7 @@ static boolean composite_d_root_solve_setplay(slice_index si)
   {
     int ntcount = 0;
 
-    if (!slice_root_solve_complete_set(si))
+    if (!slice_root_end_solve_complete_set(si))
       StdString("\n");
 
     if (n-1>min_length_nontrivial)
@@ -2378,6 +2378,42 @@ static boolean composite_d_root_solve(boolean restartenabled,
   return result;
 }
 
+/* Delegate solving the complete set to the child slice(s)
+ * @param si parent slice index
+ * @return true iff complete set play was found
+ */
+static boolean composite_root_end_solve_complete_set(slice_index si)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",slices[si].type);
+
+  switch (slices[si].type)
+  {
+    case STQuodlibet:
+      result = quodlibet_root_end_solve_complete_set(si);
+      break;
+
+    case STReciprocal:
+      /* TODO */
+      break;
+
+    case STSequence:
+      result = sequence_root_end_solve_complete_set(si);
+      break;
+
+    default:
+      assert(0);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceValue("%u",si);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Solve a composite slice with help play at root level
  * @param restartenabled true iff option movenum is active
  * @param si slice index
@@ -2426,7 +2462,7 @@ static boolean composite_h_root_solve(boolean restartenabled,
       stip_length_type len_start;
       if (n%2==1)
       {
-        FlagShortSolsReached = composite_root_end_solve_setplay(si);
+        FlagShortSolsReached = composite_root_end_solve_complete_set(si);
         len_start = 3;
       }
       else

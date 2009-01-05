@@ -78,7 +78,7 @@ boolean sequence_root_end_solve_complete_set(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_root_solve_complete_set(slices[si].u.composite.op1);
+  result = slice_root_end_solve_complete_set(slices[si].u.composite.op1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
