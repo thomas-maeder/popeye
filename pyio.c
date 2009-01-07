@@ -1103,16 +1103,33 @@ static char *ParseLength(char *tok, slice_index si)
 
     tok = end;
 
-    if (slices[si].u.composite.play==PHelp)
+    switch (slices[si].u.composite.play)
     {
-      /* we count half moves in help play */
-      slices[si].u.composite.length *= 2;
+      case PHelp:
+        /* we count half moves in help play */
+        slices[si].u.composite.length *= 2;
 
-      if (strncmp(tok,".5",2)==0)
-      {
-        ++slices[si].u.composite.length;
-        tok += 2;
-      }
+        if (strncmp(tok,".5",2)==0)
+        {
+          ++slices[si].u.composite.length;
+          tok += 2;
+          slices[si].u.composite.min_length = slack_length_help-1;
+        }
+        else
+          slices[si].u.composite.min_length = slack_length_help;
+        break;
+
+      case PDirect:
+        slices[si].u.composite.min_length = slack_length_direct;
+        break;
+
+      case PSeries:
+        slices[si].u.composite.min_length = slack_length_series;
+        break;
+
+      default:
+        assert(0);
+        break;
     }
   }
 
@@ -1146,7 +1163,8 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
       else if (gic->goal==goal_mate_or_stale)
       {
         *si = alloc_composite_slice(STQuodlibet,PDirect);
-        slices[*si].u.composite.length = 1;
+        slices[*si].u.composite.length = slack_length_direct;
+        slices[*si].u.composite.min_length = slack_length_direct;
         slices[*si].u.composite.is_exact = false; /* TODO does this matter */
         slices[*si].u.composite.op1 =  alloc_leaf_slice(end,goal_mate);
         slices[*si].u.composite.op2 =  alloc_leaf_slice(end,goal_stale);
@@ -1317,6 +1335,8 @@ static char *ParsePlay(char *tok, slice_index *si)
     {
       *si = alloc_composite_slice(STSequence,PSeries);
       slices[*si].u.composite.length = intro_len+slack_length_series;
+      /* >=1 move of starting side required */
+      slices[*si].u.composite.min_length = 1+slack_length_series;
       slices[*si].u.composite.is_exact = false;
       result = ParsePlay(arrowpos+2,&slices[*si].u.composite.op1);
     }
@@ -1329,6 +1349,7 @@ static char *ParsePlay(char *tok, slice_index *si)
     {
       OptFlag[nothreat] = true;
       slices[*si].u.composite.is_exact = true;
+      slices[*si].u.composite.min_length = slices[*si].u.composite.length;
     }
   }
 

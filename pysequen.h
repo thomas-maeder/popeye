@@ -50,11 +50,10 @@ void sequence_root_end_write_key_solve_postkey(slice_index si,
                                                attack_type type);
 
 /* Solve at root level at the end of a sequence slice
- * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean sequence_root_end_solve(boolean restartenabled, slice_index si);
+boolean sequence_root_end_solve(slice_index si);
 
 /* Continue solving at the end of a sequence slice
  * @param si slice index

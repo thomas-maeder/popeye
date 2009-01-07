@@ -58,11 +58,10 @@ void composite_solve_continuations(int continuations, slice_index si);
 boolean composite_is_threat_refuted(slice_index si);
 
 /* Solve the root composite slice at root level.
- * @param restartenabled true iff option movenum is active
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
-boolean composite_root_solve(boolean restartenabled, slice_index si);
+boolean composite_root_solve(slice_index si);
 
 /* Determine and write the solutions in the current position.
  * @param si slice index
@@ -72,15 +71,13 @@ boolean composite_solve(slice_index si);
 
 /* Solve a composite slice at root level
  * This is the interface for intelligent mode.
- * @param restartenabled true iff option movenum is active
  * @param si slice index
  * @param n exact number of moves until the slice's goal has to be
  *          reached (this may be shorter than the slice's length if
  *          we are searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-boolean composite_root_exact_solve(boolean restartenabled,
-                                   slice_index si,
+boolean composite_root_exact_solve(slice_index si,
                                    stip_length_type n,
                                    Side starter);
 

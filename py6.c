@@ -2356,74 +2356,13 @@ boolean has_too_many_flights(Side defender)
   }
 }
 
-static void SolveSeriesProblems(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
-
-  init_output_mode(output_mode_line);
-
-  move_generation_mode = move_generation_not_optimized;
-
-  if (OptFlag[solapparent] && !OptFlag[restart])
-  {
-    output_start_setplay_level();
-    if (echecc(nbply,slices[0].starter))
-      ErrorMsg(KingCapture);
-    else
-    {
-      /* TODO */
-      if (slices[1].u.leaf.end==EHelp)
-        leaf_root_solve_setplay(1);
-      else
-        leaf_root_solve_setplay(1);
-    }
-    output_end_setplay_level();
-    Message(NewLine);
-  }
-
-  solutions= 0;    /* reset after set play */
-  FlagShortSolsReached= false;
-
-  if (echecc(nbply,advers(slices[0].starter)))
-    ErrorMsg(KingCapture);
-  else
-  {
-    if (isIntelligentModeActive)
-    {
-      if (!slices[0].u.composite.is_exact)
-      {
-        stip_length_type const start_length = (OptFlag[restart]
-                                               ? RestartNbr
-                                               : 1);
-        stip_length_type len;
-        for (len = start_length; len<slices[0].u.composite.length; ++len)
-          if (Intelligent(len,slices[0].starter) && OptFlag[stoponshort])
-          {
-            FlagShortSolsReached= true;
-            break;
-          }
-
-        slices[0].u.composite.is_exact = false;
-      }
-
-      if (!FlagShortSolsReached)
-        Intelligent(slices[0].u.composite.length,slices[0].starter);
-    }
-    else
-      slice_root_solve(OptFlag[movenbr],0);
-  } /* echecs(advers(camp)) */
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-} /* SolveSeriesProblems */
-
 static void HelpPlayInitWhiteToPlay(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
                                     
   --slices[si].u.composite.length;
+  --slices[si].u.composite.min_length;
   slice_impose_starter(si,advers(slices[si].starter));
 
   TraceValue("%d",slices[si].starter);
@@ -2439,6 +2378,7 @@ static void HelpPlayRestoreFromWhiteToPlay(slice_index si)
   TraceFunctionParam("%d\n",si);
                                     
   ++slices[si].u.composite.length;
+  ++slices[si].u.composite.min_length;
   slice_impose_starter(si,advers(slices[si].starter));
 
   TraceValue("%d",slices[si].starter);
@@ -2475,7 +2415,7 @@ static void SolveDirectProblems(void)
     if (echecc(nbply,advers(slices[0].starter)))
       ErrorMsg(KingCapture);
     else
-      slice_root_solve(OptFlag[movenbr],0);
+      slice_root_solve(0);
   }
 }
 
@@ -2547,11 +2487,21 @@ static void solveHalfADuplex(void)
   switch (slices[first_slice].u.composite.play)
   {
     case PSeries:
-      SolveSeriesProblems();
-      break;
-
     case PHelp:
-      composite_root_solve(OptFlag[restart],first_slice);
+      if (isIntelligentModeActive && OptFlag[restart])
+      {
+        /* In intelligent mode, RestartNbr means the minimal number of
+         * moves.
+         */
+        stip_length_type const save_min_length = set_min_length(first_slice,
+                                                                RestartNbr);
+        OptFlag[restart] = false;
+        composite_root_solve(first_slice);
+        OptFlag[restart] = true;
+        set_min_length(first_slice,save_min_length);
+      }
+      else
+        composite_root_solve(first_slice);
       break;
 
     case PDirect:

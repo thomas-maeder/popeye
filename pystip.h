@@ -47,6 +47,7 @@ typedef struct
         {
             /* full moves if play==PDirect, half moves otherw. */
             stip_length_type length;
+            stip_length_type min_length; /* of short solutions */
             boolean is_exact; /* true iff length is to be considered exact */
             Play play;
             slice_index op1; /* operand 1 */
@@ -54,6 +55,8 @@ typedef struct
         } composite;
     } u;
 } Slice;
+
+/* TODO replace is_exact by consistent usage of min_length */
 
 /* slice identification */
 enum
@@ -149,6 +152,13 @@ slice_index copy_slice(slice_index original);
 /* Release all slices
  */
 void release_slices(void);
+
+/* Set the min_length field of a composite slice.
+ * @param si index of composite slice
+ * @param min_length value to be set
+ * @return previous value of min_length field
+ */
+stip_length_type set_min_length(slice_index si, stip_length_type min_length);
 
 /* Transform a stipulation tree to "traditional quodlibet form",
  * i.e. a logical OR of direct and self goal. 
@@ -248,11 +258,10 @@ void slice_root_write_key_solve_postkey(slice_index si, attack_type type);
 boolean slice_solve(slice_index si);
 
 /* Solve a slice at root level
- * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean slice_root_solve(boolean restartenabled, slice_index si);
+boolean slice_root_solve(slice_index si);
 
 /* Determine whether a composite slice has a solution
  * @param si slice index

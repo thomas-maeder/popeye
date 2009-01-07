@@ -115,19 +115,15 @@ boolean quodlibet_root_end_solve_complete_set(slice_index si)
 
 /* Determine and write solutions at root level starting at the end of
  * a quodlibet stipulation.
- * @param restartenabled true iff the written solution should only
- *                       start at the Nth legal move of attacker
- *                       (determined by user input)
  * @param si slice index
  */
-boolean quodlibet_root_end_solve(boolean restartenabled, slice_index si)
+boolean quodlibet_root_end_solve(slice_index si)
 {
   boolean result = false;
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",restartenabled);
   TraceFunctionParam("%u\n",si);
 
   if (slice_is_unsolvable(op1))
@@ -137,8 +133,8 @@ boolean quodlibet_root_end_solve(boolean restartenabled, slice_index si)
   else
   {
     result = true;
-    slice_root_solve(restartenabled,op1);
-    slice_root_solve(restartenabled,op2);
+    slice_root_solve(op1);
+    slice_root_solve(op2);
   }
 
   TraceFunctionExit(__func__);

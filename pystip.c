@@ -111,6 +111,36 @@ void release_slices(void)
   next_slice = 0;
 }
 
+/* Set the min_length field of a composite slice.
+ * @param si index of composite slice
+ * @param min_length value to be set
+ * @return previous value of min_length field
+ */
+stip_length_type set_min_length(slice_index si, stip_length_type min_length)
+{
+  stip_length_type const result = slices[si].u.composite.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",min_length);
+
+  assert(slices[si].type!=STLeaf);
+
+  if (slices[si].u.composite.play==PHelp)
+  {
+    min_length *= 2;
+    if (result%2==1)
+      --min_length;
+  }
+
+  if (min_length<=slices[si].u.composite.length)
+    slices[si].u.composite.min_length = min_length;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 static void transform_to_quodlibet_recursive(slice_index *hook)
 {
   slice_index const index = *hook;
@@ -645,11 +675,10 @@ boolean slice_solve(slice_index si)
 }
 
 /* Solve a slice at root level
- * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean slice_root_solve(boolean restartenabled, slice_index si)
+boolean slice_root_solve(slice_index si)
 {
   boolean solution_found = false;
 
@@ -665,7 +694,7 @@ boolean slice_root_solve(boolean restartenabled, slice_index si)
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      solution_found = composite_root_solve(restartenabled,si);
+      solution_found = composite_root_solve(si);
       break;
 
     default:

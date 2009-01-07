@@ -374,7 +374,6 @@ EXTERN  int max_nr_nontrivial;
 
 EXTERN  int max_nr_refutations;
 EXTERN  int        MoveNbr, RestartNbr;
-EXTERN  boolean         restartenabled;
 EXTERN  Side         neutcoul;
 EXTERN  boolean         calctransmute;
 

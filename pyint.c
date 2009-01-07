@@ -648,7 +648,12 @@ void StaleStoreMate(
   closehash();
   inithash();
 
-  composite_root_exact_solve(false,0,n,starter);
+  {
+    boolean const save_movenbr = OptFlag[movenbr];
+    OptFlag[movenbr] = false;
+    composite_root_exact_solve(0,n,starter);
+    OptFlag[movenbr] = save_movenbr;
+  }
 
   /* reset the old mating position */
   for (bnp= boardnum; *bnp; bnp++) {
@@ -876,7 +881,12 @@ void StoreMate(
   closehash();
   inithash();
 
-  composite_root_exact_solve(false,0,n,starter);
+  {
+    boolean const save_movenbr = OptFlag[movenbr];
+    OptFlag[movenbr] = false;
+    composite_root_exact_solve(0,n,starter);
+    OptFlag[movenbr] = save_movenbr;
+  }
 
   /* reset the old mating position */
   for (bnp= boardnum; *bnp; bnp++) {
@@ -2608,7 +2618,7 @@ boolean Intelligent(stip_length_type n, Side starter)
   if (slices[1].u.leaf.goal==goal_atob
       || slices[1].u.leaf.goal==goal_proof)
   {
-    stip_length_type const saveMoveNbr = OptFlag[movenbr];
+    boolean const save_movenbr = OptFlag[movenbr];
 
     ProofInitialiseIntelligent();
 
@@ -2621,9 +2631,9 @@ boolean Intelligent(stip_length_type n, Side starter)
     if (n<slices[0].u.composite.length)
       OptFlag[movenbr] = false;
     
-    result = composite_root_exact_solve(OptFlag[movenbr],0,n,starter);
+    result = composite_root_exact_solve(0,n,starter);
 
-    OptFlag[movenbr] = saveMoveNbr;
+    OptFlag[movenbr] = save_movenbr;
   }
   else
     result = IntelligentRegularGoals(n,starter);
@@ -2635,9 +2645,18 @@ boolean Intelligent(stip_length_type n, Side starter)
 
 boolean isGoalReachable(void)
 {
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   if (slices[1].u.leaf.goal==goal_atob
       || slices[1].u.leaf.goal==goal_proof)
-    return !(*alternateImpossible)();
+    result = !(*alternateImpossible)();
   else
-    return isGoalReachableRegularGoals();
+    result = isGoalReachableRegularGoals();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }

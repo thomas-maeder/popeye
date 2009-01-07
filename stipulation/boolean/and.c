@@ -223,11 +223,10 @@ boolean reci_root_end_solve_setplay(slice_index si)
 }
 
 /* Solve at root level at the end of a reciprocal slice
- * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean reci_root_end_solve(boolean restartenabled, slice_index si)
+boolean reci_root_end_solve(slice_index si)
 {
   boolean found_solution = false;
   slice_index const op1 = slices[si].u.composite.op1;
@@ -239,8 +238,8 @@ boolean reci_root_end_solve(boolean restartenabled, slice_index si)
   TraceValue("%u\n",op2);
 
   found_solution = (slice_is_solvable(op2)
-                    && slice_root_solve(restartenabled,op1)
-                    && slice_root_solve(restartenabled,op2));
+                    && slice_root_solve(op1)
+                    && slice_root_solve(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",found_solution);

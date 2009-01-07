@@ -108,11 +108,10 @@ boolean quodlibet_end_is_threat_refuted(slice_index si);
 boolean quodlibet_end_solve(slice_index si);
 
 /* Solve at root level at the end of a quodlibet slice
- * @param restartenabled true iff option movenum is activated
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean quodlibet_root_end_solve(boolean restartenabled, slice_index si);
+boolean quodlibet_root_end_solve(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
