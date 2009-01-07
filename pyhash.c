@@ -413,10 +413,10 @@ static void set_value_direct_nosucc(dhtElement *he,
   unsigned int const mask = slice_properties[si].u.d.maskNoSucc;
   element_t * const e = (element_t *)he;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
-  TraceFunctionParam("%d\n",val);
-  TraceValue("%d ",slice_properties[si].size);
-  TraceValue("%d ",offset);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",val);
+  TraceValue("%u",slice_properties[si].size);
+  TraceValue("%u",offset);
   TraceValue("%08x ",mask);
   TraceValue("%p ",&e->data);
   TraceValue("pre:%08x ",e->data);
@@ -438,10 +438,10 @@ static void set_value_direct_succ(dhtElement *he,
   unsigned int const mask = slice_properties[si].u.d.maskSucc;
   element_t * const e = (element_t *)he;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
-  TraceFunctionParam("%d\n",val);
-  TraceValue("%d ",slice_properties[si].size);
-  TraceValue("%d ",offset);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",val);
+  TraceValue("%u",slice_properties[si].size);
+  TraceValue("%u",offset);
   TraceValue("%08x ",mask);
   TraceValue("%p ",&e->data);
   TraceValue("pre:%08x ",e->data);
@@ -463,10 +463,10 @@ static void set_value_help_odd(dhtElement *he,
   unsigned int const mask = slice_properties[si].u.h.maskNoSuccOdd;
   element_t * const e = (element_t *)he;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
-  TraceFunctionParam("%d\n",val);
-  TraceValue("%d ",slice_properties[si].size);
-  TraceValue("%d ",offset);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",val);
+  TraceValue("%u",slice_properties[si].size);
+  TraceValue("%u",offset);
   TraceValue("%08x ",mask);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x\n",bits);
@@ -487,10 +487,10 @@ static void set_value_help_even(dhtElement *he,
   unsigned int const mask = slice_properties[si].u.h.maskNoSuccEven;
   element_t * const e = (element_t *)he;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
-  TraceFunctionParam("%d\n",val);
-  TraceValue("%d ",slice_properties[si].size);
-  TraceValue("%d ",offset);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",val);
+  TraceValue("%u",slice_properties[si].size);
+  TraceValue("%u",offset);
   TraceValue("%08x ",mask);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x\n",bits);
@@ -511,10 +511,10 @@ static void set_value_series(dhtElement *he,
   unsigned int const mask = slice_properties[si].u.s.maskNoSucc;
   element_t * const e = (element_t *)he;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
-  TraceFunctionParam("%d\n",val);
-  TraceValue("%d ",slice_properties[si].size);
-  TraceValue("%d ",offset);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",val);
+  TraceValue("%u",slice_properties[si].size);
+  TraceValue("%u",offset);
   TraceValue("%08x ",mask);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x\n",bits);
@@ -534,13 +534,13 @@ static hash_value_type get_value_direct_succ(dhtElement const *he,
   element_t const * const e = (element_t const *)he;
   data_type const result = (e->data & mask) >> offset;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
   TraceValue("%p ",&e->data);
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -552,13 +552,13 @@ static hash_value_type get_value_direct_nosucc(dhtElement const *he,
   element_t const * const e = (element_t const *)he;
   data_type const result = (e->data & mask) >> offset;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
   TraceValue("%p ",&e->data);
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -570,12 +570,12 @@ static hash_value_type get_value_help_odd(dhtElement const *he,
   element_t const * const e = (element_t const *)he;
   data_type const result = (e->data & mask) >> offset;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -587,12 +587,12 @@ static hash_value_type get_value_help_even(dhtElement const *he,
   element_t const * const e = (element_t const *)he;
   data_type const result = (e->data & mask) >> offset;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -604,12 +604,12 @@ static hash_value_type get_value_series(dhtElement const *he,
   element_t const * const e = (element_t const *)he;
   data_type const result = (e->data & mask) >> offset;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -648,7 +648,7 @@ static hash_value_type own_value_of_data_help(dhtElement const *he,
   TraceFunctionParam("%p ",he);
   TraceFunctionParam("%u\n",si);
 
-  TraceValue("%u ",odd);
+  TraceValue("%u",odd);
   TraceValue("%u\n",even);
 
   result = even>odd ? even*2 : odd*2+1;
@@ -749,11 +749,11 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p ",he);
-  TraceFunctionParam("%u ",offset);
+  TraceFunctionParam("%u",offset);
   TraceFunctionParam("%u\n",si);
 
   offset -= slice_properties[si].value_size;
-  TraceValue("%u ",slice_properties[si].value_size);
+  TraceValue("%u",slice_properties[si].value_size);
   TraceValue("->%u\n",offset);
 
   switch (slices[si].type)
@@ -1046,7 +1046,8 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
   int i;
 
   len++; /* Castling_Flag */
-  if (CondFlag[haanerchess]) {
+  if (CondFlag[haanerchess])
+  {
     /*
     ** I assume an average of (nr_files_on_board*nr_rows_on_board -
     ** number of pieces)/2 additional holes per position.
@@ -1061,43 +1062,47 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
       nbr_holes= (nr_files_on_board*nr_rows_on_board-nbr_p)/2;
     len += bytes_per_piece*nbr_holes;
   }
-  if (CondFlag[messigny]) {
+
+  if (CondFlag[messigny])
     len+= 2;
-  }
-  if (CondFlag[duellist]) {
+
+  if (CondFlag[duellist])
     len+= 2;
-  }
-  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue]) {
+
+  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
     len++;
-  }
-  if (flag_synchron) {
+
+  if (flag_synchron)
     len++;
-  }
-  if (CondFlag[imitators]) {
-    for (i = 0; i < inum[nbply]; i++) {
+
+  if (CondFlag[imitators])
+  {
+    for (i = 0; i < inum[nbply]; i++)
       len++;
-    }
+
     /* coding of no. of imitators and average of one
        imitator-promotion assumed.
     */
     len+=2;
   }
-  if (CondFlag[parrain]) {
+
+  if (CondFlag[parrain])
     /*
     ** only one out of three positions with a capture
     ** assumed.
     */
     len++;
-  }
-  if (OptFlag[nontrivial]) {
+
+  if (OptFlag[nontrivial])
     len++;
-  }
-  if (slices[0].u.composite.is_exact) {
+
+  /* TODO generalise to user-defined min_length */
+  if (slices[0].u.composite.length==slices[0].u.composite.min_length)
     len++;
-  }
-  if (CondFlag[disparate]) {
+
+  if (CondFlag[disparate])
     len++;
-  }
+
   return len;
 } /* TellCommonEncodePosLeng */
 
@@ -1196,7 +1201,8 @@ static byte *CommonEncode(byte *bp)
     }
   }
 
-  if (slices[0].u.composite.is_exact)
+  /* TODO generalise to user-defined min_length */
+  if (slices[0].u.composite.length==slices[0].u.composite.min_length)
     *bp++ = (byte)(nbply);
 
   if (ep[nbply]!=initsquare)
@@ -1347,9 +1353,9 @@ boolean inhash(slice_index si,
   dhtElement const * const he= dhtLookupElement(pyhash, (dhtValue)hb);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
-  TraceFunctionParam("%d ",what);
-  TraceFunctionParam("%d\n",val);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",what);
+  TraceFunctionParam("%u\n",val);
 
   ifHASHRATE(use_all++);
 
@@ -1361,7 +1367,10 @@ boolean inhash(slice_index si,
       case SerNoSucc:
       {
         hash_value_type const nosucc = get_value_series(he,si);
-        if (slices[si].u.composite.is_exact ? nosucc==val : nosucc>=val)
+        /* TODO generalise to user-defined min_length */
+        if (slices[si].u.composite.length==slices[si].u.composite.min_length
+            ? nosucc==val
+            : nosucc>=val)
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1373,7 +1382,10 @@ boolean inhash(slice_index si,
       case HelpNoSuccOdd:
       {
         hash_value_type const nosucc = get_value_help_odd(he,si);
-        if (slices[si].u.composite.is_exact ? nosucc==val: nosucc>=val)
+        /* TODO generalise to user-defined min_length */
+        if (slices[si].u.composite.length==slices[si].u.composite.min_length
+            ? nosucc==val
+            : nosucc>=val)
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1385,7 +1397,10 @@ boolean inhash(slice_index si,
       case HelpNoSuccEven:
       {
         hash_value_type const nosucc = get_value_help_even(he,si);
-        if (slices[si].u.composite.is_exact ? nosucc==val : nosucc>=val)
+        /* TODO generalise to user-defined min_length */
+        if (slices[si].u.composite.length==slices[si].u.composite.min_length
+            ? nosucc==val
+            : nosucc>=val)
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1397,7 +1412,10 @@ boolean inhash(slice_index si,
       case DirNoSucc:
       {
         hash_value_type const nosucc = get_value_direct_nosucc(he,si);
-        if (slices[si].u.composite.is_exact ? nosucc==val : nosucc>=val)
+        /* TODO generalise to user-defined min_length */
+        if (slices[si].u.composite.length==slices[si].u.composite.min_length
+            ? nosucc==val
+            : nosucc>=val)
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1408,7 +1426,10 @@ boolean inhash(slice_index si,
       case DirSucc:
       {
         hash_value_type const succ = get_value_direct_succ(he,si);
-        if (slices[si].u.composite.is_exact ? succ==val : succ<=val)
+        /* TODO generalise to user-defined min_length */
+        if (slices[si].u.composite.length==slices[si].u.composite.min_length
+            ? succ==val
+            : succ<=val)
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1423,7 +1444,7 @@ boolean inhash(slice_index si,
     }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result; /* avoid compiler warning */
 } /* inhash */
 
@@ -1543,7 +1564,7 @@ static void init_element_leaf(dhtElement *he, slice_index leaf)
 static void init_element(dhtElement *he, slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
+  TraceFunctionParam("%u",si);
   TraceText("\n");
 
   if (slices[si].type==STLeaf)
@@ -1563,8 +1584,8 @@ void addtohash(slice_index si,
   dhtElement *he = dhtLookupElement(pyhash, (dhtValue)hb);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d ",si);
-  TraceFunctionParam("%d ",what);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",what);
   TraceFunctionParam("%u\n",val);
 
   if (he == dhtNilElement)

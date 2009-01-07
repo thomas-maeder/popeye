@@ -32,7 +32,6 @@ slice_index alloc_composite_slice(SliceType type, Play play)
   slices[result].starter = no_side; 
   slices[result].u.composite.play = play;
   slices[result].u.composite.length = 0;
-  slices[result].u.composite.is_exact = false;
   slices[result].u.composite.op1 = no_slice;
   slices[result].u.composite.op2 = no_slice;
 
@@ -167,7 +166,6 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
         TraceValue("allocated quodlibet slice %u\n",*hook);
         slices[*hook].u.composite.op1 = alloc_leaf_slice(EDirect,goal);
         slices[*hook].u.composite.op2 = index;
-        slices[*hook].u.composite.is_exact = false;
         slices[*hook].u.composite.length = 1;
         slices[*hook].u.composite.min_length = 1;
       }
@@ -192,6 +190,9 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
   TraceText("\n");
 }
 
+/* Transform a stipulation tree to "traditional quodlibet form",
+ * i.e. a logical OR of direct and self goal. 
+ */
 void transform_to_quodlibet(void)
 {
   slice_index start = 0;

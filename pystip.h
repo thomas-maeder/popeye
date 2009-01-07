@@ -48,7 +48,6 @@ typedef struct
             /* full moves if play==PDirect, half moves otherw. */
             stip_length_type length;
             stip_length_type min_length; /* of short solutions */
-            boolean is_exact; /* true iff length is to be considered exact */
             Play play;
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */
@@ -56,7 +55,6 @@ typedef struct
     } u;
 } Slice;
 
-/* TODO replace is_exact by consistent usage of min_length */
 
 /* slice identification */
 enum

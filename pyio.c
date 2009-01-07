@@ -1165,7 +1165,6 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
         *si = alloc_composite_slice(STQuodlibet,PDirect);
         slices[*si].u.composite.length = slack_length_direct;
         slices[*si].u.composite.min_length = slack_length_direct;
-        slices[*si].u.composite.is_exact = false; /* TODO does this matter */
         slices[*si].u.composite.op1 =  alloc_leaf_slice(end,goal_mate);
         slices[*si].u.composite.op2 =  alloc_leaf_slice(end,goal_stale);
         tok += 2;
@@ -1337,7 +1336,6 @@ static char *ParsePlay(char *tok, slice_index *si)
       slices[*si].u.composite.length = intro_len+slack_length_series;
       /* >=1 move of starting side required */
       slices[*si].u.composite.min_length = 1+slack_length_series;
-      slices[*si].u.composite.is_exact = false;
       result = ParsePlay(arrowpos+2,&slices[*si].u.composite.op1);
     }
   }
@@ -1348,7 +1346,6 @@ static char *ParsePlay(char *tok, slice_index *si)
     if (result!=0)
     {
       OptFlag[nothreat] = true;
-      slices[*si].u.composite.is_exact = true;
       slices[*si].u.composite.min_length = slices[*si].u.composite.length;
     }
   }
@@ -1382,7 +1379,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("dia",tok,3)==0)
   {
     *si = alloc_composite_slice(STSequence,PHelp);
-    slices[*si].u.composite.is_exact = true;
+    slices[*si].u.composite.min_length = slices[*si].u.composite.length;
     result = ParseEnd(tok,*si);
   }
 
