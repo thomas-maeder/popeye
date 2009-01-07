@@ -497,7 +497,7 @@ static boolean verifieposition(void)
   int      cp, pp, tp, op;
   boolean          nonoptgenre;
 
-  if (max_len_threat<maxply && slices[0].u.composite.is_exact)
+  if (max_len_threat<slices[0].u.composite.min_length-slack_length_direct)
   {
     VerifieMsg(ThreatOptionAndExactStipulationIncompatible);
     return false;
