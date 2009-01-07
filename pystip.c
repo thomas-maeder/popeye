@@ -169,6 +169,7 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
         slices[*hook].u.composite.op2 = index;
         slices[*hook].u.composite.is_exact = false;
         slices[*hook].u.composite.length = 1;
+        slices[*hook].u.composite.min_length = 1;
       }
       break;
 
