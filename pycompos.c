@@ -228,7 +228,8 @@ d_defender_win_type composite_d_helper_does_defender_win(slice_index si,
 
 /* Determine whether the defender wins after a move by the attacker
  * @param defender defending side (at move)
- * @param n number of moves until end state has to be reached
+ * @param n number of moves until end state has to be reached, not
+ *          including the attacker's move just played
  * @return true iff defender wins
  */
 static d_defender_win_type composite_d_does_defender_win(slice_index si,
@@ -237,22 +238,23 @@ static d_defender_win_type composite_d_does_defender_win(slice_index si,
   d_defender_win_type result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
 
   assert(n>=slack_length_direct);
 
+  TraceValue("%u\n",slices[si].u.composite.min_length);
+
   if (slice_end_has_starter_lost(si))
     result = already_won;
-  else if (!slices[si].u.composite.is_exact
+  else if ((slices[si].u.composite.length-n
+            >slices[si].u.composite.min_length-slack_length_direct)
            && slice_end_has_starter_won(si))
     result = short_loss;
   else
     result = composite_d_helper_does_defender_win(si,n);
 
   TraceFunctionExit(__func__);
-  TraceValue("%u",n);
-  TraceValue("%u",si);
   TraceFunctionResult("%u\n",result);
   return result;
 }
@@ -320,30 +322,19 @@ static boolean composite_d_has_solution_in_n(slice_index si,
 
   if (slice_end_has_non_starter_refuted(si))
     ; /* intentionally nothing */
-  else if (slices[si].u.composite.is_exact)
-  {
-    if (n==slack_length_direct)
-      result = composite_end_has_solution(si);
-    else
-    {
-      HashBuffer hb;
-      TraceText("slices[si].u.composite.is_exact\n");
-      (*encode)(&hb);
-      if (!composite_d_is_in_hash(si,&hb,n,&result))
-      {
-        result = composite_d_helper_has_solution(si,n);
-        if (result)
-          addtohash(si,DirSucc,n-1,&hb);
-        else
-          addtohash(si,DirNoSucc,n,&hb);
-      }
-    }
-  }
   else
   {
-    if (composite_end_has_solution(si))
+    stip_length_type const moves_played = slices[si].u.composite.length-n;
+    stip_length_type const
+        min_moves_played = (slices[si].u.composite.min_length
+                             -slack_length_direct);
+    TraceValue("%u",moves_played);
+    TraceValue("%u\n",min_moves_played);
+    if (moves_played>=min_moves_played
+        && composite_end_has_solution(si))
       result = true;
-    else if (slice_has_non_starter_solved(si))
+    else if (moves_played>min_moves_played
+             && slice_has_non_starter_solved(si))
       result = true;
     else if (n>slack_length_direct)
     {
@@ -352,7 +343,12 @@ static boolean composite_d_has_solution_in_n(slice_index si,
       if (!composite_d_is_in_hash(si,&hb,n,&result))
       {
         stip_length_type i;
-        for (i = slack_length_direct+1; !result && i<=n; i++)
+        stip_length_type n_min = slack_length_direct+1;
+
+        if (min_moves_played>moves_played+slack_length_direct)
+          n_min = min_moves_played-(moves_played-slack_length_direct);
+
+        for (i = n_min; !result && i<=n; i++)
         {
           if (i-1>max_len_threat || i>min_length_nontrivial)
             i = n;
@@ -1239,7 +1235,7 @@ static boolean composite_ser_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",n);
 
-  if (slices[si].u.composite.is_exact)
+  if (n==slices[si].u.composite.min_length)
     result = composite_ser_root_exact_solve_recursive(si,n);
   else if (OptFlag[restart])
     result = composite_ser_root_maximal_solve(n,si);
@@ -1301,36 +1297,28 @@ static boolean composite_ser_solve(slice_index si)
 {
   boolean result = false;
   stip_length_type const n = slices[si].u.composite.length;
+  stip_length_type i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  TraceValue("%u\n",n);
+  TraceValue("%u\n",slices[si].u.composite.length);
 
-  if (slices[si].u.composite.is_exact)
-    result = composite_ser_exact_solve_recursive(si,n);
-  else
-  {
-    if (!slices[si].u.composite.is_exact)
+  for (i = slices[si].u.composite.min_length; i<n; i++)
+    if (composite_ser_exact_solve_recursive(si,i))
     {
-      stip_length_type i;
-      for (i = 1; i<n; i++)
-        if (composite_ser_exact_solve_recursive(si,i))
-        {
-          TraceText("solution found\n");
-          result = true;
-          if (OptFlag[stoponshort])
-          {
-            FlagShortSolsReached = true;
-            break;
-          }
-        }
+      TraceText("solution found\n");
+      result = true;
+      if (OptFlag[stoponshort])
+      {
+        FlagShortSolsReached = true;
+        break;
+      }
     }
 
-    if (!FlagShortSolsReached
-        && composite_ser_exact_solve_recursive(si,n))
-      result = true;
-  }
+  if (!FlagShortSolsReached
+      && composite_ser_exact_solve_recursive(si,n))
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -1539,6 +1527,10 @@ static void composite_d_write_variation(slice_index si, stip_length_type n)
 {
   boolean isRefutation = true; /* until we prove otherwise */
   stip_length_type i;
+  stip_length_type const min_len = (slices[si].u.composite.min_length>n
+                                    ? n
+                                    : slices[si].u.composite.min_length);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
@@ -1547,9 +1539,7 @@ static void composite_d_write_variation(slice_index si, stip_length_type n)
 
   output_start_continuation_level();
   
-  for (i = slices[si].u.composite.is_exact ? n : 1;
-       i<=n && isRefutation;
-       i++)
+  for (i = min_len; i<=n && isRefutation; i++)
   {
     int const continuations = alloctab();
     composite_d_solve_continuations_in_n(continuations,si,i);
@@ -1660,9 +1650,7 @@ static void composite_d_root_solve_variations(int len_threat,
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
       else if (slice_has_non_starter_solved(si))
-        ; /* oops! short end. NB: this can't happen if is_exact and
-           * n is too large, because that would make the current move
-           * a refutation */
+        ; /* oops! */
       else if (!composite_d_defends_against_threats(threats,si,len_threat))
         ; /* move doesn't defend against threat */
       else
@@ -1887,8 +1875,7 @@ static void composite_d_solve_continuations_in_n(int continuations,
         {
           write_attack(no_goal,attack_regular);
 
-          if (!slices[si].u.composite.is_exact
-              && defender_success>=short_loss)
+          if (defender_success>=short_loss)
             composite_end_solve_variations(si);
           else
             composite_d_solve_postkey(si,n);
@@ -2062,29 +2049,18 @@ static boolean composite_h_root_solve_setplay(slice_index si)
     Side const starter = advers(slices[si].starter);
     stip_length_type const length = slices[si].u.composite.length-1;
 
-    if (length==1)
+    if (length%2==1)
       result = composite_root_end_solve_setplay(si);
-    else
+
+    if (length>1)
     {
-      if (!slices[0].u.composite.is_exact && !OptFlag[restart])
-      {
-        stip_length_type len;
-        stip_length_type len_start;
-
-        if (length%2==1)
-        {
-          result = composite_root_end_solve_setplay(si);
-          len_start = 3;
-        }
-        else
-          len_start = 2;
-
-        for (len = len_start; len<length && !result; len += 2)
-          result = composite_h_root_exact_solve_intelligent_or_not(si,
-                                                                   len,
-                                                                   starter);
-      }
-
+      stip_length_type len;
+      for (len = slices[si].u.composite.min_length+1;
+           !result && len<length;
+           len += 2)
+        result = composite_h_root_exact_solve_intelligent_or_not(si,
+                                                                 len,
+                                                                 starter);
       result = (result
                 || composite_h_root_exact_solve_intelligent_or_not(si,
                                                                    length,
@@ -2208,7 +2184,7 @@ void composite_root_write_key_solve_postkey(int refutations,
   }
 }
 
-/* Solve the postkey only of a composite slice at root level.
+/* Solve the postkey play only of a composite slice at root level.
  * @param si slice index
  * @param type type of attack
  */
@@ -2219,7 +2195,7 @@ static void composite_d_root_solve_postkeyonly(slice_index si,
 
   if (n==slack_length_direct)
     composite_end_solve_variations(si);
-  else if (slices[si].u.composite.is_exact)
+  else if (n==slices[si].u.composite.min_length)
     composite_d_solve_postkey(si,n);
   else if (slice_end_has_starter_won(si))
     composite_end_solve_variations(si);
@@ -2289,7 +2265,7 @@ static boolean composite_d_root_solve(slice_index si)
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
           && !echecc(nbply,attacker))
       {
-        if (!slices[si].u.composite.is_exact
+        if (slices[si].u.composite.min_length==slack_length_direct
             && slice_end_has_starter_won(si))
           composite_root_end_write_key_solve_postkey(si,attack_key);
         else
