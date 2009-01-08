@@ -36,12 +36,6 @@ void composite_root_write_key_solve_postkey(int refutations,
  */
 void composite_solve_variations(slice_index si);
 
-/* Determine and write only the post-key solution in the current
- * position
- * @param si slice index
- */
-void composite_root_solve_postkeyonly(slice_index si);
-
 /* Determine and write the continuations in the current position
  * (i.e. attacker's moves winning after a defender's move that refuted
  * the threat).

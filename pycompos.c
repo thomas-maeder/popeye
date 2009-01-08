@@ -327,7 +327,7 @@ static boolean composite_d_has_solution_in_n(slice_index si,
     stip_length_type const moves_played = slices[si].u.composite.length-n;
     stip_length_type const
         min_moves_played = (slices[si].u.composite.min_length
-                             -slack_length_direct);
+                            -slack_length_direct);
     TraceValue("%u",moves_played);
     TraceValue("%u\n",min_moves_played);
     if (moves_played>=min_moves_played
@@ -345,7 +345,7 @@ static boolean composite_d_has_solution_in_n(slice_index si,
         stip_length_type i;
         stip_length_type n_min = slack_length_direct+1;
 
-        if (min_moves_played>moves_played+slack_length_direct)
+        if (min_moves_played>moves_played-slack_length_direct)
           n_min = min_moves_played-(moves_played-slack_length_direct);
 
         for (i = n_min; !result && i<=n; i++)
@@ -2205,41 +2205,12 @@ static void composite_d_root_solve_postkeyonly(slice_index si,
   output_end_postkeyonly_level();
 }
 
-/* Solve the postkey only of a composite slice at root level.
- * @param si slice index
- * @param type type of attack
- */
-void composite_root_solve_postkeyonly(slice_index si)
-{
-  switch (slices[si].u.composite.play)
-  {
-    case PDirect:
-    {
-      stip_length_type const n = slices[si].u.composite.length;
-      composite_d_root_solve_postkeyonly(si,n);
-      break;
-    }
-
-    case PHelp:
-      /* TODO */
-      break;
-
-    case PSeries:
-      /* TODO */
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-}
-
 /* Determine and write the solutions and tries in the current position
  * in direct/self/reflex play.
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
-static boolean composite_d_root_solve(slice_index si)
+static boolean composite_d_root_solve_real_play(slice_index si)
 {
   boolean result = false;
 
@@ -2410,10 +2381,63 @@ static boolean composite_h_root_solve(slice_index si)
   return result;
 }
 
+
+/* Solve a composite direct slice at root level
+ * @param si slice index
+ * @return true iff >= 1 solution was found
+ */
+boolean composite_d_root_solve(slice_index si)
+{
+  boolean result = false;
+  stip_length_type const n = slices[si].u.composite.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  init_output_mode(output_mode_tree);
+
+  if (OptFlag[postkeyplay])
+    
+  {
+    if (echecc(nbply,slices[si].starter))
+      ErrorMsg(SetAndCheck);
+    else
+    {
+      composite_d_root_solve_postkeyonly(si,n);
+      result = true;
+    }
+  }
+  else
+  {
+    if (OptFlag[solapparent] && n>slack_length_direct)
+    {
+      if (echecc(nbply,slices[si].starter))
+        ErrorMsg(SetAndCheck);
+      else
+      {
+        output_start_setplay_level();
+        composite_d_root_solve_setplay(si);
+        output_end_setplay_level();
+        Message(NewLine);
+      }
+    }
+
+    if (echecc(nbply,advers(slices[si].starter)))
+      ErrorMsg(KingCapture);
+    else
+      result = composite_d_root_solve_real_play(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Solve a composite slice at root level
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
+/* TODO why do we have to return a value? */
 boolean composite_root_solve(slice_index si)
 {
   boolean result = false;

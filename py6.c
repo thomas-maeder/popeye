@@ -2388,37 +2388,6 @@ static void HelpPlayRestoreFromWhiteToPlay(slice_index si)
   TraceText("\n");
 }
 
-static void SolveDirectProblems(void)
-{
-  init_output_mode(output_mode_tree);
-
-  if (OptFlag[postkeyplay])
-  {
-    if (echecc(nbply,slices[0].starter))
-      ErrorMsg(SetAndCheck);
-    else
-      composite_root_solve_postkeyonly(0);
-  }
-  else
-  {
-    if (OptFlag[solapparent] && slices[0].u.composite.length>1)
-    {
-      if (echecc(nbply,slices[0].starter))
-        ErrorMsg(SetAndCheck);
-      else
-      {
-        slice_root_solve_setplay(0);
-        Message(NewLine);
-      }
-    }
-
-    if (echecc(nbply,advers(slices[0].starter)))
-      ErrorMsg(KingCapture);
-    else
-      slice_root_solve(0);
-  }
-}
-
 static void swapcolors(void) {
   square *bnp;
   for (bnp= boardnum; *bnp; bnp++)
@@ -2496,16 +2465,16 @@ static void solveHalfADuplex(void)
         stip_length_type const save_min_length = set_min_length(first_slice,
                                                                 RestartNbr);
         OptFlag[restart] = false;
-        composite_root_solve(first_slice);
+        slice_root_solve(first_slice);
         OptFlag[restart] = true;
         set_min_length(first_slice,save_min_length);
       }
       else
-        composite_root_solve(first_slice);
+        slice_root_solve(first_slice);
       break;
 
     case PDirect:
-      SolveDirectProblems();
+      slice_root_solve(first_slice);
       break;
 
     default:
