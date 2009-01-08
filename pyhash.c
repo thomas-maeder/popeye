@@ -1424,7 +1424,7 @@ boolean inhash(slice_index si,
         hash_value_type const succ = get_value_direct_succ(he,si);
         if (succ<=val
             && (succ+slices[si].u.composite.min_length
-                >=val+slices[si].u.composite.length)
+                >=val+slices[si].u.composite.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
