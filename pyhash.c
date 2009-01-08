@@ -1096,7 +1096,7 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
   if (OptFlag[nontrivial])
     len++;
 
-  /* TODO generalise to user-defined min_length */
+  /* TODO generalise to user-defined min_length and to later slices */
   if (slices[0].u.composite.length==slices[0].u.composite.min_length)
     len++;
 
@@ -1201,7 +1201,7 @@ static byte *CommonEncode(byte *bp)
     }
   }
 
-  /* TODO generalise to user-defined min_length */
+  /* TODO generalise to user-defined min_length and to later slices */
   if (slices[0].u.composite.length==slices[0].u.composite.min_length)
     *bp++ = (byte)(nbply);
 
@@ -1367,10 +1367,9 @@ boolean inhash(slice_index si,
       case SerNoSucc:
       {
         hash_value_type const nosucc = get_value_series(he,si);
-        /* TODO generalise to user-defined min_length */
-        if (slices[si].u.composite.length==slices[si].u.composite.min_length
-            ? nosucc==val
-            : nosucc>=val)
+        if (nosucc>=val
+            && (nosucc+slices[si].u.composite.min_length
+                <=val+slices[si].u.composite.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1382,10 +1381,9 @@ boolean inhash(slice_index si,
       case HelpNoSuccOdd:
       {
         hash_value_type const nosucc = get_value_help_odd(he,si);
-        /* TODO generalise to user-defined min_length */
-        if (slices[si].u.composite.length==slices[si].u.composite.min_length
-            ? nosucc==val
-            : nosucc>=val)
+        if (nosucc>=val
+            && (nosucc+slices[si].u.composite.min_length
+                <=val+slices[si].u.composite.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1397,10 +1395,9 @@ boolean inhash(slice_index si,
       case HelpNoSuccEven:
       {
         hash_value_type const nosucc = get_value_help_even(he,si);
-        /* TODO generalise to user-defined min_length */
-        if (slices[si].u.composite.length==slices[si].u.composite.min_length
-            ? nosucc==val
-            : nosucc>=val)
+        if (nosucc>=val
+            && (nosucc+slices[si].u.composite.min_length
+                <=val+slices[si].u.composite.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1412,10 +1409,9 @@ boolean inhash(slice_index si,
       case DirNoSucc:
       {
         hash_value_type const nosucc = get_value_direct_nosucc(he,si);
-        /* TODO generalise to user-defined min_length */
-        if (slices[si].u.composite.length==slices[si].u.composite.min_length
-            ? nosucc==val
-            : nosucc>=val)
+        if (nosucc>=val
+            && (nosucc+slices[si].u.composite.min_length
+                <=val+slices[si].u.composite.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1426,10 +1422,9 @@ boolean inhash(slice_index si,
       case DirSucc:
       {
         hash_value_type const succ = get_value_direct_succ(he,si);
-        /* TODO generalise to user-defined min_length */
-        if (slices[si].u.composite.length==slices[si].u.composite.min_length
-            ? succ==val
-            : succ<=val)
+        if (succ<=val
+            && (succ+slices[si].u.composite.min_length
+                >=val+slices[si].u.composite.length)
         {
           ifHASHRATE(use_pos++);
           result = true;
