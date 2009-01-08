@@ -34,16 +34,16 @@ static boolean composite_d_is_in_hash(slice_index si,
 
   /* It is more likely that a position has no solution.           */
   /* Therefore let's check for "no solution" first.  TLi */
-  if (inhash(si,DirNoSucc,n,hb))
+  if (inhash(si,DirNoSucc,n-slack_length_direct+1,hb))
   {
     TraceText("inhash(si,DirNoSucc,n,hb)\n");
-    assert(!inhash(si,DirSucc,n-1,hb));
+    assert(!inhash(si,DirSucc,n-slack_length_direct,hb));
     *hash_val = false;
     result = true;
   }
-  else if (inhash(si,DirSucc,n-1,hb))
+  else if (inhash(si,DirSucc,n-slack_length_direct,hb))
   {
-    TraceText("inhash(si,DirSucc,n-1,hb)\n");
+    TraceText("inhash(si,DirSucc,n-slack_length_direct,hb)\n");
     *hash_val = true;
     result = true;
   }
@@ -361,9 +361,9 @@ static boolean composite_d_has_solution_in_n(slice_index si,
       }
 
       if (result)
-        addtohash(si,DirSucc,n-1,&hb);
+        addtohash(si,DirSucc,n-slack_length_direct,&hb);
       else
-        addtohash(si,DirNoSucc,n,&hb);
+        addtohash(si,DirNoSucc,n-slack_length_direct+1,&hb);
     }
   }
 
@@ -979,12 +979,12 @@ static boolean composite_ser_exact_solve_recursive(slice_index si,
         {
           HashBuffer hb;
           (*encode)(&hb);
-          if (inhash(si,SerNoSucc,n-1,&hb))
+          if (inhash(si,SerNoSucc,n-slack_length_series,&hb))
             TraceText("in hash\n");
           else if (composite_ser_exact_solve_recursive(si,n-1))
             solution_found = true;
           else
-            addtohash(si,SerNoSucc,n-1,&hb);
+            addtohash(si,SerNoSucc,n-slack_length_series,&hb);
         }
 
         repcoup();
@@ -1054,12 +1054,12 @@ composite_ser_root_exact_solve_recursive(slice_index si, stip_length_type n)
         {
           HashBuffer hb;
           (*encode)(&hb);
-          if (inhash(si,SerNoSucc,n-1,&hb))
+          if (inhash(si,SerNoSucc,n-slack_length_series,&hb))
             TraceText("in hash\n");
           else if (composite_ser_exact_solve_recursive(si,n-1))
             solution_found = true;
           else
-            addtohash(si,SerNoSucc,n-1,&hb);
+            addtohash(si,SerNoSucc,n-slack_length_series,&hb);
         }
 
         if (OptFlag[movenbr])
