@@ -61,8 +61,8 @@ square squarechecking, *deposebnp;
 piece piecechecking;
 int nbrchecking;
 
-MOVE **Sols;
-int SolMax;
+static MOVE **Sols;
+static int SolMax;
 
 PIECE Mate[nr_squares_on_board];
 int IndxChP;
@@ -331,15 +331,13 @@ int FroTo(
 void StoreSol(void) {
   ply cp;
 
-  if (SolMax) {
-    Sols= (MOVE**)realloc(Sols, sizeof(MOVE*)*(SolMax+1));
-  }
-  else {
-    Sols= (MOVE**)malloc(sizeof(MOVE*));
-  }
+  if (SolMax>0)
+    Sols = (MOVE**)realloc(Sols, sizeof(MOVE*)*(SolMax+1));
+  else
+    Sols = (MOVE**)malloc(sizeof(MOVE*));
 
   if (Sols == NULL
-      || (Sols[SolMax]= (MOVE*)malloc(sizeof(MOVE)*(nbply+1))) == NULL) {
+      || (Sols[SolMax] = (MOVE*)malloc(sizeof(MOVE)*(nbply+1))) == NULL) {
     fprintf(stderr, "Cannot (re)allocate enough memory\n");
     exit(0);
   }
@@ -2442,11 +2440,31 @@ void GenerateBlackKing(int whmoves, int blmoves,
 #endif
 } /* GenerateBlackKing */
 
-static boolean IntelligentRegularGoals(stip_length_type n, Side starter)
+static void InitSols(void)
+{
+  SolMax = 0;
+}
+
+static boolean CleanupSols(void)
+{
+  if (SolMax>0)
+  {
+    int i;
+    for (i = 0; i<SolMax; i++)
+      free(Sols[i]);
+
+    free(Sols);
+
+    return true;
+  }
+  else
+    return false;
+}
+
+static void IntelligentRegularGoals(stip_length_type n, Side starter)
 {
   square    *bnp;
   piece p;
-  int   i;
 
   deposebnp= boardnum;
   is_cast_supp= castling_supported;
@@ -2552,17 +2570,28 @@ static boolean IntelligentRegularGoals(stip_length_type n, Side starter)
     StdString("\n");
   }
 
-  for (i= 0; i < SolMax; i++)
-    free(Sols[i]);
-
-  if (SolMax) {
-    free(Sols);
-  }
-
   castling_supported= is_cast_supp;
   ep[1]= is_ep; ep2[1]= is_ep2;
+}
 
-  return (SolMax > 0);
+static void IntelligentProof(stip_length_type n, Side starter)
+{
+  boolean const save_movenbr = OptFlag[movenbr];
+
+  ProofInitialiseIntelligent();
+
+  /* Proof games and a=>b are special because there is only 1 end
+   * position to be reached. We therefore output move numbers as if
+   * we were not in intelligent mode, and only if we are solving
+   * full-length.
+   * If n is smaller, temporarily disable move number output:
+   */
+  if (n<slices[0].u.composite.length)
+    OptFlag[movenbr] = false;
+    
+  composite_root_exact_solve(0,n,starter);
+
+  OptFlag[movenbr] = save_movenbr;
 }
 
 boolean Intelligent(stip_length_type n, Side starter)
@@ -2612,36 +2641,22 @@ boolean Intelligent(stip_length_type n, Side starter)
   TraceValue("%u",WhMovesLeft);
   TraceValue("%u\n",BlMovesLeft);
 
-  SolMax = 0;
   MatesMax = 0;
+
+  InitSols();
 
   if (slices[1].u.leaf.goal==goal_atob
       || slices[1].u.leaf.goal==goal_proof)
-  {
-    boolean const save_movenbr = OptFlag[movenbr];
-
-    ProofInitialiseIntelligent();
-
-    /* Proof games and a=>b are special because there is only 1 end
-     * position to be reached. We therefore output move numbers as if
-     * we were not in intelligent mode, and only if we are solving
-     * full-length.
-     * If n is smaller, temporarily disable move number output:
-     */
-    if (n<slices[0].u.composite.length)
-      OptFlag[movenbr] = false;
-    
-    result = composite_root_exact_solve(0,n,starter);
-
-    OptFlag[movenbr] = save_movenbr;
-  }
+    IntelligentProof(n,starter);
   else
-    result = IntelligentRegularGoals(n,starter);
+    IntelligentRegularGoals(n,starter);
+
+  result = CleanupSols();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
-} /* Intelligent */
+}
 
 boolean isGoalReachable(void)
 {
