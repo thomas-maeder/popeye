@@ -5,6 +5,27 @@
 
 #include <assert.h>
 
+/* Allocate a quodlibet slice.
+ * @param op1 1st operand
+ * @param op2 2nd operand
+ * @return index of allocated slice
+ */
+slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2)
+{
+  slice_index const result = alloc_slice_index();
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  slices[result].type = STQuodlibet; 
+  slices[result].u.quodlibet.op1 = op1;
+  slices[result].u.quodlibet.op2 = op2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Detect a priori unsolvability of a slice (e.g. because of forced
  * reflex mates)
  * @param si si slice index
@@ -13,8 +34,8 @@
 boolean quodlibet_end_is_unsolvable(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -36,14 +57,14 @@ boolean quodlibet_end_is_unsolvable(slice_index si)
  */
 void quodlibet_write_unsolvability(slice_index si)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  TraceValue("%u",slices[si].u.composite.op1);
-  TraceValue("%u\n",slices[si].u.composite.op2);
+  TraceValue("%u",slices[si].u.quodlibet.op1);
+  TraceValue("%u\n",slices[si].u.quodlibet.op2);
 
   slice_write_unsolvability(op1);
   slice_write_unsolvability(op2);
@@ -52,14 +73,14 @@ void quodlibet_write_unsolvability(slice_index si)
   TraceText("\n");
 }
 
-/* Determine and write continuations at end of quodlibet slice
+/* Determine and write continuations of a quodlibet slice
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of quodlibet slice
  */
-void quodlibet_end_solve_continuations(int table, slice_index si)
+void quodlibet_solve_continuations(int table, slice_index si)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -74,10 +95,10 @@ void quodlibet_end_solve_continuations(int table, slice_index si)
 /* Find and write set play
  * @param si slice index
  */
-boolean quodlibet_root_end_solve_setplay(slice_index si)
+boolean quodlibet_root_solve_setplay(slice_index si)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
   boolean result1;
   boolean result2;
 
@@ -99,8 +120,8 @@ boolean quodlibet_root_end_solve_setplay(slice_index si)
 boolean quodlibet_root_end_solve_complete_set(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -113,15 +134,14 @@ boolean quodlibet_root_end_solve_complete_set(slice_index si)
   return result;
 }
 
-/* Determine and write solutions at root level starting at the end of
- * a quodlibet stipulation.
+/* Solve a quodlibet slice at root level
  * @param si slice index
  */
-boolean quodlibet_root_end_solve(slice_index si)
+boolean quodlibet_root_solve(slice_index si)
 {
   boolean result = false;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -143,26 +163,25 @@ boolean quodlibet_root_end_solve(slice_index si)
 }
 
 /* Write the key just played, then solve the post key play (threats,
- * variations), starting at the end of a quodlibet slice.
+ * variations) of a quodlibet slice.
  * @param si slice index
  * @param type type of attack
  */
-void quodlibet_root_end_write_key_solve_postkey(slice_index si,
-                                                attack_type type)
+void quodlibet_root_write_key_solve_postkey(slice_index si,
+                                            attack_type type)
 {
-  slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
-  slice_root_write_key_solve_postkey(slices[si].u.composite.op2,type);
+  slice_root_write_key_solve_postkey(slices[si].u.quodlibet.op1,type);
+  slice_root_write_key_solve_postkey(slices[si].u.quodlibet.op2,type);
 }
 
-/* Determine whether there is a solution at the end of a quodlibet
- * slice. 
+/* Determine whether a quodlibet slice jas a solution
  * @param si slice index
  * @return true iff slice si has a solution
  */
-boolean quodlibet_end_has_solution(slice_index si)
+boolean quodlibet_has_solution(slice_index si)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -176,13 +195,13 @@ boolean quodlibet_end_has_solution(slice_index si)
   return result;
 }
 
-/* Find and write variations from the end of a quodlibet slice.
+/* Find and write variations of a quodlibet slice.
  * @param si slice index
  */
-void quodlibet_end_solve_variations(slice_index si)
+void quodlibet_solve_variations(slice_index si)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -201,8 +220,8 @@ void quodlibet_end_solve_variations(slice_index si)
 boolean quodlibet_end_has_non_starter_solved(slice_index si)
 {
   boolean result = true;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -226,8 +245,8 @@ boolean quodlibet_end_has_non_starter_solved(slice_index si)
 boolean quodlibet_end_has_non_starter_refuted(slice_index si)
 {
   boolean result = true;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -249,8 +268,8 @@ boolean quodlibet_end_has_non_starter_refuted(slice_index si)
 boolean quodlibet_end_has_starter_won(slice_index si)
 {
   boolean result = true;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -272,8 +291,8 @@ boolean quodlibet_end_has_starter_won(slice_index si)
 boolean quodlibet_end_has_starter_lost(slice_index si)
 {
   boolean result = true;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -290,25 +309,25 @@ boolean quodlibet_end_has_starter_lost(slice_index si)
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean quodlibet_end_is_threat_refuted(slice_index si)
+boolean quodlibet_is_threat_refuted(slice_index si)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   return (slice_is_threat_refuted(op1)
           && slice_is_threat_refuted(op2));
 }
 
-/* Continue solving at the end of a quodlibet slice
+/* Solve a quodlibet slice
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean quodlibet_end_solve(slice_index si)
+boolean quodlibet_solve(slice_index si)
 {
   boolean found_solution_op1 = false;
   boolean found_solution_op2 = false;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -331,34 +350,28 @@ boolean quodlibet_end_solve(slice_index si)
  */
 void quodlibet_detect_starter(slice_index si, boolean is_duplex)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",is_duplex);
 
+  assert(slices[si].type==STQuodlibet);
+
+  TraceValue("%u",slices[si].u.quodlibet.op1);
+  TraceValue("%u\n",slices[si].u.quodlibet.op2);
+
   slice_detect_starter(op1,is_duplex);
   slice_detect_starter(op2,is_duplex);
 
-  slices[si].starter = no_side;
-
-  if (slices[op1].starter==no_side && slices[op1].type==STLeaf)
-  {
+  if (slice_get_starter(op1)==no_side)
     /* op1 can't tell - let's tell him */
-    slices[si].starter = slices[op2].starter;
-    slices[op1].starter = slices[op2].starter;
-  }
-  else if (slices[op2].starter==no_side && slices[op2].type==STLeaf)
-  {
+    slice_impose_starter(op1,slice_get_starter(op2));
+  else if (slice_get_starter(op2)==no_side)
     /* op2 can't tell - let's tell him */
-    slices[si].starter = slices[op1].starter;
-    slices[op2].starter = slices[op1].starter;
-  }
-  else if (slices[op1].starter==slices[op2].starter)
-    slices[si].starter = slices[op1].starter;
+    slice_impose_starter(op2,slice_get_starter(op1));
 
-  TraceValue("%u\n",slices[si].starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
@@ -369,15 +382,6 @@ void quodlibet_detect_starter(slice_index si, boolean is_duplex)
  */
 void quodlibet_impose_starter(slice_index si, Side s)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
-
-  Side const next_starter = (slices[si].u.composite.play==PHelp
-                             && slices[si].u.composite.length%2==1
-                             ? advers(s)
-                             : s);
-
-  slices[si].starter = s;
-  slice_impose_starter(op1,next_starter);
-  slice_impose_starter(op2,next_starter);
+  slice_impose_starter(slices[si].u.quodlibet.op1,s);
+  slice_impose_starter(slices[si].u.quodlibet.op2,s);
 }

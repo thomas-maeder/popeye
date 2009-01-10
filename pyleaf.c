@@ -633,7 +633,7 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
   TraceFunctionParam("%u",just_moved);
   TraceFunctionParam("%u\n",leaf);
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceValue("%u\n",slices[leaf].u.leaf.goal);
   switch (slices[leaf].u.leaf.goal)
@@ -738,7 +738,7 @@ static boolean selflastencore(square const **selfbnp,
     return true;
   else
   {
-    Side const attacker = slices[leaf].starter;
+    Side const attacker = slices[leaf].u.leaf.starter;
     Side const defender = advers(attacker);
     square curr_square = **selfbnp;
 
@@ -783,7 +783,7 @@ static boolean selflastencore(square const **selfbnp,
  */
 static boolean leaf_is_end_in_1_forced(slice_index leaf)
 {
-  Side const defender = advers(slices[leaf].starter);
+  Side const defender = advers(slices[leaf].u.leaf.starter);
   boolean is_defender_immobile = true;
   boolean escape_found = false;
 
@@ -898,7 +898,7 @@ static boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
   boolean end_found = false;
 
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
@@ -949,7 +949,7 @@ boolean leaf_is_unsolvable(slice_index leaf)
   boolean result = false;
 
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -958,14 +958,14 @@ boolean leaf_is_unsolvable(slice_index leaf)
   {
     case EDirect:
     {
-      Side const attacker = slices[leaf].starter;
+      Side const attacker = slices[leaf].u.leaf.starter;
       result = OptFlag[keepmating] && !is_a_mating_piece_left(attacker);
       break;
     }
 
     case EReflex:
     {
-      Side const attacker = slices[leaf].starter;
+      Side const attacker = slices[leaf].u.leaf.starter;
       Side const defender = advers(attacker);
       result = ((!(OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
                  && leaf_is_end_in_1_possible(attacker,leaf))
@@ -977,7 +977,7 @@ boolean leaf_is_unsolvable(slice_index leaf)
     case ESelf:
     case EHelp:
     {
-      Side const final = advers(slices[leaf].starter);
+      Side const final = advers(slices[leaf].u.leaf.starter);
       result = OptFlag[keepmating] && !is_a_mating_piece_left(final);
       break;
     }
@@ -999,7 +999,7 @@ boolean leaf_is_unsolvable(slice_index leaf)
 static boolean leaf_h_cmate_exists_final_move(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
+  Side const side_at_move = slices[leaf].u.leaf.starter;
   Side const other_side = advers(side_at_move);
 
   if (goal_checker_mate(side_at_move))
@@ -1027,7 +1027,7 @@ static boolean leaf_h_cmate_exists_final_move(slice_index leaf)
 static boolean leaf_h_cmate_is_solvable(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
+  Side const side_at_move = slices[leaf].u.leaf.starter;
 
   generate_move_reaching_goal(leaf,side_at_move);
 
@@ -1067,7 +1067,7 @@ static boolean leaf_h_cmate_is_solvable(slice_index leaf)
 static boolean leaf_h_dmate_exists_final_move(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
+  Side const side_at_move = slices[leaf].u.leaf.starter;
   Side const other_side = advers(side_at_move);
 
   if (!immobile(other_side))
@@ -1095,7 +1095,7 @@ static boolean leaf_h_dmate_exists_final_move(slice_index leaf)
 static boolean leaf_h_dmate_is_solvable(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
+  Side const side_at_move = slices[leaf].u.leaf.starter;
 
   genmove(side_at_move);
 
@@ -1136,7 +1136,7 @@ static boolean leaf_h_dmate_is_solvable(slice_index leaf)
 static boolean leaf_h_regulargoals_is_solvable(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
+  Side const side_at_move = slices[leaf].u.leaf.starter;
   Side const other_side = advers(side_at_move);
 
   TraceFunctionEntry(__func__);
@@ -1261,7 +1261,7 @@ static boolean leaf_d_has_solution(slice_index leaf)
 {
   hashwhat result = nr_hashwhat;
   HashBuffer hb;
-  Side const attacker = slices[leaf].starter;
+  Side const attacker = slices[leaf].u.leaf.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -1329,7 +1329,7 @@ static boolean leaf_d_has_solution(slice_index leaf)
 static boolean leaf_h_has_solution(slice_index leaf)
 {
   boolean result = false;
-  Side const side_at_move = slices[leaf].starter;
+  Side const side_at_move = slices[leaf].u.leaf.starter;
   Side const other_side = advers(side_at_move);
 
   TraceFunctionEntry(__func__);
@@ -1397,7 +1397,7 @@ static boolean leaf_s_has_solution(slice_index leaf)
 {
   hashwhat result;
   HashBuffer hb;
-  Side const attacker = slices[leaf].starter;
+  Side const attacker = slices[leaf].u.leaf.starter;
   Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
@@ -1447,7 +1447,7 @@ boolean leaf_is_solvable(slice_index leaf)
   boolean result = false;
   
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -1455,7 +1455,7 @@ boolean leaf_is_solvable(slice_index leaf)
   {
     case EDirect:
     {
-      Side const attacker = slices[leaf].starter;
+      Side const attacker = slices[leaf].u.leaf.starter;
       if (OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
         ; /* intentionally nothing */
       else
@@ -1465,7 +1465,7 @@ boolean leaf_is_solvable(slice_index leaf)
 
     case EReflex:
     {
-      Side const attacker = slices[leaf].starter;
+      Side const attacker = slices[leaf].u.leaf.starter;
       Side const defender = advers(attacker);
       if ((!(OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
            && leaf_is_end_in_1_possible(attacker,leaf))
@@ -1478,7 +1478,7 @@ boolean leaf_is_solvable(slice_index leaf)
 
     case ESelf:
     {
-      Side const defender = advers(slices[leaf].starter);
+      Side const defender = advers(slices[leaf].u.leaf.starter);
       if (OptFlag[keepmating] && !is_a_mating_piece_left(defender))
         ; /* intentionally nothing */
       else
@@ -1488,7 +1488,7 @@ boolean leaf_is_solvable(slice_index leaf)
 
     case EHelp:
     {
-      Side const defender = advers(slices[leaf].starter);
+      Side const defender = advers(slices[leaf].u.leaf.starter);
       if (OptFlag[keepmating] && !is_a_mating_piece_left(defender))
         ; /* intentionally nothing */
       else
@@ -1513,11 +1513,11 @@ boolean leaf_is_solvable(slice_index leaf)
  */
 boolean leaf_has_non_starter_solved(slice_index leaf)
 {
-  Side const defender = advers(slices[leaf].starter);
+  Side const defender = advers(slices[leaf].u.leaf.starter);
   boolean result = false;
 
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",defender);
@@ -1551,7 +1551,7 @@ boolean leaf_has_non_starter_solved(slice_index leaf)
  */
 boolean leaf_has_starter_solved(slice_index leaf)
 {
-  Side const attacker = slices[leaf].starter;
+  Side const attacker = slices[leaf].u.leaf.starter;
 
   assert(slices[leaf].type==STLeaf);
   assert(attacker!=no_side);
@@ -1584,7 +1584,7 @@ boolean leaf_has_starter_solved(slice_index leaf)
  */
 static void leaf_r_solve_forced_keys(slice_index leaf)
 {
-  Side const attacker = slices[leaf].starter;
+  Side const attacker = slices[leaf].u.leaf.starter;
   Goal const goal = slices[leaf].u.leaf.goal;
 
   generate_move_reaching_goal(leaf,attacker);
@@ -1613,7 +1613,7 @@ static void leaf_r_solve_forced_keys(slice_index leaf)
 void leaf_write_unsolvability(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   switch (slices[leaf].u.leaf.end)
   {
@@ -1632,7 +1632,7 @@ void leaf_write_unsolvability(slice_index leaf)
  */
 static boolean leaf_d_solve(slice_index leaf)
 {
-  Side const attacker = slices[leaf].starter;
+  Side const attacker = slices[leaf].u.leaf.starter;
   boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
@@ -1672,7 +1672,7 @@ static boolean leaf_d_solve(slice_index leaf)
 static boolean leaf_h_solve_final_move(slice_index leaf)
 {
   boolean final_move_found = false;
-  Side const side_at_move = advers(slices[leaf].starter);
+  Side const side_at_move = advers(slices[leaf].u.leaf.starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -1721,7 +1721,7 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
 static boolean leaf_s_solve_final_move(slice_index leaf)
 {
   boolean final_move_found = false;
-  Side const side_at_move = advers(slices[leaf].starter);
+  Side const side_at_move = advers(slices[leaf].u.leaf.starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -1757,7 +1757,7 @@ static boolean leaf_s_solve_final_move(slice_index leaf)
 static boolean leaf_s_solve(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const attacker = slices[leaf].starter;
+  Side const attacker = slices[leaf].u.leaf.starter;
   Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
@@ -1798,8 +1798,8 @@ static boolean leaf_s_solve(slice_index leaf)
 static boolean leaf_h_cmate_solve_final_move(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
-  Side const other_side = advers(slices[leaf].starter);
+  Side const side_at_move = slices[leaf].u.leaf.starter;
+  Side const other_side = advers(slices[leaf].u.leaf.starter);
 
   if (goal_checker_mate(side_at_move))
   {
@@ -1830,7 +1830,7 @@ static boolean leaf_h_cmate_solve_final_move(slice_index leaf)
 static boolean leaf_h_cmate_solve(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
+  Side const side_at_move = slices[leaf].u.leaf.starter;
 
   generate_move_reaching_goal(leaf,side_at_move);
   active_slice[nbply] = leaf;
@@ -1871,7 +1871,7 @@ static boolean leaf_h_cmate_solve(slice_index leaf)
 static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const final_side = advers(slices[leaf].starter);
+  Side const final_side = advers(slices[leaf].u.leaf.starter);
 
   if (!immobile(final_side))
   {
@@ -1903,7 +1903,7 @@ static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
 static boolean leaf_h_dmate_solve(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
+  Side const side_at_move = slices[leaf].u.leaf.starter;
 
   genmove(side_at_move);
   active_slice[nbply] = leaf;
@@ -1949,7 +1949,7 @@ static boolean leaf_h_dmate_solve(slice_index leaf)
 static boolean leaf_h_regulargoals_solve(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const side_at_move = slices[leaf].starter;
+  Side const side_at_move = slices[leaf].u.leaf.starter;
   Side const other_side = advers(side_at_move);
 
   TraceFunctionEntry(__func__);
@@ -2043,7 +2043,7 @@ static boolean leaf_h_solve(slice_index leaf)
 static boolean leaf_r_solve(slice_index leaf)
 {
   boolean result = false;
-  Side const attacker = slices[leaf].starter;
+  Side const attacker = slices[leaf].u.leaf.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -2064,7 +2064,7 @@ static boolean leaf_r_solve(slice_index leaf)
 void leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
 {
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   switch (slices[leaf].u.leaf.end)
   {
@@ -2101,7 +2101,7 @@ void leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
 boolean leaf_has_starter_lost(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   switch (slices[leaf].u.leaf.end)
   {
@@ -2112,7 +2112,7 @@ boolean leaf_has_starter_lost(slice_index leaf)
     case EReflex:
     case EHelp:
       return (OptFlag[keepmating]
-              && !is_a_mating_piece_left(slices[leaf].starter));
+              && !is_a_mating_piece_left(slices[leaf].u.leaf.starter));
 
     default:
       assert(0);
@@ -2128,12 +2128,12 @@ boolean leaf_has_starter_lost(slice_index leaf)
 boolean leaf_has_starter_won(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
-      return leaf_is_goal_reached(slices[leaf].starter,leaf);
+      return leaf_is_goal_reached(slices[leaf].u.leaf.starter,leaf);
 
     case ESelf:
       return false;
@@ -2141,7 +2141,7 @@ boolean leaf_has_starter_won(slice_index leaf)
     case EReflex:
     case EHelp:
     {
-      Side const defender = advers(slices[leaf].starter);
+      Side const defender = advers(slices[leaf].u.leaf.starter);
       return (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
               && leaf_is_end_in_1_possible(defender,leaf));
     }
@@ -2161,7 +2161,7 @@ boolean leaf_has_solution(slice_index leaf)
   boolean result = false;
 
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -2197,7 +2197,7 @@ boolean leaf_has_solution(slice_index leaf)
 static boolean leaf_root_sr_solve_setplay(slice_index leaf)
 {
   boolean result = false;
-  Side const defender = advers(slices[leaf].starter);
+  Side const defender = advers(slices[leaf].u.leaf.starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -2243,7 +2243,7 @@ boolean leaf_root_solve_setplay(slice_index leaf)
   TraceFunctionParam("%u\n",leaf);
 
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   switch (slices[leaf].u.leaf.end)
   {
@@ -2277,13 +2277,13 @@ boolean leaf_root_solve_setplay(slice_index leaf)
 boolean leaf_root_solve_complete_set(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   switch (slices[leaf].u.leaf.end)
   {
     case ESelf:
     {
-      Side const defender = advers(slices[leaf].starter);
+      Side const defender = advers(slices[leaf].u.leaf.starter);
       if (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
           && leaf_is_end_in_1_forced(leaf))
       {
@@ -2297,7 +2297,7 @@ boolean leaf_root_solve_complete_set(slice_index leaf)
     case EReflex:
     case EHelp:
     {
-      Side const defender = advers(slices[leaf].starter);
+      Side const defender = advers(slices[leaf].u.leaf.starter);
       if (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender)))
         return leaf_root_sr_solve_setplay(leaf);
       else
@@ -2318,7 +2318,7 @@ boolean leaf_root_solve_complete_set(slice_index leaf)
 void leaf_solve_variations(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   switch (slices[leaf].u.leaf.end)
   {
@@ -2346,7 +2346,7 @@ void leaf_solve_variations(slice_index leaf)
  */
 static void leaf_d_solve_continuations(int solutions, slice_index leaf)
 {
-  Side const attacker = slices[leaf].starter;
+  Side const attacker = slices[leaf].u.leaf.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -2382,7 +2382,7 @@ static void leaf_d_solve_continuations(int solutions, slice_index leaf)
  */
 static void leaf_s_solve_continuations(int solutions, slice_index leaf)
 {
-  Side const attacker = slices[leaf].starter;
+  Side const attacker = slices[leaf].u.leaf.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -2419,7 +2419,7 @@ static void leaf_s_solve_continuations(int solutions, slice_index leaf)
  */
 static void leaf_h_solve_continuations(int solutions, slice_index leaf)
 {
-  Side const attacker = slices[leaf].starter;
+  Side const attacker = slices[leaf].u.leaf.starter;
   Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
@@ -2460,7 +2460,7 @@ static void leaf_h_solve_continuations(int solutions, slice_index leaf)
 void leaf_solve_continuations(int solutions, slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -2501,7 +2501,7 @@ boolean leaf_solve(slice_index leaf)
   TraceFunctionParam("%u\n",leaf);
 
   assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].starter!=no_side);
+  assert(slices[leaf].u.leaf.starter!=no_side);
 
   switch (slices[leaf].u.leaf.end)
   {
@@ -2543,7 +2543,7 @@ void leaf_detect_starter(slice_index leaf, boolean is_duplex)
 
   TraceFunctionParam("%u\n",is_duplex);
 
-  if (slices[leaf].starter==no_side)
+  if (slices[leaf].u.leaf.starter==no_side)
     switch (slices[leaf].u.leaf.end)
     {
       case EDirect:
@@ -2552,11 +2552,11 @@ void leaf_detect_starter(slice_index leaf, boolean is_duplex)
 
       case ESelf:
       case EReflex:
-        slices[leaf].starter = is_duplex ? Black : White;
+        slices[leaf].u.leaf.starter = is_duplex ? Black : White;
         break;
           
       case EHelp:
-        slices[leaf].starter = is_duplex ? White : Black;
+        slices[leaf].u.leaf.starter = is_duplex ? White : Black;
         break;
 
       default:
@@ -2564,7 +2564,7 @@ void leaf_detect_starter(slice_index leaf, boolean is_duplex)
         break;
     }
 
-  TraceValue("%u\n",slices[leaf].starter);
+  TraceValue("%u\n",slices[leaf].u.leaf.starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
@@ -2575,5 +2575,5 @@ void leaf_detect_starter(slice_index leaf, boolean is_duplex)
  */
 void leaf_impose_starter(slice_index leaf, Side s)
 {
-  slices[leaf].starter = s;
+  slices[leaf].u.leaf.starter = s;
 }

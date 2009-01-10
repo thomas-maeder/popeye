@@ -261,32 +261,32 @@ void sequence_detect_starter(slice_index si, boolean is_duplex)
 
   slice_detect_starter(op1,is_duplex);
 
-  slices[si].starter = no_side;
+  slices[si].u.composite.starter = no_side;
 
   switch (slices[op1].type)
   {
     case STSequence:
-      if (slices[op1].starter!=no_side)
-        slices[si].starter = advers(slices[op1].starter);
+      if (slice_get_starter(op1)!=no_side)
+        slices[si].u.composite.starter = advers(slice_get_starter(op1));
       break;
 
     case STLeaf:
-      if (slices[op1].starter==no_side)
+      if (slice_get_starter(op1)==no_side)
       {
         /* op1 can't tell - let's tell him */
-        slices[si].starter = is_duplex ? Black : White; /* not reci-h */
-        slices[op1].starter = slices[si].starter;
+        slices[si].u.composite.starter = is_duplex ? Black : White; /* not reci-h */
+        slices[op1].u.leaf.starter = slices[si].u.composite.starter;
       }
       else
-        slices[si].starter = slices[op1].starter;
+        slices[si].u.composite.starter = slice_get_starter(op1);
       break;
 
     default:
-      slices[si].starter = slices[op1].starter;
+      slices[si].u.composite.starter = slice_get_starter(op1);
       break;
   }
 
-  TraceValue("%u\n",slices[si].starter);
+  TraceValue("%u\n",slices[si].u.composite.starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
@@ -327,6 +327,6 @@ void sequence_impose_starter(slice_index si, Side s)
       break;
   }
 
-  slices[si].starter = s;
+  slices[si].u.composite.starter = s;
   slice_impose_starter(op1,next_starter);
 }

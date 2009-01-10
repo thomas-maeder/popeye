@@ -68,10 +68,6 @@ static boolean composite_end_has_solution(slice_index si)
 
   switch (slices[si].type)
   {
-    case STQuodlibet:
-      result = quodlibet_end_has_solution(si);
-      break;
-
     case STReciprocal:
       result = reci_end_has_solution(si);
       break;
@@ -102,7 +98,7 @@ static boolean composite_d_has_solution_in_n(slice_index si,
  */
 static int count_non_trivial(slice_index si)
 {
-  Side const attacker = slices[si].starter;
+  Side const attacker = slices[si].u.composite.starter;
   Side const defender = advers(attacker);
   int result = -1;
 
@@ -142,7 +138,7 @@ static
 d_defender_win_type composite_d_helper_does_defender_win(slice_index si,
                                                          stip_length_type n)
 {
-  Side const attacker = slices[si].starter;
+  Side const attacker = slices[si].u.composite.starter;
   Side const defender = advers(attacker);
   boolean is_defender_immobile = true;
   boolean refutation_found = false;
@@ -267,7 +263,7 @@ static d_defender_win_type composite_d_does_defender_win(slice_index si,
 static boolean composite_d_helper_has_solution(slice_index si,
                                                stip_length_type n)
 {
-  Side const attacker = slices[si].starter;
+  Side const attacker = slices[si].u.composite.starter;
   boolean win_found = false;
 
   TraceFunctionEntry(__func__);
@@ -422,7 +418,7 @@ boolean composite_has_solution(slice_index si)
  */
 static int composite_d_find_refutations(int t, slice_index si)
 {
-  Side const defender = advers(slices[si].starter);
+  Side const defender = advers(slices[si].u.composite.starter);
   boolean is_defender_immobile = true;
   int ntcount = 0;
   int result = 0;
@@ -511,10 +507,6 @@ static void composite_end_solve_variations(slice_index si)
 
   switch (slices[si].type)
   {
-    case STQuodlibet:
-      quodlibet_end_solve_variations(si);
-      break;
-
     case STReciprocal:
       reci_end_solve_variations(si);
       break;
@@ -542,10 +534,6 @@ static void composite_root_end_solve(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STQuodlibet:
-      quodlibet_root_end_solve(si);
-      break;
-
     case STReciprocal:
       reci_root_end_solve(si);
       break;
@@ -576,10 +564,6 @@ static boolean composite_end_solve(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STQuodlibet:
-      result = quodlibet_end_solve(si);
-      break;
-
     case STReciprocal:
       result = reci_end_solve(si);
       break;
@@ -615,10 +599,6 @@ static boolean composite_end_is_unsolvable(slice_index si)
   {
     case STReciprocal:
       result = reci_end_is_unsolvable(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_end_is_unsolvable(si);
       break;
 
     case STSequence:
@@ -868,7 +848,7 @@ static boolean composite_ser_solve_in_n_recursive(slice_index si,
     solution_found = composite_end_solve(si);
   else
   {
-    Side const series_side = slices[si].starter;
+    Side const series_side = slices[si].u.composite.starter;
     Side other_side = advers(series_side);
 
     if (!slice_is_unsolvable(si))
@@ -940,7 +920,7 @@ static void composite_ser_root_solve_in_n_recursive(slice_index si,
     composite_root_end_solve(si);
   else
   {
-    Side const series_side = slices[si].starter;
+    Side const series_side = slices[si].u.composite.starter;
     Side const other_side = advers(series_side);
 
     if (!slice_is_unsolvable(si))
@@ -1017,10 +997,6 @@ static boolean composite_root_end_solve_setplay(slice_index si)
       result = reci_root_end_solve_setplay(si);
       break;
 
-    case STQuodlibet:
-      result = quodlibet_root_end_solve_setplay(si);
-      break;
-
     default:
       assert(0);
       break;
@@ -1043,7 +1019,7 @@ static void composite_ser_root_solve_full_in_n(slice_index si,
   assert(n>=1);
 
   if (isIntelligentModeActive)
-    Intelligent(n,slices[si].starter);
+    Intelligent(n,slices[si].u.composite.starter);
   else
     composite_ser_root_solve_in_n_recursive(si,n);
 
@@ -1068,7 +1044,7 @@ static boolean composite_ser_root_solve_short_in_n(slice_index si,
   assert(n>=slack_length_series);
 
   if (isIntelligentModeActive)
-    result = Intelligent(n,slices[si].starter);
+    result = Intelligent(n,slices[si].u.composite.starter);
   else
   {
     /* we only display move numbers when looking for full length
@@ -1090,7 +1066,7 @@ static boolean composite_ser_root_solve_short_in_n(slice_index si,
  */
 static void composite_ser_root_solve(slice_index si)
 {
-  Side const starter = slices[si].starter;
+  Side const starter = slices[si].u.composite.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -1291,10 +1267,6 @@ static boolean composite_end_is_threat_refuted(slice_index si)
 
   switch (slices[si].type)
   {
-    case STQuodlibet:
-      result = quodlibet_end_is_threat_refuted(si);
-      break;
-
     case STReciprocal:
       result = reci_end_is_threat_refuted(si);
       break;
@@ -1375,7 +1347,7 @@ static boolean composite_d_defends_against_threats(int threats,
                                                    slice_index si,
                                                    stip_length_type n)
 {
-  Side const attacker = slices[si].starter;
+  Side const attacker = slices[si].u.composite.starter;
   boolean result = true;
 
   TraceFunctionEntry(__func__);
@@ -1478,7 +1450,7 @@ static int composite_d_solve_threats(int threats,
                                      slice_index si,
                                      stip_length_type n)
 {
-  Side const defender = advers(slices[si].starter);
+  Side const defender = advers(slices[si].u.composite.starter);
   int result = 1;
 
   TraceFunctionEntry(__func__);
@@ -1530,7 +1502,7 @@ static void composite_d_root_solve_variations(int len_threat,
                                               slice_index si,
                                               stip_length_type n)
 {
-  Side const attacker = slices[si].starter;
+  Side const attacker = slices[si].u.composite.starter;
   Side defender = advers(attacker);
   int ntcount = 0;
 
@@ -1594,7 +1566,7 @@ static void composite_d_solve_variations_in_n(int len_threat,
                                               slice_index si,
                                               stip_length_type n)
 {
-  Side const attacker = slices[si].starter;
+  Side const attacker = slices[si].u.composite.starter;
   Side defender = advers(attacker);
   int ntcount = 0;
 
@@ -1728,10 +1700,6 @@ static void composite_end_solve_continuations(int t, slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STQuodlibet:
-      quodlibet_end_solve_continuations(t,si);
-      break;
-
     case STReciprocal:
       reci_end_solve_continuations(t,si);
       break;
@@ -1762,7 +1730,7 @@ static void composite_d_solve_continuations_in_n(int continuations,
                                                  slice_index si,
                                                  stip_length_type n)
 {
-  Side const attacker = slices[si].starter;
+  Side const attacker = slices[si].u.composite.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -1841,7 +1809,7 @@ void composite_solve_continuations(int continuations, slice_index si)
  */
 static boolean composite_d_root_solve_setplay(slice_index si)
 {
-  Side const defender = advers(slices[si].starter);
+  Side const defender = advers(slices[si].u.composite.starter);
   stip_length_type const n = slices[si].u.composite.length;
   boolean result = false;
 
@@ -1967,11 +1935,11 @@ static boolean composite_h_root_solve_setplay(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  if (echecc(nbply,slices[si].starter))
+  if (echecc(nbply,slices[si].u.composite.starter))
     ErrorMsg(KingCapture);
   else
   {
-    Side const starter = advers(slices[si].starter);
+    Side const starter = advers(slices[si].u.composite.starter);
     stip_length_type const full_length = slices[si].u.composite.length-1;
 
     if (full_length%2==1)
@@ -2037,10 +2005,6 @@ static void composite_root_end_write_key_solve_postkey(slice_index si,
 {
   switch (slices[si].type)
   {
-    case STQuodlibet:
-      quodlibet_root_end_write_key_solve_postkey(si,type);
-      break;
-
     case STReciprocal:
       reci_root_end_write_key_solve_postkey(si,type);
       break;
@@ -2146,7 +2110,7 @@ static void composite_d_root_solve_real_play(slice_index si)
     composite_root_end_solve(si);
   else
   {
-    Side const attacker = slices[si].starter;
+    Side const attacker = slices[si].u.composite.starter;
     genmove(attacker);
 
     while (encore())
@@ -2209,10 +2173,6 @@ static boolean composite_root_end_solve_complete_set(slice_index si)
 
   switch (slices[si].type)
   {
-    case STQuodlibet:
-      result = quodlibet_root_end_solve_complete_set(si);
-      break;
-
     case STReciprocal:
       /* TODO */
       break;
@@ -2236,7 +2196,7 @@ static boolean composite_root_end_solve_complete_set(slice_index si)
  */
 static void composite_h_root_solve(slice_index si)
 {
-  Side const starter = slices[si].starter;
+  Side const starter = slices[si].u.composite.starter;
   stip_length_type const full_length = slices[si].u.composite.length;
 
   TraceFunctionEntry(__func__);
@@ -2301,7 +2261,7 @@ static void composite_d_root_solve(slice_index si)
 
   if (OptFlag[postkeyplay])
   {
-    if (echecc(nbply,slices[si].starter))
+    if (echecc(nbply,slices[si].u.composite.starter))
       ErrorMsg(SetAndCheck);
     else
       composite_d_root_solve_postkeyonly(si,n);
@@ -2310,7 +2270,7 @@ static void composite_d_root_solve(slice_index si)
   {
     if (OptFlag[solapparent] && n>slack_length_direct)
     {
-      if (echecc(nbply,slices[si].starter))
+      if (echecc(nbply,slices[si].u.composite.starter))
         ErrorMsg(SetAndCheck);
       else
       {
@@ -2321,7 +2281,7 @@ static void composite_d_root_solve(slice_index si)
       }
     }
 
-    if (echecc(nbply,advers(slices[si].starter)))
+    if (echecc(nbply,advers(slices[si].u.composite.starter)))
       ErrorMsg(KingCapture);
     else
       composite_d_root_solve_real_play(si);

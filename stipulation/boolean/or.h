@@ -10,6 +10,13 @@
  */
 
 
+/* Allocate a quodlibet slice.
+ * @param op1 1st operand
+ * @param op2 2nd operand
+ * @return index of allocated slice
+ */
+slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2);
+
 /* Detect a priori unsolvability of a slice (e.g. because of forced
  * reflex mates)
  * @param si slice index
@@ -24,18 +31,18 @@ boolean quodlibet_end_is_unsolvable(slice_index si);
  */
 void quodlibet_write_unsolvability(slice_index si);
 
-/* Determine and write continuations at end of quodlibet slice
+/* Determine and write continuations of a quodlibet slice
  * @param continuations table where to store continuing moves
  *                      (e.g. threats)
  * @param si index of quodlibet slice
  */
-void quodlibet_end_solve_continuations(int continuations, slice_index si);
+void quodlibet_solve_continuations(int continuations, slice_index si);
 
 /* Find and write set play
  * @param si slice index
  * @return true iff >= 1 set play was found
  */
-boolean quodlibet_root_end_solve_setplay(slice_index si);
+boolean quodlibet_root_solve_setplay(slice_index si);
 
 /* Find and write set play provided every set move leads to end
  * @param si slice index
@@ -44,24 +51,23 @@ boolean quodlibet_root_end_solve_setplay(slice_index si);
 boolean quodlibet_root_end_solve_complete_set(slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
- * variations), starting at the end of a quodlibet slice.
+ * variations) of a quodlibet slice.
  * @param si slice index
  * @param type type of attack
  */
-void quodlibet_root_end_write_key_solve_postkey(slice_index si,
-                                                attack_type type);
+void quodlibet_root_write_key_solve_postkey(slice_index si,
+                                            attack_type type);
 
-/* Find and write variations from the end of a quodlibet slice.
+/* Find and write variations of a quodlibet slice.
  * @param si slice index
  */
-void quodlibet_end_solve_variations(slice_index si);
+void quodlibet_solve_variations(slice_index si);
 
-/* Determine whether there is a solution at the end of a quodlibet
- * slice. 
+/* Determine whether a quodlibet slice jas a solution
  * @param si slice index
  * @return true iff slice si has a solution
  */
-boolean quodlibet_end_has_solution(slice_index si);
+boolean quodlibet_has_solution(slice_index si);
 
 /* Determine whether a quodlibet slice.has just been solved with the
  * just played move by the non-starter
@@ -100,19 +106,19 @@ boolean quodlibet_end_has_starter_lost(slice_index si);
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean quodlibet_end_is_threat_refuted(slice_index si);
+boolean quodlibet_is_threat_refuted(slice_index si);
 
-/* Continue solving at the end of a quodlibet slice
+/* Solve a quodlibet slice
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean quodlibet_end_solve(slice_index si);
+boolean quodlibet_solve(slice_index si);
 
-/* Solve at root level at the end of a quodlibet slice
+/* Solve a quodlibet slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean quodlibet_root_end_solve(slice_index si);
+boolean quodlibet_root_solve(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

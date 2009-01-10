@@ -327,8 +327,18 @@ static void init_slice_properties_composite(slice_index si,
     case STLeaf:
       assert(0);
 
-    case STReciprocal:
     case STQuodlibet:
+    {
+      init_slice_properties_recursive(slices[si].u.quodlibet.op1,
+                                      nr_bits_left);
+      init_slice_properties_recursive(slices[si].u.quodlibet.op2,
+                                      nr_bits_left);
+
+      slice_properties[si].value_size = 0;
+    }
+      break;
+
+    case STReciprocal:
     {
       slice_index const op1 = slices[si].u.composite.op1;
       slice_index const op2 = slices[si].u.composite.op2;
@@ -772,8 +782,27 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       break;
     }
 
-    case STReciprocal:
     case STQuodlibet:
+    {
+      slice_index const op1 = slices[si].u.quodlibet.op1;
+      slice_index const op2 = slices[si].u.quodlibet.op2;
+
+      hash_value_type const nested_value1 = value_of_data_recursive(he,
+                                                                    offset,
+                                                                    op1);
+      hash_value_type const nested_value2 = value_of_data_recursive(he,
+                                                                    offset,
+                                                                    op2);
+
+      hash_value_type const nested_value = (nested_value1>nested_value2
+                                            ? nested_value1
+                                            : nested_value2);
+
+      result = nested_value;
+      break;
+    }
+
+    case STReciprocal:
     {
       hash_value_type const own_value = own_value_of_data_composite(he,si);
 
@@ -1517,9 +1546,13 @@ static void init_element_composite(dhtElement *he, slice_index si)
   switch (slices[si].type)
   {
     case STReciprocal:
-    case STQuodlibet:
       init_element(he,slices[si].u.composite.op1);
       init_element(he,slices[si].u.composite.op2);
+      break;
+
+    case STQuodlibet:
+      init_element(he,slices[si].u.quodlibet.op1);
+      init_element(he,slices[si].u.quodlibet.op2);
       break;
 
     case STSequence:

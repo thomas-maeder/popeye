@@ -65,6 +65,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pystip.h"
+#include "pyquodli.h"
 #include "pyproof.h"
 #include "pyint.h"
 #include "platform/maxtime.h"
@@ -1162,11 +1163,8 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
       }
       else if (gic->goal==goal_mate_or_stale)
       {
-        *si = alloc_composite_slice(STQuodlibet,PDirect);
-        slices[*si].u.composite.length = slack_length_direct;
-        slices[*si].u.composite.min_length = slack_length_direct;
-        slices[*si].u.composite.op1 =  alloc_leaf_slice(end,goal_mate);
-        slices[*si].u.composite.op2 =  alloc_leaf_slice(end,goal_stale);
+        *si = alloc_quodlibet_slice(alloc_leaf_slice(end,goal_mate),
+                                    alloc_leaf_slice(end,goal_stale));
         tok += 2;
         break;
       }
@@ -1265,7 +1263,7 @@ static char *ParseEnd(char *tok, slice_index si_parent)
   {
     tok = ParseGoal(tok+6,EHelp,&slices[si_parent].u.composite.op1);
     /* the end of a sermi-r problem is hX1 with reversed coulours. */
-    slices[slices[si_parent].u.composite.op1].starter = White;
+    slice_impose_starter(slices[si_parent].u.composite.op1,White);
   }
   else if (strncmp("reci-h", tok, 6) == 0)
     tok = ParseReciGoal(tok+6,

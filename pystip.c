@@ -16,20 +16,28 @@ Side regular_starter;
 
 static slice_index next_slice;
 
+/* Allocate a slice index
+ * @return a so far unused slice index
+ */
+slice_index alloc_slice_index(void)
+{
+  return next_slice++;
+}
+
 /* Allocate a composite slice.
  * Initializes type to STSequence and composite fields to null values
  * @return index of allocated slice
  */
 slice_index alloc_composite_slice(SliceType type, Play play)
 {
-  slice_index const result = next_slice++;
+  slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",type);
   TraceFunctionParam("%u\n",play);
 
   slices[result].type = type; 
-  slices[result].starter = no_side; 
+  slices[result].u.composite.starter = no_side; 
   slices[result].u.composite.play = play;
   slices[result].u.composite.length = 0;
   slices[result].u.composite.op1 = no_slice;
@@ -46,13 +54,13 @@ slice_index alloc_composite_slice(SliceType type, Play play)
  */
 slice_index alloc_target_leaf_slice(End end, square s)
 {
-  slice_index const result = next_slice++;
+  slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
   slices[result].type = STLeaf; 
-  slices[result].starter = no_side; 
+  slices[result].u.leaf.starter = no_side; 
   slices[result].u.leaf.end = end;
   slices[result].u.leaf.goal = goal_target;
   slices[result].u.leaf.target = s;
@@ -68,14 +76,14 @@ slice_index alloc_target_leaf_slice(End end, square s)
  */
 slice_index alloc_leaf_slice(End end, Goal goal)
 {
-  slice_index const result = next_slice++;
+  slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",end);
   TraceFunctionParam("%u\n",goal);
 
   slices[result].type = STLeaf; 
-  slices[result].starter = no_side; 
+  slices[result].u.leaf.starter = no_side; 
   slices[result].u.leaf.end = end;
   slices[result].u.leaf.goal = goal;
   slices[result].u.leaf.target = initsquare;
@@ -91,7 +99,7 @@ slice_index alloc_leaf_slice(End end, Goal goal)
  */
 slice_index copy_slice(slice_index original)
 {
-  slice_index const result = next_slice++;
+  slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
@@ -162,16 +170,17 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
          * op1 the new direct leaf.
          */
         Goal const goal = slices[index].u.leaf.goal;
-        *hook = alloc_composite_slice(STQuodlibet,PDirect);
+        *hook = alloc_quodlibet_slice(alloc_leaf_slice(EDirect,goal),
+                                      index);
         TraceValue("allocated quodlibet slice %u\n",*hook);
-        slices[*hook].u.composite.op1 = alloc_leaf_slice(EDirect,goal);
-        slices[*hook].u.composite.op2 = index;
-        slices[*hook].u.composite.length = 1;
-        slices[*hook].u.composite.min_length = 1;
       }
       break;
 
     case STQuodlibet:
+      transform_to_quodlibet_recursive(&slices[index].u.quodlibet.op1);
+      transform_to_quodlibet_recursive(&slices[index].u.quodlibet.op2);
+      break;
+
     case STReciprocal:
       transform_to_quodlibet_recursive(&slices[index].u.composite.op1);
       transform_to_quodlibet_recursive(&slices[index].u.composite.op2);
@@ -243,6 +252,13 @@ static boolean slice_ends_only_in(Goal const goals[],
       return leaf_ends_in_one_of(goals,nrGoals,si);
 
     case STQuodlibet:
+    {
+      slice_index const op1 = slices[si].u.quodlibet.op1;
+      slice_index const op2 = slices[si].u.quodlibet.op2;
+      return (slice_ends_only_in(goals,nrGoals,op1)
+              && slice_ends_only_in(goals,nrGoals,op2));
+    }
+
     case STReciprocal:
     {
       slice_index const op1 = slices[si].u.composite.op1;
@@ -290,6 +306,13 @@ static boolean slice_ends_in(Goal const goals[],
       return leaf_ends_in_one_of(goals,nrGoals,si);
 
     case STQuodlibet:
+    {
+      slice_index const op1 = slices[si].u.quodlibet.op1;
+      slice_index const op2 = slices[si].u.quodlibet.op2;
+      return (slice_ends_in(goals,nrGoals,op1)
+              || slice_ends_in(goals,nrGoals,op2));
+    }
+
     case STReciprocal:
     {
       slice_index const op1 = slices[si].u.composite.op1;
@@ -341,6 +364,15 @@ static slice_index find_goal_recursive(Goal goal,
       break;
 
     case STQuodlibet:
+    {
+      slice_index const op1 = slices[si].u.quodlibet.op1;
+      slice_index const op2 = slices[si].u.quodlibet.op2;
+      result = find_goal_recursive(goal,start,active,op1);
+      if (result==no_slice)
+        result = find_goal_recursive(goal,start,active,op2);
+      break;
+    }
+
     case STReciprocal:
     {
       slice_index const op1 = slices[si].u.composite.op1;
@@ -409,9 +441,16 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
       }
       else
         return are_goals_equal(*found_so_far,current_slice);
+    
+    case STQuodlibet:
+    {
+      slice_index const op1 = slices[current_slice].u.quodlibet.op1;
+      slice_index const op2 = slices[current_slice].u.quodlibet.op2;
+      return (find_unique_goal_recursive(op1,found_so_far)
+              && find_unique_goal_recursive(op2,found_so_far));
+    }
 
     case STReciprocal:
-    case STQuodlibet:
     {
       slice_index const op1 = slices[current_slice].u.composite.op1;
       slice_index const op2 = slices[current_slice].u.composite.op2;
@@ -528,6 +567,9 @@ void slice_solve_continuations(int table, slice_index si)
       break;
     
     case STQuodlibet:
+      quodlibet_solve_continuations(table,si);
+      break;
+
     case STSequence:
     case STReciprocal:
       composite_solve_continuations(table,si);
@@ -561,6 +603,9 @@ boolean slice_root_solve_setplay(slice_index si)
       break;
 
     case STQuodlibet:
+      result = quodlibet_root_solve_setplay(si);
+      break;
+
     case STSequence:
     case STReciprocal:
       result = composite_root_solve_setplay(si);
@@ -629,6 +674,9 @@ void slice_root_write_key_solve_postkey(slice_index si, attack_type type)
       break;
 
     case STQuodlibet:
+      quodlibet_root_write_key_solve_postkey(si,type);
+      break;
+
     case STSequence:
     case STReciprocal:
     {
@@ -662,6 +710,9 @@ boolean slice_solve(slice_index si)
       break;
 
     case STQuodlibet:
+      solution_found = quodlibet_solve(si);
+      break;
+
     case STSequence:
     case STReciprocal:
       solution_found = composite_solve(si);
@@ -694,6 +745,9 @@ void slice_root_solve(slice_index si)
       break;
 
     case STQuodlibet:
+      quodlibet_root_solve(si);
+      break;
+
     case STSequence:
     case STReciprocal:
       composite_root_solve(si);
@@ -726,6 +780,9 @@ boolean slice_has_solution(slice_index si)
       break;
 
     case STQuodlibet:
+      result = quodlibet_has_solution(si);
+      break;
+
     case STSequence:
     case STReciprocal:
       result = composite_has_solution(si);
@@ -756,6 +813,9 @@ void slice_solve_variations(slice_index si)
       break;
 
     case STQuodlibet:
+      quodlibet_solve_variations(si);
+      break;
+
     case STSequence:
     case STReciprocal:
       composite_solve_variations(si);
@@ -987,6 +1047,9 @@ boolean slice_is_threat_refuted(slice_index si)
       break;
 
     case STQuodlibet:
+      result = quodlibet_is_threat_refuted(si);
+      break;
+
     case STSequence:
     case STReciprocal:
       result = composite_is_threat_refuted(si);
@@ -1036,7 +1099,7 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
 
   if (si==0)
   {
-    regular_starter = slices[0].starter;
+    regular_starter = slice_get_starter(0);
     TraceValue("%u\n",regular_starter);
   }
 
@@ -1046,13 +1109,13 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
       && slices[si].u.composite.play==PHelp
       && slices[si].u.composite.length%2 == 1)
   {
-    if (slices[si].starter==no_side)
-      slices[si].starter = no_side;
+    if (slice_get_starter(si)==no_side)
+      slice_impose_starter(si,no_side);
     else
-      slices[si].starter = advers(slices[si].starter);
+      slice_impose_starter(si,advers(slice_get_starter(si)));
   }
 
-  TraceValue("%u\n",slices[si].starter);
+  TraceValue("%u\n",slice_get_starter(si));
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
@@ -1085,4 +1148,37 @@ void slice_impose_starter(slice_index si, Side s)
       assert(0);
       break;
   }
+}
+
+/* Retrieve the starting side of a slice
+ * @param si slice index
+ * @return current starting side of slice si
+ */
+Side slice_get_starter(slice_index si)
+{
+  Side result = no_side;
+
+  switch (slices[si].type)
+  {
+    case STLeaf:
+      result = slices[si].u.leaf.starter;
+      break;
+
+    case STSequence:
+    case STReciprocal:
+      result = slices[si].u.composite.starter;
+      break;
+
+    case STQuodlibet:
+      assert(slice_get_starter(slices[si].u.quodlibet.op1)
+             ==slice_get_starter(slices[si].u.quodlibet.op2));
+      result = slice_get_starter(slices[si].u.quodlibet.op1);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  return result;
 }

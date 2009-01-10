@@ -2363,9 +2363,9 @@ static void HelpPlayInitWhiteToPlay(slice_index si)
                                     
   --slices[si].u.composite.length;
   --slices[si].u.composite.min_length;
-  slice_impose_starter(si,advers(slices[si].starter));
+  slice_impose_starter(si,advers(slices[si].u.composite.starter));
 
-  TraceValue("%d",slices[si].starter);
+  TraceValue("%d",slices[si].u.composite.starter);
   TraceValue("%d\n",slices[si].u.composite.length);
 
   TraceFunctionExit(__func__);
@@ -2379,9 +2379,9 @@ static void HelpPlayRestoreFromWhiteToPlay(slice_index si)
                                     
   ++slices[si].u.composite.length;
   ++slices[si].u.composite.min_length;
-  slice_impose_starter(si,advers(slices[si].starter));
+  slice_impose_starter(si,advers(slices[si].u.composite.starter));
 
-  TraceValue("%d",slices[si].starter);
+  TraceValue("%d",slices[si].u.composite.starter);
   TraceValue("%d\n",slices[si].u.composite.length);
 
   TraceFunctionExit(__func__);
@@ -2558,7 +2558,7 @@ static boolean initAndVerify(Token tk,
      * and the colors swapped by swapcolors() and reflectboard()
      * -> start with the regular side. */
     slice_detect_starter(0, OptFlag[halfduplex] && !isIntelligentModeActive);
-    if (slices[0].starter==no_side)
+    if (slices[0].u.composite.starter==no_side)
     {
       VerifieMsg(CantDecideWhoIsAtTheMove);
       result = false;
@@ -2567,7 +2567,7 @@ static boolean initAndVerify(Token tk,
     {
       *shortenIfWhiteToPlay = slices[0].u.composite.play==PHelp;
       TraceValue("%d ",*shortenIfWhiteToPlay);
-      TraceValue("%d ",slices[0].starter);
+      TraceValue("%d ",slices[0].u.composite.starter);
       TraceValue("%d\n",regular_starter);
 
       countPieces();
@@ -2813,7 +2813,7 @@ int main(int argc, char *argv[]) {
             }
             else
             {
-              slice_impose_starter(0,advers(slices[0].starter));
+              slice_impose_starter(0,advers(slices[0].u.composite.starter));
               regular_starter = advers(regular_starter);
             }
 

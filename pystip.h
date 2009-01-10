@@ -32,12 +32,12 @@ typedef enum
 typedef struct
 {
     SliceType type;
-    Side starter;
 
     union U
     {
         struct /* for type==STLeaf */
         {
+            Side starter;
             End end;
             Goal goal;
             square target; /* for goal==goal_target */
@@ -45,6 +45,7 @@ typedef struct
 
         struct /* for other values of type */
         {
+            Side starter;
             /* full moves if play==PDirect, half moves otherw. */
             stip_length_type length;
             stip_length_type min_length; /* of short solutions */
@@ -52,6 +53,12 @@ typedef struct
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */
         } composite;
+
+        struct
+        {
+            slice_index op1; /* operand 1 */
+            slice_index op2; /* operand 2 */
+        } quodlibet;
     } u;
 } Slice;
 
@@ -122,6 +129,11 @@ enum
 /* "Regular starting side" according to stipulation, i.e. starting
  * side were it not for option "WhiteBegins" and set play checking */
 extern Side regular_starter;
+
+/* Allocate a slice index
+ * @return a so far unused slice index
+ */
+slice_index alloc_slice_index(void);
 
 /* Allocate a composite slice.
  * Initializes type to STSequence and composite fields to null values
@@ -322,5 +334,11 @@ void slice_detect_starter(slice_index si, boolean is_duplex);
  * @param s starting side of leaf
  */
 void slice_impose_starter(slice_index si, Side s);
+
+/* Retrieve the starting side of a slice
+ * @param si slice index
+ * @return current starting side of slice si
+ */
+Side slice_get_starter(slice_index si);
 
 #endif

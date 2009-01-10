@@ -310,24 +310,24 @@ void reci_detect_starter(slice_index si, boolean is_duplex)
   slice_detect_starter(op1,is_duplex);
   slice_detect_starter(op2,is_duplex);
 
-  slices[si].starter = no_side;
+  slices[si].u.composite.starter = no_side;
 
-  if (slices[op1].starter==no_side && slices[op1].type==STLeaf)
+  if (slice_get_starter(op1)==no_side)
   {
     /* op1 can't tell - let's tell him */
-    slices[si].starter = slices[op2].starter;
-    slices[op1].starter = slices[op2].starter;
+    slices[si].u.composite.starter = slice_get_starter(op2);
+    slice_impose_starter(op1,slice_get_starter(op2));
   }
-  else if (slices[op2].starter==no_side && slices[op2].type==STLeaf)
+  else if (slice_get_starter(op2)==no_side)
   {
     /* op2 can't tell - let's tell him */
-    slices[si].starter = slices[op1].starter;
-    slices[op2].starter = slices[op1].starter;
+    slices[si].u.composite.starter = slice_get_starter(op1);
+    slice_impose_starter(op2,slice_get_starter(op1));
   }
-  else if (slices[op1].starter==slices[op2].starter)
-    slices[si].starter = slices[op1].starter;
+  else if (slice_get_starter(op1)==slice_get_starter(op2))
+    slices[si].u.composite.starter = slice_get_starter(op1);
 
-  TraceValue("%u\n",slices[si].starter);
+  TraceValue("%u\n",slices[si].u.composite.starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
@@ -346,7 +346,7 @@ void reci_impose_starter(slice_index si, Side s)
                              ? advers(s)
                              : s);
 
-  slices[si].starter = s;
+  slices[si].u.composite.starter = s;
   slice_impose_starter(op1,next_starter);
   slice_impose_starter(op2,next_starter);
 }
