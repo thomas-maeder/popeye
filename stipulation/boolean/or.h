@@ -22,7 +22,7 @@ slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2);
  * @param si slice index
  * @return true iff slice is a priori unsolvable
  */
-boolean quodlibet_end_is_unsolvable(slice_index si);
+boolean quodlibet_is_unsolvable(slice_index si);
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
@@ -48,7 +48,7 @@ boolean quodlibet_root_solve_setplay(slice_index si);
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean quodlibet_root_end_solve_complete_set(slice_index si);
+boolean quodlibet_root_solve_complete_set(slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
  * variations) of a quodlibet slice.
@@ -74,7 +74,7 @@ boolean quodlibet_has_solution(slice_index si);
  * @param si slice identifier
  * @return true iff the non-starting side has just solved
  */
-boolean quodlibet_end_has_non_starter_solved(slice_index si);
+boolean quodlibet_has_non_starter_solved(slice_index si);
 
 /* Determine whether the non-starter has refuted with his move just
  * played independently of the starter's possible play during the
@@ -84,7 +84,7 @@ boolean quodlibet_end_has_non_starter_solved(slice_index si);
  * @param si slice identifier
  * @return true iff the non-starter has refuted
  */
-boolean quodlibet_end_has_non_starter_refuted(slice_index si);
+boolean quodlibet_has_non_starter_refuted(slice_index si);
 
 /* Determine whether the attacker has won with his move just played
  * independently of the non-starter's possible further play during the
@@ -92,7 +92,7 @@ boolean quodlibet_end_has_non_starter_refuted(slice_index si);
  * @param si slice identifier
  * @return true iff the starter has won
  */
-boolean quodlibet_end_has_starter_won(slice_index si);
+boolean quodlibet_has_starter_won(slice_index si);
 
 /* Determine whether the starting side has lost with its move just
  * played independently of his possible further play during the
@@ -100,7 +100,7 @@ boolean quodlibet_end_has_starter_won(slice_index si);
  * @param si slice identifier
  * @return true iff starter has lost
  */
-boolean quodlibet_end_has_starter_lost(slice_index si);
+boolean quodlibet_has_starter_lost(slice_index si);
 
 /* Has the threat just played been refuted by the preceding defense?
  * @param si identifies stipulation slice
