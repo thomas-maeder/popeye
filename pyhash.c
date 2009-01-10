@@ -112,6 +112,8 @@ static boolean one_byte_hash;
 static unsigned int bytes_per_spec;
 static unsigned int bytes_per_piece;
 
+static boolean is_there_slice_with_nonstandard_min_length;
+
 unsigned long int compression_counter;
 
 
@@ -292,21 +294,27 @@ static void init_slice_properties_composite(slice_index si,
   switch (slices[si].u.composite.play)
   {
     case PDirect:
-     init_slice_properties_direct(si,
-                                  length-slack_length_direct,
-                                  nr_bits_left);
+      init_slice_properties_direct(si,
+                                   length-slack_length_direct,
+                                   nr_bits_left);
+      if (slices[si].u.composite.min_length>slack_length_direct)
+        is_there_slice_with_nonstandard_min_length = true;
       break;
 
     case PHelp:
       init_slice_properties_help(si,
                                  length-slack_length_help,
                                  nr_bits_left);
+      if (slices[si].u.composite.min_length>slack_length_help)
+        is_there_slice_with_nonstandard_min_length = true;
       break;
 
     case PSeries:
       init_slice_properties_series(si,
                                    length-slack_length_series,
                                    nr_bits_left);
+      if (slices[si].u.composite.min_length>slack_length_series)
+        is_there_slice_with_nonstandard_min_length = true;
       break;
 
     default:
@@ -1096,8 +1104,7 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
   if (OptFlag[nontrivial])
     len++;
 
-  /* TODO generalise to user-defined min_length and to later slices */
-  if (slices[0].u.composite.length==slices[0].u.composite.min_length)
+  if (is_there_slice_with_nonstandard_min_length)
     len++;
 
   if (CondFlag[disparate])
@@ -1201,8 +1208,7 @@ static byte *CommonEncode(byte *bp)
     }
   }
 
-  /* TODO generalise to user-defined min_length and to later slices */
-  if (slices[0].u.composite.length==slices[0].u.composite.min_length)
+  if (is_there_slice_with_nonstandard_min_length)
     *bp++ = (byte)(nbply);
 
   if (ep[nbply]!=initsquare)
@@ -1706,6 +1712,8 @@ void inithash(void)
     FtlMsg(NoMemory);
   ifTESTHASH(fxfInfo(stdout));
 #endif /*FXF*/
+
+  is_there_slice_with_nonstandard_min_length = false;
 
   compression_counter = 0;
 
