@@ -66,6 +66,7 @@
 #include "pymsg.h"
 #include "pystip.h"
 #include "pyquodli.h"
+#include "pyrecipr.h"
 #include "pyproof.h"
 #include "pyint.h"
 #include "platform/maxtime.h"
@@ -1086,9 +1087,8 @@ static char *ParseLength(char *tok, slice_index si)
   unsigned long length = strtoul(tok,&end,10);
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParam("%d\n",si);
-
-  TraceText("tok:");TraceText(tok);TraceText("\n");
 
   TraceValue("%ld\n",length);
 
@@ -1135,7 +1135,7 @@ static char *ParseLength(char *tok, slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("<- ");TraceText(tok==0 ? "" : tok);TraceText("\n");
+  TraceFunctionResult("%s\n",tok);
   return tok;
 }
 
@@ -1144,7 +1144,7 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
   goalInputConfig_t const *gic;
 
   TraceFunctionEntry(__func__);
-  TraceText("tok:");TraceText(tok);TraceText("\n");
+  TraceFunctionParam("%s\n",tok);
 
   for (gic = goalInputConfig; gic!=goalInputConfig+nr_goals; ++gic)
     if (strstr(tok,gic->inputText)==tok)
@@ -1204,7 +1204,7 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("tok:");TraceText(tok==NULL ? "NULL" : tok);TraceText("\n");
+  TraceFunctionResult("%s\n",tok);
   return tok;
 }
 
@@ -1212,100 +1212,99 @@ static char *ParseReciGoal(char *tok,
                            End end_nonreci, slice_index *si_nonreci,
                            End end_reci, slice_index *si_reci)
 {
+  char *result = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
   if (*tok=='(')
   {
     char const *closingParenPos = strchr(tok,')');
     if (closingParenPos!=0)
     {
       tok = ParseGoal(tok+1,end_reci,si_reci);
-      if (tok==0)
-        return 0;
-      else if (tok==closingParenPos)
-        return ParseGoal(tok+1,end_nonreci,si_nonreci);
-      else
+      if (tok!=0)
       {
-        IoErrorMsg(UnrecStip, 0);
-        return 0;
+        if (tok==closingParenPos)
+          result = ParseGoal(tok+1,end_nonreci,si_nonreci);
+        else
+          IoErrorMsg(UnrecStip, 0);
       }
     }
     else
-    {
       IoErrorMsg(UnrecStip, 0);
-      return 0;
-    }
   }
   else
   {
-    char *result = ParseGoal(tok,end_nonreci,si_nonreci);
+    result = ParseGoal(tok,end_nonreci,si_nonreci);
     if (result!=NULL)
       *si_reci = alloc_leaf_slice(end_reci,slices[*si_nonreci].u.leaf.goal);
-    return result;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",result);
+  return result;
 }
 
 static char *ParseEnd(char *tok, slice_index si_parent)
 {
   TraceFunctionEntry(__func__);
-  TraceText("tok:");TraceText(tok);TraceText("\n");
+  TraceFunctionParam("%s\n",tok);
 
   if (strncmp("ser-dia",tok,7) == 0
       || strncmp("ser-a=>b",tok,8) == 0)
-    tok = ParseGoal(tok+4,EDirect,&slices[si_parent].u.composite.op1);
+    tok = ParseGoal(tok+4,EDirect,&slices[si_parent].u.composite.next);
   else if (strncmp("dia", tok, 3) == 0)
-    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.composite.op1);
+    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.composite.next);
 
 #if !defined(DATABASE)
   else if (strncmp("a=>b", tok, 4) == 0)
-    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.composite.op1);
+    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.composite.next);
 #endif
 
   else if (strncmp("semi-r", tok, 6) == 0)
   {
-    tok = ParseGoal(tok+6,EHelp,&slices[si_parent].u.composite.op1);
+    tok = ParseGoal(tok+6,EHelp,&slices[si_parent].u.composite.next);
     /* the end of a sermi-r problem is hX1 with reversed coulours. */
-    slice_impose_starter(slices[si_parent].u.composite.op1,White);
+    slice_impose_starter(slices[si_parent].u.composite.next,White);
   }
   else if (strncmp("reci-h", tok, 6) == 0)
     tok = ParseReciGoal(tok+6,
-                         EHelp,&slices[si_parent].u.composite.op1,
-                         EDirect,&slices[si_parent].u.composite.op2);
+                        EHelp,&slices[si_parent].u.reciprocal.op1,
+                        EDirect,&slices[si_parent].u.reciprocal.op2);
 
   else if (strncmp("hs", tok, 2) == 0)
-    tok = ParseGoal(tok+2,ESelf,&slices[si_parent].u.composite.op1);
+    tok = ParseGoal(tok+2,ESelf,&slices[si_parent].u.composite.next);
 
   else if (strncmp("hr", tok, 2) == 0)
-    tok = ParseGoal(tok+2,EReflex,&slices[si_parent].u.composite.op1);
+    tok = ParseGoal(tok+2,EReflex,&slices[si_parent].u.composite.next);
 
   else
     switch (*tok)
     {
       case 'h':
-        tok = ParseGoal(tok+1,EHelp,&slices[si_parent].u.composite.op1);
+        tok = ParseGoal(tok+1,EHelp,&slices[si_parent].u.composite.next);
         break;
 
       case 'r':
-        tok = ParseGoal(tok+1,EReflex,&slices[si_parent].u.composite.op1);
+        tok = ParseGoal(tok+1,EReflex,&slices[si_parent].u.composite.next);
         break;
 
       case 's':
-        tok = ParseGoal(tok+1,ESelf,&slices[si_parent].u.composite.op1);
+        tok = ParseGoal(tok+1,ESelf,&slices[si_parent].u.composite.next);
         break;
 
       default:
-        tok = ParseGoal(tok,EDirect,&slices[si_parent].u.composite.op1);
+        tok = ParseGoal(tok,EDirect,&slices[si_parent].u.composite.next);
         break;
     }
 
-  if (tok!=0)
+  if (tok!=0 && *tok==0)
+    /* allow white space between goal and length, e.g. "dia 4" */
   {
-    if (*tok==0)
-      /* allow white space between goal and length, e.g. "dia 4" */
-    {
-      tok = ReadNextTokStr();
-      if (tok!=0)
-        strcat(AlphaStip,tok); /* append to printed stipulation */
-    }
-    tok = ParseLength(tok,si_parent);
+    tok = ReadNextTokStr();
+    if (tok!=0)
+      strcat(AlphaStip,tok); /* append to printed stipulation */
   }
 
   TraceFunctionExit(__func__);
@@ -1320,7 +1319,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   char *result = 0;
 
   TraceFunctionEntry(__func__);
-  TraceText("tok:");TraceText(tok);TraceText("\n");
+  TraceFunctionParam("%s\n",tok);
 
   if (arrowpos!=0)
   {
@@ -1334,7 +1333,7 @@ static char *ParsePlay(char *tok, slice_index *si)
       slices[*si].u.composite.length = intro_len+slack_length_series;
       /* >=1 move of starting side required */
       slices[*si].u.composite.min_length = 1+slack_length_series;
-      result = ParsePlay(arrowpos+2,&slices[*si].u.composite.op1);
+      result = ParsePlay(arrowpos+2,&slices[*si].u.composite.next);
     }
   }
 
@@ -1353,52 +1352,71 @@ static char *ParsePlay(char *tok, slice_index *si)
   {
     /* special treatment: leaf always has end==EDirect */
     *si = alloc_composite_slice(STSequence,PSeries);
-    result = ParseEnd(tok,*si); /* do *not* skip over "ser-" */
+    tok = ParseEnd(tok,*si); /* do *not* skip over "ser-" */
+    if (tok!=0)
+      result = ParseLength(tok,*si);
   }
 
   else if (strncmp("ser-reci-h",tok,10) == 0)
   {
-    *si = alloc_composite_slice(STReciprocal,PSeries);
-    result = ParseEnd(tok+4,*si); /* skip over "ser-" */
+    *si = alloc_composite_slice(STSequence,PSeries);
+    slices[*si].u.composite.next = alloc_reciprocal_slice(no_slice,no_slice);
+    tok = ParseEnd(tok+4, /* skip over "ser-" */
+                   slices[*si].u.composite.next);
+    if (tok!=0)
+      result = ParseLength(tok,*si);
   }
 
   else if (strncmp("ser-",tok,4) == 0)
   {
     *si = alloc_composite_slice(STSequence,PSeries);
-    result = ParseEnd(tok+4,*si);
+    tok = ParseEnd(tok+4,*si);
+    if (tok!=0)
+      result = ParseLength(tok,*si);
   }
 
   else if (strncmp("reci-h",tok,6) == 0)
   {
-    *si = alloc_composite_slice(STReciprocal,PHelp);
-    result = ParseEnd(tok,*si);
+    *si = alloc_composite_slice(STSequence,PHelp);
+    slices[*si].u.composite.next = alloc_reciprocal_slice(no_slice,no_slice);
+    tok = ParseEnd(tok,slices[*si].u.composite.next);
+    if (tok!=0)
+      result = ParseLength(tok,*si);
   }
 
   else if (strncmp("dia",tok,3)==0)
   {
     *si = alloc_composite_slice(STSequence,PHelp);
     slices[*si].u.composite.min_length = slices[*si].u.composite.length;
-    result = ParseEnd(tok,*si);
+    tok = ParseEnd(tok,*si);
+    if (tok!=0)
+      result = ParseLength(tok,*si);
   }
 
 #if !defined(DATABASE)
   else if (strncmp("a=>b",tok,4)==0)
   {
     *si = alloc_composite_slice(STSequence,PHelp);
-    result = ParseEnd(tok,*si);
+    tok = ParseEnd(tok,*si);
+    if (tok!=0)
+      result = ParseLength(tok,*si);
   }
 #endif
 
   else if (*tok=='h')
   {
     *si = alloc_composite_slice(STSequence,PHelp);
-    result = ParseEnd(tok,*si);
+    tok = ParseEnd(tok,*si);
+    if (tok!=0)
+      result = ParseLength(tok,*si);
   }
 
   else
   {
     *si = alloc_composite_slice(STSequence,PDirect);
-    result = ParseEnd(tok,*si);
+    tok = ParseEnd(tok,*si);
+    if (tok!=0)
+      result = ParseLength(tok,*si);
   }
 
   TraceFunctionExit(__func__);
@@ -1413,7 +1431,7 @@ static char *ParseStip(void)
   slice_index current_slice;
 
   TraceFunctionEntry(__func__);
-  TraceText("tok:");TraceText(tok);TraceText("\n");
+  TraceFunctionParam("%s\n",tok);
 
   StipFlags= 0;
 
@@ -1424,9 +1442,11 @@ static char *ParseStip(void)
       strcpy(ActStip, AlphaStip);
   }
 
+  tok = ReadNextTokStr();
+
   TraceFunctionExit(__func__);
-  TraceText("\n");
-  return ReadNextTokStr();
+  TraceFunctionResult("%s\n",tok);
+  return tok;
 }
 
 
@@ -3517,9 +3537,9 @@ static char *ParseTwinning(void)
       {
 #if !defined(DATABASE)
         slice_index const current_slice = 0;
-        slice_index const op1 = slices[current_slice].u.composite.op1;
-        if (slices[op1].u.leaf.goal==goal_proof
-            || slices[op1].u.leaf.goal==goal_atob)
+        slice_index const next = slices[current_slice].u.composite.next;
+        if (slices[next].u.leaf.goal==goal_proof
+            || slices[next].u.leaf.goal==goal_atob)
           /* fixes bug for continued twinning in proof games; changes
            * were made to game array!
            */

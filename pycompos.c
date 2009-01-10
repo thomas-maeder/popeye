@@ -68,10 +68,6 @@ static boolean composite_end_has_solution(slice_index si)
 
   switch (slices[si].type)
   {
-    case STReciprocal:
-      result = reci_end_has_solution(si);
-      break;
-
     case STSequence:
       result = sequence_end_has_solution(si);
       break;
@@ -507,10 +503,6 @@ static void composite_end_solve_variations(slice_index si)
 
   switch (slices[si].type)
   {
-    case STReciprocal:
-      reci_end_solve_variations(si);
-      break;
-
     case STSequence:
       sequence_end_solve_variations(si);
       break;
@@ -534,10 +526,6 @@ static void composite_root_end_solve(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STReciprocal:
-      reci_root_end_solve(si);
-      break;
-
     case STSequence:
       sequence_root_end_solve(si);
       break;
@@ -564,10 +552,6 @@ static boolean composite_end_solve(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STReciprocal:
-      result = reci_end_solve(si);
-      break;
-
     case STSequence:
       result = sequence_end_solve(si);
       break;
@@ -597,10 +581,6 @@ static boolean composite_end_is_unsolvable(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STReciprocal:
-      result = reci_end_is_unsolvable(si);
-      break;
-
     case STSequence:
       result = sequence_end_is_unsolvable(si);
       break;
@@ -993,10 +973,6 @@ static boolean composite_root_end_solve_setplay(slice_index si)
       result = sequence_root_end_solve_setplay(si);
       break;
 
-    case STReciprocal:
-      result = reci_root_end_solve_setplay(si);
-      break;
-
     default:
       assert(0);
       break;
@@ -1267,10 +1243,6 @@ static boolean composite_end_is_threat_refuted(slice_index si)
 
   switch (slices[si].type)
   {
-    case STReciprocal:
-      result = reci_end_is_threat_refuted(si);
-      break;
-
     case STSequence:
       result = sequence_end_is_threat_refuted(si);
       break;
@@ -1700,10 +1672,6 @@ static void composite_end_solve_continuations(int t, slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STReciprocal:
-      reci_end_solve_continuations(t,si);
-      break;
-
     case STSequence:
       sequence_end_solve_continuations(t,si);
       break;
@@ -2005,10 +1973,6 @@ static void composite_root_end_write_key_solve_postkey(slice_index si,
 {
   switch (slices[si].type)
   {
-    case STReciprocal:
-      reci_root_end_write_key_solve_postkey(si,type);
-      break;
-
     case STSequence:
       sequence_root_end_write_key_solve_postkey(si,type);
       break;
@@ -2105,7 +2069,7 @@ static void composite_d_root_solve_real_play(slice_index si)
   if (slice_has_non_starter_solved(si))
     ;
   else if (slice_end_has_non_starter_refuted(si))
-    slice_write_unsolvability(slices[si].u.composite.op1);
+    slice_write_unsolvability(slices[si].u.composite.next);
   else if (slices[si].u.composite.length==slack_length_direct)
     composite_root_end_solve(si);
   else
@@ -2173,10 +2137,6 @@ static boolean composite_root_end_solve_complete_set(slice_index si)
 
   switch (slices[si].type)
   {
-    case STReciprocal:
-      /* TODO */
-      break;
-
     case STSequence:
       result = sequence_root_end_solve_complete_set(si);
       break;

@@ -6,16 +6,37 @@
 #include <assert.h>
 
 
+/* Allocate a reciprocal slice.
+ * @param op1 1st operand
+ * @param op2 2nd operand
+ * @return index of allocated slice
+ */
+slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2)
+{
+  slice_index const result = alloc_slice_index();
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  slices[result].type = STReciprocal; 
+  slices[result].u.reciprocal.op1 = op1;
+  slices[result].u.reciprocal.op2 = op2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Detect a priori unsolvability of a slice (e.g. because of forced
  * reflex mates)
  * @param si si slice index
  * @return true iff slice is a priori unsolvable
  */
-boolean reci_end_is_unsolvable(slice_index si)
+boolean reci_is_unsolvable(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -34,10 +55,10 @@ boolean reci_end_is_unsolvable(slice_index si)
  * @param si slice index
  * @return true iff slice si has a solution
  */
-boolean reci_end_has_solution(slice_index si)
+boolean reci_has_solution(slice_index si)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -55,11 +76,11 @@ boolean reci_end_has_solution(slice_index si)
  * @param si slice identifier
  * @return true iff the non-starting side has just solved
  */
-boolean reci_end_has_non_starter_solved(slice_index si)
+boolean reci_has_non_starter_solved(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -82,11 +103,11 @@ boolean reci_end_has_non_starter_solved(slice_index si)
  * @param si slice identifier
  * @return true iff the non-starter has refuted
  */
-boolean reci_end_has_non_starter_refuted(slice_index si)
+boolean reci_has_non_starter_refuted(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -107,11 +128,11 @@ boolean reci_end_has_non_starter_refuted(slice_index si)
  * @param si slice identifier
  * @return true iff starter has lost
  */
-boolean reci_end_has_starter_lost(slice_index si)
+boolean reci_has_starter_lost(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -132,11 +153,11 @@ boolean reci_end_has_starter_lost(slice_index si)
  * @param si slice identifier
  * @return true iff the starter has won
  */
-boolean reci_end_has_starter_won(slice_index si)
+boolean reci_has_starter_won(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -161,11 +182,11 @@ void reci_write_unsolvability(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  TraceValue("%u",slices[si].u.composite.op1);
-  TraceValue("%u\n",slices[si].u.composite.op2);
+  TraceValue("%u",slices[si].u.reciprocal.op1);
+  TraceValue("%u\n",slices[si].u.reciprocal.op2);
 
-  slice_write_unsolvability(slices[si].u.composite.op1);
-  slice_write_unsolvability(slices[si].u.composite.op2);
+  slice_write_unsolvability(slices[si].u.reciprocal.op1);
+  slice_write_unsolvability(slices[si].u.reciprocal.op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -174,14 +195,14 @@ void reci_write_unsolvability(slice_index si)
 /* Find and write variations from the end of a reciprocal slice.
  * @param si slice index
  */
-void reci_end_solve_variations(slice_index si)
+void reci_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   /* TODO solve variation after variation */
-  slice_solve_variations(slices[si].u.composite.op1);
-  slice_solve_variations(slices[si].u.composite.op2);
+  slice_solve_variations(slices[si].u.reciprocal.op1);
+  slice_solve_variations(slices[si].u.reciprocal.op2);
 
   TraceFunctionExit(__func__);
 }
@@ -190,13 +211,13 @@ void reci_end_solve_variations(slice_index si)
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of quodlibet slice
  */
-void reci_end_solve_continuations(int table, slice_index si)
+void reci_solve_continuations(int table, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  slice_solve_continuations(table,slices[si].u.composite.op1);
-  slice_solve_continuations(table,slices[si].u.composite.op2);
+  slice_solve_continuations(table,slices[si].u.reciprocal.op1);
+  slice_solve_continuations(table,slices[si].u.reciprocal.op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -206,7 +227,7 @@ void reci_end_solve_continuations(int table, slice_index si)
  * @param si slice index
  * @return true iff >= 1 set play was found
  */
-boolean reci_root_end_solve_setplay(slice_index si)
+boolean reci_root_solve_setplay(slice_index si)
 {
   boolean result1;
   boolean result2;
@@ -215,8 +236,8 @@ boolean reci_root_end_solve_setplay(slice_index si)
   TraceFunctionParam("%u\n",si);
 
   /* TODO solve defense after defense */
-  result1 = slice_root_solve_setplay(slices[si].u.composite.op1);
-  result2 = slice_root_solve_setplay(slices[si].u.composite.op2);
+  result1 = slice_root_solve_setplay(slices[si].u.reciprocal.op1);
+  result2 = slice_root_solve_setplay(slices[si].u.reciprocal.op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n", result1 && result2);
@@ -227,10 +248,10 @@ boolean reci_root_end_solve_setplay(slice_index si)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-void reci_root_end_solve(slice_index si)
+void reci_root_solve(slice_index si)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -252,33 +273,33 @@ void reci_root_end_solve(slice_index si)
  * @param si slice index
  * @param type type of attack
  */
-void reci_root_end_write_key_solve_postkey(slice_index si,
+void reci_root_write_key_solve_postkey(slice_index si,
                                              attack_type type)
 {
   /* TODO does this make sense? */
-  slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
-  slice_root_write_key_solve_postkey(slices[si].u.composite.op2,type);
+  slice_root_write_key_solve_postkey(slices[si].u.reciprocal.op1,type);
+  slice_root_write_key_solve_postkey(slices[si].u.reciprocal.op2,type);
 }
 
 /* Has the threat just played been refuted by the preceding defense?
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean reci_end_is_threat_refuted(slice_index si)
+boolean reci_is_threat_refuted(slice_index si)
 {
-  return (slice_is_threat_refuted(slices[si].u.composite.op1)
-          || slice_is_threat_refuted(slices[si].u.composite.op2));
+  return (slice_is_threat_refuted(slices[si].u.reciprocal.op1)
+          || slice_is_threat_refuted(slices[si].u.reciprocal.op2));
 }
 
 /* Continue solving at the end of a reciprocal slice
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean reci_end_solve(slice_index si)
+boolean reci_solve(slice_index si)
 {
   boolean found_solution = false;
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -300,8 +321,8 @@ boolean reci_end_solve(slice_index si)
  */
 void reci_detect_starter(slice_index si, boolean is_duplex)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -310,24 +331,13 @@ void reci_detect_starter(slice_index si, boolean is_duplex)
   slice_detect_starter(op1,is_duplex);
   slice_detect_starter(op2,is_duplex);
 
-  slices[si].u.composite.starter = no_side;
-
   if (slice_get_starter(op1)==no_side)
-  {
     /* op1 can't tell - let's tell him */
-    slices[si].u.composite.starter = slice_get_starter(op2);
     slice_impose_starter(op1,slice_get_starter(op2));
-  }
   else if (slice_get_starter(op2)==no_side)
-  {
     /* op2 can't tell - let's tell him */
-    slices[si].u.composite.starter = slice_get_starter(op1);
     slice_impose_starter(op2,slice_get_starter(op1));
-  }
-  else if (slice_get_starter(op1)==slice_get_starter(op2))
-    slices[si].u.composite.starter = slice_get_starter(op1);
 
-  TraceValue("%u\n",slices[si].u.composite.starter);
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
@@ -338,15 +348,6 @@ void reci_detect_starter(slice_index si, boolean is_duplex)
  */
 void reci_impose_starter(slice_index si, Side s)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
-  slice_index const op2 = slices[si].u.composite.op2;
-
-  Side const next_starter = (slices[si].u.composite.play==PHelp
-                             && slices[si].u.composite.length%2==1
-                             ? advers(s)
-                             : s);
-
-  slices[si].u.composite.starter = s;
-  slice_impose_starter(op1,next_starter);
-  slice_impose_starter(op2,next_starter);
+  slice_impose_starter(slices[si].u.reciprocal.op1,s);
+  slice_impose_starter(slices[si].u.reciprocal.op2,s);
 }

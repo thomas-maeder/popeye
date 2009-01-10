@@ -24,9 +24,9 @@ typedef enum
 typedef enum
 {
   STLeaf,
-  STReciprocal,  /* reciprocal help-goal(recigoal) in 1 */
-  STQuodlibet,   /* goal or self/reflex-goal in 1 */
-  STSequence     /* continue play with next Slice */
+  STReciprocal,  /* logical OR */
+  STQuodlibet,   /* logical AND */
+  STSequence     /* M-N moves of direct, help or series play */
 } SliceType;
 
 typedef struct
@@ -50,8 +50,7 @@ typedef struct
             stip_length_type length;
             stip_length_type min_length; /* of short solutions */
             Play play;
-            slice_index op1; /* operand 1 */
-            slice_index op2; /* operand 2 */
+            slice_index next;
         } composite;
 
         struct
@@ -59,6 +58,12 @@ typedef struct
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */
         } quodlibet;
+
+        struct
+        {
+            slice_index op1; /* operand 1 */
+            slice_index op2; /* operand 2 */
+        } reciprocal;
     } u;
 } Slice;
 

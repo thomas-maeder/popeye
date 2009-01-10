@@ -200,8 +200,8 @@ pycompos.h:
 
 pyoutput.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pydata.h \
-  pymsg.h pystip.h pyhash.h DHT/dhtbcmem.h pyproof.h pyint.h \
-  platform/maxtime.h trace.h
+  pymsg.h pystip.h pyhash.h DHT/dhtbcmem.h pyquodli.h pyrecipr.h \
+  pyproof.h pyint.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -224,6 +224,10 @@ pystip.h:
 pyhash.h:
 
 DHT/dhtbcmem.h:
+
+pyquodli.h:
+
+pyrecipr.h:
 
 pyproof.h:
 

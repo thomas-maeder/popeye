@@ -290,38 +290,11 @@ static void init_slice_properties_recursive(slice_index si,
 static void init_slice_properties_composite(slice_index si,
                                             size_t *nr_bits_left)
 {
-  unsigned int const length = slices[si].u.composite.length;
-  switch (slices[si].u.composite.play)
-  {
-    case PDirect:
-      init_slice_properties_direct(si,
-                                   length-slack_length_direct,
-                                   nr_bits_left);
-      if (slices[si].u.composite.min_length>slack_length_direct)
-        is_there_slice_with_nonstandard_min_length = true;
-      break;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",*nr_bits_left);
 
-    case PHelp:
-      init_slice_properties_help(si,
-                                 length-slack_length_help,
-                                 nr_bits_left);
-      if (slices[si].u.composite.min_length>slack_length_help)
-        is_there_slice_with_nonstandard_min_length = true;
-      break;
-
-    case PSeries:
-      init_slice_properties_series(si,
-                                   length-slack_length_series,
-                                   nr_bits_left);
-      if (slices[si].u.composite.min_length>slack_length_series)
-        is_there_slice_with_nonstandard_min_length = true;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeaf:
@@ -340,8 +313,8 @@ static void init_slice_properties_composite(slice_index si,
 
     case STReciprocal:
     {
-      slice_index const op1 = slices[si].u.composite.op1;
-      slice_index const op2 = slices[si].u.composite.op2;
+      slice_index const op1 = slices[si].u.reciprocal.op1;
+      slice_index const op2 = slices[si].u.reciprocal.op2;
 
       init_slice_properties_recursive(op1,nr_bits_left);
       init_slice_properties_recursive(op2,nr_bits_left);
@@ -358,11 +331,47 @@ static void init_slice_properties_composite(slice_index si,
 
     case STSequence:
     {
-      slice_index const op1 = slices[si].u.composite.op1;
-      init_slice_properties_recursive(op1,nr_bits_left);
+      slice_index const next = slices[si].u.composite.next;
+      unsigned int const length = slices[si].u.composite.length;
+      TraceValue("%u\n",slices[si].u.composite.play);
+      switch (slices[si].u.composite.play)
+      {
+        case PDirect:
+          init_slice_properties_direct(si,
+                                       length-slack_length_direct,
+                                       nr_bits_left);
+          if (slices[si].u.composite.min_length>slack_length_direct)
+            is_there_slice_with_nonstandard_min_length = true;
+          break;
+
+        case PHelp:
+          init_slice_properties_help(si,
+                                     length-slack_length_help,
+                                     nr_bits_left);
+          if (slices[si].u.composite.min_length>slack_length_help)
+            is_there_slice_with_nonstandard_min_length = true;
+          break;
+
+        case PSeries:
+          init_slice_properties_series(si,
+                                       length-slack_length_series,
+                                       nr_bits_left);
+          if (slices[si].u.composite.min_length>slack_length_series)
+            is_there_slice_with_nonstandard_min_length = true;
+          break;
+
+        default:
+          assert(0);
+          break;
+      }
+
+      init_slice_properties_recursive(next,nr_bits_left);
       break;
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Initialize the slice_properties array according to a leaf slice
@@ -372,6 +381,10 @@ static void init_slice_properties_composite(slice_index si,
 static void init_slice_properties_leaf(slice_index leaf,
                                        size_t *nr_bits_left)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u\n",*nr_bits_left);
+
   switch (slices[leaf].u.leaf.end)
   {
     case EHelp:
@@ -388,6 +401,9 @@ static void init_slice_properties_leaf(slice_index leaf,
       assert(0);
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Initialize the slice_properties array according to a subtree of the
@@ -399,10 +415,17 @@ static void init_slice_properties_leaf(slice_index leaf,
 static void init_slice_properties_recursive(slice_index si,
                                             size_t *nr_bits_left)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",*nr_bits_left);
+
   if (slices[si].type==STLeaf)
     init_slice_properties_leaf(si,nr_bits_left);
   else
     init_slice_properties_composite(si,nr_bits_left);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Initialize the slice_properties array according to the current
@@ -412,7 +435,14 @@ static void init_slice_properties(void)
 {
   slice_index const si = 0;
   size_t nr_bits_left = sizeof(data_type)*CHAR_BIT;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   init_slice_properties_recursive(si,&nr_bits_left);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 
@@ -794,20 +824,14 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
                                                                     offset,
                                                                     op2);
 
-      hash_value_type const nested_value = (nested_value1>nested_value2
-                                            ? nested_value1
-                                            : nested_value2);
-
-      result = nested_value;
+      result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
       break;
     }
 
     case STReciprocal:
     {
-      hash_value_type const own_value = own_value_of_data_composite(he,si);
-
-      slice_index const op1 = slices[si].u.composite.op1;
-      slice_index const op2 = slices[si].u.composite.op2;
+      slice_index const op1 = slices[si].u.reciprocal.op1;
+      slice_index const op2 = slices[si].u.reciprocal.op2;
 
       hash_value_type const nested_value1 = value_of_data_recursive(he,
                                                                     offset,
@@ -816,11 +840,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
                                                                     offset,
                                                                     op2);
 
-      hash_value_type const nested_value = (nested_value1>nested_value2
-                                            ? nested_value1
-                                            : nested_value2);
-
-      result = (own_value << offset) + nested_value;
+      result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
       break;
     }
 
@@ -828,9 +848,9 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
     {
       hash_value_type const own_value = own_value_of_data_composite(he,si);
 
-      slice_index const op1 = slices[si].u.composite.op1;
+      slice_index const next = slices[si].u.composite.next;
       hash_value_type const nested_value =
-          value_of_data_recursive(he,offset,op1);
+          value_of_data_recursive(he,offset,next);
       TraceValue("%x ",own_value);
       TraceValue("%x\n",nested_value);
 
@@ -1498,8 +1518,15 @@ static void init_element_direct(dhtElement *he,
  */
 static void init_element_help(dhtElement *he, slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",he);
+  TraceFunctionParam("%u\n",si);
+
   set_value_help_even(he,si,0);
   set_value_help_odd(he,si,0);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Initialize the bits representing a series slice in a hash table
@@ -1522,32 +1549,11 @@ static void init_element(dhtElement *he, slice_index si);
  */
 static void init_element_composite(dhtElement *he, slice_index si)
 {
-  switch (slices[si].u.composite.play)
-  {
-    case PDirect:
-      init_element_direct(he,
-                          si,
-                          slices[si].u.composite.length-slack_length_direct);
-      break;
-      
-    case PHelp:
-      init_element_help(he,si);
-      break;
-      
-    case PSeries:
-      init_element_series(he,si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
   switch (slices[si].type)
   {
     case STReciprocal:
-      init_element(he,slices[si].u.composite.op1);
-      init_element(he,slices[si].u.composite.op2);
+      init_element(he,slices[si].u.reciprocal.op1);
+      init_element(he,slices[si].u.reciprocal.op2);
       break;
 
     case STQuodlibet:
@@ -1556,8 +1562,32 @@ static void init_element_composite(dhtElement *he, slice_index si)
       break;
 
     case STSequence:
-      init_element(he,slices[si].u.composite.op1);
+    {
+      switch (slices[si].u.composite.play)
+      {
+        case PDirect:
+          init_element_direct(he,
+                              si,
+                              slices[si].u.composite.length
+                              -slack_length_direct);
+          break;
+      
+        case PHelp:
+          init_element_help(he,si);
+          break;
+      
+        case PSeries:
+          init_element_series(he,si);
+          break;
+
+        default:
+          assert(0);
+          break;
+      }
+
+      init_element(he,slices[si].u.composite.next);
       break;
+    }
 
     default:
       assert(0);
@@ -1598,8 +1628,7 @@ static void init_element_leaf(dhtElement *he, slice_index leaf)
 static void init_element(dhtElement *he, slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceText("\n");
+  TraceFunctionParam("%u\n",si);
 
   if (slices[si].type==STLeaf)
     init_element_leaf(he,si);

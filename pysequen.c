@@ -17,7 +17,7 @@ boolean sequence_end_is_unsolvable(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_is_unsolvable(slices[si].u.composite.op1);
+  result = slice_is_unsolvable(slices[si].u.composite.next);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -31,7 +31,7 @@ boolean sequence_end_is_unsolvable(slice_index si)
  */
 void sequence_write_unsolvability(slice_index si)
 {
-  slice_write_unsolvability(slices[si].u.composite.op1);
+  slice_write_unsolvability(slices[si].u.composite.next);
 }
 
 /* Determine and write continuations at end of sequence slice
@@ -43,8 +43,8 @@ void sequence_end_solve_continuations(int table, slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  TraceValue("%u\n",slices[si].u.composite.op1);
-  slice_solve_continuations(table,slices[si].u.composite.op1);
+  TraceValue("%u\n",slices[si].u.composite.next);
+  slice_solve_continuations(table,slices[si].u.composite.next);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -61,7 +61,7 @@ boolean sequence_root_end_solve_setplay(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_root_solve_setplay(slices[si].u.composite.op1);
+  result = slice_root_solve_setplay(slices[si].u.composite.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -79,7 +79,7 @@ boolean sequence_root_end_solve_complete_set(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_root_end_solve_complete_set(slices[si].u.composite.op1);
+  result = slice_root_end_solve_complete_set(slices[si].u.composite.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -95,7 +95,7 @@ boolean sequence_root_end_solve_complete_set(slice_index si)
 void sequence_root_end_write_key_solve_postkey(slice_index si,
                                                  attack_type type)
 {
-  slice_root_write_key_solve_postkey(slices[si].u.composite.op1,type);
+  slice_root_write_key_solve_postkey(slices[si].u.composite.next,type);
 }
 
 /* Solve at root level at the end of a sequence slice
@@ -103,7 +103,7 @@ void sequence_root_end_write_key_solve_postkey(slice_index si,
  */
 void sequence_root_end_solve(slice_index si)
 {
-  slice_root_solve(slices[si].u.composite.op1);
+  slice_root_solve(slices[si].u.composite.next);
 }
 
 /* Continue solving at the end of a sequence slice
@@ -112,7 +112,7 @@ void sequence_root_end_solve(slice_index si)
  */
 boolean sequence_end_solve(slice_index si)
 {
-  return slice_solve(slices[si].u.composite.op1);
+  return slice_solve(slices[si].u.composite.next);
 }
 
 /* Determine whether there is a solution at the end of a quodlibet
@@ -127,7 +127,7 @@ boolean sequence_end_has_solution(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_has_solution(slices[si].u.composite.op1);
+  result = slice_has_solution(slices[si].u.composite.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -142,7 +142,7 @@ void sequence_end_solve_variations(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  slice_solve_variations(slices[si].u.composite.op1);
+  slice_solve_variations(slices[si].u.composite.next);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -160,7 +160,7 @@ boolean sequence_end_has_non_starter_solved(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_has_non_starter_solved(slices[si].u.composite.op1);
+  result = slice_has_non_starter_solved(slices[si].u.composite.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -182,7 +182,7 @@ boolean sequence_end_has_non_starter_refuted(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_end_has_non_starter_refuted(slices[si].u.composite.op1);
+  result = slice_end_has_non_starter_refuted(slices[si].u.composite.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -202,7 +202,7 @@ boolean sequence_end_has_starter_lost(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_end_has_starter_lost(slices[si].u.composite.op1);
+  result = slice_end_has_starter_lost(slices[si].u.composite.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -222,7 +222,7 @@ boolean sequence_end_has_starter_won(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_end_has_starter_won(slices[si].u.composite.op1);
+  result = slice_end_has_starter_won(slices[si].u.composite.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -240,7 +240,7 @@ boolean sequence_end_is_threat_refuted(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_is_threat_refuted(slices[si].u.composite.op1);
+  result = slice_is_threat_refuted(slices[si].u.composite.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -253,36 +253,36 @@ boolean sequence_end_is_threat_refuted(slice_index si)
  */
 void sequence_detect_starter(slice_index si, boolean is_duplex)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const next = slices[si].u.composite.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",is_duplex);
 
-  slice_detect_starter(op1,is_duplex);
+  slice_detect_starter(next,is_duplex);
 
   slices[si].u.composite.starter = no_side;
 
-  switch (slices[op1].type)
+  switch (slices[next].type)
   {
     case STSequence:
-      if (slice_get_starter(op1)!=no_side)
-        slices[si].u.composite.starter = advers(slice_get_starter(op1));
+      if (slice_get_starter(next)!=no_side)
+        slices[si].u.composite.starter = advers(slice_get_starter(next));
       break;
 
     case STLeaf:
-      if (slice_get_starter(op1)==no_side)
+      if (slice_get_starter(next)==no_side)
       {
-        /* op1 can't tell - let's tell him */
+        /* next can't tell - let's tell him */
         slices[si].u.composite.starter = is_duplex ? Black : White; /* not reci-h */
-        slices[op1].u.leaf.starter = slices[si].u.composite.starter;
+        slices[next].u.leaf.starter = slices[si].u.composite.starter;
       }
       else
-        slices[si].u.composite.starter = slice_get_starter(op1);
+        slices[si].u.composite.starter = slice_get_starter(next);
       break;
 
     default:
-      slices[si].u.composite.starter = slice_get_starter(op1);
+      slices[si].u.composite.starter = slice_get_starter(next);
       break;
   }
 
@@ -297,7 +297,7 @@ void sequence_detect_starter(slice_index si, boolean is_duplex)
  */
 void sequence_impose_starter(slice_index si, Side s)
 {
-  slice_index const op1 = slices[si].u.composite.op1;
+  slice_index const next = slices[si].u.composite.next;
 
   Side next_starter;
 
@@ -315,8 +315,8 @@ void sequence_impose_starter(slice_index si, Side s)
     case PSeries:
       /* series sequence after series sequence == intro series
        * -> change starter */
-      next_starter = (slices[op1].type==STSequence
-                      && slices[op1].u.composite.play==PSeries
+      next_starter = (slices[next].type==STSequence
+                      && slices[next].u.composite.play==PSeries
                       ? advers(s)
                       : s);
       break;
@@ -328,5 +328,5 @@ void sequence_impose_starter(slice_index si, Side s)
   }
 
   slices[si].u.composite.starter = s;
-  slice_impose_starter(op1,next_starter);
+  slice_impose_starter(next,next_starter);
 }
