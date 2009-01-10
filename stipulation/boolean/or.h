@@ -33,6 +33,7 @@ void quodlibet_end_solve_continuations(int continuations, slice_index si);
 
 /* Find and write set play
  * @param si slice index
+ * @return true iff >= 1 set play was found
  */
 boolean quodlibet_root_end_solve_setplay(slice_index si);
 
