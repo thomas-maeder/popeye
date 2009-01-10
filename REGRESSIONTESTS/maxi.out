@@ -24,7 +24,7 @@
   s#10                        2 + 3
         SchwarzerLaengstzueger
 
-  1...Dh7-b1 # 
+      1...Dh7-b1 # 
 
   1.d2-d4 ! 
       1...Dh7-b1 + 
@@ -79,7 +79,7 @@ Loesung beendet.
              Gitterschach
         SchwarzerLaengstzueger
 
-  1...Lh6-c1 # 
+      1...Lh6-c1 # 
 
   1.Ta2-h2 + ! 
       1...Kh4-g5 
@@ -127,9 +127,9 @@ Loesung beendet.
         SchwarzerLaengstzueger
 
 
-  1...Dg4-c8 
-      2.Kh2-h1 
-          2...Dc8-h3 # 
+      1...Dg4-c8 
+          2.Kh2-h1 
+              2...Dc8-h3 # 
 
   1.Kh2-h1 ! 
       1...Dg4-c8 
@@ -488,13 +488,13 @@ Loesung beendet.
                       3...Ta6-h6 
                           4.Tb8-b7 + 
                               4...Kc7-d6 
-                                  5.Tb7-b1 Zugzwang.
-                                      5...Th6-h1 
-                                          6.Ke8-d8 
-                                              6...Th1-h8 # 
                                   5.Ke8-d8 Zugzwang.
                                       5...Th6-h1 
                                           6.Tb7-b1 
+                                              6...Th1-h8 # 
+                                  5.Tb7-b1 Zugzwang.
+                                      5...Th6-h1 
+                                          6.Ke8-d8 
                                               6...Th1-h8 # 
       1...Kb8-a7 
           2.Ke7-d7 Zugzwang.

@@ -544,6 +544,7 @@ void slice_solve_continuations(int table, slice_index si)
 
 /* Find and write set play
  * @param si slice index
+ * @return true iff >= 1 set play was found
  */
 boolean slice_root_solve_setplay(slice_index si)
 {
@@ -680,23 +681,22 @@ boolean slice_solve(slice_index si)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean slice_root_solve(slice_index si)
+void slice_root_solve(slice_index si)
 {
-  boolean solution_found = false;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
     case STLeaf:
-      solution_found = leaf_solve(si);
+      /* TODO add leaf_root_solve() without return value?? */
+      leaf_solve(si);
       break;
 
     case STQuodlibet:
     case STSequence:
     case STReciprocal:
-      solution_found = composite_root_solve(si);
+      composite_root_solve(si);
       break;
 
     default:
@@ -705,8 +705,7 @@ boolean slice_root_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",solution_found);
-  return solution_found;
+  TraceText("\n");
 }
 
 /* Determine whether a composite slice has a solution

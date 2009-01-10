@@ -372,16 +372,6 @@ static boolean composite_d_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether attacker can win in direct play.
- * @param si slice index
- * @return true iff attacker can win
- */
-static boolean composite_d_has_solution(slice_index si)
-{
-  stip_length_type const n = slices[si].u.composite.length;
-  return composite_d_has_solution_in_n(si,n);
-}
-
 /* Determine whether a composite slice has a solution
  * @param si slice index
  * @return true iff slice si has a solution
@@ -389,6 +379,7 @@ static boolean composite_d_has_solution(slice_index si)
 boolean composite_has_solution(slice_index si)
 {
   boolean result = false;
+  stip_length_type const n = slices[si].u.composite.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -396,7 +387,7 @@ boolean composite_has_solution(slice_index si)
   switch (slices[si].u.composite.play)
   {
     case PDirect:
-      result = composite_d_has_solution(si);
+      result = composite_d_has_solution_in_n(si,n);
       break;
 
     case PHelp:
@@ -542,11 +533,9 @@ static void composite_end_solve_variations(slice_index si)
 
 /* Solve at root level at the end of a composite slice
  * @param si slice index
- * @return true iff >=1 solution was found
  */
-static boolean composite_root_end_solve(slice_index si)
+static void composite_root_end_solve(slice_index si)
 {
-  boolean result = false;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
@@ -554,15 +543,15 @@ static boolean composite_root_end_solve(slice_index si)
   switch (slices[si].type)
   {
     case STQuodlibet:
-      result = quodlibet_root_end_solve(si);
+      quodlibet_root_end_solve(si);
       break;
 
     case STReciprocal:
-      result = reci_root_end_solve(si);
+      reci_root_end_solve(si);
       break;
 
     case STSequence:
-      result = sequence_root_end_solve(si);
+      sequence_root_end_solve(si);
       break;
 
     default:
@@ -571,8 +560,7 @@ static boolean composite_root_end_solve(slice_index si)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
+  TraceText("\n");
 }
 
 /* Continue solving at the end of a composite slice
@@ -647,9 +635,9 @@ static boolean composite_end_is_unsolvable(slice_index si)
   return result;
 }
 
-static boolean composite_h_exact_solve_recursive(slice_index si,
-                                                 stip_length_type n,
-                                                 Side side_at_move);
+static boolean composite_h_solve_in_n_recursive(slice_index si,
+                                                stip_length_type n,
+                                                Side side_at_move);
 
 /* Determine and write the solution(s) in a help stipulation; don't
  * consult nor fill the hash table regarding solutions of length n
@@ -665,15 +653,11 @@ static boolean composite_h_exact_solve_recursive(slice_index si,
  *          (this may be shorter than the slice's length if we are
  *          searching for short solutions only)
  * @param si slice index of slice being solved
- * @return true iff >= 1 solution has been found
  */
-static boolean
-composite_h_root_exact_solve_recursive_nohash(slice_index si,
-                                              stip_length_type n,
-                                              Side side_at_move)
+static void composite_h_root_solve_in_n_recursive_nohash(slice_index si,
+                                                         stip_length_type n,
+                                                         Side side_at_move)
 {
-  boolean found_solution = false;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
@@ -682,7 +666,7 @@ composite_h_root_exact_solve_recursive_nohash(slice_index si,
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    found_solution = composite_root_end_solve(si);
+    composite_root_end_solve(si);
   else
   {
     Side next_side = advers(side_at_move);
@@ -701,9 +685,8 @@ composite_h_root_exact_solve_recursive_nohash(slice_index si,
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move)
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
-          && !composite_end_is_unsolvable(si)
-          && composite_h_exact_solve_recursive(si,n-1,next_side))
-        found_solution = true;
+          && !composite_end_is_unsolvable(si))
+        composite_h_solve_in_n_recursive(si,n-1,next_side);
 
       if (OptFlag[movenbr])
         IncrementMoveNbr();
@@ -725,8 +708,7 @@ composite_h_root_exact_solve_recursive_nohash(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",found_solution);
-  return found_solution;
+  TraceText("\n");
 }
 
 /* Determine and write the solution(s) in a help stipulation; don't
@@ -743,7 +725,7 @@ composite_h_root_exact_solve_recursive_nohash(slice_index si,
  * @param si slice index of slice being solved
  * @return true iff >= 1 solution has been found
  */
-static boolean composite_h_exact_solve_recursive_nohash(slice_index si,
+static boolean composite_h_solve_in_n_recursive_nohash(slice_index si,
                                                         stip_length_type n,
                                                         Side side_at_move)
 
@@ -777,7 +759,7 @@ static boolean composite_h_exact_solve_recursive_nohash(slice_index si,
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move)
           && !composite_end_is_unsolvable(si)
-          && composite_h_exact_solve_recursive(si,n-1,next_side))
+          && composite_h_solve_in_n_recursive(si,n-1,next_side))
         found_solution = true;
 
       repcoup();
@@ -801,45 +783,6 @@ static boolean composite_h_exact_solve_recursive_nohash(slice_index si,
   return found_solution;
 }
 
-/* Determine and write the solution(s) in a help stipulation at root level.
- *
- * This is a recursive function.
- * Recursion works with decreasing parameter n; recursion stops at
- * n==2 (e.g. h#1).
- *
- * @param side_at_move side at move
- * @param n number of half moves until end state has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
- * @param si slice index of slice being solved
- * @return true iff >= 1 solution has been found
- */
-static boolean composite_h_root_exact_solve_recursive(slice_index si,
-                                                      stip_length_type n,
-                                                      Side side_at_move)
-{
-  boolean found_solution = false;
-  hashwhat const hash_no_succ = n%2==0 ? HelpNoSuccEven : HelpNoSuccOdd;
-  HashBuffer hb;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",side_at_move);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
-
-  (*encode)(&hb);
-  if (!inhash(si,hash_no_succ,n/2,&hb))
-  {
-    if (composite_h_root_exact_solve_recursive_nohash(si,n,side_at_move))
-      found_solution = true;
-    else
-      addtohash(si,hash_no_succ,n/2,&hb);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",found_solution);
-  return found_solution;
-}
 
 /* Determine and write the solution(s) in a help stipulation.
  *
@@ -854,9 +797,9 @@ static boolean composite_h_root_exact_solve_recursive(slice_index si,
  * @param si slice index of slice being solved
  * @return true iff >= 1 solution has been found
  */
-static boolean composite_h_exact_solve_recursive(slice_index si,
-                                                 stip_length_type n,
-                                                 Side side_at_move)
+static boolean composite_h_solve_in_n_recursive(slice_index si,
+                                                stip_length_type n,
+                                                Side side_at_move)
 {
   boolean found_solution = false;
   hashwhat const hash_no_succ = n%2==0 ? HelpNoSuccEven : HelpNoSuccOdd;
@@ -870,7 +813,7 @@ static boolean composite_h_exact_solve_recursive(slice_index si,
   (*encode)(&hb);
   if (!inhash(si,hash_no_succ,n/2,&hb))
   {
-    if (composite_h_exact_solve_recursive_nohash(si,n,side_at_move))
+    if (composite_h_solve_in_n_recursive_nohash(si,n,side_at_move))
       found_solution = true;
     else
       addtohash(si,hash_no_succ,n/2,&hb);
@@ -881,16 +824,13 @@ static boolean composite_h_exact_solve_recursive(slice_index si,
   return found_solution;
 }
 
-/* Determine and write the solution(s) in a help stipulation at root level.
+/* Determine and write the solution(s) in a help stipulation.
  * @param si identifies slice being solved
- * @param n number of moves until the slice's goal has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
  * @return true iff >= 1 solution was found
  */
-static boolean composite_h_root_exact_solve(slice_index si,
-                                            stip_length_type n,
-                                            Side starter)
+static boolean composite_h_solve_in_n(slice_index si,
+                                      stip_length_type n,
+                                      Side starter)
 {
   boolean result;
 
@@ -899,36 +839,12 @@ static boolean composite_h_root_exact_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",starter);
 
-  if (n==slices[si].u.composite.length)
-    result = composite_h_root_exact_solve_recursive_nohash(si,n,starter);
-  else
-    result = composite_h_root_exact_solve_recursive(si,n,starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Determine and write the solution(s) in a help stipulation.
- * @param si identifies slice being solved
- * @return true iff >= 1 solution was found
- */
-static boolean composite_h_exact_solve(slice_index si)
-{
-  boolean result;
-  stip_length_type const n = slices[si].u.composite.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
   TraceValue("%u\n",n);
 
   if (n==slices[si].u.composite.length)
-    result = composite_h_exact_solve_recursive_nohash(si,
-                                                      n,
-                                                      slices[si].starter);
+    result = composite_h_solve_in_n_recursive_nohash(si,n,starter);
   else
-    result = composite_h_exact_solve_recursive(si,n,slices[si].starter);
+    result = composite_h_solve_in_n_recursive(si,n,starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -936,12 +852,12 @@ static boolean composite_h_exact_solve(slice_index si)
 }
 
 /* Solve a composite slice with series play
- * @param n exact number of moves to reach the end state
+ * @param n number of moves to reach the end state
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
-static boolean composite_ser_exact_solve_recursive(slice_index si,
-                                                   stip_length_type n)
+static boolean composite_ser_solve_in_n_recursive(slice_index si,
+                                                  stip_length_type n)
 {
   boolean solution_found = false;
   TraceFunctionEntry(__func__);
@@ -981,7 +897,7 @@ static boolean composite_ser_exact_solve_recursive(slice_index si,
           (*encode)(&hb);
           if (inhash(si,SerNoSucc,n-slack_length_series,&hb))
             TraceText("in hash\n");
-          else if (composite_ser_exact_solve_recursive(si,n-1))
+          else if (composite_ser_solve_in_n_recursive(si,n-1))
             solution_found = true;
           else
             addtohash(si,SerNoSucc,n-slack_length_series,&hb);
@@ -1009,20 +925,19 @@ static boolean composite_ser_exact_solve_recursive(slice_index si,
 }
 
 /* Solve a composite slice with series play at root level
- * @param n exact number of moves to reach the end state
+ * @param n number of moves to reach the end state
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
-static boolean
-composite_ser_root_exact_solve_recursive(slice_index si, stip_length_type n)
+static void composite_ser_root_solve_in_n_recursive(slice_index si,
+                                                    stip_length_type n)
 {
-  boolean solution_found = false;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
   if (n==slack_length_series)
-    solution_found = composite_root_end_solve(si);
+    composite_root_end_solve(si);
   else
   {
     Side const series_side = slices[si].starter;
@@ -1056,9 +971,7 @@ composite_ser_root_exact_solve_recursive(slice_index si, stip_length_type n)
           (*encode)(&hb);
           if (inhash(si,SerNoSucc,n-slack_length_series,&hb))
             TraceText("in hash\n");
-          else if (composite_ser_exact_solve_recursive(si,n-1))
-            solution_found = true;
-          else
+          else if (!composite_ser_solve_in_n_recursive(si,n-1))
             addtohash(si,SerNoSucc,n-slack_length_series,&hb);
         }
 
@@ -1082,13 +995,13 @@ composite_ser_root_exact_solve_recursive(slice_index si, stip_length_type n)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",solution_found);
-  return solution_found;
+  TraceText("\n");
 }
 
 /* Determine and write set play of a direct/self/reflex stipulation
  * We are at the end of a slice and delegate to the child slice(s)
  * @param si slice index
+ * @return true iff >= 1 set play was found
  */
 static boolean composite_root_end_solve_setplay(slice_index si)
 {
@@ -1116,15 +1029,35 @@ static boolean composite_root_end_solve_setplay(slice_index si)
   return result;
 }
 
-/* Solve a series play problem at root level in exactly N moves
- * (N>=2); decide whether to solve in intelligent mode or not. 
+/* Solve full-length solutions in n in series play at root level
  * @param si slice index
  * @param n number of half moves
- * @return true iff >= 1 solution was found
  */
-static boolean
-composite_ser_root_exact_solve_intelligent_or_not(slice_index si,
-                                                  stip_length_type n)
+static void composite_ser_root_solve_full_in_n(slice_index si,
+                                               stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
+
+  assert(n>=1);
+
+  if (isIntelligentModeActive)
+    Intelligent(n,slices[si].starter);
+  else
+    composite_ser_root_solve_in_n_recursive(si,n);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Solve short solutions in n in series play at root level
+ * @param si slice index
+ * @param n number of half moves
+ * @return true iff >=1 short solution was found
+ */
+static boolean composite_ser_root_solve_short_in_n(slice_index si,
+                                                   stip_length_type n)
 {
   boolean result = false;
 
@@ -1132,7 +1065,7 @@ composite_ser_root_exact_solve_intelligent_or_not(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
-  assert(n>=1);
+  assert(n>=slack_length_series);
 
   if (isIntelligentModeActive)
     result = Intelligent(n,slices[si].starter);
@@ -1142,9 +1075,8 @@ composite_ser_root_exact_solve_intelligent_or_not(slice_index si,
      * solutions
      */
     boolean const save_movenbr = OptFlag[movenbr];
-    if (n<slices[si].u.composite.length)
-      OptFlag[movenbr] = false;
-    result = composite_ser_root_exact_solve_recursive(si,n);
+    OptFlag[movenbr] = false;
+    result = composite_ser_solve_in_n_recursive(si,n);
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -1155,11 +1087,9 @@ composite_ser_root_exact_solve_intelligent_or_not(slice_index si,
 
 /* Solve a composite slice with series play at root level
  * @param si slice index
- * @return true iff >= 1 solution was found
  */
-static boolean composite_ser_root_solve(slice_index si)
+static void composite_ser_root_solve(slice_index si)
 {
-  boolean result = false;
   Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
@@ -1197,26 +1127,21 @@ static boolean composite_ser_root_solve(slice_index si)
     ErrorMsg(KingCapture);
   else
   {
-    boolean full_length_solved = false;
     stip_length_type const full_length = slices[si].u.composite.length;
 
     stip_length_type len;
     for (len = slices[si].u.composite.min_length;
          len<full_length && !(OptFlag[stoponshort] && FlagShortSolsReached);
          len++)
-      if (composite_ser_root_exact_solve_intelligent_or_not(si,len))
+      if (composite_ser_root_solve_short_in_n(si,len))
         FlagShortSolsReached = true;
 
     if (!(FlagShortSolsReached && OptFlag[stoponshort]))
-      full_length_solved =
-          composite_ser_root_exact_solve_intelligent_or_not(si,full_length);
-
-    result = FlagShortSolsReached || full_length_solved;
+      composite_ser_root_solve_full_in_n(si,full_length);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
+  TraceText("\n");
 }
 
 /* Solve the root composite slice with series play
@@ -1236,7 +1161,7 @@ static boolean composite_ser_root_solve(slice_index si)
   TraceFunctionParam("%u\n",n);
 
   if (n==slices[si].u.composite.min_length)
-    result = composite_ser_root_exact_solve_recursive(si,n);
+    result = composite_ser_root_solve_in_n_recursive(si,n);
   else if (OptFlag[restart])
     result = composite_ser_root_maximal_solve(n,si);
   else
@@ -1247,20 +1172,17 @@ static boolean composite_ser_root_solve(slice_index si)
   return result;
 }*/
 
-/* Solve a composite slice at root level.
+/* Solve a composite slice at root level in exactly n moves
  * This is the interface for intelligent mode.
  * @param si slice index
- * @param n exact number of moves until the slice's goal has to be
+ * @param n number of moves until the slice's goal has to be
  *          reached (this may be shorter than the slice's length if
  *          we are searching for short solutions only)
- * @return true iff >= 1 solution was found
  */
-boolean composite_root_exact_solve(slice_index si,
-                                   stip_length_type n,
-                                   Side starter)
+void composite_root_solve_in_n(slice_index si,
+                               stip_length_type n,
+                               Side starter)
 {
-  boolean result = false;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
@@ -1271,12 +1193,12 @@ boolean composite_root_exact_solve(slice_index si,
   switch (slices[si].u.composite.play)
   {
     case PHelp:
-      result = composite_h_root_exact_solve(si,n,starter);
+      composite_h_root_solve_in_n_recursive_nohash(si,n,starter);
       break;
 
     case PSeries:
       /* TODO what to do with starter? */
-      result = composite_ser_root_exact_solve_recursive(si,n);
+      composite_ser_root_solve_in_n_recursive(si,n);
       break;
 
     default:
@@ -1285,8 +1207,7 @@ boolean composite_root_exact_solve(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
+  TraceText("\n");
 }
 
 /* Solve a composite slice with series play
@@ -1305,7 +1226,7 @@ static boolean composite_ser_solve(slice_index si)
   TraceValue("%u\n",slices[si].u.composite.length);
 
   for (i = slices[si].u.composite.min_length; i<n; i++)
-    if (composite_ser_exact_solve_recursive(si,i))
+    if (composite_ser_solve_in_n_recursive(si,i))
     {
       TraceText("solution found\n");
       result = true;
@@ -1317,7 +1238,7 @@ static boolean composite_ser_solve(slice_index si)
     }
 
   if (!FlagShortSolsReached
-      && composite_ser_exact_solve_recursive(si,n))
+      && composite_ser_solve_in_n_recursive(si,n))
     result = true;
 
   TraceFunctionExit(__func__);
@@ -1343,8 +1264,7 @@ boolean composite_solve(slice_index si)
       break;
 
     case PHelp:
-      /* TODO implement composite_h_solve() */
-      result = composite_h_exact_solve(si);
+      /* TODO */
       break;
 
     case PSeries:
@@ -1417,24 +1337,15 @@ static boolean composite_d_is_threat_in_n_refuted(slice_index si,
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-static boolean composite_d_is_threat_refuted(slice_index si)
-{
-  stip_length_type const n = slices[si].u.composite.length;
-  return composite_d_is_threat_in_n_refuted(si,n);
-}
-
-/* Has the threat just played been refuted by the preceding defense?
- * @param si identifies stipulation slice
- * @return true iff the threat is refuted
- */
 boolean composite_is_threat_refuted(slice_index si)
 {
   boolean result = false;
+  stip_length_type const n = slices[si].u.composite.length;
 
   switch (slices[si].u.composite.play)
   {
     case PDirect:
-      result = composite_d_is_threat_refuted(si);
+      result = composite_d_is_threat_in_n_refuted(si,n);
       break;
 
     case PHelp:
@@ -1900,25 +1811,14 @@ static void composite_d_solve_continuations_in_n(int continuations,
  * @param continuations table where to store continuing moves (i.e. threats)
  * @param si slice index
  */
-static void composite_d_solve_continuations(int continuations,
-                                            slice_index si)
-{
-  stip_length_type const n = slices[si].u.composite.length;
-  composite_d_solve_continuations_in_n(continuations,si,n);
-}
-
-/* Determine and write the continuations in the current position
- * (i.e. attacker's moves winning after a defender's move that refuted
- * the threat).
- * @param continuations table where to store continuing moves (i.e. threats)
- * @param si slice index
- */
 void composite_solve_continuations(int continuations, slice_index si)
 {
+  stip_length_type const n = slices[si].u.composite.length;
+
   switch (slices[si].u.composite.play)
   {
     case PDirect:
-      composite_d_solve_continuations(continuations,si);
+      composite_d_solve_continuations_in_n(continuations,si,n);
       break;
 
     case PHelp:
@@ -1937,6 +1837,7 @@ void composite_solve_continuations(int continuations, slice_index si)
 
 /* Determine and write set play in direct play
  * @param si slice index
+ * @return true iff >= 1 set play was found
  */
 static boolean composite_d_root_solve_setplay(slice_index si)
 {
@@ -1953,7 +1854,9 @@ static boolean composite_d_root_solve_setplay(slice_index si)
   {
     int ntcount = 0;
 
-    if (!slice_root_end_solve_complete_set(si))
+    if (slice_root_end_solve_complete_set(si))
+      result = true;
+    else
       StdString("\n");
 
     if (n-1>min_length_nontrivial)
@@ -1993,17 +1896,39 @@ static boolean composite_d_root_solve_setplay(slice_index si)
   return result;
 }
 
-/* Solve a help play problem at root level in exactly N half moves
- * (N>=2); decide whether to solve in intelligent mode or not. 
+/* Solve full-length solutions in exactly n in help play at root level
  * @param si slice index
  * @param n number of half moves
  * @param starter starting side
- * @return true iff >= 1 solution was found
  */
-static boolean
-composite_h_root_exact_solve_intelligent_or_not(slice_index si,
-                                                stip_length_type n,
-                                                Side starter)
+static void composite_h_root_solve_full_in_n(slice_index si,
+                                             stip_length_type n,
+                                             Side starter)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",starter);
+
+  assert(n>=slack_length_help);
+
+  if (isIntelligentModeActive)
+    Intelligent(n,starter);
+  else
+    composite_h_root_solve_in_n_recursive_nohash(si,n,starter);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Solve short solutions in exactly n in help play at root level.
+ * @param si slice index
+ * @param n number of half moves
+ * @param starter starting side
+ * @return true iff >=1 short solution was found
+ */
+static boolean composite_h_root_solve_short_in_n(slice_index si,
+                                                 stip_length_type n,
+                                                 Side starter)
 {
   boolean result = false;
 
@@ -2011,7 +1936,7 @@ composite_h_root_exact_solve_intelligent_or_not(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",starter);
 
-  assert(n>=2);
+  assert(n>=slack_length_help);
 
   if (isIntelligentModeActive)
     result = Intelligent(n,starter);
@@ -2021,9 +1946,8 @@ composite_h_root_exact_solve_intelligent_or_not(slice_index si,
      * solutions (incl. full length set play)
      */
     boolean const save_movenbr = OptFlag[movenbr];
-    if (n<slices[si].u.composite.length-1)
-      OptFlag[movenbr] = false;
-    result = composite_h_root_exact_solve(si,n,starter);
+    OptFlag[movenbr] = false;
+    result = composite_h_solve_in_n(si,n,starter);
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -2034,6 +1958,7 @@ composite_h_root_exact_solve_intelligent_or_not(slice_index si,
 
 /* Determine and write set play in help play
  * @param si slice index
+ * @return true iff >= 1 set play was found
  */
 static boolean composite_h_root_solve_setplay(slice_index si)
 {
@@ -2047,24 +1972,21 @@ static boolean composite_h_root_solve_setplay(slice_index si)
   else
   {
     Side const starter = advers(slices[si].starter);
-    stip_length_type const length = slices[si].u.composite.length-1;
+    stip_length_type const full_length = slices[si].u.composite.length-1;
 
-    if (length%2==1)
+    if (full_length%2==1)
       result = composite_root_end_solve_setplay(si);
 
-    if (length>1)
+    if (full_length>1)
     {
       stip_length_type len;
       for (len = slices[si].u.composite.min_length+1;
-           !result && len<length;
+           !result && len<full_length;
            len += 2)
-        result = composite_h_root_exact_solve_intelligent_or_not(si,
-                                                                 len,
-                                                                 starter);
-      result = (result
-                || composite_h_root_exact_solve_intelligent_or_not(si,
-                                                                   length,
-                                                                   starter));
+        result = composite_h_root_solve_short_in_n(si,len,starter);
+
+      if (!result)
+        composite_h_root_solve_full_in_n(si,full_length,starter);
     }
   }
 
@@ -2208,23 +2130,20 @@ static void composite_d_root_solve_postkeyonly(slice_index si,
 /* Determine and write the solutions and tries in the current position
  * in direct/self/reflex play.
  * @param si slice index
- * @return true iff >= 1 solution was found
  */
-static boolean composite_d_root_solve_real_play(slice_index si)
+static void composite_d_root_solve_real_play(slice_index si)
 {
-  boolean result = false;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   output_start_continuation_level();
 
   if (slice_has_non_starter_solved(si))
-    result = true;
+    ;
   else if (slice_end_has_non_starter_refuted(si))
     slice_write_unsolvability(slices[si].u.composite.op1);
   else if (slices[si].u.composite.length==slack_length_direct)
-    result = composite_root_end_solve(si);
+    composite_root_end_solve(si);
   else
   {
     Side const attacker = slices[si].starter;
@@ -2251,9 +2170,6 @@ static boolean composite_d_root_solve_real_play(slice_index si)
                                       ? attack_try
                                       : attack_key);
             composite_root_write_key_solve_postkey(refutations,si,type);
-
-            if (nr_refutations==0)
-              result = true;
           }
 
           freetab();
@@ -2276,8 +2192,7 @@ static boolean composite_d_root_solve_real_play(slice_index si)
   output_end_continuation_level();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
+  TraceText("\n");
 }
 
 /* Delegate solving the complete set to the child slice(s)
@@ -2318,11 +2233,9 @@ static boolean composite_root_end_solve_complete_set(slice_index si)
 
 /* Solve a composite slice with help play at root level
  * @param si slice index
- * @return true iff >= 1 solution was found
  */
-static boolean composite_h_root_solve(slice_index si)
+static void composite_h_root_solve(slice_index si)
 {
-  boolean result = false;
   Side const starter = slices[si].starter;
   stip_length_type const full_length = slices[si].u.composite.length;
 
@@ -2336,21 +2249,19 @@ static boolean composite_h_root_solve(slice_index si)
   if (OptFlag[solapparent] && !OptFlag[restart])
   {
     output_start_setplay_level();
-    if (composite_h_root_solve_setplay(si))
-      result = true;
+    composite_h_root_solve_setplay(si);
     output_end_setplay_level();
   }
 
   solutions = 0;    /* reset after set play */
-  FlagShortSolsReached= false;
+  FlagShortSolsReached = false;
 
   if (echecc(nbply,advers(starter)))
     ErrorMsg(KingCapture);
   else if (full_length==slack_length_help-1)
-    result = composite_root_end_solve_setplay(si);
+    composite_root_end_solve_setplay(si);
   else
   {
-    boolean full_length_solved = false;
     stip_length_type len = slices[si].u.composite.min_length;
 
     if (len==slack_length_help-1)
@@ -2362,33 +2273,25 @@ static boolean composite_h_root_solve(slice_index si)
     while (len<full_length
            && !(OptFlag[stoponshort] && FlagShortSolsReached))
     {
-      if (composite_h_root_exact_solve_intelligent_or_not(si,len,starter))
+      if (composite_h_root_solve_short_in_n(si,len,starter))
         FlagShortSolsReached = true;
       len += 2;
     }
 
     if (!(FlagShortSolsReached && OptFlag[stoponshort]))
-      full_length_solved =
-          composite_h_root_exact_solve_intelligent_or_not(si,
-                                                          full_length,
-                                                          starter);
-
-    result = FlagShortSolsReached || full_length_solved;
+      composite_h_root_solve_full_in_n(si,full_length,starter);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
+  TraceText("\n");
 }
 
 
 /* Solve a composite direct slice at root level
  * @param si slice index
- * @return true iff >= 1 solution was found
  */
-boolean composite_d_root_solve(slice_index si)
+static void composite_d_root_solve(slice_index si)
 {
-  boolean result = false;
   stip_length_type const n = slices[si].u.composite.length;
 
   TraceFunctionEntry(__func__);
@@ -2397,15 +2300,11 @@ boolean composite_d_root_solve(slice_index si)
   init_output_mode(output_mode_tree);
 
   if (OptFlag[postkeyplay])
-    
   {
     if (echecc(nbply,slices[si].starter))
       ErrorMsg(SetAndCheck);
     else
-    {
       composite_d_root_solve_postkeyonly(si,n);
-      result = true;
-    }
   }
   else
   {
@@ -2425,38 +2324,33 @@ boolean composite_d_root_solve(slice_index si)
     if (echecc(nbply,advers(slices[si].starter)))
       ErrorMsg(KingCapture);
     else
-      result = composite_d_root_solve_real_play(si);
+      composite_d_root_solve_real_play(si);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
+  TraceText("\n");
 }
 
 /* Solve a composite slice at root level
  * @param si slice index
- * @return true iff >= 1 solution was found
  */
-/* TODO why do we have to return a value? */
-boolean composite_root_solve(slice_index si)
+void composite_root_solve(slice_index si)
 {
-  boolean result = false;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   switch (slices[si].u.composite.play)
   {
     case PDirect:
-      result = composite_d_root_solve(si);
+      composite_d_root_solve(si);
       break;
 
     case PHelp:
-      result = composite_h_root_solve(si);
+      composite_h_root_solve(si);
       break;
 
     case PSeries:
-      result = composite_ser_root_solve(si);
+      composite_ser_root_solve(si);
       break;
 
     default:
@@ -2465,6 +2359,5 @@ boolean composite_root_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
+  TraceText("\n");
 }

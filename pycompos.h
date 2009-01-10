@@ -17,6 +17,7 @@ boolean composite_has_solution(slice_index si);
 
 /* Determine and write set play of a direct/self/reflex stipulation
  * @param si slice index
+ * @return true iff >= 1 set play was found
  */
 boolean composite_root_solve_setplay(slice_index si);
 
@@ -53,9 +54,8 @@ boolean composite_is_threat_refuted(slice_index si);
 
 /* Solve the root composite slice at root level.
  * @param si slice index
- * @return true iff >= 1 solution was found
  */
-boolean composite_root_solve(slice_index si);
+void composite_root_solve(slice_index si);
 
 /* Determine and write the solutions in the current position.
  * @param si slice index
@@ -69,10 +69,9 @@ boolean composite_solve(slice_index si);
  * @param n exact number of moves until the slice's goal has to be
  *          reached (this may be shorter than the slice's length if
  *          we are searching for short solutions only)
- * @return true iff >= 1 solution was found
  */
-boolean composite_root_exact_solve(slice_index si,
-                                   stip_length_type n,
-                                   Side starter);
+void composite_root_solve_in_n(slice_index si,
+                               stip_length_type n,
+                               Side starter);
 
 #endif

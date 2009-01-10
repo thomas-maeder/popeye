@@ -226,6 +226,7 @@ void slice_solve_continuations(int table, slice_index si);
 
 /* Find and write set play
  * @param si slice index
+ * @return true iff >= 1 set play was found
  */
 boolean slice_root_solve_setplay(slice_index si);
 
@@ -257,9 +258,8 @@ boolean slice_solve(slice_index si);
 
 /* Solve a slice at root level
  * @param si slice index
- * @return true iff >=1 solution was found
  */
-boolean slice_root_solve(slice_index si);
+void slice_root_solve(slice_index si);
 
 /* Determine whether a composite slice has a solution
  * @param si slice index

@@ -649,7 +649,7 @@ void StaleStoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    composite_root_exact_solve(0,n,starter);
+    composite_root_solve_in_n(0,n,starter);
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -882,7 +882,7 @@ void StoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    composite_root_exact_solve(0,n,starter);
+    composite_root_solve_in_n(0,n,starter);
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -2589,7 +2589,7 @@ static void IntelligentProof(stip_length_type n, Side starter)
   if (n<slices[0].u.composite.length)
     OptFlag[movenbr] = false;
     
-  composite_root_exact_solve(0,n,starter);
+  composite_root_solve_in_n(0,n,starter);
 
   OptFlag[movenbr] = save_movenbr;
 }

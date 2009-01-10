@@ -204,6 +204,7 @@ void reci_end_solve_continuations(int table, slice_index si)
 
 /* Find and write set play
  * @param si slice index
+ * @return true iff >= 1 set play was found
  */
 boolean reci_root_end_solve_setplay(slice_index si)
 {
@@ -218,17 +219,16 @@ boolean reci_root_end_solve_setplay(slice_index si)
   result2 = slice_root_solve_setplay(slices[si].u.composite.op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n", result1 || result2);
-  return result1 || result2;
+  TraceFunctionResult("%u\n", result1 && result2);
+  return result1 && result2;
 }
 
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean reci_root_end_solve(slice_index si)
+void reci_root_end_solve(slice_index si)
 {
-  boolean found_solution = false;
   slice_index const op1 = slices[si].u.composite.op1;
   slice_index const op2 = slices[si].u.composite.op2;
 
@@ -237,13 +237,14 @@ boolean reci_root_end_solve(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  found_solution = (slice_is_solvable(op2)
-                    && slice_root_solve(op1)
-                    && slice_root_solve(op2));
+  if (slice_is_solvable(op2))
+  {
+    slice_root_solve(op1);
+    slice_root_solve(op2);
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",found_solution);
-  return found_solution;
+  TraceText("\n");
 }
 
 /* Write the key just played, then solve the post key play (threats,

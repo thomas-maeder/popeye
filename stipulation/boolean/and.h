@@ -96,9 +96,8 @@ boolean reci_end_is_threat_refuted(slice_index si);
 
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index
- * @return true iff >=1 solution was found
  */
-boolean reci_root_end_solve(slice_index si);
+void reci_root_end_solve(slice_index si);
 
 /* Continue solving at the end of a reciprocal slice
  * @param si slice index

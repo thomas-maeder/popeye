@@ -32,6 +32,7 @@ void sequence_end_solve_continuations(int continuations, slice_index si);
 
 /* Find and write set play
  * @param si slice index
+ * @return true iff >= 1 set play was found
  */
 boolean sequence_root_end_solve_setplay(slice_index si);
 
@@ -51,9 +52,8 @@ void sequence_root_end_write_key_solve_postkey(slice_index si,
 
 /* Solve at root level at the end of a sequence slice
  * @param si slice index
- * @return true iff >=1 solution was found
  */
-boolean sequence_root_end_solve(slice_index si);
+void sequence_root_end_solve(slice_index si);
 
 /* Continue solving at the end of a sequence slice
  * @param si slice index
