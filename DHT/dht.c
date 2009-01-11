@@ -807,12 +807,20 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
 
   KeyV = (ht->procs.DupKey)(key);
   if (dhtDupStatus != dhtOkStatus)
+  {
+    TraceText("key duplication failed\n");
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p\n",dhtNilElement);
     return dhtNilElement;
+  }
 
   DataV = (ht->procs.DupData)(data);
   if (dhtDupStatus != dhtOkStatus)
   {
     (ht->procs.FreeKey)(KeyV);
+    TraceText("data duplication failed\n");
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p\n",dhtNilElement);
     return dhtNilElement;
   }
 
@@ -825,7 +833,12 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
     he = NewInternHsElement;
     TraceValue("%p\n",he);
     if (he==0)
+    {
+      TraceText("allocation of new intern Hs element failed\n");
+      TraceFunctionExit(__func__);
+      TraceFunctionResult("%p\n",dhtNilElement);
       return dhtNilElement;
+    }
     else
     {
       *phe = he;
@@ -853,7 +866,12 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
     TraceValue("expanding hash table %p\n",ht);
     stat = ExpandHashTable(ht);
     if (stat!=dhtOkStatus)
+    {
+      TraceText("expansion failed\n");
+      TraceFunctionExit(__func__);
+      TraceFunctionResult("%p\n",dhtNilElement);
       return dhtNilElement;
+    }
     /*
       fprintf(stderr, "Dumping Hash-Table after expansion\n");
       fDumpHashTable(ht, stderr);
