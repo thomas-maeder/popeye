@@ -71,6 +71,17 @@ void output_start_continuation_level(void);
 void output_end_continuation_level(void);
 
 
+/* Start a new output level consisting of forced unsolvabilities
+ * (e.g. reflex mates)
+ */
+void output_start_unsolvability_level(void);
+
+/* End the inner-most output level (which consists of forced
+ * unsolvabilities (e.g. reflex mates))
+ */
+void output_end_unsolvability_level(void);
+
+
 /* Start a new output level consisting of leaf variations
  */
 void output_start_leaf_variation_level(void);

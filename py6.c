@@ -526,7 +526,6 @@ static boolean verifieposition(void)
     if (slices[0].u.branch.length<2
         && max_nr_refutations>0
         && !(slices[1].u.leaf.end==ESelf
-             || slices[1].u.leaf.end==EReflex
              || slices[1].u.leaf.end==EHelp))
     {
       ErrorMsg(TryInLessTwo);

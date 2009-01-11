@@ -9,8 +9,7 @@ typedef enum
 {
   EDirect,       /* goal in 1 */
   EHelp,         /* help-goal in 1 */
-  ESelf,         /* self-goal in 1 */
-  EReflex        /* reflex-goal in 1 */
+  ESelf          /* self-goal in 1 */
 } End;
 
 typedef enum
@@ -18,6 +17,7 @@ typedef enum
   STLeaf,
   STReciprocal,   /* logical AND */
   STQuodlibet,    /* logical OR */
+  STNot,          /* logical NOT */
   STBranchDirect, /* M-N moves of direct play */
   STBranchHelp,   /* M-N moves of help play */
   STBranchSeries  /* M-N moves of series play */
@@ -27,7 +27,7 @@ typedef struct
 {
     SliceType type;
 
-    union U
+    union
     {
         struct /* for type==STLeaf */
         {
@@ -57,6 +57,11 @@ typedef struct
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */
         } reciprocal;
+
+        struct
+        {
+            slice_index op;
+        } not;
     } u;
 } Slice;
 

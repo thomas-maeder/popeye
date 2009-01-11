@@ -33,12 +33,39 @@ typedef enum
 {
   unknown_attack,
   continuation_attack,
-  threat_attack
+  threat_attack,
+  unsolvability_attack /* forced reflex mate by attacker */
 } output_attack_type;
 
 static output_attack_type output_attack_types[maxply];
 static unsigned int nr_continuations_written[maxply];
 static unsigned int nr_defenses_written[maxply];
+
+/* Start a new output level consisting of forced reflex mates etc.
+ */
+void output_start_unsolvability_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  if (current_mode==output_mode_tree)
+    output_attack_types[move_depth+1] = unsolvability_attack;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* End the inner-most output level (which consists of post-key only play)
+ */
+void output_end_unsolvability_level(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
 
 /* Start a new output level consisting of post-key only play
  */
@@ -251,8 +278,6 @@ void output_end_continuation_level(void)
     TraceValue("%u",nbply);
     TraceValue("%u\n",output_attack_types[nbply+1]);
 
-    assert(output_attack_types[nbply+1]==continuation_attack);
-
     output_attack_types[nbply+1] = unknown_attack;
   }
 
@@ -401,7 +426,8 @@ void write_attack(Goal goal, attack_type type)
   if (current_mode==output_mode_tree)
   {
     assert(output_attack_types[nbply]==continuation_attack
-           || output_attack_types[nbply]==threat_attack);
+           || output_attack_types[nbply]==threat_attack
+           || output_attack_types[nbply]==unsolvability_attack);
 
     if (output_attack_types[nbply]==threat_attack
         && nr_continuations_written[move_depth]==0)
@@ -418,7 +444,7 @@ void write_attack(Goal goal, attack_type type)
     StdString(GlobalStr);
     ecritcoup(nbply,goal);
 
-    if (move_depth==1)
+    if (move_depth==1 && output_attack_types[nbply]!=unsolvability_attack)
     {
       switch (type)
       {
@@ -571,7 +597,8 @@ void write_refutation_mark(void)
  */
 void write_end_of_solution(void)
 {
-  if (current_mode==output_mode_tree)
+  if (current_mode==output_mode_tree
+      && output_attack_types[nbply]!=unsolvability_attack)
     Message(NewLine);
 }
 

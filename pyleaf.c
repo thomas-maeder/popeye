@@ -10,6 +10,8 @@
 #include <assert.h>
 #include <stdlib.h>
 
+/* TODO leaf_h_has_solution vs. leaf_h_is_solvable */
+
 typedef Flags ColourSpec;
 
 static boolean IsABattery(square KingSquare,
@@ -963,17 +965,6 @@ boolean leaf_is_unsolvable(slice_index leaf)
       break;
     }
 
-    case EReflex:
-    {
-      Side const attacker = slices[leaf].u.leaf.starter;
-      Side const defender = advers(attacker);
-      result = ((!(OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
-                 && leaf_is_end_in_1_possible(attacker,leaf))
-                || (OptFlag[keepmating]
-                    && !is_a_mating_piece_left(defender)));
-      break;
-    }
-
     case ESelf:
     case EHelp:
     {
@@ -1463,19 +1454,6 @@ boolean leaf_is_solvable(slice_index leaf)
       break;
     }
 
-    case EReflex:
-    {
-      Side const attacker = slices[leaf].u.leaf.starter;
-      Side const defender = advers(attacker);
-      if ((!(OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
-           && leaf_is_end_in_1_possible(attacker,leaf))
-          || (OptFlag[keepmating] && !is_a_mating_piece_left(defender)))
-        ; /* intentionally nothing */
-      else
-        result = leaf_h_has_solution(leaf);
-      break;
-    }
-
     case ESelf:
     {
       Side const defender = advers(slices[leaf].u.leaf.starter);
@@ -1529,7 +1507,6 @@ boolean leaf_has_non_starter_solved(slice_index leaf)
       break;
 
     case ESelf:
-    case EReflex:
     case EHelp:
       result = leaf_is_goal_reached(defender,leaf);
       break;
@@ -1564,7 +1541,6 @@ boolean leaf_has_starter_solved(slice_index leaf)
     case ESelf:
       return leaf_is_end_in_1_forced(leaf);
 
-    case EReflex:
     case EHelp:
     {
       Side const defender = advers(attacker);
@@ -1578,52 +1554,12 @@ boolean leaf_has_starter_solved(slice_index leaf)
   }
 }
 
-/* Determine and write forced end moves in 1 by the attacker in a
- * reflex leaf; we know that at least 1 exists.
- * @param leaf leaf's slice index
- */
-static void leaf_r_solve_forced_keys(slice_index leaf)
-{
-  Side const attacker = slices[leaf].u.leaf.starter;
-  Goal const goal = slices[leaf].u.leaf.goal;
-
-  generate_move_reaching_goal(leaf,attacker);
-  active_slice[nbply] = leaf;
-
-  while(encore())
-  {
-    if (jouecoup(nbply,first_play)
-        && leaf_is_goal_reached(attacker,leaf))
-    {
-      write_attack(goal,attack_regular);
-      output_start_leaf_variation_level();
-      output_end_leaf_variation_level();
-    }
-
-    repcoup();
-  }
-
-  finply();
-}
-
 /* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
  * mates)
  * @param leaf leaf's slice index
  */
 void leaf_write_unsolvability(slice_index leaf)
 {
-  assert(slices[leaf].type==STLeaf);
-  assert(slices[leaf].u.leaf.starter!=no_side);
-
-  switch (slices[leaf].u.leaf.end)
-  {
-    case EReflex:
-      leaf_r_solve_forced_keys(leaf);
-      break;
-
-    default:
-      break;
-  }
 }
 
 /* Determine and write keys if the end is direct
@@ -2036,27 +1972,6 @@ static boolean leaf_h_solve(slice_index leaf)
   return result;
 }
 
-/* Determine and write the final move pair in a reflex leaf.
- * @param leaf slice index
- * @return true iff >=1 move pair was found
- */
-static boolean leaf_r_solve(slice_index leaf)
-{
-  boolean result = false;
-  Side const attacker = slices[leaf].u.leaf.starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
-
-  if (((OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
-       || !leaf_is_end_in_1_possible(attacker,leaf)))
-    result = leaf_h_solve(leaf);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Write the key and solve the remainder of a leaf in direct play
  * @param leaf slice index
  * @param type type of attack
@@ -2075,7 +1990,6 @@ void leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
       break;
 
     case ESelf:
-    case EReflex:
     case EHelp:
       write_attack(no_goal,type);
       output_start_leaf_variation_level();
@@ -2109,7 +2023,6 @@ boolean leaf_has_starter_lost(slice_index leaf)
       return false;
 
     case ESelf:
-    case EReflex:
     case EHelp:
       return (OptFlag[keepmating]
               && !is_a_mating_piece_left(slices[leaf].u.leaf.starter));
@@ -2138,7 +2051,6 @@ boolean leaf_has_starter_won(slice_index leaf)
     case ESelf:
       return false;
 
-    case EReflex:
     case EHelp:
     {
       Side const defender = advers(slices[leaf].u.leaf.starter);
@@ -2177,7 +2089,6 @@ boolean leaf_has_solution(slice_index leaf)
       break;
 
     case EHelp:
-    case EReflex:
       result = leaf_h_has_solution(leaf);
       break;
 
@@ -2252,7 +2163,6 @@ boolean leaf_root_solve_setplay(slice_index leaf)
       break;
 
     case ESelf:
-    case EReflex:
       result = leaf_root_sr_solve_setplay(leaf);
       break;
 
@@ -2294,7 +2204,6 @@ boolean leaf_root_solve_complete_set(slice_index leaf)
         break;
     }
 
-    case EReflex:
     case EHelp:
     {
       Side const defender = advers(slices[leaf].u.leaf.starter);
@@ -2327,7 +2236,6 @@ void leaf_solve_variations(slice_index leaf)
       break;
 
     case ESelf:
-    case EReflex:
     case EHelp:
       output_start_leaf_variation_level();
       leaf_h_solve_final_move(leaf);
@@ -2475,7 +2383,6 @@ void leaf_solve_continuations(int solutions, slice_index leaf)
       leaf_s_solve_continuations(solutions,leaf);
       break;
     
-    case EReflex:
     case EHelp:
       leaf_h_solve_continuations(solutions,leaf);
       break;
@@ -2517,10 +2424,6 @@ boolean leaf_solve(slice_index leaf)
       result = leaf_s_solve(leaf);
       break;
 
-    case EReflex:
-      result = leaf_r_solve(leaf);
-      break;
-
     default:
       TraceValue("(unexpected value):%u\n",slices[leaf].u.leaf.end);
       assert(0);
@@ -2551,7 +2454,6 @@ void leaf_detect_starter(slice_index leaf, boolean is_duplex)
         break;
 
       case ESelf:
-      case EReflex:
         slices[leaf].u.leaf.starter = is_duplex ? Black : White;
         break;
           

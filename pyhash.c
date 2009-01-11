@@ -154,7 +154,6 @@ typedef struct
 
 /* Hashing properties of stipulation slices
  */
-
 typedef struct
 {
     unsigned int size;
@@ -212,6 +211,11 @@ static void init_slice_properties_direct(slice_index si,
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u\n",*nr_bits_left);
+
   slice_properties[si].size = size;
   slice_properties[si].value_size = size;
 
@@ -224,6 +228,9 @@ static void init_slice_properties_direct(slice_index si,
   *nr_bits_left -= size;
   slice_properties[si].u.d.offsetSucc = *nr_bits_left;
   slice_properties[si].u.d.maskSucc = mask << *nr_bits_left;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Initialize the slice_properties array according to a subtree of the
@@ -328,6 +335,13 @@ static void init_slice_properties_composite(slice_index si,
       break;
     }
 
+    case STNot:
+    {
+      init_slice_properties_recursive(slices[si].u.not.op,nr_bits_left);
+      slice_properties[si].value_size = 0;
+      break;
+    }
+
     case STBranchDirect:
     {
       slice_index const next = slices[si].u.branch.next;
@@ -394,7 +408,6 @@ static void init_slice_properties_leaf(slice_index leaf,
 
     case EDirect:
     case ESelf:
-    case EReflex:
       init_slice_properties_direct(leaf,1,nr_bits_left);
       break;
 
@@ -735,7 +748,6 @@ static hash_value_type own_value_of_data_leaf(dhtElement const *he,
 
     case EDirect:
     case ESelf:
-    case EReflex:
       return own_value_of_data_direct(he,leaf,1);
 
     default:
@@ -844,6 +856,10 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
       break;
     }
+
+    case STNot:
+      result = value_of_data_recursive(he,offset,slices[si].u.not.op);
+      break;
 
     case STBranchDirect:
     case STBranchHelp:
@@ -1564,6 +1580,10 @@ static void init_element_composite(dhtElement *he, slice_index si)
       init_element(he,slices[si].u.quodlibet.op2);
       break;
 
+    case STNot:
+      init_element(he,slices[si].u.not.op);
+      break;
+
     case STBranchDirect:
       init_element_direct(he,
                           si,
@@ -1603,7 +1623,6 @@ static void init_element_leaf(dhtElement *he, slice_index leaf)
 
     case EDirect:
     case ESelf:
-    case EReflex:
       init_element_direct(he,leaf,1);
       break;
 
@@ -1643,6 +1662,7 @@ void addtohash(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",what);
   TraceFunctionParam("%u\n",val);
+
 
   if (he == dhtNilElement)
   { /* the position is new */
@@ -1738,7 +1758,7 @@ void addtohash(slice_index si,
         assert(0);
         break;
     }
-
+  
   TraceFunctionExit(__func__);
   TraceText("\n");
 

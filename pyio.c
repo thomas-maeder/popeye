@@ -67,6 +67,7 @@
 #include "pystip.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
+#include "pynot.h"
 #include "pyproof.h"
 #include "pyint.h"
 #include "platform/maxtime.h"
@@ -1273,6 +1274,22 @@ static char *ParseReciEnd(char *tok, slice_index si_parent)
   return tok;
 }
 
+static char *ParseReflexEnd(char *tok, slice_index si_parent)
+{
+  slice_index help;
+  tok = ParseGoal(tok,EHelp,&help);
+  if (tok!=0 && help!=no_slice)
+  {
+    slice_index const direct = alloc_leaf_slice(EDirect,
+                                                slices[help].u.leaf.goal);
+    slice_index const not = alloc_not_slice(direct);
+    slices[si_parent].u.branch.next = alloc_reciprocal_slice(help,not);
+    slice_impose_starter(si_parent,White);
+  }
+
+  return tok;
+}
+
 static char *ParseEnd(char *tok, slice_index si_parent)
 {
   TraceFunctionEntry(__func__);
@@ -1300,7 +1317,7 @@ static char *ParseEnd(char *tok, slice_index si_parent)
     tok = ParseGoal(tok+2,ESelf,&slices[si_parent].u.branch.next);
 
   else if (strncmp("hr", tok, 2) == 0)
-    tok = ParseGoal(tok+2,EReflex,&slices[si_parent].u.branch.next);
+    tok = ParseReflexEnd(tok+2,si_parent);
 
   else
     switch (*tok)
@@ -1310,7 +1327,7 @@ static char *ParseEnd(char *tok, slice_index si_parent)
         break;
 
       case 'r':
-        tok = ParseGoal(tok+1,EReflex,&slices[si_parent].u.branch.next);
+        tok = ParseReflexEnd(tok+1,si_parent);
         break;
 
       case 's':

@@ -7,6 +7,7 @@
 #include "pybraser.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
+#include "pynot.h"
 #include "pybranch.h"
 
 #include <assert.h>
@@ -158,7 +159,6 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
   {
     case STLeaf:
       if (slices[index].u.leaf.end==ESelf
-          || slices[index].u.leaf.end==EReflex
           || slices[index].u.leaf.end==EHelp)
       {
         /* Insert a new quodlibet node at *hook's current position.
@@ -266,6 +266,9 @@ static boolean slice_ends_only_in(Goal const goals[],
       return (slice_ends_only_in(goals,nrGoals,op1)
               && slice_ends_only_in(goals,nrGoals,op2));
     }
+
+    case STNot:
+      return !slice_ends_only_in(goals,nrGoals,slices[si].u.not.op);
 
     case STBranchDirect:
     case STBranchHelp:
@@ -384,6 +387,13 @@ static slice_index find_goal_recursive(Goal goal,
       result = find_goal_recursive(goal,start,active,op1);
       if (result==no_slice)
         result = find_goal_recursive(goal,start,active,op2);
+      break;
+    }
+
+    case STNot:
+    {
+      slice_index const op = slices[si].u.not.op;
+      result = find_goal_recursive(goal,start,active,op);
       break;
     }
 
@@ -516,6 +526,10 @@ boolean slice_is_unsolvable(slice_index si)
     case STQuodlibet:
       result = quodlibet_is_unsolvable(si);
       break;
+      
+    case STNot:
+      result = not_is_unsolvable(si);
+      break;
 
     case STBranchDirect:
     case STBranchHelp:
@@ -550,6 +564,10 @@ boolean slice_is_solvable(slice_index si)
       result = leaf_is_solvable(si);
       break;
 
+    case STNot:
+      result = not_is_solvable(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -580,6 +598,14 @@ void slice_solve_continuations(int table, slice_index si)
       quodlibet_solve_continuations(table,si);
       break;
 
+    case STReciprocal:
+      reci_solve_continuations(table,si);
+      break;
+
+    case STNot:
+      not_solve_continuations(table,si);
+      break;
+
     case STBranchDirect:
       branch_d_solve_continuations_in_n(table,si,slices[si].u.branch.length);
       break;
@@ -590,10 +616,6 @@ void slice_solve_continuations(int table, slice_index si)
 
     case STBranchSeries:
       /* TODO */
-      break;
-
-    case STReciprocal:
-      reci_solve_continuations(table,si);
       break;
 
     default:
@@ -776,6 +798,10 @@ boolean slice_solve(slice_index si)
       solution_found = reci_solve(si);
       break;
 
+    case STNot:
+      solution_found = not_solve(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -806,6 +832,14 @@ void slice_root_solve(slice_index si)
       quodlibet_root_solve(si);
       break;
 
+    case STReciprocal:
+      reci_root_solve(si);
+      break;
+
+    case STNot:
+      not_root_solve(si);
+      break;
+
     case STBranchDirect:
       branch_d_root_solve(si);
       break;
@@ -816,10 +850,6 @@ void slice_root_solve(slice_index si)
 
     case STBranchSeries:
       branch_ser_root_solve(si);
-      break;
-
-    case STReciprocal:
-      reci_root_solve(si);
       break;
 
     default:
@@ -881,6 +911,14 @@ boolean slice_has_solution(slice_index si)
       result = quodlibet_has_solution(si);
       break;
 
+    case STReciprocal:
+      result = reci_has_solution(si);
+      break;
+
+    case STNot:
+      result = not_has_solution(si);
+      break;
+
     case STBranchDirect:
       result = branch_d_has_solution_in_n(si,slices[si].u.branch.length);
       break;
@@ -891,10 +929,6 @@ boolean slice_has_solution(slice_index si)
 
     case STBranchSeries:
       /* TODO */
-      break;
-
-    case STReciprocal:
-      result = reci_has_solution(si);
       break;
 
     default:
@@ -1014,14 +1048,18 @@ boolean slice_end_has_non_starter_refuted(slice_index si)
       result = quodlibet_has_non_starter_refuted(si);
       break;
 
+    case STReciprocal:
+      result = reci_has_non_starter_refuted(si);
+      break;
+
+    case STNot:
+      result = not_has_non_starter_refuted(si);
+      break;
+
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
       result = branch_end_has_non_starter_refuted(si);
-      break;
-
-    case STReciprocal:
-      result = reci_has_non_starter_refuted(si);
       break;
 
     default:
@@ -1064,6 +1102,10 @@ boolean slice_end_has_starter_lost(slice_index si)
 
     case STReciprocal:
       result = reci_has_starter_lost(si);
+      break;
+
+    case STNot:
+      result = not_has_starter_lost(si);
       break;
 
     default:
@@ -1136,18 +1178,22 @@ void slice_write_unsolvability(slice_index si)
       leaf_write_unsolvability(si);
       break;
 
-    case STQuodlibet:
-      quodlibet_write_unsolvability(si);
-      break;
-
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
       branch_write_unsolvability(si);
       break;
 
+    case STQuodlibet:
+      quodlibet_write_unsolvability(si);
+      break;
+
     case STReciprocal:
       reci_write_unsolvability(si);
+      break;
+
+    case STNot:
+      not_write_unsolvability(si);
       break;
 
     default:
@@ -1180,6 +1226,14 @@ boolean slice_is_threat_refuted(slice_index si)
       result = quodlibet_is_threat_refuted(si);
       break;
 
+    case STReciprocal:
+      result = reci_is_threat_refuted(si);
+      break;
+
+    case STNot:
+      result = not_is_threat_refuted(si);
+      break;
+
     case STBranchDirect:
       result = branch_d_is_threat_in_n_refuted(si,
                                                slices[si].u.branch.length);
@@ -1191,10 +1245,6 @@ boolean slice_is_threat_refuted(slice_index si)
 
     case STBranchSeries:
       /* TODO */
-      break;
-
-    case STReciprocal:
-      result = reci_is_threat_refuted(si);
       break;
 
     default:
@@ -1236,6 +1286,10 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
       quodlibet_detect_starter(si,is_duplex);
       break;
 
+    case STNot:
+      not_detect_starter(si,is_duplex);
+      break;
+
     default:
       assert(0);
       break;
@@ -1251,7 +1305,7 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
       || slices[si].type==STBranchHelp
       || slices[si].type==STBranchSeries)
   {
-    TraceValue("%u",slices[si].u.branch.length);
+    TraceValue("%u\n",slices[si].u.branch.length);
     if (slices[si].type==STBranchHelp
         && slices[si].u.branch.length%2 == 1)
     {
@@ -1302,6 +1356,10 @@ void slice_impose_starter(slice_index si, Side side)
       quodlibet_impose_starter(si,side);
       break;
 
+    case STNot:
+      not_impose_starter(si,side);
+      break;
+
     default:
       assert(0);
       break;
@@ -1344,6 +1402,10 @@ Side slice_get_starter(slice_index si)
       assert(slice_get_starter(slices[si].u.quodlibet.op1)
              ==slice_get_starter(slices[si].u.quodlibet.op2));
       result = slice_get_starter(slices[si].u.quodlibet.op1);
+      break;
+
+    case STNot:
+      result = slice_get_starter(slices[si].u.not.op);
       break;
 
     default:
