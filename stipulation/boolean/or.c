@@ -377,7 +377,7 @@ void quodlibet_detect_starter(slice_index si, boolean is_duplex)
 }
 
 /* Impose the starting side on a slice.
- * @param si identifies sequence
+ * @param si identifies slice
  * @param s starting side of leaf
  */
 void quodlibet_impose_starter(slice_index si, Side s)

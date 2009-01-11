@@ -16,6 +16,6 @@ extern boolean isIntelligentModeActive;
 boolean isGoalReachable(void);
 boolean SolAlreadyFound(void);
 void StoreSol(void);
-boolean Intelligent(stip_length_type n, Side starter);
+boolean Intelligent(stip_length_type n);
 
 #endif

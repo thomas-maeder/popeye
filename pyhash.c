@@ -8,7 +8,7 @@
  **
  ** 2005/02/01 TLi  function hashdefense is not used anymore...
  **
- ** 2005/02/01 TLi  in d_composite_does_attacker_win and invref exchanged the inquiry into the hash
+ ** 2005/02/01 TLi  in branch_d_does_attacker_win and invref exchanged the inquiry into the hash
  **                 table for "white can mate" and "white cannot mate" because
  **                 it is more likely that a position has no solution
  **                 This yields an incredible speedup of .5-1%  *fg*
@@ -101,7 +101,6 @@
 #include "DHT/dht.h"
 #include "pyproof.h"
 #include "pystip.h"
-#include "pycompos.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 
@@ -329,41 +328,43 @@ static void init_slice_properties_composite(slice_index si,
       break;
     }
 
-    case STSequence:
+    case STBranchDirect:
     {
-      slice_index const next = slices[si].u.composite.next;
-      unsigned int const length = slices[si].u.composite.length;
-      TraceValue("%u\n",slices[si].u.composite.play);
-      switch (slices[si].u.composite.play)
-      {
-        case PDirect:
-          init_slice_properties_direct(si,
-                                       length-slack_length_direct,
-                                       nr_bits_left);
-          if (slices[si].u.composite.min_length>slack_length_direct)
-            is_there_slice_with_nonstandard_min_length = true;
-          break;
+      slice_index const next = slices[si].u.branch.next;
+      unsigned int const length = slices[si].u.branch.length;
+      init_slice_properties_direct(si,
+                                   length-slack_length_direct,
+                                   nr_bits_left);
+      if (slices[si].u.branch.min_length>slack_length_direct)
+        is_there_slice_with_nonstandard_min_length = true;
 
-        case PHelp:
-          init_slice_properties_help(si,
-                                     length-slack_length_help,
-                                     nr_bits_left);
-          if (slices[si].u.composite.min_length>slack_length_help)
-            is_there_slice_with_nonstandard_min_length = true;
-          break;
+      init_slice_properties_recursive(next,nr_bits_left);
+      break;
+    }
 
-        case PSeries:
-          init_slice_properties_series(si,
-                                       length-slack_length_series,
-                                       nr_bits_left);
-          if (slices[si].u.composite.min_length>slack_length_series)
-            is_there_slice_with_nonstandard_min_length = true;
-          break;
+    case STBranchHelp:
+    {
+      slice_index const next = slices[si].u.branch.next;
+      unsigned int const length = slices[si].u.branch.length;
+      init_slice_properties_help(si,
+                                 length-slack_length_help,
+                                 nr_bits_left);
+      if (slices[si].u.branch.min_length>slack_length_help)
+        is_there_slice_with_nonstandard_min_length = true;
 
-        default:
-          assert(0);
-          break;
-      }
+      init_slice_properties_recursive(next,nr_bits_left);
+      break;
+    }
+
+    case STBranchSeries:
+    {
+      slice_index const next = slices[si].u.branch.next;
+      unsigned int const length = slices[si].u.branch.length;
+      init_slice_properties_series(si,
+                                   length-slack_length_series,
+                                   nr_bits_left);
+      if (slices[si].u.branch.min_length>slack_length_series)
+        is_there_slice_with_nonstandard_min_length = true;
 
       init_slice_properties_recursive(next,nr_bits_left);
       break;
@@ -758,17 +759,17 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
   TraceFunctionParam("%p ",he);
   TraceFunctionParam("%u\n",si);
 
-  switch (slices[si].u.composite.play)
+  switch (slices[si].type)
   {
-    case PDirect:
-      result = own_value_of_data_direct(he,si,slices[si].u.composite.length);
+    case STBranchDirect:
+      result = own_value_of_data_direct(he,si,slices[si].u.branch.length);
       break;
 
-    case PHelp:
+    case STBranchHelp:
       result = own_value_of_data_help(he,si);
       break;
 
-    case PSeries:
+    case STBranchSeries:
       result = own_value_of_data_series(he,si);
       break;
 
@@ -844,11 +845,13 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       break;
     }
 
-    case STSequence:
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
     {
       hash_value_type const own_value = own_value_of_data_composite(he,si);
 
-      slice_index const next = slices[si].u.composite.next;
+      slice_index const next = slices[si].u.branch.next;
       hash_value_type const nested_value =
           value_of_data_recursive(he,offset,next);
       TraceValue("%x ",own_value);
@@ -1112,9 +1115,9 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
     /* That's far too much. In a ser-h#5 there won't be more
     ** than 5 holes in hashed positions.      TLi
     */
-    int nbr_holes= (slices[0].u.composite.play==PSeries
-                    ? slices[0].u.composite.length
-                    : 2*slices[0].u.composite.length);
+    int nbr_holes= (slices[0].type==STBranchSeries
+                    ? slices[0].u.branch.length
+                    : 2*slices[0].u.branch.length);
     if (nbr_holes > (nr_files_on_board*nr_rows_on_board-nbr_p)/2)
       nbr_holes= (nr_files_on_board*nr_rows_on_board-nbr_p)/2;
     len += bytes_per_piece*nbr_holes;
@@ -1423,8 +1426,8 @@ boolean inhash(slice_index si,
       {
         hash_value_type const nosucc = get_value_series(he,si);
         if (nosucc>=val
-            && (nosucc+slices[si].u.composite.min_length
-                <=val+slices[si].u.composite.length))
+            && (nosucc+slices[si].u.branch.min_length
+                <=val+slices[si].u.branch.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1437,8 +1440,8 @@ boolean inhash(slice_index si,
       {
         hash_value_type const nosucc = get_value_help_odd(he,si);
         if (nosucc>=val
-            && (nosucc+slices[si].u.composite.min_length
-                <=val+slices[si].u.composite.length))
+            && (nosucc+slices[si].u.branch.min_length
+                <=val+slices[si].u.branch.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1451,8 +1454,8 @@ boolean inhash(slice_index si,
       {
         hash_value_type const nosucc = get_value_help_even(he,si);
         if (nosucc>=val
-            && (nosucc+slices[si].u.composite.min_length
-                <=val+slices[si].u.composite.length))
+            && (nosucc+slices[si].u.branch.min_length
+                <=val+slices[si].u.branch.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1465,8 +1468,8 @@ boolean inhash(slice_index si,
       {
         hash_value_type const nosucc = get_value_direct_nosucc(he,si);
         if (nosucc>=val
-            && (nosucc+slices[si].u.composite.min_length
-                <=val+slices[si].u.composite.length))
+            && (nosucc+slices[si].u.branch.min_length
+                <=val+slices[si].u.branch.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1478,8 +1481,8 @@ boolean inhash(slice_index si,
       {
         hash_value_type const succ = get_value_direct_succ(he,si);
         if (succ<=val
-            && (succ+slices[si].u.composite.min_length
-                >=val+slices[si].u.composite.length))
+            && (succ+slices[si].u.branch.min_length
+                >=val+slices[si].u.branch.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1561,33 +1564,23 @@ static void init_element_composite(dhtElement *he, slice_index si)
       init_element(he,slices[si].u.quodlibet.op2);
       break;
 
-    case STSequence:
-    {
-      switch (slices[si].u.composite.play)
-      {
-        case PDirect:
-          init_element_direct(he,
-                              si,
-                              slices[si].u.composite.length
-                              -slack_length_direct);
-          break;
-      
-        case PHelp:
-          init_element_help(he,si);
-          break;
-      
-        case PSeries:
-          init_element_series(he,si);
-          break;
-
-        default:
-          assert(0);
-          break;
-      }
-
-      init_element(he,slices[si].u.composite.next);
+    case STBranchDirect:
+      init_element_direct(he,
+                          si,
+                          slices[si].u.branch.length
+                          -slack_length_direct);
+      init_element(he,slices[si].u.branch.next);
       break;
-    }
+      
+    case STBranchHelp:
+      init_element_help(he,si);
+      init_element(he,slices[si].u.branch.next);
+      break;
+      
+    case STBranchSeries:
+      init_element_series(he,si);
+      init_element(he,slices[si].u.branch.next);
+      break;
 
     default:
       assert(0);

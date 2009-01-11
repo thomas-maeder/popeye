@@ -1094,38 +1094,38 @@ static char *ParseLength(char *tok, slice_index si)
 
   if (tok==end || length>UINT_MAX)
   {
-    slices[si].u.composite.length = 0;
+    slices[si].u.branch.length = 0;
     IoErrorMsg(WrongInt,0);
     tok = 0;
   }
   else
   {
-    slices[si].u.composite.length = length;
+    slices[si].u.branch.length = length;
 
     tok = end;
 
-    switch (slices[si].u.composite.play)
+    switch (slices[si].type)
     {
-      case PHelp:
+      case STBranchHelp:
         /* we count half moves in help play */
-        slices[si].u.composite.length *= 2;
+        slices[si].u.branch.length *= 2;
 
         if (strncmp(tok,".5",2)==0)
         {
-          ++slices[si].u.composite.length;
+          ++slices[si].u.branch.length;
           tok += 2;
-          slices[si].u.composite.min_length = slack_length_help-1;
+          slices[si].u.branch.min_length = slack_length_help-1;
         }
         else
-          slices[si].u.composite.min_length = slack_length_help;
+          slices[si].u.branch.min_length = slack_length_help;
         break;
 
-      case PDirect:
-        slices[si].u.composite.min_length = slack_length_direct;
+      case STBranchDirect:
+        slices[si].u.branch.min_length = slack_length_direct;
         break;
 
-      case PSeries:
-        slices[si].u.composite.min_length = slack_length_series;
+      case STBranchSeries:
+        slices[si].u.branch.min_length = slack_length_series;
         break;
 
       default:
@@ -1253,20 +1253,20 @@ static char *ParseEnd(char *tok, slice_index si_parent)
 
   if (strncmp("ser-dia",tok,7) == 0
       || strncmp("ser-a=>b",tok,8) == 0)
-    tok = ParseGoal(tok+4,EDirect,&slices[si_parent].u.composite.next);
+    tok = ParseGoal(tok+4,EDirect,&slices[si_parent].u.branch.next);
   else if (strncmp("dia", tok, 3) == 0)
-    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.composite.next);
+    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.branch.next);
 
 #if !defined(DATABASE)
   else if (strncmp("a=>b", tok, 4) == 0)
-    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.composite.next);
+    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.branch.next);
 #endif
 
   else if (strncmp("semi-r", tok, 6) == 0)
   {
-    tok = ParseGoal(tok+6,EHelp,&slices[si_parent].u.composite.next);
+    tok = ParseGoal(tok+6,EHelp,&slices[si_parent].u.branch.next);
     /* the end of a sermi-r problem is hX1 with reversed coulours. */
-    slice_impose_starter(slices[si_parent].u.composite.next,White);
+    slice_impose_starter(slices[si_parent].u.branch.next,White);
   }
   else if (strncmp("reci-h", tok, 6) == 0)
     tok = ParseReciGoal(tok+6,
@@ -1274,28 +1274,28 @@ static char *ParseEnd(char *tok, slice_index si_parent)
                         EDirect,&slices[si_parent].u.reciprocal.op2);
 
   else if (strncmp("hs", tok, 2) == 0)
-    tok = ParseGoal(tok+2,ESelf,&slices[si_parent].u.composite.next);
+    tok = ParseGoal(tok+2,ESelf,&slices[si_parent].u.branch.next);
 
   else if (strncmp("hr", tok, 2) == 0)
-    tok = ParseGoal(tok+2,EReflex,&slices[si_parent].u.composite.next);
+    tok = ParseGoal(tok+2,EReflex,&slices[si_parent].u.branch.next);
 
   else
     switch (*tok)
     {
       case 'h':
-        tok = ParseGoal(tok+1,EHelp,&slices[si_parent].u.composite.next);
+        tok = ParseGoal(tok+1,EHelp,&slices[si_parent].u.branch.next);
         break;
 
       case 'r':
-        tok = ParseGoal(tok+1,EReflex,&slices[si_parent].u.composite.next);
+        tok = ParseGoal(tok+1,EReflex,&slices[si_parent].u.branch.next);
         break;
 
       case 's':
-        tok = ParseGoal(tok+1,ESelf,&slices[si_parent].u.composite.next);
+        tok = ParseGoal(tok+1,ESelf,&slices[si_parent].u.branch.next);
         break;
 
       default:
-        tok = ParseGoal(tok,EDirect,&slices[si_parent].u.composite.next);
+        tok = ParseGoal(tok,EDirect,&slices[si_parent].u.branch.next);
         break;
     }
 
@@ -1329,11 +1329,11 @@ static char *ParsePlay(char *tok, slice_index *si)
       IoErrorMsg(WrongInt, 0);
     else
     {
-      *si = alloc_composite_slice(STSequence,PSeries);
-      slices[*si].u.composite.length = intro_len+slack_length_series;
+      *si = alloc_branch_slice(STBranchSeries);
+      slices[*si].u.branch.length = intro_len+slack_length_series;
       /* >=1 move of starting side required */
-      slices[*si].u.composite.min_length = 1+slack_length_series;
-      result = ParsePlay(arrowpos+2,&slices[*si].u.composite.next);
+      slices[*si].u.branch.min_length = 1+slack_length_series;
+      result = ParsePlay(arrowpos+2,&slices[*si].u.branch.next);
     }
   }
 
@@ -1343,7 +1343,7 @@ static char *ParsePlay(char *tok, slice_index *si)
     if (result!=0)
     {
       OptFlag[nothreat] = true;
-      slices[*si].u.composite.min_length = slices[*si].u.composite.length;
+      slices[*si].u.branch.min_length = slices[*si].u.branch.length;
     }
   }
 
@@ -1351,7 +1351,7 @@ static char *ParsePlay(char *tok, slice_index *si)
            || strncmp("ser-a=>b",tok,8) == 0)
   {
     /* special treatment: leaf always has end==EDirect */
-    *si = alloc_composite_slice(STSequence,PSeries);
+    *si = alloc_branch_slice(STBranchSeries);
     tok = ParseEnd(tok,*si); /* do *not* skip over "ser-" */
     if (tok!=0)
       result = ParseLength(tok,*si);
@@ -1359,17 +1359,17 @@ static char *ParsePlay(char *tok, slice_index *si)
 
   else if (strncmp("ser-reci-h",tok,10) == 0)
   {
-    *si = alloc_composite_slice(STSequence,PSeries);
-    slices[*si].u.composite.next = alloc_reciprocal_slice(no_slice,no_slice);
+    *si = alloc_branch_slice(STBranchSeries);
+    slices[*si].u.branch.next = alloc_reciprocal_slice(no_slice,no_slice);
     tok = ParseEnd(tok+4, /* skip over "ser-" */
-                   slices[*si].u.composite.next);
+                   slices[*si].u.branch.next);
     if (tok!=0)
       result = ParseLength(tok,*si);
   }
 
   else if (strncmp("ser-",tok,4) == 0)
   {
-    *si = alloc_composite_slice(STSequence,PSeries);
+    *si = alloc_branch_slice(STBranchSeries);
     tok = ParseEnd(tok+4,*si);
     if (tok!=0)
       result = ParseLength(tok,*si);
@@ -1377,17 +1377,17 @@ static char *ParsePlay(char *tok, slice_index *si)
 
   else if (strncmp("reci-h",tok,6) == 0)
   {
-    *si = alloc_composite_slice(STSequence,PHelp);
-    slices[*si].u.composite.next = alloc_reciprocal_slice(no_slice,no_slice);
-    tok = ParseEnd(tok,slices[*si].u.composite.next);
+    *si = alloc_branch_slice(STBranchHelp);
+    slices[*si].u.branch.next = alloc_reciprocal_slice(no_slice,no_slice);
+    tok = ParseEnd(tok,slices[*si].u.branch.next);
     if (tok!=0)
       result = ParseLength(tok,*si);
   }
 
   else if (strncmp("dia",tok,3)==0)
   {
-    *si = alloc_composite_slice(STSequence,PHelp);
-    slices[*si].u.composite.min_length = slices[*si].u.composite.length;
+    *si = alloc_branch_slice(STBranchHelp);
+    slices[*si].u.branch.min_length = slices[*si].u.branch.length;
     tok = ParseEnd(tok,*si);
     if (tok!=0)
       result = ParseLength(tok,*si);
@@ -1396,7 +1396,7 @@ static char *ParsePlay(char *tok, slice_index *si)
 #if !defined(DATABASE)
   else if (strncmp("a=>b",tok,4)==0)
   {
-    *si = alloc_composite_slice(STSequence,PHelp);
+    *si = alloc_branch_slice(STBranchHelp);
     tok = ParseEnd(tok,*si);
     if (tok!=0)
       result = ParseLength(tok,*si);
@@ -1405,7 +1405,7 @@ static char *ParsePlay(char *tok, slice_index *si)
 
   else if (*tok=='h')
   {
-    *si = alloc_composite_slice(STSequence,PHelp);
+    *si = alloc_branch_slice(STBranchHelp);
     tok = ParseEnd(tok,*si);
     if (tok!=0)
       result = ParseLength(tok,*si);
@@ -1413,7 +1413,7 @@ static char *ParsePlay(char *tok, slice_index *si)
 
   else
   {
-    *si = alloc_composite_slice(STSequence,PDirect);
+    *si = alloc_branch_slice(STBranchDirect);
     tok = ParseEnd(tok,*si);
     if (tok!=0)
       result = ParseLength(tok,*si);
@@ -1438,7 +1438,7 @@ static char *ParseStip(void)
   strcpy(AlphaStip,tok);
   if (ParsePlay(tok,&current_slice))
   {
-    if (slices[0].u.composite.length>0 && ActStip[0]=='\0')
+    if (slices[0].u.branch.length>0 && ActStip[0]=='\0')
       strcpy(ActStip, AlphaStip);
   }
 
@@ -3537,7 +3537,7 @@ static char *ParseTwinning(void)
       {
 #if !defined(DATABASE)
         slice_index const current_slice = 0;
-        slice_index const next = slices[current_slice].u.composite.next;
+        slice_index const next = slices[current_slice].u.branch.next;
         if (slices[next].u.leaf.goal==goal_proof
             || slices[next].u.leaf.goal==goal_atob)
           /* fixes bug for continued twinning in proof games; changes
@@ -3718,7 +3718,7 @@ Token ReadProblem(Token tk)
           break;
 
         case TwinProblem:
-          if (slices[current_slice].u.composite.length>0)
+          if (slices[current_slice].u.branch.length>0)
             return tk;
           else
           {
@@ -3729,7 +3729,7 @@ Token ReadProblem(Token tk)
 
         case NextProblem:
         case EndProblem:
-          if (slices[current_slice].u.composite.length>0)
+          if (slices[current_slice].u.branch.length>0)
             return tk;
           else
           {
@@ -3772,7 +3772,7 @@ Token ReadProblem(Token tk)
           if (TwinChar == 'a')
             TwinStorePosition();
 
-          if (slices[current_slice].u.composite.length>0)
+          if (slices[current_slice].u.branch.length>0)
             return tk;
           else
           {
@@ -3783,7 +3783,7 @@ Token ReadProblem(Token tk)
 
         case NextProblem:
         case EndProblem:
-          if (slices[current_slice].u.composite.length>0)
+          if (slices[current_slice].u.branch.length>0)
             return tk;
           else
           {
@@ -4640,7 +4640,7 @@ void WritePosition() {
 
   strcpy(StipOptStr, AlphaStip);
 
-  if (max_len_threat<slices[current_slice].u.composite.length-1)
+  if (max_len_threat<slices[current_slice].u.branch.length-1)
   {
     sprintf(StipOptStr+strlen(StipOptStr), "/%u", max_len_threat);
     if (max_nr_flights<INT_MAX)
@@ -4649,7 +4649,7 @@ void WritePosition() {
   else if (max_nr_flights<INT_MAX)
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", max_nr_flights);
 
-  if (min_length_nontrivial<slices[current_slice].u.composite.length-1)
+  if (min_length_nontrivial<slices[current_slice].u.branch.length-1)
     sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%u",
             max_nr_nontrivial,

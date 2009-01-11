@@ -107,7 +107,6 @@
 #include "trace.h"
 #include "pystip.h"
 #include "pyleaf.h"
-#include "pycompos.h"
 #include "pyoutput.h"
 #include "trace.h"
 
@@ -250,27 +249,20 @@ static boolean isIntelligentModeAllowed(void)
    */
   switch (slices[0].type)
   {
-    case STSequence:
-      switch (slices[0].u.composite.play)
+    case STBranchHelp:
+      switch (slices[1].type)
       {
-        case PHelp:
-          switch (slices[1].type)
+        case STLeaf:
+          switch (slices[1].u.leaf.end)
           {
-            case STLeaf:
-              switch (slices[1].u.leaf.end)
+            case EHelp:
+              switch (slices[1].u.leaf.goal)
               {
-                case EHelp:
-                  switch (slices[1].u.leaf.goal)
-                  {
-                    case goal_mate:
-                    case goal_stale:
-                    case goal_proof:
-                    case goal_atob:
-                      return true;
-
-                    default:
-                      break;
-                  }
+                case goal_mate:
+                case goal_stale:
+                case goal_proof:
+                case goal_atob:
+                  return true;
 
                 default:
                   break;
@@ -280,25 +272,25 @@ static boolean isIntelligentModeAllowed(void)
               break;
           }
 
-        case PSeries:
-          switch (slices[1].type)
-          {
-            case STLeaf:
-              switch (slices[1].u.leaf.end)
-              {
-                case EDirect:
-                case EHelp:
-                  switch (slices[1].u.leaf.goal)
-                  {
-                    case goal_mate:
-                    case goal_stale:
-                    case goal_proof:
-                    case goal_atob:
-                      return true;
+        default:
+          break;
+      }
 
-                    default:
-                      break;
-                  }
+    case STBranchSeries:
+      switch (slices[1].type)
+      {
+        case STLeaf:
+          switch (slices[1].u.leaf.end)
+          {
+            case EDirect:
+            case EHelp:
+              switch (slices[1].u.leaf.goal)
+              {
+                case goal_mate:
+                case goal_stale:
+                case goal_proof:
+                case goal_atob:
+                  return true;
 
                 default:
                   break;
@@ -497,7 +489,7 @@ static boolean verifieposition(void)
   int      cp, pp, tp, op;
   boolean          nonoptgenre;
 
-  if (max_len_threat<slices[0].u.composite.min_length-slack_length_direct)
+  if (max_len_threat<slices[0].u.branch.min_length-slack_length_direct)
   {
     VerifieMsg(ThreatOptionAndExactStipulationIncompatible);
     return false;
@@ -526,12 +518,12 @@ static boolean verifieposition(void)
   if (! CondFlag[imitators])
     CondFlag[noiprom]= true;
 
-  if (slices[0].u.composite.length<=max_len_threat)
+  if (slices[0].u.branch.length<=max_len_threat)
     max_len_threat = maxply;
 
-  if (slices[0].u.composite.play==PDirect)
+  if (slices[0].type==STBranchDirect)
   {
-    if (slices[0].u.composite.length<2
+    if (slices[0].u.branch.length<2
         && max_nr_refutations>0
         && !(slices[1].u.leaf.end==ESelf
              || slices[1].u.leaf.end==EReflex
@@ -547,7 +539,7 @@ static boolean verifieposition(void)
     }
 
     /* ennonce means full moves */
-    if (slices[0].u.composite.length>(maxply-1)/2)
+    if (slices[0].u.branch.length>(maxply-1)/2)
     {
       VerifieMsg(BigNumMoves);
       return false;
@@ -556,7 +548,7 @@ static boolean verifieposition(void)
   else
   {
     /* ennonce means half moves */
-    if (slices[0].u.composite.length >= maxply-2)
+    if (slices[0].u.branch.length >= maxply-2)
     {
       VerifieMsg(BigNumMoves);
       return false;
@@ -748,7 +740,7 @@ static boolean verifieposition(void)
   }
 
   {
-    Side const restricted_side = (slices[0].u.composite.play==PHelp
+    Side const restricted_side = (slices[0].type==STBranchHelp
                                   ? regular_starter
                                   : advers(regular_starter));
     if (flagmaxi)
@@ -1714,7 +1706,7 @@ static boolean verifieposition(void)
          flagfee?"true":"false",
          slices[1].u.leaf.end==EHelp?"true":"false",
          slices[1].u.leaf.end==EDirect?"true":"false",
-         slices[0].u.composite.play==PSeries?"true":"false");
+         slices[0].type==STBranchSeries?"true":"false");
 #endif      /* DEBUG */
 
   if (InitChamCirce)
@@ -2361,12 +2353,12 @@ static void HelpPlayInitWhiteToPlay(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
                                     
-  --slices[si].u.composite.length;
-  --slices[si].u.composite.min_length;
-  slice_impose_starter(si,advers(slices[si].u.composite.starter));
+  --slices[si].u.branch.length;
+  --slices[si].u.branch.min_length;
+  slice_impose_starter(si,advers(slices[si].u.branch.starter));
 
-  TraceValue("%d",slices[si].u.composite.starter);
-  TraceValue("%d\n",slices[si].u.composite.length);
+  TraceValue("%d",slices[si].u.branch.starter);
+  TraceValue("%d\n",slices[si].u.branch.length);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -2377,12 +2369,12 @@ static void HelpPlayRestoreFromWhiteToPlay(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",si);
                                     
-  ++slices[si].u.composite.length;
-  ++slices[si].u.composite.min_length;
-  slice_impose_starter(si,advers(slices[si].u.composite.starter));
+  ++slices[si].u.branch.length;
+  ++slices[si].u.branch.min_length;
+  slice_impose_starter(si,advers(slices[si].u.branch.starter));
 
-  TraceValue("%d",slices[si].u.composite.starter);
-  TraceValue("%d\n",slices[si].u.composite.length);
+  TraceValue("%d",slices[si].u.branch.starter);
+  TraceValue("%d\n",slices[si].u.branch.length);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -2453,10 +2445,10 @@ static void solveHalfADuplex(void)
 
   inithash();
 
-  switch (slices[first_slice].u.composite.play)
+  switch (slices[first_slice].type)
   {
-    case PSeries:
-    case PHelp:
+    case STBranchSeries:
+    case STBranchHelp:
       if (isIntelligentModeActive && OptFlag[restart])
       {
         /* In intelligent mode, RestartNbr means the minimal number of
@@ -2473,7 +2465,7 @@ static void solveHalfADuplex(void)
         slice_root_solve(first_slice);
       break;
 
-    case PDirect:
+    case STBranchDirect:
       slice_root_solve(first_slice);
       break;
 
@@ -2514,7 +2506,7 @@ static boolean initAndVerify(Token tk,
   if (slices[1].u.leaf.goal==goal_proof
       || slices[1].u.leaf.goal==goal_atob)
   {
-    if (slices[0].u.composite.play==PSeries)
+    if (slices[0].type==STBranchSeries)
     {
       regular_starter = White;
       slice_impose_starter(0,regular_starter);
@@ -2533,7 +2525,7 @@ static boolean initAndVerify(Token tk,
 
       /* hX0.5 are treated specially (currently? TODO) because
        * leaves normally are 2 half moves long */
-      isIntelligentModeActive = slices[0].u.composite.length>1;
+      isIntelligentModeActive = slices[0].u.branch.length>1;
     }
 
     countPieces();
@@ -2558,16 +2550,16 @@ static boolean initAndVerify(Token tk,
      * and the colors swapped by swapcolors() and reflectboard()
      * -> start with the regular side. */
     slice_detect_starter(0, OptFlag[halfduplex] && !isIntelligentModeActive);
-    if (slices[0].u.composite.starter==no_side)
+    if (slices[0].u.branch.starter==no_side)
     {
       VerifieMsg(CantDecideWhoIsAtTheMove);
       result = false;
     }
     else
     {
-      *shortenIfWhiteToPlay = slices[0].u.composite.play==PHelp;
+      *shortenIfWhiteToPlay = slices[0].type==STBranchHelp;
       TraceValue("%d ",*shortenIfWhiteToPlay);
-      TraceValue("%d ",slices[0].u.composite.starter);
+      TraceValue("%d ",slices[0].u.branch.starter);
       TraceValue("%d\n",regular_starter);
 
       countPieces();
@@ -2813,7 +2805,7 @@ int main(int argc, char *argv[]) {
             }
             else
             {
-              slice_impose_starter(0,advers(slices[0].u.composite.starter));
+              slice_impose_starter(0,advers(slices[0].u.branch.starter));
               regular_starter = advers(regular_starter);
             }
 

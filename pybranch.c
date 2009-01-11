@@ -1,4 +1,4 @@
-#include "pysequen.h"
+#include "pybranch.h"
 #include "pystip.h"
 #include "pyproc.h"
 #include "trace.h"
@@ -10,14 +10,14 @@
  * @param si slice index
  * @return true iff slice is a priori unsolvable
  */
-boolean sequence_end_is_unsolvable(slice_index si)
+boolean branch_end_is_unsolvable(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_is_unsolvable(slices[si].u.composite.next);
+  result = slice_is_unsolvable(slices[si].u.branch.next);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -29,22 +29,22 @@ boolean sequence_end_is_unsolvable(slice_index si)
  * Assumes slice_is_unsolvable(si)
  * @param si slice index
  */
-void sequence_write_unsolvability(slice_index si)
+void branch_write_unsolvability(slice_index si)
 {
-  slice_write_unsolvability(slices[si].u.composite.next);
+  slice_write_unsolvability(slices[si].u.branch.next);
 }
 
-/* Determine and write continuations at end of sequence slice
+/* Determine and write continuations at end of branch slice
  * @param table table where to store continuing moves (i.e. threats)
- * @param si index of sequence slice
+ * @param si index of branch slice
  */
-void sequence_end_solve_continuations(int table, slice_index si)
+void branch_end_solve_continuations(int table, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  TraceValue("%u\n",slices[si].u.composite.next);
-  slice_solve_continuations(table,slices[si].u.composite.next);
+  TraceValue("%u\n",slices[si].u.branch.next);
+  slice_solve_continuations(table,slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -54,14 +54,14 @@ void sequence_end_solve_continuations(int table, slice_index si)
  * @param si slice index
  * @return true iff >= 1 set play was found
  */
-boolean sequence_root_end_solve_setplay(slice_index si)
+boolean branch_root_end_solve_setplay(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_root_solve_setplay(slices[si].u.composite.next);
+  result = slice_root_solve_setplay(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -72,14 +72,14 @@ boolean sequence_root_end_solve_setplay(slice_index si)
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean sequence_root_end_solve_complete_set(slice_index si)
+boolean branch_root_end_solve_complete_set(slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_root_end_solve_complete_set(slices[si].u.composite.next);
+  result = slice_root_end_solve_complete_set(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -87,32 +87,32 @@ boolean sequence_root_end_solve_complete_set(slice_index si)
 }
 
 
-/* Write the key just played, then continue solving at end of sequence
+/* Write the key just played, then continue solving at end of branch
  * slice to find and write the post key play (threats, variations)
  * @param si slice index
  * @param type type of attack
  */
-void sequence_root_end_write_key_solve_postkey(slice_index si,
+void branch_root_end_write_key_solve_postkey(slice_index si,
                                                  attack_type type)
 {
-  slice_root_write_key_solve_postkey(slices[si].u.composite.next,type);
+  slice_root_write_key_solve_postkey(slices[si].u.branch.next,type);
 }
 
-/* Solve at root level at the end of a sequence slice
+/* Solve at root level at the end of a branch slice
  * @param si slice index
  */
-void sequence_root_end_solve(slice_index si)
+void branch_root_end_solve(slice_index si)
 {
-  slice_root_solve(slices[si].u.composite.next);
+  slice_root_solve(slices[si].u.branch.next);
 }
 
-/* Continue solving at the end of a sequence slice
+/* Continue solving at the end of a branch slice
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean sequence_end_solve(slice_index si)
+boolean branch_end_solve(slice_index si)
 {
-  return slice_solve(slices[si].u.composite.next);
+  return slice_solve(slices[si].u.branch.next);
 }
 
 /* Determine whether there is a solution at the end of a quodlibet
@@ -120,47 +120,47 @@ boolean sequence_end_solve(slice_index si)
  * @param si slice index
  * @return true iff slice si has a solution
  */
-boolean sequence_end_has_solution(slice_index si)
+boolean branch_end_has_solution(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_has_solution(slices[si].u.composite.next);
+  result = slice_has_solution(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
 }
 
-/* Find and write variations starting at end of sequence slice
+/* Find and write variations starting at end of branch slice
  * @param si slice index
  */
-void sequence_end_solve_variations(slice_index si)
+void branch_end_solve_variations(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  slice_solve_variations(slices[si].u.composite.next);
+  slice_solve_variations(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
 
-/* Determine whether a sequence slice.has just been solved with the
+/* Determine whether a branch slice.has just been solved with the
  * just played move by the non-starter
  * @param si slice identifier
  * @return true iff the non-starting side has just solved
  */
-boolean sequence_end_has_non_starter_solved(slice_index si)
+boolean branch_end_has_non_starter_solved(slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_has_non_starter_solved(slices[si].u.composite.next);
+  result = slice_has_non_starter_solved(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -175,14 +175,14 @@ boolean sequence_end_has_non_starter_solved(slice_index si)
  * @param si slice identifier
  * @return true iff the non-starter has refuted
  */
-boolean sequence_end_has_non_starter_refuted(slice_index si)
+boolean branch_end_has_non_starter_refuted(slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_end_has_non_starter_refuted(slices[si].u.composite.next);
+  result = slice_end_has_non_starter_refuted(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -195,14 +195,14 @@ boolean sequence_end_has_non_starter_refuted(slice_index si)
  * @param si slice identifier
  * @return true iff starter has lost
  */
-boolean sequence_end_has_starter_lost(slice_index si)
+boolean branch_end_has_starter_lost(slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_end_has_starter_lost(slices[si].u.composite.next);
+  result = slice_end_has_starter_lost(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -215,14 +215,14 @@ boolean sequence_end_has_starter_lost(slice_index si)
  * @param si slice identifier
  * @return true iff the starter has won
  */
-boolean sequence_end_has_starter_won(slice_index si)
+boolean branch_end_has_starter_won(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_end_has_starter_won(slices[si].u.composite.next);
+  result = slice_end_has_starter_won(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -233,14 +233,14 @@ boolean sequence_end_has_starter_won(slice_index si)
  * @param si identifies stipulation slice
  * @return true iff the threat is refuted
  */
-boolean sequence_end_is_threat_refuted(slice_index si)
+boolean branch_end_is_threat_refuted(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_is_threat_refuted(slices[si].u.composite.next);
+  result = slice_is_threat_refuted(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -251,9 +251,9 @@ boolean sequence_end_is_threat_refuted(slice_index si)
  * @param si identifies slice
  * @param is_duplex is this for duplex?
  */
-void sequence_detect_starter(slice_index si, boolean is_duplex)
+void branch_detect_starter(slice_index si, boolean is_duplex)
 {
-  slice_index const next = slices[si].u.composite.next;
+  slice_index const next = slices[si].u.branch.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -261,72 +261,35 @@ void sequence_detect_starter(slice_index si, boolean is_duplex)
 
   slice_detect_starter(next,is_duplex);
 
-  slices[si].u.composite.starter = no_side;
-
   switch (slices[next].type)
   {
-    case STSequence:
-      if (slice_get_starter(next)!=no_side)
-        slices[si].u.composite.starter = advers(slice_get_starter(next));
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      if (slice_get_starter(next)==no_side)
+        slices[si].u.branch.starter = no_side;
+      else
+        slices[si].u.branch.starter = advers(slice_get_starter(next));
       break;
 
     case STLeaf:
       if (slice_get_starter(next)==no_side)
       {
         /* next can't tell - let's tell him */
-        slices[si].u.composite.starter = is_duplex ? Black : White; /* not reci-h */
-        slices[next].u.leaf.starter = slices[si].u.composite.starter;
+        slices[si].u.branch.starter = is_duplex ? Black : White;
+        slice_impose_starter(next,slices[si].u.branch.starter);
       }
       else
-        slices[si].u.composite.starter = slice_get_starter(next);
+        slices[si].u.branch.starter = slice_get_starter(next);
       break;
 
     default:
-      slices[si].u.composite.starter = slice_get_starter(next);
+      slices[si].u.branch.starter = slice_get_starter(next);
       break;
   }
 
-  TraceValue("%u\n",slices[si].u.composite.starter);
+  TraceValue("%u\n",slices[si].u.branch.starter);
+
   TraceFunctionExit(__func__);
   TraceText("\n");
-}
-
-/* Impose the starting side on a slice.
- * @param si identifies sequence
- * @param s starting side of slice
- */
-void sequence_impose_starter(slice_index si, Side s)
-{
-  slice_index const next = slices[si].u.composite.next;
-
-  Side next_starter;
-
-  switch (slices[si].u.composite.play)
-  {
-    case PDirect:
-      next_starter = s;
-      break;
-
-    case PHelp:
-      /* help play in N.5 -> change starter */
-      next_starter = (slices[si].u.composite.length%2==1 ? advers(s) : s);
-      break;
-
-    case PSeries:
-      /* series sequence after series sequence == intro series
-       * -> change starter */
-      next_starter = (slices[next].type==STSequence
-                      && slices[next].u.composite.play==PSeries
-                      ? advers(s)
-                      : s);
-      break;
-
-    default:
-      assert(0);
-      next_starter = s; /* avoid compiler warning */
-      break;
-  }
-
-  slices[si].u.composite.starter = s;
-  slice_impose_starter(next,next_starter);
 }

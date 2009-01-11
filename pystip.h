@@ -3,15 +3,7 @@
 
 #include "pygoal.h"
 #include "py.h"
-#include "pyhash.h"
 #include "boolean.h"
-
-typedef enum
-{
-  PDirect,       /* alternate play attacker against defender */
-  PHelp,         /* alternate collaborative play */
-  PSeries        /* series play */
-} Play;
 
 typedef enum
 {
@@ -24,9 +16,11 @@ typedef enum
 typedef enum
 {
   STLeaf,
-  STReciprocal,  /* logical OR */
-  STQuodlibet,   /* logical AND */
-  STSequence     /* M-N moves of direct, help or series play */
+  STReciprocal,   /* logical AND */
+  STQuodlibet,    /* logical OR */
+  STBranchDirect, /* M-N moves of direct play */
+  STBranchHelp,   /* M-N moves of help play */
+  STBranchSeries  /* M-N moves of series play */
 } SliceType;
 
 typedef struct
@@ -43,15 +37,14 @@ typedef struct
             square target; /* for goal==goal_target */
         } leaf;
 
-        struct /* for other values of type */
+        struct /* for type==STBranch* */
         {
             Side starter;
-            /* full moves if play==PDirect, half moves otherw. */
+            /* full moves if type==STBranchDirect, half moves otherw. */
             stip_length_type length;
             stip_length_type min_length; /* of short solutions */
-            Play play;
             slice_index next;
-        } composite;
+        } branch;
 
         struct
         {
@@ -80,40 +73,40 @@ extern Slice slices[max_nr_slices];
 /* Example contents of slices:
  *
  * #3:
- *     type         starter length  play       op1 op2 (composite)
- *     type         starter end     goal               (leaf)
- * [0] STSequence   White   3       PDirect    1
- * [1] STLeaf       White   EDirect goal_mate
+ *     type           starter length  next
+ *     type           starter end     goal
+ * [0] STBranchDirect White   3       1
+ * [1] STLeaf         White   EDirect goal_mate
  *
  * h=2.5:
- *     type         starter length  play       op1 op2
- *     type         starter end     goal
- * [0] STSequence   White   5       PHelp      1
- * [1] STLeaf       White   EHelp   goal_stale
+ *     type           starter length  next
+ *     type           starter end     goal
+ * [0] STBranchHelp   White   5       1
+ * [1] STLeaf         White   EHelp   goal_stale
  *
  * s#=2:
- *     type         starter length  play       op1 op2
- *     type         starter end     goal
- * [0] STQuodlibet  White   2       PDirect    1   2
- * [1] STLeaf       White   ESelf   goal_mate
- * [2] STLeaf       White   ESelf   goal_stale
+ *     type           op1 op2
+ *     type           starter end     goal
+ * [0] STQuodlibet    1   2
+ * [1] STLeaf         White   ESelf   goal_mate
+ * [2] STLeaf         White   ESelf   goal_stale
  *
  * reci-h#3:
- *     type         starter length  play       op1 op2
- *     type         starter end     goal
- * [0] STReciprocal Black   6       PHelp      1   2
- * [1] STLeaf       Black   EDirect goal_mate
- * [2] STLeaf       Black   EHelp   goal_mate
+ *     type           op1 op2
+ *     type           starter end     goal
+ * [0] STReciprocal   1   2
+ * [1] STLeaf         Black   EDirect goal_mate
+ * [2] STLeaf         Black   EHelp   goal_mate
  *
  * 8->ser-=3:
- *     type         starter length  play       op1 op2
- *     type         starter end     goal
- * [0] STSequence   Black   9       PSeries    1
- * [1] STSequence   White   3       PSeries    2
- * [2] STLeaf       White   EDirect goal_stale
+ *     type           starter length  next
+ *     type           starter end     goal
+ * [0] STBranchSeries Black   9       1
+ * [1] STBranchSeries White   3       2
+ * [2] STLeaf         White   EDirect goal_stale
  */
 
-/* Currently(?), the length field of a composite slice thus gives the
+/* Currently(?), the length field of a branch slice thus gives the
  * number of (half) moves of the human-readable stipulation.
  *
  * This means that the recursion depth of solving the composite slice
@@ -140,11 +133,10 @@ extern Side regular_starter;
  */
 slice_index alloc_slice_index(void);
 
-/* Allocate a composite slice.
- * Initializes type to STSequence and composite fields to null values
+/* Allocate a branch slice.
  * @return index of allocated slice
  */
-slice_index alloc_composite_slice(SliceType type, Play play);
+slice_index alloc_branch_slice(SliceType type);
 
 /* Allocate a target leaf slice.
  * Initializes type to STLeaf and leaf fields according to arguments
@@ -237,7 +229,7 @@ boolean slice_is_solvable(slice_index si);
 
 /* Determine and write continuations of a slice
  * @param table table where to store continuing moves (i.e. threats)
- * @param si index of sequence slice
+ * @param si index of slice
  */
 void slice_solve_continuations(int table, slice_index si);
 
@@ -277,6 +269,12 @@ boolean slice_solve(slice_index si);
  * @param si slice index
  */
 void slice_root_solve(slice_index si);
+
+/* Solve a slice in exactly n moves at root level
+ * @param si slice index
+ * @param n exact number of moves
+ */
+void slice_root_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether a composite slice has a solution
  * @param si slice index
@@ -335,7 +333,7 @@ boolean slice_is_threat_refuted(slice_index si);
 void slice_detect_starter(slice_index si, boolean is_duplex);
 
 /* Impose the starting side on a slice.
- * @param si identifies sequence
+ * @param si identifies slice
  * @param s starting side of leaf
  */
 void slice_impose_starter(slice_index si, Side s);

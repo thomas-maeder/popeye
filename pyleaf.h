@@ -3,9 +3,7 @@
 
 #include "boolean.h"
 #include "pystip.h"
-#include "pycompos.h"
 #include "py.h"
-#include "pyhash.h"
 
 /* This module provides functionality dealing with leaf stipulation
  * slices.

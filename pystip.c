@@ -2,10 +2,12 @@
 #include "pydata.h"
 #include "trace.h"
 #include "pyleaf.h"
-#include "pycompos.h"
+#include "pybrad.h"
+#include "pybrah.h"
+#include "pybraser.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
-#include "pysequen.h"
+#include "pybranch.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -25,22 +27,19 @@ slice_index alloc_slice_index(void)
 }
 
 /* Allocate a composite slice.
- * Initializes type to STSequence and composite fields to null values
  * @return index of allocated slice
  */
-slice_index alloc_composite_slice(SliceType type, Play play)
+slice_index alloc_branch_slice(SliceType type)
 {
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",type);
-  TraceFunctionParam("%u\n",play);
+  TraceFunctionParam("%u\n",type);
 
   slices[result].type = type; 
-  slices[result].u.composite.starter = no_side; 
-  slices[result].u.composite.play = play;
-  slices[result].u.composite.length = 0;
-  slices[result].u.composite.next = no_slice;
+  slices[result].u.branch.starter = no_side; 
+  slices[result].u.branch.length = 0;
+  slices[result].u.branch.next = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -124,7 +123,7 @@ void release_slices(void)
  */
 stip_length_type set_min_length(slice_index si, stip_length_type min_length)
 {
-  stip_length_type const result = slices[si].u.composite.min_length;
+  stip_length_type const result = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -132,15 +131,15 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
 
   assert(slices[si].type!=STLeaf);
 
-  if (slices[si].u.composite.play==PHelp)
+  if (slices[si].type==STBranchHelp)
   {
     min_length *= 2;
     if (result%2==1)
       --min_length;
   }
 
-  if (min_length<=slices[si].u.composite.length)
-    slices[si].u.composite.min_length = min_length;
+  if (min_length<=slices[si].u.branch.length)
+    slices[si].u.branch.min_length = min_length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -185,8 +184,10 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
       transform_to_quodlibet_recursive(&slices[index].u.reciprocal.op2);
       break;
 
-    case STSequence:
-      transform_to_quodlibet_recursive(&slices[index].u.composite.next);
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      transform_to_quodlibet_recursive(&slices[index].u.branch.next);
       break;
 
     default:
@@ -266,9 +267,11 @@ static boolean slice_ends_only_in(Goal const goals[],
               && slice_ends_only_in(goals,nrGoals,op2));
     }
 
-    case STSequence:
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
     {
-      slice_index const next = slices[si].u.composite.next;
+      slice_index const next = slices[si].u.branch.next;
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
@@ -320,9 +323,11 @@ static boolean slice_ends_in(Goal const goals[],
               || slice_ends_in(goals,nrGoals,op2));
     }
 
-    case STSequence:
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
     {
-      slice_index const next = slices[si].u.composite.next;
+      slice_index const next = slices[si].u.branch.next;
       return slice_ends_in(goals,nrGoals,next);
     }
 
@@ -382,9 +387,11 @@ static slice_index find_goal_recursive(Goal goal,
       break;
     }
 
-    case STSequence:
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
     {
-      slice_index const next = slices[si].u.composite.next;
+      slice_index const next = slices[si].u.branch.next;
       result = find_goal_recursive(goal,start,active,next);
       break;
     }
@@ -457,9 +464,11 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
               && find_unique_goal_recursive(op2,found_so_far));
     }
     
-    case STSequence:
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
     {
-      slice_index const next = slices[current_slice].u.composite.next;
+      slice_index const next = slices[current_slice].u.branch.next;
       return find_unique_goal_recursive(next,found_so_far);
     }
 
@@ -508,8 +517,10 @@ boolean slice_is_unsolvable(slice_index si)
       result = quodlibet_is_unsolvable(si);
       break;
 
-    case STSequence:
-      result = sequence_end_is_unsolvable(si);
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      result = branch_end_is_unsolvable(si);
       break;
 
     default:
@@ -551,7 +562,7 @@ boolean slice_is_solvable(slice_index si)
 
 /* Determine and write continuations of a slice
  * @param table table where to store continuing moves (i.e. threats)
- * @param si index of sequence slice
+ * @param si index of branch slice
  */
 void slice_solve_continuations(int table, slice_index si)
 {
@@ -569,8 +580,16 @@ void slice_solve_continuations(int table, slice_index si)
       quodlibet_solve_continuations(table,si);
       break;
 
-    case STSequence:
-      composite_solve_continuations(table,si);
+    case STBranchDirect:
+      branch_d_solve_continuations_in_n(table,si,slices[si].u.branch.length);
+      break;
+
+    case STBranchHelp:
+      /* TODO */
+      break;
+
+    case STBranchSeries:
+      /* TODO */
       break;
 
     case STReciprocal:
@@ -608,8 +627,16 @@ boolean slice_root_solve_setplay(slice_index si)
       result = quodlibet_root_solve_setplay(si);
       break;
 
-    case STSequence:
-      result = composite_root_solve_setplay(si);
+    case STBranchDirect:
+      result = branch_d_root_solve_setplay(si);
+      break;
+
+    case STBranchHelp:
+      result = branch_h_root_solve_setplay(si);
+      break;
+
+    case STBranchSeries:
+      /* TODO implement branch_ser_root_solve_setplay() */
       break;
 
     case STReciprocal:
@@ -643,8 +670,10 @@ boolean slice_root_end_solve_complete_set(slice_index si)
       result = leaf_root_solve_complete_set(si);
       break;
 
-    case STSequence:
-      result = sequence_root_end_solve_complete_set(si);
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      result = branch_root_end_solve_complete_set(si);
       break;
 
     case STQuodlibet:
@@ -682,13 +711,21 @@ void slice_root_write_key_solve_postkey(slice_index si, attack_type type)
       quodlibet_root_write_key_solve_postkey(si,type);
       break;
 
-    case STSequence:
+    case STBranchDirect:
     {
       int const refutations = alloctab();
-      composite_root_write_key_solve_postkey(refutations,si,type);
+      branch_d_root_write_key_solve_postkey(refutations,si,type);
       freetab();
       break;
     }
+
+    case STBranchHelp:
+      /* TODO */
+      break;
+
+    case STBranchSeries:
+      /* TODO */
+      break;
 
     case STReciprocal:
     {
@@ -723,8 +760,16 @@ boolean slice_solve(slice_index si)
       solution_found = quodlibet_solve(si);
       break;
 
-    case STSequence:
-      solution_found = composite_solve(si);
+    case STBranchDirect:
+      /* TODO */
+      break;
+
+    case STBranchHelp:
+      /* TODO */
+      break;
+
+    case STBranchSeries:
+      solution_found = branch_ser_solve(si);
       break;
 
     case STReciprocal:
@@ -761,12 +806,49 @@ void slice_root_solve(slice_index si)
       quodlibet_root_solve(si);
       break;
 
-    case STSequence:
-      composite_root_solve(si);
+    case STBranchDirect:
+      branch_d_root_solve(si);
+      break;
+
+    case STBranchHelp:
+      branch_h_root_solve(si);
+      break;
+
+    case STBranchSeries:
+      branch_ser_root_solve(si);
       break;
 
     case STReciprocal:
       reci_root_solve(si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Solve a slice in exactly n moves at root level
+ * @param si slice index
+ * @param n exact number of moves
+ */
+void slice_root_solve_in_n(slice_index si, stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
+
+  switch (slices[si].type)
+  {
+    case STBranchHelp:
+      branch_h_root_solve_in_n(si,n);
+      break;
+
+    case STBranchSeries:
+      branch_ser_root_solve_in_n(si,n);
       break;
 
     default:
@@ -799,8 +881,16 @@ boolean slice_has_solution(slice_index si)
       result = quodlibet_has_solution(si);
       break;
 
-    case STSequence:
-      result = composite_has_solution(si);
+    case STBranchDirect:
+      result = branch_d_has_solution_in_n(si,slices[si].u.branch.length);
+      break;
+
+    case STBranchHelp:
+      /* TODO */
+      break;
+
+    case STBranchSeries:
+      /* TODO */
       break;
 
     case STReciprocal:
@@ -835,8 +925,16 @@ void slice_solve_variations(slice_index si)
       quodlibet_solve_variations(si);
       break;
 
-    case STSequence:
-      composite_solve_variations(si);
+    case STBranchDirect:
+      branch_d_solve_variations(si);
+      break;
+
+    case STBranchHelp:
+      /* TODO */
+      break;
+
+    case STBranchSeries:
+      /* TODO */
       break;
 
     case STReciprocal:
@@ -870,8 +968,10 @@ boolean slice_has_non_starter_solved(slice_index si)
       result = leaf_has_non_starter_solved(si);
       break;
 
-    case STSequence:
-      result = sequence_end_has_non_starter_solved(si);
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      result = branch_end_has_non_starter_solved(si);
       break;
 
     case STQuodlibet:
@@ -914,8 +1014,10 @@ boolean slice_end_has_non_starter_refuted(slice_index si)
       result = quodlibet_has_non_starter_refuted(si);
       break;
 
-    case STSequence:
-      result = sequence_end_has_non_starter_refuted(si);
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      result = branch_end_has_non_starter_refuted(si);
       break;
 
     case STReciprocal:
@@ -950,8 +1052,10 @@ boolean slice_end_has_starter_lost(slice_index si)
       result = leaf_has_starter_lost(si);
       break;
 
-    case STSequence:
-      result = sequence_end_has_starter_lost(si);
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      result = branch_end_has_starter_lost(si);
       break;
 
     case STQuodlibet:
@@ -992,8 +1096,10 @@ boolean slice_end_has_starter_won(slice_index si)
       result = leaf_has_starter_won(si);
       break;
 
-    case STSequence:
-      result = sequence_end_has_starter_won(si);
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      result = branch_end_has_starter_won(si);
       break;
 
     case STQuodlibet:
@@ -1034,8 +1140,10 @@ void slice_write_unsolvability(slice_index si)
       quodlibet_write_unsolvability(si);
       break;
 
-    case STSequence:
-      sequence_write_unsolvability(si);
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      branch_write_unsolvability(si);
       break;
 
     case STReciprocal:
@@ -1072,8 +1180,17 @@ boolean slice_is_threat_refuted(slice_index si)
       result = quodlibet_is_threat_refuted(si);
       break;
 
-    case STSequence:
-      result = composite_is_threat_refuted(si);
+    case STBranchDirect:
+      result = branch_d_is_threat_in_n_refuted(si,
+                                               slices[si].u.branch.length);
+      break;
+
+    case STBranchHelp:
+      /* TODO */
+      break;
+
+    case STBranchSeries:
+      /* TODO */
       break;
 
     case STReciprocal:
@@ -1105,8 +1222,10 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
       leaf_detect_starter(si,is_duplex);
       break;
 
-    case STSequence:
-      sequence_detect_starter(si,is_duplex);
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      branch_detect_starter(si,is_duplex);
       break;
 
     case STReciprocal:
@@ -1128,12 +1247,13 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
     TraceValue("%u\n",regular_starter);
   }
 
-  if (slices[si].type==STSequence)
+  if (slices[si].type==STBranchDirect
+      || slices[si].type==STBranchHelp
+      || slices[si].type==STBranchSeries)
   {
-    TraceValue("%u",slices[si].u.composite.length);
-    TraceValue("%u\n",slices[si].u.composite.play);
-    if (slices[si].u.composite.play==PHelp
-        && slices[si].u.composite.length%2 == 1)
+    TraceValue("%u",slices[si].u.branch.length);
+    if (slices[si].type==STBranchHelp
+        && slices[si].u.branch.length%2 == 1)
     {
       if (slice_get_starter(si)==no_side)
         slice_impose_starter(si,no_side);
@@ -1147,7 +1267,7 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
 }
 
 /* Impose the starting side on a slice.
- * @param si identifies sequence
+ * @param si identifies slice
  * @param s starting side of leaf
  */
 void slice_impose_starter(slice_index si, Side side)
@@ -1162,8 +1282,16 @@ void slice_impose_starter(slice_index si, Side side)
       leaf_impose_starter(si,side);
       break;
 
-    case STSequence:
-      sequence_impose_starter(si,side);
+    case STBranchDirect:
+      branch_d_impose_starter(si,side);
+      break;
+
+    case STBranchHelp:
+      branch_h_impose_starter(si,side);
+      break;
+
+    case STBranchSeries:
+      branch_ser_impose_starter(si,side);
       break;
 
     case STReciprocal:
@@ -1200,8 +1328,10 @@ Side slice_get_starter(slice_index si)
       result = slices[si].u.leaf.starter;
       break;
 
-    case STSequence:
-      result = slices[si].u.composite.starter;
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      result = slices[si].u.branch.starter;
       break;
 
     case STReciprocal:
