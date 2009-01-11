@@ -9,7 +9,7 @@
 #if !defined(PYPROOF_H)
 #define PYPROOF_H
 
-union HashBuffer;
+#include "pyhash.h"
 
 void ProofEncode(HashBuffer *);
 void    ProofInitialiseKingMoves(square ProofRB, square ProofRN);
