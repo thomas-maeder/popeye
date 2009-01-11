@@ -16,7 +16,11 @@ slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2)
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParam("%u",op1);
+  TraceFunctionParam("%u\n",op2);
+
+  assert(op1!=no_slice);
+  assert(op2!=no_slice);
 
   slices[result].type = STReciprocal; 
   slices[result].u.reciprocal.op1 = op1;

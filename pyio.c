@@ -1084,12 +1084,21 @@ static goalInputConfig_t const goalInputConfig[nr_goals] =
 static char *ParseLength(char *tok, slice_index si)
 {
   char *end;
-  unsigned long length = strtoul(tok,&end,10);
+  unsigned long length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%d\n",si);
 
+  if (tok!=0 && *tok==0)
+    /* allow white space before length, e.g. "dia 4" */
+  {
+    tok = ReadNextTokStr();
+    if (tok!=0)
+      strcat(AlphaStip,tok); /* append to printed stipulation */
+  }
+
+  length = strtoul(tok,&end,10);
   TraceValue("%ld\n",length);
 
   if (tok==end || length>UINT_MAX)
@@ -1246,6 +1255,24 @@ static char *ParseReciGoal(char *tok,
   return result;
 }
 
+static char *ParseReciEnd(char *tok, slice_index si_parent)
+{
+  slice_index op1 = no_slice;
+  slice_index op2 = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u\n",si_parent);
+
+  tok = ParseReciGoal(tok, EHelp,&op1, EDirect,&op2);
+  if (op1!=no_slice && op2!=no_slice)
+    slices[si_parent].u.branch.next = alloc_reciprocal_slice(op1,op2);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+  return tok;
+}
+
 static char *ParseEnd(char *tok, slice_index si_parent)
 {
   TraceFunctionEntry(__func__);
@@ -1268,10 +1295,6 @@ static char *ParseEnd(char *tok, slice_index si_parent)
     /* the end of a sermi-r problem is hX1 with reversed coulours. */
     slice_impose_starter(slices[si_parent].u.branch.next,White);
   }
-  else if (strncmp("reci-h", tok, 6) == 0)
-    tok = ParseReciGoal(tok+6,
-                        EHelp,&slices[si_parent].u.reciprocal.op1,
-                        EDirect,&slices[si_parent].u.reciprocal.op2);
 
   else if (strncmp("hs", tok, 2) == 0)
     tok = ParseGoal(tok+2,ESelf,&slices[si_parent].u.branch.next);
@@ -1298,14 +1321,6 @@ static char *ParseEnd(char *tok, slice_index si_parent)
         tok = ParseGoal(tok,EDirect,&slices[si_parent].u.branch.next);
         break;
     }
-
-  if (tok!=0 && *tok==0)
-    /* allow white space between goal and length, e.g. "dia 4" */
-  {
-    tok = ReadNextTokStr();
-    if (tok!=0)
-      strcat(AlphaStip,tok); /* append to printed stipulation */
-  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -1360,9 +1375,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("ser-reci-h",tok,10) == 0)
   {
     *si = alloc_branch_slice(STBranchSeries);
-    slices[*si].u.branch.next = alloc_reciprocal_slice(no_slice,no_slice);
-    tok = ParseEnd(tok+4, /* skip over "ser-" */
-                   slices[*si].u.branch.next);
+    tok = ParseReciEnd(tok+10,*si); /* skip over "ser-reci-h" */
     if (tok!=0)
       result = ParseLength(tok,*si);
   }
@@ -1378,8 +1391,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("reci-h",tok,6) == 0)
   {
     *si = alloc_branch_slice(STBranchHelp);
-    slices[*si].u.branch.next = alloc_reciprocal_slice(no_slice,no_slice);
-    tok = ParseEnd(tok,slices[*si].u.branch.next);
+    tok = ParseReciEnd(tok+6,*si); /* skip over "reci-h" */
     if (tok!=0)
       result = ParseLength(tok,*si);
   }
