@@ -18,13 +18,12 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf);
 
 /* Detect a priori unsolvability of a leaf (e.g. because of forced
  * reflex mates)
- * @param n number of moves to go
  * @param leaf leaf's slice index
  * @return true iff leaf is a priori unsolvable
  */
 boolean leaf_is_unsolvable(slice_index leaf);
 
-/* Determine whether a leaf slice.has just been solved with the just
+/* Determine whether a leaf slice has just been solved with the just
  * played move by the non-starter 
  * @param si slice identifier
  * @return true iff the non-starting side has just solved
