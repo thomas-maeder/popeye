@@ -10,14 +10,14 @@
  * @param si slice index
  * @return true iff slice is a priori unsolvable
  */
-boolean branch_end_is_unsolvable(slice_index si)
+boolean branch_is_apriori_unsolvable(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_is_unsolvable(slices[si].u.branch.next);
+  result = slice_is_apriori_unsolvable(slices[si].u.branch.next);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -26,7 +26,7 @@ boolean branch_end_is_unsolvable(slice_index si)
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_is_unsolvable(si)
+ * Assumes slice_is_apriori_unsolvable(si)
  * @param si slice index
  */
 void branch_write_unsolvability(slice_index si)
@@ -167,42 +167,20 @@ boolean branch_end_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the non-starter has refuted with his move just
- * played independently of the starter's possible play during the
- * current slice.
- * Example: in direct play, the defender has just captured that last
- * piece that could deliver mate.
- * @param si slice identifier
- * @return true iff the non-starter has refuted
- */
-boolean branch_end_has_non_starter_refuted(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  result = slice_end_has_non_starter_refuted(slices[si].u.branch.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Determine whether the starting side has lost with its move just
- * played independently of his possible further play during the
- * current slice.
+ * played.
  * @param si slice identifier
  * @return true iff starter has lost
  */
-boolean branch_end_has_starter_lost(slice_index si)
+boolean branch_has_starter_lost(slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_end_has_starter_lost(slices[si].u.branch.next);
+  assert(0); /* just to be sure; this can't possibly be right: */
+  result = slice_has_starter_lost(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -210,37 +188,18 @@ boolean branch_end_has_starter_lost(slice_index si)
 }
 
 /* Determine whether the attacker has won with his move just played
- * independently of the non-starter's possible further play during the
- * current slice.
  * @param si slice identifier
  * @return true iff the starter has won
  */
-boolean branch_end_has_starter_won(slice_index si)
+boolean branch_has_starter_won(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_end_has_starter_won(slices[si].u.branch.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Has the threat just played been defended by the preceding defense?
- * @param si identifies stipulation slice
- * @return true iff the threat is refuted
- */
-boolean branch_end_is_threat_refuted(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  result = slice_is_threat_refuted(slices[si].u.branch.next);
+  assert(0); /* just to be sure; this can't possibly be right: */
+  result = slice_has_starter_won(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

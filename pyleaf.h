@@ -21,7 +21,7 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf);
  * @param leaf leaf's slice index
  * @return true iff leaf is a priori unsolvable
  */
-boolean leaf_is_unsolvable(slice_index leaf);
+boolean leaf_is_apriori_unsolvable(slice_index leaf);
 
 /* Determine whether a leaf slice has just been solved with the just
  * played move by the non-starter 
@@ -30,16 +30,9 @@ boolean leaf_is_unsolvable(slice_index leaf);
  */
 boolean leaf_has_non_starter_solved(slice_index leaf);
 
-/* Determine whether a leaf slice.has just been solved with the just
- * played move by the starter 
- * @param leaf slice index
- * @return true iff the leaf's starter has just solved leaf
- */
-boolean leaf_has_starter_solved(slice_index leaf);
-
 /* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
  * mates).
- * Assumes leaf_is_unsolvable()
+ * Assumes leaf_is_apriori_unsolvable()
  * @param leaf leaf's slice index
  */
 void leaf_write_unsolvability(slice_index leaf);

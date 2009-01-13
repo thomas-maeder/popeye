@@ -21,7 +21,7 @@ slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2);
  * @param si slice index
  * @return true iff slice is a priori unsolvable
  */
-boolean reci_is_unsolvable(slice_index si);
+boolean reci_is_apriori_unsolvable(slice_index si);
 
 /* Determine whether there is a solution at the end of a reciprocal
  * slice. 
@@ -36,16 +36,6 @@ boolean reci_has_solution(slice_index si);
  * @return true iff the non-starting side has just solved
  */
 boolean reci_has_non_starter_solved(slice_index si);
-
-/* Determine whether the non-starter has refuted with his move just
- * played independently of the starter's possible play during the
- * current slice.
- * Example: in direct play, the defender has just captured that last
- * piece that could deliver mate.
- * @param si slice identifier
- * @return true iff the non-starter has refuted
- */
-boolean reci_has_non_starter_refuted(slice_index si);
 
 /* Determine whether the starting side has lost with its move just
  * played independently of his possible further play during the
@@ -65,7 +55,7 @@ boolean reci_has_starter_won(slice_index si);
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_is_unsolvable(si)
+ * Assumes slice_is_apriori_unsolvable(si)
  * @param si slice index
  */
 void reci_write_unsolvability(slice_index si);
@@ -93,12 +83,6 @@ boolean reci_root_solve_setplay(slice_index si);
  * @param type type of attack
  */
 void reci_root_write_key_solve_postkey(slice_index si, attack_type type);
-
-/* Has the threat just played been refuted by the preceding defense?
- * @param si identifies stipulation slice
- * @return true iff the threat is refuted
- */
-boolean reci_is_threat_refuted(slice_index si);
 
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index

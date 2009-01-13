@@ -17,7 +17,7 @@ slice_index alloc_not_slice(slice_index op);
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_is_unsolvable(si)
+ * Assumes slice_is_apriori_unsolvable(si)
  * @param si slice index
  */
 void not_write_unsolvability(slice_index si);
@@ -33,23 +33,13 @@ boolean not_is_solvable(slice_index si);
  * @param si slice index
  * @return true iff slice is a priori unsolvable
  */
-boolean not_is_unsolvable(slice_index si);
+boolean not_is_apriori_unsolvable(slice_index si);
 
 /* Determine and write the solution
  * @param si slice index
  * @return true iff >=1 solution was found
  */
 boolean not_solve(slice_index si);
-
-/* Determine whether the non-starter has refuted with his move just
- * played independently of the starter's possible play during the
- * current slice.
- * Example: in direct play, the defender has just captured that last
- * piece that could deliver mate.
- * @param si slice identifier
- * @return true iff the non-starter has refuted
- */
-boolean not_has_non_starter_refuted(slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index
@@ -64,12 +54,6 @@ boolean not_has_solution(slice_index si);
  */
 void not_solve_continuations(int continuations, slice_index si);
 
-/* Has the threat just played been refuted by the preceding defense?
- * @param si slice index
- * @return true iff the threat is refuted
- */
-boolean not_is_threat_refuted(slice_index si);
-
 /* Determine whether the starting side has lost with its move just
  * played independently of his possible further play during the
  * current slice.
@@ -77,6 +61,12 @@ boolean not_is_threat_refuted(slice_index si);
  * @return true iff starter has lost
  */
 boolean not_has_starter_lost(slice_index si);
+
+/* Determine whether the attacker has won with his move just played
+ * @param si slice identifier
+ * @return true iff the starter has won
+ */
+boolean not_has_starter_won(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

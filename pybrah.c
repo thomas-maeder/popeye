@@ -61,7 +61,7 @@ static void branch_h_root_solve_in_n_recursive_nohash(slice_index si,
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move)
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
-          && !slice_is_unsolvable(slices[si].u.branch.next))
+          && !slice_is_apriori_unsolvable(slices[si].u.branch.next))
         branch_h_solve_in_n_recursive(si,n-1,next_side);
 
       if (OptFlag[movenbr])
@@ -134,7 +134,7 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
       if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move)
-          && !slice_is_unsolvable(slices[si].u.branch.next)
+          && !slice_is_apriori_unsolvable(slices[si].u.branch.next)
           && branch_h_solve_in_n_recursive(si,n-1,next_side))
         found_solution = true;
 

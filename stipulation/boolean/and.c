@@ -36,7 +36,7 @@ slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2)
  * @param si si slice index
  * @return true iff slice is a priori unsolvable
  */
-boolean reci_is_unsolvable(slice_index si)
+boolean reci_is_apriori_unsolvable(slice_index si)
 {
   boolean result;
   slice_index const op1 = slices[si].u.reciprocal.op1;
@@ -44,10 +44,12 @@ boolean reci_is_unsolvable(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
+
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  result = slice_is_unsolvable(op1) || slice_is_unsolvable(op2);
+  result = (slice_is_apriori_unsolvable(op1)
+            || slice_is_apriori_unsolvable(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -99,33 +101,6 @@ boolean reci_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the non-starter has refuted with his move just
- * played independently of the starter's possible play during the
- * current slice.
- * Example: in direct play, the defender has just captured that last
- * piece that could deliver mate.
- * @param si slice identifier
- * @return true iff the non-starter has refuted
- */
-boolean reci_has_non_starter_refuted(slice_index si)
-{
-  boolean result;
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-  TraceValue("%u",op1);
-  TraceValue("%u\n",op2);
-
-  result = (slice_end_has_non_starter_refuted(op1)
-            || slice_end_has_non_starter_refuted(op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Determine whether the starting side has lost with its move just
  * played independently of his possible further play during the
  * current slice.
@@ -143,8 +118,7 @@ boolean reci_has_starter_lost(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  result = (slice_end_has_starter_lost(op1)
-            || slice_end_has_starter_lost(op2));
+  result = slice_has_starter_lost(op1) || slice_has_starter_lost(op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -168,8 +142,7 @@ boolean reci_has_starter_won(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  result = (slice_end_has_starter_won(op1)
-            && slice_end_has_starter_won(op2));
+  result = slice_has_starter_won(op1) && slice_has_starter_won(op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -178,7 +151,7 @@ boolean reci_has_starter_won(slice_index si)
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_is_unsolvable(si)
+ * Assumes slice_is_apriori_unsolvable(si)
  * @param si slice index
  */
 void reci_write_unsolvability(slice_index si)
@@ -283,16 +256,6 @@ void reci_root_write_key_solve_postkey(slice_index si,
   /* TODO does this make sense? */
   slice_root_write_key_solve_postkey(slices[si].u.reciprocal.op1,type);
   slice_root_write_key_solve_postkey(slices[si].u.reciprocal.op2,type);
-}
-
-/* Has the threat just played been refuted by the preceding defense?
- * @param si identifies stipulation slice
- * @return true iff the threat is refuted
- */
-boolean reci_is_threat_refuted(slice_index si)
-{
-  return (slice_is_threat_refuted(slices[si].u.reciprocal.op1)
-          || slice_is_threat_refuted(slices[si].u.reciprocal.op2));
 }
 
 /* Continue solving at the end of a reciprocal slice

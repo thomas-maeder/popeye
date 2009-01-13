@@ -14,11 +14,11 @@
  * @param leaf leaf's slice index
  * @return true iff leaf is a priori unsolvable
  */
-boolean branch_end_is_unsolvable(slice_index leaf);
+boolean branch_is_apriori_unsolvable(slice_index leaf);
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_is_unsolvable(si)
+ * Assumes slice_is_apriori_unsolvable(si)
  * @param si slice index
  */
 void branch_write_unsolvability(slice_index si);
@@ -80,23 +80,12 @@ boolean branch_end_has_solution(slice_index si);
  */
 boolean branch_end_has_non_starter_solved(slice_index si);
 
-/* Determine whether the non-starter has refuted with his move just
- * played independently of the starter's possible play during the
- * current slice.
- * Example: in direct play, the defender has just captured that last
- * piece that could deliver mate.
- * @param si slice identifier
- * @return true iff the non-starter has refuted
- */
-boolean branch_end_has_non_starter_refuted(slice_index si);
-
 /* Determine whether the starting side has lost with its move just
- * played independently of his possible further play during the
- * current slice.
+ * played.
  * @param si slice identifier
  * @return true iff starter has lost
  */
-boolean branch_end_has_starter_lost(slice_index si);
+boolean branch_has_starter_lost(slice_index si);
 
 /* Determine whether the attacker has won with his move just played
  * independently of the non-starter's possible further play during the
@@ -104,13 +93,7 @@ boolean branch_end_has_starter_lost(slice_index si);
  * @param si slice identifier
  * @return true iff the starter has won
  */
-boolean branch_end_has_starter_won(slice_index si);
-
-/* Has the threat just played been defended by the preceding defense?
- * @param si identifies stipulation slice
- * @return true iff the threat is refuted
- */
-boolean branch_end_is_threat_refuted(slice_index si);
+boolean branch_has_starter_won(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

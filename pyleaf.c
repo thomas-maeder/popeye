@@ -946,7 +946,7 @@ static boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
  * @param leaf leaf's slice index
  * @return true iff leaf is a priory unsolvable
  */
-boolean leaf_is_unsolvable(slice_index leaf)
+boolean leaf_is_apriori_unsolvable(slice_index leaf)
 {
   boolean result = false;
 
@@ -956,6 +956,8 @@ boolean leaf_is_unsolvable(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  /* TODO should we behave differently depending on who played the
+   * last move? (à la has_starter_won/lost? */
   switch (slices[leaf].u.leaf.end)
   {
     case EDirect:
@@ -1521,39 +1523,6 @@ boolean leaf_has_non_starter_solved(slice_index leaf)
   return result;
 }
 
-/* Determine whether a leaf slice.has just been solved with the just
- * played move by the starter 
- * @param leaf slice index
- * @return true iff the leaf's starter has just solved leaf
- */
-boolean leaf_has_starter_solved(slice_index leaf)
-{
-  Side const attacker = slices[leaf].u.leaf.starter;
-
-  assert(slices[leaf].type==STLeaf);
-  assert(attacker!=no_side);
-
-  switch (slices[leaf].u.leaf.end)
-  {
-    case EDirect:
-      return leaf_is_goal_reached(attacker,leaf);
-
-    case ESelf:
-      return leaf_is_end_in_1_forced(leaf);
-
-    case EHelp:
-    {
-      Side const defender = advers(attacker);
-      return (!(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-              && leaf_is_end_in_1_possible(defender,leaf));
-    }
-
-    default:
-      assert(0);
-      return false;
-  }
-}
-
 /* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
  * mates)
  * @param leaf leaf's slice index
@@ -2024,6 +1993,7 @@ boolean leaf_has_starter_lost(slice_index leaf)
 
     case ESelf:
     case EHelp:
+      /* TODO shouldn't this be the non-starter??? */
       return (OptFlag[keepmating]
               && !is_a_mating_piece_left(slices[leaf].u.leaf.starter));
 
@@ -2049,7 +2019,7 @@ boolean leaf_has_starter_won(slice_index leaf)
       return leaf_is_goal_reached(slices[leaf].u.leaf.starter,leaf);
 
     case ESelf:
-      return false;
+      return leaf_is_end_in_1_forced(leaf);
 
     case EHelp:
     {

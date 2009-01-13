@@ -505,7 +505,7 @@ slice_index find_unique_goal(void)
  * @param si slice index
  * @return true iff slice is a priori unsolvable
  */
-boolean slice_is_unsolvable(slice_index si)
+boolean slice_is_apriori_unsolvable(slice_index si)
 {
   boolean result = true;
 
@@ -516,25 +516,25 @@ boolean slice_is_unsolvable(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = leaf_is_unsolvable(si);
+      result = leaf_is_apriori_unsolvable(si);
       break;
 
     case STReciprocal:
-      result = reci_is_unsolvable(si);
+      result = reci_is_apriori_unsolvable(si);
       break;
       
     case STQuodlibet:
-      result = quodlibet_is_unsolvable(si);
+      result = quodlibet_is_apriori_unsolvable(si);
       break;
       
     case STNot:
-      result = not_is_unsolvable(si);
+      result = not_is_apriori_unsolvable(si);
       break;
 
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
-      result = branch_end_is_unsolvable(si);
+      result = branch_is_apriori_unsolvable(si);
       break;
 
     default:
@@ -1026,57 +1026,12 @@ boolean slice_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the non-starter has refuted with his move just
- * played independently of the starter's possible play during the
- * current slice.
- * Example: in direct play, the defender has just captured that last
- * piece that could deliver mate.
- * @param si slice identifier
- * @return true iff the non-starter has refuted
- */
-boolean slice_end_has_non_starter_refuted(slice_index si)
-{
-  boolean result = false;
-
-  switch (slices[si].type)
-  {
-    case STLeaf:
-      result = leaf_is_unsolvable(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_has_non_starter_refuted(si);
-      break;
-
-    case STReciprocal:
-      result = reci_has_non_starter_refuted(si);
-      break;
-
-    case STNot:
-      result = not_has_non_starter_refuted(si);
-      break;
-
-    case STBranchDirect:
-    case STBranchHelp:
-    case STBranchSeries:
-      result = branch_end_has_non_starter_refuted(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  return result;
-}
-
 /* Determine whether the starting side has lost with its move just
- * played independently of his possible further play during the
- * current slice.
+ * played.
  * @param si slice identifier
  * @return true iff starter has lost
  */
-boolean slice_end_has_starter_lost(slice_index si)
+boolean slice_has_starter_lost(slice_index si)
 {
   boolean result = false;
 
@@ -1093,7 +1048,7 @@ boolean slice_end_has_starter_lost(slice_index si)
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
-      result = branch_end_has_starter_lost(si);
+      result = branch_has_starter_lost(si);
       break;
 
     case STQuodlibet:
@@ -1124,7 +1079,7 @@ boolean slice_end_has_starter_lost(slice_index si)
  * @param si slice identifier
  * @return true iff the starter has won
  */
-boolean slice_end_has_starter_won(slice_index si)
+boolean slice_has_starter_won(slice_index si)
 {
   boolean result = false;
 
@@ -1141,7 +1096,7 @@ boolean slice_end_has_starter_won(slice_index si)
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
-      result = branch_end_has_starter_won(si);
+      result = branch_has_starter_won(si);
       break;
 
     case STQuodlibet:
@@ -1150,6 +1105,10 @@ boolean slice_end_has_starter_won(slice_index si)
 
     case STReciprocal:
       result = reci_has_starter_won(si);
+      break;
+
+    case STNot:
+      result = not_has_starter_won(si);
       break;
 
     default:
@@ -1164,7 +1123,7 @@ boolean slice_end_has_starter_won(slice_index si)
 
 /* Write a priori unsolvability (if any) of a slice in direct play
  * (e.g. forced reflex mates).
- * Assumes slice_is_unsolvable(si)
+ * Assumes slice_is_apriori_unsolvable(si)
  * @param si slice index
  */
 void slice_write_unsolvability(slice_index si)
@@ -1203,58 +1162,6 @@ void slice_write_unsolvability(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceText("\n");
-}
-
-/* Has the threat just played been refuted by the preceding defense?
- * @param si identifies stipulation slice
- * @return true iff the threat is refuted
- */
-boolean slice_is_threat_refuted(slice_index si)
-{
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  switch (slices[si].type)
-  {
-    case STLeaf:
-      result = !leaf_has_starter_solved(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_is_threat_refuted(si);
-      break;
-
-    case STReciprocal:
-      result = reci_is_threat_refuted(si);
-      break;
-
-    case STNot:
-      result = not_is_threat_refuted(si);
-      break;
-
-    case STBranchDirect:
-      result = branch_d_is_threat_in_n_refuted(si,
-                                               slices[si].u.branch.length);
-      break;
-
-    case STBranchHelp:
-      /* TODO */
-      break;
-
-    case STBranchSeries:
-      /* TODO */
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
 }
 
 /* Detect starter field with the starting side if possible. 

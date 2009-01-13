@@ -49,13 +49,6 @@ void branch_d_solve_continuations_in_n(int continuations,
                                        slice_index si,
                                        stip_length_type n);
 
-/* Has the threat just played been refuted by the preceding defense?
- * @param si identifies stipulation slice
- * @param n maximal number of moves
- * @return true iff the threat is refuted
- */
-boolean branch_d_is_threat_in_n_refuted(slice_index si, stip_length_type n);
-
 /* Solve a branch slice at root level.
  * @param si slice index
  */

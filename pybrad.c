@@ -61,6 +61,9 @@ static int count_non_trivial(slice_index si)
   Side const defender = advers(attacker);
   int result = -1;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
   genmove(defender);
 
   while (encore() && max_nr_nontrivial>=result)
@@ -75,6 +78,8 @@ static int count_non_trivial(slice_index si)
 
   finply();
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
   return result;
 }
 
@@ -200,11 +205,11 @@ static d_defender_win_type branch_d_does_defender_win(slice_index si,
 
   TraceValue("%u\n",slices[si].u.branch.min_length);
 
-  if (slice_end_has_starter_lost(si))
+  if (slice_has_starter_lost(slices[si].u.branch.next))
     result = already_won;
   else if ((slices[si].u.branch.length-n
             >slices[si].u.branch.min_length-slack_length_direct)
-           && slice_end_has_starter_won(si))
+           && slice_has_starter_won(slices[si].u.branch.next))
     result = short_loss;
   else
     result = branch_d_helper_does_defender_win(si,n);
@@ -274,7 +279,7 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
-  if (slice_end_has_non_starter_refuted(si))
+  if (slice_is_apriori_unsolvable(si))
     ; /* intentionally nothing */
   else
   {
@@ -329,13 +334,13 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
 /* Find refutations after a move of the attacking side.
  * @param defender defending side
  * @param t table where to store refutations
- * @return 0  if the defending side has at >=1 final moves in reflex play
+ * @return 0 if the defending side has at >=1 final moves in reflex play
  *         max_nr_refutations+1 if
  *            if the defending side is immobile (it shouldn't be here!)
  *            if the defending side has more non-trivial moves than allowed
  *            if the defending king has more flights than allowed
- *            if there is no threat in <= the maximal number threat
- *               length as entered by the user
+ *            if there is no threat in <= the maximal threat length
+ *               as entered by the user
  *         number (0..max_nr_refutations) of refutations otherwise
  */
 static int branch_d_find_refutations(int t, slice_index si)
@@ -347,9 +352,10 @@ static int branch_d_find_refutations(int t, slice_index si)
   stip_length_type const n = slices[si].u.branch.length-1;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
+  TraceValue("%u",n);
+  TraceValue("%u\n",max_len_threat);
   if (n>max_len_threat
       && !echecc(nbply,defender)
       && !branch_d_has_solution_in_n(si,max_len_threat))
@@ -367,9 +373,13 @@ static int branch_d_find_refutations(int t, slice_index si)
     return max_nr_refutations+1;
   }
 
+  TraceValue("%u",n);
+  TraceValue("%u\n",min_length_nontrivial);
   if (n>min_length_nontrivial)
   {
     ntcount = count_non_trivial(si);
+    TraceValue("%u",max_nr_nontrivial);
+    TraceValue("%d\n",ntcount);
     if (max_nr_nontrivial<ntcount)
     {
       TraceFunctionExit(__func__);
@@ -414,29 +424,6 @@ static int branch_d_find_refutations(int t, slice_index si)
   return result;
 }
 
-
-/* Has the threat just played been refuted by the preceding defense?
- * @param si identifies stipulation slice
- * @return true iff the threat is refuted
- */
-boolean branch_d_is_threat_in_n_refuted(slice_index si, stip_length_type n)
-{
-  boolean result;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
-
-  if (n==slack_length_direct)
-    result = slice_is_threat_refuted(slices[si].u.branch.next);
-  else
-    result = branch_d_does_defender_win(si,n-1)<=win;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Determine whether the move just played by the defending side
  * defends against the threats.
  * @param n number of moves until end state has to be reached from now
@@ -468,8 +455,11 @@ static boolean branch_d_defends_against_threats(int threats,
           && nowdanstab(threats)
           && !echecc(nbply,attacker))
       {
-        TraceText("checking threat\n");
-        defense_found = branch_d_is_threat_in_n_refuted(si,n);
+        if (n==slack_length_direct)
+          defense_found = !slice_has_starter_won(slices[si].u.branch.next);
+        else
+          defense_found = branch_d_does_defender_win(si,n-1)<=win;
+
         if (defense_found)
         {
           TraceText("defended\n");
@@ -911,7 +901,7 @@ static void branch_d_root_solve_postkeyonly(slice_index si,
     slice_solve_variations(slices[si].u.branch.next);
   else if (n==slices[si].u.branch.min_length)
     branch_d_solve_postkey(si,n);
-  else if (slice_end_has_starter_won(si))
+  else if (slice_has_starter_won(slices[si].u.branch.next))
     slice_solve_variations(slices[si].u.branch.next);
   else
     branch_d_solve_postkey(si,n);
@@ -932,7 +922,7 @@ static void branch_d_root_solve_real_play(slice_index si)
 
   if (slice_has_non_starter_solved(si))
     ;
-  else if (slice_end_has_non_starter_refuted(si))
+  else if (slice_is_apriori_unsolvable(si))
     slice_write_unsolvability(slices[si].u.branch.next);
   else if (slices[si].u.branch.length==slack_length_direct)
     slice_root_solve(slices[si].u.branch.next);
@@ -948,7 +938,7 @@ static void branch_d_root_solve_real_play(slice_index si)
           && !echecc(nbply,attacker))
       {
         if (slices[si].u.branch.min_length==slack_length_direct
-            && slice_end_has_starter_won(si))
+            && slice_has_starter_won(slices[si].u.branch.next))
           slice_root_write_key_solve_postkey(slices[si].u.branch.next,
                                              attack_key);
         else

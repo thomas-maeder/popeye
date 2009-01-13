@@ -31,7 +31,7 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
     Side const series_side = slices[si].u.branch.starter;
     Side other_side = advers(series_side);
 
-    if (!slice_is_unsolvable(si))
+    if (!slice_is_apriori_unsolvable(si))
     {
       genmove(series_side);
       active_slice[nbply] = si;
@@ -103,7 +103,7 @@ static void branch_ser_root_solve_in_n_recursive(slice_index si,
     Side const series_side = slices[si].u.branch.starter;
     Side const other_side = advers(series_side);
 
-    if (!slice_is_unsolvable(si))
+    if (!slice_is_apriori_unsolvable(si))
     {
       genmove(series_side);
       active_slice[nbply] = si;
