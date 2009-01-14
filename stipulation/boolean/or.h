@@ -87,7 +87,7 @@ boolean quodlibet_has_starter_won(slice_index si);
 
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating pice of
+ * E.g. in s# or r#, has it taken the last potential mating piece of
  * the defender?
  * @param si slice identifier
  * @return true iff starter has lost
