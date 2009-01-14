@@ -205,7 +205,7 @@ static d_defender_win_type branch_d_does_defender_win(slice_index si,
 
   TraceValue("%u\n",slices[si].u.branch.min_length);
 
-  if (slice_has_starter_lost(slices[si].u.branch.next))
+  if (slice_has_starter_apriori_lost(slices[si].u.branch.next))
     result = already_won;
   else if ((slices[si].u.branch.length-n
             >slices[si].u.branch.min_length-slack_length_direct)
@@ -279,7 +279,7 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
-  if (slice_is_apriori_unsolvable(si))
+  if (slice_must_starter_resign(si))
     ; /* intentionally nothing */
   else
   {
@@ -922,7 +922,7 @@ static void branch_d_root_solve_real_play(slice_index si)
 
   if (slice_has_non_starter_solved(si))
     ;
-  else if (slice_is_apriori_unsolvable(si))
+  else if (slice_must_starter_resign(si))
     slice_write_unsolvability(slices[si].u.branch.next);
   else if (slices[si].u.branch.length==slack_length_direct)
     slice_root_solve(slices[si].u.branch.next);

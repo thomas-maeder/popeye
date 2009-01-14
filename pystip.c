@@ -500,12 +500,13 @@ slice_index find_unique_goal(void)
           : no_slice);
 }
 
-/* Detect a priori unsolvability of a slice (e.g. because of forced
- * reflex mates)
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
  * @param si slice index
- * @return true iff slice is a priori unsolvable
+ * @return true iff starter must resign
  */
-boolean slice_is_apriori_unsolvable(slice_index si)
+boolean slice_must_starter_resign(slice_index si)
 {
   boolean result = true;
 
@@ -516,25 +517,25 @@ boolean slice_is_apriori_unsolvable(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = leaf_is_apriori_unsolvable(si);
+      result = leaf_must_starter_resign(si);
       break;
 
     case STReciprocal:
-      result = reci_is_apriori_unsolvable(si);
+      result = reci_must_starter_resign(si);
       break;
       
     case STQuodlibet:
-      result = quodlibet_is_apriori_unsolvable(si);
+      result = quodlibet_must_starter_resign(si);
       break;
       
     case STNot:
-      result = not_is_apriori_unsolvable(si);
+      result = not_must_starter_resign(si);
       break;
 
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
-      result = branch_is_apriori_unsolvable(si);
+      result = branch_must_starter_resign(si);
       break;
 
     default:
@@ -1026,12 +1027,14 @@ boolean slice_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the starting side has lost with its move just
- * played.
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating pice of
+ * the defender?
  * @param si slice identifier
  * @return true iff starter has lost
  */
-boolean slice_has_starter_lost(slice_index si)
+boolean slice_has_starter_apriori_lost(slice_index si)
 {
   boolean result = false;
 
@@ -1042,25 +1045,25 @@ boolean slice_has_starter_lost(slice_index si)
   switch (slices[si].type)
   {
     case STLeaf:
-      result = leaf_has_starter_lost(si);
+      result = leaf_has_starter_apriori_lost(si);
       break;
 
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
-      result = branch_has_starter_lost(si);
+      result = branch_has_starter_apriori_lost(si);
       break;
 
     case STQuodlibet:
-      result = quodlibet_has_starter_lost(si);
+      result = quodlibet_has_starter_apriori_lost(si);
       break;
 
     case STReciprocal:
-      result = reci_has_starter_lost(si);
+      result = reci_has_starter_apriori_lost(si);
       break;
 
     case STNot:
-      result = not_has_starter_lost(si);
+      result = not_has_starter_apriori_lost(si);
       break;
 
     default:
@@ -1123,7 +1126,7 @@ boolean slice_has_starter_won(slice_index si)
 
 /* Write a priori unsolvability (if any) of a slice in direct play
  * (e.g. forced reflex mates).
- * Assumes slice_is_apriori_unsolvable(si)
+ * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void slice_write_unsolvability(slice_index si)

@@ -31,12 +31,13 @@ slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2)
   return result;
 }
 
-/* Detect a priori unsolvability of a slice (e.g. because of forced
- * reflex mates)
- * @param si si slice index
- * @return true iff slice is a priori unsolvable
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * @param si slice index
+ * @return true iff starter must resign
  */
-boolean reci_is_apriori_unsolvable(slice_index si)
+boolean reci_must_starter_resign(slice_index si)
 {
   boolean result;
   slice_index const op1 = slices[si].u.reciprocal.op1;
@@ -48,8 +49,8 @@ boolean reci_is_apriori_unsolvable(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  result = (slice_is_apriori_unsolvable(op1)
-            || slice_is_apriori_unsolvable(op2));
+  result = (slice_must_starter_resign(op1)
+            || slice_must_starter_resign(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -101,13 +102,14 @@ boolean reci_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the starting side has lost with its move just
- * played independently of his possible further play during the
- * current slice.
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating pice of
+ * the defender?
  * @param si slice identifier
  * @return true iff starter has lost
  */
-boolean reci_has_starter_lost(slice_index si)
+boolean reci_has_starter_apriori_lost(slice_index si)
 {
   boolean result;
   slice_index const op1 = slices[si].u.reciprocal.op1;
@@ -118,7 +120,8 @@ boolean reci_has_starter_lost(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  result = slice_has_starter_lost(op1) || slice_has_starter_lost(op2);
+  result = (slice_has_starter_apriori_lost(op1)
+            || slice_has_starter_apriori_lost(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -151,7 +154,7 @@ boolean reci_has_starter_won(slice_index si)
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_is_apriori_unsolvable(si)
+ * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void reci_write_unsolvability(slice_index si)

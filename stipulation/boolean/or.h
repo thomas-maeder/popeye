@@ -17,16 +17,17 @@
  */
 slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2);
 
-/* Detect a priori unsolvability of a slice (e.g. because of forced
- * reflex mates)
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
  * @param si slice index
- * @return true iff slice is a priori unsolvable
+ * @return true iff starter must resign
  */
-boolean quodlibet_is_apriori_unsolvable(slice_index si);
+boolean quodlibet_must_starter_resign(slice_index si);
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_is_apriori_unsolvable(si)
+ * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void quodlibet_write_unsolvability(slice_index si);
@@ -84,13 +85,14 @@ boolean quodlibet_has_non_starter_solved(slice_index si);
  */
 boolean quodlibet_has_starter_won(slice_index si);
 
-/* Determine whether the starting side has lost with its move just
- * played independently of his possible further play during the
- * current slice.
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating pice of
+ * the defender?
  * @param si slice identifier
  * @return true iff starter has lost
  */
-boolean quodlibet_has_starter_lost(slice_index si);
+boolean quodlibet_has_starter_apriori_lost(slice_index si);
 
 /* Solve a quodlibet slice
  * @param si slice index

@@ -16,12 +16,13 @@
  */
 boolean leaf_is_goal_reached(Side just_moved, slice_index leaf);
 
-/* Detect a priori unsolvability of a leaf (e.g. because of forced
- * reflex mates)
- * @param leaf leaf's slice index
- * @return true iff leaf is a priori unsolvable
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * @param si slice index
+ * @return true iff starter must resign
  */
-boolean leaf_is_apriori_unsolvable(slice_index leaf);
+boolean leaf_must_starter_resign(slice_index leaf);
 
 /* Determine whether a leaf slice has just been solved with the just
  * played move by the non-starter 
@@ -32,7 +33,7 @@ boolean leaf_has_non_starter_solved(slice_index leaf);
 
 /* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
  * mates).
- * Assumes leaf_is_apriori_unsolvable()
+ * Assumes leaf_must_starter_resign()
  * @param leaf leaf's slice index
  */
 void leaf_write_unsolvability(slice_index leaf);
@@ -68,12 +69,14 @@ void leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type);
  */
 void leaf_solve_continuations(int continuations, slice_index leaf);
 
-/* Determine whether the starting side has lost with its move just
- * played.
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating pice of
+ * the defender?
  * @param leaf slice identifier
  * @return true iff starter has lost
  */
-boolean leaf_has_starter_lost(slice_index leaf);
+boolean leaf_has_starter_apriori_lost(slice_index leaf);
 
 /* Determine whether the starting side has won with its move just
  * played.

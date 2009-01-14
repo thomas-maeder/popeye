@@ -26,12 +26,13 @@ slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2)
   return result;
 }
 
-/* Detect a priori unsolvability of a slice (e.g. because of forced
- * reflex mates)
- * @param si si slice index
- * @return true iff slice is a priori unsolvable
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * @param si slice index
+ * @return true iff starter must resign
  */
-boolean quodlibet_is_apriori_unsolvable(slice_index si)
+boolean quodlibet_must_starter_resign(slice_index si)
 {
   boolean result;
   slice_index const op1 = slices[si].u.quodlibet.op1;
@@ -43,8 +44,8 @@ boolean quodlibet_is_apriori_unsolvable(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  result = (slice_is_apriori_unsolvable(op1)
-            && slice_is_apriori_unsolvable(op2));
+  result = (slice_must_starter_resign(op1)
+            && slice_must_starter_resign(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -53,7 +54,7 @@ boolean quodlibet_is_apriori_unsolvable(slice_index si)
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_is_apriori_unsolvable(si)
+ * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void quodlibet_write_unsolvability(slice_index si)
@@ -147,9 +148,9 @@ boolean quodlibet_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  if (slice_is_apriori_unsolvable(op1))
+  if (slice_must_starter_resign(op1))
     slice_write_unsolvability(op1);
-  else if (slice_is_apriori_unsolvable(op2))
+  else if (slice_must_starter_resign(op2))
     slice_write_unsolvability(op2);
   else
   {
@@ -257,13 +258,14 @@ boolean quodlibet_has_starter_won(slice_index si)
   return result;
 }
 
-/* Determine whether the starting side has lost with its move just
- * played independently of his possible further play during the
- * current slice.
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating pice of
+ * the defender?
  * @param si slice identifier
  * @return true iff starter has lost
  */
-boolean quodlibet_has_starter_lost(slice_index si)
+boolean quodlibet_has_starter_apriori_lost(slice_index si)
 {
   boolean result = true;
   slice_index const op1 = slices[si].u.quodlibet.op1;
@@ -272,7 +274,8 @@ boolean quodlibet_has_starter_lost(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_has_starter_lost(op1) || slice_has_starter_lost(op2);
+  result = (slice_has_starter_apriori_lost(op1)
+            || slice_has_starter_apriori_lost(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

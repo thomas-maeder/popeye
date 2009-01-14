@@ -5,19 +5,20 @@
 
 #include <assert.h>
 
-/* Detect a priori unsolvability of a slice (e.g. because of forced
- * reflex mates)
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
  * @param si slice index
- * @return true iff slice is a priori unsolvable
+ * @return true iff starter must resign
  */
-boolean branch_is_apriori_unsolvable(slice_index si)
+boolean branch_must_starter_resign(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_is_apriori_unsolvable(slices[si].u.branch.next);
+  result = slice_must_starter_resign(slices[si].u.branch.next);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -26,7 +27,7 @@ boolean branch_is_apriori_unsolvable(slice_index si)
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_is_apriori_unsolvable(si)
+ * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void branch_write_unsolvability(slice_index si)
@@ -167,12 +168,14 @@ boolean branch_end_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the starting side has lost with its move just
- * played.
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating pice of
+ * the defender?
  * @param si slice identifier
  * @return true iff starter has lost
  */
-boolean branch_has_starter_lost(slice_index si)
+boolean branch_has_starter_apriori_lost(slice_index si)
 {
   boolean result = false;
 
@@ -180,7 +183,7 @@ boolean branch_has_starter_lost(slice_index si)
   TraceFunctionParam("%u\n",si);
 
   assert(0); /* just to be sure; this can't possibly be right: */
-  result = slice_has_starter_lost(slices[si].u.branch.next);
+  result = slice_has_starter_apriori_lost(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

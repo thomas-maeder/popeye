@@ -941,12 +941,13 @@ static boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf)
   return end_found;
 }
 
-/* Detect a priori unsolvability of a leaf (e.g. because of a forced
- * reflex mate)
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
  * @param leaf leaf's slice index
- * @return true iff leaf is a priory unsolvable
+ * @return true iff starter must resign
  */
-boolean leaf_is_apriori_unsolvable(slice_index leaf)
+boolean leaf_must_starter_resign(slice_index leaf)
 {
   boolean result = false;
 
@@ -1976,12 +1977,14 @@ void leaf_root_write_key_solve_postkey(slice_index leaf, attack_type type)
   Message(NewLine);
 }
 
-/* Determine whether the starting side has lost with its move just
- * played.
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating pice of
+ * the defender?
  * @param leaf slice identifier
  * @return true iff starter has lost
  */
-boolean leaf_has_starter_lost(slice_index leaf)
+boolean leaf_has_starter_apriori_lost(slice_index leaf)
 {
   assert(slices[leaf].type==STLeaf);
   assert(slices[leaf].u.leaf.starter!=no_side);
