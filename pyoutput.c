@@ -479,6 +479,7 @@ void write_attack(Goal goal, attack_type type)
 void write_defense(void)
 {
   TraceFunctionEntry(__func__);
+  TraceText("\n");
 
   if (current_mode==output_mode_tree)
   {
