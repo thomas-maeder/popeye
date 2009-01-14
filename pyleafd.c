@@ -5,7 +5,6 @@
 #include "pyoutput.h"
 #include "pyleaf.h"
 #include "pyhash.h"
-#include "pymsg.h" /* TODO */
 
 #include <assert.h>
 #include <stdlib.h>
@@ -178,9 +177,10 @@ boolean leaf_d_solve(slice_index leaf)
     {
       solution_found = true;
       write_attack(slices[leaf].u.leaf.goal,attack_key);
+      output_start_postkey_level();
       output_start_leaf_variation_level();
       output_end_leaf_variation_level();
-      write_end_of_solution();
+      output_end_postkey_level();
     }
 
     repcoup();
@@ -202,11 +202,10 @@ void leaf_d_root_write_key_solve_postkey(slice_index leaf, attack_type type)
   assert(slices[leaf].u.leaf.starter!=no_side);
 
   write_attack(slices[leaf].u.leaf.goal,type);
+  output_start_postkey_level();
   output_start_leaf_variation_level();
   output_end_leaf_variation_level();
-
-  /* TODO why here? */
-  Message(NewLine);
+  output_end_postkey_level();
 }
 
 /* Determine whether the starting side has made such a bad move that

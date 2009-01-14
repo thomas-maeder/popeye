@@ -1006,7 +1006,7 @@ void branch_d_root_solve(slice_index si)
       else
       {
         branch_d_root_solve_setplay(si);
-        Message(NewLine);
+        write_end_of_solution_phase();
       }
     }
 

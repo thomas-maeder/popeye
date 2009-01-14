@@ -316,8 +316,6 @@ boolean branch_h_root_solve_setplay(slice_index si)
 
   output_end_setplay_level();
 
-  Message(NewLine); /* TODO invoke higher-level output function */
-
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
@@ -339,7 +337,10 @@ void branch_h_root_solve(slice_index si)
   move_generation_mode = move_generation_not_optimized;
 
   if (OptFlag[solapparent] && !OptFlag[restart])
+  {
     branch_h_root_solve_setplay(si);
+    write_end_of_solution_phase();
+  }
 
   solutions = 0;    /* reset after set play */
   FlagShortSolsReached = false;

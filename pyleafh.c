@@ -2,7 +2,6 @@
 #include "trace.h"
 #include "pydata.h"
 #include "platform/maxtime.h"
-#include "pymsg.h" /* TODO */
 #include "pyint.h"
 #include "pyleaf.h"
 #include "pyoutput.h"
@@ -434,9 +433,6 @@ void leaf_h_root_write_key_solve_postkey(slice_index leaf, attack_type type)
   if (OptFlag[solvariantes])
     leaf_h_solve_final_move(leaf);
   output_end_leaf_variation_level();
-
-  /* TODO why here? */
-  Message(NewLine);
 }
 
 /* Determine whether the starting side has made such a bad move that

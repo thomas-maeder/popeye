@@ -246,7 +246,7 @@ void branch_ser_root_solve(slice_index si)
       isIntelligentModeActive = save_isIntelligentModeActive;
     }
 
-    Message(NewLine); /* TODO use higher level output function */
+    write_end_of_solution_phase();
   }
 
   solutions= 0;    /* reset after set play */

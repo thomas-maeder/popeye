@@ -171,7 +171,7 @@ void output_end_postkey_level(void)
   if (current_mode==output_mode_tree
       && nr_defenses_written[move_depth]==0
       && nr_continuations_written[move_depth+1]==0)
-    Message(NewLine);
+    write_end_of_solution();
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -602,6 +602,13 @@ void write_end_of_solution(void)
   if (current_mode==output_mode_tree
       && output_attack_types[nbply]!=unsolvability_attack)
     Message(NewLine);
+}
+
+/* Write the end of a solution phase
+ */
+void write_end_of_solution_phase(void)
+{
+  Message(NewLine);
 }
 
 void editcoup(ply ply_id, coup *mov, Goal goal); /* TODO */

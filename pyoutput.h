@@ -130,4 +130,9 @@ void write_refutations(int t);
  */
 void write_end_of_solution(void);
 
+/* Write the end of a solution phase
+ */
+void write_end_of_solution_phase(void);
+
+
 #endif
