@@ -40,24 +40,6 @@ void not_write_unsolvability(slice_index si)
   output_end_unsolvability_level();
 }
 
-/* Determine whether there is >= 1 solution
- * @param si slice index
- * @return true iff there is >=1 solution
- */
-boolean not_is_solvable(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  result = !slice_is_solvable(slices[si].u.not.op);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?

@@ -548,37 +548,6 @@ boolean slice_must_starter_resign(slice_index si)
   return result;
 }
 
-/* Determine whether a slice has >=1 solution
- * @param si slice index
- * @return true iff slice has >=1 solution(s)
- */
-boolean slice_is_solvable(slice_index si)
-{
-  boolean result = false;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  switch (slices[si].type)
-  {
-    case STLeaf:
-      result = leaf_is_solvable(si);
-      break;
-
-    case STNot:
-      result = not_is_solvable(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Determine and write continuations of a slice
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of branch slice

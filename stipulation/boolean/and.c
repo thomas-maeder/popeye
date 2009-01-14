@@ -238,7 +238,7 @@ void reci_root_solve(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  if (slice_is_solvable(op2))
+  if (slice_has_solution(op2))
   {
     slice_root_solve(op1);
     slice_root_solve(op2);
@@ -276,7 +276,7 @@ boolean reci_solve(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  found_solution = (slice_is_solvable(op2)
+  found_solution = (slice_has_solution(op2)
                     && slice_solve(op1)
                     && slice_solve(op2));
 

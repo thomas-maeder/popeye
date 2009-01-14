@@ -71,7 +71,7 @@ void leaf_solve_continuations(int continuations, slice_index leaf);
 
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating pice of
+ * E.g. in s# or r#, has it taken the last potential mating piece of
  * the defender?
  * @param leaf slice identifier
  * @return true iff starter has lost
@@ -96,12 +96,6 @@ boolean leaf_has_solution(slice_index leaf);
  * @return true iff >=1 solution was found
  */
 boolean leaf_solve(slice_index leaf);
-
-/* Determine whether there is >= 1 solution for the leaf
- * @param leaf slice index of leaf slice
- * @return true iff side_at_move has >=1 solution
- */
-boolean leaf_is_solvable(slice_index leaf);
 
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf

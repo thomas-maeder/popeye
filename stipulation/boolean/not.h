@@ -23,12 +23,6 @@ slice_index alloc_not_slice(slice_index op);
  */
 void not_write_unsolvability(slice_index si);
 
-/* Determine whether there is >= 1 solution
- * @param si slice index
- * @return true iff there is >=1 solution
- */
-boolean not_is_solvable(slice_index si);
-
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
@@ -58,7 +52,7 @@ void not_solve_continuations(int continuations, slice_index si);
 
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating pice of
+ * E.g. in s# or r#, has it taken the last potential mating piece of
  * the defender?
  * @param si slice identifier
  * @return true iff starter has lost

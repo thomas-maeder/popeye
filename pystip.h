@@ -225,14 +225,6 @@ boolean slice_must_starter_resign(slice_index si);
  */
 void slice_write_unsolvability(slice_index si);
 
-/* Determine whether a slice has >=1 solution; only to be called when
- * play has reached the start of the slice, with the appropriate side
- * at the move. 
- * @param si slice index
- * @return true iff slice has >=1 solution(s)
- */
-boolean slice_is_solvable(slice_index si);
-
 /* Determine and write continuations of a slice
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of slice
@@ -297,7 +289,7 @@ boolean slice_has_non_starter_solved(slice_index si);
 
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating pice of
+ * E.g. in s# or r#, has it taken the last potential mating piece of
  * the defender?
  * @param si slice identifier
  * @return true iff starter has lost
