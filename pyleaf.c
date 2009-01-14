@@ -1993,9 +1993,10 @@ boolean leaf_has_starter_lost(slice_index leaf)
 
     case ESelf:
     case EHelp:
-      /* TODO shouldn't this be the non-starter??? */
-      return (OptFlag[keepmating]
-              && !is_a_mating_piece_left(slices[leaf].u.leaf.starter));
+    {
+      Side const defender = advers(slices[leaf].u.leaf.starter);
+      return OptFlag[keepmating] && !is_a_mating_piece_left(defender);
+    }
 
     default:
       assert(0);
