@@ -1149,7 +1149,7 @@ static char *ParseLength(char *tok, slice_index si)
   return tok;
 }
 
-static char *ParseGoal(char *tok, End end, slice_index *si)
+static char *ParseGoal(char *tok, SliceType type, slice_index *si)
 {
   goalInputConfig_t const *gic;
 
@@ -1161,7 +1161,7 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
     {
       if (gic->goal==goal_target)
       {
-        *si = alloc_target_leaf_slice(end,SquareNum(tok[1],tok[2]));
+        *si = alloc_target_leaf_slice(type,SquareNum(tok[1],tok[2]));
         if (slices[*si].u.leaf.target==initsquare)
         {
           IoErrorMsg(MissngSquareList, 0);
@@ -1173,14 +1173,14 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
       }
       else if (gic->goal==goal_mate_or_stale)
       {
-        *si = alloc_quodlibet_slice(alloc_leaf_slice(end,goal_mate),
-                                    alloc_leaf_slice(end,goal_stale));
+        *si = alloc_quodlibet_slice(alloc_leaf_slice(type,goal_mate),
+                                    alloc_leaf_slice(type,goal_stale));
         tok += 2;
         break;
       }
       else
       {
-        *si = alloc_leaf_slice(end,gic->goal);
+        *si = alloc_leaf_slice(type,gic->goal);
         
 #if !defined(DATABASE)
         if (gic->goal==goal_atob)
@@ -1219,8 +1219,8 @@ static char *ParseGoal(char *tok, End end, slice_index *si)
 }
 
 static char *ParseReciGoal(char *tok,
-                           End end_nonreci, slice_index *si_nonreci,
-                           End end_reci, slice_index *si_reci)
+                           SliceType type_nonreci, slice_index *si_nonreci,
+                           SliceType type_reci, slice_index *si_reci)
 {
   char *result = 0;
 
@@ -1232,11 +1232,11 @@ static char *ParseReciGoal(char *tok,
     char const *closingParenPos = strchr(tok,')');
     if (closingParenPos!=0)
     {
-      tok = ParseGoal(tok+1,end_reci,si_reci);
+      tok = ParseGoal(tok+1,type_reci,si_reci);
       if (tok!=0)
       {
         if (tok==closingParenPos)
-          result = ParseGoal(tok+1,end_nonreci,si_nonreci);
+          result = ParseGoal(tok+1,type_nonreci,si_nonreci);
         else
           IoErrorMsg(UnrecStip, 0);
       }
@@ -1246,9 +1246,9 @@ static char *ParseReciGoal(char *tok,
   }
   else
   {
-    result = ParseGoal(tok,end_nonreci,si_nonreci);
+    result = ParseGoal(tok,type_nonreci,si_nonreci);
     if (result!=NULL)
-      *si_reci = alloc_leaf_slice(end_reci,slices[*si_nonreci].u.leaf.goal);
+      *si_reci = alloc_leaf_slice(type_reci,slices[*si_nonreci].u.leaf.goal);
   }
 
   TraceFunctionExit(__func__);
@@ -1265,7 +1265,7 @@ static char *ParseReciEnd(char *tok, slice_index si_parent)
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u\n",si_parent);
 
-  tok = ParseReciGoal(tok, EHelp,&op1, EDirect,&op2);
+  tok = ParseReciGoal(tok, STLeafHelp,&op1, STLeafDirect,&op2);
   if (op1!=no_slice && op2!=no_slice)
     slices[si_parent].u.branch.next = alloc_reciprocal_slice(op1,op2);
 
@@ -1277,10 +1277,10 @@ static char *ParseReciEnd(char *tok, slice_index si_parent)
 static char *ParseReflexEnd(char *tok, slice_index si_parent)
 {
   slice_index help;
-  tok = ParseGoal(tok,EHelp,&help);
+  tok = ParseGoal(tok,STLeafHelp,&help);
   if (tok!=0 && help!=no_slice)
   {
-    slice_index const direct = alloc_leaf_slice(EDirect,
+    slice_index const direct = alloc_leaf_slice(STLeafDirect,
                                                 slices[help].u.leaf.goal);
     slice_index const not = alloc_not_slice(direct);
     slices[si_parent].u.branch.next = alloc_reciprocal_slice(help,not);
@@ -1297,24 +1297,24 @@ static char *ParseEnd(char *tok, slice_index si_parent)
 
   if (strncmp("ser-dia",tok,7) == 0
       || strncmp("ser-a=>b",tok,8) == 0)
-    tok = ParseGoal(tok+4,EDirect,&slices[si_parent].u.branch.next);
+    tok = ParseGoal(tok+4,STLeafDirect,&slices[si_parent].u.branch.next);
   else if (strncmp("dia", tok, 3) == 0)
-    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.branch.next);
+    tok = ParseGoal(tok,STLeafHelp,&slices[si_parent].u.branch.next);
 
 #if !defined(DATABASE)
   else if (strncmp("a=>b", tok, 4) == 0)
-    tok = ParseGoal(tok,EHelp,&slices[si_parent].u.branch.next);
+    tok = ParseGoal(tok,STLeafHelp,&slices[si_parent].u.branch.next);
 #endif
 
   else if (strncmp("semi-r", tok, 6) == 0)
   {
-    tok = ParseGoal(tok+6,EHelp,&slices[si_parent].u.branch.next);
+    tok = ParseGoal(tok+6,STLeafHelp,&slices[si_parent].u.branch.next);
     /* the end of a sermi-r problem is hX1 with reversed coulours. */
     slice_impose_starter(slices[si_parent].u.branch.next,White);
   }
 
   else if (strncmp("hs", tok, 2) == 0)
-    tok = ParseGoal(tok+2,ESelf,&slices[si_parent].u.branch.next);
+    tok = ParseGoal(tok+2,STLeafSelf,&slices[si_parent].u.branch.next);
 
   else if (strncmp("hr", tok, 2) == 0)
     tok = ParseReflexEnd(tok+2,si_parent);
@@ -1323,7 +1323,7 @@ static char *ParseEnd(char *tok, slice_index si_parent)
     switch (*tok)
     {
       case 'h':
-        tok = ParseGoal(tok+1,EHelp,&slices[si_parent].u.branch.next);
+        tok = ParseGoal(tok+1,STLeafHelp,&slices[si_parent].u.branch.next);
         break;
 
       case 'r':
@@ -1331,11 +1331,11 @@ static char *ParseEnd(char *tok, slice_index si_parent)
         break;
 
       case 's':
-        tok = ParseGoal(tok+1,ESelf,&slices[si_parent].u.branch.next);
+        tok = ParseGoal(tok+1,STLeafSelf,&slices[si_parent].u.branch.next);
         break;
 
       default:
-        tok = ParseGoal(tok,EDirect,&slices[si_parent].u.branch.next);
+        tok = ParseGoal(tok,STLeafDirect,&slices[si_parent].u.branch.next);
         break;
     }
 
@@ -1382,7 +1382,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("ser-dia",tok,7) == 0
            || strncmp("ser-a=>b",tok,8) == 0)
   {
-    /* special treatment: leaf always has end==EDirect */
+    /* special treatment: leaf always has type==STLeafDirect */
     *si = alloc_branch_slice(STBranchSeries);
     tok = ParseEnd(tok,*si); /* do *not* skip over "ser-" */
     if (tok!=0)

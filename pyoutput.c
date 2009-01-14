@@ -386,7 +386,9 @@ static void linesolution(void)
     if (slice!=active_slice[current_ply])
     {
       slice = active_slice[current_ply];
-      if (slices[slice].type!=STLeaf)
+      if (slices[slice].type!=STLeafDirect
+          && slices[slice].type!=STLeafSelf
+          && slices[slice].type!=STLeafHelp)
       {
         next_movenumber = 1;
         starting_side = trait[current_ply];

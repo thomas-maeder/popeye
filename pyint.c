@@ -2593,7 +2593,7 @@ boolean Intelligent(stip_length_type n)
   }
   else
   {
-    if (slices[1].u.leaf.end==EHelp)
+    if (slices[1].type==STLeafHelp)
     {
       if (slices[1].u.leaf.goal==goal_atob
           || slices[1].u.leaf.goal==goal_proof)

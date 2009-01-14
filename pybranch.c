@@ -234,7 +234,9 @@ void branch_detect_starter(slice_index si, boolean is_duplex)
         slices[si].u.branch.starter = advers(slice_get_starter(next));
       break;
 
-    case STLeaf:
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafHelp:
       if (slice_get_starter(next)==no_side)
       {
         /* next can't tell - let's tell him */

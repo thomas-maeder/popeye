@@ -51,16 +51,15 @@ slice_index alloc_branch_slice(SliceType type)
  * Initializes type to STLeaf and leaf fields according to arguments
  * @return index of allocated slice
  */
-slice_index alloc_target_leaf_slice(End end, square s)
+slice_index alloc_target_leaf_slice(SliceType type, square s)
 {
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  slices[result].type = STLeaf; 
+  slices[result].type = type; 
   slices[result].u.leaf.starter = no_side; 
-  slices[result].u.leaf.end = end;
   slices[result].u.leaf.goal = goal_target;
   slices[result].u.leaf.target = s;
 
@@ -73,17 +72,16 @@ slice_index alloc_target_leaf_slice(End end, square s)
  * Initializes type to STLeaf and leaf fields according to arguments
  * @return index of allocated slice
  */
-slice_index alloc_leaf_slice(End end, Goal goal)
+slice_index alloc_leaf_slice(SliceType type, Goal goal)
 {
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",end);
+  TraceFunctionParam("%u",type);
   TraceFunctionParam("%u\n",goal);
 
-  slices[result].type = STLeaf; 
+  slices[result].type = type; 
   slices[result].u.leaf.starter = no_side; 
-  slices[result].u.leaf.end = end;
   slices[result].u.leaf.goal = goal;
   slices[result].u.leaf.target = initsquare;
 
@@ -130,7 +128,9 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",min_length);
 
-  assert(slices[si].type!=STLeaf);
+  assert(slices[si].type!=STLeafDirect
+         && slices[si].type!=STLeafSelf
+         && slices[si].type!=STLeafHelp);
 
   if (slices[si].type==STBranchHelp)
   {
@@ -157,10 +157,12 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
   TraceValue("%u\n",slices[index].type);
   switch (slices[index].type)
   {
-    case STLeaf:
-      if (slices[index].u.leaf.end==ESelf
-          || slices[index].u.leaf.end==EHelp)
-      {
+    case STLeafDirect:
+      break;
+
+    case STLeafSelf:
+    case STLeafHelp:
+    {
         /* Insert a new quodlibet node at *hook's current position.
          * Move *hook to positon op2 of the new quodlibet node, and
          * add a new direct leaf at op1 of that node.
@@ -168,7 +170,7 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
          * op1 the new direct leaf.
          */
         Goal const goal = slices[index].u.leaf.goal;
-        *hook = alloc_quodlibet_slice(alloc_leaf_slice(EDirect,goal),
+        *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
                                       index);
         TraceValue("allocated quodlibet slice %u\n",*hook);
       }
@@ -248,7 +250,9 @@ static boolean slice_ends_only_in(Goal const goals[],
 {
   switch (slices[si].type)
   {
-    case STLeaf:
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafHelp:
       return leaf_ends_in_one_of(goals,nrGoals,si);
 
     case STQuodlibet:
@@ -307,7 +311,9 @@ static boolean slice_ends_in(Goal const goals[],
 {
   switch (slices[si].type)
   {
-    case STLeaf:
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafHelp:
       return leaf_ends_in_one_of(goals,nrGoals,si);
 
     case STQuodlibet:
@@ -360,7 +366,9 @@ static slice_index find_goal_recursive(Goal goal,
 
   switch (slices[si].type)
   {
-    case STLeaf:
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafHelp:
       if (*active)
       {
         if (slices[si].u.leaf.goal==goal)
@@ -432,7 +440,10 @@ slice_index find_next_goal(Goal goal, slice_index start)
 
   /* Either this is the first run (-> si==0) or we start from the
    * previous result, which must have been a leaf. */
-  assert(start==0 || slices[start].type==STLeaf);
+  assert(start==0
+         || slices[start].type==STLeafDirect
+         || slices[start].type==STLeafSelf
+         || slices[start].type==STLeafHelp);
 
   return find_goal_recursive(goal,start,&active,0);
 }
@@ -449,7 +460,9 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
 {
   switch (slices[current_slice].type)
   {
-    case STLeaf:
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafHelp:
       if (*found_so_far==no_slice)
       {
         *found_so_far = current_slice;
@@ -516,8 +529,16 @@ boolean slice_must_starter_resign(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STLeaf:
-      result = leaf_must_starter_resign(si);
+    case STLeafDirect:
+      result = leaf_d_must_starter_resign(si);
+      break;
+
+    case STLeafSelf:
+      result = leaf_s_must_starter_resign(si);
+      break;
+
+    case STLeafHelp:
+      result = leaf_h_must_starter_resign(si);
       break;
 
     case STReciprocal:
@@ -560,8 +581,16 @@ void slice_solve_continuations(int table, slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STLeaf:
-      leaf_solve_continuations(table,si);
+    case STLeafDirect:
+      leaf_d_solve_continuations(table,si);
+      break;
+    
+    case STLeafSelf:
+      leaf_s_solve_continuations(table,si);
+      break;
+    
+    case STLeafHelp:
+      leaf_h_solve_continuations(table,si);
       break;
     
     case STQuodlibet:
@@ -611,8 +640,16 @@ boolean slice_root_solve_setplay(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STLeaf:
-      result = leaf_root_solve_setplay(si);
+    case STLeafDirect:
+      result = leaf_d_root_solve_setplay(si);
+      break;
+
+    case STLeafSelf:
+      result = leaf_s_root_solve_setplay(si);
+      break;
+
+    case STLeafHelp:
+      result = leaf_h_root_solve_setplay(si);
       break;
 
     case STQuodlibet:
@@ -658,8 +695,16 @@ boolean slice_root_end_solve_complete_set(slice_index si)
 
   switch (slices[si].type)
   {
-    case STLeaf:
-      result = leaf_root_solve_complete_set(si);
+    case STLeafDirect:
+      result = leaf_d_root_solve_complete_set(si);
+      break;
+
+    case STLeafSelf:
+      result = leaf_s_root_solve_complete_set(si);
+      break;
+
+    case STLeafHelp:
+      result = leaf_h_root_solve_complete_set(si);
       break;
 
     case STBranchDirect:
@@ -695,8 +740,16 @@ void slice_root_write_key_solve_postkey(slice_index si, attack_type type)
 {
   switch (slices[si].type)
   {
-    case STLeaf:
-      leaf_root_write_key_solve_postkey(si,type);
+    case STLeafDirect:
+      leaf_d_root_write_key_solve_postkey(si,type);
+      break;
+
+    case STLeafSelf:
+      leaf_s_root_write_key_solve_postkey(si,type);
+      break;
+
+    case STLeafHelp:
+      leaf_h_root_write_key_solve_postkey(si,type);
       break;
 
     case STQuodlibet:
@@ -744,8 +797,16 @@ boolean slice_solve(slice_index si)
 
   switch (slices[si].type)
   {
-    case STLeaf:
-      solution_found = leaf_solve(si);
+    case STLeafDirect:
+      solution_found = leaf_d_solve(si);
+      break;
+
+    case STLeafSelf:
+      solution_found = leaf_s_solve(si);
+      break;
+
+    case STLeafHelp:
+      solution_found = leaf_h_solve(si);
       break;
 
     case STQuodlibet:
@@ -793,9 +854,16 @@ void slice_root_solve(slice_index si)
 
   switch (slices[si].type)
   {
-    case STLeaf:
-      /* TODO add leaf_root_solve() without return value?? */
-      leaf_solve(si);
+    case STLeafDirect:
+      leaf_d_solve(si);
+      break;
+
+    case STLeafSelf:
+      leaf_s_solve(si);
+      break;
+
+    case STLeafHelp:
+      leaf_h_solve(si);
       break;
 
     case STQuodlibet:
@@ -873,8 +941,16 @@ boolean slice_has_solution(slice_index si)
 
   switch (slices[si].type)
   {
-    case STLeaf:
-      result = leaf_has_solution(si);
+    case STLeafDirect:
+      result = leaf_d_has_solution(si);
+      break;
+
+    case STLeafSelf:
+      result = leaf_s_has_solution(si);
+      break;
+
+    case STLeafHelp:
+      result = leaf_h_has_solution(si);
       break;
 
     case STQuodlibet:
@@ -921,8 +997,16 @@ void slice_solve_variations(slice_index si)
 
   switch (slices[si].type)
   {
-    case STLeaf:
-      leaf_solve_variations(si);
+    case STLeafDirect:
+      leaf_d_solve_variations(si);
+      break;
+
+    case STLeafSelf:
+      leaf_s_solve_variations(si);
+      break;
+
+    case STLeafHelp:
+      leaf_h_solve_variations(si);
       break;
 
     case STQuodlibet:
@@ -968,8 +1052,16 @@ boolean slice_has_non_starter_solved(slice_index si)
 
   switch (slices[si].type)
   {
-    case STLeaf:
-      result = leaf_has_non_starter_solved(si);
+    case STLeafDirect:
+      result = leaf_d_has_non_starter_solved(si);
+      break;
+
+    case STLeafSelf:
+      result = leaf_s_has_non_starter_solved(si);
+      break;
+
+    case STLeafHelp:
+      result = leaf_h_has_non_starter_solved(si);
       break;
 
     case STBranchDirect:
@@ -1013,8 +1105,16 @@ boolean slice_has_starter_apriori_lost(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STLeaf:
-      result = leaf_has_starter_apriori_lost(si);
+    case STLeafDirect:
+      result = leaf_d_has_starter_apriori_lost(si);
+      break;
+
+    case STLeafSelf:
+      result = leaf_s_has_starter_apriori_lost(si);
+      break;
+
+    case STLeafHelp:
+      result = leaf_h_has_starter_apriori_lost(si);
       break;
 
     case STBranchDirect:
@@ -1061,8 +1161,16 @@ boolean slice_has_starter_won(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STLeaf:
-      result = leaf_has_starter_won(si);
+    case STLeafDirect:
+      result = leaf_d_has_starter_won(si);
+      break;
+
+    case STLeafSelf:
+      result = leaf_s_has_starter_won(si);
+      break;
+
+    case STLeafHelp:
+      result = leaf_h_has_starter_won(si);
       break;
 
     case STBranchDirect:
@@ -1105,7 +1213,9 @@ void slice_write_unsolvability(slice_index si)
 
   switch (slices[si].type)
   {
-    case STLeaf:
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafHelp:
       leaf_write_unsolvability(si);
       break;
 
@@ -1147,8 +1257,16 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
 
   switch (slices[si].type)
   {
-    case STLeaf:
-      leaf_detect_starter(si,is_duplex);
+    case STLeafDirect:
+      leaf_d_detect_starter(si,is_duplex);
+      break;
+
+    case STLeafSelf:
+      leaf_s_detect_starter(si,is_duplex);
+      break;
+
+    case STLeafHelp:
+      leaf_h_detect_starter(si,is_duplex);
       break;
 
     case STBranchDirect:
@@ -1211,7 +1329,9 @@ void slice_impose_starter(slice_index si, Side side)
 
   switch (slices[si].type)
   {
-    case STLeaf:
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafHelp:
       leaf_impose_starter(si,side);
       break;
 
@@ -1261,7 +1381,9 @@ Side slice_get_starter(slice_index si)
 
   switch (slices[si].type)
   {
-    case STLeaf:
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafHelp:
       result = slices[si].u.leaf.starter;
       break;
 

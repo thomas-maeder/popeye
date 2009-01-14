@@ -252,25 +252,19 @@ static boolean isIntelligentModeAllowed(void)
     case STBranchHelp:
       switch (slices[1].type)
       {
-        case STLeaf:
-          switch (slices[1].u.leaf.end)
+        case STLeafHelp:
+          switch (slices[1].u.leaf.goal)
           {
-            case EHelp:
-              switch (slices[1].u.leaf.goal)
-              {
-                case goal_mate:
-                case goal_stale:
-                case goal_proof:
-                case goal_atob:
-                  return true;
-
-                default:
-                  break;
-              }
+            case goal_mate:
+            case goal_stale:
+            case goal_proof:
+            case goal_atob:
+              return true;
 
             default:
               break;
           }
+          break;
 
         default:
           break;
@@ -279,27 +273,20 @@ static boolean isIntelligentModeAllowed(void)
     case STBranchSeries:
       switch (slices[1].type)
       {
-        case STLeaf:
-          switch (slices[1].u.leaf.end)
+        case STLeafDirect:
+        case STLeafHelp:
+          switch (slices[1].u.leaf.goal)
           {
-            case EDirect:
-            case EHelp:
-              switch (slices[1].u.leaf.goal)
-              {
-                case goal_mate:
-                case goal_stale:
-                case goal_proof:
-                case goal_atob:
-                  return true;
-
-                default:
-                  break;
-              }
-
+            case goal_mate:
+            case goal_stale:
+            case goal_proof:
+            case goal_atob:
+              return true;
+              
             default:
               break;
           }
-
+          
         default:
           break;
       }
@@ -525,8 +512,8 @@ static boolean verifieposition(void)
   {
     if (slices[0].u.branch.length<2
         && max_nr_refutations>0
-        && !(slices[1].u.leaf.end==ESelf
-             || slices[1].u.leaf.end==EHelp))
+        && !(slices[1].type==STLeafSelf
+             || slices[1].type==STLeafHelp))
     {
       ErrorMsg(TryInLessTwo);
       max_nr_refutations = 0;
@@ -2440,7 +2427,9 @@ void checkGlobalAssumptions(void)
 static void solveHalfADuplex(void)
 {
   slice_index const first_slice = 0;
-  assert(slices[first_slice].type!=STLeaf);
+  assert(slices[first_slice].type!=STLeafDirect
+         && slices[first_slice].type!=STLeafSelf
+         && slices[first_slice].type!=STLeafHelp);
 
   inithash();
 

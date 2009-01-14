@@ -288,12 +288,12 @@ static void init_slice_properties_recursive(slice_index si,
                                             size_t *nr_bits_left);
 
 /* Initialize the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a composite slice.
+ * current stipulation slices
  * @param si root slice of subtree
  * @param nr_bits_left number of bits left over by slices already init
  * @note this is an indirectly recursive function
  */
-static void init_slice_properties_composite(slice_index si,
+static void init_slice_properties_recursive(slice_index si,
                                             size_t *nr_bits_left)
 {
   TraceFunctionEntry(__func__);
@@ -303,8 +303,14 @@ static void init_slice_properties_composite(slice_index si,
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STLeaf:
-      assert(0);
+    case STLeafHelp:
+      init_slice_properties_help(si,2,nr_bits_left);
+      break;
+
+    case STLeafDirect:
+    case STLeafSelf:
+      init_slice_properties_direct(si,1,nr_bits_left);
+      break;
 
     case STQuodlibet:
     {
@@ -384,59 +390,6 @@ static void init_slice_properties_composite(slice_index si,
       break;
     }
   }
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
-/* Initialize the slice_properties array according to a leaf slice
- * @param leaf leaf slice
- * @param nr_bits_left number of bits left over by slices already init
- */
-static void init_slice_properties_leaf(slice_index leaf,
-                                       size_t *nr_bits_left)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParam("%u\n",*nr_bits_left);
-
-  switch (slices[leaf].u.leaf.end)
-  {
-    case EHelp:
-      init_slice_properties_help(leaf,2,nr_bits_left);
-      break;
-
-    case EDirect:
-    case ESelf:
-      init_slice_properties_direct(leaf,1,nr_bits_left);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
-/* Initialize the slice_properties array according to a subtree of the
- * current stipulation slices.
- * @param si root slice of subtree
- * @param nr_bits_left number of bits left over by slices already init
- * @return number of bits left over for subsequent slices
- */
-static void init_slice_properties_recursive(slice_index si,
-                                            size_t *nr_bits_left)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",*nr_bits_left);
-
-  if (slices[si].type==STLeaf)
-    init_slice_properties_leaf(si,nr_bits_left);
-  else
-    init_slice_properties_composite(si,nr_bits_left);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -741,13 +694,13 @@ static hash_value_type own_value_of_data_series(dhtElement const *he,
 static hash_value_type own_value_of_data_leaf(dhtElement const *he,
                                               slice_index leaf)
 {
-  switch (slices[leaf].u.leaf.end)
+  switch (slices[leaf].type)
   {
-    case EHelp:
+    case STLeafHelp:
       return own_value_of_data_help(he,leaf);
 
-    case EDirect:
-    case ESelf:
+    case STLeafDirect:
+    case STLeafSelf:
       return own_value_of_data_direct(he,leaf,1);
 
     default:
@@ -819,7 +772,9 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
   switch (slices[si].type)
   {
-    case STLeaf:
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafHelp:
     {
       result = own_value_of_data_leaf(he,si) << offset;
       break;
@@ -1566,10 +1521,19 @@ static void init_element(dhtElement *he, slice_index si);
  * @param si slice index of slice
  * @note this is an indirectly recursive function
  */
-static void init_element_composite(dhtElement *he, slice_index si)
+static void init_element(dhtElement *he, slice_index si)
 {
   switch (slices[si].type)
   {
+    case STLeafHelp:
+      init_element_help(he,si);
+      break;
+
+    case STLeafDirect:
+    case STLeafSelf:
+      init_element_direct(he,si,1);
+      break;
+
     case STReciprocal:
       init_element(he,slices[si].u.reciprocal.op1);
       init_element(he,slices[si].u.reciprocal.op2);
@@ -1606,49 +1570,6 @@ static void init_element_composite(dhtElement *he, slice_index si)
       assert(0);
       break;
   }
-}
-
-/* Initialize the bits representing a leaf slice in a hash table
- * element's data field with null values 
- * @param he address of hash table element
- * @param leaf slice index of leaf slice
- */
-static void init_element_leaf(dhtElement *he, slice_index leaf)
-{
-  switch (slices[leaf].u.leaf.end)
-  {
-    case EHelp:
-      init_element_help(he,leaf);
-      break;
-
-    case EDirect:
-    case ESelf:
-      init_element_direct(he,leaf,1);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-}
-
-/* Initialize a hash table element's data field with null values.
- * @param he address of hash table element
- * @param si slice index of root element of stipulation (sub)tree
- * @note this is an indirectly recursive function
- */
-static void init_element(dhtElement *he, slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  if (slices[si].type==STLeaf)
-    init_element_leaf(he,si);
-  else
-    init_element_composite(he,si);
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
 }
 
 void addtohash(slice_index si,

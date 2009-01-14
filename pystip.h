@@ -7,20 +7,15 @@
 
 typedef enum
 {
-  EDirect,       /* goal in 1 */
-  EHelp,         /* help-goal in 1 */
-  ESelf          /* self-goal in 1 */
-} End;
-
-typedef enum
-{
-  STLeaf,
   STReciprocal,   /* logical AND */
   STQuodlibet,    /* logical OR */
   STNot,          /* logical NOT */
   STBranchDirect, /* M-N moves of direct play */
   STBranchHelp,   /* M-N moves of help play */
-  STBranchSeries  /* M-N moves of series play */
+  STBranchSeries, /* M-N moves of series play */
+  STLeafDirect,   /* goal in 1 */
+  STLeafHelp,     /* help-goal in 1 */
+  STLeafSelf      /* self-goal in 1 */
 } SliceType;
 
 typedef struct
@@ -29,10 +24,9 @@ typedef struct
 
     union
     {
-        struct /* for type==STLeaf */
+        struct /* for type==STLeaf* */
         {
             Side starter;
-            End end;
             Goal goal;
             square target; /* for goal==goal_target */
         } leaf;
@@ -79,36 +73,36 @@ extern Slice slices[max_nr_slices];
  *
  * #3:
  *     type           starter length  next
- *     type           starter end     goal
+ *     type           starter goal
  * [0] STBranchDirect White   3       1
- * [1] STLeaf         White   EDirect goal_mate
+ * [1] STLeafDirect   White   goal_mate
  *
  * h=2.5:
  *     type           starter length  next
- *     type           starter end     goal
+ *     type           starter goal
  * [0] STBranchHelp   White   5       1
- * [1] STLeaf         White   EHelp   goal_stale
+ * [1] STLeafHelp     White   goal_stale
  *
  * s#=2:
  *     type           op1 op2
- *     type           starter end     goal
+ *     type           starter goal
  * [0] STQuodlibet    1   2
- * [1] STLeaf         White   ESelf   goal_mate
- * [2] STLeaf         White   ESelf   goal_stale
+ * [1] STLeafSelf     White   goal_mate
+ * [2] STLeafSelf     White   goal_stale
  *
  * reci-h#3:
  *     type           op1 op2
- *     type           starter end     goal
+ *     type           starter goal
  * [0] STReciprocal   1   2
- * [1] STLeaf         Black   EDirect goal_mate
- * [2] STLeaf         Black   EHelp   goal_mate
+ * [1] STLeafDirect   Black   goal_mate
+ * [2] STLeafHelp     Black   goal_mate
  *
  * 8->ser-=3:
  *     type           starter length  next
- *     type           starter end     goal
+ *     type           starter goal
  * [0] STBranchSeries Black   9       1
  * [1] STBranchSeries White   3       2
- * [2] STLeaf         White   EDirect goal_stale
+ * [2] STLeafDirect   White   goal_stale
  */
 
 /* Currently(?), the length field of a branch slice thus gives the
@@ -117,10 +111,10 @@ extern Slice slices[max_nr_slices];
  * This means that the recursion depth of solving the composite slice
  * never reaches the value of length. At (maximal) recursion depth
  * length-2 (help play) rexp. length-1 (non-help play), solving the
- * operands is started.
+ * operands resp. next slice is started.
  *
- * The following symbols represent the number the difference of length
- * and the maximal recursion level:
+ * The following symbols represent the difference of the length and
+ * the maximal recursion level:
  */
 enum
 {
@@ -144,16 +138,17 @@ slice_index alloc_slice_index(void);
 slice_index alloc_branch_slice(SliceType type);
 
 /* Allocate a target leaf slice.
- * Initializes type to STLeaf and leaf fields according to arguments
+ * @param type which STLeaf* type
+ * @param s target square
  * @return index of allocated slice
  */
-slice_index alloc_target_leaf_slice(End end, square s);
+slice_index alloc_target_leaf_slice(SliceType type, square s);
 
 /* Allocate a (non-target) leaf slice.
- * Initializes type to STLeaf and leaf fields according to arguments
+ * @param type which STLeaf* type
  * @return index of allocated slice
  */
-slice_index alloc_leaf_slice(End end, Goal goal);
+slice_index alloc_leaf_slice(SliceType type, Goal goal);
 
 /* Allocate a slice as copy of an existing slice
  * @param index of original slice
