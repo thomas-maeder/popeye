@@ -821,7 +821,7 @@ boolean branch_d_root_solve_setplay(slice_index si)
   {
     int ntcount = 0;
 
-    if (slice_root_end_solve_complete_set(slices[si].u.branch.next))
+    if (slice_root_solve_complete_set(slices[si].u.branch.next))
       result = true;
     else
       write_end_of_solution_phase();

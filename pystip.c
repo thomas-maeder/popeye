@@ -691,7 +691,7 @@ boolean slice_root_solve_setplay(slice_index si)
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean slice_root_end_solve_complete_set(slice_index si)
+boolean slice_root_solve_complete_set(slice_index si)
 {
   boolean result = false;
 
@@ -715,7 +715,7 @@ boolean slice_root_end_solve_complete_set(slice_index si)
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
-      result = branch_root_end_solve_complete_set(si);
+      result = branch_root_solve_complete_set(si);
       break;
 
     case STQuodlibet:
@@ -1072,7 +1072,7 @@ boolean slice_has_non_starter_solved(slice_index si)
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
-      result = branch_end_has_non_starter_solved(si);
+      result = branch_has_non_starter_solved(si);
       break;
 
     case STQuodlibet:

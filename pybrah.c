@@ -355,7 +355,7 @@ void branch_h_root_solve(slice_index si)
 
     if (len==slack_length_help-1)
     {
-      FlagShortSolsReached = slice_root_end_solve_complete_set(next);
+      FlagShortSolsReached = slice_root_solve_complete_set(next);
       len +=2;
     }
 

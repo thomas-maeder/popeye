@@ -238,7 +238,7 @@ boolean slice_root_solve_setplay(slice_index si);
  * @param si slice index
  * @return true iff every defender's move leads to end
  */
-boolean slice_root_end_solve_complete_set(slice_index si);
+boolean slice_root_solve_complete_set(slice_index si);
 
 typedef enum
 {

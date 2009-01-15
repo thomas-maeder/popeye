@@ -128,8 +128,8 @@ boolean quodlibet_root_solve_complete_set(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = (slice_root_end_solve_complete_set(op1)
-            || slice_root_end_solve_complete_set(op2));
+  result = (slice_root_solve_complete_set(op1)
+            || slice_root_solve_complete_set(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
