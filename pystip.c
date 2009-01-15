@@ -18,6 +18,8 @@
 
 Slice slices[max_nr_slices];
 
+slice_index root_slice;
+
 Side regular_starter;
 
 static slice_index next_slice;

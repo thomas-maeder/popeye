@@ -69,12 +69,14 @@ enum
 
 extern Slice slices[max_nr_slices];
 
+extern slice_index root_slice;
+
 /* Example contents of slices:
  *
  * #3:
  *     type           starter length  next
  *     type           starter goal
- * [0] STBranchDirect White   3       1
+ * [0] STBranchDirect White   2       1
  * [1] STLeafDirect   White   goal_mate
  *
  * h=2.5:
@@ -105,12 +107,13 @@ extern Slice slices[max_nr_slices];
  * [2] STLeafDirect   White   goal_stale
  */
 
-/* Currently(?), the length field of a branch slice thus gives the
- * number of (half) moves of the human-readable stipulation.
+/* The length field of a series and help branch slices thus gives the
+ * number of (half) moves of the *human-readable* stipulation, to
+ * nicely cope with set play.
  *
- * This means that the recursion depth of solving the composite slice
+ * This means that the recursion depth of solving the branch slice
  * never reaches the value of length. At (maximal) recursion depth
- * length-2 (help play) rexp. length-1 (non-help play), solving the
+ * length-2 (help play) rexp. length-1 (series play), solving the
  * operands resp. next slice is started.
  *
  * The following symbols represent the difference of the length and
@@ -118,7 +121,6 @@ extern Slice slices[max_nr_slices];
  */
 enum
 {
-  slack_length_direct = 1, /* moves */
   slack_length_help = 2,   /* half moves */
   slack_length_series = 1  /* moves */
 };

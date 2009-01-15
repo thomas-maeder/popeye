@@ -247,7 +247,7 @@ static boolean isIntelligentModeAllowed(void)
    * and this is easier to extend once intelligent mode is allowed for
    * something new
    */
-  switch (slices[0].type)
+  switch (slices[root_slice].type)
   {
     case STBranchHelp:
       switch (slices[1].type)
@@ -476,7 +476,7 @@ static boolean verifieposition(void)
   int      cp, pp, tp, op;
   boolean          nonoptgenre;
 
-  if (max_len_threat<slices[0].u.branch.min_length-slack_length_direct)
+  if (max_len_threat<slices[root_slice].u.branch.min_length)
   {
     VerifieMsg(ThreatOptionAndExactStipulationIncompatible);
     return false;
@@ -505,12 +505,12 @@ static boolean verifieposition(void)
   if (! CondFlag[imitators])
     CondFlag[noiprom]= true;
 
-  if (slices[0].u.branch.length<=max_len_threat)
+  if (slices[root_slice].u.branch.length<=max_len_threat)
     max_len_threat = maxply;
 
-  if (slices[0].type==STBranchDirect)
+  if (slices[root_slice].type==STBranchDirect)
   {
-    if (slices[0].u.branch.length<2
+    if (slices[root_slice].u.branch.length<1
         && max_nr_refutations>0
         && !(slices[1].type==STLeafSelf
              || slices[1].type==STLeafHelp))
@@ -525,7 +525,7 @@ static boolean verifieposition(void)
     }
 
     /* ennonce means full moves */
-    if (slices[0].u.branch.length>(maxply-1)/2)
+    if (slices[root_slice].u.branch.length>(maxply-1)/2)
     {
       VerifieMsg(BigNumMoves);
       return false;
@@ -534,7 +534,7 @@ static boolean verifieposition(void)
   else
   {
     /* ennonce means half moves */
-    if (slices[0].u.branch.length >= maxply-2)
+    if (slices[root_slice].u.branch.length >= maxply-2)
     {
       VerifieMsg(BigNumMoves);
       return false;
@@ -726,7 +726,7 @@ static boolean verifieposition(void)
   }
 
   {
-    Side const restricted_side = (slices[0].type==STBranchHelp
+    Side const restricted_side = (slices[root_slice].type==STBranchHelp
                                   ? regular_starter
                                   : advers(regular_starter));
     if (flagmaxi)
@@ -1692,7 +1692,7 @@ static boolean verifieposition(void)
          flagfee?"true":"false",
          slices[1].u.leaf.end==EHelp?"true":"false",
          slices[1].u.leaf.end==EDirect?"true":"false",
-         slices[0].type==STBranchSeries?"true":"false");
+         slices[root_slice].type==STBranchSeries?"true":"false");
 #endif      /* DEBUG */
 
   if (InitChamCirce)
@@ -2494,7 +2494,7 @@ static boolean initAndVerify(Token tk,
   if (slices[1].u.leaf.goal==goal_proof
       || slices[1].u.leaf.goal==goal_atob)
   {
-    if (slices[0].type==STBranchSeries)
+    if (slices[root_slice].type==STBranchSeries)
     {
       regular_starter = White;
       slice_impose_starter(0,regular_starter);
@@ -2513,7 +2513,7 @@ static boolean initAndVerify(Token tk,
 
       /* hX0.5 are treated specially (currently? TODO) because
        * leaves normally are 2 half moves long */
-      isIntelligentModeActive = slices[0].u.branch.length>1;
+      isIntelligentModeActive = slices[root_slice].u.branch.length>1;
     }
 
     countPieces();
@@ -2538,16 +2538,16 @@ static boolean initAndVerify(Token tk,
      * and the colors swapped by swapcolors() and reflectboard()
      * -> start with the regular side. */
     slice_detect_starter(0, OptFlag[halfduplex] && !isIntelligentModeActive);
-    if (slices[0].u.branch.starter==no_side)
+    if (slices[root_slice].u.branch.starter==no_side)
     {
       VerifieMsg(CantDecideWhoIsAtTheMove);
       result = false;
     }
     else
     {
-      *shortenIfWhiteToPlay = slices[0].type==STBranchHelp;
+      *shortenIfWhiteToPlay = slices[root_slice].type==STBranchHelp;
       TraceValue("%d ",*shortenIfWhiteToPlay);
-      TraceValue("%d ",slices[0].u.branch.starter);
+      TraceValue("%d ",slices[root_slice].u.branch.starter);
       TraceValue("%d\n",regular_starter);
 
       countPieces();
@@ -2756,7 +2756,7 @@ int main(int argc, char *argv[]) {
         if (initAndVerify(tk,printa,&shortenIfWhiteToPlay))
         {
           if (OptFlag[whitetoplay] && shortenIfWhiteToPlay)
-            HelpPlayInitWhiteToPlay(0);
+            HelpPlayInitWhiteToPlay(root_slice);
 
           /* allow line-oriented output to restore the initial
            * position */
@@ -2793,7 +2793,8 @@ int main(int argc, char *argv[]) {
             }
             else
             {
-              slice_impose_starter(0,advers(slices[0].u.branch.starter));
+              Side const starter = slices[root_slice].u.branch.starter;
+              slice_impose_starter(root_slice,advers(starter));
               regular_starter = advers(regular_starter);
             }
 
@@ -2809,7 +2810,7 @@ int main(int argc, char *argv[]) {
           }
 
           if (OptFlag[whitetoplay] && shortenIfWhiteToPlay)
-            HelpPlayRestoreFromWhiteToPlay(0);
+            HelpPlayRestoreFromWhiteToPlay(root_slice);
         }
       }
 

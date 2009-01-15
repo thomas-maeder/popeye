@@ -1119,6 +1119,7 @@ static char *ParseLength(char *tok, slice_index si)
       case STBranchHelp:
         /* we count half moves in help play */
         slices[si].u.branch.length *= 2;
+        slices[si].u.branch.length += slack_length_help-2;
 
         if (strncmp(tok,".5",2)==0)
         {
@@ -1131,10 +1132,12 @@ static char *ParseLength(char *tok, slice_index si)
         break;
 
       case STBranchDirect:
-        slices[si].u.branch.min_length = slack_length_direct;
+        slices[si].u.branch.length -= 1;
+        slices[si].u.branch.min_length = 0;
         break;
 
       case STBranchSeries:
+        slices[si].u.branch.length += slack_length_series-1;
         slices[si].u.branch.min_length = slack_length_series;
         break;
 
@@ -1457,7 +1460,6 @@ static char *ParsePlay(char *tok, slice_index *si)
 static char *ParseStip(void)
 {
   char *tok = ReadNextTokStr();
-  slice_index current_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
@@ -1465,11 +1467,11 @@ static char *ParseStip(void)
   StipFlags= 0;
 
   strcpy(AlphaStip,tok);
-  if (ParsePlay(tok,&current_slice))
-  {
-    if (slices[0].u.branch.length>0 && ActStip[0]=='\0')
-      strcpy(ActStip, AlphaStip);
-  }
+  root_slice = no_slice;
+  if (ParsePlay(tok,&root_slice)
+      && root_slice!=no_slice
+      && ActStip[0]=='\0')
+    strcpy(ActStip, AlphaStip);
 
   tok = ReadNextTokStr();
 
@@ -3565,8 +3567,7 @@ static char *ParseTwinning(void)
       else
       {
 #if !defined(DATABASE)
-        slice_index const current_slice = 0;
-        slice_index const next = slices[current_slice].u.branch.next;
+        slice_index const next = slices[root_slice].u.branch.next;
         if (slices[next].u.leaf.goal==goal_proof
             || slices[next].u.leaf.goal==goal_atob)
           /* fixes bug for continued twinning in proof games; changes
@@ -3717,7 +3718,6 @@ Token ReadProblem(Token tk)
   /* open mode for protocol and/or TeX file; overwrite existing file(s)
    * if we are doing a regression test */
   char const *open_mode = flag_regression ? "w" : "a";
-  slice_index const current_slice = 0;
 
   if (tk==BeginProblem)
   {
@@ -3747,7 +3747,7 @@ Token ReadProblem(Token tk)
           break;
 
         case TwinProblem:
-          if (slices[current_slice].u.branch.length>0)
+          if (root_slice!=no_slice)
             return tk;
           else
           {
@@ -3758,7 +3758,7 @@ Token ReadProblem(Token tk)
 
         case NextProblem:
         case EndProblem:
-          if (slices[current_slice].u.branch.length>0)
+          if (root_slice!=no_slice)
             return tk;
           else
           {
@@ -3801,7 +3801,7 @@ Token ReadProblem(Token tk)
           if (TwinChar == 'a')
             TwinStorePosition();
 
-          if (slices[current_slice].u.branch.length>0)
+          if (root_slice!=no_slice)
             return tk;
           else
           {
@@ -3812,7 +3812,7 @@ Token ReadProblem(Token tk)
 
         case NextProblem:
         case EndProblem:
-          if (slices[current_slice].u.branch.length>0)
+          if (root_slice!=no_slice)
             return tk;
           else
           {
@@ -4545,8 +4545,6 @@ void WritePosition() {
   static char HorizL[]="%c   .   .   .   .   .   .   .   .   %c\n";
   static char BlankL[]="|                                   |\n";
 
-  slice_index const current_slice = 0;
-
   SolFile= NULL;
 
   for (sp= Neutral; sp < PieSpCount; sp++)
@@ -4669,7 +4667,7 @@ void WritePosition() {
 
   strcpy(StipOptStr, AlphaStip);
 
-  if (max_len_threat<slices[current_slice].u.branch.length-1)
+  if (max_len_threat<slices[root_slice].u.branch.length)
   {
     sprintf(StipOptStr+strlen(StipOptStr), "/%u", max_len_threat);
     if (max_nr_flights<INT_MAX)
@@ -4678,7 +4676,7 @@ void WritePosition() {
   else if (max_nr_flights<INT_MAX)
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", max_nr_flights);
 
-  if (min_length_nontrivial<slices[current_slice].u.branch.length-1)
+  if (min_length_nontrivial<slices[root_slice].u.branch.length)
     sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%u",
             max_nr_nontrivial,

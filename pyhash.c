@@ -352,10 +352,8 @@ static void init_slice_properties_recursive(slice_index si,
     {
       slice_index const next = slices[si].u.branch.next;
       unsigned int const length = slices[si].u.branch.length;
-      init_slice_properties_direct(si,
-                                   length-slack_length_direct,
-                                   nr_bits_left);
-      if (slices[si].u.branch.min_length>slack_length_direct)
+      init_slice_properties_direct(si,length,nr_bits_left);
+      if (slices[si].u.branch.min_length>0)
         is_there_slice_with_nonstandard_min_length = true;
 
       init_slice_properties_recursive(next,nr_bits_left);
@@ -1549,10 +1547,7 @@ static void init_element(dhtElement *he, slice_index si)
       break;
 
     case STBranchDirect:
-      init_element_direct(he,
-                          si,
-                          slices[si].u.branch.length
-                          -slack_length_direct);
+      init_element_direct(he,si,slices[si].u.branch.length);
       init_element(he,slices[si].u.branch.next);
       break;
       
