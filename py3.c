@@ -261,13 +261,19 @@ static boolean marsechecc(ply ply_id, Side camp, evalfunction_t *evaluate)
 static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate);
 boolean orig_rnechec(ply ply_id, evalfunction_t *evaluate)
 {
-  Side neutcoul_save = neutcoul;
-  boolean flag;
+  boolean result;
+
   if (TSTFLAG(PieSpExFlags,Neutral))
+  {
+    Side const neutcoul_save = neutcoul;
     initneutre(White);
-  flag = calc_rnechec(ply_id,evaluate);
-  initneutre(neutcoul_save);
-  return flag;    
+    result = calc_rnechec(ply_id,evaluate);
+    initneutre(neutcoul_save);
+  }
+  else
+    result = calc_rnechec(ply_id,evaluate);
+
+  return result;    
 }
 
 static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
@@ -550,13 +556,17 @@ boolean (*rnechec)(ply ply_id, evalfunction_t *evaluate);
 static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate);
 boolean orig_rbechec(ply ply_id, evalfunction_t *evaluate)
 {
-  Side neutcoul_save = neutcoul;
   boolean result;
 
   if (TSTFLAG(PieSpExFlags,Neutral))
+  {
+    Side const neutcoul_save = neutcoul;
     initneutre(Black);
-  result = calc_rbechec(ply_id,evaluate);
-  initneutre(neutcoul_save);
+    result = calc_rbechec(ply_id,evaluate);
+    initneutre(neutcoul_save);
+  }
+  else
+    result = calc_rbechec(ply_id,evaluate);
 
   return result;    
 }
