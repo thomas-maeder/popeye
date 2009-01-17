@@ -206,7 +206,7 @@ static d_defender_win_type branch_d_does_defender_win(slice_index si,
   if (slice_has_starter_apriori_lost(slices[si].u.branch.next))
     result = already_won;
   else if ((slices[si].u.branch.length-n>slices[si].u.branch.min_length)
-           && slice_has_starter_won(slices[si].u.branch.next))
+           && slice_has_starter_reached_goal(slices[si].u.branch.next))
     result = short_loss;
   else
     result = branch_d_helper_does_defender_win(si,n);
@@ -451,7 +451,8 @@ static boolean branch_d_defends_against_threats(int threats,
           && !echecc(nbply,attacker))
       {
         if (n==0)
-          defense_found = !slice_has_starter_won(slices[si].u.branch.next);
+          defense_found =
+              !slice_has_starter_reached_goal(slices[si].u.branch.next);
         else
           defense_found = branch_d_does_defender_win(si,n-1)<=win;
 
@@ -900,7 +901,7 @@ static void branch_d_root_solve_postkeyonly(slice_index si,
     slice_solve_variations(slices[si].u.branch.next);
   else if (n==slices[si].u.branch.min_length)
     branch_d_solve_postkey(si,n);
-  else if (slice_has_starter_won(slices[si].u.branch.next))
+  else if (slice_has_starter_reached_goal(slices[si].u.branch.next))
     slice_solve_variations(slices[si].u.branch.next);
   else
     branch_d_solve_postkey(si,n);
@@ -919,9 +920,7 @@ static void branch_d_root_solve_real_play(slice_index si)
 
   output_start_continuation_level();
 
-  if (slice_has_non_starter_solved(si))
-    ;
-  else if (slice_must_starter_resign(si))
+  if (slice_must_starter_resign(si))
     slice_write_unsolvability(slices[si].u.branch.next);
   else if (slices[si].u.branch.length==0)
     slice_root_solve(slices[si].u.branch.next);
