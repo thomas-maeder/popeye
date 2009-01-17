@@ -664,6 +664,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
             repcoup();
           }
           is_republican_suspended = is_republican_suspended_sic;
+           /* TODO what for, if we don't have neutrals? Does it matter? */
           initneutre(oneutcoul);
           if (flag)
             return true;
