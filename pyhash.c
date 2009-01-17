@@ -398,7 +398,7 @@ static void init_slice_properties_recursive(slice_index si,
  */
 static void init_slice_properties(void)
 {
-  slice_index const si = 0;
+  slice_index const si = root_slice;
   size_t nr_bits_left = sizeof(data_type)*CHAR_BIT;
 
   TraceFunctionEntry(__func__);
@@ -848,7 +848,6 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
  */
 static hash_value_type value_of_data(dhtElement const *he)
 {
-  slice_index const first_slice = 0;
   size_t const offset = sizeof(data_type)*CHAR_BIT;
   hash_value_type result;
 
@@ -857,7 +856,7 @@ static hash_value_type value_of_data(dhtElement const *he)
 
   TraceValue("%08x\n",((element_t *)he)->data);
 
-  result = value_of_data_recursive(he,offset,first_slice);
+  result = value_of_data_recursive(he,offset,root_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%08x\n",result);
@@ -1084,9 +1083,9 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
     /* That's far too much. In a ser-h#5 there won't be more
     ** than 5 holes in hashed positions.      TLi
     */
-    int nbr_holes= (slices[0].type==STBranchSeries
-                    ? slices[0].u.branch.length
-                    : 2*slices[0].u.branch.length);
+    int nbr_holes= (slices[root_slice].type==STBranchSeries
+                    ? slices[root_slice].u.branch.length
+                    : 2*slices[root_slice].u.branch.length);
     if (nbr_holes > (nr_files_on_board*nr_rows_on_board-nbr_p)/2)
       nbr_holes= (nr_files_on_board*nr_rows_on_board-nbr_p)/2;
     len += bytes_per_piece*nbr_holes;
@@ -1709,7 +1708,7 @@ void inithash(void)
   compression_counter = 0;
 
   init_slice_properties();
-  init_element(&template_element,0);
+  init_element(&template_element,root_slice);
 
   PositionCnt= 0;
   dhtRegisterValue(dhtBCMemValue, 0, &dhtBCMemoryProcs);

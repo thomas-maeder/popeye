@@ -258,6 +258,28 @@ boolean quodlibet_has_starter_won(slice_index si)
   return result;
 }
 
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean quodlibet_has_starter_reached_goal(slice_index si)
+{
+  boolean result;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  result = (slice_has_starter_reached_goal(op1)
+            || slice_has_starter_reached_goal(op2));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.
  * E.g. in s# or r#, has it taken the last potential mating piece of

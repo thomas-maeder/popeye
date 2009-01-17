@@ -85,6 +85,13 @@ boolean quodlibet_has_non_starter_solved(slice_index si);
  */
 boolean quodlibet_has_starter_won(slice_index si);
 
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean quodlibet_has_starter_reached_goal(slice_index si);
+
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.
  * E.g. in s# or r#, has it taken the last potential mating piece of

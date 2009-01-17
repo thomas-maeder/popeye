@@ -190,7 +190,7 @@ d_defender_win_type branch_d_helper_does_defender_win(slice_index si,
  * @param defender defending side (at move)
  * @param n number of moves until end state has to be reached, not
  *          including the attacker's move just played
- * @return true iff defender wins
+ * @return whether the defender wins or loses, and how fast
  */
 static d_defender_win_type branch_d_does_defender_win(slice_index si,
                                                       stip_length_type n)
@@ -220,6 +220,7 @@ static d_defender_win_type branch_d_does_defender_win(slice_index si,
  * composite slice
  * @param attacker attacking side
  * @param si slice identifier
+ * @return true iff the attacking side wins
  */
 static boolean branch_d_helper_has_solution(slice_index si,
                                             stip_length_type n)
@@ -936,7 +937,7 @@ static void branch_d_root_solve_real_play(slice_index si)
           && !echecc(nbply,attacker))
       {
         if (slices[si].u.branch.min_length==0
-            && slice_has_starter_won(slices[si].u.branch.next))
+            && slice_has_starter_reached_goal(slices[si].u.branch.next))
           slice_root_write_key_solve_postkey(slices[si].u.branch.next,
                                              attack_key);
         else

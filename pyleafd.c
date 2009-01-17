@@ -167,8 +167,8 @@ boolean leaf_d_solve(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,attacker);
-  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -250,6 +250,27 @@ boolean leaf_d_has_starter_won(slice_index leaf)
   return result;
 }
 
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param leaf slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean leaf_d_has_starter_reached_goal(slice_index leaf)
+{
+  boolean result;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
+
+  assert(slices[leaf].u.leaf.starter!=no_side);
+
+  result = leaf_is_goal_reached(slices[leaf].u.leaf.starter,leaf);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Find and write defender's set play
  * @param leaf slice index
  */
@@ -311,8 +332,8 @@ void leaf_d_solve_continuations(int solutions, slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,attacker);
-  active_slice[nbply] = leaf;
 
   while (encore())
   {

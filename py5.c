@@ -69,6 +69,7 @@
 #include "pymsg.h"
 #include "pystip.h"
 #include "pyleaf.h"
+#include "pyoutput.h"
 #include "trace.h"
 
 piece linechampiece(piece p, square sq) {
@@ -1222,8 +1223,10 @@ void genmove(Side camp)
     else
       gen_bl_ply();
 
-    while (encore()) {
-      if (jouecoup(nbply,first_play) && leaf_is_goal_reached(camp,1))
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play)
+          && slice_is_goal_reached(camp,active_slice[nbply]))
         nbrmates++;
       repcoup();
     }
@@ -3742,33 +3745,44 @@ boolean immobile(Side camp)
 
 void find_mate_square(Side camp)
 {
-  square sq;
-
-  if (camp == White) {
-    while ((sq= ++super[nbply]) <= square_h8) {
-      if (e[sq] == vide) {
-        rn= sq;
+  if (camp == White)
+  {
+    rn = ++super[nbply];
+    nbpiece[roin]++;
+    while (rn<=square_h8)
+    {
+      if (e[rn]==vide)
+      {
         e[rn]= roin;
-        nbpiece[roin]++;
-        if (leaf_is_goal_reached(camp,1))
+        if (slice_is_goal_reached(camp,active_slice[nbply]))
           return;
-        nbpiece[roin]--;
         e[rn]= vide;
       }
+
+      rn = ++super[nbply];
     }
-    rn= initsquare;
-  } else {
-    while ((sq= ++super[nbply]) <= square_h8) {
-      if (e[sq] == vide) {
-        rb= sq;
+
+    nbpiece[roin]--;
+    rn = initsquare;
+  }
+  else
+  {
+    rb = ++super[nbply];
+    nbpiece[roib]++;
+    while (rb<=square_h8)
+    {
+      if (e[rb]==vide)
+      {
         e[rb]= roib;
-        nbpiece[roib]++;
-        if (leaf_is_goal_reached(camp,1))
+        if (slice_is_goal_reached(camp,active_slice[nbply]))
           return;
-        nbpiece[roib]--;
         e[rb]= vide;
       }
+
+      rb = ++super[nbply];
     }
-    rb= initsquare;
+
+    nbpiece[roib]--;
+    rb = initsquare;
   }
 }

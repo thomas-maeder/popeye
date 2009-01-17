@@ -156,8 +156,8 @@ static boolean leaf_s_solve_final_move(slice_index leaf)
 
   TraceValue("%u\n",side_at_move);
 
+  active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,side_at_move);
-  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -191,8 +191,8 @@ boolean leaf_s_solve(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  active_slice[nbply+1] = leaf;
   genmove(attacker);
-  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -279,6 +279,25 @@ boolean leaf_s_has_starter_won(slice_index leaf)
   return result;
 }
 
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param leaf slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean leaf_s_has_starter_reached_goal(slice_index leaf)
+{
+  boolean const result = false;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
+
+  assert(slices[leaf].u.leaf.starter!=no_side);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Determine and write set play of a self/reflex stipulation.
  * @param leaf slice index of the leaf slice
  */
@@ -292,8 +311,8 @@ boolean leaf_s_root_solve_setplay(slice_index leaf)
 
   TraceValue("%u\n",defender);
 
+  active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,defender);
-  active_slice[nbply] = leaf;
 
   while(encore())
   {
@@ -367,9 +386,8 @@ void leaf_s_solve_continuations(int solutions, slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  active_slice[nbply+1] = leaf;
   genmove(attacker);
-
-  active_slice[nbply] = leaf;
 
   while (encore())
   {

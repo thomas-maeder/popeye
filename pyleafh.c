@@ -46,6 +46,7 @@ boolean leaf_h_has_solution(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  active_slice[nbply+1] = leaf;
   genmove(side_at_move);
 
   if (side_at_move==White)
@@ -141,8 +142,8 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
 
   TraceValue("%u\n",side_at_move);
 
+  active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,side_at_move);
-  active_slice[nbply] = leaf;
 
   if (side_at_move==White)
     WhMovesLeft--;
@@ -187,8 +188,8 @@ static boolean leaf_h_cmate_solve_final_move(slice_index leaf)
 
   if (goal_checker_mate(side_at_move))
   {
+    active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,other_side);
-    active_slice[nbply] = leaf;
 
     while (encore())
     {
@@ -216,8 +217,8 @@ static boolean leaf_h_cmate_solve(slice_index leaf)
   boolean found_solution = false;
   Side const side_at_move = slices[leaf].u.leaf.starter;
 
+  active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,side_at_move);
-  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -259,8 +260,8 @@ static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
 
   if (!immobile(final_side))
   {
+    active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,final_side);
-    active_slice[nbply] = leaf;
 
     while (encore())
     {
@@ -289,8 +290,8 @@ static boolean leaf_h_dmate_solve(slice_index leaf)
   boolean found_solution = false;
   Side const side_at_move = slices[leaf].u.leaf.starter;
 
+  active_slice[nbply+1] = leaf;
   genmove(side_at_move);
-  active_slice[nbply] = leaf;
 
   while (encore())
   {
@@ -339,8 +340,8 @@ static boolean leaf_h_regulargoals_solve(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  active_slice[nbply+1] = leaf;
   genmove(side_at_move);
-  active_slice[nbply] = leaf;
 
   if (side_at_move==Black)
     BlMovesLeft--;
@@ -482,6 +483,25 @@ boolean leaf_h_has_starter_won(slice_index leaf)
   return result;
 }
 
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param leaf slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean leaf_h_has_starter_reached_goal(slice_index leaf)
+{
+  boolean const result = false;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
+
+  assert(slices[leaf].u.leaf.starter!=no_side);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Find and write defender's set play
  * @param leaf slice index
  */
@@ -548,9 +568,8 @@ void leaf_h_solve_continuations(int solutions, slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  active_slice[nbply+1] = leaf;
   genmove(attacker);
-
-  active_slice[nbply] = leaf;
 
   while (encore())
   {

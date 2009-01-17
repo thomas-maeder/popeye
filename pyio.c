@@ -1082,14 +1082,16 @@ static goalInputConfig_t const goalInputConfig[nr_goals] =
 #endif
 };
 
-static char *ParseLength(char *tok, slice_index si)
+static char *ParseLength(char *tok,
+                         SliceType type,
+                         stip_length_type *length,
+                         stip_length_type *min_length)
 {
   char *end;
-  unsigned long length;
+  unsigned long tmp_length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%s\n",tok);
 
   if (tok!=0 && *tok==0)
     /* allow white space before length, e.g. "dia 4" */
@@ -1099,46 +1101,45 @@ static char *ParseLength(char *tok, slice_index si)
       strcat(AlphaStip,tok); /* append to printed stipulation */
   }
 
-  length = strtoul(tok,&end,10);
-  TraceValue("%ld\n",length);
+  tmp_length = strtoul(tok,&end,10);
+  TraceValue("%ld\n",tmp_length);
 
-  if (tok==end || length>UINT_MAX)
+  if (tok==end || tmp_length>UINT_MAX)
   {
-    slices[si].u.branch.length = 0;
     IoErrorMsg(WrongInt,0);
     tok = 0;
   }
   else
   {
-    slices[si].u.branch.length = length;
+    *length = tmp_length;
 
     tok = end;
 
-    switch (slices[si].type)
+    switch (type)
     {
       case STBranchHelp:
         /* we count half moves in help play */
-        slices[si].u.branch.length *= 2;
-        slices[si].u.branch.length += slack_length_help-2;
+        *length *= 2;
+        *length += slack_length_help-2;
 
         if (strncmp(tok,".5",2)==0)
         {
-          ++slices[si].u.branch.length;
+          ++*length;
           tok += 2;
-          slices[si].u.branch.min_length = slack_length_help-1;
+          *min_length = slack_length_help-1;
         }
         else
-          slices[si].u.branch.min_length = slack_length_help;
+          *min_length = slack_length_help;
         break;
 
       case STBranchDirect:
-        slices[si].u.branch.length -= 1;
-        slices[si].u.branch.min_length = 0;
+        *length -= 1;
+        *min_length = 0;
         break;
 
       case STBranchSeries:
-        slices[si].u.branch.length += slack_length_series-1;
-        slices[si].u.branch.min_length = slack_length_series;
+        *length += slack_length_series-1;
+        *min_length = slack_length_series;
         break;
 
       default:
@@ -1259,25 +1260,24 @@ static char *ParseReciGoal(char *tok,
   return result;
 }
 
-static char *ParseReciEnd(char *tok, slice_index si_parent)
+static char *ParseReciEnd(char *tok, slice_index *si)
 {
   slice_index op1 = no_slice;
   slice_index op2 = no_slice;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u\n",si_parent);
+  TraceFunctionParam("%s\n",tok);
 
   tok = ParseReciGoal(tok, STLeafHelp,&op1, STLeafDirect,&op2);
   if (op1!=no_slice && op2!=no_slice)
-    slices[si_parent].u.branch.next = alloc_reciprocal_slice(op1,op2);
+    *si = alloc_reciprocal_slice(op1,op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
   return tok;
 }
 
-static char *ParseReflexEnd(char *tok, slice_index si_parent)
+static char *ParseReflexEnd(char *tok, slice_index *si)
 {
   slice_index help;
   tok = ParseGoal(tok,STLeafHelp,&help);
@@ -1286,59 +1286,59 @@ static char *ParseReflexEnd(char *tok, slice_index si_parent)
     slice_index const direct = alloc_leaf_slice(STLeafDirect,
                                                 slices[help].u.leaf.goal);
     slice_index const not = alloc_not_slice(direct);
-    slices[si_parent].u.branch.next = alloc_reciprocal_slice(help,not);
-    slice_impose_starter(si_parent,White);
+    *si = alloc_reciprocal_slice(help,not);
+    slice_impose_starter(*si,White);
   }
 
   return tok;
 }
 
-static char *ParseEnd(char *tok, slice_index si_parent)
+static char *ParseEnd(char *tok, slice_index *si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
 
   if (strncmp("ser-dia",tok,7) == 0
       || strncmp("ser-a=>b",tok,8) == 0)
-    tok = ParseGoal(tok+4,STLeafDirect,&slices[si_parent].u.branch.next);
+    tok = ParseGoal(tok+4,STLeafDirect,si);
   else if (strncmp("dia", tok, 3) == 0)
-    tok = ParseGoal(tok,STLeafHelp,&slices[si_parent].u.branch.next);
+    tok = ParseGoal(tok,STLeafHelp,si);
 
 #if !defined(DATABASE)
   else if (strncmp("a=>b", tok, 4) == 0)
-    tok = ParseGoal(tok,STLeafHelp,&slices[si_parent].u.branch.next);
+    tok = ParseGoal(tok,STLeafHelp,si);
 #endif
 
   else if (strncmp("semi-r", tok, 6) == 0)
   {
-    tok = ParseGoal(tok+6,STLeafHelp,&slices[si_parent].u.branch.next);
+    tok = ParseGoal(tok+6,STLeafHelp,si);
     /* the end of a sermi-r problem is hX1 with reversed coulours. */
-    slice_impose_starter(slices[si_parent].u.branch.next,White);
+    slice_impose_starter(slices[*si].u.branch.next,White);
   }
 
   else if (strncmp("hs", tok, 2) == 0)
-    tok = ParseGoal(tok+2,STLeafSelf,&slices[si_parent].u.branch.next);
+    tok = ParseGoal(tok+2,STLeafSelf,si);
 
   else if (strncmp("hr", tok, 2) == 0)
-    tok = ParseReflexEnd(tok+2,si_parent);
+    tok = ParseReflexEnd(tok+2,si);
 
   else
     switch (*tok)
     {
       case 'h':
-        tok = ParseGoal(tok+1,STLeafHelp,&slices[si_parent].u.branch.next);
+        tok = ParseGoal(tok+1,STLeafHelp,si);
         break;
 
       case 'r':
-        tok = ParseReflexEnd(tok+1,si_parent);
+        tok = ParseReflexEnd(tok+1,si);
         break;
 
       case 's':
-        tok = ParseGoal(tok+1,STLeafSelf,&slices[si_parent].u.branch.next);
+        tok = ParseGoal(tok+1,STLeafSelf,si);
         break;
 
       default:
-        tok = ParseGoal(tok,STLeafDirect,&slices[si_parent].u.branch.next);
+        tok = ParseGoal(tok,STLeafDirect,si);
         break;
     }
 
@@ -1364,11 +1364,17 @@ static char *ParsePlay(char *tok, slice_index *si)
       IoErrorMsg(WrongInt, 0);
     else
     {
-      *si = alloc_branch_slice(STBranchSeries);
-      slices[*si].u.branch.length = intro_len+slack_length_series;
-      /* >=1 move of starting side required */
-      slices[*si].u.branch.min_length = 1+slack_length_series;
-      result = ParsePlay(arrowpos+2,&slices[*si].u.branch.next);
+      slice_index next = no_slice;
+      result = ParsePlay(arrowpos+2,&next);
+      if (result!=0 && next!=no_slice)
+      {
+        /* >=1 move of starting side required */
+        stip_length_type const min_length = 1+slack_length_series;
+        *si = alloc_branch_slice(STBranchSeries,
+                                 intro_len+slack_length_series,
+                                 min_length,
+                                 next);
+      }
     }
   }
 
@@ -1378,6 +1384,7 @@ static char *ParsePlay(char *tok, slice_index *si)
     if (result!=0)
     {
       OptFlag[nothreat] = true;
+      /* todo higher level operation for activating exact mode */
       slices[*si].u.branch.min_length = slices[*si].u.branch.length;
     }
   }
@@ -1385,70 +1392,117 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("ser-dia",tok,7) == 0
            || strncmp("ser-a=>b",tok,8) == 0)
   {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,&next); /* do *not* skip over "ser-" */
     /* special treatment: leaf always has type==STLeafDirect */
-    *si = alloc_branch_slice(STBranchSeries);
-    tok = ParseEnd(tok,*si); /* do *not* skip over "ser-" */
-    if (tok!=0)
-      result = ParseLength(tok,*si);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+        *si = alloc_branch_slice(STBranchSeries,length,min_length,next);
+    }
   }
 
   else if (strncmp("ser-reci-h",tok,10) == 0)
   {
-    *si = alloc_branch_slice(STBranchSeries);
-    tok = ParseReciEnd(tok+10,*si); /* skip over "ser-reci-h" */
-    if (tok!=0)
-      result = ParseLength(tok,*si);
+    slice_index next = no_slice;
+    tok = ParseReciEnd(tok+10,&next); /* skip over "ser-reci-h" */
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+        *si = alloc_branch_slice(STBranchSeries,length,min_length,next);
+    }
   }
 
   else if (strncmp("ser-",tok,4) == 0)
   {
-    *si = alloc_branch_slice(STBranchSeries);
-    tok = ParseEnd(tok+4,*si);
-    if (tok!=0)
-      result = ParseLength(tok,*si);
+    slice_index next = no_slice;
+    tok = ParseEnd(tok+4,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+        *si = alloc_branch_slice(STBranchSeries,length,min_length,next);
+    }
   }
 
   else if (strncmp("reci-h",tok,6) == 0)
   {
-    *si = alloc_branch_slice(STBranchHelp);
-    tok = ParseReciEnd(tok+6,*si); /* skip over "reci-h" */
-    if (tok!=0)
-      result = ParseLength(tok,*si);
+    slice_index next = no_slice;
+    tok = ParseReciEnd(tok+6,&next); /* skip over "reci-h" */
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      if (result!=0)
+        *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+    }
   }
 
   else if (strncmp("dia",tok,3)==0)
   {
-    *si = alloc_branch_slice(STBranchHelp);
-    slices[*si].u.branch.min_length = slices[*si].u.branch.length;
-    tok = ParseEnd(tok,*si);
-    if (tok!=0)
-      result = ParseLength(tok,*si);
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      if (result!=0)
+        *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+    }
   }
 
 #if !defined(DATABASE)
   else if (strncmp("a=>b",tok,4)==0)
   {
-    *si = alloc_branch_slice(STBranchHelp);
-    tok = ParseEnd(tok,*si);
-    if (tok!=0)
-      result = ParseLength(tok,*si);
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      if (result!=0)
+        *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+    }
   }
 #endif
 
   else if (*tok=='h')
   {
-    *si = alloc_branch_slice(STBranchHelp);
-    tok = ParseEnd(tok,*si);
-    if (tok!=0)
-      result = ParseLength(tok,*si);
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      if (result!=0)
+        *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+    }
   }
 
   else
   {
-    *si = alloc_branch_slice(STBranchDirect);
-    tok = ParseEnd(tok,*si);
-    if (tok!=0)
-      result = ParseLength(tok,*si);
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchDirect,&length,&min_length);
+      if (result!=0)
+        *si = alloc_branch_slice(STBranchDirect,length,min_length,next);
+    }
   }
 
   TraceFunctionExit(__func__);

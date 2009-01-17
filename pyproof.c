@@ -120,8 +120,8 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
   /* set all squares to a maximum */
   for (bnp= boardnum; *bnp; bnp++)
   {
-    WhKingMoves[*bnp] = slices[0].u.branch.length;
-    BlKingMoves[*bnp] = slices[0].u.branch.length;
+    WhKingMoves[*bnp] = slices[root_slice].u.branch.length;
+    BlKingMoves[*bnp] = slices[root_slice].u.branch.length;
   }
 
   /* mark squares occupied or garded by immobile pawns
@@ -441,10 +441,21 @@ void ProofRestoreTargetPosition(void)
 
 static void ProofRestoreStartPosition(void)
 {
+  slice_index const leaf_slice = 0;
+  Goal const goal = slices[leaf_slice].u.leaf.goal;
   int i;
+
+  assert(slices[root_slice].type==STBranchDirect
+         || slices[root_slice].type==STBranchHelp
+         || slices[root_slice].type==STBranchSeries);
+  assert(leaf_slice==slices[root_slice].u.branch.next);
+  assert(slices[leaf_slice].type==STLeafDirect
+         || slices[leaf_slice].type==STLeafSelf
+         || slices[leaf_slice].type==STLeafHelp);
+
   for (i = 0; i < nr_squares_on_board; i++)
   {
-    piece p = slices[1].u.leaf.goal==goal_atob ? PosA[boardnum[i]] : PAS[i];
+    piece p = goal==goal_atob ? PosA[boardnum[i]] : PAS[i];
     e[boardnum[i]] = p;
     CLEARFL(spec[boardnum[i]]);
 
@@ -454,14 +465,14 @@ static void ProofRestoreStartPosition(void)
       SETFLAG(spec[boardnum[i]], White);
     else if (p<=roin)
       SETFLAG(spec[boardnum[i]], Black);
-    if (slices[1].u.leaf.goal==goal_atob)
+    if (goal==goal_atob)
       spec[boardnum[i]] = SpecA[i];
   }
 
   /* set the king squares */
   if (!CondFlag[losingchess])
   {
-    if (slices[1].u.leaf.goal==goal_atob)
+    if (goal==goal_atob)
     {
       rb = rbA;
       rn = rnA;
@@ -473,7 +484,7 @@ static void ProofRestoreStartPosition(void)
     }
   }
 
-  if (slices[1].u.leaf.goal==goal_atob && CondFlag[imitators])
+  if (goal==goal_atob && CondFlag[imitators])
     for (i = 0; i < maxinum; i++)
       isquare[i] = isquareA[i];
 }
@@ -492,7 +503,7 @@ void ProofAtoBWriteStartPosition(void)
     char InitialLine[40];
     sprintf(InitialLine,
             "Initial (%s ->):\n",
-            PieSpString[ActLang][slice_get_starter(0)]);
+            PieSpString[ActLang][slice_get_starter(root_slice)]);
     StdString(InitialLine);
     WritePosition();
   }
@@ -632,12 +643,12 @@ static void WhPawnMovesFromTo(
 
   /* calculate number of moves */
   if (rank_to<rank_from)
-    *moves= slices[0].u.branch.length;
+    *moves= slices[root_slice].u.branch.length;
   else
   {
     *moves= rank_to-rank_from;
     if (*moves<*captures || *captures>captallowed)
-      *moves= slices[0].u.branch.length;
+      *moves= slices[root_slice].u.branch.length;
     else if (from<=square_h2 && *captures<*moves-1)
       /* double step possible */
       --*moves;
@@ -659,12 +670,12 @@ static void BlPawnMovesFromTo(
 
   /* calculate number of moves */
   if (rank_from<rank_to)
-    *moves= slices[0].u.branch.length;
+    *moves= slices[root_slice].u.branch.length;
   else
   {
     *moves= rank_from-rank_to;
     if (*moves<*captures || *captures>captallowed)
-      *moves= slices[0].u.branch.length;
+      *moves= slices[root_slice].u.branch.length;
     else if (from>=square_a7 && *captures < *moves-1)
       /* double step possible */
       --*moves;
@@ -685,7 +696,7 @@ static stip_length_type WhPawnMovesNeeded(square sq)
 
   if (sq<=square_h2)
     /* there is no pawn at all that can enter this square */
-    return slices[0].u.branch.length;
+    return slices[root_slice].u.branch.length;
 
   /* double step */
   if (square_a4<=sq && square_h4>=sq
@@ -702,7 +713,7 @@ static stip_length_type WhPawnMovesNeeded(square sq)
       return 1;
   }
   else
-    MovesNeeded= slices[0].u.branch.length;
+    MovesNeeded= slices[root_slice].u.branch.length;
 
   if (e[sq+dir_down+dir_left] != obs)
   {
@@ -737,7 +748,7 @@ static stip_length_type BlPawnMovesNeeded(square sq)
 
   if (sq>=square_a7)
     /* there is no pawn at all that can enter this square */
-    return slices[0].u.branch.length;
+    return slices[root_slice].u.branch.length;
 
   /* double step */
   if (square_a5<=sq && square_h5>=sq
@@ -754,7 +765,7 @@ static stip_length_type BlPawnMovesNeeded(square sq)
       return 1;
   }
   else
-    MovesNeeded= slices[0].u.branch.length;
+    MovesNeeded= slices[root_slice].u.branch.length;
 
   if (e[sq+dir_up+dir_right] != obs)
   {
@@ -777,10 +788,10 @@ static stip_length_type BlPawnMovesNeeded(square sq)
 #define BLOCKED(sq)                             \
   (  (e[sq] == pb                               \
       && ProofBoard[sq] == pb                   \
-      && WhPawnMovesNeeded(sq)>=slices[0].u.branch.length)       \
+      && WhPawnMovesNeeded(sq)>=slices[root_slice].u.branch.length)       \
      || (e[sq] == pn                            \
          && ProofBoard[sq] == pn                \
-         && BlPawnMovesNeeded(sq)>=slices[0].u.branch.length))
+         && BlPawnMovesNeeded(sq)>=slices[root_slice].u.branch.length))
 
 static void PieceMovesFromTo(piece p,
                              square from, square to,
@@ -803,7 +814,7 @@ static void PieceMovesFromTo(piece p,
       square    sqi, sqj;
       int   i, j;
       stip_length_type testmov;
-      stip_length_type testmin = slices[0].u.branch.length;
+      stip_length_type testmin = slices[root_slice].u.branch.length;
       for (i= vec_knight_start; i<=vec_knight_end; i++)
       {
         sqi= from+vec[i];
@@ -827,7 +838,7 @@ static void PieceMovesFromTo(piece p,
 
   case Bishop:
     if (SquareCol(from) != SquareCol(to))
-      *moves= slices[0].u.branch.length;
+      *moves= slices[root_slice].u.branch.length;
     else
     {
       dir= CheckDirBishop[sqdiff];
@@ -888,7 +899,7 @@ static void WhPromPieceMovesFromTo(
 
   cenpromsq= (from%onerow
               + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow);
-  *moves= slices[0].u.branch.length;
+  *moves= slices[root_slice].u.branch.length;
 
   WhPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
   PieceMovesFromTo(ProofBoard[to], cenpromsq, to, &mov2);
@@ -932,7 +943,7 @@ static void BlPromPieceMovesFromTo(
   stip_length_type i, mov1, mov2, cap1;
 
   cenpromsq= from%onerow + nr_of_slack_rows_below_board*onerow;
-  *moves= slices[0].u.branch.length;
+  *moves= slices[root_slice].u.branch.length;
 
   BlPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
   PieceMovesFromTo(ProofBoard[to], cenpromsq, to, &mov2);
@@ -976,7 +987,7 @@ static void WhPieceMovesFromTo(
   piece pfrom= e[from];
   piece pto= ProofBoard[to];
 
-  *moves= slices[0].u.branch.length;
+  *moves= slices[root_slice].u.branch.length;
 
   switch (pto)
   {
@@ -1009,7 +1020,7 @@ static void BlPieceMovesFromTo(
 
   pfrom= e[from];
   pto= ProofBoard[to];
-  *moves= slices[0].u.branch.length;
+  *moves= slices[root_slice].u.branch.length;
 
   switch (pto)
   {
@@ -1059,7 +1070,7 @@ static stip_length_type ArrangeListedPieces(
   stip_length_type Diff, Diff2;
   int i, id;
 
-  Diff= slices[0].u.branch.length;
+  Diff= slices[root_slice].u.branch.length;
 
   if (nto == 0)
     return 0;
@@ -1119,7 +1130,7 @@ static stip_length_type ArrangePieces(
         BlPieceMovesFromTo(from->sq[ifrom],
                            to->sq[ito], &moves, &captures,
                            CapturesAllowed, CapturesRequired);
-      if (moves < slices[0].u.branch.length)
+      if (moves < slices[root_slice].u.branch.length)
       {
         pl[ito].moves[pl[ito].Nbr]= moves;
         pl[ito].captures[pl[ito].Nbr]= captures;
@@ -1173,7 +1184,7 @@ static stip_length_type ArrangePawns(
       else
         BlPawnMovesFromTo(from->sq[ifrom],
                           to->sq[ito], &moves, &captures, CapturesAllowed);
-      if (moves < slices[0].u.branch.length)
+      if (moves < slices[root_slice].u.branch.length)
       {
         pl[ito].moves[pl[ito].Nbr]= moves;
         pl[ito].captures[pl[ito].Nbr]= captures;
@@ -1189,13 +1200,13 @@ static stip_length_type ArrangePawns(
   Diff= ArrangeListedPieces(pl,
                             to->Nbr, from->Nbr, taken, CapturesAllowed);
 
-  if (Diff == slices[0].u.branch.length)
-    return slices[0].u.branch.length;
+  if (Diff == slices[root_slice].u.branch.length)
+    return slices[root_slice].u.branch.length;
 
   /* determine minimal number of captures required */
   captures= 0;
   while (ArrangeListedPieces(pl, to->Nbr, from->Nbr, taken, captures)
-         == slices[0].u.branch.length)
+         == slices[root_slice].u.branch.length)
     captures++;
 
   *CapturesRequired= captures;

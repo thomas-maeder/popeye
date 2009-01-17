@@ -250,10 +250,12 @@ static boolean isIntelligentModeAllowed(void)
   switch (slices[root_slice].type)
   {
     case STBranchHelp:
-      switch (slices[1].type)
+    {
+      slice_index const next = slices[root_slice].u.branch.next;
+      switch (slices[next].type)
       {
         case STLeafHelp:
-          switch (slices[1].u.leaf.goal)
+          switch (slices[next].u.leaf.goal)
           {
             case goal_mate:
             case goal_stale:
@@ -269,13 +271,20 @@ static boolean isIntelligentModeAllowed(void)
         default:
           break;
       }
+    }
 
     case STBranchSeries:
-      switch (slices[1].type)
+    {
+      slice_index next = slices[root_slice].u.branch.next;
+
+      if (slices[next].type==STBranchSeries) /* intro series */
+        next = slices[next].u.branch.next;
+
+      switch (slices[next].type)
       {
         case STLeafDirect:
         case STLeafHelp:
-          switch (slices[1].u.leaf.goal)
+          switch (slices[next].u.leaf.goal)
           {
             case goal_mate:
             case goal_stale:
@@ -290,6 +299,7 @@ static boolean isIntelligentModeAllowed(void)
         default:
           break;
       }
+    }
 
     default:
       break;
@@ -510,10 +520,11 @@ static boolean verifieposition(void)
 
   if (slices[root_slice].type==STBranchDirect)
   {
+    slice_index const next = slices[root_slice].u.branch.next;
     if (slices[root_slice].u.branch.length<1
         && max_nr_refutations>0
-        && !(slices[1].type==STLeafSelf
-             || slices[1].type==STLeafHelp))
+        && !(slices[next].type==STLeafSelf
+             || slices[next].type==STLeafHelp))
     {
       ErrorMsg(TryInLessTwo);
       max_nr_refutations = 0;
@@ -541,11 +552,16 @@ static boolean verifieposition(void)
     }
   }
 
-  if (slices[1].u.leaf.goal == goal_steingewinn
-      && CondFlag[parrain])
+  if (CondFlag[parrain])
   {
-    VerifieMsg(PercentAndParrain);
-    return false;
+    Goal const pieceWinGoals[] = { goal_steingewinn };
+    size_t const nrPieceWinGoals = (sizeof pieceWinGoals
+                                    / sizeof pieceWinGoals[0]);
+    if (stip_ends_in(pieceWinGoals,nrPieceWinGoals))
+    {
+      VerifieMsg(PercentAndParrain);
+      return false;
+    }
   }
 
   {
@@ -557,8 +573,8 @@ static boolean verifieposition(void)
       goal_exchangeB
     };
 
-    size_t const nrDiastipGoals
-        = sizeof diastipGoals / sizeof diastipGoals[0];
+    size_t const nrDiastipGoals = (sizeof diastipGoals
+                                   / sizeof diastipGoals[0]);
     flagdiastip = stip_ends_only_in(diastipGoals,nrDiastipGoals);
   }
 
@@ -1681,19 +1697,6 @@ static boolean verifieposition(void)
     optim_neutralretractable = false;
     optim_orthomatingmoves = false;
   }
-#if defined(DEBUG)
-  printf("int: %s, mate: %s, stalemate: %s, "
-         "castling: %s, fee: %s, orth: %s, "
-         "help: %s, direct: %s, series: %s\n",
-         OptFlag[intelligent]?"true":"false",
-         slices[1].u.leaf.goal == goal_mate?"true":"false",
-         slices[1].u.leaf.goal == goal_stale?"true":"false",
-         testcastling?"true":"false",
-         flagfee?"true":"false",
-         slices[1].u.leaf.end==EHelp?"true":"false",
-         slices[1].u.leaf.end==EDirect?"true":"false",
-         slices[root_slice].type==STBranchSeries?"true":"false");
-#endif      /* DEBUG */
 
   if (InitChamCirce)
   {
@@ -1770,13 +1773,24 @@ static boolean verifieposition(void)
   }
 
 #if !defined(DATABASE)
-  if (slices[1].u.leaf.goal==goal_proof
-      || slices[1].u.leaf.goal==goal_atob)
-    return ProofVerifie();
+  if (slices[root_slice].type==STBranchDirect
+      || slices[root_slice].type==STBranchHelp
+      || slices[root_slice].type==STBranchSeries)
+  {
+    slice_index const next = slices[root_slice].u.branch.next;
+    if (slices[next].type==STLeafDirect
+        || slices[next].type==STLeafSelf
+        || slices[next].type==STLeafHelp)
+    {
+      Goal const goal = slices[next].u.leaf.goal;
+      if (goal==goal_proof || goal==goal_atob)
+        return ProofVerifie();
+    }
+  }
 #endif
     
   return true;
-} /* verifieposition */
+}
 
 static void current(ply ply_id, coup *mov)
 {
@@ -2337,14 +2351,14 @@ boolean has_too_many_flights(Side defender)
 static void HelpPlayInitWhiteToPlay(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
                                     
   --slices[si].u.branch.length;
   --slices[si].u.branch.min_length;
   slice_impose_starter(si,advers(slices[si].u.branch.starter));
 
-  TraceValue("%d",slices[si].u.branch.starter);
-  TraceValue("%d\n",slices[si].u.branch.length);
+  TraceValue("%u",slices[si].u.branch.starter);
+  TraceValue("%u\n",slices[si].u.branch.length);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -2353,14 +2367,14 @@ static void HelpPlayInitWhiteToPlay(slice_index si)
 static void HelpPlayRestoreFromWhiteToPlay(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",si);
+  TraceFunctionParam("%u\n",si);
                                     
   ++slices[si].u.branch.length;
   ++slices[si].u.branch.min_length;
   slice_impose_starter(si,advers(slices[si].u.branch.starter));
 
-  TraceValue("%d",slices[si].u.branch.starter);
-  TraceValue("%d\n",slices[si].u.branch.length);
+  TraceValue("%u",slices[si].u.branch.starter);
+  TraceValue("%u\n",slices[si].u.branch.length);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -2426,14 +2440,13 @@ void checkGlobalAssumptions(void)
 
 static void solveHalfADuplex(void)
 {
-  slice_index const first_slice = 0;
-  assert(slices[first_slice].type!=STLeafDirect
-         && slices[first_slice].type!=STLeafSelf
-         && slices[first_slice].type!=STLeafHelp);
+  assert(slices[root_slice].type!=STLeafDirect
+         && slices[root_slice].type!=STLeafSelf
+         && slices[root_slice].type!=STLeafHelp);
 
   inithash();
 
-  switch (slices[first_slice].type)
+  switch (slices[root_slice].type)
   {
     case STBranchSeries:
     case STBranchHelp:
@@ -2442,19 +2455,19 @@ static void solveHalfADuplex(void)
         /* In intelligent mode, RestartNbr means the minimal number of
          * moves.
          */
-        stip_length_type const save_min_length = set_min_length(first_slice,
+        stip_length_type const save_min_length = set_min_length(root_slice,
                                                                 RestartNbr);
         OptFlag[restart] = false;
-        slice_root_solve(first_slice);
+        slice_root_solve(root_slice);
         OptFlag[restart] = true;
-        set_min_length(first_slice,save_min_length);
+        set_min_length(root_slice,save_min_length);
       }
       else
-        slice_root_solve(first_slice);
+        slice_root_solve(root_slice);
       break;
 
     case STBranchDirect:
-      slice_root_solve(first_slice);
+      slice_root_solve(root_slice);
       break;
 
     default:
@@ -2487,29 +2500,34 @@ static boolean initAndVerify(Token tk,
                              boolean *shortenIfWhiteToPlay)
 {
   boolean result;
+  slice_index const next = slices[root_slice].u.branch.next;
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  if (slices[1].u.leaf.goal==goal_proof
-      || slices[1].u.leaf.goal==goal_atob)
+  assert(slices[root_slice].type==STBranchDirect
+         || slices[root_slice].type==STBranchHelp
+         || slices[root_slice].type==STBranchSeries);
+
+  if (slices[next].u.leaf.goal==goal_proof
+      || slices[next].u.leaf.goal==goal_atob)
   {
     if (slices[root_slice].type==STBranchSeries)
     {
       regular_starter = White;
-      slice_impose_starter(0,regular_starter);
+      slice_impose_starter(root_slice,regular_starter);
 
       isIntelligentModeActive = true;
     }
     else
     {
-      if (slices[1].u.leaf.goal==goal_proof)
+      if (slices[next].u.leaf.goal==goal_proof)
         regular_starter = White;
       else
         regular_starter = OptFlag[whitetoplay] ? White : Black;
-      TraceValue("%d\n",regular_starter);
+      TraceValue("%u\n",regular_starter);
 
-      slice_impose_starter(0,regular_starter);
+      slice_impose_starter(root_slice,regular_starter);
 
       /* hX0.5 are treated specially (currently? TODO) because
        * leaves normally are 2 half moves long */
@@ -2521,7 +2539,7 @@ static boolean initAndVerify(Token tk,
     {
       writeDiagram(tk,printa);
       ProofInitialise();
-      if (slices[1].u.leaf.goal==goal_atob)
+      if (slices[next].u.leaf.goal==goal_atob)
         ProofAtoBWriteStartPosition();
       *shortenIfWhiteToPlay = false;
       countPieces();
@@ -2537,7 +2555,8 @@ static boolean initAndVerify(Token tk,
     /* intelligent AND duplex means that the board is mirrored
      * and the colors swapped by swapcolors() and reflectboard()
      * -> start with the regular side. */
-    slice_detect_starter(0, OptFlag[halfduplex] && !isIntelligentModeActive);
+    slice_detect_starter(root_slice,
+                         OptFlag[halfduplex] && !isIntelligentModeActive);
     if (slices[root_slice].u.branch.starter==no_side)
     {
       VerifieMsg(CantDecideWhoIsAtTheMove);
@@ -2546,9 +2565,9 @@ static boolean initAndVerify(Token tk,
     else
     {
       *shortenIfWhiteToPlay = slices[root_slice].type==STBranchHelp;
-      TraceValue("%d ",*shortenIfWhiteToPlay);
-      TraceValue("%d ",slices[root_slice].u.branch.starter);
-      TraceValue("%d\n",regular_starter);
+      TraceValue("%u",*shortenIfWhiteToPlay);
+      TraceValue("%u",slices[root_slice].u.branch.starter);
+      TraceValue("%u\n",regular_starter);
 
       countPieces();
       result = locateKings() && verifieposition();
@@ -2557,7 +2576,7 @@ static boolean initAndVerify(Token tk,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 

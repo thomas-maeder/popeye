@@ -32,20 +32,29 @@ slice_index alloc_slice_index(void)
   return next_slice++;
 }
 
-/* Allocate a composite slice.
+/* Allocate a branch slice.
+ * @param type type of slice
+ * @param next identifies next slice
  * @return index of allocated slice
  */
-slice_index alloc_branch_slice(SliceType type)
+slice_index alloc_branch_slice(SliceType type,
+                               stip_length_type length,
+                               stip_length_type min_length,
+                               slice_index next)
 {
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",type);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u\n",next);
 
   slices[result].type = type; 
   slices[result].u.branch.starter = no_side; 
-  slices[result].u.branch.length = 0;
-  slices[result].u.branch.next = no_slice;
+  slices[result].u.branch.length = length;
+  slices[result].u.branch.min_length = min_length;
+  slices[result].u.branch.next = next;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -211,13 +220,13 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
  */
 void transform_to_quodlibet(void)
 {
-  slice_index start = 0;
+  slice_index start = root_slice;
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
   transform_to_quodlibet_recursive(&start);
-  assert(start==0);
+  assert(start==root_slice);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -300,7 +309,7 @@ static boolean slice_ends_only_in(Goal const goals[],
  */
 boolean stip_ends_only_in(Goal const  goals[], unsigned int nrGoals)
 {
-  return slice_ends_only_in(goals,nrGoals,0);
+  return slice_ends_only_in(goals,nrGoals,root_slice);
 }
 
 
@@ -358,7 +367,7 @@ static boolean slice_ends_in(Goal const goals[],
  */
 boolean stip_ends_in(Goal const goals[], unsigned int nrGoals)
 {
-  return slice_ends_in(goals,nrGoals,0);
+  return slice_ends_in(goals,nrGoals,root_slice);
 }
 
 /* Continue search for a goal. Cf. find_next_goal() */
@@ -433,24 +442,25 @@ static slice_index find_goal_recursive(Goal goal,
  * @param goal defines where to stop traversal
  * @param start traversal starts (continues) at the identified slice
  *              (excluding it, i.e. the result will be different from
- *              start); must be 0 or the result of a previous call
+ *              start); must be root_slice or the result of a previous
+ *              call
  * @return if found, index of the next slice with the requested goal;
  *         no_slice otherwise
  */
 slice_index find_next_goal(Goal goal, slice_index start)
 {
-  boolean active = start==0;
+  boolean active = start==root_slice;
 
   assert(start<next_slice);
 
   /* Either this is the first run (-> si==0) or we start from the
    * previous result, which must have been a leaf. */
-  assert(start==0
+  assert(start==root_slice
          || slices[start].type==STLeafDirect
          || slices[start].type==STLeafSelf
          || slices[start].type==STLeafHelp);
 
-  return find_goal_recursive(goal,start,&active,0);
+  return find_goal_recursive(goal,start,&active,root_slice);
 }
 
 static boolean are_goals_equal(slice_index si1, slice_index si2)
@@ -513,7 +523,7 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
 slice_index find_unique_goal(void)
 {
   slice_index found_so_far = no_slice;
-  return (find_unique_goal_recursive(0,&found_so_far)
+  return (find_unique_goal_recursive(root_slice,&found_so_far)
           ? found_so_far
           : no_slice);
 }
@@ -914,6 +924,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STBranchHelp:
@@ -1206,6 +1217,99 @@ boolean slice_has_starter_won(slice_index si)
   return result;
 }
 
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean slice_has_starter_reached_goal(slice_index si)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",slices[si].type);
+  switch (slices[si].type)
+  {
+    case STLeafDirect:
+      result = leaf_d_has_starter_reached_goal(si);
+      break;
+
+    case STLeafSelf:
+      result = leaf_s_has_starter_reached_goal(si);
+      break;
+
+    case STLeafHelp:
+      result = leaf_h_has_starter_reached_goal(si);
+      break;
+
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      result = branch_has_starter_reached_goal(si);
+      break;
+
+    case STQuodlibet:
+      result = quodlibet_has_starter_reached_goal(si);
+      break;
+
+    case STReciprocal:
+      result = reci_has_starter_reached_goal(si);
+      break;
+
+    case STNot:
+      result = not_has_starter_reached_goal(si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean slice_is_goal_reached(Side just_moved, slice_index si)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",slices[si].type);
+  switch (slices[si].type)
+  {
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafHelp:
+      result = leaf_is_goal_reached(just_moved,si);
+      break;
+
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      result = branch_is_goal_reached(just_moved,si);
+      break;
+
+    default:
+      /* TODO */
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Write a priori unsolvability (if any) of a slice in direct play
  * (e.g. forced reflex mates).
  * Assumes slice_must_starter_resign(si)
@@ -1297,9 +1401,9 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
       break;
   }
 
-  if (si==0)
+  if (si==root_slice)
   {
-    regular_starter = slice_get_starter(0);
+    regular_starter = slice_get_starter(root_slice);
     TraceValue("%u\n",regular_starter);
   }
 

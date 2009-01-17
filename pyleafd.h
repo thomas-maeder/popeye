@@ -71,6 +71,13 @@ boolean leaf_d_has_starter_apriori_lost(slice_index leaf);
  */
 boolean leaf_d_has_starter_won(slice_index leaf);
 
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean leaf_d_has_starter_reached_goal(slice_index si);
+
 /* Determine whether there is a solution in a leaf.
  * @param leaf slice index of leaf slice
  * @return true iff leaf has >=1 solution

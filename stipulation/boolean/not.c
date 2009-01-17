@@ -134,6 +134,25 @@ boolean not_has_starter_apriori_lost(slice_index si)
   return result;
 }
 
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean not_has_starter_reached_goal(slice_index si)
+{
+  boolean result = false;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  result = !slice_has_starter_reached_goal(slices[si].u.not.op);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Determine whether the attacker has won with his move just played
  * @param si slice identifier
  * @return true iff the starter has won

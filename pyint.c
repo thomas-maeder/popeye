@@ -8,8 +8,10 @@
  **
  **************************** End of List ******************************/
 
+#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "py.h"
 #include "pyproc.h"
 #include "pyhash.h"
@@ -142,7 +144,11 @@ boolean IllegalCheck(Side camp)
     if (e[rn+dir_down+dir_right]==Pawn || e[rn+dir_down+dir_left]==Pawn)
       nrChecks++;
 
-    return nrChecks > (slices[1].u.leaf.goal==goal_stale ? 0 : 1);
+    return (nrChecks
+            > (slices[slices[root_slice].u.branch.next].u.leaf.goal
+               ==goal_stale
+               ? 0
+               : 1));
   }
   else
     return (rb!=initsquare
@@ -480,7 +486,7 @@ static boolean isGoalReachableRegularGoals(void)
     }
   }
 
-  if (slices[1].u.leaf.goal == goal_stale) {
+  if (slices[slices[root_slice].u.branch.next].u.leaf.goal == goal_stale) {
     if (pprise[nbply] < vide) {
       captures--;
     }
@@ -648,7 +654,7 @@ void StaleStoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    slice_root_solve_in_n(0,n);
+    slice_root_solve_in_n(root_slice,n);
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -877,7 +883,7 @@ void StoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    slice_root_solve_in_n(0,n);
+    slice_root_solve_in_n(root_slice,n);
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -1967,14 +1973,15 @@ void GenerateBlocking(
 
   if (nbrfl == 0) {
     /* check for stipulation */
-    if (slices[1].u.leaf.goal == goal_stale || echecc(nbply,Black)) {
+    if (slices[slices[root_slice].u.branch.next].u.leaf.goal == goal_stale
+        || echecc(nbply,Black)) {
 #if defined(DEBUG)
       if (IllegalCheck(White)) {
         StdString("oops!\n");
         exit(0);
       }
 #endif
-      if (slices[1].u.leaf.goal == goal_stale) {
+      if (slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_stale) {
         if (echecc(nbply,Black)) {
           AvoidCheckInStalemate(timetowaste,
                                 whmoves, blpcallowed, whpcallowed, n);
@@ -2121,7 +2128,8 @@ void GenerateGuarding(
     flights= 0;
 
     /* check for check */
-    if (slices[1].u.leaf.goal == goal_mate && !echecc(nbply,Black)) {
+    if (slices[slices[root_slice].u.branch.next].u.leaf.goal == goal_mate
+        && !echecc(nbply,Black)) {
       return;
     }
 
@@ -2142,7 +2150,8 @@ void GenerateGuarding(
     genmove(Black);
     while(encore() && !unblockable) {
       if (jouecoup(nbply,first_play)
-          && slices[1].u.leaf.goal == goal_stale)
+          && (slices[slices[root_slice].u.branch.next].u.leaf.goal
+              ==goal_stale))
       {
         e[move_generation_stack[nbcou].departure]= obs;
       }
@@ -2395,7 +2404,7 @@ void GenerateBlackKing(int whmoves, int blmoves,
       WriteSquare(sq);
       StdString("\n");
 #endif
-      if (slices[1].u.leaf.goal == goal_mate) {
+      if (slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_mate) {
         GenerateChecking(whmoves, blmoves-time, n);
       }
       else {
@@ -2563,10 +2572,10 @@ static void IntelligentProof(stip_length_type n)
    * full-length.
    * If n is smaller, temporarily disable move number output:
    */
-  if (n<slices[0].u.branch.length)
+  if (n<slices[root_slice].u.branch.length)
     OptFlag[movenbr] = false;
     
-  slice_root_solve_in_n(0,n);
+  slice_root_solve_in_n(root_slice,n);
 
   OptFlag[movenbr] = save_movenbr;
 }
@@ -2578,14 +2587,14 @@ boolean Intelligent(stip_length_type n)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",n);
 
-  TraceValue("%u\n",slices[0].u.branch.length);
-  if (slices[0].type==STBranchHelp)
+  TraceValue("%u\n",slices[root_slice].u.branch.length);
+  if (slices[root_slice].type==STBranchHelp)
   {
     BlMovesLeft = n/2;
     WhMovesLeft = BlMovesLeft;
     if (n%2==1)
     {
-      if (branch_h_starter_in_n(0,n)==White)
+      if (branch_h_starter_in_n(root_slice,n)==White)
         ++WhMovesLeft;
       else
         ++BlMovesLeft;
@@ -2593,10 +2602,10 @@ boolean Intelligent(stip_length_type n)
   }
   else
   {
-    if (slices[1].type==STLeafHelp)
+    if (slices[slices[root_slice].u.branch.next].type==STLeafHelp)
     {
-      if (slices[1].u.leaf.goal==goal_atob
-          || slices[1].u.leaf.goal==goal_proof)
+      if (slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_atob
+          || slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_proof)
       {
         WhMovesLeft = n;
         BlMovesLeft = 0;
@@ -2620,8 +2629,8 @@ boolean Intelligent(stip_length_type n)
 
   InitSols();
 
-  if (slices[1].u.leaf.goal==goal_atob
-      || slices[1].u.leaf.goal==goal_proof)
+  if (slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_atob
+      || slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_proof)
     IntelligentProof(n);
   else
     IntelligentRegularGoals(n);
@@ -2636,12 +2645,21 @@ boolean Intelligent(stip_length_type n)
 boolean isGoalReachable(void)
 {
   boolean result;
+  slice_index const leaf_slice = 0;
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  if (slices[1].u.leaf.goal==goal_atob
-      || slices[1].u.leaf.goal==goal_proof)
+  assert(slices[root_slice].type==STBranchDirect
+         || slices[root_slice].type==STBranchHelp
+         || slices[root_slice].type==STBranchSeries);
+  assert(leaf_slice==slices[root_slice].u.branch.next);
+  assert(slices[leaf_slice].type==STLeafDirect
+         || slices[leaf_slice].type==STLeafSelf
+         || slices[leaf_slice].type==STLeafHelp);
+
+  if (slices[leaf_slice].u.leaf.goal==goal_atob
+      || slices[leaf_slice].u.leaf.goal==goal_proof)
     result = !(*alternateImpossible)();
   else
     result = isGoalReachableRegularGoals();

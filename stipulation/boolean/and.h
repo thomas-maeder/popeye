@@ -55,6 +55,13 @@ boolean reci_has_starter_apriori_lost(slice_index si);
  */
 boolean reci_has_starter_won(slice_index si);
 
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean reci_has_starter_reached_goal(slice_index si);
+
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
  * Assumes slice_must_starter_resign(si)

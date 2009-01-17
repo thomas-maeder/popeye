@@ -37,6 +37,13 @@ boolean branch_root_solve_complete_set(slice_index si);
  */
 boolean branch_has_non_starter_solved(slice_index si);
 
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean branch_is_goal_reached(Side just_moved, slice_index si);
+
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.
  * E.g. in s# or r#, has it taken the last potential mating piece of
@@ -53,6 +60,13 @@ boolean branch_has_starter_apriori_lost(slice_index si);
  * @return true iff the starter has won
  */
 boolean branch_has_starter_won(slice_index si);
+
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean branch_has_starter_reached_goal(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

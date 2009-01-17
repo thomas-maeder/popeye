@@ -33,8 +33,8 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
 
     if (!slice_must_starter_resign(si))
     {
+      active_slice[nbply+1] = si;
       genmove(series_side);
-      active_slice[nbply] = si;
 
       if (series_side==White)
         WhMovesLeft--;
@@ -105,8 +105,8 @@ static void branch_ser_root_solve_in_n_recursive(slice_index si,
 
     if (!slice_must_starter_resign(si))
     {
+      active_slice[nbply+1] = si;
       genmove(series_side);
-      active_slice[nbply] = si;
 
       if (series_side==White)
         WhMovesLeft--;

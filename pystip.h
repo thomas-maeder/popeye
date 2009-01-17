@@ -135,9 +135,16 @@ extern Side regular_starter;
 slice_index alloc_slice_index(void);
 
 /* Allocate a branch slice.
+ * @param type type of slice
+ * @param length number of moves of branch (semantics depends on type)
+ * @param min_length minimal number of moves
+ * @param next identifies next slice
  * @return index of allocated slice
  */
-slice_index alloc_branch_slice(SliceType type);
+slice_index alloc_branch_slice(SliceType type,
+                               stip_length_type length,
+                               stip_length_type min_length,
+                               slice_index next);
 
 /* Allocate a target leaf slice.
  * @param type which STLeaf* type
@@ -298,6 +305,20 @@ boolean slice_has_starter_apriori_lost(slice_index si);
  * @return true iff the starter has won
  */
 boolean slice_has_starter_won(slice_index si);
+
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean slice_has_starter_reached_goal(slice_index si);
+
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean slice_is_goal_reached(Side just_moved, slice_index si);
 
 /* Find and write variations
  * @param si slice index

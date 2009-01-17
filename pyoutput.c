@@ -354,12 +354,11 @@ static void linesolution(void)
   ResetPosition();
 
   TraceValue("%u",regular_starter);
-  TraceValue("%u",slice_get_starter(0));
   TraceValue("%u\n",areWeSolvingSetplay);
 
   if (areWeSolvingSetplay)
   {
-    if (regular_starter==slice_get_starter(0))
+    if (regular_starter==slice_get_starter(root_slice))
       StdString("  1...");
     else
       StdString("  1...  ...");
@@ -368,7 +367,7 @@ static void linesolution(void)
   }
   else
   {
-    if (regular_starter==slice_get_starter(0))
+    if (regular_starter==slice_get_starter(root_slice))
       next_movenumber = 1;
     else
     {

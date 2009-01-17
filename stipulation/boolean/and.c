@@ -152,6 +152,28 @@ boolean reci_has_starter_won(slice_index si)
   return result;
 }
 
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean reci_has_starter_reached_goal(slice_index si)
+{
+  boolean result;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  result = (slice_has_starter_reached_goal(op1)
+            && slice_has_starter_reached_goal(op2));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
  * Assumes slice_must_starter_resign(si)

@@ -47,8 +47,8 @@ static void branch_h_root_solve_in_n_recursive_nohash(slice_index si,
   {
     Side next_side = advers(side_at_move);
 
+    active_slice[nbply+1] = si;
     genmove(side_at_move);
-    active_slice[nbply] = si;
   
     if (side_at_move==Black)
       BlMovesLeft--;
@@ -121,8 +121,8 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
   {
     Side next_side = advers(side_at_move);
 
+    active_slice[nbply+1] = si;
     genmove(side_at_move);
-    active_slice[nbply] = si;
   
     if (side_at_move==Black)
       BlMovesLeft--;
@@ -256,7 +256,7 @@ static boolean branch_h_root_solve_short_in_n(slice_index si,
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
   assert(n>=slack_length_help);
@@ -383,9 +383,21 @@ void branch_h_root_solve(slice_index si)
 Side branch_h_starter_in_n(slice_index si, stip_length_type n)
 {
   Side const branch_starter = slices[si].u.branch.starter;
-  return (slices[si].u.branch.length%2==n%2
-          ? branch_starter
-          : advers(branch_starter));
+  Side result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
+
+  TraceValue("%u\n",branch_starter);
+
+  result = (slices[si].u.branch.length%2==n%2
+            ? branch_starter
+            : advers(branch_starter));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Solve a branch in exactly n moves at root level
@@ -395,7 +407,15 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n)
 void branch_h_root_solve_in_n(slice_index si, stip_length_type n)
 {
   Side const starter = branch_h_starter_in_n(si,n);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
+
   branch_h_root_solve_in_n_recursive_nohash(si,n,starter);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Impose the starting side on a slice.

@@ -65,6 +65,13 @@ boolean not_has_starter_apriori_lost(slice_index si);
  */
 boolean not_has_starter_won(slice_index si);
 
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean not_has_starter_reached_goal(slice_index si);
+
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
