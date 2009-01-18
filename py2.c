@@ -61,11 +61,11 @@ boolean eval_ortho(ply ply_id, square sq_departure, square sq_arrival, square sq
 
 boolean legalsquare(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
   if (CondFlag[koeko]) {
-    if (nocontact(sq_departure,sq_arrival,sq_capture, koekofunc))
+    if (nocontact(ply_id, sq_departure,sq_arrival,sq_capture, koekofunc))
       return(false);
   }
   if (CondFlag[antikoeko]) {
-    if (!nocontact(sq_departure,sq_arrival,sq_capture, antikoekofunc))
+    if (!nocontact(ply_id, sq_departure,sq_arrival,sq_capture, antikoekofunc))
       return(false);
   }
   if (CondFlag[gridchess]) {
@@ -91,12 +91,12 @@ boolean legalsquare(ply ply_id, square sq_departure, square sq_arrival, square s
       return(false);
   }
   if (TSTFLAG(spec[sq_departure], Jigger)) {
-    if (nocontact(sq_departure,sq_arrival,sq_capture,nokingcontact))
+    if (nocontact(ply_id, sq_departure,sq_arrival,sq_capture,nokingcontact))
       return(false);
   }
   if (CondFlag[newkoeko]) {
-    if (nocontact(sq_departure,sq_arrival,sq_capture,nokingcontact)
-        != nocontact(initsquare,sq_departure,initsquare,nokingcontact))
+    if (nocontact(ply_id, sq_departure,sq_arrival,sq_capture,nokingcontact)
+        != nocontact(ply_id, initsquare,sq_departure,initsquare,nokingcontact))
     {
       return false;
     }

@@ -79,6 +79,7 @@ void initply(ply parent)
   norm_cham_prom[nbply] = false;
   cir_cham_prom[nbply] = false;
   Iprom[nbply] = false;
+  pprise[nbply] = vide;
 
   /*
     Supercirce rebirths are implemented similarly to promotions ...
@@ -627,7 +628,7 @@ boolean noantelopecontact(square ia)
 }
 
 
-boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, nocontactfunc_t nocontactfunc) {
+boolean nocontact(ply ply_id, square sq_departure, square sq_arrival, square sq_capture, nocontactfunc_t nocontactfunc) {
   boolean   Result;
   square    cr;
   piece pj, pp, pren;
@@ -635,6 +636,8 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   square sq_castle_from=initsquare, sq_castle_to=initsquare;
 
   VARIABLE_INIT(cr);
+
+  nextply(ply_id);
 
   pj= e[sq_departure];
   pp= e[sq_capture];
@@ -694,10 +697,10 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
      */
     e[sq_capture]= vide;
 
-  if (CondFlag[parrain] && pprise[nbply-1] != vide) {
+  if (CondFlag[parrain] && pprise[parent_ply[nbply]] != vide) {
     cr= move_generation_stack[repere[nbply]].capture + sq_arrival - sq_departure;
         if ((pc= e[cr]) == vide) {
-          e[cr]= pprise[nbply-1];
+          e[cr]= pprise[parent_ply[nbply]];
         }
   }
 
@@ -775,7 +778,7 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
       e[sq_castle_from]= e[sq_castle_to];
     e[sq_castle_to] = vide;
   }
-
+  finply();
   return Result;
 } /* nocontact */
 

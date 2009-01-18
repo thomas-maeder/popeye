@@ -242,7 +242,7 @@ boolean libre(ply ply_id, square a, boolean b);
 void finply(void);
 void nextply(ply parent);
 
-boolean nocontact(square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
+boolean nocontact(ply ply_id, square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
 boolean nogridcontact(square a);
 boolean immobile(Side a);
 boolean rbcircech(ply ply_id, square departure, square arrival, square capture);
