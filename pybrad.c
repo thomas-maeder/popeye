@@ -287,7 +287,7 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
         && slice_has_solution(slices[si].u.branch.next))
       result = true;
     else if (moves_played>min_length
-             && slice_has_non_starter_solved(si))
+             && slice_has_non_starter_solved(slices[si].u.branch.next))
       result = true;
     else if (n>0)
     {
@@ -311,12 +311,12 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
           if (maxtime_status==MAXTIME_TIMEOUT)
             break;
         }
-      }
 
-      if (result)
-        addtohash(si,DirSucc,n,&hb);
-      else
-        addtohash(si,DirNoSucc,n+1,&hb);
+        if (result)
+          addtohash(si,DirSucc,n,&hb);
+        else
+          addtohash(si,DirNoSucc,n+1,&hb);
+      }
     }
   }
 
@@ -451,8 +451,7 @@ static boolean branch_d_defends_against_threats(int threats,
           && !echecc(nbply,attacker))
       {
         if (n==0)
-          defense_found =
-              !slice_has_starter_reached_goal(slices[si].u.branch.next);
+          defense_found = !slice_has_starter_won(slices[si].u.branch.next);
         else
           defense_found = branch_d_does_defender_win(si,n-1)<=win;
 
@@ -525,7 +524,7 @@ static void branch_d_write_variation(slice_index si, stip_length_type n)
  * @param n number of moves until end state has to be reached,
  *          including the move just played
  * @param threats table where to add threats
- * @return the length of the shortest threat(s); 0
+ * @return the length of the shortest threat(s)
  */
 static int branch_d_solve_threats(int threats,
                                   slice_index si,
@@ -552,6 +551,8 @@ static int branch_d_solve_threats(int threats,
     for (i = 0; i<=max_threat_length; i++)
     {
       branch_d_solve_continuations_in_n(threats,si,i);
+      TraceValue("%u",i);
+      TraceValue("%u\n",tablen(threats));
       if (tablen(threats)>0)
       {
         result = i;
