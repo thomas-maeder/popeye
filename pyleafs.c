@@ -10,41 +10,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-/* Look up the current position in the hash table
- * @param leaf slice index of leaf slice
- * @param hb contains encoded position
- * @return if found in hash table: DirSucc or DirNoSucc
- *         otherwise: nr_hashwhat
- */
-static hashwhat leaf_s_hash_lookup(slice_index leaf, HashBuffer *hb)
-{
-  /* It is more likely that a position has no solution. */
-  /*    Therefore let's check for "no solution" first. TLi */
-  if (inhash(leaf,DirNoSucc,1,hb))
-  {
-    assert(!inhash(leaf,DirSucc,0,hb));
-    return DirNoSucc;
-  }
-  else if (inhash(leaf,DirSucc,0,hb))
-    return DirSucc;
-  else
-    return nr_hashwhat;
-}
-
-/* Update/insert hash table entry for current position
- * @param leaf slice index of leaf slice
- * @param hb contains encoded position
- * @param h DirSucc for writing DirSucc; other values for writing
- *          DirNoSucc
- */
-static void leaf_s_hash_update(slice_index leaf, HashBuffer *hb, hashwhat h)
-{
-  if (h==DirSucc)
-    addtohash(leaf,DirSucc,0,hb);
-  else
-    addtohash(leaf,DirNoSucc,1,hb);
-}
-
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
@@ -74,7 +39,7 @@ boolean leaf_s_must_starter_resign(slice_index leaf)
  */
 boolean leaf_s_has_solution(slice_index leaf)
 {
-  hashwhat result;
+  boolean result = false;
   HashBuffer hb;
   Side const attacker = slices[leaf].u.leaf.starter;
   Side const defender = advers(attacker);
@@ -83,13 +48,17 @@ boolean leaf_s_has_solution(slice_index leaf)
   TraceFunctionParam("%u\n",leaf);
 
   (*encode)(&hb);
-  result = leaf_s_hash_lookup(leaf,&hb);
-
-  if (result==nr_hashwhat)
+  /* It is more likely that a position has no solution. */
+  /*    Therefore let's check for "no solution" first. TLi */
+  if (inhash(leaf,DirNoSucc,1,&hb))
+    assert(!inhash(leaf,DirSucc,0,&hb));
+  else if (inhash(leaf,DirSucc,0,&hb))
+    result = true;
+  else
   {
     genmove(attacker);
 
-    while (result!=DirSucc
+    while (!result
            && encore())
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove()
@@ -97,7 +66,7 @@ boolean leaf_s_has_solution(slice_index leaf)
           && !(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
           && leaf_is_end_in_1_forced(leaf))
       {
-        result = DirSucc;
+        result = true;
         coupfort();
       }
 
@@ -109,12 +78,15 @@ boolean leaf_s_has_solution(slice_index leaf)
 
     finply();
 
-    leaf_s_hash_update(leaf,&hb,result);
+    if (result)
+      addtohash(leaf,DirSucc,0,&hb);
+    else
+      addtohash(leaf,DirNoSucc,1,&hb);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result==DirSucc);
-  return result==DirSucc;
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine whether a leaf slice.has just been solved with the just
