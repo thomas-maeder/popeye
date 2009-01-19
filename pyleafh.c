@@ -63,9 +63,8 @@ boolean leaf_h_has_solution(slice_index leaf)
     {
       if (compression_counter==0)
       {
-        HashBuffer hb;
-        (*encode)(&hb);
-        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+        (*encode)();
+        if (!inhash(leaf,HelpNoSuccOdd,1))
         {
           if (leaf_is_end_in_1_possible(other_side,leaf))
           {
@@ -73,7 +72,7 @@ boolean leaf_h_has_solution(slice_index leaf)
             coupfort();
           }
           else
-            addtohash(leaf,HelpNoSuccOdd,1,&hb);
+            addtohash(leaf,HelpNoSuccOdd,1);
         }
       }
       else if (leaf_is_end_in_1_possible(other_side,leaf))
@@ -227,14 +226,13 @@ static boolean leaf_h_cmate_solve(slice_index leaf)
     {
       if (compression_counter==0)
       {
-        HashBuffer hb;
-        (*encode)(&hb);
-        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+        (*encode)();
+        if (!inhash(leaf,HelpNoSuccOdd,1))
         {
           if (leaf_h_cmate_solve_final_move(leaf))
             found_solution = true;
           else
-            addtohash(leaf,HelpNoSuccOdd,1,&hb);
+            addtohash(leaf,HelpNoSuccOdd,1);
         }
       }
       else if (leaf_h_cmate_solve_final_move(leaf))
@@ -300,14 +298,13 @@ static boolean leaf_h_dmate_solve(slice_index leaf)
     {
       if (compression_counter==0)
       {
-        HashBuffer hb;
-        (*encode)(&hb);
-        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+        (*encode)();
+        if (!inhash(leaf,HelpNoSuccOdd,1))
         {
           if (leaf_h_dmate_solve_final_move(leaf))
             found_solution = true;
           else
-            addtohash(leaf,HelpNoSuccOdd,1,&hb);
+            addtohash(leaf,HelpNoSuccOdd,1);
         }
       }
       else if (leaf_h_dmate_solve_final_move(leaf))
@@ -357,14 +354,13 @@ static boolean leaf_h_regulargoals_solve(slice_index leaf)
     {
       if (compression_counter==0)
       {
-        HashBuffer hb;
-        (*encode)(&hb);
-        if (!inhash(leaf,HelpNoSuccOdd,1,&hb))
+        (*encode)();
+        if (!inhash(leaf,HelpNoSuccOdd,1))
         {
           if (leaf_h_solve_final_move(leaf))
             found_solution = true;
           else
-            addtohash(leaf,HelpNoSuccOdd,1,&hb);
+            addtohash(leaf,HelpNoSuccOdd,1);
         }
       }
       else if (leaf_h_solve_final_move(leaf))

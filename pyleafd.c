@@ -34,20 +34,19 @@ boolean leaf_d_must_starter_resign(slice_index leaf)
 
 /* Look up the current position in the hash table
  * @param leaf slice index of leaf slice
- * @param hb contains encoded position
  * @return if found in hash table: DirSucc or DirNoSucc
  *         otherwise: nr_hashwhat
  */
-static hashwhat leaf_d_hash_lookup(slice_index leaf, HashBuffer *hb)
+static hashwhat leaf_d_hash_lookup(slice_index leaf)
 {
   /* It is more likely that a position has no solution. */
   /*    Therefore let's check for "no solution" first. TLi */
-  if (inhash(leaf,DirNoSucc,1,hb))
+  if (inhash(leaf,DirNoSucc,1))
   {
-    assert(!inhash(leaf,DirSucc,0,hb));
+    assert(!inhash(leaf,DirSucc,0));
     return DirNoSucc;
   }
-  else if (inhash(leaf,DirSucc,0,hb))
+  else if (inhash(leaf,DirSucc,0))
     return DirSucc;
   else
     return nr_hashwhat;
@@ -55,16 +54,15 @@ static hashwhat leaf_d_hash_lookup(slice_index leaf, HashBuffer *hb)
 
 /* Update/insert hash table entry for current position
  * @param leaf slice index of leaf slice
- * @param hb contains encoded position
  * @param h DirSucc for writing DirSucc; other values for writing
  *          DirNoSucc
  */
-static void leaf_d_hash_update(slice_index leaf, HashBuffer *hb, hashwhat h)
+static void leaf_d_hash_update(slice_index leaf, hashwhat h)
 {
   if (h==DirSucc)
-    addtohash(leaf,DirSucc,0,hb);
+    addtohash(leaf,DirSucc,0);
   else
-    addtohash(leaf,DirNoSucc,1,hb);
+    addtohash(leaf,DirNoSucc,1);
 }
 
 /* Determine whether there is a solution in a direct leaf.
@@ -74,7 +72,6 @@ static void leaf_d_hash_update(slice_index leaf, HashBuffer *hb, hashwhat h)
 boolean leaf_d_has_solution(slice_index leaf)
 {
   hashwhat result = nr_hashwhat;
-  HashBuffer hb;
   Side const attacker = slices[leaf].u.leaf.starter;
 
   TraceFunctionEntry(__func__);
@@ -84,10 +81,7 @@ boolean leaf_d_has_solution(slice_index leaf)
    * expensive to compute an end in 1. TLi
    */
   if (!FlagMoveOrientatedStip)
-  {
-    (*encode)(&hb);
-    result = leaf_d_hash_lookup(leaf,&hb);
-  }
+    result = leaf_d_hash_lookup(leaf);
 
   if (result==nr_hashwhat)
   {
@@ -128,7 +122,7 @@ boolean leaf_d_has_solution(slice_index leaf)
     finply();
 
     if (!FlagMoveOrientatedStip)
-      leaf_d_hash_update(leaf,&hb,result);
+      leaf_d_hash_update(leaf,result);
   }
 
   TraceFunctionExit(__func__);

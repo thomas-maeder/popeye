@@ -60,9 +60,12 @@ static void branch_h_root_solve_in_n_recursive_nohash(slice_index si,
       if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move)
-          && !(OptFlag[restart] && MoveNbr<RestartNbr)
-          && !slice_must_starter_resign(slices[si].u.branch.next))
-        branch_h_solve_in_n_recursive(si,n-1,next_side);
+          && !(OptFlag[restart] && MoveNbr<RestartNbr))
+      {
+        (*encode)();
+        if (!slice_must_starter_resign(slices[si].u.branch.next))
+          branch_h_solve_in_n_recursive(si,n-1,next_side);
+      }
 
       if (OptFlag[movenbr])
         IncrementMoveNbr();
@@ -133,10 +136,13 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && (!isIntelligentModeActive || isGoalReachable())
-          && !echecc(nbply,side_at_move)
-          && !slice_must_starter_resign(slices[si].u.branch.next)
-          && branch_h_solve_in_n_recursive(si,n-1,next_side))
-        found_solution = true;
+          && !echecc(nbply,side_at_move))
+      {
+        (*encode)();
+        if (!slice_must_starter_resign(slices[si].u.branch.next)
+            && branch_h_solve_in_n_recursive(si,n-1,next_side))
+          found_solution = true;
+      }
 
       repcoup();
 
@@ -179,20 +185,18 @@ static boolean branch_h_solve_in_n_recursive(slice_index si,
 {
   boolean found_solution = false;
   hashwhat const hash_no_succ = n%2==0 ? HelpNoSuccEven : HelpNoSuccOdd;
-  HashBuffer hb;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
-  (*encode)(&hb);
-  if (!inhash(si,hash_no_succ,n/2,&hb))
+  if (!inhash(si,hash_no_succ,n/2))
   {
     if (branch_h_solve_in_n_recursive_nohash(si,n,side_at_move))
       found_solution = true;
     else
-      addtohash(si,hash_no_succ,n/2,&hb);
+      addtohash(si,hash_no_succ,n/2);
   }
 
   TraceFunctionExit(__func__);

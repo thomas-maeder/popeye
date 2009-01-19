@@ -15,7 +15,7 @@ pygoal.h:
 
 pydata.h:
 py1$(OBJ_SUFFIX): py1.c py.h boolean.h pylang.h pymsg.h py1.h pyproc.h py4.h \
-  pygoal.h pydata.h pystip.h trace.h
+  pygoal.h pydata.h pystip.h pyhash.h DHT/dhtbcmem.h trace.h
 
 py.h:
 
@@ -36,6 +36,10 @@ pygoal.h:
 pydata.h:
 
 pystip.h:
+
+pyhash.h:
+
+DHT/dhtbcmem.h:
 
 trace.h:
 py2$(OBJ_SUFFIX): py2.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pydata.h \
@@ -103,7 +107,7 @@ pystip.h:
 
 trace.h:
 py5$(OBJ_SUFFIX): py5.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pyhash.h \
-  DHT/dhtbcmem.h pydata.h pymsg.h pystip.h pyleaf.h trace.h
+  DHT/dhtbcmem.h pydata.h pymsg.h pystip.h pyleaf.h pyoutput.h trace.h
 
 py.h:
 
@@ -128,6 +132,8 @@ pymsg.h:
 pystip.h:
 
 pyleaf.h:
+
+pyoutput.h:
 
 trace.h:
 py6$(OBJ_SUFFIX): py6.c py.h boolean.h pylang.h py1.h pyproc.h py4.h pygoal.h \
@@ -661,7 +667,7 @@ pyhash.h:
 DHT/dhtbcmem.h:
 pyleafd$(OBJ_SUFFIX): pyleafd.c pyleafd.h boolean.h pystip.h pygoal.h py.h pylang.h \
   trace.h pydata.h pyproc.h py4.h platform/maxtime.h pyoutput.h pyleaf.h \
-  pyhash.h DHT/dhtbcmem.h pymsg.h
+  pyhash.h DHT/dhtbcmem.h
 
 pyleafd.h:
 
@@ -692,11 +698,9 @@ pyleaf.h:
 pyhash.h:
 
 DHT/dhtbcmem.h:
-
-pymsg.h:
 pyleafs$(OBJ_SUFFIX): pyleafs.c pyleafs.h boolean.h pystip.h pygoal.h py.h pylang.h \
-  trace.h pydata.h pyproc.h py4.h platform/maxtime.h pymsg.h pyint.h \
-  pyoutput.h pyleaf.h pyhash.h DHT/dhtbcmem.h
+  trace.h pydata.h pyproc.h py4.h platform/maxtime.h pyint.h pyoutput.h \
+  pyleaf.h pyhash.h DHT/dhtbcmem.h
 
 pyleafs.h:
 
@@ -720,8 +724,6 @@ py4.h:
 
 platform/maxtime.h:
 
-pymsg.h:
-
 pyint.h:
 
 pyoutput.h:
@@ -732,8 +734,8 @@ pyhash.h:
 
 DHT/dhtbcmem.h:
 pyleafh$(OBJ_SUFFIX): pyleafh.c pyleafh.h boolean.h pystip.h pygoal.h py.h pylang.h \
-  trace.h pydata.h pyproc.h py4.h platform/maxtime.h pymsg.h pyint.h \
-  pyleaf.h pyoutput.h pyhash.h DHT/dhtbcmem.h
+  trace.h pydata.h pyproc.h py4.h platform/maxtime.h pyint.h pyleaf.h \
+  pyoutput.h pyhash.h DHT/dhtbcmem.h
 
 pyleafh.h:
 
@@ -756,8 +758,6 @@ pyproc.h:
 py4.h:
 
 platform/maxtime.h:
-
-pymsg.h:
 
 pyint.h:
 

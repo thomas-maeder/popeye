@@ -11,7 +11,7 @@
 
 #include "pyhash.h"
 
-void ProofEncode(HashBuffer *);
+void ProofEncode(void);
 void    ProofInitialiseKingMoves(square ProofRB, square ProofRN);
 boolean ProofVerifie(void);
 

@@ -20,7 +20,6 @@
  *              assigned
  */
 static boolean branch_d_is_in_hash(slice_index si,
-                                   HashBuffer *hb,
                                    stip_length_type n,
                                    boolean *hash_val)
 {
@@ -32,16 +31,16 @@ static boolean branch_d_is_in_hash(slice_index si,
 
   /* It is more likely that a position has no solution.           */
   /* Therefore let's check for "no solution" first.  TLi */
-  if (inhash(si,DirNoSucc,n+1,hb))
+  if (inhash(si,DirNoSucc,n+1))
   {
-    TraceText("inhash(si,DirNoSucc,n,hb)\n");
-    assert(!inhash(si,DirSucc,n,hb));
+    TraceText("inhash(si,DirNoSucc,n)\n");
+    assert(!inhash(si,DirSucc,n));
     *hash_val = false;
     result = true;
   }
-  else if (inhash(si,DirSucc,n,hb))
+  else if (inhash(si,DirSucc,n))
   {
-    TraceText("inhash(si,DirSucc,n,hb)\n");
+    TraceText("inhash(si,DirSucc,n)\n");
     *hash_val = true;
     result = true;
   }
@@ -262,6 +261,8 @@ static boolean branch_d_helper_has_solution(slice_index si,
   return win_found;
 }
 
+boolean leaf_s_has_solution2(slice_index leaf);
+
 /* Determine whether attacker can end in n moves of direct play.
  * This is a recursive function.
  * @param n number of moves left until the end state has to be reached
@@ -275,6 +276,7 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
+  (*encode)();
   if (slice_must_starter_resign(si))
     ; /* intentionally nothing */
   else
@@ -283,40 +285,35 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
     stip_length_type const min_length = slices[si].u.branch.min_length;
     TraceValue("%u",moves_played);
     TraceValue("%u\n",min_length);
-    if (moves_played>=min_length
-        && slice_has_solution(slices[si].u.branch.next))
+    if (moves_played>min_length
+        && slice_has_non_starter_solved(slices[si].u.branch.next))
       result = true;
-    else if (moves_played>min_length
-             && slice_has_non_starter_solved(slices[si].u.branch.next))
+    else if (moves_played>=min_length
+             && slice_has_solution(slices[si].u.branch.next))
       result = true;
-    else if (n>0)
+    else if (n>0 && !branch_d_is_in_hash(si,n,&result))
     {
-      HashBuffer hb;
-      (*encode)(&hb);
-      if (!branch_d_is_in_hash(si,&hb,n,&result))
+      stip_length_type i;
+      stip_length_type n_min = 1;
+
+      if (min_length>moves_played)
+        n_min = min_length-moves_played;
+
+      for (i = n_min; !result && i<=n; i++)
       {
-        stip_length_type i;
-        stip_length_type n_min = 1;
+        if (i-1>max_len_threat || i>min_length_nontrivial)
+          i = n;
 
-        if (min_length>moves_played)
-          n_min = min_length-moves_played;
+        result = branch_d_helper_has_solution(si,i);
 
-        for (i = n_min; !result && i<=n; i++)
-        {
-          if (i-1>max_len_threat || i>min_length_nontrivial)
-            i = n;
-
-          result = branch_d_helper_has_solution(si,i);
-
-          if (maxtime_status==MAXTIME_TIMEOUT)
-            break;
-        }
-
-        if (result)
-          addtohash(si,DirSucc,n,&hb);
-        else
-          addtohash(si,DirNoSucc,n+1,&hb);
+        if (maxtime_status==MAXTIME_TIMEOUT)
+          break;
       }
+
+      if (result)
+        addtohash(si,DirSucc,n);
+      else
+        addtohash(si,DirNoSucc,n+1);
     }
   }
 

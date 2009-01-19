@@ -35,7 +35,23 @@ typedef union
     byte buffer[hashbuf_length];
 } HashBuffer;
 
-extern void (*encode)(HashBuffer *);
+extern HashBuffer hashBuffers[maxply+1];
+
+#if defined(NDEBUG)
+
+#define validateHashBuffer()
+#define invalidateHashBuffer()
+
+#else
+extern boolean isHashBufferValid[maxply+1];
+
+#define validateHashBuffer() isHashBufferValid[nbply] = true
+
+#define invalidateHashBuffer() isHashBufferValid[nbply] = false
+
+#endif
+
+extern void (*encode)(void);
 
 /* exported functions */
 void check_hash_assumptions(void);
@@ -48,12 +64,10 @@ typedef unsigned int hash_value_type;
 
 boolean inhash(slice_index si,
                hashwhat what,
-               hash_value_type val,
-               HashBuffer *);
+               hash_value_type val);
 void addtohash(slice_index si,
                hashwhat what,
-               hash_value_type val,
-               HashBuffer *);
+               hash_value_type val);
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);

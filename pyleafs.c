@@ -40,19 +40,17 @@ boolean leaf_s_must_starter_resign(slice_index leaf)
 boolean leaf_s_has_solution(slice_index leaf)
 {
   boolean result = false;
-  HashBuffer hb;
   Side const attacker = slices[leaf].u.leaf.starter;
   Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  (*encode)(&hb);
   /* It is more likely that a position has no solution. */
   /*    Therefore let's check for "no solution" first. TLi */
-  if (inhash(leaf,DirNoSucc,1,&hb))
-    assert(!inhash(leaf,DirSucc,0,&hb));
-  else if (inhash(leaf,DirSucc,0,&hb))
+  if (inhash(leaf,DirNoSucc,1))
+    assert(!inhash(leaf,DirSucc,0));
+  else if (inhash(leaf,DirSucc,0))
     result = true;
   else
   {
@@ -79,9 +77,9 @@ boolean leaf_s_has_solution(slice_index leaf)
     finply();
 
     if (result)
-      addtohash(leaf,DirSucc,0,&hb);
+      addtohash(leaf,DirSucc,0);
     else
-      addtohash(leaf,DirNoSucc,1,&hb);
+      addtohash(leaf,DirNoSucc,1);
   }
 
   TraceFunctionExit(__func__);

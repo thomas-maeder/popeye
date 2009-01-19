@@ -1680,6 +1680,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
   nbrtimes++;
 #endif
 
+  invalidateHashBuffer();
+
   /* Orphans/refl. KK !!!! */
   if (jouegenre)
   {

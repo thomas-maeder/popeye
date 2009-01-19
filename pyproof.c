@@ -56,8 +56,9 @@ static boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
 ProofImpossible_fct_t alternateImpossible;
 static ProofImpossible_fct_t seriesImpossible;
 
-void ProofEncode(HashBuffer *hb)
+void ProofEncode(void)
 {
+  HashBuffer *hb = &hashBuffers[nbply];
   byte    *position= hb->cmv.Data;
   byte    *bp= position+nr_rows_on_board;
   byte    pieces= 0;
@@ -102,6 +103,8 @@ void ProofEncode(HashBuffer *hb)
     *bp++ = (byte)(ep[nbply] - square_a1);
 
   hb->cmv.Leng= bp - hb->cmv.Data;
+
+  validateHashBuffer();
 }
 
 int proofwkm[square_h8+25-(square_a1-25)+1];

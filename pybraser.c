@@ -53,14 +53,13 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
           TraceText("echecc(nbply,other_side)\n");
         else
         {
-          HashBuffer hb;
-          (*encode)(&hb);
-          if (inhash(si,SerNoSucc,n-slack_length_series,&hb))
+          (*encode)();
+          if (inhash(si,SerNoSucc,n-slack_length_series))
             TraceText("in hash\n");
           else if (branch_ser_solve_in_n_recursive(si,n-1))
             solution_found = true;
           else
-            addtohash(si,SerNoSucc,n-slack_length_series,&hb);
+            addtohash(si,SerNoSucc,n-slack_length_series);
         }
 
         repcoup();
@@ -127,12 +126,11 @@ static void branch_ser_root_solve_in_n_recursive(slice_index si,
           TraceText("echecc(nbply,other_side)\n");
         else
         {
-          HashBuffer hb;
-          (*encode)(&hb);
-          if (inhash(si,SerNoSucc,n-slack_length_series,&hb))
+          (*encode)();
+          if (inhash(si,SerNoSucc,n-slack_length_series))
             TraceText("in hash\n");
           else if (!branch_ser_solve_in_n_recursive(si,n-1))
-            addtohash(si,SerNoSucc,n-slack_length_series,&hb);
+            addtohash(si,SerNoSucc,n-slack_length_series);
         }
 
         if (OptFlag[movenbr])

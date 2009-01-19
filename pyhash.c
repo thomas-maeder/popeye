@@ -115,6 +115,10 @@ static boolean is_there_slice_with_nonstandard_min_length;
 
 unsigned long int compression_counter;
 
+HashBuffer hashBuffers[maxply+1];
+
+boolean isHashBufferValid[maxply+1];
+
 
 #if defined(TESTHASH)
 #define ifTESTHASH(x)   x
@@ -141,7 +145,7 @@ enum
   BitsForPly = 10      /* Up to 1023 ply possible */
 };
 
-void (*encode)(HashBuffer*);
+void (*encode)(void);
 
 typedef unsigned int data_type;
 
@@ -1272,8 +1276,9 @@ static byte *LargeEncodePiece(byte *bp, byte *position,
   return bp;
 }
 
-static void LargeEncode(HashBuffer *hb)
+static void LargeEncode(void)
 {
+  HashBuffer *hb = &hashBuffers[nbply];
   byte *position = hb->cmv.Data;
   byte *bp = position+nr_rows_on_board;
   int row, col;
@@ -1310,6 +1315,8 @@ static void LargeEncode(HashBuffer *hb)
   bp = CommonEncode(bp);
 
   hb->cmv.Leng = bp - hb->cmv.Data;
+
+  validateHashBuffer();
 } /* LargeEncode */
 
 static byte *SmallEncodePiece(byte *bp,
@@ -1333,8 +1340,9 @@ static byte *SmallEncodePiece(byte *bp,
   return bp;
 }
 
-static void SmallEncode(HashBuffer *hb)
+static void SmallEncode(void)
 {
+  HashBuffer *hb = &hashBuffers[nbply];
   byte *bp = hb->cmv.Data;
   square a_square = square_a1;
   int row;
@@ -1368,20 +1376,22 @@ static void SmallEncode(HashBuffer *hb)
   bp = CommonEncode(bp);
 
   hb->cmv.Leng = bp - hb->cmv.Data;
+
+  validateHashBuffer();
 }
 
-boolean inhash(slice_index si,
-               hashwhat what,
-               hash_value_type val,
-               HashBuffer *hb)
+boolean inhash(slice_index si, hashwhat what, hash_value_type val)
 {
   boolean result = false;
+  HashBuffer *hb = &hashBuffers[nbply];
   dhtElement const * const he= dhtLookupElement(pyhash, (dhtValue)hb);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",what);
   TraceFunctionParam("%u\n",val);
+
+  assert(isHashBufferValid[nbply]);
 
   ifHASHRATE(use_all++);
 
@@ -1566,11 +1576,9 @@ static void init_element(dhtElement *he, slice_index si)
   }
 }
 
-void addtohash(slice_index si,
-               hashwhat what,
-               hash_value_type val,
-               HashBuffer *hb)
+void addtohash(slice_index si, hashwhat what, hash_value_type val)
 {
+  HashBuffer *hb = &hashBuffers[nbply];
   dhtElement *he = dhtLookupElement(pyhash, (dhtValue)hb);
 
   TraceFunctionEntry(__func__);
@@ -1578,6 +1586,7 @@ void addtohash(slice_index si,
   TraceFunctionParam("%u",what);
   TraceFunctionParam("%u\n",val);
 
+  assert(isHashBufferValid[nbply]);
 
   if (he == dhtNilElement)
   { /* the position is new */

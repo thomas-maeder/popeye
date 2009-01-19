@@ -49,6 +49,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pystip.h"
+#include "pyhash.h"
 #include "trace.h"
 
 void initply(ply parent)
@@ -90,6 +91,8 @@ void initply(ply parent)
     start with the castling rights of the upper level
   */
   castling_flag[nbply] = castling_flag[parent];
+
+  invalidateHashBuffer();
 }
 
 void nextply(ply parent)
