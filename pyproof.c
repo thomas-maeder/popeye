@@ -66,6 +66,9 @@ void ProofEncode(void)
   square a_square= square_a1;
   boolean even= false;
 
+  /* detect cases where we encode the same position twice */
+  assert(!isHashBufferValid[nbply]);
+
   /* clear the bits for storing the position of pieces */
   memset(position, 0, nr_rows_on_board);
 

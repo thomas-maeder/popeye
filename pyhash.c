@@ -1285,6 +1285,9 @@ static void LargeEncode(void)
   square a_square = square_a1;
   ghost_index_type gi;
 
+  /* detect cases where we encode the same position twice */
+  assert(!isHashBufferValid[nbply]);
+
   /* clear the bits for storing the position of pieces */
   memset(position,0,nr_rows_on_board);
 
@@ -1348,6 +1351,9 @@ static void SmallEncode(void)
   int row;
   int col;
   ghost_index_type gi;
+
+  /* detect cases where we encode the same position twice */
+  assert(!isHashBufferValid[nbply]);
 
   for (row=0; row<nr_rows_on_board; row++, a_square += onerow)
   {
@@ -1782,6 +1788,10 @@ void inithash(void)
   ifTESTHASH(
       printf("room for up to %lu positions in hash table\n", MaxPositions));
 #endif /*FXF*/
+
+  invalidateHashBuffer(); /* prevent the following line from firing an
+                             assert() */
+  (*encode)(); /* TODO why is this necessary*/
 } /* inithash */
 
 void    closehash(void)
