@@ -1,5 +1,5 @@
 #include "pynot.h"
-#include "pystip.h"
+#include "pyslice.h"
 #include "pyproc.h"
 #include "pyoutput.h"
 #include "trace.h"

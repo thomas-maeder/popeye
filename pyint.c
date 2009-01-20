@@ -18,7 +18,7 @@
 #include "pymsg.h"
 #include "pyint.h"
 #include "pydata.h"
-#include "pystip.h"
+#include "pyslice.h"
 #include "pybrah.h"
 #include "pyproof.h"
 #include "platform/maxtime.h"

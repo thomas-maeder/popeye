@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pyint.h"
+#include "pyslice.h"
 #include "trace.h"
 
 #include <assert.h>

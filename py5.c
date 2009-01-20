@@ -67,7 +67,7 @@
 #include "pyhash.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "pystip.h"
+#include "pyslice.h"
 #include "pyleaf.h"
 #include "pyoutput.h"
 #include "trace.h"

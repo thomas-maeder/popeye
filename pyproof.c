@@ -28,7 +28,7 @@
 #include "DHT/dhtbcmem.h"
 #include "pyproof.h"
 #include "pymsg.h"
-#include "pystip.h"
+#include "pyslice.h"
 #include "pyint.h"
 #include "platform/maxtime.h"
 #include "trace.h"

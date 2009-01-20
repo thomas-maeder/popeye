@@ -6,6 +6,7 @@
 #include "pymsg.h"
 #include "pyhash.h"
 #include "pyoutput.h"
+#include "pyslice.h"
 #include "trace.h"
 #include "platform/maxtime.h"
 

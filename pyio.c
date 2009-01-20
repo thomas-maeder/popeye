@@ -64,7 +64,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "pystip.h"
+#include "pyslice.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
 #include "pynot.h"

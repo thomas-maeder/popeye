@@ -5,18 +5,90 @@
 #include "py.h"
 #include "boolean.h"
 
+/* This module provides generic declarations and functionality about
+ * stipulations */
+
+/* To deal with the complexity of stipulations used in chess problems,
+ * their representation in Popeye splits them up into "slices". 9
+ * different types of slices can be distinguished:
+ */
+
 typedef enum
 {
-  STReciprocal,   /* logical AND */
-  STQuodlibet,    /* logical OR */
-  STNot,          /* logical NOT */
   STBranchDirect, /* M-N moves of direct play */
   STBranchHelp,   /* M-N moves of help play */
   STBranchSeries, /* M-N moves of series play */
+
   STLeafDirect,   /* goal in 1 */
   STLeafHelp,     /* help-goal in 1 */
-  STLeafSelf      /* self-goal in 1 */
+  STLeafSelf,     /* self-goal in 1 */
+
+  STReciprocal,   /* logical AND */
+  STQuodlibet,    /* logical OR */
+  STNot           /* logical NOT */
 } SliceType;
+
+/* The structure of a stipulation is similar to that of a tree
+ * (admittedly a degenerate one in the case of simple stipulations
+ * like 'direct mate in 3').
+ *
+ * Branch slices have variable length and lead to another slice, the
+ * 'next' slice.
+ * Leaf slices have fixed length and do not lead to other slices.
+ * The other slices are logical operations on 1 or 2 operand slices.
+ *
+ * Real world stipulations are constructed by combining the slices of
+ * the different types.
+ *
+ * Examples:
+ *
+ * #3:
+ *     type           starter goal
+ *     type           starter length  next
+ * [0] STLeafDirect   White   goal_mate
+ * [1] STBranchDirect White   2       0
+ *
+ * h=2.5:
+ *     type           starter goal
+ *     type           starter length  next
+ * [0] STLeafHelp     White   goal_stale
+ * [1] STBranchHelp   White   5       0
+ *
+ * s#=2:
+ *     type           starter goal
+ *     type           op1 op2
+ * [0] STLeafSelf     White   goal_stale
+ * [1] STLeafSelf     White   goal_mate
+ * [2] STQuodlibet    0   0
+ *
+ * reci-h#3:
+ *     type           starter goal
+ *     type           op1 op2
+ * [0] STLeafHelp     Black   goal_mate
+ * [1] STLeafDirect   Black   goal_mate
+ * [2] STReciprocal   0   1
+ *
+ * r#2:
+ *     type           starter goal
+ *     type           op1 op2
+ *     type           starter length  next
+ * [0] STLeafDirect   White   goal_mate
+ * [1] STNot          0
+ * [2] STLeafHelp     White   goal_mate
+ * [3] STReciprocal   1   2
+ * [4] STBranchDirect White   1       3
+ *
+ * 8->ser-=3:
+ *     type           starter goal
+ *     type           starter length  next
+ * [0] STLeafDirect   White   goal_stale
+ * [1] STBranchSeries White   3       0
+ * [2] STBranchSeries Black   9       1
+ *
+ * In all the examples, the root slice is the one last mentioned.
+ *
+ * As for the length of branch slices, see below.
+ */
 
 typedef struct
 {
@@ -71,50 +143,13 @@ extern Slice slices[max_nr_slices];
 
 extern slice_index root_slice;
 
-/* Example contents of slices:
- *
- * #3:
- *     type           starter length  next
- *     type           starter goal
- * [0] STBranchDirect White   2       1
- * [1] STLeafDirect   White   goal_mate
- *
- * h=2.5:
- *     type           starter length  next
- *     type           starter goal
- * [0] STBranchHelp   White   5       1
- * [1] STLeafHelp     White   goal_stale
- *
- * s#=2:
- *     type           op1 op2
- *     type           starter goal
- * [0] STQuodlibet    1   2
- * [1] STLeafSelf     White   goal_mate
- * [2] STLeafSelf     White   goal_stale
- *
- * reci-h#3:
- *     type           op1 op2
- *     type           starter goal
- * [0] STReciprocal   1   2
- * [1] STLeafDirect   Black   goal_mate
- * [2] STLeafHelp     Black   goal_mate
- *
- * 8->ser-=3:
- *     type           starter length  next
- *     type           starter goal
- * [0] STBranchSeries Black   9       1
- * [1] STBranchSeries White   3       2
- * [2] STLeafDirect   White   goal_stale
- */
-
-/* The length field of a series and help branch slices thus gives the
- * number of (half) moves of the *human-readable* stipulation, to
- * nicely cope with set play.
+/* The length field of series and help branch slices thus gives the
+ * number of half moves of the *human-readable* stipulation.
  *
  * This means that the recursion depth of solving the branch slice
  * never reaches the value of length. At (maximal) recursion depth
- * length-2 (help play) rexp. length-1 (series play), solving the
- * operands resp. next slice is started.
+ * length-2 (help play) resp. length-1 (series play), solving the
+ * next slice is started.
  *
  * The following symbols represent the difference of the length and
  * the maximal recursion level:
@@ -122,11 +157,22 @@ extern slice_index root_slice;
 enum
 {
   slack_length_help = 2,   /* half moves */
-  slack_length_series = 1  /* moves */
+  slack_length_series = 1  /* half moves */
 };
 
+/* Characterisation of attacking moves:
+ */
+typedef enum
+{
+  attack_key,
+  attack_try,
+  attack_regular
+} attack_type;
+
+
 /* "Regular starting side" according to stipulation, i.e. starting
- * side were it not for option "WhiteBegins" and set play checking */
+ * side were it not for option "WhiteBegins" and set play checking
+ */
 extern Side regular_starter;
 
 /* Allocate a slice index
@@ -135,7 +181,7 @@ extern Side regular_starter;
 slice_index alloc_slice_index(void);
 
 /* Allocate a branch slice.
- * @param type type of slice
+ * @param type which STBranch* type
  * @param length number of moves of branch (semantics depends on type)
  * @param min_length minimal number of moves
  * @param next identifies next slice
@@ -213,134 +259,5 @@ slice_index find_next_goal(Goal goal, slice_index start);
  *         unique goal otherwise
  */
 slice_index find_unique_goal(void);
-
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean slice_must_starter_resign(slice_index si);
-
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * Assumes slice_must_starter_resign(si)
- * @param si slice index
- */
-void slice_write_unsolvability(slice_index si);
-
-/* Determine and write continuations of a slice
- * @param table table where to store continuing moves (i.e. threats)
- * @param si index of slice
- */
-void slice_solve_continuations(int table, slice_index si);
-
-/* Find and write set play
- * @param si slice index
- * @return true iff >= 1 set play was found
- */
-boolean slice_root_solve_setplay(slice_index si);
-
-/* Find and write set play provided every set move solves
- * @param si slice index
- * @return true iff every defender's move leads to end
- */
-boolean slice_root_solve_complete_set(slice_index si);
-
-typedef enum
-{
-  attack_key,
-  attack_try,
-  attack_regular
-} attack_type;
-
-/* Write the key just played, then continue solving in the slice
- * to find and write the post key play (threats, variations)
- * @param si slice index
- * @param type type of attack
- */
-void slice_root_write_key_solve_postkey(slice_index si, attack_type type);
-
-/* Solve a slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean slice_solve(slice_index si);
-
-/* Solve a slice at root level
- * @param si slice index
- */
-void slice_root_solve(slice_index si);
-
-/* Solve a slice in exactly n moves at root level
- * @param si slice index
- * @param n exact number of moves
- */
-void slice_root_solve_in_n(slice_index si, stip_length_type n);
-
-/* Determine whether a composite slice has a solution
- * @param si slice index
- * @return true iff slice si has a solution
- */
-boolean slice_has_solution(slice_index si);
-
-/* Determine whether a slice.has just been solved with the just played
- * move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean slice_has_non_starter_solved(slice_index si);
-
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
- */
-boolean slice_has_starter_apriori_lost(slice_index si);
-
-/* Determine whether the attacker has won with his move just played.
- * @param si slice identifier
- * @return true iff the starter has won
- */
-boolean slice_has_starter_won(slice_index si);
-
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean slice_has_starter_reached_goal(slice_index si);
-
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean slice_is_goal_reached(Side just_moved, slice_index si);
-
-/* Find and write variations
- * @param si slice index
- */
-void slice_solve_variations(slice_index si);
-
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param is_duplex is this for duplex?
- */
-void slice_detect_starter(slice_index si, boolean is_duplex);
-
-/* Impose the starting side on a slice.
- * @param si identifies slice
- * @param s starting side of leaf
- */
-void slice_impose_starter(slice_index si, Side s);
-
-/* Retrieve the starting side of a slice
- * @param si slice index
- * @return current starting side of slice si
- */
-Side slice_get_starter(slice_index si);
 
 #endif

@@ -105,8 +105,7 @@
 #include "platform/pytime.h"
 #include "platform/priority.h"
 #include "trace.h"
-#include "pystip.h"
-#include "pyleaf.h"
+#include "pyslice.h"
 #include "pyoutput.h"
 #include "trace.h"
 
