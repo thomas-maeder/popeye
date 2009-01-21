@@ -14,8 +14,7 @@
 /* Determine whether the current position is stored in the hash table
  * and how.
  * @param si slice index
- * @param hb address of HashBuffer to hold the encoded current position
- * @param n number of moves until goal
+ * @param n (even) number of half moves until goal
  * @param result address where to write hash result (if any)
  * @return true iff the current position was found and *result was
  *              assigned
@@ -30,18 +29,20 @@ static boolean branch_d_is_in_hash(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
+  assert(n%2==0);
+
   /* It is more likely that a position has no solution.           */
   /* Therefore let's check for "no solution" first.  TLi */
-  if (inhash(si,DirNoSucc,n+1))
+  if (inhash(si,DirNoSucc,n/2+1))
   {
-    TraceText("inhash(si,DirNoSucc,n)\n");
-    assert(!inhash(si,DirSucc,n));
+    TraceText("inhash(si,DirNoSucc,n/2)\n");
+    assert(!inhash(si,DirSucc,n/2));
     *hash_val = false;
     result = true;
   }
-  else if (inhash(si,DirSucc,n))
+  else if (inhash(si,DirSucc,n/2))
   {
-    TraceText("inhash(si,DirSucc,n)\n");
+    TraceText("inhash(si,DirSucc,n/2)\n");
     *hash_val = true;
     result = true;
   }
@@ -49,6 +50,31 @@ static boolean branch_d_is_in_hash(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
+}
+
+/* Update a hash table entry
+ * @param si slice index
+ * @param n (even) number of half moves until goal
+ * @param success is the current position solvable in n
+ */
+static void branch_d_update_hash(slice_index si,
+                                 stip_length_type n,
+                                 boolean success)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",success);
+
+  assert(n%2==0);
+
+  if (success)
+    addtohash(si,DirSucc,n/2);
+  else
+    addtohash(si,DirNoSucc,n/2+1);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Count all non-trivial moves of the defending side. Whether a
@@ -71,7 +97,7 @@ static int count_non_trivial(slice_index si)
     if (jouecoup(nbply,first_play)
         && !echecc(nbply,defender)
         && !(min_length_nontrivial>0
-             && branch_d_has_solution_in_n(si,min_length_nontrivial)))
+             && branch_d_has_solution_in_n(si,2*min_length_nontrivial)))
       ++result;
     repcoup();
   }
@@ -93,9 +119,10 @@ typedef enum
   already_lost
 } d_defender_win_type;
 
-/* Determine whether the defending side wins in n (>1) in direct play.
+/* Determine whether the defending side wins
  * @param defender defending side
  * @param si slice identifier
+ * @param n (odd) number of half moves until goal
  * @return true iff defender wins
  */
 static
@@ -113,13 +140,11 @@ d_defender_win_type branch_d_helper_does_defender_win(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
-  /* check whether `black' can reach a position that is already
-  ** marked unsolvable for white in the hash table. */
-  /* TODO should we? i.e. do it or remove comment */
+  assert(n%2==1);
 
-  if (n>max_len_threat
+  if (n-1>2*max_len_threat
 	  && !echecc(nbply,defender)
-	  && !branch_d_has_solution_in_n(si,max_len_threat))
+	  && !branch_d_has_solution_in_n(si,2*max_len_threat))
   {
     TraceFunctionExit(__func__);
     TraceFunctionResult("%u\n",win);
@@ -137,7 +162,7 @@ d_defender_win_type branch_d_helper_does_defender_win(slice_index si,
 	 allowed to have. The number of such moves allowed
 	 (max_nr_nontrivial) is entered using the nontrivial option.
   */
-  if (n>min_length_nontrivial)
+  if (n-1>2*min_length_nontrivial)
   {
 	ntcount = count_non_trivial(si);
 	if (max_nr_nontrivial<ntcount)
@@ -151,7 +176,7 @@ d_defender_win_type branch_d_helper_does_defender_win(slice_index si,
   } /* nontrivial */
 
   move_generation_mode=
-      n>1
+      n>3
       ? move_generation_mode_opti_per_side[defender]
       : move_generation_optimized_by_killer_move;
   genmove(defender);
@@ -163,7 +188,7 @@ d_defender_win_type branch_d_helper_does_defender_win(slice_index si,
         && !echecc(nbply,defender))
 	{
 	  is_defender_immobile = false;
-	  if (!branch_d_has_solution_in_n(si,n))
+	  if (!branch_d_has_solution_in_n(si,n-1))
 	  {
         TraceText("refutes\n");
 		refutation_found = true;
@@ -176,7 +201,7 @@ d_defender_win_type branch_d_helper_does_defender_win(slice_index si,
 
   finply();
 
-  if (n>min_length_nontrivial)
+  if (n-1>2*min_length_nontrivial)
 	max_nr_nontrivial += ntcount;
 
   result = refutation_found || is_defender_immobile ? win : loss;
@@ -188,8 +213,7 @@ d_defender_win_type branch_d_helper_does_defender_win(slice_index si,
 
 /* Determine whether the defender wins after a move by the attacker
  * @param defender defending side (at move)
- * @param n number of moves until end state has to be reached, not
- *          including the attacker's move just played
+ * @param n (odd) number of half moves until goal
  * @return whether the defender wins or loses, and how fast
  */
 static d_defender_win_type branch_d_does_defender_win(slice_index si,
@@ -201,11 +225,13 @@ static d_defender_win_type branch_d_does_defender_win(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
+  assert(n%2==1);
+
   TraceValue("%u\n",slices[si].u.branch.min_length);
 
   if (slice_has_starter_apriori_lost(slices[si].u.branch.next))
     result = already_won;
-  else if ((slices[si].u.branch.length-n>slices[si].u.branch.min_length)
+  else if (slices[si].u.branch.length-n>slices[si].u.branch.min_length
            && slice_has_starter_reached_goal(slices[si].u.branch.next))
     result = short_loss;
   else
@@ -218,8 +244,8 @@ static d_defender_win_type branch_d_does_defender_win(slice_index si,
 
 /* Determine whether the attacking side wins in the middle of a
  * composite slice
- * @param attacker attacking side
  * @param si slice identifier
+ * @param n (even) number of half moves until goal
  * @return true iff the attacking side wins
  */
 static boolean branch_d_helper_has_solution(slice_index si,
@@ -231,6 +257,8 @@ static boolean branch_d_helper_has_solution(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
+
+  assert(n%2==0);
 
   genmove(attacker);
 
@@ -264,7 +292,8 @@ static boolean branch_d_helper_has_solution(slice_index si,
 
 /* Determine whether attacker can end in n moves of direct play.
  * This is a recursive function.
- * @param n number of moves left until the end state has to be reached
+ * @param si slice index
+ * @param n (even) number of half moves until goal
  * @return true iff attacker can end in n moves
  */
 boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
@@ -274,6 +303,8 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
+
+  assert(n%2==0);
 
   (*encode)();
   if (slice_must_starter_resign(si))
@@ -293,14 +324,14 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
     else if (n>0 && !branch_d_is_in_hash(si,n,&result))
     {
       stip_length_type i;
-      stip_length_type n_min = 1;
+      stip_length_type n_min = 2;
 
       if (min_length>moves_played)
         n_min = min_length-moves_played;
 
-      for (i = n_min; !result && i<=n; i++)
+      for (i = n_min; !result && i<=n; i += 2)
       {
-        if (i-1>max_len_threat || i>min_length_nontrivial)
+        if (i-2>2*max_len_threat || i>2*min_length_nontrivial)
           i = n;
 
         result = branch_d_helper_has_solution(si,i);
@@ -309,10 +340,7 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
           break;
       }
 
-      if (result)
-        addtohash(si,DirSucc,n);
-      else
-        addtohash(si,DirNoSucc,n+1);
+      branch_d_update_hash(si,n,result);
     }
   }
 
@@ -322,8 +350,8 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
 }
 
 /* Find refutations after a move of the attacking side.
- * @param defender defending side
  * @param t table where to store refutations
+ * @param si slice index
  * @return 0 if the defending side has at >=1 final moves in reflex play
  *         max_nr_refutations+1 if
  *            if the defending side is immobile (it shouldn't be here!)
@@ -345,17 +373,17 @@ static int branch_d_find_refutations(int t, slice_index si)
   TraceFunctionParam("%u\n",si);
 
   TraceValue("%u",n);
-  TraceValue("%u\n",max_len_threat);
-  if (n>max_len_threat
+  TraceValue("%u\n",2*max_len_threat);
+  if (n-1>2*max_len_threat
       && !echecc(nbply,defender)
-      && !branch_d_has_solution_in_n(si,max_len_threat))
+      && !branch_d_has_solution_in_n(si,2*max_len_threat))
   {
     TraceFunctionExit(__func__);
     TraceFunctionResult("%u\n",result);
     return max_nr_refutations+1;
   }
 
-  if (n>1
+  if (n>3
       && OptFlag[solflights] && has_too_many_flights(defender))
   {
     TraceFunctionExit(__func__);
@@ -364,8 +392,8 @@ static int branch_d_find_refutations(int t, slice_index si)
   }
 
   TraceValue("%u",n);
-  TraceValue("%u\n",min_length_nontrivial);
-  if (n>min_length_nontrivial)
+  TraceValue("%u\n",2*min_length_nontrivial);
+  if (n-1>2*min_length_nontrivial)
   {
     ntcount = count_non_trivial(si);
     TraceValue("%u",max_nr_nontrivial);
@@ -380,7 +408,7 @@ static int branch_d_find_refutations(int t, slice_index si)
       max_nr_nontrivial -= ntcount;
   }
 
-  if (n>1)
+  if (n>3)
     move_generation_mode= move_generation_mode_opti_per_side[defender];
 
   genmove(defender);
@@ -393,7 +421,7 @@ static int branch_d_find_refutations(int t, slice_index si)
         && !echecc(nbply,defender))
     {
       is_defender_immobile = false;
-      if (!branch_d_has_solution_in_n(si,n))
+      if (!branch_d_has_solution_in_n(si,n-1))
       {
         TraceText("refutes\n");
         pushtabsol(t);
@@ -404,7 +432,7 @@ static int branch_d_find_refutations(int t, slice_index si)
   }
   finply();
 
-  if (n>min_length_nontrivial)
+  if (n-1>2*min_length_nontrivial)
     max_nr_nontrivial += ntcount;
 
   result = is_defender_immobile ? max_nr_refutations+1 : tablen(t);
@@ -416,8 +444,9 @@ static int branch_d_find_refutations(int t, slice_index si)
 
 /* Determine whether the move just played by the defending side
  * defends against the threats.
- * @param n number of moves until end state has to be reached from now
  * @param threats table containing the threats
+ * @param si slice index
+ * @param n (even) number of moves until goal (after the defense)
  * @return true iff the move just played defends against at least one
  *         of the threats
  */
@@ -432,6 +461,8 @@ static boolean branch_d_defends_against_threats(int threats,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",tablen(threats));
+
+  assert(n%2==0);
 
   if (tablen(threats)>0)
   {
@@ -480,7 +511,8 @@ static boolean branch_d_defends_against_threats(int threats,
  * starts the variation has already been played in the current ply.
  * Only continuations of minimal length are looked for and written.
  * This is an indirectly recursive function.
- * @param n number of moves until end state has to be reached from now
+ * @param si slice index
+ * @param n (odd) number of half moves until end state is to be reached
  */
 static void branch_d_write_variation(slice_index si, stip_length_type n)
 {
@@ -488,20 +520,22 @@ static void branch_d_write_variation(slice_index si, stip_length_type n)
   stip_length_type i;
   stip_length_type const min_len = (slices[si].u.branch.min_length>n
                                     ? n
-                                    : slices[si].u.branch.min_length);
+                                    : slices[si].u.branch.min_length+1);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
+  assert(n%2==1);
+
   write_defense();
 
   output_start_continuation_level();
   
-  for (i = min_len; i<=n && isRefutation; i++)
+  for (i = min_len; i<=n && isRefutation; i += 2)
   {
     int const continuations = alloctab();
-    branch_d_solve_continuations_in_n(continuations,si,i);
+    branch_d_solve_continuations_in_n(continuations,si,i-1);
     isRefutation = tablen(continuations)==0;
     freetab();
   }
@@ -517,9 +551,9 @@ static void branch_d_write_variation(slice_index si, stip_length_type n)
  * We have already determined that this move doesn't have more
  * refutations than allowed.
  * This is an indirectly recursive function.
- * @param n number of moves until end state has to be reached,
- *          including the move just played
  * @param threats table where to add threats
+ * @param si slice index
+ * @param n (even) number of half moves until goal
  * @return the length of the shortest threat(s)
  */
 static int branch_d_solve_threats(int threats,
@@ -533,18 +567,20 @@ static int branch_d_solve_threats(int threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
+  assert(n%2==0);
+
   if (!(OptFlag[nothreat] || echecc(nbply,defender)))
   {
-    stip_length_type max_threat_length = (n-1>max_len_threat
-                                          ? max_len_threat
-                                          : n-1);
+    stip_length_type max_threat_length = (n>2*max_len_threat
+                                          ? 2*max_len_threat
+                                          : n);
     stip_length_type i;
 
-    TraceValue("%u",max_len_threat);
+    TraceValue("%u",2*max_len_threat);
     TraceValue("%u\n",max_threat_length);
     output_start_threat_level();
 
-    for (i = 0; i<=max_threat_length; i++)
+    for (i = 0; i<=max_threat_length; i += 2)
     {
       branch_d_solve_continuations_in_n(threats,si,i);
       TraceValue("%u",i);
@@ -569,12 +605,12 @@ static int branch_d_solve_threats(int threats,
  * We have already determined that this move doesn't have more
  * refutations than allowed.
  * This is an indirectly recursive function.
- * @param n number of moves until end state has to be reached,
- *          including the move just played
  * @param len_threat length of threats
  * @param threats table containing threats
  * @param refutations table containing refutations after move just
  *                    played
+ * @param si slice index
+ * @param n (odd) number of half moves until goal
  */
 static void branch_d_root_solve_variations(int len_threat,
                                            int threats,
@@ -591,7 +627,9 @@ static void branch_d_root_solve_variations(int len_threat,
   TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u\n",si);
 
-  if (n>min_length_nontrivial)
+  assert(n%2==1);
+
+  if (n>2*min_length_nontrivial)
   {
     ntcount = count_non_trivial(si);
     max_nr_nontrivial -= ntcount;
@@ -606,10 +644,10 @@ static void branch_d_root_solve_variations(int len_threat,
         && !nowdanstab(refutations))
     {
       if (n>1 && OptFlag[noshort]
-          && branch_d_has_solution_in_n(si,n-2))
+          && branch_d_has_solution_in_n(si,n-3))
         ; /* variation shorter than stip; thanks, but no thanks! */
       else if (len_threat>0
-               && branch_d_has_solution_in_n(si,len_threat-1))
+               && branch_d_has_solution_in_n(si,len_threat-2))
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
       else if (slice_has_non_starter_solved(si))
@@ -617,7 +655,7 @@ static void branch_d_root_solve_variations(int len_threat,
       else if (!branch_d_defends_against_threats(threats,si,len_threat))
         ; /* move doesn't defend against threat */
       else
-        branch_d_write_variation(si,n-1);
+        branch_d_write_variation(si,n);
     }
 
     repcoup();
@@ -625,7 +663,7 @@ static void branch_d_root_solve_variations(int len_threat,
 
   finply();
 
-  if (n>min_length_nontrivial)
+  if (n>2*min_length_nontrivial)
     max_nr_nontrivial += ntcount;
   
   TraceFunctionExit(__func__);
@@ -636,10 +674,10 @@ static void branch_d_root_solve_variations(int len_threat,
  * We have already determined that this move doesn't have more
  * refutations than allowed.
  * This is an indirectly recursive function.
- * @param n number of moves until end state has to be reached,
- *          including the move just played
  * @param len_threat length of threats
  * @param threats table containing threats
+ * @param si slice index
+ * @param n (odd) number of half moves until goal
  */
 static void branch_d_solve_variations_in_n(int len_threat,
                                            int threats,
@@ -655,7 +693,9 @@ static void branch_d_solve_variations_in_n(int len_threat,
   TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u\n",si);
 
-  if (n>min_length_nontrivial)
+  assert(n%2==1);
+
+  if (n>2*min_length_nontrivial)
   {
     ntcount = count_non_trivial(si);
     max_nr_nontrivial -= ntcount;
@@ -669,10 +709,10 @@ static void branch_d_solve_variations_in_n(int len_threat,
         && !echecc(nbply,defender))
     {
       if (n>1 && OptFlag[noshort]
-          && branch_d_has_solution_in_n(si,n-2))
+          && branch_d_has_solution_in_n(si,n-3))
         ; /* variation shorter than stip; thanks, but no thanks! */
       else if (len_threat>0
-               && branch_d_has_solution_in_n(si,len_threat-1))
+               && branch_d_has_solution_in_n(si,len_threat-2))
         ; /* variation shorter than threat */
       /* TODO avoid double calculation if lenthreat==n*/
       else if (slice_has_non_starter_solved(si))
@@ -680,7 +720,7 @@ static void branch_d_solve_variations_in_n(int len_threat,
       else if (!branch_d_defends_against_threats(threats,si,len_threat))
         ; /* move doesn't defend against threat */
       else
-        branch_d_write_variation(si,n-1);
+        branch_d_write_variation(si,n);
     }
 
     repcoup();
@@ -688,7 +728,7 @@ static void branch_d_solve_variations_in_n(int len_threat,
 
   finply();
 
-  if (n>min_length_nontrivial)
+  if (n>2*min_length_nontrivial)
     max_nr_nontrivial += ntcount;
   
   TraceFunctionExit(__func__);
@@ -700,9 +740,9 @@ static void branch_d_solve_variations_in_n(int len_threat,
  */
 void branch_d_solve_variations(slice_index si)
 {
-  stip_length_type const n = slices[si].u.branch.length;
-  stip_length_type const max_threat_length = (n-1>max_len_threat
-                                              ? max_len_threat
+  stip_length_type const n = slices[si].u.branch.length-1;
+  stip_length_type const max_threat_length = (n-1>2*max_len_threat
+                                              ? 2*max_len_threat
                                               : n-1);
   int const threats = alloctab();
   branch_d_solve_variations_in_n(max_threat_length,threats,si,n);
@@ -710,35 +750,42 @@ void branch_d_solve_variations(slice_index si)
 }
 
 /* Solve postkey play of a composite slice at root level.
- * @param n number of moves until end state has to be reached,
- *          including the move just played
+ * @param refutations table where to write refutations
  * @param si slice index
+ * @param n (odd) number of half moves until goal
  */
 static void branch_d_root_solve_postkey(int refutations,
                                         slice_index si,
                                         stip_length_type n)
 {
   int const threats = alloctab();
-  int const len_threat = branch_d_solve_threats(threats,si,n);
+  int len_threat;
+
+  assert(n%2==1);
+
+  len_threat = branch_d_solve_threats(threats,si,n-1);
   branch_d_root_solve_variations(len_threat,threats,refutations,si,n);
+
   freetab();
 }
 
 /* Solve postkey play of a composite slice.
- * @param n number of moves until end state has to be reached,
- *          including the move just played
  * @param si slice index
+ * @param n (odd) number of half moves until goal
  */
 static void branch_d_solve_postkey(slice_index si, stip_length_type n)
 {
   int const threats = alloctab();
   int len_threat;
 
+  assert(n%2==1);
+
   output_start_postkey_level();
-  len_threat = branch_d_solve_threats(threats,si,n);
+  len_threat = branch_d_solve_threats(threats,si,n-1);
   branch_d_solve_variations_in_n(len_threat,threats,si,n);
-  freetab();
   output_end_postkey_level();
+
+  freetab();
 }
 
 /* Determine and write the continuations in the current position
@@ -746,9 +793,9 @@ static void branch_d_solve_postkey(slice_index si, stip_length_type n)
  * the threat).
  * This is an indirectly recursive function.
  * @param attacker attacking side
- * @param n number of moves until end state has to be reached
  * @param continuations table where to store continuing moves (i.e. threats)
  * @param si slice index
+ * @param n (even) number of half moves until goal
  */
 void branch_d_solve_continuations_in_n(int continuations,
                                        slice_index si,
@@ -759,6 +806,8 @@ void branch_d_solve_continuations_in_n(int continuations,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
+
+  assert(n%2==0);
 
   if (n==0)
     slice_solve_continuations(continuations,slices[si].u.branch.next);
@@ -781,7 +830,7 @@ void branch_d_solve_continuations_in_n(int continuations,
           if (defender_success>=short_loss)
             slice_solve_variations(slices[si].u.branch.next);
           else
-            branch_d_solve_postkey(si,n);
+            branch_d_solve_postkey(si,n-1);
 
           pushtabsol(continuations);
         }
@@ -804,58 +853,53 @@ void branch_d_solve_continuations_in_n(int continuations,
 boolean branch_d_root_solve_setplay(slice_index si)
 {
   Side const defender = advers(slices[si].u.branch.starter);
-  stip_length_type const n = slices[si].u.branch.length;
+  stip_length_type const n = slices[si].u.branch.length-1;
   boolean result = false;
+  int ntcount = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   TraceValue("%u\n",n);
+  assert(slices[si].u.branch.length>0);
 
   output_start_setplay_level();
 
-  if (n==0)
-    result = slice_root_solve_setplay(slices[si].u.branch.next);
+  if (slice_root_solve_complete_set(slices[si].u.branch.next))
+    result = true;
   else
+    write_end_of_solution_phase();
+
+  if (n>2*min_length_nontrivial)
   {
-    int ntcount = 0;
-
-    if (slice_root_solve_complete_set(slices[si].u.branch.next))
-      result = true;
-    else
-      write_end_of_solution_phase();
-
-    if (n>min_length_nontrivial)
-    {
-      ntcount = count_non_trivial(si);
-      max_nr_nontrivial -= ntcount;
-    }
-
-    genmove(defender);
-
-    while(encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
-          && !echecc(nbply,defender))
-      {
-        if (slice_has_non_starter_solved(si))
-          ; /* oops */
-        else if (branch_d_has_solution_in_n(si,n-1))
-        {
-          /* yipee - this solves! */
-          branch_d_write_variation(si,n-1);
-          result = true;
-        }
-      }
-
-      repcoup();
-    }
-
-    finply();
-
-    if (n>min_length_nontrivial)
-      max_nr_nontrivial += ntcount;
+    ntcount = count_non_trivial(si);
+    max_nr_nontrivial -= ntcount;
   }
+
+  genmove(defender);
+
+  while(encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+        && !echecc(nbply,defender))
+    {
+      if (slice_has_non_starter_solved(si))
+        ; /* oops */
+      else if (branch_d_has_solution_in_n(si,n-1))
+      {
+        /* yipee - this solves! */
+        branch_d_write_variation(si,n);
+        result = true;
+      }
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  if (n>2*min_length_nontrivial)
+    max_nr_nontrivial += ntcount;
 
   output_end_setplay_level();
 
@@ -880,23 +924,23 @@ void branch_d_root_write_key_solve_postkey(int refutations,
   if (OptFlag[solvariantes])
     branch_d_root_solve_postkey(refutations,
                                 si,
-                                slices[si].u.branch.length);
+                                slices[si].u.branch.length-1);
   write_refutations(refutations);
   output_end_postkey_level();
 }
 
 /* Solve the postkey play only of a composite slice at root level.
  * @param si slice index
- * @param type type of attack
+ * @param n (odd) number of half moves until goal
  */
 static void branch_d_root_solve_postkeyonly(slice_index si,
                                             stip_length_type n)
 {
   output_start_postkeyonly_level();
 
-  if (n==0)
-    slice_solve_variations(slices[si].u.branch.next);
-  else if (n==slices[si].u.branch.min_length)
+  assert(n%2==1);
+
+  if (n==slices[si].u.branch.min_length-1)
     branch_d_solve_postkey(si,n);
   else if (slice_has_starter_reached_goal(slices[si].u.branch.next))
     slice_solve_variations(slices[si].u.branch.next);
@@ -983,14 +1027,15 @@ void branch_d_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  init_output_mode(output_mode_tree);
-
   if (OptFlag[postkeyplay])
   {
     if (echecc(nbply,slices[si].u.branch.starter))
       ErrorMsg(SetAndCheck);
     else
-      branch_d_root_solve_postkeyonly(si,n);
+    {
+      assert(n>0);
+      branch_d_root_solve_postkeyonly(si,n-1);
+    }
   }
   else
   {
