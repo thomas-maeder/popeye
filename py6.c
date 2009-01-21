@@ -2444,6 +2444,7 @@ static void solveHalfADuplex(void)
          && slices[root_slice].type!=STLeafHelp);
 
   inithash();
+  init_output();
 
   switch (slices[root_slice].type)
   {

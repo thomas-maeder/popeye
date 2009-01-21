@@ -5,14 +5,6 @@
 #include "pygoal.h"
 #include "pystip.h"
 
-typedef enum
-{
-  output_mode_tree, /* typical in direct/self/reflex play */
-  output_mode_line, /* typical in help/series play */
-
-  output_mode_none
-} output_mode;
-
 /* Contains the stipulation slice that was active when the move at a
  * specific ply was played.
  */
@@ -91,10 +83,9 @@ void output_start_leaf_variation_level(void);
 void output_end_leaf_variation_level(void);
 
 
-/* Select the inital output mode
- * @param initial_mode initial output mode
+/* Initialize based on the stipulation
  */
-void init_output_mode(output_mode initial_mode);
+void init_output(void);
 
 /* Write a move of the attacking side in direct play
  * @param goal goal reached by the move (no_goal if no goal has been

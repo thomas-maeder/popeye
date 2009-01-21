@@ -337,8 +337,6 @@ void branch_h_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  init_output_mode(output_mode_line);
-
   move_generation_mode = move_generation_not_optimized;
 
   if (OptFlag[solapparent] && !OptFlag[restart])

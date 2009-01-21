@@ -225,8 +225,6 @@ void branch_ser_root_solve(slice_index si)
 
   TraceValue("%u\n",starter);
   
-  init_output_mode(output_mode_line);
-
   move_generation_mode = move_generation_not_optimized;
 
   if (OptFlag[solapparent] && !OptFlag[restart])

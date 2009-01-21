@@ -7,6 +7,14 @@
 
 #include <assert.h>
 
+typedef enum
+{
+  output_mode_tree, /* typical in direct/self/reflex play */
+  output_mode_line, /* typical in help/series play */
+
+  output_mode_none
+} output_mode;
+
 static output_mode current_mode = output_mode_none;
 
 static boolean areWeSolvingSetplay;
@@ -16,15 +24,29 @@ slice_index active_slice[maxply];
 static stip_length_type move_depth;
 
 
-/* Select the inital output mode
- * @param output_mode initial output mode
+/* Initialize based on the stipulation
  */
-void init_output_mode(output_mode initial_mode)
+void init_output(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",initial_mode);
+  TraceText("\n");
 
-  current_mode = initial_mode;
+  TraceValue("%u\n",slices[root_slice].type);
+  switch (slices[root_slice].type)
+  {
+    case STBranchDirect:
+      current_mode = output_mode_tree;
+      break;
+
+    case STBranchHelp:
+    case STBranchSeries:
+      current_mode = output_mode_line;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
