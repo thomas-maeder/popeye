@@ -2668,3 +2668,81 @@ boolean isGoalReachable(void)
   TraceFunctionResult("%u\n",result);
   return result;
 }
+
+static support_for_intelligent_mode
+stip_supports_intelligent_rec(slice_index si)
+{
+  support_for_intelligent_mode result = intelligent_not_supported;
+
+  switch (slices[si].type)
+  {
+    case STQuodlibet:
+    {
+      support_for_intelligent_mode const support1 =
+          stip_supports_intelligent_rec(slices[si].u.quodlibet.op1);
+      support_for_intelligent_mode const support2 =
+          stip_supports_intelligent_rec(slices[si].u.quodlibet.op2);
+
+      /* The enumerators are sorted by ascending support. Our support
+       * is the smaller of those by op1 and op2.
+       */
+      result = support1<support2 ? support1 : support2;
+      break;
+    }
+
+    case STBranchHelp:
+      if (slices[si].u.branch.length<slack_length_help)
+        result = intelligent_not_supported;
+      else
+        result = stip_supports_intelligent_rec(slices[si].u.branch.next);
+      break;
+
+    case STBranchSeries:
+      if (slices[si].u.branch.length<slack_length_series)
+        result = intelligent_not_supported;
+      else
+        result = stip_supports_intelligent_rec(slices[si].u.branch.next);
+      break;
+
+    case STLeafDirect:
+    case STLeafHelp:
+      switch (slices[si].u.leaf.goal)
+      {
+        case goal_proof:
+        case goal_atob:
+          result = intelligent_active_by_default;
+          break;
+
+        case goal_mate:
+        case goal_stale:
+          result = intelligent_not_active_by_default;
+          break;
+
+        default:
+          result = intelligent_not_supported;
+          break;
+      }
+
+      break;
+
+    default:
+      /* nothing */
+      break;
+  }
+
+  return result;
+}
+
+support_for_intelligent_mode stip_supports_intelligent(void)
+{
+  support_for_intelligent_mode result;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  result = stip_supports_intelligent_rec(root_slice);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}

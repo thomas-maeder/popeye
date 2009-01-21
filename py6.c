@@ -240,73 +240,6 @@ static boolean SetKing(int *kingsquare, int square)
     return false;
 }
 
-static boolean isIntelligentModeAllowed(void)
-{
-  /* This is a complex structure, but nested ifs would be, as well,
-   * and this is easier to extend once intelligent mode is allowed for
-   * something new
-   */
-  switch (slices[root_slice].type)
-  {
-    case STBranchHelp:
-    {
-      slice_index const next = slices[root_slice].u.branch.next;
-      switch (slices[next].type)
-      {
-        case STLeafHelp:
-          switch (slices[next].u.leaf.goal)
-          {
-            case goal_mate:
-            case goal_stale:
-            case goal_proof:
-            case goal_atob:
-              return true;
-
-            default:
-              break;
-          }
-          break;
-
-        default:
-          break;
-      }
-    }
-
-    case STBranchSeries:
-    {
-      slice_index next = slices[root_slice].u.branch.next;
-
-      if (slices[next].type==STBranchSeries) /* intro series */
-        next = slices[next].u.branch.next;
-
-      switch (slices[next].type)
-      {
-        case STLeafDirect:
-        case STLeafHelp:
-          switch (slices[next].u.leaf.goal)
-          {
-            case goal_mate:
-            case goal_stale:
-            case goal_proof:
-            case goal_atob:
-              return true;
-              
-            default:
-              break;
-          }
-          
-        default:
-          break;
-      }
-    }
-
-    default:
-      break;
-  }
-
-  return false;
-}
-
 static void countPieces(void)
 {
   square        *bnp;
@@ -1757,10 +1690,25 @@ static boolean verifieposition(void)
     optim_orthomatingmoves = false;
   }
 
-  if (OptFlag[intelligent] && !isIntelligentModeAllowed())
+  switch (stip_supports_intelligent())
   {
-    VerifieMsg(IntelligentRestricted);
-    return false;
+    case intelligent_not_supported:
+      if (OptFlag[intelligent])
+      {
+        VerifieMsg(IntelligentRestricted);
+        return false;
+      }
+      else
+        isIntelligentModeActive = false;
+      break;
+
+    case intelligent_not_active_by_default:
+      isIntelligentModeActive = OptFlag[intelligent];
+      break;
+
+    case intelligent_active_by_default:
+      isIntelligentModeActive = true;
+      break;
   }
 
   if (CondFlag[castlingchess])
@@ -2516,8 +2464,6 @@ static boolean initAndVerify(Token tk,
     {
       regular_starter = White;
       slice_impose_starter(root_slice,regular_starter);
-
-      isIntelligentModeActive = true;
     }
     else
     {
@@ -2528,10 +2474,6 @@ static boolean initAndVerify(Token tk,
       TraceValue("%u\n",regular_starter);
 
       slice_impose_starter(root_slice,regular_starter);
-
-      /* hX0.5 are treated specially (currently? TODO) because
-       * leaves normally are 2 half moves long */
-      isIntelligentModeActive = slices[root_slice].u.branch.length>1;
     }
 
     countPieces();
@@ -2550,8 +2492,6 @@ static boolean initAndVerify(Token tk,
   }
   else
   {
-    isIntelligentModeActive = OptFlag[intelligent];
-
     /* intelligent AND duplex means that the board is mirrored
      * and the colors swapped by swapcolors() and reflectboard()
      * -> start with the regular side. */
