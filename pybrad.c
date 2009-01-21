@@ -262,8 +262,6 @@ static boolean branch_d_helper_has_solution(slice_index si,
   return win_found;
 }
 
-boolean leaf_s_has_solution2(slice_index leaf);
-
 /* Determine whether attacker can end in n moves of direct play.
  * This is a recursive function.
  * @param n number of moves left until the end state has to be reached
