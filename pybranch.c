@@ -168,7 +168,8 @@ who_decides_on_starter branch_detect_starter(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",is_duplex);
+  TraceFunctionParam("%u",is_duplex);
+  TraceFunctionParam("%u\n",same_side_as_root);
 
   switch (slices[next].type)
   {
@@ -188,7 +189,7 @@ who_decides_on_starter branch_detect_starter(slice_index si,
     {
       /* TODO separate implementations per branch type? */
       boolean const next_same_side_as_root =
-          (slices[next].type!=STBranchHelp || slices[si].u.branch.length%2==0
+          (slices[si].type!=STBranchHelp || slices[si].u.branch.length%2==0
            ? same_side_as_root
            : !same_side_as_root);
       result = slice_detect_starter(next,is_duplex,next_same_side_as_root);

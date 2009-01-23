@@ -610,10 +610,17 @@ who_decides_on_starter leaf_h_detect_starter(slice_index leaf,
   switch (slices[leaf].u.leaf.goal)
   {
     case goal_proof:
-    case goal_atob:
       slices[leaf].u.leaf.starter = (same_side_as_root==is_duplex
                                      ? Black
                                      : White);
+      result = leaf_decides_on_starter;
+      break;
+
+    case goal_atob:
+      slices[leaf].u.leaf.starter = (OptFlag[whitetoplay]!=
+                                     (same_side_as_root==is_duplex)
+                                     ? White
+                                     : Black);
       result = leaf_decides_on_starter;
       break;
 
