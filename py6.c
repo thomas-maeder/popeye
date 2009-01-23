@@ -2453,61 +2453,47 @@ static boolean initAndVerify(Token tk,
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  assert(slices[root_slice].type==STBranchDirect
-         || slices[root_slice].type==STBranchHelp
-         || slices[root_slice].type==STBranchSeries);
+  /* intelligent AND duplex means that the board is mirrored
+   * and the colors swapped by swapcolors() and reflectboard()
+   * -> start with the regular side. */
+  slice_detect_starter(root_slice,
+                       OptFlag[halfduplex] && !isIntelligentModeActive,
+                       true);
 
-  if (slices[next].u.leaf.goal==goal_proof
-      || slices[next].u.leaf.goal==goal_atob)
+  if (slices[root_slice].u.branch.starter==no_side)
   {
-    if (slices[root_slice].type==STBranchSeries)
-    {
-      regular_starter = White;
-      slice_impose_starter(root_slice,regular_starter);
-    }
-    else
-    {
-      if (slices[next].u.leaf.goal==goal_proof)
-        regular_starter = White;
-      else
-        regular_starter = OptFlag[whitetoplay] ? White : Black;
-      TraceValue("%u\n",regular_starter);
-
-      slice_impose_starter(root_slice,regular_starter);
-    }
-
-    countPieces();
-    if (locateKings())
-    {
-      writeDiagram(tk,printa);
-      ProofInitialise();
-      if (slices[next].u.leaf.goal==goal_atob)
-        ProofAtoBWriteStartPosition();
-      *shortenIfWhiteToPlay = false;
-      countPieces();
-      result = locateKings() &&  verifieposition();
-    }
-    else
-      result = false;
+    VerifieMsg(CantDecideWhoIsAtTheMove);
+    result = false;
   }
   else
   {
-    /* intelligent AND duplex means that the board is mirrored
-     * and the colors swapped by swapcolors() and reflectboard()
-     * -> start with the regular side. */
-    slice_detect_starter(root_slice,
-                         OptFlag[halfduplex] && !isIntelligentModeActive);
-    if (slices[root_slice].u.branch.starter==no_side)
+    TraceValue("%u",slices[root_slice].u.branch.starter);
+    TraceValue("%u\n",regular_starter);
+
+    assert(slices[root_slice].type==STBranchDirect
+           || slices[root_slice].type==STBranchHelp
+           || slices[root_slice].type==STBranchSeries);
+
+    if (slices[next].u.leaf.goal==goal_proof
+        || slices[next].u.leaf.goal==goal_atob)
     {
-      VerifieMsg(CantDecideWhoIsAtTheMove);
-      result = false;
+      countPieces();
+      if (locateKings())
+      {
+        writeDiagram(tk,printa);
+        ProofInitialise();
+        if (slices[next].u.leaf.goal==goal_atob)
+          ProofAtoBWriteStartPosition();
+        *shortenIfWhiteToPlay = false;
+        countPieces();
+        result = locateKings() &&  verifieposition();
+      }
+      else
+        result = false;
     }
     else
     {
       *shortenIfWhiteToPlay = slices[root_slice].type==STBranchHelp;
-      TraceValue("%u",*shortenIfWhiteToPlay);
-      TraceValue("%u",slices[root_slice].u.branch.starter);
-      TraceValue("%u\n",regular_starter);
 
       countPieces();
       result = locateKings() && verifieposition();

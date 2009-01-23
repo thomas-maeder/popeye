@@ -114,11 +114,21 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si);
  */
 void slice_solve_variations(slice_index si);
 
+typedef enum
+{
+  dont_know_who_decides_on_starter,
+  leaf_decides_on_starter
+} who_decides_on_starter;
+
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
  */
-void slice_detect_starter(slice_index si, boolean is_duplex);
+who_decides_on_starter slice_detect_starter(slice_index si,
+                                            boolean is_duplex,
+                                            boolean same_side_as_root);
 
 /* Impose the starting side on a slice.
  * @param si identifies slice

@@ -1302,9 +1302,6 @@ static char *ParseEnd(char *tok, slice_index *si)
   if (strncmp("ser-dia",tok,7) == 0
       || strncmp("ser-a=>b",tok,8) == 0)
     tok = ParseGoal(tok+4,STLeafDirect,si);
-  else if (strncmp("dia", tok, 3) == 0)
-    tok = ParseGoal(tok,STLeafHelp,si);
-
 #if !defined(DATABASE)
   else if (strncmp("a=>b", tok, 4) == 0)
     tok = ParseGoal(tok,STLeafHelp,si);
@@ -1450,15 +1447,26 @@ static char *ParsePlay(char *tok, slice_index *si)
 
   else if (strncmp("dia",tok,3)==0)
   {
-    slice_index next = no_slice;
-    tok = ParseEnd(tok,&next);
-    if (tok!=0 && next!=no_slice)
+    stip_length_type length;
+    stip_length_type min_length;
+
+    result = ParseLength(tok+3,STBranchHelp,&length,&min_length);
+    if (result!=0)
     {
-      stip_length_type length;
-      stip_length_type min_length;
-      result = ParseLength(tok,STBranchHelp,&length,&min_length);
-      if (result!=0)
-        *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+      slice_index leaf;
+      SliceType leaf_type;
+
+      if (length%2==0)
+        leaf_type = STLeafHelp;
+      else
+      {
+        leaf_type = STLeafDirect;
+        ++length;
+        ++min_length;
+      }
+
+      leaf = alloc_leaf_slice(leaf_type,goal_proof);
+      *si = alloc_branch_slice(STBranchHelp,length,min_length,leaf);
     }
   }
 

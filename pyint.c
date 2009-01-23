@@ -2580,6 +2580,125 @@ static void IntelligentProof(stip_length_type n)
   OptFlag[movenbr] = save_movenbr;
 }
 
+/* Calculate the number of moves of each side, continuing at a non-root
+ * slice.
+ * @param si index of non-root slice
+ */
+static void init_moves_left_non_root(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",slices[si].type);
+
+  switch (slices[si].type)
+  {
+    case STBranchHelp:
+    {
+      stip_length_type const n = slices[si].u.branch.length;
+      BlMovesLeft += (n-slack_length_help)/2;
+      WhMovesLeft += (n-slack_length_help)/2;
+      if (n%2==1)
+      {
+        if (branch_h_starter_in_n(si,n)==White)
+          ++WhMovesLeft;
+        else
+          ++BlMovesLeft;
+      }
+      init_moves_left_non_root(slices[si].u.branch.next);
+      break;
+    }
+
+    case STBranchSeries:
+    {
+      stip_length_type const n = slices[si].u.branch.length;
+      if (slices[si].u.branch.starter==White)
+        WhMovesLeft += n-slack_length_series;
+      else
+        BlMovesLeft += n-slack_length_series;
+      init_moves_left_non_root(slices[si].u.branch.next);
+      break;
+    }
+
+    case STLeafDirect:
+      if (slices[si].u.branch.starter==White)
+        ++WhMovesLeft;
+      else
+        ++BlMovesLeft;
+      break;
+
+    case STLeafHelp:
+      ++WhMovesLeft;
+      ++BlMovesLeft;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Calculate the number of moves of each side, starting at the root
+ * slice.
+ * @param n length of the solution(s) we are looking for
+ */
+static void init_moves_left_root(stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",n);
+
+  TraceValue("%u\n",slices[root_slice].type);
+
+  switch (slices[root_slice].type)
+  {
+    case STBranchHelp:
+    {
+      BlMovesLeft = (n-slack_length_help)/2;
+      WhMovesLeft = BlMovesLeft;
+      if (n%2==1)
+      {
+        if (branch_h_starter_in_n(root_slice,n)==White)
+          ++WhMovesLeft;
+        else
+          ++BlMovesLeft;
+      }
+
+      init_moves_left_non_root(slices[root_slice].u.branch.next);
+      break;
+    }
+
+    case STBranchSeries:
+    {
+      if (slices[root_slice].u.branch.starter==White)
+      {
+        WhMovesLeft = n-slack_length_series;
+        BlMovesLeft = 0;
+      }
+      else
+      {
+        WhMovesLeft = 0;
+        BlMovesLeft = n-slack_length_series;
+      }
+
+      init_moves_left_non_root(slices[root_slice].u.branch.next);
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceValue("%u",WhMovesLeft);
+  TraceValue("%u\n",BlMovesLeft);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
 boolean Intelligent(stip_length_type n)
 {
   boolean result;
@@ -2587,44 +2706,8 @@ boolean Intelligent(stip_length_type n)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",n);
 
-  TraceValue("%u\n",slices[root_slice].u.branch.length);
-  if (slices[root_slice].type==STBranchHelp)
-  {
-    BlMovesLeft = n/2;
-    WhMovesLeft = BlMovesLeft;
-    if (n%2==1)
-    {
-      if (branch_h_starter_in_n(root_slice,n)==White)
-        ++WhMovesLeft;
-      else
-        ++BlMovesLeft;
-    }
-  }
-  else
-  {
-    if (slices[slices[root_slice].u.branch.next].type==STLeafHelp)
-    {
-      if (slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_atob
-          || slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_proof)
-      {
-        WhMovesLeft = n;
-        BlMovesLeft = 0;
-      }
-      else
-      {
-        WhMovesLeft = 1;
-        BlMovesLeft = n;
-      }
-    }
-    else
-    {
-      WhMovesLeft = n;
-      BlMovesLeft = 0;
-    }
-  }
-  TraceValue("%u",WhMovesLeft);
-  TraceValue("%u\n",BlMovesLeft);
-
+  init_moves_left_root(n);
+     
   MatesMax = 0;
 
   InitSols();
@@ -2676,20 +2759,6 @@ stip_supports_intelligent_rec(slice_index si)
 
   switch (slices[si].type)
   {
-    case STQuodlibet:
-    {
-      support_for_intelligent_mode const support1 =
-          stip_supports_intelligent_rec(slices[si].u.quodlibet.op1);
-      support_for_intelligent_mode const support2 =
-          stip_supports_intelligent_rec(slices[si].u.quodlibet.op2);
-
-      /* The enumerators are sorted by ascending support. Our support
-       * is the smaller of those by op1 and op2.
-       */
-      result = support1<support2 ? support1 : support2;
-      break;
-    }
-
     case STBranchHelp:
       if (slices[si].u.branch.length<slack_length_help)
         result = intelligent_not_supported;

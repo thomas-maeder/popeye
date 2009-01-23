@@ -2,7 +2,7 @@
 #define PYBRANCH_H
 
 #include "py.h"
-#include "pystip.h"
+#include "pyslice.h"
 #include "boolean.h"
 
 /* This module provides functionality dealing with STBranch*
@@ -71,7 +71,11 @@ boolean branch_has_starter_reached_goal(slice_index si);
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
  */
-void branch_detect_starter(slice_index si, boolean is_duplex);
+who_decides_on_starter branch_detect_starter(slice_index si,
+                                             boolean is_duplex,
+                                             boolean same_side_as_root);
 
 #endif

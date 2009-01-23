@@ -156,22 +156,26 @@ boolean branch_is_goal_reached(Side just_moved, slice_index si)
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
  */
-void branch_detect_starter(slice_index si, boolean is_duplex)
+who_decides_on_starter branch_detect_starter(slice_index si,
+                                             boolean is_duplex,
+                                             boolean same_side_as_root)
 {
+  who_decides_on_starter result;
   slice_index const next = slices[si].u.branch.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",is_duplex);
 
-  slice_detect_starter(next,is_duplex);
-
   switch (slices[next].type)
   {
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
+      result = branch_detect_starter(next,is_duplex,!same_side_as_root);
       if (slice_get_starter(next)==no_side)
         slices[si].u.branch.starter = no_side;
       else
@@ -181,6 +185,13 @@ void branch_detect_starter(slice_index si, boolean is_duplex)
     case STLeafDirect:
     case STLeafSelf:
     case STLeafHelp:
+    {
+      /* TODO separate implementations per branch type? */
+      boolean const next_same_side_as_root =
+          (slices[next].type!=STBranchHelp || slices[si].u.branch.length%2==0
+           ? same_side_as_root
+           : !same_side_as_root);
+      result = slice_detect_starter(next,is_duplex,next_same_side_as_root);
       if (slice_get_starter(next)==no_side)
       {
         /* next can't tell - let's tell him */
@@ -190,8 +201,10 @@ void branch_detect_starter(slice_index si, boolean is_duplex)
       else
         slices[si].u.branch.starter = slice_get_starter(next);
       break;
+    }
 
     default:
+      result = slice_detect_starter(next,is_duplex,same_side_as_root);
       slices[si].u.branch.starter = slice_get_starter(next);
       break;
   }
@@ -199,5 +212,6 @@ void branch_detect_starter(slice_index si, boolean is_duplex)
   TraceValue("%u\n",slices[si].u.branch.starter);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }

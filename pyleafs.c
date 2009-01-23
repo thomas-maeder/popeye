@@ -384,9 +384,15 @@ void leaf_s_solve_continuations(int solutions, slice_index leaf)
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
  * @param is_duplex is this for duplex?
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
  */
-void leaf_s_detect_starter(slice_index leaf, boolean is_duplex)
+who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
+                                             boolean is_duplex,
+                                             boolean same_side_as_root)
 {
+  who_decides_on_starter result = dont_know_who_decides_on_starter;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParam("%u\n",is_duplex);
@@ -395,5 +401,6 @@ void leaf_s_detect_starter(slice_index leaf, boolean is_duplex)
     slices[leaf].u.leaf.starter = is_duplex ? Black : White;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }

@@ -846,42 +846,48 @@ void slice_write_unsolvability(slice_index si)
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
  */
-void slice_detect_starter(slice_index si, boolean is_duplex)
+who_decides_on_starter slice_detect_starter(slice_index si,
+                                            boolean is_duplex,
+                                            boolean same_side_as_root)
 {
+  who_decides_on_starter who_decides = dont_know_who_decides_on_starter;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
     case STLeafDirect:
-      leaf_d_detect_starter(si,is_duplex);
+      who_decides = leaf_d_detect_starter(si,is_duplex,same_side_as_root);
       break;
 
     case STLeafSelf:
-      leaf_s_detect_starter(si,is_duplex);
+      who_decides = leaf_s_detect_starter(si,is_duplex,same_side_as_root);
       break;
 
     case STLeafHelp:
-      leaf_h_detect_starter(si,is_duplex);
+      who_decides = leaf_h_detect_starter(si,is_duplex,same_side_as_root);
       break;
 
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
-      branch_detect_starter(si,is_duplex);
+      who_decides = branch_detect_starter(si,is_duplex,same_side_as_root);
       break;
 
     case STReciprocal:
-      reci_detect_starter(si,is_duplex);
+      who_decides = reci_detect_starter(si,is_duplex,same_side_as_root);
       break;
 
     case STQuodlibet:
-      quodlibet_detect_starter(si,is_duplex);
+      who_decides = quodlibet_detect_starter(si,is_duplex,same_side_as_root);
       break;
 
     case STNot:
-      not_detect_starter(si,is_duplex);
+      who_decides = not_detect_starter(si,is_duplex,same_side_as_root);
       break;
 
     default:
@@ -889,11 +895,8 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
       break;
   }
 
-  if (si==root_slice)
-  {
-    regular_starter = slice_get_starter(root_slice);
-    TraceValue("%u\n",regular_starter);
-  }
+  if (si==root_slice && who_decides!=leaf_decides_on_starter)
+    regular_starter = slice_get_starter(si);
 
   if (slices[si].type==STBranchDirect
       || slices[si].type==STBranchHelp
@@ -907,11 +910,19 @@ void slice_detect_starter(slice_index si, boolean is_duplex)
         slice_impose_starter(si,no_side);
       else
         slice_impose_starter(si,advers(slice_get_starter(si)));
+      TraceValue("%u\n",slices[si].u.branch.starter);
     }
   }
 
+  if (si==root_slice && who_decides==leaf_decides_on_starter)
+    regular_starter = slice_get_starter(si);
+
+  if (si==root_slice)
+    TraceValue("%u\n",regular_starter);
+
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",who_decides);
+  return who_decides;
 }
 
 /* Impose the starting side on a slice.

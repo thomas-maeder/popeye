@@ -333,11 +333,18 @@ boolean quodlibet_solve(slice_index si)
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param is_duplex is this for duplex?
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
  */
-void quodlibet_detect_starter(slice_index si, boolean is_duplex)
+who_decides_on_starter quodlibet_detect_starter(slice_index si,
+                                                boolean is_duplex,
+                                                boolean same_side_as_root)
 {
   slice_index const op1 = slices[si].u.quodlibet.op1;
   slice_index const op2 = slices[si].u.quodlibet.op2;
+  who_decides_on_starter result;
+  who_decides_on_starter result1;
+  who_decides_on_starter result2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -348,8 +355,8 @@ void quodlibet_detect_starter(slice_index si, boolean is_duplex)
   TraceValue("%u",slices[si].u.quodlibet.op1);
   TraceValue("%u\n",slices[si].u.quodlibet.op2);
 
-  slice_detect_starter(op1,is_duplex);
-  slice_detect_starter(op2,is_duplex);
+  result1 = slice_detect_starter(op1,is_duplex,same_side_as_root);
+  result2 = slice_detect_starter(op2,is_duplex,same_side_as_root);
 
   if (slice_get_starter(op1)==no_side)
     /* op1 can't tell - let's tell him */
@@ -358,8 +365,17 @@ void quodlibet_detect_starter(slice_index si, boolean is_duplex)
     /* op2 can't tell - let's tell him */
     slice_impose_starter(op2,slice_get_starter(op1));
 
+  if (result1==dont_know_who_decides_on_starter)
+    result = result2;
+  else
+  {
+    assert(result2==dont_know_who_decides_on_starter);
+    result = result1;
+  }
+
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Impose the starting side on a slice.
