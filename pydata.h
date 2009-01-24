@@ -66,8 +66,21 @@
 #endif  /* EXTERN */
 
 
-#if defined(WE_ARE_EXTERN)
 extern size_t MaxMemory;
+
+typedef enum
+{
+  maxmemory_kilo,
+  maxmemory_mega,
+  maxmemory_giga
+} maxmemory_unit_type;
+
+extern maxmemory_unit_type MaxMemory_unit;
+
+extern char MaxMemoryString[37];
+
+
+#if defined(WE_ARE_EXTERN)
 extern unsigned int MaxTime;
 extern  char    *StartUp;
 extern  unsigned long    MaxPositions;
@@ -83,15 +96,11 @@ extern  boolean flag_regression;
 #	else
    size_t         MaxPositions    = 1000000000L;
 #	endif
-size_t MaxMemory = 0;
 unsigned int MaxTime = UINT_MAX;
 char            *StartUp = VERSIONSTRING;
 boolean         LaTeXout= false;
 boolean         flag_regression= false;
 #endif  /* WE_ARE_EXTERN */
-
-EXTERN  char            MMString[37];   /* MaxMemory available for diagnostic message */
-					/* Safety first, think at the future (:-) */
 
 EXTERN  long            PositionCnt;
 
@@ -450,9 +459,9 @@ EXTERN Flags            rochade_sp[toppile + 1];
 EXTERN boolean          flag_libre_on_generate;
 
 #if defined(WE_ARE_EXTERN)
-	extern PieTable PieNamString[LangCount];
+	extern PieTable PieNamString[LanguageCount];
 #else
-	PieTable PieNamString[LangCount] = {
+	PieTable PieNamString[LanguageCount] = {
 	{ /* French PieNamString */
 	/*  0*/ {'.',' '}, /* vide */
 	/*  1*/ {' ',' '}, /* hors echiquier */
@@ -860,14 +869,12 @@ EXTERN boolean          flag_libre_on_generate;
 #endif
 
 #if defined(WE_ARE_EXTERN)
-	extern Lang     ActLang;
 	extern char     ActAuthor[];
 	extern char     ActOrigin[];
 	extern char     ActTitle[];
 	extern char     ActTwinning[];
 	extern char     ActAward[], ActStip[];
 #else
-	Lang            ActLang;
 	char            ActAuthor[256];
 	char            ActOrigin[256];
 	char            ActTitle[256];
@@ -884,10 +891,10 @@ EXTERN boolean          flag_libre_on_generate;
 
 #if defined(WE_ARE_EXTERN)
 	extern boolean  OptFlag[OptCount];
-	extern char     *OptString[LangCount][OptCount];
+	extern char     *OptString[LanguageCount][OptCount];
 #else
 	boolean OptFlag[OptCount];
-	char    *OptString[LangCount][OptCount] = {
+	char    *OptString[LanguageCount][OptCount] = {
 	{
 	/* Francais French Franzoesisch */
 	/* 0*/  "Defense",
@@ -996,10 +1003,10 @@ EXTERN boolean          flag_libre_on_generate;
 
 #if defined(WE_ARE_EXTERN)
 	extern boolean  CondFlag[CondCount];
-	extern char     *CondString[LangCount][CondCount];
+	extern char     *CondString[LanguageCount][CondCount];
 #else
 	boolean CondFlag[CondCount];
-	char    *CondString[LangCount][CondCount] = {
+	char    *CondString[LanguageCount][CondCount] = {
 	{
 	/* French Condition Names */
 	/* 0*/  "RexInclusif",
@@ -1544,13 +1551,13 @@ EXTERN boolean          flag_libre_on_generate;
 EXTERN unsigned int StipFlags;
 
 #if defined(WE_ARE_EXTERN)
-	extern  char    *PieSpString[LangCount][PieSpCount];
+	extern  char    *PieSpString[LanguageCount][PieSpCount];
 	extern  char    **PieSpTab;
 	extern  Flags   PieSpExFlags;
 #else
 	Flags   PieSpExFlags;   /* used for problem-wide piecespecification */
 	char    **PieSpTab;
-	char    *PieSpString[LangCount][PieSpCount] = {
+	char    *PieSpString[LanguageCount][PieSpCount] = {
 	{
 /* French */
       "Blanc",
@@ -1614,9 +1621,9 @@ EXTERN unsigned int StipFlags;
 
 #if defined(WE_ARE_EXTERN)
 	extern char
-*VariantTypeString[LangCount][VariantTypeCount];
+*VariantTypeString[LanguageCount][VariantTypeCount];
 #else
-	char    *VariantTypeString[LangCount][VariantTypeCount] = {
+	char    *VariantTypeString[LanguageCount][VariantTypeCount] = {
 	{
 	/* French */
 	/* 0*/  "TypeB",
@@ -1697,9 +1704,9 @@ EXTERN unsigned int StipFlags;
 #endif
 
 #if defined(WE_ARE_EXTERN)
-	extern char *ExtraCondString[LangCount][ExtraCondCount];
+	extern char *ExtraCondString[LanguageCount][ExtraCondCount];
 #else
-	char    *ExtraCondString[LangCount][ExtraCondCount] = {
+	char    *ExtraCondString[LanguageCount][ExtraCondCount] = {
 	{
 	/* French */
 	/* 0*/  "Maximum",

@@ -329,8 +329,7 @@ void    gedgeh(square a, Side b);
 
 void    gmoab(square a);
 void    gmoan(square a);
-boolean InitMsgTab(Lang l, boolean Force);
-Token   ReadProblem(Token tk);
+Token   ReadTwin(Token tk);
 void    ErrString(char const *s);
 void    StdChar(char c);
 void    StdString(char const *s);

@@ -77,7 +77,7 @@ void logChrArg(char arg)
 #include "pyallmsg.h"
 static char **ActualMsgTab;
 
-boolean InitMsgTab(Lang l, boolean Force)
+boolean InitMsgTab(Language l)
 {
   StringCnt= MsgCount;
   ActualMsgTab= MessageTabs[l];
@@ -166,7 +166,7 @@ char const *GetMsgString(message_id_t id)
   return spt;
 }
 
-boolean InitMsgTab(Lang l, boolean Force)
+boolean InitMsgTab(Language l)
 {
   char Head[64], *hpt, *path, *OurFile;
   UnInt StrStart, StrSize, OfsStart, OfsSize;
@@ -178,12 +178,8 @@ boolean InitMsgTab(Lang l, boolean Force)
   fstring = fopen(OurFile,"r");
   if (fstring==NULL)
   {
-	if (Force == true) {
-      fprintf(stderr,"No %s - sorry\n",OurFile);
-      exit(-2);
-	}
-	else
-      return false;
+    fprintf(stderr,"No %s - sorry\n",OurFile);
+    exit(-2);
   }
   else
   {

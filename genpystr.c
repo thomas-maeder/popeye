@@ -21,7 +21,7 @@
 #if defined(MSG_IN_MEM)
 
 int main() {
-  Lang	lan;
+  Language	lan;
   FILE	*hd;
   char	*hdFileName= "pyallmsg.h";
   int		StringCnt, MaxLeng;
@@ -33,12 +33,12 @@ int main() {
 	exit (1);
   }
   fprintf(hd, "/* This file is generated from: \n");
-  for (lan=0; lan<LangCount; lan++) {
+  for (lan=0; lan<LanguageCount; lan++) {
 	fprintf(hd, "	 %s\n", MkMsgFileName(lan));
   }
   fprintf(hd, "*/\n");
   MaxLeng= 0;
-  for (lan=0; lan<LangCount; lan++) {
+  for (lan=0; lan<LanguageCount; lan++) {
 	char *sLine, Line[512];
 	int l;
 	char *MsgFileName;
@@ -49,7 +49,7 @@ int main() {
       printf("Sorry, cannot open %s\n", MsgFileName);
       exit(2);
 	}
-	fprintf(hd,"char *%sMsg[] = {\n", GetLangName(lan));
+	fprintf(hd,"char *%sMsg[] = {\n", GetLanguageName(lan));
 	StringCnt= l= 0;
 	while (fgets(Line,sizeof(Line),MsgFile) != NULL) {
       int snum;
@@ -93,11 +93,11 @@ int main() {
   }
 
   fprintf(hd, "char **MessageTabs[] = {\n");
-  for (lan=0; lan<LangCount; lan++) {
+  for (lan=0; lan<LanguageCount; lan++) {
 	if (lan>0) {
       fprintf(hd, ",\n");
 	}
-	fprintf(hd, "\t/*%d*/\t%sMsg", lan, GetLangName(lan));
+	fprintf(hd, "\t/*%d*/\t%sMsg", lan, GetLanguageName(lan));
   }
   fprintf(hd, "\n};\n");
   exit(0);
@@ -136,12 +136,12 @@ int main() {
 
   Cardinal StringCnt;
   Cardinal MaxLeng, l;
-  Lang	 lan;
+  Language	 lan;
   int      snum;
   FILE     *MsgFile, *out;
   char     *FileName;
 
-  for (lan=0; lan<LangCount; lan++) {
+  for (lan=0; lan<LanguageCount; lan++) {
 
 	FileName= MkMsgFileName(lan);
 

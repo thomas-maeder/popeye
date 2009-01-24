@@ -526,7 +526,7 @@ void ProofWritePosition(void)
   {
     sprintf(InitialLine,
             "Initial (%s ->):\n",
-            PieSpString[ActLang][slice_get_starter(root_slice)]);
+            PieSpString[UserLanguage][slice_get_starter(root_slice)]);
     StdString(InitialLine);
 
     ProofRestoreStartPosition();

@@ -21,6 +21,8 @@
 #if !defined(PYMSG_H)
 #define PYMSG_H
 
+#include "pylang.h"
+
 /* This is the file where all language dependent defines
 ** for messages are coded.
 ** They belong to the corresponding numbers in the
@@ -155,6 +157,8 @@ typedef enum
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;
+
+boolean InitMsgTab(Language l);
 
 char const *GetMsgString (message_id_t id);
 

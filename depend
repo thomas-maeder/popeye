@@ -848,8 +848,8 @@ platform/$(PLATFORM)/maxmem$(OBJ_SUFFIX): platform/$(PLATFORM)/maxmem.c platform
 platform/$(PLATFORM)/../maxmem.h:
 platform/$(PLATFORM)/maxtime$(OBJ_SUFFIX): platform/$(PLATFORM)/maxtime.c \
   platform/$(PLATFORM)/../maxtime.h platform/$(PLATFORM)/../../boolean.h \
-  platform/$(PLATFORM)/../../pymsg.h platform/$(PLATFORM)/../../py.h \
-  platform/$(PLATFORM)/../../boolean.h platform/$(PLATFORM)/../../pylang.h \
+  platform/$(PLATFORM)/../../pymsg.h platform/$(PLATFORM)/../../pylang.h \
+  platform/$(PLATFORM)/../../py.h platform/$(PLATFORM)/../../boolean.h \
   platform/$(PLATFORM)/../../pydata.h platform/$(PLATFORM)/../../pyproc.h \
   platform/$(PLATFORM)/../../py4.h platform/$(PLATFORM)/../../py.h \
   platform/$(PLATFORM)/../../pygoal.h platform/$(PLATFORM)/../../pyhash.h \
@@ -861,11 +861,11 @@ platform/$(PLATFORM)/../../boolean.h:
 
 platform/$(PLATFORM)/../../pymsg.h:
 
+platform/$(PLATFORM)/../../pylang.h:
+
 platform/$(PLATFORM)/../../py.h:
 
 platform/$(PLATFORM)/../../boolean.h:
-
-platform/$(PLATFORM)/../../pylang.h:
 
 platform/$(PLATFORM)/../../pydata.h:
 

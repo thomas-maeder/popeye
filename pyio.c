@@ -95,7 +95,7 @@ char AlphaStip[20];
 
 static char Sep[] = "\n";
 /* All entries in this table have to be in lower case */
-static char *TokenString[LangCount][TokenCount] = {
+static char *TokenString[LanguageCount][TokenCount] = {
   { /* francais */
     /* 0*/  "DebutProbleme",
     /* 1*/  "FinProbleme",
@@ -198,7 +198,7 @@ typedef enum
   TwinningCount   /* 17 */
 } TwinningType;
 
-char    *TwinningString[LangCount][TwinningCount] = {
+char    *TwinningString[LanguageCount][TwinningCount] = {
   { /* francais */
     /* 0*/  "deplacement",
     /* 1*/  "echange",
@@ -612,24 +612,25 @@ char* WriteBGLNumber(char* buf, long int num)
   return buf;
 }
 
-static void ReadBeginSpec(void) {
+static void ReadBeginSpec(void)
+{
   while (true)
   {
     char *tok = ReadNextTokStr();
-    TokenTab= TokenString[0];
-    for (ActLang= 0; ActLang<LangCount; ActLang++)
+    TokenTab = TokenString[0];
+    for (UserLanguage= 0; UserLanguage<LanguageCount; UserLanguage++)
     {
-      TokenTab= &(TokenString[ActLang][0]);
+      TokenTab= &(TokenString[UserLanguage][0]);
       if (GetUniqIndex(TokenCount,TokenTab,tok)==BeginProblem)
       {
-        OptTab= &(OptString[ActLang][0]);
-        CondTab= &(CondString[ActLang][0]);
-        TwinningTab= &(TwinningString[ActLang][0]);
-        VariantTypeTab= &(VariantTypeString[ActLang][0]);
-        ExtraCondTab= &(ExtraCondString[ActLang][0]);
-        PieceTab= PieNamString[ActLang];
-        PieSpTab= PieSpString[ActLang];
-        InitMsgTab(ActLang, true);
+        OptTab= &(OptString[UserLanguage][0]);
+        CondTab= &(CondString[UserLanguage][0]);
+        TwinningTab= &(TwinningString[UserLanguage][0]);
+        VariantTypeTab= &(VariantTypeString[UserLanguage][0]);
+        ExtraCondTab= &(ExtraCondString[UserLanguage][0]);
+        PieceTab= PieNamString[UserLanguage];
+        PieSpTab= PieSpString[UserLanguage];
+        InitMsgTab(UserLanguage);
         return;
       }
     }
@@ -3691,7 +3692,7 @@ static char *ParseTwinning(void)
           if (OptFlag[whitetoplay]) {
             char temp[10];        /* increased due to buffer overflow */
             sprintf(temp, " %c{\\ra}",
-                    tolower(*PieSpString[ActLang][White]));
+                    tolower(*PieSpString[UserLanguage][White]));
             strcat(ActTwinning, temp);
           }
         }
@@ -3774,7 +3775,7 @@ char *ReadPieces(int condition) {
 }
 
 
-Token ReadProblem(Token tk)
+Token ReadTwin(Token tk)
 {
   char *tok;
 
@@ -3957,7 +3958,7 @@ Token ReadProblem(Token tk)
           else if (!flag_regression)
           {
             fputs(StartUp, TraceFile);
-            fputs(MMString, TraceFile);
+            fputs(MaxMemoryString, TraceFile);
             fflush(TraceFile);
           }
           tok = ReadNextTokStr();
@@ -4380,7 +4381,7 @@ void WriteConditions(int alignment) {
 
     if ((cond == isardam) && IsardamB) {
       strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[ActLang][TypeB]);
+      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
     }
 
     if (cond == annan) {
@@ -4388,13 +4389,13 @@ void WriteConditions(int alignment) {
       switch (annanvar)
       {
       case 1:
-        strcat(CondLine, VariantTypeString[ActLang][TypeB]);
+        strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
         break;
       case 2:
-        strcat(CondLine, VariantTypeString[ActLang][TypeC]);
+        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
         break;
       case 3:
-        strcat(CondLine, VariantTypeString[ActLang][TypeD]);
+        strcat(CondLine, VariantTypeString[UserLanguage][TypeD]);
         break;
       }
     }
@@ -4404,20 +4405,20 @@ void WriteConditions(int alignment) {
       switch (gridvar)
       {
         case grid_vertical_shift:
-          strcat(CondLine, VariantTypeString[ActLang][ShiftRank]);
+          strcat(CondLine, VariantTypeString[UserLanguage][ShiftRank]);
           break;
         case grid_horizontal_shift:
-          strcat(CondLine, VariantTypeString[ActLang][ShiftFile]);
+          strcat(CondLine, VariantTypeString[UserLanguage][ShiftFile]);
           break;
         case grid_diagonal_shift:
-          strcat(CondLine, VariantTypeString[ActLang][ShiftRankFile]);
+          strcat(CondLine, VariantTypeString[UserLanguage][ShiftRankFile]);
           break;
         case grid_orthogonal_lines:
-          strcat(CondLine, VariantTypeString[ActLang][Orthogonal]);
+          strcat(CondLine, VariantTypeString[UserLanguage][Orthogonal]);
           /* to do - write lines */
           break;
         case grid_irregular:
-          strcat(CondLine, VariantTypeString[ActLang][Irregular]);
+          strcat(CondLine, VariantTypeString[UserLanguage][Irregular]);
           /* to do - write squares */
           break;
       }
@@ -4425,49 +4426,49 @@ void WriteConditions(int alignment) {
 
     if ((cond == white_oscillatingKs) && OscillatingKingsTypeB[White]) {
       strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[ActLang][TypeB]);
+      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
     }
 
     if ((cond == black_oscillatingKs) && OscillatingKingsTypeB[Black]) {
       strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[ActLang][TypeB]);
+      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
     }
 
     if ((cond == white_oscillatingKs) && OscillatingKingsTypeC[White]) {
       if (! CondFlag[swappingkings]) {
         strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[ActLang][TypeC]);
+        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
       }
     }
 
     if ((cond == black_oscillatingKs) && OscillatingKingsTypeC[Black]) {
       if (! CondFlag[swappingkings]) {
         strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[ActLang][TypeC]);
+        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
       }
     }
 
     if ((cond == patience) && PatienceB) {
       strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[ActLang][TypeB]);
+      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
     }
 
     if (CondFlag[singlebox])    {
       strcat(CondLine, "    ");
       if (SingleBoxType==singlebox_type1)
-        strcat(CondLine, VariantTypeString[ActLang][Type1]);
+        strcat(CondLine, VariantTypeString[UserLanguage][Type1]);
       if (SingleBoxType==singlebox_type2)
-        strcat(CondLine, VariantTypeString[ActLang][Type2]);
+        strcat(CondLine, VariantTypeString[UserLanguage][Type2]);
       if (SingleBoxType==singlebox_type3)
-        strcat(CondLine, VariantTypeString[ActLang][Type3]);
+        strcat(CondLine, VariantTypeString[UserLanguage][Type3]);
     }
 
     if (CondFlag[republican])    {
       strcat(CondLine, "    ");
       if (RepublicanType==republican_type1)
-        strcat(CondLine, VariantTypeString[ActLang][Type1]);
+        strcat(CondLine, VariantTypeString[UserLanguage][Type1]);
       if (RepublicanType==republican_type2)
-        strcat(CondLine, VariantTypeString[ActLang][Type2]);
+        strcat(CondLine, VariantTypeString[UserLanguage][Type2]);
     }
 
     if (cond == sentinelles) {
@@ -4477,12 +4478,12 @@ void WriteConditions(int alignment) {
       if (SentPionAdverse) {
         strcat(CondLine, "  ");
         strcat(CondLine,
-               VariantTypeString[ActLang][PionAdverse]);
+               VariantTypeString[UserLanguage][PionAdverse]);
       }
       if (SentPionNeutral) {
         strcat(CondLine, "  ");
         strcat(CondLine,
-               VariantTypeString[ActLang][PionNeutral]);
+               VariantTypeString[UserLanguage][PionNeutral]);
       }
       if (max_pn !=8 || max_pb != 8) {
         sprintf(pawns, " %u/%u", max_pb, max_pn);
@@ -4516,14 +4517,14 @@ void WriteConditions(int alignment) {
       /* AntiCirTypeCalvet is default in AntiCirce */
       if (AntiCirType != AntiCirTypeCalvet) {
         strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[ActLang][AntiCirType]);
+        strcat(CondLine, VariantTypeString[UserLanguage][AntiCirType]);
       }
       break;
     case antisuper:
       /* AntiCirTypeCheylan is default in AntiSuperCirce */
       if (AntiCirType != AntiCirTypeCheylan) {
         strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[ActLang][AntiCirType]);
+        strcat(CondLine, VariantTypeString[UserLanguage][AntiCirType]);
       }
       break;
     default:
@@ -4611,7 +4612,7 @@ void WritePosition() {
   SolFile= NULL;
 
   for (sp= Neutral; sp < PieSpCount; sp++)
-    strcpy(ListSpec[sp], PieSpString[ActLang][sp]);
+    strcpy(ListSpec[sp], PieSpString[UserLanguage][sp]);
 
   StdChar('\n');
   MultiCenter(ActAuthor);
@@ -4755,12 +4756,12 @@ void WritePosition() {
   WriteConditions(WCcentered);
 
   if (OptFlag[halfduplex])
-    CenterLine(OptString[ActLang][halfduplex]);
+    CenterLine(OptString[UserLanguage][halfduplex]);
   else if (OptFlag[duplex])
-    CenterLine(OptString[ActLang][duplex]);
+    CenterLine(OptString[UserLanguage][duplex]);
 
   if (OptFlag[quodlibet])
-    CenterLine(OptString[ActLang][quodlibet]);
+    CenterLine(OptString[UserLanguage][quodlibet]);
 
   StdChar('\n');
 
@@ -4815,7 +4816,7 @@ void LaTeXOpen(void) {
     fprintf(LaTeXFile, "%s", VERSIONSTRING);
   fprintf(LaTeXFile, "\n");
   fprintf(LaTeXFile, "\\usepackage{diagram}\n");
-  if (ActLang == German) {
+  if (UserLanguage == German) {
     fprintf(LaTeXFile, "\\usepackage{german}\n");
   }
   fprintf(LaTeXFile, "\n\\begin{document}\n\n");
@@ -4947,7 +4948,7 @@ void LaTeXBeginDiagram(void) {
   char    HolesSqList[256] = "";
 
   for (sp= Neutral; sp < PieSpCount; sp++)
-    strcpy(ListSpec[sp], PieSpString[ActLang][sp]);
+    strcpy(ListSpec[sp], PieSpString[UserLanguage][sp]);
 
   fprintf(LaTeXFile, "\\begin{diagram}%%\n");
 
@@ -5221,7 +5222,7 @@ void LaTeXBeginDiagram(void) {
     fprintf(LaTeXFile, "*");
   if (OptFlag[whitetoplay])
     fprintf(LaTeXFile,
-            " %c{\\ra}", tolower(*PieSpString[ActLang][White]));
+            " %c{\\ra}", tolower(*PieSpString[UserLanguage][White]));
 
   fprintf(LaTeXFile, "}%%\n");
 
@@ -5371,7 +5372,7 @@ void LaTeXBeginDiagram(void) {
       if (!firstline)
         fprintf(LaTeXFile, "{\\newline}\n    ");
       fprintf(LaTeXFile, "%s %s%%\n",
-              CondString[ActLang][holes], HolesSqList);
+              CondString[UserLanguage][holes], HolesSqList);
     }
     fprintf(LaTeXFile, "}%%\n");
   } /* fairy, modified pieces, holes */
@@ -5421,7 +5422,7 @@ int main() {
     memset((char *) OptFlag,0,sizeof(OptFlag));
     memset((char *) CondFlag,0,sizeof(CondFlag));
     memset((char *) e,0,sizeof(e));
-    tk= ReadProblem(tk);
+    tk= ReadTwin(tk);
     if (!OptFlag[noboard])
       WritePosition();
 

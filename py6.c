@@ -111,6 +111,10 @@
 
 boolean supergenre;
 
+size_t MaxMemory;
+maxmemory_unit_type MaxMemory_unit;
+char MaxMemoryString[37];
+
 sig_atomic_t volatile maxtime_status;
 
 boolean is_rider(piece p)
@@ -1842,7 +1846,7 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
     if ( (spname != Volage || !CondFlag[volage])
          && TSTFLAG(sp, spname))
     {
-      StdChar(tolower(*PieSpString[ActLang][spname]));
+      StdChar(tolower(*PieSpString[UserLanguage][spname]));
       ret= true;
     }
   }
@@ -2518,139 +2522,263 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   return result;
 }
 
-int main(int argc, char *argv[]) {
-  Token   tk = BeginProblem;
-  int     i, l;
-  boolean flag_starttimer;
-  char    *ptr, ch = 'K';
-  size_t maxmemUsersetting = 0;
+static int parseCommandlineOptions(int argc, char *argv[])
+{
+  int idx = 1;
 
-  set_nice_priority();
-  
-  checkGlobalAssumptions();
-
-  i=1;
-  MaxTime = UINT_MAX;
-  flag_regression= false;
-  while (i<argc) {
-    if (i+1<argc && strcmp(argv[i], "-maxpos")==0)
+  while (idx<argc)
+  {
+    if (idx+1<argc && strcmp(argv[idx], "-maxpos")==0)
     {
-      i++;
-      MaxPositions = strtoul(argv[i], &ptr, 10);
-      if (argv[i]==ptr)
+      char *end;
+      idx++;
+      MaxPositions = strtoul(argv[idx], &end, 10);
+      if (argv[idx]==end)
       {
         /* conversion failure
          * -> set to 0 now and to default value later */
         MaxPositions = 0;
       }
-      i++;
+      idx++;
       continue;
     }
-    else if (i+1<argc && strcmp(argv[i], "-maxtime")==0)
+    else if (idx+1<argc && strcmp(argv[idx], "-maxtime")==0)
     {
-      i++;
-      MaxTime = strtol(argv[i], &ptr, 10);
-      if (argv[i]==ptr)
+      char *end;
+      idx++;
+      MaxTime = strtol(argv[idx], &end, 10);
+      if (argv[idx]==end)
       {
         /* conversion failure -> assume no max time */
         MaxTime = UINT_MAX;
       }
-      i++;
+      idx++;
       continue;
     }
-    else if (i+1<argc && strcmp(argv[i], "-maxmem")==0)
+    else if (idx+1<argc && strcmp(argv[idx], "-maxmem")==0)
     {
-      i++;
-      maxmemUsersetting = strtoul(argv[i], &ptr, 10);
-      if (argv[i]==ptr)
+      char *end;
+      idx++;
+      MaxMemory = strtoul(argv[idx], &end, 10);
+      if (argv[idx]==end)
       {
         /* conversion failure
          * -> set to 0 now and to default value further down */
-        maxmemUsersetting = 0;
+        MaxMemory = 0;
       }
-      else if (*ptr=='G')
+      else if (*end=='G')
       {
-        maxmemUsersetting <<= 30;
-        ch = 'G';
+        MaxMemory <<= 30;
+        MaxMemory_unit = maxmemory_giga;
       }
-      else if (*ptr=='M')
+      else if (*end=='M')
       {
-        maxmemUsersetting <<= 20;
-        ch = 'M';
+        MaxMemory <<= 20;
+        MaxMemory_unit = maxmemory_mega;
       }
       else
       {
-        maxmemUsersetting <<= 10;
-        ch = 'K';
+        MaxMemory <<= 10;
+        MaxMemory_unit = maxmemory_kilo;
       }
 
-      i++;
+      idx++;
       continue;
     }
-    else if (strcmp(argv[i], "-regression")==0)
+    else if (strcmp(argv[idx], "-regression")==0)
     {
       flag_regression = true;
-      i++;
+      idx++;
       continue;
     }
-    else if (strcmp(argv[i], "-notrace")==0)
+    else if (strcmp(argv[idx], "-notrace")==0)
     {
       TraceDeactivate();
-      i++;
+      idx++;
       continue;
     }
-    else {
+    else
       break;
-    }
   }
 
-  MaxMemory = adjustMaxmemory(maxmemUsersetting);
-  
-  if (i<argc)
-    OpenInput(argv[i]);
-  else
-    OpenInput(" ");
+  return idx;
+}
 
-  initMaxtime();
-
+static void initMaxMemoryString(void)
+{
   /* We do not issue our startup message via the language
      dependant Msg-Tables, since there the version is
      too easily changed, or not updated.
      StartUp is defined in pydata.h.
   */
-  if ((MaxMemory>>10)<1024 || ch=='K')
-    sprintf(MMString, " (%lu KB)\n", (unsigned long)(MaxMemory>>10));
-  else if ((MaxMemory>>20)<1024 || ch=='M')
-    sprintf(MMString, " (%lu MB)\n", (unsigned long)(MaxMemory>>20));
+  if ((MaxMemory>>10)<(1<<10) || MaxMemory_unit==maxmemory_kilo)
+    sprintf(MaxMemoryString, " (%u KB)\n", MaxMemory>>10);
+  else if ((MaxMemory>>20)<(1<<10) || MaxMemory_unit==maxmemory_mega)
+    sprintf(MaxMemoryString, " (%u MB)\n", MaxMemory>>20);
   else
-    sprintf(MMString, " (%lu GB)\n", (unsigned long)(MaxMemory>>30));
+    sprintf(MaxMemoryString, " (%u GB)\n", MaxMemory>>30);
+}
 
-  pyfputs(StartUp, stdout);
-  pyfputs(MMString, stdout);
+/* Solve a twin (maybe the only one of a problem)
+ * @param twin_index 0 for first, 1 for second ...; if the problem has
+ *                   a zero position, solve_twin() is invoked with
+ *                   1, 2, ... but not with * 0
+ * @param end_of_twin_token token that ended this twin
+ */
+static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
+{
+  if (initialise_position() && verify_position())
+  {
+    if (!OptFlag[noboard])
+    {
+      if (stip_ends_in(proof_goals,nr_proof_goals))
+        ProofWritePosition();
+      else
+        WritePosition();
+    }
 
-  /* start timer to be able to display a reasonable time if the user
-   * aborts execution before the timer is started for the first
-   * problem */
-  StartTimer();
+    if (twin_index==0)
+    {
+      if (LaTeXout)
+        LaTeXBeginDiagram();
 
-  /* For the very first time we try to open any *.str
-     When we reach the last remainig language, we force
-     the existence of a *.str file. If none is found,
-     InitMsgTab will exit with an appropriate message.
-     Later, when the first Token is read, we reinitialize.
-     See ReadBeginSpec in pyio.c
-  */
-  l= 0;
-  while (l<LangCount-1 && InitMsgTab(l, false) == false)
-    l++;
-  if (l == LangCount-1)
-    InitMsgTab(l, true);
+      if (end_of_twin_token==TwinProblem)
+        StdString("a)\n\n");
+    }
 
-  InitCheckDir();
+    if (OptFlag[whitetoplay]
+        && (detect_meaning_of_whitetoplay(root_slice)
+            ==whitetoplay_means_shorten_root_slice))
+      HelpPlayInitWhiteToPlay();
+
+    /* allow line-oriented output to restore the initial position */
+    StorePosition();
+    solveHalfADuplex();
+
+    if (OptFlag[duplex])
+    {
+      /* Set next side to calculate for duplex "twin" */
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || (OptFlag[stoponshort] && FlagShortSolsReached))
+        FlagMaxSolsReached = true;
+
+      /* restart calculation of maxsolution after half-duplex */
+      solutions = 0;
+      FlagShortSolsReached = false;
+
+      /* Set next side to calculate for duplex "twin" */
+#if defined(HASHRATE)
+      HashStats(1, "\n\n");
+#endif
+      if (isIntelligentModeActive)
+      {
+        /*
+         * A hack to make the intelligent mode work with duplex.
+         * But anyway I have to think about the intelligent mode again
+         */
+        swapcolors();
+        reflectboard();
+
+        /* allow line-oriented output to restore the initial
+         * position */
+        StorePosition();
+      }
+      else
+      {
+        Side const starter = slices[root_slice].u.branch.starter;
+        slice_impose_starter(root_slice,advers(starter));
+        regular_starter = advers(regular_starter);
+      }
+
+      if (locateRoyal() && verify_position())
+        solveHalfADuplex();
+
+      if (isIntelligentModeActive)
+      {
+        /* unhack - probably not necessary, but doesn't hurt */
+        reflectboard();
+        swapcolors();
+      }
+    }
+
+    if (OptFlag[whitetoplay]
+        && (detect_meaning_of_whitetoplay(root_slice)
+            ==whitetoplay_means_shorten_root_slice))
+        HelpPlayRestoreFromWhiteToPlay();
+  }
+}
+
+/* Iterate over the twins of a problem
+ * @prev_token token that ended the previous twin
+ * @return token that ended the current twin
+ */
+static Token iterate_twins(Token prev_token)
+{
+  unsigned int twin_index = 0;
 
   do
   {
-    boolean printa = true;
+    InitAlways();
+
+    prev_token = ReadTwin(prev_token);
+
+    if (twin_index==0)
+      /* Set the timer for real calculation time */
+      StartTimer();
+
+    if (prev_token==ZeroPosition)
+    {
+      if (!OptFlag[noboard])
+        WritePosition();
+
+      prev_token = ReadTwin(prev_token);
+      if (LaTeXout)
+        LaTeXBeginDiagram();
+
+      ++twin_index;
+    }
+
+    /* Set maximal solving time if the user asks for it on the
+     * command line or as an option.
+     * If a maximal time is indicated both on the command line and as
+     * an option, use the smaller value.
+     */
+    if (OptFlag[maxtime] || MaxTime<UINT_MAX)
+    {
+      if (MaxTime<maxsolvingtime)
+        maxsolvingtime = MaxTime;
+    }
+    else
+      /* maxsolvingtime should already be ==UINT_MAX, but let's err on
+       * the safe side */
+      maxsolvingtime = UINT_MAX;
+      
+    setMaxtime(&maxsolvingtime);
+
+    solve_twin(twin_index,prev_token);
+
+    if ((OptFlag[maxsols] && solutions>=maxsolutions)
+        || (OptFlag[stoponshort] && FlagShortSolsReached))
+      FlagMaxSolsReached = true;
+
+    /* restart calculation of maxsolution after twinning */
+    solutions = 0;
+    FlagShortSolsReached = false;
+    ++twin_index;
+  } while (prev_token==TwinProblem);
+
+  return prev_token;
+}
+
+/* Iterate over the problems read from standard input or the input
+ * file indicated in the command line options
+ */
+static void iterate_problems(void)
+{
+  Token prev_token = BeginProblem;
+
+  do
+  {
     InitBoard();
     InitCond();
     InitOpt();
@@ -2659,143 +2787,7 @@ int main(int argc, char *argv[]) {
     FlagMaxSolsReached = false;
     FlagShortSolsReached = false;
 
-    /* New problem, so reset the timer and the solutions */
-
-    flag_starttimer = true;
-
-    do
-    {
-      InitAlways();
-
-      tk = ReadProblem(tk);
-
-      if (tk==ZeroPosition)
-      {
-        if (!OptFlag[noboard])
-          WritePosition();
-
-        tk = ReadProblem(tk);
-        if (LaTeXout)
-          LaTeXBeginDiagram();
-
-        printa = false;
-      }
-
-      if (flag_starttimer)
-      {
-        /* Set the timer for real calculation time */
-        StartTimer();
-        flag_starttimer = false;
-      }
-
-      /* Set maximal solving time if the user asks for it on the
-       * command line or as an option.
-       * If a maximal time is indicated both on the command line and
-       * as an option, use the smaller value.
-       */
-      if (OptFlag[maxtime] || MaxTime<UINT_MAX)
-      {
-        if (MaxTime<maxsolvingtime)
-          maxsolvingtime = MaxTime;
-      }
-      else
-        /* maxsolvingtime should already be ==UINT_MAX, but let's err
-         * on the safe side */
-        maxsolvingtime = UINT_MAX;
-      
-      setMaxtime(&maxsolvingtime);
-
-      if (initialise_position() && verify_position())
-      {
-        if (!OptFlag[noboard])
-        {
-          if (stip_ends_in(proof_goals,nr_proof_goals))
-            ProofWritePosition();
-          else
-            WritePosition();
-        }
-
-        if (printa)
-        {
-          if (LaTeXout)
-            LaTeXBeginDiagram();
-
-          if (tk==TwinProblem)
-            StdString("a)\n\n");
-        }
-
-        if (OptFlag[whitetoplay])
-          if (detect_meaning_of_whitetoplay(root_slice)
-              ==whitetoplay_means_shorten_root_slice)
-            HelpPlayInitWhiteToPlay();
-
-        /* allow line-oriented output to restore the initial
-         * position */
-        StorePosition();
-        solveHalfADuplex();
-
-        if (OptFlag[duplex])
-        {
-          /* Set next side to calculate for duplex "twin" */
-          if ((OptFlag[maxsols] && solutions>=maxsolutions)
-              || (OptFlag[stoponshort] && FlagShortSolsReached))
-            FlagMaxSolsReached = true;
-
-          /* restart calculation of maxsolution after half-duplex */
-          solutions = 0;
-          FlagShortSolsReached = false;
-
-          /* Set next side to calculate for duplex "twin" */
-#if defined(HASHRATE)
-          HashStats(1, "\n\n");
-#endif
-          if (isIntelligentModeActive)
-          {
-            /*
-             * A hack to make the intelligent mode work with duplex.
-             * But anyway I have to think about the intelligent mode again
-             */
-            swapcolors();
-            reflectboard();
-
-            /* allow line-oriented output to restore the initial
-             * position */
-            StorePosition();
-          }
-          else
-          {
-            Side const starter = slices[root_slice].u.branch.starter;
-            slice_impose_starter(root_slice,advers(starter));
-            regular_starter = advers(regular_starter);
-          }
-
-          if (locateRoyal() && verify_position())
-            solveHalfADuplex();
-
-          if (isIntelligentModeActive)
-          {
-            /* unhack - probably not necessary, but doesn't hurt */
-            reflectboard();
-            swapcolors();
-          }
-        }
-
-        if (OptFlag[whitetoplay])
-          if (detect_meaning_of_whitetoplay(root_slice)
-              ==whitetoplay_means_shorten_root_slice)
-            HelpPlayRestoreFromWhiteToPlay();
-      }
-
-      printa = false;
-
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || (OptFlag[stoponshort] && FlagShortSolsReached))
-        FlagMaxSolsReached = true;
-
-      /* restart calculation of maxsolution after twinning */
-      solutions = 0;
-      FlagShortSolsReached = false;
-    } while (tk==TwinProblem);
+    prev_token = iterate_twins(prev_token);
 
     if (FlagMaxSolsReached
         || (isIntelligentModeActive && maxsol_per_matingpos!=ULONG_MAX)
@@ -2808,19 +2800,61 @@ int main(int argc, char *argv[]) {
     PrintTime();
     StdString("\n\n\n");
 
-    if (LaTeXout) {
+    if (LaTeXout)
       LaTeXEndDiagram();
-    }
 
-  } while (tk==NextProblem);
+  } while (prev_token==NextProblem);
+}
+
+int main(int argc, char *argv[])
+{
+  int idx_end_of_options;
+
+  checkGlobalAssumptions();
+
+  set_nice_priority();
+
+  MaxTime = UINT_MAX;
+  MaxMemory = 0;
+  MaxMemory_unit = maxmemory_kilo;
+  
+  flag_regression = false;
+
+  /* Initialize message table with default language.
+   * This default setting is hopefully overriden later by ReadBeginSpec().
+   */
+  InitMsgTab(LanguageDefault);
+
+  idx_end_of_options = parseCommandlineOptions(argc,argv);
+  
+  OpenInput(idx_end_of_options<argc ? argv[idx_end_of_options] : " ");
+
+  initMaxtime();
+
+  MaxMemory = adjustMaxmemory(MaxMemory);
+  initMaxMemoryString();
+
+  /* start timer to be able to display a reasonable time if the user
+   * aborts execution before the timer is started for the first
+   * problem */
+  StartTimer();
+
+  InitCheckDir();
+
+  /* Don't use StdString() - possible trace file is not yet opened
+   */
+  pyfputs(StartUp,stdout);
+  pyfputs(MaxMemoryString,stdout);
+
+  iterate_problems();
 
   CloseInput();
 
   if (LaTeXout)
     LaTeXClose();
 
-  exit(0);
-} /*main */
+  return 0;
+}
 
 #if defined(NOMEMSET)
 void memset(char *poi, char val, int len)
