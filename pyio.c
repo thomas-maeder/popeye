@@ -1192,7 +1192,7 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
         {
           int i;
           
-          ProofSaveStartPosition();
+          ProofAtoBSaveStartPieces();
 
           /* InitBoard() does much more than the following: */
           for (i = 0; i<nr_squares_on_board; i++)

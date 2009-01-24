@@ -11,21 +11,53 @@
 
 #include "pyhash.h"
 
+/* Encode the hash key for the current position
+ */
 void ProofEncode(void);
-void    ProofInitialiseKingMoves(square ProofRB, square ProofRN);
+
+/* Verify the current position as suitable as a starting position
+ */
 boolean ProofVerifie(void);
 
-void ProofRestoreTargetPosition(void);
-void ProofSaveStartPosition(void);
-void ProofAtoBWriteStartPosition(void);
+/* a=>b: save the current piece places for the start position
+ */
+void ProofAtoBSaveStartPieces(void);
 
-void    ProofInitialise(void);
-void    ProofInitialiseIntelligent(void);
+/* a=>b: save the current "royal information" for the start position
+ */
+void ProofAtoBSaveStartRoyal(void);
+
+/* Restore the start position
+ */
+void ProofRestoreStartPosition(void);
+
+/* Save the current position (pieces + "royal information") for the
+ * target position
+ */
+void ProofSaveTargetPosition(void);
+
+/* Restore target position
+ */
+void ProofRestoreTargetPosition(void);
+
+/* write position (1 resp. 2 diagrams)
+ */
+void ProofWritePosition(void);
+
+/* Initialise data structure for intelligent solving
+ */
+void ProofInitialiseIntelligent(void);
+
+/* Compare two positions
+ * @return true iff the current position is equal to the target
+ *              position
+ */
 boolean ProofIdentical(void);
 
 
-/* Functions determining that going on from a certain position will
- * not lead to the required position. */
+/* Functions determining that going on from the current position will
+ * not lead to the target position.
+ */
 typedef boolean (*ProofImpossible_fct_t)(void);
 
 ProofImpossible_fct_t alternateImpossible; /* TODO */

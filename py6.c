@@ -301,7 +301,7 @@ static void countPieces(void)
     exist[reversepb]= true;
 }
 
-static boolean locateKings(void)
+static boolean locateRoyal(void)
 {
   square        *bnp;
 
@@ -410,7 +410,7 @@ static boolean locateKings(void)
   return true;
 }
 
-static boolean verifieposition(void)
+static boolean verify_position(void)
 {
   square        *bnp;
   piece     p;
@@ -2431,7 +2431,15 @@ static void solveHalfADuplex(void)
 static void writeDiagram(Token tk, boolean printa)
 {
   if (!OptFlag[noboard])
-    WritePosition();
+  {
+    /* TODO */
+    slice_index const next = slices[root_slice].u.branch.next;
+    if (slices[next].u.leaf.goal==goal_proof
+        || slices[next].u.leaf.goal==goal_atob)
+      ProofWritePosition();
+    else
+      WritePosition();
+  }
 
   if (printa)
   {
@@ -2443,9 +2451,7 @@ static void writeDiagram(Token tk, boolean printa)
   }
 }
 
-static boolean initAndVerify(Token tk,
-                             boolean printa,
-                             boolean *shortenIfWhiteToPlay)
+static boolean initialise_position(void)
 {
   boolean result;
   slice_index const next = slices[root_slice].u.branch.next;
@@ -2478,27 +2484,64 @@ static boolean initAndVerify(Token tk,
         || slices[next].u.leaf.goal==goal_atob)
     {
       countPieces();
-      if (locateKings())
+      result = locateRoyal();
+      if (result)
       {
-        writeDiagram(tk,printa);
-        ProofInitialise();
-        if (slices[next].u.leaf.goal==goal_atob)
-          ProofAtoBWriteStartPosition();
-        *shortenIfWhiteToPlay = false;
+        ProofSaveTargetPosition();
+        ProofRestoreStartPosition();
         countPieces();
-        result = locateKings() &&  verifieposition();
+        result = locateRoyal();
+        if (slices[next].u.leaf.goal==goal_atob)
+          ProofAtoBSaveStartRoyal();
       }
-      else
-        result = false;
     }
     else
     {
-      *shortenIfWhiteToPlay = slices[root_slice].type==STBranchHelp;
-
       countPieces();
-      result = locateKings() && verifieposition();
-      writeDiagram(tk,printa);
+      result = locateRoyal();
     }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+typedef enum
+{
+  dont_know_meaning_of_whitetoplay,
+  whitetoplay_means_change_colors,
+  whitetoplay_means_shorten_root_slice
+} meaning_of_whitetoplay;
+
+static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
+{
+  meaning_of_whitetoplay result = dont_know_meaning_of_whitetoplay;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  switch (slices[si].type)
+  {
+    case STLeafHelp:
+      if (slices[si].u.leaf.goal==goal_atob)
+        result = whitetoplay_means_change_colors;
+      break;
+
+    case STBranchHelp:
+    {
+      meaning_of_whitetoplay const next_result =
+          detect_meaning_of_whitetoplay(slices[si].u.branch.next);
+      if (next_result==dont_know_meaning_of_whitetoplay)
+        result = whitetoplay_means_shorten_root_slice;
+      else
+        result = next_result;
+      break;
+    }
+
+    default:
+      /* nothing */
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -2693,70 +2736,70 @@ int main(int argc, char *argv[]) {
       
       setMaxtime(&maxsolvingtime);
 
+      if (initialise_position() && verify_position())
       {
-        /* white to play means something different in a=>b and help
-         * play */
-        boolean shortenIfWhiteToPlay;
+        writeDiagram(tk,printa);
 
-        if (initAndVerify(tk,printa,&shortenIfWhiteToPlay))
-        {
-          if (OptFlag[whitetoplay] && shortenIfWhiteToPlay)
+        if (OptFlag[whitetoplay])
+          if (detect_meaning_of_whitetoplay(root_slice)
+              ==whitetoplay_means_shorten_root_slice)
             HelpPlayInitWhiteToPlay(root_slice);
 
-          /* allow line-oriented output to restore the initial
-           * position */
-          StorePosition();
-          solveHalfADuplex();
+        /* allow line-oriented output to restore the initial
+         * position */
+        StorePosition();
+        solveHalfADuplex();
 
-          if (OptFlag[duplex])
-          {
-            /* Set next side to calculate for duplex "twin" */
-            if ((OptFlag[maxsols] && solutions>=maxsolutions)
-                || (OptFlag[stoponshort] && FlagShortSolsReached))
-              FlagMaxSolsReached= true;
+        if (OptFlag[duplex])
+        {
+          /* Set next side to calculate for duplex "twin" */
+          if ((OptFlag[maxsols] && solutions>=maxsolutions)
+              || (OptFlag[stoponshort] && FlagShortSolsReached))
+            FlagMaxSolsReached= true;
 
-            /* restart calculation of maxsolution after half-duplex */
-            solutions= 0;
-            FlagShortSolsReached= false;
+          /* restart calculation of maxsolution after half-duplex */
+          solutions= 0;
+          FlagShortSolsReached= false;
 
-            /* Set next side to calculate for duplex "twin" */
+          /* Set next side to calculate for duplex "twin" */
 #if defined(HASHRATE)
-            HashStats(1, "\n\n");
+          HashStats(1, "\n\n");
 #endif
-            if (isIntelligentModeActive)
-            {
-              /*
-               * A hack to make the intelligent mode work with duplex.
-               * But anyway I have to think about the intelligent mode again
-               */
-              swapcolors();
-              reflectboard();
+          if (isIntelligentModeActive)
+          {
+            /*
+             * A hack to make the intelligent mode work with duplex.
+             * But anyway I have to think about the intelligent mode again
+             */
+            swapcolors();
+            reflectboard();
 
-              /* allow line-oriented output to restore the initial
-               * position */
-              StorePosition();
-            }
-            else
-            {
-              Side const starter = slices[root_slice].u.branch.starter;
-              slice_impose_starter(root_slice,advers(starter));
-              regular_starter = advers(regular_starter);
-            }
-
-            if (locateKings() && verifieposition())
-              solveHalfADuplex();
-
-            if (isIntelligentModeActive)
-            {
-              /* unhack - probably not necessary, but doesn't hurt */
-              reflectboard();
-              swapcolors();
-            }
+            /* allow line-oriented output to restore the initial
+             * position */
+            StorePosition();
+          }
+          else
+          {
+            Side const starter = slices[root_slice].u.branch.starter;
+            slice_impose_starter(root_slice,advers(starter));
+            regular_starter = advers(regular_starter);
           }
 
-          if (OptFlag[whitetoplay] && shortenIfWhiteToPlay)
-            HelpPlayRestoreFromWhiteToPlay(root_slice);
+          if (locateRoyal() && verify_position())
+            solveHalfADuplex();
+
+          if (isIntelligentModeActive)
+          {
+            /* unhack - probably not necessary, but doesn't hurt */
+            reflectboard();
+            swapcolors();
+          }
         }
+
+        if (OptFlag[whitetoplay])
+          if (detect_meaning_of_whitetoplay(root_slice)
+              ==whitetoplay_means_shorten_root_slice)
+            HelpPlayRestoreFromWhiteToPlay(root_slice);
       }
 
       printa = false;

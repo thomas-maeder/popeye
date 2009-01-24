@@ -116,7 +116,7 @@ int proofbkm[square_h8+25-(square_a1-25)+1];
 #define WhKingMoves  (proofwkm-(square_a1-25))
 #define BlKingMoves  (proofbkm-(square_a1-25))
 
-void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
+static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
 {
   square    *bnp, sq;
   numvec    k;
@@ -209,7 +209,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
               }
               sq += vec[k];
             }
-          } /* trans_king */
+          }
         }
         if (calc_whtrans_king)
           for (k= vec_knight_end; k>=vec_knight_start; k--)
@@ -256,7 +256,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
               }
               sq += vec[k];
             }
-          } /* trans_king */
+          }
         }
         if (calc_bltrans_king)
           for (k= vec_knight_end; k>=vec_knight_start; k--)
@@ -273,7 +273,7 @@ void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
 
     MoveNbr++;
   } while(GoOn);
-} /* ProofInitialiseKingMoves */
+}
 
 void ProofInitialiseIntelligent(void)
 {
@@ -375,9 +375,9 @@ void ProofInitialiseIntelligent(void)
 
   /* initialise king diff_move arrays */
   ProofInitialiseKingMoves(Proof_rb, Proof_rn);
-} /* ProofInitialiseIntelligent */
+}
 
-void ProofSaveStartPosition(void)
+void ProofAtoBSaveStartPieces(void)
 {
   int i;
   for (i = maxsquare-1; i>=0; i--)
@@ -386,14 +386,14 @@ void ProofSaveStartPosition(void)
   for (i = 0; i<nr_squares_on_board; i++)
     SpecA[i] = spec[boardnum[i]];
 
-  rnA = rn;
-  rbA = rb;
-
   for (i = 0; i<maxinum; i++)
     isquareA[i] = isquare[i];
+
+  rnA = initsquare;
+  rbA = initsquare;
 }
 
-static void ProofSaveTargetPosition(void)
+void ProofSaveTargetPosition(void)
 {
   int       i;
   piece p;
@@ -441,12 +441,17 @@ void ProofRestoreTargetPosition(void)
   for (i= 0; i<nr_squares_on_board; i++)
     spec[boardnum[i]] = ProofSpec[i];
 
+  if (CondFlag[imitators])
+    for (i = 0; i < maxinum; i++)
+      isquare[i] = Proof_isquare[i];
+
   rn = Proof_rn;
   rb = Proof_rb;
 }
 
-static void ProofRestoreStartPosition(void)
+void ProofRestoreStartPosition(void)
 {
+  /* TODO */
   slice_index const leaf_slice = 0;
   Goal const goal = slices[leaf_slice].u.leaf.goal;
   int i;
@@ -475,7 +480,6 @@ static void ProofRestoreStartPosition(void)
       spec[boardnum[i]] = SpecA[i];
   }
 
-  /* set the king squares */
   if (!CondFlag[losingchess])
   {
     if (goal==goal_atob)
@@ -495,24 +499,41 @@ static void ProofRestoreStartPosition(void)
       isquare[i] = isquareA[i];
 }
 
-/* a function to store the position and set the PAS */
-void ProofInitialise(void)
+void ProofAtoBSaveStartRoyal(void)
 {
-  ProofSaveTargetPosition();
-  ProofRestoreStartPosition();
-} /* ProofInitialise */
-
-void ProofAtoBWriteStartPosition(void)
-{
-  if (!OptFlag[noboard])
+  /* TODO */
+  slice_index const leaf_slice = 0;
+  Goal const goal = slices[leaf_slice].u.leaf.goal;
+  if (goal==goal_atob)
   {
-    char InitialLine[40];
+    rbA = rb;
+    rnA = rn;
+  }
+}
+
+void ProofWritePosition(void)
+{
+  char InitialLine[40];
+
+  /* TODO */
+  slice_index const leaf_slice = 0;
+  Goal const goal = slices[leaf_slice].u.leaf.goal;
+
+  ProofRestoreTargetPosition();
+  WritePosition();
+
+  if (goal==goal_atob)
+  {
     sprintf(InitialLine,
             "Initial (%s ->):\n",
             PieSpString[ActLang][slice_get_starter(root_slice)]);
     StdString(InitialLine);
+
+    ProofRestoreStartPosition();
     WritePosition();
   }
+  else
+    ProofRestoreStartPosition();
 }
 
 /* function that compares the current position with the desired one
@@ -789,7 +810,7 @@ static stip_length_type BlPawnMovesNeeded(square sq)
     MovesNeeded= MovesNeeded1;
 
   return MovesNeeded+1;
-} /* BlPawnMovesNeeded */
+}
 
 #define BLOCKED(sq)                             \
   (  (e[sq] == pb                               \
@@ -890,7 +911,7 @@ static void PieceMovesFromTo(piece p,
     StdString("error in PieceMovesFromTo - piece:");WritePiece(p);
     StdString("\n");
   }
-} /* PieceMovesFromTo */
+}
 
 static void WhPromPieceMovesFromTo(
     square    from,
@@ -936,7 +957,7 @@ static void WhPromPieceMovesFromTo(
   ** We may need 3 moves and 1 capture or 2 moves and 2 captures.
   ** Therefore zero is returned. */
   *captures= 0;
-} /* WhPromPieceMovesFromTo */
+}
 
 static void BlPromPieceMovesFromTo(
     square    from,
@@ -980,7 +1001,7 @@ static void BlPromPieceMovesFromTo(
   ** We may need 3 moves and 1 capture or 2 moves and 2 captures.
   ** Therefore zero is returned. */
   *captures= 0;
-} /* BlPromPieceMovesFromTo */
+}
 
 static void WhPieceMovesFromTo(
     square    from,
@@ -1389,7 +1410,7 @@ static boolean ProofFairyImpossible(void)
   }
 
   return MovesAvailable < 0;
-} /* ProofFairyImpossible */
+}
 
 static boolean ProofImpossible(void)
 {
@@ -1662,7 +1683,7 @@ static boolean ProofImpossible(void)
 
   TraceText("not ProofImpossible\n");
   return false;
-} /* ProofImpossible */
+}
 
 static boolean ProofSeriesImpossible(void)
 {
@@ -1766,7 +1787,7 @@ static boolean ProofSeriesImpossible(void)
     return true;
 
   return false;
-} /* ProofSeriesImpossible */
+}
 
 boolean ProofVerifie(void) {
   if (flagfee || PieSpExFlags&(~(BIT(White)+BIT(Black))))
@@ -1816,4 +1837,4 @@ boolean ProofVerifie(void) {
   }
 
   return true;
-} /* ProofVerifie */
+}
