@@ -187,7 +187,7 @@ who_decides_on_starter branch_detect_starter(slice_index si,
     case STLeafSelf:
     case STLeafHelp:
     {
-      /* TODO separate implementations per branch type? */
+      /* TODO? separate implementations per branch type */
       boolean const next_same_side_as_root =
           (slices[si].type!=STBranchHelp || slices[si].u.branch.length%2==0
            ? same_side_as_root
@@ -210,7 +210,21 @@ who_decides_on_starter branch_detect_starter(slice_index si,
       break;
   }
 
+  if (si==root_slice && result!=leaf_decides_on_starter)
+    regular_starter = slice_get_starter(si);
+
+  if (slices[si].type==STBranchHelp
+      && slices[si].u.branch.length%2 == 1
+      && slice_get_starter(si)!=no_side)
+    slice_impose_starter(si,advers(slice_get_starter(si)));
+
+  if (si==root_slice && result==leaf_decides_on_starter)
+    regular_starter = slice_get_starter(si);
+
   TraceValue("%u\n",slices[si].u.branch.starter);
+
+  if (si==root_slice)
+    TraceValue("%u\n",regular_starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
