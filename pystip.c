@@ -348,6 +348,12 @@ static boolean slice_ends_in(Goal const goals[],
               || slice_ends_in(goals,nrGoals,op2));
     }
 
+    case STNot:
+    {
+      slice_index const op = slices[si].u.not.op;
+      return slice_ends_in(goals,nrGoals,op);
+    }
+
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
