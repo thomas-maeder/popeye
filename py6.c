@@ -410,6 +410,11 @@ static boolean locateRoyal(void)
   return true;
 }
 
+static Goal const proof_goals[] = { goal_proof, goal_atob };
+
+static unsigned int const nr_proof_goals = (sizeof proof_goals
+                                            / sizeof proof_goals[0]);
+
 static boolean verify_position(void)
 {
   square        *bnp;
@@ -1540,7 +1545,7 @@ static boolean verify_position(void)
       SETFLAGMASK(castling_flag[0],ra8_cancastle);
   }
 
-  if (find_next_goal(goal_castling,0)!=no_slice
+  if (find_next_goal(goal_castling,root_slice)!=no_slice
       && !castling_supported)
   {
     VerifieMsg(StipNotSupported);
@@ -1720,20 +1725,8 @@ static boolean verify_position(void)
   }
 
 #if !defined(DATABASE)
-  if (slices[root_slice].type==STBranchDirect
-      || slices[root_slice].type==STBranchHelp
-      || slices[root_slice].type==STBranchSeries)
-  {
-    slice_index const next = slices[root_slice].u.branch.next;
-    if (slices[next].type==STLeafDirect
-        || slices[next].type==STLeafSelf
-        || slices[next].type==STLeafHelp)
-    {
-      Goal const goal = slices[next].u.leaf.goal;
-      if (goal==goal_proof || goal==goal_atob)
-        return ProofVerifie();
-    }
-  }
+  if (stip_ends_in(proof_goals,nr_proof_goals))
+    return ProofVerifie();
 #endif
     
   return true;
@@ -2295,33 +2288,35 @@ boolean has_too_many_flights(Side defender)
   }
 }
 
-static void HelpPlayInitWhiteToPlay(slice_index si)
+static void HelpPlayInitWhiteToPlay(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceText("\n");
                                     
-  --slices[si].u.branch.length;
-  --slices[si].u.branch.min_length;
-  slice_impose_starter(si,advers(slices[si].u.branch.starter));
+  --slices[root_slice].u.branch.length;
+  --slices[root_slice].u.branch.min_length;
+  slice_impose_starter(root_slice,
+                       advers(slices[root_slice].u.branch.starter));
 
-  TraceValue("%u",slices[si].u.branch.starter);
-  TraceValue("%u\n",slices[si].u.branch.length);
+  TraceValue("%u",slices[root_slice].u.branch.starter);
+  TraceValue("%u\n",slices[root_slice].u.branch.length);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
 
-static void HelpPlayRestoreFromWhiteToPlay(slice_index si)
+static void HelpPlayRestoreFromWhiteToPlay(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceText("\n");
                                     
-  ++slices[si].u.branch.length;
-  ++slices[si].u.branch.min_length;
-  slice_impose_starter(si,advers(slices[si].u.branch.starter));
+  ++slices[root_slice].u.branch.length;
+  ++slices[root_slice].u.branch.min_length;
+  slice_impose_starter(root_slice,
+                       advers(slices[root_slice].u.branch.starter));
 
-  TraceValue("%u",slices[si].u.branch.starter);
-  TraceValue("%u\n",slices[si].u.branch.length);
+  TraceValue("%u",slices[root_slice].u.branch.starter);
+  TraceValue("%u\n",slices[root_slice].u.branch.length);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -2428,33 +2423,9 @@ static void solveHalfADuplex(void)
   Message(NewLine);
 }
 
-static void writeDiagram(Token tk, boolean printa)
-{
-  if (!OptFlag[noboard])
-  {
-    /* TODO */
-    slice_index const next = slices[root_slice].u.branch.next;
-    if (slices[next].u.leaf.goal==goal_proof
-        || slices[next].u.leaf.goal==goal_atob)
-      ProofWritePosition();
-    else
-      WritePosition();
-  }
-
-  if (printa)
-  {
-    if (LaTeXout)
-      LaTeXBeginDiagram();
-
-    if (tk==TwinProblem)
-      StdString("a)\n\n");
-  }
-}
-
 static boolean initialise_position(void)
 {
   boolean result;
-  slice_index const next = slices[root_slice].u.branch.next;
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
@@ -2480,8 +2451,7 @@ static boolean initialise_position(void)
            || slices[root_slice].type==STBranchHelp
            || slices[root_slice].type==STBranchSeries);
 
-    if (slices[next].u.leaf.goal==goal_proof
-        || slices[next].u.leaf.goal==goal_atob)
+    if (stip_ends_in(proof_goals,nr_proof_goals))
     {
       countPieces();
       result = locateRoyal();
@@ -2491,8 +2461,7 @@ static boolean initialise_position(void)
         ProofRestoreStartPosition();
         countPieces();
         result = locateRoyal();
-        if (slices[next].u.leaf.goal==goal_atob)
-          ProofAtoBSaveStartRoyal();
+        ProofAtoBSaveStartRoyal();
       }
     }
     else
@@ -2681,42 +2650,42 @@ int main(int argc, char *argv[]) {
 
   do
   {
-    boolean printa= true;
+    boolean printa = true;
     InitBoard();
     InitCond();
     InitOpt();
     InitStip();
 
-    FlagMaxSolsReached= false;
-    FlagShortSolsReached= false;
+    FlagMaxSolsReached = false;
+    FlagShortSolsReached = false;
 
     /* New problem, so reset the timer and the solutions */
 
-    flag_starttimer= true;
+    flag_starttimer = true;
 
     do
     {
       InitAlways();
 
-      tk= ReadProblem(tk);
+      tk = ReadProblem(tk);
 
-      if (tk == ZeroPosition)
+      if (tk==ZeroPosition)
       {
         if (!OptFlag[noboard])
           WritePosition();
 
-        tk= ReadProblem(tk);
+        tk = ReadProblem(tk);
         if (LaTeXout)
           LaTeXBeginDiagram();
 
-        printa= false;
+        printa = false;
       }
 
       if (flag_starttimer)
       {
         /* Set the timer for real calculation time */
         StartTimer();
-        flag_starttimer= false;
+        flag_starttimer = false;
       }
 
       /* Set maximal solving time if the user asks for it on the
@@ -2738,12 +2707,27 @@ int main(int argc, char *argv[]) {
 
       if (initialise_position() && verify_position())
       {
-        writeDiagram(tk,printa);
+        if (!OptFlag[noboard])
+        {
+          if (stip_ends_in(proof_goals,nr_proof_goals))
+            ProofWritePosition();
+          else
+            WritePosition();
+        }
+
+        if (printa)
+        {
+          if (LaTeXout)
+            LaTeXBeginDiagram();
+
+          if (tk==TwinProblem)
+            StdString("a)\n\n");
+        }
 
         if (OptFlag[whitetoplay])
           if (detect_meaning_of_whitetoplay(root_slice)
               ==whitetoplay_means_shorten_root_slice)
-            HelpPlayInitWhiteToPlay(root_slice);
+            HelpPlayInitWhiteToPlay();
 
         /* allow line-oriented output to restore the initial
          * position */
@@ -2755,11 +2739,11 @@ int main(int argc, char *argv[]) {
           /* Set next side to calculate for duplex "twin" */
           if ((OptFlag[maxsols] && solutions>=maxsolutions)
               || (OptFlag[stoponshort] && FlagShortSolsReached))
-            FlagMaxSolsReached= true;
+            FlagMaxSolsReached = true;
 
           /* restart calculation of maxsolution after half-duplex */
-          solutions= 0;
-          FlagShortSolsReached= false;
+          solutions = 0;
+          FlagShortSolsReached = false;
 
           /* Set next side to calculate for duplex "twin" */
 #if defined(HASHRATE)
@@ -2799,7 +2783,7 @@ int main(int argc, char *argv[]) {
         if (OptFlag[whitetoplay])
           if (detect_meaning_of_whitetoplay(root_slice)
               ==whitetoplay_means_shorten_root_slice)
-            HelpPlayRestoreFromWhiteToPlay(root_slice);
+            HelpPlayRestoreFromWhiteToPlay();
       }
 
       printa = false;
@@ -2810,8 +2794,8 @@ int main(int argc, char *argv[]) {
 
       /* restart calculation of maxsolution after twinning */
       solutions = 0;
-      FlagShortSolsReached= false;
-    } while (tk == TwinProblem);
+      FlagShortSolsReached = false;
+    } while (tk==TwinProblem);
 
     if (FlagMaxSolsReached
         || (isIntelligentModeActive && maxsol_per_matingpos!=ULONG_MAX)
@@ -2828,7 +2812,7 @@ int main(int argc, char *argv[]) {
       LaTeXEndDiagram();
     }
 
-  } while (tk == NextProblem);
+  } while (tk==NextProblem);
 
   CloseInput();
 
