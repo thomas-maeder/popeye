@@ -114,3 +114,4 @@
 113= Can't decide which side is at the move\n
 114= Option \"Threat\" and exact stipulation incompatible\n
 115= GhostChess and HauntedChess incompatible with Circe, Anticirce, Kamikaze, Haaner Chess\n
+116= WhiteToPlay not applicable - ignored\n

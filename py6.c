@@ -2292,40 +2292,6 @@ boolean has_too_many_flights(Side defender)
   }
 }
 
-static void HelpPlayInitWhiteToPlay(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
-                                    
-  --slices[root_slice].u.branch.length;
-  --slices[root_slice].u.branch.min_length;
-  slice_impose_starter(root_slice,
-                       advers(slices[root_slice].u.branch.starter));
-
-  TraceValue("%u",slices[root_slice].u.branch.starter);
-  TraceValue("%u\n",slices[root_slice].u.branch.length);
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
-static void HelpPlayRestoreFromWhiteToPlay(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
-                                    
-  ++slices[root_slice].u.branch.length;
-  ++slices[root_slice].u.branch.min_length;
-  slice_impose_starter(root_slice,
-                       advers(slices[root_slice].u.branch.starter));
-
-  TraceValue("%u",slices[root_slice].u.branch.starter);
-  TraceValue("%u\n",slices[root_slice].u.branch.length);
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
 static void swapcolors(void) {
   square *bnp;
   for (bnp= boardnum; *bnp; bnp++)
@@ -2522,6 +2488,51 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   return result;
 }
 
+/* Apply the option White to play
+ * @return true iff the option is applicable (and was applied)
+ */
+static boolean root_slice_apply_whitetoplay(void)
+{
+  if (slices[root_slice].type==STBranchHelp)
+  {
+    if (detect_meaning_of_whitetoplay(root_slice)
+        ==whitetoplay_means_shorten_root_slice)
+    {
+      --slices[root_slice].u.branch.length;
+      --slices[root_slice].u.branch.min_length;
+    }
+    else
+      regular_starter = advers(regular_starter);
+
+    slice_impose_starter(root_slice,
+                         advers(slices[root_slice].u.branch.starter));
+
+    return true;
+  }
+  else
+    return false;
+}
+
+/* Undo the effects of previously applying the option White to play
+ */
+static void root_slice_undo_whitetoplay(void)
+{
+  if (slices[root_slice].type==STBranchHelp)
+  {
+    if (detect_meaning_of_whitetoplay(root_slice)
+        ==whitetoplay_means_shorten_root_slice)
+    {
+      ++slices[root_slice].u.branch.length;
+      ++slices[root_slice].u.branch.min_length;
+    }
+    else
+      regular_starter = advers(regular_starter);
+
+    slice_impose_starter(root_slice,
+                         advers(slices[root_slice].u.branch.starter));
+  }
+}
+
 static int parseCommandlineOptions(int argc, char *argv[])
 {
   int idx = 1;
@@ -2629,6 +2640,11 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 {
   if (initialise_position() && verify_position())
   {
+    /* must be done before writing the position, because the position
+     * sometimes indicates which side is at the move */
+    if (OptFlag[whitetoplay] && !root_slice_apply_whitetoplay())
+      Message(WhiteToPlayNotApplicable);
+
     if (!OptFlag[noboard])
     {
       if (stip_ends_in(proof_goals,nr_proof_goals))
@@ -2646,11 +2662,6 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
         StdString("a)\n\n");
     }
 
-    if (OptFlag[whitetoplay]
-        && (detect_meaning_of_whitetoplay(root_slice)
-            ==whitetoplay_means_shorten_root_slice))
-      HelpPlayInitWhiteToPlay();
-
     /* allow line-oriented output to restore the initial position */
     StorePosition();
     solveHalfADuplex();
@@ -2667,9 +2678,6 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
       FlagShortSolsReached = false;
 
       /* Set next side to calculate for duplex "twin" */
-#if defined(HASHRATE)
-      HashStats(1, "\n\n");
-#endif
       if (isIntelligentModeActive)
       {
         /*
@@ -2695,16 +2703,14 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 
       if (isIntelligentModeActive)
       {
-        /* unhack - probably not necessary, but doesn't hurt */
+        /* unhack */
         reflectboard();
         swapcolors();
       }
     }
 
-    if (OptFlag[whitetoplay]
-        && (detect_meaning_of_whitetoplay(root_slice)
-            ==whitetoplay_means_shorten_root_slice))
-        HelpPlayRestoreFromWhiteToPlay();
+    if (OptFlag[whitetoplay])
+      root_slice_undo_whitetoplay();
   }
 }
 

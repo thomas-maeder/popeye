@@ -114,3 +114,4 @@
 113= Popeye ne peut pas décider qui a le trait.\n
 114= Option \"menace\" et enonce exact incompatibles\n
 115= EchecsGhost et EchecsHantes incompatibles avec Circe, Anticirce, Kamikaze, Echecs de Haan\n
+116= ApparentSeul pas applicable - ignore\n
