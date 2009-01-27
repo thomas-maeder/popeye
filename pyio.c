@@ -1134,7 +1134,6 @@ static char *ParseLength(char *tok,
         break;
 
       case STBranchDirect:
-        *length -= 1;
         *length *= 2;
         *min_length = 0;
         break;

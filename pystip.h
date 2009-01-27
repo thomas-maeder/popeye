@@ -156,6 +156,7 @@ extern slice_index root_slice;
  */
 enum
 {
+  slack_length_direct = 2, /* half moves */
   slack_length_help = 2,   /* half moves */
   slack_length_series = 1  /* half moves */
 };
