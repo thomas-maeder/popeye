@@ -41,7 +41,7 @@ int main() {
   for (lan=0; lan<LanguageCount; lan++) {
 	char *sLine, Line[512];
 	int l;
-	char *MsgFileName;
+	char const *MsgFileName;
 	FILE *MsgFile;
 
 	MsgFileName= MkMsgFileName(lan);
