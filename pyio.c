@@ -1225,8 +1225,8 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
 }
 
 static char *ParseReciGoal(char *tok,
-                           SliceType type_nonreci, slice_index *si_nonreci,
-                           SliceType type_reci, slice_index *si_reci)
+                           slice_index *si_nonreci,
+                           slice_index *si_reci)
 {
   char *result = 0;
 
@@ -1238,11 +1238,18 @@ static char *ParseReciGoal(char *tok,
     char const *closingParenPos = strchr(tok,')');
     if (closingParenPos!=0)
     {
-      tok = ParseGoal(tok+1,type_reci,si_reci);
+      tok = ParseGoal(tok+1,STLeafDirect,si_reci);
       if (tok!=0)
       {
         if (tok==closingParenPos)
-          result = ParseGoal(tok+1,type_nonreci,si_nonreci);
+        {
+          slice_index leaf;
+          result = ParseGoal(tok+1,STLeafDirect,&leaf);
+          *si_nonreci = alloc_branch_slice(STBranchHelp,
+                                           slack_length_help+1,
+                                           slack_length_help+1,
+                                           leaf);
+        }
         else
           IoErrorMsg(UnrecStip, 0);
       }
@@ -1252,9 +1259,9 @@ static char *ParseReciGoal(char *tok,
   }
   else
   {
-    result = ParseGoal(tok,type_nonreci,si_nonreci);
+    result = ParseGoal(tok,STLeafHelp,si_nonreci);
     if (result!=NULL)
-      *si_reci = alloc_leaf_slice(type_reci,slices[*si_nonreci].u.leaf.goal);
+      *si_reci = alloc_leaf_slice(STLeafDirect,slices[*si_nonreci].u.leaf.goal);
   }
 
   TraceFunctionExit(__func__);
@@ -1270,7 +1277,7 @@ static char *ParseReciEnd(char *tok, slice_index *si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
 
-  tok = ParseReciGoal(tok, STLeafHelp,&op1, STLeafDirect,&op2);
+  tok = ParseReciGoal(tok,&op1,&op2);
   if (op1!=no_slice && op2!=no_slice)
     *si = alloc_reciprocal_slice(op1,op2);
 

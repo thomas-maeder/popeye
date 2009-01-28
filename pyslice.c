@@ -326,7 +326,7 @@ boolean slice_solve(slice_index si)
       break;
 
     case STBranchHelp:
-      /* TODO */
+      solution_found = branch_h_solve(si);
       break;
 
     case STBranchSeries:

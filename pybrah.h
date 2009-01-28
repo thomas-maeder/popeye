@@ -19,6 +19,12 @@ boolean branch_h_root_solve_setplay(slice_index si);
  */
 void branch_h_root_solve(slice_index si);
 
+/* Solve a branch slice at non-root level.
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean branch_h_solve(slice_index si);
+
 /* Solve a branch in exactly n moves at root level
  * @param si slice index
  * @param n exact number of moves

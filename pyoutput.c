@@ -407,15 +407,14 @@ static void linesolution(void)
     TraceValue("%u\n",does_ply_invert_colors[current_ply]);
     if (slice!=active_slice[current_ply])
     {
-      slice = active_slice[current_ply];
-      if (!does_ply_invert_colors[current_ply]
-          && slices[slice].type!=STLeafDirect
-          && slices[slice].type!=STLeafHelp
-          && slices[slice].type!=STLeafSelf)
+      if (slices[slice].type==STBranchSeries
+          && slices[active_slice[current_ply]].type==STBranchSeries)
       {
         next_movenumber = 1;
         starting_side = trait[current_ply];
       }
+
+      slice = active_slice[current_ply];
     }
 
     TraceValue("%u",trait[current_ply]);

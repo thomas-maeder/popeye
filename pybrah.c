@@ -381,6 +381,39 @@ void branch_h_root_solve(slice_index si)
   TraceText("\n");
 }
 
+/* Solve a branch slice at non-root level.
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean branch_h_solve(slice_index si)
+{
+  boolean result = false;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  assert(full_length>=slack_length_help);
+
+  while (len<full_length && !result)
+  {
+    if (branch_h_solve_in_n(si,len))
+    {
+      result = true;
+      FlagShortSolsReached = true;
+    }
+
+    len += 2;
+  }
+
+  result = result || branch_h_solve_in_n(si,full_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 
 /* Determine the starting side in a help branch in n
  * @param si slice index
