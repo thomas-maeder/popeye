@@ -3578,7 +3578,7 @@ void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdletype, 
       for (k1= kanf; k1 <= kend; k1++) {
         sq_arrival = sq_hurdle + vec[k1];
         if (e[sq_arrival] == vide || rightcolor(e[sq_arrival], camp))
-          empile(sq_departure, sq_arrival, sq_arrival);
+          testempile(sq_departure, sq_arrival, sq_arrival);
       }
     }
   }
