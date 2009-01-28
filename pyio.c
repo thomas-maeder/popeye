@@ -1259,9 +1259,16 @@ static char *ParseReciGoal(char *tok,
   }
   else
   {
-    result = ParseGoal(tok,STLeafHelp,si_nonreci);
+    slice_index leaf;
+    result = ParseGoal(tok,STLeafDirect,&leaf);
     if (result!=NULL)
-      *si_reci = alloc_leaf_slice(STLeafDirect,slices[*si_nonreci].u.leaf.goal);
+    {
+      *si_nonreci = alloc_branch_slice(STBranchHelp,
+                                       slack_length_help+1,
+                                       slack_length_help+1,
+                                       leaf);
+      *si_reci = alloc_leaf_slice(STLeafDirect,slices[leaf].u.leaf.goal);
+    }
   }
 
   TraceFunctionExit(__func__);
