@@ -32,39 +32,6 @@ boolean leaf_d_must_starter_resign(slice_index leaf)
   return result;
 }
 
-/* Look up the current position in the hash table
- * @param leaf slice index of leaf slice
- * @return if found in hash table: DirSucc or DirNoSucc
- *         otherwise: nr_hashwhat
- */
-static hashwhat leaf_d_hash_lookup(slice_index leaf)
-{
-  /* It is more likely that a position has no solution. */
-  /*    Therefore let's check for "no solution" first. TLi */
-  if (inhash(leaf,DirNoSucc,1))
-  {
-    assert(!inhash(leaf,DirSucc,0));
-    return DirNoSucc;
-  }
-  else if (inhash(leaf,DirSucc,0))
-    return DirSucc;
-  else
-    return nr_hashwhat;
-}
-
-/* Update/insert hash table entry for current position
- * @param leaf slice index of leaf slice
- * @param h DirSucc for writing DirSucc; other values for writing
- *          DirNoSucc
- */
-static void leaf_d_hash_update(slice_index leaf, hashwhat h)
-{
-  if (h==DirSucc)
-    addtohash(leaf,DirSucc,0);
-  else
-    addtohash(leaf,DirNoSucc,1);
-}
-
 /* Determine whether there is a solution in a direct leaf.
  * @param leaf slice index of leaf slice
  * @return true iff attacker can end in 1 move
@@ -81,7 +48,17 @@ boolean leaf_d_has_solution(slice_index leaf)
    * expensive to compute an end in 1. TLi
    */
   if (!FlagMoveOrientatedStip)
-    result = leaf_d_hash_lookup(leaf);
+  {
+    /* It is more likely that a position has no solution. */
+    /*    Therefore let's check for "no solution" first. TLi */
+    if (inhash(leaf,DirNoSucc,1))
+    {
+      assert(!inhash(leaf,DirSucc,0));
+      result = DirNoSucc;
+    }
+    else if (inhash(leaf,DirSucc,0))
+      result = DirSucc;
+  }
 
   if (result==nr_hashwhat)
   {
@@ -122,7 +99,12 @@ boolean leaf_d_has_solution(slice_index leaf)
     finply();
 
     if (!FlagMoveOrientatedStip)
-      leaf_d_hash_update(leaf,result);
+    {
+      if (result==DirSucc)
+        addtohash(leaf,DirSucc,0);
+      else
+        addtohash(leaf,DirNoSucc,1);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -149,11 +131,84 @@ boolean leaf_d_has_non_starter_solved(slice_index leaf)
   return result;
 }
 
-/* Determine and write keys if the end is direct
+/* Determine and write keys leading to a double-mate
  * @param leaf leaf's slice index
  * @return true iff >=1 key was found and written
  */
-boolean leaf_d_solve(slice_index leaf)
+static boolean leaf_d_dmate_solve(slice_index leaf)
+{
+  boolean solution_found = false;
+  Side const starter = slices[leaf].u.leaf.starter;
+
+  if (!immobile(starter))
+  {
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(leaf,starter);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play)
+          && leaf_is_goal_reached(starter,leaf))
+      {
+        solution_found = true;
+        write_attack(goal_doublemate,attack_key);
+        output_start_postkey_level();
+        output_start_leaf_variation_level();
+        output_end_leaf_variation_level();
+        output_end_postkey_level();
+      }
+
+      repcoup();
+    }
+
+    finply();
+  }
+
+  return solution_found;
+}
+
+/* Determine and write keys leading to counter-mate
+ * @param leaf leaf's slice index
+ * @return true iff >=1 key was found and written
+ */
+static boolean leaf_d_cmate_solve(slice_index leaf)
+{
+  boolean solution_found = false;
+  Side const starter = slices[leaf].u.leaf.starter;
+  Side const non_starter = advers(starter);
+
+  /* TODO can this be generalised to non-mate goals? */
+  if (goal_checker_mate(non_starter))
+  {
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(leaf,starter);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play)
+          && leaf_is_goal_reached(starter,leaf))
+      {
+        solution_found = true;
+        write_attack(goal_countermate,attack_key);
+        output_start_postkey_level();
+        output_start_leaf_variation_level();
+        output_end_leaf_variation_level();
+        output_end_postkey_level();
+      }
+      repcoup();
+    }
+
+    finply();
+  }
+
+  return solution_found;
+}
+
+/* Determine and write keys leading to "regular goals"
+ * @param leaf leaf's slice index
+ * @return true iff >=1 key was found and written
+ */
+static boolean leaf_d_regulargoals_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].u.leaf.starter;
   boolean solution_found = false;
@@ -185,6 +240,37 @@ boolean leaf_d_solve(slice_index leaf)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",solution_found);
   return solution_found;
+}
+
+/* Determine and write keys
+ * @param leaf leaf's slice index
+ * @return true iff >=1 key was found and written
+ */
+boolean leaf_d_solve(slice_index leaf)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
+
+  switch (slices[leaf].u.leaf.goal)
+  {
+    case goal_countermate:
+      result = leaf_d_cmate_solve(leaf);
+      break;
+
+    case goal_doublemate:
+      result = leaf_d_dmate_solve(leaf);
+      break;
+
+    default:
+      result = leaf_d_regulargoals_solve(leaf);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Write the key and solve the remainder of a leaf in direct play
