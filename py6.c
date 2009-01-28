@@ -2500,6 +2500,8 @@ static boolean root_slice_apply_whitetoplay(void)
     {
       --slices[root_slice].u.branch.length;
       --slices[root_slice].u.branch.min_length;
+      if (slices[root_slice].u.branch.min_length<slack_length_help)
+        slices[root_slice].u.branch.min_length += 2;
     }
     else
       regular_starter = advers(regular_starter);
