@@ -173,16 +173,6 @@ who_decides_on_starter branch_detect_starter(slice_index si,
 
   switch (slices[next].type)
   {
-    case STBranchDirect:
-    case STBranchHelp:
-    case STBranchSeries:
-      result = branch_detect_starter(next,is_duplex,!same_side_as_root);
-      if (slice_get_starter(next)==no_side)
-        slices[si].u.branch.starter = no_side;
-      else
-        slices[si].u.branch.starter = advers(slice_get_starter(next));
-      break;
-
     case STLeafDirect:
     case STLeafSelf:
     case STLeafHelp:

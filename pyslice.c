@@ -12,6 +12,7 @@
 #include "pyrecipr.h"
 #include "pynot.h"
 #include "pybranch.h"
+#include "pymovein.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -60,6 +61,10 @@ boolean slice_must_starter_resign(slice_index si)
     case STBranchHelp:
     case STBranchSeries:
       result = branch_must_starter_resign(si);
+      break;
+
+    case STMoveInverter:
+      result = move_inverter_must_starter_resign(si);
       break;
 
     default:
@@ -334,6 +339,10 @@ boolean slice_solve(slice_index si)
 
     case STNot:
       solution_found = not_solve(si);
+      break;
+
+    case STMoveInverter:
+      solution_found = move_inverter_solve(si);
       break;
 
     default:
@@ -890,6 +899,10 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       result = not_detect_starter(si,is_duplex,same_side_as_root);
       break;
 
+    case STMoveInverter:
+      result = move_inverter_detect_starter(si,is_duplex,same_side_as_root);
+      break;
+      
     default:
       assert(0);
       break;
@@ -942,6 +955,10 @@ void slice_impose_starter(slice_index si, Side side)
       not_impose_starter(si,side);
       break;
 
+    case STMoveInverter:
+      move_inverter_impose_starter(si,side);
+      break;
+
     default:
       assert(0);
       break;
@@ -991,6 +1008,15 @@ Side slice_get_starter(slice_index si)
     case STNot:
       result = slice_get_starter(slices[si].u.not.op);
       break;
+
+    case STMoveInverter:
+    {
+      slice_index const next = slices[si].u.move_inverter.next;
+      Side const next_starter = slice_get_starter(next);
+      if (next_starter!=no_side)
+        result = advers(next_starter);
+      break;
+    }
 
     default:
       assert(0);

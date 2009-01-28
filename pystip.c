@@ -298,6 +298,12 @@ static boolean slice_ends_only_in(Goal const goals[],
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
+    case STMoveInverter:
+    {
+      slice_index const next = slices[si].u.move_inverter.next;
+      return slice_ends_only_in(goals,nrGoals,next);
+    }
+
     default:
       assert(0);
       exit(1);
@@ -359,6 +365,12 @@ static boolean slice_ends_in(Goal const goals[],
     case STBranchSeries:
     {
       slice_index const next = slices[si].u.branch.next;
+      return slice_ends_in(goals,nrGoals,next);
+    }
+
+    case STMoveInverter:
+    {
+      slice_index const next = slices[si].u.move_inverter.next;
       return slice_ends_in(goals,nrGoals,next);
     }
 
@@ -432,6 +444,13 @@ static slice_index find_goal_recursive(Goal goal,
     case STBranchSeries:
     {
       slice_index const next = slices[si].u.branch.next;
+      result = find_goal_recursive(goal,start,active,next);
+      break;
+    }
+
+    case STMoveInverter:
+    {
+      slice_index const next = slices[si].u.move_inverter.next;
       result = find_goal_recursive(goal,start,active,next);
       break;
     }

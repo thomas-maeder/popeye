@@ -17,7 +17,7 @@ typedef enum
 
 static output_mode current_mode = output_mode_none;
 
-static boolean areWeSolvingSetplay;
+static boolean does_ply_invert_colors[maxply];
 
 slice_index active_slice[maxply];
 
@@ -130,7 +130,7 @@ void output_end_postkeyonly_level(void)
 
 /* Start a new output level consisting of set play
  */
-void output_start_setplay_level(void)
+void output_start_move_inverted_level(void)
 {
   TraceFunctionEntry(__func__);
   TraceText("\n");
@@ -142,7 +142,7 @@ void output_start_setplay_level(void)
     nr_defenses_written[move_depth] = 0;
   }
   else
-    areWeSolvingSetplay = true;
+    does_ply_invert_colors[nbply+1] = true;
 
   TraceValue("%u\n",move_depth);
 
@@ -152,7 +152,7 @@ void output_start_setplay_level(void)
 
 /* End the inner-most output level (which consists of set play)
  */
-void output_end_setplay_level(void)
+void output_end_move_inverted_level(void)
 {
   TraceFunctionEntry(__func__);
   TraceText("\n");
@@ -160,7 +160,7 @@ void output_end_setplay_level(void)
   if (current_mode==output_mode_tree)
     move_depth--;
   else
-    areWeSolvingSetplay = false;
+    does_ply_invert_colors[nbply+1] = false;
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -334,7 +334,6 @@ void output_end_leaf_variation_level(void)
   TraceText("\n");
 }
 
-
 static void linesolution(void)
 {
   int next_movenumber;
@@ -377,9 +376,9 @@ static void linesolution(void)
   ResetPosition();
 
   TraceValue("%u",regular_starter);
-  TraceValue("%u\n",areWeSolvingSetplay);
+  TraceValue("%u\n",does_ply_invert_colors[2]);
 
-  if (areWeSolvingSetplay)
+  if (does_ply_invert_colors[2])
   {
     if (regular_starter==slice_get_starter(root_slice))
       StdString("  1...");
@@ -404,13 +403,12 @@ static void linesolution(void)
   {
     TraceValue("%u",current_ply);
     TraceValue("%u",slice);
-    TraceValue("%u\n",active_slice[current_ply]);
+    TraceValue("%u",active_slice[current_ply]);
+    TraceValue("%u\n",does_ply_invert_colors[current_ply]);
     if (slice!=active_slice[current_ply])
     {
       slice = active_slice[current_ply];
-      if (slices[slice].type!=STLeafDirect
-          && slices[slice].type!=STLeafSelf
-          && slices[slice].type!=STLeafHelp)
+      if (does_ply_invert_colors[current_ply])
       {
         next_movenumber = 1;
         starting_side = trait[current_ply];

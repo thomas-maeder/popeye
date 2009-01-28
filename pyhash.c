@@ -391,6 +391,13 @@ static void init_slice_properties_recursive(slice_index si,
       init_slice_properties_recursive(next,nr_bits_left);
       break;
     }
+
+    case STMoveInverter:
+    {
+      slice_index const next = slices[si].u.move_inverter.next;
+      init_slice_properties_recursive(next,nr_bits_left);
+      break;
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -1575,6 +1582,13 @@ static void init_element(dhtElement *he, slice_index si)
       init_element_series(he,si);
       init_element(he,slices[si].u.branch.next);
       break;
+
+    case STMoveInverter:
+    {
+      slice_index const next = slices[si].u.move_inverter.next;
+      init_element(he,next);
+      break;
+    }
 
     default:
       assert(0);

@@ -68,6 +68,7 @@
 #include "pyquodli.h"
 #include "pyrecipr.h"
 #include "pynot.h"
+#include "pymovein.h"
 #include "pyproof.h"
 #include "pyint.h"
 #include "platform/maxtime.h"
@@ -1366,12 +1367,14 @@ static char *ParsePlay(char *tok, slice_index *si)
       result = ParsePlay(arrowpos+2,&next);
       if (result!=0 && next!=no_slice)
       {
+        slice_index const mi = alloc_move_inverter_slice(next);
+
         /* >=1 move of starting side required */
         stip_length_type const min_length = 1+slack_length_series;
         *si = alloc_branch_slice(STBranchSeries,
                                  intro_len+slack_length_series,
                                  min_length,
-                                 next);
+                                 mi);
       }
     }
   }

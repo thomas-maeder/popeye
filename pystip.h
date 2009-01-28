@@ -25,7 +25,9 @@ typedef enum
 
   STReciprocal,   /* logical AND */
   STQuodlibet,    /* logical OR */
-  STNot           /* logical NOT */
+  STNot,          /* logical NOT */
+
+  STMoveInverter  /* 0 length, inverts side at move */
 } SliceType;
 
 /* The structure of a stipulation is similar to that of a tree
@@ -128,6 +130,11 @@ typedef struct
         {
             slice_index op;
         } not;
+
+        struct
+        {
+            slice_index next;
+        } move_inverter;
     } u;
 } Slice;
 

@@ -186,8 +186,8 @@ pystip.h:
 
 pyoutput.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pydata.h \
-  pymsg.h pyslice.h pystip.h pyquodli.h pyrecipr.h pynot.h pyproof.h \
-  pyhash.h DHT/dhtbcmem.h pyint.h platform/maxtime.h trace.h
+  pymsg.h pyslice.h pystip.h pyquodli.h pyrecipr.h pynot.h pymovein.h \
+  pyproof.h pyhash.h DHT/dhtbcmem.h pyint.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -214,6 +214,8 @@ pyquodli.h:
 pyrecipr.h:
 
 pynot.h:
+
+pymovein.h:
 
 pyproof.h:
 
@@ -435,7 +437,8 @@ pyslice.h:
 trace.h:
 pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pylang.h pystip.h pygoal.h \
   pydata.h pyproc.h py4.h trace.h pyleaf.h pyleafd.h pyleafs.h pyleafh.h \
-  pybrad.h pybrah.h pybraser.h pyquodli.h pyrecipr.h pynot.h pybranch.h
+  pybrad.h pybrah.h pybraser.h pyquodli.h pyrecipr.h pynot.h pybranch.h \
+  pymovein.h
 
 pyslice.h:
 
@@ -478,6 +481,8 @@ pyrecipr.h:
 pynot.h:
 
 pybranch.h:
+
+pymovein.h:
 pyquodli$(OBJ_SUFFIX): pyquodli.c pyquodli.h py.h boolean.h pylang.h pyslice.h \
   pystip.h pygoal.h pyproc.h py4.h trace.h
 
@@ -825,10 +830,10 @@ pyoutput.h:
 pyhash.h:
 
 DHT/dhtbcmem.h:
-trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pylang.h pyproc.h py4.h pygoal.h \
-  pydata.h
+pymovein$(OBJ_SUFFIX): pymovein.c pymovein.h py.h boolean.h pylang.h pyslice.h \
+  pystip.h pygoal.h pyproc.h py4.h pyoutput.h trace.h
 
-trace.h:
+pymovein.h:
 
 py.h:
 
@@ -836,9 +841,33 @@ boolean.h:
 
 pylang.h:
 
+pyslice.h:
+
+pystip.h:
+
+pygoal.h:
+
 pyproc.h:
 
 py4.h:
+
+pyoutput.h:
+
+trace.h:
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pylang.h pygoal.h \
+  pydata.h
+
+trace.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+boolean.h:
+
+pylang.h:
 
 pygoal.h:
 
