@@ -26,13 +26,13 @@ void output_start_postkeyonly_level(void);
 void output_end_postkeyonly_level(void);
 
 
-/* Start a new output level consisting of set play
+/* Start a new output level with inverted side at move
  */
-void output_start_setplay_level(void);
+void output_start_move_inverted_level(void);
 
-/* End the inner-most output level (which consists of set play)
+/* End the inner-most output level inverted side at move
  */
-void output_end_setplay_level(void);
+void output_end_move_inverted_level(void);
 
 
 /* Start a new output level consisting of post-key play

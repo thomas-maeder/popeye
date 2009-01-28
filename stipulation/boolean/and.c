@@ -325,7 +325,8 @@ who_decides_on_starter reci_detect_starter(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",is_duplex);
+  TraceFunctionParam("%u",is_duplex);
+  TraceFunctionParam("%u\n",same_side_as_root);
 
   result1 = slice_detect_starter(op1,is_duplex,same_side_as_root);
   result2 = slice_detect_starter(op2,is_duplex,same_side_as_root);

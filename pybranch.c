@@ -165,56 +165,220 @@ who_decides_on_starter branch_detect_starter(slice_index si,
 {
   who_decides_on_starter result;
   slice_index const next = slices[si].u.branch.next;
+  slice_index next_relevant = next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",is_duplex);
   TraceFunctionParam("%u\n",same_side_as_root);
+  
+  if (slices[next].type==STMoveInverter)
+    next_relevant = slices[next].u.move_inverter.next;
 
-  switch (slices[next].type)
+  TraceValue("%u\n",next_relevant);
+
+  /* TODO move to branch files */
+  switch (slices[si].type)
   {
-    case STLeafDirect:
-    case STLeafSelf:
-    case STLeafHelp:
-    {
-      /* TODO? separate implementations per branch type */
-      boolean const next_same_side_as_root =
-          (slices[si].type!=STBranchHelp || slices[si].u.branch.length%2==0
-           ? same_side_as_root
-           : !same_side_as_root);
-      result = slice_detect_starter(next,is_duplex,next_same_side_as_root);
+    case STBranchDirect:
+      result = slice_detect_starter(next,is_duplex,same_side_as_root);
       if (slice_get_starter(next)==no_side)
       {
         /* next can't tell - let's tell him */
-        slices[si].u.branch.starter = is_duplex ? Black : White;
-        slice_impose_starter(next,slices[si].u.branch.starter);
+        switch (slices[next_relevant].type)
+        {
+          case STLeafDirect:
+            slices[si].u.branch.starter = is_duplex ? Black : White;
+            TraceValue("%u\n",slices[si].u.branch.starter);
+            slice_impose_starter(next,slices[si].u.branch.starter);
+            break;
+
+          case STLeafSelf:
+            slices[si].u.branch.starter = is_duplex ? Black : White;
+            TraceValue("%u\n",slices[si].u.branch.starter);
+            slice_impose_starter(next,slices[si].u.branch.starter);
+            break;
+
+          case STLeafHelp:
+            slices[si].u.branch.starter = is_duplex ? Black : White;
+            TraceValue("%u\n",slices[si].u.branch.starter);
+            slice_impose_starter(next,advers(slices[si].u.branch.starter));
+            break;
+
+          default:
+            result = slice_detect_starter(next,is_duplex,same_side_as_root);
+            slices[si].u.branch.starter = slice_get_starter(next);
+            break;
+        }
       }
       else
         slices[si].u.branch.starter = slice_get_starter(next);
+
+      TraceValue("%u\n",slices[si].u.branch.starter);
+
+      if (si==root_slice)
+      {
+        regular_starter = slice_get_starter(si);
+        TraceValue("%u\n",regular_starter);
+      }
+      break;
+
+    case STBranchHelp:
+    {
+      boolean const even_length = slices[si].u.branch.length%2==0;
+
+      switch (slices[next_relevant].type)
+      {
+        case STLeafDirect:
+        {
+          boolean const next_same_side_as_root =
+              (even_length
+               ? same_side_as_root
+               : !same_side_as_root);
+          result = slice_detect_starter(next,
+                                        is_duplex,
+                                        next_same_side_as_root);
+          if (slice_get_starter(next)==no_side)
+          {
+            /* next can't tell - let's tell him */
+            slices[si].u.branch.starter = is_duplex ? White : Black;
+            TraceValue("%u\n",slices[si].u.branch.starter);
+            slice_impose_starter(next,advers(slices[si].u.branch.starter));
+          }
+          else
+            slices[si].u.branch.starter =
+                (even_length
+                 ? slice_get_starter(next)
+                 : advers(slice_get_starter(next)));
+          break;
+        }
+
+        case STLeafSelf:
+        {
+          boolean const next_same_side_as_root =
+              (even_length
+               ? same_side_as_root
+               : !same_side_as_root);
+          result = slice_detect_starter(next,
+                                        is_duplex,
+                                        next_same_side_as_root);
+          if (slice_get_starter(next)==no_side)
+          {
+            /* next can't tell - let's tell him */
+            slices[si].u.branch.starter = is_duplex ? Black : White;
+            TraceValue("%u\n",slices[si].u.branch.starter);
+            slice_impose_starter(next,slices[si].u.branch.starter);
+          }
+          else
+            slices[si].u.branch.starter =
+                (even_length
+                 ? slice_get_starter(next)
+                 : advers(slice_get_starter(next)));
+          break;
+        }
+
+        case STLeafHelp:
+        {
+          boolean const next_same_side_as_root =
+              (even_length
+               ? same_side_as_root
+               : !same_side_as_root);
+          result = slice_detect_starter(next,
+                                        is_duplex,
+                                        next_same_side_as_root);
+          if (slice_get_starter(next)==no_side)
+          {
+            /* next can't tell - let's tell him */
+            slices[si].u.branch.starter = is_duplex ? Black : White;
+            TraceValue("%u\n",slices[si].u.branch.starter);
+            slice_impose_starter(next,slices[si].u.branch.starter);
+          }
+          else
+            slices[si].u.branch.starter =
+                (even_length
+                 ? slice_get_starter(next)
+                 : advers(slice_get_starter(next)));
+          break;
+        }
+
+        default:
+          result = slice_detect_starter(next,is_duplex,same_side_as_root);
+          slices[si].u.branch.starter = (even_length
+                                         ? slice_get_starter(next)
+                                         : advers(slice_get_starter(next)));
+          break;
+      }
+
+      TraceValue("%u\n",slices[si].u.branch.starter);
+
+      if (si==root_slice)
+      {
+        regular_starter = slice_get_starter(si);
+        TraceValue("%u\n",regular_starter);
+      }
+
+      if (result!=leaf_decides_on_starter
+          && slices[si].u.branch.length%2 == 0
+          && slice_get_starter(si)!=no_side
+          && (slices[next_relevant].type==STLeafDirect
+              || slices[next_relevant].type==STLeafHelp))
+        slice_impose_starter(si,advers(slice_get_starter(si)));
+
       break;
     }
 
+    case STBranchSeries:
+      result = slice_detect_starter(next,is_duplex,!same_side_as_root);
+      if (slice_get_starter(next)==no_side)
+      {
+        /* next can't tell - let's tell him */
+        switch (slices[next_relevant].type)
+        {
+          case STLeafDirect:
+            if (next==next_relevant)
+              /* e.g. ser-h# */
+              slices[si].u.branch.starter = is_duplex ? White : Black;
+            else
+              /* e.g. ser-# */
+              slices[si].u.branch.starter = is_duplex ? Black : White;
+            TraceValue("%u\n",slices[si].u.branch.starter);
+            slice_impose_starter(next,advers(slices[si].u.branch.starter));
+            break;
+
+          case STLeafSelf:
+            slices[si].u.branch.starter = is_duplex ? Black : White;
+            TraceValue("%u\n",slices[si].u.branch.starter);
+            slice_impose_starter(next,slices[si].u.branch.starter);
+            break;
+
+          case STLeafHelp:
+            slices[si].u.branch.starter = is_duplex ? White : Black;
+            TraceValue("%u\n",slices[si].u.branch.starter);
+            slice_impose_starter(next,slices[si].u.branch.starter);
+            break;
+
+          default:
+            result = slice_detect_starter(next,is_duplex,same_side_as_root);
+            slices[si].u.branch.starter = slice_get_starter(next);
+            break;
+        }
+      }
+      else
+        slices[si].u.branch.starter = advers(slice_get_starter(next));
+
+      TraceValue("%u\n",slices[si].u.branch.starter);
+
+      if (si==root_slice)
+      {
+        regular_starter = slice_get_starter(si);
+        TraceValue("%u\n",regular_starter);
+      }
+      break;
+
     default:
-      result = slice_detect_starter(next,is_duplex,same_side_as_root);
-      slices[si].u.branch.starter = slice_get_starter(next);
+      assert(0);
       break;
   }
-
-  if (si==root_slice && result!=leaf_decides_on_starter)
-    regular_starter = slice_get_starter(si);
-
-  if (slices[si].type==STBranchHelp
-      && slices[si].u.branch.length%2 == 1
-      && slice_get_starter(si)!=no_side)
-    slice_impose_starter(si,advers(slice_get_starter(si)));
-
-  if (si==root_slice && result==leaf_decides_on_starter)
-    regular_starter = slice_get_starter(si);
-
-  TraceValue("%u\n",slices[si].u.branch.starter);
-
-  if (si==root_slice)
-    TraceValue("%u\n",regular_starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

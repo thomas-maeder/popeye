@@ -1122,16 +1122,16 @@ static char *ParseLength(char *tok,
       case STBranchHelp:
         /* we count half moves in help play */
         *length *= 2;
-        *length += slack_length_help-2;
+        *length += slack_length_help-1;
 
         if (strncmp(tok,".5",2)==0)
         {
           ++*length;
           tok += 2;
-          *min_length = slack_length_help-1;
+          *min_length = slack_length_help;
         }
         else
-          *min_length = slack_length_help;
+          *min_length = slack_length_help+1;
         break;
 
       case STBranchDirect:
@@ -1141,7 +1141,7 @@ static char *ParseLength(char *tok,
 
       case STBranchSeries:
         *length += slack_length_series-1;
-        *min_length = slack_length_series;
+        *min_length = slack_length_series+1;
         break;
 
       default:
@@ -1325,7 +1325,7 @@ static char *ParseEnd(char *tok, slice_index *si)
     switch (*tok)
     {
       case 'h':
-        tok = ParseGoal(tok+1,STLeafHelp,si);
+        tok = ParseGoal(tok+1,STLeafDirect,si);
         break;
 
       case 'r':
@@ -1367,14 +1367,12 @@ static char *ParsePlay(char *tok, slice_index *si)
       result = ParsePlay(arrowpos+2,&next);
       if (result!=0 && next!=no_slice)
       {
-        slice_index const mi = alloc_move_inverter_slice(next);
-
         /* >=1 move of starting side required */
         stip_length_type const min_length = 1+slack_length_series;
         *si = alloc_branch_slice(STBranchSeries,
                                  intro_len+slack_length_series,
                                  min_length,
-                                 mi);
+                                 next);
       }
     }
   }
@@ -1402,7 +1400,10 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
-        *si = alloc_branch_slice(STBranchSeries,length,min_length,next);
+      {
+        slice_index const mi = alloc_move_inverter_slice(next);
+        *si = alloc_branch_slice(STBranchSeries,length,min_length,mi);
+      }
     }
   }
 
@@ -1415,6 +1416,24 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type length;
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+      {
+        slice_index const mi = alloc_move_inverter_slice(next);
+        *si = alloc_branch_slice(STBranchSeries,length,min_length,mi);
+      }
+    }
+  }
+
+  else if (strncmp("ser-h",tok,5) == 0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok+4,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      ++length;
       if (result!=0)
         *si = alloc_branch_slice(STBranchSeries,length,min_length,next);
     }
@@ -1429,8 +1448,12 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type length;
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      --min_length;
       if (result!=0)
-        *si = alloc_branch_slice(STBranchSeries,length,min_length,next);
+      {
+        slice_index const mi = alloc_move_inverter_slice(next);
+        *si = alloc_branch_slice(STBranchSeries,length,min_length,mi);
+      }
     }
   }
 
@@ -1443,6 +1466,11 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type length;
       stip_length_type min_length;
       result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      --length;
+      if (length%2==0)
+        --min_length;
+      else
+        ++min_length;
       if (result!=0)
         *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
     }
@@ -1456,19 +1484,7 @@ static char *ParsePlay(char *tok, slice_index *si)
     result = ParseLength(tok+3,STBranchHelp,&length,&min_length);
     if (result!=0)
     {
-      slice_index leaf;
-      SliceType leaf_type;
-
-      if (length%2==0)
-        leaf_type = STLeafHelp;
-      else
-      {
-        leaf_type = STLeafDirect;
-        ++length;
-        ++min_length;
-      }
-
-      leaf = alloc_leaf_slice(leaf_type,goal_proof);
+      slice_index const leaf = alloc_leaf_slice(STLeafDirect,goal_proof);
       *si = alloc_branch_slice(STBranchHelp,length,min_length,leaf);
     }
   }
@@ -1483,11 +1499,36 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type length;
       stip_length_type min_length;
       result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      --length;
+      if (length%2==0)
+        --min_length;
+      else
+        ++min_length;
       if (result!=0)
         *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
     }
   }
 #endif
+
+  else if (strncmp("hr",tok,2)==0
+           || strncmp("hs",tok,2)==0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      --length;
+      if (min_length<=slack_length_help)
+        ++min_length;
+      else
+        --min_length;
+      if (result!=0)
+        *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+    }
+  }
 
   else if (*tok=='h')
   {

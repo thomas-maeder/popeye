@@ -148,15 +148,25 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
          && slices[si].type!=STLeafSelf
          && slices[si].type!=STLeafHelp);
 
-  if (slices[si].type==STBranchHelp)
+  switch (slices[si].type)
   {
-    min_length *= 2;
-    if (result%2==1)
-      --min_length;
-  }
+    case STBranchHelp:
+      min_length *= 2;
+      if (result%2==1)
+        --min_length;
+      if (min_length<=slices[si].u.branch.length)
+        slices[si].u.branch.min_length = min_length;
+      break;
 
-  if (min_length<=slices[si].u.branch.length)
-    slices[si].u.branch.min_length = min_length;
+    case STBranchSeries:
+      if (min_length+1<=slices[si].u.branch.length)
+        slices[si].u.branch.min_length = min_length+1;
+      break;
+
+    default:
+      /* nothing */
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

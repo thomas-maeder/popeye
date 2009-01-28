@@ -871,7 +871,7 @@ boolean branch_d_root_solve_setplay(slice_index si)
   TraceValue("%u\n",n);
   assert(slices[si].u.branch.length>slack_length_direct);
 
-  output_start_setplay_level();
+  output_start_move_inverted_level();
 
   if (slice_root_solve_complete_set(slices[si].u.branch.next))
     result = true;
@@ -909,7 +909,7 @@ boolean branch_d_root_solve_setplay(slice_index si)
   if (n>2*min_length_nontrivial+slack_length_direct)
     max_nr_nontrivial += ntcount;
 
-  output_end_setplay_level();
+  output_end_move_inverted_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

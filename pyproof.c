@@ -456,14 +456,6 @@ void ProofRestoreStartPosition(void)
   Goal const goal = slices[leaf_slice].u.leaf.goal;
   int i;
 
-  assert(slices[root_slice].type==STBranchDirect
-         || slices[root_slice].type==STBranchHelp
-         || slices[root_slice].type==STBranchSeries);
-  assert(leaf_slice==slices[root_slice].u.branch.next);
-  assert(slices[leaf_slice].type==STLeafDirect
-         || slices[leaf_slice].type==STLeafSelf
-         || slices[leaf_slice].type==STLeafHelp);
-
   for (i = 0; i < nr_squares_on_board; i++)
   {
     piece p = goal==goal_atob ? PosA[boardnum[i]] : PAS[i];

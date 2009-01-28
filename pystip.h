@@ -133,6 +133,7 @@ typedef struct
 
         struct
         {
+            Side starter;
             slice_index next;
         } move_inverter;
     } u;

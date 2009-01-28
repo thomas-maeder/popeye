@@ -865,7 +865,8 @@ who_decides_on_starter slice_detect_starter(slice_index si,
   who_decides_on_starter result = dont_know_who_decides_on_starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",same_side_as_root);
 
   switch (slices[si].type)
   {

@@ -295,7 +295,7 @@ boolean branch_h_root_solve_setplay(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  output_start_setplay_level();
+  output_start_move_inverted_level();
 
   if (echecc(nbply,slices[si].u.branch.starter))
     ErrorMsg(KingCapture);
@@ -319,7 +319,7 @@ boolean branch_h_root_solve_setplay(slice_index si)
     }
   }
 
-  output_end_setplay_level();
+  output_end_move_inverted_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -337,6 +337,7 @@ void branch_h_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
+  TraceValue("%u",slices[si].u.branch.min_length);
   TraceValue("%u\n",slices[si].u.branch.length);
 
   move_generation_mode = move_generation_not_optimized;
@@ -358,7 +359,7 @@ void branch_h_root_solve(slice_index si)
   {
     stip_length_type len = slices[si].u.branch.min_length;
 
-    if (len==slack_length_help-1)
+    if (len==slack_length_help)
     {
       FlagShortSolsReached = slice_root_solve_complete_set(next);
       len +=2;
@@ -431,6 +432,16 @@ void branch_h_impose_starter(slice_index si, Side s)
 {
   /* help play in N.5 -> change starter */
   Side next_starter = (slices[si].u.branch.length%2==1 ? advers(s) : s);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",s);
+
+  TraceValue("%u\n",next_starter);
+
   slices[si].u.branch.starter = s;
   slice_impose_starter(slices[si].u.branch.next,next_starter);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }

@@ -376,9 +376,9 @@ static void linesolution(void)
   ResetPosition();
 
   TraceValue("%u",regular_starter);
-  TraceValue("%u\n",does_ply_invert_colors[2]);
+  TraceValue("%u\n",does_ply_invert_colors[start_ply]);
 
-  if (does_ply_invert_colors[2])
+  if (does_ply_invert_colors[start_ply])
   {
     if (regular_starter==slice_get_starter(root_slice))
       StdString("  1...");
@@ -408,7 +408,10 @@ static void linesolution(void)
     if (slice!=active_slice[current_ply])
     {
       slice = active_slice[current_ply];
-      if (does_ply_invert_colors[current_ply])
+      if (!does_ply_invert_colors[current_ply]
+          && slices[slice].type!=STLeafDirect
+          && slices[slice].type!=STLeafHelp
+          && slices[slice].type!=STLeafSelf)
       {
         next_movenumber = 1;
         starting_side = trait[current_ply];

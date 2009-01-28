@@ -2,6 +2,7 @@
 #include "pyslice.h"
 #include "pyproc.h"
 #include "pyoutput.h"
+#include "pydata.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -71,9 +72,13 @@ boolean move_inverter_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  output_start_move_inverted_level();
-  result = slice_solve(slices[si].u.move_inverter.next);
-  output_end_move_inverted_level();
+  if (echecc(nbply,slices[si].u.move_inverter.starter))
+  {
+    TraceText("illegal check\n");
+    result = false;
+  }
+  else
+    result = slice_solve(slices[si].u.move_inverter.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -92,13 +97,20 @@ move_inverter_detect_starter(slice_index si,
                              boolean same_side_as_root)
 {
   who_decides_on_starter result;
+  slice_index const next = slices[si].u.move_inverter.next;
+  Side next_starter;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",same_side_as_root);
 
-  result = slice_detect_starter(slices[si].u.move_inverter.next,
-                                is_duplex,
-                                !same_side_as_root);
+  result = slice_detect_starter(next,is_duplex,!same_side_as_root);
+
+  next_starter = slice_get_starter(next);
+  if (next_starter==no_side)
+    slices[si].u.move_inverter.starter = next_starter;
+  else
+    slices[si].u.move_inverter.starter = advers(next_starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -111,16 +123,12 @@ move_inverter_detect_starter(slice_index si,
  */
 Side move_inverter_get_starter(slice_index si)
 {
-  Side result = no_side;
-  slice_index const next = slices[si].u.move_inverter.next;
-  Side next_starter;
+  Side result;
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  next_starter = slice_get_starter(next);
-  if (next_starter!=no_side)
-    result = advers(next_starter);
+  result = slices[si].u.move_inverter.starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -136,6 +144,7 @@ void move_inverter_impose_starter(slice_index si, Side side)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
+  slices[si].u.move_inverter.starter = side;
   slice_impose_starter(slices[si].u.move_inverter.next,advers(side));
 
   TraceFunctionExit(__func__);

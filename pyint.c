@@ -48,6 +48,8 @@ typedef struct {
 
 boolean isIntelligentModeActive;
 
+Goal goal_to_be_reached;
+
 int MaxPieceAll, MaxPieceWhite, MaxPieceBlack;
 int WhMovesLeft, BlMovesLeft;
 
@@ -144,11 +146,7 @@ boolean IllegalCheck(Side camp)
     if (e[rn+dir_down+dir_right]==Pawn || e[rn+dir_down+dir_left]==Pawn)
       nrChecks++;
 
-    return (nrChecks
-            > (slices[slices[root_slice].u.branch.next].u.leaf.goal
-               ==goal_stale
-               ? 0
-               : 1));
+    return (nrChecks > (goal_to_be_reached==goal_stale ? 0: 1));
   }
   else
     return (rb!=initsquare
@@ -486,7 +484,7 @@ static boolean isGoalReachableRegularGoals(void)
     }
   }
 
-  if (slices[slices[root_slice].u.branch.next].u.leaf.goal == goal_stale) {
+  if (goal_to_be_reached == goal_stale) {
     if (pprise[nbply] < vide) {
       captures--;
     }
@@ -1973,15 +1971,14 @@ void GenerateBlocking(
 
   if (nbrfl == 0) {
     /* check for stipulation */
-    if (slices[slices[root_slice].u.branch.next].u.leaf.goal == goal_stale
-        || echecc(nbply,Black)) {
+    if (goal_to_be_reached == goal_stale || echecc(nbply,Black)) {
 #if defined(DEBUG)
       if (IllegalCheck(White)) {
         StdString("oops!\n");
         exit(0);
       }
 #endif
-      if (slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_stale) {
+      if (goal_to_be_reached==goal_stale) {
         if (echecc(nbply,Black)) {
           AvoidCheckInStalemate(timetowaste,
                                 whmoves, blpcallowed, whpcallowed, n);
@@ -2128,8 +2125,7 @@ void GenerateGuarding(
     flights= 0;
 
     /* check for check */
-    if (slices[slices[root_slice].u.branch.next].u.leaf.goal == goal_mate
-        && !echecc(nbply,Black)) {
+    if (goal_to_be_reached == goal_mate && !echecc(nbply,Black)) {
       return;
     }
 
@@ -2150,8 +2146,7 @@ void GenerateGuarding(
     genmove(Black);
     while(encore() && !unblockable) {
       if (jouecoup(nbply,first_play)
-          && (slices[slices[root_slice].u.branch.next].u.leaf.goal
-              ==goal_stale))
+          && goal_to_be_reached==goal_stale)
       {
         e[move_generation_stack[nbcou].departure]= obs;
       }
@@ -2404,7 +2399,7 @@ void GenerateBlackKing(int whmoves, int blmoves,
       WriteSquare(sq);
       StdString("\n");
 #endif
-      if (slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_mate) {
+      if (goal_to_be_reached==goal_mate) {
         GenerateChecking(whmoves, blmoves-time, n);
       }
       else {
@@ -2621,6 +2616,8 @@ static void init_moves_left_non_root(slice_index si)
     }
 
     case STLeafDirect:
+      assert(goal_to_be_reached==no_goal);
+      goal_to_be_reached = slices[si].u.leaf.goal;
       if (slices[si].u.branch.starter==White)
         ++WhMovesLeft;
       else
@@ -2628,9 +2625,18 @@ static void init_moves_left_non_root(slice_index si)
       break;
 
     case STLeafHelp:
+      assert(goal_to_be_reached==no_goal);
+      goal_to_be_reached = slices[si].u.leaf.goal;
       ++WhMovesLeft;
       ++BlMovesLeft;
       break;
+
+    case STMoveInverter:
+    {
+      slice_index const next = slices[si].u.move_inverter.next;
+      init_moves_left_non_root(next);
+      break;
+    }
 
     default:
       assert(0);
@@ -2651,6 +2657,8 @@ static void init_moves_left_root(stip_length_type n)
   TraceFunctionParam("%u\n",n);
 
   TraceValue("%u\n",slices[root_slice].type);
+
+  goal_to_be_reached = no_goal;
 
   switch (slices[root_slice].type)
   {
@@ -2712,8 +2720,8 @@ boolean Intelligent(stip_length_type n)
 
   InitSols();
 
-  if (slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_atob
-      || slices[slices[root_slice].u.branch.next].u.leaf.goal==goal_proof)
+  if (goal_to_be_reached==goal_atob
+      || goal_to_be_reached==goal_proof)
     IntelligentProof(n);
   else
     IntelligentRegularGoals(n);
@@ -2728,21 +2736,12 @@ boolean Intelligent(stip_length_type n)
 boolean isGoalReachable(void)
 {
   boolean result;
-  slice_index const leaf_slice = 0;
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  assert(slices[root_slice].type==STBranchDirect
-         || slices[root_slice].type==STBranchHelp
-         || slices[root_slice].type==STBranchSeries);
-  assert(leaf_slice==slices[root_slice].u.branch.next);
-  assert(slices[leaf_slice].type==STLeafDirect
-         || slices[leaf_slice].type==STLeafSelf
-         || slices[leaf_slice].type==STLeafHelp);
-
-  if (slices[leaf_slice].u.leaf.goal==goal_atob
-      || slices[leaf_slice].u.leaf.goal==goal_proof)
+  if (goal_to_be_reached==goal_atob
+      || goal_to_be_reached==goal_proof)
     result = !(*alternateImpossible)();
   else
     result = isGoalReachableRegularGoals();
@@ -2793,6 +2792,13 @@ stip_supports_intelligent_rec(slice_index si)
       }
 
       break;
+
+    case STMoveInverter:
+    {
+      slice_index const next = slices[si].u.move_inverter.next;
+      result = stip_supports_intelligent_rec(next);
+      break;
+    }
 
     default:
       /* nothing */

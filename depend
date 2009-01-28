@@ -831,7 +831,7 @@ pyhash.h:
 
 DHT/dhtbcmem.h:
 pymovein$(OBJ_SUFFIX): pymovein.c pymovein.h py.h boolean.h pylang.h pyslice.h \
-  pystip.h pygoal.h pyproc.h py4.h pyoutput.h trace.h
+  pystip.h pygoal.h pyproc.h py4.h pyoutput.h pydata.h trace.h
 
 pymovein.h:
 
@@ -853,21 +853,23 @@ py4.h:
 
 pyoutput.h:
 
+pydata.h:
+
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pylang.h pygoal.h \
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pylang.h pyproc.h py4.h pygoal.h \
   pydata.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
 boolean.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 pygoal.h:
 

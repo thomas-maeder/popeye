@@ -21,17 +21,19 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
                                                stip_length_type n)
 {
   boolean solution_found = false;
+  Side const series_side = slices[si].u.branch.starter;
+  Side other_side = advers(series_side);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
   if (n==slack_length_series)
     solution_found = slice_solve(slices[si].u.branch.next);
+  else if (echecc(nbply,other_side))
+    TraceText("echecc(nbply,other_side)\n");
   else
   {
-    Side const series_side = slices[si].u.branch.starter;
-    Side other_side = advers(series_side);
-
     if (!slice_must_starter_resign(si))
     {
       active_slice[nbply+1] = si;
@@ -50,8 +52,6 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
           TraceText("echecc(nbply,series_side)\n");
         else if (isIntelligentModeActive && !isGoalReachable())
           TraceText("isIntelligentModeActive && !isGoalReachable()\n");
-        else if (echecc(nbply,other_side))
-          TraceText("echecc(nbply,other_side)\n");
         else
         {
           (*encode)();
@@ -92,17 +92,19 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
 static void branch_ser_root_solve_in_n_recursive(slice_index si,
                                                  stip_length_type n)
 {
+  Side const series_side = slices[si].u.branch.starter;
+  Side const other_side = advers(series_side);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
   if (n==slack_length_series)
     slice_root_solve(slices[si].u.branch.next);
+  else if (echecc(nbply,other_side))
+    TraceText("echecc(nbply,other_side)\n");
   else
   {
-    Side const series_side = slices[si].u.branch.starter;
-    Side const other_side = advers(series_side);
-
     if (!slice_must_starter_resign(si))
     {
       active_slice[nbply+1] = si;
@@ -123,8 +125,6 @@ static void branch_ser_root_solve_in_n_recursive(slice_index si,
           TraceText("OptFlag[restart] && MoveNbr<RestartNbr\n");
         else if (isIntelligentModeActive && !isGoalReachable())
           TraceText("isIntelligentModeActive && !isGoalReachable()\n");
-        else if (echecc(nbply,other_side))
-          TraceText("echecc(nbply,other_side)\n");
         else
         {
           (*encode)();
@@ -237,9 +237,9 @@ void branch_ser_root_solve(slice_index si)
        * invoke Intelligent() */
       boolean const save_isIntelligentModeActive = isIntelligentModeActive;
       isIntelligentModeActive = false;
-      output_start_setplay_level();
-      slice_root_solve_setplay(slices[si].u.branch.next);
-      output_end_setplay_level();
+      output_start_move_inverted_level();
+      slice_root_solve(slices[si].u.branch.next);
+      output_end_move_inverted_level();
       isIntelligentModeActive = save_isIntelligentModeActive;
     }
 
@@ -348,10 +348,6 @@ void branch_ser_root_solve_in_n(slice_index si, stip_length_type n)
  */
 void branch_ser_impose_starter(slice_index si, Side s)
 {
-  /* series branch after series branch == intro series
-   * -> change starter */
-  slice_index const next = slices[si].u.branch.next;
-  Side const next_starter = slices[next].type==STBranchSeries ? advers(s) : s;
   slices[si].u.branch.starter = s;
-  slice_impose_starter(next,next_starter);
+  slice_impose_starter(slices[si].u.branch.next,advers(s));
 }
