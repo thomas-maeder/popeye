@@ -110,7 +110,7 @@ void not_solve_continuations(int continuations, slice_index si)
   TraceFunctionParam("%u\n",si);
 
   TraceFunctionExit(__func__);
-  TraceText("%n");
+  TraceText("\n");
 }
 
 /* Determine whether the starting side has made such a bad move that
