@@ -86,7 +86,6 @@ boolean branch_has_starter_apriori_lost(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  assert(0); /* just to be sure; this can't possibly be right: */
   result = slice_has_starter_apriori_lost(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
@@ -105,7 +104,6 @@ boolean branch_has_starter_won(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  assert(0); /* just to be sure; this can't possibly be right: */
   result = slice_has_starter_won(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
