@@ -15,7 +15,8 @@ slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2)
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParam("%u",op1);
+  TraceFunctionParam("%u\n",op2);
 
   slices[result].type = STQuodlibet; 
   slices[result].u.quodlibet.op1 = op1;
