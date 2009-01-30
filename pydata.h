@@ -111,15 +111,15 @@ EXTERN  boolean         flagpassive, flagcapture,
 			flagwhitemummer,
 			flagblackmummer;
 
-EXTERN  square          rb, rn;
-EXTERN  square          bl_royal_sq, wh_royal_sq;
+EXTERN square rb, rn;
+EXTERN square bl_royal_sq, wh_royal_sq;
 
-EXTERN  echiquier       e, e_ubi, e_ubi_mad;
+EXTERN echiquier e, e_ubi, e_ubi_mad;
 
-EXTERN  boolean         mateallowed[maxply + 1];
-EXTERN  boolean         senti[maxply + 1],
-			norm_cham_prom[maxply + 1],
-			cir_cham_prom[maxply + 1];
+EXTERN boolean mateallowed[maxply+1];
+EXTERN boolean senti[maxply+1];
+EXTERN boolean norm_cham_prom[maxply+1];
+EXTERN boolean cir_cham_prom[maxply+1];
 
 EXTERN struct
 {
@@ -129,13 +129,12 @@ EXTERN struct
 
 EXTERN  square          ppridia[maxply + 1];
 
-EXTERN  square
-			ep[maxply + 1],
-			ep2[maxply + 1],
-			whduell[maxply + 1],
-			blduell[maxply + 1],
-			RN_[maxply + 1],
-			RB_[maxply + 1];
+EXTERN square ep[maxply+1];
+EXTERN square ep2[maxply+1];
+EXTERN square whduell[maxply+1];
+EXTERN square blduell[maxply+1];
+EXTERN square RN_[maxply+1];
+EXTERN square RB_[maxply+1];
 
 EXTERN  square          pattfld, patti, pattj;
 EXTERN move_generation_elmt move_generation_stack[toppile + 1];
@@ -270,10 +269,12 @@ EXTERN  boolean         optim_orthomatingmoves;
 
 EXTERN  unsigned int    zzzaa[derbla - dernoi + 1];     /* nbpiece */
 
-EXTERN  piece           pjoue[maxply + 1], pprise[maxply + 1],
-			norm_prom[maxply + 1], cir_prom[maxply + 1],
-			ren_parrain[maxply + 1],
-			jouearr[maxply + 1];
+EXTERN piece pjoue[maxply+1];
+EXTERN piece pprise[maxply+1];
+EXTERN piece norm_prom[maxply+1];
+EXTERN piece cir_prom[maxply+1];
+EXTERN piece ren_parrain[maxply+1];
+EXTERN piece jouearr[maxply+1];
 
 EXTERN  boolean			rex_mad,rex_circe,rex_immun,rex_phan, rex_geneva,
                         rex_mess_ex, rex_wooz_ex;
