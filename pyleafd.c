@@ -467,7 +467,6 @@ who_decides_on_starter leaf_d_detect_starter(slice_index leaf,
     default:
       /* normally White, but Black in reci-h -> let somebody impose
        * the starter */
-      slices[leaf].u.leaf.starter = no_side;
       break;
   }
 
