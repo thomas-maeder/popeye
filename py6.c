@@ -2625,6 +2625,46 @@ static void initMaxMemoryString(void)
     sprintf(MaxMemoryString, " (%u GB)\n", MaxMemory>>30);
 }
 
+/* prepare for solving duplex */
+static void init_duplex(void)
+{
+  if (isIntelligentModeActive)
+  {
+    /*
+     * A hack to make the intelligent mode work with duplex.
+     */
+    swapcolors();
+    reflectboard();
+
+    /* allow line-oriented output to restore the initial
+     * position */
+    StorePosition();
+  }
+  else
+  {
+    Side const starter = slices[root_slice].u.branch.starter;
+    slice_impose_starter(root_slice,advers(starter));
+    regular_starter = advers(regular_starter);
+  }
+}
+
+/* restore from preparations for solving duplex */
+static void fini_duplex(void)
+{
+  if (isIntelligentModeActive)
+  {
+    /* cf. init_duplex */
+    reflectboard();
+    swapcolors();
+  }
+  else
+  {
+    Side const starter = slices[root_slice].u.branch.starter;
+    slice_impose_starter(root_slice,advers(starter));
+    regular_starter = advers(regular_starter);
+  }
+}
+
 /* Solve a twin (maybe the only one of a problem)
  * @param twin_index 0 for first, 1 for second ...; if the problem has
  *                   a zero position, solve_twin() is invoked with
@@ -2672,36 +2712,12 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
       solutions = 0;
       FlagShortSolsReached = false;
 
-      /* Set next side to calculate for duplex "twin" */
-      if (isIntelligentModeActive)
-      {
-        /*
-         * A hack to make the intelligent mode work with duplex.
-         * But anyway I have to think about the intelligent mode again
-         */
-        swapcolors();
-        reflectboard();
-
-        /* allow line-oriented output to restore the initial
-         * position */
-        StorePosition();
-      }
-      else
-      {
-        Side const starter = slices[root_slice].u.branch.starter;
-        slice_impose_starter(root_slice,advers(starter));
-        regular_starter = advers(regular_starter);
-      }
+      init_duplex();
 
       if (locateRoyal() && verify_position())
         solveHalfADuplex();
 
-      if (isIntelligentModeActive)
-      {
-        /* unhack */
-        reflectboard();
-        swapcolors();
-      }
+      fini_duplex();
     }
 
     if (OptFlag[whitetoplay])
