@@ -108,6 +108,69 @@ void finply()
   nbply--;
 }
 
+/* Capture the current state of a ply (i.e. the current move played in
+ * the ply) for later comparison.
+ * @param snapshot holds the captured state
+ * @param ply identifies the ply to be captured
+ */
+void capture_ply(captured_ply_type *snapshot, ply ply)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",ply);
+
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",nbcou);
+
+  snapshot->nbcou = nbply==ply ? nbcou : repere[ply+1];
+  snapshot->ep2 = ep2[ply];
+  snapshot->ep = ep[ply];
+  snapshot->norm_prom = norm_prom[ply];
+  snapshot->cir_prom = cir_prom[ply];
+  snapshot->norm_cham_prom = norm_cham_prom[ply];
+  snapshot->cir_cham_prom = cir_cham_prom[ply];
+  snapshot->Iprom = Iprom[ply];
+  snapshot->pprise = pprise[ply];
+  snapshot->super = super[ply];
+  snapshot->castling_flag = castling_flag[ply];
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Compare the current state of a ply (i.e. the current move played in
+ * the ply) to a state that was captured earlier.
+ * @param snapshot ply captured earlier
+ * @param ply ply to be compared
+ * @return true iff the current state of ply ply is equal to that
+ *         captured in *snapshot
+ */
+boolean is_ply_equal_to_captured(captured_ply_type const *snapshot, ply ply)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",ply);
+
+  TraceValue("%u",snapshot->nbcou);
+  TraceValue("%u\n",repere[ply+1]);
+
+  result = (snapshot->nbcou==repere[ply+1]
+            && snapshot->ep2==ep2[ply]
+            && snapshot->ep==ep[ply]
+            && snapshot->norm_prom==norm_prom[ply]
+            && snapshot->cir_prom==cir_prom[ply]
+            && snapshot->norm_cham_prom==norm_cham_prom[ply]
+            && snapshot->cir_cham_prom==cir_cham_prom[ply]
+            && snapshot->Iprom==Iprom[ply]
+            && snapshot->pprise==pprise[ply]
+            && snapshot->super==super[ply]
+            && snapshot->castling_flag==castling_flag[ply]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 void InitCond(void) {
   square *bnp, i, j;
   piece p;
