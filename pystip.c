@@ -10,8 +10,6 @@ Slice slices[max_nr_slices];
 
 slice_index root_slice;
 
-Side regular_starter;
-
 static slice_index next_slice;
 
 /* Allocate a slice index
@@ -575,4 +573,47 @@ slice_index find_unique_goal(void)
   return (find_unique_goal_recursive(root_slice,&found_so_far)
           ? found_so_far
           : no_slice);
+}
+
+/* Make the stipulation exact
+ * @param si slice index
+ */
+void stip_make_exact(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  switch (slices[si].type)
+  {
+    case STQuodlibet:
+      stip_make_exact(slices[si].u.quodlibet.op1);
+      stip_make_exact(slices[si].u.quodlibet.op2);
+      break;
+
+    case STReciprocal:
+      stip_make_exact(slices[si].u.reciprocal.op1);
+      stip_make_exact(slices[si].u.reciprocal.op2);
+      break;
+
+    case STNot:
+      stip_make_exact(slices[si].u.not.op);
+      break;
+
+    case STMoveInverter:
+      stip_make_exact(slices[si].u.move_inverter.next);
+      break;
+
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+      slices[si].u.branch.min_length = slices[si].u.branch.length;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }

@@ -152,6 +152,10 @@ boolean slice_root_solve_setplay(slice_index si)
       result = leaf_s_root_solve_setplay(si);
       break;
 
+    case STLeafHelp:
+      result = leaf_h_solve(si);
+      break;
+
     case STQuodlibet:
       result = quodlibet_root_solve_setplay(si);
       break;
@@ -201,6 +205,10 @@ boolean slice_root_solve_complete_set(slice_index si)
 
     case STLeafSelf:
       result = leaf_s_root_solve_complete_set(si);
+      break;
+
+    case STLeafHelp:
+      result = leaf_h_solve(si);
       break;
 
     case STBranchDirect:
@@ -386,6 +394,10 @@ void slice_root_solve(slice_index si)
       branch_ser_root_solve(si);
       break;
 
+    case STMoveInverter:
+      move_inverter_root_solve(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -414,6 +426,10 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
 
     case STBranchSeries:
       branch_ser_root_solve_in_n(si,n);
+      break;
+
+    case STMoveInverter:
+      slice_root_solve_in_n(slices[si].u.move_inverter.next,n);
       break;
 
     default:

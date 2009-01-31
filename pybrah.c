@@ -302,8 +302,9 @@ boolean branch_h_root_solve_setplay(slice_index si)
   else
   {
     stip_length_type const full_length = slices[si].u.branch.length-1;
+    TraceValue("%u\n",full_length);
 
-    if (full_length%2==1)
+    if (full_length%2==0)
       result = slice_root_solve_setplay(slices[si].u.branch.next);
 
     if (full_length>1)

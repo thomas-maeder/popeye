@@ -213,17 +213,12 @@ who_decides_on_starter branch_detect_starter(slice_index si,
         slices[si].u.branch.starter = slice_get_starter(next);
 
       TraceValue("%u\n",slices[si].u.branch.starter);
-
-      if (si==root_slice)
-      {
-        regular_starter = slice_get_starter(si);
-        TraceValue("%u\n",regular_starter);
-      }
       break;
 
     case STBranchHelp:
     {
       boolean const even_length = slices[si].u.branch.length%2==0;
+      TraceValue("%u\n",even_length);
 
       switch (slices[next_relevant].type)
       {
@@ -308,20 +303,6 @@ who_decides_on_starter branch_detect_starter(slice_index si,
       }
 
       TraceValue("%u\n",slices[si].u.branch.starter);
-
-      if (si==root_slice)
-      {
-        regular_starter = slice_get_starter(si);
-        TraceValue("%u\n",regular_starter);
-      }
-
-      if (result!=leaf_decides_on_starter
-          && slices[si].u.branch.length%2 == 0
-          && slice_get_starter(si)!=no_side
-          && (slices[next_relevant].type==STLeafDirect
-              || slices[next_relevant].type==STLeafHelp))
-        slice_impose_starter(si,advers(slice_get_starter(si)));
-
       break;
     }
 
@@ -365,12 +346,6 @@ who_decides_on_starter branch_detect_starter(slice_index si,
         slices[si].u.branch.starter = advers(slice_get_starter(next));
 
       TraceValue("%u\n",slices[si].u.branch.starter);
-
-      if (si==root_slice)
-      {
-        regular_starter = slice_get_starter(si);
-        TraceValue("%u\n",regular_starter);
-      }
       break;
 
     default:

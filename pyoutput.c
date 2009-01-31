@@ -18,23 +18,25 @@ typedef enum
 
 static output_mode current_mode = output_mode_none;
 
-static boolean does_ply_invert_colors[maxply];
+static unsigned int nr_color_inversions_in_ply[maxply];
 
 slice_index active_slice[maxply];
 
 static stip_length_type move_depth;
 
 
-/* Initialize based on the stipulation
- */
-void init_output(void)
+static void init_output_recursive(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParam("%u\n",si);
 
-  TraceValue("%u\n",slices[root_slice].type);
-  switch (slices[root_slice].type)
+  TraceValue("%u\n",slices[si].type);
+  switch (slices[si].type)
   {
+    case STMoveInverter:
+      init_output_recursive(slices[si].u.move_inverter.next);
+      break;
+
     case STBranchDirect:
       current_mode = output_mode_tree;
       break;
@@ -48,6 +50,19 @@ void init_output(void)
       assert(0);
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Initialize based on the stipulation
+ */
+void init_output(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  init_output_recursive(root_slice);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -144,7 +159,7 @@ void output_start_move_inverted_level(void)
     nr_defenses_written[move_depth] = 0;
   }
   else
-    does_ply_invert_colors[nbply+1] = true;
+    ++nr_color_inversions_in_ply[nbply+1];
 
   TraceValue("%u\n",move_depth);
 
@@ -162,7 +177,7 @@ void output_end_move_inverted_level(void)
   if (current_mode==output_mode_tree)
     move_depth--;
   else
-    does_ply_invert_colors[nbply+1] = false;
+    --nr_color_inversions_in_ply[nbply+1];
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -375,31 +390,31 @@ static void linesolution(void)
 #endif
 
   slice = active_slice[start_ply];
-  starting_side = regular_starter;
+  starting_side = slice_get_starter(root_slice);
 
   ResetPosition();
 
-  TraceValue("%u",regular_starter);
-  TraceValue("%u\n",does_ply_invert_colors[start_ply]);
+  TraceValue("%u\n",nr_color_inversions_in_ply[start_ply]);
 
-  if (does_ply_invert_colors[start_ply])
+  switch (nr_color_inversions_in_ply[start_ply])
   {
-    if (regular_starter==slice_get_starter(root_slice))
-      StdString("  1...");
-    else
+    case 2:
       StdString("  1...  ...");
+      next_movenumber = 2;
+      break;
 
-    next_movenumber = 2;
-  }
-  else
-  {
-    if (regular_starter==slice_get_starter(root_slice))
-      next_movenumber = 1;
-    else
-    {
+    case 1:
       StdString("  1...");
       next_movenumber = 2;
-    }
+      break;
+
+    case 0:
+      next_movenumber = 1;
+      break;
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceValue("%u\n",nbply);
@@ -407,8 +422,7 @@ static void linesolution(void)
   {
     TraceValue("%u",current_ply);
     TraceValue("%u",slice);
-    TraceValue("%u",active_slice[current_ply]);
-    TraceValue("%u\n",does_ply_invert_colors[current_ply]);
+    TraceValue("%u\n",active_slice[current_ply]);
     if (slice!=active_slice[current_ply])
     {
       if (slices[slice].type==STBranchSeries

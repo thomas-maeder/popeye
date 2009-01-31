@@ -326,8 +326,8 @@ who_decides_on_starter leaf_h_detect_starter(slice_index leaf,
   {
     case goal_proof:
       slices[leaf].u.leaf.starter = (same_side_as_root==is_duplex
-                                     ? White
-                                     : Black);
+                                     ? Black
+                                     : White);
       result = leaf_decides_on_starter;
       break;
 

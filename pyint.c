@@ -2618,17 +2618,16 @@ static void init_moves_left_non_root(slice_index si)
     case STLeafDirect:
       assert(goal_to_be_reached==no_goal);
       goal_to_be_reached = slices[si].u.leaf.goal;
-      if (slices[si].u.branch.starter==White)
-        ++WhMovesLeft;
-      else
-        ++BlMovesLeft;
+      ++WhMovesLeft;
       break;
 
     case STLeafHelp:
       assert(goal_to_be_reached==no_goal);
       goal_to_be_reached = slices[si].u.leaf.goal;
-      ++WhMovesLeft;
-      ++BlMovesLeft;
+      if (slices[si].u.leaf.starter==White)
+        ++WhMovesLeft;
+      else
+        ++BlMovesLeft;
       break;
 
     case STMoveInverter:
@@ -2651,16 +2650,17 @@ static void init_moves_left_non_root(slice_index si)
  * slice.
  * @param n length of the solution(s) we are looking for
  */
-static void init_moves_left_root(stip_length_type n)
+static void init_moves_left_root(slice_index si, stip_length_type n)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
-  TraceValue("%u\n",slices[root_slice].type);
+  TraceValue("%u\n",slices[si].type);
 
   goal_to_be_reached = no_goal;
 
-  switch (slices[root_slice].type)
+  switch (slices[si].type)
   {
     case STBranchHelp:
     {
@@ -2668,19 +2668,19 @@ static void init_moves_left_root(stip_length_type n)
       WhMovesLeft = BlMovesLeft;
       if (n%2==1)
       {
-        if (branch_h_starter_in_n(root_slice,n)==White)
+        if (branch_h_starter_in_n(si,n)==White)
           ++WhMovesLeft;
         else
           ++BlMovesLeft;
       }
 
-      init_moves_left_non_root(slices[root_slice].u.branch.next);
+      init_moves_left_non_root(slices[si].u.branch.next);
       break;
     }
 
     case STBranchSeries:
     {
-      if (slices[root_slice].u.branch.starter==White)
+      if (slices[si].u.branch.starter==White)
       {
         WhMovesLeft = n-slack_length_series;
         BlMovesLeft = 0;
@@ -2691,9 +2691,13 @@ static void init_moves_left_root(stip_length_type n)
         BlMovesLeft = n-slack_length_series;
       }
 
-      init_moves_left_non_root(slices[root_slice].u.branch.next);
+      init_moves_left_non_root(slices[si].u.branch.next);
       break;
     }
+
+    case STMoveInverter:
+      init_moves_left_root(slices[si].u.move_inverter.next,n);
+      break;
 
     default:
       assert(0);
@@ -2714,7 +2718,7 @@ boolean Intelligent(stip_length_type n)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",n);
 
-  init_moves_left_root(n);
+  init_moves_left_root(root_slice,n);
      
   MatesMax = 0;
 

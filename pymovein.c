@@ -55,7 +55,9 @@ void move_inverter_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
+  output_start_move_inverted_level();
   slice_root_solve(slices[si].u.move_inverter.next);
+  output_end_move_inverted_level();
 
   TraceFunctionExit(__func__);
   TraceText("\n");

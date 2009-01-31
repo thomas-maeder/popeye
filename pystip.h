@@ -179,11 +179,6 @@ typedef enum
 } attack_type;
 
 
-/* "Regular starting side" according to stipulation, i.e. starting
- * side were it not for option "WhiteBegins" and set play checking
- */
-extern Side regular_starter;
-
 /* Allocate a slice index
  * @return a so far unused slice index
  */
@@ -268,5 +263,10 @@ slice_index find_next_goal(Goal goal, slice_index start);
  *         unique goal otherwise
  */
 slice_index find_unique_goal(void);
+
+/* Make the stipulation exact
+ * @param si slice index
+ */
+void stip_make_exact(slice_index si);
 
 #endif

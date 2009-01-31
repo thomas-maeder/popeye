@@ -100,6 +100,7 @@
 #include "DHT/dhtbcmem.h"
 #include "pyproof.h"
 #include "pyint.h"
+#include "pymovein.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -684,8 +685,8 @@ static boolean verify_position(void)
 
   {
     Side const restricted_side = (slices[root_slice].type==STBranchHelp
-                                  ? regular_starter
-                                  : advers(regular_starter));
+                                  ? slice_get_starter(root_slice)
+                                  : advers(slice_get_starter(root_slice)));
     if (flagmaxi)
     {
       if (restricted_side==Black)
@@ -2359,34 +2360,20 @@ static void solveHalfADuplex(void)
   inithash();
   init_output();
 
-  switch (slices[root_slice].type)
+  if (isIntelligentModeActive && OptFlag[restart])
   {
-    case STBranchSeries:
-    case STBranchHelp:
-      if (isIntelligentModeActive && OptFlag[restart])
-      {
-        /* In intelligent mode, RestartNbr means the minimal number of
-         * moves.
-         */
-        stip_length_type const save_min_length = set_min_length(root_slice,
-                                                                RestartNbr);
-        OptFlag[restart] = false;
-        slice_root_solve(root_slice);
-        OptFlag[restart] = true;
-        set_min_length(root_slice,save_min_length);
-      }
-      else
-        slice_root_solve(root_slice);
-      break;
-
-    case STBranchDirect:
-      slice_root_solve(root_slice);
-      break;
-
-    default:
-      assert(0);
-      break;
+    /* In intelligent mode, RestartNbr means the minimal number of
+     * moves.
+     */
+    stip_length_type const save_min_length = set_min_length(root_slice,
+                                                            RestartNbr);
+    OptFlag[restart] = false;
+    slice_root_solve(root_slice);
+    OptFlag[restart] = true;
+    set_min_length(root_slice,save_min_length);
   }
+  else
+    slice_root_solve(root_slice);
 
   closehash();
 
@@ -2407,12 +2394,7 @@ static boolean initialise_position(void)
   }
   else
   {
-    TraceValue("%u",slices[root_slice].u.branch.starter);
-    TraceValue("%u\n",regular_starter);
-
-    assert(slices[root_slice].type==STBranchDirect
-           || slices[root_slice].type==STBranchHelp
-           || slices[root_slice].type==STBranchSeries);
+    TraceValue("%u\n",slices[root_slice].u.branch.starter);
 
     if (stip_ends_in(proof_goals,nr_proof_goals))
     {
@@ -2462,12 +2444,20 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STBranchHelp:
     {
+      slice_index const next = slices[si].u.branch.next;
       meaning_of_whitetoplay const next_result =
-          detect_meaning_of_whitetoplay(slices[si].u.branch.next);
+          detect_meaning_of_whitetoplay(next);
       if (next_result==dont_know_meaning_of_whitetoplay)
         result = whitetoplay_means_shorten_root_slice;
       else
         result = next_result;
+      break;
+    }
+
+    case STMoveInverter:
+    {
+      slice_index const next = slices[si].u.move_inverter.next;
+      result = detect_meaning_of_whitetoplay(next);
       break;
     }
 
@@ -2481,51 +2471,123 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   return result;
 }
 
+static void shorten_branch_h_slice(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  --slices[si].u.branch.length;
+  --slices[si].u.branch.min_length;
+  if (slices[si].u.branch.min_length<slack_length_help)
+    slices[si].u.branch.min_length += 2;
+
+  TraceValue("->%u",slices[si].u.branch.length);
+  TraceValue("->%u\n",slices[si].u.branch.min_length);
+  
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+static void longen_branch_h_slice(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  ++slices[si].u.branch.length;
+  ++slices[si].u.branch.min_length;
+  if (slices[si].u.branch.length!=slices[si].u.branch.min_length)
+    slices[si].u.branch.min_length -= 2;
+
+  TraceValue("->%u",slices[si].u.branch.length);
+  TraceValue("->%u\n",slices[si].u.branch.min_length);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
 /* Apply the option White to play
  * @return true iff the option is applicable (and was applied)
  */
 static boolean root_slice_apply_whitetoplay(void)
 {
-  if (slices[root_slice].type==STBranchHelp)
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  TraceValue("%u\n",slices[root_slice].type);
+  switch (slices[root_slice].type)
   {
-    if (detect_meaning_of_whitetoplay(root_slice)
-        ==whitetoplay_means_shorten_root_slice)
+    case STBranchHelp:
     {
-      --slices[root_slice].u.branch.length;
-      --slices[root_slice].u.branch.min_length;
-      if (slices[root_slice].u.branch.min_length<slack_length_help)
-        slices[root_slice].u.branch.min_length += 2;
+      meaning_of_whitetoplay const
+          meaning = detect_meaning_of_whitetoplay(root_slice);
+      if (meaning==whitetoplay_means_shorten_root_slice)
+        shorten_branch_h_slice(root_slice);
+      slice_impose_starter(root_slice,
+                           advers(slices[root_slice].u.branch.starter));
+      if (meaning==whitetoplay_means_shorten_root_slice)
+        root_slice = alloc_move_inverter_slice(root_slice);
+      result = true;
+      break;
     }
-    else
-      regular_starter = advers(regular_starter);
 
-    slice_impose_starter(root_slice,
-                         advers(slices[root_slice].u.branch.starter));
+    case STMoveInverter:
+    {
+      meaning_of_whitetoplay const
+          meaning = detect_meaning_of_whitetoplay(root_slice);
+      root_slice = slices[root_slice].u.move_inverter.next;
+      if (meaning==whitetoplay_means_shorten_root_slice
+          && slices[root_slice].type==STBranchHelp)
+      {
+        shorten_branch_h_slice(root_slice);
+        return true;
+      }
+      break;
+    }
 
-    return true;
+    default:
+      break;
   }
-  else
-    return false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Undo the effects of previously applying the option White to play
  */
 static void root_slice_undo_whitetoplay(void)
 {
-  if (slices[root_slice].type==STBranchHelp)
-  {
-    if (detect_meaning_of_whitetoplay(root_slice)
-        ==whitetoplay_means_shorten_root_slice)
-    {
-      ++slices[root_slice].u.branch.length;
-      ++slices[root_slice].u.branch.min_length;
-    }
-    else
-      regular_starter = advers(regular_starter);
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
 
-    slice_impose_starter(root_slice,
-                         advers(slices[root_slice].u.branch.starter));
+  switch (slices[root_slice].type)
+  {
+    case STMoveInverter:
+    {
+      meaning_of_whitetoplay const
+          meaning = detect_meaning_of_whitetoplay(root_slice);
+      root_slice = slices[root_slice].u.move_inverter.next;
+      slice_impose_starter(root_slice,
+                           advers(slices[root_slice].u.branch.starter));
+      if (meaning==whitetoplay_means_shorten_root_slice)
+        longen_branch_h_slice(root_slice);
+      break;
+    }
+
+    case STBranchHelp:
+      longen_branch_h_slice(root_slice);
+      root_slice = alloc_move_inverter_slice(root_slice);
+      break;
+
+    default:
+      assert(0);
+      break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 static int parseCommandlineOptions(int argc, char *argv[])
@@ -2644,7 +2706,6 @@ static void init_duplex(void)
   {
     Side const starter = slices[root_slice].u.branch.starter;
     slice_impose_starter(root_slice,advers(starter));
-    regular_starter = advers(regular_starter);
   }
 }
 
@@ -2661,7 +2722,6 @@ static void fini_duplex(void)
   {
     Side const starter = slices[root_slice].u.branch.starter;
     slice_impose_starter(root_slice,advers(starter));
-    regular_starter = advers(regular_starter);
   }
 }
 

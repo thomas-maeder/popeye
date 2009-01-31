@@ -1244,7 +1244,7 @@ static char *ParseReciGoal(char *tok,
         if (tok==closingParenPos)
         {
           slice_index leaf;
-          result = ParseGoal(tok+1,STLeafDirect,&leaf);
+          result = ParseGoal(tok+1,STLeafHelp,&leaf);
           *si_nonreci = alloc_branch_slice(STBranchHelp,
                                            slack_length_help+1,
                                            slack_length_help+1,
@@ -1260,7 +1260,7 @@ static char *ParseReciGoal(char *tok,
   else
   {
     slice_index leaf;
-    result = ParseGoal(tok,STLeafDirect,&leaf);
+    result = ParseGoal(tok,STLeafHelp,&leaf);
     if (result!=NULL)
     {
       *si_nonreci = alloc_branch_slice(STBranchHelp,
@@ -1348,7 +1348,7 @@ static char *ParseEnd(char *tok, slice_index *si)
     switch (*tok)
     {
       case 'h':
-        tok = ParseGoal(tok+1,STLeafDirect,si);
+        tok = ParseGoal(tok+1,STLeafHelp,si);
         break;
 
       case 'r':
@@ -1406,8 +1406,7 @@ static char *ParsePlay(char *tok, slice_index *si)
     if (result!=0)
     {
       OptFlag[nothreat] = true;
-      /* todo higher level operation for activating exact mode */
-      slices[*si].u.branch.min_length = slices[*si].u.branch.length;
+      stip_make_exact(*si);
     }
   }
 
@@ -1507,7 +1506,7 @@ static char *ParsePlay(char *tok, slice_index *si)
     result = ParseLength(tok+3,STBranchHelp,&length,&min_length);
     if (result!=0)
     {
-      slice_index const leaf = alloc_leaf_slice(STLeafDirect,goal_proof);
+      slice_index const leaf = alloc_leaf_slice(STLeafHelp,goal_proof);
       *si = alloc_branch_slice(STBranchHelp,length,min_length,leaf);
     }
   }
@@ -1558,7 +1557,16 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type min_length;
       result = ParseLength(tok,STBranchHelp,&length,&min_length);
       if (result!=0)
-        *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+      {
+        slice_index const help = alloc_branch_slice(STBranchHelp,
+                                                    length,
+                                                    min_length,
+                                                    next);
+        if (length%2==0)
+          *si = alloc_move_inverter_slice(help);
+        else
+          *si = help;
+      }
     }
   }
 
@@ -1592,7 +1600,6 @@ static char *ParseStip(void)
   StipFlags= 0;
 
   strcpy(AlphaStip,tok);
-  root_slice = no_slice;
   if (ParsePlay(tok,&root_slice)
       && root_slice!=no_slice
       && ActStip[0]=='\0')
@@ -3850,6 +3857,7 @@ Token ReadTwin(Token tk, boolean *stipChanged)
   {
     LastChar= ' ';
     ReadBeginSpec();
+    root_slice = no_slice;
   }
 
   if (tk == TwinProblem || tk == ZeroPosition)
