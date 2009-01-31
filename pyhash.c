@@ -822,8 +822,18 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
     }
 
     case STNot:
-      result = value_of_data_recursive(he,offset,slices[si].u.not.op);
+    {
+      slice_index const op = slices[si].u.not.op;
+      result = value_of_data_recursive(he,offset,op);
       break;
+    }
+
+    case STMoveInverter:
+    {
+      slice_index const next = slices[si].u.move_inverter.next;
+      result = value_of_data_recursive(he,offset,next);
+      break;
+    }
 
     case STBranchDirect:
     case STBranchHelp:
