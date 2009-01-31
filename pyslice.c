@@ -97,10 +97,6 @@ void slice_solve_continuations(int table, slice_index si)
       leaf_s_solve_continuations(table,si);
       break;
     
-    case STLeafHelp:
-      leaf_h_solve_continuations(table,si);
-      break;
-    
     case STQuodlibet:
       quodlibet_solve_continuations(table,si);
       break;
@@ -118,7 +114,7 @@ void slice_solve_continuations(int table, slice_index si)
       break;
 
     case STBranchHelp:
-      /* TODO */
+      branch_h_solve_continuations(table,si);
       break;
 
     case STBranchSeries:
@@ -154,10 +150,6 @@ boolean slice_root_solve_setplay(slice_index si)
 
     case STLeafSelf:
       result = leaf_s_root_solve_setplay(si);
-      break;
-
-    case STLeafHelp:
-      result = leaf_h_root_solve_setplay(si);
       break;
 
     case STQuodlibet:
@@ -211,10 +203,6 @@ boolean slice_root_solve_complete_set(slice_index si)
       result = leaf_s_root_solve_complete_set(si);
       break;
 
-    case STLeafHelp:
-      result = leaf_h_root_solve_complete_set(si);
-      break;
-
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
@@ -254,10 +242,6 @@ void slice_root_write_key_solve_postkey(slice_index si, attack_type type)
 
     case STLeafSelf:
       leaf_s_root_write_key_solve_postkey(si,type);
-      break;
-
-    case STLeafHelp:
-      leaf_h_root_write_key_solve_postkey(si,type);
       break;
 
     case STQuodlibet:
@@ -441,7 +425,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
   TraceText("\n");
 }
 
-/* Determine whether a composite slice has a solution
+/* Determine whether a slice has a solution
  * @param si slice index
  * @return true iff slice si has a solution
  */
@@ -483,7 +467,7 @@ boolean slice_has_solution(slice_index si)
       break;
 
     case STBranchHelp:
-      /* TODO */
+      result = branch_h_has_solution(si);
       break;
 
     case STBranchSeries:

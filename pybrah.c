@@ -414,6 +414,326 @@ boolean branch_h_solve(slice_index si)
   return result;
 }
 
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice.
+ * @param table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @param side_at_move side at move
+ */
+static
+void branch_h_solve_continuations_in_n_recursive_nohash(int table,
+                                                        slice_index si,
+                                                        stip_length_type n,
+                                                        Side side_at_move)
+
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
+
+  assert(n>=slack_length_help);
+
+  if (n==slack_length_help)
+    slice_solve_continuations(table,slices[si].u.branch.next);
+  else
+  {
+    Side next_side = advers(side_at_move);
+
+    active_slice[nbply+1] = si;
+    genmove(side_at_move);
+  
+    if (side_at_move==Black)
+      BlMovesLeft--;
+    else
+      WhMovesLeft--;
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+          && (!isIntelligentModeActive || isGoalReachable())
+          && !echecc(nbply,side_at_move))
+      {
+        (*encode)();
+        if (!slice_must_starter_resign(slices[si].u.branch.next)
+            && branch_h_solve_in_n_recursive(si,n-1,next_side))
+          pushtabsol(table);
+      }
+
+      repcoup();
+
+      /* Stop solving if a given number of solutions was encountered */
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || maxtime_status==MAXTIME_TIMEOUT)
+        break;
+    }
+    
+    if (side_at_move==Black)
+      BlMovesLeft++;
+    else
+      WhMovesLeft++;
+
+    finply();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice. First consult hash table.
+ * @param table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @param side_at_move side at move
+ */
+static
+void branch_h_solve_continuations_in_n_recursive(int table,
+                                                 slice_index si,
+                                                 stip_length_type n,
+                                                 Side side_at_move)
+{
+  hashwhat const hash_no_succ = n%2==0 ? HelpNoSuccEven : HelpNoSuccOdd;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
+
+  if (!inhash(si,hash_no_succ,n/2))
+  {
+    branch_h_solve_continuations_in_n_recursive_nohash(table,
+                                                       si,
+                                                       n,
+                                                       side_at_move);
+    if (tablen(table)==0)
+      addtohash(si,hash_no_succ,n/2);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice.
+ * @param table where to add first moves
+ * @param si identifies slice being solved
+ * @param n number of half moves until end state has to be reached
+ */
+static void branch_h_solve_continuations_in_n(int table,
+                                              slice_index si,
+                                              stip_length_type n)
+{
+  Side const starter = branch_h_starter_in_n(si,n);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
+
+  TraceValue("%u\n",starter);
+
+  if (n==slices[si].u.branch.length)
+    branch_h_solve_continuations_in_n_recursive_nohash(table,
+                                                       si,
+                                                       n,
+                                                       starter);
+  else
+    branch_h_solve_continuations_in_n_recursive(table,si,n,starter);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Determine and write continuations of a slice
+ * @param table table where to store continuing moves (i.e. threats)
+ * @param si index of branch slice
+ */
+void branch_h_solve_continuations(int table, slice_index si)
+{
+  boolean solution_found = false;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  assert(full_length>=slack_length_help);
+
+  while (len<full_length && !solution_found)
+  {
+    branch_h_solve_continuations_in_n(table,si,len);
+    if (tablen(table)>0)
+    {
+      solution_found = true;
+      FlagShortSolsReached = true;
+    }
+
+    len += 2;
+  }
+
+  if (!solution_found)
+    branch_h_solve_continuations_in_n(table,si,full_length);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+static boolean branch_h_has_solution_in_n_recursive(slice_index si,
+                                                    stip_length_type n,
+                                                    Side side_at_move);
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @param side_at_move side at move
+ * @return true iff >= 1 solution has been found
+ */
+static
+boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
+                                                    stip_length_type n,
+                                                    Side side_at_move)
+
+{
+  boolean found_solution = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
+
+  assert(n>=slack_length_help);
+
+  if (n==slack_length_help)
+    found_solution = slice_has_solution(slices[si].u.branch.next);
+  else
+  {
+    Side next_side = advers(side_at_move);
+
+    active_slice[nbply+1] = si;
+    genmove(side_at_move);
+  
+    if (side_at_move==Black)
+      BlMovesLeft--;
+    else
+      WhMovesLeft--;
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+          && (!isIntelligentModeActive || isGoalReachable())
+          && !echecc(nbply,side_at_move))
+      {
+        (*encode)();
+        if (!slice_must_starter_resign(slices[si].u.branch.next)
+            && branch_h_has_solution_in_n_recursive(si,n-1,next_side))
+          found_solution = true;
+      }
+
+      repcoup();
+    }
+    
+    if (side_at_move==Black)
+      BlMovesLeft++;
+    else
+      WhMovesLeft++;
+
+    finply();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",found_solution);
+  return found_solution;
+}
+
+/* Determine whether the slice has a solution in n half moves. Consult
+ * hash table. 
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @param side_at_move side at move
+ * @return true iff >= 1 solution has been found
+ */
+static boolean branch_h_has_solution_in_n_recursive(slice_index si,
+                                                    stip_length_type n,
+                                                    Side side_at_move)
+{
+  boolean found_solution = false;
+  hashwhat const hash_no_succ = n%2==0 ? HelpNoSuccEven : HelpNoSuccOdd;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
+
+  if (!inhash(si,hash_no_succ,n/2))
+  {
+    if (branch_h_has_solution_in_n_recursive_nohash(si,n,side_at_move))
+      found_solution = true;
+    else
+      addtohash(si,hash_no_succ,n/2);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",found_solution);
+  return found_solution;
+}
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >= 1 solution has been found
+ */
+static boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n)
+{
+  boolean result;
+  Side const starter = branch_h_starter_in_n(si,n);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
+
+  TraceValue("%u\n",starter);
+
+  if (n==slices[si].u.branch.length)
+    result = branch_h_has_solution_in_n_recursive_nohash(si,n,starter);
+  else
+    result = branch_h_has_solution_in_n_recursive(si,n,starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean branch_h_has_solution(slice_index si)
+{
+  boolean result = false;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  assert(full_length>=slack_length_help);
+
+  while (len<full_length && !result)
+  {
+    if (branch_h_has_solution_in_n(si,len))
+      result = true;
+
+    len += 2;
+  }
+
+  result = result || branch_h_has_solution_in_n(si,full_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 
 /* Determine the starting side in a help branch in n
  * @param si slice index

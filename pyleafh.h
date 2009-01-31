@@ -24,36 +24,11 @@ boolean leaf_h_must_starter_resign(slice_index leaf);
  */
 boolean leaf_h_has_non_starter_solved(slice_index leaf);
 
-/* Find and write set play
- * @param leaf slice index
- * @return true iff >= 1 set play was found
- */
-boolean leaf_h_root_solve_setplay(slice_index leaf);
-
-/* Find and write set play provided every set move leads to end
- * @param leaf slice index
- * @return true iff every defender's move leads to end
- */
-boolean leaf_h_root_solve_complete_set(slice_index leaf);
-
 /* Find and write variations (i.e. nothing resp. defender's final
  * moves). 
  * @param leaf slice index
  */
 void leaf_h_solve_variations(slice_index leaf);
-
-/* Write the key just played, then solve the post key play
- * @param leaf slice index
- * @param type type of attack
- */
-void leaf_h_root_write_key_solve_postkey(slice_index leaf, attack_type type);
-
-/* Find and write continuations (i.e. mating moves or final move pairs).
- * @param continuations table where to append continuations found and
- *                      written
- * @param leaf slice index
- */
-void leaf_h_solve_continuations(int continuations, slice_index leaf);
 
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.

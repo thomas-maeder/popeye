@@ -328,7 +328,8 @@ platform/maxtime.h:
 
 trace.h:
 pyoutput$(OBJ_SUFFIX): pyoutput.c pyoutput.h py.h boolean.h pylang.h pygoal.h \
-  pystip.h pydata.h pyproc.h py4.h pymsg.h pyint.h pyslice.h trace.h
+  pystip.h pydata.h pyproc.h py4.h pymsg.h pyint.h pyslice.h py1.h \
+  trace.h
 
 pyoutput.h:
 
@@ -353,6 +354,8 @@ pymsg.h:
 pyint.h:
 
 pyslice.h:
+
+py1.h:
 
 trace.h:
 pysignal$(OBJ_SUFFIX): pysignal.c

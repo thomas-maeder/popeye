@@ -8,6 +8,12 @@
  * stipulation slices.
  */
 
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean branch_h_has_solution(slice_index si);
+
 /* Determine and write set play
  * @param si slice index
  * @return true iff >= 1 set play was found
@@ -42,5 +48,11 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n);
  * @param s starting side of slice
  */
 void branch_h_impose_starter(slice_index si, Side s);
+
+/* Determine and write continuations of a slice
+ * @param table table where to store continuing moves (i.e. threats)
+ * @param si index of branch slice
+ */
+void branch_h_solve_continuations(int table, slice_index si);
 
 #endif

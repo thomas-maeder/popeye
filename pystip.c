@@ -183,24 +183,20 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
   TraceValue("%u\n",slices[index].type);
   switch (slices[index].type)
   {
-    case STLeafDirect:
-      break;
-
     case STLeafSelf:
-    case STLeafHelp:
     {
-        /* Insert a new quodlibet node at *hook's current position.
-         * Move *hook to positon op2 of the new quodlibet node, and
-         * add a new direct leaf at op1 of that node.
-         * op1 is tested before op2, so it is more efficient to make
-         * op1 the new direct leaf.
+      /* Insert a new quodlibet node at *hook's current position.
+       * Move *hook to positon op2 of the new quodlibet node, and
+       * add a new direct leaf at op1 of that node.
+       * op1 is tested before op2, so it is more efficient to make
+       * op1 the new direct leaf.
          */
-        Goal const goal = slices[index].u.leaf.goal;
-        *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
-                                      index);
-        TraceValue("allocated quodlibet slice %u\n",*hook);
-      }
-      break;
+      Goal const goal = slices[index].u.leaf.goal;
+      *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
+                                    index);
+      TraceValue("allocated quodlibet slice %u for self play\n",*hook);
+    }
+    break;
 
     case STQuodlibet:
       transform_to_quodlibet_recursive(&slices[index].u.quodlibet.op1);
@@ -212,8 +208,24 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
       transform_to_quodlibet_recursive(&slices[index].u.reciprocal.op2);
       break;
 
-    case STBranchDirect:
     case STBranchHelp:
+    {
+      /* Insert a new quodlibet node at *hook's current position.
+       * Move *hook to positon op2 of the new quodlibet node, and
+       * add a new direct leaf at op1 of that node.
+       * op1 is tested before op2, so it is more efficient to make
+       * op1 the new direct leaf.
+         */
+      slice_index const next = slices[index].u.branch.next;
+      Goal const goal = slices[next].u.leaf.goal;
+      assert(slices[next].type==STLeafHelp);
+      *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
+                                    index);
+      TraceValue("allocated quodlibet slice %u for reflex play\n",*hook);
+    }
+    break;
+
+    case STBranchDirect:
     case STBranchSeries:
       transform_to_quodlibet_recursive(&slices[index].u.branch.next);
       break;

@@ -329,7 +329,7 @@ void    gedgeh(square a, Side b);
 
 void    gmoab(square a);
 void    gmoan(square a);
-Token   ReadTwin(Token tk);
+Token   ReadTwin(Token tk, boolean *stipChanged);
 void    ErrString(char const *s);
 void    StdChar(char c);
 void    StdString(char const *s);

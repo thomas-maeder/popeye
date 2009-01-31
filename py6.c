@@ -2400,13 +2400,6 @@ static boolean initialise_position(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  /* intelligent AND duplex means that the board is mirrored
-   * and the colors swapped by swapcolors() and reflectboard()
-   * -> start with the regular side. */
-  slice_detect_starter(root_slice,
-                       OptFlag[halfduplex] && !isIntelligentModeActive,
-                       true);
-
   if (slices[root_slice].u.branch.starter==no_side)
   {
     VerifieMsg(CantDecideWhoIsAtTheMove);
@@ -2724,11 +2717,16 @@ static Token iterate_twins(Token prev_token)
 {
   unsigned int twin_index = 0;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",prev_token);
+
   do
   {
+    boolean shouldDetectStarter = false;
+ 
     InitAlways();
 
-    prev_token = ReadTwin(prev_token);
+    prev_token = ReadTwin(prev_token,&shouldDetectStarter);
 
     if (twin_index==0)
       /* Set the timer for real calculation time */
@@ -2736,10 +2734,13 @@ static Token iterate_twins(Token prev_token)
 
     if (prev_token==ZeroPosition)
     {
+      boolean dummy;
+
       if (!OptFlag[noboard])
         WritePosition();
 
-      prev_token = ReadTwin(prev_token);
+      prev_token = ReadTwin(prev_token,&dummy);
+      shouldDetectStarter = true;
       if (LaTeXout)
         LaTeXBeginDiagram();
 
@@ -2763,6 +2764,16 @@ static Token iterate_twins(Token prev_token)
       
     setMaxtime(&maxsolvingtime);
 
+    TraceValue("%u",twin_index);
+    TraceValue("%u\n",shouldDetectStarter);
+    if (twin_index==0 || shouldDetectStarter)
+      /* intelligent AND duplex means that the board is mirrored and
+       * the colors swapped by swapcolors() and reflectboard() ->
+       * start with the regular side. */
+      slice_detect_starter(root_slice,
+                           OptFlag[halfduplex] && !isIntelligentModeActive,
+                           true);
+
     solve_twin(twin_index,prev_token);
 
     if ((OptFlag[maxsols] && solutions>=maxsolutions)
@@ -2775,6 +2786,9 @@ static Token iterate_twins(Token prev_token)
     ++twin_index;
   } while (prev_token==TwinProblem);
 
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",prev_token);
   return prev_token;
 }
 

@@ -1295,12 +1295,16 @@ static char *ParseReciEnd(char *tok, slice_index *si)
 
 static char *ParseReflexEnd(char *tok, slice_index *si)
 {
-  slice_index help;
-  tok = ParseGoal(tok,STLeafHelp,&help);
-  if (tok!=0 && help!=no_slice)
+  slice_index leaf;
+  tok = ParseGoal(tok,STLeafHelp,&leaf);
+  if (tok!=0 && leaf!=no_slice)
   {
+    slice_index const help = alloc_branch_slice(STBranchHelp,
+                                                slack_length_help+1,
+                                                slack_length_help+1,
+                                                leaf);
     slice_index const direct = alloc_leaf_slice(STLeafDirect,
-                                                slices[help].u.leaf.goal);
+                                                slices[leaf].u.leaf.goal);
     slice_index const not = alloc_not_slice(direct);
     *si = alloc_reciprocal_slice(help,not);
     slice_impose_starter(*si,White);
@@ -1324,9 +1328,14 @@ static char *ParseEnd(char *tok, slice_index *si)
 
   else if (strncmp("semi-r", tok, 6) == 0)
   {
-    tok = ParseGoal(tok+6,STLeafHelp,si);
+    slice_index leaf;
+    tok = ParseGoal(tok+6,STLeafHelp,&leaf);
+    *si = alloc_branch_slice(STBranchHelp,
+                             slack_length_help+1,
+                             slack_length_help+1,
+                             leaf);
     /* the end of a sermi-r problem is hX1 with reversed coulours. */
-    slice_impose_starter(slices[*si].u.branch.next,White);
+    slice_impose_starter(*si,White);
   }
 
   else if (strncmp("hs", tok, 2) == 0)
@@ -1513,11 +1522,6 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type length;
       stip_length_type min_length;
       result = ParseLength(tok,STBranchHelp,&length,&min_length);
-      --length;
-      if (length%2==0)
-        --min_length;
-      else
-        ++min_length;
       if (result!=0)
         *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
     }
@@ -3630,7 +3634,7 @@ static char *ParseTwinningSubstitute(void) {
 
 }
 
-static char *ParseTwinning(void)
+static char *ParseTwinning(boolean *stipChanged)
 {
   char  *tok = ReadNextTokStr();
   boolean continued= false;
@@ -3638,6 +3642,7 @@ static char *ParseTwinning(void)
 
   TwinChar++;
   OptFlag[noboard]= true;
+  *stipChanged = false;
 
   while (true)
   {
@@ -3736,6 +3741,7 @@ static char *ParseTwinning(void)
         tok = ParseTwinningMirror();
         break;
       case TwinningStip:
+        *stipChanged = true;
         InitStip();
         tok = ParseStip();
 
@@ -3832,7 +3838,7 @@ char *ReadPieces(int condition) {
 }
 
 
-Token ReadTwin(Token tk)
+Token ReadTwin(Token tk, boolean *stipChanged)
 {
   char *tok;
 
@@ -3855,7 +3861,7 @@ Token ReadTwin(Token tk)
       TwinChar= 'a'-1;
       TwinStorePosition();
     }
-    tok = ParseTwinning();
+    tok = ParseTwinning(stipChanged);
 
     while (true)
     {
