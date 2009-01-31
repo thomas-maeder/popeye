@@ -184,6 +184,11 @@ typedef enum
  */
 slice_index alloc_slice_index(void);
 
+/* Dellocate a slice index
+ * @param si slice index deallocated
+ */
+void dealloc_slice_index(slice_index si);
+
 /* Allocate a branch slice.
  * @param type which STBranch* type
  * @param length number of moves of branch (semantics depends on type)

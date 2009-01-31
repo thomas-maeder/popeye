@@ -20,6 +20,17 @@ slice_index alloc_slice_index(void)
   return next_slice++;
 }
 
+/* Dellocate a slice index
+ * @param si slice index deallocated
+ */
+void dealloc_slice_index(slice_index si)
+{
+  /* TODO reuse all deallocated slice indices, not just the last
+   * allocated one */
+  if (next_slice==si+1)
+    --next_slice;
+}
+
 /* Allocate a branch slice.
  * @param type type of slice
  * @param next identifies next slice

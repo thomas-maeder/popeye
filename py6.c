@@ -2536,7 +2536,9 @@ static boolean root_slice_apply_whitetoplay(void)
     {
       meaning_of_whitetoplay const
           meaning = detect_meaning_of_whitetoplay(root_slice);
+      slice_index const save_root_slice = root_slice;
       root_slice = slices[root_slice].u.move_inverter.next;
+      dealloc_slice_index(save_root_slice);
       if (meaning==whitetoplay_means_shorten_root_slice
           && slices[root_slice].type==STBranchHelp)
       {
@@ -2568,7 +2570,9 @@ static void root_slice_undo_whitetoplay(void)
     {
       meaning_of_whitetoplay const
           meaning = detect_meaning_of_whitetoplay(root_slice);
+      slice_index const save_root_slice = root_slice;
       root_slice = slices[root_slice].u.move_inverter.next;
+      dealloc_slice_index(save_root_slice);
       slice_impose_starter(root_slice,
                            advers(slices[root_slice].u.branch.starter));
       if (meaning==whitetoplay_means_shorten_root_slice)
