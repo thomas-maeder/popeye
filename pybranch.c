@@ -161,7 +161,7 @@ who_decides_on_starter branch_detect_starter(slice_index si,
                                              boolean is_duplex,
                                              boolean same_side_as_root)
 {
-  who_decides_on_starter result;
+  who_decides_on_starter result = dont_know_who_decides_on_starter;
   slice_index const next = slices[si].u.branch.next;
   slice_index next_relevant = next;
 

@@ -729,14 +729,13 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
  * than the usual genmove() */
 static boolean selflastencore(square const **selfbnp,
                               square initiallygenerated,
-                              slice_index leaf)
+                              Side defender)
 {
   if (encore())
     return true;
   else
   {
-    Side const attacker = slices[leaf].u.leaf.starter;
-    Side const defender = advers(attacker);
+    Side const attacker = advers(defender);
     square curr_square = **selfbnp;
 
     if (TSTFLAG(PieSpExFlags,Neutral))
@@ -773,19 +772,19 @@ static boolean selflastencore(square const **selfbnp,
 
     return false;
   }
-} /* selflastencore */
+}
 
 /* Determine whether the side at move must end in 1.
  * @return true iff side_at_move can end in 1 move
  */
-boolean leaf_is_end_in_1_forced(slice_index leaf)
+boolean leaf_is_end_in_1_forced(Side defender, slice_index leaf)
 {
-  Side const defender = advers(slices[leaf].u.leaf.starter);
   boolean is_defender_immobile = true;
   boolean escape_found = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u",defender);
   TraceFunctionParam("%u\n",slices[leaf].u.leaf.goal);
 
   if (defender==Black ? flagblackmummer : flagwhitemummer)
@@ -858,7 +857,7 @@ boolean leaf_is_end_in_1_forced(slice_index leaf)
     }
     finish_move_generation_optimizer();
     while (!escape_found
-           && selflastencore(&selfbnp,initiallygenerated,leaf))
+           && selflastencore(&selfbnp,initiallygenerated,defender))
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && !echecc(nbply,defender))

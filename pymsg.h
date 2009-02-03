@@ -155,6 +155,7 @@ typedef enum
   ThreatOptionAndExactStipulationIncompatible = 114,
   GhostHauntedChessAndCirceKamikazeHaanIncompatible = 115,
   WhiteToPlayNotApplicable = 116,
+  SetPlayNotApplicable = 117,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

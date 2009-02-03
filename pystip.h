@@ -22,11 +22,14 @@ typedef enum
   STLeafDirect,   /* goal in 1 */
   STLeafHelp,     /* help-goal in 1 */
   STLeafSelf,     /* self-goal in 1 */
+  STLeafForced,   /* forced goal in 1 half move */
 
   STReciprocal,   /* logical AND */
   STQuodlibet,    /* logical OR */
   STNot,          /* logical NOT */
 
+  STConstant,     /* logical constant */
+  
   STMoveInverter  /* 0 length, inverts side at move */
 } SliceType;
 
@@ -112,26 +115,32 @@ typedef struct
             stip_length_type length;
             stip_length_type min_length; /* of short solutions */
             slice_index next;
+            slice_index derived_from;
         } branch;
 
-        struct
+        struct /* for type==STQuodlibet */
         {
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */
         } quodlibet;
 
-        struct
+        struct /* for type==STReciprocal */
         {
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */
         } reciprocal;
 
-        struct
+        struct /* for type==STNot */
         {
             slice_index op;
         } not;
 
-        struct
+        struct /* for type==STConstant */
+        {
+            boolean value;
+        } constant;
+
+        struct /* for type==STMoveInverter */
         {
             Side starter;
             slice_index next;

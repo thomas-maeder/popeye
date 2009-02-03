@@ -5,6 +5,7 @@
 #include "pyoutput.h"
 #include "pyleaf.h"
 #include "pyhash.h"
+#include "pyconst.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -133,6 +134,127 @@ boolean leaf_d_has_non_starter_solved(slice_index leaf)
 
 /* Determine and write keys leading to a double-mate
  * @param leaf leaf's slice index
+ */
+static void leaf_d_root_dmate_solve(slice_index leaf)
+{
+  Side const starter = slices[leaf].u.leaf.starter;
+
+  if (!immobile(starter))
+  {
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(leaf,starter);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play)
+          && leaf_is_goal_reached(starter,leaf))
+      {
+        write_final_attack(goal_doublemate,attack_key);
+        output_start_leaf_variation_level();
+        output_end_leaf_variation_level();
+        write_end_of_solution();
+      }
+
+      repcoup();
+    }
+
+    finply();
+  }
+}
+
+/* Determine and write keys leading to counter-mate
+ * @param leaf leaf's slice index
+ */
+static void leaf_d_root_cmate_solve(slice_index leaf)
+{
+  Side const starter = slices[leaf].u.leaf.starter;
+  Side const non_starter = advers(starter);
+
+  /* TODO can this be generalised to non-mate goals? */
+  if (goal_checker_mate(non_starter))
+  {
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(leaf,starter);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play)
+          && leaf_is_goal_reached(starter,leaf))
+      {
+        write_final_attack(goal_countermate,attack_key);
+        output_start_leaf_variation_level();
+        output_end_leaf_variation_level();
+        write_end_of_solution();
+      }
+      repcoup();
+    }
+
+    finply();
+  }
+}
+
+/* Determine and write keys leading to "regular goals"
+ * @param leaf leaf's slice index
+ */
+static void leaf_d_root_regulargoals_solve(slice_index leaf)
+{
+  Side const attacker = slices[leaf].u.leaf.starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
+
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(leaf,attacker);
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+        && leaf_is_goal_reached(attacker,leaf))
+    {
+      write_final_attack(slices[leaf].u.leaf.goal,attack_key);
+      output_start_leaf_variation_level();
+      output_end_leaf_variation_level();
+      write_end_of_solution();
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Determine and write keys at root level
+ * @param leaf leaf's slice index
+ */
+void leaf_d_root_solve(slice_index leaf)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
+
+  switch (slices[leaf].u.leaf.goal)
+  {
+    case goal_countermate:
+      leaf_d_root_cmate_solve(leaf);
+      break;
+
+    case goal_doublemate:
+      leaf_d_root_dmate_solve(leaf);
+      break;
+
+    default:
+      leaf_d_root_regulargoals_solve(leaf);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Determine and write keys leading to a double-mate
+ * @param leaf leaf's slice index
  * @return true iff >=1 key was found and written
  */
 static boolean leaf_d_dmate_solve(slice_index leaf)
@@ -151,11 +273,9 @@ static boolean leaf_d_dmate_solve(slice_index leaf)
           && leaf_is_goal_reached(starter,leaf))
       {
         solution_found = true;
-        write_attack(goal_doublemate,attack_key);
-        output_start_postkey_level();
+        write_final_attack(goal_doublemate,attack_key);
         output_start_leaf_variation_level();
         output_end_leaf_variation_level();
-        output_end_postkey_level();
       }
 
       repcoup();
@@ -189,11 +309,9 @@ static boolean leaf_d_cmate_solve(slice_index leaf)
           && leaf_is_goal_reached(starter,leaf))
       {
         solution_found = true;
-        write_attack(goal_countermate,attack_key);
-        output_start_postkey_level();
+        write_final_attack(goal_countermate,attack_key);
         output_start_leaf_variation_level();
         output_end_leaf_variation_level();
-        output_end_postkey_level();
       }
       repcoup();
     }
@@ -225,11 +343,9 @@ static boolean leaf_d_regulargoals_solve(slice_index leaf)
         && leaf_is_goal_reached(attacker,leaf))
     {
       solution_found = true;
-      write_attack(slices[leaf].u.leaf.goal,attack_key);
-      output_start_postkey_level();
+      write_final_attack(slices[leaf].u.leaf.goal,attack_key);
       output_start_leaf_variation_level();
       output_end_leaf_variation_level();
-      output_end_postkey_level();
     }
 
     repcoup();
@@ -281,7 +397,7 @@ void leaf_d_root_write_key_solve_postkey(slice_index leaf, attack_type type)
 {
   assert(slices[leaf].u.leaf.starter!=no_side);
 
-  write_attack(slices[leaf].u.leaf.goal,type);
+  write_final_attack(slices[leaf].u.leaf.goal,type);
   output_start_postkey_level();
   output_start_leaf_variation_level();
   output_end_leaf_variation_level();
@@ -351,40 +467,38 @@ boolean leaf_d_has_starter_reached_goal(slice_index leaf)
   return result;
 }
 
-/* Find and write defender's set play
- * @param leaf slice index
+/* Prepare a slice for spinning of a set play slice
+ * @param si slice index
+ * @return no_slice if set play not applicable
+ *         new root slice index (may be equal to old one) otherwise
  */
-boolean leaf_d_root_solve_setplay(slice_index leaf)
+slice_index leaf_d_root_prepare_for_setplay(slice_index leaf)
 {
-  boolean result = false;
+  slice_index const result = leaf;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
-
-  assert(slices[leaf].u.leaf.starter!=no_side);
-
-  /* nothing */
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
 }
 
-/* Find and write set play provided every set move leads to end
- * @param leaf slice index
- * @return true iff every defender's move leads to end
+/* Spin of a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
  */
-boolean leaf_d_root_solve_complete_set(slice_index leaf)
+slice_index leaf_d_root_make_setplay_slice(slice_index leaf)
 {
-  boolean result = false;
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  assert(slices[leaf].u.leaf.starter!=no_side);
-
-  /* nothing */
-
+  result = alloc_constant_slice(false);
+  
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
@@ -422,7 +536,7 @@ void leaf_d_solve_continuations(int solutions, slice_index leaf)
         && !echecc(nbply,attacker)
         && leaf_is_goal_reached(attacker,leaf))
     {
-      write_attack(slices[leaf].u.leaf.goal,attack_regular);
+      write_final_attack(slices[leaf].u.leaf.goal,attack_regular);
       output_start_leaf_variation_level();
       output_end_leaf_variation_level();
       pushtabsol(solutions);

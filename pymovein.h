@@ -22,6 +22,19 @@ slice_index alloc_move_inverter_slice(slice_index next);
  */
 boolean move_inverter_must_starter_resign(slice_index si);
 
+/* Prepare a slice for spinning of a set play slice
+ * @param si slice index
+ */
+slice_index move_inverter_root_prepare_for_setplay(slice_index si);
+
+/* Spin of a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
+ */
+slice_index move_inverter_root_make_setplay_slice(slice_index si);
+
 /* Solve a move inverter at root level
  * @param si slice index
  */

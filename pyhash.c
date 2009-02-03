@@ -117,8 +117,39 @@ unsigned long int compression_counter;
 
 HashBuffer hashBuffers[maxply+1];
 
+#if !defined(NDEBUG)
+
 boolean isHashBufferValid[maxply+1];
 
+void validateHashBuffer(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  TraceValue("%u\n",nbply);
+
+  isHashBufferValid[nbply] = true;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+void invalidateHashBuffer(boolean guard)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",guard);
+
+  if (guard)
+  {
+    TraceValue("%u\n",nbply);
+    isHashBufferValid[nbply] = false;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+#endif
 
 #if defined(TESTHASH)
 #define ifTESTHASH(x)   x
@@ -160,6 +191,7 @@ typedef struct
  */
 typedef struct
 {
+    boolean is_initialised;
     unsigned int size;
     unsigned int value_size;
 
@@ -304,99 +336,123 @@ static void init_slice_properties_recursive(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",*nr_bits_left);
 
-  TraceValue("%u\n",slices[si].type);
-  switch (slices[si].type)
+  if (slice_properties[si].is_initialised)
+    TraceText("already initialised\n");
+  else
   {
-    case STLeafHelp:
-      init_slice_properties_help(si,2,nr_bits_left);
-      break;
+    slice_properties[si].is_initialised = true;
 
-    case STLeafDirect:
-    case STLeafSelf:
-      init_slice_properties_direct(si,1,nr_bits_left);
-      break;
-
-    case STQuodlibet:
+    TraceValue("%u\n",slices[si].type);
+    switch (slices[si].type)
     {
-      init_slice_properties_recursive(slices[si].u.quodlibet.op1,
-                                      nr_bits_left);
-      init_slice_properties_recursive(slices[si].u.quodlibet.op2,
-                                      nr_bits_left);
+      case STLeafHelp:
+        init_slice_properties_help(si,2,nr_bits_left);
+        break;
 
-      slice_properties[si].value_size = 0;
-    }
+      case STLeafDirect:
+      case STLeafSelf:
+        init_slice_properties_direct(si,1,nr_bits_left);
+        break;
+
+      case STLeafForced:
+        /* nothing */
+        break;
+      
+      case STQuodlibet:
+      {
+        init_slice_properties_recursive(slices[si].u.quodlibet.op1,
+                                        nr_bits_left);
+        init_slice_properties_recursive(slices[si].u.quodlibet.op2,
+                                        nr_bits_left);
+
+        slice_properties[si].value_size = 0;
+      }
       break;
 
-    case STReciprocal:
-    {
-      slice_index const op1 = slices[si].u.reciprocal.op1;
-      slice_index const op2 = slices[si].u.reciprocal.op2;
+      case STReciprocal:
+      {
+        slice_index const op1 = slices[si].u.reciprocal.op1;
+        slice_index const op2 = slices[si].u.reciprocal.op2;
 
-      init_slice_properties_recursive(op1,nr_bits_left);
-      init_slice_properties_recursive(op2,nr_bits_left);
+        init_slice_properties_recursive(op1,nr_bits_left);
+        init_slice_properties_recursive(op2,nr_bits_left);
 
-      /* both operand slices must have the same value_size, or the
-       * shorter one will dominate the longer one */
-      if (slice_properties[op1].value_size>slice_properties[op2].value_size)
-        slice_properties[op2].value_size = slice_properties[op1].value_size;
-      else
-        slice_properties[op1].value_size = slice_properties[op2].value_size;
+        /* both operand slices must have the same value_size, or the
+         * shorter one will dominate the longer one */
+        if (slice_properties[op1].value_size>slice_properties[op2].value_size)
+          slice_properties[op2].value_size = slice_properties[op1].value_size;
+        else
+          slice_properties[op1].value_size = slice_properties[op2].value_size;
 
-      break;
-    }
+        break;
+      }
 
-    case STNot:
-    {
-      init_slice_properties_recursive(slices[si].u.not.op,nr_bits_left);
-      slice_properties[si].value_size = 0;
-      break;
-    }
+      case STNot:
+      {
+        init_slice_properties_recursive(slices[si].u.not.op,nr_bits_left);
+        slice_properties[si].value_size = 0;
+        break;
+      }
 
-    case STBranchDirect:
-    {
-      slice_index const next = slices[si].u.branch.next;
-      unsigned int const length = slices[si].u.branch.length;
-      init_slice_properties_direct(si,length,nr_bits_left);
-      if (slices[si].u.branch.min_length>0)
-        is_there_slice_with_nonstandard_min_length = true;
+      case STConstant:
+        slice_properties[si].value_size = 0;
+        break;
 
-      init_slice_properties_recursive(next,nr_bits_left);
-      break;
-    }
+      case STBranchDirect:
+      {
+        slice_index const derived_from = slices[si].u.branch.derived_from;
+        if (derived_from==no_slice)
+        {
+          slice_index const next = slices[si].u.branch.next;
+          unsigned int const length = slices[si].u.branch.length;
+          init_slice_properties_direct(si,length,nr_bits_left);
+          if (slices[si].u.branch.min_length>0)
+            is_there_slice_with_nonstandard_min_length = true;
 
-    case STBranchHelp:
-    {
-      slice_index const next = slices[si].u.branch.next;
-      unsigned int const length = slices[si].u.branch.length;
-      init_slice_properties_help(si,
-                                 length-slack_length_help,
-                                 nr_bits_left);
-      if (slices[si].u.branch.min_length>slack_length_help)
-        is_there_slice_with_nonstandard_min_length = true;
+          init_slice_properties_recursive(next,nr_bits_left);
+        }
+        else
+        {
+          init_slice_properties_recursive(derived_from,nr_bits_left);
+          slice_properties[si] = slice_properties[derived_from];
+        }
+        break;
+      }
 
-      init_slice_properties_recursive(next,nr_bits_left);
-      break;
-    }
-
-    case STBranchSeries:
-    {
-      slice_index const next = slices[si].u.branch.next;
-      unsigned int const length = slices[si].u.branch.length;
-      init_slice_properties_series(si,
-                                   length-slack_length_series,
+      case STBranchHelp:
+      {
+        slice_index const next = slices[si].u.branch.next;
+        unsigned int const length = slices[si].u.branch.length;
+        init_slice_properties_help(si,
+                                   length-slack_length_help,
                                    nr_bits_left);
-      if (slices[si].u.branch.min_length>slack_length_series)
-        is_there_slice_with_nonstandard_min_length = true;
+        if (slices[si].u.branch.min_length>slack_length_help)
+          is_there_slice_with_nonstandard_min_length = true;
 
-      init_slice_properties_recursive(next,nr_bits_left);
-      break;
-    }
+        init_slice_properties_recursive(next,nr_bits_left);
+        break;
+      }
 
-    case STMoveInverter:
-    {
-      slice_index const next = slices[si].u.move_inverter.next;
-      init_slice_properties_recursive(next,nr_bits_left);
-      break;
+      case STBranchSeries:
+      {
+        slice_index const next = slices[si].u.branch.next;
+        unsigned int const length = slices[si].u.branch.length;
+        init_slice_properties_series(si,
+                                     length-slack_length_series,
+                                     nr_bits_left);
+        if (slices[si].u.branch.min_length>slack_length_series)
+          is_there_slice_with_nonstandard_min_length = true;
+
+        init_slice_properties_recursive(next,nr_bits_left);
+        break;
+      }
+
+      case STMoveInverter:
+      {
+        slice_index const next = slices[si].u.move_inverter.next;
+        init_slice_properties_recursive(next,nr_bits_left);
+        break;
+      }
     }
   }
 
@@ -411,9 +467,13 @@ static void init_slice_properties(void)
 {
   slice_index const si = root_slice;
   size_t nr_bits_left = sizeof(data_type)*CHAR_BIT;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
+
+  for (i = 0; i!=max_nr_slices; ++i)
+    slice_properties[i].is_initialised = false;
 
   init_slice_properties_recursive(si,&nr_bits_left);
 
@@ -1414,6 +1474,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
   TraceFunctionParam("%u",what);
   TraceFunctionParam("%u\n",val);
 
+  TraceValue("%u\n",nbply);
+
   assert(isHashBufferValid[nbply]);
 
   ifHASHRATE(use_all++);
@@ -1564,6 +1626,10 @@ static void init_element(dhtElement *he, slice_index si)
       init_element_direct(he,si,1);
       break;
 
+    case STLeafForced:
+      /* nothing */
+      break;
+
     case STReciprocal:
       init_element(he,slices[si].u.reciprocal.op1);
       init_element(he,slices[si].u.reciprocal.op2);
@@ -1579,8 +1645,11 @@ static void init_element(dhtElement *he, slice_index si)
       break;
 
     case STBranchDirect:
-      init_element_direct(he,si,slices[si].u.branch.length);
-      init_element(he,slices[si].u.branch.next);
+      if (slices[si].u.branch.derived_from==no_slice)
+      {
+        init_element_direct(he,si,slices[si].u.branch.length);
+        init_element(he,slices[si].u.branch.next);
+      }
       break;
       
     case STBranchHelp:
@@ -1600,6 +1669,10 @@ static void init_element(dhtElement *he, slice_index si)
       break;
     }
 
+    case STConstant:
+      /* nothing */
+      break;
+
     default:
       assert(0);
       break;
@@ -1615,6 +1688,8 @@ void addtohash(slice_index si, hashwhat what, hash_value_type val)
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",what);
   TraceFunctionParam("%u\n",val);
+
+  TraceValue("%u\n",nbply);
 
   assert(isHashBufferValid[nbply]);
 
@@ -1813,8 +1888,8 @@ void inithash(void)
       printf("room for up to %lu positions in hash table\n", MaxPositions));
 #endif /*FXF*/
 
-  invalidateHashBuffer(); /* prevent the following line from firing an
-                             assert() */
+  invalidateHashBuffer(true); /* prevent the following line from firing an
+                                 assert() */
   (*encode)(); /* TODO why is this necessary*/
 } /* inithash */
 

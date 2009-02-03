@@ -58,6 +58,7 @@ slice_index alloc_branch_slice(SliceType type,
   slices[result].u.branch.length = length;
   slices[result].u.branch.min_length = min_length;
   slices[result].u.branch.next = next;
+  slices[result].u.branch.derived_from = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -103,7 +104,8 @@ slice_index alloc_leaf_slice(SliceType type, Goal goal)
 
   assert(type==STLeafDirect
          || type==STLeafHelp
-         || type==STLeafSelf);
+         || type==STLeafSelf
+         || type==STLeafForced);
 
   slices[result].type = type; 
   slices[result].u.leaf.starter = no_side; 
@@ -124,7 +126,7 @@ slice_index copy_slice(slice_index original)
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParam("%u\n",original);
 
   slices[result] = slices[original];
 
@@ -298,8 +300,9 @@ static boolean slice_ends_only_in(Goal const goals[],
   switch (slices[si].type)
   {
     case STLeafDirect:
-    case STLeafSelf:
     case STLeafHelp:
+    case STLeafSelf:
+    case STLeafForced:
       return leaf_ends_in_one_of(goals,nrGoals,si);
 
     case STQuodlibet:
@@ -365,8 +368,9 @@ static boolean slice_ends_in(Goal const goals[],
   switch (slices[si].type)
   {
     case STLeafDirect:
-    case STLeafSelf:
     case STLeafHelp:
+    case STLeafSelf:
+    case STLeafForced:
       return leaf_ends_in_one_of(goals,nrGoals,si);
 
     case STQuodlibet:
@@ -405,6 +409,9 @@ static boolean slice_ends_in(Goal const goals[],
       return slice_ends_in(goals,nrGoals,next);
     }
 
+    case STConstant:
+      return false;
+
     default:
       assert(0);
       exit(1);
@@ -432,8 +439,9 @@ static slice_index find_goal_recursive(Goal goal,
   switch (slices[si].type)
   {
     case STLeafDirect:
-    case STLeafSelf:
     case STLeafHelp:
+    case STLeafSelf:
+    case STLeafForced:
       if (*active)
       {
         if (slices[si].u.leaf.goal==goal)
@@ -469,6 +477,10 @@ static slice_index find_goal_recursive(Goal goal,
       result = find_goal_recursive(goal,start,active,op);
       break;
     }
+
+    case STConstant:
+      result = no_slice;
+      break;
 
     case STBranchDirect:
     case STBranchHelp:

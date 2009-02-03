@@ -19,7 +19,7 @@ Goal goal_to_be_reached;
 boolean isGoalReachable(void);
 boolean SolAlreadyFound(void);
 void StoreSol(void);
-boolean Intelligent(stip_length_type n);
+boolean Intelligent(slice_index si, stip_length_type n);
 
 /* How well does the stipulation support intelligent mode?
  */

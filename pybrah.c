@@ -242,7 +242,7 @@ static void branch_h_root_solve_full_in_n(slice_index si, stip_length_type n)
   assert(n>=slack_length_help);
 
   if (isIntelligentModeActive)
-    Intelligent(n);
+    Intelligent(si,n);
   else
     branch_h_root_solve_in_n(si,n);
 
@@ -267,7 +267,7 @@ static boolean branch_h_root_solve_short_in_n(slice_index si,
   assert(n>=slack_length_help);
 
   if (isIntelligentModeActive)
-    result = Intelligent(n);
+    result = Intelligent(si,n);
   else
   {
     /* we only display move numbers when looking for full length
@@ -284,43 +284,82 @@ static boolean branch_h_root_solve_short_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write set play in help play
+/* Prepare a slice for spinning of a set play slice
  * @param si slice index
- * @return true iff >= 1 set play was found
+ * @return no_slice if set play not applicable
+ *         new root slice index (may be equal to old one) otherwise
  */
-boolean branch_h_root_solve_setplay(slice_index si)
+slice_index branch_h_root_prepare_for_setplay(slice_index si)
 {
-  boolean result = false;
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  output_start_move_inverted_level();
-
-  if (echecc(nbply,slices[si].u.branch.starter))
-    ErrorMsg(KingCapture);
-  else
+  /* TODO can this be? */
+  if (slices[si].u.branch.length==slack_length_help)
   {
-    stip_length_type const full_length = slices[si].u.branch.length-1;
-    TraceValue("%u\n",full_length);
-
-    if (full_length%2==0)
-      result = slice_root_solve_setplay(slices[si].u.branch.next);
-
-    if (full_length>1)
+    slice_index const next = slices[si].u.branch.next;
+    slice_index const next_result = slice_root_prepare_for_setplay(next);
+    if (next_result==no_slice)
+      result = no_slice;
+    else
     {
-      stip_length_type len;
-      for (len = slices[si].u.branch.min_length+1;
-           !result && len<full_length;
-           len += 2)
-        result = branch_h_root_solve_short_in_n(si,len);
-
-      if (!result)
-        branch_h_root_solve_full_in_n(si,full_length);
+      slices[si].u.branch.next = next_result;
+      result = si;
     }
   }
+  else if (slices[si].u.branch.length==slack_length_help+1)
+    result = si;
+  else
+  {
+    /* shorten si by 1 half move
+     * add a new STBranchHelp of 1 half move length as new root
+     * si will be the set slice
+     */
+    --slices[si].u.branch.length;
+    if (slices[si].u.branch.min_length==slack_length_help)
+      ++slices[si].u.branch.min_length;
+    else
+      --slices[si].u.branch.min_length;
+    slices[si].u.branch.starter = advers(slices[si].u.branch.starter);
+    TraceValue("->%u",slices[si].u.branch.length);
+    TraceValue("->%u",slices[si].u.branch.min_length);
+    TraceValue("->%u\n",slices[si].u.branch.starter);
 
-  output_end_move_inverted_level();
+    result = alloc_branch_slice(STBranchHelp,
+                                slack_length_help+1,
+                                slack_length_help+1,
+                                si);
+    slices[result].u.branch.starter = advers(slices[si].u.branch.starter);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Spin of a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
+ */
+slice_index branch_h_root_make_setplay_slice(slice_index si)
+{
+  slice_index const next = slices[si].u.branch.next;
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  assert(slices[si].u.branch.length==slack_length_help
+         || slices[si].u.branch.length==slack_length_help+1);
+
+  if (slices[si].u.branch.length==slack_length_help)
+    result = slice_root_make_setplay_slice(next);
+  else
+    result = next;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -332,39 +371,25 @@ boolean branch_h_root_solve_setplay(slice_index si)
  */
 void branch_h_root_solve(slice_index si)
 {
-  stip_length_type const full_length = slices[si].u.branch.length;
-  slice_index const next = slices[si].u.branch.next;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  TraceValue("%u",slices[si].u.branch.min_length);
-  TraceValue("%u\n",slices[si].u.branch.length);
-
-  move_generation_mode = move_generation_not_optimized;
-
-  if (OptFlag[solapparent] && !OptFlag[restart])
-  {
-    branch_h_root_solve_setplay(si);
-    write_end_of_solution_phase();
-  }
-
-  solutions = 0;    /* reset after set play */
-  FlagShortSolsReached = false;
-
   if (echecc(nbply,advers(slices[si].u.branch.starter)))
+  {
+    TraceText("hallo\n");
     ErrorMsg(KingCapture);
-  else if (full_length==slack_length_help-1)
-    slice_root_solve_setplay(next);
+  }
   else
   {
+    stip_length_type const full_length = slices[si].u.branch.length;
     stip_length_type len = slices[si].u.branch.min_length;
 
-    if (len==slack_length_help)
-    {
-      FlagShortSolsReached = slice_root_solve_complete_set(next);
-      len +=2;
-    }
+    TraceValue("%u",slices[si].u.branch.min_length);
+    TraceValue("%u\n",slices[si].u.branch.length);
+
+    assert(slices[si].u.branch.min_length>=slack_length_help);
+
+    move_generation_mode = move_generation_not_optimized;
 
     while (len<full_length
            && !(OptFlag[stoponshort] && FlagShortSolsReached))
@@ -395,7 +420,13 @@ boolean branch_h_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  assert(full_length>=slack_length_help);
+  assert(full_length>=slack_length_help-1);
+
+  if (len==slack_length_help-1)
+  {
+    slice_solve(slices[si].u.branch.next);
+    len +=2;
+  }
 
   while (len<full_length && !result)
   {

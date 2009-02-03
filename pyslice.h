@@ -31,6 +31,21 @@ void slice_write_unsolvability(slice_index si);
  */
 void slice_solve_continuations(int table, slice_index si);
 
+/* Prepare a slice for spinning of a set play slice
+ * @param si slice index
+ * @return no_slice if set play not applicable
+ *         new root slice index (may be equal to old one) otherwise
+ */
+slice_index slice_root_prepare_for_setplay(slice_index si);
+
+/* Spin of a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
+ */
+slice_index slice_root_make_setplay_slice(slice_index si);
+
 /* Find and write set play
  * @param si slice index
  * @return true iff >= 1 set play was found
@@ -141,5 +156,7 @@ void slice_impose_starter(slice_index si, Side s);
  * @return current starting side of slice si
  */
 Side slice_get_starter(slice_index si);
+
+void slice_write_non_starter_has_solved(slice_index si);
 
 #endif

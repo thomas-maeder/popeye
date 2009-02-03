@@ -92,7 +92,7 @@ void initply(ply parent)
   */
   castling_flag[nbply] = castling_flag[parent];
 
-  invalidateHashBuffer();
+  invalidateHashBuffer(true);
 }
 
 void nextply(ply parent)

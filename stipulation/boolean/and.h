@@ -81,10 +81,20 @@ void reci_solve_variations(slice_index si);
  */
 void reci_solve_continuations(int continuations, slice_index si);
 
-/* Find and write set play
+/* Prepare a slice for spinning of a set play slice
  * @param si slice index
+ * @return no_slice if set play not applicable
+ *         new root slice index (may be equal to old one) otherwise
  */
-boolean reci_root_solve_setplay(slice_index si);
+slice_index reci_root_prepare_for_setplay(slice_index si);
+
+/* Spin of a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
+ */
+slice_index reci_root_make_setplay_slice(slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
  * variations), starting at the end of a reciprocal slice.

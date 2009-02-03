@@ -88,11 +88,16 @@ void output_end_leaf_variation_level(void);
 void init_output(void);
 
 /* Write a move of the attacking side in direct play
+ * @param type of attack
+ */
+void write_attack(attack_type type);
+
+/* Write a final move of the attacking side in direct play
  * @param goal goal reached by the move (no_goal if no goal has been
  *             reached by the move)
  * @param type of attack
  */
-void write_attack(Goal goal, attack_type type);
+void write_final_attack(Goal goal, attack_type type);
 
 /* Write a defender's move that does not reach a goal
  */

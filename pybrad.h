@@ -8,18 +8,34 @@
  * stipulation slices.
  */
 
+typedef enum
+{
+  branch_d_already_solved,
+  branch_d_next_solves,
+  branch_d_we_solve,
+  branch_d_no_solution
+} branch_d_solution_degree;
+
 /* Determine whether a branch slice has a solution
  * @param si slice index
  * @param n maximal number of moves
  * @return true iff slice si has a solution
  */
-boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n);
+branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
+                                                    stip_length_type n);
 
-/* Determine and write set play
+/* Prepare a slice for spinning of a set play slice
  * @param si slice index
- * @return true iff >= 1 set play was found
  */
-boolean branch_d_root_solve_setplay(slice_index si);
+slice_index branch_d_root_prepare_for_setplay(slice_index si);
+
+/* Spin of a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
+ */
+slice_index branch_d_root_make_setplay_slice(slice_index si);
 
 /* Write the key just played, then solve the post key play (threats,
  * variations) and write the refutations (if any).
@@ -49,6 +65,12 @@ void branch_d_solve_continuations_in_n(int continuations,
                                        slice_index si,
                                        stip_length_type n);
 
+/* Solve a branch slice at non-root level.
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean branch_d_solve(slice_index si);
+
 /* Solve a branch slice at root level.
  * @param si slice index
  */
@@ -59,5 +81,11 @@ void branch_d_root_solve(slice_index si);
  * @param s starting side of slice
  */
 void branch_d_impose_starter(slice_index si, Side s);
+
+/* Determine whether the attacker has won with his move just played
+ * @param si slice index
+ * @return true iff attacker has won
+ */
+boolean branch_d_has_starter_won(slice_index si);
 
 #endif

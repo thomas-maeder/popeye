@@ -115,3 +115,4 @@
 114= Option \"menace\" et enonce exact incompatibles\n
 115= EchecsGhost et EchecsHantes incompatibles avec Circe, Anticirce, Kamikaze, Echecs de Haan\n
 116= ApparentSeul pas applicable - ignore\n
+117= Apparent pas applicable - ignore\n

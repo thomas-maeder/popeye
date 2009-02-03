@@ -24,17 +24,20 @@ boolean leaf_s_must_starter_resign(slice_index leaf);
  */
 boolean leaf_s_has_non_starter_solved(slice_index leaf);
 
-/* Find and write set play
- * @param leaf slice index
- * @return true iff >= 1 set play was found
+/* Prepare a slice for spinning of a set play slice
+ * @param si slice index
+ * @return no_slice if set play not applicable
+ *         new root slice index (may be equal to old one) otherwise
  */
-boolean leaf_s_root_solve_setplay(slice_index leaf);
+slice_index leaf_s_root_prepare_for_setplay(slice_index leaf);
 
-/* Find and write set play provided every set move leads to end
- * @param leaf slice index
- * @return true iff every defender's move leads to end
+/* Spin of a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
  */
-boolean leaf_s_root_solve_complete_set(slice_index leaf);
+slice_index leaf_s_root_make_setplay_slice(slice_index leaf);
 
 /* Find and write variations (i.e. nothing resp. defender's final
  * moves). 
@@ -84,11 +87,23 @@ boolean leaf_s_has_starter_reached_goal(slice_index leaf);
  */
 boolean leaf_s_has_solution(slice_index leaf);
 
+/* Determine and find final moves of a self leaf
+ * @param leaf slice index
+ * @param defender side to perform the final move
+ * @return true iff >= 1 solution was found
+ */
+boolean leaf_s_solve_final_move(slice_index leaf, Side defender);
+
 /* Determine and write the solution of a leaf slice.
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
  */
 boolean leaf_s_solve(slice_index leaf);
+
+/* Determine and write the solution of a leaf slice at root level.
+ * @param leaf identifies leaf slice
+ */
+void leaf_s_root_solve(slice_index leaf);
 
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
@@ -99,5 +114,7 @@ boolean leaf_s_solve(slice_index leaf);
 who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
                                              boolean is_duplex,
                                              boolean same_side_as_root);
+
+void leaf_s_write_non_starter_has_solved(slice_index leaf);
 
 #endif

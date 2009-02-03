@@ -225,25 +225,62 @@ void reci_solve_continuations(int table, slice_index si)
   TraceText("\n");
 }
 
-/* Find and write set play
+/* Prepare a slice for spinning of a set play slice
  * @param si slice index
- * @return true iff >= 1 set play was found
+ * @return no_slice if set play not applicable
+ *         new root slice index (may be equal to old one) otherwise
  */
-boolean reci_root_solve_setplay(slice_index si)
+slice_index reci_root_prepare_for_setplay(slice_index si)
 {
-  boolean result1;
-  boolean result2;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index op1_prepared;
+  slice_index result = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  /* TODO solve defense after defense */
-  result1 = slice_root_solve_setplay(slices[si].u.reciprocal.op1);
-  result2 = slice_root_solve_setplay(slices[si].u.reciprocal.op2);
+  op1_prepared = slice_root_prepare_for_setplay(op1);
+  if (op1_prepared!=no_slice)
+  {
+    slice_index const op2_prepared = slice_root_prepare_for_setplay(op2);
+    if (op2_prepared!=no_slice)
+    {
+      slices[si].u.reciprocal.op1 = op1_prepared;
+      slices[si].u.reciprocal.op2 = op2_prepared;
+      result = si;
+    }
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n", result1 && result2);
-  return result1 && result2;
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Spin of a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
+ */
+slice_index reci_root_make_setplay_slice(slice_index si)
+{
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index op1_set;
+  slice_index op2_set;
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  op1_set = slice_root_make_setplay_slice(op1);
+  op2_set = slice_root_make_setplay_slice(op2);
+  result = alloc_reciprocal_slice(op1_set,op2_set);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Solve at root level at the end of a reciprocal slice
@@ -257,6 +294,7 @@ void reci_root_solve(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
+
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 

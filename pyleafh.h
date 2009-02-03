@@ -65,6 +65,11 @@ boolean leaf_h_has_solution(slice_index leaf);
  */
 boolean leaf_h_solve(slice_index leaf);
 
+/* Determine and write the solution of a leaf slice at root level
+ * @param leaf identifies leaf slice
+ */
+void leaf_h_root_solve(slice_index leaf);
+
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
  * @param is_duplex is this for duplex?

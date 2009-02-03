@@ -69,7 +69,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   s#3                       14 + 11
 
-
   1...Sa1-c2 
       2.Ta7-a6 + 
           2...Kf6-e7 
@@ -82,6 +81,7 @@ Loesung beendet.
           2...Kf6-e6 
               3.Se4-c5 + 
                   3...Sb3*c5 # 
+  1...Sb1-c3 # 
   1...Ld1-h5 
       2.Ta7-a6 + 
           2...Kf6-e7 
@@ -125,6 +125,7 @@ Loesung beendet.
                   3...La3*f8 # 
               3.f7-f8=T + 
                   3...La3*f8 # 
+  1...Ld1*b3 # 
   1...Tb2*b3 
       2.Td5-d6 + 
           2...Kf6-f5 

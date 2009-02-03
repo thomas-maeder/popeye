@@ -101,6 +101,7 @@
 #include "pyproof.h"
 #include "pyint.h"
 #include "pymovein.h"
+#include "pyquodli.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2353,10 +2354,6 @@ void checkGlobalAssumptions(void)
 
 static void solveHalfADuplex(void)
 {
-  assert(slices[root_slice].type!=STLeafDirect
-         && slices[root_slice].type!=STLeafSelf
-         && slices[root_slice].type!=STLeafHelp);
-
   inithash();
   init_output();
 
@@ -2387,33 +2384,23 @@ static boolean initialise_position(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  if (slices[root_slice].u.branch.starter==no_side)
+  if (stip_ends_in(proof_goals,nr_proof_goals))
   {
-    VerifieMsg(CantDecideWhoIsAtTheMove);
-    result = false;
+    countPieces();
+    result = locateRoyal();
+    if (result)
+    {
+      ProofSaveTargetPosition();
+      ProofRestoreStartPosition();
+      countPieces();
+      result = locateRoyal();
+      ProofAtoBSaveStartRoyal();
+    }
   }
   else
   {
-    TraceValue("%u\n",slices[root_slice].u.branch.starter);
-
-    if (stip_ends_in(proof_goals,nr_proof_goals))
-    {
-      countPieces();
-      result = locateRoyal();
-      if (result)
-      {
-        ProofSaveTargetPosition();
-        ProofRestoreStartPosition();
-        countPieces();
-        result = locateRoyal();
-        ProofAtoBSaveStartRoyal();
-      }
-    }
-    else
-    {
-      countPieces();
-      result = locateRoyal();
-    }
+    countPieces();
+    result = locateRoyal();
   }
 
   TraceFunctionExit(__func__);
@@ -2471,36 +2458,26 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   return result;
 }
 
-static void shorten_branch_h_slice(slice_index si)
+static void shorten_root_branch_h_slice(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  --slices[si].u.branch.length;
-  --slices[si].u.branch.min_length;
-  if (slices[si].u.branch.min_length<slack_length_help)
-    slices[si].u.branch.min_length += 2;
-
-  TraceValue("->%u",slices[si].u.branch.length);
-  TraceValue("->%u\n",slices[si].u.branch.min_length);
-  
-  TraceFunctionExit(__func__);
   TraceText("\n");
-}
 
-static void longen_branch_h_slice(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  --slices[root_slice].u.branch.length;
+  --slices[root_slice].u.branch.min_length;
+  if (slices[root_slice].u.branch.min_length<slack_length_help)
+    slices[root_slice].u.branch.min_length += 2;
+  TraceValue("->%u",slices[root_slice].u.branch.length);
+  TraceValue("->%u\n",slices[root_slice].u.branch.min_length);
 
-  ++slices[si].u.branch.length;
-  ++slices[si].u.branch.min_length;
-  if (slices[si].u.branch.length!=slices[si].u.branch.min_length)
-    slices[si].u.branch.min_length -= 2;
-
-  TraceValue("->%u",slices[si].u.branch.length);
-  TraceValue("->%u\n",slices[si].u.branch.min_length);
-
+  if (slices[root_slice].u.branch.length==slack_length_help
+      && slices[root_slice].u.branch.min_length==slack_length_help)
+  {
+    slice_index const save_root_slice = root_slice;
+    root_slice = slices[root_slice].u.move_inverter.next;
+    dealloc_slice_index(save_root_slice);
+  }
+  
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
@@ -2523,7 +2500,7 @@ static boolean root_slice_apply_whitetoplay(void)
       meaning_of_whitetoplay const
           meaning = detect_meaning_of_whitetoplay(root_slice);
       if (meaning==whitetoplay_means_shorten_root_slice)
-        shorten_branch_h_slice(root_slice);
+        shorten_root_branch_h_slice();
       slice_impose_starter(root_slice,
                            advers(slices[root_slice].u.branch.starter));
       if (meaning==whitetoplay_means_shorten_root_slice)
@@ -2531,6 +2508,12 @@ static boolean root_slice_apply_whitetoplay(void)
       result = true;
       break;
     }
+
+    case STLeafHelp:
+      slice_impose_starter(root_slice,
+                           advers(slices[root_slice].u.branch.starter));
+      result = true;
+      break;
 
     case STMoveInverter:
     {
@@ -2542,7 +2525,7 @@ static boolean root_slice_apply_whitetoplay(void)
       if (meaning==whitetoplay_means_shorten_root_slice
           && slices[root_slice].type==STBranchHelp)
       {
-        shorten_branch_h_slice(root_slice);
+        shorten_root_branch_h_slice();
         return true;
       }
       break;
@@ -2555,43 +2538,6 @@ static boolean root_slice_apply_whitetoplay(void)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
-}
-
-/* Undo the effects of previously applying the option White to play
- */
-static void root_slice_undo_whitetoplay(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
-
-  switch (slices[root_slice].type)
-  {
-    case STMoveInverter:
-    {
-      meaning_of_whitetoplay const
-          meaning = detect_meaning_of_whitetoplay(root_slice);
-      slice_index const save_root_slice = root_slice;
-      root_slice = slices[root_slice].u.move_inverter.next;
-      dealloc_slice_index(save_root_slice);
-      slice_impose_starter(root_slice,
-                           advers(slices[root_slice].u.branch.starter));
-      if (meaning==whitetoplay_means_shorten_root_slice)
-        longen_branch_h_slice(root_slice);
-      break;
-    }
-
-    case STBranchHelp:
-      longen_branch_h_slice(root_slice);
-      root_slice = alloc_move_inverter_slice(root_slice);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
 }
 
 static int parseCommandlineOptions(int argc, char *argv[])
@@ -2729,6 +2675,28 @@ static void fini_duplex(void)
   }
 }
 
+static void slice_root_apply_setplay()
+{
+  slice_index tmp_root;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  tmp_root = slice_root_prepare_for_setplay(root_slice);
+
+  if (tmp_root==no_slice)
+    Message(SetPlayNotApplicable);
+  else {
+    slice_index const setplay = slice_root_make_setplay_slice(tmp_root);
+    slice_index const mi = alloc_move_inverter_slice(setplay);
+    root_slice = alloc_quodlibet_slice(mi,tmp_root);
+    TraceValue("->%u\n",root_slice);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
 /* Solve a twin (maybe the only one of a problem)
  * @param twin_index 0 for first, 1 for second ...; if the problem has
  *                   a zero position, solve_twin() is invoked with
@@ -2739,11 +2707,6 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 {
   if (initialise_position() && verify_position())
   {
-    /* must be done before writing the position, because the position
-     * sometimes indicates which side is at the move */
-    if (OptFlag[whitetoplay] && !root_slice_apply_whitetoplay())
-      Message(WhiteToPlayNotApplicable);
-
     if (!OptFlag[noboard])
     {
       if (stip_ends_in(proof_goals,nr_proof_goals))
@@ -2783,9 +2746,6 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 
       fini_duplex();
     }
-
-    if (OptFlag[whitetoplay])
-      root_slice_undo_whitetoplay();
   }
 }
 
@@ -2847,6 +2807,7 @@ static Token iterate_twins(Token prev_token)
     TraceValue("%u",twin_index);
     TraceValue("%u\n",shouldDetectStarter);
     if (twin_index==0 || shouldDetectStarter)
+    {
       /* intelligent AND duplex means that the board is mirrored and
        * the colors swapped by swapcolors() and reflectboard() ->
        * start with the regular side. */
@@ -2854,15 +2815,29 @@ static Token iterate_twins(Token prev_token)
                            OptFlag[halfduplex] && !isIntelligentModeActive,
                            true);
 
-    solve_twin(twin_index,prev_token);
+      if (OptFlag[whitetoplay] && !root_slice_apply_whitetoplay())
+        Message(WhiteToPlayNotApplicable);
 
-    if ((OptFlag[maxsols] && solutions>=maxsolutions)
-        || (OptFlag[stoponshort] && FlagShortSolsReached))
-      FlagMaxSolsReached = true;
+      if (OptFlag[solapparent] && !OptFlag[restart])
+        slice_root_apply_setplay();
+    }
 
-    /* restart calculation of maxsolution after twinning */
-    solutions = 0;
-    FlagShortSolsReached = false;
+    if (slice_get_starter(root_slice)==no_side)
+      VerifieMsg(CantDecideWhoIsAtTheMove);
+    else
+    {
+      TraceValue("%u\n",slice_get_starter(root_slice));
+      solve_twin(twin_index,prev_token);
+
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || (OptFlag[stoponshort] && FlagShortSolsReached))
+        FlagMaxSolsReached = true;
+
+      /* restart calculation of maxsolution after twinning */
+      solutions = 0;
+      FlagShortSolsReached = false;
+    }
+
     ++twin_index;
   } while (prev_token==TwinProblem);
 

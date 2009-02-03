@@ -171,7 +171,7 @@ static void branch_ser_root_solve_full_in_n(slice_index si,
   assert(n>=1);
 
   if (isIntelligentModeActive)
-    Intelligent(n);
+    Intelligent(si,n);
   else
     branch_ser_root_solve_in_n_recursive(si,n);
 
@@ -196,7 +196,7 @@ static boolean branch_ser_root_solve_short_in_n(slice_index si,
   assert(n>=slack_length_series);
 
   if (isIntelligentModeActive)
-    result = Intelligent(n);
+    result = Intelligent(si,n);
   else
   {
     /* we only display move numbers when looking for full length

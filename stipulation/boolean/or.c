@@ -1,6 +1,7 @@
 #include "pyquodli.h"
 #include "pyslice.h"
 #include "pyproc.h"
+#include "pyoutput.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -137,6 +138,33 @@ boolean quodlibet_root_solve_complete_set(slice_index si)
   return result;
 }
 
+/* Solve a slice in exactly n moves at root level
+ * @param si slice index
+ * @param n exact number of moves
+ */
+void quodlibet_root_solve_in_n(slice_index si, stip_length_type n)
+{
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  if (slice_must_starter_resign(op1))
+    slice_write_unsolvability(op1);
+  else if (slice_must_starter_resign(op2))
+    slice_write_unsolvability(op2);
+  else
+  {
+    slice_root_solve_in_n(op1,n);
+    write_end_of_solution_phase();
+    slice_root_solve_in_n(op2,n);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
 /* Solve a quodlibet slice at root level
  * @param si slice index
  */
@@ -157,6 +185,7 @@ boolean quodlibet_root_solve(slice_index si)
   {
     result = true;
     slice_root_solve(op1);
+    write_end_of_solution_phase();
     slice_root_solve(op2);
   }
 

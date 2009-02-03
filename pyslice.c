@@ -4,6 +4,7 @@
 #include "pyleaf.h"
 #include "pyleafd.h"
 #include "pyleafs.h"
+#include "pyleaff.h"
 #include "pyleafh.h"
 #include "pybrad.h"
 #include "pybrah.h"
@@ -13,6 +14,7 @@
 #include "pynot.h"
 #include "pybranch.h"
 #include "pymovein.h"
+#include "pyconst.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -37,12 +39,16 @@ boolean slice_must_starter_resign(slice_index si)
       result = leaf_d_must_starter_resign(si);
       break;
 
+    case STLeafHelp:
+      result = leaf_h_must_starter_resign(si);
+      break;
+
     case STLeafSelf:
       result = leaf_s_must_starter_resign(si);
       break;
 
-    case STLeafHelp:
-      result = leaf_h_must_starter_resign(si);
+    case STLeafForced:
+      result = leaf_forced_must_starter_resign(si);
       break;
 
     case STReciprocal:
@@ -130,6 +136,113 @@ void slice_solve_continuations(int table, slice_index si)
   TraceText("\n");
 }
 
+/* Prepare a slice for spinning of a set play slice
+ * @param si slice index
+ * @return no_slice if set play not applicable
+ *         new root slice index (may be equal to old one) otherwise
+ */
+slice_index slice_root_prepare_for_setplay(slice_index si)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",slices[si].type);
+  switch (slices[si].type)
+  {
+    case STBranchHelp:
+      result = branch_h_root_prepare_for_setplay(si);
+      break;
+
+    case STBranchDirect:
+      result = branch_d_root_prepare_for_setplay(si);
+      break;
+
+    case STLeafDirect:
+      result = leaf_d_root_prepare_for_setplay(si);
+      break;
+
+    case STLeafSelf:
+      result = leaf_s_root_prepare_for_setplay(si);
+      break;
+
+    case STReciprocal:
+      result = reci_root_prepare_for_setplay(si);
+      break;
+
+    case STNot:
+      result = not_root_prepare_for_setplay(si);
+      break;
+
+    case STMoveInverter:
+      result = move_inverter_root_prepare_for_setplay(si);
+      break;
+
+    default:
+      result = no_slice;
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Spin of a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
+ */
+slice_index slice_root_make_setplay_slice(slice_index si)
+{
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",slices[si].type);
+  switch (slices[si].type)
+  {
+    case STBranchHelp:
+      result = branch_h_root_make_setplay_slice(si);
+      break;
+
+    case STBranchDirect:
+      result = branch_d_root_make_setplay_slice(si);
+      break;
+
+    case STLeafDirect:
+      result = leaf_d_root_make_setplay_slice(si);
+      break;
+
+    case STLeafSelf:
+      result = leaf_s_root_make_setplay_slice(si);
+      break;
+
+    case STReciprocal:
+      result = reci_root_make_setplay_slice(si);
+      break;
+
+    case STNot:
+      result = not_root_make_setplay_slice(si);
+      break;
+
+    case STMoveInverter:
+      result = move_inverter_root_make_setplay_slice(si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Find and write set play
  * @param si slice index
  * @return true iff >= 1 set play was found
@@ -144,14 +257,6 @@ boolean slice_root_solve_setplay(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STLeafDirect:
-      result = leaf_d_root_solve_setplay(si);
-      break;
-
-    case STLeafSelf:
-      result = leaf_s_root_solve_setplay(si);
-      break;
-
     case STLeafHelp:
       result = leaf_h_solve(si);
       break;
@@ -160,20 +265,8 @@ boolean slice_root_solve_setplay(slice_index si)
       result = quodlibet_root_solve_setplay(si);
       break;
 
-    case STBranchDirect:
-      result = branch_d_root_solve_setplay(si);
-      break;
-
-    case STBranchHelp:
-      result = branch_h_root_solve_setplay(si);
-      break;
-
     case STBranchSeries:
       /* TODO implement branch_ser_root_solve_setplay() */
-      break;
-
-    case STReciprocal:
-      result = reci_root_solve_setplay(si);
       break;
 
     default:
@@ -199,14 +292,6 @@ boolean slice_root_solve_complete_set(slice_index si)
 
   switch (slices[si].type)
   {
-    case STLeafDirect:
-      result = leaf_d_root_solve_complete_set(si);
-      break;
-
-    case STLeafSelf:
-      result = leaf_s_root_solve_complete_set(si);
-      break;
-
     case STLeafHelp:
       result = leaf_h_solve(si);
       break;
@@ -314,7 +399,7 @@ boolean slice_solve(slice_index si)
       break;
 
     case STBranchDirect:
-      /* TODO */
+      solution_found = branch_d_solve(si);
       break;
 
     case STBranchHelp:
@@ -359,15 +444,19 @@ void slice_root_solve(slice_index si)
   switch (slices[si].type)
   {
     case STLeafDirect:
-      leaf_d_solve(si);
-      break;
-
-    case STLeafSelf:
-      leaf_s_solve(si);
+      leaf_d_root_solve(si);
       break;
 
     case STLeafHelp:
-      leaf_h_solve(si);
+      leaf_h_root_solve(si);
+      break;
+
+    case STLeafSelf:
+      leaf_s_root_solve(si);
+      break;
+
+    case STLeafForced:
+      leaf_forced_root_solve(si);
       break;
 
     case STQuodlibet:
@@ -428,6 +517,10 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
       branch_ser_root_solve_in_n(si,n);
       break;
 
+    case STQuodlibet:
+      quodlibet_root_solve_in_n(si,n);
+      break;
+
     case STMoveInverter:
       slice_root_solve_in_n(slices[si].u.move_inverter.next,n);
       break;
@@ -479,7 +572,8 @@ boolean slice_has_solution(slice_index si)
       break;
 
     case STBranchDirect:
-      result = branch_d_has_solution_in_n(si,slices[si].u.branch.length);
+      result = (branch_d_has_solution_in_n(si,slices[si].u.branch.length)
+                <=branch_d_we_solve);
       break;
 
     case STBranchHelp:
@@ -490,6 +584,10 @@ boolean slice_has_solution(slice_index si)
       /* TODO */
       break;
 
+    case STConstant:
+      result = constant_has_solution(si);
+      break;
+      
     default:
       assert(0);
       break;
@@ -687,8 +785,12 @@ boolean slice_has_starter_won(slice_index si)
       break;
 
     case STBranchDirect:
+      result = branch_d_has_starter_won(si);
+      break;
+ 
     case STBranchHelp:
     case STBranchSeries:
+      /* TODO does this make sense? */
       result = branch_has_starter_won(si);
       break;
 
@@ -980,11 +1082,13 @@ Side slice_get_starter(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeafDirect:
     case STLeafSelf:
     case STLeafHelp:
+    case STLeafForced:
       result = slices[si].u.leaf.starter;
       break;
 
@@ -995,19 +1099,43 @@ Side slice_get_starter(slice_index si)
       break;
 
     case STReciprocal:
-      assert(slice_get_starter(slices[si].u.reciprocal.op1)
-             ==slice_get_starter(slices[si].u.reciprocal.op2));
-      result = slice_get_starter(slices[si].u.reciprocal.op1);
+    {
+      slice_index const op1 = slices[si].u.reciprocal.op1;
+      slice_index const op2 = slices[si].u.reciprocal.op2;
+      Side const op1_starter = slice_get_starter(op1);
+      Side const op2_starter = slice_get_starter(op2);
+      if (op1_starter==no_side)
+        result = op2_starter;
+      else
+      {
+        assert(op2_starter==no_side || op1_starter==op2_starter);
+        result = op1_starter;
+      }
       break;
+    }
 
     case STQuodlibet:
-      assert(slice_get_starter(slices[si].u.quodlibet.op1)
-             ==slice_get_starter(slices[si].u.quodlibet.op2));
-      result = slice_get_starter(slices[si].u.quodlibet.op1);
+    {
+      slice_index const op1 = slices[si].u.quodlibet.op1;
+      slice_index const op2 = slices[si].u.quodlibet.op2;
+      Side const op1_starter = slice_get_starter(op1);
+      Side const op2_starter = slice_get_starter(op2);
+      if (op1_starter==no_side)
+        result = op2_starter;
+      else
+      {
+        assert(op2_starter==no_side || op1_starter==op2_starter);
+        result = op1_starter;
+      }
       break;
+    }
 
     case STNot:
       result = slice_get_starter(slices[si].u.not.op);
+      break;
+
+    case STConstant:
+      /* nothing */
       break;
 
     case STMoveInverter:
@@ -1027,4 +1155,24 @@ Side slice_get_starter(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
+}
+
+void slice_write_non_starter_has_solved(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  switch (slices[si].type)
+  {
+    case STLeafSelf:
+      leaf_s_write_non_starter_has_solved(si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }

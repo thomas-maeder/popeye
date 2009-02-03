@@ -250,7 +250,6 @@ Loesung beendet.
   #2                          7 + 8
                Woozles
 
-
   1...Kd4-c5 
       2.Lb4-a3 # 
   1...c6-c5 
@@ -304,6 +303,20 @@ Loesung beendet.
                Woozles
 
   1...Le5-d4   2.Dg7-g8 Ld4-g7 # 
+  1...Le5-f4   2.Dg7-f8 Lf4-h6   3.Df8-g8 Lh6-g7 # 
+  1...Le5-f4   2.Dg7-g1 Lf4-h6   3.Dg1-g8 Lh6-g7 # 
+  1...Le5-f4   2.Dg7-g2 Lf4-h6   3.Dg2-g8 Lh6-g7 # 
+  1...Le5-f4   2.Dg7-g3 Lf4-h6   3.Dg3-g8 Lh6-g7 # 
+  1...Le5-f4   2.Dg7-g4 Lf4-h6   3.Dg4-g8 Lh6-g7 # 
+  1...Le5-f4   2.Dg7-g6 Lf4-h6   3.Dg6-g8 Lh6-g7 # 
+  1...Le5-f4   2.Dg7-f7 Lf4-h6   3.Df7-g8 Lh6-g7 # 
+  1...Le5-d6   2.Dg7-g1 Ld6-f8   3.Dg1-g8 Lf8-g7 # 
+  1...Le5-d6   2.Dg7-g2 Ld6-f8   3.Dg2-g8 Lf8-g7 # 
+  1...Le5-d6   2.Dg7-g3 Ld6-f8   3.Dg3-g8 Lf8-g7 # 
+  1...Le5-d6   2.Dg7-g4 Ld6-f8   3.Dg4-g8 Lf8-g7 # 
+  1...Le5-d6   2.Dg7-g5 Ld6-f8   3.Dg5-g8 Lf8-g7 # 
+  1...Le5-d6   2.Dg7-g6 Ld6-f8   3.Dg6-g8 Lf8-g7 # 
+  1...Le5-d6   2.Dg7-f7 Ld6-f8   3.Df7-g8 Lf8-g7 # 
 
   1.Dg7-f6 Kc3-b2   2.Df6-g7 Le5-c3   3.Dg7-g8 Lc3-g7 # 
 

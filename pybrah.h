@@ -14,6 +14,19 @@
  */
 boolean branch_h_has_solution(slice_index si);
 
+/* Prepare a slice for spinning of a set play slice
+ * @param si slice index
+ */
+slice_index branch_h_root_prepare_for_setplay(slice_index si);
+
+/* Spin of a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
+ */
+slice_index branch_h_root_make_setplay_slice(slice_index si);
+
 /* Determine and write set play
  * @param si slice index
  * @return true iff >= 1 set play was found
@@ -22,6 +35,8 @@ boolean branch_h_root_solve_setplay(slice_index si);
 
 /* Solve a branch slice at root level.
  * @param si slice index
+ * @return no_slice if set play not applicable
+ *         new root slice index (may be equal to old one) otherwise
  */
 void branch_h_root_solve(slice_index si);
 

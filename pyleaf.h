@@ -46,7 +46,7 @@ boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf);
 /* Determine whether the side at move must end in 1.
  * @return true iff side_at_move can end in 1 move
  */
-boolean leaf_is_end_in_1_forced(slice_index leaf);
+boolean leaf_is_end_in_1_forced(Side side_at_move, slice_index leaf);
 
 /* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
  * mates)

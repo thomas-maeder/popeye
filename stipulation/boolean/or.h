@@ -107,6 +107,12 @@ boolean quodlibet_has_starter_apriori_lost(slice_index si);
  */
 boolean quodlibet_solve(slice_index si);
 
+/* Solve a slice in exactly n moves at root level
+ * @param si slice index
+ * @param n exact number of moves
+ */
+void quodlibet_root_solve_in_n(slice_index si, stip_length_type n);
+
 /* Solve a quodlibet slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found

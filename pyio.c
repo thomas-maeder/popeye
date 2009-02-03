@@ -1494,7 +1494,21 @@ static char *ParsePlay(char *tok, slice_index *si)
       else
         ++min_length;
       if (result!=0)
-        *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+      {
+        if (length==slack_length_help && min_length==slack_length_help)
+          *si = next;
+        else
+        {
+          slice_index const help = alloc_branch_slice(STBranchHelp,
+                                                      length,
+                                                      min_length,
+                                                      next);
+          if (length%2==1)
+            *si = alloc_move_inverter_slice(help);
+          else
+            *si = help;
+        }
+      }
     }
   }
 
@@ -1507,7 +1521,10 @@ static char *ParsePlay(char *tok, slice_index *si)
     if (result!=0)
     {
       slice_index const leaf = alloc_leaf_slice(STLeafHelp,goal_proof);
-      *si = alloc_branch_slice(STBranchHelp,length,min_length,leaf);
+      if (length==slack_length_help && min_length==slack_length_help)
+        *si = leaf;
+      else
+        *si = alloc_branch_slice(STBranchHelp,length,min_length,leaf);
     }
   }
 
@@ -1522,7 +1539,12 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type min_length;
       result = ParseLength(tok,STBranchHelp,&length,&min_length);
       if (result!=0)
-        *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+      {
+        if (length==slack_length_help && min_length==slack_length_help)
+          *si = next;
+        else
+          *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+      }
     }
   }
 #endif
@@ -1543,7 +1565,21 @@ static char *ParsePlay(char *tok, slice_index *si)
       else
         --min_length;
       if (result!=0)
-        *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+      {
+        if (length==slack_length_help && min_length==slack_length_help)
+          *si = next;
+        else
+        {
+          slice_index const help = alloc_branch_slice(STBranchHelp,
+                                                      length,
+                                                      min_length,
+                                                      next);
+          if (length%2==1)
+            *si = alloc_move_inverter_slice(help);
+          else
+            *si = help;
+        }
+      }
     }
   }
 
@@ -1558,14 +1594,19 @@ static char *ParsePlay(char *tok, slice_index *si)
       result = ParseLength(tok,STBranchHelp,&length,&min_length);
       if (result!=0)
       {
-        slice_index const help = alloc_branch_slice(STBranchHelp,
-                                                    length,
-                                                    min_length,
-                                                    next);
-        if (length%2==0)
-          *si = alloc_move_inverter_slice(help);
+        if (length==slack_length_help && min_length==slack_length_help)
+          *si = next;
         else
-          *si = help;
+        {
+          slice_index const help = alloc_branch_slice(STBranchHelp,
+                                                      length,
+                                                      min_length,
+                                                      next);
+          if (length%2==0)
+            *si = alloc_move_inverter_slice(help);
+          else
+            *si = help;
+        }
       }
     }
   }
@@ -4802,7 +4843,7 @@ void WritePosition() {
 
   strcpy(StipOptStr, AlphaStip);
 
-  if (max_len_threat<slices[root_slice].u.branch.length)
+  if (max_len_threat<maxply)
   {
     sprintf(StipOptStr+strlen(StipOptStr), "/%u", max_len_threat);
     if (max_nr_flights<INT_MAX)
@@ -4811,7 +4852,7 @@ void WritePosition() {
   else if (max_nr_flights<INT_MAX)
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", max_nr_flights);
 
-  if (min_length_nontrivial<slices[root_slice].u.branch.length)
+  if (min_length_nontrivial<maxply)
     sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%u",
             max_nr_nontrivial,

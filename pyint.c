@@ -71,6 +71,8 @@ static int SolMax;
 PIECE Mate[nr_squares_on_board];
 int IndxChP;
 
+static slice_index current_start_slice;
+
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
 
 boolean guards(square bk, piece p, square sq)
@@ -652,7 +654,7 @@ void StaleStoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    slice_root_solve_in_n(root_slice,n);
+    slice_root_solve_in_n(current_start_slice,n);
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -881,7 +883,7 @@ void StoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    slice_root_solve_in_n(root_slice,n);
+    slice_root_solve_in_n(current_start_slice,n);
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -2567,10 +2569,10 @@ static void IntelligentProof(stip_length_type n)
    * full-length.
    * If n is smaller, temporarily disable move number output:
    */
-  if (n<slices[root_slice].u.branch.length)
+  if (n<slices[current_start_slice].u.branch.length)
     OptFlag[movenbr] = false;
     
-  slice_root_solve_in_n(root_slice,n);
+  slice_root_solve_in_n(current_start_slice,n);
 
   OptFlag[movenbr] = save_movenbr;
 }
@@ -2696,6 +2698,8 @@ static void init_moves_left_root(slice_index si, stip_length_type n)
     }
 
     case STMoveInverter:
+      BlMovesLeft = 0;
+      WhMovesLeft = 0;
       init_moves_left_root(slices[si].u.move_inverter.next,n);
       break;
 
@@ -2711,14 +2715,16 @@ static void init_moves_left_root(slice_index si, stip_length_type n)
   TraceText("\n");
 }
 
-boolean Intelligent(stip_length_type n)
+boolean Intelligent(slice_index si, stip_length_type n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",n);
 
-  init_moves_left_root(root_slice,n);
+  current_start_slice = si;
+
+  init_moves_left_root(si,n);
      
   MatesMax = 0;
 
@@ -2760,6 +2766,10 @@ stip_supports_intelligent_rec(slice_index si)
 {
   support_for_intelligent_mode result = intelligent_not_supported;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STBranchHelp:
@@ -2804,11 +2814,22 @@ stip_supports_intelligent_rec(slice_index si)
       break;
     }
 
+    case STQuodlibet:
+    {
+      slice_index const op1 = slices[si].u.quodlibet.op1;
+      slice_index const op2 = slices[si].u.quodlibet.op2;
+      result = (stip_supports_intelligent_rec(op1)
+                && stip_supports_intelligent_rec(op2));
+      break;
+    }
+
     default:
       /* nothing */
       break;
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 

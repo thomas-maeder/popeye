@@ -40,14 +40,19 @@ extern HashBuffer hashBuffers[maxply+1];
 #if defined(NDEBUG)
 
 #define validateHashBuffer()
-#define invalidateHashBuffer()
+#define invalidateHashBuffer(x)
 
 #else
 extern boolean isHashBufferValid[maxply+1];
 
-#define validateHashBuffer() isHashBufferValid[nbply] = true
+void validateHashBuffer(void);
 
-#define invalidateHashBuffer() isHashBufferValid[nbply] = false
+/* if (guard) invalidate hash buffer for ply nbply
+ * (making guard a parameter prevents it from being evaluated
+ * #if !defined(NDEBUG))
+ * @param guard guard
+ */
+void invalidateHashBuffer(boolean guard);
 
 #endif
 
