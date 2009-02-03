@@ -70,7 +70,8 @@ boolean TraceCurrentMove(void)
   {
     fprintf(stdout," #%d %ld ",level,move_counter++);
     ecritcoup(nbply,no_goal);
-    fprintf(stdout," nbcou:%u\n",nbcou);
+    fprintf(stdout," nbcou:%u",nbcou);
+    fprintf(stdout," nbply:%u\n",nbply);
   }
 
   return true;
