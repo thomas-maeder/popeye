@@ -192,47 +192,6 @@ slice_index slice_root_make_setplay_slice(slice_index si)
   return result;
 }
 
-/* Find and write set play provided every set move leads to end
- * @param si slice index
- * @return true iff every defender's move leads to end
- */
-boolean slice_root_solve_complete_set(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  switch (slices[si].type)
-  {
-    case STLeafHelp:
-      result = leaf_h_solve(si);
-      break;
-
-    case STBranchDirect:
-    case STBranchHelp:
-    case STBranchSeries:
-      result = branch_root_solve_complete_set(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_root_solve_complete_set(si);
-      break;
-
-    case STReciprocal:
-      /* not really meaningful */
-      break;
-      
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Write the key just played, then continue solving in the slice
  * to find and write the post key play (threats, variations)
  * @param si slice index

@@ -35,24 +35,6 @@ void branch_write_unsolvability(slice_index si)
   slice_write_unsolvability(slices[si].u.branch.next);
 }
 
-/* Find and write set play provided every set move leads to end
- * @param si slice index
- * @return true iff every defender's move leads to end
- */
-boolean branch_root_solve_complete_set(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  result = slice_root_solve_complete_set(slices[si].u.branch.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Determine whether a branch slice.has just been solved with the
  * just played move by the non-starter
  * @param si slice identifier

@@ -96,27 +96,6 @@ void quodlibet_solve_continuations(int table, slice_index si)
   TraceText("\n");
 }
 
-/* Find and write set play provided every set move leads to end
- * @param si slice index
- * @return true iff every defender's move leads to end
- */
-boolean quodlibet_root_solve_complete_set(slice_index si)
-{
-  boolean result;
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  result = (slice_root_solve_complete_set(op1)
-            || slice_root_solve_complete_set(op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Solve a slice in exactly n moves at root level
  * @param si slice index
  * @param n exact number of moves

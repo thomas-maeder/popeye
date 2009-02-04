@@ -39,12 +39,6 @@ void quodlibet_write_unsolvability(slice_index si);
  */
 void quodlibet_solve_continuations(int continuations, slice_index si);
 
-/* Find and write set play provided every set move leads to end
- * @param si slice index
- * @return true iff every defender's move leads to end
- */
-boolean quodlibet_root_solve_complete_set(slice_index si);
-
 /* Write the key just played, then solve the post key play (threats,
  * variations) of a quodlibet slice.
  * @param si slice index
