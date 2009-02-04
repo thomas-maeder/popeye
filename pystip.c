@@ -580,6 +580,13 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
       break;
     }
     
+    case STNot:
+    {
+      slice_index const op = slices[current_slice].u.not.op;
+      result = find_unique_goal_recursive(op,found_so_far);
+      break;
+    }
+
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
