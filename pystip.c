@@ -58,7 +58,6 @@ slice_index alloc_branch_slice(SliceType type,
   slices[result].u.branch.length = length;
   slices[result].u.branch.min_length = min_length;
   slices[result].u.branch.next = next;
-  slices[result].u.branch.derived_from = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

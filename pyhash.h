@@ -61,6 +61,10 @@ extern void (*encode)(void);
 /* exported functions */
 void check_hash_assumptions(void);
 
+void hash_reset_derivations(void);
+
+void hash_slice_is_derived_from(slice_index derived, slice_index base);
+
 void inithash (void);
 void closehash (void);
 void HashStats(unsigned int level, char *trailer);

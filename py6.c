@@ -2675,7 +2675,7 @@ static void fini_duplex(void)
   }
 }
 
-static void slice_root_apply_setplay()
+static void root_slice_apply_setplay()
 {
   slice_index setplay;
 
@@ -2814,11 +2814,13 @@ static Token iterate_twins(Token prev_token)
                            OptFlag[halfduplex] && !isIntelligentModeActive,
                            true);
 
+      hash_reset_derivations();
+      
       if (OptFlag[whitetoplay] && !root_slice_apply_whitetoplay())
         Message(WhiteToPlayNotApplicable);
 
       if (OptFlag[solapparent] && !OptFlag[restart])
-        slice_root_apply_setplay();
+        root_slice_apply_setplay();
     }
 
     if (slice_get_starter(root_slice)==no_side)

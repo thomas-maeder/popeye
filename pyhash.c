@@ -186,6 +186,19 @@ typedef struct
     data_type data;
 } element_t;
 
+static slice_index base_slice[max_nr_slices];
+
+void hash_reset_derivations(void)
+{
+  slice_index si;
+  for (si = 0; si!=max_nr_slices; ++si)
+    base_slice[si] = no_slice;
+}
+
+void hash_slice_is_derived_from(slice_index derived, slice_index base)
+{
+  base_slice[derived] = base;
+}
 
 /* Hashing properties of stipulation slices
  */
@@ -400,8 +413,8 @@ static void init_slice_properties_recursive(slice_index si,
 
       case STBranchDirect:
       {
-        slice_index const derived_from = slices[si].u.branch.derived_from;
-        if (derived_from==no_slice)
+        slice_index const base = base_slice[si];
+        if (base==no_slice)
         {
           slice_index const next = slices[si].u.branch.next;
           unsigned int const length = slices[si].u.branch.length;
@@ -413,23 +426,32 @@ static void init_slice_properties_recursive(slice_index si,
         }
         else
         {
-          init_slice_properties_recursive(derived_from,nr_bits_left);
-          slice_properties[si] = slice_properties[derived_from];
+          init_slice_properties_recursive(base,nr_bits_left);
+          slice_properties[si] = slice_properties[base];
         }
         break;
       }
 
       case STBranchHelp:
       {
-        slice_index const next = slices[si].u.branch.next;
-        unsigned int const length = slices[si].u.branch.length;
-        init_slice_properties_help(si,
-                                   length-slack_length_help,
-                                   nr_bits_left);
-        if (slices[si].u.branch.min_length>slack_length_help)
-          is_there_slice_with_nonstandard_min_length = true;
+        slice_index const base = base_slice[si];
+        if (base==no_slice)
+        {
+          slice_index const next = slices[si].u.branch.next;
+          unsigned int const length = slices[si].u.branch.length;
+          init_slice_properties_help(si,
+                                     length-slack_length_help,
+                                     nr_bits_left);
+          if (slices[si].u.branch.min_length>slack_length_help)
+            is_there_slice_with_nonstandard_min_length = true;
 
-        init_slice_properties_recursive(next,nr_bits_left);
+          init_slice_properties_recursive(next,nr_bits_left);
+        }
+        else
+        {
+          init_slice_properties_recursive(base,nr_bits_left);
+          slice_properties[si] = slice_properties[base];
+        }
         break;
       }
 
@@ -1645,7 +1667,7 @@ static void init_element(dhtElement *he, slice_index si)
       break;
 
     case STBranchDirect:
-      if (slices[si].u.branch.derived_from==no_slice)
+      if (base_slice[si]==no_slice)
       {
         init_element_direct(he,si,slices[si].u.branch.length);
         init_element(he,slices[si].u.branch.next);
@@ -1653,8 +1675,11 @@ static void init_element(dhtElement *he, slice_index si)
       break;
       
     case STBranchHelp:
-      init_element_help(he,si);
-      init_element(he,slices[si].u.branch.next);
+      if (base_slice[si]==no_slice)
+      {
+        init_element_help(he,si);
+        init_element(he,slices[si].u.branch.next);
+      }
       break;
       
     case STBranchSeries:

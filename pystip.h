@@ -115,7 +115,6 @@ typedef struct
             stip_length_type length;
             stip_length_type min_length; /* of short solutions */
             slice_index next;
-            slice_index derived_from;
         } branch;
 
         struct /* for type==STQuodlibet */

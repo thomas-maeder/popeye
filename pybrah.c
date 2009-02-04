@@ -298,11 +298,9 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  assert(slices[si].u.branch.length>=slack_length_help);
+  assert(slices[si].u.branch.length>slack_length_help);
 
-  if (slices[si].u.branch.length==slack_length_help)
-    result = slice_root_make_setplay_slice(next);
-  else if (slices[si].u.branch.length==slack_length_help+1)
+  if (slices[si].u.branch.length==slack_length_help+1)
     result = next;
   else
   {
@@ -311,8 +309,8 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
     slices[result].u.branch.min_length -= 1;
     if (slices[result].u.branch.min_length<slack_length_help)
       slices[result].u.branch.min_length += 2;
-    slices[result].u.branch.derived_from = si;
     slices[result].u.branch.starter = advers(slices[si].u.branch.starter);
+    hash_slice_is_derived_from(result,si);
   }
 
   TraceFunctionExit(__func__);
