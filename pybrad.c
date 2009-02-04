@@ -11,72 +11,6 @@
 
 #include <assert.h>
 
-/* Determine whether the current position is stored in the hash table
- * and how.
- * @param si slice index
- * @param n (even) number of half moves until goal
- * @param result address where to write hash result (if any)
- * @return true iff the current position was found and *result was
- *              assigned
- */
-static boolean branch_d_is_in_hash(slice_index si,
-                                   stip_length_type n,
-                                   boolean *hash_val)
-{
-  boolean result = false;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
-
-  assert(n%2==0);
-
-  /* It is more likely that a position has no solution.           */
-  /* Therefore let's check for "no solution" first.  TLi */
-  if (inhash(si,DirNoSucc,n/2))
-  {
-    TraceText("inhash(si,DirNoSucc,n/2)\n");
-    assert(!inhash(si,DirSucc,n/2-1));
-    *hash_val = false;
-    result = true;
-  }
-  else if (inhash(si,DirSucc,n/2-1))
-  {
-    TraceText("inhash(si,DirSucc,n/2-1)\n");
-    *hash_val = true;
-    result = true;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Update a hash table entry
- * @param si slice index
- * @param n (even) number of half moves until goal
- * @param success is the current position solvable in n
- */
-static void branch_d_update_hash(slice_index si,
-                                 stip_length_type n,
-                                 boolean success)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",success);
-
-  assert(n%2==0);
-
-  if (success)
-    addtohash(si,DirSucc,n/2-1);
-  else
-    addtohash(si,DirNoSucc,n/2);
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
 /* Count all non-trivial moves of the defending side. Whether a
  * particular move is non-trivial is determined by user input.
  * @return number of defender's non-trivial moves minus 1 (TODO: why?)
@@ -344,9 +278,18 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
       result = branch_d_next_solves;
     else if (n>slack_length_direct)
     {
-      boolean hash_says_solved;
-      if (branch_d_is_in_hash(si,n,&hash_says_solved))
-        result = hash_says_solved ? branch_d_we_solve : branch_d_no_solution;
+      /* It is more likely that a position has no solution. */
+      /* Therefore let's check for "no solution" first.  TLi */
+      if (inhash(si,DirNoSucc,n/2))
+      {
+        TraceText("inhash(si,DirNoSucc,n/2)\n");
+        assert(!inhash(si,DirSucc,n/2-1));
+      }
+      else if (inhash(si,DirSucc,n/2-1))
+      {
+        TraceText("inhash(si,DirSucc,n/2-1)\n");
+        result = branch_d_we_solve;
+      }
       else
       {
         stip_length_type i;
@@ -355,20 +298,25 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
         if (min_length>moves_played)
           n_min = min_length-moves_played;
 
-        for (i = n_min; result==branch_d_no_solution && i<=n; i += 2)
+        for (i = n_min; i<=n; i += 2)
         {
           if (i-2>2*max_len_threat+slack_length_direct
               || i>2*min_length_nontrivial+slack_length_direct)
             i = n;
 
           if (branch_d_helper_has_solution(si,i))
+          {
             result = branch_d_we_solve;
-
-          if (maxtime_status==MAXTIME_TIMEOUT)
+            break;
+          }
+          else if (maxtime_status==MAXTIME_TIMEOUT)
             break;
         }
 
-        branch_d_update_hash(si,n,result==branch_d_we_solve);
+        if (result==branch_d_we_solve)
+          addtohash(si,DirSucc,n/2-1);
+        else
+          addtohash(si,DirNoSucc,n/2);
       }
     }
   }
