@@ -2630,11 +2630,11 @@ static void initMaxMemoryString(void)
      StartUp is defined in pydata.h.
   */
   if ((MaxMemory>>10)<(1<<10) || MaxMemory_unit==maxmemory_kilo)
-    sprintf(MaxMemoryString, " (%u KB)\n", MaxMemory>>10);
+    sprintf(MaxMemoryString, " (%u KB)\n", (unsigned)(MaxMemory>>10));
   else if ((MaxMemory>>20)<(1<<10) || MaxMemory_unit==maxmemory_mega)
-    sprintf(MaxMemoryString, " (%u MB)\n", MaxMemory>>20);
+    sprintf(MaxMemoryString, " (%u MB)\n", (unsigned)(MaxMemory>>20));
   else
-    sprintf(MaxMemoryString, " (%u GB)\n", MaxMemory>>30);
+    sprintf(MaxMemoryString, " (%u GB)\n", (unsigned)(MaxMemory>>30));
 }
 
 /* prepare for solving duplex */
