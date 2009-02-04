@@ -49,14 +49,4 @@ stipulation #3
 condition hauntedchess
 option vari
 
-nextproblem
- 
-author Zbigniew SZCZEP
-origin Sake, Portoroz 2002, 2° Mention d'Honneur
-pieces white Kf1 Be4 Pb3
-       black Kc1 Bb1 Sa2 Pb4b2h2
-stipulation h#5
-condition hauntedchess
-option movenum
-
 endproblem
