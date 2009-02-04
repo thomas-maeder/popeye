@@ -296,7 +296,6 @@ slice_index branch_h_root_prepare_for_setplay(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  /* TODO can this be? */
   if (slices[si].u.branch.length==slack_length_help)
   {
     slice_index const next = slices[si].u.branch.next;
@@ -309,30 +308,8 @@ slice_index branch_h_root_prepare_for_setplay(slice_index si)
       result = si;
     }
   }
-  else if (slices[si].u.branch.length==slack_length_help+1)
-    result = si;
   else
-  {
-    /* shorten si by 1 half move
-     * add a new STBranchHelp of 1 half move length as new root
-     * si will be the set slice
-     */
-    --slices[si].u.branch.length;
-    if (slices[si].u.branch.min_length==slack_length_help)
-      ++slices[si].u.branch.min_length;
-    else
-      --slices[si].u.branch.min_length;
-    slices[si].u.branch.starter = advers(slices[si].u.branch.starter);
-    TraceValue("->%u",slices[si].u.branch.length);
-    TraceValue("->%u",slices[si].u.branch.min_length);
-    TraceValue("->%u\n",slices[si].u.branch.starter);
-
-    result = alloc_branch_slice(STBranchHelp,
-                                slack_length_help+1,
-                                slack_length_help+1,
-                                si);
-    slices[result].u.branch.starter = advers(slices[si].u.branch.starter);
-  }
+    result = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -347,19 +324,25 @@ slice_index branch_h_root_prepare_for_setplay(slice_index si)
  */
 slice_index branch_h_root_make_setplay_slice(slice_index si)
 {
-  slice_index const next = slices[si].u.branch.next;
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  assert(slices[si].u.branch.length==slack_length_help
-         || slices[si].u.branch.length==slack_length_help+1);
+  assert(slices[si].u.branch.length>=slack_length_help);
 
   if (slices[si].u.branch.length==slack_length_help)
-    result = slice_root_make_setplay_slice(next);
+    result = slice_root_make_setplay_slice(slices[si].u.branch.next);
   else
-    result = next;
+  {
+    result = copy_slice(si);
+    slices[result].u.branch.length -= 1;
+    slices[result].u.branch.min_length -= 1;
+    if (slices[result].u.branch.min_length<slack_length_help)
+      slices[result].u.branch.min_length += 2;
+    slices[result].u.branch.derived_from = si;
+    slices[result].u.branch.starter = advers(slices[si].u.branch.starter);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
