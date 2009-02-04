@@ -48,7 +48,7 @@ typedef struct {
 
 boolean isIntelligentModeActive;
 
-Goal goal_to_be_reached;
+static Goal goal_to_be_reached;
 
 int MaxPieceAll, MaxPieceWhite, MaxPieceBlack;
 int WhMovesLeft, BlMovesLeft;

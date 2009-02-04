@@ -251,6 +251,9 @@ static void countPieces(void)
   square        *bnp;
   piece     p;
 
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   for (p = roib; p<=derbla; p++)
   {
     nbpiece[p] = 0;
@@ -305,6 +308,11 @@ static void countPieces(void)
 
   if (CondFlag[protean])
     exist[reversepb]= true;
+
+  TraceValue("%d\n",nbpiece[pb]);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 static boolean locateRoyal(void)
@@ -2705,6 +2713,14 @@ static void root_slice_apply_setplay()
  */
 static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 {
+  slice_index const leaf_unique_goal = find_unique_goal();
+  Goal const unique_goal = (leaf_unique_goal==no_slice
+                            ? no_goal
+                            : slices[leaf_unique_goal].u.leaf.goal);
+
+  if (unique_goal==goal_proof || unique_goal==goal_atob)
+    ProofSetGoal(unique_goal);
+
   if (initialise_position() && verify_position())
   {
     if (!OptFlag[noboard])

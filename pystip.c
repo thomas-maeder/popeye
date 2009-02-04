@@ -542,6 +542,12 @@ static boolean are_goals_equal(slice_index si1, slice_index si2)
 static boolean find_unique_goal_recursive(slice_index current_slice,
                                           slice_index *found_so_far)
 {
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  TraceValue("%u\n",slices[current_slice].type);
   switch (slices[current_slice].type)
   {
     case STLeafDirect:
@@ -550,25 +556,28 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
       if (*found_so_far==no_slice)
       {
         *found_so_far = current_slice;
-        return true;
+        result = true;
       }
       else
-        return are_goals_equal(*found_so_far,current_slice);
+        result = are_goals_equal(*found_so_far,current_slice);
+      break;
     
     case STQuodlibet:
     {
       slice_index const op1 = slices[current_slice].u.quodlibet.op1;
       slice_index const op2 = slices[current_slice].u.quodlibet.op2;
-      return (find_unique_goal_recursive(op1,found_so_far)
-              && find_unique_goal_recursive(op2,found_so_far));
+      result = (find_unique_goal_recursive(op1,found_so_far)
+                && find_unique_goal_recursive(op2,found_so_far));
+      break;
     }
 
     case STReciprocal:
     {
       slice_index const op1 = slices[current_slice].u.reciprocal.op1;
       slice_index const op2 = slices[current_slice].u.reciprocal.op2;
-      return (find_unique_goal_recursive(op1,found_so_far)
-              && find_unique_goal_recursive(op2,found_so_far));
+      result = (find_unique_goal_recursive(op1,found_so_far)
+                && find_unique_goal_recursive(op2,found_so_far));
+      break;
     }
     
     case STBranchDirect:
@@ -576,13 +585,25 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
     case STBranchSeries:
     {
       slice_index const next = slices[current_slice].u.branch.next;
-      return find_unique_goal_recursive(next,found_so_far);
+      result = find_unique_goal_recursive(next,found_so_far);
+      break;
+    }
+
+    case STMoveInverter:
+    {
+      slice_index const next = slices[current_slice].u.move_inverter.next;
+      result = find_unique_goal_recursive(next,found_so_far);
+      break;
     }
 
     default:
       assert(0);
-      return false;
+      break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine whether the current stipulation has a unique goal, and

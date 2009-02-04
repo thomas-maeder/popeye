@@ -14,8 +14,6 @@ extern int WhMovesLeft, BlMovesLeft;
 extern boolean isIntelligentModeActive;
 
 
-Goal goal_to_be_reached;
-
 boolean isGoalReachable(void);
 boolean SolAlreadyFound(void);
 void StoreSol(void);

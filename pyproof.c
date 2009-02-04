@@ -56,6 +56,24 @@ static boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
 ProofImpossible_fct_t alternateImpossible;
 static ProofImpossible_fct_t seriesImpossible;
 
+static Goal goal_to_be_reached;
+
+
+/* Inform proof games module about goal to be reached
+ * @param goal goal to be reached (one of goal_proof and goal_atob)
+ */
+void ProofSetGoal(Goal goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",goal);
+
+  goal_to_be_reached = goal;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+
 void ProofEncode(void)
 {
   HashBuffer *hb = &hashBuffers[nbply];
@@ -380,6 +398,10 @@ void ProofInitialiseIntelligent(void)
 void ProofAtoBSaveStartPieces(void)
 {
   int i;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   for (i = maxsquare-1; i>=0; i--)
     PosA[i] = e[i];
 
@@ -391,6 +413,9 @@ void ProofAtoBSaveStartPieces(void)
 
   rnA = initsquare;
   rbA = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 void ProofSaveTargetPosition(void)
@@ -451,14 +476,14 @@ void ProofRestoreTargetPosition(void)
 
 void ProofRestoreStartPosition(void)
 {
-  /* TODO */
-  slice_index const leaf_slice = 0;
-  Goal const goal = slices[leaf_slice].u.leaf.goal;
   int i;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
 
   for (i = 0; i < nr_squares_on_board; i++)
   {
-    piece p = goal==goal_atob ? PosA[boardnum[i]] : PAS[i];
+    piece p = goal_to_be_reached==goal_atob ? PosA[boardnum[i]] : PAS[i];
     e[boardnum[i]] = p;
     CLEARFL(spec[boardnum[i]]);
 
@@ -468,13 +493,13 @@ void ProofRestoreStartPosition(void)
       SETFLAG(spec[boardnum[i]], White);
     else if (p<=roin)
       SETFLAG(spec[boardnum[i]], Black);
-    if (goal==goal_atob)
+    if (goal_to_be_reached==goal_atob)
       spec[boardnum[i]] = SpecA[i];
   }
 
   if (!CondFlag[losingchess])
   {
-    if (goal==goal_atob)
+    if (goal_to_be_reached==goal_atob)
     {
       rb = rbA;
       rn = rnA;
@@ -486,17 +511,17 @@ void ProofRestoreStartPosition(void)
     }
   }
 
-  if (goal==goal_atob && CondFlag[imitators])
+  if (goal_to_be_reached==goal_atob && CondFlag[imitators])
     for (i = 0; i < maxinum; i++)
       isquare[i] = isquareA[i];
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 void ProofAtoBSaveStartRoyal(void)
 {
-  /* TODO */
-  slice_index const leaf_slice = 0;
-  Goal const goal = slices[leaf_slice].u.leaf.goal;
-  if (goal==goal_atob)
+  if (goal_to_be_reached==goal_atob)
   {
     rbA = rb;
     rnA = rn;
@@ -507,14 +532,10 @@ void ProofWritePosition(void)
 {
   char InitialLine[40];
 
-  /* TODO */
-  slice_index const leaf_slice = 0;
-  Goal const goal = slices[leaf_slice].u.leaf.goal;
-
   ProofRestoreTargetPosition();
   WritePosition();
 
-  if (goal==goal_atob)
+  if (goal_to_be_reached==goal_atob)
   {
     sprintf(InitialLine,
             "Initial (%s ->):\n",
@@ -1467,6 +1488,8 @@ static boolean ProofImpossible(void)
   WhPieToBeCapt = NbrWh-ProofNbrWhitePieces;
   if (WhPieToBeCapt>black_moves_left)
   {
+    TraceValue("%d ",NbrWh);
+    TraceValue("%d ",ProofNbrWhitePieces);
     TraceValue("%d ",WhPieToBeCapt);
     TraceValue("%d\n",black_moves_left);
     return true;

@@ -44,6 +44,11 @@ void ProofRestoreTargetPosition(void);
  */
 void ProofWritePosition(void);
 
+/* Inform proof games module about goal to be reached
+ * @param goal goal to be reached (one of goal_proof and goal_atob)
+ */
+void ProofSetGoal(Goal goal);
+
 /* Initialise data structure for intelligent solving
  */
 void ProofInitialiseIntelligent(void);
