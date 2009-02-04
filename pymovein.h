@@ -23,10 +23,8 @@ slice_index alloc_move_inverter_slice(slice_index next);
 boolean move_inverter_must_starter_resign(slice_index si);
 
 /* Spin off a set play slice
- * Assumes that slice_root_prepare_for_setplay(si) was invoked and
- * did not return no_slice
  * @param si slice index
- * @return set play slice spun off
+ * @return set play slice spun off; no_slice if not applicable
  */
 slice_index move_inverter_root_make_setplay_slice(slice_index si);
 

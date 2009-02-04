@@ -308,10 +308,8 @@ boolean leaf_s_has_starter_reached_goal(slice_index leaf)
 }
 
 /* Spin off a set play slice
- * Assumes that slice_root_prepare_for_setplay(si) was invoked and
- * did not return no_slice
  * @param si slice index
- * @return set play slice spun off
+ * @return set play slice spun off; no_slice if not applicable
  */
 slice_index leaf_s_root_make_setplay_slice(slice_index leaf)
 {

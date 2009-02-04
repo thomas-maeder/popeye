@@ -25,10 +25,8 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
                                                     stip_length_type n);
 
 /* Spin off a set play slice
- * Assumes that slice_root_prepare_for_setplay(si) was invoked and
- * did not return no_slice
  * @param si slice index
- * @return set play slice spun off
+ * @return set play slice spun off; no_slice if not applicable
  */
 slice_index branch_d_root_make_setplay_slice(slice_index si);
 

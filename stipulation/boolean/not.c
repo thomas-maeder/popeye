@@ -213,10 +213,8 @@ void not_impose_starter(slice_index si, Side s)
 }
 
 /* Spin off a set play slice
- * Assumes that slice_root_prepare_for_setplay(si) was invoked and
- * did not return no_slice
  * @param si slice index
- * @return set play slice spun off
+ * @return set play slice spun off; no_slice if not applicable
  */
 slice_index not_root_make_setplay_slice(slice_index si)
 {

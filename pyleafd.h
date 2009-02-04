@@ -25,10 +25,8 @@ boolean leaf_d_must_starter_resign(slice_index leaf);
 boolean leaf_d_has_non_starter_solved(slice_index leaf);
 
 /* Spin off a set play slice
- * Assumes that slice_root_prepare_for_setplay(si) was invoked and
- * did not return no_slice
  * @param si slice index
- * @return set play slice spun off
+ * @return set play slice spun off; no_slice if not applicable
  */
 slice_index leaf_d_root_make_setplay_slice(slice_index leaf);
 
