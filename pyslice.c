@@ -192,42 +192,6 @@ slice_index slice_root_make_setplay_slice(slice_index si)
   return result;
 }
 
-/* Find and write set play
- * @param si slice index
- * @return true iff >= 1 set play was found
- */
-boolean slice_root_solve_setplay(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  TraceValue("%u\n",slices[si].type);
-  switch (slices[si].type)
-  {
-    case STLeafHelp:
-      result = leaf_h_solve(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_root_solve_setplay(si);
-      break;
-
-    case STBranchSeries:
-      /* TODO implement branch_ser_root_solve_setplay() */
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Find and write set play provided every set move leads to end
  * @param si slice index
  * @return true iff every defender's move leads to end

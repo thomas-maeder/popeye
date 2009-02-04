@@ -20,12 +20,6 @@ boolean branch_h_has_solution(slice_index si);
  */
 slice_index branch_h_root_make_setplay_slice(slice_index si);
 
-/* Determine and write set play
- * @param si slice index
- * @return true iff >= 1 set play was found
- */
-boolean branch_h_root_solve_setplay(slice_index si);
-
 /* Solve a branch slice at root level.
  * @param si slice index
  * @return no_slice if set play not applicable
