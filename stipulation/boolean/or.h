@@ -39,13 +39,17 @@ void quodlibet_write_unsolvability(slice_index si);
  */
 void quodlibet_solve_continuations(int continuations, slice_index si);
 
-/* Write the key just played, then solve the post key play (threats,
- * variations) of a quodlibet slice.
+/* Write the key just played
  * @param si slice index
  * @param type type of attack
  */
-void quodlibet_root_write_key_solve_postkey(slice_index si,
-                                            attack_type type);
+void quodlibet_root_write_key(slice_index si, attack_type type);
+
+/* Continue solving after the key just played in the slice to find and
+ * write the post key play (threats, variations)
+ * @param si slice index
+ */
+void quodlibet_root_solve_postkey(slice_index si);
 
 /* Find and write variations of a quodlibet slice.
  * @param si slice index

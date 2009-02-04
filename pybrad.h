@@ -30,15 +30,18 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
  */
 slice_index branch_d_root_make_setplay_slice(slice_index si);
 
-/* Write the key just played, then solve the post key play (threats,
- * variations) and write the refutations (if any).
- * @param refutations table containing the refutations (if any)
+/* Write the key just played
  * @param si slice index
  * @param type type of attack
  */
-void branch_d_root_write_key_solve_postkey(int refutations,
-                                           slice_index si,
-                                           attack_type type);
+void branch_d_root_write_key(slice_index si, attack_type type);
+
+/* Continue solving after the key just played in the slice to find and
+ * write the post key play (threats, variations)
+ * @param refutations table containing the refutations (if any)
+ * @param si slice index
+ */
+void branch_d_root_solve_postkey(int refutations, slice_index si);
 
 /* Determine and write the threat and variations after the move that
  * has just been played in the current ply. 

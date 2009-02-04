@@ -232,14 +232,21 @@ void leaf_s_root_solve(slice_index leaf)
  * @param leaf slice index
  * @param type type of attack
  */
-void leaf_s_root_write_key_solve_postkey(slice_index leaf, attack_type type)
+void leaf_s_root_write_key(slice_index leaf, attack_type type)
+{
+  write_attack(type);
+}
+
+/* Solve the post key play
+ * @param leaf slice index
+ */
+void leaf_s_root_solve_postkey(slice_index leaf)
 {
   Side const attacker = slices[leaf].u.leaf.starter;
   Side const defender = advers(attacker);
 
   assert(slices[leaf].u.leaf.starter!=no_side);
 
-  write_attack(type);
   output_start_leaf_variation_level();
   if (OptFlag[solvariantes])
     leaf_s_solve_final_move(leaf,defender);

@@ -764,33 +764,6 @@ void branch_d_solve_variations(slice_index si)
   freetab();
 }
 
-/* Solve postkey play of a composite slice at root level.
- * @param refutations table where to write refutations
- * @param si slice index
- * @param n (odd) number of half moves until goal
- */
-static void branch_d_root_solve_postkey(int refutations,
-                                        slice_index si,
-                                        stip_length_type n)
-{
-  int const threats = alloctab();
-  int len_threat;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
-
-  assert(n%2==1);
-
-  len_threat = branch_d_solve_threats(threats,si,n-1);
-  branch_d_root_solve_variations(len_threat,threats,refutations,si,n);
-
-  freetab();
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
 /* Solve postkey play of a composite slice.
  * @param si slice index
  * @param n (odd) number of half moves until goal
@@ -901,27 +874,45 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
   return result;
 }
 
-/* Write the key just played, then solve the post key play (threats,
- * variations) and write the refutations (if any).
- * @param refutations table containing the refutations (if any)
+/* Write the key just played
  * @param si slice index
  * @param type type of attack
  */
-void branch_d_root_write_key_solve_postkey(int refutations,
-                                           slice_index si,
-                                           attack_type type)
+void branch_d_root_write_key(slice_index si, attack_type type)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",type);
+
+  write_attack(type);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Continue solving after the key just played in the slice to find and
+ * write the post key play (threats, variations)
+ * @param refutations table containing the refutations (if any)
+ * @param si slice index
+ */
+void branch_d_root_solve_postkey(int refutations, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  write_attack(type);
-
   output_start_postkey_level();
+
   if (OptFlag[solvariantes])
-    branch_d_root_solve_postkey(refutations,
-                                si,
-                                slices[si].u.branch.length-1);
+  {
+    stip_length_type const n = slices[si].u.branch.length-1;
+    int const threats = alloctab();
+    int const len_threat = branch_d_solve_threats(threats,si,n-1);
+    branch_d_root_solve_variations(len_threat,threats,refutations,si,n);
+    freetab();
+  }
+
   write_refutations(refutations);
+
   output_end_postkey_level();
 
   TraceFunctionExit(__func__);
@@ -978,8 +969,8 @@ static void branch_d_root_solve_real_play(slice_index si)
         if (slices[si].u.branch.min_length<=slack_length_direct
             && slice_has_starter_reached_goal(slices[si].u.branch.next))
         {
-          slice_root_write_key_solve_postkey(slices[si].u.branch.next,
-                                             attack_key);
+          slice_root_write_key(slices[si].u.branch.next,attack_key);
+          slice_root_solve_postkey(slices[si].u.branch.next);
           write_end_of_solution();
         }
         else
@@ -993,7 +984,8 @@ static void branch_d_root_solve_real_play(slice_index si)
             attack_type const type = (tablen(refutations)>=1
                                       ? attack_try
                                       : attack_key);
-            branch_d_root_write_key_solve_postkey(refutations,si,type);
+            branch_d_root_write_key(si,type);
+            branch_d_root_solve_postkey(refutations,si);
             write_end_of_solution();
           }
 

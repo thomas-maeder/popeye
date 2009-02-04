@@ -87,12 +87,17 @@ void reci_solve_continuations(int continuations, slice_index si);
  */
 slice_index reci_root_make_setplay_slice(slice_index si);
 
-/* Write the key just played, then solve the post key play (threats,
- * variations), starting at the end of a reciprocal slice.
+/* Write the key just played
  * @param si slice index
  * @param type type of attack
  */
-void reci_root_write_key_solve_postkey(slice_index si, attack_type type);
+void reci_root_write_key(slice_index si, attack_type type);
+
+/* Continue solving after the key just played in the slice to find and
+ * write the post key play (threats, variations)
+ * @param si slice index
+ */
+void reci_root_solve_postkey(slice_index si);
 
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index

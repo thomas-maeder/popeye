@@ -279,17 +279,25 @@ void reci_root_solve(slice_index si)
   TraceText("\n");
 }
 
-/* Write the key just played, then solve the post key play (threats,
- * variations), starting at the end of a reciprocal slice.
+/* Write the key just played
  * @param si slice index
  * @param type type of attack
  */
-void reci_root_write_key_solve_postkey(slice_index si,
-                                             attack_type type)
+void reci_root_write_key(slice_index si, attack_type type)
 {
   /* TODO does this make sense? */
-  slice_root_write_key_solve_postkey(slices[si].u.reciprocal.op1,type);
-  slice_root_write_key_solve_postkey(slices[si].u.reciprocal.op2,type);
+  slice_root_write_key(slices[si].u.reciprocal.op1,type);
+  slice_root_write_key(slices[si].u.reciprocal.op2,type);
+}
+
+/* Continue solving after the key just played in the slice to find and
+ * write the post key play (threats, variations)
+ * @param si slice index
+ */
+void reci_root_solve_postkey(slice_index si)
+{
+  slice_root_solve_postkey(slices[si].u.reciprocal.op1);
+  slice_root_solve_postkey(slices[si].u.reciprocal.op2);
 }
 
 /* Continue solving at the end of a reciprocal slice

@@ -393,15 +393,21 @@ boolean leaf_d_solve(slice_index leaf)
   return result;
 }
 
-/* Write the key and solve the remainder of a leaf in direct play
+/* Write the key just played
  * @param leaf slice index
  * @param type type of attack
  */
-void leaf_d_root_write_key_solve_postkey(slice_index leaf, attack_type type)
+void leaf_d_root_write_key(slice_index leaf, attack_type type)
 {
   assert(slices[leaf].u.leaf.starter!=no_side);
-
   write_final_attack(slices[leaf].u.leaf.goal,type);
+}
+
+/* Solve the post key play
+ * @param leaf slice index
+ */
+void leaf_d_root_solve_postkey(slice_index leaf)
+{
   output_start_postkey_level();
   output_start_leaf_variation_level();
   output_end_leaf_variation_level();

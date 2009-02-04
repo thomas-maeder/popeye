@@ -192,31 +192,74 @@ slice_index slice_root_make_setplay_slice(slice_index si)
   return result;
 }
 
-/* Write the key just played, then continue solving in the slice
- * to find and write the post key play (threats, variations)
+/* Write the key just played
  * @param si slice index
  * @param type type of attack
  */
-void slice_root_write_key_solve_postkey(slice_index si, attack_type type)
+void slice_root_write_key(slice_index si, attack_type type)
 {
   switch (slices[si].type)
   {
     case STLeafDirect:
-      leaf_d_root_write_key_solve_postkey(si,type);
+      leaf_d_root_write_key(si,type);
       break;
 
     case STLeafSelf:
-      leaf_s_root_write_key_solve_postkey(si,type);
+      leaf_s_root_write_key(si,type);
       break;
 
     case STQuodlibet:
-      quodlibet_root_write_key_solve_postkey(si,type);
+      quodlibet_root_write_key(si,type);
+      break;
+
+    case STBranchDirect:
+      branch_d_root_write_key(si,type);
+      break;
+
+    case STBranchHelp:
+      /* TODO */
+      break;
+
+    case STBranchSeries:
+      /* TODO */
+      break;
+
+    case STReciprocal:
+    {
+      reci_root_write_key(si,type);
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
+  }
+}
+
+/* Continue solving after the key just played in the slice to find and
+ * write the post key play (threats, variations)
+ * @param si slice index
+ */
+void slice_root_solve_postkey(slice_index si)
+{
+  switch (slices[si].type)
+  {
+    case STLeafDirect:
+      leaf_d_root_solve_postkey(si);
+      break;
+
+    case STLeafSelf:
+      leaf_s_root_solve_postkey(si);
+      break;
+
+    case STQuodlibet:
+      quodlibet_root_solve_postkey(si);
       break;
 
     case STBranchDirect:
     {
       int const refutations = alloctab();
-      branch_d_root_write_key_solve_postkey(refutations,si,type);
+      branch_d_root_solve_postkey(refutations,si);
       freetab();
       break;
     }
@@ -231,7 +274,7 @@ void slice_root_write_key_solve_postkey(slice_index si, attack_type type)
 
     case STReciprocal:
     {
-      reci_root_write_key_solve_postkey(si,type);
+      reci_root_solve_postkey(si);
       break;
     }
 
