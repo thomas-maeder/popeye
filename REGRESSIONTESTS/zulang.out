@@ -542,7 +542,7 @@ Loesung beendet.
                               4...Kb7-b8 
                                   5.Lc6-b7 
                                       5...Kb8-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-a1 # 
                                                   7.Ta4-a3 # 
@@ -551,7 +551,7 @@ Loesung beendet.
                                                   7.Ta4-f4 # 
                                                   7.Ta4-d4 # 
                                                   7.Ta4-b4 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-b4 # 
                                                   7.Ta4-a1 # 
@@ -561,7 +561,7 @@ Loesung beendet.
                                                   7.Ta4-f4 # 
                                                   7.Ta4-d4 # 
                                       5...Kb8-a7 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka7-a8 
                                                   7.Ta4-d4 # 
                                                   7.Ta4-a1 # 
@@ -571,7 +571,7 @@ Loesung beendet.
                                                   7.Ta4-h4 # 
                                                   7.Ta4-f4 # 
                                                   7.Ta4-b4 # 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka7-a8 
                                                   7.Ta4-b4 # 
                                                   7.Ta4-a1 # 
@@ -584,7 +584,7 @@ Loesung beendet.
                               4...Kb7-a7 
                                   5.Lc6-b7 
                                       5...Ka7-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-d4 # 
                                                   7.Ta4-a1 # 
@@ -593,7 +593,7 @@ Loesung beendet.
                                                   7.Ta4-h4 # 
                                                   7.Ta4-f4 # 
                                                   7.Ta4-b4 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-b4 # 
                                                   7.Ta4-a1 # 
@@ -637,24 +637,24 @@ Loesung beendet.
                               4...Kb7-b8 
                                   5.Lc6-b7 
                                       5...Kb8-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a3 # 
                                                   7.Ta6-a5 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a5 # 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a3 # 
                                       5...Kb8-a7 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka7-a8 
                                                   7.Ta6-a3 # 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a5 # 
                                                   7.Ta6-a7 # 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka7-a8 
                                                   7.Ta6-a7 # 
                                                   7.Ta6-a1 # 
@@ -663,12 +663,12 @@ Loesung beendet.
                               4...Kb7-a7 
                                   5.Lc6-b7 
                                       5...Ka7-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a5 # 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a3 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a3 # 
                                                   7.Ta6-a1 # 
@@ -700,41 +700,41 @@ Loesung beendet.
                           4.Lc6-b7 
                               4...Ka7-b8 
                                   5.Ta8-a2 
-                                      5...Kb8-a8 
-                                          6.Dc8-b8 
-                                              6...Ka8-a7 
-                                                  7.Ta2-a1 # 
-                                                  7.Ta2-a5 # 
-                                                  7.Ta2-a3 # 
-                                                  7.Ta2-h2 # 
-                                                  7.Ta2-f2 # 
-                                                  7.Ta2-d2 # 
-                                                  7.Ta2-b2 # 
-                                          6.Kc7-b8 
-                                              6...Ka8-a7 
-                                                  7.Ta2-b2 # 
-                                                  7.Ta2-a1 # 
-                                                  7.Ta2-a5 # 
-                                                  7.Ta2-a3 # 
-                                                  7.Ta2-h2 # 
-                                                  7.Ta2-f2 # 
-                                                  7.Ta2-d2 # 
                                       5...Kb8-a7 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka7-a8 
-                                                  7.Ta2-d2 # 
                                                   7.Ta2-a1 # 
                                                   7.Ta2-a7 # 
                                                   7.Ta2-a5 # 
                                                   7.Ta2-a3 # 
                                                   7.Ta2-h2 # 
                                                   7.Ta2-f2 # 
+                                                  7.Ta2-d2 # 
                                                   7.Ta2-b2 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka7-a8 
                                                   7.Ta2-b2 # 
                                                   7.Ta2-a1 # 
                                                   7.Ta2-a7 # 
+                                                  7.Ta2-a5 # 
+                                                  7.Ta2-a3 # 
+                                                  7.Ta2-h2 # 
+                                                  7.Ta2-f2 # 
+                                                  7.Ta2-d2 # 
+                                      5...Kb8-a8 
+                                          6.Kc7-b8 
+                                              6...Ka8-a7 
+                                                  7.Ta2-d2 # 
+                                                  7.Ta2-a1 # 
+                                                  7.Ta2-a5 # 
+                                                  7.Ta2-a3 # 
+                                                  7.Ta2-h2 # 
+                                                  7.Ta2-f2 # 
+                                                  7.Ta2-b2 # 
+                                          6.Dc8-b8 
+                                              6...Ka8-a7 
+                                                  7.Ta2-b2 # 
+                                                  7.Ta2-a1 # 
                                                   7.Ta2-a5 # 
                                                   7.Ta2-a3 # 
                                                   7.Ta2-h2 # 
@@ -910,7 +910,7 @@ Loesung beendet.
                               4...Kb7-b8 
                                   5.Lc6-b7 
                                       5...Kb8-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-a1 # 
                                                   7.Ta4-a3 # 
@@ -919,7 +919,7 @@ Loesung beendet.
                                                   7.Ta4-f4 # 
                                                   7.Ta4-d4 # 
                                                   7.Ta4-b4 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-b4 # 
                                                   7.Ta4-a1 # 
@@ -929,7 +929,7 @@ Loesung beendet.
                                                   7.Ta4-f4 # 
                                                   7.Ta4-d4 # 
                                       5...Kb8-a7 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka7-a8 
                                                   7.Ta4-d4 # 
                                                   7.Ta4-a1 # 
@@ -939,7 +939,7 @@ Loesung beendet.
                                                   7.Ta4-h4 # 
                                                   7.Ta4-f4 # 
                                                   7.Ta4-b4 # 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka7-a8 
                                                   7.Ta4-b4 # 
                                                   7.Ta4-a1 # 
@@ -952,7 +952,7 @@ Loesung beendet.
                               4...Kb7-a7 
                                   5.Lc6-b7 
                                       5...Ka7-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-d4 # 
                                                   7.Ta4-a1 # 
@@ -961,7 +961,7 @@ Loesung beendet.
                                                   7.Ta4-h4 # 
                                                   7.Ta4-f4 # 
                                                   7.Ta4-b4 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-b4 # 
                                                   7.Ta4-a1 # 
@@ -1005,24 +1005,24 @@ Loesung beendet.
                               4...Kb7-b8 
                                   5.Lc6-b7 
                                       5...Kb8-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a3 # 
                                                   7.Ta6-a5 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a5 # 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a3 # 
                                       5...Kb8-a7 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka7-a8 
                                                   7.Ta6-a3 # 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a5 # 
                                                   7.Ta6-a7 # 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka7-a8 
                                                   7.Ta6-a7 # 
                                                   7.Ta6-a1 # 
@@ -1031,12 +1031,12 @@ Loesung beendet.
                               4...Kb7-a7 
                                   5.Lc6-b7 
                                       5...Ka7-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a5 # 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a3 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a3 # 
                                                   7.Ta6-a1 # 
@@ -1068,41 +1068,41 @@ Loesung beendet.
                           4.Lc6-b7 
                               4...Ka7-b8 
                                   5.Ta8-a2 
-                                      5...Kb8-a8 
-                                          6.Kc7-b8 
-                                              6...Ka8-a7 
-                                                  7.Ta2-a1 # 
-                                                  7.Ta2-a5 # 
-                                                  7.Ta2-a3 # 
-                                                  7.Ta2-h2 # 
-                                                  7.Ta2-f2 # 
-                                                  7.Ta2-d2 # 
-                                                  7.Ta2-b2 # 
-                                          6.Dc8-b8 
-                                              6...Ka8-a7 
-                                                  7.Ta2-b2 # 
-                                                  7.Ta2-a1 # 
-                                                  7.Ta2-a5 # 
-                                                  7.Ta2-a3 # 
-                                                  7.Ta2-h2 # 
-                                                  7.Ta2-f2 # 
-                                                  7.Ta2-d2 # 
                                       5...Kb8-a7 
                                           6.Dc8-b8 
                                               6...Ka7-a8 
-                                                  7.Ta2-d2 # 
                                                   7.Ta2-a1 # 
                                                   7.Ta2-a7 # 
                                                   7.Ta2-a5 # 
                                                   7.Ta2-a3 # 
                                                   7.Ta2-h2 # 
                                                   7.Ta2-f2 # 
+                                                  7.Ta2-d2 # 
                                                   7.Ta2-b2 # 
                                           6.Kc7-b8 
                                               6...Ka7-a8 
                                                   7.Ta2-b2 # 
                                                   7.Ta2-a1 # 
                                                   7.Ta2-a7 # 
+                                                  7.Ta2-a5 # 
+                                                  7.Ta2-a3 # 
+                                                  7.Ta2-h2 # 
+                                                  7.Ta2-f2 # 
+                                                  7.Ta2-d2 # 
+                                      5...Kb8-a8 
+                                          6.Kc7-b8 
+                                              6...Ka8-a7 
+                                                  7.Ta2-d2 # 
+                                                  7.Ta2-a1 # 
+                                                  7.Ta2-a5 # 
+                                                  7.Ta2-a3 # 
+                                                  7.Ta2-h2 # 
+                                                  7.Ta2-f2 # 
+                                                  7.Ta2-b2 # 
+                                          6.Dc8-b8 
+                                              6...Ka8-a7 
+                                                  7.Ta2-b2 # 
+                                                  7.Ta2-a1 # 
                                                   7.Ta2-a5 # 
                                                   7.Ta2-a3 # 
                                                   7.Ta2-h2 # 
@@ -1110,7 +1110,7 @@ Loesung beendet.
                                                   7.Ta2-d2 # 
                                   5.Ta8-a4 
                                       5...Kb8-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-a1 # 
                                                   7.Ta4-a3 # 
@@ -1119,7 +1119,7 @@ Loesung beendet.
                                                   7.Ta4-f4 # 
                                                   7.Ta4-d4 # 
                                                   7.Ta4-b4 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-b4 # 
                                                   7.Ta4-a1 # 
@@ -1129,7 +1129,7 @@ Loesung beendet.
                                                   7.Ta4-f4 # 
                                                   7.Ta4-d4 # 
                                       5...Kb8-a7 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka7-a8 
                                                   7.Ta4-d4 # 
                                                   7.Ta4-a1 # 
@@ -1139,7 +1139,7 @@ Loesung beendet.
                                                   7.Ta4-h4 # 
                                                   7.Ta4-f4 # 
                                                   7.Ta4-b4 # 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka7-a8 
                                                   7.Ta4-b4 # 
                                                   7.Ta4-a1 # 
@@ -1151,24 +1151,24 @@ Loesung beendet.
                                                   7.Ta4-d4 # 
                                   5.Ta8-a6 
                                       5...Kb8-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a3 # 
                                                   7.Ta6-a5 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a5 # 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a3 # 
                                       5...Kb8-a7 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka7-a8 
                                                   7.Ta6-a3 # 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a5 # 
                                                   7.Ta6-a7 # 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka7-a8 
                                                   7.Ta6-a7 # 
                                                   7.Ta6-a1 # 
@@ -1280,7 +1280,7 @@ Loesung beendet.
                               4...Kb7-b8 
                                   5.Lc6-b7 
                                       5...Kb8-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-a1 # 
                                                   7.Ta4-a3 # 
@@ -1289,7 +1289,7 @@ Loesung beendet.
                                                   7.Ta4-f4 # 
                                                   7.Ta4-d4 # 
                                                   7.Ta4-b4 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-b4 # 
                                                   7.Ta4-a1 # 
@@ -1299,7 +1299,7 @@ Loesung beendet.
                                                   7.Ta4-f4 # 
                                                   7.Ta4-d4 # 
                                       5...Kb8-a7 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka7-a8 
                                                   7.Ta4-d4 # 
                                                   7.Ta4-a1 # 
@@ -1309,7 +1309,7 @@ Loesung beendet.
                                                   7.Ta4-h4 # 
                                                   7.Ta4-f4 # 
                                                   7.Ta4-b4 # 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka7-a8 
                                                   7.Ta4-b4 # 
                                                   7.Ta4-a1 # 
@@ -1322,7 +1322,7 @@ Loesung beendet.
                               4...Kb7-a7 
                                   5.Lc6-b7 
                                       5...Ka7-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-d4 # 
                                                   7.Ta4-a1 # 
@@ -1331,7 +1331,7 @@ Loesung beendet.
                                                   7.Ta4-h4 # 
                                                   7.Ta4-f4 # 
                                                   7.Ta4-b4 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta4-b4 # 
                                                   7.Ta4-a1 # 
@@ -1375,24 +1375,24 @@ Loesung beendet.
                               4...Kb7-b8 
                                   5.Lc6-b7 
                                       5...Kb8-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a3 # 
                                                   7.Ta6-a5 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a5 # 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a3 # 
                                       5...Kb8-a7 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka7-a8 
                                                   7.Ta6-a3 # 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a5 # 
                                                   7.Ta6-a7 # 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka7-a8 
                                                   7.Ta6-a7 # 
                                                   7.Ta6-a1 # 
@@ -1401,12 +1401,12 @@ Loesung beendet.
                               4...Kb7-a7 
                                   5.Lc6-b7 
                                       5...Ka7-a8 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a5 # 
                                                   7.Ta6-a1 # 
                                                   7.Ta6-a3 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka8-a7 
                                                   7.Ta6-a3 # 
                                                   7.Ta6-a1 # 
@@ -1438,41 +1438,41 @@ Loesung beendet.
                           4.Lc6-b7 
                               4...Ka7-b8 
                                   5.Ta8-a2 
-                                      5...Kb8-a8 
-                                          6.Dc8-b8 
-                                              6...Ka8-a7 
-                                                  7.Ta2-a1 # 
-                                                  7.Ta2-a5 # 
-                                                  7.Ta2-a3 # 
-                                                  7.Ta2-h2 # 
-                                                  7.Ta2-f2 # 
-                                                  7.Ta2-d2 # 
-                                                  7.Ta2-b2 # 
-                                          6.Kc7-b8 
-                                              6...Ka8-a7 
-                                                  7.Ta2-b2 # 
-                                                  7.Ta2-a1 # 
-                                                  7.Ta2-a5 # 
-                                                  7.Ta2-a3 # 
-                                                  7.Ta2-h2 # 
-                                                  7.Ta2-f2 # 
-                                                  7.Ta2-d2 # 
                                       5...Kb8-a7 
-                                          6.Kc7-b8 
+                                          6.Dc8-b8 
                                               6...Ka7-a8 
-                                                  7.Ta2-d2 # 
                                                   7.Ta2-a1 # 
                                                   7.Ta2-a7 # 
                                                   7.Ta2-a5 # 
                                                   7.Ta2-a3 # 
                                                   7.Ta2-h2 # 
                                                   7.Ta2-f2 # 
+                                                  7.Ta2-d2 # 
                                                   7.Ta2-b2 # 
-                                          6.Dc8-b8 
+                                          6.Kc7-b8 
                                               6...Ka7-a8 
                                                   7.Ta2-b2 # 
                                                   7.Ta2-a1 # 
                                                   7.Ta2-a7 # 
+                                                  7.Ta2-a5 # 
+                                                  7.Ta2-a3 # 
+                                                  7.Ta2-h2 # 
+                                                  7.Ta2-f2 # 
+                                                  7.Ta2-d2 # 
+                                      5...Kb8-a8 
+                                          6.Kc7-b8 
+                                              6...Ka8-a7 
+                                                  7.Ta2-d2 # 
+                                                  7.Ta2-a1 # 
+                                                  7.Ta2-a5 # 
+                                                  7.Ta2-a3 # 
+                                                  7.Ta2-h2 # 
+                                                  7.Ta2-f2 # 
+                                                  7.Ta2-b2 # 
+                                          6.Dc8-b8 
+                                              6...Ka8-a7 
+                                                  7.Ta2-b2 # 
+                                                  7.Ta2-a1 # 
                                                   7.Ta2-a5 # 
                                                   7.Ta2-a3 # 
                                                   7.Ta2-h2 # 
@@ -2382,7 +2382,7 @@ Loesung beendet.
 
 
 
-           Zbigniew Szcep
+            Zbigniew Szcep
 Sake, Portoroz 2002, 2° Mention d'Honneur
 
 +---a---b---c---d---e---f---g---h---+
@@ -2406,7 +2406,7 @@ Sake, Portoroz 2002, 2° Mention d'Honneur
 +---a---b---c---d---e---f---g---h---+
   h#5                         3 + 6
              Unschlagbar
-             Spukschach
+              Spukschach
 
   1  (Lb1*e4 )
   2  (Lb1-d3 + )
@@ -2415,12 +2415,12 @@ Sake, Portoroz 2002, 2° Mention d'Honneur
   5  (Kc1-c2 )
   6  (Kc1-d2 )
   7  (Sa2-c3 )
-  1.h2-h1=D + Le4*h1   2.Kc1-c2 Kf1-e2   3.Kc2*b3 Lh1-a8[+buDh1]   4.uDh1*a8 Ke2-d2   5.uDa8-a3[+wuLa8] uLa8-d5 # 
+  1.h2-h1=D + Le4*h1   2.Kc1-c2 Kf1-e2   3.Kc2*b3 Lh1-a8[+suDh1]   4.uDh1*a8 Ke2-d2   5.uDa8-a3[+wuLa8] uLa8-d5 # 
   8  (h2-h1=D + )
   9  (h2-h1=S )
  10  (h2-h1=T + )
  11  (h2-h1=L )
 
-solution finished. 
+Loesung beendet. 
 
 
