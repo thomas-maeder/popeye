@@ -24,12 +24,7 @@ typedef enum
 branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
                                                     stip_length_type n);
 
-/* Prepare a slice for spinning of a set play slice
- * @param si slice index
- */
-slice_index branch_d_root_prepare_for_setplay(slice_index si);
-
-/* Spin of a set play slice
+/* Spin off a set play slice
  * Assumes that slice_root_prepare_for_setplay(si) was invoked and
  * did not return no_slice
  * @param si slice index

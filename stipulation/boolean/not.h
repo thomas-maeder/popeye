@@ -88,14 +88,7 @@ who_decides_on_starter not_detect_starter(slice_index si,
  */
 void not_impose_starter(slice_index si, Side s);
 
-/* Prepare a slice for spinning of a set play slice
- * @param si slice index
- * @return no_slice if set play not applicable
- *         new root slice index (may be equal to old one) otherwise
- */
-slice_index not_root_prepare_for_setplay(slice_index si);
-
-/* Spin of a set play slice
+/* Spin off a set play slice
  * Assumes that slice_root_prepare_for_setplay(si) was invoked and
  * did not return no_slice
  * @param si slice index

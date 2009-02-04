@@ -136,60 +136,7 @@ void slice_solve_continuations(int table, slice_index si)
   TraceText("\n");
 }
 
-/* Prepare a slice for spinning of a set play slice
- * @param si slice index
- * @return no_slice if set play not applicable
- *         new root slice index (may be equal to old one) otherwise
- */
-slice_index slice_root_prepare_for_setplay(slice_index si)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  TraceValue("%u\n",slices[si].type);
-  switch (slices[si].type)
-  {
-    case STBranchHelp:
-      result = branch_h_root_prepare_for_setplay(si);
-      break;
-
-    case STBranchDirect:
-      result = branch_d_root_prepare_for_setplay(si);
-      break;
-
-    case STLeafDirect:
-      result = leaf_d_root_prepare_for_setplay(si);
-      break;
-
-    case STLeafSelf:
-      result = leaf_s_root_prepare_for_setplay(si);
-      break;
-
-    case STReciprocal:
-      result = reci_root_prepare_for_setplay(si);
-      break;
-
-    case STNot:
-      result = not_root_prepare_for_setplay(si);
-      break;
-
-    case STMoveInverter:
-      result = move_inverter_root_prepare_for_setplay(si);
-      break;
-
-    default:
-      result = no_slice;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Spin of a set play slice
+/* Spin off a set play slice
  * Assumes that slice_root_prepare_for_setplay(si) was invoked and
  * did not return no_slice
  * @param si slice index

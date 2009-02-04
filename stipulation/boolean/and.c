@@ -225,39 +225,7 @@ void reci_solve_continuations(int table, slice_index si)
   TraceText("\n");
 }
 
-/* Prepare a slice for spinning of a set play slice
- * @param si slice index
- * @return no_slice if set play not applicable
- *         new root slice index (may be equal to old one) otherwise
- */
-slice_index reci_root_prepare_for_setplay(slice_index si)
-{
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
-  slice_index op1_prepared;
-  slice_index result = no_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  op1_prepared = slice_root_prepare_for_setplay(op1);
-  if (op1_prepared!=no_slice)
-  {
-    slice_index const op2_prepared = slice_root_prepare_for_setplay(op2);
-    if (op2_prepared!=no_slice)
-    {
-      slices[si].u.reciprocal.op1 = op1_prepared;
-      slices[si].u.reciprocal.op2 = op2_prepared;
-      result = si;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Spin of a set play slice
+/* Spin off a set play slice
  * Assumes that slice_root_prepare_for_setplay(si) was invoked and
  * did not return no_slice
  * @param si slice index
@@ -268,15 +236,20 @@ slice_index reci_root_make_setplay_slice(slice_index si)
   slice_index const op1 = slices[si].u.reciprocal.op1;
   slice_index const op2 = slices[si].u.reciprocal.op2;
   slice_index op1_set;
-  slice_index op2_set;
-  slice_index result;
+  slice_index result = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   op1_set = slice_root_make_setplay_slice(op1);
-  op2_set = slice_root_make_setplay_slice(op2);
-  result = alloc_reciprocal_slice(op1_set,op2_set);
+  if (op1_set!=no_slice)
+  {
+    slice_index const op2_set = slice_root_make_setplay_slice(op2);
+    if (op2_set==no_slice)
+      dealloc_slice_index(op1_set);
+    else
+      result = alloc_reciprocal_slice(op1_set,op2_set);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

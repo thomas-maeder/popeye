@@ -2677,19 +2677,18 @@ static void fini_duplex(void)
 
 static void slice_root_apply_setplay()
 {
-  slice_index tmp_root;
+  slice_index setplay;
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  tmp_root = slice_root_prepare_for_setplay(root_slice);
-
-  if (tmp_root==no_slice)
+  setplay = slice_root_make_setplay_slice(root_slice);
+  if (setplay==no_slice)
     Message(SetPlayNotApplicable);
-  else {
-    slice_index const setplay = slice_root_make_setplay_slice(tmp_root);
+  else
+  {
     slice_index const mi = alloc_move_inverter_slice(setplay);
-    root_slice = alloc_quodlibet_slice(mi,tmp_root);
+    root_slice = alloc_quodlibet_slice(mi,root_slice);
     TraceValue("->%u\n",root_slice);
   }
 

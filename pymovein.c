@@ -46,32 +46,7 @@ boolean move_inverter_must_starter_resign(slice_index si)
   return result;
 }
 
-/* Prepare a slice for spinning of a set play slice
- * @param si slice index
- */
-slice_index move_inverter_root_prepare_for_setplay(slice_index si)
-{
-  slice_index result;
-  slice_index new_next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  new_next = slice_root_prepare_for_setplay(slices[si].u.move_inverter.next);
-  if (new_next==no_slice)
-    result = no_slice;
-  else
-  {
-    slices[si].u.move_inverter.next = new_next;
-    result = si;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Spin of a set play slice
+/* Spin off a set play slice
  * Assumes that slice_root_prepare_for_setplay(si) was invoked and
  * did not return no_slice
  * @param si slice index
@@ -87,7 +62,10 @@ slice_index move_inverter_root_make_setplay_slice(slice_index si)
   TraceFunctionParam("%u\n",si);
 
   next_set_slice = slice_root_make_setplay_slice(next);
-  result = alloc_move_inverter_slice(next_set_slice);
+  if (next_set_slice==no_slice)
+    result = no_slice;
+  else
+    result = alloc_move_inverter_slice(next_set_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

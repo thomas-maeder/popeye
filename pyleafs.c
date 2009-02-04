@@ -307,24 +307,7 @@ boolean leaf_s_has_starter_reached_goal(slice_index leaf)
   return result;
 }
 
-/* Prepare a slice for spinning of a set play slice
- * @param si slice index
- * @return no_slice if set play not applicable
- *         new root slice index (may be equal to old one) otherwise
- */
-slice_index leaf_s_root_prepare_for_setplay(slice_index leaf)
-{
-  slice_index const result = leaf;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Spin of a set play slice
+/* Spin off a set play slice
  * Assumes that slice_root_prepare_for_setplay(si) was invoked and
  * did not return no_slice
  * @param si slice index

@@ -284,39 +284,7 @@ static boolean branch_h_root_solve_short_in_n(slice_index si,
   return result;
 }
 
-/* Prepare a slice for spinning of a set play slice
- * @param si slice index
- * @return no_slice if set play not applicable
- *         new root slice index (may be equal to old one) otherwise
- */
-slice_index branch_h_root_prepare_for_setplay(slice_index si)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  if (slices[si].u.branch.length==slack_length_help)
-  {
-    slice_index const next = slices[si].u.branch.next;
-    slice_index const next_result = slice_root_prepare_for_setplay(next);
-    if (next_result==no_slice)
-      result = no_slice;
-    else
-    {
-      slices[si].u.branch.next = next_result;
-      result = si;
-    }
-  }
-  else
-    result = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Spin of a set play slice
+/* Spin off a set play slice
  * Assumes that slice_root_prepare_for_setplay(si) was invoked and
  * did not return no_slice
  * @param si slice index
