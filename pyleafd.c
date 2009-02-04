@@ -234,6 +234,8 @@ void leaf_d_root_solve(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  output_start_continuation_level();
+
   switch (slices[leaf].u.leaf.goal)
   {
     case goal_countermate:
@@ -248,6 +250,8 @@ void leaf_d_root_solve(slice_index leaf)
       leaf_d_root_regulargoals_solve(leaf);
       break;
   }
+
+  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -561,7 +565,11 @@ who_decides_on_starter leaf_d_detect_starter(slice_index leaf,
 
     default:
       /* normally White, but Black in reci-h -> let somebody impose
-       * the starter */
+       * the starter unless we are at the root level */
+      if (leaf==root_slice)
+        slices[leaf].u.leaf.starter = (is_duplex!=same_side_as_root
+                                       ? White
+                                       : Black);
       break;
   }
 

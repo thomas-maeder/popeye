@@ -886,6 +886,7 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
   {
     slice_index const derived = copy_slice(si);
     slices[derived].u.branch.length -= 2;
+    slices[derived].u.branch.min_length -= 2;
     slices[derived].u.branch.starter = slices[si].u.branch.starter;
     result = alloc_branch_slice(STBranchHelp,
                                 slack_length_help+1,

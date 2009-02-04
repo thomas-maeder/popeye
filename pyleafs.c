@@ -199,6 +199,8 @@ void leaf_s_root_solve(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  output_start_continuation_level();
+
   active_slice[nbply+1] = leaf;
   genmove(attacker);
 
@@ -219,6 +221,8 @@ void leaf_s_root_solve(slice_index leaf)
   }
 
   finply();
+
+  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceText("\n");

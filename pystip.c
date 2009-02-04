@@ -631,6 +631,10 @@ void stip_make_exact(slice_index si)
       slices[si].u.branch.min_length = slices[si].u.branch.length;
       break;
 
+    case STLeafDirect:
+      /* nothing to do */
+      break;
+
     default:
       assert(0);
       break;

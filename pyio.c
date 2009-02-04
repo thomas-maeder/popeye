@@ -1136,7 +1136,7 @@ static char *ParseLength(char *tok,
 
       case STBranchDirect:
         *length *= 2;
-        *min_length = 0;
+        *min_length = slack_length_direct;
         break;
 
       case STBranchSeries:
@@ -1621,7 +1621,12 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type min_length;
       result = ParseLength(tok,STBranchDirect,&length,&min_length);
       if (result!=0)
-        *si = alloc_branch_slice(STBranchDirect,length,min_length,next);
+      {
+        if (length==slack_length_direct && min_length==slack_length_direct)
+          *si = next;
+        else
+          *si = alloc_branch_slice(STBranchDirect,length,min_length,next);
+      }
     }
   }
 
