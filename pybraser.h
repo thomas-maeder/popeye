@@ -8,6 +8,14 @@
  * stipulation slices.
  */
 
+/* Spin off a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
+ */
+slice_index branch_ser_root_make_setplay_slice(slice_index si);
+
 /* Solve a branch slice at root level.
  * @param si slice index
  */

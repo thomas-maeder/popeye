@@ -213,6 +213,33 @@ static boolean branch_ser_root_solve_short_in_n(slice_index si,
   return result;
 }
 
+/* Spin off a set play slice
+ * Assumes that slice_root_prepare_for_setplay(si) was invoked and
+ * did not return no_slice
+ * @param si slice index
+ * @return set play slice spun off
+ */
+slice_index branch_ser_root_make_setplay_slice(slice_index si)
+{
+  slice_index const next = slices[si].u.branch.next;
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  if (slices[next].type==STMoveInverter)
+  {
+    slice_index const next_next = slices[next].u.move_inverter.next;
+    result = slice_root_make_setplay_slice(next_next);
+  }
+  else
+    result = next;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Solve a composite slice with series play at root level
  * @param si slice index
  */
@@ -226,28 +253,6 @@ void branch_ser_root_solve(slice_index si)
   TraceValue("%u\n",starter);
   
   move_generation_mode = move_generation_not_optimized;
-
-  if (OptFlag[solapparent] && !OptFlag[restart])
-  {
-    if (echecc(nbply,starter))
-      ErrorMsg(KingCapture);
-    else
-    {
-      /* TODO next slice(s) (e.g. leaf_root_solve_setplay()) should
-       * invoke Intelligent() */
-      boolean const save_isIntelligentModeActive = isIntelligentModeActive;
-      isIntelligentModeActive = false;
-      output_start_move_inverted_level();
-      slice_root_solve(slices[si].u.branch.next);
-      output_end_move_inverted_level();
-      isIntelligentModeActive = save_isIntelligentModeActive;
-    }
-
-    write_end_of_solution_phase();
-  }
-
-  solutions= 0;    /* reset after set play */
-  FlagShortSolsReached= false;
 
   if (echecc(nbply,advers(starter)))
     ErrorMsg(KingCapture);

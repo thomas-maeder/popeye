@@ -160,6 +160,10 @@ slice_index slice_root_make_setplay_slice(slice_index si)
       result = branch_d_root_make_setplay_slice(si);
       break;
 
+    case STBranchSeries:
+      result = branch_ser_root_make_setplay_slice(si);
+      break;
+
     case STLeafDirect:
       result = leaf_d_root_make_setplay_slice(si);
       break;
