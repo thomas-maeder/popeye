@@ -292,6 +292,7 @@ static boolean branch_h_root_solve_short_in_n(slice_index si,
  */
 slice_index branch_h_root_make_setplay_slice(slice_index si)
 {
+  slice_index const next = slices[si].u.branch.next;
   slice_index result;
 
   TraceFunctionEntry(__func__);
@@ -300,7 +301,9 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
   assert(slices[si].u.branch.length>=slack_length_help);
 
   if (slices[si].u.branch.length==slack_length_help)
-    result = slice_root_make_setplay_slice(slices[si].u.branch.next);
+    result = slice_root_make_setplay_slice(next);
+  else if (slices[si].u.branch.length==slack_length_help+1)
+    result = next;
   else
   {
     result = copy_slice(si);
