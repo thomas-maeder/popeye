@@ -429,7 +429,8 @@ static boolean verify_position(void)
   int      cp, pp, tp, op;
   boolean          nonoptgenre;
 
-  if (max_len_threat<slices[root_slice].u.branch.min_length)
+  if (2*max_len_threat+slack_length_direct
+      <slices[root_slice].u.branch.min_length)
   {
     VerifieMsg(ThreatOptionAndExactStipulationIncompatible);
     return false;
