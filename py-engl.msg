@@ -116,3 +116,4 @@
 115= GhostChess and HauntedChess incompatible with Circe, Anticirce, Kamikaze, Haaner Chess\n
 116= WhiteToPlay not applicable - ignored\n
 117= SetPlay not applicable - ignored\n
+118= PostKeyPlay not applicable - ignored\n

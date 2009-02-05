@@ -147,3 +147,4 @@
 115= Geisterschach und Spukschach unvereinbar mit Circe, Anticirce, Kamikaze, Haaner Schach\n
 116= WeissBeginnt nicht anwendbar - ignoriert\n
 117= Satzspiel nicht anwendbar - ignoriert\n
+118= NachSchluessel nicht anwendbar - ignoriert\n

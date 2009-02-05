@@ -2684,8 +2684,9 @@ static void fini_duplex(void)
   }
 }
 
-static void root_slice_apply_setplay()
+static boolean root_slice_apply_setplay(void)
 {
+  boolean result;
   slice_index setplay;
 
   TraceFunctionEntry(__func__);
@@ -2693,16 +2694,36 @@ static void root_slice_apply_setplay()
 
   setplay = slice_root_make_setplay_slice(root_slice);
   if (setplay==no_slice)
-    Message(SetPlayNotApplicable);
+    result = false;
   else
   {
     slice_index const mi = alloc_move_inverter_slice(setplay);
     root_slice = alloc_quodlibet_slice(mi,root_slice);
     TraceValue("->%u\n",root_slice);
+    result = true;
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionParam("%u\n",result);
+  return result;
+}
+
+static boolean root_slice_apply_postkeyplay(void)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
   TraceText("\n");
+
+  if (slices[root_slice].type==STBranchDirect)
+  {
+    --slices[root_slice].u.branch.length;
+    result = true;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u\n",result);
+  return result;
 }
 
 /* Solve a twin (maybe the only one of a problem)
@@ -2836,8 +2857,12 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[whitetoplay] && !root_slice_apply_whitetoplay())
         Message(WhiteToPlayNotApplicable);
 
-      if (OptFlag[solapparent] && !OptFlag[restart])
-        root_slice_apply_setplay();
+      if (OptFlag[postkeyplay] && !root_slice_apply_postkeyplay())
+        Message(PostKeyPlayNotApplicable);
+
+      if (OptFlag[solapparent] && !OptFlag[restart]
+          && !root_slice_apply_setplay())
+        Message(SetPlayNotApplicable);
     }
 
     if (slice_get_starter(root_slice)==no_side)

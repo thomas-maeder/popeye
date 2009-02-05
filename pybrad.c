@@ -853,7 +853,9 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  if (slices[si].u.branch.length==slack_length_direct)
+  if (slices[si].u.branch.length%2==1)
+    result = no_slice;
+  else if (slices[si].u.branch.length==slack_length_direct)
     result = slice_root_make_setplay_slice(next);
   else
   {
@@ -1070,17 +1072,12 @@ void branch_d_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  assert(n%2==0);
-
-  if (OptFlag[postkeyplay])
+  if (n%2==1)
   {
     if (echecc(nbply,slices[si].u.branch.starter))
       ErrorMsg(SetAndCheck);
     else
-    {
-      assert(n>0);
-      branch_d_root_solve_postkeyonly(si,n-1);
-    }
+      branch_d_root_solve_postkeyonly(si,n);
   }
   else if (echecc(nbply,advers(slices[si].u.branch.starter)))
     ErrorMsg(KingCapture);
