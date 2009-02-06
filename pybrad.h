@@ -43,11 +43,11 @@ void branch_d_root_write_key(slice_index si, attack_type type);
  */
 void branch_d_root_solve_postkey(int refutations, slice_index si);
 
-/* Determine and write the threat and variations after the move that
- * has just been played in the current ply. 
+/* Continue solving after the key just played in the slice to find and
+ * write the post key play (threats, variations)
  * @param si slice index
  */
-void branch_d_solve_variations(slice_index si);
+void branch_d_solve_postkey(slice_index si);
 
 /* Determine and write the continuations in the current position
  * (i.e. attacker's moves winning after a defender's move that refuted

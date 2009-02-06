@@ -24,11 +24,10 @@ boolean leaf_h_must_starter_resign(slice_index leaf);
  */
 boolean leaf_h_has_non_starter_solved(slice_index leaf);
 
-/* Find and write variations (i.e. nothing resp. defender's final
- * moves). 
+/* Find and write post key play
  * @param leaf slice index
  */
-void leaf_h_solve_variations(slice_index leaf);
+void leaf_h_solve_postkey(slice_index leaf);
 
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.

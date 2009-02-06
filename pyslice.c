@@ -238,31 +238,28 @@ void slice_root_write_key(slice_index si, attack_type type)
 
 /* Continue solving after the key just played in the slice to find and
  * write the post key play (threats, variations)
+ * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void slice_root_solve_postkey(slice_index si)
+void slice_root_solve_postkey(int refutations, slice_index si)
 {
   switch (slices[si].type)
   {
     case STLeafDirect:
-      leaf_d_root_solve_postkey(si);
+      leaf_d_root_solve_postkey(refutations,si);
       break;
 
     case STLeafSelf:
-      leaf_s_root_solve_postkey(si);
+      leaf_s_root_solve_postkey(refutations,si);
       break;
 
     case STQuodlibet:
-      quodlibet_root_solve_postkey(si);
+      quodlibet_root_solve_postkey(refutations,si);
       break;
 
     case STBranchDirect:
-    {
-      int const refutations = alloctab();
       branch_d_root_solve_postkey(refutations,si);
-      freetab();
       break;
-    }
 
     case STBranchHelp:
       /* TODO */
@@ -273,10 +270,8 @@ void slice_root_solve_postkey(slice_index si)
       break;
 
     case STReciprocal:
-    {
-      reci_root_solve_postkey(si);
+      reci_root_solve_postkey(refutations,si);
       break;
-    }
 
     default:
       assert(0);
@@ -513,10 +508,10 @@ boolean slice_has_solution(slice_index si)
   return result;
 }
 
-/* Find and write variations
+/* Find and write post key play
  * @param si slice index
  */
-void slice_solve_variations(slice_index si)
+void slice_solve_postkey(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -524,23 +519,23 @@ void slice_solve_variations(slice_index si)
   switch (slices[si].type)
   {
     case STLeafDirect:
-      leaf_d_solve_variations(si);
+      leaf_d_solve_postkey(si);
       break;
 
     case STLeafSelf:
-      leaf_s_solve_variations(si);
+      leaf_s_solve_postkey(si);
       break;
 
     case STLeafHelp:
-      leaf_h_solve_variations(si);
+      leaf_h_solve_postkey(si);
       break;
 
     case STQuodlibet:
-      quodlibet_solve_variations(si);
+      quodlibet_solve_postkey(si);
       break;
 
     case STBranchDirect:
-      branch_d_solve_variations(si);
+      branch_d_solve_postkey(si);
       break;
 
     case STBranchHelp:
@@ -552,7 +547,7 @@ void slice_solve_variations(slice_index si)
       break;
 
     case STReciprocal:
-      reci_solve_variations(si);
+      reci_solve_postkey(si);
       break;
 
     default:

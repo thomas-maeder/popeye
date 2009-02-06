@@ -69,10 +69,10 @@ boolean reci_has_starter_reached_goal(slice_index si);
  */
 void reci_write_unsolvability(slice_index si);
 
-/* Find and write variations from the end of a reciprocal slice.
+/* Find and write post key play
  * @param si slice index
  */
-void reci_solve_variations(slice_index si);
+void reci_solve_postkey(slice_index si);
 
 /* Determine and write continuations at end of reciprocal slice
  * @param continuations table where to store continuing moves
@@ -95,9 +95,10 @@ void reci_root_write_key(slice_index si, attack_type type);
 
 /* Continue solving after the key just played in the slice to find and
  * write the post key play (threats, variations)
+ * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void reci_root_solve_postkey(slice_index si);
+void reci_root_solve_postkey(int refutations, slice_index si);
 
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index

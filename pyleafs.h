@@ -30,11 +30,10 @@ boolean leaf_s_has_non_starter_solved(slice_index leaf);
  */
 slice_index leaf_s_root_make_setplay_slice(slice_index leaf);
 
-/* Find and write variations (i.e. nothing resp. defender's final
- * moves). 
+/* Find and write post key play
  * @param leaf slice index
  */
-void leaf_s_solve_variations(slice_index leaf);
+void leaf_s_solve_postkey(slice_index leaf);
 
 /* Write the key just played
  * @param leaf slice index
@@ -43,9 +42,10 @@ void leaf_s_solve_variations(slice_index leaf);
 void leaf_s_root_write_key(slice_index leaf, attack_type type);
 
 /* Solve the post key play
+ * @param refutations table containing the refutations (if any)
  * @param leaf slice index
  */
-void leaf_s_root_solve_postkey(slice_index leaf);
+void leaf_s_root_solve_postkey(int refutations, slice_index leaf);
 
 /* Find and write continuations (i.e. mating moves or final move pairs).
  * @param continuations table where to append continuations found and

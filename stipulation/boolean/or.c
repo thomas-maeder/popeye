@@ -165,12 +165,13 @@ void quodlibet_root_write_key(slice_index si, attack_type type)
 
 /* Continue solving after the key just played in the slice to find and
  * write the post key play (threats, variations)
+ * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void quodlibet_root_solve_postkey(slice_index si)
+void quodlibet_root_solve_postkey(int refutations, slice_index si)
 {
-  slice_root_solve_postkey(slices[si].u.quodlibet.op1);
-  slice_root_solve_postkey(slices[si].u.quodlibet.op2);
+  slice_root_solve_postkey(refutations,slices[si].u.quodlibet.op1);
+  slice_root_solve_postkey(refutations,slices[si].u.quodlibet.op2);
 }
 
 /* Determine whether a quodlibet slice jas a solution
@@ -194,10 +195,10 @@ boolean quodlibet_has_solution(slice_index si)
   return result;
 }
 
-/* Find and write variations of a quodlibet slice.
+/* Find and write post key play
  * @param si slice index
  */
-void quodlibet_solve_variations(slice_index si)
+void quodlibet_solve_postkey(slice_index si)
 {
   slice_index const op1 = slices[si].u.quodlibet.op1;
   slice_index const op2 = slices[si].u.quodlibet.op2;
@@ -205,8 +206,8 @@ void quodlibet_solve_variations(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  slice_solve_variations(op1);
-  slice_solve_variations(op2);
+  slice_solve_postkey(op1);
+  slice_solve_postkey(op2);
 
   TraceFunctionExit(__func__);
 }

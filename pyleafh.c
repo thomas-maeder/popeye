@@ -310,11 +310,10 @@ boolean leaf_h_has_starter_reached_goal(slice_index leaf)
   return result;
 }
 
-/* Find and write variations (i.e. nothing resp. defender's final
- * moves). 
+/* Find and write post key play
  * @param leaf slice index
  */
-void leaf_h_solve_variations(slice_index leaf)
+void leaf_h_solve_postkey(slice_index leaf)
 {
   assert(slices[leaf].u.leaf.starter!=no_side);
 

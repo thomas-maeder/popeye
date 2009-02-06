@@ -194,17 +194,16 @@ void reci_write_unsolvability(slice_index si)
   TraceText("\n");
 }
 
-/* Find and write variations from the end of a reciprocal slice.
+/* Find and write post key play
  * @param si slice index
  */
-void reci_solve_variations(slice_index si)
+void reci_solve_postkey(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  /* TODO solve variation after variation */
-  slice_solve_variations(slices[si].u.reciprocal.op1);
-  slice_solve_variations(slices[si].u.reciprocal.op2);
+  slice_solve_postkey(slices[si].u.reciprocal.op1);
+  slice_solve_postkey(slices[si].u.reciprocal.op2);
 
   TraceFunctionExit(__func__);
 }
@@ -292,12 +291,13 @@ void reci_root_write_key(slice_index si, attack_type type)
 
 /* Continue solving after the key just played in the slice to find and
  * write the post key play (threats, variations)
+ * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void reci_root_solve_postkey(slice_index si)
+void reci_root_solve_postkey(int refutations, slice_index si)
 {
-  slice_root_solve_postkey(slices[si].u.reciprocal.op1);
-  slice_root_solve_postkey(slices[si].u.reciprocal.op2);
+  slice_root_solve_postkey(refutations,slices[si].u.reciprocal.op1);
+  slice_root_solve_postkey(refutations,slices[si].u.reciprocal.op2);
 }
 
 /* Continue solving at the end of a reciprocal slice

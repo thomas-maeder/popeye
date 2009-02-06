@@ -404,9 +404,10 @@ void leaf_d_root_write_key(slice_index leaf, attack_type type)
 }
 
 /* Solve the post key play
+ * @param refutations table containing the refutations (if any)
  * @param leaf slice index
  */
-void leaf_d_root_solve_postkey(slice_index leaf)
+void leaf_d_root_solve_postkey(int refutations, slice_index leaf)
 {
   output_start_postkey_level();
   output_start_leaf_variation_level();
@@ -495,14 +496,12 @@ slice_index leaf_d_root_make_setplay_slice(slice_index leaf)
   return result;
 }
 
-/* Find and write variations (i.e. nothing resp. defender's final
- * moves). 
+/* Find and write post key play
  * @param leaf slice index
  */
-void leaf_d_solve_variations(slice_index leaf)
+void leaf_d_solve_postkey(slice_index leaf)
 {
   assert(slices[leaf].u.leaf.starter!=no_side);
-
   /* nothing */
 }
 
