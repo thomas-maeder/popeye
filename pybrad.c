@@ -78,6 +78,7 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
 
   assert(n%2==0);
 
+  TraceValue("%u\n",2*max_len_threat);
   if (n>2*max_len_threat+slack_length_direct
       && !echecc(nbply,defender))
   {
@@ -121,8 +122,8 @@ defender_has_refutation_type has_defender_refutation(slice_index si,
 
   assert(n%2==1);
 
-  move_generation_mode=
-      n>3+slack_length_direct
+  move_generation_mode =
+      n-1>slack_length_direct+2
       ? move_generation_mode_opti_per_side[defender]
       : move_generation_optimized_by_killer_move;
   genmove(defender);
@@ -364,71 +365,25 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Find refutations after a move of the attacking side.
- * @param t table where to store refutations
+/* Collect refutations at root level
+ * @param t table where to add refutations
  * @param si slice index
- * @return 0 if the defending side has at >=1 final moves in reflex play
- *         max_nr_refutations+1 if
- *            if the defending side is immobile (it shouldn't be here!)
- *            if the defending side has more non-trivial moves than allowed
- *            if the defending king has more flights than allowed
- *            if there is no threat in <= the maximal threat length
- *               as entered by the user
- *         number (0..max_nr_refutations) of refutations otherwise
+ * @param (odd) number of half moves until goal
+ * @return true iff defender is immobile
  */
-static int root_find_refutations(int t, slice_index si)
+static boolean root_collect_refutations(int t,
+                                        slice_index si,
+                                        stip_length_type n)
 {
-  Side const defender = advers(slices[si].u.branch.starter);
+  Side const attacker = slices[si].u.branch.starter;
+  Side const defender = advers(attacker);
   boolean is_defender_immobile = true;
-  int ntcount = 0;
-  int result = 0;
-  stip_length_type const n = slices[si].u.branch.length-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
-  
-  TraceValue("%u\n",2*max_len_threat);
-  if (n-1>2*max_len_threat+slack_length_direct
-      && !echecc(nbply,defender))
-  {
-    (*encode)();
-    if (branch_d_has_solution_in_n(si,2*max_len_threat)
-        ==branch_d_no_solution)
-    {
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%u\n",result);
-      return max_nr_refutations+1;
-    }
-  }
-
-  if (n-1>slack_length_direct+2
-      && OptFlag[solflights] && has_too_many_flights(defender))
-  {
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%u\n",result);
-    return max_nr_refutations+1;
-  }
-
-  TraceValue("%u",n);
-  TraceValue("%u\n",2*min_length_nontrivial);
-  if (n-1>2*min_length_nontrivial+slack_length_direct)
-  {
-    ntcount = count_non_trivial(si);
-    TraceValue("%u",max_nr_nontrivial);
-    TraceValue("%d\n",ntcount);
-    if (max_nr_nontrivial<ntcount)
-    {
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%u\n",result);
-      return max_nr_refutations+1;
-    }
-    else
-      max_nr_nontrivial -= ntcount;
-  }
 
   if (n-1>slack_length_direct+2)
     move_generation_mode= move_generation_mode_opti_per_side[defender];
-
   genmove(defender);
   move_generation_mode= move_generation_optimized_by_killer_move;
 
@@ -441,10 +396,7 @@ static int root_find_refutations(int t, slice_index si)
       is_defender_immobile = false;
       (*encode)();
       if (branch_d_has_solution_in_n(si,n-1)==branch_d_no_solution)
-      {
-        TraceText("refutes\n");
         pushtabsol(t);
-      }
     }
 
     repcoup();
@@ -452,12 +404,79 @@ static int root_find_refutations(int t, slice_index si)
 
   finply();
 
-  TraceValue("%u\n",is_defender_immobile);
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",is_defender_immobile);
+  return is_defender_immobile;
+}
 
-  if (n-1>2*min_length_nontrivial+slack_length_direct)
-    max_nr_nontrivial += ntcount;
+/* Collect non-trivial defenses at root level
+ * @param t table where to add non-trivial defenses
+ * @param si slice index
+ * @param n (odd) number of half moves until goal
+ * @return max_nr_refutations+1 if defender is immobile or there are
+ *                              too many non-trivial defenses respective
+ *                              to user input
+ *         number of non-trivial defenses otherwise
+ */
+static int root_collect_non_trivial(int t,
+                                    slice_index si,
+                                    stip_length_type n)
+{
+  int result;
+  int non_trivial_count;
 
-  result = is_defender_immobile ? max_nr_refutations+1 : tablen(t);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",si);
+
+  non_trivial_count = count_non_trivial(si);
+  if (max_nr_nontrivial<non_trivial_count)
+    result = max_nr_refutations+1;
+  else
+  {
+    max_nr_nontrivial -= non_trivial_count;
+    result = (root_collect_refutations(t,si,n)
+              ? max_nr_refutations+1
+              : tablen(t));
+    max_nr_nontrivial += non_trivial_count;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Find refutations after a move of the attacking side.
+ * @param t table where to store refutations
+ * @param si slice index
+ * @return max_nr_refutations+1 if
+ *            if the defending side is immobile (it shouldn't be here!)
+ *            if the defending side has more non-trivial moves than allowed
+ *            if the defending king has more flights than allowed
+ *            if there is no threat in <= the maximal threat length
+ *               as entered by the user
+ *         number (0..max_nr_refutations) of refutations otherwise
+ */
+static int root_find_refutations(int t, slice_index si)
+{
+  Side const defender = advers(slices[si].u.branch.starter);
+  int result;
+  stip_length_type const n = slices[si].u.branch.length-1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  if (is_threat_too_long(si,n-1))
+    result = max_nr_refutations+1;
+  else if (n-1>slack_length_direct+2
+           && OptFlag[solflights] && has_too_many_flights(defender))
+    result = max_nr_refutations+1;
+  else if (n-1>2*min_length_nontrivial+slack_length_direct)
+    result = root_collect_non_trivial(t,si,n);
+  else
+    result = (root_collect_refutations(t,si,n)
+              ? max_nr_refutations+1
+              : tablen(t));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -706,7 +725,7 @@ static void root_solve_variations_in_n(int len_threat,
 {
   Side const attacker = slices[si].u.branch.starter;
   Side defender = advers(attacker);
-  int ntcount = 0;
+  int non_trivial_count = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -717,8 +736,8 @@ static void root_solve_variations_in_n(int len_threat,
 
   if (n>2*min_length_nontrivial+slack_length_direct)
   {
-    ntcount = count_non_trivial(si);
-    max_nr_nontrivial -= ntcount;
+    non_trivial_count = count_non_trivial(si);
+    max_nr_nontrivial -= non_trivial_count;
   }
 
   genmove(defender);
@@ -737,7 +756,7 @@ static void root_solve_variations_in_n(int len_threat,
   finply();
 
   if (n>2*min_length_nontrivial+slack_length_direct)
-    max_nr_nontrivial += ntcount;
+    max_nr_nontrivial += non_trivial_count;
   
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -760,7 +779,7 @@ static void solve_variations_in_n(int len_threat,
 {
   Side const attacker = slices[si].u.branch.starter;
   Side defender = advers(attacker);
-  int ntcount = 0;
+  int non_trivial_count = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -771,8 +790,8 @@ static void solve_variations_in_n(int len_threat,
 
   if (n>2*min_length_nontrivial+slack_length_direct)
   {
-    ntcount = count_non_trivial(si);
-    max_nr_nontrivial -= ntcount;
+    non_trivial_count = count_non_trivial(si);
+    max_nr_nontrivial -= non_trivial_count;
   }
 
   genmove(defender);
@@ -790,7 +809,7 @@ static void solve_variations_in_n(int len_threat,
   finply();
 
   if (n>2*min_length_nontrivial+slack_length_direct)
-    max_nr_nontrivial += ntcount;
+    max_nr_nontrivial += non_trivial_count;
   
   TraceFunctionExit(__func__);
 }
