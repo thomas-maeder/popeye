@@ -15,7 +15,7 @@
  * particular move is non-trivial is determined by user input.
  * @return number of defender's non-trivial moves minus 1 (TODO: why?)
  */
-static int count_non_trivial(slice_index si)
+static int count_non_trivial_defenses(slice_index si)
 {
   Side const attacker = slices[si].u.branch.starter;
   Side const defender = advers(attacker);
@@ -169,7 +169,7 @@ static boolean defender_has_too_many_non_trivial(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
-  ntcount = count_non_trivial(si);
+  ntcount = count_non_trivial_defenses(si);
   if (max_nr_nontrivial<ntcount)
     result = true;
   else
@@ -236,17 +236,15 @@ static d_defender_win_type does_defender_win(slice_index si,
   return result;
 }
 
-/* Determine whether the attacking side wins in the middle of a
- * composite slice
+/* Determine whether this slice has a solution in n
  * @param si slice identifier
  * @param n (even) number of half moves until goal
  * @return true iff the attacking side wins
  */
-static boolean branch_d_helper_has_solution(slice_index si,
-                                            stip_length_type n)
+static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
 {
   Side const attacker = slices[si].u.branch.starter;
-  boolean win_found = false;
+  boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -256,18 +254,14 @@ static boolean branch_d_helper_has_solution(slice_index si,
 
   genmove(attacker);
 
-  while (!win_found && encore())
+  while (!solution_found && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove()
-        && !echecc(nbply,attacker))
+        && !echecc(nbply,attacker)
+        && does_defender_win(si,n-1)>=loss)
     {
-      if (does_defender_win(si,n-1)>=loss)
-      {
-        TraceValue("%u",n);
-        TraceText(" wins\n");
-        win_found = true;
-        coupfort();
-      }
+      solution_found = true;
+      coupfort();
     }
 
     repcoup();
@@ -280,8 +274,70 @@ static boolean branch_d_helper_has_solution(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceValue("%u",n);
-  TraceFunctionResult("%u\n",win_found);
-  return win_found;
+  TraceFunctionResult("%u\n",solution_found);
+  return solution_found;
+}
+
+/* Determine whether this slice has a solution
+ * @param si slice index
+ * @param n (even) number of half moves until goal
+ * @return true iff this slice has a solution
+ */
+static boolean have_we_solution_in_n_hashed(slice_index si,
+                                            stip_length_type n)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
+
+  /* It is more likely that a position has no solution. */
+  /* Therefore let's check for "no solution" first.  TLi */
+  if (inhash(si,DirNoSucc,n/2))
+  {
+    TraceText("inhash(si,DirNoSucc,n/2)\n");
+    assert(!inhash(si,DirSucc,n/2-1));
+  }
+  else if (inhash(si,DirSucc,n/2-1))
+  {
+    TraceText("inhash(si,DirSucc,n/2-1)\n");
+    result = true;
+  }
+  else
+  {
+    stip_length_type i;
+    stip_length_type n_min = 2+slack_length_direct;
+    stip_length_type const moves_played = slices[si].u.branch.length-n;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+
+    if (min_length>moves_played)
+      n_min = min_length-moves_played;
+
+    for (i = n_min; i<=n; i += 2)
+    {
+      if (i-2>2*max_len_threat+slack_length_direct
+          || i>2*min_length_nontrivial+slack_length_direct)
+        i = n;
+
+      if (have_we_solution_in_n(si,i))
+      {
+        result = true;
+        break;
+      }
+      else if (maxtime_status==MAXTIME_TIMEOUT)
+        break;
+    }
+
+    if (result)
+      addtohash(si,DirSucc,n/2-1);
+    else
+      addtohash(si,DirNoSucc,n/2);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine whether attacker can end in n moves of direct play.
@@ -315,49 +371,9 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
     else if (moves_played+slack_length_direct>=min_length
              && slice_has_solution(slices[si].u.branch.next))
       result = branch_d_next_solves;
-    else if (n>slack_length_direct)
-    {
-      /* It is more likely that a position has no solution. */
-      /* Therefore let's check for "no solution" first.  TLi */
-      if (inhash(si,DirNoSucc,n/2))
-      {
-        TraceText("inhash(si,DirNoSucc,n/2)\n");
-        assert(!inhash(si,DirSucc,n/2-1));
-      }
-      else if (inhash(si,DirSucc,n/2-1))
-      {
-        TraceText("inhash(si,DirSucc,n/2-1)\n");
-        result = branch_d_we_solve;
-      }
-      else
-      {
-        stip_length_type i;
-        stip_length_type n_min = 2+slack_length_direct;
-
-        if (min_length>moves_played)
-          n_min = min_length-moves_played;
-
-        for (i = n_min; i<=n; i += 2)
-        {
-          if (i-2>2*max_len_threat+slack_length_direct
-              || i>2*min_length_nontrivial+slack_length_direct)
-            i = n;
-
-          if (branch_d_helper_has_solution(si,i))
-          {
-            result = branch_d_we_solve;
-            break;
-          }
-          else if (maxtime_status==MAXTIME_TIMEOUT)
-            break;
-        }
-
-        if (result==branch_d_we_solve)
-          addtohash(si,DirSucc,n/2-1);
-        else
-          addtohash(si,DirNoSucc,n/2);
-      }
-    }
+    else if (n>slack_length_direct
+             && have_we_solution_in_n_hashed(si,n))
+      result = branch_d_we_solve;
   }
 
   TraceFunctionExit(__func__);
@@ -429,7 +445,7 @@ static int root_collect_non_trivial(int t,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
-  non_trivial_count = count_non_trivial(si);
+  non_trivial_count = count_non_trivial_defenses(si);
   if (max_nr_nontrivial<non_trivial_count)
     result = max_nr_refutations+1;
   else
@@ -736,7 +752,7 @@ static void root_solve_variations_in_n(int len_threat,
 
   if (n>2*min_length_nontrivial+slack_length_direct)
   {
-    non_trivial_count = count_non_trivial(si);
+    non_trivial_count = count_non_trivial_defenses(si);
     max_nr_nontrivial -= non_trivial_count;
   }
 
@@ -790,7 +806,7 @@ static void solve_variations_in_n(int len_threat,
 
   if (n>2*min_length_nontrivial+slack_length_direct)
   {
-    non_trivial_count = count_non_trivial(si);
+    non_trivial_count = count_non_trivial_defenses(si);
     max_nr_nontrivial -= non_trivial_count;
   }
 
