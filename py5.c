@@ -1218,6 +1218,9 @@ void genmove(Side camp)
 
     mateallowed[nbply]= true;
 
+    /* TODO should we start a new ply here?
+     */
+    active_slice[nbply+1] = active_slice[nbply];
     if (camp == White)
       gen_wh_ply();
     else
