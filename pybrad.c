@@ -87,7 +87,7 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
               ==branch_d_no_solution);
   }
   else
-    /* play is too short for max_len_threat to apply */
+    /* remainder of play is too short for max_len_threat to apply */
     result = false;
 
   TraceFunctionExit(__func__);
@@ -153,30 +153,30 @@ defender_has_refutation_type has_defender_refutation(slice_index si,
   return result;
 }
 
-/* Determine whether the defender has too many non-trivial defenses
+/* Determine whether there are too many non-trivial defenses
  * respective to user input
  * @param si slice index
  * @param n (odd) number of half moves until goal
  * @return true iff the defender has too many non-trivial defenses
  */
-static boolean defender_has_too_many_non_trivial(slice_index si,
-                                                 stip_length_type n)
+static boolean too_many_non_trivial_defenses(slice_index si,
+                                             stip_length_type n)
 {
   boolean result;
-  int ntcount;
+  int non_trivial_count;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
-  ntcount = count_non_trivial_defenses(si);
-  if (max_nr_nontrivial<ntcount)
+  non_trivial_count = count_non_trivial_defenses(si);
+  if (max_nr_nontrivial<non_trivial_count)
     result = true;
   else
   {
-    max_nr_nontrivial -= ntcount;
+    max_nr_nontrivial -= non_trivial_count;
     result = has_defender_refutation(si,n)!=defender_has_no_refutation;
-    max_nr_nontrivial += ntcount;
+    max_nr_nontrivial += non_trivial_count;
   }
 
   TraceFunctionExit(__func__);
@@ -225,7 +225,7 @@ static d_defender_win_type does_defender_win(slice_index si,
            || (OptFlag[solflights] && has_too_many_flights(defender)))
     result = win;
   else if (n-1>2*min_length_nontrivial+slack_length_direct)
-    result = defender_has_too_many_non_trivial(si,n) ? win : loss;
+    result = too_many_non_trivial_defenses(si,n) ? win : loss;
   else
     result = (has_defender_refutation(si,n)!=defender_has_no_refutation
               ? win
@@ -236,7 +236,7 @@ static d_defender_win_type does_defender_win(slice_index si,
   return result;
 }
 
-/* Determine whether this slice has a solution in n
+/* Determine whether this slice has a solution in n half moves
  * @param si slice identifier
  * @param n (even) number of half moves until goal
  * @return true iff the attacking side wins
@@ -278,7 +278,7 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
   return solution_found;
 }
 
-/* Determine whether this slice has a solution
+/* Determine whether this slice has a solution in n half moves
  * @param si slice index
  * @param n (even) number of half moves until goal
  * @return true iff this slice has a solution
@@ -340,11 +340,10 @@ static boolean have_we_solution_in_n_hashed(slice_index si,
   return result;
 }
 
-/* Determine whether attacker can end in n moves of direct play.
- * This is a recursive function.
+/* Determine whether attacker can end in n half moves of direct play.
  * @param si slice index
  * @param n (even) number of half moves until goal
- * @return true iff attacker can end in n moves
+ * @return true iff attacker can end in n half moves
  */
 branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
                                                     stip_length_type n)
@@ -396,7 +395,8 @@ static boolean root_collect_refutations(int t,
   boolean is_defender_immobile = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
 
   if (n-1>slack_length_direct+2)
     move_generation_mode= move_generation_mode_opti_per_side[defender];
@@ -443,7 +443,8 @@ static int root_collect_non_trivial(int t,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
 
   non_trivial_count = count_non_trivial_defenses(si);
   if (max_nr_nontrivial<non_trivial_count)
@@ -462,7 +463,7 @@ static int root_collect_non_trivial(int t,
   return result;
 }
 
-/* Find refutations after a move of the attacking side.
+/* Find refutations after a move of the attacking side at root level.
  * @param t table where to store refutations
  * @param si slice index
  * @return max_nr_refutations+1 if
@@ -519,13 +520,12 @@ boolean branch_d_has_starter_won(slice_index si)
   return has_starter_won_in_n(si,slices[si].u.branch.length-1);
 }
 
-/* Determine whether the move just played by the defending side
- * defends against the threats.
+/* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index
  * @param n (even) number of moves until goal (after the defense)
- * @return true iff the move just played defends against at least one
- *         of the threats
+ * @return true iff the defense defends against at least one of the
+ *         threats
  */
 static boolean defends_against_threats(int threats,
                                        slice_index si,
@@ -535,9 +535,9 @@ static boolean defends_against_threats(int threats,
   boolean result = true;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",tablen(threats));
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",tablen(threats));
+  TraceFunctionParam("%u\n",n);
 
   assert(n%2==0);
 
@@ -560,12 +560,9 @@ static boolean defends_against_threats(int threats,
           defense_found = !has_starter_won_in_n(si,n-1);
 
         if (defense_found)
-        {
-          TraceText("defended\n");
           coupfort();
-        }
         else
-          nr_successful_threats++;
+          ++nr_successful_threats;
       }
 
       repcoup();
@@ -573,8 +570,9 @@ static boolean defends_against_threats(int threats,
 
     finply();
 
-    /* this happens if we have found a defense or some threats can no
-     * longer be played after defender's defense. */
+    /* this happens if >=1 threat no longer works or some threats can
+     * no longer be played after the defense.
+     */
     result = nr_successful_threats<tablen(threats);
   }
 
@@ -583,17 +581,15 @@ static boolean defends_against_threats(int threats,
   return result;
 }
 
-/* Write a variation in the try/solution/set play of a
- * direct/self/reflex stipulation. The move of the defending side that
- * starts the variation has already been played in the current ply.
+/* Write a variation. The defense that starts the variation has
+ * already been played in the current ply.
  * Only continuations of minimal length are looked for and written.
- * This is an indirectly recursive function.
  * @param si slice index
  * @param n (odd) number of half moves until end state is to be reached
  */
 static void write_variation(slice_index si, stip_length_type n)
 {
-  boolean isRefutation = true; /* until we prove otherwise */
+  boolean is_refutation = true; /* until we prove otherwise */
   stip_length_type i;
   stip_length_type const
       min_len = (slices[si].u.branch.min_length+slack_length_direct>n
@@ -601,8 +597,8 @@ static void write_variation(slice_index si, stip_length_type n)
                  : slack_length_direct+1);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
 
   assert(n%2==1);
 
@@ -610,11 +606,11 @@ static void write_variation(slice_index si, stip_length_type n)
 
   output_start_continuation_level();
   
-  for (i = min_len; i<=n && isRefutation; i += 2)
+  for (i = min_len; i<=n && is_refutation; i += 2)
   {
     int const continuations = alloctab();
     branch_d_solve_continuations_in_n(continuations,si,i-1);
-    isRefutation = tablen(continuations)==0;
+    is_refutation = tablen(continuations)==0;
     freetab();
   }
 
@@ -624,11 +620,10 @@ static void write_variation(slice_index si, stip_length_type n)
   TraceText("\n");
 }
 
-/* Determine and write the threats in direct/self/reflex
- * play after the move that has just been played in the current ply.
+/* Determine and write the threats after the move that has just been
+ * played in the current ply.
  * We have already determined that this move doesn't have more
  * refutations than allowed.
- * This is an indirectly recursive function.
  * @param threats table where to add threats
  * @param si slice index
  * @param n (even) number of half moves until goal
@@ -677,7 +672,7 @@ static int solve_threats(int threats, slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine whether the defender's move just played is relevant
+/* Determine whether the defense just played is relevant
  * @param len_threat length of threat
  * @param table containing threats
  * @param si slice index
@@ -700,7 +695,7 @@ static boolean is_defense_relevant(int len_threat,
   (*encode)();
   if (n>slack_length_direct && OptFlag[noshort]
       && (branch_d_has_solution_in_n(si,n-2)<=branch_d_we_solve))
-    /* variation shorter than stip; thanks, but no thanks! */
+    /* variation shorter than stip */
     result = false;
   else if (len_threat>slack_length_direct
            && branch_d_has_solution_in_n(si,len_threat-2)<=branch_d_we_solve)
@@ -708,10 +703,10 @@ static boolean is_defense_relevant(int len_threat,
     /* TODO avoid double calculation if lenthreat==n*/
     result = false;
   else if (slice_has_non_starter_solved(si))
-    /* oops! */
+    /* "defense" has reached goal in self/reflex play */
     result = false;
   else if (!defends_against_threats(threats,si,len_threat))
-    /* move doesn't defend against threat */
+    /* defense doesn't defend against threat */
     result = false;
   else
     result = true;
@@ -721,11 +716,10 @@ static boolean is_defense_relevant(int len_threat,
   return result;
 }
 
-/* Determine and write the threat and variations in direct/self/reflex
- * play after the move that has just been played in the current ply.
+/* Determine and write at root level the threat and variations after
+ * the move that has just been played in the current ply
  * We have already determined that this move doesn't have more
  * refutations than allowed.
- * This is an indirectly recursive function.
  * @param len_threat length of threats
  * @param threats table containing threats
  * @param refutations table containing refutations after move just
@@ -741,20 +735,13 @@ static void root_solve_variations_in_n(int len_threat,
 {
   Side const attacker = slices[si].u.branch.starter;
   Side defender = advers(attacker);
-  int non_trivial_count = 0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
 
   assert(n%2==1);
-
-  if (n>2*min_length_nontrivial+slack_length_direct)
-  {
-    non_trivial_count = count_non_trivial_defenses(si);
-    max_nr_nontrivial -= non_trivial_count;
-  }
 
   genmove(defender);
 
@@ -771,18 +758,13 @@ static void root_solve_variations_in_n(int len_threat,
 
   finply();
 
-  if (n>2*min_length_nontrivial+slack_length_direct)
-    max_nr_nontrivial += non_trivial_count;
-  
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
 
-/* Determine and write the threat and variations in direct/self/reflex
- * play after the move that has just been played in the current ply.
- * We have already determined that this move doesn't have more
- * refutations than allowed.
- * This is an indirectly recursive function.
+/* Determine and write the threat and variations after the move that
+ * has just been played in the current ply. 
+ * We have already determined that this move doesn't have refutations
  * @param len_threat length of threats
  * @param threats table containing threats
  * @param si slice index
@@ -795,20 +777,13 @@ static void solve_variations_in_n(int len_threat,
 {
   Side const attacker = slices[si].u.branch.starter;
   Side defender = advers(attacker);
-  int non_trivial_count = 0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
 
   assert(n%2==1);
-
-  if (n>2*min_length_nontrivial+slack_length_direct)
-  {
-    non_trivial_count = count_non_trivial_defenses(si);
-    max_nr_nontrivial -= non_trivial_count;
-  }
 
   genmove(defender);
 
@@ -824,13 +799,10 @@ static void solve_variations_in_n(int len_threat,
 
   finply();
 
-  if (n>2*min_length_nontrivial+slack_length_direct)
-    max_nr_nontrivial += non_trivial_count;
-  
   TraceFunctionExit(__func__);
 }
 
-/* Solve postkey play of a composite slice.
+/* Solve postkey play in a certain number of moves
  * @param si slice index
  * @param n (odd) number of half moves until goal
  */
@@ -842,14 +814,24 @@ static void solve_postkey_in_n(slice_index si, stip_length_type n)
   assert(n%2==1);
 
   output_start_postkey_level();
+
   len_threat = solve_threats(threats,si,n-1);
-  solve_variations_in_n(len_threat,threats,si,n);
+  if (n>2*min_length_nontrivial+slack_length_direct)
+  {
+    int const non_trivial_count = count_non_trivial_defenses(si);
+    max_nr_nontrivial -= non_trivial_count;
+    solve_variations_in_n(len_threat,threats,si,n);
+    max_nr_nontrivial += non_trivial_count;
+  }
+  else
+    solve_variations_in_n(len_threat,threats,si,n);
+
   output_end_postkey_level();
 
   freetab();
 }
 
-/* Solve postkey play of a composite slice.
+/* Solve postkey play
  * @param si slice index
  * @param n (odd) number of half moves until goal
  */
@@ -861,7 +843,6 @@ void branch_d_solve_postkey(slice_index si)
 /* Determine and write the continuations in the current position
  * (i.e. attacker's moves winning after a defender's move that refuted
  * the threat).
- * This is an indirectly recursive function.
  * @param attacker attacking side
  * @param continuations table where to store continuing moves (i.e. threats)
  * @param si slice index
@@ -874,8 +855,8 @@ void branch_d_solve_continuations_in_n(int continuations,
   Side const attacker = slices[si].u.branch.starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
 
   assert(n%2==0);
 
@@ -916,41 +897,6 @@ void branch_d_solve_continuations_in_n(int continuations,
   TraceText("\n");
 }
 
-/* Spin off a set play slice
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index branch_d_root_make_setplay_slice(slice_index si)
-{
-  slice_index const next = slices[si].u.branch.next;
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  if (slices[si].u.branch.length%2==1)
-    result = no_slice;
-  else if (slices[si].u.branch.length==slack_length_direct)
-    result = slice_root_make_setplay_slice(next);
-  else
-  {
-    slice_index const derived = copy_slice(si);
-    slices[derived].u.branch.length -= 2;
-    slices[derived].u.branch.min_length -= 2;
-    slices[derived].u.branch.starter = slices[si].u.branch.starter;
-    result = alloc_branch_slice(STBranchHelp,
-                                slack_length_help+1,
-                                slack_length_help+1,
-                                derived);
-    slices[result].u.branch.starter = advers(slices[si].u.branch.starter);
-    hash_slice_is_derived_from(derived,si);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Write the key just played
  * @param si slice index
  * @param type type of attack
@@ -967,8 +913,8 @@ void branch_d_root_write_key(slice_index si, attack_type type)
   TraceText("\n");
 }
 
-/* Continue solving after the key just played in the slice to find and
- * write the post key play (threats, variations)
+/* Continue solving after the key just played to find and write the
+ * post key play (threats, variations)
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
@@ -984,7 +930,17 @@ void branch_d_root_solve_postkey(int refutations, slice_index si)
     stip_length_type const n = slices[si].u.branch.length-1;
     int const threats = alloctab();
     int const len_threat = solve_threats(threats,si,n-1);
-    root_solve_variations_in_n(len_threat,threats,refutations,si,n);
+
+    if (n>2*min_length_nontrivial+slack_length_direct)
+    {
+      int const non_trivial_count = count_non_trivial_defenses(si);
+      max_nr_nontrivial -= non_trivial_count;
+      root_solve_variations_in_n(len_threat,threats,refutations,si,n);
+      max_nr_nontrivial += non_trivial_count;
+    }
+    else
+      root_solve_variations_in_n(len_threat,threats,refutations,si,n);
+
     freetab();
   }
 
@@ -996,7 +952,7 @@ void branch_d_root_solve_postkey(int refutations, slice_index si)
   TraceText("\n");
 }
 
-/* Solve the postkey play only of a composite slice at root level.
+/* Solve the postkey play only at root level.
  * @param si slice index
  * @param n (odd) number of half moves until goal
  */
@@ -1017,8 +973,7 @@ static void root_solve_postkeyonly(slice_index si, stip_length_type n)
   output_end_postkeyonly_level();
 }
 
-/* Determine and write the solutions and tries in the current position
- * in direct/self/reflex play.
+/* Solve the solutions and tries
  * @param si slice index
  */
 static void root_solve_real_play(slice_index si)
@@ -1089,7 +1044,7 @@ static void root_solve_real_play(slice_index si)
   TraceText("\n");
 }
 
-/* Solve a branch slice at non-root level.
+/* Solve at non-root level.
  * @param si slice index
  */
 boolean branch_d_solve(slice_index si)
@@ -1137,7 +1092,7 @@ boolean branch_d_solve(slice_index si)
   return result;
 }
 
-/* Solve a composite direct slice at root level
+/* Solve at root level
  * @param si slice index
  */
 void branch_d_root_solve(slice_index si)
@@ -1154,13 +1109,51 @@ void branch_d_root_solve(slice_index si)
     else
       root_solve_postkeyonly(si,n);
   }
-  else if (echecc(nbply,advers(slices[si].u.branch.starter)))
-    ErrorMsg(KingCapture);
   else
-    root_solve_real_play(si);
+  {
+    if (echecc(nbply,advers(slices[si].u.branch.starter)))
+      ErrorMsg(KingCapture);
+    else
+      root_solve_real_play(si);
+  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
+}
+
+/* Spin off a set play slice
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index branch_d_root_make_setplay_slice(slice_index si)
+{
+  slice_index const next = slices[si].u.branch.next;
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  if (slices[si].u.branch.length%2==1)
+    result = no_slice;
+  else if (slices[si].u.branch.length==slack_length_direct)
+    result = slice_root_make_setplay_slice(next);
+  else
+  {
+    slice_index const derived = copy_slice(si);
+    slices[derived].u.branch.length -= 2;
+    slices[derived].u.branch.min_length -= 2;
+    slices[derived].u.branch.starter = slices[si].u.branch.starter;
+    result = alloc_branch_slice(STBranchHelp,
+                                slack_length_help+1,
+                                slack_length_help+1,
+                                derived);
+    slices[result].u.branch.starter = advers(slices[si].u.branch.starter);
+    hash_slice_is_derived_from(derived,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Impose the starting side on a slice.
