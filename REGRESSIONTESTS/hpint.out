@@ -386,6 +386,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h=3                         5 + 4
 
+0 moegliche Stellungen in 1+0
 58 moegliche Stellungen in 2+1
   1...a7*b8=D   2.d2-d1=T d7*e8=L   3.Td1-d8 c7*d8=S = 
 4640 moegliche Stellungen in 3+2
@@ -484,6 +485,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h=3                         5 + 3
 
+0 moegliche Stellungen in 1+0
 165 moegliche Stellungen in 2+1
   1...f7*e8=L   2.d2-d1=T b7-b8=D   3.Td1-d8 c7*d8=S = 
 5843 moegliche Stellungen in 3+2
@@ -2245,6 +2247,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h=4                         2 + 9
 
+0 moegliche Stellungen in 1+0
 0 moegliche Stellungen in 2+1
 2 moegliche Stellungen in 3+2
   1...Lf2-e1   2.f3-f2 Kf1-g2   3.f2-f1=T Le1-d2   4.Tf1-c1 Ld2*c1 = 
@@ -3716,6 +3719,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h=3                         2 + 2
 
+0 moegliche Stellungen in 1+0
 9 moegliche Stellungen in 2+1
   1...c7-c8=D +   2.Kb7-a7 Dc8-c6   3.Tf7-c7 Kd8*c7 = 
   1...c7-c8=L +   2.Kb7-a7 Lc8-b7   3.Tf7-c7 Kd8*c7 = 
@@ -3821,6 +3825,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h=3                         2 + 1
 
+0 moegliche Stellungen in 1+0
 0 moegliche Stellungen in 2+1
   1...Ka5-a4   2.Ka1-b1 Ka4-b3   3.Kb1-a1 Kb3-c2 = 
 1 moegliche Stellungen in 3+2
