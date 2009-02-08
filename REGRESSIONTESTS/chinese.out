@@ -246,11 +246,10 @@ LEo f8, VAo c8, MAo e8, NAo b8, ZEbra a5, 1+1 Turm-Huepfer, 0+3 Laeufer-Huepfer
 +---a---b---c---d---e---f---g---h---+
   #2                         13 + 8
 
-
-  1...LHa1-f6 
-      2.MAe8*f6 # 
-  1...LHg6-d3 
-      2.THb5-f5 # 
+      1...LHa1-f6 
+          2.MAe8*f6 # 
+      1...LHg6-d3 
+          2.THb5-f5 # 
 
   1.LEf8-f5 + ? 
       1...Kg4-f4 
@@ -353,40 +352,39 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        12 + 16
 
-
-  1...NAg1-h3 
-      2.Dh7-d7 # 
-  1...NAg1-e2 
-      2.Dh7-d7 # 
-      2.Dh7-c7 # 
-  1...PAg2-e2 
-      2.Dh7-c7 # 
-      2.LEg3*g8 # 
-  1...PAg2-f2 
-      2.LEg3*g8 # 
-  1...PAg2*g6 
-      2.LEg3*g8 # 
-  1...PAg2-h2 
-      2.LEg3*g8 # 
-  1...LEa5-b5 
-      2.Dh7-c7 # 
-  1...Le5*c3 
-      2.Dh7-d7 # 
-  1...Le5-d4 
-      2.Dh7-d7 # 
-  1...Le5*g3 
-      2.Dh7-d7 # 
-  1...Le5-f4 
-      2.Dh7-d7 # 
-  1...Le5*f6 
-      2.Dh7-d7 # 
-  1...Le5-b8 
-      2.Dh7-d7 # 
-  1...Le5-d6 
-      2.Dh7-d7 # 
-  1...Ke8-d8 
-      2.Dh7-c7 # 
-      2.Dh7-e7 # 
+      1...NAg1-h3 
+          2.Dh7-d7 # 
+      1...NAg1-e2 
+          2.Dh7-c7 # 
+          2.Dh7-d7 # 
+      1...PAg2-e2 
+          2.Dh7-c7 # 
+          2.LEg3*g8 # 
+      1...PAg2-f2 
+          2.LEg3*g8 # 
+      1...PAg2*g6 
+          2.LEg3*g8 # 
+      1...PAg2-h2 
+          2.LEg3*g8 # 
+      1...LEa5-b5 
+          2.Dh7-c7 # 
+      1...Le5*c3 
+          2.Dh7-d7 # 
+      1...Le5-d4 
+          2.Dh7-d7 # 
+      1...Le5*g3 
+          2.Dh7-d7 # 
+      1...Le5-f4 
+          2.Dh7-d7 # 
+      1...Le5*f6 
+          2.Dh7-d7 # 
+      1...Le5-b8 
+          2.Dh7-d7 # 
+      1...Le5-d6 
+          2.Dh7-d7 # 
+      1...Ke8-d8 
+          2.Dh7-c7 # 
+          2.Dh7-e7 # 
 
   1.Dh7-c7 + ? 
     Aber
@@ -565,33 +563,32 @@ Loesung beendet.
             Koeniglich d6
               AntiCirce
 
-
-  1...Lc1-e3 
-      2.Ng4*e3[wNe3->e8] # 
-      2.Nd1*e3[wNe3->e8] # 
-  1...Lc1-d2 
-      2.RAc4-f1 # 
-  1...VAg1-h2 
-      2.Ng4-c6 # 
-  1...Te2-d2 
-      2.RAc4-f1 # 
-  1...Te2-e3 
-      2.Ng4-c6 # 
-  1...RAc3-b1 
-      2.Ng4-c6 # 
-  1...Lg3*h4[sLh4->f8] 
-      2.RAc4-a3 # 
-  1...Lg3-e5 
-      2.Nd1-f5 # 
-  1...PAa5-a8 
-      2.Nd1-f5 # 
-  1...Td5-d4 
-      2.Ng4-c6 # 
-  1...Td5-e5 
-      2.Ng4*e5[wNe5->e8] # 
-  1...Th7*f7[sTf7->a8] 
-      2.PAh4-h6 # 
-      2.Nd1-f5 # 
+      1...Lc1-e3 
+          2.Ng4*e3[wNe3->e8] # 
+          2.Nd1*e3[wNe3->e8] # 
+      1...Lc1-d2 
+          2.RAc4-f1 # 
+      1...VAg1-h2 
+          2.Ng4-c6 # 
+      1...Te2-d2 
+          2.RAc4-f1 # 
+      1...Te2-e3 
+          2.Ng4-c6 # 
+      1...RAc3-b1 
+          2.Ng4-c6 # 
+      1...Lg3*h4[sLh4->f8] 
+          2.RAc4-a3 # 
+      1...Lg3-e5 
+          2.Nd1-f5 # 
+      1...PAa5-a8 
+          2.Nd1-f5 # 
+      1...Td5-d4 
+          2.Ng4-c6 # 
+      1...Td5-e5 
+          2.Ng4*e5[wNe5->e8] # 
+      1...Th7*f7[sTf7->a8] 
+          2.PAh4-h6 # 
+          2.Nd1-f5 # 
 
   1.PAb6-a6 ? Drohung:
           2.Ng4-c6 # 

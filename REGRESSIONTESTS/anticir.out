@@ -25,33 +25,32 @@
   #2                         5 + 10
               AntiCirce
 
-
-  1...Th2-a2 
-      2.e7-e8=T # 
-  1...Th2-b2 
-      2.e7-e8=T # 
-  1...Th2-c2 
-      2.e7-e8=T # 
-  1...Th2-d2 
-      2.e7-e8=T # 
-  1...Th2-e2 
-      2.e7-e8=T # 
-  1...Th2-f2 
-      2.e7-e8=T # 
-  1...Th2-g2 
-      2.e7-e8=T # 
-  1...Td3-a3 
-      2.e7-e8=D # 
-  1...Td3-b3 
-      2.e7-e8=D # 
-  1...Td3-c3 
-      2.e7-e8=D # 
-  1...Td3-g3 
-      2.e7-e8=D # 
-  1...Td3-f3 
-      2.e7-e8=D # 
-  1...Td3-e3 
-      2.e7-e8=D # 
+      1...Th2-a2 
+          2.e7-e8=T # 
+      1...Th2-b2 
+          2.e7-e8=T # 
+      1...Th2-c2 
+          2.e7-e8=T # 
+      1...Th2-d2 
+          2.e7-e8=T # 
+      1...Th2-e2 
+          2.e7-e8=T # 
+      1...Th2-f2 
+          2.e7-e8=T # 
+      1...Th2-g2 
+          2.e7-e8=T # 
+      1...Td3-a3 
+          2.e7-e8=D # 
+      1...Td3-b3 
+          2.e7-e8=D # 
+      1...Td3-c3 
+          2.e7-e8=D # 
+      1...Td3-g3 
+          2.e7-e8=D # 
+      1...Td3-f3 
+          2.e7-e8=D # 
+      1...Td3-e3 
+          2.e7-e8=D # 
 
   1.Sa8-b6 ! Drohung:
           2.Kb1-c1 # 
@@ -316,13 +315,12 @@ Loesung beendet.
   #2                        12 + 10
               AntiCirce
 
-
-  1...Sa2*c3[sSc3->b8] 
-      2.Lc7-f4 # 
-  1...Td2*c2[sTc2->a8] 
-      2.Df2-f4 # 
-  1...Td2*d4[sTd4->h8] 
-      2.Df2-f5 # 
+      1...Sa2*c3[sSc3->b8] 
+          2.Lc7-f4 # 
+      1...Td2*c2[sTc2->a8] 
+          2.Df2-f4 # 
+      1...Td2*d4[sTd4->h8] 
+          2.Df2-f5 # 
 
   1.Sf6-e4 ! Drohung:
           2.Tg1-c1 # 

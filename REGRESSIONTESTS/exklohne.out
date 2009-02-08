@@ -1459,7 +1459,7 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1...Te6-e1 = 
+      1...Te6-e1 = 
 
   1.Kh2-g1 ! 
       1...Lb7-e4 
@@ -1629,7 +1629,7 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1...Df8-a3 # 
+      1...Df8-a3 # 
 
   1.Ka8-a7 ! 
       1...Df8-f1 
@@ -1705,7 +1705,7 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1...Th5-a5 # 
+      1...Th5-a5 # 
 
   1.Ka8-a7 ! 
       1...Th5-b5 
@@ -1759,26 +1759,25 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-
-  1...Db3-g8 
-      2.Kd2-c2 
-          2...Dg8-g1 
-              3.Kc2-d3 
-                  3...Dg1-a7 
-                      4.Kd3-e4 
-                          4...Da7-g1 
-                              5.Ke4-f3 
-                                  5...Dg1-a7 
-                                      6.Kf3-g3 
-                                          6...Da7-h7 
-                                              7.Kg3-g4 
-                                                  7...Dh7-b1 
-                                                      8.Kg4-h3 
-                                                          8...Db1-g6 
-                                                              9.Kh3-h2 
-                                                                  9...Dg6-b1 
-                                                                     10.Kh2-h1 
-                                                                         10...Db1-h7 # 
+      1...Db3-g8 
+          2.Kd2-c2 
+              2...Dg8-g1 
+                  3.Kc2-d3 
+                      3...Dg1-a7 
+                          4.Kd3-e4 
+                              4...Da7-g1 
+                                  5.Ke4-f3 
+                                      5...Dg1-a7 
+                                          6.Kf3-g3 
+                                              6...Da7-h7 
+                                                  7.Kg3-g4 
+                                                      7...Dh7-b1 
+                                                          8.Kg4-h3 
+                                                              8...Db1-g6 
+                                                                  9.Kh3-h2 
+                                                                      9...Dg6-b1 
+                                                                         10.Kh2-h1 
+                                                                             10...Db1-h7 # 
 
   1.Kd2-c1 ! 
       1...Db3-g8 
@@ -1832,7 +1831,7 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1...Ta1-e1 # 
+      1...Ta1-e1 # 
 
   1.Ke5-e4 ! 
       1...Ta1-a5 
@@ -1926,7 +1925,7 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1...Tc1-c8 # 
+      1...Tc1-c8 # 
 
   1.Kf8-e8 ! 
       1...Tc1-c7 
@@ -2218,7 +2217,7 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1...Te4*a4 # 
+      1...Te4*a4 # 
 
   1.Ka8-a7 ! Drohung:
           2.Ka7-a8 

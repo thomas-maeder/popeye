@@ -26,7 +26,7 @@
         SchwarzerLaengstzueger
               OhneSchach
 
-  1...ETd1-d8 # 
+      1...ETd1-d8 # 
 
   1.kANc8-f4 ! 
       1...ETd1-g7 
@@ -87,16 +87,15 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-
-  1...ETc1-h6 
-      2.kZe8-c5 
-          2...ETh6-d2 
-              3.kZc5-f7 
-                  3...ETd2-a8 
-                      4.kZf7-d4 
-                          4...ETa8-h1 
-                              5.kZd4-a6 
-                                  5...ETh1-c6 # 
+      1...ETc1-h6 
+          2.kZe8-c5 
+              2...ETh6-d2 
+                  3.kZc5-f7 
+                      3...ETd2-a8 
+                          4.kZf7-d4 
+                              4...ETa8-h1 
+                                  5.kZd4-a6 
+                                      5...ETh1-c6 # 
 
   1.kZe8-b6 ! 
       1...ETc1-f7 
