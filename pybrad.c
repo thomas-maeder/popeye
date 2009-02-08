@@ -560,7 +560,9 @@ static boolean defends_against_threats(int threats,
           defense_found = !has_starter_won_in_n(si,n-1);
 
         if (defense_found)
+        {
           coupfort();
+        }
         else
           ++nr_successful_threats;
       }
