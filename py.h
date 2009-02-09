@@ -696,20 +696,13 @@ typedef struct {
     Flags       ghost_flags;
 } coup;
 
-#define	tabmaxcp	2048
-
-typedef struct {
-	int        nbr,
-			cp[3*maxply];
-	coup            liste[tabmaxcp];
-} tab;
-
 typedef struct {
 	move_generation_elmt move;
 	int                  nr_opponent_moves;
 } empile_optimization_table_elmt;
 
-enum {
+enum
+{
   empile_optimization_priorize_killmove_by = 5
 };
 

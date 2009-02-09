@@ -3,6 +3,7 @@
 
 #include "py.h"
 #include "pystip.h"
+#include "pytable.h"
 #include "boolean.h"
 
 /* Generic functionality about slices.
@@ -29,7 +30,7 @@ void slice_write_unsolvability(slice_index si);
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of slice
  */
-void slice_solve_continuations(int table, slice_index si);
+void slice_solve_continuations(table continuations, slice_index si);
 
 /* Spin off a set play slice
  * @param si slice index
@@ -48,7 +49,7 @@ void slice_root_write_key(slice_index si, attack_type type);
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void slice_root_solve_postkey(int refutations, slice_index si);
+void slice_root_solve_postkey(table refutations, slice_index si);
 
 /* Solve a slice
  * @param si slice index

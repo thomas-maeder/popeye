@@ -398,13 +398,13 @@ boolean branch_h_solve(slice_index si)
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice.
- * @param table where to add first moves
+ * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
  * @param side_at_move side at move
  */
 static
-void branch_h_solve_continuations_in_n_recursive_nohash(int table,
+void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
                                                         slice_index si,
                                                         stip_length_type n,
                                                         Side side_at_move)
@@ -418,7 +418,7 @@ void branch_h_solve_continuations_in_n_recursive_nohash(int table,
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    slice_solve_continuations(table,slices[si].u.branch.next);
+    slice_solve_continuations(continuations,slices[si].u.branch.next);
   else
   {
     Side next_side = advers(side_at_move);
@@ -440,7 +440,7 @@ void branch_h_solve_continuations_in_n_recursive_nohash(int table,
         (*encode)();
         if (!slice_must_starter_resign(slices[si].u.branch.next)
             && branch_h_solve_in_n_recursive(si,n-1,next_side))
-          pushtabsol(table);
+          table_append(continuations);
       }
 
       repcoup();
@@ -465,13 +465,13 @@ void branch_h_solve_continuations_in_n_recursive_nohash(int table,
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
- * @param table where to add first moves
+ * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
  * @param side_at_move side at move
  */
 static
-void branch_h_solve_continuations_in_n_recursive(int table,
+void branch_h_solve_continuations_in_n_recursive(table continuations,
                                                  slice_index si,
                                                  stip_length_type n,
                                                  Side side_at_move)
@@ -485,11 +485,11 @@ void branch_h_solve_continuations_in_n_recursive(int table,
 
   if (!inhash(si,hash_no_succ,n/2))
   {
-    branch_h_solve_continuations_in_n_recursive_nohash(table,
+    branch_h_solve_continuations_in_n_recursive_nohash(continuations,
                                                        si,
                                                        n,
                                                        side_at_move);
-    if (tablen(table)==0)
+    if (table_length(continuations)==0)
       addtohash(si,hash_no_succ,n/2);
   }
 
@@ -499,11 +499,11 @@ void branch_h_solve_continuations_in_n_recursive(int table,
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice.
- * @param table where to add first moves
+ * @param continuations table where to add first moves
  * @param si identifies slice being solved
  * @param n number of half moves until end state has to be reached
  */
-static void branch_h_solve_continuations_in_n(int table,
+static void branch_h_solve_continuations_in_n(table continuations,
                                               slice_index si,
                                               stip_length_type n)
 {
@@ -516,22 +516,22 @@ static void branch_h_solve_continuations_in_n(int table,
   TraceValue("%u\n",starter);
 
   if (n==slices[si].u.branch.length)
-    branch_h_solve_continuations_in_n_recursive_nohash(table,
+    branch_h_solve_continuations_in_n_recursive_nohash(continuations,
                                                        si,
                                                        n,
                                                        starter);
   else
-    branch_h_solve_continuations_in_n_recursive(table,si,n,starter);
+    branch_h_solve_continuations_in_n_recursive(continuations,si,n,starter);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
 
 /* Determine and write continuations of a slice
- * @param table table where to store continuing moves (i.e. threats)
+ * @param continuations table where to store continuing moves (i.e. threats)
  * @param si index of branch slice
  */
-void branch_h_solve_continuations(int table, slice_index si)
+void branch_h_solve_continuations(table continuations, slice_index si)
 {
   boolean solution_found = false;
   stip_length_type const full_length = slices[si].u.branch.length;
@@ -544,8 +544,8 @@ void branch_h_solve_continuations(int table, slice_index si)
 
   while (len<full_length && !solution_found)
   {
-    branch_h_solve_continuations_in_n(table,si,len);
-    if (tablen(table)>0)
+    branch_h_solve_continuations_in_n(continuations,si,len);
+    if (table_length(continuations)>0)
     {
       solution_found = true;
       FlagShortSolsReached = true;
@@ -555,7 +555,7 @@ void branch_h_solve_continuations(int table, slice_index si)
   }
 
   if (!solution_found)
-    branch_h_solve_continuations_in_n(table,si,full_length);
+    branch_h_solve_continuations_in_n(continuations,si,full_length);
 
   TraceFunctionExit(__func__);
   TraceText("\n");

@@ -48,7 +48,7 @@ boolean not_has_solution(slice_index si);
  *                      (e.g. threats)
  * @param si index of slice
  */
-void not_solve_continuations(int continuations, slice_index si);
+void not_solve_continuations(table continuations, slice_index si);
 
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.

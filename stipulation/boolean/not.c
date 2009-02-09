@@ -104,7 +104,7 @@ boolean not_has_solution(slice_index si)
  *                      (e.g. threats)
  * @param si index of slice
  */
-void not_solve_continuations(int continuations, slice_index si)
+void not_solve_continuations(table continuations, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);

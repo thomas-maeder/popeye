@@ -3,6 +3,7 @@
 
 #include "boolean.h"
 #include "pyslice.h"
+#include "pytable.h"
 #include "py.h"
 
 /* This module provides functionality dealing with leaf stipulation
@@ -45,14 +46,14 @@ void leaf_s_root_write_key(slice_index leaf, attack_type type);
  * @param refutations table containing the refutations (if any)
  * @param leaf slice index
  */
-void leaf_s_root_solve_postkey(int refutations, slice_index leaf);
+void leaf_s_root_solve_postkey(table refutations, slice_index leaf);
 
 /* Find and write continuations (i.e. mating moves or final move pairs).
  * @param continuations table where to append continuations found and
  *                      written
  * @param leaf slice index
  */
-void leaf_s_solve_continuations(int continuations, slice_index leaf);
+void leaf_s_solve_continuations(table continuations, slice_index leaf);
 
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.
@@ -111,6 +112,9 @@ who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
                                              boolean is_duplex,
                                              boolean same_side_as_root);
 
+/* Write a move by the non-starter that has reached a leaf's goal
+ * @param leaf slice index of leaf
+ */
 void leaf_s_write_non_starter_has_solved(slice_index leaf);
 
 #endif

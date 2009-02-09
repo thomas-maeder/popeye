@@ -37,7 +37,7 @@ void quodlibet_write_unsolvability(slice_index si);
  *                      (e.g. threats)
  * @param si index of quodlibet slice
  */
-void quodlibet_solve_continuations(int continuations, slice_index si);
+void quodlibet_solve_continuations(table continuations, slice_index si);
 
 /* Write the key just played
  * @param si slice index
@@ -50,7 +50,7 @@ void quodlibet_root_write_key(slice_index si, attack_type type);
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void quodlibet_root_solve_postkey(int refutations, slice_index si);
+void quodlibet_root_solve_postkey(table refutations, slice_index si);
 
 /* Find and write post key play
  * @param si slice index

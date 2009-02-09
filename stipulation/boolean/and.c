@@ -209,16 +209,16 @@ void reci_solve_postkey(slice_index si)
 }
 
 /* Determine and write continuations at end of reciprocal slice
- * @param table table where to store continuing moves (i.e. threats)
+ * @param continuations table where to store continuing moves (i.e. threats)
  * @param si index of quodlibet slice
  */
-void reci_solve_continuations(int table, slice_index si)
+void reci_solve_continuations(table continuations, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  slice_solve_continuations(table,slices[si].u.reciprocal.op1);
-  slice_solve_continuations(table,slices[si].u.reciprocal.op2);
+  slice_solve_continuations(continuations,slices[si].u.reciprocal.op1);
+  slice_solve_continuations(continuations,slices[si].u.reciprocal.op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -294,7 +294,7 @@ void reci_root_write_key(slice_index si, attack_type type)
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void reci_root_solve_postkey(int refutations, slice_index si)
+void reci_root_solve_postkey(table refutations, slice_index si)
 {
   slice_root_solve_postkey(refutations,slices[si].u.reciprocal.op1);
   slice_root_solve_postkey(refutations,slices[si].u.reciprocal.op2);

@@ -191,6 +191,8 @@ square  coinequis(square a);
 
 boolean echecc(ply ply_id, Side a);
 
+boolean moves_equal(coup *move1, coup *move2);
+void current(ply ply_id, coup *mov);
 void ecritcoup(ply ply_id, Goal goal);
 
 boolean eval_ortho(ply ply_id, square departure, square arrival, square capture);
@@ -265,12 +267,6 @@ typedef enum {
   angle_90,
   angle_135
 } angle_t;
-
-int alloctab(void);
-void freetab(void);
-void pushtabsol(int n);
-int tablen(int t);
-boolean nowdanstab(int n);
 
 boolean rmhopech(ply ply_id, square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);
 boolean rncircech(ply ply_id, square departure, square arrival, square capture);

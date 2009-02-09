@@ -778,18 +778,25 @@ void write_end_of_solution_phase(void)
 
 void editcoup(ply ply_id, coup *mov, Goal goal); /* TODO */
 
+static void write_refutation(coup *c)
+{
+  StdString("      1...");
+  editcoup(nbply,c,no_goal);
+  StdString(" !\n");
+
+  ++nr_defenses_written[move_depth];
+}
+
 /* Write the refutations stored in a table
- * @param t table containing refutations
+ * @param refutations table containing refutations
  */
-void write_refutations(int t)
+void write_refutations(table refutations)
 {
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  if (tabsol.cp[t]!=tabsol.cp[t-1])
+  if (table_length(refutations)!=0)
   {
-    int n;
-
     if (nr_defenses_written[move_depth]==0
         && nr_continuations_written[move_depth+1]==0)
       Message(NewLine);
@@ -797,14 +804,7 @@ void write_refutations(int t)
     sprintf(GlobalStr,"%*c",4,blank);
     StdString(GlobalStr);
     Message(But);
-    for (n = tabsol.cp[t]; n>tabsol.cp[t-1]; n--)
-    {
-      StdString("      1...");
-      editcoup(nbply,&tabsol.liste[n],no_goal);
-      StdString(" !\n");
-
-      ++nr_defenses_written[move_depth];
-    }
+    table_iterate(refutations,&write_refutation);
   }
 
   TraceFunctionExit(__func__);

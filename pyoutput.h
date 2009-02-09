@@ -4,6 +4,7 @@
 #include "py.h"
 #include "pygoal.h"
 #include "pystip.h"
+#include "pytable.h"
 
 /* Contains the stipulation slice that was active when the move at a
  * specific ply was played.
@@ -120,7 +121,7 @@ void write_refutation_mark(void);
 /* Write the refutations stored in a table
  * @param t table containing refutations
  */
-void write_refutations(int t);
+void write_refutations(table t);
 
 /* Write the end of a solution
  */

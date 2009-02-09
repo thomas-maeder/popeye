@@ -3,6 +3,7 @@
 
 #include "py.h"
 #include "pystip.h"
+#include "pytable.h"
 
 /* This module provides functionality dealing with STBranchDirect
  * stipulation slices.
@@ -41,7 +42,7 @@ void branch_d_root_write_key(slice_index si, attack_type type);
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void branch_d_root_solve_postkey(int refutations, slice_index si);
+void branch_d_root_solve_postkey(table refutations, slice_index si);
 
 /* Continue solving after the key just played in the slice to find and
  * write the post key play (threats, variations)
@@ -57,7 +58,7 @@ void branch_d_solve_postkey(slice_index si);
  * @param si slice index
  * @param n maximal number of moves
  */
-void branch_d_solve_continuations_in_n(int continuations,
+void branch_d_solve_continuations_in_n(table continuations,
                                        slice_index si,
                                        stip_length_type n);
 

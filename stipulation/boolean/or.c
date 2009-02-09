@@ -78,10 +78,10 @@ void quodlibet_write_unsolvability(slice_index si)
 }
 
 /* Determine and write continuations of a quodlibet slice
- * @param table table where to store continuing moves (i.e. threats)
+ * @param continuations table where to store continuing moves (i.e. threats)
  * @param si index of quodlibet slice
  */
-void quodlibet_solve_continuations(int table, slice_index si)
+void quodlibet_solve_continuations(table continuations, slice_index si)
 {
   slice_index const op1 = slices[si].u.quodlibet.op1;
   slice_index const op2 = slices[si].u.quodlibet.op2;
@@ -89,8 +89,8 @@ void quodlibet_solve_continuations(int table, slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  slice_solve_continuations(table,op1);
-  slice_solve_continuations(table,op2);
+  slice_solve_continuations(continuations,op1);
+  slice_solve_continuations(continuations,op2);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -168,7 +168,7 @@ void quodlibet_root_write_key(slice_index si, attack_type type)
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void quodlibet_root_solve_postkey(int refutations, slice_index si)
+void quodlibet_root_solve_postkey(table refutations, slice_index si)
 {
   slice_root_solve_postkey(refutations,slices[si].u.quodlibet.op1);
   slice_root_solve_postkey(refutations,slices[si].u.quodlibet.op2);

@@ -1747,7 +1747,32 @@ static boolean verify_position(void)
   return true;
 }
 
-static void current(ply ply_id, coup *mov)
+boolean moves_equal(coup *move1, coup *move2)
+{
+  return (move1->cdzz==move2->cdzz
+          && move1->cazz==move2->cazz
+          && move1->norm_prom==move2->norm_prom
+          && move1->cir_prom==move2->cir_prom
+          && move1->bool_cir_cham_prom==move2->bool_cir_cham_prom
+          && move1->bool_norm_cham_prom==move2->bool_norm_cham_prom
+          && move1->sb3where==move2->sb3where
+          && move1->sb3what==move2->sb3what
+          && move1->sb2where==move2->sb2where
+          && move1->sb2what==move2->sb2what
+          && move1->hurdle==move2->hurdle
+          && (!CondFlag[takemake] || move1->cpzz==move2->cpzz)
+          && (!supergenre
+              || ((!(CondFlag[supercirce] || CondFlag[april])
+                   || move1->sqren==move2->sqren)
+                  && (!CondFlag[republican]
+                      || move1->repub_k==move2->repub_k)
+                  && (!CondFlag[antisuper]
+                      || move1->renkam==move2->renkam))
+              )
+          );
+}
+
+void current(ply ply_id, coup *mov)
 {
   numecoup const coup_id = ply_id==nbply ? nbcou : repere[ply_id+1];
   square sq = move_generation_stack[coup_id].arrival;
@@ -1791,7 +1816,7 @@ static void current(ply ply_id, coup *mov)
   mov->sb2what= sb2[ply_id].what;
   mov->mren= cmren[coup_id];
   mov->osc= oscillatedKs[ply_id];
-  /* following only overwritten if change stack is saved in pushtabsol */
+  /* following only overwritten if change stack is saved in table_append */
   /* redundant to init push_top */
   mov->push_bottom= NULL;
   mov->roch_sq=rochade_sq[coup_id];
@@ -1800,48 +1825,6 @@ static void current(ply ply_id, coup *mov)
 
   mov->ghost_piece = e[mov->cdzz];
   mov->ghost_flags = spec[mov->cdzz];
-}
-
-int alloctab(void)
-{
-  int result = ++tabsol.nbr;
-  tabsol.cp[result] = tabsol.cp[result-1];
-  return result;
-}
-
-void freetab(void)
-{
-  --tabsol.nbr;
-}
-
-void pushtabsol(int n)
-{
-  if (++tabsol.cp[n] > tabmaxcp)
-    ErrorMsg(TooManySol);
-  else
-    current(nbply,&tabsol.liste[tabsol.cp[n]]);
-
-  if (flag_outputmultiplecolourchanges)
-  {
-    change_rec *rec;
-    change_rec **sp= &tabsol.liste[tabsol.cp[n]].push_top;
-    *sp= tabsol.liste[tabsol.cp[n] - 1].push_top;
-    tabsol.liste[tabsol.cp[n]].push_bottom = *sp;
-    for (rec= colour_change_sp[nbply-1];
-         rec-colour_change_sp[nbply]<0;
-         rec++)
-      PushChangedColour(*sp,
-                        push_colour_change_stack_limit,
-                        rec->square,
-                        rec->pc)
-          }
-
-  coupfort();
-}
-
-int tablen(int t)
-{
-  return tabsol.cp[t]-tabsol.cp[t-1];
 }
 
 boolean WriteSpec(Flags sp, boolean printcolours) {
@@ -2173,42 +2156,6 @@ void editcoup(ply ply_id, coup *mov, Goal goal)
     StdString(goal_end_marker[goal]);
   StdChar(blank);
 } /* editcoup */
-
-boolean nowdanstab(int n)
-{
-  int i;
-  coup mov;
-
-  current(nbply,&mov);
-  for (i = tabsol.cp[n-1]+1; i <= tabsol.cp[n]; i++) {
-    if ( mov.cdzz == tabsol.liste[i].cdzz
-         && mov.cazz == tabsol.liste[i].cazz
-         && mov.norm_prom == tabsol.liste[i].norm_prom
-         && mov.cir_prom == tabsol.liste[i].cir_prom
-         && (mov.bool_cir_cham_prom
-             == tabsol.liste[i].bool_cir_cham_prom)
-         && (mov.bool_norm_cham_prom
-             == tabsol.liste[i].bool_norm_cham_prom)
-         && mov.sb3where==tabsol.liste[i].sb3where
-         && mov.sb3what==tabsol.liste[i].sb3what
-         && mov.sb2where==tabsol.liste[i].sb2where
-         && mov.sb2what==tabsol.liste[i].sb2what
-         && mov.hurdle==tabsol.liste[i].hurdle
-         && (!CondFlag[takemake] || mov.cpzz==tabsol.liste[i].cpzz)
-         && (!supergenre
-             || ((!(CondFlag[supercirce] || CondFlag[april])
-                  || mov.sqren == tabsol.liste[i].sqren)
-                 && (!CondFlag[republican]
-                     || mov.repub_k == tabsol.liste[i].repub_k)
-                 && (!CondFlag[antisuper]
-                     || mov.renkam == tabsol.liste[i].renkam))
-             )
-         ) {
-      return true;
-    }
-  }
-  return false;
-}
 
 void ecritcoup(ply ply_id, Goal goal)
 {

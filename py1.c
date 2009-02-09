@@ -50,6 +50,7 @@
 #include "pydata.h"
 #include "pystip.h"
 #include "pyhash.h"
+#include "pytable.h"
 #include "trace.h"
 
 void initply(ply parent)
@@ -402,9 +403,7 @@ void InitAlways(void) {
   }
 
   initneutre(White);
-  tabsol.nbr = 0;
-  tabsol.cp[0] = 0;
-  tabsol.liste[0].push_top = push_colour_change_stack;
+  reset_tables();
   dont_generate_castling = false;
   flag_libre_on_generate= false;
   flag_nk= false;

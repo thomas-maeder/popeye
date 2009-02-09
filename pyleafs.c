@@ -241,7 +241,7 @@ void leaf_s_root_write_key(slice_index leaf, attack_type type)
  * @param refutations table containing the refutations (if any)
  * @param leaf slice index
  */
-void leaf_s_root_solve_postkey(int refutations, slice_index leaf)
+void leaf_s_root_solve_postkey(table refutations, slice_index leaf)
 {
   Side const attacker = slices[leaf].u.leaf.starter;
   Side const defender = advers(attacker);
@@ -361,7 +361,7 @@ void leaf_s_solve_postkey(slice_index leaf)
  * @param solutions table where to append continuations found and written
  * @param leaf slice index
  */
-void leaf_s_solve_continuations(int solutions, slice_index leaf)
+void leaf_s_solve_continuations(table solutions, slice_index leaf)
 {
   Side const attacker = slices[leaf].u.leaf.starter;
   Side const defender = advers(attacker);
@@ -382,7 +382,7 @@ void leaf_s_solve_continuations(int solutions, slice_index leaf)
       output_start_postkey_level();
       leaf_s_solve_final_move(leaf,defender);
       output_end_postkey_level();
-      pushtabsol(solutions);
+      table_append(solutions);
     }
 
     repcoup();

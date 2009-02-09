@@ -3,6 +3,7 @@
 
 #include "py.h"
 #include "pystip.h"
+#include "pytable.h"
 
 /* This module provides functionality dealing with STBranchHelp
  * stipulation slices.
@@ -52,9 +53,9 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n);
 void branch_h_impose_starter(slice_index si, Side s);
 
 /* Determine and write continuations of a slice
- * @param table table where to store continuing moves (i.e. threats)
+ * @param continuations table where to store continuing moves (i.e. threats)
  * @param si index of branch slice
  */
-void branch_h_solve_continuations(int table, slice_index si);
+void branch_h_solve_continuations(table continuations, slice_index si);
 
 #endif

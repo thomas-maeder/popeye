@@ -3054,15 +3054,20 @@ static char *ParseOpt(void)
         break;
 
       case soltout:
+      {
+        unsigned long ul;
         tok = ReadNextTokStr();
-        max_nr_refutations = strtol(tok, &ptr, 10);
-        if (tok==ptr || max_nr_refutations<0)
+        ul = strtoul(tok, &ptr, 10);
+        if (tok==ptr || ul>UINT_MAX)
         {
           IoErrorMsg(WrongInt, 0);
           max_nr_refutations = 0;
           return ReadNextTokStr();
         }
+        else
+          max_nr_refutations = ul;
         break;
+      }
 
       case solessais:
         /* for compatibility to older versions. */

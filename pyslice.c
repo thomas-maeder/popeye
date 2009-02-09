@@ -84,10 +84,10 @@ boolean slice_must_starter_resign(slice_index si)
 }
 
 /* Determine and write continuations of a slice
- * @param table table where to store continuing moves (i.e. threats)
+ * @param continuations table where to store continuing moves (i.e. threats)
  * @param si index of branch slice
  */
-void slice_solve_continuations(int table, slice_index si)
+void slice_solve_continuations(table continuations, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -96,31 +96,33 @@ void slice_solve_continuations(int table, slice_index si)
   switch (slices[si].type)
   {
     case STLeafDirect:
-      leaf_d_solve_continuations(table,si);
+      leaf_d_solve_continuations(continuations,si);
       break;
     
     case STLeafSelf:
-      leaf_s_solve_continuations(table,si);
+      leaf_s_solve_continuations(continuations,si);
       break;
     
     case STQuodlibet:
-      quodlibet_solve_continuations(table,si);
+      quodlibet_solve_continuations(continuations,si);
       break;
 
     case STReciprocal:
-      reci_solve_continuations(table,si);
+      reci_solve_continuations(continuations,si);
       break;
 
     case STNot:
-      not_solve_continuations(table,si);
+      not_solve_continuations(continuations,si);
       break;
 
     case STBranchDirect:
-      branch_d_solve_continuations_in_n(table,si,slices[si].u.branch.length);
+      branch_d_solve_continuations_in_n(continuations,
+                                        si,
+                                        slices[si].u.branch.length);
       break;
 
     case STBranchHelp:
-      branch_h_solve_continuations(table,si);
+      branch_h_solve_continuations(continuations,si);
       break;
 
     case STBranchSeries:
@@ -241,7 +243,7 @@ void slice_root_write_key(slice_index si, attack_type type)
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void slice_root_solve_postkey(int refutations, slice_index si)
+void slice_root_solve_postkey(table refutations, slice_index si)
 {
   switch (slices[si].type)
   {

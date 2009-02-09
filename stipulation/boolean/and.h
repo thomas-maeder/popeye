@@ -79,7 +79,7 @@ void reci_solve_postkey(slice_index si);
  *                      (e.g. threats)
  * @param si index of reciprocal slice
  */
-void reci_solve_continuations(int continuations, slice_index si);
+void reci_solve_continuations(table continuations, slice_index si);
 
 /* Spin off a set play slice
  * @param si slice index
@@ -98,7 +98,7 @@ void reci_root_write_key(slice_index si, attack_type type);
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void reci_root_solve_postkey(int refutations, slice_index si);
+void reci_root_solve_postkey(table refutations, slice_index si);
 
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index

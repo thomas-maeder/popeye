@@ -3,6 +3,7 @@
 
 #include "boolean.h"
 #include "pyslice.h"
+#include "pytable.h"
 #include "py.h"
 
 /* This module provides functionality dealing with direct leaf
@@ -45,14 +46,14 @@ void leaf_d_root_write_key(slice_index leaf, attack_type type);
  * @param refutations table containing the refutations (if any)
  * @param leaf slice index
  */
-void leaf_d_root_solve_postkey(int refutations, slice_index leaf);
+void leaf_d_root_solve_postkey(table refutations, slice_index leaf);
 
 /* Find and write continuations (i.e. mating moves or final move pairs).
  * @param continuations table where to append continuations found and
  *                      written
  * @param leaf slice index
  */
-void leaf_d_solve_continuations(int continuations, slice_index leaf);
+void leaf_d_solve_continuations(table continuations, slice_index leaf);
 
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.

@@ -6,6 +6,7 @@
 #include "pyhash.h"
 #include "pyoutput.h"
 #include "pyslice.h"
+#include "pytable.h"
 #include "trace.h"
 #include "platform/maxtime.h"
 
@@ -386,7 +387,7 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
  * @param (odd) number of half moves until goal
  * @return true iff defender is immobile
  */
-static boolean root_collect_refutations(int t,
+static boolean root_collect_refutations(table refutations,
                                         slice_index si,
                                         stip_length_type n)
 {
@@ -404,7 +405,7 @@ static boolean root_collect_refutations(int t,
   move_generation_mode= move_generation_optimized_by_killer_move;
 
   while (encore()
-         && tablen(t)<=max_nr_refutations)
+         && table_length(refutations)<=max_nr_refutations)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,defender))
@@ -412,7 +413,7 @@ static boolean root_collect_refutations(int t,
       is_defender_immobile = false;
       (*encode)();
       if (branch_d_has_solution_in_n(si,n-1)==branch_d_no_solution)
-        pushtabsol(t);
+        table_append(refutations);
     }
 
     repcoup();
@@ -434,11 +435,11 @@ static boolean root_collect_refutations(int t,
  *                              to user input
  *         number of non-trivial defenses otherwise
  */
-static int root_collect_non_trivial(int t,
-                                    slice_index si,
-                                    stip_length_type n)
+static unsigned int root_collect_non_trivial(int t,
+                                             slice_index si,
+                                             stip_length_type n)
 {
-  int result;
+  unsigned int result;
   int non_trivial_count;
 
   TraceFunctionEntry(__func__);
@@ -454,7 +455,7 @@ static int root_collect_non_trivial(int t,
     max_nr_nontrivial -= non_trivial_count;
     result = (root_collect_refutations(t,si,n)
               ? max_nr_refutations+1
-              : tablen(t));
+              : table_length(t));
     max_nr_nontrivial += non_trivial_count;
   }
 
@@ -474,10 +475,10 @@ static int root_collect_non_trivial(int t,
  *               as entered by the user
  *         number (0..max_nr_refutations) of refutations otherwise
  */
-static int root_find_refutations(int t, slice_index si)
+static unsigned int root_find_refutations(table refutations, slice_index si)
 {
   Side const defender = advers(slices[si].u.branch.starter);
-  int result;
+  unsigned int result;
   stip_length_type const n = slices[si].u.branch.length-1;
 
   TraceFunctionEntry(__func__);
@@ -489,11 +490,11 @@ static int root_find_refutations(int t, slice_index si)
            && OptFlag[solflights] && has_too_many_flights(defender))
     result = max_nr_refutations+1;
   else if (n-1>2*min_length_nontrivial+slack_length_direct)
-    result = root_collect_non_trivial(t,si,n);
+    result = root_collect_non_trivial(refutations,si,n);
   else
-    result = (root_collect_refutations(t,si,n)
+    result = (root_collect_refutations(refutations,si,n)
               ? max_nr_refutations+1
-              : tablen(t));
+              : table_length(refutations));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -527,7 +528,7 @@ boolean branch_d_has_starter_won(slice_index si)
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-static boolean defends_against_threats(int threats,
+static boolean defends_against_threats(table threats,
                                        slice_index si,
                                        stip_length_type n)
 {
@@ -535,15 +536,15 @@ static boolean defends_against_threats(int threats,
   boolean result = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",tablen(threats));
+  TraceFunctionParam("%u",table_length(threats));
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
   assert(n%2==0);
 
-  if (tablen(threats)>0)
+  if (table_length(threats)>0)
   {
-    int nr_successful_threats = 0;
+    unsigned int nr_successful_threats = 0;
     boolean defense_found = false;
 
     genmove(attacker);
@@ -551,7 +552,7 @@ static boolean defends_against_threats(int threats,
     while (encore() && !defense_found)
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove()
-          && nowdanstab(threats)
+          && is_current_move_in_table(threats)
           && !echecc(nbply,attacker))
       {
         if (n==slack_length_direct)
@@ -575,7 +576,7 @@ static boolean defends_against_threats(int threats,
     /* this happens if >=1 threat no longer works or some threats can
      * no longer be played after the defense.
      */
-    result = nr_successful_threats<tablen(threats);
+    result = nr_successful_threats<table_length(threats);
   }
 
   TraceFunctionExit(__func__);
@@ -610,10 +611,10 @@ static void write_variation(slice_index si, stip_length_type n)
   
   for (i = min_len; i<=n && is_refutation; i += 2)
   {
-    int const continuations = alloctab();
+    table const continuations = allocate_table();
     branch_d_solve_continuations_in_n(continuations,si,i-1);
-    is_refutation = tablen(continuations)==0;
-    freetab();
+    is_refutation = table_length(continuations)==0;
+    free_table();
   }
 
   output_end_continuation_level();
@@ -631,7 +632,7 @@ static void write_variation(slice_index si, stip_length_type n)
  * @param n (even) number of half moves until goal
  * @return the length of the shortest threat(s)
  */
-static int solve_threats(int threats, slice_index si, stip_length_type n)
+static int solve_threats(table threats, slice_index si, stip_length_type n)
 {
   Side const defender = advers(slices[si].u.branch.starter);
   int result = 0;
@@ -658,8 +659,8 @@ static int solve_threats(int threats, slice_index si, stip_length_type n)
     {
       branch_d_solve_continuations_in_n(threats,si,i);
       TraceValue("%u",i);
-      TraceValue("%u\n",tablen(threats));
-      if (tablen(threats)>0)
+      TraceValue("%u\n",table_length(threats));
+      if (table_length(threats)>0)
       {
         result = i;
         break;
@@ -681,7 +682,7 @@ static int solve_threats(int threats, slice_index si, stip_length_type n)
  * @param n (even) number of half moves until goal after the defense
  */
 static boolean is_defense_relevant(int len_threat,
-                                   int threats,
+                                   table threats,
                                    slice_index si,
                                    stip_length_type n)
 {
@@ -730,7 +731,7 @@ static boolean is_defense_relevant(int len_threat,
  * @param n (odd) number of half moves until goal
  */
 static void root_solve_variations_in_n(int len_threat,
-                                       int threats,
+                                       table threats,
                                        int refutations,
                                        slice_index si,
                                        stip_length_type n)
@@ -751,7 +752,7 @@ static void root_solve_variations_in_n(int len_threat,
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,defender)
-        && !nowdanstab(refutations)
+        && !is_current_move_in_table(refutations)
         && is_defense_relevant(len_threat,threats,si,n-1))
       write_variation(si,n);
 
@@ -810,7 +811,7 @@ static void solve_variations_in_n(int len_threat,
  */
 static void solve_postkey_in_n(slice_index si, stip_length_type n)
 {
-  int const threats = alloctab();
+  table const threats = allocate_table();
   int len_threat;
 
   assert(n%2==1);
@@ -830,7 +831,7 @@ static void solve_postkey_in_n(slice_index si, stip_length_type n)
 
   output_end_postkey_level();
 
-  freetab();
+  free_table();
 }
 
 /* Solve postkey play
@@ -850,7 +851,7 @@ void branch_d_solve_postkey(slice_index si)
  * @param si slice index
  * @param n (even) number of half moves until goal
  */
-void branch_d_solve_continuations_in_n(int continuations,
+void branch_d_solve_continuations_in_n(table continuations,
                                        slice_index si,
                                        stip_length_type n)
 {
@@ -885,7 +886,7 @@ void branch_d_solve_continuations_in_n(int continuations,
           else
             solve_postkey_in_n(si,n-1);
 
-          pushtabsol(continuations);
+          table_append(continuations);
         }
       }
 
@@ -920,7 +921,7 @@ void branch_d_root_write_key(slice_index si, attack_type type)
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void branch_d_root_solve_postkey(int refutations, slice_index si)
+void branch_d_root_solve_postkey(table refutations, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -930,7 +931,7 @@ void branch_d_root_solve_postkey(int refutations, slice_index si)
   if (OptFlag[solvariantes])
   {
     stip_length_type const n = slices[si].u.branch.length-1;
-    int const threats = alloctab();
+    table const threats = allocate_table();
     int const len_threat = solve_threats(threats,si,n-1);
 
     if (n>2*min_length_nontrivial+slack_length_direct)
@@ -943,7 +944,7 @@ void branch_d_root_solve_postkey(int refutations, slice_index si)
     else
       root_solve_variations_in_n(len_threat,threats,refutations,si,n);
 
-    freetab();
+    free_table();
   }
 
   write_refutations(refutations);
@@ -1000,7 +1001,7 @@ static void root_solve_real_play(slice_index si)
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
           && !echecc(nbply,attacker))
       {
-        int refutations = alloctab();
+        table refutations = allocate_table();
 
         if (slices[si].u.branch.min_length<=slack_length_direct
             && slice_has_starter_reached_goal(slices[si].u.branch.next))
@@ -1011,11 +1012,13 @@ static void root_solve_real_play(slice_index si)
         }
         else
         {
-          int const nr_refutations = root_find_refutations(refutations,si);
-          TraceValue("%u\n",nr_refutations);
+          unsigned int const nr_refutations =
+              root_find_refutations(refutations,si);
+          TraceValue("%u",nr_refutations);
+          TraceValue("%u\n",max_nr_refutations);
           if (nr_refutations<=max_nr_refutations)
           {
-            attack_type const type = (tablen(refutations)>=1
+            attack_type const type = (table_length(refutations)>=1
                                       ? attack_try
                                       : attack_key);
             branch_d_root_write_key(si,type);
@@ -1024,7 +1027,7 @@ static void root_solve_real_play(slice_index si)
           }
         }
 
-        freetab();
+        free_table();
       }
 
       if (OptFlag[movenbr])
@@ -1068,7 +1071,7 @@ boolean branch_d_solve(slice_index si)
   else if (how_is_solved<=branch_d_we_solve)
   {
     stip_length_type i;
-    int const continuations = alloctab();
+    table const continuations = allocate_table();
     stip_length_type min_len = slices[si].u.branch.min_length;
 
     if (min_len<slack_length_direct)
@@ -1081,12 +1084,12 @@ boolean branch_d_solve(slice_index si)
     for (i = min_len; i<=n && !result; i += 2)
     {
       branch_d_solve_continuations_in_n(continuations,si,i);
-      result = tablen(continuations)>0;
+      result = table_length(continuations)>0;
     }
 
     output_end_continuation_level();
 
-    freetab();
+    free_table();
   }
 
   TraceFunctionExit(__func__);

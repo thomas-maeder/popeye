@@ -335,8 +335,6 @@ EXTERN  square          cirrenroib, cirrenroin,
 			immrenroib, immrenroin;
 
 EXTERN  numecoup        testdebut;
-EXTERN  tab             tabsol;
-
 EXTERN  Flags           pprispec[maxply + 1];
 
 EXTERN  Flags           spec[maxsquare+4];
@@ -382,7 +380,7 @@ EXTERN  stip_length_type max_len_threat;
 EXTERN  stip_length_type min_length_nontrivial;
 EXTERN  int max_nr_nontrivial;
 
-EXTERN  int max_nr_refutations;
+EXTERN  unsigned int max_nr_refutations;
 EXTERN  int        MoveNbr, RestartNbr;
 EXTERN  Side         neutcoul;
 EXTERN  boolean         calctransmute;
