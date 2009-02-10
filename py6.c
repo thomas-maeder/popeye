@@ -1816,7 +1816,8 @@ void current(ply ply_id, coup *mov)
   mov->sb2what= sb2[ply_id].what;
   mov->mren= cmren[coup_id];
   mov->osc= oscillatedKs[ply_id];
-  /* following only overwritten if change stack is saved in table_append */
+  /* following only overwritten if change stack is saved in
+   * append_to_top_table() */
   /* redundant to init push_top */
   mov->push_bottom= NULL;
   mov->roch_sq=rochade_sq[coup_id];

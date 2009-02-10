@@ -96,11 +96,11 @@ void slice_solve_continuations(table continuations, slice_index si)
   switch (slices[si].type)
   {
     case STLeafDirect:
-      leaf_d_solve_continuations(continuations,si);
+      leaf_d_solve_continuations(si);
       break;
     
     case STLeafSelf:
-      leaf_s_solve_continuations(continuations,si);
+      leaf_s_solve_continuations(si);
       break;
     
     case STQuodlibet:

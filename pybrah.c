@@ -440,8 +440,11 @@ void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
         (*encode)();
         if (!slice_must_starter_resign(slices[si].u.branch.next)
             && branch_h_solve_in_n_recursive(si,n-1,next_side))
-          table_append(continuations);
-      }
+        {
+          append_to_top_table();
+          coupfort();
+        }
+     }
 
       repcoup();
 

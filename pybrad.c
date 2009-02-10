@@ -413,7 +413,10 @@ static boolean root_collect_refutations(table refutations,
       is_defender_immobile = false;
       (*encode)();
       if (branch_d_has_solution_in_n(si,n-1)==branch_d_no_solution)
-        table_append(refutations);
+      {
+        append_to_top_table();
+        coupfort();
+      }
     }
 
     repcoup();
@@ -427,7 +430,7 @@ static boolean root_collect_refutations(table refutations,
 }
 
 /* Collect non-trivial defenses at root level
- * @param t table where to add non-trivial defenses
+ * @param non_trivial table where to add non-trivial defenses
  * @param si slice index
  * @param n (odd) number of half moves until goal
  * @return max_nr_refutations+1 if defender is immobile or there are
@@ -435,7 +438,7 @@ static boolean root_collect_refutations(table refutations,
  *                              to user input
  *         number of non-trivial defenses otherwise
  */
-static unsigned int root_collect_non_trivial(int t,
+static unsigned int root_collect_non_trivial(table non_trivial,
                                              slice_index si,
                                              stip_length_type n)
 {
@@ -453,9 +456,9 @@ static unsigned int root_collect_non_trivial(int t,
   else
   {
     max_nr_nontrivial -= non_trivial_count;
-    result = (root_collect_refutations(t,si,n)
+    result = (root_collect_refutations(non_trivial,si,n)
               ? max_nr_refutations+1
-              : table_length(t));
+              : table_length(non_trivial));
     max_nr_nontrivial += non_trivial_count;
   }
 
@@ -732,7 +735,7 @@ static boolean is_defense_relevant(int len_threat,
  */
 static void root_solve_variations_in_n(int len_threat,
                                        table threats,
-                                       int refutations,
+                                       table refutations,
                                        slice_index si,
                                        stip_length_type n)
 {
@@ -774,7 +777,7 @@ static void root_solve_variations_in_n(int len_threat,
  * @param n (odd) number of half moves until goal
  */
 static void solve_variations_in_n(int len_threat,
-                                  int threats,
+                                  table threats,
                                   slice_index si,
                                   stip_length_type n)
 {
@@ -886,7 +889,8 @@ void branch_d_solve_continuations_in_n(table continuations,
           else
             solve_postkey_in_n(si,n-1);
 
-          table_append(continuations);
+          append_to_top_table();
+          coupfort();
         }
       }
 

@@ -48,35 +48,35 @@ void free_table(void)
   --number_of_tables;
 }
 
-/* Append the move just played in ply nbply to a table.
- * @param t table identifier
+/* Append the move just played in ply nbply to the top table.
  */
-void table_append(table n)
+void append_to_top_table(void)
 {
-  if (current_position[n]>=tables_max_position)
+  if (current_position[number_of_tables]>=tables_max_position)
     ErrorMsg(TooManySol);
   else
   {
-    ++current_position[n];
-    current(nbply,&liste[current_position[n]]);
+    ++current_position[number_of_tables];
+    current(nbply,&liste[current_position[number_of_tables]]);
   }
 
   if (flag_outputmultiplecolourchanges)
   {
     change_rec *rec;
-    change_rec ** const sp= &liste[current_position[n]].push_top;
-    *sp = liste[current_position[n]-1].push_top;
-    liste[current_position[n]].push_bottom = *sp;
+    table_position const curr = current_position[number_of_tables];
+    change_rec ** const sp= &liste[curr].push_top;
+    *sp = liste[current_position[number_of_tables]-1].push_top;
+    liste[current_position[number_of_tables]].push_bottom = *sp;
 
     assert(colour_change_sp[nbply-1]<=colour_change_sp[nbply]);
-    for (rec = colour_change_sp[nbply-1]; rec!=colour_change_sp[nbply]; ++rec)
+    for (rec = colour_change_sp[nbply-1];
+         rec!=colour_change_sp[nbply];
+         ++rec)
       PushChangedColour(*sp,
                         push_colour_change_stack_limit,
                         rec->square,
                         rec->pc);
   }
-
-  coupfort();
 }
 
 /* Retrieve the length (number of elements) of a table.

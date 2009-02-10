@@ -505,11 +505,10 @@ void leaf_d_solve_postkey(slice_index leaf)
   /* nothing */
 }
 
-/* Find and write continuations (i.e. mating moves).
- * @param solutions table where to append continuations found and written
+/* Find and write continuations and append them to the top table
  * @param leaf slice index
  */
-void leaf_d_solve_continuations(table solutions, slice_index leaf)
+void leaf_d_solve_continuations(slice_index leaf)
 {
   Side const attacker = slices[leaf].u.leaf.starter;
 
@@ -529,7 +528,8 @@ void leaf_d_solve_continuations(table solutions, slice_index leaf)
       write_final_attack(slices[leaf].u.leaf.goal,attack_regular);
       output_start_leaf_variation_level();
       output_end_leaf_variation_level();
-      table_append(solutions);
+      append_to_top_table();
+      coupfort();
     }
 
     repcoup();

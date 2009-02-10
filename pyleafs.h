@@ -48,12 +48,10 @@ void leaf_s_root_write_key(slice_index leaf, attack_type type);
  */
 void leaf_s_root_solve_postkey(table refutations, slice_index leaf);
 
-/* Find and write continuations (i.e. mating moves or final move pairs).
- * @param continuations table where to append continuations found and
- *                      written
+/* Find and write continuations and append them to the top table
  * @param leaf slice index
  */
-void leaf_s_solve_continuations(table continuations, slice_index leaf);
+void leaf_s_solve_continuations(slice_index leaf);
 
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.

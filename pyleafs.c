@@ -357,11 +357,10 @@ void leaf_s_solve_postkey(slice_index leaf)
   output_end_leaf_variation_level();
 }
 
-/* Find and write continuations (i.e. final move pairs)
- * @param solutions table where to append continuations found and written
+/* Find and write continuations and append them to the top table
  * @param leaf slice index
  */
-void leaf_s_solve_continuations(table solutions, slice_index leaf)
+void leaf_s_solve_continuations(slice_index leaf)
 {
   Side const attacker = slices[leaf].u.leaf.starter;
   Side const defender = advers(attacker);
@@ -382,7 +381,8 @@ void leaf_s_solve_continuations(table solutions, slice_index leaf)
       output_start_postkey_level();
       leaf_s_solve_final_move(leaf,defender);
       output_end_postkey_level();
-      table_append(solutions);
+      append_to_top_table();
+      coupfort();
     }
 
     repcoup();

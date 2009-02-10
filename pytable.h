@@ -34,10 +34,9 @@ void free_table(void);
  */
 unsigned int table_length(table t);
 
-/* Append the move just played in ply nbply to a table.
- * @param t table identifier
+/* Append the move just played in ply nbply to the top table.
  */
-void table_append(table t);
+void append_to_top_table(void);
 
 /* Determine whether the move just played in ply nbply is in a table
  * @param t table identifier
