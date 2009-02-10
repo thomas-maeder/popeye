@@ -18,15 +18,6 @@ extern slice_index active_slice[maxply];
 void write_indentation(void);
 
 
-/* Start a new output level consisting of post-key play
- */
-void output_start_postkeyonly_level(void);
-
-/* End the inner-most output level (which consists of post-key play)
- */
-void output_end_postkeyonly_level(void);
-
-
 /* Start a new output level with inverted side at move
  */
 void output_start_move_inverted_level(void);

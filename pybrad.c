@@ -959,27 +959,6 @@ void branch_d_root_solve_postkey(table refutations, slice_index si)
   TraceText("\n");
 }
 
-/* Solve the postkey play only at root level.
- * @param si slice index
- * @param n (odd) number of half moves until goal
- */
-static void root_solve_postkeyonly(slice_index si, stip_length_type n)
-{
-  output_start_postkeyonly_level();
-
-  assert(n%2==1);
-
-  /* TODO does this all make sense?? */
-  if (n==slices[si].u.branch.min_length+1)
-    solve_postkey_in_n(si,n);
-  else if (slice_has_starter_reached_goal(slices[si].u.branch.next))
-    slice_solve_postkey(slices[si].u.branch.next);
-  else
-    solve_postkey_in_n(si,n);
-
-  output_end_postkeyonly_level();
-}
-
 /* Solve the solutions and tries
  * @param si slice index
  */
@@ -987,8 +966,6 @@ static void root_solve_real_play(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
-
-  output_start_continuation_level();
 
   if (slice_must_starter_resign(si))
     slice_write_unsolvability(slices[si].u.branch.next);
@@ -1046,8 +1023,6 @@ static void root_solve_real_play(slice_index si)
 
     finply();
   }
-
-  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -1111,12 +1086,14 @@ void branch_d_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
+  output_start_continuation_level();
+
   if (n%2==1)
   {
     if (echecc(nbply,slices[si].u.branch.starter))
       ErrorMsg(SetAndCheck);
     else
-      root_solve_postkeyonly(si,n);
+      solve_postkey_in_n(si,n);
   }
   else
   {
@@ -1125,6 +1102,8 @@ void branch_d_root_solve(slice_index si)
     else
       root_solve_real_play(si);
   }
+
+  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceText("\n");

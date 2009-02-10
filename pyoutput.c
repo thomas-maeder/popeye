@@ -147,44 +147,6 @@ void output_end_unsolvability_level(void)
 }
 
 
-/* Start a new output level consisting of post-key only play
- */
-void output_start_postkeyonly_level(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
-
-  if (current_mode==output_mode_tree)
-  {
-    move_depth++;
-    nr_continuations_written[move_depth] = 0;
-    nr_defenses_written[move_depth] = 0;
-  
-    TraceValue("%u\n",move_depth);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
-/* End the inner-most output level (which consists of post-key only play)
- */
-void output_end_postkeyonly_level(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
-
-  if (current_mode==output_mode_tree)
-  {
-    Message(NewLine);
-    move_depth--;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
-
 /* Start a new output level consisting of set play
  */
 void output_start_move_inverted_level(void)
