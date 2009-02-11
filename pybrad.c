@@ -422,6 +422,25 @@ void branch_d_solve_continuations_in_n(table continuations,
   TraceText("\n");
 }
 
+/* Determine and write the continuations in the current position
+ * (i.e. attacker's moves winning after a defender's move that refuted
+ * the threat).
+ * @param continuations table where to store continuing moves (i.e. threats)
+ * @param si slice index
+ */
+void branch_d_solve_continuations(table continuations, slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  branch_d_solve_continuations_in_n(continuations,
+                                    si,
+                                    slices[si].u.branch.length);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
 /* Write the key just played
  * @param si slice index
  * @param type type of attack

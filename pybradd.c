@@ -269,8 +269,7 @@ d_defender_win_type branch_d_defender_does_defender_win(slice_index si,
  *          played)
  * @return true iff attacker has won
  */
-boolean branch_d_defender_has_starter_won_in_n(slice_index si,
-                                               stip_length_type n)
+static boolean has_starter_won_in_n(slice_index si, stip_length_type n)
 {
   return branch_d_defender_does_defender_win(si,n)>win;
 }
@@ -284,7 +283,7 @@ boolean branch_d_defender_has_starter_won_in_n(slice_index si,
 boolean branch_d_defender_has_starter_won(slice_index si)
 {
   stip_length_type const n = slices[si].u.branch.length;
-  return branch_d_defender_has_starter_won_in_n(si,n-1);
+  return has_starter_won_in_n(si,n-1);
 }
 
 /* Determine whether the attacker has reached slice si's goal with his
@@ -363,7 +362,7 @@ static boolean defends_against_threats(table threats,
         if (n==slack_length_direct)
           defense_found = !slice_has_starter_won(slices[si].u.branch.next);
         else
-          defense_found = !branch_d_defender_has_starter_won_in_n(si,n-1);
+          defense_found = !has_starter_won_in_n(si,n-1);
 
         if (defense_found)
         {
@@ -480,10 +479,10 @@ static void write_variation(slice_index si, stip_length_type n)
  * @param si slice index
  * @param n (odd) number of half moves until goal
  */
-void branch_d_defender_solve_variations_in_n(int len_threat,
-                                             table threats,
-                                             slice_index si,
-                                             stip_length_type n)
+static void solve_variations_in_n(int len_threat,
+                                  table threats,
+                                  slice_index si,
+                                  stip_length_type n)
 {
   Side const attacker = slices[si].u.branch.starter;
   Side defender = advers(attacker);
@@ -521,9 +520,7 @@ void branch_d_defender_solve_variations_in_n(int len_threat,
  * @param n (even) number of half moves until goal
  * @return the length of the shortest threat(s)
  */
-int branch_d_defender_solve_threats(table threats,
-                                    slice_index si,
-                                    stip_length_type n)
+static int solve_threats(table threats, slice_index si, stip_length_type n)
 {
   Side const defender = advers(slices[si].u.branch.starter);
   int result = 0;
@@ -579,16 +576,16 @@ void branch_d_defender_solve_in_n(slice_index si, stip_length_type n)
 
   output_start_postkey_level();
 
-  len_threat = branch_d_defender_solve_threats(threats,si,n-1);
+  len_threat = solve_threats(threats,si,n-1);
   if (n>2*min_length_nontrivial+slack_length_direct)
   {
     int const non_trivial_count = count_non_trivial_defenses(si);
     max_nr_nontrivial -= non_trivial_count;
-    branch_d_defender_solve_variations_in_n(len_threat,threats,si,n);
+    solve_variations_in_n(len_threat,threats,si,n);
     max_nr_nontrivial += non_trivial_count;
   }
   else
-    branch_d_defender_solve_variations_in_n(len_threat,threats,si,n);
+    solve_variations_in_n(len_threat,threats,si,n);
 
   output_end_postkey_level();
 
@@ -664,7 +661,7 @@ void branch_d_defender_root_solve(table refutations, slice_index si)
   {
     stip_length_type const n = slices[si].u.branch.length-1;
     table const threats = allocate_table();
-    int const len_threat = branch_d_defender_solve_threats(threats,si,n-1);
+    int const len_threat = solve_threats(threats,si,n-1);
 
     if (n>2*min_length_nontrivial+slack_length_direct)
     {

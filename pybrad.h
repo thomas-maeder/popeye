@@ -40,7 +40,6 @@ void branch_d_root_write_key(slice_index si, attack_type type);
 /* Determine and write the continuations in the current position
  * (i.e. attacker's moves winning after a defender's move that refuted
  * the threat).
- * This is an indirectly recursive function.
  * @param continuations table where to store continuing moves (i.e. threats)
  * @param si slice index
  * @param n maximal number of moves
@@ -48,6 +47,14 @@ void branch_d_root_write_key(slice_index si, attack_type type);
 void branch_d_solve_continuations_in_n(table continuations,
                                        slice_index si,
                                        stip_length_type n);
+
+/* Determine and write the continuations in the current position
+ * (i.e. attacker's moves winning after a defender's move that refuted
+ * the threat).
+ * @param continuations table where to store continuing moves (i.e. threats)
+ * @param si slice index
+ */
+void branch_d_solve_continuations(table continuations, slice_index si);
 
 /* Solve a branch slice at non-root level.
  * @param si slice index

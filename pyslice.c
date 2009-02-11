@@ -120,9 +120,7 @@ void slice_solve_continuations(table continuations, slice_index si)
       break;
 
     case STBranchDirect:
-      branch_d_solve_continuations_in_n(continuations,
-                                        si,
-                                        slices[si].u.branch.length);
+      branch_d_solve_continuations(continuations,si);
       break;
 
     case STBranchHelp:

@@ -27,15 +27,6 @@ boolean branch_d_defender_must_starter_resign(slice_index si);
 boolean branch_d_defender_has_starter_apriori_lost(slice_index si);
 
 /* Determine whether the attacker has won with his move just played
- * @param si slice index
- * @param n (odd) number of moves until goal (after the move just
- *          played)
- * @return true iff attacker has won
- */
-boolean branch_d_defender_has_starter_won_in_n(slice_index si,
-                                               stip_length_type n);
-
-/* Determine whether the attacker has won with his move just played
  * independently of the non-starter's possible further play during the
  * current slice.
  * @param si slice identifier
@@ -76,31 +67,6 @@ d_defender_win_type branch_d_defender_does_defender_win(slice_index si,
  */
 boolean branch_d_defender_has_non_starter_solved(slice_index si);
 
-/* Determine and write the threats after the move that has just been
- * played in the current ply.
- * We have already determined that this move doesn't have more
- * refutations than allowed.
- * @param threats table where to add threats
- * @param si slice index
- * @param n (even) number of half moves until goal
- * @return the length of the shortest threat(s)
- */
-int branch_d_defender_solve_threats(table threats,
-                                    slice_index si,
-                                    stip_length_type n);
-
-/* Determine and write and variations after the move that has just
- * been played in the current ply.
- * We have already determined that this move doesn't have refutations
- * @param len_threat length of threats
- * @param threats table containing threats
- * @param si slice index
- * @param n (odd) number of half moves until goal
- */
-void branch_d_defender_solve_variations_in_n(int len_threat,
-                                             table threats,
-                                             slice_index si,
-                                             stip_length_type n);
 /* Solve in a certain number of moves
  * @param si slice index
  * @param n (odd) number of half moves until goal
