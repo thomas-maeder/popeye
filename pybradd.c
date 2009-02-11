@@ -566,11 +566,11 @@ int branch_d_defender_solve_threats(table threats,
   return result;
 }
 
-/* Solve postkey play in a certain number of moves
+/* Solve in a certain number of moves
  * @param si slice index
  * @param n (odd) number of half moves until goal
  */
-void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
+void branch_d_defender_solve_in_n(slice_index si, stip_length_type n)
 {
   table const threats = allocate_table();
   int len_threat;
@@ -595,13 +595,12 @@ void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   free_table();
 }
 
-/* Solve postkey play
+/* Solve at non-root level.
  * @param si slice index
- * @param n (odd) number of half moves until goal
  */
-void branch_d_defender_solve_postkey(slice_index si)
+void branch_d_defender_solve(slice_index si)
 {
-  branch_d_defender_solve_postkey_in_n(si,slices[si].u.branch.length-1);
+  branch_d_defender_solve_in_n(si,slices[si].u.branch.length-1);
 }
 
 /* Determine and write at root level the threat and variations after
@@ -650,12 +649,11 @@ static void root_solve_variations_in_n(int len_threat,
   TraceText("\n");
 }
 
-/* Continue solving after the key just played to find and write the
- * post key play (threats, variations)
+/* Solve at root level.
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
+void branch_d_defender_root_solve(table refutations, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);

@@ -355,30 +355,13 @@ static boolean solve_final_move(slice_index leaf)
   return final_move_found;
 }
 
-/* Determine and write and variations after the attacker's move that
- * has just been played.
+/* Solve at non-root level
  * @param leaf slice index
  */
-void leaf_forced_solve_variations(slice_index leaf)
+void leaf_forced_solve(slice_index leaf)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
-
-  solve_final_move(leaf);
-
-  TraceFunctionExit(__func__);
-  TraceText("%u");
-}
-
-/* Find and write post key play
- * @param leaf slice index
- */
-void leaf_forced_solve_postkey(slice_index leaf)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
-
-  assert(slices[leaf].u.leaf.starter!=no_side);
 
   output_start_postkey_level();
   solve_final_move(leaf);

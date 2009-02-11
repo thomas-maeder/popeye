@@ -405,7 +405,7 @@ void branch_d_solve_continuations_in_n(table continuations,
           if (defender_success==already_lost)
             slice_solve_postkey(slices[si].u.branch.next);
           else
-            branch_d_defender_solve_postkey_in_n(si,n-1);
+            branch_d_defender_solve_in_n(si,n-1);
 
           append_to_top_table();
           coupfort();
@@ -482,7 +482,7 @@ static void root_solve_real_play(slice_index si)
                                       ? attack_try
                                       : attack_key);
             branch_d_root_write_key(si,type);
-            branch_d_defender_root_solve_postkey(refutations,si);
+            branch_d_defender_root_solve(refutations,si);
             write_end_of_solution();
           }
         }
@@ -572,7 +572,7 @@ void branch_d_root_solve(slice_index si)
     if (echecc(nbply,slices[si].u.branch.starter))
       ErrorMsg(SetAndCheck);
     else
-      branch_d_defender_solve_postkey_in_n(si,n);
+      branch_d_defender_solve_in_n(si,n);
   }
   else
   {

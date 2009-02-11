@@ -264,7 +264,7 @@ void slice_root_solve_postkey(table refutations, slice_index si)
       break;
 
     case STBranchDirect:
-      branch_d_defender_root_solve_postkey(refutations,si);
+      branch_d_defender_root_solve(refutations,si);
       break;
 
     case STBranchHelp:
@@ -541,7 +541,7 @@ void slice_solve_postkey(slice_index si)
       break;
 
     case STBranchDirect:
-      branch_d_defender_solve_postkey(si);
+      branch_d_defender_solve(si);
       break;
 
     case STBranchHelp:

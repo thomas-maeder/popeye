@@ -56,16 +56,10 @@ boolean leaf_forced_has_non_starter_solved(slice_index leaf);
  */
 void leaf_forced_write_non_starter_has_solved(slice_index leaf);
 
-/* Determine and write and variations after the attacker's move that
- * has just been played.
+/* Solve at non-root level
  * @param leaf slice index
  */
-void leaf_forced_solve_variations(slice_index leaf);
-
-/* Find and write post key play
- * @param leaf slice index
- */
-void leaf_forced_solve_postkey(slice_index leaf);
+void leaf_forced_solve(slice_index leaf);
 
 /* Determine and write the solution of a leaf forced slice at root level
  * @param leaf identifies leaf slice

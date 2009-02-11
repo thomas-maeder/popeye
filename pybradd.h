@@ -101,24 +101,21 @@ void branch_d_defender_solve_variations_in_n(int len_threat,
                                              table threats,
                                              slice_index si,
                                              stip_length_type n);
-/* Solve postkey play in a certain number of moves
+/* Solve in a certain number of moves
  * @param si slice index
  * @param n (odd) number of half moves until goal
  */
-void branch_d_defender_solve_postkey_in_n(slice_index si,
-                                          stip_length_type n);
+void branch_d_defender_solve_in_n(slice_index si, stip_length_type n);
 
-/* Continue solving after the key just played in the slice to find and
- * write the post key play (threats, variations)
+/* Solve at non-root level.
  * @param si slice index
  */
-void branch_d_defender_solve_postkey(slice_index si);
+void branch_d_defender_solve(slice_index si);
 
-/* Continue solving after the key just played in the slice to find and
- * write the post key play (threats, variations)
+/* Solve at root level.
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void branch_d_defender_root_solve_postkey(table refutations, slice_index si);
+void branch_d_defender_root_solve(table refutations, slice_index si);
 
 #endif
