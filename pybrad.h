@@ -5,8 +5,8 @@
 #include "pystip.h"
 #include "pytable.h"
 
-/* This module provides functionality dealing with STBranchDirect
- * stipulation slices.
+/* This module provides functionality dealing with the attacking side
+ * in STBranchDirect stipulation slices.
  */
 
 typedef enum
@@ -37,19 +37,6 @@ slice_index branch_d_root_make_setplay_slice(slice_index si);
  */
 void branch_d_root_write_key(slice_index si, attack_type type);
 
-/* Continue solving after the key just played in the slice to find and
- * write the post key play (threats, variations)
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- */
-void branch_d_root_solve_postkey(table refutations, slice_index si);
-
-/* Continue solving after the key just played in the slice to find and
- * write the post key play (threats, variations)
- * @param si slice index
- */
-void branch_d_solve_postkey(slice_index si);
-
 /* Determine and write the continuations in the current position
  * (i.e. attacker's moves winning after a defender's move that refuted
  * the threat).
@@ -78,11 +65,5 @@ void branch_d_root_solve(slice_index si);
  * @param s starting side of slice
  */
 void branch_d_impose_starter(slice_index si, Side s);
-
-/* Determine whether the attacker has won with his move just played
- * @param si slice index
- * @return true iff attacker has won
- */
-boolean branch_d_has_starter_won(slice_index si);
 
 #endif

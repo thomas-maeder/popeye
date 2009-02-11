@@ -7,6 +7,7 @@
 #include "pyleaff.h"
 #include "pyleafh.h"
 #include "pybrad.h"
+#include "pybradd.h"
 #include "pybrah.h"
 #include "pybraser.h"
 #include "pyquodli.h"
@@ -64,6 +65,9 @@ boolean slice_must_starter_resign(slice_index si)
       break;
 
     case STBranchDirect:
+      result = branch_d_defender_must_starter_resign(si);
+      break;
+
     case STBranchHelp:
     case STBranchSeries:
       result = branch_must_starter_resign(si);
@@ -260,7 +264,7 @@ void slice_root_solve_postkey(table refutations, slice_index si)
       break;
 
     case STBranchDirect:
-      branch_d_root_solve_postkey(refutations,si);
+      branch_d_defender_root_solve_postkey(refutations,si);
       break;
 
     case STBranchHelp:
@@ -537,7 +541,7 @@ void slice_solve_postkey(slice_index si)
       break;
 
     case STBranchDirect:
-      branch_d_solve_postkey(si);
+      branch_d_defender_solve_postkey(si);
       break;
 
     case STBranchHelp:
@@ -588,6 +592,9 @@ boolean slice_has_non_starter_solved(slice_index si)
       break;
 
     case STBranchDirect:
+      result = branch_d_defender_has_non_starter_solved(si);
+      break;
+
     case STBranchHelp:
     case STBranchSeries:
       result = branch_has_non_starter_solved(si);
@@ -641,6 +648,9 @@ boolean slice_has_starter_apriori_lost(slice_index si)
       break;
 
     case STBranchDirect:
+      result = branch_d_defender_has_starter_apriori_lost(si);
+      break;
+
     case STBranchHelp:
     case STBranchSeries:
       result = branch_has_starter_apriori_lost(si);
@@ -697,7 +707,7 @@ boolean slice_has_starter_won(slice_index si)
       break;
 
     case STBranchDirect:
-      result = branch_d_has_starter_won(si);
+      result = branch_d_defender_has_starter_won(si);
       break;
  
     case STBranchHelp:
@@ -756,6 +766,9 @@ boolean slice_has_starter_reached_goal(slice_index si)
       break;
 
     case STBranchDirect:
+      result = branch_d_defender_has_starter_reached_goal(si);
+      break;
+
     case STBranchHelp:
     case STBranchSeries:
       result = branch_has_starter_reached_goal(si);

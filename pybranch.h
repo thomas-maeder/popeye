@@ -12,10 +12,10 @@
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
- * @param leaf leaf's slice index
+ * @param si slice identifier
  * @return true iff starter must resign
  */
-boolean branch_must_starter_resign(slice_index leaf);
+boolean branch_must_starter_resign(slice_index si);
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
