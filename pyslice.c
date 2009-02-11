@@ -800,6 +800,7 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
   {
     case STLeafDirect:
     case STLeafSelf:
+    case STLeafForced:
     case STLeafHelp:
       result = leaf_is_goal_reached(just_moved,si);
       break;
@@ -892,6 +893,10 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       result = leaf_s_detect_starter(si,is_duplex,same_side_as_root);
       break;
 
+    case STLeafForced:
+      result = leaf_forced_detect_starter(si,is_duplex,same_side_as_root);
+      break;
+
     case STLeafHelp:
       result = leaf_h_detect_starter(si,is_duplex,same_side_as_root);
       break;
@@ -941,9 +946,13 @@ void slice_impose_starter(slice_index si, Side side)
   switch (slices[si].type)
   {
     case STLeafDirect:
-    case STLeafSelf:
     case STLeafHelp:
+    case STLeafForced:
       leaf_impose_starter(si,side);
+      break;
+
+    case STLeafSelf:
+      leaf_s_impose_starter(si,side);
       break;
 
     case STBranchDirect:

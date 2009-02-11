@@ -77,7 +77,8 @@ slice_index alloc_target_leaf_slice(SliceType type, square s)
 
   assert(type==STLeafDirect
          || type==STLeafHelp
-         || type==STLeafSelf);
+         || type==STLeafSelf
+         || type==STLeafForced);
 
   slices[result].type = type; 
   slices[result].u.leaf.starter = no_side; 

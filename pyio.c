@@ -1168,6 +1168,11 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
       if (gic->goal==goal_target)
       {
         *si = alloc_target_leaf_slice(type,SquareNum(tok[1],tok[2]));
+
+        if (type==STLeafSelf)
+          slices[*si].u.leafself.next = alloc_target_leaf_slice(STLeafForced,
+                                                                SquareNum(tok[1],tok[2]));
+
         if (slices[*si].u.leaf.target==initsquare)
         {
           IoErrorMsg(MissngSquareList, 0);
@@ -1179,14 +1184,26 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
       }
       else if (gic->goal==goal_mate_or_stale)
       {
-        *si = alloc_quodlibet_slice(alloc_leaf_slice(type,goal_mate),
-                                    alloc_leaf_slice(type,goal_stale));
+        slice_index const leaf_mate = alloc_leaf_slice(type,goal_mate);
+        slice_index const leaf_stale = alloc_leaf_slice(type,goal_stale);
+        if (type==STLeafSelf)
+        {
+          slices[leaf_mate].u.leafself.next = alloc_leaf_slice(STLeafForced,
+                                                               goal_mate);
+          slices[leaf_stale].u.leafself.next = alloc_leaf_slice(STLeafForced,
+                                                                goal_stale);
+        }
+        *si = alloc_quodlibet_slice(leaf_mate,leaf_stale);
         tok += 2;
         break;
       }
       else
       {
         *si = alloc_leaf_slice(type,gic->goal);
+
+        if (type==STLeafSelf)
+          slices[*si].u.leafself.next = alloc_leaf_slice(STLeafForced,
+                                                         gic->goal);
         
 #if !defined(DATABASE)
         if (gic->goal==goal_atob)

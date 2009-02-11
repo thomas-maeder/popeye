@@ -33,6 +33,56 @@ boolean leaf_h_must_starter_resign(slice_index leaf)
   return result;
 }
 
+/* Determine whether a side has an end in 1.
+ * @param side_at_move
+ * @param leaf slice index
+ * @return true iff side_at_move can end in 1 move
+ */
+boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
+{
+  boolean end_found = false;
+
+  assert(slices[leaf].u.leaf.starter!=no_side);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParam("%u\n",leaf);
+
+  generate_move_reaching_goal(leaf,side_at_move);
+
+  if (side_at_move==White)
+    WhMovesLeft--;
+  else
+    BlMovesLeft--;
+
+  while (encore() && !end_found)
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+        && (!isIntelligentModeActive || isGoalReachable())
+        && leaf_is_goal_reached(side_at_move,leaf))
+    {
+      end_found = true;
+      coupfort();
+    }
+
+    repcoup();
+
+    if (maxtime_status==MAXTIME_TIMEOUT)
+      break;
+  }
+
+  if (side_at_move==White)
+    WhMovesLeft++;
+  else
+    BlMovesLeft++;
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",end_found);
+  return end_found;
+}
+
 /* Determine whether there is a solution in a help leaf.
  * @param leaf slice index of leaf slice
  * @return true iff attacker wins
@@ -46,7 +96,7 @@ boolean leaf_h_has_solution(slice_index leaf)
   TraceFunctionParam("%u\n",leaf);
 
   if (!(OptFlag[keepmating] && !is_a_mating_piece_left(starter))
-      && leaf_is_end_in_1_possible(starter,leaf))
+      && is_end_in_1_possible(starter,leaf))
   {
     result = true;
     coupfort();
@@ -284,7 +334,7 @@ boolean leaf_h_has_starter_won(slice_index leaf)
   assert(slices[leaf].u.leaf.starter!=no_side);
 
   result = (!(OptFlag[keepmating] && !is_a_mating_piece_left(final))
-            && leaf_is_end_in_1_possible(final,leaf));
+            && is_end_in_1_possible(final,leaf));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

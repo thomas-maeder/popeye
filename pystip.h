@@ -108,6 +108,14 @@ typedef struct
             square target; /* for goal==goal_target */
         } leaf;
 
+        struct /* for type==STLeafSelf */
+        {
+            Side starter;
+            Goal goal;
+            square target; /* for goal==goal_target */
+            slice_index next;
+        } leafself;
+
         struct /* for type==STBranch* */
         {
             Side starter;

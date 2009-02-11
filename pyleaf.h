@@ -36,18 +36,6 @@ boolean is_a_mating_piece_left(Side mating_side);
  */
 void generate_move_reaching_goal(slice_index leaf, Side side_at_move);
 
-/* Determine whether a side has an end in 1.
- * @param side_at_move
- * @param leaf slice index
- * @return true iff side_at_move can end in 1 move
- */
-boolean leaf_is_end_in_1_possible(Side side_at_move, slice_index leaf);
-
-/* Determine whether the side at move must end in 1.
- * @return true iff side_at_move can end in 1 move
- */
-boolean leaf_is_end_in_1_forced(Side side_at_move, slice_index leaf);
-
 /* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
  * mates)
  * @param leaf leaf's slice index

@@ -82,13 +82,6 @@ boolean leaf_s_has_starter_reached_goal(slice_index leaf);
  */
 boolean leaf_s_has_solution(slice_index leaf);
 
-/* Determine and find final moves of a self leaf
- * @param leaf slice index
- * @param defender side to perform the final move
- * @return true iff >= 1 solution was found
- */
-boolean leaf_s_solve_final_move(slice_index leaf, Side defender);
-
 /* Determine and write the solution of a leaf slice.
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
@@ -109,6 +102,12 @@ void leaf_s_root_solve(slice_index leaf);
 who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
                                              boolean is_duplex,
                                              boolean same_side_as_root);
+
+/* Impose the starting side on a leaf. 
+ * @param leaf identifies leaf
+ * @param s starting side of leaf
+ */
+void leaf_s_impose_starter(slice_index leaf, Side s);
 
 /* Write a move by the non-starter that has reached a leaf's goal
  * @param leaf slice index of leaf

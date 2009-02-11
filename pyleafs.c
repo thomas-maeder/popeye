@@ -19,15 +19,12 @@
  */
 boolean leaf_s_must_starter_resign(slice_index leaf)
 {
-  boolean result = false;
-  Side const defender = advers(slices[leaf].u.leaf.starter);
-
-  assert(slices[leaf].u.leaf.starter!=no_side);
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  result = OptFlag[keepmating] && !is_a_mating_piece_left(defender);
+  result = slice_must_starter_resign(slices[leaf].u.leafself.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -40,9 +37,8 @@ boolean leaf_s_must_starter_resign(slice_index leaf)
  */
 boolean leaf_s_has_solution(slice_index leaf)
 {
-  boolean result = false;
-  Side const attacker = slices[leaf].u.leaf.starter;
-  Side const defender = advers(attacker);
+  boolean solution_found = false;
+  Side const attacker = slices[leaf].u.leafself.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -52,20 +48,18 @@ boolean leaf_s_has_solution(slice_index leaf)
   if (inhash(leaf,DirNoSucc,1))
     assert(!inhash(leaf,DirSucc,0));
   else if (inhash(leaf,DirSucc,0))
-    result = true;
+    solution_found = true;
   else
   {
     genmove(attacker);
 
-    while (!result
-           && encore())
+    while (!solution_found && encore())
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove()
           && !echecc(nbply,attacker)
-          && !(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-          && leaf_is_end_in_1_forced(defender,leaf))
+          && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
       {
-        result = true;
+        solution_found = true;
         coupfort();
       }
 
@@ -77,74 +71,34 @@ boolean leaf_s_has_solution(slice_index leaf)
 
     finply();
 
-    if (result)
+    if (solution_found)
       addtohash(leaf,DirSucc,0);
     else
       addtohash(leaf,DirNoSucc,1);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
+  TraceFunctionResult("%u\n",solution_found);
+  return solution_found;
 }
 
-/* Determine whether a leaf slice.has just been solved with the just
- * played move by the non-starter 
+/* Determine whether a leaf slice.has just been solved with the move
+ * by the non-starter 
  * @param si slice identifier
  * @return true iff the non-starting side has just solved
  */
 boolean leaf_s_has_non_starter_solved(slice_index leaf)
 {
-  Side const defender = advers(slices[leaf].u.leaf.starter);
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  assert(slices[leaf].u.leaf.starter!=no_side);
-
-  TraceValue("%u\n",defender);
-
-  result = leaf_is_goal_reached(defender,leaf);
+  result = leaf_forced_has_non_starter_solved(slices[leaf].u.leafself.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
-}
-
-/* Determine and find final moves of a self leaf
- * @param leaf slice index
- * @param defender side to perform the final move
- * @return true iff >= 1 solution was found
- */
-boolean leaf_s_solve_final_move(slice_index leaf, Side defender)
-{
-  boolean final_move_found = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParam("%u\n",defender);
-
-  active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(leaf,defender);
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
-        && leaf_is_goal_reached(defender,leaf))
-    {
-      final_move_found = true;
-      write_final_defense(slices[leaf].u.leaf.goal);
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",final_move_found);
-  return final_move_found;
 }
 
 /* Determine and write solutions in a self stipulation in 1 move
@@ -154,8 +108,7 @@ boolean leaf_s_solve_final_move(slice_index leaf, Side defender)
 boolean leaf_s_solve(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const attacker = slices[leaf].u.leaf.starter;
-  Side const defender = advers(attacker);
+  Side const attacker = slices[leaf].u.leafself.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -167,14 +120,13 @@ boolean leaf_s_solve(slice_index leaf)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,attacker)
-        && !(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-        && leaf_is_end_in_1_forced(defender,leaf))
+        && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
     {
       found_solution = true;
 
       write_attack(attack_key);
       output_start_postkey_level();
-      leaf_s_solve_final_move(leaf,defender);
+      leaf_forced_solve_variations(slices[leaf].u.leafself.next);
       output_end_postkey_level();
     }
 
@@ -193,8 +145,7 @@ boolean leaf_s_solve(slice_index leaf)
  */
 void leaf_s_root_solve(slice_index leaf)
 {
-  Side const attacker = slices[leaf].u.leaf.starter;
-  Side const defender = advers(attacker);
+  Side const attacker = slices[leaf].u.leafself.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -208,12 +159,11 @@ void leaf_s_root_solve(slice_index leaf)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,attacker)
-        && !(OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-        && leaf_is_end_in_1_forced(defender,leaf))
+        && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
     {
       write_attack(attack_key);
       output_start_postkey_level();
-      leaf_s_solve_final_move(leaf,defender);
+      leaf_forced_solve_variations(slices[leaf].u.leafself.next);
       output_end_postkey_level();
     }
 
@@ -243,14 +193,11 @@ void leaf_s_root_write_key(slice_index leaf, attack_type type)
  */
 void leaf_s_root_solve_postkey(table refutations, slice_index leaf)
 {
-  Side const attacker = slices[leaf].u.leaf.starter;
-  Side const defender = advers(attacker);
-
-  assert(slices[leaf].u.leaf.starter!=no_side);
-
   output_start_leaf_variation_level();
+
   if (OptFlag[solvariantes])
-    leaf_s_solve_final_move(leaf,defender);
+    leaf_forced_solve_variations(slices[leaf].u.leafself.next);
+
   output_end_leaf_variation_level();
 }
 
@@ -264,14 +211,12 @@ void leaf_s_root_solve_postkey(table refutations, slice_index leaf)
 boolean leaf_s_has_starter_apriori_lost(slice_index leaf)
 {
   boolean result = false;
-  Side const defender = advers(slices[leaf].u.leaf.starter);
+  slice_index const next = slices[leaf].u.leafself.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  assert(slices[leaf].u.leaf.starter!=no_side);
-
-  result = OptFlag[keepmating] && !is_a_mating_piece_left(defender);
+  result = leaf_forced_has_starter_apriori_lost(next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -286,14 +231,11 @@ boolean leaf_s_has_starter_apriori_lost(slice_index leaf)
 boolean leaf_s_has_starter_won(slice_index leaf)
 {
   boolean result;
-  Side const defender = advers(slices[leaf].u.leaf.starter);
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  assert(slices[leaf].u.leaf.starter!=no_side);
-
-  result = leaf_is_end_in_1_forced(defender,leaf);
+  result = leaf_forced_has_starter_won(slices[leaf].u.leafself.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -307,12 +249,13 @@ boolean leaf_s_has_starter_won(slice_index leaf)
  */
 boolean leaf_s_has_starter_reached_goal(slice_index leaf)
 {
-  boolean const result = false;
-  
+  boolean result;
+  slice_index const next = slices[leaf].u.leafself.next;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  assert(slices[leaf].u.leaf.starter!=no_side);
+  result = leaf_forced_has_starter_reached_goal(next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -330,12 +273,14 @@ slice_index leaf_s_root_make_setplay_slice(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  if (slices[leaf].u.leaf.goal==goal_target)
+  if (slices[leaf].u.leafself.goal==goal_target)
     result = alloc_target_leaf_slice(STLeafForced,
-                                     slices[leaf].u.leaf.target);
+                                     slices[leaf].u.leafself.target);
   else
-    result = alloc_leaf_slice(STLeafForced,slices[leaf].u.leaf.goal);
-  slices[result].u.leaf.starter = advers(slices[leaf].u.leaf.starter);
+    result = alloc_leaf_slice(STLeafForced,slices[leaf].u.leafself.goal);
+
+  slices[result].u.leafself.starter =
+      advers(slices[leaf].u.leafself.starter);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -347,14 +292,7 @@ slice_index leaf_s_root_make_setplay_slice(slice_index leaf)
  */
 void leaf_s_solve_postkey(slice_index leaf)
 {
-  Side const attacker = slices[leaf].u.leaf.starter;
-  Side const defender = advers(attacker);
-
-  assert(slices[leaf].u.leaf.starter!=no_side);
-
-  output_start_leaf_variation_level();
-  leaf_s_solve_final_move(leaf,defender);
-  output_end_leaf_variation_level();
+  leaf_forced_solve_postkey(slices[leaf].u.leafself.next);
 }
 
 /* Find and write continuations and append them to the top table
@@ -362,8 +300,7 @@ void leaf_s_solve_postkey(slice_index leaf)
  */
 void leaf_s_solve_continuations(slice_index leaf)
 {
-  Side const attacker = slices[leaf].u.leaf.starter;
-  Side const defender = advers(attacker);
+  Side const attacker = slices[leaf].u.leafself.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -375,12 +312,10 @@ void leaf_s_solve_continuations(slice_index leaf)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove()
         && !echecc(nbply,attacker)
-        && leaf_is_end_in_1_forced(defender,leaf))
+        && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
     {
       write_attack(attack_regular);
-      output_start_postkey_level();
-      leaf_s_solve_final_move(leaf,defender);
-      output_end_postkey_level();
+      leaf_forced_solve_postkey(slices[leaf].u.leafself.next);
       append_to_top_table();
       coupfort();
     }
@@ -404,21 +339,35 @@ who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
                                              boolean is_duplex,
                                              boolean same_side_as_root)
 {
+  slice_index const next = slices[leaf].u.leafself.next;
   who_decides_on_starter result = dont_know_who_decides_on_starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParam("%u\n",is_duplex);
 
-  if (slices[leaf].u.leaf.starter==no_side)
-    slices[leaf].u.leaf.starter = is_duplex ? Black : White;
+  result = slice_detect_starter(next,is_duplex,same_side_as_root);
+  slices[leaf].u.leafself.starter = advers(slice_get_starter(next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
 }
 
+/* Impose the starting side on a leaf. 
+ * @param leaf identifies leaf
+ * @param s starting side of leaf
+ */
+void leaf_s_impose_starter(slice_index leaf, Side s)
+{
+  slices[leaf].u.leafself.starter = s;
+  slice_impose_starter(slices[leaf].u.leafself.next,advers(s));
+}
+
+/* Write a move by the non-starter that has reached a leaf's goal
+ * @param leaf slice index of leaf
+ */
 void leaf_s_write_non_starter_has_solved(slice_index leaf)
 {
-  write_final_defense(slices[leaf].u.leaf.goal);
+  leaf_forced_write_non_starter_has_solved(slices[leaf].u.leafself.next);
 }
