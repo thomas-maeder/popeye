@@ -2793,12 +2793,18 @@ static Token iterate_twins(Token prev_token)
     TraceValue("%u\n",shouldDetectStarter);
     if (twin_index==0 || shouldDetectStarter)
     {
+      boolean const same_starter_as_root = true;
+
+      slice_detect_starter(root_slice,same_starter_as_root);
+
       /* intelligent AND duplex means that the board is mirrored and
        * the colors swapped by swapcolors() and reflectboard() ->
        * start with the regular side. */
-      slice_detect_starter(root_slice,
-                           OptFlag[halfduplex] && !isIntelligentModeActive,
-                           true);
+      if (OptFlag[halfduplex] && !isIntelligentModeActive)
+      {
+        Side const non_duplex_starter = slice_get_starter(root_slice);
+        slice_impose_starter(root_slice,advers(non_duplex_starter));
+      }
 
       hash_reset_derivations();
       

@@ -374,40 +374,33 @@ void leaf_h_solve_postkey(slice_index leaf)
 
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
- * @param is_duplex is this for duplex?
  * @param same_side_as_root does si start with the same side as root?
  * @return does the leaf decide on the starter?
  */
 who_decides_on_starter leaf_h_detect_starter(slice_index leaf,
-                                             boolean is_duplex,
                                              boolean same_side_as_root)
 {
   who_decides_on_starter result = dont_know_who_decides_on_starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
-  TraceFunctionParam("%u",is_duplex);
   TraceFunctionParam("%u\n",same_side_as_root);
 
   switch (slices[leaf].u.leaf.goal)
   {
     case goal_proof:
-      slices[leaf].u.leaf.starter = (same_side_as_root==is_duplex
-                                     ? Black
-                                     : White);
+      slices[leaf].u.leaf.starter = same_side_as_root ? White : Black;
       result = leaf_decides_on_starter;
       break;
 
     case goal_atob:
-      slices[leaf].u.leaf.starter = (same_side_as_root==is_duplex
-                                     ? White
-                                     : Black);
+      slices[leaf].u.leaf.starter = same_side_as_root ? Black : White;
       result = leaf_decides_on_starter;
       break;
 
     default:
       if (slices[leaf].u.leaf.starter==no_side)
-        slices[leaf].u.leaf.starter = is_duplex ? Black : White;
+        slices[leaf].u.leaf.starter = White;
       break;
   }
 

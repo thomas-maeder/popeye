@@ -95,12 +95,10 @@ boolean leaf_d_solve(slice_index leaf);
 
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
- * @param is_duplex is this for duplex?
  * @param same_side_as_root does si start with the same side as root?
  * @return does the leaf decide on the starter?
  */
 who_decides_on_starter leaf_d_detect_starter(slice_index leaf,
-                                             boolean is_duplex,
                                              boolean same_side_as_root);
 
 #endif

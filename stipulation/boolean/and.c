@@ -326,12 +326,10 @@ boolean reci_solve(slice_index si)
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
- * @param is_duplex is this for duplex?
  * @param same_side_as_root does si start with the same side as root?
  * @return does the leaf decide on the starter?
  */
 who_decides_on_starter reci_detect_starter(slice_index si,
-                                           boolean is_duplex,
                                            boolean same_side_as_root)
 {
   slice_index const op1 = slices[si].u.reciprocal.op1;
@@ -342,11 +340,10 @@ who_decides_on_starter reci_detect_starter(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",is_duplex);
   TraceFunctionParam("%u\n",same_side_as_root);
 
-  result1 = slice_detect_starter(op1,is_duplex,same_side_as_root);
-  result2 = slice_detect_starter(op2,is_duplex,same_side_as_root);
+  result1 = slice_detect_starter(op1,same_side_as_root);
+  result2 = slice_detect_starter(op2,same_side_as_root);
 
   if (slice_get_starter(op1)==no_side)
     /* op1 can't tell - let's tell him */

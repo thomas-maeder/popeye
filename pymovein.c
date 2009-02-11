@@ -113,13 +113,11 @@ boolean move_inverter_solve(slice_index si)
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
- * @param is_duplex is this for duplex?
  * @param same_side_as_root does si start with the same side as root?
  * @return does the leaf decide on the starter?
  */
 who_decides_on_starter
 move_inverter_detect_starter(slice_index si,
-                             boolean is_duplex,
                              boolean same_side_as_root)
 {
   who_decides_on_starter result;
@@ -130,7 +128,7 @@ move_inverter_detect_starter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",same_side_as_root);
 
-  result = slice_detect_starter(next,is_duplex,!same_side_as_root);
+  result = slice_detect_starter(next,!same_side_as_root);
 
   next_starter = slice_get_starter(next);
   if (next_starter==no_side)

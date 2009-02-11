@@ -869,12 +869,10 @@ void slice_write_unsolvability(slice_index si)
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
- * @param is_duplex is this for duplex?
  * @param same_side_as_root does si start with the same side as root?
  * @return does the leaf decide on the starter?
  */
 who_decides_on_starter slice_detect_starter(slice_index si,
-                                            boolean is_duplex,
                                             boolean same_side_as_root)
 {
   who_decides_on_starter result = dont_know_who_decides_on_starter;
@@ -886,41 +884,41 @@ who_decides_on_starter slice_detect_starter(slice_index si,
   switch (slices[si].type)
   {
     case STLeafDirect:
-      result = leaf_d_detect_starter(si,is_duplex,same_side_as_root);
+      result = leaf_d_detect_starter(si,same_side_as_root);
       break;
 
     case STLeafSelf:
-      result = leaf_s_detect_starter(si,is_duplex,same_side_as_root);
+      result = leaf_s_detect_starter(si,same_side_as_root);
       break;
 
     case STLeafForced:
-      result = leaf_forced_detect_starter(si,is_duplex,same_side_as_root);
+      result = leaf_forced_detect_starter(si,same_side_as_root);
       break;
 
     case STLeafHelp:
-      result = leaf_h_detect_starter(si,is_duplex,same_side_as_root);
+      result = leaf_h_detect_starter(si,same_side_as_root);
       break;
 
     case STBranchDirect:
     case STBranchHelp:
     case STBranchSeries:
-      result = branch_detect_starter(si,is_duplex,same_side_as_root);
+      result = branch_detect_starter(si,same_side_as_root);
       break;
 
     case STReciprocal:
-      result = reci_detect_starter(si,is_duplex,same_side_as_root);
+      result = reci_detect_starter(si,same_side_as_root);
       break;
 
     case STQuodlibet:
-      result = quodlibet_detect_starter(si,is_duplex,same_side_as_root);
+      result = quodlibet_detect_starter(si,same_side_as_root);
       break;
 
     case STNot:
-      result = not_detect_starter(si,is_duplex,same_side_as_root);
+      result = not_detect_starter(si,same_side_as_root);
       break;
 
     case STMoveInverter:
-      result = move_inverter_detect_starter(si,is_duplex,same_side_as_root);
+      result = move_inverter_detect_starter(si,same_side_as_root);
       break;
       
     default:
