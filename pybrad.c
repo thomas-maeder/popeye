@@ -198,7 +198,7 @@ typedef enum
 } d_defender_win_type;
 
 /* Determine whether the defender wins after a move by the attacker
- * @param defender defending side (at move)
+ * @param si slice index
  * @param n (odd) number of half moves until goal
  * @return whether the defender wins or loses, and how fast
  */
@@ -768,8 +768,8 @@ static void root_solve_variations_in_n(int len_threat,
   TraceText("\n");
 }
 
-/* Determine and write the threat and variations after the move that
- * has just been played in the current ply. 
+/* Determine and write and variations after the move that has just
+ * been played in the current ply.
  * We have already determined that this move doesn't have refutations
  * @param len_threat length of threats
  * @param threats table containing threats
