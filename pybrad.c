@@ -474,6 +474,8 @@ static void root_solve_real_play(slice_index si)
     Side const attacker = slices[si].u.branch.starter;
     genmove(attacker);
 
+    output_start_continuation_level();
+
     while (encore())
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
@@ -518,6 +520,8 @@ static void root_solve_real_play(slice_index si)
           || maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
+
+    output_end_continuation_level();
 
     finply();
   }
@@ -584,14 +588,16 @@ void branch_d_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  output_start_continuation_level();
-
   if (n%2==1)
   {
     if (echecc(nbply,slices[si].u.branch.starter))
       ErrorMsg(SetAndCheck);
     else
+    {
+      output_start_continuation_level();
       branch_d_defender_solve_in_n(si,n);
+      output_end_continuation_level();
+    }
   }
   else
   {
@@ -601,7 +607,6 @@ void branch_d_root_solve(slice_index si)
       root_solve_real_play(si);
   }
 
-  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceText("\n");

@@ -277,9 +277,11 @@ static boolean leaf_d_dmate_solve(slice_index leaf)
           && leaf_is_goal_reached(starter,leaf))
       {
         solution_found = true;
+        output_start_continuation_level();
         write_final_attack(goal_doublemate,attack_key);
         output_start_leaf_variation_level();
         output_end_leaf_variation_level();
+        output_end_continuation_level();
       }
 
       repcoup();
@@ -313,9 +315,11 @@ static boolean leaf_d_cmate_solve(slice_index leaf)
           && leaf_is_goal_reached(starter,leaf))
       {
         solution_found = true;
+        output_start_continuation_level();
         write_final_attack(goal_countermate,attack_key);
         output_start_leaf_variation_level();
         output_end_leaf_variation_level();
+        output_end_continuation_level();
       }
       repcoup();
     }
@@ -347,9 +351,11 @@ static boolean leaf_d_regulargoals_solve(slice_index leaf)
         && leaf_is_goal_reached(attacker,leaf))
     {
       solution_found = true;
+      output_start_continuation_level();
       write_final_attack(slices[leaf].u.leaf.goal,attack_key);
       output_start_leaf_variation_level();
       output_end_leaf_variation_level();
+      output_end_continuation_level();
     }
 
     repcoup();
