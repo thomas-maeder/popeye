@@ -471,7 +471,7 @@ static void write_variation(slice_index si, stip_length_type n)
   TraceText("\n");
 }
 
-/* Determine and write and variations after the move that has just
+/* Determine and write the variations after the move that has just
  * been played in the current ply.
  * We have already determined that this move doesn't have refutations
  * @param len_threat length of threats
