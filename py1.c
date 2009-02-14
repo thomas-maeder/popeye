@@ -1403,114 +1403,127 @@ void unsupported_uncalled_attackfunction(ply ply_id, square from, square to) {}
 
 void PushMagicViews(void)
 {
-  square *bnp, *bnp1, *royal, royal_save;
-  piece p;
-  
-  if (!flag_magic)
-    return;
-    
-  /*new stack */
-  nbmagic = magictop[nbply - 1];
-    
-  for (bnp= boardnum; *bnp; bnp++) 
+  if (flag_magic)
   {
-    if (TSTFLAG(spec[*bnp], Magic))
-    {
-      /* for each magic piece */
-      p= e[*bnp];
-      royal = (p <= roin) ? &rb : &rn;
-      royal_save= *royal;
-      fromspecificsquare= *bnp;
-      for (bnp1= boardnum; *bnp1; bnp1++) 
+    square *bnp;
+  
+    /*new stack */
+    nbmagic = magictop[nbply-1];
+    
+    for (bnp= boardnum; *bnp; bnp++) 
+      if (TSTFLAG(spec[*bnp], Magic))
       {
-        if (abs(e[*bnp1]) > obs 
-              && !TSTFLAG(spec[*bnp1], Magic)
-              && !TSTFLAG(spec[*bnp1], Royal)) {
-
-          /* for each non-magic piece 
-          (n.b. check *bnp != *bnp1 redundant above) */
-          *royal= *bnp1;
-
-          
-          if (!attackfunctions[abs(p)])
+        /* for each magic piece */
+        piece const p = e[*bnp];
+        square * const royal = p<=roin ? &rb : &rn;
+        square const royal_save = *royal;
+        square *bnp1;
+        fromspecificsquare= *bnp;
+        for (bnp1 = boardnum; *bnp1; bnp1++) 
+        {
+          if (abs(e[*bnp1])>obs 
+              && !TSTFLAG(spec[*bnp1],Magic)
+              && !TSTFLAG(spec[*bnp1],Royal))
           {
-            /* if single attack at most */
-            if ((*checkfunctions[abs(p)])(nbply, *royal, p, eval_fromspecificsquare))
+            /* for each non-magic piece 
+               (n.b. check *bnp != *bnp1 redundant above) */
+            *royal = *bnp1;
+
+            if (!attackfunctions[abs(p)])
             {
+              /* if single attack at most */
+              if ((*checkfunctions[abs(p)])(nbply,
+                                            *royal,
+                                            p,
+                                            eval_fromspecificsquare))
+              {
                 numvec attackVec;
-                if (*royal < *bnp)
-                  attackVec = move_vec_code[*bnp - *royal];
+                if (*royal<*bnp)
+                  attackVec = move_vec_code[*bnp-*royal];
                 else
-                  attackVec = -move_vec_code[*royal - *bnp];
-                if (attackVec)
-                  PushMagic(*royal, DiaRen(spec[*royal]), DiaRen(spec[fromspecificsquare]), attackVec)
+                  attackVec = -move_vec_code[*royal-*bnp];
+                if (attackVec!=0)
+                  PushMagic(*royal,
+                            DiaRen(spec[*royal]),
+                            DiaRen(spec[fromspecificsquare]),
+                            attackVec);
+              }
             }
-          }
-          else
-          {
-            /* call special function to determine all attacks */
-            (*attackfunctions[abs(p)])(nbply,fromspecificsquare, *royal);
+            else
+              /* call special function to determine all attacks */
+              (*attackfunctions[abs(p)])(nbply,fromspecificsquare,*royal);
           }
         }
+
+        *royal= royal_save;  
       }
-      *royal= royal_save;  
-    }
-  }   
-  magictop[nbply] = nbmagic;
+
+    magictop[nbply] = nbmagic;
+  }  
 }
 
 void ChangeMagic(int ply, boolean push)
 {
   square *bnp;
-  int i, j, k;
-  boolean dochange, newvec;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParam("%u\n",push);
 
   for (bnp= boardnum; *bnp; bnp++) 
   {
-    for (i= magictop[ply - 1]; i < magictop[ply]; i++)
-    {
-      if (magicviews[i].piecesquare == *bnp)  
+    int i;
+    for (i = magictop[ply-1]; i<magictop[ply]; i++)
+      if (magicviews[i].piecesquare==*bnp)  
         break;    /* a magic piece observes a non-magic */
-    }
-    if (i < magictop[ply])
-    {
-      dochange= false;
 
-      /* now check the rest of the nbply-stack for other attacks of same piece */
-      for (j= i; j <  magictop[ply]; j++)
-      {
-        if (magicviews[j].piecesquare == *bnp)
+    if (i<magictop[ply])
+    {
+      int j;
+      unsigned int nr_changes = 0;
+
+      /* now check the rest of the nbply-stack for other attacks of
+       * same piece */
+      for (j = i; j<magictop[ply]; j++)
+        if (magicviews[j].piecesquare==*bnp)
         {
-          int currid= magicviews[j].pieceid;
-          int currmagid= magicviews[j].magicpieceid;
-          numvec currvec= magicviews[j].vecnum;
-          newvec= true;
+          int const currid = magicviews[j].pieceid;
+          int const currmagid = magicviews[j].magicpieceid;
+          numvec const currvec = magicviews[j].vecnum;
+          int k;
+          boolean newvec = true;
 
           /* and check (nbply-1)-stack to see if this is a new attack */
-          for (k= magictop[ply - 2]; k < magictop[ply - 1]; k++)
-          {
-            if (magicviews[k].pieceid == currid &&
-                magicviews[k].magicpieceid == currmagid &&
-                magicviews[k].vecnum == currvec)
+          for (k = magictop[ply-2]; k<magictop[ply-1]; k++)
+            if (magicviews[k].pieceid==currid
+                && magicviews[k].magicpieceid==currmagid
+                && magicviews[k].vecnum==currvec)
             {
-               newvec= false;
+               newvec = false;
                break;
             }
-          }
-          /* only changes if attackee suffers odd-no. new attacks */
+
           if (newvec)
-            dochange = dochange ^ true; 
+            ++nr_changes; 
         }
-      }
-      if (dochange)
+
+      /* only changes if attackee suffers odd-no. new attacks */
+      if (nr_changes%2==1)
       {
         ChangeColour(*bnp);
-        /* don't store colour change of moving piece - it might undergo other changes */
-        if (push && *bnp != move_generation_stack[nbcou].arrival)
-          PushChangedColour(colour_change_sp[nbply], colour_change_stack_limit, *bnp, e[*bnp]);
+        /* don't store colour change of moving piece - it might
+         * undergo other changes */
+        if (push && *bnp!=move_generation_stack[nbcou].arrival)
+          PushChangedColour(colour_change_sp[ply],
+                            colour_change_stack_limit,
+                            *bnp,
+                            e[*bnp]);
       }
     }
   }               
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 #ifdef DEBUG
