@@ -3047,22 +3047,21 @@ boolean observed(square on_this, square by_that) {
   return flag;
 }
 
-void change_observed(square z, boolean push)
+void change_observed(ply ply, square z, boolean push)
 {
   square* bnp;
 
   for (bnp= boardnum; *bnp; bnp++)
-  {
-    if (e[*bnp] != vide && *bnp != rn && *bnp != rb && *bnp != z)
+    if (e[*bnp]!=vide && *bnp!=rn && *bnp!=rb && *bnp!=z
+        && observed(*bnp,z))
     {
-      if (observed(*bnp, z))
-      {
-        ChangeColour(*bnp);
-        if (push)
-          PushChangedColour(colour_change_sp[nbply], colour_change_stack_limit, *bnp, e[*bnp]);
-      }
+      ChangeColour(*bnp);
+      if (push)
+        PushChangedColour(colour_change_sp[ply],
+                          colour_change_stack_limit,
+                          *bnp,
+                          e[*bnp]);
     }
-  }
 }
 
 boolean eval_BGL(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {

@@ -441,7 +441,7 @@ boolean maooaimok(square i, square j, square pass);
 boolean echecc_normal(ply ply_id, Side camp);
 void gen_wh_piece_aux(square z, piece p);
 void gen_bl_piece_aux(square z, piece p);
-void change_observed(square z, boolean push);
+void change_observed(ply ply, square z, boolean push);
 boolean observed(square a, square b);
 boolean eval_BGL(ply ply_id, square departure, square arrival, square capture);
 char *WriteBGLNumber(char* a, long int b);

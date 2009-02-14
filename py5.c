@@ -3034,7 +3034,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
         && echecc(ply_id,advers(traitnbply))
         && observed(traitnbply == White ? rn : rb,
                     move_gen_top->arrival))
-      change_observed(move_gen_top->arrival, flag_outputmultiplecolourchanges);
+      change_observed(ply_id,
+                      move_gen_top->arrival,
+                      flag_outputmultiplecolourchanges);
         
     if (!BGL_whiteinfinity
         && (BGL_global || traitnbply == White))
@@ -3115,7 +3117,7 @@ void repcoup(void) {
         && echecc(nbply,advers(trait[nbply]))
         && observed(trait[nbply] == White ? rn : rb,
                     sq_arrival))
-      change_observed(sq_arrival, false);
+      change_observed(nbply,sq_arrival,false);
 
     if (oscillatedKs[nbply])  /* for Osc Type C */
     {
