@@ -528,7 +528,8 @@ slice_index find_next_goal(Goal goal, slice_index start)
   assert(start==root_slice
          || slices[start].type==STLeafDirect
          || slices[start].type==STLeafSelf
-         || slices[start].type==STLeafHelp);
+         || slices[start].type==STLeafHelp
+         || slices[start].type==STLeafForced);
 
   return find_goal_recursive(goal,start,&active,root_slice);
 }
@@ -554,6 +555,7 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
     case STLeafDirect:
     case STLeafSelf:
     case STLeafHelp:
+    case STLeafForced:
       if (*found_so_far==no_slice)
       {
         *found_so_far = current_slice;

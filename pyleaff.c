@@ -355,10 +355,12 @@ static boolean solve_final_move(slice_index leaf)
   return final_move_found;
 }
 
-/* Solve at non-root level
- * @param leaf slice index
+/* Determine and write the variations after the move that has just
+ * been played in the current ply.
+ * We have already determined that >=1 move reaching the goal is forced
+ * @param si slice index
  */
-void leaf_forced_solve(slice_index leaf)
+void leaf_forced_solve_variations(slice_index leaf)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -368,7 +370,34 @@ void leaf_forced_solve(slice_index leaf)
   output_end_postkey_level();
 
   TraceFunctionExit(__func__);
-  TraceText("%u");
+  TraceText("\n");
+}
+
+/* Solve at non-root level
+ * @param leaf slice index
+ * @return true iff >=1 solution was found
+ */
+boolean leaf_forced_solve(slice_index leaf)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
+
+  if (leaf_forced_does_defender_win(leaf))
+    result = false;
+  else
+  {
+    result = true;
+
+    output_start_postkey_level();
+    solve_final_move(leaf);
+    output_end_postkey_level();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine and write the solution of a leaf slice at root level.

@@ -56,10 +56,18 @@ boolean leaf_forced_has_non_starter_solved(slice_index leaf);
  */
 void leaf_forced_write_non_starter_has_solved(slice_index leaf);
 
+/* Determine and write the variations after the move that has just
+ * been played in the current ply.
+ * We have already determined that >=1 move reaching the goal is forced
+ * @param si slice index
+ */
+void leaf_forced_solve_variations(slice_index leaf);
+
 /* Solve at non-root level
  * @param leaf slice index
+ * @return true iff >=1 solution was found
  */
-void leaf_forced_solve(slice_index leaf);
+boolean leaf_forced_solve(slice_index leaf);
 
 /* Determine and write the solution of a leaf forced slice at root level
  * @param leaf identifies leaf slice

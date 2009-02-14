@@ -1356,7 +1356,7 @@ static char *ParseEnd(char *tok, slice_index *si)
   }
 
   else if (strncmp("hs", tok, 2) == 0)
-    tok = ParseGoal(tok+2,STLeafSelf,si);
+    tok = ParseGoal(tok+2,STLeafForced,si);
 
   else if (strncmp("hr", tok, 2) == 0)
     tok = ParseReflexEnd(tok+2,si);
@@ -1566,8 +1566,35 @@ static char *ParsePlay(char *tok, slice_index *si)
   }
 #endif
 
-  else if (strncmp("hr",tok,2)==0
-           || strncmp("hs",tok,2)==0)
+  else if (strncmp("hs",tok,2)==0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      if (result!=0)
+      {
+        if (length==slack_length_help && min_length==slack_length_help)
+          *si = next;
+        else
+        {
+          slice_index const help = alloc_branch_slice(STBranchHelp,
+                                                      length,
+                                                      min_length,
+                                                      next);
+          if (length%2==0)
+            *si = alloc_move_inverter_slice(help);
+          else
+            *si = help;
+        }
+      }
+    }
+  }
+
+  else if (strncmp("hr",tok,2)==0)
   {
     slice_index next = no_slice;
     tok = ParseEnd(tok,&next);
