@@ -1358,6 +1358,9 @@ static char *ParseEnd(char *tok, slice_index *si)
   else if (strncmp("hs", tok, 2) == 0)
     tok = ParseGoal(tok+2,STLeafForced,si);
 
+  else if (strncmp("ser-s", tok, 5) == 0)
+    tok = ParseGoal(tok+5,STLeafForced,si);
+
   else if (strncmp("hr", tok, 2) == 0)
     tok = ParseReflexEnd(tok+2,si);
 
@@ -1472,9 +1475,22 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type length;
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
-      ++length;
       if (result!=0)
-        *si = alloc_branch_slice(STBranchSeries,length,min_length,next);
+        *si = alloc_branch_slice(STBranchSeries,length+1,min_length,next);
+    }
+  }
+
+  else if (strncmp("ser-s",tok,5) == 0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+        *si = alloc_branch_slice(STBranchSeries,length+1,min_length,next);
     }
   }
 
@@ -1487,11 +1503,10 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type length;
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
-      --min_length;
       if (result!=0)
       {
         slice_index const mi = alloc_move_inverter_slice(next);
-        *si = alloc_branch_slice(STBranchSeries,length,min_length,mi);
+        *si = alloc_branch_slice(STBranchSeries,length,min_length-1,mi);
       }
     }
   }
