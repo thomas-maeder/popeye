@@ -86,7 +86,7 @@ defender_has_refutation_type has_defender_refutation(slice_index si,
 
   while (result!=defender_has_refutation && encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender))
     {
       result = defender_has_no_refutation;
@@ -131,7 +131,7 @@ static int count_non_trivial_defenses(slice_index si)
   
   while (encore() && max_nr_nontrivial>=result)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender))
     {
       if (min_length_nontrivial==0)
@@ -355,7 +355,7 @@ static boolean defends_against_threats(table threats,
 
     while (encore() && !defense_found)
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && is_current_move_in_table(threats)
           && !echecc(nbply,attacker))
       {
@@ -498,7 +498,7 @@ static void solve_variations_in_n(int len_threat,
 
   while(encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender)
         && is_defense_relevant(len_threat,threats,si,n-1))
       write_variation(si,n);
@@ -631,7 +631,7 @@ static void root_solve_variations_in_n(int len_threat,
 
   while(encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender)
         && !is_current_move_in_table(refutations)
         && is_defense_relevant(len_threat,threats,si,n-1))

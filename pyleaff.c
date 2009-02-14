@@ -197,7 +197,7 @@ static boolean is_end_in_1_forced(Side defender, slice_index leaf)
     while (!escape_found
            && selflastencore(&selfbnp,initiallygenerated,defender))
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && !echecc(nbply,defender))
       {
         is_defender_immobile = false;
@@ -338,7 +338,7 @@ static boolean solve_final_move(slice_index leaf)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && leaf_is_goal_reached(defender,leaf))
     {
       final_move_found = true;

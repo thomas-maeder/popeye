@@ -55,7 +55,7 @@ boolean leaf_s_has_solution(slice_index leaf)
 
     while (!solution_found && encore())
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && !echecc(nbply,attacker)
           && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
       {
@@ -118,7 +118,7 @@ boolean leaf_s_solve(slice_index leaf)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker)
         && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
     {
@@ -155,7 +155,7 @@ void leaf_s_root_solve(slice_index leaf)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker)
         && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
     {
@@ -302,7 +302,7 @@ void leaf_s_solve_continuations(slice_index leaf)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker)
         && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
     {

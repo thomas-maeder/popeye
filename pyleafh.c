@@ -57,7 +57,7 @@ boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
 
   while (encore() && !end_found)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && (!isIntelligentModeActive || isGoalReachable())
         && leaf_is_goal_reached(side_at_move,leaf))
     {
@@ -157,7 +157,7 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !(isIntelligentModeActive && !isGoalReachable())
         && leaf_is_goal_reached(side_at_move,leaf))
     {

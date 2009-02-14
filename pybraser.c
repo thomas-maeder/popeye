@@ -46,7 +46,7 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
 
       while (encore())
       {
-        if (!(jouecoup(nbply,first_play) && TraceCurrentMove()))
+        if (!(jouecoup(nbply,first_play) && TraceCurrentMove(nbply)))
           TraceText("!jouecoup(nbply,first_play)\n");
         else if (echecc(nbply,series_side))
           TraceText("echecc(nbply,series_side)\n");
@@ -117,7 +117,7 @@ static void branch_ser_root_solve_in_n_recursive(slice_index si,
 
       while (encore())
       {
-        if (!(jouecoup(nbply,first_play) && TraceCurrentMove()))
+        if (!(jouecoup(nbply,first_play) && TraceCurrentMove(nbply)))
           TraceText("!jouecoup(nbply,first_play)\n");
         else if (echecc(nbply,series_side))
           TraceText("echecc(nbply,series_side)\n");

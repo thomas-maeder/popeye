@@ -73,7 +73,7 @@ void TracePieceImpl(char const *prefix, piece p);
  * jouecoup() returned true.
  * @return true (useful for if (jouecoup() && TraceCurrentMove()) ...
  */
-boolean TraceCurrentMove(void);
+boolean TraceCurrentMove(ply curent_ply);
 
 /* Trace the notation of the current position
  */
@@ -96,7 +96,7 @@ void TraceValueImpl(char const *format, int value);
 #define TraceText(text)
 #define TraceSquare(name)
 #define TracePiece(name)
-#define TraceCurrentMove() true
+#define TraceCurrentMove(curent_ply) true
 #define TracePosition(echiquier,flags)
 #define TraceFunctionExit(name)
 #define TraceFunctionResult(format,name)

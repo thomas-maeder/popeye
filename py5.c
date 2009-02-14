@@ -3662,7 +3662,7 @@ boolean immobile(Side camp)
 
     while (immobile_encore(camp,&immobilesquare))
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove())
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
         if (!echecc(nbply,camp))
         {
           repcoup();
@@ -3686,7 +3686,7 @@ boolean immobile(Side camp)
       genmove(camp);
       while (encore())
       {
-        if (jouecoup(nbply,first_play) && TraceCurrentMove())
+        if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
         {
           if (!echecc(nbply,camp))
           {
@@ -3708,7 +3708,7 @@ boolean immobile(Side camp)
       {
         CondFlag[ohneschach]= false;
         jouecoup(nbply,first_play);
-        TraceCurrentMove();
+        TraceCurrentMove(nbply);
         CondFlag[ohneschach]= true;
         if (!echecc(nbply,ad) && pos_legal(nbply))
         {
@@ -3727,7 +3727,7 @@ boolean immobile(Side camp)
       {
         CondFlag[ohneschach]= false;
         jouecoup(nbply,first_play);
-        TraceCurrentMove();
+        TraceCurrentMove(nbply);
         CondFlag[ohneschach]= true;
         if (echecc(nbply,ad) && pos_legal(nbply))
         {

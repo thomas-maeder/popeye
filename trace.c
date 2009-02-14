@@ -64,14 +64,14 @@ void TracePieceImpl(char const *prefix, piece p)
   }
 }
 
-boolean TraceCurrentMove(void)
+boolean TraceCurrentMove(ply current_ply)
 {
   if (!deactivated)
   {
     fprintf(stdout," #%d %ld ",level,move_counter++);
-    ecritcoup(nbply,no_goal);
+    ecritcoup(current_ply,no_goal);
     fprintf(stdout," nbcou:%u",nbcou);
-    fprintf(stdout," nbply:%u\n",nbply);
+    fprintf(stdout," nbply:%u\n",current_ply);
   }
 
   return true;

@@ -58,7 +58,7 @@ static void branch_h_root_solve_in_n_recursive_nohash(slice_index si,
 
     while (encore())
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move)
           && !(OptFlag[restart] && MoveNbr<RestartNbr))
@@ -135,7 +135,7 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
 
     while (encore())
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move))
       {
@@ -433,7 +433,7 @@ void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
 
     while (encore())
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move))
       {
@@ -605,7 +605,7 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
 
     while (encore())
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && (!isIntelligentModeActive || isGoalReachable())
           && !echecc(nbply,side_at_move))
       {

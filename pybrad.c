@@ -36,7 +36,7 @@ static int count_non_trivial_defenses(slice_index si)
   
   while (encore() && max_nr_nontrivial>=result)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender))
     {
       if (min_length_nontrivial==0)
@@ -117,7 +117,7 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
 
   while (!solution_found && encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker)
         && branch_d_defender_does_defender_win(si,n-1)>=loss)
     {
@@ -267,7 +267,7 @@ static boolean root_collect_refutations(table refutations,
   while (encore()
          && table_length(refutations)<=max_nr_refutations)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender))
     {
       is_defender_immobile = false;
@@ -392,7 +392,7 @@ void branch_d_solve_continuations_in_n(table continuations,
 
     while (encore())
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && !echecc(nbply,attacker))
       {
         d_defender_win_type const
@@ -476,7 +476,7 @@ static void root_solve_real_play(slice_index si)
 
     while (encore())
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
           && !echecc(nbply,attacker))
       {

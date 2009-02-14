@@ -84,7 +84,7 @@ boolean leaf_d_has_solution(slice_index leaf)
 
     while (encore() && result!=DirSucc)
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove()
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && leaf_is_goal_reached(attacker,leaf))
       {
         result = DirSucc;
@@ -208,7 +208,7 @@ static void leaf_d_root_regulargoals_solve(slice_index leaf)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && leaf_is_goal_reached(attacker,leaf))
     {
       write_final_attack(slices[leaf].u.leaf.goal,attack_key);
@@ -343,7 +343,7 @@ static boolean leaf_d_regulargoals_solve(slice_index leaf)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && leaf_is_goal_reached(attacker,leaf))
     {
       solution_found = true;
@@ -521,7 +521,7 @@ void leaf_d_solve_continuations(slice_index leaf)
   while (encore())
   {
     /* TODO optimise echecc() check into leaf_is_goal_reached? */
-    if (jouecoup(nbply,first_play) && TraceCurrentMove()
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker)
         && leaf_is_goal_reached(attacker,leaf))
     {
