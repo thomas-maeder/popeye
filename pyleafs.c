@@ -108,30 +108,39 @@ boolean leaf_s_has_non_starter_solved(slice_index leaf)
 boolean leaf_s_solve(slice_index leaf)
 {
   boolean found_solution = false;
-  Side const attacker = slices[leaf].u.leafself.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  active_slice[nbply+1] = leaf;
-  genmove(attacker);
-
-  while (encore())
+  if (leaf_forced_has_non_starter_solved(slices[leaf].u.leafself.next))
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,attacker)
-        && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
-    {
-      found_solution = true;
+    found_solution = true;
+    leaf_forced_write_non_starter_has_solved(slices[leaf].u.leafself.next);
+  }
+  else
+  {
+    Side const attacker = slices[leaf].u.leafself.starter;
 
-      write_attack(attack_key);
-      leaf_forced_solve_variations(slices[leaf].u.leafself.next);
+    active_slice[nbply+1] = leaf;
+    genmove(attacker);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && !echecc(nbply,attacker)
+          && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
+      {
+        found_solution = true;
+
+        write_attack(attack_key);
+        leaf_forced_solve_variations(slices[leaf].u.leafself.next);
+      }
+
+      repcoup();
     }
 
-    repcoup();
+    finply();
   }
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",found_solution);
