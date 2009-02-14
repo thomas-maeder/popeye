@@ -172,6 +172,15 @@ boolean is_ply_equal_to_captured(captured_ply_type const *snapshot, ply ply)
   return result;
 }
 
+/* Make sure that a ply snapshot object isn't equal (as per
+ * is_ply_equal_to_captured()) to a current ply.
+ * @param snapshot address of snapshot to be evaluated
+ */
+void invalidate_ply_snapshot(captured_ply_type *snapshot)
+{
+  snapshot->nbcou = (numecoup)-1;
+}
+
 void InitCond(void) {
   square *bnp, i, j;
   piece p;

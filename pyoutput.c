@@ -129,7 +129,7 @@ void output_start_unsolvability_level(void)
   TraceText("\n");
 
   if (current_mode==output_mode_tree)
-    output_attack_types[move_depth+1] = unsolvability_attack;
+    output_attack_types[nbply+1] = unsolvability_attack;
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -465,24 +465,20 @@ static void linesolution(void)
 
 /* Write an attacking move along with indentation, move number and
  * attack type decoration (! or ?)
- * @param ply identifies ply in which move was played
+ * @param current_ply identifies ply in which move was played
  * @param goal identifies goal reached with attacking move
  * @param type identifies decoration to be added if move_depth==1
  */
-static void write_numbered_indented_attack(ply ply,
+static void write_numbered_indented_attack(ply current_ply,
                                            Goal goal,
                                            attack_type type)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply);
-  TraceFunctionParam("%u\n",goal);
+  TraceFunctionParam("%u",current_ply);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParam("%u\n",type);
 
-  TraceValue("%u",nbcou);
-  TraceValue("%u",ply);
-  TraceValue("%u",repere[ply]);
-  TraceValue("%u\n",output_attack_types[ply]);
-
-  if (output_attack_types[ply]==threat_attack
+  if (output_attack_types[current_ply]==threat_attack
       && nr_continuations_written[move_depth]==0)
     Message(Threat);
 
@@ -496,12 +492,13 @@ static void write_numbered_indented_attack(ply ply,
   }
   sprintf(GlobalStr,"%3d.",move_depth);
   StdString(GlobalStr);
-  ecritcoup(ply,goal);
+  ecritcoup(current_ply,goal);
 
-  capture_ply(&captured_ply[ply],ply);
+  capture_ply(&captured_ply[current_ply],current_ply);
+  invalidate_ply_snapshot(&captured_ply[current_ply+1]);
 
   if (move_depth==1
-      && output_attack_types[ply]!=unsolvability_attack)
+      && output_attack_types[current_ply]!=unsolvability_attack)
   {
     switch (type)
     {
@@ -541,16 +538,23 @@ void write_attack(attack_type type)
   TraceText("\n");
 }
 
-static void write_numbered_indented_defense(ply ply)
+/* Write a defense, corrently numbered and indented.
+ * @param current_ply identifies the ply where the defense was played in
+ * @param goal goal reached by the defense
+ */
+static void write_numbered_indented_defense(ply current_ply, Goal goal)
 {
   sprintf(GlobalStr,"%*c",8*move_depth-4,blank);
   StdString(GlobalStr);
   sprintf(GlobalStr,"%3d...",move_depth);
   StdString(GlobalStr);
-  ecritcoup(ply,no_goal);
+  ecritcoup(current_ply,goal);
   Message(NewLine);
 
-  capture_ply(&captured_ply[ply],ply);
+  capture_ply(&captured_ply[current_ply],current_ply);
+  invalidate_ply_snapshot(&captured_ply[current_ply+1]);
+
+  ++nr_defenses_written[move_depth];
 }
 
 /* Write a move of the attacking side in direct play
@@ -570,6 +574,7 @@ void write_final_attack(Goal goal, attack_type type)
   {
     ply const start_ply = 2;
     TraceValue("%u",move_depth);
+    TraceValue("%u",nr_defenses_written[move_depth-1]);
     TraceValue("%u",nbply);
     TraceValue("%u\n",parent_ply[nbply]);
     if (nbply>start_ply
@@ -585,14 +590,16 @@ void write_final_attack(Goal goal, attack_type type)
         initneutre(advers(trait[current_ply]));
         jouecoup_no_test(current_ply);
         if (current_ply==parent_ply[nbply])
-          write_numbered_indented_defense(current_ply);
+        {
+          --move_depth;
+          write_numbered_indented_defense(current_ply,no_goal);
+          ++move_depth;
+        }
       }
 
       nr_defenses_written[move_depth] = 0;
 
-      ++move_depth;
       write_numbered_indented_attack(nbply,goal,type);
-      --move_depth;
     }
     else
       write_numbered_indented_attack(nbply,goal,type);
@@ -622,9 +629,80 @@ void write_defense(void)
         && nr_continuations_written[move_depth+1]==0)
       Message(NewLine);
 
-    ++nr_defenses_written[move_depth];
+    write_numbered_indented_defense(nbply,no_goal);
+  }
 
-    write_numbered_indented_defense(nbply);
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Write the attack played in a specific ply, and moves preceding it,
+ * if they haven't been written yet.
+ * This is an indirectly recursive function
+ * @param current_ply identifies the ply the defense was played in
+ */
+static void catchup_with_attack(ply current_ply);
+
+/* Write the defense played in a specific ply, and moves preceding it,
+ * if they haven't been written yet.
+ * This is an indirectly recursive function
+ * @param current_ply identifies the ply the defense was played in
+ */
+static void catchup_with_defense(ply current_ply)
+{
+  ply const start_ply = 2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",current_ply);
+
+  TraceValue("%u\n",move_depth);
+
+  if (current_ply>start_ply)
+    catchup_with_attack(parent_ply[current_ply]);
+
+  initneutre(advers(trait[current_ply]));
+  jouecoup_no_test(current_ply);
+  TraceCurrentMove(current_ply);
+
+  if (!is_ply_equal_to_captured(&captured_ply[current_ply],current_ply))
+    write_numbered_indented_defense(current_ply,no_goal);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Write the attack played in a specific ply, and moves preceding it,
+ * if they haven't been written yet.
+ * This is an indirectly recursive function
+ * @param current_ply identifies the ply the defense was played in
+ */
+static void catchup_with_attack(ply current_ply)
+{
+  ply const start_ply = 2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",current_ply);
+
+  TraceValue("%u\n",move_depth);
+
+  if (current_ply>start_ply)
+  {
+    if (output_attack_types[current_ply]==threat_attack)
+      catchup_with_attack(parent_ply[current_ply]);
+    else
+      catchup_with_defense(parent_ply[current_ply]);
+  }
+
+  ++move_depth;
+
+  initneutre(advers(trait[current_ply]));
+  jouecoup_no_test(current_ply);
+  TraceCurrentMove(current_ply);
+
+  if (!is_ply_equal_to_captured(&captured_ply[current_ply],current_ply))
+  {
+    write_numbered_indented_attack(current_ply,no_goal,attack_key);
+    Message(NewLine);
   }
 
   TraceFunctionExit(__func__);
@@ -643,11 +721,10 @@ void write_final_defense(Goal goal)
 
   if (current_mode==output_mode_tree)
   {
-    TraceValue("%u",nr_defenses_written[move_depth]);
+    stip_length_type const save_move_depth = move_depth;
+    TraceValue("%u",move_depth);
     TraceValue("%u",nr_continuations_written[move_depth]);
-    TraceValue("%u",nbcou_of_last_attack_written[move_depth]);
     TraceValue("%u",nbply);
-    TraceValue("%u",repere[nbply]);
     TraceValue("%u\n",output_attack_types[parent_ply[nbply]]);
 
     if (nr_continuations_written[move_depth]==0
@@ -655,31 +732,23 @@ void write_final_defense(Goal goal)
                                      parent_ply[nbply]))
     {
       ply const start_ply = 2;
-      ply current_ply;
-      ResetPosition();
-      for (current_ply = start_ply; current_ply<=nbply; ++current_ply)
+      if (nbply>start_ply)
       {
-        initneutre(advers(trait[current_ply]));
-        jouecoup_no_test(current_ply);
-        if (current_ply==parent_ply[nbply])
-          write_numbered_indented_attack(current_ply,no_goal,attack_key);
+        ResetPosition();
+        move_depth = nr_color_inversions_in_ply[start_ply]>0 ? 1 : 0;
+        catchup_with_attack(parent_ply[nbply]);
+        nr_defenses_written[move_depth] = 0;
+
+        initneutre(advers(trait[nbply]));
+        jouecoup_no_test(nbply);
       }
-
-      nr_defenses_written[move_depth] = 0;
     }
-
-    if (nr_defenses_written[move_depth]==0
-        && nr_continuations_written[move_depth+1]==0)
+    else if (nr_defenses_written[move_depth]==0)
       Message(NewLine);
 
-    ++nr_defenses_written[move_depth];
+    write_numbered_indented_defense(nbply,goal);
 
-    sprintf(GlobalStr,"%*c",8*move_depth-4,blank);
-    StdString(GlobalStr);
-    sprintf(GlobalStr,"%3d...",move_depth);
-    StdString(GlobalStr);
-    ecritcoup(nbply,goal);
-    Message(NewLine);
+    move_depth = save_move_depth;
   }
   else
     linesolution();
@@ -740,6 +809,9 @@ void write_end_of_solution_phase(void)
 
 void editcoup(ply ply_id, coup *mov, Goal goal); /* TODO */
 
+/* Write a move as a refutation
+ * @param c address of the structure representing the move
+ */
 static void write_refutation(coup *c)
 {
   StdString("      1...");
