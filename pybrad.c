@@ -607,7 +607,6 @@ void branch_d_root_solve(slice_index si)
       root_solve_real_play(si);
   }
 
-
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
@@ -630,16 +629,22 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
     result = slice_root_make_setplay_slice(next);
   else
   {
-    slice_index const derived = copy_slice(si);
-    slices[derived].u.branch.length -= 2;
-    slices[derived].u.branch.min_length -= 2;
-    slices[derived].u.branch.starter = slices[si].u.branch.starter;
+    slice_index next_in_setplay;
+    if (slices[si].u.branch.length==slack_length_direct+2)
+      next_in_setplay = next;
+    else
+    {
+      next_in_setplay = copy_slice(si);
+      slices[next_in_setplay].u.branch.length -= 2;
+      slices[next_in_setplay].u.branch.min_length -= 2;
+      hash_slice_is_derived_from(next_in_setplay,si);
+    }
+
     result = alloc_branch_slice(STBranchHelp,
                                 slack_length_help+1,
                                 slack_length_help+1,
-                                derived);
+                                next_in_setplay);
     slices[result].u.branch.starter = advers(slices[si].u.branch.starter);
-    hash_slice_is_derived_from(derived,si);
   }
 
   TraceFunctionExit(__func__);
