@@ -352,12 +352,12 @@ static boolean solve_final_move(slice_index leaf)
   return final_move_found;
 }
 
-/* Determine and write the variations after the move that has just
+/* Determine and write the postkey play after the move that has just
  * been played in the current ply.
  * We have already determined that >=1 move reaching the goal is forced
  * @param si slice index
  */
-void leaf_forced_solve_variations(slice_index leaf)
+void leaf_forced_solve_postkey(slice_index leaf)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);

@@ -563,11 +563,12 @@ static int solve_threats(table threats, slice_index si, stip_length_type n)
   return result;
 }
 
-/* Solve in a certain number of moves
+/* Solve postkey play play after the move that has just
+ * been played in the current ply.
  * @param si slice index
  * @param n (odd) number of half moves until goal
  */
-void branch_d_defender_solve_in_n(slice_index si, stip_length_type n)
+void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
 {
   table const threats = allocate_table();
   int len_threat;
@@ -597,7 +598,7 @@ void branch_d_defender_solve_in_n(slice_index si, stip_length_type n)
  */
 void branch_d_defender_solve(slice_index si)
 {
-  branch_d_defender_solve_in_n(si,slices[si].u.branch.length-1);
+  branch_d_defender_solve_postkey_in_n(si,slices[si].u.branch.length-1);
 }
 
 /* Determine and write at root level the threat and variations after

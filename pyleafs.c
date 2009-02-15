@@ -133,7 +133,7 @@ boolean leaf_s_solve(slice_index leaf)
         found_solution = true;
 
         write_attack(attack_key);
-        leaf_forced_solve_variations(slices[leaf].u.leafself.next);
+        leaf_forced_solve_postkey(slices[leaf].u.leafself.next);
       }
 
       repcoup();
@@ -169,7 +169,7 @@ void leaf_s_root_solve(slice_index leaf)
         && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
     {
       write_attack(attack_key);
-      leaf_forced_solve_variations(slices[leaf].u.leafself.next);
+      leaf_forced_solve_postkey(slices[leaf].u.leafself.next);
     }
 
     repcoup();
@@ -199,7 +199,7 @@ void leaf_s_root_write_key(slice_index leaf, attack_type type)
 void leaf_s_root_solve_postkey(table refutations, slice_index leaf)
 {
   if (OptFlag[solvariantes])
-    leaf_forced_solve_variations(slices[leaf].u.leafself.next);
+    leaf_forced_solve_postkey(slices[leaf].u.leafself.next);
 }
 
 /* Determine whether the starting side has made such a bad move that
@@ -293,7 +293,7 @@ slice_index leaf_s_root_make_setplay_slice(slice_index leaf)
  */
 void leaf_s_solve_postkey(slice_index leaf)
 {
-  leaf_forced_solve_variations(slices[leaf].u.leafself.next);
+  leaf_forced_solve_postkey(slices[leaf].u.leafself.next);
 }
 
 /* Find and write continuations and append them to the top table
@@ -316,7 +316,7 @@ void leaf_s_solve_continuations(slice_index leaf)
         && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
     {
       write_attack(attack_regular);
-      leaf_forced_solve_variations(slices[leaf].u.leafself.next);
+      leaf_forced_solve_postkey(slices[leaf].u.leafself.next);
       append_to_top_table();
       coupfort();
     }

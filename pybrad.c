@@ -405,7 +405,7 @@ void branch_d_solve_continuations_in_n(table continuations,
           if (defender_success==already_lost)
             slice_solve_postkey(slices[si].u.branch.next);
           else
-            branch_d_defender_solve_in_n(si,n-1);
+            branch_d_defender_solve_postkey_in_n(si,n-1);
 
           append_to_top_table();
           coupfort();
@@ -593,7 +593,7 @@ void branch_d_root_solve(slice_index si)
     else
     {
       output_start_continuation_level();
-      branch_d_defender_solve_in_n(si,n);
+      branch_d_defender_solve_postkey_in_n(si,n);
       output_end_continuation_level();
     }
   }

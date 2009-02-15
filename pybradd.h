@@ -67,11 +67,12 @@ d_defender_win_type branch_d_defender_does_defender_win(slice_index si,
  */
 boolean branch_d_defender_has_non_starter_solved(slice_index si);
 
-/* Solve in a certain number of moves
+/* Solve postkey play play after the move that has just
+ * been played in the current ply.
  * @param si slice index
  * @param n (odd) number of half moves until goal
  */
-void branch_d_defender_solve_in_n(slice_index si, stip_length_type n);
+void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
 
 /* Solve at non-root level.
  * @param si slice index
