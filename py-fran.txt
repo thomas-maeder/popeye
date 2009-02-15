@@ -471,6 +471,8 @@ simples:
 	AjouteGrille	(Grille) Ajoute un diagramme demontrant les
 			cellules de la grille. Utile pour les grilles
 			irregulieres.
+	RetiensPieceMatante	Arreter de resoudre quand aucune piece ne
+			reste qui pourrait delivrer le mate.
 
 
  - enonce: Popeye reconnait les enonces suivantes:

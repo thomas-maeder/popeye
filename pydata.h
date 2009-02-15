@@ -914,7 +914,7 @@ EXTERN boolean          flag_libre_on_generate;
 	/*15*/  "MultiSolutions",
 	/*16*/  "NonSymetrique",
 	/*17*/  "NonTrivial",
-	/*18*/  "KeepMatingPiece",
+	/*18*/  "RetiensPieceMatante",
 	/*19*/  "EnPassant",
 	/*20*/  "SansEchiquier",
 	/*21*/  "SansVariantesCourtes",

@@ -488,6 +488,8 @@ Kommandos:
 	ZeichneGitter	(GitterSchach) Gibt ein zusaetzliches Diagramm
 			aus, welches die Gitterzellen verdeutlicht;
 			nuetzlich fuer unregelmaessige Gitter.
+	HalteMattsetzendenStein	Loesungsvorgang abbrechen, wenn kein Stein
+			mehr vorhanden ist, der matt setzen koennte.
 
 
  - Forderung: Folgende Forderungen kennt Popeye:

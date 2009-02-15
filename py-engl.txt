@@ -470,6 +470,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	WriteGrid	(Grid Chess) Writes an additional board that
 			the partition of the board into grid cells.
 			Useful for irregular grids.
+	KeepMatingPiece	Stop solving when there is no piece left that could
+			deliver mate.
 
 
  - stipulation: popeye knows the following stipulations:
