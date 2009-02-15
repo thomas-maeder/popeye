@@ -668,36 +668,28 @@ void write_final_attack(Goal goal, attack_type type)
   if (current_mode==output_mode_tree)
   {
     ply const start_ply = 2;
-    TraceValue("%u",move_depth);
-    TraceValue("%u",nr_defenses_written[move_depth-1]);
-    TraceValue("%u",nbply);
-    TraceValue("%u\n",parent_ply[nbply]);
-    if (nbply>start_ply
-        && output_attack_types[nbply]!=threat_attack
-        && (nr_defenses_written[move_depth-1]==0
-            || !is_ply_equal_to_captured(&captured_ply[parent_ply[nbply]],
-                                         parent_ply[nbply])))
+    if (nbply>start_ply)
     {
-      ply current_ply;
-      ResetPosition();
-      for (current_ply = start_ply; current_ply<=nbply; ++current_ply)
+      ply const parent = parent_ply[nbply];
+      if (!is_ply_equal_to_captured(&captured_ply[parent],parent))
       {
-        initneutre(advers(trait[current_ply]));
-        jouecoup_no_test(current_ply);
-        if (current_ply==parent_ply[nbply])
-        {
-          --move_depth;
-          write_numbered_indented_defense(current_ply,no_goal);
-          ++move_depth;
-        }
+        ResetPosition();
+
+        move_depth = 1;
+        catchup_with_defense(parent);
+        ++move_depth;
+
+        initneutre(advers(trait[nbply]));
+        jouecoup_no_test(nbply);
+
+        nr_continuations_written[move_depth] = 0;
+        nr_defenses_written[move_depth] = 0;
       }
-
-      nr_defenses_written[move_depth] = 0;
-
-      write_numbered_indented_attack(nbply,goal,type);
     }
-    else
-      write_numbered_indented_attack(nbply,goal,type);
+
+    nr_defenses_written[move_depth] = 0;
+
+    write_numbered_indented_attack(nbply,goal,type);
   }
   else
     linesolution();
