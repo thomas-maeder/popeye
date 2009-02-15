@@ -277,9 +277,6 @@ boolean leaf_forced_does_defender_win(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  /* TODO do we check for keepmating... twice
-   * (cf. leaf_forced_must_starter_resign())?
-   */
   result = ((OptFlag[keepmating] && !is_a_mating_piece_left(defender))
             || !is_end_in_1_forced(defender,leaf));
 
