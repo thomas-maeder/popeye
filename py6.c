@@ -1604,7 +1604,7 @@ static boolean verify_position(void)
   jouetestgenre=
       flag_testlegality
       || flagAssassin
-      || find_next_goal(goal_doublemate,0)!=no_slice
+      || find_next_goal(goal_doublemate,root_slice)!=no_slice
       || CondFlag[patience]
       || CondFlag[republican]
       || CondFlag[blackultraschachzwang]
