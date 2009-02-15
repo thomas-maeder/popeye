@@ -499,10 +499,10 @@ static void root_solve_real_play(slice_index si)
           TraceValue("%u\n",max_nr_refutations);
           if (nr_refutations<=max_nr_refutations)
           {
-            attack_type const type = (table_length(refutations)>=1
-                                      ? attack_try
-                                      : attack_key);
-            branch_d_root_write_key(si,type);
+            attack_type const type = (nr_refutations==0
+                                      ? attack_key
+                                      : attack_try);
+            write_attack(type);
             branch_d_defender_root_solve(refutations,si);
             write_end_of_solution();
           }
