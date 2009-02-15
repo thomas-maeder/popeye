@@ -558,8 +558,6 @@ boolean branch_d_solve(slice_index si)
     if (min_len<slack_length_direct)
       min_len = slack_length_direct;
 
-    write_defense();
-
     output_start_continuation_level();
   
     for (i = min_len; i<=n && !result; i += 2)

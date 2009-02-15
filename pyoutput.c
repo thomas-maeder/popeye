@@ -523,21 +523,6 @@ static void write_numbered_indented_attack(ply current_ply,
   TraceText("\n");
 }
 
-/* Write a move of the attacking side in direct play
- * @param type of attack
- */
-void write_attack(attack_type type)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",type);
-
-  if (current_mode==output_mode_tree)
-    write_numbered_indented_attack(nbply,no_goal,type);
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
 /* Write a defense, corrently numbered and indented.
  * @param current_ply identifies the ply where the defense was played in
  * @param goal goal reached by the defense
@@ -555,6 +540,58 @@ static void write_numbered_indented_defense(ply current_ply, Goal goal)
   invalidate_ply_snapshot(&captured_ply[current_ply+1]);
 
   ++nr_defenses_written[move_depth];
+}
+
+/* Write a move of the attacking side in direct play
+ * @param type of attack
+ */
+void write_attack(attack_type type)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",type);
+
+  if (current_mode==output_mode_tree)
+  {
+    ply const start_ply = 2;
+    TraceValue("%u",move_depth);
+    TraceValue("%u",nr_defenses_written[move_depth-1]);
+    TraceValue("%u",nbply);
+    TraceValue("%u",parent_ply[nbply]);
+    TraceValue("%u",output_attack_types[nbply]==threat_attack);
+    TraceValue("%u\n",
+               is_ply_equal_to_captured(&captured_ply[parent_ply[nbply]],
+                                        parent_ply[nbply]));
+
+    if (nbply>start_ply
+        && output_attack_types[nbply]!=threat_attack
+        && (nr_defenses_written[move_depth-1]==0
+            || !is_ply_equal_to_captured(&captured_ply[parent_ply[nbply]],
+                                         parent_ply[nbply])))
+    {
+      ply current_ply;
+      ResetPosition();
+      for (current_ply = start_ply; current_ply<=nbply; ++current_ply)
+      {
+        initneutre(advers(trait[current_ply]));
+        jouecoup_no_test(current_ply);
+        if (current_ply==parent_ply[nbply])
+        {
+          --move_depth;
+          write_numbered_indented_defense(current_ply,no_goal);
+          ++move_depth;
+        }
+      }
+
+      nr_defenses_written[move_depth] = 0;
+
+      write_numbered_indented_attack(nbply,no_goal,type);
+    }
+    else
+      write_numbered_indented_attack(nbply,no_goal,type);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Write a move of the attacking side in direct play
