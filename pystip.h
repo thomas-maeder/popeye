@@ -16,6 +16,7 @@
 typedef enum
 {
   STBranchDirect, /* M-N moves of direct play */
+  STBranchDirectDefender,
   STBranchHelp,   /* M-N moves of help play */
   STBranchSeries, /* M-N moves of series play */
 
@@ -116,12 +117,11 @@ typedef struct
             slice_index next;
         } leafself;
 
-        struct /* for type==STBranch* */
+        struct
         {
             Side starter;
-            /* full moves if type==STBranchDirect, half moves otherw. */
-            stip_length_type length;
-            stip_length_type min_length; /* of short solutions */
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
             slice_index next;
         } branch;
 
@@ -159,7 +159,7 @@ typedef struct
 /* slice identification */
 enum
 {
-  max_nr_slices = 10,
+  max_nr_slices = 20,
   no_slice = max_nr_slices
 };
 
@@ -204,18 +204,6 @@ slice_index alloc_slice_index(void);
  * @param si slice index deallocated
  */
 void dealloc_slice_index(slice_index si);
-
-/* Allocate a branch slice.
- * @param type which STBranch* type
- * @param length number of moves of branch (semantics depends on type)
- * @param min_length minimal number of moves
- * @param next identifies next slice
- * @return index of allocated slice
- */
-slice_index alloc_branch_slice(SliceType type,
-                               stip_length_type length,
-                               stip_length_type min_length,
-                               slice_index next);
 
 /* Allocate a target leaf slice.
  * @param type which STLeaf* type

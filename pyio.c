@@ -68,6 +68,9 @@
 #include "pyquodli.h"
 #include "pyrecipr.h"
 #include "pynot.h"
+#include "pybrad.h"
+#include "pybrah.h"
+#include "pybraser.h"
 #include "pymovein.h"
 #include "pyproof.h"
 #include "pyint.h"
@@ -1262,10 +1265,9 @@ static char *ParseReciGoal(char *tok,
         {
           slice_index leaf;
           result = ParseGoal(tok+1,STLeafHelp,&leaf);
-          *si_nonreci = alloc_branch_slice(STBranchHelp,
-                                           slack_length_help+1,
-                                           slack_length_help+1,
-                                           leaf);
+          *si_nonreci = alloc_branch_h_slice(slack_length_help+1,
+                                             slack_length_help+1,
+                                             leaf);
         }
         else
           IoErrorMsg(UnrecStip, 0);
@@ -1280,10 +1282,9 @@ static char *ParseReciGoal(char *tok,
     result = ParseGoal(tok,STLeafHelp,&leaf);
     if (result!=NULL)
     {
-      *si_nonreci = alloc_branch_slice(STBranchHelp,
-                                       slack_length_help+1,
-                                       slack_length_help+1,
-                                       leaf);
+      *si_nonreci = alloc_branch_h_slice(slack_length_help+1,
+                                         slack_length_help+1,
+                                         leaf);
       *si_reci = alloc_leaf_slice(STLeafDirect,slices[leaf].u.leaf.goal);
     }
   }
@@ -1316,10 +1317,9 @@ static char *ParseReflexEnd(char *tok, slice_index *si)
   tok = ParseGoal(tok,STLeafHelp,&leaf);
   if (tok!=0 && leaf!=no_slice)
   {
-    slice_index const help = alloc_branch_slice(STBranchHelp,
-                                                slack_length_help+1,
-                                                slack_length_help+1,
-                                                leaf);
+    slice_index const help = alloc_branch_h_slice(slack_length_help+1,
+                                                  slack_length_help+1,
+                                                  leaf);
     slice_index const direct = alloc_leaf_slice(STLeafDirect,
                                                 slices[leaf].u.leaf.goal);
     slice_index const not = alloc_not_slice(direct);
@@ -1347,10 +1347,7 @@ static char *ParseEnd(char *tok, slice_index *si)
   {
     slice_index leaf;
     tok = ParseGoal(tok+6,STLeafHelp,&leaf);
-    *si = alloc_branch_slice(STBranchHelp,
-                             slack_length_help+1,
-                             slack_length_help+1,
-                             leaf);
+    *si = alloc_branch_h_slice(slack_length_help+1,slack_length_help+1,leaf);
     /* the end of a sermi-r problem is hX1 with reversed coulours. */
     slice_impose_starter(*si,White);
   }
@@ -1412,10 +1409,9 @@ static char *ParsePlay(char *tok, slice_index *si)
       {
         /* >=1 move of starting side required */
         stip_length_type const min_length = 1+slack_length_series;
-        *si = alloc_branch_slice(STBranchSeries,
-                                 intro_len+slack_length_series,
-                                 min_length,
-                                 next);
+        *si = alloc_branch_ser_slice(intro_len+slack_length_series,
+                                     min_length,
+                                     next);
       }
     }
   }
@@ -1444,7 +1440,7 @@ static char *ParsePlay(char *tok, slice_index *si)
       if (result!=0)
       {
         slice_index const mi = alloc_move_inverter_slice(next);
-        *si = alloc_branch_slice(STBranchSeries,length,min_length,mi);
+        *si = alloc_branch_ser_slice(length,min_length,mi);
       }
     }
   }
@@ -1461,7 +1457,7 @@ static char *ParsePlay(char *tok, slice_index *si)
       if (result!=0)
       {
         slice_index const mi = alloc_move_inverter_slice(next);
-        *si = alloc_branch_slice(STBranchSeries,length,min_length,mi);
+        *si = alloc_branch_ser_slice(length,min_length,mi);
       }
     }
   }
@@ -1476,7 +1472,7 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
-        *si = alloc_branch_slice(STBranchSeries,length+1,min_length,next);
+        *si = alloc_branch_ser_slice(length+1,min_length,next);
     }
   }
 
@@ -1490,7 +1486,7 @@ static char *ParsePlay(char *tok, slice_index *si)
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
-        *si = alloc_branch_slice(STBranchSeries,length+1,min_length,next);
+        *si = alloc_branch_ser_slice(length+1,min_length,next);
     }
   }
 
@@ -1506,7 +1502,7 @@ static char *ParsePlay(char *tok, slice_index *si)
       if (result!=0)
       {
         slice_index const mi = alloc_move_inverter_slice(next);
-        *si = alloc_branch_slice(STBranchSeries,length,min_length-1,mi);
+        *si = alloc_branch_ser_slice(length,min_length-1,mi);
       }
     }
   }
@@ -1531,10 +1527,9 @@ static char *ParsePlay(char *tok, slice_index *si)
           *si = next;
         else
         {
-          slice_index const help = alloc_branch_slice(STBranchHelp,
-                                                      length,
-                                                      min_length,
-                                                      next);
+          slice_index const help = alloc_branch_h_slice(length,
+                                                        min_length,
+                                                        next);
           if (length%2==1)
             *si = alloc_move_inverter_slice(help);
           else
@@ -1556,7 +1551,7 @@ static char *ParsePlay(char *tok, slice_index *si)
       if (length==slack_length_help && min_length==slack_length_help)
         *si = leaf;
       else
-        *si = alloc_branch_slice(STBranchHelp,length,min_length,leaf);
+        *si = alloc_branch_h_slice(length,min_length,leaf);
     }
   }
 
@@ -1575,7 +1570,7 @@ static char *ParsePlay(char *tok, slice_index *si)
         if (length==slack_length_help && min_length==slack_length_help)
           *si = next;
         else
-          *si = alloc_branch_slice(STBranchHelp,length,min_length,next);
+          *si = alloc_branch_h_slice(length,min_length,next);
       }
     }
   }
@@ -1596,10 +1591,9 @@ static char *ParsePlay(char *tok, slice_index *si)
           *si = next;
         else
         {
-          slice_index const help = alloc_branch_slice(STBranchHelp,
-                                                      length,
-                                                      min_length,
-                                                      next);
+          slice_index const help = alloc_branch_h_slice(length,
+                                                        min_length,
+                                                        next);
           if (length%2==0)
             *si = alloc_move_inverter_slice(help);
           else
@@ -1629,10 +1623,9 @@ static char *ParsePlay(char *tok, slice_index *si)
           *si = next;
         else
         {
-          slice_index const help = alloc_branch_slice(STBranchHelp,
-                                                      length,
-                                                      min_length,
-                                                      next);
+          slice_index const help = alloc_branch_h_slice(length,
+                                                        min_length,
+                                                        next);
           if (length%2==1)
             *si = alloc_move_inverter_slice(help);
           else
@@ -1657,10 +1650,9 @@ static char *ParsePlay(char *tok, slice_index *si)
           *si = next;
         else
         {
-          slice_index const help = alloc_branch_slice(STBranchHelp,
-                                                      length,
-                                                      min_length,
-                                                      next);
+          slice_index const help = alloc_branch_h_slice(length,
+                                                        min_length,
+                                                        next);
           if (length%2==0)
             *si = alloc_move_inverter_slice(help);
           else
@@ -1684,7 +1676,7 @@ static char *ParsePlay(char *tok, slice_index *si)
         if (length==slack_length_direct && min_length==slack_length_direct)
           *si = next;
         else
-          *si = alloc_branch_slice(STBranchDirect,length,min_length,next);
+          *si = alloc_branch_d_slice(length,min_length,next);
       }
     }
   }

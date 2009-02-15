@@ -12,6 +12,34 @@
 
 #include <assert.h>
 
+/* Allocate a STBranchHelp slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of allocated slice
+ */
+slice_index alloc_branch_h_slice(stip_length_type length,
+                                 stip_length_type min_length,
+                                 slice_index next)
+{
+  slice_index const result = alloc_slice_index();
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u\n",next);
+
+  slices[result].type = STBranchHelp; 
+  slices[result].u.branch.starter = no_side; 
+  slices[result].u.branch.length = length;
+  slices[result].u.branch.min_length = min_length;
+  slices[result].u.branch.next = next;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 static boolean branch_h_solve_in_n_recursive(slice_index si,
                                              stip_length_type n,
                                              Side side_at_move);
@@ -760,6 +788,112 @@ void branch_h_root_solve_in_n(slice_index si, stip_length_type n)
 
   TraceFunctionExit(__func__);
   TraceText("\n");
+}
+
+/* Detect starter field with the starting side if possible. 
+ * @param si identifies slice
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
+ */
+who_decides_on_starter branch_h_detect_starter(slice_index si,
+                                               boolean same_side_as_root)
+{
+  who_decides_on_starter result = dont_know_who_decides_on_starter;
+  boolean const even_length = slices[si].u.branch.length%2==0;
+  slice_index const next = slices[si].u.branch.next;
+  slice_index next_relevant = next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",same_side_as_root);
+  
+  if (slices[next].type==STMoveInverter)
+    next_relevant = slices[next].u.move_inverter.next;
+
+  TraceValue("%u",next_relevant);
+  TraceValue("%u\n",even_length);
+
+  switch (slices[next_relevant].type)
+  {
+    case STLeafDirect:
+    {
+      boolean const next_same_side_as_root =
+          (even_length
+           ? same_side_as_root
+           : !same_side_as_root);
+      result = slice_detect_starter(next,next_same_side_as_root);
+      if (slice_get_starter(next)==no_side)
+      {
+        /* next can't tell - let's tell him */
+        slices[si].u.branch.starter = Black;
+        TraceValue("%u\n",slices[si].u.branch.starter);
+        slice_impose_starter(next,advers(slices[si].u.branch.starter));
+      }
+      else
+        slices[si].u.branch.starter =
+            (even_length
+             ? slice_get_starter(next)
+             : advers(slice_get_starter(next)));
+      break;
+    }
+
+    case STLeafSelf:
+    {
+      boolean const next_same_side_as_root =
+          (even_length
+           ? same_side_as_root
+           : !same_side_as_root);
+      result = slice_detect_starter(next,next_same_side_as_root);
+      if (slice_get_starter(next)==no_side)
+      {
+        /* next can't tell - let's tell him */
+        slices[si].u.branch.starter = White;
+        TraceValue("%u\n",slices[si].u.branch.starter);
+        slice_impose_starter(next,slices[si].u.branch.starter);
+      }
+      else
+        slices[si].u.branch.starter =
+            (even_length
+             ? slice_get_starter(next)
+             : advers(slice_get_starter(next)));
+      break;
+    }
+
+    case STLeafHelp:
+    {
+      boolean const next_same_side_as_root =
+          (even_length
+           ? same_side_as_root
+           : !same_side_as_root);
+      result = slice_detect_starter(next,next_same_side_as_root);
+      if (slice_get_starter(next)==no_side)
+      {
+        /* next can't tell - let's tell him */
+        slices[si].u.branch.starter = White;
+        TraceValue("%u\n",slices[si].u.branch.starter);
+        slice_impose_starter(next,slices[si].u.branch.starter);
+      }
+      else
+        slices[si].u.branch.starter =
+            (even_length
+             ? slice_get_starter(next)
+             : advers(slice_get_starter(next)));
+      break;
+    }
+
+    default:
+      result = slice_detect_starter(next,same_side_as_root);
+      slices[si].u.branch.starter = (even_length
+                                     ? slice_get_starter(next)
+                                     : advers(slice_get_starter(next)));
+      break;
+  }
+
+  TraceValue("%u\n",slices[si].u.branch.starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Impose the starting side on a slice.

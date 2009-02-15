@@ -915,9 +915,15 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       break;
 
     case STBranchDirect:
+      result = branch_d_detect_starter(si,same_side_as_root);
+      break;
+
     case STBranchHelp:
+      result = branch_h_detect_starter(si,same_side_as_root);
+      break;
+
     case STBranchSeries:
-      result = branch_detect_starter(si,same_side_as_root);
+      result = branch_ser_detect_starter(si,same_side_as_root);
       break;
 
     case STReciprocal:

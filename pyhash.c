@@ -432,6 +432,10 @@ static void init_slice_properties_recursive(slice_index si,
         break;
       }
 
+      case STBranchDirectDefender:
+        /* nothing */
+        break;
+
       case STBranchHelp:
       {
         slice_index const base = base_slice[si];

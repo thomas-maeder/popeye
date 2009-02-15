@@ -1,5 +1,6 @@
 #include "pybrad.h"
 #include "pybradd.h"
+#include "pybrah.h"
 #include "pybranch.h"
 #include "pydata.h"
 #include "pyproc.h"
@@ -12,6 +13,39 @@
 #include "platform/maxtime.h"
 
 #include <assert.h>
+
+/* Allocate a STBranchDirect slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of allocated slice
+ */
+slice_index alloc_branch_d_slice(stip_length_type length,
+                                 stip_length_type min_length,
+                                 slice_index next)
+{
+  slice_index const result = alloc_slice_index();
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u\n",next);
+
+  slices[result].type = STBranchDirect; 
+  slices[result].u.branch.starter = no_side; 
+  slices[result].u.branch.length = length;
+  slices[result].u.branch.min_length = min_length;
+  slices[result].u.branch.next = next;
+
+  {
+    slice_index const defender_slice = copy_slice(result);
+    slices[defender_slice].type = STBranchDirectDefender;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
 
 /* Count all non-trivial moves of the defending side. Whether a
  * particular move is non-trivial is determined by user input.
@@ -119,7 +153,7 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker)
-        && branch_d_defender_does_defender_win(si,n-1)>=loss)
+        && branch_d_defender_does_defender_win(si+1,n-1)>=loss)
     {
       solution_found = true;
       coupfort();
@@ -396,7 +430,7 @@ void branch_d_solve_continuations_in_n(table continuations,
           && !echecc(nbply,attacker))
       {
         d_defender_win_type const
-            defender_success = branch_d_defender_does_defender_win(si,n-1);
+            defender_success = branch_d_defender_does_defender_win(si+1,n-1);
         TraceValue("%u\n",defender_success);
         if (defender_success>=loss)
         {
@@ -405,7 +439,7 @@ void branch_d_solve_continuations_in_n(table continuations,
           if (defender_success==already_lost)
             slice_solve_postkey(slices[si].u.branch.next);
           else
-            branch_d_defender_solve_postkey_in_n(si,n-1);
+            branch_d_defender_solve_postkey_in_n(si+1,n-1);
 
           append_to_top_table();
           coupfort();
@@ -503,7 +537,7 @@ static void root_solve_real_play(slice_index si)
                                       ? attack_key
                                       : attack_try);
             write_attack(type);
-            branch_d_defender_root_solve(refutations,si);
+            branch_d_defender_root_solve(refutations,si+1);
             write_end_of_solution();
           }
         }
@@ -593,7 +627,7 @@ void branch_d_root_solve(slice_index si)
     else
     {
       output_start_continuation_level();
-      branch_d_defender_solve_postkey_in_n(si,n);
+      branch_d_defender_solve_postkey_in_n(si+1,n);
       output_end_continuation_level();
     }
   }
@@ -636,14 +670,76 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
       slices[next_in_setplay].u.branch.length -= 2;
       slices[next_in_setplay].u.branch.min_length -= 2;
       hash_slice_is_derived_from(next_in_setplay,si);
+      copy_slice(next_in_setplay);
     }
 
-    result = alloc_branch_slice(STBranchHelp,
-                                slack_length_help+1,
-                                slack_length_help+1,
-                                next_in_setplay);
+    result = alloc_branch_h_slice(slack_length_help+1,
+                                  slack_length_help+1,
+                                  next_in_setplay);
     slices[result].u.branch.starter = advers(slices[si].u.branch.starter);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Detect starter field with the starting side if possible. 
+ * @param si identifies slice
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
+ */
+who_decides_on_starter branch_d_detect_starter(slice_index si,
+                                               boolean same_side_as_root)
+{
+  who_decides_on_starter result = dont_know_who_decides_on_starter;
+  slice_index const next = slices[si].u.branch.next;
+  slice_index next_relevant = next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",same_side_as_root);
+  
+  if (slices[next].type==STMoveInverter)
+    next_relevant = slices[next].u.move_inverter.next;
+
+  TraceValue("%u\n",next_relevant);
+
+  result = slice_detect_starter(next,same_side_as_root);
+  if (slice_get_starter(next)==no_side)
+  {
+    /* next can't tell - let's tell him */
+    switch (slices[next_relevant].type)
+    {
+      case STLeafDirect:
+        slices[si].u.branch.starter =  White;
+        TraceValue("%u\n",slices[si].u.branch.starter);
+        slice_impose_starter(next,slices[si].u.branch.starter);
+        break;
+
+      case STLeafSelf:
+        slices[si].u.branch.starter = White;
+        TraceValue("%u\n",slices[si].u.branch.starter);
+        slice_impose_starter(next,slices[si].u.branch.starter);
+        break;
+
+      case STLeafHelp:
+        slices[si].u.branch.starter = White;
+        TraceValue("%u\n",slices[si].u.branch.starter);
+        slice_impose_starter(next,advers(slices[si].u.branch.starter));
+        break;
+
+      default:
+        slices[si].u.branch.starter = no_side;
+        break;
+    }
+  }
+  else
+    slices[si].u.branch.starter = slice_get_starter(next);
+
+  slices[si+1].u.branch.starter = slices[si].u.branch.starter;
+
+  TraceValue("%u\n",slices[si].u.branch.starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -657,5 +753,6 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
 void branch_d_impose_starter(slice_index si, Side s)
 {
   slices[si].u.branch.starter = s;
+  slices[si+1].u.branch.starter = s;
   slice_impose_starter(slices[si].u.branch.next,s);
 }

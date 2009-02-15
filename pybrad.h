@@ -3,11 +3,22 @@
 
 #include "py.h"
 #include "pystip.h"
+#include "pyslice.h"
 #include "pytable.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STBranchDirect stipulation slices.
  */
+
+/* Allocate a STBranchDirect slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of allocated slice
+ */
+slice_index alloc_branch_d_slice(stip_length_type length,
+                                 stip_length_type min_length,
+                                 slice_index next);
 
 typedef enum
 {
@@ -66,6 +77,14 @@ boolean branch_d_solve(slice_index si);
  * @param si slice index
  */
 void branch_d_root_solve(slice_index si);
+
+/* Detect starter field with the starting side if possible. 
+ * @param si identifies slice
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
+ */
+who_decides_on_starter branch_d_detect_starter(slice_index si,
+                                               boolean same_side_as_root);
 
 /* Impose the starting side on a slice.
  * @param si identifies branch

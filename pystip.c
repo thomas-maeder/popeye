@@ -17,6 +17,7 @@ static slice_index next_slice;
  */
 slice_index alloc_slice_index(void)
 {
+  assert(next_slice<max_nr_slices);
   return next_slice++;
 }
 
@@ -27,41 +28,13 @@ void dealloc_slice_index(slice_index si)
 {
   /* TODO reuse all deallocated slice indices, not just the last
    * allocated one */
+
+  if (slices[si].type==STBranchDirect)
+    /* deallocate index for the defending slice */
+    dealloc_slice_index(si+1);
+
   if (next_slice==si+1)
     --next_slice;
-}
-
-/* Allocate a branch slice.
- * @param type type of slice
- * @param next identifies next slice
- * @return index of allocated slice
- */
-slice_index alloc_branch_slice(SliceType type,
-                               stip_length_type length,
-                               stip_length_type min_length,
-                               slice_index next)
-{
-  slice_index const result = alloc_slice_index();
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",type);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u\n",next);
-
-  assert(type==STBranchDirect
-         || type==STBranchHelp
-         || type==STBranchSeries);
-
-  slices[result].type = type; 
-  slices[result].u.branch.starter = no_side; 
-  slices[result].u.branch.length = length;
-  slices[result].u.branch.min_length = min_length;
-  slices[result].u.branch.next = next;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
 }
 
 /* Allocate a target leaf slice.
@@ -436,6 +409,13 @@ static slice_index find_goal_recursive(Goal goal,
 {
   slice_index result = no_slice;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParam("%u",*active);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -503,6 +483,8 @@ static slice_index find_goal_recursive(Goal goal,
       exit(1);
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -520,6 +502,14 @@ static slice_index find_goal_recursive(Goal goal,
 slice_index find_next_goal(Goal goal, slice_index start)
 {
   boolean active = start==root_slice;
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParam("%u\n",start);
+
+  TraceValue("%u",next_slice);
+  TraceValue("%u\n",slices[start].type);
 
   assert(start<next_slice);
 
@@ -531,7 +521,11 @@ slice_index find_next_goal(Goal goal, slice_index start)
          || slices[start].type==STLeafHelp
          || slices[start].type==STLeafForced);
 
-  return find_goal_recursive(goal,start,&active,root_slice);
+  result = find_goal_recursive(goal,start,&active,root_slice);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 static boolean are_goals_equal(slice_index si1, slice_index si2)
@@ -547,7 +541,8 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParam("%u",current_slice);
+  TraceFunctionParam("%u\n",*found_so_far);
 
   TraceValue("%u\n",slices[current_slice].type);
   switch (slices[current_slice].type)
@@ -657,6 +652,10 @@ void stip_make_exact(slice_index si)
       break;
 
     case STBranchDirect:
+      slices[si].u.branch.min_length = slices[si].u.branch.length;
+      slices[si+1].u.branch.min_length = slices[si+1].u.branch.length;
+      break;
+
     case STBranchHelp:
     case STBranchSeries:
       slices[si].u.branch.min_length = slices[si].u.branch.length;

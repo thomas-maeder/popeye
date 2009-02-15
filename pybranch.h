@@ -2,7 +2,6 @@
 #define PYBRANCH_H
 
 #include "py.h"
-#include "pyslice.h"
 #include "boolean.h"
 
 /* This module provides functionality dealing with STBranch*
@@ -61,13 +60,5 @@ boolean branch_has_starter_won(slice_index si);
  * @return true iff the starter reached the goal
  */
 boolean branch_has_starter_reached_goal(slice_index si);
-
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
- */
-who_decides_on_starter branch_detect_starter(slice_index si,
-                                             boolean same_side_as_root);
 
 #endif
