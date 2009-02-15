@@ -40,6 +40,7 @@ slice_index alloc_branch_d_slice(stip_length_type length,
   {
     slice_index const defender_slice = copy_slice(result);
     slices[defender_slice].type = STBranchDirectDefender;
+    --slices[defender_slice].u.branch.length;
   }
 
   TraceFunctionExit(__func__);

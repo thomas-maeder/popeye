@@ -245,7 +245,7 @@ d_defender_win_type branch_d_defender_does_defender_win(slice_index si,
 
   if (slice_has_starter_apriori_lost(slices[si].u.branch.next))
     result = already_won;
-  else if (slices[si].u.branch.length-n>slices[si].u.branch.min_length
+  else if (slices[si].u.branch.length-n>=slices[si].u.branch.min_length
            && slice_has_starter_reached_goal(slices[si].u.branch.next))
     result = already_lost;
   else if (is_threat_too_long(si,n-1)
@@ -282,8 +282,7 @@ static boolean has_starter_won_in_n(slice_index si, stip_length_type n)
  */
 boolean branch_d_defender_has_starter_won(slice_index si)
 {
-  stip_length_type const n = slices[si].u.branch.length;
-  return has_starter_won_in_n(si,n-1);
+  return has_starter_won_in_n(si,slices[si].u.branch.length);
 }
 
 /* Determine whether the attacker has reached slice si's goal with his
@@ -599,7 +598,7 @@ void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
  */
 void branch_d_defender_solve(slice_index si)
 {
-  branch_d_defender_solve_postkey_in_n(si,slices[si].u.branch.length-1);
+  branch_d_defender_solve_postkey_in_n(si,slices[si].u.branch.length);
 }
 
 /* Determine and write at root level the threat and variations after
@@ -661,7 +660,7 @@ void branch_d_defender_root_solve(table refutations, slice_index si)
 
   if (OptFlag[solvariantes])
   {
-    stip_length_type const n = slices[si].u.branch.length-1;
+    stip_length_type const n = slices[si].u.branch.length;
     table const threats = allocate_table();
     int const len_threat = solve_threats(threats,si,n-1);
 
