@@ -71,7 +71,7 @@ boolean TraceCurrentMove(ply current_ply)
     fprintf(stdout," #%d %ld ",level,move_counter++);
     ecritcoup(current_ply,no_goal);
     fprintf(stdout," nbcou:%u",nbcou);
-    fprintf(stdout," nbply:%u\n",current_ply);
+    fprintf(stdout," current_ply:%u\n",current_ply);
   }
 
   return true;
