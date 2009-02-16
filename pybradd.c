@@ -245,7 +245,7 @@ d_defender_win_type branch_d_defender_does_defender_win(slice_index si,
 
   if (slice_has_starter_apriori_lost(slices[si].u.branch.next))
     result = already_won;
-  else if (slices[si].u.branch.length-n>=slices[si].u.branch.min_length
+  else if (slices[si].u.branch.length-n>slices[si].u.branch.min_length
            && slice_has_starter_reached_goal(slices[si].u.branch.next))
     result = already_lost;
   else if (is_threat_too_long(si,n-1)
@@ -443,7 +443,7 @@ static void write_variation(slice_index si, stip_length_type n)
   boolean is_refutation = true; /* until we prove otherwise */
   stip_length_type i;
   stip_length_type const
-      min_len = (slices[si].u.branch.min_length+slack_length_direct>n
+      min_len = (slices[si].u.branch.min_length+slack_length_direct>=n
                  ? n
                  : slack_length_direct+1);
 
