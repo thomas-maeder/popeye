@@ -115,14 +115,14 @@ void release_slices(void)
   next_slice = 0;
 }
 
-/* Set the min_length field of a composite slice.
+/* Set the min_length field of a slice.
  * @param si index of composite slice
  * @param min_length value to be set
  * @return previous value of min_length field
  */
 stip_length_type set_min_length(slice_index si, stip_length_type min_length)
 {
-  stip_length_type const result = slices[si].u.branch.min_length;
+  stip_length_type result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -135,6 +135,7 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
   switch (slices[si].type)
   {
     case STBranchHelp:
+      result = slices[si].u.branch.min_length;
       min_length *= 2;
       if (result%2==1)
         --min_length;
@@ -143,12 +144,98 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
       break;
 
     case STBranchSeries:
+      result = slices[si].u.branch.min_length;
       if (min_length+1<=slices[si].u.branch.length)
         slices[si].u.branch.min_length = min_length+1;
       break;
 
+    case STBranchDirect:
+      result = slices[si].u.branch_d.min_length;
+      break;
+
     default:
-      /* nothing */
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Determine the maximally possible number of half-moves until the
+ * goal has to be reached.
+ * @param si root of subtree
+ * @param maximally possible number of half-moves
+ */
+stip_length_type get_max_nr_moves(slice_index si)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  switch (slices[si].type)
+  {
+    case STBranchDirect:
+      result = (slices[si].u.branch_d.length
+                +get_max_nr_moves(slices[si].u.branch_d.next));
+      break;
+
+    case STBranchHelp:
+    case STBranchSeries:
+      result = (slices[si].u.branch.length
+                +get_max_nr_moves(slices[si].u.branch.next));
+      break;
+
+    case STLeafSelf:
+      result = 2;
+      break;
+      
+    case STLeafDirect:
+    case STLeafHelp:
+    case STLeafForced:
+      result = 1;
+      break;
+
+    case STReciprocal:
+    {
+      slice_index const op1 = slices[si].u.reciprocal.op1;
+      stip_length_type const result1 = get_max_nr_moves(op1);
+
+      slice_index const op2 = slices[si].u.reciprocal.op2;
+      stip_length_type const result2 = get_max_nr_moves(op2);
+
+      result = result1>result2 ? result1 : result2;
+      break;
+    }
+    
+    case STQuodlibet:
+    {
+      slice_index const op1 = slices[si].u.quodlibet.op1;
+      stip_length_type const result1 = get_max_nr_moves(op1);
+
+      slice_index const op2 = slices[si].u.quodlibet.op2;
+      stip_length_type const result2 = get_max_nr_moves(op2);
+
+      result = result1>result2 ? result1 : result2;
+      break;
+    }
+
+    case STNot:
+      result = get_max_nr_moves(slices[si].u.not.op);
+      break;
+
+    case STConstant:
+      result = 0;
+      break;
+  
+    case STMoveInverter:
+      result = get_max_nr_moves(slices[si].u.move_inverter.next);
+      break;
+
+    default:
+      assert(0);
       break;
   }
 
@@ -210,6 +297,9 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
     break;
 
     case STBranchDirect:
+      transform_to_quodlibet_recursive(&slices[index].u.branch_d.next);
+      break;
+
     case STBranchSeries:
       transform_to_quodlibet_recursive(&slices[index].u.branch.next);
       break;
@@ -298,6 +388,11 @@ static boolean slice_ends_only_in(Goal const goals[],
       return !slice_ends_only_in(goals,nrGoals,slices[si].u.not.op);
 
     case STBranchDirect:
+    {
+      slice_index const next = slices[si].u.branch_d.next;
+      return slice_ends_only_in(goals,nrGoals,next);
+    }
+
     case STBranchHelp:
     case STBranchSeries:
     {
@@ -369,6 +464,11 @@ static boolean slice_ends_in(Goal const goals[],
     }
 
     case STBranchDirect:
+    {
+      slice_index const next = slices[si].u.branch_d.next;
+      return slice_ends_in(goals,nrGoals,next);
+    }
+
     case STBranchHelp:
     case STBranchSeries:
     {
@@ -463,6 +563,12 @@ static slice_index find_goal_recursive(Goal goal,
       break;
 
     case STBranchDirect:
+    {
+      slice_index const next = slices[si].u.branch_d.next;
+      result = find_goal_recursive(goal,start,active,next);
+      break;
+    }
+
     case STBranchHelp:
     case STBranchSeries:
     {
@@ -586,6 +692,12 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
     }
 
     case STBranchDirect:
+    {
+      slice_index const next = slices[current_slice].u.branch_d.next;
+      result = find_unique_goal_recursive(next,found_so_far);
+      break;
+    }
+
     case STBranchHelp:
     case STBranchSeries:
     {
@@ -652,8 +764,8 @@ void stip_make_exact(slice_index si)
       break;
 
     case STBranchDirect:
-      slices[si].u.branch.min_length = slices[si].u.branch.length;
-      slices[si+1].u.branch.min_length = slices[si+1].u.branch.length;
+      slices[si].u.branch.min_length = slices[si].u.branch_d.length;
+      slices[si+1].u.branch.min_length = slices[si+1].u.branch_d.length;
       break;
 
     case STBranchHelp:

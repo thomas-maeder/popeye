@@ -13,7 +13,6 @@
 #include "pyquodli.h"
 #include "pyrecipr.h"
 #include "pynot.h"
-#include "pybranch.h"
 #include "pymovein.h"
 #include "pyconst.h"
 
@@ -69,8 +68,11 @@ boolean slice_must_starter_resign(slice_index si)
       break;
 
     case STBranchHelp:
+      result = branch_h_must_starter_resign(si);
+      break;
+
     case STBranchSeries:
-      result = branch_must_starter_resign(si);
+      result = branch_ser_must_starter_resign(si);
       break;
 
     case STMoveInverter:
@@ -490,8 +492,7 @@ boolean slice_has_solution(slice_index si)
       break;
 
     case STBranchDirect:
-      result = (branch_d_has_solution_in_n(si,slices[si].u.branch.length)
-                <=branch_d_we_solve);
+      result = branch_d_has_solution(si);
       break;
 
     case STBranchHelp:
@@ -598,8 +599,11 @@ boolean slice_has_non_starter_solved(slice_index si)
       break;
 
     case STBranchHelp:
+      result = branch_h_has_non_starter_solved(si);
+      break;
+
     case STBranchSeries:
-      result = branch_has_non_starter_solved(si);
+      result = branch_ser_has_non_starter_solved(si);
       break;
 
     case STQuodlibet:
@@ -654,8 +658,11 @@ boolean slice_has_starter_apriori_lost(slice_index si)
       break;
 
     case STBranchHelp:
+      result = branch_h_has_starter_apriori_lost(si);
+      break;
+
     case STBranchSeries:
-      result = branch_has_starter_apriori_lost(si);
+      result = branch_ser_has_starter_apriori_lost(si);
       break;
 
     case STQuodlibet:
@@ -713,9 +720,11 @@ boolean slice_has_starter_won(slice_index si)
       break;
  
     case STBranchHelp:
+      result = branch_h_has_starter_won(si);
+      break;
+
     case STBranchSeries:
-      /* TODO does this make sense? */
-      result = branch_has_starter_won(si);
+      result = branch_ser_has_starter_won(si);
       break;
 
     case STQuodlibet:
@@ -772,8 +781,11 @@ boolean slice_has_starter_reached_goal(slice_index si)
       break;
 
     case STBranchHelp:
+      result = branch_h_has_starter_reached_goal(si);
+      break;
+
     case STBranchSeries:
-      result = branch_has_starter_reached_goal(si);
+      result = branch_ser_has_starter_reached_goal(si);
       break;
 
     case STQuodlibet:
@@ -821,9 +833,15 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       break;
 
     case STBranchDirect:
+      result = branch_d_is_goal_reached(just_moved,si);
+      break;
+
     case STBranchHelp:
+      result = branch_h_is_goal_reached(just_moved,si);
+      break;
+
     case STBranchSeries:
-      result = branch_is_goal_reached(just_moved,si);
+      result = branch_ser_is_goal_reached(just_moved,si);
       break;
 
     default:
@@ -856,9 +874,15 @@ void slice_write_unsolvability(slice_index si)
       break;
 
     case STBranchDirect:
+      branch_d_write_unsolvability(si);
+      break;
+
     case STBranchHelp:
+      branch_h_write_unsolvability(si);
+      break;
+
     case STBranchSeries:
-      branch_write_unsolvability(si);
+      branch_ser_write_unsolvability(si);
       break;
 
     case STQuodlibet:
@@ -1033,6 +1057,9 @@ Side slice_get_starter(slice_index si)
       break;
 
     case STBranchDirect:
+      result = slices[si].u.branch_d.starter;
+      break;
+
     case STBranchHelp:
     case STBranchSeries:
       result = slices[si].u.branch.starter;

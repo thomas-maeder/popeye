@@ -125,6 +125,14 @@ typedef struct
             slice_index next;
         } branch;
 
+        struct
+        {
+            Side starter;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
+            slice_index next;
+        } branch_d;
+
         struct /* for type==STQuodlibet */
         {
             slice_index op1; /* operand 1 */
@@ -234,6 +242,13 @@ void release_slices(void);
  * @return previous value of min_length field
  */
 stip_length_type set_min_length(slice_index si, stip_length_type min_length);
+
+/* Determine the maximally possible number of half-moves until the
+ * goal has to be reached.
+ * @param si root of subtree
+ * @param maximally possible number of half-moves
+ */
+stip_length_type get_max_nr_moves(slice_index si);
 
 /* Transform a stipulation tree to "traditional quodlibet form",
  * i.e. a logical OR of direct and self goal. 

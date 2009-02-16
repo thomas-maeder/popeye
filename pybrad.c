@@ -1,7 +1,6 @@
 #include "pybrad.h"
 #include "pybradd.h"
 #include "pybrah.h"
-#include "pybranch.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pymsg.h"
@@ -32,17 +31,47 @@ slice_index alloc_branch_d_slice(stip_length_type length,
   TraceFunctionParam("%u\n",next);
 
   slices[result].type = STBranchDirect; 
-  slices[result].u.branch.starter = no_side; 
-  slices[result].u.branch.length = length;
-  slices[result].u.branch.min_length = min_length;
-  slices[result].u.branch.next = next;
+  slices[result].u.branch_d.starter = no_side; 
+  slices[result].u.branch_d.length = length;
+  slices[result].u.branch_d.min_length = min_length;
+  slices[result].u.branch_d.next = next;
 
   {
     slice_index const defender_slice = copy_slice(result);
     slices[defender_slice].type = STBranchDirectDefender;
-    --slices[defender_slice].u.branch.length;
-    --slices[defender_slice].u.branch.min_length;
+    --slices[defender_slice].u.branch_d.length;
+    --slices[defender_slice].u.branch_d.min_length;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Write a priori unsolvability (if any) of a slice (e.g. forced
+ * reflex mates).
+ * Assumes slice_must_starter_resign(si)
+ * @param si slice index
+ */
+void branch_d_write_unsolvability(slice_index si)
+{
+  slice_write_unsolvability(slices[si].u.branch.next);
+}
+
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean branch_d_is_goal_reached(Side just_moved, slice_index si)
+{
+  boolean result;
+  slice_index const next = slices[si].u.branch.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  result = slice_is_goal_reached(just_moved,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -55,7 +84,7 @@ slice_index alloc_branch_d_slice(stip_length_type length,
  */
 static int count_non_trivial_defenses(slice_index si)
 {
-  Side const attacker = slices[si].u.branch.starter;
+  Side const attacker = slices[si].u.branch_d.starter;
   Side const defender = advers(attacker);
   int result = -1;
 
@@ -106,7 +135,7 @@ static int count_non_trivial_defenses(slice_index si)
  */
 static boolean is_threat_too_long(slice_index si, stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch.starter;
+  Side const attacker = slices[si].u.branch_d.starter;
   Side const defender = advers(attacker);
   boolean result;
   
@@ -140,7 +169,7 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
  */
 static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch.starter;
+  Side const attacker = slices[si].u.branch_d.starter;
   boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
@@ -205,8 +234,8 @@ static boolean have_we_solution_in_n_hashed(slice_index si,
   {
     stip_length_type i;
     stip_length_type n_min = 2+slack_length_direct;
-    stip_length_type const moves_played = slices[si].u.branch.length-n;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
+    stip_length_type const moves_played = slices[si].u.branch_d.length-n;
+    stip_length_type const min_length = slices[si].u.branch_d.min_length;
 
     if (min_length>moves_played)
       n_min = min_length-moves_played;
@@ -257,20 +286,39 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
     ; /* intentionally nothing */
   else
   {
-    stip_length_type const moves_played = slices[si].u.branch.length-n;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
+    stip_length_type const moves_played = slices[si].u.branch_d.length-n;
+    stip_length_type const min_length = slices[si].u.branch_d.min_length;
     TraceValue("%u",moves_played);
     TraceValue("%u\n",min_length);
     if (moves_played+slack_length_direct>min_length
-        && slice_has_non_starter_solved(slices[si].u.branch.next))
+        && slice_has_non_starter_solved(slices[si].u.branch_d.next))
       result = branch_d_already_solved;
     else if (moves_played+slack_length_direct>=min_length
-             && slice_has_solution(slices[si].u.branch.next))
+             && slice_has_solution(slices[si].u.branch_d.next))
       result = branch_d_next_solves;
     else if (n>slack_length_direct
              && have_we_solution_in_n_hashed(si,n))
       result = branch_d_we_solve;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean branch_d_has_solution(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  result = (branch_d_has_solution_in_n(si,slices[si].u.branch_d.length)
+            <=branch_d_we_solve);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -287,7 +335,7 @@ static boolean root_collect_refutations(table refutations,
                                         slice_index si,
                                         stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch.starter;
+  Side const attacker = slices[si].u.branch_d.starter;
   Side const defender = advers(attacker);
   boolean is_defender_immobile = true;
 
@@ -376,9 +424,9 @@ static unsigned int root_collect_non_trivial(table non_trivial,
  */
 static unsigned int root_find_refutations(table refutations, slice_index si)
 {
-  Side const defender = advers(slices[si].u.branch.starter);
+  Side const defender = advers(slices[si].u.branch_d.starter);
   unsigned int result;
-  stip_length_type const n = slices[si].u.branch.length-1;
+  stip_length_type const n = slices[si].u.branch_d.length-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -412,7 +460,7 @@ void branch_d_solve_continuations_in_n(table continuations,
                                        slice_index si,
                                        stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch.starter;
+  Side const attacker = slices[si].u.branch_d.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -421,7 +469,7 @@ void branch_d_solve_continuations_in_n(table continuations,
   assert(n%2==0);
 
   if (n==slack_length_direct)
-    slice_solve_continuations(continuations,slices[si].u.branch.next);
+    slice_solve_continuations(continuations,slices[si].u.branch_d.next);
   else
   {
     genmove(attacker);
@@ -439,7 +487,7 @@ void branch_d_solve_continuations_in_n(table continuations,
           write_attack(attack_regular);
 
           if (defender_success==already_lost)
-            slice_solve_postkey(slices[si].u.branch.next);
+            slice_solve_postkey(slices[si].u.branch_d.next);
           else
             branch_d_defender_solve_postkey_in_n(si+1,n-1);
 
@@ -471,7 +519,7 @@ void branch_d_solve_continuations(table continuations, slice_index si)
 
   branch_d_solve_continuations_in_n(continuations,
                                     si,
-                                    slices[si].u.branch.length);
+                                    slices[si].u.branch_d.length);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -502,12 +550,12 @@ static void root_solve_real_play(slice_index si)
   TraceFunctionParam("%u\n",si);
 
   if (slice_must_starter_resign(si))
-    slice_write_unsolvability(slices[si].u.branch.next);
-  else if (slices[si].u.branch.length==slack_length_direct)
-    slice_root_solve(slices[si].u.branch.next);
+    slice_write_unsolvability(slices[si].u.branch_d.next);
+  else if (slices[si].u.branch_d.length==slack_length_direct)
+    slice_root_solve(slices[si].u.branch_d.next);
   else
   {
-    Side const attacker = slices[si].u.branch.starter;
+    Side const attacker = slices[si].u.branch_d.starter;
     genmove(attacker);
 
     output_start_continuation_level();
@@ -520,11 +568,11 @@ static void root_solve_real_play(slice_index si)
       {
         table refutations = allocate_table();
 
-        if (slices[si].u.branch.min_length<=slack_length_direct
-            && slice_has_starter_reached_goal(slices[si].u.branch.next))
+        if (slices[si].u.branch_d.min_length<=slack_length_direct
+            && slice_has_starter_reached_goal(slices[si].u.branch_d.next))
         {
-          slice_root_write_key(slices[si].u.branch.next,attack_key);
-          slice_root_solve_postkey(refutations,slices[si].u.branch.next);
+          slice_root_write_key(slices[si].u.branch_d.next,attack_key);
+          slice_root_solve_postkey(refutations,slices[si].u.branch_d.next);
           write_end_of_solution();
         }
         else
@@ -572,7 +620,7 @@ static void root_solve_real_play(slice_index si)
 boolean branch_d_solve(slice_index si)
 {
   boolean result = false;
-  stip_length_type const n = slices[si].u.branch.length;
+  stip_length_type const n = slices[si].u.branch_d.length;
   branch_d_solution_degree how_is_solved;
 
   TraceFunctionEntry(__func__);
@@ -584,12 +632,12 @@ boolean branch_d_solve(slice_index si)
   TraceValue("%u\n",how_is_solved);
 
   if (how_is_solved==branch_d_already_solved)
-    slice_write_non_starter_has_solved(slices[si].u.branch.next);
+    slice_write_non_starter_has_solved(slices[si].u.branch_d.next);
   else if (how_is_solved<=branch_d_we_solve)
   {
     stip_length_type i;
     table const continuations = allocate_table();
-    stip_length_type min_len = slices[si].u.branch.min_length;
+    stip_length_type min_len = slices[si].u.branch_d.min_length;
 
     if (min_len<slack_length_direct)
       min_len = slack_length_direct;
@@ -617,14 +665,14 @@ boolean branch_d_solve(slice_index si)
  */
 void branch_d_root_solve(slice_index si)
 {
-  stip_length_type const n = slices[si].u.branch.length;
+  stip_length_type const n = slices[si].u.branch_d.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   if (n%2==1)
   {
-    if (echecc(nbply,slices[si].u.branch.starter))
+    if (echecc(nbply,slices[si].u.branch_d.starter))
       ErrorMsg(SetAndCheck);
     else
     {
@@ -635,7 +683,7 @@ void branch_d_root_solve(slice_index si)
   }
   else
   {
-    if (echecc(nbply,advers(slices[si].u.branch.starter)))
+    if (echecc(nbply,advers(slices[si].u.branch_d.starter)))
       ErrorMsg(KingCapture);
     else
       root_solve_real_play(si);
@@ -651,26 +699,26 @@ void branch_d_root_solve(slice_index si)
  */
 slice_index branch_d_root_make_setplay_slice(slice_index si)
 {
-  slice_index const next = slices[si].u.branch.next;
+  slice_index const next = slices[si].u.branch_d.next;
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  if (slices[si].u.branch.length%2==1)
+  if (slices[si].u.branch_d.length%2==1)
     result = no_slice;
-  else if (slices[si].u.branch.length==slack_length_direct)
+  else if (slices[si].u.branch_d.length==slack_length_direct)
     result = slice_root_make_setplay_slice(next);
   else
   {
     slice_index next_in_setplay;
-    if (slices[si].u.branch.length==slack_length_direct+2)
+    if (slices[si].u.branch_d.length==slack_length_direct+2)
       next_in_setplay = next;
     else
     {
       next_in_setplay = copy_slice(si);
-      slices[next_in_setplay].u.branch.length -= 2;
-      slices[next_in_setplay].u.branch.min_length -= 2;
+      slices[next_in_setplay].u.branch_d.length -= 2;
+      slices[next_in_setplay].u.branch_d.min_length -= 2;
       hash_slice_is_derived_from(next_in_setplay,si);
       copy_slice(next_in_setplay);
     }
@@ -678,7 +726,7 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
     result = alloc_branch_h_slice(slack_length_help+1,
                                   slack_length_help+1,
                                   next_in_setplay);
-    slices[result].u.branch.starter = advers(slices[si].u.branch.starter);
+    slices[result].u.branch_d.starter = advers(slices[si].u.branch_d.starter);
   }
 
   TraceFunctionExit(__func__);
@@ -695,7 +743,7 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
                                                boolean same_side_as_root)
 {
   who_decides_on_starter result = dont_know_who_decides_on_starter;
-  slice_index const next = slices[si].u.branch.next;
+  slice_index const next = slices[si].u.branch_d.next;
   slice_index next_relevant = next;
 
   TraceFunctionEntry(__func__);
@@ -714,34 +762,34 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
     switch (slices[next_relevant].type)
     {
       case STLeafDirect:
-        slices[si].u.branch.starter =  White;
-        TraceValue("%u\n",slices[si].u.branch.starter);
-        slice_impose_starter(next,slices[si].u.branch.starter);
+        slices[si].u.branch_d.starter =  White;
+        TraceValue("%u\n",slices[si].u.branch_d.starter);
+        slice_impose_starter(next,slices[si].u.branch_d.starter);
         break;
 
       case STLeafSelf:
-        slices[si].u.branch.starter = White;
-        TraceValue("%u\n",slices[si].u.branch.starter);
-        slice_impose_starter(next,slices[si].u.branch.starter);
+        slices[si].u.branch_d.starter = White;
+        TraceValue("%u\n",slices[si].u.branch_d.starter);
+        slice_impose_starter(next,slices[si].u.branch_d.starter);
         break;
 
       case STLeafHelp:
-        slices[si].u.branch.starter = White;
-        TraceValue("%u\n",slices[si].u.branch.starter);
-        slice_impose_starter(next,advers(slices[si].u.branch.starter));
+        slices[si].u.branch_d.starter = White;
+        TraceValue("%u\n",slices[si].u.branch_d.starter);
+        slice_impose_starter(next,advers(slices[si].u.branch_d.starter));
         break;
 
       default:
-        slices[si].u.branch.starter = no_side;
+        slices[si].u.branch_d.starter = no_side;
         break;
     }
   }
   else
-    slices[si].u.branch.starter = slice_get_starter(next);
+    slices[si].u.branch_d.starter = slice_get_starter(next);
 
-  slices[si+1].u.branch.starter = slices[si].u.branch.starter;
+  slices[si+1].u.branch_d.starter = slices[si].u.branch_d.starter;
 
-  TraceValue("%u\n",slices[si].u.branch.starter);
+  TraceValue("%u\n",slices[si].u.branch_d.starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -754,7 +802,7 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
  */
 void branch_d_impose_starter(slice_index si, Side s)
 {
-  slices[si].u.branch.starter = s;
-  slices[si+1].u.branch.starter = s;
-  slice_impose_starter(slices[si].u.branch.next,s);
+  slices[si].u.branch_d.starter = s;
+  slices[si+1].u.branch_d.starter = s;
+  slice_impose_starter(slices[si].u.branch_d.next,s);
 }

@@ -3797,23 +3797,26 @@ static char *ParseTwinning(boolean *stipChanged)
 
     if (!TwinningRead)
     {
-      if (!continued)
-        TwinResetPosition();
-      else
+      if (continued)
       {
 #if !defined(DATABASE)
-        slice_index const next = slices[root_slice].u.branch.next;
-        if (slices[next].u.leaf.goal==goal_proof
-            || slices[next].u.leaf.goal==goal_atob)
-          /* fixes bug for continued twinning in proof games; changes
-           * were made to game array!
-           */
-          ProofRestoreTargetPosition();
+        if (slices[root_slice].type==STBranchHelp
+            || slices[root_slice].type==STBranchSeries)
+        {
+          slice_index const next = slices[root_slice].u.branch.next;
+          if ((slices[next].type==STLeafHelp
+               || slices[next].type==STLeafDirect)
+              && (slices[next].u.leaf.goal==goal_proof
+                  || slices[next].u.leaf.goal==goal_atob))
+            ProofRestoreTargetPosition();
+        }
 #endif /* DATABASE */
         StdChar('+');
         if (LaTeXout)
           strcat(ActTwinning, "+");
       }
+      else
+        TwinResetPosition();
 
       if (TwinChar <= 'z')
         sprintf(GlobalStr, "%c) ", TwinChar);

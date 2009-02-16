@@ -20,6 +20,20 @@ slice_index alloc_branch_d_slice(stip_length_type length,
                                  stip_length_type min_length,
                                  slice_index next);
 
+/* Write a priori unsolvability (if any) of a slice (e.g. forced
+ * reflex mates).
+ * Assumes slice_must_starter_resign(si)
+ * @param si slice index
+ */
+void branch_d_write_unsolvability(slice_index si);
+
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean branch_d_is_goal_reached(Side just_moved, slice_index si);
+
 typedef enum
 {
   branch_d_already_solved,
@@ -35,6 +49,12 @@ typedef enum
  */
 branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
                                                     stip_length_type n);
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean branch_d_has_solution(slice_index si);
 
 /* Spin off a set play slice
  * @param si slice index

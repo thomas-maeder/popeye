@@ -416,10 +416,10 @@ static void init_slice_properties_recursive(slice_index si,
         slice_index const base = base_slice[si];
         if (base==no_slice)
         {
-          slice_index const next = slices[si].u.branch.next;
-          unsigned int const length = slices[si].u.branch.length;
+          slice_index const next = slices[si].u.branch_d.next;
+          unsigned int const length = slices[si].u.branch_d.length;
           init_slice_properties_direct(si,length,nr_bits_left);
-          if (slices[si].u.branch.min_length==length)
+          if (slices[si].u.branch_d.min_length==length)
             is_there_slice_with_nonstandard_min_length = true;
 
           init_slice_properties_recursive(next,nr_bits_left);
@@ -822,7 +822,7 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
   switch (slices[si].type)
   {
     case STBranchDirect:
-      result = own_value_of_data_direct(he,si,slices[si].u.branch.length);
+      result = own_value_of_data_direct(he,si,slices[si].u.branch_d.length);
       break;
 
     case STBranchHelp:
@@ -922,6 +922,19 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
     }
 
     case STBranchDirect:
+    {
+      hash_value_type const own_value = own_value_of_data_composite(he,si);
+
+      slice_index const next = slices[si].u.branch_d.next;
+      hash_value_type const nested_value =
+          value_of_data_recursive(he,offset,next);
+      TraceValue("%x ",own_value);
+      TraceValue("%x\n",nested_value);
+
+      result = (own_value << offset) + nested_value;
+      break;
+    }
+
     case STBranchHelp:
     case STBranchSeries:
     {
@@ -1177,22 +1190,71 @@ void HashStats(unsigned int level, char *trailer)
 #endif /*HASHRATE*/
 }
 
+static int estimateNumberOfHoles(slice_index si)
+{
+  int result = 0;
+
+  /*
+   * I assume an average of (nr_files_on_board*nr_rows_on_board -
+   * number of pieces)/2 additional holes per position.
+   */
+  switch (slices[si].type)
+  {
+    case STBranchDirect:
+      result = 2*slices[si].u.branch_d.length;
+      break;
+
+    case STBranchHelp:
+      result = 2*slices[si].u.branch.length;
+      break;
+
+    case STBranchSeries:
+      /* That's far too much. In a ser-h#5 there won't be more
+       * than 5 holes in hashed positions.      TLi
+       */
+      result = slices[si].u.branch.length;
+      break;
+
+    case STMoveInverter:
+      result = estimateNumberOfHoles(slices[si].u.move_inverter.next);
+      break;
+
+    case STQuodlibet:
+    {
+      int const result1 = estimateNumberOfHoles(slices[si].u.quodlibet.op1);
+      int const result2 = estimateNumberOfHoles(slices[si].u.quodlibet.op2);
+      result = result1>result2 ? result1 : result2;
+      break;
+    }
+
+    case STReciprocal:
+    {
+      int const result1 = estimateNumberOfHoles(slices[si].u.reciprocal.op1);
+      int const result2 = estimateNumberOfHoles(slices[si].u.reciprocal.op2);
+      result = result1>result2 ? result1 : result2;
+      break;
+    }
+
+    case STNot:
+      result = estimateNumberOfHoles(slices[si].u.not.op);
+      break;
+
+    default:
+      printf("%u\n",slices[si].type);
+      assert(0);
+      break;
+  }
+
+  return result;
+}
+
 static int TellCommonEncodePosLeng(int len, int nbr_p) {
   int i;
 
   len++; /* Castling_Flag */
   if (CondFlag[haanerchess])
   {
-    /*
-    ** I assume an average of (nr_files_on_board*nr_rows_on_board -
-    ** number of pieces)/2 additional holes per position.
-    */
-    /* That's far too much. In a ser-h#5 there won't be more
-    ** than 5 holes in hashed positions.      TLi
-    */
-    int nbr_holes= (slices[root_slice].type==STBranchSeries
-                    ? slices[root_slice].u.branch.length
-                    : 2*slices[root_slice].u.branch.length);
+    int nbr_holes = estimateNumberOfHoles(root_slice);
     if (nbr_holes > (nr_files_on_board*nr_rows_on_board-nbr_p)/2)
       nbr_holes= (nr_files_on_board*nr_rows_on_board-nbr_p)/2;
     len += bytes_per_piece*nbr_holes;
@@ -1557,8 +1619,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
       {
         hash_value_type const nosucc = get_value_direct_nosucc(he,si);
         if (nosucc>=val
-            && (nosucc+slices[si].u.branch.min_length
-                <=val+slices[si].u.branch.length))
+            && (nosucc+slices[si].u.branch_d.min_length
+                <=val+slices[si].u.branch_d.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1570,8 +1632,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
       {
         hash_value_type const succ = get_value_direct_succ(he,si);
         if (succ<=val
-            && (succ+slices[si].u.branch.min_length
-                >=val+slices[si].u.branch.length))
+            && (succ+slices[si].u.branch_d.min_length
+                >=val+slices[si].u.branch_d.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1673,8 +1735,8 @@ static void init_element(dhtElement *he, slice_index si)
     case STBranchDirect:
       if (base_slice[si]==no_slice)
       {
-        init_element_direct(he,si,slices[si].u.branch.length);
-        init_element(he,slices[si].u.branch.next);
+        init_element_direct(he,si,slices[si].u.branch_d.length);
+        init_element(he,slices[si].u.branch_d.next);
       }
       break;
       

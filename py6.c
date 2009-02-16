@@ -437,13 +437,6 @@ static boolean verify_position(void)
   int      cp, pp, tp, op;
   boolean          nonoptgenre;
 
-  if (2*max_len_threat+slack_length_direct
-      <slices[root_slice].u.branch.min_length)
-  {
-    VerifieMsg(ThreatOptionAndExactStipulationIncompatible);
-    return false;
-  }
-
   if (CondFlag[glasgow] && CondFlag[circemalefique])
     anycirprom= true;
 
@@ -467,13 +460,21 @@ static boolean verify_position(void)
   if (! CondFlag[imitators])
     CondFlag[noiprom]= true;
 
-  if (slices[root_slice].u.branch.length<=max_len_threat)
-    max_len_threat = maxply;
-
   if (slices[root_slice].type==STBranchDirect)
   {
-    slice_index const next = slices[root_slice].u.branch.next;
-    if (slices[root_slice].u.branch.length<1
+    slice_index const next = slices[root_slice].u.branch_d.next;
+
+    if (2*max_len_threat+slack_length_direct
+        <slices[root_slice].u.branch_d.min_length)
+    {
+      VerifieMsg(ThreatOptionAndExactStipulationIncompatible);
+      return false;
+    }
+
+    if (slices[root_slice].u.branch_d.length<=max_len_threat)
+      max_len_threat = maxply;
+
+    if (slices[root_slice].u.branch_d.length<1
         && max_nr_refutations>0
         && !(slices[next].type==STLeafSelf
              || slices[next].type==STLeafHelp))
@@ -481,27 +482,18 @@ static boolean verify_position(void)
       ErrorMsg(TryInLessTwo);
       max_nr_refutations = 0;
     }
+
     if (OptFlag[stoponshort])
     {
       ErrorMsg(NoStopOnShortSolutions);
       OptFlag[stoponshort]= false;
     }
-
-    /* ennonce means full moves */
-    if (slices[root_slice].u.branch.length>(maxply-1)/2)
-    {
-      VerifieMsg(BigNumMoves);
-      return false;
-    }
   }
-  else
+
+  if (get_max_nr_moves(root_slice) >= maxply-2)
   {
-    /* ennonce means half moves */
-    if (slices[root_slice].u.branch.length >= maxply-2)
-    {
-      VerifieMsg(BigNumMoves);
-      return false;
-    }
+    VerifieMsg(BigNumMoves);
+    return false;
   }
 
   if (CondFlag[parrain])
@@ -2611,7 +2603,7 @@ static void init_duplex(void)
   }
   else
   {
-    Side const starter = slices[root_slice].u.branch.starter;
+    Side const starter = slice_get_starter(root_slice);
     slice_impose_starter(root_slice,advers(starter));
   }
 }
@@ -2627,7 +2619,7 @@ static void fini_duplex(void)
   }
   else
   {
-    Side const starter = slices[root_slice].u.branch.starter;
+    Side const starter = slice_get_starter(root_slice);
     slice_impose_starter(root_slice,advers(starter));
   }
 }
@@ -2665,7 +2657,7 @@ static boolean root_slice_apply_postkeyplay(void)
 
   if (slices[root_slice].type==STBranchDirect)
   {
-    --slices[root_slice].u.branch.length;
+    --slices[root_slice].u.branch_d.length;
     result = true;
   }
 
