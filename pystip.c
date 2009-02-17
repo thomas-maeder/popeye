@@ -178,6 +178,7 @@ stip_length_type get_max_nr_moves(slice_index si)
   switch (slices[si].type)
   {
     case STBranchDirect:
+    case STBranchDirectDefender:
       result = (slices[si].u.branch_d.length
                 +get_max_nr_moves(slices[si].u.branch_d.next));
       break;
@@ -388,6 +389,7 @@ static boolean slice_ends_only_in(Goal const goals[],
       return !slice_ends_only_in(goals,nrGoals,slices[si].u.not.op);
 
     case STBranchDirect:
+    case STBranchDirectDefender:
     {
       slice_index const next = slices[si].u.branch_d.next;
       return slice_ends_only_in(goals,nrGoals,next);
@@ -464,6 +466,7 @@ static boolean slice_ends_in(Goal const goals[],
     }
 
     case STBranchDirect:
+    case STBranchDirectDefender:
     {
       slice_index const next = slices[si].u.branch_d.next;
       return slice_ends_in(goals,nrGoals,next);
@@ -563,6 +566,7 @@ static slice_index find_goal_recursive(Goal goal,
       break;
 
     case STBranchDirect:
+    case STBranchDirectDefender:
     {
       slice_index const next = slices[si].u.branch_d.next;
       result = find_goal_recursive(goal,start,active,next);
@@ -692,6 +696,7 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
     }
 
     case STBranchDirect:
+    case STBranchDirectDefender:
     {
       slice_index const next = slices[current_slice].u.branch_d.next;
       result = find_unique_goal_recursive(next,found_so_far);

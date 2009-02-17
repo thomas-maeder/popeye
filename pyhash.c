@@ -433,7 +433,7 @@ static void init_slice_properties_recursive(slice_index si,
       }
 
       case STBranchDirectDefender:
-        /* nothing */
+        init_slice_properties_recursive(si-1,nr_bits_left);
         break;
 
       case STBranchHelp:
@@ -822,6 +822,7 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
   switch (slices[si].type)
   {
     case STBranchDirect:
+    case STBranchDirectDefender:
       result = own_value_of_data_direct(he,si,slices[si].u.branch_d.length);
       break;
 
@@ -922,6 +923,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
     }
 
     case STBranchDirect:
+    case STBranchDirectDefender:
     {
       hash_value_type const own_value = own_value_of_data_composite(he,si);
 
@@ -1201,6 +1203,7 @@ static int estimateNumberOfHoles(slice_index si)
   switch (slices[si].type)
   {
     case STBranchDirect:
+    case STBranchDirectDefender:
       result = 2*slices[si].u.branch_d.length;
       break;
 
@@ -1690,7 +1693,14 @@ static void init_element_help(dhtElement *he, slice_index si)
  */
 static void init_element_series(dhtElement *he, slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",he);
+  TraceFunctionParam("%u\n",si);
+
   set_value_series(he,si,0);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 static void init_element(dhtElement *he, slice_index si);
@@ -1703,6 +1713,10 @@ static void init_element(dhtElement *he, slice_index si);
  */
 static void init_element(dhtElement *he, slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",he);
+  TraceFunctionParam("%u\n",si);
+
   switch (slices[si].type)
   {
     case STLeafHelp:
@@ -1740,6 +1754,10 @@ static void init_element(dhtElement *he, slice_index si)
       }
       break;
       
+    case STBranchDirectDefender:
+      init_element(he,si-1);
+      break;
+
     case STBranchHelp:
       if (base_slice[si]==no_slice)
       {
@@ -1768,6 +1786,9 @@ static void init_element(dhtElement *he, slice_index si)
       assert(0);
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 void addtohash(slice_index si, hashwhat what, hash_value_type val)

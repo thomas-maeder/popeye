@@ -573,6 +573,10 @@ void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   table const threats = allocate_table();
   int len_threat;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
+
   assert(n%2==1);
 
   output_start_postkey_level();
@@ -591,6 +595,9 @@ void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   output_end_postkey_level();
 
   free_table();
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Solve at non-root level.
@@ -647,11 +654,11 @@ static void root_solve_variations_in_n(int len_threat,
   TraceText("\n");
 }
 
-/* Solve at root level.
+/* Solve postkey play at root level.
  * @param refutations table containing the refutations (if any)
  * @param si slice index
  */
-void branch_d_defender_root_solve(table refutations, slice_index si)
+void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -680,6 +687,22 @@ void branch_d_defender_root_solve(table refutations, slice_index si)
   write_refutations(refutations);
 
   output_end_postkey_level();
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Solve at root level.
+ * @param si slice index
+ */
+void branch_d_defender_root_solve(slice_index si)
+{
+  stip_length_type const n = slices[si].u.branch_d.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  branch_d_defender_solve_postkey_in_n(si,n);
 
   TraceFunctionExit(__func__);
   TraceText("\n");

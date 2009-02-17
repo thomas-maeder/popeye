@@ -422,7 +422,7 @@ static unsigned int root_collect_non_trivial(table non_trivial,
  *               as entered by the user
  *         number (0..max_nr_refutations) of refutations otherwise
  */
-static unsigned int root_find_refutations(table refutations, slice_index si)
+static unsigned int find_refutations(table refutations, slice_index si)
 {
   Side const defender = advers(slices[si].u.branch_d.starter);
   unsigned int result;
@@ -541,79 +541,6 @@ void branch_d_root_write_key(slice_index si, attack_type type)
   TraceText("\n");
 }
 
-/* Solve the solutions and tries
- * @param si slice index
- */
-static void root_solve_real_play(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  if (slice_must_starter_resign(si))
-    slice_write_unsolvability(slices[si].u.branch_d.next);
-  else if (slices[si].u.branch_d.length==slack_length_direct)
-    slice_root_solve(slices[si].u.branch_d.next);
-  else
-  {
-    Side const attacker = slices[si].u.branch_d.starter;
-    genmove(attacker);
-
-    output_start_continuation_level();
-
-    while (encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && !(OptFlag[restart] && MoveNbr<RestartNbr)
-          && !echecc(nbply,attacker))
-      {
-        table refutations = allocate_table();
-
-        if (slices[si].u.branch_d.min_length<=slack_length_direct
-            && slice_has_starter_reached_goal(slices[si].u.branch_d.next))
-        {
-          slice_root_write_key(slices[si].u.branch_d.next,attack_key);
-          slice_root_solve_postkey(refutations,slices[si].u.branch_d.next);
-          write_end_of_solution();
-        }
-        else
-        {
-          unsigned int const nr_refutations =
-              root_find_refutations(refutations,si);
-          TraceValue("%u",nr_refutations);
-          TraceValue("%u\n",max_nr_refutations);
-          if (nr_refutations<=max_nr_refutations)
-          {
-            attack_type const type = (nr_refutations==0
-                                      ? attack_key
-                                      : attack_try);
-            write_attack(type);
-            branch_d_defender_root_solve(refutations,si+1);
-            write_end_of_solution();
-          }
-        }
-
-        free_table();
-      }
-
-      if (OptFlag[movenbr])
-        IncrementMoveNbr();
-
-      repcoup();
-
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
-        break;
-    }
-
-    output_end_continuation_level();
-
-    finply();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
 /* Solve at non-root level.
  * @param si slice index
  */
@@ -665,28 +592,67 @@ boolean branch_d_solve(slice_index si)
  */
 void branch_d_root_solve(slice_index si)
 {
-  stip_length_type const n = slices[si].u.branch_d.length;
+  Side const attacker = slices[si].u.branch_d.starter;
+  slice_index const next = slices[si].u.branch_d.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  if (n%2==1)
-  {
-    if (echecc(nbply,slices[si].u.branch_d.starter))
-      ErrorMsg(SetAndCheck);
-    else
-    {
-      output_start_continuation_level();
-      branch_d_defender_solve_postkey_in_n(si+1,n);
-      output_end_continuation_level();
-    }
-  }
+  assert(slices[si].u.branch_d.length%2==0);
+  assert(slices[si].u.branch_d.length>slack_length_direct);
+
+  if (echecc(nbply,advers(attacker)))
+    ErrorMsg(KingCapture);
+  else if (slice_must_starter_resign(next))
+    slice_write_unsolvability(next);
   else
   {
-    if (echecc(nbply,advers(slices[si].u.branch_d.starter)))
-      ErrorMsg(KingCapture);
-    else
-      root_solve_real_play(si);
+    genmove(attacker);
+
+    output_start_continuation_level();
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && !(OptFlag[restart] && MoveNbr<RestartNbr)
+          && !echecc(nbply,attacker))
+      {
+        table refutations = allocate_table();
+
+        if (slices[si].u.branch_d.min_length<=slack_length_direct
+            && slice_has_starter_reached_goal(next))
+        {
+          slice_root_write_key(next,attack_key);
+          slice_root_solve_postkey(refutations,next);
+          write_end_of_solution();
+        }
+        else
+        {
+          unsigned int const nr_refut = find_refutations(refutations,si);
+          if (nr_refut<=max_nr_refutations)
+          {
+            write_attack(nr_refut==0 ? attack_key : attack_try);
+            branch_d_defender_root_solve_postkey(refutations,si+1);
+            write_end_of_solution();
+          }
+        }
+
+        free_table();
+      }
+
+      if (OptFlag[movenbr])
+        IncrementMoveNbr();
+
+      repcoup();
+
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || maxtime_status==MAXTIME_TIMEOUT)
+        break;
+    }
+
+    output_end_continuation_level();
+
+    finply();
   }
 
   TraceFunctionExit(__func__);

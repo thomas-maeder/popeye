@@ -42,6 +42,7 @@ static output_mode detect_output_mode(slice_index si)
       break;
 
     case STBranchDirect:
+    case STBranchDirectDefender:
     case STLeafDirect:
     case STLeafSelf:
       result = output_mode_tree;

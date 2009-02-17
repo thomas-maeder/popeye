@@ -2657,7 +2657,7 @@ static boolean root_slice_apply_postkeyplay(void)
 
   if (slices[root_slice].type==STBranchDirect)
   {
-    --slices[root_slice].u.branch_d.length;
+    root_slice = alloc_move_inverter_slice(root_slice+1);
     result = true;
   }
 

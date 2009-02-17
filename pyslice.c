@@ -264,7 +264,7 @@ void slice_root_solve_postkey(table refutations, slice_index si)
       break;
 
     case STBranchDirect:
-      branch_d_defender_root_solve(refutations,si);
+      branch_d_defender_root_solve_postkey(refutations,si);
       break;
 
     case STBranchHelp:
@@ -393,6 +393,10 @@ void slice_root_solve(slice_index si)
 
     case STBranchDirect:
       branch_d_root_solve(si);
+      break;
+
+    case STBranchDirectDefender:
+      branch_d_defender_root_solve(si);
       break;
 
     case STBranchHelp:
@@ -1057,6 +1061,7 @@ Side slice_get_starter(slice_index si)
       break;
 
     case STBranchDirect:
+    case STBranchDirectDefender:
       result = slices[si].u.branch_d.starter;
       break;
 
