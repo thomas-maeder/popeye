@@ -69,6 +69,7 @@ defender_has_refutation_type has_defender_refutation(slice_index si,
 {
   Side const attacker = slices[si].u.branch_d.starter;
   Side const defender = advers(attacker);
+  slice_index const peer = slices[si].u.branch_d.peer;
   defender_has_refutation_type result = defender_is_immobile;
   
   TraceFunctionEntry(__func__);
@@ -91,7 +92,7 @@ defender_has_refutation_type has_defender_refutation(slice_index si,
     {
       result = defender_has_no_refutation;
       (*encode)();
-      if (branch_d_has_solution_in_n(si-1,n-1)==branch_d_no_solution)
+      if (branch_d_has_solution_in_n(peer,n-1)==branch_d_no_solution)
       {
         result = defender_has_refutation;
         coupfort();
@@ -116,6 +117,7 @@ static int count_non_trivial_defenses(slice_index si)
 {
   Side const attacker = slices[si].u.branch_d.starter;
   Side const defender = advers(attacker);
+  slice_index const peer = slices[si].u.branch_d.peer;
   int result = -1;
 
   TraceFunctionEntry(__func__);
@@ -139,7 +141,7 @@ static int count_non_trivial_defenses(slice_index si)
       else
       {
         (*encode)();
-        if (branch_d_has_solution_in_n(si-1,
+        if (branch_d_has_solution_in_n(peer,
                                        2*min_length_nontrivial
                                        +slack_length_direct)
             ==branch_d_no_solution)
@@ -198,6 +200,7 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
 {
   Side const attacker = slices[si].u.branch_d.starter;
   Side const defender = advers(attacker);
+  slice_index const peer = slices[si].u.branch_d.peer;
   boolean result;
   
   TraceFunctionEntry(__func__);
@@ -211,7 +214,7 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
       && !echecc(nbply,defender))
   {
     (*encode)();
-    result = (branch_d_has_solution_in_n(si-1,2*max_len_threat)
+    result = (branch_d_has_solution_in_n(peer,2*max_len_threat)
               ==branch_d_no_solution);
   }
   else
@@ -398,6 +401,7 @@ static boolean is_defense_relevant(int len_threat,
                                    slice_index si,
                                    stip_length_type n)
 {
+  slice_index const peer = slices[si].u.branch_d.peer;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -409,11 +413,11 @@ static boolean is_defense_relevant(int len_threat,
 
   (*encode)();
   if (n>slack_length_direct && OptFlag[noshort]
-      && (branch_d_has_solution_in_n(si-1,n-2)<=branch_d_we_solve))
+      && (branch_d_has_solution_in_n(peer,n-2)<=branch_d_we_solve))
     /* variation shorter than stip */
     result = false;
   else if (len_threat>slack_length_direct
-           && (branch_d_has_solution_in_n(si-1,len_threat-2)
+           && (branch_d_has_solution_in_n(peer,len_threat-2)
                <=branch_d_we_solve))
     /* variation shorter than threat */
     /* TODO avoid double calculation if lenthreat==n*/
@@ -442,6 +446,7 @@ static void write_variation(slice_index si, stip_length_type n)
 {
   boolean is_refutation = true; /* until we prove otherwise */
   stip_length_type i;
+  slice_index const peer = slices[si].u.branch_d.peer;
   stip_length_type const
       min_len = (slices[si].u.branch_d.min_length+slack_length_direct>=n
                  ? n
@@ -460,7 +465,7 @@ static void write_variation(slice_index si, stip_length_type n)
   for (i = min_len; i<=n && is_refutation; i += 2)
   {
     table const continuations = allocate_table();
-    branch_d_solve_continuations_in_n(continuations,si-1,i-1);
+    branch_d_solve_continuations_in_n(continuations,peer,i-1);
     is_refutation = table_length(continuations)==0;
     free_table();
   }
@@ -523,6 +528,7 @@ static void solve_variations_in_n(int len_threat,
 static int solve_threats(table threats, slice_index si, stip_length_type n)
 {
   Side const defender = advers(slices[si].u.branch_d.starter);
+  slice_index const peer = slices[si].u.branch_d.peer;
   int result = 0;
 
   TraceFunctionEntry(__func__);
@@ -545,7 +551,7 @@ static int solve_threats(table threats, slice_index si, stip_length_type n)
 
     for (i = slack_length_direct; i<=max_threat_length; i += 2)
     {
-      branch_d_solve_continuations_in_n(threats,si-1,i);
+      branch_d_solve_continuations_in_n(threats,peer,i);
       TraceValue("%u",i);
       TraceValue("%u\n",table_length(threats));
       if (table_length(threats)>0)

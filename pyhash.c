@@ -433,8 +433,11 @@ static void init_slice_properties_recursive(slice_index si,
       }
 
       case STBranchDirectDefender:
-        init_slice_properties_recursive(si-1,nr_bits_left);
+      {
+        slice_index const peer = slices[si].u.branch_d.peer;
+        init_slice_properties_recursive(peer,nr_bits_left);
         break;
+      }
 
       case STBranchHelp:
       {
@@ -1755,8 +1758,11 @@ static void init_element(dhtElement *he, slice_index si)
       break;
       
     case STBranchDirectDefender:
-      init_element(he,si-1);
+    {
+      slice_index const peer = slices[si].u.branch_d.peer;
+      init_element(he,peer);
       break;
+    }
 
     case STBranchHelp:
       if (base_slice[si]==no_slice)

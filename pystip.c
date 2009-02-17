@@ -30,8 +30,7 @@ void dealloc_slice_index(slice_index si)
    * allocated one */
 
   if (slices[si].type==STBranchDirect)
-    /* deallocate index for the defending slice */
-    dealloc_slice_index(si+1);
+    dealloc_slice_index(slices[si].u.branch_d.peer);
 
   if (next_slice==si+1)
     --next_slice;
@@ -770,7 +769,11 @@ void stip_make_exact(slice_index si)
 
     case STBranchDirect:
       slices[si].u.branch.min_length = slices[si].u.branch_d.length;
-      slices[si+1].u.branch.min_length = slices[si+1].u.branch_d.length;
+      stip_make_exact(slices[si].u.branch_d.peer);
+      break;
+
+    case STBranchDirectDefender:
+      slices[si].u.branch.min_length = slices[si].u.branch_d.length;
       break;
 
     case STBranchHelp:

@@ -36,12 +36,12 @@ slice_index alloc_branch_d_slice(stip_length_type length,
   slices[result].u.branch_d.min_length = min_length;
   slices[result].u.branch_d.next = next;
 
-  {
-    slice_index const defender_slice = copy_slice(result);
-    slices[defender_slice].type = STBranchDirectDefender;
-    --slices[defender_slice].u.branch_d.length;
-    --slices[defender_slice].u.branch_d.min_length;
-  }
+  slices[result].u.branch_d.peer = copy_slice(result);
+  slices[slices[result].u.branch_d.peer].u.branch_d.peer = result;
+
+  slices[slices[result].u.branch_d.peer].type = STBranchDirectDefender;
+  --slices[slices[result].u.branch_d.peer].u.branch_d.length;
+  --slices[slices[result].u.branch_d.peer].u.branch_d.min_length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -170,6 +170,7 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
 static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
 {
   Side const attacker = slices[si].u.branch_d.starter;
+  slice_index const peer = slices[si].u.branch_d.peer;
   boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
@@ -184,7 +185,7 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker)
-        && branch_d_defender_does_defender_win(si+1,n-1)>=loss)
+        && branch_d_defender_does_defender_win(peer,n-1)>=loss)
     {
       solution_found = true;
       coupfort();
@@ -460,8 +461,6 @@ void branch_d_solve_continuations_in_n(table continuations,
                                        slice_index si,
                                        stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch_d.starter;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
@@ -472,6 +471,9 @@ void branch_d_solve_continuations_in_n(table continuations,
     slice_solve_continuations(continuations,slices[si].u.branch_d.next);
   else
   {
+    Side const attacker = slices[si].u.branch_d.starter;
+    slice_index const peer = slices[si].u.branch_d.peer;
+
     genmove(attacker);
 
     while (encore())
@@ -480,7 +482,7 @@ void branch_d_solve_continuations_in_n(table continuations,
           && !echecc(nbply,attacker))
       {
         d_defender_win_type const
-            defender_success = branch_d_defender_does_defender_win(si+1,n-1);
+            defender_success = branch_d_defender_does_defender_win(peer,n-1);
         TraceValue("%u\n",defender_success);
         if (defender_success>=loss)
         {
@@ -489,7 +491,7 @@ void branch_d_solve_continuations_in_n(table continuations,
           if (defender_success==already_lost)
             slice_solve_postkey(slices[si].u.branch_d.next);
           else
-            branch_d_defender_solve_postkey_in_n(si+1,n-1);
+            branch_d_defender_solve_postkey_in_n(peer,n-1);
 
           append_to_top_table();
           coupfort();
@@ -607,6 +609,8 @@ void branch_d_root_solve(slice_index si)
     slice_write_unsolvability(next);
   else
   {
+    slice_index const peer = slices[si].u.branch_d.peer;
+
     genmove(attacker);
 
     output_start_continuation_level();
@@ -632,7 +636,7 @@ void branch_d_root_solve(slice_index si)
           if (nr_refut<=max_nr_refutations)
           {
             write_attack(nr_refut==0 ? attack_key : attack_try);
-            branch_d_defender_root_solve_postkey(refutations,si+1);
+            branch_d_defender_root_solve_postkey(refutations,peer);
             write_end_of_solution();
           }
         }
@@ -710,6 +714,7 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
 {
   who_decides_on_starter result = dont_know_who_decides_on_starter;
   slice_index const next = slices[si].u.branch_d.next;
+  slice_index const peer = slices[si].u.branch_d.peer;
   slice_index next_relevant = next;
 
   TraceFunctionEntry(__func__);
@@ -753,7 +758,7 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
   else
     slices[si].u.branch_d.starter = slice_get_starter(next);
 
-  slices[si+1].u.branch_d.starter = slices[si].u.branch_d.starter;
+  slices[peer].u.branch_d.starter = slices[si].u.branch_d.starter;
 
   TraceValue("%u\n",slices[si].u.branch_d.starter);
 
@@ -769,6 +774,6 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
 void branch_d_impose_starter(slice_index si, Side s)
 {
   slices[si].u.branch_d.starter = s;
-  slices[si+1].u.branch_d.starter = s;
+  slices[slices[si].u.branch_d.peer].u.branch_d.starter = s;
   slice_impose_starter(slices[si].u.branch_d.next,s);
 }

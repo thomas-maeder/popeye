@@ -131,6 +131,7 @@ typedef struct
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
             slice_index next;
+            slice_index peer;
         } branch_d;
 
         struct /* for type==STQuodlibet */
