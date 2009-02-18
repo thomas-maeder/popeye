@@ -12,14 +12,22 @@
 
 for f in *.ref
 do
-    stem=`echo $f | sed -e 's/[.]ref$//'`
-    inputfile=../EXAMPLES/$stem.inp
-    ../py -maxmem 250M -regression -notrace $inputfile
+    # only true if *.ref isn't expanded because there is no matching file
+    if [ -f $f ]
+    then
+        stem=`echo $f | sed -e 's/[.]ref$//'`
+        inputfile=../EXAMPLES/$stem.inp
+        ../py -maxmem 250M -regression -notrace $inputfile
+    fi
 done
 
 for f in *.out
 do
-    stem=`echo $f | sed -e 's/[.]out$//'`
-    inputfile=../BEISPIEL/$stem.inp
-    ../py -maxmem 250M -regression -notrace $inputfile
+    # only true if *.ref isn't expanded because there is no matching file
+    if [ -f $f ]
+    then
+        stem=`echo $f | sed -e 's/[.]out$//'`
+        inputfile=../BEISPIEL/$stem.inp
+        ../py -maxmem 250M -regression -notrace $inputfile
+    fi
 done
