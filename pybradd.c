@@ -1,5 +1,6 @@
 #include "pybradd.h"
 #include "pybrad.h"
+#include "pybrah.h"
 #include "pydata.h"
 #include "pyslice.h"
 #include "pyhash.h"
@@ -23,6 +24,35 @@ boolean branch_d_defender_must_starter_resign(slice_index si)
 
   result = slice_must_starter_resign(slices[si].u.branch_d.next);
   
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Write a priori unsolvability (if any) of a slice (e.g. forced
+ * reflex mates).
+ * Assumes slice_must_starter_resign(si)
+ * @param si slice index
+ */
+void branch_d_defender_write_unsolvability(slice_index si)
+{
+  slice_write_unsolvability(slices[si].u.branch_d.next);
+}
+
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  result =  slice_is_goal_reached(just_moved,slices[si].u.branch_d.next);
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
@@ -712,4 +742,114 @@ void branch_d_defender_root_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceText("\n");
+}
+
+/* Spin off a set play slice at non-root-level
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index branch_d_defender_make_setplay_slice(slice_index si)
+{
+  slice_index const next = slices[si].u.branch_d.next;
+  slice_index next_in_setplay;
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  if (slices[si].u.branch_d.length==slack_length_direct+1)
+    next_in_setplay = next;
+  else
+  {
+    slice_index const peer = slices[si].u.branch_d.peer;
+
+    slice_index const next_in_setplay_peer = copy_slice(si);
+    slices[next_in_setplay_peer].u.branch_d.length -= 2;
+    slices[next_in_setplay_peer].u.branch_d.min_length -= 2;
+
+    next_in_setplay = copy_slice(peer);
+    slices[next_in_setplay].u.branch_d.length -= 2;
+    slices[next_in_setplay].u.branch_d.min_length -= 2;
+    hash_slice_is_derived_from(next_in_setplay,peer);
+
+    slices[next_in_setplay].u.branch_d.peer = next_in_setplay_peer;
+    slices[next_in_setplay_peer].u.branch_d.peer = next_in_setplay;
+  }
+
+  result = alloc_branch_h_slice(slack_length_help+1,
+                                slack_length_help+1,
+                                next_in_setplay);
+  slices[result].u.branch_d.starter = advers(slices[si].u.branch_d.starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Detect starter field with the starting side if possible. 
+ * @param si identifies slice
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
+ */
+who_decides_on_starter
+branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
+{
+  who_decides_on_starter result = dont_know_who_decides_on_starter;
+  slice_index const next = slices[si].u.branch_d.next;
+  slice_index next_relevant = next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",same_side_as_root);
+  
+  if (slices[next].type==STMoveInverter)
+    next_relevant = slices[next].u.move_inverter.next;
+
+  TraceValue("%u\n",next_relevant);
+
+  result = slice_detect_starter(next,same_side_as_root);
+  if (slice_get_starter(next)==no_side)
+    /* next can't tell - let's tell him */
+    switch (slices[next_relevant].type)
+    {
+      case STLeafDirect:
+        slices[si].u.branch_d.starter =  White;
+        TraceValue("%u\n",slices[si].u.branch_d.starter);
+        slice_impose_starter(next,slices[si].u.branch_d.starter);
+        break;
+
+      case STLeafSelf:
+        slices[si].u.branch_d.starter = White;
+        TraceValue("%u\n",slices[si].u.branch_d.starter);
+        slice_impose_starter(next,slices[si].u.branch_d.starter);
+        break;
+
+      case STLeafHelp:
+        slices[si].u.branch_d.starter = White;
+        TraceValue("%u\n",slices[si].u.branch_d.starter);
+        slice_impose_starter(next,advers(slices[si].u.branch_d.starter));
+        break;
+
+      default:
+        slices[si].u.branch_d.starter = no_side;
+        break;
+    }
+  else
+    slices[si].u.branch_d.starter = slice_get_starter(next);
+
+  TraceValue("%u\n",slices[si].u.branch_d.starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Impose the starting side on a slice.
+ * @param si identifies branch
+ * @param s starting side of slice
+ */
+void branch_d_defender_impose_starter(slice_index si, Side s)
+{
+  slices[si].u.branch_d.starter = s;
+  slice_impose_starter(slices[si].u.branch_d.next,s);
 }

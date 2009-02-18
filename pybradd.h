@@ -3,11 +3,26 @@
 
 #include "boolean.h"
 #include "pystip.h"
+#include "pyslice.h"
 #include "pytable.h"
 
 /* This module provides functionality dealing with the defending side
  * in STBranchDirect stipulation slices.
  */
+
+/* Write a priori unsolvability (if any) of a slice (e.g. forced
+ * reflex mates).
+ * Assumes slice_must_starter_resign(si)
+ * @param si slice index
+ */
+void branch_d_defender_write_unsolvability(slice_index si);
+
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si);
 
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
@@ -89,5 +104,25 @@ void branch_d_defender_root_solve_postkey(table refutations, slice_index si);
  * @param si slice index
  */
 void branch_d_defender_root_solve(slice_index si);
+
+/* Spin off a set play slice at non-root-level
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index branch_d_defender_make_setplay_slice(slice_index si);
+
+/* Detect starter field with the starting side if possible. 
+ * @param si identifies slice
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
+ */
+who_decides_on_starter
+branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root);
+
+/* Impose the starting side on a slice.
+ * @param si identifies branch
+ * @param s starting side of slice
+ */
+void branch_d_defender_impose_starter(slice_index si, Side s);
 
 #endif
