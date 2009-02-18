@@ -86,7 +86,7 @@ who_decides_on_starter not_detect_starter(slice_index si,
  */
 void not_impose_starter(slice_index si, Side s);
 
-/* Spin off a set play slice
+/* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable
  */

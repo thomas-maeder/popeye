@@ -22,7 +22,7 @@ slice_index alloc_move_inverter_slice(slice_index next);
  */
 boolean move_inverter_must_starter_resign(slice_index si);
 
-/* Spin off a set play slice
+/* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable
  */

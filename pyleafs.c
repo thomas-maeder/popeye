@@ -263,7 +263,7 @@ boolean leaf_s_has_starter_reached_goal(slice_index leaf)
   return result;
 }
 
-/* Spin off a set play slice
+/* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable
  */

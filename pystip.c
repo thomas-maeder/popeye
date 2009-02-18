@@ -297,8 +297,13 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
     break;
 
     case STBranchDirect:
-      transform_to_quodlibet_recursive(&slices[index].u.branch_d.next);
+    {
+      slice_index next = slices[index].u.branch_d.next;
+      transform_to_quodlibet_recursive(&next);
+      slices[index].u.branch_d.next = next;
+      slices[slices[index].u.branch_d.peer].u.branch_d.next = next;
       break;
+    }
 
     case STBranchSeries:
       transform_to_quodlibet_recursive(&slices[index].u.branch.next);

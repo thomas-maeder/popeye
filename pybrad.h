@@ -56,7 +56,7 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
  */
 boolean branch_d_has_solution(slice_index si);
 
-/* Spin off a set play slice
+/* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable
  */
