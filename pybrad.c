@@ -338,38 +338,58 @@ boolean branch_d_solve(slice_index si)
 {
   boolean result = false;
   stip_length_type const n = slices[si].u.branch_d.length;
-  branch_d_solution_degree how_is_solved;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   TraceValue("%u\n",n);
 
-  how_is_solved = branch_d_has_solution_in_n(si,n);
-  TraceValue("%u\n",how_is_solved);
-
-  if (how_is_solved==branch_d_already_solved)
-    slice_write_non_starter_has_solved(slices[si].u.branch_d.next);
-  else if (how_is_solved<=branch_d_we_solve)
+  if (branch_d_defender_must_starter_resign(slices[si].u.branch_d.peer))
+    ;
+  else
   {
-    stip_length_type i;
-    table const continuations = allocate_table();
-    stip_length_type min_len = slices[si].u.branch_d.min_length;
+    slice_index const peer = slices[si].u.branch_d.peer;
+    stip_length_type const moves_played = slices[si].u.branch_d.length-n;
+    stip_length_type const min_length = slices[si].u.branch_d.min_length;
 
-    if (min_len<slack_length_direct)
-      min_len = slack_length_direct;
+    assert(n%2==0);
 
-    output_start_continuation_level();
-  
-    for (i = min_len; i<=n && !result; i += 2)
+    TraceValue("%u",moves_played);
+    TraceValue("%u\n",min_length);
+    if (moves_played+slack_length_direct>min_length
+        && branch_d_defender_has_non_starter_solved(peer))
     {
-      branch_d_solve_continuations_in_n(continuations,si,i);
-      result = table_length(continuations)>0;
+      slice_write_non_starter_has_solved(slices[si].u.branch_d.next);
+      result = true;
     }
+    else if ((moves_played+slack_length_direct>=min_length
+              && slice_has_solution(slices[si].u.branch_d.next))
+             || (n>slack_length_direct
+                 && have_we_solution_in_n_hashed(si,n)))
+    {
+      /* TODO 1 why do *we* solve if *next* as a solution?
+       */
+      /* TODO 2 does have_we_solution_in_n_hashed 'know' how many
+       * moves are needed? */
+      stip_length_type i;
+      table const continuations = allocate_table();
+      stip_length_type min_len = slices[si].u.branch_d.min_length;
 
-    output_end_continuation_level();
+      if (min_len<slack_length_direct)
+        min_len = slack_length_direct;
 
-    free_table();
+      output_start_continuation_level();
+  
+      for (i = min_len; i<=n && !result; i += 2)
+      {
+        branch_d_solve_continuations_in_n(continuations,si,i);
+        result = table_length(continuations)>0;
+      }
+
+      output_end_continuation_level();
+
+      free_table();
+    }
   }
 
   TraceFunctionExit(__func__);
