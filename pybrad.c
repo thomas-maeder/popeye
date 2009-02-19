@@ -77,90 +77,6 @@ boolean branch_d_is_goal_reached(Side just_moved, slice_index si)
   return result;
 }
 
-/* Count all non-trivial moves of the defending side. Whether a
- * particular move is non-trivial is determined by user input.
- * @return number of defender's non-trivial moves minus 1 (TODO: why?)
- */
-static int count_non_trivial_defenses(slice_index si)
-{
-  Side const attacker = slices[si].u.branch_d.starter;
-  Side const defender = advers(attacker);
-  int result = -1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  genmove(defender);
-
-  TraceValue("%u",nbcou);
-  TraceValue("%u",nbply);
-  TraceValue("%u",repere[nbply]);
-  TraceValue("%u",max_nr_nontrivial);
-  TraceValue("%d\n",result);
-  
-  while (encore() && max_nr_nontrivial>=result)
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,defender))
-    {
-      if (min_length_nontrivial==0)
-        ++result;
-      else
-      {
-        (*encode)();
-        if (branch_d_has_solution_in_n(si,
-                                       2*min_length_nontrivial
-                                       +slack_length_direct)
-            ==branch_d_no_solution)
-          ++result;
-      }
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
-  return result;
-}
-
-/* Determine whether the threat after the attacker's move just played
- * is too long respective to user input.
- * @param si slice index
- * @param n (even) number of half moves until goal
- * @return true iff threat is too long
- */
-static boolean is_threat_too_long(slice_index si, stip_length_type n)
-{
-  Side const attacker = slices[si].u.branch_d.starter;
-  Side const defender = advers(attacker);
-  boolean result;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
-
-  assert(n%2==0);
-
-  TraceValue("%u\n",2*max_len_threat);
-  if (n>2*max_len_threat+slack_length_direct
-      && !echecc(nbply,defender))
-  {
-    (*encode)();
-    result = (branch_d_has_solution_in_n(si,2*max_len_threat)
-              ==branch_d_no_solution);
-  }
-  else
-    /* remainder of play is too short for max_len_threat to apply */
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Determine whether this slice has a solution in n half moves
  * @param si slice identifier
  * @param n (even) number of half moves until goal
@@ -276,6 +192,8 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
 {
   branch_d_solution_degree result = branch_d_no_solution;
   slice_index const peer = slices[si].u.branch_d.peer;
+  stip_length_type const moves_played = slices[si].u.branch_d.length-n;
+  stip_length_type const min_length = slices[si].u.branch_d.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -283,24 +201,17 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
 
   assert(n%2==0);
 
-  if (branch_d_defender_must_starter_resign(peer))
-    ; /* intentionally nothing */
-  else
-  {
-    stip_length_type const moves_played = slices[si].u.branch_d.length-n;
-    stip_length_type const min_length = slices[si].u.branch_d.min_length;
-    TraceValue("%u",moves_played);
-    TraceValue("%u\n",min_length);
-    if (moves_played+slack_length_direct>min_length
-        && branch_d_defender_has_non_starter_solved(peer))
-      result = branch_d_already_solved;
-    else if (moves_played+slack_length_direct>=min_length
-             && slice_has_solution(slices[si].u.branch_d.next))
-      result = branch_d_next_solves;
-    else if (n>slack_length_direct
-             && have_we_solution_in_n_hashed(si,n))
-      result = branch_d_we_solve;
-  }
+  TraceValue("%u",moves_played);
+  TraceValue("%u\n",min_length);
+  if (moves_played+slack_length_direct>min_length
+      && branch_d_defender_has_non_starter_solved(peer))
+    result = branch_d_already_solved;
+  else if (moves_played+slack_length_direct>=min_length
+           && slice_has_solution(slices[si].u.branch_d.next))
+    result = branch_d_next_solves;
+  else if (n>slack_length_direct
+           && have_we_solution_in_n_hashed(si,n))
+    result = branch_d_we_solve;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -318,131 +229,8 @@ boolean branch_d_has_solution(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = (branch_d_has_solution_in_n(si,slices[si].u.branch_d.length)
-            <=branch_d_we_solve);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Collect refutations at root level
- * @param t table where to add refutations
- * @param si slice index
- * @param (odd) number of half moves until goal
- * @return true iff defender is immobile
- */
-static boolean root_collect_refutations(table refutations,
-                                        slice_index si,
-                                        stip_length_type n)
-{
-  Side const attacker = slices[si].u.branch_d.starter;
-  Side const defender = advers(attacker);
-  boolean is_defender_immobile = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
-
-  if (n-1>slack_length_direct+2)
-    move_generation_mode= move_generation_mode_opti_per_side[defender];
-  genmove(defender);
-  move_generation_mode= move_generation_optimized_by_killer_move;
-
-  while (encore()
-         && table_length(refutations)<=max_nr_refutations)
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,defender))
-    {
-      is_defender_immobile = false;
-      (*encode)();
-      if (branch_d_has_solution_in_n(si,n-1)==branch_d_no_solution)
-      {
-        append_to_top_table();
-        coupfort();
-      }
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",is_defender_immobile);
-  return is_defender_immobile;
-}
-
-/* Collect non-trivial defenses at root level
- * @param non_trivial table where to add non-trivial defenses
- * @param si slice index
- * @param n (odd) number of half moves until goal
- * @return max_nr_refutations+1 if defender is immobile or there are
- *                              too many non-trivial defenses respective
- *                              to user input
- *         number of non-trivial defenses otherwise
- */
-static unsigned int root_collect_non_trivial(table non_trivial,
-                                             slice_index si,
-                                             stip_length_type n)
-{
-  unsigned int result;
-  int non_trivial_count;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
-
-  non_trivial_count = count_non_trivial_defenses(si);
-  if (max_nr_nontrivial<non_trivial_count)
-    result = max_nr_refutations+1;
-  else
-  {
-    max_nr_nontrivial -= non_trivial_count;
-    result = (root_collect_refutations(non_trivial,si,n)
-              ? max_nr_refutations+1
-              : table_length(non_trivial));
-    max_nr_nontrivial += non_trivial_count;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Find refutations after a move of the attacking side at root level.
- * @param t table where to store refutations
- * @param si slice index
- * @return max_nr_refutations+1 if
- *            if the defending side is immobile (it shouldn't be here!)
- *            if the defending side has more non-trivial moves than allowed
- *            if the defending king has more flights than allowed
- *            if there is no threat in <= the maximal threat length
- *               as entered by the user
- *         number (0..max_nr_refutations) of refutations otherwise
- */
-static unsigned int find_refutations(table refutations, slice_index si)
-{
-  Side const defender = advers(slices[si].u.branch_d.starter);
-  unsigned int result;
-  stip_length_type const n = slices[si].u.branch_d.length-1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  if (is_threat_too_long(si,n-1))
-    result = max_nr_refutations+1;
-  else if (n-1>slack_length_direct+2
-           && OptFlag[solflights] && has_too_many_flights(defender))
-    result = max_nr_refutations+1;
-  else if (n-1>2*min_length_nontrivial+slack_length_direct)
-    result = root_collect_non_trivial(refutations,si,n);
-  else
-    result = (root_collect_refutations(refutations,si,n)
-              ? max_nr_refutations+1
-              : table_length(refutations));
+  result = !branch_d_defender_is_refuted(slices[si].u.branch_d.peer,
+                                         slices[si].u.branch_d.length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -631,10 +419,11 @@ void branch_d_root_solve(slice_index si)
         }
         else
         {
-          unsigned int const nr_refut = find_refutations(refutations,si);
-          if (nr_refut<=max_nr_refutations)
+          unsigned int const nr_refutations =
+              branch_d_defender_find_refutations(refutations,peer);
+          if (nr_refutations<=max_nr_refutations)
           {
-            write_attack(nr_refut==0 ? attack_key : attack_try);
+            write_attack(nr_refutations==0 ? attack_key : attack_try);
             branch_d_defender_root_solve_postkey(refutations,peer);
             write_end_of_solution();
           }

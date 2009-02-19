@@ -41,6 +41,13 @@ boolean branch_d_defender_must_starter_resign(slice_index si);
  */
 boolean branch_d_defender_has_starter_apriori_lost(slice_index si);
 
+/* Is the defense just played a refutation?
+ * @param si slice index
+ * @param n (even) number of half moves until goal
+ * @return true iff the defense is a refutation
+ */
+boolean branch_d_defender_is_refuted(slice_index si, stip_length_type n);
+
 /* Determine whether the attacker has won with his move just played
  * independently of the non-starter's possible further play during the
  * current slice.
@@ -104,6 +111,20 @@ void branch_d_defender_root_solve_postkey(table refutations, slice_index si);
  * @param si slice index
  */
 void branch_d_defender_root_solve(slice_index si);
+
+/* Find refutations after a move of the attacking side at root level.
+ * @param t table where to store refutations
+ * @param si slice index
+ * @return max_nr_refutations+1 if
+ *            if the defending side is immobile (it shouldn't be here!)
+ *            if the defending side has more non-trivial moves than allowed
+ *            if the defending king has more flights than allowed
+ *            if there is no threat in <= the maximal threat length
+ *               as entered by the user
+ *         number (0..max_nr_refutations) of refutations otherwise
+ */
+unsigned int branch_d_defender_find_refutations(table refutations,
+                                                slice_index si);
 
 /* Spin off a set play slice at non-root-level
  * @param si slice index
