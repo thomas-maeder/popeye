@@ -331,6 +331,47 @@ void branch_d_root_write_key(slice_index si, attack_type type)
   TraceText("\n");
 }
 
+/* Find solutions in next slice
+ * @param si slice index
+ * @return true iff >=1 solution has been found
+ */
+static boolean solve_next(slice_index si)
+{
+  slice_index const peer = slices[si].u.branch_d.peer;
+  stip_length_type const n = slices[si].u.branch_d.length;
+  stip_length_type const min_length = slices[si].u.branch_d.min_length;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  assert(n%2==0);
+
+  TraceValue("%u\n",min_length);
+  if (min_length<slack_length_direct
+      && branch_d_defender_has_non_starter_solved(peer))
+  {
+    slice_write_non_starter_has_solved(slices[si].u.branch_d.next);
+    result = true;
+  }
+  else if (min_length<=slack_length_direct
+           && slice_has_solution(slices[si].u.branch_d.next))
+  {
+    table const continuations = allocate_table();
+    output_start_continuation_level();
+    slice_solve_continuations(continuations,slices[si].u.branch_d.next);
+    output_end_continuation_level();
+    free_table();
+    result = true;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Solve at non-root level.
  * @param si slice index
  */
@@ -346,50 +387,31 @@ boolean branch_d_solve(slice_index si)
 
   if (branch_d_defender_must_starter_resign(slices[si].u.branch_d.peer))
     ;
-  else
+  else if (solve_next(si))
+    result = true;
+  else if (n>slack_length_direct
+           && have_we_solution_in_n_hashed(si,n))
   {
-    slice_index const peer = slices[si].u.branch_d.peer;
-    stip_length_type const moves_played = slices[si].u.branch_d.length-n;
-    stip_length_type const min_length = slices[si].u.branch_d.min_length;
+    /* TODO does have_we_solution_in_n_hashed 'know' how many
+     * moves are needed? */
+    stip_length_type i;
+    table const continuations = allocate_table();
+    stip_length_type min_len = slices[si].u.branch_d.min_length;
 
-    assert(n%2==0);
+    if (min_len<slack_length_direct)
+      min_len = slack_length_direct;
 
-    TraceValue("%u",moves_played);
-    TraceValue("%u\n",min_length);
-    if (moves_played+slack_length_direct>min_length
-        && branch_d_defender_has_non_starter_solved(peer))
-    {
-      slice_write_non_starter_has_solved(slices[si].u.branch_d.next);
-      result = true;
-    }
-    else if ((moves_played+slack_length_direct>=min_length
-              && slice_has_solution(slices[si].u.branch_d.next))
-             || (n>slack_length_direct
-                 && have_we_solution_in_n_hashed(si,n)))
-    {
-      /* TODO 1 why do *we* solve if *next* as a solution?
-       */
-      /* TODO 2 does have_we_solution_in_n_hashed 'know' how many
-       * moves are needed? */
-      stip_length_type i;
-      table const continuations = allocate_table();
-      stip_length_type min_len = slices[si].u.branch_d.min_length;
-
-      if (min_len<slack_length_direct)
-        min_len = slack_length_direct;
-
-      output_start_continuation_level();
+    output_start_continuation_level();
   
-      for (i = min_len; i<=n && !result; i += 2)
-      {
-        branch_d_solve_continuations_in_n(continuations,si,i);
-        result = table_length(continuations)>0;
-      }
-
-      output_end_continuation_level();
-
-      free_table();
+    for (i = min_len; i<=n && !result; i += 2)
+    {
+      branch_d_solve_continuations_in_n(continuations,si,i);
+      result = table_length(continuations)>0;
     }
+
+    output_end_continuation_level();
+
+    free_table();
   }
 
   TraceFunctionExit(__func__);
