@@ -52,6 +52,12 @@
 **
 ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
 **
+** 2009/02/24 SE   New pieces: 2,0-Spiralknight 
+**                             4,0-Spiralknight
+**                             1,1-Spiralknight
+**                             3,3-Spiralknight
+**                             Quintessence (invented Joerg Knappen)
+**
 **************************** End of List ******************************/
 
 #if !defined(PYDATA_H)
@@ -594,7 +600,12 @@ EXTERN boolean          flag_libre_on_generate;
     /*129*/ {'p','v'},  /* pion renverse */
     /*130*/ {'l','r'},  /*rose locuste */
     /*131*/ {'z','e'},  /*zebu */
-    /*132*/ {'n','r'}   /*noctambule rebondissant */
+    /*132*/ {'n','r'},  /*noctambule rebondissant */
+    /*133*/ {'s','2'},  /*spiralspringer (2,0) */
+    /*134*/ {'s','4'},  /*spiralspringer (4,0) */
+    /*135*/ {'s','1'},  /*diagonalspiralspringer (1,1) */
+    /*136*/ {'s','3'},  /*diagonalspiralspringer (3,3) */
+    /*137*/ {'q','n'}   /*quintessence */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '}, /* leer */
 	/*  1*/ {' ',' '}, /* ausserhalb des Brettes */
@@ -728,7 +739,12 @@ EXTERN boolean          flag_libre_on_generate;
     /*129*/ {'r','b'},  /* ReversBauer */
     /*130*/ {'l','r'},  /* RosenHeuschrecke */
     /*131*/ {'z','e'},  /*Zebu */
-    /*132*/ {'r','s'}   /*Reflektierender Nachreiter*/
+    /*132*/ {'r','s'},  /*Reflektierender Nachreiter*/
+    /*133*/ {'s','2'},  /*spiralspringer (2,0) */
+    /*134*/ {'s','4'},  /*spiralspringer (4,0) */
+    /*135*/ {'s','1'},  /*diagonalspiralspringer (1,1) */
+    /*136*/ {'s','3'},  /*diagonalspiralspringer (3,3) */
+    /*137*/ {'q','n'}   /*quintessence */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '}, /* empty */
 	/*  1*/ {' ',' '}, /* outside board */
@@ -862,7 +878,12 @@ EXTERN boolean          flag_libre_on_generate;
     /*129*/ {'p','p'},  /* protean pawn */	
     /*130*/ {'l','s'},  /* Rose Locust */
     /*131*/ {'z','e'},   /*zebu */
-    /*132*/ {'b','n'}   /*Bouncy Nightrider */
+    /*132*/ {'b','n'},  /*Bouncy Nightrider */
+    /*133*/ {'s','2'},  /*spiralspringer (2,0) */
+    /*134*/ {'s','4'},  /*spiralspringer (4,0) */
+    /*135*/ {'s','1'},  /*diagonalspiralspringer (1,1) */
+    /*136*/ {'s','3'},  /*diagonalspiralspringer (3,3) */
+    /*137*/ {'q','n'}   /*quintessence */
   }
 	};
 #endif
@@ -2084,16 +2105,21 @@ enum {
 /*130 */  roselocustcheck,
 /*131 */  zebucheck,
 /*132 */  refncheck,
-/*133 */  huntercheck,
-/*134 */  huntercheck,
-/*135 */  huntercheck,
-/*136 */  huntercheck,
-/*137 */  huntercheck,
+/*133 */  sp20check,
+/*134 */  sp40check,
+/*135 */  sp11check,
+/*136 */  sp33check,
+/*137 */  sp31check,
 /*138 */  huntercheck,
 /*139 */  huntercheck,
 /*140 */  huntercheck,
 /*141 */  huntercheck,
-/*142 */  huntercheck
+/*142 */  huntercheck,
+/*143 */  huntercheck,
+/*144 */  huntercheck,
+/*145 */  huntercheck,
+/*146 */  huntercheck,
+/*147 */  huntercheck
     };
 #endif
 

@@ -52,6 +52,12 @@
 **
 ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
 **
+** 2009/02/24 SE   New pieces: 2,0-Spiralknight 
+**                             4,0-Spiralknight
+**                             1,1-Spiralknight
+**                             3,3-Spiralknight
+**                             Quintessence (invented Joerg Knappen)
+**
 **************************** End of List ******************************/
 
 #if !defined(PY_H)
@@ -317,7 +323,12 @@ typedef enum
   roselocustb,    /* 130 */
   zebub,          /* 131 */
   refnb,          /* 132 */
-  hunter0b,       /* 133 */
+  cs20b,           /* 133 */
+  cs40b,           /* 134 */
+  cs11b,           /* 135 */
+  cs33b,           /* 136 */
+  cs31b,           /* 137 */
+  hunter0b,       
   derbla =        hunter0b+maxnrhuntertypes,
 
   roin           = -roib,
@@ -449,10 +460,16 @@ typedef enum
   radialknightn  = -radialknightb,
   reversepn      = -reversepb,
   roselocustn    = -roselocustb,
-  hunter0n       = -hunter0b,
   zebun          = -zebub,
   refnn          = -refnb,
+  cs20n          = -cs20b,
+  cs40n          = -cs40b,
+  cs11n          = -cs11b,
+  cs33n          = -cs33b,
+  cs31n          = -cs31b,
+  hunter0n       = -hunter0b,
   dernoi         = -derbla
+  
 } piece;
 
 enum
@@ -919,7 +936,12 @@ typedef enum
   RoseLocust,            /* 130 */
   Zebu,                  /* 131 */
   BouncyNightrider,      /* 132 */
-  Hunter0,               /* 133 */
+  SpiralSpringer20,      /* 133 */
+  SpiralSpringer40,      /* 134 */
+  SpiralSpringer11,      /* 135 */
+  SpiralSpringer33,      /* 136 */
+  Quintessence,          /* 137 */
+  Hunter0,               /* 138 */
 
   PieceCount             = Hunter0+maxnrhuntertypes
 } PieNam;

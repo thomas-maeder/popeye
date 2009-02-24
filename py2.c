@@ -37,6 +37,12 @@
  **
  ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
  **
+ ** 2009/02/24 SE   New pieces: 2,0-Spiralknight 
+ **                             4,0-Spiralknight
+ **                             1,1-Spiralknight
+ **                             3,3-Spiralknight
+ **                             Quintessence (invented Joerg Knappen)
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)  /* is always defined on macintosh's  SB */
@@ -339,6 +345,32 @@ boolean rcsech(ply ply_id,
   return false;
 }
 
+boolean rcspech(ply ply_id,
+               square  sq_king,
+               numvec  k,
+               numvec  k1,
+               piece   p,
+               evalfunction_t *evaluate)
+{
+  square sq_departure= sq_king+vec[k];
+  square sq_arrival= sq_king;
+  square sq_capture= sq_king;
+
+  while (e[sq_departure] == vide) {
+    sq_departure+= vec[k1];
+    if (e[sq_departure] != vide)
+      break;
+    else
+      sq_departure+= vec[k];
+  }
+
+  if (e[sq_departure]==p
+      && evaluate(ply_id,sq_departure,sq_arrival,sq_capture))
+    return true;
+
+  return false;
+}
+
 boolean nevercheck(ply ply_id,
                    square  i,
                    piece   p,
@@ -391,6 +423,91 @@ boolean gscoutcheck(ply ply_id,
   }
   return false;
 }
+
+boolean sp40check(ply ply_id,
+                    square  i,
+                    piece   p,
+                    evalfunction_t *evaluate)
+{
+  return rcspech(ply_id, i, 9, 16, p, evaluate) ||
+         rcspech(ply_id, i, 10, 11, p, evaluate) ||
+         rcspech(ply_id, i, 11, 10, p, evaluate) ||
+         rcspech(ply_id, i, 12, 13, p, evaluate) ||
+         rcspech(ply_id, i, 13, 12, p, evaluate) ||
+         rcspech(ply_id, i, 14, 15, p, evaluate) ||
+         rcspech(ply_id, i, 15, 14, p, evaluate) ||
+         rcspech(ply_id, i, 16, 9, p, evaluate);
+}
+
+boolean sp20check(ply ply_id,
+                    square  i,
+                    piece   p,
+                    evalfunction_t *evaluate)
+{
+  return rcspech(ply_id, i, 9, 10, p, evaluate) ||
+         rcspech(ply_id, i, 10, 9, p, evaluate) ||
+         rcspech(ply_id, i, 11, 12, p, evaluate) ||
+         rcspech(ply_id, i, 12, 11, p, evaluate) ||
+         rcspech(ply_id, i, 13, 14, p, evaluate) ||
+         rcspech(ply_id, i, 14, 13, p, evaluate) ||
+         rcspech(ply_id, i, 15, 16, p, evaluate) ||
+         rcspech(ply_id, i, 16, 15, p, evaluate);
+}
+
+boolean sp33check(ply ply_id,
+                    square  i,
+                    piece   p,
+                    evalfunction_t *evaluate)
+{
+  return rcspech(ply_id, i, 9, 10, p, evaluate) ||
+         rcspech(ply_id, i, 10, 9, p, evaluate) ||
+         rcspech(ply_id, i, 11, 12, p, evaluate) ||
+         rcspech(ply_id, i, 12, 11, p, evaluate) ||
+         rcspech(ply_id, i, 13, 14, p, evaluate) ||
+         rcspech(ply_id, i, 14, 13, p, evaluate) ||
+         rcspech(ply_id, i, 15, 16, p, evaluate) ||
+         rcspech(ply_id, i, 16, 15, p, evaluate);
+}
+
+boolean sp11check(ply ply_id,
+                    square  i,
+                    piece   p,
+                    evalfunction_t *evaluate)
+{
+  return rcspech(ply_id, i, 9, 14, p, evaluate) ||
+         rcspech(ply_id, i, 14, 9, p, evaluate) ||
+         rcspech(ply_id, i, 10, 13, p, evaluate) ||
+         rcspech(ply_id, i, 13, 10, p, evaluate) ||
+         rcspech(ply_id, i, 11, 16, p, evaluate) ||
+         rcspech(ply_id, i, 16, 11, p, evaluate) ||
+         rcspech(ply_id, i, 12, 15, p, evaluate) ||
+         rcspech(ply_id, i, 15, 12, p, evaluate);
+}
+
+
+boolean sp31check(ply ply_id,
+                    square  i,
+                    piece   p,
+                    evalfunction_t *evaluate)
+{
+  return rcspech(ply_id, i, 9, 11, p, evaluate) ||
+         rcspech(ply_id, i, 11, 9, p, evaluate) ||
+         rcspech(ply_id, i, 11, 13, p, evaluate) ||
+         rcspech(ply_id, i, 13, 11, p, evaluate) ||
+         rcspech(ply_id, i, 13, 15, p, evaluate) ||
+         rcspech(ply_id, i, 15, 13, p, evaluate) ||
+         rcspech(ply_id, i, 15, 9, p, evaluate) ||
+         rcspech(ply_id, i, 9, 15, p, evaluate) ||
+         rcspech(ply_id, i, 10, 12, p, evaluate) ||
+         rcspech(ply_id, i, 12, 10, p, evaluate) ||
+         rcspech(ply_id, i, 12, 14, p, evaluate) ||
+         rcspech(ply_id, i, 14, 12, p, evaluate) ||
+         rcspech(ply_id, i, 14, 16, p, evaluate) ||
+         rcspech(ply_id, i, 16, 14, p, evaluate) ||
+         rcspech(ply_id, i, 16, 10, p, evaluate) ||
+         rcspech(ply_id, i, 10, 16, p, evaluate);
+}
+
 
 boolean rrefcech(ply ply_id,
                  square sq_king,

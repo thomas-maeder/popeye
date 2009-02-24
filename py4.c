@@ -39,6 +39,12 @@
  **
  ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
  **
+ ** 2009/02/24 SE   New pieces: 2,0-Spiralknight 
+ **                             4,0-Spiralknight
+ **                             1,1-Spiralknight
+ **                             3,3-Spiralknight
+ **                             Quintessence (invented Joerg Knappen)
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -1447,6 +1453,26 @@ void gcs(square sq_departure,
     testempile(sq_departure,sq_arrival,sq_arrival);
 }
 
+void gcsp(square sq_departure,
+         numvec k1, numvec k2,
+         Side camp)
+{
+  square sq_arrival= sq_departure+vec[k1];
+
+  while (e[sq_arrival]==vide) {
+    testempile(sq_departure,sq_arrival,sq_arrival);
+    sq_arrival+= vec[k2];
+    if (e[sq_arrival]==vide) {
+      testempile(sq_departure,sq_arrival,sq_arrival);
+      sq_arrival+= vec[k1];
+    }
+    else
+      break;
+  }
+  if (rightcolor(e[sq_arrival],camp))
+    testempile(sq_departure,sq_arrival,sq_arrival);
+}
+
 void gubi(square orig_departure,
           square step_departure,
           Side camp) {
@@ -2307,6 +2333,69 @@ void gfeerrest(square sq_departure, piece p, Side camp)
 
   case radialknightb :
     genradialknight(sq_departure, camp);
+    break;
+
+  case cs40b:
+    gcsp(sq_departure, 9, 16, camp);
+    gcsp(sq_departure, 10, 11, camp);
+    gcsp(sq_departure, 11, 10, camp);
+    gcsp(sq_departure, 12, 13, camp);
+    gcsp(sq_departure, 13, 12, camp);
+    gcsp(sq_departure, 14, 15, camp);
+    gcsp(sq_departure, 15, 14, camp);
+    gcsp(sq_departure, 16, 9, camp);
+    break;
+
+  case cs20b:
+    gcsp(sq_departure, 9, 12, camp);
+    gcsp(sq_departure, 10, 15, camp);
+    gcsp(sq_departure, 11, 14, camp);
+    gcsp(sq_departure, 12, 9, camp);
+    gcsp(sq_departure, 13, 16, camp);
+    gcsp(sq_departure, 14, 11, camp);
+    gcsp(sq_departure, 15, 10, camp);
+    gcsp(sq_departure, 16, 13, camp);
+    break;
+
+  case cs33b:
+    gcsp(sq_departure, 9, 16, camp);
+    gcsp(sq_departure, 10, 9, camp);
+    gcsp(sq_departure, 11, 12, camp);
+    gcsp(sq_departure, 12, 11, camp);
+    gcsp(sq_departure, 13, 14, camp);
+    gcsp(sq_departure, 14, 13, camp);
+    gcsp(sq_departure, 15, 16, camp);
+    gcsp(sq_departure, 16, 15, camp);
+    break;
+
+  case cs11b:
+    gcsp(sq_departure, 9, 14, camp);
+    gcsp(sq_departure, 10, 13, camp);
+    gcsp(sq_departure, 11, 16, camp);
+    gcsp(sq_departure, 12, 15, camp);
+    gcsp(sq_departure, 13, 10, camp);
+    gcsp(sq_departure, 14, 9, camp);
+    gcsp(sq_departure, 15, 12, camp);
+    gcsp(sq_departure, 16, 11, camp);
+    break;
+
+  case cs31b:
+    gcsp(sq_departure, 9, 11, camp);
+    gcsp(sq_departure, 11, 9, camp);
+    gcsp(sq_departure, 11, 13, camp);
+    gcsp(sq_departure, 13, 11, camp);
+    gcsp(sq_departure, 13, 15, camp);
+    gcsp(sq_departure, 15, 13, camp);
+    gcsp(sq_departure, 15, 9, camp);
+    gcsp(sq_departure, 9, 15, camp);
+    gcsp(sq_departure, 10, 12, camp);
+    gcsp(sq_departure, 12, 10, camp);
+    gcsp(sq_departure, 12, 14, camp);
+    gcsp(sq_departure, 14, 12, camp);
+    gcsp(sq_departure, 14, 16, camp);
+    gcsp(sq_departure, 16, 14, camp);
+    gcsp(sq_departure, 16, 10, camp);
+    gcsp(sq_departure, 10, 16, camp);
     break;
 
   default:

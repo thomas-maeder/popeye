@@ -30,6 +30,12 @@
 **
 ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
 **
+** 2009/02/24 SE   New pieces: 2,0-Spiralknight 
+**                             4,0-Spiralknight
+**                             1,1-Spiralknight
+**                             3,3-Spiralknight
+**                             Quintessence (invented Joerg Knappen)
+**
 **************************** End of List ******************************/
 
 #if !defined(PYPROC_H)
@@ -186,6 +192,11 @@ checkfunction_t zcheck;
 checkfunction_t zebhopcheck;
 checkfunction_t zebridcheck;
 checkfunction_t zebucheck;
+checkfunction_t sp20check;
+checkfunction_t sp40check;
+checkfunction_t sp11check;
+checkfunction_t sp33check;
+checkfunction_t sp31check;
 
 square  coinequis(square a);
 
@@ -258,6 +269,7 @@ boolean orig_rbechec(ply ply_id, evalfunction_t *evaluate);
 boolean rbimmunech(ply ply_id, square departure, square arrival, square capture);
 boolean rcardech(ply ply_id, square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
 boolean rcsech(ply ply_id, square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean rcspech(ply ply_id, square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 void    repcoup(void);
 void    restaure(void);
 boolean ridimok(square i, square j, int diff);
