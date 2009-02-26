@@ -2358,7 +2358,7 @@ void gfeerrest(square sq_departure, piece p, Side camp)
     break;
 
   case cs33b:
-    gcsp(sq_departure, 9, 16, camp);
+    gcsp(sq_departure, 9, 10, camp);
     gcsp(sq_departure, 10, 9, camp);
     gcsp(sq_departure, 11, 12, camp);
     gcsp(sq_departure, 12, 11, camp);

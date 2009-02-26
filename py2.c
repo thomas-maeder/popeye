@@ -444,14 +444,14 @@ boolean sp20check(ply ply_id,
                     piece   p,
                     evalfunction_t *evaluate)
 {
-  return rcspech(ply_id, i, 9, 10, p, evaluate) ||
-         rcspech(ply_id, i, 10, 9, p, evaluate) ||
-         rcspech(ply_id, i, 11, 12, p, evaluate) ||
-         rcspech(ply_id, i, 12, 11, p, evaluate) ||
-         rcspech(ply_id, i, 13, 14, p, evaluate) ||
-         rcspech(ply_id, i, 14, 13, p, evaluate) ||
-         rcspech(ply_id, i, 15, 16, p, evaluate) ||
-         rcspech(ply_id, i, 16, 15, p, evaluate);
+  return rcspech(ply_id, i, 9, 12, p, evaluate) ||
+         rcspech(ply_id, i, 10, 15, p, evaluate) ||
+         rcspech(ply_id, i, 11, 14, p, evaluate) ||
+         rcspech(ply_id, i, 12, 9, p, evaluate) ||
+         rcspech(ply_id, i, 13, 16, p, evaluate) ||
+         rcspech(ply_id, i, 14, 11, p, evaluate) ||
+         rcspech(ply_id, i, 15, 10, p, evaluate) ||
+         rcspech(ply_id, i, 16, 13, p, evaluate);
 }
 
 boolean sp33check(ply ply_id,
