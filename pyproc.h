@@ -291,7 +291,7 @@ boolean orig_rnechec(ply ply_id, evalfunction_t *evaluate);
 boolean rnimmunech(ply ply_id, square departure, square arrival, square capture);
 boolean rrefcech(ply ply_id, square a, square b, int c, piece d, evalfunction_t *evaluate);
 boolean rrfouech(ply ply_id, square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
-boolean rubiech(ply ply_id, square sq, square sqtest, piece p, /* echiquier */ int *e_ub, evalfunction_t *evaluate );
+boolean rubiech(ply ply_id, square sq, square sqtest, piece p,  echiquier e_ub, evalfunction_t *evaluate );
 boolean soutenu(ply ply_id, square departure, square arrival, square capture);
 boolean notsoutenu(ply ply_id, square a, square b, square c);
 

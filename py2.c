@@ -2166,7 +2166,7 @@ boolean libre(ply ply_id, square sq, boolean generating)
 {
   piece p = e[sq];
   boolean result = true;
-  boolean const neutcoul_sic = neutcoul;
+  Side const neutcoul_sic = neutcoul;
 
   if ((CondFlag[madras] || CondFlag[isardam])
       && !rex_mad && (sq==rb || sq==rn))
@@ -3110,7 +3110,7 @@ boolean eval_fromspecificsquare(ply ply_id, square sq_departure, square sq_arriv
 
 boolean eval_disp(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
   boolean flag=false;
-  boolean traitnbply;
+  Side traitnbply;
   Side camp;
 
   /* the following does not suffice if we have neutral kings,

@@ -284,7 +284,7 @@ char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
 
 static  int NestLevel=0;
 
-boolean OscillatingKingsSide;  /* this is all a hack */
+Side OscillatingKingsSide;  /* this is all a hack */
 static nocontactfunc_t *nocontactfunc;
 
 void    OpenInput(char *s)
@@ -562,14 +562,13 @@ long int ReadBGLNumber(char* inptr, char** endptr)
      in - and all other cases return infinity (no limit) */
   char buf[12];
   int res= BGL_infinity;
-  int len;
-  int dp;
+  size_t len, dp;
   char* dpp;
   *endptr= inptr;
   while (**endptr && strchr("0123456789.,-", **endptr))
     /* isdigit(**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-')) */
     (*endptr)++;
-  len= *endptr-inptr;
+  len= (*endptr-inptr);
   if (len > 11)
     return res;
   strncpy(buf, inptr, len);
@@ -580,10 +579,10 @@ long int ReadBGLNumber(char* inptr, char** endptr)
     if (*dpp == ',')  /* allow 3,45 notation */
       *dpp= '.';
   for (dpp=buf; *dpp && *dpp != '.'; dpp++);
-  dp= len-(int)(dpp-buf);
+  dp= len-(dpp-buf);
   if (!dp)
     return 100*(long int)atoi(buf);
-  while (dpp-buf < len) {
+  while ((size_t)(dpp-buf) < len) {
     *dpp=*(dpp+1); 
     dpp++;
   }
@@ -849,24 +848,25 @@ static PieNam MakeHunterType(PieNam away, PieNam home) {
 static char *PrsPieNam(char *tok, Flags Spec, char echo)
 {
   /* We read from tok the name of the piece */
-  int     l, NameCnt= 0;
+  int     NameCnt= 0;
   char    *btok;
   PieNam  Name;
+  size_t  l;
 
   while (true) {
     char const * const hunterseppos = strchr(tok,hunterseparator);
     btok = tok; /* Save it, if we want to return it */
     if (hunterseppos!=0 && hunterseppos-tok<=2) {
       PieNam away, home;
-      tok = PrsPieShortcut((hunterseppos-tok)&1,tok,&away);
+      tok = PrsPieShortcut((hunterseppos-tok)%2==1,tok,&away);
       ++tok; /* skip slash */
       l= strlen(tok);
-      tok = PrsPieShortcut(l&1,tok,&home);
+      tok = PrsPieShortcut(l%2==1,tok,&home);
       Name = MakeHunterType(away,home);
     }
     else {
       l= strlen(tok);
-      tok = PrsPieShortcut(l&1,tok,&Name);
+      tok = PrsPieShortcut(l%2==1,tok,&Name);
     }
     if (Name >= King) {
       if (l >= 3 && !strchr("12345678",tok[1]))
@@ -1732,9 +1732,10 @@ static char *ReadSquares(SquareListContext context)
 {
   char *tok = ReadNextTokStr();
   char *lastTok = tok;
-  int k, l;
+  int k;
   ply n;
   int EpSquaresRead = 0;
+  size_t l;
 
   l = strlen(tok);
   if (l%2==1)

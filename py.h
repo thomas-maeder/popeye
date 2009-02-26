@@ -652,6 +652,17 @@ enum
   nullsquare = 1
 };
 
+/* Enumeration type for the two sides which move, deliver mate etc.
+ */
+typedef enum
+{
+  White,
+  Black,
+
+  nr_sides,
+  no_side = nr_sides
+} Side;
+
 /* These typedefs should be judged for efficiency */
 
 typedef unsigned long   Flags;
@@ -693,8 +704,8 @@ typedef struct {
 			echec,
 			bool_senti,
 			bool_norm_cham_prom,
-			bool_cir_cham_prom,
-			tr;
+			bool_cir_cham_prom;
+	Side		tr;
 	Flags           speci, ren_spec;
 	square		repub_k;
 	Flags           new_spec;
@@ -1268,17 +1279,6 @@ typedef enum
 **      if iprom is set, also imitators will be set
 **      if equipollents or coucou is set, also pwc will be set
 */
-
-/* Enumeration type for the two sides which move, deliver mate etc.
- */
-typedef enum
-{
-  White,
-  Black,
-
-  nr_sides,
-  no_side = nr_sides
-} Side;
 
 /* Enumeration type for various piece properties
  * Make sure to keep enumerators >= nr_sides

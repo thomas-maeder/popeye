@@ -45,7 +45,7 @@ boolean rubiech(ply ply_id,
                 square  intermediate_square,
                 square  sq_king,
                 piece   p,
-                piece   *e_ub,
+                echiquier e_ub,
                 evalfunction_t *evaluate)
 {
   numvec k;

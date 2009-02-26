@@ -2018,7 +2018,7 @@ void editcoup(ply ply_id, coup *mov, Goal goal)
 
     if (mov->renkam) {
       StdChar('[');
-      WriteSpec(mov->speci, mov->pjazz);
+      WriteSpec(mov->speci, mov->pjazz != vide);
       WritePiece(mov->pjazz);
       WriteSquare(mov->cazz);
       StdString("->");
@@ -2123,7 +2123,7 @@ void editcoup(ply ply_id, coup *mov, Goal goal)
       && mov->ghost_piece!=vide)
   {
     StdString("[+");
-    WriteSpec(mov->ghost_flags, mov->ghost_piece);
+    WriteSpec(mov->ghost_flags, mov->ghost_piece != vide);
     WritePiece(mov->ghost_piece);
     WriteSquare(mov->cdzz);
     StdString("]");
