@@ -338,7 +338,6 @@ void branch_d_root_write_key(slice_index si, attack_type type)
 static boolean solve_next(slice_index si)
 {
   slice_index const peer = slices[si].u.branch_d.peer;
-  stip_length_type const n = slices[si].u.branch_d.length;
   stip_length_type const min_length = slices[si].u.branch_d.min_length;
   boolean result;
 
