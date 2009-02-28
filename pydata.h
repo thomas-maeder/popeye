@@ -72,7 +72,7 @@
 #endif  /* EXTERN */
 
 
-extern size_t MaxMemory;
+extern unsigned long MaxMemory;
 
 typedef enum
 {
@@ -89,7 +89,7 @@ extern char MaxMemoryString[37];
 #if defined(WE_ARE_EXTERN)
 extern unsigned int MaxTime;
 extern  char    *StartUp;
-extern  unsigned long    MaxPositions;
+extern  unsigned long  MaxPositions;
 extern  boolean LaTeXout;
 extern  boolean flag_regression;
 #else
@@ -98,9 +98,9 @@ extern  boolean flag_regression;
    ** function or entered indirectly with the -maxmemory option at the
    ** DOS prompt.  TLi/TM
    */
-   size_t         MaxPositions;
+   unsigned long MaxPositions;
 #	else
-   size_t         MaxPositions    = 1000000000L;
+   unsigned long MaxPositions    = 1000000000L;
 #	endif
 unsigned int MaxTime = UINT_MAX;
 char            *StartUp = VERSIONSTRING;

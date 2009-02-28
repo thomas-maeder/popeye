@@ -1,6 +1,8 @@
 #if !defined(PYSTIP_H)
 #define PYSTIP_H
 
+#include <stddef.h>
+
 #include "pygoal.h"
 #include "py.h"
 #include "boolean.h"
@@ -261,14 +263,14 @@ void transform_to_quodlibet(void);
  * @param nrGoals number of elements of goals
  * @return true iff all leaves have as goal one of the elements of goals.
  */
-boolean stip_ends_only_in(Goal const goals[], unsigned int nrGoals);
+boolean stip_ends_only_in(Goal const goals[], size_t nrGoals);
 
 /* Does >= 1 leaf of the current stipulation have one of a set of goals?
  * @param goals set of goals
  * @param nrGoals number of elements of goals
  * @return true iff >=1 leaf has as goal one of the elements of goals.
  */
-boolean stip_ends_in(Goal const goals[], unsigned int nrGoals);
+boolean stip_ends_in(Goal const goals[], size_t nrGoals);
 
 /* Traversal of the stipulation tree up to the next slice with a
  * specific goal. Repeated calls, with start set to the result of the
