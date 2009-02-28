@@ -169,7 +169,7 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
  */
 stip_length_type get_max_nr_moves(slice_index si)
 {
-  stip_length_type result;
+  stip_length_type result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -261,13 +261,13 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
        * add a new direct leaf at op1 of that node.
        * op1 is tested before op2, so it is more efficient to make
        * op1 the new direct leaf.
-         */
+       */
       Goal const goal = slices[index].u.leaf.goal;
       *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
                                     index);
       TraceValue("allocated quodlibet slice %u for self play\n",*hook);
+      break;
     }
-    break;
 
     case STQuodlibet:
       transform_to_quodlibet_recursive(&slices[index].u.quodlibet.op1);
@@ -286,15 +286,15 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
        * add a new direct leaf at op1 of that node.
        * op1 is tested before op2, so it is more efficient to make
        * op1 the new direct leaf.
-         */
+       */
       slice_index const next = slices[index].u.branch.next;
       Goal const goal = slices[next].u.leaf.goal;
       assert(slices[next].type==STLeafHelp);
       *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
                                     index);
       TraceValue("allocated quodlibet slice %u for reflex play\n",*hook);
+      break;
     }
-    break;
 
     case STBranchDirect:
     {
