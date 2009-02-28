@@ -4134,7 +4134,7 @@ Token ReadTwin(Token tk, boolean *stipChanged)
             IoErrorMsg(WrOpenError,0);
           else if (!flag_regression)
           {
-            fputs(StartUp, TraceFile);
+            fputs(versionString, TraceFile);
             fputs(MaxMemoryString, TraceFile);
             fflush(TraceFile);
           }
@@ -4990,7 +4990,7 @@ void WriteGrid(void)
 void LaTeXOpen(void) {
   fprintf(LaTeXFile, "\\documentclass{article}%%");
   if (!flag_regression)
-    fprintf(LaTeXFile, "%s", VERSIONSTRING);
+    fprintf(LaTeXFile, "%s", versionString);
   fprintf(LaTeXFile, "\n");
   fprintf(LaTeXFile, "\\usepackage{diagram}\n");
   if (UserLanguage == German) {
@@ -5106,7 +5106,7 @@ void LaTeXEndDiagram(void) {
   {
     fprintf(LaTeXFile, " \\Co+%%");
     if (!flag_regression)
-      fprintf(LaTeXFile, "%s", VERSIONSTRING);
+      fprintf(LaTeXFile, "%s", versionString);
     fprintf(LaTeXFile, "\n");
   }
 

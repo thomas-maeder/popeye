@@ -255,7 +255,7 @@ static unsigned int bit_width(unsigned int value)
  */
 static void init_slice_properties_direct(slice_index si,
                                          unsigned int length,
-                                         size_t *nr_bits_left)
+                                         unsigned int *nr_bits_left)
 {
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
@@ -291,7 +291,7 @@ static void init_slice_properties_direct(slice_index si,
  */
 static void init_slice_properties_help(slice_index si,
                                        unsigned int length,
-                                       size_t *nr_bits_left)
+                                       unsigned int *nr_bits_left)
 {
   unsigned int const size = bit_width((length+1)/2);
   data_type const mask = (1<<size)-1;
@@ -319,7 +319,7 @@ static void init_slice_properties_help(slice_index si,
  */
 static void init_slice_properties_series(slice_index si,
                                          unsigned int length,
-                                         size_t *nr_bits_left)
+                                         unsigned int *nr_bits_left)
 {
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
@@ -334,7 +334,7 @@ static void init_slice_properties_series(slice_index si,
 }
 
 static void init_slice_properties_recursive(slice_index si,
-                                            size_t *nr_bits_left);
+                                            unsigned int *nr_bits_left);
 
 /* Initialize the slice_properties array according to a subtree of the
  * current stipulation slices
@@ -343,7 +343,7 @@ static void init_slice_properties_recursive(slice_index si,
  * @note this is an indirectly recursive function
  */
 static void init_slice_properties_recursive(slice_index si,
-                                            size_t *nr_bits_left)
+                                            unsigned int *nr_bits_left)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -495,7 +495,7 @@ static void init_slice_properties_recursive(slice_index si,
 static void init_slice_properties(void)
 {
   slice_index const si = root_slice;
-  size_t nr_bits_left = sizeof(data_type)*CHAR_BIT;
+  unsigned int nr_bits_left = sizeof(data_type)*CHAR_BIT;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
@@ -855,7 +855,7 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
  * @return value of contribuation of the subtree to *he's value
  */
 static hash_value_type value_of_data_recursive(dhtElement const *he,
-                                               size_t offset,
+                                               unsigned int offset,
                                                slice_index si)
 {
   hash_value_type result = 0;
@@ -973,7 +973,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
  */
 static hash_value_type value_of_data(dhtElement const *he)
 {
-  size_t const offset = sizeof(data_type)*CHAR_BIT;
+  unsigned int const offset = sizeof(data_type)*CHAR_BIT;
   hash_value_type result;
 
   TraceFunctionEntry(__func__);
@@ -999,7 +999,7 @@ static void compresshash (void)
 #if defined(TESTHASH)
   unsigned long initCnt, visitCnt;
 #endif
-  size_t val_step = 1;
+  unsigned int val_step = 1;
 
   ++compression_counter;
   
@@ -1942,7 +1942,6 @@ void inithash(void)
   init_slice_properties();
   init_element(&template_element,root_slice);
 
-  PositionCnt= 0;
   dhtRegisterValue(dhtBCMemValue, 0, &dhtBCMemoryProcs);
   dhtRegisterValue(dhtSimpleValue, 0, &dhtSimpleProcs);
   pyhash= dhtCreate(dhtBCMemValue, dhtCopy, dhtSimpleValue, dhtNoCopy);
@@ -2000,7 +1999,8 @@ void inithash(void)
 
 #if defined(FXF)
   ifTESTHASH(printf("MaxPositions: %7lu\n", MaxPositions));
-  ifTESTHASH(printf("MaxMemory:    %7u KB\n", MaxMemory/1024));
+  assert(MaxMemory/1024<UINT_MAX);
+  ifTESTHASH(printf("MaxMemory:    %7u KB\n", (unsigned int)(MaxMemory/1024)));
 #else
   ifTESTHASH(
       printf("room for up to %lu positions in hash table\n", MaxPositions));

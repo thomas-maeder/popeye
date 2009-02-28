@@ -2576,7 +2576,6 @@ static void initMaxMemoryString(void)
   /* We do not issue our startup message via the language
      dependant Msg-Tables, since there the version is
      too easily changed, or not updated.
-     StartUp is defined in pydata.h.
   */
   if ((MaxMemory>>10)<(1<<10) || MaxMemory_unit==maxmemory_kilo)
     sprintf(MaxMemoryString, " (%u KB)\n", (unsigned)(MaxMemory>>10));
@@ -2873,6 +2872,20 @@ static void iterate_problems(void)
   } while (prev_token==NextProblem);
 }
 
+/* Guess the "bitness" of the platform
+ * @return 16 if we run on a 16bit platform, 32 if we run on a 32bit
+ * platform etc.
+ */
+static unsigned int guessPlatformBitness(void)
+{
+  if (UINT_MAX < 1UL<<16)
+    return 16;
+  else if (UINT_MAX==ULONG_MAX)
+    return 32;
+  else
+    return 64;
+}
+
 int main(int argc, char *argv[])
 {
   int idx_end_of_options;
@@ -2881,10 +2894,15 @@ int main(int argc, char *argv[])
 
   set_nice_priority();
 
+  sprintf(versionString,
+          "Popeye %s-%uBit v%.2f",
+          OSTYPE,guessPlatformBitness(),VERSION);
+  
   MaxTime = UINT_MAX;
+  MaxPositions = ULONG_MAX;
   MaxMemory = 0;
   MaxMemory_unit = maxmemory_kilo;
-  
+  LaTeXout = false;
   flag_regression = false;
 
   /* Initialize message table with default language.
@@ -2910,7 +2928,7 @@ int main(int argc, char *argv[])
 
   /* Don't use StdString() - possible trace file is not yet opened
    */
-  pyfputs(StartUp,stdout);
+  pyfputs(versionString,stdout);
   pyfputs(MaxMemoryString,stdout);
 
   iterate_problems();

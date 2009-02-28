@@ -63,6 +63,8 @@
 #if !defined(PY_H)
 #define PY_H
 
+#include <limits.h>
+
 #include "boolean.h"
 
 /*   Sometimes local variables are used, that can potentially be
@@ -97,62 +99,34 @@
 
 #endif /* C370 */
 
-#if !defined(OSBIT)
-#if defined(SIXTEEN) || defined(_WIN16)
-#	define OSBIT "16"
-#else
-#if defined(SIXTYFOUR)
-#	define OSBIT "64"
-#else
-#	define OSBIT "32"
-#endif	/* Default */
-#endif	/* SIXTYFOUR */
-#endif	/* SIXTEEN || _WIN16 */
-
 #if !defined(OSTYPE)
-#if defined(DATABASE)
-#       define OSTYPE "DATABASE"
-#else
-#if defined(C370)
-#       define OSTYPE "MVS"
-#else
-#if defined(DOS)
-#       define OSTYPE "DOS"
-#else
-#if defined(ATARI)
-#       define OSTYPE "ATARI"
-#else
-#if defined(_WIN98)
-#       define OSTYPE "WINDOWS98"
-#else
-#if defined(_WIN16) || defined(_WIN32)
-#       define OSTYPE "WINDOWS"
-#else
-#if defined(__unix)
-#if defined(__GO32__)
-#       define OSTYPE "DOS"
-#else
-#       define OSTYPE "UNIX"
-#endif  /* __GO32__ */
-#else   /* ! UNIX: use default version string */
-#       define OSTYPE "C"
-#endif  /* __unix */
-#endif  /* _WIN16 || _WIN32 */
-#endif  /* _WIN98 */
-#endif  /* ATARI */
-#endif  /* DOS */
-#endif  /* C370 */
-#endif  /* DATABASE */
-#endif	/* OSTYPE */
+#  if defined(DATABASE)
+#    define OSTYPE "DATABASE"
+#  elseif defined(C370)
+#    define OSTYPE "MVS"
+#  elseif defined(DOS)
+#    define OSTYPE "DOS"
+#  elseif defined(ATARI)
+#    define OSTYPE "ATARI"
+#  elseif defined(_WIN98)
+#    define OSTYPE "WINDOWS98"
+#  elseif defined(_WIN16) || defined(_WIN32)
+#    define OSTYPE "WINDOWS"
+#  elseif defined(__unix)
+#    if defined(__GO32__)
+#      define OSTYPE "DOS"
+#    else
+#      define OSTYPE "UNIX"
+#    endif  /* __GO32__ */
+#  else
+#    define OSTYPE "C"
+#  endif
+#endif
 
 #if _MSC_VER == 1400
 /*disable warning of deprecated functions*/
 #pragma warning( disable : 4996 )
 #endif
- 
-#define STRINGIZEIMPL(x) #x
-#define STRINGIZE(x) STRINGIZEIMPL(x)
-#define VERSIONSTRING "Popeye "OSTYPE"-"OSBIT"Bit v"STRINGIZE(VERSION)
 
 
 #if defined(__bsdi__)

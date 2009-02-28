@@ -78,12 +78,12 @@ typedef struct {
 #else
 #define fxfMAXSIZE  (size_t)2048  /* this is needed only when sizeof(void*)==8 */
 #endif
+
 /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
-#if defined(SIXTYFOUR)
-#define fxfMINSIZE  (size_t)8
-#else
-#define fxfMINSIZE  sizeof(char*)
-#endif
+enum
+{
+  fxfMINSIZE = sizeof(unsigned long)
+};
 
 static SizeHead SizeData[fxfMAXSIZE+1];
 
@@ -252,14 +252,16 @@ void *fxfAlloc(size_t size) {
   char *ptr;
 
   DBG((stderr, "%s(%d) =", myname, size));
-  if (size < fxfMINSIZE) {
-#if !defined(SIXTYFOUR)
-    WARN_LOG3("%s: size=%u < %u\n", myname, (unsigned int)size, (unsigned int)fxfMINSIZE);
-#endif
-    size= fxfMINSIZE;
-  }
-  if (size > fxfMAXSIZE) {
-    ERROR_LOG3("%s: size=%u > %u\n", myname, (unsigned int)size, (unsigned int)fxfMAXSIZE);
+
+  if (size<fxfMINSIZE)
+    size = fxfMINSIZE;
+
+  if (size>fxfMAXSIZE)
+  {
+    ERROR_LOG3("%s: size=%u > %u\n",
+               myname,
+               (unsigned int)size,
+               (unsigned int)fxfMAXSIZE);
     return Nil(char);
   }
   if ( (size&PTRMASK) && size<ALIGNED_MINSIZE)

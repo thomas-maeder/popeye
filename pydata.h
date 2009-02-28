@@ -86,29 +86,12 @@ extern maxmemory_unit_type MaxMemory_unit;
 extern char MaxMemoryString[37];
 
 
-#if defined(WE_ARE_EXTERN)
-extern unsigned int MaxTime;
-extern  char    *StartUp;
-extern  unsigned long  MaxPositions;
-extern  boolean LaTeXout;
-extern  boolean flag_regression;
-#else
-#	if defined(__TURBOC__) /* TurboC and BorlandC  TLi */
-   /* MaxPositions is either set in inithash() using the coreleft
-   ** function or entered indirectly with the -maxmemory option at the
-   ** DOS prompt.  TLi/TM
-   */
-   unsigned long MaxPositions;
-#	else
-   unsigned long MaxPositions    = 1000000000L;
-#	endif
-unsigned int MaxTime = UINT_MAX;
-char            *StartUp = VERSIONSTRING;
-boolean         LaTeXout= false;
-boolean         flag_regression= false;
-#endif  /* WE_ARE_EXTERN */
+EXTERN unsigned long  MaxPositions;
+EXTERN unsigned int MaxTime;
+EXTERN boolean LaTeXout;
+EXTERN boolean flag_regression;
 
-EXTERN  long            PositionCnt;
+EXTERN char versionString[100];
 
 slice_index empile_for_goal_of_leaf_slice;
 EXTERN  boolean         FlagMoveOrientatedStip;
