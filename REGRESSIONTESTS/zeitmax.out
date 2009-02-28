@@ -24,6 +24,7 @@
   ser-h005                    3 + 9
 
   1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0 
+  1.c2-c1=L   2.b2-b1=T   3.Tb1-b2   4.Lc1-h6   5.Tc5-g5 0-0-0 
 
 Bearbeitung abgebrochen. 
 
@@ -204,6 +205,7 @@ Bearbeitung abgebrochen.
 
   1  (Sh1-g3 )
   2  (Sh1-f2 )
+  3  (c3-c2 )
 
 Bearbeitung abgebrochen. 
 
@@ -680,17 +682,33 @@ a)
   2  (La3-b2 )
   3  (La3-b4 )
   4  (f3-f2 )
+  5  (Tc5*c1 [+Sg1] )
+  6  (Tc5-c2 )
+  7  (Tc5-c3 )
+  8  (Tc5-c4 + )
+  9  (Tc5-a5 )
+ 10  (Tc5-b5 )
+ 11  (Tc5-c8 )
+ 12  (Tc5-c7 )
+ 13  (Tc5-c6 )
 
 b) sKa7-->b1
 
-  5  (Kb1*c1 [+Sg1] )
-  6  (Kb1-b2 )
-  7  (Kb1-a1 )
-  8  (Kb1-a2 )
-  9  (Kb1-c2 )
+ 14  (Kb1*c1 [+Sg1] )
+ 15  (Kb1-b2 )
+ 16  (Kb1-a1 )
+ 17  (Kb1-a2 )
+ 18  (Kb1-c2 )
   1.La3*c1 [+Sg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6=sS [+Ta8] # 
- 10  (La3*c1 [+Sg1] )
- 11  (La3-b2 )
+ 19  (La3*c1 [+Sg1] )
+ 20  (La3-b2 )
+ 21  (La3-b4 )
+ 22  (f3-f2 )
+ 23  (Tc5*c1 [+Sg1] )
+ 24  (Tc5-c2 )
+ 25  (Tc5-c3 )
+ 26  (Tc5-c4 + )
+ 27  (Tc5-a5 )
 
 Bearbeitung abgebrochen. 
 
