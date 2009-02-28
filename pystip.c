@@ -342,12 +342,12 @@ void transform_to_quodlibet(void)
  * @return true iff the leaf has as goal one of the elements of goals.
  */
 static boolean leaf_ends_in_one_of(Goal const  goals[],
-                                   unsigned int nrGoals,
+                                   size_t nrGoals,
                                    slice_index si)
 {
   Goal const goal = slices[si].u.leaf.goal;
 
-  unsigned int i;
+  size_t i;
   for (i = 0; i<nrGoals; ++i)
     if (goal==goals[i])
       return true;
@@ -362,7 +362,7 @@ static boolean leaf_ends_in_one_of(Goal const  goals[],
  * @return true iff all leaves have as goal one of the elements of goals.
  */
 static boolean slice_ends_only_in(Goal const goals[],
-                                  unsigned int nrGoals,
+                                  size_t nrGoals,
                                   slice_index si)
 {
   switch (slices[si].type)
@@ -423,7 +423,7 @@ static boolean slice_ends_only_in(Goal const goals[],
  * @param nrGoals number of elements of goals
  * @return true iff all leaves have as goal one of the elements of goals.
  */
-boolean stip_ends_only_in(Goal const  goals[], unsigned int nrGoals)
+boolean stip_ends_only_in(Goal const  goals[], size_t nrGoals)
 {
   return slice_ends_only_in(goals,nrGoals,root_slice);
 }
@@ -436,7 +436,7 @@ boolean stip_ends_only_in(Goal const  goals[], unsigned int nrGoals)
  * @return true iff >=1 leaf has as goal one of the elements of goals.
  */
 static boolean slice_ends_in(Goal const goals[],
-                             unsigned int nrGoals,
+                             size_t nrGoals,
                              slice_index si)
 {
   switch (slices[si].type)
@@ -503,7 +503,7 @@ static boolean slice_ends_in(Goal const goals[],
  * @param nrGoals number of elements of goals
  * @return true iff >=1 leaf has as goal one of the elements of goals.
  */
-boolean stip_ends_in(Goal const goals[], unsigned int nrGoals)
+boolean stip_ends_in(Goal const goals[], size_t nrGoals)
 {
   return slice_ends_in(goals,nrGoals,root_slice);
 }

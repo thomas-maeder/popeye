@@ -123,7 +123,8 @@ void ProofEncode(void)
   if (ep[nbply])
     *bp++ = (byte)(ep[nbply] - square_a1);
 
-  hb->cmv.Leng= bp - hb->cmv.Data;
+  assert(bp-hb->cmv.Data<=UCHAR_MAX);
+  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
 
   validateHashBuffer();
 }
