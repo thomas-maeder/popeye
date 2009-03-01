@@ -6,6 +6,7 @@
 #include "pyleaf.h"
 #include "pyhash.h"
 #include "pyconst.h"
+#include "pymsg.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -231,25 +232,30 @@ static void leaf_d_root_regulargoals_solve(slice_index leaf)
  */
 void leaf_d_root_solve(slice_index leaf)
 {
+  Side const attacker = slices[leaf].u.leaf.starter;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
   output_start_continuation_level();
 
-  switch (slices[leaf].u.leaf.goal)
-  {
-    case goal_countermate:
-      leaf_d_root_cmate_solve(leaf);
-      break;
+  if (echecc(nbply,advers(attacker)))
+    ErrorMsg(KingCapture);
+  else
+    switch (slices[leaf].u.leaf.goal)
+    {
+      case goal_countermate:
+        leaf_d_root_cmate_solve(leaf);
+        break;
 
-    case goal_doublemate:
-      leaf_d_root_dmate_solve(leaf);
-      break;
+      case goal_doublemate:
+        leaf_d_root_dmate_solve(leaf);
+        break;
 
-    default:
-      leaf_d_root_regulargoals_solve(leaf);
-      break;
-  }
+      default:
+        leaf_d_root_regulargoals_solve(leaf);
+        break;
+    }
 
   output_end_continuation_level();
 
