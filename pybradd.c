@@ -87,7 +87,7 @@ boolean branch_d_defender_has_starter_apriori_lost(slice_index si)
  */
 boolean branch_d_defender_is_refuted(slice_index si, stip_length_type n)
 {
-  Side const peer = slices[si].u.branch_d.peer;
+  slice_index const next = slices[si].u.branch_d.next;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -96,8 +96,24 @@ boolean branch_d_defender_is_refuted(slice_index si, stip_length_type n)
 
   assert(n%2==0);
 
-  result = (slice_must_starter_resign(slices[si].u.branch_d.next)
-            || !branch_d_has_solution_in_n(peer,n));
+  if (slice_must_starter_resign(next))
+    result = true;
+  else
+  {
+    stip_length_type const moves_played = slices[si].u.branch_d.length-n;
+    stip_length_type const min_length = slices[si].u.branch_d.min_length;
+    if (moves_played+slack_length_direct>min_length
+        && slice_has_non_starter_solved(next))
+      result = false;
+    else if (moves_played+slack_length_direct>=min_length
+             && slice_has_solution(next))
+      result = false;
+    else if (n>slack_length_direct
+             && branch_d_has_solution_in_n(slices[si].u.branch_d.peer,n))
+      result = false;
+    else
+      result = true;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -469,7 +485,7 @@ static boolean is_defense_relevant(int len_threat,
     /* variation shorter than threat */
     /* TODO avoid double calculation if lenthreat==n*/
     result = false;
-  else if (branch_d_defender_has_non_starter_solved(si))
+  else if (slice_has_non_starter_solved(slices[si].u.branch_d.next))
     /* "defense" has reached goal in self/reflex play */
     result = false;
   else if (!defends_against_threats(threats,si,len_threat))
@@ -676,14 +692,12 @@ boolean branch_d_defender_solve_next(slice_index si)
   TraceFunctionParam("%u\n",si);
 
   TraceValue("%u\n",min_length);
-  if (min_length<slack_length_direct
-      && branch_d_defender_has_non_starter_solved(si))
+  if (min_length<slack_length_direct && slice_has_non_starter_solved(next))
   {
     slice_write_non_starter_has_solved(next);
     result = true;
   }
-  else if (min_length<=slack_length_direct
-           && slice_has_solution(next))
+  else if (min_length<=slack_length_direct && slice_has_solution(next))
   {
     table const continuations = allocate_table();
     output_start_continuation_level();

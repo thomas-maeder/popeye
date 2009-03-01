@@ -123,13 +123,12 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
   return solution_found;
 }
 
-/* Determine whether this slice has a solution in n half moves
+/* Determine whether attacker can end in n half moves.
  * @param si slice index
  * @param n (even) number of half moves until goal
- * @return true iff this slice has a solution
+ * @return true iff attacker can end in n half moves
  */
-static boolean have_we_solution_in_n_hashed(slice_index si,
-                                            stip_length_type n)
+boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result = false;
 
@@ -179,41 +178,6 @@ static boolean have_we_solution_in_n_hashed(slice_index si,
     else
       addtohash(si,DirNoSucc,n/2);
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Determine whether attacker can end in n half moves of direct play.
- * @param si slice index
- * @param n (even) number of half moves until goal
- * @return true iff attacker can end in n half moves
- */
-boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
-{
-  boolean result = false;
-  slice_index const peer = slices[si].u.branch_d.peer;
-  stip_length_type const moves_played = slices[si].u.branch_d.length-n;
-  stip_length_type const min_length = slices[si].u.branch_d.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
-
-  assert(n%2==0);
-
-  TraceValue("%u",moves_played);
-  TraceValue("%u\n",min_length);
-  if (moves_played+slack_length_direct>min_length
-      && branch_d_defender_has_non_starter_solved(peer))
-    result = true;
-  else if (moves_played+slack_length_direct>=min_length
-           && slice_has_solution(slices[si].u.branch_d.next))
-    result = true;
-  else if (n>slack_length_direct
-           && have_we_solution_in_n_hashed(si,n))
-    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -351,9 +315,9 @@ boolean branch_d_solve(slice_index si)
   else if (branch_d_defender_solve_next(slices[si].u.branch_d.peer))
     result = true;
   else if (n>slack_length_direct
-           && have_we_solution_in_n_hashed(si,n))
+           && branch_d_has_solution_in_n(si,n))
   {
-    /* TODO does have_we_solution_in_n_hashed 'know' how many
+    /* TODO does branch_d_has_solution_in_n 'know' how many
      * moves are needed? */
     stip_length_type i;
     table const continuations = allocate_table();
