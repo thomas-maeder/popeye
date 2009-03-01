@@ -344,8 +344,6 @@ static boolean solve_next(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  assert(n%2==0);
-
   TraceValue("%u\n",min_length);
   if (min_length<slack_length_direct
       && branch_d_defender_has_non_starter_solved(peer))
