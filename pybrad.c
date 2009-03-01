@@ -215,48 +215,44 @@ void branch_d_solve_continuations_in_n(table continuations,
                                        slice_index si,
                                        stip_length_type n)
 {
+  Side const attacker = slices[si].u.branch_d.starter;
+  slice_index const peer = slices[si].u.branch_d.peer;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
   assert(n%2==0);
+  assert(n>slack_length_direct);
 
-  if (n==slack_length_direct)
-    slice_solve_continuations(continuations,slices[si].u.branch_d.next);
-  else
+  genmove(attacker);
+
+  while (encore())
   {
-    Side const attacker = slices[si].u.branch_d.starter;
-    slice_index const peer = slices[si].u.branch_d.peer;
-
-    genmove(attacker);
-
-    while (encore())
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !echecc(nbply,attacker))
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && !echecc(nbply,attacker))
+      d_defender_win_type const
+          defender_success = branch_d_defender_does_defender_win(peer,n-1);
+      TraceValue("%u\n",defender_success);
+      if (defender_success>=loss)
       {
-        d_defender_win_type const
-            defender_success = branch_d_defender_does_defender_win(peer,n-1);
-        TraceValue("%u\n",defender_success);
-        if (defender_success>=loss)
-        {
-          write_attack(attack_regular);
+        write_attack(attack_regular);
 
-          if (defender_success==already_lost)
-            slice_solve_postkey(slices[si].u.branch_d.next);
-          else
-            branch_d_defender_solve_postkey_in_n(peer,n-1);
+        if (defender_success==already_lost)
+          slice_solve_postkey(slices[si].u.branch_d.next);
+        else
+          branch_d_defender_solve_postkey_in_n(peer,n-1);
 
-          append_to_top_table();
-          coupfort();
-        }
+        append_to_top_table();
+        coupfort();
       }
-
-      repcoup();
     }
 
-    finply();
+    repcoup();
   }
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -323,10 +319,13 @@ boolean branch_d_solve(slice_index si)
     table const continuations = allocate_table();
     stip_length_type min_len = slices[si].u.branch_d.min_length;
 
-    if (min_len<slack_length_direct)
-      min_len = slack_length_direct;
-
     output_start_continuation_level();
+
+    if (min_len<=slack_length_direct)
+    {
+      slice_solve_continuations(continuations,slices[si].u.branch_d.next);
+      min_len = slack_length_direct+2;
+    }
   
     for (i = min_len; i<=n && !result; i += 2)
     {

@@ -510,10 +510,8 @@ static void write_variation(slice_index si, stip_length_type n)
   boolean is_refutation = true; /* until we prove otherwise */
   stip_length_type i;
   slice_index const peer = slices[si].u.branch_d.peer;
-  stip_length_type const
-      min_len = (slices[si].u.branch_d.min_length+slack_length_direct>=n
-                 ? n
-                 : slack_length_direct+1);
+  stip_length_type min_len;
+  table const continuations = allocate_table();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -524,16 +522,27 @@ static void write_variation(slice_index si, stip_length_type n)
   write_defense();
 
   output_start_continuation_level();
+
+  TraceValue("%u\n",slices[si].u.branch_d.min_length);
+  if (slices[si].u.branch_d.min_length+slack_length_direct<=n
+      || n==slack_length_direct+1)
+  {
+    slice_solve_continuations(continuations,slices[si].u.branch_d.next);
+    is_refutation = table_length(continuations)==0;
+    min_len = slack_length_direct+3;
+  }
+  else
+    min_len = n;
   
   for (i = min_len; i<=n && is_refutation; i += 2)
   {
-    table const continuations = allocate_table();
     branch_d_solve_continuations_in_n(continuations,peer,i-1);
     is_refutation = table_length(continuations)==0;
-    free_table();
   }
 
   output_end_continuation_level();
+
+  free_table();
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -603,25 +612,32 @@ static int solve_threats(table threats, slice_index si, stip_length_type n)
 
   if (!(OptFlag[nothreat] || echecc(nbply,defender)))
   {
-    stip_length_type
-        max_threat_length = (n>2*max_len_threat+slack_length_direct
-                             ? 2*max_len_threat+slack_length_direct
-                             : n);
-    stip_length_type i;
-
-    TraceValue("%u",2*max_len_threat+slack_length_direct);
-    TraceValue("%u\n",max_threat_length);
     output_start_threat_level();
 
-    for (i = slack_length_direct; i<=max_threat_length; i += 2)
+    slice_solve_continuations(threats,slices[si].u.branch_d.next);
+    if (table_length(threats)>0)
+      result = slack_length_direct;
+    else
     {
-      branch_d_solve_continuations_in_n(threats,peer,i);
-      TraceValue("%u",i);
-      TraceValue("%u\n",table_length(threats));
-      if (table_length(threats)>0)
+      stip_length_type
+          max_threat_length = (n>2*max_len_threat+slack_length_direct
+                               ? 2*max_len_threat+slack_length_direct
+                               : n);
+
+      stip_length_type i;
+      TraceValue("%u",2*max_len_threat+slack_length_direct);
+      TraceValue("%u\n",max_threat_length);
+
+      for (i = slack_length_direct+2; i<=max_threat_length; i += 2)
       {
-        result = i;
-        break;
+        branch_d_solve_continuations_in_n(threats,peer,i);
+        TraceValue("%u",i);
+        TraceValue("%u\n",table_length(threats));
+        if (table_length(threats)>0)
+        {
+          result = i;
+          break;
+        }
       }
     }
 
