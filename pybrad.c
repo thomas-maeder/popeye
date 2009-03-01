@@ -319,13 +319,10 @@ boolean branch_d_solve(slice_index si)
     table const continuations = allocate_table();
     stip_length_type min_len = slices[si].u.branch_d.min_length;
 
-    output_start_continuation_level();
-
     if (min_len<=slack_length_direct)
-    {
-      slice_solve_continuations(continuations,slices[si].u.branch_d.next);
       min_len = slack_length_direct+2;
-    }
+
+    output_start_continuation_level();
   
     for (i = min_len; i<=n && !result; i += 2)
     {
