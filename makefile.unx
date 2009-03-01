@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.54 2009/02/16 21:07:04 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.55 2009/03/01 09:53:08 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -93,7 +93,6 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
 # You'll have to pass these to the compiler "by hand":
 
 # 16-bit                        SIXTEEN
-# 64-bit                        SIXTYFOUR
 
 
 
@@ -313,7 +312,7 @@ depend:
 ifdef DEPEND
 depend:	$(PYCFILES) $(INCLUDES)
 	if [ ! -f pyallmsg.h ]; then touch pyallmsg.h; fi 
-	for f in $(PYCFILES); \
+	-for f in $(PYCFILES); \
 	do \
 		$(MAKEDEPEND) \
 			-MT `echo $$f | sed -e "s/[.]c$$/$(OBJ_SUFFIX)/"` \
