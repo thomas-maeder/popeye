@@ -20,6 +20,8 @@
 
 #if defined(DOTRACE)
 
+#include <stddef.h>
+
 #include "py.h"
 
 /* Deactivate trace output until program termination.
@@ -44,12 +46,12 @@ void TraceFunctionExit(char const *name);
 /* Trace a function parameter
  */
 #define TraceFunctionParam(format,name)         \
-  TraceValueImpl(" ->" #name ":" format, (int)name)
+  TraceValueImpl(" ->" #name ":" format, (size_t)name)
 
 /* Trace the value of some expression
  */
 #define TraceValue(format,name) \
-  TraceValueImpl(" " #name ":" format, (int)name)
+  TraceValueImpl(" " #name ":" format, (size_t)name)
 
 /* Trace arbitrary text
  */
@@ -83,9 +85,9 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4]);
  * Works best in SESE style functions.
  */
 #define TraceFunctionResult(format,name) \
-  TraceValueImpl(" <- " #name ":" format, (int)name)
+  TraceValueImpl(" <- " #name ":" format, (size_t)name)
 
-void TraceValueImpl(char const *format, int value);
+void TraceValueImpl(char const *format, size_t value);
 
 #else
 

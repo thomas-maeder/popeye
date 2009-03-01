@@ -34,7 +34,7 @@ void TraceFunctionExit(char const *name)
   --level;
 }
 
-void TraceValueImpl(char const *format, int value)
+void TraceValueImpl(char const *format, size_t value)
 {
   if (!deactivated)
     fprintf(stdout,format,value);
