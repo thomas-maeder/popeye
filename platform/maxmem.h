@@ -10,6 +10,6 @@
  * @return number of bytes to actually be used
  * @note both usersetting and the return value are in Bytes
  */
-extern size_t adjustMaxmemory(size_t usersetting);
+extern unsigned long adjustMaxmemory(unsigned long usersetting);
 
 #endif

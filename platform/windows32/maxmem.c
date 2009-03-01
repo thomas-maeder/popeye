@@ -1,10 +1,10 @@
 #include "../maxmem.h"
 #include <windows.h>
 
-size_t adjustMaxmemory(size_t usersetting)
+unsigned long adjustMaxmemory(unsigned long usersetting)
 {
-  size_t availablePhysicalMemory;
-  size_t totalPhysicalMemory;
+  unsigned long availablePhysicalMemory;
+  unsigned long totalPhysicalMemory;
 
   MEMORYSTATUS Mem;
   GlobalMemoryStatus(&Mem);

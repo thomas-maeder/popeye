@@ -1,10 +1,10 @@
 #include "../maxmem.h"
 #include <windows.h>
 
-size_t adjustMaxmemory(size_t usersetting)
+unsigned long adjustMaxmemory(unsigned long usersetting)
 {
-  size_t availablePhysicalMemory;
-  size_t totalPhysicalMemory;
+  unsigned long availablePhysicalMemory;
+  unsigned long totalPhysicalMemory;
 
   MEMORYSTATUSEX MemEx;
   MemEx.dwLength = sizeof MemEx;
@@ -15,8 +15,8 @@ size_t adjustMaxmemory(size_t usersetting)
   }
   else
   {
-    availablePhysicalMemory = 2ull*1024*1024*1024; /* wild guess: 2G */
-    totalPhysicalMemory = (size_t)-1;
+    availablePhysicalMemory = 2ul*1024*1024*1024; /* wild guess: 2G */
+    totalPhysicalMemory = ULONG_MAX;
   }
 
   if (usersetting==0)

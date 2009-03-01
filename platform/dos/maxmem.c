@@ -1,7 +1,7 @@
 #include "../maxmem.h"
 
-size_t adjustMaxmemory(size_t usersetting)
+unsigned long adjustMaxmemory(unsigned long usersetting)
 {
-  size_t const dosDefaultMaxMem = 256u*1024;
+  unsigned long const dosDefaultMaxMem = 256u*1024;
   return usersetting==0 ? dosDefaultMaxMem : usersetting;
 }

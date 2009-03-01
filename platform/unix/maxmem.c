@@ -1,7 +1,7 @@
 #include "../maxmem.h"
 
-size_t adjustMaxmemory(size_t usersetting)
+unsigned long adjustMaxmemory(unsigned long usersetting)
 {
-  size_t const unixDefaultMaxMem = 2*1024*1024;
+  unsigned long const unixDefaultMaxMem = 2*1024*1024;
   return usersetting==0 ? unixDefaultMaxMem : usersetting;
 }
