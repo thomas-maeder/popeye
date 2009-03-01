@@ -40,7 +40,10 @@ slice_index alloc_branch_d_slice(stip_length_type length,
 
   slices[slices[result].u.branch_d.peer].type = STBranchDirectDefender;
   --slices[slices[result].u.branch_d.peer].u.branch_d.length;
-  --slices[slices[result].u.branch_d.peer].u.branch_d.min_length;
+  if (slices[slices[result].u.branch_d.peer].u.branch_d.min_length==0)
+    slices[slices[result].u.branch_d.peer].u.branch_d.min_length = 1;
+  else
+    --slices[slices[result].u.branch_d.peer].u.branch_d.min_length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -331,44 +334,6 @@ void branch_d_root_write_key(slice_index si, attack_type type)
   TraceText("\n");
 }
 
-/* Find solutions in next slice
- * @param si slice index
- * @return true iff >=1 solution has been found
- */
-static boolean solve_next(slice_index si)
-{
-  slice_index const peer = slices[si].u.branch_d.peer;
-  stip_length_type const min_length = slices[si].u.branch_d.min_length;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  TraceValue("%u\n",min_length);
-  if (min_length<slack_length_direct
-      && branch_d_defender_has_non_starter_solved(peer))
-  {
-    slice_write_non_starter_has_solved(slices[si].u.branch_d.next);
-    result = true;
-  }
-  else if (min_length<=slack_length_direct
-           && slice_has_solution(slices[si].u.branch_d.next))
-  {
-    table const continuations = allocate_table();
-    output_start_continuation_level();
-    slice_solve_continuations(continuations,slices[si].u.branch_d.next);
-    output_end_continuation_level();
-    free_table();
-    result = true;
-  }
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Solve at non-root level.
  * @param si slice index
  */
@@ -384,7 +349,7 @@ boolean branch_d_solve(slice_index si)
 
   if (branch_d_defender_must_starter_resign(slices[si].u.branch_d.peer))
     ;
-  else if (solve_next(si))
+  else if (branch_d_defender_solve_next(slices[si].u.branch_d.peer))
     result = true;
   else if (n>slack_length_direct
            && have_we_solution_in_n_hashed(si,n))

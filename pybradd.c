@@ -662,6 +662,44 @@ void branch_d_defender_solve(slice_index si)
   branch_d_defender_solve_postkey_in_n(si,slices[si].u.branch_d.length);
 }
 
+/* Find solutions in next slice
+ * @param si slice index
+ * @return true iff >=1 solution has been found
+ */
+boolean branch_d_defender_solve_next(slice_index si)
+{
+  slice_index const next = slices[si].u.branch_d.next;
+  stip_length_type const min_length = slices[si].u.branch_d.min_length;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",min_length);
+  if (min_length<slack_length_direct
+      && branch_d_defender_has_non_starter_solved(si))
+  {
+    slice_write_non_starter_has_solved(next);
+    result = true;
+  }
+  else if (min_length<=slack_length_direct
+           && slice_has_solution(next))
+  {
+    table const continuations = allocate_table();
+    output_start_continuation_level();
+    slice_solve_continuations(continuations,next);
+    output_end_continuation_level();
+    free_table();
+    result = true;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Determine and write at root level the threat and variations after
  * the move that has just been played in the current ply
  * We have already determined that this move doesn't have more
@@ -909,7 +947,10 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
 
     slice_index const next_in_setplay_peer = copy_slice(si);
     slices[next_in_setplay_peer].u.branch_d.length -= 2;
-    slices[next_in_setplay_peer].u.branch_d.min_length -= 2;
+    if (slices[next_in_setplay_peer].u.branch_d.min_length==0)
+      slices[next_in_setplay_peer].u.branch_d.min_length = 1;
+    else
+      --slices[next_in_setplay_peer].u.branch_d.min_length;
 
     next_in_setplay = copy_slice(peer);
     slices[next_in_setplay].u.branch_d.length -= 2;

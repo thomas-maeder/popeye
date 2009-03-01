@@ -101,6 +101,12 @@ void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
  */
 void branch_d_defender_solve(slice_index si);
 
+/* Find solutions in next slice
+ * @param si slice index
+ * @return true iff >=1 solution has been found
+ */
+boolean branch_d_defender_solve_next(slice_index si);
+
 /* Solve postkey play at root level.
  * @param refutations table containing the refutations (if any)
  * @param si slice index
