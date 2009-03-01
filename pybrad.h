@@ -34,21 +34,12 @@ void branch_d_write_unsolvability(slice_index si);
  */
 boolean branch_d_is_goal_reached(Side just_moved, slice_index si);
 
-typedef enum
-{
-  branch_d_already_solved,
-  branch_d_next_solves,
-  branch_d_we_solve,
-  branch_d_no_solution
-} branch_d_solution_degree;
-
 /* Determine whether a branch slice has a solution
  * @param si slice index
  * @param n maximal number of moves
  * @return true iff slice si has a solution
  */
-branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
-                                                    stip_length_type n);
+boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether a slice has a solution
  * @param si slice index

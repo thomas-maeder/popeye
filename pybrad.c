@@ -190,10 +190,9 @@ static boolean have_we_solution_in_n_hashed(slice_index si,
  * @param n (even) number of half moves until goal
  * @return true iff attacker can end in n half moves
  */
-branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
-                                                    stip_length_type n)
+boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
 {
-  branch_d_solution_degree result = branch_d_no_solution;
+  boolean result = false;
   slice_index const peer = slices[si].u.branch_d.peer;
   stip_length_type const moves_played = slices[si].u.branch_d.length-n;
   stip_length_type const min_length = slices[si].u.branch_d.min_length;
@@ -208,13 +207,13 @@ branch_d_solution_degree branch_d_has_solution_in_n(slice_index si,
   TraceValue("%u\n",min_length);
   if (moves_played+slack_length_direct>min_length
       && branch_d_defender_has_non_starter_solved(peer))
-    result = branch_d_already_solved;
+    result = true;
   else if (moves_played+slack_length_direct>=min_length
            && slice_has_solution(slices[si].u.branch_d.next))
-    result = branch_d_next_solves;
+    result = true;
   else if (n>slack_length_direct
            && have_we_solution_in_n_hashed(si,n))
-    result = branch_d_we_solve;
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

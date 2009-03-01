@@ -97,7 +97,7 @@ boolean branch_d_defender_is_refuted(slice_index si, stip_length_type n)
   assert(n%2==0);
 
   result = (slice_must_starter_resign(slices[si].u.branch_d.next)
-            || branch_d_has_solution_in_n(peer,n)==branch_d_no_solution);
+            || !branch_d_has_solution_in_n(peer,n));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
