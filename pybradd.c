@@ -686,6 +686,38 @@ void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   TraceText("\n");
 }
 
+/* Try to finish the solution of the next slice starting with the key
+ * move just played. 
+ * @param si slice index
+ * @return true iff finishing the solution was successful.
+ */
+boolean branch_d_defender_finish_solution_next(slice_index si)
+{
+  boolean result = false;
+
+  if (slices[si].u.branch_d.min_length<=slack_length_direct)
+  {
+    slice_index const next = slices[si].u.branch_d.next;
+
+    TraceFunctionEntry(__func__);
+    TraceFunctionParam("%u\n",si);
+
+    if (slice_has_starter_reached_goal(next))
+    {
+      table refutations = allocate_table();
+      slice_root_write_key(next,attack_key);
+      slice_root_solve_postkey(refutations,next);
+      write_end_of_solution();
+      free_table();
+      result = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Solve at non-root level.
  * @param si slice index
  */

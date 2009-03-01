@@ -368,28 +368,18 @@ void branch_d_root_solve(slice_index si)
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
-          && !echecc(nbply,attacker))
+          && !echecc(nbply,attacker)
+          && !branch_d_defender_finish_solution_next(peer))
       {
         table refutations = allocate_table();
 
-        if (slices[si].u.branch_d.min_length<=slack_length_direct
-            && branch_d_defender_has_starter_reached_goal(peer))
+        unsigned int const nr_refutations =
+            branch_d_defender_find_refutations(refutations,peer);
+        if (nr_refutations<=max_nr_refutations)
         {
-          slice_index const next = slices[si].u.branch_d.next;
-          slice_root_write_key(next,attack_key);
-          slice_root_solve_postkey(refutations,next);
+          write_attack(nr_refutations==0 ? attack_key : attack_try);
+          branch_d_defender_root_solve_postkey(refutations,peer);
           write_end_of_solution();
-        }
-        else
-        {
-          unsigned int const nr_refutations =
-              branch_d_defender_find_refutations(refutations,peer);
-          if (nr_refutations<=max_nr_refutations)
-          {
-            write_attack(nr_refutations==0 ? attack_key : attack_try);
-            branch_d_defender_root_solve_postkey(refutations,peer);
-            write_end_of_solution();
-          }
         }
 
         free_table();

@@ -96,6 +96,13 @@ boolean branch_d_defender_has_non_starter_solved(slice_index si);
  */
 void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
 
+/* Try to finish the solution of the next slice starting with the key
+ * move just played. 
+ * @param si slice index
+ * @return true iff finishing the solution was successful.
+ */
+boolean branch_d_defender_finish_solution_next(slice_index si);
+
 /* Solve at non-root level.
  * @param si slice index
  */
