@@ -52,10 +52,9 @@ static unsigned long ConvertSimpleValue(dhtValue v) {
     c=c-a;  c=c-b;  c=c^(b>>15);                \
   }
 static unsigned long ConvertSimpleValue(dhtValue v) {
-  unsigned long a, b;
-  size_t c;
+  unsigned long a, b, c;
   a = b = 0x9e3779b9;
-  c = (size_t)v;
+  c = (unsigned long)v;
   mix(a,b,c);
   return c;
 }
