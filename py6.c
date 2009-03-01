@@ -113,7 +113,7 @@
 
 boolean supergenre;
 
-size_t MaxMemory;
+unsigned long MaxMemory;
 maxmemory_unit_type MaxMemory_unit;
 char MaxMemoryString[37];
 

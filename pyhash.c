@@ -1488,7 +1488,8 @@ static void LargeEncode(void)
   /* Now the rest of the party */
   bp = CommonEncode(bp);
 
-  hb->cmv.Leng = bp - hb->cmv.Data;
+  assert(bp-hb->cmv.Data<=UCHAR_MAX);
+  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
 
   validateHashBuffer();
 } /* LargeEncode */
@@ -1552,7 +1553,8 @@ static void SmallEncode(void)
   /* Now the rest of the party */
   bp = CommonEncode(bp);
 
-  hb->cmv.Leng = bp - hb->cmv.Data;
+  assert(bp-hb->cmv.Data<=UCHAR_MAX);
+  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
 
   validateHashBuffer();
 }

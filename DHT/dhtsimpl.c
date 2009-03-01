@@ -39,38 +39,39 @@ static unsigned long ConvertSimpleValue(dhtValue v) {
   return c;
 }
 #else
-#define mix(a,b,c)                              \
-  {                                             \
-    a=a-b;  a=a-c;  a=a^(c>>13);                \
-    b=b-c;  b=b-a;  b=b^(a<<8);                 \
-    c=c-a;  c=c-b;  c=c^(b>>13);                \
-    a=a-b;  a=a-c;  a=a^(c>>12);                \
-    b=b-c;  b=b-a;  b=b^(a<<16);                \
-    c=c-a;  c=c-b;  c=c^(b>>5);                 \
-    a=a-b;  a=a-c;  a=a^(c>>3);                 \
-    b=b-c;  b=b-a;  b=b^(a<<10);                \
-    c=c-a;  c=c-b;  c=c^(b>>15);                \
-  }
-static unsigned long ConvertSimpleValue(dhtValue v) {
-  unsigned long a, b, c;
-  a = b = 0x9e3779b9;
-  c = (unsigned long)v;
-  mix(a,b,c);
-  return c;
+static unsigned long ConvertSimpleValue(dhtValue v)
+{
+  dhtValue a = -v;
+  dhtValue b = 0x9e3779b9;
+  a ^= v >> 13;
+  b -= v;  b -= a;  b ^= a << 8; 
+  v -= a;  v -= b;  v ^= b >> 13;
+  a -= b;  a -= v;  a ^= v >> 12;
+  b -= v;  b -= a;  b ^= a << 16;
+  v -= a;  v -= b;  v ^= b >> 5; 
+  a -= b;  a -= v;  a ^= v >> 3; 
+  b -= v;  b -= a;  b ^= a << 10;
+  v -= a;  v -= b;  v ^= b >> 15;
+  return v;
 }
 #endif /*ARCH64*/
+
 static int EqualSimpleValue(dhtValue v1, dhtValue v2) {
   return v1 == v2;
 }
+
 static dhtValue	DupSimpleValue(dhtValue v) {
   return v;
 }
+
 static void	FreeSimpleValue(dhtValue v) {
   return;
 }
+
 static void	DumpSimpleValue(dhtValue v, FILE *f) {
   fprintf(f, "%08lx", (unsigned long)(size_t)v);
 }
+
 dhtValueProcedures dhtSimpleProcs = {
   ConvertSimpleValue,
   EqualSimpleValue,
