@@ -3,8 +3,8 @@
 
 unsigned long adjustMaxmemory(unsigned long usersetting)
 {
-  unsigned long availablePhysicalMemory;
-  unsigned long totalPhysicalMemory;
+  size_t availablePhysicalMemory;
+  size_t totalPhysicalMemory;
 
   MEMORYSTATUS Mem;
   GlobalMemoryStatus(&Mem);
@@ -19,9 +19,9 @@ unsigned long adjustMaxmemory(unsigned long usersetting)
 #endif  /* _WIN98 */
 
   if (usersetting==0)
-    return availablePhysicalMemory;
+    return (unsigned long)availablePhysicalMemory;
   else if (usersetting>totalPhysicalMemory)
-    return totalPhysicalMemory;
+    return (unsigned long)totalPhysicalMemory;
   else
     return usersetting;
 }
