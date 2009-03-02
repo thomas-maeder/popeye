@@ -72,7 +72,7 @@ DATA char *dhtValueTypeToString[dhtValueTypeCnt]
 #endif
 ;
 
-typedef unsigned long dhtValue;
+typedef char *dhtValue;
 
 typedef struct {
 	unsigned long	(*Hash)(dhtValue);

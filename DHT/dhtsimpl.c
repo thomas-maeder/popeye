@@ -41,18 +41,19 @@ static unsigned long ConvertSimpleValue(dhtValue v) {
 #else
 static unsigned long ConvertSimpleValue(dhtValue v)
 {
-  dhtValue a = -v;
-  dhtValue b = 0x9e3779b9;
-  a ^= v >> 13;
-  b -= v;  b -= a;  b ^= a << 8; 
-  v -= a;  v -= b;  v ^= b >> 13;
-  a -= b;  a -= v;  a ^= v >> 12;
-  b -= v;  b -= a;  b ^= a << 16;
-  v -= a;  v -= b;  v ^= b >> 5; 
-  a -= b;  a -= v;  a ^= v >> 3; 
-  b -= v;  b -= a;  b ^= a << 10;
-  v -= a;  v -= b;  v ^= b >> 15;
-  return v;
+  size_t c = (size_t)v; 
+  size_t a = -c;
+  size_t b = 0x9e3779b9;
+  a ^= c >> 13;
+  b -= c;  b -= a;  b ^= a << 8; 
+  c -= a;  c -= b;  c ^= b >> 13;
+  a -= b;  a -= c;  a ^= c >> 12;
+  b -= c;  b -= a;  b ^= a << 16;
+  c -= a;  c -= b;  c ^= b >> 5; 
+  a -= b;  a -= c;  a ^= c >> 3; 
+  b -= c;  b -= a;  b ^= a << 10;
+  c -= a;  c -= b;  c ^= b >> 15;
+  return (unsigned long)c;
 }
 #endif /*ARCH64*/
 
