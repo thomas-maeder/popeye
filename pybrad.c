@@ -33,7 +33,8 @@ slice_index alloc_branch_d_slice(stip_length_type length,
   slices[result].u.branch_d.starter = no_side; 
   slices[result].u.branch_d.length = length;
   slices[result].u.branch_d.min_length = min_length;
-  slices[result].u.branch_d.next = next;
+  slices[result].u.branch_d.peer = no_slice;
+  slices[result].u.branch_d.next = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

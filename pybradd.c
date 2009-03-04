@@ -28,6 +28,7 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
     slices[result].u.branch_d.min_length = 1;
   else
     slices[result].u.branch_d.min_length = min_length-1;
+  slices[result].u.branch_d.peer = no_slice;
   slices[result].u.branch_d.next = next;
 
   return result;
