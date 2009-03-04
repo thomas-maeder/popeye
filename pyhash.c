@@ -416,13 +416,15 @@ static void init_slice_properties_recursive(slice_index si,
         slice_index const base = base_slice[si];
         if (base==no_slice)
         {
-          slice_index const next = slices[si].u.branch_d.next;
           unsigned int const length = slices[si].u.branch_d.length;
+          slice_index const peer = slices[si].u.branch_d.peer;
           init_slice_properties_direct(si,length,nr_bits_left);
           if (slices[si].u.branch_d.min_length==length)
             is_there_slice_with_nonstandard_min_length = true;
-
-          init_slice_properties_recursive(next,nr_bits_left);
+          /* check for is_initialised above prefents infinite
+           * recursion
+           */
+          init_slice_properties_recursive(peer,nr_bits_left);
         }
         else
         {
@@ -435,7 +437,11 @@ static void init_slice_properties_recursive(slice_index si,
       case STBranchDirectDefender:
       {
         slice_index const peer = slices[si].u.branch_d.peer;
+        slice_index const next = slices[si].u.branch_d.next;
         init_slice_properties_recursive(peer,nr_bits_left);
+        /* check for is_initialised above prefents infinite recursion
+         */
+        init_slice_properties_recursive(next,nr_bits_left);
         break;
       }
 
@@ -926,17 +932,18 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
     }
 
     case STBranchDirect:
-    case STBranchDirectDefender:
     {
       hash_value_type const own_value = own_value_of_data_composite(he,si);
+      slice_index const peer = slices[si].u.branch_d.peer;
+      hash_value_type const peer_value = own_value_of_data_composite(he,peer);
+      result = (own_value << offset) + peer_value;
+      break;
+    }
 
+    case STBranchDirectDefender:
+    {
       slice_index const next = slices[si].u.branch_d.next;
-      hash_value_type const nested_value =
-          value_of_data_recursive(he,offset,next);
-      TraceValue("%x ",own_value);
-      TraceValue("%x\n",nested_value);
-
-      result = (own_value << offset) + nested_value;
+      result = value_of_data_recursive(he,offset,next);
       break;
     }
 
@@ -1755,16 +1762,18 @@ static void init_element(dhtElement *he, slice_index si)
       if (base_slice[si]==no_slice)
       {
         init_element_direct(he,si,slices[si].u.branch_d.length);
-        init_element(he,slices[si].u.branch_d.next);
+        /* prevent infinite recursion */
+        if (slices[si].u.branch_d.peer<si)
+          init_element(he,slices[si].u.branch_d.peer);
       }
       break;
-      
+
     case STBranchDirectDefender:
-    {
-      slice_index const peer = slices[si].u.branch_d.peer;
-      init_element(he,peer);
+      init_element(he,slices[si].u.branch_d.next);
+      /* prevent infinite recursion */
+      if (slices[si].u.branch_d.peer<si)
+        init_element(he,slices[si].u.branch_d.peer);
       break;
-    }
 
     case STBranchHelp:
       if (base_slice[si]==no_slice)
