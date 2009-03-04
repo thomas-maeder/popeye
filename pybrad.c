@@ -315,8 +315,6 @@ boolean branch_d_solve(slice_index si)
   else if (n>slack_length_direct
            && branch_d_has_solution_in_n(si,n))
   {
-    /* TODO does branch_d_has_solution_in_n 'know' how many
-     * moves are needed? */
     stip_length_type i;
     table const continuations = allocate_table();
     stip_length_type min_len = slices[si].u.branch_d.min_length;
