@@ -20,19 +20,18 @@ slice_index alloc_branch_d_slice(stip_length_type length,
                                  stip_length_type min_length,
                                  slice_index next);
 
+/* Set the peer slice of a STBranchDirect slice
+ * @param si index of the STBranchDirect slice
+ * @param slice index of the new peer
+ */
+void branch_d_set_peer(slice_index si, slice_index peer);
+
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
  * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void branch_d_write_unsolvability(slice_index si);
-
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean branch_d_is_goal_reached(Side just_moved, slice_index si);
 
 /* Determine whether a branch slice has a solution
  * @param si slice index

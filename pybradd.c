@@ -9,6 +9,39 @@
 
 #include <assert.h>
 
+/* Allocate a STBranchDirect defender slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of allocated slice
+ */
+slice_index alloc_branch_d_defender_slice(stip_length_type length,
+                                          stip_length_type min_length,
+                                          slice_index next)
+{
+  slice_index const result = alloc_slice_index();
+
+  slices[result].type = STBranchDirectDefender; 
+  slices[result].u.branch_d.starter = no_side; 
+  slices[result].u.branch_d.length = length-1;
+  if (min_length==0)
+    slices[result].u.branch_d.min_length = 1;
+  else
+    slices[result].u.branch_d.min_length = min_length-1;
+  slices[result].u.branch_d.next = next;
+
+  return result;
+}
+
+/* Set the peer slice of a STBranchDirect defender slice
+ * @param si index of the STBranchDirect defender slice
+ * @param slice index of the new peer
+ */
+void branch_d_defender_set_peer(slice_index si, slice_index peer)
+{
+  slices[si].u.branch_d.peer = peer;
+}
+
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?

@@ -35,19 +35,18 @@ slice_index alloc_branch_d_slice(stip_length_type length,
   slices[result].u.branch_d.min_length = min_length;
   slices[result].u.branch_d.next = next;
 
-  slices[result].u.branch_d.peer = copy_slice(result);
-  slices[slices[result].u.branch_d.peer].u.branch_d.peer = result;
-
-  slices[slices[result].u.branch_d.peer].type = STBranchDirectDefender;
-  --slices[slices[result].u.branch_d.peer].u.branch_d.length;
-  if (slices[slices[result].u.branch_d.peer].u.branch_d.min_length==0)
-    slices[slices[result].u.branch_d.peer].u.branch_d.min_length = 1;
-  else
-    --slices[slices[result].u.branch_d.peer].u.branch_d.min_length;
-
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
+}
+
+/* Set the peer slice of a STBranchDirect slice
+ * @param si index of the STBranchDirect slice
+ * @param slice index of the new peer
+ */
+void branch_d_set_peer(slice_index si, slice_index peer)
+{
+  slices[si].u.branch_d.peer = peer;
 }
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
@@ -58,26 +57,6 @@ slice_index alloc_branch_d_slice(stip_length_type length,
 void branch_d_write_unsolvability(slice_index si)
 {
   branch_d_defender_write_unsolvability(slices[si].u.branch_d.peer);
-}
-
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean branch_d_is_goal_reached(Side just_moved, slice_index si)
-{
-  boolean result;
-  slice_index const peer = slices[si].u.branch_d.peer;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
-
-  result = branch_d_defender_is_goal_reached(just_moved,peer);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
 }
 
 /* Determine whether this slice has a solution in n half moves

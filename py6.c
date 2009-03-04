@@ -462,7 +462,8 @@ static boolean verify_position(void)
 
   if (slices[root_slice].type==STBranchDirect)
   {
-    slice_index const next = slices[root_slice].u.branch_d.next;
+    slice_index const peer = slices[root_slice].u.branch_d.peer;
+    slice_index const next = slices[peer].u.branch_d.next;
 
     if (2*max_len_threat+slack_length_direct
         <slices[root_slice].u.branch_d.min_length)

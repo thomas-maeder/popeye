@@ -832,8 +832,8 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       result = leaf_is_goal_reached(just_moved,si);
       break;
 
-    case STBranchDirect:
-      result = branch_d_is_goal_reached(just_moved,si);
+    case STBranchDirectDefender:
+      result = branch_d_defender_is_goal_reached(just_moved,si);
       break;
 
     case STBranchHelp:

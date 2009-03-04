@@ -10,6 +10,22 @@
  * in STBranchDirect stipulation slices.
  */
 
+/* Allocate a STBranchDirect defender slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of allocated slice
+ */
+slice_index alloc_branch_d_defender_slice(stip_length_type length,
+                                          stip_length_type min_length,
+                                          slice_index next);
+
+/* Set the peer slice of a STBranchDirect defender slice
+ * @param si index of the STBranchDirect defender slice
+ * @param slice index of the new peer
+ */
+void branch_d_defender_set_peer(slice_index si, slice_index peer);
+
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
  * Assumes slice_must_starter_resign(si)

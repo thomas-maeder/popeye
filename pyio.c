@@ -69,6 +69,7 @@
 #include "pyrecipr.h"
 #include "pynot.h"
 #include "pybrad.h"
+#include "pybradd.h"
 #include "pybrah.h"
 #include "pybraser.h"
 #include "pymovein.h"
@@ -1676,7 +1677,15 @@ static char *ParsePlay(char *tok, slice_index *si)
         if (length==slack_length_direct && min_length==slack_length_direct)
           *si = next;
         else
+        {
+          slice_index const defender =
+              alloc_branch_d_defender_slice(length,
+                                            min_length,
+                                            next);
           *si = alloc_branch_d_slice(length,min_length,next);
+          branch_d_set_peer(*si,defender);
+          branch_d_defender_set_peer(defender,*si);
+        }
       }
     }
   }
