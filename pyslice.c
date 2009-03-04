@@ -547,10 +547,6 @@ void slice_solve_postkey(slice_index si)
       quodlibet_solve_postkey(si);
       break;
 
-    case STBranchDirect:
-      branch_d_defender_solve(si);
-      break;
-
     case STBranchHelp:
       /* TODO */
       break;
