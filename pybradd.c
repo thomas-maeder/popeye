@@ -22,14 +22,14 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
   slice_index const result = alloc_slice_index();
 
   slices[result].type = STBranchDirectDefender; 
-  slices[result].u.branch_d.starter = no_side; 
-  slices[result].u.branch_d.length = length-1;
+  slices[result].u.branch_d_defender.starter = no_side; 
+  slices[result].u.branch_d_defender.length = length-1;
   if (min_length==0)
-    slices[result].u.branch_d.min_length = 1;
+    slices[result].u.branch_d_defender.min_length = 1;
   else
-    slices[result].u.branch_d.min_length = min_length-1;
-  slices[result].u.branch_d.peer = no_slice;
-  slices[result].u.branch_d.next = next;
+    slices[result].u.branch_d_defender.min_length = min_length-1;
+  slices[result].u.branch_d_defender.peer = no_slice;
+  slices[result].u.branch_d_defender.next = next;
 
   return result;
 }
@@ -40,7 +40,7 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
  */
 void branch_d_defender_set_peer(slice_index si, slice_index peer)
 {
-  slices[si].u.branch_d.peer = peer;
+  slices[si].u.branch_d_defender.peer = peer;
 }
 
 /* Is there no chance left for the starting side at the move to win?
@@ -56,7 +56,7 @@ boolean branch_d_defender_must_starter_resign(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_must_starter_resign(slices[si].u.branch_d.next);
+  result = slice_must_starter_resign(slices[si].u.branch_d_defender.next);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -70,7 +70,7 @@ boolean branch_d_defender_must_starter_resign(slice_index si)
  */
 void branch_d_defender_write_unsolvability(slice_index si)
 {
-  slice_write_unsolvability(slices[si].u.branch_d.next);
+  slice_write_unsolvability(slices[si].u.branch_d_defender.next);
 }
 
 /* Let the next slice write the solution starting with the key just played
@@ -78,7 +78,7 @@ void branch_d_defender_write_unsolvability(slice_index si)
  */
 void branch_d_defender_write_solution_next(slice_index si)
 {
-  slice_solve_postkey(slices[si].u.branch_d.next);
+  slice_solve_postkey(slices[si].u.branch_d_defender.next);
 }
 
 /* Determine whether a side has reached the goal
@@ -93,7 +93,8 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result =  slice_is_goal_reached(just_moved,slices[si].u.branch_d.next);
+  result =  slice_is_goal_reached(just_moved,
+                                  slices[si].u.branch_d_defender.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -114,7 +115,7 @@ boolean branch_d_defender_has_starter_apriori_lost(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_has_starter_apriori_lost(slices[si].u.branch_d.next);
+  result = slice_has_starter_apriori_lost(slices[si].u.branch_d_defender.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -129,7 +130,7 @@ boolean branch_d_defender_has_starter_apriori_lost(slice_index si)
  */
 boolean branch_d_defender_is_refuted(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.branch_d.next;
+  slice_index const next = slices[si].u.branch_d_defender.next;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -142,19 +143,25 @@ boolean branch_d_defender_is_refuted(slice_index si, stip_length_type n)
     result = true;
   else
   {
-    stip_length_type const moves_played = slices[si].u.branch_d.length-n;
-    stip_length_type const min_length = slices[si].u.branch_d.min_length;
+    stip_length_type const
+        moves_played = slices[si].u.branch_d_defender.length-n;
+    stip_length_type const
+        min_length = slices[si].u.branch_d_defender.min_length;
     if (moves_played+slack_length_direct>min_length
         && slice_has_non_starter_solved(next))
       result = false;
     else if (moves_played+slack_length_direct>=min_length
              && slice_has_solution(next))
       result = false;
-    else if (n>slack_length_direct
-             && branch_d_has_solution_in_n(slices[si].u.branch_d.peer,n))
-      result = false;
     else
-      result = true;
+    {
+      slice_index const peer = slices[si].u.branch_d_defender.peer;
+      if (n>slack_length_direct
+          && branch_d_has_solution_in_n(peer,n))
+        result = false;
+      else
+        result = true;
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -178,7 +185,7 @@ typedef enum
 defender_has_refutation_type has_defender_refutation(slice_index si,
                                                      stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch_d.starter;
+  Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
   defender_has_refutation_type result = defender_is_immobile;
   
@@ -225,7 +232,7 @@ defender_has_refutation_type has_defender_refutation(slice_index si,
  */
 static int count_non_trivial_defenses(slice_index si)
 {
-  Side const attacker = slices[si].u.branch_d.starter;
+  Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
   int result = -1;
 
@@ -306,7 +313,7 @@ boolean too_many_non_trivial_defenses(slice_index si,
  */
 boolean is_threat_too_long(slice_index si, stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch_d.starter;
+  Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
   boolean result;
   
@@ -339,7 +346,7 @@ boolean is_threat_too_long(slice_index si, stip_length_type n)
  */
 boolean branch_d_defender_does_defender_win(slice_index si, stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch_d.starter;
+  Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
   boolean result;
 
@@ -349,7 +356,7 @@ boolean branch_d_defender_does_defender_win(slice_index si, stip_length_type n)
 
   assert(n%2==1);
 
-  TraceValue("%u\n",slices[si].u.branch_d.min_length);
+  TraceValue("%u\n",slices[si].u.branch_d_defender.min_length);
 
   if (is_threat_too_long(si,n-1)
       || (OptFlag[solflights] && has_too_many_flights(defender)))
@@ -372,10 +379,12 @@ boolean branch_d_defender_does_defender_win(slice_index si, stip_length_type n)
  */
 static boolean has_starter_won_in_n(slice_index si, stip_length_type n)
 {
-  if (slice_has_starter_apriori_lost(slices[si].u.branch_d.next))
+  slice_index const next = slices[si].u.branch_d_defender.next;
+  if (slice_has_starter_apriori_lost(next))
     return true;
-  else if (slices[si].u.branch_d.length-n>slices[si].u.branch_d.min_length
-           && slice_has_starter_reached_goal(slices[si].u.branch_d.next))
+  else if (slices[si].u.branch_d_defender.length-n
+           >slices[si].u.branch_d_defender.min_length
+           && slice_has_starter_reached_goal(next))
     return false;
   else
     return !branch_d_defender_does_defender_win(si,n);
@@ -389,7 +398,7 @@ static boolean has_starter_won_in_n(slice_index si, stip_length_type n)
  */
 boolean branch_d_defender_has_starter_won(slice_index si)
 {
-  return has_starter_won_in_n(si,slices[si].u.branch_d.length);
+  return has_starter_won_in_n(si,slices[si].u.branch_d_defender.length);
 }
 
 /* Determine whether the attacker has reached slice si's goal with his
@@ -400,7 +409,7 @@ boolean branch_d_defender_has_starter_won(slice_index si)
 boolean branch_d_defender_has_starter_reached_goal(slice_index si)
 {
   boolean result;
-  slice_index const next = slices[si].u.branch_d.next;
+  slice_index const next = slices[si].u.branch_d_defender.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -424,7 +433,7 @@ boolean branch_d_defender_has_non_starter_solved(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_has_non_starter_solved(slices[si].u.branch_d.next);
+  result = slice_has_non_starter_solved(slices[si].u.branch_d_defender.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -442,7 +451,7 @@ static boolean defends_against_threats(table threats,
                                        slice_index si,
                                        stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch_d.starter;
+  Side const attacker = slices[si].u.branch_d_defender.starter;
   boolean result = true;
 
   TraceFunctionEntry(__func__);
@@ -466,7 +475,10 @@ static boolean defends_against_threats(table threats,
           && !echecc(nbply,attacker))
       {
         if (n==slack_length_direct)
-          defense_found = !slice_has_starter_won(slices[si].u.branch_d.next);
+        {
+          slice_index const next = slices[si].u.branch_d_defender.next;
+          defense_found = !slice_has_starter_won(next);
+        }
         else
           defense_found = !has_starter_won_in_n(si,n-1);
 
@@ -524,7 +536,7 @@ static boolean is_defense_relevant(int len_threat,
     /* variation shorter than threat */
     /* TODO avoid double calculation if lenthreat==n*/
     result = false;
-  else if (slice_has_non_starter_solved(slices[si].u.branch_d.next))
+  else if (slice_has_non_starter_solved(slices[si].u.branch_d_defender.next))
     /* "defense" has reached goal in self/reflex play */
     result = false;
   else if (!defends_against_threats(threats,si,len_threat))
@@ -548,7 +560,7 @@ static void write_variation(slice_index si, stip_length_type n)
 {
   boolean is_refutation = true; /* until we prove otherwise */
   stip_length_type i;
-  slice_index const peer = slices[si].u.branch_d.peer;
+  slice_index const peer = slices[si].u.branch_d_defender.peer;
   stip_length_type min_len;
   table const continuations = allocate_table();
 
@@ -562,11 +574,12 @@ static void write_variation(slice_index si, stip_length_type n)
 
   output_start_continuation_level();
 
-  TraceValue("%u\n",slices[si].u.branch_d.min_length);
-  if (slices[si].u.branch_d.min_length+slack_length_direct<=n
+  TraceValue("%u\n",slices[si].u.branch_d_defender.min_length);
+  if (slices[si].u.branch_d_defender.min_length+slack_length_direct<=n
       || n==slack_length_direct+1)
   {
-    slice_solve_continuations(continuations,slices[si].u.branch_d.next);
+    slice_solve_continuations(continuations,
+                              slices[si].u.branch_d_defender.next);
     is_refutation = table_length(continuations)==0;
     min_len = slack_length_direct+3;
   }
@@ -600,7 +613,7 @@ static void solve_variations_in_n(int len_threat,
                                   slice_index si,
                                   stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch_d.starter;
+  Side const attacker = slices[si].u.branch_d_defender.starter;
   Side defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
@@ -639,8 +652,8 @@ static void solve_variations_in_n(int len_threat,
  */
 static int solve_threats(table threats, slice_index si, stip_length_type n)
 {
-  Side const defender = advers(slices[si].u.branch_d.starter);
-  slice_index const peer = slices[si].u.branch_d.peer;
+  Side const defender = advers(slices[si].u.branch_d_defender.starter);
+  slice_index const peer = slices[si].u.branch_d_defender.peer;
   int result = 0;
 
   TraceFunctionEntry(__func__);
@@ -653,7 +666,7 @@ static int solve_threats(table threats, slice_index si, stip_length_type n)
   {
     output_start_threat_level();
 
-    slice_solve_continuations(threats,slices[si].u.branch_d.next);
+    slice_solve_continuations(threats,slices[si].u.branch_d_defender.next);
     if (table_length(threats)>0)
       result = slack_length_direct;
     else
@@ -734,9 +747,9 @@ boolean branch_d_defender_finish_solution_next(slice_index si)
 {
   boolean result = false;
 
-  if (slices[si].u.branch_d.min_length<=slack_length_direct)
+  if (slices[si].u.branch_d_defender.min_length<=slack_length_direct)
   {
-    slice_index const next = slices[si].u.branch_d.next;
+    slice_index const next = slices[si].u.branch_d_defender.next;
 
     TraceFunctionEntry(__func__);
     TraceFunctionParam("%u\n",si);
@@ -763,8 +776,8 @@ boolean branch_d_defender_finish_solution_next(slice_index si)
  */
 boolean branch_d_defender_solve_next(slice_index si)
 {
-  slice_index const next = slices[si].u.branch_d.next;
-  stip_length_type const min_length = slices[si].u.branch_d.min_length;
+  slice_index const next = slices[si].u.branch_d_defender.next;
+  stip_length_type const min_length = slices[si].u.branch_d_defender.min_length;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -810,7 +823,7 @@ static void root_solve_variations_in_n(int len_threat,
                                        slice_index si,
                                        stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch_d.starter;
+  Side const attacker = slices[si].u.branch_d_defender.starter;
   Side defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
@@ -852,7 +865,7 @@ void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
 
   if (OptFlag[solvariantes])
   {
-    stip_length_type const n = slices[si].u.branch_d.length;
+    stip_length_type const n = slices[si].u.branch_d_defender.length;
     table const threats = allocate_table();
     int const len_threat = solve_threats(threats,si,n-1);
 
@@ -882,7 +895,7 @@ void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
  */
 void branch_d_defender_root_solve(slice_index si)
 {
-  stip_length_type const n = slices[si].u.branch_d.length;
+  stip_length_type const n = slices[si].u.branch_d_defender.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -903,7 +916,7 @@ static boolean root_collect_refutations(table refutations,
                                         slice_index si,
                                         stip_length_type n)
 {
-  Side const attacker = slices[si].u.branch_d.starter;
+  Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
   boolean is_defender_immobile = true;
 
@@ -995,9 +1008,9 @@ static unsigned int root_collect_non_trivial(table non_trivial,
 unsigned int branch_d_defender_find_refutations(table refutations,
                                                 slice_index si)
 {
-  Side const defender = advers(slices[si].u.branch_d.starter);
+  Side const defender = advers(slices[si].u.branch_d_defender.starter);
   unsigned int result;
-  stip_length_type const n = slices[si].u.branch_d.length;
+  stip_length_type const n = slices[si].u.branch_d_defender.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -1025,39 +1038,40 @@ unsigned int branch_d_defender_find_refutations(table refutations,
  */
 slice_index branch_d_defender_make_setplay_slice(slice_index si)
 {
-  slice_index const next = slices[si].u.branch_d.next;
+  slice_index const next = slices[si].u.branch_d_defender.next;
   slice_index next_in_setplay;
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  if (slices[si].u.branch_d.length==slack_length_direct+1)
+  if (slices[si].u.branch_d_defender.length==slack_length_direct+1)
     next_in_setplay = next;
   else
   {
-    slice_index const peer = slices[si].u.branch_d.peer;
+    slice_index const peer = slices[si].u.branch_d_defender.peer;
 
     slice_index const next_in_setplay_peer = copy_slice(si);
-    slices[next_in_setplay_peer].u.branch_d.length -= 2;
-    if (slices[next_in_setplay_peer].u.branch_d.min_length==0)
-      slices[next_in_setplay_peer].u.branch_d.min_length = 1;
+    slices[next_in_setplay_peer].u.branch_d_defender.length -= 2;
+    if (slices[next_in_setplay_peer].u.branch_d_defender.min_length==0)
+      slices[next_in_setplay_peer].u.branch_d_defender.min_length = 1;
     else
-      --slices[next_in_setplay_peer].u.branch_d.min_length;
+      --slices[next_in_setplay_peer].u.branch_d_defender.min_length;
 
     next_in_setplay = copy_slice(peer);
-    slices[next_in_setplay].u.branch_d.length -= 2;
-    slices[next_in_setplay].u.branch_d.min_length -= 2;
+    slices[next_in_setplay].u.branch_d_defender.length -= 2;
+    slices[next_in_setplay].u.branch_d_defender.min_length -= 2;
     hash_slice_is_derived_from(next_in_setplay,peer);
 
-    slices[next_in_setplay].u.branch_d.peer = next_in_setplay_peer;
-    slices[next_in_setplay_peer].u.branch_d.peer = next_in_setplay;
+    slices[next_in_setplay].u.branch_d_defender.peer = next_in_setplay_peer;
+    slices[next_in_setplay_peer].u.branch_d_defender.peer = next_in_setplay;
   }
 
   result = alloc_branch_h_slice(slack_length_help+1,
                                 slack_length_help+1,
                                 next_in_setplay);
-  slices[result].u.branch_d.starter = advers(slices[si].u.branch_d.starter);
+  slices[result].u.branch_d_defender.starter
+      = advers(slices[si].u.branch_d_defender.starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -1073,8 +1087,9 @@ who_decides_on_starter
 branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
 {
   who_decides_on_starter result = dont_know_who_decides_on_starter;
-  slice_index const next = slices[si].u.branch_d.next;
+  slice_index const next = slices[si].u.branch_d_defender.next;
   slice_index next_relevant = next;
+  Side * const starter = &slices[si].u.branch_d_defender.starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1091,31 +1106,31 @@ branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
     switch (slices[next_relevant].type)
     {
       case STLeafDirect:
-        slices[si].u.branch_d.starter =  White;
-        TraceValue("%u\n",slices[si].u.branch_d.starter);
-        slice_impose_starter(next,slices[si].u.branch_d.starter);
+        *starter =  White;
+        TraceValue("%u\n",*starter);
+        slice_impose_starter(next,*starter);
         break;
 
       case STLeafSelf:
-        slices[si].u.branch_d.starter = White;
-        TraceValue("%u\n",slices[si].u.branch_d.starter);
-        slice_impose_starter(next,slices[si].u.branch_d.starter);
+        *starter = White;
+        TraceValue("%u\n",*starter);
+        slice_impose_starter(next,*starter);
         break;
 
       case STLeafHelp:
-        slices[si].u.branch_d.starter = White;
-        TraceValue("%u\n",slices[si].u.branch_d.starter);
-        slice_impose_starter(next,advers(slices[si].u.branch_d.starter));
+        *starter = White;
+        TraceValue("%u\n",*starter);
+        slice_impose_starter(next,advers(*starter));
         break;
 
       default:
-        slices[si].u.branch_d.starter = no_side;
+        *starter = no_side;
         break;
     }
   else
-    slices[si].u.branch_d.starter = slice_get_starter(next);
+    *starter = slice_get_starter(next);
 
-  TraceValue("%u\n",slices[si].u.branch_d.starter);
+  TraceValue("%u\n",*starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -1128,6 +1143,6 @@ branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
  */
 void branch_d_defender_impose_starter(slice_index si, Side s)
 {
-  slices[si].u.branch_d.starter = s;
-  slice_impose_starter(slices[si].u.branch_d.next,s);
+  slices[si].u.branch_d_defender.starter = s;
+  slice_impose_starter(slices[si].u.branch_d_defender.next,s);
 }

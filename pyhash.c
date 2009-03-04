@@ -436,8 +436,8 @@ static void init_slice_properties_recursive(slice_index si,
 
       case STBranchDirectDefender:
       {
-        slice_index const peer = slices[si].u.branch_d.peer;
-        slice_index const next = slices[si].u.branch_d.next;
+        slice_index const peer = slices[si].u.branch_d_defender.peer;
+        slice_index const next = slices[si].u.branch_d_defender.next;
         init_slice_properties_recursive(peer,nr_bits_left);
         /* check for is_initialised above prefents infinite recursion
          */
@@ -831,8 +831,13 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
   switch (slices[si].type)
   {
     case STBranchDirect:
-    case STBranchDirectDefender:
       result = own_value_of_data_direct(he,si,slices[si].u.branch_d.length);
+      break;
+
+    case STBranchDirectDefender:
+      result = own_value_of_data_direct(he,
+                                        si,
+                                        slices[si].u.branch_d_defender.length);
       break;
 
     case STBranchHelp:
@@ -942,7 +947,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
     case STBranchDirectDefender:
     {
-      slice_index const next = slices[si].u.branch_d.next;
+      slice_index const next = slices[si].u.branch_d_defender.next;
       result = value_of_data_recursive(he,offset,next);
       break;
     }
@@ -1213,8 +1218,11 @@ static int estimateNumberOfHoles(slice_index si)
   switch (slices[si].type)
   {
     case STBranchDirect:
-    case STBranchDirectDefender:
       result = 2*slices[si].u.branch_d.length;
+      break;
+
+    case STBranchDirectDefender:
+      result = 2*slices[si].u.branch_d_defender.length;
       break;
 
     case STBranchHelp:
@@ -1769,10 +1777,10 @@ static void init_element(dhtElement *he, slice_index si)
       break;
 
     case STBranchDirectDefender:
-      init_element(he,slices[si].u.branch_d.next);
+      init_element(he,slices[si].u.branch_d_defender.next);
       /* prevent infinite recursion */
-      if (slices[si].u.branch_d.peer<si)
-        init_element(he,slices[si].u.branch_d.peer);
+      if (slices[si].u.branch_d_defender.peer<si)
+        init_element(he,slices[si].u.branch_d_defender.peer);
       break;
 
     case STBranchHelp:

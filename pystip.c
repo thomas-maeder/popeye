@@ -181,8 +181,8 @@ stip_length_type get_max_nr_moves(slice_index si)
       break;
 
     case STBranchDirectDefender:
-      result = (slices[si].u.branch_d.length+1
-                +get_max_nr_moves(slices[si].u.branch_d.next));
+      result = (slices[si].u.branch_d_defender.length+1
+                +get_max_nr_moves(slices[si].u.branch_d_defender.next));
       break;
 
     case STBranchHelp:
@@ -302,10 +302,10 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
     case STBranchDirect:
     {
       slice_index peer = slices[index].u.branch_d.peer;
-      slice_index next = slices[peer].u.branch_d.next;
+      slice_index next = slices[peer].u.branch_d_defender.next;
       assert(slices[peer].type==STBranchDirectDefender);
       transform_to_quodlibet_recursive(&next);
-      slices[peer].u.branch_d.next = next;
+      slices[peer].u.branch_d_defender.next = next;
       break;
     }
 
@@ -404,7 +404,7 @@ static boolean slice_ends_only_in(Goal const goals[],
 
     case STBranchDirectDefender:
     {
-      slice_index const next = slices[si].u.branch_d.next;
+      slice_index const next = slices[si].u.branch_d_defender.next;
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
@@ -486,7 +486,7 @@ static boolean slice_ends_in(Goal const goals[],
 
     case STBranchDirectDefender:
     {
-      slice_index const next = slices[si].u.branch_d.next;
+      slice_index const next = slices[si].u.branch_d_defender.next;
       return slice_ends_in(goals,nrGoals,next);
     }
 
@@ -592,7 +592,7 @@ static slice_index find_goal_recursive(Goal goal,
 
     case STBranchDirectDefender:
     {
-      slice_index const next = slices[si].u.branch_d.next;
+      slice_index const next = slices[si].u.branch_d_defender.next;
       result = find_goal_recursive(goal,start,active,next);
       break;
     }
@@ -730,8 +730,8 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
 
     case STBranchDirectDefender:
     {
-      slice_index const next = slices[current_slice].u.branch_d.next;
-      slice_index const peer = slices[current_slice].u.branch_d.peer;
+      slice_index const next = slices[current_slice].u.branch_d_defender.next;
+      slice_index const peer = slices[current_slice].u.branch_d_defender.peer;
       result = find_unique_goal_recursive(next,found_so_far);
       /* prevent infinite recursion */
       if (peer<current_slice)
@@ -810,7 +810,7 @@ void stip_make_exact(slice_index si)
       break;
 
     case STBranchDirectDefender:
-      slices[si].u.branch.min_length = slices[si].u.branch_d.length;
+      slices[si].u.branch.min_length = slices[si].u.branch_d_defender.length;
       break;
 
     case STBranchHelp:

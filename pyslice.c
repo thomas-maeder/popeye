@@ -67,6 +67,10 @@ boolean slice_must_starter_resign(slice_index si)
       result = branch_d_defender_must_starter_resign(si);
       break;
 
+    case STBranchDirectDefender:
+      result = branch_d_defender_must_starter_resign(si);
+      break;
+
     case STBranchHelp:
       result = branch_h_must_starter_resign(si);
       break;
@@ -1057,8 +1061,11 @@ Side slice_get_starter(slice_index si)
       break;
 
     case STBranchDirect:
-    case STBranchDirectDefender:
       result = slices[si].u.branch_d.starter;
+      break;
+
+    case STBranchDirectDefender:
+      result = slices[si].u.branch_d_defender.starter;
       break;
 
     case STBranchHelp:
