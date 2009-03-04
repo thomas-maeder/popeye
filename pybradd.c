@@ -39,6 +39,14 @@ void branch_d_defender_write_unsolvability(slice_index si)
   slice_write_unsolvability(slices[si].u.branch_d.next);
 }
 
+/* Let the next slice write the solution starting with the key just played
+ * @param si slice index
+ */
+void branch_d_defender_write_solution_next(slice_index si)
+{
+  slice_solve_postkey(slices[si].u.branch_d.next);
+}
+
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index
@@ -133,7 +141,6 @@ typedef enum
  * @param n (odd) number of half moves until goal
  * @return information about defender's possibilities
  */
-static
 defender_has_refutation_type has_defender_refutation(slice_index si,
                                                      stip_length_type n)
 {
@@ -232,8 +239,8 @@ static int count_non_trivial_defenses(slice_index si)
  * @param n (odd) number of half moves until goal
  * @return true iff the defender has too many non-trivial defenses
  */
-static boolean too_many_non_trivial_defenses(slice_index si,
-                                             stip_length_type n)
+boolean too_many_non_trivial_defenses(slice_index si,
+                                      stip_length_type n)
 {
   boolean result;
   int non_trivial_count;
@@ -263,7 +270,7 @@ static boolean too_many_non_trivial_defenses(slice_index si,
  * @param n (even) number of half moves until goal
  * @return true iff threat is too long
  */
-static boolean is_threat_too_long(slice_index si, stip_length_type n)
+boolean is_threat_too_long(slice_index si, stip_length_type n)
 {
   Side const attacker = slices[si].u.branch_d.starter;
   Side const defender = advers(attacker);
@@ -294,14 +301,13 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
 /* Determine whether the defender wins after a move by the attacker
  * @param si slice index
  * @param n (odd) number of half moves until goal
- * @return whether the defender wins or loses, and how fast
+ * @return true iff defender wins
  */
-d_defender_win_type branch_d_defender_does_defender_win(slice_index si,
-                                                        stip_length_type n)
+boolean branch_d_defender_does_defender_win(slice_index si, stip_length_type n)
 {
   Side const attacker = slices[si].u.branch_d.starter;
   Side const defender = advers(attacker);
-  d_defender_win_type result;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -311,20 +317,13 @@ d_defender_win_type branch_d_defender_does_defender_win(slice_index si,
 
   TraceValue("%u\n",slices[si].u.branch_d.min_length);
 
-  if (slice_has_starter_apriori_lost(slices[si].u.branch_d.next))
-    result = already_won;
-  else if (slices[si].u.branch_d.length-n>slices[si].u.branch_d.min_length
-           && slice_has_starter_reached_goal(slices[si].u.branch_d.next))
-    result = already_lost;
-  else if (is_threat_too_long(si,n-1)
-           || (OptFlag[solflights] && has_too_many_flights(defender)))
-    result = win;
+  if (is_threat_too_long(si,n-1)
+      || (OptFlag[solflights] && has_too_many_flights(defender)))
+    result = true;
   else if (n-1>2*min_length_nontrivial+slack_length_direct)
-    result = too_many_non_trivial_defenses(si,n) ? win : loss;
+    result = too_many_non_trivial_defenses(si,n);
   else
-    result = (has_defender_refutation(si,n)!=defender_has_no_refutation
-              ? win
-              : loss);
+    result = has_defender_refutation(si,n)!=defender_has_no_refutation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -339,7 +338,13 @@ d_defender_win_type branch_d_defender_does_defender_win(slice_index si,
  */
 static boolean has_starter_won_in_n(slice_index si, stip_length_type n)
 {
-  return branch_d_defender_does_defender_win(si,n)>win;
+  if (slice_has_starter_apriori_lost(slices[si].u.branch_d.next))
+    return true;
+  else if (slices[si].u.branch_d.length-n>slices[si].u.branch_d.min_length
+           && slice_has_starter_reached_goal(slices[si].u.branch_d.next))
+    return false;
+  else
+    return !branch_d_defender_does_defender_win(si,n);
 }
 
 /* Determine whether the attacker has won with his move just played
@@ -716,14 +721,6 @@ boolean branch_d_defender_finish_solution_next(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
-}
-
-/* Solve at non-root level.
- * @param si slice index
- */
-void branch_d_defender_solve(slice_index si)
-{
-  branch_d_defender_solve_postkey_in_n(si,slices[si].u.branch_d.length);
 }
 
 /* Find solutions in next slice

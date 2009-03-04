@@ -17,6 +17,11 @@
  */
 void branch_d_defender_write_unsolvability(slice_index si);
 
+/* Let the next slice write the solution starting with the key just played
+ * @param si slice index
+ */
+void branch_d_defender_write_solution_next(slice_index si);
+
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index
@@ -63,24 +68,13 @@ boolean branch_d_defender_has_starter_won(slice_index si);
  */
 boolean branch_d_defender_has_starter_reached_goal(slice_index si);
 
-/* The enumerators in the following enumeration type are sorted in
- * descending possibilities of the defender.
- */
-typedef enum
-{
-  already_won,
-  win,
-  loss,
-  already_lost
-} d_defender_win_type;
-
 /* Determine whether the defender wins after a move by the attacker
  * @param si slice index
  * @param n (odd) number of half moves until goal
- * @return whether the defender wins or loses, and how fast
+ * @return true iff defender wins
  */
-d_defender_win_type branch_d_defender_does_defender_win(slice_index si,
-                                                        stip_length_type n);
+boolean branch_d_defender_does_defender_win(slice_index si,
+                                            stip_length_type n);
 
 /* Determine whether a slice.has just been solved with the just played
  * move by the non-starter
@@ -102,11 +96,6 @@ void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
  * @return true iff finishing the solution was successful.
  */
 boolean branch_d_defender_finish_solution_next(slice_index si);
-
-/* Solve at non-root level.
- * @param si slice index
- */
-void branch_d_defender_solve(slice_index si);
 
 /* Find solutions in next slice
  * @param si slice index

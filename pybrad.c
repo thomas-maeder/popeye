@@ -102,11 +102,18 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
   while (!solution_found && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,attacker)
-        && branch_d_defender_does_defender_win(peer,n-1)>=loss)
+        && !echecc(nbply,attacker))
     {
-      solution_found = true;
-      coupfort();
+      if (branch_d_defender_has_starter_apriori_lost(peer))
+        /* nothing */;
+      else if ((slices[si].u.branch_d.length-n
+                >slices[si].u.branch_d.min_length
+                && branch_d_defender_has_starter_reached_goal(peer))
+               || !branch_d_defender_does_defender_win(peer,n-1))
+      {
+        solution_found = true;
+        coupfort();
+      }
     }
 
     repcoup();
@@ -203,6 +210,19 @@ boolean branch_d_has_solution(slice_index si)
   return result;
 }
 
+boolean is_threat_too_long(slice_index si, stip_length_type n);
+boolean too_many_non_trivial_defenses(slice_index si,
+                                      stip_length_type n);
+
+typedef enum
+{
+  defender_is_immobile,
+  defender_has_refutation,
+  defender_has_no_refutation
+} defender_has_refutation_type;
+defender_has_refutation_type has_defender_refutation(slice_index si,
+                                                     stip_length_type n);
+
 /* Determine and write the continuations in the current position
  * (i.e. attacker's moves winning after a defender's move that refuted
  * the threat).
@@ -216,6 +236,7 @@ void branch_d_solve_continuations_in_n(table continuations,
                                        stip_length_type n)
 {
   Side const attacker = slices[si].u.branch_d.starter;
+  Side const defender = advers(attacker);
   slice_index const peer = slices[si].u.branch_d.peer;
 
   TraceFunctionEntry(__func__);
@@ -232,18 +253,21 @@ void branch_d_solve_continuations_in_n(table continuations,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker))
     {
-      d_defender_win_type const
-          defender_success = branch_d_defender_does_defender_win(peer,n-1);
-      TraceValue("%u\n",defender_success);
-      if (defender_success>=loss)
+      if (branch_d_defender_has_starter_apriori_lost(peer))
+        ; /* nothing */
+      else if (slices[si].u.branch_d.length-n
+               >slices[si].u.branch_d.min_length
+               && branch_d_defender_has_starter_reached_goal(peer))
       {
         write_attack(attack_regular);
-
-        if (defender_success==already_lost)
-          slice_solve_postkey(slices[si].u.branch_d.next);
-        else
-          branch_d_defender_solve_postkey_in_n(peer,n-1);
-
+        branch_d_defender_write_solution_next(peer);
+        append_to_top_table();
+        coupfort();
+      }
+      else if (!branch_d_defender_does_defender_win(peer,n-1))
+      {
+        write_attack(attack_regular);
+        branch_d_defender_solve_postkey_in_n(peer,n-1);
         append_to_top_table();
         coupfort();
       }
