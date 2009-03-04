@@ -236,7 +236,6 @@ void branch_d_solve_continuations_in_n(table continuations,
                                        stip_length_type n)
 {
   Side const attacker = slices[si].u.branch_d.starter;
-  Side const defender = advers(attacker);
   slice_index const peer = slices[si].u.branch_d.peer;
 
   TraceFunctionEntry(__func__);
