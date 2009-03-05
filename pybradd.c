@@ -756,11 +756,11 @@ boolean branch_d_defender_finish_solution_next(slice_index si)
 
     if (slice_has_starter_reached_goal(next))
     {
-      table refutations = allocate_table();
       slice_root_write_key(next,attack_key);
-      slice_root_solve_postkey(refutations,next);
+      output_start_postkey_level();
+      slice_solve_postkey(next);
+      output_end_postkey_level();
       write_end_of_solution();
-      free_table();
       result = true;
     }
   }

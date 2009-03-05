@@ -64,7 +64,7 @@ boolean slice_must_starter_resign(slice_index si)
       break;
 
     case STBranchDirect:
-      result = branch_d_defender_must_starter_resign(si);
+      result = branch_d_must_starter_resign(si);
       break;
 
     case STBranchDirectDefender:
@@ -239,49 +239,6 @@ void slice_root_write_key(slice_index si, attack_type type)
       reci_root_write_key(si,type);
       break;
     }
-
-    default:
-      assert(0);
-      break;
-  }
-}
-
-/* Continue solving after the key just played in the slice to find and
- * write the post key play (threats, variations)
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- */
-void slice_root_solve_postkey(table refutations, slice_index si)
-{
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-      leaf_d_root_solve_postkey(refutations,si);
-      break;
-
-    case STLeafSelf:
-      leaf_s_root_solve_postkey(refutations,si);
-      break;
-
-    case STQuodlibet:
-      quodlibet_root_solve_postkey(refutations,si);
-      break;
-
-    case STBranchDirect:
-      branch_d_defender_root_solve_postkey(refutations,si);
-      break;
-
-    case STBranchHelp:
-      /* TODO */
-      break;
-
-    case STBranchSeries:
-      /* TODO */
-      break;
-
-    case STReciprocal:
-      reci_root_solve_postkey(refutations,si);
-      break;
 
     default:
       assert(0);
@@ -658,7 +615,7 @@ boolean slice_has_starter_apriori_lost(slice_index si)
       break;
 
     case STBranchDirect:
-      result = branch_d_defender_has_starter_apriori_lost(si);
+      result = branch_d_has_starter_apriori_lost(si);
       break;
 
     case STBranchHelp:
@@ -720,7 +677,7 @@ boolean slice_has_starter_won(slice_index si)
       break;
 
     case STBranchDirect:
-      result = branch_d_defender_has_starter_won(si);
+      result = branch_d_has_starter_won(si);
       break;
  
     case STBranchHelp:
@@ -781,7 +738,7 @@ boolean slice_has_starter_reached_goal(slice_index si)
       break;
 
     case STBranchDirect:
-      result = branch_d_defender_has_starter_reached_goal(si);
+      result = branch_d_has_starter_reached_goal(si);
       break;
 
     case STBranchHelp:

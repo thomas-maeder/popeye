@@ -49,6 +49,17 @@ void branch_d_set_peer(slice_index si, slice_index peer)
   slices[si].u.branch_d.peer = peer;
 }
 
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * @param si identifies slice
+ * @return true iff starter must resign
+ */
+boolean branch_d_must_starter_resign(slice_index si)
+{
+  return branch_d_defender_must_starter_resign(slices[si].u.branch_d.peer);
+}
+
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
  * Assumes slice_must_starter_resign(si)
@@ -57,6 +68,40 @@ void branch_d_set_peer(slice_index si, slice_index peer)
 void branch_d_write_unsolvability(slice_index si)
 {
   branch_d_defender_write_unsolvability(slices[si].u.branch_d.peer);
+}
+
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating piece of
+ * the defender?
+ * @param si slice identifier
+ * @return true iff starter has lost
+ */
+boolean branch_d_has_starter_apriori_lost(slice_index si)
+{
+  return branch_d_defender_has_starter_apriori_lost(slices[si].u.branch_d.peer);
+}
+ 
+
+/* Determine whether the attacker has won with his move just played
+ * independently of the non-starter's possible further play during the
+ * current slice.
+ * @param si slice identifier
+ * @return true iff the starter has won
+ */
+boolean branch_d_has_starter_won(slice_index si)
+{
+  return branch_d_defender_has_starter_won(slices[si].u.branch_d.peer);
+}
+
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean branch_d_has_starter_reached_goal(slice_index si)
+{
+  return branch_d_defender_has_starter_reached_goal(slices[si].u.branch_d.peer);
 }
 
 /* Determine whether this slice has a solution in n half moves

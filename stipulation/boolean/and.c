@@ -289,17 +289,6 @@ void reci_root_write_key(slice_index si, attack_type type)
   slice_root_write_key(slices[si].u.reciprocal.op2,type);
 }
 
-/* Continue solving after the key just played in the slice to find and
- * write the post key play (threats, variations)
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- */
-void reci_root_solve_postkey(table refutations, slice_index si)
-{
-  slice_root_solve_postkey(refutations,slices[si].u.reciprocal.op1);
-  slice_root_solve_postkey(refutations,slices[si].u.reciprocal.op2);
-}
-
 /* Continue solving at the end of a reciprocal slice
  * @param si slice index
  * @return true iff >=1 solution was found

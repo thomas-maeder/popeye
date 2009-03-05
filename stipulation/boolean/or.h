@@ -45,13 +45,6 @@ void quodlibet_solve_continuations(table continuations, slice_index si);
  */
 void quodlibet_root_write_key(slice_index si, attack_type type);
 
-/* Continue solving after the key just played in the slice to find and
- * write the post key play (threats, variations)
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- */
-void quodlibet_root_solve_postkey(table refutations, slice_index si);
-
 /* Find and write post key play
  * @param si slice index
  */

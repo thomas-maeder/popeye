@@ -93,13 +93,6 @@ slice_index reci_root_make_setplay_slice(slice_index si);
  */
 void reci_root_write_key(slice_index si, attack_type type);
 
-/* Continue solving after the key just played in the slice to find and
- * write the post key play (threats, variations)
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- */
-void reci_root_solve_postkey(table refutations, slice_index si);
-
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index
  */

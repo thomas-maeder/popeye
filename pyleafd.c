@@ -126,8 +126,6 @@ boolean leaf_d_has_non_starter_solved(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  assert(slices[leaf].u.leaf.starter!=no_side);
-
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
@@ -411,20 +409,7 @@ boolean leaf_d_solve(slice_index leaf)
  */
 void leaf_d_root_write_key(slice_index leaf, attack_type type)
 {
-  assert(slices[leaf].u.leaf.starter!=no_side);
   write_final_attack(slices[leaf].u.leaf.goal,type);
-}
-
-/* Solve the post key play
- * @param refutations table containing the refutations (if any)
- * @param leaf slice index
- */
-void leaf_d_root_solve_postkey(table refutations, slice_index leaf)
-{
-  output_start_postkey_level();
-  output_start_leaf_variation_level();
-  output_end_leaf_variation_level();
-  output_end_postkey_level();
 }
 
 /* Determine whether the starting side has made such a bad move that
@@ -440,8 +425,6 @@ boolean leaf_d_has_starter_apriori_lost(slice_index leaf)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
-
-  assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -459,8 +442,6 @@ boolean leaf_d_has_starter_won(slice_index leaf)
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
-
-  assert(slices[leaf].u.leaf.starter!=no_side);
 
   result = leaf_is_goal_reached(slices[leaf].u.leaf.starter,leaf);
 
@@ -480,8 +461,6 @@ boolean leaf_d_has_starter_reached_goal(slice_index leaf)
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
-
-  assert(slices[leaf].u.leaf.starter!=no_side);
 
   result = leaf_is_goal_reached(slices[leaf].u.leaf.starter,leaf);
 
@@ -513,8 +492,8 @@ slice_index leaf_d_root_make_setplay_slice(slice_index leaf)
  */
 void leaf_d_solve_postkey(slice_index leaf)
 {
-  assert(slices[leaf].u.leaf.starter!=no_side);
-  /* nothing */
+  output_start_leaf_variation_level();
+  output_end_leaf_variation_level();
 }
 
 /* Find and write continuations and append them to the top table

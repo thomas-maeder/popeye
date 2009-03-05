@@ -163,17 +163,6 @@ void quodlibet_root_write_key(slice_index si, attack_type type)
   slice_root_write_key(slices[si].u.quodlibet.op2,type);
 }
 
-/* Continue solving after the key just played in the slice to find and
- * write the post key play (threats, variations)
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- */
-void quodlibet_root_solve_postkey(table refutations, slice_index si)
-{
-  slice_root_solve_postkey(refutations,slices[si].u.quodlibet.op1);
-  slice_root_solve_postkey(refutations,slices[si].u.quodlibet.op2);
-}
-
 /* Determine whether a quodlibet slice jas a solution
  * @param si slice index
  * @return true iff slice si has a solution

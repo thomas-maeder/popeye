@@ -192,16 +192,6 @@ void leaf_s_root_write_key(slice_index leaf, attack_type type)
   write_attack(type);
 }
 
-/* Solve the post key play
- * @param refutations table containing the refutations (if any)
- * @param leaf slice index
- */
-void leaf_s_root_solve_postkey(table refutations, slice_index leaf)
-{
-  if (OptFlag[solvariantes])
-    leaf_forced_solve_postkey(slices[leaf].u.leafself.next);
-}
-
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.
  * E.g. in s# or r#, has it taken the last potential mating piece of

@@ -44,13 +44,6 @@ slice_index slice_root_make_setplay_slice(slice_index si);
  */
 void slice_root_write_key(slice_index si, attack_type type);
 
-/* Continue solving after the key just played in the slice to find and
- * write the post key play (threats, variations)
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- */
-void slice_root_solve_postkey(table refutations, slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

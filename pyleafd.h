@@ -42,12 +42,6 @@ void leaf_d_solve_postkey(slice_index leaf);
  */
 void leaf_d_root_write_key(slice_index leaf, attack_type type);
 
-/* Solve the post key play
- * @param refutations table containing the refutations (if any)
- * @param leaf slice index
- */
-void leaf_d_root_solve_postkey(table refutations, slice_index leaf);
-
 /* Find and write continuations and append them to the top table
  * @param leaf slice index
  */
