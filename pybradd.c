@@ -280,8 +280,8 @@ static int count_non_trivial_defenses(slice_index si)
  * @param n (odd) number of half moves until goal
  * @return true iff the defender has too many non-trivial defenses
  */
-boolean too_many_non_trivial_defenses(slice_index si,
-                                      stip_length_type n)
+static boolean too_many_non_trivial_defenses(slice_index si,
+                                             stip_length_type n)
 {
   boolean result;
   int non_trivial_count;
@@ -311,7 +311,7 @@ boolean too_many_non_trivial_defenses(slice_index si,
  * @param n (even) number of half moves until goal
  * @return true iff threat is too long
  */
-boolean is_threat_too_long(slice_index si, stip_length_type n)
+static boolean is_threat_too_long(slice_index si, stip_length_type n)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);

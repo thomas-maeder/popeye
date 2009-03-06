@@ -234,10 +234,6 @@ boolean branch_d_has_solution(slice_index si)
   return result;
 }
 
-boolean is_threat_too_long(slice_index si, stip_length_type n);
-boolean too_many_non_trivial_defenses(slice_index si,
-                                      stip_length_type n);
-
 typedef enum
 {
   defender_is_immobile,
