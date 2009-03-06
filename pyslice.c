@@ -1089,6 +1089,9 @@ Side slice_get_starter(slice_index si)
   return result;
 }
 
+/* Write that the non-starter has solved (i.e. in a self stipulation)
+ * @param si slice index
+ */
 void slice_write_non_starter_has_solved(slice_index si)
 {
   TraceFunctionEntry(__func__);
