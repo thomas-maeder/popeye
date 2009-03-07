@@ -23,13 +23,13 @@ void TraceFunctionEntry(char const *name)
   ++level;
     
   if (!deactivated)
-    fprintf(stdout,"> #%d %s",level,name);
+    fprintf(stdout,"> #%u %s",level,name);
 }
 
 void TraceFunctionExit(char const *name)
 {
   if (!deactivated)
-    fprintf(stdout,"< #%d %s",level,name);
+    fprintf(stdout,"< #%u %s",level,name);
 
   --level;
 }
@@ -40,10 +40,16 @@ void TraceValueImpl(char const *format, size_t value)
     fprintf(stdout,format,value);
 }
 
+void TracePointerValueImpl(char const *format, void const *value)
+{
+  if (!deactivated)
+    fprintf(stdout,format,value);
+}
+
 void TraceText(char const *text)
 {
   if (!deactivated)
-    fprintf(stdout,"  #%d %s",level,text);
+    fprintf(stdout,"  #%u %s",level,text);
 }
 
 void TraceSquareImpl(char const *prefix, square s)
@@ -68,10 +74,10 @@ boolean TraceCurrentMove(ply current_ply)
 {
   if (!deactivated)
   {
-    fprintf(stdout," #%d %ld ",level,move_counter++);
+    fprintf(stdout," #%u %lu ",level,move_counter++);
     ecritcoup(current_ply,no_goal);
-    fprintf(stdout," nbcou:%u",nbcou);
-    fprintf(stdout," current_ply:%u\n",current_ply);
+    fprintf(stdout," nbcou:%d",nbcou);
+    fprintf(stdout," current_ply:%d\n",current_ply);
   }
 
   return true;

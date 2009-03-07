@@ -38,7 +38,7 @@ boolean leaf_h_must_starter_resign(slice_index leaf)
  * @param leaf slice index
  * @return true iff side_at_move can end in 1 move
  */
-boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
+static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
 {
   boolean end_found = false;
 

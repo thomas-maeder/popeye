@@ -176,7 +176,624 @@ static char *TokenString[LanguageCount][TokenCount] = {
 #define WCleft        1
 #define WCLaTeX       2
 
-void WriteConditions(int alignment);
+static void WritePieces(piece *p, char* CondLine)
+{
+      /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
+  char LocalBuf[4];
+  while (*p) {
+      if (PieceTab[*p][1] != ' ')
+      sprintf(LocalBuf, " %c%c",
+                  UPCASE(PieceTab[*p][0]),
+                  UPCASE(PieceTab[*p][1]));
+    else
+      sprintf(LocalBuf, " %c",
+                  UPCASE(PieceTab[*p][0]));
+      strcat(CondLine, LocalBuf);
+    p++;
+  }
+}
+
+static char **CondTab;  /* set according to language */
+static char    **ExtraCondTab;
+
+static nocontactfunc_t *nocontactfunc;
+
+char ChameleonSequence[256];
+
+static  FILE    *LaTeXFile, *SolFile;
+
+
+static void LaTeXStr(char *line)
+{
+  while (*line) {
+    switch (*line) {
+    case '#':
+      fprintf(LaTeXFile, "\\%c", *line);
+      break;
+    case '&':
+      fprintf(LaTeXFile, "\\%c", *line);
+      break;
+    case '%':
+      if (*(line+1) == '%') {
+        /* it's introducing a comment */
+        fprintf(LaTeXFile, "%%");
+        line++;
+      }
+      else {
+        fprintf(LaTeXFile, "\\%%");
+      }
+      break;
+    case '0':
+      if (strncmp(line, "0-0-0", 5) == 0) {
+        fprintf(LaTeXFile, "{\\OOO}");
+        line += 4;
+      }
+      else if (strncmp(line, "0-0", 3) == 0) {
+        fprintf(LaTeXFile, "{\\OO}");
+        line += 2;
+      }
+      else {
+        fprintf(LaTeXFile, "%c", *line);
+      }
+      break;
+    case '-':
+      if (*(line+1) == '>') {   /* convert -> to \ra   FCO */
+        fprintf(LaTeXFile, "{\\ra}");
+        line++;
+      } else {  /* ordinary minus */
+        fprintf(LaTeXFile, "%c", *line);
+      }
+      break;
+
+    default:
+      fprintf(LaTeXFile, "%c", *line);
+      fflush(LaTeXFile);         /* non-buffered output  FCO */
+    }
+    line++;
+  }
+}
+
+static void AddSquare(char *List, square i)
+{
+  char    add[4];
+
+  add[0]= ' ';
+  add[1]= 'a' - nr_files_on_board + i%onerow;
+  add[2]= '1' - nr_rows_on_board + i/onerow;
+  add[3]= '\0';
+  strcat(List, add);
+}
+
+static int  AntiCirType;
+
+static void CenterLine(char *s)
+{
+  /* TODO move into one module per platform */
+#if defined(ATARI)
+#   if defined(__TURBOC__)
+  sprintf(GlobalStr, "%s\n", s);
+#   else    /* not __TURBOC__ */
+  sprintf(GlobalStr, "%*s\n", (36+strlen(s))/2, s);
+#   endif   /* __TURBOC__ */
+#else   /* not ATARI */
+  /* sprintf(GlobalStr, "%*s\n", (36+(int)strlen(s))/2, s); */
+  sprintf(GlobalStr, "%*s\n", (38+(int)strlen(s))/2, s);
+#endif  /* ATARI */
+  StdString(GlobalStr);
+}
+
+static void WriteConditions(int alignment)
+{
+  Cond  cond;
+  char  CondLine[256];
+  boolean   CondPrinted= false;
+
+  for (cond= 1; cond < CondCount; cond++) {
+    if (!CondFlag[cond])
+      continue;
+
+    if (cond == rexexcl)
+      continue;
+    if (cond == exact || cond == ultra)
+      continue;
+    if (cond == einstein
+        && (CondFlag[reveinstein] || CondFlag[antieinstein]))
+      continue;
+    if (  (cond == woozles
+           && (CondFlag[biwoozles]
+               ||CondFlag[heffalumps]))
+          || ((cond == heffalumps || cond == biwoozles)
+              && CondFlag[biheffalumps]))
+      continue;
+
+    if (cond == volage && CondFlag[hypervolage])
+      continue;
+
+    if (cond == chinoises && CondFlag[leofamily])
+      continue;
+
+    if (  (cond == gridchess || cond == koeko)
+          && CondFlag[contactgrid])
+      continue;
+
+    if (cond == tibet && CondFlag[dbltibet])
+      continue;
+
+    if (cond == holes)
+      continue;
+
+    if (cond == couscous && CondFlag[couscousmirror])
+      continue;
+
+    /* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
+    if (((cond == white_oscillatingKs) && OscillatingKingsTypeC[White]) ||
+        ((cond == black_oscillatingKs) && OscillatingKingsTypeC[Black])) {
+      if (CondFlag[swappingkings])
+        continue;
+    }
+
+    /* Write DEFAULT Conditions */
+    strcpy(CondLine, CondTab[cond]);
+
+    if ((cond == blmax || cond == whmax) && flagmaxi)
+      strcpy(CondLine, ExtraCondTab[maxi]);
+
+    if (  (cond == blackultraschachzwang
+           || cond == whiteultraschachzwang)
+          && flagultraschachzwang)
+    {
+      strcpy(CondLine, ExtraCondTab[ultraschachzwang]);
+    }
+
+    if (cond == sentinelles && flagparasent) {
+      strcpy(CondLine, "Para");
+      strcat(CondLine, CondTab[cond]);
+    }
+
+    if (cond == koeko || cond == antikoeko) {
+      piece koekop = roib;
+      char LocalBuf[4];
+      nocontactfunc = cond==koeko ? &koekofunc : &antikoekofunc;
+      if (*nocontactfunc == noknightcontact) 
+        koekop= cb;
+      if (*nocontactfunc == nowazircontact) 
+        koekop= vizirb;
+      if (*nocontactfunc == noferscontact) 
+        koekop= fersb;
+      if (*nocontactfunc == nodabbabacontact) 
+        koekop= dabb;
+      if (*nocontactfunc == noalfilcontact) 
+        koekop= alfilb;
+      if (*nocontactfunc == nocamelcontact) 
+        koekop= chb;
+      if (*nocontactfunc == nozebracontact) 
+        koekop= zb;
+      if (*nocontactfunc == nogiraffecontact) 
+        koekop= gib;
+      if (*nocontactfunc == noantelopecontact) 
+        koekop= antilb;
+
+      if (koekop == roib)
+        strcpy(LocalBuf, "");
+      else if (PieceTab[koekop][1] != ' ')
+        sprintf(LocalBuf, "%c%c-",
+                UPCASE(PieceTab[koekop][0]),
+                UPCASE(PieceTab[koekop][1]));
+      else
+        sprintf(LocalBuf, " %c-",
+                UPCASE(PieceTab[koekop][0]));
+
+      sprintf(CondLine, "%s%s", LocalBuf, CondTab[cond]);
+    }
+
+    if (cond == BGL)
+    {
+      char buf1[12], buf2[12];
+      if (BGL_global)
+      {
+        sprintf(CondLine, "%s %s", CondTab[cond], WriteBGLNumber(buf1, BGL_white));
+      }
+      else
+      {
+        sprintf(CondLine, "%s %s/%s", CondTab[cond], WriteBGLNumber(buf1, BGL_white), WriteBGLNumber(buf2, BGL_black));
+      }
+    }
+
+  if ( cond == whvault_king || cond == vault_king)
+  {
+      if (whitetransmpieces[0] != EquiHopper || whitetransmpieces[1] != vide) 
+        WritePieces(whitetransmpieces, CondLine);
+      if (calc_whtrans_king)
+      {
+        char LocalBuf[4];
+        sprintf(LocalBuf, " -%c",
+        UPCASE(PieceTab[King][0]));
+        strcat(CondLine, LocalBuf);
+      }
+  }
+
+  if ( cond == blvault_king )
+  {
+      if (blacktransmpieces[0] != EquiHopper || blacktransmpieces[1] != vide) 
+        WritePieces(blacktransmpieces, CondLine);
+      if (calc_bltrans_king)
+      {
+        char LocalBuf[4];
+        sprintf(LocalBuf, " -%c",
+        UPCASE(PieceTab[King][0]));
+        strcat(CondLine, LocalBuf);
+      }
+  }
+       
+    if (cond == promotiononly) {
+      /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
+      char LocalBuf[4];
+      piece pp= vide;
+      while ((pp= getprompiece[pp]) != vide) {
+        if (PieceTab[pp][1] != ' ')
+          sprintf(LocalBuf, " %c%c",
+                  UPCASE(PieceTab[pp][0]),
+                  UPCASE(PieceTab[pp][1]));
+        else
+          sprintf(LocalBuf, " %c",
+                  UPCASE(PieceTab[pp][0]));
+        strcat(CondLine, LocalBuf);
+      }
+      if (strlen(CondLine) <= strlen(CondTab[promotiononly])) {
+        /* due to zeroposition, where getprompiece is not */
+        /* set (it's set in verifieposition), I suppress  */
+        /* output of promotiononly for now.  */
+        continue;
+      }
+    }
+
+    if (cond == april) {
+      /* due to a Borland C++ 4.5 bug we have to use LocalBuf...*/
+      char LocalBuf[4];
+      piece pp;
+      for (pp= vide; pp!=derbla; ++pp)
+        if (isapril[pp]) {
+          if (PieceTab[pp][1] != ' ')
+            sprintf(LocalBuf, " %c%c",
+                    UPCASE(PieceTab[pp][0]),
+                    UPCASE(PieceTab[pp][1]));
+          else
+            sprintf(LocalBuf, " %c",
+                    UPCASE(PieceTab[pp][0]));
+          strcat(CondLine, LocalBuf);
+        }
+    }
+
+    if (cond == imitators)
+    {
+      unsigned int i;
+      for (i= 0; i < inum[1]; i++)
+        AddSquare(CondLine, isquare[i]);
+    }
+
+    if (cond == noiprom && !CondFlag[imitators])
+      continue;
+
+    if (cond == magicsquare) {
+      square  i;
+      for (i= square_a1; i <= square_h8; i++) {
+        if (TSTFLAG(sq_spec[i], MagicSq)) {
+          AddSquare(CondLine, i);
+        }
+      }
+    }
+    if (cond == whforsqu) {
+      square  i;
+      for (i= square_a1; i <= square_h8; i++) {
+        if (TSTFLAG(sq_spec[i], WhForcedSq)) {
+          AddSquare(CondLine, i);
+        }
+      }
+    }
+    if (cond == blforsqu) {
+      square  i;
+      for (i= square_a1; i <= square_h8; i++) {
+        if (TSTFLAG(sq_spec[i], BlForcedSq)) {
+          AddSquare(CondLine, i);
+        }
+      }
+    }
+
+    if (cond == whconforsqu) {
+      square  i;
+      for (i= square_a1; i <= square_h8; i++) {
+        if (TSTFLAG(sq_spec[i], WhConsForcedSq)) {
+          AddSquare(CondLine, i);
+        }
+      }
+    }
+
+    if (cond == blconforsqu) {
+      square  i;
+      for (i= square_a1; i <= square_h8; i++) {
+        if (TSTFLAG(sq_spec[i], BlConsForcedSq)) {
+          AddSquare(CondLine, i);
+        }
+      }
+    }
+
+    if (cond == whprom_sq) {
+      square  i;
+      for (i= square_a1; i <= square_h8; i++) {
+        if (TSTFLAG(sq_spec[i], WhPromSq)) {
+          AddSquare(CondLine, i);
+        }
+      }
+    }
+    if (cond == blprom_sq) {
+      square  i;
+      for (i= square_a1; i <= square_h8; i++) {
+        if (TSTFLAG(sq_spec[i], BlPromSq)) {
+          AddSquare(CondLine, i);
+        }
+      }
+    }
+
+    if (cond == blroyalsq) {
+      AddSquare(CondLine, bl_royal_sq);
+    }
+
+    if (cond == whroyalsq) {
+      AddSquare(CondLine, wh_royal_sq);
+    }
+
+    if ((cond == madras && rex_mad)
+        || (cond == phantom && rex_phan)
+        || (cond == geneva && rex_geneva)
+        || (rex_immun
+            && (cond == immun
+                || cond == immunmalefique
+                || cond == immundiagramm))
+        || (rex_circe
+            && (cond == circe
+                || cond == circemalefique
+                || cond == circediametral
+                || cond == circemalefiquevertical
+                || cond == circeclone
+                || cond == circeclonemalefique
+                || cond == circediagramm)))
+    {
+      strcat(CondLine, " ");
+      strcat(CondLine, CondTab[rexincl]);
+    }
+
+    if (  (rex_mess_ex && cond == messigny)
+          || (rex_wooz_ex
+              && (cond == woozles
+                  || cond == biwoozles)))
+    {
+      strcat(CondLine, " ");
+      strcat(CondLine, CondTab[rexexcl]);
+    }
+
+    if ( rex_protean_ex && cond == protean)
+    {
+      strcat(CondLine, "    ");
+      strcat(CondLine, CondTab[rexexcl]);
+    }
+
+    if (cond == chamcirce && ChameleonSequence[0]) {
+      strcat(CondLine, "    ");
+      strcat(CondLine, ChameleonSequence);
+    }
+
+    if ((cond == isardam) && IsardamB) {
+      strcat(CondLine, "    ");
+      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
+    }
+
+    if (cond == annan) {
+      strcat(CondLine, "    ");
+      switch (annanvar)
+      {
+      case 1:
+        strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
+        break;
+      case 2:
+        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
+        break;
+      case 3:
+        strcat(CondLine, VariantTypeString[UserLanguage][TypeD]);
+        break;
+      }
+    }
+
+    if (cond == gridchess && OptFlag[suppressgrid]) {
+      strcat(CondLine, "  ");
+      switch (gridvar)
+      {
+        case grid_vertical_shift:
+          strcat(CondLine, VariantTypeString[UserLanguage][ShiftRank]);
+          break;
+        case grid_horizontal_shift:
+          strcat(CondLine, VariantTypeString[UserLanguage][ShiftFile]);
+          break;
+        case grid_diagonal_shift:
+          strcat(CondLine, VariantTypeString[UserLanguage][ShiftRankFile]);
+          break;
+        case grid_orthogonal_lines:
+          strcat(CondLine, VariantTypeString[UserLanguage][Orthogonal]);
+          /* to do - write lines */
+          break;
+        case grid_irregular:
+          strcat(CondLine, VariantTypeString[UserLanguage][Irregular]);
+          /* to do - write squares */
+          break;
+      }
+    }
+
+    if ((cond == white_oscillatingKs) && OscillatingKingsTypeB[White]) {
+      strcat(CondLine, "    ");
+      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
+    }
+
+    if ((cond == black_oscillatingKs) && OscillatingKingsTypeB[Black]) {
+      strcat(CondLine, "    ");
+      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
+    }
+
+    if ((cond == white_oscillatingKs) && OscillatingKingsTypeC[White]) {
+      if (! CondFlag[swappingkings]) {
+        strcat(CondLine, "  ");
+        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
+      }
+    }
+
+    if ((cond == black_oscillatingKs) && OscillatingKingsTypeC[Black]) {
+      if (! CondFlag[swappingkings]) {
+        strcat(CondLine, "  ");
+        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
+      }
+    }
+
+    if ((cond == patience) && PatienceB) {
+      strcat(CondLine, "    ");
+      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
+    }
+
+    if (CondFlag[singlebox])    {
+      strcat(CondLine, "    ");
+      if (SingleBoxType==singlebox_type1)
+        strcat(CondLine, VariantTypeString[UserLanguage][Type1]);
+      if (SingleBoxType==singlebox_type2)
+        strcat(CondLine, VariantTypeString[UserLanguage][Type2]);
+      if (SingleBoxType==singlebox_type3)
+        strcat(CondLine, VariantTypeString[UserLanguage][Type3]);
+    }
+
+    if (CondFlag[republican])    {
+      strcat(CondLine, "    ");
+      if (RepublicanType==republican_type1)
+        strcat(CondLine, VariantTypeString[UserLanguage][Type1]);
+      if (RepublicanType==republican_type2)
+        strcat(CondLine, VariantTypeString[UserLanguage][Type2]);
+    }
+
+    if (cond == sentinelles) {
+      char pawns[7];
+      if (sentinelb == pbb)
+        strcat(CondLine, " Berolina");
+      if (SentPionAdverse) {
+        strcat(CondLine, "  ");
+        strcat(CondLine,
+               VariantTypeString[UserLanguage][PionAdverse]);
+      }
+      if (SentPionNeutral) {
+        strcat(CondLine, "  ");
+        strcat(CondLine,
+               VariantTypeString[UserLanguage][PionNeutral]);
+      }
+      if (max_pn !=8 || max_pb != 8) {
+        sprintf(pawns, " %u/%u", max_pb, max_pn);
+        strcat (CondLine, pawns);
+      }
+      if (max_pt != 16) {
+        sprintf(pawns, " //%u", max_pt);
+        strcat (CondLine, pawns);
+      }
+    }
+
+    if ((cond == SAT || cond == strictSAT) && (WhiteSATFlights != 1 || BlackSATFlights != 1)) {
+      char extra[10];
+      char roman[][9] = {"","I","II","III","IV","V","VI","VII","VIII"};
+      if (WhiteSATFlights == BlackSATFlights)
+        sprintf(extra, " %s", roman[WhiteSATFlights-1]);
+      else
+        sprintf(extra, " %s/%s", roman[WhiteSATFlights-1], roman[BlackSATFlights-1]);
+      strcat (CondLine, extra);
+    }
+
+    switch (cond) {
+    case anti:
+    case antispiegel:
+    case antidiagramm:
+    case antifile:
+    case antisymmetrie:
+    case antispiegelfile:
+    case antiantipoden:
+    case antiequipollents:
+      /* AntiCirTypeCalvet is default in AntiCirce */
+      if (AntiCirType != AntiCirTypeCalvet) {
+        strcat(CondLine, "  ");
+        strcat(CondLine, VariantTypeString[UserLanguage][AntiCirType]);
+      }
+      break;
+    case antisuper:
+      /* AntiCirTypeCheylan is default in AntiSuperCirce */
+      if (AntiCirType != AntiCirTypeCheylan) {
+        strcat(CondLine, "  ");
+        strcat(CondLine, VariantTypeString[UserLanguage][AntiCirType]);
+      }
+      break;
+    default:
+      break;
+    }
+
+    switch (cond) {
+    case blmax:
+    case blmin:
+    case blcapt:
+      if (bl_ultra || bl_exact) {
+        strcat(CondLine, "  ");
+        if (bl_ultra)
+          strcat(CondLine, CondTab[ultra]);
+        else
+          strcat(CondLine, CondTab[exact]);
+      }
+      break;
+    case whmax:
+    case whmin:
+    case whcapt:
+      if (wh_ultra || wh_exact) {
+        strcat(CondLine, "  ");
+        if (wh_ultra)
+          strcat(CondLine, CondTab[ultra]);
+        else
+          strcat(CondLine, CondTab[exact]);
+      }
+    default:
+      break;
+    }
+    switch (alignment) {
+    case WCcentered:
+      CenterLine(CondLine);
+      break;
+
+    case WCLaTeX:
+      if (CondPrinted) {
+        fprintf(LaTeXFile, "{\\newline}\n   ");
+      }
+      else {
+        fprintf(LaTeXFile, " \\condition{");
+      }
+      LaTeXStr(CondLine);
+      break;
+
+    case WCleft:
+      if (CondPrinted) {
+        if (LaTeXout) {
+          strcat(ActTwinning, ", ");
+        }
+        StdString("\n   ");
+      }
+      StdString(CondLine);
+      if (LaTeXout) {
+        strcat(ActTwinning, CondLine);
+      }
+      break;
+    }
+    CondPrinted= true;
+  }
+
+  if (alignment == WCLaTeX && CondPrinted) {
+    fprintf(LaTeXFile, "}%%\n");
+  }
+} /* WriteConditions */
 
 /***** twinning ***** */
 
@@ -267,26 +884,21 @@ char    *TwinningString[LanguageCount][TwinningCount] = {
 
 static char **TokenTab; /* set according to language */
 static char **OptTab;   /* set according to language */
-static char **CondTab;  /* set according to language */
 
 static char  **VariantTypeTab;
-static char    **ExtraCondTab;
 static char **TwinningTab;
 static char LastChar;
 
 static  FILE    *TraceFile;
 static  FILE    *InputStack[MAXNEST];
 
-static  FILE    *LaTeXFile, *SolFile;
 static    char *LaTeXPiecesAbbr[PieceCount];
 static    char *LaTeXPiecesFull[PieceCount];
-void LaTeXStr(char *line);
 char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
 
 static  int NestLevel=0;
 
 Side OscillatingKingsSide;  /* this is all a hack */
-static nocontactfunc_t *nocontactfunc;
 
 void    OpenInput(char *s)
 {
@@ -324,7 +936,7 @@ static char CharChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQR
 
 static char SepraChar[] = "\n\r;,.:";
 
-void pyfputc(char c, FILE *f)
+static void pyfputc(char c, FILE *f)
 {
 #if !defined(QUIET)
   fputc(c,f);
@@ -361,7 +973,7 @@ void StdChar(char c)
   pyfputc(c, stdout);
 }
 
-void ErrChar(char c)
+static void ErrChar(char c)
 {
   pyfputc(c, stderr);
 }
@@ -557,7 +1169,7 @@ static Token StringToToken(char *tok)
   return GetUniqIndex(TokenCount,TokenTab,tok);
 }
 
-long int ReadBGLNumber(char* inptr, char** endptr)
+static long int ReadBGLNumber(char* inptr, char** endptr)
 {
   /* input must be of form - | {d}d(.|,(d(d))) where d=digit ()=0 or 1 {}=0 or more 
      in - and all other cases return infinity (no limit) */
@@ -643,7 +1255,8 @@ static void ReadBeginSpec(void)
   }
 }
 
-int GetPieNamIndex(char a,char b) {
+static int GetPieNamIndex(char a,char b)
+{
   /* We search the array PieNam, for an index, where
      it matches the two characters a and b
   */
@@ -662,7 +1275,7 @@ int GetPieNamIndex(char a,char b) {
   return 0;
 }
 
-square SquareNum(char a,char b)
+static square SquareNum(char a,char b)
 {
   if ('a'<=a && a<='h' && '1'<=b && b<='8')
     return square_a1 + (a-'a')*dir_right +(b-'1')*dir_up;
@@ -728,7 +1341,7 @@ static char *ParseLaTeXPieces(char *tok) {
   return tok;
 }
 
-char *LaTeXPiece(piece Name) {
+static char *LaTeXPiece(piece Name) {
   Name= abs(Name);
 
   if (Name > Bishop) {
@@ -895,7 +1508,7 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
   }
 }
 
-square NextSquare(square sq)
+static square NextSquare(square sq)
 {
   if (sq%onerow<nr_of_slack_files_left_of_board+nr_files_on_board-1)
     return sq+1;
@@ -2181,9 +2794,6 @@ static char *ParseExact(boolean *ex_flag, boolean *ul_flag)
   return tok;
 } /* ParseExact */
 
-int  AntiCirType;
-char ChameleonSequence[256];
-
 static char *ParseVaultingPieces(Flags fl)
 {
   piece p;
@@ -2240,7 +2850,8 @@ static char *ParseVaultingPieces(Flags fl)
   return tok;
 }
 
-char *ReadChameleonCirceSequence(void) {
+static char *ReadChameleonCirceSequence(void)
+{
   piece old_piece, new_piece;
   char  *tok, newpiece[3];
 
@@ -3184,14 +3795,15 @@ static char *ParseOpt(void)
 
 /***** twinning ***** begin *****/
 
-unsigned int TwinChar;
+char TwinChar;
 
 piece  twin_e[nr_squares_on_board];
 Flags  twin_spec[nr_squares_on_board];
 square twin_rb, twin_rn;
 imarr  twin_isquare;
 
-void TwinStorePosition(void) {
+static void TwinStorePosition(void)
+{
   int i;
 
   twin_rb= rb;
@@ -3206,7 +3818,8 @@ void TwinStorePosition(void) {
     twin_isquare[i]= isquare[i];
 }
 
-void TwinResetPosition(void) {
+static void TwinResetPosition(void)
+{
   int i;
 
   rb= twin_rb;
@@ -3481,7 +4094,8 @@ static char *ParseTwinningMove(int indexx)
 
 } /* ParseTwinningMove */
 
-void MovePieceFromTo(square from, square to) {
+static void MovePieceFromTo(square from, square to)
+{
   e[to]= e[from];
   spec[to]= spec[from];
   e[from]= vide;
@@ -4215,21 +4829,6 @@ Token ReadTwin(Token tk, boolean *stipChanged)
   }
 }
 
-void CenterLine(char *s) {
-  /* TODO move into one module per platform */
-#if defined(ATARI)
-#   if defined(__TURBOC__)
-  sprintf(GlobalStr, "%s\n", s);
-#   else    /* not __TURBOC__ */
-  sprintf(GlobalStr, "%*s\n", (36+strlen(s))/2, s);
-#   endif   /* __TURBOC__ */
-#else   /* not ATARI */
-  /* sprintf(GlobalStr, "%*s\n", (36+(int)strlen(s))/2, s); */
-  sprintf(GlobalStr, "%*s\n", (38+(int)strlen(s))/2, s);
-#endif  /* ATARI */
-  StdString(GlobalStr);
-}
-
 void MultiCenter(char *s) {
   char *p;
 
@@ -4240,543 +4839,6 @@ void MultiCenter(char *s) {
     s= p + 1;
   }
 }
-
-void AddSquare(char *List, square i) {
-  char    add[4];
-
-  add[0]= ' ';
-  add[1]= 'a' - nr_files_on_board + i%onerow;
-  add[2]= '1' - nr_rows_on_board + i/onerow;
-  add[3]= '\0';
-  strcat(List, add);
-}
-
-void WritePieces(piece *p, char* CondLine)
-{
-      /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
-  char LocalBuf[4];
-  while (*p) {
-      if (PieceTab[*p][1] != ' ')
-      sprintf(LocalBuf, " %c%c",
-                  UPCASE(PieceTab[*p][0]),
-                  UPCASE(PieceTab[*p][1]));
-    else
-      sprintf(LocalBuf, " %c",
-                  UPCASE(PieceTab[*p][0]));
-      strcat(CondLine, LocalBuf);
-    p++;
-  }
-}
-
-void WriteConditions(int alignment) {
-  Cond  cond;
-  char  CondLine[256];
-  int       i;
-  boolean   CondPrinted= false;
-
-  for (cond= 1; cond < CondCount; cond++) {
-    if (!CondFlag[cond])
-      continue;
-
-    if (cond == rexexcl)
-      continue;
-    if (cond == exact || cond == ultra)
-      continue;
-    if (cond == einstein
-        && (CondFlag[reveinstein] || CondFlag[antieinstein]))
-      continue;
-    if (  (cond == woozles
-           && (CondFlag[biwoozles]
-               ||CondFlag[heffalumps]))
-          || ((cond == heffalumps || cond == biwoozles)
-              && CondFlag[biheffalumps]))
-      continue;
-
-    if (cond == volage && CondFlag[hypervolage])
-      continue;
-
-    if (cond == chinoises && CondFlag[leofamily])
-      continue;
-
-    if (  (cond == gridchess || cond == koeko)
-          && CondFlag[contactgrid])
-      continue;
-
-    if (cond == tibet && CondFlag[dbltibet])
-      continue;
-
-    if (cond == holes)
-      continue;
-
-    if (cond == couscous && CondFlag[couscousmirror])
-      continue;
-
-    /* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
-    if (((cond == white_oscillatingKs) && OscillatingKingsTypeC[White]) ||
-        ((cond == black_oscillatingKs) && OscillatingKingsTypeC[Black])) {
-      if (CondFlag[swappingkings])
-        continue;
-    }
-
-    /* Write DEFAULT Conditions */
-    strcpy(CondLine, CondTab[cond]);
-
-    if ((cond == blmax || cond == whmax) && flagmaxi)
-      strcpy(CondLine, ExtraCondTab[maxi]);
-
-    if (  (cond == blackultraschachzwang
-           || cond == whiteultraschachzwang)
-          && flagultraschachzwang)
-    {
-      strcpy(CondLine, ExtraCondTab[ultraschachzwang]);
-    }
-
-    if (cond == sentinelles && flagparasent) {
-      strcpy(CondLine, "Para");
-      strcat(CondLine, CondTab[cond]);
-    }
-
-    if (cond == koeko || cond == antikoeko) {
-      piece koekop = roib;
-      char LocalBuf[4];
-      nocontactfunc = cond==koeko ? &koekofunc : &antikoekofunc;
-      if (*nocontactfunc == noknightcontact) 
-        koekop= cb;
-      if (*nocontactfunc == nowazircontact) 
-        koekop= vizirb;
-      if (*nocontactfunc == noferscontact) 
-        koekop= fersb;
-      if (*nocontactfunc == nodabbabacontact) 
-        koekop= dabb;
-      if (*nocontactfunc == noalfilcontact) 
-        koekop= alfilb;
-      if (*nocontactfunc == nocamelcontact) 
-        koekop= chb;
-      if (*nocontactfunc == nozebracontact) 
-        koekop= zb;
-      if (*nocontactfunc == nogiraffecontact) 
-        koekop= gib;
-      if (*nocontactfunc == noantelopecontact) 
-        koekop= antilb;
-
-      if (koekop == roib)
-        strcpy(LocalBuf, "");
-      else if (PieceTab[koekop][1] != ' ')
-        sprintf(LocalBuf, "%c%c-",
-                UPCASE(PieceTab[koekop][0]),
-                UPCASE(PieceTab[koekop][1]));
-      else
-        sprintf(LocalBuf, " %c-",
-                UPCASE(PieceTab[koekop][0]));
-
-      sprintf(CondLine, "%s%s", LocalBuf, CondTab[cond]);
-    }
-
-    if (cond == BGL)
-    {
-      char buf1[12], buf2[12];
-      if (BGL_global)
-      {
-        sprintf(CondLine, "%s %s", CondTab[cond], WriteBGLNumber(buf1, BGL_white));
-      }
-      else
-      {
-        sprintf(CondLine, "%s %s/%s", CondTab[cond], WriteBGLNumber(buf1, BGL_white), WriteBGLNumber(buf2, BGL_black));
-      }
-    }
-
-  if ( cond == whvault_king || cond == vault_king)
-  {
-      if (whitetransmpieces[0] != EquiHopper || whitetransmpieces[1] != vide) 
-        WritePieces(whitetransmpieces, CondLine);
-      if (calc_whtrans_king)
-      {
-        char LocalBuf[4];
-        sprintf(LocalBuf, " -%c",
-        UPCASE(PieceTab[King][0]));
-        strcat(CondLine, LocalBuf);
-      }
-  }
-
-  if ( cond == blvault_king )
-  {
-      if (blacktransmpieces[0] != EquiHopper || blacktransmpieces[1] != vide) 
-        WritePieces(blacktransmpieces, CondLine);
-      if (calc_bltrans_king)
-      {
-        char LocalBuf[4];
-        sprintf(LocalBuf, " -%c",
-        UPCASE(PieceTab[King][0]));
-        strcat(CondLine, LocalBuf);
-      }
-  }
-       
-    if (cond == promotiononly) {
-      /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
-      char LocalBuf[4];
-      piece pp= vide;
-      while ((pp= getprompiece[pp]) != vide) {
-        if (PieceTab[pp][1] != ' ')
-          sprintf(LocalBuf, " %c%c",
-                  UPCASE(PieceTab[pp][0]),
-                  UPCASE(PieceTab[pp][1]));
-        else
-          sprintf(LocalBuf, " %c",
-                  UPCASE(PieceTab[pp][0]));
-        strcat(CondLine, LocalBuf);
-      }
-      if (strlen(CondLine) <= strlen(CondTab[promotiononly])) {
-        /* due to zeroposition, where getprompiece is not */
-        /* set (it's set in verifieposition), I suppress  */
-        /* output of promotiononly for now.  */
-        continue;
-      }
-    }
-
-    if (cond == april) {
-      /* due to a Borland C++ 4.5 bug we have to use LocalBuf...*/
-      char LocalBuf[4];
-      piece pp;
-      for (pp= vide; pp!=derbla; ++pp)
-        if (isapril[pp]) {
-          if (PieceTab[pp][1] != ' ')
-            sprintf(LocalBuf, " %c%c",
-                    UPCASE(PieceTab[pp][0]),
-                    UPCASE(PieceTab[pp][1]));
-          else
-            sprintf(LocalBuf, " %c",
-                    UPCASE(PieceTab[pp][0]));
-          strcat(CondLine, LocalBuf);
-        }
-    }
-
-    if (cond == imitators)
-      for (i= 0; i < inum[1]; i++)
-        AddSquare(CondLine, isquare[i]);
-
-    if (cond == noiprom && !CondFlag[imitators])
-      continue;
-
-    if (cond == magicsquare) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], MagicSq)) {
-          AddSquare(CondLine, i);
-        }
-      }
-    }
-    if (cond == whforsqu) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], WhForcedSq)) {
-          AddSquare(CondLine, i);
-        }
-      }
-    }
-    if (cond == blforsqu) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], BlForcedSq)) {
-          AddSquare(CondLine, i);
-        }
-      }
-    }
-
-    if (cond == whconforsqu) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], WhConsForcedSq)) {
-          AddSquare(CondLine, i);
-        }
-      }
-    }
-
-    if (cond == blconforsqu) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], BlConsForcedSq)) {
-          AddSquare(CondLine, i);
-        }
-      }
-    }
-
-    if (cond == whprom_sq) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], WhPromSq)) {
-          AddSquare(CondLine, i);
-        }
-      }
-    }
-    if (cond == blprom_sq) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], BlPromSq)) {
-          AddSquare(CondLine, i);
-        }
-      }
-    }
-
-    if (cond == blroyalsq) {
-      AddSquare(CondLine, bl_royal_sq);
-    }
-
-    if (cond == whroyalsq) {
-      AddSquare(CondLine, wh_royal_sq);
-    }
-
-    if ((cond == madras && rex_mad)
-        || (cond == phantom && rex_phan)
-        || (cond == geneva && rex_geneva)
-        || (rex_immun
-            && (cond == immun
-                || cond == immunmalefique
-                || cond == immundiagramm))
-        || (rex_circe
-            && (cond == circe
-                || cond == circemalefique
-                || cond == circediametral
-                || cond == circemalefiquevertical
-                || cond == circeclone
-                || cond == circeclonemalefique
-                || cond == circediagramm)))
-    {
-      strcat(CondLine, " ");
-      strcat(CondLine, CondTab[rexincl]);
-    }
-
-    if (  (rex_mess_ex && cond == messigny)
-          || (rex_wooz_ex
-              && (cond == woozles
-                  || cond == biwoozles)))
-    {
-      strcat(CondLine, " ");
-      strcat(CondLine, CondTab[rexexcl]);
-    }
-
-    if ( rex_protean_ex && cond == protean)
-    {
-      strcat(CondLine, "    ");
-      strcat(CondLine, CondTab[rexexcl]);
-    }
-
-    if (cond == chamcirce && ChameleonSequence[0]) {
-      strcat(CondLine, "    ");
-      strcat(CondLine, ChameleonSequence);
-    }
-
-    if ((cond == isardam) && IsardamB) {
-      strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
-    }
-
-    if (cond == annan) {
-      strcat(CondLine, "    ");
-      switch (annanvar)
-      {
-      case 1:
-        strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
-        break;
-      case 2:
-        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
-        break;
-      case 3:
-        strcat(CondLine, VariantTypeString[UserLanguage][TypeD]);
-        break;
-      }
-    }
-
-    if (cond == gridchess && OptFlag[suppressgrid]) {
-      strcat(CondLine, "  ");
-      switch (gridvar)
-      {
-        case grid_vertical_shift:
-          strcat(CondLine, VariantTypeString[UserLanguage][ShiftRank]);
-          break;
-        case grid_horizontal_shift:
-          strcat(CondLine, VariantTypeString[UserLanguage][ShiftFile]);
-          break;
-        case grid_diagonal_shift:
-          strcat(CondLine, VariantTypeString[UserLanguage][ShiftRankFile]);
-          break;
-        case grid_orthogonal_lines:
-          strcat(CondLine, VariantTypeString[UserLanguage][Orthogonal]);
-          /* to do - write lines */
-          break;
-        case grid_irregular:
-          strcat(CondLine, VariantTypeString[UserLanguage][Irregular]);
-          /* to do - write squares */
-          break;
-      }
-    }
-
-    if ((cond == white_oscillatingKs) && OscillatingKingsTypeB[White]) {
-      strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
-    }
-
-    if ((cond == black_oscillatingKs) && OscillatingKingsTypeB[Black]) {
-      strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
-    }
-
-    if ((cond == white_oscillatingKs) && OscillatingKingsTypeC[White]) {
-      if (! CondFlag[swappingkings]) {
-        strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
-      }
-    }
-
-    if ((cond == black_oscillatingKs) && OscillatingKingsTypeC[Black]) {
-      if (! CondFlag[swappingkings]) {
-        strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
-      }
-    }
-
-    if ((cond == patience) && PatienceB) {
-      strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
-    }
-
-    if (CondFlag[singlebox])    {
-      strcat(CondLine, "    ");
-      if (SingleBoxType==singlebox_type1)
-        strcat(CondLine, VariantTypeString[UserLanguage][Type1]);
-      if (SingleBoxType==singlebox_type2)
-        strcat(CondLine, VariantTypeString[UserLanguage][Type2]);
-      if (SingleBoxType==singlebox_type3)
-        strcat(CondLine, VariantTypeString[UserLanguage][Type3]);
-    }
-
-    if (CondFlag[republican])    {
-      strcat(CondLine, "    ");
-      if (RepublicanType==republican_type1)
-        strcat(CondLine, VariantTypeString[UserLanguage][Type1]);
-      if (RepublicanType==republican_type2)
-        strcat(CondLine, VariantTypeString[UserLanguage][Type2]);
-    }
-
-    if (cond == sentinelles) {
-      char pawns[7];
-      if (sentinelb == pbb)
-        strcat(CondLine, " Berolina");
-      if (SentPionAdverse) {
-        strcat(CondLine, "  ");
-        strcat(CondLine,
-               VariantTypeString[UserLanguage][PionAdverse]);
-      }
-      if (SentPionNeutral) {
-        strcat(CondLine, "  ");
-        strcat(CondLine,
-               VariantTypeString[UserLanguage][PionNeutral]);
-      }
-      if (max_pn !=8 || max_pb != 8) {
-        sprintf(pawns, " %u/%u", max_pb, max_pn);
-        strcat (CondLine, pawns);
-      }
-      if (max_pt != 16) {
-        sprintf(pawns, " //%u", max_pt);
-        strcat (CondLine, pawns);
-      }
-    }
-
-    if ((cond == SAT || cond == strictSAT) && (WhiteSATFlights != 1 || BlackSATFlights != 1)) {
-      char extra[10];
-      char roman[][9] = {"","I","II","III","IV","V","VI","VII","VIII"};
-      if (WhiteSATFlights == BlackSATFlights)
-        sprintf(extra, " %s", roman[WhiteSATFlights-1]);
-      else
-        sprintf(extra, " %s/%s", roman[WhiteSATFlights-1], roman[BlackSATFlights-1]);
-      strcat (CondLine, extra);
-    }
-
-    switch (cond) {
-    case anti:
-    case antispiegel:
-    case antidiagramm:
-    case antifile:
-    case antisymmetrie:
-    case antispiegelfile:
-    case antiantipoden:
-    case antiequipollents:
-      /* AntiCirTypeCalvet is default in AntiCirce */
-      if (AntiCirType != AntiCirTypeCalvet) {
-        strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[UserLanguage][AntiCirType]);
-      }
-      break;
-    case antisuper:
-      /* AntiCirTypeCheylan is default in AntiSuperCirce */
-      if (AntiCirType != AntiCirTypeCheylan) {
-        strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[UserLanguage][AntiCirType]);
-      }
-      break;
-    default:
-      break;
-    }
-
-    switch (cond) {
-    case blmax:
-    case blmin:
-    case blcapt:
-      if (bl_ultra || bl_exact) {
-        strcat(CondLine, "  ");
-        if (bl_ultra)
-          strcat(CondLine, CondTab[ultra]);
-        else
-          strcat(CondLine, CondTab[exact]);
-      }
-      break;
-    case whmax:
-    case whmin:
-    case whcapt:
-      if (wh_ultra || wh_exact) {
-        strcat(CondLine, "  ");
-        if (wh_ultra)
-          strcat(CondLine, CondTab[ultra]);
-        else
-          strcat(CondLine, CondTab[exact]);
-      }
-    default:
-      break;
-    }
-    switch (alignment) {
-    case WCcentered:
-      CenterLine(CondLine);
-      break;
-
-    case WCLaTeX:
-      if (CondPrinted) {
-        fprintf(LaTeXFile, "{\\newline}\n   ");
-      }
-      else {
-        fprintf(LaTeXFile, " \\condition{");
-      }
-      LaTeXStr(CondLine);
-      break;
-
-    case WCleft:
-      if (CondPrinted) {
-        if (LaTeXout) {
-          strcat(ActTwinning, ", ");
-        }
-        StdString("\n   ");
-      }
-      StdString(CondLine);
-      if (LaTeXout) {
-        strcat(ActTwinning, CondLine);
-      }
-      break;
-    }
-    CondPrinted= true;
-  }
-
-  if (alignment == WCLaTeX && CondPrinted) {
-    fprintf(LaTeXFile, "}%%\n");
-  }
-} /* WriteConditions */
 
 void WritePosition() {
   int i, nBlack, nWhite, nNeutr;
@@ -5012,55 +5074,6 @@ void LaTeXClose(void) {
   fprintf(LaTeXFile, "\n\\putsol\n\n\\end{document}\n");
 }
 
-void LaTeXStr(char *line) {
-  while (*line) {
-    switch (*line) {
-    case '#':
-      fprintf(LaTeXFile, "\\%c", *line);
-      break;
-    case '&':
-      fprintf(LaTeXFile, "\\%c", *line);
-      break;
-    case '%':
-      if (*(line+1) == '%') {
-        /* it's introducing a comment */
-        fprintf(LaTeXFile, "%%");
-        line++;
-      }
-      else {
-        fprintf(LaTeXFile, "\\%%");
-      }
-      break;
-    case '0':
-      if (strncmp(line, "0-0-0", 5) == 0) {
-        fprintf(LaTeXFile, "{\\OOO}");
-        line += 4;
-      }
-      else if (strncmp(line, "0-0", 3) == 0) {
-        fprintf(LaTeXFile, "{\\OO}");
-        line += 2;
-      }
-      else {
-        fprintf(LaTeXFile, "%c", *line);
-      }
-      break;
-    case '-':
-      if (*(line+1) == '>') {   /* convert -> to \ra   FCO */
-        fprintf(LaTeXFile, "{\\ra}");
-        line++;
-      } else {  /* ordinary minus */
-        fprintf(LaTeXFile, "%c", *line);
-      }
-      break;
-
-    default:
-      fprintf(LaTeXFile, "%c", *line);
-      fflush(LaTeXFile);         /* non-buffered output  FCO */
-    }
-    line++;
-  }
-}
-
 void LaTeXEndDiagram(void) {
   char line[256];
 
@@ -5122,16 +5135,16 @@ void LaTeXEndDiagram(void) {
   fprintf(LaTeXFile, "\\end{diagram}\n\\hfill\n");
 }
 
-void LaTeXBeginDiagram(void) {
-  square *bnp;
+void LaTeXBeginDiagram(void)
+{
   boolean firstpiece= true, fairypieces= false, holess= false,
     modifiedpieces=false;
-  int i;
   PieSpec sp;
   Flags remspec[PieceCount];
   char ListSpec[PieSpCount][256];
   piece p;
   char    HolesSqList[256] = "";
+  square *bnp;
 
   for (sp= Neutral; sp < PieSpCount; sp++)
     strcpy(ListSpec[sp], PieSpString[UserLanguage][sp]);
@@ -5332,8 +5345,11 @@ void LaTeXBeginDiagram(void) {
 
   /* Just for visualizing imitators on the board. */                 
   if (CondFlag[imitators])
+  {
+    unsigned int i;
     for (i= 0; i < inum[1]; i++)
       e[isquare[i]]= -1;
+  }
 
 
   fprintf(LaTeXFile, " \\pieces{");
@@ -5415,7 +5431,6 @@ void LaTeXBeginDiagram(void) {
   /* conditions */
   if (CondFlag[gridchess] && !OptFlag[suppressgrid]) {
     boolean entry=false;
-    square *bnp;
     switch (gridvar)
     {
 
@@ -5436,6 +5451,8 @@ void LaTeXBeginDiagram(void) {
         break;
 
       case grid_orthogonal_lines:
+      {
+        unsigned int i;
         for (i=1; i<8; i++)
           if (GridNum(square_a1+i-1) != GridNum(square_a1+i))
           {
@@ -5444,7 +5461,7 @@ void LaTeXBeginDiagram(void) {
             else
               fprintf(LaTeXFile, ", ");
             entry= true;
-            fprintf(LaTeXFile, " v%d08", i);
+            fprintf(LaTeXFile, " v%u08", i);
           }
         for (i=1; i<8; i++)
           if (GridNum(square_a1+24*(i-1)) != GridNum(square_a1+24*i))
@@ -5454,11 +5471,12 @@ void LaTeXBeginDiagram(void) {
             else
               fprintf(LaTeXFile, ", ");
             entry= true;
-            fprintf(LaTeXFile, " h0%d8", i);
+            fprintf(LaTeXFile, " h0%u8", i);
           }
         if (entry)
           fprintf(LaTeXFile, "}%%\n");    
         break;
+      }
       
       /* of course, only the following block is necessary */
       case grid_irregular:
@@ -5492,18 +5510,20 @@ void LaTeXBeginDiagram(void) {
   WriteConditions(WCLaTeX);
 
   /* magical squares with frame */
-  if (CondFlag[magicsquare]) {
+  if (CondFlag[magicsquare])
+  {
     char    MagicSqList[256] = "";
-    boolean firstpiece= true;
+    boolean first_magic_piece= true;
     square  i;
  
     fprintf(LaTeXFile, " \\fieldframe{");
     for (i= square_a1; i <= square_h8; i++)
-      if (TSTFLAG(sq_spec[i], MagicSq)) {
-        if (!firstpiece)
+      if (TSTFLAG(sq_spec[i], MagicSq))
+      {
+        if (!first_magic_piece)
           strcat(MagicSqList, ", ");
         else
-          firstpiece= false;
+          first_magic_piece= false;
         AddSquare(MagicSqList, i);
       }
     fprintf(LaTeXFile, "%s}%%\n", MagicSqList);

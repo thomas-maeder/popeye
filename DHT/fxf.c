@@ -209,7 +209,7 @@ int fxfInit(unsigned long Size) {
   if (Arena)
     free(Arena);
   if ((Arena=nNew(Size, char)) == Nil(char)) {
-    ERROR_LOG2("%s: Sorry, cannot allocate arena of %ld bytes\n",
+    ERROR_LOG2("%s: Sorry, cannot allocate arena of %lu bytes\n",
                myname, Size);
     BotFreePtr= Arena;
     GlobalSize= 0;
@@ -393,7 +393,7 @@ void fxfInfo(FILE *f) {
   hd= SizeData;
   for (i=0; i<=fxfMAXSIZE; i++,hd++) {
     if (hd->MallocCount + hd->FreeCount) {
-      fprintf(f, "%12d  %10ld%10ld\n", i,
+      fprintf(f, "%12u  %10lu%10lu\n", i,
               hd->MallocCount, hd->FreeCount);
       Used+= hd->MallocCount;
       UsedBytes+= hd->MallocCount*i;

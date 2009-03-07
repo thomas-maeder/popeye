@@ -123,7 +123,7 @@
 #  endif
 #endif
 
-#if _MSC_VER == 1400
+#if defined(_MSC_VER) && _MSC_VER == 1400
 /*disable warning of deprecated functions*/
 #pragma warning( disable : 4996 )
 #endif

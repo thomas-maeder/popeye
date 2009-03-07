@@ -13,6 +13,7 @@
 
 #include "dhtvalue.h"
 #include "dhtcmem.h"
+#include "dht.h"
 
 #if defined(__BORLANDC__)
 #  include <mem.h>
@@ -47,8 +48,6 @@ static int EqualCompactMemoryValue(dhtValue v1, dhtValue v2) {
     return 1;
 }
 
-extern  dhtStatus   dhtDupStatus;
-
 static dhtValue DupCompactMemoryValue(dhtValue v) {
   CompactMemVal *cm= NewCompactMemVal(((CompactMemVal *)v)->Leng);
   if (cm) {
@@ -68,7 +67,7 @@ static void FreeCompactMemoryValue(dhtValue v) {
 
 static void DumpCompactMemoryValue(dhtValue v, FILE *f) {
   uLong i;
-  fprintf(f, "(%ld)", ((CompactMemVal *)v)->Leng);
+  fprintf(f, "(%lu)", ((CompactMemVal *)v)->Leng);
   for (i=0; i<((CompactMemVal*)v)->Leng; i++)
     fprintf(f, "%02x", ((CompactMemVal*)v)->Data[i] & 0xff);
   return;

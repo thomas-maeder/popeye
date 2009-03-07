@@ -205,7 +205,7 @@ boolean is_simplehopper(piece p)
   }
 }
 
-boolean is_simpledecomposedleaper(piece p)
+static boolean is_simpledecomposedleaper(piece p)
 {
   switch (p)
   {
@@ -217,7 +217,7 @@ boolean is_simpledecomposedleaper(piece p)
   }
 }
 
-boolean is_symmetricfairy(piece p)
+static boolean is_symmetricfairy(piece p)
 {
   /* any piece where, if p captures X is legal, then it's also legal if p and X are swapped */
   switch (p)
@@ -317,8 +317,6 @@ static void countPieces(void)
 
 static boolean locateRoyal(void)
 {
-  square        *bnp;
-
   rb = initsquare;
   rn = initsquare;
 
@@ -375,6 +373,7 @@ static boolean locateRoyal(void)
   }
   else
   {
+    square *bnp;
     for (bnp= boardnum; *bnp; bnp++)
     {
       square s = *bnp;
@@ -1296,7 +1295,6 @@ static boolean verify_position(void)
   {
     /* checking for TSTFLAG(spec[rb],Kamikaze) may not be sufficient
      * in dynasty */
-    square *bnp;
     square s;
 
     for (bnp= boardnum; *bnp; bnp++)
@@ -1846,373 +1844,6 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
 extern boolean two_same_pieces;
 #endif
 
-/* TODO what do we need the mov parameter for?
- */
-void editcoup(ply ply_id, coup *mov, Goal goal)
-{
-  char    BlackChar= *GetMsgString(BlackColor);
-  char    WhiteChar= *GetMsgString(WhiteColor);
-  int   icount, diff;
-
-  if (mov->cazz==nullsquare) return;
-
-  /* Did we castle ?? */
-  if (mov->cpzz == kingside_castling
-      || mov->cpzz == queenside_castling)
-  {
-    /* castling */
-    StdString("0-0");
-    if (mov->cpzz == queenside_castling) {
-      StdString("-0");
-    }
-    if (CondFlag[einstein]) {
-      StdChar('=');
-      if (CondFlag[reveinstein])
-        WritePiece(db);
-      else
-        WritePiece(fb);
-    }
-  } else {  /* no, we didn't castle */
-    if (mov->cpzz == messigny_exchange) {
-      WritePiece(mov->pjzz);
-      WriteSquare(mov->cdzz);
-      StdString("<->");
-      WritePiece(mov->ppri);
-      WriteSquare(mov->cazz);
-    }
-    else {
-      if (mov->sb3what!=vide) {
-        StdString("[");
-        WriteSquare(mov->sb3where);
-        StdString("=");
-        WritePiece(mov->sb3what);
-        StdString("]");
-      }
-      if (WriteSpec(mov->speci, false)
-          || (mov->pjzz != pb && mov->pjzz != pn))
-      {
-        WritePiece(mov->pjzz);
-      }
-#if defined(DATABASE)
-      if (two_same_pieces) {
-        WriteSquare(mov->cdzz);
-        if (mov->ppri == vide)
-          StdChar('-');
-        else
-          StdString("\\x ");
-      }
-      else {
-        if (mov->ppri != vide)
-          StdString("\\x ");
-      }
-#else
-      WriteSquare(mov->cdzz);
-      if (anyantimars && (mov->ppri == vide || mov->cdzz == mov->cpzz))
-      {
-        StdString("->");
-        WriteSquare(mov->mren);
-      }
-      if (mov->ppri == vide || (anyantimars && mov->cdzz == mov->cpzz))
-        StdChar('-');
-      else
-        StdChar('*');
-#endif /* DATABASE */
-      if (mov->cpzz != mov->cazz && mov->roch_sq == initsquare) {
-        if (is_pawn(mov->pjzz) && !CondFlag[takemake]) {
-          WriteSquare(mov->cazz);
-          StdString(" ep.");
-        }
-        else {
-          WriteSquare(mov->cpzz);
-          StdChar('-');
-          WriteSquare(mov->cazz);
-        }
-      }
-      else {
-        WriteSquare(mov->cazz);
-      }
-    }
-
-    if (mov->bool_norm_cham_prom) {
-      SETFLAG(mov->speci, Chameleon);
-    }
-
-    if ((mov->pjzz != mov->pjazz)
-        || ((mov->speci != mov->new_spec) && (mov->new_spec != 0)))
-    {
-      if (mov->pjazz == vide) {
-        if (mov->promi) {
-          StdString ("=I");
-        }
-      }
-      else if (!((CondFlag[white_oscillatingKs] && mov->tr == White && mov->pjzz == roib) ||
-                 (CondFlag[black_oscillatingKs] && mov->tr == Black && mov->pjzz == roin))) {
-        StdChar('=');
-        WriteSpec(mov->new_spec, mov->speci != mov->new_spec);
-        WritePiece(mov->pjazz);
-      }
-    }
-
-    if (mov->roch_sq != initsquare) {
-      StdChar('/');
-      WriteSpec(mov->roch_sp, true);
-      WritePiece(mov->roch_pc);
-      WriteSquare(mov->roch_sq);
-      StdChar('-');
-      WriteSquare((mov->cdzz + mov->cazz) / 2);
-    }
-
-    if (mov->sqren != initsquare) {
-      piece   p= CondFlag[antieinstein]
-          ? inc_einstein(mov->ppri)
-          : CondFlag[parrain]
-          ? mov->ren_parrain
-          : CondFlag[chamcirce]
-          ? ChamCircePiece(mov->ppri)
-          : (anyclone && abs(mov->pjzz) != roib)
-          ? -mov->pjzz
-          : (anytraitor && abs(mov->ppri) >= roib)
-          ? -mov->ppri
-          : mov->ppri;
-      StdString(" [+");
-      WriteSpec(mov->ren_spec, p!=vide);
-      WritePiece(p);
-
-      WriteSquare(mov->sqren);
-      if (mov->bool_cir_cham_prom) {
-        SETFLAG(mov->ren_spec, Chameleon);
-      }
-      if (mov->cir_prom) {
-        StdChar('=');
-        WriteSpec(mov->ren_spec, p!=vide);
-        WritePiece(mov->cir_prom);
-      }
-
-      if (TSTFLAG(mov->ren_spec, Volage)
-          && SquareCol(mov->cpzz) != SquareCol(mov->sqren))
-      {
-        sprintf(GlobalStr, "=(%c)",
-                (mov->tr == White) ? WhiteChar : BlackChar);
-        StdString(GlobalStr);
-      }
-      StdChar(']');
-    }
-
-    if (mov->sb2where!=initsquare) {
-      assert(mov->sb2what!=vide);
-      StdString(" [");
-      WriteSquare(mov->sb2where);
-      StdString("=");
-      WritePiece(mov->sb2what);
-      StdString("]");
-    }
-
-    if (CondFlag[republican]
-        && mov->repub_k<=square_h8 && mov->repub_k>=square_a1)
-    {
-      SETFLAG(mov->ren_spec,advers(mov->tr));
-      StdString("[+");
-      WriteSpec(mov->ren_spec, true);
-      WritePiece(roib);
-      WriteSquare(mov->repub_k);
-      StdChar(']');
-    }
-
-    if (mov->renkam) {
-      StdChar('[');
-      WriteSpec(mov->speci, mov->pjazz != vide);
-      WritePiece(mov->pjazz);
-      WriteSquare(mov->cazz);
-      StdString("->");
-      WriteSquare(mov->renkam);
-      if (mov->norm_prom != vide &&
-          (!anyanticirce || (CondFlag[antisuper] && 
-                             ((is_forwardpawn(mov->pjzz)
-                               && !PromSq(mov->tr, mov->cazz)) || 
-                              (is_reversepawn(mov->pjzz)
-                               && !ReversePromSq(mov->tr, mov->cazz)))))) {
-        StdChar('=');
-        WriteSpec(mov->speci, true);
-        WritePiece(mov->norm_prom);
-      }
-      StdChar(']');
-    }
-    if (mov->bool_senti) {
-      StdString("[+");
-      StdChar((!SentPionNeutral || !TSTFLAG(mov->speci, Neutral))
-              ?  ((mov->tr==White) != SentPionAdverse
-                  ? WhiteChar
-                  : BlackChar)
-              : 'n');
-      WritePiece(sentinelb); WriteSquare(mov->cdzz);
-      StdChar(']');
-    }
-    if (TSTFLAG(mov->speci, ColourChange)
-        && (abs(e[mov->hurdle])>roib))
-    {
-      Side hc= e[mov->hurdle] < vide ? Black : White;
-      StdString("[");
-      WriteSquare(mov->hurdle);
-      StdString("=");
-      StdChar(hc == White ? WhiteChar : BlackChar);
-      StdString("]");
-    }
-    if (flag_outputmultiplecolourchanges)
-    {
-      if (mov->push_bottom != NULL) {
-
-        if (mov->push_top - mov->push_bottom > 0) 
-        {
-          change_rec * rec;
-          StdString(" [");
-          for (rec= mov->push_bottom; rec - mov->push_top < 0; rec++)
-          {
-            StdChar(rec->pc > vide ? WhiteChar : BlackChar);
-            WritePiece(rec->pc);
-            WriteSquare(rec->square);
-            if (mov->push_top - rec > 1)
-              StdString(", ");
-          } 
-          StdChar(']');
-        }
-
-      } else {
-
-        if (colour_change_sp[ply_id] - colour_change_sp[ply_id - 1] > 0) 
-        {
-          change_rec * rec;
-          StdString(" [");
-          for (rec= colour_change_sp[ply_id - 1]; rec - colour_change_sp[ply_id] < 0; rec++)
-          {
-            StdChar(rec->pc > vide ? WhiteChar : BlackChar);
-            WritePiece(rec->pc);
-            WriteSquare(rec->square);
-            if (colour_change_sp[ply_id] - rec > 1)
-              StdString(", ");
-          } 
-          StdChar(']');
-        }
-
-      }
-    }
-
-  } /* No castling */
-
-  if (mov->numi && CondFlag[imitators])
-  {
-    diff = im0 - isquare[0];
-    StdChar('[');
-    for (icount = 1; icount <= mov->numi;)
-    {
-      StdChar('I');
-      WriteSquare(isquare[icount-1] + mov->sum + diff);
-      if (icount++ < mov->numi)
-        StdChar(',');
-    }
-    StdChar(']');
-  }
-  if (mov->osc) {
-    StdString("[");
-    StdChar(WhiteChar);
-    WritePiece(roib);
-    StdString("<>");
-    StdChar(BlackChar);
-    WritePiece(roib);
-    StdString("]");
-  }
-
-  if ((CondFlag[ghostchess] || CondFlag[hauntedchess])
-      && mov->ghost_piece!=vide)
-  {
-    StdString("[+");
-    WriteSpec(mov->ghost_flags, mov->ghost_piece != vide);
-    WritePiece(mov->ghost_piece);
-    WriteSquare(mov->cdzz);
-    StdString("]");
-  }
-  
-  if (CondFlag[BGL])
-  {
-    char s[30], buf1[12], buf2[12];
-    if (BGL_global)
-      sprintf(s, " (%s)", WriteBGLNumber(buf1, BGL_white));
-    else
-      sprintf(s, " (%s/%s)",
-              WriteBGLNumber(buf1, BGL_white),
-              WriteBGLNumber(buf2, BGL_black));
-    StdString(s);
-  }
-  if (goal==no_goal)
-  {
-    if (mov->echec)
-      StdString(" +");
-  }
-  else
-    StdString(goal_end_marker[goal]);
-  StdChar(blank);
-} /* editcoup */
-
-void ecritcoup(ply ply_id, Goal goal)
-{
-  coup mov;
-  current(ply_id,&mov);
-  editcoup(ply_id,&mov,goal);
-}
-
-void WriteForsyth(void)
-{
-  int row,file,cnt=0;
-  piece p;
-  square sq=square_a8;
-  for (row=nr_rows_on_board; row!=0; --row, sq -= nr_files_on_board+dir_up)
-  {
-    for (file=nr_files_on_board; file; --file, ++sq)
-    {
-      if ((p= e[sq]) == vide)
-        cnt++;
-      else
-      {
-        if (cnt) {
-          char buf[3];
-          sprintf(buf, "%d", cnt);
-          StdString(buf);
-          cnt= 0;
-        }
-        if (TSTFLAG(spec[sq], Royal))
-          StdChar('+');
-        if (p < vide) 
-        {
-          if (PieceTab[-p][1] != ' ') {
-            StdChar('.');
-            StdChar(tolower(PieceTab[-p][0]));
-            StdChar(tolower(PieceTab[-p][1]));
-          }
-          else
-            StdChar(tolower(PieceTab[-p][0]));
-        }
-        else if (p > obs) 
-        {
-          if (PieceTab[p][1] != ' ') {
-            StdChar('.');
-            StdChar(toupper(PieceTab[p][0]));
-            StdChar(toupper(PieceTab[p][1]));
-          }
-          else
-            StdChar(toupper(PieceTab[p][0]));
-        }
-      }
-    }
-    if (cnt) {
-      char buf[3];
-      sprintf(buf, "%d", cnt);
-      StdString(buf);
-      cnt= 0;
-    }
-    if (row>1) StdChar('/');
-  }
-  StdChar(' ');
-}
-
 #if !defined(DATABASE)
 
 /* Determine whether the defending side has more flights than allowed
@@ -2283,7 +1914,7 @@ static void reflectboard(void) {
 
 /* Check assumptions made throughout the program. Abort if one of them
  * isn't met. */
-void checkGlobalAssumptions(void)
+static void checkGlobalAssumptions(void)
 {
   /* Make sure that the characters relevant for entering problems are
    * encoded contiguously and in the natural order. This is assumed

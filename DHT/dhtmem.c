@@ -18,6 +18,7 @@
 
 #include "dhtvalue.h"
 #include "dhtmem.h"
+#include "dht.h"
 
 typedef unsigned long uLong;
 typedef unsigned char uChar;
@@ -46,8 +47,6 @@ static int EqualMemoryValue(dhtValue v1, dhtValue v2) {
     return 1;
 }
 
-extern	dhtStatus	dhtDupStatus;
-
 static dhtValue	DupMemoryValue(dhtValue v) {
   MemVal *mv;
   dhtDupStatus= dhtOkStatus;
@@ -72,7 +71,7 @@ static void	FreeMemoryValue(dhtValue v) {
 }
 static void	DumpMemoryValue(dhtValue v, FILE *f) {
   uLong i;
-  fprintf(f, "(%ld)", ((MemVal*)v)->Leng);
+  fprintf(f, "(%lu)", ((MemVal*)v)->Leng);
   for (i=0; i<((MemVal*)v)->Leng; i++)
     fprintf(f, "%02x", ((MemVal*)v)->Data[i] & 0xff);
   return;

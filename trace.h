@@ -53,6 +53,11 @@ void TraceFunctionExit(char const *name);
 #define TraceValue(format,name) \
   TraceValueImpl(" " #name ":" format, (size_t)name)
 
+/* Trace the value of some expression
+ */
+#define TracePointerValue(format,name) \
+  TracePointerValueImpl(" " #name ":" format, (void *)name)
+
 /* Trace arbitrary text
  */
 void TraceText(char const *text);
@@ -87,7 +92,14 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4]);
 #define TraceFunctionResult(format,name) \
   TraceValueImpl(" <- " #name ":" format, (size_t)name)
 
+/* Trace a function result of pointer type
+ * Works best in SESE style functions.
+ */
+#define TracePointerFunctionResult(format,name) \
+  TracePointerValueImpl(" <- " #name ":" format, (void*)name)
+
 void TraceValueImpl(char const *format, size_t value);
+void TracePointerValueImpl(char const *format, void const *value);
 
 #else
 
@@ -95,6 +107,7 @@ void TraceValueImpl(char const *format, size_t value);
 #define TraceFunctionEntry(name)
 #define TraceFunctionParam(format,name)
 #define TraceValue(format,name)
+#define TracePointerValue(format,name)
 #define TraceText(text)
 #define TraceSquare(name)
 #define TracePiece(name)
@@ -102,6 +115,7 @@ void TraceValueImpl(char const *format, size_t value);
 #define TracePosition(echiquier,flags)
 #define TraceFunctionExit(name)
 #define TraceFunctionResult(format,name)
+#define TracePointerFunctionResult(format,name)
 
 #endif
 

@@ -97,7 +97,7 @@ int main() {
 	if (lan>0) {
       fprintf(hd, ",\n");
 	}
-	fprintf(hd, "\t/*%d*/\t%sMsg", lan, GetLanguageName(lan));
+	fprintf(hd, "\t/*%u*/\t%sMsg", (unsigned int)lan, GetLanguageName(lan));
   }
   fprintf(hd, "\n};\n");
   exit(0);

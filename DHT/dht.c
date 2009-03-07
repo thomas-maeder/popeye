@@ -341,8 +341,8 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
       enumeration->current= (ht_dir*)accessAdr(enumeration->dt,
                                                enumeration->index);
     enumeration->index++;
-    TraceValue("%p ",enumeration->current);
-    TraceValue("%p\n",*enumeration->current);
+    TracePointerValue("%p ",enumeration->current);
+    TracePointerValue("%p\n",*enumeration->current);
     result = (*enumeration->current)[di];
   }
   else
@@ -415,7 +415,7 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
 
   if (KeyType >= dhtValueTypeCnt) {
     sprintf(dhtError,
-            "dhtCreate: invalid KeyType: numeric=%d\n", KeyType);
+            "dhtCreate: invalid KeyType: numeric=%u\n", KeyType);
     return Nil(dht);
   }
   if (dhtProcedures[KeyType] == Nil(dhtValueProcedures)) {
@@ -426,7 +426,7 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
   }
   if (DtaType >= dhtValueTypeCnt) {
     sprintf(dhtError,
-            "dhtCreate: invalid DataType: numeric=%d\n", DtaType);
+            "dhtCreate: invalid DataType: numeric=%u\n", DtaType);
     return Nil(dht);
   }
   if (dhtProcedures[DtaType] == Nil(dhtValueProcedures)) {
@@ -475,7 +475,7 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
   }
   else {
     sprintf(dhtError,
-            "Sorry, unknown KeyPolicy: numeric=%d.", KeyPolicy);
+            "Sorry, unknown KeyPolicy: numeric=%u.", KeyPolicy);
     freeDirTable(&ht->DirTab);
     FreeHashTable(ht);
     return Nil(dht);
@@ -491,7 +491,7 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
   }
   else {
     sprintf(dhtError,
-            "Sorry, unknown DataPolicy: numeric=%d.", DataPolicy);
+            "Sorry, unknown DataPolicy: numeric=%u.", DataPolicy);
     freeDirTable(&ht->DirTab);
     FreeHashTable(ht);
     return Nil(dht);
@@ -524,7 +524,7 @@ void dhtDestroy(HashTable *ht) {
 
 void dhtDumpIndented(int ind, HashTable *ht, FILE *f) {
   dirEnumerate dEnum;
-  int dcnt, hcnt;
+  int hcnt;
   InternHsElement *b;
 
   fprintf(f, "%*sSimple Values: \n", ind, "");
@@ -536,15 +536,15 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f) {
           ind, "", ht->KeyCount);
   fprintf(f, "%*sCurrentSize              = %6lu\n",
           ind, "", ht->CurrentSize);
-  fprintf(f, "%*sMinLoadFactor (%%)        = %6u\n",
+  fprintf(f, "%*sMinLoadFactor (%%)        = %6hu\n",
           ind, "", ht->MinLoadFactor);
-  fprintf(f, "%*sMaxLoadFactor (%%)        = %6u\n",
+  fprintf(f, "%*sMaxLoadFactor (%%)        = %6hu\n",
           ind, "", ht->MaxLoadFactor);
-  fprintf(f, "%*sActual LoadFactor (%%)    = %6ld\n",
+  fprintf(f, "%*sActual LoadFactor (%%)    = %6lu\n",
           ind, "", ActualLoadFactor(ht));
-  fprintf(f, "%*sDirLevel                 = %6u\n",
+  fprintf(f, "%*sDirLevel                 = %6d\n",
           ind, "", ht->DirTab.level);
-  dcnt= hcnt=0;
+  hcnt=0;
 
   dEnum.index= 0;
   dEnum.current = 0;
@@ -562,7 +562,7 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f) {
       hcnt++;
     }
 
-  fprintf(f, "%*s%d records of %ld dumped\n\n",
+  fprintf(f, "%*s%d records of %lu dumped\n\n",
           ind, "", hcnt, ht->KeyCount);
 }
 
@@ -581,14 +581,14 @@ dhtElement *dhtGetFirstElement(HashTable *ht)
   if (ht->KeyCount>0)
   {
     ht->DirEnum.index= 0;
-    TraceValue("%p\n",&ht->DirTab);
+    TracePointerValue("%p\n",&ht->DirTab);
     ht->DirEnum.dt = &ht->DirTab;
 
     for (b = stepDirTable(&ht->DirEnum);
          b!=&EndOfTable;
          b = stepDirTable(&ht->DirEnum))
     {
-      TraceValue("%p\n",b);
+      TracePointerValue("%p\n",b);
       if (b!=0)
       {
         ht->NextStep= b->Next;
@@ -810,7 +810,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
   {
     TraceText("key duplication failed\n");
     TraceFunctionExit(__func__);
-    TraceFunctionResult("%p\n",dhtNilElement);
+    TracePointerFunctionResult("%p\n",dhtNilElement);
     return dhtNilElement;
   }
 
@@ -820,7 +820,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
     (ht->procs.FreeKey)(KeyV);
     TraceText("data duplication failed\n");
     TraceFunctionExit(__func__);
-    TraceFunctionResult("%p\n",dhtNilElement);
+    TracePointerFunctionResult("%p\n",dhtNilElement);
     return dhtNilElement;
   }
 
@@ -836,7 +836,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
     {
       TraceText("allocation of new intern Hs element failed\n");
       TraceFunctionExit(__func__);
-      TraceFunctionResult("%p\n",dhtNilElement);
+      TracePointerFunctionResult("%p\n",dhtNilElement);
       return dhtNilElement;
     }
     else
@@ -869,7 +869,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
     {
       TraceText("expansion failed\n");
       TraceFunctionExit(__func__);
-      TraceFunctionResult("%p\n",dhtNilElement);
+      TracePointerFunctionResult("%p\n",dhtNilElement);
       return dhtNilElement;
     }
     /*
@@ -879,7 +879,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%p\n",&he->HsEl);
+  TracePointerFunctionResult("%p\n",&he->HsEl);
   return &he->HsEl;
 }
 

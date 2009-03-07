@@ -135,19 +135,21 @@ int len_antisynchron(square sq_departure, square sq_arrival, square sq_capture) 
               - move_generation_stack[repere[nbply]].arrival));
 }
 
-int len_whforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
-  if (we_generate_exact) {
-    if (TSTFLAG(sq_spec[sq_arrival], WhConsForcedSq)) {
+int len_whforcedsquare(square sq_departure,
+                       square sq_arrival,
+                       square sq_capture) {
+  if (we_generate_exact)
+  {
+    if (TSTFLAG(sq_spec[sq_arrival], WhConsForcedSq))
+    {
       there_are_consmoves = true;
       return 1;
     }
-    else {
+    else
       return 0;
-    }
   }
-  else {
+  else
     return (TSTFLAG(sq_spec[sq_arrival], WhForcedSq));
-  }
 }
 
 int len_blforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
@@ -220,7 +222,10 @@ void init_move_generation_optimizer(void) {
   }
 }
 
-boolean is_killer_move(square sq_departure, square sq_arrival, square sq_capture) {
+static boolean is_killer_move(square sq_departure,
+                              square sq_arrival,
+                              square sq_capture)
+{
   return current_killer_state.move.departure==sq_departure
     && current_killer_state.move.arrival==sq_arrival;
 }
@@ -260,7 +265,11 @@ void finish_move_generation_optimizer(void) {
   }
 }
 
-void add_to_move_generation_stack(square sq_departure, square sq_arrival, square sq_capture, square mren) {
+static void add_to_move_generation_stack(square sq_departure,
+                                         square sq_arrival,
+                                         square sq_capture,
+                                         square mren)
+{
   nbcou++;
   move_generation_stack[nbcou].departure= sq_departure;
   move_generation_stack[nbcou].arrival= sq_arrival;
@@ -269,7 +278,10 @@ void add_to_move_generation_stack(square sq_departure, square sq_arrival, square
   ctrans[nbcou]=current_trans_gen;
 }
 
-void add_to_empile_optimization_table(square sq_departure, square sq_arrival, square sq_capture) {
+static void add_to_empile_optimization_table(square sq_departure,
+                                             square sq_arrival,
+                                             square sq_capture)
+{
   int   nr_opponent_moves = 0;
 
   /* for testempile() - mren shouldn't be relevant if we optimize by
@@ -289,7 +301,8 @@ void add_to_empile_optimization_table(square sq_departure, square sq_arrival, sq
   }
 }
 
-void save_as_killer_move(square capture) {
+static void save_as_killer_move(square capture)
+{
   current_killer_state.found= true;
   current_killer_state.move.capture= capture;
 }
@@ -758,10 +771,10 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   return true;
 } /* empile */
 
-void gemaooarider(square sq_departure,
-                  numvec tomiddle,
-                  numvec todest,
-                  Side camp)
+static void gemaooarider(square sq_departure,
+                         numvec tomiddle,
+                         numvec todest,
+                         Side camp)
 {
   square middle= sq_departure+tomiddle;
   square sq_arrival= sq_departure+todest;
@@ -797,10 +810,11 @@ void gemaorider(square i, Side camp) {
   gemaooarider(i,+dir_up,+2*dir_up+dir_right, camp);
 }
 
-void gemaooariderlion(square sq_departure,
-                      numvec tomiddle,
-                      numvec todest,
-                      Side camp) {
+static void gemaooariderlion(square sq_departure,
+                             numvec tomiddle,
+                             numvec todest,
+                             Side camp)
+{
   square middle= sq_departure + tomiddle;
   square sq_arrival= sq_departure+todest;
 
@@ -826,7 +840,8 @@ void gemaooariderlion(square sq_departure,
   }
 }
 
-void gemaoriderlion(square i, Side camp) {
+static void gemaoriderlion(square i, Side camp)
+{
   gemaooariderlion(i,+dir_right,+dir_up+2*dir_right, camp);
   gemaooariderlion(i,+dir_right,+dir_down+2*dir_right, camp);
   gemaooariderlion(i,+dir_down,+2*dir_down+dir_right, camp);
@@ -837,7 +852,8 @@ void gemaoriderlion(square i, Side camp) {
   gemaooariderlion(i,+dir_up,+2*dir_up+dir_right, camp);
 }
 
-void gemoariderlion(square i, Side camp) {
+static void gemoariderlion(square i, Side camp)
+{
   gemaooariderlion(i,+dir_up+dir_left,+2*dir_up+dir_left, camp);
   gemaooariderlion(i,+dir_up+dir_left,+dir_up+2*dir_left, camp);
   gemaooariderlion(i,+dir_down+dir_right,+2*dir_down+dir_right, camp);
@@ -883,8 +899,10 @@ void genrid(square sq_departure, numvec kbeg, numvec kend) {
   }
 }
 
-void genbouncer(square sq_departure, numvec kbeg, numvec kend, Side camp) {
-
+static void genbouncer(square sq_departure,
+                       numvec kbeg, numvec kend,
+                       Side camp)
+{
   square sq_arrival;
 
   numvec  k;
@@ -1089,9 +1107,10 @@ void grose(square sq_departure,
     testempile(sq_departure,sq_end,sq_end);
 }
 
-void grao(square sq_departure,
-          numvec k1, numvec k2, numvec delta_k,
-          Side camp) {
+static void grao(square sq_departure,
+                 numvec k1, numvec k2, numvec delta_k,
+                 Side camp)
+{
   square sq_hurdle= generate_moves_on_circle_segment(sq_departure,sq_departure,
                                                      k1,&k2,delta_k);
   if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs) {
@@ -1102,9 +1121,10 @@ void grao(square sq_departure,
   }
 }
 
-void groselion(square sq_departure,
-               numvec k1, numvec k2, numvec delta_k,
-               Side camp) {
+static void groselion(square sq_departure,
+                      numvec k1, numvec k2, numvec delta_k,
+                      Side camp)
+{
   square sq_end;
   square sq_hurdle= fin_circle_line(sq_departure,k1,&k2,delta_k);
   if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs) {
@@ -1137,9 +1157,10 @@ void groselion(square sq_departure,
   }
 }
 
-void grosehopper(square sq_departure,
-                 numvec k1, numvec k2, numvec delta_k,
-                 Side camp) {
+static void grosehopper(square sq_departure,
+                        numvec k1, numvec k2, numvec delta_k,
+                        Side camp)
+{
   square sq_hurdle= fin_circle_line(sq_departure,k1,&k2,delta_k);
   if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs) {
     square sq_arrival= sq_hurdle+vec[k1+k2];
@@ -1148,9 +1169,10 @@ void grosehopper(square sq_departure,
   }
 }
 
-void groselocust(square sq_departure,
-                 numvec k1, numvec k2, numvec delta_k,
-                 Side camp) {
+static void groselocust(square sq_departure,
+                        numvec k1, numvec k2, numvec delta_k,
+                        Side camp)
+{
   square sq_capture= fin_circle_line(sq_departure,k1,&k2,delta_k);
   if (sq_capture!=sq_departure && e[sq_capture]!=obs && rightcolor(e[sq_capture], camp)) {
     square sq_arrival= sq_capture+vec[k1+k2];
@@ -1159,7 +1181,8 @@ void groselocust(square sq_departure,
   }
 }
 
-void ghamst(square sq_departure) {
+static void ghamst(square sq_departure)
+{
   piece hurdle;
   numvec k;
 
@@ -1174,11 +1197,11 @@ void ghamst(square sq_departure) {
   }
 }
 
-void gmhop(square   sq_departure,
-           numvec   kanf,
-           numvec   kend,
-           int m,
-           Side  camp)
+static void gmhop(square   sq_departure,
+                  numvec   kanf,
+                  numvec   kend,
+                  int m,
+                  Side  camp)
 {
   piece hurdle;
   square sq_hurdle;
@@ -1230,10 +1253,10 @@ static void generate_locust_capture(square sq_departure, square sq_capture,
   }
 }
 
-void glocust(square sq_departure,
-             numvec kbeg,
-             numvec kend,
-             Side    camp)
+static void glocust(square sq_departure,
+                    numvec kbeg,
+                    numvec kend,
+                    Side    camp)
 {
   piece hurdle;
   square sq_capture;
@@ -1245,10 +1268,10 @@ void glocust(square sq_departure,
   }
 } /* glocust */
 
-void gmarin(square  sq_departure,
-            numvec  kbeg,
-            numvec  kend,
-            Side camp)
+static void gmarin(square  sq_departure,
+                   numvec  kbeg,
+                   numvec  kend,
+                   Side camp)
 {
   /* generate marin-pieces moves from vec[kbeg] to vec[kend] */
   numvec k;
@@ -1260,7 +1283,7 @@ void gmarin(square  sq_departure,
   }
 }
 
-void gchin(square   sq_departure,
+static void gchin(square   sq_departure,
            numvec   kbeg, numvec    kend,
            Side  camp)
 {
@@ -1282,7 +1305,7 @@ void gchin(square   sq_departure,
   }
 }
 
-void gnequi(square sq_departure, Side camp) {
+static void gnequi(square sq_departure, Side camp) {
   /* Non-Stop-Equihopper */
   square sq_hurdle;
   square sq_arrival;
@@ -1317,7 +1340,7 @@ void gnequi(square sq_departure, Side camp) {
     }
 }
 
-void gnequiapp(square sq_departure, Side camp) {
+static void gnequiapp(square sq_departure, Side camp) {
   /* Non-Stop-Equistopper */
   square sq_hurdle;
   square sq_arrival;
@@ -1346,7 +1369,7 @@ void gnequiapp(square sq_departure, Side camp) {
     }
 }
 
-void gkang(square sq_departure, Side camp) {
+static void gkang(square sq_departure, Side camp) {
   piece hurdle;
   square sq_hurdle;
   numvec k;
@@ -1366,7 +1389,7 @@ void gkang(square sq_departure, Side camp) {
   }
 }
 
-void grabbit(square sq_departure, Side camp) {
+static void grabbit(square sq_departure, Side camp) {
   piece hurdle;
   square sq_hurdle;
   numvec k;
@@ -1387,7 +1410,7 @@ void grabbit(square sq_departure, Side camp) {
   }
 }
 
-void gbob(square sq_departure, Side camp) {
+static void gbob(square sq_departure, Side camp) {
   piece hurdle;
   square sq_hurdle;
   numvec k;
@@ -1419,7 +1442,7 @@ void gbob(square sq_departure, Side camp) {
   }
 }
 
-void gcs(square sq_departure,
+static void gcs(square sq_departure,
          numvec k1, numvec k2,
          Side camp)
 {
@@ -1453,7 +1476,7 @@ void gcs(square sq_departure,
     testempile(sq_departure,sq_arrival,sq_arrival);
 }
 
-void gcsp(square sq_departure,
+static void gcsp(square sq_departure,
          numvec k1, numvec k2,
          Side camp)
 {
@@ -1473,7 +1496,7 @@ void gcsp(square sq_departure,
     testempile(sq_departure,sq_arrival,sq_arrival);
 }
 
-void gubi(square orig_departure,
+static void gubi(square orig_departure,
           square step_departure,
           Side camp) {
   numvec k;
@@ -1496,7 +1519,7 @@ void gubi(square orig_departure,
 
 typedef boolean generatorfunction_t(square, square, square);
 
-void grfou(square   orig_departure,
+static void grfou(square   orig_departure,
            square   in,
            numvec   k,
            int x,
@@ -1536,7 +1559,7 @@ void grfou(square   orig_departure,
   }
 }
 
-void gcard(square   orig_departure,
+static void gcard(square   orig_departure,
            square   in,
            numvec   k,
            int x,
@@ -1591,7 +1614,7 @@ void gcard(square   orig_departure,
   }
 }
 
-void  grefc(square orig_departure,
+static void grefc(square orig_departure,
             square step_departure,
             int x,
             Side camp) {
@@ -1694,9 +1717,9 @@ void settraversed(square edge_square)
   edgestraversed[square_2_edge_square_index(edge_square)] = true;
 }
 
-void  grefn(square orig_departure,
-            square step_departure,
-            Side camp) {
+static void grefn(square orig_departure,
+           square step_departure,
+           Side camp) {
   numvec k;
 
   square sq_departure= orig_departure;
@@ -1762,7 +1785,7 @@ void gequi(square sq_departure, Side camp) {
   }
 }
 
-void gequiapp(square sq_departure, Side camp) {
+static void gequiapp(square sq_departure, Side camp) {
   /* (interceptable) Equistopper */
   numvec  k;
   piece   hurdle1, hurdle2;
@@ -1797,7 +1820,7 @@ void gequiapp(square sq_departure, Side camp) {
   }
 }
 
-void gcat(square sq_departure, Side camp) {
+static void gcat(square sq_departure, Side camp) {
   /* generate moves of a CAT */
   numvec  k;
 
@@ -1819,7 +1842,7 @@ void gcat(square sq_departure, Side camp) {
   }
 }
 
-void gmaooa(square  sq_departure,
+static void gmaooa(square  sq_departure,
             square  pass,
             square  arrival1,
             square  arrival2,
@@ -1836,21 +1859,21 @@ void gmaooa(square  sq_departure,
   }
 }
 
-void gmao(square i, Side camp) {
+static void gmao(square i, Side camp) {
   gmaooa(i, i+dir_up, i+2*dir_up+dir_left, i+2*dir_up+dir_right, camp);
   gmaooa(i, i+dir_down, i+2*dir_down+dir_right, i+2*dir_down+dir_left, camp);
   gmaooa(i, i+dir_right, i+dir_up+2*dir_right, i+dir_down+2*dir_right, camp);
   gmaooa(i, i+dir_left, i+dir_down+2*dir_left, i+dir_up+2*dir_left, camp);
 }
 
-void gmoa(square i, Side camp) {
+static void gmoa(square i, Side camp) {
   gmaooa(i, i+dir_up+dir_left, i+2*dir_up+dir_left, i+dir_up+2*dir_left, camp);
   gmaooa(i, i+dir_down+dir_right, i+2*dir_down+dir_right, i+dir_down+2*dir_right, camp);
   gmaooa(i, i+dir_up+dir_right, i+dir_up+2*dir_right, i+2*dir_up+dir_right, camp);
   gmaooa(i, i+dir_down+dir_left, i+dir_down+2*dir_left, i+2*dir_down+dir_left, camp);
 }
 
-void gdoubleg(square sq_departure, Side camp) {
+static void gdoubleg(square sq_departure, Side camp) {
   numvec k,k1;
   piece hurdle;
   square sq_hurdle, past_sq_hurdle;
@@ -1880,7 +1903,7 @@ typedef enum
   DOWN
 } UPDOWN;
 
-void filter(square i, numecoup prevnbcou, UPDOWN u)
+static void filter(square i, numecoup prevnbcou, UPDOWN u)
 {
   numecoup s = prevnbcou+1;
   while (s<=nbcou)
@@ -1896,7 +1919,7 @@ void filter(square i, numecoup prevnbcou, UPDOWN u)
       ++s;
 }
 
-void genhunt(square i, piece p, PieNam pabs)
+static void genhunt(square i, piece p, PieNam pabs)
 {
   /*   PieNam const pabs = abs(p);  */
   assert(pabs>=Hunter0);
@@ -1927,7 +1950,7 @@ void genhunt(square i, piece p, PieNam pabs)
   }
 }
 
-void gfeerrest(square sq_departure, piece p, Side camp)
+static void gfeerrest(square sq_departure, piece p, Side camp)
 {
   numvec k;
   square *bnp;
@@ -2407,7 +2430,7 @@ void gfeerrest(square sq_departure, piece p, Side camp)
 } /* gfeerrest */
 
 /* Two auxiliary functions for generating super pawn moves */
-void gen_sp_nocaptures(square sq_departure, numvec dir) {
+static void gen_sp_nocaptures(square sq_departure, numvec dir) {
   /* generates non capturing moves of a super pawn in direction dir */
 
   square sq_arrival= sq_departure+dir;
@@ -2417,7 +2440,7 @@ void gen_sp_nocaptures(square sq_departure, numvec dir) {
     empile(sq_departure,sq_arrival,sq_arrival);
 }
 
-void gen_sp_captures(square sq_departure, numvec dir, Side camp) {
+static void gen_sp_captures(square sq_departure, numvec dir, Side camp) {
   /* generates capturing moves of a super pawn of colour camp in
      direction dir.  */
 
@@ -2431,7 +2454,7 @@ void gen_sp_captures(square sq_departure, numvec dir, Side camp) {
     empile(sq_departure,sq_arrival,sq_arrival);
 }
 
-void gencpn(square i) {
+static void gencpn(square i) {
   genleap(i, 4, 4);
   if (2*i < square_h8+square_a1) {
     genleap(i, 1, 1);
@@ -2439,7 +2462,7 @@ void gencpn(square i) {
   }
 }
 
-void gencpb(square i) {
+static void gencpb(square i) {
   gebleap(i, 2, 2);
   if (2*i > square_h8+square_a1) {
     gebleap(i, 1, 1);
@@ -2936,11 +2959,8 @@ void genrb(square sq_departure) {
   boolean   flag = false;       /* K im Schach ? */
   numecoup  anf, l1, l2;
 
-  square sq_arrival;
-
-  VARIABLE_INIT(anf);
-
-  if (calc_whrefl_king && !calctransmute) {
+  if (calc_whrefl_king && !calctransmute)
+  {
     /* K im Schach zieht auch */
     piece   *ptrans;
 
@@ -2990,7 +3010,7 @@ void genrb(square sq_departure) {
     gerhop(sq_departure,vec_queen_start,vec_queen_end,White);
 
   for (k= vec_queen_end; k >=vec_queen_start; k--) {
-    sq_arrival= sq_departure+vec[k];
+    square sq_arrival= sq_departure+vec[k];
     if (e[sq_arrival] <= vide)
       empile(sq_departure,sq_arrival,sq_arrival);
   }
@@ -3252,7 +3272,8 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
   }
 } /* orig_gen_wh_piece */
 
-void singleboxtype3_gen_wh_piece(square z, piece p) {
+void singleboxtype3_gen_wh_piece(square z, piece p)
+{
   numecoup save_nbcou = nbcou;
   unsigned int latent_prom = 0;
   square sq;
@@ -3265,22 +3286,25 @@ void singleboxtype3_gen_wh_piece(square z, piece p) {
          pprom!=vide;
          pprom = next_singlebox_prom(pprom,White))
     {
-      numecoup save_nbcou = nbcou;
+      numecoup prev_nbcou = nbcou;
       ++latent_prom;
       e[sq] = pprom;
       orig_gen_wh_piece(z, sq==z ? pprom : p);
       e[sq] = pb;
-      for (++save_nbcou; save_nbcou<=nbcou; ++save_nbcou) {
-        sb3[save_nbcou].where = sq;
-        sb3[save_nbcou].what = pprom;
+      for (++prev_nbcou; prev_nbcou<=nbcou; ++prev_nbcou)
+      {
+        sb3[prev_nbcou].where = sq;
+        sb3[prev_nbcou].what = pprom;
       }
     }
   }
 
-  if (latent_prom==0) {
+  if (latent_prom==0)
+  {
     orig_gen_wh_piece(z,p);
 
-    for (++save_nbcou; save_nbcou<=nbcou; ++save_nbcou) {
+    for (++save_nbcou; save_nbcou<=nbcou; ++save_nbcou)
+    {
       sb3[save_nbcou].where = initsquare;
       sb3[save_nbcou].what = vide;
     }
@@ -3369,7 +3393,7 @@ void gedgeh(square sq_departure, Side camp) {
   }
 }
 
-void geskylchar(square sq_departure, square sq_arrival, square sq_capture,
+static void geskylchar(square sq_departure, square sq_arrival, square sq_capture,
                 Side camp) {
   if (e[sq_arrival] == vide) {
     if (e[sq_capture]==vide)
@@ -3408,7 +3432,7 @@ void gecharybdis(square i, Side camp) {
  ***********************************************************************/
 
 /* Two auxiliary function for generating pawn moves */
-void gen_p_captures(square sq_departure, square sq_arrival, Side camp) {
+static void gen_p_captures(square sq_departure, square sq_arrival, Side camp) {
   /* generates move of a pawn of colour camp on departure capturing a
      piece on arrival
   */
@@ -3440,7 +3464,7 @@ void gen_p_captures(square sq_departure, square sq_arrival, Side camp) {
   }
 } /* end gen_p_captures */
 
-void gen_p_nocaptures(square sq_departure, numvec dir, int steps)
+static void gen_p_nocaptures(square sq_departure, numvec dir, int steps)
 {
   /* generates moves of a pawn in direction dir where steps single
      steps are possible.
@@ -3655,7 +3679,7 @@ void gorix(square sq_departure, Side camp) {
   }
 }
 
-void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdletype, Side camp)
+static void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdletype, Side camp)
 {
   square  sq_arrival, sq_hurdle;
   numvec  k, k1;

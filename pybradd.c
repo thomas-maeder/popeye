@@ -182,8 +182,8 @@ typedef enum
  * @param n (odd) number of half moves until goal
  * @return information about defender's possibilities
  */
-defender_has_refutation_type has_defender_refutation(slice_index si,
-                                                     stip_length_type n)
+static defender_has_refutation_type has_defender_refutation(slice_index si,
+                                                            stip_length_type n)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);

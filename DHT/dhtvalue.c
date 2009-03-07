@@ -10,8 +10,8 @@
 #define GDATA
 #include "dhtvalue.h"
 #undef	GDATA
+#include "dht.h"
 
-extern char dhtError[];
 dhtStatus dhtRegisterValue(dhtValueType t, char *ts, dhtValueProcedures *proc) {
     if (t >= dhtValueTypeCnt) {
     	sprintf(dhtError,

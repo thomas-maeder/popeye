@@ -12,6 +12,7 @@
 #include <stdlib.h>
 
 #include "dhtvalue.h"
+#include "dht.h"
 
 static unsigned long ConvertString(dhtValue v) {
     /* I found this hash function on 
@@ -40,8 +41,6 @@ static int EqualString(dhtValue v1, dhtValue v2) {
 	else
 		return 1;
 }
-
-extern	dhtStatus	dhtDupStatus;
 
 static dhtValue	DupString(dhtValue v) {
 	char *nv;

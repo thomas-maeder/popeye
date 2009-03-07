@@ -72,7 +72,8 @@
 #include "pyoutput.h"
 #include "trace.h"
 
-piece linechampiece(piece p, square sq) {
+static piece linechampiece(piece p, square sq)
+{
   piece pja= p;
   if (CondFlag[leofamily]) {
     switch (abs(p)) {
@@ -1129,16 +1130,16 @@ void singleboxtype3_gen_bl_piece(square z, piece p) {
          pprom!=vide;
          pprom = next_singlebox_prom(pprom,Black))
     {
-      numecoup save_nbcou = nbcou;
+      numecoup prev_nbcou = nbcou;
       ++latent_prom;
       e[sq] = -pprom;
       orig_gen_bl_piece(z, sq==z ? -pprom : p);
       e[sq] = pn;
 
-      for (++save_nbcou; save_nbcou<=nbcou; ++save_nbcou)
+      for (++prev_nbcou; prev_nbcou<=nbcou; ++prev_nbcou)
       {
-        sb3[save_nbcou].where = sq;
-        sb3[save_nbcou].what = -pprom;
+        sb3[prev_nbcou].where = sq;
+        sb3[prev_nbcou].what = -pprom;
       }
     }
   }
@@ -1348,7 +1349,7 @@ piece pdisp[maxply+1];
 Flags pdispspec[maxply+1];
 square sqdep[maxply+1];
 
-boolean patience_legal()
+static boolean patience_legal()
 {
   square bl_last_vacated= initsquare, wh_last_vacated= initsquare;
   ply nply;
@@ -1365,9 +1366,52 @@ boolean patience_legal()
            (bl_last_vacated && e[bl_last_vacated]));
 }
 
-void find_mate_square(Side camp);
+static void find_mate_square(Side camp)
+{
+  if (camp == White)
+  {
+    rn = ++super[nbply];
+    nbpiece[roin]++;
+    while (rn<=square_h8)
+    {
+      if (e[rn]==vide)
+      {
+        e[rn]= roin;
+        if (slice_is_goal_reached(camp,active_slice[nbply]))
+          return;
+        e[rn]= vide;
+      }
 
-int direction(square from, square to) {
+      rn = ++super[nbply];
+    }
+
+    nbpiece[roin]--;
+    rn = initsquare;
+  }
+  else
+  {
+    rb = ++super[nbply];
+    nbpiece[roib]++;
+    while (rb<=square_h8)
+    {
+      if (e[rb]==vide)
+      {
+        e[rb]= roib;
+        if (slice_is_goal_reached(camp,active_slice[nbply]))
+          return;
+        e[rb]= vide;
+      }
+
+      rb = ++super[nbply];
+    }
+
+    nbpiece[roib]--;
+    rb = initsquare;
+  }
+}
+
+static int direction(square from, square to)
+{
   int dir= to-from;
   int hori= to%onerow-from%onerow;
   int vert= to/onerow-from/onerow;
@@ -1476,8 +1520,9 @@ boolean jouecoup_ortho_test(ply ply_id)
   return flag;
 }
 
-boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
-                               square sq_rebirth) {
+static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
+                                      square sq_rebirth)
+{
   if (CondFlag[schwarzschacher] && trait[nbply]==Black)
     return echecc(nbply,White);
 
@@ -3584,7 +3629,8 @@ void repcoup(void) {
 /* Generate (piece by piece) candidate moves to check if camp is
  * immobile. Do *not* generate moves by the camp's king; it has
  * already been taken care of. */
-boolean immobile_encore(Side camp, square** immobilesquare) {
+static boolean immobile_encore(Side camp, square** immobilesquare)
+{
   square i;
   piece p;
 
@@ -3749,47 +3795,3 @@ boolean immobile(Side camp)
   TraceFunctionResult("%d\n",true);
   return true;
 } /* immobile */
-
-void find_mate_square(Side camp)
-{
-  if (camp == White)
-  {
-    rn = ++super[nbply];
-    nbpiece[roin]++;
-    while (rn<=square_h8)
-    {
-      if (e[rn]==vide)
-      {
-        e[rn]= roin;
-        if (slice_is_goal_reached(camp,active_slice[nbply]))
-          return;
-        e[rn]= vide;
-      }
-
-      rn = ++super[nbply];
-    }
-
-    nbpiece[roin]--;
-    rn = initsquare;
-  }
-  else
-  {
-    rb = ++super[nbply];
-    nbpiece[roib]++;
-    while (rb<=square_h8)
-    {
-      if (e[rb]==vide)
-      {
-        e[rb]= roib;
-        if (slice_is_goal_reached(camp,active_slice[nbply]))
-          return;
-        e[rb]= vide;
-      }
-
-      rb = ++super[nbply];
-    }
-
-    nbpiece[roib]--;
-    rb = initsquare;
-  }
-}

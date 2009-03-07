@@ -41,6 +41,9 @@ unsigned long dhtActualLoad	(struct dht *);
 unsigned long dhtKeyCount	(struct dht *);
 char	     *dhtErrorMsg	();
 
+extern char dhtError[];
+extern  dhtStatus   dhtDupStatus;
+
 #if defined(OLD_NAMES)
 #define HashTable		struct dht
 #define NilHashTable		dhtNilHashTable

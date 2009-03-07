@@ -1,0 +1,121 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on a Unix-ish platform
+# (including MacOS X) for that same platform using the Intell C/C++
+# compiler.
+# I.e. host platform is equal to target platform.
+
+# This file was successfully tested using version 11.0 on Linux/x86_64
+
+# Requirements:
+#
+# The following tools can be used to produce executables for the host
+# and target plarform and can be found in the $PATH
+# - icc
+# - ar
+# - ranlib
+# - strip
+
+
+# Compiler selection
+# ==================
+
+# Compiler for creating executables on host
+CCHOST=icc
+
+# Linker for creating executables on host
+LDHOST=icc
+
+# Compiler for creating executables on target
+CCTARGET=icc
+
+# Linker for creating executables on target
+LDTARGET=icc
+
+# Strip utility to remove unnecessary symbols from executable
+STRIPTARGET=strip
+
+
+# Librarian
+# ---------
+
+# A library is called archive on Unix-ish platforms
+
+# Archive generator
+ARCHIVER = ar rv
+
+# Archive index generator
+ARCHIVE_INDEXER = ranlib
+
+
+# Compiler options
+# ================
+
+# Select warning level
+#
+# #170 would be useful in principle but produces *lots* of warnings
+# because of our arrays mapping squares from a1 to h8 to some value
+#
+# we suppress #869 because we have functions that need to have
+# compatible signatures to be able to simulate dynamic binding
+#
+# warning #170: pointer points outside of underlying object
+# warning #188: enumerated type mixed with another type
+# warning #869: parameter "xyz" was never referenced
+# warning #2259: non-pointer conversion from "long" to "int" may lose significant bits
+WARN=-Wcheck -Wcomment -Wdeprecated -Wextra-tokens -Wformat -Wformat-security -Wmain -Wmissing-declarations -Wmissing-prototypes -Wp64 -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wtrigraphs -Wuninitialized -Wunused-function -Wunused-variable -wd170,188,869,2259 -vec-report0
+
+# Select whether to produce an executable with debugging and profiling
+# info
+#DBG=-pg
+#DBG=-debug all
+DBG=-debug none
+
+# Select target compiler optimization level
+CCOPTIM=-O3
+
+# Option for producing dependency information in makefile format
+DEPEND=-MM -MP
+
+# Option for compiling only
+COMPILEONLY=-c
+
+# Option for naming object file
+# NOTE: the trailing blank on the following line is relevant (at least
+# when compiling on MacOsX)
+OBJFILE=-o 
+
+# Option for defining a C preprocessor macro
+DEFINEMACRO=-D
+
+
+# Linker options
+# ==============
+
+# Select target linker optimization level
+LDOPTIM=-O3
+
+# Option for naming objectfile
+# NOTE: the trailing blank on the following line is relevant (at least
+# when compiling on MacOsX)
+EXEFILE=-o 
+
+
+# Platform spedific file name suffixes
+# ====================================
+
+# suffix for objects
+OBJ_SUFFIX=.o
+
+# suffix for libraries
+LIB_SUFFIX=lib.a
+
+# suffix for executables
+EXE_SUFFIX=
+
+
+# Selector for platform-specific files
+# ====================================
+
+PLATFORM=unix

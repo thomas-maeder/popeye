@@ -17,6 +17,7 @@
 
 #include "dhtvalue.h"
 #include "dhtbcmem.h"
+#include "dht.h"
 
 typedef unsigned long uLong;
 
@@ -45,7 +46,6 @@ static int EqualBCMemValue(dhtValue v1, dhtValue v2) {
   else
     return 1;
 }
-extern  dhtStatus   dhtDupStatus;
 
 static dhtValue DupBCMemValue(dhtValue v) {
   BCMemValue *cm= NewBCMemValue(((BCMemValue *)v)->Leng);

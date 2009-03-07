@@ -55,8 +55,6 @@ int WhMovesLeft, BlMovesLeft;
 
 long MatesMax;
 
-extern int ProofKnightMoves[];
-
 PIECE white[nr_squares_on_board], black[nr_squares_on_board], final[nr_squares_on_board];
 boolean whiteused[nr_squares_on_board], blackused[nr_squares_on_board], is_cast_supp;
 square is_ep, is_ep2;
@@ -75,7 +73,7 @@ static slice_index current_start_slice;
 
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
 
-boolean guards(square bk, piece p, square sq)
+static boolean guards(square bk, piece p, square sq)
 {
   int diff = bk-sq;
   int dir= 0;
@@ -124,7 +122,7 @@ boolean guards(square bk, piece p, square sq)
   return false;
 } /* guards */
 
-boolean IllegalCheck(Side camp)
+static boolean IllegalCheck(Side camp)
 {
   if (rb!=initsquare && move_diff_code[abs(rb-rn)]<3)
     return true;
@@ -159,7 +157,7 @@ boolean IllegalCheck(Side camp)
                 || (*checkfunctions[ErlKing])(nbply, rb, dn, eval_ortho)));
 }
 
-boolean impact(square bk, piece p, square sq) {
+static boolean impact(square bk, piece p, square sq) {
   int   i;
   boolean   ret= guards(bk, p, sq);
 
@@ -174,7 +172,7 @@ boolean impact(square bk, piece p, square sq) {
   return ret;
 }
 
-int FroToKing(square f_sq, square t_sq) {
+static int FroToKing(square f_sq, square t_sq) {
   int diffcol= f_sq % onerow - t_sq % onerow;
   int diffrow= f_sq / onerow - t_sq / onerow;
 
@@ -187,14 +185,14 @@ int FroToKing(square f_sq, square t_sq) {
   return (diffcol > diffrow) ? diffcol : diffrow;
 }
 
-int FroTo(
+static int FroTo(
   piece f_p,
   square    f_sq,
   piece t_p,
   square    t_sq,
   boolean genchk)
 {
-  int diffcol, diffrow, minmoves, withcast;
+  int diffcol, diffrow, withcast;
 
   if (f_sq == t_sq && f_p == t_p) {
     if (genchk) {
@@ -237,7 +235,8 @@ int FroTo(
       return 2;
 
   case King:
-    minmoves= FroToKing(f_sq, t_sq);
+  {
+    int minmoves= FroToKing(f_sq, t_sq);
     /* castling */
     if (testcastling) {
       if (f_p == King) {
@@ -276,6 +275,7 @@ int FroTo(
       }
     }
     return minmoves;
+  }
 
   case Pawn:
     if (f_p == t_p) {
@@ -313,7 +313,8 @@ int FroTo(
         return -diffrow;
       }
     }
-    else {
+    else
+    {
       /* promotion */
       int minmoves, curmoves;
       square v_sq, start;
@@ -506,19 +507,19 @@ static boolean isGoalReachableRegularGoals(void)
 } /* isGoalReachableRegularGoals */
 
 /* declarations */
-void ImmobilizeByBlBlock(
+static void ImmobilizeByBlBlock(
     int, int, int, int, square, boolean, stip_length_type n);
-void DeposeBlPiece(int, int, int, int, stip_length_type n);
-void Immobilize(int, int, int, int, stip_length_type n);
-void AvoidCheckInStalemate(int, int, int, int, stip_length_type n);
-int MovesToBlock(square, int);
-void DeposeWhKing(int, int, int, int, stip_length_type n);
-void NeutralizeMateGuardingPieces(int, int, int, int, stip_length_type n);
-void BlackPieceTo(square, int, int, int, int, stip_length_type n);
-void WhitePieceTo(square, int, int, int, int, stip_length_type n);
-void AvoidWhKingInCheck(int, int, int, int, stip_length_type n);
+static void DeposeBlPiece(int, int, int, int, stip_length_type n);
+static void Immobilize(int, int, int, int, stip_length_type n);
+static void AvoidCheckInStalemate(int, int, int, int, stip_length_type n);
+static int MovesToBlock(square, int);
+static void DeposeWhKing(int, int, int, int, stip_length_type n);
+static void NeutralizeMateGuardingPieces(int, int, int, int, stip_length_type n);
+static void BlackPieceTo(square, int, int, int, int, stip_length_type n);
+static void WhitePieceTo(square, int, int, int, int, stip_length_type n);
+static void AvoidWhKingInCheck(int, int, int, int, stip_length_type n);
 
-void StaleStoreMate(
+static void StaleStoreMate(
   int   blmoves,
   int   whmoves,
   int   blpcallowed,
@@ -723,7 +724,7 @@ void DeposeBlPiece(
 
 } /* DeposeBlPiece */
 
-void PreventCheckAgainstWhK(
+static void PreventCheckAgainstWhK(
   int   blmoves,
   int   whmoves,
   int   blpc,
@@ -795,7 +796,7 @@ static boolean Redundant(void)
   return false;
 } /* Redundant */
 
-void StoreMate(
+static void StoreMate(
   int   blmoves,
   int   whmoves,
   int   blpc,
@@ -914,7 +915,7 @@ void StoreMate(
   castling_supported= false;
 } /* StoreMate */
 
-void PinBlPiece(
+static void PinBlPiece(
   square    topin,
   int   blmoves,
   int   whmoves,
@@ -977,7 +978,7 @@ void PinBlPiece(
   }
 }
 
-void ImmobilizeByPin(
+static void ImmobilizeByPin(
   int   blmoves,
   int   whmoves,
   int   blpcallowed,
@@ -1097,7 +1098,7 @@ void ImmobilizeByPin(
   }
 } /* ImmobilizeByPin */
 
-boolean BlIllegalCheck(square from, piece p) {
+static boolean BlIllegalCheck(square from, piece p) {
   int const dir = from-rb;
   switch(p)
   {
@@ -1285,7 +1286,7 @@ void ImmobilizeByBlBlock(
 #endif
 } /* ImmobilizeByBlBlock */
 
-void ImmobilizeByWhBlock(
+static void ImmobilizeByWhBlock(
   int   blmoves,
   int   whmoves,
   int   blpcallowed,
@@ -1955,7 +1956,7 @@ int MovesToBlock(square sq, int blmoves) {
   return mintime;
 } /* MovesToBlock */
 
-void GenerateBlocking(
+static void GenerateBlocking(
   int   whmoves,
   int   nbrfl,
   square    *toblock,
@@ -2091,7 +2092,7 @@ void GenerateBlocking(
   }
 } /* GenerateBlocking */
 
-void GenerateGuarding(
+static void GenerateGuarding(
   int   actpwh,
   int   whmoves,
   int   blmoves,
@@ -2302,8 +2303,8 @@ void GenerateGuarding(
   }
 } /* GenerateGuarding */
 
-void GenerateChecking(int whmoves, int blmoves,
-                      stip_length_type n)
+static void GenerateChecking(int whmoves, int blmoves,
+                             stip_length_type n)
 {
   int   i, j, time;
   square    sq;
@@ -2370,8 +2371,8 @@ void GenerateChecking(int whmoves, int blmoves,
   }
 } /* GenerateChecking */
 
-void GenerateBlackKing(int whmoves, int blmoves,
-                       stip_length_type n) {
+static void GenerateBlackKing(int whmoves, int blmoves, stip_length_type n)
+{
   int   i, time;
   square    sq;
   piece p= black[0].p;

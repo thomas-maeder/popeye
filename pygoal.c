@@ -113,7 +113,7 @@ boolean goal_checker_mate_ultraschachzwang(Side just_moved)
   return result;
 }
 
-boolean para_immobile(Side camp)
+static boolean para_immobile(Side camp)
 {
   if (echecc(nbply,camp))
   {

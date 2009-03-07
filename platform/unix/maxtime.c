@@ -21,13 +21,13 @@ static void ReportSignalAndBailOut(int sig)
 }
 
 /* specific signal handlers: */
-void sigUsr1Handler(int sig)
+static void sigUsr1Handler(int sig)
 {
   IncHashRateLevel();
   signal(sig, &sigUsr1Handler);
 }
 
-void sigUsr2Handler(int sig)
+static void sigUsr2Handler(int sig)
 {
   DecHashRateLevel();
   signal(sig, &sigUsr2Handler);

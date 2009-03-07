@@ -546,11 +546,11 @@ boolean rrefcech(ply ply_id,
   return false;
 }
 
-boolean rrefnech(ply ply_id,
-                 square sq_king,
-                 square i1,
-                 piece  p,
-                 evalfunction_t *evaluate)
+static boolean rrefnech(ply ply_id,
+                        square sq_king,
+                        square i1,
+                        piece  p,
+                        evalfunction_t *evaluate)
 {
   numvec k;
 
@@ -2128,11 +2128,11 @@ boolean reversepcheck(ply ply_id,
   return false;
 }
 
-boolean ep_not_libre(ply ply_id,
-                     piece p,
-                     square    sq,
-                     boolean   generating,
-                     checkfunction_t   *checkfunc)
+static boolean ep_not_libre(ply ply_id,
+                            piece p,
+                            square    sq,
+                            boolean   generating,
+                            checkfunction_t   *checkfunc)
 {
   /* Returns true if a pawn who has just crossed the square sq is
      paralysed by a piece p due to the ugly Madrasi-ep-rule by a
@@ -2480,12 +2480,12 @@ boolean edgehcheck(ply ply_id,
   return false;
 }
 
-boolean maooaridercheck(ply ply_id,
-                        square  sq_king,
-                        piece   p,
-                        numvec  fir,
-                        numvec  sec,
-                        evalfunction_t *evaluate)
+static boolean maooaridercheck(ply ply_id,
+                               square  sq_king,
+                               piece   p,
+                               numvec  fir,
+                               numvec  sec,
+                               evalfunction_t *evaluate)
 {
   square  middle_square;
 
@@ -2566,12 +2566,12 @@ boolean maoridercheck(ply ply_id,
   return false;
 }
 
-boolean maooariderlioncheck(ply ply_id,
-                            square  sq_king,
-                            piece   p,
-                            numvec  fir,
-                            numvec  sec,
-                            evalfunction_t *evaluate)
+static boolean maooariderlioncheck(ply ply_id,
+                                   square  sq_king,
+                                   piece   p,
+                                   numvec  fir,
+                                   numvec  sec,
+                                   evalfunction_t *evaluate)
 {
   square middle_square= sq_king+fir;
 
@@ -2849,7 +2849,11 @@ square  sq_woo_from;
 square  sq_woo_to;
 Side col_woo;
 
-boolean aux_whx(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+static boolean aux_whx(ply ply_id,
+                       square sq_departure,
+                       square sq_arrival,
+                       square sq_capture)
+{
   if (sq_departure != sq_woo_from)
     return false;
 
@@ -2893,7 +2897,11 @@ boolean aux_whx(ply ply_id, square sq_departure, square sq_arrival, square sq_ca
   return (flaglegalsquare ? legalsquare : eval_ortho)(ply_id,sq_departure,sq_arrival,sq_capture);
 } /* aux_whx */
 
-boolean aux_wh(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+static boolean aux_wh(ply ply_id,
+                      square sq_departure,
+                      square sq_arrival,
+                      square sq_capture)
+{
   if ((flaglegalsquare ? legalsquare : eval_ortho)(ply_id,sq_departure,sq_arrival,sq_capture)) {
     piece const p= e[sq_woo_from];
     return nbpiece[p]>0
@@ -3021,12 +3029,12 @@ boolean querquisitecheck(ply ply_id,
   return false;
 }
 
-boolean bouncerfamilycheck(ply ply_id,
-                           square sq_king,
-                           numvec kbeg,
-                           numvec kend,
-                           piece    p,
-                           evalfunction_t *evaluate)
+static boolean bouncerfamilycheck(ply ply_id,
+                                  square sq_king,
+                                  numvec kbeg,
+                                  numvec kend,
+                                  piece    p,
+                                  evalfunction_t *evaluate)
 {
   numvec  k;
   piece   p1,p2;

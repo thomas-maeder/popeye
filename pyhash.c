@@ -537,7 +537,7 @@ static void set_value_direct_nosucc(dhtElement *he,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p ",&e->data);
+  TracePointerValue("%p ",&e->data);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x\n",bits);
   assert((bits&mask)==bits);
@@ -562,7 +562,7 @@ static void set_value_direct_succ(dhtElement *he,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p ",&e->data);
+  TracePointerValue("%p ",&e->data);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x\n",bits);
   assert((bits&mask)==bits);
@@ -655,7 +655,7 @@ static hash_value_type get_value_direct_succ(dhtElement const *he,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p ",&e->data);
+  TracePointerValue("%p ",&e->data);
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
@@ -673,7 +673,7 @@ static hash_value_type get_value_direct_nosucc(dhtElement const *he,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p ",&e->data);
+  TracePointerValue("%p ",&e->data);
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
@@ -1007,9 +1007,9 @@ static void compresshash (void)
   dhtElement *he;
   hash_value_type min_val;
   hash_value_type x;
-  unsigned long RemoveCnt, ToDelete, runCnt;
+  unsigned long RemoveCnt, ToDelete;
 #if defined(TESTHASH)
-  unsigned long initCnt, visitCnt;
+  unsigned long initCnt, visitCnt, runCnt;
 #endif
   unsigned int val_step = 1;
 
@@ -1041,9 +1041,9 @@ static void compresshash (void)
   printf("ToDelete: %ld\n", ToDelete);
   fflush(stdout);
   initCnt= dhtKeyCount(pyhash);
+  runCnt= 0;
 #endif  /* TESTHASH */
 
-  runCnt= 0;
   while (RemoveCnt < ToDelete)
   {
     min_val += val_step;

@@ -234,15 +234,6 @@ boolean branch_d_has_solution(slice_index si)
   return result;
 }
 
-typedef enum
-{
-  defender_is_immobile,
-  defender_has_refutation,
-  defender_has_no_refutation
-} defender_has_refutation_type;
-defender_has_refutation_type has_defender_refutation(slice_index si,
-                                                     stip_length_type n);
-
 /* Determine and write the continuations in the current position
  * (i.e. attacker's moves winning after a defender's move that refuted
  * the threat).

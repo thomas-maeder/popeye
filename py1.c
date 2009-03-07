@@ -53,7 +53,7 @@
 #include "pytable.h"
 #include "trace.h"
 
-void initply(ply parent)
+static void initply(ply parent)
 {
   parent_ply[nbply] = parent;
 
@@ -636,7 +636,7 @@ boolean nogridcontact(square j)
   return true;
 }
 
-boolean noleapcontact(square ia, numvec kanf, numvec kend)
+static boolean noleapcontact(square ia, numvec kanf, numvec kend)
 {
   numvec k;
   piece p;
@@ -1260,7 +1260,7 @@ void GetRoseLocustAttackVectors(ply ply_id, square from, square to) {
   }
 }
 
-void GetRMHopAttackVectors(ply ply_id, square from, square to, numvec kend, numvec kanf, angle_t angle) {
+static void GetRMHopAttackVectors(ply ply_id, square from, square to, numvec kend, numvec kanf, angle_t angle) {
   square sq_hurdle;
   numvec k, k1;
   piece hopper;
@@ -1336,10 +1336,10 @@ void GetMargueriteAttackVectors(ply ply_id,square from, square to) {
   }
 }
 
-void GetZigZagAttackVectors(ply ply_id,
-                            square from, square to,
-                            numvec  k,
-                            numvec  k1)
+static void GetZigZagAttackVectors(ply ply_id,
+                                   square from, square to,
+                                   numvec  k,
+                                   numvec  k1)
 {
   square sq_departure= to+k;
   square sq_arrival= to;

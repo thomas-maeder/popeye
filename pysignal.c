@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>	/* to import prototype of 'sleep' NG  */
+#include "pyproc.h"
 
 void BeepOnSolution(int NumOfBeeps)
 {

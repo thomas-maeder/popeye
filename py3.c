@@ -1147,11 +1147,11 @@ boolean bhuntcheck(
       || ridcheck(ply_id, i, 7, 8, p, evaluate);
 }
 
-boolean AntiCirceEch(ply ply_id,
-                     square sq_departure,
-                     square sq_arrival,
-                     square sq_capture,
-                     Side    camp)
+static boolean AntiCirceEch(ply ply_id,
+                            square sq_departure,
+                            square sq_arrival,
+                            square sq_capture,
+                            Side    camp)
 {
   if (CondFlag[antisuper])
   {
@@ -1276,13 +1276,13 @@ boolean rnultraech(ply ply_id,
   return check ? eval_2(ply_id,sq_departure,sq_arrival,sq_capture) : false;
 }
 
-boolean skycharcheck(ply ply_id,
-                     piece  p,
-                     square sq_king,
-                     square chp,
-                     square sq_arrival1,
-                     square sq_arrival2,
-                     evalfunction_t *evaluate)
+static boolean skycharcheck(ply ply_id,
+                            piece  p,
+                            square sq_king,
+                            square chp,
+                            square sq_arrival1,
+                            square sq_arrival2,
+                            evalfunction_t *evaluate)
 {
   if (e[chp] == p) {
     if (e[sq_arrival1]==vide

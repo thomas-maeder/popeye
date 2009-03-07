@@ -67,4 +67,6 @@ typedef boolean (*ProofImpossible_fct_t)(void);
 
 ProofImpossible_fct_t alternateImpossible; /* TODO */
 
+extern int ProofKnightMoves[];
+
 #endif
