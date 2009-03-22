@@ -466,7 +466,7 @@ static void WriteConditions(int alignment)
 
     if (cond == imitators)
     {
-      unsigned int i;
+      int i;
       for (i= 0; i < inum[1]; i++)
         AddSquare(CondLine, isquare[i]);
     }
@@ -5346,7 +5346,7 @@ void LaTeXBeginDiagram(void)
   /* Just for visualizing imitators on the board. */                 
   if (CondFlag[imitators])
   {
-    unsigned int i;
+    int i;
     for (i= 0; i < inum[1]; i++)
       e[isquare[i]]= -1;
   }
