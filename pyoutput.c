@@ -823,7 +823,6 @@ static void editcoup(ply ply_id, coup *mov, Goal goal)
 {
   char    BlackChar= *GetMsgString(BlackColor);
   char    WhiteChar= *GetMsgString(WhiteColor);
-  int   icount, diff;
 
   if (mov->cazz==nullsquare) return;
 
@@ -1071,13 +1070,14 @@ static void editcoup(ply ply_id, coup *mov, Goal goal)
 
   if (mov->numi && CondFlag[imitators])
   {
-    diff = im0 - isquare[0];
+    unsigned int icount;
+    int const diff = im0-isquare[0];
     StdChar('[');
-    for (icount = 1; icount <= mov->numi;)
+    for (icount = 1; icount<=mov->numi; icount++)
     {
       StdChar('I');
       WriteSquare(isquare[icount-1] + mov->sum + diff);
-      if (icount++ < mov->numi)
+      if (icount<mov->numi)
         StdChar(',');
     }
     StdChar(']');

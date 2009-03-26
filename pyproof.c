@@ -556,7 +556,6 @@ void ProofWritePosition(void)
 boolean ProofIdentical(void)
 {
   int i;
-
   for (i = 0; i < ProofNbrAllPieces; i++)
     if (ProofPieces[i] != e[ProofSquares[i]])
       return false;
@@ -567,9 +566,12 @@ boolean ProofIdentical(void)
       return false;
 
   if (CondFlag[imitators])
-    for (i= 0; i < inum[nbply]; i++)
-      if (Proof_isquare[i] != isquare[i])
+  {
+    unsigned int imi_idx;
+    for (imi_idx = 0; imi_idx<inum[nbply]; imi_idx++)
+      if (Proof_isquare[imi_idx]!=isquare[imi_idx])
         return false;
+  }
 
   return true;
 }

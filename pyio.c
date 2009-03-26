@@ -466,9 +466,9 @@ static void WriteConditions(int alignment)
 
     if (cond == imitators)
     {
-      int i;
-      for (i= 0; i < inum[1]; i++)
-        AddSquare(CondLine, isquare[i]);
+      unsigned int imi_idx;
+      for (imi_idx = 0; imi_idx<inum[1]; imi_idx++)
+        AddSquare(CondLine,isquare[imi_idx]);
     }
 
     if (cond == noiprom && !CondFlag[imitators])
@@ -2354,12 +2354,9 @@ static char *ReadSquares(SquareListContext context)
 {
   char *tok = ReadNextTokStr();
   char *lastTok = tok;
-  int k;
-  ply n;
-  int EpSquaresRead = 0;
-  size_t l;
+  unsigned int nr_squares_read = 0;
 
-  l = strlen(tok);
+  size_t const l = strlen(tok);
   if (l%2==1)
   {
     if (context!=ReadFrischAuf && context!=ReadGrid)
@@ -2368,11 +2365,23 @@ static char *ReadSquares(SquareListContext context)
     return tok;
   }
 
-  k = 0;
   while (*tok)
   {
-    square sq = SquareNum(*tok,tok[1]);
-    if (sq!=initsquare)
+    square const sq = SquareNum(*tok,tok[1]);
+    if (sq==initsquare)
+    {
+      if (context==ReadGrid || nr_squares_read!=0)
+      {
+        currentgridnum = 0;
+        return lastTok;
+      }
+      if (context!=ReadFrischAuf || nr_squares_read!=0)
+      {
+        IoErrorMsg(WrongSquareList,0);
+        return tok;
+      }
+    }
+    else
     {
       switch (context)
       {
@@ -2381,12 +2390,10 @@ static char *ReadSquares(SquareListContext context)
             Message(NoFrischAufPromPiece);
           else
             SETFLAG(spec[sq], FrischAuf);
-          ++k;
           break;
 
         case ReadImitators:
-          isquare[k] = sq;
-          ++k;
+          isquare[nr_squares_read] = sq;
           break;
 
         case ReadHoles:
@@ -2394,7 +2401,7 @@ static char *ReadSquares(SquareListContext context)
           break;
 
         case ReadEpSquares:
-          switch (EpSquaresRead)
+          switch (nr_squares_read)
           {
             case 0:
               ep[1]= sq;
@@ -2405,7 +2412,6 @@ static char *ReadSquares(SquareListContext context)
             default:
               Message(ToManyEpKeySquares);
           }
-          ++EpSquaresRead;
           break;
 
         case ReadBlRoyalSq:
@@ -2445,39 +2451,29 @@ static char *ReadSquares(SquareListContext context)
         case ReadGrid:
           ClearGridNum(sq);
           sq_spec[sq] += currentgridnum << Grid;
-          k++;
           break;  
 
         default:
           SETFLAG(sq_spec[sq],context);
           break;
       }
-      tok+= 2;
-    }
-    else
-    {
-      if (context==ReadGrid || k!=0)
-      {
-        currentgridnum=0;
-        return lastTok;
-      }
-      if (context!=ReadFrischAuf || k!=0)
-      {
-        IoErrorMsg(WrongSquareList, 0);
-        return tok;
-      }
+
+      ++nr_squares_read;
+      tok += 2;
     }
   }
 
   if (context==ReadImitators)
+  {
+    ply n;
     for (n = 1; n<=maxply; n++)
-      inum[n]= k;
+      inum[n] = nr_squares_read;
+  }
 
   /* This is an ugly hack, but due to the new feature ReadFrischAuf,
      we need the returning of the token tok, and this leads to
-     mistakes with other conditions that need reading
+     mistakes with other conditions that require reading a SquareList.
   */
-  /* of a SquareList. */
   if (context==ReadFrischAuf)
     tok = ReadNextTokStr();
 
@@ -4841,7 +4837,7 @@ void MultiCenter(char *s) {
 }
 
 void WritePosition() {
-  int i, nBlack, nWhite, nNeutr;
+  int nBlack, nWhite, nNeutr;
   square square, square_a;
   int row, file;
   piece   p,pp;
@@ -4876,8 +4872,11 @@ void WritePosition() {
 
   /* Just for visualizing imitators on the board. */                 
   if (CondFlag[imitators])
-    for (i= 0; i<inum[1]; i++)
-      e[isquare[i]]= -1; 
+  {
+    unsigned int imi_idx;
+    for (imi_idx = 0; imi_idx<inum[1]; imi_idx++)
+      e[isquare[imi_idx]]= -obs;
+  }
 
   for (row=1, square_a = square_a8;
        row<=nr_rows_on_board;
@@ -4906,7 +4905,7 @@ void WritePosition() {
 
       if ((pp= abs(p= e[square])) < King)
       {
-        if (p == -1)
+        if (p == -obs)
         {
           /* this is an imitator ! */
           *h1= 'I';
@@ -5346,9 +5345,9 @@ void LaTeXBeginDiagram(void)
   /* Just for visualizing imitators on the board. */                 
   if (CondFlag[imitators])
   {
-    int i;
-    for (i= 0; i < inum[1]; i++)
-      e[isquare[i]]= -1;
+    unsigned int imi_idx;
+    for (imi_idx = 0; imi_idx<inum[1]; imi_idx++)
+      e[isquare[imi_idx]]= -obs;
   }
 
 
@@ -5379,7 +5378,7 @@ void LaTeXBeginDiagram(void)
               *bnp%onerow-200%onerow+'a',
               *bnp/onerow-200/onerow+'1');
 
-      if (e[*bnp] == -1) {
+      if (e[*bnp] == -obs) {
         e[*bnp]= vide;
       }
       else if ((p > Bishop) && (LaTeXPiecesAbbr[abs(p)] != NULL)) {

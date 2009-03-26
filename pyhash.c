@@ -1269,10 +1269,10 @@ static int estimateNumberOfHoles(slice_index si)
   return result;
 }
 
-static int TellCommonEncodePosLeng(int len, int nbr_p) {
-  int i;
-
+static int TellCommonEncodePosLeng(int len, int nbr_p)
+{
   len++; /* Castling_Flag */
+
   if (CondFlag[haanerchess])
   {
     int nbr_holes = estimateNumberOfHoles(root_slice);
@@ -1295,7 +1295,8 @@ static int TellCommonEncodePosLeng(int len, int nbr_p) {
 
   if (CondFlag[imitators])
   {
-    for (i = 0; i < inum[nbply]; i++)
+    unsigned int imi_idx;
+    for (imi_idx = 0; imi_idx<inum[nbply]; imi_idx++)
       len++;
 
     /* coding of no. of imitators and average of one
@@ -1390,15 +1391,16 @@ static byte *CommonEncode(byte *bp)
                   -sq_num[move_generation_stack[nbcou].arrival]
                   +64);
 
-  if (CondFlag[imitators]) {
-    int i;
-    /* The number of imitators has to be coded too to
-    ** avoid ambiguities.
-    */
+  if (CondFlag[imitators])
+  {
+    unsigned int imi_idx;
+
+    /* The number of imitators has to be coded too to avoid
+     * ambiguities.
+     */
     *bp++ = (byte)inum[nbply];
-    for (i = 0; i < inum[nbply]; i++) {
-      *bp++ = (byte)(isquare[i] - square_a1);
-    }
+    for (imi_idx = 0; imi_idx<inum[nbply]; imi_idx++)
+      *bp++ = (byte)(isquare[imi_idx]-square_a1);
   }
 
   if (OptFlag[nontrivial])

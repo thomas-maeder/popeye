@@ -118,19 +118,20 @@ boolean legalsquare(ply ply_id, square sq_departure, square sq_arrival, square s
   return(true);
 } /* end of legalsquare */
 
-boolean imok(square i, square j) {
+boolean imok(square i, square j)
+{
   /* move i->j ok? */
-  int  count;
-  int  diff = j - i;
-  square    j2;
+  unsigned int imi_idx;
+  int const diff = j-i;
 
-  for (count= inum[nbply]-1; count >= 0; count--) {
-    j2= isquare[count] + diff;
-    if ((j2 != i) && (e[j2] != vide)) {
+  for (imi_idx = inum[nbply]; imi_idx>0; imi_idx--)
+  {
+    square const j2 = isquare[imi_idx-1]+diff;
+    if (j2!=i && e[j2]!=vide)
       return false;
-    }
   }
-  return(true);
+
+  return true;
 }
 
 boolean maooaimok(square i, square j, square pass) {
@@ -188,63 +189,69 @@ boolean castlingimok(square i, square j) {
 }
 
             
-boolean hopimok(square i, square j, square k, numvec diff) {
+boolean hopimok(square i, square j, square k, numvec diff)
+{
   /* hop i->j hopping over k in steps of diff ok? */
-  square    i2= i;
-  piece p=e[i];
-  int  l;
-  boolean   ret= true;
 
-  if (TSTFLAG(spec[i], ColourChange)) {
-    chop[nbcou+1]= k;
-    ret= true;
-  }
-
-  if (!CondFlag[imitators]) {
-    return ret;
-  }
-
-  /* an imitator might be disturbed by the moving hopper! */
-  e[i]= vide;
-
-  /* Are the lines from the imitators to the square to hop over free?
+  /* hopimok() is (ab)used for implementing ColourChange, which is
+   * independent of imitators. So don't move the following if
+   * statement into the if (CondFlag[imitators]) block!
    */
-  do {
-    i2+= diff;
-  } while (imok(i, i2) && (i2 != k));
+  if (TSTFLAG(spec[i],ColourChange))
+    chop[nbcou+1] = k;
 
-  ret = i2 == k;
-  if (ret) {
-    /* Are the squares the imitators have to hop over occupied? */
-    l= inum[nbply];
-    while (l>0) {
-      --l;
-      if (e[isquare[l]+k-i] == vide) {
-        ret= false;
-        break;
-      }
+  if (CondFlag[imitators])
+  {
+    square i2 = i;
+    piece const p = e[i];
+    boolean result = true;
+
+    /* an imitator might be disturbed by the moving hopper! */
+    e[i] = vide;
+
+    /* Are the lines from the imitators to the square to hop over free?
+     */
+    do
+    {
+      i2 += diff;
+    } while (imok(i,i2) && i2!=k);
+
+    result = i2==k;
+
+    if (result)
+    {
+      /* Are the squares the imitators have to hop over occupied? */
+      unsigned int imi_idx;
+      for (imi_idx = inum[nbply]; imi_idx>0; imi_idx--)
+        if (e[isquare[imi_idx-1]+k-i]==vide)
+        {
+          result = false;
+          break;
+        }
     }
+
+    if (result)
+      do
+      {
+        i2 += diff;
+      } while (imok(i,i2) && i2!=j);
+
+    result = result && i2==j && imok(i,j);
+
+    e[i] = p;
+
+    return result;
   }
-
-  if (ret) {
-    do {
-      i2+= diff;
-    } while (imok(i,i2) && (i2 != j));
-  }
-
-  ret = ret && i2==j && imok(i,j);
-
-  e[i]= p;
-  return ret;
+  else
+    return true;
 }
 
 
-void joueim(int diff) {
-  int i;
-
-  for (i=inum[nbply]-1; i >= 0; i--)
-    isquare[i]+= diff;
-
+void joueim(int diff)
+{
+  unsigned int imi_idx;
+  for (imi_idx = inum[nbply]; imi_idx>0; imi_idx--)
+    isquare[imi_idx-1] += diff;
 }
 
 boolean rmhopech(ply ply_id,

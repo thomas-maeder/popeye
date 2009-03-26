@@ -672,8 +672,8 @@ typedef struct {
 
 	piece           pjazz;
 	square          renkam;
-	int        numi;
-	int        sum;
+	unsigned int    numi;
+	int             sum;
 	boolean         promi,
 			echec,
 			bool_senti,

@@ -2120,8 +2120,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
           ply icount;
           if (inum[ply_id] == maxinum)
             FtlMsg(ManyImitators);
-          for (icount = ply_id; icount <= maxply; inum[icount++]++)
-            ;
+          for (icount = ply_id; icount<=maxply; ++icount)
+            ++inum[icount];
           isquare[inum[ply_id]-1] = sq_arrival;
         }
         else
@@ -3586,7 +3586,8 @@ void repcoup(void) {
     }
     else if (!CondFlag[noiprom] && Iprom[nbply]) {
       ply icount;
-      for (icount= nbply; icount <= maxply; inum[icount++]--);
+      for (icount= nbply; icount<=maxply; icount++)
+        --inum[icount];
       Iprom[nbply]= false;
     }
 

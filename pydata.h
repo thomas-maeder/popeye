@@ -333,7 +333,7 @@ EXTERN  SquareFlags     zzzan[square_h8 - square_a1 + 1];  /* sq_spec */
 EXTERN  boolean         we_generate_exact, there_are_consmoves,
 			wh_exact, bl_exact, wh_ultra, bl_ultra;
 
-EXTERN  int        inum[maxply + 1];       /* aktuelle Anzahl Imitatoren */
+EXTERN  unsigned int   inum[maxply + 1];       /* aktuelle Anzahl Imitatoren */
 
 EXTERN  imarr           isquare;                /* Imitatorstandfelder */
 

@@ -251,8 +251,11 @@ void InitCond(void) {
   for (i= 0; i < CondCount; ++i)
     CondFlag[i]= false;
 
-  for (i= maxply; i > 0; --i)
-    inum[i]= 0;
+  {
+    ply p;
+    for (p = maxply; p>0; --p)
+      inum[p]= 0;
+  }
 
   memset((char *) promonly, 0, sizeof(promonly));
   memset((char *) isapril,0,sizeof(isapril));
@@ -869,50 +872,73 @@ static ghost_index_type sic_nr_ghosts;
 
 void StorePosition(void)
 {
-  int       i;
+  rn_sic = rn;
+  rb_sic = rb;
 
-  rn_sic= rn; rb_sic= rb;
-  for (i= 0; i < nr_squares_on_board; i++)
   {
-    sic_e[i]= e[boardnum[i]];
-    sic_spec[i]= spec[boardnum[i]];
+    unsigned int i;
+    for (i = 0; i<nr_squares_on_board; i++)
+    {
+      sic_e[i] = e[boardnum[i]];
+      sic_spec[i] = spec[boardnum[i]];
+    }
   }
 
   /* imitators */
   sic_inum1= inum[1];
-  for (i= 0; i < maxinum; i++)
-    sic_isquare[i]= isquare[i];
 
-  sic_im0= im0;
-  sic_BGL_W= BGL_white;
-  sic_BGL_b= BGL_black;
+  {
+    unsigned int i;
+    for (i = 0; i<maxinum; i++)
+      sic_isquare[i] = isquare[i];
+  }
+
+  sic_im0 = im0;
+  sic_BGL_W = BGL_white;
+  sic_BGL_b = BGL_black;
 
   sic_nr_ghosts = nr_ghosts;
   memcpy(sic_ghosts, ghosts, nr_ghosts * sizeof ghosts[0]);
 }
 
-void ResetPosition(void) {
-  int i;
-
-  for (i= dernoi; i <= derbla; i++)
-    nbpiece[i]= 0;
-
-  rn= rn_sic; rb= rb_sic;
-
-  for (i= 0; i < nr_squares_on_board; i++)
+void ResetPosition(void)
+{
   {
-    nbpiece[e[boardnum[i]]= sic_e[i]]++;
-    spec[boardnum[i]]= sic_spec[i];
+    piece p;
+    for (p = dernoi; p<=derbla; p++)
+      nbpiece[p]= 0;
+  }
+
+  rn = rn_sic;
+  rb = rb_sic;
+
+  {
+    unsigned int i;
+    for (i = 0; i<nr_squares_on_board; i++)
+    {
+      nbpiece[e[boardnum[i]]= sic_e[i]]++;
+      spec[boardnum[i]]= sic_spec[i];
+    }
   }
 
   /* imitators */
-  for (i= 1; i <= maxply; inum[i++]= sic_inum1)
-    ;
 
-  for (i= 0; i < maxinum; i++)
-    isquare[i]= sic_isquare[i];
-  im0= sic_im0;
+  {
+    ply p;
+    for (p = 1; p<=maxply; p++)
+      inum[p] = sic_inum1;
+  }
+
+  {
+    unsigned int i;
+    for (i = 0; i<maxinum; i++)
+      isquare[i]= sic_isquare[i];
+  }
+
+  im0 = sic_im0;
+
   neutcoul= White;
+
   BGL_white= sic_BGL_W;
   BGL_black= sic_BGL_b;
 
