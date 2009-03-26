@@ -475,12 +475,10 @@ boolean leaf_d_has_starter_reached_goal(slice_index leaf)
  */
 slice_index leaf_d_root_make_setplay_slice(slice_index leaf)
 {
-  slice_index result;
+  slice_index const result = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
-
-  result = alloc_constant_slice(false);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
