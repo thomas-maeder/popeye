@@ -106,6 +106,7 @@ static char *TokenString[LanguageCount][TokenCount] = {
     /* 1*/  "FinProbleme",
     /* 2*/  "asuivre",
     /* 3*/  "enonce",
+    /* 3*/  "senonce",
     /* 4*/  "auteur",
     /* 5*/  "source",
     /* 6*/  "pieces",
@@ -129,6 +130,7 @@ static char *TokenString[LanguageCount][TokenCount] = {
     /* 1*/  "EndeProblem",
     /* 2*/  "WeiteresProblem",
     /* 3*/  "Forderung",
+    /* 3*/  "sForderung",
     /* 4*/  "Autor",
     /* 5*/  "Quelle",
     /* 6*/  "Steine",
@@ -152,6 +154,7 @@ static char *TokenString[LanguageCount][TokenCount] = {
     /* 1*/  "endproblem",
     /* 2*/  "nextproblem",
     /* 3*/  "stipulation",
+    /* 3*/  "sstipulation",
     /* 4*/  "author",
     /* 5*/  "origin",
     /* 6*/  "pieces",
@@ -2316,8 +2319,6 @@ static char *ParseStip(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
 
-  StipFlags= 0;
-
   strcpy(AlphaStip,tok);
   if (ParsePlay(tok,&root_slice)
       && root_slice!=no_slice
@@ -2325,6 +2326,318 @@ static char *ParseStip(void)
     strcpy(ActStip, AlphaStip);
 
   tok = ReadNextTokStr();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
+/* Parse starter of stipulation
+ * @param tok input token
+ * @return starter; no_side if starter couldn't be parsed
+ */
+Side ParseStarter(char *tok)
+{
+  Side result = no_side;
+  PieSpec ps;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  /* We don't make any unsafe assumptions here; PieSpec enumerators
+   * are initialised in terms of nr_sides */
+  ps = GetUniqIndex(nr_sides,PieSpTab,tok);
+  if (ps==nr_sides+ambiguous_delta)
+    IoErrorMsg(PieSpecNotUniq,0);
+  else if (ps<nr_sides)
+    result = (Side)ps;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Parse the type of a leaf
+ * @param tok input token
+ * @return type of leaf; no_slice_type if type couldn't be parsed
+ */
+static SliceType ParseStructuredStip_leaf_type(char type_char)
+{
+  SliceType result = no_slice_type;
+    
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%c\n",type_char);
+
+  switch (type_char)
+  {
+    case 'd':
+      result = STLeafDirect;
+      break;
+
+    case 'h':
+      result = STLeafHelp;
+      break;
+
+    case 's':
+      result = STLeafSelf;
+      break;
+
+    default:
+      result = no_slice_type;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Parse a leaf
+ * @param tok input token
+ * @param result index of leaf; no_slice if branch couldn't be parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_leaf(char *tok,  slice_index *result)
+{
+  SliceType leaf_type;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  /* e.g. d= for a direct leaf with goal stalemate */
+  leaf_type = ParseStructuredStip_leaf_type(tok[0]);
+  if (leaf_type==no_slice_type)
+  {
+    *result = no_slice;
+    tok = 0;
+  }
+  else
+  {
+    slice_index leaf;
+    ++tok;
+    tok = ParseGoal(tok,leaf_type,&leaf);
+    switch (leaf_type)
+    {
+      case STLeafDirect:
+      case STLeafSelf:
+        *result = leaf;
+        break;
+
+      case STLeafHelp:
+        *result = alloc_branch_h_slice(slack_length_help+1,
+                                       slack_length_help+1,
+                                       leaf);
+        break;
+
+      default:
+        *result = no_slice;
+        tok = 0;
+        break;
+    }
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
+static char *ParseStructuredStip_operand(char *tok,  slice_index *result);
+
+/* Parse a direct branch
+ * @param tok input token
+ * @param length number of half moves
+ * @param result index of branch; no_slice if branch couldn't be
+ *               parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_branch_d(char *tok,
+                                          stip_length_type length,
+                                          slice_index *result)
+{
+  slice_index operand;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  tok = ParseStructuredStip_operand(tok,&operand);
+  if (tok!=0)
+  {
+    /* TODO support for exact */
+    stip_length_type const min_length = slack_length_direct;
+    slice_index defender;
+
+    length += slack_length_direct;
+    defender = alloc_branch_d_defender_slice(length,min_length,operand);
+    *result = alloc_branch_d_slice(length,min_length,operand);
+    branch_d_set_peer(*result,defender);
+    branch_d_defender_set_peer(defender,*result);
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
+/* Parse a help branch
+ * @param tok input token
+ * @param length number of half moves
+ * @param result index of branch; no_slice if branch couldn't be
+ *               parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_branch_h(char *tok,
+                                          stip_length_type length,
+                                          slice_index *result)
+{
+  slice_index operand;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  tok = ParseStructuredStip_operand(tok,&operand);
+  if (tok!=0)
+  {
+    /* TODO support for exact */
+    stip_length_type const min_length = slack_length_help;
+
+    length += slack_length_help;
+    *result = alloc_branch_h_slice(length,min_length,operand);
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
+/* Parse a series branch
+ * @param tok input token
+ * @param length number of half moves
+ * @param result index of branch; no_slice if branch couldn't be
+ *               parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_branch_ser(char *tok,
+                                            stip_length_type length,
+                                            slice_index *result)
+{
+  slice_index operand;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  tok = ParseStructuredStip_operand(tok,&operand);
+  if (tok!=0)
+  {
+    /* TODO support for exact */
+    stip_length_type const min_length = slack_length_series;
+
+    length += slack_length_series;
+    *result = alloc_branch_ser_slice(length,min_length,operand);
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
+/* Parse a stipulation branch
+ * @param tok input token
+ * @param result index of branch; no_slice if branch couldn't be
+ *               parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_branch(char *tok, slice_index *result)
+{
+  unsigned long nr_moves_long;
+  char *end;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  /* e.g. 1dd# for a #2 */
+  nr_moves_long = strtoul(tok,&end,10);
+  if (end==tok || nr_moves_long==0 || nr_moves_long>UINT_MAX)
+    tok = 0;
+  else
+  {
+    /* TODO: structured form of exact stipulations */
+    stip_length_type const nr_moves = (stip_length_type)nr_moves_long;
+    switch (end[0])
+    {
+      case 'd':
+        if (nr_moves%2==0)
+          tok = ParseStructuredStip_branch_d(end+1,nr_moves,result);
+        else
+          tok = 0;
+        break;
+
+      case 'h':
+        tok = ParseStructuredStip_branch_h(end+1,nr_moves,result);
+        break;
+
+      case 's':
+        tok = ParseStructuredStip_branch_ser(end+1,nr_moves,result);
+        break;
+
+      default:
+        ;
+    }
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
+/* Parse an stipulation operand
+ * @param tok input token
+ * @param result index of operand; no_slice if operand couldn't be
+ *               parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_operand(char *tok,  slice_index *result)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  /* allow space between operands */
+  if (tok[0]==0)
+    tok = ReadNextTokStr();
+
+  if (isdigit(tok[0]))
+    /* e.g. 1dd# for a #2 */
+    tok = ParseStructuredStip_branch(tok,result);
+  else
+    /* e.g. d= for a =1 */
+    tok = ParseStructuredStip_leaf(tok,result);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
+/* Parse a structured stipulation (keyword sstipulation)
+ * @return token following structured stipulation
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip(void)
+{
+  char *tok = 0;
+  Side starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  tok = ReadNextTokStr();
+  starter = ParseStarter(tok);
+  if (starter!=no_side)
+  {
+    tok = ReadNextTokStr();
+    tok = ParseStructuredStip_operand(tok,&root_slice);
+    if (root_slice!=no_slice)
+      slice_impose_starter(root_slice,starter);
+
+    tok = ReadNextTokStr();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s\n",tok);
@@ -4689,6 +5002,11 @@ Token ReadTwin(Token tk, boolean *stipChanged)
           tok = ParseStip();
           break;
 
+        case StructStipToken:
+          *AlphaStip='\0';
+          tok = ParseStructuredStip();
+          break;
+
         case Author:
           strcat(ActAuthor,ReadToEndOfLine());
           strcat(ActAuthor,"\n");
@@ -5623,7 +5941,6 @@ int main() {
     memset((char *) exist,0,sizeof(exist));
     memset((char *) promonly,0,sizeof(promonly));
     memset((char *) isapril,0,sizeof(isapril));
-    memset((char *) StipFlags,0,sizeof(StipFlags));
     memset((char *) OptFlag,0,sizeof(OptFlag));
     memset((char *) CondFlag,0,sizeof(CondFlag));
     memset((char *) e,0,sizeof(e));

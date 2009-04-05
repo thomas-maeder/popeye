@@ -1548,11 +1548,6 @@ EXTERN boolean          flag_libre_on_generate;
     };
 #endif
 
-/* The notation of stipulations is international, therefore we need
-** not provide one for every language
-*/
-EXTERN unsigned int StipFlags;
-
 #if defined(WE_ARE_EXTERN)
 	extern  char    *PieSpString[LanguageCount][PieSpCount];
 	extern  char    **PieSpTab;

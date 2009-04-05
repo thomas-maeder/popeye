@@ -33,7 +33,10 @@ typedef enum
 
   STConstant,     /* logical constant */
   
-  STMoveInverter  /* 0 length, inverts side at move */
+  STMoveInverter, /* 0 length, inverts side at move */
+
+  nr_slice_types,
+  no_slice_type = nr_slice_types
 } SliceType;
 
 /* The structure of a stipulation is similar to that of a tree

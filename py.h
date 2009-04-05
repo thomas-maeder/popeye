@@ -760,29 +760,30 @@ typedef enum
 
 typedef enum
 {
-  BeginProblem,    /* 0 */
-  EndProblem,      /* 1 */
-  NextProblem,     /* 2 */
-  StipToken,       /* 3 */
-  Author,          /* 4 */
-  Origin,          /* 5 */
-  PieceToken,      /* 6 */
-  CondToken,       /* 7 */
-  OptToken,        /* 8 */
-  RemToken,        /* 9 */
-  TraceToken,     /* 10 */
-  InputToken,     /* 11 */
-  SepToken,       /* 12 */
-  TitleToken,     /* 13 */
-  TwinProblem,    /* 14 */
-  ZeroPosition,   /* 15 */
-  LaTeXToken,     /* 16 */
-  LaTeXPieces,    /* 17 */
-  Award,          /* 18 */
-  Array,          /* 19 */
-  Forsyth,        /* 20 */
+  BeginProblem,     /* 0 */
+  EndProblem,       /* 1 */
+  NextProblem,      /* 2 */
+  StipToken,        /* 3 */
+  StructStipToken,  /* 4 */
+  Author,           /* 5 */
+  Origin,           /* 6 */
+  PieceToken,       /* 7 */
+  CondToken,        /* 8 */
+  OptToken,         /* 9 */
+  RemToken,        /* 10 */
+  TraceToken,      /* 11 */
+  InputToken,      /* 12 */
+  SepToken,        /* 13 */
+  TitleToken,      /* 14 */
+  TwinProblem,     /* 15 */
+  ZeroPosition,    /* 16 */
+  LaTeXToken,      /* 17 */
+  LaTeXPieces,     /* 18 */
+  Award,           /* 19 */
+  Array,           /* 20 */
+  Forsyth,         /* 21 */
 
-  TokenCount      /* 21 */
+  TokenCount       /* 22 */
 } Token;
 
 /* TODO reduce to 1 piece kind enumeration type */
