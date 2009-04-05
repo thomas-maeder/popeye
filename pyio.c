@@ -2553,8 +2553,9 @@ static char *ParseStructuredStip_branch(char *tok, slice_index *result)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
 
-  /* e.g. 1dd# for a #2 */
+  /* e.g. 2dd# for a #2 */
   nr_moves_long = strtoul(tok,&end,10);
+
   if (end==tok || nr_moves_long==0 || nr_moves_long>UINT_MAX)
     tok = 0;
   else
@@ -2604,7 +2605,7 @@ static char *ParseStructuredStip_operand(char *tok,  slice_index *result)
     tok = ReadNextTokStr();
 
   if (isdigit(tok[0]))
-    /* e.g. 1dd# for a #2 */
+    /* e.g. 2dd# for a #2 */
     tok = ParseStructuredStip_branch(tok,result);
   else
     /* e.g. d= for a =1 */
