@@ -198,7 +198,7 @@ trace.h:
 pyoutput.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pydata.h \
   pymsg.h pyslice.h pystip.h pytable.h pyquodli.h pyrecipr.h pynot.h \
-  pybrad.h pybrah.h pybraser.h pymovein.h pyproof.h pyhash.h \
+  pybrad.h pybradd.h pybrah.h pybraser.h pymovein.h pyproof.h pyhash.h \
   DHT/dhtbcmem.h pyint.h platform/maxtime.h trace.h
 
 py.h:
@@ -230,6 +230,8 @@ pyrecipr.h:
 pynot.h:
 
 pybrad.h:
+
+pybradd.h:
 
 pybrah.h:
 
@@ -402,7 +404,19 @@ pyslice.h:
 py1.h:
 
 trace.h:
-pysignal$(OBJ_SUFFIX): pysignal.c
+pysignal$(OBJ_SUFFIX): pysignal.c pyproc.h py4.h py.h boolean.h pylang.h pygoal.h
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+boolean.h:
+
+pylang.h:
+
+pygoal.h:
 pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pylang.h pyproc.h py4.h pygoal.h pyhash.h \
   DHT/dhtbcmem.h pymsg.h pyint.h pydata.h pyslice.h pystip.h pytable.h \
   pybrah.h pyproof.h platform/maxtime.h trace.h
@@ -591,7 +605,7 @@ py4.h:
 
 trace.h:
 pynot$(OBJ_SUFFIX): pynot.c pynot.h py.h boolean.h pylang.h pyslice.h pystip.h \
-  pygoal.h pytable.h pyproc.h py4.h pyoutput.h trace.h
+  pygoal.h pytable.h pyproc.h py4.h pyoutput.h pydata.h trace.h
 
 pynot.h:
 
@@ -614,6 +628,8 @@ pyproc.h:
 py4.h:
 
 pyoutput.h:
+
+pydata.h:
 
 trace.h:
 pyconst$(OBJ_SUFFIX): pyconst.c pyconst.h boolean.h pyslice.h py.h pylang.h pystip.h \
@@ -825,7 +841,7 @@ pyhash.h:
 DHT/dhtbcmem.h:
 pyleafd$(OBJ_SUFFIX): pyleafd.c pyleafd.h boolean.h pyslice.h py.h pylang.h pystip.h \
   pygoal.h pytable.h trace.h pydata.h pyproc.h py4.h platform/maxtime.h \
-  pyoutput.h pyleaf.h pyhash.h DHT/dhtbcmem.h pyconst.h
+  pyoutput.h pyleaf.h pyhash.h DHT/dhtbcmem.h pyconst.h pymsg.h
 
 pyleafd.h:
 
@@ -862,6 +878,8 @@ pyhash.h:
 DHT/dhtbcmem.h:
 
 pyconst.h:
+
+pymsg.h:
 pyleafs$(OBJ_SUFFIX): pyleafs.c pyleafs.h boolean.h pyslice.h py.h pylang.h pystip.h \
   pygoal.h pytable.h trace.h pydata.h pyproc.h py4.h platform/maxtime.h \
   pyint.h pyoutput.h pyleaf.h pyleaff.h pyhash.h DHT/dhtbcmem.h
@@ -1003,20 +1021,20 @@ pyoutput.h:
 pydata.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pylang.h pygoal.h \
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pylang.h pyproc.h py4.h pygoal.h \
   pydata.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
 boolean.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 pygoal.h:
 

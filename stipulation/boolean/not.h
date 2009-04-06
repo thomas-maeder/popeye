@@ -94,8 +94,7 @@ slice_index not_root_make_setplay_slice(slice_index si);
 
 /* Determine and write the solution of a slice
  * @param slice index
- * @return true iff >=1 move pair was found
  */
-boolean not_root_solve(slice_index si);
+void not_root_solve(slice_index si);
 
 #endif

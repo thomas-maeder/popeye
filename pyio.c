@@ -2589,6 +2589,28 @@ static char *ParseStructuredStip_branch(char *tok, slice_index *result)
   return tok;
 }
 
+/* Parse a not operator
+ * @param tok input token
+ * @param result index of branch; no_slice if operator couldn't be
+ *               parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_not(char *tok, slice_index *result)
+{
+  slice_index operand;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+  
+  tok = ParseStructuredStip_operand(tok+1,&operand);
+  if (tok!=0 && operand!=no_slice)
+    *result =  alloc_not_slice(operand);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
 /* Parse an stipulation operand
  * @param tok input token
  * @param result index of operand; no_slice if operand couldn't be
@@ -2608,7 +2630,10 @@ static char *ParseStructuredStip_operand(char *tok,  slice_index *result)
     strcat(AlphaStip,tok);
   }
 
-  if (isdigit(tok[0]))
+  if (tok[0]=='!')
+    /* !d# - white at the move does *not* deliver mate */
+    tok = ParseStructuredStip_not(tok,result);
+  else if (isdigit(tok[0]))
     /* e.g. 2dd# for a #2 */
     tok = ParseStructuredStip_branch(tok,result);
   else

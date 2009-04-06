@@ -2,6 +2,7 @@
 #include "pyslice.h"
 #include "pyproc.h"
 #include "pyoutput.h"
+#include "pydata.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -232,9 +233,38 @@ slice_index not_root_make_setplay_slice(slice_index si)
 
 /* Determine and write the solution of a slice
  * @param slice index
- * @return true iff >=1 move pair was found
  */
-boolean not_root_solve(slice_index si)
+void not_root_solve(slice_index si)
 {
-  return true;
+  slice_index const op = slices[si].u.not.op;
+  Side starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  starter = slice_get_starter(op);
+  genmove(starter);
+
+  output_start_continuation_level();
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !echecc(nbply,starter)
+        && !slice_has_starter_won(op))
+    {
+      write_attack(attack_key);
+      write_end_of_solution();
+      coupfort();
+    }
+
+    repcoup();
+  }
+  
+  output_end_continuation_level();
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }

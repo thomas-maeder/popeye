@@ -85,6 +85,13 @@ static output_mode detect_output_mode(slice_index si)
       break;
     }
 
+    case STNot:
+    {
+      slice_index const op = slices[si].u.not.op;
+      result = detect_output_mode(op);
+      break;
+    }
+
     default:
       result = output_mode_none;
       break;
