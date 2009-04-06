@@ -2424,3 +2424,205 @@ Sake, Portoroz 2002, 2° Mention d'Honneur
 Loesung beendet. 
 
 
+           Friedrich Hariuc
+        feenschach 165 "2006"
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -B   .   .   .   .   .   .   .   4
+|                                   |
+3  -K   .   L   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   K   S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 14dda=>b              3 + 2
+
+Initial (Weiss ->):
+
+
+           Friedrich Hariuc
+        feenschach 165 "2006"
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -B   .   .   L   .   .   .   .   4
+|                                   |
+3  -K   .  -B   S   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   .   2
+|                                   |
+1  -L   K   .   T   D   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 14dda=>b              5 + 5
+
+  1.Kb1-c2 !
+      1...b2-b1=D +
+          2.Td1*b1 Zugzwang.
+              2...La1-b2
+                  3.De1-c1 Zugzwang.
+                      3...Lb2*c1
+                          4.Tb1*c1 Zugzwang.
+                              4...Ka3-a2
+                                  5.Tc1-a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+                      3...Ka3-a2
+                          4.Tb1-a1 +
+                              4...Lb2*a1
+                                  5.Dc1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+              2...Ka3-a2
+                  3.De1-e6 +
+                      3...Ka2-a3
+                          4.De6-a2 +
+                              4...Ka3*a2
+                                  5.Tb1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+      1...b2-b1=S
+          2.Td1*b1 Zugzwang.
+              2...La1-b2
+                  3.De1-c1 Zugzwang.
+                      3...Lb2*c1
+                          4.Tb1*c1 Zugzwang.
+                              4...Ka3-a2
+                                  5.Tc1-a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+                      3...Ka3-a2
+                          4.Tb1-a1 +
+                              4...Lb2*a1
+                                  5.Dc1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+              2...Ka3-a2
+                  3.De1-e6 +
+                      3...Ka2-a3
+                          4.De6-a2 +
+                              4...Ka3*a2
+                                  5.Tb1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+      1...b2-b1=T
+          2.Td1*b1 Zugzwang.
+              2...La1-b2
+                  3.De1-c1 Zugzwang.
+                      3...Lb2*c1
+                          4.Tb1*c1 Zugzwang.
+                              4...Ka3-a2
+                                  5.Tc1-a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+                      3...Ka3-a2
+                          4.Tb1-a1 +
+                              4...Lb2*a1
+                                  5.Dc1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+              2...Ka3-a2
+                  3.De1-e6 +
+                      3...Ka2-a3
+                          4.De6-a2 +
+                              4...Ka3*a2
+                                  5.Tb1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+      1...b2-b1=L +
+          2.Td1*b1 Zugzwang.
+              2...La1-b2
+                  3.De1-c1 Zugzwang.
+                      3...Lb2*c1
+                          4.Tb1*c1 Zugzwang.
+                              4...Ka3-a2
+                                  5.Tc1-a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+                      3...Ka3-a2
+                          4.Tb1-a1 +
+                              4...Lb2*a1
+                                  5.Dc1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+              2...Ka3-a2
+                  3.De1-e6 +
+                      3...Ka2-a3
+                          4.De6-a2 +
+                              4...Ka3*a2
+                                  5.Tb1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+
+ 40  (Kb1-c2    Zeit = 20:27.710 m:s)
+
+Loesung beendet. Zeit = 20:56.070 m:s
+
+
