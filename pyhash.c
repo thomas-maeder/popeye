@@ -488,6 +488,10 @@ static void init_slice_properties_recursive(slice_index si,
         init_slice_properties_recursive(next,nr_bits_left);
         break;
       }
+
+      default:
+        assert(0);
+        break;
     }
   }
 
