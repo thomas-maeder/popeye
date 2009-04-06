@@ -20,7 +20,7 @@ Direktes Blatt mit Ziel matt (d.h. forderung #1)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-                             2 + 16
+  weiss d#                   2 + 16
 
   1.h5*g6 ep. # ! 
 
@@ -50,7 +50,7 @@ Hilfsblatt mit Ziel matt (d.h. forderung h#1)
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-                              3 + 3
+  schwarz h#                  3 + 3
 
   1.Kb7-a8 Sd5-b6 # 
   1.Kb7-a8 Sd5-c7 # 
@@ -80,7 +80,7 @@ Selbstblatt mit Ziel matt (d.h. forderung s#1)
 1   .   .  -D  -L   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-                            13 + 15
+  weiss s#                  13 + 15
 
   1.c5*b6 ep. + ! 
       1...Tb4*b6 # 
@@ -110,7 +110,7 @@ direktes Blatt mit Ziel Zielfeld a7 (d.h. forderung za71)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-                              1 + 0
+  weiss dza7                  1 + 0
 
   1.a6-a7 z ! 
 
@@ -142,7 +142,7 @@ direktes Blatt mit Ziel matt
 1   L   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-                              8 + 4
+  weiss 2dd#                  8 + 4
            Take&MakeSchach
 
   1.Dc8-b8 ! Drohung:
@@ -184,7 +184,7 @@ direktes Blatt mit Ziel matt
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-                              3 + 3
+  schwarz 1hd#                3 + 3
 
   1.Kb7-a8 Sd5-c7 # 
   1.Kb7-a8 Sd5-b6 # 
@@ -216,7 +216,7 @@ direktes Blatt mit Ziel matt
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-                              3 + 3
+  schwarz 1sd#                3 + 3
 
   1.Kb7-a8 Sd5-c7 # 
   1.Kb7-a8 Sd5-b6 # 

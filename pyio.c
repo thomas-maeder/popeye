@@ -2602,7 +2602,11 @@ static char *ParseStructuredStip_operand(char *tok,  slice_index *result)
 
   /* allow space between operands */
   if (tok[0]==0)
+  {
     tok = ReadNextTokStr();
+    strcat(AlphaStip," ");
+    strcat(AlphaStip,tok);
+  }
 
   if (isdigit(tok[0]))
     /* e.g. 2dd# for a #2 */
@@ -2632,7 +2636,10 @@ static char *ParseStructuredStip(void)
   starter = ParseStarter(tok);
   if (starter!=no_side)
   {
+    strcpy(AlphaStip,tok);
     tok = ReadNextTokStr();
+    strcat(AlphaStip," ");
+    strcat(AlphaStip,tok);
     tok = ParseStructuredStip_operand(tok,&root_slice);
     if (root_slice!=no_slice)
       slice_impose_starter(root_slice,starter);
