@@ -224,6 +224,9 @@ direktes Blatt mit Ziel matt
 Loesung beendet. 
 
 
+Negationsoperator mit Fortsetzung:
+direktes Blatt mit Ziel matt
+(d.h. Weiss zieht und setzt *nicht* matt)
 
            Ruedi W"uthrich
 Konstruktionswettbewerb i&f 1985/86, 1. Platz
@@ -250,6 +253,35 @@ Konstruktionswettbewerb i&f 1985/86, 1. Platz
   weiss !d#                  13 + 3
 
   1.Df8-g8 ! 
+
+Loesung beendet. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .   .   .  -K   .   .  -T   8
+|                                   |
+7   .  -L   .   .   .  -B   .  -B   7
+|                                   |
+6   .   .   .   .  -B   .   .   .   6
+|                                   |
+5   .   .   .   .   L   .   .   T   5
+|                                   |
+4   S   .   .   B  -B   .   .   B   4
+|                                   |
+3   .   .   .   .  -L   .  -S   S   3
+|                                   |
+2   .   .   .   .   .   .   K  -B   2
+|                                   |
+1   .   .   .   .   .  -S   T   L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz d# & 1hd#          9 + 12
+
+  1.e4*d3 ep. # 
+  1.0-0-0 Sa4-b6 # 
 
 Loesung beendet. 
 

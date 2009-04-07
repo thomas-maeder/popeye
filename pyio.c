@@ -2391,6 +2391,7 @@ static SliceType ParseStructuredStip_leaf_type(char type_char)
   return result;
 }
 
+
 /* Parse a leaf
  * @param tok input token
  * @param result index of leaf; no_slice if branch couldn't be parsed
@@ -2413,8 +2414,7 @@ static char *ParseStructuredStip_leaf(char *tok,  slice_index *result)
   else
   {
     slice_index leaf;
-    ++tok;
-    tok = ParseGoal(tok,leaf_type,&leaf);
+    tok = ParseGoal(tok+1,leaf_type,&leaf);
     switch (leaf_type)
     {
       case STLeafDirect:
@@ -2617,7 +2617,7 @@ static char *ParseStructuredStip_not(char *tok, slice_index *result)
  *               parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_operand(char *tok,  slice_index *result)
+static char *ParseStructuredStip_operand(char *tok, slice_index *result)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
@@ -2625,9 +2625,10 @@ static char *ParseStructuredStip_operand(char *tok,  slice_index *result)
   /* allow space between operands */
   if (tok[0]==0)
   {
-    tok = ReadNextTokStr();
+    strcat(AlphaStip,TokenLine);
     strcat(AlphaStip," ");
-    strcat(AlphaStip,tok);
+    tok = ReadNextTokStr();
+    TraceValue("%s\n",tok);
   }
 
   if (tok[0]=='!')
@@ -2639,6 +2640,75 @@ static char *ParseStructuredStip_operand(char *tok,  slice_index *result)
   else
     /* e.g. d= for a =1 */
     tok = ParseStructuredStip_leaf(tok,result);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
+static char *ParseStructuredStip_operator(char *tok, SliceType *result)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  /* allow space between operands */
+  if (tok[0]==0)
+  {
+    strcat(AlphaStip,TokenLine);
+    strcat(AlphaStip," ");
+    tok = ReadNextTokStr();
+    TraceValue("%s\n",tok);
+  }
+
+  if (tok[0]=='&')
+  {
+    ++tok;
+    *result = STReciprocal;
+  }
+  else if (tok[0]=='|')
+  {
+    ++tok;
+    *result = STQuodlibet;
+  }
+  else
+    *result = no_slice_type;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
+static char *ParseStructuredStip_expression(char *tok,  slice_index *result)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  tok = ParseStructuredStip_operand(tok,result);
+  if (tok!=0 && *result!=no_slice)
+  {
+    SliceType operator_type;
+    tok = ParseStructuredStip_operator(tok,&operator_type);
+    if (tok!=0 && operator_type!=no_slice_type)
+    {
+      slice_index operand2;
+      tok = ParseStructuredStip_expression(tok,&operand2);
+      if (tok!=0 && operand2!=no_slice)
+        switch (operator_type)
+        {
+          case STReciprocal:
+            *result = alloc_reciprocal_slice(*result,operand2);
+            break;
+
+          case STQuodlibet:
+            *result = alloc_quodlibet_slice(*result,operand2);
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
+    }
+  }
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s\n",tok);
@@ -2661,15 +2731,12 @@ static char *ParseStructuredStip(void)
   starter = ParseStarter(tok);
   if (starter!=no_side)
   {
-    strcpy(AlphaStip,tok);
-    tok = ReadNextTokStr();
+    strcat(AlphaStip,TokenLine);
     strcat(AlphaStip," ");
-    strcat(AlphaStip,tok);
-    tok = ParseStructuredStip_operand(tok,&root_slice);
+    tok = ReadNextTokStr();
+    tok = ParseStructuredStip_expression(tok,&root_slice);
     if (root_slice!=no_slice)
       slice_impose_starter(root_slice,starter);
-
-    tok = ReadNextTokStr();
   }
 
   TraceFunctionExit(__func__);
