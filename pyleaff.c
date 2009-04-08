@@ -407,6 +407,8 @@ void leaf_forced_root_solve(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  init_output(leaf);
+
   if (is_end_in_1_forced(defender,leaf))
   {
     output_start_postkey_level();

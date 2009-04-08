@@ -28,36 +28,6 @@ Direktes Blatt mit Ziel matt (d.h. forderung #1)
 Loesung beendet. 
 
 
-Hilfsblatt mit Ziel matt (d.h. forderung h#1)
-
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .  -T   .   .   .   .   .   .   8
-|                                   |
-7  -B  -K   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   S   .   .   .   .   5
-|                                   |
-4   .   .   .   .   L   .   .   .   4
-|                                   |
-3   .   .   .   .   .   .   .   .   3
-|                                   |
-2   .   .   .   .   .   .   .   .   2
-|                                   |
-1   .   .   .   .   .   .   .   K   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  schwarz h#                  3 + 3
-
-  1.Kb7-a8 Sd5-b6 # 
-  1.Kb7-a8 Sd5-c7 # 
-
-Loesung beendet. 
-
-
 Selbstblatt mit Ziel matt (d.h. forderung s#1)
 
 
@@ -162,7 +132,7 @@ Loesung beendet.
 
 Hilfszweig von 1 Halbzug mit Fortsetzung:
 direktes Blatt mit Ziel matt
-(d.h. forderung h#1)
+(d.h. forderung r#1)
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -186,8 +156,9 @@ direktes Blatt mit Ziel matt
 +---a---b---c---d---e---f---g---h---+
   schwarz 1hd#                3 + 3
 
-  1.Kb7-a8 Sd5-c7 # 
-  1.Kb7-a8 Sd5-b6 # 
+      1...Kb7-a8 
+          2.Sd5-c7 # 
+          2.Sd5-b6 # 
 
 Loesung beendet. 
 
@@ -282,6 +253,48 @@ Loesung beendet.
 
   1.e4*d3 ep. # 
   1.0-0-0 Sa4-b6 # 
+
+Loesung beendet. 
+
+
+
+           Matti Myllyniemi
+      1. Preis, O. Kaila JT 1967
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -S   8
+|                                   |
+7   .   .  -B   .   B  -B   .   .   7
+|                                   |
+6   .   .   B  -B  -B   T  -B   .   6
+|                                   |
+5   .   .  -B  -K   .   .   B   .   5
+|                                   |
+4   L   .   S  -B   .   .   .   .   4
+|                                   |
+3   .   .   .   K  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 2dd# | -3hd# | 2ds# | -3hd=        8 + 10
+
+  1.e7-e8=S ! Drohung:
+          2.Se8*c7 # 
+
+
+  1...e6-e5   2.e7-e8=D e5-e4 +   3.De8*e4 # 
+
+  1.e7-e8=L ! Zugzwang.
+      1...e6-e5 
+          2.La4-c2 
+              2...e5-e4 # 
+
+
+  1...e6-e5   2.e7-e8=T e5-e4 +   3.Te8*e4 = 
 
 Loesung beendet. 
 

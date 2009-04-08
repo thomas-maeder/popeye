@@ -157,6 +157,8 @@ void leaf_s_root_solve(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  init_output(leaf);
+
   output_start_continuation_level();
 
   active_slice[nbply+1] = leaf;

@@ -386,6 +386,8 @@ void branch_d_root_solve(slice_index si)
   assert(slices[si].u.branch_d.length%2==0);
   assert(slices[si].u.branch_d.length>slack_length_direct);
 
+  init_output(si);
+
   if (echecc(nbply,advers(attacker)))
     ErrorMsg(KingCapture);
   else if (branch_d_defender_must_starter_resign(peer))

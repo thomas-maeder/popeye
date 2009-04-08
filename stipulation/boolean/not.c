@@ -236,34 +236,8 @@ slice_index not_root_make_setplay_slice(slice_index si)
  */
 void not_root_solve(slice_index si)
 {
-  slice_index const op = slices[si].u.not.op;
-  Side starter;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
-
-  starter = slice_get_starter(op);
-  genmove(starter);
-
-  output_start_continuation_level();
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,starter)
-        && !slice_has_starter_won(op))
-    {
-      write_attack(attack_key);
-      write_end_of_solution();
-      coupfort();
-    }
-
-    repcoup();
-  }
-  
-  output_end_continuation_level();
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceText("\n");

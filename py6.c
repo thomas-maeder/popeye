@@ -1937,7 +1937,6 @@ static void checkGlobalAssumptions(void)
 static void solveHalfADuplex(void)
 {
   inithash();
-  init_output();
 
   if (isIntelligentModeActive && OptFlag[restart])
   {

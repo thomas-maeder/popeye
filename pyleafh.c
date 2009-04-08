@@ -255,6 +255,8 @@ void leaf_h_root_solve(slice_index leaf)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
+  init_output(leaf);
+
   isIntelligentModeActive = false;
   leaf_h_solve(leaf);
   isIntelligentModeActive = save_isIntelligentModeActive;

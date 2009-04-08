@@ -90,7 +90,7 @@
 #if !defined(DATABASE)
 static
 #endif
-char AlphaStip[20];
+char AlphaStip[40];
 
 #define MAXNEST 10
 #define UPCASE(c)   toupper(c)      /* (c+('A'-'a')) */
@@ -926,7 +926,7 @@ static char InputLine[LINESIZE];    /* This array contains the input as is */
 static char TokenLine[LINESIZE];    /* This array contains the lowercase input */
 
 static char SpaceChar[] = " \t\n\r;,.:";
-static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&";
+static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|";
 /* Steingewinn ! */
 /* introductory move */
 /* h##! */
@@ -2336,7 +2336,7 @@ static char *ParseStip(void)
  * @param tok input token
  * @return starter; no_side if starter couldn't be parsed
  */
-Side ParseStarter(char *tok)
+Side ParseStructuredStip_starter(char *tok)
 {
   Side result = no_side;
   PieSpec ps;
@@ -2419,13 +2419,8 @@ static char *ParseStructuredStip_leaf(char *tok,  slice_index *result)
     {
       case STLeafDirect:
       case STLeafSelf:
-        *result = leaf;
-        break;
-
       case STLeafHelp:
-        *result = alloc_branch_h_slice(slack_length_help+1,
-                                       slack_length_help+1,
-                                       leaf);
+        *result = leaf;
         break;
 
       default:
@@ -2497,8 +2492,9 @@ static char *ParseStructuredStip_branch_h(char *tok,
   if (tok!=0)
   {
     /* TODO support for exact */
-    stip_length_type const min_length = slack_length_help;
-
+    stip_length_type min_length = slack_length_help;
+    if (length%2==1)
+      ++min_length;
     length += slack_length_help;
     *result = alloc_branch_h_slice(length,min_length,operand);
   }
@@ -2611,6 +2607,28 @@ static char *ParseStructuredStip_not(char *tok, slice_index *result)
   return tok;
 }
 
+/* Parse a move inversion
+ * @param tok input token
+ * @param result index of branch; no_slice if operator couldn't be
+ *               parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_move_inversion(char *tok, slice_index *result)
+{
+  slice_index operand;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+  
+  tok = ParseStructuredStip_operand(tok+1,&operand);
+  if (tok!=0 && operand!=no_slice)
+    *result =  alloc_move_inverter_slice(operand);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
 /* Parse an stipulation operand
  * @param tok input token
  * @param result index of operand; no_slice if operand couldn't be
@@ -2634,6 +2652,9 @@ static char *ParseStructuredStip_operand(char *tok, slice_index *result)
   if (tok[0]=='!')
     /* !d# - white at the move does *not* deliver mate */
     tok = ParseStructuredStip_not(tok,result);
+  else if (tok[0]=='-')
+    /* -3hh# - h#2 by the non-starter */
+    tok = ParseStructuredStip_move_inversion(tok,result);
   else if (isdigit(tok[0]))
     /* e.g. 2dd# for a #2 */
     tok = ParseStructuredStip_branch(tok,result);
@@ -2646,6 +2667,12 @@ static char *ParseStructuredStip_operand(char *tok, slice_index *result)
   return tok;
 }
 
+/* Parse a stipulation operator
+ * @param tok input token
+ * @param result type of operator; no_slice_type if operand couldn't
+ *               be parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
 static char *ParseStructuredStip_operator(char *tok, SliceType *result)
 {
   TraceFunctionEntry(__func__);
@@ -2678,6 +2705,12 @@ static char *ParseStructuredStip_operator(char *tok, SliceType *result)
   return tok;
 }
 
+/* Parse a stipulation expression
+ * @param tok input token
+ * @param result index of expression slice; no_slice if expression
+ *               can't be parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
 static char *ParseStructuredStip_expression(char *tok,  slice_index *result)
 {
   TraceFunctionEntry(__func__);
@@ -2728,7 +2761,7 @@ static char *ParseStructuredStip(void)
   TraceFunctionParam("%s\n",tok);
 
   tok = ReadNextTokStr();
-  starter = ParseStarter(tok);
+  starter = ParseStructuredStip_starter(tok);
   if (starter!=no_side)
   {
     strcat(AlphaStip,TokenLine);

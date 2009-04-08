@@ -479,6 +479,8 @@ void branch_h_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
+  init_output(si);
+
   if (echecc(nbply,advers(slices[si].u.branch.starter)))
   {
     TraceText("hallo\n");

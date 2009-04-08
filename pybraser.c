@@ -6,6 +6,7 @@
 #include "pyoutput.h"
 #include "pyhash.h"
 #include "pyslice.h"
+#include "pyoutput.h"
 #include "trace.h"
 #include "platform/maxtime.h"
 
@@ -406,6 +407,8 @@ void branch_ser_root_solve(slice_index si)
   TraceValue("%u\n",starter);
   
   move_generation_mode = move_generation_not_optimized;
+
+  init_output(si);
 
   if (echecc(nbply,advers(starter)))
     ErrorMsg(KingCapture);

@@ -7,6 +7,7 @@
 #include "pyhash.h"
 #include "pyconst.h"
 #include "pymsg.h"
+#include "pyoutput.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -234,6 +235,8 @@ void leaf_d_root_solve(slice_index leaf)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
+
+  init_output(leaf);
 
   output_start_continuation_level();
 

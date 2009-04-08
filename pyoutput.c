@@ -50,6 +50,13 @@ static output_mode detect_output_mode(slice_index si)
       break;
 
     case STBranchHelp:
+      if (slices[si].u.branch.length==slack_length_help+1)
+        /* may be set play */
+        result = detect_output_mode(slices[si].u.branch.next);
+      else
+        result = output_mode_line;
+      break;
+
     case STBranchSeries:
     case STLeafHelp:
       result = output_mode_line;
@@ -104,14 +111,19 @@ static output_mode detect_output_mode(slice_index si)
 
 /* Initialize based on the stipulation
  */
-void init_output(void)
+void init_output(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-
-  current_mode = detect_output_mode(root_slice);
+  current_mode = detect_output_mode(si);
   assert(current_mode!=output_mode_none);
+
+  if (current_mode==output_mode_tree)
+  {
+    move_depth = nr_color_inversions_in_ply[nbply+1];
+    TraceValue("%u\n",move_depth);
+  }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -171,8 +183,8 @@ void output_start_move_inverted_level(void)
 
   ++nr_color_inversions_in_ply[nbply+1];
 
-  TraceValue("%u",nbply+1);
-  TraceValue("%u\n",move_depth);
+  TraceValue("%u",move_depth);
+  TraceValue("%u\n",nbply+1);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -186,9 +198,13 @@ void output_end_move_inverted_level(void)
   TraceText("\n");
 
   if (current_mode==output_mode_tree)
+  {
     --move_depth;
+    TraceValue("%u\n",move_depth);
+  }
 
   --nr_color_inversions_in_ply[nbply+1];
+
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -240,6 +256,8 @@ void output_start_threat_level(void)
   if (current_mode==output_mode_tree)
   {
     move_depth++;
+    TraceValue("%u\n",move_depth);
+
     nr_continuations_written[move_depth] = 0;
     nr_defenses_written[move_depth] = 0;
     nr_continuations_written[move_depth+1] = 0;
@@ -248,7 +266,6 @@ void output_start_threat_level(void)
     output_attack_types[nbply+1] = threat_attack;
   }
 
-  TraceValue("%u",move_depth);
   TraceValue("%u",nbply);
   TraceValue("%u\n",output_attack_types[nbply+1]);
 
@@ -278,6 +295,7 @@ void output_end_threat_level(void)
     output_attack_types[nbply+1] = unknown_attack;
 
     move_depth--;
+    TraceValue("%u\n",move_depth);
   }
 
   TraceFunctionExit(__func__);
@@ -295,6 +313,7 @@ void output_start_continuation_level(void)
   if (current_mode==output_mode_tree)
   {
     move_depth++;
+    TraceValue("%u\n",move_depth);
 
     nr_continuations_written[move_depth] = 0;
     nr_continuations_written[move_depth+1] = 0;
@@ -303,7 +322,6 @@ void output_start_continuation_level(void)
     /* nbply will be increased by genmove() in a moment */
     output_attack_types[nbply+1] = continuation_attack;
 
-    TraceValue("%u",move_depth);
     TraceValue("%u",nbply);
     TraceValue("%u\n",output_attack_types[nbply+1]);
   }
@@ -322,11 +340,11 @@ void output_end_continuation_level(void)
 
   if (current_mode==output_mode_tree)
   {
-    TraceValue("%u\n",move_depth);
     if (move_depth==2 && nr_continuations_written[move_depth]==0)
       write_refutation_mark();
 
     move_depth--;
+    TraceValue("%u\n",move_depth);
 
     TraceValue("%u",nbply);
     TraceValue("%u\n",output_attack_types[nbply+1]);
@@ -566,8 +584,6 @@ static void catchup_with_defense(ply current_ply)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",current_ply);
 
-  TraceValue("%u\n",move_depth);
-
   if (current_ply>start_ply)
     catchup_with_attack(parent_ply[current_ply]);
 
@@ -594,8 +610,6 @@ static void catchup_with_attack(ply current_ply)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",current_ply);
 
-  TraceValue("%u\n",move_depth);
-
   if (current_ply>start_ply)
   {
     if (output_attack_types[current_ply]==threat_attack)
@@ -605,6 +619,7 @@ static void catchup_with_attack(ply current_ply)
   }
 
   ++move_depth;
+  TraceValue("%u\n",move_depth);
 
   initneutre(advers(trait[current_ply]));
   jouecoup_no_test(current_ply);
@@ -639,8 +654,11 @@ void write_attack(attack_type type)
         ResetPosition();
 
         move_depth = 1;
+        TraceValue("%u\n",move_depth);
+
         catchup_with_defense(parent);
         ++move_depth;
+        TraceValue("%u\n",move_depth);
 
         initneutre(advers(trait[nbply]));
         jouecoup_no_test(nbply);
@@ -681,8 +699,11 @@ void write_final_attack(Goal goal, attack_type type)
         ResetPosition();
 
         move_depth = 1;
+        TraceValue("%u\n",move_depth);
+
         catchup_with_defense(parent);
         ++move_depth;
+        TraceValue("%u\n",move_depth);
 
         initneutre(advers(trait[nbply]));
         jouecoup_no_test(nbply);
@@ -712,7 +733,6 @@ void write_defense(void)
 
   if (current_mode==output_mode_tree)
   {
-    TraceValue("%u",move_depth);
     TraceValue("%u",nbply);
     TraceValue("%u",nr_defenses_written[move_depth]);
     TraceValue("%u\n",nr_continuations_written[move_depth+1]);
@@ -741,7 +761,6 @@ void write_final_defense(Goal goal)
   if (current_mode==output_mode_tree)
   {
     stip_length_type const save_move_depth = move_depth;
-    TraceValue("%u",move_depth);
     TraceValue("%u",nr_continuations_written[move_depth]);
     TraceValue("%u",nbply);
     TraceValue("%u\n",output_attack_types[parent_ply[nbply]]);
@@ -755,6 +774,7 @@ void write_final_defense(Goal goal)
       {
         ResetPosition();
         move_depth = nr_color_inversions_in_ply[start_ply]>0 ? 1 : 0;
+        TraceValue("%u\n",move_depth);
         catchup_with_attack(parent_ply[nbply]);
         nr_defenses_written[move_depth] = 0;
 
@@ -768,6 +788,7 @@ void write_final_defense(Goal goal)
     write_numbered_indented_defense(nbply,goal);
 
     move_depth = save_move_depth;
+    TraceValue("%u\n",move_depth);
   }
   else
     linesolution();

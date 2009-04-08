@@ -76,8 +76,9 @@ void output_end_leaf_variation_level(void);
 
 
 /* Initialize based on the stipulation
+ * @param si index of root of subtree that we initialise output for
  */
-void init_output(void);
+void init_output(slice_index si);
 
 /* Write a move of the attacking side in direct play
  * @param type of attack

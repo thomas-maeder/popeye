@@ -900,6 +900,7 @@ void branch_d_defender_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
+  init_output(si);
   branch_d_defender_solve_postkey_in_n(si,n);
 
   TraceFunctionExit(__func__);
