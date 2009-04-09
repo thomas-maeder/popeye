@@ -21,6 +21,7 @@ static void ReportSignalAndBailOut(int sig)
 }
 
 /* specific signal handlers: */
+#if defined(HASHRATE)
 static void sigUsr1Handler(int sig)
 {
   IncHashRateLevel();
@@ -32,6 +33,7 @@ static void sigUsr2Handler(int sig)
   DecHashRateLevel();
   signal(sig, &sigUsr2Handler);
 }
+#endif
 
 /* this initialisation is valid only for Unix.
  * I do not know whether there are other handling
