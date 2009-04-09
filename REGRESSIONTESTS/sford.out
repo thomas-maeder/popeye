@@ -132,7 +132,7 @@ Loesung beendet.
 
 Hilfszweig von 1 Halbzug mit Fortsetzung:
 direktes Blatt mit Ziel matt
-(d.h. forderung r#1)
+(d.h. forderung h#1)
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -154,11 +154,10 @@ direktes Blatt mit Ziel matt
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1hd#                3 + 3
+  schwarz 1hh#                3 + 3
 
-      1...Kb7-a8 
-          2.Sd5-c7 # 
-          2.Sd5-b6 # 
+  1.Kb7-a8 Sd5-b6 # 
+  1.Kb7-a8 Sd5-c7 # 
 
 Loesung beendet. 
 
@@ -187,7 +186,7 @@ direktes Blatt mit Ziel matt
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1sd#                3 + 3
+  schwarz 1sh#                3 + 3
 
   1.Kb7-a8 Sd5-c7 # 
   1.Kb7-a8 Sd5-b6 # 

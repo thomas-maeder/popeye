@@ -39,17 +39,18 @@ weiter
 
 bemerkung Hilfszweig von 1 Halbzug mit Fortsetzung:
 bemerkung  direktes Blatt mit Ziel matt
-bemerkung (d.h. forderung r#1)
-sforderung schwarz 1hd#
+bemerkung (d.h. forderung h#1)
+sforderung schwarz 1hh#
 steine  weiss   le4 sd5 kh1
         schwarz kb7 ba7 tb8
+option intelligent
 
 weiter
 
 bemerkung Serienzweig von 1 Halbzug mit Fortsetzung:
 bemerkung  direktes Blatt mit Ziel matt
 bemerkung (d.h. forderung h#1)
-sforderung schwarz 1sd#
+sforderung schwarz 1sh#
 steine  weiss   le4 sd5 kh1
         schwarz kb7 ba7 tb8
 
