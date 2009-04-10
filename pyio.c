@@ -2332,6 +2332,23 @@ static char *ParseStip(void)
   return tok;
 }
 
+/* Advance to next token while parsing a structured stipulation
+ * @param tok current position in current token
+ * @return tok, if we are within the current token; next token otherwise
+ */
+static char *ParseStructuredStip_skip_whitespace(char *tok)
+{
+  if (tok[0]==0)
+  {
+    strcat(AlphaStip,TokenLine);
+    strcat(AlphaStip," ");
+    tok = ReadNextTokStr();
+    TraceValue("%s\n",tok);
+  }
+
+  return tok;
+}
+
 /* Parse starter of stipulation
  * @param tok input token
  * @return starter; no_side if starter couldn't be parsed
@@ -2629,44 +2646,6 @@ static char *ParseStructuredStip_move_inversion(char *tok, slice_index *result)
   return tok;
 }
 
-/* Parse an stipulation operand
- * @param tok input token
- * @param result index of operand; no_slice if operand couldn't be
- *               parsed
- * @return remainder of input token; 0 if parsing failed
- */
-static char *ParseStructuredStip_operand(char *tok, slice_index *result)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
-
-  /* allow space between operands */
-  if (tok[0]==0)
-  {
-    strcat(AlphaStip,TokenLine);
-    strcat(AlphaStip," ");
-    tok = ReadNextTokStr();
-    TraceValue("%s\n",tok);
-  }
-
-  if (tok[0]=='!')
-    /* !d# - white at the move does *not* deliver mate */
-    tok = ParseStructuredStip_not(tok,result);
-  else if (tok[0]=='-')
-    /* -3hh# - h#2 by the non-starter */
-    tok = ParseStructuredStip_move_inversion(tok,result);
-  else if (isdigit(tok[0]))
-    /* e.g. 2dd# for a #2 */
-    tok = ParseStructuredStip_branch(tok,result);
-  else
-    /* e.g. d= for a =1 */
-    tok = ParseStructuredStip_leaf(tok,result);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
-  return tok;
-}
-
 /* Parse a stipulation operator
  * @param tok input token
  * @param result type of operator; no_slice_type if operand couldn't
@@ -2679,13 +2658,7 @@ static char *ParseStructuredStip_operator(char *tok, SliceType *result)
   TraceFunctionParam("%s\n",tok);
 
   /* allow space between operands */
-  if (tok[0]==0)
-  {
-    strcat(AlphaStip,TokenLine);
-    strcat(AlphaStip," ");
-    tok = ReadNextTokStr();
-    TraceValue("%s\n",tok);
-  }
+  tok = ParseStructuredStip_skip_whitespace(tok);
 
   if (tok[0]=='&')
   {
@@ -2748,6 +2721,67 @@ static char *ParseStructuredStip_expression(char *tok,  slice_index *result)
   return tok;
 }
 
+/* Parse a parenthesised stipulation expression
+ * @param tok input token
+ * @param result index of expression slice; no_slice if expression
+ *               can't be parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_parenthesised_expression(char *tok,
+                                                          slice_index *result)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  tok = ParseStructuredStip_expression(tok+1,result);
+  
+  /* allow space before closing parenthesis */
+  tok = ParseStructuredStip_skip_whitespace(tok);
+
+  if (tok[0]==')')
+    ++tok;
+  else
+    *result = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
+/* Parse an stipulation operand
+ * @param tok input token
+ * @param result index of operand; no_slice if operand couldn't be
+ *               parsed
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_operand(char *tok, slice_index *result)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+
+  /* allow space between operands */
+  tok = ParseStructuredStip_skip_whitespace(tok);
+
+  if (tok[0]=='(')
+    tok = ParseStructuredStip_parenthesised_expression(tok,result);
+  else if (tok[0]=='!')
+    /* !d# - white at the move does *not* deliver mate */
+    tok = ParseStructuredStip_not(tok,result);
+  else if (tok[0]=='-')
+    /* -3hh# - h#2 by the non-starter */
+    tok = ParseStructuredStip_move_inversion(tok,result);
+  else if (isdigit(tok[0]))
+    /* e.g. 2dd# for a #2 */
+    tok = ParseStructuredStip_branch(tok,result);
+  else
+    /* e.g. d= for a =1 */
+    tok = ParseStructuredStip_leaf(tok,result);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
 /* Parse a structured stipulation (keyword sstipulation)
  * @return token following structured stipulation
  * @return remainder of input token; 0 if parsing failed
@@ -2769,7 +2803,10 @@ static char *ParseStructuredStip(void)
     tok = ReadNextTokStr();
     tok = ParseStructuredStip_expression(tok,&root_slice);
     if (root_slice!=no_slice)
+    {
       slice_impose_starter(root_slice,starter);
+      tok = ParseStructuredStip_skip_whitespace(tok);
+    }
   }
 
   TraceFunctionExit(__func__);

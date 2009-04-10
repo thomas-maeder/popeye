@@ -299,3 +299,59 @@ Loesung beendet.
 Loesung beendet. 
 
 
+umgekehrte Reihenfolge geht noch nicht!!!!!!!!!!
+direkter Zweig von 2 Halbzuegen mit Fortsetzung:
+Hilfszweig von 1 Halbzug mit Fortsetzung
+Hilfsblatt zum Matt (d.h. h#1)
+UND
+NICHT
+direktes Blatt zum Matt (d.h. #1)
+die ganze Forderung ist somit aequivalent zu r#2
+
+            Jukka Tuovinen
+3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+   diagrammes spezial #13, 7-9/1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   S   .   .   .   .   .  -K   8
+|                                   |
+7   B   .  -B  -B   .  -B   .   .   7
+|                                   |
+6   K   B  -B   B  -L   S   .   B   6
+|                                   |
+5   B   .   L   .   .   .   .   .   5
+|                                   |
+4   .   .  -B   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 2d ( 1hh# & !d# )         9 + 8
+              AntiCirce
+
+  1.b6-b7 ! Zugzwang.
+      1...c4-c3 
+          2.Lc5-b6 
+              2...Le6-c4 # 
+      1...Le6-d5 
+          2.b7*a8=T[wTa8->h1] 
+              2...Ld5*h1[sLh1->c8] # 
+      1...Le6-h3 
+          2.b7*a8=L[wLa8->f1] 
+              2...Lh3*f1[sLf1->c8] # 
+      1...Le6-g4 
+          2.b7*a8=D[wDa8->d1] 
+              2...Lg4*d1[sLd1->c8] # 
+      1...Le6-f5 
+          2.b7*a8=S[wSa8->b1] 
+              2...Lf5*b1[sLb1->c8] # 
+
+
+Loesung beendet. 
+
+

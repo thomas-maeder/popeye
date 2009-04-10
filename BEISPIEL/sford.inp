@@ -86,4 +86,25 @@ steine  weiss   kd3 tf6 la4 sc4 bc6e2e7g5
 
 option          varianten
 
+weiter
+
+autor           Jukka Tuovinen
+quelle          3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+quelle          diagrammes spezial #13, 7-9/1993
+
+bemerkung umgekehrte Reihenfolge geht noch nicht!!!!!!!!!!
+bemerkung       direkter Zweig von 2 Halbzuegen mit Fortsetzung:
+bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
+bemerkung          Hilfsblatt zum Matt (d.h. h#1)
+bemerkung        UND
+bemerkung         NICHT
+bemerkung          direktes Blatt zum Matt (d.h. #1)
+bemerkung       die ganze Forderung ist somit aequivalent zu r#2
+sforderung      weiss 2d ( 1hh# & !d# )
+bedingung       anticirce
+option          varianten
+
+steine  weiss   ka6 lc5 sb8f6 ba5a7b6d6h6
+	schwarz kh8 ta8 le6 bc4c6c7d7f7
+
 ende
