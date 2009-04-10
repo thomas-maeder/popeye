@@ -221,4 +221,39 @@ steine          weiss kc8 dc2 tf2h8 ld6d7 sb7e6 ba6c5d4
 sforderung      schwarz 1h 2ds#
 option          vari
 
+weiter
+
+autor           Horst B"acker
+quelle          3137, Problemkiste-85, 12/1992
+
+sforderung weiss d#
+
+bedingung       circe
+
+steine  weiss   sb8 bd7a4c4g4f2 kf6
+        schwarz sb7 bc7c6c5a5g5f3 kd6
+option  varianten
+
+zwilling sforderung      weiss 2,2d d#
+zwilling sforderung      weiss 4,4d d#
+zwilling sforderung      weiss 6,6d d#
+
+weiter
+
+titel wegen exact nicht 1.Kf1/Kh3#
+sforderung schwarz -2,2h h#
+steine
+weiss kg2 lh1
+schwarz ka8 la7b8 bh6
+
+weiter
+
+titel eigentlich ser-h009, aber die Loesung in 9 darf nicht erscheinen
+titel zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
+sford schwarz 10,10s h00
+stei
+weis ke1 ta1 sc1d4 bd2
+schw kb4 lh1
+option zugn start 2
+
 ende

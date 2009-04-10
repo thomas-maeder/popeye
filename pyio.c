@@ -805,20 +805,21 @@ typedef enum
   TwinningMove,         /* 0 */
   TwinningExchange,     /* 1 */
   TwinningStip,         /* 2 */
-  TwinningAdd,          /* 3 */
-  TwinningRemove,       /* 4 */
-  TwinningContinued,    /* 5 */
-  TwinningRotate,       /* 6 */
-  TwinningCond,         /* 7 */
-  TwinningPolish,       /* 8 */
-  TwinningMirror,       /* 9 */
-  TwinningMirra1h1,    /* 10 */
-  TwinningMirra1a8,    /* 11 */
-  TwinningMirra1h8,    /* 12 */
-  TwinningMirra8h1,    /* 13 */
-  TwinningShift,       /* 14 */
-  TwinningSubstitute,  /* 15 */
-  TwinningForsyth,     /* 16 */
+  TwinningStructStip,   /* 3 */
+  TwinningAdd,          /* 4 */
+  TwinningRemove,       /* 5 */
+  TwinningContinued,    /* 6 */
+  TwinningRotate,       /* 7 */
+  TwinningCond,         /* 8 */
+  TwinningPolish,       /* 9 */
+  TwinningMirror,      /* 10 */
+  TwinningMirra1h1,    /* 11 */
+  TwinningMirra1a8,    /* 12 */
+  TwinningMirra1h8,    /* 13 */
+  TwinningMirra8h1,    /* 14 */
+  TwinningShift,       /* 15 */
+  TwinningSubstitute,  /* 16 */
+  TwinningForsyth,     /* 17 */
 
   TwinningCount   /* 17 */
 } TwinningType;
@@ -828,58 +829,61 @@ char    *TwinningString[LanguageCount][TwinningCount] = {
     /* 0*/  "deplacement",
     /* 1*/  "echange",
     /* 2*/  "enonce",
-    /* 3*/  "ajoute",
-    /* 4*/  "ote",
-    /* 5*/  "enplus",
-    /* 6*/  "rotation",
-    /* 7*/  "condition",
-    /* 8*/  "CouleurEchange",
-    /* 9*/  "miroir",
-    /*10*/  "a1<-->h1",
-    /*11*/  "a1<-->a8",
-    /*12*/  "a1<-->h8",
-    /*13*/  "a8<-->h1",
-    /*14*/  "translation",
-    /*15*/  "remplace",
-    /*16*/  "forsyth"
+    /* 3*/  "senonce",
+    /* 4*/  "ajoute",
+    /* 5*/  "ote",
+    /* 6*/  "enplus",
+    /* 7*/  "rotation",
+    /* 8*/  "condition",
+    /* 9*/  "CouleurEchange",
+    /*10*/  "miroir",
+    /*11*/  "a1<-->h1",
+    /*12*/  "a1<-->a8",
+    /*13*/  "a1<-->h8",
+    /*14*/  "a8<-->h1",
+    /*15*/  "translation",
+    /*16*/  "remplace",
+    /*17*/  "forsyth"
   },
   { /* German */
     /* 0*/  "versetze",
     /* 1*/  "tausche",
     /* 2*/  "Forderung",
-    /* 3*/  "hinzufuegen",
-    /* 4*/  "entferne",
-    /* 5*/  "ferner",
-    /* 6*/  "Drehung",
-    /* 7*/  "Bedingung",
-    /* 8*/  "Farbwechsel",
-    /* 9*/  "Spiegelung",
-    /*10*/  "a1<-->h1",
-    /*11*/  "a1<-->a8",
-    /*12*/  "a1<-->h8",
-    /*13*/  "a8<-->h1",
-    /*14*/  "Verschiebung",
-    /*15*/  "ersetze",
-    /*16*/  "forsyth"
+    /* 3*/  "SForderung",
+    /* 4*/  "hinzufuegen",
+    /* 5*/  "entferne",
+    /* 6*/  "ferner",
+    /* 7*/  "Drehung",
+    /* 8*/  "Bedingung",
+    /* 9*/  "Farbwechsel",
+    /*10*/  "Spiegelung",
+    /*11*/  "a1<-->h1",
+    /*12*/  "a1<-->a8",
+    /*13*/  "a1<-->h8",
+    /*14*/  "a8<-->h1",
+    /*15*/  "Verschiebung",
+    /*16*/  "ersetze",
+    /*17*/  "forsyth"
   },
   { /* English */
     /* 0*/  "move",
     /* 1*/  "exchange",
     /* 2*/  "stipulation",
-    /* 3*/  "add",
-    /* 4*/  "remove",
-    /* 5*/  "continued",
-    /* 6*/  "rotate",
-    /* 7*/  "condition",
-    /* 8*/  "PolishType",
-    /* 9*/  "mirror",
-    /*10*/  "a1<-->h1",
-    /*11*/  "a1<-->a8",
-    /*12*/  "a1<-->h8",
-    /*13*/  "a8<-->h1",
-    /*14*/  "shift",
-    /*15*/  "substitute",
-    /*16*/  "forsyth"
+    /* 3*/  "sstipulation",
+    /* 4*/  "add",
+    /* 5*/  "remove",
+    /* 6*/  "continued",
+    /* 7*/  "rotate",
+    /* 8*/  "condition",
+    /* 9*/  "PolishType",
+    /*10*/  "mirror",
+    /*11*/  "a1<-->h1",
+    /*12*/  "a1<-->a8",
+    /*13*/  "a1<-->h8",
+    /*14*/  "a8<-->h1",
+    /*15*/  "shift",
+    /*16*/  "substitute",
+    /*17*/  "forsyth"
   }
 };
 
@@ -926,7 +930,7 @@ static char InputLine[LINESIZE];    /* This array contains the input as is */
 static char TokenLine[LINESIZE];    /* This array contains the lowercase input */
 
 static char SpaceChar[] = " \t\n\r;,.:";
-static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|";
+static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|,";
 /* Steingewinn ! */
 /* introductory move */
 /* h##! */
@@ -2456,33 +2460,41 @@ static char *ParseStructuredStip_operand(char *tok,  slice_index *result);
 
 /* Parse a direct branch
  * @param tok input token
- * @param length number of half moves
+ * @param min_length minimal number of half moves
+ * @param max_length maximal number of half moves 
  * @param result index of branch; no_slice if branch couldn't be
  *               parsed
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_d(char *tok,
-                                          stip_length_type length,
+                                          stip_length_type min_length,
+                                          stip_length_type max_length,
                                           slice_index *result)
 {
-  slice_index operand;
-
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",min_length);
+  TraceFunctionParam("%u\n",max_length);
   TraceFunctionParam("%s\n",tok);
 
-  tok = ParseStructuredStip_operand(tok,&operand);
-  if (tok!=0)
+  if ((min_length==0 || min_length==max_length)
+      && max_length%2==0)
   {
-    /* TODO support for exact */
-    stip_length_type const min_length = slack_length_direct;
-    slice_index defender;
+    slice_index operand;
+    tok = ParseStructuredStip_operand(tok,&operand);
+    if (tok!=0)
+    {
+      slice_index defender;
 
-    length += slack_length_direct;
-    defender = alloc_branch_d_defender_slice(length,min_length,operand);
-    *result = alloc_branch_d_slice(length,min_length,operand);
-    branch_d_set_peer(*result,defender);
-    branch_d_defender_set_peer(defender,*result);
+      min_length += slack_length_direct;
+      max_length += slack_length_direct;
+      defender = alloc_branch_d_defender_slice(max_length,min_length,operand);
+      *result = alloc_branch_d_slice(max_length,min_length,operand);
+      branch_d_set_peer(*result,defender);
+      branch_d_defender_set_peer(defender,*result);
+    }
   }
+  else
+    tok = 0;
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s\n",tok);
@@ -2491,29 +2503,35 @@ static char *ParseStructuredStip_branch_d(char *tok,
 
 /* Parse a help branch
  * @param tok input token
- * @param length number of half moves
+ * @param min_length minimal number of half moves
+ * @param max_length maximal number of half moves 
  * @param result index of branch; no_slice if branch couldn't be
  *               parsed
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_h(char *tok,
-                                          stip_length_type length,
+                                          stip_length_type min_length,
+                                          stip_length_type max_length,
                                           slice_index *result)
 {
-  slice_index operand;
-
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",min_length);
+  TraceFunctionParam("%u\n",max_length);
   TraceFunctionParam("%s\n",tok);
 
-  tok = ParseStructuredStip_operand(tok,&operand);
-  if (tok!=0)
+  if (min_length==0 || min_length==max_length)
   {
-    /* TODO support for exact */
-    stip_length_type min_length = slack_length_help;
-    if (length%2==1)
-      ++min_length;
-    length += slack_length_help;
-    *result = alloc_branch_h_slice(length,min_length,operand);
+    slice_index operand;
+    tok = ParseStructuredStip_operand(tok,&operand);
+    if (tok!=0)
+    {
+      if (min_length==0)
+        min_length = max_length%2==0 ? 0 : 1;
+
+      min_length += slack_length_help;
+      max_length += slack_length_help;
+      *result = alloc_branch_h_slice(max_length,min_length,operand);
+    }
   }
   
   TraceFunctionExit(__func__);
@@ -2523,30 +2541,80 @@ static char *ParseStructuredStip_branch_h(char *tok,
 
 /* Parse a series branch
  * @param tok input token
- * @param length number of half moves
+ * @param min_length minimal number of half moves
+ * @param max_length maximal number of half moves 
  * @param result index of branch; no_slice if branch couldn't be
  *               parsed
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_ser(char *tok,
-                                            stip_length_type length,
+                                            stip_length_type min_length,
+                                            stip_length_type max_length,
                                             slice_index *result)
 {
-  slice_index operand;
-
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",min_length);
+  TraceFunctionParam("%u\n",max_length);
   TraceFunctionParam("%s\n",tok);
 
-  tok = ParseStructuredStip_operand(tok,&operand);
-  if (tok!=0)
+  if (min_length==0 || min_length==max_length)
   {
-    /* TODO support for exact */
-    stip_length_type const min_length = slack_length_series;
-
-    length += slack_length_series;
-    *result = alloc_branch_ser_slice(length,min_length,operand);
+    slice_index operand;
+    tok = ParseStructuredStip_operand(tok,&operand);
+    if (tok!=0)
+    {
+      min_length += slack_length_series;
+      max_length += slack_length_series;
+      *result = alloc_branch_ser_slice(max_length,min_length,operand);
+    }
   }
   
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s\n",tok);
+  return tok;
+}
+
+/* Parse the length indication of a branch
+ * @param tok input token
+ * @param min_length minimal number of half moves
+ * @param max_length maximal number of half moves 
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_branch_length(char *tok,
+                                               stip_length_type *min_length,
+                                               stip_length_type *max_length)
+{
+  char *end;
+  unsigned long length_long = strtoul(tok,&end,10);
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s\n",tok);
+  
+  if (end==tok || length_long==0 || length_long>UINT_MAX)
+    tok = 0;
+  else
+  {
+    tok = ParseStructuredStip_skip_whitespace(end);
+    if (tok[0]==',')
+    {
+      *min_length = (stip_length_type)length_long;
+      tok = ParseStructuredStip_skip_whitespace(tok+1);
+      length_long = strtoul(tok,&end,10);
+      if (end==tok || length_long==0 || length_long>UINT_MAX)
+        tok = 0;
+      else
+      {
+        *max_length = (stip_length_type)length_long;
+        tok = end;
+      }
+    }
+    else
+    {
+      *min_length = 0;
+      *max_length = (stip_length_type)length_long;
+    }
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s\n",tok);
   return tok;
@@ -2560,36 +2628,28 @@ static char *ParseStructuredStip_branch_ser(char *tok,
  */
 static char *ParseStructuredStip_branch(char *tok, slice_index *result)
 {
-  unsigned long nr_moves_long;
-  char *end;
-  
+  stip_length_type min_length;
+  stip_length_type max_length;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
 
-  /* e.g. 2dd# for a #2 */
-  nr_moves_long = strtoul(tok,&end,10);
+  tok = ParseStructuredStip_branch_length(tok,&min_length,&max_length);
 
-  if (end==tok || nr_moves_long==0 || nr_moves_long>UINT_MAX)
-    tok = 0;
-  else
+  if (tok!=0)
   {
-    /* TODO: structured form of exact stipulations */
-    stip_length_type const nr_moves = (stip_length_type)nr_moves_long;
-    switch (end[0])
+    switch (tok[0])
     {
       case 'd':
-        if (nr_moves%2==0)
-          tok = ParseStructuredStip_branch_d(end+1,nr_moves,result);
-        else
-          tok = 0;
+        tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,result);
         break;
 
       case 'h':
-        tok = ParseStructuredStip_branch_h(end+1,nr_moves,result);
+        tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,result);
         break;
 
       case 's':
-        tok = ParseStructuredStip_branch_ser(end+1,nr_moves,result);
+        tok = ParseStructuredStip_branch_ser(tok+1,min_length,max_length,result);
         break;
 
       default:
@@ -2793,6 +2853,8 @@ static char *ParseStructuredStip(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
+
+  AlphaStip[0] = 0;
 
   tok = ReadNextTokStr();
   starter = ParseStructuredStip_starter(tok);
@@ -4959,6 +5021,26 @@ static char *ParseTwinning(boolean *stipChanged)
         *stipChanged = true;
         InitStip();
         tok = ParseStip();
+
+        /* issue the twinning */
+        StdString(AlphaStip);
+        if (LaTeXout) {
+          strcat(ActTwinning, AlphaStip);
+          if (OptFlag[solapparent]) {
+            strcat(ActTwinning, "*");
+          }
+          if (OptFlag[whitetoplay]) {
+            char temp[10];        /* increased due to buffer overflow */
+            sprintf(temp, " %c{\\ra}",
+                    tolower(*PieSpString[UserLanguage][White]));
+            strcat(ActTwinning, temp);
+          }
+        }
+        break;
+      case TwinningStructStip:
+        *stipChanged = true;
+        InitStip();
+        tok = ParseStructuredStip();
 
         /* issue the twinning */
         StdString(AlphaStip);

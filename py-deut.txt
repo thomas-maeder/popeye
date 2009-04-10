@@ -588,17 +588,18 @@ Kommandos:
 
          anzugwechselAusdruck = '-' Operand
 
-         Zweig                = Laenge ZweigTyp
+         Zweig                =   maxLaenge ZweigTyp
+                                | minLaenge ',' maxLaenge zweigTyp
 
          Blatt                = BlattTyp Ziel
-
-         Laenge               = Anzahl Halbzuege (positive Zahl)
 
          ZweigTyp             = 'd' | 'h' | 's'
 
          BlattTyp             = 'd' | 'h' | 's'
 
          Ziel                 = '#' | '=' usw. (siehe Forderung)
+
+         minLaenge, maxLaenge = Anzahl Halbzuege (positive Zahl)
 
 
        Semantik:
@@ -624,13 +625,22 @@ Kommandos:
                                vorgegeben
 
          Zweig: Folge von Halbzuegen, gefolgt vom Operanden
-                'd': direktes Spiel; beide Seiten spielen abwechselnd
-                     gegeneinander; im Operand beginnt die gleiche Seite
+                'd': Direktes Spiel; beide Seiten spielen abwechselnd
+                     gegeneinander; im Operand beginnt die gleiche Seite.
+                     Wenn minLaenge angegeben wird, dann gegenwaertig nur
+                     mit dem gleichen Wert wie maxLaenge (fuer eine
+                     exact-Forderung).
                 'h': Hilfsspiel: beide Seiten spielen abwechselnd kooperativ;
                      im Operand beginnt bei durch 2 teilbarer Laenge die gleiche,
                      sonst die andere Seite
+                     Wenn minLaenge angegeben wird, dann gegenwaertig nur
+                     mit dem gleichen Wert wie maxLaenge (fuer eine
+                     exact-Forderung).
                 's': Serie: eine Seite spielt alle Halbzuege; im Operand beginnt
                      die andere Seite
+                     Wenn minLaenge angegeben wird, dann gegenwaertig nur
+                     mit dem gleichen Wert wie maxLaenge (fuer eine
+                     exact-Forderung).
 
          Blatt: 1 oder 2 Halbzuege
                 'd': direkter Halbzug: hat eine Loesung, wenn das Ziel erreicht
