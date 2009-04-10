@@ -361,7 +361,7 @@ UND
 Hilfszweig von 1 Halbzug mit Fortsetzung
 Hilfsblatt zum Matt (d.h. h#1)
 die ganze Forderung ist somit aequivalent zu r#2
-(allerdings werden die beiden Operanden von UND in der weniger
+(allerdings werden die beiden Operanden von & in der weniger
 effizienten Reihenfolge ausgewertet)
 
             Jukka Tuovinen
@@ -461,7 +461,7 @@ UND
 Hilfszweig von 1 Halbzug mit Fortsetzung
 Hilfsblatt zum Matt (d.h. h#1)
 die ganze Forderung ist somit aequivalent zu reci-h#2
-(allerdings werden die beiden Operanden von UND in der weniger
+(allerdings werden die beiden Operanden von & in der weniger
 effizienten Reihenfolge ausgewertet)
 
            Norbert Geissler

@@ -119,7 +119,7 @@ bemerkung        UND
 bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
 bemerkung          Hilfsblatt zum Matt (d.h. h#1)
 bemerkung       die ganze Forderung ist somit aequivalent zu r#2
-bemerkung       (allerdings werden die beiden Operanden von UND in der weniger
+bemerkung       (allerdings werden die beiden Operanden von & in der weniger
 bemerkung        effizienten Reihenfolge ausgewertet)
 sforderung      weiss 2d ( !d# & 1hh# )
 bedingung       anticirce
@@ -156,7 +156,7 @@ bemerkung        UND
 bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
 bemerkung          Hilfsblatt zum Matt (d.h. h#1)
 bemerkung       die ganze Forderung ist somit aequivalent zu reci-h#2
-bemerkung       (allerdings werden die beiden Operanden von UND in der weniger
+bemerkung       (allerdings werden die beiden Operanden von & in der weniger
 bemerkung        effizienten Reihenfolge ausgewertet)
 sford schwarz 2h ( d# & 1hh# )
 stei
