@@ -151,10 +151,10 @@ auto Norbert Geissler
 quel 3588, Problemkiste 96, 12/1994
 
 bemerkung       Hilfszweig von 2 Halbzuegen mit Fortsetzung:
-bemerkung         direktes Blatt zum Matt (d.h. #1)
+bemerkung         direktes Blatt zum Matt
 bemerkung        UND
 bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          Hilfsblatt zum Matt (d.h. h#1)
+bemerkung          Hilfsblatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu reci-h#2
 bemerkung       (allerdings werden die beiden Operanden von & in der weniger
 bemerkung        effizienten Reihenfolge ausgewertet)
@@ -178,13 +178,13 @@ steine  weiss   ke7 tf2
 
 weiter
 
-autor Valentin Rudenko
-autor Viktor Cepiznij
-quelle 1. WCCT 1972-75, Abt. F2, 6. Platz
-bemerkung eigentlich: sKg4 s#2 b) g4->e3
-steine weiss kc8 dc2 tf2h8 ld6d7 sb7e6 ba6c5d4
-       schwarz kf3 ta8 lb8 sc7 ba7c3d5
-sforderung schwarz 1h 2ds#
-option vari
+autor           Valentin Rudenko
+autor           Viktor Cepiznij
+quelle          1. WCCT 1972-75, Abt. F2, 6. Platz
+bemerkung       eigentlich: sKg4 s#2 b) g4->e3
+steine          weiss kc8 dc2 tf2h8 ld6d7 sb7e6 ba6c5d4
+                schwarz kf3 ta8 lb8 sc7 ba7c3d5
+sforderung      schwarz 1h 2ds#
+option          vari
 
 ende

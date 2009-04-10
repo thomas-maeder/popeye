@@ -301,10 +301,10 @@ Loesung beendet.
 
 direkter Zweig von 2 Halbzuegen mit Fortsetzung:
 Hilfszweig von 1 Halbzug mit Fortsetzung
-Hilfsblatt zum Matt (d.h. h#1)
+Hilfsblatt zum Matt
 UND
 NICHT
-direktes Blatt zum Matt (d.h. #1)
+direktes Blatt zum Matt
 die ganze Forderung ist somit aequivalent zu r#2
 
             Jukka Tuovinen
@@ -356,10 +356,10 @@ Loesung beendet.
 
 direkter Zweig von 2 Halbzuegen mit Fortsetzung:
 NICHT
-direktes Blatt zum Matt (d.h. #1)
+direktes Blatt zum Matt
 UND
 Hilfszweig von 1 Halbzug mit Fortsetzung
-Hilfsblatt zum Matt (d.h. h#1)
+Hilfsblatt zum Matt
 die ganze Forderung ist somit aequivalent zu r#2
 (allerdings werden die beiden Operanden von & in der weniger
 effizienten Reihenfolge ausgewertet)
@@ -412,10 +412,10 @@ Loesung beendet.
 
 
 Hilfszweig von 2 Halbzuegen mit Fortsetzung:
-direktes Blatt zum Matt (d.h. #1)
+direktes Blatt zum Matt
 UND
 Hilfszweig von 1 Halbzug mit Fortsetzung
-Hilfsblatt zum Matt (d.h. h#1)
+Hilfsblatt zum Matt
 die ganze Forderung ist somit aequivalent zu reci-h#2
 
            Norbert Geissler
@@ -456,10 +456,10 @@ Loesung beendet.
 
 
 Hilfszweig von 2 Halbzuegen mit Fortsetzung:
-direktes Blatt zum Matt (d.h. #1)
+direktes Blatt zum Matt
 UND
 Hilfszweig von 1 Halbzug mit Fortsetzung
-Hilfsblatt zum Matt (d.h. h#1)
+Hilfsblatt zum Matt
 die ganze Forderung ist somit aequivalent zu reci-h#2
 (allerdings werden die beiden Operanden von & in der weniger
 effizienten Reihenfolge ausgewertet)
@@ -503,7 +503,7 @@ Loesung beendet.
 
 Serienzweig von 2 Halbzuegen mit Fortsetzung
 Serienzweig von 3 Halbzuegen mit Fortsetzung
-Hilfsblatt zum Matt (d.h. h#1)
+Hilfsblatt zum Matt
 die ganze Forderung ist somit aequivalent zu 2->ser-h#3
 
             Torsten Lin"s
@@ -531,6 +531,69 @@ die ganze Forderung ist somit aequivalent zu 2->ser-h#3
               BiWoozles
 
   1.Ke7-d8   2.Tf2-f8   1.g2-g1=S   2.Dh1-b7   3.Sg1-f3 Kd8-c7 # 
+
+Loesung beendet. 
+
+
+eigentlich: sKg4 s#2 b) g4->e3
+
+           Valentin Rudenko
+           Viktor Cepiznij
+  1. WCCT 1972-75, Abt. F2, 6. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T  -L   K   .   .   .   .   T   8
+|                                   |
+7  -B   S  -S   L   .   .   .   .   7
+|                                   |
+6   B   .   .   L   S   .   .   .   6
+|                                   |
+5   .   .   B  -B   .   .   .   .   5
+|                                   |
+4   .   .   .   B   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .  -K   .   .   3
+|                                   |
+2   .   .   D   .   .   T   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz 1h 2ds#            11 + 7
+
+      1...Kf3-e3 
+          2.Th8-e8 Zugzwang.
+              2...Sc7*e6 
+                  3.Tf2-f4 
+                      3...Lb8*d6 # 
+                      3...Lb8-c7 # 
+              2...Sc7*a6 
+                  3.Ld6-f4 + 
+                      3...Lb8*f4 # 
+              2...Sc7-b5 
+                  3.Ld6-f4 + 
+                      3...Lb8*f4 # 
+              2...Sc7*e8 
+                  3.Ld6-f4 + 
+                      3...Lb8*f4 # 
+      1...Kf3-g4 
+          2.Ld6-h2 Zugzwang.
+              2...Sc7*a6 
+                  3.Tf2-f4 + 
+                      3...Lb8*f4 # 
+              2...Sc7-b5 
+                  3.Tf2-f4 + 
+                      3...Lb8*f4 # 
+              2...Sc7*e6 
+                  3.Lh2-f4 
+                      3...Lb8*f4 # 
+                      3...Lb8-e5 # 
+                      3...Lb8-d6 # 
+                      3...Lb8-c7 # 
+              2...Sc7-e8 
+                  3.Tf2-f4 + 
+                      3...Lb8*f4 # 
 
 Loesung beendet. 
 

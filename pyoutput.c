@@ -123,6 +123,7 @@ void init_output(slice_index si)
   {
     move_depth = nr_color_inversions_in_ply[nbply+1];
     TraceValue("%u\n",move_depth);
+    invalidate_ply_snapshot(&captured_ply[2]);
   }
 
   TraceFunctionExit(__func__);
