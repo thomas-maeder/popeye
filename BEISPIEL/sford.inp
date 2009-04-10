@@ -94,10 +94,10 @@ quelle          diagrammes spezial #13, 7-9/1993
 
 bemerkung       direkter Zweig von 2 Halbzuegen mit Fortsetzung:
 bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          Hilfsblatt zum Matt (d.h. h#1)
+bemerkung          Hilfsblatt zum Matt
 bemerkung        UND
 bemerkung         NICHT
-bemerkung          direktes Blatt zum Matt (d.h. #1)
+bemerkung          direktes Blatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu r#2
 sforderung      weiss 2d ( 1hh# & !d# )
 bedingung       anticirce
@@ -114,10 +114,10 @@ quelle          diagrammes spezial #13, 7-9/1993
 
 bemerkung       direkter Zweig von 2 Halbzuegen mit Fortsetzung:
 bemerkung         NICHT
-bemerkung          direktes Blatt zum Matt (d.h. #1)
+bemerkung          direktes Blatt zum Matt
 bemerkung        UND
 bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          Hilfsblatt zum Matt (d.h. h#1)
+bemerkung          Hilfsblatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu r#2
 bemerkung       (allerdings werden die beiden Operanden von & in der weniger
 bemerkung        effizienten Reihenfolge ausgewertet)
@@ -134,10 +134,10 @@ auto Norbert Geissler
 quel 3588, Problemkiste 96, 12/1994
 
 bemerkung       Hilfszweig von 2 Halbzuegen mit Fortsetzung:
-bemerkung         direktes Blatt zum Matt (d.h. #1)
+bemerkung         direktes Blatt zum Matt
 bemerkung        UND
 bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          Hilfsblatt zum Matt (d.h. h#1)
+bemerkung          Hilfsblatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu reci-h#2
 sford schwarz 2h ( 1hh# & d# )
 stei
@@ -169,7 +169,7 @@ weiter
 autor           Torsten Lin"s
 bemerkung       Serienzweig von 2 Halbzuegen mit Fortsetzung
 bemerkung        Serienzweig von 3 Halbzuegen mit Fortsetzung
-bemerkung         Hilfsblatt zum Matt (d.h. h#1)
+bemerkung         Hilfsblatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu 2->ser-h#3
 sforderung      weiss 2s 3s h#
 bedingung       biwoozles
