@@ -299,6 +299,57 @@ Loesung beendet.
 Loesung beendet. 
 
 
+eigentilch semi-r#2
+
+           Stephen Emmerson
+    H, The Problemist 1/1997, S. 7
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -T   .   .   .   .   .   .   8
+|                                   |
+7   .   B   T   .   .   .   .   L   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -B   .   .   .   .   .   5
+|                                   |
+4   .   .   .   L   .   .   .   .   4
+|                                   |
+3   .   .   K   .   .   .   B   .   3
+|                                   |
+2  -B  -L  -K   .   B   .   .   .   2
+|                                   |
+1  -D  -L   .   .   .   D   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 2d 1h h#              8 + 7
+               Isardam
+
+  1.Ld4-h8 ! Zugzwang.
+      1...c5-c4 
+          2.Lh7-d3 
+              2...Kc2*d3 # 
+      1...Tb8-a8 
+          2.Tc7-d7 
+              2...Ta8-a3 # 
+      1...Tb8-g8 
+          2.Lh7-g6 
+              2...Tg8*g6 # 
+      1...Tb8-f8 
+          2.Lh7-f5 
+              2...Tf8*f5 # 
+      1...Tb8-e8 
+          2.Lh7-e4 
+              2...Te8*e4 # 
+      1...Tb8-d8 
+          2.Lh7-d3 
+              2...Td8*d3 # 
+
+
+Loesung beendet. 
+
+
 direkter Zweig von 2 Halbzuegen mit Fortsetzung:
 Hilfszweig von 1 Halbzug mit Fortsetzung
 Hilfsblatt zum Matt
