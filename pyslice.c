@@ -575,6 +575,10 @@ boolean slice_has_non_starter_solved(slice_index si)
       result = reci_has_non_starter_solved(si);
       break;
 
+    case STNot:
+      result = not_has_non_starter_solved(si);
+      break;
+
     default:
       assert(0);
       break;

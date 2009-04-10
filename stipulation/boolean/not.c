@@ -172,6 +172,23 @@ boolean not_has_starter_won(slice_index si)
   return result;
 }
 
+/* Determine whether a slice.has just been solved with the just
+ * played move by the non-starter 
+ * @param si slice identifier
+ * @return true iff the non-starting side has just solved
+ */
+boolean not_has_non_starter_solved(slice_index si)
+{
+  boolean const result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param same_side_as_root does si start with the same side as root?
