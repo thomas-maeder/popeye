@@ -107,7 +107,7 @@ dieses Kommando an Popeye eingegeben wurde, kann Popeye weitere Kommandos
 entgegennehmen. Folgende Kommandos stehen zur Auswahl:
 
 	Bemerkung, Autor, Quelle, Titel, Protokoll,
-	Bedingung, Option, Forderung, Forsyth, Steine, Zwilling
+	Bedingung, Option, Forderung, SForderung, Forsyth, Steine, Zwilling
 
 Die Reihenfolge der Kommandos spielt keine Rolle, und koennen auch mehrfach
 gegeben werden. Bei den Kommandos in der zweiten Zeile wird immer das letzte
@@ -561,6 +561,87 @@ Kommandos:
 	HR#3            Hilfsreflexmatt in 3 Zuegen
 
 	SEMI wirkt natuerlich nur im Zusammenhang mit Reflexforderungen.
+
+ - SForderung: Die Forderung kann auch in "strukturierter" Form
+       angegeben werden.
+
+       Syntax:
+
+         SForderung           = SeiteAmZug Ausdruck
+
+         SeiteAmZug           = Weiss | Schwarz
+
+         Ausdruck             =   Operand
+                                | Operand Operator Operand
+
+         Operand              =   geklammerterAusdruck
+                                | negierterAusdruck
+                                | anzugwechselAusdruck
+                                | Zweig Operand
+                                | Blatt
+
+         Operator             = '&' | '|'
+
+         geklammerterAusdruck = '(' Ausdruck ')'
+
+         negierterAusdruck    = '!' Operand
+
+         anzugwechselAusdruck = '-' Operand
+
+         Zweig                = Laenge ZweigTyp
+
+         Blatt                = BlattTyp Ziel
+
+         Laenge               = Anzahl Halbzuege (positive Zahl)
+
+         ZweigTyp             = 'd' | 'h' | 's'
+
+         BlattTyp             = 'd' | 'h' | 's'
+
+         Ziel                 = '#' | '=' usw. (siehe Forderung)
+
+
+       Semantik:
+
+         SeiteAmZug: Seite, welche gemäss der Forderung den ersten Zug
+                     ausfuehrt
+
+         Ausdruck: einfache oder zusammengesetzte (Teil)Forderung
+
+         Operand: Teil eines Ausdrucks
+
+         Operator: kombiniert zwei Operanden.
+                   '&': boolesches UND:  Ausdruck hat eine Loesung, wenn
+                                         beide Operanden eine Loesung haben
+                   '|': boolesches ODER: Ausdruck hat eine Loesung, wenn
+                                         mindestens einer der Operatoren eine
+                                         Loesung hat
+
+         negierterAusdruck: hat eine Loesung, wenn der Operand keine hat
+
+         anzugwechselAusdruck: im Operand beginnt die andere Seite als durch
+                               SeiteAmZug oder den umgebenden Ausdruck eigentlich
+                               vorgegeben
+
+         Zweig: Folge von Halbzuegen, gefolgt vom Operanden
+                'd': direktes Spiel; beide Seiten spielen abwechselnd
+                     gegeneinander; im Operand beginnt die gleiche Seite
+                'h': Hilfsspiel: beide Seiten spielen abwechselnd kooperativ;
+                     im Operand beginnt bei durch 2 teilbarer Laenge die gleiche,
+                     sonst die andere Seite
+                's': Serie: eine Seite spielt alle Halbzuege; im Operand beginnt
+                     die andere Seite
+
+         Blatt: 1 oder 2 Halbzuege
+                'd': direkter Halbzug: hat eine Loesung, wenn das Ziel erreicht
+                                       wird
+                'h': Hilfshalbzug: hat eine Loesung, wenn das Ziel erreicht wird
+                's': Selbstzug (2 Halbzuege): hat eine Loesung, wenn der erste
+                                              Halbzug die andere Seite dazu zwingt,
+                                              das Ziel zu erreichen
+
+       Beispiele: siehe BEISPIEL/sford.inp
+
 
  - Forsyth: Mit diesem Kommando kann die Stellung in Forsyth Notation
             angegeben werden.
