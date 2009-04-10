@@ -96,6 +96,35 @@ void quodlibet_solve_continuations(table continuations, slice_index si)
   TraceText("\n");
 }
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index quodlibet_root_make_setplay_slice(slice_index si)
+{
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index op1_set;
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  op1_set = slice_root_make_setplay_slice(op1);
+  if (op1_set!=no_slice)
+  {
+    slice_index const op2_set = slice_root_make_setplay_slice(op2);
+    if (op2_set==no_slice)
+      dealloc_slice_index(op1_set);
+    else
+      result = alloc_quodlibet_slice(op1_set,op2_set);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Solve a slice in exactly n moves at root level
  * @param si slice index
  * @param n exact number of moves
@@ -108,11 +137,7 @@ void quodlibet_root_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  if (slice_must_starter_resign(op1))
-    slice_write_unsolvability(op1);
-  else if (slice_must_starter_resign(op2))
-    slice_write_unsolvability(op2);
-  else
+  if (!slice_must_starter_resign(op1) && !slice_must_starter_resign(op2))
   {
     slice_root_solve_in_n(op1,n);
     write_end_of_solution_phase();
@@ -135,11 +160,7 @@ boolean quodlibet_root_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  if (slice_must_starter_resign(op1))
-    slice_write_unsolvability(op1);
-  else if (slice_must_starter_resign(op2))
-    slice_write_unsolvability(op2);
-  else
+  if (!slice_must_starter_resign(op1) && !slice_must_starter_resign(op2))
   {
     result = true;
     slice_root_solve(op1);

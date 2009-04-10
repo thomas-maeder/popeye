@@ -152,7 +152,7 @@ void slice_solve_continuations(table continuations, slice_index si)
  */
 slice_index slice_root_make_setplay_slice(slice_index si)
 {
-  slice_index result = no_slice;
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -172,16 +172,16 @@ slice_index slice_root_make_setplay_slice(slice_index si)
       result = branch_ser_root_make_setplay_slice(si);
       break;
 
-    case STLeafDirect:
-      result = leaf_d_root_make_setplay_slice(si);
-      break;
-
     case STLeafSelf:
       result = leaf_s_root_make_setplay_slice(si);
       break;
 
     case STReciprocal:
       result = reci_root_make_setplay_slice(si);
+      break;
+
+    case STQuodlibet:
+      result = quodlibet_root_make_setplay_slice(si);
       break;
 
     case STNot:
@@ -193,7 +193,7 @@ slice_index slice_root_make_setplay_slice(slice_index si)
       break;
 
     default:
-      assert(0);
+      result = no_slice;
       break;
   }
 

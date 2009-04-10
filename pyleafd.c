@@ -472,22 +472,6 @@ boolean leaf_d_has_starter_reached_goal(slice_index leaf)
   return result;
 }
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index leaf_d_root_make_setplay_slice(slice_index leaf)
-{
-  slice_index const result = no_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 /* Find and write post key play
  * @param leaf slice index
  */
