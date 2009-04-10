@@ -75,10 +75,30 @@ option enpassant d3
 
 weiter
 
+autor           Manfred Seidel
+quelle          Europa-Rochade 6/1991
+quelle          PK-76, S.53, 1)
+
+bemerkung       3 Serienzuge mit Fortsetzung:
+bemerkung        Anzuginversion mit Fortsetzung
+bemerkung         direktes Blatt mit Ziel matt
+bemerkung       d.h. eigentlich ser-#4
+bemerkung       Die Anzuginversion ist erforderlich, weil am Ende einer Serie
+bemerkung       der Anzug wechselt.
+sforderung      weiss 3s - d#
+bedingung       madrasi
+
+steine          weiss   bb7c7f7g7 kg4
+                schwarz sf8 tg8c4 kd7 dh7
+
+weiter
 
 autor           Matti Myllyniemi
 auszeichnung	1. Preis, O. Kaila JT 1967
 
+bemerkung       ODER-Verknuepfung statt Vierlinge
+bemerkung       da der Anzug zwischen den Teilen variiert, brauchen wir
+bemerkung       zweimal eine Anzuginversion (-)
 sforderung      weiss 2dd# | -3hd# | 2ds# | -3hd=
 
 steine  weiss   kd3 tf6 la4 sc4 bc6e2e7g5
