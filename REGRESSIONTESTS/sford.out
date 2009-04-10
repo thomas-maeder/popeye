@@ -411,6 +411,58 @@ effizienten Reihenfolge ausgewertet)
 Loesung beendet. 
 
 
+Hilfszweig von 2 Halbzuegen mit Fortsetzung:
+direktes Blatt zum Matt (d.h. #1)
+UND
+Hilfszweig von 1 Halbzug mit Fortsetzung
+Hilfsblatt zum Matt (d.h. h#1)
+die ganze Forderung ist somit aequivalent zu reci-h#2
+
+           Norbert Geissler
+    3588, Problemkiste 96, 12/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .   .   .  -K   .   .  -T   8
+|                                   |
+7   .  -L   .   .   .  -B   .  -B   7
+|                                   |
+6   .   .   .   .  -B   .   .   .   6
+|                                   |
+5   .   .   .   .   L   .   .   T   5
+|                                   |
+4   S   .   .   .  -B   .   .   B   4
+|                                   |
+3   .   .   .   .  -L   .  -S   S   3
+|                                   |
+2   .   .   .   B   .  -B   K  -B   2
+|                                   |
+1   .   .   .   .   .   .   T   L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz 2h ( 1hh# & d# )        9 + 12
+
+a)
+
+  1.f2-f1=S d2-d4   2.0-0-0 Sa4-b6 # 
+  1.f2-f1=S d2-d4   2.e4*d3 ep. # 
+
+b) sBf2<-->wBh4
+
+  1.h2*g1=L f2-f4   2.0-0 Th5-g5 # 
+  1.h2*g1=L f2-f4   2.e4*f3 ep. # 
+
+Loesung beendet. 
+
+
+Hilfszweig von 2 Halbzuegen mit Fortsetzung:
+direktes Blatt zum Matt (d.h. #1)
+UND
+Hilfszweig von 1 Halbzug mit Fortsetzung
+Hilfsblatt zum Matt (d.h. h#1)
+die ganze Forderung ist somit aequivalent zu reci-h#2
+(allerdings werden die beiden Operanden von UND in der weniger
+effizienten Reihenfolge ausgewertet)
 
            Norbert Geissler
     3588, Problemkiste 96, 12/1994

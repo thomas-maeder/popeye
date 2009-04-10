@@ -132,6 +132,32 @@ weiter
 
 auto Norbert Geissler
 quel 3588, Problemkiste 96, 12/1994
+
+bemerkung       Hilfszweig von 2 Halbzuegen mit Fortsetzung:
+bemerkung         direktes Blatt zum Matt (d.h. #1)
+bemerkung        UND
+bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
+bemerkung          Hilfsblatt zum Matt (d.h. h#1)
+bemerkung       die ganze Forderung ist somit aequivalent zu reci-h#2
+sford schwarz 2h ( 1hh# & d# )
+stei
+weis kg2 tg1h5 lh1e5 sa4h3 bd2h4
+schw ke8 ta8h8 lb7e3 sg3 be4e6f2f7h2h7
+zwilling tausche f2 h4
+
+weiter
+
+auto Norbert Geissler
+quel 3588, Problemkiste 96, 12/1994
+
+bemerkung       Hilfszweig von 2 Halbzuegen mit Fortsetzung:
+bemerkung         direktes Blatt zum Matt (d.h. #1)
+bemerkung        UND
+bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
+bemerkung          Hilfsblatt zum Matt (d.h. h#1)
+bemerkung       die ganze Forderung ist somit aequivalent zu reci-h#2
+bemerkung       (allerdings werden die beiden Operanden von UND in der weniger
+bemerkung        effizienten Reihenfolge ausgewertet)
 sford schwarz 2h ( d# & 1hh# )
 stei
 weis kg2 tg1h5 lh1e5 sa4h3 bd2h4
