@@ -171,6 +171,35 @@ static boolean branch_h_solve_in_n_recursive(slice_index si,
                                              stip_length_type n,
                                              Side side_at_move);
 
+/* Is the move just played playable in a help play solution?
+ * @param si slice index
+ * @param n number of half moves (including the move just played)
+ * @param side_at_move side that has just played
+ * @return true iff the move just played is playable
+ */
+static boolean move_filter(slice_index si, stip_length_type n, Side side_at_move)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",side_at_move);
+
+  if ((!isIntelligentModeActive || isGoalReachable())
+      && !echecc(nbply,side_at_move))
+  {
+    (*encode)();
+    result = !slice_must_starter_resign(slices[si].u.branch.next);
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Determine and write the solution(s) in a help stipulation; don't
  * consult nor fill the hash table regarding solutions of length n
  * (either we shouldn't right now, or it has already been/will be done
@@ -204,7 +233,7 @@ static boolean branch_h_root_solve_in_n_recursive_nohash(slice_index si,
     result = slice_root_solve(slices[si].u.branch.next);
   else
   {
-    Side next_side = advers(side_at_move);
+    Side const next_side = advers(side_at_move);
 
     active_slice[nbply+1] = si;
     genmove(side_at_move);
@@ -217,15 +246,10 @@ static boolean branch_h_root_solve_in_n_recursive_nohash(slice_index si,
     while (encore())
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && (!isIntelligentModeActive || isGoalReachable())
-          && !echecc(nbply,side_at_move)
-          && !(OptFlag[restart] && MoveNbr<RestartNbr))
-      {
-        (*encode)();
-        if (!slice_must_starter_resign(slices[si].u.branch.next)
-            && branch_h_solve_in_n_recursive(si,n-1,next_side))
-          result = true;
-      }
+          && !(OptFlag[restart] && MoveNbr<RestartNbr)
+          && move_filter(si,n,side_at_move)
+          && branch_h_solve_in_n_recursive(si,n-1,next_side))
+        result = true;
 
       if (OptFlag[movenbr])
         IncrementMoveNbr();
@@ -283,7 +307,7 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
     result = slice_solve(slices[si].u.branch.next);
   else
   {
-    Side next_side = advers(side_at_move);
+    Side const next_side = advers(side_at_move);
 
     active_slice[nbply+1] = si;
     genmove(side_at_move);
@@ -296,14 +320,9 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
     while (encore())
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && (!isIntelligentModeActive || isGoalReachable())
-          && !echecc(nbply,side_at_move))
-      {
-        (*encode)();
-        if (!slice_must_starter_resign(slices[si].u.branch.next)
-            && branch_h_solve_in_n_recursive(si,n-1,next_side))
-          result = true;
-      }
+          && move_filter(si,n,side_at_move)
+          && branch_h_solve_in_n_recursive(si,n-1,next_side))
+        result = true;
 
       repcoup();
 
@@ -595,7 +614,7 @@ void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
     slice_solve_continuations(continuations,slices[si].u.branch.next);
   else
   {
-    Side next_side = advers(side_at_move);
+    Side const next_side = advers(side_at_move);
 
     active_slice[nbply+1] = si;
     genmove(side_at_move);
@@ -608,17 +627,12 @@ void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
     while (encore())
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && (!isIntelligentModeActive || isGoalReachable())
-          && !echecc(nbply,side_at_move))
+          && move_filter(si,n,side_at_move)
+          && branch_h_solve_in_n_recursive(si,n-1,next_side))
       {
-        (*encode)();
-        if (!slice_must_starter_resign(slices[si].u.branch.next)
-            && branch_h_solve_in_n_recursive(si,n-1,next_side))
-        {
-          append_to_top_table();
-          coupfort();
-        }
-     }
+        append_to_top_table();
+        coupfort();
+      }
 
       repcoup();
 
@@ -754,7 +768,7 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
                                                     Side side_at_move)
 
 {
-  boolean found_solution = false;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
@@ -764,10 +778,10 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    found_solution = slice_has_solution(slices[si].u.branch.next);
+    result = slice_has_solution(slices[si].u.branch.next);
   else
   {
-    Side next_side = advers(side_at_move);
+    Side const next_side = advers(side_at_move);
 
     active_slice[nbply+1] = si;
     genmove(side_at_move);
@@ -780,14 +794,9 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
     while (encore())
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && (!isIntelligentModeActive || isGoalReachable())
-          && !echecc(nbply,side_at_move))
-      {
-        (*encode)();
-        if (!slice_must_starter_resign(slices[si].u.branch.next)
-            && branch_h_has_solution_in_n_recursive(si,n-1,next_side))
-          found_solution = true;
-      }
+          && move_filter(si,n,side_at_move)
+          && branch_h_has_solution_in_n_recursive(si,n-1,next_side))
+        result = true;
 
       repcoup();
     }
@@ -801,8 +810,8 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",found_solution);
-  return found_solution;
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine whether the slice has a solution in n half moves. Consult
@@ -816,7 +825,7 @@ static boolean branch_h_has_solution_in_n_recursive(slice_index si,
                                                     stip_length_type n,
                                                     Side side_at_move)
 {
-  boolean found_solution = false;
+  boolean result = false;
   hashwhat const hash_no_succ = n%2==0 ? HelpNoSuccEven : HelpNoSuccOdd;
 
   TraceFunctionEntry(__func__);
@@ -827,14 +836,14 @@ static boolean branch_h_has_solution_in_n_recursive(slice_index si,
   if (!inhash(si,hash_no_succ,n/2))
   {
     if (branch_h_has_solution_in_n_recursive_nohash(si,n,side_at_move))
-      found_solution = true;
+      result = true;
     else
       addtohash(si,hash_no_succ,n/2);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",found_solution);
-  return found_solution;
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine whether the slice has a solution in n half moves.
