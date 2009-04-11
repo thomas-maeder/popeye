@@ -168,6 +168,37 @@ boolean branch_ser_is_goal_reached(Side just_moved, slice_index si)
   return result;
 }
 
+/* Is the move just played playable in a help play solution?
+ * @param si slice index
+ * @param n number of half moves (including the move just played)
+ * @param side_playing_series side that has just played
+ * @return true iff the move just played is playable
+ */
+static boolean move_filter(slice_index si,
+                           stip_length_type n,
+                           Side side_playing_series)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",side_playing_series);
+
+  if ((!isIntelligentModeActive || isGoalReachable())
+      && !echecc(nbply,side_playing_series))
+  {
+    (*encode)();
+    result = !slice_must_starter_resign(slices[si].u.branch.next);
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Solve a composite slice with series play
  * @param n number of moves to reach the end state
  * @param si slice index
@@ -177,8 +208,8 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
                                                stip_length_type n)
 {
   boolean result = false;
-  Side const series_side = slices[si].u.branch.starter;
-  Side other_side = advers(series_side);
+  Side const side_playing_series = slices[si].u.branch.starter;
+  Side other_side = advers(side_playing_series);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -190,49 +221,40 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
     TraceText("echecc(nbply,other_side)\n");
   else
   {
-    if (!slice_must_starter_resign(si))
+    active_slice[nbply+1] = si;
+    genmove(side_playing_series);
+
+    if (side_playing_series==White)
+      WhMovesLeft--;
+    else
+      BlMovesLeft--;
+
+    while (encore())
     {
-      active_slice[nbply+1] = si;
-      genmove(series_side);
-
-      if (series_side==White)
-        WhMovesLeft--;
-      else
-        BlMovesLeft--;
-
-      while (encore())
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && move_filter(si,n,side_playing_series))
       {
-        if (!(jouecoup(nbply,first_play) && TraceCurrentMove(nbply)))
-          TraceText("!jouecoup(nbply,first_play)\n");
-        else if (echecc(nbply,series_side))
-          TraceText("echecc(nbply,series_side)\n");
-        else if (isIntelligentModeActive && !isGoalReachable())
-          TraceText("isIntelligentModeActive && !isGoalReachable()\n");
+        if (inhash(si,SerNoSucc,n-slack_length_series))
+          TraceText("in hash\n");
+        else if (branch_ser_solve_in_n_recursive(si,n-1))
+          result = true;
         else
-        {
-          (*encode)();
-          if (inhash(si,SerNoSucc,n-slack_length_series))
-            TraceText("in hash\n");
-          else if (branch_ser_solve_in_n_recursive(si,n-1))
-            result = true;
-          else
-            addtohash(si,SerNoSucc,n-slack_length_series);
-        }
-
-        repcoup();
-
-        if ((OptFlag[maxsols] && solutions>=maxsolutions)
-            || maxtime_status==MAXTIME_TIMEOUT)
-          break;
+          addtohash(si,SerNoSucc,n-slack_length_series);
       }
 
-      if (series_side==White)
-        WhMovesLeft++;
-      else
-        BlMovesLeft++;
+      repcoup();
 
-      finply();
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || maxtime_status==MAXTIME_TIMEOUT)
+        break;
     }
+
+    if (side_playing_series==White)
+      WhMovesLeft++;
+    else
+      BlMovesLeft++;
+
+    finply();
   }
 
   TraceFunctionExit(__func__);
@@ -248,8 +270,8 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
 static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
                                                     stip_length_type n)
 {
-  Side const series_side = slices[si].u.branch.starter;
-  Side const other_side = advers(series_side);
+  Side const side_playing_series = slices[si].u.branch.starter;
+  Side const other_side = advers(side_playing_series);
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -262,54 +284,44 @@ static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
     TraceText("echecc(nbply,other_side)\n");
   else
   {
-    if (!slice_must_starter_resign(si))
+    active_slice[nbply+1] = si;
+    genmove(side_playing_series);
+
+    if (side_playing_series==White)
+      WhMovesLeft--;
+    else
+      BlMovesLeft--;
+
+    while (encore())
     {
-      active_slice[nbply+1] = si;
-      genmove(series_side);
-
-      if (series_side==White)
-        WhMovesLeft--;
-      else
-        BlMovesLeft--;
-
-      while (encore())
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && !(OptFlag[restart] && MoveNbr<RestartNbr)
+          && move_filter(si,n,side_playing_series))
       {
-        if (!(jouecoup(nbply,first_play) && TraceCurrentMove(nbply)))
-          TraceText("!jouecoup(nbply,first_play)\n");
-        else if (echecc(nbply,series_side))
-          TraceText("echecc(nbply,series_side)\n");
-        else if (OptFlag[restart] && MoveNbr<RestartNbr)
-          TraceText("OptFlag[restart] && MoveNbr<RestartNbr\n");
-        else if (isIntelligentModeActive && !isGoalReachable())
-          TraceText("isIntelligentModeActive && !isGoalReachable()\n");
+        if (inhash(si,SerNoSucc,n-slack_length_series))
+          TraceText("in hash\n");
+        else if (branch_ser_solve_in_n_recursive(si,n-1))
+          result = true;
         else
-        {
-          (*encode)();
-          if (inhash(si,SerNoSucc,n-slack_length_series))
-            TraceText("in hash\n");
-          else if (branch_ser_solve_in_n_recursive(si,n-1))
-            result = true;
-          else
-            addtohash(si,SerNoSucc,n-slack_length_series);
-        }
-
-        if (OptFlag[movenbr])
-          IncrementMoveNbr();
-
-        repcoup();
-
-        if ((OptFlag[maxsols] && solutions>=maxsolutions)
-            || maxtime_status==MAXTIME_TIMEOUT)
-          break;
+          addtohash(si,SerNoSucc,n-slack_length_series);
       }
 
-      if (series_side==White)
-        WhMovesLeft++;
-      else
-        BlMovesLeft++;
+      if (OptFlag[movenbr])
+        IncrementMoveNbr();
 
-      finply();
+      repcoup();
+
+      if ((OptFlag[maxsols] && solutions>=maxsolutions)
+          || maxtime_status==MAXTIME_TIMEOUT)
+        break;
     }
+
+    if (side_playing_series==White)
+      WhMovesLeft++;
+    else
+      BlMovesLeft++;
+
+    finply();
   }
 
   TraceFunctionExit(__func__);
