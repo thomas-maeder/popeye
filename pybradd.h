@@ -103,8 +103,9 @@ boolean branch_d_defender_has_non_starter_solved(slice_index si);
  * been played in the current ply.
  * @param si slice index
  * @param n (odd) number of half moves until goal
+ * @return true iff >=1 solution was found
  */
-void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
+boolean branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
 
 /* Try to finish the solution of the next slice starting with the key
  * move just played. 
@@ -127,8 +128,9 @@ void branch_d_defender_root_solve_postkey(table refutations, slice_index si);
 
 /* Solve at root level.
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void branch_d_defender_root_solve(slice_index si);
+boolean branch_d_defender_root_solve(slice_index si);
 
 /* Find refutations after a move of the attacking side at root level.
  * @param t table where to store refutations

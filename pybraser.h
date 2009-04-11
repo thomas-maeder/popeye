@@ -78,8 +78,9 @@ slice_index branch_ser_root_make_setplay_slice(slice_index si);
 
 /* Solve a branch slice at root level.
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void branch_ser_root_solve(slice_index si);
+boolean branch_ser_root_solve(slice_index si);
 
 /* Solve a branch in exactly n moves at root level
  * @param si slice index

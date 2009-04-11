@@ -176,7 +176,7 @@ boolean branch_ser_is_goal_reached(Side just_moved, slice_index si)
 static boolean branch_ser_solve_in_n_recursive(slice_index si,
                                                stip_length_type n)
 {
-  boolean solution_found = false;
+  boolean result = false;
   Side const series_side = slices[si].u.branch.starter;
   Side other_side = advers(series_side);
 
@@ -185,7 +185,7 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
   TraceFunctionParam("%u\n",si);
 
   if (n==slack_length_series)
-    solution_found = slice_solve(slices[si].u.branch.next);
+    result = slice_solve(slices[si].u.branch.next);
   else if (echecc(nbply,other_side))
     TraceText("echecc(nbply,other_side)\n");
   else
@@ -214,7 +214,7 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
           if (inhash(si,SerNoSucc,n-slack_length_series))
             TraceText("in hash\n");
           else if (branch_ser_solve_in_n_recursive(si,n-1))
-            solution_found = true;
+            result = true;
           else
             addtohash(si,SerNoSucc,n-slack_length_series);
         }
@@ -236,8 +236,8 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",solution_found);
-  return solution_found;
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Solve a composite slice with series play at root level
@@ -245,18 +245,19 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
  * @param si slice index
  * @return true iff >= 1 solution was found
  */
-static void branch_ser_root_solve_in_n_recursive(slice_index si,
-                                                 stip_length_type n)
+static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
+                                                    stip_length_type n)
 {
   Side const series_side = slices[si].u.branch.starter;
   Side const other_side = advers(series_side);
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",si);
 
   if (n==slack_length_series)
-    slice_root_solve(slices[si].u.branch.next);
+    result = slice_root_solve(slices[si].u.branch.next);
   else if (echecc(nbply,other_side))
     TraceText("echecc(nbply,other_side)\n");
   else
@@ -286,7 +287,9 @@ static void branch_ser_root_solve_in_n_recursive(slice_index si,
           (*encode)();
           if (inhash(si,SerNoSucc,n-slack_length_series))
             TraceText("in hash\n");
-          else if (!branch_ser_solve_in_n_recursive(si,n-1))
+          else if (branch_ser_solve_in_n_recursive(si,n-1))
+            result = true;
+          else
             addtohash(si,SerNoSucc,n-slack_length_series);
         }
 
@@ -310,16 +313,20 @@ static void branch_ser_root_solve_in_n_recursive(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Solve full-length solutions in n in series play at root level
  * @param si slice index
  * @param n number of half moves
+ * @return true iff >=1 solution was found
  */
-static void branch_ser_root_solve_full_in_n(slice_index si,
-                                            stip_length_type n)
+static boolean branch_ser_root_solve_full_in_n(slice_index si,
+                                               stip_length_type n)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
@@ -327,12 +334,13 @@ static void branch_ser_root_solve_full_in_n(slice_index si,
   assert(n>=1);
 
   if (isIntelligentModeActive)
-    Intelligent(si,n);
+    result = Intelligent(si,n);
   else
-    branch_ser_root_solve_in_n_recursive(si,n);
+    result = branch_ser_root_solve_in_n_recursive(si,n);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Solve short solutions in n in series play at root level
@@ -396,10 +404,12 @@ slice_index branch_ser_root_make_setplay_slice(slice_index si)
 
 /* Solve a composite slice with series play at root level
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void branch_ser_root_solve(slice_index si)
+boolean branch_ser_root_solve(slice_index si)
 {
   Side const starter = slices[si].u.branch.starter;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -421,14 +431,18 @@ void branch_ser_root_solve(slice_index si)
          len<full_length && !(OptFlag[stoponshort] && FlagShortSolsReached);
          len++)
       if (branch_ser_root_solve_short_in_n(si,len))
+      {
         FlagShortSolsReached = true;
+        result = true;
+      }
 
     if (!(FlagShortSolsReached && OptFlag[stoponshort]))
-      branch_ser_root_solve_full_in_n(si,full_length);
+      result = branch_ser_root_solve_full_in_n(si,full_length);
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Solve the root composite slice with series play

@@ -247,10 +247,12 @@ static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
 
 /* Determine and write the solution of a leaf slice at root level
  * @param leaf identifies leaf slice
+ * @return true iff >=1 solution was found
  */
-void leaf_h_root_solve(slice_index leaf)
+boolean leaf_h_root_solve(slice_index leaf)
 {
   boolean const save_isIntelligentModeActive = isIntelligentModeActive;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -258,16 +260,17 @@ void leaf_h_root_solve(slice_index leaf)
   init_output(leaf);
 
   isIntelligentModeActive = false;
-  leaf_h_solve(leaf);
+  result = leaf_h_solve(leaf);
   isIntelligentModeActive = save_isIntelligentModeActive;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine and write the solution of a help leaf slice.
  * @param leaf slice index
- * @return true iff >=1 move pair was found
+ * @return true iff >=1 solution was found
  */
 boolean leaf_h_solve(slice_index leaf)
 {

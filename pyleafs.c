@@ -149,10 +149,12 @@ boolean leaf_s_solve(slice_index leaf)
 
 /* Determine and write the solution of a leaf slice at root level.
  * @param leaf identifies leaf slice
+ * @return true iff >=1 key was found and written
  */
-void leaf_s_root_solve(slice_index leaf)
+boolean leaf_s_root_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].u.leafself.starter;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -170,6 +172,7 @@ void leaf_s_root_solve(slice_index leaf)
         && !echecc(nbply,attacker)
         && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
     {
+      result = true;
       write_attack(attack_key);
       leaf_forced_solve_postkey(slices[leaf].u.leafself.next);
     }
@@ -182,7 +185,8 @@ void leaf_s_root_solve(slice_index leaf)
   output_end_continuation_level();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Write the key and solve the remainder of a leaf in direct play

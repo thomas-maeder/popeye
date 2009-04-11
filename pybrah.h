@@ -87,8 +87,9 @@ slice_index branch_h_root_make_setplay_slice(slice_index si);
  * @param si slice index
  * @return no_slice if set play not applicable
  *         new root slice index (may be equal to old one) otherwise
+ * @return true iff >=1 solution was found
  */
-void branch_h_root_solve(slice_index si);
+boolean branch_h_root_solve(slice_index si);
 
 /* Solve a branch slice at non-root level.
  * @param si slice index
@@ -99,8 +100,9 @@ boolean branch_h_solve(slice_index si);
 /* Solve a branch in exactly n moves at root level
  * @param si slice index
  * @param n exact number of moves
+ * @return true iff >=1 solution was found
  */
-void branch_h_root_solve_in_n(slice_index si, stip_length_type n);
+boolean branch_h_root_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine and write continuations of a slice
  * @param continuations table where to store continuing moves (i.e. threats)

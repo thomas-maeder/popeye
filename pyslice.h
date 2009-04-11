@@ -52,8 +52,9 @@ boolean slice_solve(slice_index si);
 
 /* Solve a slice at root level
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void slice_root_solve(slice_index si);
+boolean slice_root_solve(slice_index si);
 
 /* Solve a slice in exactly n moves at root level
  * @param si slice index

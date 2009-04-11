@@ -30,8 +30,9 @@ slice_index move_inverter_root_make_setplay_slice(slice_index si);
 
 /* Solve a move inverter at root level
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void move_inverter_root_solve(slice_index si);
+boolean move_inverter_root_solve(slice_index si);
 
 /* Solve a slice
  * @param si slice index

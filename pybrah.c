@@ -185,11 +185,14 @@ static boolean branch_h_solve_in_n_recursive(slice_index si,
  *          (this may be shorter than the slice's length if we are
  *          searching for short solutions only)
  * @param si slice index of slice being solved
+ * @return true iff >=1 solution was found
  */
-static void branch_h_root_solve_in_n_recursive_nohash(slice_index si,
-                                                      stip_length_type n,
-                                                      Side side_at_move)
+static boolean branch_h_root_solve_in_n_recursive_nohash(slice_index si,
+                                                         stip_length_type n,
+                                                         Side side_at_move)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
@@ -198,7 +201,7 @@ static void branch_h_root_solve_in_n_recursive_nohash(slice_index si,
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    slice_root_solve(slices[si].u.branch.next);
+    result = slice_root_solve(slices[si].u.branch.next);
   else
   {
     Side next_side = advers(side_at_move);
@@ -219,8 +222,9 @@ static void branch_h_root_solve_in_n_recursive_nohash(slice_index si,
           && !(OptFlag[restart] && MoveNbr<RestartNbr))
       {
         (*encode)();
-        if (!slice_must_starter_resign(slices[si].u.branch.next))
-          branch_h_solve_in_n_recursive(si,n-1,next_side);
+        if (!slice_must_starter_resign(slices[si].u.branch.next)
+            && branch_h_solve_in_n_recursive(si,n-1,next_side))
+          result = true;
       }
 
       if (OptFlag[movenbr])
@@ -243,7 +247,8 @@ static void branch_h_root_solve_in_n_recursive_nohash(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine and write the solution(s) in a help stipulation; don't
@@ -265,7 +270,7 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
                                                     Side side_at_move)
 
 {
-  boolean found_solution = false;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
@@ -275,7 +280,7 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    found_solution = slice_solve(slices[si].u.branch.next);
+    result = slice_solve(slices[si].u.branch.next);
   else
   {
     Side next_side = advers(side_at_move);
@@ -297,7 +302,7 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
         (*encode)();
         if (!slice_must_starter_resign(slices[si].u.branch.next)
             && branch_h_solve_in_n_recursive(si,n-1,next_side))
-          found_solution = true;
+          result = true;
       }
 
       repcoup();
@@ -317,8 +322,8 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",found_solution);
-  return found_solution;
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 
@@ -388,21 +393,25 @@ static boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
 /* Solve full-length solutions in exactly n in help play at root level
  * @param si slice index
  * @param n number of half moves
+ * @return true iff >=1 solution was found
  */
-static void branch_h_root_solve_full_in_n(slice_index si, stip_length_type n)
+static boolean branch_h_root_solve_full_in_n(slice_index si, stip_length_type n)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",n);
 
   assert(n>=slack_length_help);
 
   if (isIntelligentModeActive)
-    Intelligent(si,n);
+    result = Intelligent(si,n);
   else
-    branch_h_root_solve_in_n(si,n);
+    result = branch_h_root_solve_in_n(si,n);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Solve short solutions in exactly n in help play at root level.
@@ -473,9 +482,12 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
 
 /* Solve a composite slice with help play at root level
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void branch_h_root_solve(slice_index si)
+boolean branch_h_root_solve(slice_index si)
 {
+  boolean result = false;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
@@ -502,16 +514,21 @@ void branch_h_root_solve(slice_index si)
            && !(OptFlag[stoponshort] && FlagShortSolsReached))
     {
       if (branch_h_root_solve_short_in_n(si,len))
+      {
         FlagShortSolsReached = true;
+        result = true;
+      }
+
       len += 2;
     }
 
     if (!(FlagShortSolsReached && OptFlag[stoponshort]))
-      branch_h_root_solve_full_in_n(si,full_length);
+      result = branch_h_root_solve_full_in_n(si,full_length);
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Solve a branch slice at non-root level.
@@ -904,19 +921,22 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n)
 /* Solve a branch in exactly n moves at root level
  * @param si slice index
  * @param n exact number of moves
+ * @return true iff >=1 solution was found
  */
-void branch_h_root_solve_in_n(slice_index si, stip_length_type n)
+boolean branch_h_root_solve_in_n(slice_index si, stip_length_type n)
 {
   Side const starter = branch_h_starter_in_n(si,n);
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
-  branch_h_root_solve_in_n_recursive_nohash(si,n,starter);
+  result = branch_h_root_solve_in_n_recursive_nohash(si,n,starter);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Detect starter field with the starting side if possible. 

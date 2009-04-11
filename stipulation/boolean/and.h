@@ -95,8 +95,9 @@ void reci_root_write_key(slice_index si, attack_type type);
 
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void reci_root_solve(slice_index si);
+boolean reci_root_solve(slice_index si);
 
 /* Continue solving at the end of a reciprocal slice
  * @param si slice index

@@ -329,6 +329,7 @@ void branch_d_root_write_key(slice_index si, attack_type type)
 
 /* Solve at non-root level.
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
 boolean branch_d_solve(slice_index si)
 {
@@ -374,11 +375,13 @@ boolean branch_d_solve(slice_index si)
 
 /* Solve at root level
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void branch_d_root_solve(slice_index si)
+boolean branch_d_root_solve(slice_index si)
 {
   Side const attacker = slices[si].u.branch_d.starter;
   slice_index const peer = slices[si].u.branch_d.peer;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -414,6 +417,9 @@ void branch_d_root_solve(slice_index si)
           write_attack(nr_refutations==0 ? attack_key : attack_try);
           branch_d_defender_root_solve_postkey(refutations,peer);
           write_end_of_solution();
+
+          if (nr_refutations==0)
+            result = true;
         }
 
         free_table();
@@ -435,7 +441,8 @@ void branch_d_root_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Spin off a set play slice at root level

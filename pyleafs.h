@@ -84,8 +84,9 @@ boolean leaf_s_solve(slice_index leaf);
 
 /* Determine and write the solution of a leaf slice at root level.
  * @param leaf identifies leaf slice
+ * @return true iff >=1 key was found and written
  */
-void leaf_s_root_solve(slice_index leaf);
+boolean leaf_s_root_solve(slice_index leaf);
 
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf

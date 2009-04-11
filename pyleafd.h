@@ -72,8 +72,9 @@ boolean leaf_d_has_solution(slice_index leaf);
 
 /* Determine and write keys at root level
  * @param leaf leaf's slice index
+ * @return true iff >=1 key was found and written
  */
-void leaf_d_root_solve(slice_index leaf);
+boolean leaf_d_root_solve(slice_index leaf);
 
 /* Determine and write the solution of a leaf slice.
  * @param leaf identifies leaf slice

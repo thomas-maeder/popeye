@@ -73,7 +73,7 @@ boolean leaf_forced_solve(slice_index leaf);
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
  */
-void leaf_forced_root_solve(slice_index leaf);
+boolean leaf_forced_root_solve(slice_index leaf);
 
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf

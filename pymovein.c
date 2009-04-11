@@ -74,17 +74,20 @@ slice_index move_inverter_root_make_setplay_slice(slice_index si)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-void move_inverter_root_solve(slice_index si)
+boolean move_inverter_root_solve(slice_index si)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   output_start_move_inverted_level();
-  slice_root_solve(slices[si].u.move_inverter.next);
+  result = slice_root_solve(slices[si].u.move_inverter.next);
   output_end_move_inverted_level();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Solve a slice

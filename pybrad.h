@@ -117,8 +117,9 @@ boolean branch_d_solve(slice_index si);
 
 /* Solve a branch slice at root level.
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void branch_d_root_solve(slice_index si);
+boolean branch_d_root_solve(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

@@ -317,68 +317,72 @@ boolean slice_solve(slice_index si)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-void slice_root_solve(slice_index si)
+boolean slice_root_solve(slice_index si)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   switch (slices[si].type)
   {
     case STLeafDirect:
-      leaf_d_root_solve(si);
+      result = leaf_d_root_solve(si);
       break;
 
     case STLeafHelp:
-      leaf_h_root_solve(si);
+      result = leaf_h_root_solve(si);
       break;
 
     case STLeafSelf:
-      leaf_s_root_solve(si);
+      result = leaf_s_root_solve(si);
       break;
 
     case STLeafForced:
-      leaf_forced_root_solve(si);
+      result = leaf_forced_root_solve(si);
       break;
 
     case STQuodlibet:
-      quodlibet_root_solve(si);
+      result = quodlibet_root_solve(si);
       break;
 
     case STReciprocal:
-      reci_root_solve(si);
+      result = reci_root_solve(si);
       break;
 
     case STNot:
-      not_root_solve(si);
+      result = not_root_solve(si);
       break;
 
     case STBranchDirect:
-      branch_d_root_solve(si);
+      result = branch_d_root_solve(si);
       break;
 
     case STBranchDirectDefender:
-      branch_d_defender_root_solve(si);
+      result = branch_d_defender_root_solve(si);
       break;
 
     case STBranchHelp:
-      branch_h_root_solve(si);
+      result = branch_h_root_solve(si);
       break;
 
     case STBranchSeries:
-      branch_ser_root_solve(si);
+      result = branch_ser_root_solve(si);
       break;
 
     case STMoveInverter:
-      move_inverter_root_solve(si);
+      result = move_inverter_root_solve(si);
       break;
 
     default:
       assert(0);
+      result = false;
       break;
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Solve a slice in exactly n moves at root level

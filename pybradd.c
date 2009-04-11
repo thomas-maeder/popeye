@@ -555,8 +555,9 @@ static boolean is_defense_relevant(int len_threat,
  * Only continuations of minimal length are looked for and written.
  * @param si slice index
  * @param n (odd) number of half moves until end state is to be reached
+ * @return true iff variation is solvable
  */
-static void write_variation(slice_index si, stip_length_type n)
+static boolean write_variation(slice_index si, stip_length_type n)
 {
   boolean is_refutation = true; /* until we prove otherwise */
   stip_length_type i;
@@ -597,7 +598,8 @@ static void write_variation(slice_index si, stip_length_type n)
   free_table();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",!is_refutation);
+  return !is_refutation;
 }
 
 /* Determine and write the variations after the move that has just
@@ -607,14 +609,16 @@ static void write_variation(slice_index si, stip_length_type n)
  * @param threats table containing threats
  * @param si slice index
  * @param n (odd) number of half moves until goal
+ * @return true iff >=1 solution was found
  */
-static void solve_variations_in_n(int len_threat,
-                                  table threats,
-                                  slice_index si,
-                                  stip_length_type n)
+static boolean solve_variations_in_n(int len_threat,
+                                     table threats,
+                                     slice_index si,
+                                     stip_length_type n)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side defender = advers(attacker);
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",len_threat);
@@ -630,7 +634,7 @@ static void solve_variations_in_n(int len_threat,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender)
         && is_defense_relevant(len_threat,threats,si,n-1))
-      write_variation(si,n);
+      result = write_variation(si,n);
 
     repcoup();
   }
@@ -638,7 +642,8 @@ static void solve_variations_in_n(int len_threat,
   finply();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine and write the threats after the move that has just been
@@ -705,11 +710,13 @@ static int solve_threats(table threats, slice_index si, stip_length_type n)
  * been played in the current ply.
  * @param si slice index
  * @param n (odd) number of half moves until goal
+ * @return true iff >=1 solution was found
  */
-void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
+boolean branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
 {
   table const threats = allocate_table();
   int len_threat;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -724,18 +731,19 @@ void branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   {
     int const non_trivial_count = count_non_trivial_defenses(si);
     max_nr_nontrivial -= non_trivial_count;
-    solve_variations_in_n(len_threat,threats,si,n);
+    result = solve_variations_in_n(len_threat,threats,si,n);
     max_nr_nontrivial += non_trivial_count;
   }
   else
-    solve_variations_in_n(len_threat,threats,si,n);
+    result = solve_variations_in_n(len_threat,threats,si,n);
 
   output_end_postkey_level();
 
   free_table();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Try to finish the solution of the next slice starting with the key
@@ -892,19 +900,22 @@ void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
 
 /* Solve at root level.
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void branch_d_defender_root_solve(slice_index si)
+boolean branch_d_defender_root_solve(slice_index si)
 {
   stip_length_type const n = slices[si].u.branch_d_defender.length;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
   init_output(si);
-  branch_d_defender_solve_postkey_in_n(si,n);
+  result = branch_d_defender_solve_postkey_in_n(si,n);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Collect refutations at root level

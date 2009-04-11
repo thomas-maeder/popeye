@@ -257,8 +257,10 @@ slice_index reci_root_make_setplay_slice(slice_index si)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-void reci_root_solve(slice_index si)
+boolean reci_root_solve(slice_index si)
 {
+  boolean result = false;
+
   slice_index const op1 = slices[si].u.reciprocal.op1;
   slice_index const op2 = slices[si].u.reciprocal.op2;
 
@@ -268,14 +270,16 @@ void reci_root_solve(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  if (slice_has_solution(op2))
+  if (slice_has_solution(op2) && slice_root_solve(op1))
   {
-    slice_root_solve(op1);
-    slice_root_solve(op2);
+    boolean const result2 = slice_root_solve(op2);
+    assert(result2);
+    result = true;
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Write the key just played
@@ -295,22 +299,26 @@ void reci_root_write_key(slice_index si, attack_type type)
  */
 boolean reci_solve(slice_index si)
 {
-  boolean found_solution = false;
+  boolean result = false;
   slice_index const op1 = slices[si].u.reciprocal.op1;
   slice_index const op2 = slices[si].u.reciprocal.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
+
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  found_solution = (slice_has_solution(op2)
-                    && slice_solve(op1)
-                    && slice_solve(op2));
+  if (slice_has_solution(op2) && slice_solve(op1))
+  {
+    boolean const result2 = slice_solve(op2);
+    assert(result2);
+    result = true;
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",found_solution);
-  return found_solution;
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Detect starter field with the starting side if possible. 

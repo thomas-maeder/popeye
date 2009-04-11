@@ -399,10 +399,12 @@ boolean leaf_forced_solve(slice_index leaf)
 
 /* Determine and write the solution of a leaf slice at root level.
  * @param leaf identifies leaf slice
+ * @return true iff >=1 key was found and written
  */
-void leaf_forced_root_solve(slice_index leaf)
+boolean leaf_forced_root_solve(slice_index leaf)
 {
   Side const defender = slices[leaf].u.leaf.starter;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -411,13 +413,15 @@ void leaf_forced_root_solve(slice_index leaf)
 
   if (is_end_in_1_forced(defender,leaf))
   {
+    result = true;
     output_start_postkey_level();
     solve_final_move(leaf);
     output_end_postkey_level();
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Detect starter field with the starting side if possible. 

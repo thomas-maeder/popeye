@@ -134,10 +134,15 @@ boolean leaf_d_has_non_starter_solved(slice_index leaf)
 
 /* Determine and write keys leading to a double-mate
  * @param leaf leaf's slice index
+ * @return true iff >=1 key was found and written
  */
-static void leaf_d_root_dmate_solve(slice_index leaf)
+static boolean leaf_d_root_dmate_solve(slice_index leaf)
 {
   Side const starter = slices[leaf].u.leaf.starter;
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
 
   if (!immobile(starter))
   {
@@ -149,6 +154,7 @@ static void leaf_d_root_dmate_solve(slice_index leaf)
       if (jouecoup(nbply,first_play)
           && leaf_is_goal_reached(starter,leaf))
       {
+        result = true;
         write_final_attack(goal_doublemate,attack_key);
         output_start_leaf_variation_level();
         output_end_leaf_variation_level();
@@ -160,15 +166,24 @@ static void leaf_d_root_dmate_solve(slice_index leaf)
 
     finply();
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return true;
 }
 
 /* Determine and write keys leading to counter-mate
  * @param leaf leaf's slice index
+ * @return true iff >=1 key was found and written
  */
-static void leaf_d_root_cmate_solve(slice_index leaf)
+static boolean leaf_d_root_cmate_solve(slice_index leaf)
 {
   Side const starter = slices[leaf].u.leaf.starter;
   Side const non_starter = advers(starter);
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
 
   /* TODO can this be generalised to non-mate goals? */
   if (goal_checker_mate(non_starter))
@@ -181,24 +196,32 @@ static void leaf_d_root_cmate_solve(slice_index leaf)
       if (jouecoup(nbply,first_play)
           && leaf_is_goal_reached(starter,leaf))
       {
+        result = true;
         write_final_attack(goal_countermate,attack_key);
         output_start_leaf_variation_level();
         output_end_leaf_variation_level();
         write_end_of_solution();
       }
+
       repcoup();
     }
 
     finply();
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine and write keys leading to "regular goals"
  * @param leaf leaf's slice index
+ * @return true iff >=1 key was found and written
  */
-static void leaf_d_root_regulargoals_solve(slice_index leaf)
+static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].u.leaf.starter;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -211,6 +234,7 @@ static void leaf_d_root_regulargoals_solve(slice_index leaf)
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && leaf_is_goal_reached(attacker,leaf))
     {
+      result = true;
       write_final_attack(slices[leaf].u.leaf.goal,attack_key);
       output_start_leaf_variation_level();
       output_end_leaf_variation_level();
@@ -223,15 +247,18 @@ static void leaf_d_root_regulargoals_solve(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine and write keys at root level
  * @param leaf leaf's slice index
+ * @return true iff >=1 key was found and written
  */
-void leaf_d_root_solve(slice_index leaf)
+boolean leaf_d_root_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].u.leaf.starter;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
@@ -241,27 +268,31 @@ void leaf_d_root_solve(slice_index leaf)
   output_start_continuation_level();
 
   if (echecc(nbply,advers(attacker)))
+  {
     ErrorMsg(KingCapture);
+    result = false;
+  }
   else
     switch (slices[leaf].u.leaf.goal)
     {
       case goal_countermate:
-        leaf_d_root_cmate_solve(leaf);
+        result = leaf_d_root_cmate_solve(leaf);
         break;
 
       case goal_doublemate:
-        leaf_d_root_dmate_solve(leaf);
+        result = leaf_d_root_dmate_solve(leaf);
         break;
 
       default:
-        leaf_d_root_regulargoals_solve(leaf);
+        result = leaf_d_root_regulargoals_solve(leaf);
         break;
     }
 
   output_end_continuation_level();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine and write keys leading to a double-mate
