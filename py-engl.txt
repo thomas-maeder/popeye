@@ -188,20 +188,20 @@ commands expect further parameters. Lets start with the simpler commands:
 	CirceClone
 	AntiCirce
 	MirrorFileCirce
-	AntipodenCirce
+	AntipodeanCirce
 	MirrorCirceClone
 	MirrorAntiCirce
 	DiagramAntiCirce
 	FileAntiCirce
 	SymmetryAntiCirce
 	MirrorAntiCirce
-	AntipodenAntiCirce
+	AntipodeanAntiCirce
 	EquipollentsAntiCirce
 	FileImmunChess
 	DiagramImmunChess
 	MirrorFileImmunChess
 	SymmetryImmunChess
-	AntipodenImmunChess
+	AntipodeanImmunChess
 	EquipollentsImmunChess
 	ReversalEinsteinChess
 	SuperCirce
