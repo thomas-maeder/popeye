@@ -2864,11 +2864,10 @@ static char *ParseStructuredStip(void)
     strcat(AlphaStip," ");
     tok = ReadNextTokStr();
     tok = ParseStructuredStip_expression(tok,&root_slice);
-    if (root_slice!=no_slice)
-    {
+    if (tok==0)
+      tok = ReadNextTokStr();
+    else if (root_slice!=no_slice)
       slice_impose_starter(root_slice,starter);
-      tok = ParseStructuredStip_skip_whitespace(tok);
-    }
   }
 
   TraceFunctionExit(__func__);
