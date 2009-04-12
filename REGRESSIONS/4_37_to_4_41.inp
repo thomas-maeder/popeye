@@ -1,6 +1,6 @@
 begin
 
-prot 4_37_to_4_41.ref
+prot 4_37_to_4_41.reg
 
 auth reported V.Crisan
 title Incorrect: 1.Rh5# 
@@ -57,7 +57,7 @@ next
 
 title Popeye releases prior to 4.41 sometimes didn't generate castling
 title moves in Maximummer+Imitator problems
-author Alberto Armeni und Norbert Geissler
+author Alberto Armeni & Norbert Geissler
 origin F2622V, The Problemist, 3/2008 
 pieces white ka5 pa6d5 black ke8 ra8 pa7e7
 cond imitator c5 blackmax

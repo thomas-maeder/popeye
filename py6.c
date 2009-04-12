@@ -2055,7 +2055,8 @@ static void shorten_root_branch_h_slice(void)
       && slices[root_slice].u.branch.min_length==slack_length_help)
   {
     slice_index const save_root_slice = root_slice;
-    root_slice = slices[root_slice].u.move_inverter.next;
+    root_slice = slices[root_slice].u.branch.next;
+    TraceValue("%u\n",root_slice);
     dealloc_slice_index(save_root_slice);
   }
   
@@ -2081,11 +2082,17 @@ static boolean root_slice_apply_whitetoplay(void)
       meaning_of_whitetoplay const
           meaning = detect_meaning_of_whitetoplay(root_slice);
       if (meaning==whitetoplay_means_shorten_root_slice)
+      {
+        slice_index const save_root_slice = root_slice;
         shorten_root_branch_h_slice();
-      slice_impose_starter(root_slice,
-                           advers(slices[root_slice].u.branch.starter));
-      if (meaning==whitetoplay_means_shorten_root_slice)
+        if (save_root_slice==root_slice)
+          slice_impose_starter(root_slice,
+                               advers(slices[root_slice].u.branch.starter));
         root_slice = alloc_move_inverter_slice(root_slice);
+      }
+      else
+        slice_impose_starter(root_slice,
+                             advers(slices[root_slice].u.branch.starter));
       result = true;
       break;
     }

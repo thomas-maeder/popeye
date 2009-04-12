@@ -121,7 +121,6 @@ solution finished.
   1.Sb8*a6 Ka7-b7 [+wPb6] 
   1.Sb8*a6 Ka7-a8 [+wPa7] 
   1.Sb8*a6 Ka7*a6 [+wPa5] 
-  1.Sb8*a6 Ka7-b8 [+wPb7] 
   1.Sb8*a6 Ka7-b6 [+wPb5] 
 
 solution finished. 
@@ -160,26 +159,8 @@ solution finished.
 solution finished. 
 
 
-  1.Sg7-e8 ? 
-    but
-      1...Bd1-f3  !
-
-  1.Qe3-b3 ? 
-      1...Bd1*b3[bBb3->c8] # 
-    but
-      1...Bd1-f3  !
-
-  1.Qe3-c3 ? 
-    but
-      1...Bd1-f3  !
-
-  1.Qe3-d3 ? 
-    but
-      1...Bd1-f3  !
-
   1.Qe3-f3 ! 
       1...Bd1*f3[bBf3->c8] # 
-
 
 solution finished. 
 

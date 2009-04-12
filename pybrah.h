@@ -83,6 +83,17 @@ boolean branch_h_has_solution(slice_index si);
  */
 slice_index branch_h_root_make_setplay_slice(slice_index si);
 
+/* Write the key just played
+ * @param si slice index
+ * @param type type of attack
+ */
+void branch_h_root_write_key(slice_index si, attack_type type);
+
+/* Find and write post key play
+ * @param leaf slice index
+ */
+void branch_h_solve_postkey(slice_index si);
+
 /* Solve a branch slice at root level.
  * @param si slice index
  * @return no_slice if set play not applicable

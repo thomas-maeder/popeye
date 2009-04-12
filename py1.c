@@ -774,12 +774,13 @@ boolean nocontact(ply ply_id, square sq_departure, square sq_arrival, square sq_
      */
     e[sq_capture]= vide;
 
-  if (CondFlag[parrain] && pprise[parent_ply[nbply]] != vide) {
-    cr= move_generation_stack[repere[nbply]].capture + sq_arrival - sq_departure;
-        if ((pc= e[cr]) == vide) {
-          e[cr]= pprise[parent_ply[nbply]];
-        }
-  }
+    if (CondFlag[parrain] && pprise[parent_ply[ply_id]] != vide)
+    {
+      cr = (move_generation_stack[repere[nbply]].capture
+            + sq_arrival - sq_departure);
+      if ((pc= e[cr]) == vide)
+        e[cr]= pprise[parent_ply[ply_id]];
+    }
 
     if (pp != vide && pp != obs) {
       if (anycirce && abs(pp) > roib && !CondFlag[parrain]) {

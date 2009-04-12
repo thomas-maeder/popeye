@@ -208,6 +208,10 @@ slice_index slice_root_make_setplay_slice(slice_index si)
  */
 void slice_root_write_key(slice_index si, attack_type type)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -227,7 +231,7 @@ void slice_root_write_key(slice_index si, attack_type type)
       break;
 
     case STBranchHelp:
-      /* TODO */
+      branch_h_root_write_key(si,type);
       break;
 
     case STBranchSeries:
@@ -240,10 +244,17 @@ void slice_root_write_key(slice_index si, attack_type type)
       break;
     }
 
+    case STNot:
+      /* STNot doesn't have got a key by definition */
+      break;
+
     default:
       assert(0);
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Solve a slice
@@ -513,7 +524,7 @@ void slice_solve_postkey(slice_index si)
       break;
 
     case STBranchHelp:
-      /* TODO */
+      branch_h_solve_postkey(si);
       break;
 
     case STBranchSeries:
@@ -522,6 +533,10 @@ void slice_solve_postkey(slice_index si)
 
     case STReciprocal:
       reci_solve_postkey(si);
+      break;
+
+    case STNot:
+      /* STNot doesn't have postkey play by definition */
       break;
 
     default:

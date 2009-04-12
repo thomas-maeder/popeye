@@ -47,7 +47,7 @@
 # 
 # -----------------------------------------------------------------------------
 # $Author: thomasmaeder $
-# $Revision: 1.1 $
+# $Revision: 1.2 $
 #
 # License: GPL2
 # -----------------------------------------------------------------------------
@@ -190,6 +190,6 @@ dispatchWork() {
 _cmd="../py -maxmem 1G -regression -notrace"
 PMAX=2
 
-for item in ../EXAMPLES/*inp ../BEISPIEL/*inp; do
+for item in ../REGRESSIONS/*.inp ../EXAMPLES/*inp ../BEISPIEL/*inp; do
   echo "$item"
 done | dispatchWork

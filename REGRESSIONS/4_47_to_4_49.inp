@@ -1,7 +1,7 @@
 begin
 
 title short play after key in reflex stipulations was missed
-prot 4_47_to_4_49.ref
+prot 4_47_to_4_49.reg
 pieces white ka1 pa2a3 black pc2
 stip r#2
 option vari nobk
@@ -42,5 +42,11 @@ cond BlackTransmutedKing
 cond CirceTurncoats
 cond NoBlackCapture
 
-end
+next
 
+title option WhiteToPlay in a hXn.5 had weird effects
+stip h+1.5
+opt wh
+fors 16/k7/8/1P6/K7/16
+
+end

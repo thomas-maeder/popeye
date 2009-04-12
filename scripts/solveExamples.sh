@@ -11,6 +11,15 @@
 
 ulimit -f 200
 
+if [ -d ../REGRESSIONS ]; then
+    for f in ../REGRESSIONS/*inp
+    do
+        ../py -maxmem 250M -regression -notrace $f
+    done
+else
+    echo "Please create a sibling directory to REGRESSIONS and run $0 from there"
+fi
+
 if [ -d ../EXAMPLES ]; then
     for f in ../EXAMPLES/*inp
     do

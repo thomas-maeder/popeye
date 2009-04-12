@@ -23,6 +23,7 @@ short play after key in reflex stipulations was missed
   r#2                         3 + 1
 
   1.a3-a4 ! 
+
           1...c2-c1=Q # 
 
 
@@ -52,7 +53,7 @@ losing chess proof games produced error message
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   dia0.5                    16 + 16
-              LosingGame
+              LosingChess
 
   1.a2-a3 dia 
 
@@ -87,19 +88,12 @@ erroneous maxflight numbers weren't completely ignored
         AntiSuperCirce  Calvet
 
   1.Ka8-b8 ! 
-
   1.Ka8-a7 ! 
-
   1.Ka8-b7 ! 
-
   1.h2-h4 ! 
-
   1.h2-h3 ! 
-
   1.g2-g4 ! 
-
   1.g2-g3 ! 
-
 
 solution finished. 
 
@@ -129,7 +123,8 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
   reci-h#1                   9 + 12
 
   1.0-0-0 Sa4-b6 # 
-  1.e4*d3 ep. # 
+  1.e4*d3 ep. # ! 
+
 
 solution finished. 
 
@@ -165,6 +160,34 @@ solution finished.
   1.Ka7-a8 Ka5-a4   2.b7-b5 + Ka4*b5=P [+wPb7] # 
   1.Ka7-b8 Ka5-b5   2.c7-c6 + Kb5*c6=P [+wPc7] # 
   1.b7-b6 + Ka5-a6=P   2.Ka7-b8 a6-a7 # 
+
+solution finished. 
+
+
+
+option WhiteToPlay in a hXn.5 had weird effects
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   P   .   .   .   .   .   .   4
+|                                   |
+3   K   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h+1.5                       2 + 1
+
 
 solution finished. 
 

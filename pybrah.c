@@ -718,6 +718,15 @@ static void branch_h_solve_continuations_in_n(table continuations,
   TraceText("\n");
 }
 
+/* Find and write post key play
+ * @param si slice index
+ */
+void branch_h_solve_postkey(slice_index si)
+{
+  assert(slices[si].u.branch.length==slack_length_help+1);
+  slice_solve_postkey(slices[si].u.branch.next);
+}
+
 /* Determine and write continuations of a slice
  * @param continuations table where to store continuing moves (i.e. threats)
  * @param si index of branch slice
@@ -747,6 +756,22 @@ void branch_h_solve_continuations(table continuations, slice_index si)
 
   if (!solution_found)
     branch_h_solve_continuations_in_n(continuations,si,full_length);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Write the key just played
+ * @param si slice index
+ * @param type type of attack
+ */
+void branch_h_root_write_key(slice_index si, attack_type type)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",type);
+
+  write_attack(type);
 
   TraceFunctionExit(__func__);
   TraceText("\n");

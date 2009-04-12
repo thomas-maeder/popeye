@@ -762,7 +762,7 @@ boolean branch_d_defender_finish_solution_next(slice_index si)
     TraceFunctionEntry(__func__);
     TraceFunctionParam("%u\n",si);
 
-    if (slice_has_starter_reached_goal(next))
+    if (slice_has_starter_won(next))
     {
       slice_root_write_key(next,attack_key);
       output_start_postkey_level();

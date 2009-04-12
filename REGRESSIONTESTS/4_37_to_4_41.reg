@@ -166,7 +166,7 @@ solution finished.
 
 
 
- Alberto Armeni and Norbert Geissler
+ Alberto Armeni & Norbert Geissler
    F2622V, The Problemist, 3/2008 
 Popeye releases prior to 4.41 sometimes didn't generate castling
 moves in Maximummer+Imitator problems
@@ -193,7 +193,6 @@ moves in Maximummer+Imitator problems
   s#6                         3 + 4
              Imitator c5
            BlackMaximummer
-
 
   1...e7-e5[Ic3] 
       2.d5*e6 ep.[Id4] 

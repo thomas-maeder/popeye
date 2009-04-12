@@ -10,6 +10,17 @@
 #
 # Uses: sed
 
+for f in *.reg
+do
+    # only true if *.ref isn't expanded because there is no matching file
+    if [ -f $f ]
+    then
+        stem=`echo $f | sed -e 's/[.]ref$//'`
+        inputfile=../REGRESSIONS/$stem.inp
+        ../py -maxmem 250M -regression -notrace $inputfile
+    fi
+done
+
 for f in *.ref
 do
     # only true if *.ref isn't expanded because there is no matching file
