@@ -2107,7 +2107,8 @@ static boolean root_slice_apply_whitetoplay(void)
           && slices[root_slice].type==STBranchHelp)
       {
         shorten_root_branch_h_slice();
-        return true;
+        slice_impose_starter(root_slice,advers(slice_get_starter(root_slice)));
+        result = true;
       }
       break;
     }
