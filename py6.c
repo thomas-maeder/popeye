@@ -2039,29 +2039,29 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   return result;
 }
 
-static void shorten_root_branch_h_slice(void)
+static boolean shorten_root_branch_h_slice(void)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  --slices[root_slice].u.branch.length;
-  --slices[root_slice].u.branch.min_length;
-  if (slices[root_slice].u.branch.min_length<slack_length_help)
-    slices[root_slice].u.branch.min_length += 2;
-  TraceValue("->%u",slices[root_slice].u.branch.length);
-  TraceValue("->%u\n",slices[root_slice].u.branch.min_length);
-
-  if (slices[root_slice].u.branch.length==slack_length_help
-      && slices[root_slice].u.branch.min_length==slack_length_help)
+  if (slices[root_slice].u.branch.length%2==1)
   {
-    slice_index const save_root_slice = root_slice;
-    root_slice = slices[root_slice].u.branch.next;
-    TraceValue("%u\n",root_slice);
-    dealloc_slice_index(save_root_slice);
+    --slices[root_slice].u.branch.length;
+    --slices[root_slice].u.branch.min_length;
+    if (slices[root_slice].u.branch.min_length<slack_length_help)
+      slices[root_slice].u.branch.min_length += 2;
+    TraceValue("->%u",slices[root_slice].u.branch.length);
+    TraceValue("->%u\n",slices[root_slice].u.branch.min_length);
+    result = true;
   }
+  else
+    result = false;
   
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Apply the option White to play
@@ -2081,13 +2081,11 @@ static boolean root_slice_apply_whitetoplay(void)
     {
       meaning_of_whitetoplay const
           meaning = detect_meaning_of_whitetoplay(root_slice);
-      if (meaning==whitetoplay_means_shorten_root_slice)
+      if (meaning==whitetoplay_means_shorten_root_slice
+          && shorten_root_branch_h_slice())
       {
-        slice_index const save_root_slice = root_slice;
-        shorten_root_branch_h_slice();
-        if (save_root_slice==root_slice)
-          slice_impose_starter(root_slice,
-                               advers(slices[root_slice].u.branch.starter));
+        slice_impose_starter(root_slice,
+                             advers(slices[root_slice].u.branch.starter));
         root_slice = alloc_move_inverter_slice(root_slice);
       }
       else
@@ -2111,9 +2109,9 @@ static boolean root_slice_apply_whitetoplay(void)
       root_slice = slices[root_slice].u.move_inverter.next;
       dealloc_slice_index(save_root_slice);
       if (meaning==whitetoplay_means_shorten_root_slice
-          && slices[root_slice].type==STBranchHelp)
+          && slices[root_slice].type==STBranchHelp
+          && shorten_root_branch_h_slice())
       {
-        shorten_root_branch_h_slice();
         slice_impose_starter(root_slice,advers(slice_get_starter(root_slice)));
         result = true;
       }

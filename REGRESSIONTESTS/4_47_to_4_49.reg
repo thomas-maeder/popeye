@@ -24,7 +24,7 @@ short play after key in reflex stipulations was missed
 
   1.a3-a4 ! 
 
-          1...c2-c1=Q # 
+      1...c2-c1=Q # 
 
 
 solution finished. 
@@ -53,7 +53,7 @@ losing chess proof games produced error message
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   dia0.5                    16 + 16
-              LosingChess
+             LosingChess
 
   1.a2-a3 dia 
 
@@ -164,6 +164,7 @@ solution finished.
 solution finished. 
 
 
+WhiteToPlay not applicable - ignored
 
 option WhiteToPlay in a hXn.5 had weird effects
 
@@ -188,6 +189,8 @@ option WhiteToPlay in a hXn.5 had weird effects
 +---a---b---c---d---e---f---g---h---+
   h+1.5                       2 + 1
 
+  1.b4-b5 + 
+  1.b4-b5 + Ka6-a7   2.b5-b6 + 
 
 solution finished. 
 
