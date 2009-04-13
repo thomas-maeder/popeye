@@ -195,3 +195,64 @@ option WhiteToPlay in a hXn.5 had weird effects
 solution finished. 
 
 
+
+     Use reborn piece for contact
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   .   P   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .   .   .   .  -P   .   .   G   4
+|                                   |
+3   .   .   .   .   .   .   .  -K   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hze41                       3 + 3
+                KoeKo
+             ParrainCirce
+
+  1.d7*e6 Ke5*e4 [+wPe5] z 
+
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5   .   .   .   .   G   .   .   .   5
+|                                   |
+4   .   .   .  -P   K   .   .   G   4
+|                                   |
+3   .   .   .   .   .   .  -K   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#1                        3 + 3
+                KoeKo
+             ParrainCirce
+
+  1.Gh4*d4 Kg3-f3 [+bPc4] # 
+
+solution finished. 
+
+
