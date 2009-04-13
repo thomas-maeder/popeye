@@ -59,6 +59,7 @@ static output_mode detect_output_mode(slice_index si)
 
     case STBranchSeries:
     case STLeafHelp:
+    case STLeafForced:
       result = output_mode_line;
       break;
 
