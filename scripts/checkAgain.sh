@@ -15,7 +15,7 @@ do
     # only true if *.ref isn't expanded because there is no matching file
     if [ -f $f ]
     then
-        stem=`echo $f | sed -e 's/[.]ref$//'`
+        stem=`echo $f | sed -e 's/[.]reg$//'`
         inputfile=../REGRESSIONS/$stem.inp
         ../py -maxmem 250M -regression -notrace $inputfile
     fi
