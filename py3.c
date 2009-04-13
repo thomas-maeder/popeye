@@ -399,10 +399,12 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
 
       for (k= vec_queen_end; k>=vec_queen_start; k--) {
         sq_departure= rn+vec[k];
+        TraceSquare(sq_departure);
+        TraceText("\n");
         if (e[sq_departure]==roib
-            && evaluate(ply_id,sq_departure,rn,rn))
-          if (imcheck(sq_departure,rn))
-            return true;
+            && evaluate(ply_id,sq_departure,rn,rn)
+            && imcheck(sq_departure,rn))
+          return true;
       }
     }
   }
@@ -899,160 +901,211 @@ boolean rbimmunech(ply ply_id, square sq_departure, square sq_arrival, square sq
   }
 }
 
+static boolean echecc_wh_extinction(ply ply_id)
+{
+  piece p;
+  for (p=roib; p<derbla; p++)
+  {
+    square *bnp;
+    if (!exist[p] || nbpiece[p]!=1)
+      continue;
+
+    for (bnp= boardnum; *bnp; bnp++)
+      if (e[*bnp]==p)
+        break;
+
+    rb = *bnp;
+    if (rbechec(ply_id,eval_white))
+      return true;
+  }
+
+  return false;
+}
+
+static boolean echecc_bl_extinction(ply ply_id)
+{
+  piece p;
+  for (p=roib; p<derbla; p++)
+  {
+    square *bnp;
+
+    if (!exist[p] || nbpiece[-p]!=1)
+      continue;
+
+    for (bnp= boardnum; *bnp; bnp++)
+      if (e[*bnp]==-p)
+        break;
+
+    rn = *bnp;
+    if (rnechec(ply_id,eval_black))
+      return true;
+  }
+
+  return false;
+}
+
+static boolean echecc_wh_assassin(ply ply_id)
+{
+  square *bnp;
+
+  if (rbechec(ply_id,eval_white))
+    return true;
+
+  for (bnp= boardnum; *bnp; bnp++)
+  {
+    piece const p = e[*bnp];
+
+    if (p!=vide
+        && p>roib
+        && (*circerenai)(ply_id, p,spec[*bnp],*bnp,initsquare,initsquare,Black)==rb)
+    {
+      boolean flag;
+      square const rb_sic = rb;
+      rb = *bnp;
+      flagAssassin = false;
+      flag = rbechec(ply_id,eval_white);
+      flagAssassin = true;
+      rb = rb_sic;
+      if (flag)
+        return true;
+    }
+  }
+
+  return false;
+}
+
+static boolean echecc_bl_assassin(ply ply_id)
+{
+  square *bnp;
+
+  if (rnechec(ply_id,eval_black))
+    return true;
+
+  for (bnp= boardnum; *bnp; bnp++)
+  {
+    piece const p = e[*bnp];
+    if (p!=vide
+        && p<roin
+        && ((*circerenai)(ply_id,
+                          p,
+                          spec[*bnp],
+                          *bnp,
+                          initsquare,
+                          initsquare,
+                          White)
+            ==rn))
+    {
+      boolean flag;
+      square rn_sic = rn;
+      rn = *bnp;
+      flagAssassin = false;
+      flag = rnechec(ply_id,eval_black);
+      flagAssassin = true;
+      rn = rn_sic;
+      if (flag)
+        return true;
+    }
+  }
+
+  return false;
+}
+
+static boolean echecc_wh_bicolores(ply ply_id)
+{
+  if (rbechec(ply_id,eval_white))
+    return true;
+  else
+  {
+    boolean result;
+    square rn_sic = rn;
+    rn = rb;
+    CondFlag[bicolores] = false;
+    result = rnechec(ply_id,eval_black);
+    CondFlag[bicolores] = true;
+    rn = rn_sic;
+    return result;
+  }
+}
+
+static boolean echecc_bl_bicolores(ply ply_id)
+{
+  if (rnechec(ply_id,eval_black))
+    return true;
+  else
+  {
+    boolean result;
+    square rb_sic = rb;
+    rb = rn;
+    CondFlag[bicolores] = false;
+    result = rbechec(ply_id,eval_white);
+    CondFlag[bicolores] = true;
+    rb = rb_sic;
+    return result;
+  }
+}
+
 boolean echecc(ply ply_id, Side camp)
 {
-  if ((camp==White) != CondFlag[vogt]) {
-    
-    if (CondFlag[extinction]) {
-      piece p;
-      square *bnp;
-      for (p=roib; p<derbla; p++) {
-        if (!exist[p] || nbpiece[p]!=1)
-          continue;
-        for (bnp= boardnum; *bnp; bnp++) {
-          if (e[*bnp]==p)
-            break;
-        }
-        rb= *bnp;
-        if (rbechec(ply_id,eval_white)) {
-          return true;
-        }
-      }
-      return false;
-    }
-    if (rb == initsquare) {
-      return false;
-    }
-    if (rex_circe
-        && (CondFlag[pwc]
-            || e[(*circerenai)
-                 (ply_id, e[rb], spec[rb], rb, initsquare, initsquare, Black)] == vide))
-    {
-      return false;
-    }
-    if (TSTFLAG(PieSpExFlags,Neutral)) {
-      initneutre(Black);
-    }
-    if (flagAssassin) {
-      boolean flag;
-      piece p;
-      square *bnp;
-      if (rbechec(ply_id,eval_white)) {
-        return true;
-      }
-      for (bnp= boardnum; *bnp; bnp++) {
-        p = e[*bnp];
-        if (p!=vide
-            && p>roib
-            && (*circerenai)(ply_id, p,spec[*bnp],*bnp,initsquare,initsquare,Black)==rb)
-        {
-          square rb_sic = rb;
-          rb = *bnp;
-          flagAssassin=false;
-          flag=rbechec(ply_id,eval_white);
-          flagAssassin=true;
-          rb = rb_sic;
-          if (flag) {
-            return true;
-          }
-        }
-      }
-    }
-    if (CondFlag[bicolores]) {
-      boolean flag = rbechec(ply_id,eval_white);
-      if (!flag) {
-        square  rn_sic = rn;
-        rn = rb;
-        CondFlag[bicolores] = false;
-        flag = rnechec(ply_id,eval_black);
-        CondFlag[bicolores] = true;
-        rn = rn_sic;
-      }
-      return flag;
-    }
-    else {
-      return  CondFlag[antikings] != rbechec(ply_id,eval_white);
-    }
-  }
-  else {      /* camp == Black */
-    if (CondFlag[extinction]) {
-      piece p;
-      square *bnp;
-      for (p=roib; p<derbla; p++) {
-        if (!exist[p] || nbpiece[-p]!=1)
-          continue;
-        for (bnp= boardnum; *bnp; bnp++) {
-          if (e[*bnp]==-p)
-            break;
-        }
-        rn= *bnp;
-        if (rnechec(ply_id,eval_black)) {
-          return true;
-        }
-      }
-      return false;
-    }
-    if (rn == initsquare)
-      return false;
-    if (rex_circe
-        && (CondFlag[pwc]
-            || e[(*circerenai)
-                 (ply_id, e[rn], spec[rn], rn, initsquare, initsquare, White)] == vide))
-    {
-      return false;
-    }
+  boolean result;
 
-    if (TSTFLAG(PieSpExFlags,Neutral)) {
-      initneutre(White);
-    }
-    if (flagAssassin) {
-      boolean flag;
-      piece p;
-      square *bnp;
-      if (rnechec(ply_id,eval_black)) {
-        return true;
-      }
-      for (bnp= boardnum; *bnp; bnp++) {
-        p= e[*bnp];
-        if (p!=vide
-            && p<roin
-            && ((*circerenai)(ply_id,
-                              p,
-                              spec[*bnp],
-                              *bnp,
-                              initsquare,
-                              initsquare,
-                              White)
-                ==rn))
-        {
-          square rn_sic = rn;
-          rn = *bnp;
-          flagAssassin=false;
-          flag=rnechec(ply_id,eval_black);
-          flagAssassin=true;
-          rn = rn_sic;
-          if (flag) {
-            return true;
-          }
-        }
-      }
-    }
-    if (CondFlag[bicolores]) {
-      boolean flag = rnechec(ply_id,eval_black);
-      if (!flag) {
-        square  rb_sic = rb;
-        rb = rn;
-        CondFlag[bicolores] = false;
-        flag = rbechec(ply_id,eval_white);
-        CondFlag[bicolores] = true;
-        rb = rb_sic;
-      }
-      return flag;
-    }
-    else {
-      return  CondFlag[antikings] != rnechec(ply_id,eval_black);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TraceFunctionParam("%u\n",camp);
+
+  nextply(ply_id);
+
+  if ((camp==White) != CondFlag[vogt])
+  {
+    if (CondFlag[extinction])
+      result = echecc_wh_extinction(nbply);
+    else if (rb==initsquare)
+      result = false;
+    else if (rex_circe
+             && (CondFlag[pwc]
+                 || e[(*circerenai)
+                      (nbply, e[rb], spec[rb], rb, initsquare, initsquare, Black)] == vide))
+      result = false;
+    else
+    {
+      if (TSTFLAG(PieSpExFlags,Neutral))
+        initneutre(Black);
+      if (flagAssassin && echecc_wh_assassin(nbply))
+        result = true;
+      else if (CondFlag[bicolores])
+        result = echecc_wh_bicolores(nbply);
+      else
+        result = CondFlag[antikings]!=rbechec(nbply,eval_white);
     }
   }
+  else /* camp==Black */
+  {
+    if (CondFlag[extinction])
+      result = echecc_bl_extinction(nbply);
+    else if (rn == initsquare)
+      result = false;
+    else if (rex_circe
+             && (CondFlag[pwc]
+                 || e[(*circerenai)
+                      (nbply, e[rn], spec[rn], rn, initsquare, initsquare, White)] == vide))
+      result = false;
+    else
+    {
+      if (TSTFLAG(PieSpExFlags,Neutral))
+        initneutre(White);
+      if (flagAssassin && echecc_bl_assassin(nbply))
+        result = true;
+      else if (CondFlag[bicolores])
+        result = echecc_bl_bicolores(nbply);
+      else
+        result = CondFlag[antikings]!=rnechec(nbply,eval_black);
+    }
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 } /* end of echecc */
 
 boolean testparalyse(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
