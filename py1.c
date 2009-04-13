@@ -644,17 +644,25 @@ static boolean noleapcontact(square sq_arrival, numvec kanf, numvec kend)
   boolean result = true;
 
   numvec k;
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceText("\n");
   for (k= kanf; k <= kend; k++)
   {
     piece const p = e[sq_arrival+vec[k]];
     /* this is faster than a call to abs() */
     if (p!=obs && p!=vide)
     {
+      TraceSquare(sq_arrival+vec[k]);
+      TracePiece(e[sq_arrival+vec[k]]);
+      TraceText("\n");
       result = false;
       break;
     }
   }
   
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
@@ -718,6 +726,13 @@ boolean nocontact(ply ply_id, square sq_departure, square sq_arrival, square sq_
 
   VARIABLE_INIT(cr);
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceText("\n");
+
   nextply(ply_id);
 
   pj= e[sq_departure];
@@ -778,13 +793,22 @@ boolean nocontact(ply ply_id, square sq_departure, square sq_arrival, square sq_
      */
     e[sq_capture]= vide;
 
+    TraceValue("%u",nbply);
+    TraceValue("%u",ply_id);
+    TracePiece(pprise[ply_id]);
+    TracePiece(pprise[parent_ply[ply_id]]);
+    TraceText("\n");
     if (CondFlag[parrain] && pprise[parent_ply[ply_id]] != vide)
     {
       cr = (move_generation_stack[repere[ply_id]].capture
             + sq_arrival - sq_departure);
       pc = e[cr];
       if (pc==vide)
+      {
         e[cr]= pprise[parent_ply[ply_id]];
+        TraceSquare(cr);
+        TraceText("\n");
+      }
     }
 
     if (pp != vide && pp != obs) {
@@ -862,6 +886,9 @@ boolean nocontact(ply ply_id, square sq_departure, square sq_arrival, square sq_
     e[sq_castle_to] = vide;
   }
   finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",Result);
   return Result;
 } /* nocontact */
 

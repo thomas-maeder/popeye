@@ -69,8 +69,15 @@ static boolean selflastencore(square const **selfbnp,
                               square initiallygenerated,
                               Side defender)
 {
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(**selfbnp);
+  TraceSquare(initiallygenerated);
+  TraceFunctionParam("%u\n",defender);
+
   if (encore())
-    return true;
+    result = true;
   else
   {
     Side const attacker = advers(defender);
@@ -79,11 +86,13 @@ static boolean selflastencore(square const **selfbnp,
     if (TSTFLAG(PieSpExFlags,Neutral))
       initneutre(attacker);
 
-    while (curr_square!=initsquare)
+    while (!result && curr_square!=initsquare)
     {
+      TraceSquare(curr_square);
+      TraceText("\n");
       if (curr_square!=initiallygenerated)
       {
-        piece p= e[curr_square];
+        piece p = e[curr_square];
         if (p!=vide)
         {
           if (TSTFLAG(spec[curr_square],Neutral))
@@ -105,11 +114,13 @@ static boolean selflastencore(square const **selfbnp,
       curr_square = **selfbnp;
 
       if (encore())
-        return true;
+        result = true;
     }
-
-    return false;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine whether the side at move must end in 1.
