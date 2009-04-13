@@ -56,6 +56,7 @@
 #include "pymsg.h"
 #include "pystip.h"
 #include "pyleaf.h"
+#include "trace.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -2175,126 +2176,133 @@ boolean libre(ply ply_id, square sq, boolean generating)
   boolean result = true;
   Side const neutcoul_sic = neutcoul;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TraceSquare(sq);
+  TraceFunctionParam("%u\n",generating);
+
   if ((CondFlag[madras] || CondFlag[isardam])
       && !rex_mad && (sq==rb || sq==rn))
-    return true;
-
-  if (TSTFLAG(spec[sq],Neutral))
+   ; /* nothing */
+  else
   {
-    if (generating)
-      p = -p;
-    else
-      initneutre(advers(neutcoul));
-  }
-
-  if (CondFlag[disparate])
-  {
-    if (nbply > 2 && trait[nbply] != trait[parent_ply[nbply]] && abs(p)==abs(pjoue[parent_ply[nbply]])) {
-      result= false;
-    }
-  }
-
-  if (CondFlag[madras] || CondFlag[isardam])
-  {
-    /* The ep capture needs special handling. */
-    switch (p)
+    if (TSTFLAG(spec[sq],Neutral))
     {
-      case pb: /* white pawn */
-        if (ep_not_libre(ply_id, pn, sq+dir_down,generating,pioncheck))
-          result = false;
-        break;
-
-      case pn: /* black pawn */
-        if (ep_not_libre(ply_id, pb, sq+dir_up,generating,pioncheck))
-          result = false;
-        break;
-
-      case pbb: /* white berolina pawn */
-        if (ep_not_libre(ply_id, pbn,sq+dir_down+dir_right,generating,pbcheck)
-            || ep_not_libre(ply_id, pbn,sq+dir_down+dir_left,generating,pbcheck))
-          result = false;
-        break;
-
-      case pbn: /* black berolina pawn */
-        if (ep_not_libre(ply_id, pbb,sq+dir_up+dir_left,generating,pbcheck)
-            || ep_not_libre(ply_id, pbb,sq+dir_up+dir_right,generating,pbcheck))
-          result = false;
-        /* NB: Super (Berolina) pawns cannot neither be captured
-         * ep nor capture ep themselves.
-         */
-        break;
-
-      default:
-        break;
+      if (generating)
+        p = -p;
+      else
+        initneutre(advers(neutcoul));
     }
 
-    result = (result
-              && (nbpiece[-p]==0
-                  || !(*checkfunctions[abs(p)])(ply_id,
-                                                sq,
-                                                -p,
-                                                (flaglegalsquare
-                                                 ? legalsquare
-                                                 : eval_ortho))));
-  } /* if (CondFlag[madrasi] ... */
+    if (CondFlag[disparate]
+        && ply_id>2
+        && p==-pjoue[parent_ply[ply_id]])
+      result = false;
 
-  if (CondFlag[eiffel])
-  {
-    boolean test= true;
-    piece eiffel_piece;
-
-    switch (p)
+    if (CondFlag[madras] || CondFlag[isardam])
     {
-      case pb:
-        eiffel_piece = dn;
-        break;
-      case db:
-        eiffel_piece = tn;
-        break;
-      case tb:
-        eiffel_piece = fn;
-        break;
-      case fb:
-        eiffel_piece = cn;
-        break;
-      case cb:
-        eiffel_piece = pn;
-        break;
-      case pn:
-        eiffel_piece = db;
-        break;
-      case dn:
-        eiffel_piece = tb;
-        break;
-      case tn:
-        eiffel_piece = fb;
-        break;
-      case fn:
-        eiffel_piece = cb;
-        break;
-      case cn:
-        eiffel_piece = pb;
-        break;
-      default:
-        test = false;
-        eiffel_piece = vide;   /* avoid compiler warning */
-        break;
-    }
+      /* The ep capture needs special handling. */
+      switch (p)
+      {
+        case pb: /* white pawn */
+          if (ep_not_libre(ply_id, pn, sq+dir_down,generating,pioncheck))
+            result = false;
+          break;
 
-    if (test)
+        case pn: /* black pawn */
+          if (ep_not_libre(ply_id, pb, sq+dir_up,generating,pioncheck))
+            result = false;
+          break;
+
+        case pbb: /* white berolina pawn */
+          if (ep_not_libre(ply_id, pbn,sq+dir_down+dir_right,generating,pbcheck)
+              || ep_not_libre(ply_id, pbn,sq+dir_down+dir_left,generating,pbcheck))
+            result = false;
+          break;
+
+        case pbn: /* black berolina pawn */
+          if (ep_not_libre(ply_id, pbb,sq+dir_up+dir_left,generating,pbcheck)
+              || ep_not_libre(ply_id, pbb,sq+dir_up+dir_right,generating,pbcheck))
+            result = false;
+          /* NB: Super (Berolina) pawns cannot neither be captured
+           * ep nor capture ep themselves.
+           */
+          break;
+
+        default:
+          break;
+      }
+
       result = (result
-                && (nbpiece[eiffel_piece]==0
-                    || !(*checkfunctions[abs(eiffel_piece)])(ply_id,
-                                                             sq,
-                                                             eiffel_piece,
-                                                             (flaglegalsquare
-                                                              ? legalsquare
-                                                              : eval_ortho))));
-  } /* CondFlag[eiffel] */
+                && (nbpiece[-p]==0
+                    || !(*checkfunctions[abs(p)])(ply_id,
+                                                  sq,
+                                                  -p,
+                                                  (flaglegalsquare
+                                                   ? legalsquare
+                                                   : eval_ortho))));
+    } /* if (CondFlag[madrasi] ... */
 
-  if (TSTFLAG(spec[sq],Neutral) && !generating)
-    initneutre(neutcoul_sic);
+    if (CondFlag[eiffel])
+    {
+      boolean test= true;
+      piece eiffel_piece;
 
+      switch (p)
+      {
+        case pb:
+          eiffel_piece = dn;
+          break;
+        case db:
+          eiffel_piece = tn;
+          break;
+        case tb:
+          eiffel_piece = fn;
+          break;
+        case fb:
+          eiffel_piece = cn;
+          break;
+        case cb:
+          eiffel_piece = pn;
+          break;
+        case pn:
+          eiffel_piece = db;
+          break;
+        case dn:
+          eiffel_piece = tb;
+          break;
+        case tn:
+          eiffel_piece = fb;
+          break;
+        case fn:
+          eiffel_piece = cb;
+          break;
+        case cn:
+          eiffel_piece = pb;
+          break;
+        default:
+          test = false;
+          eiffel_piece = vide;   /* avoid compiler warning */
+          break;
+      }
+
+      if (test)
+        result = (result
+                  && (nbpiece[eiffel_piece]==0
+                      || !(*checkfunctions[abs(eiffel_piece)])(ply_id,
+                                                               sq,
+                                                               eiffel_piece,
+                                                               (flaglegalsquare
+                                                                ? legalsquare
+                                                                : eval_ortho))));
+    } /* CondFlag[eiffel] */
+
+    if (TSTFLAG(spec[sq],Neutral) && !generating)
+      initneutre(neutcoul_sic);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
   return result;
 } /* libre */
 
@@ -3123,38 +3131,43 @@ boolean eval_fromspecificsquare(ply ply_id, square sq_departure, square sq_arriv
       && (e[sq_departure]>vide ? eval_white : eval_black)(ply_id,sq_departure,sq_arrival,sq_capture);
 }
 
-boolean eval_disp(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
-  boolean flag=false;
-  Side traitnbply;
+boolean eval_disp(ply ply_id, square sq_departure, square sq_arrival, square sq_capture)
+{
+  boolean result = false;
+  Side save_trait;
   Side camp;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceText("\n");
 
   /* the following does not suffice if we have neutral kings,
      but we have no chance to recover the information who is to
      move from sq_departure, sq_arrival and sq_capture.
      TLi
   */
-  if (flag_nk) {        /* will this do for neutral Ks? */
-    camp= neutcoul;
-  }
-  else if (sq_capture == rn) {
-    camp=White;
-  }
-  else if (sq_capture == rb) {
-    camp=Black;
-  }
-  else {
-    camp= e[sq_departure]<0 ? Black : White;
-  }
+  if (flag_nk)        /* will this do for neutral Ks? */
+    camp = neutcoul;
+  else if (sq_capture==rn)
+    camp = White;
+  else if (sq_capture==rb)
+    camp = Black;
+  else
+    camp = e[sq_departure]<0 ? Black : White;
 
-  nextply(ply_id);
-  traitnbply=trait[nbply]; 
-  trait[nbply]= camp;
+  save_trait = trait[ply_id]; 
+  trait[ply_id] = camp;
 
-  flag = libre(ply_id, sq_departure, false); 
+  result = libre(ply_id,sq_departure,false); 
   
-  trait[nbply]=traitnbply; 
-  finply();
-  return flag;
+  trait[ply_id] = save_trait; 
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  return result;
 } /* eval_disp */
 
 boolean observed(square on_this, square by_that) {
