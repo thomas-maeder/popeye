@@ -639,19 +639,23 @@ boolean nogridcontact(square j)
   return true;
 }
 
-static boolean noleapcontact(square ia, numvec kanf, numvec kend)
+static boolean noleapcontact(square sq_arrival, numvec kanf, numvec kend)
 {
+  boolean result = true;
+
   numvec k;
-  piece p;
-  for (k= kanf; k <= kend; k++) {
-    if ( (p= e[ia + vec[k]]) != obs
-         && p != vide)
+  for (k= kanf; k <= kend; k++)
+  {
+    piece const p = e[sq_arrival+vec[k]];
+    /* this is faster than a call to abs() */
+    if (p!=obs && p!=vide)
     {
-      /* this is faster than a call to abs() */
-      return false;
+      result = false;
+      break;
     }
   }
-  return true;
+  
+  return result;
 }
 
 boolean nokingcontact(square ia)
@@ -776,9 +780,10 @@ boolean nocontact(ply ply_id, square sq_departure, square sq_arrival, square sq_
 
     if (CondFlag[parrain] && pprise[parent_ply[ply_id]] != vide)
     {
-      cr = (move_generation_stack[repere[nbply]].capture
+      cr = (move_generation_stack[repere[ply_id]].capture
             + sq_arrival - sq_departure);
-      if ((pc= e[cr]) == vide)
+      pc = e[cr];
+      if (pc==vide)
         e[cr]= pprise[parent_ply[ply_id]];
     }
 
