@@ -809,6 +809,7 @@ static hash_value_type own_value_of_data_leaf(dhtElement const *he,
 
     case STLeafDirect:
     case STLeafSelf:
+    case STLeafForced:
       return own_value_of_data_direct(he,leaf,1);
 
     default:
@@ -881,13 +882,23 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
   TraceFunctionParam("%u\n",si);
 
   offset -= slice_properties[si].value_size;
+  TraceValue("%u",slices[si].type);
   TraceValue("%u",slice_properties[si].value_size);
   TraceValue("->%u\n",offset);
 
   switch (slices[si].type)
   {
-    case STLeafDirect:
     case STLeafSelf:
+    {
+      hash_value_type const own_value = own_value_of_data_leaf(he,si);
+      slice_index const next = slices[si].u.leafself.next;
+      hash_value_type const next_value = own_value_of_data_composite(he,next);
+      result = (own_value << offset) + next_value;
+      break;
+    }
+
+    case STLeafDirect:
+    case STLeafForced:
     case STLeafHelp:
     {
       result = own_value_of_data_leaf(he,si) << offset;
