@@ -250,7 +250,7 @@ boolean jouecoup(ply ply_id, joue_type jt);
 
 void    joueim(int diff);
 boolean legalsquare(square departure, square arrival, square capture);
-boolean libre(ply ply_id, square a, boolean b);
+boolean libre(square a, boolean b);
 
 void finply(void);
 void nextply(ply parent);

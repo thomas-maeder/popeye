@@ -2025,8 +2025,7 @@ boolean reversepcheck(square sq_king,
   return false;
 }
 
-static boolean ep_not_libre(ply ply_id,
-                            piece p,
+static boolean ep_not_libre(piece p,
                             square    sq,
                             boolean   generating,
                             checkfunction_t   *checkfunc)
@@ -2049,7 +2048,7 @@ static boolean ep_not_libre(ply ply_id,
      black berolina pawn  pbb     pbcheck
   */
 
-  ply const ply_dblstp= ply_id-1;
+  ply const ply_dblstp= nbply-1;
 
   return (ep[ply_dblstp]==sq || ep2[ply_dblstp]==sq)
       && nbpiece[p]>0
@@ -2058,14 +2057,13 @@ static boolean ep_not_libre(ply ply_id,
                       flaglegalsquare ? legalsquare : eval_ortho);
 }
 
-boolean libre(ply ply_id, square sq, boolean generating)
+boolean libre(square sq, boolean generating)
 {
   piece p = e[sq];
   boolean result = true;
   Side const neutcoul_sic = neutcoul;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply_id);
   TraceSquare(sq);
   TraceFunctionParam("%u\n",generating);
 
@@ -2083,8 +2081,8 @@ boolean libre(ply ply_id, square sq, boolean generating)
     }
 
     if (CondFlag[disparate]
-        && ply_id>2
-        && p==-pjoue[parent_ply[ply_id]])
+        && nbply>2
+        && p==-pjoue[parent_ply[nbply]])
       result = false;
 
     if (CondFlag[madras] || CondFlag[isardam])
@@ -2093,24 +2091,24 @@ boolean libre(ply ply_id, square sq, boolean generating)
       switch (p)
       {
         case pb: /* white pawn */
-          if (ep_not_libre(ply_id, pn, sq+dir_down,generating,pioncheck))
+          if (ep_not_libre(pn, sq+dir_down,generating,pioncheck))
             result = false;
           break;
 
         case pn: /* black pawn */
-          if (ep_not_libre(ply_id, pb, sq+dir_up,generating,pioncheck))
+          if (ep_not_libre(pb, sq+dir_up,generating,pioncheck))
             result = false;
           break;
 
         case pbb: /* white berolina pawn */
-          if (ep_not_libre(ply_id, pbn,sq+dir_down+dir_right,generating,pbcheck)
-              || ep_not_libre(ply_id, pbn,sq+dir_down+dir_left,generating,pbcheck))
+          if (ep_not_libre(pbn,sq+dir_down+dir_right,generating,pbcheck)
+              || ep_not_libre(pbn,sq+dir_down+dir_left,generating,pbcheck))
             result = false;
           break;
 
         case pbn: /* black berolina pawn */
-          if (ep_not_libre(ply_id, pbb,sq+dir_up+dir_left,generating,pbcheck)
-              || ep_not_libre(ply_id, pbb,sq+dir_up+dir_right,generating,pbcheck))
+          if (ep_not_libre(pbb,sq+dir_up+dir_left,generating,pbcheck)
+              || ep_not_libre(pbb,sq+dir_up+dir_right,generating,pbcheck))
             result = false;
           /* NB: Super (Berolina) pawns cannot neither be captured
            * ep nor capture ep themselves.
@@ -2339,8 +2337,8 @@ boolean eval_madrasi(square sq_departure, square sq_arrival, square sq_capture) 
     return false;
   }
   else {
-    return libre(nbply, sq_departure, false) && 
-        (!CondFlag[BGL] || eval_2(sq_departure,sq_arrival,sq_capture));
+    return (libre(sq_departure, false)
+            &&  (!CondFlag[BGL] || eval_2(sq_departure,sq_arrival,sq_capture)));
     /* is this just appropriate for BGL? in verifieposition eval_2 is set when madrasi is true,
        but never seems to be used here or in libre */
   }
@@ -2590,7 +2588,7 @@ boolean pos_legal(ply ply_id)
       int j;
       square z = square_h;
       for (j = nr_files_on_board; j>0; j--, z += dir_left)
-        if (e[z]!=vide && !libre(ply_id, z,false))
+        if (e[z]!=vide && !libre(z,false))
           return false;
     }
   }
@@ -3021,7 +3019,7 @@ boolean eval_disp(square sq_departure, square sq_arrival, square sq_capture)
   save_trait = trait[nbply]; 
   trait[nbply] = camp;
 
-  result = libre(nbply,sq_departure,false); 
+  result = libre(sq_departure,false); 
   
   trait[nbply] = save_trait; 
 

@@ -978,11 +978,8 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
 {
   piece pi_departing;
 
-  if (flag_libre_on_generate) {
-    if (!libre(nbply,sq_departure, true)) {
-      return;
-    }
-  }
+  if (flag_libre_on_generate && !libre(sq_departure,true))
+    return;
 
   if (TSTFLAG(PieSpExFlags,Paralyse)) {
     if (paralysiert(sq_departure)) {
