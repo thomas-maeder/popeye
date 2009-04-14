@@ -2572,7 +2572,7 @@ boolean b_hopcheck(square    i,
   return rhopcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
-boolean pos_legal(ply ply_id)
+boolean pos_legal(void)
 {
   /* could be used for other genres e.g. Ohneschach */
   if (CondFlag[isardam])
@@ -2580,7 +2580,7 @@ boolean pos_legal(ply ply_id)
     square square_h = square_h8;
     int i;
 
-    initneutre(trait[ply_id]);
+    initneutre(trait[nbply]);
 
     /* for e.p. captures */
     for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
@@ -2595,31 +2595,31 @@ boolean pos_legal(ply ply_id)
 
   if (CondFlag[ohneschach])
   {
-    Side const camp = trait[ply_id];
+    Side const camp = trait[nbply];
     Side const ad = advers(camp);
 
-    if (ply_id>maxply-1)
+    if (nbply>maxply-1)
       FtlMsg(ChecklessUndecidable);
 
-    if (echecc(ply_id,camp))
+    if (echecc(nbply,camp))
       return false;
 
-    if (echecc(ply_id,ad) && !immobile(ad))
+    if (echecc(nbply,ad) && !immobile(ad))
       return false;
   }
 
   if (CondFlag[exclusive])
   {
-    if (ply_id>maxply-1)
+    if (nbply>maxply-1)
       FtlMsg(ChecklessUndecidable);
 
-    if (!mateallowed[ply_id])
+    if (!mateallowed[nbply])
     {
       /* TODO once republican chess has a moudule of its own, it might
          be a good idea to cache si */
       /* input validation makes sure that si!=no_goal */
       slice_index const si = find_unique_goal();
-      if (leaf_is_goal_reached(trait[ply_id],si))
+      if (leaf_is_goal_reached(trait[nbply],si))
         return false;
     }
   }
