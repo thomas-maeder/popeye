@@ -59,7 +59,7 @@ void    WriteGrid(void);
 
 typedef boolean (evalfunction_t)(square departure, square arrival, square capture);
 typedef boolean (checkfunction_t)(ply ply_id, square, piece, evalfunction_t *);
-typedef void (attackfunction_t)(ply ply_id, square, square);
+typedef void (attackfunction_t)(square, square);
 
 checkfunction_t alfilcheck;
 checkfunction_t amazcheck;
@@ -471,27 +471,23 @@ boolean leapleapcheck(
   evalfunction_t *evaluate);
 checkfunction_t radialknightcheck;
 
-boolean detect_rosecheck_on_line(ply ply_id,
-                                 square sq_king,
+boolean detect_rosecheck_on_line(square sq_king,
                                  piece p,
                                  numvec k, numvec k1,
                                  numvec delta_k,
                                  evalfunction_t *evaluate);
-boolean detect_roselioncheck_on_line(ply ply_id,
-                                     square sq_king,
+boolean detect_roselioncheck_on_line(square sq_king,
                                      piece p,
                                      numvec k, numvec k1,
                                      numvec delta_k,
                                      evalfunction_t *evaluate);
-boolean detect_rosehoppercheck_on_line(ply ply_id,
-                                       square sq_king,
+boolean detect_rosehoppercheck_on_line(square sq_king,
                                        square sq_hurdle,
                                        piece p,
                                        numvec k, numvec k1,
                                        numvec delta_k,
                                        evalfunction_t *evaluate);
-boolean detect_roselocustcheck_on_line(ply ply_id,
-                                       square sq_king,
+boolean detect_roselocustcheck_on_line(square sq_king,
                                        square sq_arrival,
                                        piece p,
                                        numvec k, numvec k1,

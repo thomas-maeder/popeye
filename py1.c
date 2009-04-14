@@ -1242,37 +1242,37 @@ boolean CrossesGridLines(square dep, square arr)
   return false;
 }
 
-void GetRoseAttackVectors(ply ply_id, square from, square to)
+void GetRoseAttackVectors(square from, square to)
 {
   numvec  k;
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
-    if (detect_rosecheck_on_line(ply_id,to,e[from],
+    if (detect_rosecheck_on_line(to,e[from],
                                  k,0,+1,
                                  eval_fromspecificsquare))
       PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] )
-    if (detect_rosecheck_on_line(ply_id,to,e[from],
+    if (detect_rosecheck_on_line(to,e[from],
                                  k,vec_knight_end-vec_knight_start+1,-1,
                                  eval_fromspecificsquare))
       PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k])
   }
 }
 
-void GetRoseLionAttackVectors(ply ply_id, square from, square to)
+void GetRoseLionAttackVectors(square from, square to)
 {
   numvec  k;
   for (k= vec_knight_start; k <= vec_knight_end; k++) {
-    if (detect_roselioncheck_on_line(ply_id,to,e[from],
+    if (detect_roselioncheck_on_line(to,e[from],
                                      k,0,+1,
                                      eval_fromspecificsquare))
       PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] )
-    if (detect_roselioncheck_on_line(ply_id,to,e[from],
+    if (detect_roselioncheck_on_line(to,e[from],
                                         k,vec_knight_end-vec_knight_start+1,-1,
                                         eval_fromspecificsquare))
       PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k])
   }
 }
 
-void GetRoseHopperAttackVectors(ply ply_id, square from, square to) {
+void GetRoseHopperAttackVectors(square from, square to) {
   numvec  k;
   square sq_hurdle;
 
@@ -1282,11 +1282,11 @@ void GetRoseHopperAttackVectors(ply ply_id, square from, square to) {
         /* k1==0 (and the equivalent
          * vec_knight_end-vec_knight_start+1) were already used for
          * sq_hurdle! */
-      if (detect_rosehoppercheck_on_line(ply_id,to,sq_hurdle,e[from],
+      if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
                                          k,1,+1,
                                          eval_fromspecificsquare))
         PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] );
-      if (detect_rosehoppercheck_on_line(ply_id,to,sq_hurdle,e[from],
+      if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
                                          k,vec_knight_end-vec_knight_start,-1,
                                          eval_fromspecificsquare))
         PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k]);
@@ -1294,7 +1294,7 @@ void GetRoseHopperAttackVectors(ply ply_id, square from, square to) {
   }
 }
 
-void GetRoseLocustAttackVectors(ply ply_id, square from, square to) {
+void GetRoseLocustAttackVectors(square from, square to) {
   /* detects check by a rose locust */
   numvec  k;
   square sq_arrival;
@@ -1305,11 +1305,11 @@ void GetRoseLocustAttackVectors(ply ply_id, square from, square to) {
         /* k1==0 (and the equivalent
          * vec_knight_end-vec_knight_start+1) were already used for
          * sq_hurdle! */
-      if (detect_roselocustcheck_on_line(ply_id,to,sq_arrival,e[from],
+      if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
                                          k,1,+1,
                                          eval_fromspecificsquare))
         PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] );
-      if (detect_roselocustcheck_on_line(ply_id,to,sq_arrival,e[from],
+      if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
                                          k,vec_knight_end-vec_knight_start,-1,
                                          eval_fromspecificsquare))
         PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k]);
@@ -1317,7 +1317,7 @@ void GetRoseLocustAttackVectors(ply ply_id, square from, square to) {
   }
 }
 
-static void GetRMHopAttackVectors(ply ply_id, square from, square to, numvec kend, numvec kanf, angle_t angle) {
+static void GetRMHopAttackVectors(square from, square to, numvec kend, numvec kanf, angle_t angle) {
   square sq_hurdle;
   numvec k, k1;
   piece hopper;
@@ -1342,47 +1342,47 @@ static void GetRMHopAttackVectors(ply ply_id, square from, square to, numvec ken
   }
 }
 
-void GetMooseAttackVectors(ply ply_id,square from, square to) {
-  GetRMHopAttackVectors(ply_id, from, to, vec_queen_end, vec_queen_start, angle_45);
+void GetMooseAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
 }
 
-void GetRookMooseAttackVectors(ply ply_id,square from, square to) {
-  GetRMHopAttackVectors(ply_id, from, to, vec_rook_end, vec_rook_start, angle_45);
+void GetRookMooseAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_45);
 }
 
-void GetBishopMooseAttackVectors(ply ply_id,square from, square to) {
-  GetRMHopAttackVectors(ply_id, from, to, vec_bishop_end, vec_bishop_start, angle_45);
+void GetBishopMooseAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_45);
 }
 
-void GetEagleAttackVectors(ply ply_id,square from, square to) {
-  GetRMHopAttackVectors(ply_id, from, to, vec_queen_end, vec_queen_start, angle_90);
+void GetEagleAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
 }
 
-void GetRookEagleAttackVectors(ply ply_id,square from, square to) {
-  GetRMHopAttackVectors(ply_id, from, to, vec_rook_end, vec_rook_start, angle_90);
+void GetRookEagleAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_90);
 }
 
-void GetBishopEagleAttackVectors(ply ply_id,square from, square to) {
-  GetRMHopAttackVectors(ply_id, from, to, vec_bishop_end, vec_bishop_start, angle_90);
+void GetBishopEagleAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_90);
 }
 
-void GetSparrowAttackVectors(ply ply_id,square from, square to) {
-  GetRMHopAttackVectors(ply_id, from, to, vec_queen_end, vec_queen_start, angle_135);
+void GetSparrowAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
 }
 
-void GetRookSparrowAttackVectors(ply ply_id,square from, square to) {
-  GetRMHopAttackVectors(ply_id, from, to, vec_rook_end, vec_rook_start, angle_135);
+void GetRookSparrowAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_135);
 }
 
-void GetBishopSparrowAttackVectors(ply ply_id,square from, square to) {
-  GetRMHopAttackVectors(ply_id, from, to, vec_bishop_end, vec_bishop_start, angle_135);
+void GetBishopSparrowAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_135);
 }
 
-void GetMargueriteAttackVectors(ply ply_id,square from, square to) {
-  GetRMHopAttackVectors(ply_id, from, to, vec_queen_end, vec_queen_start, angle_45);
-  GetRMHopAttackVectors(ply_id, from, to, vec_queen_end, vec_queen_start, angle_90);
-  GetRMHopAttackVectors(ply_id, from, to, vec_queen_end, vec_queen_start, angle_135);
-  if (scheck(ply_id, to, e[from], eval_fromspecificsquare)) {
+void GetMargueriteAttackVectors(square from, square to) {
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
+  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
+  if (scheck(nbply, to, e[from], eval_fromspecificsquare)) {
     numvec attackVec;
     if (to < from)
       attackVec = move_vec_code[from - to];
@@ -1393,8 +1393,7 @@ void GetMargueriteAttackVectors(ply ply_id,square from, square to) {
   }
 }
 
-static void GetZigZagAttackVectors(ply ply_id,
-                                   square from, square to,
+static void GetZigZagAttackVectors(square from, square to,
                                    numvec  k,
                                    numvec  k1)
 {
@@ -1428,44 +1427,44 @@ static void GetZigZagAttackVectors(ply ply_id,
     PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[400+k] );
 }
 
-void GetBoyscoutAttackVectors(ply ply_id, square from, square to) {
+void GetBoyscoutAttackVectors(square from, square to) {
   numvec  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
-    GetZigZagAttackVectors(ply_id, from, to, vec[k], vec[13 - k]);
+    GetZigZagAttackVectors(from, to, vec[k], vec[13 - k]);
   }
 }
 
-void GetGirlscoutAttackVectors(ply ply_id, square from, square to) {
+void GetGirlscoutAttackVectors(square from, square to) {
   numvec  k;
 
   for (k= vec_rook_start; k <= vec_rook_end; k++) {
-    GetZigZagAttackVectors(ply_id, from, to, vec[k], vec[5 - k]);
+    GetZigZagAttackVectors(from, to, vec[k], vec[5 - k]);
   }
 }
 
-void GetSpiralSpringerAttackVectors(ply ply_id, square from, square to) {
+void GetSpiralSpringerAttackVectors(square from, square to) {
   numvec  k;
 
   for (k= vec_knight_start; k <= vec_knight_end; k++) {
-    GetZigZagAttackVectors(ply_id, from, to, vec[k], vec[25 - k]);
+    GetZigZagAttackVectors(from, to, vec[k], vec[25 - k]);
   }
 }
 
-void GetDiagonalSpiralSpringerAttackVectors(ply ply_id, square from, square to) {
+void GetDiagonalSpiralSpringerAttackVectors(square from, square to) {
   numvec  k;
 
   for (k= vec_knight_start; k <= 14; k++) {
-    GetZigZagAttackVectors(ply_id, from, to, vec[k], vec[23 - k]); 
+    GetZigZagAttackVectors(from, to, vec[k], vec[23 - k]); 
   }
   for (k= 15; k <= vec_knight_end; k++) {
-    GetZigZagAttackVectors(ply_id, from, to, vec[k], vec[27 - k]); 
+    GetZigZagAttackVectors(from, to, vec[k], vec[27 - k]); 
   }
 }
 
 /* should never get called if validation works
 (disallow magic + piecetype) */
-void unsupported_uncalled_attackfunction(ply ply_id, square from, square to) {}
+void unsupported_uncalled_attackfunction(square from, square to) {}
 
 void PushMagicViews(void)
 {
@@ -1517,7 +1516,7 @@ void PushMagicViews(void)
             }
             else
               /* call special function to determine all attacks */
-              (*attackfunctions[abs(p)])(nbply,fromspecificsquare,*royal);
+              (*attackfunctions[abs(p)])(fromspecificsquare,*royal);
           }
         }
 

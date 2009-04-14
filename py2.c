@@ -942,8 +942,7 @@ boolean f_lioncheck(ply ply_id,
 
 /* see comment in py4.c on how rose and rose based pieces are
  * handled */
-boolean detect_rosecheck_on_line(ply ply_id,
-                                 square sq_king,
+boolean detect_rosecheck_on_line(square sq_king,
                                  piece p,
                                  numvec k, numvec k1,
                                  numvec delta_k,
@@ -961,11 +960,11 @@ boolean rosecheck(ply ply_id,
 {
   numvec  k;
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
-    if (detect_rosecheck_on_line(ply_id,sq_king,p,
+    if (detect_rosecheck_on_line(sq_king,p,
                                  k,0,+1,
                                  evaluate))
       return true;
-    if (detect_rosecheck_on_line(ply_id,sq_king,p,
+    if (detect_rosecheck_on_line(sq_king,p,
                                  k,vec_knight_end-vec_knight_start+1,-1,
                                  evaluate))
       return true;
@@ -974,8 +973,7 @@ boolean rosecheck(ply ply_id,
   return false;
 }
 
-boolean detect_roselioncheck_on_line(ply ply_id,
-                                     square sq_king,
+boolean detect_roselioncheck_on_line(square sq_king,
                                      piece p,
                                      numvec k, numvec k1,
                                      numvec delta_k,
@@ -1012,10 +1010,10 @@ boolean roselioncheck(ply ply_id,
   /* detects check by a rose lion */
   numvec  k;
   for (k= vec_knight_start; k <= vec_knight_end; k++)
-    if (detect_roselioncheck_on_line(ply_id,sq_king,p,
+    if (detect_roselioncheck_on_line(sq_king,p,
                                      k,0,+1,
                                      evaluate)
-        || detect_roselioncheck_on_line(ply_id,sq_king,p,
+        || detect_roselioncheck_on_line(sq_king,p,
                                         k,vec_knight_end-vec_knight_start+1,-1,
                                         evaluate))
       return true;
@@ -1023,8 +1021,7 @@ boolean roselioncheck(ply ply_id,
   return false;
 }
 
-boolean detect_rosehoppercheck_on_line(ply ply_id,
-                                       square sq_king,
+boolean detect_rosehoppercheck_on_line(square sq_king,
                                        square sq_hurdle,
                                        piece p,
                                        numvec k, numvec k1,
@@ -1050,11 +1047,11 @@ boolean rosehoppercheck(ply ply_id,
       /* k1==0 (and the equivalent
        * vec_knight_end-vec_knight_start+1) were already used for
        * sq_hurdle! */
-      if (detect_rosehoppercheck_on_line(ply_id,sq_king,sq_hurdle,p,
+      if (detect_rosehoppercheck_on_line(sq_king,sq_hurdle,p,
                                          k,1,+1,
                                          evaluate))
         return true;
-      if (detect_rosehoppercheck_on_line(ply_id,sq_king,sq_hurdle,p,
+      if (detect_rosehoppercheck_on_line(sq_king,sq_hurdle,p,
                                          k,vec_knight_end-vec_knight_start,-1,
                                          evaluate))
         return true;
@@ -1064,8 +1061,7 @@ boolean rosehoppercheck(ply ply_id,
   return false;
 }
 
-boolean detect_roselocustcheck_on_line(ply ply_id,
-                                       square sq_king,
+boolean detect_roselocustcheck_on_line(square sq_king,
                                        square sq_arrival,
                                        piece p,
                                        numvec k, numvec k1,
@@ -1091,11 +1087,11 @@ boolean roselocustcheck(ply ply_id,
       /* k1==0 (and the equivalent
        * vec_knight_end-vec_knight_start+1) were already used for
        * sq_hurdle! */
-      if (detect_roselocustcheck_on_line(ply_id,sq_king,sq_arrival,p,
+      if (detect_roselocustcheck_on_line(sq_king,sq_arrival,p,
                                          k,1,+1,
                                          evaluate))
         return true;
-      if (detect_roselocustcheck_on_line(ply_id,sq_king,sq_arrival,p,
+      if (detect_roselocustcheck_on_line(sq_king,sq_arrival,p,
                                          k,vec_knight_end-vec_knight_start,-1,
                                          evaluate))
         return true;
