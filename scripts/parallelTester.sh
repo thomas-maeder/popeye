@@ -4,6 +4,10 @@
 # Script for effectively testing Popeye using its example files on a multi-core
 # Unix-ish machine.
 #
+# This is based on a script by Bernhard Bablok published in Linux Magazine
+# March 2009.
+# Cf. ftp://ftp.linux-magazin.com/pub/listings/magazine/100/Bash-Skripte/workDispatcher
+#
 # -----------------------------------------------------------------------------
 #
 # The functions in this file support parallel processing of commands (useful
@@ -47,7 +51,7 @@
 # 
 # -----------------------------------------------------------------------------
 # $Author: thomasmaeder $
-# $Revision: 1.2 $
+# $Revision: 1.1 $
 #
 # License: GPL2
 # -----------------------------------------------------------------------------
@@ -187,9 +191,13 @@ dispatchWork() {
 # Popeye specific adaptations #
 ###############################
 
+# command to be invoked in parallel
 _cmd="../py -maxmem 1G -regression -notrace"
+
+# number of processors
 PMAX=2
 
+# create and dispatch jobs
 for item in ../REGRESSIONS/*.inp ../EXAMPLES/*inp ../BEISPIEL/*inp; do
   echo "$item"
 done | dispatchWork
