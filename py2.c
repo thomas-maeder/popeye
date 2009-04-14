@@ -62,17 +62,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-boolean eval_ortho(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_ortho(square sq_departure, square sq_arrival, square sq_capture) {
   return true;
 }
 
-boolean legalsquare(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
   if (CondFlag[koeko]) {
-    if (nocontact(ply_id, sq_departure,sq_arrival,sq_capture, koekofunc))
+    if (nocontact(sq_departure,sq_arrival,sq_capture, koekofunc))
       return(false);
   }
   if (CondFlag[antikoeko]) {
-    if (!nocontact(ply_id, sq_departure,sq_arrival,sq_capture, antikoekofunc))
+    if (!nocontact(sq_departure,sq_arrival,sq_capture, antikoekofunc))
       return(false);
   }
   if (CondFlag[gridchess]) {
@@ -98,12 +98,12 @@ boolean legalsquare(ply ply_id, square sq_departure, square sq_arrival, square s
       return(false);
   }
   if (TSTFLAG(spec[sq_departure], Jigger)) {
-    if (nocontact(ply_id, sq_departure,sq_arrival,sq_capture,nokingcontact))
+    if (nocontact(sq_departure,sq_arrival,sq_capture,nokingcontact))
       return(false);
   }
   if (CondFlag[newkoeko]) {
-    if (nocontact(ply_id, sq_departure,sq_arrival,sq_capture,nokingcontact)
-        != nocontact(ply_id, initsquare,sq_departure,initsquare,nokingcontact))
+    if (nocontact(sq_departure,sq_arrival,sq_capture,nokingcontact)
+        != nocontact(initsquare,sq_departure,initsquare,nokingcontact))
     {
       return false;
     }
@@ -291,12 +291,12 @@ boolean rmhopech(ply ply_id,
       k1= 2*k;
       finligne(sq_hurdle,mixhopdata[angle][k1],hopper,sq_departure);
       if (hopper==p) {
-        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+        if (evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
       finligne(sq_hurdle,mixhopdata[angle][k1-1],hopper,sq_departure);
       if (hopper==p) {
-        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+        if (evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
     }
@@ -334,7 +334,7 @@ boolean rcsech(ply ply_id,
   }
 
   if (e[sq_departure]==p
-      && evaluate(ply_id,sq_departure,sq_arrival,sq_capture))
+      && evaluate(sq_departure,sq_arrival,sq_capture))
     return true;
 
   sq_departure = sq_king+k;
@@ -347,7 +347,7 @@ boolean rcsech(ply ply_id,
   }
 
   if (e[sq_departure]==p
-      && evaluate(ply_id,sq_departure,sq_arrival,sq_capture))
+      && evaluate(sq_departure,sq_arrival,sq_capture))
     return true;
 
   return false;
@@ -373,7 +373,7 @@ boolean rcspech(ply ply_id,
   }
 
   if (e[sq_departure]==p
-      && evaluate(ply_id,sq_departure,sq_arrival,sq_capture))
+      && evaluate(sq_departure,sq_arrival,sq_capture))
     return true;
 
   return false;
@@ -540,14 +540,14 @@ boolean rrefcech(ply ply_id,
         }
       }
       else if (e[sq_departure]==p
-               && evaluate(ply_id,sq_departure,sq_king,sq_king))
+               && evaluate(sq_departure,sq_king,sq_king))
         return true;
     }
     else
       for (k= vec_knight_start; k <= vec_knight_end; k++) {
         sq_departure= i1+vec[k];
         if (e[sq_departure]==p
-            && evaluate(ply_id,sq_departure,sq_king,sq_king))
+            && evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
   
@@ -580,7 +580,7 @@ static boolean rrefnech(ply ply_id,
       }
     }
     if (e[sq_departure] == p &&
-        evaluate(ply_id,sq_departure,sq_king,sq_king))
+        evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
   return false;
@@ -613,7 +613,7 @@ boolean nequicheck(ply ply_id,
       if (e[sq_hurdle]!=vide
           && e[sq_departure]==p
           && sq_king!=sq_departure
-          && evaluate(ply_id,sq_departure,sq_king,sq_king)
+          && evaluate(sq_departure,sq_king,sq_king)
           && hopimcheck(sq_departure,
                         sq_king,
                         sq_hurdle,
@@ -644,7 +644,7 @@ boolean equifracheck(ply ply_id,
         && e[sq_hurdle]!=obs
         && e[sq_departure]==p
         && sq_king!=sq_departure
-        && evaluate(ply_id,sq_departure,sq_king,sq_king))
+        && evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
 
@@ -856,7 +856,7 @@ boolean doublegrascheck(ply ply_id,
           if (abs(e[sq_hurdle1]) >= roib) {
             finligne(sq_hurdle1,vec[k1],doublegras,sq_departure);
             if (doublegras==p
-                && evaluate(ply_id,sq_departure,sq_king,sq_king))
+                && evaluate(sq_departure,sq_king,sq_king))
               return true;
           }
         }
@@ -951,7 +951,7 @@ boolean detect_rosecheck_on_line(ply ply_id,
   square sq_departure= fin_circle_line(sq_king,k,&k1,delta_k);
   return e[sq_departure]==p
       && sq_departure!=sq_king /* pieces don't give check to themselves */
-      && evaluate(ply_id,sq_departure,sq_king,sq_king);
+      && evaluate(sq_departure,sq_king,sq_king);
 }
 
 boolean rosecheck(ply ply_id,
@@ -990,14 +990,14 @@ boolean detect_roselioncheck_on_line(ply ply_id,
       /* special case: king and rose lion are the only pieces on the
        * line -> king is hurdle, and what we thought to be the hurdle
        * is in fact the rose lion! */
-      if (evaluate(ply_id,sq_hurdle,sq_king,sq_king))
+      if (evaluate(sq_hurdle,sq_king,sq_king))
         return true;
     }
 #endif
 
     if (e[sq_departure]==p
         && sq_departure!=sq_king /* pieces don't give check to themselves */
-        && evaluate(ply_id,sq_departure,sq_king,sq_king))
+        && evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
 
@@ -1033,7 +1033,7 @@ boolean detect_rosehoppercheck_on_line(ply ply_id,
   square sq_departure= fin_circle_line(sq_hurdle,k,&k1,delta_k);
   return e[sq_departure]==p
       && sq_departure!=sq_king
-      && evaluate(ply_id,sq_departure,sq_king,sq_king);
+      && evaluate(sq_departure,sq_king,sq_king);
 }
 
 boolean rosehoppercheck(ply ply_id,
@@ -1074,7 +1074,7 @@ boolean detect_roselocustcheck_on_line(ply ply_id,
   square sq_departure= fin_circle_line(sq_king,k,&k1,delta_k);
   return e[sq_departure]==p
       && sq_departure!=sq_king
-      && evaluate(ply_id,sq_departure,sq_arrival,sq_king);
+      && evaluate(sq_departure,sq_arrival,sq_king);
 }
 
 boolean roselocustcheck(ply ply_id,
@@ -1115,14 +1115,14 @@ boolean maocheck(ply ply_id,
   if (e[sq_king+dir_up+dir_right]==vide) {
     sq_departure= sq_king+dir_up+2*dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_up+2*dir_right,
                             sq_king,
                             sq_king+dir_up+dir_right);
     }
     sq_departure= sq_king+2*dir_up+dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_up+dir_right,
                             sq_king,
                             sq_king+dir_up+dir_right);
@@ -1132,14 +1132,14 @@ boolean maocheck(ply ply_id,
   if (e[sq_king+dir_down+dir_left]==vide) {
     sq_departure= sq_king+dir_down+2*dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_down+2*dir_left,
                             sq_king,
                             sq_king+dir_down+dir_left);
     }
     sq_departure= sq_king+2*dir_down+dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_down+dir_left,
                             sq_king,
                             sq_king+dir_down+dir_left);
@@ -1149,14 +1149,14 @@ boolean maocheck(ply ply_id,
   if (e[sq_king+dir_up+dir_left]==vide) {
     sq_departure= sq_king+dir_up+2*dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_up+2*dir_left,
                             sq_king,
                             sq_king+dir_up+dir_left);
     }
     sq_departure= sq_king+2*dir_up+dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_up+dir_left,
                             sq_king,
                             sq_king+dir_up+dir_left);
@@ -1166,14 +1166,14 @@ boolean maocheck(ply ply_id,
   if (e[sq_king+dir_down+dir_right]==vide) {
     sq_departure= sq_king+2*dir_down+dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_down+dir_right,
                             sq_king,
                             sq_king+dir_down+dir_right);
     }
     sq_departure= sq_king+dir_down+2*dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_down+2*dir_right,
                             sq_king,
                             sq_king+dir_down+dir_right);
@@ -1193,48 +1193,48 @@ boolean moacheck(ply ply_id,
   if (e[sq_king+dir_up]==vide) {
     sq_departure= sq_king+2*dir_up+dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_up+dir_left, sq_king, sq_king+dir_up);
     }
     sq_departure= sq_king+2*dir_up+dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_up+dir_right, sq_king, sq_king+dir_up);
     }
   }
   if (e[sq_king+dir_down]==vide) {
     sq_departure= sq_king+2*dir_down+dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_down+dir_right, sq_king, sq_king+dir_down);
     }
     sq_departure= sq_king+2*dir_down+dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_down+dir_left, sq_king, sq_king+dir_down);
     }
   }
   if (e[sq_king+dir_right]==vide) {
     sq_departure= sq_king+dir_up+2*dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_up+2*dir_right, sq_king, sq_king+dir_right);
     }
     sq_departure= sq_king+dir_down+2*dir_right;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_down+2*dir_right, sq_king, sq_king+dir_right);
     }
   }
   if (e[sq_king+dir_left]==vide) {
     sq_departure= sq_king+dir_down+2*dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_down+2*dir_left, sq_king, sq_king+dir_left);
     }
     sq_departure= sq_king+dir_up+2*dir_left;
     if (e[sq_departure]==p) {
-      if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_up+2*dir_left, sq_king, sq_king+dir_left);
     }
   }
@@ -1297,7 +1297,7 @@ boolean pbcheck(ply ply_id,
       square sq_departure= sq_king+dir_up;
             
       if (e[sq_departure]==p
-          && evaluate(ply_id,sq_departure,sq_king,sq_king))
+          && evaluate(sq_departure,sq_king,sq_king))
         return true;
 
       if (ep[nbply]!=initsquare
@@ -1307,7 +1307,7 @@ boolean pbcheck(ply ply_id,
         /* ep captures of royal pawns */
         sq_departure= ep[nbply]+dir_up;
         if (e[sq_departure]==pbn
-            && evaluate(ply_id,sq_departure,ep[nbply],sq_king))
+            && evaluate(sq_departure,ep[nbply],sq_king))
           if (imcheck(sq_departure,ep[nbply]))
             return true;
       }
@@ -1323,7 +1323,7 @@ boolean pbcheck(ply ply_id,
       square sq_departure= sq_king+dir_down;
             
       if (e[sq_departure]==p
-          && evaluate(ply_id,sq_departure,sq_king,sq_king))
+          && evaluate(sq_departure,sq_king,sq_king))
         return true;
       
       if (ep[nbply]!=initsquare
@@ -1333,7 +1333,7 @@ boolean pbcheck(ply ply_id,
         /* ep captures of royal pawns */
         sq_departure= ep[nbply]+dir_down;
         if (e[sq_departure] == pbb
-            && evaluate(ply_id,sq_departure,ep[nbply],sq_king))
+            && evaluate(sq_departure,ep[nbply],sq_king))
           if (imcheck(sq_departure,ep[nbply]))
             return true;
       }
@@ -1357,7 +1357,7 @@ boolean bspawncheck(ply ply_id,
   {
     if (sq_king<=square_h7) {          /* it can move from eigth rank */
       finligne(sq_king,+dir_up,p1,sq_departure);
-      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1365,7 +1365,7 @@ boolean bspawncheck(ply ply_id,
            || (calc_whrefl_king && p == roib)) */
     if (sq_king>=square_a2) {          /* it can move from first rank */
       finligne(sq_king,+dir_down,p1,sq_departure);
-      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1387,11 +1387,11 @@ boolean spawncheck(ply ply_id,
   {
     if (sq_king<=square_h7) {          /* it can move from eigth rank */
       finligne(sq_king,dir_up+dir_left,p1,sq_departure);
-      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
         return true;
 
       finligne(sq_king,+dir_up+dir_right,p1,sq_departure);
-      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1399,11 +1399,11 @@ boolean spawncheck(ply ply_id,
            || (calc_whrefl_king && p == roib)) */
     if (sq_king>=square_a2) {          /* it can move from first rank */
       finligne(sq_king,+dir_down+dir_right,p1,sq_departure);
-      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
         return true;
 
       finligne(sq_king,+dir_down+dir_left,p1,sq_departure);
-      if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
+      if (p1==p && evaluate(sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1492,13 +1492,13 @@ boolean dragoncheck(ply ply_id,
     {
       sq_departure= sq_king+dir_up+dir_left;
       if (e[sq_departure]==p) {
-        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+        if (evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
 
       sq_departure= sq_king+dir_up+dir_right;
       if (e[sq_departure]==p) {
-        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+        if (evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
     }
@@ -1511,13 +1511,13 @@ boolean dragoncheck(ply ply_id,
     {
       sq_departure= sq_king+dir_down+dir_right;
       if (e[sq_departure]==p) {
-        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+        if (evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
 
       sq_departure= sq_king+dir_down+dir_left;
       if (e[sq_departure]==p) {
-        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+        if (evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
     }
@@ -1543,7 +1543,7 @@ boolean kangoucheck(ply ply_id,
       finligne(sq_hurdle,vec[k],p1,sq_hurdle);
       if (p1!=obs) {
         finligne(sq_hurdle,vec[k],p1,sq_departure);
-        if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
+        if (p1==p && evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
     }
@@ -1570,7 +1570,7 @@ boolean rabbitcheck(ply ply_id,
       finligne(sq_hurdle,vec[k],p1,sq_hurdle);
       if (p1!=obs) {
         finligne(sq_hurdle,vec[k],p1,sq_departure);
-        if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
+        if (p1==p && evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
     }
@@ -1601,7 +1601,7 @@ boolean bobcheck(ply ply_id,
           finligne(sq_hurdle,vec[k],p1,sq_hurdle);
           if (p1!=obs) {
             finligne(sq_hurdle,vec[k],p1,sq_departure);
-            if (p1==p && evaluate(ply_id,sq_departure,sq_king,sq_king))
+            if (p1==p && evaluate(sq_departure,sq_king,sq_king))
               return true;
           }
         }
@@ -1881,7 +1881,7 @@ boolean equicheck(ply ply_id,
       finligne(sq_hurdle,vec[k],p1,sq_departure);
       if (p1==p
           && sq_departure-sq_hurdle==sq_hurdle-sq_king
-          && evaluate(ply_id,sq_departure,sq_king,sq_king)
+          && evaluate(sq_departure,sq_king,sq_king)
           && hopimcheck(sq_departure,
                         sq_king,
                         sq_hurdle,
@@ -1894,7 +1894,7 @@ boolean equicheck(ply ply_id,
     sq_departure= sq_king+2*vec[k];
     if (abs(e[sq_king+vec[k]])>=roib
         && e[sq_departure]==p
-        && evaluate(ply_id,sq_departure,sq_king,sq_king)
+        && evaluate(sq_departure,sq_king,sq_king)
         && hopimcheck(sq_departure,
                       sq_king,
                       sq_departure-vec[k],
@@ -1922,7 +1922,7 @@ boolean equiengcheck(ply ply_id,
       finligne(sq_king,-vec[k],p1,sq_departure);
       if (p1==p
           && sq_departure-sq_king==sq_king-sq_hurdle
-          && evaluate(ply_id,sq_departure,sq_king,sq_king))
+          && evaluate(sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -1932,7 +1932,7 @@ boolean equiengcheck(ply ply_id,
     sq_hurdle= sq_king+vec[k];
     if (abs(e[sq_hurdle])>=roib
         && e[sq_departure]==p
-        && evaluate(ply_id,sq_departure,sq_king,sq_king))
+        && evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
   
@@ -1958,12 +1958,12 @@ boolean catcheck(ply ply_id,
     while (e[middle_square]==vide) {
       sq_departure= middle_square+mixhopdata[3][k-60];
       if (e[sq_departure]==p
-          && evaluate(ply_id,sq_departure,sq_king,sq_king))
+          && evaluate(sq_departure,sq_king,sq_king))
         return true;
 
       sq_departure= middle_square+mixhopdata[3][k-56];
       if (e[sq_departure]==p
-          && evaluate(ply_id,sq_departure,sq_king,sq_king))
+          && evaluate(sq_departure,sq_king,sq_king))
         return true;
 
       middle_square+= vec[k];
@@ -2043,12 +2043,12 @@ boolean pioncheck(ply ply_id,
     {
       sq_departure= sq_king+dir_up+dir_left;
       if (e[sq_departure]==p
-          && evaluate(ply_id,sq_departure,sq_king,sq_king))
+          && evaluate(sq_departure,sq_king,sq_king))
         return true;
 
       sq_departure= sq_king+dir_up+dir_right;
       if (e[sq_departure]==p
-          && evaluate(ply_id,sq_departure,sq_king,sq_king))
+          && evaluate(sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -2062,12 +2062,12 @@ boolean pioncheck(ply ply_id,
     {
       sq_departure= sq_king+dir_down+dir_right;
       if (e[sq_departure]==p
-          && evaluate(ply_id,sq_departure,sq_king,sq_king))
+          && evaluate(sq_departure,sq_king,sq_king))
         return true;
 
       sq_departure= sq_king+dir_down+dir_left;
       if (e[sq_departure]==p
-          && evaluate(ply_id,sq_departure,sq_king,sq_king))
+          && evaluate(sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -2102,12 +2102,12 @@ boolean reversepcheck(ply ply_id,
         || p>=hunter0b)
     {
       if (e[sq_king+dir_up+dir_right]==p) {
-        if ((*evaluate)(ply_id,sq_king+dir_up+dir_right,sq_king,sq_king)) {
+        if ((*evaluate)(sq_king+dir_up+dir_right,sq_king,sq_king)) {
           return true;
         }
       }
       if (e[sq_king+dir_up+dir_left]==p) {
-        if ((*evaluate)(ply_id,sq_king+dir_up+dir_left,sq_king,sq_king)) {
+        if ((*evaluate)(sq_king+dir_up+dir_left,sq_king,sq_king)) {
           return true;
         }
       }
@@ -2122,12 +2122,12 @@ boolean reversepcheck(ply ply_id,
         || p<=hunter0n)
     {
       if (e[sq_king+dir_down+dir_right]==p) {
-        if ((*evaluate)(ply_id,sq_king+dir_down+dir_right,sq_king,sq_king)) {
+        if ((*evaluate)(sq_king+dir_down+dir_right,sq_king,sq_king)) {
           return true;
         }
       }
       if (e[sq_king+dir_down+dir_left]==p) {
-        if ((*evaluate)(ply_id,sq_king+dir_down+dir_left,sq_king,sq_king)) {
+        if ((*evaluate)(sq_king+dir_down+dir_left,sq_king,sq_king)) {
           return true;
         }
       }
@@ -2306,10 +2306,8 @@ boolean libre(ply ply_id, square sq, boolean generating)
   return result;
 } /* libre */
 
-boolean notsoutenu(ply ply_id,
-                   square sq_departure,
-                   square sq_arrival,
-                   square sq_capture) {
+boolean notsoutenu(square sq_departure, square sq_arrival, square sq_capture)
+{
   piece p= 0;       /* avoid compiler warning */
   boolean   Result;
   evalfunction_t *evaluate;
@@ -2323,19 +2321,19 @@ boolean notsoutenu(ply ply_id,
     evaluate= soutenu;
   }
   else if (flaglegalsquare) {
-    if (!legalsquare(ply_id,sq_departure, sq_arrival, sq_capture)) {
+    if (!legalsquare(sq_departure, sq_arrival, sq_capture)) {
       return false;
     }
     evaluate= legalsquare;
   }
   else if (flag_madrasi) {
-    if (!eval_madrasi(ply_id,sq_departure, sq_arrival, sq_capture)) {
+    if (!eval_madrasi(sq_departure, sq_arrival, sq_capture)) {
       return false;
     }
     evaluate= eval_madrasi;
   }
   else if (TSTFLAG(PieSpExFlags,Paralyse)) {
-    if (!paraechecc(ply_id,sq_departure, sq_arrival, sq_capture)) {
+    if (!paraechecc(sq_departure, sq_arrival, sq_capture)) {
       return false;
     }
     evaluate= paraechecc;
@@ -2379,8 +2377,7 @@ boolean notsoutenu(ply ply_id,
   return(Result);
 }
 
-boolean soutenu(ply ply_id,
-                square sq_departure, square sq_arrival, square sq_capture) {
+boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
   piece p= 0;       /* avoid compiler warning */
   boolean   Result;
   evalfunction_t *evaluate;
@@ -2394,19 +2391,19 @@ boolean soutenu(ply ply_id,
     evaluate= soutenu;
   }
   else if (flaglegalsquare) {
-    if (!legalsquare(ply_id,sq_departure,sq_arrival,sq_capture)) {
+    if (!legalsquare(sq_departure,sq_arrival,sq_capture)) {
       return false;
     }
     evaluate= legalsquare;
   }
   else if (flag_madrasi) {
-    if (!eval_madrasi(ply_id,sq_departure,sq_arrival,sq_capture)) {
+    if (!eval_madrasi(sq_departure,sq_arrival,sq_capture)) {
       return false;
     }
     evaluate= eval_madrasi;
   }
   else if (TSTFLAG(PieSpExFlags,Paralyse)) {
-    if (!paraechecc(ply_id,sq_departure,sq_arrival,sq_capture)) {
+    if (!paraechecc(sq_departure,sq_arrival,sq_capture)) {
       return false;
     }
     evaluate= paraechecc;
@@ -2450,23 +2447,23 @@ boolean soutenu(ply ply_id,
   return(Result);
 } /* soutenu */
 
-boolean eval_madrasi(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_madrasi(square sq_departure, square sq_arrival, square sq_capture) {
   if (flaglegalsquare
-      && !legalsquare(ply_id,sq_departure,sq_arrival,sq_capture)) {
+      && !legalsquare(sq_departure,sq_arrival,sq_capture)) {
     return false;
   }
   else {
-    return libre(ply_id, sq_departure, false) && 
-        (!CondFlag[BGL] || eval_2(ply_id,sq_departure,sq_arrival,sq_capture));
+    return libre(nbply, sq_departure, false) && 
+        (!CondFlag[BGL] || eval_2(sq_departure,sq_arrival,sq_capture));
     /* is this just appropriate for BGL? in verifieposition eval_2 is set when madrasi is true,
        but never seems to be used here or in libre */
   }
 } /* eval_madrasi */
 
-boolean eval_shielded(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_shielded(square sq_departure, square sq_arrival, square sq_capture) {
   if ((sq_departure==rn && sq_capture==rb)
       || (sq_departure==rb && sq_capture==rn)) {
-    return !soutenu(ply_id,sq_capture,sq_departure,sq_departure);  /* won't work for locust Ks etc.*/
+    return !soutenu(sq_capture,sq_departure,sq_departure);  /* won't work for locust Ks etc.*/
   }
   else {
     return true;
@@ -2488,7 +2485,7 @@ boolean edgehcheck(ply ply_id,
     finligne(sq_king,vec[k],p1,sq_departure);
     if (p1==p
         && NoEdge(sq_king)!=NoEdge(sq_departure)
-        && evaluate(ply_id,sq_departure,sq_king,sq_king))
+        && evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
 
@@ -2514,7 +2511,7 @@ static boolean maooaridercheck(ply ply_id,
 
   return e[middle_square]==vide
       && e[sq_departure]==p
-      && evaluate(ply_id,sq_departure,sq_king,sq_king);
+      && evaluate(sq_departure,sq_king,sq_king);
 }
 
 boolean moaridercheck(ply ply_id,
@@ -2598,7 +2595,7 @@ static boolean maooariderlioncheck(ply ply_id,
   }
   if (e[middle_square]!=vide
       && e[sq_departure]==p
-      && evaluate(ply_id,sq_departure,sq_king,sq_king))
+      && evaluate(sq_departure,sq_king,sq_king))
     return true;
 
   if (e[middle_square]!=obs
@@ -2613,7 +2610,7 @@ static boolean maooariderlioncheck(ply ply_id,
     }
     if (e[middle_square]==vide
         && e[sq_departure]==p
-        && evaluate(ply_id,sq_departure,sq_king,sq_king))
+        && evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
 
@@ -2755,7 +2752,7 @@ boolean pos_legal(ply ply_id)
   return true;
 }
 
-boolean eval_isardam(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture) {
   boolean flag=false;
   Side camp;
 
@@ -2777,7 +2774,7 @@ boolean eval_isardam(ply ply_id, square sq_departure, square sq_arrival, square 
     camp= e[sq_departure]<0 ? Black : White;
   }
 
-  nextply(ply_id);
+  nextply(nbply);
   trait[nbply]= camp;
 
   init_move_generation_optimizer();
@@ -2790,7 +2787,7 @@ boolean eval_isardam(ply ply_id, square sq_departure, square sq_arrival, square 
     /* may be several K capture moves e.g. PxK=S,B,R,Q */
     if (CondFlag[brunner])
       /* For neutral Ks will need to return true always */
-      flag= jouecoup(nbply,first_play) && !echecc(ply_id,camp);
+      flag= jouecoup(nbply,first_play) && !echecc(nbply,camp);
     else if (CondFlag[isardam])
       flag= jouecoup(nbply,first_play);
     /* Isardam + Brunner may be possible! in which case this logic
@@ -2821,7 +2818,7 @@ boolean orixcheck(ply ply_id,
       finligne(sq_hurdle,vec[k],p1,sq_departure);
       if (p1==p
           && sq_departure-sq_hurdle==sq_hurdle-sq_king
-          && evaluate(ply_id,sq_departure,sq_king,sq_king)
+          && evaluate(sq_departure,sq_king,sq_king)
           && hopimcheck(sq_departure,
                         sq_king,
                         sq_hurdle,
@@ -2864,8 +2861,7 @@ square  sq_woo_from;
 square  sq_woo_to;
 Side col_woo;
 
-static boolean aux_whx(ply ply_id,
-                       square sq_departure,
+static boolean aux_whx(square sq_departure,
                        square sq_arrival,
                        square sq_capture)
 {
@@ -2909,24 +2905,24 @@ static boolean aux_whx(ply ply_id,
     }
   }
 
-  return (flaglegalsquare ? legalsquare : eval_ortho)(ply_id,sq_departure,sq_arrival,sq_capture);
+  return (flaglegalsquare ? legalsquare : eval_ortho)(sq_departure,sq_arrival,sq_capture);
 } /* aux_whx */
 
-static boolean aux_wh(ply ply_id,
-                      square sq_departure,
+static boolean aux_wh(square sq_departure,
                       square sq_arrival,
                       square sq_capture)
 {
-  if ((flaglegalsquare ? legalsquare : eval_ortho)(ply_id,sq_departure,sq_arrival,sq_capture)) {
+  if ((flaglegalsquare ? legalsquare : eval_ortho)(sq_departure,sq_arrival,sq_capture)) {
     piece const p= e[sq_woo_from];
     return nbpiece[p]>0
-        && (*checkfunctions[abs(p)])(ply_id,sq_departure, e[sq_woo_from], aux_whx);
+        && (*checkfunctions[abs(p)])(nbply,sq_departure, e[sq_woo_from], aux_whx);
   }
   else
     return false;
 }
 
-boolean woohefflibre(ply ply_id, square to, square from) {
+boolean woohefflibre(square to, square from)
+{
   piece   *pcheck, p;
 
   if (rex_wooz_ex && (from == rb || from == rn)) {
@@ -2948,7 +2944,7 @@ boolean woohefflibre(ply ply_id, square to, square from) {
     else {
       p= *pcheck;
     }
-    if (nbpiece[p]>0 && (*checkfunctions[*pcheck])(ply_id, from, p, aux_wh)) {
+    if (nbpiece[p]>0 && (*checkfunctions[*pcheck])(nbply, from, p, aux_wh)) {
       return false;
     }
     pcheck++;
@@ -2957,12 +2953,12 @@ boolean woohefflibre(ply ply_id, square to, square from) {
   return true;
 }
 
-boolean eval_wooheff(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
-  if (flaglegalsquare && !legalsquare(ply_id,sq_departure,sq_arrival,sq_capture)) {
+boolean eval_wooheff(square sq_departure, square sq_arrival, square sq_capture) {
+  if (flaglegalsquare && !legalsquare(sq_departure,sq_arrival,sq_capture)) {
     return false;
   }
   else {
-    return woohefflibre(ply_id, sq_arrival, sq_departure);
+    return woohefflibre(sq_arrival, sq_departure);
   }
 }
 
@@ -3003,7 +2999,7 @@ boolean querquisitecheck(ply ply_id,
          || file_departure==file_queen
          || file_departure==file_rook_kingside)
         && p1==p
-        && evaluate(ply_id,sq_departure,sq_king,sq_king)
+        && evaluate(sq_departure,sq_king,sq_king)
         && ridimcheck(sq_departure,sq_king,vec[k]))
       return true;
   }
@@ -3015,7 +3011,7 @@ boolean querquisitecheck(ply ply_id,
          || file_departure==file_queen
          || file_departure==file_bishop_kingside)
         && p1==p
-        && evaluate(ply_id,sq_departure,sq_king,sq_king)
+        && evaluate(sq_departure,sq_king,sq_king)
         && ridimcheck(sq_departure,sq_king,vec[k]))
       return true;
   }
@@ -3026,7 +3022,7 @@ boolean querquisitecheck(ply ply_id,
     if (e[sq_departure]==p
         && (file_departure==file_knight_queenside
             || file_departure==file_knight_kingside)
-        && evaluate(ply_id,sq_departure,sq_king,sq_king)
+        && evaluate(sq_departure,sq_king,sq_king)
         && imcheck(sq_departure,sq_king))
       return true;
   }
@@ -3036,7 +3032,7 @@ boolean querquisitecheck(ply ply_id,
     file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
     if (e[sq_departure]==p
         && file_departure==file_king
-        && evaluate(ply_id,sq_departure,sq_king,sq_king)
+        && evaluate(sq_departure,sq_king,sq_king)
         && imcheck(sq_departure,sq_king))
       return true;
   }
@@ -3062,7 +3058,7 @@ static boolean bouncerfamilycheck(ply ply_id,
     finligne(sq_departure,vec[k],p2,sq_hurdle);  /* p2 can be obs - bounces off edges */
     if (sq_departure-sq_king==sq_hurdle-sq_departure
         && p1==p
-        && evaluate(ply_id,sq_departure,sq_king,sq_king))
+        && evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
 
@@ -3104,7 +3100,7 @@ boolean pchincheck(ply ply_id,
 
   sq_departure= sq_king + (is_black ? dir_up :dir_down);
   if (e[sq_departure]==p
-      && evaluate(ply_id,sq_departure,sq_king,sq_king))
+      && evaluate(sq_departure,sq_king,sq_king))
     return true;
 
   /* chinese pawns can capture side-ways if standing on the half of
@@ -3113,32 +3109,31 @@ boolean pchincheck(ply ply_id,
   if ((sq_king*2<(square_h8+square_a1)) == is_black) {
     sq_departure= sq_king+dir_right;
     if (e[sq_departure]==p
-        && evaluate(ply_id,sq_departure,sq_king,sq_king))
+        && evaluate(sq_departure,sq_king,sq_king))
       return true;
 
     sq_departure= sq_king+dir_left;
     if (e[sq_departure]==p
-        && evaluate(ply_id,sq_departure,sq_king,sq_king))
+        && evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
 
   return false;
 }
 
-boolean eval_fromspecificsquare(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square sq_capture) {
   return
       sq_departure==fromspecificsquare
-      && (e[sq_departure]>vide ? eval_white : eval_black)(ply_id,sq_departure,sq_arrival,sq_capture);
+      && (e[sq_departure]>vide ? eval_white : eval_black)(sq_departure,sq_arrival,sq_capture);
 }
 
-boolean eval_disp(ply ply_id, square sq_departure, square sq_arrival, square sq_capture)
+boolean eval_disp(square sq_departure, square sq_arrival, square sq_capture)
 {
   boolean result = false;
   Side save_trait;
   Side camp;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply_id);
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceSquare(sq_capture);
@@ -3158,12 +3153,12 @@ boolean eval_disp(ply ply_id, square sq_departure, square sq_arrival, square sq_
   else
     camp = e[sq_departure]<0 ? Black : White;
 
-  save_trait = trait[ply_id]; 
-  trait[ply_id] = camp;
+  save_trait = trait[nbply]; 
+  trait[nbply] = camp;
 
-  result = libre(ply_id,sq_departure,false); 
+  result = libre(nbply,sq_departure,false); 
   
-  trait[ply_id] = save_trait; 
+  trait[nbply] = save_trait; 
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3209,7 +3204,7 @@ void change_observed(ply ply, square z, boolean push)
     }
 }
 
-boolean eval_BGL(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+boolean eval_BGL(square sq_departure, square sq_arrival, square sq_capture) {
   return
       BGL_move_diff_code[abs(sq_departure-sq_arrival)]
       <= (e[sq_capture]<vide ? BGL_white : BGL_black);

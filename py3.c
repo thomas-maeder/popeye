@@ -61,7 +61,7 @@ boolean rubiech(ply ply_id,
     }
     else {
       if (e_ub[sq_departure]==p
-          && evaluate(ply_id,sq_departure,sq_king,sq_king))
+          && evaluate(sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -87,7 +87,7 @@ boolean rrfouech(ply ply_id,
 
   finligne(intermediate_square,k,p1,sq_departure);
   if (p1==p) {
-    if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+    if (evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
   else if (x && p1==obs) {
@@ -136,7 +136,7 @@ boolean rcardech(ply ply_id,
     
   finligne(intermediate_square,k,p1,sq_departure);
   if (p1==p) {
-    if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+    if (evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
   else if (x && p1==obs) {
@@ -147,7 +147,7 @@ boolean rcardech(ply ply_id,
     if (k1<=4) {
       sq_departure+= vec[k1];
       if (e[sq_departure]==p) {
-        if (evaluate(ply_id,sq_departure,sq_king,sq_king))
+        if (evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
       else if (e[sq_departure]==vide) {
@@ -386,7 +386,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
         for (k= vec_queen_end; k>=vec_queen_start; k--) {
           sq_departure= rn+vec[k];
           if (e[sq_departure]==roib
-              && evaluate(ply_id,sq_departure,rn,rn))
+              && evaluate(sq_departure,rn,rn))
             if (imcheck(sq_departure,rn))
               return true;
         }
@@ -402,7 +402,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
         TraceSquare(sq_departure);
         TraceText("\n");
         if (e[sq_departure]==roib
-            && evaluate(ply_id,sq_departure,rn,rn)
+            && evaluate(sq_departure,rn,rn)
             && imcheck(sq_departure,rn))
           return true;
       }
@@ -417,13 +417,13 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
     {
       sq_departure= rn+dir_down+dir_right;
       if (e[sq_departure]==pb
-          && evaluate(ply_id,sq_departure,rn,rn))
+          && evaluate(sq_departure,rn,rn))
         if (imcheck(sq_departure,rn))
           return true;
       
       sq_departure= rn+dir_down+dir_left;
       if (e[sq_departure]==pb
-          && evaluate(ply_id,sq_departure,rn,rn))
+          && evaluate(sq_departure,rn,rn))
         if (imcheck(sq_departure,rn))
           return true;
 
@@ -436,13 +436,13 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
         */
         sq_departure= sq_arrival+dir_down+dir_right;
         if (e[sq_departure]==pb
-            && evaluate(ply_id,sq_departure,sq_arrival,rn))
+            && evaluate(sq_departure,sq_arrival,rn))
           if (imcheck(sq_departure,sq_arrival))
             return true;
 
         sq_departure= sq_arrival+dir_down+dir_left;
         if (e[sq_departure]==pb
-            && evaluate(ply_id,sq_departure,sq_arrival,rn))
+            && evaluate(sq_departure,sq_arrival,rn))
           if (imcheck(sq_departure,sq_arrival))
             return true;
       }
@@ -450,12 +450,12 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
       sq_arrival= ep2[nbply]; /* Einstein triple step */
       if (sq_arrival!=initsquare && rn==sq_arrival+dir_down) {
         sq_departure= sq_arrival+dir_down+dir_right;
-        if (e[sq_departure]==pb && evaluate(ply_id,sq_departure,sq_arrival,rn))
+        if (e[sq_departure]==pb && evaluate(sq_departure,sq_arrival,rn))
           if (imcheck(sq_departure,sq_arrival))
             return true;
         
         sq_departure= sq_arrival+dir_down+dir_left;
-        if (e[sq_departure]==pb && evaluate(ply_id,sq_departure,sq_arrival,rn))
+        if (e[sq_departure]==pb && evaluate(sq_departure,sq_arrival,rn))
           if (imcheck(sq_departure,sq_arrival))
             return true;
       }
@@ -467,7 +467,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       sq_departure= rn+vec[k];
       if (e[sq_departure]==cb
-          && evaluate(ply_id,sq_departure,rn,rn))
+          && evaluate(sq_departure,rn,rn))
         if (imcheck(sq_departure,rn))
           return true;
     }
@@ -476,7 +476,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
     for (k= vec_rook_end; k>=vec_rook_start; k--) {
       finligne(rn,vec[k],p,sq_departure);
       if ((p==tb || p==db)
-          && evaluate(ply_id,sq_departure,rn,rn))
+          && evaluate(sq_departure,rn,rn))
         if (ridimcheck(sq_departure,rn,vec[k]))
           return true;
     }
@@ -485,7 +485,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
       finligne(rn,vec[k],p,sq_departure);
       if ((p==fb || p==db)
-          && evaluate(ply_id,sq_departure,rn,rn))
+          && evaluate(sq_departure,rn,rn))
         if (ridimcheck(sq_departure,rn,vec[k]))
           return true;
     }
@@ -686,7 +686,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
         for (k= vec_queen_end; k>=vec_queen_start; k--) {
           sq_departure= rb+vec[k];
           if (e[sq_departure]==roin
-              && evaluate(ply_id,sq_departure,rb,rb))
+              && evaluate(sq_departure,rb,rb))
             if (imcheck(sq_departure,rb))
               return true;
         }
@@ -702,7 +702,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
       {
         sq_departure= rb+vec[k];
         if (e[sq_departure]==roin
-            && evaluate(ply_id,sq_departure,rb,rb))
+            && evaluate(sq_departure,rb,rb))
           if (imcheck(sq_departure,rb))
             return true;
       }
@@ -717,13 +717,13 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     {
       sq_departure= rb+dir_up+dir_left;
       if (e[sq_departure]==pn
-          && evaluate(ply_id,sq_departure,rb,rb))
+          && evaluate(sq_departure,rb,rb))
         if (imcheck(sq_departure,rb))
           return true;
 
       sq_departure= rb+dir_up+dir_right;
       if (e[sq_departure]==pn
-          && evaluate(ply_id,sq_departure,rb,rb))
+          && evaluate(sq_departure,rb,rb))
         if (imcheck(sq_departure,rb))
           return true;
 
@@ -737,13 +737,13 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
         */
         sq_departure= sq_arrival+dir_up+dir_left;
         if (e[sq_departure]==pn
-            && evaluate(ply_id,sq_departure,sq_arrival,rb))
+            && evaluate(sq_departure,sq_arrival,rb))
           if (imcheck(sq_departure,sq_arrival))
             return true;
 
         sq_departure= sq_arrival+dir_up+dir_right;
         if (e[sq_departure]==pn
-            && evaluate(ply_id,sq_departure,sq_arrival,rb))
+            && evaluate(sq_departure,sq_arrival,rb))
           if (imcheck(sq_departure,sq_arrival))
             return true;
       }
@@ -751,12 +751,12 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
       sq_arrival= ep2[nbply]; /* Einstein triple step */
       if (sq_arrival!=initsquare && rb==sq_arrival+dir_up) {
         sq_departure= sq_arrival+dir_up+dir_left;
-        if (e[sq_departure]==pn && evaluate(ply_id,sq_departure,sq_arrival,rb))
+        if (e[sq_departure]==pn && evaluate(sq_departure,sq_arrival,rb))
           if (imcheck(sq_departure,sq_arrival))
             return true;
 
         sq_departure= sq_arrival+dir_up+dir_right;
-        if (e[sq_departure]==pn && evaluate(ply_id,sq_departure,sq_arrival,rb))
+        if (e[sq_departure]==pn && evaluate(sq_departure,sq_arrival,rb))
           if (imcheck(sq_departure,sq_arrival))
             return true;
       }
@@ -767,7 +767,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       sq_departure= rb+vec[k];
       if (e[sq_departure]==cn
-          && evaluate(ply_id,sq_departure,rb,rb))
+          && evaluate(sq_departure,rb,rb))
         if (imcheck(sq_departure,rb))
           return true;
     }
@@ -776,7 +776,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     for (k= vec_rook_end; k>=vec_rook_start; k--) {
       finligne(rb,vec[k],p,sq_departure);
       if ((p==tn || p==dn)
-          && evaluate(ply_id,sq_departure,rb,rb))
+          && evaluate(sq_departure,rb,rb))
         if (ridimcheck(sq_departure,rb,vec[k]))
           return true;
     }
@@ -785,7 +785,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
       finligne(rb,vec[k],p,sq_departure);
       if ((p==fn || p==dn)
-          && evaluate(ply_id,sq_departure,rb,rb))
+          && evaluate(sq_departure,rb,rb))
         if (ridimcheck(sq_departure,rb,vec[k]))
           return true;
     }
@@ -862,42 +862,42 @@ boolean singleboxtype3_rbechec(ply ply_id, evalfunction_t *evaluate)
 boolean (*rbechec)(ply ply_id, evalfunction_t *evaluate);
 
 
-boolean rncircech(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
-  if (sq_departure == (*circerenai)(ply_id, e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)) {
+boolean rncircech(square sq_departure, square sq_arrival, square sq_capture) {
+  if (sq_departure == (*circerenai)(nbply, e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)) {
     return false;
   }
   else
-    return eval_2(ply_id,sq_departure,sq_arrival,sq_capture);
+    return eval_2(sq_departure,sq_arrival,sq_capture);
 }
 
-boolean rbcircech(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
-  if (sq_departure == (*circerenai)(ply_id, e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)) {
+boolean rbcircech(square sq_departure, square sq_arrival, square sq_capture) {
+  if (sq_departure == (*circerenai)(nbply, e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)) {
     return false;
   }
   else {
-    return eval_2(ply_id,sq_departure,sq_arrival,sq_capture);
+    return eval_2(sq_departure,sq_arrival,sq_capture);
   }
 }
 
-boolean rnimmunech(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
-  immrenroin= (*immunrenai)(ply_id, e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White);
+boolean rnimmunech(square sq_departure, square sq_arrival, square sq_capture) {
+  immrenroin= (*immunrenai)(nbply, e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White);
 
   if ((e[immrenroin] != vide && sq_departure != immrenroin)) {
     return false;
   }
   else {
-    return eval_2(ply_id,sq_departure,sq_arrival,sq_capture);
+    return eval_2(sq_departure,sq_arrival,sq_capture);
   }
 }
 
-boolean rbimmunech(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
-  immrenroib= (*immunrenai)(ply_id, e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black);
+boolean rbimmunech(square sq_departure, square sq_arrival, square sq_capture) {
+  immrenroib= (*immunrenai)(nbply, e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black);
 
   if ((e[immrenroib] != vide && sq_departure != immrenroib)) {
     return false;
   }
   else {
-    return eval_2(ply_id,sq_departure,sq_arrival,sq_capture);
+    return eval_2(sq_departure,sq_arrival,sq_capture);
   }
 }
 
@@ -1108,16 +1108,16 @@ boolean echecc(ply ply_id, Side camp)
   return result;
 } /* end of echecc */
 
-boolean testparalyse(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
-  if (flaglegalsquare && !legalsquare(ply_id,sq_departure,sq_arrival,sq_capture))
+boolean testparalyse(square sq_departure, square sq_arrival, square sq_capture) {
+  if (flaglegalsquare && !legalsquare(sq_departure,sq_arrival,sq_capture))
     return false;
   else
     return TSTFLAG(spec[sq_departure], Paralyse);
 }
 
-boolean paraechecc(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+boolean paraechecc(square sq_departure, square sq_arrival, square sq_capture) {
   if (TSTFLAG(spec[sq_departure], Paralyse)
-      || (flaglegalsquare && !legalsquare(ply_id,sq_departure,sq_arrival,sq_capture)))
+      || (flaglegalsquare && !legalsquare(sq_departure,sq_arrival,sq_capture)))
   {
     return false;
   }
@@ -1148,14 +1148,14 @@ boolean paralysiert(square i) {
 
 static evalfunction_t *next_evaluate;
 
-static boolean eval_up(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+static boolean eval_up(square sq_departure, square sq_arrival, square sq_capture) {
   return sq_arrival-sq_departure>8
-      && next_evaluate(ply_id,sq_departure,sq_arrival,sq_capture);
+      && next_evaluate(sq_departure,sq_arrival,sq_capture);
 }
 
-static boolean eval_down(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+static boolean eval_down(square sq_departure, square sq_arrival, square sq_capture) {
   return sq_arrival-sq_departure<-8
-      && next_evaluate(ply_id,sq_departure,sq_arrival,sq_capture);
+      && next_evaluate(sq_departure,sq_arrival,sq_capture);
 }
 
 boolean huntercheck(ply ply_id,
@@ -1242,40 +1242,39 @@ static boolean AntiCirceEch(ply ply_id,
       }
     }
 
-  return eval_2(ply_id,sq_departure,sq_arrival,sq_capture);
+  return eval_2(sq_departure,sq_arrival,sq_capture);
 } /* AntiCirceEch */
 
-boolean rnanticircech(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
-  return AntiCirceEch(ply_id, sq_departure, sq_arrival, sq_capture, Black);
+boolean rnanticircech(square sq_departure, square sq_arrival, square sq_capture) {
+  return AntiCirceEch(nbply, sq_departure, sq_arrival, sq_capture, Black);
 }
 
-boolean rbanticircech(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
-  return AntiCirceEch(ply_id, sq_departure, sq_arrival, sq_capture, White);
+boolean rbanticircech(square sq_departure, square sq_arrival, square sq_capture) {
+  return AntiCirceEch(nbply, sq_departure, sq_arrival, sq_capture, White);
 }
 
-boolean rnsingleboxtype1ech(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+boolean rnsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
   if (is_forwardpawn(e[sq_departure]) && PromSq(White, sq_capture)) {
     /* Pawn checking on last rank */
     return next_singlebox_prom(vide,White)!=vide;
   }
   else {
-    return eval_2(ply_id,sq_departure,sq_arrival,sq_capture);
+    return eval_2(sq_departure,sq_arrival,sq_capture);
   }
 }
 
-boolean rbsingleboxtype1ech(ply ply_id, square sq_departure, square sq_arrival, square sq_capture) {
+boolean rbsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
   if (is_forwardpawn(e[sq_departure]) && PromSq(Black, sq_capture)) {
     /* Pawn checking on last rank */
     return next_singlebox_prom(vide,Black)!=vide;
   }
   else {
-    return eval_2(ply_id,sq_departure,sq_arrival,sq_capture);
+    return eval_2(sq_departure,sq_arrival,sq_capture);
   }
 }
 
 
-boolean rbultraech(ply ply_id,
-                   square sq_departure, square sq_arrival, square sq_capture) {
+boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture) {
   killer_state const save_killer_state = current_killer_state;
   move_generation_mode_type const save_move_generation_mode
       = move_generation_mode;
@@ -1288,7 +1287,7 @@ boolean rbultraech(ply ply_id,
     StdString(
         "rbultra is called while we_generate_exact is set!\n");
   }
-  nextply(ply_id);
+  nextply(nbply);
   current_killer_state.move.departure = sq_departure;
   current_killer_state.move.arrival = sq_arrival;
   current_killer_state.found = false;
@@ -1302,17 +1301,16 @@ boolean rbultraech(ply ply_id,
   move_generation_mode = save_move_generation_mode;
   current_killer_state = save_killer_state;
 
-  return  check ? eval_2(ply_id,sq_departure,sq_arrival,sq_capture) : false;
+  return  check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
 }
 
-boolean rnultraech(ply ply_id,
-                   square sq_departure, square sq_arrival, square sq_capture) {
+boolean rnultraech(square sq_departure, square sq_arrival, square sq_capture) {
   killer_state const save_killer_state = current_killer_state;
   move_generation_mode_type const save_move_generation_mode
       = move_generation_mode;
   boolean check;
 
-  nextply(ply_id);
+  nextply(nbply);
   current_killer_state.move.departure = sq_departure;
   current_killer_state.move.arrival = sq_arrival;
   current_killer_state.found = false;
@@ -1326,7 +1324,7 @@ boolean rnultraech(ply ply_id,
   move_generation_mode = save_move_generation_mode;
   current_killer_state = save_killer_state;
 
-  return check ? eval_2(ply_id,sq_departure,sq_arrival,sq_capture) : false;
+  return check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
 }
 
 static boolean skycharcheck(ply ply_id,
@@ -1339,12 +1337,12 @@ static boolean skycharcheck(ply ply_id,
 {
   if (e[chp] == p) {
     if (e[sq_arrival1]==vide
-        && evaluate(ply_id,chp,sq_arrival1,sq_king)) {
+        && evaluate(chp,sq_arrival1,sq_king)) {
       return  true;
     }
 
     if (e[sq_arrival2]==vide
-        && evaluate(ply_id,chp,sq_arrival2,sq_king)) {
+        && evaluate(chp,sq_arrival2,sq_king)) {
       return  true;
     }
   }

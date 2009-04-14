@@ -359,7 +359,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     }
 
     if (flaglegalsquare
-        && !legalsquare(nbply,sq_departure,sq_arrival,sq_capture))
+        && !legalsquare(sq_departure,sq_arrival,sq_capture))
     {
       return true;
     }
@@ -503,13 +503,13 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           || CondFlag[central]
           || CondFlag[ultrapatrouille])
     {
-      if (!soutenu(nbply,sq_departure,sq_arrival,sq_capture))
+      if (!soutenu(sq_departure,sq_arrival,sq_capture))
         return true;
     }
 
     if (e[sq_capture] != vide) {
       if (CondFlag[woozles]
-          && !woohefflibre(nbply,sq_arrival, sq_departure))
+          && !woohefflibre(sq_arrival, sq_departure))
       {
         return  true;
       }
@@ -540,13 +540,13 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           && !(CondFlag[beamten]
                || TSTFLAG(PieSpExFlags, Beamtet)))
       {
-        if (!soutenu(nbply,sq_departure,sq_arrival,sq_capture)) {
+        if (!soutenu(sq_departure,sq_arrival,sq_capture)) {
           return true;
         }
       }
       if (CondFlag[lortap]) 
       {
-        if (soutenu(nbply,sq_departure,sq_arrival,sq_capture)) {
+        if (soutenu(sq_departure,sq_arrival,sq_capture)) {
           return true;
         }
       }
@@ -585,8 +585,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 
         if (anyanticirce
             && (traitnbply==White
-                ? !rnanticircech(nbply,sq_departure,sq_arrival,sq_capture)
-                : !rbanticircech(nbply,sq_departure,sq_arrival,sq_capture)))
+                ? !rnanticircech(sq_departure,sq_arrival,sq_capture)
+                : !rbanticircech(sq_departure,sq_arrival,sq_capture)))
         {
           return true;
         }

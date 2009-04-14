@@ -461,7 +461,7 @@ boolean leapcheck(ply ply_id,
   for (k= kanf; k<=kend; k++) {
     sq_departure= sq_king+vec[k];
     if (e[sq_departure]==p
-        && evaluate(ply_id,sq_departure,sq_king,sq_king)
+        && evaluate(sq_departure,sq_king,sq_king)
         && imcheck(sq_departure,sq_king))
       return true;
   }
@@ -489,7 +489,7 @@ boolean leapleapcheck(
       for (k1= kanf; k1<= kend; k1++) {
         sq_departure = sq_hurdle + vec[k1];
         if (e[sq_departure]==p && sq_departure!=sq_king
-            && (*evaluate)(ply_id,sq_departure,sq_king,sq_king)
+            && (*evaluate)(sq_departure,sq_king,sq_king)
             && imcheck(sq_departure,sq_king))
         {
           return true;
@@ -568,7 +568,7 @@ boolean riderhoppercheck(ply ply_id,
         finligne(sq_hurdle,vec[k],hopper,sq_departure);
 
       if (hopper==p
-          && evaluate(ply_id,sq_departure,sq_king,sq_king)
+          && evaluate(sq_departure,sq_king,sq_king)
           && hopimcheck(sq_departure,sq_king,sq_hurdle,-vec[k]))
         return true;
     }
@@ -592,7 +592,7 @@ boolean ridcheck(ply ply_id,
   for (k= kanf; k<= kend; k++) {
     finligne(sq_king,vec[k],rider,sq_departure);
     if (rider==p
-        && evaluate(ply_id,sq_departure,sq_king,sq_king)
+        && evaluate(sq_departure,sq_king,sq_king)
         && ridimcheck(sq_departure,sq_king,vec[k]))
       return true;
   }
@@ -617,7 +617,7 @@ boolean marincheck(ply ply_id,
     sq_arrival= sq_king-vec[k];
     if (e[sq_arrival]==vide) {
       finligne(sq_king,vec[k],marine,sq_departure);
-      if (marine==p && evaluate(ply_id,sq_departure,sq_arrival,sq_king))
+      if (marine==p && evaluate(sq_departure,sq_arrival,sq_king))
         return true;
     }
   }
@@ -717,7 +717,7 @@ boolean noantelopecontact(square ia)
 }
 
 
-boolean nocontact(ply ply_id, square sq_departure, square sq_arrival, square sq_capture, nocontactfunc_t nocontactfunc) {
+boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, nocontactfunc_t nocontactfunc) {
   boolean   Result;
   square    cr;
   piece pj, pp, pren;
@@ -727,13 +727,12 @@ boolean nocontact(ply ply_id, square sq_departure, square sq_arrival, square sq_
   VARIABLE_INIT(cr);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply_id);
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceSquare(sq_capture);
   TraceText("\n");
 
-  nextply(ply_id);
+  nextply(nbply);
 
   pj= e[sq_departure];
   pp= e[sq_capture];
@@ -794,18 +793,17 @@ boolean nocontact(ply ply_id, square sq_departure, square sq_arrival, square sq_
     e[sq_capture]= vide;
 
     TraceValue("%u",nbply);
-    TraceValue("%u",ply_id);
-    TracePiece(pprise[ply_id]);
-    TracePiece(pprise[parent_ply[ply_id]]);
+    TracePiece(pprise[parent_ply[nbply]]);
+    TracePiece(pprise[parent_ply[parent_ply[nbply]]]);
     TraceText("\n");
-    if (CondFlag[parrain] && pprise[parent_ply[ply_id]] != vide)
+    if (CondFlag[parrain] && pprise[parent_ply[parent_ply[nbply]]] != vide)
     {
-      cr = (move_generation_stack[repere[ply_id]].capture
+      cr = (move_generation_stack[repere[parent_ply[nbply]]].capture
             + sq_arrival - sq_departure);
       pc = e[cr];
       if (pc==vide)
       {
-        e[cr]= pprise[parent_ply[ply_id]];
+        e[cr]= pprise[parent_ply[parent_ply[nbply]]];
         TraceSquare(cr);
         TraceText("\n");
       }
@@ -1332,12 +1330,12 @@ static void GetRMHopAttackVectors(ply ply_id, square from, square to, numvec ken
       k1= 2*k;
       finligne(sq_hurdle,mixhopdata[angle][k1],hopper,sq_departure);
       if (hopper==e[from]) {
-        if (eval_fromspecificsquare(ply_id,sq_departure,to,to))
+        if (eval_fromspecificsquare(sq_departure,to,to))
           PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[k] )
       }
       finligne(sq_hurdle,mixhopdata[angle][k1-1],hopper,sq_departure);
       if (hopper==e[from]) {
-        if (eval_fromspecificsquare(ply_id,sq_departure,to,to))
+        if (eval_fromspecificsquare(sq_departure,to,to))
           PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[k] )
       }
     }
@@ -1413,7 +1411,7 @@ static void GetZigZagAttackVectors(ply ply_id,
   }
 
   if (e[sq_departure]==e[from]
-      && eval_fromspecificsquare(ply_id,sq_departure,sq_arrival,sq_capture))
+      && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
     PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[500+k] );
 
   sq_departure = to+k;
@@ -1426,7 +1424,7 @@ static void GetZigZagAttackVectors(ply ply_id,
   }
 
   if (e[sq_departure]==e[from]
-      && eval_fromspecificsquare(ply_id,sq_departure,sq_arrival,sq_capture))
+      && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
     PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[400+k] );
 }
 

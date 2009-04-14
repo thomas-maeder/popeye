@@ -1424,8 +1424,7 @@ static int direction(square from, square to)
 
 static square blpc;
 
-static boolean eval_spec(ply ply_id,
-                         square sq_departure,
+static boolean eval_spec(square sq_departure,
                          square sq_arrival,
                          square sq_capture)
 {
