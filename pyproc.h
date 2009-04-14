@@ -58,7 +58,7 @@ boolean WriteSpec(Flags pspec, boolean printcolours);
 void    WriteGrid(void); 
 
 typedef boolean (evalfunction_t)(square departure, square arrival, square capture);
-typedef boolean (checkfunction_t)(ply ply_id, square, piece, evalfunction_t *);
+typedef boolean (checkfunction_t)(square, piece, evalfunction_t *);
 typedef void (attackfunction_t)(square, square);
 
 checkfunction_t alfilcheck;
@@ -267,9 +267,9 @@ boolean losingchess_rbnechec(ply ply_id, evalfunction_t *evaluate);
 boolean orig_rbechec(ply ply_id, evalfunction_t *evaluate);
 
 boolean rbimmunech(square departure, square arrival, square capture);
-boolean rcardech(ply ply_id, square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
-boolean rcsech(ply ply_id, square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
-boolean rcspech(ply ply_id, square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean rcardech(square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
+boolean rcsech(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean rcspech(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 void    repcoup(void);
 void    restaure(void);
 boolean ridimok(square i, square j, int diff);
@@ -280,7 +280,7 @@ typedef enum {
   angle_135
 } angle_t;
 
-boolean rmhopech(ply ply_id, square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);
+boolean rmhopech(square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);
 boolean rncircech(square departure, square arrival, square capture);
 
 extern boolean(*rnechec)(ply ply_id, evalfunction_t *evaluate);
@@ -289,9 +289,9 @@ boolean annan_rnechec(ply ply_id, evalfunction_t *evaluate);
 boolean orig_rnechec(ply ply_id, evalfunction_t *evaluate);
 
 boolean rnimmunech(square departure, square arrival, square capture);
-boolean rrefcech(ply ply_id, square a, square b, int c, piece d, evalfunction_t *evaluate);
-boolean rrfouech(ply ply_id, square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
-boolean rubiech(ply ply_id, square sq, square sqtest, piece p,  echiquier e_ub, evalfunction_t *evaluate );
+boolean rrefcech(square a, square b, int c, piece d, evalfunction_t *evaluate);
+boolean rrfouech(square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
+boolean rubiech(square sq, square sqtest, piece p,  echiquier e_ub, evalfunction_t *evaluate );
 boolean soutenu(square departure, square arrival, square capture);
 boolean notsoutenu(square a, square b, square c);
 
@@ -310,27 +310,27 @@ boolean paraechecc(square departure, square arrival, square capture);
 boolean paralysiert(square i);
 
 void    PrintTime();
-boolean leapcheck(ply ply_id, square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
-boolean ridcheck(ply ply_id, square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean leapcheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean ridcheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 void    gebleap(square a, numvec b, numvec c);
 void    gebrid(square a, numvec b, numvec c);
 void    genleap(square a, numvec b, numvec c);
 void    genrid(square a, numvec b, numvec c);
 
-boolean roicheck(ply ply_id, square a, piece b, evalfunction_t *evaluate);
-boolean pioncheck(ply ply_id, square a, piece b, evalfunction_t *evaluate);
-boolean cavcheck(ply ply_id, square a, piece b, evalfunction_t *evaluate);
-boolean tourcheck(ply ply_id, square a, piece b, evalfunction_t *evaluate);
-boolean damecheck(ply ply_id, square a, piece b, evalfunction_t *evaluate);
-boolean foucheck(ply ply_id, square a, piece b, evalfunction_t *evaluate);
+boolean roicheck(square a, piece b, evalfunction_t *evaluate);
+boolean pioncheck(square a, piece b, evalfunction_t *evaluate);
+boolean cavcheck(square a, piece b, evalfunction_t *evaluate);
+boolean tourcheck(square a, piece b, evalfunction_t *evaluate);
+boolean damecheck(square a, piece b, evalfunction_t *evaluate);
+boolean foucheck(square a, piece b, evalfunction_t *evaluate);
 
-boolean t_lioncheck(ply ply_id, square i, piece p, evalfunction_t *evaluate);
-boolean f_lioncheck(ply ply_id, square i, piece p, evalfunction_t *evaluate);
-boolean marincheck(ply ply_id, square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean t_lioncheck(square i, piece p, evalfunction_t *evaluate);
+boolean f_lioncheck(square i, piece p, evalfunction_t *evaluate);
+boolean marincheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 boolean empile(square departure, square arrival, square capture);
 boolean testempile(square departure, square arrival, square capture);
-boolean ooorphancheck(ply ply_id, square i, piece porph, piece p, evalfunction_t *evaluate);
-boolean reversepcheck(ply ply_id, square a, piece b, evalfunction_t *evaluate);
+boolean ooorphancheck(square i, piece porph, piece p, evalfunction_t *evaluate);
+boolean reversepcheck(square a, piece b, evalfunction_t *evaluate);
 void    gorph(square a, Side b);
 void    gfriend(square a, Side b);
 void    gedgeh(square a, Side b);
@@ -356,8 +356,8 @@ boolean rbultraech(square departure, square arrival, square capture);
 
 boolean rnsingleboxtype1ech(square departure, square arrival, square capture);
 boolean rbsingleboxtype1ech(square departure, square arrival, square capture);
-boolean rnsingleboxtype3ech(ply ply_id, square departure, square arrival, square capture);
-boolean rbsingleboxtype3ech(ply ply_id, square departure, square arrival, square capture);
+boolean rnsingleboxtype3ech(square departure, square arrival, square capture);
+boolean rbsingleboxtype3ech(square departure, square arrival, square capture);
 square next_latent_pawn(square s, Side c);
 piece next_singlebox_prom(piece p, Side c);
 
@@ -393,8 +393,7 @@ int len_blforcedsquare(square departure, square arrival, square capture);
 
 void    geriderhopper(square i, numvec kbeg, numvec kend,
 		      int run_up, int jump, Side camp);
-boolean riderhoppercheck(ply ply_id,
-                         square i, numvec kanf, numvec kend, piece p,
+boolean riderhoppercheck(square i, numvec kanf, numvec kend, piece p,
                          int run_up, int jump,
                          evalfunction_t *evaluate);
 
@@ -461,14 +460,12 @@ boolean whannan(square rear, square front);
 boolean blannan(square rear, square front);
 boolean CrossesGridLines(square i, square j);
 
-boolean leapleapcheck(
-  ply ply_id,
-  square	 sq_king,
-  numvec	 kanf,
-  numvec	 kend,
-  int hurdletype,
-  piece	 p,
-  evalfunction_t *evaluate);
+boolean leapleapcheck(square	 sq_king,
+                      numvec	 kanf,
+                      numvec	 kend,
+                      int hurdletype,
+                      piece	 p,
+                      evalfunction_t *evaluate);
 checkfunction_t radialknightcheck;
 
 boolean detect_rosecheck_on_line(square sq_king,

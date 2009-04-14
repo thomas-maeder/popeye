@@ -41,8 +41,7 @@
 #include "pydata.h"
 #include "trace.h"
 
-boolean rubiech(ply ply_id,
-                square  intermediate_square,
+boolean rubiech(square  intermediate_square,
                 square  sq_king,
                 piece   p,
                 echiquier e_ub,
@@ -56,7 +55,7 @@ boolean rubiech(ply ply_id,
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
     sq_departure= intermediate_square+vec[k];
     if (e_ub[sq_departure]==vide) {
-      if (rubiech(ply_id,sq_departure,sq_king,p,e_ub,evaluate))
+      if (rubiech(sq_departure,sq_king,p,e_ub,evaluate))
         return true;
     }
     else {
@@ -69,8 +68,7 @@ boolean rubiech(ply ply_id,
   return false;
 }
 
-boolean rrfouech(ply ply_id,
-                 square intermediate_square,
+boolean rrfouech(square intermediate_square,
                  square sq_king,
                  numvec k,
                  piece  p,
@@ -97,8 +95,7 @@ boolean rrfouech(ply ply_id,
       k1++;
     
     k1*= 2;
-    if (rrfouech(ply_id,
-                 sq_departure,
+    if (rrfouech(sq_departure,
                  sq_king,
                  mixhopdata[1][k1],
                  p,
@@ -108,8 +105,7 @@ boolean rrfouech(ply ply_id,
       return true;
     
     k1--;
-    if (rrfouech(ply_id,
-                 sq_departure,
+    if (rrfouech(sq_departure,
                  sq_king,
                  mixhopdata[1][k1],
                  p,
@@ -121,8 +117,7 @@ boolean rrfouech(ply ply_id,
   return false;
 }
 
-boolean rcardech(ply ply_id,
-                 square intermediate_square,
+boolean rcardech(square intermediate_square,
                  square sq_king,
                  numvec k,
                  piece  p,
@@ -157,8 +152,7 @@ boolean rcardech(ply ply_id,
         k1*= 2;
         if (e[sq_departure+mixhopdata[1][k1]]==obs)
           k1--;
-        if (rcardech(ply_id,
-                     sq_departure,
+        if (rcardech(sq_departure,
                      sq_king,
                      mixhopdata[1][k1],
                      p,
@@ -179,7 +173,7 @@ boolean feebechec(ply ply_id, evalfunction_t *evaluate)
 
   for (pcheck= checkpieces; *pcheck; pcheck++) {
     if (nbpiece[-*pcheck]>0
-        && (*checkfunctions[*pcheck])(ply_id, rb, -*pcheck, evaluate))
+        && (*checkfunctions[*pcheck])(rb, -*pcheck, evaluate))
     {
       return true;
     }
@@ -192,7 +186,7 @@ boolean feenechec(ply ply_id, evalfunction_t *evaluate) {
 
   for (pcheck= checkpieces; *pcheck; pcheck++) {
     if (nbpiece[*pcheck]>0
-        && (*checkfunctions[*pcheck])(ply_id, rn, *pcheck, evaluate))
+        && (*checkfunctions[*pcheck])(rn, *pcheck, evaluate))
     {
       return true;
     }
@@ -242,7 +236,7 @@ static boolean marsechecc(ply ply_id, Side camp, evalfunction_t *evaluate)
             e[sq_rebirth] = p;
             spec[sq_rebirth] = psp;
             is_check = (*checkfunctions[marsmap(abs(p))])
-                (ply_id, sq_rebirth, camp ? e[rn] : e[rb], evaluate);
+                (sq_rebirth, camp ? e[rn] : e[rb], evaluate);
             e[sq_rebirth] = vide;
             spec[sq_rebirth] = spec_rebirth;
             e[z] = p;
@@ -359,7 +353,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
       {
         flag= false;
         for (ptrans= whitetransmpieces; *ptrans; ptrans++) {
-          if ((*checkfunctions[*ptrans])(ply_id, rn, roib, evaluate)) {
+          if ((*checkfunctions[*ptrans])(rn, roib, evaluate)) {
             calc_whrefl_king = true;
             return true;
           }
@@ -369,10 +363,10 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
       {
         for (ptrans= whitetransmpieces; *ptrans; ptrans++) {
           if (nbpiece[-*ptrans]>0
-              && (*checkfunctions[*ptrans])(ply_id, rb, -*ptrans, eval_ad))
+              && (*checkfunctions[*ptrans])(rb, -*ptrans, eval_ad))
           {
             flag= false;
-            if ((*checkfunctions[*ptrans])(ply_id, rn, roib, evaluate)) {
+            if ((*checkfunctions[*ptrans])(rn, roib, evaluate)) {
               calc_whrefl_king = true;
               return true;
             }
@@ -394,7 +388,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
     }
     else {
       if (CondFlag[sting]
-          && (*checkfunctions[sb])(ply_id, rn, roib, evaluate))
+          && (*checkfunctions[sb])(rn, roib, evaluate))
         return true;
 
       for (k= vec_queen_end; k>=vec_queen_start; k--) {
@@ -660,7 +654,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
       {
         flag= false;
         for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
-          if ((*checkfunctions[*ptrans])(ply_id, rb, roin, evaluate)) {
+          if ((*checkfunctions[*ptrans])(rb, roin, evaluate)) {
             calc_blrefl_king = true;
             return true;
           }
@@ -670,9 +664,9 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
       {
         for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
           if (nbpiece[*ptrans]>0
-              && (*checkfunctions[*ptrans])(ply_id, rn, *ptrans, eval_ad)) {
+              && (*checkfunctions[*ptrans])(rn, *ptrans, eval_ad)) {
             flag= false;
-            if ((*checkfunctions[*ptrans])(ply_id, rb, roin, evaluate)) {
+            if ((*checkfunctions[*ptrans])(rb, roin, evaluate)) {
               calc_blrefl_king = true;
               return true;
             }
@@ -694,7 +688,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     }
     else {
       if ( CondFlag[sting]
-           && (*checkfunctions[sb])(ply_id, rb, roin, evaluate))
+           && (*checkfunctions[sb])(rb, roin, evaluate))
       {
         return true;
       }
@@ -1158,8 +1152,7 @@ static boolean eval_down(square sq_departure, square sq_arrival, square sq_captu
       && next_evaluate(sq_departure,sq_arrival,sq_capture);
 }
 
-boolean huntercheck(ply ply_id,
-                    square i,
+boolean huntercheck(square i,
                     piece p,
                     evalfunction_t *evaluate)
 {
@@ -1170,34 +1163,30 @@ boolean huntercheck(ply ply_id,
   HunterType const * const huntertype = huntertypes+typeofhunter;
   assert(typeofhunter<maxnrhuntertypes);
   next_evaluate = evaluate;
-  return (*checkfunctions[huntertype->home])(ply_id, i,p,eval_home)
-      || (*checkfunctions[huntertype->away])(ply_id, i,p,eval_away);
+  return (*checkfunctions[huntertype->home])(i,p,eval_home)
+      || (*checkfunctions[huntertype->away])(i,p,eval_away);
 }
 
-boolean rhuntcheck(
-    ply ply_id,
-    square    i,
-    piece p,
-    evalfunction_t *evaluate)
+boolean rhuntcheck(square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
   /* detect check of a rook/bishop-hunter */
   /* it's not dependent of the piece-color !! */
   /* always moves up (rook), down (bishop) !! */
-  return ridcheck(ply_id, i, 4, 4, p, evaluate)
-      || ridcheck(ply_id, i, 5, 6, p, evaluate);
+  return ridcheck(i, 4, 4, p, evaluate)
+      || ridcheck(i, 5, 6, p, evaluate);
 }
 
-boolean bhuntcheck(
-    ply ply_id,
-    square    i,
-    piece p,
-    evalfunction_t *evaluate)
+boolean bhuntcheck(square    i,
+                   piece p,
+                   evalfunction_t *evaluate)
 {
   /* detect check of a bishop/rook-hunter */
   /* it's not dependent of the piece-color !! */
   /* always moves up (bishop), down (rook) !! */
-  return ridcheck(ply_id, i, 2, 2, p, evaluate)
-      || ridcheck(ply_id, i, 7, 8, p, evaluate);
+  return ridcheck(i, 2, 2, p, evaluate)
+      || ridcheck(i, 7, 8, p, evaluate);
 }
 
 static boolean AntiCirceEch(ply ply_id,
@@ -1327,8 +1316,7 @@ boolean rnultraech(square sq_departure, square sq_arrival, square sq_capture) {
   return check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
 }
 
-static boolean skycharcheck(ply ply_id,
-                            piece  p,
+static boolean skycharcheck(piece  p,
                             square sq_king,
                             square chp,
                             square sq_arrival1,
@@ -1350,28 +1338,24 @@ static boolean skycharcheck(ply ply_id,
   return  false;
 }
 
-boolean skyllacheck(
-    ply ply_id,
-    square    i,
-    piece p,
-    evalfunction_t *evaluate)
+boolean skyllacheck(square    i,
+                    piece p,
+                    evalfunction_t *evaluate)
 {
-  return  skycharcheck(ply_id, p, i, i+dir_right, i+dir_up+dir_left, i+dir_down+dir_left, evaluate)
-      || skycharcheck(ply_id, p, i, i+dir_left, i+dir_up+dir_right, i+dir_down+dir_right, evaluate)
-      || skycharcheck(ply_id, p, i, i+dir_up, i+dir_down+dir_right, i+dir_down+dir_left, evaluate)
-      || skycharcheck(ply_id, p, i, i+dir_down, i+dir_up+dir_left, i+dir_up+dir_right, evaluate);
+  return  skycharcheck(p, i, i+dir_right, i+dir_up+dir_left, i+dir_down+dir_left, evaluate)
+      || skycharcheck(p, i, i+dir_left, i+dir_up+dir_right, i+dir_down+dir_right, evaluate)
+      || skycharcheck(p, i, i+dir_up, i+dir_down+dir_right, i+dir_down+dir_left, evaluate)
+      || skycharcheck(p, i, i+dir_down, i+dir_up+dir_left, i+dir_up+dir_right, evaluate);
 }
 
-boolean charybdischeck(
-    ply ply_id,
-    square    i,
-    piece p,
-    evalfunction_t *evaluate)
+boolean charybdischeck(square    i,
+                       piece p,
+                       evalfunction_t *evaluate)
 {
-  return  skycharcheck(ply_id, p, i, i+dir_up+dir_right, i+dir_left, i - 24, evaluate)
-      || skycharcheck(ply_id, p, i, i+dir_down+dir_left, i+dir_right, i + 24, evaluate)
-      || skycharcheck(ply_id, p, i, i+dir_up+dir_left, i+dir_right, i - 24, evaluate)
-      || skycharcheck(ply_id, p, i, i+dir_down+dir_right, i+dir_left, i + 24, evaluate);
+  return  skycharcheck(p, i, i+dir_up+dir_right, i+dir_left, i - 24, evaluate)
+      || skycharcheck(p, i, i+dir_down+dir_left, i+dir_right, i + 24, evaluate)
+      || skycharcheck(p, i, i+dir_up+dir_left, i+dir_right, i - 24, evaluate)
+      || skycharcheck(p, i, i+dir_down+dir_right, i+dir_left, i + 24, evaluate);
 }
 
 boolean echecc_normal(ply ply_id, Side camp)
