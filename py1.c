@@ -446,8 +446,7 @@ square coinequis(square i)
   return 75 + (onerow*(((i/onerow)+3)/2) + (((i%onerow)+3)/2));
 }
 
-boolean leapcheck(ply ply_id,
-                  square     sq_king,
+boolean leapcheck(square     sq_king,
                   numvec     kanf,
                   numvec     kend,
                   piece  p,
@@ -469,14 +468,12 @@ boolean leapcheck(ply ply_id,
   return false;
 }
 
-boolean leapleapcheck(
-  ply ply_id,
-  square     sq_king,
-  numvec     kanf,
-  numvec     kend,
-  int hurdletype,
-  piece  p,
-  evalfunction_t *evaluate)
+boolean leapleapcheck(square     sq_king,
+                      numvec     kanf,
+                      numvec     kend,
+                      int hurdletype,
+                      piece  p,
+                      evalfunction_t *evaluate)
 {
   /* detect "check" of leaper p */
   numvec  k, k1;
@@ -501,8 +498,7 @@ boolean leapleapcheck(
   return false;
 }
 
-boolean riderhoppercheck(ply ply_id,
-                         square  sq_king,
+boolean riderhoppercheck(square  sq_king,
                          numvec  kanf,
                          numvec  kend,
                          piece   p,
@@ -576,8 +572,7 @@ boolean riderhoppercheck(ply ply_id,
   return false;
 } /* end of riderhoppercheck */
 
-boolean ridcheck(ply ply_id,
-                 square sq_king,
+boolean ridcheck(square sq_king,
                  numvec kanf,
                  numvec kend,
                  piece  p,
@@ -599,8 +594,7 @@ boolean ridcheck(ply ply_id,
   return false;
 }
 
-boolean marincheck(ply ply_id,
-                   square   sq_king,
+boolean marincheck(square   sq_king,
                    numvec   kanf,
                    numvec   kend,
                    piece    p,
@@ -977,8 +971,7 @@ void ResetPosition(void)
   memcpy(ghosts, sic_ghosts, nr_ghosts * sizeof ghosts[0]);
 }
 
-boolean ooorphancheck(ply ply_id,
-                      square sq_king,
+boolean ooorphancheck(square sq_king,
                       piece porph,
                       piece p,
                       evalfunction_t *evaluate) {
@@ -986,7 +979,7 @@ boolean ooorphancheck(ply ply_id,
   square    olist[63], *bnp;
   unsigned int j, k, nrp, co;
 
-  if ((*checkfunctions[abs(porph)])(ply_id,sq_king,porph,evaluate))
+  if ((*checkfunctions[abs(porph)])(sq_king,porph,evaluate))
     return true;
 
   nrp= nbpiece[p];
@@ -1007,10 +1000,10 @@ boolean ooorphancheck(ply ply_id,
       e[olist[j]]= k==j ? p : dummyb;
       j++;
     }
-    if ((*checkfunctions[abs(porph)])(ply_id,sq_king,p,evaluate)) {
+    if ((*checkfunctions[abs(porph)])(sq_king,p,evaluate)) {
       for (j= 0; j<co; j++)
         e[olist[j]]= p;
-      flag= ooorphancheck(ply_id,olist[k],-porph,-p,evaluate);
+      flag= ooorphancheck(olist[k],-porph,-p,evaluate);
       if (flag)
         break;
     }
@@ -1024,8 +1017,7 @@ boolean ooorphancheck(ply ply_id,
   return flag;
 }
 
-boolean orphancheck(ply ply_id,
-                    square   sq_king,
+boolean orphancheck(square   sq_king,
                     piece    p,
                     evalfunction_t *evaluate)
 {
@@ -1051,7 +1043,7 @@ boolean orphancheck(ply ply_id,
           e[olist[j]]= (k == j) ? p : dummyb;
           j++;
         }
-        if ((*checkfunctions[*porph])(ply_id, sq_king, p, evaluate)) {
+        if ((*checkfunctions[*porph])(sq_king, p, evaluate)) {
           piece op;
           for (j= 0; j < co; e[olist[j++]]= p)
             ;
@@ -1059,7 +1051,7 @@ boolean orphancheck(ply ply_id,
             op = -*porph;
           else
             op = *porph;
-          flag= ooorphancheck(ply_id, olist[k], op, -p, evaluate);
+          flag= ooorphancheck(olist[k], op, -p, evaluate);
           if (flag)
             break;
         }
@@ -1075,8 +1067,7 @@ boolean orphancheck(ply ply_id,
   return false;
 }
 
-boolean fffriendcheck(ply ply_id,
-                      square    sq_king,
+boolean fffriendcheck(square    sq_king,
                       piece pfr,
                       piece p,
                       evalfunction_t *evaluate)
@@ -1085,7 +1076,7 @@ boolean fffriendcheck(ply ply_id,
   square    flist[63], *bnp;
   unsigned int j, k, nrp, cf= 0;
 
-  if ((*checkfunctions[abs(pfr)])(ply_id, sq_king, pfr, evaluate))
+  if ((*checkfunctions[abs(pfr)])(sq_king, pfr, evaluate))
     return true;
 
   nrp= nbpiece[p]-1;
@@ -1106,10 +1097,10 @@ boolean fffriendcheck(ply ply_id,
       e[flist[j]]= (k == j) ? p : dummyb;
       j++;
     }
-    if ((*checkfunctions[abs(pfr)])(ply_id, sq_king, p, evaluate)) {
+    if ((*checkfunctions[abs(pfr)])(sq_king, p, evaluate)) {
       for (j= 0; j < cf; e[flist[j++]]= p)
         ;
-      flag= fffriendcheck(ply_id, flist[k], pfr, p, evaluate);
+      flag= fffriendcheck(flist[k], pfr, p, evaluate);
       if (flag) {
         break;
       }
@@ -1125,8 +1116,7 @@ boolean fffriendcheck(ply ply_id,
   return flag;
 } /* fffriendcheck */
 
-boolean friendcheck(ply ply_id,
-                    square    i,
+boolean friendcheck(square    i,
                     piece p,
                     evalfunction_t *evaluate)
 {
@@ -1153,10 +1143,10 @@ boolean friendcheck(ply ply_id,
           e[flist[j]]= (k == j) ? p : dummyb;
           j++;
         }
-        if ((*checkfunctions[*pfr])(ply_id, i, p, evaluate)) {
+        if ((*checkfunctions[*pfr])(i, p, evaluate)) {
           for (j= 0; j < cf; e[flist[j++]]= p)
             ;
-          flag= fffriendcheck(ply_id, flist[k], cfr, p, evaluate);
+          flag= fffriendcheck(flist[k], cfr, p, evaluate);
           if (flag) {
             break;
           }
@@ -1382,7 +1372,7 @@ void GetMargueriteAttackVectors(square from, square to) {
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
-  if (scheck(nbply, to, e[from], eval_fromspecificsquare)) {
+  if (scheck(to, e[from], eval_fromspecificsquare)) {
     numvec attackVec;
     if (to < from)
       attackVec = move_vec_code[from - to];
@@ -1497,8 +1487,7 @@ void PushMagicViews(void)
             if (!attackfunctions[abs(p)])
             {
               /* if single attack at most */
-              if ((*checkfunctions[abs(p)])(nbply,
-                                            *royal,
+              if ((*checkfunctions[abs(p)])(*royal,
                                             p,
                                             eval_fromspecificsquare))
               {

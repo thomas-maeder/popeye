@@ -12,7 +12,6 @@
 #include "pyproc.h"
 
 boolean fffriendcheck(
-    ply ply_id,
     square        i,
     piece         pfr,
     piece         p,

@@ -167,7 +167,7 @@ boolean rcardech(square intermediate_square,
 }
 
 
-boolean feebechec(ply ply_id, evalfunction_t *evaluate)
+boolean feebechec(evalfunction_t *evaluate)
 {
   piece   *pcheck;
 
@@ -181,7 +181,7 @@ boolean feebechec(ply ply_id, evalfunction_t *evaluate)
   return false;
 }
 
-boolean feenechec(ply ply_id, evalfunction_t *evaluate) {
+boolean feenechec(evalfunction_t *evaluate) {
   piece   *pcheck;
 
   for (pcheck= checkpieces; *pcheck; pcheck++) {
@@ -485,7 +485,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
     }
   
   if (flagfee)
-    return feenechec(ply_id,evaluate);
+    return feenechec(evaluate);
   else
     return false;
 }
@@ -785,7 +785,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     }
 
   if (flagfee)
-    return feebechec(ply_id,evaluate);
+    return feebechec(evaluate);
   else
     return false;
 }

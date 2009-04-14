@@ -2979,7 +2979,7 @@ void genrb(square sq_departure) {
     {
       for (ptrans= whitetransmpieces; *ptrans; ptrans++) {
         if (nbpiece[-*ptrans]
-            && (*checkfunctions[*ptrans])(nbply,sq_departure,-*ptrans,eval_white))
+            && (*checkfunctions[*ptrans])(sq_departure,-*ptrans,eval_white))
         {
           flag = true;
           current_trans_gen=*ptrans;
@@ -3323,11 +3323,11 @@ void gorph(square i, Side camp) {
   for (porph= orphanpieces; *porph; porph++) {
     if (nbpiece[*porph]>0 || nbpiece[-*porph]>0) {
       if (camp == White) {
-        if (ooorphancheck(nbply, i, -*porph, orphann, eval_white))
+        if (ooorphancheck(i, -*porph, orphann, eval_white))
           gen_wh_piece(i, *porph);
       }
       else {
-        if (ooorphancheck(nbply, i, *porph, orphanb, eval_black))
+        if (ooorphancheck(i, *porph, orphanb, eval_black))
           gen_bl_piece(i, -*porph);
       }
     }
@@ -3351,12 +3351,12 @@ void gfriend(square i, Side camp) {
   for (pfr= orphanpieces; *pfr; pfr++) {
     if (nbpiece[*pfr]>0) {
       if (camp == White) {
-        if (fffriendcheck(nbply, i, *pfr, friendb, eval_white)) {
+        if (fffriendcheck(i, *pfr, friendb, eval_white)) {
           gen_wh_piece(i, *pfr);
         }
       }
       else {
-        if (fffriendcheck(nbply, i, -*pfr, friendn, eval_black)) {
+        if (fffriendcheck(i, -*pfr, friendn, eval_black)) {
           gen_bl_piece(i, -*pfr);
         }
       }

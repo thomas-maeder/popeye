@@ -822,7 +822,7 @@ void genrn(square sq_departure) {
     {
       for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
         if (nbpiece[*ptrans]>0
-            && (*checkfunctions[*ptrans])(nbply,sq_departure,*ptrans,eval_black))
+            && (*checkfunctions[*ptrans])(sq_departure,*ptrans,eval_black))
         {
           flag = true;
           current_trans_gen=-*ptrans;

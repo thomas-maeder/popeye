@@ -208,8 +208,8 @@ void ecritcoup(ply ply_id, Goal goal);
 
 boolean eval_ortho(square departure, square arrival, square capture);
 
-boolean feebechec(ply ply_id, evalfunction_t *evaluate );
-boolean feenechec(ply ply_id, evalfunction_t *evaluate );
+boolean feebechec(evalfunction_t *evaluate );
+boolean feenechec(evalfunction_t *evaluate );
 void    gchinb(int a, numvec b, numvec c);
 void    gchinn(int a, numvec b, numvec c);
 void    gcsb(square a, numvec b, numvec c);

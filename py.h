@@ -1344,21 +1344,21 @@ typedef unsigned int slice_index;
 
 #define rightcolor(ej, camp)    ((camp)==White ? (ej)<=roin : (ej)>=roib)
 
-#define lrhopcheck(ply_id, sq, ka, ke, p, ev)   riderhoppercheck(ply_id, sq, ka, ke, p, 0, 0, ev)
-#define rhopcheck(ply_id, sq, ka, ke, p, ev)    riderhoppercheck(ply_id, sq, ka, ke, p, 0, 1, ev)
-#define crhopcheck(ply_id, sq, ka, ke, p, ev)   riderhoppercheck(ply_id, sq, ka, ke, p, 1, 0, ev)
+#define lrhopcheck(sq, ka, ke, p, ev)   riderhoppercheck(sq, ka, ke, p, 0, 0, ev)
+#define rhopcheck(sq, ka, ke, p, ev)    riderhoppercheck(sq, ka, ke, p, 0, 1, ev)
+#define crhopcheck(sq, ka, ke, p, ev)   riderhoppercheck(sq, ka, ke, p, 1, 0, ev)
 
 #define gelrhop(sq, ka, ke, camp)       geriderhopper(sq, ka, ke, 0, 0, camp)
 #define gerhop(sq, ka, ke, camp)        geriderhopper(sq, ka, ke, 0, 1, camp)
 #define gecrhop(sq, ka, ke, camp)       geriderhopper(sq, ka, ke, 1, 0, camp)
 
-#define rhop2check(ply_id, sq, ka, ke, p, ev)   riderhoppercheck(ply_id, sq, ka, ke, p, 0, 2, ev)
+#define rhop2check(sq, ka, ke, p, ev)   riderhoppercheck(sq, ka, ke, p, 0, 2, ev)
 #define gerhop2(sq, ka, ke, camp)      geriderhopper(sq, ka, ke, 0, 2, camp)
 
-#define rhop3check(ply_id, sq, ka, ke, p, ev)   riderhoppercheck(ply_id, sq, ka, ke, p, 0, 3, ev)
+#define rhop3check(sq, ka, ke, p, ev)   riderhoppercheck(sq, ka, ke, p, 0, 3, ev)
 #define gerhop3(sq, ka, ke, camp)      geriderhopper(sq, ka, ke, 0, 3, camp)
 
-#define shopcheck(ply_id, sq, ka, ke, p, ev)     riderhoppercheck(ply_id, sq, ka, ke, p, 1, 1, ev)
+#define shopcheck(sq, ka, ke, p, ev)     riderhoppercheck(sq, ka, ke, p, 1, 1, ev)
 #define geshop(sq, ka, ke, camp)        geriderhopper(sq, ka, ke, 1, 1, camp)
 
 #define PromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==White?WhPromSq:BlPromSq))

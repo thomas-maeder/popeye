@@ -150,11 +150,11 @@ static boolean IllegalCheck(Side camp)
   }
   else
     return (rb!=initsquare
-            && ((*checkfunctions[Pawn])(nbply, rb, pn, eval_ortho)
-                || (*checkfunctions[Knight])(nbply, rb, cn, eval_ortho)
-                || (*checkfunctions[Fers])(nbply, rb, fn, eval_ortho)
-                || (*checkfunctions[Wesir])(nbply, rb, tn, eval_ortho)
-                || (*checkfunctions[ErlKing])(nbply, rb, dn, eval_ortho)));
+            && ((*checkfunctions[Pawn])( rb, pn, eval_ortho)
+                || (*checkfunctions[Knight])( rb, cn, eval_ortho)
+                || (*checkfunctions[Fers])( rb, fn, eval_ortho)
+                || (*checkfunctions[Wesir])( rb, tn, eval_ortho)
+                || (*checkfunctions[ErlKing])( rb, dn, eval_ortho)));
 }
 
 static boolean impact(square bk, piece p, square sq) {
