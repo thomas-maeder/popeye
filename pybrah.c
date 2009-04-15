@@ -529,6 +529,8 @@ boolean branch_h_root_solve(slice_index si)
 
     move_generation_mode = move_generation_not_optimized;
 
+    FlagShortSolsReached = false;
+
     while (len<full_length
            && !(OptFlag[stoponshort] && FlagShortSolsReached))
     {
@@ -541,7 +543,9 @@ boolean branch_h_root_solve(slice_index si)
       len += 2;
     }
 
-    if (!(FlagShortSolsReached && OptFlag[stoponshort]))
+    if (FlagShortSolsReached && OptFlag[stoponshort])
+      TraceText("aborting because of short solutions\n");
+    else
       result = branch_h_root_solve_full_in_n(si,full_length);
   }
 

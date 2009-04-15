@@ -64,4 +64,11 @@ Pieces White Ke4 Ge5 Gh4
 Stipulation hs#1
 Condition koeko parrain
 
+next
+
+stip h#2
+opt set stoponsh
+pie wh ka3 qg8 sg4
+pie bl ka1 sa8
+
 end

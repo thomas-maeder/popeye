@@ -427,18 +427,20 @@ boolean branch_ser_root_solve(slice_index si)
   TraceFunctionParam("%u\n",si);
 
   TraceValue("%u\n",starter);
-  
-  move_generation_mode = move_generation_not_optimized;
-
-  init_output(si);
 
   if (echecc(nbply,advers(starter)))
     ErrorMsg(KingCapture);
   else
   {
     stip_length_type const full_length = slices[si].u.branch.length;
-
     stip_length_type len;
+  
+    move_generation_mode = move_generation_not_optimized;
+
+    FlagShortSolsReached = false;
+
+    init_output(si);
+
     for (len = slices[si].u.branch.min_length;
          len<full_length && !(OptFlag[stoponshort] && FlagShortSolsReached);
          len++)
