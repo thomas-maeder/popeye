@@ -2346,12 +2346,9 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
     if (OptFlag[duplex])
     {
       /* Set next side to calculate for duplex "twin" */
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || (OptFlag[stoponshort] && FlagShortSolsReached))
+      if (OptFlag[stoponshort] && FlagShortSolsReached)
         FlagMaxSolsReached = true;
 
-      /* restart calculation of maxsolution after half-duplex */
-      solutions = 0;
       FlagShortSolsReached = false;
 
       init_duplex();
@@ -2456,12 +2453,9 @@ static Token iterate_twins(Token prev_token)
       TraceValue("%u\n",slice_get_starter(root_slice));
       solve_twin(twin_index,prev_token);
 
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || (OptFlag[stoponshort] && FlagShortSolsReached))
+      if (OptFlag[stoponshort] && FlagShortSolsReached)
         FlagMaxSolsReached = true;
 
-      /* restart calculation of maxsolution after twinning */
-      solutions = 0;
       FlagShortSolsReached = false;
     }
 

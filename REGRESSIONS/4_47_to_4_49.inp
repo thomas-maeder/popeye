@@ -71,4 +71,11 @@ opt set stoponsh
 pie wh ka3 qg8 sg4
 pie bl ka1 sa8
 
+next
+
+stip h#2
+opt set  maxsol 3
+pie wh ka3 qg8 sg4
+pie bl ka1 sa8
+
 end

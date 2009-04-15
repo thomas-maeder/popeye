@@ -256,9 +256,15 @@ static boolean branch_h_root_solve_in_n_recursive_nohash(slice_index si,
 
       repcoup();
 
-      /* Stop solving if a given number of solutions was encountered */
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
+      if (OptFlag[maxsols] && solutions>=maxsolutions)
+      {
+        TraceValue("%u",maxsolutions);
+        TraceValue("%u",solutions);
+        TraceText("aborting\n");
+        break;
+      }
+
+      if (maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
     
@@ -327,8 +333,15 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
       repcoup();
 
       /* Stop solving if a given number of solutions was encountered */
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
+      if (OptFlag[maxsols] && solutions>=maxsolutions)
+      {
+        TraceValue("%u",maxsolutions);
+        TraceValue("%u",solutions);
+        TraceText("aborting\n");
+        break;
+      }
+
+      if (maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
     
@@ -530,6 +543,7 @@ boolean branch_h_root_solve(slice_index si)
     move_generation_mode = move_generation_not_optimized;
 
     FlagShortSolsReached = false;
+    solutions = 0;
 
     while (len<full_length
            && !(OptFlag[stoponshort] && FlagShortSolsReached))
@@ -547,6 +561,10 @@ boolean branch_h_root_solve(slice_index si)
       TraceText("aborting because of short solutions\n");
     else
       result = branch_h_root_solve_full_in_n(si,full_length);
+
+    if (OptFlag[maxsols] && solutions>=maxsolutions)
+      /* signal maximal number of solutions reached to outer world */
+      FlagMaxSolsReached = true;
   }
 
   TraceFunctionExit(__func__);
@@ -641,8 +659,15 @@ void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
       repcoup();
 
       /* Stop solving if a given number of solutions was encountered */
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
+      if (OptFlag[maxsols] && solutions>=maxsolutions)
+      {
+        TraceValue("%u",maxsolutions);
+        TraceValue("%u",solutions);
+        TraceText("aborting\n");
+        break;
+      }
+
+      if (maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
     

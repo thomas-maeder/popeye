@@ -430,8 +430,19 @@ boolean branch_d_root_solve(slice_index si)
 
       repcoup();
 
-      if ((OptFlag[maxsols] && solutions>=maxsolutions)
-          || maxtime_status==MAXTIME_TIMEOUT)
+      if (OptFlag[maxsols] && solutions>=maxsolutions)
+      {
+        TraceValue("%u",maxsolutions);
+        TraceValue("%u",solutions);
+        TraceText("aborting\n");
+
+        /* signal maximal number of solutions reached to outer world */
+        FlagMaxSolsReached = true;
+
+        break;
+      }
+
+      if (maxtime_status==MAXTIME_TIMEOUT)
         break;
     }
 

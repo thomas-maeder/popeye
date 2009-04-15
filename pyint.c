@@ -1410,7 +1410,7 @@ void Immobilize(int blmoves,
   boolean   nopinpossible, pinnecessary;
   unsigned int toblock[maxsquare+4];
 
-  if (OptFlag[maxsols] && (solutions >= maxsolutions))
+  if (OptFlag[maxsols] && solutions>=maxsolutions)
     return;
 
   VARIABLE_INIT(block);
@@ -1969,7 +1969,7 @@ static void GenerateBlocking(
   int   actpbl, wasted;
   square    sq;
 
-  if (OptFlag[maxsols] && (solutions >= maxsolutions))
+  if (OptFlag[maxsols] && solutions>=maxsolutions)
     return;
 
   if (nbrfl == 0) {
@@ -2110,7 +2110,7 @@ static void GenerateGuarding(
   StdString(GlobalStr);
 #endif
 
-  if (OptFlag[maxsols] && (solutions >= maxsolutions))
+  if (OptFlag[maxsols] && solutions>=maxsolutions)
     return;
 
   if (whcaptures > MaxPieceBlack-1

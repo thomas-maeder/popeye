@@ -5691,7 +5691,6 @@ void LaTeXEndDiagram(void) {
         || OptFlag[nontrivial]
         || (isIntelligentModeActive && maxsol_per_matingpos!=ULONG_MAX)
         || FlagMaxSolsReached
-        || (OptFlag[maxsols] && solutions>=maxsolutions)
         || maxtime_status==MAXTIME_TIMEOUT))
   {
     fprintf(LaTeXFile, " \\Co+%%");
