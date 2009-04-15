@@ -78,4 +78,15 @@ opt set  maxsol 3
 pie wh ka3 qg8 sg4
 pie bl ka1 sa8
 
+next
+
+title posted by Mario Richter on MatPlus.net
+title cf. http://www.matplus.net/pub/start.php?px=1233603851&app=forum&act=posts&fid=it&tid=477
+title 4.47 and earlier gave no solution
+pieces
+white kh1 pb6
+black ka8
+cond WhiteTransmutedKing BlackTransmutedKing
+stip #1
+
 end

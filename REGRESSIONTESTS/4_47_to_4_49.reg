@@ -324,3 +324,37 @@ solving interrupted.
 solving interrupted. 
 
 
+
+posted by Mario Richter on MatPlus.net
+cf. http://www.matplus.net/pub/start.php?px=1233603851&app=forum&act=posts&fid=it&tid=477
+  4.47 and earlier gave no solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          2 + 1
+         WhiteTransmutedKing
+         BlackTransmutedKing
+
+  1.b6-b7 # ! 
+
+
+solution finished. 
+
+
