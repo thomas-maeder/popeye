@@ -89,4 +89,9 @@ black ka8
 cond WhiteTransmutedKing BlackTransmutedKing
 stip #1
 
+next
+
+forsyth rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
+stip dia 4.0
+
 end
