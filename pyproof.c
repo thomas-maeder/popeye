@@ -1807,52 +1807,66 @@ static boolean ProofSeriesImpossible(void)
   return false;
 }
 
-boolean ProofVerifie(void) {
+boolean ProofVerifie(void)
+{
+  boolean result;
+  
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  TraceValue("%u",flagfee);
+  TraceValue("%u\n",PieSpExFlags&(~(BIT(White)+BIT(Black))));
   if (flagfee || PieSpExFlags&(~(BIT(White)+BIT(Black))))
   {
     VerifieMsg(ProofAndFairyPieces);
-    return false;
-  }
-
-  ProofFairy= change_moving_piece
-    || CondFlag[black_oscillatingKs]
-    || CondFlag[white_oscillatingKs]
-    || CondFlag[republican]
-    || anycirce
-    || CondFlag[sentinelles]
-    || anyanticirce
-    || CondFlag[singlebox]
-    || CondFlag[blroyalsq]
-    || CondFlag[whroyalsq]
-    || TSTFLAG(PieSpExFlags, ColourChange)
-    || CondFlag[actrevolving]
-    || CondFlag[arc]
-    || CondFlag[annan]
-    || CondFlag[glasgow]
-    || CondFlag[takemake]
-    || flagAssassin
-    || CondFlag[messigny]
-    || CondFlag[mars]
-    || CondFlag[castlingchess];
-
-  /* TODO Masand can't possibly be the only condition that doesn't
-   * allow any optimisation at all.
-   */
-  if (CondFlag[masand])
-  {
-    alternateImpossible = &NeverImpossible;
-    seriesImpossible = &NeverImpossible;
-  }
-  else if (ProofFairy)
-  {
-    alternateImpossible = &ProofFairyImpossible;
-    seriesImpossible = &ProofFairyImpossible;
+    result = false;
   }
   else
   {
-    alternateImpossible = &ProofImpossible;
-    seriesImpossible = &ProofSeriesImpossible;
+    ProofFairy= change_moving_piece
+        || CondFlag[black_oscillatingKs]
+        || CondFlag[white_oscillatingKs]
+        || CondFlag[republican]
+        || anycirce
+        || CondFlag[sentinelles]
+        || anyanticirce
+        || CondFlag[singlebox]
+        || CondFlag[blroyalsq]
+        || CondFlag[whroyalsq]
+        || TSTFLAG(PieSpExFlags, ColourChange)
+        || CondFlag[actrevolving]
+        || CondFlag[arc]
+        || CondFlag[annan]
+        || CondFlag[glasgow]
+        || CondFlag[takemake]
+        || flagAssassin
+        || CondFlag[messigny]
+        || CondFlag[mars]
+        || CondFlag[castlingchess];
+
+    /* TODO Masand can't possibly be the only condition that doesn't
+     * allow any optimisation at all.
+     */
+    if (CondFlag[masand])
+    {
+      alternateImpossible = &NeverImpossible;
+      seriesImpossible = &NeverImpossible;
+    }
+    else if (ProofFairy)
+    {
+      alternateImpossible = &ProofFairyImpossible;
+      seriesImpossible = &ProofFairyImpossible;
+    }
+    else
+    {
+      alternateImpossible = &ProofImpossible;
+      seriesImpossible = &ProofSeriesImpossible;
+    }
+
+    result = true;
   }
 
-  return true;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
