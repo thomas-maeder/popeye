@@ -2638,23 +2638,12 @@ static char *ParseStructuredStip_branch(char *tok, slice_index *result)
 
   if (tok!=0)
   {
-    switch (tok[0])
-    {
-      case 'd':
-        tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,result);
-        break;
-
-      case 'h':
-        tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,result);
-        break;
-
-      case 's':
-        tok = ParseStructuredStip_branch_ser(tok+1,min_length,max_length,result);
-        break;
-
-      default:
-        ;
-    }
+    if (strncmp(tok,"ser",3)==0)
+      tok = ParseStructuredStip_branch_ser(tok+3,min_length,max_length,result);
+    else if (tok[0]=='d')
+      tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,result);
+    else if (tok[0]=='h')
+      tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,result);
   }
   
   TraceFunctionExit(__func__);
@@ -5146,7 +5135,6 @@ Token ReadTwin(Token tk, boolean *stipChanged)
   {
     LastChar= ' ';
     ReadBeginSpec();
-    root_slice = no_slice;
   }
 
   if (tk == TwinProblem || tk == ZeroPosition)
