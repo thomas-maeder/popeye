@@ -309,21 +309,14 @@ static void countPieces(void)
   for (bnp = boardnum; *bnp; bnp++)
   {
     p = e[*bnp];
-    TraceSquare(*bnp);
-    TracePiece(p);
-    TraceValue("%i\n",(int)p);
     if (p!=vide)
     {
       if (p<fn)
         exist[-p] = true;
       else if (p>fb)
-      {
         exist[p] = true;
-        TraceValue("%u\n",exist[p]);
-      }
 
       ++nbpiece[p];
-      TraceValue("%u\n",nbpiece[p]);
     }
   }
 
@@ -596,11 +589,8 @@ static boolean verify_position(void)
   flagleofamilyonly = CondFlag[leofamily] ? true : false;
   for (p = fb + 1; p <= derbla; p++)
   {
-    TraceValue("%i\n",(int)p);
     if (exist[p] || promonly[p])
     {
-      TraceValue("%u",exist[p]);
-      TraceValue("%u\n",promonly[p]);
       flagfee = true;
       if (is_rider(p))
         flagriders = true;
