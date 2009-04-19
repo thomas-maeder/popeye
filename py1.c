@@ -371,6 +371,7 @@ void InitStip(void)
   FlagMoveOrientatedStip = false;
 
   release_slices();
+  root_slice = no_slice;
 }
 
 void InitAlways(void) {
