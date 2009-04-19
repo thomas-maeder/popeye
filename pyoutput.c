@@ -1180,12 +1180,12 @@ void write_refutations(table refutations)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
+  if (nr_defenses_written[move_depth]==0
+      && nr_continuations_written[move_depth+1]==0)
+    Message(NewLine);
+
   if (table_length(refutations)!=0)
   {
-    if (nr_defenses_written[move_depth]==0
-        && nr_continuations_written[move_depth+1]==0)
-      Message(NewLine);
-
     sprintf(GlobalStr,"%*c",4,blank);
     StdString(GlobalStr);
     Message(But);
