@@ -21,6 +21,11 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
 {
   slice_index const result = alloc_slice_index();
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u\n",next);
+
   slices[result].type = STBranchDirectDefender; 
   slices[result].u.branch_d_defender.starter = no_side; 
   slices[result].u.branch_d_defender.length = length-1;
@@ -31,6 +36,8 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
   slices[result].u.branch_d_defender.peer = no_slice;
   slices[result].u.branch_d_defender.next = next;
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
   return result;
 }
 
