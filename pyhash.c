@@ -747,11 +747,26 @@ static hash_value_type own_value_of_data_direct(dhtElement const *he,
                                                 slice_index si,
                                                 stip_length_type length)
 {
+  hash_value_type result;
+
   hash_value_type const succ = get_value_direct_succ(he,si);
   hash_value_type const nosucc = get_value_direct_nosucc(he,si);
   hash_value_type const succ_neg = length-succ;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",he);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",length);
+
+  TraceValue("%u",succ);
+  TraceValue("%u\n",nosucc);
+
   assert(succ<=length);
-  return succ_neg>nosucc ? succ_neg : nosucc;
+  result = succ_neg>nosucc ? succ_neg : nosucc;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Determine the contribution of a help slice (or leaf slice with help
@@ -809,8 +824,10 @@ static hash_value_type own_value_of_data_leaf(dhtElement const *he,
 
     case STLeafDirect:
     case STLeafSelf:
-    case STLeafForced:
       return own_value_of_data_direct(he,leaf,1);
+
+    case STLeafForced:
+      return 0;
 
     default:
       assert(0);
@@ -881,110 +898,107 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
   TraceFunctionParam("%u",offset);
   TraceFunctionParam("%u\n",si);
 
-  offset -= slice_properties[si].value_size;
-  TraceValue("%u",slices[si].type);
-  TraceValue("%u",slice_properties[si].value_size);
-  TraceValue("->%u\n",offset);
-
-  switch (slices[si].type)
+  if (base_slice[si]==no_slice)
   {
-    case STLeafSelf:
+    offset -= slice_properties[si].value_size;
+    TraceValue("%u",slices[si].type);
+    TraceValue("%u",slice_properties[si].value_size);
+    TraceValue("->%u\n",offset);
+
+    switch (slices[si].type)
     {
-      hash_value_type const own_value = own_value_of_data_leaf(he,si);
-      slice_index const next = slices[si].u.leafself.next;
-      hash_value_type const next_value = own_value_of_data_composite(he,next);
-      result = (own_value << offset) + next_value;
-      break;
+      case STLeafSelf:
+      case STLeafDirect:
+      case STLeafHelp:
+      {
+        result = own_value_of_data_leaf(he,si) << offset;
+        break;
+      }
+
+      case STLeafForced:
+        return 0;
+
+      case STQuodlibet:
+      {
+        slice_index const op1 = slices[si].u.quodlibet.op1;
+        slice_index const op2 = slices[si].u.quodlibet.op2;
+
+        hash_value_type const nested_value1 = value_of_data_recursive(he,
+                                                                      offset,
+                                                                      op1);
+        hash_value_type const nested_value2 = value_of_data_recursive(he,
+                                                                      offset,
+                                                                      op2);
+
+        result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
+        break;
+      }
+
+      case STReciprocal:
+      {
+        slice_index const op1 = slices[si].u.reciprocal.op1;
+        slice_index const op2 = slices[si].u.reciprocal.op2;
+
+        hash_value_type const nested_value1 = value_of_data_recursive(he,
+                                                                      offset,
+                                                                      op1);
+        hash_value_type const nested_value2 = value_of_data_recursive(he,
+                                                                      offset,
+                                                                      op2);
+
+        result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
+        break;
+      }
+
+      case STNot:
+      {
+        slice_index const op = slices[si].u.not.op;
+        result = value_of_data_recursive(he,offset,op);
+        break;
+      }
+
+      case STMoveInverter:
+      {
+        slice_index const next = slices[si].u.move_inverter.next;
+        result = value_of_data_recursive(he,offset,next);
+        break;
+      }
+
+      case STBranchDirect:
+      {
+        hash_value_type const own_value = own_value_of_data_composite(he,si);
+        slice_index const peer = slices[si].u.branch_d.peer;
+        hash_value_type const peer_value = own_value_of_data_composite(he,peer);
+        result = (own_value << offset) + peer_value;
+        break;
+      }
+
+      case STBranchDirectDefender:
+      {
+        slice_index const next = slices[si].u.branch_d_defender.next;
+        result = value_of_data_recursive(he,offset,next);
+        break;
+      }
+
+      case STBranchHelp:
+      case STBranchSeries:
+      {
+        hash_value_type const own_value = own_value_of_data_composite(he,si);
+
+        slice_index const next = slices[si].u.branch.next;
+        hash_value_type const nested_value =
+            value_of_data_recursive(he,offset,next);
+        TraceValue("%x ",own_value);
+        TraceValue("%x\n",nested_value);
+
+        result = (own_value << offset) + nested_value;
+        break;
+      }
+
+      default:
+        assert(0);
+        break;
     }
-
-    case STLeafDirect:
-    case STLeafForced:
-    case STLeafHelp:
-    {
-      result = own_value_of_data_leaf(he,si) << offset;
-      break;
-    }
-
-    case STQuodlibet:
-    {
-      slice_index const op1 = slices[si].u.quodlibet.op1;
-      slice_index const op2 = slices[si].u.quodlibet.op2;
-
-      hash_value_type const nested_value1 = value_of_data_recursive(he,
-                                                                    offset,
-                                                                    op1);
-      hash_value_type const nested_value2 = value_of_data_recursive(he,
-                                                                    offset,
-                                                                    op2);
-
-      result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
-      break;
-    }
-
-    case STReciprocal:
-    {
-      slice_index const op1 = slices[si].u.reciprocal.op1;
-      slice_index const op2 = slices[si].u.reciprocal.op2;
-
-      hash_value_type const nested_value1 = value_of_data_recursive(he,
-                                                                    offset,
-                                                                    op1);
-      hash_value_type const nested_value2 = value_of_data_recursive(he,
-                                                                    offset,
-                                                                    op2);
-
-      result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
-      break;
-    }
-
-    case STNot:
-    {
-      slice_index const op = slices[si].u.not.op;
-      result = value_of_data_recursive(he,offset,op);
-      break;
-    }
-
-    case STMoveInverter:
-    {
-      slice_index const next = slices[si].u.move_inverter.next;
-      result = value_of_data_recursive(he,offset,next);
-      break;
-    }
-
-    case STBranchDirect:
-    {
-      hash_value_type const own_value = own_value_of_data_composite(he,si);
-      slice_index const peer = slices[si].u.branch_d.peer;
-      hash_value_type const peer_value = own_value_of_data_composite(he,peer);
-      result = (own_value << offset) + peer_value;
-      break;
-    }
-
-    case STBranchDirectDefender:
-    {
-      slice_index const next = slices[si].u.branch_d_defender.next;
-      result = value_of_data_recursive(he,offset,next);
-      break;
-    }
-
-    case STBranchHelp:
-    case STBranchSeries:
-    {
-      hash_value_type const own_value = own_value_of_data_composite(he,si);
-
-      slice_index const next = slices[si].u.branch.next;
-      hash_value_type const nested_value =
-          value_of_data_recursive(he,offset,next);
-      TraceValue("%x ",own_value);
-      TraceValue("%x\n",nested_value);
-
-      result = (own_value << offset) + nested_value;
-      break;
-    }
-
-    default:
-      assert(0);
-      break;
   }
 
   TraceFunctionExit(__func__);
@@ -1595,7 +1609,7 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
 {
   boolean result = false;
   HashBuffer *hb = &hashBuffers[nbply];
-  dhtElement const * const he= dhtLookupElement(pyhash, (dhtValue)hb);
+  dhtElement const *he;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1608,6 +1622,9 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
 
   ifHASHRATE(use_all++);
 
+  /* TODO create hash slice(s) that are only active if we can
+   * allocated the hash table. */
+  he = pyhash==0 ? dhtNilElement : dhtLookupElement(pyhash, (dhtValue)hb);
   if (he==dhtNilElement)
     result = false;
   else
@@ -1701,8 +1718,16 @@ static void init_element_direct(dhtElement *he,
                                 slice_index si,
                                 unsigned int length)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",he);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",length);
+
   set_value_direct_nosucc(he,si,0);
   set_value_direct_succ(he,si,length);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* Initialize the bits representing a help slice in a hash table
@@ -1754,6 +1779,7 @@ static void init_element(dhtElement *he, slice_index si)
   TraceFunctionParam("%p",he);
   TraceFunctionParam("%u\n",si);
 
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeafHelp:
@@ -1835,9 +1861,6 @@ static void init_element(dhtElement *he, slice_index si)
 
 void addtohash(slice_index si, hashwhat what, hash_value_type val)
 {
-  HashBuffer *hb = &hashBuffers[nbply];
-  dhtElement *he = dhtLookupElement(pyhash, (dhtValue)hb);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",what);
@@ -1845,102 +1868,110 @@ void addtohash(slice_index si, hashwhat what, hash_value_type val)
 
   TraceValue("%u\n",nbply);
 
-  assert(isHashBufferValid[nbply]);
+  /* TODO create hash slice(s) that are only active if we can
+   * allocated the hash table. */
+  if (pyhash!=0)
+  {
+    HashBuffer *hb = &hashBuffers[nbply];
+    dhtElement *he = dhtLookupElement(pyhash, (dhtValue)hb);
 
-  if (he == dhtNilElement)
-  { /* the position is new */
-    he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
-    if (he==dhtNilElement
-        || dhtKeyCount(pyhash)>MaxPositions)
-    {
-      compresshash();
+    assert(isHashBufferValid[nbply]);
+
+    if (he == dhtNilElement)
+    { /* the position is new */
       he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
       if (he==dhtNilElement
-          || dhtKeyCount(pyhash) > MaxPositions)
+          || dhtKeyCount(pyhash)>MaxPositions)
       {
-#if defined(FXF)
-        ifTESTHASH(
-            printf("make new hashtable, due to trashing\n"));
-        inithash();
+        compresshash();
         he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
         if (he==dhtNilElement
-            || dhtKeyCount(pyhash) > MaxPositions) {
+            || dhtKeyCount(pyhash) > MaxPositions)
+        {
+#if defined(FXF)
+          ifTESTHASH(
+              printf("make new hashtable, due to trashing\n"));
+          inithash();
+          he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
+          if (he==dhtNilElement
+              || dhtKeyCount(pyhash) > MaxPositions) {
+            fprintf(stderr,
+                    "Sorry, cannot enter more hashelements "
+                    "despite compression\n");
+            exit(-2);
+          }
+#else
           fprintf(stderr,
                   "Sorry, cannot enter more hashelements "
                   "despite compression\n");
           exit(-2);
-        }
-#else
-        fprintf(stderr,
-                "Sorry, cannot enter more hashelements "
-                "despite compression\n");
-        exit(-2);
 #endif /*FXF*/
+        }
+      }
+
+      he->Data = template_element.Data;
+
+      switch (what)
+      {
+        case SerNoSucc:
+          set_value_series(he,si,val);
+          break;
+
+        case HelpNoSuccOdd:
+          set_value_help_odd(he,si,val);
+          break;
+
+        case HelpNoSuccEven:
+          set_value_help_even(he,si,val);
+          break;
+
+        case DirSucc:
+          set_value_direct_succ(he,si,val);
+          break;
+
+        case DirNoSucc:
+          set_value_direct_nosucc(he,si,val);
+          break;
+
+        default:
+          assert(0);
+          break;
       }
     }
+    else
+      switch (what)
+      {
+        /* TODO use optimized operation? */
+        case SerNoSucc:
+          if (get_value_series(he,si)<val)
+            set_value_series(he,si,val);
+          break;
 
-    he->Data = template_element.Data;
+        case HelpNoSuccOdd:
+          if (get_value_help_odd(he,si)<val)
+            set_value_help_odd(he,si,val);
+          break;
 
-    switch (what)
-    {
-      case SerNoSucc:
-        set_value_series(he,si,val);
-        break;
+        case HelpNoSuccEven:
+          if (get_value_help_even(he,si)<val)
+            set_value_help_even(he,si,val);
+          break;
 
-      case HelpNoSuccOdd:
-        set_value_help_odd(he,si,val);
-        break;
+        case DirSucc:
+          if (get_value_direct_succ(he,si)>val)
+            set_value_direct_succ(he,si,val);
+          break;
 
-      case HelpNoSuccEven:
-        set_value_help_even(he,si,val);
-        break;
+        case DirNoSucc:
+          if (get_value_direct_nosucc(he,si)<val)
+            set_value_direct_nosucc(he,si,val);
+          break;
 
-      case DirSucc:
-        set_value_direct_succ(he,si,val);
-        break;
-
-      case DirNoSucc:
-        set_value_direct_nosucc(he,si,val);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+        default:
+          assert(0);
+          break;
+      }
   }
-  else
-    switch (what)
-    {
-      /* TODO use optimized operation? */
-      case SerNoSucc:
-        if (get_value_series(he,si)<val)
-          set_value_series(he,si,val);
-        break;
-
-      case HelpNoSuccOdd:
-        if (get_value_help_odd(he,si)<val)
-          set_value_help_odd(he,si,val);
-        break;
-
-      case HelpNoSuccEven:
-        if (get_value_help_even(he,si)<val)
-          set_value_help_even(he,si,val);
-        break;
-
-      case DirSucc:
-        if (get_value_direct_succ(he,si)>val)
-          set_value_direct_succ(he,si,val);
-        break;
-
-      case DirNoSucc:
-        if (get_value_direct_nosucc(he,si)<val)
-          set_value_direct_nosucc(he,si,val);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
   
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -1955,6 +1986,9 @@ void inithash(void)
 {
   int Small, Large;
   int i, j;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
 
   ifTESTHASH(
       sprintf(GlobalStr, "calling inithash\n");
@@ -1981,15 +2015,17 @@ void inithash(void)
   dhtRegisterValue(dhtBCMemValue, 0, &dhtBCMemoryProcs);
   dhtRegisterValue(dhtSimpleValue, 0, &dhtSimpleProcs);
   pyhash= dhtCreate(dhtBCMemValue, dhtCopy, dhtSimpleValue, dhtNoCopy);
+  if (pyhash==0)
+    TraceValue("%s\n",dhtErrorMsg());
 
   ifHASHRATE(use_pos = use_all = 0);
 
   /* check whether a piece can be coded in a single byte */
   j = 0;
-  for (i = PieceCount; Empty < i; i--) {
+  for (i = PieceCount; Empty < i; i--)
     if (exist[i])
       piece_nbr[i] = j++;
-  }
+
   if (CondFlag[haanerchess])
     piece_nbr[obs]= j++;
 
@@ -2045,6 +2081,9 @@ void inithash(void)
   invalidateHashBuffer(true); /* prevent the following line from firing an
                                  assert() */
   (*encode)(); /* TODO why is this necessary*/
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 } /* inithash */
 
 void    closehash(void)
@@ -2064,33 +2103,35 @@ void    closehash(void)
 #endif
 #if defined(__unix)
   {
-    unsigned long HashCount, HashMem, BytePerPos;
 #if defined(FXF)
-    HashMem= fxfTotal();
+    unsigned long const HashMem = fxfTotal();
 #else
-    HashMem= sbrk(0)-OldBreak;
+    unsigned long const HashMem = sbrk(0)-OldBreak;
 #endif /*FXF*/
-    if ((HashCount=dhtKeyCount(pyhash))>0) {
-      BytePerPos= (HashMem*100)/HashCount;
+    unsigned long const HashCount = pyhash==0 ? 0 : dhtKeyCount(pyhash);
+    if (HashCount>0)
+    {
+      unsigned long const BytePerPos = (HashMem*100)/HashCount;
       sprintf(GlobalStr,
               "Memory for hash-table: %ld, "
               "gives %ld.%02ld bytes per position\n",
               HashMem, BytePerPos/100, BytePerPos%100);
     }
-    else {
+    else
       sprintf(GlobalStr, "Nothing in hashtable\n");
-    }
     StdString(GlobalStr);
 #endif /*__unix*/
   }
 #endif /*TESTHASH*/
 
-  dhtDestroy(pyhash);
+  /* TODO create hash slice(s) that are only active if we can
+   * allocated the hash table. */
+  if (pyhash!=0)
+    dhtDestroy(pyhash);
 
 #if defined(TESTHASH) && defined(FXF)
   fxfInfo(stdout);
 #endif /*TESTHASH,FXF*/
-
 } /* closehash */
 
 /* assert()s below this line must remain active even in "productive"
