@@ -39,7 +39,7 @@ dhtElement   *dhtGetFirstElement(struct dht *);
 dhtElement   *dhtGetNextElement	(struct dht *);
 unsigned long dhtActualLoad	(struct dht *);
 unsigned long dhtKeyCount	(struct dht *);
-char	     *dhtErrorMsg	();
+char const   *dhtErrorMsg	();
 
 extern char dhtError[];
 extern  dhtStatus   dhtDupStatus;

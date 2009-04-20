@@ -396,111 +396,119 @@ typedef struct dht {
 #define ActualLoadFactor(h) (((h)->KeyCount*100)/(h)->DirTab.count)
 #endif /*OVERFLOW_SAVE*/
 
-unsigned long dhtActualLoad(dht *h) {
+unsigned long dhtActualLoad(dht *h)
+{
   return ActualLoadFactor(h);
 }
-unsigned long dhtKeyCount(dht *h) {
+
+unsigned long dhtKeyCount(dht *h)
+{
   return h->KeyCount;
 }
 
 char dhtError[128];
 
-char *dhtErrorMsg() {
+char const *dhtErrorMsg()
+{
   return dhtError;
 }
 
 dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
-               dhtValueType DtaType, dhtValuePolicy DataPolicy) {
-  dht       *ht;
+               dhtValueType DtaType, dhtValuePolicy DataPolicy)
+{
+  dht *result = Nil(dht);
 
-  if (KeyType >= dhtValueTypeCnt) {
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  if (KeyType>=dhtValueTypeCnt)
     sprintf(dhtError,
             "dhtCreate: invalid KeyType: numeric=%u\n", KeyType);
-    return Nil(dht);
-  }
-  if (dhtProcedures[KeyType] == Nil(dhtValueProcedures)) {
+  else if (dhtProcedures[KeyType]==Nil(dhtValueProcedures))
     sprintf(dhtError,
             "dhtCreate: no procedure registered for KeyType \"%s\"\n",
             dhtValueTypeToString[KeyType]);
-    return Nil(dht);
-  }
-  if (DtaType >= dhtValueTypeCnt) {
+  else if (DtaType>=dhtValueTypeCnt)
     sprintf(dhtError,
             "dhtCreate: invalid DataType: numeric=%u\n", DtaType);
-    return Nil(dht);
-  }
-  if (dhtProcedures[DtaType] == Nil(dhtValueProcedures)) {
+  else if (dhtProcedures[DtaType]==Nil(dhtValueProcedures))
     sprintf(dhtError,
             "dhtCreate: no procedure registered for DtaType \"%s\"\n",
             dhtValueTypeToString[DtaType]);
-    return Nil(dht);
-  }
-
-  if ((ht=NewHashTable) == Nil(dht)) {
-    strcpy(dhtError, "dhtCreate: no memory.");
-    return Nil(dht);
-  }
-  ht->DirTab.level= 0;
-  ht->DirTab.count= PTR_PER_DIR;
-  ht->DirTab.ld[0].valid= PTR_PER_DIR;
-  ht->DirTab.ld[0].dir= New(ht_dir);
-  if (ht->DirTab.ld[0].dir == Nil(ht_dir)) {
-    strcpy(dhtError,
-           "dhtCreate: No memory for Directory segment.");
-    FreeHashTable(ht);
-    return Nil(dht);
-  }
-  memset(ht->DirTab.ld[0].dir, 0, sizeof(ht_dir));
-  ht->p=            0;
-  ht->KeyCount=     0;
-  ht->maxp=     PTR_PER_DIR;
-  ht->CurrentSize=    ht->maxp;
-  ht->MinLoadFactor=  DefaultMinLoadFactor;
-  ht->MaxLoadFactor=  DefaultMaxLoadFactor;
-  ht->KeyPolicy=        KeyPolicy;
-  ht->DtaPolicy=        DataPolicy;
-
-  ht->procs.Hash=     dhtProcedures[KeyType]->Hash;
-  ht->procs.Equal=    dhtProcedures[KeyType]->Equal;
-  ht->procs.DumpData= dhtProcedures[DtaType]->Dump;
-  ht->procs.DumpKey=  dhtProcedures[KeyType]->Dump;
-
-  if (KeyPolicy==dhtNoCopy) {
-    ht->procs.DupKey= dhtProcedures[dhtSimpleValue]->Dup;
-    ht->procs.FreeKey= dhtProcedures[dhtSimpleValue]->Free;
-  }
-  else if (KeyPolicy==dhtCopy) {
-    ht->procs.DupKey= dhtProcedures[KeyType]->Dup;
-    ht->procs.FreeKey= dhtProcedures[KeyType]->Free;
-  }
-  else {
+  else if (KeyPolicy!=dhtNoCopy && KeyPolicy!=dhtCopy)
     sprintf(dhtError,
             "Sorry, unknown KeyPolicy: numeric=%u.", KeyPolicy);
-    freeDirTable(&ht->DirTab);
-    FreeHashTable(ht);
-    return Nil(dht);
-  }
-
-  if (DataPolicy==dhtNoCopy) {
-    ht->procs.DupData= dhtProcedures[dhtSimpleValue]->Dup;
-    ht->procs.FreeData= dhtProcedures[dhtSimpleValue]->Free;
-  }
-  else if (DataPolicy==dhtCopy) {
-    ht->procs.DupData= dhtProcedures[DtaType]->Dup;
-    ht->procs.FreeData= dhtProcedures[DtaType]->Free;
-  }
-  else {
+  else if (DataPolicy!=dhtNoCopy && DataPolicy!=dhtCopy)
     sprintf(dhtError,
             "Sorry, unknown DataPolicy: numeric=%u.", DataPolicy);
-    freeDirTable(&ht->DirTab);
-    FreeHashTable(ht);
-    return Nil(dht);
+  else
+  {
+    dht * const ht = NewHashTable;
+    if (ht==Nil(dht))
+      strcpy(dhtError, "dhtCreate: no memory.");
+    else
+    {
+      ht->DirTab.ld[0].dir = New(ht_dir);
+      if (ht->DirTab.ld[0].dir==Nil(ht_dir))
+      {
+        strcpy(dhtError,
+               "dhtCreate: No memory for Directory segment.");
+        FreeHashTable(ht);
+      }
+      else
+      {
+        ht->DirTab.level= 0;
+        ht->DirTab.count= PTR_PER_DIR;
+        ht->DirTab.ld[0].valid= PTR_PER_DIR;
+        memset(ht->DirTab.ld[0].dir, 0, sizeof(ht_dir));
+        ht->p=            0;
+        ht->KeyCount=     0;
+        ht->maxp=     PTR_PER_DIR;
+        ht->CurrentSize=    ht->maxp;
+        ht->MinLoadFactor=  DefaultMinLoadFactor;
+        ht->MaxLoadFactor=  DefaultMaxLoadFactor;
+        ht->KeyPolicy=        KeyPolicy;
+        ht->DtaPolicy=        DataPolicy;
+
+        ht->procs.Hash=     dhtProcedures[KeyType]->Hash;
+        ht->procs.Equal=    dhtProcedures[KeyType]->Equal;
+        ht->procs.DumpData= dhtProcedures[DtaType]->Dump;
+        ht->procs.DumpKey=  dhtProcedures[KeyType]->Dump;
+
+        if (KeyPolicy==dhtNoCopy)
+        {
+          ht->procs.DupKey= dhtProcedures[dhtSimpleValue]->Dup;
+          ht->procs.FreeKey= dhtProcedures[dhtSimpleValue]->Free;
+        }
+        else if (KeyPolicy==dhtCopy)
+        {
+          ht->procs.DupKey= dhtProcedures[KeyType]->Dup;
+          ht->procs.FreeKey= dhtProcedures[KeyType]->Free;
+        }
+
+        if (DataPolicy==dhtNoCopy)
+        {
+          ht->procs.DupData= dhtProcedures[dhtSimpleValue]->Dup;
+          ht->procs.FreeData= dhtProcedures[dhtSimpleValue]->Free;
+        }
+        else if (DataPolicy==dhtCopy)
+        {
+          ht->procs.DupData= dhtProcedures[DtaType]->Dup;
+          ht->procs.FreeData= dhtProcedures[DtaType]->Free;
+        }
+
+        result = ht;
+      }
+    }
   }
 
-  return ht;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%p\n",result);
+  return result;
 }
 
-void dhtDestroy(HashTable *ht) {
+void dhtDestroy(HashTable *ht)
+{
   dirEnumerate dEnum;
   InternHsElement *b;
 
@@ -522,7 +530,8 @@ void dhtDestroy(HashTable *ht) {
   FreeHashTable(ht);
 }
 
-void dhtDumpIndented(int ind, HashTable *ht, FILE *f) {
+void dhtDumpIndented(int ind, HashTable *ht, FILE *f)
+{
   dirEnumerate dEnum;
   int hcnt;
   InternHsElement *b;
@@ -566,7 +575,8 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f) {
           ind, "", hcnt, ht->KeyCount);
 }
 
-void dhtDump(HashTable *ht, FILE *f) {
+void dhtDump(HashTable *ht, FILE *f)
+{
   dhtDumpIndented(0, ht, f);
 }
 
@@ -603,10 +613,12 @@ dhtElement *dhtGetFirstElement(HashTable *ht)
   return result;
 }
 
-dhtElement *dhtGetNextElement(HashTable *ht) {
+dhtElement *dhtGetNextElement(HashTable *ht)
+{
   InternHsElement *b;
 
-  if (ht->NextStep) {
+  if (ht->NextStep)
+  {
     dhtElement *de= &ht->NextStep->HsEl;
     ht->NextStep= ht->NextStep->Next;
     return de;
@@ -615,7 +627,8 @@ dhtElement *dhtGetNextElement(HashTable *ht) {
   for (b = stepDirTable(&ht->DirEnum);
        b!=&EndOfTable;
        b = stepDirTable(&ht->DirEnum))
-    if (b != 0) {
+    if (b != 0)
+    {
       ht->NextStep= b->Next;
       return &b->HsEl;
     }
@@ -714,7 +727,8 @@ LOCAL void ShrinkHashTable(HashTable *ht)
 
   if (ht->maxp == PTR_PER_DIR && ht->p == 0)
     return;
-  if (ht->p == 0) {
+  if (ht->p == 0)
+  {
     ht->maxp>>= 1;
     ht->p= ht->maxp;
   }
@@ -724,7 +738,8 @@ LOCAL void ShrinkHashTable(HashTable *ht)
   oldp= ht->p + ht->maxp;
   old= (InternHsElement**)accessAdr(&ht->DirTab, oldp);
 
-  if (*old) {
+  if (*old)
+  {
     while (*new)
       new= &(*new)->Next;
     *new= *old;
@@ -735,28 +750,31 @@ LOCAL void ShrinkHashTable(HashTable *ht)
   return;
 }
 
-LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtValue key) {
+LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtValue key)
+{
   uLong     h;
   InternHsElement **phe;
     
   h= DynamicHash(ht->p, ht->maxp, (ht->procs.Hash)(key));
   phe= (InternHsElement**)accessAdr(&ht->DirTab, h);
 
-  while (*phe) {
+  while (*phe)
     if ((ht->procs.Equal)((*phe)->HsEl.Key, key))
       break;
     else
       phe= &((*phe)->Next);
-  }
+
   return phe;
 }
 
-void dhtRemoveElement(HashTable *ht, dhtValue key) {
+void dhtRemoveElement(HashTable *ht, dhtValue key)
+{
   MYNAME(dhtRemoveElement)
     InternHsElement **phe, *he;
 
   phe= LookupInternHsElement(ht, key);
-  if (*phe) {
+  if (*phe)
+  {
     DEBUG_CODE(
       fprintf(stderr, "%s: dumping before removing\n", myname);
       dhtDump(ht, stderr);
@@ -883,25 +901,39 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
   return &he->HsEl;
 }
 
-dhtElement *dhtLookupElement(HashTable *ht, dhtValue key) {
-  InternHsElement **phe= LookupInternHsElement(ht, key);
+dhtElement *dhtLookupElement(HashTable *ht, dhtValue key)
+{
+  InternHsElement **phe;
+  dhtElement *result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p\n",ht);
+
+  phe= LookupInternHsElement(ht,key);
   if (*phe)
-    return &(*phe)->HsEl;
+    result = &(*phe)->HsEl;
   else
-    return dhtNilElement;
+    result = dhtNilElement;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%p\n",result);
+  return result;
 }
 
-int dhtBucketStat(HashTable *ht, int *counter, int n) {
+int dhtBucketStat(HashTable *ht, int *counter, int n)
+{
   int       BucketCount;
   dhtElement    *he;
 
   memset(counter, 0, n*sizeof(counter[0]));
   BucketCount= 0;
   he= dhtGetFirstElement(ht);
-  while (he != Nil(dhtElement)) {
+  while (he != Nil(dhtElement))
+  {
     int len= 1;
     InternHsElement *ihe= ((InternHsElement *)he)->Next;
-    while (ihe) {
+    while (ihe)
+    {
       len++;
       ht->NextStep= ihe;
       ihe= ihe->Next;
