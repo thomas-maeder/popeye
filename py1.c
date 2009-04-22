@@ -1580,7 +1580,7 @@ void ChangeMagic(int ply, boolean push)
 }
 
 #ifdef DEBUG
-WriteMagicViews(int ply)
+void WriteMagicViews(int ply)
 {
   int i;
   for (i= magictop[ply - 1]; i < magictop[ply]; i++)
