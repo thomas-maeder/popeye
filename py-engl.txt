@@ -105,7 +105,7 @@ the reserved word `BeginProblem'. After entering this command to popeye,
 following commands may be used:
 
 	remark, author, origin, title, protocol,
-        condition, option, stipulation, forsyth, pieces, twin
+        condition, option, stipulation, sstipulation, forsyth, pieces, twin
 
 The order of these commands is free, and can also occur more times.
 The last of the commands in the second line is relevant. All of these
@@ -544,6 +544,103 @@ commands expect further parameters. Lets start with the simpler commands:
 
    All these stipulations must be followed by a number giving the
    count of moves.
+
+ - sstipulation: The stipulation can also be indicated in "structured form".
+         This form allows all stipulations to be indicated that can also be
+         indicated in traditional form using the command "stipulation". In
+         addition, it allows many more stipulations to be indicated.
+
+       Syntax (rules for typing a sstipulation):
+
+         sstipulation            = sideAtMove expression
+
+         sideAtMove              = 'white' | 'black'
+
+         expression              =   operand
+                                   | operand operator operand
+
+         operand                 =   parenthesisedExpression
+                                   | negatedExpression
+                                   | moveinversionExpression
+                                   | branch operand
+                                   | leaf
+
+         operator                = '&' | '|'
+
+         parenthesisedExpression = '(' expression ')'
+
+         negatedExpression       = '!' operand
+
+         moveinversionExpression = '-' operand
+
+         branch                  =   maxLength branchType
+                                   | minLength ',' maxLength branchType
+
+         leaf                    = leafType goal
+
+         branchType              = 'd' | 'h' | 'ser'
+
+         leafType                = 'd' | 'h' | 's'
+
+         goal                    = '#' | '=' etc. (see stipulation)
+
+         minLength, maxLength    = number of half-moves (positive number)
+
+
+       Semantics (what does it all mean):
+
+         sideAtMove: side which does the first move according to the
+                     stipulation
+
+         expression: simple or composite (partial) stipulation
+
+         operand: part of an expression
+
+         operator: combines two operands
+                   '&': boolean AND: expression has a solution if both
+                                     operands have a solution
+                   '|': boolean OR:  expression has a solution if at least
+                                     one of the operands has a solution
+
+         negatedExpression: has a solution if the operand doesn't have one
+
+         moveinversionExpression: the side at the move in the operand is the
+                                  other side than the one indicated by
+                                  sideAtMove or the containing expression
+
+         branch: sequence of half-moves, followed by the operand
+                 'd': Direct play; both sides play alternately against each
+                      other.
+                      Indicate an odd number as maxLength if the last move is
+                      to be played by the attacker (as in a selfmate problem),
+                      and an even number if the last move is to be played by
+                      the defender (as in a direct mate problem).
+                      If minLength is indicated, its value can currently
+                      only be equal to maxLength (for an exact stipulation).
+                 'h': Help play; both sides play alternately and collaborate.
+                      if maxLength is an odd numer, the same side is at the move
+                      in the operand as in the help branch; otherwise, the other
+                      side is at the move in the operand.
+                      If minLength is indicated, its value can currently
+                      only be equal to maxLength (for an exact stipulation).
+                 'ser': Series play: the starting side plays all the half-moves
+                      of the branch; in the operand, the other side is at the
+                      move.
+                      If minLength is indicated, its value can currently
+                      only be equal to maxLength (for an exact stipulation).
+
+         leaf: 1 half-move
+               'd': direct half-move: a half-move solves if it reaches the goal
+               'h': help half-move: a half-move solves if it reaches the goal
+               's': self half-move: the precedent play solves if there is at
+                                    least 1 legal half-move and all legal
+                                    half-moves reach the goal
+
+               (The difference between direct and help half-moves is
+                that solutions may be written differently.)
+
+       Examples: see BEISPIEL/sford.inp
+
 
  - forsyth: With this command you can enter the position in forsyth notation.
 
