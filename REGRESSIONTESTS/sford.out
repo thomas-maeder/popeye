@@ -848,3 +848,66 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
 Loesung beendet. 
 
 
+h#8 1.0;1.1;...; 7x8-Brett
+gleiches Problem mit viel komplexerer Eingabe in intell.inp
+
+    Rolf Wiehagen & Torsten Lin"s
+      feenschach 138 p. 394, Lob
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .       8
+|                                   |
+7   .   .   L  -B   .   .   .       7
+|                                   |
+6   .   .   .   .   .   .   .       6
+|                                   |
+5   .   .   .   .  -L   .   .       5
+|                                   |
+4   .  -K   .   .   .   .   .       4
+|                                   |
+3   .   .  -T   .   .   .   .       3
+|                                   |
+2   .   K   .   .   .   .   .       2
+|                                   |
+1   .   .   .   .   .   .   .       1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz 1h - 13h h#         2 + 4
+
+  1.Le5-g3   2.Tc3-c6 Lc7-f4   3.Kb4-c5 Kb2-c3   4.Kc5-b6 + Kc3-d4   5.Tc6-c8 Kd4-e5   6.Kb6-c7 Ke5-f6 +   7.Kc7-d8 Lf4-g5   8.Lg3-c7 Kf6-f7 # 
+
+Loesung beendet. 
+
+
+h#8 1.0;1.1;...
+
+           Reinhardt Fiebig
+        feenschach 138 p. 394
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   L  -B   .   .   .   7
+|                                   |
+6   .  -B   .   .   .   .   .  -K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -D   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -T   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz 1h - 13h h#         2 + 5
+
+  1.Df3-f8   2.Tg2-g7 Ld7-a4   3.Kh6-g6 Kh1-g2   4.Kg6-f7 + Kg2-f3   5.b6-b5 Kf3-e4   6.Kf7-e8 Ke4-d5   7.Tg7-f7 Kd5-c6   8.b5-b4 Kc6-c7 # 
+
+Loesung beendet. 
+
+

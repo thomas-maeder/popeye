@@ -256,4 +256,26 @@ weis ke1 ta1 sc1d4 bd2
 schw kb4 lh1
 option zugn start 2
 
+weiter
+
+autor		Rolf Wiehagen & Torsten Lin"s
+quelle		feenschach 138 p. 394, Lob
+bemerkung	h#8 1.0;1.1;...; 7x8-Brett
+bemerkung       gleiches Problem mit viel komplexerer Eingabe in intell.inp
+sforderung      schwarz 1h - 13h h#
+steine  weiss   kb2 lc7
+        schwarz kb4 tc3 le5 bd7
+bedi    	loch    h1h2h3h4h5h6h7h8
+option 		intell
+
+weiter
+
+autor		Reinhardt Fiebig
+quelle		feenschach 138 p. 394
+bemerkung	h#8 1.0;1.1;...
+sforderung      schwarz 1h - 13h h#
+steine  weiss   kh1 ld7
+        schwarz kh6 df3 tg2 bb6e7
+option 		intell
+
 ende
