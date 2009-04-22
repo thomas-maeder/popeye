@@ -606,7 +606,7 @@ Kommandos:
 
        Semantik:
 
-         SeiteAmZug: Seite, welche gemäss der Forderung den ersten Zug
+         SeiteAmZug: Seite, welche gemaess der Forderung den ersten Zug
                      ausfuehrt
 
          Ausdruck: einfache oder zusammengesetzte (Teil)Forderung
