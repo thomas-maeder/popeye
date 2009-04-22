@@ -321,7 +321,7 @@ zweimal eine Anzuginversion (-)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2dd# | -3hd# | 2ds# | -3hd=        8 + 10
+  weiss 2dd# | -3hd# | 3ds# | -3hd=        8 + 10
 
   1.e7-e8=S ! Drohung:
           2.Se8*c7 # 
@@ -652,7 +652,7 @@ eigentlich: sKg4 s#2 b) g4->e3
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1h 2ds#            11 + 7
+  schwarz 1h 3ds#            11 + 7
 
       1...Kf3-e3 
           2.Th8-e8 Zugzwang.

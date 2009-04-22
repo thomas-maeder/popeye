@@ -2476,14 +2476,17 @@ static char *ParseStructuredStip_branch_d(char *tok,
   TraceFunctionParam("%u\n",max_length);
   TraceFunctionParam("%s\n",tok);
 
-  if ((min_length==0 || min_length==max_length)
-      && max_length%2==0)
+  if (min_length==0 || min_length==max_length)
   {
     slice_index operand;
     tok = ParseStructuredStip_operand(tok,&operand);
     if (tok!=0)
     {
       slice_index defender;
+
+      if (max_length%2==1)
+        /* Temporary hack to get selfmates working */
+        --max_length;
 
       min_length += slack_length_direct;
       max_length += slack_length_direct;

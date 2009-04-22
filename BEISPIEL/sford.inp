@@ -99,7 +99,7 @@ auszeichnung	1. Preis, O. Kaila JT 1967
 bemerkung       ODER-Verknuepfung statt Vierlinge
 bemerkung       da der Anzug zwischen den Teilen variiert, brauchen wir
 bemerkung       zweimal eine Anzuginversion (-)
-sforderung      weiss 2dd# | -3hd# | 2ds# | -3hd=
+sforderung      weiss 2dd# | -3hd# | 3ds# | -3hd=
 
 steine  weiss   kd3 tf6 la4 sc4 bc6e2e7g5
         schwarz kd5 sh8 bc5c7d4d6e3e6f7g6
@@ -218,7 +218,7 @@ quelle          1. WCCT 1972-75, Abt. F2, 6. Platz
 bemerkung       eigentlich: sKg4 s#2 b) g4->e3
 steine          weiss kc8 dc2 tf2h8 ld6d7 sb7e6 ba6c5d4
                 schwarz kf3 ta8 lb8 sc7 ba7c3d5
-sforderung      schwarz 1h 2ds#
+sforderung      schwarz 1h 3ds#
 option          vari
 
 weiter
