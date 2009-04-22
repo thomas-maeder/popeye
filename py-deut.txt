@@ -563,13 +563,15 @@ Kommandos:
 	SEMI wirkt natuerlich nur im Zusammenhang mit Reflexforderungen.
 
  - SForderung: Die Forderung kann auch in "strukturierter" Form
-       angegeben werden.
+       angegeben werden. In dieser Form lassen sich alle Forderungen angeben,
+       welche sich auch in traditioneller Form mit dem Befehl "Forderung"
+       angeben lassen, aber darueberhinaus viele mehr.
 
        Syntax:
 
          SForderung           = SeiteAmZug Ausdruck
 
-         SeiteAmZug           = Weiss | Schwarz
+         SeiteAmZug           = 'Weiss' | 'Schwarz'
 
          Ausdruck             =   Operand
                                 | Operand Operator Operand
@@ -593,7 +595,7 @@ Kommandos:
 
          Blatt                = BlattTyp Ziel
 
-         ZweigTyp             = 'd' | 'h' | 's'
+         ZweigTyp             = 'd' | 'h' | 'ser'
 
          BlattTyp             = 'd' | 'h' | 's'
 
@@ -621,34 +623,44 @@ Kommandos:
          negierterAusdruck: hat eine Loesung, wenn der Operand keine hat
 
          anzugwechselAusdruck: im Operand beginnt die andere Seite als durch
-                               SeiteAmZug oder den umgebenden Ausdruck eigentlich
-                               vorgegeben
+                               SeiteAmZug oder den umgebenden Ausdruck
+                               eigentlich vorgegeben
 
          Zweig: Folge von Halbzuegen, gefolgt vom Operanden
                 'd': Direktes Spiel; beide Seiten spielen abwechselnd
-                     gegeneinander; im Operand beginnt die gleiche Seite.
+                     gegeneinander.
+                     Wenn maxLaenge eine durch 2 teilbare Zahl ist, wird der
+                     letzte Zug des Zweigs durch den Verteidiger gespielt (wie
+                     z.B. bei einer direkten Mattforderung). Wenn maxLaenge
+                     eine nicht durch 2 teilbare Zahl ist, wird der letzte
+                     Zug des Zweigs durch den Angreifer gespielt (wie z.B. in
+                     einer Selbstmattforderung).
                      Wenn minLaenge angegeben wird, dann gegenwaertig nur
                      mit dem gleichen Wert wie maxLaenge (fuer eine
                      exact-Forderung).
                 'h': Hilfsspiel: beide Seiten spielen abwechselnd kooperativ;
-                     im Operand beginnt bei durch 2 teilbarer Laenge die gleiche,
-                     sonst die andere Seite
+                     im Operand beginnt bei durch 2 teilbarer Laenge die
+                     andere, sonst die gleiche Seite wie im Hilfszweig.
                      Wenn minLaenge angegeben wird, dann gegenwaertig nur
                      mit dem gleichen Wert wie maxLaenge (fuer eine
                      exact-Forderung).
-                's': Serie: eine Seite spielt alle Halbzuege; im Operand beginnt
-                     die andere Seite
+                'ser': Serie: eine Seite spielt alle Halbzuege; im Operand
+                     beginnt die andere Seite
                      Wenn minLaenge angegeben wird, dann gegenwaertig nur
                      mit dem gleichen Wert wie maxLaenge (fuer eine
                      exact-Forderung).
 
-         Blatt: 1 oder 2 Halbzuege
-                'd': direkter Halbzug: hat eine Loesung, wenn das Ziel erreicht
-                                       wird
-                'h': Hilfshalbzug: hat eine Loesung, wenn das Ziel erreicht wird
-                's': Selbstzug (2 Halbzuege): hat eine Loesung, wenn der erste
-                                              Halbzug die andere Seite dazu zwingt,
-                                              das Ziel zu erreichen
+         Blatt: letzter Halbzug
+                'd': direkter Halbzug: ein Halbzug loest, wenn, wenn er das
+                                       Ziel erreicht
+                'h': Hilfshalbzug: ein Halbzug loest, wenn, wenn er das Ziel
+                                   erreicht
+                's': Selbstzug: das vorherige Spiel loest, wenn es mindestens
+                                einen legalen Halbzug gibt und jeder legale
+                                Halbzug das Ziel erreicht.
+
+                (Der Unterschied zwischen direktem und Hilfshalbzug ist, dass
+                 sie zu unterschiedlicher Ausgabe der Loesung fuehren koennen.)
 
        Beispiele: siehe BEISPIEL/sford.inp
 
