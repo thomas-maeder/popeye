@@ -94,4 +94,13 @@ next
 forsyth rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
 stip dia 4.0
 
+next
+
+stip ser-h=2
+pieces
+white ke2
+black kh1 bh2 pf2h3
+option intelligent
+condition hole a8b8c8d8e8f8g8h8
+
 end

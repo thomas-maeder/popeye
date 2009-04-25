@@ -379,7 +379,7 @@ boolean SolAlreadyFound(void) {
   if (found) {
     isIntelligentModeActive= false;
     StdString("solution already found:");
-    linesolution(0);
+    write_final_help_move(no_goal);
     isIntelligentModeActive= true;
   }
 #endif
@@ -594,11 +594,14 @@ static void StaleStoreMate(
   WritePosition();
 #endif
 
-  for (bnp= boardnum; *bnp; bnp++) {
-    if (e[*bnp] != vide) {
+  for (bnp= boardnum; *bnp; bnp++)
+  {
+    piece const p = e[*bnp];
+    if (p!=vide && p!=obs)
+    {
       sp= spec[*bnp];
       index= GetIndex(sp);
-      Mate[index].p= e[*bnp];
+      Mate[index].p= p;
       Mate[index].sp= sp;
       Mate[index].sq= *bnp;
     }
@@ -683,6 +686,10 @@ static void StaleStoreMate(
 
   castling_supported= false;
 } /* StaleStoreMate */
+
+void write_indentation(void)
+{
+}
 
 void DeposeBlPiece(
   int   blmoves,
