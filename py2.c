@@ -43,6 +43,10 @@
  **                             3,3-Spiralknight
  **                             Quintessence (invented Joerg Knappen)
  **
+ ** 2009/04/25 SE   New condition: Provacateurs
+ **                 New piece type: Patrol pieces
+ **
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)  /* is always defined on macintosh's  SB */
@@ -2190,80 +2194,15 @@ boolean libre(square sq, boolean generating)
   return result;
 } /* libre */
 
-boolean notsoutenu(square sq_departure, square sq_arrival, square sq_capture)
-{
-  piece p= 0;       /* avoid compiler warning */
-  boolean   Result;
-  evalfunction_t *evaluate;
-
-  if (CondFlag[central]) {
-    if ( sq_departure == rb || sq_departure == rn) {
-      return true;
-    }
-    nbpiece[p= e[sq_departure]]--;
-    e[sq_departure]= (p > vide) ? dummyb : dummyn;
-    evaluate= soutenu;
-  }
-  else if (flaglegalsquare) {
-    if (!legalsquare(sq_departure, sq_arrival, sq_capture)) {
-      return false;
-    }
-    evaluate= legalsquare;
-  }
-  else if (flag_madrasi) {
-    if (!eval_madrasi(sq_departure, sq_arrival, sq_capture)) {
-      return false;
-    }
-    evaluate= eval_madrasi;
-  }
-  else if (TSTFLAG(PieSpExFlags,Paralyse)) {
-    if (!paraechecc(sq_departure, sq_arrival, sq_capture)) {
-      return false;
-    }
-    evaluate= paraechecc;
-  }
-  else {
-    evaluate= eval_ortho;
-  }
-
-  if ((color(sq_departure) == White)
-      ^ (CondFlag[beamten] || TSTFLAG(PieSpExFlags, Beamtet)))
-  {
-    if (  TSTFLAG(PieSpExFlags, Beamtet)
-          && !TSTFLAG(spec[sq_departure], Beamtet))
-    {
-      Result= true;
-    }
-    else {
-      sq_arrival= rn;
-      rn= sq_departure;
-      Result= !rnechec(nbply,evaluate);
-      rn= sq_arrival;
-    }
-  }
-  else {
-    if ( TSTFLAG(PieSpExFlags, Beamtet)
-         && !TSTFLAG(spec[sq_departure], Beamtet))
-    {
-      Result= true;
-    }
-    else {
-      sq_arrival= rb;
-      rb= sq_departure;
-      Result= !rbechec(nbply,evaluate);
-      rb= sq_arrival;
-    }
-  }
-
-  if (CondFlag[central])
-    nbpiece[e[sq_departure]= p]++;
-
-  return(Result);
-}
-
 boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
   piece p= 0;       /* avoid compiler warning */
-  boolean   Result;
+  boolean Result, 
+          enemyobserveok=true, 
+          friendobserveok=true, 
+          testenemyobs=false, 
+          testfriendobs=false,
+          testenemyanti, 
+          testfriendanti;
   evalfunction_t *evaluate;
 
   if (CondFlag[central]) {
@@ -2296,34 +2235,72 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     evaluate= eval_ortho;
   }
 
-  if ((color(sq_departure)==White)
-      != (CondFlag[beamten] || TSTFLAG(PieSpExFlags, Beamtet)))
-  {
-    if (  TSTFLAG(PieSpExFlags, Beamtet)
-          && !TSTFLAG(spec[sq_departure], Beamtet))
-    {
-      Result= true;
+  // logic rewritten to simplify new conditions and allow combinations
+  // interpretation here is:
+  // A piece with a special observation variant piece type will obey
+  // the types and not any conditions in force; all other pieces obey
+  // global conditions in force
+  // If there are both enemy-observation and friend-observation rules
+  // for a piece, it has to satisfy both
+  // This interpretatiom can be changed bu altering logic here
+  // New variants e.g. Anti-Provacateurs and piece types not implemented
+  // yet but can be set up by setting up obs* flags in verifieposition
+  // and amending the macros below (in py.h)
+  //   enemy/friend determines if rule concerns observation by other/own side
+  //   anti true if should NOT be observed as in Lortap
+  //   ultra (see py4.c) true if observation applies also to non-capture moves
+  // two other conditions (central, shielded kings) also use this code
+
+  if (obspieces) {
+    if (testenemyobs= ENEMYOBS(sq_departure)) {
+      testenemyanti = ENEMYANTI(sq_departure); 
     }
-    else {
-      sq_arrival= rn;
-      rn= sq_departure;
-      Result= rnechec(nbply,evaluate);
-      rn= sq_arrival;
+    if (testfriendobs= FRIENDOBS(sq_departure)) {
+      testfriendanti = FRIENDANTI(sq_departure); 
     }
   }
-  else {
-    if ( TSTFLAG(PieSpExFlags, Beamtet)
-         && !TSTFLAG(spec[sq_departure], Beamtet))
+  if (!testenemyobs && !testfriendobs) {
+    testenemyobs= obsenemygenre;
+    testenemyanti= obsenemyantigenre;
+    testfriendobs= obsfriendgenre;
+    testfriendanti= obsfriendantigenre;
+  }
+
+  if (testenemyobs) { 
+    if (color(sq_departure)!=White)
     {
-      Result= true;
+      sq_arrival= rn;
+      rn= sq_departure;
+      enemyobserveok= testenemyanti ^ rnechec(nbply,evaluate);
+      rn= sq_arrival;
     }
-    else {
+    else
+    {
       sq_arrival= rb;
       rb= sq_departure;
-      Result= rbechec(nbply,evaluate);
+      enemyobserveok= testenemyanti ^ rbechec(nbply,evaluate);
       rb= sq_arrival;
     }
   }
+
+  if (testfriendobs) { 
+    if (color(sq_departure)==White)
+    {
+      sq_arrival= rn;
+      rn= sq_departure;
+      friendobserveok= testfriendanti ^ rnechec(nbply,evaluate);
+      rn= sq_arrival;
+    }
+    else
+    {
+      sq_arrival= rb;
+      rb= sq_departure;
+      friendobserveok= testfriendanti ^ rbechec(nbply,evaluate);
+      rb= sq_arrival;
+    }
+  }
+
+  Result = enemyobserveok && friendobserveok;
 
   if (CondFlag[central])
     nbpiece[e[sq_departure]= p]++;

@@ -63,6 +63,9 @@
  **
  ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
  **
+ ** 2009/04/25 SE   New condition: Provacateurs
+ **                 New piece type: Patrol pieces
+ **
  ***************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -844,15 +847,6 @@ static boolean verify_position(void)
     return false;
   }
 
-  if (TSTFLAG(PieSpExFlags,Paralyse)
-      && !(CondFlag[patrouille]
-           || CondFlag[beamten]
-           || TSTFLAG(PieSpExFlags, Beamtet)))
-  {
-    eval_2 = eval_white;
-    eval_white = paraechecc;
-  }
-
   if (TSTFLAG(PieSpExFlags, Kamikaze))
   {
     optim_neutralretractable = optim_orthomatingmoves = false;
@@ -894,17 +888,35 @@ static boolean verify_position(void)
 
   if (CondFlag[patrouille]
       || CondFlag[beamten]
+      || CondFlag[provacateurs]
       || CondFlag[central]
       || TSTFLAG(PieSpExFlags, Beamtet)
-      || CondFlag[ultrapatrouille])
+      || CondFlag[ultrapatrouille]
+      || CondFlag[lortap]
+      || TSTFLAG(PieSpExFlags, Patrol))
   {
     eval_2 = eval_white;
     eval_white = soutenu;
+    obsfriendgenre = CondFlag[patrouille] ||
+                     CondFlag[central] ||
+                     CondFlag[ultrapatrouille] ||
+                     CondFlag[lortap];
+    obsenemygenre =  CondFlag[beamten] ||
+                     CondFlag[provacateurs];
+    obsenemyantigenre = false;
+    obsfriendantigenre = CondFlag[lortap];
+    obsenemyultragenre = CondFlag[beamten];
+    obsfriendultragenre = CondFlag[ultrapatrouille] || CondFlag[central];
+    obspieces = TSTFLAG(PieSpExFlags, Beamtet) || TSTFLAG(PieSpExFlags, Patrol);
+    obsultra = obsenemyultragenre || obsfriendultragenre || TSTFLAG(PieSpExFlags, Beamtet);
+    obsgenre = true;
   }
-  if (CondFlag[lortap])
+
+  if (TSTFLAG(PieSpExFlags,Paralyse)
+      && !obsgenre)
   {
     eval_2 = eval_white;
-    eval_white = notsoutenu;
+    eval_white = paraechecc;
   }
 
   if (CondFlag[disparate])
@@ -976,9 +988,7 @@ static boolean verify_position(void)
       VerifieMsg(MadrasiParaAndOthers);
       return false;
     }
-    if (!(CondFlag[patrouille]
-          || CondFlag[beamten]
-          || TSTFLAG(PieSpExFlags, Beamtet)))
+    if (!obsgenre)
     {
       eval_2 = eval_white;
       eval_white = CondFlag[isardam]
@@ -1009,8 +1019,10 @@ static boolean verify_position(void)
     eval_white=eval_ortho;
 
   if (CondFlag[shieldedkings])
+  {
     eval_white=eval_shielded;
-
+    obsfriendgenre=true;
+  }
 
   if (flagAssassin) {
     if (TSTFLAG(PieSpExFlags,Neutral) /* Neutrals not implemented */
@@ -1262,13 +1274,8 @@ static boolean verify_position(void)
 
   empilegenre=
       flaglegalsquare
-      || CondFlag[patrouille]
-      || CondFlag[lortap]
-      || CondFlag[ultrapatrouille]
+      || obsgenre
       || CondFlag[imitators]
-      || CondFlag[beamten]
-      || TSTFLAG(PieSpExFlags, Beamtet)
-      || CondFlag[central]
       || anyimmun
       || CondFlag[nocapture]
       || CondFlag[nowhcapture]

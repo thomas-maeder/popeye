@@ -58,6 +58,9 @@
 **                             3,3-Spiralknight
 **                             Quintessence (invented Joerg Knappen)
 **
+** 2009/04/25 SE   New condition: Provacateurs
+**                 New piece type: Patrol pieces
+**
 **************************** End of List ******************************/
 
 #if !defined(PYDATA_H)
@@ -339,7 +342,15 @@ EXTERN  imarr           isquare;                /* Imitatorstandfelder */
 
 EXTERN  boolean         Iprom[maxply + 1];      /* Imitatorumwandlung? */
 EXTERN  square          im0;                    /* Standort des ersten Imitators */
-
+EXTERN  boolean         obsenemygenre,
+                        obsfriendgenre,
+                        obsenemyantigenre,
+                        obsfriendantigenre,
+                        obsenemyultragenre,
+                        obsfriendultragenre,
+                        obspieces,
+                        obsgenre,
+                        obsultra;
 
 typedef struct
 {
@@ -1187,7 +1198,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*172*/ "QuiPerdGagne",
     /*173*/ "Disparate",
     /*174*/ "EchecsGhost",
-    /*175*/ "EchecsHantes"
+    /*175*/ "EchecsHantes",
+    /*176*/ "EchecsProvacateurs"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1365,7 +1377,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*172*/ "Schlagschach",
     /*173*/ "Disparate",
     /*174*/ "Geisterschach",
-    /*175*/ "Spukschach"
+    /*175*/ "Spukschach",
+    /*176*/ "ProvokationSchach"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1543,7 +1556,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*172*/ "LosingChess",
     /*173*/ "Disparate",
     /*174*/ "GhostChess",
-    /*175*/ "HauntedChess"
+    /*175*/ "HauntedChess",
+    /*176*/ "ProvocationChess"
     }
     };
 #endif
@@ -1572,7 +1586,8 @@ EXTERN boolean          flag_libre_on_generate;
       "CouleurEchangeantSautoir",
       "Protee",
       "Magique",
-      "Imprenable"
+      "Imprenable",
+      "Patrouille"
 	},{
       /* German */
       "Weiss",
@@ -1589,7 +1604,8 @@ EXTERN boolean          flag_libre_on_generate;
       "SprungbockFarbeWechselnd",
       "Proteisch",
       "Magisch",
-      "Unschlagbar"
+      "Unschlagbar",
+      "Patrouille",
 	},{
       /* English */
       "White",
@@ -1606,7 +1622,8 @@ EXTERN boolean          flag_libre_on_generate;
       "HurdleColourChanging",
       "Protean",
       "Magic",
-      "Uncapturable"
+      "Uncapturable",
+      "Patrol"
 	}
 	};
 #endif

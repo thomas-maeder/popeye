@@ -293,7 +293,6 @@ boolean rrefcech(square a, square b, int c, piece d, evalfunction_t *evaluate);
 boolean rrfouech(square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
 boolean rubiech(square sq, square sqtest, piece p,  echiquier e_ub, evalfunction_t *evaluate );
 boolean soutenu(square departure, square arrival, square capture);
-boolean notsoutenu(square a, square b, square c);
 
 boolean has_too_many_flights(Side defender);
 

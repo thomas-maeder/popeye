@@ -58,6 +58,9 @@
 **                             3,3-Spiralknight
 **                             Quintessence (invented Joerg Knappen)
 **
+** 2009/04/25 SE   New condition: Provacateurs
+**                 New piece type: Patrol pieces
+**
 **************************** End of List ******************************/
 
 #if !defined(PY_H)
@@ -1241,7 +1244,8 @@ typedef enum
   disparate,              /* 173 */
   ghostchess,             /* 174 */
   hauntedchess,           /* 175 */
-  CondCount               /* 176 */
+  provacateurs,           /* 176 */
+  CondCount               /* 177 */
 } Cond;
 
 /* Some remarks to the conditions:
@@ -1273,6 +1277,7 @@ typedef enum
   Protean,
   Magic,
   Uncapturable,
+  Patrol,
 
   PieSpCount
 } PieSpec;
@@ -1394,5 +1399,14 @@ typedef unsigned int slice_index;
     (stack)->pc=(pie); \
     (stack)++;}\
   else {flag_outputmultiplecolourchanges=false;}}
+
+#define ENEMYOBS(sq) \
+  (TSTFLAG(spec[sq], Beamtet))
+#define ENEMYANTI(sq) \
+  (false)
+#define FRIENDOBS(sq) \
+  (TSTFLAG(spec[sq], Patrol))
+#define FRIENDANTI(sq) \
+  (false)
 
 #endif  /* PY_H */

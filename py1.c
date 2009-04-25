@@ -32,6 +32,9 @@
  **
  ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
  **
+ ** 2009/04/25 SE   New condition: Provacateurs
+ **                 New piece type: Patrol pieces
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)          /* is always defined on macintosh's  SB */
@@ -277,6 +280,7 @@ void InitCond(void) {
   calc_whtrans_king= calc_bltrans_king= 
   calc_whrefl_king= calc_blrefl_king= false;
   whitenormaltranspieces = blacknormaltranspieces = true;
+  obsgenre = false;
 } /* InitCond */
 
 void InitOpt(void) {

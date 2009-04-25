@@ -45,6 +45,9 @@
  **                             3,3-Spiralknight
  **                             Quintessence (invented Joerg Knappen)
  **
+ ** 2009/04/25 SE   New condition: Provacateurs
+ **                 New piece type: Patrol pieces
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -498,10 +501,10 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       return true;
     }
 
-    if (  TSTFLAG(spec[sq_departure], Beamtet)
-          || CondFlag[beamten]
-          || CondFlag[central]
-          || CondFlag[ultrapatrouille])
+    // might be better to do this in gen_*_piece and avoid move
+    // generation altogether for unobserved pieces
+    // (soutenu only depends on sq_departure)
+    if (obsgenre && obsultra)
     {
       if (!soutenu(sq_departure,sq_arrival,sq_capture))
         return true;
@@ -536,17 +539,9 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           return true;
         }
       }
-      if (CondFlag[patrouille]
-          && !(CondFlag[beamten]
-               || TSTFLAG(PieSpExFlags, Beamtet)))
+      if (obsgenre && !obsultra)
       {
         if (!soutenu(sq_departure,sq_arrival,sq_capture)) {
-          return true;
-        }
-      }
-      if (CondFlag[lortap]) 
-      {
-        if (soutenu(sq_departure,sq_arrival,sq_capture)) {
           return true;
         }
       }
