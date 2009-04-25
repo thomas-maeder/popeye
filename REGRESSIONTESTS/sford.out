@@ -321,7 +321,7 @@ zweimal eine Anzuginversion (-)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2dd# | -3hd# | 3ds# | -3hd=        8 + 10
+  weiss 2dd# | -3hd# | 3ds# | -3hd= 8 + 10
 
   1.e7-e8=S ! Drohung:
           2.Se8*c7 # 
@@ -422,7 +422,7 @@ die ganze Forderung ist somit aequivalent zu r#2
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2d ( 1hh# & !d# )         9 + 8
+  weiss 2d ( 1hh# & !d# )     9 + 8
               AntiCirce
 
   1.b6-b7 ! Zugzwang.
@@ -479,7 +479,7 @@ effizienten Reihenfolge ausgewertet)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2d ( !d# & 1hh# )         9 + 8
+  weiss 2d ( !d# & 1hh# )     9 + 8
               AntiCirce
 
   1.b6-b7 ! Zugzwang.
@@ -532,7 +532,7 @@ die ganze Forderung ist somit aequivalent zu reci-h#2
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2h ( 1hh# & d# )        9 + 12
+  schwarz 2h ( 1hh# & d# )   9 + 12
 
 a)
 
@@ -578,7 +578,7 @@ effizienten Reihenfolge ausgewertet)
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2h ( d# & 1hh# )        9 + 12
+  schwarz 2h ( d# & 1hh# )   9 + 12
 
 a)
 
@@ -814,7 +814,7 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
 1   T   .   S   .   K   .   .  -L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 10,10ser h00         5 + 2
+  schwarz 10,10ser h00        5 + 2
 
   1.Lh1-b7   2.Lb7-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   2  (Lh1-b7 )

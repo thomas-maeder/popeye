@@ -5441,6 +5441,8 @@ void WritePosition() {
   static char HorizL[]="%c   .   .   .   .   .   .   .   .   %c\n";
   static char BlankL[]="|                                   |\n";
 
+  unsigned int const fileWidth = 4;
+
   SolFile= NULL;
 
   for (sp= Neutral; sp < PieSpCount; sp++)
@@ -5478,17 +5480,21 @@ void WritePosition() {
     for (file= 1, square= square_a;
          file <= nr_files_on_board;
          file++, square += dir_right) {
-      char *h1= HLine1 + 4*file;
+      char *h1= HLine1 + fileWidth*file;
 
       if (CondFlag[gridchess] && !OptFlag[suppressgrid])
       {
         if (file < nr_files_on_board
             && GridLegal(square, square+dir_right))
-          HLine1[4*file+2] = '|';
+          HLine1[fileWidth*file+2] = '|';
 
         if (row < nr_rows_on_board
             && GridLegal(square, square+dir_down))
-          HLine2[4*file-1] = HLine2[4*file] = HLine2[4*file+1] = '-';
+        {
+          HLine2[fileWidth*file-1] = '-';
+          HLine2[fileWidth*file] = '-';
+          HLine2[fileWidth*file+1] = '-';
+        }
       }
 
       if ((pp= abs(p= e[square])) < King)
@@ -5581,8 +5587,14 @@ void WritePosition() {
             max_nr_nontrivial,
             min_length_nontrivial);
 
-  sprintf(GlobalStr, "  %-20s%13s\n", StipOptStr, PieCnts);
-  StdString(GlobalStr);
+  {
+    unsigned int const stipOptLength = strlen(StipOptStr);
+    int const pieceCntWidth = (stipOptLength>nr_files_on_board*fileWidth
+                               ? 1
+                               : nr_files_on_board*fileWidth-stipOptLength+1);
+    sprintf(GlobalStr, "  %s%*s\n", StipOptStr, pieceCntWidth, PieCnts);
+    StdString(GlobalStr);
+  }
 
   for (sp = Neutral+1; sp<PieSpCount; sp++)
     if (TSTFLAG(PieSpExFlags,sp))
