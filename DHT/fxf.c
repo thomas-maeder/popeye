@@ -251,7 +251,7 @@ void *fxfAlloc(size_t size) {
   SizeHead *sh;
   char *ptr;
 
-  DBG((stderr, "%s(%d) =", myname, size));
+  DBG((stderr, "%s(%u) =", myname, (unsigned int)size));
 
   if (size<fxfMINSIZE)
     size = fxfMINSIZE;
@@ -303,7 +303,7 @@ void *fxfAlloc(size_t size) {
     ptr= Nil(char);
 #endif /*!SEGMENTED*/
   }
-  DBG((df, "0x%08x\n", ptr));
+  DBG((df, "%p\n", ptr));
   return ptr;
 }
 
@@ -311,7 +311,7 @@ void fxfFree(void *ptr, size_t size) {
   static char *myname= "fxfFree";
   SizeHead *sh;
 
-  DBG((df, "%s(0x%08x, %d)\n", myname, ptr, size));
+  DBG((df, "%s(%p, %u)\n", myname, ptr, (unsigned int)size));
   if (size > fxfMAXSIZE) {
     fprintf(stderr, "%s: size=%u >= %u\n",
             myname, (unsigned int)size, (unsigned int)fxfMAXSIZE);
