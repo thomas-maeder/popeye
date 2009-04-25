@@ -2083,6 +2083,34 @@ static char *ParsePlay(char *tok, slice_index *si)
     }
   }
 
+  else if (strncmp("ser-hs",tok,6)==0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok+4,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+      {
+        /* in ser-hs, the series is 1 half-move longer than in usual
+         * series play! */
+        ++length;
+        if (length==slack_length_series && min_length==slack_length_series)
+          *si = next;
+        else
+        {
+          stip_length_type const help_length = slack_length_help+1;
+          slice_index const help = alloc_branch_h_slice(help_length,
+                                                        help_length,
+                                                        next);
+          *si = alloc_branch_ser_slice(length,min_length,help);
+        }
+      }
+    }
+  }
+
   else if (strncmp("ser-h",tok,5) == 0)
   {
     slice_index next = no_slice;
