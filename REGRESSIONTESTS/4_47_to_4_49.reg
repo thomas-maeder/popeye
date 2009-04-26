@@ -399,3 +399,66 @@ solution finished.
 solution finished. 
 
 
+intelligent mode bug: did not find mates ...
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -R   .   .   .   .   .   .   8
+|                                   |
+7  -P  -K   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   S   .   .   .   .   5
+|                                   |
+4   .   .   .   .   B   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         3 + 3
+
+  1.Kb7-a8 Sd5-b6 # 
+  1.Kb7-a8 Sd5-c7 # 
+
+solution finished. 
+
+
+option start in intelligent mode
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   .  -B   .   7
+|                                   |
+6   .   .  -P   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   .  -R   .   .   5
+|                                   |
+4   .  -K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -R   .   3
+|                                   |
+2   .  -Q   .   P   K   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#8                     2 + 8
+
+0 potential positions in 1+5
+0 potential positions in 1+6
+1 potential positions in 1+7
+  1.Kb4-c4   2.Qb2-b4   3.Rg3-b3   4.Bg7-c3   5.d5-d4   6.Rf5-b5   7.c6-c5   8.Bb7-d5 d2-d3 # 
+16 potential positions in 1+8
+
+solution finished. 
+
+

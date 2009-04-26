@@ -103,4 +103,20 @@ black kh1 bh2 pf2h3
 option intelligent
 condition hole a8b8c8d8e8f8g8h8
 
+next
+
+remark intelligent mode bug: did not find mates ...
+stip h#1
+option intel
+pieces  white be4 sd5 kh1
+        black kb7 pa7 rb8
+
+next
+
+remark option start in intelligent mode
+pieces white ke2 pd2
+       black kb4 qb2 rf5g3 bb7g7 pc6d5
+stip ser-h#8
+option intelligent move start 5
+
 end

@@ -1470,17 +1470,15 @@ zwilling        verse   d7 d6
 zwilling        verse   d7 d5
 
 weiter
-beme intelligent mode bug: did not find mates ...
-forderung h#1
-option intel
-steine  weiss   le4 sd5 kh1
-        schwarz kb7 ba7 tb8
 
-weiter
-beme startzugnummer im intelligent-Modus
-steine weiss ke2 bd2
-       schwarz kb4 db2 tf5g3 lb7g7 bc6d5
-forderung ser-h#8
-option intelligent zugnummer start 5
+forderung ser-h=11
+autor Geoff Foster
+quelle F725 Probleemblad 67.1 Jan/Mar 2009
+steine weiss   ke1 dd1 ta1d4 le8 sa5
+       schwarz kb4 tb5c4 la4 sb2c6
+bedingung loch g1g2g3g4g5g6g7g8h1h2h3h4h5h6h7h8
+bemerkung Foster's Stellung hat keine Loecher
+bemerkung dies ist ein Testfall fuer intelligent und loch
+option intelligent
 
 endeproblem
