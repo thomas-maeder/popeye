@@ -1,10 +1,11 @@
 beg
 auth Stephen Emmerson
 orig Original
+rem also solves as patrol condition
 pie wh patr kc8
-pie wh pb6
+pie wh patr pb6
 pie blac patr ka8
 pie bl pa7
-stip h#1
-twin stip h=2.5
+stip ser-h!=6
+opt halfd
 end
