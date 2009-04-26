@@ -419,7 +419,8 @@ static void init_slice_properties_recursive(slice_index si,
           unsigned int const length = slices[si].u.branch_d.length;
           slice_index const peer = slices[si].u.branch_d.peer;
           init_slice_properties_direct(si,length,nr_bits_left);
-          if (slices[si].u.branch_d.min_length==length)
+          if (slices[si].u.branch_d.min_length==length
+              && length>slack_length_direct+1)
             is_there_slice_with_nonstandard_min_length = true;
           /* check for is_initialised above prefents infinite
            * recursion
@@ -455,7 +456,8 @@ static void init_slice_properties_recursive(slice_index si,
           init_slice_properties_help(si,
                                      length-slack_length_help,
                                      nr_bits_left);
-          if (slices[si].u.branch.min_length==length)
+          if (slices[si].u.branch.min_length==length
+              && length>slack_length_help+1)
             is_there_slice_with_nonstandard_min_length = true;
 
           init_slice_properties_recursive(next,nr_bits_left);
@@ -475,7 +477,8 @@ static void init_slice_properties_recursive(slice_index si,
         init_slice_properties_series(si,
                                      length-slack_length_series,
                                      nr_bits_left);
-        if (slices[si].u.branch.min_length==length)
+        if (slices[si].u.branch.min_length==length
+            && length>slack_length_series+1)
           is_there_slice_with_nonstandard_min_length = true;
 
         init_slice_properties_recursive(next,nr_bits_left);
