@@ -5588,7 +5588,7 @@ void WritePosition() {
             min_length_nontrivial);
 
   {
-    unsigned int const stipOptLength = strlen(StipOptStr);
+    size_t const stipOptLength = strlen(StipOptStr);
     int const pieceCntWidth = (stipOptLength>nr_files_on_board*fileWidth
                                ? 1
                                : nr_files_on_board*fileWidth-stipOptLength+1);
