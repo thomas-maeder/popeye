@@ -42,8 +42,9 @@ static unsigned long ConvertSimpleValue(dhtValue v) {
 static unsigned long ConvertSimpleValue(dhtValue v)
 {
   size_t c = (size_t)v; 
-  size_t a = -c;
+  size_t a = 0;
   size_t b = 0x9e3779b9;
+  a -= c;
   a ^= c >> 13;
   b -= c;  b -= a;  b ^= a << 8; 
   c -= a;  c -= b;  c ^= b >> 13;
