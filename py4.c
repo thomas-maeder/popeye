@@ -501,9 +501,9 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       return true;
     }
 
-    // might be better to do this in gen_*_piece and avoid move
-    // generation altogether for unobserved pieces
-    // (soutenu only depends on sq_departure)
+    /* might be better to do this in gen_*_piece and avoid move
+     * generation altogether for unobserved pieces
+     * (soutenu only depends on sq_departure) */
     if (obsgenre && obsultra)
     {
       if (!soutenu(sq_departure,sq_arrival,sq_capture))

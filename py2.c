@@ -2235,29 +2235,30 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     evaluate= eval_ortho;
   }
 
-  // logic rewritten to simplify new conditions and allow combinations
-  // interpretation here is:
-  // A piece with a special observation variant piece type will obey
-  // the types and not any conditions in force; all other pieces obey
-  // global conditions in force
-  // If there are both enemy-observation and friend-observation rules
-  // for a piece, it has to satisfy both
-  // This interpretatiom can be changed bu altering logic here
-  // New variants e.g. Anti-Provacateurs and piece types not implemented
-  // yet but can be set up by setting up obs* flags in verifieposition
-  // and amending the macros below (in py.h)
-  //   enemy/friend determines if rule concerns observation by other/own side
-  //   anti true if should NOT be observed as in Lortap
-  //   ultra (see py4.c) true if observation applies also to non-capture moves
-  // two other conditions (central, shielded kings) also use this code
+  /* logic rewritten to simplify new conditions and allow combinations
+   * interpretation here is:
+   * A piece with a special observation variant piece type will obey
+   * the types and not any conditions in force; all other pieces obey
+   * global conditions in force
+   * If there are both enemy-observation and friend-observation rules
+   * for a piece, it has to satisfy both
+   * This interpretatiom can be changed bu altering logic here
+   * New variants e.g. Anti-Provacateurs and piece types not implemented
+   * yet but can be set up by setting up obs* flags in verifieposition
+   * and amending the macros below (in py.h)
+   *   enemy/friend determines if rule concerns observation by other/own side
+   *   anti true if should NOT be observed as in Lortap
+   *   ultra (see py4.c) true if observation applies also to non-capture moves
+   * two other conditions (central, shielded kings) also use this code */
 
   if (obspieces) {
-    if (testenemyobs= ENEMYOBS(sq_departure)) {
+    testenemyobs= ENEMYOBS(sq_departure);
+    if (testenemyobs)
       testenemyanti = ENEMYANTI(sq_departure); 
-    }
-    if (testfriendobs= FRIENDOBS(sq_departure)) {
+
+    testfriendobs= FRIENDOBS(sq_departure);
+    if (testfriendobs)
       testfriendanti = FRIENDANTI(sq_departure); 
-    }
   }
   if (!testenemyobs && !testfriendobs) {
     testenemyobs= obsenemygenre;
