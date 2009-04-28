@@ -340,7 +340,7 @@ who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",leaf);
 
-  result = slice_detect_starter(next,same_side_as_root);
+  result = slice_detect_starter(next,!same_side_as_root);
   slices[leaf].u.leafself.starter = advers(slice_get_starter(next));
 
   TraceFunctionExit(__func__);
