@@ -57,7 +57,11 @@ void TraceSquareImpl(char const *prefix, square s)
   if (!deactivated)
   {
     fprintf(stdout,"%s",prefix);
-    WriteSquare(s);
+
+    if (s==initsquare)
+      printf("initsquare");
+    else
+      WriteSquare(s);
   }
 }
 
@@ -66,7 +70,13 @@ void TracePieceImpl(char const *prefix, piece p)
   if (!deactivated)
   {
     fprintf(stdout,"%s",prefix);
-    WritePiece(p);
+
+    if (p==vide)
+      printf("vide");
+    else if (p==obs)
+      printf("obs");
+    else
+      WritePiece(p);
   }
 }
 
