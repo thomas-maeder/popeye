@@ -2242,7 +2242,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
    * global conditions in force
    * If there are both enemy-observation and friend-observation rules
    * for a piece, it has to satisfy both
-   * This interpretatiom can be changed by altering logic here
+   * This interpretation can be changed by altering logic here
    * New variants e.g. Anti-Provacateurs and piece types not implemented
    * yet but can be set up by setting up obs* flags in verifieposition
    * and amending the macros below (in py.h)
