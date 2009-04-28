@@ -47,26 +47,27 @@ extern boolean testdblmate;
 
 /* Determine whether a goal has been reached by a side in the current
  * position.
- * @param camp side for which to test goal
+ * @param camp side that has just moved and may have reached the goal
  * @return true iff side has reached goal
  */
-boolean goal_checker_mate(Side camp);
-boolean goal_checker_circuit(Side camp);
-boolean goal_checker_circuitB(Side camp);
-boolean goal_checker_exchange(Side camp);
-boolean goal_checker_exchangeB(Side camp);
-boolean goal_checker_capture(Side camp);
-boolean goal_checker_mate_ultraschachzwang(Side camp);
-boolean goal_checker_stale(Side camp);
-boolean goal_checker_dblstale(Side camp);
-boolean goal_checker_autostale(Side camp);
-boolean goal_checker_check(Side camp);
-boolean goal_checker_steingewinn(Side camp);
-boolean goal_checker_ep(Side camp);
-boolean goal_checker_doublemate(Side camp);
-boolean goal_checker_castling(Side camp);
-boolean goal_checker_any(Side camp);
+boolean goal_checker_mate(Side just_moved);
+boolean goal_checker_circuit(Side just_moved);
+boolean goal_checker_circuitB(Side just_moved);
+boolean goal_checker_exchange(Side just_moved);
+boolean goal_checker_exchangeB(Side just_moved);
+boolean goal_checker_capture(Side just_moved);
+boolean goal_checker_mate_ultraschachzwang(Side just_moved);
+boolean goal_checker_stale(Side just_moved);
+boolean goal_checker_dblstale(Side just_moved);
+boolean goal_checker_autostale(Side just_moved);
+boolean goal_checker_check(Side just_moved);
+boolean goal_checker_steingewinn(Side just_moved);
+boolean goal_checker_ep(Side just_moved);
+boolean goal_checker_doublemate(Side just_moved);
+boolean goal_checker_castling(Side just_moved);
+boolean goal_checker_any(Side just_moved);
+boolean goal_checker_proof(Side just_moved);
 
-boolean goal_checker_target(Side camp, square target);
+boolean goal_checker_target(Side just_moved, square target);
 
 #endif

@@ -707,7 +707,7 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
 
     case goal_proof:
     case goal_atob:
-      result = ProofIdentical();
+      result = goal_checker_proof(just_moved);
       break;
 
     case goal_mate_or_stale:

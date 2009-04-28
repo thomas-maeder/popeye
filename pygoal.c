@@ -237,6 +237,11 @@ boolean goal_checker_any(Side just_moved)
 {
   return !echecc(nbply,just_moved);
 }
+
+boolean goal_checker_proof(Side just_moved)
+{
+  return ProofIdentical() && !echecc(nbply,just_moved);
+}
   
 char const *goal_end_marker[nr_goals] =
 {
