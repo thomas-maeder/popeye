@@ -3,7 +3,6 @@
 #include "pydata.h"
 #include "platform/maxtime.h"
 #include "pyint.h"
-#include "pyproof.h"
 
 #include <assert.h>
 #include <stdlib.h>
