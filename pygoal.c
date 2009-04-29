@@ -1,5 +1,6 @@
 #include "pygoal.h"
 #include "pydata.h"
+#include "pyproof.h"
 #include "trace.h"
 
 boolean testdblmate= false;
