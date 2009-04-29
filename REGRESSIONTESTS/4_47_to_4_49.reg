@@ -462,3 +462,93 @@ option start in intelligent mode
 solution finished. 
 
 
+This should have no solution.
+Development head at one time didn't test whether the final move
+left the side playing it in check; the result was a number of
+bogus solutions.
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B   .  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P   .  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   P   .  -Q   4
+|                                   |
+3   .   .   .   .   .   .   K   .   3
+|                                   |
+2   P   P   P   P   P   .   P   P   2
+|                                   |
+1   R   S   B   Q   .   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia2.5                    16 + 16
+
+
+solution finished. 
+
+
+duplex didn't work in a=>b or proof games
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   R   .   .   .   .   .   .   .   8
+|                                   |
+7  -R   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b0.5                     1 + 1
+                 PWC
+                Duplex
+
+Initial (Black ->):
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .   .   .   .   .   .   8
+|                                   |
+7   R   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b0.5                     1 + 1
+                 PWC
+                Duplex
+
+  1.Ra8*a7 [+wRa8] a=>b 
+
+  1.Ra7*a8 [+wRa7] a=>b 
+
+solution finished. 
+
+

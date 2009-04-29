@@ -27,6 +27,14 @@ void ProofAtoBSaveStartPieces(void);
  */
 void ProofAtoBSaveStartRoyal(void);
 
+/* a=>b: swap pieces' colors in the starting position
+ */
+void ProofAtoBSwapColors(void);
+
+/* a=>b: reflect starting position at the horizontal center line
+ */
+void ProofAtoBReflectboard(void);
+
 /* Restore the start position
  */
 void ProofRestoreStartPosition(void);
@@ -67,6 +75,6 @@ typedef boolean (*ProofImpossible_fct_t)(void);
 
 ProofImpossible_fct_t alternateImpossible; /* TODO */
 
-extern int ProofKnightMoves[];
+extern int const ProofKnightMoves[];
 
 #endif

@@ -119,4 +119,22 @@ pieces white ke2 pd2
 stip ser-h#8
 option intelligent move start 5
 
+next
+
+remark This should have no solution.
+remark Development head at one time didn't test whether the final move
+remark left the side playing it in check; the result was a number of
+remark bogus solutions.
+fors rsb1kbsr/pppp1ppp/8/4p3/5P1q/6K1/PPPPP1PP/RSBQ1BSR
+stip dia2.5
+
+next
+
+remark duplex didn't work in a=>b or proof games
+pieces white ra7 black ra8
+stipulation a=>b0.5
+pieces white ra8 black ra7
+condition pwc
+option duplex nowk nobk
+
 end

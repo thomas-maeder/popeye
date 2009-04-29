@@ -332,7 +332,6 @@ EXTERN  Flags           pprispec[maxply + 1];
 EXTERN  Flags           spec[maxsquare+4];
 EXTERN  int        zzzaj[square_h8 - square_a1 + 1];  /* gridnumber */
 
-EXTERN  SquareFlags     zzzan[square_h8 - square_a1 + 1];  /* sq_spec */
 EXTERN  boolean         we_generate_exact, there_are_consmoves,
 			wh_exact, bl_exact, wh_ultra, bl_ultra;
 
@@ -438,7 +437,6 @@ EXTERN int         WhiteSATFlights, BlackSATFlights;
 EXTERN boolean          WhiteStrictSAT[maxply+1],BlackStrictSAT[maxply+1];
 EXTERN square           takemake_departuresquare;
 EXTERN square           takemake_capturesquare;
-EXTERN int         zzzao[square_h8 - square_a1 + 1];
 EXTERN boolean          flag_synchron;
 EXTERN long int         BGL_black, BGL_white;
 EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;

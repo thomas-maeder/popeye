@@ -36,7 +36,7 @@
 /* an array to store the position */
 static piece ProofPieces[32];
 static square ProofSquares[32];
-static int ProofNbrAllPieces;
+static unsigned int ProofNbrAllPieces;
 static echiquier ProofBoard, PosA;
 static square Proof_rb, Proof_rn, rbA, rnA;
 static Flags ProofSpec[nr_squares_on_board], SpecA[nr_squares_on_board];
@@ -419,6 +419,49 @@ void ProofAtoBSaveStartPieces(void)
   TraceText("\n");
 }
 
+/* a=>b: swap pieces' colors in the starting position
+ */
+void ProofAtoBSwapColors(void)
+{
+  square const *bnp;
+  unsigned int i;
+
+  for (bnp = boardnum; *bnp; bnp++)
+    if (!TSTFLAG(SpecA[*bnp], Neutral) && PosA[*bnp] != vide)
+    {
+      PosA[*bnp] = -PosA[*bnp];
+      SpecA[*bnp]^= BIT(White)+BIT(Black);
+    }
+
+  for (i = 0; i<ProofNbrAllPieces; i++)
+    ProofPieces[i] = -ProofPieces[i];
+}
+
+/* a=>b: reflect starting position at the horizontal center line
+ */
+void ProofAtoBReflectboard(void)
+{
+  square const *bnp;
+  unsigned int i;
+  
+  for (bnp = boardnum; *bnp < (square_a1+square_h8)/2; bnp++)
+  {
+    square const sq_reflected = transformSquare(*bnp,mirra1a8);
+
+    piece const p = PosA[sq_reflected];
+    Flags const sp = SpecA[sq_reflected];
+
+    PosA[sq_reflected] = PosA[*bnp];
+    SpecA[sq_reflected] = SpecA[*bnp];
+
+    PosA[*bnp] = p;
+    SpecA[*bnp] = sp;
+  }
+
+  for (i = 0; i<ProofNbrAllPieces; i++)
+    ProofSquares[i] = transformSquare(ProofSquares[i],mirra1a8);
+}
+
 void ProofSaveTargetPosition(void)
 {
   int       i;
@@ -550,33 +593,95 @@ void ProofWritePosition(void)
     ProofRestoreStartPosition();
 }
 
-/* function that compares the current position with the desired one
- * and returns true if they are identical. Otherwise it returns false.
- */
-boolean ProofIdentical(void)
+static boolean compareProofPieces(void)
 {
-  int i;
-  for (i = 0; i < ProofNbrAllPieces; i++)
+  boolean result = true;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  for (i = 0; i<ProofNbrAllPieces; i++)
+  {
+    TracePiece(ProofPieces[i]);
+    TraceSquare(ProofSquares[i]);
+    TracePiece(e[ProofSquares[i]]);
+    TraceText("\n");
     if (ProofPieces[i] != e[ProofSquares[i]])
-      return false;
+    {
+      result = false;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+static boolean compareProofNbrPiece(void)
+{
+  boolean result = true;
+  int i;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
 
   for (i = roib; i <= fb; i++)
-    if (ProofNbrPiece[i] != nbpiece[i]
-        || ProofNbrPiece[-i] != nbpiece[-i])
-      return false;
+    if (ProofNbrPiece[i]!=nbpiece[i]
+        || ProofNbrPiece[-i]!=nbpiece[-i])
+    {
+      result = false;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+static boolean compareImitators(void)
+{
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
 
   if (CondFlag[imitators])
   {
     unsigned int imi_idx;
     for (imi_idx = 0; imi_idx<inum[nbply]; imi_idx++)
       if (Proof_isquare[imi_idx]!=isquare[imi_idx])
-        return false;
+      {
+        result = false;
+        break;
+      }
   }
 
-  return true;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
-int ProofKnightMoves[square_h8-square_a1+1]= {
+/* function that compares the current position with the desired one
+ * and returns true if they are identical. Otherwise it returns false.
+ */
+boolean ProofIdentical(void)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  result = compareProofPieces() && compareProofNbrPiece() && compareImitators();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+int const ProofKnightMoves[square_h8-square_a1+1]=
+{
   /*   1-  7 */     0,  3,  2,  3,  2,  3,  4,  5,
   /* dummies  8- 16 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
   /*  17- 31*/      4,  3,  4,  3,  2,  1,  2,  3,  2, 1, 2, 3, 4, 3, 4,

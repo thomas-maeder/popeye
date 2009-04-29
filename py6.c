@@ -1892,33 +1892,37 @@ boolean has_too_many_flights(Side defender)
   }
 }
 
-static void swapcolors(void) {
-  square *bnp;
+static void swapcolors(void)
+{
+  square const *bnp;
   for (bnp = boardnum; *bnp; bnp++)
-  {
     if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide)
     {
       e[*bnp] = -e[*bnp];
       spec[*bnp]^= BIT(White)+BIT(Black);
     }
-  }
+
+  ProofAtoBSwapColors();
 }
 
-static void reflectboard(void) {
-  square *bnp;
+static void reflectboard(void)
+{
+  square const *bnp;
   for (bnp = boardnum; *bnp < (square_a1+square_h8)/2; bnp++)
   {
-    square sq2 = *bnp%onerow+onerow*((onerow-1)-*bnp/onerow);
+    square const sq_reflected = transformSquare(*bnp,mirra1a8);
 
-    piece p = e[sq2];
-    Flags sp = spec[sq2];
+    piece const p = e[sq_reflected];
+    Flags const sp = spec[sq_reflected];
 
-    e[sq2] = e[*bnp];
-    spec[sq2] = spec[*bnp];
+    e[sq_reflected] = e[*bnp];
+    spec[sq_reflected] = spec[*bnp];
 
     e[*bnp] = p;
     spec[*bnp] = sp;
   }
+
+  ProofAtoBReflectboard();
 
   isBoardReflected = !isBoardReflected;
 }
@@ -2244,6 +2248,10 @@ static void initMaxMemoryString(void)
 /* prepare for solving duplex */
 static void init_duplex(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  TraceValue("%u\n",isIntelligentModeActive);
   if (isIntelligentModeActive)
   {
     /*
@@ -2259,13 +2267,20 @@ static void init_duplex(void)
   else
   {
     Side const starter = slice_get_starter(root_slice);
+    TraceValue("%u\n",starter);
     slice_impose_starter(root_slice,advers(starter));
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* restore from preparations for solving duplex */
 static void fini_duplex(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   if (isIntelligentModeActive)
   {
     /* cf. init_duplex */
@@ -2277,6 +2292,9 @@ static void fini_duplex(void)
     Side const starter = slice_get_starter(root_slice);
     slice_impose_starter(root_slice,advers(starter));
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 static boolean root_slice_apply_setplay(void)

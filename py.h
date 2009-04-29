@@ -69,6 +69,7 @@
 #include <limits.h>
 
 #include "boolean.h"
+#include "pyboard.h"
 
 /*   Sometimes local variables are used, that can potentially be
      used without any proper initial value. At least the compiler
@@ -147,17 +148,6 @@
 #               define HASHRATE
 #       endif   /* !HASHRATE */
 #endif  /* TESTHASH */
-
-typedef enum
-{
-  rot90,        /* 0 */
-  rot180,       /* 1 */
-  rot270,       /* 2 */
-  mirra1h1,     /* 3 */
-  mirra1a8,     /* 4 */
-  mirra1h8,     /* 5 */
-  mirra8h1      /* 6 */
-} SquareTransformation;
 
 enum
 {
@@ -451,130 +441,6 @@ typedef enum
 
 enum
 {
-  /* For reasons of code simplification of move generation, square a1
-   * doesn't have index 0; there are some slack rows at the top and
-   * bottom of the board, and some slack files at the left and right.
-   */
-  nr_of_slack_files_left_of_board = 8,
-  nr_of_slack_rows_below_board = 8,
-
-  nr_files_on_board = 8,
-  nr_rows_on_board = 8,
-
-  bottom_row = nr_of_slack_rows_below_board,
-  top_row = bottom_row+nr_rows_on_board-1,
-
-  left_file = nr_of_slack_files_left_of_board,
-  right_file = left_file+nr_files_on_board-1,
-
-  /* if square1-square2==onerow, then square1 is one row higher than
-   * square2 */
-  onerow = (nr_of_slack_files_left_of_board
-            +nr_files_on_board
-            +nr_of_slack_files_left_of_board),
-
-  nr_squares_on_board = nr_files_on_board*nr_rows_on_board,
-
-  maxsquare = ((nr_of_slack_rows_below_board
-                +nr_rows_on_board
-                +nr_of_slack_rows_below_board)
-               *onerow),
-
-  /* how many steps can a straight rider maximally make and still
-   * remain on the board? */
-  max_nr_straight_rider_steps = 7
-};
-
-/* Symbols for geometric calculations - please ALWAYS use these rather
- * than int literals */
-enum
-{
-  dir_left  =   -1,
-  dir_right =   +1,
-
-  dir_up    =   onerow,
-  dir_down  =  -onerow
-};
-
-/* Symbols for squares - using these makes code much more human-readable */
-enum
-{
-  square_a1 = (nr_of_slack_rows_below_board*onerow
-               +nr_of_slack_files_left_of_board),
-  square_b1,
-  square_c1,
-  square_d1,
-  square_e1,
-  square_f1,
-  square_g1,
-  square_h1,
-
-  square_a2 = square_a1+dir_up,
-  square_b2,
-  square_c2,
-  square_d2,
-  square_e2,
-  square_f2,
-  square_g2,
-  square_h2,
-
-  square_a3 = square_a2+dir_up,
-  square_b3,
-  square_c3,
-  square_d3,
-  square_e3,
-  square_f3,
-  square_g3,
-  square_h3,
-
-  square_a4 = square_a3+dir_up,
-  square_b4,
-  square_c4,
-  square_d4,
-  square_e4,
-  square_f4,
-  square_g4,
-  square_h4,
-
-  square_a5 = square_a4+dir_up,
-  square_b5,
-  square_c5,
-  square_d5,
-  square_e5,
-  square_f5,
-  square_g5,
-  square_h5,
-
-  square_a6 = square_a5+dir_up,
-  square_b6,
-  square_c6,
-  square_d6,
-  square_e6,
-  square_f6,
-  square_g6,
-  square_h6,
-
-  square_a7 = square_a6+dir_up,
-  square_b7,
-  square_c7,
-  square_d7,
-  square_e7,
-  square_f7,
-  square_g7,
-  square_h7,
-
-  square_a8 = square_a7+dir_up,
-  square_b8,
-  square_c8,
-  square_d8,
-  square_e8,
-  square_f8,
-  square_g8,
-  square_h8
-};
-
-enum
-{
   /* the following values are used instead of capture square
    * to indicate special moves */
   messigny_exchange = maxsquare+1,
@@ -624,9 +490,7 @@ enum
 
 enum
 {
-  initsquare = 0,      /* to initialize square-variables */
-  maxinum    = 10,    /* max. number of imitators */
-  nullsquare = 1
+  maxinum    = 10    /* max. number of imitators */
 };
 
 /* Enumeration type for the two sides which move, deliver mate etc.
@@ -644,12 +508,10 @@ typedef enum
 
 typedef unsigned long   Flags;
 
-typedef int        square;
 typedef int         numecoup;
 typedef int         ply;
 typedef int        numvec;
 
-typedef piece        echiquier[maxsquare+4];
 typedef square       pilecase[maxply+1];
 
 typedef struct {
@@ -718,6 +580,8 @@ typedef enum {
 } move_generation_mode_type;
 
 
+typedef piece echiquier[maxsquare+4];
+
 typedef square imarr[maxinum]; /* squares currently occupied by imitators */
 
 /* These are definitions to implement arrays with lower index != 0
@@ -725,39 +589,6 @@ typedef square imarr[maxinum]; /* squares currently occupied by imitators */
 ** pydata.h                                                     ElB
 */
 #define nbpiece         (zzzaa - dernoi)
-
-typedef enum
-{
-  MagicSq,         /* 0 */
-  WhForcedSq,      /* 1 */
-  BlForcedSq,      /* 2 */
-  WhConsForcedSq,  /* 3 */
-  BlConsForcedSq,  /* 4 */
-  NoEdgeSq,        /* 5 */
-  SqColor,         /* 6 */
-  WhPromSq,        /* 7 */
-  BlPromSq,        /* 8 */
-  Grid,            /* 9 */
-
-  nrSquareFlags
-} SquareFlags;
-
-#define sq_spec         (zzzan - square_a1)
-#define sq_num          (zzzao - square_a1)
-#define NoEdge(i)       TSTFLAG(sq_spec[(i)], NoEdgeSq)
-#define SquareCol(i)    TSTFLAG(sq_spec[(i)], SqColor)
-#define GridNum(s)      (sq_spec[(s)] >> Grid)
-#define ClearGridNum(s) (sq_spec[(s)] &= ((1<<Grid)-1))
-
-#define BIT(pos)                (1<<(pos))
-#define TSTFLAG(bits,pos)       (((bits)&BIT(pos))!=0)
-#define CLRFLAG(bits,pos)       ((bits)&= ~BIT(pos))
-#define SETFLAG(bits,pos)       ((bits)|= BIT(pos))
-#define CLEARFL(bits)           ((bits)=0)
-
-#define TSTFLAGMASK(bits,mask)  ((bits)&(mask))
-#define CLRFLAGMASK(bits,mask)  ((bits) &= ~(mask))
-#define SETFLAGMASK(bits,mask)  ((bits) |= (mask))
 
 #include "pylang.h"
 
