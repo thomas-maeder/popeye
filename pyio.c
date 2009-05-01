@@ -2428,7 +2428,7 @@ static SliceType ParseStructuredStip_leaf_type(char type_char)
       break;
 
     case 's':
-      result = STLeafSelf;
+      result = STLeafForced;
       break;
 
     default:
@@ -2467,7 +2467,7 @@ static char *ParseStructuredStip_leaf(char *tok,  slice_index *result)
     switch (leaf_type)
     {
       case STLeafDirect:
-      case STLeafSelf:
+      case STLeafForced:
       case STLeafHelp:
         *result = leaf;
         break;
@@ -2500,8 +2500,8 @@ static char *ParseStructuredStip_branch_d(char *tok,
                                           slice_index *result)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",min_length);
-  TraceFunctionParam("%u\n",max_length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",max_length);
   TraceFunctionParam("%s\n",tok);
 
   if (min_length==0 || min_length==max_length)
@@ -2510,16 +2510,23 @@ static char *ParseStructuredStip_branch_d(char *tok,
     tok = ParseStructuredStip_operand(tok,&operand);
     if (tok!=0)
     {
+      slice_index next;
       slice_index defender;
 
       if (max_length%2==1)
+      {
         /* Temporary hack to get selfmates working */
+        next = alloc_leaf_slice(STLeafSelf,slices[operand].u.leaf.goal);
+        slices[next].u.leafself.next = operand;
         --max_length;
+      }
+      else
+        next = operand;
 
       min_length += slack_length_direct;
       max_length += slack_length_direct;
-      defender = alloc_branch_d_defender_slice(max_length,min_length,operand);
-      *result = alloc_branch_d_slice(max_length,min_length,operand);
+      defender = alloc_branch_d_defender_slice(max_length,min_length,next);
+      *result = alloc_branch_d_slice(max_length,min_length,next);
       branch_d_set_peer(*result,defender);
       branch_d_defender_set_peer(defender,*result);
     }
@@ -2546,8 +2553,8 @@ static char *ParseStructuredStip_branch_h(char *tok,
                                           slice_index *result)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",min_length);
-  TraceFunctionParam("%u\n",max_length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",max_length);
   TraceFunctionParam("%s\n",tok);
 
   if (min_length==0 || min_length==max_length)
@@ -2584,8 +2591,8 @@ static char *ParseStructuredStip_branch_ser(char *tok,
                                             slice_index *result)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",min_length);
-  TraceFunctionParam("%u\n",max_length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",max_length);
   TraceFunctionParam("%s\n",tok);
 
   if (min_length==0 || min_length==max_length)

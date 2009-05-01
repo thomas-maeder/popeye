@@ -28,7 +28,7 @@ Direktes Blatt mit Ziel matt (d.h. forderung #1)
 Loesung beendet. 
 
 
-Selbstblatt mit Ziel matt (d.h. forderung s#1)
+Selbstblatt mit Ziel matt (d.h. forderung s#1 option nachschluessel)
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -37,9 +37,9 @@ Selbstblatt mit Ziel matt (d.h. forderung s#1)
 |                                   |
 7   L   .  -K   B  -B  -B   .  -B   7
 |                                   |
-6  -B   .  -S  -L   .   .  -B   .   6
+6  -B   B  -S  -L   .   .  -B   .   6
 |                                   |
-5   .  -B   B  -B   .   .   .   .   5
+5   .   .   .  -B   .   .   .   .   5
 |                                   |
 4   .  -T  -B   .   .   .   .   .   4
 |                                   |
@@ -50,10 +50,9 @@ Selbstblatt mit Ziel matt (d.h. forderung s#1)
 1   .   .  -D  -L   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss s#                  13 + 15
+  weiss s#                  13 + 14
 
-  1.c5*b6 ep. + ! 
-      1...Tb4*b6 # 
+  1.Tb4*b6 # 
 
 Loesung beendet. 
 
