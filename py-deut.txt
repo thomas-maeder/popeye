@@ -563,112 +563,194 @@ Kommandos:
 	SEMI wirkt natuerlich nur im Zusammenhang mit Reflexforderungen.
 
  - SForderung: Die Forderung kann auch in "strukturierter" Form
-       angegeben werden. In dieser Form lassen sich alle Forderungen angeben,
-       welche sich auch in traditioneller Form mit dem Befehl "Forderung"
-       angeben lassen, aber darueberhinaus viele mehr.
+	angegeben werden. In dieser Form lassen sich alle Forderungen angeben,
+	welche sich auch in traditioneller Form mit dem Befehl "Forderung"
+	angeben lassen, aber darueberhinaus viele mehr.
 
-       Syntax:
+	Eine mit SForderung angegebene Forderung ist wie ein Baum aufgebaut:
+	das Spiel beginnt an der Wurzel, geht über Aeste, welche sich gabeln
+	koennen und endet in einem oder mehreren Blaettern.
 
-         SForderung           = SeiteAmZug Ausdruck
+	Nach dem Schluesselwort SForderung wird zuerst die Seite angegeben,
+	welche an der Wurzel am Zug ist; anschliessend folgt der Baum in der
+	im folgenden erklaerten Sprache.
 
-         SeiteAmZug           = 'Weiss' | 'Schwarz'
+	Beispiel (entspricht Forderung #2):  SForderung weiss 2d d#
 
-         Ausdruck             =   Operand
-                                | Operand Operator Operand
-
-         Operand              =   geklammerterAusdruck
-                                | negierterAusdruck
-                                | anzugwechselAusdruck
-                                | Zweig Operand
-                                | Blatt
-
-         Operator             = '&' | '|'
-
-         geklammerterAusdruck = '(' Ausdruck ')'
-
-         negierterAusdruck    = '!' Operand
-
-         anzugwechselAusdruck = '-' Operand
-
-         Zweig                =   maxLaenge ZweigTyp
-                                | minLaenge ',' maxLaenge zweigTyp
-
-         Blatt                = BlattTyp Ziel
-
-         ZweigTyp             = 'd' | 'h' | 'ser'
-
-         BlattTyp             = 'd' | 'h' | 's'
-
-         Ziel                 = '#' | '=' usw. (siehe Forderung)
-
-         minLaenge, maxLaenge = Anzahl Halbzuege (positive Zahl)
+	Weitere kommentierte Beispiele in BEISPIEL/sford.inp
 
 
-       Semantik:
+	Blaetter
+	--------
 
-         SeiteAmZug: Seite, welche gemaess der Forderung den ersten Zug
-                     ausfuehrt
+	Jedes Blatt repraesentiert einen Halbzug. Es wird angegeben
+	durch einen Buchstaben ('d', 'h' oder 's'), welches seinen Typ
+	festlegt, gefolgt vom Ziel; das Ziel wird gleich angegeben wie
+	im Befehl Forderung (siehe oben). Zwischen dem Typ und dem
+	Ziel sind keine Leerschlaege erlaubt.
 
-         Ausdruck: einfache oder zusammengesetzte (Teil)Forderung
+	direktes Blatt:
+	   Notationsbeispiel: d=
+	   Hauptzweck:        Abschluss eines direkten oder Serien-Asts
+	   Alternativzwecke:  (negiert) Angabe der Forderung, welche nicht
+	                      erfuellt sein darf, in Reflexforderungen
+	   Bedeutung:         Eine Loesung eines direkten Blatts ist ein Zug
+	                      der Seite am Zug, welcher das Ziel erreicht.
+	   Ausgabe:           alle Loesungszuege
 
-         Operand: Teil eines Ausdrucks
+	Hilfs-Blatt:
+	   Notationsbeispiel: h#
+	   Hauptzweck:        Abschluss eines Hilfs- oder Serien-Asts
+	   Bedeutung:         Eine Loesung eines Hilfsblatts ist ein Zug
+	                      der Seite am Zug, welcher das Ziel erreicht.
+	   Ausgabe:           alle Loesungszuege
 
-         Operator: kombiniert zwei Operanden.
-                   '&': boolesches UND:  Ausdruck hat eine Loesung, wenn
-                                         beide Operanden eine Loesung haben
-                   '|': boolesches ODER: Ausdruck hat eine Loesung, wenn
-                                         mindestens einer der Operatoren eine
-                                         Loesung hat
+	Selbst-Blatt:
+	   Notationsbeispiel: s==
+	   Hauptzweck:        Abschluss eines direkten oder Serien-Asts
+	   Bedeutung:         Ein Selbstblatt hat nur dann eine Loesung, wenn
+	                      die Seite am Zug mindestens einen
+	                      legalen Zug hat und alle ihre Zuege das
+	                      Ziel erreichen.
+	   Ausgabe:           alle Zuege der Seite am Zug, welche das Ziel
+	                      erreichen.
 
-         negierterAusdruck: hat eine Loesung, wenn der Operand keine hat
 
-         anzugwechselAusdruck: im Operand beginnt die andere Seite als durch
-                               SeiteAmZug oder den umgebenden Ausdruck
-                               eigentlich vorgegeben
+	Aeste
+	-----
 
-         Zweig: Folge von Halbzuegen, gefolgt vom Operanden
-                'd': Direktes Spiel; beide Seiten spielen abwechselnd
-                     gegeneinander.
-                     Wenn maxLaenge eine durch 2 teilbare Zahl ist, wird der
-                     letzte Zug des Zweigs durch den Verteidiger gespielt (wie
-                     z.B. bei einer direkten Mattforderung). Wenn maxLaenge
-                     eine nicht durch 2 teilbare Zahl ist, wird der letzte
-                     Zug des Zweigs durch den Angreifer gespielt (wie z.B. in
-                     einer Selbstmattforderung).
-                     Wenn minLaenge angegeben wird, dann gegenwaertig nur
-                     mit dem gleichen Wert wie maxLaenge (fuer eine
-                     exact-Forderung).
-                'h': Hilfsspiel: beide Seiten spielen abwechselnd kooperativ;
-                     im Operand beginnt bei durch 2 teilbarer Laenge die
-                     andere, sonst die gleiche Seite wie im Hilfszweig.
-                     Wenn minLaenge angegeben wird, dann gegenwaertig nur
-                     mit dem gleichen Wert wie maxLaenge (fuer eine
-                     exact-Forderung).
-                'ser': Serie: eine Seite spielt alle Halbzuege; im Operand
-                     beginnt die andere Seite
-                     Wenn minLaenge angegeben wird, dann gegenwaertig nur
-                     mit dem gleichen Wert wie maxLaenge (fuer eine
-                     exact-Forderung).
+	Jeder Ast repraesentiert eine Folge von Halbzuegen, welche
+	einer bestimmten Spielweise (direktes Spiel, Hilfsspiel, Serie)
+	unterliegen. Er wird angegeben durch die Anzahl Halbzuege
+	gefolgt von der Angabe der Spielweise; innerhalb der Angabe eines Asts
+	sind keine Leerschlaege erlaubt.
 
-         Blatt: letzter Halbzug
-                'd': direkter Halbzug: ein Halbzug loest, wenn, wenn er das
-                                       Ziel erreicht
-                'h': Hilfshalbzug: ein Halbzug loest, wenn, wenn er das Ziel
-                                   erreicht
-                's': Selbstzug: das vorherige Spiel loest, wenn es mindestens
-                                einen legalen Halbzug gibt und jeder legale
-                                Halbzug das Ziel erreicht.
+	Die Anzahl Halbzuege wird in der Regel als positive Zahl angegeben.
 
-                (Der Unterschied zwischen direktem und Hilfshalbzug ist, dass
-                 sie zu unterschiedlicher Ausgabe der Loesung fuehren koennen.)
+	Alternativ koennen (durch Komma getrennt) die minimal und
+	maximal erlaubte Anzahl Halbzuege angegeben werden (Beispiel
+	siehe Hilfsast). Gegenwaertig muss die minimale Anzahl mit der
+	maximalen Anzahl uebereinstimmen, wenn sie angegeben wird - es
+	resultiert eine exakte Forderung.
 
-       Beispiele: siehe BEISPIEL/sford.inp
+	direkter Ast:
+	   Notationsbeispiel: 4d (hoechstens je 2 Halbzug von
+	                      Angreifer und Verteidiger)
+	   Zweck:             direkte und Selbst-Forderungen
+	   Bedeutung:         Die Seite am Zug (Angreifer) und ihre Gegenseite
+	                      (Verteidiger) spielen abwechslungsweise
+                              gegeneinander.
+	                      Eine Loesung eines direkten Asts ist ein Zug des
+	                      Angreifers, welcher es ihm erlaubt, gegen
+                              jegliche Gegenwehr des Verteidigers in der
+                              angegebenen Zugzahl jeweils eine Stellung zu
+                              erreichen, in welcher die Anschlussforderung
+                              loesbar ist.
+	   Anzug im Anschluss:In der Anschlussforderung ist der
+	                      Angreifer genau dann am Zug, wenn die
+	                      Anzahl Halbzuege durch 2 teilbar ist.
+	   Ausgabe:           Schluessel, Drohung (bzw. Zugzwang) und alle
+	                      Varianten der Loesung, welche sich von der
+	                      Drohung unterscheiden.
+	   Bemerkung:         Wenn die Anschlussforderung ein direktes Blatt
+	                      ist, muss eine durch 2 teilbare Anzahl Halbzuege
+	                      angegeben werden; wenn die Anschlussforderung
+	                      ein Selbstblatt ist, eine nicht durch 2 teilbare
+	                      (da in diesem Fall der Angreifer den letzten Zug
+	                      des Asts ausfuehrt).
+
+	Hilfs-Ast:
+	   Notationsbeispiel: 3,3h (exakt 2 Halbzuge durch die Seite am Zug,
+	                      dazwischen 1 Halbzug durch die andere Seite)
+	   Zweck:             - Hilfs-Forderungen
+	                      - vorletzter Halbzug in Reflexforderungen
+	   Bedeutung:         Die Seite am Zug und die andere Seite spielen
+	                      abwechslungsweise miteinander.
+                              Eine Loesung eines Hilfsasts ist eine Zugfolge,
+                              die eine Stellung erreicht, in welcher die
+                              Anschlussforderung eine Loesung hat.
+	   Anzug im Anschluss:In der Anschlussforderung ist die
+	                      gleiche Seite wie im Hilfs-Ast genau dann
+	                      am Zug, wenn die Anzahl Halbzuege durch
+	                      2 teilbar ist.
+	   Ausgabe:           alle Loesungen
+
+	Serien-Ast:
+	   Notationsbeispiel: 5ser (hoechstens 5 Halbzuege der Seite am Zug)
+	   Zweck:             Serienzug-Forderungen
+	   Bedeutung:         Eine Loesung ist eine Serie von Halbzuegen der
+	                      Seite am Zug, welche eine Stellung erreicht, in
+	                      der die Anschlussforderung am Zug ist.
+	   Anzug im Anschluss:In der Anschlussforderung ist die Seite am Zug,
+	                      welche im Serien-Ast nicht am Zug ist.
+	   Ausgabe:           alle Loesungen
+
+
+	Verbindungen
+	------------
+
+	Verbindungen kombinieren zwei oder modifizieren eine
+	Teilforderung. Sie werden durch Symbole angegeben; zwischen den
+	Symbolen und den Teilforderungen sind Leerschlaege erlaubt.
+
+	Sequenz:
+	   Notationsbeispiele:2dd#  (entspricht Forderung #2)
+	                      3h h# (entspricht Forderung h#2)
+	   Zweck:             Angabe der Anschlussforderung
+	   Bedeutung:         Die zweite angegebene Teilforderung ist die
+	                      Anschlussforderung der ersten.
+
+	Negation:
+	   Notationsbeispiel: !d==  ("kein Doppelpatt in 0.5")
+	   Zweck:             Negation der Anschlussforderung
+	   Bedeutung:         Die Negation einer Teilforderung ist loesbar,
+	                      wenn die Teilforderung nicht loesbar ist.
+	   Ausgabe:           Keine
+	   Bemerkung:         Typische Verwendung bei Reflexforderungen (der
+	                      Angreifer darf die Anschlussforderung nicht
+	                      selbst loesen koennen).
+
+	Boolesches UND:
+	   Notationsbeispiel: 1h h# & d# (Schluss eines reci-h#)
+	   Zweck:             Verbindung von Teilforderungen, die beide
+	                      loesbar sein muessen.
+	   Ausgabe:           Loesungen der Teilforderungen
+	   Bemerkungen:       Typische Verwendungen:
+	                      - reziprokes Hilfsmatt (siehe Notationsbeispiel)
+	                      - Reflexforderungen (Angreifer muss die
+	                        eine Anschlussforderung loesen UND darf
+	                        die andere nicht loesen koennen)
+	                      Bezueglich Loesungszeit ist es effizienter, wenn
+	                      die komplexere Teilforderung vor und die
+	                      einfachere nach dem & angegeben wird.
+
+	Boolesches ODER:
+	   Notationsbeispiel: 2d d# | 3d s= (#2 ODER s=2)
+	   Zweck:             Verbindung von Teilforderungen, von denen
+	                      mindestens eine loesbar sein muss.
+	   Ausgabe:           Loesungen der Teilforderungen
+	   Bemerkung:         Typische Verwendung:
+	                      - Quodlibet
+
+	Klammerung:
+	   Notationsbeispiel: 2d ( 1h h# & !d# ) (entspricht Forderung r#2)
+	   Zweck:             Gruppierung von Teilforderungen zur Festlegung
+	                      der Reihenfolge der Auswertung
+	   Ausgabe:           wie Teilforderung
+	   Bemerkung:         Ohne Klammerung werden Verbindungen von links
+	                      nach rechts ausgewertet.
+
+	Wechsel des Anzugs:
+	   Notationsbeispiel: 5ser -d#  (entspricht Forderung ser-#6)
+	   Zweck:             Aenderung des Anzugs in einer Teilforderung
+	   Ausgabe:           wie Teilforderung
 
 
  - Forsyth: Mit diesem Kommando kann die Stellung in Forsyth Notation
-            angegeben werden.
+	    angegeben werden.
 
-Soweit sind alle Kommandos sehr einfach. Etwas aufwendiger ist das Kommando
+Soweit sind alle Kommandos (ausser SForderung) sehr einfach. Etwas
+aufwendiger ist das Kommando
 
  - Steine: Dieses Kommando spezifiziert alle Steine die zum Problem gehoeren.
 	Nach dem Schluesselwort muss die Farbe des oder der folgenden
