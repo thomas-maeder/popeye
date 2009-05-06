@@ -440,7 +440,7 @@ static void init_slice_properties_recursive(slice_index si,
         slice_index const peer = slices[si].u.branch_d_defender.peer;
         slice_index const next = slices[si].u.branch_d_defender.next;
         init_slice_properties_recursive(peer,nr_bits_left);
-        /* check for is_initialised above prefents infinite recursion
+        /* check for is_initialised above prevents infinite recursion
          */
         init_slice_properties_recursive(next,nr_bits_left);
         break;
@@ -859,12 +859,6 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
       result = own_value_of_data_direct(he,si,slices[si].u.branch_d.length);
       break;
 
-    case STBranchDirectDefender:
-      result = own_value_of_data_direct(he,
-                                        si,
-                                        slices[si].u.branch_d_defender.length);
-      break;
-
     case STBranchHelp:
       result = own_value_of_data_help(he,si);
       break;
@@ -971,8 +965,10 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       {
         hash_value_type const own_value = own_value_of_data_composite(he,si);
         slice_index const peer = slices[si].u.branch_d.peer;
-        hash_value_type const peer_value = own_value_of_data_composite(he,peer);
-        result = (own_value << offset) + peer_value;
+        hash_value_type const nested_value = value_of_data_recursive(he,
+                                                                     offset,
+                                                                     peer);
+        result = (own_value << offset) + nested_value;
         break;
       }
 
@@ -2130,7 +2126,10 @@ void    closehash(void)
   /* TODO create hash slice(s) that are only active if we can
    * allocated the hash table. */
   if (pyhash!=0)
+  {
     dhtDestroy(pyhash);
+    pyhash = 0;
+  }
 
 #if defined(TESTHASH) && defined(FXF)
   fxfInfo(stdout);
