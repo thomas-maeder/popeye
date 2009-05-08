@@ -237,7 +237,7 @@ static defender_has_refutation_type has_defender_refutation(slice_index si,
  * particular move is non-trivial is determined by user input.
  * @return number of defender's non-trivial moves minus 1 (TODO: why?)
  */
-static int count_non_trivial_defenses(slice_index si)
+static int count_all_non_trivial_defenses(slice_index si)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
@@ -253,7 +253,56 @@ static int count_non_trivial_defenses(slice_index si)
   TraceValue("%u",repere[nbply]);
   TraceValue("%u",max_nr_nontrivial);
   TraceValue("%d\n",result);
-  
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !echecc(nbply,defender))
+    {
+      if (min_length_nontrivial==0)
+        ++result;
+      else
+      {
+        (*encode)();
+        if (branch_d_defender_is_refuted(si,
+                                         2*min_length_nontrivial
+                                         +slack_length_direct))
+          ++result;
+      }
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",result);
+  return result;
+}
+
+/* Count non-trivial moves of the defending side. Whether a
+ * particular move is non-trivial is determined by user input.
+ * Stop counting when more than max_nr_nontrivial have been found
+ * @return number of defender's non-trivial moves minus 1 (TODO: why?)
+ */
+static int count_enough_non_trivial_defenses(slice_index si)
+{
+  Side const attacker = slices[si].u.branch_d_defender.starter;
+  Side const defender = advers(attacker);
+  int result = -1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  genmove(defender);
+
+  TraceValue("%u",nbcou);
+  TraceValue("%u",nbply);
+  TraceValue("%u",repere[nbply]);
+  TraceValue("%u",max_nr_nontrivial);
+  TraceValue("%d\n",result);
+
   while (encore() && max_nr_nontrivial>=result)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
@@ -297,7 +346,7 @@ static boolean too_many_non_trivial_defenses(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
-  non_trivial_count = count_non_trivial_defenses(si);
+  non_trivial_count = count_enough_non_trivial_defenses(si);
   if (max_nr_nontrivial<non_trivial_count)
     result = true;
   else
@@ -368,7 +417,7 @@ boolean branch_d_defender_does_defender_win(slice_index si, stip_length_type n)
   if (is_threat_too_long(si,n-1)
       || (OptFlag[solflights] && has_too_many_flights(defender)))
     result = true;
-  else if (n-1>2*min_length_nontrivial+slack_length_direct)
+  else if (n>2*min_length_nontrivial+slack_length_direct)
     result = too_many_non_trivial_defenses(si,n);
   else
     result = has_defender_refutation(si,n)!=defender_has_no_refutation;
@@ -551,7 +600,7 @@ static boolean is_defense_relevant(int len_threat,
     result = false;
   else
     result = true;
-
+  
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
   return result;
@@ -593,7 +642,7 @@ static boolean write_variation(slice_index si, stip_length_type n)
   }
   else
     min_len = n;
-  
+
   for (i = min_len; i<=n && is_refutation; i += 2)
   {
     branch_d_solve_continuations_in_n(continuations,peer,i-1);
@@ -736,7 +785,7 @@ boolean branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   len_threat = solve_threats(threats,si,n-1);
   if (n>2*min_length_nontrivial+slack_length_direct)
   {
-    int const non_trivial_count = count_non_trivial_defenses(si);
+    int const non_trivial_count = count_all_non_trivial_defenses(si);
     max_nr_nontrivial -= non_trivial_count;
     result = solve_variations_in_n(len_threat,threats,si,n);
     max_nr_nontrivial += non_trivial_count;
@@ -886,7 +935,7 @@ void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
 
     if (n>2*min_length_nontrivial+slack_length_direct)
     {
-      int const non_trivial_count = count_non_trivial_defenses(si);
+      int const non_trivial_count = count_enough_non_trivial_defenses(si);
       max_nr_nontrivial -= non_trivial_count;
       root_solve_variations_in_n(len_threat,threats,refutations,si,n);
       max_nr_nontrivial += non_trivial_count;
@@ -996,7 +1045,7 @@ static unsigned int root_collect_non_trivial(table non_trivial,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
-  non_trivial_count = count_non_trivial_defenses(si);
+  non_trivial_count = count_enough_non_trivial_defenses(si);
   if (max_nr_nontrivial<non_trivial_count)
     result = max_nr_refutations+1;
   else
@@ -1032,14 +1081,17 @@ unsigned int branch_d_defender_find_refutations(table refutations,
   stip_length_type const n = slices[si].u.branch_d_defender.length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+
+  TraceValue("%u",n);
+  TraceValue("%u\n",min_length_nontrivial);
 
   if (is_threat_too_long(si,n-1))
     result = max_nr_refutations+1;
   else if (n-1>slack_length_direct+2
            && OptFlag[solflights] && has_too_many_flights(defender))
     result = max_nr_refutations+1;
-  else if (n-1>2*min_length_nontrivial+slack_length_direct)
+  else if (n>2*min_length_nontrivial+slack_length_direct)
     result = root_collect_non_trivial(refutations,si,n);
   else
     result = (root_collect_refutations(refutations,si,n)
