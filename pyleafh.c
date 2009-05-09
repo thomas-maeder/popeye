@@ -245,34 +245,12 @@ static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
   return found_solution;
 }
 
-/* Determine and write the solution of a leaf slice at root level
- * @param leaf identifies leaf slice
- * @return true iff >=1 solution was found
- */
-boolean leaf_h_root_solve(slice_index leaf)
-{
-  boolean const save_isIntelligentModeActive = isIntelligentModeActive;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
-
-  init_output(leaf);
-
-  isIntelligentModeActive = false;
-  result = leaf_h_solve(leaf);
-  isIntelligentModeActive = save_isIntelligentModeActive;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Determine and write the solution of a help leaf slice.
+/* Determine and write the solution of a help leaf slice without
+ * consulting nor updating the hash table
  * @param leaf slice index
  * @return true iff >=1 solution was found
  */
-boolean leaf_h_solve(slice_index leaf)
+static boolean leaf_h_solve_nohash(slice_index leaf)
 {
   boolean result;
 
@@ -292,6 +270,55 @@ boolean leaf_h_solve(slice_index leaf)
     default:
       result = leaf_h_solve_final_move(leaf);
       break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Determine and write the solution of a leaf slice at root level
+ * @param leaf identifies leaf slice
+ * @return true iff >=1 solution was found
+ */
+boolean leaf_h_root_solve(slice_index leaf)
+{
+  boolean const save_isIntelligentModeActive = isIntelligentModeActive;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
+
+  init_output(leaf);
+
+  isIntelligentModeActive = false;
+  result = leaf_h_solve_nohash(leaf);
+  isIntelligentModeActive = save_isIntelligentModeActive;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Determine and write the solution of a help leaf slice.
+ * @param leaf slice index
+ * @return true iff >=1 solution was found
+ */
+boolean leaf_h_solve(slice_index leaf)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",leaf);
+
+  if (inhash(leaf,HelpNoSuccOdd,1))
+    result = false;
+  else if (leaf_h_solve_nohash(leaf))
+    result = true;
+  else
+  {
+    result = false;
+    addtohash(leaf,HelpNoSuccOdd,1);
   }
 
   TraceFunctionExit(__func__);
