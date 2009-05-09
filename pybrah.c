@@ -533,7 +533,9 @@ boolean branch_h_root_solve(slice_index si)
   else
   {
     stip_length_type const full_length = slices[si].u.branch.length;
-    stip_length_type len = slices[si].u.branch.min_length;
+    stip_length_type len = (OptFlag[restart]
+                            ? full_length
+                            : slices[si].u.branch.min_length);
 
     TraceValue("%u",slices[si].u.branch.min_length);
     TraceValue("%u\n",slices[si].u.branch.length);
