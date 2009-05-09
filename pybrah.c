@@ -845,7 +845,7 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
     else
       WhMovesLeft--;
 
-    while (encore())
+    while (encore() && !result)
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && move_filter(si,n,side_at_move)
