@@ -203,7 +203,7 @@ static defender_has_refutation_type has_defender_refutation(slice_index si,
   assert(n%2==1);
 
   move_generation_mode =
-      n-1>slack_length_direct+2
+      n-1>slack_length_direct
       ? move_generation_mode_opti_per_side[defender]
       : move_generation_optimized_by_killer_move;
   genmove(defender);
