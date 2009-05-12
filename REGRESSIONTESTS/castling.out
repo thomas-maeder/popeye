@@ -1878,12 +1878,12 @@ Loesung beendet.
                           4.Td1-d8 # 
       1...Kf8-e8 
           2.Kc1-b2 Zugzwang.
-              2...Sb5-a3 
-                  3.Kb2*a3 Zugzwang.
-                      3...Ke8-f8 
-                          4.Td1-d8 # 
               2...Sb5-c3 
                   3.Kb2*c3 Zugzwang.
+                      3...Ke8-f8 
+                          4.Td1-d8 # 
+              2...Sb5-a3 
+                  3.Kb2*a3 Zugzwang.
                       3...Ke8-f8 
                           4.Td1-d8 # 
               2...Sb5-d4 
