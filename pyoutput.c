@@ -393,9 +393,6 @@ static void linesolution(void)
   ply current_ply;
 
   ply const start_ply = 2;
-      
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
 
 #if !defined(DATABASE)
   if (isIntelligentModeActive)
@@ -419,6 +416,9 @@ static void linesolution(void)
       BeepOnSolution(maxbeep);
   }
 #endif
+      
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
 
   slice = active_slice[start_ply];
   starting_side = slice_get_starter(root_slice);
