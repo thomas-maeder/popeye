@@ -811,12 +811,12 @@ boolean branch_d_defender_finish_solution_next(slice_index si)
 {
   boolean result = false;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
   if (slices[si].u.branch_d_defender.min_length<=slack_length_direct)
   {
     slice_index const next = slices[si].u.branch_d_defender.next;
-
-    TraceFunctionEntry(__func__);
-    TraceFunctionParam("%u\n",si);
 
     if (slice_has_starter_won(next))
     {
