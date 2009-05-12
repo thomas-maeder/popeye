@@ -130,10 +130,7 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
     {
       if (branch_d_defender_has_starter_apriori_lost(peer))
         /* nothing */;
-      else if ((slices[si].u.branch_d.length-n
-                >slices[si].u.branch_d.min_length
-                && branch_d_defender_has_starter_reached_goal(peer))
-               || !branch_d_defender_does_defender_win(peer,n-1))
+      else if (!branch_d_defender_does_defender_win(peer,n-1))
       {
         solution_found = true;
         coupfort();
@@ -265,15 +262,6 @@ void branch_d_solve_continuations_in_n(table continuations,
     {
       if (branch_d_defender_has_starter_apriori_lost(peer))
         ; /* nothing */
-      else if (slices[si].u.branch_d.length-n
-               >slices[si].u.branch_d.min_length
-               && branch_d_defender_has_starter_reached_goal(peer))
-      {
-        write_attack(attack_regular);
-        branch_d_defender_write_solution_next(peer);
-        append_to_top_table();
-        coupfort();
-      }
       else if (!branch_d_defender_does_defender_win(peer,n-1))
       {
         write_attack(attack_regular);
