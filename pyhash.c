@@ -1034,7 +1034,6 @@ static unsigned long totalRemoveCount = 0;
 static void compresshash (void)
 {
   dhtElement *he;
-  hash_value_type min_val;
   hash_value_type x;
   unsigned long RemoveCnt, ToDelete;
 #if defined(TESTHASH)
@@ -1045,109 +1044,113 @@ static void compresshash (void)
   ++compression_counter;
   
   he= dhtGetFirstElement(pyhash);
-  min_val = value_of_data(he);
-  while ((he = dhtGetNextElement(pyhash)))
+  if (he!=0)
   {
-    x = value_of_data(he);
-    if (x<min_val)
-      min_val = x;
-    he= dhtGetNextElement(pyhash);
-  }
-  RemoveCnt= 0;
-  ToDelete= dhtKeyCount(pyhash)/16 + 1;
-  if (ToDelete >= dhtKeyCount(pyhash))
-    ToDelete= dhtKeyCount(pyhash);
-  /* this is a pathological case: it may only occur, when we are so
-   * low on memory, that only one or no position can be stored.
-   */
+    hash_value_type min_val = value_of_data(he);
+    he = dhtGetNextElement(pyhash);
+    while (he)
+    {
+      x = value_of_data(he);
+      if (x<min_val)
+        min_val = x;
+      he= dhtGetNextElement(pyhash);
+    }
+    RemoveCnt= 0;
+    ToDelete= dhtKeyCount(pyhash)/16 + 1;
+    if (ToDelete >= dhtKeyCount(pyhash))
+      ToDelete= dhtKeyCount(pyhash);
+    /* this is a pathological case: it may only occur, when we are so
+     * low on memory, that only one or no position can be stored.
+     */
 
-  while ((val_step&min_val)==0)
-    val_step <<= 1;
+    while ((val_step&min_val)==0)
+      val_step <<= 1;
 
 #if defined(TESTHASH)
-  printf("\nmin_val: %08x\n", min_val);
-  printf("\nval_step: %08x\n", val_step);
-  printf("ToDelete: %ld\n", ToDelete);
-  fflush(stdout);
-  initCnt= dhtKeyCount(pyhash);
-  runCnt= 0;
-#endif  /* TESTHASH */
-
-  while (RemoveCnt < ToDelete)
-  {
-    min_val += val_step;
-
-#if defined(TESTHASH)
-    printf("min_val: %08x\n", min_val);
-    printf("RemoveCnt: %ld\n", RemoveCnt);
+    printf("\nmin_val: %08x\n", min_val);
+    printf("\nval_step: %08x\n", val_step);
+    printf("ToDelete: %ld\n", ToDelete);
     fflush(stdout);
-    visitCnt= 0;
+    initCnt= dhtKeyCount(pyhash);
+    runCnt= 0;
 #endif  /* TESTHASH */
 
-    for (he = dhtGetFirstElement(pyhash);
-         he!=0;
-         he= dhtGetNextElement(pyhash))
-      if (value_of_data(he)<=min_val)
-      {
-        RemoveCnt++;
-        totalRemoveCount++;
-        dhtRemoveElement(pyhash, he->Key);
+    while (RemoveCnt < ToDelete)
+    {
+      min_val += val_step;
+
 #if defined(TESTHASH)
-        if (RemoveCnt + dhtKeyCount(pyhash) != initCnt)
-        {
-          fprintf(stdout,
-                  "dhtRemove failed on %ld-th element of run %ld. "
-                  "This was the %ld-th call to dhtRemoveElement.\n"
-                  "RemoveCnt=%ld, dhtKeyCount=%ld, initCnt=%ld\n",
-                  visitCnt, runCnt, totalRemoveCount,
-                  RemoveCnt, dhtKeyCount(pyhash), initCnt);
-          exit(1);
-        }
+      printf("min_val: %08x\n", min_val);
+      printf("RemoveCnt: %ld\n", RemoveCnt);
+      fflush(stdout);
+      visitCnt= 0;
 #endif  /* TESTHASH */
-      }
+
+      for (he = dhtGetFirstElement(pyhash);
+           he!=0;
+           he= dhtGetNextElement(pyhash))
+        if (value_of_data(he)<=min_val)
+        {
+          RemoveCnt++;
+          totalRemoveCount++;
+          dhtRemoveElement(pyhash, he->Key);
+#if defined(TESTHASH)
+          if (RemoveCnt + dhtKeyCount(pyhash) != initCnt)
+          {
+            fprintf(stdout,
+                    "dhtRemove failed on %ld-th element of run %ld. "
+                    "This was the %ld-th call to dhtRemoveElement.\n"
+                    "RemoveCnt=%ld, dhtKeyCount=%ld, initCnt=%ld\n",
+                    visitCnt, runCnt, totalRemoveCount,
+                    RemoveCnt, dhtKeyCount(pyhash), initCnt);
+            exit(1);
+          }
+#endif  /* TESTHASH */
+        }
 #if defined(TESTHASH)
       visitCnt++;
 #endif  /* TESTHASH */
 #if defined(TESTHASH)
-    runCnt++;
-    printf("run=%ld, RemoveCnt: %ld, missed: %ld\n",
-           runCnt, RemoveCnt, initCnt-visitCnt);
-    {
-      int l, counter[16];
-      int KeyCount=dhtKeyCount(pyhash);
-      dhtBucketStat(pyhash, counter, 16);
-      for (l=0; l< 16-1; l++)
-        fprintf(stdout, "%d %d %d\n", KeyCount, l+1, counter[l]);
-      printf("%d %d %d\n\n", KeyCount, l+1, counter[l]);
-      if (runCnt > 9)
-        printf("runCnt > 9 after %ld-th call to  dhtRemoveElement\n",
-               totalRemoveCount);
-      dhtDebug= runCnt == 9;
-    }
-    fflush(stdout);
+      runCnt++;
+      printf("run=%ld, RemoveCnt: %ld, missed: %ld\n",
+             runCnt, RemoveCnt, initCnt-visitCnt);
+      {
+        int l, counter[16];
+        int KeyCount=dhtKeyCount(pyhash);
+        dhtBucketStat(pyhash, counter, 16);
+        for (l=0; l< 16-1; l++)
+          fprintf(stdout, "%d %d %d\n", KeyCount, l+1, counter[l]);
+        printf("%d %d %d\n\n", KeyCount, l+1, counter[l]);
+        if (runCnt > 9)
+          printf("runCnt > 9 after %ld-th call to  dhtRemoveElement\n",
+                 totalRemoveCount);
+        dhtDebug= runCnt == 9;
+      }
+      fflush(stdout);
 #endif  /* TESTHASH */
 
-  }
+    }
 #if defined(TESTHASH)
-  printf("%ld;", dhtKeyCount(pyhash));
+    printf("%ld;", dhtKeyCount(pyhash));
 #if defined(HASHRATE)
-  printf(" usage: %ld", use_pos);
-  printf(" / %ld", use_all);
-  printf(" = %ld%%", (100 * use_pos) / use_all);
+    printf(" usage: %ld", use_pos);
+    printf(" / %ld", use_all);
+    printf(" = %ld%%", (100 * use_pos) / use_all);
 #endif
 #if defined(FREEMAP) && defined(FXF)
-  PrintFreeMap(stdout);
+    PrintFreeMap(stdout);
 #endif /*FREEMAP*/
 #if defined(__TURBOC__)
-  gotoxy(1, wherey());
+    gotoxy(1, wherey());
 #else
-  printf("\n");
+    printf("\n");
 #endif /*__TURBOC__*/
 #if defined(FXF)
-  printf("\n after compression:\n");
-  fxfInfo(stdout);
+    printf("\n after compression:\n");
+    fxfInfo(stdout);
 #endif /*FXF*/
 #endif /*TESTHASH*/
+  }
 } /* compresshash */
 
 #if defined(HASHRATE)
@@ -1871,6 +1874,44 @@ static void init_elements(dhtElement *he)
   init_element(he,root_slice,element_initialised);
 }
 
+/* (attempt to) allocate a hash table element - compress the current
+ * hash table if necessary; exit()s if allocation is not possible
+ * in spite of compression
+ * @param hb has value (basis for calculation of key)
+ * @return address of element
+ */
+static dhtElement *allocDHTelement(dhtValue hb)
+{
+  dhtElement *result= dhtEnterElement(pyhash, (dhtValue)hb, 0);
+  unsigned long nrKeys = dhtKeyCount(pyhash);
+  while (result==dhtNilElement)
+  {
+    compresshash();
+    if (dhtKeyCount(pyhash)==nrKeys)
+    {
+      /* final attempt */
+      inithash();
+      result = dhtEnterElement(pyhash, (dhtValue)hb, 0);
+      break;
+    }
+    else
+    {
+      nrKeys = dhtKeyCount(pyhash);
+      result = dhtEnterElement(pyhash, (dhtValue)hb, 0);
+    }
+  }
+
+  if (result==dhtNilElement)
+  {
+    fprintf(stderr,
+            "Sorry, cannot enter more hashelements "
+            "despite compression\n");
+    exit(-2);
+  }
+
+  return result;
+}
+
 void addtohash(slice_index si, hashwhat what, hash_value_type val)
 {
   TraceFunctionEntry(__func__);
@@ -1890,37 +1931,9 @@ void addtohash(slice_index si, hashwhat what, hash_value_type val)
     assert(isHashBufferValid[nbply]);
 
     if (he == dhtNilElement)
-    { /* the position is new */
-      he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
-      if (he==dhtNilElement
-          || dhtKeyCount(pyhash)>MaxPositions)
-      {
-        compresshash();
-        he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
-        if (he==dhtNilElement
-            || dhtKeyCount(pyhash) > MaxPositions)
-        {
-#if defined(FXF)
-          ifTESTHASH(
-              printf("make new hashtable, due to trashing\n"));
-          inithash();
-          he= dhtEnterElement(pyhash, (dhtValue)hb, 0);
-          if (he==dhtNilElement
-              || dhtKeyCount(pyhash) > MaxPositions) {
-            fprintf(stderr,
-                    "Sorry, cannot enter more hashelements "
-                    "despite compression\n");
-            exit(-2);
-          }
-#else
-          fprintf(stderr,
-                  "Sorry, cannot enter more hashelements "
-                  "despite compression\n");
-          exit(-2);
-#endif /*FXF*/
-        }
-      }
-
+    {
+      /* the position is new */
+      he = allocDHTelement((dhtValue)hb);
       he->Data = template_element.Data;
 
       switch (what)
@@ -2028,7 +2041,9 @@ void inithash(void)
   dhtRegisterValue(dhtSimpleValue, 0, &dhtSimpleProcs);
   pyhash= dhtCreate(dhtBCMemValue, dhtCopy, dhtSimpleValue, dhtNoCopy);
   if (pyhash==0)
+  {
     TraceValue("%s\n",dhtErrorMsg());
+  }
 
   ifHASHRATE(use_pos = use_all = 0);
 
