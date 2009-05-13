@@ -913,7 +913,8 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       }
 
       case STLeafForced:
-        return 0;
+        result = 0;
+        break;
 
       case STQuodlibet:
       {
