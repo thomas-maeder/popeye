@@ -24,10 +24,13 @@
 
 #include "py.h"
 
-/* Deactivate trace output until program termination.
- * Useful while debugging to suppress trace output from the command line.
- */
-void TraceDeactivate();
+typedef unsigned long trace_level;
+
+/* Set the maximal level of trace messages to be produced.
+* @param max_level maximal level of trace messages to be produced;
+*                  pass 0 to suppress all trace messages
+*/
+void TraceSetMaxLevel(trace_level max_level);
 
 /* Trace function entry
  * e.g. > #17 func
@@ -86,11 +89,15 @@ boolean TraceCurrentMove(ply curent_ply);
  */
 void TracePosition(echiquier e, Flags flags[maxsquare+4]);
 
+/* Trace the content of the hashbuffer of ply nbply
+ */
+void TraceCurrentHashBuffer(void);
+
 /* Trace a function result.
  * Works best in SESE style functions.
  */
 #define TraceFunctionResult(format,name) \
-  TraceValueImpl(" <- " #name ":" format, (size_t)name)
+  TraceFunctionResultImpl(" <- " #name ":" format, (size_t)name)
 
 /* Trace a function result of pointer type
  * Works best in SESE style functions.
@@ -99,6 +106,7 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4]);
   TracePointerValueImpl(" <- " #name ":" format, (void*)name)
 
 void TraceValueImpl(char const *format, size_t value);
+void TraceFunctionResultImpl(char const *format, size_t value);
 void TracePointerValueImpl(char const *format, void const *value);
 
 #else
@@ -116,6 +124,7 @@ void TracePointerValueImpl(char const *format, void const *value);
 #define TraceFunctionExit(name)
 #define TraceFunctionResult(format,name)
 #define TracePointerFunctionResult(format,name)
+#define TraceCurrentHashBuffer()
 
 #endif
 

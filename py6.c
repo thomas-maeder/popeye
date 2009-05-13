@@ -1869,10 +1869,9 @@ extern boolean two_same_pieces;
  */
 boolean has_too_many_flights(Side defender)
 {
+  boolean result = false;
   square save_rbn = defender==Black ? rn : rb;
-  if (save_rbn==initsquare)
-    return false;
-  else
+  if (save_rbn!=initsquare)
   {
     int nrflleft = max_nr_flights+1;
     genmove(defender);
@@ -1888,8 +1887,10 @@ boolean has_too_many_flights(Side defender)
     }
     finply();
 
-    return nrflleft==0;
+    result =  nrflleft==0;
   }
+
+  return result;
 }
 
 static void swapcolors(void)
@@ -2218,9 +2219,20 @@ static int parseCommandlineOptions(int argc, char *argv[])
       idx++;
       continue;
     }
-    else if (strcmp(argv[idx], "-notrace")==0)
+    else if (strcmp(argv[idx], "-maxtrace")==0)
     {
-      TraceDeactivate();
+      trace_level max_trace_level;
+      char *end;
+
+      idx++;
+      max_trace_level = strtoul(argv[idx], &end, 10);
+      if (*end==0)
+        TraceSetMaxLevel(max_trace_level);
+      else
+      {
+        /* conversion failure  - ignore option */
+      }
+
       idx++;
       continue;
     }
@@ -2536,7 +2548,6 @@ static void iterate_problems(void)
 
     if (LaTeXout)
       LaTeXEndDiagram();
-
   } while (prev_token==NextProblem);
 }
 
@@ -2605,7 +2616,7 @@ int main(int argc, char *argv[])
 
   if (LaTeXout)
     LaTeXClose();
-
+  
   return 0;
 }
 
