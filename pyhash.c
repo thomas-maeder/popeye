@@ -126,7 +126,7 @@ void validateHashBuffer(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  TraceValue("%u\n",nbply);
+  TraceCurrentHashBuffer();
 
   isHashBufferValid[nbply] = true;
 
@@ -246,7 +246,7 @@ static unsigned int bit_width(unsigned int value)
   return result;
 }
 
-/* Initialize the slice_properties array according to a subtree of the
+/* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a direct slice.
  * @param si root slice of subtree
  * @param length number of attacker's moves of help slice
@@ -282,7 +282,7 @@ static void init_slice_properties_direct(slice_index si,
   TraceText("\n");
 }
 
-/* Initialize the slice_properties array according to a subtree of the
+/* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a help slice.
  * @param si root slice of subtree
  * @param length number of half moves of help slice
@@ -310,7 +310,7 @@ static void init_slice_properties_help(slice_index si,
   slice_properties[si].u.h.maskNoSuccEven = mask << *nr_bits_left;
 }
 
-/* Initialize the slice_properties array according to a subtree of the
+/* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a series slice.
  * @param si root slice of subtree
  * @param length number of half moves of series slice
@@ -336,7 +336,7 @@ static void init_slice_properties_series(slice_index si,
 static void init_slice_properties_recursive(slice_index si,
                                             unsigned int *nr_bits_left);
 
-/* Initialize the slice_properties array according to a subtree of the
+/* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices
  * @param si root slice of subtree
  * @param nr_bits_left number of bits left over by slices already init
@@ -502,7 +502,7 @@ static void init_slice_properties_recursive(slice_index si,
   TraceText("\n");
 }
 
-/* Initialize the slice_properties array according to the current
+/* Initialise the slice_properties array according to the current
  * stipulation slices.
  */
 static void init_slice_properties(void)
@@ -1688,8 +1688,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
       {
         hash_value_type const succ = get_value_direct_succ(he,si);
         if (succ<=val
-            && (succ+slices[si].u.branch_d.min_length
-                >=val+slices[si].u.branch_d.length))
+            && (succ+slices[si].u.branch_d.length
+                >=val+slices[si].u.branch_d.min_length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1708,7 +1708,7 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
   return result; /* avoid compiler warning */
 } /* inhash */
 
-/* Initialize the bits representing a direct slice in a hash table
+/* Initialise the bits representing a direct slice in a hash table
  * element's data field with null values
  * @param he address of hash table element
  * @param si slice index of series slice
@@ -1729,7 +1729,7 @@ static void init_element_direct(dhtElement *he,
   TraceText("\n");
 }
 
-/* Initialize the bits representing a help slice in a hash table
+/* Initialise the bits representing a help slice in a hash table
  * element's data field with null values
  * @param he address of hash table element
  * @param si slice index of series slice
@@ -1747,7 +1747,7 @@ static void init_element_help(dhtElement *he, slice_index si)
   TraceText("\n");
 }
 
-/* Initialize the bits representing a series slice in a hash table
+/* Initialise the bits representing a series slice in a hash table
  * element's data field with null values
  * @param he address of hash table element
  * @param si slice index of series slice
@@ -1764,19 +1764,23 @@ static void init_element_series(dhtElement *he, slice_index si)
   TraceText("\n");
 }
 
-static void init_element(dhtElement *he, slice_index si);
-
-/* Initialize the bits representing a composite slice (including its
+/* Initialise the bits representing a slice (including its possible
  * descendants) in a hash table element's data field with null values
  * @param he address of hash table element
  * @param si slice index of slice
- * @note this is an indirectly recursive function
+ * @param element_initialised remembers which slices have already been
+ *                            visited (to avoid infinite recursion)
+ * @note this is a recursive function
  */
-static void init_element(dhtElement *he, slice_index si)
+static void init_element(dhtElement *he,
+                         slice_index si,
+                         boolean element_initialised[max_nr_slices])
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",he);
   TraceFunctionParam("%u\n",si);
+
+  element_initialised[si] = true;
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -1795,53 +1799,51 @@ static void init_element(dhtElement *he, slice_index si)
       break;
 
     case STReciprocal:
-      init_element(he,slices[si].u.reciprocal.op1);
-      init_element(he,slices[si].u.reciprocal.op2);
+      init_element(he,slices[si].u.reciprocal.op1,element_initialised);
+      init_element(he,slices[si].u.reciprocal.op2,element_initialised);
       break;
 
     case STQuodlibet:
-      init_element(he,slices[si].u.quodlibet.op1);
-      init_element(he,slices[si].u.quodlibet.op2);
+      init_element(he,slices[si].u.quodlibet.op1,element_initialised);
+      init_element(he,slices[si].u.quodlibet.op2,element_initialised);
       break;
 
     case STNot:
-      init_element(he,slices[si].u.not.op);
+      init_element(he,slices[si].u.not.op,element_initialised);
       break;
 
     case STBranchDirect:
       if (base_slice[si]==no_slice)
       {
         init_element_direct(he,si,slices[si].u.branch_d.length);
-        /* prevent infinite recursion */
-        if (slices[si].u.branch_d.peer<si)
-          init_element(he,slices[si].u.branch_d.peer);
+        if (!element_initialised[slices[si].u.branch_d.peer])
+          init_element(he,slices[si].u.branch_d.peer,element_initialised);
       }
       break;
 
     case STBranchDirectDefender:
-      init_element(he,slices[si].u.branch_d_defender.next);
-      /* prevent infinite recursion */
-      if (slices[si].u.branch_d_defender.peer<si)
-        init_element(he,slices[si].u.branch_d_defender.peer);
+      init_element(he,slices[si].u.branch_d_defender.next,element_initialised);
+      if (!element_initialised[slices[si].u.branch_d_defender.peer])
+        init_element(he,slices[si].u.branch_d_defender.peer,element_initialised);
       break;
 
     case STBranchHelp:
       if (base_slice[si]==no_slice)
       {
         init_element_help(he,si);
-        init_element(he,slices[si].u.branch.next);
+        init_element(he,slices[si].u.branch.next,element_initialised);
       }
       break;
       
     case STBranchSeries:
       init_element_series(he,si);
-      init_element(he,slices[si].u.branch.next);
+      init_element(he,slices[si].u.branch.next,element_initialised);
       break;
 
     case STMoveInverter:
     {
       slice_index const next = slices[si].u.move_inverter.next;
-      init_element(he,next);
+      init_element(he,next,element_initialised);
       break;
     }
 
@@ -1856,6 +1858,16 @@ static void init_element(dhtElement *he, slice_index si)
 
   TraceFunctionExit(__func__);
   TraceText("\n");
+}
+
+/* Initialise the bits representing all slices in a hash table
+ * element's data field with null values 
+ * @param he address of hash table element
+ */
+static void init_elements(dhtElement *he)
+{
+  boolean element_initialised[max_nr_slices] = { false };
+  init_element(he,root_slice,element_initialised);
 }
 
 void addtohash(slice_index si, hashwhat what, hash_value_type val)
@@ -2009,7 +2021,7 @@ void inithash(void)
   compression_counter = 0;
 
   init_slice_properties();
-  init_element(&template_element,root_slice);
+  init_elements(&template_element);
 
   dhtRegisterValue(dhtBCMemValue, 0, &dhtBCMemoryProcs);
   dhtRegisterValue(dhtSimpleValue, 0, &dhtSimpleProcs);
