@@ -550,47 +550,41 @@ commands expect further parameters. Lets start with the simpler commands:
 	indicated in traditional form using the command "stipulation". In
 	addition, it allows many more stipulations to be indicated.
 
-	A stipulation indicated using sstipulation has a tree structure:
-	play starts at the root, continues through branches that may fork,
-	and ends in one or more leaves.
+	With sstipulation, the play is described as a tree structure. Play 
+	starts at the root, continues through branches that may fork,
+	and ends in one or more leaves. After the keyword sstipulation, 
+	indicate the root by specifying the side to move, then the branches
+	and the leaves in the language as specified below.
 
-	After the keyword sstipulation, first indicate the side which
-	is at the move at the root; then indicate the tree in the
-	language specified below.
 
-	Example (equivalent to stipulation #2):  sstipulation white 2d d#
+	Root
+	----
 
-	More commented (in German) examples in BEISPIEL/sford.inp
+	The side to move is indicated; either white or black.
 
 
 	Leaves
 	------
 
 	Each leaf represents 1 half move. It is indicated by a letter
-	('d', 'h' or 's') that identifies its type, followed by the
+	('d' or 's') that identifies its type, followed by the
 	goal; the goal is indicated as in the command stipulation (see
 	above). No spaces are allowed between type and goal.
 
 	direct leaf:
-	   Notation example:  d=
-	   Main purpose:      Termination of a direct or series branch
-	   Alternatives:      (negated) Indication of the stipulation
-	                      which must not be solvable in reflex
-	                      stipulations
+	   Notation example:  d=  [direct half-move for stalemate]
+	   Main purpose:      Termination of a help or direct stipulation
+	   Alternatives:      (negated using ! (see below)) Indication of
+	                      the stipulation which must not be solvable
+	                      in reflex stipulations
 	   Meaning:           A solution of a direct leaf is a move by the
 	                      side at the move that reaches the goal.
 	   Output:            all solutions
 
-	help leaf:
-	   Notation example:  h#
-	   Main purpose:      Termination of a help or series branch
-	   Meaning:           A solution of a help leaf is a move by the
-	                      side at the move that reaches the goal
-	   Output:            all solutions
-
 	self leaf:
-	   Notation example:  s==
-	   Main purpose:      Termination of a direct or series branch
+	   Notation example:  s==  [forced half-move for double stalemate]
+	   Main purpose:      Termination of a direct or series branch to
+	                      form a (series) self stipulation
 	   Meaning:           A self leaf has a a solution if the side at the
 	                      move has at least one legal move and if all of
 	                      its legal moves reach the goal
@@ -606,13 +600,14 @@ commands expect further parameters. Lets start with the simpler commands:
 	by the number of half moves followed by the type of play; inside the
 	indication of a branch, no spaces are allowed.
 
-	The maximal number of half moves is normally indicate as single
-	positive number.
+	The maximal number of half moves is normally indicate as
+	single positive number, e.g. 6d (6 half-moves of direct play
+	(i.e. 3 by each side)).
 
-	Alternatively, the minimal and maximal number of half moves can be
-	indicated, separated by a comma (example see help branch). Currently,
-	the two numbers have to be equal, if the minimal number is
-	indicated - the result is an exact stipulation.
+	Alternatively, the minimal and maximal number of half moves
+	can be indicated, separated by a comma (example
+	3,3h). Currently, if the minimal number is given, the two
+	numbers have to be equal - the result is an exact stipulation.
 
 	direct branch:
 	   Notation example:  4d [at most 2 half moves by attacker and
@@ -639,9 +634,9 @@ commands expect further parameters. Lets start with the simpler commands:
 	                      makes the last half move of the branch).
 
 	help branch:
-	   Notation example:  3,3h  [exactly 2 half moves by the side at the
-	                             move, with 1 half move by the other side
-	                             in between]
+	   Notation example:  3h  [2 half moves by the side at the
+				   move, with 1 half move by the other side
+				   in between]
 	   Purpose:           - help stipulations
 	                      - penultimate half move in reflex stipulations
 	   Meaning:           Both sides play alternately and collaborate. A
@@ -673,15 +668,15 @@ commands expect further parameters. Lets start with the simpler commands:
 	stipulation. They are indicated using symbols; between the
 	symbols and the partial stipulations, spaces are allowed.
 
-	Sequence:
+	Sequence:	      (no symbol; optional specases to separate)
 	   Notation examples: 2dd#  [equivalent to stipulation #2]
-	                      3h h# [equivalent to stipulation h#2]
+	                      3h d# [equivalent to stipulation h#2]
 	   Purpose:           Indication of the subsequent stipulation
 	   Meaning:           The second partial stipulation is the
 	                      subsequent stipulation of the first partial
 	                      stipulation.
 
-	Negation:
+	Negation:             (symbol !)
 	   Notation example:  !d==  ["no double-stalemate in 0.5"]
 	   Purpose:           Negation of the subsequent stipulation
 	   Meaning:           The negation of a stipulation is solvable if
@@ -691,8 +686,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	                      attacker must not have a solution for the
 	                      subsequent stipulation).
 
-	Boolean AND:
-	   Notation example:  1h h# & d#  [end of a reci-h#]
+	Boolean AND:          (symbol &)
+	   Notation example:  1h d# & d#  [end of a reci-h#]
 	   Purpose:           Connection of partial stipulations that both
 	                      have to be solvable.
 	   Output:            Solutions of the partial stipulations
@@ -705,26 +700,46 @@ commands expect further parameters. Lets start with the simpler commands:
 	                      complex partial stipulation before the & and
 	                      the simplerone after the &.
 
-	Boolean OR:
+	Boolean OR:           (symbol |)
 	   Notation example:  2d d# | 3d s=  [#2 OR s=2]
 	   Purpose:           Connection of two partial stipulations of which
 	                      at least 1 has to be solvable.
 	   Output:            Solutions of the partial stipulations
-	   Remark:            Typical usage:
-	                      - quodlibet
+	   Remark:            Typical usage: quodlibet
 
-	Parentheses:
-	   Notation example:  2d ( 1h h# & !d# )  [equiv. to stipulation r#2]
+	Parentheses:          (symbol ())
+	   Notation example:  2d ( 1h d# & !d# )  [equiv. to stipulation r#2]
 	   Purpose:           Grouping of partial stipulations for indicating
 	                      the order of evaluation
 	   Output:            same as for partial stipulation
 	   Remark:            Without parentheses, connections are evaluated
 	                      left to right.
 
-	Move inversion:
+	Move inversion:       (symbol -)
 	   Notation example:  5ser -d#  [equivalent to stipulation ser-#6]
 	   Purpose:           Change of the side at the move
 	   Output:            same as for partial stipulation
+
+
+	Examples:
+	---------
+	#3                    white 4d d#
+	s#2                   white 3d d#
+	r#2                   white 2d ( 1h d# & !d# )
+	semi-r#2              white 3d d#
+	h#2                   black 3h d#
+	h#2.5                 white 4h d#
+	hs#2                  white 3h s#
+	ser-#2                white 1ser -d#  
+	ser-h#2               black 2ser d#
+	ser-s#2               white 2ser s#
+	ser-r#2               white 1ser (1h d# & !d#)
+	reci-h#2              black 2h (1h d# & d#)
+	2->ser-h#2            black 2ser 2ser d#
+
+	b#2                   black 1h 2d d#
+
+	See commented (in German) examples in BEISPIEL/sford.inp
 
 
  - forsyth: With this command you can enter the position in forsyth notation.
