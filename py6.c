@@ -2219,6 +2219,7 @@ static int parseCommandlineOptions(int argc, char *argv[])
       idx++;
       continue;
     }
+#if defined(DOTRACE)
     else if (strcmp(argv[idx], "-maxtrace")==0)
     {
       trace_level max_trace_level;
@@ -2236,6 +2237,7 @@ static int parseCommandlineOptions(int argc, char *argv[])
       idx++;
       continue;
     }
+#endif
     else
       break;
   }
