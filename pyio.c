@@ -2446,7 +2446,9 @@ static SliceType ParseStructuredStip_leaf_type(char type_char)
  * @param result index of leaf; no_slice if branch couldn't be parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_leaf(char *tok,  slice_index *result)
+static char *ParseStructuredStip_leaf(char *tok,
+                                      slice_index *result,
+                                      boolean startLikeBranch)
 {
   SliceType leaf_type;
 
@@ -2467,8 +2469,12 @@ static char *ParseStructuredStip_leaf(char *tok,  slice_index *result)
     switch (leaf_type)
     {
       case STLeafDirect:
+        *result = leaf;
+        if (!startLikeBranch)
+          slices[leaf].type=STLeafHelp;
+        break;
+
       case STLeafForced:
-      case STLeafHelp:
         *result = leaf;
         break;
 
@@ -2484,7 +2490,9 @@ static char *ParseStructuredStip_leaf(char *tok,  slice_index *result)
   return tok;
 }
 
-static char *ParseStructuredStip_operand(char *tok,  slice_index *result);
+static char *ParseStructuredStip_operand(char *tok,
+                                         slice_index *result,
+                                         boolean startLikeBranch);
 
 /* Parse a direct branch
  * @param tok input token
@@ -2507,21 +2515,22 @@ static char *ParseStructuredStip_branch_d(char *tok,
   if (min_length==0 || min_length==max_length)
   {
     slice_index operand;
-    tok = ParseStructuredStip_operand(tok,&operand);
+    boolean const nextStartLikeBranch = max_length%2==0;
+    tok = ParseStructuredStip_operand(tok,&operand,nextStartLikeBranch);
     if (tok!=0)
     {
       slice_index next;
       slice_index defender;
 
-      if (max_length%2==1)
+      if (nextStartLikeBranch)
+        next = operand;
+      else
       {
         /* Temporary hack to get selfmates working */
         next = alloc_leaf_slice(STLeafSelf,slices[operand].u.leaf.goal);
         slices[next].u.leafself.next = operand;
         --max_length;
       }
-      else
-        next = operand;
 
       min_length += slack_length_direct;
       max_length += slack_length_direct;
@@ -2560,7 +2569,8 @@ static char *ParseStructuredStip_branch_h(char *tok,
   if (min_length==0 || min_length==max_length)
   {
     slice_index operand;
-    tok = ParseStructuredStip_operand(tok,&operand);
+    boolean const nextStartLikeBranch = max_length%2==0;
+    tok = ParseStructuredStip_operand(tok,&operand,nextStartLikeBranch);
     if (tok!=0)
     {
       if (min_length==0)
@@ -2598,7 +2608,8 @@ static char *ParseStructuredStip_branch_ser(char *tok,
   if (min_length==0 || min_length==max_length)
   {
     slice_index operand;
-    tok = ParseStructuredStip_operand(tok,&operand);
+    boolean const nextStartLikeBranch = false;
+    tok = ParseStructuredStip_operand(tok,&operand,nextStartLikeBranch);
     if (tok!=0)
     {
       min_length += slack_length_series;
@@ -2695,14 +2706,16 @@ static char *ParseStructuredStip_branch(char *tok, slice_index *result)
  *               parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_not(char *tok, slice_index *result)
+static char *ParseStructuredStip_not(char *tok,
+                                     slice_index *result,
+                                     boolean startLikeBranch)
 {
   slice_index operand;
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
   
-  tok = ParseStructuredStip_operand(tok+1,&operand);
+  tok = ParseStructuredStip_operand(tok+1,&operand,startLikeBranch);
   if (tok!=0 && operand!=no_slice)
     *result =  alloc_not_slice(operand);
 
@@ -2717,14 +2730,16 @@ static char *ParseStructuredStip_not(char *tok, slice_index *result)
  *               parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_move_inversion(char *tok, slice_index *result)
+static char *ParseStructuredStip_move_inversion(char *tok,
+                                                slice_index *result,
+                                                boolean startLikeBranch)
 {
   slice_index operand;
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
   
-  tok = ParseStructuredStip_operand(tok+1,&operand);
+  tok = ParseStructuredStip_operand(tok+1,&operand,!startLikeBranch);
   if (tok!=0 && operand!=no_slice)
     *result =  alloc_move_inverter_slice(operand);
 
@@ -2771,12 +2786,14 @@ static char *ParseStructuredStip_operator(char *tok, SliceType *result)
  *               can't be parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_expression(char *tok,  slice_index *result)
+static char *ParseStructuredStip_expression(char *tok,
+                                            slice_index *result,
+                                            boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
 
-  tok = ParseStructuredStip_operand(tok,result);
+  tok = ParseStructuredStip_operand(tok,result,startLikeBranch);
   if (tok!=0 && *result!=no_slice)
   {
     SliceType operator_type;
@@ -2784,7 +2801,7 @@ static char *ParseStructuredStip_expression(char *tok,  slice_index *result)
     if (tok!=0 && operator_type!=no_slice_type)
     {
       slice_index operand2;
-      tok = ParseStructuredStip_expression(tok,&operand2);
+      tok = ParseStructuredStip_expression(tok,&operand2,startLikeBranch);
       if (tok!=0 && operand2!=no_slice)
         switch (operator_type)
         {
@@ -2815,12 +2832,13 @@ static char *ParseStructuredStip_expression(char *tok,  slice_index *result)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_parenthesised_expression(char *tok,
-                                                          slice_index *result)
+                                                          slice_index *result,
+                                                          boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
 
-  tok = ParseStructuredStip_expression(tok+1,result);
+  tok = ParseStructuredStip_expression(tok+1,result,startLikeBranch);
   
   /* allow space before closing parenthesis */
   tok = ParseStructuredStip_skip_whitespace(tok);
@@ -2841,7 +2859,9 @@ static char *ParseStructuredStip_parenthesised_expression(char *tok,
  *               parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_operand(char *tok, slice_index *result)
+static char *ParseStructuredStip_operand(char *tok,
+                                         slice_index *result,
+                                         boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
@@ -2850,19 +2870,21 @@ static char *ParseStructuredStip_operand(char *tok, slice_index *result)
   tok = ParseStructuredStip_skip_whitespace(tok);
 
   if (tok[0]=='(')
-    tok = ParseStructuredStip_parenthesised_expression(tok,result);
+    tok = ParseStructuredStip_parenthesised_expression(tok,
+                                                       result,
+                                                       startLikeBranch);
   else if (tok[0]=='!')
     /* !d# - white at the move does *not* deliver mate */
-    tok = ParseStructuredStip_not(tok,result);
+    tok = ParseStructuredStip_not(tok,result,startLikeBranch);
   else if (tok[0]=='-')
     /* -3hh# - h#2 by the non-starter */
-    tok = ParseStructuredStip_move_inversion(tok,result);
+    tok = ParseStructuredStip_move_inversion(tok,result,startLikeBranch);
   else if (isdigit(tok[0]))
     /* e.g. 2dd# for a #2 */
     tok = ParseStructuredStip_branch(tok,result);
   else
     /* e.g. d= for a =1 */
-    tok = ParseStructuredStip_leaf(tok,result);
+    tok = ParseStructuredStip_leaf(tok,result,startLikeBranch);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s\n",tok);
@@ -2890,7 +2912,7 @@ static char *ParseStructuredStip(void)
     strcat(AlphaStip,TokenLine);
     strcat(AlphaStip," ");
     tok = ReadNextTokStr();
-    tok = ParseStructuredStip_expression(tok,&root_slice);
+    tok = ParseStructuredStip_expression(tok,&root_slice,true);
     if (tok==0)
       tok = ReadNextTokStr();
     else if (root_slice!=no_slice)

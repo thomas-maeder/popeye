@@ -153,7 +153,7 @@ direktes Blatt mit Ziel matt
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1hh#                3 + 3
+  schwarz 1hd#                3 + 3
 
   1.Kb7-a8 Sd5-b6 # 
   1.Kb7-a8 Sd5-c7 # 
@@ -185,7 +185,7 @@ direktes Blatt mit Ziel matt
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1serh#              3 + 3
+  schwarz 1serd#              3 + 3
 
   1.Kb7-a8 Sd5-c7 # 
   1.Kb7-a8 Sd5-b6 # 
@@ -250,8 +250,7 @@ Loesung beendet.
 
   1.e4*d3 ep. # ! 
 
-      1...0-0-0 
-          2.Sa4-b6 # 
+  1.0-0-0 Sa4-b6 # 
 
 Loesung beendet. 
 
@@ -363,7 +362,7 @@ eigentilch semi-r#2
 1  -D  -L   .   .   .   D   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2d 1h h#              8 + 7
+  weiss 2d 1h d#              8 + 7
                Isardam
 
   1.Ld4-h8 ! Zugzwang.
@@ -421,7 +420,7 @@ die ganze Forderung ist somit aequivalent zu r#2
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2d ( 1hh# & !d# )     9 + 8
+  weiss 2d ( 1hd# & !d# )     9 + 8
               AntiCirce
 
   1.b6-b7 ! Zugzwang.
@@ -478,7 +477,7 @@ effizienten Reihenfolge ausgewertet)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2d ( !d# & 1hh# )     9 + 8
+  weiss 2d ( !d# & 1hd# )     9 + 8
               AntiCirce
 
   1.b6-b7 ! Zugzwang.
@@ -531,7 +530,7 @@ die ganze Forderung ist somit aequivalent zu reci-h#2
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2h ( 1hh# & d# )   9 + 12
+  schwarz 2h ( 1hd# & d# )   9 + 12
 
 a)
 
@@ -577,7 +576,7 @@ effizienten Reihenfolge ausgewertet)
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2h ( d# & 1hh# )   9 + 12
+  schwarz 2h ( d# & 1hd# )   9 + 12
 
 a)
 
@@ -618,7 +617,7 @@ die ganze Forderung ist somit aequivalent zu 2->ser-h#3
 1   .   .   .   .   .   .   .  -D   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2ser 3ser h#          2 + 4
+  weiss 2ser 3ser d#          2 + 4
               BiWoozles
 
   1.Ke7-d8   2.Tf2-f8   1.g2-g1=S   2.Dh1-b7   3.Sg1-f3 Kd8-c7 # 
@@ -783,7 +782,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz -2,2h h#            2 + 4
+  schwarz -2,2h d#            2 + 4
 
   1...Kg2-f3   2.h6-h5 Kf3-e2 # 
 
@@ -813,7 +812,7 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
 1   T   .   S   .   K   .   .  -L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 10,10ser h00        5 + 2
+  schwarz 10,10ser d00        5 + 2
 
   1.Lh1-b7   2.Lb7-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   2  (Lh1-b7 )
@@ -872,7 +871,7 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
 1   .   .   .   .   .   .   .       1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1h - 13h h#         2 + 4
+  schwarz 1h - 13h d#         2 + 4
 
   1.Le5-g3   2.Tc3-c6 Lc7-f4   3.Kb4-c5 Kb2-c3   4.Kc5-b6 + Kc3-d4   5.Tc6-c8 Kd4-e5   6.Kb6-c7 Ke5-f6 +   7.Kc7-d8 Lf4-g5   8.Lg3-c7 Kf6-f7 # 
 
@@ -903,7 +902,7 @@ h#8 1.0;1.1;...
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1h - 13h h#         2 + 5
+  schwarz 1h - 13h d#         2 + 5
 
   1.Df3-f8   2.Tg2-g7 Ld7-a4   3.Kh6-g6 Kh1-g2   4.Kg6-f7 + Kg2-f3   5.b6-b5 Kf3-e4   6.Kf7-e8 Ke4-d5   7.Tg7-f7 Kd5-c6   8.b5-b4 Kc6-c7 # 
 

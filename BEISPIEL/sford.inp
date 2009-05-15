@@ -40,7 +40,7 @@ weiter
 bemerkung Hilfszweig von 1 Halbzug mit Fortsetzung:
 bemerkung  direktes Blatt mit Ziel matt
 bemerkung (d.h. forderung h#1)
-sforderung schwarz 1hh#
+sforderung schwarz 1hd#
 steine  weiss   le4 sd5 kh1
         schwarz kb7 ba7 tb8
 option intelligent
@@ -50,7 +50,7 @@ weiter
 bemerkung Serienzweig von 1 Halbzug mit Fortsetzung:
 bemerkung  direktes Blatt mit Ziel matt
 bemerkung (d.h. forderung h#1)
-sforderung schwarz 1serh#
+sforderung schwarz 1serd#
 steine  weiss   le4 sd5 kh1
         schwarz kb7 ba7 tb8
 
@@ -112,7 +112,7 @@ autor           Stephen Emmerson
 quelle          H, The Problemist 1/1997, S. 7
 
 bemerkung       eigentilch semi-r#2
-sforderung      weiss 2d 1h h#
+sforderung      weiss 2d 1h d#
 bedingung       isardam
 
 steine  weiss   kc3 df1 tc7 ld4h7 bb7e2g3
@@ -128,12 +128,12 @@ quelle          diagrammes spezial #13, 7-9/1993
 
 bemerkung       direkter Zweig von 2 Halbzuegen mit Fortsetzung:
 bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          Hilfsblatt zum Matt
+bemerkung          direktes Blatt zum Matt
 bemerkung        UND
 bemerkung         NICHT
 bemerkung          direktes Blatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu r#2
-sforderung      weiss 2d ( 1hh# & !d# )
+sforderung      weiss 2d ( 1hd# & !d# )
 bedingung       anticirce
 option          varianten
 
@@ -151,11 +151,11 @@ bemerkung         NICHT
 bemerkung          direktes Blatt zum Matt
 bemerkung        UND
 bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          Hilfsblatt zum Matt
+bemerkung          direktes Blatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu r#2
 bemerkung       (allerdings werden die beiden Operanden von & in der weniger
 bemerkung        effizienten Reihenfolge ausgewertet)
-sforderung      weiss 2d ( !d# & 1hh# )
+sforderung      weiss 2d ( !d# & 1hd# )
 bedingung       anticirce
 option          varianten
 
@@ -171,9 +171,9 @@ bemerkung       Hilfszweig von 2 Halbzuegen mit Fortsetzung:
 bemerkung         direktes Blatt zum Matt
 bemerkung        UND
 bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          Hilfsblatt zum Matt
+bemerkung          direktes Blatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu reci-h#2
-sford schwarz 2h ( 1hh# & d# )
+sford schwarz 2h ( 1hd# & d# )
 stei
 weis kg2 tg1h5 lh1e5 sa4h3 bd2h4
 schw ke8 ta8h8 lb7e3 sg3 be4e6f2f7h2h7
@@ -188,11 +188,11 @@ bemerkung       Hilfszweig von 2 Halbzuegen mit Fortsetzung:
 bemerkung         direktes Blatt zum Matt
 bemerkung        UND
 bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          Hilfsblatt zum Matt
+bemerkung          direktes Blatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu reci-h#2
 bemerkung       (allerdings werden die beiden Operanden von & in der weniger
 bemerkung        effizienten Reihenfolge ausgewertet)
-sford schwarz 2h ( d# & 1hh# )
+sford schwarz 2h ( d# & 1hd# )
 stei
 weis kg2 tg1h5 lh1e5 sa4h3 bd2h4
 schw ke8 ta8h8 lb7e3 sg3 be4e6f2f7h2h7
@@ -203,9 +203,9 @@ weiter
 autor           Torsten Lin"s
 bemerkung       Serienzweig von 2 Halbzuegen mit Fortsetzung
 bemerkung        Serienzweig von 3 Halbzuegen mit Fortsetzung
-bemerkung         Hilfsblatt zum Matt
+bemerkung         direktes Blatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu 2->ser-h#3
-sforderung      weiss 2ser 3ser h#
+sforderung      weiss 2ser 3ser d#
 bedingung       biwoozles
 steine  weiss   ke7 tf2
         schwarz kc8 dh1 bd7g2
@@ -241,7 +241,7 @@ zwilling sforderung      weiss 6,6d d#
 weiter
 
 titel wegen exact nicht 1.Kf1/Kh3#
-sforderung schwarz -2,2h h#
+sforderung schwarz -2,2h d#
 steine
 weiss kg2 lh1
 schwarz ka8 la7b8 bh6
@@ -250,7 +250,7 @@ weiter
 
 titel eigentlich ser-h009, aber die Loesung in 9 darf nicht erscheinen
 titel zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
-sford schwarz 10,10ser h00
+sford schwarz 10,10ser d00
 stei
 weis ke1 ta1 sc1d4 bd2
 schw kb4 lh1
@@ -262,7 +262,7 @@ autor		Rolf Wiehagen & Torsten Lin"s
 quelle		feenschach 138 p. 394, Lob
 bemerkung	h#8 1.0;1.1;...; 7x8-Brett
 bemerkung       gleiches Problem mit viel komplexerer Eingabe in intell.inp
-sforderung      schwarz 1h - 13h h#
+sforderung      schwarz 1h - 13h d#
 steine  weiss   kb2 lc7
         schwarz kb4 tc3 le5 bd7
 bedi    	loch    h1h2h3h4h5h6h7h8
@@ -273,7 +273,7 @@ weiter
 autor		Reinhardt Fiebig
 quelle		feenschach 138 p. 394
 bemerkung	h#8 1.0;1.1;...
-sforderung      schwarz 1h - 13h h#
+sforderung      schwarz 1h - 13h d#
 steine  weiss   kh1 ld7
         schwarz kh6 df3 tg2 bb6e7
 option 		intell
