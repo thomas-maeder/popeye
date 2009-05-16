@@ -1,0 +1,66 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on a Unix-ish i386
+# platform (host) for x86_64-mingmsvc (target)
+
+# Requirements:
+#
+# The following tools can be used to produce executables for the
+# target plarform and can be found in the $PATH:
+# - i686-pc-mingw32-gcc
+# - i686-pc-mingw32-ranlib
+# - i686-pc-mingw32-strip
+
+# Include "regular" gcc settings
+include $(BASEPWD)toolchains/gcc/make.incl
+
+
+# Now override where necessary
+
+# Compiler selection
+# ==================
+
+# Compiler for creating executables on target
+CCTARGET=i686-pc-mingw32-gcc
+
+# Linker for creating executables on target
+LDTARGET=i686-pc-mingw32-gcc
+
+# Strip utility to remove unnecessary symbols from executable
+STRIPTARGET=i686-pc-mingw32-strip
+
+
+# Archive index generator
+# -----------------------
+ARCHIVE_INDEXER=i686-pc-mingw32-ranlib
+
+
+# Compiler options
+# ================
+
+# Select target compiler optimization level
+#CCOPTIM=$(DEFINEMACRO)_MT
+
+
+# Platform spedific file name suffixes
+# ====================================
+
+# suffix for objects
+OBJ_SUFFIX=.obj
+
+# suffix for executables
+EXE_SUFFIX=.exe
+
+# suppress "warning: ISO C90 does not support 'long long'"
+WARN += -Wno-long-long
+
+# Meta information
+# ----------------
+OSTYPE=Windows
+
+
+# Selector for platform-specific files
+# ====================================
+
+PLATFORM=windows32
