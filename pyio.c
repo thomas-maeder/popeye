@@ -2444,6 +2444,8 @@ static SliceType ParseStructuredStip_leaf_type(char type_char)
 /* Parse a leaf
  * @param tok input token
  * @param result index of leaf; no_slice if branch couldn't be parsed
+ * @param startLikeBranch true iff the starter is the same piece as in
+ *                        the closest branch
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_leaf(char *tok,
@@ -2704,6 +2706,8 @@ static char *ParseStructuredStip_branch(char *tok, slice_index *result)
  * @param tok input token
  * @param result index of branch; no_slice if operator couldn't be
  *               parsed
+ * @param startLikeBranch true iff the starter is the same piece as in
+ *                        the closest branch
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_not(char *tok,
@@ -2728,6 +2732,8 @@ static char *ParseStructuredStip_not(char *tok,
  * @param tok input token
  * @param result index of branch; no_slice if operator couldn't be
  *               parsed
+ * @param startLikeBranch true iff the starter is the same piece as in
+ *                        the closest branch
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_move_inversion(char *tok,
@@ -2784,6 +2790,8 @@ static char *ParseStructuredStip_operator(char *tok, SliceType *result)
  * @param tok input token
  * @param result index of expression slice; no_slice if expression
  *               can't be parsed
+ * @param startLikeBranch true iff the starter is the same piece as in
+ *                        the closest branch
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_expression(char *tok,
@@ -2829,11 +2837,14 @@ static char *ParseStructuredStip_expression(char *tok,
  * @param tok input token
  * @param result index of expression slice; no_slice if expression
  *               can't be parsed
+ * @param startLikeBranch true iff the starter is the same piece as in
+ *                        the closest branch
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_parenthesised_expression(char *tok,
-                                                          slice_index *result,
-                                                          boolean startLikeBranch)
+static char *
+ParseStructuredStip_parenthesised_expression(char *tok,
+                                             slice_index *result,
+                                             boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s\n",tok);
@@ -2857,6 +2868,8 @@ static char *ParseStructuredStip_parenthesised_expression(char *tok,
  * @param tok input token
  * @param result index of operand; no_slice if operand couldn't be
  *               parsed
+ * @param startLikeBranch true iff the starter is the same piece as in
+ *                        the closest branch
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_operand(char *tok,
