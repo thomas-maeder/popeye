@@ -610,8 +610,8 @@ Kommandos:
 	   Bedeutung:         Ein Selbst-Blatt hat eine Loesung, wenn die
 	                      Seite am Zug mindestens einen legalen Zug hat
 	                      und alle ihre legalen Zuege das Ziel erreichen.
-	   Ausgabe:           alle Zuege der Seite am Zug, welche das Ziel
-	                      erreichen.
+	   Ausgabe:           Wenn loesbar: alle legalen Zuege der Seite
+			      am Zug
 
 
 	Aeste
@@ -628,7 +628,7 @@ Kommandos:
 
 	Alternativ koennen (durch Komma getrennt) die minimal und
 	maximal erlaubte Anzahl Halbzuege angegeben werden
-	(z.b. 3,3h).  Gegenwaertig muss die minimale Anzahl mit der
+	(z.B. 3,3h).  Gegenwaertig muss die minimale Anzahl mit der
 	maximalen Anzahl uebereinstimmen, wenn sie angegeben wird - es
 	resultiert eine exakte Forderung.
 
@@ -659,7 +659,7 @@ Kommandos:
 	                      des Asts ausfuehrt).
 
 	Hilfs-Ast:
-	   Notationsbeispiel: 3h  [exakt 2 Halbzuege durch die Seite am Zug,
+	   Notationsbeispiel: 3h  [2 Halbzuege durch die Seite am Zug,
 	                      dazwischen 1 Halbzug durch die andere Seite]
 	   Zweck:             - Hilfs-Forderungen
 	                      - vorletzter Halbzug in Reflexforderungen
@@ -679,7 +679,7 @@ Kommandos:
 	   Zweck:             Serienzug-Forderungen
 	   Bedeutung:         Eine Loesung ist eine Serie von Halbzuegen der
 	                      Seite am Zug, welche eine Stellung erreicht, in
-	                      der die Anschlussforderung am Zug ist.
+	                      der die Anschlussforderung loesbar ist.
 	   Anzug im Anschluss:In der Anschlussforderung ist die Seite am Zug,
 	                      welche im Serien-Ast nicht am Zug ist.
 	   Ausgabe:           alle Loesungen
@@ -738,7 +738,7 @@ Kommandos:
 	   Bemerkung:         Ohne Klammerung werden Verbindungen von links
 	                      nach rechts ausgewertet.
 
-	Wechsel des Anzugs:
+	Wechsel des Anzugs:   (Symbol -)
 	   Notationsbeispiel: 5ser -d#  [entspricht Forderung ser-#6]
 	   Zweck:             Aenderung des Anzugs in einer Teilforderung
 	   Ausgabe:           wie Teilforderung
