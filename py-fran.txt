@@ -98,7 +98,7 @@ entree commence par le mot-cle 'DebutProbleme'. Apres avoir entre ce mot-cle, on
 d'autres commandes parmi les suivantes:
 
 	remarque, auteur, source, titre, protocol,
-        condition, option, enonce, forsyth, pieces, jumeau
+        condition, option, enonce, senonce, forsyth, pieces, jumeau
 
 L'ordre de ces commandes ne joue aucun role, et les commandes peuvent etre
 repetees. En cas de repetition d'une commande de la deuxieme ligne, seulement
@@ -546,6 +546,206 @@ simples:
 	#=2             mat ou pat en 2 coups
 	h~1             tous les coups aides
 	HR#3            mat reflexe aide en 3 coups   (= mat reflex aide force)
+
+ - senonce: L'enonce peut aussi etre indique sous forme
+	"structuree". Sous cette forme, toutes les enonces peuvent
+	etre indiques qui peuvent etre indiques avec la commande
+	enonce, mais aussi beaucoup d'enonces additionnels.
+
+	Un enonce indique par senonce a la structure d'un arbre. Le
+	jeu commence a la racine, traverse les branches (qui se pevent
+	fourcher) et se termine a une ou plusieurs feuilles.
+
+	Apres le mot-cle senonce, la racine est indiquee comme camp au
+	trait, puis les branches est feuilles selon le langage definit
+	ci-dessous.
+
+
+	Racine
+	------
+
+	Indiquez le camp au trait; Blanc ou Noir.
+
+
+	Feuilles
+	--------
+
+	Chaque feuille represente un demi-coup. Elle est indiquee par
+	une lettre ('d' ou 's') qui definit son type, suivi par le
+	but; le but est indique comme dans la commande enonce (voir
+	ci-dessus). Entre le type et le but, les espaces ne sonst pas
+	permises.
+
+	Feuille directe:
+	   Exemple:           d=  [demi-coup direct menant au pat]
+	   Raison principale: Terminaison d'un enonce non-inverse
+	   Raison alternative:(nie avec ! (voir ci-dessous)) Indication de
+			      l'enonce partielle qui ne doit pas etre
+			      rempli dans un enonce reflexe.
+	   Signification:     Une solution d'une feuille directe est un coup
+			      du camp au trait qui mene au but.
+	   Output:            Toutes les solutions
+
+	Feuille inverse:
+	   Exemple:           s==  [demi-coup force menant au pat double]
+	   Raison principale: Terminaison d'un enonce inverse
+	   Signification:     Une feuille inverse est soluble si le camp au
+			      trait a au moins un coup legal et si
+			      tous les coups legaux de ce camp menent
+			      au but.
+	   Output:            Si soluble: tous les coup legaux du camp au trait
+
+
+	Branches
+	--------
+
+	Chaque branche represente une suite de demi-coups qui obeissent
+	a un certain type de jeu (jeu direct, jeu aide, jeu de
+	serie). Elle est indiquee par le nombre de demi-coups, suivi
+	par le type de jeu; entre le nombre et le type, les espaces ne
+	sont pas permises.
+
+	Le nombre de demi-coups est normalement indique comme un seul
+	chiffre positif (p.ex. 6d (3 demi-coups par camp)).
+
+	Alternativement, le nombre de demi-coups minimal est maximal
+	peuvent etre indiques, separes par une virgule (p.ex. 3,3h).
+	Actuellement, le nombre minimal doit etre egal au nombre
+	maximal s'il est indique; il en resulte un enonce exact.
+
+	branche directe:
+	   Exemple:           4d  [2 demi-coups par attaquant et defendeur]
+	   Raison:            enonces directes et inverses
+	   Signification:     Le camp au trait (attaquant) et l'autre camp
+	                      (defendeur) jouent alternativement l'un contre
+			      l'autre.
+	                      Une solution d'une branche directe est
+	                      un coup par le camp de l'attaquant qui
+	                      lui permet d'atteindre, dans le nombre de
+	                      coups exige, contre tout jeu du
+	                      defendeur, a une position ou l'enonce
+	                      suivant est soluble.
+	   Trait a la suite:  Dans l'enonce suivant, l'attaquant a le trait
+			      si le nombre de demi-coups de la branche
+			      directe est pair, et le defendant si ce nombre
+			      est impair.
+	   Output:            Cle, menace (resp. Zugzwang) et toutes les
+ 			      variantes de la solution differentes de
+ 			      la menace.
+	   Remarque:          Si l'enonce suivant est une feuille directe,
+ 			      le nombre de demi-coups doit etre pair;
+ 			      si l'enonce suivant est une feuille
+ 			      inverse, le nombre de demi-coups doit
+ 			      etre impair (puisque c'est l'attaquant
+ 			      qui effectue le dernier coup de la
+ 			      branche).
+
+	branche aide:
+	   Exemple:           3h  [2 demi-coups par le camp au trait, avec
+	                      1 demi-coup par l'autre camps entre les deux]
+	   Raison:            - enonces aide
+	                      - avant-dernier coup dans les enonces reflexes
+	   Signification:     Les deux camps effectuent des coup alternatifs
+			      en collaboration.
+                              Une solution d'une branche aide est une suite
+                              de coups qui mene a une position ou
+                              l'enonce suivant est soluble
+	   Trait a la suite:  Dans l'enonce suivant, le meme camp a le trait
+ 			      que dans la branche aide si le nombre
+ 			      de demi-coups est pair, et l'autre camp si ce
+			      nombre est impair.
+	   Output:            Toutes les solutions
+
+	branche de serie:
+	   Exemple:           5ser  [5 demi-coups de serie]
+	   Raison:            Enonces de serie
+	   Signification:     Une solution est une suite de demi-coups par le
+			      camp au trait qui mene a une position ou
+			      l'enonce suivant est soluble.
+	   Trait a la suite:  Dans l'enonce suivant, le camp a le trait qui
+			      n'a pas le trait dans la branche de serie.
+	   Output:            Toutes les solutions
+
+
+	Connexions
+	----------
+
+	Les connexions combines deux enonces partiels ou en modifient
+	un. Elles sont indiquees par des symboles; entre les symboles
+	est les enonces partiels, les espaces sont permises.
+
+	Sequence:	      (pas de symbole; espaces optionnelles)
+	   Exemples:          2dd#   [equivalent a #2]
+	                      3h d#  [equivalent a h#2]
+	   Raison:            Indication de l'enonce suivant
+	   Signification:     Le deuxieme enonce partiel est l'enonce
+			      suivante a celle indiquee comme premier.
+
+	Negation:	      (symbole !)
+	   Exemple:           !d==  ["pas de pat double en 0.5"]
+	   Raison:            Negation de l'enonce suivant
+	   Signification:     La negation d'un enonce partiel est soluble si
+			      l'enonce partiel n'est pas soluble.
+	   Output:            Keine
+	   Remarque:          Typische Verwendung bei Reflexforderungen (der
+	                      Angreifer darf die Anschlussforderung nicht
+	                      selbst loesen koennen).
+
+	ET booleen:	      (symbole &)
+	   Exemple:           1h d# & d#  [Terminaison d'un reci-h#]
+	   Raison:            Connexion de deux enonces partiels dont tous
+			      les deux doivent etre solubles
+	   Output:            Solutions des enonces partiels
+	   Bemerkungen:       Utilisations typiques:
+	                      - aides reciproques (voir exemple ci-dessus)
+	                      - enonces de reflexe (attaquant doit resoudre
+	                        un des enonces suivants ET ne doit pas
+	                        resoudre l'autre)
+			      Pour optimiser le temps de solution, indiquez
+			      l'enonce partiel le plus complexe avant le &
+			      et celui plus simple apres le &.
+
+	OU booleen:           (symbole |)
+	   Exemple:           2d d# | 3d s= (#2 OU s=2)
+	   Raison:            Connexion de deux enonces partiels dont au moins
+			      un doit etre soluble.
+	   Output:            Solutions des enonces partiels
+	   Remarque:          Utilisation typique: Quodlibet
+
+	Parantheses:          (symboles ())
+	   Exemple:           2d ( 1h d# & !d# )  [equivalent a r#2]
+	   Raison:            association d'enonces partiels pour definir
+			      leur ordre d'evaluation
+	   Output:            comme pour les enonces partiels
+	   Remarque:          Sans parentheses, les connexions sont evaluees
+			      de gauche a droite
+
+	Changement de trait:  (symbole -)
+	   Exemple:           5ser -d#  [equivalent a ser-#6]
+	   Raison:            Changement de trait dans l'enonce partiel
+	   Output:            comme pour l'enonce partiel
+
+
+	Exemples:
+	---------
+	#3                    blanc 4d d#
+	s#2                   blanc 3d d#
+	r#2                   blanc 2d ( 1h d# & !d# )
+	semi-r#2              blanc 3d d#
+	h#2                   noir 3h d#
+	h#2.5                 blanc 4h d#
+	hs#2                  blanc 3h s#
+	ser-#2                blanc 1ser -d#  
+	ser-h#2               noir 2ser d#
+	ser-s#2               blanc 2ser s#
+	ser-r#2               blanc 1ser (1h d# & !d#)
+	reci-h#2              noir 2h (1h d# & d#)
+	2->ser-h#2            noir 2ser 2ser d#
+
+	b#2                   noir 1h 2d d#
+
+	Exemples commentes (en allemand) dans BEISPIEL/sford.inp
+
 
  - forsyth: Cette commande est utiliser pour l'entree de la position en
             notation forsyth.
