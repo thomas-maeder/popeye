@@ -573,8 +573,8 @@ commands expect further parameters. Lets start with the simpler commands:
 
 	direct leaf:
 	   Notation example:  d=  [direct half-move for stalemate]
-	   Main purpose:      Termination of a help or direct stipulation
-	   Alternatives:      (negated using ! (see below)) Indication of
+	   Main purpose:      Termination of a non-self stipulation
+	   Alternative:       (negated using ! (see below)) Indication of
 	                      the stipulation which must not be solvable
 	                      in reflex stipulations
 	   Meaning:           A solution of a direct leaf is a move by the
@@ -585,7 +585,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	   Notation example:  s==  [forced half-move for double stalemate]
 	   Main purpose:      Termination of a direct or series branch to
 	                      form a (series) self stipulation
-	   Meaning:           A self leaf has a a solution if the side at the
+	   Meaning:           A self leaf has a solution if the side at the
 	                      move has at least one legal move and if all of
 	                      its legal moves reach the goal
 	   Output:            all moves by the side at the move that reach
@@ -600,7 +600,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	by the number of half moves followed by the type of play; inside the
 	indication of a branch, no spaces are allowed.
 
-	The maximal number of half moves is normally indicate as
+	The maximal number of half moves is normally indicated as
 	single positive number, e.g. 6d (6 half-moves of direct play
 	(i.e. 3 by each side)).
 
@@ -652,9 +652,9 @@ commands expect further parameters. Lets start with the simpler commands:
 	   Notation example:  5ser [at most 5 half moves by the side
 	                            at the move]
 	   Purpose:           series stipulations
-	   Meaning:           Eine Loesung ist eine Serie von Halbzuegen der
-	                      Seite am Zug, welche eine Stellung erreicht, in
-	                      der die Anschlussforderung am Zug ist.
+	   Meaning:           A solution is a series of half-moves by the side
+			      at the move that leads to a position where the
+			      subsequent stipulation is solvable.
 	   Right/duty of move:In the subsequent stipulation, the side is at
 	                      the move which is not at the move in the series
 	                      branch.
@@ -668,7 +668,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	stipulation. They are indicated using symbols; between the
 	symbols and the partial stipulations, spaces are allowed.
 
-	Sequence:	      (no symbol; optional specases to separate)
+	Sequence:	      (no symbol; optional spaces to separate)
 	   Notation examples: 2dd#  [equivalent to stipulation #2]
 	                      3h d# [equivalent to stipulation h#2]
 	   Purpose:           Indication of the subsequent stipulation
@@ -692,13 +692,13 @@ commands expect further parameters. Lets start with the simpler commands:
 	                      have to be solvable.
 	   Output:            Solutions of the partial stipulations
 	   Remarks:           Typical usages:
-	                      - reziprocal helpmate (see notation example)
+	                      - reciprocal helpmate (see notation example)
 	                      - reflex stipulations (attacker must have a
 	                        solution for one partial stipulation AND not
 	                        for the other)
 	                      To optimise solving time, indicate the more
 	                      complex partial stipulation before the & and
-	                      the simplerone after the &.
+	                      the simpler one after the &.
 
 	Boolean OR:           (symbol |)
 	   Notation example:  2d d# | 3d s=  [#2 OR s=2]
