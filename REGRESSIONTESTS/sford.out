@@ -391,7 +391,7 @@ Loesung beendet.
 
 direkter Zweig von 2 Halbzuegen mit Fortsetzung:
 Hilfszweig von 1 Halbzug mit Fortsetzung
-Hilfsblatt zum Matt
+direktes Blatt zum Matt
 UND
 NICHT
 direktes Blatt zum Matt
@@ -449,7 +449,7 @@ NICHT
 direktes Blatt zum Matt
 UND
 Hilfszweig von 1 Halbzug mit Fortsetzung
-Hilfsblatt zum Matt
+direktes Blatt zum Matt
 die ganze Forderung ist somit aequivalent zu r#2
 (allerdings werden die beiden Operanden von & in der weniger
 effizienten Reihenfolge ausgewertet)
@@ -505,7 +505,7 @@ Hilfszweig von 2 Halbzuegen mit Fortsetzung:
 direktes Blatt zum Matt
 UND
 Hilfszweig von 1 Halbzug mit Fortsetzung
-Hilfsblatt zum Matt
+direktes Blatt zum Matt
 die ganze Forderung ist somit aequivalent zu reci-h#2
 
            Norbert Geissler
@@ -549,7 +549,7 @@ Hilfszweig von 2 Halbzuegen mit Fortsetzung:
 direktes Blatt zum Matt
 UND
 Hilfszweig von 1 Halbzug mit Fortsetzung
-Hilfsblatt zum Matt
+direktes Blatt zum Matt
 die ganze Forderung ist somit aequivalent zu reci-h#2
 (allerdings werden die beiden Operanden von & in der weniger
 effizienten Reihenfolge ausgewertet)
@@ -593,7 +593,7 @@ Loesung beendet.
 
 Serienzweig von 2 Halbzuegen mit Fortsetzung
 Serienzweig von 3 Halbzuegen mit Fortsetzung
-Hilfsblatt zum Matt
+direktes Blatt zum Matt
 die ganze Forderung ist somit aequivalent zu 2->ser-h#3
 
             Torsten Lin"s
