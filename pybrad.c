@@ -188,7 +188,7 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
 
     for (i = n_min; i<=n; i += 2)
     {
-      if (i-2>2*max_len_threat+slack_length_direct
+      if (i>=2*max_len_threat+slack_length_direct
           || i>2*min_length_nontrivial+slack_length_direct)
         i = n;
 
