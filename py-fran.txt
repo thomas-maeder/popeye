@@ -742,8 +742,6 @@ simples:
 	reci-h#2              noir 2h (1h d# & d#)
 	2->ser-h#2            noir 2ser 2ser d#
 
-	b#2                   noir 1h 2d d#
-
 	Exemples commentes (en allemand) dans BEISPIEL/sford.inp
 
 

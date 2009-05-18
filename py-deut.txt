@@ -760,8 +760,6 @@ Kommandos:
 	reci-h#2              schwarz 2h (1h d# & d#)
 	2->ser-h#2            schwarz 2ser 2ser d#
 
-	b#2                   schwarz 1h 2d d#
-
 	Kommentierte Beispiele in BEISPIEL/sford.inp
 
 

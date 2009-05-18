@@ -588,8 +588,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	   Meaning:           A self leaf has a solution if the side at the
 	                      move has at least one legal move and if all of
 	                      its legal moves reach the goal
-	   Output:            all moves by the side at the move that reach
-	                      the goal
+	   Output:            If solvable: all legal moves by the side at
+			      the move
 
 
 	Branches
@@ -736,8 +736,6 @@ commands expect further parameters. Lets start with the simpler commands:
 	ser-r#2               white 1ser (1h d# & !d#)
 	reci-h#2              black 2h (1h d# & d#)
 	2->ser-h#2            black 2ser 2ser d#
-
-	b#2                   black 1h 2d d#
 
 	See commented (in German) examples in BEISPIEL/sford.inp
 
