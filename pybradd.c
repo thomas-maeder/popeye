@@ -380,7 +380,7 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
   assert(n%2==0);
 
   TraceValue("%u\n",2*max_len_threat);
-  if (n>2*max_len_threat+slack_length_direct
+  if (n>=2*max_len_threat+slack_length_direct
       && !echecc(nbply,defender))
   {
     (*encode)();
