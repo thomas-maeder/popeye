@@ -297,11 +297,8 @@ static int count_enough_non_trivial_defenses(slice_index si)
 
   genmove(defender);
 
-  TraceValue("%u",nbcou);
-  TraceValue("%u",nbply);
-  TraceValue("%u",repere[nbply]);
   TraceValue("%u",max_nr_nontrivial);
-  TraceValue("%d\n",result);
+  TraceValue("%u\n",min_length_nontrivial);
 
   while (encore() && max_nr_nontrivial>=result)
   {
@@ -313,9 +310,7 @@ static int count_enough_non_trivial_defenses(slice_index si)
       else
       {
         (*encode)();
-        if (branch_d_defender_is_refuted(si,
-                                         2*min_length_nontrivial
-                                         +slack_length_direct))
+        if (branch_d_defender_is_refuted(si,2*min_length_nontrivial))
           ++result;
       }
     }
