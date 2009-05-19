@@ -51,7 +51,7 @@
 # 
 # -----------------------------------------------------------------------------
 # $Author: thomasmaeder $
-# $Revision: 1.1 $
+# $Revision: 1.2 $
 #
 # License: GPL2
 # -----------------------------------------------------------------------------
@@ -192,7 +192,7 @@ dispatchWork() {
 ###############################
 
 # command to be invoked in parallel
-_cmd="../py -maxmem 1G -regression -notrace"
+_cmd="../py -maxmem 1G -maxtrace 0 -regression"
 
 # number of processors
 PMAX=2
