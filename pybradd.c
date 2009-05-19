@@ -414,8 +414,10 @@ boolean branch_d_defender_does_defender_win(slice_index si, stip_length_type n)
 
   TraceValue("%u\n",slices[si].u.branch_d_defender.min_length);
 
-  if (is_threat_too_long(si,n-1)
-      || (OptFlag[solflights] && has_too_many_flights(defender)))
+  if ((OptFlag[solflights]
+       && n-2>slack_length_direct
+       && has_too_many_flights(defender))
+      || is_threat_too_long(si,n-1))
     result = true;
   else if (n>2*min_length_nontrivial+slack_length_direct)
     result = too_many_non_trivial_defenses(si,n);
