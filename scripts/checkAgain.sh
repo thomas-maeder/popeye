@@ -17,7 +17,7 @@ do
     then
         stem=`echo $f | sed -e 's/[.]reg$//'`
         inputfile=../REGRESSIONS/$stem.inp
-        ../py -maxmem 250M -regression -notrace $inputfile
+        ../py -maxmem 1G -regression -maxtrace 0 $inputfile
     fi
 done
 
@@ -28,7 +28,7 @@ do
     then
         stem=`echo $f | sed -e 's/[.]ref$//'`
         inputfile=../EXAMPLES/$stem.inp
-        ../py -maxmem 250M -regression -notrace $inputfile
+        ../py -maxmem 1G -regression -maxtrace 0 $inputfile
     fi
 done
 
@@ -39,6 +39,6 @@ do
     then
         stem=`echo $f | sed -e 's/[.]out$//'`
         inputfile=../BEISPIEL/$stem.inp
-        ../py -maxmem 250M -regression -notrace $inputfile
+        ../py -maxmem 1G -regression -maxtrace 0 $inputfile
     fi
 done
