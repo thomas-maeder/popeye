@@ -88,8 +88,6 @@ static boolean selflastencore(square const **selfbnp,
 
     while (!result && curr_square!=initsquare)
     {
-      TraceSquare(curr_square);
-      TraceText("\n");
       if (curr_square!=initiallygenerated)
       {
         piece p = e[curr_square];
