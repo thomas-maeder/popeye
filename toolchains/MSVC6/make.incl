@@ -9,8 +9,6 @@
 #
 # The following tools can be used to produce executables for the host
 # and target plarform and can be found in the $PATH
-# - CL.EXE
-# - LIB.EXE
 # - MSPDB60.DLL
 #
 # (LINK.EXE used to belong to this list, but we now have to fully
@@ -26,28 +24,28 @@
 #  - that contains spaces
 #  - that depends on the system language
 #  is really beyond me (TM).)
-MSVC6_DEFAULT_INSTALLDIR="C:/Program Files/Microsoft Visual Studio/VC98"
+MSVC6_DEFAULT_INSTALLDIR=C:/Program Files/Microsoft Visual Studio/VC98
 
 # By default, use the default installation directory
 MSVC6_INSTALLDIR=$(MSVC6_DEFAULT_INSTALLDIR)
 
 # Default installation dir for German Windows
 # derive the one for your Windows system language if necessary
-#MSVC6_INSTALLDIR="C:/Programme/Microsoft Visual Studio/VC98"
+#MSVC6_INSTALLDIR=C:/Programme/Microsoft Visual Studio/VC98
 
 # Compiler for creating executables on host
-CCHOST=$(MSVC6_INSTALLDIR)/Bin/CL.EXE
+CCHOST="${MSVC6_INSTALLDIR}/Bin/CL.EXE"
 
 # Linker for creating executables on host
 # (fully qualified to disambiguate from Cygwin's /usr/bin/link)
-LDHOST=$(MSVC6_INSTALLDIR)/Bin/LINK.EXE
+LDHOST="${MSVC6_INSTALLDIR}/Bin/LINK.EXE"
 
 # Compiler for creating executables on target
-CCTARGET=$(MSVC6_INSTALLDIR)/Bin/CL.EXE
+CCTARGET="${MSVC6_INSTALLDIR}/Bin/CL.EXE"
 
 # Linker for creating executables on target
 # (fully qualified to disambiguate from Cygwin's /usr/bin/link)
-LDTARGET=$(MSVC6_INSTALLDIR)/Bin/LINK.EXE
+LDTARGET="${MSVC6_INSTALLDIR}/Bin/LINK.EXE"
 
 
 # Librarian
@@ -56,7 +54,7 @@ LDTARGET=$(MSVC6_INSTALLDIR)/Bin/LINK.EXE
 # A library is called archive on Unix-ish platforms
 
 # Archive generator
-ARCHIVER=$(MSVC6_INSTALLDIR)/Bin/LIB.EXE
+ARCHIVER="${MSVC6_INSTALLDIR}/Bin/LIB.EXE"
 
 # Archiver options
 # suppress logo - other options will be added by makefile.unx based
@@ -91,7 +89,7 @@ OBJFILE=/Fo
 # Option for defining a C preprocessor macro
 DEFINEMACRO=/D
 
-INCLUDEPATHS="/IC:/Programme/Microsoft Visual Studio/VC98/Include"
+INCLUDEPATHS="/I${MSVC6_INSTALLDIR}/Include"
 
 
 # Librarian options
@@ -115,7 +113,7 @@ LDOPTIM=
 EXEFILE=/OUT:
 
 # Path to library files to be linked
-LIBRARYPATHS="/LIBPATH:C:/Programme/Microsoft Visual Studio/VC98/Lib"
+LIBRARYPATHS=
 
 
 # Platform spedific file name suffixes
