@@ -81,5 +81,13 @@ bedingung       madrasi
 steine          weiss   ba7c7 kh1
 		schwarz kc6 bd2f2
 
-endeproblem
+weiteresproblem
 
+autor bernd ellinghoven & Hans Peter Rehm
+quelle Andernach 2009 (example problem)
+steine weiss kd3 se6
+       schwarz ke7 Tg8 Lh8 sg5 bb7f5
+forderung h#2
+bedingung bicolores
+
+endeproblem

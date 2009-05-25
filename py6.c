@@ -802,11 +802,15 @@ static boolean verify_position(void)
     flag_nk = rb!=initsquare && TSTFLAG(spec[rb],Neutral);
 
   if (CondFlag[bicolores])
+  {
     if (TSTFLAG(PieSpExFlags, Neutral))
     {
       VerifieMsg(NeutralAndBicolor);
       return false;
     }
+    else
+      optim_orthomatingmoves = false;
+  }
 
   if (CondFlag[bichro] || CondFlag[monochro])
     optim_orthomatingmoves = false;

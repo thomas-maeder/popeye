@@ -1,6 +1,5 @@
-Popeye Linux-2.6.18.8-0.13-default-i686-32Bit v4.45 (2048 KB)
-In bicolores, 4.47 didn't detect battery mates where the rear piece
-is of the same colour as the king to be mated
+In bicolores, 4.47 didn't detect some battery mates where the rear
+piece is of the same colour as the king to be mated
 
  bernd ellinghoven & Hans Peter Rehm
    Andernach 2009 (example problem)
@@ -31,6 +30,6 @@ is of the same colour as the king to be mated
   1.Bh8-a1 Se6-d4   2.Ke7-f6 Sd4-c6 # 
   1.Bh8-d4 Se6-g7   2.Rg8-d8 Sg7*f5 # 
 
-solution finished. Time = 0.060 s
+solution finished. 
 
 

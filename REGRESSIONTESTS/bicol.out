@@ -197,3 +197,36 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+ bernd ellinghoven & Hans Peter Rehm
+   Andernach 2009 (example problem)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -T  -L   8
+|                                   |
+7   .  -B   .   .  -K   .   .   .   7
+|                                   |
+6   .   .   .   .   S   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -B  -S   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   K   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 6
+              Bicolores
+
+  1.Tg8-b8 Se6-d8   2.Ke7-f8 Sd8-c6 # 
+  1.Lh8-a1 Se6-d4   2.Ke7-f6 Sd4-c6 # 
+  1.Lh8-d4 Se6-g7   2.Tg8-d8 Sg7*f5 # 
+
+Loesung beendet. 
+
+

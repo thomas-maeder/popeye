@@ -2,8 +2,8 @@ begin
 
 prot 4_51_to_4_53.reg
 
-remark In bicolores, 4.47 didn't detect battery mates where the rear piece
-remark is of the same colour as the king to be mated
+remark In bicolores, 4.47 didn't detect some battery mates where the rear
+remark piece is of the same colour as the king to be mated
 author bernd ellinghoven & Hans Peter Rehm
 origin Andernach 2009 (example problem)
 pieces white kd3 se6
