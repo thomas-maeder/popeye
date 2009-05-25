@@ -2721,7 +2721,7 @@ static char *ParseStructuredStip_not(char *tok,
   
   tok = ParseStructuredStip_operand(tok+1,&operand,startLikeBranch);
   if (tok!=0 && operand!=no_slice)
-    *result =  alloc_not_slice(operand);
+    *result = alloc_not_slice(operand);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s\n",tok);
@@ -2850,14 +2850,17 @@ ParseStructuredStip_parenthesised_expression(char *tok,
   TraceFunctionParam("%s\n",tok);
 
   tok = ParseStructuredStip_expression(tok+1,result,startLikeBranch);
-  
-  /* allow space before closing parenthesis */
-  tok = ParseStructuredStip_skip_whitespace(tok);
 
-  if (tok[0]==')')
-    ++tok;
-  else
-    *result = no_slice;
+  if (tok!=0)
+  {
+    /* allow space before closing parenthesis */
+    tok = ParseStructuredStip_skip_whitespace(tok);
+
+    if (tok[0]==')')
+      ++tok;
+    else
+      *result = no_slice;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s\n",tok);
