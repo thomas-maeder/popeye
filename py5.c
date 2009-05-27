@@ -1658,7 +1658,7 @@ static void forget_ghost(square sq_arrival)
   TraceText("\n");
 }
 
-static void summon_ghost(square sq_departure, Side for_side)
+static void summon_ghost(square sq_departure)
 {
   ghost_index_type const ghost_pos = find_ghost(sq_departure);
   TraceFunctionEntry(__func__);
@@ -2458,7 +2458,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
   if (jouegenre)
   {
     if (CondFlag[ghostchess] || CondFlag[hauntedchess])
-      summon_ghost(sq_departure,trait_ply);
+      summon_ghost(sq_departure);
 
     if (TSTFLAG(spec_pi_moving, HalfNeutral)
         && TSTFLAG(spec_pi_moving, Neutral))
