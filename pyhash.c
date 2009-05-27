@@ -135,7 +135,6 @@ void validateHashBuffer(void)
 void invalidateHashBuffer(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",guard);
 
   TraceValue("%u\n",nbply);
   isHashBufferValid[nbply] = false;
