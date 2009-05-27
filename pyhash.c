@@ -117,8 +117,6 @@ unsigned long int compression_counter;
 
 HashBuffer hashBuffers[maxply+1];
 
-#if !defined(NDEBUG)
-
 boolean isHashBufferValid[maxply+1];
 
 void validateHashBuffer(void)
@@ -134,22 +132,17 @@ void validateHashBuffer(void)
   TraceText("\n");
 }
 
-void invalidateHashBuffer(boolean guard)
+void invalidateHashBuffer(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",guard);
 
-  if (guard)
-  {
-    TraceValue("%u\n",nbply);
-    isHashBufferValid[nbply] = false;
-  }
+  TraceValue("%u\n",nbply);
+  isHashBufferValid[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
-
-#endif
 
 #if defined(TESTHASH)
 #define ifTESTHASH(x)   x
@@ -176,7 +169,7 @@ enum
   BitsForPly = 10      /* Up to 1023 ply possible */
 };
 
-void (*encode)(void);
+static void (*encode)(void);
 
 typedef unsigned int data_type;
 
@@ -1621,7 +1614,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
 
   TraceValue("%u\n",nbply);
 
-  assert(isHashBufferValid[nbply]);
+  if (!isHashBufferValid[nbply])
+    (*encode)();
 
   ifHASHRATE(use_all++);
 
@@ -1928,7 +1922,8 @@ void addtohash(slice_index si, hashwhat what, hash_value_type val)
     HashBuffer *hb = &hashBuffers[nbply];
     dhtElement *he = dhtLookupElement(pyhash, (dhtValue)hb);
 
-    assert(isHashBufferValid[nbply]);
+    if (!isHashBufferValid[nbply])
+      (*encode)();
 
     if (he == dhtNilElement)
     {
@@ -2104,10 +2099,6 @@ void inithash(void)
   ifTESTHASH(
       printf("room for up to %lu positions in hash table\n", MaxPositions));
 #endif /*FXF*/
-
-  invalidateHashBuffer(true); /* prevent the following line from firing an
-                                 assert() */
-  (*encode)(); /* TODO why is this necessary*/
 
   TraceFunctionExit(__func__);
   TraceText("\n");

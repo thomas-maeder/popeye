@@ -217,7 +217,6 @@ static defender_has_refutation_type has_defender_refutation(slice_index si,
         && !echecc(nbply,defender))
     {
       result = defender_has_no_refutation;
-      (*encode)();
       if (branch_d_defender_is_refuted(si,n-1))
       {
         result = defender_has_refutation;
@@ -265,7 +264,6 @@ static int count_all_non_trivial_defenses(slice_index si)
         ++result;
       else
       {
-        (*encode)();
         if (branch_d_defender_is_refuted(si,
                                          2*min_length_nontrivial
                                          +slack_length_direct))
@@ -311,7 +309,6 @@ static int count_enough_non_trivial_defenses(slice_index si)
         ++result;
       else
       {
-        (*encode)();
         if (branch_d_defender_is_refuted(si,2*min_length_nontrivial))
           ++result;
       }
@@ -380,7 +377,6 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
   if (n>=2*max_len_threat+slack_length_direct
       && !echecc(nbply,defender))
   {
-    (*encode)();
     result = branch_d_defender_is_refuted(si,2*max_len_threat);
   }
   else
@@ -581,7 +577,6 @@ static boolean is_defense_relevant(int len_threat,
 
   assert(n%2==0);
 
-  (*encode)();
   if (n>slack_length_direct && OptFlag[noshort]
       && !branch_d_defender_is_refuted(si,n-2))
     /* variation shorter than stip */
@@ -1005,7 +1000,6 @@ static boolean root_collect_refutations(table refutations,
         && !echecc(nbply,defender))
     {
       is_defender_immobile = false;
-      (*encode)();
       if (branch_d_defender_is_refuted(si,n-1))
       {
         append_to_top_table();

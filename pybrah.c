@@ -244,7 +244,6 @@ static boolean branch_h_root_solve_in_n_recursive_nohash(slice_index si,
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
           && move_filter(si,n,side_at_move))
       {
-        (*encode)();
         if (!slice_must_starter_resign_hashed(slices[si].u.branch.next)
             && branch_h_solve_in_n_recursive(si,n-1,next_side))
           result = true;
@@ -322,7 +321,6 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && move_filter(si,n,side_at_move))
     {
-      (*encode)();
       if (!slice_must_starter_resign_hashed(slices[si].u.branch.next)
           &&  branch_h_solve_in_n_recursive(si,n-1,next_side))
         result = true;
@@ -656,7 +654,6 @@ void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && move_filter(si,n,side_at_move))
       {
-        (*encode)();
         if (!slice_must_starter_resign_hashed(slices[si].u.branch.next)
             && branch_h_solve_in_n_recursive(si,n-1,next_side))
         {
@@ -859,7 +856,6 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && move_filter(si,n,side_at_move))
       {
-        (*encode)();
         if (!slice_must_starter_resign_hashed(slices[si].u.branch.next)
             && branch_h_has_solution_in_n_recursive(si,n-1,next_side))
           result = true;

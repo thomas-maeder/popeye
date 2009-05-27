@@ -1724,7 +1724,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
   nbrtimes++;
 #endif
 
-  invalidateHashBuffer(jt!=replay);
+  if (jt!=replay)
+    invalidateHashBuffer();
 
   /* Orphans/refl. KK !!!! */
   if (jouegenre)
