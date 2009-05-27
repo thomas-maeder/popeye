@@ -1658,7 +1658,7 @@ static void forget_ghost(square sq_arrival)
   TraceText("\n");
 }
 
-static void summon_ghost(square sq_departure)
+static void summon_ghost(square sq_departure, Side for_side)
 {
   ghost_index_type const ghost_pos = find_ghost(sq_departure);
   TraceFunctionEntry(__func__);
@@ -1669,11 +1669,18 @@ static void summon_ghost(square sq_departure)
 
   if (ghost_pos!=ghost_not_found && !ghosts[ghost_pos].hidden)
   {
-    piece const ghost_piece = ghosts[ghost_pos].ghost_piece;
-    e[sq_departure] = ghost_piece;
-    spec[sq_departure] = ghosts[ghost_pos].ghost_flags;
-    SETFLAG(spec[sq_departure],Uncapturable);
-    ++nbpiece[ghost_piece];
+    piece const piece_summoned = ghosts[ghost_pos].ghost_piece;
+    Flags spec_summoned = ghosts[ghost_pos].ghost_flags;
+
+    SETFLAG(spec_summoned,Uncapturable);
+
+    e[sq_departure] = piece_summoned;
+    spec[sq_departure] = spec_summoned;
+    ++nbpiece[piece_summoned];
+
+    if (TSTFLAG(spec_summoned,Neutral))
+      setneutre(sq_departure);
+
     forget_ghost_at_pos(ghost_pos);
   }
 
@@ -1716,7 +1723,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
   unsigned int prev_nbpiece[derbla];
 
-  Side traitnbply= trait[ply_id];
+  Side trait_ply= trait[ply_id];
 
   move_generation_elmt* move_gen_top;
 
@@ -1742,7 +1749,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
     if (CondFlag[extinction]) {
       piece p;
       for (p= roib; p < derbla; p++) {
-        prev_nbpiece[p]= nbpiece[ traitnbply==White ? p : -p];
+        prev_nbpiece[p]= nbpiece[ trait_ply==White ? p : -p];
       }
     }
   }
@@ -1806,14 +1813,14 @@ boolean jouecoup(ply ply_id, joue_type jt)
   if (jouegenre)
   {
     if (CondFlag[blsupertrans_king]
-        && traitnbply==Black
+        && trait_ply==Black
         && ctrans[coup_id]!=vide)
     {
       rn=initsquare;
       pi_arriving=ctrans[coup_id];
     }
     if (CondFlag[whsupertrans_king]
-        && traitnbply==White
+        && trait_ply==White
         && ctrans[coup_id]!=vide)
     {
       rb=initsquare;
@@ -1968,7 +1975,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
     ply nply;
     e[sq_departure]= obs;
     for (nply= ply_id - 1 ; nply > 1 ; nply--) {
-      if (trait[nply] == traitnbply) {
+      if (trait[nply] == trait_ply) {
         e[sqdep[nply]]= vide;
       }
     }
@@ -2125,7 +2132,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
         {
           if (CondFlag[singlebox])
           {
-            pi_arriving = next_singlebox_prom(vide,traitnbply);
+            pi_arriving = next_singlebox_prom(vide,trait_ply);
             assert(SingleBoxType!=singlebox_type1 || pi_arriving!=vide);
             if (pi_arriving==vide)
               /* pi_arriving will be recolored later if pi_departing
@@ -2147,7 +2154,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                          spec_pi_moving,
                                          sq_capture,
                                          sq_departure,
-                                         advers(traitnbply));
+                                         advers(trait_ply));
                 if (sq_rebirth == sq_departure)
                   break;
                 if (LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
@@ -2162,7 +2169,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                                 sq_capture,
                                                 sq_departure,
                                                 sq_arrival,
-                                                advers(traitnbply)))
+                                                advers(trait_ply)))
                       != sq_departure)
                      && !LegalAntiCirceMove(sq_rebirth,
                                             sq_capture,
@@ -2227,7 +2234,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
         && !is_pawn(pi_departing)
         && sq_departure != prev_rn
         && sq_departure != prev_rb
-        && (traitnbply == Black
+        && (trait_ply == Black
             ? sq_arrival>=square_a7 && sq_arrival<=square_h7
             : sq_arrival>=square_a2 && sq_arrival<=square_h2))
     {
@@ -2240,9 +2247,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
     if ((CondFlag[tibet]
          && pi_captured != vide
          && pi_arriving != -pi_captured
-         && (((traitnbply == Black)
+         && (((trait_ply == Black)
               && (sq_departure != prev_rn))
-             || ((traitnbply == White)
+             || ((trait_ply == White)
                  && CondFlag[dbltibet]
                  && (sq_departure != prev_rb))))
         || (CondFlag[andernach]
@@ -2278,7 +2285,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       CLRFLAG(spec_pi_moving, Black);
       CLRFLAG(spec_pi_moving, White);
       CLRFLAG(spec_pi_moving, Neutral);
-      if (traitnbply == Black) {
+      if (trait_ply == Black) {
         SETFLAG(spec_pi_moving, White);
         pi_arriving= abs(pi_arriving);
       }
@@ -2297,7 +2304,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       CLRFLAG(spec_pi_moving, Black);
       CLRFLAG(spec_pi_moving, White);
       CLRFLAG(spec_pi_moving, Neutral);
-      if (traitnbply == Black) {
+      if (trait_ply == Black) {
         SETFLAG(spec_pi_moving, White);
         pi_arriving= abs(pi_arriving);
       }
@@ -2308,7 +2315,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
     } /* CondFlag[antiandernach] ... */
 
     if ((CondFlag[traitor]
-         && traitnbply == Black
+         && trait_ply == Black
          && sq_arrival<=square_h4
          && !TSTFLAG(spec_pi_moving, Neutral))
         || (TSTFLAG(spec_pi_moving, Volage)
@@ -2408,17 +2415,17 @@ boolean jouecoup(ply ply_id, joue_type jt)
   {
     if (TSTFLAG(spec_pi_moving, Neutral))
     {
-      CLRFLAG(spec_pi_moving,advers(traitnbply));
+      CLRFLAG(spec_pi_moving,advers(trait_ply));
       CLRFLAG(spec_pi_moving, Neutral);
-      pi_arriving= traitnbply==Black ? -abs(pi_arriving) : abs(pi_arriving);
+      pi_arriving= trait_ply==Black ? -abs(pi_arriving) : abs(pi_arriving);
 
-      if (rn == sq_arrival && traitnbply == White)
+      if (rn == sq_arrival && trait_ply == White)
         rn= initsquare;
 
-      if (rb == sq_arrival && traitnbply == Black)
+      if (rb == sq_arrival && trait_ply == Black)
         rb= initsquare;
     }
-    else if (traitnbply==Black) {
+    else if (trait_ply==Black) {
       if (TSTFLAG(spec_pi_moving, Black)) {
         SETFLAG(spec_pi_moving, Neutral);
         SETFLAG(spec_pi_moving, White);
@@ -2427,7 +2434,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
           rb = sq_arrival;
       }
     }
-    else if (traitnbply==White) {
+    else if (trait_ply==White) {
       if (TSTFLAG(spec_pi_moving, White)) {
         SETFLAG(spec_pi_moving, Neutral);
         SETFLAG(spec_pi_moving, Black);
@@ -2451,7 +2458,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
   if (jouegenre)
   {
     if (CondFlag[ghostchess] || CondFlag[hauntedchess])
-      summon_ghost(sq_departure);
+      summon_ghost(sq_departure,trait_ply);
 
     if (TSTFLAG(spec_pi_moving, HalfNeutral)
         && TSTFLAG(spec_pi_moving, Neutral))
@@ -2459,7 +2466,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
     /* Duellantenschach */
     if (CondFlag[duellist]) {
-      if (traitnbply == Black) {
+      if (trait_ply == Black) {
         whduell[ply_id]= whduell[ply_id - 1];
         blduell[ply_id]= sq_arrival;
       }
@@ -2470,7 +2477,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
     }
 
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type2) {
-      Side adv = advers(traitnbply);
+      Side adv = advers(trait_ply);
 
       if (sb2[ply_id].where==initsquare) {
         assert(sb2[ply_id].what==vide);
@@ -2501,7 +2508,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                sq_capture,
                                sq_departure,
                                sq_arrival,
-                               advers(traitnbply));
+                               advers(trait_ply));
       if (CondFlag[antisuper])
       {
         while (!LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
@@ -2512,9 +2519,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
       spec[sq_arrival]= 0;
       crenkam[ply_id]= sq_rebirth;
       if ((is_forwardpawn(pi_departing)
-           && PromSq(traitnbply,sq_rebirth))
+           && PromSq(trait_ply,sq_rebirth))
           || (is_reversepawn(pi_departing)                 
-              && ReversePromSq(traitnbply,sq_rebirth)))
+              && ReversePromSq(trait_ply,sq_rebirth)))
       {
         /* white pawn on eighth rank or
            black pawn on first rank - promotion ! */
@@ -2593,7 +2600,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
             SETFLAG(spec[sq_departure], Neutral);
             setneutre(sq_departure);
           }
-          else if ((traitnbply==Black) != SentPionAdverse) {
+          else if ((trait_ply==Black) != SentPionAdverse) {
             nbpiece[e[sq_departure]= sentineln]++;
             SETFLAG(spec[sq_departure], Black);
           }
@@ -2617,7 +2624,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
             senti[ply_id]= true;
           }
         }
-        else if ((traitnbply==Black) != SentPionAdverse) {
+        else if ((trait_ply==Black) != SentPionAdverse) {
           if (   nbpiece[sentineln] < max_pn
                  && nbpiece[sentinelb]+nbpiece[sentineln]<max_pt
                  && (  !flagparasent
@@ -2654,7 +2661,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                     sq_capture,
                                     sq_departure,
                                     sq_arrival,
-                                    traitnbply);
+                                    trait_ply);
         }
         else {
           sq_rebirth= (*circerenai)(ply_id,
@@ -2663,7 +2670,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                     sq_capture,
                                     sq_departure,
                                     sq_arrival,
-                                    advers(traitnbply));
+                                    advers(trait_ply));
         }
         if (sq_rebirth != sq_arrival) {
           e[sq_arrival]= vide;
@@ -2773,7 +2780,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                       sq_capture,
                                       sq_departure,
                                       sq_arrival,
-                                      advers(traitnbply));
+                                      advers(trait_ply));
           else
             sq_rebirth= (*circerenai)(ply_id,
                                       pi_reborn,
@@ -2781,7 +2788,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                       sq_capture,
                                       sq_departure,
                                       sq_arrival,
-                                      traitnbply);
+                                      trait_ply);
 
           if (!rex_circe
               && (flag_testlegality || CondFlag[brunner])
@@ -2852,7 +2859,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
             }
             if (anycirprom
                 && is_pawn(pi_captured)
-                && PromSq(advers(traitnbply), sq_rebirth))
+                && PromSq(advers(trait_ply), sq_rebirth))
             {
               /* captured white pawn on eighth rank: promotion ! */
               /* captured black pawn on first rank: promotion ! */
@@ -2897,7 +2904,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       {
         if (repub_k[ply_id]!=initsquare)
         {
-          if (traitnbply==White)
+          if (trait_ply==White)
           {
             rn = repub_k[ply_id];
             e[rn] = roin;
@@ -2919,7 +2926,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       else
       {
         is_republican_suspended = true;
-        find_mate_square(traitnbply);
+        find_mate_square(trait_ply);
         repub_k[ply_id] = (super[ply_id]<=square_h8
                            ? super[ply_id]
                            : initsquare);
@@ -2989,7 +2996,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
     /* move to here to make sure it is definitely set through jouecoup
     otherwise repcoup can osc Ks even if not oscillated in jouecoup */
     oscillatedKs[ply_id]= false;
-    if (traitnbply==White
+    if (trait_ply==White
         ? CondFlag[white_oscillatingKs]
         : CondFlag[black_oscillatingKs]) {
       boolean priorcheck= false;
@@ -2997,10 +3004,10 @@ boolean jouecoup(ply ply_id, joue_type jt)
       piece temp1= e[rb];
       Flags temp2= spec[rb];
 
-      if (OscillatingKingsTypeB[traitnbply])
-        priorcheck= echecc(ply_id,traitnbply);
-      if ((oscillatedKs[ply_id]= (!OscillatingKingsTypeC[traitnbply]
-                                 || echecc(ply_id,advers(traitnbply)))))
+      if (OscillatingKingsTypeB[trait_ply])
+        priorcheck= echecc(ply_id,trait_ply);
+      if ((oscillatedKs[ply_id]= (!OscillatingKingsTypeC[trait_ply]
+                                 || echecc(ply_id,advers(trait_ply)))))
       {
         e[rb]= e[rn];
         spec[rb]= spec[rn];
@@ -3014,7 +3021,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
           SETFLAGMASK(castling_flag[ply_id],ke1_cancastle);
         if (rn==square_e8)
           SETFLAGMASK(castling_flag[ply_id],ke8_cancastle);
-        if (OscillatingKingsTypeB[traitnbply] && priorcheck)
+        if (OscillatingKingsTypeB[trait_ply] && priorcheck)
           return false;
       }
     }
@@ -3073,20 +3080,20 @@ boolean jouecoup(ply ply_id, joue_type jt)
     }
 
     if (CondFlag[masand]
-        && echecc(ply_id,advers(traitnbply))
-        && observed(traitnbply == White ? rn : rb,
+        && echecc(ply_id,advers(trait_ply))
+        && observed(trait_ply == White ? rn : rb,
                     move_gen_top->arrival))
       change_observed(ply_id,
                       move_gen_top->arrival,
                       flag_outputmultiplecolourchanges);
         
     if (!BGL_whiteinfinity
-        && (BGL_global || traitnbply == White))
+        && (BGL_global || trait_ply == White))
     {
       BGL_white -= BGL_move_diff_code[abs(move_gen_top->departure
                                           -move_gen_top->arrival)];
     }
-    if (!BGL_blackinfinity && (BGL_global || traitnbply == Black))
+    if (!BGL_blackinfinity && (BGL_global || trait_ply == Black))
     {
       BGL_black -= BGL_move_diff_code[abs(move_gen_top->departure
                                           -move_gen_top->arrival)];

@@ -987,6 +987,7 @@ solution finished.
              Uncapturable
               GhostChess
 
+  1...nPd7-d8=nB   2.Ra5-a6 nPc7*d8=nS   3.Kb6-a5 nSd8-c6[+nuBd8] # 
   1...nPc7-c8=nQ   2.Ra5-a7 nPd7*c8=nR   3.Kb6-b7 nRc8-b8[+nuQc8] # 
 
 solution finished. 
@@ -1139,6 +1140,7 @@ Jacques ROTENBERG & Christian POISSON
               GhostChess
 
   1.nPf2-f1=nQ nPf7-f8=nS +   2.nQf1*f8 + nQf8*e8[+nuSf8] # 
+  1.nPf2*e1=nR nPf7*e8=nB +   2.nRe1*e8[+nuRe1] + nRe8-d8[+nuBe8] # 
 
 solution finished. 
 
