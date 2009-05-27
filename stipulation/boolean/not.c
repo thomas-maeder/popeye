@@ -44,10 +44,11 @@ void not_write_unsolvability(slice_index si)
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
+ * Tests may rely on the current position being hash-encoded.
  * @param si slice index
  * @return true iff starter must resign
  */
-boolean not_must_starter_resign(slice_index si)
+boolean not_must_starter_resign_hashed(slice_index si)
 {
   boolean result;
 

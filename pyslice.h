@@ -14,10 +14,20 @@
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
+ * Tests do not rely on the current position being hash-encoded.
  * @param si slice index
  * @return true iff starter must resign
  */
 boolean slice_must_starter_resign(slice_index si);
+
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * Tests may rely on the current position being hash-encoded.
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean slice_must_starter_resign_hashed(slice_index si);
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).

@@ -34,6 +34,7 @@ slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2)
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
+ * Tests do not rely on the current position being hash-encoded.
  * @param si slice index
  * @return true iff starter must resign
  */
@@ -51,6 +52,33 @@ boolean reci_must_starter_resign(slice_index si)
 
   result = (slice_must_starter_resign(op1)
             || slice_must_starter_resign(op2));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * Tests may rely on the current position being hash-encoded.
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean reci_must_starter_resign_hashed(slice_index si)
+{
+  boolean result;
+  slice_index const op1 = slices[si].u.reciprocal.op1;
+  slice_index const op2 = slices[si].u.reciprocal.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u",op1);
+  TraceValue("%u\n",op2);
+
+  result = (slice_must_starter_resign_hashed(op1)
+            || slice_must_starter_resign_hashed(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);

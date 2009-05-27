@@ -59,11 +59,13 @@ void branch_d_defender_set_peer(slice_index si, slice_index peer)
 boolean branch_d_defender_must_starter_resign(slice_index si)
 {
   boolean result;
+  slice_index const next = slices[si].u.branch_d_defender.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
 
-  result = slice_must_starter_resign(slices[si].u.branch_d_defender.next);
+  result = (slice_must_starter_resign(next)
+            || slice_must_starter_resign_hashed(next));
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -146,7 +148,7 @@ boolean branch_d_defender_is_refuted(slice_index si, stip_length_type n)
 
   assert(n%2==0);
 
-  if (slice_must_starter_resign(next))
+  if (slice_must_starter_resign(next) || slice_must_starter_resign_hashed(next))
     result = true;
   else
   {

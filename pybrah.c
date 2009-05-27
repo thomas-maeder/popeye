@@ -185,15 +185,10 @@ static boolean move_filter(slice_index si, stip_length_type n, Side side_at_move
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",side_at_move);
-
-  if ((!isIntelligentModeActive || isGoalReachable())
-      && !echecc(nbply,side_at_move))
-  {
-    (*encode)();
-    result = !slice_must_starter_resign(slices[si].u.branch.next);
-  }
-  else
-    result = false;
+  
+  result = ((!isIntelligentModeActive || isGoalReachable())
+            && !echecc(nbply,side_at_move)
+            && !slice_must_starter_resign(slices[si].u.branch.next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -247,9 +242,13 @@ static boolean branch_h_root_solve_in_n_recursive_nohash(slice_index si,
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
-          && move_filter(si,n,side_at_move)
-          && branch_h_solve_in_n_recursive(si,n-1,next_side))
-        result = true;
+          && move_filter(si,n,side_at_move))
+      {
+        (*encode)();
+        if (!slice_must_starter_resign_hashed(slices[si].u.branch.next)
+            && branch_h_solve_in_n_recursive(si,n-1,next_side))
+          result = true;
+      }
 
       if (OptFlag[movenbr])
         IncrementMoveNbr();
@@ -321,9 +320,13 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && move_filter(si,n,side_at_move)
-        && branch_h_solve_in_n_recursive(si,n-1,next_side))
-      result = true;
+        && move_filter(si,n,side_at_move))
+    {
+      (*encode)();
+      if (!slice_must_starter_resign_hashed(slices[si].u.branch.next)
+          &&  branch_h_solve_in_n_recursive(si,n-1,next_side))
+        result = true;
+    }
 
     repcoup();
 
@@ -651,11 +654,15 @@ void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
     while (encore())
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && move_filter(si,n,side_at_move)
-          && branch_h_solve_in_n_recursive(si,n-1,next_side))
+          && move_filter(si,n,side_at_move))
       {
-        append_to_top_table();
-        coupfort();
+        (*encode)();
+        if (!slice_must_starter_resign_hashed(slices[si].u.branch.next)
+            && branch_h_solve_in_n_recursive(si,n-1,next_side))
+        {
+          append_to_top_table();
+          coupfort();
+        }
       }
 
       repcoup();
@@ -850,9 +857,13 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
     while (encore() && !result)
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && move_filter(si,n,side_at_move)
-          && branch_h_has_solution_in_n_recursive(si,n-1,next_side))
-        result = true;
+          && move_filter(si,n,side_at_move))
+      {
+        (*encode)();
+        if (!slice_must_starter_resign_hashed(slices[si].u.branch.next)
+            && branch_h_has_solution_in_n_recursive(si,n-1,next_side))
+          result = true;
+      }
 
       repcoup();
     }

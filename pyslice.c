@@ -22,6 +22,7 @@
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
+ * Tests do not rely on the current position being hash-encoded.
  * @param si slice index
  * @return true iff starter must resign
  */
@@ -60,7 +61,7 @@ boolean slice_must_starter_resign(slice_index si)
       break;
       
     case STNot:
-      result = not_must_starter_resign(si);
+      result = false;
       break;
 
     case STBranchDirect:
@@ -85,6 +86,45 @@ boolean slice_must_starter_resign(slice_index si)
 
     default:
       assert(0);
+      break;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * Tests may rely on the current position being hash-encoded.
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean slice_must_starter_resign_hashed(slice_index si)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",slices[si].type);
+  switch (slices[si].type)
+  {
+    case STReciprocal:
+      result = reci_must_starter_resign_hashed(si);
+      break;
+      
+    case STNot:
+      result = not_must_starter_resign_hashed(si);
+      break;
+
+    case STMoveInverter:
+      result = move_inverter_must_starter_resign_hashed(si);
+      break;
+
+    default:
+      /* nothing */
       break;
   }
   

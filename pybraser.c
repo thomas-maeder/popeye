@@ -185,14 +185,9 @@ static boolean move_filter(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u\n",side_playing_series);
 
-  if ((!isIntelligentModeActive || isGoalReachable())
-      && !echecc(nbply,side_playing_series))
-  {
-    (*encode)();
-    result = !slice_must_starter_resign(slices[si].u.branch.next);
-  }
-  else
-    result = false;
+  result = ((!isIntelligentModeActive || isGoalReachable())
+            && !echecc(nbply,side_playing_series)
+            && !slice_must_starter_resign(slices[si].u.branch.next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -221,47 +216,53 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
     TraceText("echecc(nbply,other_side)\n");
   else
   {
-    active_slice[nbply+1] = si;
-    genmove(side_playing_series);
-
-    if (side_playing_series==White)
-      WhMovesLeft--;
+    if (inhash(si,SerNoSucc,n-slack_length_series))
+      TraceText("in hash\n");
     else
-      BlMovesLeft--;
-
-    while (encore())
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && move_filter(si,n,side_playing_series))
+      active_slice[nbply+1] = si;
+      genmove(side_playing_series);
+
+      if (side_playing_series==White)
+        WhMovesLeft--;
+      else
+        BlMovesLeft--;
+
+      while (encore())
       {
-        if (inhash(si,SerNoSucc,n-slack_length_series))
-          TraceText("in hash\n");
-        else if (branch_ser_solve_in_n_recursive(si,n-1))
-          result = true;
-        else
-          addtohash(si,SerNoSucc,n-slack_length_series);
+        if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+            && move_filter(si,n,side_playing_series))
+        {
+          (*encode)();
+          if (!slice_must_starter_resign_hashed(slices[si].u.branch.next)
+              && branch_ser_solve_in_n_recursive(si,n-1))
+            result = true;
+        }
+
+        repcoup();
+
+        if (OptFlag[maxsols] && solutions>=maxsolutions)
+        {
+          TraceValue("%u",maxsolutions);
+          TraceValue("%u",solutions);
+          TraceText("aborting\n");
+          break;
+        }
+
+        if (maxtime_status==MAXTIME_TIMEOUT)
+          break;
       }
 
-      repcoup();
+      if (side_playing_series==White)
+        WhMovesLeft++;
+      else
+        BlMovesLeft++;
 
-      if (OptFlag[maxsols] && solutions>=maxsolutions)
-      {
-        TraceValue("%u",maxsolutions);
-        TraceValue("%u",solutions);
-        TraceText("aborting\n");
-        break;
-      }
+      finply();
 
-      if (maxtime_status==MAXTIME_TIMEOUT)
-        break;
+      if (!result)
+        addtohash(si,SerNoSucc,n-slack_length_series);
     }
-
-    if (side_playing_series==White)
-      WhMovesLeft++;
-    else
-      BlMovesLeft++;
-
-    finply();
   }
 
   TraceFunctionExit(__func__);
@@ -305,12 +306,10 @@ static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
           && move_filter(si,n,side_playing_series))
       {
-        if (inhash(si,SerNoSucc,n-slack_length_series))
-          TraceText("in hash\n");
-        else if (branch_ser_solve_in_n_recursive(si,n-1))
+        (*encode)();
+        if (!slice_must_starter_resign_hashed(slices[si].u.branch.next)
+            && branch_ser_solve_in_n_recursive(si,n-1))
           result = true;
-        else
-          addtohash(si,SerNoSucc,n-slack_length_series);
       }
 
       if (OptFlag[movenbr])
