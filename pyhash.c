@@ -244,11 +244,13 @@ static unsigned int bit_width(unsigned int value)
  * @param si root slice of subtree
  * @param length number of attacker's moves of help slice
  * @param nr_bits_left number of bits left over by slices already init
+ * @param branch_depth number of branches between root and slice si
  * @note this is an indirectly recursive function
  */
 static void init_slice_properties_direct(slice_index si,
                                          unsigned int length,
-                                         unsigned int *nr_bits_left)
+                                         unsigned int *nr_bits_left,
+                                         unsigned int branch_depth)
 {
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
@@ -280,11 +282,13 @@ static void init_slice_properties_direct(slice_index si,
  * @param si root slice of subtree
  * @param length number of half moves of help slice
  * @param nr_bits_left number of bits left over by slices already init
+ * @param branch_depth number of branches between root and slice si
  * @note this is an indirectly recursive function
  */
 static void init_slice_properties_help(slice_index si,
                                        unsigned int length,
-                                       unsigned int *nr_bits_left)
+                                       unsigned int *nr_bits_left,
+                                       unsigned int branch_depth)
 {
   unsigned int const size = bit_width((length+1)/2);
   data_type const mask = (1<<size)-1;
@@ -308,13 +312,16 @@ static void init_slice_properties_help(slice_index si,
  * @param si root slice of subtree
  * @param length number of half moves of series slice
  * @param nr_bits_left number of bits left over by slices already init
+ * @param branch_depth number of branches between root and slice si
  * @note this is an indirectly recursive function
  */
 static void init_slice_properties_series(slice_index si,
                                          unsigned int length,
-                                         unsigned int *nr_bits_left)
+                                         unsigned int *nr_bits_left,
+                                         unsigned int branch_depth)
 {
-  unsigned int const size = bit_width(length);
+  /* we don't save the diagram position in the hash table */
+  unsigned int const size = bit_width(branch_depth==0 ? length-1 : length);
   data_type const mask = (1<<size)-1;
 
   slice_properties[si].size = size;
@@ -327,16 +334,19 @@ static void init_slice_properties_series(slice_index si,
 }
 
 static void init_slice_properties_recursive(slice_index si,
-                                            unsigned int *nr_bits_left);
+                                            unsigned int *nr_bits_left,
+                                            unsigned int branch_depth);
 
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices
  * @param si root slice of subtree
  * @param nr_bits_left number of bits left over by slices already init
+ * @param branch_depth number of branches between root and slice si
  * @note this is an indirectly recursive function
  */
 static void init_slice_properties_recursive(slice_index si,
-                                            unsigned int *nr_bits_left)
+                                            unsigned int *nr_bits_left,
+                                            unsigned int branch_depth)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -352,12 +362,12 @@ static void init_slice_properties_recursive(slice_index si,
     switch (slices[si].type)
     {
       case STLeafHelp:
-        init_slice_properties_help(si,2,nr_bits_left);
+        init_slice_properties_help(si,2,nr_bits_left,branch_depth);
         break;
 
       case STLeafDirect:
       case STLeafSelf:
-        init_slice_properties_direct(si,1,nr_bits_left);
+        init_slice_properties_direct(si,1,nr_bits_left,branch_depth);
         break;
 
       case STLeafForced:
@@ -366,10 +376,11 @@ static void init_slice_properties_recursive(slice_index si,
       
       case STQuodlibet:
       {
-        init_slice_properties_recursive(slices[si].u.quodlibet.op1,
-                                        nr_bits_left);
-        init_slice_properties_recursive(slices[si].u.quodlibet.op2,
-                                        nr_bits_left);
+        slice_index const op1 = slices[si].u.quodlibet.op1;
+        slice_index const op2 = slices[si].u.quodlibet.op2;
+
+        init_slice_properties_recursive(op1,nr_bits_left,branch_depth);
+        init_slice_properties_recursive(op2,nr_bits_left,branch_depth);
 
         slice_properties[si].value_size = 0;
       }
@@ -380,8 +391,8 @@ static void init_slice_properties_recursive(slice_index si,
         slice_index const op1 = slices[si].u.reciprocal.op1;
         slice_index const op2 = slices[si].u.reciprocal.op2;
 
-        init_slice_properties_recursive(op1,nr_bits_left);
-        init_slice_properties_recursive(op2,nr_bits_left);
+        init_slice_properties_recursive(op1,nr_bits_left,branch_depth);
+        init_slice_properties_recursive(op2,nr_bits_left,branch_depth);
 
         /* both operand slices must have the same value_size, or the
          * shorter one will dominate the longer one */
@@ -395,7 +406,8 @@ static void init_slice_properties_recursive(slice_index si,
 
       case STNot:
       {
-        init_slice_properties_recursive(slices[si].u.not.op,nr_bits_left);
+        slice_index const op = slices[si].u.not.op;
+        init_slice_properties_recursive(op,nr_bits_left,branch_depth);
         slice_properties[si].value_size = 0;
         break;
       }
@@ -411,18 +423,18 @@ static void init_slice_properties_recursive(slice_index si,
         {
           unsigned int const length = slices[si].u.branch_d.length;
           slice_index const peer = slices[si].u.branch_d.peer;
-          init_slice_properties_direct(si,length,nr_bits_left);
+          init_slice_properties_direct(si,length,nr_bits_left,branch_depth);
           if (slices[si].u.branch_d.min_length==length
               && length>slack_length_direct+1)
             is_there_slice_with_nonstandard_min_length = true;
           /* check for is_initialised above prefents infinite
            * recursion
            */
-          init_slice_properties_recursive(peer,nr_bits_left);
+          init_slice_properties_recursive(peer,nr_bits_left,branch_depth);
         }
         else
         {
-          init_slice_properties_recursive(base,nr_bits_left);
+          init_slice_properties_recursive(base,nr_bits_left,branch_depth);
           slice_properties[si] = slice_properties[base];
         }
         break;
@@ -432,10 +444,10 @@ static void init_slice_properties_recursive(slice_index si,
       {
         slice_index const peer = slices[si].u.branch_d_defender.peer;
         slice_index const next = slices[si].u.branch_d_defender.next;
-        init_slice_properties_recursive(peer,nr_bits_left);
+        init_slice_properties_recursive(peer,nr_bits_left,branch_depth);
         /* check for is_initialised above prevents infinite recursion
          */
-        init_slice_properties_recursive(next,nr_bits_left);
+        init_slice_properties_recursive(next,nr_bits_left,branch_depth+1);
         break;
       }
 
@@ -448,16 +460,17 @@ static void init_slice_properties_recursive(slice_index si,
           unsigned int const length = slices[si].u.branch.length;
           init_slice_properties_help(si,
                                      length-slack_length_help,
-                                     nr_bits_left);
+                                     nr_bits_left,
+                                     branch_depth);
           if (slices[si].u.branch.min_length==length
               && length>slack_length_help+1)
             is_there_slice_with_nonstandard_min_length = true;
 
-          init_slice_properties_recursive(next,nr_bits_left);
+          init_slice_properties_recursive(next,nr_bits_left,branch_depth+1);
         }
         else
         {
-          init_slice_properties_recursive(base,nr_bits_left);
+          init_slice_properties_recursive(base,nr_bits_left,branch_depth);
           slice_properties[si] = slice_properties[base];
         }
         break;
@@ -469,19 +482,20 @@ static void init_slice_properties_recursive(slice_index si,
         unsigned int const length = slices[si].u.branch.length;
         init_slice_properties_series(si,
                                      length-slack_length_series,
-                                     nr_bits_left);
+                                     nr_bits_left,
+                                     branch_depth);
         if (slices[si].u.branch.min_length==length
             && length>slack_length_series+1)
           is_there_slice_with_nonstandard_min_length = true;
 
-        init_slice_properties_recursive(next,nr_bits_left);
+        init_slice_properties_recursive(next,nr_bits_left,branch_depth+1);
         break;
       }
 
       case STMoveInverter:
       {
         slice_index const next = slices[si].u.move_inverter.next;
-        init_slice_properties_recursive(next,nr_bits_left);
+        init_slice_properties_recursive(next,nr_bits_left,branch_depth);
         break;
       }
 
@@ -502,6 +516,7 @@ static void init_slice_properties(void)
 {
   slice_index const si = root_slice;
   unsigned int nr_bits_left = sizeof(data_type)*CHAR_BIT;
+  unsigned int const branch_depth = 0;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
@@ -510,7 +525,7 @@ static void init_slice_properties(void)
   for (i = 0; i!=max_nr_slices; ++i)
     slice_properties[i].is_initialised = false;
 
-  init_slice_properties_recursive(si,&nr_bits_left);
+  init_slice_properties_recursive(si,&nr_bits_left,branch_depth);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
