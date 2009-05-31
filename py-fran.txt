@@ -858,9 +858,14 @@ suivante est un peu plus compliquee:
 	mo      moa
 	mt      moineaux tour
 	n       noctambule
+        n1      (1,1)-Zigzag noctambule (e.g. b1-a3-c2-b4-d3...)
+        n2      (2,0)-Zigzag noctambule (e.g. a1-b3-c1-d3-e1...)
+        n3      (3,3)-Zigzag noctambule (e.g. a1-b3-d4-e6-g7...)
+        n4      (4,0)-Zigzag noctambule (e.g. a1-c2-e1-g2...)
 	na      nao				chinois noctambule 
 	ne      nereide
 	nl      noctambule lion
+	nr      noctambule rebondissant 
 	o       orphan
 	oa      moa noctambule
 	ok      okapi                           cavalier + zebre
@@ -874,6 +879,7 @@ suivante est un peu plus compliquee:
 	pr      princesse   
 	qa      equi anglais
 	qf      equi francais
+        qn      quintessence = (3,1)-Zigzag noctambule (e.g. a1-b3-d2-e4-g3...)
 	qq      querquisite
 	r       roi
 	ra      rao                            rose chinois

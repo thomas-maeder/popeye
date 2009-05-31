@@ -593,10 +593,10 @@ EXTERN boolean          flag_libre_on_generate;
     /*130*/ {'l','r'},  /*rose locuste */
     /*131*/ {'z','e'},  /*zebu */
     /*132*/ {'n','r'},  /*noctambule rebondissant */
-    /*133*/ {'s','2'},  /*spiralspringer (2,0) */
-    /*134*/ {'s','4'},  /*spiralspringer (4,0) */
-    /*135*/ {'s','1'},  /*diagonalspiralspringer (1,1) */
-    /*136*/ {'s','3'},  /*diagonalspiralspringer (3,3) */
+    /*133*/ {'n','2'},  /*spiralspringer (2,0) */
+    /*134*/ {'n','4'},  /*spiralspringer (4,0) */
+    /*135*/ {'n','1'},  /*diagonalspiralspringer (1,1) */
+    /*136*/ {'n','3'},  /*diagonalspiralspringer (3,3) */
     /*137*/ {'q','n'}   /*quintessence */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '}, /* leer */
@@ -731,7 +731,7 @@ EXTERN boolean          flag_libre_on_generate;
     /*129*/ {'r','b'},  /* ReversBauer */
     /*130*/ {'l','r'},  /* RosenHeuschrecke */
     /*131*/ {'z','e'},  /*Zebu */
-    /*132*/ {'r','s'},  /*Reflektierender Nachreiter*/
+    /*132*/ {'n','r'},  /*Reflektierender Nachreiter*/
     /*133*/ {'s','2'},  /*spiralspringer (2,0) */
     /*134*/ {'s','4'},  /*spiralspringer (4,0) */
     /*135*/ {'s','1'},  /*diagonalspiralspringer (1,1) */

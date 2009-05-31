@@ -1069,6 +1069,7 @@ aufwendiger ist das Kommando
 	ne      Non-stop Equihopper
 	nh      Nachtreiterhuepfer
 	nl      Nachtreiterlion
+	nr      Reflektierender Nachtreiter
 	o       Orphan
 	oa      MoaReiter
 	od      Odysseus
@@ -1080,6 +1081,7 @@ aufwendiger ist das Kommando
 	pr      Prinzessin                      1,1 Reiter + 1,2 Springer
 	qe      EquiEnglisch                    "EquiApproacher" kann unterbrochen werden
 	qf      EquiFranzoesisch                "EquiApproacher" kann nicht unterbrochen werden
+        qn      Quintessence = (3,1)-Zigzag Nachtreiter (e.g. a1-b3-d2-e4-g3...)
 	ra      Rao                             chinesische Rose
 	rb      ReversBauer   zieht umgekehrt wie ein "normaler" Bauer; wandelt auf entgegengesetzter Reihe um
 	rd      Randschwein
@@ -1090,6 +1092,10 @@ aufwendiger ist das Kommando
 	rp	RadialsPringer
 	rs      Reflektierender Springer
 	s       Springer                        1,2 Springer
+        s1      (1,1)-Zigzag Nachtreiter (e.g. b1-a3-c2-b4-d3...)
+        s2      (2,0)-Zigzag Nachtreiter (e.g. a1-b3-c1-d3-e1...)
+        s3      (3,3)-Zigzag Nachtreiter (e.g. a1-b3-d4-e6-g7...)
+        s4      (4,0)-Zigzag Nachtreiter (e.g. a1-c2-e1-g2...)
 	sb      Superbauer
 	si      Sirene
 	sk      Skylla

@@ -799,6 +799,7 @@ sstipulation). A little bit more elaborate is the command
 	bk      bouncy knight
 	bl      bishop-lion
 	bm      bishop moose
+        bn      bouncy nightrider (continues ride by bouncing in any direction from board edge)
 	bo	bob
 	bp      berolina pawn   
 	br      bishop/rook hunter
@@ -872,6 +873,7 @@ sstipulation). A little bit more elaborate is the command
 	q       queen   
 	qe      equi english			equi approacher stopable
 	qf      equi french 			equi approacher nonstopable
+        qn      quintessence = (3,1)-Zigzag Nightrider (e.g. a1-b3-d2-e4-g3...)
 	qq      querquisite
 	r       rook   
 	ra      rao                             chinese rose
@@ -889,6 +891,10 @@ sstipulation). A little bit more elaborate is the command
 	rt	rabbit
 	rw      rook sparrow
 	s       knight   
+        s1      (1,1)-Zigzag Nightrider (e.g. b1-a3-c2-b4-d3...)
+        s2      (2,0)-Zigzag Nightrider (e.g. a1-b3-c1-d3-e1...)
+        s3      (3,3)-Zigzag Nightrider (e.g. a1-b3-d4-e6-g7...)
+        s4      (4,0)-Zigzag Nightrider (e.g. a1-c2-e1-g2...)
 	si      sirene
 	sk      skylla
 	so      scorpion
