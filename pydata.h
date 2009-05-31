@@ -460,133 +460,133 @@ EXTERN boolean          flag_libre_on_generate;
 #else
 	PieTable PieNamString[LanguageCount] = {
 	{ /* French PieNamString */
-	/*  0*/ {'.',' '}, /* vide */
-	/*  1*/ {' ',' '}, /* hors echiquier */
-	/*  2*/ {'r',' '}, /* roi */
-	/*  3*/ {'p',' '}, /* pion */
-	/*  4*/ {'d',' '}, /* dame */
-	/*  5*/ {'c',' '}, /* cavalier */
-	/*  6*/ {'t',' '}, /* tour */
-	/*  7*/ {'f',' '}, /* fou */
-	/*  8*/ {'l','e'}, /* leo */
-	/*  9*/ {'m','a'}, /* mao */
-	/* 10*/ {'p','a'}, /* pao */
-	/* 11*/ {'v','a'}, /* vao */
-	/* 12*/ {'r','o'}, /* rose */
-	/* 13*/ {'s',' '}, /* sauterelle */
-	/* 14*/ {'n',' '}, /* noctambule */
-	/* 15*/ {'z',' '}, /* zebre */
-	/* 16*/ {'c','h'}, /* chameau */
-	/* 17*/ {'g','i'}, /* girafe */
-	/* 18*/ {'c','c'}, /* cavalier racine carree cinquante */
-	/* 19*/ {'b','u'}, /* bucephale  (cheval d'Alexandre le Grand) */
-	/* 20*/ {'v','i'}, /* vizir */
-	/* 21*/ {'a','l'}, /* alfil */
-	/* 22*/ {'f','e'}, /* fers */
-	/* 23*/ {'d','a'}, /* dabbabba */
-	/* 24*/ {'l','i'}, /* lion */
-	/* 25*/ {'e','q'}, /* equisauteur (non-stop) */
-	/* 26*/ {'l',' '}, /* locuste */
-	/* 27*/ {'p','b'}, /* pion berolina */
-	/* 28*/ {'a','m'}, /* amazone */
-	/* 29*/ {'i','m'}, /* imperatrice */
-	/* 30*/ {'p','r'}, /* princesse */
-	/* 31*/ {'g',' '}, /* gnou */
-	/* 32*/ {'a','n'}, /* antilope */
-	/* 33*/ {'e','c'}, /* ecureuil */
-	/* 34*/ {'v',' '}, /* varan */
-	/* 35*/ {'d','r'}, /* dragon */
-	/* 36*/ {'k','a'}, /* kangourou */
-	/* 37*/ {'c','s'}, /* cavalier spirale */
-	/* 38*/ {'u','u'}, /* UbiUbi */
-	/* 39*/ {'h','a'}, /* hamster: sauterelle a 180 degre */
-	/* 40*/ {'e',' '}, /* elan: sauterelle a 45 degre */
-	/* 41*/ {'a','i'}, /* aigle: sauterelle a 90 degre */
-	/* 42*/ {'m',' '}, /* moineaux: sauterelle a 135 degre */
-	/* 43*/ {'a','r'}, /* archeveque */
-	/* 44*/ {'f','r'}, /* fou rebondissant */
-	/* 45*/ {'c','a'}, /* cardinal */
-	/* 46*/ {'s','n'}, /* noctambule sauteur */
-	/* 47*/ {'p','i'}, /* piece impuissant */
-	/* 48*/ {'c','n'}, /* chameau noctambule */
-	/* 49*/ {'z','n'}, /* zebre noctambule */
-	/* 50*/ {'g','n'}, /* gnou noctambule */
-	/* 51*/ {'s','c'}, /* chameau sauteur */
-	/* 52*/ {'s','z'}, /* zebre sauteur */
-	/* 53*/ {'s','g'}, /* gnou sauteur */
-	/* 54*/ {'c','d'}, /* cavalier spirale diagonale */
-	/* 55*/ {'c','r'}, /* cavalier rebondissant */
-	/* 56*/ {'e','a'}, /* equisauteur anglais */
-	/* 57*/ {'c','t'}, /* CAT (= cavalier de troie) */
-	/* 58*/ {'b','s'}, /* berolina superpion */
-	/* 59*/ {'s','p'}, /* superpion */
-	/* 60*/ {'t','l'}, /* tour-lion */
-	/* 61*/ {'f','l'}, /* fou-lion */
-	/* 62*/ {'s','i'}, /* sirene */
-	/* 63*/ {'t','r'}, /* triton */
-	/* 64*/ {'n','e'}, /* nereide */
-	/* 65*/ {'o',' '}, /* orphan */
-	/* 66*/ {'e','h'}, /* "edgehog", "randschwein" */
-	/* 67*/ {'m','o'}, /* moa */
-	/* 68*/ {'t','c'}, /* tour/fou chasseur */
-	/* 69*/ {'f','c'}, /* fou/tour chasseur */
-	/* 70*/ {'a','o'}, /* noctambule mao */
-	/* 71*/ {'o','a'}, /* noctambule moa */
-	/* 72*/ {'s','t'}, /* sauterelle tour */
-	/* 73*/ {'s','f'}, /* sauterelle fou */
-	/* 74*/ {'r','e'}, /* roi des elfes */
-	/* 75*/ {'b','t'}, /* boy-scout */
-	/* 76*/ {'g','t'}, /* girl-scout */
-	/* 77*/ {'s','k'}, /* skylla */
-	/* 78*/ {'c','y'}, /* charybdis */
-	/* 79*/ {'s','a'}, /* sauterelle contA */
-	/* 80*/ {'r','l'}, /* rose lion */
-	/* 81*/ {'r','s'}, /* rose sauteur */
-	/* 82*/ {'o','k'}, /* okapi */
-	/* 83*/ {'3','7'}, /* 3:7-cavalier */
-	/* 84*/ {'s','2'}, /* sauterelle-2 */
-	/* 85*/ {'s','3'}, /* sauterelle-3 */
-	/* 86*/ {'1','6'}, /* 1:6-cavalier */
-	/* 87*/ {'2','4'}, /* 2:4-cavalier */
-	/* 88*/ {'3','5'}, /* 3:5-cavalier */
-	/* 89*/ {'d','s'}, /* double sauterelle */
-	/* 90*/ {'s','r'}, /* roi sauteur */
-	/* 91*/ {'o','r'}, /* orix */
-	/* 92*/ {'1','5'}, /* 1:5-cavalier */
-	/* 93*/ {'2','5'}, /* 2:5-cavalier */
-	/* 94*/ {'g','l'}, /* gral */
-    /* 95*/ {'l','t'}, /* tour locuste */
-    /* 96*/ {'l','f'}, /* fou locuste */
-    /* 97*/ {'l','n'}, /* noctambule locuste */
-    /* 98*/ {'v','s'}, /* vizir sauteur */
-    /* 99*/ {'f','s'}, /* fers sauteur */
-	/*100*/ {'b','i'}, /* bison */
-	/*101*/ {'e','l'}, /* elephant */
-	/*102*/ {'n','a'}, /* Nao */
-	/*103*/ {'e','t'}, /* elan tour: sauterelle tour a 45 degre */
-	/*104*/ {'a','t'}, /* aigle tour: sauterelle tour a 90 degre */
-	/*105*/ {'m','t'}, /* moineaux tour: sauterelle tour a 135 degre */
-	/*106*/ {'e','f'}, /* elan fou: sauterelle fou a 45 degre */
-	/*107*/ {'a','f'}, /* aigle fou: sauterelle fou a 90 degre */
-	/*108*/ {'m','f'}, /* moineaux fou: sauterelle fou a 135 degre */
-	/*109*/ {'r','a'}, /* rao: rose chinois */
-	/*110*/ {'s','o'}, /* scorpion: roi des elfes et sauterelle */
-	/*111*/ {'m','g'}, /* marguerite */
-	/*112*/ {'3','6'}, /* 3:6-cavalier */
-    /*113*/ {'n','l'}, /* noctambule lion */
-    /*114*/ {'m','l'}, /* noctambule mao lion */
-    /*115*/ {'m','m'}, /* noctambule moa lion */
-    /*116*/ {'a','s'}, /* sauterelle d'Andernach */
-    /*117*/ {'a',' '}, /* ami */
-    /*118*/ {'d','n'}, /* dauphin */
-    /*119*/ {'l','a'}, /* lapin */
-    /*120*/ {'b','o'}, /* bob */
-    /*121*/ {'q','a'}, /* equi anglais */
-    /*122*/ {'q','f'}, /* equi francais */
-    /*123*/ {'q','q'}, /* querquisite */
-    /*124*/ {'b','1'}, /* bouncer */
-    /*125*/ {'b','2'}, /* tour-bouncer */
-    /*126*/ {'b','3'}, /* fou-bouncer */
+	/*  0*/ {'.',' '},  /* vide */
+	/*  1*/ {' ',' '},  /* hors echiquier */
+	/*  2*/ {'r',' '},  /* roi */
+	/*  3*/ {'p',' '},  /* pion */
+	/*  4*/ {'d',' '},  /* dame */
+	/*  5*/ {'c',' '},  /* cavalier */
+	/*  6*/ {'t',' '},  /* tour */
+	/*  7*/ {'f',' '},  /* fou */
+	/*  8*/ {'l','e'},  /* leo */
+	/*  9*/ {'m','a'},  /* mao */
+	/* 10*/ {'p','a'},  /* pao */
+	/* 11*/ {'v','a'},  /* vao */
+	/* 12*/ {'r','o'},  /* rose */
+	/* 13*/ {'s',' '},  /* sauterelle */
+	/* 14*/ {'n',' '},  /* noctambule */
+	/* 15*/ {'z',' '},  /* zebre */
+	/* 16*/ {'c','h'},  /* chameau */
+	/* 17*/ {'g','i'},  /* girafe */
+	/* 18*/ {'c','c'},  /* cavalier racine carree cinquante */
+	/* 19*/ {'b','u'},  /* bucephale  (cheval d'Alexandre le Grand) */
+	/* 20*/ {'v','i'},  /* vizir */
+	/* 21*/ {'a','l'},  /* alfil */
+	/* 22*/ {'f','e'},  /* fers */
+	/* 23*/ {'d','a'},  /* dabbabba */
+	/* 24*/ {'l','i'},  /* lion */
+	/* 25*/ {'e','q'},  /* equisauteur (non-stop) */
+	/* 26*/ {'l',' '},  /* locuste */
+	/* 27*/ {'p','b'},  /* pion berolina */
+	/* 28*/ {'a','m'},  /* amazone */
+	/* 29*/ {'i','m'},  /* imperatrice */
+	/* 30*/ {'p','r'},  /* princesse */
+	/* 31*/ {'g',' '},  /* gnou */
+	/* 32*/ {'a','n'},  /* antilope */
+	/* 33*/ {'e','c'},  /* ecureuil */
+	/* 34*/ {'v',' '},  /* varan */
+	/* 35*/ {'d','r'},  /* dragon */
+	/* 36*/ {'k','a'},  /* kangourou */
+	/* 37*/ {'c','s'},  /* cavalier spirale */
+	/* 38*/ {'u','u'},  /* UbiUbi */
+	/* 39*/ {'h','a'},  /* hamster: sauterelle a 180 degre */
+	/* 40*/ {'e',' '},  /* elan: sauterelle a 45 degre */
+	/* 41*/ {'a','i'},  /* aigle: sauterelle a 90 degre */
+	/* 42*/ {'m',' '},  /* moineaux: sauterelle a 135 degre */
+	/* 43*/ {'a','r'},  /* archeveque */
+	/* 44*/ {'f','r'},  /* fou rebondissant */
+	/* 45*/ {'c','a'},  /* cardinal */
+	/* 46*/ {'s','n'},  /* noctambule sauteur */
+	/* 47*/ {'p','i'},  /* piece impuissant */
+	/* 48*/ {'c','n'},  /* chameau noctambule */
+	/* 49*/ {'z','n'},  /* zebre noctambule */
+	/* 50*/ {'g','n'},  /* gnou noctambule */
+	/* 51*/ {'s','c'},  /* chameau sauteur */
+	/* 52*/ {'s','z'},  /* zebre sauteur */
+	/* 53*/ {'s','g'},  /* gnou sauteur */
+	/* 54*/ {'c','d'},  /* cavalier spirale diagonale */
+	/* 55*/ {'c','r'},  /* cavalier rebondissant */
+	/* 56*/ {'e','a'},  /* equisauteur anglais */
+	/* 57*/ {'c','t'},  /* CAT (= cavalier de troie) */
+	/* 58*/ {'b','s'},  /* berolina superpion */
+	/* 59*/ {'s','p'},  /* superpion */
+	/* 60*/ {'t','l'},  /* tour-lion */
+	/* 61*/ {'f','l'},  /* fou-lion */
+	/* 62*/ {'s','i'},  /* sirene */
+	/* 63*/ {'t','r'},  /* triton */
+	/* 64*/ {'n','e'},  /* nereide */
+	/* 65*/ {'o',' '},  /* orphan */
+	/* 66*/ {'e','h'},  /* "edgehog", "randschwein" */
+	/* 67*/ {'m','o'},  /* moa */
+	/* 68*/ {'t','c'},  /* tour/fou chasseur */
+	/* 69*/ {'f','c'},  /* fou/tour chasseur */
+	/* 70*/ {'a','o'},  /* noctambule mao */
+	/* 71*/ {'o','a'},  /* noctambule moa */
+	/* 72*/ {'s','t'},  /* sauterelle tour */
+	/* 73*/ {'s','f'},  /* sauterelle fou */
+	/* 74*/ {'r','e'},  /* roi des elfes */
+	/* 75*/ {'b','t'},  /* boy-scout */
+	/* 76*/ {'g','t'},  /* girl-scout */
+	/* 77*/ {'s','k'},  /* skylla */
+	/* 78*/ {'c','y'},  /* charybdis */
+	/* 79*/ {'s','a'},  /* sauterelle contA */
+	/* 80*/ {'r','l'},  /* rose lion */
+	/* 81*/ {'r','s'},  /* rose sauteur */
+	/* 82*/ {'o','k'},  /* okapi */
+	/* 83*/ {'3','7'},  /* 3:7-cavalier */
+	/* 84*/ {'s','2'},  /* sauterelle-2 */
+	/* 85*/ {'s','3'},  /* sauterelle-3 */
+	/* 86*/ {'1','6'},  /* 1:6-cavalier */
+	/* 87*/ {'2','4'},  /* 2:4-cavalier */
+	/* 88*/ {'3','5'},  /* 3:5-cavalier */
+	/* 89*/ {'d','s'},  /* double sauterelle */
+	/* 90*/ {'s','r'},  /* roi sauteur */
+	/* 91*/ {'o','r'},  /* orix */
+	/* 92*/ {'1','5'},  /* 1:5-cavalier */
+	/* 93*/ {'2','5'},  /* 2:5-cavalier */
+	/* 94*/ {'g','l'},  /* gral */
+    /* 95*/ {'l','t'},  /* tour locuste */
+    /* 96*/ {'l','f'},  /* fou locuste */
+    /* 97*/ {'l','n'},  /* noctambule locuste */
+    /* 98*/ {'v','s'},  /* vizir sauteur */
+    /* 99*/ {'f','s'},  /* fers sauteur */
+	/*100*/ {'b','i'},  /* bison */
+	/*101*/ {'e','l'},  /* elephant */
+	/*102*/ {'n','a'},  /* Nao */
+	/*103*/ {'e','t'},  /* elan tour: sauterelle tour a 45 degre */
+	/*104*/ {'a','t'},  /* aigle tour: sauterelle tour a 90 degre */
+	/*105*/ {'m','t'},  /* moineaux tour: sauterelle tour a 135 degre */
+	/*106*/ {'e','f'},  /* elan fou: sauterelle fou a 45 degre */
+	/*107*/ {'a','f'},  /* aigle fou: sauterelle fou a 90 degre */
+	/*108*/ {'m','f'},  /* moineaux fou: sauterelle fou a 135 degre */
+	/*109*/ {'r','a'},  /* rao: rose chinois */
+	/*110*/ {'s','o'},  /* scorpion: roi des elfes et sauterelle */
+	/*111*/ {'m','g'},  /* marguerite */
+	/*112*/ {'3','6'},  /* 3:6-cavalier */
+    /*113*/ {'n','l'},  /* noctambule lion */
+    /*114*/ {'m','l'},  /* noctambule mao lion */
+    /*115*/ {'m','m'},  /* noctambule moa lion */
+    /*116*/ {'a','s'},  /* sauterelle d'Andernach */
+    /*117*/ {'a',' '},  /* ami */
+    /*118*/ {'d','n'},  /* dauphin */
+    /*119*/ {'l','a'},  /* lapin */
+    /*120*/ {'b','o'},  /* bob */
+    /*121*/ {'q','a'},  /* equi anglais */
+    /*122*/ {'q','f'},  /* equi francais */
+    /*123*/ {'q','q'},  /* querquisite */
+    /*124*/ {'b','1'},  /* bouncer */
+    /*125*/ {'b','2'},  /* tour-bouncer */
+    /*126*/ {'b','3'},  /* fou-bouncer */
     /*127*/ {'p','c'},  /* pion chinois */
     /*128*/ {'c','l'},  /* cavalier radial */
     /*129*/ {'p','v'},  /* pion renverse */
@@ -599,283 +599,283 @@ EXTERN boolean          flag_libre_on_generate;
     /*136*/ {'n','3'},  /*diagonalspiralspringer (3,3) */
     /*137*/ {'q','n'}   /*quintessence */
 	},{ /* German PieNamString */
-	/*  0*/ {'.',' '}, /* leer */
-	/*  1*/ {' ',' '}, /* ausserhalb des Brettes */
-	/*  2*/ {'k',' '}, /* Koenig     0,1 + 1,1 S */
-	/*  3*/ {'b',' '}, /* Bauer */
-	/*  4*/ {'d',' '}, /* Dame       0,1 + 1,1 R */
-	/*  5*/ {'s',' '}, /* Springer   1,2 S */
-	/*  6*/ {'t',' '}, /* Turm       0,1 R */
-	/*  7*/ {'l',' '}, /* Laeufer    1,1 R */
-	/*  8*/ {'l','e'}, /* Leo */
-	/*  9*/ {'m','a'}, /* Mao */
-	/* 10*/ {'p','a'}, /* Pao */
-	/* 11*/ {'v','a'}, /* Vao */
-	/* 12*/ {'r','o'}, /* Rose */
-	/* 13*/ {'g',' '}, /* Grashuepfer 0,1 + 1,1 H */
-	/* 14*/ {'n',' '}, /* Nachtreiter 1,2 R */
-	/* 15*/ {'z',' '}, /* Zebra       2,3 S */
-	/* 16*/ {'c','a'}, /* Kamel       1,3 S */
-	/* 17*/ {'g','i'}, /* Giraffe     1,4 S */
-	/* 18*/ {'w','f'}, /* Wurzel-50-Springer 5,5 + 1,7 S */
-	/* 19*/ {'b','u'}, /* Wurzel-25-Springer 3,4 + 5,0 S  (Bukephalos: Pferd Alexanders des Grossen) */
-	/* 20*/ {'w','e'}, /* Wesir */
-	/* 21*/ {'a','l'}, /* Alfil */
-	/* 22*/ {'f','e'}, /* Fers */
-	/* 23*/ {'d','a'}, /* Dabbaba */
-	/* 24*/ {'l','i'}, /* Lion */
-	/* 25*/ {'n','e'}, /* Non-stop Equihopper */
-	/* 26*/ {'h',' '}, /* Heuschrecke */
-	/* 27*/ {'b','b'}, /* Berolina Bauer */
-	/* 28*/ {'a','m'}, /* Amazone    (Dame + Springer) */
-	/* 29*/ {'k','n'}, /* Kaiserin   (Turm + Springer) */
-	/* 30*/ {'p','r'}, /* Prinzessin (Laeufer + Springer) */
-	/* 31*/ {'g','n'}, /* Gnu        (Springer + Kamel) */
-	/* 32*/ {'a','n'}, /* Antilope    3,4 S */
-	/* 33*/ {'e','i'}, /* Eichhoernchen      (Springer + Alfil + Dabbabba) */
-	/* 34*/ {'w','a'}, /* Waran      (Turm + Nachtreiter) */
-	/* 35*/ {'d','r'}, /* Drache     (Springer + Bauer) */
-	/* 36*/ {'k','a'}, /* Kaenguruh */
-	/* 37*/ {'s','s'}, /* Spiralspringer */
-	/* 38*/ {'u','u'}, /* UbiUbi */
-	/* 39*/ {'h','a'}, /* Hamster: 180 Grad Grashuepfer */
-	/* 40*/ {'e','l'}, /* Elch: 45 Grad Grashuepfer */
-	/* 41*/ {'a','d'}, /* Adler: 90 Grad Grashuepfer */
-	/* 42*/ {'s','p'}, /* Spatz: 135 Grad Grashuepfer */
-	/* 43*/ {'e','r'}, /* Erzbischof */
-	/* 44*/ {'r','l'}, /* Reflektierender Laeufer */
-	/* 45*/ {'k','l'}, /* Kardinal */
-	/* 46*/ {'n','h'}, /* Nachtreiterhuepfer */
-	/* 47*/ {'d','u'}, /* Dummy */
-	/* 48*/ {'c','r'}, /* Kamelreiter */
-	/* 49*/ {'z','r'}, /* Zebrareiter */
-	/* 50*/ {'g','r'}, /* Gnureiter */
-	/* 51*/ {'c','h'}, /* Kamelreiterhuepfer */
-	/* 52*/ {'z','h'}, /* Zebrareiterhuepfer */
-	/* 53*/ {'g','h'}, /* Gnureiterhuepfer */
-	/* 54*/ {'d','s'}, /* DiagonalSpiralSpringer */
-	/* 55*/ {'r','s'}, /* Reflektierender Springer */
-	/* 56*/ {'e','q'}, /* Equihopper */
-	/* 57*/ {'c','t'}, /* CAT (= cavalier de troie) */
-	/* 58*/ {'b','s'}, /* Berolina Superbauer */
-	/* 59*/ {'s','b'}, /* Superbauer */
-	/* 60*/ {'t','l'}, /* Turm-Lion */
-	/* 61*/ {'l','l'}, /* Laeufer-Lion */
-	/* 62*/ {'s','i'}, /* Sirene */
-	/* 63*/ {'t','r'}, /* Triton */
-	/* 64*/ {'n','d'}, /* Nereide */
-	/* 65*/ {'o',' '}, /* Orphan */
-	/* 66*/ {'r','d'}, /* Randschwein */
-	/* 67*/ {'m','o'}, /* Moa */
-	/* 68*/ {'t','j'}, /* Turm/Laeufer-Jaeger */
-	/* 69*/ {'l','j'}, /* Laeufer/Turm-Jaeger */
-	/* 70*/ {'a','o'}, /* Maoreiter */
-	/* 71*/ {'o','a'}, /* Moareiter */
-	/* 72*/ {'t','h'}, /* Turmhuepfer */
-	/* 73*/ {'l','h'}, /* Laeuferhuepfer */
-	/* 74*/ {'e','k'}, /* Erlkoenig */
-	/* 75*/ {'p','f'}, /* Pfadfinder */
-	/* 76*/ {'p','n'}, /* Pfadfinderin */
-	/* 77*/ {'s','k'}, /* Skylla */
-	/* 78*/ {'c','y'}, /* Charybdis */
-	/* 79*/ {'k','g'}, /* KontraGrashuepfer */
-	/* 80*/ {'r','n'}, /* RosenLion */
-	/* 81*/ {'r','h'}, /* RosenHuepfer */
-	/* 82*/ {'o','k'}, /* Okapi */
-	/* 83*/ {'3','7'}, /* 3:7-Springer */
-	/* 84*/ {'g','2'}, /* Grashuepfer-2 */
-	/* 85*/ {'g','3'}, /* Grashuepfer-3 */
-	/* 86*/ {'1','6'}, /* 1:6-Springer */
-	/* 87*/ {'2','4'}, /* 2:4-Springer */
-	/* 88*/ {'3','5'}, /* 3:5-Springer */
-	/* 89*/ {'d','g'}, /* DoppelGrashuepfer */
-	/* 90*/ {'k','h'}, /* Koenighuepfer */
-	/* 91*/ {'o','r'}, /* Orix */
-	/* 92*/ {'1','5'}, /* 1:5-Springer */
-	/* 93*/ {'2','5'}, /* 2:5-Springer */
-	/* 94*/ {'g','l'}, /* Gral */
-    /* 95*/ {'h','t'}, /* Turmheuschrecke */
-    /* 96*/ {'h','l'}, /* Laeuferheuschrecke */
-    /* 97*/ {'h','n'}, /* Nachtreiterheuschrecke */
-    /* 98*/ {'w','r'}, /* Wesirreiter */
-    /* 99*/ {'f','r'}, /* Fersreiter */
-	/*100*/ {'b','i'}, /* Bison */
-	/*101*/ {'e','t'}, /* Elefant */
-	/*102*/ {'n','a'}, /* Nao */
-	/*103*/ {'t','c'}, /* Turmelch: 45 Grad Grashuepfer */
-	/*104*/ {'t','a'}, /* Turmadler: 90 Grad Grashuepfer */
-	/*105*/ {'t','s'}, /* Turmspatz: 135 Grad Grashuepfer */
-	/*106*/ {'l','c'}, /* Laeuferelch: 45 Grad Grashuepfer */
-	/*107*/ {'l','a'}, /* Laeuferadler: 90 Grad Grashuepfer */
-	/*108*/ {'l','s'}, /* Laeuferspatz: 135 Grad Grashuepfer */
-	/*109*/ {'r','a'}, /* Rao: Chinesische Rose */
-	/*110*/ {'s','o'}, /* Skorpion: Erlkoenig + Grashuepfer */
-	/*111*/ {'m','g'}, /* Marguerite */
-	/*112*/ {'3','6'}, /* 3:6 Springer */
-    /*113*/ {'n','l'}, /* Nachtreiterlion */
-    /*114*/ {'m','l'}, /* Maoreiterlion */
-    /*115*/ {'m','m'}, /* Moareiterlion */
-    /*116*/ {'a','g'}, /* AndernachGrashuepfer */
-    /*117*/ {'f',' '}, /* Freund */
-    /*118*/ {'d','e'}, /* Delphin */
-    /*119*/ {'h','e'}, /* Hase: Lion-Huepfer ueber 2 Boecke */
-    /*120*/ {'b','o'}, /* Bob: Lion-Huepfer ueber 4 Boecke */
-    /*121*/ {'q','e'}, /* EquiEnglisch */
-    /*122*/ {'q','f'}, /* EquiFranzoesisch */
-    /*123*/ {'o','d'}, /* Odysseus */
-    /*124*/ {'b','1'}, /* Bouncer */
-    /*125*/ {'b','2'}, /* Turm-bouncer */
-    /*126*/ {'b','3'}, /* Laeufer-bouncer */
-    /*127*/ {'c','b'}, /* Chinesischer Bauer */
-    /*128*/ {'r','p'}, /* Radialspringer */
+	/*  0*/ {'.',' '},  /* leer */
+	/*  1*/ {' ',' '},  /* ausserhalb des Brettes */
+	/*  2*/ {'k',' '},  /* Koenig     0,1 + 1,1 S */
+	/*  3*/ {'b',' '},  /* Bauer */
+	/*  4*/ {'d',' '},  /* Dame       0,1 + 1,1 R */
+	/*  5*/ {'s',' '},  /* Springer   1,2 S */
+	/*  6*/ {'t',' '},  /* Turm       0,1 R */
+	/*  7*/ {'l',' '},  /* Laeufer    1,1 R */
+	/*  8*/ {'l','e'},  /* Leo */
+	/*  9*/ {'m','a'},  /* Mao */
+	/* 10*/ {'p','a'},  /* Pao */
+	/* 11*/ {'v','a'},  /* Vao */
+	/* 12*/ {'r','o'},  /* Rose */
+	/* 13*/ {'g',' '},  /* Grashuepfer 0,1 + 1,1 H */
+	/* 14*/ {'n',' '},  /* Nachtreiter 1,2 R */
+	/* 15*/ {'z',' '},  /* Zebra       2,3 S */
+	/* 16*/ {'c','a'},  /* Kamel       1,3 S */
+	/* 17*/ {'g','i'},  /* Giraffe     1,4 S */
+	/* 18*/ {'w','f'},  /* Wurzel-50-Springer 5,5 + 1,7 S */
+	/* 19*/ {'b','u'},  /* Wurzel-25-Springer 3,4 + 5,0 S  (Bukephalos: Pferd Alexanders des Grossen) */
+	/* 20*/ {'w','e'},  /* Wesir */
+	/* 21*/ {'a','l'},  /* Alfil */
+	/* 22*/ {'f','e'},  /* Fers */
+	/* 23*/ {'d','a'},  /* Dabbaba */
+	/* 24*/ {'l','i'},  /* Lion */
+	/* 25*/ {'n','e'},  /* Non-stop Equihopper */
+	/* 26*/ {'h',' '},  /* Heuschrecke */
+	/* 27*/ {'b','b'},  /* Berolina Bauer */
+	/* 28*/ {'a','m'},  /* Amazone    (Dame + Springer) */
+	/* 29*/ {'k','n'},  /* Kaiserin   (Turm + Springer) */
+	/* 30*/ {'p','r'},  /* Prinzessin (Laeufer + Springer) */
+	/* 31*/ {'g','n'},  /* Gnu        (Springer + Kamel) */
+	/* 32*/ {'a','n'},  /* Antilope    3,4 S */
+	/* 33*/ {'e','i'},  /* Eichhoernchen      (Springer + Alfil + Dabbabba) */
+	/* 34*/ {'w','a'},  /* Waran      (Turm + Nachtreiter) */
+	/* 35*/ {'d','r'},  /* Drache     (Springer + Bauer) */
+	/* 36*/ {'k','a'},  /* Kaenguruh */
+	/* 37*/ {'s','s'},  /* Spiralspringer */
+	/* 38*/ {'u','u'},  /* UbiUbi */
+	/* 39*/ {'h','a'},  /* Hamster: 180 Grad Grashuepfer */
+	/* 40*/ {'e','l'},  /* Elch: 45 Grad Grashuepfer */
+	/* 41*/ {'a','d'},  /* Adler: 90 Grad Grashuepfer */
+	/* 42*/ {'s','p'},  /* Spatz: 135 Grad Grashuepfer */
+	/* 43*/ {'e','r'},  /* Erzbischof */
+	/* 44*/ {'r','l'},  /* Reflektierender Laeufer */
+	/* 45*/ {'k','l'},  /* Kardinal */
+	/* 46*/ {'n','h'},  /* Nachtreiterhuepfer */
+	/* 47*/ {'d','u'},  /* Dummy */
+	/* 48*/ {'c','r'},  /* Kamelreiter */
+	/* 49*/ {'z','r'},  /* Zebrareiter */
+	/* 50*/ {'g','r'},  /* Gnureiter */
+	/* 51*/ {'c','h'},  /* Kamelreiterhuepfer */
+	/* 52*/ {'z','h'},  /* Zebrareiterhuepfer */
+	/* 53*/ {'g','h'},  /* Gnureiterhuepfer */
+	/* 54*/ {'d','s'},  /* DiagonalSpiralSpringer */
+	/* 55*/ {'r','s'},  /* Reflektierender Springer */
+	/* 56*/ {'e','q'},  /* Equihopper */
+	/* 57*/ {'c','t'},  /* CAT (= cavalier de troie) */
+	/* 58*/ {'b','s'},  /* Berolina Superbauer */
+	/* 59*/ {'s','b'},  /* Superbauer */
+	/* 60*/ {'t','l'},  /* Turm-Lion */
+	/* 61*/ {'l','l'},  /* Laeufer-Lion */
+	/* 62*/ {'s','i'},  /* Sirene */
+	/* 63*/ {'t','r'},  /* Triton */
+	/* 64*/ {'n','d'},  /* Nereide */
+	/* 65*/ {'o',' '},  /* Orphan */
+	/* 66*/ {'r','d'},  /* Randschwein */
+	/* 67*/ {'m','o'},  /* Moa */
+	/* 68*/ {'t','j'},  /* Turm/Laeufer-Jaeger */
+	/* 69*/ {'l','j'},  /* Laeufer/Turm-Jaeger */
+	/* 70*/ {'a','o'},  /* Maoreiter */
+	/* 71*/ {'o','a'},  /* Moareiter */
+	/* 72*/ {'t','h'},  /* Turmhuepfer */
+	/* 73*/ {'l','h'},  /* Laeuferhuepfer */
+	/* 74*/ {'e','k'},  /* Erlkoenig */
+	/* 75*/ {'p','f'},  /* Pfadfinder */
+	/* 76*/ {'p','n'},  /* Pfadfinderin */
+	/* 77*/ {'s','k'},  /* Skylla */
+	/* 78*/ {'c','y'},  /* Charybdis */
+	/* 79*/ {'k','g'},  /* KontraGrashuepfer */
+	/* 80*/ {'r','n'},  /* RosenLion */
+	/* 81*/ {'r','h'},  /* RosenHuepfer */
+	/* 82*/ {'o','k'},  /* Okapi */
+	/* 83*/ {'3','7'},  /* 3:7-Springer */
+	/* 84*/ {'g','2'},  /* Grashuepfer-2 */
+	/* 85*/ {'g','3'},  /* Grashuepfer-3 */
+	/* 86*/ {'1','6'},  /* 1:6-Springer */
+	/* 87*/ {'2','4'},  /* 2:4-Springer */
+	/* 88*/ {'3','5'},  /* 3:5-Springer */
+	/* 89*/ {'d','g'},  /* DoppelGrashuepfer */
+	/* 90*/ {'k','h'},  /* Koenighuepfer */
+	/* 91*/ {'o','r'},  /* Orix */
+	/* 92*/ {'1','5'},  /* 1:5-Springer */
+	/* 93*/ {'2','5'},  /* 2:5-Springer */
+	/* 94*/ {'g','l'},  /* Gral */
+    /* 95*/ {'h','t'},  /* Turmheuschrecke */
+    /* 96*/ {'h','l'},  /* Laeuferheuschrecke */
+    /* 97*/ {'h','n'},  /* Nachtreiterheuschrecke */
+    /* 98*/ {'w','r'},  /* Wesirreiter */
+    /* 99*/ {'f','r'},  /* Fersreiter */
+	/*100*/ {'b','i'},  /* Bison */
+	/*101*/ {'e','t'},  /* Elefant */
+	/*102*/ {'n','a'},  /* Nao */
+	/*103*/ {'t','c'},  /* Turmelch: 45 Grad Grashuepfer */
+	/*104*/ {'t','a'},  /* Turmadler: 90 Grad Grashuepfer */
+	/*105*/ {'t','s'},  /* Turmspatz: 135 Grad Grashuepfer */
+	/*106*/ {'l','c'},  /* Laeuferelch: 45 Grad Grashuepfer */
+	/*107*/ {'l','a'},  /* Laeuferadler: 90 Grad Grashuepfer */
+	/*108*/ {'l','s'},  /* Laeuferspatz: 135 Grad Grashuepfer */
+	/*109*/ {'r','a'},  /* Rao: Chinesische Rose */
+	/*110*/ {'s','o'},  /* Skorpion: Erlkoenig + Grashuepfer */
+	/*111*/ {'m','g'},  /* Marguerite */
+	/*112*/ {'3','6'},  /* 3:6 Springer */
+    /*113*/ {'n','l'},  /* Nachtreiterlion */
+    /*114*/ {'m','l'},  /* Maoreiterlion */
+    /*115*/ {'m','m'},  /* Moareiterlion */
+    /*116*/ {'a','g'},  /* AndernachGrashuepfer */
+    /*117*/ {'f',' '},  /* Freund */
+    /*118*/ {'d','e'},  /* Delphin */
+    /*119*/ {'h','e'},  /* Hase: Lion-Huepfer ueber 2 Boecke */
+    /*120*/ {'b','o'},  /* Bob: Lion-Huepfer ueber 4 Boecke */
+    /*121*/ {'q','e'},  /* EquiEnglisch */
+    /*122*/ {'q','f'},  /* EquiFranzoesisch */
+    /*123*/ {'o','d'},  /* Odysseus */
+    /*124*/ {'b','1'},  /* Bouncer */
+    /*125*/ {'b','2'},  /* Turm-bouncer */
+    /*126*/ {'b','3'},  /* Laeufer-bouncer */
+    /*127*/ {'c','b'},  /* Chinesischer Bauer */
+    /*128*/ {'r','p'},  /* Radialspringer */
     /*129*/ {'r','b'},  /* ReversBauer */
     /*130*/ {'l','r'},  /* RosenHeuschrecke */
-    /*131*/ {'z','e'},  /*Zebu */
-    /*132*/ {'n','r'},  /*Reflektierender Nachreiter*/
-    /*133*/ {'s','2'},  /*spiralspringer (2,0) */
-    /*134*/ {'s','4'},  /*spiralspringer (4,0) */
-    /*135*/ {'s','1'},  /*diagonalspiralspringer (1,1) */
-    /*136*/ {'s','3'},  /*diagonalspiralspringer (3,3) */
-    /*137*/ {'q','n'}   /*quintessence */
+    /*131*/ {'z','e'},  /* Zebu */
+    /*132*/ {'n','r'},  /* Reflektierender Nachreiter*/
+    /*133*/ {'s','2'},  /* spiralspringer (2,0) */
+    /*134*/ {'s','4'},  /* spiralspringer (4,0) */
+    /*135*/ {'s','1'},  /* diagonalspiralspringer (1,1) */
+    /*136*/ {'s','3'},  /* diagonalspiralspringer (3,3) */
+    /*137*/ {'q','n'}   /* quintessence */
 	},{/* English PieNamString */
-	/*  0*/ {'.',' '}, /* empty */
-	/*  1*/ {' ',' '}, /* outside board */
-	/*  2*/ {'k',' '}, /* king */
-	/*  3*/ {'p',' '}, /* pawn */
-	/*  4*/ {'q',' '}, /* queen */
-	/*  5*/ {'s',' '}, /* knight */
-	/*  6*/ {'r',' '}, /* rook */
-	/*  7*/ {'b',' '}, /* bishop */
-	/*  8*/ {'l','e'}, /* leo */
-	/*  9*/ {'m','a'}, /* mao */
-	/* 10*/ {'p','a'}, /* pao */
-	/* 11*/ {'v','a'}, /* vao */
-	/* 12*/ {'r','o'}, /* rose */
-	/* 13*/ {'g',' '}, /* grashopper */
-	/* 14*/ {'n',' '}, /* nightrider */
-	/* 15*/ {'z',' '}, /* zebra */
-	/* 16*/ {'c','a'}, /* camel */
-	/* 17*/ {'g','i'}, /* giraffe */
-	/* 18*/ {'r','f'}, /* root-50-leaper */
-	/* 19*/ {'b','u'}, /* root-25-leaper  (bucephale: horse of Alexander the Great) */
-	/* 20*/ {'w','e'}, /* wazir */
-	/* 21*/ {'a','l'}, /* alfil */
-	/* 22*/ {'f','e'}, /* fers */
-	/* 23*/ {'d','a'}, /* dabbabba */
-	/* 24*/ {'l','i'}, /* lion */
-	/* 25*/ {'n','e'}, /* nonstop equihopper */
-	/* 26*/ {'l',' '}, /* locust */
-	/* 27*/ {'b','p'}, /* berolina pawn */
-	/* 28*/ {'a','m'}, /* amazon */
-	/* 29*/ {'e','m'}, /* empress */
-	/* 30*/ {'p','r'}, /* princess */
-	/* 31*/ {'g','n'}, /* gnu */
-	/* 32*/ {'a','n'}, /* antelope */
-	/* 33*/ {'s','q'}, /* squirrel */
-	/* 34*/ {'w','a'}, /* waran */
-	/* 35*/ {'d','r'}, /* dragon */
-	/* 36*/ {'k','a'}, /* kangaroo */
-	/* 37*/ {'s','s'}, /* Spiralspringer */
-	/* 38*/ {'u','u'}, /* UbiUbi */
-	/* 39*/ {'h','a'}, /* hamster: 180 degree grashopper */
-	/* 40*/ {'m',' '}, /* moose: 45 degree grashopper */
-	/* 41*/ {'e','a'}, /* eagle: 90 degree grashopper */
-	/* 42*/ {'s','w'}, /* sparrow: 135 degree grashopper */
-	/* 43*/ {'a','r'}, /* archbishop */
-	/* 44*/ {'r','b'}, /* reflecting bishop */
-	/* 45*/ {'c',' '}, /* cardinal */
-	/* 46*/ {'n','h'}, /* nightrider-hopper */
-	/* 47*/ {'d','u'}, /* dummy */
-	/* 48*/ {'c','r'}, /* camelrider */
-	/* 49*/ {'z','r'}, /* zebrarider */
-	/* 50*/ {'g','r'}, /* gnurider */
-	/* 51*/ {'c','h'}, /* camelrider hopper */
-	/* 52*/ {'z','h'}, /* zebrarider hopper */
-	/* 53*/ {'g','h'}, /* gnurider hopper */
-	/* 54*/ {'d','s'}, /* DiagonalSpiralSpringer */
-	/* 55*/ {'b','k'}, /* bouncy knight */
-	/* 56*/ {'e','q'}, /* equihoppper */
-	/* 57*/ {'c','t'}, /* CAT  ( cavalier de troie) */
-	/* 58*/ {'b','s'}, /* berolina superpawn */
-	/* 59*/ {'s','p'}, /* superpawn */
-	/* 60*/ {'r','l'}, /* rook-lion */
-	/* 61*/ {'b','l'}, /* bishop-lion */
-	/* 62*/ {'s','i'}, /* sirene */
-	/* 63*/ {'t','r'}, /* triton */
-	/* 64*/ {'n','d'}, /* nereide */
-	/* 65*/ {'o',' '}, /* orphan */
-	/* 66*/ {'e','h'}, /* edgehog */
-	/* 67*/ {'m','o'}, /* moa */
-	/* 68*/ {'r','r'}, /* rook/bishop-hunter */
-	/* 69*/ {'b','r'}, /* bishop/rook-hunter */
-	/* 70*/ {'a','o'}, /* maorider */
-	/* 71*/ {'o','a'}, /* moarider */
-	/* 72*/ {'r','h'}, /* rookhopper */
-	/* 73*/ {'b','h'}, /* bishophopper */
-	/* 74*/ {'e','k'}, /* erlking */
-	/* 75*/ {'b','t'}, /* boyscout */
-	/* 76*/ {'g','t'}, /* girlscout */
-	/* 77*/ {'s','k'}, /* Skylla */
-	/* 78*/ {'c','y'}, /* Charybdis */
-	/* 79*/ {'c','g'}, /* contra grashopper */
-	/* 80*/ {'r','n'}, /* RoseLion */
-	/* 81*/ {'r','p'}, /* RoseHopper */
-	/* 82*/ {'o','k'}, /* Okapi */
-	/* 83*/ {'3','7'}, /* 3:7-leaper */
-	/* 84*/ {'g','2'}, /* grasshopper-2 */
-	/* 85*/ {'g','3'}, /* grasshopper-3 */
-	/* 86*/ {'1','6'}, /* 1:6-leaper */
-	/* 87*/ {'2','4'}, /* 2:4-leaper */
-	/* 88*/ {'3','5'}, /* 3:5-leaper */
-	/* 89*/ {'d','g'}, /* Double Grasshopper */
-	/* 90*/ {'k','h'}, /* Kinghopper */
-	/* 91*/ {'o','r'}, /* Orix */
-	/* 92*/ {'1','5'}, /* 1:5-leaper */
-	/* 93*/ {'2','5'}, /* 2:5-leaper */
-	/* 94*/ {'g','l'}, /* Gral */
-    /* 95*/ {'l','r'}, /* rook locust */
-    /* 96*/ {'l','b'}, /* bishop locust */
-    /* 97*/ {'l','n'}, /* nightrider locust */
-    /* 98*/ {'w','r'}, /* wazirrider */
-    /* 99*/ {'f','r'}, /* fersrider */
-	/*100*/ {'b','i'}, /* bison */
-	/*101*/ {'e','t'}, /* elephant */
-	/*102*/ {'n','a'}, /* Nao */
-	/*103*/ {'r','m'}, /* rook moose: 45 degree grashopper */
-	/*104*/ {'r','e'}, /* rook eagle: 90 degree grashopper */
-	/*105*/ {'r','w'}, /* rook sparrow: 135 degree grashopper */
-	/*106*/ {'b','m'}, /* bishop moose: 45 degree grashopper */
-	/*107*/ {'b','e'}, /* bishop eagle: 90 degree grashopper */
-	/*108*/ {'b','w'}, /* bishop sparrow: 135 degree grashopper */
-	/*109*/ {'r','a'}, /* rao: chinese rose */
-	/*110*/ {'s','o'}, /* scorpion: erlking + grashopper */
-	/*111*/ {'m','g'}, /* marguerite */
-	/*112*/ {'3','6'}, /* 3:6 leaper */
-    /*113*/ {'n','l'}, /* nightriderlion */
-    /*114*/ {'m','l'}, /* maoriderlion */
-    /*115*/ {'m','m'}, /* moariderlion */
-    /*116*/ {'a','g'}, /* AndernachGrasshopper */
-    /*117*/ {'f',' '}, /* friend */
-    /*118*/ {'d','o'}, /* dolphin */
-    /*119*/ {'r','t'}, /* rabbit */
-    /*120*/ {'b','o'}, /* bob */
-    /*121*/ {'q','e'}, /* equi english */
-    /*122*/ {'q','f'}, /* equi french */
-    /*123*/ {'q','q'}, /* querquisite */
-    /*124*/ {'b','1'}, /* bouncer */
-    /*125*/ {'b','2'}, /* tour-bouncer */
+	/*  0*/ {'.',' '},  /* empty */
+	/*  1*/ {' ',' '},  /* outside board */
+	/*  2*/ {'k',' '},  /* king */
+	/*  3*/ {'p',' '},  /* pawn */
+	/*  4*/ {'q',' '},  /* queen */
+	/*  5*/ {'s',' '},  /* knight */
+	/*  6*/ {'r',' '},  /* rook */
+	/*  7*/ {'b',' '},  /* bishop */
+	/*  8*/ {'l','e'},  /* leo */
+	/*  9*/ {'m','a'},  /* mao */
+	/* 10*/ {'p','a'},  /* pao */
+	/* 11*/ {'v','a'},  /* vao */
+	/* 12*/ {'r','o'},  /* rose */
+	/* 13*/ {'g',' '},  /* grashopper */
+	/* 14*/ {'n',' '},  /* nightrider */
+	/* 15*/ {'z',' '},  /* zebra */
+	/* 16*/ {'c','a'},  /* camel */
+	/* 17*/ {'g','i'},  /* giraffe */
+	/* 18*/ {'r','f'},  /* root-50-leaper */
+	/* 19*/ {'b','u'},  /* root-25-leaper  (bucephale: horse of Alexander the Great) */
+	/* 20*/ {'w','e'},  /* wazir */
+	/* 21*/ {'a','l'},  /* alfil */
+	/* 22*/ {'f','e'},  /* fers */
+	/* 23*/ {'d','a'},  /* dabbabba */
+	/* 24*/ {'l','i'},  /* lion */
+	/* 25*/ {'n','e'},  /* nonstop equihopper */
+	/* 26*/ {'l',' '},  /* locust */
+	/* 27*/ {'b','p'},  /* berolina pawn */
+	/* 28*/ {'a','m'},  /* amazon */
+	/* 29*/ {'e','m'},  /* empress */
+	/* 30*/ {'p','r'},  /* princess */
+	/* 31*/ {'g','n'},  /* gnu */
+	/* 32*/ {'a','n'},  /* antelope */
+	/* 33*/ {'s','q'},  /* squirrel */
+	/* 34*/ {'w','a'},  /* waran */
+	/* 35*/ {'d','r'},  /* dragon */
+	/* 36*/ {'k','a'},  /* kangaroo */
+	/* 37*/ {'s','s'},  /* Spiralspringer */
+	/* 38*/ {'u','u'},  /* UbiUbi */
+	/* 39*/ {'h','a'},  /* hamster: 180 degree grashopper */
+	/* 40*/ {'m',' '},  /* moose: 45 degree grashopper */
+	/* 41*/ {'e','a'},  /* eagle: 90 degree grashopper */
+	/* 42*/ {'s','w'},  /* sparrow: 135 degree grashopper */
+	/* 43*/ {'a','r'},  /* archbishop */
+	/* 44*/ {'r','b'},  /* reflecting bishop */
+	/* 45*/ {'c',' '},  /* cardinal */
+	/* 46*/ {'n','h'},  /* nightrider-hopper */
+	/* 47*/ {'d','u'},  /* dummy */
+	/* 48*/ {'c','r'},  /* camelrider */
+	/* 49*/ {'z','r'},  /* zebrarider */
+	/* 50*/ {'g','r'},  /* gnurider */
+	/* 51*/ {'c','h'},  /* camelrider hopper */
+	/* 52*/ {'z','h'},  /* zebrarider hopper */
+	/* 53*/ {'g','h'},  /* gnurider hopper */
+	/* 54*/ {'d','s'},  /* DiagonalSpiralSpringer */
+	/* 55*/ {'b','k'},  /* bouncy knight */
+	/* 56*/ {'e','q'},  /* equihoppper */
+	/* 57*/ {'c','t'},  /* CAT  ( cavalier de troie) */
+	/* 58*/ {'b','s'},  /* berolina superpawn */
+	/* 59*/ {'s','p'},  /* superpawn */
+	/* 60*/ {'r','l'},  /* rook-lion */
+	/* 61*/ {'b','l'},  /* bishop-lion */
+	/* 62*/ {'s','i'},  /* sirene */
+	/* 63*/ {'t','r'},  /* triton */
+	/* 64*/ {'n','d'},  /* nereide */
+	/* 65*/ {'o',' '},  /* orphan */
+	/* 66*/ {'e','h'},  /* edgehog */
+	/* 67*/ {'m','o'},  /* moa */
+	/* 68*/ {'r','r'},  /* rook/bishop-hunter */
+	/* 69*/ {'b','r'},  /* bishop/rook-hunter */
+	/* 70*/ {'a','o'},  /* maorider */
+	/* 71*/ {'o','a'},  /* moarider */
+	/* 72*/ {'r','h'},  /* rookhopper */
+	/* 73*/ {'b','h'},  /* bishophopper */
+	/* 74*/ {'e','k'},  /* erlking */
+	/* 75*/ {'b','t'},  /* boyscout */
+	/* 76*/ {'g','t'},  /* girlscout */
+	/* 77*/ {'s','k'},  /* Skylla */
+	/* 78*/ {'c','y'},  /* Charybdis */
+	/* 79*/ {'c','g'},  /* contra grashopper */
+	/* 80*/ {'r','n'},  /* RoseLion */
+	/* 81*/ {'r','p'},  /* RoseHopper */
+	/* 82*/ {'o','k'},  /* Okapi */
+	/* 83*/ {'3','7'},  /* 3:7-leaper */
+	/* 84*/ {'g','2'},  /* grasshopper-2 */
+	/* 85*/ {'g','3'},  /* grasshopper-3 */
+	/* 86*/ {'1','6'},  /* 1:6-leaper */
+	/* 87*/ {'2','4'},  /* 2:4-leaper */
+	/* 88*/ {'3','5'},  /* 3:5-leaper */
+	/* 89*/ {'d','g'},  /* Double Grasshopper */
+	/* 90*/ {'k','h'},  /* Kinghopper */
+	/* 91*/ {'o','r'},  /* Orix */
+	/* 92*/ {'1','5'},  /* 1:5-leaper */
+	/* 93*/ {'2','5'},  /* 2:5-leaper */
+	/* 94*/ {'g','l'},  /* Gral */
+    /* 95*/ {'l','r'},  /* rook locust */
+    /* 96*/ {'l','b'},  /* bishop locust */
+    /* 97*/ {'l','n'},  /* nightrider locust */
+    /* 98*/ {'w','r'},  /* wazirrider */
+    /* 99*/ {'f','r'},  /* fersrider */
+	/*100*/ {'b','i'},  /* bison */
+	/*101*/ {'e','t'},  /* elephant */
+	/*102*/ {'n','a'},  /* Nao */
+	/*103*/ {'r','m'},  /* rook moose: 45 degree grashopper */
+	/*104*/ {'r','e'},  /* rook eagle: 90 degree grashopper */
+	/*105*/ {'r','w'},  /* rook sparrow: 135 degree grashopper */
+	/*106*/ {'b','m'},  /* bishop moose: 45 degree grashopper */
+	/*107*/ {'b','e'},  /* bishop eagle: 90 degree grashopper */
+	/*108*/ {'b','w'},  /* bishop sparrow: 135 degree grashopper */
+	/*109*/ {'r','a'},  /* rao: chinese rose */
+	/*110*/ {'s','o'},  /* scorpion: erlking + grashopper */
+	/*111*/ {'m','g'},  /* marguerite */
+	/*112*/ {'3','6'},  /* 3:6 leaper */
+    /*113*/ {'n','l'},  /* nightriderlion */
+    /*114*/ {'m','l'},  /* maoriderlion */
+    /*115*/ {'m','m'},  /* moariderlion */
+    /*116*/ {'a','g'},  /* AndernachGrasshopper */
+    /*117*/ {'f',' '},  /* friend */
+    /*118*/ {'d','o'},  /* dolphin */
+    /*119*/ {'r','t'},  /* rabbit */
+    /*120*/ {'b','o'},  /* bob */
+    /*121*/ {'q','e'},  /* equi english */
+    /*122*/ {'q','f'},  /* equi french */
+    /*123*/ {'q','q'},  /* querquisite */
+    /*124*/ {'b','1'},  /* bouncer */
+    /*125*/ {'b','2'},  /* tour-bouncer */
     /*126*/ {'b','3'},  /* fou-bouncer */
     /*127*/ {'c','p'},  /* chinese pawn */	
     /*128*/ {'r','k'},  /* radial knight */	
     /*129*/ {'p','p'},  /* protean pawn */	
     /*130*/ {'l','s'},  /* Rose Locust */
-    /*131*/ {'z','e'},   /*zebu */
-    /*132*/ {'b','n'},  /*Bouncy Nightrider */
-    /*133*/ {'s','2'},  /*spiralspringer (2,0) */
-    /*134*/ {'s','4'},  /*spiralspringer (4,0) */
-    /*135*/ {'s','1'},  /*diagonalspiralspringer (1,1) */
-    /*136*/ {'s','3'},  /*diagonalspiralspringer (3,3) */
-    /*137*/ {'q','n'}   /*quintessence */
+    /*131*/ {'z','e'},  /* zebu */
+    /*132*/ {'b','n'},  /* Bouncy Nightrider */
+    /*133*/ {'s','2'},  /* spiralspringer (2,0) */
+    /*134*/ {'s','4'},  /* spiralspringer (4,0) */
+    /*135*/ {'s','1'},  /* diagonalspiralspringer (1,1) */
+    /*136*/ {'s','3'},  /* diagonalspiralspringer (3,3) */
+    /*137*/ {'q','n'}   /* quintessence */
   }
 	};
 #endif
