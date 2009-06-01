@@ -155,7 +155,82 @@ static boolean have_we_solution_in_n(slice_index si,
   return solution_found;
 }
 
+/* Determine whether attacker can end short if full would be n half moves.
+ * @param si slice index
+ * @param n (even) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff attacker can end in n half moves
+ */
+static boolean have_we_solution_in_n_short(slice_index si,
+                                           stip_length_type n,
+                                           int curr_max_nr_nontrivial)
+{
+  boolean result = false;
+
+  stip_length_type i;
+  stip_length_type n_min = 2+slack_length_direct;
+  stip_length_type n_max = n-2;
+  stip_length_type const moves_played = slices[si].u.branch_d.length-n;
+  stip_length_type const min_length = slices[si].u.branch_d.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
+
+  if (min_length>moves_played)
+    n_min = min_length-moves_played;
+
+  if (n_max>=2*max_len_threat+slack_length_direct)
+    n_max = 2*max_len_threat+slack_length_direct;
+
+  if (n_max>=2*min_length_nontrivial+slack_length_direct)
+    n_max = 2*min_length_nontrivial+slack_length_direct;
+
+  for (i = n_min; i<=n_max; i += 2)
+    if (have_we_solution_in_n(si,i,curr_max_nr_nontrivial))
+    {
+      result = true;
+      break;
+    }
+    else if (maxtime_status==MAXTIME_TIMEOUT)
+      break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 /* Determine whether attacker can end in n half moves.
+ * @param si slice index
+ * @param n (even) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff attacker can end in n half moves
+ */
+static boolean have_we_solution_in_n_nohash(slice_index si,
+                                            stip_length_type n,
+                                            int curr_max_nr_nontrivial)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",n);
+
+  if (have_we_solution_in_n_short(si,n,curr_max_nr_nontrivial))
+    result = true;
+  else if (maxtime_status!=MAXTIME_TIMEOUT
+           && have_we_solution_in_n(si,n,curr_max_nr_nontrivial))
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+/* Determine whether attacker can end in n half moves.
+ * May consult the hash table.
  * @param si slice index
  * @param n (even) number of half moves until goal
  * @param curr_max_nr_nontrivial remaining maximum number of
@@ -186,29 +261,7 @@ boolean branch_d_has_solution_in_n(slice_index si,
   }
   else
   {
-    stip_length_type i;
-    stip_length_type n_min = 2+slack_length_direct;
-    stip_length_type const moves_played = slices[si].u.branch_d.length-n;
-    stip_length_type const min_length = slices[si].u.branch_d.min_length;
-
-    if (min_length>moves_played)
-      n_min = min_length-moves_played;
-
-    for (i = n_min; i<=n; i += 2)
-    {
-      if (i>=2*max_len_threat+slack_length_direct
-          || i>=2*min_length_nontrivial+slack_length_direct)
-        i = n;
-
-      if (have_we_solution_in_n(si,i,curr_max_nr_nontrivial))
-      {
-        result = true;
-        break;
-      }
-      else if (maxtime_status==MAXTIME_TIMEOUT)
-        break;
-    }
-
+    result = have_we_solution_in_n_nohash(si,n,curr_max_nr_nontrivial);
     if (result)
       addtohash(si,DirSucc,n/2-1);
     else
