@@ -107,9 +107,13 @@ boolean branch_d_has_starter_reached_goal(slice_index si)
 /* Determine whether this slice has a solution in n half moves
  * @param si slice identifier
  * @param n (even) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff the attacking side wins
  */
-static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
+static boolean have_we_solution_in_n(slice_index si,
+                                     stip_length_type n,
+                                     int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].u.branch_d.starter;
   slice_index const peer = slices[si].u.branch_d.peer;
@@ -130,7 +134,7 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
     {
       if (branch_d_defender_has_starter_apriori_lost(peer))
         /* nothing */;
-      else if (!branch_d_defender_does_defender_win(peer,n-1))
+      else if (!branch_d_defender_does_defender_win(peer,n-1,curr_max_nr_nontrivial))
       {
         solution_found = true;
         coupfort();
@@ -154,9 +158,13 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
 /* Determine whether attacker can end in n half moves.
  * @param si slice index
  * @param n (even) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff attacker can end in n half moves
  */
-boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
+boolean branch_d_has_solution_in_n(slice_index si,
+                                   stip_length_type n,
+                                   int curr_max_nr_nontrivial)
 {
   boolean result = false;
 
@@ -192,7 +200,7 @@ boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n)
           || i>=2*min_length_nontrivial+slack_length_direct)
         i = n;
 
-      if (have_we_solution_in_n(si,i))
+      if (have_we_solution_in_n(si,i,curr_max_nr_nontrivial))
       {
         result = true;
         break;
@@ -224,7 +232,8 @@ boolean branch_d_has_solution(slice_index si)
   TraceFunctionParam("%u\n",si);
 
   result = !branch_d_defender_is_refuted(slices[si].u.branch_d.peer,
-                                         slices[si].u.branch_d.length);
+                                         slices[si].u.branch_d.length,
+                                         max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -262,7 +271,9 @@ void branch_d_solve_continuations_in_n(table continuations,
     {
       if (branch_d_defender_has_starter_apriori_lost(peer))
         ; /* nothing */
-      else if (!branch_d_defender_does_defender_win(peer,n-1))
+      else if (!branch_d_defender_does_defender_win(peer,
+                                                    n-1,
+                                                    max_nr_nontrivial))
       {
         write_attack(attack_regular);
         branch_d_defender_solve_postkey_in_n(peer,n-1);
@@ -334,7 +345,7 @@ boolean branch_d_solve(slice_index si)
   else if (branch_d_defender_solve_next(slices[si].u.branch_d.peer))
     result = true;
   else if (n>slack_length_direct
-           && branch_d_has_solution_in_n(si,n))
+           && branch_d_has_solution_in_n(si,n,max_nr_nontrivial))
   {
     stip_length_type i;
     table const continuations = allocate_table();

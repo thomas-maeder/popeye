@@ -65,9 +65,13 @@ boolean branch_d_defender_has_starter_apriori_lost(slice_index si);
 /* Is the defense just played a refutation?
  * @param si slice index
  * @param n (even) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff the defense is a refutation
  */
-boolean branch_d_defender_is_refuted(slice_index si, stip_length_type n);
+boolean branch_d_defender_is_refuted(slice_index si,
+                                     stip_length_type n,
+                                     int curr_max_nr_nontrivial);
 
 /* Determine whether the attacker has won with his move just played
  * independently of the non-starter's possible further play during the
@@ -87,10 +91,13 @@ boolean branch_d_defender_has_starter_reached_goal(slice_index si);
 /* Determine whether the defender wins after a move by the attacker
  * @param si slice index
  * @param n (odd) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff defender wins
  */
 boolean branch_d_defender_does_defender_win(slice_index si,
-                                            stip_length_type n);
+                                            stip_length_type n,
+                                            int curr_max_nr_nontrivial);
 
 /* Determine whether a slice.has just been solved with the just played
  * move by the non-starter

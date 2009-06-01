@@ -68,9 +68,13 @@ boolean branch_d_has_starter_reached_goal(slice_index si);
 /* Determine whether a branch slice has a solution
  * @param si slice index
  * @param n maximal number of moves
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff slice si has a solution
  */
-boolean branch_d_has_solution_in_n(slice_index si, stip_length_type n);
+boolean branch_d_has_solution_in_n(slice_index si,
+                                   stip_length_type n,
+                                   int curr_max_nr_nontrivial);
 
 /* Determine whether a slice has a solution
  * @param si slice index

@@ -135,9 +135,13 @@ boolean branch_d_defender_has_starter_apriori_lost(slice_index si)
 /* Is the defense just played a refutation?
  * @param si slice index
  * @param n (even) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff the defense is a refutation
  */
-boolean branch_d_defender_is_refuted(slice_index si, stip_length_type n)
+boolean branch_d_defender_is_refuted(slice_index si,
+                                     stip_length_type n,
+                                     int curr_max_nr_nontrivial)
 {
   slice_index const next = slices[si].u.branch_d_defender.next;
   boolean result;
@@ -148,7 +152,8 @@ boolean branch_d_defender_is_refuted(slice_index si, stip_length_type n)
 
   assert(n%2==0);
 
-  if (slice_must_starter_resign(next) || slice_must_starter_resign_hashed(next))
+  if (slice_must_starter_resign(next)
+      || slice_must_starter_resign_hashed(next))
     result = true;
   else
   {
@@ -166,7 +171,7 @@ boolean branch_d_defender_is_refuted(slice_index si, stip_length_type n)
     {
       slice_index const peer = slices[si].u.branch_d_defender.peer;
       if (n>slack_length_direct
-          && branch_d_has_solution_in_n(peer,n))
+          && branch_d_has_solution_in_n(peer,n,curr_max_nr_nontrivial))
         result = false;
       else
         result = true;
@@ -189,15 +194,19 @@ typedef enum
  * immobile) 
  * @param si slice index
  * @param n (odd) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return information about defender's possibilities
  */
-static defender_has_refutation_type has_defender_refutation(slice_index si,
-                                                            stip_length_type n)
+static defender_has_refutation_type
+has_defender_refutation(slice_index si,
+                        stip_length_type n,
+                        int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
   defender_has_refutation_type result = defender_is_immobile;
-  
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
@@ -217,7 +226,7 @@ static defender_has_refutation_type has_defender_refutation(slice_index si,
         && !echecc(nbply,defender))
     {
       result = defender_has_no_refutation;
-      if (branch_d_defender_is_refuted(si,n-1))
+      if (branch_d_defender_is_refuted(si,n-1,curr_max_nr_nontrivial))
       {
         result = defender_has_refutation;
         coupfort();
@@ -266,7 +275,8 @@ static int count_all_nontrivial_defenses(slice_index si)
       {
         if (branch_d_defender_is_refuted(si,
                                          2*min_length_nontrivial
-                                         +slack_length_direct))
+                                         +slack_length_direct,
+                                         max_nr_nontrivial))
           ++result;
       }
     }
@@ -284,9 +294,12 @@ static int count_all_nontrivial_defenses(slice_index si)
 /* Count non-trivial moves of the defending side. Whether a
  * particular move is non-trivial is determined by user input.
  * Stop counting when more than max_nr_nontrivial have been found
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return number of defender's non-trivial moves minus 1 (TODO: why?)
  */
-static int count_enough_nontrivial_defenses(slice_index si)
+static int count_enough_nontrivial_defenses(slice_index si,
+                                            int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
@@ -300,7 +313,7 @@ static int count_enough_nontrivial_defenses(slice_index si)
   TraceValue("%u",max_nr_nontrivial);
   TraceValue("%u\n",min_length_nontrivial);
 
-  while (encore() && max_nr_nontrivial>=result)
+  while (encore() && curr_max_nr_nontrivial>=result)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender))
@@ -311,7 +324,8 @@ static int count_enough_nontrivial_defenses(slice_index si)
       {
         if (branch_d_defender_is_refuted(si,
                                          2*min_length_nontrivial
-                                         +slack_length_direct))
+                                         +slack_length_direct,
+                                         curr_max_nr_nontrivial))
           ++result;
       }
     }
@@ -330,10 +344,13 @@ static int count_enough_nontrivial_defenses(slice_index si)
  * respective to user input
  * @param si slice index
  * @param n (odd) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff the defender has too many non-trivial defenses
  */
 static boolean too_many_nontrivial_defenses(slice_index si,
-                                            stip_length_type n)
+                                            stip_length_type n,
+                                            int curr_max_nr_nontrivial)
 {
   boolean result;
   int nontrivial_count;
@@ -342,15 +359,15 @@ static boolean too_many_nontrivial_defenses(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
-  nontrivial_count = count_enough_nontrivial_defenses(si);
-  if (max_nr_nontrivial<nontrivial_count)
+  nontrivial_count = count_enough_nontrivial_defenses(si,
+                                                      curr_max_nr_nontrivial);
+  if (curr_max_nr_nontrivial<nontrivial_count)
     result = true;
   else
-  {
-    max_nr_nontrivial -= nontrivial_count;
-    result = has_defender_refutation(si,n)!=defender_has_no_refutation;
-    max_nr_nontrivial += nontrivial_count;
-  }
+    result = (has_defender_refutation(si,
+                                      n,
+                                      curr_max_nr_nontrivial-nontrivial_count)
+              !=defender_has_no_refutation);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -361,14 +378,18 @@ static boolean too_many_nontrivial_defenses(slice_index si,
  * is too long respective to user input.
  * @param si slice index
  * @param n (even) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff threat is too long
  */
-static boolean is_threat_too_long(slice_index si, stip_length_type n)
+static boolean is_threat_too_long(slice_index si,
+                                  stip_length_type n,
+                                  int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
   boolean result;
-  
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
@@ -378,9 +399,9 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
   TraceValue("%u\n",2*max_len_threat);
   if (n>=2*max_len_threat+slack_length_direct
       && !echecc(nbply,defender))
-  {
-    result = branch_d_defender_is_refuted(si,2*max_len_threat);
-  }
+    result = branch_d_defender_is_refuted(si,
+                                          2*max_len_threat,
+                                          curr_max_nr_nontrivial);
   else
     /* remainder of play is too short for max_len_threat to apply */
     result = false;
@@ -393,9 +414,13 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
 /* Determine whether the defender wins after a move by the attacker
  * @param si slice index
  * @param n (odd) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff defender wins
  */
-boolean branch_d_defender_does_defender_win(slice_index si, stip_length_type n)
+boolean branch_d_defender_does_defender_win(slice_index si,
+                                            stip_length_type n,
+                                            int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
@@ -412,12 +437,13 @@ boolean branch_d_defender_does_defender_win(slice_index si, stip_length_type n)
   if ((OptFlag[solflights]
        && n-2>slack_length_direct
        && has_too_many_flights(defender))
-      || is_threat_too_long(si,n-1))
+      || is_threat_too_long(si,n-1,curr_max_nr_nontrivial))
     result = true;
   else if (n>2*min_length_nontrivial+slack_length_direct)
-    result = too_many_nontrivial_defenses(si,n);
+    result = too_many_nontrivial_defenses(si,n,curr_max_nr_nontrivial);
   else
-    result = has_defender_refutation(si,n)!=defender_has_no_refutation;
+    result = (has_defender_refutation(si,n,curr_max_nr_nontrivial)
+              !=defender_has_no_refutation);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -428,19 +454,27 @@ boolean branch_d_defender_does_defender_win(slice_index si, stip_length_type n)
  * @param si slice index
  * @param n (odd) number of moves until goal (after the move just
  *          played)
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff attacker has won
  */
-static boolean has_starter_won_in_n(slice_index si, stip_length_type n)
+static boolean has_starter_won_in_n(slice_index si,
+                                    stip_length_type n,
+                                    int curr_max_nr_nontrivial)
 {
+  boolean result;
   slice_index const next = slices[si].u.branch_d_defender.next;
+
   if (slice_has_starter_apriori_lost(next))
-    return true;
+    result = true;
   else if (slices[si].u.branch_d_defender.length-n
            >slices[si].u.branch_d_defender.min_length
            && slice_has_starter_reached_goal(next))
-    return false;
+    result = false;
   else
-    return !branch_d_defender_does_defender_win(si,n);
+    result = !branch_d_defender_does_defender_win(si,n,curr_max_nr_nontrivial);
+
+  return result;
 }
 
 /* Determine whether the attacker has won with his move just played
@@ -451,7 +485,9 @@ static boolean has_starter_won_in_n(slice_index si, stip_length_type n)
  */
 boolean branch_d_defender_has_starter_won(slice_index si)
 {
-  return has_starter_won_in_n(si,slices[si].u.branch_d_defender.length);
+  return has_starter_won_in_n(si,
+                              slices[si].u.branch_d_defender.length,
+                              max_nr_nontrivial);
 }
 
 /* Determine whether the attacker has reached slice si's goal with his
@@ -497,12 +533,15 @@ boolean branch_d_defender_has_non_starter_solved(slice_index si)
  * @param threats table containing the threats
  * @param si slice index
  * @param n (even) number of moves until goal (after the defense)
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff the defense defends against at least one of the
  *         threats
  */
 static boolean defends_against_threats(table threats,
                                        slice_index si,
-                                       stip_length_type n)
+                                       stip_length_type n,
+                                       int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   boolean result = true;
@@ -533,7 +572,7 @@ static boolean defends_against_threats(table threats,
           defense_found = !slice_has_starter_won(next);
         }
         else
-          defense_found = !has_starter_won_in_n(si,n-1);
+          defense_found = !has_starter_won_in_n(si,n-1,curr_max_nr_nontrivial);
 
         if (defense_found)
         {
@@ -564,11 +603,14 @@ static boolean defends_against_threats(table threats,
  * @param table containing threats
  * @param si slice index
  * @param n (even) number of half moves until goal after the defense
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  */
 static boolean is_defense_relevant(int len_threat,
                                    table threats,
                                    slice_index si,
-                                   stip_length_type n)
+                                   stip_length_type n,
+                                   int curr_max_nr_nontrivial)
 {
   boolean result;
 
@@ -580,18 +622,23 @@ static boolean is_defense_relevant(int len_threat,
   assert(n%2==0);
 
   if (n>slack_length_direct && OptFlag[noshort]
-      && !branch_d_defender_is_refuted(si,n-2))
+      && !branch_d_defender_is_refuted(si,n-2,curr_max_nr_nontrivial))
     /* variation shorter than stip */
     result = false;
   else if (len_threat>slack_length_direct
-           && !branch_d_defender_is_refuted(si,len_threat-2))
+           && !branch_d_defender_is_refuted(si,
+                                            len_threat-2,
+                                            curr_max_nr_nontrivial))
     /* variation shorter than threat */
     /* TODO avoid double calculation if lenthreat==n*/
     result = false;
   else if (slice_has_non_starter_solved(slices[si].u.branch_d_defender.next))
     /* "defense" has reached goal in self/reflex play */
     result = false;
-  else if (!defends_against_threats(threats,si,len_threat))
+  else if (!defends_against_threats(threats,
+                                    si,
+                                    len_threat,
+                                    curr_max_nr_nontrivial))
     /* defense doesn't defend against threat */
     result = false;
   else
@@ -661,12 +708,15 @@ static boolean write_variation(slice_index si, stip_length_type n)
  * @param threats table containing threats
  * @param si slice index
  * @param n (odd) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff >=1 solution was found
  */
 static boolean solve_variations_in_n(int len_threat,
                                      table threats,
                                      slice_index si,
-                                     stip_length_type n)
+                                     stip_length_type n,
+                                     int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side defender = advers(attacker);
@@ -685,7 +735,11 @@ static boolean solve_variations_in_n(int len_threat,
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender)
-        && is_defense_relevant(len_threat,threats,si,n-1))
+        && is_defense_relevant(len_threat,
+                               threats,
+                               si,
+                               n-1,
+                               curr_max_nr_nontrivial))
       result = write_variation(si,n);
 
     repcoup();
@@ -782,12 +836,14 @@ boolean branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   if (n>2*min_length_nontrivial+slack_length_direct)
   {
     int const nontrivial_count = count_all_nontrivial_defenses(si);
-    max_nr_nontrivial -= nontrivial_count;
-    result = solve_variations_in_n(len_threat,threats,si,n);
-    max_nr_nontrivial += nontrivial_count;
+    result = solve_variations_in_n(len_threat,
+                                   threats,
+                                   si,
+                                   n,
+                                   max_nr_nontrivial-nontrivial_count);
   }
   else
-    result = solve_variations_in_n(len_threat,threats,si,n);
+    result = solve_variations_in_n(len_threat,threats,si,n,max_nr_nontrivial);
 
   output_end_postkey_level();
 
@@ -876,12 +932,15 @@ boolean branch_d_defender_solve_next(slice_index si)
  *                    played
  * @param si slice index
  * @param n (odd) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  */
 static void root_solve_variations_in_n(int len_threat,
                                        table threats,
                                        table refutations,
                                        slice_index si,
-                                       stip_length_type n)
+                                       stip_length_type n,
+                                       int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side defender = advers(attacker);
@@ -900,7 +959,11 @@ static void root_solve_variations_in_n(int len_threat,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender)
         && !is_current_move_in_table(refutations)
-        && is_defense_relevant(len_threat,threats,si,n-1))
+        && is_defense_relevant(len_threat,
+                               threats,
+                               si,
+                               n-1,
+                               curr_max_nr_nontrivial))
       write_variation(si,n);
 
     repcoup();
@@ -931,13 +994,22 @@ void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
 
     if (n>2*min_length_nontrivial+slack_length_direct)
     {
-      int const nontrivial_count = count_enough_nontrivial_defenses(si);
-      max_nr_nontrivial -= nontrivial_count;
-      root_solve_variations_in_n(len_threat,threats,refutations,si,n);
-      max_nr_nontrivial += nontrivial_count;
+      int const nontrivial_count =
+          count_enough_nontrivial_defenses(si,max_nr_nontrivial);
+      root_solve_variations_in_n(len_threat,
+                                 threats,
+                                 refutations,
+                                 si,
+                                 n,
+                                 max_nr_nontrivial-nontrivial_count);
     }
     else
-      root_solve_variations_in_n(len_threat,threats,refutations,si,n);
+      root_solve_variations_in_n(len_threat,
+                                 threats,
+                                 refutations,
+                                 si,
+                                 n,
+                                 max_nr_nontrivial);
 
     free_table();
   }
@@ -974,11 +1046,14 @@ boolean branch_d_defender_root_solve(slice_index si)
  * @param t table where to add refutations
  * @param si slice index
  * @param (odd) number of half moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
  * @return true iff defender is immobile
  */
 static boolean root_collect_refutations(table refutations,
                                         slice_index si,
-                                        stip_length_type n)
+                                        stip_length_type n,
+                                        int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
@@ -1002,7 +1077,7 @@ static boolean root_collect_refutations(table refutations,
         && !echecc(nbply,defender))
     {
       is_defender_immobile = false;
-      if (branch_d_defender_is_refuted(si,n-1))
+      if (branch_d_defender_is_refuted(si,n-1,curr_max_nr_nontrivial))
       {
         append_to_top_table();
         coupfort();
@@ -1040,17 +1115,16 @@ static unsigned int root_collect_nontrivial(table nontrivial,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
-  nontrivial_count = count_enough_nontrivial_defenses(si);
+  nontrivial_count = count_enough_nontrivial_defenses(si,max_nr_nontrivial);
   if (max_nr_nontrivial<nontrivial_count)
     result = max_nr_refutations+1;
   else
-  {
-    max_nr_nontrivial -= nontrivial_count;
-    result = (root_collect_refutations(nontrivial,si,n)
+    result = (root_collect_refutations(nontrivial,
+                                       si,
+                                       n,
+                                       max_nr_nontrivial-nontrivial_count)
               ? max_nr_refutations+1
               : table_length(nontrivial));
-    max_nr_nontrivial += nontrivial_count;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -1081,7 +1155,7 @@ unsigned int branch_d_defender_find_refutations(table refutations,
   TraceValue("%u",n);
   TraceValue("%u\n",min_length_nontrivial);
 
-  if (is_threat_too_long(si,n-1))
+  if (is_threat_too_long(si,n-1,max_nr_nontrivial))
     result = max_nr_refutations+1;
   else if (n-1>slack_length_direct+2
            && OptFlag[solflights] && has_too_many_flights(defender))
@@ -1089,7 +1163,7 @@ unsigned int branch_d_defender_find_refutations(table refutations,
   else if (n>2*min_length_nontrivial+slack_length_direct)
     result = root_collect_nontrivial(refutations,si,n);
   else
-    result = (root_collect_refutations(refutations,si,n)
+    result = (root_collect_refutations(refutations,si,n,max_nr_nontrivial)
               ? max_nr_refutations+1
               : table_length(refutations));
 
