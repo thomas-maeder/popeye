@@ -238,7 +238,7 @@ static defender_has_refutation_type has_defender_refutation(slice_index si,
  * particular move is non-trivial is determined by user input.
  * @return number of defender's non-trivial moves minus 1 (TODO: why?)
  */
-static int count_all_non_trivial_defenses(slice_index si)
+static int count_all_nontrivial_defenses(slice_index si)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
@@ -286,7 +286,7 @@ static int count_all_non_trivial_defenses(slice_index si)
  * Stop counting when more than max_nr_nontrivial have been found
  * @return number of defender's non-trivial moves minus 1 (TODO: why?)
  */
-static int count_enough_non_trivial_defenses(slice_index si)
+static int count_enough_nontrivial_defenses(slice_index si)
 {
   Side const attacker = slices[si].u.branch_d_defender.starter;
   Side const defender = advers(attacker);
@@ -332,24 +332,24 @@ static int count_enough_non_trivial_defenses(slice_index si)
  * @param n (odd) number of half moves until goal
  * @return true iff the defender has too many non-trivial defenses
  */
-static boolean too_many_non_trivial_defenses(slice_index si,
-                                             stip_length_type n)
+static boolean too_many_nontrivial_defenses(slice_index si,
+                                            stip_length_type n)
 {
   boolean result;
-  int non_trivial_count;
+  int nontrivial_count;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
-  non_trivial_count = count_enough_non_trivial_defenses(si);
-  if (max_nr_nontrivial<non_trivial_count)
+  nontrivial_count = count_enough_nontrivial_defenses(si);
+  if (max_nr_nontrivial<nontrivial_count)
     result = true;
   else
   {
-    max_nr_nontrivial -= non_trivial_count;
+    max_nr_nontrivial -= nontrivial_count;
     result = has_defender_refutation(si,n)!=defender_has_no_refutation;
-    max_nr_nontrivial += non_trivial_count;
+    max_nr_nontrivial += nontrivial_count;
   }
 
   TraceFunctionExit(__func__);
@@ -415,7 +415,7 @@ boolean branch_d_defender_does_defender_win(slice_index si, stip_length_type n)
       || is_threat_too_long(si,n-1))
     result = true;
   else if (n>2*min_length_nontrivial+slack_length_direct)
-    result = too_many_non_trivial_defenses(si,n);
+    result = too_many_nontrivial_defenses(si,n);
   else
     result = has_defender_refutation(si,n)!=defender_has_no_refutation;
 
@@ -781,10 +781,10 @@ boolean branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   len_threat = solve_threats(threats,si,n-1);
   if (n>2*min_length_nontrivial+slack_length_direct)
   {
-    int const non_trivial_count = count_all_non_trivial_defenses(si);
-    max_nr_nontrivial -= non_trivial_count;
+    int const nontrivial_count = count_all_nontrivial_defenses(si);
+    max_nr_nontrivial -= nontrivial_count;
     result = solve_variations_in_n(len_threat,threats,si,n);
-    max_nr_nontrivial += non_trivial_count;
+    max_nr_nontrivial += nontrivial_count;
   }
   else
     result = solve_variations_in_n(len_threat,threats,si,n);
@@ -931,10 +931,10 @@ void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
 
     if (n>2*min_length_nontrivial+slack_length_direct)
     {
-      int const non_trivial_count = count_enough_non_trivial_defenses(si);
-      max_nr_nontrivial -= non_trivial_count;
+      int const nontrivial_count = count_enough_nontrivial_defenses(si);
+      max_nr_nontrivial -= nontrivial_count;
       root_solve_variations_in_n(len_threat,threats,refutations,si,n);
-      max_nr_nontrivial += non_trivial_count;
+      max_nr_nontrivial += nontrivial_count;
     }
     else
       root_solve_variations_in_n(len_threat,threats,refutations,si,n);
@@ -1020,7 +1020,7 @@ static boolean root_collect_refutations(table refutations,
 }
 
 /* Collect non-trivial defenses at root level
- * @param non_trivial table where to add non-trivial defenses
+ * @param nontrivial table where to add non-trivial defenses
  * @param si slice index
  * @param n (odd) number of half moves until goal
  * @return max_nr_refutations+1 if defender is immobile or there are
@@ -1028,28 +1028,28 @@ static boolean root_collect_refutations(table refutations,
  *                              to user input
  *         number of non-trivial defenses otherwise
  */
-static unsigned int root_collect_non_trivial(table non_trivial,
-                                             slice_index si,
-                                             stip_length_type n)
+static unsigned int root_collect_nontrivial(table nontrivial,
+                                            slice_index si,
+                                            stip_length_type n)
 {
   unsigned int result;
-  int non_trivial_count;
+  int nontrivial_count;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
-  non_trivial_count = count_enough_non_trivial_defenses(si);
-  if (max_nr_nontrivial<non_trivial_count)
+  nontrivial_count = count_enough_nontrivial_defenses(si);
+  if (max_nr_nontrivial<nontrivial_count)
     result = max_nr_refutations+1;
   else
   {
-    max_nr_nontrivial -= non_trivial_count;
-    result = (root_collect_refutations(non_trivial,si,n)
+    max_nr_nontrivial -= nontrivial_count;
+    result = (root_collect_refutations(nontrivial,si,n)
               ? max_nr_refutations+1
-              : table_length(non_trivial));
-    max_nr_nontrivial += non_trivial_count;
+              : table_length(nontrivial));
+    max_nr_nontrivial += nontrivial_count;
   }
 
   TraceFunctionExit(__func__);
@@ -1087,7 +1087,7 @@ unsigned int branch_d_defender_find_refutations(table refutations,
            && OptFlag[solflights] && has_too_many_flights(defender))
     result = max_nr_refutations+1;
   else if (n>2*min_length_nontrivial+slack_length_direct)
-    result = root_collect_non_trivial(refutations,si,n);
+    result = root_collect_nontrivial(refutations,si,n);
   else
     result = (root_collect_refutations(refutations,si,n)
               ? max_nr_refutations+1
