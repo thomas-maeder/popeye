@@ -176,7 +176,8 @@ static boolean have_we_solution_in_n_short(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",curr_max_nr_nontrivial);
 
   if (min_length>moves_played)
     n_min = min_length-moves_played;
@@ -186,6 +187,13 @@ static boolean have_we_solution_in_n_short(slice_index si,
 
   if (n_max>=2*min_length_nontrivial+slack_length_direct)
     n_max = 2*min_length_nontrivial+slack_length_direct;
+
+  TraceValue("%u",moves_played);
+  TraceValue("%u",min_length);
+  TraceValue("%u",max_len_threat);
+  TraceValue("%u",min_length_nontrivial);
+  TraceValue("%u",n_min);
+  TraceValue("%u\n",n_max);
 
   for (i = n_min; i<=n_max; i += 2)
     if (have_we_solution_in_n(si,i,curr_max_nr_nontrivial))

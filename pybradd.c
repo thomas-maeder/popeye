@@ -148,7 +148,8 @@ boolean branch_d_defender_is_refuted(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",curr_max_nr_nontrivial);
 
   assert(n%2==0);
 
@@ -306,7 +307,8 @@ static int count_enough_nontrivial_defenses(slice_index si,
   int result = -1;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u\n",curr_max_nr_nontrivial);
 
   genmove(defender);
 
@@ -1061,7 +1063,8 @@ static boolean root_collect_refutations(table refutations,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u\n",curr_max_nr_nontrivial);
 
   assert(n%2==1);
 
@@ -1111,7 +1114,6 @@ static unsigned int root_collect_nontrivial(table nontrivial,
   int nontrivial_count;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u\n",n);
 
