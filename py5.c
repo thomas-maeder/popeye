@@ -1745,13 +1745,6 @@ boolean jouecoup(ply ply_id, joue_type jt)
       while (move_generation_stack[nbcou].arrival == initsquare)
         --nbcou;
     }
-
-    if (CondFlag[extinction]) {
-      piece p;
-      for (p= roib; p < derbla; p++) {
-        prev_nbpiece[p]= nbpiece[ trait_ply==White ? p : -p];
-      }
-    }
   }
 
   /* TODO remove the above loop decreasing nbcou, then initialise
@@ -1768,6 +1761,13 @@ boolean jouecoup(ply ply_id, joue_type jt)
   
   if (jouegenre)
   {
+    if (CondFlag[extinction])
+    {
+      piece p;
+      for (p = roib; p<derbla; p++)
+        prev_nbpiece[p]= nbpiece[trait_ply==White ? p : -p];
+    }
+
     rochade_sq[coup_id]= initsquare;
     if (sq_capture >= maxsquare + square_a1)
     {
