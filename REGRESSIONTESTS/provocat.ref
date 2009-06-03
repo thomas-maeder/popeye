@@ -1,0 +1,63 @@
+
+           Stephen Emmerson
+               Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=6                     2 + 2
+           ProvocationChess
+
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=Q   6.Qa1-a7 b6*a7 = 
+
+solution finished. 
+
+
+
+           Abdelaziz Onkoud
+        The Problemist v/2009
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   B   .   .  -S   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P  -B   .   .   .   5
+|                                   |
+4   .   .   .   .  -R  -K   .   .   4
+|                                   |
+3   .   .   .   .   .  -Q   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 6
+           ProvocationChess
+
+  1.Qf3-g4 Bb8-a7   2.Kf4-f3 Ba7-d4   3.Be5-g3 Rf1-f2 # 
+  1.Be5-d4 Rf1-g1   2.Kf4-e5 Rg1-g6   3.Qf3-f5 Bb8-d6 # 
+
+solution finished. 
+
+
