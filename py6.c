@@ -1967,7 +1967,9 @@ static void solveHalfADuplex(void)
 {
   inithash();
 
-  if (isIntelligentModeActive && OptFlag[restart])
+  if (isIntelligentModeActive
+      && OptFlag[restart]
+      && !stip_ends_in(proof_goals,nr_proof_goals))
   {
     /* In intelligent mode, RestartNbr means the minimal number of
      * moves.
