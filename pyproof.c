@@ -541,7 +541,7 @@ void ProofRestoreStartPosition(void)
       spec[boardnum[i]] = SpecA[i];
   }
 
-  if (!CondFlag[losingchess])
+  if (!(CondFlag[losingchess] || CondFlag[extinction]))
   {
     if (goal_to_be_reached==goal_atob)
     {
@@ -702,77 +702,100 @@ int const ProofKnightMoves[square_h8-square_a1+1]=
 static int ProofBlKingMovesNeeded(void)
 {
   int   cast;
-  int   needed= BlKingMoves[rn];
+  int   needed;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
 
   if (rn==initsquare)
     /* no king in play, or king can be created by promotion
      * -> no optimisation possible */
-    return 0;
+    needed = 0;
 
-  if (TSTFLAGMASK(castling_flag[nbply],ke8_cancastle))
+  else
   {
-    if (TSTFLAGMASK(castling_flag[nbply],ra8_cancastle))
+    needed= BlKingMoves[rn];
+
+    if (TSTFLAGMASK(castling_flag[nbply],ke8_cancastle))
     {
-      /* blank long castling */
-      /* BlKingMoves is the number of moves the blank king
-         still needs after castling. It takes 1 move to castle,
-         but we might save a rook move
-      */
-      cast= BlKingMoves[square_c8];
-      if (cast < needed)
-        needed= cast;
-    }
-    if (TSTFLAGMASK(castling_flag[nbply],rh8_cancastle))
-    {
-      /* blank short castling */
-      /* BlKingMoves is the number of moves the blank king still
-         needs after castling. It takes 1 move to castle, but we
-         might save a rook move
-      */
-      cast= BlKingMoves[square_g8];
-      if (cast < needed)
-        needed= cast;
+      if (TSTFLAGMASK(castling_flag[nbply],ra8_cancastle))
+      {
+        /* blank long castling */
+        /* BlKingMoves is the number of moves the blank king
+           still needs after castling. It takes 1 move to castle,
+           but we might save a rook move
+        */
+        cast= BlKingMoves[square_c8];
+        if (cast < needed)
+          needed= cast;
+      }
+      if (TSTFLAGMASK(castling_flag[nbply],rh8_cancastle))
+      {
+        /* blank short castling */
+        /* BlKingMoves is the number of moves the blank king still
+           needs after castling. It takes 1 move to castle, but we
+           might save a rook move
+        */
+        cast= BlKingMoves[square_g8];
+        if (cast < needed)
+          needed= cast;
+      }
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d\n",needed);
   return needed;
 }
 
 static int ProofWhKingMovesNeeded(void)
 {
-  int   needed = WhKingMoves[rb];
+  int   needed;
   int   cast;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  TraceSquare(rb);
+  TraceText("\n");
 
   if (rb==initsquare)
     /* no king in play, or king can be created by promotion
      * -> no optimisation possible */
-    return 0;
-
-  if (TSTFLAGMASK(castling_flag[nbply],ke1_cancastle))
+    needed = 0;
+  else
   {
-    if (TSTFLAGMASK(castling_flag[nbply],ra1_cancastle))
+    needed = WhKingMoves[rb];
+
+    if (TSTFLAGMASK(castling_flag[nbply],ke1_cancastle))
     {
-      /* wh long castling */
-      /* WhKingMoves is the number of moves the wh king still
-         needs after castling. It takes 1 move to castle, but we
-         might save a rook move.
-      */
-      cast = WhKingMoves[square_c1];
-      if (cast<needed)
-        needed= cast;
-    }
-    if (TSTFLAGMASK(castling_flag[nbply],rh1_cancastle))
-    {
-      /* wh short castling */
-      /* WhKingMoves is the number of moves the wh king still
-         needs after castling. It takes 1 move to castle, but we
-         might save a rook move
-      */
-      cast = WhKingMoves[square_g1];
-      if (cast<needed)
-        needed= cast;
+      if (TSTFLAGMASK(castling_flag[nbply],ra1_cancastle))
+      {
+        /* wh long castling */
+        /* WhKingMoves is the number of moves the wh king still
+           needs after castling. It takes 1 move to castle, but we
+           might save a rook move.
+        */
+        cast = WhKingMoves[square_c1];
+        if (cast<needed)
+          needed= cast;
+      }
+      if (TSTFLAGMASK(castling_flag[nbply],rh1_cancastle))
+      {
+        /* wh short castling */
+        /* WhKingMoves is the number of moves the wh king still
+           needs after castling. It takes 1 move to castle, but we
+           might save a rook move
+        */
+        cast = WhKingMoves[square_g1];
+        if (cast<needed)
+          needed= cast;
+      }
     }
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",needed);
   return needed;
 }
 
@@ -1297,16 +1320,19 @@ static stip_length_type ArrangePieces(
   return Diff;
 }
 
-static stip_length_type ArrangePawns(
-  stip_length_type CapturesAllowed,
-  Side   camp,
-  stip_length_type *CapturesRequired)
+static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
+                                     Side   camp,
+                                     stip_length_type *CapturesRequired)
 {
   int       ifrom, ito;
   stip_length_type moves, captures, Diff;
   PieceList2    pl[8];
   boolean   taken[8];
   PieceList *from, *to;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",CapturesAllowed);
+  TraceFunctionParam("%u\n",camp);
 
   from= camp == White
     ? &CurrentWhPawns
@@ -1318,47 +1344,53 @@ static stip_length_type ArrangePawns(
   if (to->Nbr == 0)
   {
     *CapturesRequired= 0;
-    return 0;
+    Diff = 0;
   }
-
-  for (ito= 0; ito < to->Nbr; ito++)
+  else
   {
-    pl[ito].Nbr= 0;
-    for (ifrom= 0; ifrom<from->Nbr; ifrom++)
+    for (ito= 0; ito < to->Nbr; ito++)
     {
-      if (camp == White)
-        WhPawnMovesFromTo(from->sq[ifrom],
-                          to->sq[ito], &moves, &captures, CapturesAllowed);
-      else
-        BlPawnMovesFromTo(from->sq[ifrom],
-                          to->sq[ito], &moves, &captures, CapturesAllowed);
-      if (moves < slices[root_slice].u.branch.length)
+      pl[ito].Nbr= 0;
+      for (ifrom= 0; ifrom<from->Nbr; ifrom++)
       {
-        pl[ito].moves[pl[ito].Nbr]= moves;
-        pl[ito].captures[pl[ito].Nbr]= captures;
-        pl[ito].id[pl[ito].Nbr]= ifrom;
-        pl[ito].Nbr++;
+        if (camp == White)
+          WhPawnMovesFromTo(from->sq[ifrom],
+                            to->sq[ito], &moves, &captures, CapturesAllowed);
+        else
+          BlPawnMovesFromTo(from->sq[ifrom],
+                            to->sq[ito], &moves, &captures, CapturesAllowed);
+        if (moves < slices[root_slice].u.branch.length)
+        {
+          pl[ito].moves[pl[ito].Nbr]= moves;
+          pl[ito].captures[pl[ito].Nbr]= captures;
+          pl[ito].id[pl[ito].Nbr]= ifrom;
+          pl[ito].Nbr++;
+        }
       }
     }
+
+    for (ifrom= 0; ifrom < from->Nbr; ifrom++)
+      taken[ifrom]= false;
+
+    /* determine minimal number of moves required */
+    Diff= ArrangeListedPieces(pl,
+                              to->Nbr, from->Nbr, taken, CapturesAllowed);
+
+    if (Diff != slices[root_slice].u.branch.length)
+    {
+      /* determine minimal number of captures required */
+      captures= 0;
+      while (ArrangeListedPieces(pl, to->Nbr, from->Nbr, taken, captures)
+             == slices[root_slice].u.branch.length)
+        captures++;
+
+      *CapturesRequired= captures;
+      TraceValue("%u\n",*CapturesRequired);
+    }
   }
-  for (ifrom= 0; ifrom < from->Nbr; ifrom++)
-    taken[ifrom]= false;
 
-  /* determine minimal number of moves required */
-  Diff= ArrangeListedPieces(pl,
-                            to->Nbr, from->Nbr, taken, CapturesAllowed);
-
-  if (Diff == slices[root_slice].u.branch.length)
-    return slices[root_slice].u.branch.length;
-
-  /* determine minimal number of captures required */
-  captures= 0;
-  while (ArrangeListedPieces(pl, to->Nbr, from->Nbr, taken, captures)
-         == slices[root_slice].u.branch.length)
-    captures++;
-
-  *CapturesRequired= captures;
-
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",Diff);
   return Diff;
 }
 
@@ -1594,26 +1626,20 @@ static boolean ProofImpossible(void)
 
   /* not enough time to capture the remaining pieces */
   WhPieToBeCapt = NbrWh-ProofNbrWhitePieces;
+  TraceValue("%d ",WhPieToBeCapt);
+  TraceValue("%d ",NbrWh);
+  TraceValue("%d ",ProofNbrWhitePieces);
+  TraceValue("%d\n",black_moves_left);
   if (WhPieToBeCapt>black_moves_left)
-  {
-    TraceValue("%d ",NbrWh);
-    TraceValue("%d ",ProofNbrWhitePieces);
-    TraceValue("%d ",WhPieToBeCapt);
-    TraceValue("%d\n",black_moves_left);
     return true;
-  }
 
   BlPieToBeCapt = NbrBl - ProofNbrBlackPieces;
-    TraceValue("%d ",BlPieToBeCapt);
-    TraceValue("%d ",NbrBl);
-    TraceValue("%d ",ProofNbrBlackPieces);
-    TraceValue("%d\n",white_moves_left);
+  TraceValue("%d ",BlPieToBeCapt);
+  TraceValue("%d ",NbrBl);
+  TraceValue("%d ",ProofNbrBlackPieces);
+  TraceValue("%d\n",white_moves_left);
   if (BlPieToBeCapt>white_moves_left)
-  {
-    TraceValue("%d ",BlPieToBeCapt);
-    TraceValue("%d\n",white_moves_left);
     return true;
-  }
 
   /* has one of the blocked pieces been captured ? */
   if ((BlockedBishopc1 && ProofBoard[square_c1]!=fb)
@@ -1651,15 +1677,27 @@ static boolean ProofImpossible(void)
 
   white_king_moves_needed = ProofWhKingMovesNeeded();
   if (white_moves_left<white_king_moves_needed)
+  {
+    TraceValue("%u",white_king_moves_needed);
+    TraceValue("%u",white_moves_left);
+    TraceText(" white_moves_left<white_king_moves_needed\n");
     return true;
+  }
   else
     white_moves_left -= ProofWhKingMovesNeeded();
 
   black_king_moves_needed = ProofBlKingMovesNeeded();
   if (black_moves_left<black_king_moves_needed)
+  {
+    TraceText("black_moves_left<black_king_moves_needed\n");
     return true;
+  }
   else
+  {
     black_moves_left -= black_king_moves_needed;
+    TraceValue("%u",black_king_moves_needed);
+    TraceValue("->%u\n",black_moves_left);
+  }
 
   if (CondFlag[haanerchess])
   {
@@ -1785,22 +1823,23 @@ static boolean ProofImpossible(void)
 
   if (ArrangePawns(WhPieToBeCapt,Black,&WhCapturesRequired)>black_moves_left)
   {
+    TraceValue("%u\n",black_moves_left);
     TraceText("ArrangePawns(WhPieToBeCapt,Black,&WhCapturesRequired)"
-              ">black_moves_left");
+              ">black_moves_left\n");
     return true;
   }
 
   if (ArrangePieces(BlPieToBeCapt,White,BlCapturesRequired)>white_moves_left)
   {
     TraceText("(ArrangePieces(BlPieToBeCapt,White,BlCapturesRequired)"
-              ">white_moves_left");
+              ">white_moves_left\n");
     return true;
   }
 
   if (ArrangePieces(WhPieToBeCapt,Black,WhCapturesRequired)>black_moves_left)
   {
     TraceText("ArrangePieces(WhPieToBeCapt,Black,WhCapturesRequired)"
-              ">black_moves_left");
+              ">black_moves_left\n");
     return true;
   }
 

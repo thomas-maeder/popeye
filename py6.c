@@ -282,7 +282,9 @@ static void initPieces(void)
     exist[nb] = true;
   }
 
-  for (p = CondFlag[losingchess] || CondFlag[dynasty] ? roib : db;
+  for (p = (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction]
+            ? roib
+            : db);
        p <= derbla;
        p++)
     if (promonly[p])
@@ -378,7 +380,7 @@ static boolean locateRoyal(void)
     else
       rn = initsquare;
   }
-  else if (CondFlag[losingchess])
+  else if (CondFlag[losingchess] || CondFlag[extinction])
   {
     OptFlag[sansrn] = true;
     OptFlag[sansrb] = true;
@@ -543,7 +545,7 @@ static boolean verify_position(void)
        || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
        || rex_circe
        || rex_immun)
-      && (CondFlag[dynasty] || CondFlag[losingchess]))
+      && (CondFlag[dynasty] || CondFlag[losingchess] || CondFlag[extinction]))
   {
     VerifieMsg(IncompatibleRoyalSettings);
     return false;
@@ -1228,7 +1230,7 @@ static boolean verify_position(void)
       || CondFlag[singlebox]
       || CondFlag[blroyalsq]
       || CondFlag[whroyalsq]
-      || CondFlag[dynasty]
+      || CondFlag[dynasty] /* TODO why? */
       || CondFlag[strictSAT]
       || CondFlag[masand]
       || CondFlag[BGL]
@@ -1238,7 +1240,7 @@ static boolean verify_position(void)
       || exist[Friend]
       || calc_whrefl_king || calc_blrefl_king
       || CondFlag[phantom]
-      || CondFlag[extinction]
+      || CondFlag[extinction] /* TODO why? */
       || CondFlag[amu]
       || CondFlag[imitators]
       || CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king]
@@ -1356,7 +1358,7 @@ static boolean verify_position(void)
       || CondFlag[antikings]
       || TSTFLAG(PieSpExFlags, HalfNeutral)
       || CondFlag[geneva]
-      || CondFlag[dynasty]
+      || CondFlag[dynasty] /* TODO why? */
       || flag_magic)
   {
     optim_neutralretractable = false;
@@ -1368,7 +1370,9 @@ static boolean verify_position(void)
   /* init promotioncounter and checkcounter */
   pp = 0;
   cp = 0;
-  for (p = CondFlag[losingchess] || CondFlag[dynasty] ? roib : db;
+  for (p = (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction]
+            ? roib
+            : db);
        p <= derbla;
        p++)
   {
@@ -1646,7 +1650,7 @@ static boolean verify_position(void)
 
   if (CondFlag[extinction] || flagAssassin)
   {
-    optim_neutralretractable = false;
+    optim_neutralretractable = false; /* TODO why for extinction */
     optim_orthomatingmoves = false;
   }
 
