@@ -897,6 +897,7 @@ boolean rbimmunech(square sq_departure, square sq_arrival, square sq_capture) {
 
 static boolean echecc_wh_extinction(ply ply_id)
 {
+  square const save_rb = rb;
   piece p;
   for (p=roib; p<derbla; p++)
   {
@@ -910,14 +911,19 @@ static boolean echecc_wh_extinction(ply ply_id)
 
     rb = *bnp;
     if (rbechec(ply_id,eval_white))
+    {
+      rb = save_rb;
       return true;
+    }
   }
 
+  rb = save_rb;
   return false;
 }
 
 static boolean echecc_bl_extinction(ply ply_id)
 {
+  square const save_rn = rn;
   piece p;
   for (p=roib; p<derbla; p++)
   {
@@ -932,9 +938,13 @@ static boolean echecc_bl_extinction(ply ply_id)
 
     rn = *bnp;
     if (rnechec(ply_id,eval_black))
+    {
+      rn = save_rn;
       return true;
+    }
   }
 
+  rn = save_rn;
   return false;
 }
 
