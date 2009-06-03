@@ -1829,12 +1829,11 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
           slices[*si].u.leafself.next = alloc_leaf_slice(STLeafForced,
                                                          gic->goal);
         
-#if !defined(DATABASE)
         if (gic->goal==goal_atob)
         {
           int i;
           
-          ProofAtoBSaveStartPieces();
+          ProofSaveStartPosition();
 
           /* InitBoard() does much more than the following: */
           for (i = 0; i<nr_squares_on_board; i++)
@@ -1847,8 +1846,9 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
 
           tok += 4;
         }
+        else if (gic->goal==goal_proof)
+          ProofInitialiseStartPosition();
         else
-#endif
           tok += strlen(gic->inputText);
         break;
       }

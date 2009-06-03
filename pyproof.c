@@ -33,18 +33,25 @@
 #include "platform/maxtime.h"
 #include "trace.h"
 
+typedef struct
+{
+    echiquier board;
+    Flags spec[maxsquare+4];
+    square rb;
+    square rn;
+    unsigned int inum;
+    imarr isquare;
+    unsigned int proof_nbpiece[derbla-dernoi+1]; /* cf. nbpiece */
+} position;
+
+
+static position start;
+static position target;
+
 /* an array to store the position */
 static piece ProofPieces[32];
 static square ProofSquares[32];
 static unsigned int ProofNbrAllPieces;
-static echiquier ProofBoard, PosA;
-static square Proof_rb, Proof_rn, rbA, rnA;
-static Flags ProofSpec[nr_squares_on_board], SpecA[nr_squares_on_board];
-static imarr Proof_isquare;
-static imarr isquareA;
-
-static unsigned int xxxxx[fb+fb+1];
-#define ProofNbrPiece (xxxxx+fb)
 
 static int ProofNbrWhitePieces, ProofNbrBlackPieces;
 
@@ -153,7 +160,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
      white pawns
   */
   for (sq= square_a2; sq <= square_h2; sq++)
-    if (ProofBoard[sq] == pb)
+    if (target.board[sq] == pb)
     {
       WhKingMoves[sq]= -1;
       BlKingMoves[sq]= -1;    /* blocked */
@@ -166,7 +173,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
 
   /* black pawns */
   for (sq= square_a7; sq <= square_h7; sq++)
-    if (ProofBoard[sq] == pn)
+    if (target.board[sq] == pn)
     {
       BlKingMoves[sq]= -1;
       WhKingMoves[sq]= -1;    /* blocked */
@@ -301,69 +308,69 @@ void ProofInitialiseIntelligent(void)
   ProofNbrWhitePieces = 0;
   ProofNbrBlackPieces = 0;
 
-  for (i = roib; i <= fb; i++)
+  for (i = roib; i <= fb; ++i)
   {
-    ProofNbrWhitePieces += ProofNbrPiece[i];
-    ProofNbrBlackPieces += ProofNbrPiece[-i];
+    ProofNbrWhitePieces += target.proof_nbpiece[-dernoi+i];
+    ProofNbrBlackPieces += target.proof_nbpiece[-dernoi-i];
   }
 
   /* determine pieces blocked */
-  BlockedBishopc1 = ProofBoard[square_c1] == fb
-    && ProofBoard[square_b2] == pb
-    && ProofBoard[square_d2] == pb;
+  BlockedBishopc1 = target.board[square_c1] == fb
+    && target.board[square_b2] == pb
+    && target.board[square_d2] == pb;
 
-  BlockedBishopf1 = ProofBoard[square_f1] == fb
-    && ProofBoard[square_e2] == pb
-    && ProofBoard[square_g2] == pb;
+  BlockedBishopf1 = target.board[square_f1] == fb
+    && target.board[square_e2] == pb
+    && target.board[square_g2] == pb;
 
-  BlockedBishopc8 = ProofBoard[square_c8] == fn
-    && ProofBoard[square_b7] == pn
-    && ProofBoard[square_d7] == pn;
+  BlockedBishopc8 = target.board[square_c8] == fn
+    && target.board[square_b7] == pn
+    && target.board[square_d7] == pn;
 
-  BlockedBishopf8 = ProofBoard[square_f8] == fn
-    && ProofBoard[square_e7] == pn
-    && ProofBoard[square_g7] == pn;
+  BlockedBishopf8 = target.board[square_f8] == fn
+    && target.board[square_e7] == pn
+    && target.board[square_g7] == pn;
 
   BlockedQueend1 = BlockedBishopc1
     && BlockedBishopf1
-    && ProofBoard[square_d1] == db
-    && ProofBoard[square_c2] == pb
-    && ProofBoard[square_f2] == pb;
+    && target.board[square_d1] == db
+    && target.board[square_c2] == pb
+    && target.board[square_f2] == pb;
 
   BlockedQueend8 = BlockedBishopc8
     && BlockedBishopf8
-    && ProofBoard[square_d8] == dn
-    && ProofBoard[square_c7] == pn
-    && ProofBoard[square_f7] == pn;
+    && target.board[square_d8] == dn
+    && target.board[square_c7] == pn
+    && target.board[square_f7] == pn;
 
   /* determine pieces captured */
-  CapturedBishopc1 = ProofBoard[square_c1] != fb
-    && ProofBoard[square_b2] == pb
-    && ProofBoard[square_d2] == pb;
+  CapturedBishopc1 = target.board[square_c1] != fb
+    && target.board[square_b2] == pb
+    && target.board[square_d2] == pb;
 
-  CapturedBishopf1 = ProofBoard[square_f1] != fb
-    && ProofBoard[square_e2] == pb
-    && ProofBoard[square_g2] == pb;
+  CapturedBishopf1 = target.board[square_f1] != fb
+    && target.board[square_e2] == pb
+    && target.board[square_g2] == pb;
 
-  CapturedBishopc8 = ProofBoard[square_c8] != fn
-    && ProofBoard[square_b7] == pn
-    && ProofBoard[square_d7] == pn;
+  CapturedBishopc8 = target.board[square_c8] != fn
+    && target.board[square_b7] == pn
+    && target.board[square_d7] == pn;
 
-  CapturedBishopf8 = ProofBoard[square_f8] != fn
-    && ProofBoard[square_e7] == pn
-    && ProofBoard[square_g7] == pn;
+  CapturedBishopf8 = target.board[square_f8] != fn
+    && target.board[square_e7] == pn
+    && target.board[square_g7] == pn;
 
   CapturedQueend1 = BlockedBishopc1
     && BlockedBishopf1
-    && ProofBoard[square_d1] != db
-    && ProofBoard[square_c2] == pb
-    && ProofBoard[square_f2] == pb;
+    && target.board[square_d1] != db
+    && target.board[square_c2] == pb
+    && target.board[square_f2] == pb;
 
   CapturedQueend8 = BlockedBishopc8
     && BlockedBishopf8
-    && ProofBoard[square_d8] != dn
-    && ProofBoard[square_c7] == pn
-    && ProofBoard[square_f7] == pn;
+    && target.board[square_d8] != dn
+    && target.board[square_c7] == pn
+    && target.board[square_f7] == pn;
 
   /* update castling possibilities */
   if (BlockedBishopc1)
@@ -393,27 +400,70 @@ void ProofInitialiseIntelligent(void)
   castling_flag[2] = castling_flag[1] = castling_flag[0];
 
   /* initialise king diff_move arrays */
-  ProofInitialiseKingMoves(Proof_rb, Proof_rn);
+  ProofInitialiseKingMoves(target.rb, target.rn);
 }
 
-void ProofAtoBSaveStartPieces(void)
+void ProofInitialiseStartPosition(void)
+{
+  int i;
+  square const *bnp;
+
+  for (i = roib; i <= derbla; ++i)
+  {
+    start.proof_nbpiece[-dernoi+i] = 0;
+    start.proof_nbpiece[-dernoi-i] = 0;
+  }
+
+  /* TODO avoid duplication with InitBoard()
+   */
+  for (i = 0; i<maxsquare; ++i)
+  {
+    e[i] = obs;
+    spec[i] = BorderSpec;
+  }
+
+  for (bnp = boardnum; *bnp; bnp++)
+  {
+    e[*bnp] = vide;
+    CLEARFL(spec[*bnp]);
+  }
+
+  for (i = 0; i<nr_squares_on_board; ++i)
+  {
+    piece const p = PAS[i];
+    start.board[boardnum[i]] = p;
+    ++start.proof_nbpiece[-dernoi+p];
+    start.rb = square_e1;
+    start.rn = square_e8;
+    start.inum = 0;
+  }
+}
+
+void ProofSaveStartPosition(void)
 {
   int i;
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  for (i = maxsquare-1; i>=0; i--)
-    PosA[i] = e[i];
+  start.rn = rn;
+  start.rb = rb;
 
-  for (i = 0; i<nr_squares_on_board; i++)
-    SpecA[i] = spec[boardnum[i]];
+  for (i = roib; i <= derbla; ++i)
+  {
+    start.proof_nbpiece[-dernoi+i] = nbpiece[i];
+    start.proof_nbpiece[-dernoi-i] = nbpiece[-i];
+  }
 
-  for (i = 0; i<maxinum; i++)
-    isquareA[i] = isquare[i];
+  for (i = 0; i<maxsquare; ++i)
+    start.board[i] = e[i];
 
-  rnA = initsquare;
-  rbA = initsquare;
+  for (i = 0; i<maxsquare; ++i)
+    start.spec[i] = spec[i];
+
+  start.inum = inum[1];
+  for (i = 0; i<maxinum; ++i)
+    start.isquare[i] = isquare[i];
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -421,25 +471,25 @@ void ProofAtoBSaveStartPieces(void)
 
 /* a=>b: swap pieces' colors in the starting position
  */
-void ProofAtoBSwapColors(void)
+void ProofStartSwapColors(void)
 {
   square const *bnp;
   unsigned int i;
 
   for (bnp = boardnum; *bnp; bnp++)
-    if (!TSTFLAG(SpecA[*bnp], Neutral) && PosA[*bnp] != vide)
+    if (!TSTFLAG(start.spec[*bnp],Neutral) && start.board[*bnp]!=vide)
     {
-      PosA[*bnp] = -PosA[*bnp];
-      SpecA[*bnp]^= BIT(White)+BIT(Black);
+      start.board[*bnp] = -start.board[*bnp];
+      start.spec[*bnp]^= BIT(White)+BIT(Black);
     }
 
-  for (i = 0; i<ProofNbrAllPieces; i++)
+  for (i = 0; i<ProofNbrAllPieces; ++i)
     ProofPieces[i] = -ProofPieces[i];
 }
 
 /* a=>b: reflect starting position at the horizontal center line
  */
-void ProofAtoBReflectboard(void)
+void ProofStartReflectboard(void)
 {
   square const *bnp;
   unsigned int i;
@@ -448,17 +498,17 @@ void ProofAtoBReflectboard(void)
   {
     square const sq_reflected = transformSquare(*bnp,mirra1a8);
 
-    piece const p = PosA[sq_reflected];
-    Flags const sp = SpecA[sq_reflected];
+    piece const p = start.board[sq_reflected];
+    Flags const sp = start.spec[sq_reflected];
 
-    PosA[sq_reflected] = PosA[*bnp];
-    SpecA[sq_reflected] = SpecA[*bnp];
+    start.board[sq_reflected] = start.board[*bnp];
+    start.spec[sq_reflected] = start.spec[*bnp];
 
-    PosA[*bnp] = p;
-    SpecA[*bnp] = sp;
+    start.board[*bnp] = p;
+    start.spec[*bnp] = sp;
   }
 
-  for (i = 0; i<ProofNbrAllPieces; i++)
+  for (i = 0; i<ProofNbrAllPieces; ++i)
     ProofSquares[i] = transformSquare(ProofSquares[i],mirra1a8);
 }
 
@@ -467,55 +517,60 @@ void ProofSaveTargetPosition(void)
   int       i;
   piece p;
 
-  Proof_rb = rb;
-  Proof_rn = rn;
+  target.rb = rb;
+  target.rn = rn;
 
-  for (i = roib; i <= fb; i++)
+  for (i = roib; i <= derbla; ++i)
   {
-    ProofNbrPiece[i] = nbpiece[i];
-    ProofNbrPiece[-i] = nbpiece[-i];
+    target.proof_nbpiece[-dernoi+i] = nbpiece[i];
+    target.proof_nbpiece[-dernoi-i] = nbpiece[-i];
   }
 
-  for (i = maxsquare - 1; i >= 0; i--)
-    ProofBoard[i] = e[i];
+  for (i = 0; i<maxsquare; ++i)
+    target.board[i] = e[i];
 
   ProofNbrAllPieces = 0;
 
-  for (i = 0; i < nr_squares_on_board; i++)
+  for (i = 0; i<nr_squares_on_board; ++i)
   {
-    ProofSpec[i] = spec[boardnum[i]];
+    square const square_i = boardnum[i];
+    target.spec[square_i] = spec[square_i];
     /* in case continued twinning
      * to other than proof game
      */
-    p = e[boardnum[i]];
+    p = e[square_i];
     if (p != vide)
     {
       ProofPieces[ProofNbrAllPieces] = p;
-      ProofSquares[ProofNbrAllPieces] = boardnum[i];
+      ProofSquares[ProofNbrAllPieces] = square_i;
       ++ProofNbrAllPieces;
     }
   }
 
-  if (CondFlag[imitators])
-    for (i = 0; i < maxinum; i++)
-      Proof_isquare[i] = isquare[i];
+  target.inum = inum[1];
+  for (i = 0; i<maxinum; ++i)
+    target.isquare[i] = isquare[i];
 }
 
 void ProofRestoreTargetPosition(void)
 {
   int i;
-  for (i = maxsquare-1; i>=0; i--)
-    e[i] = ProofBoard[i];
 
-  for (i= 0; i<nr_squares_on_board; i++)
-    spec[boardnum[i]] = ProofSpec[i];
+  rn = target.rn;
+  rb = target.rb;
 
-  if (CondFlag[imitators])
-    for (i = 0; i < maxinum; i++)
-      isquare[i] = Proof_isquare[i];
+  for (i = 0; i<maxsquare; ++i)
+    e[i] = target.board[i];
 
-  rn = Proof_rn;
-  rb = Proof_rb;
+  for (i= 0; i<nr_squares_on_board; ++i)
+  {
+    square const square_i = boardnum[i];
+    spec[square_i] = target.spec[square_i];
+  }
+
+  inum[1] = target.inum;
+  for (i = 0; i<maxinum; ++i)
+    isquare[i] = target.isquare[i];
 }
 
 void ProofRestoreStartPosition(void)
@@ -525,28 +580,29 @@ void ProofRestoreStartPosition(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  for (i = 0; i < nr_squares_on_board; i++)
+  for (i = 0; i<nr_squares_on_board; ++i)
   {
-    piece p = goal_to_be_reached==goal_atob ? PosA[boardnum[i]] : PAS[i];
-    e[boardnum[i]] = p;
-    CLEARFL(spec[boardnum[i]]);
+    square const square_i = boardnum[i];
+    piece p = goal_to_be_reached==goal_atob ? start.board[square_i] : PAS[i];
+    e[square_i] = p;
+    CLEARFL(spec[square_i]);
 
     /* We must set spec[] for the PAS.
        This is used in jouecoup for andernachchess!*/
     if (p>=roib)
-      SETFLAG(spec[boardnum[i]], White);
+      SETFLAG(spec[square_i], White);
     else if (p<=roin)
-      SETFLAG(spec[boardnum[i]], Black);
+      SETFLAG(spec[square_i], Black);
     if (goal_to_be_reached==goal_atob)
-      spec[boardnum[i]] = SpecA[i];
+      spec[square_i] = start.spec[square_i];
   }
 
   if (!(CondFlag[losingchess] || CondFlag[extinction]))
   {
     if (goal_to_be_reached==goal_atob)
     {
-      rb = rbA;
-      rn = rnA;
+      rb = start.rb;
+      rn = start.rn;
     }
     else
     {
@@ -556,20 +612,11 @@ void ProofRestoreStartPosition(void)
   }
 
   if (goal_to_be_reached==goal_atob && CondFlag[imitators])
-    for (i = 0; i < maxinum; i++)
-      isquare[i] = isquareA[i];
+    for (i = 0; i<maxinum; ++i)
+      isquare[i] = start.isquare[i];
 
   TraceFunctionExit(__func__);
   TraceText("\n");
-}
-
-void ProofAtoBSaveStartRoyal(void)
-{
-  if (goal_to_be_reached==goal_atob)
-  {
-    rbA = rb;
-    rnA = rn;
-  }
 }
 
 void ProofWritePosition(void)
@@ -601,7 +648,7 @@ static boolean compareProofPieces(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  for (i = 0; i<ProofNbrAllPieces; i++)
+  for (i = 0; i<ProofNbrAllPieces; ++i)
   {
     TracePiece(ProofPieces[i]);
     TraceSquare(ProofSquares[i]);
@@ -627,9 +674,9 @@ static boolean compareProofNbrPiece(void)
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  for (i = roib; i <= fb; i++)
-    if (ProofNbrPiece[i]!=nbpiece[i]
-        || ProofNbrPiece[-i]!=nbpiece[-i])
+  for (i = roib; i <= fb; ++i)
+    if (target.proof_nbpiece[-dernoi+i]!=nbpiece[i]
+        || target.proof_nbpiece[-dernoi-i]!=nbpiece[-i])
     {
       result = false;
       break;
@@ -651,7 +698,7 @@ static boolean compareImitators(void)
   {
     unsigned int imi_idx;
     for (imi_idx = 0; imi_idx<inum[nbply]; imi_idx++)
-      if (Proof_isquare[imi_idx]!=isquare[imi_idx])
+      if (target.isquare[imi_idx]!=isquare[imi_idx])
       {
         result = false;
         break;
@@ -862,7 +909,7 @@ static stip_length_type WhPawnMovesNeeded(square sq)
      test is always false. It has already been checked in
      ProofImpossible. But we need it here for the recursion.
   */
-  if (e[sq]==pb && ProofBoard[sq]!=pb)
+  if (e[sq]==pb && target.board[sq]!=pb)
     return 0;
 
   if (sq<=square_h2)
@@ -872,7 +919,7 @@ static stip_length_type WhPawnMovesNeeded(square sq)
   /* double step */
   if (square_a4<=sq && square_h4>=sq
       && e[sq+2*dir_down] == pb
-      && ProofBoard[sq+2*dir_down] != pb)
+      && target.board[sq+2*dir_down] != pb)
     return 1;
 
   if (e[sq+dir_down+dir_right] != obs)
@@ -914,7 +961,7 @@ static stip_length_type BlPawnMovesNeeded(square sq)
      ProofImpossible. But we need it here for the recursion.
   */
 
-  if (e[sq] == pn && ProofBoard[sq] != pn)
+  if (e[sq] == pn && target.board[sq] != pn)
     return 0;
 
   if (sq>=square_a7)
@@ -924,7 +971,7 @@ static stip_length_type BlPawnMovesNeeded(square sq)
   /* double step */
   if (square_a5<=sq && square_h5>=sq
       && e[sq+2*dir_up] == pn
-      && ProofBoard[sq+2*dir_up] != pn)
+      && target.board[sq+2*dir_up] != pn)
     return 1;
 
   if (e[sq+dir_up+dir_left] != obs)
@@ -958,10 +1005,10 @@ static stip_length_type BlPawnMovesNeeded(square sq)
 
 #define BLOCKED(sq)                             \
   (  (e[sq] == pb                               \
-      && ProofBoard[sq] == pb                   \
+      && target.board[sq] == pb                   \
       && WhPawnMovesNeeded(sq)>=slices[root_slice].u.branch.length)       \
      || (e[sq] == pn                            \
-         && ProofBoard[sq] == pn                \
+         && target.board[sq] == pn                \
          && BlPawnMovesNeeded(sq)>=slices[root_slice].u.branch.length))
 
 static void PieceMovesFromTo(piece p,
@@ -986,7 +1033,7 @@ static void PieceMovesFromTo(piece p,
       int   i, j;
       stip_length_type testmov;
       stip_length_type testmin = slices[root_slice].u.branch.length;
-      for (i= vec_knight_start; i<=vec_knight_end; i++)
+      for (i= vec_knight_start; i<=vec_knight_end; ++i)
       {
         sqi= from+vec[i];
         if (!BLOCKED(sqi) && e[sqi] != obs)
@@ -1073,16 +1120,16 @@ static void WhPromPieceMovesFromTo(
   *moves= slices[root_slice].u.branch.length;
 
   WhPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
-  PieceMovesFromTo(ProofBoard[to], cenpromsq, to, &mov2);
+  PieceMovesFromTo(target.board[to], cenpromsq, to, &mov2);
   if (mov1+mov2 < *moves)
     *moves= mov1+mov2;
 
-  for (i= 1; i<=captallowed; i++)
+  for (i= 1; i<=captallowed; ++i)
   {
     if (cenpromsq+i <= square_h8) {
       /* got out of range sometimes ! */
       WhPawnMovesFromTo(from, cenpromsq+i, &mov1, &cap1, captallowed);
-      PieceMovesFromTo(ProofBoard[to], cenpromsq+i, to, &mov2);
+      PieceMovesFromTo(target.board[to], cenpromsq+i, to, &mov2);
       if (mov1+mov2 < *moves)
         *moves= mov1+mov2;
     }
@@ -1090,7 +1137,7 @@ static void WhPromPieceMovesFromTo(
     {
       /* got out of range sometimes ! */
       WhPawnMovesFromTo(from, cenpromsq-i, &mov1, &cap1, captallowed);
-      PieceMovesFromTo(ProofBoard[to], cenpromsq-i, to, &mov2);
+      PieceMovesFromTo(target.board[to], cenpromsq-i, to, &mov2);
       if (mov1+mov2 < *moves) {
         *moves= mov1+mov2;
       }
@@ -1117,17 +1164,17 @@ static void BlPromPieceMovesFromTo(
   *moves= slices[root_slice].u.branch.length;
 
   BlPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
-  PieceMovesFromTo(ProofBoard[to], cenpromsq, to, &mov2);
+  PieceMovesFromTo(target.board[to], cenpromsq, to, &mov2);
   if (mov1+mov2 < *moves)
     *moves= mov1+mov2;
 
-  for (i= 1; i <= captallowed; i++)
+  for (i= 1; i <= captallowed; ++i)
   {
     if (cenpromsq+i<=square_h1)
     {
       /* got out of range sometimes !*/
       BlPawnMovesFromTo(from, cenpromsq+i, &mov1, &cap1, captallowed);
-      PieceMovesFromTo(ProofBoard[to], cenpromsq+i, to, &mov2);
+      PieceMovesFromTo(target.board[to], cenpromsq+i, to, &mov2);
       if (mov1+mov2 < *moves)
         *moves= mov1+mov2;
     }
@@ -1135,7 +1182,7 @@ static void BlPromPieceMovesFromTo(
     {
       /* got out of range sometimes ! */
       BlPawnMovesFromTo(from, cenpromsq-i, &mov1, &cap1, captallowed);
-      PieceMovesFromTo(ProofBoard[to], cenpromsq-i, to, &mov2);
+      PieceMovesFromTo(target.board[to], cenpromsq-i, to, &mov2);
       if (mov1+mov2 < *moves)
         *moves= mov1+mov2;
     }
@@ -1156,7 +1203,7 @@ static void WhPieceMovesFromTo(
     int       captrequ)
 {
   piece pfrom= e[from];
-  piece pto= ProofBoard[to];
+  piece pto= target.board[to];
 
   *moves= slices[root_slice].u.branch.length;
 
@@ -1190,7 +1237,7 @@ static void BlPieceMovesFromTo(
   piece pfrom, pto;
 
   pfrom= e[from];
-  pto= ProofBoard[to];
+  pto= target.board[to];
   *moves= slices[root_slice].u.branch.length;
 
   switch (pto)
@@ -1246,7 +1293,7 @@ static stip_length_type ArrangeListedPieces(
   if (nto == 0)
     return 0;
 
-  for (i= 0; i < pl[0].Nbr; i++)
+  for (i= 0; i < pl[0].Nbr; ++i)
   {
     id= pl[0].id[i];
     if (taken[id] || pl[0].captures[i]>CapturesAllowed)
@@ -1437,7 +1484,7 @@ static boolean ProofFairyImpossible(void)
          captured?
       */
       for (sq= square_a2; sq <= square_h2; sq++)
-        if (e[sq]!=pb && ProofBoard[sq]==pb)
+        if (e[sq]!=pb && target.board[sq]==pb)
           count++;
 
       if ((16 - count) < ProofNbrBlackPieces)
@@ -1449,7 +1496,7 @@ static boolean ProofFairyImpossible(void)
          been captured?
       */
       for (sq= square_a7; sq <= square_h7; sq++)
-        if (e[sq]!=pn && ProofBoard[sq]==pn)
+        if (e[sq]!=pn && target.board[sq]==pn)
           count++;
 
       if ((16 - count) < ProofNbrWhitePieces)
@@ -1472,8 +1519,8 @@ static boolean ProofFairyImpossible(void)
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
       */
-      if (ProofNbrPiece[pb] > nbpiece[pb]+(pparr==pb)
-          || ProofNbrPiece[pn] > nbpiece[pn]+(pparr==pn))
+      if (target.proof_nbpiece[-dernoi+pb] > nbpiece[pb]+(pparr==pb)
+          || target.proof_nbpiece[-dernoi+pn] > nbpiece[pn]+(pparr==pn))
         return true;
     }
 
@@ -1492,22 +1539,22 @@ static boolean ProofFairyImpossible(void)
       for (sq= square_a2; sq<=square_h2; sq++)
         if (e[sq] != pb)
         {
-          if (ProofBoard[sq]==pb)
+          if (target.board[sq]==pb)
           {
-            if (ProofBoard[sq+dir_up]!=pb
-                && ProofBoard[sq+2*dir_up]!=pb
-                && ProofBoard[sq+3*dir_up]!=pb
-                && ProofBoard[sq+4*dir_up]!=pb
-                && ProofBoard[sq+5*dir_up]!=pb)
+            if (target.board[sq+dir_up]!=pb
+                && target.board[sq+2*dir_up]!=pb
+                && target.board[sq+3*dir_up]!=pb
+                && target.board[sq+4*dir_up]!=pb
+                && target.board[sq+5*dir_up]!=pb)
               count++;
           }
-          else if (ProofBoard[sq+dir_up] == pb
+          else if (target.board[sq+dir_up] == pb
                    && e[sq+dir_up] != pb)
           {
-            if (ProofBoard[sq+2*dir_up]!=pb
-                && ProofBoard[sq+3*dir_up]!=pb
-                && ProofBoard[sq+4*dir_up]!=pb
-                && ProofBoard[sq+5*dir_up]!=pb)
+            if (target.board[sq+2*dir_up]!=pb
+                && target.board[sq+3*dir_up]!=pb
+                && target.board[sq+4*dir_up]!=pb
+                && target.board[sq+5*dir_up]!=pb)
               count++;
           }
         }
@@ -1525,22 +1572,22 @@ static boolean ProofFairyImpossible(void)
       for (sq= square_a7; sq <= square_h7; sq++)
         if (e[sq]!=pn)
         {
-          if (ProofBoard[sq] == pn)
+          if (target.board[sq] == pn)
           {
-            if (ProofBoard[sq+dir_down]!=pn
-                && ProofBoard[sq+2*dir_down]!=pn
-                && ProofBoard[sq+3*dir_down]!=pn
-                && ProofBoard[sq+4*dir_down]!=pn
-                && ProofBoard[sq+5*dir_down]!=pn)
+            if (target.board[sq+dir_down]!=pn
+                && target.board[sq+2*dir_down]!=pn
+                && target.board[sq+3*dir_down]!=pn
+                && target.board[sq+4*dir_down]!=pn
+                && target.board[sq+5*dir_down]!=pn)
               count++;
           }
-          else if (ProofBoard[sq+dir_down]==pn
+          else if (target.board[sq+dir_down]==pn
                    && e[sq+dir_down]!=pn)
           {
-            if (ProofBoard[sq+2*dir_down]!=pn
-                && ProofBoard[sq+3*dir_down]!=pn
-                && ProofBoard[sq+4*dir_down]!=pn
-                && ProofBoard[sq+5*dir_down]!=pn)
+            if (target.board[sq+2*dir_down]!=pn
+                && target.board[sq+3*dir_down]!=pn
+                && target.board[sq+4*dir_down]!=pn
+                && target.board[sq+5*dir_down]!=pn)
               count++;
           }
         }
@@ -1557,7 +1604,7 @@ static boolean ProofFairyImpossible(void)
 
   for (bnp= boardnum; *bnp; bnp++)
   {
-    piece const p = ProofBoard[*bnp];
+    piece const p = target.board[*bnp];
     if (p!=vide && p!=e[*bnp])
       MovesAvailable--;
   }
@@ -1578,16 +1625,16 @@ static boolean ProofImpossible(void)
   int       NbrWh, NbrBl;
 
   /* too many pawns captured or promoted */
-  if (ProofNbrPiece[pb] > nbpiece[pb])
+  if (target.proof_nbpiece[-dernoi+pb] > nbpiece[pb])
   {
-    TraceValue("%d ",ProofNbrPiece[pb]);
+    TraceValue("%d ",target.proof_nbpiece[-dernoi+pb]);
     TraceValue("%d\n",nbpiece[pb]);
     return true;
   }
 
-  if (ProofNbrPiece[pn] > nbpiece[pn])
+  if (target.proof_nbpiece[-dernoi+pn] > nbpiece[pn])
   {
-    TraceValue("%d ",ProofNbrPiece[pn]);
+    TraceValue("%d ",target.proof_nbpiece[-dernoi+pn]);
     TraceValue("%d\n",nbpiece[pn]);
     return true;
   }
@@ -1642,12 +1689,12 @@ static boolean ProofImpossible(void)
     return true;
 
   /* has one of the blocked pieces been captured ? */
-  if ((BlockedBishopc1 && ProofBoard[square_c1]!=fb)
-      || (BlockedBishopf1 && ProofBoard[square_f1]!=fb)
-      || (BlockedBishopc8 && ProofBoard[square_c8]!=fn)
-      || (BlockedBishopf8 && ProofBoard[square_f8]!=fn)
-      || (BlockedQueend1  && ProofBoard[square_d1]!=db)
-      || (BlockedQueend8  && ProofBoard[square_d8]!=dn))
+  if ((BlockedBishopc1 && target.board[square_c1]!=fb)
+      || (BlockedBishopf1 && target.board[square_f1]!=fb)
+      || (BlockedBishopc8 && target.board[square_c8]!=fn)
+      || (BlockedBishopf8 && target.board[square_f8]!=fn)
+      || (BlockedQueend1  && target.board[square_d1]!=db)
+      || (BlockedQueend8  && target.board[square_d8]!=dn))
   {
     TraceText("blocked piece was captured\n");
     return true;
@@ -1657,10 +1704,10 @@ static boolean ProofImpossible(void)
      been captured?
   */
   for (sq= square_a2; sq<=square_h2; sq+=dir_right)
-    if (ProofBoard[sq]==pb && e[sq]!=pb)
+    if (target.board[sq]==pb && e[sq]!=pb)
     {
       TraceValue("%d ",sq);
-      TraceText("ProofBoard[sq]==pb && e[sq]!=pb\n");
+      TraceText("target.board[sq]==pb && e[sq]!=pb\n");
       return true;
     }
 
@@ -1668,10 +1715,10 @@ static boolean ProofImpossible(void)
      been captured?
   */
   for (sq= square_a7; sq<=square_h7; sq+=dir_right)
-    if (ProofBoard[sq]==pn && e[sq]!=pn)
+    if (target.board[sq]==pn && e[sq]!=pn)
     {
       TraceValue("%d ",sq);
-      TraceText("ProofBoard[sq]==pn && e[sq]!=pn\n");
+      TraceText("target.board[sq]==pn && e[sq]!=pn\n");
       return true;
     }
 
@@ -1702,7 +1749,7 @@ static boolean ProofImpossible(void)
   if (CondFlag[haanerchess])
   {
     TraceText("impossible hole created\n");
-    return ProofBoard[move_generation_stack[nbcou].departure] != vide;
+    return target.board[move_generation_stack[nbcou].departure] != vide;
   }
 
   /* collect the pieces for further investigations */
@@ -1717,7 +1764,7 @@ static boolean ProofImpossible(void)
 
   for (bnp= boardnum; *bnp; bnp++)
   {
-    p1= ProofBoard[*bnp];
+    p1= target.board[*bnp];
     p2= e[*bnp];
 
     if (p1 == p2)
@@ -1857,7 +1904,8 @@ static boolean ProofSeriesImpossible(void)
 
   TraceValue("%d\n",BlMovesLeft+WhMovesLeft);
   /* too many pawns captured or promoted */
-  if (ProofNbrPiece[pb]>nbpiece[pb] || ProofNbrPiece[pn]>nbpiece[pn])
+  if (target.proof_nbpiece[-dernoi+pb]>nbpiece[pb]
+      || target.proof_nbpiece[-dernoi+pn]>nbpiece[pn])
     return true;
 
   NbrBl= nbpiece[pn]
@@ -1880,17 +1928,17 @@ static boolean ProofSeriesImpossible(void)
   
   /* has a white pawn on the second rank moved ? */
   for (sq = square_a2; sq<=square_h2; sq += dir_right)
-    if (ProofBoard[sq]==pb && e[sq]!=pb)
+    if (target.board[sq]==pb && e[sq]!=pb)
       return true;
 
   /* has a black pawn on the seventh rank been captured ? */
   for (sq = square_a7; sq<=square_h7; sq += dir_right)
-    if (ProofBoard[sq]==pn && e[sq]!=pn)
+    if (target.board[sq]==pn && e[sq]!=pn)
       return true;
 
   /* has a black piece on the eigth rank been captured ? */
   for (sq = square_a8; sq<=square_h8; sq += dir_right)
-    if (ProofBoard[sq]<roin && ProofBoard[sq]!=e[sq])
+    if (target.board[sq]<roin && target.board[sq]!=e[sq])
       return true;
 
   white_king_moves_needed = ProofWhKingMovesNeeded();
@@ -1906,7 +1954,7 @@ static boolean ProofSeriesImpossible(void)
     CurrentWhPieces.Nbr= 0;
   
   for (bnp= boardnum; *bnp; bnp++) {
-    piece const p1= ProofBoard[*bnp];
+    piece const p1= target.board[*bnp];
     piece const p2= e[*bnp];
 
     if (p1 != p2) {

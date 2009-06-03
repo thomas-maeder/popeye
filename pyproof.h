@@ -19,21 +19,21 @@ void ProofEncode(void);
  */
 boolean ProofVerifie(void);
 
+/* Proof game: initialize start position from PAS
+ */
+void ProofInitialiseStartPosition(void);
+
 /* a=>b: save the current piece places for the start position
  */
-void ProofAtoBSaveStartPieces(void);
-
-/* a=>b: save the current "royal information" for the start position
- */
-void ProofAtoBSaveStartRoyal(void);
+void ProofSaveStartPosition(void);
 
 /* a=>b: swap pieces' colors in the starting position
  */
-void ProofAtoBSwapColors(void);
+void ProofStartSwapColors(void);
 
 /* a=>b: reflect starting position at the horizontal center line
  */
-void ProofAtoBReflectboard(void);
+void ProofStartReflectboard(void);
 
 /* Restore the start position
  */

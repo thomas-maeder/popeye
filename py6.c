@@ -1911,7 +1911,7 @@ static void swapcolors(void)
       spec[*bnp]^= BIT(White)+BIT(Black);
     }
 
-  ProofAtoBSwapColors();
+  ProofStartSwapColors();
 }
 
 static void reflectboard(void)
@@ -1931,7 +1931,7 @@ static void reflectboard(void)
     spec[*bnp] = sp;
   }
 
-  ProofAtoBReflectboard();
+  ProofStartReflectboard();
 
   isBoardReflected = !isBoardReflected;
 }
@@ -2008,7 +2008,7 @@ static boolean initialise_position(void)
       ProofRestoreStartPosition();
       countPieces();
       result = locateRoyal();
-      ProofAtoBSaveStartRoyal();
+      ProofSaveStartPosition();
     }
   }
   else
