@@ -408,6 +408,9 @@ void ProofInitialiseStartPosition(void)
   int i;
   square const *bnp;
 
+  start.rb = square_e1;
+  start.rn = square_e8;
+
   for (i = roib; i <= derbla; ++i)
   {
     start.proof_nbpiece[-dernoi+i] = 0;
@@ -418,25 +421,29 @@ void ProofInitialiseStartPosition(void)
    */
   for (i = 0; i<maxsquare; ++i)
   {
-    e[i] = obs;
-    spec[i] = BorderSpec;
+    start.board[i] = obs;
+    start.spec[i] = BorderSpec;
   }
 
   for (bnp = boardnum; *bnp; bnp++)
   {
-    e[*bnp] = vide;
-    CLEARFL(spec[*bnp]);
+    start.board[*bnp] = vide;
+    CLEARFL(start.spec[*bnp]);
   }
 
   for (i = 0; i<nr_squares_on_board; ++i)
   {
     piece const p = PAS[i];
-    start.board[boardnum[i]] = p;
+    square const square_i = boardnum[i];
+    start.board[square_i] = p;
     ++start.proof_nbpiece[-dernoi+p];
-    start.rb = square_e1;
-    start.rn = square_e8;
-    start.inum = 0;
+    if (p>=roib)
+      SETFLAG(start.spec[square_i],White);
+    else if (p<=roin)
+      SETFLAG(start.spec[square_i],Black);
   }
+
+  start.inum = 0;
 }
 
 void ProofSaveStartPosition(void)
@@ -458,12 +465,47 @@ void ProofSaveStartPosition(void)
   for (i = 0; i<maxsquare; ++i)
     start.board[i] = e[i];
 
-  for (i = 0; i<maxsquare; ++i)
-    start.spec[i] = spec[i];
+  for (i = 0; i<nr_squares_on_board; ++i)
+    start.spec[i] = spec[boardnum[i]];
 
   start.inum = inum[1];
   for (i = 0; i<maxinum; ++i)
     start.isquare[i] = isquare[i];
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+void ProofRestoreStartPosition(void)
+{
+  int i;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  rn = start.rn;
+  rb = start.rb;
+
+  for (i = 0; i<nr_squares_on_board; ++i)
+  {
+    square const square_i = boardnum[i];
+    piece p = goal_to_be_reached==goal_atob ? start.board[square_i] : PAS[i];
+    e[square_i] = p;
+    CLEARFL(spec[square_i]);
+
+    /* We must set spec[] for the PAS.
+       This is used in jouecoup for andernachchess!*/
+    if (p>=roib)
+      SETFLAG(spec[square_i], White);
+    else if (p<=roin)
+      SETFLAG(spec[square_i], Black);
+    if (goal_to_be_reached==goal_atob)
+      spec[square_i] = start.spec[square_i];
+  }
+
+  inum[1] = start.inum;
+  for (i = 0; i<maxinum; ++i)
+    isquare[i] = start.isquare[i];
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -571,52 +613,6 @@ void ProofRestoreTargetPosition(void)
   inum[1] = target.inum;
   for (i = 0; i<maxinum; ++i)
     isquare[i] = target.isquare[i];
-}
-
-void ProofRestoreStartPosition(void)
-{
-  int i;
-
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
-
-  for (i = 0; i<nr_squares_on_board; ++i)
-  {
-    square const square_i = boardnum[i];
-    piece p = goal_to_be_reached==goal_atob ? start.board[square_i] : PAS[i];
-    e[square_i] = p;
-    CLEARFL(spec[square_i]);
-
-    /* We must set spec[] for the PAS.
-       This is used in jouecoup for andernachchess!*/
-    if (p>=roib)
-      SETFLAG(spec[square_i], White);
-    else if (p<=roin)
-      SETFLAG(spec[square_i], Black);
-    if (goal_to_be_reached==goal_atob)
-      spec[square_i] = start.spec[square_i];
-  }
-
-  if (!(CondFlag[losingchess] || CondFlag[extinction]))
-  {
-    if (goal_to_be_reached==goal_atob)
-    {
-      rb = start.rb;
-      rn = start.rn;
-    }
-    else
-    {
-      rb = square_e1;
-      rn = square_e8;
-    }
-  }
-
-  if (goal_to_be_reached==goal_atob && CondFlag[imitators])
-    for (i = 0; i<maxinum; ++i)
-      isquare[i] = start.isquare[i];
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
 }
 
 void ProofWritePosition(void)
