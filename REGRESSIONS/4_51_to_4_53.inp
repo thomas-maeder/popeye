@@ -11,4 +11,15 @@ pieces white kd3 se6
 stipulation h#2
 condition bicolores
 
+next
+
+remark the functions checking for check in extinction chess changed
+remark the variables internally used for holding the royal squares, which
+remark caused all kinds of trouble, including this shortie not being solved.
+pieces white ke1 qd1 ra1h1 bc1f1 sb1g1 pa2b2c2d2e2f4g2h2
+       black ke8 qd8 ra8h8 bc8f8 sb8g8 pa7b7c7d7e5f7g7h7
+stipulation dia 1
+condition extinction
+
+
 end

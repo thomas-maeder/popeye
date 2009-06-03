@@ -1,0 +1,51 @@
+
+            Joost de Heer
+       Probleemblad 01-02/2006
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -T  -L   .  -K   .  -T   .   8
+|                                   |
+7  -B   .   .  -B  -S  -B   .  -B   7
+|                                   |
+6   .   .  -S   .   .   .   .   .   6
+|                                   |
+5   .  -D  -B   .  -B   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   B   B   B   B  -L   B   B   2
+|                                   |
+1   T   S   L   D   K   L   S   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia10                     14 + 14
+          AusrottungsSchach
+
+  1  (h2-h4 )
+  2  (h2-h3 )
+  3  (g2-g4 )
+  4  (g2-g3 )
+  1.f2-f4 e7-e5   2.f4-f5 Lf8-c5   3.f5-f6 Sg8-e7   4.f6*g7 Lc5-f2 +   5.g7-g8=K c7-c5   6.a2-a4 Dd8-b6   7.a4-a5 + Db6-b5   8.a5-a6 Sb8-c6   9.a6*b7 Th8*g8 +  10.b7-b8=K Ta8*b8 dia 
+  5  (f2-f4 )
+  6  (f2-f3 )
+  7  (e2-e4 )
+  8  (e2-e3 )
+  9  (d2-d4 )
+ 10  (d2-d3 )
+ 11  (c2-c4 )
+ 12  (c2-c3 )
+ 13  (b2-b4 )
+ 14  (b2-b3 )
+ 15  (a2-a4 )
+ 16  (a2-a3 )
+ 17  (Sg1-h3 )
+ 18  (Sg1-f3 )
+ 19  (Sb1-c3 )
+ 20  (Sb1-a3 )
+
+Loesung beendet. 
+
+

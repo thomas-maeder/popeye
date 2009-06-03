@@ -33,3 +33,35 @@ piece is of the same colour as the king to be mated
 solution finished. 
 
 
+the functions checking for check in extinction chess changed
+the variables internally used for holding the royal squares, which
+caused all kinds of trouble, including this shortie not being solved.
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P   .  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   P   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   P   .   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia1                      16 + 16
+           ExtinctionChess
+
+  1.f2-f4 e7-e5 dia 
+
+solution finished. 
+
+
