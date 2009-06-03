@@ -796,18 +796,17 @@ void genrn_cast(void) {
   }
 } /* genrn_cast */
 
-void genrn(square sq_departure) {
+void genrn(square sq_departure)
+{
   numvec k;
   boolean flag = false;  /* K im Schach ? */
-  numecoup anf, l1, l2;
+  numecoup const save_nbcou = nbcou;
 
-  VARIABLE_INIT(anf);
-
-  if (calc_blrefl_king && !calctransmute) {
+  if (calc_blrefl_king && !calctransmute)
+  {
     /* K im Schach zieht auch */
     piece *ptrans;
 
-    anf= nbcou;
     calctransmute= true;
     if (!blacknormaltranspieces && echecc(nbply,Black))
     {
@@ -858,17 +857,8 @@ void genrn(square sq_departure) {
       empile(sq_departure,sq_arrival,sq_arrival);
   }
   
-  if (flag) {
-    /* testempile nicht nutzbar */
-    /* VERIFY: has anf always a proper value??
-     */
-    for (l1= anf+1; l1<=nbcou; l1++)
-      if (move_generation_stack[l1].arrival != initsquare)
-        for (l2= l1+1; l2<=nbcou; l2++)
-          if (move_generation_stack[l1].arrival
-              ==move_generation_stack[l2].arrival)
-            move_generation_stack[l2].arrival= initsquare;
-  }
+  if (flag)
+    remove_duplicate_moves(save_nbcou);
 
   /* Now we test castling */
   if (castling_supported)
@@ -1733,17 +1723,6 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
   if (jt!=replay)
     invalidateHashBuffer();
-
-  /* Orphans/refl. KK !!!! */
-  if (jouegenre)
-  {
-    if (ply_id==nbply
-        && (calc_whrefl_king
-            || calc_blrefl_king)) {
-      while (move_generation_stack[nbcou].arrival == initsquare)
-        --nbcou;
-    }
-  }
 
   /* TODO remove the above loop decreasing nbcou, then initialise
    * coup_id and move_gen_top in their definition.*/

@@ -328,6 +328,12 @@ boolean f_lioncheck(square i, piece p, evalfunction_t *evaluate);
 boolean marincheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 boolean empile(square departure, square arrival, square capture);
 boolean testempile(square departure, square arrival, square capture);
+
+/* Remove duplicate moves at the top of the move_generation_stack.
+ * @param start start position of range where to look for duplicates
+ */
+void remove_duplicate_moves(numecoup start);
+
 boolean ooorphancheck(square i, piece porph, piece p, evalfunction_t *evaluate);
 boolean reversepcheck(square a, piece b, evalfunction_t *evaluate);
 void    gorph(square a, Side b);

@@ -2949,18 +2949,38 @@ void genrb_cast(void) {
   }
 } /* genrb_cast */
 
-void genrb(square sq_departure) {
+/* Remove duplicate moves at the top of the move_generation_stack.
+ * @param start start position of range where to look for duplicates
+ */
+void remove_duplicate_moves(numecoup start)
+{
+  numecoup l1;
+  for (l1 = start+1; l1<=nbcou; ++l1)
+  {
+    numecoup l2 = l1+1;
+    while (l2<=nbcou)
+      if (move_generation_stack[l1].arrival==move_generation_stack[l2].arrival)
+      {
+        move_generation_stack[l2] = move_generation_stack[nbcou];
+        --nbcou;
+      }
+      else
+        ++l2;
+  }
+}
+
+void genrb(square sq_departure)
+{
   numvec    k;
   boolean   flag = false;       /* K im Schach ? */
-  numecoup  anf, l1, l2;
+  numecoup const save_nbcou = nbcou;
 
   if (calc_whrefl_king && !calctransmute)
   {
     /* K im Schach zieht auch */
     piece   *ptrans;
 
-    anf= nbcou;
-    calctransmute= true;
+    calctransmute = true;
     if (!whitenormaltranspieces && echecc(nbply,White))
     {
       for (ptrans= whitetransmpieces; *ptrans; ptrans++) {
@@ -2985,7 +3005,8 @@ void genrb(square sq_departure) {
     }
     calctransmute= false;
 
-    if (flag && nbpiece[orphann]>0) {
+    if (flag && nbpiece[orphann]>0)
+    {
       piece king= e[rb];
       e[rb]= dummyb;
       if (!echecc(nbply,White)) {
@@ -2993,12 +3014,13 @@ void genrb(square sq_departure) {
         ** empowered by the king */
         flag= false;
       }
-    e[rb]= king;
-  }
+      e[rb]= king;
+    }
 
-  /* K im Schach zieht nur */
-  if (calc_whtrans_king && flag)
-    return;
+
+    /* K im Schach zieht nur */
+    if (calc_whtrans_king && flag)
+      return;
   }
 
   if (CondFlag[sting])
@@ -3010,17 +3032,11 @@ void genrb(square sq_departure) {
       empile(sq_departure,sq_arrival,sq_arrival);
   }
   
-  if (flag) {
+  if (flag)
     /* testempile nicht nutzbar */
     /* VERIFY: has anf always a propper value??
      */
-    for (l1= anf+1; l1<=nbcou; l1++)
-      if (move_generation_stack[l1].arrival != initsquare)
-        for (l2= l1+1; l2<=nbcou; l2++)
-          if (move_generation_stack[l1].arrival
-              ==move_generation_stack[l2].arrival)
-            move_generation_stack[l2].arrival= initsquare;
-  }
+    remove_duplicate_moves(save_nbcou);
 
   /* Now we test castling */
   if (castling_supported)
@@ -3306,26 +3322,6 @@ void singleboxtype3_gen_wh_piece(square z, piece p)
 void (*gen_wh_piece)(square z, piece p)
   = &orig_gen_wh_piece;
 
-
-/* Remove duplicate moves at the top of the move_generation_stack.
- * @param start start position of range where to look for duplicates
- */
-static void remove_duplicate_moves(numecoup start)
-{
-  numecoup l1;
-  for (l1 = start+1; l1<=nbcou; ++l1)
-  {
-    numecoup l2 = l1+1;
-    while (l2<=nbcou)
-      if (move_generation_stack[l1].arrival==move_generation_stack[l2].arrival)
-      {
-        move_generation_stack[l2] = move_generation_stack[nbcou];
-        --nbcou;
-      }
-      else
-        ++l2;
-  }
-}
 
 void gorph(square i, Side camp)
 {

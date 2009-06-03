@@ -21,5 +21,13 @@ pieces white ke1 qd1 ra1h1 bc1f1 sb1g1 pa2b2c2d2e2f4g2h2
 stipulation dia 1
 condition extinction
 
+next
+
+remark Test: avoid dupliate king moves (e.g. to f5)
+pieces white ke5
+       black qh2
+condition WhiteReflectiveKing
+stip ~1
+option nobk movenum
 
 end

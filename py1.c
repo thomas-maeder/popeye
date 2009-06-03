@@ -277,9 +277,15 @@ void InitCond(void) {
   BGL_whiteinfinity= BGL_blackinfinity= true;
   BGL_global= false;
 
-  calc_whtrans_king= calc_bltrans_king= 
-  calc_whrefl_king= calc_blrefl_king= false;
-  whitenormaltranspieces = blacknormaltranspieces = true;
+  calc_whtrans_king = false;
+  calc_whtrans_king = false; 
+
+  calc_whrefl_king = false;
+  calc_blrefl_king = false;
+
+  whitenormaltranspieces = true;
+  blacknormaltranspieces = true;
+
   obsgenre = false;
 } /* InitCond */
 
