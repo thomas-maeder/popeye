@@ -1046,7 +1046,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
         */
         for (l1 = anf1+1; l1<=anf2; l1++)
         {
-          numecoup l2= anf2 + 1;
+          numecoup l2 = anf2+1;
           while (l2 <= nbcou)
             if (move_generation_stack[l1].arrival
                 ==move_generation_stack[l2].arrival)
@@ -1738,9 +1738,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
   if (jouegenre)
   {
     if (ply_id==nbply
-        && (exist[Orphan]
-            || exist[Friend]
-            || calc_whrefl_king
+        && (calc_whrefl_king
             || calc_blrefl_king)) {
       while (move_generation_stack[nbcou].arrival == initsquare)
         --nbcou;

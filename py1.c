@@ -1030,7 +1030,7 @@ boolean orphancheck(square   sq_king,
   square    olist[63], *bnp;
   int   k, j, co= 0;
 
-  for (porph= orphanpieces; *porph; porph++) {
+  for (porph= orphanpieces; *porph!=vide; porph++) {
     if (nbpiece[*porph]>0 || nbpiece[-*porph]>0) {
       if (!inited) {
         inited= true;
@@ -1129,7 +1129,7 @@ boolean friendcheck(square    i,
   square    flist[63], *bnp;
   int   k, j, cf= 0;
 
-  for (pfr= orphanpieces; *pfr; pfr++) {
+  for (pfr= orphanpieces; *pfr!=vide; pfr++) {
     cfr= p == friendb ? *pfr : -*pfr;
     if (nbpiece[cfr]>0) {
       if (!initialized) {

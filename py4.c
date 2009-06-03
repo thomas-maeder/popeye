@@ -3307,62 +3307,70 @@ void (*gen_wh_piece)(square z, piece p)
   = &orig_gen_wh_piece;
 
 
-void gorph(square i, Side camp) {
-  piece *porph;
-  numecoup  anf, l1, l2;
-
-  anf= nbcou;
-  for (porph= orphanpieces; *porph; porph++) {
-    if (nbpiece[*porph]>0 || nbpiece[-*porph]>0) {
-      if (camp == White) {
-        if (ooorphancheck(i, -*porph, orphann, eval_white))
-          gen_wh_piece(i, *porph);
+/* Remove duplicate moves at the top of the move_generation_stack.
+ * @param start start position of range where to look for duplicates
+ */
+static void remove_duplicate_moves(numecoup start)
+{
+  numecoup l1;
+  for (l1 = start+1; l1<=nbcou; ++l1)
+  {
+    numecoup l2 = l1+1;
+    while (l2<=nbcou)
+      if (move_generation_stack[l1].arrival==move_generation_stack[l2].arrival)
+      {
+        move_generation_stack[l2] = move_generation_stack[nbcou];
+        --nbcou;
       }
-      else {
-        if (ooorphancheck(i, *porph, orphanb, eval_black))
-          gen_bl_piece(i, -*porph);
-      }
-    }
-  }
-  for (l1= anf + 1; l1 <= nbcou; l1++) {
-    if (move_generation_stack[l1].arrival != initsquare) {
-      for (l2= l1 + 1; l2 <= nbcou; l2++) {
-        if (move_generation_stack[l1].arrival == move_generation_stack[l2].arrival) {
-          move_generation_stack[l2].arrival= initsquare;
-        }
-      }
-    }
+      else
+        ++l2;
   }
 }
 
-void gfriend(square i, Side camp) {
-  piece *pfr;
-  numecoup  anf, l1, l2;
+void gorph(square i, Side camp)
+{
+  numecoup const save_nbcou = nbcou;
 
-  anf= nbcou;
-  for (pfr= orphanpieces; *pfr; pfr++) {
-    if (nbpiece[*pfr]>0) {
-      if (camp == White) {
-        if (fffriendcheck(i, *pfr, friendb, eval_white)) {
+  piece const *porph;
+  for (porph = orphanpieces; *porph!=vide; ++porph)
+    if (nbpiece[*porph]>0 || nbpiece[-*porph]>0)
+    {
+      if (camp == White)
+      {
+        if (ooorphancheck(i,-*porph,orphann,eval_white))
+          gen_wh_piece(i,*porph);
+      }
+      else
+      {
+        if (ooorphancheck(i,*porph,orphanb,eval_black))
+          gen_bl_piece(i,-*porph);
+      }
+    }
+
+  remove_duplicate_moves(save_nbcou);
+}
+
+void gfriend(square i, Side camp)
+{
+  numecoup const save_nbcou = nbcou;
+
+  piece const *pfr;
+  for (pfr = orphanpieces; *pfr!=vide; ++pfr)
+    if (nbpiece[*pfr]>0)
+    {
+      if (camp==White)
+      {
+        if (fffriendcheck(i,*pfr,friendb,eval_white))
           gen_wh_piece(i, *pfr);
-        }
       }
-      else {
-        if (fffriendcheck(i, -*pfr, friendn, eval_black)) {
+      else
+      {
+        if (fffriendcheck(i,-*pfr,friendn,eval_black))
           gen_bl_piece(i, -*pfr);
-        }
       }
     }
-  }
-  for (l1= anf + 1; l1 <= nbcou; l1++) {
-    if (move_generation_stack[l1].arrival != initsquare) {
-      for (l2= l1 + 1; l2 <= nbcou; l2++) {
-        if (move_generation_stack[l1].arrival == move_generation_stack[l2].arrival) {
-          move_generation_stack[l2].arrival= initsquare;
-        }
-      }
-    }
-  }
+
+  remove_duplicate_moves(save_nbcou);
 }
 
 
