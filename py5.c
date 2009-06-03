@@ -1694,65 +1694,61 @@ static void ban_ghost(square sq_departure)
 
 boolean jouecoup(ply ply_id, joue_type jt)
 {
-  square  sq_departure,
-    sq_arrival,
-    sq_capture,
-    sq_rebirth= initsquare,  /* initialised ! */
-    sq_hurdle= initsquare,
-    prev_rb,
-    prev_rn;
-  piece   pi_captured,
-    pi_departing,
-    pi_arriving,
-    pi_reborn,
-    pi_hurdle;
-  Flags   spec_pi_captured;
-  Flags   spec_pi_moving;
-  boolean rochade=false;
-  numecoup coup_id;
+  square sq_rebirth = initsquare;
+  piece pi_reborn;
+
+  square sq_hurdle = initsquare;
+  piece pi_hurdle;
+
+  piece pi_captured;
+  Flags spec_pi_captured;
+
+  boolean rochade = false;
 
   unsigned int prev_nbpiece[derbla];
 
-  Side trait_ply= trait[ply_id];
-
-  move_generation_elmt* move_gen_top;
+  Side const trait_ply = trait[ply_id];
 
 #if defined(DEBUG)
   nbrtimes++;
 #endif
 
+  numecoup const coup_id = ply_id==nbply ? nbcou : repere[ply_id+1];
+  move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
+  
+  square const prev_rb = rb;
+  square const prev_rn = rn;
+
+  square const sq_arrival = move_gen_top->arrival;
+  square sq_capture = move_gen_top->capture;
+
+  square const sq_departure = move_gen_top->departure;
+
+  Flags spec_pi_moving = spec[sq_departure];
+  piece pi_arriving = e[sq_departure];
+
+  piece pi_departing = pi_arriving;
+
+  RB_[ply_id] = rb;
+  RN_[ply_id] = rn;
+
+  pjoue[ply_id] = pi_arriving;
+  jouespec[ply_id] = spec_pi_moving;
+  sqdep[ply_id] = sq_departure;
+
   if (jt!=replay)
     invalidateHashBuffer();
-
-  /* TODO remove the above loop decreasing nbcou, then initialise
-   * coup_id and move_gen_top in their definition.*/
-  coup_id = ply_id==nbply ? nbcou : repere[ply_id+1];
-  move_gen_top = move_generation_stack+coup_id;
-  
-  prev_rb= RB_[ply_id]= rb;
-  prev_rn= RN_[ply_id]= rn;
-
-  sq_departure= sqdep[ply_id]= move_gen_top->departure;
-  sq_arrival= move_gen_top->arrival;
-  sq_capture= move_gen_top->capture;
   
   if (jouegenre)
   {
-    if (CondFlag[extinction])
+    rochade_sq[coup_id] = initsquare;
+    if (sq_capture>=maxsquare+square_a1)
     {
-      piece p;
-      for (p = roib; p<derbla; p++)
-        prev_nbpiece[p]= nbpiece[trait_ply==White ? p : -p];
-    }
-
-    rochade_sq[coup_id]= initsquare;
-    if (sq_capture >= maxsquare + square_a1)
-    {
-      rochade_sq[coup_id]= sq_capture - maxsquare;
-      rochade_pc[coup_id]= e[rochade_sq[coup_id]];
-      rochade_sp[coup_id]= spec[rochade_sq[coup_id]];
-      sq_capture= sq_arrival;
-      rochade= true;
+      rochade_sq[coup_id] = sq_capture-maxsquare;
+      rochade_pc[coup_id] = e[rochade_sq[coup_id]];
+      rochade_sp[coup_id] = spec[rochade_sq[coup_id]];
+      sq_capture = sq_arrival;
+      rochade = true;
     } 
 
     if (CondFlag[amu])
@@ -1760,35 +1756,41 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
     if (CondFlag[imitators])
     {
-      if (sq_capture == queenside_castling)
+      if (sq_capture==queenside_castling)
         joueim(+dir_right);
       else if (rochade)
-        joueim((3*sq_arrival - sq_departure - rochade_sq[coup_id]) / 2);
+        joueim((3*sq_arrival-sq_departure-rochade_sq[coup_id]) / 2);
       else if (sq_capture!=kingside_castling) /* joueim(0) (do nothing) if OO */
         joueim(sq_arrival-sq_departure);
     }
   }
 
-  spec_pi_moving= jouespec[ply_id]= spec[sq_departure];
-  pi_arriving= pi_departing= pjoue[ply_id]= e[sq_departure];
-
-  spec_pi_captured= pprispec[ply_id]= spec[sq_capture];
-  pi_captured= pprise[ply_id]= e[sq_capture];
+  spec_pi_captured = pprispec[ply_id] = spec[sq_capture];
+  pi_captured = pprise[ply_id] = e[sq_capture];
 
   if (sq_arrival==nullsquare)
     return true;
 
   if (anyantimars && sq_departure==sq_capture)
   {
-    spec_pi_captured= pprispec[ply_id]= 0;
-    pi_captured= pprise[ply_id]= vide;
+    spec_pi_captured = 0;
+    pprispec[ply_id]= 0;
+    pi_captured = vide;
+    pprise[ply_id] = vide;
   }
   
-  pdisp[ply_id]= vide;
-  pdispspec[ply_id]= 0;
+  pdisp[ply_id] = vide;
+  pdispspec[ply_id] = 0;
 
   if (jouegenre)
   {
+    if (CondFlag[extinction])
+    {
+      piece p;
+      for (p = roib; p<derbla; p++)
+        prev_nbpiece[p] = nbpiece[trait_ply==White ? p : -p];
+    }
+
     if (CondFlag[blsupertrans_king]
         && trait_ply==Black
         && ctrans[coup_id]!=vide)
