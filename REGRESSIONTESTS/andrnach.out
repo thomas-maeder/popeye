@@ -498,12 +498,12 @@ Loesung beendet.
   #2                          6 + 8
            AndernachSchach
 
-  1...Dc1*d2=wD 
-      2.Dd2-g5 # 
-  1...Sf1*d2=wS 
-      2.Sd2-c4 # 
-  1...c6-c5 
-      2.Td3-d5 # 
+      1...Dc1*d2=wD 
+          2.Dd2-g5 # 
+      1...Sf1*d2=wS 
+          2.Sd2-c4 # 
+      1...c6-c5 
+          2.Td3-d5 # 
 
   1.Td3-e3 ! Drohung:
           2.d2-d4 # 
@@ -545,10 +545,10 @@ Loesung beendet.
   s#2                         9 + 8
            AndernachSchach
 
-  1...Tg2-g1 # 
-  1...Tg2-d2 # 
-  1...Tg2-e2 # 
-  1...Tg2-f2 # 
+      1...Tg2-g1 # 
+      1...Tg2-d2 # 
+      1...Tg2-e2 # 
+      1...Tg2-f2 # 
 
   1.Le3-g1 ! 
       1...h2*g1=wD 
@@ -742,6 +742,37 @@ Loesung beendet.
               2...Kd5-d6 
                   3.Te8-e6 # 
 
+
+Loesung beendet. 
+
+
+
+           Michel Caillaud
+         Andernach 1993, Lob
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T  -S  -L  -D  -K  -L  -S  -T   8
+|                                   |
+7  -B  -B  -B   .  -B  -B  -B  -B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   B   B   B   B   B   B   B   2
+|                                   |
+1   T   S   L   D   K   L   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia3.0                    15 + 15
+           AndernachSchach
+
+  1.Sg1-f3 Sb8-c6   2.Sf3-e5 Sc6*e5=wS   3.Se5*d7=sS Sd7-b8 dia 
 
 Loesung beendet. 
 
