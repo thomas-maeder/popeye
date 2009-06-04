@@ -408,6 +408,9 @@ void ProofInitialiseStartPosition(void)
   int i;
   square const *bnp;
 
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   start.rb = square_e1;
   start.rn = square_e8;
 
@@ -444,6 +447,9 @@ void ProofInitialiseStartPosition(void)
   }
 
   start.inum = 0;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 void ProofSaveStartPosition(void)
@@ -466,7 +472,7 @@ void ProofSaveStartPosition(void)
     start.board[i] = e[i];
 
   for (i = 0; i<nr_squares_on_board; ++i)
-    start.spec[i] = spec[boardnum[i]];
+    start.spec[boardnum[i]] = spec[boardnum[i]];
 
   start.inum = inum[1];
   for (i = 0; i<maxinum; ++i)
@@ -489,18 +495,8 @@ void ProofRestoreStartPosition(void)
   for (i = 0; i<nr_squares_on_board; ++i)
   {
     square const square_i = boardnum[i];
-    piece p = goal_to_be_reached==goal_atob ? start.board[square_i] : PAS[i];
-    e[square_i] = p;
-    CLEARFL(spec[square_i]);
-
-    /* We must set spec[] for the PAS.
-       This is used in jouecoup for andernachchess!*/
-    if (p>=roib)
-      SETFLAG(spec[square_i], White);
-    else if (p<=roin)
-      SETFLAG(spec[square_i], Black);
-    if (goal_to_be_reached==goal_atob)
-      spec[square_i] = start.spec[square_i];
+    e[square_i] = start.board[square_i];
+    spec[square_i] = start.spec[square_i];
   }
 
   inum[1] = start.inum;
@@ -559,6 +555,9 @@ void ProofSaveTargetPosition(void)
   int       i;
   piece p;
 
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   target.rb = rb;
   target.rn = rn;
 
@@ -592,11 +591,17 @@ void ProofSaveTargetPosition(void)
   target.inum = inum[1];
   for (i = 0; i<maxinum; ++i)
     target.isquare[i] = isquare[i];
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 void ProofRestoreTargetPosition(void)
 {
   int i;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
 
   rn = target.rn;
   rb = target.rb;
@@ -613,6 +618,9 @@ void ProofRestoreTargetPosition(void)
   inum[1] = target.inum;
   for (i = 0; i<maxinum; ++i)
     isquare[i] = target.isquare[i];
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 void ProofWritePosition(void)
