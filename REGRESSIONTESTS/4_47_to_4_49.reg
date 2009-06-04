@@ -547,7 +547,7 @@ Initial (Black ->):
 
   1.Ra8*a7 [+wRa8] a=>b 
 
-  1.Ra7*a8 [+wRa7] a=>b 
+  1.Ra7*a8 [+bRa7] a=>b 
 
 solution finished. 
 

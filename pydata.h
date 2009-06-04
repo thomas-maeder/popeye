@@ -402,6 +402,7 @@ EXTERN  piece           orphanpieces[derbla + 1];
 EXTERN  boolean         ProofFairy;
 
 EXTERN boolean isBoardReflected;
+EXTERN boolean areColorsSwapped;
 
 EXTERN  piece           NextChamCircePiece[PieceCount];
 EXTERN  boolean         InitChamCirce;

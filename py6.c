@@ -1849,11 +1849,24 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
   PieSpec spname;
 
   if (printcolours && !TSTFLAG(sp, Neutral))
-    spname = White;
-  else
-    spname = Neutral;
+  {
+    if (areColorsSwapped)
+    {
+      if (TSTFLAG(sp,White))
+        StdChar(tolower(*PieSpString[UserLanguage][Black]));
+      if (TSTFLAG(sp,Black))
+        StdChar(tolower(*PieSpString[UserLanguage][White]));
+    }
+    else
+    {
+      if (TSTFLAG(sp,White))
+        StdChar(tolower(*PieSpString[UserLanguage][White]));
+      if (TSTFLAG(sp,Black))
+        StdChar(tolower(*PieSpString[UserLanguage][Black]));
+    }
+  }
 
-  for (; spname < PieSpCount; spname++) {
+  for (spname = Neutral; spname < PieSpCount; spname++) {
     if ( (spname != Volage || !CondFlag[volage])
          && TSTFLAG(sp, spname))
     {
@@ -1904,6 +1917,10 @@ boolean has_too_many_flights(Side defender)
 static void swapcolors(void)
 {
   square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   for (bnp = boardnum; *bnp; bnp++)
     if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide)
     {
@@ -1912,11 +1929,20 @@ static void swapcolors(void)
     }
 
   ProofStartSwapColors();
+
+  areColorsSwapped = !areColorsSwapped;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 static void reflectboard(void)
 {
   square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   for (bnp = boardnum; *bnp < (square_a1+square_h8)/2; bnp++)
   {
     square const sq_reflected = transformSquare(*bnp,mirra1a8);
@@ -1934,6 +1960,9 @@ static void reflectboard(void)
   ProofStartReflectboard();
 
   isBoardReflected = !isBoardReflected;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 /* assert()s below this line must remain active even in "productive"
@@ -2282,6 +2311,7 @@ static void init_duplex(void)
      * A hack to make the intelligent mode work with duplex.
      */
     swapcolors();
+
     reflectboard();
 
     /* allow line-oriented output to restore the initial
