@@ -305,6 +305,9 @@ void ProofInitialiseIntelligent(void)
 {
   int i;
 
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
   ProofNbrWhitePieces = 0;
   ProofNbrBlackPieces = 0;
 
@@ -401,6 +404,9 @@ void ProofInitialiseIntelligent(void)
 
   /* initialise king diff_move arrays */
   ProofInitialiseKingMoves(target.rb, target.rn);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
 }
 
 void ProofInitialiseStartPosition(void)
@@ -550,10 +556,34 @@ void ProofStartReflectboard(void)
     ProofSquares[i] = transformSquare(ProofSquares[i],mirra1a8);
 }
 
+static void saveTargetPiecesAndSquares(void)
+{
+  int i;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  ProofNbrAllPieces = 0;
+
+  for (i = 0; i<nr_squares_on_board; ++i)
+  {
+    square const square_i = boardnum[i];
+    piece const p = target.board[square_i];
+    if (p!=vide)
+    {
+      ProofPieces[ProofNbrAllPieces] = p;
+      ProofSquares[ProofNbrAllPieces] = square_i;
+      ++ProofNbrAllPieces;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
 void ProofSaveTargetPosition(void)
 {
-  int       i;
-  piece p;
+  int i;
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
@@ -570,27 +600,14 @@ void ProofSaveTargetPosition(void)
   for (i = 0; i<maxsquare; ++i)
     target.board[i] = e[i];
 
-  ProofNbrAllPieces = 0;
-
   for (i = 0; i<nr_squares_on_board; ++i)
-  {
-    square const square_i = boardnum[i];
-    target.spec[square_i] = spec[square_i];
-    /* in case continued twinning
-     * to other than proof game
-     */
-    p = e[square_i];
-    if (p != vide)
-    {
-      ProofPieces[ProofNbrAllPieces] = p;
-      ProofSquares[ProofNbrAllPieces] = square_i;
-      ++ProofNbrAllPieces;
-    }
-  }
+    target.spec[boardnum[i]] = spec[boardnum[i]];
 
   target.inum = inum[1];
   for (i = 0; i<maxinum; ++i)
     target.isquare[i] = isquare[i];
+
+  saveTargetPiecesAndSquares();
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -651,6 +668,8 @@ static boolean compareProofPieces(void)
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
+
+  TraceValue("%u\n",ProofNbrAllPieces);
 
   for (i = 0; i<ProofNbrAllPieces; ++i)
   {
