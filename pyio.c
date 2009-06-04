@@ -1847,7 +1847,10 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
           tok += 4;
         }
         else if (gic->goal==goal_proof)
+        {
           ProofInitialiseStartPosition();
+          tok += 3;
+        }
         else
           tok += strlen(gic->inputText);
         break;
@@ -2190,21 +2193,24 @@ static char *ParsePlay(char *tok, slice_index *si)
 
   else if (strncmp("dia",tok,3)==0)
   {
-    stip_length_type length;
-    stip_length_type min_length;
-
-    result = ParseLength(tok+3,STBranchHelp,&length,&min_length);
-    if (result!=0)
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,&next);
+    if (tok!=0 && next!=no_slice)
     {
-      slice_index const leaf = alloc_leaf_slice(STLeafHelp,goal_proof);
-      if (length==slack_length_help && min_length==slack_length_help)
-        *si = leaf;
-      else
-        *si = alloc_branch_h_slice(length,min_length,leaf);
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      if (result!=0)
+      {
+        slices[next].type = STLeafHelp;
+        if (length==slack_length_help && min_length==slack_length_help)
+          *si = next;
+        else
+          *si = alloc_branch_h_slice(length,min_length,next);
+      }
     }
   }
 
-#if !defined(DATABASE)
   else if (strncmp("a=>b",tok,4)==0)
   {
     slice_index next = no_slice;
@@ -2223,7 +2229,6 @@ static char *ParsePlay(char *tok, slice_index *si)
       }
     }
   }
-#endif
 
   else if (strncmp("hs",tok,2)==0)
   {
