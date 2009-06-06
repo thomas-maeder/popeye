@@ -48,9 +48,9 @@ void ProofSaveTargetPosition(void);
  */
 void ProofRestoreTargetPosition(void);
 
-/* write position (1 resp. 2 diagrams)
+/* write start position (0 resp. 1 diagram)
  */
-void ProofWritePosition(void);
+void ProofWriteStartPosition(void);
 
 /* Inform proof games module about goal to be reached
  * @param goal goal to be reached (one of goal_proof and goal_atob)

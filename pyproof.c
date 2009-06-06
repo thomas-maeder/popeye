@@ -640,25 +640,21 @@ void ProofRestoreTargetPosition(void)
   TraceText("\n");
 }
 
-void ProofWritePosition(void)
+void ProofWriteStartPosition(void)
 {
-  char InitialLine[40];
-
-  ProofRestoreTargetPosition();
-  WritePosition();
-
   if (goal_to_be_reached==goal_atob)
   {
+    char InitialLine[40];
     sprintf(InitialLine,
             "Initial (%s ->):\n",
             PieSpString[UserLanguage][slice_get_starter(root_slice)]);
     StdString(InitialLine);
-
-    ProofRestoreStartPosition();
     WritePosition();
   }
   else
-    ProofRestoreStartPosition();
+  {
+    /* nothing - we don't write the game array */
+  }
 }
 
 static boolean compareProofPieces(void)

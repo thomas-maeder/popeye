@@ -2021,39 +2021,6 @@ static void solveHalfADuplex(void)
   Message(NewLine);
 }
 
-static boolean initialise_position(void)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
-
-  initPieces();
-
-  if (stip_ends_in(proof_goals,nr_proof_goals))
-  {
-    countPieces();
-    result = locateRoyal();
-    if (result)
-    {
-      ProofSaveTargetPosition();
-      ProofRestoreStartPosition();
-      countPieces();
-      result = locateRoyal();
-      ProofSaveStartPosition();
-    }
-  }
-  else
-  {
-    countPieces();
-    result = locateRoyal();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
-}
-
 typedef enum
 {
   dont_know_meaning_of_whitetoplay,
@@ -2397,6 +2364,63 @@ static boolean root_slice_apply_postkeyplay(void)
   return result;
 }
 
+static boolean initialise_verify_twin(void)
+{
+  boolean result = false;
+
+  initPieces();
+
+  if (stip_ends_in(proof_goals,nr_proof_goals))
+  {
+    slice_index const leaf_unique_goal = find_unique_goal();
+    Goal const unique_goal = (leaf_unique_goal==no_slice
+                              ? no_goal
+                              : slices[leaf_unique_goal].u.leaf.goal);
+
+    if (unique_goal==goal_proof || unique_goal==goal_atob)
+      ProofSetGoal(unique_goal);
+
+    countPieces();
+    if (locateRoyal())
+    {
+      ProofSaveTargetPosition();
+      ProofRestoreStartPosition();
+
+      countPieces();
+      if (locateRoyal() && verify_position())
+      {
+        ProofSaveStartPosition();
+        ProofRestoreTargetPosition();
+
+        if (!OptFlag[noboard])
+          WritePosition();
+        initialise_piece_flags();
+
+        ProofRestoreStartPosition();
+        if (!OptFlag[noboard])
+          ProofWriteStartPosition();
+        initialise_piece_flags();
+
+        result = true;
+      }
+    }
+  }
+  else
+  {
+    countPieces();
+    if (locateRoyal() && verify_position())
+    {
+      if (!OptFlag[noboard])
+        WritePosition();
+      initialise_piece_flags();
+
+      result = true;
+    }
+  }
+
+  return result;
+}
+
 /* Solve a twin (maybe the only one of a problem)
  * @param twin_index 0 for first, 1 for second ...; if the problem has
  *                   a zero position, solve_twin() is invoked with
@@ -2405,28 +2429,8 @@ static boolean root_slice_apply_postkeyplay(void)
  */
 static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 {
-  slice_index const leaf_unique_goal = find_unique_goal();
-  Goal const unique_goal = (leaf_unique_goal==no_slice
-                            ? no_goal
-                            : slices[leaf_unique_goal].u.leaf.goal);
-
-  if (unique_goal==goal_proof || unique_goal==goal_atob)
-    ProofSetGoal(unique_goal);
-
-  if (initialise_position() && verify_position())
+  if (initialise_verify_twin())
   {
-    initialise_piece_flags();
-    if (!OptFlag[noboard])
-    {
-      if (stip_ends_in(proof_goals,nr_proof_goals))
-      {
-        ProofWritePosition();
-        initialise_piece_flags();
-      }
-      else
-        WritePosition();
-    }
-
     if (twin_index==0)
     {
       if (LaTeXout)
