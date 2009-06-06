@@ -117,3 +117,4 @@
 116= ApparentSeul pas applicable - ignore\n
 117= Apparent pas applicable - ignore\n
 118= ApresCle pas applicable - ignore\n
+119= Multiple buts pas acceptables si l'un d'eux est dia ou a=>b\n

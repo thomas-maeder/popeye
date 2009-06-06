@@ -66,21 +66,6 @@ static ProofImpossible_fct_t seriesImpossible;
 static Goal goal_to_be_reached;
 
 
-/* Inform proof games module about goal to be reached
- * @param goal goal to be reached (one of goal_proof and goal_atob)
- */
-void ProofSetGoal(Goal goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",goal);
-
-  goal_to_be_reached = goal;
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
-
 void ProofEncode(void)
 {
   HashBuffer *hb = &hashBuffers[nbply];
@@ -2020,7 +2005,7 @@ static boolean ProofSeriesImpossible(void)
 
 boolean ProofVerifie(void)
 {
-  boolean result;
+  boolean result = false;
   
   TraceFunctionEntry(__func__);
   TraceText("\n");
@@ -2028,53 +2013,59 @@ boolean ProofVerifie(void)
   TraceValue("%u",flagfee);
   TraceValue("%u\n",PieSpExFlags&(~(BIT(White)+BIT(Black))));
   if (flagfee || PieSpExFlags&(~(BIT(White)+BIT(Black))))
-  {
     VerifieMsg(ProofAndFairyPieces);
-    result = false;
-  }
   else
   {
-    ProofFairy= change_moving_piece
-        || CondFlag[black_oscillatingKs]
-        || CondFlag[white_oscillatingKs]
-        || CondFlag[republican]
-        || anycirce
-        || CondFlag[sentinelles]
-        || anyanticirce
-        || CondFlag[singlebox]
-        || CondFlag[blroyalsq]
-        || CondFlag[whroyalsq]
-        || TSTFLAG(PieSpExFlags, ColourChange)
-        || CondFlag[actrevolving]
-        || CondFlag[arc]
-        || CondFlag[annan]
-        || CondFlag[glasgow]
-        || CondFlag[takemake]
-        || flagAssassin
-        || CondFlag[messigny]
-        || CondFlag[mars]
-        || CondFlag[castlingchess];
-
-    /* TODO Masand can't possibly be the only condition that doesn't
-     * allow any optimisation at all.
-     */
-    if (CondFlag[masand])
-    {
-      alternateImpossible = &NeverImpossible;
-      seriesImpossible = &NeverImpossible;
-    }
-    else if (ProofFairy)
-    {
-      alternateImpossible = &ProofFairyImpossible;
-      seriesImpossible = &ProofFairyImpossible;
-    }
+    slice_index const leaf_unique_goal = find_unique_goal();
+    if (leaf_unique_goal==no_slice)
+      VerifieMsg(MultipleGoalsWithProogGameNotAcceptable);
     else
     {
-      alternateImpossible = &ProofImpossible;
-      seriesImpossible = &ProofSeriesImpossible;
-    }
+      goal_to_be_reached = slices[leaf_unique_goal].u.leaf.goal;
+      assert(goal_to_be_reached==goal_proof || goal_to_be_reached==goal_atob);
 
-    result = true;
+      ProofFairy= change_moving_piece
+          || CondFlag[black_oscillatingKs]
+          || CondFlag[white_oscillatingKs]
+          || CondFlag[republican]
+          || anycirce
+          || CondFlag[sentinelles]
+          || anyanticirce
+          || CondFlag[singlebox]
+          || CondFlag[blroyalsq]
+          || CondFlag[whroyalsq]
+          || TSTFLAG(PieSpExFlags, ColourChange)
+          || CondFlag[actrevolving]
+          || CondFlag[arc]
+          || CondFlag[annan]
+          || CondFlag[glasgow]
+          || CondFlag[takemake]
+          || flagAssassin
+          || CondFlag[messigny]
+          || CondFlag[mars]
+          || CondFlag[castlingchess];
+
+      /* TODO Masand can't possibly be the only condition that doesn't
+       * allow any optimisation at all.
+       */
+      if (CondFlag[masand])
+      {
+        alternateImpossible = &NeverImpossible;
+        seriesImpossible = &NeverImpossible;
+      }
+      else if (ProofFairy)
+      {
+        alternateImpossible = &ProofFairyImpossible;
+        seriesImpossible = &ProofFairyImpossible;
+      }
+      else
+      {
+        alternateImpossible = &ProofImpossible;
+        seriesImpossible = &ProofSeriesImpossible;
+      }
+
+      result = true;
+    }
   }
 
   TraceFunctionExit(__func__);

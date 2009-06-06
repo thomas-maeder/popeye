@@ -117,3 +117,4 @@
 116= WhiteToPlay not applicable - ignored\n
 117= SetPlay not applicable - ignored\n
 118= PostKeyPlay not applicable - ignored\n
+119= Multiple goals not allowed if one of them is dia or a=>b\n

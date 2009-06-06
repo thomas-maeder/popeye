@@ -148,3 +148,4 @@
 116= WeissBeginnt nicht anwendbar - ignoriert\n
 117= Satzspiel nicht anwendbar - ignoriert\n
 118= NachSchluessel nicht anwendbar - ignoriert\n
+119= Mehrere Ziele nicht erlaubt, wenn eines davon dia oder a=>b ist\n

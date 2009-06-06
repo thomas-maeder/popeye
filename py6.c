@@ -1758,10 +1758,8 @@ static boolean verify_position(void)
     jouegenre = true;
   }
 
-#if !defined(DATABASE)
   if (stip_ends_in(proof_goals,nr_proof_goals))
     return ProofVerifie();
-#endif
     
   return true;
 }
@@ -2372,14 +2370,6 @@ static boolean initialise_verify_twin(void)
 
   if (stip_ends_in(proof_goals,nr_proof_goals))
   {
-    slice_index const leaf_unique_goal = find_unique_goal();
-    Goal const unique_goal = (leaf_unique_goal==no_slice
-                              ? no_goal
-                              : slices[leaf_unique_goal].u.leaf.goal);
-
-    if (unique_goal==goal_proof || unique_goal==goal_atob)
-      ProofSetGoal(unique_goal);
-
     countPieces();
     if (locateRoyal())
     {
