@@ -30,4 +30,18 @@ condition WhiteReflectiveKing
 stip ~1
 option nobk movenum
 
+next
+
+fors rsbqkbsr/pppppppp/8/8/8/8/PPPPPPPP/RSBQKBSR
+stip dia1.0
+cond hyperv
+opt noboard movenum start 20
+
+next
+
+fors rsbqkbsr/pppppppp/8/8/8/8/PPPPPPPP/RSBQKBSR
+stip dia1.0
+cond hyperv
+opt movenum start 20
+
 end

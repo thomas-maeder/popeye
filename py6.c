@@ -437,6 +437,35 @@ static boolean locateRoyal(void)
   return true;
 }
 
+static void initialise_piece_flags(void)
+{
+  square *bnp;
+  for (bnp = boardnum; *bnp; bnp++)
+  {
+    piece const p = e[*bnp];
+    if (p!=vide)
+    {
+      if (CondFlag[volage] && rb!=*bnp && rn!=*bnp)
+        SETFLAG(spec[*bnp], Volage);
+
+      if ((PieSpExFlags >> DiaCirce) || flagdiastip || flag_magic)
+        SetDiaRen(spec[*bnp], *bnp);
+
+      if (TSTFLAG(spec[*bnp],ColourChange)
+          && !is_simplehopper(abs(e[*bnp])))
+      {
+        /* relies on imitators already having been implemented */
+        CLRFLAG(spec[*bnp],ColourChange);
+        ErrorMsg(ColourChangeRestricted);
+      }
+
+      /* known limitation: will print rK rather than just K as usual */
+      if (abs(e[*bnp])==King && (CondFlag[protean] || flag_magic)) 
+        SETFLAG(spec[*bnp],Royal);
+    }
+  }
+}
+
 static Goal const proof_goals[] = { goal_proof, goal_atob };
 
 static unsigned int const nr_proof_goals = (sizeof proof_goals
@@ -564,32 +593,6 @@ static boolean verify_position(void)
 
   flag_magic = TSTFLAG(PieSpExFlags, Magic);
   flag_outputmultiplecolourchanges = flag_magic || CondFlag[masand];
-
-  for (bnp = boardnum; *bnp; bnp++)
-  {
-    p = e[*bnp];
-    if (p != vide)
-    {
-      if (CondFlag[volage] && rb != *bnp && rn != *bnp)
-        SETFLAG(spec[*bnp], Volage);
-
-      if ((PieSpExFlags >> DiaCirce) || flagdiastip || flag_magic)
-        SetDiaRen(spec[*bnp], *bnp);
-
-      if (TSTFLAG(spec[*bnp], ColourChange))
-      {
-        if (!is_simplehopper(abs(e[*bnp])))
-        {
-          /* relies on imitators already having been implemented */
-          CLRFLAG(spec[*bnp], ColourChange);
-          ErrorMsg(ColourChangeRestricted);
-        }
-      }
-      /* known limitation: will print rK rather than just K as usual */
-      if (abs(e[*bnp]) == King && (CondFlag[protean] || flag_magic)) 
-        SETFLAG(spec[*bnp], Royal);
-    }
-  }
 
   flagleofamilyonly = CondFlag[leofamily] ? true : false;
   for (p = fb + 1; p <= derbla; p++)
@@ -2412,10 +2415,14 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 
   if (initialise_position() && verify_position())
   {
+    initialise_piece_flags();
     if (!OptFlag[noboard])
     {
       if (stip_ends_in(proof_goals,nr_proof_goals))
+      {
         ProofWritePosition();
+        initialise_piece_flags();
+      }
       else
         WritePosition();
     }

@@ -130,3 +130,39 @@ Test: avoid dupliate king moves (e.g. to f5)
 solution finished. 
 
 
+  1.Sb1-a3=bS Sa3-b1=wS dia 
+ 20  (Sb1-a3=bS )
+
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia1.0                    16 + 16
+             Hypervolage
+
+  1.Sb1-a3=bS Sa3-b1=wS dia 
+ 20  (Sb1-a3=bS )
+
+solution finished. 
+
+
