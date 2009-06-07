@@ -1373,40 +1373,54 @@ static boolean verify_position(void)
   /* init promotioncounter and checkcounter */
   pp = 0;
   cp = 0;
-  for (p = (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction]
-            ? roib
-            : db);
-       p <= derbla;
-       p++)
   {
-    getprompiece[p] = vide;
+    piece p;
+    piece firstprompiece;
 
-    if (exist[p])
+    if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
+      firstprompiece = roib;
+    else if (CondFlag[singlebox] && SingleBoxType!=singlebox_type1)
+      firstprompiece = pb;
+    else
+      firstprompiece = db;
+
+    for (p = firstprompiece; p<=derbla; ++p)
     {
-      if ( p != pb
-           && p != dummyb
-           && p != pbb
-           && p != bspawnb
-           && p != spawnb
-           && p != reversepb
-           && (!CondFlag[promotiononly] || promonly[p]))
+      getprompiece[p] = vide;
+
+      if (exist[p])
       {
-        getprompiece[pp] = p;
-        pp = p;
-      }
-      if (p > fb && p != dummyb) {
-        /* only fairy pieces until now ! */
-        optim_neutralretractable = false;
-        optim_orthomatingmoves = false;
-        if (p != hamstb)
+        if ((p!=pb || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
+            && (p!=roib
+                || CondFlag[losingchess]
+                || CondFlag[dynasty]
+                || CondFlag[extinction])
+            && p!=dummyb
+            && p!=pbb
+            && p!=bspawnb
+            && p!=spawnb
+            && p!=reversepb
+            && (!CondFlag[promotiononly] || promonly[p]))
         {
-          checkpieces[cp] = p;
-          cp++;
+          getprompiece[pp] = p;
+          pp = p;
+        }
+
+        if (p>fb && p!=dummyb) {
+          /* only fairy pieces until now ! */
+          optim_neutralretractable = false;
+          optim_orthomatingmoves = false;
+          if (p!=hamstb)
+          {
+            checkpieces[cp] = p;
+            cp++;
+          }
         }
       }
     }
+
+    checkpieces[cp] = vide;
   }
-  checkpieces[cp] = vide;
 
   tp = 0;
   op = 0;

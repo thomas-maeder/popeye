@@ -1471,18 +1471,31 @@ square next_latent_pawn(square s, Side c) {
   return initsquare;
 }
 
-piece next_singlebox_prom(piece p, Side c) {
+piece next_singlebox_prom(piece p, Side c)
+{
   piece pprom;
+  piece result = vide;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(p);
+  TraceFunctionParam("%u\n",c);
+  
   for (pprom = getprompiece[p];
        pprom!=vide;
        pprom = getprompiece[pprom])
   {
     assert(pprom<boxsize);
     if (nbpiece[c==White ? pprom : -pprom] < maxinbox[pprom])
-      return pprom;
+    {
+      result = pprom;
+      break;
+    }
   }
 
-  return vide;
+  TraceFunctionExit(__func__);
+  TracePiece(p);
+  TraceText("\n");
+  return result;
 }
 
 #if defined(DEBUG)
@@ -1506,54 +1519,194 @@ boolean jouecoup_ortho_test(ply ply_id)
   return flag;
 }
 
+static boolean move_extincts_kind(unsigned int oldnbpiece[derbla])
+{
+  piece p;
+  for (p = roib; p<derbla; ++p)
+    if (oldnbpiece[p]>0
+        && nbpiece[trait[nbply]==White ? p : -p]==0)
+      return true;
+
+  return false;
+}
+
+static boolean singlebox_officer_out_of_box(void)
+{
+  boolean result = false;
+  piece p;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  for (p = roib; p<=fb; ++p)
+    if (nbpiece[p]>game_array.nr_piece[-dernoi+p]
+        || nbpiece[-p]>game_array.nr_piece[-dernoi-p])
+    {
+      result = true;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+static boolean singlebox_pawn_out_of_box(void)
+{
+  boolean const result = (nbpiece[pb]>game_array.nr_piece[-dernoi+pb]
+                          || nbpiece[pn]>game_array.nr_piece[-dernoi+pn]);
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+static boolean singlebox_illegal_latent_white_pawn(void)
+{
+  boolean result = false;
+  square const next_latent_white = next_latent_pawn(initsquare,White);
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  if (next_latent_white!=initsquare)
+  {
+    piece p;
+    for (p = db; p<=fb; ++p)
+      if (nbpiece[p]<game_array.nr_piece[-dernoi+p])
+      {
+        result = true;
+        break;
+      }
+  }
+
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+static boolean singlebox_illegal_latent_black_pawn(void)
+{
+  boolean result = false;
+  square const next_latent_black = next_latent_pawn(initsquare,Black);
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  if (next_latent_black!=initsquare)
+  {
+    piece p;
+    for (p = dn; p>=fn; --p)
+      if (nbpiece[p]<game_array.nr_piece[-dernoi+p])
+      {
+        result = true;
+        break;
+      }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
+static boolean singlebox_type1_illegal(void)
+{
+  return singlebox_officer_out_of_box() || singlebox_pawn_out_of_box();
+}
+
+static boolean singlebox_type2_illegal(void)
+{
+  boolean result = false;
+
+  if (singlebox_type1_illegal())
+    result = true;
+  else if (singlebox_illegal_latent_white_pawn()
+           || singlebox_illegal_latent_black_pawn())
+    result = true;
+
+  return result;
+}
+
+static boolean singlebox_type3_illegal(void)
+{
+  boolean result = false;
+
+  if (singlebox_type1_illegal())
+    result = true;
+  else if ((trait[nbply]==White && singlebox_illegal_latent_white_pawn())
+           || (trait[nbply]==Black && singlebox_illegal_latent_black_pawn()))
+    result = true;
+
+  return result;
+}
+
+static boolean singlebox_illegal(void)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  switch (SingleBoxType)
+  {
+    case singlebox_type1:
+      result = singlebox_type1_illegal();
+      break;
+
+    case singlebox_type2:
+      result = singlebox_type2_illegal();
+      break;
+
+    case singlebox_type3:
+      result = singlebox_type3_illegal();
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u\n",result);
+  return result;
+}
+
 static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
                                       square sq_rebirth)
 {
-  if (CondFlag[schwarzschacher] && trait[nbply]==Black)
-    return echecc(nbply,White);
+  boolean result = true;
+  
+  if (CondFlag[schwarzschacher] && trait[nbply]==Black && !echecc(nbply,White))
+    result = false;
+  else if (CondFlag[extinction] && move_extincts_kind(oldnbpiece))
+    result = false;
+  else if (CondFlag[singlebox] && singlebox_illegal())
+    result = false;
+  else
+    result = (!jouetestgenre
+              || (
+                  (!jouetestgenre1 || (
+                       (!CondFlag[blackultraschachzwang]
+                        || trait[nbply]==White
+                        || echecc(nbply,White))
+                       && (!CondFlag[whiteultraschachzwang]
+                           || trait[nbply]==Black
+                           || echecc(nbply,Black))
+                       ))
+                  &&
+                  ((!flag_testlegality) || pos_legal())
+                  && (!flagAssassin || (sq_rebirth != rb && sq_rebirth != rn))
+                  && (!testdblmate || (rb!=initsquare && rn!=initsquare))
+                  && (!CondFlag[patience] || PatienceB || patience_legal())
+                  /* don't call patience_legal if TypeB as obs > vide ! */
+                  && (trait[nbply] == White ? BGL_white >= 0 : BGL_black >= 0)
+                  ));
 
-  if (CondFlag[extinction]) {
-    piece p;
-    for (p= roib; p<derbla; p++) {
-      if (oldnbpiece[p]>0
-          && !nbpiece[trait[nbply]==White ? p : -p])
-      {
-        return false;
-      }
-    }
-  }
-
-  if (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
-  {
-    piece p;
-    for (p = roib; p<=fb; ++p)
-      if (nbpiece[p]>game_array.nr_piece[-dernoi+p]
-          || nbpiece[-p]>game_array.nr_piece[-dernoi-p])
-        return false;
-
-    if (nbpiece[pb]>game_array.nr_piece[-dernoi+pb]
-        || nbpiece[pn]>game_array.nr_piece[-dernoi+pn])
-      return false;
-  }
-
-  return (!jouetestgenre
-          || (
-            (!jouetestgenre1 || (
-               (!CondFlag[blackultraschachzwang]
-                || trait[nbply]==White
-                || echecc(nbply,White))
-               && (!CondFlag[whiteultraschachzwang]
-                   || trait[nbply]==Black
-                   || echecc(nbply,Black))
-              ))
-            &&
-            ((!flag_testlegality) || pos_legal())
-            && (!flagAssassin || (sq_rebirth != rb && sq_rebirth != rn))
-            && (!testdblmate || (rb!=initsquare && rn!=initsquare))
-            && (!CondFlag[patience] || PatienceB || patience_legal())
-            /* don't call patience_legal if TypeB as obs > vide ! */
-            && (trait[nbply] == White ? BGL_white >= 0 : BGL_black >= 0)
-            ));
+  return result;
 }
 
 static ghost_index_type find_ghost(square sq_arrival)
@@ -2122,59 +2275,49 @@ boolean jouecoup(ply ply_id, joue_type jt)
         }
         else
         {
-          if (CondFlag[singlebox] && SingleBoxType!=singlebox_type1)
-          {
-            pi_arriving = next_singlebox_prom(vide,trait_ply);
-            if (pi_arriving==vide)
-              /* pi_arriving will be recolored later if pi_departing
-               * is black! */
-              pi_arriving = abs(pi_departing);
-          }
-          else
-          {
-            pi_arriving= getprompiece[vide];
+          pi_arriving= getprompiece[vide];
 
-            if (CondFlag[frischauf])
-              SETFLAG(spec_pi_moving, FrischAuf);
+          if (CondFlag[frischauf])
+            SETFLAG(spec_pi_moving, FrischAuf);
 
-            if (pi_captured != vide && anyanticirce) {
+          if (pi_captured != vide && anyanticirce) {
 #if defined(BETTER_READABLE)
-              /* this coding seems to be better redable */
-              do {
-                sq_rebirth= (*antirenai)(pi_arriving,
-                                         spec_pi_moving,
-                                         sq_capture,
-                                         sq_departure,
-                                         advers(trait_ply));
-                if (sq_rebirth == sq_departure)
-                  break;
-                if (LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
-                  break;
-                pi_arriving= getprompiece[pi_arriving];
-              } while (1);
+            /* this coding seems to be better redable */
+            do {
+              sq_rebirth= (*antirenai)(pi_arriving,
+                                       spec_pi_moving,
+                                       sq_capture,
+                                       sq_departure,
+                                       advers(trait_ply));
+              if (sq_rebirth == sq_departure)
+                break;
+              if (LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
+                break;
+              pi_arriving= getprompiece[pi_arriving];
+            } while (1);
 #endif /*BETTER_READABLE*/
 
-              while (((sq_rebirth= (*antirenai)(ply_id,
-                                                pi_arriving,
-                                                spec_pi_moving,
-                                                sq_capture,
-                                                sq_departure,
-                                                sq_arrival,
-                                                advers(trait_ply)))
-                      != sq_departure)
-                     && !LegalAntiCirceMove(sq_rebirth,
-                                            sq_capture,
-                                            sq_departure))
+            while (((sq_rebirth= (*antirenai)(ply_id,
+                                              pi_arriving,
+                                              spec_pi_moving,
+                                              sq_capture,
+                                              sq_departure,
+                                              sq_arrival,
+                                              advers(trait_ply)))
+                    != sq_departure)
+                   && !LegalAntiCirceMove(sq_rebirth,
+                                          sq_capture,
+                                          sq_departure))
+            {
+              pi_arriving= getprompiece[pi_arriving];
+              if (!pi_arriving && CondFlag[antisuper])
               {
-                pi_arriving= getprompiece[pi_arriving];
-                if (!pi_arriving && CondFlag[antisuper])
-                {
-                  super[ply_id]++;
-                  pi_arriving= getprompiece[vide];
-                }
+                super[ply_id]++;
+                pi_arriving= getprompiece[vide];
               }
             }
           }
+
           norm_prom[ply_id]= pi_arriving;
         }
       }
@@ -2467,26 +2610,30 @@ boolean jouecoup(ply ply_id, joue_type jt)
       }
     }
 
-    if (CondFlag[singlebox] && SingleBoxType==singlebox_type2) {
+    if (CondFlag[singlebox] && SingleBoxType==singlebox_type2)
+    {
       Side adv = advers(trait_ply);
 
-      if (sb2[ply_id].where==initsquare) {
+      if (sb2[ply_id].where==initsquare)
+      {
         assert(sb2[ply_id].what==vide);
         sb2[ply_id].where = next_latent_pawn(initsquare,adv);
-        if (sb2[ply_id].where!=initsquare) {
+        if (sb2[ply_id].where!=initsquare)
+        {
           sb2[ply_id].what = next_singlebox_prom(vide,adv);
           if (sb2[ply_id].what==vide)
             sb2[ply_id].where = initsquare;
         }
       }
 
-      if (sb2[ply_id].where!=initsquare) {
+      if (sb2[ply_id].where!=initsquare)
+      {
         assert(e[sb2[ply_id].where] == (adv==White ? pb : pn));
         assert(sb2[ply_id].what!=vide);
         --nbpiece[e[sb2[ply_id].where]];
-        e[sb2[ply_id].where] =   adv==White
-          ? sb2[ply_id].what
-          : -sb2[ply_id].what;
+        e[sb2[ply_id].where] = (adv==White
+                                ? sb2[ply_id].what
+                                : -sb2[ply_id].what);
         ++nbpiece[e[sb2[ply_id].where]];
       }
     }
@@ -3220,11 +3367,13 @@ void repcoup(void) {
       }
     }
 
-    if (CondFlag[singlebox] && SingleBoxType==singlebox_type2) {
+    if (CondFlag[singlebox] && SingleBoxType==singlebox_type2)
+    {
       sb2[nbply+1].where = initsquare;
       sb2[nbply+1].what = vide;
 
-      if (sb2[nbply].where!=initsquare) {
+      if (sb2[nbply].where!=initsquare)
+      {
         Side adv = advers(trait[nbply]);
 
         assert(sb2[nbply].what!=vide);
@@ -3233,9 +3382,11 @@ void repcoup(void) {
         ++nbpiece[e[sb2[nbply].where]];
 
         sb2[nbply].what = next_singlebox_prom(sb2[nbply].what,adv);
-        if (sb2[nbply].what==vide) {
+        if (sb2[nbply].what==vide)
+        {
           sb2[nbply].where = next_latent_pawn(sb2[nbply].where,adv);
-          if (sb2[nbply].where!=initsquare) {
+          if (sb2[nbply].where!=initsquare)
+          {
             sb2[nbply].what = next_singlebox_prom(vide,adv);
             assert(sb2[nbply].what!=vide);
           }
@@ -3524,10 +3675,13 @@ void repcoup(void) {
       super[nbply] = superbas;
   }
 
-  if (next_prom) {
-    if ((pi_arriving= norm_prom[nbply]) != vide) {
+  if (next_prom)
+  {
+    pi_arriving = norm_prom[nbply];
+    if (pi_arriving!=vide)
+    {
       if (CondFlag[singlebox] && SingleBoxType==singlebox_type2)
-        pi_arriving = next_singlebox_prom(pi_arriving,trait[nbply]);
+        pi_arriving = getprompiece[pi_arriving];
       else
       {
         pi_arriving= getprompiece[pi_arriving];
