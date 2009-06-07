@@ -32,17 +32,7 @@
 #include "pyint.h"
 #include "platform/maxtime.h"
 #include "trace.h"
-
-typedef struct
-{
-    echiquier board;
-    Flags spec[maxsquare+4];
-    square rb;
-    square rn;
-    unsigned int inum;
-    imarr isquare;
-    unsigned int proof_nbpiece[derbla-dernoi+1]; /* cf. nbpiece */
-} position;
+#include "pyposit.h"
 
 
 static position start;
@@ -129,7 +119,8 @@ int proofbkm[square_h8+25-(square_a1-25)+1];
 
 static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
 {
-  square    *bnp, sq;
+  square const *bnp;
+  square sq;
   numvec    k;
   int   MoveNbr;
   boolean   GoOn;
@@ -298,8 +289,8 @@ void ProofInitialiseIntelligent(void)
 
   for (i = roib; i <= fb; ++i)
   {
-    ProofNbrWhitePieces += target.proof_nbpiece[-dernoi+i];
-    ProofNbrBlackPieces += target.proof_nbpiece[-dernoi-i];
+    ProofNbrWhitePieces += target.nr_piece[-dernoi+i];
+    ProofNbrBlackPieces += target.nr_piece[-dernoi-i];
   }
 
   /* determine pieces blocked */
@@ -396,48 +387,10 @@ void ProofInitialiseIntelligent(void)
 
 void ProofInitialiseStartPosition(void)
 {
-  int i;
-  square const *bnp;
-
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  start.rb = square_e1;
-  start.rn = square_e8;
-
-  for (i = roib; i <= derbla; ++i)
-  {
-    start.proof_nbpiece[-dernoi+i] = 0;
-    start.proof_nbpiece[-dernoi-i] = 0;
-  }
-
-  /* TODO avoid duplication with InitBoard()
-   */
-  for (i = 0; i<maxsquare; ++i)
-  {
-    start.board[i] = obs;
-    start.spec[i] = BorderSpec;
-  }
-
-  for (bnp = boardnum; *bnp; bnp++)
-  {
-    start.board[*bnp] = vide;
-    CLEARFL(start.spec[*bnp]);
-  }
-
-  for (i = 0; i<nr_squares_on_board; ++i)
-  {
-    piece const p = PAS[i];
-    square const square_i = boardnum[i];
-    start.board[square_i] = p;
-    ++start.proof_nbpiece[-dernoi+p];
-    if (p>=roib)
-      SETFLAG(start.spec[square_i],White);
-    else if (p<=roin)
-      SETFLAG(start.spec[square_i],Black);
-  }
-
-  start.inum = 0;
+  start = game_array;
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -455,8 +408,8 @@ void ProofSaveStartPosition(void)
 
   for (i = roib; i <= derbla; ++i)
   {
-    start.proof_nbpiece[-dernoi+i] = nbpiece[i];
-    start.proof_nbpiece[-dernoi-i] = nbpiece[-i];
+    start.nr_piece[-dernoi+i] = nbpiece[i];
+    start.nr_piece[-dernoi-i] = nbpiece[-i];
   }
 
   for (i = 0; i<maxsquare; ++i)
@@ -578,8 +531,8 @@ void ProofSaveTargetPosition(void)
 
   for (i = roib; i <= derbla; ++i)
   {
-    target.proof_nbpiece[-dernoi+i] = nbpiece[i];
-    target.proof_nbpiece[-dernoi-i] = nbpiece[-i];
+    target.nr_piece[-dernoi+i] = nbpiece[i];
+    target.nr_piece[-dernoi-i] = nbpiece[-i];
   }
 
   for (i = 0; i<maxsquare; ++i)
@@ -679,8 +632,8 @@ static boolean compareProofNbrPiece(void)
   TraceText("\n");
 
   for (i = roib; i <= fb; ++i)
-    if (target.proof_nbpiece[-dernoi+i]!=nbpiece[i]
-        || target.proof_nbpiece[-dernoi-i]!=nbpiece[-i])
+    if (target.nr_piece[-dernoi+i]!=nbpiece[i]
+        || target.nr_piece[-dernoi-i]!=nbpiece[-i])
     {
       result = false;
       break;
@@ -1452,7 +1405,8 @@ static boolean NeverImpossible(void)
 
 static boolean ProofFairyImpossible(void)
 {
-  square    *bnp, sq;
+  square const *bnp;
+  square sq;
   piece pparr;
   int   NbrWh, NbrBl;
   int MovesAvailable = BlMovesLeft+WhMovesLeft;
@@ -1523,8 +1477,8 @@ static boolean ProofFairyImpossible(void)
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
       */
-      if (target.proof_nbpiece[-dernoi+pb] > nbpiece[pb]+(pparr==pb)
-          || target.proof_nbpiece[-dernoi+pn] > nbpiece[pn]+(pparr==pn))
+      if (target.nr_piece[-dernoi+pb] > nbpiece[pb]+(pparr==pb)
+          || target.nr_piece[-dernoi+pn] > nbpiece[pn]+(pparr==pn))
         return true;
     }
 
@@ -1618,7 +1572,7 @@ static boolean ProofFairyImpossible(void)
 
 static boolean ProofImpossible(void)
 {
-  square    *bnp;
+  square const *bnp;
   stip_length_type black_moves_left = BlMovesLeft;
   stip_length_type white_moves_left = WhMovesLeft;
   stip_length_type WhPieToBeCapt, BlPieToBeCapt;
@@ -1629,16 +1583,16 @@ static boolean ProofImpossible(void)
   int       NbrWh, NbrBl;
 
   /* too many pawns captured or promoted */
-  if (target.proof_nbpiece[-dernoi+pb] > nbpiece[pb])
+  if (target.nr_piece[-dernoi+pb] > nbpiece[pb])
   {
-    TraceValue("%d ",target.proof_nbpiece[-dernoi+pb]);
+    TraceValue("%d ",target.nr_piece[-dernoi+pb]);
     TraceValue("%d\n",nbpiece[pb]);
     return true;
   }
 
-  if (target.proof_nbpiece[-dernoi+pn] > nbpiece[pn])
+  if (target.nr_piece[-dernoi+pn] > nbpiece[pn])
   {
-    TraceValue("%d ",target.proof_nbpiece[-dernoi+pn]);
+    TraceValue("%d ",target.nr_piece[-dernoi+pn]);
     TraceValue("%d\n",nbpiece[pn]);
     return true;
   }
@@ -1900,7 +1854,8 @@ static boolean ProofImpossible(void)
 
 static boolean ProofSeriesImpossible(void)
 {
-  square    *bnp, sq;
+  square const *bnp;
+  square sq;
   stip_length_type BlPieToBeCapt, BlCapturesRequired;
   int       NbrBl;
   stip_length_type white_moves_left= BlMovesLeft+WhMovesLeft;
@@ -1908,8 +1863,8 @@ static boolean ProofSeriesImpossible(void)
 
   TraceValue("%d\n",BlMovesLeft+WhMovesLeft);
   /* too many pawns captured or promoted */
-  if (target.proof_nbpiece[-dernoi+pb]>nbpiece[pb]
-      || target.proof_nbpiece[-dernoi+pn]>nbpiece[pn])
+  if (target.nr_piece[-dernoi+pb]>nbpiece[pb]
+      || target.nr_piece[-dernoi+pn]>nbpiece[pn])
     return true;
 
   NbrBl= nbpiece[pn]

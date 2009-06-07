@@ -901,7 +901,7 @@ static boolean echecc_wh_extinction(ply ply_id)
   piece p;
   for (p=roib; p<derbla; p++)
   {
-    square *bnp;
+    square const *bnp;
     if (!exist[p] || nbpiece[p]!=1)
       continue;
 
@@ -927,7 +927,7 @@ static boolean echecc_bl_extinction(ply ply_id)
   piece p;
   for (p=roib; p<derbla; p++)
   {
-    square *bnp;
+    square const *bnp;
 
     if (!exist[p] || nbpiece[-p]!=1)
       continue;
@@ -950,7 +950,7 @@ static boolean echecc_bl_extinction(ply ply_id)
 
 static boolean echecc_wh_assassin(ply ply_id)
 {
-  square *bnp;
+  square const *bnp;
 
   if (rbechec(ply_id,eval_white))
     return true;
@@ -980,7 +980,7 @@ static boolean echecc_wh_assassin(ply ply_id)
 
 static boolean echecc_bl_assassin(ply ply_id)
 {
-  square *bnp;
+  square const *bnp;
 
   if (rnechec(ply_id,eval_black))
     return true;
@@ -1207,7 +1207,7 @@ static boolean AntiCirceEch(ply ply_id,
 {
   if (CondFlag[antisuper])
   {
-    square *bnp= boardnum; 
+    square const *bnp= boardnum; 
     while (!LegalAntiCirceMove(*bnp, sq_capture, sq_departure) && *bnp) bnp++;
     if (!(*bnp && LegalAntiCirceMove(*bnp, sq_capture, sq_departure)))
       return false;

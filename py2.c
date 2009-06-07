@@ -619,7 +619,7 @@ boolean equifracheck(square sq_king,
 {
   /* check by non-stop equistopper? */
   square sq_hurdle;
-  square *bnp;
+  square const *bnp;
   numvec vector;
   square sq_departure;
 
@@ -1544,7 +1544,7 @@ boolean ubicheck(square    i,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  square  *bnp;
+  square const *bnp;
 
   if (evaluate == eval_madrasi) {
     for (bnp= boardnum; *bnp; bnp++) {
@@ -3030,7 +3030,7 @@ boolean observed(square on_this, square by_that) {
 
 void change_observed(ply ply, square z, boolean push)
 {
-  square* bnp;
+  square const *bnp;
 
   for (bnp= boardnum; *bnp; bnp++)
     if (e[*bnp]!=vide && *bnp!=rn && *bnp!=rb && *bnp!=z

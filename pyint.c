@@ -59,7 +59,8 @@ PIECE white[nr_squares_on_board], black[nr_squares_on_board], final[nr_squares_o
 boolean whiteused[nr_squares_on_board], blackused[nr_squares_on_board], is_cast_supp;
 square is_ep, is_ep2;
 int moves_to_prom[nr_squares_on_board];
-square squarechecking, *deposebnp;
+square squarechecking;
+square const *deposebnp;
 piece piecechecking;
 int nbrchecking;
 
@@ -421,7 +422,7 @@ static boolean isGoalReachableRegularGoals(void)
       || (testcastling
           && castling_flag[nbply] != castling_flag[nbply-1]))
   {
-    square *bnp;
+    square const *bnp;
     whmoves= blmoves= 0;
     for (bnp= boardnum; *bnp; bnp++) {
       square f_sq= *bnp;
@@ -527,7 +528,8 @@ static void StaleStoreMate(
   stip_length_type n)
 {
   int   i, index, unused= 0;
-  square    *bnp, _rb, _rn;
+  square const *bnp;
+  square _rb, _rn;
   Flags sp;
 
   if (blpcallowed < 0
@@ -698,7 +700,8 @@ void DeposeBlPiece(
   int   whpcallowed,
   stip_length_type n)
 {
-  square *bnp, *isbnp= deposebnp;
+  square const *bnp;
+  square const * const isbnp = deposebnp;
 
 #if defined(DEBUG)
   write_indentation();
@@ -774,7 +777,8 @@ static void PreventCheckAgainstWhK(
 
 static boolean Redundant(void)
 {
-  square    *bnp, sq;
+  square const *bnp;
+  square sq;
   piece p;
   Flags sp;
   boolean   flag;
@@ -811,7 +815,8 @@ static void StoreMate(
   stip_length_type n)
 {
   int i, index;
-  square *bnp, _rb, _rn;
+  square const *bnp;
+  square _rb, _rn;
   Flags sp;
 
   if (!immobile(Black)) {
@@ -1412,7 +1417,8 @@ void Immobilize(int blmoves,
                 int whpcallowed,
                 stip_length_type n)
 {
-  square    trouble, block, *bnp, blblock;
+  square    trouble, block, blblock;
+  square const *bnp;
   int   i, blockwhite, blockblack, bpl, wpl, mtba, weight;
   boolean   nopinpossible, pinnecessary;
   unsigned int toblock[maxsquare+4];
@@ -2106,7 +2112,8 @@ static void GenerateGuarding(
   int   whcaptures,
   stip_length_type n)
 {
-  square    *bnp, toblock[8];
+  square const *bnp;
+  square toblock[8];
   int   flights;
   boolean   unblockable= false;
 
@@ -2454,7 +2461,7 @@ static boolean CleanupSols(void)
 
 static void IntelligentRegularGoals(stip_length_type n)
 {
-  square    *bnp;
+  square const *bnp;
   piece p;
 
   deposebnp= boardnum;

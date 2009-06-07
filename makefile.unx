@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.59 2009/05/24 19:15:27 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.60 2009/06/07 09:25:05 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -239,7 +239,8 @@ LDFLAGS += $(DBG) $(LDOPTIM) $(ARCH) $(LIBRARYPATHS)
 # Common Popeye source and generated files
 # ========================================
 
-INCLUDES =      pydata.h pybitmsk.h pyboard.h py.h py1.h py4.h pyproc.h pymsg.h \
+INCLUDES =      pydata.h pybitmsk.h pyboard.h pypiece.h pyposit.h \
+		py.h py1.h py4.h pyproc.h pymsg.h \
 		pymac.h pylang.h pyproof.h DHT/*.h pyint.h pyhash.h \
 		pytable.h \
 		pyoutput.h \
@@ -251,7 +252,8 @@ INCLUDES =      pydata.h pybitmsk.h pyboard.h py.h py1.h py4.h pyproc.h pymsg.h 
 		pyleaf.h pyleafd.h pyleafs.h pyleaff.h pyleafh.h \
 		pymovein.h \
 		boolean.h trace.h
-PYCFILES =      pydata.c pyboard.c py1.c py2.c py3.c py4.c py5.c py6.c pyio.c \
+PYCFILES =      pydata.c pyboard.c pyposit.c \
+		py1.c py2.c py3.c py4.c py5.c py6.c pyio.c \
 		pymsg.c pylang.c pyhash.c pyproof.c	       \
 		pytable.c \
 		pyoutput.c \

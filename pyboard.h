@@ -182,4 +182,8 @@ extern int         zzzao[square_h8 - square_a1 + 1];
  */
 square transformSquare(square sq, SquareTransformation transformation);
 
+/* 0 terminated sequence of the effective squares of the board
+ */
+extern square const boardnum[65];
+
 #endif

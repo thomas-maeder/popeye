@@ -1095,9 +1095,9 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
   else
     gen_bl_piece_aux(sq_departure,p);
 
-  if (CondFlag[messigny] && !(rn==sq_departure && rex_mess_ex)) {
-
-    square *bnp;
+  if (CondFlag[messigny] && !(rn==sq_departure && rex_mess_ex))
+  {
+    square const *bnp;
     for (bnp= boardnum; *bnp; bnp++)
       if (e[*bnp]==-p)
         empile(sq_departure,*bnp,messigny_exchange);
@@ -1521,6 +1521,19 @@ static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
         return false;
       }
     }
+  }
+
+  if (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
+  {
+    piece p;
+    for (p = roib; p<=fb; ++p)
+      if (nbpiece[p]>game_array.nr_piece[-dernoi+p]
+          || nbpiece[-p]>game_array.nr_piece[-dernoi-p])
+        return false;
+
+    if (nbpiece[pb]>game_array.nr_piece[-dernoi+pb]
+        || nbpiece[pn]>game_array.nr_piece[-dernoi+pn])
+      return false;
   }
 
   return (!jouetestgenre
@@ -2109,10 +2122,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
         }
         else
         {
-          if (CondFlag[singlebox])
+          if (CondFlag[singlebox] && SingleBoxType!=singlebox_type1)
           {
             pi_arriving = next_singlebox_prom(vide,trait_ply);
-            assert(SingleBoxType!=singlebox_type1 || pi_arriving!=vide);
             if (pi_arriving==vide)
               /* pi_arriving will be recolored later if pi_departing
                * is black! */
@@ -3016,7 +3028,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
     if (CondFlag[dynasty]) {
       /* adjust rn, rb and/or castling flags */
-      square *bnp;
+      square const *bnp;
       square s;
 
       if (nbpiece[roib]==1) {
@@ -3514,13 +3526,10 @@ void repcoup(void) {
 
   if (next_prom) {
     if ((pi_arriving= norm_prom[nbply]) != vide) {
-      if (CondFlag[singlebox]
-          && (SingleBoxType==singlebox_type1
-              || SingleBoxType==singlebox_type2))
-      {
+      if (CondFlag[singlebox] && SingleBoxType==singlebox_type2)
         pi_arriving = next_singlebox_prom(pi_arriving,trait[nbply]);
-      }
-      else {
+      else
+      {
         pi_arriving= getprompiece[pi_arriving];
 
         if (pi_captured != vide && anyanticirce) {
@@ -3613,7 +3622,7 @@ void repcoup(void) {
 /* Generate (piece by piece) candidate moves to check if camp is
  * immobile. Do *not* generate moves by the camp's king; it has
  * already been taken care of. */
-static boolean immobile_encore(Side camp, square** immobilesquare)
+static boolean immobile_encore(Side camp, square const * *immobilesquare)
 {
   square i;
   piece p;
@@ -3647,7 +3656,7 @@ static boolean immobile_encore(Side camp, square** immobilesquare)
 /* Is camp immobile? */
 boolean immobile(Side camp)
 {
-  square *immobilesquare= boardnum;  /* local to allow recursion */
+  square const *immobilesquare= boardnum;  /* local to allow recursion */
   boolean const whbl_exact= camp==White ? wh_exact : bl_exact;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d\n",camp);

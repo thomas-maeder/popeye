@@ -185,7 +185,8 @@ void invalidate_ply_snapshot(captured_ply_type *snapshot)
 }
 
 void InitCond(void) {
-  square *bnp, i, j;
+  square const *bnp;
+  square i, j;
   piece p;
 
   flag_madrasi= false;
@@ -339,7 +340,8 @@ void InitCheckDir(void)
 
 void InitBoard(void)
 {
-  square i, *bnp;
+  square i;
+  square const *bnp;
 
   ActTitle[0] = '\0';
   ActAuthor[0] = '\0';
@@ -442,7 +444,7 @@ void initneutre(Side c)
 
   if (neutcoul != c)
   {
-    square *bnp;
+    square const *bnp;
     neutcoul = c;
     for (bnp = boardnum; *bnp; bnp++)
       if (TSTFLAG(spec[*bnp],Neutral))
@@ -985,7 +987,8 @@ boolean ooorphancheck(square sq_king,
                       piece p,
                       evalfunction_t *evaluate) {
   boolean   flag= false;
-  square    olist[63], *bnp;
+  square    olist[63];
+  square const *bnp;
   unsigned int j, k, nrp, co;
 
   if ((*checkfunctions[abs(porph)])(sq_king,porph,evaluate))
@@ -1033,7 +1036,8 @@ boolean orphancheck(square   sq_king,
   piece *porph;
   boolean   flag= false;
   boolean   inited= false;
-  square    olist[63], *bnp;
+  square    olist[63];
+  square const *bnp;
   int   k, j, co= 0;
 
   for (porph= orphanpieces; *porph!=vide; porph++) {
@@ -1082,7 +1086,8 @@ boolean fffriendcheck(square    sq_king,
                       evalfunction_t *evaluate)
 {
   boolean   flag= false;
-  square    flist[63], *bnp;
+  square    flist[63];
+  square const *bnp;
   unsigned int j, k, nrp, cf= 0;
 
   if ((*checkfunctions[abs(pfr)])(sq_king, pfr, evaluate))
@@ -1132,7 +1137,8 @@ boolean friendcheck(square    i,
   piece *pfr, cfr;
   boolean   flag= false;
   boolean   initialized= false;
-  square    flist[63], *bnp;
+  square    flist[63];
+  square const *bnp;
   int   k, j, cf= 0;
 
   for (pfr= orphanpieces; *pfr!=vide; pfr++) {
@@ -1469,7 +1475,7 @@ void PushMagicViews(void)
 {
   if (flag_magic)
   {
-    square *bnp;
+    square const *bnp;
   
     /*new stack */
     nbmagic = magictop[nbply-1];
@@ -1481,7 +1487,7 @@ void PushMagicViews(void)
         piece const p = e[*bnp];
         square * const royal = p<=roin ? &rb : &rn;
         square const royal_save = *royal;
-        square *bnp1;
+        square const *bnp1;
         fromspecificsquare= *bnp;
         for (bnp1 = boardnum; *bnp1; bnp1++) 
         {
@@ -1527,7 +1533,7 @@ void PushMagicViews(void)
 
 void ChangeMagic(int ply, boolean push)
 {
-  square *bnp;
+  square const *bnp;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply);

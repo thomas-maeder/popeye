@@ -41,7 +41,15 @@ next
 
 fors rsbqkbsr/pppppppp/8/8/8/8/PPPPPPPP/RSBQKBSR
 stip dia1.0
-cond hyperv
+cond hypervolage
 opt movenum start 20
+
+next
+
+pieces white kd6 qc1 ph7
+       black kd8 qg8
+stipulation #1
+condition circedoubleagent singlebox
+twin remove c1
 
 end

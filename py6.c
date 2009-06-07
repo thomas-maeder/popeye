@@ -299,7 +299,7 @@ static void initPieces(void)
 
 static void countPieces(void)
 {
-  square *bnp;
+  square const *bnp;
   piece p;
 
   TraceFunctionEntry(__func__);
@@ -340,7 +340,7 @@ static boolean locateRoyal(void)
 
   if (CondFlag[dynasty])
   {
-    square *bnp;
+    square const *bnp;
     square s;
 
     OptFlag[sansrn] = true;
@@ -387,7 +387,7 @@ static boolean locateRoyal(void)
   }
   else
   {
-    square *bnp;
+    square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
     {
       square s = *bnp;
@@ -439,7 +439,7 @@ static boolean locateRoyal(void)
 
 static void initialise_piece_flags(void)
 {
-  square *bnp;
+  square const *bnp;
   for (bnp = boardnum; *bnp; bnp++)
   {
     piece const p = e[*bnp];
@@ -473,7 +473,7 @@ static unsigned int const nr_proof_goals = (sizeof proof_goals
 
 static boolean verify_position(void)
 {
-  square        *bnp;
+  square const *bnp;
   piece     p;
   ply           n;
   int      cp, pp, tp, op;
@@ -2613,6 +2613,8 @@ int main(int argc, char *argv[])
   int idx_end_of_options;
 
   checkGlobalAssumptions();
+
+  position_initialise_module();
 
   set_nice_priority();
 

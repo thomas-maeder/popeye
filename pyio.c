@@ -1542,10 +1542,10 @@ static char *ParseForsyth(boolean output)
 {
   piece pc;
   int num;
-  square sq= square_a8;
-  square *bnp;
+  square sq = square_a8;
+  square const *bnp;
   boolean NeutralFlag= false;
-  char* tok = ReadNextCaseSensitiveTokStr();
+  char *tok = ReadNextCaseSensitiveTokStr();
 
   for (bnp= boardnum; *bnp; bnp++)
     e[*bnp]= vide;
@@ -3243,7 +3243,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     }
     else if (type==ShiftRank && group==gpGrid)
     {
-      square * bnp;
+      square const *bnp;
       for (bnp= boardnum; *bnp; bnp++) 
       {
         ClearGridNum(*bnp);
@@ -3253,7 +3253,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     }
     else if (type==ShiftFile && group==gpGrid)
     {
-      square * bnp;
+      square const *bnp;
       for (bnp= boardnum; *bnp; bnp++) 
       {
         ClearGridNum(*bnp);
@@ -3263,7 +3263,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     }
     else if (type==ShiftRankFile && group==gpGrid)
     {
-      square * bnp;
+      square const *bnp;
       for (bnp= boardnum; *bnp; bnp++) 
       {
         ClearGridNum(*bnp);
@@ -3273,7 +3273,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     }
     else if (type==Orthogonal && group==gpGrid)
     {
-      square * bnp;
+      square const *bnp;
       int files[8], ranks[8];
       int filenum=1;
       int i;
@@ -3309,7 +3309,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     }
     else if (type==Irregular && group==gpGrid)
     {
-      square * bnp;
+      square const *bnp;
       for (bnp= boardnum; *bnp; bnp++) 
       ClearGridNum(*bnp);
       gridvar = grid_irregular;
@@ -4681,7 +4681,8 @@ static void MovePieceFromTo(square from, square to)
 } /* MovePieceFromTo */
 
 static char *ParseTwinningShift(void) {
-  square sq1= 0, sq2= 0, *bnp;
+  square sq1= 0, sq2= 0;
+  square const *bnp;
   char *tok;
   int diffrank, diffcol, minrank, maxrank, mincol, maxcol, r, c;
 
@@ -4860,7 +4861,7 @@ static char *ParseTwinningRemove(void) {
 } /* ParseTwinningRemove */
 
 static char *ParseTwinningPolish(void) {
-  square *bnp;
+  square const *bnp;
   square king;
 
   king= rb;
@@ -4884,7 +4885,7 @@ static char *ParseTwinningPolish(void) {
 }
 
 static char *ParseTwinningSubstitute(void) {
-  square    *bnp;
+  square const *bnp;
   piece p_old, p_new;
   char  *tok;
 
@@ -5754,7 +5755,7 @@ void LaTeXBeginDiagram(void)
   char ListSpec[PieSpCount][256];
   piece p;
   char    HolesSqList[256] = "";
-  square *bnp;
+  square const *bnp;
 
   for (sp= Neutral; sp < PieSpCount; sp++)
     strcpy(ListSpec[sp], PieSpString[UserLanguage][sp]);

@@ -1948,7 +1948,7 @@ static void genhunt(square i, piece p, PieNam pabs)
 static void gfeerrest(square sq_departure, piece p, Side camp)
 {
   numvec k;
-  square *bnp;
+  square const *bnp;
   PieNam const pabs = abs(p);
 
   switch  (abs(p)) {
@@ -3271,12 +3271,12 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
   else
     gen_wh_piece_aux(sq_departure,p);
 
-  if (CondFlag[messigny] && !(rb==sq_departure && rex_mess_ex)) {
-    square *bnp;
+  if (CondFlag[messigny] && !(rb==sq_departure && rex_mess_ex))
+  {
+    square const *bnp;
     for (bnp= boardnum; *bnp; bnp++)
-      if (e[*bnp]==-p) {
+      if (e[*bnp]==-p)
         empile(sq_departure,*bnp,messigny_exchange);
-      }
   }
 } /* orig_gen_wh_piece */
 

@@ -131,7 +131,7 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
 {
   if (level<=max_level)
   {
-    square *bnp;
+    square const *bnp;
     for (bnp = boardnum; *bnp!=initsquare; ++bnp)
       if (e[*bnp]!=vide && e[*bnp]!=obs)
       {

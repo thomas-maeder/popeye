@@ -1848,23 +1848,6 @@ enum {
 
 
 #if defined(WE_ARE_EXTERN)
-	extern  square boardnum[65];
-#else
-/* This are the really used boardnumbers */
-	square boardnum[65] = {
-	/* first   rank */      square_a1, 201, 202, 203, 204, 205, 206, 207,
-	/* second  rank */      224, 225, 226, 227, 228, 229, 230, 231,
-	/* third   rank */      248, 249, 250, 251, 252, 253, 254, 255,
-	/* fourth  rank */      272, 273, 274, 275, 276, 277, 278, 279,
-	/* fifth   rank */      296, 297, 298, 299, 300, 301, 302, 303,
-	/* sixth   rank */      320, 321, 322, 323, 324, 325, 326, 327,
-	/* seventh rank */      344, 345, 346, 347, 348, 349, 350, 351,
-	/* eighth  rank */      368, 369, 370, 371, 372, 373, 374, square_h8,
-	/* end marker   */    0};
-#endif
-
-
-#if defined(WE_ARE_EXTERN)
 	extern  int move_diff_code[square_h8 - square_a1 + 1];
 #else
 /* This are the codes for the length-difference */
@@ -2276,22 +2259,6 @@ unsupported_uncalled_attackfunction
 /*139 */  unsupported_uncalled_attackfunction,
 /*140 */  unsupported_uncalled_attackfunction
     };
-#endif
-
-#if defined(WE_ARE_EXTERN)
-	extern  piece PAS[nr_squares_on_board];
-#else
-/* This is the InitialGameArray */
-piece       PAS[nr_squares_on_board] = {
-              tb,   cb,   fb,   db, roib,   fb,   cb,   tb,
-			  pb,   pb,   pb,   pb,   pb,   pb,   pb,   pb,
-			vide, vide, vide, vide, vide, vide, vide, vide,
-			vide, vide, vide, vide, vide, vide, vide, vide,
-			vide, vide, vide, vide, vide, vide, vide, vide,
-			vide, vide, vide, vide, vide, vide, vide, vide,
-			  pn,   pn,   pn,   pn,   pn,   pn,   pn,   pn,
-			  tn,   cn,   fn,   dn, roin,   fn,   cn,   tn
-};
 #endif
 
 typedef struct {

@@ -1365,7 +1365,7 @@ static int TellCommonEncodePosLeng(int len, int nbr_p)
 
 static int TellLargeEncodePosLeng(void)
 {
-  square    *bnp;
+  square const *bnp;
   int       nbr_p= 0, len= 8;
 
   for (bnp= boardnum; *bnp; bnp++)
@@ -1385,7 +1385,7 @@ static int TellLargeEncodePosLeng(void)
 
 static int TellSmallEncodePosLeng(void)
 {
-  square  *bnp;
+  square const *bnp;
   int nbr_p= 0, len= 0;
 
   for (bnp= boardnum; *bnp; bnp++)
