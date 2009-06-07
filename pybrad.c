@@ -457,6 +457,8 @@ boolean branch_d_root_solve(slice_index si)
     branch_d_defender_write_unsolvability(peer);
   else
   {
+    solutions = 0;
+
     genmove(attacker);
 
     output_start_continuation_level();

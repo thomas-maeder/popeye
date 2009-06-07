@@ -149,6 +149,8 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,starter);
 
+    solutions = 0;
+
     while (encore())
     {
       if (jouecoup(nbply,first_play)
@@ -162,6 +164,18 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
       }
 
       repcoup();
+
+      if (OptFlag[maxsols] && solutions>=maxsolutions)
+      {
+        TraceValue("%u",maxsolutions);
+        TraceValue("%u",solutions);
+        TraceText("aborting\n");
+
+        /* signal maximal number of solutions reached to outer world */
+        FlagMaxSolsReached = true;
+
+        break;
+      }
     }
 
     finply();
@@ -191,6 +205,8 @@ static boolean leaf_d_root_cmate_solve(slice_index leaf)
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,starter);
 
+    solutions = 0;
+
     while (encore())
     {
       if (jouecoup(nbply,first_play)
@@ -204,6 +220,18 @@ static boolean leaf_d_root_cmate_solve(slice_index leaf)
       }
 
       repcoup();
+
+      if (OptFlag[maxsols] && solutions>=maxsolutions)
+      {
+        TraceValue("%u",maxsolutions);
+        TraceValue("%u",solutions);
+        TraceText("aborting\n");
+
+        /* signal maximal number of solutions reached to outer world */
+        FlagMaxSolsReached = true;
+
+        break;
+      }
     }
 
     finply();
@@ -229,6 +257,8 @@ static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
   active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,attacker);
 
+  solutions = 0;
+
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
@@ -242,6 +272,18 @@ static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
     }
 
     repcoup();
+
+    if (OptFlag[maxsols] && solutions>=maxsolutions)
+    {
+      TraceValue("%u",maxsolutions);
+      TraceValue("%u",solutions);
+      TraceText("aborting\n");
+
+      /* signal maximal number of solutions reached to outer world */
+      FlagMaxSolsReached = true;
+
+      break;
+    }
   }
 
   finply();

@@ -166,6 +166,8 @@ boolean leaf_s_root_solve(slice_index leaf)
   active_slice[nbply+1] = leaf;
   genmove(attacker);
 
+  solutions = 0;
+
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
@@ -178,6 +180,18 @@ boolean leaf_s_root_solve(slice_index leaf)
     }
 
     repcoup();
+
+    if (OptFlag[maxsols] && solutions>=maxsolutions)
+    {
+      TraceValue("%u",maxsolutions);
+      TraceValue("%u",solutions);
+      TraceText("aborting\n");
+
+      /* signal maximal number of solutions reached to outer world */
+      FlagMaxSolsReached = true;
+
+      break;
+    }
   }
 
   finply();
