@@ -131,11 +131,6 @@ EXTERN square RB_[maxply+1];
 EXTERN  square          pattfld, patti, pattj;
 EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
-#if defined(WE_ARE_EXTERN)
-EXTERN unsigned int maxinbox[];
-EXTERN piece boxsize;
-#endif
-
 EXTERN struct
 {
     square where;

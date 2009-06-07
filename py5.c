@@ -1483,14 +1483,17 @@ piece next_singlebox_prom(piece p, Side c)
   for (pprom = getprompiece[p];
        pprom!=vide;
        pprom = getprompiece[pprom])
-  {
-    assert(pprom<boxsize);
-    if (nbpiece[c==White ? pprom : -pprom] < maxinbox[pprom])
+    if (abs(pprom)!=pb)
     {
-      result = pprom;
-      break;
+      assert(game_array.nr_piece[-dernoi+pprom]
+             ==game_array.nr_piece[-dernoi-pprom]);
+      if (nbpiece[c==White ? pprom : -pprom]
+          < game_array.nr_piece[-dernoi-pprom])
+      {
+        result = pprom;
+        break;
+      }
     }
-  }
 
   TraceFunctionExit(__func__);
   TracePiece(p);
