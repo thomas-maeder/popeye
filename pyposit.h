@@ -71,11 +71,11 @@ extern piece const PAS[nr_squares_on_board];
 /* Initial game position.
  * 
  */
-extern position game_array;
+extern position const game_array;
 
-/* Initialise internal structures of the position module.
- * To be called once at the start of the program.
+/* Initialize the game array into a position object
+ * @param pos address of position object
  */
-void position_initialise_module(void);
+void initialise_game_array(position *pos);
 
 #endif

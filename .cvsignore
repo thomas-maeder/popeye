@@ -2,3 +2,5 @@ genpystr
 pyallmsg.h
 py
 depend
+pygamearr.h
+gengmarr

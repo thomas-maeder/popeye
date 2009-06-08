@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.60 2009/06/07 09:25:05 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.61 2009/06/08 20:25:12 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -370,6 +370,38 @@ genpystr$(EXE_SUFFIX):	genpystr$(OBJ_SUFFIX) pylang-host$(OBJ_SUFFIX)
 pyallmsg.h:	$(MSGFILES) genpystr$(EXE_SUFFIX)
 		./genpystr$(EXE_SUFFIX)
 
+# ===========================================================
+
+# Target for generating header containing game array
+# pyposit.c is compiled both for the host and the target.
+# pyposit-host$(OBJ_SUFFIX) is the object file for the host.
+pyposit-host$(OBJ_SUFFIX):  pyposit.c
+		$(CCHOST) $(CFLAGS) $(COMPILEONLY) pyposit.c $(OBJFILE)$@
+# work around compilers that strictly derive object file name from
+# source file name
+		@if [ 0 -eq $(OBJFILE_WORKS) ]; then \
+			mv pyposit$(OBJ_SUFFIX) $@; \
+		fi
+# pyboard.c is compiled both for the host and the target.
+# pyboard-host$(OBJ_SUFFIX) is the object file for the host.
+pyboard-host$(OBJ_SUFFIX):  pyboard.c
+		$(CCHOST) $(CFLAGS) $(COMPILEONLY) pyboard.c $(OBJFILE)$@
+# work around compilers that strictly derive object file name from
+# source file name
+		@if [ 0 -eq $(OBJFILE_WORKS) ]; then \
+			mv pyboard$(OBJ_SUFFIX) $@; \
+		fi
+
+gengmarr$(OBJ_SUFFIX):	gengmarr.c
+			$(CCHOST) $(CFLAGS) \
+				$(COMPILEONLY) gengmarr.c $(OBJFILE)$@
+
+gengmarr$(EXE_SUFFIX):	gengmarr.o pyposit-host.o pyboard-host.o
+			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^
+
+pygamearr.h:	$(MSGFILES) gengmarr$(EXE_SUFFIX)
+		./gengmarr$(EXE_SUFFIX)
+
 
 # ===========================================================
 
@@ -396,7 +428,7 @@ clean:
 		cd DHT; $(MAKE) -f makefile.unx TOOLCHAIN=$(TOOLCHAIN) $@
 
 clobber:	clean
-		rm -f py$(EXE_SUFFIX) genpystr$(EXE_SUFFIX) $(STRFILES); cd DHT; $(MAKE) -f makefile.unx TOOLCHAIN=$(TOOLCHAIN) $@
+		rm -f py$(EXE_SUFFIX) genpystr$(EXE_SUFFIX) gengmarr$(EXE_SUFFIX) $(STRFILES); cd DHT; $(MAKE) -f makefile.unx TOOLCHAIN=$(TOOLCHAIN) $@
 
 
 # ===========================================================

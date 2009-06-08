@@ -27,7 +27,7 @@ pyboard$(OBJ_SUFFIX): pyboard.c pyboard.h pybitmsk.h
 pyboard.h:
 
 pybitmsk.h:
-pyposit$(OBJ_SUFFIX): pyposit.c pyposit.h pyboard.h pybitmsk.h pypiece.h trace.h
+pyposit$(OBJ_SUFFIX): pyposit.c pyposit.h pyboard.h pybitmsk.h pypiece.h pygamearr.h
 
 pyposit.h:
 
@@ -37,7 +37,7 @@ pybitmsk.h:
 
 pypiece.h:
 
-trace.h:
+pygamearr.h:
 py1$(OBJ_SUFFIX): py1.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pylang.h pymsg.h py1.h pyproc.h py4.h pygoal.h pydata.h pystip.h \
   pyhash.h DHT/dhtbcmem.h pytable.h trace.h
@@ -1319,15 +1319,11 @@ pyoutput.h:
 pydata.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
-  pyboard.h pybitmsk.h pypiece.h pylang.h pygoal.h pydata.h pyhash.h \
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+  pypiece.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
   DHT/dhtbcmem.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
@@ -1342,6 +1338,10 @@ pybitmsk.h:
 pypiece.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 pygoal.h:
 

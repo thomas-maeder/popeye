@@ -2628,8 +2628,6 @@ int main(int argc, char *argv[])
 
   checkGlobalAssumptions();
 
-  position_initialise_module();
-
   set_nice_priority();
 
   sprintf(versionString,
