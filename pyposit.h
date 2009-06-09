@@ -55,12 +55,13 @@ typedef struct
     square rn;                /* ... and black king */
     unsigned int inum;        /* number of iterators */
     imarr isquare;            /* placement of iterators */
-    unsigned int nr_piece[derbla-dernoi+1]; /* number of piece kind */
+    unsigned int zzznp[derbla-dernoi+1]; /* number of piece kind */
 } position;
 
-/* NOTE: the number of pieces of kind p is accessed using the
- * expression nr_piece[-dernoi+p]
+/* The number of pieces of kind k in position p is accessed using the
+ * expression nr_piece(p)[k]
  */
+#define nr_piece(p) ((p).zzznp-dernoi)
 
 
 /* Sequence of pieces corresponding to the game array (a1..h1, a2..h2

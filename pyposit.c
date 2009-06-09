@@ -22,8 +22,8 @@ void initialise_game_array(position *pos)
 
   for (i = 0; i <= derbla; ++i)
   {
-    pos->nr_piece[-dernoi+i] = 0;
-    pos->nr_piece[-dernoi-i] = 0;
+    nr_piece(*pos)[i] = 0;
+    nr_piece(*pos)[-i] = 0;
   }
 
   /* TODO avoid duplication with InitBoard()
@@ -45,7 +45,7 @@ void initialise_game_array(position *pos)
     piece const p = PAS[i];
     square const square_i = boardnum[i];
     pos->board[square_i] = p;
-    ++pos->nr_piece[-dernoi+p];
+    ++nr_piece(*pos)[p];
     if (p>=roib)
       SETFLAG(pos->spec[square_i],White);
     else if (p<=roin)

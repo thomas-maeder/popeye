@@ -1485,10 +1485,10 @@ piece next_singlebox_prom(piece p, Side c)
        pprom = getprompiece[pprom])
     if (abs(pprom)!=pb)
     {
-      assert(game_array.nr_piece[-dernoi+pprom]
+      assert(nr_piece(*game_array)[pprom]
              ==game_array.nr_piece[-dernoi-pprom]);
       if (nbpiece[c==White ? pprom : -pprom]
-          < game_array.nr_piece[-dernoi-pprom])
+          < nr_piece(game_array)[-pprom])
       {
         result = pprom;
         break;
@@ -1542,8 +1542,8 @@ static boolean singlebox_officer_out_of_box(void)
   TraceText("\n");
 
   for (p = roib; p<=fb; ++p)
-    if (nbpiece[p]>game_array.nr_piece[-dernoi+p]
-        || nbpiece[-p]>game_array.nr_piece[-dernoi-p])
+    if (nbpiece[p]>nr_piece(game_array)[p]
+        || nbpiece[-p]>nr_piece(game_array)[-p])
     {
       result = true;
       break;
@@ -1556,8 +1556,8 @@ static boolean singlebox_officer_out_of_box(void)
 
 static boolean singlebox_pawn_out_of_box(void)
 {
-  boolean const result = (nbpiece[pb]>game_array.nr_piece[-dernoi+pb]
-                          || nbpiece[pn]>game_array.nr_piece[-dernoi+pn]);
+  boolean const result = (nbpiece[pb]>nr_piece(game_array)[pb]
+                          || nbpiece[pn]>nr_piece(game_array)[pn]);
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
@@ -1579,7 +1579,7 @@ static boolean singlebox_illegal_latent_white_pawn(void)
   {
     piece p;
     for (p = db; p<=fb; ++p)
-      if (nbpiece[p]<game_array.nr_piece[-dernoi+p])
+      if (nbpiece[p]<nr_piece(game_array)[p])
       {
         result = true;
         break;
@@ -1604,7 +1604,7 @@ static boolean singlebox_illegal_latent_black_pawn(void)
   {
     piece p;
     for (p = dn; p>=fn; --p)
-      if (nbpiece[p]<game_array.nr_piece[-dernoi+p])
+      if (nbpiece[p]<nr_piece(game_array)[p])
       {
         result = true;
         break;

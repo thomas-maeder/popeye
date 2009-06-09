@@ -289,8 +289,8 @@ void ProofInitialiseIntelligent(void)
 
   for (i = roib; i <= fb; ++i)
   {
-    ProofNbrWhitePieces += target.nr_piece[-dernoi+i];
-    ProofNbrBlackPieces += target.nr_piece[-dernoi-i];
+    ProofNbrWhitePieces += nr_piece(target)[i];
+    ProofNbrBlackPieces += nr_piece(target)[-i];
   }
 
   /* determine pieces blocked */
@@ -408,8 +408,8 @@ void ProofSaveStartPosition(void)
 
   for (i = roib; i <= derbla; ++i)
   {
-    start.nr_piece[-dernoi+i] = nbpiece[i];
-    start.nr_piece[-dernoi-i] = nbpiece[-i];
+    nr_piece(start)[i] = nbpiece[i];
+    nr_piece(start)[-i] = nbpiece[-i];
   }
 
   for (i = 0; i<maxsquare; ++i)
@@ -531,8 +531,8 @@ void ProofSaveTargetPosition(void)
 
   for (i = roib; i <= derbla; ++i)
   {
-    target.nr_piece[-dernoi+i] = nbpiece[i];
-    target.nr_piece[-dernoi-i] = nbpiece[-i];
+    nr_piece(target)[i] = nbpiece[i];
+    nr_piece(target)[-i] = nbpiece[-i];
   }
 
   for (i = 0; i<maxsquare; ++i)
@@ -632,8 +632,8 @@ static boolean compareProofNbrPiece(void)
   TraceText("\n");
 
   for (i = roib; i <= fb; ++i)
-    if (target.nr_piece[-dernoi+i]!=nbpiece[i]
-        || target.nr_piece[-dernoi-i]!=nbpiece[-i])
+    if (nr_piece(target)[i]!=nbpiece[i]
+        || nr_piece(target)[-i]!=nbpiece[-i])
     {
       result = false;
       break;
@@ -1477,8 +1477,8 @@ static boolean ProofFairyImpossible(void)
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
       */
-      if (target.nr_piece[-dernoi+pb] > nbpiece[pb]+(pparr==pb)
-          || target.nr_piece[-dernoi+pn] > nbpiece[pn]+(pparr==pn))
+      if (nr_piece(target)[pb] > nbpiece[pb]+(pparr==pb)
+          || nr_piece(target)[pn] > nbpiece[pn]+(pparr==pn))
         return true;
     }
 
@@ -1583,16 +1583,16 @@ static boolean ProofImpossible(void)
   int       NbrWh, NbrBl;
 
   /* too many pawns captured or promoted */
-  if (target.nr_piece[-dernoi+pb] > nbpiece[pb])
+  if (nr_piece(target)[pb] > nbpiece[pb])
   {
-    TraceValue("%d ",target.nr_piece[-dernoi+pb]);
+    TraceValue("%d ",nr_piece(target)[pb]);
     TraceValue("%d\n",nbpiece[pb]);
     return true;
   }
 
-  if (target.nr_piece[-dernoi+pn] > nbpiece[pn])
+  if (nr_piece(target)[pn] > nbpiece[pn])
   {
-    TraceValue("%d ",target.nr_piece[-dernoi+pn]);
+    TraceValue("%d ",nr_piece(target)[pn]);
     TraceValue("%d\n",nbpiece[pn]);
     return true;
   }
@@ -1863,8 +1863,8 @@ static boolean ProofSeriesImpossible(void)
 
   TraceValue("%d\n",BlMovesLeft+WhMovesLeft);
   /* too many pawns captured or promoted */
-  if (target.nr_piece[-dernoi+pb]>nbpiece[pb]
-      || target.nr_piece[-dernoi+pn]>nbpiece[pn])
+  if (nr_piece(target)[pb]>nbpiece[pb]
+      || nr_piece(target)[pn]>nbpiece[pn])
     return true;
 
   NbrBl= nbpiece[pn]
