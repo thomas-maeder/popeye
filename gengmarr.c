@@ -105,8 +105,7 @@ static void dump_imitator_initialisers_to_stream(FILE *dest,
  * @param dest destination stream (output file)
  * @param nr_piece array containing initial piece counts
  */
-static void dump_nr_piece_initialisers_to_stream(FILE *dest,
-                                                 unsigned int const nr_piece[])
+static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos)
 {
   piece p;
   unsigned int column = 0;
@@ -114,7 +113,7 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest,
   fprintf(dest,"  { /* numbers of pieces */\n    ");
   for (p = dernoi; p+1<derbla; ++p)
   {
-    fprintf(dest,"%u,",nr_piece[-dernoi+p]);
+    fprintf(dest,"%u,",nr_piece(*pos)[p]);
     ++column;
     if (column==20)
     {
@@ -122,7 +121,7 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest,
       column = 0;
     }
   }
-  fprintf(dest,"%u\n",nr_piece[p]);
+  fprintf(dest,"%u\n",nr_piece(*pos)[p]);
   fprintf(dest,"  }");
 }
 
@@ -143,7 +142,7 @@ static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
   fprintf(dest,",\n");
   dump_imitator_initialisers_to_stream(dest,pos->inum,pos->isquare);
   fprintf(dest,",\n");
-  dump_nr_piece_initialisers_to_stream(dest,pos->nr_piece);
+  dump_nr_piece_initialisers_to_stream(dest,pos);
   fprintf(dest,"\n};\n");
 }
 
