@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.62 2009/06/09 16:20:29 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.63 2009/06/09 18:58:53 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -397,7 +397,7 @@ gengmarr$(OBJ_SUFFIX):	gengmarr.c
 			$(CCHOST) $(CFLAGS) \
 				$(COMPILEONLY) gengmarr.c $(OBJFILE)$@
 
-gengmarr$(EXE_SUFFIX):	gengmarr.o pyposit-host.o pyboard-host.o
+gengmarr$(EXE_SUFFIX):	gengmarr$(OBJ_SUFFIX) pyposit-host$(OBJ_SUFFIX) pyboard-host$(OBJ_SUFFIX)
 			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^
 
 pygmarr.c:	$(MSGFILES) gengmarr$(EXE_SUFFIX)
