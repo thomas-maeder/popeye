@@ -154,19 +154,9 @@ static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
  */
 void dump_position_initialiser(position const *pos, char const *argv0)
 {
-  char const *filename = "pygamearr.h";
-  FILE *out = fopen(filename,"w");
-  if (out==NULL)
-  {
-    fprintf(stderr,"Fatal error: Can't open %s for writing!\n",filename);
-    exit(1);
-  }
-  else
-  {
-    write_generation_info(out,argv0);
-    dump_position_initialiser_to_stream(out,pos);
-    fclose(out);
-  }
+  write_generation_info(stdout,argv0);
+  dump_position_initialiser_to_stream(stdout,pos);
+  fclose(stdout);
 }
 
 int main(int argc, char *argv[])

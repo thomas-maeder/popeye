@@ -1,5 +1,4 @@
 #include "pyposit.h"
-#include "pygamearr.h"
 
 /* This is the InitialGameArray */
 piece const PAS[nr_squares_on_board] = {

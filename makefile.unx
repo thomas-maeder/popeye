@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.61 2009/06/08 20:25:12 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.62 2009/06/09 16:20:29 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -267,7 +267,8 @@ PYCFILES =      pydata.c pyboard.c pyposit.c \
 		platform/$(PLATFORM)/maxmem.c \
 		platform/$(PLATFORM)/maxtime.c \
 		platform/$(PLATFORM)/pytime.c \
-		platform/$(PLATFORM)/priority.c
+		platform/$(PLATFORM)/priority.c \
+		pygmarr.c
 OBJECTS =       $(PYCFILES:%.c=%$(OBJ_SUFFIX))
 CFILES  =       $(PYCFILES) DHT/*.c platform/$(PLATFORM)/*.c
 MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
@@ -399,8 +400,8 @@ gengmarr$(OBJ_SUFFIX):	gengmarr.c
 gengmarr$(EXE_SUFFIX):	gengmarr.o pyposit-host.o pyboard-host.o
 			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^
 
-pygamearr.h:	$(MSGFILES) gengmarr$(EXE_SUFFIX)
-		./gengmarr$(EXE_SUFFIX)
+pygmarr.c:	$(MSGFILES) gengmarr$(EXE_SUFFIX)
+		./gengmarr$(EXE_SUFFIX) > $@
 
 
 # ===========================================================
