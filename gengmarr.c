@@ -151,18 +151,29 @@ static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
  * @param pos array of position object containing initial position
  * @param argv0 first element of parameter argv (i.e. name of executable)
  */
-void dump_position_initialiser(position const *pos, char const *argv0)
+void dump_position_initialiser(position const *pos, char const *argv0, FILE *fp)
 {
   write_generation_info(stdout,argv0);
-  dump_position_initialiser_to_stream(stdout,pos);
-  fclose(stdout);
+  dump_position_initialiser_to_stream(fp,pos);
+  fclose(fp);
 }
 
 int main(int argc, char *argv[])
 {
+  FILE *fp;
   position game_array;
   initialise_game_array(&game_array);
-  dump_position_initialiser(&game_array,argv[0]);
+  if (argc<1)
+  {
+    fp= stdout;
+  }
+  else
+  {
+    fp= fopen(argv[1], "wt");
+    if (fp == NULL)
+      return 1;
+  }
+  dump_position_initialiser(&game_array,argv[0],fp);
 
   return 0;
 }
