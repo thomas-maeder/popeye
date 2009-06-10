@@ -111,7 +111,7 @@ static void killPreviousTimer(void)
   {
     MMRESULT const kill_result = timeKillEvent(current_timer);
     assert(kill_result==TIMERR_NOERROR);
-    current_timer = 0;
+    current_timer = no_timer;
   }
 }
 
