@@ -2217,19 +2217,16 @@ static int parseCommandlineOptions(int argc, char *argv[])
       }
       else if (*end=='G')
       {
-        MaxMemory <<= 30;
+        MaxMemory <<= 20;
         MaxMemory_unit = maxmemory_giga;
       }
       else if (*end=='M')
       {
-        MaxMemory <<= 20;
+        MaxMemory <<= 10;
         MaxMemory_unit = maxmemory_mega;
       }
       else
-      {
-        MaxMemory <<= 10;
         MaxMemory_unit = maxmemory_kilo;
-      }
 
       idx++;
       continue;
@@ -2272,12 +2269,12 @@ static void initMaxMemoryString(void)
      dependant Msg-Tables, since there the version is
      too easily changed, or not updated.
   */
-  if ((MaxMemory>>10)<(1<<10) || MaxMemory_unit==maxmemory_kilo)
-    sprintf(MaxMemoryString, " (%u KB)\n", (unsigned)(MaxMemory>>10));
-  else if ((MaxMemory>>20)<(1<<10) || MaxMemory_unit==maxmemory_mega)
-    sprintf(MaxMemoryString, " (%u MB)\n", (unsigned)(MaxMemory>>20));
+  if (MaxMemory<(1<<10) || MaxMemory_unit==maxmemory_kilo)
+    sprintf(MaxMemoryString, " (%lu KB)\n", MaxMemory);
+  else if ((MaxMemory>>10)<(1<<10) || MaxMemory_unit==maxmemory_mega)
+    sprintf(MaxMemoryString, " (%lu MB)\n", MaxMemory>>10);
   else
-    sprintf(MaxMemoryString, " (%u GB)\n", (unsigned)(MaxMemory>>30));
+    sprintf(MaxMemoryString, " (%lu GB)\n", MaxMemory>>20);
 }
 
 /* prepare for solving duplex */
