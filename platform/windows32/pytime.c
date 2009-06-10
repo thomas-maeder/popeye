@@ -26,5 +26,5 @@ void StopTimer(unsigned long *seconds, unsigned long *msec)
   clock_t ticks = stopClock-startClock;
   *msec = (ticks%ticks_per_sec) * 1000 / ticks_per_sec;
 
-  *seconds = stopTime-startTime;
+  *seconds = (unsigned long)(stopTime-startTime);
 }

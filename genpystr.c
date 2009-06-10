@@ -59,7 +59,7 @@ int main() {
       if (Line[l] == '#') {
 		continue;
       }
-      l= strlen(Line);
+      l= (int)strlen(Line);
       if (Line[l-1] != '\n') {
 		fprintf(stderr, "String %d is too long\n",StringCnt);
 		exit(3);
@@ -77,7 +77,7 @@ int main() {
       }
       sLine= strchr(Line, ' ')+1;
       fprintf(hd, "\t/*%2d*/\t\"%s\"", StringCnt, sLine);
-      if ((l=strlen(sLine)) > MaxLeng) {
+      if ((l=(int)strlen(sLine)) > MaxLeng) {
 		MaxLeng= l;
       }
       l= 0;
