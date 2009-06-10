@@ -75,7 +75,7 @@ CFLAGS=/nologo
 DBG=
 
 # Select target compiler optimization level
-CCOPTIM=/GAs /O2gitb2 /MT
+CCOPTIM=/GAs /O2gitb2
 
 # Option for producing dependency information in makefile format
 # none - we re-use the dependency file generated using gcc
@@ -114,6 +114,11 @@ EXEFILE=/OUT:
 
 # Path to library files to be linked
 LIBRARYPATHS=
+
+# Names of libraries to link
+LIBRARIES=WINMM.LIB
+# WINMM = Windows Multimedia Library (we use Multimedia Timers to
+# implement option maxtime)
 
 
 # Platform spedific file name suffixes
