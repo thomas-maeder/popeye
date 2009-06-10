@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.64 2009/06/10 19:07:52 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.65 2009/06/10 19:52:33 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -217,7 +217,10 @@ include toolchains/$(TOOLCHAIN)/make.incl
 CFLAGS += $(WARN) $(DBG) $(CCOPTIM) $(ARCH) $(DEFS) $(OTHER) \
 	$(INCLUDEPATHS) \
 	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
-        $(DEFINEMACRO)VERSION=$(VERSION)
+        $(DEFINEMACRO)VERSION=$(VERSION) \
+        $(DEFINEMACRO)ERROR_LOG2
+# the last macro prevents fxf.c from issuing diagnostics if the
+# requested amount of memory can't be allocated
 
 
 # How to determine build dependencies
