@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.63 2009/06/09 18:58:53 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.64 2009/06/10 19:07:52 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -235,6 +235,9 @@ MAKEDEPEND = $(CCTARGET) $(DEPEND) $(DEFS) $(OTHER) $(INCLUDEPATHS) \
 #LDFLAGS = -M0s -dos -i -F 2000       # ? (TM)
 LDFLAGS += $(DBG) $(LDOPTIM) $(ARCH) $(LIBRARYPATHS)
 
+# enumerate libraries to link
+LIBRARIES +=
+
 
 # Common Popeye source and generated files
 # ========================================
@@ -301,7 +304,7 @@ all:		py$(EXE_SUFFIX)
 # Target for creating the popeye executable with full dynamic hashing
 
 py$(EXE_SUFFIX):$(OBJECTS) DHT/dht$(LIB_SUFFIX)
-		$(LDTARGET) $(EXEFILE)$@ $(LDFLAGS) $(OBJECTS) DHT/dht$(LIB_SUFFIX)
+		$(LDTARGET) $(EXEFILE)$@ $(LDFLAGS) $(OBJECTS) DHT/dht$(LIB_SUFFIX) $(LIBRARIES)
 		$(STRIPTARGET) $@
 
 
