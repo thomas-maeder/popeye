@@ -153,7 +153,7 @@ static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
  */
 void dump_position_initialiser(position const *pos, char const *argv0, FILE *fp)
 {
-  write_generation_info(stdout,argv0);
+  write_generation_info(fp,argv0);
   dump_position_initialiser_to_stream(fp,pos);
   fclose(fp);
 }
