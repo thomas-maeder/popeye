@@ -27,14 +27,19 @@ static MMRESULT const no_timer = 0;
  */
 static MMRESULT current_timer;
 
+/* The Windows APIs use all kinds of types with strange Hungarian
+ * names, but it all boils down to:
+ */
+typedef unsigned long timer_period_type;
+
 /* Actual timer resolution; initialized with intended resolution
  */
-static unsigned int actual_timer_resolutionMS = 100;
+static timer_period_type actual_timer_resolutionMS = 100;
 
 /* Singular value that we use to indicate that the Multimedia Timers
  * machinery is not available.
  */
-static unsigned int const MM_timers_not_available = 0;
+static timer_period_type const MM_timers_not_available = 0;
 
 /* Calibrate timer resolution based on intended resolution and
  * capabilities indicated by Windows.
@@ -56,11 +61,11 @@ static void calibrate_timer_resolution(void)
 /* Callback function for Multimedia Timer.
  * Called back by Windows every actual_timer_delayMS milliseconds
  */
-static void CALLBACK tick(UINT timer_id,      
-                          UINT reserved1,     
-                          DWORD seconds_elapsed,  
-                          DWORD reserved2,     
-                          DWORD reserved3)
+static void CALLBACK tick(unsigned int timer_id,      
+                          unsigned int reserved1,     
+                          timer_period_type seconds_elapsed,  
+                          timer_period_type reserved2,     
+                          timer_period_type reserved3)
 {
   /* assert(timer_id==current_timer);
    * is probably not a good idea in (something similar to) a signal
@@ -78,14 +83,19 @@ static void CALLBACK tick(UINT timer_id,
  */
 static void setupNewTimer(unsigned int seconds)
 {
-  unsigned int const min_seconds_elapsed = actual_timer_resolutionMS*10/1000;
-  DWORD const seconds_elapsed = min_seconds_elapsed==0 ? 1 : min_seconds_elapsed;
-  unsigned int const delayMS = seconds_elapsed*1000;
+  timer_period_type const
+      min_seconds_elapsed = actual_timer_resolutionMS*10/1000;
+  timer_period_type const seconds_elapsed = (min_seconds_elapsed==0
+                                         ? 1
+                                         : min_seconds_elapsed);
+  timer_period_type const delayMS = seconds_elapsed*1000;
 
   /* according to the docs
    * (http://msdn.microsoft.com/en-us/library/ms713423(VS.85).aspx),
    * it would be a good idea to also specify TIME_KILL_SYNCHRONOUS,
-   * but the MingW based cross compiler doesn't 'know' that symbol.
+   * but the MingW based cross compiler doesn't 'know' that symbol
+   * unless we set WINVER>=0x0501 (Windows XP); we don't want to
+   * impose Windows XP on our users!
    */
   current_timer = timeSetEvent(delayMS,actual_timer_resolutionMS,
                                &tick,seconds_elapsed,
@@ -117,6 +127,11 @@ static void killPreviousTimer(void)
 
 void initMaxtime(void)
 {
+  /* Make sure that the variables we update in (something similar to)
+   * a signal are large enough to hold timer period values.
+   */
+  assert(sizeof(timer_period_type)<=sizeof(sig_atomic_t));
+
   calibrate_timer_resolution();
   current_timer = no_timer;
 }
