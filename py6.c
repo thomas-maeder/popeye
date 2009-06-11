@@ -2649,7 +2649,17 @@ int main(int argc, char *argv[])
 
   initMaxtime();
 
-  MaxMemory = adjustMaxmemory(MaxMemory);
+  if (MaxMemory==0)
+  {
+    MaxMemory = guessReasonableMaxmemory();
+    /* make sure we use units that result in meaningful output */
+    if (MaxMemory>=10*(1<<10)*(1<<10))
+      MaxMemory_unit = maxmemory_giga;
+    else if (MaxMemory>=10*(1<<10))
+      MaxMemory_unit = maxmemory_mega;
+    else
+      MaxMemory_unit = maxmemory_kilo;
+  }
   initMaxMemoryString();
 
   /* start timer to be able to display a reasonable time if the user

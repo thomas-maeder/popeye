@@ -1,14 +1,11 @@
 #include "../maxmem.h"
 
-unsigned long adjustMaxmemory(unsigned long usersetting)
+/* Make a guess for a reasonable amount of memory for the hashtable
+ * @return number of kilo-bytes to be used
+ */
+unsigned long guessReasonableMaxmemory(void)
 {
-  unsigned long result;
   unsigned long const one_giga = 1024*1024;
   
-  if (usersetting==0)
-    result = one_giga;
-  else
-    result = usersetting;
-
-  return result;
+  return one_giga;
 }

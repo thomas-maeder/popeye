@@ -36,6 +36,13 @@ STRIPTARGET=i686-pc-mingw32-strip
 ARCHIVE_INDEXER=i686-pc-mingw32-ranlib
 
 
+# Compiler options
+# ----------------
+# we need minimally Win2k for guesstimating a reasonable default hash
+# table size
+OTHER=$(DEFINEMACRO)_WIN32_WINNT=0x0500
+
+
 # Linker options
 # --------------
 

@@ -36,11 +36,13 @@ STRIPTARGET=x86_64-pc-mingw32-strip
 ARCHIVE_INDEXER=x86_64-pc-mingw32-ranlib
 
 
-# Compiler options
-# ================
+# Linker options
+# --------------
 
-# Select target compiler optimization level
-#CCOPTIM=$(DEFINEMACRO)_MT
+# enumerate libraries to link
+LIBRARIES=-lwinmm
+# winmm = Windows Multimedia Library (we use Multimedia Timers to
+# implement option maxtime)
 
 
 # Platform spedific file name suffixes
