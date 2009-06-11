@@ -20,13 +20,9 @@
 # ==================
 
 # Microsoft Visual C++ 98 default installation directory
-# (Why on earth they chose to install this thing into a path
-#  - that contains spaces
-#  - that depends on the system language
-#  is really beyond me (TM).)
-MSVC6_DEFAULT_INSTALLDIR=C:/Program Files/Microsoft Visual Studio/VC98
+MSVC6_DEFAULT_INSTALLDIR=$(PROGRAMFILES)/Microsoft Visual Studio/VC98
 
-# By default, use the default installation directory
+# By default, use the (sic!) default installation directory
 MSVC6_INSTALLDIR=$(MSVC6_DEFAULT_INSTALLDIR)
 
 # Default installation dir for German Windows
