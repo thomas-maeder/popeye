@@ -2034,7 +2034,7 @@ void inithash(void)
 #endif /*__unix,TESTHASH*/
 
 #if defined(FXF)
-  while (fxfInit(MaxMemory)==-1) /* we didn't get hashmemory ... */
+  while (fxfInit(MaxMemory*(1<<10))==-1) /* we didn't get hashmemory ... */
     MaxMemory /= 2;
   ifTESTHASH(fxfInfo(stdout));
 #endif /*FXF*/
