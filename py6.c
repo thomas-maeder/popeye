@@ -1158,7 +1158,6 @@ static boolean verify_position(void)
     VerifieMsg(TwoMummerCond);
     return false;
   }
-#if !defined(DATABASE)  /* TLi */
   if ((CondFlag[whmin]
        || CondFlag[blmin]
        || CondFlag[whmax]
@@ -1195,7 +1194,6 @@ static boolean verify_position(void)
     VerifieMsg(SomePiecesAndMaxiHeffa);
     return false;
   }
-#endif
 
   if (flagdiastip
       && (CondFlag[frischauf]
@@ -1891,12 +1889,6 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
   }
   return ret;
 }
-
-#if defined(DATABASE)
-extern boolean two_same_pieces;
-#endif
-
-#if !defined(DATABASE)
 
 /* Determine whether the defending side has more flights than allowed
  * by the user.
@@ -2691,5 +2683,3 @@ void memset(char *poi, char val, int len)
     *poi++ = val;
 }
 #endif
-
-#endif  /* ! DATABASE */

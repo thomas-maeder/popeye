@@ -104,9 +104,7 @@
 #endif /* C370 */
 
 #if !defined(OSTYPE)
-#  if defined(DATABASE)
-#    define OSTYPE "DATABASE"
-#  elseif defined(C370)
+#  if defined(C370)
 #    define OSTYPE "MVS"
 #  elseif defined(DOS)
 #    define OSTYPE "DOS"
@@ -162,9 +160,6 @@ typedef unsigned int stip_length_type;
 
 enum
 {
-#if defined(DATABASE)
-  maxply = 302
-#else
 #if defined(__unix)
   maxply =   1002
 #else
@@ -184,7 +179,6 @@ enum
 #endif/* SIXTEEN */
 #endif /* _WIN32 */
 #endif /* __unix */
-#endif /* DATABASE */
 };
 
 enum

@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.65 2009/06/10 19:52:33 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.66 2009/06/12 18:14:58 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -125,7 +125,6 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
 # to produce a message after canceling Popeye with a signal   SIGNALS
 # to produce statistics about hashtable fill rate             TESTHASH
 # to use the "FiXed and Fast memory allocator"                FXF
-# to generate tablebases (?)                                  DATABASE
 
 
 # Other

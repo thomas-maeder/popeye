@@ -29,10 +29,7 @@ typedef enum
   goal_exchangeB,
   goal_any,
   goal_proof,
-#if !defined(DATABASE)
-  /* TODO why not if DATABASE? */
   goal_atob, /* TODO remove? is there a difference to goal_proof? */
-#endif
   goal_mate_or_stale, /* not really a goal */
 
   nr_goals,

@@ -87,10 +87,7 @@
 ** if necessary.
 */
 
-#if !defined(DATABASE)
-static
-#endif
-char AlphaStip[40];
+static char AlphaStip[40];
 
 #define MAXNEST 10
 #define UPCASE(c)   toupper(c)      /* (c+('A'-'a')) */
@@ -1703,9 +1700,7 @@ static goalInputConfig_t const goalInputConfig[nr_goals] =
   , { "00",   goal_castling      }
   , { "~",    goal_any           }
   , { "dia",  goal_proof         }
-#if !defined(DATABASE)
   , { "a=>b", goal_atob          }
-#endif
 };
 
 static char *ParseLength(char *tok,
@@ -1962,10 +1957,9 @@ static char *ParseEnd(char *tok, slice_index *si)
   if (strncmp("ser-dia",tok,7) == 0
       || strncmp("ser-a=>b",tok,8) == 0)
     tok = ParseGoal(tok+4,STLeafDirect,si);
-#if !defined(DATABASE)
+
   else if (strncmp("a=>b", tok, 4) == 0)
     tok = ParseGoal(tok,STLeafHelp,si);
-#endif
 
   else if (strncmp("semi-r", tok, 6) == 0)
   {
@@ -4996,7 +4990,6 @@ static char *ParseTwinning(boolean *stipChanged)
     {
       if (continued)
       {
-#if !defined(DATABASE)
         if (slices[root_slice].type==STBranchHelp
             || slices[root_slice].type==STBranchSeries)
         {
@@ -5007,7 +5000,6 @@ static char *ParseTwinning(boolean *stipChanged)
                   || slices[next].u.leaf.goal==goal_atob))
             ProofRestoreTargetPosition();
         }
-#endif /* DATABASE */
         StdChar('+');
         if (LaTeXout)
           strcat(ActTwinning, "+");

@@ -131,7 +131,6 @@ boolean leaf_h_has_non_starter_solved(slice_index leaf)
 }
 
 
-#if !defined(DATABASE)
 /* Determine and find final moves of a help leaf
  * @param side_at_move side to perform the final move
  * @param leaf slice index
@@ -179,7 +178,6 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
   TraceFunctionResult("%u\n",final_move_found);
   return final_move_found;
 }
-#endif
 
 /* Solve the final move for a countermate
  * @param leaf identifies leaf slice

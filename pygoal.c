@@ -264,8 +264,6 @@ char const *goal_end_marker[nr_goals] =
   , ""
   , ""
   , " dia"
-#if !defined(DATABASE)
   , " a=>b"
-#endif
   , " #="
 };

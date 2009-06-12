@@ -394,7 +394,6 @@ static void linesolution(void)
 
   ply const start_ply = 2;
 
-#if !defined(DATABASE)
   if (isIntelligentModeActive)
   {
     if (SolAlreadyFound())
@@ -415,7 +414,6 @@ static void linesolution(void)
     if (OptFlag[beep])
       BeepOnSolution(maxbeep);
   }
-#endif
       
   TraceFunctionEntry(__func__);
   TraceText("\n");
@@ -890,22 +888,8 @@ static void editcoup(ply ply_id, coup *mov, Goal goal)
       }
       if (WriteSpec(mov->speci, false)
           || (mov->pjzz != pb && mov->pjzz != pn))
-      {
         WritePiece(mov->pjzz);
-      }
-#if defined(DATABASE)
-      if (two_same_pieces) {
-        WriteSquare(mov->cdzz);
-        if (mov->ppri == vide)
-          StdChar('-');
-        else
-          StdString("\\x ");
-      }
-      else {
-        if (mov->ppri != vide)
-          StdString("\\x ");
-      }
-#else
+
       WriteSquare(mov->cdzz);
       if (anyantimars && (mov->ppri == vide || mov->cdzz == mov->cpzz))
       {
@@ -916,7 +900,7 @@ static void editcoup(ply ply_id, coup *mov, Goal goal)
         StdChar('-');
       else
         StdChar('*');
-#endif /* DATABASE */
+
       if (mov->cpzz != mov->cazz && mov->roch_sq == initsquare) {
         if (is_pawn(mov->pjzz) && !CondFlag[takemake]) {
           WriteSquare(mov->cazz);
