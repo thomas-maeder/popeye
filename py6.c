@@ -120,8 +120,6 @@ unsigned long MaxMemory;
 maxmemory_unit_type MaxMemory_unit;
 char MaxMemoryString[37];
 
-sig_atomic_t volatile maxtime_status;
-
 boolean is_rider(piece p)
 {
   switch (p)
@@ -2186,13 +2184,14 @@ static int parseCommandlineOptions(int argc, char *argv[])
     else if (idx+1<argc && strcmp(argv[idx], "-maxtime")==0)
     {
       char *end;
+      maxtime_type value;
       idx++;
-      MaxTime = strtol(argv[idx], &end, 10);
+      value = strtoul(argv[idx], &end, 10);
       if (argv[idx]==end)
-      {
-        /* conversion failure -> assume no max time */
-        MaxTime = UINT_MAX;
-      }
+        ; /* conversion failure -> assume no max time */
+      else
+        setCommandlineMaxtime(value);
+
       idx++;
       continue;
     }
@@ -2493,22 +2492,7 @@ static Token iterate_twins(Token prev_token)
       ++twin_index;
     }
 
-    /* Set maximal solving time if the user asks for it on the
-     * command line or as an option.
-     * If a maximal time is indicated both on the command line and as
-     * an option, use the smaller value.
-     */
-    if (OptFlag[maxtime] || MaxTime<UINT_MAX)
-    {
-      if (MaxTime<maxsolvingtime)
-        maxsolvingtime = MaxTime;
-    }
-    else
-      /* maxsolvingtime should already be ==UINT_MAX, but let's err on
-       * the safe side */
-      maxsolvingtime = UINT_MAX;
-      
-    setMaxtime(&maxsolvingtime);
+    dealWithMaxtime();
 
     TraceValue("%u",twin_index);
     TraceValue("%u\n",shouldDetectStarter);
@@ -2623,7 +2607,6 @@ int main(int argc, char *argv[])
           "Popeye %s-%uBit v%.2f",
           OSTYPE,guessPlatformBitness(),VERSION);
   
-  MaxTime = UINT_MAX;
   MaxPositions = ULONG_MAX;
   MaxMemory = 0;
   MaxMemory_unit = maxmemory_kilo;

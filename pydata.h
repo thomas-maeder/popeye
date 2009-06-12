@@ -90,7 +90,7 @@ extern char MaxMemoryString[37];
 
 
 EXTERN unsigned long  MaxPositions;
-EXTERN unsigned int MaxTime;
+
 EXTERN boolean LaTeXout;
 EXTERN boolean flag_regression;
 
@@ -223,10 +223,6 @@ EXTERN  int             solutions, maxsolutions;
 EXTERN  unsigned long   sol_per_matingpos, maxsol_per_matingpos;
 EXTERN  boolean         FlagMaxSolsReached;
 EXTERN  boolean         FlagShortSolsReached;
-
-/* Stop solving when a given time (in seconds) for solving is reached */
-
-EXTERN  unsigned int maxsolvingtime;
 
 /* beep maxbeep times if a solution is found */
 

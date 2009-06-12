@@ -81,7 +81,7 @@ static void CALLBACK tick(unsigned int timer_id,
  * of seconds. 
  * @param seconds number of seconds after which solving is aborted
  */
-static void setupNewTimer(unsigned int seconds)
+static void setupNewTimer(maxtime_type seconds)
 {
   timer_period_type const
       min_seconds_elapsed = actual_timer_resolutionMS*10/1000;
@@ -124,16 +124,17 @@ void initMaxtime(void)
    * a signal are large enough to hold timer period values.
    */
   assert(sizeof(timer_period_type)<=sizeof(sig_atomic_t));
+  assert(sizeof(maxtime_type)<=sizeof(sig_atomic_t));
 
   calibrate_timer_resolution();
   current_timer = no_timer;
 }
 
-void setMaxtime(unsigned int *seconds)
+void setMaxtime(maxtime_type seconds)
 {
     killPreviousTimer();
 
-    if (*seconds==UINT_MAX)
+    if (seconds==no_time_set)
       maxtime_status = MAXTIME_IDLE;
     else if (actual_timer_resolutionMS==MM_timers_not_available)
     {
@@ -141,5 +142,5 @@ void setMaxtime(unsigned int *seconds)
       maxtime_status = MAXTIME_TIMEOUT;
     }
     else
-      setupNewTimer(*seconds);
+      setupNewTimer(seconds);
 }

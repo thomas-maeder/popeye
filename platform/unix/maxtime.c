@@ -125,14 +125,14 @@ void initMaxtime(void)
   signal(SIGHUP,  &ReDrawBoard);
 }
 
-void setMaxtime(unsigned int *seconds)
+void setMaxtime(maxtime_type seconds)
 {
-  if (*seconds==UINT_MAX)
+  if (seconds==no_time_set)
     maxtime_status = MAXTIME_IDLE;
   else
   {
     maxtime_status = MAXTIME_TIMING;
-    alarm(*seconds);
+    alarm(seconds);
   }
 }
 
@@ -143,15 +143,15 @@ void initMaxtime(void)
   /* no initialization necessary */
 }
 
-void setMaxtime(unsigned int *seconds)
+void setMaxtime(maxtime_type seconds)
 {
-  if (*seconds<UINT_MAX)
+  if (seconds==no_time_set)
+    maxtime_status = MAXTIME_IDLE;
+  else
   {
     VerifieMsg(NoMaxTime);
     maxtime_status = MAXTIME_TIMEOUT;
   }
-  else
-    maxtime_status = MAXTIME_IDLE;
 }
 
 #endif /*SIGNALS*/

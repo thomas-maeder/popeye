@@ -4256,15 +4256,17 @@ static char *ParseOpt(void)
       case maxtime:
       {
         char *end;
+        maxtime_type value;
         tok = ReadNextTokStr();
-        maxsolvingtime = strtoul(tok,&end,10);
-        if (*end!=0 || maxsolvingtime==0)
+        value = strtoul(tok,&end,10);
+        if (*end!=0 || value==0)
         {
-          maxsolvingtime = UINT_MAX;
           OptFlag[maxtime]= false;
           IoErrorMsg(WrongInt, 0);
           return ReadNextTokStr();
         }
+        else
+          setOptionMaxtime(value);
         break;
       }
 

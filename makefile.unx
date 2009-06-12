@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.66 2009/06/12 18:14:58 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.67 2009/06/12 19:52:53 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -262,6 +262,7 @@ PYCFILES =      pydata.c pyboard.c pyposit.c \
 		pymsg.c pylang.c pyhash.c pyproof.c	       \
 		pytable.c \
 		pyoutput.c \
+		platform/maxtime.c \
 		pysignal.c pyint.c \
 		pygoal.c pystip.c pyslice.c \
 		pyquodli.c pyrecipr.c pynot.c pyconst.c \

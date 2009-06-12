@@ -8,13 +8,13 @@ void initMaxtime(void)
   /* no initialization necessary */
 }
 
-void setMaxtime(unsigned int *seconds)
+void setMaxtime(maxtime_type seconds)
 {
-  if (*seconds<UINT_MAX)
+  if (seconds==no_time_set)
+    maxtime_status = MAXTIME_IDLE;
+  else
   {
     VerifieMsg(NoMaxTime);
     maxtime_status = MAXTIME_TIMEOUT;
   }
-  else
-    maxtime_status = MAXTIME_IDLE;
 }

@@ -55,6 +55,7 @@
 #include "pyhash.h"
 #include "pytable.h"
 #include "trace.h"
+#include "platform/maxtime.h"
 
 static void initply(ply parent)
 {
@@ -293,8 +294,9 @@ void InitCond(void) {
 void InitOpt(void) {
   int i;
 
+  resetOptionMaxtime();
+
   max_nr_flights = INT_MAX;
-  maxsolvingtime = UINT_MAX;
   max_nr_refutations = 0;
   MoveNbr = 1;
   RestartNbr = 0;
