@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.67 2009/06/12 19:52:53 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.68 2009/06/13 12:13:16 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -252,7 +252,7 @@ INCLUDES =      pydata.h pybitmsk.h pyboard.h pypiece.h pyposit.h \
 		platform/maxmem.h platform/maxtime.h \
 		platform/pytime.h platform/priority.h \
 		pygoal.h pystip.h pyslice.h \
-		pyquodli.h pyrecipr.h pynot.h pyconst.h \
+		pyquodli.h pyrecipr.h pynot.h \
 		pybrad.h pybradd.h pybrah.h pybraser.h \
 		pyleaf.h pyleafd.h pyleafs.h pyleaff.h pyleafh.h \
 		pymovein.h \
@@ -265,7 +265,7 @@ PYCFILES =      pydata.c pyboard.c pyposit.c \
 		platform/maxtime.c \
 		pysignal.c pyint.c \
 		pygoal.c pystip.c pyslice.c \
-		pyquodli.c pyrecipr.c pynot.c pyconst.c \
+		pyquodli.c pyrecipr.c pynot.c \
 		pybrad.c pybradd.c pybrah.c pybraser.c \
 		pyleaf.c pyleafd.c pyleafs.c pyleaff.c pyleafh.c \
 		pymovein.c \
@@ -431,7 +431,7 @@ purify-py:      DHT/dht$(LIB_SUFFIX) $(OBJECTS)
 # Targets for cleaning up after ourselves
 
 clean:
-		rm -f *$(OBJ_SUFFIX) platform/$(PLATFORM)/*$(OBJ_SUFFIX) core
+		rm -f *$(OBJ_SUFFIX) platform/*$(OBJ_SUFFIX) platform/$(PLATFORM)/*$(OBJ_SUFFIX) core
 		cd DHT; $(MAKE) -f makefile.unx TOOLCHAIN=$(TOOLCHAIN) $@
 
 clobber:	clean

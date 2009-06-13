@@ -14,7 +14,6 @@
 #include "pyrecipr.h"
 #include "pynot.h"
 #include "pymovein.h"
-#include "pyconst.h"
 
 #include <assert.h>
 #include <stdlib.h>

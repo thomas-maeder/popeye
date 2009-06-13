@@ -5,7 +5,6 @@
 #include "pyoutput.h"
 #include "pyleaf.h"
 #include "pyhash.h"
-#include "pyconst.h"
 #include "pymsg.h"
 #include "pyoutput.h"
 

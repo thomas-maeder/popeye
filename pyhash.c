@@ -238,18 +238,20 @@ static unsigned int bit_width(unsigned int value)
   return result;
 }
 
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a direct slice.
+typedef struct
+{
+  unsigned int *nr_bits_left;
+  unsigned int branch_depth;
+} init_slice_properties_state;
+
+/* Initialise a slice_properties element representing direct play
  * @param si root slice of subtree
  * @param length number of attacker's moves of help slice
- * @param nr_bits_left number of bits left over by slices already init
- * @param branch_depth number of branches between root and slice si
- * @note this is an indirectly recursive function
+ * @param state state of slice properties initialisation
  */
-static void init_slice_properties_direct(slice_index si,
-                                         unsigned int length,
-                                         unsigned int *nr_bits_left,
-                                         unsigned int branch_depth)
+static void init_slice_property_direct(slice_index si,
+                                       unsigned int length,
+                                       init_slice_properties_state *state)
 {
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
@@ -257,37 +259,33 @@ static void init_slice_properties_direct(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u\n",*nr_bits_left);
+  TraceFunctionParam("%u\n",*state->nr_bits_left);
 
   slice_properties[si].size = size;
   slice_properties[si].value_size = size;
 
-  assert(*nr_bits_left>=size);
-  *nr_bits_left -= size;
-  slice_properties[si].u.d.offsetNoSucc = *nr_bits_left;
-  slice_properties[si].u.d.maskNoSucc = mask << *nr_bits_left;
+  assert(*state->nr_bits_left>=size);
+  *state->nr_bits_left -= size;
+  slice_properties[si].u.d.offsetNoSucc = *state->nr_bits_left;
+  slice_properties[si].u.d.maskNoSucc = mask << *state->nr_bits_left;
 
-  assert(*nr_bits_left>=size);
-  *nr_bits_left -= size;
-  slice_properties[si].u.d.offsetSucc = *nr_bits_left;
-  slice_properties[si].u.d.maskSucc = mask << *nr_bits_left;
+  assert(*state->nr_bits_left>=size);
+  *state->nr_bits_left -= size;
+  slice_properties[si].u.d.offsetSucc = *state->nr_bits_left;
+  slice_properties[si].u.d.maskSucc = mask << *state->nr_bits_left;
 
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
 
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a help slice.
+/* Initialise a slice_properties element representing help play
  * @param si root slice of subtree
  * @param length number of half moves of help slice
- * @param nr_bits_left number of bits left over by slices already init
- * @param branch_depth number of branches between root and slice si
- * @note this is an indirectly recursive function
+ * @param state state of slice properties initialisation
  */
-static void init_slice_properties_help(slice_index si,
-                                       unsigned int length,
-                                       unsigned int *nr_bits_left,
-                                       unsigned int branch_depth)
+static void init_slice_property_help(slice_index si,
+                                     unsigned int length,
+                                     init_slice_properties_state *state)
 {
   unsigned int const size = bit_width((length+1)/2);
   data_type const mask = (1<<size)-1;
@@ -295,227 +293,516 @@ static void init_slice_properties_help(slice_index si,
   slice_properties[si].size = size;
   slice_properties[si].value_size = size+1;
 
-  assert(*nr_bits_left>=size);
-  *nr_bits_left -= size;
-  slice_properties[si].u.h.offsetNoSuccOdd = *nr_bits_left;
-  slice_properties[si].u.h.maskNoSuccOdd = mask << *nr_bits_left;
+  assert(*state->nr_bits_left>=size);
+  *state->nr_bits_left -= size;
+  slice_properties[si].u.h.offsetNoSuccOdd = *state->nr_bits_left;
+  slice_properties[si].u.h.maskNoSuccOdd = mask << *state->nr_bits_left;
 
-  assert(*nr_bits_left>=size);
-  *nr_bits_left -= size;
-  slice_properties[si].u.h.offsetNoSuccEven = *nr_bits_left;
-  slice_properties[si].u.h.maskNoSuccEven = mask << *nr_bits_left;
+  assert(*state->nr_bits_left>=size);
+  *state->nr_bits_left -= size;
+  slice_properties[si].u.h.offsetNoSuccEven = *state->nr_bits_left;
+  slice_properties[si].u.h.maskNoSuccEven = mask << *state->nr_bits_left;
 }
 
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a series slice.
+/* Initialise a slice_properties element representing series play
  * @param si root slice of subtree
  * @param length number of half moves of series slice
- * @param nr_bits_left number of bits left over by slices already init
- * @param branch_depth number of branches between root and slice si
- * @note this is an indirectly recursive function
+ * @param state state of slice properties initialisation
  */
-static void init_slice_properties_series(slice_index si,
-                                         unsigned int length,
-                                         unsigned int *nr_bits_left,
-                                         unsigned int branch_depth)
+static void init_slice_property_series(slice_index si,
+                                       unsigned int length,
+                                       init_slice_properties_state *state)
 {
   /* we don't save the diagram position in the hash table */
-  unsigned int const size = bit_width(branch_depth==0 ? length-1 : length);
+  unsigned int const size = bit_width(state->branch_depth==0
+                                      ? length-1
+                                      : length);
   data_type const mask = (1<<size)-1;
 
   slice_properties[si].size = size;
   slice_properties[si].value_size = size;
 
-  assert(*nr_bits_left>=size);
-  *nr_bits_left -= size;
-  slice_properties[si].u.s.offsetNoSucc = *nr_bits_left;
-  slice_properties[si].u.s.maskNoSucc = mask << *nr_bits_left;
+  assert(*state->nr_bits_left>=size);
+  *state->nr_bits_left -= size;
+  slice_properties[si].u.s.offsetNoSucc = *state->nr_bits_left;
+  slice_properties[si].u.s.maskNoSucc = mask << *state->nr_bits_left;
 }
 
-static void init_slice_properties_recursive(slice_index si,
-                                            unsigned int *nr_bits_left,
-                                            unsigned int branch_depth);
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a help leaf
+ * @param leaf root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ */
+static void init_slice_properties_leaf_help(slice_index leaf, void *userdata)
+{
+  init_slice_properties_state * const
+      state = (init_slice_properties_state *)userdata;
+  init_slice_property_help(leaf,2,state);
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a direct leaf
+ * @param leaf root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ */
+static void init_slice_properties_leaf_direct(slice_index leaf, void *userdata)
+{
+  init_slice_properties_state * const
+      state = (init_slice_properties_state *)userdata;
+  init_slice_property_direct(leaf,2,state);
+}
+
+/* Declaration of init_slice_properties_recursive().
+ * The subsequent init_slice_properties_*() functions are indirectly
+ * recursive.
+ */
+static
+void init_slice_properties_recursive(slice_index si,
+                                     init_slice_properties_state *state);
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a quodlibet
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_quodlibet(slice_index quodlibet, void *userdata)
+{
+  init_slice_properties_state * const
+      state = (init_slice_properties_state *)userdata;
+  slice_index const op1 = slices[quodlibet].u.quodlibet.op1;
+  slice_index const op2 = slices[quodlibet].u.quodlibet.op2;
+
+  init_slice_properties_recursive(op1,state);
+  init_slice_properties_recursive(op2,state);
+
+  slice_properties[quodlibet].value_size = 0;
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a reciprocal
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_reciprocal(slice_index reciprocal,
+                                             void *userdata)
+{
+  init_slice_properties_state * const
+      state = (init_slice_properties_state *)userdata;
+  slice_index const op1 = slices[reciprocal].u.reciprocal.op1;
+  slice_index const op2 = slices[reciprocal].u.reciprocal.op2;
+
+  init_slice_properties_recursive(op1,state);
+  init_slice_properties_recursive(op2,state);
+
+  /* both operand slices must have the same value_size, or the
+   * shorter one will dominate the longer one */
+  if (slice_properties[op1].value_size>slice_properties[op2].value_size)
+    slice_properties[op2].value_size = slice_properties[op1].value_size;
+  else
+    slice_properties[op1].value_size = slice_properties[op2].value_size;
+
+  slice_properties[reciprocal].value_size = 0;
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a not operator
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_not(slice_index not, void *userdata)
+{
+  init_slice_properties_state * const
+      state = (init_slice_properties_state *)userdata;
+  slice_index const op = slices[not].u.not.op;
+  init_slice_properties_recursive(op,state);
+  slice_properties[not].value_size = 0;
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a move inverter
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_move_inverter(slice_index mi, void *userdata)
+{
+  init_slice_properties_state * const
+      state = (init_slice_properties_state *)userdata;
+  slice_index const next = slices[mi].u.move_inverter.next;
+  init_slice_properties_recursive(next,state);
+  slice_properties[mi].value_size = 0;
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a direct branch
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_branch_direct(slice_index branch,
+                                                void *userdata)
+{
+  slice_index const base = base_slice[branch];
+  if (base==no_slice)
+  {
+    unsigned int const length = slices[branch].u.branch_d.length;
+    slice_index const peer = slices[branch].u.branch_d.peer;
+    init_slice_property_direct(branch,length,userdata);
+    if (slices[branch].u.branch_d.min_length==length
+        && length>slack_length_direct+1)
+      is_there_slice_with_nonstandard_min_length = true;
+    init_slice_properties_recursive(peer,userdata);
+  }
+  else
+  {
+    init_slice_properties_recursive(base,userdata);
+    slice_properties[branch] = slice_properties[base];
+  }
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a direct defender branch
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_branch_direct_defender(slice_index defender,
+                                                         void *userdata)
+{
+  init_slice_properties_state * const
+      state = (init_slice_properties_state *)userdata;
+  slice_index const peer = slices[defender].u.branch_d_defender.peer;
+  slice_index const next = slices[defender].u.branch_d_defender.next;
+  init_slice_properties_recursive(peer,state);
+  ++state->branch_depth;
+  init_slice_properties_recursive(next,state);
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a help branch
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_branch_help(slice_index branch, void *userdata)
+{
+  init_slice_properties_state * const
+      state = (init_slice_properties_state *)userdata;
+  slice_index const base = base_slice[branch];
+  if (base==no_slice)
+  {
+    slice_index const next = slices[branch].u.branch.next;
+    unsigned int const length = slices[branch].u.branch.length;
+    init_slice_property_help(branch,length-slack_length_help,state);
+    if (slices[branch].u.branch.min_length==length
+        && length>slack_length_help+1)
+      is_there_slice_with_nonstandard_min_length = true;
+
+    ++state->branch_depth;
+    init_slice_properties_recursive(next,state);
+  }
+  else
+  {
+    init_slice_properties_recursive(base,state);
+    slice_properties[branch] = slice_properties[base];
+  }
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a series branch
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_branch_series(slice_index branch,
+                                                void *userdata)
+{
+  init_slice_properties_state * const
+      state = (init_slice_properties_state *)userdata;
+  slice_index const next = slices[branch].u.branch.next;
+  unsigned int const length = slices[branch].u.branch.length;
+  init_slice_property_series(branch,length-slack_length_series,state);
+  if (slices[branch].u.branch.min_length==length
+      && length>slack_length_series+1)
+    is_there_slice_with_nonstandard_min_length = true;
+
+  ++state->branch_depth;
+  init_slice_properties_recursive(next,state);
+}
+
+slice_operation const slice_properties_initalisers[nr_slice_types] =
+{
+  &init_slice_properties_branch_direct,          /* STBranchDirect */
+  &init_slice_properties_branch_direct_defender, /* STBranchDirectDefender */
+  &init_slice_properties_branch_help,            /* STBranchHelp */
+  &init_slice_properties_branch_series,          /* STBranchSeries */
+  &init_slice_properties_leaf_direct,            /* STLeafDirect */
+  &init_slice_properties_leaf_help,              /* STLeafHelp */
+  &init_slice_properties_leaf_direct,            /* STLeafSelf */
+  &slice_operation_noop,                         /* STLeafForced */
+  &init_slice_properties_reciprocal,             /* STReciprocal */
+  &init_slice_properties_quodlibet,              /* STQuodlibet */
+  &init_slice_properties_not,                    /* STNot */
+  &init_slice_properties_move_inverter           /* STMoveInverter */
+};
 
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices
  * @param si root slice of subtree
- * @param nr_bits_left number of bits left over by slices already init
- * @param branch_depth number of branches between root and slice si
+ * @param state state of slice properties initialisation
  * @note this is an indirectly recursive function
  */
 static void init_slice_properties_recursive(slice_index si,
-                                            unsigned int *nr_bits_left,
-                                            unsigned int branch_depth)
+                                            init_slice_properties_state *state)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",*nr_bits_left);
+  TraceFunctionParam("%u\n",*state->nr_bits_left);
 
+  /* prevent infinite recursion when initialising stipulations with
+   * slices that mutually reference each other
+   */
   if (slice_properties[si].is_initialised)
     TraceText("already initialised\n");
   else
   {
     slice_properties[si].is_initialised = true;
-
-    TraceValue("%u\n",slices[si].type);
-    switch (slices[si].type)
-    {
-      case STLeafHelp:
-        init_slice_properties_help(si,2,nr_bits_left,branch_depth);
-        break;
-
-      case STLeafDirect:
-      case STLeafSelf:
-        init_slice_properties_direct(si,1,nr_bits_left,branch_depth);
-        break;
-
-      case STLeafForced:
-        /* nothing */
-        break;
-      
-      case STQuodlibet:
-      {
-        slice_index const op1 = slices[si].u.quodlibet.op1;
-        slice_index const op2 = slices[si].u.quodlibet.op2;
-
-        init_slice_properties_recursive(op1,nr_bits_left,branch_depth);
-        init_slice_properties_recursive(op2,nr_bits_left,branch_depth);
-
-        slice_properties[si].value_size = 0;
-      }
-      break;
-
-      case STReciprocal:
-      {
-        slice_index const op1 = slices[si].u.reciprocal.op1;
-        slice_index const op2 = slices[si].u.reciprocal.op2;
-
-        init_slice_properties_recursive(op1,nr_bits_left,branch_depth);
-        init_slice_properties_recursive(op2,nr_bits_left,branch_depth);
-
-        /* both operand slices must have the same value_size, or the
-         * shorter one will dominate the longer one */
-        if (slice_properties[op1].value_size>slice_properties[op2].value_size)
-          slice_properties[op2].value_size = slice_properties[op1].value_size;
-        else
-          slice_properties[op1].value_size = slice_properties[op2].value_size;
-
-        break;
-      }
-
-      case STNot:
-      {
-        slice_index const op = slices[si].u.not.op;
-        init_slice_properties_recursive(op,nr_bits_left,branch_depth);
-        slice_properties[si].value_size = 0;
-        break;
-      }
-
-      case STConstant:
-        slice_properties[si].value_size = 0;
-        break;
-
-      case STBranchDirect:
-      {
-        slice_index const base = base_slice[si];
-        if (base==no_slice)
-        {
-          unsigned int const length = slices[si].u.branch_d.length;
-          slice_index const peer = slices[si].u.branch_d.peer;
-          init_slice_properties_direct(si,length,nr_bits_left,branch_depth);
-          if (slices[si].u.branch_d.min_length==length
-              && length>slack_length_direct+1)
-            is_there_slice_with_nonstandard_min_length = true;
-          /* check for is_initialised above prefents infinite
-           * recursion
-           */
-          init_slice_properties_recursive(peer,nr_bits_left,branch_depth);
-        }
-        else
-        {
-          init_slice_properties_recursive(base,nr_bits_left,branch_depth);
-          slice_properties[si] = slice_properties[base];
-        }
-        break;
-      }
-
-      case STBranchDirectDefender:
-      {
-        slice_index const peer = slices[si].u.branch_d_defender.peer;
-        slice_index const next = slices[si].u.branch_d_defender.next;
-        init_slice_properties_recursive(peer,nr_bits_left,branch_depth);
-        /* check for is_initialised above prevents infinite recursion
-         */
-        init_slice_properties_recursive(next,nr_bits_left,branch_depth+1);
-        break;
-      }
-
-      case STBranchHelp:
-      {
-        slice_index const base = base_slice[si];
-        if (base==no_slice)
-        {
-          slice_index const next = slices[si].u.branch.next;
-          unsigned int const length = slices[si].u.branch.length;
-          init_slice_properties_help(si,
-                                     length-slack_length_help,
-                                     nr_bits_left,
-                                     branch_depth);
-          if (slices[si].u.branch.min_length==length
-              && length>slack_length_help+1)
-            is_there_slice_with_nonstandard_min_length = true;
-
-          init_slice_properties_recursive(next,nr_bits_left,branch_depth+1);
-        }
-        else
-        {
-          init_slice_properties_recursive(base,nr_bits_left,branch_depth);
-          slice_properties[si] = slice_properties[base];
-        }
-        break;
-      }
-
-      case STBranchSeries:
-      {
-        slice_index const next = slices[si].u.branch.next;
-        unsigned int const length = slices[si].u.branch.length;
-        init_slice_properties_series(si,
-                                     length-slack_length_series,
-                                     nr_bits_left,
-                                     branch_depth);
-        if (slices[si].u.branch.min_length==length
-            && length>slack_length_series+1)
-          is_there_slice_with_nonstandard_min_length = true;
-
-        init_slice_properties_recursive(next,nr_bits_left,branch_depth+1);
-        break;
-      }
-
-      case STMoveInverter:
-      {
-        slice_index const next = slices[si].u.move_inverter.next;
-        init_slice_properties_recursive(next,nr_bits_left,branch_depth);
-        break;
-      }
-
-      default:
-        assert(0);
-        break;
-    }
+    dispatch_to_slice(si,&slice_properties_initalisers,state);
   }
 
   TraceFunctionExit(__func__);
   TraceText("\n");
 }
 
+/* Shift right slice properties offset as far as possible
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ */
+static void shift_offset_direct(slice_index si, void *userdata)
+{
+  unsigned int const * const shift = (unsigned int *)userdata;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",*shift);
+
+  slice_properties[si].u.d.offsetNoSucc -= *shift;
+  slice_properties[si].u.d.maskNoSucc >>= *shift;
+
+  slice_properties[si].u.d.offsetSucc -= *shift;
+  slice_properties[si].u.d.maskSucc >>= *shift;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ */
+static void shift_offset_help(slice_index si, void *userdata)
+{
+  unsigned int const * const shift = (unsigned int *)userdata;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",*shift);
+
+  slice_properties[si].u.h.offsetNoSuccOdd -= *shift;
+  slice_properties[si].u.h.maskNoSuccOdd >>= *shift;
+
+  slice_properties[si].u.h.offsetNoSuccEven -= *shift;
+  slice_properties[si].u.h.maskNoSuccEven >>= *shift;
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ */
+static void shift_offset_series(slice_index si, void *userdata)
+{
+  unsigned int const * const shift = (unsigned int *)userdata;
+
+  slice_properties[si].u.s.offsetNoSucc -= *shift;
+  slice_properties[si].u.s.maskNoSucc >>= *shift;
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param leaf root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ */
+static void shift_offset_leaf_help(slice_index leaf, void *userdata)
+{
+  shift_offset_help(leaf,userdata);
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param leaf root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ */
+static void shift_offset_leaf_direct(slice_index leaf, void *userdata)
+{
+  shift_offset_direct(leaf,userdata);
+}
+
+/* Declaration of shift_offset_recursive().
+ * The subsequent shift_offset_*() functions are indirectly recursive.
+ */
+static void shift_offset_recursive(slice_index si, void *userdata);
+
+/* Shift right slice properties offset as far as possible
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void shift_offset_quodlibet(slice_index quodlibet, void *userdata)
+{
+  shift_offset_recursive(slices[quodlibet].u.quodlibet.op1,userdata);
+  shift_offset_recursive(slices[quodlibet].u.quodlibet.op2,userdata);
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void shift_offset_reciprocal(slice_index reciprocal,
+                                             void *userdata)
+{
+  shift_offset_recursive(slices[reciprocal].u.reciprocal.op1,userdata);
+  shift_offset_recursive(slices[reciprocal].u.reciprocal.op2,userdata);
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void shift_offset_not(slice_index not, void *userdata)
+{
+  shift_offset_recursive(slices[not].u.not.op,userdata);
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void shift_offset_move_inverter(slice_index mi, void *userdata)
+{
+  shift_offset_recursive(slices[mi].u.move_inverter.next,userdata);
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void shift_offset_branch_direct(slice_index branch, void *userdata)
+{
+  slice_index const base = base_slice[branch];
+  if (base==no_slice)
+  {
+    shift_offset_direct(branch,userdata);
+    shift_offset_recursive(slices[branch].u.branch_d.peer,userdata);
+  }
+  else
+    shift_offset_recursive(base,userdata);
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void shift_offset_branch_direct_defender(slice_index defender,
+                                                void *userdata)
+{
+  shift_offset_recursive(slices[defender].u.branch_d_defender.peer,userdata);
+  shift_offset_recursive(slices[defender].u.branch_d_defender.next,userdata);
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void shift_offset_branch_help(slice_index branch, void *userdata)
+{
+  slice_index const base = base_slice[branch];
+  if (base==no_slice)
+  {
+    shift_offset_help(branch,userdata);
+    shift_offset_recursive(slices[branch].u.branch.next,userdata);
+  }
+  else
+    shift_offset_recursive(base,userdata);
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param si root slice of subtree
+ * @param userdata address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void shift_offset_branch_series(slice_index branch, void *userdata)
+{
+  shift_offset_series(branch,userdata);
+  shift_offset_recursive(slices[branch].u.branch.next,userdata);
+}
+
+slice_operation const slice_properties_offset_shifters[nr_slice_types] =
+{
+  &shift_offset_branch_direct,          /* STBranchDirect */
+  &shift_offset_branch_direct_defender, /* STBranchDirectDefender */
+  &shift_offset_branch_help,            /* STBranchHelp */
+  &shift_offset_branch_series,          /* STBranchSeries */
+  &shift_offset_leaf_direct,            /* STLeafDirect */
+  &shift_offset_leaf_help,              /* STLeafHelp */
+  &shift_offset_leaf_direct,            /* STLeafSelf */
+  &slice_operation_noop,                /* STLeafForced */
+  &shift_offset_reciprocal,             /* STReciprocal */
+  &shift_offset_quodlibet,              /* STQuodlibet */
+  &shift_offset_not,                    /* STNot */
+  &shift_offset_move_inverter           /* STMoveInverter */
+};
+
+void shift_offset_recursive(slice_index si, void *userdata)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  /* prevent infinite recursion when initialising stipulations with
+   * slices that mutually reference each other
+   */
+  if (slice_properties[si].is_initialised)
+    TraceText("already initialised\n");
+  else
+  {
+    slice_properties[si].is_initialised = true;
+    dispatch_to_slice(si,&slice_properties_offset_shifters,userdata);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+unsigned int nr_bits_left;
+
 /* Initialise the slice_properties array according to the current
  * stipulation slices.
  */
 static void init_slice_properties(void)
 {
-  slice_index const si = root_slice;
-  unsigned int nr_bits_left = sizeof(data_type)*CHAR_BIT;
-  unsigned int const branch_depth = 0;
+  nr_bits_left = sizeof(data_type)*CHAR_BIT;
+  init_slice_properties_state init_state = { &nr_bits_left, 0 };
   unsigned int i;
 
   TraceFunctionEntry(__func__);
@@ -524,7 +811,13 @@ static void init_slice_properties(void)
   for (i = 0; i!=max_nr_slices; ++i)
     slice_properties[i].is_initialised = false;
 
-  init_slice_properties_recursive(si,&nr_bits_left,branch_depth);
+  init_slice_properties_recursive(root_slice,&init_state);
+  TraceValue("%u\n",nr_bits_left);
+
+  for (i = 0; i!=max_nr_slices; ++i)
+    slice_properties[i].is_initialised = false;
+
+  shift_offset_recursive(root_slice,&nr_bits_left);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -1021,7 +1314,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
  */
 static hash_value_type value_of_data(dhtElement const *he)
 {
-  unsigned int const offset = sizeof(data_type)*CHAR_BIT;
+  unsigned int const offset = sizeof(data_type)*CHAR_BIT - nr_bits_left;
   hash_value_type result;
 
   TraceFunctionEntry(__func__);
@@ -1049,7 +1342,6 @@ static void compresshash (void)
   unsigned int val_step = 1;
 
   ++compression_counter;
-  
   he= dhtGetFirstElement(pyhash);
   if (he!=0)
   {
@@ -1062,6 +1354,7 @@ static void compresshash (void)
         min_val = x;
       he= dhtGetNextElement(pyhash);
     }
+
     RemoveCnt= 0;
     ToDelete= dhtKeyCount(pyhash)/16 + 1;
     if (ToDelete >= dhtKeyCount(pyhash))
@@ -1858,10 +2151,6 @@ static void init_element(dhtElement *he,
       init_element(he,next,element_initialised);
       break;
     }
-
-    case STConstant:
-      /* nothing */
-      break;
 
     default:
       assert(0);

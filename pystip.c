@@ -228,10 +228,6 @@ stip_length_type get_max_nr_moves(slice_index si)
     case STNot:
       result = get_max_nr_moves(slices[si].u.not.op);
       break;
-
-    case STConstant:
-      result = 0;
-      break;
   
     case STMoveInverter:
       result = get_max_nr_moves(slices[si].u.move_inverter.next);
@@ -503,9 +499,6 @@ static boolean slice_ends_in(Goal const goals[],
       return slice_ends_in(goals,nrGoals,next);
     }
 
-    case STConstant:
-      return false;
-
     default:
       assert(0);
       exit(1);
@@ -578,10 +571,6 @@ static slice_index find_goal_recursive(Goal goal,
       result = find_goal_recursive(goal,start,active,op);
       break;
     }
-
-    case STConstant:
-      result = no_slice;
-      break;
 
     case STBranchDirect:
     {
@@ -825,6 +814,39 @@ void stip_make_exact(slice_index si)
     default:
       assert(0);
       break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Slice operation doing nothing. Makes it easier to intialise
+ * operations table fro dispatch_to_slice()
+ */
+void slice_operation_noop(slice_index si, void *userdata)
+{
+}
+
+/* Dispatch an operation to a slice based on the slice's type
+ * @param si identifies slice
+ * @param ops address of array mapping slice tpye to operation
+ * @param userdata address of data structure holding additional data
+ *                 for the operation; passed to the selected operation
+ */
+void dispatch_to_slice(slice_index si,
+                       slice_operation const (*ops)[nr_slice_types],
+                       void *userdata)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u\n",si);
+
+  TraceValue("%u\n",slices[si].type);
+  assert(slices[si].type<=nr_slice_types);
+
+  {
+    slice_operation const operation = (*ops)[slices[si].type];
+    assert(operation!=0);
+    (*operation)(si,userdata);
   }
 
   TraceFunctionExit(__func__);

@@ -31,8 +31,6 @@ typedef enum
   STQuodlibet,    /* logical OR */
   STNot,          /* logical NOT */
 
-  STConstant,     /* logical constant */
-  
   STMoveInverter, /* 0 length, inverts side at move */
 
   nr_slice_types,
@@ -163,11 +161,6 @@ typedef struct
         {
             slice_index op;
         } not;
-
-        struct /* for type==STConstant */
-        {
-            boolean value;
-        } constant;
 
         struct /* for type==STMoveInverter */
         {
@@ -306,5 +299,24 @@ slice_index find_unique_goal(void);
  * @param si slice index
  */
 void stip_make_exact(slice_index si);
+
+/* Type of callback for dispatch_to_slice
+ */
+typedef void (*slice_operation)(slice_index si, void *userdata);
+
+/* Slice operation doing nothing. Makes it easier to intialise
+ * operations table fro dispatch_to_slice()
+ */
+void slice_operation_noop(slice_index si, void *userdata);
+
+/* Dispatch an operation to a slice based on the slice's type
+ * @param si identifies slice
+ * @param ops address of table mapping slice tpye to operation
+ * @param userdata address of data structure holding additional data
+ *                 for the operation; passed to the selected operation
+ */
+void dispatch_to_slice(slice_index si,
+                       slice_operation const (*ops)[nr_slice_types],
+                       void *userdata);
 
 #endif
