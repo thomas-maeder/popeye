@@ -116,7 +116,7 @@ typedef enum
   CheckingLevel1         = 75,
   CheckingLevel2         = 76,
   StipNotSupported       = 77,
-  ProofAndFairyPieces    = 78,
+  MultipleGoalsWithProogGameNotAcceptable = 78,
   ToManyEpKeySquares     = 79,
   Abort                  = 80,
   TransmRoyalPieces      = 81,
@@ -157,7 +157,6 @@ typedef enum
   WhiteToPlayNotApplicable = 116,
   SetPlayNotApplicable = 117,
   PostKeyPlayNotApplicable = 118,
-  MultipleGoalsWithProogGameNotAcceptable = 119,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

@@ -494,31 +494,6 @@ void ProofStartReflectboard(void)
     ProofSquares[i] = transformSquare(ProofSquares[i],mirra1a8);
 }
 
-static void saveTargetPiecesAndSquares(void)
-{
-  int i;
-
-  TraceFunctionEntry(__func__);
-  TraceText("\n");
-
-  ProofNbrAllPieces = 0;
-
-  for (i = 0; i<nr_squares_on_board; ++i)
-  {
-    square const square_i = boardnum[i];
-    piece const p = target.board[square_i];
-    if (p!=vide)
-    {
-      ProofPieces[ProofNbrAllPieces] = p;
-      ProofSquares[ProofNbrAllPieces] = square_i;
-      ++ProofNbrAllPieces;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
-}
-
 void ProofSaveTargetPosition(void)
 {
   int i;
@@ -544,8 +519,6 @@ void ProofSaveTargetPosition(void)
   target.inum = inum[1];
   for (i = 0; i<maxinum; ++i)
     target.isquare[i] = isquare[i];
-
-  saveTargetPiecesAndSquares();
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -1958,72 +1931,98 @@ static boolean ProofSeriesImpossible(void)
   return false;
 }
 
-boolean ProofVerifie(void)
+static void saveTargetPiecesAndSquares(void)
 {
-  boolean result = false;
-  
+  int i;
+
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  TraceValue("%u",flagfee);
-  TraceValue("%u\n",PieSpExFlags&(~(BIT(White)+BIT(Black))));
-  if (flagfee || PieSpExFlags&(~(BIT(White)+BIT(Black))))
-    VerifieMsg(ProofAndFairyPieces);
+  ProofNbrAllPieces = 0;
+
+  for (i = 0; i<nr_squares_on_board; ++i)
+  {
+    square const square_i = boardnum[i];
+    piece const p = target.board[square_i];
+    if (p!=vide)
+    {
+      ProofPieces[ProofNbrAllPieces] = p;
+      ProofSquares[ProofNbrAllPieces] = square_i;
+      ++ProofNbrAllPieces;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+void ProofInitialise(void)
+{
+  slice_index leaf_unique_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceText("\n");
+
+  leaf_unique_goal = find_unique_goal();
+  if (leaf_unique_goal==no_slice)
+    VerifieMsg(MultipleGoalsWithProogGameNotAcceptable);
   else
   {
-    slice_index const leaf_unique_goal = find_unique_goal();
-    if (leaf_unique_goal==no_slice)
-      VerifieMsg(MultipleGoalsWithProogGameNotAcceptable);
+    saveTargetPiecesAndSquares();
+
+    goal_to_be_reached = slices[leaf_unique_goal].u.leaf.goal;
+    assert(goal_to_be_reached==goal_proof || goal_to_be_reached==goal_atob);
+
+    /* TODO Masand can't possibly be the only condition that doesn't
+     * allow any optimisation at all.
+     */
+    TraceValue("%u\n",flagfee);
+    if (flagfee
+        || PieSpExFlags&(~(BIT(White)+BIT(Black)))
+        || CondFlag[masand])
+    {
+      TraceText("no optimisation\n");
+      alternateImpossible = &NeverImpossible;
+      seriesImpossible = &NeverImpossible;
+    }
     else
     {
-      goal_to_be_reached = slices[leaf_unique_goal].u.leaf.goal;
-      assert(goal_to_be_reached==goal_proof || goal_to_be_reached==goal_atob);
+      boolean const ProofFairy = (change_moving_piece
+                                  || CondFlag[black_oscillatingKs]
+                                  || CondFlag[white_oscillatingKs]
+                                  || CondFlag[republican]
+                                  || anycirce
+                                  || CondFlag[sentinelles]
+                                  || anyanticirce
+                                  || CondFlag[singlebox]
+                                  || CondFlag[blroyalsq]
+                                  || CondFlag[whroyalsq]
+                                  || TSTFLAG(PieSpExFlags, ColourChange)
+                                  || CondFlag[actrevolving]
+                                  || CondFlag[arc]
+                                  || CondFlag[annan]
+                                  || CondFlag[glasgow]
+                                  || CondFlag[takemake]
+                                  || flagAssassin
+                                  || CondFlag[messigny]
+                                  || CondFlag[mars]
+                                  || CondFlag[castlingchess]);
 
-      ProofFairy= change_moving_piece
-          || CondFlag[black_oscillatingKs]
-          || CondFlag[white_oscillatingKs]
-          || CondFlag[republican]
-          || anycirce
-          || CondFlag[sentinelles]
-          || anyanticirce
-          || CondFlag[singlebox]
-          || CondFlag[blroyalsq]
-          || CondFlag[whroyalsq]
-          || TSTFLAG(PieSpExFlags, ColourChange)
-          || CondFlag[actrevolving]
-          || CondFlag[arc]
-          || CondFlag[annan]
-          || CondFlag[glasgow]
-          || CondFlag[takemake]
-          || flagAssassin
-          || CondFlag[messigny]
-          || CondFlag[mars]
-          || CondFlag[castlingchess];
-
-      /* TODO Masand can't possibly be the only condition that doesn't
-       * allow any optimisation at all.
-       */
-      if (CondFlag[masand])
+      if (ProofFairy)
       {
-        alternateImpossible = &NeverImpossible;
-        seriesImpossible = &NeverImpossible;
-      }
-      else if (ProofFairy)
-      {
+        TraceText("fairy optimisation\n");
         alternateImpossible = &ProofFairyImpossible;
         seriesImpossible = &ProofFairyImpossible;
       }
       else
       {
+        TraceText("full optimisation\n");
         alternateImpossible = &ProofImpossible;
         seriesImpossible = &ProofSeriesImpossible;
       }
-
-      result = true;
     }
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
-  return result;
+  TraceText("\n");
 }

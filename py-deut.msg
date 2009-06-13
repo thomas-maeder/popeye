@@ -107,7 +107,7 @@
 75= Pruefe als
 76= -Zueger.
 77= Forderung wird nicht unterstuetzt.\n
-78= Maerchenfiguren in Beweispartien nicht erlaubt.\n
+78= Mehrere Ziele nicht erlaubt, wenn eines davon dia oder a=>b ist\n
 79= Es koennen maximal zwei Felder fuer ep-Schluessel eingegeben werden.\n
 80= Abbruch durch Signal %d nach %s\n
 81= transmutierende/reflektierende koenigliche Steine nicht erlaubt.\n
@@ -148,4 +148,3 @@
 116= WeissBeginnt nicht anwendbar - ignoriert\n
 117= Satzspiel nicht anwendbar - ignoriert\n
 118= NachSchluessel nicht anwendbar - ignoriert\n
-119= Mehrere Ziele nicht erlaubt, wenn eines davon dia oder a=>b ist\n

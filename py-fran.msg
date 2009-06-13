@@ -76,7 +76,7 @@
 75= Calculation de
 76= -coups.
 77= enonce inconnue.\n
-78= pieces feeriques et plus courte jeux justificative interdit.\n
+78= Multiple buts pas acceptables si l'un d'eux est dia ou a=>b\n
 79= plus de 2 cases pour cle en passant interdit.\n
 80= Termination par signal %d apres %s\n
 81= pieces royales transmutees/reflectees interdites.\n
@@ -117,4 +117,3 @@
 116= ApparentSeul pas applicable - ignore\n
 117= Apparent pas applicable - ignore\n
 118= ApresCle pas applicable - ignore\n
-119= Multiple buts pas acceptables si l'un d'eux est dia ou a=>b\n

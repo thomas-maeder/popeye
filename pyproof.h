@@ -15,9 +15,9 @@
  */
 void ProofEncode(void);
 
-/* Verify the current position as suitable as a starting position
+/* Initialise the proof module for the current target position
  */
-boolean ProofVerifie(void);
+void ProofInitialise(void);
 
 /* Proof game: initialize start position from PAS
  */

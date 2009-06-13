@@ -1767,9 +1767,6 @@ static boolean verify_position(void)
     castling_supported = false;
     jouegenre = true;
   }
-
-  if (stip_ends_in(proof_goals,nr_proof_goals))
-    return ProofVerifie();
     
   return true;
 }
@@ -2385,6 +2382,8 @@ static boolean initialise_verify_twin(void)
       {
         ProofSaveStartPosition();
         ProofRestoreTargetPosition();
+
+        ProofInitialise();
 
         if (!OptFlag[noboard])
           WritePosition();

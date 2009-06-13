@@ -390,8 +390,6 @@ EXTERN  boolean         whitenormaltranspieces,
                         blacknormaltranspieces;
 EXTERN  piece           orphanpieces[derbla + 1];
 
-EXTERN  boolean         ProofFairy;
-
 EXTERN boolean isBoardReflected;
 EXTERN boolean areColorsSwapped;
 

@@ -76,7 +76,7 @@
 75= Checking in
 76= _moves.
 77= Stipulation not supported.\n
-78= Fairy pieces in proof games not allowed.\n
+78= Multiple goals not allowed if one of them is dia or a=>b\n
 79= Not more than 2 squares can be putin for en passant keys.\n
 80= Abort by signal %d after %s\n
 81= Transmuting/reflecting royal pieces not supported.\n
@@ -117,4 +117,3 @@
 116= WhiteToPlay not applicable - ignored\n
 117= SetPlay not applicable - ignored\n
 118= PostKeyPlay not applicable - ignored\n
-119= Multiple goals not allowed if one of them is dia or a=>b\n
