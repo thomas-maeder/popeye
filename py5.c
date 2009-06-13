@@ -1483,16 +1483,11 @@ piece next_singlebox_prom(piece p, Side c)
   for (pprom = getprompiece[p];
        pprom!=vide;
        pprom = getprompiece[pprom])
-    if (abs(pprom)!=pb)
+    if (pprom!=pb
+        && nbpiece[c==White ? pprom : -pprom] < nr_piece(game_array)[pprom])
     {
-      assert(nr_piece(*game_array)[pprom]
-             ==game_array.nr_piece[-dernoi-pprom]);
-      if (nbpiece[c==White ? pprom : -pprom]
-          < nr_piece(game_array)[-pprom])
-      {
-        result = pprom;
-        break;
-      }
+      result = pprom;
+      break;
     }
 
   TraceFunctionExit(__func__);
