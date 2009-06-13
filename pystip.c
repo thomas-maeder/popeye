@@ -765,56 +765,67 @@ slice_index find_unique_goal(void)
           : no_slice);
 }
 
-/* Make the stipulation exact
- * @param si slice index
+/* Make a branch exact
+ * @param branch identifies the branch
+ * @param dummy ignored
  */
-void stip_make_exact(slice_index si)
+static void make_exact_branch_direct(slice_index branch, void *dummy)
+{
+  slices[branch].u.branch.min_length = slices[branch].u.branch_d.length;
+}
+
+/* Make a branch exact
+ * @param branch identifies the branch
+ * @param dummy ignored
+ */
+static void make_exact_branch_direct_defender(slice_index branch, void *dummy)
+{
+  slices[branch].u.branch_d_defender.min_length
+      = slices[branch].u.branch_d_defender.length;
+}
+
+/* Make a branch exact
+ * @param branch identifies the branch
+ * @param dummy ignored
+ */
+static void make_exact_branch_help(slice_index branch, void *dummy)
+{
+  slices[branch].u.branch.min_length = slices[branch].u.branch.length;
+}
+
+/* Make a branch exact
+ * @param branch identifies the branch
+ * @param dummy ignored
+ */
+static void make_exact_branch_series(slice_index branch, void *dummy)
+{
+  slices[branch].u.branch.min_length = slices[branch].u.branch.length;
+}
+
+static slice_operation const exact_makers[] =
+{
+  &make_exact_branch_direct,          /* STBranchDirect */
+  &make_exact_branch_direct_defender, /* STBranchDirectDefender */
+  &make_exact_branch_help,            /* STBranchHelp */
+  &make_exact_branch_series,          /* STBranchSeries */
+  &slice_operation_noop,              /* STLeafDirect */
+  &slice_operation_noop,              /* STLeafHelp */
+  &slice_operation_noop,              /* STLeafSelf */
+  &slice_operation_noop,              /* STLeafForced */
+  &slice_operation_noop,              /* STReciprocal */
+  &slice_operation_noop,              /* STQuodlibet */
+  &slice_operation_noop,              /* STNot */
+  &slice_operation_noop               /* STMoveInverter */
+};
+
+/* Make the stipulation exact
+ */
+void stip_make_exact(void)
 {
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  switch (slices[si].type)
-  {
-    case STQuodlibet:
-      stip_make_exact(slices[si].u.quodlibet.op1);
-      stip_make_exact(slices[si].u.quodlibet.op2);
-      break;
-
-    case STReciprocal:
-      stip_make_exact(slices[si].u.reciprocal.op1);
-      stip_make_exact(slices[si].u.reciprocal.op2);
-      break;
-
-    case STNot:
-      stip_make_exact(slices[si].u.not.op);
-      break;
-
-    case STMoveInverter:
-      stip_make_exact(slices[si].u.move_inverter.next);
-      break;
-
-    case STBranchDirect:
-      slices[si].u.branch.min_length = slices[si].u.branch_d.length;
-      stip_make_exact(slices[si].u.branch_d.peer);
-      break;
-
-    case STBranchDirectDefender:
-      slices[si].u.branch.min_length = slices[si].u.branch_d_defender.length;
-      break;
-
-    case STBranchHelp:
-    case STBranchSeries:
-      slices[si].u.branch.min_length = slices[si].u.branch.length;
-      break;
-
-    case STLeafDirect:
-      /* nothing to do */
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
+  traverse_slices(&exact_makers,0);
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -956,7 +967,7 @@ static void traverse_branch_series(slice_index branch, void *param)
   traverse_recursive(slices[branch].u.branch.next,param);
 }
 
-slice_operation const traversers[] =
+static slice_operation const traversers[] =
 {
   &traverse_branch_direct,          /* STBranchDirect */
   &traverse_branch_direct_defender, /* STBranchDirectDefender */

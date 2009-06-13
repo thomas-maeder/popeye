@@ -2040,7 +2040,7 @@ static char *ParsePlay(char *tok, slice_index *si)
     if (result!=0)
     {
       OptFlag[nothreat] = true;
-      stip_make_exact(*si);
+      stip_make_exact();
     }
   }
 

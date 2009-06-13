@@ -296,9 +296,8 @@ slice_index find_next_goal(Goal goal, slice_index start);
 slice_index find_unique_goal(void);
 
 /* Make the stipulation exact
- * @param si slice index
  */
-void stip_make_exact(slice_index si);
+void stip_make_exact(void);
 
 /* Type of callback for dispatch_to_slice
  */
