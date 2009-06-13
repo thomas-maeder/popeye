@@ -18,13 +18,14 @@
 #endif
 
 
+typedef unsigned long trace_level;
+
+
 #if defined(DOTRACE)
 
 #include <stddef.h>
 
 #include "py.h"
-
-typedef unsigned long trace_level;
 
 /* Set the maximal level of trace messages to be produced.
 * @param max_level maximal level of trace messages to be produced;
