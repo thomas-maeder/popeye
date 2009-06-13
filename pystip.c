@@ -830,15 +830,13 @@ void slice_operation_noop(slice_index si, void *userdata)
 /* Dispatch an operation to a slice based on the slice's type
  * @param si identifies slice
  * @param ops address of array mapping slice tpye to operation
- * @param userdata address of data structure holding additional data
- *                 for the operation; passed to the selected operation
+ * @param param address of data structure holding parameters for the operation
  */
-void dispatch_to_slice(slice_index si,
-                       slice_operation const (*ops)[nr_slice_types],
-                       void *userdata)
+void dispatch_to_slice(slice_index si, operation_mapping ops, void *param)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p\n",param);
 
   TraceValue("%u\n",slices[si].type);
   assert(slices[si].type<=nr_slice_types);
@@ -846,8 +844,173 @@ void dispatch_to_slice(slice_index si,
   {
     slice_operation const operation = (*ops)[slices[si].type];
     assert(operation!=0);
-    (*operation)(si,userdata);
+    (*operation)(si,param);
   }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+typedef struct
+{
+    boolean visited[max_nr_slices];
+    slice_operation const (*ops)[nr_slice_types];
+    void *op_param;
+} traversal_params;
+
+/* Declaration of traverse_recursive().
+ * Used by the subsequent traverse_*() functions, which are indirectly
+ * recursive.
+ */
+static void traverse_recursive(slice_index si, traversal_params *data);
+
+/* Traverse a subtree
+ * @param quodlibet root slice of subtree
+ * @param param address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void traverse_quodlibet(slice_index quodlibet, void *param)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",quodlibet);
+  TraceFunctionParam("%p\n",param);
+
+  TraceValue("%p\n",((traversal_params *)param)->op_param);
+
+  traverse_recursive(slices[quodlibet].u.quodlibet.op1,param);
+  traverse_recursive(slices[quodlibet].u.quodlibet.op2,param);
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* Traverse a subtree
+ * @param reciprocal root slice of subtree
+ * @param param address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void traverse_reciprocal(slice_index reciprocal, void *param)
+{
+  traverse_recursive(slices[reciprocal].u.reciprocal.op1,param);
+  traverse_recursive(slices[reciprocal].u.reciprocal.op2,param);
+}
+
+/* Traverse a subtree
+ * @param not root slice of subtree
+ * @param param address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void traverse_not(slice_index not, void *param)
+{
+  traverse_recursive(slices[not].u.not.op,param);
+}
+
+/* Traverse a subtree
+ * @param mi root slice of subtree
+ * @param param address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void traverse_move_inverter(slice_index mi, void *param)
+{
+  traverse_recursive(slices[mi].u.move_inverter.next,param);
+}
+
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param param address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void traverse_branch_direct(slice_index branch, void *param)
+{
+  traverse_recursive(slices[branch].u.branch_d.peer,param);
+}
+
+/* Traverse a subtree
+ * @param defender root slice of subtree
+ * @param param address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void traverse_branch_direct_defender(slice_index defender, void *param)
+{
+  traverse_recursive(slices[defender].u.branch_d_defender.peer,param);
+  traverse_recursive(slices[defender].u.branch_d_defender.next,param);
+}
+
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param param address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void traverse_branch_help(slice_index branch, void *param)
+{
+  traverse_recursive(slices[branch].u.branch.next,param);
+}
+
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param param address of state of slice properties initialisation
+ * @note this is an indirectly recursive function
+ */
+static void traverse_branch_series(slice_index branch, void *param)
+{
+  traverse_recursive(slices[branch].u.branch.next,param);
+}
+
+slice_operation const traversers[] =
+{
+  &traverse_branch_direct,          /* STBranchDirect */
+  &traverse_branch_direct_defender, /* STBranchDirectDefender */
+  &traverse_branch_help,            /* STBranchHelp */
+  &traverse_branch_series,          /* STBranchSeries */
+  &slice_operation_noop,            /* STLeafDirect */
+  &slice_operation_noop,            /* STLeafHelp */
+  &slice_operation_noop,            /* STLeafSelf */
+  &slice_operation_noop,            /* STLeafForced */
+  &traverse_reciprocal,             /* STReciprocal */
+  &traverse_quodlibet,              /* STQuodlibet */
+  &traverse_not,                    /* STNot */
+  &traverse_move_inverter           /* STMoveInverter */
+};
+
+/* (Approximately) depth-first traversl of the stipulation subtree
+ * @param root root of subtree
+ * @param ops mapping from slice types to operations
+ * @param param address of data structure holding additional data
+ *              for the operation; passed to the selected operation
+ */
+static void traverse_recursive(slice_index root, traversal_params *param)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p\n",param);
+
+  if (!param->visited[root])
+  {
+    param->visited[root] = true;
+    dispatch_to_slice(root,&traversers,param);
+    dispatch_to_slice(root,param->ops,param->op_param);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceText("\n");
+}
+
+/* (Approximately) depth-first traversl of the stipulation
+ * @param ops mapping from slice types to operations
+ * @param param address of data structure holding parameters for the operation
+ */
+void traverse_slices(slice_operation const (*ops)[nr_slice_types], void *param)
+{
+  /* C89 doesn't allow initialising struct members with local
+   * variables (C99 does)
+   */
+  traversal_params traversal_param = { {false}, 0, 0 };
+  traversal_param.ops = ops;
+  traversal_param.op_param = param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p\n",param);
+
+  traverse_recursive(root_slice,&traversal_param);
 
   TraceFunctionExit(__func__);
   TraceText("\n");

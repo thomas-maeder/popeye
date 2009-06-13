@@ -302,21 +302,28 @@ void stip_make_exact(slice_index si);
 
 /* Type of callback for dispatch_to_slice
  */
-typedef void (*slice_operation)(slice_index si, void *userdata);
+typedef void (*slice_operation)(slice_index si, void *param);
+
+/* Mapping of slice types to operations.
+ */
+typedef slice_operation const (*operation_mapping)[nr_slice_types];
 
 /* Slice operation doing nothing. Makes it easier to intialise
  * operations table fro dispatch_to_slice()
  */
-void slice_operation_noop(slice_index si, void *userdata);
+void slice_operation_noop(slice_index si, void *param);
 
 /* Dispatch an operation to a slice based on the slice's type
  * @param si identifies slice
- * @param ops address of table mapping slice tpye to operation
- * @param userdata address of data structure holding additional data
- *                 for the operation; passed to the selected operation
+ * @param ops mapping from slice types to operations
+ * @param param address of data structure holding parameters for the operation
  */
-void dispatch_to_slice(slice_index si,
-                       slice_operation const (*ops)[nr_slice_types],
-                       void *userdata);
+void dispatch_to_slice(slice_index si, operation_mapping ops, void *param);
+
+/* (Approximately) depth-first traversl of the stipulation
+ * @param ops mapping from slice types to operations
+ * @param param address of data structure holding parameters for the operation
+ */
+void traverse_slices(operation_mapping ops, void *param);
 
 #endif
