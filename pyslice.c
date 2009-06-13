@@ -522,10 +522,6 @@ boolean slice_has_solution(slice_index si)
     case STBranchSeries:
       /* TODO */
       break;
-
-    case STConstant:
-      result = constant_has_solution(si);
-      break;
       
     default:
       assert(0);
@@ -1127,10 +1123,6 @@ Side slice_get_starter(slice_index si)
 
     case STNot:
       result = slice_get_starter(slices[si].u.not.op);
-      break;
-
-    case STConstant:
-      /* nothing */
       break;
 
     case STMoveInverter:
