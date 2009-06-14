@@ -79,7 +79,7 @@ void quodlibet_write_unsolvability(slice_index si)
   slice_write_unsolvability(op2);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Determine and write continuations of a quodlibet slice
@@ -99,7 +99,7 @@ void quodlibet_solve_continuations(table continuations, slice_index si)
   slice_solve_continuations(continuations,op2);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Spin off a set play slice at root level
@@ -154,7 +154,7 @@ void quodlibet_root_solve_in_n(slice_index si, stip_length_type n)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Solve a quodlibet slice at root level

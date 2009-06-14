@@ -362,7 +362,7 @@ void branch_d_solve_continuations_in_n(table continuations,
   finply();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Determine and write the continuations in the current position
@@ -382,7 +382,7 @@ void branch_d_solve_continuations(table continuations, slice_index si)
                                     slices[si].u.branch_d.length);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Write the key just played
@@ -399,7 +399,7 @@ void branch_d_root_write_key(slice_index si, attack_type type)
   write_attack(type);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Solve at non-root level.

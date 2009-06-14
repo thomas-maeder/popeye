@@ -121,7 +121,7 @@ void not_solve_continuations(table continuations, slice_index si)
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Determine whether the starting side has made such a bad move that
@@ -243,7 +243,7 @@ void not_impose_starter(slice_index si, Side s)
   slice_impose_starter(slices[si].u.not.op,s);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Spin off a set play slice at root level

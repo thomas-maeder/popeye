@@ -325,7 +325,7 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Transform a stipulation tree to "traditional quodlibet form",
@@ -342,7 +342,7 @@ void transform_to_quodlibet(void)
   assert(start==root_slice);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Does a leaf have one of a set of goals?
@@ -854,7 +854,7 @@ void stip_make_exact(void)
   traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Slice operation doing nothing. Makes it easier to intialise
@@ -889,7 +889,7 @@ static void dispatch_to_slice(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Initialise a slice_traversal structure
@@ -928,7 +928,7 @@ void traverse_slices(slice_index root, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Traverse a subtree
@@ -946,7 +946,7 @@ static void traverse_quodlibet(slice_index quodlibet, slice_traversal *st)
   traverse_slices(slices[quodlibet].u.quodlibet.op2,st);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Traverse a subtree

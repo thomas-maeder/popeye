@@ -212,5 +212,5 @@ void move_inverter_impose_starter(slice_index si, Side side)
   slice_impose_starter(slices[si].u.move_inverter.next,advers(side));
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }

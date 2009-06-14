@@ -599,7 +599,7 @@ void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
   empile_for_goal_of_leaf_slice = no_slice;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 } /* generate_move_reaching_goal */
 
 

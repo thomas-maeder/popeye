@@ -2653,7 +2653,7 @@ static void init_moves_left_non_root(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Calculate the number of moves of each side, starting at the root
@@ -2716,7 +2716,7 @@ static void init_moves_left_root(slice_index si, stip_length_type n)
   TraceValue("%u\n",MovesLeft[Black]);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 boolean Intelligent(slice_index si, stip_length_type n)

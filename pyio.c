@@ -1933,7 +1933,8 @@ static char *ParseReciEnd(char *tok, slice_index *si)
     *si = alloc_reciprocal_slice(op1,op2);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2008,7 +2009,8 @@ static char *ParseEnd(char *tok, slice_index *si)
     }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2347,8 +2349,8 @@ static char *ParsePlay(char *tok, slice_index *si)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
-
+  TraceFunctionResult("%s",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

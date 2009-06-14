@@ -382,7 +382,7 @@ void ProofInitialiseIntelligent(void)
   ProofInitialiseKingMoves(target.rb, target.rn);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 void ProofInitialiseStartPosition(void)
@@ -393,7 +393,7 @@ void ProofInitialiseStartPosition(void)
   start = game_array;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 void ProofSaveStartPosition(void)
@@ -423,7 +423,7 @@ void ProofSaveStartPosition(void)
     start.isquare[i] = isquare[i];
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 void ProofRestoreStartPosition(void)
@@ -448,7 +448,7 @@ void ProofRestoreStartPosition(void)
     isquare[i] = start.isquare[i];
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* a=>b: swap pieces' colors in the starting position
@@ -521,7 +521,7 @@ void ProofSaveTargetPosition(void)
     target.isquare[i] = isquare[i];
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 void ProofRestoreTargetPosition(void)
@@ -548,7 +548,7 @@ void ProofRestoreTargetPosition(void)
     isquare[i] = target.isquare[i];
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 void ProofWriteStartPosition(void)
@@ -1961,7 +1961,7 @@ static void saveTargetPiecesAndSquares(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 void ProofInitialise(void)
@@ -2032,5 +2032,5 @@ void ProofInitialise(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }

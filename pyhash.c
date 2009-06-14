@@ -129,7 +129,7 @@ void validateHashBuffer(void)
   isHashBufferValid[nbply] = true;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 void invalidateHashBuffer(void)
@@ -140,7 +140,7 @@ void invalidateHashBuffer(void)
   isHashBufferValid[nbply] = false;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 #if defined(TESTHASH)
@@ -486,7 +486,7 @@ static void shift_offset_direct(slice_index si, slice_traversal *st)
   slice_properties[si].u.d.maskSucc >>= *shift;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Shift right slice properties offset as far as possible
@@ -510,7 +510,7 @@ static void shift_offset_help(slice_index si, slice_traversal *st)
   slice_properties[si].u.h.maskNoSuccEven >>= *shift;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Shift right slice properties offset as far as possible
@@ -585,7 +585,7 @@ static void init_slice_properties(void)
   traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 
@@ -618,7 +618,7 @@ static void set_value_direct_nosucc(dhtElement *he,
   e->data |= bits;
   TraceValue("post:%08x\n",e->data);
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void set_value_direct_succ(dhtElement *he,
@@ -644,7 +644,7 @@ static void set_value_direct_succ(dhtElement *he,
   e->data |= bits;
   TraceValue("post:%08x\n",e->data);
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void set_value_help_odd(dhtElement *he,
@@ -669,7 +669,7 @@ static void set_value_help_odd(dhtElement *he,
   e->data |= bits;
   TraceValue("post:%08x\n",e->data);
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void set_value_help_even(dhtElement *he,
@@ -694,7 +694,7 @@ static void set_value_help_even(dhtElement *he,
   e->data |= bits;
   TraceValue("post:%08x\n",e->data);
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void set_value_series(dhtElement *he,
@@ -719,7 +719,7 @@ static void set_value_series(dhtElement *he,
   e->data |= bits;
   TraceValue("post:%08x\n",e->data);
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static hash_value_type get_value_direct_succ(dhtElement const *he,
@@ -1817,7 +1817,7 @@ static void init_element_direct(dhtElement *he,
   set_value_direct_succ(he,si,length);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Initialise the bits representing a help slice in a hash table
@@ -1836,7 +1836,7 @@ static void init_element_help(dhtElement *he, slice_index si)
   set_value_help_odd(he,si,0);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Initialise the bits representing a series slice in a hash table
@@ -1854,7 +1854,7 @@ static void init_element_series(dhtElement *he, slice_index si)
   set_value_series(he,si,0);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Initialise the bits representing a slice (including its possible
@@ -1947,7 +1947,7 @@ static void init_element(dhtElement *he,
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Initialise the bits representing all slices in a hash table
@@ -2087,7 +2087,7 @@ void addtohash(slice_index si, hashwhat what, hash_value_type val)
   }
   
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 
 #if defined(HASHRATE)
   if (dhtKeyCount(pyhash)%1000 == 0)
@@ -2194,7 +2194,7 @@ void inithash(void)
 #endif /*FXF*/
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 } /* inithash */
 
 void    closehash(void)

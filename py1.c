@@ -140,7 +140,7 @@ void capture_ply(captured_ply_type *snapshot, ply ply)
   snapshot->castling_flag = castling_flag[ply];
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Compare the current state of a ply (i.e. the current move played in
@@ -1600,7 +1600,7 @@ void ChangeMagic(int ply, boolean push)
   }               
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 #ifdef DEBUG

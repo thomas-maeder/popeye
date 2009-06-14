@@ -395,7 +395,7 @@ void leaf_forced_solve_postkey(slice_index leaf)
   output_end_postkey_level();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Solve at non-root level

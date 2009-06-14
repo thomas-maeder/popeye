@@ -700,7 +700,7 @@ void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Determine and write solution(s): add first moves to table (as
@@ -735,7 +735,7 @@ void branch_h_solve_continuations_in_n_recursive(table continuations,
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Determine and write solution(s): add first moves to table (as
@@ -766,7 +766,7 @@ static void branch_h_solve_continuations_in_n(table continuations,
     branch_h_solve_continuations_in_n_recursive(continuations,si,n,starter);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Find and write post key play
@@ -810,7 +810,7 @@ void branch_h_solve_continuations(table continuations, slice_index si)
     branch_h_solve_continuations_in_n(continuations,si,full_length);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Write the key just played
@@ -827,7 +827,7 @@ void branch_h_root_write_key(slice_index si, attack_type type)
   write_attack(type);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static boolean branch_h_has_solution_in_n_recursive(slice_index si,
@@ -1163,5 +1163,5 @@ void branch_h_impose_starter(slice_index si, Side s)
   slice_impose_starter(slices[si].u.branch.next,next_starter);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }

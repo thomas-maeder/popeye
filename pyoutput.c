@@ -130,7 +130,7 @@ void init_output(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 typedef enum
@@ -156,7 +156,7 @@ void output_start_unsolvability_level(void)
     output_attack_types[nbply+1] = unsolvability_attack;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* End the inner-most output level (which consists of post-key only play)
@@ -167,7 +167,7 @@ void output_end_unsolvability_level(void)
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 
@@ -191,7 +191,7 @@ void output_start_move_inverted_level(void)
   TraceValue("%u\n",nbply+1);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* End the inner-most output level (which consists of set play)
@@ -211,7 +211,7 @@ void output_end_move_inverted_level(void)
 
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 
@@ -229,7 +229,7 @@ void output_start_postkey_level(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* End the inner-most output level (which consists of post-key play)
@@ -246,7 +246,7 @@ void output_end_postkey_level(void)
     write_end_of_solution();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 
@@ -274,7 +274,7 @@ void output_start_threat_level(void)
   TraceValue("%u\n",output_attack_types[nbply+1]);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* End the inner-most output level (which consists of threats)
@@ -303,7 +303,7 @@ void output_end_threat_level(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 
@@ -331,7 +331,7 @@ void output_start_continuation_level(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* End the inner-most output level (which consists of regular
@@ -357,7 +357,7 @@ void output_end_continuation_level(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 
@@ -372,7 +372,7 @@ void output_start_leaf_variation_level(void)
     Message(NewLine);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* End the inner-most output level (which consists of leaf variations)
@@ -383,7 +383,7 @@ void output_end_leaf_variation_level(void)
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void linesolution(void)
@@ -486,7 +486,7 @@ static void linesolution(void)
   Message(NewLine);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Write an attacking move along with indentation, move number and
@@ -546,7 +546,7 @@ static void write_numbered_indented_attack(ply current_ply,
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Write a defense, corrently numbered and indented.
@@ -599,7 +599,7 @@ static void catchup_with_defense(ply current_ply)
     write_numbered_indented_defense(current_ply,no_goal);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Write the attack played in a specific ply, and moves preceding it,
@@ -637,7 +637,7 @@ static void catchup_with_attack(ply current_ply)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Write a move of the attacking side in direct play
@@ -678,7 +678,7 @@ void write_attack(attack_type type)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Write a move of the attacking side in direct play
@@ -728,7 +728,7 @@ void write_final_attack(Goal goal, attack_type type)
     linesolution();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Write a defender's move that does not reach a goal
@@ -752,7 +752,7 @@ void write_defense(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Write a defender's final move
@@ -802,7 +802,7 @@ void write_final_defense(Goal goal)
     linesolution();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Write the final move in a help leaf
@@ -822,7 +822,7 @@ void write_final_help_move(Goal goal)
     linesolution();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Mark the defense about to be written as refutation
@@ -853,7 +853,7 @@ void write_end_of_solution_phase(void)
   Message(NewLine);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void editcoup(ply ply_id, coup *mov, Goal goal)
@@ -1186,5 +1186,5 @@ void write_refutations(table refutations)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }

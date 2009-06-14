@@ -187,7 +187,7 @@ void slice_solve_continuations(table continuations, slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Spin off a set play slice at root level
@@ -301,7 +301,7 @@ void slice_root_write_key(slice_index si, attack_type type)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Solve a slice
@@ -483,7 +483,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Determine whether a slice has a solution
@@ -596,7 +596,7 @@ void slice_solve_postkey(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Determine whether a slice.has just been solved with the just played
@@ -949,7 +949,7 @@ void slice_write_unsolvability(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Detect starter field with the starting side if possible. 
@@ -1081,7 +1081,7 @@ void slice_impose_starter(slice_index si, Side side)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Retrieve the starting side of a slice
@@ -1196,5 +1196,5 @@ void slice_write_non_starter_has_solved(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }

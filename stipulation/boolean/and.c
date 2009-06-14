@@ -236,7 +236,7 @@ void reci_write_unsolvability(slice_index si)
   slice_write_unsolvability(slices[si].u.reciprocal.op2);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Find and write post key play
@@ -268,7 +268,7 @@ void reci_solve_continuations(table continuations, slice_index si)
   slice_solve_continuations(continuations,slices[si].u.reciprocal.op2);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Spin off a set play slice at root level

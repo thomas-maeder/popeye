@@ -292,7 +292,7 @@ static void initPieces(void)
     exist[reversepb] = true;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void countPieces(void)
@@ -324,7 +324,7 @@ static void countPieces(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static boolean locateRoyal(void)
@@ -1935,7 +1935,7 @@ static void swapcolors(void)
   areColorsSwapped = !areColorsSwapped;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void reflectboard(void)
@@ -1964,7 +1964,7 @@ static void reflectboard(void)
   isBoardReflected = !isBoardReflected;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* assert()s below this line must remain active even in "productive"
@@ -2299,7 +2299,7 @@ static void init_duplex(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* restore from preparations for solving duplex */
@@ -2321,7 +2321,7 @@ static void fini_duplex(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static boolean root_slice_apply_setplay(void)

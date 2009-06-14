@@ -936,7 +936,7 @@ void gen_bl_ply(void)
     empile(nullsquare, nullsquare, nullsquare);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 } /* gen_bl_ply */
 
 void gen_bl_piece_aux(square z, piece p) {
@@ -1280,7 +1280,7 @@ void genmove(Side camp)
   finish_move_generation_optimizer();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 } /* genmove(camp) */
 
 static void joueparrain(ply ply_id)
@@ -1494,7 +1494,7 @@ piece next_singlebox_prom(piece p, Side c)
 
   TraceFunctionExit(__func__);
   TracePiece(p);
-  TraceText("\n");
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1753,7 +1753,7 @@ static void remember_ghost(square sq_arrival)
   TraceValue("->%u\n",nr_ghosts);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void preempt_ghost(square sq_arrival)
@@ -1769,7 +1769,7 @@ static void preempt_ghost(square sq_arrival)
     ghosts[ghost_pos].hidden = true;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void unpreempt_ghost(square sq_arrival)
@@ -1785,7 +1785,7 @@ static void unpreempt_ghost(square sq_arrival)
     ghosts[ghost_pos].hidden = false;
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void forget_ghost_at_pos(ghost_index_type ghost_pos)
@@ -1806,7 +1806,7 @@ static void forget_ghost_at_pos(ghost_index_type ghost_pos)
           (nr_ghosts-ghost_pos) * sizeof ghosts[0]);
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void forget_ghost(square sq_arrival)
@@ -1818,7 +1818,7 @@ static void forget_ghost(square sq_arrival)
   forget_ghost_at_pos(find_ghost(sq_arrival));
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void summon_ghost(square sq_departure)
@@ -1848,7 +1848,7 @@ static void summon_ghost(square sq_departure)
   }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 static void ban_ghost(square sq_departure)
@@ -1862,7 +1862,7 @@ static void ban_ghost(square sq_departure)
   --nbpiece[e[sq_departure]];
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 boolean jouecoup(ply ply_id, joue_type jt)

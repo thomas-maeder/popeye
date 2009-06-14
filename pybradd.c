@@ -1016,7 +1016,7 @@ static void root_solve_variations_in_n(int len_threat,
   finply();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Solve postkey play at root level.
@@ -1064,7 +1064,7 @@ void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
   output_end_postkey_level();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Solve at root level.

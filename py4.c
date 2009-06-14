@@ -3114,7 +3114,7 @@ void gen_wh_ply(void)
     }
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 void gen_wh_piece_aux(square z, piece p) {

@@ -610,7 +610,7 @@ void leaf_d_solve_continuations(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceText("\n");
+  TraceFunctionResultEnd();
 }
 
 /* Detect starter field with the starting side if possible. 
