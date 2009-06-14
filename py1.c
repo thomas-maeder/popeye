@@ -655,7 +655,7 @@ static boolean noleapcontact(square sq_arrival, numvec kanf, numvec kend)
   numvec k;
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
   for (k= kanf; k <= kend; k++)
   {
     piece const p = e[sq_arrival+vec[k]];
@@ -739,7 +739,7 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceSquare(sq_capture);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   nextply(nbply);
 

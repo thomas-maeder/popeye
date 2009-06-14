@@ -282,7 +282,7 @@ void ProofInitialiseIntelligent(void)
   int i;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   ProofNbrWhitePieces = 0;
   ProofNbrBlackPieces = 0;
@@ -388,7 +388,7 @@ void ProofInitialiseIntelligent(void)
 void ProofInitialiseStartPosition(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   start = game_array;
 
@@ -401,7 +401,7 @@ void ProofSaveStartPosition(void)
   int i;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   start.rn = rn;
   start.rb = rb;
@@ -431,7 +431,7 @@ void ProofRestoreStartPosition(void)
   int i;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   rn = start.rn;
   rb = start.rb;
@@ -499,7 +499,7 @@ void ProofSaveTargetPosition(void)
   int i;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   target.rb = rb;
   target.rn = rn;
@@ -529,7 +529,7 @@ void ProofRestoreTargetPosition(void)
   int i;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   rn = target.rn;
   rb = target.rb;
@@ -574,7 +574,7 @@ static boolean compareProofPieces(void)
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",ProofNbrAllPieces);
 
@@ -602,7 +602,7 @@ static boolean compareProofNbrPiece(void)
   int i;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   for (i = roib; i <= fb; ++i)
     if (nr_piece(target)[i]!=nbpiece[i]
@@ -622,7 +622,7 @@ static boolean compareImitators(void)
   boolean result = true;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (CondFlag[imitators])
   {
@@ -648,7 +648,7 @@ boolean ProofIdentical(void)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   result = compareProofPieces() && compareProofNbrPiece() && compareImitators();
 
@@ -682,7 +682,7 @@ static int ProofBlKingMovesNeeded(void)
   int   needed;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (rn==initsquare)
     /* no king in play, or king can be created by promotion
@@ -731,7 +731,7 @@ static int ProofWhKingMovesNeeded(void)
   int   cast;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   TraceSquare(rb);
   TraceText("\n");
@@ -1937,7 +1937,7 @@ static void saveTargetPiecesAndSquares(void)
   int i;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   ProofNbrAllPieces = 0;
 
@@ -1962,7 +1962,7 @@ void ProofInitialise(void)
   slice_index leaf_unique_goal;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   leaf_unique_goal = find_unique_goal();
   if (leaf_unique_goal==no_slice)

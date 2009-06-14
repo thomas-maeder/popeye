@@ -122,7 +122,7 @@ boolean isHashBufferValid[maxply+1];
 void validateHashBuffer(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   TraceCurrentHashBuffer();
 
@@ -572,7 +572,7 @@ static void init_slice_properties(void)
   unsigned int nr_bits_left = sizeof(data_type)*CHAR_BIT;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   slice_traversal_init(&st,&slice_properties_initalisers,&nr_bits_left);
   traverse_slices(root_slice,&st);
@@ -2090,7 +2090,7 @@ void inithash(void)
   int i, j;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   ifTESTHASH(
       sprintf(GlobalStr, "calling inithash\n");

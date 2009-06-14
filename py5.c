@@ -918,7 +918,7 @@ void gen_bl_ply(void)
   piece p;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   /* Don't try to "optimize" by hand. The double-loop is tested as the  */
   /* fastest way to compute (due to compiler-optimizations !) */
@@ -1536,7 +1536,7 @@ static boolean singlebox_officer_out_of_box(void)
   piece p;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   for (p = roib; p<=fb; ++p)
     if (nbpiece[p]>nr_piece(game_array)[p]
@@ -1557,7 +1557,7 @@ static boolean singlebox_pawn_out_of_box(void)
                           || nbpiece[pn]>nr_piece(game_array)[pn]);
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -1570,7 +1570,7 @@ static boolean singlebox_illegal_latent_white_pawn(void)
   square const next_latent_white = next_latent_pawn(initsquare,White);
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (next_latent_white!=initsquare)
   {
@@ -1595,7 +1595,7 @@ static boolean singlebox_illegal_latent_black_pawn(void)
   square const next_latent_black = next_latent_pawn(initsquare,Black);
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (next_latent_black!=initsquare)
   {
@@ -1649,7 +1649,7 @@ static boolean singlebox_illegal(void)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   switch (SingleBoxType)
   {
@@ -1715,7 +1715,7 @@ static ghost_index_type find_ghost(square sq_arrival)
   ghost_index_type result = ghost_not_found;
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   while (current>0)
   {
@@ -1736,7 +1736,7 @@ static void remember_ghost(square sq_arrival)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   assert(nr_ghosts<ghost_capacity);
   ghosts[nr_ghosts].ghost_square = sq_arrival;
@@ -1756,7 +1756,7 @@ static void preempt_ghost(square sq_arrival)
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",ghost_pos);
   if (ghost_pos!=ghost_not_found)
@@ -1772,7 +1772,7 @@ static void unpreempt_ghost(square sq_arrival)
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",ghost_pos);
   if (ghost_pos!=ghost_not_found)
@@ -1807,7 +1807,7 @@ static void forget_ghost(square sq_arrival)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   forget_ghost_at_pos(find_ghost(sq_arrival));
 
@@ -1820,7 +1820,7 @@ static void summon_ghost(square sq_departure)
   ghost_index_type const ghost_pos = find_ghost(sq_departure);
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",ghost_pos);
 
@@ -1849,7 +1849,7 @@ static void ban_ghost(square sq_departure)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   CLRFLAG(spec[sq_departure],Uncapturable);
   remember_ghost(sq_departure);

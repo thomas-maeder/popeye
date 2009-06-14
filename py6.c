@@ -252,7 +252,7 @@ static void initPieces(void)
   piece p;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   for (p = roib; p<=fb; p++)
     exist[p] = true;
@@ -301,7 +301,7 @@ static void countPieces(void)
   piece p;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   for (p = roib; p<=derbla; p++)
   {
@@ -1921,7 +1921,7 @@ static void swapcolors(void)
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp; bnp++)
     if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide)
@@ -1943,7 +1943,7 @@ static void reflectboard(void)
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp < (square_a1+square_h8)/2; bnp++)
   {
@@ -2076,7 +2076,7 @@ static boolean shorten_root_branch_h_slice(void)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (slices[root_slice].u.branch.length%2==1)
   {
@@ -2104,7 +2104,7 @@ static boolean root_slice_apply_whitetoplay(void)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[root_slice].type);
   switch (slices[root_slice].type)
@@ -2272,7 +2272,7 @@ static void initMaxMemoryString(void)
 static void init_duplex(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",isIntelligentModeActive);
   if (isIntelligentModeActive)
@@ -2303,7 +2303,7 @@ static void init_duplex(void)
 static void fini_duplex(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (isIntelligentModeActive)
   {
@@ -2327,7 +2327,7 @@ static boolean root_slice_apply_setplay(void)
   slice_index setplay;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   setplay = slice_root_make_setplay_slice(root_slice);
   if (setplay==no_slice)
@@ -2351,7 +2351,7 @@ static boolean root_slice_apply_postkeyplay(void)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (slices[root_slice].type==STBranchDirect)
   {

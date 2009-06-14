@@ -2979,7 +2979,7 @@ boolean eval_disp(square sq_departure, square sq_arrival, square sq_capture)
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceSquare(sq_capture);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   /* the following does not suffice if we have neutral kings,
      but we have no chance to recover the information who is to

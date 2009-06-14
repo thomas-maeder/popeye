@@ -45,7 +45,7 @@ slice_index alloc_target_leaf_slice(SliceType type, square s)
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   assert(type==STLeafDirect
          || type==STLeafHelp
@@ -331,7 +331,7 @@ void transform_to_quodlibet(void)
   slice_index start = root_slice;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   transform_to_quodlibet_recursive(&start);
   assert(start==root_slice);
@@ -840,7 +840,7 @@ void stip_make_exact(void)
   slice_traversal st;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   slice_traversal_init(&st,&exact_makers,0);
   traverse_slices(root_slice,&st);

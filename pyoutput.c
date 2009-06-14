@@ -116,7 +116,7 @@ static output_mode detect_output_mode(slice_index si)
 void init_output(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   current_mode = detect_output_mode(si);
   assert(current_mode!=output_mode_none);
@@ -149,7 +149,7 @@ static unsigned int nr_defenses_written[maxply];
 void output_start_unsolvability_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
     output_attack_types[nbply+1] = unsolvability_attack;
@@ -163,7 +163,7 @@ void output_start_unsolvability_level(void)
 void output_end_unsolvability_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -175,7 +175,7 @@ void output_end_unsolvability_level(void)
 void output_start_move_inverted_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
@@ -198,7 +198,7 @@ void output_start_move_inverted_level(void)
 void output_end_move_inverted_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
@@ -219,7 +219,7 @@ void output_end_move_inverted_level(void)
 void output_start_postkey_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
@@ -236,7 +236,7 @@ void output_start_postkey_level(void)
 void output_end_postkey_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree
       && move_depth>1
@@ -254,7 +254,7 @@ void output_end_postkey_level(void)
 void output_start_threat_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
@@ -281,7 +281,7 @@ void output_start_threat_level(void)
 void output_end_threat_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
@@ -311,7 +311,7 @@ void output_end_threat_level(void)
 void output_start_continuation_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
@@ -339,7 +339,7 @@ void output_start_continuation_level(void)
 void output_end_continuation_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
@@ -365,7 +365,7 @@ void output_end_continuation_level(void)
 void output_start_leaf_variation_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
     Message(NewLine);
@@ -379,7 +379,7 @@ void output_start_leaf_variation_level(void)
 void output_end_leaf_variation_level(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
   TraceText("\n");
@@ -417,7 +417,7 @@ static void linesolution(void)
   }
       
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   slice = active_slice[start_ply];
   starting_side = slice_get_starter(root_slice);
@@ -735,7 +735,7 @@ void write_final_attack(Goal goal, attack_type type)
 void write_defense(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
@@ -847,7 +847,7 @@ void write_end_of_solution(void)
 void write_end_of_solution_phase(void)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   Message(NewLine);
 
@@ -1170,7 +1170,7 @@ static void write_refutation(coup *c)
 void write_refutations(table refutations)
 {
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (nr_defenses_written[move_depth]==0
       && nr_continuations_written[move_depth+1]==0)

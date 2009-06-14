@@ -3096,7 +3096,7 @@ void gen_wh_ply(void)
   piece p;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   /* Don't try to "optimize" by hand. The double-loop is tested as
      the fastest way to compute (due to compiler-optimizations !)

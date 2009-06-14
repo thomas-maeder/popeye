@@ -39,7 +39,7 @@ boolean move_inverter_must_starter_resign(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   result = slice_must_starter_resign(slices[si].u.move_inverter.next);
 
@@ -60,7 +60,7 @@ boolean move_inverter_must_starter_resign_hashed(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   result = slice_must_starter_resign_hashed(slices[si].u.move_inverter.next);
 

@@ -2753,7 +2753,7 @@ boolean isGoalReachable(void)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   if (goal_to_be_reached==goal_atob
       || goal_to_be_reached==goal_proof)
@@ -2844,7 +2844,7 @@ support_for_intelligent_mode stip_supports_intelligent(void)
   support_for_intelligent_mode result;
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceFunctionParamListEnd();
 
   result = stip_supports_intelligent_rec(root_slice);
 
