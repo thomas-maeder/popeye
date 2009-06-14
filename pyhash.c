@@ -249,13 +249,6 @@ static void init_slice_property_direct(slice_index si,
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%p\n",nr_bits_left);
-
-  TraceValue("%u\n",*nr_bits_left);
-
   slice_properties[si].size = size;
   slice_properties[si].value_size = size;
 
@@ -268,9 +261,6 @@ static void init_slice_property_direct(slice_index si,
   *nr_bits_left -= size;
   slice_properties[si].u.d.offsetSucc = *nr_bits_left;
   slice_properties[si].u.d.maskSucc = mask << *nr_bits_left;
-
-  TraceFunctionExit(__func__);
-  TraceText("\n");
 }
 
 /* Initialise a slice_properties element representing help play
@@ -323,31 +313,33 @@ static void init_slice_property_series(slice_index si,
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a help leaf
  * @param leaf root slice of subtree
- * @param userdata address of state of slice properties initialisation
+ * @param st address of structure defining traversal
  */
-static void init_slice_properties_leaf_help(slice_index leaf, void *userdata)
+static void init_slice_properties_leaf_help(slice_index leaf,
+                                            slice_traversal *st)
 {
-  init_slice_property_help(leaf,2,userdata);
+  init_slice_property_help(leaf,2,st->param);
 }
 
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a direct leaf
  * @param leaf root slice of subtree
- * @param userdata address of state of slice properties initialisation
+ * @param st address of structure defining traversal
  */
-static void init_slice_properties_leaf_direct(slice_index leaf, void *userdata)
+static void init_slice_properties_leaf_direct(slice_index leaf,
+                                              slice_traversal *st)
 {
-  init_slice_property_direct(leaf,2,userdata);
+  init_slice_property_direct(leaf,2,st->param);
 }
 
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a reciprocal
  * @param si root slice of subtree
- * @param userdata address of state of slice properties initialisation
+ * @param st address of structure defining traversal
  * @note this is an indirectly recursive function
  */
 static void init_slice_properties_reciprocal(slice_index reciprocal,
-                                             void *userdata)
+                                             slice_traversal *st)
 {
   slice_index const op1 = slices[reciprocal].u.reciprocal.op1;
   slice_index const op2 = slices[reciprocal].u.reciprocal.op2;
@@ -360,78 +352,86 @@ static void init_slice_properties_reciprocal(slice_index reciprocal,
     slice_properties[op1].value_size = slice_properties[op2].value_size;
 
   slice_properties[reciprocal].value_size = 0;
+
+  slice_traverse_children(reciprocal,st);
 }
 
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a direct branch
  * @param si root slice of subtree
- * @param userdata address of state of slice properties initialisation
+ * @param st address of structure defining traversal
  * @note this is an indirectly recursive function
  */
 static void init_slice_properties_branch_direct(slice_index branch,
-                                                void *userdata)
+                                                slice_traversal *st)
 {
   slice_index const base = base_slice[branch];
   if (base==no_slice)
   {
     unsigned int const length = slices[branch].u.branch_d.length;
-    init_slice_property_direct(branch,length,userdata);
+    init_slice_property_direct(branch,length,st->param);
     if (slices[branch].u.branch_d.min_length==length
         && length>slack_length_direct+1)
       is_there_slice_with_nonstandard_min_length = true;
   }
+
+  slice_traverse_children(branch,st);
 }
 
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a help branch
  * @param si root slice of subtree
- * @param userdata address of state of slice properties initialisation
+ * @param st address of structure defining traversal
  * @note this is an indirectly recursive function
  */
 static void init_slice_properties_branch_help(slice_index branch,
-                                              void *userdata)
+                                              slice_traversal *st)
 {
   slice_index const base = base_slice[branch];
   if (base==no_slice)
   {
     unsigned int const length = slices[branch].u.branch.length;
-    init_slice_property_help(branch,length-slack_length_help,userdata);
+    init_slice_property_help(branch,length-slack_length_help,st->param);
     if (slices[branch].u.branch.min_length==length
         && length>slack_length_help+1)
       is_there_slice_with_nonstandard_min_length = true;
   }
+
+  slice_traverse_children(branch,st);
 }
 
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a series branch
  * @param si root slice of subtree
- * @param userdata address of state of slice properties initialisation
+ * @param st address of structure defining traversal
  * @note this is an indirectly recursive function
  */
 static void init_slice_properties_branch_series(slice_index branch,
-                                                void *userdata)
+                                                slice_traversal *st)
 {
   unsigned int const length = slices[branch].u.branch.length;
-  init_slice_property_series(branch,length-slack_length_series,userdata);
+  init_slice_property_series(branch,length-slack_length_series,st->param);
   if (slices[branch].u.branch.min_length==length
       && length>slack_length_series+1)
     is_there_slice_with_nonstandard_min_length = true;
+
+  slice_traverse_children(branch,st);
 }
 
 slice_operation const slice_properties_initalisers[] =
 {
   &init_slice_properties_branch_direct, /* STBranchDirect */
-  &slice_operation_noop,                /* STBranchDirectDefender */
+  &slice_traverse_children,             /* STBranchDirectDefender */
   &init_slice_properties_branch_help,   /* STBranchHelp */
   &init_slice_properties_branch_series, /* STBranchSeries */
   &init_slice_properties_leaf_direct,   /* STLeafDirect */
   &init_slice_properties_leaf_help,     /* STLeafHelp */
   &init_slice_properties_leaf_direct,   /* STLeafSelf */
-  &slice_operation_noop,                /* STLeafForced */
+  &slice_traverse_children,             /* STLeafForced */
   &init_slice_properties_reciprocal,    /* STReciprocal */
-  &slice_operation_noop,                /* STQuodlibet */
-  &slice_operation_noop,                /* STNot */
-  &slice_operation_noop                 /* STMoveInverter */
+  &slice_traverse_children,             /* STQuodlibet */
+  &slice_traverse_children,             /* STNot */
+  &slice_traverse_children              /* STMoveInverter */
 };
 
 /* Callback for traverse_slices() that copies slice_properties from
@@ -439,36 +439,39 @@ slice_operation const slice_properties_initalisers[] =
  * @param si identifies potentially derived slice
  * @param dummy - necessary to conform to callback interface
  */
-static void inherit_slice_properties_from_base(slice_index si, void *dummy)
+static void inherit_slice_properties_from_base(slice_index si,
+                                               slice_traversal *st)
 {
   slice_index const base = base_slice[si];
   if (base!=no_slice)
     slice_properties[si] = slice_properties[base];
+
+  slice_traverse_children(si,st);
 }
 
 slice_operation const slice_properties_inheriters[] =
 {
   &inherit_slice_properties_from_base,  /* STBranchDirect */
-  &slice_operation_noop,                /* STBranchDirectDefender */
+  &slice_traverse_children,             /* STBranchDirectDefender */
   &inherit_slice_properties_from_base,  /* STBranchHelp */
-  &slice_operation_noop,                /* STBranchSeries */
-  &slice_operation_noop,                /* STLeafDirect */
-  &slice_operation_noop,                /* STLeafHelp */
-  &slice_operation_noop,                /* STLeafSelf */
-  &slice_operation_noop,                /* STLeafForced */
-  &slice_operation_noop,                /* STReciprocal */
-  &slice_operation_noop,                /* STQuodlibet */
-  &slice_operation_noop,                /* STNot */
-  &slice_operation_noop                 /* STMoveInverter */
+  &slice_traverse_children,             /* STBranchSeries */
+  &slice_traverse_children,             /* STLeafDirect */
+  &slice_traverse_children,             /* STLeafHelp */
+  &slice_traverse_children,             /* STLeafSelf */
+  &slice_traverse_children,             /* STLeafForced */
+  &slice_traverse_children,             /* STReciprocal */
+  &slice_traverse_children,             /* STQuodlibet */
+  &slice_traverse_children,             /* STNot */
+  &slice_traverse_children              /* STMoveInverter */
 };
 
 /* Shift right slice properties offset as far as possible
  * @param si root slice of subtree
- * @param userdata address of state of slice properties initialisation
+ * @param st address of structure defining traversal
  */
-static void shift_offset_direct(slice_index si, void *userdata)
+static void shift_offset_direct(slice_index si, slice_traversal *st)
 {
-  unsigned int const * const shift = (unsigned int *)userdata;
+  unsigned int const * const shift = (unsigned int *)st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -487,11 +490,11 @@ static void shift_offset_direct(slice_index si, void *userdata)
 
 /* Shift right slice properties offset as far as possible
  * @param si root slice of subtree
- * @param userdata address of state of slice properties initialisation
+ * @param st address of structure defining traversal
  */
-static void shift_offset_help(slice_index si, void *userdata)
+static void shift_offset_help(slice_index si, slice_traversal *st)
 {
-  unsigned int const * const shift = (unsigned int *)userdata;
+  unsigned int const * const shift = (unsigned int *)st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u\n",si);
@@ -509,31 +512,53 @@ static void shift_offset_help(slice_index si, void *userdata)
 }
 
 /* Shift right slice properties offset as far as possible
- * @param si root slice of subtree
- * @param userdata address of state of slice properties initialisation
+ * @param branch identifies branch
+ * @param st address of structure defining traversal
  */
-static void shift_offset_series(slice_index si, void *userdata)
+static void shift_offset_branch_direct(slice_index branch, slice_traversal *st)
 {
-  unsigned int const * const shift = (unsigned int *)userdata;
+  shift_offset_direct(branch,st);
+  slice_traverse_children(branch,st);
+}
 
-  slice_properties[si].u.s.offsetNoSucc -= *shift;
-  slice_properties[si].u.s.maskNoSucc >>= *shift;
+/* Shift right slice properties offset as far as possible
+ * @param branch identifies branch
+ * @param st address of structure defining traversal
+ */
+static void shift_offset_branch_help(slice_index branch, slice_traversal *st)
+{
+  shift_offset_help(branch,st);
+  slice_traverse_children(branch,st);
+}
+
+/* Shift right slice properties offset as far as possible
+ * @param branch identifies branch
+ * @param st address of structure defining traversal
+ */
+static void shift_offset_series(slice_index branch, slice_traversal *st)
+{
+  unsigned int const * const shift = (unsigned int *)st->param;
+
+  slice_properties[branch].u.s.offsetNoSucc -= *shift;
+  slice_properties[branch].u.s.maskNoSucc >>= *shift;
+
+  slice_traverse_children(branch,st);
 }
 
 slice_operation const slice_properties_offset_shifters[] =
 {
-  &shift_offset_direct,  /* STBranchDirect */
-  &slice_operation_noop, /* STBranchDirectDefender */
-  &shift_offset_help,    /* STBranchHelp */
-  &shift_offset_series,  /* STBranchSeries */
-  &shift_offset_direct,  /* STLeafDirect */
-  &shift_offset_help,    /* STLeafHelp */
-  &shift_offset_direct,  /* STLeafSelf */
-  &slice_operation_noop, /* STLeafForced */
-  &slice_operation_noop, /* STReciprocal */
-  &slice_operation_noop, /* STQuodlibet */
-  &slice_operation_noop, /* STNot */
-  &slice_operation_noop  /* STMoveInverter */
+  &shift_offset_branch_direct,  /* STBranchDirect */
+  &slice_traverse_children,     /* STBranchDirectDefender */
+  &shift_offset_branch_help,    /* STBranchHelp */
+  &shift_offset_series,         /* STBranchSeries */
+  &shift_offset_direct,         /* STLeafDirect */
+  &shift_offset_help,           /* STLeafHelp */
+  &shift_offset_direct,         /* STLeafSelf */
+  &slice_traverse_children,     /* STLeafForced */
+  &slice_traverse_children,     /* STReciprocal */
+  &slice_traverse_children,     /* STQuodlibet */
+  &slice_traverse_children,     /* STNot */
+  &slice_traverse_children      /* STMoveInverter */
 };
 
 /* Initialise the slice_properties array according to the current
@@ -541,16 +566,21 @@ slice_operation const slice_properties_offset_shifters[] =
  */
 static void init_slice_properties(void)
 {
+  slice_traversal st;
   unsigned int nr_bits_left = sizeof(data_type)*CHAR_BIT;
 
   TraceFunctionEntry(__func__);
   TraceText("\n");
 
-  traverse_slices(&slice_properties_initalisers,&nr_bits_left);
-  traverse_slices(&slice_properties_inheriters,0);
+  slice_traversal_init(&st,&slice_properties_initalisers,&nr_bits_left);
+  traverse_slices(root_slice,&st);
+
+  slice_traversal_init(&st,&slice_properties_inheriters,0);
+  traverse_slices(root_slice,&st);
   
   TraceValue("%u\n",nr_bits_left);
-  traverse_slices(&slice_properties_offset_shifters,&nr_bits_left);
+  slice_traversal_init(&st,&slice_properties_offset_shifters,&nr_bits_left);
+  traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);
   TraceText("\n");

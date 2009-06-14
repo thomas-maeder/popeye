@@ -299,30 +299,50 @@ slice_index find_unique_goal(void);
  */
 void stip_make_exact(void);
 
-/* Type of callback for dispatch_to_slice
+
+struct slice_traversal;
+
+/* Type of callback for stipulation traversals
  */
-typedef void (*slice_operation)(slice_index si, void *param);
+typedef void (*slice_operation)(slice_index si, struct slice_traversal *st);
 
 /* Mapping of slice types to operations.
  */
 typedef slice_operation const (*operation_mapping)[nr_slice_types];
 
+typedef struct slice_traversal
+{
+    boolean visited[max_nr_slices];
+    operation_mapping ops;
+    void *param;
+} slice_traversal;
+
+/* Initialise a slice_traversal structure
+ * @param st to be initialised
+ * @param ops operations to be invoked on slices
+ * @param param parameter to be passed t operations
+ */
+void slice_traversal_init(slice_traversal *st,
+                          operation_mapping ops,
+                          void *param);
+
 /* Slice operation doing nothing. Makes it easier to intialise
- * operations table fro dispatch_to_slice()
+ * operations table
+ * @param si identifies slice on which to invoke noop
+ * @param st address of structure defining traversal
  */
-void slice_operation_noop(slice_index si, void *param);
+void slice_operation_noop(slice_index si, slice_traversal *st);
 
-/* Dispatch an operation to a slice based on the slice's type
- * @param si identifies slice
- * @param ops mapping from slice types to operations
- * @param param address of data structure holding parameters for the operation
+/* (Approximately) depth-first traversal of the children of a slice
+ * @param si slice whose children to traverse
+ * @param st address of structure defining traversal
  */
-void dispatch_to_slice(slice_index si, operation_mapping ops, void *param);
+void slice_traverse_children(slice_index si, slice_traversal *st);
 
-/* (Approximately) depth-first traversl of the stipulation
- * @param ops mapping from slice types to operations
- * @param param address of data structure holding parameters for the operation
+/* (Approximately) depth-first traversl of a stipulation sub-tree
+ * @param root root of the sub-tree to traverse
+ * @param st address of structure defining traversal
  */
-void traverse_slices(operation_mapping ops, void *param);
+void traverse_slices(slice_index root, slice_traversal *st);
 
 #endif
