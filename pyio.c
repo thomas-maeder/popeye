@@ -46,6 +46,8 @@
  **
  ** 2008/02/19 SE   New condition: AntiKoeko  
  **
+ ** 2009/06/14 SE   New optiion: LastCapture
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -1386,7 +1388,7 @@ static char *ParseSquareList(
           rn= initsquare;
       }
       /* echo the piece if desired -- twinning */
-      if (echo) {
+      if (echo == '+') {
         if (LaTeXout) {
           sprintf(GlobalStr,
                   "%s\\%c%s %c%c",
@@ -1410,14 +1412,21 @@ static char *ParseSquareList(
       if (TSTFLAG(Spec, Neutral)) {
         Spec |= BIT(Black) + BIT(White);
       }
-      spec[Square] = Spec;
-      e[Square] = TSTFLAG(Spec,White) ? Name : -Name;
+      if (echo != 1) {
+        spec[Square] = Spec;
+        e[Square] = TSTFLAG(Spec,White) ? Name : -Name;
+      } 
+      else {
+        pprise[1] = TSTFLAG(Spec,White) ? Name : -Name;
+        pprispec[1] = Spec;
+        move_generation_stack[1].capture = Square;
+      }
       tok+= 2;
       SquareCnt++;
       continue;
     }
     if (SquareCnt) {
-      if (*tok) {
+      if (*tok || (echo == 1 && SquareCnt != 1)) {
         ErrorMsg(WrongSquareList);
       }
       return ReadNextTokStr();
@@ -4429,11 +4438,16 @@ static char *ParseOpt(void)
         ReadSquares(ReadNoCastlingSquares);
         break;
 
+      case lastcapture:
+        tok = ParsePieSpec(1);
+        break;
+
       default:
         /* no extra action required */
         break;
     }
-    tok = ReadNextTokStr();
+    if (indexx != lastcapture)
+      tok = ReadNextTokStr();
   }
 
   if (OptCnt==0)

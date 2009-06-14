@@ -1,0 +1,24 @@
+beg
+auth Stephen Emmerson
+orig Unpublished
+stip #1
+fors 32/6p1/1p6/5Q2/K1k5/
+cond parr
+opt lastcap wh bg4
+
+next
+
+stip #1
+fors 32/6p1/1p6/5Q2/K1k5/
+cond parr
+opt lastcap wh rg4 noboard
+
+next
+
+stip #1
+fors 32/6p1/1p6/5Q2/K1k5/
+cond parr
+opt lastcap wh sg4 noboard
+rem TO DO twin opt lastcap re4
+
+end

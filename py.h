@@ -61,6 +61,8 @@
 ** 2009/04/25 SE   New condition: Provacateurs
 **                 New piece type: Patrol pieces
 **
+** 2009/06/14 SE   New optiion: LastCapture
+**
 **************************** End of List ******************************/
 
 #if !defined(PY_H)
@@ -581,8 +583,9 @@ typedef enum
   beep,            /* 29 */
   suppressgrid,    /* 30 */
   writegrid,       /* 31 */
+  lastcapture,     /* 32 */
 
-  OptCount        /* 32 */
+  OptCount        /* 33 */       
 } Opt;
 
 /* Names for conditions */

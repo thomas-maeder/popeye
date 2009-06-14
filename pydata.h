@@ -61,6 +61,8 @@
 ** 2009/04/25 SE   New condition: Provacateurs
 **                 New piece type: Patrol pieces
 **
+** 2009/06/14 SE   New optiion: LastCapture
+**
 **************************** End of List ******************************/
 
 #if !defined(PYDATA_H)
@@ -930,7 +932,8 @@ EXTERN boolean          flag_libre_on_generate;
 	/*28*/  "FinApresSolutionsCourtes",
 	/*29*/  "Bip",
 	/*30*/  "SansGrille",
-	/*31*/  "AjouteGrille"
+	/*31*/  "AjouteGrille",
+	/*32*/  "DernierePrise"
 	},{
 	/* Deutsch German Allemand */
 	/* 0*/  "Widerlegung",
@@ -964,7 +967,8 @@ EXTERN boolean          flag_libre_on_generate;
 	/*28*/  "StopNachKurzloesungen",
 	/*29*/  "Pieps",
 	/*30*/  "OhneGitter",
-	/*31*/  "ZeichneGitter"
+	/*31*/  "ZeichneGitter",
+	/*32*/  "LetztSchlag"
 	},{
 	/* English Anglais Englisch */
 	/* 0*/  "Defence",
@@ -998,7 +1002,8 @@ EXTERN boolean          flag_libre_on_generate;
 	/*28*/  "StopOnShortSolutions",
 	/*29*/  "Beep",
 	/*30*/  "SuppressGrid",
-	/*31*/  "WriteGrid"
+	/*31*/  "WriteGrid",
+	/*32*/  "LastCapture"
 	}
 };
 #endif
