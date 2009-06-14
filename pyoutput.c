@@ -5,6 +5,9 @@
 #include "pyslice.h"
 #include "py1.h"
 #include "trace.h"
+#ifdef _SE_
+#include "se.h"
+#endif 
 
 #include <assert.h>
 #include <stdlib.h>
@@ -201,7 +204,11 @@ void output_end_move_inverted_level(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (current_mode==output_mode_tree)
+#ifdef _SE_DECORATE_SOLUTION_
+  se_end_set_play();   
+#endif
+
+    if (current_mode==output_mode_tree)
   {
     --move_depth;
     TraceValue("%u\n",move_depth);
@@ -210,6 +217,20 @@ void output_end_move_inverted_level(void)
   --nr_color_inversions_in_ply[nbply+1];
 
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void output_end_half_duplex(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+#ifdef _SE_DECORATE_SOLUTION_
+  se_end_half_duplex();  
+#endif
+
+  Message(NewLine);
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -448,6 +469,10 @@ static void linesolution(void)
       break;
   }
 
+#ifdef _SE_DECORATE_SOLUTION_
+  se_start_pos();
+#endif
+
   TraceValue("%u\n",nbply);
   for (current_ply = start_ply; current_ply<=nbply; ++current_ply)
   {
@@ -482,6 +507,13 @@ static void linesolution(void)
     jouecoup_no_test(current_ply);
     ecritcoup(current_ply,end_marker);
   }
+
+#ifdef _SE_DECORATE_SOLUTION_
+  se_end_pos();
+#endif
+#ifdef _SE_FORSYTH_
+  se_forsyth();
+#endif
 
   Message(NewLine);
 
@@ -860,6 +892,9 @@ static void editcoup(ply ply_id, coup *mov, Goal goal)
 {
   char    BlackChar= *GetMsgString(BlackColor);
   char    WhiteChar= *GetMsgString(WhiteColor);
+#ifdef _SE_DECORATE_SOLUTION_
+  se_move(mov);
+#endif
 
   if (mov->cazz==nullsquare) return;
 

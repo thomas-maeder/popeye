@@ -26,6 +26,9 @@ void output_start_move_inverted_level(void);
  */
 void output_end_move_inverted_level(void);
 
+/* End half duplex
+ */
+void output_end_half_duplex(void);
 
 /* Start a new output level consisting of post-key play
  */

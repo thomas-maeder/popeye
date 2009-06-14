@@ -113,6 +113,9 @@
 #include "pyslice.h"
 #include "pyoutput.h"
 #include "trace.h"
+#ifdef _SE_
+#include "se.h"
+#endif 
 
 boolean supergenre;
 
@@ -592,6 +595,9 @@ static boolean verify_position(void)
   flag_magic = TSTFLAG(PieSpExFlags, Magic);
   flag_outputmultiplecolourchanges = flag_magic || CondFlag[masand];
 
+#ifdef _SE_DECORATE_SOLUTION_
+  se_init();
+#endif
   flagleofamilyonly = CondFlag[leofamily] ? true : false;
   for (p = fb + 1; p <= derbla; p++)
   {
@@ -2017,7 +2023,7 @@ static void solveHalfADuplex(void)
 
   closehash();
 
-  Message(NewLine);
+  output_end_half_duplex();
 }
 
 typedef enum

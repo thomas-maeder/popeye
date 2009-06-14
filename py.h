@@ -71,6 +71,13 @@
 #include "boolean.h"
 #include "pyposit.h"
 
+#ifdef _SE_DECORATE_SOLUTION_
+#define _SE_
+#endif
+#ifdef _SE_FORSYTH_
+#define _SE_
+#endif
+
 /*   Sometimes local variables are used, that can potentially be
      used without any proper initial value. At least the compiler
      cannot assure a proper initialisation.
