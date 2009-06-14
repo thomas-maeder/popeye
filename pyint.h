@@ -9,7 +9,9 @@
 #if !defined(PYINT_H)
 #define PYINT_H
 
-extern int WhMovesLeft, BlMovesLeft;
+#include "pyposit.h"
+
+extern int MovesLeft[nr_sides];
 
 extern boolean isIntelligentModeActive;
 

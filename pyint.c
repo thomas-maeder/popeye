@@ -38,6 +38,7 @@ typedef struct {
     square  sq;
     Flags   sp;
     piece   p;
+    boolean used;
 } PIECE;
 
 typedef struct {
@@ -50,25 +51,27 @@ boolean isIntelligentModeActive;
 
 static Goal goal_to_be_reached;
 
-int MaxPieceAll, MaxPieceWhite, MaxPieceBlack;
-int WhMovesLeft, BlMovesLeft;
+static int MaxPieceAll;
+static int MaxPiece[nr_sides];
+int MovesLeft[nr_sides];
 
-long MatesMax;
+static long MatesMax;
 
-PIECE white[nr_squares_on_board], black[nr_squares_on_board], final[nr_squares_on_board];
-boolean whiteused[nr_squares_on_board], blackused[nr_squares_on_board], is_cast_supp;
-square is_ep, is_ep2;
-int moves_to_prom[nr_squares_on_board];
-square squarechecking;
-square const *deposebnp;
-piece piecechecking;
-int nbrchecking;
+static PIECE white[nr_squares_on_board];
+static PIECE black[nr_squares_on_board];
+static boolean is_cast_supp;
+static square is_ep, is_ep2;
+static int moves_to_prom[nr_squares_on_board];
+static square squarechecking;
+static square const *deposebnp;
+static piece piecechecking;
+static int nbrchecking;
 
 static MOVE **Sols;
 static int SolMax;
 
-PIECE Mate[nr_squares_on_board];
-int IndxChP;
+static PIECE Mate[nr_squares_on_board];
+static int IndxChP;
 
 static slice_index current_start_slice;
 
@@ -431,7 +434,7 @@ static boolean isGoalReachableRegularGoals(void)
       {
         index= GetIndex(spec[f_sq]);
         if ((t_sq= Mate[index].sq) != initsquare) {
-          if (WhMovesLeft && index == IndxChP) {
+          if (MovesLeft[White] && index == IndxChP) {
             square _rn= rn;
             rn= Mate[GetIndex(spec[rn])].sq;
             time= FroTo(f_p,
@@ -470,7 +473,7 @@ static boolean isGoalReachableRegularGoals(void)
       }
 
       /* new time */
-      if (index == IndxChP && WhMovesLeft) {
+      if (index == IndxChP && MovesLeft[White]) {
         square _rn= rn;
         rn= Mate[GetIndex(spec[rn])].sq;
         time += FroTo(e[move_generation_stack[nbcou].arrival], move_generation_stack[nbcou].arrival,
@@ -492,12 +495,12 @@ static boolean isGoalReachableRegularGoals(void)
     if (pprise[nbply] < vide) {
       captures--;
     }
-    if (WhMovesLeft < captures) {
+    if (MovesLeft[White] < captures) {
       return false;
     }
   }
 
-  if (whmoves > WhMovesLeft || blmoves > BlMovesLeft)
+  if (whmoves > MovesLeft[White] || blmoves > MovesLeft[Black])
     return false;
 
   WhMovesRequired[nbply]= whmoves;
@@ -539,17 +542,17 @@ static void StaleStoreMate(
     return;
   }
 
-  if (   (rb == initsquare)
-         && (white[0].sq != initsquare)
-         && (white[0].sq != square_e1)
-         && (whmoves == 0))
+  if ((rb == initsquare)
+      && (white[0].sq != initsquare)
+      && (white[0].sq != square_e1)
+      && (whmoves == 0))
   {
     DeposeWhKing(blmoves, whmoves, blpcallowed, whpcallowed, n);
     return;
   }
 
-  for (i= 1; i < MaxPieceBlack; i++) {
-    if (!blackused[i]) {
+  for (i= 1; i < MaxPiece[Black]; i++) {
+    if (!black[i].used) {
       unused++;
     }
   }
@@ -564,18 +567,16 @@ static void StaleStoreMate(
   }
 #if defined(DEBUG)
   sprintf(GlobalStr,
-          "unused: %d, WhMovesLeft: %d\n", unused, WhMovesLeft);
+          "unused: %d, MovesLeft[White]: %d\n", unused, MovesLeft[White]);
   StdString(GlobalStr);
 #endif
 
-  if (unused > WhMovesLeft)
+  if (unused > MovesLeft[White])
     return;
 
   /* checks against the wKing should be coped with earlier !!! */
-  if (echecc(nbply,White)) {
-    AvoidWhKingInCheck(blmoves, whmoves, blpcallowed, whpcallowed,
-                       n); 
-  }
+  if (echecc(nbply,White))
+    AvoidWhKingInCheck(blmoves, whmoves, blpcallowed, whpcallowed, n); 
 
   CapturesLeft[1]= unused;
 
@@ -943,12 +944,12 @@ static void PinBlPiece(
   dir= sq-rn;
   diagonal= SquareCol(sq) == SquareCol(rn);
   while (e[sq+=dir] == vide) {
-    for (i= 1; i < MaxPieceWhite; i++) {
-      if (!whiteused[i] && (f_p= white[i].p) != Knight) {
+    for (i= 1; i < MaxPiece[White]; i++) {
+      if (!white[i].used && (f_p= white[i].p) != Knight) {
         if (f_p == (diagonal ? Rook : Bishop)) {
           continue;
         }
-        whiteused[i]= true;
+        white[i].used= true;
         if (f_p == Pawn) {
           if (diagonal) {
             time= FroTo(f_p,
@@ -982,7 +983,7 @@ static void PinBlPiece(
             StoreMate(blmoves, whmoves-time, blpc, whpc, n);
           }
         }
-        whiteused[i]= false;
+        white[i].used= false;
       }
     }
     e[sq]= vide;
@@ -1034,12 +1035,12 @@ static void ImmobilizeByPin(
 
   sq= topin;
   while (e[sq+=dir] == vide) {
-    for (i= 1; i < MaxPieceWhite; i++) {
-      if (!whiteused[i] && ((f_p= white[i].p) != Knight)) {
+    for (i= 1; i < MaxPiece[White]; i++) {
+      if (!white[i].used && ((f_p= white[i].p) != Knight)) {
         if (f_p == (diagonal ? Rook : Bishop))
           continue;
 
-        whiteused[i]= true;
+        white[i].used= true;
         if (f_p == Pawn) {
           if (diagonal) {
             time=
@@ -1102,7 +1103,7 @@ static void ImmobilizeByPin(
             }
           }
         }
-        whiteused[i]= false;
+        white[i].used= false;
       }
     }
     e[sq]= vide;
@@ -1156,7 +1157,7 @@ void DeposeWhKing(int   blmoves,
     return;
   }
   f_p= white[0].p;
-  whiteused[0]= true;
+  white[0].used= true;
   SetPiece(f_p, rb, white[0].sp);
   if (!IllegalCheck(Black) && !IllegalCheck(White)) {
     if (echecc(nbply,Black)) {
@@ -1175,7 +1176,7 @@ void DeposeWhKing(int   blmoves,
   }
   e[rb]= vide;
   spec[rb]= EmptySpec;
-  whiteused[0]= false;
+  white[0].used= false;
   rb= initsquare;
 
 #if defined(DEBUG)
@@ -1203,10 +1204,10 @@ void ImmobilizeByBlBlock(
   StdString(GlobalStr);
 #endif
 
-  for (i= 1; i < MaxPieceBlack; i++) {
-    if (!blackused[i]) {
+  for (i= 1; i < MaxPiece[Black]; i++) {
+    if (!black[i].used) {
       f_p= black[i].p;
-      blackused[i]= true;
+      black[i].used= true;
 
       /* promotions */
       if (f_p == -Pawn) {
@@ -1287,7 +1288,7 @@ void ImmobilizeByBlBlock(
           }
         }
       }
-      blackused[i]= false;
+      black[i].used= false;
     }
   }
   e[toblock]= vide;
@@ -1321,13 +1322,13 @@ static void ImmobilizeByWhBlock(
   StdString(GlobalStr);
 #endif
 
-  for (i= 0; i < MaxPieceWhite; i++) {
+  for (i= 0; i < MaxPiece[White]; i++) {
     /* take care of wKing in check/absence !!! */
-    if (whiteused[i])
+    if (white[i].used)
       continue;
 
     f_p= white[i].p;
-    whiteused[i]= true;
+    white[i].used= true;
     if (f_p == Pawn) {
       /* A rough check whether it is worth thinking about
          promotions.
@@ -1398,7 +1399,7 @@ static void ImmobilizeByWhBlock(
         }
       }
     }
-    whiteused[i]= false;
+    white[i].used= false;
     if (i == 0) {
       rb= initsquare;
     }
@@ -1445,8 +1446,8 @@ void Immobilize(int blmoves,
     return;
 
   /* determine number of white pinning pieces available */
-  for (i = 1; i<MaxPieceWhite && nopinpossible; i++)
-    nopinpossible = (whiteused[i]
+  for (i = 1; i<MaxPiece[White] && nopinpossible; i++)
+    nopinpossible = (white[i].used
                      || white[i].p==Knight
                      || (white[i].p==Pawn && whmoves<moves_to_prom[i]));
 
@@ -1521,8 +1522,8 @@ void Immobilize(int blmoves,
     blblock= block;
 
     if (nopinpossible) {
-      for (i= 1; i < MaxPieceBlack; i++) {
-        if (!blackused[i]) {
+      for (i= 1; i < MaxPiece[Black]; i++) {
+        if (!black[i].used) {
           bpl++;
         }
       }
@@ -1531,8 +1532,8 @@ void Immobilize(int blmoves,
         return;
       }
 
-      for (i= 0; i < MaxPieceWhite; i++) {
-        if (!whiteused[i]) {
+      for (i= 0; i < MaxPiece[White]; i++) {
+        if (!white[i].used) {
           wpl++;
         }
       }
@@ -1719,12 +1720,12 @@ void BlackPieceTo(
 
   VARIABLE_INIT(time);
 
-  for (actpbl= 1; actpbl < MaxPieceBlack; actpbl++) {
-    if (!blackused[actpbl]) {
+  for (actpbl= 1; actpbl < MaxPiece[Black]; actpbl++) {
+    if (!black[actpbl].used) {
       piece p;
 
       p= black[actpbl].p;
-      blackused[actpbl]= true;
+      black[actpbl].used= true;
 
       if (p != -Pawn || sq>=square_a2) {
         time= FroTo(p, black[actpbl].sq, p, sq, false);
@@ -1792,7 +1793,7 @@ void BlackPieceTo(
           }
         }
       }
-      blackused[actpbl]= false;
+      black[actpbl].used= false;
     }
   }
   e[sq]= vide;
@@ -1811,14 +1812,14 @@ void WhitePieceTo(
 
   VARIABLE_INIT(time);
 
-  for (actpwh= 1; actpwh < MaxPieceWhite; actpwh++) {
+  for (actpwh= 1; actpwh < MaxPiece[White]; actpwh++) {
     piece p;
-    if (whiteused[actpwh]) {
+    if (white[actpwh].used) {
       continue;
     }
 
     p= white[actpwh].p;
-    whiteused[actpwh]= true;
+    white[actpwh].used= true;
 
     if (p != Pawn || sq < 360) {
       time= FroTo(p, white[actpwh].sq, p, sq, false);
@@ -1883,7 +1884,7 @@ void WhitePieceTo(
         }
       }
     }
-    whiteused[actpwh]= false;
+    white[actpwh].used= false;
   }
   e[sq]= vide;
   spec[sq]= EmptySpec;
@@ -1932,7 +1933,7 @@ int MovesToBlock(square sq, int blmoves) {
   int i;
   int mintime= maxply+1;
 
-  for (i= 1; i < MaxPieceBlack; i++) {
+  for (i= 1; i < MaxPiece[Black]; i++) {
     int  time;
     piece     p= black[i].p;
 
@@ -2018,11 +2019,11 @@ static void GenerateBlocking(
   }
   else {
     sq= toblock[--nbrfl];
-    for (actpbl= 1; actpbl < MaxPieceBlack; actpbl++) {
-      if (!blackused[actpbl]) {
+    for (actpbl= 1; actpbl < MaxPiece[Black]; actpbl++) {
+      if (!black[actpbl].used) {
         piece p= black[actpbl].p;
 
-        blackused[actpbl]= true;
+        black[actpbl].used= true;
 
         if (p!=-Pawn || sq>=square_a2) {
           wasted= FroTo(p, black[actpbl].sq, p, sq, false)
@@ -2097,7 +2098,7 @@ static void GenerateBlocking(
             }
           }
         }
-        blackused[actpbl]= false;
+        black[actpbl].used= false;
       }
     }
     e[sq]= vide;
@@ -2127,7 +2128,7 @@ static void GenerateGuarding(
   if (OptFlag[maxsols] && solutions>=maxsolutions)
     return;
 
-  if (whcaptures > MaxPieceBlack-1
+  if (whcaptures > MaxPiece[Black]-1
       || maxtime_status==MAXTIME_TIMEOUT) {
     return;
   }
@@ -2136,7 +2137,7 @@ static void GenerateGuarding(
     actpwh++;
   }
 
-  if (actpwh == MaxPieceWhite) {
+  if (actpwh == MaxPiece[White]) {
     int i, blpcallowed, mtba, mintime[8];
     boolean set_king= false;
     flights= 0;
@@ -2178,7 +2179,7 @@ static void GenerateGuarding(
     }
     finply();
 
-    if (unblockable || (flights > MaxPieceBlack-1)) {
+    if (unblockable || (flights > MaxPiece[Black]-1)) {
       return;
     }
 
@@ -2189,7 +2190,7 @@ static void GenerateGuarding(
     sprintf(GlobalStr, "whcaptures: %d\n", whcaptures);
     StdString(GlobalStr);
 #endif
-    if (whcaptures+flights > MaxPieceBlack-1) {
+    if (whcaptures+flights > MaxPiece[Black]-1) {
       return;
     }
 
@@ -2204,8 +2205,8 @@ static void GenerateGuarding(
 
     /* count black pawn captures allowed */
     blpcallowed= 0;
-    for (i= 1; i < MaxPieceWhite; i++) {
-      if (!whiteused[i]) {
+    for (i= 1; i < MaxPiece[White]; i++) {
+      if (!white[i].used) {
         blpcallowed++;
       }
     }
@@ -2219,18 +2220,18 @@ static void GenerateGuarding(
     if (set_king) {
       rb= white[0].sq;
       SetPiece(white[0].p, rb, white[0].sp);
-      whiteused[0]= true;
+      white[0].used= true;
       GenerateBlocking(whmoves,
                        flights, toblock, mintime, blpcallowed,
-                       MaxPieceBlack-1-whcaptures, blmoves-mtba, n);
-      whiteused[0]= false;
+                       MaxPiece[Black]-1-whcaptures, blmoves-mtba, n);
+      white[0].used= false;
       e[rb]= vide;
       spec[rb]= EmptySpec;
       rb= initsquare;
     }
     else {
       GenerateBlocking(whmoves, flights, toblock, mintime,
-                       blpcallowed, MaxPieceBlack-1-whcaptures, blmoves-mtba,
+                       blpcallowed, MaxPiece[Black]-1-whcaptures, blmoves-mtba,
                        n);
     }
   }
@@ -2239,7 +2240,7 @@ static void GenerateGuarding(
     Flags   sp= white[actpwh].sp;
     square  sq= white[actpwh].sq;
 
-    whiteused[actpwh]= true;
+    white[actpwh].used= true;
 
     for (bnp= boardnum; *bnp; bnp++) {
       int time;
@@ -2312,13 +2313,12 @@ static void GenerateGuarding(
     if (actpwh == 0) {
       rb= initsquare;
     }
-    whiteused[actpwh]= false;
+    white[actpwh].used= false;
     GenerateGuarding(actpwh+1, whmoves, blmoves, whcaptures, n);
   }
 } /* GenerateGuarding */
 
-static void GenerateChecking(int whmoves, int blmoves,
-                             stip_length_type n)
+static void GenerateChecking(int whmoves, int blmoves, stip_length_type n)
 {
   int   i, j, time;
   square    sq;
@@ -2328,11 +2328,11 @@ static void GenerateChecking(int whmoves, int blmoves,
   StdString(GlobalStr);
 #endif
 
-  for (j= 1; j < MaxPieceWhite; j++) {
+  for (j= 1; j < MaxPiece[White]; j++) {
     piece   p= white[j].p;
     Flags   sp= white[j].sp;
 
-    whiteused[j]= true;
+    white[j].used= true;
     nbrchecking= j;
     for (i= 0; i < nr_squares_on_board; i++) {
       sq= boardnum[i];
@@ -2381,21 +2381,23 @@ static void GenerateChecking(int whmoves, int blmoves,
       e[sq]= vide;
       spec[sq]= EmptySpec;
     }
-    whiteused[j]= false;
+    white[j].used= false;
   }
 } /* GenerateChecking */
 
-static void GenerateBlackKing(int whmoves, int blmoves, stip_length_type n)
+static void GenerateBlackKing(stip_length_type n)
 {
   int   i, time;
   square    sq;
   piece p= black[0].p;
   Flags sp= black[0].sp;
+  int whmoves = MovesLeft[White];
+  int blmoves = MovesLeft[Black];
 
 #if defined(DEBUG)
   write_indentation();
   sprintf(GlobalStr,
-          "entering GenerateBlackKing(%d, %d)\n",
+          "entering GenerateBlackKing() - %d %d\n",
           whmoves, blmoves);
   StdString(GlobalStr);
 #endif
@@ -2473,25 +2475,25 @@ static void IntelligentRegularGoals(stip_length_type n)
   black[0].p= e[rn];
   black[0].sp= spec[rn];
   black[0].sq= rn;
-  MaxPieceBlack= 1;
+  MaxPiece[Black]= 1;
 
   SetIndex(spec[rb], 1);
   white[0].p= e[rb];
   white[0].sp= spec[rb];
   white[0].sq= rb;
-  MaxPieceWhite= 1;
+  MaxPiece[White]= 1;
   if (rb == initsquare)
-    whiteused[0]= true;
+    white[0].used= true;
 
   MaxPieceAll= 2;
 
   for (bnp= boardnum; *bnp; bnp++)
     if ((rb != *bnp) && (e[*bnp] > obs)) {
       SetIndex(spec[*bnp], MaxPieceAll);
-      white[MaxPieceWhite].p= e[*bnp];
-      white[MaxPieceWhite].sp= spec[*bnp];
-      white[MaxPieceWhite].sq= *bnp;
-      whiteused[MaxPieceWhite]= false;
+      white[MaxPiece[White]].p= e[*bnp];
+      white[MaxPiece[White]].sp= spec[*bnp];
+      white[MaxPiece[White]].sq= *bnp;
+      white[MaxPiece[White]].used= false;
       if (e[*bnp] == Pawn) {
         int moves= 15 - *bnp / onerow;
         square  sq= *bnp;
@@ -2500,12 +2502,12 @@ static void IntelligentRegularGoals(stip_length_type n)
 
         /* a white piece that cannot move away */
         if (moves == 5
-            && moves == WhMovesLeft
+            && moves == MovesLeft[White]
             && (sq<=square_h2 && (e[sq+dir_up]>vide || e[sq+2*dir_up]>vide)))
           moves= maxply+1;
 
         /* a black pawn that needs a white sacrifice to move away */
-        else if (WhMovesLeft < 7
+        else if (MovesLeft[White] < 7
                  && sq<=square_h2
                  && e[sq+dir_left] <= King && e[sq+dir_right] <= King
                  && (e[sq+dir_up] == -Pawn
@@ -2517,19 +2519,19 @@ static void IntelligentRegularGoals(stip_length_type n)
         {
           moves++;
         }
-        moves_to_prom[MaxPieceWhite]= moves;
+        moves_to_prom[MaxPiece[White]]= moves;
       }
-      MaxPieceWhite++;
+      MaxPiece[White]++;
       MaxPieceAll++;
     }
   for (bnp= boardnum; *bnp; bnp++) {
     if ((rn != *bnp) && (e[*bnp] < vide)) {
       SetIndex(spec[*bnp], MaxPieceAll);
-      black[MaxPieceBlack].p= e[*bnp];
-      black[MaxPieceBlack].sp= spec[*bnp];
-      black[MaxPieceBlack].sq= *bnp;
-      blackused[MaxPieceBlack]= false;
-      MaxPieceBlack++;
+      black[MaxPiece[Black]].p= e[*bnp];
+      black[MaxPiece[Black]].sp= spec[*bnp];
+      black[MaxPiece[Black]].sq= *bnp;
+      black[MaxPiece[Black]].used= false;
+      MaxPiece[Black]++;
       MaxPieceAll++;
     }
   }
@@ -2550,7 +2552,7 @@ static void IntelligentRegularGoals(stip_length_type n)
   }
 
   /* generate final positions */
-  GenerateBlackKing(WhMovesLeft, BlMovesLeft, n);
+  GenerateBlackKing(n);
 
   ResetPosition();
 
@@ -2558,7 +2560,8 @@ static void IntelligentRegularGoals(stip_length_type n)
       && maxtime_status!=MAXTIME_TIMEOUT)
   {
     sprintf(GlobalStr, "%ld %s %d+%d",
-            MatesMax, GetMsgString(PotentialMates), WhMovesLeft, BlMovesLeft);
+            MatesMax, GetMsgString(PotentialMates),
+            MovesLeft[White],MovesLeft[Black]);
     StdString(GlobalStr);
     if (!flag_regression) {
       StdString("  (");
@@ -2608,15 +2611,10 @@ static void init_moves_left_non_root(slice_index si)
     case STBranchHelp:
     {
       stip_length_type const n = slices[si].u.branch.length;
-      BlMovesLeft += (n-slack_length_help)/2;
-      WhMovesLeft += (n-slack_length_help)/2;
+      MovesLeft[Black] += (n-slack_length_help)/2;
+      MovesLeft[White] += (n-slack_length_help)/2;
       if (n%2==1)
-      {
-        if (branch_h_starter_in_n(si,n)==White)
-          ++WhMovesLeft;
-        else
-          ++BlMovesLeft;
-      }
+        ++MovesLeft[branch_h_starter_in_n(si,n)];
       init_moves_left_non_root(slices[si].u.branch.next);
       break;
     }
@@ -2624,10 +2622,7 @@ static void init_moves_left_non_root(slice_index si)
     case STBranchSeries:
     {
       stip_length_type const n = slices[si].u.branch.length;
-      if (slices[si].u.branch.starter==White)
-        WhMovesLeft += n-slack_length_series;
-      else
-        BlMovesLeft += n-slack_length_series;
+      MovesLeft[slices[si].u.branch.starter] += n-slack_length_series;
       init_moves_left_non_root(slices[si].u.branch.next);
       break;
     }
@@ -2635,16 +2630,13 @@ static void init_moves_left_non_root(slice_index si)
     case STLeafDirect:
       assert(goal_to_be_reached==no_goal);
       goal_to_be_reached = slices[si].u.leaf.goal;
-      ++WhMovesLeft;
+      ++MovesLeft[White];
       break;
 
     case STLeafHelp:
       assert(goal_to_be_reached==no_goal);
       goal_to_be_reached = slices[si].u.leaf.goal;
-      if (slices[si].u.leaf.starter==White)
-        ++WhMovesLeft;
-      else
-        ++BlMovesLeft;
+      ++MovesLeft[slices[si].u.leaf.starter];
       break;
 
     case STMoveInverter:
@@ -2681,15 +2673,10 @@ static void init_moves_left_root(slice_index si, stip_length_type n)
   {
     case STBranchHelp:
     {
-      BlMovesLeft = (n-slack_length_help)/2;
-      WhMovesLeft = BlMovesLeft;
+      MovesLeft[Black] = (n-slack_length_help)/2;
+      MovesLeft[White] = MovesLeft[Black];
       if (n%2==1)
-      {
-        if (branch_h_starter_in_n(si,n)==White)
-          ++WhMovesLeft;
-        else
-          ++BlMovesLeft;
-      }
+        ++MovesLeft[branch_h_starter_in_n(si,n)];
 
       init_moves_left_non_root(slices[si].u.branch.next);
       break;
@@ -2699,13 +2686,13 @@ static void init_moves_left_root(slice_index si, stip_length_type n)
     {
       if (slices[si].u.branch.starter==White)
       {
-        WhMovesLeft = n-slack_length_series;
-        BlMovesLeft = 0;
+        MovesLeft[White] = n-slack_length_series;
+        MovesLeft[Black] = 0;
       }
       else
       {
-        WhMovesLeft = 0;
-        BlMovesLeft = n-slack_length_series;
+        MovesLeft[White] = 0;
+        MovesLeft[Black] = n-slack_length_series;
       }
 
       init_moves_left_non_root(slices[si].u.branch.next);
@@ -2713,8 +2700,8 @@ static void init_moves_left_root(slice_index si, stip_length_type n)
     }
 
     case STMoveInverter:
-      BlMovesLeft = 0;
-      WhMovesLeft = 0;
+      MovesLeft[Black] = 0;
+      MovesLeft[White] = 0;
       init_moves_left_root(slices[si].u.move_inverter.next,n);
       break;
 
@@ -2723,8 +2710,8 @@ static void init_moves_left_root(slice_index si, stip_length_type n)
       break;
   }
 
-  TraceValue("%u",WhMovesLeft);
-  TraceValue("%u\n",BlMovesLeft);
+  TraceValue("%u",MovesLeft[White]);
+  TraceValue("%u\n",MovesLeft[Black]);
 
   TraceFunctionExit(__func__);
   TraceText("\n");

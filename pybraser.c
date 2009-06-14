@@ -223,10 +223,7 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
       active_slice[nbply+1] = si;
       genmove(side_playing_series);
 
-      if (side_playing_series==White)
-        WhMovesLeft--;
-      else
-        BlMovesLeft--;
+      --MovesLeft[side_playing_series];
 
       while (encore())
       {
@@ -252,10 +249,7 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
           break;
       }
 
-      if (side_playing_series==White)
-        WhMovesLeft++;
-      else
-        BlMovesLeft++;
+      ++MovesLeft[side_playing_series];
 
       finply();
 
@@ -294,10 +288,7 @@ static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
     active_slice[nbply+1] = si;
     genmove(side_playing_series);
 
-    if (side_playing_series==White)
-      WhMovesLeft--;
-    else
-      BlMovesLeft--;
+    --MovesLeft[side_playing_series];
 
     while (encore())
     {
@@ -327,10 +318,7 @@ static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
         break;
     }
 
-    if (side_playing_series==White)
-      WhMovesLeft++;
-    else
-      BlMovesLeft++;
+    ++MovesLeft[side_playing_series];
 
     finply();
   }

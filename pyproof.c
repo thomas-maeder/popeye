@@ -1382,7 +1382,7 @@ static boolean ProofFairyImpossible(void)
   square sq;
   piece pparr;
   int   NbrWh, NbrBl;
-  int MovesAvailable = BlMovesLeft+WhMovesLeft;
+  int MovesAvailable = MovesLeft[Black]+MovesLeft[White];
 
   NbrWh = nbpiece[pb]
     + nbpiece[cb]
@@ -1439,8 +1439,8 @@ static boolean ProofFairyImpossible(void)
     if (!CondFlag[masand])
     {
       /* not enough time to capture the remaining pieces */
-      if (NbrWh-ProofNbrWhitePieces > BlMovesLeft
-          || NbrBl-ProofNbrBlackPieces > WhMovesLeft)
+      if (NbrWh-ProofNbrWhitePieces > MovesLeft[Black]
+          || NbrBl-ProofNbrBlackPieces > MovesLeft[White])
         return true;
     }
 
@@ -1546,8 +1546,8 @@ static boolean ProofFairyImpossible(void)
 static boolean ProofImpossible(void)
 {
   square const *bnp;
-  stip_length_type black_moves_left = BlMovesLeft;
-  stip_length_type white_moves_left = WhMovesLeft;
+  stip_length_type black_moves_left = MovesLeft[Black];
+  stip_length_type white_moves_left = MovesLeft[White];
   stip_length_type WhPieToBeCapt, BlPieToBeCapt;
   stip_length_type WhCapturesRequired, BlCapturesRequired;
   stip_length_type white_king_moves_needed, black_king_moves_needed;
@@ -1831,10 +1831,10 @@ static boolean ProofSeriesImpossible(void)
   square sq;
   stip_length_type BlPieToBeCapt, BlCapturesRequired;
   int       NbrBl;
-  stip_length_type white_moves_left= BlMovesLeft+WhMovesLeft;
+  stip_length_type white_moves_left= MovesLeft[Black]+MovesLeft[White];
   stip_length_type white_king_moves_needed;
 
-  TraceValue("%d\n",BlMovesLeft+WhMovesLeft);
+  TraceValue("%d\n",MovesLeft[Black]+MovesLeft[White]);
   /* too many pawns captured or promoted */
   if (nr_piece(target)[pb]>nbpiece[pb]
       || nr_piece(target)[pn]>nbpiece[pn])

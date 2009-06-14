@@ -233,10 +233,7 @@ static boolean branch_h_root_solve_in_n_recursive_nohash(slice_index si,
     active_slice[nbply+1] = si;
     genmove(side_at_move);
   
-    if (side_at_move==Black)
-      BlMovesLeft--;
-    else
-      WhMovesLeft--;
+    --MovesLeft[side_at_move];
 
     while (encore())
     {
@@ -266,10 +263,7 @@ static boolean branch_h_root_solve_in_n_recursive_nohash(slice_index si,
         break;
     }
     
-    if (side_at_move==Black)
-      BlMovesLeft++;
-    else
-      WhMovesLeft++;
+    ++MovesLeft[side_at_move];
 
     finply();
   }
@@ -311,10 +305,7 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
   active_slice[nbply+1] = si;
   genmove(side_at_move);
   
-  if (side_at_move==Black)
-    BlMovesLeft--;
-  else
-    WhMovesLeft--;
+  --MovesLeft[side_at_move];
 
   while (encore())
   {
@@ -341,10 +332,7 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
       break;
   }
     
-  if (side_at_move==Black)
-    BlMovesLeft++;
-  else
-    WhMovesLeft++;
+  ++MovesLeft[side_at_move];
 
   finply();
 
@@ -644,10 +632,7 @@ void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
     active_slice[nbply+1] = si;
     genmove(side_at_move);
   
-    if (side_at_move==Black)
-      BlMovesLeft--;
-    else
-      WhMovesLeft--;
+    --MovesLeft[side_at_move];
 
     while (encore())
     {
@@ -677,10 +662,7 @@ void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
         break;
     }
     
-    if (side_at_move==Black)
-      BlMovesLeft++;
-    else
-      WhMovesLeft++;
+    ++MovesLeft[side_at_move];
 
     finply();
   }
@@ -846,10 +828,7 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
     active_slice[nbply+1] = si;
     genmove(side_at_move);
   
-    if (side_at_move==Black)
-      BlMovesLeft--;
-    else
-      WhMovesLeft--;
+    --MovesLeft[side_at_move];
 
     while (encore() && !result)
     {
@@ -864,10 +843,7 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
       repcoup();
     }
     
-    if (side_at_move==Black)
-      BlMovesLeft++;
-    else
-      WhMovesLeft++;
+    ++MovesLeft[side_at_move];
 
     finply();
   }

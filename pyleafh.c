@@ -50,10 +50,7 @@ static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
 
   generate_move_reaching_goal(leaf,side_at_move);
 
-  if (side_at_move==White)
-    WhMovesLeft--;
-  else
-    BlMovesLeft--;
+  --MovesLeft[side_at_move];
 
   while (encore() && !end_found)
   {
@@ -71,10 +68,7 @@ static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
       break;
   }
 
-  if (side_at_move==White)
-    WhMovesLeft++;
-  else
-    BlMovesLeft++;
+  ++MovesLeft[side_at_move];
 
   finply();
 
@@ -149,10 +143,7 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
   active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,side_at_move);
 
-  if (side_at_move==White)
-    WhMovesLeft--;
-  else
-    BlMovesLeft--;
+  --MovesLeft[side_at_move];
 
   while (encore())
   {
@@ -167,10 +158,7 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
     repcoup();
   }
 
-  if (side_at_move==White)
-    WhMovesLeft++;
-  else
-    BlMovesLeft++;
+  ++MovesLeft[side_at_move];
 
   finply();
 
