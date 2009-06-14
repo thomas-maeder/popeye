@@ -25,7 +25,8 @@ boolean leaf_d_must_starter_resign(slice_index leaf)
   assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = OptFlag[keepmating] && !is_a_mating_piece_left(attacker);
 
@@ -44,7 +45,8 @@ boolean leaf_d_has_solution(slice_index leaf)
   Side const attacker = slices[leaf].u.leaf.starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   /* In move orientated stipulations (%, z, x etc.) it's less
    * expensive to compute an end in 1. TLi
@@ -124,7 +126,8 @@ boolean leaf_d_has_non_starter_solved(slice_index leaf)
   boolean const result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -141,7 +144,8 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   if (!immobile(starter))
   {
@@ -196,7 +200,8 @@ static boolean leaf_d_root_cmate_solve(slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   /* TODO can this be generalised to non-mate goals? */
   if (goal_checker_mate(non_starter))
@@ -251,7 +256,8 @@ static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,attacker);
@@ -302,7 +308,8 @@ boolean leaf_d_root_solve(slice_index leaf)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   init_output(leaf);
 
@@ -419,7 +426,8 @@ static boolean leaf_d_regulargoals_solve(slice_index leaf)
   boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,attacker);
@@ -456,7 +464,8 @@ boolean leaf_d_solve(slice_index leaf)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   switch (slices[leaf].u.leaf.goal)
   {
@@ -499,7 +508,8 @@ boolean leaf_d_has_starter_apriori_lost(slice_index leaf)
   boolean const result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -516,7 +526,8 @@ boolean leaf_d_has_starter_won(slice_index leaf)
   boolean result;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = leaf_is_goal_reached(slices[leaf].u.leaf.starter,leaf);
 
@@ -535,7 +546,8 @@ boolean leaf_d_has_starter_reached_goal(slice_index leaf)
   boolean result;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = leaf_is_goal_reached(slices[leaf].u.leaf.starter,leaf);
 
@@ -561,7 +573,8 @@ void leaf_d_solve_continuations(slice_index leaf)
   Side const attacker = slices[leaf].u.leaf.starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,attacker);
@@ -601,7 +614,8 @@ who_decides_on_starter leaf_d_detect_starter(slice_index leaf,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
-  TraceFunctionParam("%u\n",same_side_as_root);
+  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParamListEnd();
 
   switch (slices[leaf].u.leaf.goal)
   {

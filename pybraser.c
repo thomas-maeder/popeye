@@ -27,7 +27,8 @@ slice_index alloc_branch_ser_slice(stip_length_type length,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u\n",next);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
 
   slices[result].type = STBranchSeries; 
   slices[result].u.branch.starter = no_side; 
@@ -51,7 +52,8 @@ boolean branch_ser_must_starter_resign(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_must_starter_resign(slices[si].u.branch.next);
   
@@ -80,7 +82,8 @@ boolean branch_ser_has_non_starter_solved(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_non_starter_solved(slices[si].u.branch.next);
 
@@ -101,7 +104,8 @@ boolean branch_ser_has_starter_apriori_lost(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_starter_apriori_lost(slices[si].u.branch.next);
 
@@ -119,7 +123,8 @@ boolean branch_ser_has_starter_won(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_starter_won(slices[si].u.branch.next);
 
@@ -139,7 +144,8 @@ boolean branch_ser_has_starter_reached_goal(slice_index si)
   slice_index const next = slices[si].u.branch.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_starter_reached_goal(next);
 
@@ -159,7 +165,8 @@ boolean branch_ser_is_goal_reached(Side just_moved, slice_index si)
   slice_index const next = slices[si].u.branch.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_is_goal_reached(just_moved,next);
 
@@ -183,7 +190,8 @@ static boolean move_filter(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",side_playing_series);
+  TraceFunctionParam("%u",side_playing_series);
+  TraceFunctionParamListEnd();
 
   result = ((!isIntelligentModeActive || isGoalReachable())
             && !echecc(nbply,side_playing_series)
@@ -208,7 +216,8 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (n==slack_length_series)
     result = slice_solve(slices[si].u.branch.next);
@@ -277,7 +286,8 @@ static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (n==slack_length_series)
     result = slice_root_solve(slices[si].u.branch.next);
@@ -340,7 +350,8 @@ static boolean branch_ser_root_solve_full_in_n(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n>=1);
 
@@ -366,7 +377,8 @@ static boolean branch_ser_root_solve_short_in_n(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n>=slack_length_series);
 
@@ -398,7 +410,8 @@ slice_index branch_ser_root_make_setplay_slice(slice_index si)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (slices[next].type==STMoveInverter)
   {
@@ -423,7 +436,8 @@ boolean branch_ser_root_solve(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",starter);
 
@@ -479,7 +493,8 @@ boolean branch_ser_root_solve(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   if (n==slices[si].u.branch.min_length)
   result = branch_ser_root_solve_in_n_recursive(si,n);
@@ -504,7 +519,8 @@ boolean branch_ser_solve(slice_index si)
   stip_length_type i;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].u.branch.length);
 
@@ -551,7 +567,8 @@ who_decides_on_starter branch_ser_detect_starter(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",same_side_as_root);
+  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParamListEnd();
   
   if (slices[next].type==STMoveInverter)
     next_relevant = slices[next].u.move_inverter.next;

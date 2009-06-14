@@ -34,6 +34,12 @@ void TraceFunctionEntry(char const *name)
   entryNames[level] = name;
 }
 
+void TraceFunctionParamListEnd(void)
+{
+  if (level<=max_level)
+    fprintf(stdout,"\n");
+}
+
 void TraceFunctionExit(char const *name)
 {
   if (strcmp(name,entryNames[level])!=0)

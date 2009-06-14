@@ -30,7 +30,8 @@ boolean slice_must_starter_resign(slice_index si)
   boolean result = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -105,7 +106,8 @@ boolean slice_must_starter_resign_hashed(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -139,7 +141,8 @@ boolean slice_must_starter_resign_hashed(slice_index si)
 void slice_solve_continuations(table continuations, slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -194,7 +197,8 @@ slice_index slice_root_make_setplay_slice(slice_index si)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -248,7 +252,8 @@ slice_index slice_root_make_setplay_slice(slice_index si)
 void slice_root_write_key(slice_index si, attack_type type)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -305,7 +310,8 @@ boolean slice_solve(slice_index si)
   boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {
@@ -372,7 +378,8 @@ boolean slice_root_solve(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {
@@ -443,7 +450,8 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -482,7 +490,8 @@ boolean slice_has_solution(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {
@@ -538,7 +547,8 @@ boolean slice_has_solution(slice_index si)
 void slice_solve_postkey(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {
@@ -593,7 +603,8 @@ boolean slice_has_non_starter_solved(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {
@@ -655,7 +666,8 @@ boolean slice_has_starter_apriori_lost(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -717,7 +729,8 @@ boolean slice_has_starter_won(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -778,7 +791,8 @@ boolean slice_has_starter_reached_goal(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -839,7 +853,8 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -882,7 +897,8 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
 void slice_write_unsolvability(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {
@@ -937,7 +953,8 @@ who_decides_on_starter slice_detect_starter(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",same_side_as_root);
+  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {
@@ -1003,7 +1020,8 @@ void slice_impose_starter(slice_index si, Side side)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",side);
+  TraceFunctionParam("%u",side);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {
@@ -1063,7 +1081,8 @@ Side slice_get_starter(slice_index si)
   Side result = no_side;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -1149,7 +1168,8 @@ Side slice_get_starter(slice_index si)
 void slice_write_non_starter_has_solved(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {

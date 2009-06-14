@@ -135,7 +135,8 @@ boolean goal_checker_stale(Side just_moved)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",just_moved);
+  TraceFunctionParam("%d",just_moved);
+  TraceFunctionParamListEnd();
 
   if (!echecc(nbply,just_moved))
   {

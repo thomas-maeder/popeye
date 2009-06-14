@@ -474,7 +474,8 @@ static void shift_offset_direct(slice_index si, slice_traversal *st)
   unsigned int const * const shift = (unsigned int *)st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",*shift);
 
@@ -497,7 +498,8 @@ static void shift_offset_help(slice_index si, slice_traversal *st)
   unsigned int const * const shift = (unsigned int *)st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",*shift);
 
@@ -603,7 +605,8 @@ static void set_value_direct_nosucc(dhtElement *he,
   element_t * const e = (element_t *)he;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",val);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
@@ -628,7 +631,8 @@ static void set_value_direct_succ(dhtElement *he,
   element_t * const e = (element_t *)he;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",val);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
@@ -653,7 +657,8 @@ static void set_value_help_odd(dhtElement *he,
   element_t * const e = (element_t *)he;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",val);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
@@ -677,7 +682,8 @@ static void set_value_help_even(dhtElement *he,
   element_t * const e = (element_t *)he;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",val);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
@@ -701,7 +707,8 @@ static void set_value_series(dhtElement *he,
   element_t * const e = (element_t *)he;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",val);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
@@ -822,7 +829,8 @@ static hash_value_type own_value_of_data_direct(dhtElement const *he,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",he);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",length);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u",succ);
   TraceValue("%u\n",nosucc);
@@ -850,7 +858,8 @@ static hash_value_type own_value_of_data_help(dhtElement const *he,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p ",he);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u",odd);
   TraceValue("%u\n",even);
@@ -914,7 +923,8 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p ",he);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {
@@ -956,7 +966,8 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p ",he);
   TraceFunctionParam("%u",offset);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (base_slice[si]==no_slice)
   {
@@ -1081,7 +1092,8 @@ static hash_value_type value_of_data(dhtElement const *he)
   hash_value_type result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p\n",he);
+  TraceFunctionParam("%p",he);
+  TraceFunctionParamListEnd();
 
   result = value_of_data_recursive(he,offset,root_slice);
 
@@ -1678,7 +1690,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",what);
-  TraceFunctionParam("%u\n",val);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",nbply);
 
@@ -1786,7 +1799,8 @@ static void init_element_direct(dhtElement *he,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",he);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",length);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParamListEnd();
 
   set_value_direct_nosucc(he,si,0);
   set_value_direct_succ(he,si,length);
@@ -1804,7 +1818,8 @@ static void init_element_help(dhtElement *he, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",he);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   set_value_help_even(he,si,0);
   set_value_help_odd(he,si,0);
@@ -1822,7 +1837,8 @@ static void init_element_series(dhtElement *he, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",he);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   set_value_series(he,si,0);
 
@@ -1844,7 +1860,8 @@ static void init_element(dhtElement *he,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",he);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   element_initialised[si] = true;
 
@@ -1975,7 +1992,8 @@ void addtohash(slice_index si, hashwhat what, hash_value_type val)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",what);
-  TraceFunctionParam("%u\n",val);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",nbply);
 

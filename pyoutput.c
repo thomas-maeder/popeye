@@ -33,7 +33,8 @@ static output_mode detect_output_mode(slice_index si)
   output_mode result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -500,7 +501,8 @@ static void write_numbered_indented_attack(ply current_ply,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",goal);
-  TraceFunctionParam("%u\n",type);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParamListEnd();
 
   if (output_attack_types[current_ply]==threat_attack
       && nr_continuations_written[move_depth]==0)
@@ -582,7 +584,8 @@ static void catchup_with_defense(ply current_ply)
   ply const start_ply = 2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",current_ply);
+  TraceFunctionParam("%u",current_ply);
+  TraceFunctionParamListEnd();
 
   if (current_ply>start_ply)
     catchup_with_attack(parent_ply[current_ply]);
@@ -608,7 +611,8 @@ static void catchup_with_attack(ply current_ply)
   ply const start_ply = 2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",current_ply);
+  TraceFunctionParam("%u",current_ply);
+  TraceFunctionParamListEnd();
 
   if (current_ply>start_ply)
   {
@@ -641,7 +645,8 @@ static void catchup_with_attack(ply current_ply)
 void write_attack(attack_type type)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",type);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
@@ -684,7 +689,8 @@ void write_final_attack(Goal goal, attack_type type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",goal);
-  TraceFunctionParam("%u\n",type);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParamListEnd();
 
   assert(goal!=no_goal);
   
@@ -754,7 +760,8 @@ void write_defense(void)
 void write_final_defense(Goal goal)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",goal);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
 
   assert(goal!=no_goal);
 
@@ -803,7 +810,8 @@ void write_final_defense(Goal goal)
 void write_final_help_move(Goal goal)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",goal);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
 
   assert(goal!=no_goal);
 

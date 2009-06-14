@@ -17,7 +17,8 @@ slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",op1);
-  TraceFunctionParam("%u\n",op2);
+  TraceFunctionParam("%u",op2);
+  TraceFunctionParamListEnd();
 
   slices[result].type = STQuodlibet; 
   slices[result].u.quodlibet.op1 = op1;
@@ -41,7 +42,8 @@ boolean quodlibet_must_starter_resign(slice_index si)
   slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
@@ -65,7 +67,8 @@ void quodlibet_write_unsolvability(slice_index si)
   slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u",slices[si].u.quodlibet.op1);
   TraceValue("%u\n",slices[si].u.quodlibet.op2);
@@ -87,7 +90,8 @@ void quodlibet_solve_continuations(table continuations, slice_index si)
   slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   slice_solve_continuations(continuations,op1);
   slice_solve_continuations(continuations,op2);
@@ -108,7 +112,8 @@ slice_index quodlibet_root_make_setplay_slice(slice_index si)
   slice_index result = no_slice;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   op1_set = slice_root_make_setplay_slice(op1);
   if (op1_set!=no_slice)
@@ -135,7 +140,8 @@ void quodlibet_root_solve_in_n(slice_index si, stip_length_type n)
   slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (!slice_must_starter_resign(op1) && !slice_must_starter_resign(op2))
   {
@@ -158,7 +164,8 @@ boolean quodlibet_root_solve(slice_index si)
   slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (!slice_must_starter_resign(op1) && !slice_must_starter_resign(op2))
   {
@@ -195,13 +202,15 @@ boolean quodlibet_has_solution(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   /* use shortcut evaluation */
   result = slice_has_solution(op1) || slice_has_solution(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u\n",result);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
   return result;
 }
 
@@ -214,7 +223,8 @@ void quodlibet_solve_postkey(slice_index si)
   slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   slice_solve_postkey(op1);
   slice_solve_postkey(op2);
@@ -234,7 +244,8 @@ boolean quodlibet_has_non_starter_solved(slice_index si)
   slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = (slice_has_non_starter_solved(op1)
             || slice_has_non_starter_solved(op2));
@@ -257,7 +268,8 @@ boolean quodlibet_has_starter_won(slice_index si)
   slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_starter_won(op1) || slice_has_starter_won(op2);
 
@@ -278,7 +290,8 @@ boolean quodlibet_has_starter_reached_goal(slice_index si)
   slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = (slice_has_starter_reached_goal(op1)
             || slice_has_starter_reached_goal(op2));
@@ -302,7 +315,8 @@ boolean quodlibet_has_starter_apriori_lost(slice_index si)
   slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = (slice_has_starter_apriori_lost(op1)
             || slice_has_starter_apriori_lost(op2));
@@ -324,7 +338,8 @@ boolean quodlibet_solve(slice_index si)
   slice_index const op2 = slices[si].u.quodlibet.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
@@ -353,7 +368,8 @@ who_decides_on_starter quodlibet_detect_starter(slice_index si,
   who_decides_on_starter result2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(slices[si].type==STQuodlibet);
 

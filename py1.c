@@ -121,7 +121,8 @@ void finply()
 void capture_ply(captured_ply_type *snapshot, ply ply)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",ply);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
   TraceValue("%u\n",nbcou);
@@ -154,7 +155,8 @@ boolean is_ply_equal_to_captured(captured_ply_type const *snapshot, ply ply)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",ply);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u",snapshot->nbcou);
   TraceValue("%u\n",repere[ply+1]);
@@ -1539,7 +1541,8 @@ void ChangeMagic(int ply, boolean push)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply);
-  TraceFunctionParam("%u\n",push);
+  TraceFunctionParam("%u",push);
+  TraceFunctionParamListEnd();
 
   for (bnp= boardnum; *bnp; bnp++) 
   {

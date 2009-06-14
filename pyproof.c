@@ -1309,7 +1309,8 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",CapturesAllowed);
-  TraceFunctionParam("%u\n",camp);
+  TraceFunctionParam("%u",camp);
+  TraceFunctionParamListEnd();
 
   from= camp == White
     ? &CurrentWhPawns

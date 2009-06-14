@@ -27,7 +27,8 @@ slice_index alloc_branch_d_slice(stip_length_type length,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u\n",next);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
 
   slices[result].type = STBranchDirect; 
   slices[result].u.branch_d.starter = no_side; 
@@ -121,7 +122,8 @@ static boolean have_we_solution_in_n(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==0);
 
@@ -177,7 +179,8 @@ static boolean have_we_solution_in_n_short(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",curr_max_nr_nontrivial);
+  TraceFunctionParam("%u",curr_max_nr_nontrivial);
+  TraceFunctionParamListEnd();
 
   if (min_length>moves_played)
     n_min = min_length-moves_played;
@@ -224,7 +227,8 @@ static boolean have_we_solution_in_n_nohash(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   if (have_we_solution_in_n_short(si,n,curr_max_nr_nontrivial))
     result = true;
@@ -253,7 +257,8 @@ boolean branch_d_has_solution_in_n(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   /* It is more likely that a position has no solution. */
   /* Therefore let's check for "no solution" first.  TLi */
@@ -290,7 +295,8 @@ boolean branch_d_has_solution(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = !branch_d_defender_is_refuted(slices[si].u.branch_d.peer,
                                          slices[si].u.branch_d.length,
@@ -318,7 +324,8 @@ void branch_d_solve_continuations_in_n(table continuations,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==0);
   assert(n>slack_length_direct);
@@ -361,7 +368,8 @@ void branch_d_solve_continuations_in_n(table continuations,
 void branch_d_solve_continuations(table continuations, slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   branch_d_solve_continuations_in_n(continuations,
                                     si,
@@ -379,7 +387,8 @@ void branch_d_root_write_key(slice_index si, attack_type type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",type);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParamListEnd();
 
   write_attack(type);
 
@@ -397,7 +406,8 @@ boolean branch_d_solve(slice_index si)
   stip_length_type const n = slices[si].u.branch_d.length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",n);
 
@@ -444,7 +454,8 @@ boolean branch_d_root_solve(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(slices[si].u.branch_d.length%2==0);
   assert(slices[si].u.branch_d.length>slack_length_direct);
@@ -527,7 +538,8 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(slices[si].u.branch_d.length%2==0);
   assert(slices[si].u.branch_d.length>slack_length_direct);
@@ -552,7 +564,8 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",same_side_as_root);
+  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParamListEnd();
 
   result = branch_d_defender_detect_starter(peer,same_side_as_root);
   slices[si].u.branch_d.starter = slice_get_starter(peer);

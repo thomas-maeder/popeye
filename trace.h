@@ -49,8 +49,12 @@ void TraceFunctionExit(char const *name);
 
 /* Trace a function parameter
  */
-#define TraceFunctionParam(format,name)         \
+#define TraceFunctionParam(format,name) \
   TraceValueImpl(" ->" #name ":" format, (size_t)name)
+
+/* Trace end of function parameter list
+ */
+void TraceFunctionParamListEnd(void);
 
 /* Trace the value of some expression
  */
@@ -115,6 +119,7 @@ void TracePointerValueImpl(char const *format, void const *value);
 #define TraceDeactivate()
 #define TraceFunctionEntry(name)
 #define TraceFunctionParam(format,name)
+#define TraceFunctionParamListEnd()
 #define TraceValue(format,name)
 #define TracePointerValue(format,name)
 #define TraceText(text)

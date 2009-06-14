@@ -16,7 +16,8 @@ slice_index alloc_move_inverter_slice(slice_index next)
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",next);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
 
   slices[result].type = STMoveInverter; 
   slices[result].u.move_inverter.next = next;
@@ -79,7 +80,8 @@ slice_index move_inverter_root_make_setplay_slice(slice_index si)
   slice_index next_set_slice;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   next_set_slice = slice_root_make_setplay_slice(next);
   if (next_set_slice==no_slice)
@@ -101,7 +103,8 @@ boolean move_inverter_root_solve(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   output_start_move_inverted_level();
   result = slice_root_solve(slices[si].u.move_inverter.next);
@@ -121,7 +124,8 @@ boolean move_inverter_solve(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (echecc(nbply,slices[si].u.move_inverter.starter))
   {
@@ -151,7 +155,8 @@ move_inverter_detect_starter(slice_index si,
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",same_side_as_root);
+  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParamListEnd();
 
   result = slice_detect_starter(next,!same_side_as_root);
 
@@ -175,7 +180,8 @@ Side move_inverter_get_starter(slice_index si)
   Side result;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slices[si].u.move_inverter.starter;
 
@@ -191,7 +197,8 @@ Side move_inverter_get_starter(slice_index si)
 void move_inverter_impose_starter(slice_index si, Side side)
 {  
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   slices[si].u.move_inverter.starter = side;
   slice_impose_starter(slices[si].u.move_inverter.next,advers(side));

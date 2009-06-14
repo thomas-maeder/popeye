@@ -24,7 +24,8 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u\n",next);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
 
   slices[result].type = STBranchDirectDefender; 
   slices[result].u.branch_d_defender.starter = no_side; 
@@ -62,7 +63,8 @@ boolean branch_d_defender_must_starter_resign(slice_index si)
   slice_index const next = slices[si].u.branch_d_defender.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = (slice_must_starter_resign(next)
             || slice_must_starter_resign_hashed(next));
@@ -100,7 +102,8 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result =  slice_is_goal_reached(just_moved,
                                   slices[si].u.branch_d_defender.next);
@@ -122,7 +125,8 @@ boolean branch_d_defender_has_starter_apriori_lost(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_starter_apriori_lost(slices[si].u.branch_d_defender.next);
 
@@ -149,7 +153,8 @@ boolean branch_d_defender_is_refuted(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",curr_max_nr_nontrivial);
+  TraceFunctionParam("%u",curr_max_nr_nontrivial);
+  TraceFunctionParamListEnd();
 
   assert(n%2==0);
 
@@ -210,7 +215,8 @@ has_defender_refutation(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==1);
 
@@ -255,7 +261,8 @@ static int count_all_nontrivial_defenses(slice_index si)
   int result = -1;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   genmove(defender);
 
@@ -308,7 +315,8 @@ static int count_enough_nontrivial_defenses(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",curr_max_nr_nontrivial);
+  TraceFunctionParam("%u",curr_max_nr_nontrivial);
+  TraceFunctionParamListEnd();
 
   genmove(defender);
 
@@ -359,7 +367,8 @@ static boolean too_many_nontrivial_defenses(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   nontrivial_count = count_enough_nontrivial_defenses(si,
                                                       curr_max_nr_nontrivial);
@@ -394,7 +403,8 @@ static boolean is_threat_too_long(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==0);
 
@@ -430,7 +440,8 @@ boolean branch_d_defender_does_defender_win(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==1);
 
@@ -503,7 +514,8 @@ boolean branch_d_defender_has_starter_reached_goal(slice_index si)
   slice_index const next = slices[si].u.branch_d_defender.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_starter_reached_goal(next);
 
@@ -522,7 +534,8 @@ boolean branch_d_defender_has_non_starter_solved(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_non_starter_solved(slices[si].u.branch_d_defender.next);
 
@@ -551,7 +564,8 @@ static boolean defends_against_threats(table threats,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",table_length(threats));
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==0);
 
@@ -619,7 +633,8 @@ static boolean is_defense_relevant(int len_threat,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",len_threat);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==0);
 
@@ -668,7 +683,8 @@ static boolean write_variation(slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==1);
 
@@ -727,7 +743,8 @@ static boolean solve_variations_in_n(int len_threat,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==1);
 
@@ -771,7 +788,8 @@ static int solve_threats(table threats, slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==0);
 
@@ -828,7 +846,8 @@ boolean branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==1);
 
@@ -866,7 +885,8 @@ boolean branch_d_defender_finish_solution_next(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (slices[si].u.branch_d_defender.min_length<=slack_length_direct)
   {
@@ -899,7 +919,8 @@ boolean branch_d_defender_solve_next(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",min_length);
   if (min_length<slack_length_direct && slice_has_non_starter_solved(next))
@@ -950,7 +971,8 @@ static void root_solve_variations_in_n(int len_threat,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n%2==1);
 
@@ -984,7 +1006,8 @@ static void root_solve_variations_in_n(int len_threat,
 void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   output_start_postkey_level();
 
@@ -1034,7 +1057,8 @@ boolean branch_d_defender_root_solve(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   init_output(si);
   result = branch_d_defender_solve_postkey_in_n(si,n);
@@ -1064,7 +1088,8 @@ static boolean root_collect_refutations(table refutations,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",curr_max_nr_nontrivial);
+  TraceFunctionParam("%u",curr_max_nr_nontrivial);
+  TraceFunctionParamListEnd();
 
   assert(n%2==1);
 
@@ -1115,7 +1140,8 @@ static unsigned int root_collect_nontrivial(table nontrivial,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   nontrivial_count = count_enough_nontrivial_defenses(si,max_nr_nontrivial);
   if (max_nr_nontrivial<nontrivial_count)
@@ -1185,7 +1211,8 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (slices[si].u.branch_d_defender.length==slack_length_direct+1)
     next_in_setplay = next;
@@ -1235,7 +1262,8 @@ branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",same_side_as_root);
+  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParamListEnd();
   
   if (slices[next].type==STMoveInverter)
     next_relevant = slices[next].u.move_inverter.next;

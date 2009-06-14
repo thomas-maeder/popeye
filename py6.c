@@ -2032,7 +2032,8 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   meaning_of_whitetoplay result = dont_know_meaning_of_whitetoplay;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {
@@ -2340,7 +2341,8 @@ static boolean root_slice_apply_setplay(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u\n",result);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
   return result;
 }
 
@@ -2359,7 +2361,8 @@ static boolean root_slice_apply_postkeyplay(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u\n",result);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
   return result;
 }
 
@@ -2464,7 +2467,8 @@ static Token iterate_twins(Token prev_token)
   unsigned int twin_index = 0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",prev_token);
+  TraceFunctionParam("%u",prev_token);
+  TraceFunctionParamListEnd();
 
   do
   {

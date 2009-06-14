@@ -2069,7 +2069,8 @@ boolean libre(square sq, boolean generating)
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq);
-  TraceFunctionParam("%u\n",generating);
+  TraceFunctionParam("%u",generating);
+  TraceFunctionParamListEnd();
 
   if ((CondFlag[madras] || CondFlag[isardam])
       && !rex_mad && (sq==rb || sq==rn))

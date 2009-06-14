@@ -2602,7 +2602,8 @@ static void IntelligentProof(stip_length_type n)
 static void init_moves_left_non_root(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
 
@@ -2663,7 +2664,8 @@ static void init_moves_left_root(slice_index si, stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
 
@@ -2722,7 +2724,8 @@ boolean Intelligent(slice_index si, stip_length_type n)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   current_start_slice = si;
 
@@ -2769,7 +2772,8 @@ stip_supports_intelligent_rec(slice_index si)
   support_for_intelligent_mode result = intelligent_not_supported;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)

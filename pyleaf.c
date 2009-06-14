@@ -492,7 +492,8 @@ void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
-  TraceFunctionParam("%u\n",side_at_move);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParamListEnd();
 
   if (side_at_move==White ? !flagwhitemummer : !flagblackmummer)
     empile_for_goal_of_leaf_slice = leaf;
@@ -628,7 +629,8 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",just_moved);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
   assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceValue("%u\n",slices[leaf].u.leaf.goal);

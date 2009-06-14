@@ -26,7 +26,8 @@ boolean leaf_forced_must_starter_resign(slice_index leaf)
   assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = OptFlag[keepmating] && !is_a_mating_piece_left(defender);
 
@@ -48,7 +49,8 @@ boolean leaf_forced_has_starter_apriori_lost(slice_index leaf)
   Side const defender = slices[leaf].u.leaf.starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   assert(slices[leaf].u.leaf.starter!=no_side);
 
@@ -74,7 +76,8 @@ static boolean selflastencore(square const **selfbnp,
   TraceFunctionEntry(__func__);
   TraceSquare(**selfbnp);
   TraceSquare(initiallygenerated);
-  TraceFunctionParam("%u\n",defender);
+  TraceFunctionParam("%u",defender);
+  TraceFunctionParamListEnd();
 
   if (encore())
     result = true;
@@ -130,9 +133,11 @@ static boolean is_end_in_1_forced(Side defender, slice_index leaf)
   boolean escape_found = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
   TraceFunctionParam("%u",defender);
-  TraceFunctionParam("%u\n",slices[leaf].u.leaf.goal);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",slices[leaf].u.leaf.goal);
 
   if (defender==Black ? flagblackmummer : flagwhitemummer)
   {
@@ -242,7 +247,8 @@ boolean leaf_forced_has_starter_won(slice_index leaf)
   Side const defender = slices[leaf].u.leaf.starter;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   assert(slices[leaf].u.leaf.starter!=no_side);
 
@@ -263,7 +269,8 @@ boolean leaf_forced_has_starter_reached_goal(slice_index leaf)
   boolean const result = false;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   assert(slices[leaf].u.leaf.starter!=no_side);
 
@@ -284,7 +291,8 @@ boolean leaf_forced_does_defender_win(slice_index leaf)
   assert(slices[leaf].u.leaf.starter!=no_side);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = ((OptFlag[keepmating] && !is_a_mating_piece_left(defender))
             || !is_end_in_1_forced(defender,leaf));
@@ -305,7 +313,8 @@ boolean leaf_forced_has_non_starter_solved(slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   assert(slices[leaf].u.leaf.starter!=no_side);
 
@@ -337,7 +346,8 @@ static boolean solve_final_move(slice_index leaf)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
-  TraceFunctionParam("%u\n",defender);
+  TraceFunctionParam("%u",defender);
+  TraceFunctionParamListEnd();
 
   active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,defender);
@@ -369,7 +379,8 @@ static boolean solve_final_move(slice_index leaf)
 void leaf_forced_solve_postkey(slice_index leaf)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   output_start_postkey_level();
   solve_final_move(leaf);
@@ -388,7 +399,8 @@ boolean leaf_forced_solve(slice_index leaf)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   if (leaf_forced_does_defender_win(leaf))
     result = false;
@@ -416,7 +428,8 @@ boolean leaf_forced_root_solve(slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   init_output(leaf);
 
@@ -444,7 +457,8 @@ who_decides_on_starter leaf_forced_detect_starter(slice_index leaf,
   who_decides_on_starter result = dont_know_who_decides_on_starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   slices[leaf].u.leaf.starter = Black;
 

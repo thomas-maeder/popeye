@@ -22,7 +22,8 @@ boolean leaf_s_must_starter_resign(slice_index leaf)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = slice_must_starter_resign(slices[leaf].u.leafself.next);
 
@@ -41,7 +42,8 @@ boolean leaf_s_has_solution(slice_index leaf)
   Side const attacker = slices[leaf].u.leafself.starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   /* It is more likely that a position has no solution. */
   /*    Therefore let's check for "no solution" first. TLi */
@@ -92,7 +94,8 @@ boolean leaf_s_has_non_starter_solved(slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = leaf_forced_has_non_starter_solved(slices[leaf].u.leafself.next);
 
@@ -110,7 +113,8 @@ boolean leaf_s_solve(slice_index leaf)
   boolean found_solution = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   if (leaf_forced_has_non_starter_solved(slices[leaf].u.leafself.next))
   {
@@ -157,7 +161,8 @@ boolean leaf_s_root_solve(slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   init_output(leaf);
 
@@ -225,7 +230,8 @@ boolean leaf_s_has_starter_apriori_lost(slice_index leaf)
   slice_index const next = slices[leaf].u.leafself.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = leaf_forced_has_starter_apriori_lost(next);
 
@@ -244,7 +250,8 @@ boolean leaf_s_has_starter_won(slice_index leaf)
   boolean result;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = leaf_forced_has_starter_won(slices[leaf].u.leafself.next);
 
@@ -264,7 +271,8 @@ boolean leaf_s_has_starter_reached_goal(slice_index leaf)
   slice_index const next = slices[leaf].u.leafself.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = leaf_forced_has_starter_reached_goal(next);
 
@@ -282,7 +290,8 @@ slice_index leaf_s_root_make_setplay_slice(slice_index leaf)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   if (slices[leaf].u.leafself.goal==goal_target)
     result = alloc_target_leaf_slice(STLeafForced,
@@ -314,7 +323,8 @@ void leaf_s_solve_continuations(slice_index leaf)
   Side const attacker = slices[leaf].u.leafself.starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   active_slice[nbply+1] = leaf;
   genmove(attacker);
@@ -352,7 +362,8 @@ who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
   who_decides_on_starter result = dont_know_who_decides_on_starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = slice_detect_starter(next,!same_side_as_root);
   slices[leaf].u.leafself.starter = advers(slice_get_starter(next));

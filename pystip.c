@@ -72,7 +72,8 @@ slice_index alloc_leaf_slice(SliceType type, Goal goal)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",type);
-  TraceFunctionParam("%u\n",goal);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
 
   assert(type==STLeafDirect
          || type==STLeafHelp
@@ -98,7 +99,8 @@ slice_index copy_slice(slice_index original)
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",original);
+  TraceFunctionParam("%u",original);
+  TraceFunctionParamListEnd();
 
   slices[result] = slices[original];
 
@@ -125,7 +127,8 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",min_length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParamListEnd();
 
   assert(slices[si].type!=STLeafDirect
          && slices[si].type!=STLeafSelf
@@ -172,7 +175,8 @@ stip_length_type get_max_nr_moves(slice_index si)
   stip_length_type result = 0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   switch (slices[si].type)
   {
@@ -248,7 +252,8 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
   slice_index const index = *hook;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",*hook);
+  TraceFunctionParam("%u",*hook);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[index].type);
   switch (slices[index].type)
@@ -527,7 +532,8 @@ static slice_index find_goal_recursive(Goal goal,
   TraceFunctionParam("%u",goal);
   TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",*active);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
@@ -629,7 +635,8 @@ slice_index find_next_goal(Goal goal, slice_index start)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",goal);
-  TraceFunctionParam("%u\n",start);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u",next_slice);
   TraceValue("%u\n",slices[start].type);
@@ -665,7 +672,8 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_slice);
-  TraceFunctionParam("%u\n",*found_so_far);
+  TraceFunctionParam("%u",*found_so_far);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[current_slice].type);
   switch (slices[current_slice].type)
@@ -860,7 +868,8 @@ static void dispatch_to_slice(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p\n",st);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   assert(slices[si].type<=nr_slice_types);
@@ -901,7 +910,8 @@ void traverse_slices(slice_index root, slice_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
-  TraceFunctionParam("%p\n",st);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
 
   if (!st->visited[root])
   {
@@ -921,7 +931,8 @@ static void traverse_quodlibet(slice_index quodlibet, slice_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",quodlibet);
-  TraceFunctionParam("%p\n",st);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
 
   traverse_slices(slices[quodlibet].u.quodlibet.op1,st);
   traverse_slices(slices[quodlibet].u.quodlibet.op2,st);

@@ -1189,7 +1189,8 @@ void genmove(Side camp)
 #endif /* STOP_ON_ESC */
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",camp);
+  TraceFunctionParam("%u",camp);
+  TraceFunctionParamListEnd();
   
   if (TSTFLAG(PieSpExFlags,Neutral))
     initneutre(advers(camp));
@@ -1478,7 +1479,8 @@ piece next_singlebox_prom(piece p, Side c)
 
   TraceFunctionEntry(__func__);
   TracePiece(p);
-  TraceFunctionParam("%u\n",c);
+  TraceFunctionParam("%u",c);
+  TraceFunctionParamListEnd();
   
   for (pprom = getprompiece[p];
        pprom!=vide;
@@ -1783,7 +1785,8 @@ static void unpreempt_ghost(square sq_arrival)
 static void forget_ghost_at_pos(ghost_index_type ghost_pos)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",ghost_pos);
+  TraceFunctionParam("%u",ghost_pos);
+  TraceFunctionParamListEnd();
 
   assert(ghost_pos!=ghost_not_found);
   assert(nr_ghosts>0);
@@ -3811,7 +3814,8 @@ boolean immobile(Side camp)
   square const *immobilesquare= boardnum;  /* local to allow recursion */
   boolean const whbl_exact= camp==White ? wh_exact : bl_exact;
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d\n",camp);
+  TraceFunctionParam("%d",camp);
+  TraceFunctionParamListEnd();
 
   if (!whbl_exact && !flag_testlegality)
   {

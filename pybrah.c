@@ -26,7 +26,8 @@ slice_index alloc_branch_h_slice(stip_length_type length,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u\n",next);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
 
   slices[result].type = STBranchHelp; 
   slices[result].u.branch.starter = no_side; 
@@ -50,7 +51,8 @@ boolean branch_h_must_starter_resign(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_must_starter_resign(slices[si].u.branch.next);
   
@@ -79,7 +81,8 @@ boolean branch_h_has_non_starter_solved(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_non_starter_solved(slices[si].u.branch.next);
 
@@ -100,7 +103,8 @@ boolean branch_h_has_starter_apriori_lost(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_starter_apriori_lost(slices[si].u.branch.next);
 
@@ -118,7 +122,8 @@ boolean branch_h_has_starter_won(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_starter_won(slices[si].u.branch.next);
 
@@ -138,7 +143,8 @@ boolean branch_h_has_starter_reached_goal(slice_index si)
   slice_index const next = slices[si].u.branch.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_has_starter_reached_goal(next);
 
@@ -158,7 +164,8 @@ boolean branch_h_is_goal_reached(Side just_moved, slice_index si)
   slice_index const next = slices[si].u.branch.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   result = slice_is_goal_reached(just_moved,next);
 
@@ -184,7 +191,8 @@ static boolean move_filter(slice_index si, stip_length_type n, Side side_at_move
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",side_at_move);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParamListEnd();
   
   result = ((!isIntelligentModeActive || isGoalReachable())
             && !echecc(nbply,side_at_move)
@@ -220,7 +228,8 @@ static boolean branch_h_root_solve_in_n_recursive_nohash(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(n>=slack_length_help);
 
@@ -298,7 +307,8 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(n>slack_length_help);
 
@@ -365,7 +375,8 @@ static boolean branch_h_solve_in_n_recursive(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(n>=slack_length_help);
 
@@ -397,7 +408,8 @@ static boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",starter);
 
@@ -421,7 +433,8 @@ static boolean branch_h_root_solve_full_in_n(slice_index si, stip_length_type n)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n>=slack_length_help);
 
@@ -447,7 +460,8 @@ static boolean branch_h_root_solve_short_in_n(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n>=slack_length_help);
 
@@ -479,7 +493,8 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(slices[si].u.branch.length>slack_length_help);
 
@@ -510,7 +525,8 @@ boolean branch_h_root_solve(slice_index si)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   init_output(si);
 
@@ -574,7 +590,8 @@ boolean branch_h_solve(slice_index si)
   stip_length_type len = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(full_length>=slack_length_help-1);
 
@@ -619,7 +636,8 @@ void branch_h_solve_continuations_in_n_recursive_nohash(table continuations,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(n>=slack_length_help);
 
@@ -689,7 +707,8 @@ void branch_h_solve_continuations_in_n_recursive(table continuations,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (!inhash(si,hash_no_succ,n/2))
   {
@@ -719,7 +738,8 @@ static void branch_h_solve_continuations_in_n(table continuations,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",starter);
 
@@ -755,7 +775,8 @@ void branch_h_solve_continuations(table continuations, slice_index si)
   stip_length_type len = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(full_length>=slack_length_help);
 
@@ -786,7 +807,8 @@ void branch_h_root_write_key(slice_index si, attack_type type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",type);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParamListEnd();
 
   write_attack(type);
 
@@ -815,7 +837,8 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(n>=slack_length_help);
 
@@ -870,7 +893,8 @@ static boolean branch_h_has_solution_in_n_recursive(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (!inhash(si,hash_no_succ,n/2))
   {
@@ -897,7 +921,8 @@ static boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",starter);
 
@@ -922,7 +947,8 @@ boolean branch_h_has_solution(slice_index si)
   stip_length_type len = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",si);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   assert(full_length>=slack_length_help);
 
@@ -953,7 +979,8 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",branch_starter);
 
@@ -978,7 +1005,8 @@ boolean branch_h_root_solve_in_n(slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",n);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   result = branch_h_root_solve_in_n_recursive_nohash(si,n,starter);
 
@@ -1002,7 +1030,8 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",same_side_as_root);
+  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParamListEnd();
   
   if (slices[next].type==STMoveInverter)
     next_relevant = slices[next].u.move_inverter.next;
@@ -1104,7 +1133,8 @@ void branch_h_impose_starter(slice_index si, Side s)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u\n",s);
+  TraceFunctionParam("%u",s);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",next_starter);
 

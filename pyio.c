@@ -1712,7 +1712,8 @@ static char *ParseLength(char *tok,
   unsigned long tmp_length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   if (tok!=0 && *tok==0)
     /* allow white space before length, e.g. "dia 4" */
@@ -1779,7 +1780,8 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
   goalInputConfig_t const *gic;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   for (gic = goalInputConfig; gic!=goalInputConfig+nr_goals; ++gic)
     if (strstr(tok,gic->inputText)==tok)
@@ -1870,7 +1872,8 @@ static char *ParseReciGoal(char *tok,
   char *result = 0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   if (*tok=='(')
   {
@@ -1919,7 +1922,8 @@ static char *ParseReciEnd(char *tok, slice_index *si)
   slice_index op2 = no_slice;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   tok = ParseReciGoal(tok,&op1,&op2);
   if (op1!=no_slice && op2!=no_slice)
@@ -1952,7 +1956,8 @@ static char *ParseReflexEnd(char *tok, slice_index *si)
 static char *ParseEnd(char *tok, slice_index *si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   if (strncmp("ser-dia",tok,7) == 0
       || strncmp("ser-a=>b",tok,8) == 0)
@@ -2011,7 +2016,8 @@ static char *ParsePlay(char *tok, slice_index *si)
   char *result = 0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   if (arrowpos!=0)
   {
@@ -2348,7 +2354,8 @@ static char *ParseStip(void)
   char *tok = ReadNextTokStr();
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   strcpy(AlphaStip,tok);
   if (ParsePlay(tok,&root_slice)
@@ -2390,7 +2397,8 @@ Side ParseStructuredStip_starter(char *tok)
   PieSpec ps;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   /* We don't make any unsafe assumptions here; PieSpec enumerators
    * are initialised in terms of nr_sides */
@@ -2414,7 +2422,8 @@ static SliceType ParseStructuredStip_leaf_type(char type_char)
   SliceType result = no_slice_type;
     
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%c\n",type_char);
+  TraceFunctionParam("%c",type_char);
+  TraceFunctionParamListEnd();
 
   switch (type_char)
   {
@@ -2454,7 +2463,8 @@ static char *ParseStructuredStip_leaf(char *tok,
   SliceType leaf_type;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   /* e.g. d= for a direct leaf with goal stalemate */
   leaf_type = ParseStructuredStip_leaf_type(tok[0]);
@@ -2511,7 +2521,8 @@ static char *ParseStructuredStip_branch_d(char *tok,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   if (min_length==0 || min_length==max_length)
   {
@@ -2565,7 +2576,8 @@ static char *ParseStructuredStip_branch_h(char *tok,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   if (min_length==0 || min_length==max_length)
   {
@@ -2604,7 +2616,8 @@ static char *ParseStructuredStip_branch_ser(char *tok,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   if (min_length==0 || min_length==max_length)
   {
@@ -2638,7 +2651,8 @@ static char *ParseStructuredStip_branch_length(char *tok,
   unsigned long length_long = strtoul(tok,&end,10);
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
   
   if (end==tok || length_long==0 || length_long>UINT_MAX)
     tok = 0;
@@ -2682,7 +2696,8 @@ static char *ParseStructuredStip_branch(char *tok, slice_index *result)
   stip_length_type max_length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   tok = ParseStructuredStip_branch_length(tok,&min_length,&max_length);
 
@@ -2716,7 +2731,8 @@ static char *ParseStructuredStip_not(char *tok,
   slice_index operand;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
   
   tok = ParseStructuredStip_operand(tok+1,&operand,startLikeBranch);
   if (tok!=0 && operand!=no_slice)
@@ -2742,7 +2758,8 @@ static char *ParseStructuredStip_move_inversion(char *tok,
   slice_index operand;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
   
   tok = ParseStructuredStip_operand(tok+1,&operand,!startLikeBranch);
   if (tok!=0 && operand!=no_slice)
@@ -2762,7 +2779,8 @@ static char *ParseStructuredStip_move_inversion(char *tok,
 static char *ParseStructuredStip_operator(char *tok, SliceType *result)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   /* allow space between operands */
   tok = ParseStructuredStip_skip_whitespace(tok);
@@ -2798,7 +2816,8 @@ static char *ParseStructuredStip_expression(char *tok,
                                             boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   tok = ParseStructuredStip_operand(tok,result,startLikeBranch);
   if (tok!=0 && *result!=no_slice)
@@ -2846,7 +2865,8 @@ ParseStructuredStip_parenthesised_expression(char *tok,
                                              boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   tok = ParseStructuredStip_expression(tok+1,result,startLikeBranch);
 
@@ -2879,7 +2899,8 @@ static char *ParseStructuredStip_operand(char *tok,
                                          boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   /* allow space between operands */
   tok = ParseStructuredStip_skip_whitespace(tok);
@@ -2916,7 +2937,8 @@ static char *ParseStructuredStip(void)
   Side starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s\n",tok);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   AlphaStip[0] = 0;
 

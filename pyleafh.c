@@ -24,7 +24,8 @@ boolean leaf_h_must_starter_resign(slice_index leaf)
   assert(starter!=no_side);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   result = OptFlag[keepmating] && !is_a_mating_piece_left(starter);
 
@@ -46,7 +47,8 @@ static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",side_at_move);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   generate_move_reaching_goal(leaf,side_at_move);
 
@@ -87,7 +89,8 @@ boolean leaf_h_has_solution(slice_index leaf)
   Side const starter = slices[leaf].u.leaf.starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   if (!(OptFlag[keepmating] && !is_a_mating_piece_left(starter))
       && is_end_in_1_possible(starter,leaf))
@@ -111,7 +114,8 @@ boolean leaf_h_has_non_starter_solved(slice_index leaf)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   assert(slices[leaf].u.leaf.starter!=no_side);
 
@@ -136,7 +140,8 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
   Side const side_at_move = slices[leaf].u.leaf.starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   TraceValue("%u\n",side_at_move);
 
@@ -241,7 +246,8 @@ static boolean leaf_h_solve_nohash(slice_index leaf)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   switch (slices[leaf].u.leaf.goal)
   {
@@ -273,7 +279,8 @@ boolean leaf_h_root_solve(slice_index leaf)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   init_output(leaf);
 
@@ -295,7 +302,8 @@ boolean leaf_h_solve(slice_index leaf)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   if (inhash(leaf,HelpNoSuccOdd,1))
     result = false;
@@ -325,7 +333,8 @@ boolean leaf_h_has_starter_apriori_lost(slice_index leaf)
   Side const final = slices[leaf].u.leaf.starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   assert(slices[leaf].u.leaf.starter!=no_side);
 
@@ -347,7 +356,8 @@ boolean leaf_h_has_starter_won(slice_index leaf)
   Side const final = slices[leaf].u.leaf.starter;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   assert(slices[leaf].u.leaf.starter!=no_side);
 
@@ -369,7 +379,8 @@ boolean leaf_h_has_starter_reached_goal(slice_index leaf)
   boolean const result = false;
   
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u\n",leaf);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   assert(slices[leaf].u.leaf.starter!=no_side);
 
@@ -402,7 +413,8 @@ who_decides_on_starter leaf_h_detect_starter(slice_index leaf,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
-  TraceFunctionParam("%u\n",same_side_as_root);
+  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParamListEnd();
 
   switch (slices[leaf].u.leaf.goal)
   {
