@@ -25,7 +25,8 @@ slice_index alloc_not_slice(slice_index op)
   slices[result].u.not.op = op;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -60,7 +61,8 @@ boolean not_must_starter_resign_hashed(slice_index si)
   result = slice_has_solution(slices[si].u.not.op);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -82,7 +84,8 @@ boolean not_solve(slice_index si)
   result = !slice_has_solution(slices[si].u.not.op);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -101,7 +104,8 @@ boolean not_has_solution(slice_index si)
   result = !slice_has_solution(slices[si].u.not.op);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -138,7 +142,8 @@ boolean not_has_starter_apriori_lost(slice_index si)
   result = slice_has_starter_won(slices[si].u.not.op);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -158,7 +163,8 @@ boolean not_has_starter_reached_goal(slice_index si)
   result = !slice_has_starter_reached_goal(slices[si].u.not.op);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -177,7 +183,8 @@ boolean not_has_starter_won(slice_index si)
   result = !slice_has_starter_won(slices[si].u.not.op);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -195,7 +202,8 @@ boolean not_has_non_starter_solved(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -216,7 +224,8 @@ who_decides_on_starter not_detect_starter(slice_index si,
   result = slice_detect_starter(slices[si].u.not.op,same_side_as_root);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -257,7 +266,8 @@ slice_index not_root_make_setplay_slice(slice_index si)
     result = alloc_not_slice(op_set);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -276,6 +286,7 @@ boolean not_root_solve(slice_index si)
   result = !slice_has_solution(slices[si].u.not.op);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }

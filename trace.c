@@ -60,6 +60,12 @@ void TraceFunctionResultImpl(char const *format, size_t value)
     fprintf(stdout,format,value);
 }
 
+void TraceFunctionResultEnd(void)
+{
+  if (level<=max_level)
+    fprintf(stdout,"\n");
+}
+
 void TraceValueImpl(char const *format, size_t value)
 {
   if (level<=max_level)

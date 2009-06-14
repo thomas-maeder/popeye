@@ -38,7 +38,8 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
   slices[result].u.branch_d_defender.next = next;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -70,7 +71,8 @@ boolean branch_d_defender_must_starter_resign(slice_index si)
             || slice_must_starter_resign_hashed(next));
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -109,7 +111,8 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si)
                                   slices[si].u.branch_d_defender.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -131,7 +134,8 @@ boolean branch_d_defender_has_starter_apriori_lost(slice_index si)
   result = slice_has_starter_apriori_lost(slices[si].u.branch_d_defender.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -185,7 +189,8 @@ boolean branch_d_defender_is_refuted(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -246,7 +251,8 @@ has_defender_refutation(slice_index si,
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -295,7 +301,8 @@ static int count_all_nontrivial_defenses(slice_index si)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -346,7 +353,8 @@ static int count_enough_nontrivial_defenses(slice_index si,
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -381,7 +389,8 @@ static boolean too_many_nontrivial_defenses(slice_index si,
               !=defender_has_no_refutation);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -419,7 +428,8 @@ static boolean is_threat_too_long(slice_index si,
     result = false;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -459,7 +469,8 @@ boolean branch_d_defender_does_defender_win(slice_index si,
               !=defender_has_no_refutation);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -520,7 +531,8 @@ boolean branch_d_defender_has_starter_reached_goal(slice_index si)
   result = slice_has_starter_reached_goal(next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -540,7 +552,8 @@ boolean branch_d_defender_has_non_starter_solved(slice_index si)
   result = slice_has_non_starter_solved(slices[si].u.branch_d_defender.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -610,7 +623,8 @@ static boolean defends_against_threats(table threats,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -662,7 +676,8 @@ static boolean is_defense_relevant(int len_threat,
     result = true;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -767,7 +782,8 @@ static boolean solve_variations_in_n(int len_threat,
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -828,7 +844,8 @@ static int solve_threats(table threats, slice_index si, stip_length_type n)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -871,7 +888,8 @@ boolean branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   free_table();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -904,7 +922,8 @@ boolean branch_d_defender_finish_solution_next(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -941,7 +960,8 @@ boolean branch_d_defender_solve_next(slice_index si)
     result = false;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1064,7 +1084,8 @@ boolean branch_d_defender_root_solve(slice_index si)
   result = branch_d_defender_solve_postkey_in_n(si,n);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1118,7 +1139,8 @@ static boolean root_collect_refutations(table refutations,
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",is_defender_immobile);
+  TraceFunctionResult("%u",is_defender_immobile);
+  TraceFunctionResultEnd();
   return is_defender_immobile;
 }
 
@@ -1155,7 +1177,8 @@ static unsigned int root_collect_nontrivial(table nontrivial,
               : table_length(nontrivial));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1196,7 +1219,8 @@ unsigned int branch_d_defender_find_refutations(table refutations,
               : table_length(refutations));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1243,7 +1267,8 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
       = advers(slices[si].u.branch_d_defender.starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1303,7 +1328,8 @@ branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
   TraceValue("%u\n",*starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

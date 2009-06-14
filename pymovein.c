@@ -23,7 +23,8 @@ slice_index alloc_move_inverter_slice(slice_index next)
   slices[result].u.move_inverter.next = next;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -44,7 +45,8 @@ boolean move_inverter_must_starter_resign(slice_index si)
   result = slice_must_starter_resign(slices[si].u.move_inverter.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -65,7 +67,8 @@ boolean move_inverter_must_starter_resign_hashed(slice_index si)
   result = slice_must_starter_resign_hashed(slices[si].u.move_inverter.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -90,7 +93,8 @@ slice_index move_inverter_root_make_setplay_slice(slice_index si)
     result = alloc_move_inverter_slice(next_set_slice);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -111,7 +115,8 @@ boolean move_inverter_root_solve(slice_index si)
   output_end_move_inverted_level();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -136,7 +141,8 @@ boolean move_inverter_solve(slice_index si)
     result = slice_solve(slices[si].u.move_inverter.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -167,7 +173,8 @@ move_inverter_detect_starter(slice_index si,
     slices[si].u.move_inverter.starter = advers(next_starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -186,7 +193,8 @@ Side move_inverter_get_starter(slice_index si)
   result = slices[si].u.move_inverter.starter;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

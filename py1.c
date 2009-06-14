@@ -174,7 +174,8 @@ boolean is_ply_equal_to_captured(captured_ply_type const *snapshot, ply ply)
             && snapshot->castling_flag==castling_flag[ply]);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -671,7 +672,8 @@ static boolean noleapcontact(square sq_arrival, numvec kanf, numvec kend)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -895,7 +897,8 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",Result);
+  TraceFunctionResult("%u",Result);
+  TraceFunctionResultEnd();
   return Result;
 } /* nocontact */
 

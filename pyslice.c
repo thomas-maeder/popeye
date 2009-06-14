@@ -90,7 +90,8 @@ boolean slice_must_starter_resign(slice_index si)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -130,7 +131,8 @@ boolean slice_must_starter_resign_hashed(slice_index si)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -241,7 +243,8 @@ slice_index slice_root_make_setplay_slice(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -365,7 +368,8 @@ boolean slice_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",solution_found);
+  TraceFunctionResult("%u",solution_found);
+  TraceFunctionResultEnd();
   return solution_found;
 }
 
@@ -438,7 +442,8 @@ boolean slice_root_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -537,7 +542,8 @@ boolean slice_has_solution(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -650,7 +656,8 @@ boolean slice_has_non_starter_solved(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -714,7 +721,8 @@ boolean slice_has_starter_apriori_lost(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -777,7 +785,8 @@ boolean slice_has_starter_won(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -839,7 +848,8 @@ boolean slice_has_starter_reached_goal(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -885,7 +895,8 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1008,7 +1019,8 @@ who_decides_on_starter slice_detect_starter(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1158,7 +1170,8 @@ Side slice_get_starter(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

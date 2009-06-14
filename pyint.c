@@ -2744,7 +2744,8 @@ boolean Intelligent(slice_index si, stip_length_type n)
   result = CleanupSols();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -2762,7 +2763,8 @@ boolean isGoalReachable(void)
     result = isGoalReachableRegularGoals();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -2835,7 +2837,8 @@ stip_supports_intelligent_rec(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -2849,6 +2852,7 @@ support_for_intelligent_mode stip_supports_intelligent(void)
   result = stip_supports_intelligent_rec(root_slice);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }

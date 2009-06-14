@@ -37,7 +37,8 @@ slice_index alloc_branch_d_slice(stip_length_type length,
   slices[result].u.branch_d.peer = no_slice;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -153,7 +154,8 @@ static boolean have_we_solution_in_n(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceValue("%u",n);
-  TraceFunctionResult("%u\n",solution_found);
+  TraceFunctionResult("%u",solution_found);
+  TraceFunctionResultEnd();
   return solution_found;
 }
 
@@ -208,7 +210,8 @@ static boolean have_we_solution_in_n_short(slice_index si,
       break;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -237,7 +240,8 @@ static boolean have_we_solution_in_n_nohash(slice_index si,
     result = true;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -282,7 +286,8 @@ boolean branch_d_has_solution_in_n(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -303,7 +308,8 @@ boolean branch_d_has_solution(slice_index si)
                                          max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -439,7 +445,8 @@ boolean branch_d_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -525,7 +532,8 @@ boolean branch_d_root_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -547,7 +555,8 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
   result = branch_d_defender_make_setplay_slice(slices[si].u.branch_d.peer);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -573,7 +582,8 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
   TraceValue("%u\n",slices[si].u.branch_d.starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

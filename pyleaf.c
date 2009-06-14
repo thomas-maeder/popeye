@@ -718,7 +718,8 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

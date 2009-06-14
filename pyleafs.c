@@ -28,7 +28,8 @@ boolean leaf_s_must_starter_resign(slice_index leaf)
   result = slice_must_starter_resign(slices[leaf].u.leafself.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -80,7 +81,8 @@ boolean leaf_s_has_solution(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",solution_found);
+  TraceFunctionResult("%u",solution_found);
+  TraceFunctionResultEnd();
   return solution_found;
 }
 
@@ -100,7 +102,8 @@ boolean leaf_s_has_non_starter_solved(slice_index leaf)
   result = leaf_forced_has_non_starter_solved(slices[leaf].u.leafself.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -147,7 +150,8 @@ boolean leaf_s_solve(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",found_solution);
+  TraceFunctionResult("%u",found_solution);
+  TraceFunctionResultEnd();
   return found_solution;
 }
 
@@ -204,7 +208,8 @@ boolean leaf_s_root_solve(slice_index leaf)
   output_end_continuation_level();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -236,7 +241,8 @@ boolean leaf_s_has_starter_apriori_lost(slice_index leaf)
   result = leaf_forced_has_starter_apriori_lost(next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -256,7 +262,8 @@ boolean leaf_s_has_starter_won(slice_index leaf)
   result = leaf_forced_has_starter_won(slices[leaf].u.leafself.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -277,7 +284,8 @@ boolean leaf_s_has_starter_reached_goal(slice_index leaf)
   result = leaf_forced_has_starter_reached_goal(next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -303,7 +311,8 @@ slice_index leaf_s_root_make_setplay_slice(slice_index leaf)
       advers(slices[leaf].u.leafself.starter);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -369,7 +378,8 @@ who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
   slices[leaf].u.leafself.starter = advers(slice_get_starter(next));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

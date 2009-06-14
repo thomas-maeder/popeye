@@ -36,7 +36,8 @@ slice_index alloc_branch_h_slice(stip_length_type length,
   slices[result].u.branch.next = next;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -57,7 +58,8 @@ boolean branch_h_must_starter_resign(slice_index si)
   result = slice_must_starter_resign(slices[si].u.branch.next);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -87,7 +89,8 @@ boolean branch_h_has_non_starter_solved(slice_index si)
   result = slice_has_non_starter_solved(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -109,7 +112,8 @@ boolean branch_h_has_starter_apriori_lost(slice_index si)
   result = slice_has_starter_apriori_lost(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -128,7 +132,8 @@ boolean branch_h_has_starter_won(slice_index si)
   result = slice_has_starter_won(slices[si].u.branch.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -149,7 +154,8 @@ boolean branch_h_has_starter_reached_goal(slice_index si)
   result = slice_has_starter_reached_goal(next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -170,7 +176,8 @@ boolean branch_h_is_goal_reached(Side just_moved, slice_index si)
   result = slice_is_goal_reached(just_moved,next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -199,7 +206,8 @@ static boolean move_filter(slice_index si, stip_length_type n, Side side_at_move
             && !slice_must_starter_resign(slices[si].u.branch.next));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -278,7 +286,8 @@ static boolean branch_h_root_solve_in_n_recursive_nohash(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -347,7 +356,8 @@ static boolean branch_h_solve_in_n_recursive_nohash(slice_index si,
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -393,7 +403,8 @@ static boolean branch_h_solve_in_n_recursive(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -419,7 +430,8 @@ static boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
     result = branch_h_solve_in_n_recursive(si,n,starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -444,7 +456,8 @@ static boolean branch_h_root_solve_full_in_n(slice_index si, stip_length_type n)
     result = branch_h_root_solve_in_n(si,n);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -479,7 +492,8 @@ static boolean branch_h_root_solve_short_in_n(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -512,7 +526,8 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -575,7 +590,8 @@ boolean branch_h_root_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -615,7 +631,8 @@ boolean branch_h_solve(slice_index si)
   result = result || branch_h_solve_in_n(si,full_length);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -872,7 +889,8 @@ boolean branch_h_has_solution_in_n_recursive_nohash(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -905,7 +923,8 @@ static boolean branch_h_has_solution_in_n_recursive(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -932,7 +951,8 @@ static boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n)
     result = branch_h_has_solution_in_n_recursive(si,n,starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -963,7 +983,8 @@ boolean branch_h_has_solution(slice_index si)
   result = result || branch_h_has_solution_in_n(si,full_length);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -989,7 +1010,8 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n)
             : advers(branch_starter));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1011,7 +1033,8 @@ boolean branch_h_root_solve_in_n(slice_index si, stip_length_type n)
   result = branch_h_root_solve_in_n_recursive_nohash(si,n,starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1118,7 +1141,8 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
   TraceValue("%u\n",slices[si].u.branch.starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

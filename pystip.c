@@ -58,7 +58,8 @@ slice_index alloc_target_leaf_slice(SliceType type, square s)
   slices[result].u.leaf.target = s;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -86,7 +87,8 @@ slice_index alloc_leaf_slice(SliceType type, Goal goal)
   slices[result].u.leaf.target = initsquare;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -105,7 +107,8 @@ slice_index copy_slice(slice_index original)
   slices[result] = slices[original];
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -161,7 +164,8 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -243,7 +247,8 @@ stip_length_type get_max_nr_moves(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -613,7 +618,8 @@ static slice_index find_goal_recursive(Goal goal,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -654,7 +660,8 @@ slice_index find_next_goal(Goal goal, slice_index start)
   result = find_goal_recursive(goal,start,&active,root_slice);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -757,7 +764,8 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

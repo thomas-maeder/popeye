@@ -28,7 +28,8 @@ slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2)
   slices[result].u.reciprocal.op2 = op2;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -56,7 +57,8 @@ boolean reci_must_starter_resign(slice_index si)
             || slice_must_starter_resign(op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -84,7 +86,8 @@ boolean reci_must_starter_resign_hashed(slice_index si)
             || slice_must_starter_resign_hashed(op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -132,7 +135,8 @@ boolean reci_has_non_starter_solved(slice_index si)
             && slice_has_non_starter_solved(op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -159,7 +163,8 @@ boolean reci_has_starter_apriori_lost(slice_index si)
             || slice_has_starter_apriori_lost(op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -184,7 +189,8 @@ boolean reci_has_starter_won(slice_index si)
   result = slice_has_starter_won(op1) && slice_has_starter_won(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -207,7 +213,8 @@ boolean reci_has_starter_reached_goal(slice_index si)
             && slice_has_starter_reached_goal(op2));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -290,7 +297,8 @@ slice_index reci_root_make_setplay_slice(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -320,7 +328,8 @@ boolean reci_root_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -360,7 +369,8 @@ boolean reci_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -402,7 +412,8 @@ who_decides_on_starter reci_detect_starter(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

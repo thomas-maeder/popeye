@@ -736,7 +736,8 @@ static hash_value_type get_value_direct_succ(dhtElement const *he,
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -754,7 +755,8 @@ static hash_value_type get_value_direct_nosucc(dhtElement const *he,
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -771,7 +773,8 @@ static hash_value_type get_value_help_odd(dhtElement const *he,
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -788,7 +791,8 @@ static hash_value_type get_value_help_even(dhtElement const *he,
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -805,7 +809,8 @@ static hash_value_type get_value_series(dhtElement const *he,
   TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -839,7 +844,8 @@ static hash_value_type own_value_of_data_direct(dhtElement const *he,
   result = succ_neg>nosucc ? succ_neg : nosucc;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -867,7 +873,8 @@ static hash_value_type own_value_of_data_help(dhtElement const *he,
   result = even>odd ? even*2 : odd*2+1;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -946,7 +953,8 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%08x\n",result);
+  TraceFunctionResult("%08x",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1076,7 +1084,8 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%08x\n",result);
+  TraceFunctionResult("%08x",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1098,7 +1107,8 @@ static hash_value_type value_of_data(dhtElement const *he)
   result = value_of_data_recursive(he,offset,root_slice);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%08x\n",result);
+  TraceFunctionResult("%08x",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1783,7 +1793,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
     }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result; /* avoid compiler warning */
 } /* inhash */
 

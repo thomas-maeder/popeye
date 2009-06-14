@@ -1771,7 +1771,8 @@ static char *ParseLength(char *tok,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -1861,7 +1862,8 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -1912,7 +1914,8 @@ static char *ParseReciGoal(char *tok,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",result);
+  TraceFunctionResult("%s",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -2366,7 +2369,8 @@ static char *ParseStip(void)
   tok = ReadNextTokStr();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2409,7 +2413,8 @@ Side ParseStructuredStip_starter(char *tok)
     result = (Side)ps;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -2444,7 +2449,8 @@ static SliceType ParseStructuredStip_leaf_type(char type_char)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -2497,7 +2503,8 @@ static char *ParseStructuredStip_leaf(char *tok,
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2556,7 +2563,8 @@ static char *ParseStructuredStip_branch_d(char *tok,
     tok = 0;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2596,7 +2604,8 @@ static char *ParseStructuredStip_branch_h(char *tok,
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2633,7 +2642,8 @@ static char *ParseStructuredStip_branch_ser(char *tok,
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2680,7 +2690,8 @@ static char *ParseStructuredStip_branch_length(char *tok,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2712,7 +2723,8 @@ static char *ParseStructuredStip_branch(char *tok, slice_index *result)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2739,7 +2751,8 @@ static char *ParseStructuredStip_not(char *tok,
     *result = alloc_not_slice(operand);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2766,7 +2779,8 @@ static char *ParseStructuredStip_move_inversion(char *tok,
     *result =  alloc_move_inverter_slice(operand);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2799,7 +2813,8 @@ static char *ParseStructuredStip_operator(char *tok, SliceType *result)
     *result = no_slice_type;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2847,7 +2862,8 @@ static char *ParseStructuredStip_expression(char *tok,
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2882,7 +2898,8 @@ ParseStructuredStip_parenthesised_expression(char *tok,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2923,7 +2940,8 @@ static char *ParseStructuredStip_operand(char *tok,
     tok = ParseStructuredStip_leaf(tok,result,startLikeBranch);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -2957,7 +2975,8 @@ static char *ParseStructuredStip(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s\n",tok);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 

@@ -147,7 +147,8 @@ boolean goal_checker_stale(Side just_moved)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

@@ -1109,7 +1109,8 @@ boolean echecc(ply ply_id, Side camp)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 } /* end of echecc */
 

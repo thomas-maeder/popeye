@@ -31,7 +31,8 @@ boolean leaf_d_must_starter_resign(slice_index leaf)
   result = OptFlag[keepmating] && !is_a_mating_piece_left(attacker);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -130,7 +131,8 @@ boolean leaf_d_has_non_starter_solved(slice_index leaf)
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -185,7 +187,8 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return true;
 }
 
@@ -242,7 +245,8 @@ static boolean leaf_d_root_cmate_solve(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -294,7 +298,8 @@ static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -339,7 +344,8 @@ boolean leaf_d_root_solve(slice_index leaf)
   output_end_continuation_level();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -451,7 +457,8 @@ static boolean leaf_d_regulargoals_solve(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",solution_found);
+  TraceFunctionResult("%u",solution_found);
+  TraceFunctionResultEnd();
   return solution_found;
 }
 
@@ -483,7 +490,8 @@ boolean leaf_d_solve(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -512,7 +520,8 @@ boolean leaf_d_has_starter_apriori_lost(slice_index leaf)
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -532,7 +541,8 @@ boolean leaf_d_has_starter_won(slice_index leaf)
   result = leaf_is_goal_reached(slices[leaf].u.leaf.starter,leaf);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -552,7 +562,8 @@ boolean leaf_d_has_starter_reached_goal(slice_index leaf)
   result = leaf_is_goal_reached(slices[leaf].u.leaf.starter,leaf);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -636,6 +647,7 @@ who_decides_on_starter leaf_d_detect_starter(slice_index leaf,
   TraceValue("%u\n",slices[leaf].u.leaf.starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }

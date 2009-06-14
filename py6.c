@@ -2067,7 +2067,8 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -2092,7 +2093,8 @@ static boolean shorten_root_branch_h_slice(void)
     result = false;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -2155,7 +2157,8 @@ static boolean root_slice_apply_whitetoplay(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -2547,7 +2550,8 @@ static Token iterate_twins(Token prev_token)
 
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",prev_token);
+  TraceFunctionResult("%u",prev_token);
+  TraceFunctionResultEnd();
   return prev_token;
 }
 

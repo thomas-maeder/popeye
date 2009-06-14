@@ -592,7 +592,8 @@ static boolean compareProofPieces(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -613,7 +614,8 @@ static boolean compareProofNbrPiece(void)
     }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -636,7 +638,8 @@ static boolean compareImitators(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -653,7 +656,8 @@ boolean ProofIdentical(void)
   result = compareProofPieces() && compareProofNbrPiece() && compareImitators();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -721,7 +725,8 @@ static int ProofBlKingMovesNeeded(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",needed);
+  TraceFunctionResult("%d",needed);
+  TraceFunctionResultEnd();
   return needed;
 }
 
@@ -772,7 +777,8 @@ static int ProofWhKingMovesNeeded(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",needed);
+  TraceFunctionResult("%u",needed);
+  TraceFunctionResultEnd();
   return needed;
 }
 
@@ -1368,7 +1374,8 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",Diff);
+  TraceFunctionResult("%u",Diff);
+  TraceFunctionResultEnd();
   return Diff;
 }
 

@@ -2191,7 +2191,8 @@ boolean libre(square sq, boolean generating)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 } /* libre */
 

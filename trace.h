@@ -110,6 +110,10 @@ void TraceCurrentHashBuffer(void);
 #define TracePointerFunctionResult(format,name) \
   TracePointerValueImpl(" <- " #name ":" format, (void*)name)
 
+/* Trace end of function return value (if any)
+ */
+void TraceFunctionResultEnd(void);
+
 void TraceValueImpl(char const *format, size_t value);
 void TraceFunctionResultImpl(char const *format, size_t value);
 void TracePointerValueImpl(char const *format, void const *value);
@@ -130,6 +134,7 @@ void TracePointerValueImpl(char const *format, void const *value);
 #define TraceFunctionExit(name)
 #define TraceFunctionResult(format,name)
 #define TracePointerFunctionResult(format,name)
+#define TraceFunctionResultEnd()
 #define TraceCurrentHashBuffer()
 
 #endif

@@ -1547,7 +1547,8 @@ static boolean singlebox_officer_out_of_box(void)
     }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1560,7 +1561,8 @@ static boolean singlebox_pawn_out_of_box(void)
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1585,7 +1587,8 @@ static boolean singlebox_illegal_latent_white_pawn(void)
 
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1609,7 +1612,8 @@ static boolean singlebox_illegal_latent_black_pawn(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1671,7 +1675,8 @@ static boolean singlebox_illegal(void)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -1728,7 +1733,8 @@ static ghost_index_type find_ghost(square sq_arrival)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -3941,6 +3947,7 @@ boolean immobile(Side camp)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",true);
+  TraceFunctionResult("%d",true);
+  TraceFunctionResultEnd();
   return true;
 } /* immobile */
