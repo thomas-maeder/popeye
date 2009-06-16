@@ -5,11 +5,11 @@
 /* Make a guess for a reasonable amount of memory for the hashtable
  * @return number of kilo-bytes to be used
  */
-unsigned long guessReasonableMaxmemory(void)
+_w64 unsigned long guessReasonableMaxmemory(void)
 {
   unsigned long const one_kilo = 1024;
   unsigned long const one_giga = 1024*1024;
-  unsigned long result = one_giga;
+  _w64 unsigned long result = one_giga;
 
   /* GlobalMemoryStatusEx() has only been available since Windows 2000
    */
