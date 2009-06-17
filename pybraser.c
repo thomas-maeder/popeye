@@ -366,7 +366,7 @@ static boolean branch_ser_root_solve_full_in_n(slice_index si,
   assert(n>=1);
 
   if (isIntelligentModeActive)
-    result = Intelligent(si,n);
+    result = Intelligent(si,n,n);
   else
     result = branch_ser_root_solve_in_n_recursive(si,n);
 
@@ -394,7 +394,7 @@ static boolean branch_ser_root_solve_short_in_n(slice_index si,
   assert(n>=slack_length_series);
 
   if (isIntelligentModeActive)
-    result = Intelligent(si,n);
+    result = Intelligent(si,n,slices[si].u.branch.length);
   else
   {
     /* we only display move numbers when looking for full length

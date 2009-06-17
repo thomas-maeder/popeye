@@ -33,6 +33,8 @@ typedef enum
 
   STMoveInverter, /* 0 length, inverts side at move */
 
+  STHelpHashed,   /* help play with hash table */
+
   nr_slice_types,
   no_slice_type = nr_slice_types
 } SliceType;
@@ -167,6 +169,14 @@ typedef struct
             Side starter;
             slice_index next;
         } move_inverter;
+
+        struct /* for type==STHelpHashed */
+        {
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
+            slice_index next;
+            slice_index next_towards_goal; /* TODO name */
+        } help_hashed;
     } u;
 } Slice;
 

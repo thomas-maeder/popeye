@@ -14,6 +14,7 @@
 #include "pyrecipr.h"
 #include "pynot.h"
 #include "pymovein.h"
+#include "pyhelpha.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -82,6 +83,10 @@ boolean slice_must_starter_resign(slice_index si)
 
     case STMoveInverter:
       result = move_inverter_must_starter_resign(si);
+      break;
+
+    case STHelpHashed:
+      result = help_hashed_must_starter_resign(si);
       break;
 
     default:
@@ -462,7 +467,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
   switch (slices[si].type)
   {
     case STBranchHelp:
-      branch_h_root_solve_in_n(si,n);
+      branch_h_root_solve_in_n(si,n,slice_get_starter(si));
       break;
 
     case STBranchSeries:
@@ -475,6 +480,10 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
 
     case STMoveInverter:
       slice_root_solve_in_n(slices[si].u.move_inverter.next,n);
+      break;
+
+    case STHelpHashed:
+      help_hashed_solve_in_n(si,n,slice_get_starter(si));
       break;
 
     default:
@@ -590,6 +599,10 @@ void slice_solve_postkey(slice_index si)
       /* STNot doesn't have postkey play by definition */
       break;
 
+    case STHelpHashed:
+      help_hashed_solve_postkey(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -648,6 +661,10 @@ boolean slice_has_non_starter_solved(slice_index si)
 
     case STNot:
       result = not_has_non_starter_solved(si);
+      break;
+
+    case STHelpHashed:
+      result = help_hashed_has_non_starter_solved(si);
       break;
 
     default:
@@ -715,6 +732,10 @@ boolean slice_has_starter_apriori_lost(slice_index si)
       result = not_has_starter_apriori_lost(si);
       break;
 
+    case STHelpHashed:
+      result = help_hashed_has_starter_apriori_lost(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -777,6 +798,10 @@ boolean slice_has_starter_won(slice_index si)
 
     case STNot:
       result = not_has_starter_won(si);
+      break;
+
+    case STHelpHashed:
+      result = help_hashed_has_starter_won(si);
       break;
 
     default:
@@ -842,6 +867,10 @@ boolean slice_has_starter_reached_goal(slice_index si)
       result = not_has_starter_reached_goal(si);
       break;
 
+    case STHelpHashed:
+      result = help_hashed_has_starter_reached_goal(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -886,6 +915,10 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
 
     case STBranchSeries:
       result = branch_ser_is_goal_reached(just_moved,si);
+      break;
+
+    case STHelpHashed:
+      result = help_hashed_is_goal_reached(just_moved,si);
       break;
 
     default:
@@ -941,6 +974,10 @@ void slice_write_unsolvability(slice_index si)
 
     case STNot:
       not_write_unsolvability(si);
+      break;
+
+    case STHelpHashed:
+      help_hashed_write_unsolvability(si);
       break;
 
     default:
@@ -1012,6 +1049,10 @@ who_decides_on_starter slice_detect_starter(slice_index si,
     case STMoveInverter:
       result = move_inverter_detect_starter(si,same_side_as_root);
       break;
+
+    case STHelpHashed:
+      result = help_hashed_detect_starter(si,same_side_as_root);
+      break;
       
     default:
       assert(0);
@@ -1073,6 +1114,10 @@ void slice_impose_starter(slice_index si, Side side)
 
     case STMoveInverter:
       move_inverter_impose_starter(si,side);
+      break;
+
+    case STHelpHashed:
+      help_hashed_impose_starter(si,side);
       break;
 
     default:
@@ -1163,6 +1208,10 @@ Side slice_get_starter(slice_index si)
         result = advers(next_starter);
       break;
     }
+
+    case STHelpHashed:
+      result = slice_get_starter(slices[si].u.help_hashed.next_towards_goal);
+      break;
 
     default:
       assert(0);

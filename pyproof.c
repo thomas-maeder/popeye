@@ -55,6 +55,8 @@ static ProofImpossible_fct_t seriesImpossible;
 
 static Goal goal_to_be_reached;
 
+stip_length_type current_length;
+
 
 void ProofEncode(void)
 {
@@ -128,8 +130,8 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
   /* set all squares to a maximum */
   for (bnp= boardnum; *bnp; bnp++)
   {
-    WhKingMoves[*bnp] = slices[root_slice].u.branch.length;
-    BlKingMoves[*bnp] = slices[root_slice].u.branch.length;
+    WhKingMoves[*bnp] = current_length;
+    BlKingMoves[*bnp] = current_length;
   }
 
   /* mark squares occupied or garded by immobile pawns
@@ -277,12 +279,15 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
   } while(GoOn);
 }
 
-void ProofInitialiseIntelligent(void)
+void ProofInitialiseIntelligent(stip_length_type length)
 {
   int i;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
   TraceFunctionParamListEnd();
+
+  current_length = length;
 
   ProofNbrWhitePieces = 0;
   ProofNbrBlackPieces = 0;
@@ -797,12 +802,12 @@ static void WhPawnMovesFromTo(
 
   /* calculate number of moves */
   if (rank_to<rank_from)
-    *moves= slices[root_slice].u.branch.length;
+    *moves= current_length;
   else
   {
     *moves= rank_to-rank_from;
     if (*moves<*captures || *captures>captallowed)
-      *moves= slices[root_slice].u.branch.length;
+      *moves= current_length;
     else if (from<=square_h2 && *captures<*moves-1)
       /* double step possible */
       --*moves;
@@ -824,12 +829,12 @@ static void BlPawnMovesFromTo(
 
   /* calculate number of moves */
   if (rank_from<rank_to)
-    *moves= slices[root_slice].u.branch.length;
+    *moves= current_length;
   else
   {
     *moves= rank_from-rank_to;
     if (*moves<*captures || *captures>captallowed)
-      *moves= slices[root_slice].u.branch.length;
+      *moves= current_length;
     else if (from>=square_a7 && *captures < *moves-1)
       /* double step possible */
       --*moves;
@@ -850,7 +855,7 @@ static stip_length_type WhPawnMovesNeeded(square sq)
 
   if (sq<=square_h2)
     /* there is no pawn at all that can enter this square */
-    return slices[root_slice].u.branch.length;
+    return current_length;
 
   /* double step */
   if (square_a4<=sq && square_h4>=sq
@@ -867,7 +872,7 @@ static stip_length_type WhPawnMovesNeeded(square sq)
       return 1;
   }
   else
-    MovesNeeded= slices[root_slice].u.branch.length;
+    MovesNeeded= current_length;
 
   if (e[sq+dir_down+dir_left] != obs)
   {
@@ -902,7 +907,7 @@ static stip_length_type BlPawnMovesNeeded(square sq)
 
   if (sq>=square_a7)
     /* there is no pawn at all that can enter this square */
-    return slices[root_slice].u.branch.length;
+    return current_length;
 
   /* double step */
   if (square_a5<=sq && square_h5>=sq
@@ -919,7 +924,7 @@ static stip_length_type BlPawnMovesNeeded(square sq)
       return 1;
   }
   else
-    MovesNeeded= slices[root_slice].u.branch.length;
+    MovesNeeded= current_length;
 
   if (e[sq+dir_up+dir_right] != obs)
   {
@@ -942,10 +947,10 @@ static stip_length_type BlPawnMovesNeeded(square sq)
 #define BLOCKED(sq)                             \
   (  (e[sq] == pb                               \
       && target.board[sq] == pb                   \
-      && WhPawnMovesNeeded(sq)>=slices[root_slice].u.branch.length)       \
+      && WhPawnMovesNeeded(sq)>=current_length)       \
      || (e[sq] == pn                            \
          && target.board[sq] == pn                \
-         && BlPawnMovesNeeded(sq)>=slices[root_slice].u.branch.length))
+         && BlPawnMovesNeeded(sq)>=current_length))
 
 static void PieceMovesFromTo(piece p,
                              square from, square to,
@@ -968,7 +973,7 @@ static void PieceMovesFromTo(piece p,
       square    sqi, sqj;
       int   i, j;
       stip_length_type testmov;
-      stip_length_type testmin = slices[root_slice].u.branch.length;
+      stip_length_type testmin = current_length;
       for (i= vec_knight_start; i<=vec_knight_end; ++i)
       {
         sqi= from+vec[i];
@@ -992,7 +997,7 @@ static void PieceMovesFromTo(piece p,
 
   case Bishop:
     if (SquareCol(from) != SquareCol(to))
-      *moves= slices[root_slice].u.branch.length;
+      *moves= current_length;
     else
     {
       dir= CheckDirBishop[sqdiff];
@@ -1053,7 +1058,7 @@ static void WhPromPieceMovesFromTo(
 
   cenpromsq= (from%onerow
               + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow);
-  *moves= slices[root_slice].u.branch.length;
+  *moves= current_length;
 
   WhPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
   PieceMovesFromTo(target.board[to], cenpromsq, to, &mov2);
@@ -1097,7 +1102,7 @@ static void BlPromPieceMovesFromTo(
   stip_length_type i, mov1, mov2, cap1;
 
   cenpromsq= from%onerow + nr_of_slack_rows_below_board*onerow;
-  *moves= slices[root_slice].u.branch.length;
+  *moves= current_length;
 
   BlPawnMovesFromTo(from, cenpromsq, &mov1, &cap1, captallowed);
   PieceMovesFromTo(target.board[to], cenpromsq, to, &mov2);
@@ -1141,7 +1146,7 @@ static void WhPieceMovesFromTo(
   piece pfrom= e[from];
   piece pto= target.board[to];
 
-  *moves= slices[root_slice].u.branch.length;
+  *moves= current_length;
 
   switch (pto)
   {
@@ -1174,7 +1179,7 @@ static void BlPieceMovesFromTo(
 
   pfrom= e[from];
   pto= target.board[to];
-  *moves= slices[root_slice].u.branch.length;
+  *moves= current_length;
 
   switch (pto)
   {
@@ -1224,7 +1229,7 @@ static stip_length_type ArrangeListedPieces(
   stip_length_type Diff, Diff2;
   int i, id;
 
-  Diff= slices[root_slice].u.branch.length;
+  Diff= current_length;
 
   if (nto == 0)
     return 0;
@@ -1284,7 +1289,7 @@ static stip_length_type ArrangePieces(
         BlPieceMovesFromTo(from->sq[ifrom],
                            to->sq[ito], &moves, &captures,
                            CapturesAllowed, CapturesRequired);
-      if (moves < slices[root_slice].u.branch.length)
+      if (moves < current_length)
       {
         pl[ito].moves[pl[ito].Nbr]= moves;
         pl[ito].captures[pl[ito].Nbr]= captures;
@@ -1343,7 +1348,7 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
         else
           BlPawnMovesFromTo(from->sq[ifrom],
                             to->sq[ito], &moves, &captures, CapturesAllowed);
-        if (moves < slices[root_slice].u.branch.length)
+        if (moves < current_length)
         {
           pl[ito].moves[pl[ito].Nbr]= moves;
           pl[ito].captures[pl[ito].Nbr]= captures;
@@ -1360,12 +1365,12 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
     Diff= ArrangeListedPieces(pl,
                               to->Nbr, from->Nbr, taken, CapturesAllowed);
 
-    if (Diff != slices[root_slice].u.branch.length)
+    if (Diff != current_length)
     {
       /* determine minimal number of captures required */
       captures= 0;
       while (ArrangeListedPieces(pl, to->Nbr, from->Nbr, taken, captures)
-             == slices[root_slice].u.branch.length)
+             == current_length)
         captures++;
 
       *CapturesRequired= captures;

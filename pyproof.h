@@ -53,8 +53,9 @@ void ProofRestoreTargetPosition(void);
 void ProofWriteStartPosition(void);
 
 /* Initialise data structure for intelligent solving
+ * @param length number of half-moves until goal has to be reached
  */
-void ProofInitialiseIntelligent(void);
+void ProofInitialiseIntelligent(stip_length_type length);
 
 /* Compare two positions
  * @return true iff the current position is equal to the target

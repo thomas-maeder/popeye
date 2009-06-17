@@ -2067,6 +2067,13 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
     }
 
+    case STHelpHashed:
+    {
+      slice_index const next = slices[si].u.help_hashed.next_towards_goal;
+      result = detect_meaning_of_whitetoplay(next);
+      break;
+    }
+
     default:
       /* nothing */
       break;
@@ -2087,12 +2094,24 @@ static boolean shorten_root_branch_h_slice(void)
 
   if (slices[root_slice].u.branch.length%2==1)
   {
-    --slices[root_slice].u.branch.length;
-    --slices[root_slice].u.branch.min_length;
-    if (slices[root_slice].u.branch.min_length<slack_length_help)
-      slices[root_slice].u.branch.min_length += 2;
-    TraceValue("->%u",slices[root_slice].u.branch.length);
-    TraceValue("->%u\n",slices[root_slice].u.branch.min_length);
+    if (slices[root_slice].u.branch.length==slack_length_help+1)
+    {
+      slice_index const next = slices[root_slice].u.branch.next;
+      slice_index const newroot = slices[next].u.help_hashed.next_towards_goal;
+      dealloc_slice_index(next);
+      dealloc_slice_index(root_slice);
+      root_slice = newroot;
+    }
+    else
+    {
+      --slices[root_slice].u.branch.length;
+      --slices[root_slice].u.branch.min_length;
+      if (slices[root_slice].u.branch.min_length<slack_length_help)
+        slices[root_slice].u.branch.min_length += 2;
+      TraceValue("->%u",slices[root_slice].u.branch.length);
+      TraceValue("->%u\n",slices[root_slice].u.branch.min_length);
+    }
+
     result = true;
   }
   else
@@ -2121,16 +2140,18 @@ static boolean root_slice_apply_whitetoplay(void)
     {
       meaning_of_whitetoplay const
           meaning = detect_meaning_of_whitetoplay(root_slice);
+      /* calculate new starter now - shorten_root_branch_h_slice() may
+       * replace root_slice
+       */
+      Side const new_starter = advers(slices[root_slice].u.branch.starter);
       if (meaning==whitetoplay_means_shorten_root_slice
           && shorten_root_branch_h_slice())
       {
-        slice_impose_starter(root_slice,
-                             advers(slices[root_slice].u.branch.starter));
+        slice_impose_starter(root_slice,new_starter);
         root_slice = alloc_move_inverter_slice(root_slice);
       }
       else
-        slice_impose_starter(root_slice,
-                             advers(slices[root_slice].u.branch.starter));
+        slice_impose_starter(root_slice,new_starter);
       result = true;
       break;
     }

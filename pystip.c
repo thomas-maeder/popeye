@@ -241,6 +241,10 @@ stip_length_type get_max_nr_moves(slice_index si)
       result = get_max_nr_moves(slices[si].u.move_inverter.next);
       break;
 
+    case STHelpHashed:
+      result = get_max_nr_moves(slices[si].u.help_hashed.next_towards_goal);
+      break;
+
     default:
       assert(0);
       break;
@@ -297,8 +301,10 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
        * op1 the new direct leaf.
        */
       slice_index const next = slices[index].u.branch.next;
-      Goal const goal = slices[next].u.leaf.goal;
-      assert(slices[next].type==STLeafHelp);
+      slice_index const to_goal = slices[next].u.help_hashed.next_towards_goal;
+      Goal const goal = slices[to_goal].u.leaf.goal;
+      assert(slices[next].type==STHelpHashed);
+      assert(slices[to_goal].type==STLeafHelp);
       *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
                                     index);
       TraceValue("allocated quodlibet slice %u for reflex play\n",*hook);
@@ -427,6 +433,12 @@ static boolean slice_ends_only_in(Goal const goals[],
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
+    case STHelpHashed:
+    {
+      slice_index const next = slices[si].u.help_hashed.next_towards_goal;
+      return slice_ends_only_in(goals,nrGoals,next);
+    }
+
     default:
       assert(0);
       exit(1);
@@ -506,6 +518,12 @@ static boolean slice_ends_in(Goal const goals[],
     case STMoveInverter:
     {
       slice_index const next = slices[si].u.move_inverter.next;
+      return slice_ends_in(goals,nrGoals,next);
+    }
+
+    case STHelpHashed:
+    {
+      slice_index const next = slices[si].u.help_hashed.next_towards_goal;
       return slice_ends_in(goals,nrGoals,next);
     }
 
@@ -608,6 +626,13 @@ static slice_index find_goal_recursive(Goal goal,
     case STMoveInverter:
     {
       slice_index const next = slices[si].u.move_inverter.next;
+      result = find_goal_recursive(goal,start,active,next);
+      break;
+    }
+
+    case STHelpHashed:
+    {
+      slice_index const next = slices[si].u.help_hashed.next_towards_goal;
       result = find_goal_recursive(goal,start,active,next);
       break;
     }
@@ -758,6 +783,13 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
       break;
     }
 
+    case STHelpHashed:
+    {
+      slice_index const next = slices[current_slice].u.help_hashed.next_towards_goal;
+      result = find_unique_goal_recursive(next,found_so_far);
+      break;
+    }
+
     default:
       assert(0);
       break;
@@ -838,7 +870,8 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children,           /* STReciprocal */
   &slice_traverse_children,           /* STQuodlibet */
   &slice_traverse_children,           /* STNot */
-  &slice_traverse_children            /* STMoveInverter */
+  &slice_traverse_children,           /* STMoveInverter */
+  &slice_traverse_children            /* STHelpHashed */
 };
 
 /* Make the stipulation exact
@@ -864,6 +897,12 @@ void stip_make_exact(void)
  */
 void slice_operation_noop(slice_index si, slice_traversal *st)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Dispatch an operation to a slice based on the slice's type
@@ -906,7 +945,7 @@ void slice_traversal_init(slice_traversal *st,
     st->visited[i] = false;
 
   st->ops = ops;
-  
+
   st->param = param;
 }
   
@@ -1014,6 +1053,16 @@ static void traverse_branch_series(slice_index branch, slice_traversal *st)
   traverse_slices(slices[branch].u.branch.next,st);
 }
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+static void traverse_help_hashed(slice_index branch, slice_traversal *st)
+{
+  traverse_slices(slices[branch].u.help_hashed.next,st);
+  traverse_slices(slices[branch].u.help_hashed.next_towards_goal,st);
+}
+
 static slice_operation const traversers[] =
 {
   &traverse_branch_direct,          /* STBranchDirect */
@@ -1027,7 +1076,8 @@ static slice_operation const traversers[] =
   &traverse_reciprocal,             /* STReciprocal */
   &traverse_quodlibet,              /* STQuodlibet */
   &traverse_not,                    /* STNot */
-  &traverse_move_inverter           /* STMoveInverter */
+  &traverse_move_inverter,          /* STMoveInverter */
+  &traverse_help_hashed             /* STHelpHashed */
 };
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree
@@ -1036,5 +1086,12 @@ static slice_operation const traversers[] =
  */
 void slice_traverse_children(slice_index si, slice_traversal *st)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   dispatch_to_slice(si,&traversers,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

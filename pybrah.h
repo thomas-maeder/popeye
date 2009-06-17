@@ -113,7 +113,40 @@ boolean branch_h_solve(slice_index si);
  * @param n exact number of moves
  * @return true iff >=1 solution was found
  */
-boolean branch_h_root_solve_in_n(slice_index si, stip_length_type n);
+boolean branch_h_root_solve_in_n(slice_index si, stip_length_type n, Side starter);
+/* TODO get rid of parameter starter again */
+
+/* Determine and write the solution(s) in a help stipulation
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @param side_at_move side at move
+ * @return true iff >= 1 solution has been found
+ */
+boolean branch_h_solve_in_n(slice_index si,
+                            stip_length_type n,
+                            Side side_at_move);
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @param side_at_move side at move
+ * @return true iff >= 1 solution has been found
+ */
+boolean branch_h_has_solution_in_n(slice_index si,
+                                   stip_length_type n,
+                                   Side side_at_move);
+
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice.
+ * @param continuations table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @param side_at_move side at move
+ */
+void branch_h_solve_continuations_in_n(table continuations,
+                                       slice_index si,
+                                       stip_length_type n,
+                                       Side side_at_move);
 
 /* Determine and write continuations of a slice
  * @param continuations table where to store continuing moves (i.e. threats)
