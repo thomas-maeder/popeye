@@ -467,7 +467,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
   switch (slices[si].type)
   {
     case STBranchHelp:
-      branch_h_root_solve_in_n(si,n,slice_get_starter(si));
+      branch_h_root_solve_in_n(si,n);
       break;
 
     case STBranchSeries:

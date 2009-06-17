@@ -221,14 +221,12 @@ static boolean move_filter(slice_index si, stip_length_type n, Side side_at_move
  * @param n number of half moves until end state has to be reached
  *          (this may be shorter than the slice's length if we are
  *          searching for short solutions only)
- * @param side_at_move side at move
  * @return true iff >=1 solution was found
  */
-boolean branch_h_root_solve_in_n(slice_index si,
-                                 stip_length_type n,
-                                 Side side_at_move)
+boolean branch_h_root_solve_in_n(slice_index si, stip_length_type n)
 {
-  Side const next_side = advers(side_at_move);
+  Side const starter = slices[si].u.branch.starter;
+  Side const next_side = advers(starter);
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -240,15 +238,15 @@ boolean branch_h_root_solve_in_n(slice_index si,
   assert(n>slack_length_help);
 
   active_slice[nbply+1] = si;
-  genmove(side_at_move);
+  genmove(starter);
   
-  --MovesLeft[side_at_move];
+  --MovesLeft[starter];
 
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !(OptFlag[restart] && MoveNbr<RestartNbr)
-        && move_filter(si,n,side_at_move))
+        && move_filter(si,n,starter))
     {
       if (!slice_must_starter_resign_hashed(slices[si].u.branch.next)
           && help_solve_in_n(slices[si].u.branch.next,n-1,next_side))
@@ -272,7 +270,7 @@ boolean branch_h_root_solve_in_n(slice_index si,
       break;
   }
     
-  ++MovesLeft[side_at_move];
+  ++MovesLeft[starter];
 
   finply();
 
@@ -371,7 +369,7 @@ static boolean branch_h_root_solve_full_in_n(slice_index si,
   if (isIntelligentModeActive)
     result = Intelligent(si,n,n);
   else
-    result = branch_h_root_solve_in_n(si,n,slices[si].u.branch.starter);
+    result = branch_h_root_solve_in_n(si,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -113,8 +113,7 @@ boolean branch_h_solve(slice_index si);
  * @param n exact number of moves
  * @return true iff >=1 solution was found
  */
-boolean branch_h_root_solve_in_n(slice_index si, stip_length_type n, Side starter);
-/* TODO get rid of parameter starter again */
+boolean branch_h_root_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
