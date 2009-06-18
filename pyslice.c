@@ -10,6 +10,7 @@
 #include "pybradd.h"
 #include "pybrah.h"
 #include "pybraser.h"
+#include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
 #include "pynot.h"
@@ -81,12 +82,12 @@ boolean slice_must_starter_resign(slice_index si)
       result = branch_ser_must_starter_resign(si);
       break;
 
-    case STMoveInverter:
-      result = move_inverter_must_starter_resign(si);
+    case STBranchFork:
+      result = branch_fork_must_starter_resign(si);
       break;
 
-    case STHelpHashed:
-      result = help_hashed_must_starter_resign(si);
+    case STMoveInverter:
+      result = move_inverter_must_starter_resign(si);
       break;
 
     default:
@@ -474,6 +475,10 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
       branch_ser_root_solve_in_n(si,n);
       break;
 
+    case STBranchFork:
+      branch_fork_help_solve_in_n(si,n,slice_get_starter(si));
+      break;
+
     case STQuodlibet:
       quodlibet_root_solve_in_n(si,n);
       break;
@@ -591,16 +596,16 @@ void slice_solve_postkey(slice_index si)
       /* TODO */
       break;
 
+    case STBranchFork:
+      branch_fork_solve_postkey(si);
+      break;
+
     case STReciprocal:
       reci_solve_postkey(si);
       break;
 
     case STNot:
       /* STNot doesn't have postkey play by definition */
-      break;
-
-    case STHelpHashed:
-      help_hashed_solve_postkey(si);
       break;
 
     default:
@@ -651,6 +656,10 @@ boolean slice_has_non_starter_solved(slice_index si)
       result = branch_ser_has_non_starter_solved(si);
       break;
 
+    case STBranchFork:
+      result = branch_fork_has_non_starter_solved(si);
+      break;
+
     case STQuodlibet:
       result = quodlibet_has_non_starter_solved(si);
       break;
@@ -661,10 +670,6 @@ boolean slice_has_non_starter_solved(slice_index si)
 
     case STNot:
       result = not_has_non_starter_solved(si);
-      break;
-
-    case STHelpHashed:
-      result = help_hashed_has_non_starter_solved(si);
       break;
 
     default:
@@ -720,6 +725,10 @@ boolean slice_has_starter_apriori_lost(slice_index si)
       result = branch_ser_has_starter_apriori_lost(si);
       break;
 
+    case STBranchFork:
+      result = branch_fork_has_starter_apriori_lost(si);
+      break;
+
     case STQuodlibet:
       result = quodlibet_has_starter_apriori_lost(si);
       break;
@@ -730,10 +739,6 @@ boolean slice_has_starter_apriori_lost(slice_index si)
 
     case STNot:
       result = not_has_starter_apriori_lost(si);
-      break;
-
-    case STHelpHashed:
-      result = help_hashed_has_starter_apriori_lost(si);
       break;
 
     default:
@@ -788,6 +793,10 @@ boolean slice_has_starter_won(slice_index si)
       result = branch_ser_has_starter_won(si);
       break;
 
+    case STBranchFork:
+      result = branch_fork_has_starter_won(si);
+      break;
+
     case STQuodlibet:
       result = quodlibet_has_starter_won(si);
       break;
@@ -798,10 +807,6 @@ boolean slice_has_starter_won(slice_index si)
 
     case STNot:
       result = not_has_starter_won(si);
-      break;
-
-    case STHelpHashed:
-      result = help_hashed_has_starter_won(si);
       break;
 
     default:
@@ -855,6 +860,10 @@ boolean slice_has_starter_reached_goal(slice_index si)
       result = branch_ser_has_starter_reached_goal(si);
       break;
 
+    case STBranchFork:
+      result = branch_fork_has_starter_reached_goal(si);
+      break;
+
     case STQuodlibet:
       result = quodlibet_has_starter_reached_goal(si);
       break;
@@ -865,10 +874,6 @@ boolean slice_has_starter_reached_goal(slice_index si)
 
     case STNot:
       result = not_has_starter_reached_goal(si);
-      break;
-
-    case STHelpHashed:
-      result = help_hashed_has_starter_reached_goal(si);
       break;
 
     default:
@@ -917,8 +922,8 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       result = branch_ser_is_goal_reached(just_moved,si);
       break;
 
-    case STHelpHashed:
-      result = help_hashed_is_goal_reached(just_moved,si);
+    case STBranchFork:
+      result = branch_fork_is_goal_reached(just_moved,si);
       break;
 
     default:
@@ -964,6 +969,10 @@ void slice_write_unsolvability(slice_index si)
       branch_ser_write_unsolvability(si);
       break;
 
+    case STBranchFork:
+      branch_fork_write_unsolvability(si);
+      break;
+
     case STQuodlibet:
       quodlibet_write_unsolvability(si);
       break;
@@ -974,10 +983,6 @@ void slice_write_unsolvability(slice_index si)
 
     case STNot:
       not_write_unsolvability(si);
-      break;
-
-    case STHelpHashed:
-      help_hashed_write_unsolvability(si);
       break;
 
     default:
@@ -1034,6 +1039,10 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       result = branch_ser_detect_starter(si,same_side_as_root);
       break;
 
+    case STBranchFork:
+      result = branch_fork_detect_starter(si,same_side_as_root);
+      break;
+
     case STReciprocal:
       result = reci_detect_starter(si,same_side_as_root);
       break;
@@ -1048,10 +1057,6 @@ who_decides_on_starter slice_detect_starter(slice_index si,
 
     case STMoveInverter:
       result = move_inverter_detect_starter(si,same_side_as_root);
-      break;
-
-    case STHelpHashed:
-      result = help_hashed_detect_starter(si,same_side_as_root);
       break;
       
     default:
@@ -1100,6 +1105,10 @@ void slice_impose_starter(slice_index si, Side side)
       branch_ser_impose_starter(si,side);
       break;
 
+    case STBranchFork:
+      branch_fork_impose_starter(si,side);
+      break;
+
     case STReciprocal:
       reci_impose_starter(si,side);
       break;
@@ -1114,10 +1123,6 @@ void slice_impose_starter(slice_index si, Side side)
 
     case STMoveInverter:
       move_inverter_impose_starter(si,side);
-      break;
-
-    case STHelpHashed:
-      help_hashed_impose_starter(si,side);
       break;
 
     default:
@@ -1209,8 +1214,12 @@ Side slice_get_starter(slice_index si)
       break;
     }
 
+    case STBranchFork:
+      result = slice_get_starter(slices[si].u.branch_fork.next_towards_goal);
+      break;
+
     case STHelpHashed:
-      result = slice_get_starter(slices[si].u.help_hashed.next_towards_goal);
+      result = slice_get_starter(slices[si].u.help_hashed.next);
       break;
 
     default:

@@ -21,6 +21,7 @@ typedef enum
   STBranchDirectDefender,
   STBranchHelp,   /* M-N moves of help play */
   STBranchSeries, /* M-N moves of series play */
+  STBranchFork,    /* decides when play in branch is over */
 
   STLeafDirect,   /* goal in 1 */
   STLeafHelp,     /* help-goal in 1 */
@@ -147,6 +148,12 @@ typedef struct
             slice_index peer;
         } branch_d_defender;
 
+        struct /* for type==STBranchFork */
+        {
+            slice_index next;
+            slice_index next_towards_goal;
+        } branch_fork;
+
         struct /* for type==STQuodlibet */
         {
             slice_index op1; /* operand 1 */
@@ -175,7 +182,6 @@ typedef struct
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
             slice_index next;
-            slice_index next_towards_goal; /* TODO name */
         } help_hashed;
     } u;
 } Slice;

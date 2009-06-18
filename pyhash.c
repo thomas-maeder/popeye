@@ -420,6 +420,7 @@ slice_operation const slice_properties_initalisers[] =
   &slice_traverse_children,             /* STBranchDirectDefender */
   &slice_traverse_children,             /* STBranchHelp */
   &init_slice_properties_branch_series, /* STBranchSeries */
+  &slice_traverse_children,             /* STBranchFork */
   &init_slice_properties_leaf_direct,   /* STLeafDirect */
   &init_slice_properties_leaf_help,     /* STLeafHelp */
   &init_slice_properties_leaf_direct,   /* STLeafSelf */
@@ -452,6 +453,7 @@ slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children,             /* STBranchDirectDefender */
   &slice_traverse_children,             /* STBranchHelp */
   &slice_traverse_children,             /* STBranchSeries */
+  &slice_traverse_children,             /* STBranchFork */
   &slice_traverse_children,             /* STLeafDirect */
   &slice_traverse_children,             /* STLeafHelp */
   &slice_traverse_children,             /* STLeafSelf */
@@ -551,6 +553,7 @@ slice_operation const slice_properties_offset_shifters[] =
   &slice_traverse_children,     /* STBranchDirectDefender */
   &slice_traverse_children,     /* STBranchHelp */
   &shift_offset_series,         /* STBranchSeries */
+  &slice_traverse_children,     /* STBranchFork */
   &shift_offset_direct,         /* STLeafDirect */
   &shift_offset_help,           /* STLeafHelp */
   &shift_offset_direct,         /* STLeafSelf */
@@ -1082,17 +1085,23 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
         break;
       }
 
+      case STBranchFork:
+      {
+        slice_index const next = slices[si].u.branch_fork.next;
+        slice_index const to_goal = slices[si].u.branch_fork.next_towards_goal;
+        hash_value_type const next_value = value_of_data_recursive(he,
+                                                                   offset,
+                                                                   next);
+        hash_value_type const nested_value = value_of_data_recursive(he,
+                                                                     offset,
+                                                                     to_goal);
+        result = (next_value << offset) + nested_value;
+        break;
+      }
+
       case STHelpHashed:
       {
-        hash_value_type const own_value = own_value_of_data_composite(he,si);
-
-        slice_index const next = slices[si].u.help_hashed.next_towards_goal;
-        hash_value_type const nested_value =
-            value_of_data_recursive(he,offset,next);
-        TraceValue("%x ",own_value);
-        TraceValue("%x\n",nested_value);
-
-        result = (own_value << offset) + nested_value;
+        result = own_value_of_data_composite(he,si);
         break;
       }
 
@@ -1368,6 +1377,10 @@ static int estimateNumberOfHoles(slice_index si)
        * than 5 holes in hashed positions.      TLi
        */
       result = slices[si].u.branch.length;
+      break;
+
+    case STBranchFork:
+      result = estimateNumberOfHoles(slices[si].u.branch_fork.next);
       break;
 
     case STMoveInverter:
@@ -1948,11 +1961,15 @@ static void init_element(dhtElement *he,
         init_element(he,slices[si].u.branch_d_defender.peer,element_initialised);
       break;
 
+    case STBranchFork:
+      init_element(he,slices[si].u.branch_fork.next,element_initialised);
+      init_element(he,
+                   slices[si].u.branch_fork.next_towards_goal,
+                   element_initialised);
+      break;
+
     case STHelpHashed:
       init_element_help(he,si);
-      init_element(he,
-                   slices[si].u.help_hashed.next_towards_goal,
-                   element_initialised);
       break;
       
     case STBranchSeries:

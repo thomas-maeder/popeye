@@ -7,6 +7,7 @@
 #include "pyslice.h"
 #include "pyhelp.h"
 #include "pyhelpha.h"
+#include "pybrafrk.h"
 #include "trace.h"
 #include "platform/maxtime.h"
 
@@ -23,6 +24,8 @@ slice_index alloc_branch_h_slice(stip_length_type length,
                                  slice_index next)
 {
   slice_index const result = alloc_slice_index();
+  slice_index hashed;
+  slice_index fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -30,14 +33,14 @@ slice_index alloc_branch_h_slice(stip_length_type length,
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
+  hashed = alloc_help_hashed_slice(length,min_length,result);
+  fork = alloc_branch_fork_slice(hashed,next);
+
   slices[result].type = STBranchHelp; 
   slices[result].u.branch.starter = no_side; 
   slices[result].u.branch.length = length;
   slices[result].u.branch.min_length = min_length;
-  slices[result].u.branch.next = alloc_help_hashed_slice(length,
-                                                         min_length,
-                                                         result,
-                                                         next);
+  slices[result].u.branch.next = fork;
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -419,7 +422,7 @@ static boolean branch_h_root_solve_short_in_n(slice_index si,
  * @param si identifies slice visited in traversal
  * @param st address of structure defining traversal
  */
-void slice_behind_branch_finder_help_hashed(slice_index si,
+void slice_behind_branch_finder_branch_fork(slice_index si,
                                             slice_traversal *st)
 {
   slice_index * const result = st->param;
@@ -431,7 +434,7 @@ void slice_behind_branch_finder_help_hashed(slice_index si,
   /* The slice we look for is the one at the towards_goal end of a
    * help_hashed slice. Save it and don't recurse further.
    */
-  *result = slices[si].u.help_hashed.next_towards_goal;
+  *result = slices[si].u.branch_fork.next_towards_goal;
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -443,6 +446,7 @@ static slice_operation const slice_behind_branch_finders[] =
   &slice_traverse_children,               /* STBranchDirectDefender */
   &slice_traverse_children,               /* STBranchHelp */
   &slice_traverse_children,               /* STBranchSeries */
+  &slice_behind_branch_finder_branch_fork,/* STBranchFork */
   &slice_traverse_children,               /* STLeafDirect */
   &slice_traverse_children,               /* STLeafHelp */
   &slice_traverse_children,               /* STLeafSelf */
@@ -451,7 +455,7 @@ static slice_operation const slice_behind_branch_finders[] =
   &slice_traverse_children,               /* STQuodlibet */
   &slice_traverse_children,               /* STNot */
   &slice_traverse_children,               /* STMoveInverter */
-  &slice_behind_branch_finder_help_hashed /* STHelpHashed */
+  &slice_traverse_children                /* STHelpHashed */
 };
 
 /* Find the slice representing the play after this help branch
@@ -843,14 +847,14 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-static void find_relevant_slice_help_hashed(slice_index si,
+static void find_relevant_slice_branch_fork(slice_index si,
                                             slice_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[si].u.help_hashed.next_towards_goal,st);
+  traverse_slices(slices[si].u.branch_fork.next_towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -876,6 +880,7 @@ static slice_operation const relevant_slice_finders[] =
   0,                                  /* STBranchDirectDefender */
   &find_relevant_slice_found,         /* STBranchHelp */
   &find_relevant_slice_found,         /* STBranchSeries */
+  &find_relevant_slice_branch_fork,   /* STBranchFork */
   &find_relevant_slice_found,         /* STLeafDirect */
   &find_relevant_slice_found,         /* STLeafHelp */
   &find_relevant_slice_found,         /* STLeafSelf */
@@ -884,7 +889,7 @@ static slice_operation const relevant_slice_finders[] =
   &find_relevant_slice_found,         /* STQuodlibet */
   &find_relevant_slice_found,         /* STNot */
   &find_relevant_slice_found,         /* STMoveInverter */
-  &find_relevant_slice_help_hashed    /* STHelpHashed */
+  &find_relevant_slice_found          /* STHelpHashed */
 };
 
 /* Detect starter field with the starting side if possible. 

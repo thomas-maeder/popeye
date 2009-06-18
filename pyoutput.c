@@ -104,8 +104,8 @@ static output_mode detect_output_mode(slice_index si)
       break;
     }
 
-    case STHelpHashed:
-      result = detect_output_mode(slices[si].u.help_hashed.next_towards_goal);
+    case STBranchFork:
+      result = detect_output_mode(slices[si].u.branch_fork.next_towards_goal);
       break;
 
     default:

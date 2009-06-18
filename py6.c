@@ -2067,9 +2067,9 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
     }
 
-    case STHelpHashed:
+    case STBranchFork:
     {
-      slice_index const next = slices[si].u.help_hashed.next_towards_goal;
+      slice_index const next = slices[si].u.branch_fork.next_towards_goal;
       result = detect_meaning_of_whitetoplay(next);
       break;
     }
@@ -2097,7 +2097,8 @@ static boolean shorten_root_branch_h_slice(void)
     if (slices[root_slice].u.branch.length==slack_length_help+1)
     {
       slice_index const next = slices[root_slice].u.branch.next;
-      slice_index const newroot = slices[next].u.help_hashed.next_towards_goal;
+      /* TODO traversal */
+      slice_index const newroot = slices[next].u.branch_fork.next_towards_goal;
       dealloc_slice_index(next);
       dealloc_slice_index(root_slice);
       root_slice = newroot;

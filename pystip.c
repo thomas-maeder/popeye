@@ -137,6 +137,7 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
          && slices[si].type!=STLeafSelf
          && slices[si].type!=STLeafHelp);
 
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STBranchHelp:
@@ -182,6 +183,7 @@ stip_length_type get_max_nr_moves(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STBranchDirect:
@@ -197,6 +199,10 @@ stip_length_type get_max_nr_moves(slice_index si)
     case STBranchSeries:
       result = (slices[si].u.branch.length
                 +get_max_nr_moves(slices[si].u.branch.next));
+      break;
+
+    case STBranchFork:
+      result = get_max_nr_moves(slices[si].u.branch_fork.next_towards_goal);
       break;
 
     case STLeafSelf:
@@ -242,7 +248,7 @@ stip_length_type get_max_nr_moves(slice_index si)
       break;
 
     case STHelpHashed:
-      result = get_max_nr_moves(slices[si].u.help_hashed.next_towards_goal);
+      result = get_max_nr_moves(slices[si].u.help_hashed.next);
       break;
 
     default:
@@ -301,9 +307,11 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
        * op1 the new direct leaf.
        */
       slice_index const next = slices[index].u.branch.next;
-      slice_index const to_goal = slices[next].u.help_hashed.next_towards_goal;
+      /* TODO traversal
+       */
+      slice_index const to_goal = slices[next].u.branch_fork.next_towards_goal;
       Goal const goal = slices[to_goal].u.leaf.goal;
-      assert(slices[next].type==STHelpHashed);
+      assert(slices[next].type==STBranchFork);
       assert(slices[to_goal].type==STLeafHelp);
       *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
                                     index);
@@ -427,6 +435,12 @@ static boolean slice_ends_only_in(Goal const goals[],
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
+    case STBranchFork:
+    {
+      slice_index const next = slices[si].u.branch_fork.next_towards_goal;
+      return slice_ends_only_in(goals,nrGoals,next);
+    }
+
     case STMoveInverter:
     {
       slice_index const next = slices[si].u.move_inverter.next;
@@ -435,7 +449,7 @@ static boolean slice_ends_only_in(Goal const goals[],
 
     case STHelpHashed:
     {
-      slice_index const next = slices[si].u.help_hashed.next_towards_goal;
+      slice_index const next = slices[si].u.help_hashed.next;
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
@@ -515,6 +529,12 @@ static boolean slice_ends_in(Goal const goals[],
       return slice_ends_in(goals,nrGoals,next);
     }
 
+    case STBranchFork:
+    {
+      slice_index const next = slices[si].u.branch_fork.next_towards_goal;
+      return slice_ends_in(goals,nrGoals,next);
+    }
+
     case STMoveInverter:
     {
       slice_index const next = slices[si].u.move_inverter.next;
@@ -523,7 +543,7 @@ static boolean slice_ends_in(Goal const goals[],
 
     case STHelpHashed:
     {
-      slice_index const next = slices[si].u.help_hashed.next_towards_goal;
+      slice_index const next = slices[si].u.help_hashed.next;
       return slice_ends_in(goals,nrGoals,next);
     }
 
@@ -623,6 +643,13 @@ static slice_index find_goal_recursive(Goal goal,
       break;
     }
 
+    case STBranchFork:
+    {
+      slice_index const next = slices[si].u.branch_fork.next_towards_goal;
+      result = find_goal_recursive(goal,start,active,next);
+      break;
+    }
+
     case STMoveInverter:
     {
       slice_index const next = slices[si].u.move_inverter.next;
@@ -632,7 +659,7 @@ static slice_index find_goal_recursive(Goal goal,
 
     case STHelpHashed:
     {
-      slice_index const next = slices[si].u.help_hashed.next_towards_goal;
+      slice_index const next = slices[si].u.help_hashed.next;
       result = find_goal_recursive(goal,start,active,next);
       break;
     }
@@ -776,16 +803,17 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
       break;
     }
 
-    case STMoveInverter:
+    case STBranchFork:
     {
-      slice_index const next = slices[current_slice].u.move_inverter.next;
+      slice_index const
+          next = slices[current_slice].u.branch_fork.next_towards_goal;
       result = find_unique_goal_recursive(next,found_so_far);
       break;
     }
 
-    case STHelpHashed:
+    case STMoveInverter:
     {
-      slice_index const next = slices[current_slice].u.help_hashed.next_towards_goal;
+      slice_index const next = slices[current_slice].u.move_inverter.next;
       result = find_unique_goal_recursive(next,found_so_far);
       break;
     }
@@ -857,12 +885,24 @@ static void make_exact_branch_series(slice_index branch, slice_traversal *st)
   slice_traverse_children(branch,st);
 }
 
+/* Make a branch exact
+ * @param branch identifies the branch
+ * @param st address of structure defining traversal
+ */
+static void make_exact_help_hashed(slice_index si,
+                                   slice_traversal *st)
+{
+  slices[si].u.help_hashed.min_length = slices[si].u.help_hashed.length;
+  slice_traverse_children(si,st);
+}
+
 static slice_operation const exact_makers[] =
 {
   &make_exact_branch_direct,          /* STBranchDirect */
   &make_exact_branch_direct_defender, /* STBranchDirectDefender */
   &make_exact_branch_help,            /* STBranchHelp */
   &make_exact_branch_series,          /* STBranchSeries */
+  &slice_traverse_children,           /* STBranchFork */
   &slice_traverse_children,           /* STLeafDirect */
   &slice_traverse_children,           /* STLeafHelp */
   &slice_traverse_children,           /* STLeafSelf */
@@ -871,7 +911,7 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children,           /* STQuodlibet */
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
-  &slice_traverse_children            /* STHelpHashed */
+  &make_exact_help_hashed             /* STHelpHashed */
 };
 
 /* Make the stipulation exact
@@ -1057,10 +1097,19 @@ static void traverse_branch_series(slice_index branch, slice_traversal *st)
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
  */
+static void traverse_branch_fork(slice_index branch, slice_traversal *st)
+{
+  traverse_slices(slices[branch].u.branch_fork.next,st);
+  traverse_slices(slices[branch].u.branch_fork.next_towards_goal,st);
+}
+
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
 static void traverse_help_hashed(slice_index branch, slice_traversal *st)
 {
   traverse_slices(slices[branch].u.help_hashed.next,st);
-  traverse_slices(slices[branch].u.help_hashed.next_towards_goal,st);
 }
 
 static slice_operation const traversers[] =
@@ -1069,6 +1118,7 @@ static slice_operation const traversers[] =
   &traverse_branch_direct_defender, /* STBranchDirectDefender */
   &traverse_branch_help,            /* STBranchHelp */
   &traverse_branch_series,          /* STBranchSeries */
+  &traverse_branch_fork,            /* STBranchFork */
   &slice_operation_noop,            /* STLeafDirect */
   &slice_operation_noop,            /* STLeafHelp */
   &slice_operation_noop,            /* STLeafSelf */

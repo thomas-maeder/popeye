@@ -1,5 +1,6 @@
 #include "pyhelp.h"
 #include "pybrah.h"
+#include "pybrafrk.h"
 #include "pyhelpha.h"
 #include "trace.h"
 
@@ -26,6 +27,10 @@ boolean help_solve_in_n(slice_index si, stip_length_type n, Side side_at_move)
   {
     case STBranchHelp:
       result = branch_h_solve_in_n(si,n,side_at_move);
+      break;
+
+    case STBranchFork:
+      result = branch_fork_help_solve_in_n(si,n,side_at_move);
       break;
 
     case STHelpHashed:
@@ -68,6 +73,10 @@ boolean help_has_solution_in_n(slice_index si,
       result = branch_h_has_solution_in_n(si,n,side_at_move);
       break;
 
+    case STBranchFork:
+      result = branch_fork_help_has_solution_in_n(si,n,side_at_move);
+      break;
+
     case STHelpHashed:
       result = help_hashed_has_solution_in_n(si,n,side_at_move);
       break;
@@ -108,6 +117,13 @@ void help_solve_continuations_in_n(table continuations,
       branch_h_solve_continuations_in_n(continuations,si,n,side_at_move);
       break;
 
+    case STBranchFork:
+      branch_fork_help_solve_continuations_in_n(continuations,
+                                                si,
+                                                n,
+                                                side_at_move);
+      break;
+
     case STHelpHashed:
       help_hashed_solve_continuations_in_n(continuations,si,n,side_at_move);
       break;
@@ -140,6 +156,10 @@ Side help_starter_in_n(slice_index si, stip_length_type n)
   {
     case STBranchHelp:
       result = branch_h_starter_in_n(si,n);
+      break;
+
+    case STBranchFork:
+      result = branch_fork_help_starter_in_n(si,n);
       break;
 
     case STHelpHashed:
@@ -178,8 +198,8 @@ boolean help_must_starter_resign(slice_index si)
       result = branch_h_must_starter_resign(si);
       break;
 
-    case STHelpHashed:
-      result = help_hashed_must_starter_resign(si);
+    case STBranchFork:
+      result = branch_fork_must_starter_resign(si);
       break;
 
     default:
@@ -210,10 +230,6 @@ void help_write_unsolvability(slice_index si)
       branch_h_write_unsolvability(si);
       break;
 
-    case STHelpHashed:
-      help_hashed_write_unsolvability(si);
-      break;
-
     default:
       assert(0);
       break;
@@ -241,10 +257,6 @@ boolean help_has_non_starter_solved(slice_index si)
   {
     case STBranchHelp:
       result = branch_h_has_non_starter_solved(si);
-      break;
-
-    case STHelpHashed:
-      result = help_hashed_has_non_starter_solved(si);
       break;
 
     default:
@@ -280,10 +292,6 @@ boolean help_has_starter_apriori_lost(slice_index si)
       result = branch_h_has_starter_apriori_lost(si);
       break;
 
-    case STHelpHashed:
-      result = help_hashed_has_starter_apriori_lost(si);
-      break;
-
     default:
       assert(0);
       break;
@@ -312,10 +320,6 @@ boolean help_has_starter_won(slice_index si)
   {
     case STBranchHelp:
       result = branch_h_has_starter_won(si);
-      break;
-
-    case STHelpHashed:
-      result = help_hashed_has_starter_won(si);
       break;
 
     default:
@@ -349,10 +353,6 @@ boolean help_has_starter_reached_goal(slice_index si)
       result = branch_h_has_starter_reached_goal(si);
       break;
 
-    case STHelpHashed:
-      result = help_hashed_has_starter_reached_goal(si);
-      break;
-
     default:
       assert(0);
       break;
@@ -383,10 +383,6 @@ boolean help_is_goal_reached(Side just_moved, slice_index si)
   {
     case STBranchHelp:
       result = branch_h_is_goal_reached(just_moved,si);
-      break;
-
-    case STHelpHashed:
-      result = help_hashed_is_goal_reached(just_moved,si);
       break;
 
     default:
