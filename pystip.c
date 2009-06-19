@@ -1,6 +1,7 @@
 #include "pystip.h"
 #include "pydata.h"
 #include "pyquodli.h"
+#include "pybrafrk.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -313,12 +314,8 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
        * op1 is tested before op2, so it is more efficient to make
        * op1 the new direct leaf.
        */
-      slice_index const next = slices[index].u.branch.next;
-      /* TODO traversal
-       */
-      slice_index const to_goal = slices[next].u.branch_fork.next_towards_goal;
+      slice_index const to_goal = branch_find_slice_behind_fork(index);
       Goal const goal = slices[to_goal].u.leaf.goal;
-      assert(slices[next].type==STBranchFork);
       assert(slices[to_goal].type==STLeafHelp);
       *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
                                     index);
