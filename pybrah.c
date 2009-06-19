@@ -418,67 +418,6 @@ static boolean branch_h_root_solve_short_in_n(slice_index si,
   return result;
 }
 
-/* Locate the slice after the help play branch and its associated slices
- * @param si identifies slice visited in traversal
- * @param st address of structure defining traversal
- */
-void slice_behind_branch_finder_branch_fork(slice_index si,
-                                            slice_traversal *st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* The slice we look for is the one at the towards_goal end of a
-   * help_hashed slice. Save it and don't recurse further.
-   */
-  *result = slices[si].u.branch_fork.next_towards_goal;
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static slice_operation const slice_behind_branch_finders[] =
-{
-  &slice_traverse_children,               /* STBranchDirect */
-  &slice_traverse_children,               /* STBranchDirectDefender */
-  &slice_traverse_children,               /* STBranchHelp */
-  &slice_traverse_children,               /* STBranchSeries */
-  &slice_behind_branch_finder_branch_fork,/* STBranchFork */
-  &slice_traverse_children,               /* STLeafDirect */
-  &slice_traverse_children,               /* STLeafHelp */
-  &slice_traverse_children,               /* STLeafSelf */
-  &slice_traverse_children,               /* STLeafForced */
-  &slice_traverse_children,               /* STReciprocal */
-  &slice_traverse_children,               /* STQuodlibet */
-  &slice_traverse_children,               /* STNot */
-  &slice_traverse_children,               /* STMoveInverter */
-  &slice_traverse_children                /* STHelpHashed */
-};
-
-/* Find the slice representing the play after this help branch
- * @param si identifies this help branch
- */
-static slice_index find_slice_behind_branch(slice_index si)
-{
-  slice_index result;
-  slice_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traversal_init(&st,&slice_behind_branch_finders,&result);
-  traverse_slices(si,&st);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable
@@ -494,7 +433,7 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
   assert(slices[si].u.branch.length>slack_length_help);
 
   if (slices[si].u.branch.length==slack_length_help+1)
-    result = find_slice_behind_branch(si);
+    result = branch_find_slice_behind_fork(si);
   else
   {
     result = copy_slice(si);
@@ -1014,4 +953,37 @@ void branch_h_impose_starter(slice_index si, Side s)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Shorten a help branch by a half-move. If the branch represents a
+ * half-move only, deallocates the branch.
+ * @param si identifies the branch
+ * @return if the branch slice represents a half-move only, the slice
+ *         representing the subsequent play; otherwise si
+ */
+slice_index branch_h_shorten(slice_index si)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.branch.length==slack_length_help+1)
+    result = branch_deallocate_to_fork(si);
+  else
+  {
+    --slices[si].u.branch.length;
+    --slices[si].u.branch.min_length;
+    if (slices[si].u.branch.min_length<slack_length_help)
+      slices[si].u.branch.min_length += 2;
+    TraceValue("->%u",slices[si].u.branch.length);
+    TraceValue("->%u\n",slices[si].u.branch.min_length);
+    result = si;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

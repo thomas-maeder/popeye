@@ -26,6 +26,10 @@ slice_index alloc_slice_index(void)
  */
 void dealloc_slice_index(slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   /* TODO reuse all deallocated slice indices, not just the last
    * allocated one */
 
@@ -34,6 +38,9 @@ void dealloc_slice_index(slice_index si)
 
   if (next_slice==si+1)
     --next_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Allocate a target leaf slice.

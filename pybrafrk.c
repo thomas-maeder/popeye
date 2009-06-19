@@ -352,3 +352,138 @@ void branch_fork_solve_postkey(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Locate the slice after the help play branch and its associated slices
+ * @param si identifies slice visited in traversal
+ * @param st address of structure defining traversal
+ */
+static void slice_behind_branch_finder_branch_fork(slice_index si,
+                                                   slice_traversal *st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* The slice we look for is the one at the towards_goal end of a
+   * help_hashed slice. Save it and don't recurse further.
+   */
+  *result = slices[si].u.branch_fork.next_towards_goal;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static slice_operation const slice_behind_branch_finders[] =
+{
+  &slice_traverse_children,               /* STBranchDirect */
+  &slice_traverse_children,               /* STBranchDirectDefender */
+  &slice_traverse_children,               /* STBranchHelp */
+  &slice_traverse_children,               /* STBranchSeries */
+  &slice_behind_branch_finder_branch_fork,/* STBranchFork */
+  &slice_traverse_children,               /* STLeafDirect */
+  &slice_traverse_children,               /* STLeafHelp */
+  &slice_traverse_children,               /* STLeafSelf */
+  &slice_traverse_children,               /* STLeafForced */
+  &slice_traverse_children,               /* STReciprocal */
+  &slice_traverse_children,               /* STQuodlibet */
+  &slice_traverse_children,               /* STNot */
+  &slice_traverse_children,               /* STMoveInverter */
+  &slice_traverse_children                /* STHelpHashed */
+};
+
+/* Find the slice representing the play after a branch
+ * @param branch identifies the branch
+ * @return identifier for branch representing the play after the branch
+ */
+slice_index branch_find_slice_behind_fork(slice_index branch)
+{
+  slice_index result;
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&slice_behind_branch_finders,&result);
+  traverse_slices(branch,&st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Continue deallocating a branch
+ * @param si identifies branch_fork slice
+ * @param st structure representing the traversal
+ */
+static void traverse_and_deallocate(slice_index si, slice_traversal *st)
+{
+  slice_traverse_children(si,st);
+  dealloc_slice_index(si);
+}
+
+/* Store slice representing play after branch in object representing
+ * traversal, then continue deallocating the branch
+ * @param si identifies branch_fork slice
+ * @param st structure representing the traversal
+ */
+static void traverse_and_deallocate_branch_fork(slice_index si,
+                                                slice_traversal *st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *result = slices[si].u.branch_fork.next_towards_goal;
+
+  traverse_slices(slices[si].u.branch_fork.next,st);
+  dealloc_slice_index(si);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static slice_operation const slice_to_fork_deallocators[] =
+{
+  &traverse_and_deallocate,             /* STBranchDirect */
+  &traverse_and_deallocate,             /* STBranchDirectDefender */
+  &traverse_and_deallocate,             /* STBranchHelp */
+  &traverse_and_deallocate,             /* STBranchSeries */
+  &traverse_and_deallocate_branch_fork, /* STBranchFork */
+  0,                                    /* STLeafDirect */
+  0,                                    /* STLeafHelp */
+  0,                                    /* STLeafSelf */
+  0,                                    /* STLeafForced */
+  0,                                    /* STReciprocal */
+  0,                                    /* STQuodlibet */
+  0,                                    /* STNot */
+  0,                                    /* STMoveInverter */
+  &traverse_and_deallocate              /* STHelpHashed */
+};
+
+/* Deallocate a branch
+ * @param branch identifies branch
+ * @return index of slice representing the play after the branch
+ */
+slice_index branch_deallocate_to_fork(slice_index branch)
+{
+  slice_index result;
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&slice_to_fork_deallocators,&result);
+  traverse_slices(branch,&st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

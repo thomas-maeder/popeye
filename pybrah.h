@@ -173,4 +173,12 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
  */
 void branch_h_impose_starter(slice_index si, Side s);
 
+/* Shorten a help branch by a half-move. If the branch represents a
+ * half-move only, deallocates the branch.
+ * @param si identifies the branch
+ * @return if the branch slice represents a half-move only, the slice
+ *         representing the subsequent play; otherwise si
+ */
+slice_index branch_h_shorten(slice_index si);
+
 #endif

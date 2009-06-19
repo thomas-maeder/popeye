@@ -215,7 +215,7 @@ trace.h:
 py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pylang.h py1.h pyproc.h py4.h pygoal.h pydata.h pymsg.h pyhash.h \
   DHT/dhtbcmem.h pyint.h pyproof.h pymovein.h pyslice.h pystip.h \
-  pytable.h pyquodli.h platform/maxmem.h platform/maxtime.h \
+  pytable.h pybrah.h pyquodli.h platform/maxmem.h platform/maxtime.h \
   platform/pytime.h platform/priority.h trace.h pyoutput.h
 
 py.h:
@@ -259,6 +259,8 @@ pyslice.h:
 pystip.h:
 
 pytable.h:
+
+pybrah.h:
 
 pyquodli.h:
 

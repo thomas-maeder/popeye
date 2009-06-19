@@ -123,4 +123,16 @@ who_decides_on_starter branch_fork_detect_starter(slice_index si,
  */
 void branch_fork_solve_postkey(slice_index si);
 
+/* Find the slice representing the play after a branch
+ * @param branch identifies the branch
+ * @return identifier for branch representing the play after the branch
+ */
+slice_index branch_find_slice_behind_fork(slice_index branch);
+
+/* Deallocate a branch
+ * @param branch identifies branch
+ * @return index of slice representing the play after the branch
+ */
+slice_index branch_deallocate_to_fork(slice_index branch);
+
 #endif

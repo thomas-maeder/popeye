@@ -104,6 +104,7 @@
 #include "pyproof.h"
 #include "pyint.h"
 #include "pymovein.h"
+#include "pybrah.h"
 #include "pyquodli.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
@@ -2094,25 +2095,7 @@ static boolean shorten_root_branch_h_slice(void)
 
   if (slices[root_slice].u.branch.length%2==1)
   {
-    if (slices[root_slice].u.branch.length==slack_length_help+1)
-    {
-      slice_index const next = slices[root_slice].u.branch.next;
-      /* TODO traversal */
-      slice_index const newroot = slices[next].u.branch_fork.next_towards_goal;
-      dealloc_slice_index(next);
-      dealloc_slice_index(root_slice);
-      root_slice = newroot;
-    }
-    else
-    {
-      --slices[root_slice].u.branch.length;
-      --slices[root_slice].u.branch.min_length;
-      if (slices[root_slice].u.branch.min_length<slack_length_help)
-        slices[root_slice].u.branch.min_length += 2;
-      TraceValue("->%u",slices[root_slice].u.branch.length);
-      TraceValue("->%u\n",slices[root_slice].u.branch.min_length);
-    }
-
+    root_slice = branch_h_shorten(root_slice);
     result = true;
   }
   else
