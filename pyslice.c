@@ -123,6 +123,10 @@ boolean slice_must_starter_resign_hashed(slice_index si)
       result = reci_must_starter_resign_hashed(si);
       break;
       
+    case STQuodlibet:
+      result = quodlibet_must_starter_resign_hashed(si);
+      break;
+      
     case STNot:
       result = not_must_starter_resign_hashed(si);
       break;
@@ -131,8 +135,21 @@ boolean slice_must_starter_resign_hashed(slice_index si)
       result = move_inverter_must_starter_resign_hashed(si);
       break;
 
+    case STBranchFork:
+      result = branch_fork_must_starter_resign_hashed(si);
+      break;
+
+    case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+    case STLeafDirect:
+    case STLeafHelp:
+    case STLeafSelf:
+    case STLeafForced:
+      break;
+
     default:
-      /* nothing */
+      assert(0);
       break;
   }
   

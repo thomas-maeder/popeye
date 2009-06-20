@@ -58,6 +58,35 @@ boolean quodlibet_must_starter_resign(slice_index si)
   return result;
 }
 
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * Tests may rely on the current position being hash-encoded.
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean quodlibet_must_starter_resign_hashed(slice_index si)
+{
+  boolean result;
+  slice_index const op1 = slices[si].u.quodlibet.op1;
+  slice_index const op2 = slices[si].u.quodlibet.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",op1);
+  TraceValue("%u\n",op2);
+
+  result = (slice_must_starter_resign_hashed(op1)
+            && slice_must_starter_resign_hashed(op2));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
  * Assumes slice_must_starter_resign(si)

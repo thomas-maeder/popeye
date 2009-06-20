@@ -353,6 +353,29 @@ void branch_fork_solve_postkey(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * Tests may rely on the current position being hash-encoded.
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean branch_fork_must_starter_resign_hashed(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_must_starter_resign_hashed(slices[si].u.branch_fork.next_towards_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Locate the slice after the help play branch and its associated slices
  * @param si identifies slice visited in traversal
  * @param st address of structure defining traversal
