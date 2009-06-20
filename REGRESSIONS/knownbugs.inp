@@ -1,0 +1,24 @@
+begin
+
+prot knownbugs.reg
+
+remark Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R [bRh7])
+remark (cf. issue 2790694)
+pieces white kd3 qb1 rh7 ba1g8 sa8b2
+       magic white ra7 pe6
+       black kd8
+stip +1
+condition singlebox type1
+
+next
+
+remark a) should produce same solutions as b) (cf. issue 2790694)
+pieces white qb1 ra1a2 sa3b2 bh1 pb7
+       magic white ba8
+stip ~1
+option nowk nobk maxsol 2
+condition singlebox type1
+twin condition singlebox type2
+twin add white ba8
+
+end
