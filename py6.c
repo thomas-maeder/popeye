@@ -2448,8 +2448,18 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 
       if (end_of_twin_token==TwinProblem)
       {
-        WriteTwinNumber();
-        StdString("\n\n");
+        if (LaTeXout)
+        {
+          LaTeXout = false;
+          WriteTwinNumber();
+          StdString("\n\n");
+          LaTeXout = true;
+        }
+        else
+        {
+          WriteTwinNumber();
+          StdString("\n\n");
+        }
       }
     }
 
