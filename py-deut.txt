@@ -447,6 +447,15 @@ Kommandos:
 			dieser (Zuege-)Zahl ist.
 	EnPassant       Dieser Option koennen max. 2 Felder folgen. Dorthin
 			werden moegliche enpassant-Schluesselzuege berechnet.
+	RochadenGegenseitigAusschliessend <wturmfeld><sturmfeld>
+			Die Rochaden der Tuerme, welche in der
+			Partieausgangsstellung auf den angegebenen
+			Feldern stehen, schliessen sich gegenseitig
+			aus.
+                        Beispiel: RochadenGegenseitigAusschliessend a1h8
+			Fuer die Eingabe von mehreren Kombinationen
+			sich ausschliessender Rochaden kann die Option
+			mehrfach angegeben werden.
 	OhneBrett       Es erfolgt keine Ausgabe des Schachbretts.
 	OhneKurzVarianten  Kurzvarianten werden nicht ausgegeben.
 	HalbDuplex      Die Forderung nur fuer die Gegenseite berechnen

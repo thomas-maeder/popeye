@@ -294,8 +294,20 @@ void InitCond(void) {
   obsgenre = false;
 } /* InitCond */
 
-void InitOpt(void) {
-  int i;
+void InitOpt(void)
+{
+  {
+    Side side;
+    square castling;
+    for (side = White; side<=Black; ++side)
+      for (castling = min_castling; castling<=max_castling; ++castling)
+        castling_mutual_exclusive[side][castling-min_castling] = 0;
+  }
+
+  no_castling = bl_castlings|wh_castlings;
+
+  ep[nbply] = initsquare;
+  ep2[nbply] = initsquare;
 
   resetOptionMaxtime();
 
@@ -306,11 +318,12 @@ void InitOpt(void) {
 
   max_len_threat = maxply;
   min_length_nontrivial = maxply;
-  ep2[nbply]= ep[nbply]= initsquare;
-  no_castling= bl_castlings|wh_castlings;
 
-  for (i= 0; i < OptCount; i++)
-    OptFlag[i]= false;
+  {
+    unsigned int i;
+    for (i = 0; i<OptCount; i++)
+      OptFlag[i] = false;
+  }
 }
 
 void InitCheckDir(void)

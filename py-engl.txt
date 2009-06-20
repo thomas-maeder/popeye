@@ -430,6 +430,14 @@ commands expect further parameters. Lets start with the simpler commands:
 			are more or equal this number.
 	EnPassant       Must be followed by at most two squares. A possible
 			enpassant-key to this square(s) is calculated.
+	CastlingMutuallyExclusive <wrooksquare><brooksquare>
+			Castlings with the rooks that occupy the
+			indicated squares in the game array are
+			mutually exclusive.
+                        Example: CastlingMutuallyExclusive a1h8
+                        For indicating more than one pair of mutually
+                        exclusive castlings, the option can used
+                        multiple times.
 	NoBoard         The chessboard is not printed to screen or into file.
 	NoShortVariations  Short variations are suppressed on output.
 	HalfDuplex      calculate stipulation only for the opponent side.

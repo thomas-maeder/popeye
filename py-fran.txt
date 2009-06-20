@@ -429,6 +429,14 @@ simples:
 	EnPassant       Cette option doit etre suivie par ne plus que
 			2 cases. Si une cle enpassant est possible par
 			une des cases, il est calcule.
+	RoquesMutuellementExclusifs <casetourblanche><casetournoire>
+			Les roques avec les tours occupant les cases
+			indiquees dans la position de partie initiale
+			sont mutuellement exclusifs.
+                        Exemple: RoquesMutuellementExclusifs a1h8
+                        Pour indiquer plusieurs pairs de roques
+                        mutuellement exclusifs, l'option peut etre
+                        indiquee plusieurs fois.
 	SansEchiquier   L'echiquier n'est pas visible.
 	SansVariantesCourtes Les variantes courtes ne seront pas affiches.
 	DemiDuplex      L'enonce est seulement verifiee avec les couleurs 

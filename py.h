@@ -161,8 +161,10 @@ enum
   /* the following values are used instead of capture square
    * to indicate special moves */
   messigny_exchange = maxsquare+1,
-  kingside_castling = maxsquare+2,
-  queenside_castling = maxsquare+3
+  min_castling = maxsquare+2,
+  kingside_castling = min_castling,
+  queenside_castling = maxsquare+3,
+  max_castling = queenside_castling
 };
 
 typedef unsigned int stip_length_type;
@@ -584,6 +586,7 @@ typedef enum
   suppressgrid,    /* 30 */
   writegrid,       /* 31 */
   lastcapture,     /* 32 */
+  mutuallyexclusivecastling, /* 33 */
 
   OptCount        /* 33 */       
 } Opt;

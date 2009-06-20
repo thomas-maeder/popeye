@@ -2002,109 +2002,111 @@ boolean jouecoup(ply ply_id, joue_type jt)
     sq_hurdle= chop[coup_id];
   }
 
-  switch (sq_capture) {
-  case messigny_exchange:
-    pprise[ply_id]= e[sq_departure]= e[sq_arrival];
-    pprispec[ply_id]= spec[sq_departure]= spec[sq_arrival];
-    jouearr[ply_id]= e[sq_arrival]= pi_departing;
-    spec[sq_arrival]= spec_pi_moving;
-    if (rb == sq_departure) {
-      rb= sq_arrival;
-    }
-    else {
-      if (rb == sq_arrival)
-        rb= sq_departure;
-    }
-    if (rn == sq_departure) {
-      rn= sq_arrival;
-    }
-    else {
-      if (rn == sq_arrival) {
+  switch (sq_capture)
+  {
+    case messigny_exchange:
+      pprise[ply_id]= e[sq_departure]= e[sq_arrival];
+      pprispec[ply_id]= spec[sq_departure]= spec[sq_arrival];
+      jouearr[ply_id]= e[sq_arrival]= pi_departing;
+      spec[sq_arrival]= spec_pi_moving;
+      if (rb==sq_departure)
+        rb = sq_arrival;
+      else if (rb==sq_arrival)
+        rb = sq_departure;
+      if (rn==sq_departure)
+        rn = sq_arrival;
+      else if (rn==sq_arrival)
         rn= sq_departure;
-      }
-    }
     
-    return jouecoup_legality_test(prev_nbpiece,sq_rebirth);
+      return jouecoup_legality_test(prev_nbpiece,sq_rebirth);
     
-  case kingside_castling:
-    if (CondFlag[einstein]) {
-      if (sq_departure == square_e1) {
-        nbpiece[tb]--;
-        if (CondFlag[reveinstein]) {
-          e[square_f1]= db;
-          nbpiece[db]++;
+    case kingside_castling:
+      if (CondFlag[einstein])
+      {
+        if (trait_ply==White)
+        {
+          nbpiece[tb]--;
+          if (CondFlag[reveinstein])
+          {
+            e[square_f1]= db;
+            nbpiece[db]++;
+          }
+          else
+          {
+            e[square_f1]= fb;
+            nbpiece[fb]++;
+          }
         }
-        else {
-          e[square_f1]= fb;
-          nbpiece[fb]++;
+        else
+        {
+          nbpiece[tn]--;
+          if (CondFlag[reveinstein])
+          {
+            e[square_f8]= dn;
+            nbpiece[dn]++;
+          }
+          else
+          {
+            e[square_f8]= fn;
+            nbpiece[fn]++;
+          }
         }
       }
-      else {
-        nbpiece[tn]--;
-        if (CondFlag[reveinstein]) {
-          e[square_f8]= dn;
-          nbpiece[dn]++;
-        }
-        else {
-          e[square_f8]= fn;
-          nbpiece[fn]++;
-        }
-      }
-    }
-    else
-    {
-      e[sq_departure+dir_right]= e[sq_departure+3*dir_right];
-    }
-    spec[sq_departure+dir_right]= spec[sq_departure+3*dir_right];
-    e[sq_departure+3*dir_right]= vide;
-    CLEARFL(spec[sq_departure+3*dir_right]);
-    if (sq_departure == square_e1) {
-      CLRFLAGMASK(castling_flag[ply_id],whk_castling);
-    }
-    else {
-      CLRFLAGMASK(castling_flag[ply_id],blk_castling);
-    }
-    break;
+      else
+        e[sq_departure+dir_right]= e[sq_departure+3*dir_right];
 
-  case queenside_castling:
-    if (CondFlag[einstein]) {
-      if (sq_departure == square_e1) {       /* white */
-        nbpiece[tb]--;
-        if (CondFlag[reveinstein]) {
-          e[square_d1]= db;
-          nbpiece[db]++;
+      spec[sq_departure+dir_right]= spec[sq_departure+3*dir_right];
+      e[sq_departure+3*dir_right]= vide;
+      CLEARFL(spec[sq_departure+3*dir_right]);
+      CLRFLAGMASK(castling_flag[ply_id],
+                  trait_ply==White ? whk_castling : blk_castling);
+      CLRFLAGMASK(castling_flag[ply_id],
+                  castling_mutual_exclusive[trait_ply][kingside_castling-min_castling]);
+      break;
+
+    case queenside_castling:
+      if (CondFlag[einstein])
+      {
+        if (trait_ply==White)
+        {
+          nbpiece[tb]--;
+          if (CondFlag[reveinstein])
+          {
+            e[square_d1]= db;
+            nbpiece[db]++;
+          }
+          else
+          {
+            e[square_d1]= fb;
+            nbpiece[fb]++;
+          }
         }
-        else {
-          e[square_d1]= fb;
-          nbpiece[fb]++;
+        else
+        {
+          nbpiece[tn]--;
+          if (CondFlag[reveinstein])
+          {
+            e[square_d8]= dn;
+            nbpiece[dn]++;
+          }
+          else
+          {
+            e[square_d8]= fn;
+            nbpiece[fn]++;
+          }
         }
       }
-      else {     /* black */
-        nbpiece[tn]--;
-        if (CondFlag[reveinstein]) {
-          e[square_d8]= dn;
-          nbpiece[dn]++;
-        }
-        else {
-          e[square_d8]= fn;
-          nbpiece[fn]++;
-        }
-      }
-    }
-    else
-    {
-      e[sq_departure+dir_left]= e[sq_departure+4*dir_left];
-    }
-    spec[sq_departure+dir_left]= spec[sq_departure+4*dir_left];
-    e[sq_departure+4*dir_left]= vide;
-    CLEARFL(spec[sq_departure+4*dir_left]);
-    if (sq_departure == square_e1) {
-      CLRFLAGMASK(castling_flag[ply_id],whq_castling);
-    }
-    else {
-      CLRFLAGMASK(castling_flag[ply_id],blq_castling);
-    }
-    break;
+      else
+        e[sq_departure+dir_left]= e[sq_departure+4*dir_left];
+
+      spec[sq_departure+dir_left]= spec[sq_departure+4*dir_left];
+      e[sq_departure+4*dir_left]= vide;
+      CLEARFL(spec[sq_departure+4*dir_left]);
+      CLRFLAGMASK(castling_flag[ply_id],
+                  trait_ply==White ? whq_castling : blq_castling);
+      CLRFLAGMASK(castling_flag[ply_id],
+                  castling_mutual_exclusive[trait_ply][queenside_castling-min_castling]);
+      break;
   } /* switch (sq_capture) */
 
   if (rochade)

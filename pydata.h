@@ -188,7 +188,7 @@ EXTERN boolean flag_outputmultiplecolourchanges;
 
 
 /* symbols for bits in castling_flag */
-enum
+typedef enum
 {
   rh8_cancastle = 0x01,
   ra8_cancastle = 0x02,
@@ -196,7 +196,7 @@ enum
   rh1_cancastle = 0x10,
   ra1_cancastle = 0x20,
   ke1_cancastle = 0x40
-};
+} castling_flag_type;
 /* NOTE: ke[18]_cancastle must be larger than the respective
  * r[ah][18]_cancastle or evaluations of the form
  * TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
@@ -213,10 +213,11 @@ enum
   bl_castlings = ke8_cancastle|ra8_cancastle|rh8_cancastle  
 };
 
-EXTERN  unsigned char   castling_flag[maxply + 1];
-EXTERN  unsigned char   no_castling;
-EXTERN  int           castling_supported;
-EXTERN  boolean         testcastling;
+EXTERN  castling_flag_type castling_flag[maxply + 1];
+EXTERN  castling_flag_type no_castling;
+EXTERN  boolean castling_supported;
+EXTERN  boolean testcastling;
+EXTERN castling_flag_type castling_mutual_exclusive[nr_sides][2];
 
 
 /* Stop solving when a given number of solutions is reached */
@@ -933,7 +934,8 @@ EXTERN boolean          flag_libre_on_generate;
 	/*29*/  "Bip",
 	/*30*/  "SansGrille",
 	/*31*/  "AjouteGrille",
-	/*32*/  "DernierePrise"
+	/*32*/  "DernierePrise",
+    /*33*/  "RoquesMutuellementExclusifs"
 	},{
 	/* Deutsch German Allemand */
 	/* 0*/  "Widerlegung",
@@ -968,7 +970,8 @@ EXTERN boolean          flag_libre_on_generate;
 	/*29*/  "Pieps",
 	/*30*/  "OhneGitter",
 	/*31*/  "ZeichneGitter",
-	/*32*/  "LetztSchlag"
+	/*32*/  "LetzterSchlag",
+    /*33*/  "RochadenGegenseitigAusschliessend"
 	},{
 	/* English Anglais Englisch */
 	/* 0*/  "Defence",
@@ -1003,7 +1006,8 @@ EXTERN boolean          flag_libre_on_generate;
 	/*29*/  "Beep",
 	/*30*/  "SuppressGrid",
 	/*31*/  "WriteGrid",
-	/*32*/  "LastCapture"
+	/*32*/  "LastCapture",
+    /*33*/  "CastlingMutuallyExclusive"
 	}
 };
 #endif

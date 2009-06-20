@@ -792,10 +792,53 @@ static void WriteConditions(int alignment)
     CondPrinted= true;
   }
 
-  if (alignment == WCLaTeX && CondPrinted) {
+  if (alignment == WCLaTeX && CondPrinted)
     fprintf(LaTeXFile, "}%%\n");
-  }
 } /* WriteConditions */
+
+static void WriteCastlingMutuallyExclusive(void)
+{
+  /* no need to test in [Black] - information is redundant */
+  if (castling_mutual_exclusive[White][queenside_castling-min_castling]!=0
+      || castling_mutual_exclusive[White][kingside_castling-min_castling]!=0)
+  {
+    StdString(OptString[UserLanguage][mutuallyexclusivecastling]);
+
+    if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
+         &ra8_cancastle))
+    {
+      StdChar(' ');
+      WriteSquare(square_a1);
+      WriteSquare(square_a8);
+    }
+
+    if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
+         &rh8_cancastle))
+    {
+      StdChar(' ');
+      WriteSquare(square_a1);
+      WriteSquare(square_h8);
+    }
+
+    if ((castling_mutual_exclusive[White][kingside_castling-min_castling]
+         &ra8_cancastle))
+    {
+      StdChar(' ');
+      WriteSquare(square_h1);
+      WriteSquare(square_a8);
+    }
+
+    if ((castling_mutual_exclusive[White][kingside_castling-min_castling]
+         &rh8_cancastle))
+    {
+      StdChar(' ');
+      WriteSquare(square_h1);
+      WriteSquare(square_h8);
+    }
+
+    StdChar('\n');
+  }
+}
 
 /***** twinning ***** */
 
@@ -1360,19 +1403,20 @@ static char *LaTeXPiece(piece Name) {
     return LaTeXStdPie[Name];
 } /* LaTeXPiece */
 
-static char *ParseSquareList(
-  char  *tok,
-  PieNam    Name,
-  Flags Spec,
-  char  echo)
+static char *ParseSquareList(char *tok,
+                             PieNam Name,
+                             Flags Spec,
+                             char echo)
 {
   /* We interprete the tokenString as SquareList
      If we return always the next tokenstring
   */
-  int     Square, SquareCnt= 0;
+  int SquareCnt= 0;
 
-  while (true) {
-    if (*tok && tok[1] && (Square=SquareNum(*tok,tok[1])))
+  while (true)
+  {
+    square const Square = SquareNum(*tok,tok[1]);
+    if (tok[0]!=0 && tok[1]!=0 && Square!=initsquare)
     {
       if (e[Square] != vide)
       {
@@ -1388,7 +1432,8 @@ static char *ParseSquareList(
           rn= initsquare;
       }
       /* echo the piece if desired -- twinning */
-      if (echo == '+') {
+      if (echo == '+')
+      {
         if (LaTeXout) {
           sprintf(GlobalStr,
                   "%s\\%c%s %c%c",
@@ -1401,9 +1446,8 @@ static char *ParseSquareList(
                   '1'-nr_of_slack_rows_below_board+Square/onerow);
           strcat(ActTwinning, GlobalStr);
         }
-        if (e[Square] == vide) {
+        if (e[Square] == vide)
           StdChar(echo);
-        }
         WriteSpec(Spec, Name!=vide);
         WritePiece(Name);
         WriteSquare(Square);
@@ -4272,6 +4316,38 @@ static char *ParseCond(void) {
   return tok;
 } /* ParseCond */
 
+static void ReadMutuallyExclusiveCastling(void)
+{
+  char const *tok = ReadNextTokStr();
+  if (strlen(tok)==4)
+  {
+    square const white_rook_square = SquareNum(tok[0],tok[1]);
+    square const black_rook_square = SquareNum(tok[2],tok[3]);
+    if (game_array.board[white_rook_square]==tb
+        && game_array.board[black_rook_square]==tn)
+    {
+      square const white_castling = (white_rook_square==square_a1
+                                     ? queenside_castling
+                                     : kingside_castling);
+      castling_flag_type const white_flag = (white_rook_square==square_a1
+                                             ? ra1_cancastle
+                                             : rh1_cancastle);
+      square const black_castling = (black_rook_square==square_a8
+                                     ? queenside_castling
+                                     : kingside_castling);
+      castling_flag_type const black_flag = (black_rook_square==square_a8
+                                             ? ra8_cancastle
+                                             : rh8_cancastle);
+      castling_mutual_exclusive[White][white_castling-min_castling] |= black_flag;
+      castling_mutual_exclusive[Black][black_castling-min_castling] |= white_flag;
+      return;
+    }
+  }
+
+  ErrorMsg(MissngSquareList);
+}
+
+
 static char *ParseOpt(void)
 {
   Opt indexx;
@@ -4440,6 +4516,10 @@ static char *ParseOpt(void)
 
       case lastcapture:
         tok = ParsePieSpec(1);
+        break;
+
+      case mutuallyexclusivecastling:
+        ReadMutuallyExclusiveCastling();
         break;
 
       default:
@@ -4619,7 +4699,7 @@ static char *ParseTwinningMove(int indexx)
   {
     tok = ReadNextTokStr();
     sq1= SquareNum(tok[0], tok[1]);
-    if (sq1 == 0) {
+    if (sq1 == initsquare) {
       ErrorMsg(WrongSquareList);
       return ReadNextTokStr();
     }
@@ -4630,7 +4710,7 @@ static char *ParseTwinningMove(int indexx)
   {
     tok = ReadNextTokStr();
     sq2= SquareNum(tok[0], tok[1]);
-    if (sq2 == 0) {
+    if (sq2 == initsquare) {
       ErrorMsg(WrongSquareList);
       return ReadNextTokStr();
     }
@@ -4743,7 +4823,7 @@ static char *ParseTwinningShift(void) {
   while (sq1 == 0) {
     tok = ReadNextTokStr();
     sq1= SquareNum(tok[0], tok[1]);
-    if (sq1 == 0) {
+    if (sq1 == initsquare) {
       ErrorMsg(WrongSquareList);
     }
   }
@@ -4752,7 +4832,7 @@ static char *ParseTwinningShift(void) {
   while (sq2 == 0) {
     tok = ReadNextTokStr();
     sq2= SquareNum(tok[0], tok[1]);
-    if (sq2 == 0) {
+    if (sq2 == initsquare) {
       ErrorMsg(WrongSquareList);
     }
   }
@@ -4860,7 +4940,7 @@ static char *ParseTwinningRemove(void) {
       char *tok2= tok;
 
       while (*tok2 && !WrongList) {
-        if (SquareNum(tok2[0], tok2[1]) == 0) {
+        if (SquareNum(tok2[0], tok2[1]) == initsquare) {
           WrongList= true;
         }
         tok2 += 2;
@@ -5665,6 +5745,8 @@ void WritePosition() {
       CenterLine(ListSpec[sp]);
 
   WriteConditions(WCcentered);
+
+  WriteCastlingMutuallyExclusive();
 
   if (OptFlag[halfduplex])
     CenterLine(OptString[UserLanguage][halfduplex]);
