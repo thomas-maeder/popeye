@@ -4538,7 +4538,7 @@ static char *ParseOpt(void)
 
 /***** twinning ***** begin *****/
 
-char TwinChar;
+static unsigned int TwinNumber;
 
 piece  twin_e[nr_squares_on_board];
 Flags  twin_spec[nr_squares_on_board];
@@ -5073,13 +5073,25 @@ static char *ParseTwinningSubstitute(void) {
 
 }
 
+void WriteTwinNumber(void)
+{
+  if (TwinNumber-1<='z'-'a')
+    sprintf(GlobalStr, "%c) ", 'a'+TwinNumber-1);
+  else
+    sprintf(GlobalStr, "z%u) ", (unsigned int)(TwinNumber-1-('z'-'a')));
+
+  StdString(GlobalStr);
+  if (LaTeXout)
+    strcat(ActTwinning, GlobalStr);
+}
+
 static char *ParseTwinning(boolean *stipChanged)
 {
   char  *tok = ReadNextTokStr();
   boolean continued= false;
   boolean TwinningRead= false;
 
-  TwinChar++;
+  ++TwinNumber;
   OptFlag[noboard]= true;
   *stipChanged = false;
 
@@ -5146,17 +5158,7 @@ static char *ParseTwinning(boolean *stipChanged)
       else
         TwinResetPosition();
 
-      if (TwinChar <= 'z')
-        sprintf(GlobalStr, "%c) ", TwinChar);
-      else
-        sprintf(GlobalStr,
-                "%c%d) ",
-                'z',
-                (TwinChar-'z'-1));
-
-      StdString(GlobalStr);
-      if (LaTeXout)
-        strcat(ActTwinning, GlobalStr);
+      WriteTwinNumber();
     }
     else
     {
@@ -5318,7 +5320,7 @@ Token ReadTwin(Token tk, boolean *stipChanged)
     {
       StdString(TokenTab[ZeroPosition]);
       StdString("\n\n");
-      TwinChar= 'a'-1;
+      TwinNumber= 0;
       TwinStorePosition();
     }
     tok = ParseTwinning(stipChanged);
@@ -5364,7 +5366,7 @@ Token ReadTwin(Token tk, boolean *stipChanged)
   else
   {
     tok = ReadNextTokStr();
-    TwinChar= 'a';
+    TwinNumber= 1;
     while (true)
     {
       tk = StringToToken(tok);
@@ -5385,7 +5387,7 @@ Token ReadTwin(Token tk, boolean *stipChanged)
           break;
 
         case TwinProblem:
-          if (TwinChar == 'a')
+          if (TwinNumber==1)
             TwinStorePosition();
 
           if (root_slice!=no_slice)
@@ -6358,26 +6360,6 @@ void WriteSquare(square i)
 }
 
 
-/******************** for standalone testing *********************/
-#if defined(STANDALONE)
-int main() {
-  Token tk= BeginProblem;
-  rb= rn= initsquare;
-  InputStack[0]= stdin;
-  do {
-    memset((char *) exist,0,sizeof(exist));
-    memset((char *) promonly,0,sizeof(promonly));
-    memset((char *) isapril,0,sizeof(isapril));
-    memset((char *) OptFlag,0,sizeof(OptFlag));
-    memset((char *) CondFlag,0,sizeof(CondFlag));
-    memset((char *) e,0,sizeof(e));
-    tk= ReadTwin(tk);
-    if (!OptFlag[noboard])
-      WritePosition();
-
-  } while (tk == NextProblem);
-}
-#endif
 /* The input accepted by popeye is defined by the following grammar.
 ** If there is no space between two nonterminals, then there is also
 ** no other character allowed in the input. This holds for <SquareName>

@@ -2447,7 +2447,10 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
         LaTeXBeginDiagram();
 
       if (end_of_twin_token==TwinProblem)
-        StdString("a)\n\n");
+      {
+        WriteTwinNumber();
+        StdString("\n\n");
+      }
     }
 
     /* allow line-oriented output to restore the initial position */
