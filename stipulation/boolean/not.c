@@ -43,22 +43,24 @@ void not_write_unsolvability(slice_index si)
   output_end_unsolvability_level();
 }
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
+/* Is there no chance left for reaching the solution?
+ * E.g. did the help side just allow a mate in 1 in a hr#N?
  * Tests may rely on the current position being hash-encoded.
  * @param si slice index
- * @return true iff starter must resign
+ * @param just_moved side that has just moved
+ * @return true iff no chance is left
  */
-boolean not_must_starter_resign_hashed(slice_index si)
+boolean not_must_starter_resign_hashed(slice_index si, Side just_moved)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",just_moved);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(slices[si].u.not.op);
+  result = (slice_get_starter(si)==advers(just_moved)
+            && slice_has_solution(slices[si].u.not.op));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

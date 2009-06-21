@@ -23,14 +23,15 @@ slice_index alloc_move_inverter_slice(slice_index next);
  */
 boolean move_inverter_must_starter_resign(slice_index si);
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
+/* Is there no chance left for reaching the solution?
+ * E.g. did the help side just allow a mate in 1 in a hr#N?
  * Tests may rely on the current position being hash-encoded.
  * @param si slice index
- * @return true iff starter must resign
+ * @param just_moved side that has just moved
+ * @return true iff no chance is left
  */
-boolean move_inverter_must_starter_resign_hashed(slice_index si);
+boolean move_inverter_must_starter_resign_hashed(slice_index si,
+                                                 Side just_moved);
 
 /* Spin off a set play slice at root level
  * @param si slice index
