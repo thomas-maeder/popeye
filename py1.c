@@ -324,6 +324,11 @@ void InitOpt(void)
     for (i = 0; i<OptCount; i++)
       OptFlag[i] = false;
   }
+
+  pprise[1] = vide;
+  pprispec[1] = EmptySpec;
+  move_generation_stack[1].capture = initsquare;
+
 }
 
 void InitCheckDir(void)
