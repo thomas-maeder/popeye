@@ -191,7 +191,7 @@ solution finished.
       CirceDoubleAgents    Type1
           SingleBox    Type1
 
-a)
+a) 
 
   1.Qc1-c8 # ! 
 
@@ -200,6 +200,42 @@ b)  -wQc1
 
   1.h7*g8=R [+wQd1] # ! 
 
+
+solution finished. 
+
+
+fairy pieces only allowed in proof games since releases >4.51
+  1.Ka1-a2 Ga8-a1 a=>b 
+
+solution finished. 
+
+
+4.51 didn't find the solution because White could deliver mate after
+White's first move
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   B   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   R   .   .   .   .   .   .   2
+|                                   |
+1  -B   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hr#2                        3 + 3
+
+  1.Kh5-h6 Ba1*b2   2.Bf7-h5 Bb2-c1 # 
 
 solution finished. 
 

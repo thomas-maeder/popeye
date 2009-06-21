@@ -52,4 +52,22 @@ stipulation #1
 condition circedoubleagent singlebox
 twin remove c1
 
+next
+
+remark fairy pieces only allowed in proof games since releases >4.51
+pieces white ga8
+black ka1
+stipulation a=>b1
+pieces white ga1
+black ka2
+option nowk noboard
+
+next
+
+remark 4.51 didn't find the solution because White could deliver mate after
+remark White's first move
+pieces white kh5 rb2 bf7
+       black kh8 ba1 ph7
+stip hr#2
+
 end
