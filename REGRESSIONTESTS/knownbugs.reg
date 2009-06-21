@@ -1,4 +1,5 @@
 Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R [bRh7])
+(cf. issue 2790694)
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -30,7 +31,7 @@ Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R [bRh7])
 solution finished. 
 
 
-a) should produce same solutions as b)
+a) should produce same solutions as b) (cf. issue 2790694)
 
 
 +---a---b---c---d---e---f---g---h---+
