@@ -2620,12 +2620,14 @@ static void iterate_problems(void)
  */
 static unsigned int guessPlatformBitness(void)
 {
+#if defined(SIXTYFOUR)
+  return 64;
+#else
   if (UINT_MAX < 1UL<<16)
     return 16;
-  else if (UINT_MAX==ULONG_MAX)
-    return 32;
   else
-    return 64;
+    return 32;
+#endif
 }
 
 int main(int argc, char *argv[])
