@@ -481,6 +481,9 @@ simples:
 			irregulieres.
 	RetiensPieceMatante	Arreter de resoudre quand aucune piece ne
 			reste qui pourrait delivrer le mate.
+	DernierePrise	suivi par couleur, type de piece et case comme dans
+			la commande "pieces"; indique la prise de piece dans
+			le coup qui menait a la position de diagramme.
 
 
  - enonce: Popeye reconnait les enonces suivantes:

@@ -499,6 +499,9 @@ Kommandos:
 			nuetzlich fuer unregelmaessige Gitter.
 	HalteMattsetzendenStein	Loesungsvorgang abbrechen, wenn kein Stein
 			mehr vorhanden ist, der matt setzen koennte.
+	LetzterSchlag	gefolgt von Farbe, Steintyp und Feld wie im Befehl
+			"steine"; gibt den Schlagfall im Zug an, welcher zur
+			Diagrammstellung gefuehrt hat.
 
 
  - Forderung: Folgende Forderungen kennt Popeye:
