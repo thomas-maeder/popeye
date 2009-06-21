@@ -474,19 +474,34 @@ boolean leaf_d_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  switch (slices[leaf].u.leaf.goal)
+  /* Only check for DirNoSucc - we also have to write the solution if
+   * we already know that there is one!
+   */
+  if (inhash(leaf,DirNoSucc,1))
   {
-    case goal_countermate:
-      result = leaf_d_cmate_solve(leaf);
-      break;
+    assert(!inhash(leaf,DirSucc,0));
+    result = false;
+  }
+  else
+  {
+    switch (slices[leaf].u.leaf.goal)
+    {
+      case goal_countermate:
+        result = leaf_d_cmate_solve(leaf);
+        break;
 
-    case goal_doublemate:
-      result = leaf_d_dmate_solve(leaf);
-      break;
+      case goal_doublemate:
+        result = leaf_d_dmate_solve(leaf);
+        break;
 
-    default:
-      result = leaf_d_regulargoals_solve(leaf);
-      break;
+      default:
+        result = leaf_d_regulargoals_solve(leaf);
+        break;
+    }
+    if (result)
+      addtohash(leaf,DirSucc,0);
+    else
+      addtohash(leaf,DirNoSucc,1);
   }
 
   TraceFunctionExit(__func__);
