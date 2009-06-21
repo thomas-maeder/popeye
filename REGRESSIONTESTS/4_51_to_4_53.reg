@@ -240,3 +240,426 @@ White's first move
 solution finished. 
 
 
+
+test for twin numbering after we have run out of letters
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         1 + 1
+
+a) 
+
+
+b) +wSa7 +bBa5 
+
+
+c) +wSa7 +bBa4 
+
+
+d) +wSa7 +bBa3 
+
+
+e) +wSa7 +bBa2 
+
+
+f) +wSa7 +bBb7 
+
+
+g) +wSa7 +bBb6 
+
+
+h) +wSa7 +bBb5 
+
+
+i) +wSa7 +bBb4 
+
+
+j) +wSa7 +bBb3 
+
+
+k) +wSa7 +bBb2 
+
+the side to play can capture the king
+l) +wSa7 +bBc7 
+
+
+m) +wSa7 +bBc6 
+
+
+n) +wSa7 +bBc5 
+
+
+o) +wSa7 +bBc4 
+
+
+p) +wSa7 +bBc3 
+
+the side to play can capture the king
+q) +wSa7 +bBc2 
+
+
+r) +wSa7 +bBd7 
+
+
+s) +wSa7 +bBd6 
+
+
+t) +wSa7 +bBd5 
+
+
+u) +wSa7 +bBd4 
+
+the side to play can capture the king
+v) +wSa7 +bBd3 
+
+
+w) +wSa7 +bBd2 
+
+
+x) +wSa7 +bBe7 
+
+
+y) +wSa7 +bBe6 
+
+
+z) +wSa7 +bBe5 
+
+the side to play can capture the king
+z1) +wSa7 +bBe4 
+
+
+z2) +wSa7 +bBe3 
+
+
+z3) +wSa7 +bBe2 
+
+
+z4) +wSa7 +bBf7 
+
+
+z5) +wSa7 +bBf6 
+
+the side to play can capture the king
+z6) +wSa7 +bBf5 
+
+
+z7) +wSa7 +bBf4 
+
+
+z8) +wSa7 +bBf3 
+
+
+z9) +wSa7 +bBf2 
+
+
+z10) +wSa7 +bBg7 
+
+the side to play can capture the king
+z11) +wSa7 +bBg6 
+
+
+z12) +wSa7 +bBg5 
+
+
+z13) +wSa7 +bBg4 
+
+
+z14) +wSa7 +bBg3 
+
+
+z15) +wSa7 +bBg2 
+
+
+z16) +wSa7 +bBh7 
+
+
+z17) +wSa7 +bBh6 
+
+
+z18) +wSa7 +bBh5 
+
+
+z19) +wSa7 +bBh4 
+
+
+z20) +wSa7 +bBh3 
+
+
+z21) +wSa7 +bBh2 
+
+
+z22) +wSa5 +bBa7 
+
+
+z23) +wSa5 +bBa4 
+
+
+z24) +wSa5 +bBa3 
+
+
+z25) +wSa5 +bBa2 
+
+
+z26) +wSa5 +bBb7 
+
+
+z27) +wSa5 +bBb6 
+
+
+z28) +wSa5 +bBb5 
+
+
+z29) +wSa5 +bBb4 
+
+
+z30) +wSa5 +bBb3 
+
+
+z31) +wSa5 +bBb2 
+
+the side to play can capture the king
+z32) +wSa5 +bBc7 
+
+
+z33) +wSa5 +bBc6 
+
+
+z34) +wSa5 +bBc5 
+
+
+z35) +wSa5 +bBc4 
+
+
+z36) +wSa5 +bBc3 
+
+the side to play can capture the king
+z37) +wSa5 +bBc2 
+
+
+z38) +wSa5 +bBd7 
+
+
+z39) +wSa5 +bBd6 
+
+
+z40) +wSa5 +bBd5 
+
+
+z41) +wSa5 +bBd4 
+
+the side to play can capture the king
+z42) +wSa5 +bBd3 
+
+
+z43) +wSa5 +bBd2 
+
+
+z44) +wSa5 +bBe7 
+
+
+z45) +wSa5 +bBe6 
+
+
+z46) +wSa5 +bBe5 
+
+the side to play can capture the king
+z47) +wSa5 +bBe4 
+
+
+z48) +wSa5 +bBe3 
+
+
+z49) +wSa5 +bBe2 
+
+
+z50) +wSa5 +bBf7 
+
+
+z51) +wSa5 +bBf6 
+
+the side to play can capture the king
+z52) +wSa5 +bBf5 
+
+
+z53) +wSa5 +bBf4 
+
+
+z54) +wSa5 +bBf3 
+
+
+z55) +wSa5 +bBf2 
+
+
+z56) +wSa5 +bBg7 
+
+the side to play can capture the king
+z57) +wSa5 +bBg6 
+
+
+z58) +wSa5 +bBg5 
+
+
+z59) +wSa5 +bBg4 
+
+
+z60) +wSa5 +bBg3 
+
+
+z61) +wSa5 +bBg2 
+
+
+z62) +wSa5 +bBh7 
+
+
+z63) +wSa5 +bBh6 
+
+
+z64) +wSa5 +bBh5 
+
+
+z65) +wSa5 +bBh4 
+
+
+z66) +wSa5 +bBh3 
+
+
+z67) +wSa5 +bBh2 
+
+
+z68) +wSa4 +bBa7 
+
+
+z69) +wSa4 +bBa5 
+
+
+z70) +wSa4 +bBa3 
+
+
+z71) +wSa4 +bBa2 
+
+
+z72) +wSa4 +bBb7 
+
+
+z73) +wSa4 +bBb6 
+
+
+z74) +wSa4 +bBb5 
+
+
+z75) +wSa4 +bBb4 
+
+
+z76) +wSa4 +bBb3 
+
+
+z77) +wSa4 +bBb2 
+
+the side to play can capture the king
+z78) +wSa4 +bBc7 
+
+
+z79) +wSa4 +bBc6 
+
+
+z80) +wSa4 +bBc5 
+
+
+z81) +wSa4 +bBc4 
+
+
+z82) +wSa4 +bBc3 
+
+the side to play can capture the king
+z83) +wSa4 +bBc2 
+
+
+z84) +wSa4 +bBd7 
+
+
+z85) +wSa4 +bBd6 
+
+
+z86) +wSa4 +bBd5 
+
+
+z87) +wSa4 +bBd4 
+
+the side to play can capture the king
+z88) +wSa4 +bBd3 
+
+
+z89) +wSa4 +bBd2 
+
+
+z90) +wSa4 +bBe7 
+
+
+z91) +wSa4 +bBe6 
+
+
+z92) +wSa4 +bBe5 
+
+the side to play can capture the king
+z93) +wSa4 +bBe4 
+
+
+z94) +wSa4 +bBe3 
+
+
+z95) +wSa4 +bBe2 
+
+
+z96) +wSa4 +bBf7 
+
+
+z97) +wSa4 +bBf6 
+
+the side to play can capture the king
+z98) +wSa4 +bBf5 
+
+
+z99) +wSa4 +bBf4 
+
+
+z100) +wSa4 +bBf3 
+
+
+z101) +wSa4 +bBf2 
+
+
+z102) +wSa4 +bBg7 
+
+the side to play can capture the king
+z103) +wSa4 +bBg6 
+
+
+z104) +wSa4 +bBg5 
+
+
+z105) +wSa4 +bBg4 
+
+
+z106) +wSa4 +bBg3 
+
+
+solution finished. 
+
+
