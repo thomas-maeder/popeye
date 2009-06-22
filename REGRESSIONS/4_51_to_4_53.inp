@@ -208,4 +208,19 @@ twin add  white sa4 black bg5
 twin add  white sa4 black bg4
 twin add  white sa4 black bg3
 
+next
+
+pieces white ka1
+       black kh1
+option LastCapture white bh1
+stip ~1
+condition parrain
+
+next
+
+pieces white ka1
+       black kh1
+stip ~1
+condition parrain
+
 end
