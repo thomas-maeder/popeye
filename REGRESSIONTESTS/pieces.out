@@ -528,7 +528,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 4
 
-a)
+a) 
 
   1.RDg6-h5 RDg5-g8   2.RDh5-e5 RDf7-f8 # 
 
@@ -632,7 +632,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 3
 
-a)
+a) 
 
   1.Gd7-f5 Kd4-c5   2.Gf2-f6 RDg6-e8 # 
 
@@ -669,7 +669,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 3
 
-a)
+a) 
 
   1.Kd4-c5 Ke6-d7   2.d5-d4 RDb4-a5 # 
 
@@ -1142,6 +1142,37 @@ Loesung beendet.
 
   1.kODe6-f5 kODe8-d8   2.kODf5-b1 kODd8-d3 # 
   1.kODe6-f6 kODe8-d7   2.kODf6-b2 kODd7-d4 # 
+
+Loesung beendet. 
+
+
+
+            Joost de Heer
+       MatPuls Forum 22.6.2009
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -B   .   .   .   .  ZE   .   .   5
+|                                   |
+4   .   .   K   .   .   .   .   .   4
+|                                   |
+3  -K   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       2 + 2
+
+  1...ZEf5-e8   2.Ka3-a4 ZEe8-b7 # 
+  1...Kc4-c3   2.a5-a4 ZEf5-b6 # 
 
 Loesung beendet. 
 
