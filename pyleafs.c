@@ -107,54 +107,6 @@ boolean leaf_s_has_non_starter_solved(slice_index leaf)
   return result;
 }
 
-/* Determine and write solutions in a self stipulation in 1 move
- * @param leaf slice index of the leaf slice
- * @return true iff >=1 key was found and written
- */
-boolean leaf_s_solve(slice_index leaf)
-{
-  boolean found_solution = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  if (leaf_forced_has_non_starter_solved(slices[leaf].u.leafself.next))
-  {
-    found_solution = true;
-    leaf_forced_write_non_starter_has_solved(slices[leaf].u.leafself.next);
-  }
-  else
-  {
-    Side const attacker = slices[leaf].u.leafself.starter;
-
-    active_slice[nbply+1] = leaf;
-    genmove(attacker);
-
-    while (encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && !echecc(nbply,attacker)
-          && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
-      {
-        found_solution = true;
-
-        write_attack(attack_key);
-        leaf_forced_solve_postkey(slices[leaf].u.leafself.next);
-      }
-
-      repcoup();
-    }
-
-    finply();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",found_solution);
-  TraceFunctionResultEnd();
-  return found_solution;
-}
-
 /* Determine and write the solution of a leaf slice at root level.
  * @param leaf identifies leaf slice
  * @return true iff >=1 key was found and written

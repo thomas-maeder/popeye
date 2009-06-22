@@ -346,10 +346,6 @@ boolean slice_solve(slice_index si)
       solution_found = leaf_d_solve(si);
       break;
 
-    case STLeafSelf:
-      solution_found = leaf_s_solve(si);
-      break;
-
     case STLeafForced:
       solution_found = leaf_forced_solve(si);
       break;
