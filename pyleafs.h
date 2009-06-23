@@ -76,6 +76,12 @@ boolean leaf_s_has_starter_reached_goal(slice_index leaf);
  */
 boolean leaf_s_has_solution(slice_index leaf);
 
+/* Determine and write the solution of a leaf slice.
+ * @param leaf identifies leaf slice
+ * @return true iff >=1 solution was found
+ */
+boolean leaf_s_solve(slice_index leaf);
+
 /* Determine and write the solution of a leaf slice at root level.
  * @param leaf identifies leaf slice
  * @return true iff >=1 key was found and written

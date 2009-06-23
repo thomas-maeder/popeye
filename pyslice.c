@@ -340,6 +340,7 @@ boolean slice_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceFunctionParam("%u",slices[si].type);
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -352,6 +353,10 @@ boolean slice_solve(slice_index si)
 
     case STLeafHelp:
       solution_found = leaf_h_solve(si);
+      break;
+
+    case STLeafSelf:
+      solution_found = leaf_s_solve(si);
       break;
 
     case STQuodlibet:

@@ -107,6 +107,69 @@ boolean leaf_s_has_non_starter_solved(slice_index leaf)
   return result;
 }
 
+/* Determine and write solutions in a self stipulation in 1 move
+ * @param leaf slice index of the leaf slice
+ * @return true iff >=1 key was found and written
+ */
+boolean leaf_s_solve(slice_index leaf)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  /* Only check for DirNoSucc - we also have to write the solution if
+   * we already know that there is one!
+   */
+  if (inhash(leaf,DirNoSucc,1))
+  {
+    assert(!inhash(leaf,DirSucc,0));
+    result = false;
+  }
+  else
+  {
+    if (leaf_forced_has_non_starter_solved(slices[leaf].u.leafself.next))
+    {
+      result = true;
+      leaf_forced_write_non_starter_has_solved(slices[leaf].u.leafself.next);
+    }
+    else
+    {
+      Side const attacker = slices[leaf].u.leafself.starter;
+
+      active_slice[nbply+1] = leaf;
+      genmove(attacker);
+
+      while (encore())
+      {
+        if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+            && !echecc(nbply,attacker)
+            && !leaf_forced_does_defender_win(slices[leaf].u.leafself.next))
+        {
+          result = true;
+
+          write_attack(attack_key);
+          leaf_forced_solve_postkey(slices[leaf].u.leafself.next);
+        }
+
+        repcoup();
+      }
+
+      finply();
+    }
+    if (result)
+      addtohash(leaf,DirSucc,0);
+    else
+      addtohash(leaf,DirNoSucc,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine and write the solution of a leaf slice at root level.
  * @param leaf identifies leaf slice
  * @return true iff >=1 key was found and written
