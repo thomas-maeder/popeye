@@ -2604,14 +2604,14 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
 static void init_moves_left_non_root_branch_series(slice_index si,
                                                    slice_traversal *st)
 {
-  stip_length_type const n = slices[si].u.branch.length;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  MovesLeft[slices[si].u.branch.starter] += n-slack_length_series;
-  slice_traverse_children(slices[si].u.branch.next,st);
+  MovesLeft[slices[si].starter] += n-slack_length_series;
+  slice_traverse_children(slices[si].u.pipe.next,st);
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
@@ -2657,7 +2657,7 @@ static void init_moves_left_non_root_leaf_help(slice_index si,
 
   assert(goal_to_be_reached==no_goal);
   goal_to_be_reached = slices[si].u.leaf.goal;
-  ++MovesLeft[slices[si].u.leaf.starter];
+  ++MovesLeft[slices[si].starter];
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
@@ -2674,7 +2674,7 @@ static void init_moves_left_non_root_leaf_help(slice_index si,
 static void init_moves_left_non_root_help_hashed(slice_index si,
                                                  slice_traversal *st)
 {
-  stip_length_type const n = slices[si].u.help_hashed.length;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2683,7 +2683,7 @@ static void init_moves_left_non_root_help_hashed(slice_index si,
   MovesLeft[Black] += (n-slack_length_help)/2;
   MovesLeft[White] += (n-slack_length_help)/2;
   if ((n-slack_length_help)%2==1)
-    ++MovesLeft[branch_h_starter_in_n(slices[si].u.help_hashed.next,n)];
+    ++MovesLeft[branch_h_starter_in_n(slices[si].u.pipe.next,n)];
 
   slice_traverse_children(si,st);
 
@@ -2749,26 +2749,26 @@ static void init_moves_left_root(slice_index si, stip_length_type n)
   switch (slices[si].type)
   {
     case STBranchHelp:
-      init_moves_left_root(slices[si].u.branch.next,n);
+      init_moves_left_root(slices[si].u.pipe.next,n);
       break;
 
     case STBranchSeries:
     {
-      MovesLeft[slices[si].u.branch.starter] = n-slack_length_series;
-      MovesLeft[advers(slices[si].u.branch.starter)] = 0;
-      init_moves_left_non_root(slices[si].u.branch.next);
+      MovesLeft[slices[si].starter] = n-slack_length_series;
+      MovesLeft[advers(slices[si].starter)] = 0;
+      init_moves_left_non_root(slices[si].u.pipe.next);
       break;
     }
 
     case STBranchFork:
     {
-      init_moves_left_root(slices[si].u.branch_fork.next,n);
-      init_moves_left_non_root(slices[si].u.branch_fork.next_towards_goal);
+      init_moves_left_root(slices[si].u.pipe.next,n);
+      init_moves_left_non_root(slices[si].u.pipe.u.branch_fork.towards_goal);
       break;
     }
 
     case STMoveInverter:
-      init_moves_left_root(slices[si].u.move_inverter.next,n);
+      init_moves_left_root(slices[si].u.pipe.next,n);
       break;
 
     case STHelpHashed:
@@ -2776,14 +2776,14 @@ static void init_moves_left_root(slice_index si, stip_length_type n)
       MovesLeft[Black] = (n-slack_length_help)/2;
       MovesLeft[White] = (n-slack_length_help)/2;
       if ((n-slack_length_help)%2==1)
-        ++MovesLeft[help_starter_in_n(slices[si].u.help_hashed.next,n)];
+        ++MovesLeft[help_starter_in_n(slices[si].u.pipe.next,n)];
       break;
     }
 
     case STLeafHelp:
     {
-      MovesLeft[slices[si].u.leaf.starter] = 1;
-      MovesLeft[advers(slices[si].u.leaf.starter)] = 0;
+      MovesLeft[slices[si].starter] = 1;
+      MovesLeft[advers(slices[si].starter)] = 0;
       break;
     }
 
@@ -2863,17 +2863,17 @@ stip_supports_intelligent_rec(slice_index si)
   switch (slices[si].type)
   {
     case STBranchHelp:
-      if (slices[si].u.branch.length<slack_length_help)
+      if (slices[si].u.pipe.u.branch.length<slack_length_help)
         result = intelligent_not_supported;
       else
-        result = stip_supports_intelligent_rec(slices[si].u.branch.next);
+        result = stip_supports_intelligent_rec(slices[si].u.pipe.next);
       break;
 
     case STBranchSeries:
-      if (slices[si].u.branch.length<slack_length_series)
+      if (slices[si].u.pipe.u.branch.length<slack_length_series)
         result = intelligent_not_supported;
       else
-        result = stip_supports_intelligent_rec(slices[si].u.branch.next);
+        result = stip_supports_intelligent_rec(slices[si].u.pipe.next);
       break;
 
     case STLeafDirect:
@@ -2899,15 +2899,15 @@ stip_supports_intelligent_rec(slice_index si)
 
     case STMoveInverter:
     {
-      slice_index const next = slices[si].u.move_inverter.next;
+      slice_index const next = slices[si].u.pipe.next;
       result = stip_supports_intelligent_rec(next);
       break;
     }
 
     case STQuodlibet:
     {
-      slice_index const op1 = slices[si].u.quodlibet.op1;
-      slice_index const op2 = slices[si].u.quodlibet.op2;
+      slice_index const op1 = slices[si].u.fork.op1;
+      slice_index const op2 = slices[si].u.fork.op2;
       result = (stip_supports_intelligent_rec(op1)
                 && stip_supports_intelligent_rec(op2));
       break;
@@ -2915,7 +2915,7 @@ stip_supports_intelligent_rec(slice_index si)
 
     case STBranchFork:
     {
-      slice_index const next = slices[si].u.branch_fork.next_towards_goal;
+      slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
       result = stip_supports_intelligent_rec(next);
       break;
     }

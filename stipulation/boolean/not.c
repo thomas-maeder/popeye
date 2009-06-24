@@ -22,7 +22,7 @@ slice_index alloc_not_slice(slice_index op)
   assert(op!=no_slice);
 
   slices[result].type = STNot;
-  slices[result].u.not.op = op;
+  slices[result].u.pipe.next = op;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -39,7 +39,7 @@ slice_index alloc_not_slice(slice_index op)
 void not_write_unsolvability(slice_index si)
 {
   output_start_unsolvability_level();
-  slice_solve(slices[si].u.not.op);
+  slice_solve(slices[si].u.pipe.next);
   output_end_unsolvability_level();
 }
 
@@ -60,7 +60,7 @@ boolean not_must_starter_resign_hashed(slice_index si, Side just_moved)
   TraceFunctionParamListEnd();
 
   result = (slice_get_starter(si)==advers(just_moved)
-            && slice_has_solution(slices[si].u.not.op));
+            && slice_has_solution(slices[si].u.pipe.next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -83,7 +83,7 @@ boolean not_solve(slice_index si)
   /* Don't write anything, but return the correct value so that it can
    * be written to the hash table!
    */
-  result = !slice_has_solution(slices[si].u.not.op);
+  result = !slice_has_solution(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -103,7 +103,7 @@ boolean not_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = !slice_has_solution(slices[si].u.not.op);
+  result = !slice_has_solution(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -141,7 +141,7 @@ boolean not_has_starter_apriori_lost(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_starter_won(slices[si].u.not.op);
+  result = slice_has_starter_won(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -162,7 +162,7 @@ boolean not_has_starter_reached_goal(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = !slice_has_starter_reached_goal(slices[si].u.not.op);
+  result = !slice_has_starter_reached_goal(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -182,7 +182,7 @@ boolean not_has_starter_won(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = !slice_has_starter_won(slices[si].u.not.op);
+  result = !slice_has_starter_won(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -223,7 +223,7 @@ who_decides_on_starter not_detect_starter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_detect_starter(slices[si].u.not.op,same_side_as_root);
+  result = slice_detect_starter(slices[si].u.pipe.next,same_side_as_root);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -242,7 +242,7 @@ void not_impose_starter(slice_index si, Side s)
   TraceFunctionParam("%u",s);
   TraceFunctionParamListEnd();
 
-  slice_impose_starter(slices[si].u.not.op,s);
+  slice_impose_starter(slices[si].u.pipe.next,s);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -261,7 +261,7 @@ slice_index not_root_make_setplay_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  op_set = slice_root_make_setplay_slice(slices[si].u.not.op);
+  op_set = slice_root_make_setplay_slice(slices[si].u.pipe.next);
   if (op_set==no_slice)
     result = no_slice;
   else
@@ -285,7 +285,7 @@ boolean not_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = !slice_has_solution(slices[si].u.not.op);
+  result = !slice_has_solution(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

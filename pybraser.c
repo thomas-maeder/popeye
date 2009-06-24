@@ -31,10 +31,10 @@ slice_index alloc_branch_ser_slice(stip_length_type length,
   TraceFunctionParamListEnd();
 
   slices[result].type = STBranchSeries; 
-  slices[result].u.branch.starter = no_side; 
-  slices[result].u.branch.length = length;
-  slices[result].u.branch.min_length = min_length;
-  slices[result].u.branch.next = next;
+  slices[result].starter = no_side; 
+  slices[result].u.pipe.u.branch.length = length;
+  slices[result].u.pipe.u.branch.min_length = min_length;
+  slices[result].u.pipe.next = next;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -56,7 +56,7 @@ boolean branch_ser_must_starter_resign(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_must_starter_resign(slices[si].u.branch.next);
+  result = slice_must_starter_resign(slices[si].u.pipe.next);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -71,7 +71,7 @@ boolean branch_ser_must_starter_resign(slice_index si)
  */
 void branch_ser_write_unsolvability(slice_index si)
 {
-  slice_write_unsolvability(slices[si].u.branch.next);
+  slice_write_unsolvability(slices[si].u.pipe.next);
 }
 
 /* Determine whether a branch slice.has just been solved with the
@@ -87,7 +87,7 @@ boolean branch_ser_has_non_starter_solved(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_non_starter_solved(slices[si].u.branch.next);
+  result = slice_has_non_starter_solved(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -110,7 +110,7 @@ boolean branch_ser_has_starter_apriori_lost(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_starter_apriori_lost(slices[si].u.branch.next);
+  result = slice_has_starter_apriori_lost(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -130,7 +130,7 @@ boolean branch_ser_has_starter_won(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_starter_won(slices[si].u.branch.next);
+  result = slice_has_starter_won(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -146,7 +146,7 @@ boolean branch_ser_has_starter_won(slice_index si)
 boolean branch_ser_has_starter_reached_goal(slice_index si)
 {
   boolean result;
-  slice_index const next = slices[si].u.branch.next;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -168,7 +168,7 @@ boolean branch_ser_has_starter_reached_goal(slice_index si)
 boolean branch_ser_is_goal_reached(Side just_moved, slice_index si)
 {
   boolean result;
-  slice_index const next = slices[si].u.branch.next;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -202,7 +202,7 @@ static boolean move_filter(slice_index si,
 
   result = ((!isIntelligentModeActive || isGoalReachable())
             && !echecc(nbply,side_playing_series)
-            && !slice_must_starter_resign(slices[si].u.branch.next));
+            && !slice_must_starter_resign(slices[si].u.pipe.next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -219,7 +219,7 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
                                                stip_length_type n)
 {
   boolean result = false;
-  Side const side_playing_series = slices[si].u.branch.starter;
+  Side const side_playing_series = slices[si].starter;
   Side other_side = advers(side_playing_series);
 
   TraceFunctionEntry(__func__);
@@ -228,7 +228,7 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n==slack_length_series)
-    result = slice_solve(slices[si].u.branch.next);
+    result = slice_solve(slices[si].u.pipe.next);
   else if (echecc(nbply,other_side))
     TraceText("echecc(nbply,other_side)\n");
   else
@@ -247,7 +247,7 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
         if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
             && move_filter(si,n,side_playing_series))
         {
-          if (!slice_must_starter_resign_hashed(slices[si].u.branch.next,
+          if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,
                                                 side_playing_series)
               && branch_ser_solve_in_n_recursive(si,n-1))
             result = true;
@@ -290,7 +290,7 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
 static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
                                                     stip_length_type n)
 {
-  Side const side_playing_series = slices[si].u.branch.starter;
+  Side const side_playing_series = slices[si].starter;
   Side const other_side = advers(side_playing_series);
   boolean result = false;
 
@@ -300,7 +300,7 @@ static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n==slack_length_series)
-    result = slice_root_solve(slices[si].u.branch.next);
+    result = slice_root_solve(slices[si].u.pipe.next);
   else if (echecc(nbply,other_side))
     TraceText("echecc(nbply,other_side)\n");
   else
@@ -316,7 +316,7 @@ static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
           && move_filter(si,n,side_playing_series))
       {
-        if (!slice_must_starter_resign_hashed(slices[si].u.branch.next,
+        if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,
                                               side_playing_series)
             && branch_ser_solve_in_n_recursive(si,n-1))
           result = true;
@@ -396,7 +396,7 @@ static boolean branch_ser_root_solve_short_in_n(slice_index si,
   assert(n>=slack_length_series);
 
   if (isIntelligentModeActive)
-    result = Intelligent(si,n,slices[si].u.branch.length);
+    result = Intelligent(si,n,slices[si].u.pipe.u.branch.length);
   else
   {
     /* we only display move numbers when looking for full length
@@ -420,7 +420,7 @@ static boolean branch_ser_root_solve_short_in_n(slice_index si,
  */
 slice_index branch_ser_root_make_setplay_slice(slice_index si)
 {
-  slice_index const next = slices[si].u.branch.next;
+  slice_index const next = slices[si].u.pipe.next;
   slice_index result;
 
   TraceFunctionEntry(__func__);
@@ -429,7 +429,7 @@ slice_index branch_ser_root_make_setplay_slice(slice_index si)
 
   if (slices[next].type==STMoveInverter)
   {
-    slice_index const next_next = slices[next].u.move_inverter.next;
+    slice_index const next_next = slices[next].u.pipe.next;
     result = slice_root_make_setplay_slice(next_next);
   }
   else
@@ -447,7 +447,7 @@ slice_index branch_ser_root_make_setplay_slice(slice_index si)
  */
 boolean branch_ser_root_solve(slice_index si)
 {
-  Side const starter = slices[si].u.branch.starter;
+  Side const starter = slices[si].starter;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -460,7 +460,7 @@ boolean branch_ser_root_solve(slice_index si)
     ErrorMsg(KingCapture);
   else
   {
-    stip_length_type const full_length = slices[si].u.branch.length;
+    stip_length_type const full_length = slices[si].u.pipe.u.branch.length;
     stip_length_type len;
   
     move_generation_mode = move_generation_not_optimized;
@@ -470,7 +470,7 @@ boolean branch_ser_root_solve(slice_index si)
 
     init_output(si);
 
-    for (len = slices[si].u.branch.min_length;
+    for (len = slices[si].u.pipe.u.branch.min_length;
          len<full_length && !(OptFlag[stoponshort] && FlagShortSolsReached);
          len++)
       if (branch_ser_root_solve_short_in_n(si,len))
@@ -512,7 +512,7 @@ boolean branch_ser_root_solve(slice_index si)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==slices[si].u.branch.min_length)
+  if (n==slices[si].u.pipe.u.branch.min_length)
   result = branch_ser_root_solve_in_n_recursive(si,n);
   else if (OptFlag[restart])
   result = branch_ser_root_maximal_solve(n,si);
@@ -532,16 +532,16 @@ boolean branch_ser_root_solve(slice_index si)
 boolean branch_ser_solve(slice_index si)
 {
   boolean result = false;
-  stip_length_type const n = slices[si].u.branch.length;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
   stip_length_type i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].u.branch.length);
+  TraceValue("%u\n",slices[si].u.pipe.u.branch.length);
 
-  for (i = slices[si].u.branch.min_length; i<n; i++)
+  for (i = slices[si].u.pipe.u.branch.min_length; i<n; i++)
     if (branch_ser_solve_in_n_recursive(si,i))
     {
       TraceText("solution found\n");
@@ -580,7 +580,7 @@ who_decides_on_starter branch_ser_detect_starter(slice_index si,
                                                  boolean same_side_as_root)
 {
   who_decides_on_starter result = dont_know_who_decides_on_starter;
-  slice_index const next = slices[si].u.branch.next;
+  slice_index const next = slices[si].u.pipe.next;
   slice_index next_relevant = next;
 
   TraceFunctionEntry(__func__);
@@ -589,7 +589,7 @@ who_decides_on_starter branch_ser_detect_starter(slice_index si,
   TraceFunctionParamListEnd();
   
   if (slices[next].type==STMoveInverter)
-    next_relevant = slices[next].u.move_inverter.next;
+    next_relevant = slices[next].u.pipe.next;
 
   TraceValue("%u\n",next_relevant);
 
@@ -602,36 +602,36 @@ who_decides_on_starter branch_ser_detect_starter(slice_index si,
       case STLeafDirect:
         if (next==next_relevant)
           /* e.g. ser-h# */
-          slices[si].u.branch.starter = Black;
+          slices[si].starter = Black;
         else
           /* e.g. ser-# */
-          slices[si].u.branch.starter = White;
-        TraceValue("%u\n",slices[si].u.branch.starter);
-        slice_impose_starter(next,advers(slices[si].u.branch.starter));
+          slices[si].starter = White;
+        TraceValue("%u\n",slices[si].starter);
+        slice_impose_starter(next,advers(slices[si].starter));
         break;
 
       case STLeafSelf:
-        slices[si].u.branch.starter = White;
-        TraceValue("%u\n",slices[si].u.branch.starter);
-        slice_impose_starter(next,slices[si].u.branch.starter);
+        slices[si].starter = White;
+        TraceValue("%u\n",slices[si].starter);
+        slice_impose_starter(next,slices[si].starter);
         break;
 
       case STLeafHelp:
-        slices[si].u.branch.starter = Black;
-        TraceValue("%u\n",slices[si].u.branch.starter);
-        slice_impose_starter(next,slices[si].u.branch.starter);
+        slices[si].starter = Black;
+        TraceValue("%u\n",slices[si].starter);
+        slice_impose_starter(next,slices[si].starter);
         break;
 
       default:
         result = slice_detect_starter(next,same_side_as_root);
-        slices[si].u.branch.starter = slice_get_starter(next);
+        slices[si].starter = slice_get_starter(next);
         break;
     }
   }
   else
-    slices[si].u.branch.starter = advers(slice_get_starter(next));
+    slices[si].starter = advers(slice_get_starter(next));
 
-  TraceValue("%u\n",slices[si].u.branch.starter);
+  TraceValue("%u\n",slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -645,6 +645,6 @@ who_decides_on_starter branch_ser_detect_starter(slice_index si,
  */
 void branch_ser_impose_starter(slice_index si, Side s)
 {
-  slices[si].u.branch.starter = s;
-  slice_impose_starter(slices[si].u.branch.next,advers(s));
+  slices[si].starter = s;
+  slice_impose_starter(slices[si].u.pipe.next,advers(s));
 }

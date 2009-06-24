@@ -5144,7 +5144,7 @@ static char *ParseTwinning(boolean *stipChanged)
         if (slices[root_slice].type==STBranchHelp
             || slices[root_slice].type==STBranchSeries)
         {
-          slice_index const next = slices[root_slice].u.branch.next;
+          slice_index const next = slices[root_slice].u.pipe.next;
           if ((slices[next].type==STLeafHelp
                || slices[next].type==STLeafDirect)
               && (slices[next].u.leaf.goal==goal_proof

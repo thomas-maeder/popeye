@@ -43,7 +43,7 @@ static output_mode detect_output_mode(slice_index si)
   switch (slices[si].type)
   {
     case STMoveInverter:
-      result = detect_output_mode(slices[si].u.move_inverter.next);
+      result = detect_output_mode(slices[si].u.pipe.next);
       break;
 
     case STBranchDirect:
@@ -54,9 +54,9 @@ static output_mode detect_output_mode(slice_index si)
       break;
 
     case STBranchHelp:
-      if (slices[si].u.branch.length==slack_length_help+1)
+      if (slices[si].u.pipe.u.branch.length==slack_length_help+1)
         /* may be set play */
-        result = detect_output_mode(slices[si].u.branch.next);
+        result = detect_output_mode(slices[si].u.pipe.next);
       else
         result = output_mode_line;
       break;
@@ -69,10 +69,10 @@ static output_mode detect_output_mode(slice_index si)
 
     case STQuodlibet:
     {
-      slice_index const op1 = slices[si].u.quodlibet.op1;
+      slice_index const op1 = slices[si].u.fork.op1;
       output_mode mode1 = detect_output_mode(op1);
 
-      slice_index const op2 = slices[si].u.quodlibet.op2;
+      slice_index const op2 = slices[si].u.fork.op2;
       output_mode mode2 = detect_output_mode(op2);
 
       if (mode2!=output_mode_none)
@@ -84,10 +84,10 @@ static output_mode detect_output_mode(slice_index si)
 
     case STReciprocal:
     {
-      slice_index const op1 = slices[si].u.reciprocal.op1;
+      slice_index const op1 = slices[si].u.fork.op1;
       output_mode mode1 = detect_output_mode(op1);
 
-      slice_index const op2 = slices[si].u.reciprocal.op2;
+      slice_index const op2 = slices[si].u.fork.op2;
       output_mode mode2 = detect_output_mode(op2);
 
       if (mode2!=output_mode_none)
@@ -99,13 +99,13 @@ static output_mode detect_output_mode(slice_index si)
 
     case STNot:
     {
-      slice_index const op = slices[si].u.not.op;
+      slice_index const op = slices[si].u.pipe.next;
       result = detect_output_mode(op);
       break;
     }
 
     case STBranchFork:
-      result = detect_output_mode(slices[si].u.branch_fork.next_towards_goal);
+      result = detect_output_mode(slices[si].u.pipe.u.branch_fork.towards_goal);
       break;
 
     default:

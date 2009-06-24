@@ -25,9 +25,9 @@ slice_index alloc_help_hashed_slice(stip_length_type length,
   TraceFunctionParamListEnd();
 
   slices[result].type = STHelpHashed;
-  slices[result].u.help_hashed.length = length;
-  slices[result].u.help_hashed.min_length = min_length;
-  slices[result].u.help_hashed.next = next;
+  slices[result].u.pipe.u.branch.length = length;
+  slices[result].u.pipe.u.branch.min_length = min_length;
+  slices[result].u.pipe.next = next;
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -58,7 +58,7 @@ boolean help_hashed_solve_in_n(slice_index si,
 
   if (inhash(si,hash_no_succ,n/2))
     result = false;
-  else if (help_solve_in_n(slices[si].u.help_hashed.next,n,side_at_move))
+  else if (help_solve_in_n(slices[si].u.pipe.next,n,side_at_move))
     result = true;
   else
   {
@@ -97,7 +97,7 @@ boolean help_hashed_has_solution_in_n(slice_index si,
     result = false;
   else
   {
-    if (help_has_solution_in_n(slices[si].u.help_hashed.next,n,side_at_move))
+    if (help_has_solution_in_n(slices[si].u.pipe.next,n,side_at_move))
       result = true;
     else
     {
@@ -136,7 +136,7 @@ void help_hashed_solve_continuations_in_n(table continuations,
 
   if (!inhash(si,hash_no_succ,n/2))
   {
-    slice_index const next = slices[si].u.help_hashed.next;
+    slice_index const next = slices[si].u.pipe.next;
     help_solve_continuations_in_n(continuations,next,n,side_at_move);
     if (table_length(continuations)==0)
       addtohash(si,hash_no_succ,n/2);
@@ -160,7 +160,7 @@ Side help_hashed_starter_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = help_starter_in_n(slices[si].u.help_hashed.next,n);
+  result = help_starter_in_n(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

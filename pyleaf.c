@@ -631,7 +631,7 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
   TraceFunctionParam("%u",just_moved);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
-  assert(slices[leaf].u.leaf.starter!=no_side);
+  assert(slices[leaf].starter!=no_side);
 
   TraceValue("%u\n",slices[leaf].u.leaf.goal);
   switch (slices[leaf].u.leaf.goal)
@@ -738,5 +738,5 @@ void leaf_write_unsolvability(slice_index leaf)
  */
 void leaf_impose_starter(slice_index leaf, Side s)
 {
-  slices[leaf].u.leaf.starter = s;
+  slices[leaf].starter = s;
 }

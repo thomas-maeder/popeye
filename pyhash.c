@@ -197,7 +197,8 @@ void hash_slice_is_derived_from(slice_index derived, slice_index base)
 typedef struct
 {
     unsigned int size;
-    unsigned int value_size;
+    unsigned int valueSize;
+    unsigned int valueOffset;
 
     union
     {
@@ -237,77 +238,104 @@ static unsigned int bit_width(unsigned int value)
   return result;
 }
 
+typedef struct
+{
+    unsigned int nr_bits_left;
+    unsigned int value_offset;
+} slice_initializer_state;
+
 /* Initialise a slice_properties element representing direct play
  * @param si root slice of subtree
  * @param length number of attacker's moves of help slice
- * @param state state of slice properties initialisation
+ * @param sis state of slice properties initialisation
  */
 static void init_slice_property_direct(slice_index si,
                                        unsigned int length,
-                                       unsigned int *nr_bits_left)
+                                       slice_initializer_state *sis)
 {
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",sis->nr_bits_left);
+  TraceFunctionParam("%u",sis->value_offset);
+  TraceFunctionParamListEnd();
+
+
+  sis->value_offset -= size;
+  TraceFunctionParam("->%u\n",sis->value_offset);
+
   slice_properties[si].size = size;
-  slice_properties[si].value_size = size;
+  slice_properties[si].valueSize = size;
+  slice_properties[si].valueOffset = sis->value_offset;
 
-  assert(*nr_bits_left>=size);
-  *nr_bits_left -= size;
-  slice_properties[si].u.d.offsetNoSucc = *nr_bits_left;
-  slice_properties[si].u.d.maskNoSucc = mask << *nr_bits_left;
+  assert(sis->nr_bits_left>=size);
+  sis->nr_bits_left -= size;
+  slice_properties[si].u.d.offsetNoSucc = sis->nr_bits_left;
+  slice_properties[si].u.d.maskNoSucc = mask << sis->nr_bits_left;
 
-  assert(*nr_bits_left>=size);
-  *nr_bits_left -= size;
-  slice_properties[si].u.d.offsetSucc = *nr_bits_left;
-  slice_properties[si].u.d.maskSucc = mask << *nr_bits_left;
+  assert(sis->nr_bits_left>=size);
+  sis->nr_bits_left -= size;
+  slice_properties[si].u.d.offsetSucc = sis->nr_bits_left;
+  slice_properties[si].u.d.maskSucc = mask << sis->nr_bits_left;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Initialise a slice_properties element representing help play
  * @param si root slice of subtree
  * @param length number of half moves of help slice
- * @param state state of slice properties initialisation
+ * @param sis state of slice properties initialisation
  */
 static void init_slice_property_help(slice_index si,
                                      unsigned int length,
-                                     unsigned int *nr_bits_left)
+                                     slice_initializer_state *sis)
 {
   unsigned int const size = bit_width((length+1)/2);
   data_type const mask = (1<<size)-1;
 
+  sis->value_offset -= size+1;
+
   slice_properties[si].size = size;
-  slice_properties[si].value_size = size+1;
+  slice_properties[si].valueSize = size+1;
+  slice_properties[si].valueOffset = sis->value_offset;
 
-  assert(*nr_bits_left>=size);
-  *nr_bits_left -= size;
-  slice_properties[si].u.h.offsetNoSuccOdd = *nr_bits_left;
-  slice_properties[si].u.h.maskNoSuccOdd = mask << *nr_bits_left;
+  assert(sis->nr_bits_left>=size);
+  sis->nr_bits_left -= size;
+  slice_properties[si].u.h.offsetNoSuccOdd = sis->nr_bits_left;
+  slice_properties[si].u.h.maskNoSuccOdd = mask << sis->nr_bits_left;
 
-  assert(*nr_bits_left>=size);
-  *nr_bits_left -= size;
-  slice_properties[si].u.h.offsetNoSuccEven = *nr_bits_left;
-  slice_properties[si].u.h.maskNoSuccEven = mask << *nr_bits_left;
+  assert(sis->nr_bits_left>=size);
+  sis->nr_bits_left -= size;
+  slice_properties[si].u.h.offsetNoSuccEven = sis->nr_bits_left;
+  slice_properties[si].u.h.maskNoSuccEven = mask << sis->nr_bits_left;
 }
 
 /* Initialise a slice_properties element representing series play
  * @param si root slice of subtree
  * @param length number of half moves of series slice
- * @param state state of slice properties initialisation
+ * @param sis state of slice properties initialisation
  */
 static void init_slice_property_series(slice_index si,
                                        unsigned int length,
-                                       unsigned int *nr_bits_left)
+                                       slice_initializer_state *sis)
 {
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
 
-  slice_properties[si].size = size;
-  slice_properties[si].value_size = size;
+  sis->value_offset -= size;
 
-  assert(*nr_bits_left>=size);
-  *nr_bits_left -= size;
-  slice_properties[si].u.s.offsetNoSucc = *nr_bits_left;
-  slice_properties[si].u.s.maskNoSucc = mask << *nr_bits_left;
+  slice_properties[si].size = size;
+  slice_properties[si].valueSize = size;
+  slice_properties[si].valueOffset = sis->value_offset;
+
+  assert(sis->nr_bits_left>=size);
+  sis->nr_bits_left -= size;
+  slice_properties[si].u.s.offsetNoSucc = sis->nr_bits_left;
+  slice_properties[si].u.s.maskNoSucc = mask << sis->nr_bits_left;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -341,19 +369,60 @@ static void init_slice_properties_leaf_direct(slice_index leaf,
 static void init_slice_properties_reciprocal(slice_index reciprocal,
                                              slice_traversal *st)
 {
-  slice_index const op1 = slices[reciprocal].u.reciprocal.op1;
-  slice_index const op2 = slices[reciprocal].u.reciprocal.op2;
+  slice_initializer_state const * const sis = st->param;
+      
+  slice_index const op1 = slices[reciprocal].u.fork.op1;
+  slice_index const op2 = slices[reciprocal].u.fork.op2;
 
-  /* both operand slices must have the same value_size, or the
-   * shorter one will dominate the longer one */
-  if (slice_properties[op1].value_size>slice_properties[op2].value_size)
-    slice_properties[op2].value_size = slice_properties[op1].value_size;
-  else
-    slice_properties[op1].value_size = slice_properties[op2].value_size;
-
-  slice_properties[reciprocal].value_size = 0;
+  slice_properties[reciprocal].valueSize = 0;
+  slice_properties[reciprocal].valueOffset = sis->value_offset;
 
   slice_traverse_children(reciprocal,st);
+
+  /* both operand slices must have the same valueSize, or the
+   * shorter one will dominate the longer one */
+  if (slice_properties[op1].valueSize>slice_properties[op2].valueSize)
+    slice_properties[op2].valueSize = slice_properties[op1].valueSize;
+  else
+    slice_properties[op1].valueSize = slice_properties[op2].valueSize;
+
+  /* TODO recursively shift valueOffset values */
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a quodlibet
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ * @note this is an indirectly recursive function
+ */
+static void init_slice_properties_quodlibet(slice_index quodlibet,
+                                            slice_traversal *st)
+{
+  slice_initializer_state * const sis = st->param;
+      
+  slice_index const op1 = slices[quodlibet].u.fork.op1;
+  slice_index const op2 = slices[quodlibet].u.fork.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",quodlibet);
+  TraceFunctionParamListEnd();
+
+  slice_properties[quodlibet].valueSize = 0;
+  slice_properties[quodlibet].valueOffset = sis->value_offset;
+
+  traverse_slices(op1,st);
+  sis->value_offset = slice_properties[quodlibet].valueOffset;
+  traverse_slices(op2,st);
+
+  TraceValue("%u",op1);
+  TraceValue("%u",slice_properties[op1].valueOffset);
+  TraceValue("%u",op2);
+  TraceValue("%u",slice_properties[op2].valueOffset);
+
+  /* TODO recursively shift valueOffset values */
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -366,16 +435,16 @@ static void init_slice_properties_branch_direct(slice_index branch,
                                                 slice_traversal *st)
 {
   slice_index const base = base_slice[branch];
+
   if (base==no_slice)
   {
-    unsigned int const length = slices[branch].u.branch_d.length;
+    unsigned int const length = slices[branch].u.pipe.u.branch.length;
     init_slice_property_direct(branch,length,st->param);
-    if (slices[branch].u.branch_d.min_length==length
+    if (slices[branch].u.pipe.u.branch.min_length==length
         && length>slack_length_direct+1)
       is_there_slice_with_nonstandard_min_length = true;
+    slice_traverse_children(branch,st);
   }
-
-  slice_traverse_children(branch,st);
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -387,12 +456,11 @@ static void init_slice_properties_branch_direct(slice_index branch,
 static void init_slice_properties_help_hashed(slice_index si,
                                               slice_traversal *st)
 {
-  unsigned int const length = slices[si].u.help_hashed.length;
+  unsigned int const length = slices[si].u.pipe.u.branch.length;
   init_slice_property_help(si,length-slack_length_help,st->param);
-  if (slices[si].u.help_hashed.min_length==length
+  if (slices[si].u.pipe.u.branch.min_length==length
       && length>slack_length_help+1)
     is_there_slice_with_nonstandard_min_length = true;
-
   slice_traverse_children(si,st);
 }
 
@@ -405,30 +473,46 @@ static void init_slice_properties_help_hashed(slice_index si,
 static void init_slice_properties_branch_series(slice_index branch,
                                                 slice_traversal *st)
 {
-  unsigned int const length = slices[branch].u.branch.length;
+  unsigned int const length = slices[branch].u.pipe.u.branch.length;
   init_slice_property_series(branch,length-slack_length_series,st->param);
-  if (slices[branch].u.branch.min_length==length
+  if (slices[branch].u.pipe.u.branch.min_length==length
       && length>slack_length_series+1)
     is_there_slice_with_nonstandard_min_length = true;
-
   slice_traverse_children(branch,st);
+}
+
+static void init_slice_properties_copy_offset(slice_index si,
+                                              slice_traversal *st)
+{
+  slice_initializer_state const * const sis = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_properties[si].valueSize = 0;
+  slice_properties[si].valueOffset = sis->value_offset;
+  slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 slice_operation const slice_properties_initalisers[] =
 {
   &init_slice_properties_branch_direct, /* STBranchDirect */
-  &slice_traverse_children,             /* STBranchDirectDefender */
-  &slice_traverse_children,             /* STBranchHelp */
+  &init_slice_properties_copy_offset,   /* STBranchDirectDefender */
+  &init_slice_properties_copy_offset,   /* STBranchHelp */
   &init_slice_properties_branch_series, /* STBranchSeries */
-  &slice_traverse_children,             /* STBranchFork */
+  &init_slice_properties_copy_offset,   /* STBranchFork */
   &init_slice_properties_leaf_direct,   /* STLeafDirect */
   &init_slice_properties_leaf_help,     /* STLeafHelp */
   &init_slice_properties_leaf_direct,   /* STLeafSelf */
-  &slice_traverse_children,             /* STLeafForced */
+  &init_slice_properties_copy_offset,   /* STLeafForced */
   &init_slice_properties_reciprocal,    /* STReciprocal */
-  &slice_traverse_children,             /* STQuodlibet */
-  &slice_traverse_children,             /* STNot */
-  &slice_traverse_children,             /* STMoveInverter */
+  &init_slice_properties_quodlibet,     /* STQuodlibet */
+  &init_slice_properties_copy_offset,   /* STNot */
+  &init_slice_properties_copy_offset,   /* STMoveInverter */
   &init_slice_properties_help_hashed    /* STHelpHashed */
 };
 
@@ -467,23 +551,23 @@ slice_operation const slice_properties_inheriters[] =
 
 /* Shift right slice properties offset as far as possible
  * @param si root slice of subtree
- * @param st address of structure defining traversal
+ * @param sis address of structure defining traversal
  */
 static void shift_offset_direct(slice_index si, slice_traversal *st)
 {
-  unsigned int const * const shift = (unsigned int *)st->param;
+  slice_initializer_state const * const sis = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",*shift);
+  TraceValue("%u\n",sis->nr_bits_left);
 
-  slice_properties[si].u.d.offsetNoSucc -= *shift;
-  slice_properties[si].u.d.maskNoSucc >>= *shift;
+  slice_properties[si].u.d.offsetNoSucc -= sis->nr_bits_left;
+  slice_properties[si].u.d.maskNoSucc >>= sis->nr_bits_left;
 
-  slice_properties[si].u.d.offsetSucc -= *shift;
-  slice_properties[si].u.d.maskSucc >>= *shift;
+  slice_properties[si].u.d.offsetSucc -= sis->nr_bits_left;
+  slice_properties[si].u.d.maskSucc >>= sis->nr_bits_left;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -495,19 +579,19 @@ static void shift_offset_direct(slice_index si, slice_traversal *st)
  */
 static void shift_offset_help(slice_index si, slice_traversal *st)
 {
-  unsigned int const * const shift = (unsigned int *)st->param;
+  slice_initializer_state const * const sis = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",*shift);
+  TraceValue("%u\n",sis->nr_bits_left);
 
-  slice_properties[si].u.h.offsetNoSuccOdd -= *shift;
-  slice_properties[si].u.h.maskNoSuccOdd >>= *shift;
+  slice_properties[si].u.h.offsetNoSuccOdd -= sis->nr_bits_left;
+  slice_properties[si].u.h.maskNoSuccOdd >>= sis->nr_bits_left;
 
-  slice_properties[si].u.h.offsetNoSuccEven -= *shift;
-  slice_properties[si].u.h.maskNoSuccEven >>= *shift;
+  slice_properties[si].u.h.offsetNoSuccEven -= sis->nr_bits_left;
+  slice_properties[si].u.h.maskNoSuccEven >>= sis->nr_bits_left;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -539,10 +623,10 @@ static void shift_offset_branch_help(slice_index branch, slice_traversal *st)
  */
 static void shift_offset_series(slice_index branch, slice_traversal *st)
 {
-  unsigned int const * const shift = (unsigned int *)st->param;
+  slice_initializer_state const * const sis = st->param;
 
-  slice_properties[branch].u.s.offsetNoSucc -= *shift;
-  slice_properties[branch].u.s.maskNoSucc >>= *shift;
+  slice_properties[branch].u.s.offsetNoSucc -= sis->nr_bits_left;
+  slice_properties[branch].u.s.maskNoSucc >>= sis->nr_bits_left;
 
   slice_traverse_children(branch,st);
 }
@@ -571,19 +655,23 @@ slice_operation const slice_properties_offset_shifters[] =
 static void init_slice_properties(void)
 {
   slice_traversal st;
-  unsigned int nr_bits_left = sizeof(data_type)*CHAR_BIT;
+  slice_initializer_state sis = {
+    sizeof(data_type)*CHAR_BIT,
+    sizeof(data_type)*CHAR_BIT
+  };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&slice_properties_initalisers,&nr_bits_left);
+  slice_traversal_init(&st,&slice_properties_initalisers,&sis);
   traverse_slices(root_slice,&st);
 
   slice_traversal_init(&st,&slice_properties_inheriters,0);
   traverse_slices(root_slice,&st);
   
-  TraceValue("%u\n",nr_bits_left);
-  slice_traversal_init(&st,&slice_properties_offset_shifters,&nr_bits_left);
+  TraceValue("%u",sis.nr_bits_left);
+  TraceValue("%u\n",sis.value_offset);
+  slice_traversal_init(&st,&slice_properties_offset_shifters,&sis);
   traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -938,7 +1026,7 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
   switch (slices[si].type)
   {
     case STBranchDirect:
-      result = own_value_of_data_direct(he,si,slices[si].u.branch_d.length);
+      result = own_value_of_data_direct(he,si,slices[si].u.pipe.u.branch.length);
       break;
 
     case STHelpHashed:
@@ -963,28 +1051,25 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
 /* Determine the contribution of a stipulation subtree to the value of
  * a hash table element node.
  * @param he address of hash table element to determine value of
- * @param offset bit offset for subtree
  * @param si slice index of subtree root slice
  * @return value of contribuation of the subtree to *he's value
  */
 static hash_value_type value_of_data_recursive(dhtElement const *he,
-                                               unsigned int offset,
                                                slice_index si)
 {
   hash_value_type result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p ",he);
-  TraceFunctionParam("%u",offset);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (base_slice[si]==no_slice)
   {
-    offset -= slice_properties[si].value_size;
+    unsigned int const offset = slice_properties[si].valueOffset;
     TraceValue("%u",slices[si].type);
-    TraceValue("%u",slice_properties[si].value_size);
-    TraceValue("->%u\n",offset);
+    TraceValue("%u",slice_properties[si].valueSize);
+    TraceValue("%u\n",slice_properties[si].valueOffset);
 
     switch (slices[si].type)
     {
@@ -1002,15 +1087,11 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
       case STQuodlibet:
       {
-        slice_index const op1 = slices[si].u.quodlibet.op1;
-        slice_index const op2 = slices[si].u.quodlibet.op2;
+        slice_index const op1 = slices[si].u.fork.op1;
+        slice_index const op2 = slices[si].u.fork.op2;
 
-        hash_value_type const nested_value1 = value_of_data_recursive(he,
-                                                                      offset,
-                                                                      op1);
-        hash_value_type const nested_value2 = value_of_data_recursive(he,
-                                                                      offset,
-                                                                      op2);
+        hash_value_type const nested_value1 = value_of_data_recursive(he,op1);
+        hash_value_type const nested_value2 = value_of_data_recursive(he,op2);
 
         result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
         break;
@@ -1018,15 +1099,11 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
       case STReciprocal:
       {
-        slice_index const op1 = slices[si].u.reciprocal.op1;
-        slice_index const op2 = slices[si].u.reciprocal.op2;
+        slice_index const op1 = slices[si].u.fork.op1;
+        slice_index const op2 = slices[si].u.fork.op2;
 
-        hash_value_type const nested_value1 = value_of_data_recursive(he,
-                                                                      offset,
-                                                                      op1);
-        hash_value_type const nested_value2 = value_of_data_recursive(he,
-                                                                      offset,
-                                                                      op2);
+        hash_value_type const nested_value1 = value_of_data_recursive(he,op1);
+        hash_value_type const nested_value2 = value_of_data_recursive(he,op2);
 
         result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
         break;
@@ -1034,40 +1111,38 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
       case STNot:
       {
-        slice_index const op = slices[si].u.not.op;
-        result = value_of_data_recursive(he,offset,op);
+        slice_index const op = slices[si].u.pipe.next;
+        result = value_of_data_recursive(he,op);
         break;
       }
 
       case STMoveInverter:
       {
-        slice_index const next = slices[si].u.move_inverter.next;
-        result = value_of_data_recursive(he,offset,next);
+        slice_index const next = slices[si].u.pipe.next;
+        result = value_of_data_recursive(he,next);
         break;
       }
 
       case STBranchDirect:
       {
         hash_value_type const own_value = own_value_of_data_composite(he,si);
-        slice_index const peer = slices[si].u.branch_d.peer;
-        hash_value_type const nested_value = value_of_data_recursive(he,
-                                                                     offset,
-                                                                     peer);
+        slice_index const peer = slices[si].u.pipe.next;
+        hash_value_type const nested_value = value_of_data_recursive(he,peer);
         result = (own_value << offset) + nested_value;
         break;
       }
 
       case STBranchDirectDefender:
       {
-        slice_index const next = slices[si].u.branch_d_defender.next;
-        result = value_of_data_recursive(he,offset,next);
+        slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
+        result = value_of_data_recursive(he,next);
         break;
       }
 
       case STBranchHelp:
       {
-        slice_index const next = slices[si].u.branch.next;
-        result = value_of_data_recursive(he,offset,next);
+        slice_index const next = slices[si].u.pipe.next;
+        result = value_of_data_recursive(he,next);
         break;
       }
 
@@ -1075,9 +1150,8 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       {
         hash_value_type const own_value = own_value_of_data_composite(he,si);
 
-        slice_index const next = slices[si].u.branch.next;
-        hash_value_type const nested_value =
-            value_of_data_recursive(he,offset,next);
+        slice_index const next = slices[si].u.pipe.next;
+        hash_value_type const nested_value = value_of_data_recursive(he,next);
         TraceValue("%x ",own_value);
         TraceValue("%x\n",nested_value);
 
@@ -1087,13 +1161,10 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
       case STBranchFork:
       {
-        slice_index const next = slices[si].u.branch_fork.next;
-        slice_index const to_goal = slices[si].u.branch_fork.next_towards_goal;
-        hash_value_type const next_value = value_of_data_recursive(he,
-                                                                   offset,
-                                                                   next);
+        slice_index const next = slices[si].u.pipe.next;
+        slice_index const to_goal = slices[si].u.pipe.u.branch_fork.towards_goal;
+        hash_value_type const next_value = value_of_data_recursive(he,next);
         hash_value_type const nested_value = value_of_data_recursive(he,
-                                                                     offset,
                                                                      to_goal);
         result = (next_value << offset) + nested_value;
         break;
@@ -1125,14 +1196,13 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
  */
 static hash_value_type value_of_data(dhtElement const *he)
 {
-  unsigned int const offset = sizeof(data_type)*CHAR_BIT;
   hash_value_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",he);
   TraceFunctionParamListEnd();
 
-  result = value_of_data_recursive(he,offset,root_slice);
+  result = value_of_data_recursive(he,root_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%08x",result);
@@ -1361,54 +1431,54 @@ static int estimateNumberOfHoles(slice_index si)
   switch (slices[si].type)
   {
     case STBranchDirect:
-      result = 2*slices[si].u.branch_d.length;
+      result = 2*slices[si].u.pipe.u.branch.length;
       break;
 
     case STBranchDirectDefender:
-      result = 2*slices[si].u.branch_d_defender.length;
+      result = 2*slices[si].u.pipe.u.branch_d_defender.length;
       break;
 
     case STBranchHelp:
-      result = estimateNumberOfHoles(slices[si].u.branch.next);
+      result = estimateNumberOfHoles(slices[si].u.pipe.next);
       break;
 
     case STBranchSeries:
       /* That's far too much. In a ser-h#5 there won't be more
        * than 5 holes in hashed positions.      TLi
        */
-      result = slices[si].u.branch.length;
+      result = slices[si].u.pipe.u.branch.length;
       break;
 
     case STBranchFork:
-      result = estimateNumberOfHoles(slices[si].u.branch_fork.next);
+      result = estimateNumberOfHoles(slices[si].u.pipe.next);
       break;
 
     case STMoveInverter:
-      result = estimateNumberOfHoles(slices[si].u.move_inverter.next);
+      result = estimateNumberOfHoles(slices[si].u.pipe.next);
       break;
 
     case STQuodlibet:
     {
-      int const result1 = estimateNumberOfHoles(slices[si].u.quodlibet.op1);
-      int const result2 = estimateNumberOfHoles(slices[si].u.quodlibet.op2);
+      int const result1 = estimateNumberOfHoles(slices[si].u.fork.op1);
+      int const result2 = estimateNumberOfHoles(slices[si].u.fork.op2);
       result = result1>result2 ? result1 : result2;
       break;
     }
 
     case STReciprocal:
     {
-      int const result1 = estimateNumberOfHoles(slices[si].u.reciprocal.op1);
-      int const result2 = estimateNumberOfHoles(slices[si].u.reciprocal.op2);
+      int const result1 = estimateNumberOfHoles(slices[si].u.fork.op1);
+      int const result2 = estimateNumberOfHoles(slices[si].u.fork.op2);
       result = result1>result2 ? result1 : result2;
       break;
     }
 
     case STNot:
-      result = estimateNumberOfHoles(slices[si].u.not.op);
+      result = estimateNumberOfHoles(slices[si].u.pipe.next);
       break;
 
     case STHelpHashed:
-      result = 2*slices[si].u.branch.length;
+      result = 2*slices[si].u.pipe.u.branch.length;
       break;
 
     default:
@@ -1758,8 +1828,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
       {
         hash_value_type const nosucc = get_value_series(he,si);
         if (nosucc>=val
-            && (nosucc+slices[si].u.branch.min_length
-                <=val+slices[si].u.branch.length))
+            && (nosucc+slices[si].u.pipe.u.branch.min_length
+                <=val+slices[si].u.pipe.u.branch.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1772,8 +1842,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
       {
         hash_value_type const nosucc = get_value_help_odd(he,si);
         if (nosucc>=val
-            && (nosucc+slices[si].u.branch.min_length
-                <=val+slices[si].u.branch.length))
+            && (nosucc+slices[si].u.pipe.u.branch.min_length
+                <=val+slices[si].u.pipe.u.branch.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1786,8 +1856,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
       {
         hash_value_type const nosucc = get_value_help_even(he,si);
         if (nosucc>=val
-            && (nosucc+slices[si].u.branch.min_length
-                <=val+slices[si].u.branch.length))
+            && (nosucc+slices[si].u.pipe.u.branch.min_length
+                <=val+slices[si].u.pipe.u.branch.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1800,8 +1870,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
       {
         hash_value_type const nosucc = get_value_direct_nosucc(he,si);
         if (nosucc>=val
-            && (nosucc+slices[si].u.branch_d.min_length
-                <=val+slices[si].u.branch_d.length))
+            && (nosucc+slices[si].u.pipe.u.branch.min_length
+                <=val+slices[si].u.pipe.u.branch.length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1813,8 +1883,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
       {
         hash_value_type const succ = get_value_direct_succ(he,si);
         if (succ<=val
-            && (succ+slices[si].u.branch_d.length
-                >=val+slices[si].u.branch_d.min_length))
+            && (succ+slices[si].u.pipe.u.branch.length
+                >=val+slices[si].u.pipe.u.branch.min_length))
         {
           ifHASHRATE(use_pos++);
           result = true;
@@ -1929,42 +1999,46 @@ static void init_element(dhtElement *he,
       break;
 
     case STReciprocal:
-      init_element(he,slices[si].u.reciprocal.op1,element_initialised);
-      init_element(he,slices[si].u.reciprocal.op2,element_initialised);
+      init_element(he,slices[si].u.fork.op1,element_initialised);
+      init_element(he,slices[si].u.fork.op2,element_initialised);
       break;
 
     case STQuodlibet:
-      init_element(he,slices[si].u.quodlibet.op1,element_initialised);
-      init_element(he,slices[si].u.quodlibet.op2,element_initialised);
+      init_element(he,slices[si].u.fork.op1,element_initialised);
+      init_element(he,slices[si].u.fork.op2,element_initialised);
       break;
 
     case STNot:
-      init_element(he,slices[si].u.not.op,element_initialised);
+      init_element(he,slices[si].u.pipe.next,element_initialised);
       break;
 
     case STBranchDirect:
       if (base_slice[si]==no_slice)
       {
-        init_element_direct(he,si,slices[si].u.branch_d.length);
-        if (!element_initialised[slices[si].u.branch_d.peer])
-          init_element(he,slices[si].u.branch_d.peer,element_initialised);
+        init_element_direct(he,si,slices[si].u.pipe.u.branch.length);
+        if (!element_initialised[slices[si].u.pipe.next])
+          init_element(he,slices[si].u.pipe.next,element_initialised);
       }
       break;
 
     case STBranchHelp:
-      init_element(he,slices[si].u.branch.next,element_initialised);
+      init_element(he,slices[si].u.pipe.next,element_initialised);
       break;
 
     case STBranchDirectDefender:
-      init_element(he,slices[si].u.branch_d_defender.next,element_initialised);
-      if (!element_initialised[slices[si].u.branch_d_defender.peer])
-        init_element(he,slices[si].u.branch_d_defender.peer,element_initialised);
+      init_element(he,
+                   slices[si].u.pipe.u.branch_d_defender.towards_goal,
+                   element_initialised);
+      if (!element_initialised[slices[si].u.pipe.next])
+        init_element(he,
+                     slices[si].u.pipe.next,
+                     element_initialised);
       break;
 
     case STBranchFork:
-      init_element(he,slices[si].u.branch_fork.next,element_initialised);
+      init_element(he,slices[si].u.pipe.next,element_initialised);
       init_element(he,
-                   slices[si].u.branch_fork.next_towards_goal,
+                   slices[si].u.pipe.u.branch_fork.towards_goal,
                    element_initialised);
       break;
 
@@ -1974,12 +2048,12 @@ static void init_element(dhtElement *he,
       
     case STBranchSeries:
       init_element_series(he,si);
-      init_element(he,slices[si].u.branch.next,element_initialised);
+      init_element(he,slices[si].u.pipe.next,element_initialised);
       break;
 
     case STMoveInverter:
     {
-      slice_index const next = slices[si].u.move_inverter.next;
+      slice_index const next = slices[si].u.pipe.next;
       init_element(he,next,element_initialised);
       break;
     }

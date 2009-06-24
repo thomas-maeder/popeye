@@ -503,7 +503,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
       break;
 
     case STMoveInverter:
-      slice_root_solve_in_n(slices[si].u.move_inverter.next,n);
+      slice_root_solve_in_n(slices[si].u.pipe.next,n);
       break;
 
     case STHelpHashed:
@@ -1172,26 +1172,26 @@ Side slice_get_starter(slice_index si)
     case STLeafSelf:
     case STLeafHelp:
     case STLeafForced:
-      result = slices[si].u.leaf.starter;
+      result = slices[si].starter;
       break;
 
     case STBranchDirect:
-      result = slices[si].u.branch_d.starter;
+      result = slices[si].starter;
       break;
 
     case STBranchDirectDefender:
-      result = slices[si].u.branch_d_defender.starter;
+      result = slices[si].starter;
       break;
 
     case STBranchHelp:
     case STBranchSeries:
-      result = slices[si].u.branch.starter;
+      result = slices[si].starter;
       break;
 
     case STReciprocal:
     {
-      slice_index const op1 = slices[si].u.reciprocal.op1;
-      slice_index const op2 = slices[si].u.reciprocal.op2;
+      slice_index const op1 = slices[si].u.fork.op1;
+      slice_index const op2 = slices[si].u.fork.op2;
       Side const op1_starter = slice_get_starter(op1);
       Side const op2_starter = slice_get_starter(op2);
       if (op1_starter==no_side)
@@ -1206,8 +1206,8 @@ Side slice_get_starter(slice_index si)
 
     case STQuodlibet:
     {
-      slice_index const op1 = slices[si].u.quodlibet.op1;
-      slice_index const op2 = slices[si].u.quodlibet.op2;
+      slice_index const op1 = slices[si].u.fork.op1;
+      slice_index const op2 = slices[si].u.fork.op2;
       Side const op1_starter = slice_get_starter(op1);
       Side const op2_starter = slice_get_starter(op2);
       if (op1_starter==no_side)
@@ -1221,12 +1221,12 @@ Side slice_get_starter(slice_index si)
     }
 
     case STNot:
-      result = slice_get_starter(slices[si].u.not.op);
+      result = slice_get_starter(slices[si].u.pipe.next);
       break;
 
     case STMoveInverter:
     {
-      slice_index const next = slices[si].u.move_inverter.next;
+      slice_index const next = slices[si].u.pipe.next;
       Side const next_starter = slice_get_starter(next);
       if (next_starter!=no_side)
         result = advers(next_starter);
@@ -1234,11 +1234,11 @@ Side slice_get_starter(slice_index si)
     }
 
     case STBranchFork:
-      result = slice_get_starter(slices[si].u.branch_fork.next_towards_goal);
+      result = slice_get_starter(slices[si].u.pipe.u.branch_fork.towards_goal);
       break;
 
     case STHelpHashed:
-      result = slice_get_starter(slices[si].u.help_hashed.next);
+      result = slice_get_starter(slices[si].u.pipe.next);
       break;
 
     default:

@@ -19,8 +19,8 @@ slice_index alloc_branch_fork_slice(slice_index next, slice_index towards_goal)
   TraceFunctionParamListEnd();
 
   slices[result].type = STBranchFork;
-  slices[result].u.branch_fork.next = next;
-  slices[result].u.branch_fork.next_towards_goal = towards_goal;
+  slices[result].u.pipe.next = next;
+  slices[result].u.pipe.u.branch_fork.towards_goal = towards_goal;
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -49,10 +49,10 @@ boolean branch_fork_help_solve_in_n(slice_index si,
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    result = slice_solve(slices[si].u.branch_fork.next_towards_goal);
+    result = slice_solve(slices[si].u.pipe.u.branch_fork.towards_goal);
   else
   {
-    slice_index const next = slices[si].u.branch_fork.next;
+    slice_index const next = slices[si].u.pipe.next;
     result = help_solve_in_n(next,n,side_at_move);
   }
 
@@ -83,10 +83,10 @@ boolean branch_fork_help_has_solution_in_n(slice_index si,
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    result = slice_has_solution(slices[si].u.branch_fork.next_towards_goal);
+    result = slice_has_solution(slices[si].u.pipe.u.branch_fork.towards_goal);
   else
   {
-    slice_index const next = slices[si].u.branch_fork.next;
+    slice_index const next = slices[si].u.pipe.next;
     result = help_has_solution_in_n(next,n,side_at_move);
   }
 
@@ -118,10 +118,10 @@ void branch_fork_help_solve_continuations_in_n(table continuations,
 
   if (n==slack_length_help)
     slice_solve_continuations(continuations,
-                              slices[si].u.branch_fork.next_towards_goal);
+                              slices[si].u.pipe.u.branch_fork.towards_goal);
   else
   {
-    slice_index const next = slices[si].u.branch_fork.next;
+    slice_index const next = slices[si].u.pipe.next;
     help_solve_continuations_in_n(continuations,next,n,side_at_move);
   }
 
@@ -140,7 +140,7 @@ void branch_fork_impose_starter(slice_index si, Side side)
   TraceFunctionParam("%u",side);
   TraceFunctionParamListEnd();
 
-  slice_impose_starter(slices[si].u.branch_fork.next_towards_goal,side);
+  slice_impose_starter(slices[si].u.pipe.u.branch_fork.towards_goal,side);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -160,7 +160,7 @@ Side branch_fork_help_starter_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = help_starter_in_n(slices[si].u.branch_fork.next,n);
+  result = help_starter_in_n(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -182,7 +182,7 @@ boolean branch_fork_must_starter_resign(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_must_starter_resign(slices[si].u.branch_fork.next_towards_goal);
+  result = slice_must_starter_resign(slices[si].u.pipe.u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -200,7 +200,7 @@ void branch_fork_write_unsolvability(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_write_unsolvability(slices[si].u.branch_fork.next_towards_goal);
+  slice_write_unsolvability(slices[si].u.pipe.u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -219,7 +219,7 @@ boolean branch_fork_has_non_starter_solved(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_non_starter_solved(slices[si].u.branch_fork.next_towards_goal);
+  result = slice_has_non_starter_solved(slices[si].u.pipe.u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -242,7 +242,7 @@ boolean branch_fork_has_starter_apriori_lost(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_starter_apriori_lost(slices[si].u.branch_fork.next_towards_goal);
+  result = slice_has_starter_apriori_lost(slices[si].u.pipe.u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -262,7 +262,7 @@ boolean branch_fork_has_starter_won(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_starter_won(slices[si].u.branch_fork.next_towards_goal);
+  result = slice_has_starter_won(slices[si].u.pipe.u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -283,7 +283,7 @@ boolean branch_fork_has_starter_reached_goal(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_starter_reached_goal(slices[si].u.branch_fork.next_towards_goal);
+  result = slice_has_starter_reached_goal(slices[si].u.pipe.u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -306,7 +306,7 @@ boolean branch_fork_is_goal_reached(Side just_moved, slice_index si)
   TraceFunctionParamListEnd();
 
   result = slice_is_goal_reached(just_moved,
-                                 slices[si].u.branch_fork.next_towards_goal);
+                                 slices[si].u.pipe.u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -329,7 +329,7 @@ who_decides_on_starter branch_fork_detect_starter(slice_index si,
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
-  result = slice_detect_starter(slices[si].u.branch_fork.next_towards_goal,
+  result = slice_detect_starter(slices[si].u.pipe.u.branch_fork.towards_goal,
                                 same_side_as_root);
 
   TraceFunctionExit(__func__);
@@ -347,7 +347,7 @@ void branch_fork_solve_postkey(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_solve_postkey(slices[si].u.branch_fork.next_towards_goal);
+  slice_solve_postkey(slices[si].u.pipe.u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -369,7 +369,7 @@ boolean branch_fork_must_starter_resign_hashed(slice_index si, Side just_moved)
   TraceFunctionParam("%u",just_moved);
   TraceFunctionParamListEnd();
 
-  result = slice_must_starter_resign_hashed(slices[si].u.branch_fork.next_towards_goal,
+  result = slice_must_starter_resign_hashed(slices[si].u.pipe.u.branch_fork.towards_goal,
                                             just_moved);
 
   TraceFunctionExit(__func__);
@@ -394,7 +394,7 @@ static void slice_behind_branch_finder_branch_fork(slice_index si,
   /* The slice we look for is the one at the towards_goal end of a
    * help_hashed slice. Save it and don't recurse further.
    */
-  *result = slices[si].u.branch_fork.next_towards_goal;
+  *result = slices[si].u.pipe.u.branch_fork.towards_goal;
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -464,9 +464,9 @@ static void traverse_and_deallocate_branch_fork(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *result = slices[si].u.branch_fork.next_towards_goal;
+  *result = slices[si].u.pipe.u.branch_fork.towards_goal;
 
-  traverse_slices(slices[si].u.branch_fork.next,st);
+  traverse_slices(slices[si].u.pipe.next,st);
   dealloc_slice_index(si);
   
   TraceFunctionExit(__func__);

@@ -21,8 +21,8 @@ slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2)
   TraceFunctionParamListEnd();
 
   slices[result].type = STQuodlibet; 
-  slices[result].u.quodlibet.op1 = op1;
-  slices[result].u.quodlibet.op2 = op2;
+  slices[result].u.fork.op1 = op1;
+  slices[result].u.fork.op2 = op2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -39,8 +39,8 @@ slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2)
 boolean quodlibet_must_starter_resign(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -68,8 +68,8 @@ boolean quodlibet_must_starter_resign(slice_index si)
 boolean quodlibet_must_starter_resign_hashed(slice_index si, Side just_moved)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -95,15 +95,15 @@ boolean quodlibet_must_starter_resign_hashed(slice_index si, Side just_moved)
  */
 void quodlibet_write_unsolvability(slice_index si)
 {
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",slices[si].u.quodlibet.op1);
-  TraceValue("%u\n",slices[si].u.quodlibet.op2);
+  TraceValue("%u",slices[si].u.fork.op1);
+  TraceValue("%u\n",slices[si].u.fork.op2);
 
   slice_write_unsolvability(op1);
   slice_write_unsolvability(op2);
@@ -118,8 +118,8 @@ void quodlibet_write_unsolvability(slice_index si)
  */
 void quodlibet_solve_continuations(table continuations, slice_index si)
 {
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -138,8 +138,8 @@ void quodlibet_solve_continuations(table continuations, slice_index si)
  */
 slice_index quodlibet_root_make_setplay_slice(slice_index si)
 {
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
   slice_index op1_set;
   slice_index result = no_slice;
 
@@ -169,8 +169,8 @@ slice_index quodlibet_root_make_setplay_slice(slice_index si)
  */
 void quodlibet_root_solve_in_n(slice_index si, stip_length_type n)
 {
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -193,8 +193,8 @@ void quodlibet_root_solve_in_n(slice_index si, stip_length_type n)
 boolean quodlibet_root_solve(slice_index si)
 {
   boolean result = false;
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -221,8 +221,8 @@ boolean quodlibet_root_solve(slice_index si)
  */
 void quodlibet_root_write_key(slice_index si, attack_type type)
 {
-  slice_root_write_key(slices[si].u.quodlibet.op1,type);
-  slice_root_write_key(slices[si].u.quodlibet.op2,type);
+  slice_root_write_key(slices[si].u.fork.op1,type);
+  slice_root_write_key(slices[si].u.fork.op2,type);
 }
 
 /* Determine whether a quodlibet slice jas a solution
@@ -231,8 +231,8 @@ void quodlibet_root_write_key(slice_index si, attack_type type)
  */
 boolean quodlibet_has_solution(slice_index si)
 {
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -253,8 +253,8 @@ boolean quodlibet_has_solution(slice_index si)
  */
 void quodlibet_solve_postkey(slice_index si)
 {
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -274,8 +274,8 @@ void quodlibet_solve_postkey(slice_index si)
 boolean quodlibet_has_non_starter_solved(slice_index si)
 {
   boolean result = true;
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -299,8 +299,8 @@ boolean quodlibet_has_non_starter_solved(slice_index si)
 boolean quodlibet_has_starter_won(slice_index si)
 {
   boolean result = true;
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -322,8 +322,8 @@ boolean quodlibet_has_starter_won(slice_index si)
 boolean quodlibet_has_starter_reached_goal(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -348,8 +348,8 @@ boolean quodlibet_has_starter_reached_goal(slice_index si)
 boolean quodlibet_has_starter_apriori_lost(slice_index si)
 {
   boolean result = true;
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -372,8 +372,8 @@ boolean quodlibet_solve(slice_index si)
 {
   boolean found_solution_op1 = false;
   boolean found_solution_op2 = false;
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -399,8 +399,8 @@ boolean quodlibet_solve(slice_index si)
 who_decides_on_starter quodlibet_detect_starter(slice_index si,
                                                 boolean same_side_as_root)
 {
-  slice_index const op1 = slices[si].u.quodlibet.op1;
-  slice_index const op2 = slices[si].u.quodlibet.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
   who_decides_on_starter result;
   who_decides_on_starter result1;
   who_decides_on_starter result2;
@@ -411,8 +411,8 @@ who_decides_on_starter quodlibet_detect_starter(slice_index si,
 
   assert(slices[si].type==STQuodlibet);
 
-  TraceValue("%u",slices[si].u.quodlibet.op1);
-  TraceValue("%u\n",slices[si].u.quodlibet.op2);
+  TraceValue("%u",slices[si].u.fork.op1);
+  TraceValue("%u\n",slices[si].u.fork.op2);
 
   result1 = slice_detect_starter(op1,same_side_as_root);
   result2 = slice_detect_starter(op2,same_side_as_root);
@@ -444,6 +444,6 @@ who_decides_on_starter quodlibet_detect_starter(slice_index si,
  */
 void quodlibet_impose_starter(slice_index si, Side s)
 {
-  slice_impose_starter(slices[si].u.quodlibet.op1,s);
-  slice_impose_starter(slices[si].u.quodlibet.op2,s);
+  slice_impose_starter(slices[si].u.fork.op1,s);
+  slice_impose_starter(slices[si].u.fork.op2,s);
 }

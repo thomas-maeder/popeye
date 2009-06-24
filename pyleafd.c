@@ -20,9 +20,9 @@
 boolean leaf_d_must_starter_resign(slice_index leaf)
 {
   boolean result = false;
-  Side const attacker = slices[leaf].u.leaf.starter;
+  Side const attacker = slices[leaf].starter;
 
-  assert(slices[leaf].u.leaf.starter!=no_side);
+  assert(slices[leaf].starter!=no_side);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
@@ -43,7 +43,7 @@ boolean leaf_d_must_starter_resign(slice_index leaf)
 boolean leaf_d_has_solution(slice_index leaf)
 {
   hashwhat result = nr_hashwhat;
-  Side const attacker = slices[leaf].u.leaf.starter;
+  Side const attacker = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
@@ -142,7 +142,7 @@ boolean leaf_d_has_non_starter_solved(slice_index leaf)
  */
 static boolean leaf_d_root_dmate_solve(slice_index leaf)
 {
-  Side const starter = slices[leaf].u.leaf.starter;
+  Side const starter = slices[leaf].starter;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -198,7 +198,7 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
  */
 static boolean leaf_d_root_cmate_solve(slice_index leaf)
 {
-  Side const starter = slices[leaf].u.leaf.starter;
+  Side const starter = slices[leaf].starter;
   Side const non_starter = advers(starter);
   boolean result = false;
 
@@ -256,7 +256,7 @@ static boolean leaf_d_root_cmate_solve(slice_index leaf)
  */
 static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
 {
-  Side const attacker = slices[leaf].u.leaf.starter;
+  Side const attacker = slices[leaf].starter;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -309,7 +309,7 @@ static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
  */
 boolean leaf_d_root_solve(slice_index leaf)
 {
-  Side const attacker = slices[leaf].u.leaf.starter;
+  Side const attacker = slices[leaf].starter;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -356,7 +356,7 @@ boolean leaf_d_root_solve(slice_index leaf)
 static boolean leaf_d_dmate_solve(slice_index leaf)
 {
   boolean solution_found = false;
-  Side const starter = slices[leaf].u.leaf.starter;
+  Side const starter = slices[leaf].starter;
 
   if (!immobile(starter))
   {
@@ -392,7 +392,7 @@ static boolean leaf_d_dmate_solve(slice_index leaf)
 static boolean leaf_d_cmate_solve(slice_index leaf)
 {
   boolean solution_found = false;
-  Side const starter = slices[leaf].u.leaf.starter;
+  Side const starter = slices[leaf].starter;
   Side const non_starter = advers(starter);
 
   /* TODO can this be generalised to non-mate goals? */
@@ -428,7 +428,7 @@ static boolean leaf_d_cmate_solve(slice_index leaf)
  */
 static boolean leaf_d_regulargoals_solve(slice_index leaf)
 {
-  Side const attacker = slices[leaf].u.leaf.starter;
+  Side const attacker = slices[leaf].starter;
   boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
@@ -553,7 +553,7 @@ boolean leaf_d_has_starter_won(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  result = leaf_is_goal_reached(slices[leaf].u.leaf.starter,leaf);
+  result = leaf_is_goal_reached(slices[leaf].starter,leaf);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -574,7 +574,7 @@ boolean leaf_d_has_starter_reached_goal(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  result = leaf_is_goal_reached(slices[leaf].u.leaf.starter,leaf);
+  result = leaf_is_goal_reached(slices[leaf].starter,leaf);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -596,7 +596,7 @@ void leaf_d_solve_postkey(slice_index leaf)
  */
 void leaf_d_solve_continuations(slice_index leaf)
 {
-  Side const attacker = slices[leaf].u.leaf.starter;
+  Side const attacker = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
@@ -647,7 +647,7 @@ who_decides_on_starter leaf_d_detect_starter(slice_index leaf,
   {
     case goal_proof:
     case goal_atob:
-      slices[leaf].u.leaf.starter = same_side_as_root ? White : Black;
+      slices[leaf].starter = same_side_as_root ? White : Black;
       result = leaf_decides_on_starter;
       break;
 
@@ -655,11 +655,11 @@ who_decides_on_starter leaf_d_detect_starter(slice_index leaf,
       /* normally White, but Black in reci-h -> let somebody impose
        * the starter unless we are at the root level */
       if (leaf==root_slice)
-        slices[leaf].u.leaf.starter = same_side_as_root ? White : Black;
+        slices[leaf].starter = same_side_as_root ? White : Black;
       break;
   }
 
-  TraceValue("%u\n",slices[leaf].u.leaf.starter);
+  TraceValue("%u\n",slices[leaf].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

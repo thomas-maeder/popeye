@@ -105,84 +105,54 @@ typedef enum
 typedef struct
 {
     SliceType type;
+    Side starter;
 
     union
     {
         struct /* for type==STLeaf* */
         {
-            Side starter;
             Goal goal;
             square target; /* for goal==goal_target */
         } leaf;
 
         struct /* for type==STLeafSelf */
         {
-            Side starter;
             Goal goal;
             square target; /* for goal==goal_target */
             slice_index next;
         } leafself;
 
-        struct
-        {
-            Side starter;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
-            slice_index next;
-        } branch;
-
-        struct
-        {
-            Side starter;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
-            slice_index peer;
-        } branch_d;
-
-        struct
-        {
-            Side starter;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
-            slice_index next;
-            slice_index peer;
-        } branch_d_defender;
-
-        struct /* for type==STBranchFork */
+        struct /* for types with 1 principal subsequent slice */
         {
             slice_index next;
-            slice_index next_towards_goal;
-        } branch_fork;
 
-        struct /* for type==STQuodlibet */
+            union
+            {
+                struct
+                {
+                    stip_length_type length;     /* half moves */
+                    stip_length_type min_length; /* half moves */
+                } branch;
+
+                struct
+                {
+                    stip_length_type length;     /* half moves */
+                    stip_length_type min_length; /* half moves */
+                    slice_index towards_goal;
+                } branch_d_defender;
+
+                struct /* for type==STBranchFork */
+                {
+                    slice_index towards_goal;
+                } branch_fork;
+            } u;
+        } pipe;
+
+        struct /* for type==STQuodlibet and type==STReciprocal */
         {
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */
-        } quodlibet;
-
-        struct /* for type==STReciprocal */
-        {
-            slice_index op1; /* operand 1 */
-            slice_index op2; /* operand 2 */
-        } reciprocal;
-
-        struct /* for type==STNot */
-        {
-            slice_index op;
-        } not;
-
-        struct /* for type==STMoveInverter */
-        {
-            Side starter;
-            slice_index next;
-        } move_inverter;
-
-        struct /* for type==STHelpHashed */
-        {
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
-            slice_index next;
-        } help_hashed;
+        } fork;
     } u;
 } Slice;
 

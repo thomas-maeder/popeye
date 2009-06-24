@@ -24,8 +24,8 @@ slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2)
   assert(op2!=no_slice);
 
   slices[result].type = STReciprocal; 
-  slices[result].u.reciprocal.op1 = op1;
-  slices[result].u.reciprocal.op2 = op2;
+  slices[result].u.fork.op1 = op1;
+  slices[result].u.fork.op2 = op2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -43,8 +43,8 @@ slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2)
 boolean reci_must_starter_resign(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -72,8 +72,8 @@ boolean reci_must_starter_resign(slice_index si)
 boolean reci_must_starter_resign_hashed(slice_index si, Side just_moved)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -99,8 +99,8 @@ boolean reci_must_starter_resign_hashed(slice_index si, Side just_moved)
  */
 boolean reci_has_solution(slice_index si)
 {
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -123,8 +123,8 @@ boolean reci_has_solution(slice_index si)
 boolean reci_has_non_starter_solved(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -151,8 +151,8 @@ boolean reci_has_non_starter_solved(slice_index si)
 boolean reci_has_starter_apriori_lost(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -178,8 +178,8 @@ boolean reci_has_starter_apriori_lost(slice_index si)
 boolean reci_has_starter_won(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -203,8 +203,8 @@ boolean reci_has_starter_won(slice_index si)
 boolean reci_has_starter_reached_goal(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -230,11 +230,11 @@ void reci_write_unsolvability(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",slices[si].u.reciprocal.op1);
-  TraceValue("%u\n",slices[si].u.reciprocal.op2);
+  TraceValue("%u",slices[si].u.fork.op1);
+  TraceValue("%u\n",slices[si].u.fork.op2);
 
-  slice_write_unsolvability(slices[si].u.reciprocal.op1);
-  slice_write_unsolvability(slices[si].u.reciprocal.op2);
+  slice_write_unsolvability(slices[si].u.fork.op1);
+  slice_write_unsolvability(slices[si].u.fork.op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -249,8 +249,8 @@ void reci_solve_postkey(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_solve_postkey(slices[si].u.reciprocal.op1);
-  slice_solve_postkey(slices[si].u.reciprocal.op2);
+  slice_solve_postkey(slices[si].u.fork.op1);
+  slice_solve_postkey(slices[si].u.fork.op2);
 
   TraceFunctionExit(__func__);
 }
@@ -265,8 +265,8 @@ void reci_solve_continuations(table continuations, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_solve_continuations(continuations,slices[si].u.reciprocal.op1);
-  slice_solve_continuations(continuations,slices[si].u.reciprocal.op2);
+  slice_solve_continuations(continuations,slices[si].u.fork.op1);
+  slice_solve_continuations(continuations,slices[si].u.fork.op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -278,8 +278,8 @@ void reci_solve_continuations(table continuations, slice_index si)
  */
 slice_index reci_root_make_setplay_slice(slice_index si)
 {
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
   slice_index op1_set;
   slice_index result = no_slice;
 
@@ -311,8 +311,8 @@ boolean reci_root_solve(slice_index si)
 {
   boolean result = false;
 
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -341,8 +341,8 @@ boolean reci_root_solve(slice_index si)
 void reci_root_write_key(slice_index si, attack_type type)
 {
   /* TODO does this make sense? */
-  slice_root_write_key(slices[si].u.reciprocal.op1,type);
-  slice_root_write_key(slices[si].u.reciprocal.op2,type);
+  slice_root_write_key(slices[si].u.fork.op1,type);
+  slice_root_write_key(slices[si].u.fork.op2,type);
 }
 
 /* Continue solving at the end of a reciprocal slice
@@ -352,8 +352,8 @@ void reci_root_write_key(slice_index si, attack_type type)
 boolean reci_solve(slice_index si)
 {
   boolean result = false;
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -383,8 +383,8 @@ boolean reci_solve(slice_index si)
 who_decides_on_starter reci_detect_starter(slice_index si,
                                            boolean same_side_as_root)
 {
-  slice_index const op1 = slices[si].u.reciprocal.op1;
-  slice_index const op2 = slices[si].u.reciprocal.op2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
   who_decides_on_starter result;
   who_decides_on_starter result1;
   who_decides_on_starter result2;
@@ -424,6 +424,6 @@ who_decides_on_starter reci_detect_starter(slice_index si,
  */
 void reci_impose_starter(slice_index si, Side s)
 {
-  slice_impose_starter(slices[si].u.reciprocal.op1,s);
-  slice_impose_starter(slices[si].u.reciprocal.op2,s);
+  slice_impose_starter(slices[si].u.fork.op1,s);
+  slice_impose_starter(slices[si].u.fork.op2,s);
 }

@@ -40,7 +40,7 @@ boolean leaf_s_must_starter_resign(slice_index leaf)
 boolean leaf_s_has_solution(slice_index leaf)
 {
   boolean solution_found = false;
-  Side const attacker = slices[leaf].u.leafself.starter;
+  Side const attacker = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
@@ -136,7 +136,7 @@ boolean leaf_s_solve(slice_index leaf)
     }
     else
     {
-      Side const attacker = slices[leaf].u.leafself.starter;
+      Side const attacker = slices[leaf].starter;
 
       active_slice[nbply+1] = leaf;
       genmove(attacker);
@@ -176,7 +176,7 @@ boolean leaf_s_solve(slice_index leaf)
  */
 boolean leaf_s_root_solve(slice_index leaf)
 {
-  Side const attacker = slices[leaf].u.leafself.starter;
+  Side const attacker = slices[leaf].starter;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -322,8 +322,8 @@ slice_index leaf_s_root_make_setplay_slice(slice_index leaf)
   else
     result = alloc_leaf_slice(STLeafForced,slices[leaf].u.leafself.goal);
 
-  slices[result].u.leafself.starter =
-      advers(slices[leaf].u.leafself.starter);
+  slices[result].starter =
+      advers(slices[leaf].starter);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -344,7 +344,7 @@ void leaf_s_solve_postkey(slice_index leaf)
  */
 void leaf_s_solve_continuations(slice_index leaf)
 {
-  Side const attacker = slices[leaf].u.leafself.starter;
+  Side const attacker = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
@@ -390,7 +390,7 @@ who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
   TraceFunctionParamListEnd();
 
   result = slice_detect_starter(next,!same_side_as_root);
-  slices[leaf].u.leafself.starter = advers(slice_get_starter(next));
+  slices[leaf].starter = advers(slice_get_starter(next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -404,7 +404,7 @@ who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
  */
 void leaf_s_impose_starter(slice_index leaf, Side s)
 {
-  slices[leaf].u.leafself.starter = s;
+  slices[leaf].starter = s;
   slice_impose_starter(slices[leaf].u.leafself.next,advers(s));
 }
 

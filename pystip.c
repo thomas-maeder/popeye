@@ -35,7 +35,7 @@ void dealloc_slice_index(slice_index si)
    * allocated one */
 
   if (slices[si].type==STBranchDirect)
-    dealloc_slice_index(slices[si].u.branch_d.peer);
+    dealloc_slice_index(slices[si].u.pipe.next);
 
   if (next_slice==si+1)
     --next_slice;
@@ -61,7 +61,7 @@ slice_index alloc_target_leaf_slice(SliceType type, square s)
          || type==STLeafForced);
 
   slices[result].type = type; 
-  slices[result].u.leaf.starter = no_side; 
+  slices[result].starter = no_side; 
   slices[result].u.leaf.goal = goal_target;
   slices[result].u.leaf.target = s;
 
@@ -90,7 +90,7 @@ slice_index alloc_leaf_slice(SliceType type, Goal goal)
          || type==STLeafForced);
 
   slices[result].type = type; 
-  slices[result].u.leaf.starter = no_side; 
+  slices[result].starter = no_side; 
   slices[result].u.leaf.goal = goal;
   slices[result].u.leaf.target = initsquare;
 
@@ -149,22 +149,22 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
   switch (slices[si].type)
   {
     case STBranchHelp:
-      result = slices[si].u.branch.min_length;
+      result = slices[si].u.pipe.u.branch.min_length;
       min_length *= 2;
       if (result%2==1)
         --min_length;
-      if (min_length<=slices[si].u.branch.length)
-        slices[si].u.branch.min_length = min_length;
+      if (min_length<=slices[si].u.pipe.u.branch.length)
+        slices[si].u.pipe.u.branch.min_length = min_length;
       break;
 
     case STBranchSeries:
-      result = slices[si].u.branch.min_length;
-      if (min_length+1<=slices[si].u.branch.length)
-        slices[si].u.branch.min_length = min_length+1;
+      result = slices[si].u.pipe.u.branch.min_length;
+      if (min_length+1<=slices[si].u.pipe.u.branch.length)
+        slices[si].u.pipe.u.branch.min_length = min_length+1;
       break;
 
     case STBranchDirect:
-      result = slices[si].u.branch_d.min_length;
+      result = slices[si].u.pipe.u.branch.min_length;
       break;
 
     default:
@@ -195,22 +195,22 @@ stip_length_type get_max_nr_moves(slice_index si)
   switch (slices[si].type)
   {
     case STBranchDirect:
-      result = get_max_nr_moves(slices[si].u.branch_d.peer);
+      result = get_max_nr_moves(slices[si].u.pipe.next);
       break;
 
     case STBranchDirectDefender:
-      result = (slices[si].u.branch_d_defender.length+1
-                +get_max_nr_moves(slices[si].u.branch_d_defender.next));
+      result = (slices[si].u.pipe.u.branch_d_defender.length+1
+                +get_max_nr_moves(slices[si].u.pipe.u.branch_d_defender.towards_goal));
       break;
 
     case STBranchHelp:
     case STBranchSeries:
-      result = (slices[si].u.branch.length
-                +get_max_nr_moves(slices[si].u.branch.next));
+      result = (slices[si].u.pipe.u.branch.length
+                +get_max_nr_moves(slices[si].u.pipe.next));
       break;
 
     case STBranchFork:
-      result = get_max_nr_moves(slices[si].u.branch_fork.next_towards_goal);
+      result = get_max_nr_moves(slices[si].u.pipe.u.branch_fork.towards_goal);
       break;
 
     case STLeafSelf:
@@ -225,10 +225,10 @@ stip_length_type get_max_nr_moves(slice_index si)
 
     case STReciprocal:
     {
-      slice_index const op1 = slices[si].u.reciprocal.op1;
+      slice_index const op1 = slices[si].u.fork.op1;
       stip_length_type const result1 = get_max_nr_moves(op1);
 
-      slice_index const op2 = slices[si].u.reciprocal.op2;
+      slice_index const op2 = slices[si].u.fork.op2;
       stip_length_type const result2 = get_max_nr_moves(op2);
 
       result = result1>result2 ? result1 : result2;
@@ -237,10 +237,10 @@ stip_length_type get_max_nr_moves(slice_index si)
     
     case STQuodlibet:
     {
-      slice_index const op1 = slices[si].u.quodlibet.op1;
+      slice_index const op1 = slices[si].u.fork.op1;
       stip_length_type const result1 = get_max_nr_moves(op1);
 
-      slice_index const op2 = slices[si].u.quodlibet.op2;
+      slice_index const op2 = slices[si].u.fork.op2;
       stip_length_type const result2 = get_max_nr_moves(op2);
 
       result = result1>result2 ? result1 : result2;
@@ -248,15 +248,15 @@ stip_length_type get_max_nr_moves(slice_index si)
     }
 
     case STNot:
-      result = get_max_nr_moves(slices[si].u.not.op);
+      result = get_max_nr_moves(slices[si].u.pipe.next);
       break;
   
     case STMoveInverter:
-      result = get_max_nr_moves(slices[si].u.move_inverter.next);
+      result = get_max_nr_moves(slices[si].u.pipe.next);
       break;
 
     case STHelpHashed:
-      result = get_max_nr_moves(slices[si].u.help_hashed.next);
+      result = get_max_nr_moves(slices[si].u.pipe.next);
       break;
 
     default:
@@ -297,13 +297,13 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
     }
 
     case STQuodlibet:
-      transform_to_quodlibet_recursive(&slices[index].u.quodlibet.op1);
-      transform_to_quodlibet_recursive(&slices[index].u.quodlibet.op2);
+      transform_to_quodlibet_recursive(&slices[index].u.fork.op1);
+      transform_to_quodlibet_recursive(&slices[index].u.fork.op2);
       break;
 
     case STReciprocal:
-      transform_to_quodlibet_recursive(&slices[index].u.reciprocal.op1);
-      transform_to_quodlibet_recursive(&slices[index].u.reciprocal.op2);
+      transform_to_quodlibet_recursive(&slices[index].u.fork.op1);
+      transform_to_quodlibet_recursive(&slices[index].u.fork.op2);
       break;
 
     case STBranchHelp:
@@ -325,16 +325,17 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
 
     case STBranchDirect:
     {
-      slice_index peer = slices[index].u.branch_d.peer;
-      slice_index next = slices[peer].u.branch_d_defender.next;
+      slice_index peer = slices[index].u.pipe.next;
+      slice_index towards_goal =
+          slices[peer].u.pipe.u.branch_d_defender.towards_goal;
       assert(slices[peer].type==STBranchDirectDefender);
-      transform_to_quodlibet_recursive(&next);
-      slices[peer].u.branch_d_defender.next = next;
+      transform_to_quodlibet_recursive(&towards_goal);
+      slices[peer].u.pipe.u.branch_d_defender.towards_goal = towards_goal;
       break;
     }
 
     case STBranchSeries:
-      transform_to_quodlibet_recursive(&slices[index].u.branch.next);
+      transform_to_quodlibet_recursive(&slices[index].u.pipe.next);
       break;
 
     default:
@@ -403,57 +404,57 @@ static boolean slice_ends_only_in(Goal const goals[],
 
     case STQuodlibet:
     {
-      slice_index const op1 = slices[si].u.quodlibet.op1;
-      slice_index const op2 = slices[si].u.quodlibet.op2;
+      slice_index const op1 = slices[si].u.fork.op1;
+      slice_index const op2 = slices[si].u.fork.op2;
       return (slice_ends_only_in(goals,nrGoals,op1)
               && slice_ends_only_in(goals,nrGoals,op2));
     }
 
     case STReciprocal:
     {
-      slice_index const op1 = slices[si].u.reciprocal.op1;
-      slice_index const op2 = slices[si].u.reciprocal.op2;
+      slice_index const op1 = slices[si].u.fork.op1;
+      slice_index const op2 = slices[si].u.fork.op2;
       return (slice_ends_only_in(goals,nrGoals,op1)
               && slice_ends_only_in(goals,nrGoals,op2));
     }
 
     case STNot:
-      return !slice_ends_only_in(goals,nrGoals,slices[si].u.not.op);
+      return !slice_ends_only_in(goals,nrGoals,slices[si].u.pipe.next);
 
     case STBranchDirect:
     {
-      slice_index const peer = slices[si].u.branch_d.peer;
+      slice_index const peer = slices[si].u.pipe.next;
       return slice_ends_only_in(goals,nrGoals,peer);
     }
 
     case STBranchDirectDefender:
     {
-      slice_index const next = slices[si].u.branch_d_defender.next;
+      slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
     case STBranchHelp:
     case STBranchSeries:
     {
-      slice_index const next = slices[si].u.branch.next;
+      slice_index const next = slices[si].u.pipe.next;
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
     case STBranchFork:
     {
-      slice_index const next = slices[si].u.branch_fork.next_towards_goal;
+      slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
     case STMoveInverter:
     {
-      slice_index const next = slices[si].u.move_inverter.next;
+      slice_index const next = slices[si].u.pipe.next;
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
     case STHelpHashed:
     {
-      slice_index const next = slices[si].u.help_hashed.next;
+      slice_index const next = slices[si].u.pipe.next;
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
@@ -494,60 +495,60 @@ static boolean slice_ends_in(Goal const goals[],
 
     case STQuodlibet:
     {
-      slice_index const op1 = slices[si].u.quodlibet.op1;
-      slice_index const op2 = slices[si].u.quodlibet.op2;
+      slice_index const op1 = slices[si].u.fork.op1;
+      slice_index const op2 = slices[si].u.fork.op2;
       return (slice_ends_in(goals,nrGoals,op1)
               || slice_ends_in(goals,nrGoals,op2));
     }
 
     case STReciprocal:
     {
-      slice_index const op1 = slices[si].u.reciprocal.op1;
-      slice_index const op2 = slices[si].u.reciprocal.op2;
+      slice_index const op1 = slices[si].u.fork.op1;
+      slice_index const op2 = slices[si].u.fork.op2;
       return (slice_ends_in(goals,nrGoals,op1)
               || slice_ends_in(goals,nrGoals,op2));
     }
 
     case STNot:
     {
-      slice_index const op = slices[si].u.not.op;
+      slice_index const op = slices[si].u.pipe.next;
       return slice_ends_in(goals,nrGoals,op);
     }
 
     case STBranchDirect:
     {
-      slice_index const peer = slices[si].u.branch_d.peer;
+      slice_index const peer = slices[si].u.pipe.next;
       return slice_ends_in(goals,nrGoals,peer);
     }
 
     case STBranchDirectDefender:
     {
-      slice_index const next = slices[si].u.branch_d_defender.next;
+      slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
       return slice_ends_in(goals,nrGoals,next);
     }
 
     case STBranchHelp:
     case STBranchSeries:
     {
-      slice_index const next = slices[si].u.branch.next;
+      slice_index const next = slices[si].u.pipe.next;
       return slice_ends_in(goals,nrGoals,next);
     }
 
     case STBranchFork:
     {
-      slice_index const next = slices[si].u.branch_fork.next_towards_goal;
+      slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
       return slice_ends_in(goals,nrGoals,next);
     }
 
     case STMoveInverter:
     {
-      slice_index const next = slices[si].u.move_inverter.next;
+      slice_index const next = slices[si].u.pipe.next;
       return slice_ends_in(goals,nrGoals,next);
     }
 
     case STHelpHashed:
     {
-      slice_index const next = slices[si].u.help_hashed.next;
+      slice_index const next = slices[si].u.pipe.next;
       return slice_ends_in(goals,nrGoals,next);
     }
 
@@ -600,8 +601,8 @@ static slice_index find_goal_recursive(Goal goal,
 
     case STQuodlibet:
     {
-      slice_index const op1 = slices[si].u.quodlibet.op1;
-      slice_index const op2 = slices[si].u.quodlibet.op2;
+      slice_index const op1 = slices[si].u.fork.op1;
+      slice_index const op2 = slices[si].u.fork.op2;
       result = find_goal_recursive(goal,start,active,op1);
       if (result==no_slice)
         result = find_goal_recursive(goal,start,active,op2);
@@ -610,8 +611,8 @@ static slice_index find_goal_recursive(Goal goal,
 
     case STReciprocal:
     {
-      slice_index const op1 = slices[si].u.reciprocal.op1;
-      slice_index const op2 = slices[si].u.reciprocal.op2;
+      slice_index const op1 = slices[si].u.fork.op1;
+      slice_index const op2 = slices[si].u.fork.op2;
       result = find_goal_recursive(goal,start,active,op1);
       if (result==no_slice)
         result = find_goal_recursive(goal,start,active,op2);
@@ -620,21 +621,21 @@ static slice_index find_goal_recursive(Goal goal,
 
     case STNot:
     {
-      slice_index const op = slices[si].u.not.op;
+      slice_index const op = slices[si].u.pipe.next;
       result = find_goal_recursive(goal,start,active,op);
       break;
     }
 
     case STBranchDirect:
     {
-      slice_index const peer = slices[si].u.branch_d.peer;
+      slice_index const peer = slices[si].u.pipe.next;
       result = find_goal_recursive(goal,start,active,peer);
       break;
     }
 
     case STBranchDirectDefender:
     {
-      slice_index const next = slices[si].u.branch_d_defender.next;
+      slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
       result = find_goal_recursive(goal,start,active,next);
       break;
     }
@@ -642,28 +643,28 @@ static slice_index find_goal_recursive(Goal goal,
     case STBranchHelp:
     case STBranchSeries:
     {
-      slice_index const next = slices[si].u.branch.next;
+      slice_index const next = slices[si].u.pipe.next;
       result = find_goal_recursive(goal,start,active,next);
       break;
     }
 
     case STBranchFork:
     {
-      slice_index const next = slices[si].u.branch_fork.next_towards_goal;
+      slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
       result = find_goal_recursive(goal,start,active,next);
       break;
     }
 
     case STMoveInverter:
     {
-      slice_index const next = slices[si].u.move_inverter.next;
+      slice_index const next = slices[si].u.pipe.next;
       result = find_goal_recursive(goal,start,active,next);
       break;
     }
 
     case STHelpHashed:
     {
-      slice_index const next = slices[si].u.help_hashed.next;
+      slice_index const next = slices[si].u.pipe.next;
       result = find_goal_recursive(goal,start,active,next);
       break;
     }
@@ -756,8 +757,8 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
     
     case STQuodlibet:
     {
-      slice_index const op1 = slices[current_slice].u.quodlibet.op1;
-      slice_index const op2 = slices[current_slice].u.quodlibet.op2;
+      slice_index const op1 = slices[current_slice].u.fork.op1;
+      slice_index const op2 = slices[current_slice].u.fork.op2;
       result = (find_unique_goal_recursive(op1,found_so_far)
                 && find_unique_goal_recursive(op2,found_so_far));
       break;
@@ -765,8 +766,8 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
 
     case STReciprocal:
     {
-      slice_index const op1 = slices[current_slice].u.reciprocal.op1;
-      slice_index const op2 = slices[current_slice].u.reciprocal.op2;
+      slice_index const op1 = slices[current_slice].u.fork.op1;
+      slice_index const op2 = slices[current_slice].u.fork.op2;
       result = (find_unique_goal_recursive(op1,found_so_far)
                 && find_unique_goal_recursive(op2,found_so_far));
       break;
@@ -774,14 +775,14 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
     
     case STNot:
     {
-      slice_index const op = slices[current_slice].u.not.op;
+      slice_index const op = slices[current_slice].u.pipe.next;
       result = find_unique_goal_recursive(op,found_so_far);
       break;
     }
 
     case STBranchDirect:
     {
-      slice_index const peer = slices[current_slice].u.branch_d.peer;
+      slice_index const peer = slices[current_slice].u.pipe.next;
       /* prevent infinite recursion */
       if (peer<current_slice)
         result = find_unique_goal_recursive(peer,found_so_far);
@@ -790,8 +791,8 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
 
     case STBranchDirectDefender:
     {
-      slice_index const next = slices[current_slice].u.branch_d_defender.next;
-      slice_index const peer = slices[current_slice].u.branch_d_defender.peer;
+      slice_index const next = slices[current_slice].u.pipe.u.branch_d_defender.towards_goal;
+      slice_index const peer = slices[current_slice].u.pipe.next;
       result = find_unique_goal_recursive(next,found_so_far);
       /* prevent infinite recursion */
       if (peer<current_slice)
@@ -802,7 +803,7 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
     case STBranchHelp:
     case STBranchSeries:
     {
-      slice_index const next = slices[current_slice].u.branch.next;
+      slice_index const next = slices[current_slice].u.pipe.next;
       result = find_unique_goal_recursive(next,found_so_far);
       break;
     }
@@ -810,14 +811,14 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
     case STBranchFork:
     {
       slice_index const
-          next = slices[current_slice].u.branch_fork.next_towards_goal;
+          next = slices[current_slice].u.pipe.u.branch_fork.towards_goal;
       result = find_unique_goal_recursive(next,found_so_far);
       break;
     }
 
     case STMoveInverter:
     {
-      slice_index const next = slices[current_slice].u.move_inverter.next;
+      slice_index const next = slices[current_slice].u.pipe.next;
       result = find_unique_goal_recursive(next,found_so_far);
       break;
     }
@@ -852,7 +853,7 @@ slice_index find_unique_goal(void)
 static void make_exact_branch_direct(slice_index branch,
                                      slice_traversal *st)
 {
-  slices[branch].u.branch.min_length = slices[branch].u.branch_d.length;
+  slices[branch].u.pipe.u.branch.min_length = slices[branch].u.pipe.u.branch.length;
   slice_traverse_children(branch,st);
 }
 
@@ -863,8 +864,8 @@ static void make_exact_branch_direct(slice_index branch,
 static void make_exact_branch_direct_defender(slice_index branch,
                                               slice_traversal *st)
 {
-  slices[branch].u.branch_d_defender.min_length
-      = slices[branch].u.branch_d_defender.length;
+  slices[branch].u.pipe.u.branch_d_defender.min_length
+      = slices[branch].u.pipe.u.branch_d_defender.length;
   slice_traverse_children(branch,st);
 }
 
@@ -875,7 +876,7 @@ static void make_exact_branch_direct_defender(slice_index branch,
 static void make_exact_branch_help(slice_index branch,
                                    slice_traversal *st)
 {
-  slices[branch].u.branch.min_length = slices[branch].u.branch.length;
+  slices[branch].u.pipe.u.branch.min_length = slices[branch].u.pipe.u.branch.length;
   slice_traverse_children(branch,st);
 }
 
@@ -885,7 +886,7 @@ static void make_exact_branch_help(slice_index branch,
  */
 static void make_exact_branch_series(slice_index branch, slice_traversal *st)
 {
-  slices[branch].u.branch.min_length = slices[branch].u.branch.length;
+  slices[branch].u.pipe.u.branch.min_length = slices[branch].u.pipe.u.branch.length;
   slice_traverse_children(branch,st);
 }
 
@@ -896,7 +897,7 @@ static void make_exact_branch_series(slice_index branch, slice_traversal *st)
 static void make_exact_help_hashed(slice_index si,
                                    slice_traversal *st)
 {
-  slices[si].u.help_hashed.min_length = slices[si].u.help_hashed.length;
+  slices[si].u.pipe.u.branch.min_length = slices[si].u.pipe.u.branch.length;
   slice_traverse_children(si,st);
 }
 
@@ -1025,8 +1026,8 @@ static void traverse_quodlibet(slice_index quodlibet, slice_traversal *st)
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[quodlibet].u.quodlibet.op1,st);
-  traverse_slices(slices[quodlibet].u.quodlibet.op2,st);
+  traverse_slices(slices[quodlibet].u.fork.op1,st);
+  traverse_slices(slices[quodlibet].u.fork.op2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1038,8 +1039,8 @@ static void traverse_quodlibet(slice_index quodlibet, slice_traversal *st)
  */
 static void traverse_reciprocal(slice_index reciprocal, slice_traversal *st)
 {
-  traverse_slices(slices[reciprocal].u.reciprocal.op1,st);
-  traverse_slices(slices[reciprocal].u.reciprocal.op2,st);
+  traverse_slices(slices[reciprocal].u.fork.op1,st);
+  traverse_slices(slices[reciprocal].u.fork.op2,st);
 }
 
 /* Traverse a subtree
@@ -1048,7 +1049,7 @@ static void traverse_reciprocal(slice_index reciprocal, slice_traversal *st)
  */
 static void traverse_not(slice_index not, slice_traversal *st)
 {
-  traverse_slices(slices[not].u.not.op,st);
+  traverse_slices(slices[not].u.pipe.next,st);
 }
 
 /* Traverse a subtree
@@ -1057,7 +1058,7 @@ static void traverse_not(slice_index not, slice_traversal *st)
  */
 static void traverse_move_inverter(slice_index mi, slice_traversal *st)
 {
-  traverse_slices(slices[mi].u.move_inverter.next,st);
+  traverse_slices(slices[mi].u.pipe.next,st);
 }
 
 /* Traverse a subtree
@@ -1066,7 +1067,7 @@ static void traverse_move_inverter(slice_index mi, slice_traversal *st)
  */
 static void traverse_branch_direct(slice_index branch, slice_traversal *st)
 {
-  traverse_slices(slices[branch].u.branch_d.peer,st);
+  traverse_slices(slices[branch].u.pipe.next,st);
 }
 
 /* Traverse a subtree
@@ -1075,8 +1076,8 @@ static void traverse_branch_direct(slice_index branch, slice_traversal *st)
  */
 static void traverse_branch_direct_defender(slice_index defender, slice_traversal *st)
 {
-  traverse_slices(slices[defender].u.branch_d_defender.peer,st);
-  traverse_slices(slices[defender].u.branch_d_defender.next,st);
+  traverse_slices(slices[defender].u.pipe.next,st);
+  traverse_slices(slices[defender].u.pipe.u.branch_d_defender.towards_goal,st);
 }
 
 /* Traverse a subtree
@@ -1085,7 +1086,7 @@ static void traverse_branch_direct_defender(slice_index defender, slice_traversa
  */
 static void traverse_branch_help(slice_index branch, slice_traversal *st)
 {
-  traverse_slices(slices[branch].u.branch.next,st);
+  traverse_slices(slices[branch].u.pipe.next,st);
 }
 
 /* Traverse a subtree
@@ -1094,7 +1095,7 @@ static void traverse_branch_help(slice_index branch, slice_traversal *st)
  */
 static void traverse_branch_series(slice_index branch, slice_traversal *st)
 {
-  traverse_slices(slices[branch].u.branch.next,st);
+  traverse_slices(slices[branch].u.pipe.next,st);
 }
 
 /* Traverse a subtree
@@ -1103,8 +1104,8 @@ static void traverse_branch_series(slice_index branch, slice_traversal *st)
  */
 static void traverse_branch_fork(slice_index branch, slice_traversal *st)
 {
-  traverse_slices(slices[branch].u.branch_fork.next,st);
-  traverse_slices(slices[branch].u.branch_fork.next_towards_goal,st);
+  traverse_slices(slices[branch].u.pipe.next,st);
+  traverse_slices(slices[branch].u.pipe.u.branch_fork.towards_goal,st);
 }
 
 /* Traverse a subtree
@@ -1113,7 +1114,7 @@ static void traverse_branch_fork(slice_index branch, slice_traversal *st)
  */
 static void traverse_help_hashed(slice_index branch, slice_traversal *st)
 {
-  traverse_slices(slices[branch].u.help_hashed.next,st);
+  traverse_slices(slices[branch].u.pipe.next,st);
 }
 
 static slice_operation const traversers[] =

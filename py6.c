@@ -506,21 +506,21 @@ static boolean verify_position(void)
 
   if (slices[root_slice].type==STBranchDirect)
   {
-    slice_index const peer = slices[root_slice].u.branch_d.peer;
-    slice_index const next = slices[peer].u.branch_d_defender.next;
+    slice_index const peer = slices[root_slice].u.pipe.next;
+    slice_index const next = slices[peer].u.pipe.next;
     assert(slices[peer].type==STBranchDirectDefender);
 
     if (2*max_len_threat+slack_length_direct
-        <slices[root_slice].u.branch_d.min_length)
+        <slices[root_slice].u.pipe.u.branch.min_length)
     {
       VerifieMsg(ThreatOptionAndExactStipulationIncompatible);
       return false;
     }
 
-    if (slices[root_slice].u.branch_d.length<=max_len_threat)
+    if (slices[root_slice].u.pipe.u.branch.length<=max_len_threat)
       max_len_threat = maxply;
 
-    if (slices[root_slice].u.branch_d.length<1
+    if (slices[root_slice].u.pipe.u.branch.length<1
         && max_nr_refutations>0
         && !(slices[next].type==STLeafSelf
              || slices[next].type==STLeafHelp))
@@ -2051,7 +2051,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STBranchHelp:
     {
-      slice_index const next = slices[si].u.branch.next;
+      slice_index const next = slices[si].u.pipe.next;
       meaning_of_whitetoplay const next_result =
           detect_meaning_of_whitetoplay(next);
       if (next_result==dont_know_meaning_of_whitetoplay)
@@ -2063,14 +2063,14 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STMoveInverter:
     {
-      slice_index const next = slices[si].u.move_inverter.next;
+      slice_index const next = slices[si].u.pipe.next;
       result = detect_meaning_of_whitetoplay(next);
       break;
     }
 
     case STBranchFork:
     {
-      slice_index const next = slices[si].u.branch_fork.next_towards_goal;
+      slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
       result = detect_meaning_of_whitetoplay(next);
       break;
     }
@@ -2093,7 +2093,7 @@ static boolean shorten_root_branch_h_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (slices[root_slice].u.branch.length%2==1)
+  if (slices[root_slice].u.pipe.u.branch.length%2==1)
   {
     root_slice = branch_h_shorten(root_slice);
     result = true;
@@ -2127,7 +2127,7 @@ static boolean root_slice_apply_whitetoplay(void)
       /* calculate new starter now - shorten_root_branch_h_slice() may
        * replace root_slice
        */
-      Side const new_starter = advers(slices[root_slice].u.branch.starter);
+      Side const new_starter = advers(slices[root_slice].starter);
       if (meaning==whitetoplay_means_shorten_root_slice
           && shorten_root_branch_h_slice())
       {
@@ -2142,7 +2142,7 @@ static boolean root_slice_apply_whitetoplay(void)
 
     case STLeafHelp:
       slice_impose_starter(root_slice,
-                           advers(slices[root_slice].u.branch.starter));
+                           advers(slices[root_slice].starter));
       result = true;
       break;
 
@@ -2151,7 +2151,7 @@ static boolean root_slice_apply_whitetoplay(void)
       meaning_of_whitetoplay const
           meaning = detect_meaning_of_whitetoplay(root_slice);
       slice_index const save_root_slice = root_slice;
-      root_slice = slices[root_slice].u.move_inverter.next;
+      root_slice = slices[root_slice].u.pipe.next;
       dealloc_slice_index(save_root_slice);
       if (meaning==whitetoplay_means_shorten_root_slice
           && slices[root_slice].type==STBranchHelp
@@ -2369,7 +2369,7 @@ static boolean root_slice_apply_postkeyplay(void)
 
   if (slices[root_slice].type==STBranchDirect)
   {
-    slice_index const root_peer = slices[root_slice].u.branch_d.peer;
+    slice_index const root_peer = slices[root_slice].u.pipe.next;
     root_slice = alloc_move_inverter_slice(root_peer);
     result = true;
   }

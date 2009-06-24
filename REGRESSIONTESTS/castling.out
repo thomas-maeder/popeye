@@ -280,7 +280,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#3                         3 + 4
 
-a)
+a) 
 
   1.Kc5-d4 0-0-0 +   2.Kd4-c3 Td1-e1   3.Sb5-d4 Te1-e3 # 
 
@@ -1617,7 +1617,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   reci-h#2                   9 + 12
 
-a)
+a) 
 
   1.f2-f1=S d2-d4   2.0-0-0 Sa4-b6 # 
   1.f2-f1=S d2-d4   2.e4*d3 ep. # 
@@ -2190,7 +2190,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 3
 
-a)
+a) 
 
   1.Kg8-h8 Th1-f1   2.Sh3-g1 Tf1-f8 # 
 
@@ -2289,7 +2289,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 3
 
-a)
+a) 
 
   1.Th8-g8 0-0-0   2.Tg8-f8 Th1-e1 # 
 
@@ -2326,7 +2326,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 4
 
-a)
+a) 
 
   1.a7-a6 Lh4-g3   2.0-0-0 Sd7-b6 # 
 
@@ -2454,7 +2454,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#3                         6 + 5
 
-a)
+a) 
 
   1.0-0 Kd1-c1   2.Kg8-h8 Kc1-b2   3.Tf8-g8 Ta1-h1 # 
 
@@ -2490,7 +2490,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#4                         2 + 4
 
-a)
+a) 
 
   1...Kf4-g4   2.0-0 Kg4-h5   3.Da8-h1 + Kh5-g6   4.Dh1-h8 Sf5-e7 # 
 
@@ -2601,7 +2601,7 @@ Loesung beendet.
   ser-h#3                     0 + 3
          MagischeFelder e6 f7
 
-a)
+a) 
 
   1.0-0   2.Tf8-f7=wT   3.Dg6-e6=wD De6-e8 # 
 
@@ -2793,7 +2793,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   ser-sza34                   4 + 3
 
-a)
+a) 
 
   1.Lf1-c4   2.Sg1-e2   3.0-0   4.Tf1-c1 Kb2-a3 z 
 
@@ -3716,8 +3716,8 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
       1...Ke8-d8 
           2.0-0-0 + 
               2...Kd8-e8 
-                  3.De4-c6 # 
                   3.De4-g6 # 
+                  3.De4-c6 # 
               2...Kd8-c8 
                   3.Lc4*e6 # 
           2.Ta1-d1 + 
@@ -3895,8 +3895,8 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
       1...Ke8-d8 
           2.Ta1-d1 + 
               2...Kd8-e8 
-                  3.De4-c6 # 
                   3.De4-g6 # 
+                  3.De4-c6 # 
               2...Kd8-c8 
                   3.Lc4*e6 # 
       1...Th8-f8 

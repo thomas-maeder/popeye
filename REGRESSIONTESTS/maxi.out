@@ -215,7 +215,7 @@ Loesung beendet.
   h#5                        3 + 11
         SchwarzerLaengstzueger
 
-a)
+a) 
 
   1...Lg2-f3 +   2.Ke2-f1 Lf3-e2 +   3.Kf1-g2 Le2-f1 +   4.Kg2-h1 Kg4-h3   5.Td4-d8 Lf1-g2 # 
 
@@ -295,7 +295,7 @@ Loesung beendet.
               Ohneschlag
          WeisserLaengstzueger
 
-a)
+a) 
 
   1...c7-c8=L   2.c2-c1=S Lc8-d7 # 
 
@@ -487,13 +487,13 @@ Loesung beendet.
                       3...Ta6-h6 
                           4.Tb8-b7 + 
                               4...Kc7-d6 
-                                  5.Tb7-b1 Zugzwang.
-                                      5...Th6-h1 
-                                          6.Ke8-d8 
-                                              6...Th1-h8 # 
                                   5.Ke8-d8 Zugzwang.
                                       5...Th6-h1 
                                           6.Tb7-b1 
+                                              6...Th1-h8 # 
+                                  5.Tb7-b1 Zugzwang.
+                                      5...Th6-h1 
+                                          6.Ke8-d8 
                                               6...Th1-h8 # 
       1...Kb8-a7 
           2.Ke7-d7 Zugzwang.

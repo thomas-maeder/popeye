@@ -20,7 +20,7 @@ slice_index alloc_move_inverter_slice(slice_index next)
   TraceFunctionParamListEnd();
 
   slices[result].type = STMoveInverter; 
-  slices[result].u.move_inverter.next = next;
+  slices[result].u.pipe.next = next;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -42,7 +42,7 @@ boolean move_inverter_must_starter_resign(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = slice_must_starter_resign(slices[si].u.move_inverter.next);
+  result = slice_must_starter_resign(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -66,7 +66,7 @@ boolean move_inverter_must_starter_resign_hashed(slice_index si, Side just_moved
   TraceFunctionParam("%u",just_moved);
   TraceFunctionParamListEnd();
 
-  result = slice_must_starter_resign_hashed(slices[si].u.move_inverter.next,
+  result = slice_must_starter_resign_hashed(slices[si].u.pipe.next,
                                             advers(just_moved));
 
   TraceFunctionExit(__func__);
@@ -81,7 +81,7 @@ boolean move_inverter_must_starter_resign_hashed(slice_index si, Side just_moved
  */
 slice_index move_inverter_root_make_setplay_slice(slice_index si)
 {
-  slice_index const next = slices[si].u.move_inverter.next;
+  slice_index const next = slices[si].u.pipe.next;
   slice_index result;
   slice_index next_set_slice;
 
@@ -114,7 +114,7 @@ boolean move_inverter_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   output_start_move_inverted_level();
-  result = slice_root_solve(slices[si].u.move_inverter.next);
+  result = slice_root_solve(slices[si].u.pipe.next);
   output_end_move_inverted_level();
 
   TraceFunctionExit(__func__);
@@ -135,13 +135,13 @@ boolean move_inverter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,slices[si].u.move_inverter.starter))
+  if (echecc(nbply,slices[si].starter))
   {
     TraceText("illegal check\n");
     result = false;
   }
   else
-    result = slice_solve(slices[si].u.move_inverter.next);
+    result = slice_solve(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -159,7 +159,7 @@ move_inverter_detect_starter(slice_index si,
                              boolean same_side_as_root)
 {
   who_decides_on_starter result;
-  slice_index const next = slices[si].u.move_inverter.next;
+  slice_index const next = slices[si].u.pipe.next;
   Side next_starter;
   
   TraceFunctionEntry(__func__);
@@ -171,9 +171,9 @@ move_inverter_detect_starter(slice_index si,
 
   next_starter = slice_get_starter(next);
   if (next_starter==no_side)
-    slices[si].u.move_inverter.starter = next_starter;
+    slices[si].starter = next_starter;
   else
-    slices[si].u.move_inverter.starter = advers(next_starter);
+    slices[si].starter = advers(next_starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -193,7 +193,7 @@ Side move_inverter_get_starter(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slices[si].u.move_inverter.starter;
+  result = slices[si].starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -211,8 +211,8 @@ void move_inverter_impose_starter(slice_index si, Side side)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].u.move_inverter.starter = side;
-  slice_impose_starter(slices[si].u.move_inverter.next,advers(side));
+  slices[si].starter = side;
+  slice_impose_starter(slices[si].u.pipe.next,advers(side));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
