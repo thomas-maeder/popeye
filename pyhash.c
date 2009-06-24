@@ -197,7 +197,6 @@ void hash_slice_is_derived_from(slice_index derived, slice_index base)
 typedef struct
 {
     unsigned int size;
-    unsigned int valueSize;
     unsigned int valueOffset;
 
     union
@@ -238,6 +237,47 @@ static unsigned int bit_width(unsigned int value)
   return result;
 }
 
+static boolean slice_property_offset_shifter(slice_index si,
+                                             slice_traversal *st)
+{
+  boolean result;
+  unsigned int const * const delta = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_properties[si].valueOffset -= *delta;
+
+  TraceValue("%u",*delta);
+  TraceValue("->%u\n",slice_properties[si].valueOffset);
+
+  result = slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+slice_operation const slice_property_offset_shifters[] =
+{
+  &slice_property_offset_shifter, /* STBranchDirect */
+  &slice_property_offset_shifter, /* STBranchDirectDefender */
+  &slice_property_offset_shifter, /* STBranchHelp */
+  &slice_property_offset_shifter, /* STBranchSeries */
+  &slice_property_offset_shifter, /* STBranchFork */
+  &slice_property_offset_shifter, /* STLeafDirect */
+  &slice_property_offset_shifter, /* STLeafHelp */
+  &slice_property_offset_shifter, /* STLeafSelf */
+  &slice_property_offset_shifter, /* STLeafForced */
+  &slice_property_offset_shifter, /* STReciprocal */
+  &slice_property_offset_shifter, /* STQuodlibet */
+  &slice_property_offset_shifter, /* STNot */
+  &slice_property_offset_shifter, /* STMoveInverter */
+  &slice_property_offset_shifter  /* STHelpHashed */
+};
+
 typedef struct
 {
     unsigned int nr_bits_left;
@@ -263,12 +303,11 @@ static void init_slice_property_direct(slice_index si,
   TraceFunctionParam("%u",sis->value_offset);
   TraceFunctionParamListEnd();
 
-
   sis->value_offset -= size;
-  TraceFunctionParam("->%u\n",sis->value_offset);
+  TraceValue("%u",size);
+  TraceValue("->%u\n",sis->value_offset);
 
   slice_properties[si].size = size;
-  slice_properties[si].valueSize = size;
   slice_properties[si].valueOffset = sis->value_offset;
 
   assert(sis->nr_bits_left>=size);
@@ -297,11 +336,15 @@ static void init_slice_property_help(slice_index si,
   unsigned int const size = bit_width((length+1)/2);
   data_type const mask = (1<<size)-1;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   sis->value_offset -= size+1;
 
   slice_properties[si].size = size;
-  slice_properties[si].valueSize = size+1;
   slice_properties[si].valueOffset = sis->value_offset;
+  TraceValue("%u\n",slice_properties[si].valueOffset);
 
   assert(sis->nr_bits_left>=size);
   sis->nr_bits_left -= size;
@@ -312,6 +355,9 @@ static void init_slice_property_help(slice_index si,
   sis->nr_bits_left -= size;
   slice_properties[si].u.h.offsetNoSuccEven = sis->nr_bits_left;
   slice_properties[si].u.h.maskNoSuccEven = mask << sis->nr_bits_left;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Initialise a slice_properties element representing series play
@@ -329,7 +375,6 @@ static void init_slice_property_series(slice_index si,
   sis->value_offset -= size;
 
   slice_properties[si].size = size;
-  slice_properties[si].valueSize = size;
   slice_properties[si].valueOffset = sis->value_offset;
 
   assert(sis->nr_bits_left>=size);
@@ -342,87 +387,133 @@ static void init_slice_property_series(slice_index si,
  * current stipulation slices whose root is a help leaf
  * @param leaf root slice of subtree
  * @param st address of structure defining traversal
+ * @return true
  */
-static void init_slice_properties_leaf_help(slice_index leaf,
-                                            slice_traversal *st)
+static boolean init_slice_properties_leaf_help(slice_index leaf,
+                                               slice_traversal *st)
 {
   init_slice_property_help(leaf,2,st->param);
+  return true;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a direct leaf
  * @param leaf root slice of subtree
  * @param st address of structure defining traversal
+ * @return true
  */
-static void init_slice_properties_leaf_direct(slice_index leaf,
-                                              slice_traversal *st)
+static boolean init_slice_properties_leaf_direct(slice_index leaf,
+                                                 slice_traversal *st)
 {
-  init_slice_property_direct(leaf,2,st->param);
+  init_slice_property_direct(leaf,1,st->param);
+  return true;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a reciprocal
- * @param si root slice of subtree
+ * current stipulation slices whose root is a forced leaf
+ * @param leaf root slice of subtree
  * @param st address of structure defining traversal
- * @note this is an indirectly recursive function
+ * @return true
  */
-static void init_slice_properties_reciprocal(slice_index reciprocal,
-                                             slice_traversal *st)
+static boolean init_slice_properties_leaf_forced(slice_index leaf,
+                                                 slice_traversal *st)
 {
+  boolean const result = true;
   slice_initializer_state const * const sis = st->param;
-      
-  slice_index const op1 = slices[reciprocal].u.fork.op1;
-  slice_index const op2 = slices[reciprocal].u.fork.op2;
-
-  slice_properties[reciprocal].valueSize = 0;
-  slice_properties[reciprocal].valueOffset = sis->value_offset;
-
-  slice_traverse_children(reciprocal,st);
-
-  /* both operand slices must have the same valueSize, or the
-   * shorter one will dominate the longer one */
-  if (slice_properties[op1].valueSize>slice_properties[op2].valueSize)
-    slice_properties[op2].valueSize = slice_properties[op1].valueSize;
-  else
-    slice_properties[op1].valueSize = slice_properties[op2].valueSize;
-
-  /* TODO recursively shift valueOffset values */
-}
-
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a quodlibet
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- * @note this is an indirectly recursive function
- */
-static void init_slice_properties_quodlibet(slice_index quodlibet,
-                                            slice_traversal *st)
-{
-  slice_initializer_state * const sis = st->param;
-      
-  slice_index const op1 = slices[quodlibet].u.fork.op1;
-  slice_index const op2 = slices[quodlibet].u.fork.op2;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",quodlibet);
+  TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  slice_properties[quodlibet].valueSize = 0;
-  slice_properties[quodlibet].valueOffset = sis->value_offset;
-
-  traverse_slices(op1,st);
-  sis->value_offset = slice_properties[quodlibet].valueOffset;
-  traverse_slices(op2,st);
-
-  TraceValue("%u",op1);
-  TraceValue("%u",slice_properties[op1].valueOffset);
-  TraceValue("%u",op2);
-  TraceValue("%u",slice_properties[op2].valueOffset);
-
-  /* TODO recursively shift valueOffset values */
+  slice_properties[leaf].valueOffset = sis->value_offset;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a pipe for which we don't
+ * have a more specialised function
+ * @param leaf root slice of subtree
+ * @param st address of structure defining traversal
+ * @return true iff the properties for pipe and its children have been
+ *         successfully initialised
+ */
+static boolean init_slice_properties_pipe(slice_index pipe,
+                                          slice_traversal *st)
+{
+  boolean result;
+  slice_index const next = slices[pipe].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  result = traverse_slices(next,st);
+  slice_properties[pipe].valueOffset = slice_properties[next].valueOffset;
+
+  TraceValue("%u\n",slice_properties[pipe].valueOffset);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a fork
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ * @note this is an indirectly recursive function
+ * @return true iff the properties for pipe and its children have been
+ *         successfully initialised
+ */
+static boolean init_slice_properties_fork(slice_index fork,
+                                          slice_traversal *st)
+{
+  boolean result;
+
+  slice_initializer_state const * const sis = st->param;
+      
+  slice_index const op1 = slices[fork].u.fork.op1;
+  slice_index const op2 = slices[fork].u.fork.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",fork);
+  TraceFunctionParamListEnd();
+
+  slice_properties[fork].valueOffset = sis->value_offset;
+
+  /* should we traverse op1 and op2 separately, and reset
+   * sis->value_offset in between?
+   */
+  result = slice_traverse_children(fork,st);
+
+  /* both operand slices must have the same valueOffset, or the
+   * shorter one will dominate the longer one */
+  if (slice_properties[op1].valueOffset>slice_properties[op2].valueOffset)
+  {
+    unsigned int delta = (slice_properties[op1].valueOffset
+                          -slice_properties[op2].valueOffset);
+    slice_traversal st;
+    slice_traversal_init(&st,&slice_property_offset_shifters,&delta);
+    traverse_slices(op1,&st);
+  }
+  else if (slice_properties[op2].valueOffset>slice_properties[op1].valueOffset)
+  {
+    unsigned int delta = (slice_properties[op2].valueOffset
+                          -slice_properties[op1].valueOffset);
+    slice_traversal st;
+    slice_traversal_init(&st,&slice_property_offset_shifters,&delta);
+    traverse_slices(op2,&st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -430,10 +521,13 @@ static void init_slice_properties_quodlibet(slice_index quodlibet,
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  * @note this is an indirectly recursive function
+ * @return true iff the properties for branch and its children have been
+ *         successfully initialised
  */
-static void init_slice_properties_branch_direct(slice_index branch,
-                                                slice_traversal *st)
+static boolean init_slice_properties_branch_direct(slice_index branch,
+                                                   slice_traversal *st)
 {
+  boolean result;
   slice_index const base = base_slice[branch];
 
   if (base==no_slice)
@@ -443,8 +537,31 @@ static void init_slice_properties_branch_direct(slice_index branch,
     if (slices[branch].u.pipe.u.branch.min_length==length
         && length>slack_length_direct+1)
       is_there_slice_with_nonstandard_min_length = true;
-    slice_traverse_children(branch,st);
+    result = slice_traverse_children(branch,st);
   }
+  else
+    result = true;
+
+  return result;
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a direct branch defender
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ * @note this is an indirectly recursive function
+ * @return true iff the properties for branch and its children have been
+ *         successfully initialised
+ */
+static
+boolean init_slice_properties_branch_direct_defender(slice_index branch,
+                                                     slice_traversal *st)
+{
+  slice_index const
+      tg = slices[branch].u.pipe.u.branch_d_defender.towards_goal;
+  boolean const result = traverse_slices(tg,st);
+  init_slice_properties_pipe(branch,st);
+  return result;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -452,16 +569,31 @@ static void init_slice_properties_branch_direct(slice_index branch,
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  * @note this is an indirectly recursive function
+ * @return true iff the properties for si and its children have been
+ *         successfully initialised
  */
-static void init_slice_properties_help_hashed(slice_index si,
-                                              slice_traversal *st)
+static boolean init_slice_properties_help_hashed(slice_index si,
+                                                 slice_traversal *st)
 {
+  boolean const result = true;
   unsigned int const length = slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   init_slice_property_help(si,length-slack_length_help,st->param);
   if (slices[si].u.pipe.u.branch.min_length==length
       && length>slack_length_help+1)
     is_there_slice_with_nonstandard_min_length = true;
   slice_traverse_children(si,st);
+
+  TraceValue("%u\n",slice_properties[si].valueOffset);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -469,66 +601,95 @@ static void init_slice_properties_help_hashed(slice_index si,
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  * @note this is an indirectly recursive function
+ * @return true iff the properties for branch and its children have been
+ *         successfully initialised
  */
-static void init_slice_properties_branch_series(slice_index branch,
-                                                slice_traversal *st)
+static boolean init_slice_properties_branch_series(slice_index branch,
+                                                   slice_traversal *st)
 {
+  boolean result;
   unsigned int const length = slices[branch].u.pipe.u.branch.length;
   init_slice_property_series(branch,length-slack_length_series,st->param);
   if (slices[branch].u.pipe.u.branch.min_length==length
       && length>slack_length_series+1)
     is_there_slice_with_nonstandard_min_length = true;
-  slice_traverse_children(branch,st);
+  result = slice_traverse_children(branch,st);
+  return result;
 }
 
-static void init_slice_properties_copy_offset(slice_index si,
-                                              slice_traversal *st)
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a branch fork
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ * @note this is an indirectly recursive function
+ * @return true iff the properties for branch_fork and its children
+ *         have been successfully initialised
+ */
+static boolean init_slice_properties_branch_fork(slice_index branch_fork,
+                                                 slice_traversal *st)
 {
-  slice_initializer_state const * const sis = st->param;
+  boolean result_next;
+  boolean result_toward_goal;
+  slice_index const
+      towards_goal = slices[branch_fork].u.pipe.u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",branch_fork);
   TraceFunctionParamListEnd();
 
-  slice_properties[si].valueSize = 0;
-  slice_properties[si].valueOffset = sis->value_offset;
-  slice_traverse_children(si,st);
+  result_next = init_slice_properties_pipe(branch_fork,st);
+  result_toward_goal = traverse_slices(towards_goal,st);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u", result_next && result_toward_goal);
   TraceFunctionResultEnd();
+  return result_next && result_toward_goal;
 }
 
 slice_operation const slice_properties_initalisers[] =
 {
-  &init_slice_properties_branch_direct, /* STBranchDirect */
-  &init_slice_properties_copy_offset,   /* STBranchDirectDefender */
-  &init_slice_properties_copy_offset,   /* STBranchHelp */
-  &init_slice_properties_branch_series, /* STBranchSeries */
-  &init_slice_properties_copy_offset,   /* STBranchFork */
-  &init_slice_properties_leaf_direct,   /* STLeafDirect */
-  &init_slice_properties_leaf_help,     /* STLeafHelp */
-  &init_slice_properties_leaf_direct,   /* STLeafSelf */
-  &init_slice_properties_copy_offset,   /* STLeafForced */
-  &init_slice_properties_reciprocal,    /* STReciprocal */
-  &init_slice_properties_quodlibet,     /* STQuodlibet */
-  &init_slice_properties_copy_offset,   /* STNot */
-  &init_slice_properties_copy_offset,   /* STMoveInverter */
-  &init_slice_properties_help_hashed    /* STHelpHashed */
+  &init_slice_properties_branch_direct,          /* STBranchDirect */
+  &init_slice_properties_branch_direct_defender, /* STBranchDirectDefender */
+  &init_slice_properties_pipe,                   /* STBranchHelp */
+  &init_slice_properties_branch_series,          /* STBranchSeries */
+  &init_slice_properties_branch_fork,            /* STBranchFork */
+  &init_slice_properties_leaf_direct,            /* STLeafDirect */
+  &init_slice_properties_leaf_help,              /* STLeafHelp */
+  &init_slice_properties_leaf_direct,            /* STLeafSelf */
+  &init_slice_properties_leaf_forced,            /* STLeafForced */
+  &init_slice_properties_fork,                   /* STReciprocal */
+  &init_slice_properties_fork,                   /* STQuodlibet */
+  &init_slice_properties_pipe,                   /* STNot */
+  &init_slice_properties_pipe,                   /* STMoveInverter */
+  &init_slice_properties_help_hashed             /* STHelpHashed */
 };
 
 /* Callback for traverse_slices() that copies slice_properties from
  * base to derived slice.
  * @param si identifies potentially derived slice
  * @param dummy - necessary to conform to callback interface
+ * @return true iff the properties of all the slices that require it
+ *         have been successfully inherited
  */
-static void inherit_slice_properties_from_base(slice_index si,
-                                               slice_traversal *st)
+static boolean inherit_slice_properties_from_base(slice_index si,
+                                                  slice_traversal *st)
 {
+  boolean result;
   slice_index const base = base_slice[si];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   if (base!=no_slice)
     slice_properties[si] = slice_properties[base];
 
-  slice_traverse_children(si,st);
+  result = slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 slice_operation const slice_properties_inheriters[] =
@@ -547,106 +708,6 @@ slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children,             /* STNot */
   &slice_traverse_children,             /* STMoveInverter */
   &slice_traverse_children              /* STHelpHashed */
-};
-
-/* Shift right slice properties offset as far as possible
- * @param si root slice of subtree
- * @param sis address of structure defining traversal
- */
-static void shift_offset_direct(slice_index si, slice_traversal *st)
-{
-  slice_initializer_state const * const sis = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",sis->nr_bits_left);
-
-  slice_properties[si].u.d.offsetNoSucc -= sis->nr_bits_left;
-  slice_properties[si].u.d.maskNoSucc >>= sis->nr_bits_left;
-
-  slice_properties[si].u.d.offsetSucc -= sis->nr_bits_left;
-  slice_properties[si].u.d.maskSucc >>= sis->nr_bits_left;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Shift right slice properties offset as far as possible
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-static void shift_offset_help(slice_index si, slice_traversal *st)
-{
-  slice_initializer_state const * const sis = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",sis->nr_bits_left);
-
-  slice_properties[si].u.h.offsetNoSuccOdd -= sis->nr_bits_left;
-  slice_properties[si].u.h.maskNoSuccOdd >>= sis->nr_bits_left;
-
-  slice_properties[si].u.h.offsetNoSuccEven -= sis->nr_bits_left;
-  slice_properties[si].u.h.maskNoSuccEven >>= sis->nr_bits_left;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Shift right slice properties offset as far as possible
- * @param branch identifies branch
- * @param st address of structure defining traversal
- */
-static void shift_offset_branch_direct(slice_index branch, slice_traversal *st)
-{
-  shift_offset_direct(branch,st);
-  slice_traverse_children(branch,st);
-}
-
-/* Shift right slice properties offset as far as possible
- * @param branch identifies branch
- * @param st address of structure defining traversal
- */
-static void shift_offset_branch_help(slice_index branch, slice_traversal *st)
-{
-  shift_offset_help(branch,st);
-  slice_traverse_children(branch,st);
-}
-
-/* Shift right slice properties offset as far as possible
- * @param branch identifies branch
- * @param st address of structure defining traversal
- */
-static void shift_offset_series(slice_index branch, slice_traversal *st)
-{
-  slice_initializer_state const * const sis = st->param;
-
-  slice_properties[branch].u.s.offsetNoSucc -= sis->nr_bits_left;
-  slice_properties[branch].u.s.maskNoSucc >>= sis->nr_bits_left;
-
-  slice_traverse_children(branch,st);
-}
-
-slice_operation const slice_properties_offset_shifters[] =
-{
-  &shift_offset_branch_direct,  /* STBranchDirect */
-  &slice_traverse_children,     /* STBranchDirectDefender */
-  &slice_traverse_children,     /* STBranchHelp */
-  &shift_offset_series,         /* STBranchSeries */
-  &slice_traverse_children,     /* STBranchFork */
-  &shift_offset_direct,         /* STLeafDirect */
-  &shift_offset_help,           /* STLeafHelp */
-  &shift_offset_direct,         /* STLeafSelf */
-  &slice_traverse_children,     /* STLeafForced */
-  &slice_traverse_children,     /* STReciprocal */
-  &slice_traverse_children,     /* STQuodlibet */
-  &slice_traverse_children,     /* STNot */
-  &slice_traverse_children,     /* STMoveInverter */
-  &shift_offset_branch_help     /* STHelpHashed */
 };
 
 /* Initialise the slice_properties array according to the current
@@ -669,11 +730,6 @@ static void init_slice_properties(void)
   slice_traversal_init(&st,&slice_properties_inheriters,0);
   traverse_slices(root_slice,&st);
   
-  TraceValue("%u",sis.nr_bits_left);
-  TraceValue("%u\n",sis.value_offset);
-  slice_traversal_init(&st,&slice_properties_offset_shifters,&sis);
-  traverse_slices(root_slice,&st);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1068,7 +1124,6 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
   {
     unsigned int const offset = slice_properties[si].valueOffset;
     TraceValue("%u",slices[si].type);
-    TraceValue("%u",slice_properties[si].valueSize);
     TraceValue("%u\n",slice_properties[si].valueOffset);
 
     switch (slices[si].type)
@@ -1822,9 +1877,66 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
   if (he==dhtNilElement)
     result = false;
   else
-    switch (what)
+    switch (slices[si].type)
     {
-      case SerNoSucc:
+      case STLeafDirect:
+      case STLeafSelf:
+        if (what==DirNoSucc)
+        {
+          hash_value_type const nosucc = get_value_direct_nosucc(he,si);
+          assert(val==1);
+          TraceValue("%u",slices[si].u.pipe.u.branch.length);
+          TraceValue("%u\n",slices[si].u.pipe.u.branch.min_length);
+          if (nosucc>=1)
+          {
+            ifHASHRATE(use_pos++);
+            result = true;
+          } else
+            result = false;
+        }
+        else
+        {
+          hash_value_type const succ = get_value_direct_succ(he,si);
+          assert(val==0);
+          if (succ==0)
+          {
+            ifHASHRATE(use_pos++);
+            result = true;
+          } else
+            result = false;
+        }
+        break;
+
+      case STBranchDirect:
+        if (what==DirNoSucc)
+        {
+          hash_value_type const nosucc = get_value_direct_nosucc(he,si);
+          TraceValue("%u",slices[si].u.pipe.u.branch.length);
+          TraceValue("%u\n",slices[si].u.pipe.u.branch.min_length);
+          if (nosucc>=val
+              && (nosucc+slices[si].u.pipe.u.branch.min_length
+                  <=val+slices[si].u.pipe.u.branch.length))
+          {
+            ifHASHRATE(use_pos++);
+            result = true;
+          } else
+            result = false;
+        }
+        else
+        {
+          hash_value_type const succ = get_value_direct_succ(he,si);
+          if (succ<=val
+              && (succ+slices[si].u.pipe.u.branch.length
+                  >=val+slices[si].u.pipe.u.branch.min_length))
+          {
+            ifHASHRATE(use_pos++);
+            result = true;
+          } else
+            result = false;
+        }
+        break;
+
+      case STBranchSeries:
       {
         hash_value_type const nosucc = get_value_series(he,si);
         if (nosucc>=val
@@ -1838,60 +1950,50 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
           result = false;
         break;
       }
-      case HelpNoSuccOdd:
-      {
-        hash_value_type const nosucc = get_value_help_odd(he,si);
-        if (nosucc>=val
-            && (nosucc+slices[si].u.pipe.u.branch.min_length
-                <=val+slices[si].u.pipe.u.branch.length))
+
+      case STHelpHashed:
+        if (what==HelpNoSuccOdd)
         {
-          ifHASHRATE(use_pos++);
-          result = true;
+          hash_value_type const nosucc = get_value_help_odd(he,si);
+          if (nosucc>=val
+              && (nosucc+slices[si].u.pipe.u.branch.min_length
+                  <=val+slices[si].u.pipe.u.branch.length))
+          {
+            ifHASHRATE(use_pos++);
+            result = true;
+          }
+          else
+            result = false;
         }
         else
-          result = false;
-        break;
-      }
-      case HelpNoSuccEven:
-      {
-        hash_value_type const nosucc = get_value_help_even(he,si);
-        if (nosucc>=val
-            && (nosucc+slices[si].u.pipe.u.branch.min_length
-                <=val+slices[si].u.pipe.u.branch.length))
         {
-          ifHASHRATE(use_pos++);
-          result = true;
+          hash_value_type const nosucc = get_value_help_even(he,si);
+          if (nosucc>=val
+              && (nosucc+slices[si].u.pipe.u.branch.min_length
+                  <=val+slices[si].u.pipe.u.branch.length))
+          {
+            ifHASHRATE(use_pos++);
+            result = true;
+          }
+          else
+            result = false;
         }
-        else
-          result = false;
         break;
-      }
-      case DirNoSucc:
-      {
-        hash_value_type const nosucc = get_value_direct_nosucc(he,si);
-        if (nosucc>=val
-            && (nosucc+slices[si].u.pipe.u.branch.min_length
-                <=val+slices[si].u.pipe.u.branch.length))
+
+      case STLeafHelp:
         {
-          ifHASHRATE(use_pos++);
-          result = true;
-        } else
-          result = false;
+          hash_value_type const nosucc = get_value_help_odd(he,si);
+          assert(what==HelpNoSuccOdd);
+          assert(val==1);
+          if (nosucc>=1)
+          {
+            ifHASHRATE(use_pos++);
+            result = true;
+          }
+          else
+            result = false;
+        }
         break;
-      }
-      case DirSucc:
-      {
-        hash_value_type const succ = get_value_direct_succ(he,si);
-        if (succ<=val
-            && (succ+slices[si].u.pipe.u.branch.length
-                >=val+slices[si].u.pipe.u.branch.min_length))
-        {
-          ifHASHRATE(use_pos++);
-          result = true;
-        } else
-          result = false;
-        break;
-      }
 
       default:
         assert(0);

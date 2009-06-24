@@ -290,15 +290,22 @@ struct slice_traversal;
 
 /* Type of callback for stipulation traversals
  */
-typedef void (*slice_operation)(slice_index si, struct slice_traversal *st);
+typedef boolean (*slice_operation)(slice_index si, struct slice_traversal *st);
 
 /* Mapping of slice types to operations.
  */
 typedef slice_operation const (*operation_mapping)[nr_slice_types];
 
+typedef enum
+{
+  slice_not_traversed,
+  slice_being_traversed, /* used for avoiding infinite recursion */
+  slice_traversed
+} slice_traversal_slice_state;
+
 typedef struct slice_traversal
 {
-    boolean visited[max_nr_slices];
+    slice_traversal_slice_state traversed[max_nr_slices];
     operation_mapping ops;
     void *param;
 } slice_traversal;
@@ -316,19 +323,23 @@ void slice_traversal_init(slice_traversal *st,
  * operations table
  * @param si identifies slice on which to invoke noop
  * @param st address of structure defining traversal
+ * @return true
  */
-void slice_operation_noop(slice_index si, slice_traversal *st);
+boolean slice_operation_noop(slice_index si, slice_traversal *st);
 
 /* (Approximately) depth-first traversal of the children of a slice
  * @param si slice whose children to traverse
  * @param st address of structure defining traversal
+ * @return if the children of si have been successfully traversed
  */
-void slice_traverse_children(slice_index si, slice_traversal *st);
+boolean slice_traverse_children(slice_index si, slice_traversal *st);
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree
  * @param root root of the sub-tree to traverse
  * @param st address of structure defining traversal
+ * @return true iff root and its children have been successfully
+ *         traversed
  */
-void traverse_slices(slice_index root, slice_traversal *st);
+boolean traverse_slices(slice_index root, slice_traversal *st);
 
 #endif

@@ -2600,10 +2600,13 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
  * slice.
  * @param si index of non-root slice
  * @param st address of structure defining traversal
+ * @return true iff the number of moves left have been successfully
+ *         initialised for si and its children
  */
-static void init_moves_left_non_root_branch_series(slice_index si,
-                                                   slice_traversal *st)
+static boolean init_moves_left_non_root_branch_series(slice_index si,
+                                                      slice_traversal *st)
 {
+  boolean result;
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
 
   TraceFunctionEntry(__func__);
@@ -2611,23 +2614,28 @@ static void init_moves_left_non_root_branch_series(slice_index si,
   TraceFunctionParamListEnd();
 
   MovesLeft[slices[si].starter] += n-slack_length_series;
-  slice_traverse_children(slices[si].u.pipe.next,st);
+  result = slice_traverse_children(slices[si].u.pipe.next,st);
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Calculate the number of moves of each side, continuing at a non-root
  * slice.
  * @param si index of non-root slice
  * @param st address of structure defining traversal
+ * @return true
  */
-static void init_moves_left_non_root_leaf_direct(slice_index si,
-                                                 slice_traversal *st)
+static boolean init_moves_left_non_root_leaf_direct(slice_index si,
+                                                    slice_traversal *st)
 {
+  boolean const result = true;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2640,17 +2648,22 @@ static void init_moves_left_non_root_leaf_direct(slice_index si,
   TraceValue("%u\n",MovesLeft[Black]);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Calculate the number of moves of each side, continuing at a non-root
  * slice.
  * @param si index of non-root slice
  * @param st address of structure defining traversal
+ * @return true
  */
-static void init_moves_left_non_root_leaf_help(slice_index si,
-                                               slice_traversal *st)
+static boolean init_moves_left_non_root_leaf_help(slice_index si,
+                                                  slice_traversal *st)
 {
+  boolean const result = true;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2663,17 +2676,22 @@ static void init_moves_left_non_root_leaf_help(slice_index si,
   TraceValue("%u\n",MovesLeft[Black]);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Calculate the number of moves of each side, continuing at a non-root
  * slice.
  * @param si index of non-root slice
  * @param st address of structure defining traversal
+ * @return true iff the number of moves left have been successfully
+ *         initialised for si and its children
  */
-static void init_moves_left_non_root_help_hashed(slice_index si,
-                                                 slice_traversal *st)
+static boolean init_moves_left_non_root_help_hashed(slice_index si,
+                                                    slice_traversal *st)
 {
+  boolean result;
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
 
   TraceFunctionEntry(__func__);
@@ -2685,13 +2703,15 @@ static void init_moves_left_non_root_help_hashed(slice_index si,
   if ((n-slack_length_help)%2==1)
     ++MovesLeft[branch_h_starter_in_n(slices[si].u.pipe.next,n)];
 
-  slice_traverse_children(si,st);
+  result = slice_traverse_children(si,st);
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static slice_operation const non_root_moves_left_initialisers[] =

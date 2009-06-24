@@ -381,11 +381,13 @@ boolean branch_fork_must_starter_resign_hashed(slice_index si, Side just_moved)
 /* Locate the slice after the help play branch and its associated slices
  * @param si identifies slice visited in traversal
  * @param st address of structure defining traversal
+ * @return TODL
  */
-static void slice_behind_branch_finder_branch_fork(slice_index si,
-                                                   slice_traversal *st)
+static boolean slice_behind_branch_finder_branch_fork(slice_index si,
+                                                      slice_traversal *st)
 {
-  slice_index * const result = st->param;
+  boolean const result = true;
+  slice_index * const to_be_found = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -394,10 +396,12 @@ static void slice_behind_branch_finder_branch_fork(slice_index si,
   /* The slice we look for is the one at the towards_goal end of a
    * help_hashed slice. Save it and don't recurse further.
    */
-  *result = slices[si].u.pipe.u.branch_fork.towards_goal;
+  *to_be_found = slices[si].u.pipe.u.branch_fork.towards_goal;
   
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static slice_operation const slice_behind_branch_finders[] =
@@ -443,11 +447,14 @@ slice_index branch_find_slice_behind_fork(slice_index branch)
 /* Continue deallocating a branch
  * @param si identifies branch_fork slice
  * @param st structure representing the traversal
+ * @return true iff si and its children have been successfully
+ *         deallocated
  */
-static void traverse_and_deallocate(slice_index si, slice_traversal *st)
+static boolean traverse_and_deallocate(slice_index si, slice_traversal *st)
 {
-  slice_traverse_children(si,st);
+  boolean const result = slice_traverse_children(si,st);
   dealloc_slice_index(si);
+  return result;
 }
 
 /* Store slice representing play after branch in object representing
@@ -455,22 +462,25 @@ static void traverse_and_deallocate(slice_index si, slice_traversal *st)
  * @param si identifies branch_fork slice
  * @param st structure representing the traversal
  */
-static void traverse_and_deallocate_branch_fork(slice_index si,
-                                                slice_traversal *st)
+static boolean traverse_and_deallocate_branch_fork(slice_index si,
+                                                   slice_traversal *st)
 {
-  slice_index * const result = st->param;
+  boolean result;
+  slice_index * const to_be_found = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *result = slices[si].u.pipe.u.branch_fork.towards_goal;
+  *to_be_found = slices[si].u.pipe.u.branch_fork.towards_goal;
 
-  traverse_slices(slices[si].u.pipe.next,st);
+  result = traverse_slices(slices[si].u.pipe.next,st);
   dealloc_slice_index(si);
   
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static slice_operation const slice_to_fork_deallocators[] =

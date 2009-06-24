@@ -789,31 +789,38 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-static void find_relevant_slice_branch_fork(slice_index si,
-                                            slice_traversal *st)
+static boolean find_relevant_slice_branch_fork(slice_index si,
+                                               slice_traversal *st)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[si].u.pipe.u.branch_fork.towards_goal,st);
+  result = traverse_slices(slices[si].u.pipe.u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
-static void find_relevant_slice_found(slice_index si, slice_traversal *st)
+static boolean find_relevant_slice_found(slice_index si, slice_traversal *st)
 {
-  slice_index * const result = st->param;
+  boolean const result = true;
+  slice_index * const to_be_found = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *result = si;
+  *to_be_found = si;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static slice_operation const relevant_slice_finders[] =
