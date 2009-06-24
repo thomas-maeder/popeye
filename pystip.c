@@ -850,10 +850,11 @@ slice_index find_unique_goal(void)
  * @param branch identifies the branch
  * @param st address of structure defining traversal
  */
-static void make_exact_branch_direct(slice_index branch,
-                                     slice_traversal *st)
+static void make_exact_branch(slice_index branch, slice_traversal *st)
 {
-  slices[branch].u.pipe.u.branch.min_length = slices[branch].u.pipe.u.branch.length;
+  slices[branch].u.pipe.u.branch.min_length
+      = slices[branch].u.pipe.u.branch.length;
+
   slice_traverse_children(branch,st);
 }
 
@@ -866,47 +867,16 @@ static void make_exact_branch_direct_defender(slice_index branch,
 {
   slices[branch].u.pipe.u.branch_d_defender.min_length
       = slices[branch].u.pipe.u.branch_d_defender.length;
-  slice_traverse_children(branch,st);
-}
 
-/* Make a branch exact
- * @param branch identifies the branch
- * @param st address of structure defining traversal
- */
-static void make_exact_branch_help(slice_index branch,
-                                   slice_traversal *st)
-{
-  slices[branch].u.pipe.u.branch.min_length = slices[branch].u.pipe.u.branch.length;
   slice_traverse_children(branch,st);
-}
-
-/* Make a branch exact
- * @param branch identifies the branch
- * @param st address of structure defining traversal
- */
-static void make_exact_branch_series(slice_index branch, slice_traversal *st)
-{
-  slices[branch].u.pipe.u.branch.min_length = slices[branch].u.pipe.u.branch.length;
-  slice_traverse_children(branch,st);
-}
-
-/* Make a branch exact
- * @param branch identifies the branch
- * @param st address of structure defining traversal
- */
-static void make_exact_help_hashed(slice_index si,
-                                   slice_traversal *st)
-{
-  slices[si].u.pipe.u.branch.min_length = slices[si].u.pipe.u.branch.length;
-  slice_traverse_children(si,st);
 }
 
 static slice_operation const exact_makers[] =
 {
-  &make_exact_branch_direct,          /* STBranchDirect */
+  &make_exact_branch,                 /* STBranchDirect */
   &make_exact_branch_direct_defender, /* STBranchDirectDefender */
-  &make_exact_branch_help,            /* STBranchHelp */
-  &make_exact_branch_series,          /* STBranchSeries */
+  &make_exact_branch,                 /* STBranchHelp */
+  &make_exact_branch,                 /* STBranchSeries */
   &slice_traverse_children,           /* STBranchFork */
   &slice_traverse_children,           /* STLeafDirect */
   &slice_traverse_children,           /* STLeafHelp */
@@ -916,7 +886,7 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children,           /* STQuodlibet */
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
-  &make_exact_help_hashed             /* STHelpHashed */
+  &make_exact_branch                  /* STHelpHashed */
 };
 
 /* Make the stipulation exact
@@ -1016,86 +986,41 @@ void traverse_slices(slice_index root, slice_traversal *st)
 }
 
 /* Traverse a subtree
- * @param quodlibet root slice of subtree
+ * @param fork root slice of subtree
  * @param st address of structure defining traversal
  */
-static void traverse_quodlibet(slice_index quodlibet, slice_traversal *st)
+static void traverse_fork(slice_index fork, slice_traversal *st)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",quodlibet);
+  TraceFunctionParam("%u",fork);
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[quodlibet].u.fork.op1,st);
-  traverse_slices(slices[quodlibet].u.fork.op2,st);
+  traverse_slices(slices[fork].u.fork.op1,st);
+  traverse_slices(slices[fork].u.fork.op2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 /* Traverse a subtree
- * @param reciprocal root slice of subtree
+ * @param branch root slice of subtree
  * @param st address of structure defining traversal
  */
-static void traverse_reciprocal(slice_index reciprocal, slice_traversal *st)
+static void traverse_pipe(slice_index pipe, slice_traversal *st)
 {
-  traverse_slices(slices[reciprocal].u.fork.op1,st);
-  traverse_slices(slices[reciprocal].u.fork.op2,st);
-}
-
-/* Traverse a subtree
- * @param not root slice of subtree
- * @param st address of structure defining traversal
- */
-static void traverse_not(slice_index not, slice_traversal *st)
-{
-  traverse_slices(slices[not].u.pipe.next,st);
-}
-
-/* Traverse a subtree
- * @param mi root slice of subtree
- * @param st address of structure defining traversal
- */
-static void traverse_move_inverter(slice_index mi, slice_traversal *st)
-{
-  traverse_slices(slices[mi].u.pipe.next,st);
+  traverse_slices(slices[pipe].u.pipe.next,st);
 }
 
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
  */
-static void traverse_branch_direct(slice_index branch, slice_traversal *st)
+static void traverse_branch_direct_defender(slice_index branch,
+                                            slice_traversal *st)
 {
-  traverse_slices(slices[branch].u.pipe.next,st);
-}
-
-/* Traverse a subtree
- * @param defender root slice of subtree
- * @param st address of structure defining traversal
- */
-static void traverse_branch_direct_defender(slice_index defender, slice_traversal *st)
-{
-  traverse_slices(slices[defender].u.pipe.next,st);
-  traverse_slices(slices[defender].u.pipe.u.branch_d_defender.towards_goal,st);
-}
-
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-static void traverse_branch_help(slice_index branch, slice_traversal *st)
-{
-  traverse_slices(slices[branch].u.pipe.next,st);
-}
-
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-static void traverse_branch_series(slice_index branch, slice_traversal *st)
-{
-  traverse_slices(slices[branch].u.pipe.next,st);
+  traverse_pipe(branch,st);
+  traverse_slices(slices[branch].u.pipe.u.branch_d_defender.towards_goal,st);
 }
 
 /* Traverse a subtree
@@ -1104,35 +1029,26 @@ static void traverse_branch_series(slice_index branch, slice_traversal *st)
  */
 static void traverse_branch_fork(slice_index branch, slice_traversal *st)
 {
-  traverse_slices(slices[branch].u.pipe.next,st);
+  traverse_pipe(branch,st);
   traverse_slices(slices[branch].u.pipe.u.branch_fork.towards_goal,st);
-}
-
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-static void traverse_help_hashed(slice_index branch, slice_traversal *st)
-{
-  traverse_slices(slices[branch].u.pipe.next,st);
 }
 
 static slice_operation const traversers[] =
 {
-  &traverse_branch_direct,          /* STBranchDirect */
+  &traverse_pipe,                   /* STBranchDirect */
   &traverse_branch_direct_defender, /* STBranchDirectDefender */
-  &traverse_branch_help,            /* STBranchHelp */
-  &traverse_branch_series,          /* STBranchSeries */
+  &traverse_pipe,                   /* STBranchHelp */
+  &traverse_pipe,                   /* STBranchSeries */
   &traverse_branch_fork,            /* STBranchFork */
   &slice_operation_noop,            /* STLeafDirect */
   &slice_operation_noop,            /* STLeafHelp */
   &slice_operation_noop,            /* STLeafSelf */
   &slice_operation_noop,            /* STLeafForced */
-  &traverse_reciprocal,             /* STReciprocal */
-  &traverse_quodlibet,              /* STQuodlibet */
-  &traverse_not,                    /* STNot */
-  &traverse_move_inverter,          /* STMoveInverter */
-  &traverse_help_hashed             /* STHelpHashed */
+  &traverse_fork,                   /* STReciprocal */
+  &traverse_fork,                   /* STQuodlibet */
+  &traverse_pipe,                   /* STNot */
+  &traverse_pipe,                   /* STMoveInverter */
+  &traverse_pipe                    /* STHelpHashed */
 };
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree
