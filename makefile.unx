@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.70 2009/06/18 15:30:01 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.71 2009/06/25 21:10:53 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -135,7 +135,6 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
 
 DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF $(DEFINEMACRO)NDEBUG
 
-
 # Compiler options
 # ================
 
@@ -171,6 +170,9 @@ OSTYPE=$(OSTARGET)-$(OSVERTARGET)-$(OSCPUTARGET)
 
 # Platform defaults
 # =================
+
+# Popeye executable file name stem
+EXE_PLATFORM_MARK=
 
 # suffix for executables
 EXE_SUFFIX=
@@ -302,7 +304,7 @@ MINIFILES  =    py*.[ch] py*.msg py*.txt history.txt readme.txt makefile.unx
 # Default target
 # ==============
 
-all:		py$(EXE_SUFFIX)
+all:		py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX)
 
 
 # Other targets
@@ -312,7 +314,7 @@ all:		py$(EXE_SUFFIX)
 
 # Target for creating the popeye executable with full dynamic hashing
 
-py$(EXE_SUFFIX):$(OBJECTS) DHT/dht$(LIB_SUFFIX)
+py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX):$(OBJECTS) DHT/dht$(LIB_SUFFIX)
 		$(LDTARGET) $(EXEFILE)$@ $(LDFLAGS) $(OBJECTS) DHT/dht$(LIB_SUFFIX) $(LIBRARIES)
 		$(STRIPTARGET) $@
 

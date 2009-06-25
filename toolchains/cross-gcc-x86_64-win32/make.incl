@@ -40,7 +40,11 @@ ARCHIVE_INDEXER=i686-pc-mingw32-ranlib
 # ----------------
 # we need minimally Win2k for guesstimating a reasonable default hash
 # table size
-OTHER=$(DEFINEMACRO)_WIN32_WINNT=0x0500
+#
+# The symbol_WIN32_WINNT_WIN2K is defined in the Microsoft header
+# <sdkddkver.h>
+_WIN32_WINNT_WIN2K=0x0500
+OTHER+=$(DEFINEMACRO)_WIN32_WINNT=$(_WIN32_WINNT_WIN2K)
 
 
 # Linker options
@@ -58,11 +62,12 @@ LIBRARIES=-lwinmm
 # suffix for objects
 OBJ_SUFFIX=.obj
 
+# Popeye executable file name stem
+EXE_PLATFORM_MARK=win32
+
 # suffix for executables
 EXE_SUFFIX=.exe
 
-# suppress "warning: ISO C90 does not support 'long long'"
-WARN += -Wno-long-long
 
 # Meta information
 # ----------------

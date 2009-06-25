@@ -8,12 +8,6 @@
 /* Implementation of option maxtime using Windows Multimedia timers
  */
 
-/* number of seconds passed since timer started */
-static sig_atomic_t volatile seconds_counter = 0;
-
-/* number of seconds after which solving is aborted */
-static sig_atomic_t volatile seconds_maxtime = 0;
-
 /* Singular value indicating that an MMRESULT object does not hold an
  * actual timer resource.
  * The docs
@@ -34,7 +28,7 @@ typedef unsigned long timer_period_type;
 
 /* Actual timer resolution; initialized with intended resolution
  */
-static timer_period_type actual_timer_resolutionMS = 100;
+static timer_period_type timer_resolutionMS = 1000;
 
 /* Singular value that we use to indicate that the Multimedia Timers
  * machinery is not available.
@@ -49,13 +43,13 @@ static void calibrate_timer_resolution(void)
   TIMECAPS tc;
   if (timeGetDevCaps(&tc, sizeof tc) == TIMERR_NOERROR) 
   {
-    if (actual_timer_resolutionMS<tc.wPeriodMin)
-      actual_timer_resolutionMS = tc.wPeriodMin;
-    else if (actual_timer_resolutionMS>tc.wPeriodMax)
-      actual_timer_resolutionMS = tc.wPeriodMax;
+    if (timer_resolutionMS<tc.wPeriodMin)
+      timer_resolutionMS = tc.wPeriodMin;
+    else if (timer_resolutionMS>tc.wPeriodMax)
+      timer_resolutionMS = tc.wPeriodMax;
   }
   else
-    actual_timer_resolutionMS = MM_timers_not_available;
+    timer_resolutionMS = MM_timers_not_available;
 }
 
 /* Callback function for Multimedia Timer.
@@ -63,18 +57,16 @@ static void calibrate_timer_resolution(void)
  */
 static void CALLBACK tick(unsigned int timer_id,      
                           unsigned int reserved1,     
-                          timer_period_type seconds_elapsed,  
-                          timer_period_type reserved2,     
-                          timer_period_type reserved3)
+                          unsigned long seconds_elapsed,  
+                          unsigned long reserved2,     
+                          unsigned long reserved3)
 {
   /* assert(timer_id==current_timer);
    * is probably not a good idea in (something similar to) a signal
    * handler ...
    */
 
-  seconds_counter += seconds_elapsed;
-  if (seconds_counter>=seconds_maxtime)
-    maxtime_status = MAXTIME_TIMEOUT;
+  ++periods_counter;
 }
 
 /* Attempt to set up a new timer for timing out solving after a number
@@ -83,34 +75,26 @@ static void CALLBACK tick(unsigned int timer_id,
  */
 static void setupNewTimer(maxtime_type seconds)
 {
-  timer_period_type const
-      min_seconds_elapsed = actual_timer_resolutionMS*10/1000;
-  timer_period_type const seconds_elapsed = (min_seconds_elapsed==0
-                                         ? 1
-                                         : min_seconds_elapsed);
-  timer_period_type const delayMS = seconds_elapsed*1000;
+  unsigned int const intended_period_lengthMS = 1000;
+  unsigned int const period_lengthMS = (intended_period_lengthMS
+                                        <timer_resolutionMS
+                                        ? timer_resolutionMS
+                                        : intended_period_lengthMS);
 
-  /* according to the docs
-   * (http://msdn.microsoft.com/en-us/library/ms713423(VS.85).aspx),
-   * it would be a good idea to also specify TIME_KILL_SYNCHRONOUS,
-   * but the MingW based cross compiler doesn't 'know' that symbol
-   * unless we set WINVER>=0x0501 (Windows XP); we don't want to
-   * impose Windows XP on our users!
-   */
-  current_timer = timeSetEvent(delayMS,actual_timer_resolutionMS,
-                               &tick,seconds_elapsed,
-                               TIME_PERIODIC);
+  unsigned int const milliseconds = 1000*seconds;
+  nr_periods = milliseconds/period_lengthMS;
+
+  current_timer = timeSetEvent(period_lengthMS,timer_resolutionMS,
+                               &tick,0,
+                               TIME_PERIODIC|TIME_CALLBACK_FUNCTION);
   if (current_timer==no_timer)
   {
     VerifieMsg(NoMaxTime);
-    maxtime_status = MAXTIME_TIMEOUT;
+    nr_periods = 0;
+    periods_counter = 1;
   }
   else
-  {
-    maxtime_status = MAXTIME_IDLE;
-    seconds_counter = 0;
-    seconds_maxtime = seconds;
-  }
+    periods_counter = 0;
 }
 
 /* Kill previously used timer resource (if any)
@@ -135,19 +119,27 @@ void initMaxtime(void)
 
   calibrate_timer_resolution();
   current_timer = no_timer;
+
+  /* we support up to UINT_MAX milliseconds (i.e. ~1 month)
+   */
+  maxtime_maximum_seconds = UINT_MAX/1000;
 }
 
 void setMaxtime(maxtime_type seconds)
 {
-    killPreviousTimer();
+  killPreviousTimer();
 
-    if (seconds==no_time_set)
-      maxtime_status = MAXTIME_IDLE;
-    else if (actual_timer_resolutionMS==MM_timers_not_available)
-    {
-      VerifieMsg(NoMaxTime);
-      maxtime_status = MAXTIME_TIMEOUT;
-    }
-    else
-      setupNewTimer(seconds);
+  if (seconds==no_time_set)
+  {
+    nr_periods = 1;
+    periods_counter = 0;
+  }
+  else if (timer_resolutionMS==MM_timers_not_available)
+  {
+    VerifieMsg(NoMaxTime);
+    nr_periods = 0;
+    periods_counter = 1;
+  }
+  else
+    setupNewTimer(seconds);
 }

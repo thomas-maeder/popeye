@@ -406,7 +406,7 @@ static boolean isGoalReachableRegularGoals(void)
   captures= CapturesLeft[nbply-1];
 
   if (sol_per_matingpos>=maxsol_per_matingpos
-      || maxtime_status==MAXTIME_TIMEOUT)
+      || periods_counter>=nr_periods)
   {
     FlagMaxSolsReached= true;
     return false;
@@ -538,7 +538,7 @@ static void StaleStoreMate(
 
   if (blpcallowed < 0
       || whpcallowed < 0
-      || maxtime_status==MAXTIME_TIMEOUT)
+      || periods_counter>=nr_periods)
   {
     return;
   }
@@ -2130,7 +2130,7 @@ static void GenerateGuarding(
     return;
 
   if (whcaptures > MaxPiece[Black]-1
-      || maxtime_status==MAXTIME_TIMEOUT) {
+      || periods_counter>=nr_periods) {
     return;
   }
 
@@ -2430,7 +2430,7 @@ static void GenerateBlackKing(stip_length_type n)
       e[sq]= vide;
       spec[sq]= EmptySpec;
     }
-    if (maxtime_status==MAXTIME_TIMEOUT) {
+    if (periods_counter>=nr_periods) {
       break;
     }
   }
@@ -2558,7 +2558,7 @@ static void IntelligentRegularGoals(stip_length_type n)
   ResetPosition();
 
   if (OptFlag[movenbr]
-      && maxtime_status!=MAXTIME_TIMEOUT)
+      && periods_counter<nr_periods)
   {
     sprintf(GlobalStr, "%ld %s %d+%d",
             MatesMax, GetMsgString(PotentialMates),

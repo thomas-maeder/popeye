@@ -268,7 +268,7 @@ boolean branch_h_root_solve_in_n(slice_index si, stip_length_type n)
       break;
     }
 
-    if (maxtime_status==MAXTIME_TIMEOUT)
+    if (periods_counter>=nr_periods)
       break;
   }
     
@@ -339,7 +339,7 @@ boolean branch_h_solve_in_n(slice_index si,
       break;
     }
 
-    if (maxtime_status==MAXTIME_TIMEOUT)
+    if (periods_counter>=nr_periods)
       break;
   }
     
@@ -602,7 +602,7 @@ void branch_h_solve_continuations_in_n(table continuations,
       break;
     }
 
-    if (maxtime_status==MAXTIME_TIMEOUT)
+    if (periods_counter>=nr_periods)
       break;
   }
     

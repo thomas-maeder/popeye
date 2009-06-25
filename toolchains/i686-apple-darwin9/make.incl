@@ -106,8 +106,8 @@ OBJ_SUFFIX=.o
 # suffix for libraries
 LIB_SUFFIX=lib.a
 
-# suffix for executables
-EXE_SUFFIX=
+# Popeye executable file name stem
+EXE_PLATFORM_MARK=macos
 
 
 # Selector for platform-specific files

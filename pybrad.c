@@ -146,7 +146,7 @@ static boolean have_we_solution_in_n(slice_index si,
 
     repcoup();
 
-    if (maxtime_status==MAXTIME_TIMEOUT)
+    if (periods_counter>=nr_periods)
       break;
   }
 
@@ -206,7 +206,7 @@ static boolean have_we_solution_in_n_short(slice_index si,
       result = true;
       break;
     }
-    else if (maxtime_status==MAXTIME_TIMEOUT)
+    else if (periods_counter>=nr_periods)
       break;
 
   TraceFunctionExit(__func__);
@@ -235,7 +235,7 @@ static boolean have_we_solution_in_n_nohash(slice_index si,
 
   if (have_we_solution_in_n_short(si,n,curr_max_nr_nontrivial))
     result = true;
-  else if (maxtime_status!=MAXTIME_TIMEOUT
+  else if (periods_counter<nr_periods
            && have_we_solution_in_n(si,n,curr_max_nr_nontrivial))
     result = true;
 
@@ -522,7 +522,7 @@ boolean branch_d_root_solve(slice_index si)
         break;
       }
 
-      if (maxtime_status==MAXTIME_TIMEOUT)
+      if (periods_counter>=nr_periods)
         break;
     }
 

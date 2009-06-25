@@ -263,7 +263,7 @@ static boolean branch_ser_solve_in_n_recursive(slice_index si,
           break;
         }
 
-        if (maxtime_status==MAXTIME_TIMEOUT)
+        if (periods_counter>=nr_periods)
           break;
       }
 
@@ -335,7 +335,7 @@ static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
         break;
       }
 
-      if (maxtime_status==MAXTIME_TIMEOUT)
+      if (periods_counter>=nr_periods)
         break;
     }
 

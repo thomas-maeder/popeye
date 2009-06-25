@@ -3,25 +3,19 @@
 
 #include <signal.h>
 
-/* Possible states of the maxtime machinery
- * The order of the enumerators was selected because
- * maxtime_status==MAXTIME_TIMEOUT is expected to be a frequent
- * operation.
+/* number of periods passed since timer started */
+sig_atomic_t volatile periods_counter;
+
+/* number of periods after which solving is aborted */
+sig_atomic_t volatile nr_periods;
+
+
+typedef unsigned int maxtime_type;
+
+/* Maximum number of seconds of maxtime supported by the platform.
+ * Guaranteed to be initialized after initMaxTime() has returned.
  */
-enum
-{
-  MAXTIME_TIMEOUT,
-  MAXTIME_TIMING,
-  MAXTIME_IDLE
-};
-
-/* Current state of the maxtime machinery
- * @note: read-only from outside the maxtime implementation
- */
-extern sig_atomic_t volatile maxtime_status;
-
-
-typedef unsigned long maxtime_type;
+extern maxtime_type maxtime_maximum_seconds;
 
 enum
 {
@@ -53,12 +47,13 @@ void setOptionMaxtime(maxtime_type optionValue);
 
 /* Platform-dependant function for setting the maximal solving time.
  * Don't call directly; this function is called from dealWithMaxtime().
- * If seconds==UINT_MAX, sets maxtime_status to MAXTIME_IDLE;
- * otherwise sets maxtime_status to MAXTIME_TIMING, and to
- * MAXTIME_TIMEOUT after the requested number of seconds unless
- * setMaxtime() has been called again in the meantime.
- * @param seconds number of seconds until maxtime_status is to be
- *                assigned MAXTIME_TIMEOUT
+ *
+ * If seconds==no_time_set, sets periods_counter<nr_periods; otherwise
+ * periods_counter will be assigned a value >=nr_periods after seconds
+ * seconds unless setMaxtime() is called again in the meantime.
+ *
+ * @param seconds number of seconds until periods_counter is to be set
+ *                to a value >= nr_periods
  */
 void setMaxtime(maxtime_type seconds);
 

@@ -60,8 +60,9 @@ WARN=-W -Wall -pedantic -Wno-unused-parameter
 DBG=
 
 # Indicate target architecture to compiler
-#ARCH=-m64		# 64-Bit gcc
-ARCH=
+#ARCH=-m64		# force 64 bit environment
+#ARCH=-m32              # force 32 bit environment
+ARCH=                   # use platform default
 
 # Select target compiler optimization level
 CCOPTIM=-O3
@@ -79,6 +80,9 @@ OBJFILE=-o
 
 # Option for defining a C preprocessor macro
 DEFINEMACRO=-D
+
+# Compile according to the ISO C 1999 Standard (which supports long long)
+OTHER+=-std=c99
 
 
 # Linker options

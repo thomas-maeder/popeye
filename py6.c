@@ -2600,7 +2600,7 @@ static void iterate_problems(void)
 
     if (FlagMaxSolsReached
         || (isIntelligentModeActive && maxsol_per_matingpos!=ULONG_MAX)
-        || maxtime_status==MAXTIME_TIMEOUT)
+        || periods_counter>=nr_periods)
       StdString(GetMsgString(InterMessage));
     else
       StdString(GetMsgString(FinishProblem));
@@ -2614,19 +2614,23 @@ static void iterate_problems(void)
   } while (prev_token==NextProblem);
 }
 
+#include <limits.h>
+
 /* Guess the "bitness" of the platform
- * @return 16 if we run on a 16bit platform, 32 if we run on a 32bit
- * platform etc.
+ * @return 32 if we run on a 32bit platform etc.
  */
 static unsigned int guessPlatformBitness(void)
 {
-#if defined(SIXTYFOUR)
+#if defined(__unix) || __APPLE__ & __MACH__
+#  if defined(ULONG_MAX) && ULONG_MAX==18446744073709551615U
   return 64;
-#else
-  if (UINT_MAX < 1UL<<16)
-    return 16;
-  else
-    return 32;
+#  else
+  return 32;
+#  endif
+#elif defined(_WIN64)
+  return 64;
+#elif defined(_WIN32)
+  return 32;
 #endif
 }
 

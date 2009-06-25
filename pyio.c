@@ -4384,17 +4384,17 @@ static char *ParseOpt(void)
       case maxtime:
       {
         char *end;
-        maxtime_type value;
+        unsigned long value;
         tok = ReadNextTokStr();
         value = strtoul(tok,&end,10);
-        if (*end!=0 || value==0)
+        if (*end!=0 || value==0 || value>maxtime_maximum_seconds)
         {
           OptFlag[maxtime]= false;
           IoErrorMsg(WrongInt, 0);
           return ReadNextTokStr();
         }
         else
-          setOptionMaxtime(value);
+          setOptionMaxtime((maxtime_type)value);
         break;
       }
 
@@ -5870,7 +5870,7 @@ void LaTeXEndDiagram(void) {
         || OptFlag[nontrivial]
         || (isIntelligentModeActive && maxsol_per_matingpos!=ULONG_MAX)
         || FlagMaxSolsReached
-        || maxtime_status==MAXTIME_TIMEOUT))
+        || periods_counter>=nr_periods))
   {
     fprintf(LaTeXFile, " \\Co+%%");
     if (!flag_regression)

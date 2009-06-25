@@ -98,7 +98,7 @@ static void solvingTimeOver(int sig)
   /* To stop the calculation of a problem after a given amount of time
    * is over.
    */
-  maxtime_status = MAXTIME_TIMEOUT;
+  periods_counter = nr_periods;
   
   signal(sig,&solvingTimeOver);
 }
@@ -123,34 +123,38 @@ void initMaxtime(void)
 #endif /*HASHRATE*/
   signal(SIGALRM, &solvingTimeOver);
   signal(SIGHUP,  &ReDrawBoard);
+
+  maxtime_maximum_seconds = UINT_MAX;
 }
 
 void setMaxtime(maxtime_type seconds)
 {
-  if (seconds==no_time_set)
-    maxtime_status = MAXTIME_IDLE;
-  else
-  {
-    maxtime_status = MAXTIME_TIMING;
+  periods_counter = 0;
+  nr_periods = 1;
+
+  if (seconds!=no_time_set)
     alarm(seconds);
-  }
 }
 
 #else
 
 void initMaxtime(void)
 {
-  /* no initialization necessary */
+  maxtime_maximum_seconds = UINT_MAX;
 }
 
 void setMaxtime(maxtime_type seconds)
 {
   if (seconds==no_time_set)
-    maxtime_status = MAXTIME_IDLE;
+  {
+    periods_counter = 0;
+    nr_periods = 1;
+  }
   else
   {
     VerifieMsg(NoMaxTime);
-    maxtime_status = MAXTIME_TIMEOUT;
+    periods_counter = 1;
+    nr_periods = 0;
   }
 }
 

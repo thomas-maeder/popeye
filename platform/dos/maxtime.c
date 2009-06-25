@@ -5,16 +5,20 @@
 
 void initMaxtime(void)
 {
-  /* no initialization necessary */
+  maxtime_maximum_seconds = UINT_MAX;
 }
 
 void setMaxtime(maxtime_type seconds)
 {
   if (seconds==no_time_set)
-    maxtime_status = MAXTIME_IDLE;
+  {
+    periods_counter = 0;
+    nr_periods = 1;
+  }
   else
   {
     VerifieMsg(NoMaxTime);
-    maxtime_status = MAXTIME_TIMEOUT;
+    periods_counter = 1;
+    nr_periods = 0;
   }
 }

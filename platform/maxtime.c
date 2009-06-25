@@ -5,7 +5,16 @@ static maxtime_type maxTimeCommandLine = no_time_set;
 
 static maxtime_type maxTimeOption = no_time_set;
 
-sig_atomic_t volatile maxtime_status = MAXTIME_IDLE;
+/* number of seconds passed since timer started */
+sig_atomic_t volatile periods_counter = 0;
+
+/* number of seconds after which solving is aborted */
+sig_atomic_t volatile nr_periods = UINT_MAX;
+
+/* Maximum number of seconds of maxtime supported by the platform.
+ * Guaranteed to be initialized after initMaxTime() has returned.
+ */
+maxtime_type maxtime_maximum_seconds;
 
 /* Inform the maxtime module about the value of the -maxtime command
  * line parameter

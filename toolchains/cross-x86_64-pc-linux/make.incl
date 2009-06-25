@@ -2,7 +2,7 @@
 #
 
 # Include file for makefile.unx for compiling on a Unix-ish i386
-# platform (host) for x86_64-mingmsvc (target)
+# platform (host) for x86_64 (target)
 
 # Requirements:
 #
@@ -45,11 +45,14 @@ LIBRARIES=-lwinmm
 # implement option maxtime)
 
 
-# Platform spedific file name suffixes
+# Platform spedific file names and suffixes
 # ====================================
 
 # suffix for objects
 OBJ_SUFFIX=.obj
+
+# Popeye executable file name stem
+EXE_PLATFORM_MARK=win64
 
 # suffix for executables
 EXE_SUFFIX=.exe
@@ -57,8 +60,6 @@ EXE_SUFFIX=.exe
 # This is a 64-bit platform
 DEFS += $(DEFINEMACRO)SIXTYFOUR
 
-# suppress "warning: ISO C90 does not support 'long long'"
-WARN += -Wno-long-long
 
 # Meta information
 # ----------------
