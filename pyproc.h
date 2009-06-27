@@ -35,6 +35,8 @@
 **                             1,1-Spiralknight
 **                             3,3-Spiralknight
 **                             Quintessence (invented Joerg Knappen)
+** 2009/06/27 SE   Extended imitators/hurdlecolorchanging to moose etc.
+**
 **
 **************************** End of List ******************************/
 
@@ -382,7 +384,7 @@ square rensuper(ply ply_id, piece p, Flags pspec, square j, square i, square ip,
 
 void pyfputs(char const *s, FILE *f);
 
-boolean hopimok(square i, square j, square k, numvec d);
+boolean hopimok(square i, square j, square k, numvec d, numvec d1);
 boolean is_rider(piece p);
 boolean is_leaper(piece p);
 boolean is_simplehopper(piece p);

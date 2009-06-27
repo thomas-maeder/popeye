@@ -46,6 +46,7 @@
  ** 2009/04/25 SE   New condition: Provacateurs
  **                 New piece type: Patrol pieces
  **
+ ** 2009/06/27 SE   Extended imitators/hurdlecolorchanging to moose etc.
  **
  **************************** End of List ******************************/
 
@@ -193,8 +194,9 @@ boolean castlingimok(square i, square j) {
   return ret;
 }
 
-            
-boolean hopimok(square i, square j, square k, numvec diff)
+           
+
+boolean hopimok(square i, square j, square k, numvec diff, numvec diff1)
 {
   /* hop i->j hopping over k in steps of diff ok? */
 
@@ -238,7 +240,7 @@ boolean hopimok(square i, square j, square k, numvec diff)
     if (result)
       do
       {
-        i2 += diff;
+        i2 += diff1;
       } while (imok(i,i2) && i2!=j);
 
     result = result && i2==j && imok(i,j);
@@ -287,19 +289,31 @@ boolean rmhopech(square sq_king,
    */
 
   square sq_departure;
+  numvec v, v1;
 
   for (k= kend; k>=kanf; k--) {
-    sq_hurdle= sq_king+vec[k];
+    v= vec[k];
+    sq_hurdle= sq_king+v;
     if (abs(e[sq_hurdle])>=roib) {
       k1= 2*k;
-      finligne(sq_hurdle,mixhopdata[angle][k1],hopper,sq_departure);
+      finligne(sq_hurdle,v1=mixhopdata[angle][k1],hopper,sq_departure);
       if (hopper==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
+        if (evaluate(sq_departure,sq_king,sq_king) &&
+            hopimmcheck(sq_departure,
+                        sq_king,
+                        sq_hurdle,
+                        -v1,
+                        -v))
           return true;
       }
-      finligne(sq_hurdle,mixhopdata[angle][k1-1],hopper,sq_departure);
+      finligne(sq_hurdle,v1=mixhopdata[angle][k1-1],hopper,sq_departure);
       if (hopper==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
+        if (evaluate(sq_departure,sq_king,sq_king) &&
+            hopimmcheck(sq_departure,
+                        sq_king,
+                        sq_hurdle,
+                        -v1,
+                        -v))
           return true;
       }
     }

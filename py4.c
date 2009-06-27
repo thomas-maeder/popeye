@@ -48,6 +48,8 @@
  ** 2009/04/25 SE   New condition: Provacateurs
  **                 New piece type: Patrol pieces
  **
+ ** 2009/06/27 SE   Extended imitators/hurdlecolorchanging to moose etc.
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -1227,11 +1229,13 @@ static void gmhop(square   sq_departure,
       k1= k<<1;
       
       sq_arrival= sq_hurdle+mixhopdata[m][k1];
-      if (e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp))
+      if ((e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp)) &&
+        hopimmcheck(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1]))
         testempile(sq_departure,sq_arrival,sq_arrival);
       
       sq_arrival= sq_hurdle+mixhopdata[m][k1-1];
-      if (e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp))
+      if ((e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp)) &&
+        hopimmcheck(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1-1]))
         testempile(sq_departure,sq_arrival,sq_arrival);
     }
   }
@@ -1326,7 +1330,7 @@ static void gnequi(square sq_departure, Side camp) {
 
         if ((e[sq_arrival]==vide
              || rightcolor(e[sq_arrival],camp))
-            && hopimok(sq_departure,
+            && hopimcheck(sq_departure,
                        sq_arrival,
                        sq_hurdle,
                        vector))

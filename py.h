@@ -63,6 +63,8 @@
 **
 ** 2009/06/14 SE   New optiion: LastCapture
 **
+** 2009/06/27 SE   Extended imitators/hurdlecolorchanging to moose etc.
+**
 **************************** End of List ******************************/
 
 #if !defined(PY_H)
@@ -860,7 +862,8 @@ typedef unsigned int slice_index;
 #define imcheck(i, j) (!CondFlag[imitators] || imok((i), (j)))
 #define ridimcheck(sq, j, diff) (!CondFlag[imitators] || ridimok((sq), (j), (diff)))
 
-#define hopimcheck(sq, j, over, diff) (!checkhopim || hopimok((sq), (j), (over), (diff)))
+#define hopimcheck(sq, j, over, diff) (!checkhopim || hopimok((sq), (j), (over), (diff), (diff)))
+#define hopimmcheck(sq, j, over, diff, diff1) (!checkhopim || hopimok((sq), (j), (over), (diff), (diff1)))
 #define maooaimcheck(sq, j, pass) (!CondFlag[imitators] || maooaimok((sq), (j), (pass)))   
 
 #define setneutre(i)            do {if (neutcoul != color(i)) change(i);} while(0)
