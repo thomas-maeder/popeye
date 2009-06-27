@@ -7,41 +7,26 @@
 
 # Requirements:
 #
-# The following tools can be used to produce executables for the host
-# and target plarform and can be found in the $PATH
-# - MSPDB60.DLL
-#
-# (LINK.EXE used to belong to this list, but we now have to fully
-# qualify this executable to disambiguate it from Cygwin's
-# /usr/bin/link)
-
+# The environment must have the settings as if VCVARS32.BAT had been run.
+# The easiest way to achive this is to start cmd.exe from bash, run
+# VCVARS32.BAT in the cmd.exe shell and then start a nested bash.
 
 # Compiler selection
 # ==================
 
-# Microsoft Visual C++ 98 default installation directory
-MSVC6_DEFAULT_INSTALLDIR=$(PROGRAMFILES)/Microsoft Visual Studio/VC98
-
-# By default, use the (sic!) default installation directory
-MSVC6_INSTALLDIR=$(MSVC6_DEFAULT_INSTALLDIR)
-
-# Default installation dir for German Windows
-# derive the one for your Windows system language if necessary
-#MSVC6_INSTALLDIR=C:/Programme/Microsoft Visual Studio/VC98
-
 # Compiler for creating executables on host
-CCHOST="${MSVC6_INSTALLDIR}/Bin/CL.EXE"
+CCHOST=CL.EXE
 
 # Linker for creating executables on host
 # (fully qualified to disambiguate from Cygwin's /usr/bin/link)
-LDHOST="${MSVC6_INSTALLDIR}/Bin/LINK.EXE"
+LDHOST=LINK.EXE
 
 # Compiler for creating executables on target
-CCTARGET="${MSVC6_INSTALLDIR}/Bin/CL.EXE"
+CCTARGET=CL.EXE
 
 # Linker for creating executables on target
 # (fully qualified to disambiguate from Cygwin's /usr/bin/link)
-LDTARGET="${MSVC6_INSTALLDIR}/Bin/LINK.EXE"
+LDTARGET=LINK.EXE
 
 
 # Librarian
@@ -50,7 +35,7 @@ LDTARGET="${MSVC6_INSTALLDIR}/Bin/LINK.EXE"
 # A library is called archive on Unix-ish platforms
 
 # Archive generator
-ARCHIVER="${MSVC6_INSTALLDIR}/Bin/LIB.EXE"
+ARCHIVER=LIB.EXE
 
 # Archiver options
 # suppress logo - other options will be added by makefile.unx based
@@ -84,8 +69,6 @@ OBJFILE=/Fo
 
 # Option for defining a C preprocessor macro
 DEFINEMACRO=/D
-
-INCLUDEPATHS="/I${MSVC6_INSTALLDIR}/Include"
 
 
 # Librarian options
@@ -125,6 +108,9 @@ OBJ_SUFFIX=.obj
 
 # suffix for libraries
 LIB_SUFFIX=.lib
+
+# Popeye executable file name stem
+EXE_PLATFORM_MARK=win32
 
 # suffix for executables
 EXE_SUFFIX=.exe
