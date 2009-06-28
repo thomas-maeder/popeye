@@ -2,6 +2,12 @@
 #include <limits.h>
 #include <windows.h>
 
+/* Some header <sdkddkver.h> defines symbols like _WIN32_WINNT_WIN2K,
+ * but this header isn't available with all C implementations
+ * targeting Windows; so let's define the symbol here:
+ */
+#define _WIN32_WINNT_WIN2K 0x0500
+
 /* Make a guess for a reasonable amount of memory for the hashtable
  * @return number of kilo-bytes to be used
  */
@@ -13,7 +19,7 @@ unsigned long guessReasonableMaxmemory(void)
 
   /* GlobalMemoryStatusEx() has only been available since Windows 2000
    */
-#if defined(_WIN32_WINNT) && _WIN32_WINNT>=0x0500
+#if defined(_WIN32_WINNT) && _WIN32_WINNT>=_WIN32_WINNT_WIN2K
 
   MEMORYSTATUSEX memstatEx;
   memstatEx.dwLength = sizeof memstatEx;
