@@ -1437,7 +1437,8 @@ static boolean att_once(square sq_departure)
         if (rbechec(nbply,eval_spec))
         {
           ++count;
-          break;
+          if (count > 1)
+            return false;
         }
       }
   }
