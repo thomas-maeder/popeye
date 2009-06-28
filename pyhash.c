@@ -260,7 +260,7 @@ static boolean slice_property_offset_shifter(slice_index si,
   return result;
 }
 
-slice_operation const slice_property_offset_shifters[] =
+static slice_operation const slice_property_offset_shifters[] =
 {
   &slice_property_offset_shifter, /* STBranchDirect */
   &slice_property_offset_shifter, /* STBranchDirectDefender */
@@ -466,16 +466,18 @@ static boolean init_slice_properties_pipe(slice_index pipe,
  * current stipulation slices whose root is a fork
  * @param si root slice of subtree
  * @param st address of structure defining traversal
- * @note this is an indirectly recursive function
  * @return true iff the properties for pipe and its children have been
  *         successfully initialised
  */
 static boolean init_slice_properties_fork(slice_index fork,
                                           slice_traversal *st)
 {
-  boolean result;
+  boolean result1;
+  boolean result2;
 
-  slice_initializer_state const * const sis = st->param;
+  slice_initializer_state * const sis = st->param;
+
+  unsigned int const save_value_offset = sis->value_offset;
       
   slice_index const op1 = slices[fork].u.fork.op1;
   slice_index const op2 = slices[fork].u.fork.op2;
@@ -486,10 +488,9 @@ static boolean init_slice_properties_fork(slice_index fork,
 
   slice_properties[fork].valueOffset = sis->value_offset;
 
-  /* should we traverse op1 and op2 separately, and reset
-   * sis->value_offset in between?
-   */
-  result = slice_traverse_children(fork,st);
+  result1 = traverse_slices(op1,st);
+  sis->value_offset = save_value_offset;
+  result2 = traverse_slices(op2,st);
 
   /* both operand slices must have the same valueOffset, or the
    * shorter one will dominate the longer one */
@@ -511,16 +512,15 @@ static boolean init_slice_properties_fork(slice_index fork,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%u", result1 && result2);
   TraceFunctionResultEnd();
-  return result;
+  return result1 && result2;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a direct branch
  * @param si root slice of subtree
  * @param st address of structure defining traversal
- * @note this is an indirectly recursive function
  * @return true iff the properties for branch and its children have been
  *         successfully initialised
  */
@@ -549,7 +549,6 @@ static boolean init_slice_properties_branch_direct(slice_index branch,
  * current stipulation slices whose root is a direct branch defender
  * @param si root slice of subtree
  * @param st address of structure defining traversal
- * @note this is an indirectly recursive function
  * @return true iff the properties for branch and its children have been
  *         successfully initialised
  */
@@ -568,7 +567,6 @@ boolean init_slice_properties_branch_direct_defender(slice_index branch,
  * current stipulation slices
  * @param si root slice of subtree
  * @param st address of structure defining traversal
- * @note this is an indirectly recursive function
  * @return true iff the properties for si and its children have been
  *         successfully initialised
  */
@@ -600,7 +598,6 @@ static boolean init_slice_properties_help_hashed(slice_index si,
  * current stipulation slices whose root is a series branch
  * @param si root slice of subtree
  * @param st address of structure defining traversal
- * @note this is an indirectly recursive function
  * @return true iff the properties for branch and its children have been
  *         successfully initialised
  */
@@ -621,7 +618,6 @@ static boolean init_slice_properties_branch_series(slice_index branch,
  * current stipulation slices whose root is a branch fork
  * @param si root slice of subtree
  * @param st address of structure defining traversal
- * @note this is an indirectly recursive function
  * @return true iff the properties for branch_fork and its children
  *         have been successfully initialised
  */
@@ -646,7 +642,7 @@ static boolean init_slice_properties_branch_fork(slice_index branch_fork,
   return result_next && result_toward_goal;
 }
 
-slice_operation const slice_properties_initalisers[] =
+static slice_operation const slice_properties_initalisers[] =
 {
   &init_slice_properties_branch_direct,          /* STBranchDirect */
   &init_slice_properties_branch_direct_defender, /* STBranchDirectDefender */
@@ -692,7 +688,7 @@ static boolean inherit_slice_properties_from_base(slice_index si,
   return result;
 }
 
-slice_operation const slice_properties_inheriters[] =
+static slice_operation const slice_properties_inheriters[] =
 {
   &inherit_slice_properties_from_base,  /* STBranchDirect */
   &slice_traverse_children,             /* STBranchDirectDefender */
@@ -1871,8 +1867,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
 
   ifHASHRATE(use_all++);
 
-  /* TODO create hash slice(s) that are only active if we can
-   * allocated the hash table. */
+  /* TODO create hash slice(s) that are only active if we can allocate
+   * the hash table. */
   he = pyhash==0 ? dhtNilElement : dhtLookupElement(pyhash, (dhtValue)hb);
   if (he==dhtNilElement)
     result = false;
