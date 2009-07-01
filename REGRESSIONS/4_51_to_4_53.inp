@@ -223,4 +223,11 @@ pieces white ka1
 stip ~1
 condition parrain
 
+next
+
+stip #1 
+title there is no solution, but 4.51 gave 1.Qb2#
+fors 40/2K2p1q/6Q1/k7/
+condition amu
+
 end

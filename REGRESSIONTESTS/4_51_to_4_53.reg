@@ -731,3 +731,32 @@ solution finished.
 solution finished. 
 
 
+
+there is no solution, but 4.51 gave 1.Qb2#
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   K   .   .  -P   .  -Q   3
+|                                   |
+2   .   .   .   .   .   .   Q   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          2 + 3
+                 AMU
+
+
+solution finished. 
+
+
