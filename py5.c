@@ -1419,32 +1419,57 @@ static boolean eval_spec(square sq_departure,
   return sq_departure==blpc;
 }
 
-static boolean att_once(square sq_departure)
+static boolean att_once(square sq_departure, Side trait_ply, ply ply_id)
 {
   int i,j, count=0;
   square square_a = square_a1;
 
-  square const rb_=rb;
-  rb = sq_departure;
+  if (trait_ply == White) {
 
-  for (i = nr_rows_on_board; i>0; --i, square_a += dir_up)
-  {
-    square z = square_a;
-    for (j= nr_files_on_board; j>0; --j, z += dir_right)
-      if (e[z]<-obs)
-      {
-        blpc = z;
-        if (rbechec(nbply,eval_spec))
+    square const rb_=rb;
+    rb = sq_departure;
+
+    for (i = nr_rows_on_board; i>0; --i, square_a += dir_up)
+    {
+      square z = square_a;
+      for (j= nr_files_on_board; j>0; --j, z += dir_right)
+        if (e[z]<-obs)
         {
-          ++count;
-          if (count > 1)
-            return false;
+          blpc = z;
+          if (rbechec(ply_id,eval_spec))
+          {
+            ++count;
+            if (count > 1)
+              return false;
+          }
         }
       }
+
+      rb = rb_;
+
+  } else {
+
+    square const rn_=rn;
+    rn = sq_departure;
+
+    for (i = nr_rows_on_board; i>0; --i, square_a += dir_up)
+    {
+      square z = square_a;
+      for (j= nr_files_on_board; j>0; --j, z += dir_right)
+        if (e[z]<-obs)
+        {
+          blpc = z;
+          if (rnechec(ply_id,eval_spec))
+          {
+            ++count;
+            if (count > 1)
+              return false;
+          }
+        }
+      }
+
+      rn = rn_;
   }
-
-  rb = rb_;
-
   return count==1;
 }
 
@@ -1926,7 +1951,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
     } 
 
     if (CondFlag[amu])
-      att_1[ply_id]= att_once(sq_departure);
+      att_1[ply_id]= att_once(sq_departure, trait_ply, ply_id);
 
     if (CondFlag[imitators])
     {
