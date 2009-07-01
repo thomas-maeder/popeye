@@ -255,6 +255,10 @@ stip_length_type get_max_nr_moves(slice_index si)
       result = get_max_nr_moves(slices[si].u.pipe.next);
       break;
 
+    case STHelpRoot:
+      result = get_max_nr_moves(slices[si].u.root_branch.full_length);
+      break;
+
     case STHelpHashed:
       result = get_max_nr_moves(slices[si].u.pipe.next);
       break;
@@ -452,6 +456,12 @@ static boolean slice_ends_only_in(Goal const goals[],
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
+    case STHelpRoot:
+    {
+      slice_index const full_length = slices[si].u.root_branch.full_length;
+      return slice_ends_only_in(goals,nrGoals,full_length);
+    }
+
     case STHelpHashed:
     {
       slice_index const next = slices[si].u.pipe.next;
@@ -544,6 +554,12 @@ static boolean slice_ends_in(Goal const goals[],
     {
       slice_index const next = slices[si].u.pipe.next;
       return slice_ends_in(goals,nrGoals,next);
+    }
+
+    case STHelpRoot:
+    {
+      slice_index const full_length = slices[si].u.root_branch.full_length;
+      return slice_ends_in(goals,nrGoals,full_length);
     }
 
     case STHelpHashed:
@@ -662,6 +678,13 @@ static slice_index find_goal_recursive(Goal goal,
       break;
     }
 
+    case STHelpRoot:
+    {
+      slice_index const full_length = slices[si].u.root_branch.full_length;
+      result = find_goal_recursive(goal,start,active,full_length);
+      break;
+    }
+
     case STHelpHashed:
     {
       slice_index const next = slices[si].u.pipe.next;
@@ -703,8 +726,6 @@ slice_index find_next_goal(Goal goal, slice_index start)
 
   TraceValue("%u",next_slice);
   TraceValue("%u\n",slices[start].type);
-
-  assert(start<next_slice);
 
   /* Either this is the first run (-> si==0) or we start from the
    * previous result, which must have been a leaf. */
@@ -808,6 +829,13 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
       break;
     }
 
+    case STHelpRoot:
+    {
+      slice_index const full = slices[current_slice].u.root_branch.full_length;
+      result = find_unique_goal_recursive(full,found_so_far);
+      break;
+    }
+
     case STBranchFork:
     {
       slice_index const
@@ -886,6 +914,7 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children,           /* STQuodlibet */
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
+  0,                                  /* STHelpRoot */
   &make_exact_branch                  /* STHelpHashed */
 };
 
@@ -1064,6 +1093,17 @@ static boolean traverse_branch_fork(slice_index branch, slice_traversal *st)
   return result_pipe && result_toward_goal;
 }
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ * @return true iff pipe and its children have been successfully
+ *         traversed
+ */
+static boolean traverse_help_root(slice_index root, slice_traversal *st)
+{
+  return traverse_slices(slices[root].u.root_branch.full_length,st);
+}
+
 static slice_operation const traversers[] =
 {
   &traverse_pipe,                   /* STBranchDirect */
@@ -1079,6 +1119,7 @@ static slice_operation const traversers[] =
   &traverse_fork,                   /* STQuodlibet */
   &traverse_pipe,                   /* STNot */
   &traverse_pipe,                   /* STMoveInverter */
+  &traverse_help_root,              /* STHelpRoot */
   &traverse_pipe                    /* STHelpHashed */
 };
 

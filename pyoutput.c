@@ -61,6 +61,14 @@ static output_mode detect_output_mode(slice_index si)
         result = output_mode_line;
       break;
 
+    case STHelpRoot:
+      if (slices[si].u.root_branch.length==slack_length_help+1)
+        /* may be set play */
+        result = detect_output_mode(slices[si].u.root_branch.full_length);
+      else
+        result = output_mode_line;
+      break;
+
     case STBranchSeries:
     case STLeafHelp:
     case STLeafForced:
@@ -212,7 +220,7 @@ void output_end_move_inverted_level(void)
   se_end_set_play();   
 #endif
 
-    if (current_mode==output_mode_tree)
+  if (current_mode==output_mode_tree)
   {
     --move_depth;
     TraceValue("%u\n",move_depth);

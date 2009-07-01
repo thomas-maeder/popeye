@@ -90,6 +90,10 @@ boolean slice_must_starter_resign(slice_index si)
       result = move_inverter_must_starter_resign(si);
       break;
 
+    case STHelpRoot:
+      result = branch_h_root_must_starter_resign(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -448,7 +452,7 @@ boolean slice_root_solve(slice_index si)
       result = branch_d_defender_root_solve(si);
       break;
 
-    case STBranchHelp:
+    case STHelpRoot:
       result = branch_h_root_solve(si);
       break;
 
@@ -569,6 +573,10 @@ boolean slice_has_solution(slice_index si)
       /* TODO */
       break;
       
+    case STHelpRoot:
+      result = branch_h_root_has_solution(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -1077,6 +1085,10 @@ who_decides_on_starter slice_detect_starter(slice_index si,
     case STMoveInverter:
       result = move_inverter_detect_starter(si,same_side_as_root);
       break;
+
+    case STHelpRoot:
+      result = branch_h_root_detect_starter(si,same_side_as_root);
+      break;
       
     default:
       assert(0);
@@ -1126,6 +1138,10 @@ void slice_impose_starter(slice_index si, Side side)
 
     case STBranchFork:
       branch_fork_impose_starter(si,side);
+      break;
+
+    case STHelpRoot:
+      branch_h_root_impose_starter(si,side);
       break;
 
     case STReciprocal:
@@ -1235,6 +1251,10 @@ Side slice_get_starter(slice_index si)
 
     case STBranchFork:
       result = slice_get_starter(slices[si].u.pipe.u.branch_fork.towards_goal);
+      break;
+
+    case STHelpRoot:
+      result = slice_get_starter(slices[si].u.root_branch.full_length);
       break;
 
     case STHelpHashed:

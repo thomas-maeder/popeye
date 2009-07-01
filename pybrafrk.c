@@ -381,7 +381,7 @@ boolean branch_fork_must_starter_resign_hashed(slice_index si, Side just_moved)
 /* Locate the slice after the help play branch and its associated slices
  * @param si identifies slice visited in traversal
  * @param st address of structure defining traversal
- * @return TODL
+ * @return true
  */
 static boolean slice_behind_branch_finder_branch_fork(slice_index si,
                                                       slice_traversal *st)
@@ -394,7 +394,7 @@ static boolean slice_behind_branch_finder_branch_fork(slice_index si,
   TraceFunctionParamListEnd();
 
   /* The slice we look for is the one at the towards_goal end of a
-   * help_hashed slice. Save it and don't recurse further.
+   * branch fork slice. Save it and don't recurse further.
    */
   *to_be_found = slices[si].u.pipe.u.branch_fork.towards_goal;
   
@@ -419,6 +419,7 @@ static slice_operation const slice_behind_branch_finders[] =
   &slice_traverse_children,               /* STQuodlibet */
   &slice_traverse_children,               /* STNot */
   &slice_traverse_children,               /* STMoveInverter */
+  0,                                      /* STHelpRoot */
   &slice_traverse_children                /* STHelpHashed */
 };
 
@@ -498,6 +499,7 @@ static slice_operation const slice_to_fork_deallocators[] =
   0,                                    /* STQuodlibet */
   0,                                    /* STNot */
   0,                                    /* STMoveInverter */
+  0,                                    /* STHelpRoot */
   &traverse_and_deallocate              /* STHelpHashed */
 };
 
@@ -516,6 +518,73 @@ slice_index branch_deallocate_to_fork(slice_index branch)
 
   slice_traversal_init(&st,&slice_to_fork_deallocators,&result);
   traverse_slices(branch,&st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Locate the fork slice in a branch
+ * @param fork identifies slice visited in traversal
+ * @param st address of structure defining traversal
+ * @return true
+ */
+static boolean slice_fork_finder_branch_fork(slice_index fork,
+                                             slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const to_be_found = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",fork);
+  TraceFunctionParamListEnd();
+
+  /* The slice we look for is this one. Save it and don't recurse
+   * further.
+   */
+  *to_be_found = fork;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const slice_fork_finders[] =
+{
+  &slice_traverse_children,       /* STBranchDirect */
+  &slice_traverse_children,       /* STBranchDirectDefender */
+  &slice_traverse_children,       /* STBranchHelp */
+  &slice_traverse_children,       /* STBranchSeries */
+  &slice_fork_finder_branch_fork, /* STBranchFork */
+  &slice_traverse_children,       /* STLeafDirect */
+  &slice_traverse_children,       /* STLeafHelp */
+  &slice_traverse_children,       /* STLeafSelf */
+  &slice_traverse_children,       /* STLeafForced */
+  &slice_traverse_children,       /* STReciprocal */
+  &slice_traverse_children,       /* STQuodlibet */
+  &slice_traverse_children,       /* STNot */
+  &slice_traverse_children,       /* STMoveInverter */
+  0,                              /* STHelpRoot */
+  &slice_traverse_children        /* STHelpHashed */
+};
+
+/* Find the fork slice in a branch
+ * @param si identifies a slice of the branch
+ * @return identifier of fork slice in branch
+ */
+slice_index branch_find_fork(slice_index si)
+{
+  slice_index result;
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&slice_fork_finders,&result);
+  traverse_slices(si,&st);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

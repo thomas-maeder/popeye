@@ -41,7 +41,42 @@ slice_index alloc_branch_h_slice(stip_length_type length,
   slices[result].u.pipe.u.branch.length = length;
   slices[result].u.pipe.u.branch.min_length = min_length;
   slices[result].u.pipe.next = fork;
-  
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Wrap the branch(es) where play starts with a root slice.
+ * Set st->param to the newly created slice.
+ * @param branch identifies the branch slice to be wrapped
+ * @param st address of structure holding traversal state
+ * @return true
+ */
+boolean branch_h_make_root_slice(slice_index branch, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  *root_slice = alloc_slice_index();
+  TraceValue("%u\n",*root_slice);
+
+  slices[*root_slice].type = STHelpRoot;
+  slices[*root_slice].u.root_branch.short_length = branch_find_fork(branch);
+  slices[*root_slice].u.root_branch.full_length = branch;
+  slices[*root_slice].u.root_branch.length
+      = slices[branch].u.pipe.u.branch.length;
+  slices[*root_slice].u.root_branch.min_length
+      = slices[branch].u.pipe.u.branch.min_length;
+  slices[*root_slice].starter = slices[branch].starter;
+  TraceValue("%u",slices[*root_slice].u.root_branch.full_length);
+  TraceValue("%u\n",slices[*root_slice].u.root_branch.short_length);
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -353,72 +388,6 @@ boolean branch_h_solve_in_n(slice_index si,
   return result;
 }
 
-/* Solve full-length solutions in exactly n in help play at root level
- * @param si slice index
- * @param n number of half moves
- * @return true iff >=1 solution was found
- */
-static boolean branch_h_root_solve_full_in_n(slice_index si,
-                                             stip_length_type n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help);
-
-  if (isIntelligentModeActive)
-    result = Intelligent(si,n,n);
-  else
-    result = branch_h_root_solve_in_n(si,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve short solutions in exactly n in help play at root level.
- * @param si slice index
- * @param n number of half moves
- * @return true iff >=1 short solution was found
- */
-static boolean branch_h_root_solve_short_in_n(slice_index si,
-                                              stip_length_type n)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help);
-
-  if (isIntelligentModeActive)
-    result = Intelligent(slices[si].u.pipe.next,
-                         n,
-                         slices[si].u.pipe.u.branch.length);
-  else
-  {
-    /* we only display move numbers when looking for full length
-     * solutions (incl. full length set play)
-     */
-    Side const starter = branch_h_starter_in_n(si,n);
-    boolean const save_movenbr = OptFlag[movenbr];
-    OptFlag[movenbr] = false;
-    result = help_solve_in_n(slices[si].u.pipe.next,n,starter);
-    OptFlag[movenbr] = save_movenbr;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable
@@ -443,67 +412,6 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
     if (slices[result].u.pipe.u.branch.min_length<slack_length_help)
       slices[result].u.pipe.u.branch.min_length += 2;
     slices[result].starter = advers(slices[si].starter);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a composite slice with help play at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean branch_h_root_solve(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  init_output(si);
-
-  if (echecc(nbply,advers(slices[si].starter)))
-    ErrorMsg(KingCapture);
-  else
-  {
-    stip_length_type const full_length = slices[si].u.pipe.u.branch.length;
-    stip_length_type len = (OptFlag[restart]
-                            ? full_length
-                            : slices[si].u.pipe.u.branch.min_length);
-
-    TraceValue("%u",slices[si].u.pipe.u.branch.min_length);
-    TraceValue("%u\n",slices[si].u.pipe.u.branch.length);
-
-    assert(slices[si].u.pipe.u.branch.min_length>=slack_length_help);
-
-    move_generation_mode = move_generation_not_optimized;
-
-    FlagShortSolsReached = false;
-    solutions = 0;
-
-    while (len<full_length
-           && !(OptFlag[stoponshort] && FlagShortSolsReached))
-    {
-      if (branch_h_root_solve_short_in_n(si,len))
-      {
-        FlagShortSolsReached = true;
-        result = true;
-      }
-
-      len += 2;
-    }
-
-    if (FlagShortSolsReached && OptFlag[stoponshort])
-      TraceText("aborting because of short solutions\n");
-    else
-      result = branch_h_root_solve_full_in_n(si,full_length);
-
-    if (OptFlag[maxsols] && solutions>=maxsolutions)
-      /* signal maximal number of solutions reached to outer world */
-      FlagMaxSolsReached = true;
   }
 
   TraceFunctionExit(__func__);
@@ -777,6 +685,9 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",slices[si].type);
+  assert(slices[si].type==STBranchHelp);
+
   TraceValue("%u\n",branch_starter);
 
   result = (slices[si].u.pipe.u.branch.length%2==n%2
@@ -838,6 +749,7 @@ static slice_operation const relevant_slice_finders[] =
   &find_relevant_slice_found,         /* STQuodlibet */
   &find_relevant_slice_found,         /* STNot */
   &find_relevant_slice_found,         /* STMoveInverter */
+  &find_relevant_slice_found,         /* STHelpRoot */
   &find_relevant_slice_found          /* STHelpHashed */
 };
 
@@ -992,6 +904,226 @@ slice_index branch_h_shorten(slice_index si)
     result = si;
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/*************** root *****************/
+
+/* Detect starter field with the starting side if possible. 
+ * @param root identifies slice
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
+ * TODO can we get rid of this???
+ */
+who_decides_on_starter branch_h_root_detect_starter(slice_index root,
+                                                    boolean same_side_as_root)
+{
+  who_decides_on_starter result;
+  slice_index const full_length = slices[root].u.root_branch.full_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParamListEnd();
+
+  result = slice_detect_starter(full_length,same_side_as_root);
+  slices[root].starter = slice_get_starter(full_length);
+  TraceValue("->%u\n",slices[root].starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve full-length solutions in exactly n in help play at root level
+ * @param root slice index
+ * @param n number of half moves
+ * @return true iff >=1 solution was found
+ */
+static boolean branch_h_root_solve_full_in_n(slice_index root,
+                                             stip_length_type n)
+{
+  slice_index const full_length = slices[root].u.root_branch.full_length;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  if (isIntelligentModeActive)
+    result = Intelligent(full_length,n,n);
+  else
+    result = branch_h_root_solve_in_n(full_length,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve short solutions in exactly n in help play at root level.
+ * @param root slice index
+ * @param n number of half moves
+ * @return true iff >=1 short solution was found
+ */
+static boolean branch_h_root_solve_short_in_n(slice_index root,
+                                              stip_length_type n)
+{
+  slice_index const short_length = slices[root].u.root_branch.short_length;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",slices[root].u.root_branch.full_length);
+  TraceValue("%u\n",slices[root].u.root_branch.short_length);
+
+  assert(n>=slack_length_help);
+
+  if (isIntelligentModeActive)
+    result = Intelligent(short_length,n,slices[root].u.root_branch.length);
+  else
+  {
+    stip_length_type const
+        full_length = slices[root].u.root_branch.full_length;
+    Side const starter = branch_h_starter_in_n(full_length,n);
+
+    /* we only display move numbers when looking for full length
+     * solutions (incl. full length set play)
+     */
+    boolean const save_movenbr = OptFlag[movenbr];
+    OptFlag[movenbr] = false;
+    result = help_solve_in_n(short_length,n,starter);
+    OptFlag[movenbr] = save_movenbr;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a composite slice with help play at root level
+ * @param root slice index
+ * @return true iff >=1 solution was found
+ */
+boolean branch_h_root_solve(slice_index root)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParamListEnd();
+
+  init_output(root);
+
+  if (echecc(nbply,advers(slices[root].starter)))
+    ErrorMsg(KingCapture);
+  else
+  {
+    stip_length_type const full_length = slices[root].u.root_branch.length;
+    stip_length_type len = (OptFlag[restart]
+                            ? full_length
+                            : slices[root].u.root_branch.min_length);
+
+    TraceValue("%u",slices[root].u.root_branch.min_length);
+    TraceValue("%u\n",slices[root].u.root_branch.length);
+
+    assert(slices[root].u.root_branch.min_length>=slack_length_help);
+
+    move_generation_mode = move_generation_not_optimized;
+
+    FlagShortSolsReached = false;
+    solutions = 0;
+
+    while (len<full_length
+           && !(OptFlag[stoponshort] && FlagShortSolsReached))
+    {
+      if (branch_h_root_solve_short_in_n(root,len))
+      {
+        FlagShortSolsReached = true;
+        result = true;
+      }
+
+      len += 2;
+    }
+
+    if (FlagShortSolsReached && OptFlag[stoponshort])
+      TraceText("aborting because of short solutions\n");
+    else
+      result = branch_h_root_solve_full_in_n(root,full_length);
+
+    if (OptFlag[maxsols] && solutions>=maxsolutions)
+      /* signal maximal number of solutions reached to outer world */
+      FlagMaxSolsReached = true;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean branch_h_root_must_starter_resign(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = help_must_starter_resign(slices[si].u.root_branch.full_length);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Impose the starting side on a slice.
+ * @param si identifies branch
+ * @param s starting side of slice
+ */
+void branch_h_root_impose_starter(slice_index si, Side s)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_impose_starter(slices[si].u.root_branch.full_length,s);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean branch_h_root_has_solution(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = branch_h_has_solution(slices[si].u.root_branch.full_length);
+  
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();

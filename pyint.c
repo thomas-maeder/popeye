@@ -2729,6 +2729,7 @@ static slice_operation const non_root_moves_left_initialisers[] =
   0,                                       /* STQuodlibet */
   0,                                       /* STNot */
   &slice_traverse_children,                /* STMoveInverter */
+  0,                                       /* STHelpRoot */
   &init_moves_left_non_root_help_hashed    /* STHelpHashed */
 };
 
@@ -2937,6 +2938,13 @@ stip_supports_intelligent_rec(slice_index si)
     {
       slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
       result = stip_supports_intelligent_rec(next);
+      break;
+    }
+
+    case STHelpRoot:
+    {
+      slice_index const full = slices[si].u.root_branch.full_length;
+      result = stip_supports_intelligent_rec(full);
       break;
     }
 

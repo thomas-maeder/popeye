@@ -709,7 +709,8 @@ static boolean verify_position(void)
   }
 
   {
-    Side const restricted_side = (slices[root_slice].type==STBranchHelp
+    /* TODO traversal? */
+    Side const restricted_side = (slices[root_slice].type==STHelpRoot
                                   ? slice_get_starter(root_slice)
                                   : advers(slice_get_starter(root_slice)));
     if (flagmaxi)
@@ -2380,6 +2381,128 @@ static boolean root_slice_apply_postkeyplay(void)
   return result;
 }
 
+/* Wrap the branch(es) where play starts with a root slice.
+ * Set st->param to this slice itself or the slice that now wraps it.
+ * @param pipe identifies pipe slice
+ * @param st address of structure holding traversal state
+ * @return true
+ */
+static boolean make_root_slice_pipe(slice_index pipe, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const new_next = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[pipe].u.pipe.next,st);
+  slices[pipe].u.pipe.next = *new_next;
+
+  *new_next = pipe;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Wrap the branch(es) where play starts with a root slice.
+ * Set st->param to this slice itself or the slice that now wraps it.
+ * @param fork identifies fork slice
+ * @param st address of structure holding traversal state
+ * @return true
+ */
+static boolean make_root_slice_fork(slice_index fork, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const new_op = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",fork);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[fork].u.fork.op1,st);
+  slices[fork].u.fork.op1 = *new_op;
+
+  traverse_slices(slices[fork].u.fork.op2,st);
+  slices[fork].u.fork.op2 = *new_op;
+
+  TraceValue("%u",slices[fork].u.fork.op1);
+  TraceValue("%u\n",slices[fork].u.fork.op2);
+
+  *new_op = fork;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Wrap the branch(es) where play starts with a root slice.  We have
+ * arrived beyond the (possibly existing) branch slice to be wrapped,
+ * so do nothing but set st->param to this slice itself or the slice
+ * that now wraps it.
+ * @param si identifies slice
+ * @param st address of structure holding traversal state
+ * @return true
+ */
+static boolean make_root_slice_noop(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const retval = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",fork);
+  TraceFunctionParamListEnd();
+
+  *retval = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const root_slice_makers[] =
+{
+  &make_root_slice_noop,     /* STBranchDirect */
+  &make_root_slice_noop,     /* STBranchDirectDefender */
+  &branch_h_make_root_slice, /* STBranchHelp */
+  &make_root_slice_noop,     /* STBranchSeries */
+  &make_root_slice_noop,     /* STBranchFork */
+  &make_root_slice_noop,     /* STLeafDirect */
+  &make_root_slice_noop,     /* STLeafHelp */
+  &make_root_slice_noop,     /* STLeafSelf */
+  &make_root_slice_noop,     /* STLeafForced */
+  &make_root_slice_fork,     /* STReciprocal */
+  &make_root_slice_fork,     /* STQuodlibet */
+  &make_root_slice_pipe,     /* STNot */
+  &make_root_slice_pipe,     /* STMoveInverter */
+  0,                         /* STHelpRoot */
+  0                          /* STHelpHashed */
+};
+
+/* Wrap the branch(es) where play starts with a root slice (if such a
+ * branches exist)
+ */
+static void make_root_slices(void)
+{
+  slice_traversal st;
+  slice_index next = root_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&root_slice_makers,&next);
+  traverse_slices(root_slice,&st);
+  root_slice = next;
+  TraceValue("->%u\n",root_slice);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static boolean initialise_verify_twin(void)
 {
   boolean result = false;
@@ -2554,6 +2677,8 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[solapparent] && !OptFlag[restart]
           && !root_slice_apply_setplay())
         Message(SetPlayNotApplicable);
+
+      make_root_slices();
     }
 
     if (slice_get_starter(root_slice)==no_side)
@@ -2571,7 +2696,6 @@ static Token iterate_twins(Token prev_token)
 
     ++twin_index;
   } while (prev_token==TwinProblem);
-
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",prev_token);

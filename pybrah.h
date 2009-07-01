@@ -20,6 +20,14 @@ slice_index alloc_branch_h_slice(stip_length_type length,
                                  stip_length_type min_length,
                                  slice_index next);
 
+/* Wrap the branch(es) where play starts with a root slice.
+ * Set st->param to the newly created slice.
+ * @param branch identifies the branch slice to be wrapped
+ * @param st address of structure holding traversal state
+ * @return true
+ */
+boolean branch_h_make_root_slice(slice_index branch, slice_traversal *st);
+
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
@@ -180,5 +188,33 @@ void branch_h_impose_starter(slice_index si, Side s);
  *         representing the subsequent play; otherwise si
  */
 slice_index branch_h_shorten(slice_index si);
+
+/* Detect starter field with the starting side if possible. 
+ * @param root identifies slice
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
+ */
+who_decides_on_starter branch_h_root_detect_starter(slice_index root,
+                                                    boolean same_side_as_root);
+
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean branch_h_root_must_starter_resign(slice_index si);
+
+/* Impose the starting side on a slice.
+ * @param si identifies branch
+ * @param s starting side of slice
+ */
+void branch_h_root_impose_starter(slice_index si, Side s);
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean branch_h_root_has_solution(slice_index si);
 
 #endif

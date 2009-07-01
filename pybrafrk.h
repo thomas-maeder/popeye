@@ -144,4 +144,10 @@ slice_index branch_find_slice_behind_fork(slice_index branch);
  */
 slice_index branch_deallocate_to_fork(slice_index branch);
 
+/* Find the fork slice in a branch
+ * @param si identifies a slice of the branch
+ * @return identifier for branch representing the play after the branch
+ */
+slice_index branch_find_fork(slice_index si);
+
 #endif

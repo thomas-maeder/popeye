@@ -34,6 +34,7 @@ typedef enum
 
   STMoveInverter, /* 0 length, inverts side at move */
 
+  STHelpRoot,     /* root level of help play */
   STHelpHashed,   /* help play with hash table */
 
   nr_slice_types,
@@ -153,6 +154,14 @@ typedef struct
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */
         } fork;
+
+        struct
+        {
+            slice_index short_length;
+            slice_index full_length;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
+        } root_branch;
     } u;
 } Slice;
 
@@ -160,7 +169,7 @@ typedef struct
 /* slice identification */
 enum
 {
-  max_nr_slices = 20,
+  max_nr_slices = 40,
   no_slice = max_nr_slices
 };
 

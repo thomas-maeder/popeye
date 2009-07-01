@@ -275,6 +275,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STQuodlibet */
   &slice_property_offset_shifter, /* STNot */
   &slice_property_offset_shifter, /* STMoveInverter */
+  &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter  /* STHelpHashed */
 };
 
@@ -309,6 +310,7 @@ static void init_slice_property_direct(slice_index si,
 
   slice_properties[si].size = size;
   slice_properties[si].valueOffset = sis->value_offset;
+  TraceValue("%u\n",slice_properties[si].valueOffset);
 
   assert(sis->nr_bits_left>=size);
   sis->nr_bits_left -= size;
@@ -344,6 +346,7 @@ static void init_slice_property_help(slice_index si,
 
   slice_properties[si].size = size;
   slice_properties[si].valueOffset = sis->value_offset;
+  TraceValue("%u",si);
   TraceValue("%u\n",slice_properties[si].valueOffset);
 
   assert(sis->nr_bits_left>=size);
@@ -376,6 +379,8 @@ static void init_slice_property_series(slice_index si,
 
   slice_properties[si].size = size;
   slice_properties[si].valueOffset = sis->value_offset;
+  TraceValue("%u",si);
+  TraceValue("%u\n",slice_properties[si].valueOffset);
 
   assert(sis->nr_bits_left>=size);
   sis->nr_bits_left -= size;
@@ -426,6 +431,8 @@ static boolean init_slice_properties_leaf_forced(slice_index leaf,
   TraceFunctionParamListEnd();
 
   slice_properties[leaf].valueOffset = sis->value_offset;
+  TraceValue("%u",leaf);
+  TraceValue("%u\n",slice_properties[leaf].valueOffset);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -453,7 +460,7 @@ static boolean init_slice_properties_pipe(slice_index pipe,
 
   result = traverse_slices(next,st);
   slice_properties[pipe].valueOffset = slice_properties[next].valueOffset;
-
+  TraceValue("%u",pipe);
   TraceValue("%u\n",slice_properties[pipe].valueOffset);
 
   TraceFunctionExit(__func__);
@@ -491,6 +498,11 @@ static boolean init_slice_properties_fork(slice_index fork,
   result1 = traverse_slices(op1,st);
   sis->value_offset = save_value_offset;
   result2 = traverse_slices(op2,st);
+
+  TraceValue("%u",op1);
+  TraceValue("%u",slice_properties[op1].valueOffset);
+  TraceValue("%u",op2);
+  TraceValue("%u\n",slice_properties[op2].valueOffset);
 
   /* both operand slices must have the same valueOffset, or the
    * shorter one will dominate the longer one */
@@ -586,6 +598,7 @@ static boolean init_slice_properties_help_hashed(slice_index si,
     is_there_slice_with_nonstandard_min_length = true;
   slice_traverse_children(si,st);
 
+  TraceValue("%u",si);
   TraceValue("%u\n",slice_properties[si].valueOffset);
 
   TraceFunctionExit(__func__);
@@ -616,7 +629,7 @@ static boolean init_slice_properties_branch_series(slice_index branch,
 
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a branch fork
- * @param si root slice of subtree
+ * @param branch_fork root slice of subtree
  * @param st address of structure defining traversal
  * @return true iff the properties for branch_fork and its children
  *         have been successfully initialised
@@ -642,6 +655,34 @@ static boolean init_slice_properties_branch_fork(slice_index branch_fork,
   return result_next && result_toward_goal;
 }
 
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices whose root is a help root slice
+ * @param root root slice of subtree
+ * @param st address of structure defining traversal
+ * @return true iff the properties for root and its children
+ *         have been successfully initialised
+ */
+static boolean init_slice_properties_help_root(slice_index root,
+                                               slice_traversal *st)
+{
+  boolean result;
+  slice_index const full_length = slices[root].u.root_branch.full_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParamListEnd();
+
+  result = traverse_slices(full_length,st);
+  slice_properties[root].valueOffset = slice_properties[full_length].valueOffset;
+  TraceValue("%u",root);
+  TraceValue("%u\n",slice_properties[root].valueOffset);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static slice_operation const slice_properties_initalisers[] =
 {
   &init_slice_properties_branch_direct,          /* STBranchDirect */
@@ -657,6 +698,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_fork,                   /* STQuodlibet */
   &init_slice_properties_pipe,                   /* STNot */
   &init_slice_properties_pipe,                   /* STMoveInverter */
+  &init_slice_properties_help_root,              /* STHelpRoot */
   &init_slice_properties_help_hashed             /* STHelpHashed */
 };
 
@@ -703,6 +745,7 @@ static slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children,             /* STQuodlibet */
   &slice_traverse_children,             /* STNot */
   &slice_traverse_children,             /* STMoveInverter */
+  &slice_traverse_children,             /* STHelpRoot */
   &slice_traverse_children              /* STHelpHashed */
 };
 
@@ -1500,6 +1543,10 @@ static int estimateNumberOfHoles(slice_index si)
       result = slices[si].u.pipe.u.branch.length;
       break;
 
+    case STHelpRoot:
+      result = estimateNumberOfHoles(slices[si].u.root_branch.full_length);
+      break;
+
     case STBranchFork:
       result = estimateNumberOfHoles(slices[si].u.pipe.next);
       break;
@@ -2140,6 +2187,12 @@ static void init_element(dhtElement *he,
                    element_initialised);
       break;
 
+    case STHelpRoot:
+      init_element(he,
+                   slices[si].u.root_branch.full_length,
+                   element_initialised);
+      break;
+
     case STHelpHashed:
       init_element_help(he,si);
       break;
@@ -2338,6 +2391,7 @@ void inithash(void)
   compression_counter = 0;
 
   init_slice_properties();
+  template_element.Data = 0;
   init_elements(&template_element);
 
   dhtRegisterValue(dhtBCMemValue, 0, &dhtBCMemoryProcs);
