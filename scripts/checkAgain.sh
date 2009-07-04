@@ -10,14 +10,21 @@
 #
 # Uses: sed
 
-for f in *.reg
+. `dirname $0`/parallelTester.lib
+
+# command to be invoked in parallel
+_cmd="../py -maxmem 1G -maxtrace 0 -regression"
+
+# number of processors
+PMAX=3
+
+(for f in *.reg
 do
-    # only true if *.ref isn't expanded because there is no matching file
+    # only true if *.reg isn't expanded because there is no matching file
     if [ -f $f ]
     then
         stem=`echo $f | sed -e 's/[.]reg$//'`
-        inputfile=../REGRESSIONS/$stem.inp
-        ../py -maxmem 1G -regression -maxtrace 0 $inputfile
+        echo ../REGRESSIONS/$stem.inp
     fi
 done
 
@@ -27,18 +34,16 @@ do
     if [ -f $f ]
     then
         stem=`echo $f | sed -e 's/[.]ref$//'`
-        inputfile=../EXAMPLES/$stem.inp
-        ../py -maxmem 1G -regression -maxtrace 0 $inputfile
+        echo ../EXAMPLES/$stem.inp
     fi
 done
 
 for f in *.out
 do
-    # only true if *.ref isn't expanded because there is no matching file
+    # only true if *.out isn't expanded because there is no matching file
     if [ -f $f ]
     then
         stem=`echo $f | sed -e 's/[.]out$//'`
-        inputfile=../BEISPIEL/$stem.inp
-        ../py -maxmem 1G -regression -maxtrace 0 $inputfile
+        echo ../BEISPIEL/$stem.inp
     fi
-done
+done) | dispatchWork
