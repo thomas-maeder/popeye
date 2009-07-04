@@ -1233,6 +1233,13 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
         break;
       }
 
+      case STHelpRoot:
+      {
+        slice_index const full_length = slices[si].u.root_branch.full_length;
+        result = value_of_data_recursive(he,full_length);
+        break;
+      }
+
       case STBranchHelp:
       {
         slice_index const next = slices[si].u.pipe.next;
