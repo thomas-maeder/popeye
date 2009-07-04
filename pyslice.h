@@ -139,12 +139,6 @@ who_decides_on_starter slice_detect_starter(slice_index si,
  */
 void slice_impose_starter(slice_index si, Side s);
 
-/* Retrieve the starting side of a slice
- * @param si slice index
- * @return current starting side of slice si
- */
-Side slice_get_starter(slice_index si);
-
 /* Write that the non-starter has solved (i.e. in a self stipulation)
  * @param si slice index
  */

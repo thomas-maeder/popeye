@@ -63,19 +63,7 @@ boolean branch_h_make_root_slice(slice_index branch, slice_traversal *st)
   TraceFunctionParam("%u",branch);
   TraceFunctionParamListEnd();
 
-  *root_slice = alloc_slice_index();
-  TraceValue("%u\n",*root_slice);
-
-  slices[*root_slice].type = STHelpRoot;
-  slices[*root_slice].u.root_branch.short_length = branch_find_fork(branch);
-  slices[*root_slice].u.root_branch.full_length = branch;
-  slices[*root_slice].u.root_branch.length
-      = slices[branch].u.pipe.u.branch.length;
-  slices[*root_slice].u.root_branch.min_length
-      = slices[branch].u.pipe.u.branch.min_length;
-  slices[*root_slice].starter = slices[branch].starter;
-  TraceValue("%u",slices[*root_slice].u.root_branch.full_length);
-  TraceValue("%u\n",slices[*root_slice].u.root_branch.short_length);
+  *root_slice = alloc_help_root_slice(branch);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -381,38 +369,6 @@ boolean branch_h_solve_in_n(slice_index si,
   ++MovesLeft[side_at_move];
 
   finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Spin off a set play slice at root level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index branch_h_root_make_setplay_slice(slice_index si)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(slices[si].u.pipe.u.branch.length>slack_length_help);
-
-  if (slices[si].u.pipe.u.branch.length==slack_length_help+1)
-    result = branch_find_slice_behind_fork(si);
-  else
-  {
-    result = copy_slice(si);
-    --slices[result].u.pipe.u.branch.length;
-    --slices[result].u.pipe.u.branch.min_length;
-    if (slices[result].u.pipe.u.branch.min_length<slack_length_help)
-      slices[result].u.pipe.u.branch.min_length += 2;
-    slices[result].starter = advers(slices[si].starter);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -787,7 +743,7 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
                                               ? same_side_as_root
                                               : !same_side_as_root);
       result = slice_detect_starter(next,next_same_side_as_root);
-      if (slice_get_starter(next)==no_side)
+      if (slices[next].starter==no_side)
       {
         /* next can't tell - let's tell him */
         slices[si].starter = Black;
@@ -795,8 +751,8 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
       }
       else
         slices[si].starter = (even_length
-                                       ? slice_get_starter(next)
-                                       : advers(slice_get_starter(next)));
+                                       ? slices[next].starter
+                                       : advers(slices[next].starter));
       break;
     }
 
@@ -806,7 +762,7 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
                                               ? same_side_as_root
                                               : !same_side_as_root);
       result = slice_detect_starter(next,next_same_side_as_root);
-      if (slice_get_starter(next)==no_side)
+      if (slices[next].starter==no_side)
       {
         /* next can't tell - let's tell him */
         slices[si].starter = White;
@@ -814,8 +770,8 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
       }
       else
         slices[si].starter = (even_length
-                                       ? slice_get_starter(next)
-                                       : advers(slice_get_starter(next)));
+                                       ? slices[next].starter
+                                       : advers(slices[next].starter));
       break;
     }
 
@@ -825,7 +781,7 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
                                               ? same_side_as_root
                                               : !same_side_as_root);
       result = slice_detect_starter(next,next_same_side_as_root);
-      if (slice_get_starter(next)==no_side)
+      if (slices[next].starter==no_side)
       {
         /* next can't tell - let's tell him */
         slices[si].starter = White;
@@ -833,16 +789,16 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
       }
       else
         slices[si].starter = (even_length
-                                       ? slice_get_starter(next)
-                                       : advers(slice_get_starter(next)));
+                                       ? slices[next].starter
+                                       : advers(slices[next].starter));
       break;
     }
 
     default:
       result = slice_detect_starter(next,same_side_as_root);
       slices[si].starter = (even_length
-                                     ? slice_get_starter(next)
-                                     : advers(slice_get_starter(next)));
+                                     ? slices[next].starter
+                                     : advers(slices[next].starter));
       break;
   }
 
@@ -877,31 +833,80 @@ void branch_h_impose_starter(slice_index si, Side s)
   TraceFunctionResultEnd();
 }
 
-/* Shorten a help branch by a half-move. If the branch represents a
- * half-move only, deallocates the branch.
- * @param si identifies the branch
- * @return if the branch slice represents a half-move only, the slice
- *         representing the subsequent play; otherwise si
- */
-slice_index branch_h_shorten(slice_index si)
+/*************** root *****************/
+
+slice_index alloc_help_root_slice(slice_index si)
 {
-  slice_index result;
+  slice_index result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.pipe.u.branch.length==slack_length_help+1)
-    result = branch_deallocate_to_fork(si);
+  assert(slices[si].type==STBranchHelp);
+
+  slices[result].type = STHelpRoot;
+  slices[result].u.root_branch.short_length = branch_find_fork(si);
+  slices[result].u.root_branch.full_length = si;
+  slices[result].u.root_branch.length = slices[si].u.pipe.u.branch.length;
+  slices[result].u.root_branch.min_length
+      = slices[si].u.pipe.u.branch.min_length;
+  slices[result].starter = slices[si].starter;
+  TraceValue("%u",slices[result].starter);
+  TraceValue("%u",slices[result].u.root_branch.full_length);
+  TraceValue("%u\n",slices[result].u.root_branch.short_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index branch_h_root_make_setplay_slice(slice_index si)
+{
+  slice_index result;
+  slice_index const full_length = slices[si].u.root_branch.full_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(slices[si].type==STHelpRoot);
+  assert(slices[si].u.root_branch.length>slack_length_help);
+
+  if (slices[si].u.root_branch.length==slack_length_help+1)
+    result = branch_find_slice_behind_fork(full_length);
   else
   {
-    --slices[si].u.pipe.u.branch.length;
-    --slices[si].u.pipe.u.branch.min_length;
-    if (slices[si].u.pipe.u.branch.min_length<slack_length_help)
-      slices[si].u.pipe.u.branch.min_length += 2;
-    TraceValue("->%u",slices[si].u.pipe.u.branch.length);
-    TraceValue("->%u\n",slices[si].u.pipe.u.branch.min_length);
-    result = si;
+    slice_index const full_length_copy = copy_slice(full_length);
+    Side const setplay_starter = advers(slices[si].starter);
+
+    assert(slices[full_length].type==STBranchHelp);
+
+    TraceValue("%u\n",setplay_starter);
+
+    --slices[full_length_copy].u.pipe.u.branch.length;
+    --slices[full_length_copy].u.pipe.u.branch.min_length;
+    if (slices[full_length_copy].u.pipe.u.branch.min_length<slack_length_help)
+      slices[full_length_copy].u.pipe.u.branch.min_length += 2;
+    slices[full_length_copy].starter = setplay_starter;
+    TraceValue("%u",slices[full_length_copy].u.pipe.u.branch.length);
+    TraceValue("%u\n",slices[full_length_copy].u.pipe.u.branch.min_length);
+
+    result = copy_slice(si);
+    slices[result].u.root_branch.full_length = full_length_copy;
+
+    --slices[result].u.root_branch.length;
+    --slices[result].u.root_branch.min_length;
+    if (slices[result].u.root_branch.min_length<slack_length_help)
+      slices[result].u.root_branch.min_length += 2;
+    slices[result].starter = setplay_starter;
+    TraceValue("%u",slices[result].u.root_branch.length);
+    TraceValue("%u\n",slices[result].u.root_branch.min_length);
   }
 
   TraceFunctionExit(__func__);
@@ -910,7 +915,126 @@ slice_index branch_h_shorten(slice_index si)
   return result;
 }
 
-/*************** root *****************/
+static boolean traverse_and_shorten_help_pipe(slice_index pipe,
+                                              slice_traversal *st)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  --slices[pipe].u.pipe.u.branch.length;
+  --slices[pipe].u.pipe.u.branch.min_length;
+  if (slices[pipe].u.pipe.u.branch.min_length<slack_length_help)
+    slices[pipe].u.pipe.u.branch.min_length += 2;
+  TraceValue("->%u",slices[pipe].u.pipe.u.branch.length);
+  TraceValue("->%u\n",slices[pipe].u.pipe.u.branch.min_length);
+
+  result = slice_traverse_children(pipe,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean traverse_and_shorten_help_root(slice_index root,
+                                              slice_traversal *st)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParamListEnd();
+
+  --slices[root].u.root_branch.length;
+  --slices[root].u.root_branch.min_length;
+  if (slices[root].u.root_branch.min_length<slack_length_help)
+    slices[root].u.root_branch.min_length += 2;
+  TraceValue("->%u",slices[root].u.root_branch.length);
+  TraceValue("->%u\n",slices[root].u.root_branch.min_length);
+
+  result = traverse_slices(slices[root].u.root_branch.full_length,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean traverse_and_shorten_branch_fork(slice_index fork,
+                                                slice_traversal *st)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",fork);
+  TraceFunctionParamListEnd();
+
+  result = traverse_slices(slices[fork].u.pipe.next,st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const slice_shorteners[] =
+{
+  0,                                 /* STBranchDirect */
+  0,                                 /* STBranchDirectDefender */
+  &traverse_and_shorten_help_pipe,   /* STBranchHelp */
+  0,                                 /* STBranchSeries */
+  &traverse_and_shorten_branch_fork, /* STBranchFork */
+  0,                                 /* STLeafDirect */
+  0,                                 /* STLeafHelp */
+  0,                                 /* STLeafSelf */
+  0,                                 /* STLeafForced */
+  0,                                 /* STReciprocal */
+  0,                                 /* STQuodlibet */
+  0,                                 /* STNot */
+  0,                                 /* STMoveInverter */
+  &traverse_and_shorten_help_root,   /* STHelpRoot */
+  &traverse_and_shorten_help_pipe    /* STHelpHashed */
+};
+
+/* Shorten a help branch by a half-move. If the branch represents a
+ * half-move only, deallocates the branch.
+ * @param si identifies the branch
+ * @return if the branch slice represents a half-move only, the slice
+ *         representing the subsequent play; otherwise si
+ */
+slice_index branch_h_root_shorten(slice_index root)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParamListEnd();
+
+  assert(slices[root].type==STHelpRoot);
+
+  if ((slices[root].u.root_branch.length-slack_length_help)%2==0)
+    result = no_slice;
+  else if (slices[root].u.root_branch.length==slack_length_help+1)
+  {
+    result = branch_deallocate_to_fork(slices[root].u.root_branch.full_length);
+    dealloc_slice_index(root);
+  }
+  else
+  {
+    slice_traversal st;
+    slice_traversal_init(&st,&slice_shorteners,0);
+    traverse_slices(root,&st);
+    result = root;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Detect starter field with the starting side if possible. 
  * @param root identifies slice
@@ -930,7 +1054,7 @@ who_decides_on_starter branch_h_root_detect_starter(slice_index root,
   TraceFunctionParamListEnd();
 
   result = slice_detect_starter(full_length,same_side_as_root);
-  slices[root].starter = slice_get_starter(full_length);
+  slices[root].starter = slices[full_length].starter;
   TraceValue("->%u\n",slices[root].starter);
 
   TraceFunctionExit(__func__);
@@ -1102,9 +1226,11 @@ void branch_h_root_impose_starter(slice_index si, Side s)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",s);
   TraceFunctionParamListEnd();
 
   slice_impose_starter(slices[si].u.root_branch.full_length,s);
+  slices[si].starter = s;
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -569,17 +569,21 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
                                                boolean same_side_as_root)
 {
   who_decides_on_starter result;
-  slice_index const peer = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
-  result = branch_d_defender_detect_starter(peer,same_side_as_root);
-  slices[si].starter = slice_get_starter(peer);
-
-  TraceValue("%u\n",slices[si].starter);
+  if (slices[si].starter==no_side)
+  {
+    slice_index const peer = slices[si].u.pipe.next;
+    result = branch_d_defender_detect_starter(peer,same_side_as_root);
+    slices[si].starter = slices[peer].starter;
+    TraceValue("->%u\n",slices[si].starter);
+  }
+  else
+    result = dont_know_who_decides_on_starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

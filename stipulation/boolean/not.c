@@ -59,7 +59,7 @@ boolean not_must_starter_resign_hashed(slice_index si, Side just_moved)
   TraceFunctionParam("%u",just_moved);
   TraceFunctionParamListEnd();
 
-  result = (slice_get_starter(si)==advers(just_moved)
+  result = (slices[si].starter==advers(just_moved)
             && slice_has_solution(slices[si].u.pipe.next));
 
   TraceFunctionExit(__func__);
@@ -224,6 +224,8 @@ who_decides_on_starter not_detect_starter(slice_index si,
   TraceFunctionParamListEnd();
 
   result = slice_detect_starter(slices[si].u.pipe.next,same_side_as_root);
+  slices[si].starter = slices[slices[si].u.pipe.next].starter;
+  TraceValue("%u",slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

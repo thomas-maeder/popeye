@@ -93,7 +93,11 @@ slice_index move_inverter_root_make_setplay_slice(slice_index si)
   if (next_set_slice==no_slice)
     result = no_slice;
   else
+  {
     result = alloc_move_inverter_slice(next_set_slice);
+    slices[result].starter = advers(slices[next_set_slice].starter);
+    TraceValue("%u\n",slices[result].starter);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -169,11 +173,12 @@ move_inverter_detect_starter(slice_index si,
 
   result = slice_detect_starter(next,!same_side_as_root);
 
-  next_starter = slice_get_starter(next);
+  next_starter = slices[next].starter;
   if (next_starter==no_side)
-    slices[si].starter = next_starter;
+    slices[si].starter = no_side;
   else
     slices[si].starter = advers(next_starter);
+  TraceValue("->%u\n",slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

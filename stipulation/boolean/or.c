@@ -396,6 +396,7 @@ boolean quodlibet_solve(slice_index si)
  * @param same_side_as_root does si start with the same side as root?
  * @return does the leaf decide on the starter?
  */
+/* TODO generalise for both kind of fork?*/
 who_decides_on_starter quodlibet_detect_starter(slice_index si,
                                                 boolean same_side_as_root)
 {
@@ -417,12 +418,19 @@ who_decides_on_starter quodlibet_detect_starter(slice_index si,
   result1 = slice_detect_starter(op1,same_side_as_root);
   result2 = slice_detect_starter(op2,same_side_as_root);
 
-  if (slice_get_starter(op1)==no_side)
+  if (slices[op1].starter==no_side)
+  {
     /* op1 can't tell - let's tell him */
-    slice_impose_starter(op1,slice_get_starter(op2));
-  else if (slice_get_starter(op2)==no_side)
-    /* op2 can't tell - let's tell him */
-    slice_impose_starter(op2,slice_get_starter(op1));
+    slices[si].starter = slices[op2].starter;
+    slice_impose_starter(op1,slices[si].starter);
+  }
+  else
+  {
+    slices[si].starter = slices[op1].starter;
+    if (slices[op2].starter==no_side)
+      /* op2 can't tell - let's tell him */
+      slice_impose_starter(op2,slices[si].starter);
+  }
 
   if (result1==dont_know_who_decides_on_starter)
     result = result2;

@@ -1236,6 +1236,7 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
 {
   slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
   slice_index next_in_setplay;
+  slice_index help;
   slice_index result;
 
   TraceFunctionEntry(__func__);
@@ -1264,11 +1265,12 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
     slices[next_in_setplay_peer].u.pipe.next = next_in_setplay;
   }
 
-  result = alloc_branch_h_slice(slack_length_help+1,
-                                slack_length_help+1,
-                                next_in_setplay);
-  slices[result].starter
-      = advers(slices[si].starter);
+  help = alloc_branch_h_slice(slack_length_help+1,
+                              slack_length_help+1,
+                              next_in_setplay);
+  slices[help].starter = advers(slices[si].starter);
+
+  result = alloc_help_root_slice(help);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1294,42 +1296,49 @@ branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
   
-  if (slices[next].type==STMoveInverter)
-    next_relevant = slices[next].u.pipe.u.branch_d_defender.towards_goal;
+  if (slices[si].starter==no_side)
+  {
+    if (slices[next].type==STMoveInverter)
+      next_relevant = slices[next].u.pipe.u.branch_d_defender.towards_goal;
 
-  TraceValue("%u\n",next_relevant);
+    TraceValue("%u\n",next_relevant);
 
-  result = slice_detect_starter(next,same_side_as_root);
-  if (slice_get_starter(next)==no_side)
-    /* next can't tell - let's tell him */
-    switch (slices[next_relevant].type)
-    {
-      case STLeafDirect:
-        *starter =  White;
-        TraceValue("%u\n",*starter);
-        slice_impose_starter(next,*starter);
-        break;
+    result = slice_detect_starter(next,same_side_as_root);
+    if (slices[next].starter==no_side)
+      /* next can't tell - let's tell him */
+      switch (slices[next_relevant].type)
+      {
+        case STLeafDirect:
+          *starter =  White;
+          TraceValue("%u\n",*starter);
+          slice_impose_starter(next,*starter);
+          break;
 
-      case STLeafSelf:
-        *starter = White;
-        TraceValue("%u\n",*starter);
-        slice_impose_starter(next,*starter);
-        break;
+        case STLeafSelf:
+          *starter = White;
+          TraceValue("%u\n",*starter);
+          slice_impose_starter(next,*starter);
+          break;
 
-      case STLeafHelp:
-        *starter = White;
-        TraceValue("%u\n",*starter);
-        slice_impose_starter(next,advers(*starter));
-        break;
+        case STLeafHelp:
+          *starter = White;
+          TraceValue("%u\n",*starter);
+          slice_impose_starter(next,advers(*starter));
+          break;
 
-      default:
-        *starter = no_side;
-        break;
-    }
+        default:
+          *starter = no_side;
+          break;
+      }
+    else
+      *starter = slices[next].starter;
+
+    TraceValue("->%u\n",slices[si].starter);
+
+    slice_detect_starter(slices[si].u.pipe.next,same_side_as_root);
+  }
   else
-    *starter = slice_get_starter(next);
-
-  TraceValue("%u\n",*starter);
+    result = dont_know_who_decides_on_starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

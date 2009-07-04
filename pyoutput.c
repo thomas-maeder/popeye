@@ -454,7 +454,7 @@ static void linesolution(void)
   TraceFunctionParamListEnd();
 
   slice = active_slice[start_ply];
-  starting_side = slice_get_starter(root_slice);
+  starting_side = slices[root_slice].starter;
 
   ResetPosition();
 

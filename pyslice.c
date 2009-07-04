@@ -233,7 +233,7 @@ slice_index slice_root_make_setplay_slice(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STBranchHelp:
+    case STHelpRoot:
       result = branch_h_root_make_setplay_slice(si);
       break;
 
@@ -414,6 +414,7 @@ boolean slice_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -499,7 +500,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
       break;
 
     case STBranchFork:
-      branch_fork_help_solve_in_n(si,n,slice_get_starter(si));
+      branch_fork_help_solve_in_n(si,n,slices[si].starter);
       break;
 
     case STQuodlibet:
@@ -511,7 +512,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
       break;
 
     case STHelpHashed:
-      help_hashed_solve_in_n(si,n,slice_get_starter(si));
+      help_hashed_solve_in_n(si,n,slices[si].starter);
       break;
 
     default:
@@ -1036,6 +1037,7 @@ who_decides_on_starter slice_detect_starter(slice_index si,
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -1056,6 +1058,10 @@ who_decides_on_starter slice_detect_starter(slice_index si,
 
     case STBranchDirect:
       result = branch_d_detect_starter(si,same_side_as_root);
+      break;
+
+    case STBranchDirectDefender:
+      result = branch_d_defender_detect_starter(si,same_side_as_root);
       break;
 
     case STBranchHelp:
@@ -1167,109 +1173,6 @@ void slice_impose_starter(slice_index si, Side side)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Retrieve the starting side of a slice
- * @param si slice index
- * @return current starting side of slice si
- */
-Side slice_get_starter(slice_index si)
-{
-  Side result = no_side;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",slices[si].type);
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-    case STLeafSelf:
-    case STLeafHelp:
-    case STLeafForced:
-      result = slices[si].starter;
-      break;
-
-    case STBranchDirect:
-      result = slices[si].starter;
-      break;
-
-    case STBranchDirectDefender:
-      result = slices[si].starter;
-      break;
-
-    case STBranchHelp:
-    case STBranchSeries:
-      result = slices[si].starter;
-      break;
-
-    case STReciprocal:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      slice_index const op2 = slices[si].u.fork.op2;
-      Side const op1_starter = slice_get_starter(op1);
-      Side const op2_starter = slice_get_starter(op2);
-      if (op1_starter==no_side)
-        result = op2_starter;
-      else
-      {
-        assert(op2_starter==no_side || op1_starter==op2_starter);
-        result = op1_starter;
-      }
-      break;
-    }
-
-    case STQuodlibet:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      slice_index const op2 = slices[si].u.fork.op2;
-      Side const op1_starter = slice_get_starter(op1);
-      Side const op2_starter = slice_get_starter(op2);
-      if (op1_starter==no_side)
-        result = op2_starter;
-      else
-      {
-        assert(op2_starter==no_side || op1_starter==op2_starter);
-        result = op1_starter;
-      }
-      break;
-    }
-
-    case STNot:
-      result = slice_get_starter(slices[si].u.pipe.next);
-      break;
-
-    case STMoveInverter:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      Side const next_starter = slice_get_starter(next);
-      if (next_starter!=no_side)
-        result = advers(next_starter);
-      break;
-    }
-
-    case STBranchFork:
-      result = slice_get_starter(slices[si].u.pipe.u.branch_fork.towards_goal);
-      break;
-
-    case STHelpRoot:
-      result = slice_get_starter(slices[si].u.root_branch.full_length);
-      break;
-
-    case STHelpHashed:
-      result = slice_get_starter(slices[si].u.pipe.next);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Write that the non-starter has solved (i.e. in a self stipulation)

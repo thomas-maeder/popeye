@@ -181,13 +181,11 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
  */
 void branch_h_impose_starter(slice_index si, Side s);
 
-/* Shorten a help branch by a half-move. If the branch represents a
- * half-move only, deallocates the branch.
- * @param si identifies the branch
- * @return if the branch slice represents a half-move only, the slice
- *         representing the subsequent play; otherwise si
+/* Allocate a STHelpRoot slice.
+ * @param si STBranchHelp slice to "wrap"
+ * @return index of allocated slice
  */
-slice_index branch_h_shorten(slice_index si);
+slice_index alloc_help_root_slice(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param root identifies slice
@@ -216,5 +214,13 @@ void branch_h_root_impose_starter(slice_index si, Side s);
  * @return true iff slice si has a solution
  */
 boolean branch_h_root_has_solution(slice_index si);
+
+/* Shorten a help branch by a half-move. If the branch represents a
+ * half-move only, deallocates the branch.
+ * @param si identifies the branch
+ * @return if the branch slice represents a half-move only, the slice
+ *         representing the subsequent play; otherwise si
+ */
+slice_index branch_h_root_shorten(slice_index si);
 
 #endif

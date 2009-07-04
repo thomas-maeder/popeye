@@ -322,6 +322,7 @@ boolean branch_fork_is_goal_reached(Side just_moved, slice_index si)
 who_decides_on_starter branch_fork_detect_starter(slice_index si,
                                                   boolean same_side_as_root)
 {
+  slice_index const towards_goal = slices[si].u.pipe.u.branch_fork.towards_goal;
   who_decides_on_starter result;
 
   TraceFunctionEntry(__func__);
@@ -329,8 +330,9 @@ who_decides_on_starter branch_fork_detect_starter(slice_index si,
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
-  result = slice_detect_starter(slices[si].u.pipe.u.branch_fork.towards_goal,
-                                same_side_as_root);
+  result = slice_detect_starter(towards_goal,same_side_as_root);
+  slices[si].starter = slices[towards_goal].starter;
+  TraceValue("%u\n",slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

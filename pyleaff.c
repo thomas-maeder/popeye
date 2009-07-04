@@ -471,6 +471,7 @@ who_decides_on_starter leaf_forced_detect_starter(slice_index leaf,
   TraceFunctionParamListEnd();
 
   slices[leaf].starter = Black;
+  TraceValue("->%u\n",slices[leaf].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

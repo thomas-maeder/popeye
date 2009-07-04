@@ -594,7 +594,7 @@ who_decides_on_starter branch_ser_detect_starter(slice_index si,
   TraceValue("%u\n",next_relevant);
 
   result = slice_detect_starter(next,!same_side_as_root);
-  if (slice_get_starter(next)==no_side)
+  if (slices[next].starter==no_side)
   {
     /* next can't tell - let's tell him */
     switch (slices[next_relevant].type)
@@ -624,12 +624,12 @@ who_decides_on_starter branch_ser_detect_starter(slice_index si,
 
       default:
         result = slice_detect_starter(next,same_side_as_root);
-        slices[si].starter = slice_get_starter(next);
+        slices[si].starter = slices[next].starter;
         break;
     }
   }
   else
-    slices[si].starter = advers(slice_get_starter(next));
+    slices[si].starter = advers(slices[next].starter);
 
   TraceValue("%u\n",slices[si].starter);
 
