@@ -132,12 +132,6 @@ void branch_fork_solve_postkey(slice_index si);
  */
 boolean branch_fork_must_starter_resign_hashed(slice_index si, Side just_moved);
 
-/* Find the slice representing the play after a branch
- * @param branch identifies the branch
- * @return identifier for branch representing the play after the branch
- */
-slice_index branch_find_slice_behind_fork(slice_index branch);
-
 /* Deallocate a branch
  * @param branch identifies branch
  * @return index of slice representing the play after the branch

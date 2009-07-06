@@ -879,7 +879,10 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
   assert(slices[si].u.root_branch.length>slack_length_help);
 
   if (slices[si].u.root_branch.length==slack_length_help+1)
-    result = branch_find_slice_behind_fork(full_length);
+  {
+    slice_index const fork = branch_find_fork(full_length);
+    result = slices[fork].u.pipe.u.branch_fork.towards_goal;
+  }
   else
   {
     slice_index const full_length_copy = copy_slice(full_length);

@@ -318,7 +318,9 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
        * op1 is tested before op2, so it is more efficient to make
        * op1 the new direct leaf.
        */
-      slice_index const to_goal = branch_find_slice_behind_fork(index);
+      slice_index const fork = branch_find_fork(index);
+      slice_index const to_goal
+          = slices[fork].u.pipe.u.branch_fork.towards_goal;
       Goal const goal = slices[to_goal].u.leaf.goal;
       assert(slices[to_goal].type==STLeafHelp);
       *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
