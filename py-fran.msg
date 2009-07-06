@@ -117,3 +117,4 @@
 116= ApparentSeul pas applicable - ignore\n
 117= Apparent pas applicable - ignore\n
 118= ApresCle pas applicable - ignore\n
+119= Il ne peut pas etre decide si une condition s'applique aux Blancs ou aux Noirs\n

@@ -230,4 +230,11 @@ title there is no solution, but 4.51 gave 1.Qb2#
 fors 40/2K2p1q/6Q1/k7/
 condition amu
 
+next
+
+title White or Black maximummer?
+pieces white ka1 black ka8
+sstip white 2d d# | 3h d#
+condition maximummer
+
 end

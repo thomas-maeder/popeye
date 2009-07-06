@@ -468,6 +468,109 @@ static void initialise_piece_flags(void)
   }
 }
 
+typedef boolean found_slice_types_type[nr_slice_types];
+
+static boolean root_slice_type_found(slice_index si, slice_traversal *st)
+{
+  found_slice_types_type * const found = st->param;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  (*found)[slices[si].type] = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",true);
+  TraceFunctionResultEnd();
+  return true;
+}
+
+static slice_operation const slice_type_finders[] =
+{
+  &root_slice_type_found,             /* STBranchDirect */
+  0,                                  /* STBranchDirectDefender */
+  0,                                  /* STBranchHelp */
+  &root_slice_type_found,             /* STBranchSeries */
+  0,                                  /* STBranchFork */
+  &root_slice_type_found,             /* STLeafDirect */
+  &root_slice_type_found,             /* STLeafHelp */
+  &root_slice_type_found,             /* STLeafSelf */
+  &root_slice_type_found,             /* STLeafForced */
+  &slice_traverse_children,           /* STReciprocal */
+  &slice_traverse_children,           /* STQuodlibet */
+  &slice_traverse_children,           /* STNot */
+  &slice_traverse_children,           /* STMoveInverter */
+  &root_slice_type_found,             /* STHelpRoot */
+  0,                                  /* STHelpHashed */
+};
+
+static SliceType findUniqueRootSliceType(void)
+{
+  SliceType found_slice_type = no_slice;
+  SliceType s;
+  slice_traversal st;
+  found_slice_types_type found_slice_types = { false };
+
+  slice_traversal_init(&st,&slice_type_finders,&found_slice_types);
+  traverse_slices(root_slice,&st);
+
+  for (s = 0; s!=nr_slice_types; ++s)
+    if (found_slice_types[s])
+    {
+      if (found_slice_type==no_slice)
+        found_slice_type = s;
+      else
+        return no_slice_type;
+    }
+
+  return found_slice_type;
+}
+
+static boolean determineRestrictedSide(void)
+{
+  SliceType const unique_slice_type = findUniqueRootSliceType();
+  if (unique_slice_type==no_slice_type)
+    return false;
+  else
+  {
+    Side const restricted_side = (unique_slice_type==STHelpRoot
+                                  ? slices[root_slice].starter
+                                  : advers(slices[root_slice].starter));
+    if (flagmaxi)
+    {
+      if (restricted_side==Black)
+      {
+        CondFlag[blmax] = true;
+        CondFlag[whmax] = false;
+        bl_ultra = CondFlag[ultra];
+        bl_exact = CondFlag[exact];
+        black_length = len_max;
+        flagblackmummer = true;
+        flagwhitemummer = false;
+      }
+      else
+      {
+        CondFlag[blmax] = false;
+        CondFlag[whmax] = true;
+        wh_ultra = CondFlag[ultra];
+        wh_exact = CondFlag[exact];
+        white_length = len_max;
+        flagwhitemummer = true;
+        flagblackmummer = false;
+      }
+    }
+  
+    if (flagultraschachzwang)
+    {
+      CondFlag[blackultraschachzwang] = restricted_side==Black;
+      CondFlag[whiteultraschachzwang] = restricted_side==White;
+    }
+
+    return true;
+  }
+}
+
 static Goal const proof_goals[] = { goal_proof, goal_atob };
 
 static unsigned int const nr_proof_goals = (sizeof proof_goals
@@ -708,42 +811,17 @@ static boolean verify_position(void)
     }
   }
 
+  if (flagmaxi || flagultraschachzwang)
+    if (!determineRestrictedSide())
+    {
+      VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
+      return false;
+    }
+
+  if (flagultraschachzwang)
   {
-    /* TODO traversal? */
-    Side const restricted_side = (slices[root_slice].type==STHelpRoot
-                                  ? slices[root_slice].starter
-                                  : advers(slices[root_slice].starter));
-    if (flagmaxi)
-    {
-      if (restricted_side==Black)
-      {
-        CondFlag[blmax] = true;
-        CondFlag[whmax] = false;
-        bl_ultra = CondFlag[ultra];
-        bl_exact = CondFlag[exact];
-        black_length = len_max;
-        flagblackmummer = true;
-        flagwhitemummer = false;
-      }
-      else
-      {
-        CondFlag[blmax] = false;
-        CondFlag[whmax] = true;
-        wh_ultra = CondFlag[ultra];
-        wh_exact = CondFlag[exact];
-        white_length = len_max;
-        flagwhitemummer = true;
-        flagblackmummer = false;
-      }
-    }
-  
-    if (flagultraschachzwang)
-    {
-      CondFlag[blackultraschachzwang] = restricted_side==Black;
-      CondFlag[whiteultraschachzwang] = restricted_side==White;
-      optim_neutralretractable = false;
-      optim_orthomatingmoves = false;
-    }
+    optim_neutralretractable = false;
+    optim_orthomatingmoves = false;
   }
 
   if (CondFlag[cavaliermajeur])
