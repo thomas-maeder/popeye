@@ -78,6 +78,7 @@
 #include "pyproof.h"
 #include "pyint.h"
 #include "platform/maxtime.h"
+#include "platform/maxmem.h"
 #include "trace.h"
 
 /* This is pyio.c
@@ -5487,8 +5488,8 @@ Token ReadTwin(Token tk, boolean *stipChanged)
             IoErrorMsg(WrOpenError,0);
           else if (!flag_regression)
           {
-            fputs(versionString, TraceFile);
-            fputs(MaxMemoryString, TraceFile);
+            fputs(versionString,TraceFile);
+            fputs(maxmemString(),TraceFile);
             fflush(TraceFile);
           }
           tok = ReadNextTokStr();

@@ -120,10 +120,6 @@
 
 boolean supergenre;
 
-unsigned long MaxMemory;
-maxmemory_unit_type MaxMemory_unit;
-char MaxMemoryString[37];
-
 boolean is_rider(piece p)
 {
   switch (p)
@@ -2301,31 +2297,10 @@ static int parseCommandlineOptions(int argc, char *argv[])
       idx++;
       continue;
     }
-    else if (idx+1<argc && strcmp(argv[idx], "-maxmem")==0)
+    else if (idx+1<argc && strcmp(argv[idx],"-maxmem")==0)
     {
-      char *end;
-      idx++;
-      MaxMemory = strtoul(argv[idx], &end, 10);
-      if (argv[idx]==end)
-      {
-        /* conversion failure
-         * -> set to 0 now and to default value further down */
-        MaxMemory = 0;
-      }
-      else if (*end=='G')
-      {
-        MaxMemory <<= 20;
-        MaxMemory_unit = maxmemory_giga;
-      }
-      else if (*end=='M')
-      {
-        MaxMemory <<= 10;
-        MaxMemory_unit = maxmemory_mega;
-      }
-      else
-        MaxMemory_unit = maxmemory_kilo;
-
-      idx++;
+      readMaxmem(argv[idx+1]);
+      idx += 2;
       continue;
     }
     else if (strcmp(argv[idx], "-regression")==0)
@@ -2360,20 +2335,6 @@ static int parseCommandlineOptions(int argc, char *argv[])
   }
 
   return idx;
-}
-
-static void initMaxMemoryString(void)
-{
-  /* We do not issue our startup message via the language
-     dependant Msg-Tables, since there the version is
-     too easily changed, or not updated.
-  */
-  if (MaxMemory<(1<<10) || MaxMemory_unit==maxmemory_kilo)
-    sprintf(MaxMemoryString, " (%lu KB)\n", MaxMemory);
-  else if ((MaxMemory>>10)<(1<<10) || MaxMemory_unit==maxmemory_mega)
-    sprintf(MaxMemoryString, " (%lu MB)\n", MaxMemory>>10);
-  else
-    sprintf(MaxMemoryString, " (%lu GB)\n", MaxMemory>>20);
 }
 
 /* prepare for solving duplex */
@@ -2550,7 +2511,7 @@ static boolean make_root_slice_noop(slice_index si, slice_traversal *st)
   slice_index * const retval = st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",fork);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   *retval = si;
@@ -2874,10 +2835,10 @@ int main(int argc, char *argv[])
           OSTYPE,guessPlatformBitness(),VERSION);
   
   MaxPositions = ULONG_MAX;
-  MaxMemory = 0;
-  MaxMemory_unit = maxmemory_kilo;
   LaTeXout = false;
   flag_regression = false;
+
+  initMaxmem();
 
   /* Initialize message table with default language.
    * This default setting is hopefully overriden later by ReadBeginSpec().
@@ -2890,18 +2851,7 @@ int main(int argc, char *argv[])
 
   initMaxtime();
 
-  if (MaxMemory==0)
-  {
-    MaxMemory = guessReasonableMaxmemory();
-    /* make sure we use units that result in meaningful output */
-    if (MaxMemory>=10*(1<<10)*(1<<10))
-      MaxMemory_unit = maxmemory_giga;
-    else if (MaxMemory>=10*(1<<10))
-      MaxMemory_unit = maxmemory_mega;
-    else
-      MaxMemory_unit = maxmemory_kilo;
-  }
-  initMaxMemoryString();
+  dimensionHashtable();
 
   /* start timer to be able to display a reasonable time if the user
    * aborts execution before the timer is started for the first
@@ -2913,7 +2863,7 @@ int main(int argc, char *argv[])
   /* Don't use StdString() - possible trace file is not yet opened
    */
   pyfputs(versionString,stdout);
-  pyfputs(MaxMemoryString,stdout);
+  pyfputs(maxmemString(),stdout);
 
   iterate_problems();
 

@@ -55,6 +55,14 @@ void hash_reset_derivations(void);
 
 void hash_slice_is_derived_from(slice_index derived, slice_index base);
 
+/* Allocate memory for the hash table. If the requested amount of
+ * memory isn't available, reduce the amount until allocation
+ * succeeds. 
+ * @param nr_kilos number of kilo-bytes to allocate
+ * @return number of kilo-bytes actually allocated
+ */
+unsigned long allochash(unsigned long nr_kilos);
+
 void inithash (void);
 void closehash (void);
 void HashStats(unsigned int level, char *trailer);

@@ -77,20 +77,6 @@
 #endif  /* EXTERN */
 
 
-extern unsigned long MaxMemory;
-
-typedef enum
-{
-  maxmemory_kilo,
-  maxmemory_mega,
-  maxmemory_giga
-} maxmemory_unit_type;
-
-extern maxmemory_unit_type MaxMemory_unit;
-
-extern char MaxMemoryString[37];
-
-
 EXTERN unsigned long  MaxPositions;
 
 EXTERN boolean LaTeXout;

@@ -102,6 +102,7 @@
 #include "pyproof.h"
 #include "pystip.h"
 #include "platform/maxtime.h"
+#include "platform/maxmem.h"
 #include "trace.h"
 
 static struct dht *pyhash;
@@ -2370,6 +2371,23 @@ void addtohash(slice_index si, hashwhat what, hash_value_type val)
 #endif /*HASHRATE*/
 } /* addtohash */
 
+static unsigned long hashtable_kilos;
+
+unsigned long allochash(unsigned long nr_kilos)
+{
+#if defined(FXF)
+  unsigned long const one_kilo = 1<<10;
+  while (fxfInit(nr_kilos*one_kilo)==-1)
+    /* we didn't get hashmemory ... */
+    nr_kilos /= 2;
+  ifTESTHASH(fxfInfo(stdout));
+#endif /*FXF*/
+
+  hashtable_kilos = nr_kilos;
+
+  return nr_kilos;
+}
+
 void inithash(void)
 {
   int Small, Large;
@@ -2386,12 +2404,6 @@ void inithash(void)
 #if defined(__unix) && defined(TESTHASH)
   OldBreak= sbrk(0);
 #endif /*__unix,TESTHASH*/
-
-#if defined(FXF)
-  while (fxfInit(MaxMemory*(1<<10))==-1) /* we didn't get hashmemory ... */
-    MaxMemory /= 2;
-  ifTESTHASH(fxfInfo(stdout));
-#endif /*FXF*/
 
   is_there_slice_with_nonstandard_min_length = false;
 
@@ -2440,8 +2452,8 @@ void inithash(void)
       || slices[1].u.leaf.goal==goal_atob)
   {
     encode = ProofEncode;
-    if (MaxMemory>0 && MaxPositions==0)
-      MaxPositions= MaxMemory/(24+sizeof(char *)+1);
+    if (hashtable_kilos>0 && MaxPositions==0)
+      MaxPositions= hashtable_kilos/(24+sizeof(char *)+1);
   }
   else
   {
@@ -2449,21 +2461,22 @@ void inithash(void)
     Large= TellLargeEncodePosLeng();
     if (Small <= Large) {
       encode= SmallEncode;
-      if (MaxMemory>0 && MaxPositions==0)
-        MaxPositions= MaxMemory/(Small+sizeof(char *)+1);
+      if (hashtable_kilos>0 && MaxPositions==0)
+        MaxPositions= hashtable_kilos/(Small+sizeof(char *)+1);
     }
     else
     {
       encode= LargeEncode;
-      if (MaxMemory>0 && MaxPositions==0)
-        MaxPositions= MaxMemory/(Large+sizeof(char *)+1);
+      if (hashtable_kilos>0 && MaxPositions==0)
+        MaxPositions= hashtable_kilos/(Large+sizeof(char *)+1);
     }
   }
 
 #if defined(FXF)
   ifTESTHASH(printf("MaxPositions: %7lu\n", MaxPositions));
-  assert(MaxMemory/1024<UINT_MAX);
-  ifTESTHASH(printf("MaxMemory:    %7u KB\n", (unsigned int)(MaxMemory/1024)));
+  assert(hashtable_kilos/1024<UINT_MAX);
+  ifTESTHASH(printf("hashtable_kilos:    %7u KB\n",
+                    (unsigned int)(hashtable_kilos/1024)));
 #else
   ifTESTHASH(
       printf("room for up to %lu positions in hash table\n", MaxPositions));
@@ -2473,7 +2486,7 @@ void inithash(void)
   TraceFunctionResultEnd();
 } /* inithash */
 
-void    closehash(void)
+void closehash(void)
 {
 #if defined(TESTHASH)
   sprintf(GlobalStr, "calling closehash\n");
