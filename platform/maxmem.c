@@ -68,17 +68,28 @@ static void initMaxMemoryString(maxmem_kilos_type amountMemoryAllocated)
 /* Allocate memory for the hash table, based on the -maxmem command
  * line value (if any) and information retrieved from the operating
  * system.
+ * @return false iff the user requested for an amount of hash table
+ *         memory, but we can't allocated that much
  */
-void dimensionHashtable(void)
+boolean dimensionHashtable(void)
 {
+  boolean result = true;
   maxmem_kilos_type amountMemoryAllocated;
 
   if (amountMemoryRequested==nothing_requested)
-    amountMemoryRequested = guessReasonableMaxmemory();
-
-  amountMemoryAllocated = allochash(amountMemoryRequested);
+  {
+    unsigned int const amountMemoryGuessed = guessReasonableMaxmemory();
+    amountMemoryAllocated = allochash(amountMemoryGuessed);
+  }
+  else
+  {
+    amountMemoryAllocated = allochash(amountMemoryRequested);
+    result = amountMemoryAllocated>=amountMemoryRequested;
+  }
   
   initMaxMemoryString(amountMemoryAllocated);
+
+  return result;
 }
 
 /* Retrieve a human-readable indication of the maximal amount of

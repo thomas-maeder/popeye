@@ -29,10 +29,14 @@
 #  define  DBG(x)
 #endif /*DEBUG*/
 
-#if !defined(ERROR_LOG2) || !defined(ERROR_LOG3) || !defined(WARN_LOG3)
+#if defined(LOG)
 #  define ERROR_LOG2(s,a,b)   fprintf(stderr,s,a,b)
 #  define ERROR_LOG3(s,a,b,c) fprintf(stderr,s,a,b,c)
 #  define WARN_LOG3(s,a,b,c)  fprintf(stderr,s,a,b,c)
+#else
+#  define ERROR_LOG2(s,a,b)
+#  define ERROR_LOG3(s,a,b,c)
+#  define WARN_LOG3(s,a,b,c)
 #endif /*!ERROR_LOGS*/
 
 

@@ -1,6 +1,8 @@
 #if !defined(MAXMEM_H)
 #define MAXMEM_H
 
+#include "../boolean.h"
+
 /* Initialize maxmem module.
  * To be called before any other function of this module.
  */
@@ -14,8 +16,10 @@ void readMaxmem(char const *commandLineValue);
 /* Allocate memory for the hash table, based on the -maxmem command
  * line value (if any) and information retrieved from the operating
  * system.
+ * @return false iff the user requested for an amount of hash table
+ *         memory, but we can't allocated that much
  */
-void dimensionHashtable(void);
+boolean dimensionHashtable(void);
 
 /* Retrieve a human-readable indication of the maximal amount of
  * memory used by the hash table.
