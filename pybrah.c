@@ -880,7 +880,7 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
 
   if (slices[si].u.root_branch.length==slack_length_help+1)
   {
-    slice_index const fork = branch_find_fork(full_length);
+    slice_index const fork = branch_find_fork(si);
     result = slices[fork].u.pipe.u.branch_fork.towards_goal;
   }
   else
