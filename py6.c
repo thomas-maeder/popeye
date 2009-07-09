@@ -2163,28 +2163,6 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   return result;
 }
 
-static slice_index shorten_root_branch_h_slice(slice_index si)
-{
-  slice_index result = si;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(slices[si].type==STHelpRoot);
-  TraceValue("%u\n",slices[si].u.root_branch.length);
-
-  if (slices[si].u.root_branch.length%2==1)
-    result = branch_h_root_shorten(si);
-  else
-    result = no_slice;
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Apply the option White to play
  * @return true iff the option is applicable (and was applied)
  */
@@ -2208,13 +2186,13 @@ static slice_index apply_whitetoplay(slice_index si)
       Side const new_starter = advers(slices[si].starter);
       if (meaning==whitetoplay_means_shorten_root_slice)
       {
-        slice_index const shortened = shorten_root_branch_h_slice(si);
+        slice_index const shortened = branch_h_root_shorten(si);
         if (shortened==no_slice)
-          slice_impose_starter(si,new_starter);
+          result = no_slice;
         else
         {
           result = alloc_move_inverter_slice(shortened);
-          slice_impose_starter(result,slices[si].starter);
+          slices[result].starter = advers(slices[shortened].starter);
           TraceValue("%u\n",slices[result].starter);
         }
       }
@@ -2235,16 +2213,7 @@ static slice_index apply_whitetoplay(slice_index si)
       dealloc_slice_index(save_si);
       if (meaning==whitetoplay_means_shorten_root_slice
           && slices[result].type==STHelpRoot)
-      {
-        slice_index const shortened = branch_h_root_shorten(result);
-        if (shortened==no_slice)
-          result = no_slice;
-        else
-        {
-          slice_impose_starter(shortened,advers(slices[shortened].starter));
-          result = shortened;
-        }
-      }
+        result = branch_h_root_shorten(result);
       break;
     }
 
@@ -2252,6 +2221,9 @@ static slice_index apply_whitetoplay(slice_index si)
     case STReciprocal:
       slices[si].u.fork.op1 = apply_whitetoplay(slices[si].u.fork.op1);
       slices[si].u.fork.op2 = apply_whitetoplay(slices[si].u.fork.op2);
+      if (slices[si].u.fork.op1==no_slice
+          || slices[si].u.fork.op2==no_slice)
+        result = no_slice;
 
     default:
       break;

@@ -862,6 +862,50 @@ slice_index alloc_help_root_slice(slice_index si)
   return result;
 }
 
+/* Shorten a help pipe by a half-move
+ * @param pipe identifies pipe to be shortened
+ */
+static void branch_h_shorten_help_pipe(slice_index pipe)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  --slices[pipe].u.pipe.u.branch.length;
+  --slices[pipe].u.pipe.u.branch.min_length;
+  if (slices[pipe].u.pipe.u.branch.min_length<slack_length_help)
+    slices[pipe].u.pipe.u.branch.min_length += 2;
+  slices[pipe].starter = advers(slices[pipe].starter);
+  TraceValue("%u",slices[pipe].starter);
+  TraceValue("%u",slices[pipe].u.pipe.u.branch.length);
+  TraceValue("%u\n",slices[pipe].u.pipe.u.branch.min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Shorten a help root branch by a half-move
+ * @param root identifies root branch to be shortened
+ */
+static void branch_h_shorten_help_root(slice_index root)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParamListEnd();
+
+  --slices[root].u.root_branch.length;
+  --slices[root].u.root_branch.min_length;
+  if (slices[root].u.root_branch.min_length<slack_length_help)
+    slices[root].u.root_branch.min_length += 2;
+  slices[root].starter = advers(slices[root].starter);
+  TraceValue("%u",slices[root].starter);
+  TraceValue("%u",slices[root].u.root_branch.length);
+  TraceValue("%u\n",slices[root].u.root_branch.min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable
@@ -886,30 +930,12 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
   else
   {
     slice_index const full_length_copy = copy_slice(full_length);
-    Side const setplay_starter = advers(slices[si].starter);
-
     assert(slices[full_length].type==STBranchHelp);
-
-    TraceValue("%u\n",setplay_starter);
-
-    --slices[full_length_copy].u.pipe.u.branch.length;
-    --slices[full_length_copy].u.pipe.u.branch.min_length;
-    if (slices[full_length_copy].u.pipe.u.branch.min_length<slack_length_help)
-      slices[full_length_copy].u.pipe.u.branch.min_length += 2;
-    slices[full_length_copy].starter = setplay_starter;
-    TraceValue("%u",slices[full_length_copy].u.pipe.u.branch.length);
-    TraceValue("%u\n",slices[full_length_copy].u.pipe.u.branch.min_length);
+    branch_h_shorten_help_pipe(full_length_copy);
 
     result = copy_slice(si);
     slices[result].u.root_branch.full_length = full_length_copy;
-
-    --slices[result].u.root_branch.length;
-    --slices[result].u.root_branch.min_length;
-    if (slices[result].u.root_branch.min_length<slack_length_help)
-      slices[result].u.root_branch.min_length += 2;
-    slices[result].starter = setplay_starter;
-    TraceValue("%u",slices[result].u.root_branch.length);
-    TraceValue("%u\n",slices[result].u.root_branch.min_length);
+    branch_h_shorten_help_root(result);
   }
 
   TraceFunctionExit(__func__);
@@ -927,13 +953,7 @@ static boolean traverse_and_shorten_help_pipe(slice_index pipe,
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  --slices[pipe].u.pipe.u.branch.length;
-  --slices[pipe].u.pipe.u.branch.min_length;
-  if (slices[pipe].u.pipe.u.branch.min_length<slack_length_help)
-    slices[pipe].u.pipe.u.branch.min_length += 2;
-  TraceValue("->%u",slices[pipe].u.pipe.u.branch.length);
-  TraceValue("->%u\n",slices[pipe].u.pipe.u.branch.min_length);
-
+  branch_h_shorten_help_pipe(pipe);
   result = slice_traverse_children(pipe,st);
 
   TraceFunctionExit(__func__);
@@ -951,13 +971,7 @@ static boolean traverse_and_shorten_help_root(slice_index root,
   TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
 
-  --slices[root].u.root_branch.length;
-  --slices[root].u.root_branch.min_length;
-  if (slices[root].u.root_branch.min_length<slack_length_help)
-    slices[root].u.root_branch.min_length += 2;
-  TraceValue("->%u",slices[root].u.root_branch.length);
-  TraceValue("->%u\n",slices[root].u.root_branch.min_length);
-
+  branch_h_shorten_help_root(root);
   result = traverse_slices(slices[root].u.root_branch.full_length,st);
 
   TraceFunctionExit(__func__);
@@ -975,6 +989,7 @@ static boolean traverse_and_shorten_branch_fork(slice_index fork,
   TraceFunctionParam("%u",fork);
   TraceFunctionParamListEnd();
 
+  slices[fork].starter = advers(slices[fork].starter);
   result = traverse_slices(slices[fork].u.pipe.next,st);
   
   TraceFunctionExit(__func__);
@@ -1005,8 +1020,9 @@ static slice_operation const slice_shorteners[] =
 /* Shorten a help branch by a half-move. If the branch represents a
  * half-move only, deallocates the branch.
  * @param si identifies the branch
- * @return if the branch slice represents a half-move only, the slice
- *         representing the subsequent play; otherwise si
+ * @return - no_slice if not applicable (already shortened)
+ *         - slice representing subsequent play if root has 1 half-move only
+ *         - root (shortened) otherwise
  */
 slice_index branch_h_root_shorten(slice_index root)
 {
