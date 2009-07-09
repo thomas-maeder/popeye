@@ -434,7 +434,7 @@ static slice_operation const slice_to_fork_deallocators[] =
   0,                                    /* STQuodlibet */
   0,                                    /* STNot */
   0,                                    /* STMoveInverter */
-  0,                                    /* STHelpRoot */
+  &traverse_and_deallocate,             /* STHelpRoot */
   &traverse_and_deallocate              /* STHelpHashed */
 };
 
@@ -501,7 +501,7 @@ static slice_operation const slice_fork_finders[] =
   &slice_traverse_children,       /* STQuodlibet */
   &slice_traverse_children,       /* STNot */
   &slice_traverse_children,       /* STMoveInverter */
-  0,                              /* STHelpRoot */
+  &slice_traverse_children,       /* STHelpRoot */
   &slice_traverse_children        /* STHelpHashed */
 };
 
