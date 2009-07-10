@@ -237,4 +237,11 @@ pieces white ka1 black ka8
 sstip white 2d d# | 3h d#
 condition maximummer
 
+next
+
+title option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
+stip h+1.5
+opt wh
+fors 8/k7/16/1P6/K7/16
+
 end

@@ -44,7 +44,7 @@ cond NoBlackCapture
 
 next
 
-title option WhiteToPlay in a hXn.5 had weird effects
+title option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
 stip h+1.5
 opt wh
 fors 16/k7/8/1P6/K7/16

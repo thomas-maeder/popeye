@@ -2111,7 +2111,7 @@ typedef enum
 
 static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 {
-  meaning_of_whitetoplay result = dont_know_meaning_of_whitetoplay;
+  meaning_of_whitetoplay result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2123,22 +2123,26 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STLeafHelp:
       if (slices[si].u.leaf.goal==goal_atob)
         result = whitetoplay_means_change_colors;
+      else
+        result = whitetoplay_means_shorten_root_slice;
+      break;
+
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafForced:
+      result = whitetoplay_means_shorten_root_slice;
       break;
 
     case STHelpRoot:
     {
       slice_index const full_length = slices[si].u.root_branch.full_length;
-      slice_index const next = slices[full_length].u.pipe.next;
-      meaning_of_whitetoplay const next_result =
-          detect_meaning_of_whitetoplay(next);
-      if (next_result==dont_know_meaning_of_whitetoplay)
-        result = whitetoplay_means_shorten_root_slice;
-      else
-        result = next_result;
+      result = detect_meaning_of_whitetoplay(full_length);
       break;
     }
 
+    case STBranchHelp:
     case STMoveInverter:
+    case STNot:
     {
       slice_index const next = slices[si].u.pipe.next;
       result = detect_meaning_of_whitetoplay(next);
@@ -2147,13 +2151,27 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STBranchFork:
     {
-      slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
-      result = detect_meaning_of_whitetoplay(next);
+      slice_index const to_goal = slices[si].u.pipe.u.branch_fork.towards_goal;
+      result = detect_meaning_of_whitetoplay(to_goal);
+      break;
+    }
+
+    case STReciprocal:
+    case STQuodlibet:
+    {
+      slice_index const op1 = slices[si].u.fork.op1;
+      meaning_of_whitetoplay const res1 = detect_meaning_of_whitetoplay(op1);
+      slice_index const op2 = slices[si].u.fork.op2;
+      meaning_of_whitetoplay const res2 = detect_meaning_of_whitetoplay(op2);
+      if (res1==res2)
+        result = res1;
+      else
+        result = dont_know_meaning_of_whitetoplay;
       break;
     }
 
     default:
-      /* nothing */
+      result = dont_know_meaning_of_whitetoplay;
       break;
   }
 

@@ -171,9 +171,8 @@ solution finished.
 solution finished. 
 
 
-WhiteToPlay not applicable - ignored
 
-option WhiteToPlay in a hXn.5 had weird effects
+option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -196,8 +195,6 @@ option WhiteToPlay in a hXn.5 had weird effects
 +---a---b---c---d---e---f---g---h---+
   h+1.5                       2 + 1
 
-  1...b4-b5 + 
-  1...b4-b5 +   2.Ka6-a7 b5-b6 + 
 
 solution finished. 
 

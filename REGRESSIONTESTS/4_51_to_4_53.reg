@@ -766,3 +766,32 @@ problem ignored
 solution finished. 
 
 
+
+option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -K   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   P   .   .   .   .   .   .   4
+|                                   |
+3   K   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h+1.5                       2 + 1
+
+  1.Ka7-a6 b4-b5 + 
+
+solution finished. 
+
+

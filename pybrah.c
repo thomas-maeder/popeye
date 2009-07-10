@@ -1034,9 +1034,7 @@ slice_index branch_h_root_shorten(slice_index root)
 
   assert(slices[root].type==STHelpRoot);
 
-  if ((slices[root].u.root_branch.length-slack_length_help)%2==0)
-    result = no_slice;
-  else if (slices[root].u.root_branch.length==slack_length_help+1)
+  if (slices[root].u.root_branch.length==slack_length_help+1)
     result = branch_deallocate_to_fork(root);
   else
   {
