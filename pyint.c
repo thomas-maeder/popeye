@@ -2596,15 +2596,14 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
   OptFlag[movenbr] = save_movenbr;
 }
 
-/* Calculate the number of moves of each side, continuing at a non-root
- * slice.
+/* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
  * @return true iff the number of moves left have been successfully
  *         initialised for si and its children
  */
-static boolean init_moves_left_non_root_branch_series(slice_index si,
-                                                      slice_traversal *st)
+static boolean init_moves_left_branch_series(slice_index si,
+                                             slice_traversal *st)
 {
   boolean result;
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
@@ -2614,7 +2613,7 @@ static boolean init_moves_left_non_root_branch_series(slice_index si,
   TraceFunctionParamListEnd();
 
   MovesLeft[slices[si].starter] += n-slack_length_series;
-  result = slice_traverse_children(slices[si].u.pipe.next,st);
+  result = slice_traverse_children(si,st);
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
@@ -2625,14 +2624,13 @@ static boolean init_moves_left_non_root_branch_series(slice_index si,
   return result;
 }
 
-/* Calculate the number of moves of each side, continuing at a non-root
- * slice.
+/* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
  * @return true
  */
-static boolean init_moves_left_non_root_leaf_direct(slice_index si,
-                                                    slice_traversal *st)
+static boolean init_moves_left_leaf_direct(slice_index si,
+                                           slice_traversal *st)
 {
   boolean const result = true;
 
@@ -2653,14 +2651,13 @@ static boolean init_moves_left_non_root_leaf_direct(slice_index si,
   return result;
 }
 
-/* Calculate the number of moves of each side, continuing at a non-root
- * slice.
+/* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
  * @return true
  */
-static boolean init_moves_left_non_root_leaf_help(slice_index si,
-                                                  slice_traversal *st)
+static boolean init_moves_left_leaf_help(slice_index si,
+                                         slice_traversal *st)
 {
   boolean const result = true;
 
@@ -2681,15 +2678,14 @@ static boolean init_moves_left_non_root_leaf_help(slice_index si,
   return result;
 }
 
-/* Calculate the number of moves of each side, continuing at a non-root
- * slice.
+/* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
  * @return true iff the number of moves left have been successfully
  *         initialised for si and its children
  */
-static boolean init_moves_left_non_root_help_hashed(slice_index si,
-                                                    slice_traversal *st)
+static boolean init_moves_left_branch_help(slice_index si,
+                                           slice_traversal *st)
 {
   boolean result;
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
@@ -2701,7 +2697,7 @@ static boolean init_moves_left_non_root_help_hashed(slice_index si,
   MovesLeft[Black] += (n-slack_length_help)/2;
   MovesLeft[White] += (n-slack_length_help)/2;
   if ((n-slack_length_help)%2==1)
-    ++MovesLeft[branch_h_starter_in_n(slices[si].u.pipe.next,n)];
+    ++MovesLeft[branch_h_starter_in_n(si,n)];
 
   result = slice_traverse_children(si,st);
 
@@ -2714,99 +2710,88 @@ static boolean init_moves_left_non_root_help_hashed(slice_index si,
   return result;
 }
 
-static slice_operation const non_root_moves_left_initialisers[] =
-{
-  0,                                       /* STBranchDirect */
-  0,                                       /* STBranchDirectDefender */
-  &slice_traverse_children,                /* STBranchHelp */
-  &init_moves_left_non_root_branch_series, /* STBranchSeries */
-  &slice_traverse_children,                /* STBranchFork */
-  &init_moves_left_non_root_leaf_direct,   /* STLeafDirect */
-  &init_moves_left_non_root_leaf_help,     /* STLeafHelp */
-  0,                                       /* STLeafSelf */
-  0,                                       /* STLeafForced */
-  0,                                       /* STReciprocal */
-  0,                                       /* STQuodlibet */
-  0,                                       /* STNot */
-  &slice_traverse_children,                /* STMoveInverter */
-  0,                                       /* STHelpRoot */
-  &init_moves_left_non_root_help_hashed    /* STHelpHashed */
-};
-
-/* Calculate the number of moves of each side, continuing at a non-root
- * slice.
+/* Calculate the number of moves of each side
  * @param si index of non-root slice
+ * @param st address of structure defining traversal
+ * @return true iff the number of moves left have been successfully
+ *         initialised for si and its children
  */
-static void init_moves_left_non_root(slice_index si)
+static boolean init_moves_left_branch_fork(slice_index si,
+                                           slice_traversal *st)
 {
-  slice_traversal st;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&non_root_moves_left_initialisers,0);
-  traverse_slices(si,&st);
+  result = traverse_slices(slices[si].u.pipe.u.branch_fork.towards_goal,st);
+
+  TraceValue("%u",MovesLeft[White]);
+  TraceValue("%u\n",MovesLeft[Black]);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
+
+static slice_operation const moves_left_initialisers[] =
+{
+  0,                              /* STBranchDirect */
+  0,                              /* STBranchDirectDefender */
+  &init_moves_left_branch_help,   /* STBranchHelp */
+  &init_moves_left_branch_series, /* STBranchSeries */
+  &init_moves_left_branch_fork,   /* STBranchFork */
+  &init_moves_left_leaf_direct,   /* STLeafDirect */
+  &init_moves_left_leaf_help,     /* STLeafHelp */
+  0,                              /* STLeafSelf */
+  0,                              /* STLeafForced */
+  0,                              /* STReciprocal */
+  0,                              /* STQuodlibet */
+  0,                              /* STNot */
+  &slice_traverse_children,       /* STMoveInverter */
+  0,                              /* STHelpRoot */
+  &slice_traverse_children        /* STHelpHashed */
+};
 
 /* Calculate the number of moves of each side, starting at the root
  * slice.
  * @param n length of the solution(s) we are looking for
  */
-static void init_moves_left_root(slice_index si, stip_length_type n)
+static void init_moves_left(slice_index si, stip_length_type n)
 {
+  slice_traversal st;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
-
   goal_to_be_reached = no_goal;
 
+  MovesLeft[Black] = 0;
+  MovesLeft[White] = 0;
+
+  slice_traversal_init(&st,&moves_left_initialisers,0);
+
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STBranchHelp:
-      init_moves_left_root(slices[si].u.pipe.next,n);
+    case STHelpRoot:
+      slice_traverse_children(si,&st);
+      MovesLeft[Black] -= (slices[si].u.root_branch.length-n)/2;
+      MovesLeft[White] -= (slices[si].u.root_branch.length-n)/2;
       break;
 
     case STBranchSeries:
-    {
-      MovesLeft[slices[si].starter] = n-slack_length_series;
-      MovesLeft[advers(slices[si].starter)] = 0;
-      init_moves_left_non_root(slices[si].u.pipe.next);
+      traverse_slices(si,&st);
+      MovesLeft[slices[si].starter] -= slices[si].u.pipe.u.branch.length-n;
       break;
-    }
-
-    case STBranchFork:
-    {
-      init_moves_left_root(slices[si].u.pipe.next,n);
-      init_moves_left_non_root(slices[si].u.pipe.u.branch_fork.towards_goal);
-      break;
-    }
-
-    case STMoveInverter:
-      init_moves_left_root(slices[si].u.pipe.next,n);
-      break;
-
-    case STHelpHashed:
-    {
-      MovesLeft[Black] = (n-slack_length_help)/2;
-      MovesLeft[White] = (n-slack_length_help)/2;
-      if ((n-slack_length_help)%2==1)
-        ++MovesLeft[help_starter_in_n(slices[si].u.pipe.next,n)];
-      break;
-    }
 
     case STLeafHelp:
-    {
-      MovesLeft[slices[si].starter] = 1;
-      MovesLeft[advers(slices[si].starter)] = 0;
+      traverse_slices(si,&st);
       break;
-    }
 
     default:
       assert(0);
@@ -2827,12 +2812,14 @@ boolean Intelligent(slice_index si,
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",full_length);
   TraceFunctionParamListEnd();
 
   current_start_slice = si;
 
-  init_moves_left_root(si,n);
+  init_moves_left(si,n);
      
   MatesMax = 0;
 

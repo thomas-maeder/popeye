@@ -24,8 +24,6 @@ slice_index alloc_branch_h_slice(stip_length_type length,
                                  slice_index next)
 {
   slice_index const result = alloc_slice_index();
-  slice_index hashed;
-  slice_index fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -33,14 +31,25 @@ slice_index alloc_branch_h_slice(stip_length_type length,
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  hashed = alloc_help_hashed_slice(length,min_length,result);
-  fork = alloc_branch_fork_slice(hashed,next);
+  assert(length>slack_length_help);
 
   slices[result].type = STBranchHelp; 
   slices[result].starter = no_side; 
   slices[result].u.pipe.u.branch.length = length;
   slices[result].u.pipe.u.branch.min_length = min_length;
-  slices[result].u.pipe.next = fork;
+
+  if (length-slack_length_help==1)
+  {
+    slice_index const fork = alloc_branch_fork_slice(no_slice,next);
+    slices[result].u.pipe.next = fork;
+  }
+  else
+  {
+    slice_index const hashed = alloc_help_hashed_slice(length,min_length,
+                                                       result);
+    slice_index const fork = alloc_branch_fork_slice(hashed,next);
+    slices[result].u.pipe.next = fork;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -249,7 +258,7 @@ static boolean move_filter(slice_index si, stip_length_type n, Side side_at_move
  *          searching for short solutions only)
  * @return true iff >=1 solution was found
  */
-boolean branch_h_root_solve_in_n(slice_index si, stip_length_type n)
+static boolean branch_h_solve_full_in_n(slice_index si, stip_length_type n)
 {
   Side const starter = slices[si].starter;
   Side const next_side = advers(starter);
@@ -518,7 +527,7 @@ void branch_h_solve_continuations(table continuations, slice_index si)
   }
 
   if (!solution_found)
-    help_solve_continuations_in_n(continuations,next,full_length,starter);
+    help_solve_continuations_in_n(continuations,si,full_length,starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -616,9 +625,7 @@ boolean branch_h_has_solution(slice_index si)
       len += 2;
 
   if (!result)
-    result = help_has_solution_in_n(slices[si].u.pipe.next,
-                                    full_length,
-                                    starter);
+    result = help_has_solution_in_n(si,full_length,starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -913,7 +920,7 @@ static void branch_h_shorten_help_root(slice_index root)
 slice_index branch_h_root_make_setplay_slice(slice_index si)
 {
   slice_index result;
-  slice_index const full_length = slices[si].u.root_branch.full_length;
+  slice_index const full_length_slice = slices[si].u.root_branch.full_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -929,12 +936,12 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
   }
   else
   {
-    slice_index const full_length_copy = copy_slice(full_length);
-    assert(slices[full_length].type==STBranchHelp);
-    branch_h_shorten_help_pipe(full_length_copy);
+    slice_index const full_length_slice_copy = copy_slice(full_length_slice);
+    assert(slices[full_length_slice].type==STBranchHelp);
+    branch_h_shorten_help_pipe(full_length_slice_copy);
 
     result = copy_slice(si);
-    slices[result].u.root_branch.full_length = full_length_copy;
+    slices[result].u.root_branch.full_length = full_length_slice_copy;
     branch_h_shorten_help_root(result);
   }
 
@@ -1060,44 +1067,16 @@ who_decides_on_starter branch_h_root_detect_starter(slice_index root,
                                                     boolean same_side_as_root)
 {
   who_decides_on_starter result;
-  slice_index const full_length = slices[root].u.root_branch.full_length;
+  slice_index const full_length_slice = slices[root].u.root_branch.full_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
-  result = slice_detect_starter(full_length,same_side_as_root);
-  slices[root].starter = slices[full_length].starter;
+  result = slice_detect_starter(full_length_slice,same_side_as_root);
+  slices[root].starter = slices[full_length_slice].starter;
   TraceValue("->%u\n",slices[root].starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve full-length solutions in exactly n in help play at root level
- * @param root slice index
- * @param n number of half moves
- * @return true iff >=1 solution was found
- */
-static boolean branch_h_root_solve_full_in_n(slice_index root,
-                                             stip_length_type n)
-{
-  slice_index const full_length = slices[root].u.root_branch.full_length;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help);
-
-  if (isIntelligentModeActive)
-    result = Intelligent(full_length,n,n);
-  else
-    result = branch_h_root_solve_in_n(full_length,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1110,10 +1089,10 @@ static boolean branch_h_root_solve_full_in_n(slice_index root,
  * @param n number of half moves
  * @return true iff >=1 short solution was found
  */
-static boolean branch_h_root_solve_short_in_n(slice_index root,
-                                              stip_length_type n)
+static boolean solve_short_in_n(slice_index root, stip_length_type n)
 {
-  slice_index const short_length = slices[root].u.root_branch.short_length;
+  slice_index const short_length_slice
+      = slices[root].u.root_branch.short_length;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -1121,27 +1100,43 @@ static boolean branch_h_root_solve_short_in_n(slice_index root,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",slices[root].u.root_branch.full_length);
-  TraceValue("%u\n",slices[root].u.root_branch.short_length);
+  assert(n>=slack_length_help);
+
+  /* we only display move numbers when looking for full length
+   * solutions (incl. full length set play)
+   */
+  boolean const save_movenbr = OptFlag[movenbr];
+  OptFlag[movenbr] = false;
+  result = help_solve_in_n(short_length_slice,n,slices[root].starter);
+  OptFlag[movenbr] = save_movenbr;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve full-length solutions in exactly n in help play at root level
+ * @param root slice index
+ * @param n number of half moves
+ * @return true iff >=1 solution was found
+ */
+boolean branch_h_root_solve_in_n(slice_index root, stip_length_type n)
+{
+  slice_index const full_length_slice = slices[root].u.root_branch.full_length;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   assert(n>=slack_length_help);
 
-  if (isIntelligentModeActive)
-    result = Intelligent(short_length,n,slices[root].u.root_branch.length);
+  if (n==slices[root].u.root_branch.length)
+    result = branch_h_solve_full_in_n(full_length_slice,n);
   else
-  {
-    stip_length_type const
-        full_length = slices[root].u.root_branch.full_length;
-    Side const starter = branch_h_starter_in_n(full_length,n);
-
-    /* we only display move numbers when looking for full length
-     * solutions (incl. full length set play)
-     */
-    boolean const save_movenbr = OptFlag[movenbr];
-    OptFlag[movenbr] = false;
-    result = help_solve_in_n(short_length,n,starter);
-    OptFlag[movenbr] = save_movenbr;
-  }
+    result = solve_short_in_n(root,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1183,21 +1178,36 @@ boolean branch_h_root_solve(slice_index root)
     solutions = 0;
 
     while (len<full_length
-           && !(OptFlag[stoponshort] && FlagShortSolsReached))
+           && !(OptFlag[stoponshort] && result))
     {
-      if (branch_h_root_solve_short_in_n(root,len))
+      if (isIntelligentModeActive)
       {
-        FlagShortSolsReached = true;
-        result = true;
+        if (Intelligent(root,len,full_length))
+          result = true;
+      }
+      else
+      {
+        if (solve_short_in_n(root,len))
+          result = true;
       }
 
       len += 2;
     }
 
-    if (FlagShortSolsReached && OptFlag[stoponshort])
+    if (result && OptFlag[stoponshort])
+    {
       TraceText("aborting because of short solutions\n");
+      FlagShortSolsReached = true;
+    }
+    else if (isIntelligentModeActive)
+      result = Intelligent(root,full_length,full_length);
     else
-      result = branch_h_root_solve_full_in_n(root,full_length);
+    {
+      slice_index const full_length_slice
+          = slices[root].u.root_branch.full_length;
+      /* TODO communicate with full_length_slice over help_* interface */
+      result = branch_h_solve_full_in_n(full_length_slice,full_length);
+    }
 
     if (OptFlag[maxsols] && solutions>=maxsolutions)
       /* signal maximal number of solutions reached to outer world */

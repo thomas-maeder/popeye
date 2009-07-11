@@ -452,6 +452,24 @@ static boolean traverse_and_deallocate_branch_fork(slice_index si,
   return result;
 }
 
+static boolean traverse_and_deallocate_leaf(slice_index si,
+                                            slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const to_be_found = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *to_be_found = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static slice_operation const slice_to_fork_deallocators[] =
 {
   &traverse_and_deallocate,             /* STBranchDirect */
@@ -459,10 +477,10 @@ static slice_operation const slice_to_fork_deallocators[] =
   &traverse_and_deallocate,             /* STBranchHelp */
   &traverse_and_deallocate,             /* STBranchSeries */
   &traverse_and_deallocate_branch_fork, /* STBranchFork */
-  0,                                    /* STLeafDirect */
-  0,                                    /* STLeafHelp */
-  0,                                    /* STLeafSelf */
-  0,                                    /* STLeafForced */
+  &traverse_and_deallocate_leaf,        /* STLeafDirect */
+  &traverse_and_deallocate_leaf,        /* STLeafHelp */
+  &traverse_and_deallocate_leaf,        /* STLeafSelf */
+  &traverse_and_deallocate_leaf,        /* STLeafForced */
   0,                                    /* STReciprocal */
   0,                                    /* STQuodlibet */
   0,                                    /* STNot */
