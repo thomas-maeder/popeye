@@ -45,6 +45,12 @@ slice_index move_inverter_root_make_setplay_slice(slice_index si);
  */
 boolean move_inverter_root_solve(slice_index si);
 
+/* Solve a slice in exactly n moves at root level
+ * @param si slice index
+ * @param n exact number of moves
+ */
+void move_inverter_root_solve_in_n(slice_index si, stip_length_type n);
+
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

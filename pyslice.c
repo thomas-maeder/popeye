@@ -508,7 +508,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
       break;
 
     case STMoveInverter:
-      slice_root_solve_in_n(slices[si].u.pipe.next,n);
+      move_inverter_root_solve_in_n(si,n);
       break;
 
     default:
