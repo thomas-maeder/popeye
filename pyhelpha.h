@@ -7,15 +7,11 @@
 #include "pyhelp.h"
 #include "pyslice.h"
 
-/* Allocate a STHelpHashed slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
+/* Allocate a STHelpHashed slice for a STBranchHelp slice
+ * @param base identifies STBranchHelp slice
  * @return index of allocated slice
  */
-slice_index alloc_help_hashed_slice(stip_length_type length,
-                                    stip_length_type min_length,
-                                    slice_index next);
+slice_index alloc_help_hashed_slice(slice_index base);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

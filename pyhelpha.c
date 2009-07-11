@@ -5,29 +5,22 @@
 
 #include <assert.h>
 
-/* Allocate a STHelpHashed slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
- * @param towards_goal identifies slice leading towards goal
+/* Allocate a STHelpHashed slice for a STBranchHelp slice
+ * @param base identifies STBranchHelp slice
  * @return index of allocated slice
  */
-slice_index alloc_help_hashed_slice(stip_length_type length,
-                                    stip_length_type min_length,
-                                    slice_index next)
+slice_index alloc_help_hashed_slice(slice_index base)
 {
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
   slices[result].type = STHelpHashed;
-  slices[result].u.pipe.u.branch.length = length;
-  slices[result].u.pipe.u.branch.min_length = min_length;
-  slices[result].u.pipe.next = next;
+  slices[result].starter = slices[base].starter;
+  slices[result].u.pipe.u.branch = slices[base].u.pipe.u.branch;
+  slices[result].u.pipe.next = base;
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

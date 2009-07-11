@@ -105,6 +105,7 @@
 #include "pyint.h"
 #include "pymovein.h"
 #include "pybrah.h"
+#include "pyhelpha.h"
 #include "pyquodli.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
@@ -2551,6 +2552,64 @@ static void make_root_slices(void)
   TraceFunctionResultEnd();
 }
 
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
+boolean insert_hash_element_branch_fork(slice_index si, slice_traversal *st)
+{
+  boolean result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[next].type==STBranchHelp)
+    slices[si].u.pipe.next = alloc_help_hashed_slice(next);
+  
+  result = slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const hash_element_inserters[] =
+{
+  &slice_traverse_children,         /* STBranchDirect */
+  &slice_traverse_children,         /* STBranchDirectDefender */
+  &slice_traverse_children,         /* STBranchHelp */
+  &slice_traverse_children,         /* STBranchSeries */
+  &insert_hash_element_branch_fork, /* STBranchFork */
+  &slice_traverse_children,         /* STLeafDirect */
+  &slice_traverse_children,         /* STLeafHelp */
+  &slice_traverse_children,         /* STLeafSelf */
+  &slice_traverse_children,         /* STLeafForced */
+  &slice_traverse_children,         /* STReciprocal */
+  &slice_traverse_children,         /* STQuodlibet */
+  &slice_traverse_children,         /* STNot */
+  &slice_traverse_children,         /* STMoveInverter */
+  &slice_traverse_children,         /* STHelpRoot */
+  &slice_traverse_children          /* STHelpHashed */
+};
+
+static void insert_hash_slices(void)
+{
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&hash_element_inserters,0);
+  traverse_slices(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static boolean initialise_verify_twin(void)
 {
   boolean result = false;
@@ -2733,6 +2792,8 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[solapparent] && !OptFlag[restart]
           && !root_slice_apply_setplay())
         Message(SetPlayNotApplicable);
+
+      insert_hash_slices();
     }
 
     if (slices[root_slice].starter==no_side)

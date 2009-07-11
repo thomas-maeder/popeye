@@ -45,9 +45,7 @@ slice_index alloc_branch_h_slice(stip_length_type length,
   }
   else
   {
-    slice_index const hashed = alloc_help_hashed_slice(length,min_length,
-                                                       result);
-    slice_index const fork = alloc_branch_fork_slice(hashed,next);
+    slice_index const fork = alloc_branch_fork_slice(result,next);
     slices[result].u.pipe.next = fork;
   }
 
