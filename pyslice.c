@@ -511,10 +511,6 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
       slice_root_solve_in_n(slices[si].u.pipe.next,n);
       break;
 
-    case STHelpHashed:
-      help_hashed_solve_in_n(si,n,slices[si].starter);
-      break;
-
     default:
       assert(0);
       break;
