@@ -605,14 +605,15 @@ static boolean compareProofPieces(void)
 static boolean compareProofNbrPiece(void)
 {
   boolean result = true;
-  int i;
+  piece const last_piece = flagfee ? derbla : fb;
+  piece p;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (i = roib; i <= fb; ++i)
-    if (nr_piece(target)[i]!=nbpiece[i]
-        || nr_piece(target)[-i]!=nbpiece[-i])
+  for (p = roib; p<=last_piece; ++p)
+    if (nr_piece(target)[p]!=nbpiece[p]
+        || nr_piece(target)[-p]!=nbpiece[-p])
     {
       result = false;
       break;
