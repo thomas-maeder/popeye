@@ -62,6 +62,39 @@ boolean branch_fork_help_solve_in_n(slice_index si,
   return result;
 }
 
+/* Solve in a number of half-moves at root level
+ * @param si identifies slice
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >=1 solution was found
+ */
+boolean branch_fork_root_help_solve_in_n(slice_index si,stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  if (n==slack_length_help)
+    result = slice_solve(slices[si].u.pipe.u.branch_fork.towards_goal);
+  else
+  {
+    Side const starter = ((n-slack_length_help)%2==0
+                          ? slices[si].starter
+                          : advers(slices[si].starter));
+    slice_index const next = slices[si].u.pipe.next;
+    result = help_solve_in_n(next,n,starter);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached

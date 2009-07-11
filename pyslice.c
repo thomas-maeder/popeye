@@ -344,7 +344,7 @@ boolean slice_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceFunctionParam("%u",slices[si].type);
+  TraceFunctionParam("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -500,7 +500,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
       break;
 
     case STBranchFork:
-      branch_fork_help_solve_in_n(si,n,slices[si].starter);
+      branch_fork_root_help_solve_in_n(si,n);
       break;
 
     case STQuodlibet:

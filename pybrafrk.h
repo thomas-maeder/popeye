@@ -25,6 +25,13 @@ boolean branch_fork_help_solve_in_n(slice_index si,
                                     stip_length_type n,
                                     Side side_at_move);
 
+/* Solve in a number of half-moves at root level
+ * @param si identifies slice
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >=1 solution was found
+ */
+boolean branch_fork_root_help_solve_in_n(slice_index si,stip_length_type n);
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
