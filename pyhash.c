@@ -2116,115 +2116,163 @@ static void init_element_series(dhtElement *he, slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Initialise the bits representing a slice (including its possible
- * descendants) in a hash table element's data field with null values
- * @param he address of hash table element
- * @param si slice index of slice
- * @param element_initialised remembers which slices have already been
- *                            visited (to avoid infinite recursion)
- * @note this is a recursive function
+/* Traverse a slice while initialising a hash table element
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return true
  */
-static void init_element(dhtElement *he,
-                         slice_index si,
-                         boolean element_initialised[max_nr_slices])
+boolean init_element_leaf_h(slice_index si, slice_traversal *st)
 {
+  boolean const result = true;
+  dhtElement * const he = st->param;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p",he);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  element_initialised[si] = true;
-
-  TraceValue("%u\n",slices[si].type);
-  switch (slices[si].type)
-  {
-    case STLeafHelp:
-      init_element_help(he,si);
-      break;
-
-    case STLeafDirect:
-    case STLeafSelf:
-      init_element_direct(he,si,1);
-      break;
-
-    case STLeafForced:
-      /* nothing */
-      break;
-
-    case STReciprocal:
-      init_element(he,slices[si].u.fork.op1,element_initialised);
-      init_element(he,slices[si].u.fork.op2,element_initialised);
-      break;
-
-    case STQuodlibet:
-      init_element(he,slices[si].u.fork.op1,element_initialised);
-      init_element(he,slices[si].u.fork.op2,element_initialised);
-      break;
-
-    case STNot:
-      init_element(he,slices[si].u.pipe.next,element_initialised);
-      break;
-
-    case STBranchDirect:
-      if (base_slice[si]==no_slice)
-      {
-        init_element_direct(he,si,slices[si].u.pipe.u.branch.length);
-        if (!element_initialised[slices[si].u.pipe.next])
-          init_element(he,slices[si].u.pipe.next,element_initialised);
-      }
-      break;
-
-    case STBranchHelp:
-      init_element(he,slices[si].u.pipe.next,element_initialised);
-      break;
-
-    case STBranchDirectDefender:
-      init_element(he,
-                   slices[si].u.pipe.u.branch_d_defender.towards_goal,
-                   element_initialised);
-      if (!element_initialised[slices[si].u.pipe.next])
-        init_element(he,
-                     slices[si].u.pipe.next,
-                     element_initialised);
-      break;
-
-    case STBranchFork:
-      init_element(he,slices[si].u.pipe.next,element_initialised);
-      init_element(he,
-                   slices[si].u.pipe.u.branch_fork.towards_goal,
-                   element_initialised);
-      break;
-
-    case STHelpRoot:
-      init_element(he,
-                   slices[si].u.root_branch.full_length,
-                   element_initialised);
-      break;
-
-    case STHelpHashed:
-      init_element_help(he,si);
-      break;
-      
-    case STBranchSeries:
-      init_element_series(he,si);
-      init_element(he,slices[si].u.pipe.next,element_initialised);
-      break;
-
-    case STMoveInverter:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      init_element(he,next,element_initialised);
-      break;
-    }
-
-    default:
-      assert(0);
-      break;
-  }
+  init_element_help(he,si);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
+
+/* Traverse a slice while initialising a hash table element
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return true
+ */
+boolean init_element_leaf_d(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  dhtElement * const he = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  init_element_direct(he,si,1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Traverse a slice while initialising a hash table element
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
+boolean init_element_branch_d(slice_index si, slice_traversal *st)
+{
+  boolean result;
+  dhtElement * const he = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (base_slice[si]==no_slice)
+  {
+    init_element_direct(he,si,slices[si].u.pipe.u.branch.length);
+    result = slice_traverse_children(si,st);
+  }
+  else
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Traverse a slice while initialising a hash table element
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
+boolean init_element_help_root(slice_index si, slice_traversal *st)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = traverse_slices(slices[si].u.root_branch.full_length,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Traverse a slice while initialising a hash table element
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
+boolean init_element_help_hashed(slice_index si, slice_traversal *st)
+{
+  boolean result;
+  dhtElement * const he = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  init_element_help(he,si);
+  result = slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Traverse a slice while initialising a hash table element
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
+boolean init_element_branch_ser(slice_index si, slice_traversal *st)
+{
+  boolean result;
+  dhtElement * const he = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  init_element_series(he,si);
+  result = slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const element_initialisers[] =
+{
+  &init_element_branch_d,   /* STBranchDirect */
+  &slice_traverse_children, /* STBranchDirectDefender */
+  &slice_traverse_children, /* STBranchHelp */
+  &init_element_branch_ser, /* STBranchSeries */
+  &slice_traverse_children, /* STBranchFork */
+  &init_element_leaf_d,     /* STLeafDirect */
+  &init_element_leaf_h,     /* STLeafHelp */
+  &init_element_leaf_d,     /* STLeafSelf */
+  &slice_operation_noop,    /* STLeafForced */
+  &slice_traverse_children, /* STReciprocal */
+  &slice_traverse_children, /* STQuodlibet */
+  &slice_traverse_children, /* STNot */
+  &slice_traverse_children, /* STMoveInverter */
+  &init_element_help_root,  /* STHelpRoot */
+  &init_element_help_hashed /* STHelpHashed */
+};
 
 /* Initialise the bits representing all slices in a hash table
  * element's data field with null values 
@@ -2232,8 +2280,16 @@ static void init_element(dhtElement *he,
  */
 static void init_elements(dhtElement *he)
 {
-  boolean element_initialised[max_nr_slices] = { false };
-  init_element(he,root_slice,element_initialised);
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&element_initialisers,he);
+  traverse_slices(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* (attempt to) allocate a hash table element - compress the current
