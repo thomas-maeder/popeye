@@ -731,12 +731,25 @@ void leaf_write_unsolvability(slice_index leaf)
 {
 }
 
-
-/* Impose the starting side on a leaf. 
- * @param leaf identifies leaf
- * @param s starting side of leaf
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void leaf_impose_starter(slice_index leaf, Side s)
+boolean leaf_impose_starter(slice_index si, slice_traversal *st)
 {
-  slices[leaf].starter = s;
+  boolean const result = true;
+  Side const * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

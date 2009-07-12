@@ -96,11 +96,13 @@ boolean leaf_s_root_solve(slice_index leaf);
 who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
                                              boolean same_side_as_root);
 
-/* Impose the starting side on a leaf. 
- * @param leaf identifies leaf
- * @param s starting side of leaf
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void leaf_s_impose_starter(slice_index leaf, Side s);
+boolean leaf_s_impose_starter(slice_index si, slice_traversal *st);
 
 /* Write a move by the non-starter that has reached a leaf's goal
  * @param leaf slice index of leaf

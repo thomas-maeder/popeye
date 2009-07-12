@@ -54,11 +54,13 @@ void branch_fork_help_solve_continuations_in_n(table continuations,
                                                stip_length_type n,
                                                Side side_at_move);
 
-/* Impose the starting side on a slice.
- * @param si identifies slice
- * @param side starting side of leaf
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void branch_fork_impose_starter(slice_index si, Side side);
+boolean branch_fork_impose_starter(slice_index si, slice_traversal *st);
 
 /* Determine the starter in a help stipulation in n half-moves
  * @param si identifies slice

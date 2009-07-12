@@ -233,21 +233,28 @@ who_decides_on_starter not_detect_starter(slice_index si,
   return result;
 }
 
-/* Impose the starting side on a slice.
- * @param si identifies slice
- * @param s starting side of leaf
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void not_impose_starter(slice_index si, Side s)
+boolean not_impose_starter(slice_index si, slice_traversal *st)
 {
+  boolean result;
+  Side const * const starter = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",s);
   TraceFunctionParamListEnd();
 
-  slice_impose_starter(slices[si].u.pipe.next,s);
+  slices[si].starter = *starter;
+  result = slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Spin off a set play slice at root level

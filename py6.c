@@ -2187,7 +2187,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
  */
 static slice_index apply_whitetoplay(slice_index si)
 {
-  slice_index result = si;
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2202,26 +2202,24 @@ static slice_index apply_whitetoplay(slice_index si)
       /* calculate new starter now - shorten_root_branch_h_slice() may
        * replace si
        */
-      Side const new_starter = advers(slices[si].starter);
       if (meaning==whitetoplay_means_shorten_root_slice)
       {
-        slice_index const shortened = branch_h_root_shorten(si);
-        if (shortened==no_slice)
-          result = no_slice;
-        else
-        {
-          result = alloc_move_inverter_slice(shortened);
-          slices[result].starter = advers(slices[shortened].starter);
-          TraceValue("%u\n",slices[result].starter);
-        }
+        slice_index const shortened = help_root_shorten_help_play(si);
+        result = alloc_move_inverter_slice(shortened);
+        slices[result].starter = advers(slices[shortened].starter);
+        TraceValue("%u\n",slices[result].starter);
       }
       else
-        slice_impose_starter(si,new_starter);
+      {
+        result = si;
+        slices[si].starter = advers(slices[si].starter);
+      }
       break;
     }
 
     case STLeafHelp:
-      slice_impose_starter(si,advers(slices[si].starter));
+      result = si;
+      slices[si].starter = advers(slices[si].starter);
       break;
 
     case STMoveInverter:
@@ -2232,19 +2230,22 @@ static slice_index apply_whitetoplay(slice_index si)
       dealloc_slice_index(save_si);
       if (meaning==whitetoplay_means_shorten_root_slice
           && slices[result].type==STHelpRoot)
-        result = branch_h_root_shorten(result);
+        result = help_root_shorten_help_play(result);
       break;
     }
 
     case STQuodlibet:
     case STReciprocal:
-      slices[si].u.fork.op1 = apply_whitetoplay(slices[si].u.fork.op1);
-      slices[si].u.fork.op2 = apply_whitetoplay(slices[si].u.fork.op2);
-      if (slices[si].u.fork.op1==no_slice
-          || slices[si].u.fork.op2==no_slice)
-        result = no_slice;
+      apply_whitetoplay(slices[si].u.fork.op1);
+      apply_whitetoplay(slices[si].u.fork.op2);
+      assert(slices[slices[si].u.fork.op1].starter
+             ==slices[slices[si].u.fork.op2].starter);
+      slices[si].starter = slices[slices[si].u.fork.op1].starter;
+      result = si;
+      break;
 
     default:
+      result = no_slice;
       break;
   }
 
@@ -2352,7 +2353,7 @@ static void init_duplex(void)
   {
     Side const starter = slices[root_slice].starter;
     TraceValue("%u\n",starter);
-    slice_impose_starter(root_slice,advers(starter));
+    stip_impose_starter(advers(starter));
   }
 
   TraceFunctionExit(__func__);
@@ -2374,7 +2375,7 @@ static void fini_duplex(void)
   else
   {
     Side const starter = slices[root_slice].starter;
-    slice_impose_starter(root_slice,advers(starter));
+    stip_impose_starter(advers(starter));
   }
 
   TraceFunctionExit(__func__);
@@ -2777,8 +2778,11 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[halfduplex] && !isIntelligentModeActive)
       {
         Side const non_duplex_starter = slices[root_slice].starter;
-        slice_impose_starter(root_slice,advers(non_duplex_starter));
+        stip_impose_starter(advers(non_duplex_starter));
       }
+      else
+        stip_impose_starter(slices[root_slice].starter);
+
 
       if (OptFlag[whitetoplay])
       {
@@ -2786,7 +2790,10 @@ static Token iterate_twins(Token prev_token)
         if (new_root==no_slice)
           Message(WhiteToPlayNotApplicable);
         else
+        {
           root_slice = new_root;
+          stip_impose_starter(slices[root_slice].starter);
+        }
       }
 
       if (OptFlag[solapparent] && !OptFlag[restart]

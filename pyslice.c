@@ -91,7 +91,7 @@ boolean slice_must_starter_resign(slice_index si)
       break;
 
     case STHelpRoot:
-      result = branch_h_root_must_starter_resign(si);
+      result = help_root_must_starter_resign(si);
       break;
 
     default:
@@ -234,7 +234,7 @@ slice_index slice_root_make_setplay_slice(slice_index si)
   switch (slices[si].type)
   {
     case STHelpRoot:
-      result = branch_h_root_make_setplay_slice(si);
+      result = help_root_make_setplay_slice(si);
       break;
 
     case STBranchDirect:
@@ -454,7 +454,7 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STHelpRoot:
-      result = branch_h_root_solve(si);
+      result = help_root_solve(si);
       break;
 
     case STBranchSeries:
@@ -492,7 +492,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
   switch (slices[si].type)
   {
     case STHelpRoot:
-      branch_h_root_solve_in_n(si,n);
+      help_root_solve_in_n(si,n);
       break;
 
     case STBranchSeries:
@@ -571,7 +571,7 @@ boolean slice_has_solution(slice_index si)
       break;
       
     case STHelpRoot:
-      result = branch_h_root_has_solution(si);
+      result = help_root_has_solution(si);
       break;
 
     default:
@@ -1089,7 +1089,7 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       break;
 
     case STHelpRoot:
-      result = branch_h_root_detect_starter(si,same_side_as_root);
+      result = help_root_detect_starter(si,same_side_as_root);
       break;
       
     default:
@@ -1101,74 +1101,6 @@ who_decides_on_starter slice_detect_starter(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Impose the starting side on a slice.
- * @param si identifies slice
- * @param s starting side of leaf
- */
-void slice_impose_starter(slice_index si, Side side)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",side);
-  TraceFunctionParamListEnd();
-
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-    case STLeafHelp:
-    case STLeafForced:
-      leaf_impose_starter(si,side);
-      break;
-
-    case STLeafSelf:
-      leaf_s_impose_starter(si,side);
-      break;
-
-    case STBranchDirect:
-      branch_d_impose_starter(si,side);
-      break;
-
-    case STBranchHelp:
-      branch_h_impose_starter(si,side);
-      break;
-
-    case STBranchSeries:
-      branch_ser_impose_starter(si,side);
-      break;
-
-    case STBranchFork:
-      branch_fork_impose_starter(si,side);
-      break;
-
-    case STHelpRoot:
-      branch_h_root_impose_starter(si,side);
-      break;
-
-    case STReciprocal:
-      reci_impose_starter(si,side);
-      break;
-
-    case STQuodlibet:
-      quodlibet_impose_starter(si,side);
-      break;
-
-    case STNot:
-      not_impose_starter(si,side);
-      break;
-
-    case STMoveInverter:
-      move_inverter_impose_starter(si,side);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Write that the non-starter has solved (i.e. in a self stipulation)

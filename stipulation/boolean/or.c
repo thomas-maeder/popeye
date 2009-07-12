@@ -396,7 +396,6 @@ boolean quodlibet_solve(slice_index si)
  * @param same_side_as_root does si start with the same side as root?
  * @return does the leaf decide on the starter?
  */
-/* TODO generalise for both kind of fork?*/
 who_decides_on_starter quodlibet_detect_starter(slice_index si,
                                                 boolean same_side_as_root)
 {
@@ -419,24 +418,16 @@ who_decides_on_starter quodlibet_detect_starter(slice_index si,
   result2 = slice_detect_starter(op2,same_side_as_root);
 
   if (slices[op1].starter==no_side)
-  {
-    /* op1 can't tell - let's tell him */
     slices[si].starter = slices[op2].starter;
-    slice_impose_starter(op1,slices[si].starter);
-  }
   else
-  {
     slices[si].starter = slices[op1].starter;
-    if (slices[op2].starter==no_side)
-      /* op2 can't tell - let's tell him */
-      slice_impose_starter(op2,slices[si].starter);
-  }
 
   if (result1==dont_know_who_decides_on_starter)
     result = result2;
   else
   {
-    assert(result2==dont_know_who_decides_on_starter);
+    assert(result2==dont_know_who_decides_on_starter
+           || slices[op1].starter==slices[op2].starter);
     result = result1;
   }
 
@@ -446,12 +437,26 @@ who_decides_on_starter quodlibet_detect_starter(slice_index si,
   return result;
 }
 
-/* Impose the starting side on a slice.
- * @param si identifies slice
- * @param s starting side of leaf
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void quodlibet_impose_starter(slice_index si, Side s)
+boolean quodlibet_impose_starter(slice_index si, slice_traversal *st)
 {
-  slice_impose_starter(slices[si].u.fork.op1,s);
-  slice_impose_starter(slices[si].u.fork.op2,s);
+  boolean result;
+  Side const * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+  result = slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

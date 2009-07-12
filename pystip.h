@@ -294,6 +294,10 @@ slice_index find_unique_goal(void);
  */
 void stip_make_exact(void);
 
+/* Impose the starting side on the stipulation
+ */
+void stip_impose_starter(Side starter);
+
 
 struct slice_traversal;
 

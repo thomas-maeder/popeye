@@ -399,14 +399,31 @@ who_decides_on_starter leaf_s_detect_starter(slice_index leaf,
   return result;
 }
 
-/* Impose the starting side on a leaf. 
- * @param leaf identifies leaf
- * @param s starting side of leaf
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void leaf_s_impose_starter(slice_index leaf, Side s)
+boolean leaf_s_impose_starter(slice_index si, slice_traversal *st)
 {
-  slices[leaf].starter = s;
-  slice_impose_starter(slices[leaf].u.leafself.next,advers(s));
+  boolean result;
+  Side * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+
+  *starter = advers(*starter);
+  result = traverse_slices(slices[si].u.leafself.next,st);
+  *starter = advers(*starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Write a move by the non-starter that has reached a leaf's goal

@@ -72,10 +72,12 @@ move_inverter_detect_starter(slice_index si,
  */
 Side move_inverter_get_starter(slice_index si);
 
-/* Impose the starting side on a slice.
- * @param si identifies slice
- * @param s starting side of leaf
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void move_inverter_impose_starter(slice_index si, Side side);
+boolean move_inverter_impose_starter(slice_index si, slice_traversal *st);
 
 #endif

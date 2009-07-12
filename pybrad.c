@@ -591,12 +591,26 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
   return result;
 }
 
-/* Impose the starting side on a slice.
+/* Impose the starting side on a stipulation
  * @param si identifies branch
- * @param s starting side of slice
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void branch_d_impose_starter(slice_index si, Side s)
+boolean branch_d_impose_starter(slice_index si, slice_traversal *st)
 {
-  slices[si].starter = s;
-  branch_d_defender_impose_starter(slices[si].u.pipe.next,s);
+  boolean result;
+  Side const * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+  result = slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

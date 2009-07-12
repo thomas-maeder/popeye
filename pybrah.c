@@ -249,69 +249,6 @@ static boolean move_filter(slice_index si, stip_length_type n, Side side_at_move
   return result;
 }
 
-/* Determine and write the solution(s) in a help stipulation
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
- * @return true iff >=1 solution was found
- */
-static boolean branch_h_solve_full_in_n(slice_index si, stip_length_type n)
-{
-  Side const starter = slices[si].starter;
-  Side const next_side = advers(starter);
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_help);
-
-  active_slice[nbply+1] = si;
-  genmove(starter);
-  
-  --MovesLeft[starter];
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !(OptFlag[restart] && MoveNbr<RestartNbr)
-        && move_filter(si,n,starter))
-    {
-      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,starter)
-          && help_solve_in_n(slices[si].u.pipe.next,n-1,next_side))
-        result = true;
-    }
-
-    if (OptFlag[movenbr])
-      IncrementMoveNbr();
-
-    repcoup();
-
-    if (OptFlag[maxsols] && solutions>=maxsolutions)
-    {
-      TraceValue("%u",maxsolutions);
-      TraceValue("%u",solutions);
-      TraceText("aborting\n");
-      break;
-    }
-
-    if (periods_counter>=nr_periods)
-      break;
-  }
-    
-  ++MovesLeft[starter];
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write the solution(s) in a help stipulation; don't
  * consult nor fill the hash table regarding solutions of length n. 
  *
@@ -733,79 +670,73 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&relevant_slice_finders,&next_relevant);
-  traverse_slices(next,&st);
-
-  TraceValue("%u",next_relevant);
-  TraceValue("%u",slices[next_relevant].type);
-  TraceValue("%u\n",even_length);
-
-  switch (slices[next_relevant].type)
+  if (slices[si].starter==no_side)
   {
-    case STLeafDirect:
+    slice_traversal_init(&st,&relevant_slice_finders,&next_relevant);
+    traverse_slices(next,&st);
+
+    TraceValue("%u",next_relevant);
+    TraceValue("%u",slices[next_relevant].type);
+    TraceValue("%u\n",even_length);
+
+    switch (slices[next_relevant].type)
     {
-      boolean const next_same_side_as_root = (even_length
-                                              ? same_side_as_root
-                                              : !same_side_as_root);
-      result = slice_detect_starter(next,next_same_side_as_root);
-      if (slices[next].starter==no_side)
+      case STLeafDirect:
       {
-        /* next can't tell - let's tell him */
-        slices[si].starter = Black;
-        slice_impose_starter(next,White);
+        boolean const next_same_side_as_root = (even_length
+                                                ? same_side_as_root
+                                                : !same_side_as_root);
+        result = slice_detect_starter(next,next_same_side_as_root);
+        if (slices[next].starter==no_side)
+          slices[si].starter = Black;
+        else
+          slices[si].starter = (even_length
+                                ? slices[next].starter
+                                : advers(slices[next].starter));
+        break;
       }
-      else
+
+      case STLeafSelf:
+      {
+        boolean const next_same_side_as_root = (even_length
+                                                ? same_side_as_root
+                                                : !same_side_as_root);
+        result = slice_detect_starter(next,next_same_side_as_root);
+        if (slices[next].starter==no_side)
+          slices[si].starter = White;
+        else
+          slices[si].starter = (even_length
+                                ? slices[next].starter
+                                : advers(slices[next].starter));
+        break;
+      }
+
+      case STLeafHelp:
+      {
+        boolean const next_same_side_as_root = (even_length
+                                                ? same_side_as_root
+                                                : !same_side_as_root);
+        result = slice_detect_starter(next,next_same_side_as_root);
+        if (slices[next].starter==no_side)
+          slices[si].starter = White;
+        else
+          slices[si].starter = (even_length
+                                ? slices[next].starter
+                                : advers(slices[next].starter));
+        break;
+      }
+
+      default:
+        result = slice_detect_starter(next,same_side_as_root);
         slices[si].starter = (even_length
-                                       ? slices[next].starter
-                                       : advers(slices[next].starter));
-      break;
+                              ? slices[next].starter
+                              : advers(slices[next].starter));
+        break;
     }
 
-    case STLeafSelf:
-    {
-      boolean const next_same_side_as_root = (even_length
-                                              ? same_side_as_root
-                                              : !same_side_as_root);
-      result = slice_detect_starter(next,next_same_side_as_root);
-      if (slices[next].starter==no_side)
-      {
-        /* next can't tell - let's tell him */
-        slices[si].starter = White;
-        slice_impose_starter(next,White);
-      }
-      else
-        slices[si].starter = (even_length
-                                       ? slices[next].starter
-                                       : advers(slices[next].starter));
-      break;
-    }
-
-    case STLeafHelp:
-    {
-      boolean const next_same_side_as_root = (even_length
-                                              ? same_side_as_root
-                                              : !same_side_as_root);
-      result = slice_detect_starter(next,next_same_side_as_root);
-      if (slices[next].starter==no_side)
-      {
-        /* next can't tell - let's tell him */
-        slices[si].starter = White;
-        slice_impose_starter(next,White);
-      }
-      else
-        slices[si].starter = (even_length
-                                       ? slices[next].starter
-                                       : advers(slices[next].starter));
-      break;
-    }
-
-    default:
-      result = slice_detect_starter(next,same_side_as_root);
-      slices[si].starter = (even_length
-                                     ? slices[next].starter
-                                     : advers(slices[next].starter));
-      break;
   }
+  else
+    result = leaf_decides_on_starter;
 
   TraceValue("%u\n",slices[si].starter);
 
@@ -815,24 +746,56 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
   return result;
 }
 
-/* Impose the starting side on a slice.
+/* Impose the starting side on a stipulation
  * @param si identifies branch
- * @param s starting side of slice
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void branch_h_impose_starter(slice_index si, Side s)
+boolean branch_h_impose_starter(slice_index si, slice_traversal *st)
 {
+  boolean result;
+  Side * const starter = st->param;
+  Side const save_starter = *starter;
+
   /* help play in N.5 -> change starter */
-  Side next_starter = (slices[si].u.pipe.u.branch.length%2==1 ? advers(s) : s);
+  Side const next_starter = (slices[si].u.pipe.u.branch.length%2==1
+                             ? advers(*starter)
+                             : *starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",s);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",next_starter);
+  slices[si].starter = *starter;
 
-  slices[si].starter = s;
-  slice_impose_starter(slices[si].u.pipe.next,next_starter);
+  *starter = next_starter;
+  result = slice_traverse_children(si,st);
+  *starter = save_starter;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Shorten a help pipe by a half-move
+ * @param pipe identifies pipe to be shortened
+ */
+static void branch_h_shorten_help_pipe(slice_index pipe)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  --slices[pipe].u.pipe.u.branch.length;
+  --slices[pipe].u.pipe.u.branch.min_length;
+  if (slices[pipe].u.pipe.u.branch.min_length<slack_length_help)
+    slices[pipe].u.pipe.u.branch.min_length += 2;
+  slices[pipe].starter = advers(slices[pipe].starter);
+  TraceValue("%u",slices[pipe].starter);
+  TraceValue("%u",slices[pipe].u.pipe.u.branch.length);
+  TraceValue("%u\n",slices[pipe].u.pipe.u.branch.min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -867,32 +830,10 @@ slice_index alloc_help_root_slice(slice_index si)
   return result;
 }
 
-/* Shorten a help pipe by a half-move
- * @param pipe identifies pipe to be shortened
- */
-static void branch_h_shorten_help_pipe(slice_index pipe)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParamListEnd();
-
-  --slices[pipe].u.pipe.u.branch.length;
-  --slices[pipe].u.pipe.u.branch.min_length;
-  if (slices[pipe].u.pipe.u.branch.min_length<slack_length_help)
-    slices[pipe].u.pipe.u.branch.min_length += 2;
-  slices[pipe].starter = advers(slices[pipe].starter);
-  TraceValue("%u",slices[pipe].starter);
-  TraceValue("%u",slices[pipe].u.pipe.u.branch.length);
-  TraceValue("%u\n",slices[pipe].u.pipe.u.branch.min_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Shorten a help root branch by a half-move
  * @param root identifies root branch to be shortened
  */
-static void branch_h_shorten_help_root(slice_index root)
+static void help_root_shorten(slice_index root)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -915,7 +856,7 @@ static void branch_h_shorten_help_root(slice_index root)
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable
  */
-slice_index branch_h_root_make_setplay_slice(slice_index si)
+slice_index help_root_make_setplay_slice(slice_index si)
 {
   slice_index result;
   slice_index const full_length_slice = slices[si].u.root_branch.full_length;
@@ -940,7 +881,7 @@ slice_index branch_h_root_make_setplay_slice(slice_index si)
 
     result = copy_slice(si);
     slices[result].u.root_branch.full_length = full_length_slice_copy;
-    branch_h_shorten_help_root(result);
+    help_root_shorten(result);
   }
 
   TraceFunctionExit(__func__);
@@ -976,7 +917,7 @@ static boolean traverse_and_shorten_help_root(slice_index root,
   TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
 
-  branch_h_shorten_help_root(root);
+  help_root_shorten(root);
   result = traverse_slices(slices[root].u.root_branch.full_length,st);
 
   TraceFunctionExit(__func__);
@@ -1029,7 +970,7 @@ static slice_operation const slice_shorteners[] =
  *         - slice representing subsequent play if root has 1 half-move only
  *         - root (shortened) otherwise
  */
-slice_index branch_h_root_shorten(slice_index root)
+slice_index help_root_shorten_help_play(slice_index root)
 {
   slice_index result;
 
@@ -1061,8 +1002,8 @@ slice_index branch_h_root_shorten(slice_index root)
  * @return does the leaf decide on the starter?
  * TODO can we get rid of this???
  */
-who_decides_on_starter branch_h_root_detect_starter(slice_index root,
-                                                    boolean same_side_as_root)
+who_decides_on_starter help_root_detect_starter(slice_index root,
+                                                boolean same_side_as_root)
 {
   who_decides_on_starter result;
   slice_index const full_length_slice = slices[root].u.root_branch.full_length;
@@ -1114,14 +1055,77 @@ static boolean solve_short_in_n(slice_index root, stip_length_type n)
   return result;
 }
 
+/* Determine and write the solution(s) in a help stipulation
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ *          (this may be shorter than the slice's length if we are
+ *          searching for short solutions only)
+ * @return true iff >=1 solution was found
+ */
+static boolean solve_full_in_n(slice_index root, stip_length_type n)
+{
+  Side const starter = slices[root].starter;
+  Side const next_side = advers(starter);
+  slice_index const next_slice = slices[root].u.root_branch.short_length;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParamListEnd();
+
+  assert(n>slack_length_help);
+
+  active_slice[nbply+1] = slices[root].u.root_branch.full_length;
+  genmove(starter);
+  
+  --MovesLeft[starter];
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !(OptFlag[restart] && MoveNbr<RestartNbr)
+        && move_filter(slices[root].u.root_branch.full_length,n,starter))
+    {
+      if (!slice_must_starter_resign_hashed(next_slice,starter)
+          && help_solve_in_n(next_slice,n-1,next_side))
+        result = true;
+    }
+
+    if (OptFlag[movenbr])
+      IncrementMoveNbr();
+
+    repcoup();
+
+    if (OptFlag[maxsols] && solutions>=maxsolutions)
+    {
+      TraceValue("%u",maxsolutions);
+      TraceValue("%u",solutions);
+      TraceText("aborting\n");
+      break;
+    }
+
+    if (periods_counter>=nr_periods)
+      break;
+  }
+    
+  ++MovesLeft[starter];
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve full-length solutions in exactly n in help play at root level
  * @param root slice index
  * @param n number of half moves
  * @return true iff >=1 solution was found
  */
-boolean branch_h_root_solve_in_n(slice_index root, stip_length_type n)
+boolean help_root_solve_in_n(slice_index root, stip_length_type n)
 {
-  slice_index const full_length_slice = slices[root].u.root_branch.full_length;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -1132,7 +1136,7 @@ boolean branch_h_root_solve_in_n(slice_index root, stip_length_type n)
   assert(n>=slack_length_help);
 
   if (n==slices[root].u.root_branch.length)
-    result = branch_h_solve_full_in_n(full_length_slice,n);
+    result = solve_full_in_n(root,n);
   else
     result = solve_short_in_n(root,n);
 
@@ -1142,11 +1146,13 @@ boolean branch_h_root_solve_in_n(slice_index root, stip_length_type n)
   return result;
 }
 
-/* Solve a composite slice with help play at root level
- * @param root slice index
+/* Solve a branch slice at root level.
+ * @param si slice index
+ * @return no_slice if set play not applicable
+ *         new root slice index (may be equal to old one) otherwise
  * @return true iff >=1 solution was found
  */
-boolean branch_h_root_solve(slice_index root)
+boolean help_root_solve(slice_index root)
 {
   boolean result = false;
 
@@ -1200,12 +1206,7 @@ boolean branch_h_root_solve(slice_index root)
     else if (isIntelligentModeActive)
       result = Intelligent(root,full_length,full_length);
     else
-    {
-      slice_index const full_length_slice
-          = slices[root].u.root_branch.full_length;
-      /* TODO communicate with full_length_slice over help_* interface */
-      result = branch_h_solve_full_in_n(full_length_slice,full_length);
-    }
+      result = solve_full_in_n(root,full_length);
 
     if (OptFlag[maxsols] && solutions>=maxsolutions)
       /* signal maximal number of solutions reached to outer world */
@@ -1224,7 +1225,7 @@ boolean branch_h_root_solve(slice_index root)
  * @param si slice index
  * @return true iff starter must resign
  */
-boolean branch_h_root_must_starter_resign(slice_index si)
+boolean help_root_must_starter_resign(slice_index si)
 {
   boolean result;
 
@@ -1232,7 +1233,7 @@ boolean branch_h_root_must_starter_resign(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = help_must_starter_resign(slices[si].u.root_branch.full_length);
+  result = help_must_starter_resign(slices[si].u.root_branch.short_length);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1240,29 +1241,35 @@ boolean branch_h_root_must_starter_resign(slice_index si)
   return result;
 }
 
-/* Impose the starting side on a slice.
+/* Impose the starting side on a stipulation
  * @param si identifies branch
- * @param s starting side of slice
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void branch_h_root_impose_starter(slice_index si, Side s)
+boolean help_root_impose_starter(slice_index si, slice_traversal *st)
 {
+  boolean result;
+  Side const * const starter = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",s);
   TraceFunctionParamListEnd();
 
-  slice_impose_starter(slices[si].u.root_branch.full_length,s);
-  slices[si].starter = s;
-  
+  slices[si].starter = *starter;
+  result = slice_traverse_children(si,st);
+
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine whether a slice has a solution
  * @param si slice index
  * @return true iff slice si has a solution
  */
-boolean branch_h_root_has_solution(slice_index si)
+boolean help_root_has_solution(slice_index si)
 {
   boolean result;
 
@@ -1270,7 +1277,7 @@ boolean branch_h_root_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = branch_h_has_solution(slices[si].u.root_branch.full_length);
+  result = slice_has_solution(slices[si].u.root_branch.full_length);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

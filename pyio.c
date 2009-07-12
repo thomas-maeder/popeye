@@ -2005,7 +2005,7 @@ static char *ParseReflexEnd(char *tok, slice_index *si)
                                                 slices[leaf].u.leaf.goal);
     slice_index const not = alloc_not_slice(direct);
     *si = alloc_reciprocal_slice(help,not);
-    slice_impose_starter(*si,White);
+    slices[*si].starter = White;
   }
 
   return tok;
@@ -2030,7 +2030,7 @@ static char *ParseEnd(char *tok, slice_index *si)
     tok = ParseGoal(tok+6,STLeafHelp,&leaf);
     *si = alloc_branch_h_slice(slack_length_help+1,slack_length_help+1,leaf);
     /* the end of a sermi-r problem is hX1 with reversed coulours. */
-    slice_impose_starter(*si,White);
+    slices[*si].starter = White;
   }
 
   else if (strncmp("hs", tok, 2) == 0)
@@ -3027,7 +3027,7 @@ static char *ParseStructuredStip(void)
     if (tok==0)
       tok = ReadNextTokStr();
     else if (root_slice!=no_slice)
-      slice_impose_starter(root_slice,starter);
+      stip_impose_starter(starter);
   }
 
   TraceFunctionExit(__func__);

@@ -1,7 +1,18 @@
 #include "pystip.h"
 #include "pydata.h"
 #include "pyquodli.h"
+#include "pybrad.h"
+#include "pybradd.h"
+#include "pybrah.h"
+#include "pybraser.h"
+#include "pyleaf.h"
+#include "pyleafs.h"
+#include "pyrecipr.h"
+#include "pyquodli.h"
 #include "pybrafrk.h"
+#include "pynot.h"
+#include "pyhelpha.h"
+#include "pymovein.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -930,6 +941,42 @@ void stip_make_exact(void)
   TraceFunctionParamListEnd();
 
   slice_traversal_init(&st,&exact_makers,0);
+  traverse_slices(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static slice_operation const starter_imposers[] =
+{
+  &branch_d_impose_starter,          /* STBranchDirect */
+  &branch_d_defender_impose_starter, /* STBranchDirectDefender */
+  &branch_h_impose_starter,          /* STBranchHelp */
+  &branch_ser_impose_starter,        /* STBranchSeries */
+  &branch_fork_impose_starter,       /* STBranchFork */
+  &leaf_impose_starter,              /* STLeafDirect */
+  &leaf_impose_starter,              /* STLeafHelp */
+  &leaf_s_impose_starter,            /* STLeafSelf */
+  &leaf_impose_starter,              /* STLeafForced */
+  &reci_impose_starter,              /* STReciprocal */
+  &quodlibet_impose_starter,         /* STQuodlibet */
+  &not_impose_starter,               /* STNot */
+  &move_inverter_impose_starter,     /* STMoveInverter */
+  &help_root_impose_starter,         /* STHelpRoot */
+  &help_hashed_impose_starter        /* STHelpHashed */
+};
+
+/* Set the starting side of the stipulation
+ */
+void stip_impose_starter(Side starter)
+{
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",starter);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&starter_imposers,&starter);
   traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);

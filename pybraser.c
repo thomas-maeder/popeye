@@ -607,19 +607,16 @@ who_decides_on_starter branch_ser_detect_starter(slice_index si,
           /* e.g. ser-# */
           slices[si].starter = White;
         TraceValue("%u\n",slices[si].starter);
-        slice_impose_starter(next,advers(slices[si].starter));
         break;
 
       case STLeafSelf:
         slices[si].starter = White;
         TraceValue("%u\n",slices[si].starter);
-        slice_impose_starter(next,slices[si].starter);
         break;
 
       case STLeafHelp:
         slices[si].starter = Black;
         TraceValue("%u\n",slices[si].starter);
-        slice_impose_starter(next,slices[si].starter);
         break;
 
       default:
@@ -639,12 +636,29 @@ who_decides_on_starter branch_ser_detect_starter(slice_index si,
   return result;
 }
 
-/* Impose the starting side on a slice.
+/* Impose the starting side on a stipulation
  * @param si identifies branch
- * @param s starting side of slice
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void branch_ser_impose_starter(slice_index si, Side s)
+boolean branch_ser_impose_starter(slice_index si, slice_traversal *st)
 {
-  slices[si].starter = s;
-  slice_impose_starter(slices[si].u.pipe.next,advers(s));
+  boolean result;
+  Side * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+
+  *starter = advers(*starter);
+  result = slice_traverse_children(si,st);
+  *starter = advers(*starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

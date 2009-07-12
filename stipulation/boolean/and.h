@@ -123,10 +123,12 @@ boolean reci_solve(slice_index si);
 who_decides_on_starter reci_detect_starter(slice_index si,
                                            boolean same_side_as_root);
 
-/* Impose the starting side on a slice.
- * @param si identifies slice
- * @param s starting side of slice
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void reci_impose_starter(slice_index si, Side s);
+boolean reci_impose_starter(slice_index si, slice_traversal *st);
 
 #endif

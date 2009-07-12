@@ -133,12 +133,6 @@ typedef enum
 who_decides_on_starter slice_detect_starter(slice_index si,
                                             boolean same_side_as_root);
 
-/* Impose the starting side on a slice.
- * @param si identifies slice
- * @param s starting side of leaf
- */
-void slice_impose_starter(slice_index si, Side s);
-
 /* Write that the non-starter has solved (i.e. in a self stipulation)
  * @param si slice index
  */

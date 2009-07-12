@@ -16,11 +16,13 @@
  */
 boolean leaf_is_goal_reached(Side just_moved, slice_index leaf);
 
-/* Impose the starting side on a leaf. 
- * @param leaf identifies leaf
- * @param s starting side of leaf
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
  */
-void leaf_impose_starter(slice_index leaf, Side s);
+boolean leaf_impose_starter(slice_index si, slice_traversal *st);
 
 /* Determine whether the mating side still has a piece that could
  * deliver the mate.
