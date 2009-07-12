@@ -1041,13 +1041,7 @@ static boolean solve_short_in_n(slice_index root, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  /* we only display move numbers when looking for full length
-   * solutions (incl. full length set play)
-   */
-  boolean const save_movenbr = OptFlag[movenbr];
-  OptFlag[movenbr] = false;
   result = help_solve_in_n(short_length_slice,n,slices[root].starter);
-  OptFlag[movenbr] = save_movenbr;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
