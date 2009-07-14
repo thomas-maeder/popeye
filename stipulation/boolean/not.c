@@ -246,6 +246,7 @@ boolean not_impose_starter(slice_index si, slice_traversal *st)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",*starter);
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
