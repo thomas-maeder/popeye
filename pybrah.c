@@ -920,7 +920,7 @@ static boolean traverse_and_shorten_help_root(slice_index root,
   TraceFunctionParamListEnd();
 
   help_root_shorten(root);
-  result = traverse_slices(slices[root].u.pipe.u.root_branch.full_length,st);
+  result = traverse_slices(slices[root].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
