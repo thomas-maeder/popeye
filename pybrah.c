@@ -817,13 +817,11 @@ slice_index alloc_help_root_slice(slice_index si)
 
   slices[result].type = STHelpRoot;
   slices[result].u.pipe.next = branch_find_fork(si);
-  slices[result].u.pipe.u.root_branch.full_length = si;
   slices[result].u.pipe.u.root_branch.length = slices[si].u.pipe.u.branch.length;
   slices[result].u.pipe.u.root_branch.min_length
       = slices[si].u.pipe.u.branch.min_length;
   slices[result].starter = slices[si].starter;
   TraceValue("%u",slices[result].starter);
-  TraceValue("%u",slices[result].u.pipe.u.root_branch.full_length);
   TraceValue("%u\n",slices[result].u.pipe.next);
 
   TraceFunctionExit(__func__);
@@ -861,28 +859,26 @@ static void help_root_shorten(slice_index root)
 slice_index help_root_make_setplay_slice(slice_index si)
 {
   slice_index result;
-  slice_index const full_length_slice = slices[si].u.pipe.u.root_branch.full_length;
+  slice_index const fork = branch_find_fork(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   assert(slices[si].type==STHelpRoot);
+  assert(fork!=no_slice);
   assert(slices[si].u.pipe.u.root_branch.length>slack_length_help);
 
   if (slices[si].u.pipe.u.root_branch.length==slack_length_help+1)
-  {
-    slice_index const fork = branch_find_fork(si);
     result = slices[fork].u.pipe.u.branch_fork.towards_goal;
-  }
   else
   {
+    slice_index const full_length_slice = slices[fork].u.pipe.next;
     slice_index const full_length_slice_copy = copy_slice(full_length_slice);
     assert(slices[full_length_slice].type==STBranchHelp);
     branch_h_shorten_help_pipe(full_length_slice_copy);
 
     result = copy_slice(si);
-    slices[result].u.pipe.u.root_branch.full_length = full_length_slice_copy;
     help_root_shorten(result);
   }
 
