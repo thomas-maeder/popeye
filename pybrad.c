@@ -72,6 +72,28 @@ void branch_d_write_unsolvability(slice_index si)
   branch_d_defender_write_unsolvability(slices[si].u.pipe.next);
 }
 
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean branch_d_is_goal_reached(Side just_moved, slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result =  branch_d_defender_is_goal_reached(just_moved,
+                                              slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.
  * E.g. in s# or r#, has it taken the last potential mating piece of
@@ -128,6 +150,7 @@ static boolean have_we_solution_in_n(slice_index si,
 
   assert(n%2==0);
 
+  active_slice[nbply+1] = si;
   genmove(attacker);
 
   while (!solution_found && encore())
@@ -336,6 +359,7 @@ void branch_d_solve_continuations_in_n(table continuations,
   assert(n%2==0);
   assert(n>slack_length_direct);
 
+  active_slice[nbply+1] = si;
   genmove(attacker);
 
   while (encore())
@@ -477,6 +501,7 @@ boolean branch_d_root_solve(slice_index si)
   {
     solutions = 0;
 
+    active_slice[nbply+1] = si;
     genmove(attacker);
 
     output_start_continuation_level();

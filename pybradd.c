@@ -229,6 +229,7 @@ has_defender_refutation(slice_index si,
 
   assert(n%2==1);
 
+  active_slice[nbply+1] = si;
   move_generation_mode =
       n-1>slack_length_direct
       ? move_generation_mode_opti_per_side[defender]
@@ -274,6 +275,7 @@ static int count_all_nontrivial_defenses(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  active_slice[nbply+1] = si;
   genmove(defender);
 
   TraceValue("%u",nbcou);
@@ -329,6 +331,7 @@ static int count_enough_nontrivial_defenses(slice_index si,
   TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
+  active_slice[nbply+1] = si;
   genmove(defender);
 
   TraceValue("%u",max_nr_nontrivial);
@@ -591,6 +594,7 @@ static boolean defends_against_threats(table threats,
     unsigned int nr_successful_threats = 0;
     boolean defense_found = false;
 
+    active_slice[nbply+1] = si;
     genmove(attacker);
 
     while (encore() && !defense_found)
@@ -767,6 +771,7 @@ static boolean solve_variations_in_n(int len_threat,
 
   assert(n%2==1);
 
+  active_slice[nbply+1] = si;
   genmove(defender);
 
   while(encore())
@@ -1000,6 +1005,7 @@ static void root_solve_variations_in_n(int len_threat,
 
   assert(n%2==1);
 
+  active_slice[nbply+1] = si;
   genmove(defender);
 
   while(encore())
@@ -1118,6 +1124,7 @@ static boolean root_collect_refutations(table refutations,
 
   assert(n%2==1);
 
+  active_slice[nbply+1] = si;
   if (n-1>slack_length_direct+2)
     move_generation_mode= move_generation_mode_opti_per_side[defender];
   genmove(defender);

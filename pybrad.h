@@ -41,6 +41,13 @@ void branch_d_write_unsolvability(slice_index si);
  */
 boolean branch_d_must_starter_resign(slice_index si);
 
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean branch_d_is_goal_reached(Side just_moved, slice_index si);
+
 /* Determine whether the starting side has made such a bad move that
  * it is clear without playing further that it is not going to win.
  * E.g. in s# or r#, has it taken the last potential mating piece of
