@@ -777,7 +777,7 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
   0,                                  /* STHelpRoot */
-  &make_exact_branch                  /* STHelpHashed */
+  0                                   /* STHelpHashed */
 };
 
 /* Make the stipulation exact
@@ -812,7 +812,7 @@ static slice_operation const starter_imposers[] =
   &not_impose_starter,               /* STNot */
   &move_inverter_impose_starter,     /* STMoveInverter */
   &branch_h_impose_starter,          /* STHelpRoot */
-  &help_hashed_impose_starter        /* STHelpHashed */
+  0                                  /* STHelpHashed */
 };
 
 /* Set the starting side of the stipulation
