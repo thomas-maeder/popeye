@@ -2152,7 +2152,7 @@ boolean init_element_help_root(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(slices[si].u.pipe.u.root_branch.full_length,st);
+  result = traverse_slices(slices[si].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
