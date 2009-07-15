@@ -667,14 +667,14 @@ static boolean init_slice_properties_help_root(slice_index root,
                                                slice_traversal *st)
 {
   boolean result;
-  slice_index const full_length = slices[root].u.pipe.u.root_branch.full_length;
+  slice_index const next = slices[root].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(full_length,st);
-  slice_properties[root].valueOffset = slice_properties[full_length].valueOffset;
+  result = traverse_slices(next,st);
+  slice_properties[root].valueOffset = slice_properties[next].valueOffset;
   TraceValue("%u",root);
   TraceValue("%u\n",slice_properties[root].valueOffset);
 
