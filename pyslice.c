@@ -75,6 +75,7 @@ boolean slice_must_starter_resign(slice_index si)
       break;
 
     case STBranchHelp:
+    case STHelpRoot:
       result = branch_h_must_starter_resign(si);
       break;
 
@@ -88,10 +89,6 @@ boolean slice_must_starter_resign(slice_index si)
 
     case STMoveInverter:
       result = move_inverter_must_starter_resign(si);
-      break;
-
-    case STHelpRoot:
-      result = help_root_must_starter_resign(si);
       break;
 
     default:
@@ -562,16 +559,13 @@ boolean slice_has_solution(slice_index si)
       result = branch_d_has_solution(si);
       break;
 
+    case STHelpRoot:
     case STBranchHelp:
       result = branch_h_has_solution(si);
       break;
 
     case STBranchSeries:
       /* TODO */
-      break;
-      
-    case STHelpRoot:
-      result = help_root_has_solution(si);
       break;
 
     default:

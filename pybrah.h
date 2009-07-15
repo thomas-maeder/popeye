@@ -168,12 +168,6 @@ boolean branch_h_impose_starter(slice_index si, slice_traversal *st);
  */
 slice_index alloc_help_root_slice(slice_index si);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return true iff slice si has a solution
- */
-boolean help_root_has_solution(slice_index si);
-
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
@@ -218,13 +212,5 @@ boolean help_root_solve(slice_index si);
  * @return true iff >=1 solution was found
  */
 boolean help_root_solve_in_n(slice_index si, stip_length_type n);
-
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean help_root_must_starter_resign(slice_index si);
 
 #endif

@@ -584,7 +584,8 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
-  assert(slices[si].type==STBranchHelp);
+  assert(slices[si].type==STBranchHelp
+         || slices[si].type==STHelpRoot);
 
   TraceValue("%u\n",branch_starter);
 
@@ -1214,28 +1215,6 @@ boolean help_root_solve(slice_index root)
   return result;
 }
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean help_root_must_starter_resign(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = help_must_starter_resign(slices[si].u.pipe.next);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
@@ -1254,26 +1233,6 @@ boolean help_root_impose_starter(slice_index si, slice_traversal *st)
   slices[si].starter = *starter;
   result = slice_traverse_children(si,st);
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return true iff slice si has a solution
- */
-boolean help_root_has_solution(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_solution(slices[si].u.pipe.u.root_branch.full_length);
-  
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();

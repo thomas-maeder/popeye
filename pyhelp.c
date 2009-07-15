@@ -70,6 +70,7 @@ boolean help_has_solution_in_n(slice_index si,
   switch (slices[si].type)
   {
     case STBranchHelp:
+    case STHelpRoot:
       result = branch_h_has_solution_in_n(si,n,side_at_move);
       break;
 
