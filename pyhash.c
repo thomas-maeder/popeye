@@ -667,7 +667,7 @@ static boolean init_slice_properties_help_root(slice_index root,
                                                slice_traversal *st)
 {
   boolean result;
-  slice_index const full_length = slices[root].u.root_branch.full_length;
+  slice_index const full_length = slices[root].u.pipe.u.root_branch.full_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -1236,7 +1236,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
       case STHelpRoot:
       {
-        slice_index const full_length = slices[si].u.root_branch.full_length;
+        slice_index const full_length = slices[si].u.pipe.u.root_branch.full_length;
         result = value_of_data_recursive(he,full_length);
         break;
       }
@@ -1552,7 +1552,7 @@ static int estimateNumberOfHoles(slice_index si)
       break;
 
     case STHelpRoot:
-      result = estimateNumberOfHoles(slices[si].u.root_branch.full_length);
+      result = estimateNumberOfHoles(slices[si].u.pipe.u.root_branch.full_length);
       break;
 
     case STBranchFork:
@@ -2201,7 +2201,7 @@ boolean init_element_help_root(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(slices[si].u.root_branch.full_length,st);
+  result = traverse_slices(slices[si].u.pipe.u.root_branch.full_length,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

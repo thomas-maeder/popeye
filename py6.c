@@ -2136,7 +2136,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STHelpRoot:
     {
-      slice_index const full_length = slices[si].u.root_branch.full_length;
+      slice_index const full_length = slices[si].u.pipe.u.root_branch.full_length;
       result = detect_meaning_of_whitetoplay(full_length);
       break;
     }

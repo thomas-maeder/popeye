@@ -62,9 +62,9 @@ static output_mode detect_output_mode(slice_index si)
       break;
 
     case STHelpRoot:
-      if (slices[si].u.root_branch.length==slack_length_help+1)
+      if (slices[si].u.pipe.u.root_branch.length==slack_length_help+1)
         /* may be set play */
-        result = detect_output_mode(slices[si].u.root_branch.full_length);
+        result = detect_output_mode(slices[si].u.pipe.u.root_branch.full_length);
       else
         result = output_mode_line;
       break;

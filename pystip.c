@@ -251,7 +251,7 @@ stip_length_type get_max_nr_moves(slice_index si)
       break;
 
     case STHelpRoot:
-      result = get_max_nr_moves(slices[si].u.root_branch.full_length);
+      result = get_max_nr_moves(slices[si].u.pipe.u.root_branch.full_length);
       break;
 
     default:
@@ -431,7 +431,7 @@ static boolean slice_ends_only_in(Goal const goals[],
 
     case STHelpRoot:
     {
-      slice_index const full_length = slices[si].u.root_branch.full_length;
+      slice_index const full_length = slices[si].u.pipe.u.root_branch.full_length;
       return slice_ends_only_in(goals,nrGoals,full_length);
     }
 
@@ -504,7 +504,7 @@ static boolean slice_ends_in(Goal const goals[],
 
     case STHelpRoot:
     {
-      slice_index const full_length = slices[si].u.root_branch.full_length;
+      slice_index const full_length = slices[si].u.pipe.u.root_branch.full_length;
       return slice_ends_in(goals,nrGoals,full_length);
     }
 
@@ -594,7 +594,7 @@ static slice_index find_goal_recursive(Goal goal,
 
     case STHelpRoot:
     {
-      slice_index const full_length = slices[si].u.root_branch.full_length;
+      slice_index const full_length = slices[si].u.pipe.u.root_branch.full_length;
       result = find_goal_recursive(goal,start,active,full_length);
       break;
     }
@@ -725,7 +725,7 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
 
     case STHelpRoot:
     {
-      slice_index const full = slices[current_slice].u.root_branch.full_length;
+      slice_index const full = slices[current_slice].u.pipe.u.root_branch.full_length;
       result = find_unique_goal_recursive(full,found_so_far);
       break;
     }
@@ -1024,7 +1024,7 @@ static boolean traverse_branch_fork(slice_index branch, slice_traversal *st)
  */
 static boolean traverse_help_root(slice_index root, slice_traversal *st)
 {
-  return traverse_slices(slices[root].u.root_branch.full_length,st);
+  return traverse_slices(slices[root].u.pipe.u.root_branch.full_length,st);
 }
 
 static slice_operation const traversers[] =

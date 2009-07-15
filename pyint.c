@@ -2780,8 +2780,8 @@ static void init_moves_left(slice_index si, stip_length_type n)
   {
     case STHelpRoot:
       slice_traverse_children(si,&st);
-      MovesLeft[Black] -= (slices[si].u.root_branch.length-n)/2;
-      MovesLeft[White] -= (slices[si].u.root_branch.length-n)/2;
+      MovesLeft[Black] -= (slices[si].u.pipe.u.root_branch.length-n)/2;
+      MovesLeft[White] -= (slices[si].u.pipe.u.root_branch.length-n)/2;
       break;
 
     case STBranchSeries:
@@ -2930,7 +2930,7 @@ stip_supports_intelligent_rec(slice_index si)
 
     case STHelpRoot:
     {
-      slice_index const full = slices[si].u.root_branch.full_length;
+      slice_index const full = slices[si].u.pipe.u.root_branch.full_length;
       result = stip_supports_intelligent_rec(full);
       break;
     }
