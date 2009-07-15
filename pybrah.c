@@ -1045,7 +1045,7 @@ static boolean solve_full_in_n(slice_index root, stip_length_type n)
 
   assert(n>slack_length_help);
 
-  active_slice[nbply+1] = slices[root].u.pipe.u.root_branch.full_length;
+  active_slice[nbply+1] = root;
   genmove(starter);
   
   --MovesLeft[starter];
