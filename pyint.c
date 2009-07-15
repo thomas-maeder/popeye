@@ -20,6 +20,7 @@
 #include "pydata.h"
 #include "pyslice.h"
 #include "pybrah.h"
+#include "pybrafrk.h"
 #include "pyproof.h"
 #include "pyhelp.h"
 #include "platform/maxtime.h"
@@ -2770,26 +2771,33 @@ static void init_moves_left(slice_index si, stip_length_type n)
 
   goal_to_be_reached = no_goal;
 
-  MovesLeft[Black] = 0;
-  MovesLeft[White] = 0;
-
   slice_traversal_init(&st,&moves_left_initialisers,0);
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STHelpRoot:
-      slice_traverse_children(si,&st);
-      MovesLeft[Black] -= (slices[si].u.pipe.u.root_branch.length-n)/2;
-      MovesLeft[White] -= (slices[si].u.pipe.u.root_branch.length-n)/2;
+    {
+      slice_index const fork = branch_find_fork(si);
+      slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+      MovesLeft[Black] = (n-slack_length_help)/2;
+      MovesLeft[White] = (n-slack_length_help)/2;
+      if ((n-slack_length_help)%2==1)
+        ++MovesLeft[branch_h_starter_in_n(si,n)];
+      traverse_slices(to_goal,&st);
       break;
+    }
 
     case STBranchSeries:
+      MovesLeft[Black] = 0;
+      MovesLeft[White] = 0;
       traverse_slices(si,&st);
       MovesLeft[slices[si].starter] -= slices[si].u.pipe.u.branch.length-n;
       break;
 
     case STLeafHelp:
+      MovesLeft[Black] = 0;
+      MovesLeft[White] = 0;
       traverse_slices(si,&st);
       break;
 
