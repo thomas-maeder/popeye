@@ -205,10 +205,6 @@ stip_length_type get_max_nr_moves(slice_index si)
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
-    case STBranchDirect:
-      result = get_max_nr_moves(slices[si].u.pipe.next);
-      break;
-
     case STBranchDirectDefender:
       result = (slices[si].u.pipe.u.branch_d_defender.length+1
                 +get_max_nr_moves(slices[si].u.pipe.u.branch_d_defender.towards_goal));
@@ -235,17 +231,6 @@ stip_length_type get_max_nr_moves(slice_index si)
       break;
 
     case STReciprocal:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      stip_length_type const result1 = get_max_nr_moves(op1);
-
-      slice_index const op2 = slices[si].u.fork.op2;
-      stip_length_type const result2 = get_max_nr_moves(op2);
-
-      result = result1>result2 ? result1 : result2;
-      break;
-    }
-    
     case STQuodlibet:
     {
       slice_index const op1 = slices[si].u.fork.op1;
@@ -258,20 +243,15 @@ stip_length_type get_max_nr_moves(slice_index si)
       break;
     }
 
+    case STBranchDirect:
     case STNot:
-      result = get_max_nr_moves(slices[si].u.pipe.next);
-      break;
-  
     case STMoveInverter:
+    case STHelpHashed:
       result = get_max_nr_moves(slices[si].u.pipe.next);
       break;
 
     case STHelpRoot:
       result = get_max_nr_moves(slices[si].u.root_branch.full_length);
-      break;
-
-    case STHelpHashed:
-      result = get_max_nr_moves(slices[si].u.pipe.next);
       break;
 
     default:
@@ -312,10 +292,6 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
     }
 
     case STQuodlibet:
-      transform_to_quodlibet_recursive(&slices[index].u.fork.op1);
-      transform_to_quodlibet_recursive(&slices[index].u.fork.op2);
-      break;
-
     case STReciprocal:
       transform_to_quodlibet_recursive(&slices[index].u.fork.op1);
       transform_to_quodlibet_recursive(&slices[index].u.fork.op2);
@@ -420,13 +396,6 @@ static boolean slice_ends_only_in(Goal const goals[],
       return leaf_ends_in_one_of(goals,nrGoals,si);
 
     case STQuodlibet:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      slice_index const op2 = slices[si].u.fork.op2;
-      return (slice_ends_only_in(goals,nrGoals,op1)
-              && slice_ends_only_in(goals,nrGoals,op2));
-    }
-
     case STReciprocal:
     {
       slice_index const op1 = slices[si].u.fork.op1;
@@ -439,6 +408,10 @@ static boolean slice_ends_only_in(Goal const goals[],
       return !slice_ends_only_in(goals,nrGoals,slices[si].u.pipe.next);
 
     case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+    case STMoveInverter:
+    case STHelpHashed:
     {
       slice_index const peer = slices[si].u.pipe.next;
       return slice_ends_only_in(goals,nrGoals,peer);
@@ -450,22 +423,9 @@ static boolean slice_ends_only_in(Goal const goals[],
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
-    case STBranchHelp:
-    case STBranchSeries:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      return slice_ends_only_in(goals,nrGoals,next);
-    }
-
     case STBranchFork:
     {
       slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
-      return slice_ends_only_in(goals,nrGoals,next);
-    }
-
-    case STMoveInverter:
-    {
-      slice_index const next = slices[si].u.pipe.next;
       return slice_ends_only_in(goals,nrGoals,next);
     }
 
@@ -473,12 +433,6 @@ static boolean slice_ends_only_in(Goal const goals[],
     {
       slice_index const full_length = slices[si].u.root_branch.full_length;
       return slice_ends_only_in(goals,nrGoals,full_length);
-    }
-
-    case STHelpHashed:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      return slice_ends_only_in(goals,nrGoals,next);
     }
 
     default:
@@ -517,13 +471,6 @@ static boolean slice_ends_in(Goal const goals[],
       return leaf_ends_in_one_of(goals,nrGoals,si);
 
     case STQuodlibet:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      slice_index const op2 = slices[si].u.fork.op2;
-      return (slice_ends_in(goals,nrGoals,op1)
-              || slice_ends_in(goals,nrGoals,op2));
-    }
-
     case STReciprocal:
     {
       slice_index const op1 = slices[si].u.fork.op1;
@@ -533,12 +480,11 @@ static boolean slice_ends_in(Goal const goals[],
     }
 
     case STNot:
-    {
-      slice_index const op = slices[si].u.pipe.next;
-      return slice_ends_in(goals,nrGoals,op);
-    }
-
     case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+    case STMoveInverter:
+    case STHelpHashed:
     {
       slice_index const peer = slices[si].u.pipe.next;
       return slice_ends_in(goals,nrGoals,peer);
@@ -550,22 +496,9 @@ static boolean slice_ends_in(Goal const goals[],
       return slice_ends_in(goals,nrGoals,next);
     }
 
-    case STBranchHelp:
-    case STBranchSeries:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      return slice_ends_in(goals,nrGoals,next);
-    }
-
     case STBranchFork:
     {
       slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
-      return slice_ends_in(goals,nrGoals,next);
-    }
-
-    case STMoveInverter:
-    {
-      slice_index const next = slices[si].u.pipe.next;
       return slice_ends_in(goals,nrGoals,next);
     }
 
@@ -573,12 +506,6 @@ static boolean slice_ends_in(Goal const goals[],
     {
       slice_index const full_length = slices[si].u.root_branch.full_length;
       return slice_ends_in(goals,nrGoals,full_length);
-    }
-
-    case STHelpHashed:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      return slice_ends_in(goals,nrGoals,next);
     }
 
     default:
@@ -629,15 +556,6 @@ static slice_index find_goal_recursive(Goal goal,
       break;
 
     case STQuodlibet:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      slice_index const op2 = slices[si].u.fork.op2;
-      result = find_goal_recursive(goal,start,active,op1);
-      if (result==no_slice)
-        result = find_goal_recursive(goal,start,active,op2);
-      break;
-    }
-
     case STReciprocal:
     {
       slice_index const op1 = slices[si].u.fork.op1;
@@ -649,13 +567,11 @@ static slice_index find_goal_recursive(Goal goal,
     }
 
     case STNot:
-    {
-      slice_index const op = slices[si].u.pipe.next;
-      result = find_goal_recursive(goal,start,active,op);
-      break;
-    }
-
     case STBranchDirect:
+    case STBranchHelp:
+    case STBranchSeries:
+    case STMoveInverter:
+    case STHelpHashed:
     {
       slice_index const peer = slices[si].u.pipe.next;
       result = find_goal_recursive(goal,start,active,peer);
@@ -669,24 +585,9 @@ static slice_index find_goal_recursive(Goal goal,
       break;
     }
 
-    case STBranchHelp:
-    case STBranchSeries:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      result = find_goal_recursive(goal,start,active,next);
-      break;
-    }
-
     case STBranchFork:
     {
       slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
-      result = find_goal_recursive(goal,start,active,next);
-      break;
-    }
-
-    case STMoveInverter:
-    {
-      slice_index const next = slices[si].u.pipe.next;
       result = find_goal_recursive(goal,start,active,next);
       break;
     }
@@ -695,13 +596,6 @@ static slice_index find_goal_recursive(Goal goal,
     {
       slice_index const full_length = slices[si].u.root_branch.full_length;
       result = find_goal_recursive(goal,start,active,full_length);
-      break;
-    }
-
-    case STHelpHashed:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      result = find_goal_recursive(goal,start,active,next);
       break;
     }
 
@@ -790,14 +684,6 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
       break;
     
     case STQuodlibet:
-    {
-      slice_index const op1 = slices[current_slice].u.fork.op1;
-      slice_index const op2 = slices[current_slice].u.fork.op2;
-      result = (find_unique_goal_recursive(op1,found_so_far)
-                && find_unique_goal_recursive(op2,found_so_far));
-      break;
-    }
-
     case STReciprocal:
     {
       slice_index const op1 = slices[current_slice].u.fork.op1;
@@ -808,6 +694,9 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
     }
     
     case STNot:
+    case STBranchHelp:
+    case STBranchSeries:
+    case STMoveInverter:
     {
       slice_index const op = slices[current_slice].u.pipe.next;
       result = find_unique_goal_recursive(op,found_so_far);
@@ -834,14 +723,6 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
       break;
     }
 
-    case STBranchHelp:
-    case STBranchSeries:
-    {
-      slice_index const next = slices[current_slice].u.pipe.next;
-      result = find_unique_goal_recursive(next,found_so_far);
-      break;
-    }
-
     case STHelpRoot:
     {
       slice_index const full = slices[current_slice].u.root_branch.full_length;
@@ -853,13 +734,6 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
     {
       slice_index const
           next = slices[current_slice].u.pipe.u.branch_fork.towards_goal;
-      result = find_unique_goal_recursive(next,found_so_far);
-      break;
-    }
-
-    case STMoveInverter:
-    {
-      slice_index const next = slices[current_slice].u.pipe.next;
       result = find_unique_goal_recursive(next,found_so_far);
       break;
     }
