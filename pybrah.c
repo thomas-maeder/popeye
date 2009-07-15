@@ -1054,7 +1054,7 @@ static boolean solve_full_in_n(slice_index root, stip_length_type n)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !(OptFlag[restart] && MoveNbr<RestartNbr)
-        && move_filter(slices[root].u.pipe.u.root_branch.full_length,n,starter))
+        && move_filter(root,n,starter))
     {
       if (!slice_must_starter_resign_hashed(next_slice,starter)
           && help_solve_in_n(next_slice,n-1,next_side))
