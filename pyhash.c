@@ -1511,10 +1511,6 @@ static int estimateNumberOfHoles(slice_index si)
       result = 2*slices[si].u.pipe.u.branch_d_defender.length;
       break;
 
-    case STBranchHelp:
-      result = estimateNumberOfHoles(slices[si].u.pipe.next);
-      break;
-
     case STBranchSeries:
       /* That's far too much. In a ser-h#5 there won't be more
        * than 5 holes in hashed positions.      TLi
@@ -1522,26 +1518,15 @@ static int estimateNumberOfHoles(slice_index si)
       result = slices[si].u.pipe.u.branch.length;
       break;
 
+    case STBranchHelp:
     case STHelpRoot:
-      result = estimateNumberOfHoles(slices[si].u.pipe.u.root_branch.full_length);
-      break;
-
     case STBranchFork:
-      result = estimateNumberOfHoles(slices[si].u.pipe.next);
-      break;
-
     case STMoveInverter:
+    case STNot:
       result = estimateNumberOfHoles(slices[si].u.pipe.next);
       break;
 
     case STQuodlibet:
-    {
-      int const result1 = estimateNumberOfHoles(slices[si].u.fork.op1);
-      int const result2 = estimateNumberOfHoles(slices[si].u.fork.op2);
-      result = result1>result2 ? result1 : result2;
-      break;
-    }
-
     case STReciprocal:
     {
       int const result1 = estimateNumberOfHoles(slices[si].u.fork.op1);
@@ -1550,16 +1535,11 @@ static int estimateNumberOfHoles(slice_index si)
       break;
     }
 
-    case STNot:
-      result = estimateNumberOfHoles(slices[si].u.pipe.next);
-      break;
-
     case STHelpHashed:
       result = 2*slices[si].u.pipe.u.branch.length;
       break;
 
     default:
-      printf("%u\n",slices[si].type);
       assert(0);
       break;
   }
