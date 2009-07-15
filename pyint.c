@@ -2914,6 +2914,7 @@ stip_supports_intelligent_rec(slice_index si)
       break;
 
     case STMoveInverter:
+    case STHelpRoot:
     {
       slice_index const next = slices[si].u.pipe.next;
       result = stip_supports_intelligent_rec(next);
@@ -2933,13 +2934,6 @@ stip_supports_intelligent_rec(slice_index si)
     {
       slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
       result = stip_supports_intelligent_rec(next);
-      break;
-    }
-
-    case STHelpRoot:
-    {
-      slice_index const full = slices[si].u.pipe.u.root_branch.full_length;
-      result = stip_supports_intelligent_rec(full);
       break;
     }
 
