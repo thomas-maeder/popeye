@@ -1143,37 +1143,3 @@ boolean help_root_solve(slice_index root)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean help_root_impose_starter(slice_index si, slice_traversal *st)
-{
-  boolean result;
-  Side * const starter = st->param;
-  Side const save_starter = *starter;
-
-  /* help play in N.5 -> change starter */
-  Side const next_starter = (slices[si].u.pipe.u.branch.length%2==1
-                             ? advers(*starter)
-                             : *starter);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-
-  *starter = next_starter;
-  result = traverse_slices(slices[si].u.pipe.next,st);
-  *starter = save_starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}

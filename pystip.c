@@ -811,7 +811,7 @@ static slice_operation const starter_imposers[] =
   &quodlibet_impose_starter,         /* STQuodlibet */
   &not_impose_starter,               /* STNot */
   &move_inverter_impose_starter,     /* STMoveInverter */
-  &help_root_impose_starter,         /* STHelpRoot */
+  &branch_h_impose_starter,          /* STHelpRoot */
   &help_hashed_impose_starter        /* STHelpHashed */
 };
 
