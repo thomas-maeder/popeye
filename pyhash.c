@@ -1181,17 +1181,6 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
         break;
 
       case STQuodlibet:
-      {
-        slice_index const op1 = slices[si].u.fork.op1;
-        slice_index const op2 = slices[si].u.fork.op2;
-
-        hash_value_type const nested_value1 = value_of_data_recursive(he,op1);
-        hash_value_type const nested_value2 = value_of_data_recursive(he,op2);
-
-        result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
-        break;
-      }
-
       case STReciprocal:
       {
         slice_index const op1 = slices[si].u.fork.op1;
@@ -1205,13 +1194,9 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       }
 
       case STNot:
-      {
-        slice_index const op = slices[si].u.pipe.next;
-        result = value_of_data_recursive(he,op);
-        break;
-      }
-
       case STMoveInverter:
+      case STHelpRoot:
+      case STBranchHelp:
       {
         slice_index const next = slices[si].u.pipe.next;
         result = value_of_data_recursive(he,next);
@@ -1230,20 +1215,6 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       case STBranchDirectDefender:
       {
         slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
-        result = value_of_data_recursive(he,next);
-        break;
-      }
-
-      case STHelpRoot:
-      {
-        slice_index const full_length = slices[si].u.pipe.u.root_branch.full_length;
-        result = value_of_data_recursive(he,full_length);
-        break;
-      }
-
-      case STBranchHelp:
-      {
-        slice_index const next = slices[si].u.pipe.next;
         result = value_of_data_recursive(he,next);
         break;
       }
