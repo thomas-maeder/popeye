@@ -244,4 +244,15 @@ stip h+1.5
 opt wh
 fors 8/k7/16/1P6/K7/16
 
+next
+
+title castling rules in Losing Chess
+title if wK could castle after having moved, we'd have 8 solutions
+
+pieces white kg1 qd1 rf1 bc1 sb1 pa2c2d2e2g2h2
+       black ke8 ra8h8 bc8g7 sg8b8 pa7b7c6d7e7f7h7
+stip dia 8.5
+condition losing
+option movenum
+
 end

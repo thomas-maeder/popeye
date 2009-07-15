@@ -2525,30 +2525,35 @@ boolean jouecoup(ply ply_id, joue_type jt)
   if (castling_supported)
   {
     /* pieces vacating a1, h1, a8, h8 */
-    if (sq_departure == square_h1) {
+    if (sq_departure == square_h1)
       CLRFLAGMASK(castling_flag[ply_id],rh1_cancastle);
-    }
-    else if (sq_departure == square_a1) {
+    else if (sq_departure == square_a1)
       CLRFLAGMASK(castling_flag[ply_id],ra1_cancastle);
-    }
-    else if (sq_departure == square_h8) {
+    else if (sq_departure == square_h8)
       CLRFLAGMASK(castling_flag[ply_id],rh8_cancastle);
-    }
-    else if (sq_departure == square_a8) {
+    else if (sq_departure == square_a8)
       CLRFLAGMASK(castling_flag[ply_id],ra8_cancastle);
-    }
+
     /* pieces arriving at a1, h1, a8, h8 and possibly capturing a rook */
-    if (sq_arrival == square_h1) {
+    if (sq_arrival == square_h1)
       CLRFLAGMASK(castling_flag[ply_id],rh1_cancastle);
-    }
-    else if (sq_arrival == square_a1) {
+    else if (sq_arrival == square_a1)
       CLRFLAGMASK(castling_flag[ply_id],ra1_cancastle);
-    }
-    else if (sq_arrival == square_h8) {
+    else if (sq_arrival == square_h8)
       CLRFLAGMASK(castling_flag[ply_id],rh8_cancastle);
-    }
-    else if (sq_arrival == square_a8) {
+    else if (sq_arrival == square_a8)
       CLRFLAGMASK(castling_flag[ply_id],ra8_cancastle);
+
+    if (CondFlag[losingchess])
+    {
+      /* r[bn] (and therefore prev_r[bn] are not set if kings are not
+       * royal
+       */
+      if (sq_departure==square_e1)
+        CLRFLAGMASK(castling_flag[ply_id],ke1_cancastle);
+
+      if (sq_departure==square_e8)
+        CLRFLAGMASK(castling_flag[ply_id],ke8_cancastle);
     }
   }     /* castling_supported */
 

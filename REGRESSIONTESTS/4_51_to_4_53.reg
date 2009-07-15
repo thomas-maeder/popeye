@@ -795,3 +795,53 @@ option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
 solution finished. 
 
 
+
+    castling rules in Losing Chess
+if wK could castle after having moved, we'd have 8 solutions
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B   .  -K   .  -S  -R   8
+|                                   |
+7  -P  -P   .  -P  -P  -P  -B  -P   7
+|                                   |
+6   .   .  -P   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   .   P   P   P   .   P   P   2
+|                                   |
+1   .   S   B   Q   .   R   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia8.5                    11 + 14
+             LosingChess
+
+  1  (h2-h4 )
+  2  (h2-h3 )
+  3  (g2-g4 )
+  4  (g2-g3 )
+  5  (f2-f4 )
+  6  (f2-f3 )
+  7  (e2-e4 )
+  8  (e2-e3 )
+  9  (d2-d4 )
+ 10  (d2-d3 )
+ 11  (c2-c4 )
+ 12  (c2-c3 )
+ 13  (b2-b4 )
+ 14  (b2-b3 )
+ 15  (a2-a4 )
+ 16  (a2-a3 )
+ 17  (Sg1-h3 )
+ 18  (Sg1-f3 )
+ 19  (Sb1-c3 )
+ 20  (Sb1-a3 )
+
+solution finished. 
+
+
