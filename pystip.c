@@ -247,11 +247,8 @@ stip_length_type get_max_nr_moves(slice_index si)
     case STNot:
     case STMoveInverter:
     case STHelpHashed:
-      result = get_max_nr_moves(slices[si].u.pipe.next);
-      break;
-
     case STHelpRoot:
-      result = get_max_nr_moves(slices[si].u.pipe.u.root_branch.full_length);
+      result = get_max_nr_moves(slices[si].u.pipe.next);
       break;
 
     default:
@@ -412,6 +409,7 @@ static boolean slice_ends_only_in(Goal const goals[],
     case STBranchSeries:
     case STMoveInverter:
     case STHelpHashed:
+    case STHelpRoot:
     {
       slice_index const peer = slices[si].u.pipe.next;
       return slice_ends_only_in(goals,nrGoals,peer);
@@ -427,12 +425,6 @@ static boolean slice_ends_only_in(Goal const goals[],
     {
       slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
       return slice_ends_only_in(goals,nrGoals,next);
-    }
-
-    case STHelpRoot:
-    {
-      slice_index const full_length = slices[si].u.pipe.u.root_branch.full_length;
-      return slice_ends_only_in(goals,nrGoals,full_length);
     }
 
     default:
@@ -485,6 +477,7 @@ static boolean slice_ends_in(Goal const goals[],
     case STBranchSeries:
     case STMoveInverter:
     case STHelpHashed:
+    case STHelpRoot:
     {
       slice_index const peer = slices[si].u.pipe.next;
       return slice_ends_in(goals,nrGoals,peer);
@@ -500,12 +493,6 @@ static boolean slice_ends_in(Goal const goals[],
     {
       slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
       return slice_ends_in(goals,nrGoals,next);
-    }
-
-    case STHelpRoot:
-    {
-      slice_index const full_length = slices[si].u.pipe.u.root_branch.full_length;
-      return slice_ends_in(goals,nrGoals,full_length);
     }
 
     default:
@@ -572,6 +559,7 @@ static slice_index find_goal_recursive(Goal goal,
     case STBranchSeries:
     case STMoveInverter:
     case STHelpHashed:
+    case STHelpRoot:
     {
       slice_index const peer = slices[si].u.pipe.next;
       result = find_goal_recursive(goal,start,active,peer);
@@ -589,13 +577,6 @@ static slice_index find_goal_recursive(Goal goal,
     {
       slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
       result = find_goal_recursive(goal,start,active,next);
-      break;
-    }
-
-    case STHelpRoot:
-    {
-      slice_index const full_length = slices[si].u.pipe.u.root_branch.full_length;
-      result = find_goal_recursive(goal,start,active,full_length);
       break;
     }
 
@@ -697,6 +678,7 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
     case STBranchHelp:
     case STBranchSeries:
     case STMoveInverter:
+    case STHelpRoot:
     {
       slice_index const op = slices[current_slice].u.pipe.next;
       result = find_unique_goal_recursive(op,found_so_far);
@@ -720,13 +702,6 @@ static boolean find_unique_goal_recursive(slice_index current_slice,
       /* prevent infinite recursion */
       if (peer<current_slice)
         result = result && find_unique_goal_recursive(peer,found_so_far);
-      break;
-    }
-
-    case STHelpRoot:
-    {
-      slice_index const full = slices[current_slice].u.pipe.u.root_branch.full_length;
-      result = find_unique_goal_recursive(full,found_so_far);
       break;
     }
 
