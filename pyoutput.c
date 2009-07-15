@@ -43,6 +43,7 @@ static output_mode detect_output_mode(slice_index si)
   switch (slices[si].type)
   {
     case STMoveInverter:
+    case STNot:
       result = detect_output_mode(slices[si].u.pipe.next);
       break;
 
@@ -53,22 +54,15 @@ static output_mode detect_output_mode(slice_index si)
       result = output_mode_tree;
       break;
 
-    case STBranchHelp:
-      if (slices[si].u.pipe.u.branch.length==slack_length_help+1)
-        /* may be set play */
+    case STHelpRoot:
+      if (slices[si].u.pipe.u.root_branch.length==slack_length_help+1)
+        /* may be set play of direct stipulation */
         result = detect_output_mode(slices[si].u.pipe.next);
       else
         result = output_mode_line;
       break;
 
-    case STHelpRoot:
-      if (slices[si].u.pipe.u.root_branch.length==slack_length_help+1)
-        /* may be set play */
-        result = detect_output_mode(slices[si].u.pipe.u.root_branch.full_length);
-      else
-        result = output_mode_line;
-      break;
-
+    case STBranchHelp:
     case STBranchSeries:
     case STLeafHelp:
     case STLeafForced:
@@ -76,20 +70,6 @@ static output_mode detect_output_mode(slice_index si)
       break;
 
     case STQuodlibet:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      output_mode mode1 = detect_output_mode(op1);
-
-      slice_index const op2 = slices[si].u.fork.op2;
-      output_mode mode2 = detect_output_mode(op2);
-
-      if (mode2!=output_mode_none)
-        result = mode2;
-      else
-        result = mode1;
-      break;
-    }
-
     case STReciprocal:
     {
       slice_index const op1 = slices[si].u.fork.op1;
@@ -102,13 +82,6 @@ static output_mode detect_output_mode(slice_index si)
         result = mode2;
       else
         result = mode1;
-      break;
-    }
-
-    case STNot:
-    {
-      slice_index const op = slices[si].u.pipe.next;
-      result = detect_output_mode(op);
       break;
     }
 
