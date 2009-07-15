@@ -64,14 +64,6 @@ option nowk noboard
 
 next
 
-author Ren\'e J. Millour
-origin Die Schwalbe 203, october 2003
-fors 8/3pP3/1N4pG/1pp2k1S/R5p1/7p/BP3p2/2KQS3
-stip a=>b3
-fors 8/3p4/1N4pG/1pp2k1S/R5p1/7p/BP6/2KQS3
-
-next
-
 remark 4.51 didn't find the solution because White could deliver mate after
 remark White's first move
 pieces white kh5 rb2 bf7

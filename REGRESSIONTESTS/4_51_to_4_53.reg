@@ -210,67 +210,6 @@ fairy pieces only allowed in proof games since releases >4.51
 solution finished. 
 
 
-
-          Ren\'e J. Millour
-    Die Schwalbe 203, october 2003
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   .   8
-|                                   |
-7   .   .   .  -P   .   .   .   .   7
-|                                   |
-6   .   N   .   .   .   .  -P   G   6
-|                                   |
-5   .  -P  -P   .   .  -K   .   S   5
-|                                   |
-4   R   .   .   .   .   .  -P   .   4
-|                                   |
-3   .   .   .   .   .   .   .  -P   3
-|                                   |
-2   B   P   .   .   .   .   .   .   2
-|                                   |
-1   .   .   K   Q   S   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  a=>b3                       9 + 7
-
-Initial (Black ->):
-
-          Ren\'e J. Millour
-    Die Schwalbe 203, october 2003
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   .   8
-|                                   |
-7   .   .   .  -P   P   .   .   .   7
-|                                   |
-6   .   N   .   .   .   .  -P   G   6
-|                                   |
-5   .  -P  -P   .   .  -K   .   S   5
-|                                   |
-4   R   .   .   .   .   .  -P   .   4
-|                                   |
-3   .   .   .   .   .   .   .  -P   3
-|                                   |
-2   B   P   .   .   .  -P   .   .   2
-|                                   |
-1   .   .   K   Q   S   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  a=>b3                      10 + 8
-
-  1.f2-f1=Q e7-e8=Q   2.Qf1-d3 Qe8-e2   3.Qd3*d1 + Qe2*d1 a=>b 
-  1.f2-f1=S e7-e8=S   2.Sf1-g3 Se8-f6   3.Sg3*h5 Sf6*h5 a=>b 
-  1.f2-f1=R e7-e8=R   2.Rf1-f4 Re8-a8   3.Rf4*a4 Ra8*a4 a=>b 
-  1.f2-f1=B e7-e8=B   2.Bf1-c4 Be8-f7   3.Bc4*a2 Bf7*a2 a=>b 
-  1.f2-f1=G e7-e8=G   2.Gf1-f6 Ge8-c6   3.Gf6*h6 Gc6*h6 a=>b 
-  1.f2-f1=N e7-e8=N   2.Nf1-d5 Ne8-c4   3.Nd5*b6 Nc4*b6 a=>b 
-
-solution finished. 
-
-
 4.51 didn't find the solution because White could deliver mate after
 White's first move
 

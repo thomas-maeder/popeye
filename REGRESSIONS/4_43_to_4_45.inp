@@ -23,4 +23,18 @@ Pieces
 White Kh5 Be1
 Black Kc3 
 
+next
+
+pieces white Kd1 Bf2 black Kc3 Ra2
+stipulation ser-a=>b11
+pieces white Kh5 Be1 black Kc3 
+
+next
+
+remark Test for StopOnShortSolutions in proof games and a=>b
+pieces white Kd1 Bf2 black Kc3 Ra2
+stipulation ser-a=>b12
+pieces white Kh5 Be1 black Kc3
+option StopOnShortSolutions
+
 EndProblem

@@ -1,5 +1,7 @@
 anfa
+
 prot atob.out
+
 auto ?
 quel Andernach 5/2001
 stei weis Kb3 Tb6 Te8 Bc3
@@ -8,7 +10,9 @@ ford a=>b6
 opti weiss
 stei weis Kd5 Td6 Te5 Bc3 
 stei schw Kb5 Tg4 Lc4
+
 weit
+
 auto ?
 quel Andernach 5/2001
 opti zugn
@@ -18,7 +22,9 @@ ford a=>b16
 opti weiss
 stei weis kg6 de3 th8 lb1 sd8
 stei schw kf1 df8 te4 ld4 sb3
+
 weit
+
 auto Norbert Geissler & Oliver Sick
 quel Andernach 5/2001
 opti zugn
@@ -27,7 +33,9 @@ schw kd7 bc2h2
 ford a=>b5.5
 stei weis kh5
 schw kd7
+
 weit
+
 auto Rene J. Millour
 tite Fehler-Beispiel
 bedi imit d4
@@ -37,14 +45,13 @@ ford a=>b2.5
 stei weis ka6
 schw kc6
 bedi imit f3
-weit
-steine weiss Kd1 Lf2 schwarz Kc3 Ta2
-forderung ser-a=>b11
-steine weiss Kh5 Le1 schwarz Kc3 
+
 weiter
-bemerkung Test für StopNachKurzloesungen in Beweispartien und a=>b
-steine weiss Kd1 Lf2 schwarz Kc3 Ta2
-forderung ser-a=>b12
-steine weiss Kh5 Le1 schwarz Kc3
-option StopNachKurzloesungen
+
+autor Ren\'e J. Millour
+quelle Die Schwalbe 203, Oktober 2003
+fors 8/3bB3/1N4bG/1bb2k1S/T5b1/7b/LB3b2/2KDS3
+forderung a=>b3
+fors 8/3b4/1N4bG/1bb2k1S/T5b1/7b/LB6/2KDS3
+
 ende
