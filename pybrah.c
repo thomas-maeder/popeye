@@ -998,33 +998,6 @@ slice_index help_root_shorten_help_play(slice_index root)
   return result;
 }
 
-/* Detect starter field with the starting side if possible. 
- * @param root identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
- * TODO can we get rid of this???
- */
-who_decides_on_starter help_root_detect_starter(slice_index root,
-                                                boolean same_side_as_root)
-{
-  who_decides_on_starter result;
-  slice_index const full_length_slice = slices[root].u.pipe.u.root_branch.full_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root);
-  TraceFunctionParam("%u",same_side_as_root);
-  TraceFunctionParamListEnd();
-
-  result = slice_detect_starter(full_length_slice,same_side_as_root);
-  slices[root].starter = slices[full_length_slice].starter;
-  TraceValue("->%u\n",slices[root].starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve short solutions in exactly n in help play at root level.
  * @param root slice index
  * @param n number of half moves

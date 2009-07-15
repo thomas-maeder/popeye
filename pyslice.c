@@ -1055,6 +1055,7 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       break;
 
     case STBranchHelp:
+    case STHelpRoot:
       result = branch_h_detect_starter(si,same_side_as_root);
       break;
 
@@ -1080,10 +1081,6 @@ who_decides_on_starter slice_detect_starter(slice_index si,
 
     case STMoveInverter:
       result = move_inverter_detect_starter(si,same_side_as_root);
-      break;
-
-    case STHelpRoot:
-      result = help_root_detect_starter(si,same_side_as_root);
       break;
       
     default:

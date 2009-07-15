@@ -176,14 +176,6 @@ slice_index alloc_help_root_slice(slice_index si);
  */
 boolean help_root_impose_starter(slice_index si, slice_traversal *st);
 
-/* Detect starter field with the starting side if possible. 
- * @param root identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
- */
-who_decides_on_starter help_root_detect_starter(slice_index root,
-                                                boolean same_side_as_root);
-
 /* Shorten a help branch by a half-move. If the branch represents a
  * half-move only, deallocates the branch.
  * @param si identifies the branch
