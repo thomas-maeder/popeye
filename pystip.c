@@ -991,17 +991,6 @@ static boolean traverse_branch_fork(slice_index branch, slice_traversal *st)
   return result_pipe && result_toward_goal;
 }
 
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- * @return true iff pipe and its children have been successfully
- *         traversed
- */
-static boolean traverse_help_root(slice_index root, slice_traversal *st)
-{
-  return traverse_slices(slices[root].u.pipe.u.root_branch.full_length,st);
-}
-
 static slice_operation const traversers[] =
 {
   &traverse_pipe,                   /* STBranchDirect */
@@ -1017,7 +1006,7 @@ static slice_operation const traversers[] =
   &traverse_fork,                   /* STQuodlibet */
   &traverse_pipe,                   /* STNot */
   &traverse_pipe,                   /* STMoveInverter */
-  &traverse_help_root,              /* STHelpRoot */
+  &traverse_pipe,                   /* STHelpRoot */
   &traverse_pipe                    /* STHelpHashed */
 };
 
