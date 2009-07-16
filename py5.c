@@ -2546,13 +2546,12 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
     if (CondFlag[losingchess])
     {
-      /* r[bn] (and therefore prev_r[bn] are not set if kings are not
-       * royal
+      /* r[bn] (and therefore prev_r[bn]) are ==initsquare if kings
+       * are not royal
        */
-      if (sq_departure==square_e1)
+      if (sq_arrival==square_e1)
         CLRFLAGMASK(castling_flag[ply_id],ke1_cancastle);
-
-      if (sq_departure==square_e8)
+      else if (sq_arrival==square_e8)
         CLRFLAGMASK(castling_flag[ply_id],ke8_cancastle);
     }
   }     /* castling_supported */
