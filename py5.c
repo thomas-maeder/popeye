@@ -1030,9 +1030,6 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
            duplicate generated moves now.
            there's only ONE duplicate per arrival square
            possible !
-
-           TODO: avoid entries with arrival==initsquare by moving
-           the non-duplicate entries forward and reducing nbcou
         */
         for (l1 = anf1+1; l1<=anf2; l1++)
         {
