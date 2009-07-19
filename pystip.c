@@ -189,6 +189,161 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
   return result;
 }
 
+/* Determine contribution of slice subtree to maximum number of moves
+ * @param si identifies root of subtree
+ * @param address of structure representing traversal
+ * @return true iff traversal of si was successful
+ */
+static boolean get_max_nr_moves_direct_defender(slice_index si,
+                                                slice_traversal *st)
+{
+  boolean result;
+  stip_length_type * const max_nr = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = traverse_slices(slices[si].u.pipe.u.branch_d_defender.towards_goal,
+                           st);
+  *max_nr += slices[si].u.pipe.u.branch_d_defender.length+1;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine contribution of slice subtree to maximum number of moves
+ * @param si identifies root of subtree
+ * @param address of structure representing traversal
+ * @return true iff traversal of si was successful
+ */
+static boolean get_max_nr_moves_branch(slice_index si, slice_traversal *st)
+{
+  boolean result;
+  stip_length_type * const max_nr = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = traverse_slices(slices[si].u.pipe.u.branch_d_defender.towards_goal,
+                           st);
+  *max_nr += slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine contribution of slice subtree to maximum number of moves
+ * @param si identifies root of subtree
+ * @param address of structure representing traversal
+ * @return true iff traversal of si was successful
+ */
+static boolean get_max_nr_moves_branch_fork(slice_index si,
+                                            slice_traversal *st)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = traverse_slices(slices[si].u.pipe.u.branch_fork.towards_goal,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine contribution of slice subtree to maximum number of moves
+ * @param si identifies root of subtree
+ * @param address of structure representing traversal
+ * @return true iff traversal of si was successful
+ */
+static boolean get_max_nr_moves_leaf(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  stip_length_type * const max_nr = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *max_nr = 1;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine contribution of slice subtree to maximum number of moves
+ * @param si identifies root of subtree
+ * @param address of structure representing traversal
+ * @return true iff traversal of si was successful
+ */
+static boolean get_max_nr_moves_leaf_self(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  stip_length_type * const max_nr = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *max_nr = 2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine contribution of slice subtree to maximum number of moves
+ * @param si identifies root of subtree
+ * @param address of structure representing traversal
+ * @return true iff traversal of si was successful
+ */
+static boolean get_max_nr_moves_other(slice_index si, slice_traversal *st)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const get_max_nr_moves_functions[] =
+{
+  &get_max_nr_moves_other,           /* STBranchDirect */
+  &get_max_nr_moves_direct_defender, /* STBranchDirectDefender */
+  &get_max_nr_moves_branch,          /* STBranchHelp */
+  &get_max_nr_moves_branch,          /* STBranchSeries */
+  &get_max_nr_moves_branch_fork,     /* STBranchFork */
+  &get_max_nr_moves_leaf,            /* STLeafDirect */
+  &get_max_nr_moves_leaf,            /* STLeafHelp */
+  &get_max_nr_moves_leaf_self,       /* STLeafSelf */
+  &get_max_nr_moves_leaf,            /* STLeafForced */
+  &get_max_nr_moves_other,           /* STReciprocal */
+  &get_max_nr_moves_other,           /* STQuodlibet */
+  &get_max_nr_moves_other,           /* STNot */
+  &get_max_nr_moves_other,           /* STMoveInverter */
+  &get_max_nr_moves_other,           /* STHelpRoot */
+  &get_max_nr_moves_other            /* STHelpHashed */
+};
+
 /* Determine the maximally possible number of half-moves until the
  * goal has to be reached.
  * @param si root of subtree
@@ -196,65 +351,15 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
  */
 stip_length_type get_max_nr_moves(slice_index si)
 {
+  slice_traversal st;
   stip_length_type result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
-  switch (slices[si].type)
-  {
-    case STBranchDirectDefender:
-      result = (slices[si].u.pipe.u.branch_d_defender.length+1
-                +get_max_nr_moves(slices[si].u.pipe.u.branch_d_defender.towards_goal));
-      break;
-
-    case STBranchHelp:
-    case STBranchSeries:
-      result = (slices[si].u.pipe.u.branch.length
-                +get_max_nr_moves(slices[si].u.pipe.next));
-      break;
-
-    case STBranchFork:
-      result = get_max_nr_moves(slices[si].u.pipe.u.branch_fork.towards_goal);
-      break;
-
-    case STLeafSelf:
-      result = 2;
-      break;
-      
-    case STLeafDirect:
-    case STLeafHelp:
-    case STLeafForced:
-      result = 1;
-      break;
-
-    case STReciprocal:
-    case STQuodlibet:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      stip_length_type const result1 = get_max_nr_moves(op1);
-
-      slice_index const op2 = slices[si].u.fork.op2;
-      stip_length_type const result2 = get_max_nr_moves(op2);
-
-      result = result1>result2 ? result1 : result2;
-      break;
-    }
-
-    case STBranchDirect:
-    case STNot:
-    case STMoveInverter:
-    case STHelpHashed:
-    case STHelpRoot:
-      result = get_max_nr_moves(slices[si].u.pipe.next);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
+  slice_traversal_init(&st,&get_max_nr_moves_functions,&result);
+  traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
