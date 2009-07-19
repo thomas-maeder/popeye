@@ -350,7 +350,7 @@ boolean branch_h_solve(slice_index si)
     len += 2;
   }
 
-  result = result || help_solve_in_n(si,full_length,starter);
+  result = result || branch_h_solve_in_n(si,full_length,starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -462,7 +462,7 @@ void branch_h_solve_continuations(table continuations, slice_index si)
   }
 
   if (!solution_found)
-    help_solve_continuations_in_n(continuations,si,full_length,starter);
+    branch_h_solve_continuations_in_n(continuations,si,full_length,starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -560,7 +560,7 @@ boolean branch_h_has_solution(slice_index si)
       len += 2;
 
   if (!result)
-    result = help_has_solution_in_n(si,full_length,starter);
+    result = branch_h_has_solution_in_n(si,full_length,starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
