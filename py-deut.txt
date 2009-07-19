@@ -312,6 +312,7 @@ Kommandos:
 	RochadeSchach
 	Schlagschach
 	Geisterschach
+	KaefigCirce
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines

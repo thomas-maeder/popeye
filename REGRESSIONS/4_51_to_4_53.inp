@@ -255,4 +255,44 @@ stip dia 8.5
 condition losing
 option movenum
 
+next
+
+title no cage for black queen
+condition cagecirce
+pieces white ph2 black qg3
+stip ~1
+option nowk nobk
+
+next
+
+title simple cage in the corner
+condition cagecirce
+pieces white pc6 black bb7
+stip ~1
+option nowk nobk
+
+next
+
+title pawn cage on 1st rank
+condition cagecirce
+pieces white pc6 black pb7a7
+stip ~1
+option nowk nobk
+
+next
+
+title cage for promoted pawn
+condition cagecirce
+pieces white pa3g2 black pb4
+stip ~1
+option nowk nobk
+
+next
+
+title cage for promoted pawn, capturer part of cage
+condition cagecirce
+pieces white pg2e2f3 black ph3
+stip ~1
+option nowk nobk
+
 end

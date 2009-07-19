@@ -3480,12 +3480,15 @@ static void gen_p_nocaptures(square sq_departure, numvec dir, int steps)
 }
 
 /****************************  white pawn  ****************************/
-void genpb(square sq_departure) {
-  if (sq_departure<=square_h1) {
+void genpb(square sq_departure)
+{
+  if (sq_departure<=square_h1)
+  {
     /* pawn on first rank */
     if (CondFlag[parrain]
         || CondFlag[einstein]
-    || CondFlag[normalp]
+        || CondFlag[normalp]
+        || CondFlag[circecage]
         || abs(e[sq_departure]) == orphanb)
     {
       gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, White);
@@ -3493,125 +3496,132 @@ void genpb(square sq_departure) {
       /* triple or single step? */
       gen_p_nocaptures(sq_departure,+dir_up, CondFlag[einstein] ? 3 : 1);
     }
-    else {
-      return;
-    }
   }
-  else {
+  else
+  {
     /* not first rank */
-    if ( CondFlag[singlebox] && SingleBoxType==singlebox_type1
-         && PromSq(White,sq_departure+dir_up)
-         && next_singlebox_prom(vide,White)==vide)
+    if (CondFlag[singlebox] && SingleBoxType==singlebox_type1
+        && PromSq(White,sq_departure+dir_up)
+        && next_singlebox_prom(vide,White)==vide)
     {
-      return;
+      /* nothing */
     }
-    gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, White);
-    gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, White);
-    /* double or single step? */
-    gen_p_nocaptures(sq_departure,+dir_up, sq_departure<=square_h2 ? 2 : 1);
+    else
+    {
+      gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, White);
+      gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, White);
+      /* double or single step? */
+      gen_p_nocaptures(sq_departure,+dir_up, sq_departure<=square_h2 ? 2 : 1);
+    }
   }
 } /* end of genpb */
 
 /****************************  black pawn  ****************************/
-void genpn(square sq_departure) {
-  if (sq_departure>=square_a8) {
+void genpn(square sq_departure)
+{
+  if (sq_departure>=square_a8)
+  {
     /* pawn on last rank */
     if (CondFlag[parrain]
         || CondFlag[normalp]
         || CondFlag[einstein]
+        || CondFlag[circecage]
         || abs(e[sq_departure])==orphanb)
     {
       gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, Black);
       gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, Black);
       /* triple or single step? */
-      gen_p_nocaptures(sq_departure,+dir_down, CondFlag[einstein] ? 3 : 1);
-    }
-    else {
-      return;
+      gen_p_nocaptures(sq_departure,dir_down, CondFlag[einstein] ? 3 : 1);
     }
   }
-  else {
+  else
+  {
     /* not last rank */
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type1
         && PromSq(Black,sq_departure+dir_down)
         && next_singlebox_prom(vide,Black)==vide)
     {
-      return;
+      /* nothing */
     }
-    gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, Black);
-    gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, Black);
-    /* double or single step? */
-    gen_p_nocaptures(sq_departure,+dir_down, sq_departure>=square_a7 ? 2 : 1);
+    else
+    {
+      gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, Black);
+      gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, Black);
+      /* double or single step? */
+      gen_p_nocaptures(sq_departure,dir_down, sq_departure>=square_a7 ? 2 : 1);
+    }
   }
 }
 
-void genreversepb(square sq_departure) {
-  if (sq_departure > square_h8 - 24) {
+void genreversepb(square sq_departure)
+{
+  if (sq_departure>=square_a8)
+  {
     /* pawn on last rank */
     if (CondFlag[parrain]
+        || CondFlag[normalp]
         || CondFlag[einstein]
-    || CondFlag[normalp]
+        || CondFlag[circecage]
         || abs(e[sq_departure]) == orphanb)
     {
-      gen_p_captures(sq_departure, sq_departure - 23, White);
-      gen_p_captures(sq_departure, sq_departure - 25, White);
+      gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, White);
+      gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, White);
       /* triple or single step? */
-      gen_p_nocaptures(sq_departure, -24, CondFlag[einstein] ? 3 : 1);
-    }
-    else {
-      return;
+      gen_p_nocaptures(sq_departure,dir_down, CondFlag[einstein] ? 3 : 1);
     }
   }
-  else {
+  else
+  {
     /* not last rank */
-    gen_p_captures(sq_departure, sq_departure - 23, White);
-    gen_p_captures(sq_departure, sq_departure - 25, White);
+    gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, White);
+    gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, White);
     /* double or single step? */
-    gen_p_nocaptures(sq_departure, -24, (sq_departure > square_h8 - 32) ? 2 : 1);
+    gen_p_nocaptures(sq_departure, dir_down, sq_departure>=square_a7 ? 2 : 1);
   }
 }
 
-void genreversepn(square sq_departure) {
-  if (sq_departure < square_a1 + 24) {
+void genreversepn(square sq_departure)
+{
+  if (sq_departure<=square_h1)
+  {
     /* pawn on last rank */
-    if ( CondFlag[parrain]
-         || CondFlag[normalp]
-         || CondFlag[einstein]
-         || abs(e[sq_departure]) == orphanb)
+    if (CondFlag[parrain]
+        || CondFlag[normalp]
+        || CondFlag[einstein]
+        || CondFlag[circecage]
+        || abs(e[sq_departure]) == orphanb)
     {
-      gen_p_captures(sq_departure, sq_departure + 23, Black);
-      gen_p_captures(sq_departure, sq_departure + 25, Black);
+      gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, Black);
+      gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, Black);
       /* triple or single step? */
-      gen_p_nocaptures(sq_departure, 24, CondFlag[einstein] ? 3 : 1);
-    }
-    else {
-      return;
+      gen_p_nocaptures(sq_departure, dir_up, CondFlag[einstein] ? 3 : 1);
     }
   }
-  else {
-    gen_p_captures(sq_departure, sq_departure + 23, Black);
-    gen_p_captures(sq_departure, sq_departure + 25, Black);
+  else
+  {
+    gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, Black);
+    gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, Black);
     /* double or single step? */
-    gen_p_nocaptures(sq_departure, 24, (sq_departure < square_a1 + 32) ? 2 : 1);
+    gen_p_nocaptures(sq_departure, dir_up, sq_departure<=square_h1 ? 2 : 1);
   }
 }
 
 /************************  white berolina pawn  ***********************/
-void genpbb(square sq_departure) {
-  if (sq_departure<=square_h1) {
+void genpbb(square sq_departure)
+{
+  if (sq_departure<=square_h1)
+  {
     /* pawn on first rank */
     if ( CondFlag[parrain]
          || CondFlag[normalp]
          || CondFlag[einstein]
+         || CondFlag[circecage]
          || abs(e[sq_departure]) == orphanb)
     {
       gen_p_captures(sq_departure, sq_departure+dir_up, White);
       /* triple or single step? */
       gen_p_nocaptures(sq_departure,+dir_up+dir_left, CondFlag[einstein] ? 3 : 1);
       gen_p_nocaptures(sq_departure,+dir_up+dir_right, CondFlag[einstein] ? 3 : 1);
-    }
-    else {
-      return;
     }
   }
   else {
@@ -3625,11 +3635,13 @@ void genpbb(square sq_departure) {
 
 /************************  black berolina pawn  ***********************/
 void genpbn(square sq_departure) {
-  if (sq_departure>=square_a8) {
+  if (sq_departure>=square_a8)
+  {
     /* pawn on last rank */
     if ( CondFlag[parrain]
          || CondFlag[normalp]
          || CondFlag[einstein]
+         || CondFlag[circecage]
          || abs(e[sq_departure]) == orphanb)
     {
       gen_p_captures(sq_departure, sq_departure+dir_down, Black);

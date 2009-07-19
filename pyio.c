@@ -3891,6 +3891,7 @@ static char *ParseCond(void) {
         break;
       case supercirce:
       case april:
+      case circecage:
         circerenai= rensuper;
         anycirprom= true;
         anycirce= true;

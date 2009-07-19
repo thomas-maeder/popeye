@@ -956,7 +956,7 @@ static boolean verify_position(void)
     }
   }
 
-  if ((CondFlag[supercirce] || CondFlag[april])
+  if ((CondFlag[supercirce] || CondFlag[april] || CondFlag[circecage])
       && (CondFlag[koeko] || CondFlag[newkoeko] || CondFlag[antikoeko]))
   {
     VerifieMsg(SuperCirceAndOthers);
@@ -966,6 +966,7 @@ static boolean verify_position(void)
   {
     int numsuper=0;
     if (CondFlag[supercirce]) numsuper++;
+    if (CondFlag[circecage]) numsuper++;
     if (CondFlag[april]) numsuper++;
     if (CondFlag[republican]) numsuper++;
     if (CondFlag[antisuper]) numsuper++;
@@ -1447,7 +1448,7 @@ static boolean verify_position(void)
     optim_orthomatingmoves = false;
   }
 
-  superbas = CondFlag[antisuper] ? square_a1 : square_a1 - 1;
+  superbas = CondFlag[antisuper] ? square_a1 : square_a1-1;
 
   /* init promotioncounter and checkcounter */
   pp = 0;
@@ -1740,6 +1741,7 @@ static boolean verify_position(void)
 
   supergenre=
       CondFlag[supercirce]
+      || CondFlag[circecage]
       || CondFlag[antisuper]
       || CondFlag[april]
       || CondFlag[republican];
@@ -1869,7 +1871,9 @@ boolean moves_equal(coup *move1, coup *move2)
           && move1->hurdle==move2->hurdle
           && (!CondFlag[takemake] || move1->cpzz==move2->cpzz)
           && (!supergenre
-              || ((!(CondFlag[supercirce] || CondFlag[april])
+              || ((!(CondFlag[supercirce]
+                     || CondFlag[april]
+                     || CondFlag[circecage])
                    || move1->sqren==move2->sqren)
                   && (!CondFlag[republican]
                       || move1->repub_k==move2->repub_k)

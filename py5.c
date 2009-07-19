@@ -1888,6 +1888,136 @@ static void ban_ghost(square sq_departure)
   TraceFunctionResultEnd();
 }
 
+static boolean find_non_capturing_move(ply ply_id,
+                                       square sq_departure,
+                                       Side moving_side,
+                                       piece p_moving)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceValue("%u",moving_side);
+  TracePiece(p_moving);
+  TraceFunctionParamListEnd();
+
+  active_slice[nbply+1] = active_slice[ply_id];
+  nextply(nbply);
+
+  if (moving_side==White)
+    gen_wh_piece(sq_departure,p_moving);
+  else
+    gen_bl_piece(sq_departure,p_moving);
+
+  while (!result && encore())
+  {
+    TraceSquare(move_generation_stack[nbcou].arrival);
+    TraceText("\n");
+    if (e[move_generation_stack[nbcou].arrival]==vide)
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && !echecc(nbply,moving_side))
+        result = true;
+      repcoup();
+    }
+    else
+      --nbcou;
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean is_cage(ply ply_id,
+                       square candidate,
+                       Side prisoner_side,
+                       piece prisoner)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(candidate);
+  TraceValue("%u",prisoner_side);
+  TracePiece(prisoner);
+  TraceFunctionParamListEnd();
+
+  e[candidate] = prisoner;
+  result = !find_non_capturing_move(ply_id,candidate,prisoner_side,prisoner);
+  e[candidate] = vide;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean advance_cage_candidate(ply ply_id,
+                                      square *cage,
+                                      Side prisoner_side,
+                                      piece prisoner)
+{
+  if (is_pawn(prisoner) && PromSq(prisoner_side,*cage))
+  {
+    cir_prom[ply_id] = getprompiece[cir_prom[ply_id]];
+    if (cir_prom[ply_id]!=vide)
+      return true;
+  }
+
+  do
+  {
+    ++*cage;
+  } while (*cage<=square_h8 && e[*cage]!=vide);
+  
+  if (*cage<=square_h8)
+  {
+    if (is_pawn(prisoner) && PromSq(prisoner_side,*cage))
+      cir_prom[ply_id] = getprompiece[cir_prom[ply_id]];
+    return true;
+  }
+  else
+    return false;
+}
+
+static square next_cage(ply ply_id, square prev_cage, piece pi_captured)
+{
+  Side const prisoner_side = pi_captured<vide ? Black : White;
+  piece const save_piece_on_prev_cage = e[prev_cage];
+  square result = prev_cage;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(prev_cage);
+  TracePiece(pi_captured);
+  TraceFunctionParamListEnd();
+
+  /* next_cage() may be invoked when the captured piece still occupies
+   * prev_cage. Prevent that piece from contributing to the next cage.
+   */
+  if (save_piece_on_prev_cage!=obs)
+    e[prev_cage] = vide;
+
+  while (advance_cage_candidate(ply_id,&result,prisoner_side,pi_captured))
+  {
+    piece const prisoner = (cir_prom[ply_id]==vide
+                            ? pi_captured
+                            : (prisoner_side==White
+                               ? cir_prom[ply_id]
+                               : -cir_prom[ply_id]));
+    if (is_cage(ply_id,result,prisoner_side,prisoner))
+      break;
+  }
+
+  e[prev_cage] = save_piece_on_prev_cage;
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 boolean jouecoup(ply ply_id, joue_type jt)
 {
   square sq_rebirth = initsquare;
@@ -2764,7 +2894,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
       ChangeMagic(ply_id, flag_outputmultiplecolourchanges);
     }
 
-    if (CondFlag[sentinelles]) {
+    if (CondFlag[sentinelles])
+    {
       if (sq_departure>=square_a2 && sq_departure<=square_h7
           && !is_pawn(pi_departing))
       {
@@ -2825,7 +2956,12 @@ boolean jouecoup(ply ply_id, joue_type jt)
       }
     }
 
-    if (anycirce) {
+    if (anycirce)
+    {
+      if (pi_captured!=vide
+          && CondFlag[circecage] && super[ply_id]==superbas)
+        super[ply_id] = next_cage(ply_id,superbas,pi_captured);
+
       /* circe-rebirth of moving kamikaze-piece */
       if (TSTFLAG(spec_pi_moving, Kamikaze) && (pi_captured != vide)) {
         if (CondFlag[couscous]) {
@@ -3033,18 +3169,19 @@ boolean jouecoup(ply ply_id, joue_type jt)
             }
             if (anycirprom
                 && is_pawn(pi_captured)
-                && PromSq(advers(trait_ply), sq_rebirth))
+                && PromSq(advers(trait_ply),sq_rebirth))
             {
               /* captured white pawn on eighth rank: promotion ! */
               /* captured black pawn on first rank: promotion ! */
-              piece pprom= cir_prom[ply_id];
-              if (pprom == vide) {
-                cir_prom[ply_id]= pprom= getprompiece[vide];
+              piece pprom = cir_prom[ply_id];
+              if (pprom==vide)
+              {
+                pprom = getprompiece[vide];
+                cir_prom[ply_id] = pprom;
               }
-              pi_reborn = pi_reborn < vide ? -pprom : pprom;
-              if (cir_cham_prom[ply_id]) {
+              pi_reborn = pi_reborn<vide ? -pprom : pprom;
+              if (cir_cham_prom[ply_id])
                 SETFLAG(spec_pi_captured, Chameleon);
-              }
             }
             if (TSTFLAG(spec_pi_captured, Volage)
                 && SquareCol(sq_rebirth) != SquareCol(sq_capture))
@@ -3550,19 +3687,27 @@ void repcoup(void) {
   ** allow the rebirth on the original square of the capturing piece
   ** or in connection with locust or e.p. captures.
   */
-  if ((CondFlag[supercirce] && pi_captured != vide)
+  if ((CondFlag[supercirce] && pi_captured!=vide)
       || isapril[abs(pi_captured)]
-      || (CondFlag[antisuper] && pi_captured != vide))
+      || (CondFlag[antisuper] && pi_captured!=vide))
   {
-    nextsuper= super[nbply];
-    while ((e[++nextsuper] != vide) && (nextsuper < square_h8))
-      ;
+    nextsuper = super[nbply]+1;
+
+    while (e[nextsuper]!=vide && nextsuper<square_h8)
+      ++nextsuper;
+
     if (CondFlag[antisuper]
         && AntiCirCheylan
         && nextsuper==sq_capture)
-      while ((e[++nextsuper] != vide) && (nextsuper < square_h8))
-        ;
+    {
+      ++nextsuper;
+      while (e[nextsuper]!=vide && nextsuper<square_h8)
+        ++nextsuper;
+    }
   }
+
+  if (CondFlag[circecage] && pi_captured!=vide)
+    nextsuper = next_cage(nbply,super[nbply],pi_captured);
 
   if (CondFlag[republican])
   {
@@ -3620,9 +3765,12 @@ void repcoup(void) {
           (pi_captured < vide ? Black : White) != neutcoul)
         pi_captured= -pi_captured;
     }
-    if ((sq_rebirth= sqrenais[nbply]) != initsquare) {
-      sqrenais[nbply]= initsquare;
-      if (sq_rebirth != sq_arrival) {
+    sq_rebirth = sqrenais[nbply];
+    if (sq_rebirth!=initsquare)
+    {
+      sqrenais[nbply] = initsquare;
+      if (sq_rebirth != sq_arrival)
+      {
         nbpiece[e[sq_rebirth]]--;
         e[sq_rebirth]= vide;
         spec[sq_rebirth]= 0;
@@ -3773,37 +3921,48 @@ void repcoup(void) {
       Iprom[nbply]= false;
     }
 
-    if (pi_arriving == vide) {
+    if (pi_arriving == vide)
+    {
       norm_cham_prom[nbply]= false;
-      if (anycirprom
-          && ((pi_arriving= cir_prom[nbply]) != vide)) {
-        pi_arriving= cir_prom[nbply]= getprompiece[pi_arriving];
-        if (pi_arriving == vide
-            && TSTFLAG(PieSpExFlags, Chameleon)
-            && !cir_cham_prom[nbply])
+      /* Circe Cage advances the kind of promotion piece itself
+       */
+      if (anycirprom && !CondFlag[circecage])
+      {
+        pi_arriving = cir_prom[nbply];
+        if (pi_arriving!=vide)
         {
-          cir_prom[nbply]= pi_arriving= getprompiece[vide];
-          cir_cham_prom[nbply]= true;
+          pi_arriving = getprompiece[pi_arriving];
+          cir_prom[nbply] = pi_arriving;
+          if (pi_arriving==vide
+              && TSTFLAG(PieSpExFlags, Chameleon)
+              && !cir_cham_prom[nbply])
+          {
+            pi_arriving = getprompiece[vide];
+            cir_prom[nbply] = pi_arriving;
+            cir_cham_prom[nbply]= true;
+          }
         }
       }
+
       if (pi_arriving == vide
           && !(!CondFlag[noiprom] && Iprom[nbply]))
       {
         if ((CondFlag[supercirce] && pi_captured != vide)
+            || (CondFlag[circecage] && pi_captured != vide)
             || isapril[abs(pi_captured)]
             || (CondFlag[antisuper] && pi_captured != vide))
         {
           super[nbply]= nextsuper;
-          if ((super[nbply] > square_h8)
+          if (super[nbply]>square_h8
               || (CondFlag[antisuper]
-                  && !LegalAntiCirceMove(nextsuper,sq_capture,sq_departure))) {
+                  && !LegalAntiCirceMove(nextsuper,sq_capture,sq_departure)))
+          {
             super[nbply]= superbas;
             nbcou--;
           }
         }
-        else {
+        else
           nbcou--;
-        }
       }
     }
   } /* next_prom*/
