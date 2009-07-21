@@ -1036,3 +1036,34 @@ cage for promoted pawn, capturer part of cage
 solution finished. 
 
 
+
+      castling with reborn rook
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -P   .   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   S   .  -P   R   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -R   2
+|                                   |
+1   .   .   .   .   K   .   P   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 4
+              CageCirce
+
+  1.Ke4*f3 [+wRh1] Sc3-e2   2.Kf3-g2 Rh1*h2 [+bRf3] # 
+  1.Ke4*f3 [+wRh1] g1*h2   2.g5-g4 0-0 # 
+
+solution finished. 
+
+

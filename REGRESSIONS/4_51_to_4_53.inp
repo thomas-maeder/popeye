@@ -295,4 +295,12 @@ pieces white pg2e2f3 black ph3
 stip ~1
 option nowk nobk
 
+next
+
+title castling with reborn rook
+pieces white ke1 rf3 sc3 pg1
+       black ke4 rh2 pe3g5
+stipulation h#2
+condition cagecirce
+
 end

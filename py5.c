@@ -939,7 +939,8 @@ void gen_bl_ply(void)
   TraceFunctionResultEnd();
 } /* gen_bl_ply */
 
-void gen_bl_piece_aux(square z, piece p) {
+void gen_bl_piece_aux(square z, piece p)
+{
   if (CondFlag[annan]) {
     piece annan_p= e[z+onerow];
     if (blannan(z+onerow, z))
@@ -1904,10 +1905,13 @@ static boolean find_non_capturing_move(ply ply_id,
   active_slice[nbply+1] = active_slice[ply_id];
   nextply(nbply);
 
+  TraceValue("%d",(int)e[sq_departure]);
+  TraceValue("%u\n",nbcou);
   if (moving_side==White)
     gen_wh_piece(sq_departure,p_moving);
   else
     gen_bl_piece(sq_departure,p_moving);
+  TraceValue("%u\n",nbcou);
 
   while (!result && encore())
   {
@@ -1932,90 +1936,185 @@ static boolean find_non_capturing_move(ply ply_id,
   return result;
 }
 
-static boolean is_cage(ply ply_id,
-                       square candidate,
-                       Side prisoner_side,
-                       piece prisoner)
+static void circecage_advance_norm_prom(ply ply_id,
+                                        square sq_arrival,
+                                        square cage,
+                                        piece *circecage_next_norm_prom)
 {
-  boolean result;
+  Side const moving_side = trait[ply_id];
+  Side const prisoner_side = advers(moving_side);
+  piece const save_prom = e[sq_arrival];
 
   TraceFunctionEntry(__func__);
-  TraceSquare(candidate);
-  TraceValue("%u",prisoner_side);
-  TracePiece(prisoner);
+  TraceFunctionParam("%u",ply_id);
+  TraceSquare(sq_arrival);
+  TracePiece(*circecage_next_norm_prom);
   TraceFunctionParamListEnd();
 
-  e[candidate] = prisoner;
-  result = !find_non_capturing_move(ply_id,candidate,prisoner_side,prisoner);
-  e[candidate] = vide;
+  TraceValue("%u\n",prisoner_side);
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean advance_cage_candidate(ply ply_id,
-                                      square *cage,
-                                      Side prisoner_side,
-                                      piece prisoner)
-{
-  if (is_pawn(prisoner) && PromSq(prisoner_side,*cage))
+  while (true)
   {
-    cir_prom[ply_id] = getprompiece[cir_prom[ply_id]];
-    if (cir_prom[ply_id]!=vide)
-      return true;
-  }
-
-  do
-  {
-    ++*cage;
-  } while (*cage<=square_h8 && e[*cage]!=vide);
-  
-  if (*cage<=square_h8)
-  {
-    if (is_pawn(prisoner) && PromSq(prisoner_side,*cage))
-      cir_prom[ply_id] = getprompiece[cir_prom[ply_id]];
-    return true;
-  }
-  else
-    return false;
-}
-
-static square next_cage(ply ply_id, square prev_cage, piece pi_captured)
-{
-  Side const prisoner_side = pi_captured<vide ? Black : White;
-  piece const save_piece_on_prev_cage = e[prev_cage];
-  square result = prev_cage;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(prev_cage);
-  TracePiece(pi_captured);
-  TraceFunctionParamListEnd();
-
-  /* next_cage() may be invoked when the captured piece still occupies
-   * prev_cage. Prevent that piece from contributing to the next cage.
-   */
-  if (save_piece_on_prev_cage!=obs)
-    e[prev_cage] = vide;
-
-  while (advance_cage_candidate(ply_id,&result,prisoner_side,pi_captured))
-  {
-    piece const prisoner = (cir_prom[ply_id]==vide
-                            ? pi_captured
-                            : (prisoner_side==White
-                               ? cir_prom[ply_id]
-                               : -cir_prom[ply_id]));
-    if (is_cage(ply_id,result,prisoner_side,prisoner))
+    *circecage_next_norm_prom = getprompiece[*circecage_next_norm_prom];
+    TracePiece(*circecage_next_norm_prom);TraceText("\n");
+    if (*circecage_next_norm_prom==vide)
       break;
+    else
+    {
+      e[sq_arrival] = (moving_side==White
+                       ? *circecage_next_norm_prom
+                       : -*circecage_next_norm_prom);
+      if (!find_non_capturing_move(ply_id,cage,prisoner_side,e[cage]))
+        break;
+    }
   }
+  
+  TracePiece(*circecage_next_norm_prom);TraceText("\n");
 
-  e[prev_cage] = save_piece_on_prev_cage;
+  e[sq_arrival] = save_prom;
 
   TraceFunctionExit(__func__);
-  TraceSquare(result);
   TraceFunctionResultEnd();
-  return result;
+}
+
+static void circecage_advance_cage_prom(ply ply_id,
+                                        piece pi_departing, square sq_arrival,
+                                        square cage,
+                                        piece *circecage_next_cage_prom,
+                                        piece *circecage_next_norm_prom)
+{
+  Side const moving_side = trait[ply_id];
+  Side const prisoner_side = advers(moving_side);
+  piece const save_prom = e[super[ply_id]];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TracePiece(pi_departing);
+  TraceSquare(sq_arrival);
+  TraceSquare(cage);
+  TracePiece(*circecage_next_cage_prom);
+  TracePiece(*circecage_next_norm_prom);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",prisoner_side);
+
+  while (true)
+  {
+    *circecage_next_cage_prom = getprompiece[*circecage_next_cage_prom];
+    if (*circecage_next_cage_prom==vide)
+      break;
+    else
+    {
+      TracePiece(*circecage_next_cage_prom);TraceText("\n");
+      e[cage] = (prisoner_side==White
+                 ? *circecage_next_cage_prom
+                 : -*circecage_next_cage_prom);
+
+      if (is_pawn(pi_departing) && PromSq(moving_side,sq_arrival))
+      {
+        circecage_advance_norm_prom(ply_id,sq_arrival,
+                                    cage,
+                                    circecage_next_norm_prom);
+        if (*circecage_next_norm_prom!=vide)
+          break;
+      }
+      else
+      {
+        if (!find_non_capturing_move(ply_id,cage,prisoner_side,e[cage]))
+          break;
+      }
+    }
+  }
+  
+  TracePiece(*circecage_next_cage_prom);TraceText("\n");
+
+  e[cage] = save_prom;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void circecage_advance_cage(ply ply_id,
+                                   piece pi_departing, square sq_arrival,
+                                   square *nextcage, piece pi_captured,
+                                   piece *circecage_next_cage_prom,
+                                   piece *circecage_next_norm_prom)
+{
+  Side const moving_side = trait[ply_id];
+  Side const prisoner_side = advers(moving_side);
+  square const save_cage = *nextcage;
+  piece const prisoner = e[save_cage];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TracePiece(pi_departing);
+  TraceSquare(sq_arrival);
+  TraceSquare(*nextcage);
+  TracePiece(pi_captured);
+  TracePiece(*circecage_next_cage_prom);
+  TracePiece(*circecage_next_norm_prom);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",prisoner_side);
+
+  /* this is called when the captured piece (or what's it promoted to)
+   * still occupies the previous cage. Prevent it from contributing to
+   * (or disturbing) the next cage.
+   */
+  if (prisoner!=obs)
+    e[save_cage] = vide;
+
+  while (true)
+  {
+    ++*nextcage;
+    if (*nextcage>square_h8)
+      break;
+    else
+    {
+      TraceSquare(*nextcage);TraceText("\n");
+      if (e[*nextcage]==vide)
+      {
+        if (is_pawn(pi_captured) && PromSq(prisoner_side,*nextcage))
+        {
+          circecage_advance_cage_prom(ply_id,pi_departing,sq_arrival,
+                                      *nextcage,
+                                      circecage_next_cage_prom,
+                                      circecage_next_norm_prom);
+          if (*circecage_next_cage_prom!=vide)
+            break;
+        }
+        else
+        {
+          boolean cage_found = false;
+
+          e[*nextcage] = pi_captured;
+
+          if (is_pawn(pi_departing) && PromSq(moving_side,sq_arrival))
+          {
+            circecage_advance_norm_prom(ply_id,sq_arrival,
+                                        *nextcage,
+                                        circecage_next_norm_prom);
+            cage_found = *circecage_next_norm_prom!=vide;
+          }
+          else
+            cage_found = !find_non_capturing_move(ply_id,
+                                                  *nextcage,
+                                                  prisoner_side,
+                                                  pi_captured);
+
+          e[*nextcage] = vide;
+
+          if (cage_found)
+            break;
+        }
+      }
+    }
+  }
+
+  e[save_cage] = prisoner;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 boolean jouecoup(ply ply_id, joue_type jt)
@@ -2420,9 +2519,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
     /* promotion */
     if (PromSq(is_reversepawn(pi_departing)^trait[ply_id],sq_arrival)
         && ((!CondFlag[protean] && !TSTFLAG(spec_pi_moving, Protean))
-            || pi_captured == vide)) {
-      /* moved to here because of anticirce
-       */
+            || pi_captured == vide))
+    {
       pi_arriving = norm_prom[ply_id];
       if (pi_arriving==vide)
       {
@@ -2960,7 +3058,15 @@ boolean jouecoup(ply ply_id, joue_type jt)
     {
       if (pi_captured!=vide
           && CondFlag[circecage] && super[ply_id]==superbas)
-        super[ply_id] = next_cage(ply_id,superbas,pi_captured);
+      {
+        norm_prom[ply_id] = vide;
+        cir_prom[ply_id] = vide;
+        circecage_advance_cage(ply_id,
+                               pi_departing,sq_arrival,
+                               &super[ply_id],pi_captured,
+                               &cir_prom[ply_id],
+                               &norm_prom[ply_id]);
+      }
 
       /* circe-rebirth of moving kamikaze-piece */
       if (TSTFLAG(spec_pi_moving, Kamikaze) && (pi_captured != vide)) {
@@ -3436,12 +3542,15 @@ void IncrementMoveNbr(void)
   MoveNbr++;
 }
 
-void repcoup(void) {
+void repcoup(void)
+{
   square sq_rebirth;
-  piece pi_departing, pi_captured, pi_arriving, pi_hurdle;
+  piece pi_departing, pi_captured, pi_hurdle;
   Flags spec_pi_moving;
   boolean next_prom = true;
   square nextsuper= initsquare;
+  piece circecage_next_norm_prom;
+  piece circecage_next_cage_prom;
   square sq_hurdle;
   boolean rochade=false;
 
@@ -3707,7 +3816,33 @@ void repcoup(void) {
   }
 
   if (CondFlag[circecage] && pi_captured!=vide)
-    nextsuper = next_cage(nbply,super[nbply],pi_captured);
+  {
+    circecage_next_norm_prom = norm_prom[nbply];
+    circecage_next_cage_prom = cir_prom[nbply];
+    nextsuper = super[nbply];
+
+    if (circecage_next_norm_prom!=vide)
+      circecage_advance_norm_prom(nbply,sq_arrival,
+                                  nextsuper,
+                                  &circecage_next_norm_prom);
+
+    if (circecage_next_norm_prom==vide)
+    {
+      if (circecage_next_cage_prom!=vide)
+        circecage_advance_cage_prom(nbply,
+                                    pi_departing,sq_arrival,
+                                    nextsuper,
+                                    &circecage_next_cage_prom,
+                                    &circecage_next_norm_prom);
+
+      if (circecage_next_cage_prom==vide)
+        circecage_advance_cage(nbply,
+                               pi_departing,sq_arrival,
+                               &nextsuper,pi_captured,
+                               &circecage_next_cage_prom,
+                               &circecage_next_norm_prom);
+    }
+  }
 
   if (CondFlag[republican])
   {
@@ -3861,44 +3996,52 @@ void repcoup(void) {
 
   if (next_prom)
   {
-    pi_arriving = norm_prom[nbply];
-    if (pi_arriving!=vide)
+    piece prom_kind_moving = norm_prom[nbply];
+    if (prom_kind_moving!=vide)
     {
-      if (CondFlag[singlebox] && SingleBoxType==singlebox_type2)
-        pi_arriving = getprompiece[pi_arriving];
-      else
+      prom_kind_moving = getprompiece[prom_kind_moving];
+      if (!(CondFlag[singlebox] && SingleBoxType==singlebox_type2))
       {
-        pi_arriving= getprompiece[pi_arriving];
-
-        if (pi_captured != vide && anyanticirce) {
-          while (pi_arriving != vide) {
-            sq_rebirth= (*antirenai)(nbply,
-                                     pi_arriving,
-                                     spec_pi_moving,
-                                     sq_capture,
-                                     sq_departure,
-                                     sq_arrival,
-                                     advers(trait[nbply]));
-            if (sq_rebirth == sq_departure)
+        if (pi_captured!=vide)
+        {
+          if (anyanticirce)
+            while (prom_kind_moving!=vide)
+            {
+              sq_rebirth = (*antirenai)(nbply,
+                                        prom_kind_moving,
+                                        spec_pi_moving,
+                                        sq_capture,
+                                        sq_departure,
+                                        sq_arrival,
+                                        advers(trait[nbply]));
+              if (sq_rebirth==sq_departure
+                  || LegalAntiCirceMove(sq_rebirth,sq_capture,sq_departure))
               break;
-            if (LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure)) {
-              break;
+              else
+                prom_kind_moving = getprompiece[prom_kind_moving];
             }
-            pi_arriving= getprompiece[pi_arriving];
+          else if (CondFlag[circecage])
+          {
+            if (super[nbply]==nextsuper
+                && circecage_next_cage_prom==cir_prom[nbply])
+              prom_kind_moving = circecage_next_norm_prom;
+            else
+              prom_kind_moving = vide;
           }
         }
       }
-      norm_prom[nbply]= pi_arriving;
 
-      if ((pi_arriving == vide)
-          && TSTFLAG(PieSpExFlags, Chameleon)
+      norm_prom[nbply] = prom_kind_moving;
+
+      if (prom_kind_moving==vide
+          && TSTFLAG(PieSpExFlags,Chameleon)
           && !norm_cham_prom[nbply])
       {
-        pi_arriving= getprompiece[vide];
+        prom_kind_moving= getprompiece[vide];
         if (pi_captured != vide && anyanticirce)
-          while (pi_arriving != vide
+          while (prom_kind_moving != vide
                  && ((sq_rebirth= (*antirenai)(nbply,
-                                               pi_arriving,
+                                               prom_kind_moving,
                                                spec_pi_moving,
                                                sq_capture,
                                                sq_departure,
@@ -3906,53 +4049,79 @@ void repcoup(void) {
                                                advers(trait[nbply])))
                      != sq_departure)
                  && e[sq_rebirth] != vide)
-            pi_arriving= getprompiece[pi_arriving];
+            prom_kind_moving= getprompiece[prom_kind_moving];
 
-        norm_prom[nbply]= pi_arriving;
+        norm_prom[nbply]= prom_kind_moving;
         norm_cham_prom[nbply]= true;
       }
-      if ((pi_arriving == vide) && !CondFlag[noiprom])
+      if (prom_kind_moving==vide && !CondFlag[noiprom])
         Iprom[nbply]= true;
     }
-    else if (!CondFlag[noiprom] && Iprom[nbply]) {
+    else if (!CondFlag[noiprom] && Iprom[nbply])
+    {
       ply icount;
       for (icount= nbply; icount<=maxply; icount++)
         --inum[icount];
       Iprom[nbply]= false;
     }
 
-    if (pi_arriving == vide)
+    if (prom_kind_moving == vide)
     {
+      piece prom_kind_reborn = vide;
       norm_cham_prom[nbply]= false;
-      /* Circe Cage advances the kind of promotion piece itself
-       */
-      if (anycirprom && !CondFlag[circecage])
+      if (anycirprom)
       {
-        pi_arriving = cir_prom[nbply];
-        if (pi_arriving!=vide)
+        prom_kind_reborn = cir_prom[nbply];
+        if (prom_kind_reborn!=vide)
         {
-          pi_arriving = getprompiece[pi_arriving];
-          cir_prom[nbply] = pi_arriving;
-          if (pi_arriving==vide
+          if (CondFlag[circecage])
+          {
+            if (super[nbply]==nextsuper)
+            {
+              prom_kind_moving = circecage_next_norm_prom;
+              norm_prom[nbply] = circecage_next_norm_prom;
+              prom_kind_reborn = circecage_next_cage_prom;
+            }
+            else
+              prom_kind_reborn = vide;
+          }
+          else
+            prom_kind_reborn = getprompiece[prom_kind_reborn];
+
+          if (prom_kind_reborn==vide
               && TSTFLAG(PieSpExFlags, Chameleon)
               && !cir_cham_prom[nbply])
           {
-            pi_arriving = getprompiece[vide];
-            cir_prom[nbply] = pi_arriving;
+            prom_kind_reborn = getprompiece[vide];
             cir_cham_prom[nbply]= true;
           }
         }
       }
 
-      if (pi_arriving == vide
+      cir_prom[nbply] = prom_kind_reborn;
+
+      if (prom_kind_reborn==vide
           && !(!CondFlag[noiprom] && Iprom[nbply]))
       {
-        if ((CondFlag[supercirce] && pi_captured != vide)
-            || (CondFlag[circecage] && pi_captured != vide)
-            || isapril[abs(pi_captured)]
-            || (CondFlag[antisuper] && pi_captured != vide))
+        if (CondFlag[circecage] && pi_captured!=vide)
         {
-          super[nbply]= nextsuper;
+          if (nextsuper>square_h8)
+          {
+            super[nbply] = superbas;
+            nbcou--;
+          }
+          else
+          {
+            super[nbply] = nextsuper;
+            cir_prom[nbply] = circecage_next_cage_prom;
+            norm_prom[nbply] = circecage_next_norm_prom;
+          }
+        }
+        else if ((CondFlag[supercirce] && pi_captured != vide)
+                 || isapril[abs(pi_captured)]
+                 || (CondFlag[antisuper] && pi_captured != vide))
+        {
+          super[nbply] = nextsuper;
           if (super[nbply]>square_h8
               || (CondFlag[antisuper]
                   && !LegalAntiCirceMove(nextsuper,sq_capture,sq_departure)))
