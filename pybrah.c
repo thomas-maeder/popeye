@@ -320,44 +320,6 @@ boolean branch_h_solve_in_n(slice_index si,
   return result;
 }
 
-/* Solve a branch slice at non-root level.
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean branch_h_solve(slice_index si)
-{
-  boolean result = false;
-  stip_length_type const full_length = slices[si].u.pipe.u.branch.length;
-  stip_length_type len = slices[si].u.pipe.u.branch.min_length;
-  Side starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(full_length>slack_length_help);
-
-  starter = branch_h_starter_in_n(si,full_length);
-
-  while (len<full_length && !result)
-  {
-    if (help_solve_in_n(slices[si].u.pipe.next,len,starter))
-    {
-      result = true;
-      FlagShortSolsReached = true;
-    }
-
-    len += 2;
-  }
-
-  result = result || branch_h_solve_in_n(si,full_length,starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice.
  * @param continuations table where to add first moves
@@ -431,60 +393,6 @@ void branch_h_solve_postkey(slice_index si)
   slice_solve_postkey(slices[si].u.pipe.next);
 }
 
-/* Determine and write continuations of a slice
- * @param continuations table where to store continuing moves (i.e. threats)
- * @param si index of branch slice
- */
-void branch_h_solve_continuations(table continuations, slice_index si)
-{
-  boolean solution_found = false;
-  stip_length_type const full_length = slices[si].u.pipe.u.branch.length;
-  stip_length_type len = slices[si].u.pipe.u.branch.min_length;
-  Side const starter = branch_h_starter_in_n(si,len);
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(full_length>=slack_length_help);
-
-  while (len<full_length && !solution_found)
-  {
-    help_solve_continuations_in_n(continuations,next,len,starter);
-    if (table_length(continuations)>0)
-    {
-      solution_found = true;
-      FlagShortSolsReached = true;
-    }
-
-    len += 2;
-  }
-
-  if (!solution_found)
-    branch_h_solve_continuations_in_n(continuations,si,full_length,starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void branch_h_root_write_key(slice_index si, attack_type type)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",type);
-  TraceFunctionParamListEnd();
-
-  write_attack(type);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
@@ -533,42 +441,6 @@ boolean branch_h_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return true iff slice si has a solution
- */
-boolean branch_h_has_solution(slice_index si)
-{
-  boolean result = false;
-  stip_length_type const full_length = slices[si].u.pipe.u.branch.length;
-  stip_length_type len = slices[si].u.pipe.u.branch.min_length;
-  Side const starter = branch_h_starter_in_n(si,len);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(full_length>=slack_length_help);
-
-  while (len<full_length)
-    if (help_has_solution_in_n(slices[si].u.pipe.next,len,starter))
-    {
-      result = true;
-      break;
-    }
-    else
-      len += 2;
-
-  if (!result)
-    result = branch_h_has_solution_in_n(si,full_length,starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-
 /* Determine the starting side in a help branch in n
  * @param si slice index
  * @param n number of half-moves
@@ -592,6 +464,191 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n)
   result = (slices[si].u.pipe.u.branch.length%2==n%2
             ? branch_starter
             : advers(branch_starter));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean branch_h_impose_starter(slice_index si, slice_traversal *st)
+{
+  boolean result;
+  Side * const starter = st->param;
+  Side const save_starter = *starter;
+
+  /* help play in N.5 -> change starter */
+  Side const next_starter = (slices[si].u.pipe.u.branch.length%2==1
+                             ? advers(*starter)
+                             : *starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",*starter);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+
+  *starter = next_starter;
+  result = slice_traverse_children(si,st);
+  *starter = save_starter;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Shorten a help pipe by a half-move
+ * @param pipe identifies pipe to be shortened
+ */
+static void branch_h_shorten_help_pipe(slice_index pipe)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  --slices[pipe].u.pipe.u.branch.length;
+  --slices[pipe].u.pipe.u.branch.min_length;
+  if (slices[pipe].u.pipe.u.branch.min_length<slack_length_help)
+    slices[pipe].u.pipe.u.branch.min_length += 2;
+  slices[pipe].starter = advers(slices[pipe].starter);
+  TraceValue("%u",slices[pipe].starter);
+  TraceValue("%u",slices[pipe].u.pipe.u.branch.length);
+  TraceValue("%u\n",slices[pipe].u.pipe.u.branch.min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/** help adapter *****************************************************/
+
+/* Solve a branch slice at non-root level.
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean help_adapter_solve(slice_index si)
+{
+  boolean result = false;
+  stip_length_type const full_length = slices[si].u.pipe.u.branch.length;
+  stip_length_type len = slices[si].u.pipe.u.branch.min_length;
+  Side starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(full_length>slack_length_help);
+
+  starter = branch_h_starter_in_n(si,full_length);
+
+  while (len<full_length && !result)
+  {
+    if (help_solve_in_n(slices[si].u.pipe.next,len,starter))
+    {
+      result = true;
+      FlagShortSolsReached = true;
+    }
+
+    len += 2;
+  }
+
+  result = result || branch_h_solve_in_n(si,full_length,starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine and write continuations of a slice
+ * @param continuations table where to store continuing moves (i.e. threats)
+ * @param si index of branch slice
+ */
+void help_adapter_solve_continuations(table continuations, slice_index si)
+{
+  boolean solution_found = false;
+  stip_length_type const full_length = slices[si].u.pipe.u.branch.length;
+  stip_length_type len = slices[si].u.pipe.u.branch.min_length;
+  Side const starter = branch_h_starter_in_n(si,len);
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(full_length>=slack_length_help);
+
+  while (len<full_length && !solution_found)
+  {
+    help_solve_continuations_in_n(continuations,next,len,starter);
+    if (table_length(continuations)>0)
+    {
+      solution_found = true;
+      FlagShortSolsReached = true;
+    }
+
+    len += 2;
+  }
+
+  if (!solution_found)
+    branch_h_solve_continuations_in_n(continuations,si,full_length,starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Write the key just played
+ * @param si slice index
+ * @param type type of attack
+ */
+void help_adapter_root_write_key(slice_index si, attack_type type)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParamListEnd();
+
+  write_attack(type);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean help_adapter_has_solution(slice_index si)
+{
+  boolean result = false;
+  stip_length_type const full_length = slices[si].u.pipe.u.branch.length;
+  stip_length_type len = slices[si].u.pipe.u.branch.min_length;
+  Side const starter = branch_h_starter_in_n(si,len);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(full_length>=slack_length_help);
+
+  while (len<full_length)
+    if (help_has_solution_in_n(slices[si].u.pipe.next,len,starter))
+    {
+      result = true;
+      break;
+    }
+    else
+      len += 2;
+
+  if (!result)
+    result = branch_h_has_solution_in_n(si,full_length,starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -657,8 +714,8 @@ static slice_operation const relevant_slice_finders[] =
  * @param same_side_as_root does si start with the same side as root?
  * @return does the leaf decide on the starter?
  */
-who_decides_on_starter branch_h_detect_starter(slice_index si,
-                                               boolean same_side_as_root)
+who_decides_on_starter help_adapter_detect_starter(slice_index si,
+                                                   boolean same_side_as_root)
 {
   who_decides_on_starter result = dont_know_who_decides_on_starter;
   boolean const even_length = slices[si].u.pipe.u.branch.length%2==0;
@@ -745,62 +802,6 @@ who_decides_on_starter branch_h_detect_starter(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean branch_h_impose_starter(slice_index si, slice_traversal *st)
-{
-  boolean result;
-  Side * const starter = st->param;
-  Side const save_starter = *starter;
-
-  /* help play in N.5 -> change starter */
-  Side const next_starter = (slices[si].u.pipe.u.branch.length%2==1
-                             ? advers(*starter)
-                             : *starter);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-
-  *starter = next_starter;
-  result = slice_traverse_children(si,st);
-  *starter = save_starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Shorten a help pipe by a half-move
- * @param pipe identifies pipe to be shortened
- */
-static void branch_h_shorten_help_pipe(slice_index pipe)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParamListEnd();
-
-  --slices[pipe].u.pipe.u.branch.length;
-  --slices[pipe].u.pipe.u.branch.min_length;
-  if (slices[pipe].u.pipe.u.branch.min_length<slack_length_help)
-    slices[pipe].u.pipe.u.branch.min_length += 2;
-  slices[pipe].starter = advers(slices[pipe].starter);
-  TraceValue("%u",slices[pipe].starter);
-  TraceValue("%u",slices[pipe].u.pipe.u.branch.length);
-  TraceValue("%u\n",slices[pipe].u.pipe.u.branch.min_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /*************** root *****************/

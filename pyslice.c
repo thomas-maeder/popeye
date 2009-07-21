@@ -199,7 +199,7 @@ void slice_solve_continuations(table continuations, slice_index si)
       break;
 
     case STBranchHelp:
-      branch_h_solve_continuations(continuations,si);
+      help_adapter_solve_continuations(continuations,si);
       break;
 
     case STBranchSeries:
@@ -303,7 +303,7 @@ void slice_root_write_key(slice_index si, attack_type type)
       break;
 
     case STBranchHelp:
-      branch_h_root_write_key(si,type);
+      help_adapter_root_write_key(si,type);
       break;
 
     case STBranchSeries:
@@ -369,7 +369,7 @@ boolean slice_solve(slice_index si)
       break;
 
     case STBranchHelp:
-      solution_found = branch_h_solve(si);
+      solution_found = help_adapter_solve(si);
       break;
 
     case STBranchSeries:
@@ -561,7 +561,7 @@ boolean slice_has_solution(slice_index si)
 
     case STHelpRoot:
     case STBranchHelp:
-      result = branch_h_has_solution(si);
+      result = help_adapter_has_solution(si);
       break;
 
     case STBranchSeries:
@@ -1061,7 +1061,7 @@ who_decides_on_starter slice_detect_starter(slice_index si,
 
     case STBranchHelp:
     case STHelpRoot:
-      result = branch_h_detect_starter(si,same_side_as_root);
+      result = help_adapter_detect_starter(si,same_side_as_root);
       break;
 
     case STBranchSeries:

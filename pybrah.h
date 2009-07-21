@@ -79,28 +79,10 @@ boolean branch_h_has_starter_reached_goal(slice_index si);
  */
 boolean branch_h_is_goal_reached(Side just_moved, slice_index si);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return true iff slice si has a solution
- */
-boolean branch_h_has_solution(slice_index si);
-
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void branch_h_root_write_key(slice_index si, attack_type type);
-
 /* Find and write post key play
  * @param leaf slice index
  */
 void branch_h_solve_postkey(slice_index si);
-
-/* Solve a branch slice at non-root level.
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean branch_h_solve(slice_index si);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
@@ -134,25 +116,11 @@ void branch_h_solve_continuations_in_n(table continuations,
                                        stip_length_type n,
                                        Side side_at_move);
 
-/* Determine and write continuations of a slice
- * @param continuations table where to store continuing moves (i.e. threats)
- * @param si index of branch slice
- */
-void branch_h_solve_continuations(table continuations, slice_index si);
-
 /* Determine the starting side in a help branch in n
  * @param si slice index
  * @param n number of half-moves
  */
 Side branch_h_starter_in_n(slice_index si, stip_length_type n);
-
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
- */
-who_decides_on_starter branch_h_detect_starter(slice_index si,
-                                               boolean same_side_as_root);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch
@@ -196,5 +164,37 @@ boolean help_root_solve(slice_index si);
  * @return true iff >=1 solution was found
  */
 boolean help_root_solve_in_n(slice_index si, stip_length_type n);
+
+/* Solve a branch slice at non-root level.
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean help_adapter_solve(slice_index si);
+
+/* Determine and write continuations of a slice
+ * @param continuations table where to store continuing moves (i.e. threats)
+ * @param si index of branch slice
+ */
+void help_adapter_solve_continuations(table continuations, slice_index si);
+
+/* Write the key just played
+ * @param si slice index
+ * @param type type of attack
+ */
+void help_adapter_root_write_key(slice_index si, attack_type type);
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean help_adapter_has_solution(slice_index si);
+
+/* Detect starter field with the starting side if possible. 
+ * @param si identifies slice
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
+ */
+who_decides_on_starter help_adapter_detect_starter(slice_index si,
+                                                   boolean same_side_as_root);
 
 #endif
