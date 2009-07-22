@@ -30,68 +30,55 @@ static stip_length_type move_depth;
 
 static captured_ply_type captured_ply[maxply+1];
 
-
-static output_mode detect_output_mode(slice_index si)
+static boolean output_mode_treemode(slice_index si, slice_traversal *st)
 {
-  output_mode result;
+  boolean const result = true;
+  output_mode * const mode = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
-  switch (slices[si].type)
+  *mode = output_mode_tree;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean output_mode_linemode(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  output_mode * const mode = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *mode = output_mode_line;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean output_mode_helproot(slice_index si, slice_traversal *st)
+{
+  boolean result;
+  output_mode * const mode = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.pipe.u.branch.length==slack_length_help+1)
+    result = slice_traverse_children(si,st);
+  else
   {
-    case STMoveInverter:
-    case STNot:
-      result = detect_output_mode(slices[si].u.pipe.next);
-      break;
-
-    case STBranchDirect:
-    case STBranchDirectDefender:
-    case STLeafDirect:
-    case STLeafSelf:
-      result = output_mode_tree;
-      break;
-
-    case STHelpRoot:
-      if (slices[si].u.pipe.u.branch.length==slack_length_help+1)
-        /* may be set play of direct stipulation */
-        result = detect_output_mode(slices[si].u.pipe.next);
-      else
-        result = output_mode_line;
-      break;
-
-    case STBranchHelp:
-    case STBranchSeries:
-    case STLeafHelp:
-    case STLeafForced:
-      result = output_mode_line;
-      break;
-
-    case STQuodlibet:
-    case STReciprocal:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      output_mode mode1 = detect_output_mode(op1);
-
-      slice_index const op2 = slices[si].u.fork.op2;
-      output_mode mode2 = detect_output_mode(op2);
-
-      if (mode2!=output_mode_none)
-        result = mode2;
-      else
-        result = mode1;
-      break;
-    }
-
-    case STBranchFork:
-      result = detect_output_mode(slices[si].u.pipe.u.branch_fork.towards_goal);
-      break;
-
-    default:
-      result = output_mode_none;
-      break;
+    *mode = output_mode_line;
+    result = true;
   }
 
   TraceFunctionExit(__func__);
@@ -100,14 +87,65 @@ static output_mode detect_output_mode(slice_index si)
   return result;
 }
 
+static boolean output_mode_fork(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  output_mode * const mode = st->param;
+  output_mode mode1;
+  output_mode mode2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[si].u.fork.op1,st);
+  mode1 = *mode;
+
+  traverse_slices(slices[si].u.fork.op2,st);
+  mode2 = *mode;
+
+  *mode = mode2==output_mode_none ? mode1 : mode2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const output_mode_detectors[] =
+{
+  &output_mode_treemode,    /* STBranchDirect */
+  &output_mode_treemode,    /* STBranchDirectDefender */
+  &output_mode_linemode,    /* STBranchHelp */
+  &output_mode_linemode,    /* STBranchSeries */
+  &slice_traverse_children, /* STBranchFork */
+  &output_mode_treemode,    /* STLeafDirect */
+  &output_mode_linemode,    /* STLeafHelp */
+  &output_mode_treemode,    /* STLeafSelf */
+  &output_mode_linemode,    /* STLeafForced */
+  &output_mode_fork,        /* STReciprocal */
+  &output_mode_fork,        /* STQuodlibet */
+  &slice_traverse_children, /* STNot */
+  &slice_traverse_children, /* STMoveInverter */
+  &output_mode_helproot,    /* STHelpRoot */
+  &slice_traverse_children  /* STHelpHashed */
+};
+
 /* Initialize based on the stipulation
  */
 void init_output(slice_index si)
 {
+  slice_traversal st;
+
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  current_mode = detect_output_mode(si);
+  current_mode = output_mode_none;
+  
+  slice_traversal_init(&st,&output_mode_detectors,&current_mode);
+  traverse_slices(si,&st);
+
   assert(current_mode!=output_mode_none);
 
   if (current_mode==output_mode_tree)
