@@ -440,82 +440,90 @@ slice_index find_unique_goal(slice_index si)
   return result;
 }
 
-static void transform_to_quodlibet_recursive(slice_index si)
+static boolean transform_to_quodlibet_leaf_self(slice_index si,
+                                                slice_traversal *st)
 {
+  boolean const result = true;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
-  switch (slices[si].type)
+  /* Copy si to a new slot.
+   * Then construct a new quodlibet slice over si; its operators
+   * are a newly constructed direct leaf slice and the new slot.
+   */
+  Goal const goal = slices[si].u.leaf.goal;
+  slice_index const direct_leaf = alloc_leaf_slice(STLeafDirect,goal);
+  slice_index const new_slot = copy_slice(si);
+  make_quodlibet_slice(si,direct_leaf,new_slot);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean transform_to_quodlibet_branch_help(slice_index si,
+                                                  slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* Copy si to a new slot.
+   * Then construct a new quodlibet slice over si; its operators
+   * are a newly constructed direct leaf slice and the new slot.
+   */
   {
-    case STLeafSelf:
-    {
-      /* Copy si to a new slot.
-       * Then construct a new quodlibet slice over si; its operators
-       * are a newly constructed direct leaf slice and the new slot.
-       */
-      Goal const goal = slices[si].u.leaf.goal;
-      slice_index const direct_leaf = alloc_leaf_slice(STLeafDirect,goal);
-      slice_index const new_slot = copy_slice(si);
-      make_quodlibet_slice(si,direct_leaf,new_slot);
-      break;
-    }
-
-    case STQuodlibet:
-    case STReciprocal:
-      transform_to_quodlibet_recursive(slices[si].u.fork.op1);
-      transform_to_quodlibet_recursive(slices[si].u.fork.op2);
-      break;
-
-    case STBranchHelp:
-    {
-      /* Copy si to a new slot.
-       * Then construct a new quodlibet slice over si; its operators
-       * are a newly constructed direct leaf slice and the new slot.
-       */
-      slice_index const unique_goal_slice = find_unique_goal(si);
-      Goal const goal = slices[unique_goal_slice].u.leaf.goal;
-      slice_index const direct_leaf = alloc_leaf_slice(STLeafDirect,goal);
-      slice_index const new_slot = copy_slice(si);
-      assert(unique_goal_slice!=no_slice);
-      assert(slices[unique_goal_slice].type==STLeafHelp);
-      make_quodlibet_slice(si,direct_leaf,new_slot);
-      break;
-    }
-
-    case STBranchDirect:
-    {
-      slice_index peer = slices[si].u.pipe.next;
-      slice_index towards_goal =
-          slices[peer].u.pipe.u.branch_d_defender.towards_goal;
-      assert(slices[peer].type==STBranchDirectDefender);
-      transform_to_quodlibet_recursive(towards_goal);
-      break;
-    }
-
-    case STBranchSeries:
-      transform_to_quodlibet_recursive(slices[si].u.pipe.next);
-      break;
-
-    default:
-      assert(0);
-      break;
+    slice_index const unique_goal_slice = find_unique_goal(si);
+    Goal const goal = slices[unique_goal_slice].u.leaf.goal;
+    slice_index const direct_leaf = alloc_leaf_slice(STLeafDirect,goal);
+    slice_index const new_slot = copy_slice(si);
+    assert(unique_goal_slice!=no_slice);
+    assert(slices[unique_goal_slice].type==STLeafHelp);
+    make_quodlibet_slice(si,direct_leaf,new_slot);
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
+
+static slice_operation const to_quodlibet_transformers[] =
+{
+  &slice_traverse_children,            /* STBranchDirect */
+  &slice_traverse_children,            /* STBranchDirectDefender */
+  &transform_to_quodlibet_branch_help, /* STBranchHelp */
+  &slice_traverse_children,            /* STBranchSeries */
+  0,                                   /* STBranchFork */
+  0,                                   /* STLeafDirect */
+  0,                                   /* STLeafHelp */
+  &transform_to_quodlibet_leaf_self,   /* STLeafSelf */
+  0,                                   /* STLeafForced */
+  &slice_traverse_children,            /* STReciprocal */
+  &slice_traverse_children,            /* STQuodlibet */
+  0,                                   /* STNot */
+  0,                                   /* STMoveInverter */
+  0,                                   /* STHelpRoot */
+  0                                    /* STHelpHashed */
+};
 
 /* Transform a stipulation tree to "traditional quodlibet form",
  * i.e. a logical OR of direct and self goal. 
  */
 void transform_to_quodlibet(void)
 {
+  slice_traversal st;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  transform_to_quodlibet_recursive(root_slice);
+  slice_traversal_init(&st,&to_quodlibet_transformers,0);
+  traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
