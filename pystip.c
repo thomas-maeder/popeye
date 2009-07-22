@@ -363,6 +363,111 @@ stip_length_type get_max_nr_moves(slice_index si)
   return result;
 }
 
+static boolean are_goals_equal(slice_index si1, slice_index si2)
+{
+  return ((slices[si1].u.leaf.goal ==slices[si2].u.leaf.goal)
+          && (slices[si1].u.leaf.goal!=goal_target
+              || (slices[si1].u.leaf.target==slices[si2].u.leaf.target)));
+}
+
+static boolean find_unique_goal_recursive(slice_index current_slice,
+                                          slice_index *found_so_far)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",current_slice);
+  TraceFunctionParam("%u",*found_so_far);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",slices[current_slice].type);
+  switch (slices[current_slice].type)
+  {
+    case STLeafDirect:
+    case STLeafSelf:
+    case STLeafHelp:
+    case STLeafForced:
+      if (*found_so_far==no_slice)
+      {
+        *found_so_far = current_slice;
+        result = true;
+      }
+      else
+        result = are_goals_equal(*found_so_far,current_slice);
+      break;
+    
+    case STQuodlibet:
+    case STReciprocal:
+    {
+      slice_index const op1 = slices[current_slice].u.fork.op1;
+      slice_index const op2 = slices[current_slice].u.fork.op2;
+      result = (find_unique_goal_recursive(op1,found_so_far)
+                && find_unique_goal_recursive(op2,found_so_far));
+      break;
+    }
+    
+    case STNot:
+    case STBranchHelp:
+    case STBranchSeries:
+    case STMoveInverter:
+    case STHelpRoot:
+    {
+      slice_index const op = slices[current_slice].u.pipe.next;
+      result = find_unique_goal_recursive(op,found_so_far);
+      break;
+    }
+
+    case STBranchDirect:
+    {
+      slice_index const peer = slices[current_slice].u.pipe.next;
+      /* prevent infinite recursion */
+      if (peer<current_slice)
+        result = find_unique_goal_recursive(peer,found_so_far);
+      break;
+    }
+
+    case STBranchDirectDefender:
+    {
+      slice_index const next = slices[current_slice].u.pipe.u.branch_d_defender.towards_goal;
+      slice_index const peer = slices[current_slice].u.pipe.next;
+      result = find_unique_goal_recursive(next,found_so_far);
+      /* prevent infinite recursion */
+      if (peer<current_slice)
+        result = result && find_unique_goal_recursive(peer,found_so_far);
+      break;
+    }
+
+    case STBranchFork:
+    {
+      slice_index const
+          next = slices[current_slice].u.pipe.u.branch_fork.towards_goal;
+      result = find_unique_goal_recursive(next,found_so_far);
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the current stipulation has a unique goal, and
+ * return it.
+ * @return no_goal if goal is not unique; unique goal otherwise
+ */
+slice_index find_unique_goal(void)
+{
+  slice_index found_so_far = no_slice;
+  return (find_unique_goal_recursive(root_slice,&found_so_far)
+          ? found_so_far
+          : no_slice);
+}
+
 static void transform_to_quodlibet_recursive(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -397,14 +502,17 @@ static void transform_to_quodlibet_recursive(slice_index si)
        * Then construct a new quodlibet slice over si; its operators
        * are a newly constructed direct leaf slice and the new slot.
        */
-      slice_index const fork = branch_find_fork(si);
-      slice_index const to_goal
-          = slices[fork].u.pipe.u.branch_fork.towards_goal;
-      Goal const goal = slices[to_goal].u.leaf.goal;
-      slice_index const direct_leaf = alloc_leaf_slice(STLeafDirect,goal);
-      slice_index const new_slot = copy_slice(si);
-      assert(slices[to_goal].type==STLeafHelp);
-      make_quodlibet_slice(si,direct_leaf,new_slot);
+      slice_index unique_goal_slice = no_slice;
+      if (find_unique_goal_recursive(si,&unique_goal_slice))
+      {
+        Goal const goal = slices[unique_goal_slice].u.leaf.goal;
+        assert(slices[unique_goal_slice].type==STLeafHelp);
+        slice_index const direct_leaf = alloc_leaf_slice(STLeafDirect,goal);
+        slice_index const new_slot = copy_slice(si);
+        make_quodlibet_slice(si,direct_leaf,new_slot);
+      }
+      else
+        assert(0);
       break;
     }
 
@@ -720,111 +828,6 @@ slice_index find_next_goal(Goal goal, slice_index start)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-static boolean are_goals_equal(slice_index si1, slice_index si2)
-{
-  return ((slices[si1].u.leaf.goal ==slices[si2].u.leaf.goal)
-          && (slices[si1].u.leaf.goal!=goal_target
-              || (slices[si1].u.leaf.target==slices[si2].u.leaf.target)));
-}
-
-static boolean find_unique_goal_recursive(slice_index current_slice,
-                                          slice_index *found_so_far)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",current_slice);
-  TraceFunctionParam("%u",*found_so_far);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",slices[current_slice].type);
-  switch (slices[current_slice].type)
-  {
-    case STLeafDirect:
-    case STLeafSelf:
-    case STLeafHelp:
-    case STLeafForced:
-      if (*found_so_far==no_slice)
-      {
-        *found_so_far = current_slice;
-        result = true;
-      }
-      else
-        result = are_goals_equal(*found_so_far,current_slice);
-      break;
-    
-    case STQuodlibet:
-    case STReciprocal:
-    {
-      slice_index const op1 = slices[current_slice].u.fork.op1;
-      slice_index const op2 = slices[current_slice].u.fork.op2;
-      result = (find_unique_goal_recursive(op1,found_so_far)
-                && find_unique_goal_recursive(op2,found_so_far));
-      break;
-    }
-    
-    case STNot:
-    case STBranchHelp:
-    case STBranchSeries:
-    case STMoveInverter:
-    case STHelpRoot:
-    {
-      slice_index const op = slices[current_slice].u.pipe.next;
-      result = find_unique_goal_recursive(op,found_so_far);
-      break;
-    }
-
-    case STBranchDirect:
-    {
-      slice_index const peer = slices[current_slice].u.pipe.next;
-      /* prevent infinite recursion */
-      if (peer<current_slice)
-        result = find_unique_goal_recursive(peer,found_so_far);
-      break;
-    }
-
-    case STBranchDirectDefender:
-    {
-      slice_index const next = slices[current_slice].u.pipe.u.branch_d_defender.towards_goal;
-      slice_index const peer = slices[current_slice].u.pipe.next;
-      result = find_unique_goal_recursive(next,found_so_far);
-      /* prevent infinite recursion */
-      if (peer<current_slice)
-        result = result && find_unique_goal_recursive(peer,found_so_far);
-      break;
-    }
-
-    case STBranchFork:
-    {
-      slice_index const
-          next = slices[current_slice].u.pipe.u.branch_fork.towards_goal;
-      result = find_unique_goal_recursive(next,found_so_far);
-      break;
-    }
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the current stipulation has a unique goal, and
- * return it.
- * @return no_goal if goal is not unique; unique goal otherwise
- */
-slice_index find_unique_goal(void)
-{
-  slice_index found_so_far = no_slice;
-  return (find_unique_goal_recursive(root_slice,&found_so_far)
-          ? found_so_far
-          : no_slice);
 }
 
 /* Make a branch exact
