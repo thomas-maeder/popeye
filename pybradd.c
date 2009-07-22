@@ -1243,7 +1243,6 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
 {
   slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
   slice_index next_in_setplay;
-  slice_index help;
   slice_index result;
 
   TraceFunctionEntry(__func__);
@@ -1272,12 +1271,11 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
     slices[next_in_setplay_peer].u.pipe.next = next_in_setplay;
   }
 
-  help = alloc_branch_h_slice(slack_length_help+1,
-                              slack_length_help+1,
-                              next_in_setplay);
-  slices[help].starter = advers(slices[si].starter);
-
-  result = alloc_help_root_slice(help);
+  result = alloc_help_branch(slack_length_help+1,
+                             slack_length_help+1,
+                             next_in_setplay);
+  slices[result].starter = advers(slices[si].starter);
+  help_adapter_convert_to_root(result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

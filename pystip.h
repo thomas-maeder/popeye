@@ -35,6 +35,7 @@ typedef enum
   STMoveInverter, /* 0 length, inverts side at move */
 
   STHelpRoot,     /* root level of help play */
+  STHelpAdapter,  /* help play after branch fork */
   STHelpHashed,   /* help play with hash table */
 
   nr_slice_types,

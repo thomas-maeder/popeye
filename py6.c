@@ -499,7 +499,8 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
   &root_slice_type_found,             /* STHelpRoot */
-  0,                                  /* STHelpHashed */
+  0,                                  /* STHelpAdapter */
+  0                                   /* STHelpHashed */
 };
 
 static SliceType findUniqueRootSliceType(void)
@@ -1852,6 +1853,7 @@ static boolean verify_position(void)
       isIntelligentModeActive = true;
       break;
   }
+  TraceValue("%u\n",isIntelligentModeActive);
 
   if (CondFlag[castlingchess])
   {
@@ -2437,82 +2439,15 @@ static boolean root_slice_apply_postkeyplay(void)
   return result;
 }
 
-/* Wrap the branch(es) where play starts with a root slice.
- * Set st->param to this slice itself or the slice that now wraps it.
- * @param pipe identifies pipe slice
- * @param st address of structure holding traversal state
- * @return true
- */
-static boolean make_root_slice_pipe(slice_index pipe, slice_traversal *st)
+static boolean make_root_help_adapter(slice_index adapter, slice_traversal *st)
 {
   boolean const result = true;
-  slice_index * const new_next = st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[pipe].u.pipe.next,st);
-  slices[pipe].u.pipe.next = *new_next;
-
-  *new_next = pipe;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Wrap the branch(es) where play starts with a root slice.
- * Set st->param to this slice itself or the slice that now wraps it.
- * @param fork identifies fork slice
- * @param st address of structure holding traversal state
- * @return true
- */
-static boolean make_root_slice_fork(slice_index fork, slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index * const new_op = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",fork);
-  TraceFunctionParamListEnd();
-
-  traverse_slices(slices[fork].u.fork.op1,st);
-  slices[fork].u.fork.op1 = *new_op;
-
-  traverse_slices(slices[fork].u.fork.op2,st);
-  slices[fork].u.fork.op2 = *new_op;
-
-  TraceValue("%u",slices[fork].u.fork.op1);
-  TraceValue("%u\n",slices[fork].u.fork.op2);
-
-  *new_op = fork;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Wrap the branch(es) where play starts with a root slice.  We have
- * arrived beyond the (possibly existing) branch slice to be wrapped,
- * so do nothing but set st->param to this slice itself or the slice
- * that now wraps it.
- * @param si identifies slice
- * @param st address of structure holding traversal state
- * @return true
- */
-static boolean make_root_slice_noop(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index * const retval = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *retval = si;
+  help_adapter_convert_to_root(adapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2522,21 +2457,22 @@ static boolean make_root_slice_noop(slice_index si, slice_traversal *st)
 
 static slice_operation const root_slice_makers[] =
 {
-  &make_root_slice_noop,     /* STBranchDirect */
-  &make_root_slice_noop,     /* STBranchDirectDefender */
-  &branch_h_make_root_slice, /* STBranchHelp */
-  &make_root_slice_noop,     /* STBranchSeries */
-  &make_root_slice_noop,     /* STBranchFork */
-  &make_root_slice_noop,     /* STLeafDirect */
-  &make_root_slice_noop,     /* STLeafHelp */
-  &make_root_slice_noop,     /* STLeafSelf */
-  &make_root_slice_noop,     /* STLeafForced */
-  &make_root_slice_fork,     /* STReciprocal */
-  &make_root_slice_fork,     /* STQuodlibet */
-  &make_root_slice_pipe,     /* STNot */
-  &make_root_slice_pipe,     /* STMoveInverter */
-  0,                         /* STHelpRoot */
-  0                          /* STHelpHashed */
+  &slice_operation_noop,         /* STBranchDirect */
+  &slice_operation_noop,         /* STBranchDirectDefender */
+  0,                             /* STBranchHelp */
+  &slice_operation_noop,         /* STBranchSeries */
+  &slice_operation_noop,         /* STBranchFork */
+  &slice_operation_noop,         /* STLeafDirect */
+  &slice_operation_noop,         /* STLeafHelp */
+  &slice_operation_noop,         /* STLeafSelf */
+  &slice_operation_noop,         /* STLeafForced */
+  &slice_traverse_children,      /* STReciprocal */
+  &slice_traverse_children,      /* STQuodlibet */
+  &slice_traverse_children,      /* STNot */
+  &slice_traverse_children,      /* STMoveInverter */
+  0,                             /* STHelpRoot */
+  &make_root_help_adapter,       /* STHelpAdapter */
+  0                              /* STHelpHashed */
 };
 
 /* Wrap the branch(es) where play starts with a root slice (if such a
@@ -2545,15 +2481,12 @@ static slice_operation const root_slice_makers[] =
 static void make_root_slices(void)
 {
   slice_traversal st;
-  slice_index next = root_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&root_slice_makers,&next);
+  slice_traversal_init(&st,&root_slice_makers,0);
   traverse_slices(root_slice,&st);
-  root_slice = next;
-  TraceValue("->%u\n",root_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2600,6 +2533,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,         /* STNot */
   &slice_traverse_children,         /* STMoveInverter */
   &slice_traverse_children,         /* STHelpRoot */
+  &slice_traverse_children,         /* STHelpAdapter */
   &slice_traverse_children          /* STHelpHashed */
 };
 

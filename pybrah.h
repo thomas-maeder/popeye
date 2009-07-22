@@ -20,13 +20,15 @@ slice_index alloc_branch_h_slice(stip_length_type length,
                                  stip_length_type min_length,
                                  slice_index next);
 
-/* Wrap the branch(es) where play starts with a root slice.
- * Set st->param to the newly created slice.
- * @param branch identifies the branch slice to be wrapped
- * @param st address of structure holding traversal state
- * @return true
+/* Allocate a help branch.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of adapter slice of allocated help branch
  */
-boolean branch_h_make_root_slice(slice_index branch, slice_traversal *st);
+slice_index alloc_help_branch(stip_length_type length,
+                              stip_length_type min_length,
+                              slice_index next);
 
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
@@ -79,11 +81,6 @@ boolean branch_h_has_starter_reached_goal(slice_index si);
  */
 boolean branch_h_is_goal_reached(Side just_moved, slice_index si);
 
-/* Find and write post key play
- * @param leaf slice index
- */
-void branch_h_solve_postkey(slice_index si);
-
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
@@ -130,12 +127,6 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n);
  */
 boolean branch_h_impose_starter(slice_index si, slice_traversal *st);
 
-/* Allocate a STHelpRoot slice.
- * @param si STBranchHelp slice to "wrap"
- * @return index of allocated slice
- */
-slice_index alloc_help_root_slice(slice_index si);
-
 /* Shorten a help branch by a half-move. If the branch represents a
  * half-move only, deallocates the branch.
  * @param si identifies the branch
@@ -165,11 +156,31 @@ boolean help_root_solve(slice_index si);
  */
 boolean help_root_solve_in_n(slice_index si, stip_length_type n);
 
+/* Allocate a STHelpAdapter slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of allocated slice
+ */
+slice_index alloc_help_adapter_slice(stip_length_type length,
+                                     stip_length_type min_length,
+                                     slice_index next);
+
+/* Convert a STHelpAdapter slice to STHelpRoot
+ * @param adapter identifies the adapter slice to be converted
+ */
+void help_adapter_convert_to_root(slice_index adapter);
+
 /* Solve a branch slice at non-root level.
  * @param si slice index
  * @return true iff >=1 solution was found
  */
 boolean help_adapter_solve(slice_index si);
+
+/* Find and write post key play
+ * @param leaf slice index
+ */
+void help_adapter_solve_postkey(slice_index si);
 
 /* Determine and write continuations of a slice
  * @param continuations table where to store continuing moves (i.e. threats)

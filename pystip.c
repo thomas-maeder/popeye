@@ -337,6 +337,7 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STNot */
   &get_max_nr_moves_other,           /* STMoveInverter */
   &get_max_nr_moves_other,           /* STHelpRoot */
+  &get_max_nr_moves_other,           /* STHelpAdapter */
   &get_max_nr_moves_other            /* STHelpHashed */
 };
 
@@ -411,6 +412,7 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children,          /* STNot */
   &slice_traverse_children,          /* STMoveInverter */
   &slice_traverse_children,          /* STHelpRoot */
+  &slice_traverse_children,          /* STHelpAdapter */
   &slice_traverse_children           /* STHelpHashed */
 };
 
@@ -466,8 +468,8 @@ static boolean transform_to_quodlibet_leaf_self(slice_index si,
   return result;
 }
 
-static boolean transform_to_quodlibet_branch_help(slice_index si,
-                                                  slice_traversal *st)
+static boolean transform_to_quodlibet_help_adapter(slice_index si,
+                                                   slice_traversal *st)
 {
   boolean const result = true;
 
@@ -497,21 +499,22 @@ static boolean transform_to_quodlibet_branch_help(slice_index si,
 
 static slice_operation const to_quodlibet_transformers[] =
 {
-  &slice_traverse_children,            /* STBranchDirect */
-  &slice_traverse_children,            /* STBranchDirectDefender */
-  &transform_to_quodlibet_branch_help, /* STBranchHelp */
-  &slice_traverse_children,            /* STBranchSeries */
-  0,                                   /* STBranchFork */
-  0,                                   /* STLeafDirect */
-  0,                                   /* STLeafHelp */
-  &transform_to_quodlibet_leaf_self,   /* STLeafSelf */
-  0,                                   /* STLeafForced */
-  &slice_traverse_children,            /* STReciprocal */
-  &slice_traverse_children,            /* STQuodlibet */
-  0,                                   /* STNot */
-  0,                                   /* STMoveInverter */
-  0,                                   /* STHelpRoot */
-  0                                    /* STHelpHashed */
+  &slice_traverse_children,             /* STBranchDirect */
+  &slice_traverse_children,             /* STBranchDirectDefender */
+  0,                                    /* STBranchHelp */
+  &slice_traverse_children,             /* STBranchSeries */
+  0,                                    /* STBranchFork */
+  0,                                    /* STLeafDirect */
+  0,                                    /* STLeafHelp */
+  &transform_to_quodlibet_leaf_self,    /* STLeafSelf */
+  0,                                    /* STLeafForced */
+  &slice_traverse_children,             /* STReciprocal */
+  &slice_traverse_children,             /* STQuodlibet */
+  0,                                    /* STNot */
+  0,                                    /* STMoveInverter */
+  0,                                    /* STHelpRoot */
+  &transform_to_quodlibet_help_adapter, /* STHelpAdapter */
+  0                                     /* STHelpHashed */
 };
 
 /* Transform a stipulation tree to "traditional quodlibet form",
@@ -593,6 +596,7 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STNot */
   &slice_traverse_children, /* STMoveInverter */
   &slice_traverse_children, /* STHelpRoot */
+  &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children  /* STHelpHashed */
 };
 
@@ -655,6 +659,7 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STNot */
   &slice_traverse_children,   /* STMoveInverter */
   &slice_traverse_children,   /* STHelpRoot */
+  &slice_traverse_children,   /* STHelpAdapter */
   &slice_traverse_children    /* STHelpHashed */
 };
 
@@ -723,6 +728,7 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
   0,                                  /* STHelpRoot */
+  &make_exact_branch,                 /* STHelpAdapter */
   0                                   /* STHelpHashed */
 };
 
@@ -758,6 +764,7 @@ static slice_operation const starter_imposers[] =
   &not_impose_starter,               /* STNot */
   &move_inverter_impose_starter,     /* STMoveInverter */
   &branch_h_impose_starter,          /* STHelpRoot */
+  &branch_h_impose_starter,          /* STHelpAdapter */
   0                                  /* STHelpHashed */
 };
 
@@ -953,6 +960,7 @@ static slice_operation const traversers[] =
   &traverse_pipe,                   /* STNot */
   &traverse_pipe,                   /* STMoveInverter */
   &traverse_pipe,                   /* STHelpRoot */
+  &traverse_pipe,                   /* STHelpAdapter */
   &traverse_pipe                    /* STHelpHashed */
 };
 

@@ -277,6 +277,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STNot */
   &slice_property_offset_shifter, /* STMoveInverter */
   &slice_property_offset_shifter, /* STHelpRoot */
+  &slice_property_offset_shifter, /* STHelpAdapter */
   &slice_property_offset_shifter  /* STHelpHashed */
 };
 
@@ -656,34 +657,6 @@ static boolean init_slice_properties_branch_fork(slice_index branch_fork,
   return result_next && result_toward_goal;
 }
 
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a help root slice
- * @param root root slice of subtree
- * @param st address of structure defining traversal
- * @return true iff the properties for root and its children
- *         have been successfully initialised
- */
-static boolean init_slice_properties_help_root(slice_index root,
-                                               slice_traversal *st)
-{
-  boolean result;
-  slice_index const next = slices[root].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root);
-  TraceFunctionParamListEnd();
-
-  result = traverse_slices(next,st);
-  slice_properties[root].valueOffset = slice_properties[next].valueOffset;
-  TraceValue("%u",root);
-  TraceValue("%u\n",slice_properties[root].valueOffset);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static slice_operation const slice_properties_initalisers[] =
 {
   &init_slice_properties_branch_direct,          /* STBranchDirect */
@@ -699,7 +672,8 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_fork,                   /* STQuodlibet */
   &init_slice_properties_pipe,                   /* STNot */
   &init_slice_properties_pipe,                   /* STMoveInverter */
-  &init_slice_properties_help_root,              /* STHelpRoot */
+  &init_slice_properties_pipe,                   /* STHelpRoot */
+  &init_slice_properties_pipe,                   /* STHelpAdapter */
   &init_slice_properties_help_hashed             /* STHelpHashed */
 };
 
@@ -747,6 +721,7 @@ static slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children,             /* STNot */
   &slice_traverse_children,             /* STMoveInverter */
   &slice_traverse_children,             /* STHelpRoot */
+  &slice_traverse_children,             /* STHelpAdapter */
   &slice_traverse_children              /* STHelpHashed */
 };
 
@@ -2144,27 +2119,6 @@ boolean init_element_branch_d(slice_index si, slice_traversal *st)
  * @param st address of structure holding status of traversal
  * @return result of traversing si's children
  */
-boolean init_element_help_root(slice_index si, slice_traversal *st)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = traverse_slices(slices[si].u.pipe.next,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Traverse a slice while initialising a hash table element
- * @param si identifies slice
- * @param st address of structure holding status of traversal
- * @return result of traversing si's children
- */
 boolean init_element_help_hashed(slice_index si, slice_traversal *st)
 {
   boolean result;
@@ -2221,7 +2175,8 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children, /* STQuodlibet */
   &slice_traverse_children, /* STNot */
   &slice_traverse_children, /* STMoveInverter */
-  &init_element_help_root,  /* STHelpRoot */
+  &slice_traverse_children, /* STHelpRoot */
+  &slice_traverse_children, /* STHelpAdapter */
   &init_element_help_hashed /* STHelpHashed */
 };
 
