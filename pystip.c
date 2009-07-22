@@ -152,10 +152,6 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type!=STLeafDirect
-         && slices[si].type!=STLeafSelf
-         && slices[si].type!=STLeafHelp);
-
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
@@ -367,70 +363,63 @@ stip_length_type get_max_nr_moves(slice_index si)
   return result;
 }
 
-static void transform_to_quodlibet_recursive(slice_index *hook)
+static void transform_to_quodlibet_recursive(slice_index si)
 {
-  slice_index const index = *hook;
-
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",*hook);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[index].type);
-  switch (slices[index].type)
+  TraceValue("%u\n",slices[si].type);
+  switch (slices[si].type)
   {
     case STLeafSelf:
     {
-      /* Insert a new quodlibet node at *hook's current position.
-       * Move *hook to positon op2 of the new quodlibet node, and
-       * add a new direct leaf at op1 of that node.
-       * op1 is tested before op2, so it is more efficient to make
-       * op1 the new direct leaf.
+      /* Copy si to a new slot.
+       * Then construct a new quodlibet slice over si; its operators
+       * are a newly constructed direct leaf slice and the new slot.
        */
-      Goal const goal = slices[index].u.leaf.goal;
-      *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
-                                    index);
-      TraceValue("allocated quodlibet slice %u for self play\n",*hook);
+      Goal const goal = slices[si].u.leaf.goal;
+      slice_index const direct_leaf = alloc_leaf_slice(STLeafDirect,goal);
+      slice_index const new_slot = copy_slice(si);
+      make_quodlibet_slice(si,direct_leaf,new_slot);
       break;
     }
 
     case STQuodlibet:
     case STReciprocal:
-      transform_to_quodlibet_recursive(&slices[index].u.fork.op1);
-      transform_to_quodlibet_recursive(&slices[index].u.fork.op2);
+      transform_to_quodlibet_recursive(slices[si].u.fork.op1);
+      transform_to_quodlibet_recursive(slices[si].u.fork.op2);
       break;
 
     case STBranchHelp:
     {
-      /* Insert a new quodlibet node at *hook's current position.
-       * Move *hook to positon op2 of the new quodlibet node, and
-       * add a new direct leaf at op1 of that node.
-       * op1 is tested before op2, so it is more efficient to make
-       * op1 the new direct leaf.
+      /* Copy si to a new slot.
+       * Then construct a new quodlibet slice over si; its operators
+       * are a newly constructed direct leaf slice and the new slot.
        */
-      slice_index const fork = branch_find_fork(index);
+      slice_index const fork = branch_find_fork(si);
       slice_index const to_goal
           = slices[fork].u.pipe.u.branch_fork.towards_goal;
       Goal const goal = slices[to_goal].u.leaf.goal;
+      slice_index const direct_leaf = alloc_leaf_slice(STLeafDirect,goal);
+      slice_index const new_slot = copy_slice(si);
       assert(slices[to_goal].type==STLeafHelp);
-      *hook = alloc_quodlibet_slice(alloc_leaf_slice(STLeafDirect,goal),
-                                    index);
-      TraceValue("allocated quodlibet slice %u for reflex play\n",*hook);
+      make_quodlibet_slice(si,direct_leaf,new_slot);
       break;
     }
 
     case STBranchDirect:
     {
-      slice_index peer = slices[index].u.pipe.next;
+      slice_index peer = slices[si].u.pipe.next;
       slice_index towards_goal =
           slices[peer].u.pipe.u.branch_d_defender.towards_goal;
       assert(slices[peer].type==STBranchDirectDefender);
-      transform_to_quodlibet_recursive(&towards_goal);
-      slices[peer].u.pipe.u.branch_d_defender.towards_goal = towards_goal;
+      transform_to_quodlibet_recursive(towards_goal);
       break;
     }
 
     case STBranchSeries:
-      transform_to_quodlibet_recursive(&slices[index].u.pipe.next);
+      transform_to_quodlibet_recursive(slices[si].u.pipe.next);
       break;
 
     default:
@@ -447,13 +436,10 @@ static void transform_to_quodlibet_recursive(slice_index *hook)
  */
 void transform_to_quodlibet(void)
 {
-  slice_index start = root_slice;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  transform_to_quodlibet_recursive(&start);
-  assert(start==root_slice);
+  transform_to_quodlibet_recursive(root_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -6,6 +6,27 @@
 
 #include <assert.h>
 
+/* Construct a quodlibet slice over an already allocated slice object
+ * @param si index of slice object where to construct quodlibet slice
+ * @param op1 1st operand
+ * @param op2 2nd operand
+ */
+void make_quodlibet_slice(slice_index si, slice_index op1, slice_index op2)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",op1);
+  TraceFunctionParam("%u",op2);
+  TraceFunctionParamListEnd();
+
+  slices[si].type = STQuodlibet; 
+  slices[si].u.fork.op1 = op1;
+  slices[si].u.fork.op2 = op2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Allocate a quodlibet slice.
  * @param op1 1st operand
  * @param op2 2nd operand
@@ -20,9 +41,7 @@ slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2)
   TraceFunctionParam("%u",op2);
   TraceFunctionParamListEnd();
 
-  slices[result].type = STQuodlibet; 
-  slices[result].u.fork.op1 = op1;
-  slices[result].u.fork.op2 = op2;
+  make_quodlibet_slice(result,op1,op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
