@@ -277,10 +277,11 @@ slice_index find_next_goal(Goal goal, slice_index start);
 
 /* Determine whether the current stipulation has a unique goal, and
  * return it.
+ * @param si root of subtree where to look for unique goal
  * @return no_slice if goal is not unique; index of a slice with the
  *         unique goal otherwise
  */
-slice_index find_unique_goal(void);
+slice_index find_unique_goal(slice_index si);
 
 /* Make the stipulation exact
  */

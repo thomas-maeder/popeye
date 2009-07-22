@@ -1695,7 +1695,7 @@ static boolean verify_position(void)
 
   /* we have to know which goal has to be reached in a dual-free
    * way */
-  if (CondFlag[exclusive] && find_unique_goal()==no_slice)
+  if (CondFlag[exclusive] && find_unique_goal(root_slice)==no_slice)
   {
     VerifieMsg(StipNotSupported);
     return false;

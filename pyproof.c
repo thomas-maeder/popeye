@@ -1977,7 +1977,7 @@ void ProofInitialise(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  leaf_unique_goal = find_unique_goal();
+  leaf_unique_goal = find_unique_goal(root_slice);
   if (leaf_unique_goal==no_slice)
     VerifieMsg(MultipleGoalsWithProogGameNotAcceptable);
   else
