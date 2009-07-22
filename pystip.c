@@ -529,6 +529,13 @@ void transform_to_quodlibet(void)
   TraceFunctionResultEnd();
 }
 
+typedef struct
+{
+    Goal const * const goals;
+    size_t const nrGoals;
+    boolean * const doGoalsMatch;
+} goal_set;
+
 /* Does a leaf have one of a set of goals?
  * @param goals set of goals
  * @param nrGoals number of elements of goals
@@ -549,13 +556,6 @@ static boolean leaf_ends_in_one_of(Goal const goals[],
   return false;
 }
 
-typedef struct
-{
-    Goal const * const goals;
-    size_t const nrGoals;
-    boolean * const allGoalsMatch;
-} goal_set;
-
 static boolean leaf_ends_only_in(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
@@ -565,9 +565,9 @@ static boolean leaf_ends_only_in(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *goals->allGoalsMatch = (*goals->allGoalsMatch
-                           && leaf_ends_in_one_of(goals->goals,goals->nrGoals,
-                                                  si));
+  *goals->doGoalsMatch = (*goals->doGoalsMatch
+                          && leaf_ends_in_one_of(goals->goals,goals->nrGoals,
+                                                 si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -618,72 +618,66 @@ boolean stip_ends_only_in(Goal const goals[], size_t nrGoals)
   return result;
 }
 
-
-/* Does >= leaf of a slice and its descendants have one of a set of goals?
- * @param goals set of goals
- * @param nrGoals number of elements of goals
- * @param si slice identifier
- * @return true iff >=1 leaf has as goal one of the elements of goals.
- */
-static boolean slice_ends_in(Goal const goals[],
-                             size_t nrGoals,
-                             slice_index si)
+static boolean slice_ends_in_one_of_leaf(slice_index si, slice_traversal *st)
 {
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-    case STLeafHelp:
-    case STLeafSelf:
-    case STLeafForced:
-      return leaf_ends_in_one_of(goals,nrGoals,si);
+  boolean const result = true;
+  goal_set const * const goals = st->param;
 
-    case STQuodlibet:
-    case STReciprocal:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      slice_index const op2 = slices[si].u.fork.op2;
-      return (slice_ends_in(goals,nrGoals,op1)
-              || slice_ends_in(goals,nrGoals,op2));
-    }
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
-    case STNot:
-    case STBranchDirect:
-    case STBranchHelp:
-    case STBranchSeries:
-    case STMoveInverter:
-    case STHelpHashed:
-    case STHelpRoot:
-    {
-      slice_index const peer = slices[si].u.pipe.next;
-      return slice_ends_in(goals,nrGoals,peer);
-    }
+  *goals->doGoalsMatch = (*goals->doGoalsMatch
+                          || leaf_ends_in_one_of(goals->goals,goals->nrGoals,
+                                                 si));
 
-    case STBranchDirectDefender:
-    {
-      slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
-      return slice_ends_in(goals,nrGoals,next);
-    }
-
-    case STBranchFork:
-    {
-      slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
-      return slice_ends_in(goals,nrGoals,next);
-    }
-
-    default:
-      assert(0);
-      exit(1);
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
+
+static slice_operation const slice_ends_in_one_of_checkers[] =
+{
+  &slice_traverse_children,   /* STBranchDirect */
+  &slice_traverse_children,   /* STBranchDirectDefender */
+  &slice_traverse_children,   /* STBranchHelp */
+  &slice_traverse_children,   /* STBranchSeries */
+  &slice_traverse_children,   /* STBranchFork */
+  &slice_ends_in_one_of_leaf, /* STLeafDirect */
+  &slice_ends_in_one_of_leaf, /* STLeafHelp */
+  &slice_ends_in_one_of_leaf, /* STLeafSelf */
+  &slice_ends_in_one_of_leaf, /* STLeafForced */
+  &slice_traverse_children,   /* STReciprocal */
+  &slice_traverse_children,   /* STQuodlibet */
+  &slice_traverse_children,   /* STNot */
+  &slice_traverse_children,   /* STMoveInverter */
+  &slice_traverse_children,   /* STHelpRoot */
+  &slice_traverse_children    /* STHelpHashed */
+};
 
 /* Does >= 1 leaf of the current stipulation have one of a set of goals?
  * @param goals set of goals
  * @param nrGoals number of elements of goals
  * @return true iff >=1 leaf has as goal one of the elements of goals.
  */
-boolean stip_ends_in(Goal const goals[], size_t nrGoals)
+boolean stip_ends_in_one_of(Goal const goals[], size_t nrGoals)
 {
-  return slice_ends_in(goals,nrGoals,root_slice);
+  boolean result = false;
+  goal_set set = { goals, nrGoals, &result };
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nrGoals);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&slice_ends_in_one_of_checkers,&set);
+  traverse_slices(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Continue search for a goal. Cf. find_next_goal() */

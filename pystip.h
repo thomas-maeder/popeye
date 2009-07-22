@@ -261,7 +261,7 @@ boolean stip_ends_only_in(Goal const goals[], size_t nrGoals);
  * @param nrGoals number of elements of goals
  * @return true iff >=1 leaf has as goal one of the elements of goals.
  */
-boolean stip_ends_in(Goal const goals[], size_t nrGoals);
+boolean stip_ends_in_one_of(Goal const goals[], size_t nrGoals);
 
 /* Traversal of the stipulation tree up to the next slice with a
  * specific goal. Repeated calls, with start set to the result of the

@@ -647,7 +647,7 @@ static boolean verify_position(void)
     Goal const pieceWinGoals[] = { goal_steingewinn };
     size_t const nrPieceWinGoals = (sizeof pieceWinGoals
                                     / sizeof pieceWinGoals[0]);
-    if (stip_ends_in(pieceWinGoals,nrPieceWinGoals))
+    if (stip_ends_in_one_of(pieceWinGoals,nrPieceWinGoals))
     {
       VerifieMsg(PercentAndParrain);
       return false;
@@ -1603,7 +1603,7 @@ static boolean verify_position(void)
     size_t const nrIncompatibleGoals
         = sizeof incompatibleGoals / sizeof incompatibleGoals[0];
     
-    if (stip_ends_in(incompatibleGoals,nrIncompatibleGoals))
+    if (stip_ends_in_one_of(incompatibleGoals,nrIncompatibleGoals))
     {
       VerifieMsg(LosingChessNotInCheckOrMateStipulations);
       return false;
@@ -2087,7 +2087,7 @@ static void solveHalfADuplex(void)
 
   if (isIntelligentModeActive
       && OptFlag[restart]
-      && !stip_ends_in(proof_goals,nr_proof_goals))
+      && !stip_ends_in_one_of(proof_goals,nr_proof_goals))
   {
     /* In intelligent mode, RestartNbr means the minimal number of
      * moves.
@@ -2615,7 +2615,7 @@ static boolean initialise_verify_twin(void)
 
   initPieces();
 
-  if (stip_ends_in(proof_goals,nr_proof_goals))
+  if (stip_ends_in_one_of(proof_goals,nr_proof_goals))
   {
     countPieces();
     if (locateRoyal())
