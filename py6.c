@@ -1673,15 +1673,19 @@ static boolean verify_position(void)
       SETFLAGMASK(castling_flag[0],ra8_cancastle);
   }
 
-  if (find_next_goal(goal_castling,root_slice)!=no_slice
-      && !castling_supported)
   {
-    VerifieMsg(StipNotSupported);
-    return false;
+    Goal const castlingGoals[] = { goal_castling };
+    if (stip_ends_in_one_of(castlingGoals,1)
+        && !castling_supported)
+    {
+      VerifieMsg(StipNotSupported);
+      return false;
+    }
   }
 
   castling_flag[0] &= no_castling;
-  castling_flag[2] = castling_flag[1] = castling_flag[0];
+  castling_flag[1] = castling_flag[0];
+  castling_flag[2] = castling_flag[0];
   /* At which ply do we begin ??  NG */
 
   testcastling=
@@ -1691,7 +1695,7 @@ static boolean verify_position(void)
       || TSTFLAGMASK(castling_flag[0],blk_castling&no_castling)==blk_castling;
 
   /* a small hack to enable ep keys */
-  trait[1] = 2;
+  trait[1] = no_side;
 
   /* we have to know which goal has to be reached in a dual-free
    * way */
@@ -1714,16 +1718,20 @@ static boolean verify_position(void)
     PatienceB = false;
   }
 
-  jouetestgenre=
-      flag_testlegality
-      || flagAssassin
-      || find_next_goal(goal_doublemate,root_slice)!=no_slice
-      || CondFlag[patience]
-      || CondFlag[republican]
-      || CondFlag[blackultraschachzwang]
-      || CondFlag[whiteultraschachzwang]
-      || CondFlag[BGL];
-  jouetestgenre_save = jouetestgenre;
+  {
+    Goal const doublemate_goals[] = { goal_doublemate };
+
+    jouetestgenre=
+        flag_testlegality
+        || flagAssassin
+        || stip_ends_in_one_of(doublemate_goals,1)
+        || CondFlag[patience]
+        || CondFlag[republican]
+        || CondFlag[blackultraschachzwang]
+        || CondFlag[whiteultraschachzwang]
+        || CondFlag[BGL];
+    jouetestgenre_save = jouetestgenre;
+  }
 
   jouetestgenre1 = CondFlag[blackultraschachzwang]
       || CondFlag[whiteultraschachzwang];      

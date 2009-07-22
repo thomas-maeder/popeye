@@ -263,18 +263,6 @@ boolean stip_ends_only_in(Goal const goals[], size_t nrGoals);
  */
 boolean stip_ends_in_one_of(Goal const goals[], size_t nrGoals);
 
-/* Traversal of the stipulation tree up to the next slice with a
- * specific goal. Repeated calls, with start set to the result of the
- * previous call, result in a complete traversal.
- * @param goal defines where to stop traversal
- * @param start traversal starts (continues) at the identified slice
- *              (excluding it, i.e. the result will be different from
- *              start)
- * @return if found, index of the next slice with the requested goal;
- *         no_slice otherwise
- */
-slice_index find_next_goal(Goal goal, slice_index start);
-
 /* Determine whether the current stipulation has a unique goal, and
  * return it.
  * @param si root of subtree where to look for unique goal
