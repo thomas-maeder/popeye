@@ -535,7 +535,7 @@ void transform_to_quodlibet(void)
  * @param si leaf slice identifier
  * @return true iff the leaf has as goal one of the elements of goals.
  */
-static boolean leaf_ends_in_one_of(Goal const  goals[],
+static boolean leaf_ends_in_one_of(Goal const goals[],
                                    size_t nrGoals,
                                    slice_index si)
 {
@@ -549,73 +549,73 @@ static boolean leaf_ends_in_one_of(Goal const  goals[],
   return false;
 }
 
-/* Do all leaves of a slice and its descendants have one of a set of goals?
- * @param goals set of goals
- * @param nrGoals number of elements of goals
- * @param si slice identifier
- * @return true iff all leaves have as goal one of the elements of goals.
- */
-static boolean slice_ends_only_in(Goal const goals[],
-                                  size_t nrGoals,
-                                  slice_index si)
+typedef struct
 {
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-    case STLeafHelp:
-    case STLeafSelf:
-    case STLeafForced:
-      return leaf_ends_in_one_of(goals,nrGoals,si);
+    Goal const * const goals;
+    size_t const nrGoals;
+    boolean * const allGoalsMatch;
+} goal_set;
 
-    case STQuodlibet:
-    case STReciprocal:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      slice_index const op2 = slices[si].u.fork.op2;
-      return (slice_ends_only_in(goals,nrGoals,op1)
-              && slice_ends_only_in(goals,nrGoals,op2));
-    }
+static boolean leaf_ends_only_in(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  goal_set const * const goals = st->param;
 
-    case STNot:
-      return !slice_ends_only_in(goals,nrGoals,slices[si].u.pipe.next);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
-    case STBranchDirect:
-    case STBranchHelp:
-    case STBranchSeries:
-    case STMoveInverter:
-    case STHelpHashed:
-    case STHelpRoot:
-    {
-      slice_index const peer = slices[si].u.pipe.next;
-      return slice_ends_only_in(goals,nrGoals,peer);
-    }
+  *goals->allGoalsMatch = (*goals->allGoalsMatch
+                           && leaf_ends_in_one_of(goals->goals,goals->nrGoals,
+                                                  si));
 
-    case STBranchDirectDefender:
-    {
-      slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
-      return slice_ends_only_in(goals,nrGoals,next);
-    }
-
-    case STBranchFork:
-    {
-      slice_index const next = slices[si].u.pipe.u.branch_fork.towards_goal;
-      return slice_ends_only_in(goals,nrGoals,next);
-    }
-
-    default:
-      assert(0);
-      exit(1);
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
+
+static slice_operation const slice_ends_only_in_checkers[] =
+{
+  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STBranchDirectDefender */
+  &slice_traverse_children, /* STBranchHelp */
+  &slice_traverse_children, /* STBranchSeries */
+  &slice_traverse_children, /* STBranchFork */
+  &leaf_ends_only_in,       /* STLeafDirect */
+  &leaf_ends_only_in,       /* STLeafHelp */
+  &leaf_ends_only_in,       /* STLeafSelf */
+  &leaf_ends_only_in,       /* STLeafForced */
+  &slice_traverse_children, /* STReciprocal */
+  &slice_traverse_children, /* STQuodlibet */
+  &slice_traverse_children, /* STNot */
+  &slice_traverse_children, /* STMoveInverter */
+  &slice_traverse_children, /* STHelpRoot */
+  &slice_traverse_children  /* STHelpHashed */
+};
 
 /* Do all leaves of the current stipulation have one of a set of goals?
  * @param goals set of goals
  * @param nrGoals number of elements of goals
  * @return true iff all leaves have as goal one of the elements of goals.
  */
-boolean stip_ends_only_in(Goal const  goals[], size_t nrGoals)
+boolean stip_ends_only_in(Goal const goals[], size_t nrGoals)
 {
-  return slice_ends_only_in(goals,nrGoals,root_slice);
+  boolean result = true; /* until traversal proves otherwise */
+  goal_set set = { goals, nrGoals, &result };
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nrGoals);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&slice_ends_only_in_checkers,&set);
+  traverse_slices(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 
