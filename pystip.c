@@ -453,10 +453,12 @@ static boolean transform_to_quodlibet_leaf_self(slice_index si,
    * Then construct a new quodlibet slice over si; its operators
    * are a newly constructed direct leaf slice and the new slot.
    */
-  Goal const goal = slices[si].u.leaf.goal;
-  slice_index const direct_leaf = alloc_leaf_slice(STLeafDirect,goal);
-  slice_index const new_slot = copy_slice(si);
-  make_quodlibet_slice(si,direct_leaf,new_slot);
+  {
+    Goal const goal = slices[si].u.leaf.goal;
+    slice_index const direct_leaf = alloc_leaf_slice(STLeafDirect,goal);
+    slice_index const new_slot = copy_slice(si);
+    make_quodlibet_slice(si,direct_leaf,new_slot);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
