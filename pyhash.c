@@ -542,9 +542,6 @@ static boolean init_slice_properties_branch_direct(slice_index branch,
   {
     unsigned int const length = slices[branch].u.pipe.u.branch.length;
     init_slice_property_direct(branch,length,st->param);
-    if (slices[branch].u.pipe.u.branch.min_length==length
-        && length>slack_length_direct+1)
-      is_there_slice_with_nonstandard_min_length = true;
     result = slice_traverse_children(branch,st);
   }
   else
@@ -599,10 +596,8 @@ static boolean init_slice_properties_help_branch(slice_index si,
                                                  slice_traversal *st)
 {
   boolean const result = true;
-  unsigned int const length = slices[si].u.pipe.u.branch.length;
   slice_index branch1;
   slice_index fork;
-  slice_initializer_state *sis = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -612,16 +607,14 @@ static boolean init_slice_properties_help_branch(slice_index si,
 
   if (branch1!=no_slice)
   {
+    slice_initializer_state *sis = st->param;
+    unsigned int const length = slices[si].u.pipe.u.branch.length;
     slice_index const branch2 = find_help_hashed(branch1);
     sis->value_offset -= bit_width((length-slack_length_help+1)/2)+1;
     init_slice_property_help(branch1,length-slack_length_help,sis);
     if (branch2!=no_slice)
       init_slice_property_help(branch2,length-slack_length_help-1,sis);
   }
-
-  if (slices[si].u.pipe.u.branch.min_length==length
-      && length>slack_length_help+1)
-    is_there_slice_with_nonstandard_min_length = true;
 
   fork = branch_find_fork(si);
   traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
@@ -645,13 +638,20 @@ static boolean init_slice_properties_help_branch(slice_index si,
 static boolean init_slice_properties_branch_series(slice_index branch,
                                                    slice_traversal *st)
 {
-  boolean result;
+  boolean const result = true;
   unsigned int const length = slices[branch].u.pipe.u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
   init_slice_property_series(branch,length-slack_length_series,st->param);
-  if (slices[branch].u.pipe.u.branch.min_length==length
-      && length>slack_length_series+1)
-    is_there_slice_with_nonstandard_min_length = true;
-  result = slice_traverse_children(branch,st);
+
+  slice_traverse_children(branch,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -751,6 +751,106 @@ static slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children              /* STHelpHashed */
 };
 
+/* Find out whether a branch has a non-standard length (i.e. is exact)
+ * @param branch identifies branch
+ */
+static boolean  non_standard_length_finder_branch_direct(slice_index branch,
+                                                         slice_traversal *st)
+{
+  boolean const result = true;
+  unsigned int const length = slices[branch].u.pipe.u.branch.length;
+  boolean * const nonstandard = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  if (slices[branch].u.pipe.u.branch.min_length==length
+      && length>slack_length_direct+1)
+    *nonstandard = true;
+
+  slice_traverse_children(branch,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find out whether a branch has a non-standard length (i.e. is exact)
+ * @param branch identifies branch
+ */
+static boolean non_standard_length_finder_help_branch(slice_index si,
+                                                      slice_traversal *st)
+{
+  boolean const result = true;
+  unsigned int const length = slices[si].u.pipe.u.branch.length;
+  boolean * const nonstandard = st->param;
+  slice_index fork;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.pipe.u.branch.min_length==length
+      && length>slack_length_help+1)
+    *nonstandard = true;
+
+  fork = branch_find_fork(si);
+  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find out whether a branch has a non-standard length (i.e. is exact)
+ * @param branch identifies branch
+ */
+static boolean non_standard_length_finder_branch_series(slice_index branch,
+                                                        slice_traversal *st)
+{
+  boolean const result = true;
+  unsigned int const length = slices[branch].u.pipe.u.branch.length;
+  boolean * const nonstandard = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  if (slices[branch].u.pipe.u.branch.min_length==length
+      && length>slack_length_series+1)
+    *nonstandard = true;
+
+  slice_traverse_children(branch,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const non_standard_length_finders[] =
+{
+  &non_standard_length_finder_branch_direct, /* STBranchDirect */
+  &slice_traverse_children,                  /* STBranchDirectDefender */
+  &slice_traverse_children,                  /* STBranchHelp */
+  &non_standard_length_finder_branch_series, /* STBranchSeries */
+  &slice_traverse_children,                  /* STBranchFork */
+  &slice_traverse_children,                  /* STLeafDirect */
+  &slice_traverse_children,                  /* STLeafHelp */
+  &slice_traverse_children,                  /* STLeafSelf */
+  &slice_traverse_children,                  /* STLeafForced */
+  &slice_traverse_children,                  /* STReciprocal */
+  &slice_traverse_children,                  /* STQuodlibet */
+  &slice_traverse_children,                  /* STNot */
+  &slice_traverse_children,                  /* STMoveInverter */
+  &slice_traverse_children,                  /* STHelpRoot */
+  &non_standard_length_finder_help_branch,   /* STHelpAdapter */
+  &non_standard_length_finder_help_branch    /* STHelpHashed */
+};
+
 /* Initialise the slice_properties array according to the current
  * stipulation slices.
  */
@@ -771,6 +871,12 @@ static void init_slice_properties(void)
   slice_traversal_init(&st,&slice_properties_inheriters,0);
   traverse_slices(root_slice,&st);
   
+  is_there_slice_with_nonstandard_min_length = false;
+  slice_traversal_init(&st,
+                       &non_standard_length_finders,
+                       &is_there_slice_with_nonstandard_min_length);
+  traverse_slices(root_slice,&st);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
