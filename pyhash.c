@@ -608,9 +608,6 @@ static boolean init_slice_properties_help_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* TODO can STHelpRoot do with less size than STHelpAdapter?
-   */
-
   branch1 = find_help_hashed(si);
 
   if (branch1!=no_slice)
