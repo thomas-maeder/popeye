@@ -2788,7 +2788,10 @@ static void init_moves_left(slice_index si, stip_length_type n)
       MovesLeft[Black] = (n-slack_length_help)/2;
       MovesLeft[White] = (n-slack_length_help)/2;
       if ((n-slack_length_help)%2==1)
-        ++MovesLeft[branch_h_starter_in_n(si,n)];
+      {
+        assert((slices[si].u.pipe.u.branch.length-slack_length_help)%2==1);
+        ++MovesLeft[slices[si].starter];
+      }
       traverse_slices(to_goal,&st);
       break;
     }

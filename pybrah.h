@@ -116,20 +116,6 @@ void branch_h_solve_continuations_in_n(table continuations,
                                        stip_length_type n,
                                        Side side_at_move);
 
-/* Determine the starting side in a help branch in n
- * @param si slice index
- * @param n number of half-moves
- */
-Side branch_h_starter_in_n(slice_index si, stip_length_type n);
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean branch_h_impose_starter(slice_index si, slice_traversal *st);
-
 /* Allocate a STHelpRoot slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -184,6 +170,14 @@ boolean help_root_solve_in_n(slice_index si, stip_length_type n);
 slice_index alloc_help_adapter_slice(stip_length_type length,
                                      stip_length_type min_length,
                                      slice_index next);
+
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean help_adapter_impose_starter(slice_index si, slice_traversal *st);
 
 /* Solve a branch slice at non-root level.
  * @param si slice index

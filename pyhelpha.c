@@ -137,28 +137,6 @@ void help_hashed_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
-/* Determine the starter in a help stipulation in n half-moves
- * @param si identifies slice
- * @param n number of half-moves
- * @param return starting side
- */
-Side help_hashed_starter_in_n(slice_index si, stip_length_type n)
-{
-  Side result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = help_starter_in_n(slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Is there no chance left for reaching the solution?
  * E.g. did the help side just allow a mate in 1 in a hr#N?
  * Tests may rely on the current position being hash-encoded.

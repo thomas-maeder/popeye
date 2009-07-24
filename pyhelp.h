@@ -39,13 +39,6 @@ void help_solve_continuations_in_n(table continuations,
                                    stip_length_type n,
                                    Side side_at_move);
 
-/* Determine the starter in a help stipulation in n half-moves
- * @param si identifies slice
- * @param n number of half-moves
- * @param return starting side
- */
-Side help_starter_in_n(slice_index si, stip_length_type n);
-
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?

@@ -138,46 +138,6 @@ void help_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
-/* Determine the starter in a help stipulation in n half-moves
- * @param si identifies slice
- * @param n number of half-moves
- * @param return starting side
- */
-Side help_starter_in_n(slice_index si, stip_length_type n)
-{
-  Side result = no_side;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",slices[si].type);
-  switch (slices[si].type)
-  {
-    case STBranchHelp:
-      result = branch_h_starter_in_n(si,n);
-      break;
-
-    case STBranchFork:
-      result = branch_fork_help_starter_in_n(si,n);
-      break;
-
-    case STHelpHashed:
-      result = help_hashed_starter_in_n(si,n);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?

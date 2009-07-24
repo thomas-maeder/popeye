@@ -752,7 +752,7 @@ static slice_operation const starter_imposers[] =
 {
   &branch_d_impose_starter,          /* STBranchDirect */
   &branch_d_defender_impose_starter, /* STBranchDirectDefender */
-  &branch_h_impose_starter,          /* STBranchHelp */
+  &slice_traverse_children,          /* STBranchHelp */
   &branch_ser_impose_starter,        /* STBranchSeries */
   &branch_fork_impose_starter,       /* STBranchFork */
   &leaf_impose_starter,              /* STLeafDirect */
@@ -763,8 +763,8 @@ static slice_operation const starter_imposers[] =
   &quodlibet_impose_starter,         /* STQuodlibet */
   &not_impose_starter,               /* STNot */
   &move_inverter_impose_starter,     /* STMoveInverter */
-  &branch_h_impose_starter,          /* STHelpRoot */
-  &branch_h_impose_starter,          /* STHelpAdapter */
+  &help_adapter_impose_starter,      /* STHelpRoot */
+  &help_adapter_impose_starter,      /* STHelpAdapter */
   0                                  /* STHelpHashed */
 };
 

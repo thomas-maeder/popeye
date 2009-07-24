@@ -187,28 +187,6 @@ boolean branch_fork_impose_starter(slice_index si, slice_traversal *st)
   return result;
 }
 
-/* Determine the starter in a help stipulation in n half-moves
- * @param si identifies slice
- * @param n number of half-moves
- * @param return starting side
- */
-Side branch_fork_help_starter_in_n(slice_index si, stip_length_type n)
-{
-  Side result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = help_starter_in_n(slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
