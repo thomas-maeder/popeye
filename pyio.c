@@ -1922,6 +1922,7 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
 }
 
 static char *ParseReciGoal(char *tok,
+                           branch_level level,
                            slice_index *si_nonreci,
                            slice_index *si_reci)
 {
@@ -1929,6 +1930,7 @@ static char *ParseReciGoal(char *tok,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
   if (*tok=='(')
@@ -1943,7 +1945,8 @@ static char *ParseReciGoal(char *tok,
         {
           slice_index leaf;
           result = ParseGoal(tok+1,STLeafHelp,&leaf);
-          *si_nonreci = alloc_help_branch(slack_length_help+1,
+          *si_nonreci = alloc_help_branch(level,
+                                          slack_length_help+1,
                                           slack_length_help+1,
                                           leaf);
         }
@@ -1960,7 +1963,8 @@ static char *ParseReciGoal(char *tok,
     result = ParseGoal(tok,STLeafHelp,&leaf);
     if (result!=NULL)
     {
-      *si_nonreci = alloc_help_branch(slack_length_help+1,
+      *si_nonreci = alloc_help_branch(level,
+                                      slack_length_help+1,
                                       slack_length_help+1,
                                       leaf);
       *si_reci = alloc_leaf_slice(STLeafDirect,slices[leaf].u.leaf.goal);
@@ -1973,16 +1977,19 @@ static char *ParseReciGoal(char *tok,
   return result;
 }
 
-static char *ParseReciEnd(char *tok, slice_index *si)
+static char *ParseReciEnd(char *tok,
+                          branch_level level,
+                          slice_index *si)
 {
   slice_index op1 = no_slice;
   slice_index op2 = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  tok = ParseReciGoal(tok,&op1,&op2);
+  tok = ParseReciGoal(tok,level,&op1,&op2);
   if (op1!=no_slice && op2!=no_slice)
     *si = alloc_reciprocal_slice(op1,op2);
 
@@ -1992,13 +1999,14 @@ static char *ParseReciEnd(char *tok, slice_index *si)
   return tok;
 }
 
-static char *ParseReflexEnd(char *tok, slice_index *si)
+static char *ParseReflexEnd(char *tok, branch_level level, slice_index *si)
 {
   slice_index leaf;
   tok = ParseGoal(tok,STLeafHelp,&leaf);
   if (tok!=0 && leaf!=no_slice)
   {
-    slice_index const help = alloc_help_branch(slack_length_help+1,
+    slice_index const help = alloc_help_branch(level,
+                                               slack_length_help+1,
                                                slack_length_help+1,
                                                leaf);
     slice_index const direct = alloc_leaf_slice(STLeafDirect,
@@ -2011,10 +2019,11 @@ static char *ParseReflexEnd(char *tok, slice_index *si)
   return tok;
 }
 
-static char *ParseEnd(char *tok, slice_index *si)
+static char *ParseEnd(char *tok, branch_level level, slice_index *si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
   if (strncmp("ser-dia",tok,7) == 0
@@ -2028,7 +2037,7 @@ static char *ParseEnd(char *tok, slice_index *si)
   {
     slice_index leaf;
     tok = ParseGoal(tok+6,STLeafHelp,&leaf);
-    *si = alloc_help_branch(slack_length_help+1,slack_length_help+1,leaf);
+    *si = alloc_help_branch(level,slack_length_help+1,slack_length_help+1,leaf);
     /* the end of a sermi-r problem is hX1 with reversed coulours. */
     slices[*si].starter = White;
   }
@@ -2040,7 +2049,7 @@ static char *ParseEnd(char *tok, slice_index *si)
     tok = ParseGoal(tok+5,STLeafForced,si);
 
   else if (strncmp("hr", tok, 2) == 0)
-    tok = ParseReflexEnd(tok+2,si);
+    tok = ParseReflexEnd(tok+2,level,si);
 
   else
     switch (*tok)
@@ -2050,7 +2059,7 @@ static char *ParseEnd(char *tok, slice_index *si)
         break;
 
       case 'r':
-        tok = ParseReflexEnd(tok+1,si);
+        tok = ParseReflexEnd(tok+1,level,si);
         break;
 
       case 's':
@@ -2068,7 +2077,7 @@ static char *ParseEnd(char *tok, slice_index *si)
   return tok;
 }
 
-static char *ParsePlay(char *tok, slice_index *si)
+static char *ParsePlay(char *tok, branch_level level, slice_index *si)
 {
   /* seriesmovers with introductory moves */
   char *arrowpos = strstr(tok,"->");
@@ -2076,6 +2085,7 @@ static char *ParsePlay(char *tok, slice_index *si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
   if (arrowpos!=0)
@@ -2087,7 +2097,7 @@ static char *ParsePlay(char *tok, slice_index *si)
     else
     {
       slice_index next = no_slice;
-      result = ParsePlay(arrowpos+2,&next);
+      result = ParsePlay(arrowpos+2,nested_branch,&next);
       if (result!=0 && next!=no_slice)
       {
         /* >=1 move of starting side required */
@@ -2101,7 +2111,7 @@ static char *ParsePlay(char *tok, slice_index *si)
 
   else if (strncmp("exact-", tok, 6) == 0)
   {
-    result = ParsePlay(tok+6,si);
+    result = ParsePlay(tok+6,level,si);
     if (result!=0)
     {
       OptFlag[nothreat] = true;
@@ -2113,7 +2123,7 @@ static char *ParsePlay(char *tok, slice_index *si)
            || strncmp("ser-a=>b",tok,8) == 0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,&next); /* do *not* skip over "ser-" */
+    tok = ParseEnd(tok,nested_branch,&next); /* do *not* skip over "ser-" */
     /* special treatment: leaf always has type==STLeafDirect */
     if (tok!=0 && next!=no_slice)
     {
@@ -2131,7 +2141,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("ser-reci-h",tok,10) == 0)
   {
     slice_index next = no_slice;
-    tok = ParseReciEnd(tok+10,&next); /* skip over "ser-reci-h" */
+    tok = ParseReciEnd(tok+10,nested_branch,&next); /* skip over "ser-reci-h" */
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2148,7 +2158,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("ser-hs",tok,6)==0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok+4,&next);
+    tok = ParseEnd(tok+4,nested_branch,&next);
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2164,7 +2174,8 @@ static char *ParsePlay(char *tok, slice_index *si)
         else
         {
           stip_length_type const help_length = slack_length_help+1;
-          slice_index const help = alloc_help_branch(help_length,
+          slice_index const help = alloc_help_branch(nested_branch,
+                                                     help_length,
                                                      help_length,
                                                      next);
           *si = alloc_branch_ser_slice(length,min_length,help);
@@ -2176,7 +2187,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("ser-h",tok,5) == 0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok+4,&next);
+    tok = ParseEnd(tok+4,nested_branch,&next);
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2190,7 +2201,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("ser-s",tok,5) == 0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,&next);
+    tok = ParseEnd(tok,nested_branch,&next);
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2204,7 +2215,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("ser-",tok,4) == 0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok+4,&next);
+    tok = ParseEnd(tok+4,nested_branch,&next);
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2221,12 +2232,14 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("reci-h",tok,6) == 0)
   {
     slice_index next = no_slice;
-    tok = ParseReciEnd(tok+6,&next); /* skip over "reci-h" */
-    if (tok!=0 && next!=no_slice)
+    char * const tok2 = ParseReciEnd(tok+6, /* skip over "reci-h" */
+                                     nested_branch,
+                                     &next);
+    if (tok2!=0 && next!=no_slice)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
       --length;
       if (length%2==0)
         --min_length;
@@ -2235,10 +2248,17 @@ static char *ParsePlay(char *tok, slice_index *si)
       if (result!=0)
       {
         if (length==slack_length_help && min_length==slack_length_help)
+        {
+          /* we may have speculated wrong: next is not necessarily nested */
+          if (level==toplevel_branch)
+            ParseReciEnd(tok+6,toplevel_branch,&next);
           *si = next;
+        }
         else
         {
-          slice_index const help = alloc_help_branch(length,min_length,next);
+          slice_index const help = alloc_help_branch(level,
+                                                     length,min_length,
+                                                     next);
           if (length%2==1)
             *si = alloc_move_inverter_slice(help);
           else
@@ -2251,7 +2271,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("dia",tok,3)==0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,&next);
+    tok = ParseEnd(tok,nested_branch,&next);
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2263,7 +2283,7 @@ static char *ParsePlay(char *tok, slice_index *si)
         if (length==slack_length_help && min_length==slack_length_help)
           *si = next;
         else
-          *si = alloc_help_branch(length,min_length,next);
+          *si = alloc_help_branch(level,length,min_length,next);
       }
     }
   }
@@ -2271,7 +2291,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("a=>b",tok,4)==0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,&next);
+    tok = ParseEnd(tok,nested_branch,&next);
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2282,7 +2302,7 @@ static char *ParsePlay(char *tok, slice_index *si)
         if (length==slack_length_help && min_length==slack_length_help)
           *si = next;
         else
-          *si = alloc_help_branch(length,min_length,next);
+          *si = alloc_help_branch(level,length,min_length,next);
       }
     }
   }
@@ -2290,7 +2310,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("hs",tok,2)==0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,&next);
+    tok = ParseEnd(tok,nested_branch,&next);
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2302,7 +2322,9 @@ static char *ParsePlay(char *tok, slice_index *si)
           *si = next;
         else
         {
-          slice_index const help = alloc_help_branch(length,min_length,next);
+          slice_index const help = alloc_help_branch(level,
+                                                     length,min_length,
+                                                     next);
           if (length%2==0)
             *si = alloc_move_inverter_slice(help);
           else
@@ -2315,7 +2337,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (strncmp("hr",tok,2)==0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,&next);
+    tok = ParseEnd(tok,nested_branch,&next);
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2332,7 +2354,9 @@ static char *ParsePlay(char *tok, slice_index *si)
           *si = next;
         else
         {
-          slice_index const help = alloc_help_branch(length,min_length,next);
+          slice_index const help = alloc_help_branch(level,
+                                                     length,min_length,
+                                                     next);
           if (length%2==1)
             *si = alloc_move_inverter_slice(help);
           else
@@ -2345,7 +2369,7 @@ static char *ParsePlay(char *tok, slice_index *si)
   else if (*tok=='h')
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,&next);
+    tok = ParseEnd(tok,nested_branch,&next);
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2357,7 +2381,9 @@ static char *ParsePlay(char *tok, slice_index *si)
           *si = next;
         else
         {
-          slice_index const help = alloc_help_branch(length,min_length,next);
+          slice_index const help = alloc_help_branch(level,
+                                                     length,min_length,
+                                                     next);
           if (length%2==0)
             *si = alloc_move_inverter_slice(help);
           else
@@ -2370,16 +2396,21 @@ static char *ParsePlay(char *tok, slice_index *si)
   else
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,&next);
-    if (tok!=0 && next!=no_slice)
+    char * const tok2 = ParseEnd(tok,nested_branch,&next);
+    if (tok2!=0 && next!=no_slice)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok,STBranchDirect,&length,&min_length);
+      result = ParseLength(tok2,STBranchDirect,&length,&min_length);
       if (result!=0)
       {
         if (length==slack_length_direct && min_length==slack_length_direct)
+        {
+          /* we may have speculated wrong: next is not necessarily nested */
+          if (level==toplevel_branch)
+            ParseEnd(tok,toplevel_branch,&next);
           *si = next;
+        }
         else
         {
           slice_index const defender =
@@ -2409,7 +2440,7 @@ static char *ParseStip(void)
   TraceFunctionParamListEnd();
 
   strcpy(AlphaStip,tok);
-  if (ParsePlay(tok,&root_slice)
+  if (ParsePlay(tok,toplevel_branch,&root_slice)
       && root_slice!=no_slice
       && ActStip[0]=='\0')
     strcpy(ActStip, AlphaStip);
@@ -2557,6 +2588,7 @@ static char *ParseStructuredStip_leaf(char *tok,
 }
 
 static char *ParseStructuredStip_operand(char *tok,
+                                         branch_level level,
                                          slice_index *result,
                                          boolean startLikeBranch);
 
@@ -2583,7 +2615,10 @@ static char *ParseStructuredStip_branch_d(char *tok,
   {
     slice_index operand;
     boolean const nextStartLikeBranch = max_length%2==0;
-    tok = ParseStructuredStip_operand(tok,&operand,nextStartLikeBranch);
+    tok = ParseStructuredStip_operand(tok,
+                                      nested_branch,
+                                      &operand,
+                                      nextStartLikeBranch);
     if (tok!=0)
     {
       slice_index next;
@@ -2625,21 +2660,26 @@ static char *ParseStructuredStip_branch_d(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_h(char *tok,
+                                          branch_level level,
                                           stip_length_type min_length,
                                           stip_length_type max_length,
                                           slice_index *result)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",level);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
-  TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
   if (min_length==0 || min_length==max_length)
   {
     slice_index operand;
     boolean const nextStartLikeBranch = max_length%2==0;
-    tok = ParseStructuredStip_operand(tok,&operand,nextStartLikeBranch);
+    tok = ParseStructuredStip_operand(tok,
+                                      nested_branch,
+                                      &operand,
+                                      nextStartLikeBranch);
     if (tok!=0)
     {
       if (min_length==0)
@@ -2647,7 +2687,7 @@ static char *ParseStructuredStip_branch_h(char *tok,
 
       min_length += slack_length_help;
       max_length += slack_length_help;
-      *result = alloc_help_branch(max_length,min_length,operand);
+      *result = alloc_help_branch(level,max_length,min_length,operand);
     }
   }
   
@@ -2680,7 +2720,10 @@ static char *ParseStructuredStip_branch_ser(char *tok,
   {
     slice_index operand;
     boolean const nextStartLikeBranch = false;
-    tok = ParseStructuredStip_operand(tok,&operand,nextStartLikeBranch);
+    tok = ParseStructuredStip_operand(tok,
+                                      nested_branch,
+                                      &operand,
+                                      nextStartLikeBranch);
     if (tok!=0)
     {
       min_length += slack_length_series;
@@ -2749,13 +2792,16 @@ static char *ParseStructuredStip_branch_length(char *tok,
  *               parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_branch(char *tok, slice_index *result)
+static char *ParseStructuredStip_branch(char *tok,
+                                        branch_level level,
+                                        slice_index *result)
 {
   stip_length_type min_length;
   stip_length_type max_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
   tok = ParseStructuredStip_branch_length(tok,&min_length,&max_length);
@@ -2767,7 +2813,9 @@ static char *ParseStructuredStip_branch(char *tok, slice_index *result)
     else if (tok[0]=='d')
       tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,result);
     else if (tok[0]=='h')
-      tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,result);
+      tok = ParseStructuredStip_branch_h(tok+1,level,
+                                         min_length,max_length,
+                                         result);
   }
   
   TraceFunctionExit(__func__);
@@ -2785,6 +2833,7 @@ static char *ParseStructuredStip_branch(char *tok, slice_index *result)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_not(char *tok,
+                                     branch_level level,
                                      slice_index *result,
                                      boolean startLikeBranch)
 {
@@ -2792,9 +2841,10 @@ static char *ParseStructuredStip_not(char *tok,
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
   
-  tok = ParseStructuredStip_operand(tok+1,&operand,startLikeBranch);
+  tok = ParseStructuredStip_operand(tok+1,level,&operand,startLikeBranch);
   if (tok!=0 && operand!=no_slice)
     *result = alloc_not_slice(operand);
 
@@ -2813,6 +2863,7 @@ static char *ParseStructuredStip_not(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_move_inversion(char *tok,
+                                                branch_level level,
                                                 slice_index *result,
                                                 boolean startLikeBranch)
 {
@@ -2820,9 +2871,10 @@ static char *ParseStructuredStip_move_inversion(char *tok,
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
   
-  tok = ParseStructuredStip_operand(tok+1,&operand,!startLikeBranch);
+  tok = ParseStructuredStip_operand(tok+1,level,&operand,!startLikeBranch);
   if (tok!=0 && operand!=no_slice)
     *result =  alloc_move_inverter_slice(operand);
 
@@ -2875,14 +2927,19 @@ static char *ParseStructuredStip_operator(char *tok, SliceType *result)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_expression(char *tok,
+                                            branch_level level,
                                             slice_index *result,
                                             boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_operand(tok,result,startLikeBranch);
+  tok = ParseStructuredStip_operand(tok,
+                                    level,
+                                    result,
+                                    startLikeBranch);
   if (tok!=0 && *result!=no_slice)
   {
     SliceType operator_type;
@@ -2890,7 +2947,10 @@ static char *ParseStructuredStip_expression(char *tok,
     if (tok!=0 && operator_type!=no_slice_type)
     {
       slice_index operand2;
-      tok = ParseStructuredStip_expression(tok,&operand2,startLikeBranch);
+      tok = ParseStructuredStip_expression(tok,
+                                           level,
+                                           &operand2,
+                                           startLikeBranch);
       if (tok!=0 && operand2!=no_slice)
         switch (operator_type)
         {
@@ -2925,6 +2985,7 @@ static char *ParseStructuredStip_expression(char *tok,
  */
 static char *
 ParseStructuredStip_parenthesised_expression(char *tok,
+                                             branch_level level,
                                              slice_index *result,
                                              boolean startLikeBranch)
 {
@@ -2932,7 +2993,7 @@ ParseStructuredStip_parenthesised_expression(char *tok,
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_expression(tok+1,result,startLikeBranch);
+  tok = ParseStructuredStip_expression(tok+1,level,result,startLikeBranch);
 
   if (tok!=0)
   {
@@ -2960,11 +3021,13 @@ ParseStructuredStip_parenthesised_expression(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_operand(char *tok,
+                                         branch_level level,
                                          slice_index *result,
                                          boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
   /* allow space between operands */
@@ -2972,17 +3035,18 @@ static char *ParseStructuredStip_operand(char *tok,
 
   if (tok[0]=='(')
     tok = ParseStructuredStip_parenthesised_expression(tok,
+                                                       level,
                                                        result,
                                                        startLikeBranch);
   else if (tok[0]=='!')
     /* !d# - white at the move does *not* deliver mate */
-    tok = ParseStructuredStip_not(tok,result,startLikeBranch);
+    tok = ParseStructuredStip_not(tok,level,result,startLikeBranch);
   else if (tok[0]=='-')
     /* -3hh# - h#2 by the non-starter */
-    tok = ParseStructuredStip_move_inversion(tok,result,startLikeBranch);
+    tok = ParseStructuredStip_move_inversion(tok,level,result,startLikeBranch);
   else if (isdigit(tok[0]))
     /* e.g. 2dd# for a #2 */
-    tok = ParseStructuredStip_branch(tok,result);
+    tok = ParseStructuredStip_branch(tok,level,result);
   else
     /* e.g. d= for a =1 */
     tok = ParseStructuredStip_leaf(tok,result,startLikeBranch);
@@ -3015,7 +3079,7 @@ static char *ParseStructuredStip(void)
     strcat(AlphaStip,TokenLine);
     strcat(AlphaStip," ");
     tok = ReadNextTokStr();
-    tok = ParseStructuredStip_expression(tok,&root_slice,true);
+    tok = ParseStructuredStip_expression(tok,toplevel_branch,&root_slice,true);
     if (tok==0)
       tok = ReadNextTokStr();
     else if (root_slice!=no_slice)

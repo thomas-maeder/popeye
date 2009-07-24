@@ -727,7 +727,7 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children,           /* STQuodlibet */
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
-  0,                                  /* STHelpRoot */
+  &make_exact_branch,                 /* STHelpRoot */
   &make_exact_branch,                 /* STHelpAdapter */
   0                                   /* STHelpHashed */
 };

@@ -1271,11 +1271,10 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
     slices[next_in_setplay_peer].u.pipe.next = next_in_setplay;
   }
 
-  result = alloc_help_branch(slack_length_help+1,
-                             slack_length_help+1,
+  result = alloc_help_branch(toplevel_branch,
+                             slack_length_help+1,slack_length_help+1,
                              next_in_setplay);
   slices[result].starter = advers(slices[si].starter);
-  help_adapter_convert_to_root(result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

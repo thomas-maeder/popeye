@@ -77,6 +77,7 @@ boolean slice_must_starter_resign(slice_index si)
     case STBranchHelp:
     case STHelpRoot:
     case STHelpAdapter:
+    case STHelpHashed:
       result = branch_h_must_starter_resign(si);
       break;
 
@@ -140,6 +141,10 @@ boolean slice_must_starter_resign_hashed(slice_index si, Side just_moved)
 
     case STBranchFork:
       result = branch_fork_must_starter_resign_hashed(si,just_moved);
+      break;
+
+    case STHelpHashed:
+      result = help_hashed_must_starter_resign_hashed(si,just_moved);
       break;
 
     case STBranchDirect:
@@ -562,6 +567,9 @@ boolean slice_has_solution(slice_index si)
       break;
 
     case STHelpRoot:
+      result = help_root_has_solution(si);
+      break;
+
     case STHelpAdapter:
       result = help_adapter_has_solution(si);
       break;
@@ -650,6 +658,7 @@ boolean slice_has_non_starter_solved(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -670,6 +679,7 @@ boolean slice_has_non_starter_solved(slice_index si)
 
     case STBranchHelp:
     case STHelpAdapter:
+    case STHelpHashed:
       result = branch_h_has_non_starter_solved(si);
       break;
 
@@ -740,6 +750,7 @@ boolean slice_has_starter_apriori_lost(slice_index si)
 
     case STBranchHelp:
     case STHelpAdapter:
+    case STHelpHashed:
       result = branch_h_has_starter_apriori_lost(si);
       break;
 
@@ -809,6 +820,7 @@ boolean slice_has_starter_won(slice_index si)
  
     case STBranchHelp:
     case STHelpAdapter:
+    case STHelpHashed:
       result = branch_h_has_starter_won(si);
       break;
 
@@ -877,6 +889,7 @@ boolean slice_has_starter_reached_goal(slice_index si)
 
     case STBranchHelp:
     case STHelpAdapter:
+    case STHelpHashed:
       result = branch_h_has_starter_reached_goal(si);
       break;
 
@@ -945,6 +958,7 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
     case STBranchHelp:
     case STHelpRoot:
     case STHelpAdapter:
+    case STHelpHashed:
       result = branch_h_is_goal_reached(just_moved,si);
       break;
 
@@ -993,6 +1007,7 @@ void slice_write_unsolvability(slice_index si)
 
     case STBranchHelp:
     case STHelpAdapter:
+    case STHelpHashed:
       branch_h_write_unsolvability(si);
       break;
 

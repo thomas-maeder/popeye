@@ -159,6 +159,13 @@ typedef struct
 } Slice;
 
 
+typedef enum
+{
+  toplevel_branch,
+  nested_branch
+} branch_level;
+
+
 /* slice identification */
 enum
 {

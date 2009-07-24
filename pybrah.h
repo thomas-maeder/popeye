@@ -21,12 +21,15 @@ slice_index alloc_branch_h_slice(stip_length_type length,
                                  slice_index next);
 
 /* Allocate a help branch.
+ * @param level is this a top-level branch or one nested into another
+ *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param next identifies next slice
  * @return index of adapter slice of allocated help branch
  */
-slice_index alloc_help_branch(stip_length_type length,
+slice_index alloc_help_branch(branch_level level,
+                              stip_length_type length,
                               stip_length_type min_length,
                               slice_index next);
 
@@ -127,6 +130,16 @@ Side branch_h_starter_in_n(slice_index si, stip_length_type n);
  */
 boolean branch_h_impose_starter(slice_index si, slice_traversal *st);
 
+/* Allocate a STHelpRoot slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of allocated slice
+ */
+slice_index alloc_help_root_slice(stip_length_type length,
+                                  stip_length_type min_length,
+                                  slice_index next);
+
 /* Shorten a help branch by a half-move. If the branch represents a
  * half-move only, deallocates the branch.
  * @param si identifies the branch
@@ -149,6 +162,12 @@ slice_index help_root_make_setplay_slice(slice_index si);
  */
 boolean help_root_solve(slice_index si);
 
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean help_root_has_solution(slice_index si);
+
 /* Solve a branch in exactly n moves at root level
  * @param si slice index
  * @param n exact number of moves
@@ -165,11 +184,6 @@ boolean help_root_solve_in_n(slice_index si, stip_length_type n);
 slice_index alloc_help_adapter_slice(stip_length_type length,
                                      stip_length_type min_length,
                                      slice_index next);
-
-/* Convert a STHelpAdapter slice to STHelpRoot
- * @param adapter identifies the adapter slice to be converted
- */
-void help_adapter_convert_to_root(slice_index adapter);
 
 /* Solve a branch slice at non-root level.
  * @param si slice index

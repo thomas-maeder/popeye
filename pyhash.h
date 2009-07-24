@@ -15,8 +15,7 @@
 /* typedefs */
 typedef enum {
 	SerNoSucc,
-	HelpNoSuccOdd,
-	HelpNoSuccEven,
+	HelpNoSucc,
 	DirSucc,
 	DirNoSucc,
     nr_hashwhat

@@ -5,27 +5,29 @@
 
 #include <assert.h>
 
-/* Allocate a STHelpHashed slice for a STBranchHelp slice
- * @param base identifies STBranchHelp slice
- * @return index of allocated slice
+/* Allocate a STHelpHashed slice for a STBranchHelp slice and insert
+ * it at the STBranchHelp slice's position. 
+ * The STHelpHashed takes the place of the STBranchHelp slice.
+ * @param si identifies STBranchHelp slice
  */
-slice_index alloc_help_hashed_slice(slice_index base)
+void insert_help_hashed_slice(slice_index si)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index copy;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[result].type = STHelpHashed;
-  slices[result].starter = slices[base].starter;
-  slices[result].u.pipe.u.branch = slices[base].u.pipe.u.branch;
-  slices[result].u.pipe.next = base;
+  assert(slices[si].type!=STHelpHashed);
+  TraceValue("%u\n",slices[si].type);
+
+  copy = copy_slice(si);
+
+  slices[si].type = STHelpHashed;
+  slices[si].u.pipe.next = copy;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve in a number of half-moves
@@ -38,7 +40,6 @@ boolean help_hashed_solve_in_n(slice_index si,
                                stip_length_type n,
                                Side side_at_move)
 {
-  hashwhat const hash_no_succ = n%2==0 ? HelpNoSuccEven : HelpNoSuccOdd;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -49,14 +50,14 @@ boolean help_hashed_solve_in_n(slice_index si,
 
   assert(n>slack_length_help);
 
-  if (inhash(si,hash_no_succ,n/2))
+  if (inhash(si,HelpNoSucc,n/2))
     result = false;
   else if (help_solve_in_n(slices[si].u.pipe.next,n,side_at_move))
     result = true;
   else
   {
     result = false;
-    addtohash(si,hash_no_succ,n/2);
+    addtohash(si,HelpNoSucc,n/2);
   }
 
   TraceFunctionExit(__func__);
@@ -75,7 +76,6 @@ boolean help_hashed_has_solution_in_n(slice_index si,
                                       stip_length_type n,
                                       Side side_at_move)
 {
-  hashwhat const hash_no_succ = n%2==0 ? HelpNoSuccEven : HelpNoSuccOdd;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -86,7 +86,7 @@ boolean help_hashed_has_solution_in_n(slice_index si,
 
   assert(n>slack_length_help);
 
-  if (inhash(si,hash_no_succ,n/2))
+  if (inhash(si,HelpNoSucc,n/2))
     result = false;
   else
   {
@@ -94,7 +94,7 @@ boolean help_hashed_has_solution_in_n(slice_index si,
       result = true;
     else
     {
-      addtohash(si,hash_no_succ,n/2);
+      addtohash(si,HelpNoSucc,n/2);
       result = false;
     }
   }
@@ -117,8 +117,6 @@ void help_hashed_solve_continuations_in_n(table continuations,
                                           stip_length_type n,
                                           Side side_at_move)
 {
-  hashwhat const hash_no_succ = n%2==0 ? HelpNoSuccEven : HelpNoSuccOdd;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
@@ -127,12 +125,12 @@ void help_hashed_solve_continuations_in_n(table continuations,
 
   assert(n>slack_length_help);
 
-  if (!inhash(si,hash_no_succ,n/2))
+  if (!inhash(si,HelpNoSucc,n/2))
   {
     slice_index const next = slices[si].u.pipe.next;
     help_solve_continuations_in_n(continuations,next,n,side_at_move);
     if (table_length(continuations)==0)
-      addtohash(si,hash_no_succ,n/2);
+      addtohash(si,HelpNoSucc,n/2);
   }
 
   TraceFunctionExit(__func__);
@@ -154,6 +152,31 @@ Side help_hashed_starter_in_n(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   result = help_starter_in_n(slices[si].u.pipe.next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Is there no chance left for reaching the solution?
+ * E.g. did the help side just allow a mate in 1 in a hr#N?
+ * Tests may rely on the current position being hash-encoded.
+ * @param si slice index
+ * @param just_moved side that has just moved
+ * @return true iff no chance is left
+ */
+boolean help_hashed_must_starter_resign_hashed(slice_index si, Side just_moved)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",just_moved);
+  TraceFunctionParamListEnd();
+
+  result = slice_must_starter_resign_hashed(slices[si].u.pipe.next,
+                                            advers(just_moved));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

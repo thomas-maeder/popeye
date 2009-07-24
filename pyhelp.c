@@ -196,6 +196,7 @@ boolean help_must_starter_resign(slice_index si)
   switch (slices[si].type)
   {
     case STBranchHelp:
+    case STHelpHashed:
       result = branch_h_must_starter_resign(si);
       break;
 

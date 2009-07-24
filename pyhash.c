@@ -101,6 +101,7 @@
 #include "DHT/dht.h"
 #include "pyproof.h"
 #include "pystip.h"
+#include "pybrafrk.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "trace.h"
@@ -211,10 +212,8 @@ typedef struct
         } d;
         struct
         {
-            unsigned int offsetNoSuccOdd;
-            unsigned int maskNoSuccOdd;
-            unsigned int offsetNoSuccEven;
-            unsigned int maskNoSuccEven;
+            unsigned int offsetNoSucc;
+            unsigned int maskNoSucc;
         } h;
         struct
         {
@@ -344,26 +343,19 @@ static void init_slice_property_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  sis->value_offset -= size+1;
-
   slice_properties[si].size = size;
   slice_properties[si].valueOffset = sis->value_offset;
-  TraceValue("%u",si);
   TraceValue("%u\n",slice_properties[si].valueOffset);
 
   assert(sis->nr_bits_left>=size);
   sis->nr_bits_left -= size;
-  slice_properties[si].u.h.offsetNoSuccOdd = sis->nr_bits_left;
-  slice_properties[si].u.h.maskNoSuccOdd = mask << sis->nr_bits_left;
-
-  assert(sis->nr_bits_left>=size);
-  sis->nr_bits_left -= size;
-  slice_properties[si].u.h.offsetNoSuccEven = sis->nr_bits_left;
-  slice_properties[si].u.h.maskNoSuccEven = mask << sis->nr_bits_left;
+  slice_properties[si].u.h.offsetNoSucc = sis->nr_bits_left;
+  slice_properties[si].u.h.maskNoSucc = mask << sis->nr_bits_left;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
 
 /* Initialise a slice_properties element representing series play
  * @param si root slice of subtree
@@ -399,7 +391,9 @@ static void init_slice_property_series(slice_index si,
 static boolean init_slice_properties_leaf_help(slice_index leaf,
                                                slice_traversal *st)
 {
-  init_slice_property_help(leaf,2,st->param);
+  slice_initializer_state * const sis = st->param;
+  sis->value_offset -= bit_width(1)+1;
+  init_slice_property_help(leaf,1,st->param);
   return true;
 }
 
@@ -577,6 +571,23 @@ boolean init_slice_properties_branch_direct_defender(slice_index branch,
   return result;
 }
 
+static slice_index find_help_hashed(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  do
+  {
+    si = slices[si].u.pipe.next;
+  } while (si!=no_slice && slices[si].type!=STHelpHashed);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",si);
+  TraceFunctionResultEnd();
+  return si;
+}
+
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices
  * @param si root slice of subtree
@@ -584,21 +595,39 @@ boolean init_slice_properties_branch_direct_defender(slice_index branch,
  * @return true iff the properties for si and its children have been
  *         successfully initialised
  */
-static boolean init_slice_properties_help_hashed(slice_index si,
+static boolean init_slice_properties_help_branch(slice_index si,
                                                  slice_traversal *st)
 {
   boolean const result = true;
   unsigned int const length = slices[si].u.pipe.u.branch.length;
+  slice_index branch1;
+  slice_index fork;
+  slice_initializer_state *sis = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  init_slice_property_help(si,length-slack_length_help,st->param);
+  /* TODO can STHelpRoot do with less size than STHelpAdapter?
+   */
+
+  branch1 = find_help_hashed(si);
+
+  if (branch1!=no_slice)
+  {
+    slice_index const branch2 = find_help_hashed(branch1);
+    sis->value_offset -= bit_width((length-slack_length_help+1)/2)+1;
+    init_slice_property_help(branch1,length-slack_length_help,sis);
+    if (branch2!=no_slice)
+      init_slice_property_help(branch2,length-slack_length_help-1,sis);
+  }
+
   if (slices[si].u.pipe.u.branch.min_length==length
       && length>slack_length_help+1)
     is_there_slice_with_nonstandard_min_length = true;
-  slice_traverse_children(si,st);
+
+  fork = branch_find_fork(si);
+  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
 
   TraceValue("%u",si);
   TraceValue("%u\n",slice_properties[si].valueOffset);
@@ -672,9 +701,9 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_fork,                   /* STQuodlibet */
   &init_slice_properties_pipe,                   /* STNot */
   &init_slice_properties_pipe,                   /* STMoveInverter */
-  &init_slice_properties_pipe,                   /* STHelpRoot */
-  &init_slice_properties_pipe,                   /* STHelpAdapter */
-  &init_slice_properties_help_hashed             /* STHelpHashed */
+  &init_slice_properties_help_branch,            /* STHelpRoot */
+  &init_slice_properties_help_branch,            /* STHelpAdapter */
+  &init_slice_properties_pipe                    /* STHelpHashed */
 };
 
 /* Callback for traverse_slices() that copies slice_properties from
@@ -808,38 +837,11 @@ static void set_value_direct_succ(dhtElement *he,
   TraceFunctionResultEnd();
 }
 
-static void set_value_help_odd(dhtElement *he,
-                               slice_index si,
-                               hash_value_type val)
+static void set_value_help(dhtElement *he, slice_index si, hash_value_type val)
 {
-  unsigned int const offset = slice_properties[si].u.h.offsetNoSuccOdd;
+  unsigned int const offset = slice_properties[si].u.h.offsetNoSucc;
   unsigned int const bits = val << offset;
-  unsigned int const mask = slice_properties[si].u.h.maskNoSuccOdd;
-  element_t * const e = (element_t *)he;
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",val);
-  TraceFunctionParamListEnd();
-  TraceValue("%u",slice_properties[si].size);
-  TraceValue("%u",offset);
-  TraceValue("%08x ",mask);
-  TraceValue("pre:%08x ",e->data);
-  TraceValue("%08x\n",bits);
-  assert((bits&mask)==bits);
-  e->data &= ~mask;
-  e->data |= bits;
-  TraceValue("post:%08x\n",e->data);
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void set_value_help_even(dhtElement *he,
-                                slice_index si,
-                                hash_value_type val)
-{
-  unsigned int const offset = slice_properties[si].u.h.offsetNoSuccEven;
-  unsigned int const bits = val << offset;
-  unsigned int const mask = slice_properties[si].u.h.maskNoSuccEven;
+  unsigned int const mask = slice_properties[si].u.h.maskNoSucc;
   element_t * const e = (element_t *)he;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -921,29 +923,10 @@ static hash_value_type get_value_direct_nosucc(dhtElement const *he,
   return result;
 }
 
-static hash_value_type get_value_help_odd(dhtElement const *he,
-                                          slice_index si)
+static hash_value_type get_value_help(dhtElement const *he, slice_index si)
 {
-  unsigned int const offset = slice_properties[si].u.h.offsetNoSuccOdd;
-  unsigned int const  mask = slice_properties[si].u.h.maskNoSuccOdd;
-  element_t const * const e = (element_t const *)he;
-  data_type const result = (e->data & mask) >> offset;
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceValue("%08x ",mask);
-  TraceValue("%08x\n",e->data);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static hash_value_type get_value_help_even(dhtElement const *he,
-                                           slice_index si)
-{
-  unsigned int const offset = slice_properties[si].u.h.offsetNoSuccEven;
-  unsigned int const  mask = slice_properties[si].u.h.maskNoSuccEven;
+  unsigned int const offset = slice_properties[si].u.h.offsetNoSucc;
+  unsigned int const  mask = slice_properties[si].u.h.maskNoSucc;
   element_t const * const e = (element_t const *)he;
   data_type const result = (e->data & mask) >> offset;
   TraceFunctionEntry(__func__);
@@ -1019,19 +1002,14 @@ static hash_value_type own_value_of_data_direct(dhtElement const *he,
 static hash_value_type own_value_of_data_help(dhtElement const *he,
                                               slice_index si)
 {
-  hash_value_type const odd = get_value_help_odd(he,si);
-  hash_value_type const even = get_value_help_even(he,si);
   hash_value_type result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p ",he);
+  TraceFunctionParam("%p",he);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",odd);
-  TraceValue("%u\n",even);
-
-  result = even>odd ? even*2 : odd*2+1;
+  result = get_value_help(he,si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1929,22 +1907,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
       }
 
       case STHelpHashed:
-        if (what==HelpNoSuccOdd)
         {
-          hash_value_type const nosucc = get_value_help_odd(he,si);
-          if (nosucc>=val
-              && (nosucc+slices[si].u.pipe.u.branch.min_length
-                  <=val+slices[si].u.pipe.u.branch.length))
-          {
-            ifHASHRATE(use_pos++);
-            result = true;
-          }
-          else
-            result = false;
-        }
-        else
-        {
-          hash_value_type const nosucc = get_value_help_even(he,si);
+          hash_value_type const nosucc = get_value_help(he,si);
           if (nosucc>=val
               && (nosucc+slices[si].u.pipe.u.branch.min_length
                   <=val+slices[si].u.pipe.u.branch.length))
@@ -1959,8 +1923,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
 
       case STLeafHelp:
         {
-          hash_value_type const nosucc = get_value_help_odd(he,si);
-          assert(what==HelpNoSuccOdd);
+          hash_value_type const nosucc = get_value_help(he,si);
+          assert(what==HelpNoSucc);
           assert(val==1);
           if (nosucc>=1)
           {
@@ -2017,8 +1981,7 @@ static void init_element_help(dhtElement *he, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  set_value_help_even(he,si,0);
-  set_value_help_odd(he,si,0);
+  set_value_help(he,si,0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2268,12 +2231,8 @@ void addtohash(slice_index si, hashwhat what, hash_value_type val)
           set_value_series(he,si,val);
           break;
 
-        case HelpNoSuccOdd:
-          set_value_help_odd(he,si,val);
-          break;
-
-        case HelpNoSuccEven:
-          set_value_help_even(he,si,val);
+        case HelpNoSucc:
+          set_value_help(he,si,val);
           break;
 
         case DirSucc:
@@ -2298,14 +2257,9 @@ void addtohash(slice_index si, hashwhat what, hash_value_type val)
             set_value_series(he,si,val);
           break;
 
-        case HelpNoSuccOdd:
-          if (get_value_help_odd(he,si)<val)
-            set_value_help_odd(he,si,val);
-          break;
-
-        case HelpNoSuccEven:
-          if (get_value_help_even(he,si)<val)
-            set_value_help_even(he,si,val);
+        case HelpNoSucc:
+          if (get_value_help(he,si)<val)
+            set_value_help(he,si,val);
           break;
 
         case DirSucc:

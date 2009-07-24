@@ -7,11 +7,12 @@
 #include "pyhelp.h"
 #include "pyslice.h"
 
-/* Allocate a STHelpHashed slice for a STBranchHelp slice
- * @param base identifies STBranchHelp slice
- * @return index of allocated slice
+/* Allocate a STHelpHashed slice for a STBranchHelp slice and insert
+ * it at the STBranchHelp slice's position. 
+ * The STHelpHashed takes the place of the STBranchHelp slice.
+ * @param si identifies STBranchHelp slice
  */
-slice_index alloc_help_hashed_slice(slice_index base);
+void insert_help_hashed_slice(slice_index si);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -51,5 +52,15 @@ void help_hashed_solve_continuations_in_n(table continuations,
  * @param return starting side
  */
 Side help_hashed_starter_in_n(slice_index si, stip_length_type n);
+
+/* Is there no chance left for reaching the solution?
+ * E.g. did the help side just allow a mate in 1 in a hr#N?
+ * Tests may rely on the current position being hash-encoded.
+ * @param si slice index
+ * @param just_moved side that has just moved
+ * @return true iff no chance is left
+ */
+boolean help_hashed_must_starter_resign_hashed(slice_index si,
+                                               Side just_moved);
 
 #endif

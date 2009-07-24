@@ -2690,7 +2690,9 @@ static boolean init_moves_left_help_adapter(slice_index si,
 {
   boolean result;
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
-
+  slice_index fork;
+  slice_index to_goal;
+      
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2698,9 +2700,11 @@ static boolean init_moves_left_help_adapter(slice_index si,
   MovesLeft[Black] += (n-slack_length_help)/2;
   MovesLeft[White] += (n-slack_length_help)/2;
   if ((n-slack_length_help)%2==1)
-    ++MovesLeft[branch_h_starter_in_n(si,n)];
+    ++MovesLeft[slices[si].starter];
 
-  result = slice_traverse_children(si,st);
+  fork = branch_find_fork(si);
+  to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+  result = traverse_slices(to_goal,st);
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);

@@ -2439,77 +2439,24 @@ static boolean root_slice_apply_postkeyplay(void)
   return result;
 }
 
-static boolean make_root_help_adapter(slice_index adapter, slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",adapter);
-  TraceFunctionParamListEnd();
-
-  help_adapter_convert_to_root(adapter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static slice_operation const root_slice_makers[] =
-{
-  &slice_operation_noop,         /* STBranchDirect */
-  &slice_operation_noop,         /* STBranchDirectDefender */
-  0,                             /* STBranchHelp */
-  &slice_operation_noop,         /* STBranchSeries */
-  &slice_operation_noop,         /* STBranchFork */
-  &slice_operation_noop,         /* STLeafDirect */
-  &slice_operation_noop,         /* STLeafHelp */
-  &slice_operation_noop,         /* STLeafSelf */
-  &slice_operation_noop,         /* STLeafForced */
-  &slice_traverse_children,      /* STReciprocal */
-  &slice_traverse_children,      /* STQuodlibet */
-  &slice_traverse_children,      /* STNot */
-  &slice_traverse_children,      /* STMoveInverter */
-  0,                             /* STHelpRoot */
-  &make_root_help_adapter,       /* STHelpAdapter */
-  0                              /* STHelpHashed */
-};
-
-/* Wrap the branch(es) where play starts with a root slice (if such a
- * branches exist)
- */
-static void make_root_slices(void)
-{
-  slice_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  slice_traversal_init(&st,&root_slice_makers,0);
-  traverse_slices(root_slice,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
  * @return result of traversing si's children
  */
-boolean insert_hash_element_branch_fork(slice_index si, slice_traversal *st)
+boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
 {
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
+  boolean const result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[next].type==STBranchHelp)
-    slices[si].u.pipe.next = alloc_help_hashed_slice(next);
-  
-  result = slice_traverse_children(si,st);
+  /* First traverse childen, then insert STHelpHashed slice;
+   * otherweise the STHelpHashed will be traversed as well.
+   */
+  slice_traverse_children(si,st);
+  insert_help_hashed_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2521,9 +2468,9 @@ static slice_operation const hash_element_inserters[] =
 {
   &slice_traverse_children,         /* STBranchDirect */
   &slice_traverse_children,         /* STBranchDirectDefender */
-  &slice_traverse_children,         /* STBranchHelp */
+  &insert_hash_element_branch_help, /* STBranchHelp */
   &slice_traverse_children,         /* STBranchSeries */
-  &insert_hash_element_branch_fork, /* STBranchFork */
+  &slice_traverse_children,         /* STBranchFork */
   &slice_traverse_children,         /* STLeafDirect */
   &slice_traverse_children,         /* STLeafHelp */
   &slice_traverse_children,         /* STLeafSelf */
@@ -2707,8 +2654,6 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[postkeyplay] && !root_slice_apply_postkeyplay())
         Message(PostKeyPlayNotApplicable);
-
-      make_root_slices();
 
       slice_detect_starter(root_slice,same_starter_as_root);
 
