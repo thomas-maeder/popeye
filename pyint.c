@@ -2689,8 +2689,8 @@ static boolean init_moves_left_help_adapter(slice_index si,
                                             slice_traversal *st)
 {
   boolean result;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
-  slice_index fork;
+  stip_length_type const n = slices[si].u.pipe.u.help_adapter.length;
+  slice_index fork = slices[si].u.pipe.u.help_adapter.fork;
   slice_index to_goal;
       
   TraceFunctionEntry(__func__);
@@ -2702,7 +2702,6 @@ static boolean init_moves_left_help_adapter(slice_index si,
   if ((n-slack_length_help)%2==1)
     ++MovesLeft[slices[si].starter];
 
-  fork = branch_find_slice(STBranchFork,si);
   to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
   result = traverse_slices(to_goal,st);
 
@@ -2783,13 +2782,14 @@ static void init_moves_left(slice_index si, stip_length_type n)
   {
     case STHelpRoot:
     {
-      slice_index const fork = branch_find_slice(STBranchFork,si);
+      slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
       slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
       MovesLeft[Black] = (n-slack_length_help)/2;
       MovesLeft[White] = (n-slack_length_help)/2;
       if ((n-slack_length_help)%2==1)
       {
-        assert((slices[si].u.pipe.u.branch.length-slack_length_help)%2==1);
+        assert((slices[si].u.pipe.u.help_adapter.length-slack_length_help)%2
+               ==1);
         ++MovesLeft[slices[si].starter];
       }
       traverse_slices(to_goal,&st);
@@ -2878,13 +2878,12 @@ static boolean intelligent_mode_support_detector_branch_h(slice_index si,
                                                           slice_traversal *st)
 {
   boolean const result = true;
-  slice_index fork;
+  slice_index fork = slices[si].u.pipe.u.help_adapter.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fork = branch_find_slice(STBranchFork,si);
   traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);

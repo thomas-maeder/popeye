@@ -143,6 +143,13 @@ typedef struct
                     slice_index towards_goal;
                 } branch_d_defender;
 
+                struct
+                {
+                    stip_length_type length;     /* half moves */
+                    stip_length_type min_length; /* half moves */
+                    slice_index fork;
+                } help_adapter;
+
                 struct /* for type==STBranchFork */
                 {
                     slice_index towards_goal;

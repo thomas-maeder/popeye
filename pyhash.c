@@ -345,6 +345,8 @@ static void init_slice_property_help(slice_index si,
 
   slice_properties[si].size = size;
   slice_properties[si].valueOffset = sis->value_offset;
+  TraceValue("%u",size);
+  TraceValue("%u",mask);
   TraceValue("%u\n",slice_properties[si].valueOffset);
 
   assert(sis->nr_bits_left>=size);
@@ -540,7 +542,7 @@ static boolean init_slice_properties_branch_direct(slice_index branch,
 
   if (base==no_slice)
   {
-    unsigned int const length = slices[branch].u.pipe.u.branch.length;
+    stip_length_type const length = slices[branch].u.pipe.u.branch.length;
     init_slice_property_direct(branch,length,st->param);
     result = slice_traverse_children(branch,st);
   }
@@ -580,18 +582,17 @@ static boolean init_slice_properties_help_branch(slice_index si,
 {
   boolean const result = true;
   slice_index branch1;
-  slice_index fork;
+  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   branch1 = branch_find_slice(STHelpHashed,si);
-
   if (branch1!=no_slice)
   {
     slice_initializer_state *sis = st->param;
-    unsigned int const length = slices[si].u.pipe.u.branch.length;
+    unsigned int const length = slices[si].u.pipe.u.help_adapter.length;
     slice_index const branch2 = branch_find_slice(STHelpHashed,branch1);
     sis->value_offset -= bit_width((length-slack_length_help+1)/2)+1;
     init_slice_property_help(branch1,length-slack_length_help,sis);
@@ -599,7 +600,6 @@ static boolean init_slice_properties_help_branch(slice_index si,
       init_slice_property_help(branch2,length-slack_length_help-1,sis);
   }
 
-  fork = branch_find_slice(STBranchFork,si);
   traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
 
   TraceValue("%u",si);
@@ -622,7 +622,7 @@ static boolean init_slice_properties_branch_series(slice_index branch,
                                                    slice_traversal *st)
 {
   boolean const result = true;
-  unsigned int const length = slices[branch].u.pipe.u.branch.length;
+  stip_length_type const length = slices[branch].u.pipe.u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",branch);
@@ -741,7 +741,7 @@ static boolean  non_standard_length_finder_branch_direct(slice_index branch,
                                                          slice_traversal *st)
 {
   boolean const result = true;
-  unsigned int const length = slices[branch].u.pipe.u.branch.length;
+  stip_length_type const length = slices[branch].u.pipe.u.branch.length;
   boolean * const nonstandard = st->param;
 
   TraceFunctionEntry(__func__);
@@ -767,19 +767,18 @@ static boolean non_standard_length_finder_help_branch(slice_index si,
                                                       slice_traversal *st)
 {
   boolean const result = true;
-  unsigned int const length = slices[si].u.pipe.u.branch.length;
   boolean * const nonstandard = st->param;
-  slice_index fork;
+  stip_length_type const length = slices[si].u.pipe.u.help_adapter.length;
+  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.pipe.u.branch.min_length==length
+  if (slices[si].u.pipe.u.help_adapter.min_length==length
       && length>slack_length_help+1)
     *nonstandard = true;
 
-  fork = branch_find_slice(STBranchFork,si);
   traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);
@@ -795,7 +794,7 @@ static boolean non_standard_length_finder_branch_series(slice_index branch,
                                                         slice_traversal *st)
 {
   boolean const result = true;
-  unsigned int const length = slices[branch].u.pipe.u.branch.length;
+  stip_length_type const length = slices[branch].u.pipe.u.branch.length;
   boolean * const nonstandard = st->param;
 
   TraceFunctionEntry(__func__);
