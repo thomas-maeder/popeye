@@ -461,6 +461,7 @@ boolean help_adapter_impose_starter(slice_index si, slice_traversal *st)
 {
   boolean result;
   Side * const starter = st->param;
+  slice_index fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -473,7 +474,8 @@ boolean help_adapter_impose_starter(slice_index si, slice_traversal *st)
   *starter = (slices[si].u.pipe.u.branch.length%2==1
               ? advers(*starter)
               : *starter);
-  result = branch_fork_impose_starter(branch_find_fork(si),st);
+  fork = branch_find_slice(STBranchFork,si);
+  result = branch_fork_impose_starter(fork,st);
   *starter = slices[si].starter;
 
   TraceFunctionExit(__func__);
@@ -530,7 +532,7 @@ void help_adapter_solve_postkey(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fork = branch_find_fork(si); /* TODO do we need a shortcut to fork? */
+  fork = branch_find_slice(STBranchFork,si);
   assert(slices[si].u.pipe.u.branch.length==slack_length_help+1);
   slice_solve_postkey(fork);
 
@@ -699,7 +701,7 @@ who_decides_on_starter help_adapter_detect_starter(slice_index si,
     boolean const fork_same_side_as_root = (even_length
                                             ? same_side_as_root
                                             : !same_side_as_root);
-    slice_index const fork = branch_find_fork(si);
+    slice_index const fork = branch_find_slice(STBranchFork,si);
     slice_index next_relevant = no_slice;
     slice_traversal st;
 
@@ -839,7 +841,7 @@ slice_index help_root_make_setplay_slice(slice_index si)
 
   assert(slices[si].type==STHelpRoot);
 
-  fork = branch_find_fork(si);
+  fork = branch_find_slice(STBranchFork,si);
   assert(fork!=no_slice);
   assert(slices[si].u.pipe.u.branch.length>slack_length_help);
 
@@ -953,7 +955,7 @@ static boolean solve_short_in_n(slice_index root, stip_length_type n)
 
   if (n==slack_length_help)
   {
-    slice_index const fork = branch_find_fork(root);
+    slice_index const fork = branch_find_slice(STBranchFork,root);
     result = help_solve_in_n(fork,n,slices[root].starter);
   }
   else

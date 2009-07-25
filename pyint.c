@@ -2702,7 +2702,7 @@ static boolean init_moves_left_help_adapter(slice_index si,
   if ((n-slack_length_help)%2==1)
     ++MovesLeft[slices[si].starter];
 
-  fork = branch_find_fork(si);
+  fork = branch_find_slice(STBranchFork,si);
   to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
   result = traverse_slices(to_goal,st);
 
@@ -2783,7 +2783,7 @@ static void init_moves_left(slice_index si, stip_length_type n)
   {
     case STHelpRoot:
     {
-      slice_index const fork = branch_find_fork(si);
+      slice_index const fork = branch_find_slice(STBranchFork,si);
       slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
       MovesLeft[Black] = (n-slack_length_help)/2;
       MovesLeft[White] = (n-slack_length_help)/2;

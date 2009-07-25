@@ -568,23 +568,6 @@ boolean init_slice_properties_branch_direct_defender(slice_index branch,
   return result;
 }
 
-static slice_index find_help_hashed(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  do
-  {
-    si = slices[si].u.pipe.next;
-  } while (si!=no_slice && slices[si].type!=STHelpHashed);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",si);
-  TraceFunctionResultEnd();
-  return si;
-}
-
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices
  * @param si root slice of subtree
@@ -603,20 +586,20 @@ static boolean init_slice_properties_help_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  branch1 = find_help_hashed(si);
+  branch1 = branch_find_slice(STHelpHashed,si);
 
   if (branch1!=no_slice)
   {
     slice_initializer_state *sis = st->param;
     unsigned int const length = slices[si].u.pipe.u.branch.length;
-    slice_index const branch2 = find_help_hashed(branch1);
+    slice_index const branch2 = branch_find_slice(STHelpHashed,branch1);
     sis->value_offset -= bit_width((length-slack_length_help+1)/2)+1;
     init_slice_property_help(branch1,length-slack_length_help,sis);
     if (branch2!=no_slice)
       init_slice_property_help(branch2,length-slack_length_help-1,sis);
   }
 
-  fork = branch_find_fork(si);
+  fork = branch_find_slice(STBranchFork,si);
   traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
 
   TraceValue("%u",si);
@@ -796,7 +779,7 @@ static boolean non_standard_length_finder_help_branch(slice_index si,
       && length>slack_length_help+1)
     *nonstandard = true;
 
-  fork = branch_find_fork(si);
+  fork = branch_find_slice(STBranchFork,si);
   traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);

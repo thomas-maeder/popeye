@@ -140,10 +140,13 @@ boolean branch_fork_must_starter_resign_hashed(slice_index si, Side just_moved);
  */
 slice_index branch_deallocate_to_fork(slice_index branch);
 
-/* Find the fork slice in a branch
- * @param si identifies a slice of the branch
- * @return identifier for branch representing the play after the branch
+/* Find the next slice with a specific type in a branch
+ * @param type type of slice to be found
+ * @param si identifies the slice where to start searching (si is not
+ *           visited at the start of the search, but if the branch is
+ *           recursive, it may be visited as the last slice of the search)
+ * @return identifier for slice with type type; no_slice if none is found
  */
-slice_index branch_find_fork(slice_index si);
+slice_index branch_find_slice(SliceType type, slice_index si);
 
 #endif

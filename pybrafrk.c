@@ -498,67 +498,25 @@ slice_index branch_deallocate_to_fork(slice_index branch)
   return result;
 }
 
-/* Locate the fork slice in a branch
- * @param fork identifies slice visited in traversal
- * @param st address of structure defining traversal
- * @return true
+/* Find the next slice with a specific type in a branch
+ * @param type type of slice to be found
+ * @param si identifies the slice where to start searching
+ * @return identifier for slice with type type; no_slice if none is found
  */
-static boolean slice_fork_finder_branch_fork(slice_index fork,
-                                             slice_traversal *st)
+slice_index branch_find_slice(SliceType type, slice_index si)
 {
-  boolean const result = true;
-  slice_index * const to_be_found = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",fork);
-  TraceFunctionParamListEnd();
-
-  /* The slice we look for is this one. Save it and don't recurse
-   * further.
-   */
-  *to_be_found = fork;
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static slice_operation const slice_fork_finders[] =
-{
-  &slice_traverse_children,       /* STBranchDirect */
-  &slice_traverse_children,       /* STBranchDirectDefender */
-  &slice_traverse_children,       /* STBranchHelp */
-  &slice_traverse_children,       /* STBranchSeries */
-  &slice_fork_finder_branch_fork, /* STBranchFork */
-  &slice_traverse_children,       /* STLeafDirect */
-  &slice_traverse_children,       /* STLeafHelp */
-  &slice_traverse_children,       /* STLeafSelf */
-  &slice_traverse_children,       /* STLeafForced */
-  &slice_traverse_children,       /* STReciprocal */
-  &slice_traverse_children,       /* STQuodlibet */
-  &slice_traverse_children,       /* STNot */
-  &slice_traverse_children,       /* STMoveInverter */
-  &slice_traverse_children,       /* STHelpRoot */
-  &slice_traverse_children,       /* STHelpAdapter */
-  &slice_traverse_children        /* STHelpHashed */
-};
-
-/* Find the fork slice in a branch
- * @param si identifies a slice of the branch
- * @return identifier of fork slice in branch
- */
-slice_index branch_find_fork(slice_index si)
-{
-  slice_index result;
-  slice_traversal st;
+  slice_index result = si;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&slice_fork_finders,&result);
-  traverse_slices(si,&st);
+  do
+  {
+    result = slices[result].u.pipe.next;
+  } while (result!=no_slice
+           && result!=si
+           && slices[result].type!=type);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
