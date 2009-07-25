@@ -366,31 +366,37 @@ void StoreSol(void) {
   ++sol_per_matingpos;
 }
 
-boolean SolAlreadyFound(void) {
-  ply       cp;
-  int   cs;
-  boolean   found= false;
+boolean SolAlreadyFound(void)
+{
+  if (goal_to_be_reached==goal_atob || goal_to_be_reached==goal_proof)
+    return false;
+  else
+  {
+    ply       cp;
+    int   cs;
+    boolean   found= false;
 
-  repere[nbply+1]= nbcou;
-  for (cs= 0; cs < SolMax && !found; cs++) {
-    found= true;
-    for (cp= 2; cp <= nbply && found; cp++) {
-      found= Sols[cs][cp].from == move_generation_stack[repere[cp+1]].departure
-        && Sols[cs][cp].to   == move_generation_stack[repere[cp+1]].arrival
-        && Sols[cs][cp].prom == jouearr[cp];
+    repere[nbply+1]= nbcou;
+    for (cs= 0; cs < SolMax && !found; cs++) {
+      found= true;
+      for (cp= 2; cp <= nbply && found; cp++) {
+        found= Sols[cs][cp].from == move_generation_stack[repere[cp+1]].departure
+            && Sols[cs][cp].to   == move_generation_stack[repere[cp+1]].arrival
+            && Sols[cs][cp].prom == jouearr[cp];
+      }
     }
-  }
 
 #if defined(DEBUG)
-  if (found) {
-    isIntelligentModeActive= false;
-    StdString("solution already found:");
-    write_final_help_move(no_goal);
-    isIntelligentModeActive= true;
-  }
+    if (found) {
+      isIntelligentModeActive= false;
+      StdString("solution already found:");
+      write_final_help_move(no_goal);
+      isIntelligentModeActive= true;
+    }
 #endif
 
-  return found;
+    return found;
+  }
 }
 
 int  CurMate;
