@@ -2,7 +2,7 @@ begin
 
 prot ghostchess.ref
 
-author Guy SOBRECASES
+author Guy Sobrecases
 remark "The four haunted houses"
 origin The Problemist Supplement 2008
 pieces White Rf8 Pe2
@@ -13,7 +13,7 @@ option nowk
  
 nextproblem 
 
-author Guy SOBRECASES
+author Guy Sobrecases
 remark "Ghostbuster"
 origin The Problemist Supplement 2008
 pieces white Kc1 Ra3 Bb8
@@ -24,8 +24,8 @@ twin move d5 f4
 
 nextproblem 
 
-author Vlaicu CRISAN & Laurent RIGUET
-origin Jubilé Feenschach-50, feenschach 1999, 3° Recommandé
+author Vlaicu Crisan & Laurent Riguet
+origin Jubil\'e Feenschach-50, feenschach 1999, 3° Recommand\'e
 pieces white Kh3 Rd3 Be6
        black Ke4
        neutral Sa6
@@ -34,7 +34,7 @@ condition ghostchess
  
 nextproblem 
 
-author Éric HUBER & Vlaicu CRISAN
+author \'Eric Huber & Vlaicu Crisan
 origin 2° T.T. Quartz 1998-99, 1° Mention d'Honneur
 pieces white Rh5 Bf1
        black Ke4 Sg3 Pd4
@@ -44,8 +44,8 @@ option nowk
  
 nextproblem 
 
-author Roméo BEDONI
-origin 2° T.T. Quartz 1998-99, Recommandé
+author Rom\'eo B\'edoni
+origin 2° T.T. Quartz 1998-99, Recommand\'e
 pieces white Re6 Be4
        black Kc8 Sc7
 stipulation h#2
@@ -55,8 +55,8 @@ twin move c7 d7
 
 nextproblem 
 
-author Roméo BEDONI
-origin 2° T.T. Quartz 1998-99, Recommandé
+author Rom\'eo B\'edoni
+origin 2° T.T. Quartz 1998-99, Recommand\'e
 pieces white Rg7 Pf5
        black Ke8 Bf8f7 Pd7
 stipulation h#2
@@ -66,7 +66,7 @@ twin move f5 h7
 
 nextproblem 
 
-author Juraj LORINC
+author Juraj L\"orinc
 origin 2° T.T. Quartz 1998-99 (v), 1° Prix
 pieces white Qa6 Rf8 Bh4 Pg4 white royal Sb4
        black Kg6 Ra8 Se5 Pg7c6d5d3e3c2
@@ -76,8 +76,8 @@ twin remove g7
 
 nextproblem 
 
-author Vlaicu CRISAN
-origin 2° T.T. Quartz 1998-99, Recommandé
+author Vlaicu Crisan
+origin 2° T.T. Quartz 1998-99, Recommand\'e
 pieces white Qb3 Pg2
        black Ke4 Rh3 Bf7
 stipulation h#2
@@ -86,8 +86,8 @@ option nowk
 
 nextproblem 
 
-author Vlaicu CRISAN
-origin 2° T.T. Quartz 1998-99, Recommandé
+author Vlaicu Crisan
+origin 2° T.T. Quartz 1998-99, Recommand\'e
 pieces white Ka7 Rc1 Bh1 Se4c3
        black Kc6 Qe1 Pd4
 stipulation h#2
@@ -96,7 +96,7 @@ twin move a7 d8
  
 nextproblem 
 
-author Oswaldo FARIA
+author Oswaldo Faria
 origin Chessics 1983
 pieces white Kh8 Rg2
        black Kh1 Rg7
@@ -105,8 +105,8 @@ condition ghostchess
  
 nextproblem 
 
-author Didier INNOCENTI
-origin Phénix 2001
+author Didier Innocenti
+origin Ph\'enix 2001
 pieces white Rg2
        black Kh3
 stipulation ser-h=7
@@ -115,8 +115,8 @@ option nowk
 
 nextproblem 
 
-author Didier INNOCENTI
-origin Phénix 2001
+author Didier Innocenti
+origin Ph\'enix 2001
 pieces white Kb7 Rc4a2
        black Kb3
 stipulation ser-h#4
@@ -124,8 +124,8 @@ condition ghostchess
  
 nextproblem 
 
-author Didier INNOCENTI
-origin Phénix 2001
+author Didier Innocenti
+origin Ph\'enix 2001
 pieces white Kg3 Sc6 Pc3c2
        black Kc4
 stipulation h#5
@@ -133,8 +133,8 @@ condition ghostchess
  
 nextproblem 
 
-author Didier INNOCENTI
-origin Phénix 2001
+author Didier Innocenti
+origin Ph\'enix 2001
 pieces white Kd1 Qa4 Ra6 Sd2
        black Ke3 Qg8 Rc2 Pd4
 stipulation r#2
@@ -143,7 +143,7 @@ option try vari
 
 nextproblem 
 
-author Vlaicu CRISAN & Christian POISSON
+author Vlaicu Crisan & Christian Poisson
 origin Problemesis 2002, 2° Mention d'Honneur
 pieces white Kg2
        black Ke7 Bc7 Pd7
@@ -154,7 +154,7 @@ option set
  
 nextproblem 
 
-author Christian POISSON & Vlaicu CRISAN
+author Christian Poisson & Vlaicu Crisan
 origin Quartz 2001
 pieces white Kd1
        black Kb6 Ra5 Pb5a4
@@ -164,8 +164,8 @@ condition ghostchess
  
 nextproblem 
 
-author Didier INNOCENTI
-origin Phénix 2001
+author Didier Innocenti
+origin Ph\'enix 2001
 pieces white Kd8 Se6 Ph7
        black Kh8
 stipulation #4
@@ -174,8 +174,8 @@ option vari nothreat
  
 nextproblem 
 
-author Vlaicu CRISAN
-origin Phénix 2002
+author Vlaicu Crisan
+origin Ph\'enix 2002
 pieces white Rf5 Bc4 Cac7
        black Kd6 Qd4
 stipulation ser-h#4
@@ -186,8 +186,8 @@ twin move c7 d7
  
 nextproblem 
 
-author Juraj LORINC
-origin The Macedonian Problemist 2000, Recommandé
+author Juraj L\"orinc
+origin The Macedonian Problemist 2000, Recommand\'e
 pieces white Kc2 Be5f3
        black Kh6 Pf5f4
 stipulation ser-h#12
@@ -196,8 +196,8 @@ twin move c2 d8
  
 nextproblem 
 
-author Jacques ROTENBERG & Christian POISSON
-author dédié à V. Crisan
+author Jacques Rotenberg & Christian Poisson
+author d\'edi\'e \`a V. Crisan
 origin Problemesis 2003, 2° Prix
 pieces white Kg8 Sb7 Pd6
        black Kd7 Se8
@@ -207,7 +207,7 @@ condition ghostchess
  
 nextproblem 
 
-author Ion MURARASU
+author Ion Murarasu
 origin Problemesis 2004
 pieces black Ka2
        neutral Re1 Bc1 Se2
@@ -218,7 +218,7 @@ twin move c1 d2
  
 nextproblem 
 
-author Vlaicu CRISAN & Éric HUBER
+author Vlaicu Crisan & \'Eric Huber
 origin 17° T.T. Chess Composition Microweb 2005, 3° Mention d'Honneur
 pieces white Kc8
        black Kd5 Lf1 Dua5
