@@ -1247,6 +1247,7 @@ boolean pbcheck(square  sq_king,
         || CondFlag[parrain]
         || CondFlag[normalp]
         || CondFlag[einstein]
+        || CondFlag[circecage]
         || p==orphann)
     {
       square sq_departure= sq_king+dir_up;
@@ -1273,6 +1274,7 @@ boolean pbcheck(square  sq_king,
         || CondFlag[parrain]
         || CondFlag[normalp]
         || CondFlag[einstein]
+        || CondFlag[circecage]
         || p==orphanb)
     {
       square sq_departure= sq_king+dir_down;
@@ -1946,6 +1948,7 @@ boolean pioncheck(square sq_king,
         || CondFlag[parrain]
         || CondFlag[normalp]
         || CondFlag[einstein]
+        || CondFlag[circecage]
         || p==orphann
         || p<=hunter0n)
     {
@@ -1965,6 +1968,7 @@ boolean pioncheck(square sq_king,
         || CondFlag[parrain]
         || CondFlag[normalp]
         || CondFlag[einstein]
+        || CondFlag[circecage]
         || p==orphanb
         || p>=hunter0b)
     {
@@ -2005,6 +2009,7 @@ boolean reversepcheck(square sq_king,
         || CondFlag[parrain]
         || CondFlag[normalp]
         || CondFlag[einstein]
+        || CondFlag[circecage]
         || p == orphanb
         || p>=hunter0b)
     {
@@ -2025,6 +2030,7 @@ boolean reversepcheck(square sq_king,
         || CondFlag[parrain]
         || CondFlag[normalp]
         || CondFlag[einstein]
+        || CondFlag[circecage]
         || p == orphann
         || p<=hunter0n)
     {

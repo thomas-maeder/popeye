@@ -1067,3 +1067,159 @@ solution finished.
 solution finished. 
 
 
+
+in a=>b or proof games, the intelligent machinery
+never generates the same solution twice (but some solutions
+      may look very similar ...)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B   .   .  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -K  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .  -Q   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   P   .   .   Q   .   .   3
+|                                   |
+2   P   P  -P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   .   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1.5                   16 + 16
+              CageCirce
+
+Initial (White ->):
+
+in a=>b or proof games, the intelligent machinery
+never generates the same solution twice (but some solutions
+      may look very similar ...)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B   .  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P   .  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .  -Q   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   Q   P   .   .   .   .   .   3
+|                                   |
+2   P   P   .   P   P   P   P   P   2
+|                                   |
+1   R   S   B   .   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1.5                   16 + 16
+              CageCirce
+
+  1.Qb3*d5 [+bPc2] Ke8-d7   2.Qd5-f3 a=>b 
+  1.Qb3*d5 [+bPf3] Ke8-d7   2.Qd5*f3 [+bPc2] a=>b 
+
+solution finished. 
+
+
+
+promote to bishop (no cage for queen) even if there was a cage
+  when we promoted to queen or rook
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P   .  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   B   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   .   P   P   P   2
+|                                   |
+1   R   S   B  -B   K   .   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b0.5                   15 + 16
+              CageCirce
+
+Initial (Black ->):
+
+promote to bishop (no cage for queen) even if there was a cage
+  when we promoted to queen or rook
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P   .  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   B   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P  -P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   .   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b0.5                   16 + 16
+              CageCirce
+
+  1.e2*d1=B a=>b 
+
+solution finished. 
+
+
+
+   check from pawn on 1st/8th rank
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -P   .   K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+              CageCirce
+
+  1.Ke8-f8 ! 
+
+  1.Ke8-d8 ! 
+
+  1.Ke8-e7 ! 
+
+  1.Ke8-f7 ! 
+
+
+solution finished. 
+
+

@@ -407,7 +407,8 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
     if (rn>=square_a3
         || CondFlag[parrain]
         || CondFlag[normalp]
-        || CondFlag[einstein])
+        || CondFlag[einstein]
+        || CondFlag[circecage])
     {
       sq_departure= rn+dir_down+dir_right;
       if (e[sq_departure]==pb
@@ -707,7 +708,8 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     if (rb<=square_h6
         || CondFlag[parrain]
         || CondFlag[normalp]
-        || CondFlag[einstein])
+        || CondFlag[einstein]
+        || CondFlag[circecage])
     {
       sq_departure= rb+dir_up+dir_left;
       if (e[sq_departure]==pn

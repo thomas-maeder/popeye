@@ -303,4 +303,32 @@ pieces white ke1 rf3 sc3 pg1
 stipulation h#2
 condition cagecirce
 
+next
+
+title in a=>b or proof games, the intelligent machinery
+title never generates the same solution twice (but some solutions
+title may look very similar ...)
+forsyth rsb1kbsr/ppp1pppp/3q4/3p4/8/1QP5/PP1PPPPP/RSB1KBSR
+stip a=>b1.5
+option white
+forsyth rsb2bsr/pppkpppp/3q4/8/8/2P2Q2/PPpPPPPP/RSB1KBSR
+condition cagecirce
+
+next
+
+title promote to bishop (no cage for queen) even if there was a cage
+title when we promoted to queen or rook
+forsyth rsbqkbsr/p1pppppp/8/1B6/4P3/8/PPPPpPPP/RSBQK1SR
+stip a=>b0.5
+forsyth rsbqkbsr/p1pppppp/8/1B6/4P3/8/PPPP1PPP/RSBbK1SR
+condition cagecirce
+
+next
+
+title check from pawn on 1st/8th rank
+pieces black pc8 white ke8
+stip ~1
+condition cagecirce
+option nobk
+
 end
