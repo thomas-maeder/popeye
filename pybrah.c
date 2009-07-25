@@ -14,27 +14,19 @@
 #include <assert.h>
 
 /* Allocate a STBranchHelp slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param next identifies next slice
  * @return index of allocated slice
  */
-slice_index alloc_branch_h_slice(stip_length_type length,
-                                 stip_length_type min_length,
-                                 slice_index next)
+slice_index alloc_branch_h_slice(slice_index next)
 {
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
   slices[result].type = STBranchHelp; 
   slices[result].starter = no_side; 
-  slices[result].u.pipe.u.branch.length = length;
-  slices[result].u.pipe.u.branch.min_length = min_length;
   slices[result].u.pipe.next = next;
 
   TraceFunctionExit(__func__);
@@ -1192,21 +1184,21 @@ static slice_index alloc_toplevel_help_branch(stip_length_type length,
     result = alloc_help_root_slice(length,min_length,fork);
   else if (length-slack_length_help==2)
   {
-    slice_index const branch = alloc_branch_h_slice(length,min_length,fork);
+    slice_index const branch = alloc_branch_h_slice(fork);
     result = alloc_help_root_slice(length,min_length,branch);
   }
   else
   {
-    slice_index const branch1 = alloc_branch_h_slice(length,min_length,fork);
-    slice_index const branch2 = alloc_branch_h_slice(length,min_length,
-                                                     branch1);
+    slice_index const branch1 = alloc_branch_h_slice(fork);
+    slice_index const branch2 = alloc_branch_h_slice(branch1);
+    slice_index const first = ((length-slack_length_help)%2==0
+                               ? branch1
+                               : fork);
+
+    result = alloc_help_root_slice(length,min_length,first);
+
     slices[fork].u.pipe.next = branch2;
     TraceValue("%u\n",slices[fork].u.pipe.next);
-
-    if ((length-slack_length_help)%2==0)
-      result = alloc_help_root_slice(length,min_length,branch1);
-    else
-      result = alloc_help_root_slice(length,min_length,fork);
   }
 
   TraceFunctionExit(__func__);
@@ -1240,28 +1232,24 @@ static slice_index alloc_nested_help_branch(stip_length_type length,
 
   if (length-slack_length_help==1)
   {
-    slice_index const branch = alloc_branch_h_slice(length,min_length,fork);
+    slice_index const branch = alloc_branch_h_slice(fork);
     result = alloc_help_adapter_slice(length,min_length,branch);
-  }
-  else if (length-slack_length_help==2)
-  {
-    slice_index const branch1 = alloc_branch_h_slice(length,min_length,fork);
-    slice_index const branch2 = alloc_branch_h_slice(length,min_length,
-                                                     branch1);
-    result = alloc_help_adapter_slice(length,min_length,branch2);
   }
   else
   {
-    slice_index const branch1 = alloc_branch_h_slice(length,min_length,fork);
-    slice_index const branch2 = alloc_branch_h_slice(length,min_length,
-                                                     branch1);
-    slices[fork].u.pipe.next = branch2;
-    TraceValue("%u\n",slices[fork].u.pipe.next);
+    slice_index const branch1 = alloc_branch_h_slice(fork);
+    slice_index const branch2 = alloc_branch_h_slice(branch1);
+    slice_index const first = ((length-slack_length_help)%2==0
+                               ? branch2
+                               : branch1);
 
-    if ((length-slack_length_help)%2==0)
-      result = alloc_help_adapter_slice(length,min_length,branch2);
-    else
-      result = alloc_help_adapter_slice(length,min_length,branch1);
+    result = alloc_help_adapter_slice(length,min_length,first);
+
+    if (length-slack_length_help>2)
+    {
+      slices[fork].u.pipe.next = branch2;
+      TraceValue("%u\n",slices[fork].u.pipe.next);
+    }
   }
 
   TraceFunctionExit(__func__);

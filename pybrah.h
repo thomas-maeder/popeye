@@ -11,14 +11,10 @@
  */
 
 /* Allocate a STBranchHelp slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param next identifies next slice
  * @return index of allocated slice
  */
-slice_index alloc_branch_h_slice(stip_length_type length,
-                                 stip_length_type min_length,
-                                 slice_index next);
+slice_index alloc_branch_h_slice(slice_index next);
 
 /* Allocate a help branch.
  * @param level is this a top-level branch or one nested into another

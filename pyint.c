@@ -2877,20 +2877,15 @@ boolean isGoalReachable(void)
 static boolean intelligent_mode_support_detector_branch_h(slice_index si,
                                                           slice_traversal *st)
 {
-  boolean result;
-  support_for_intelligent_mode * const support = st->param;
+  boolean const result = true;
+  slice_index fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.pipe.u.branch.length<slack_length_help)
-  {
-    *support = intelligent_not_supported;
-    result = true;
-  }
-  else
-    result = slice_traverse_children(si,st);
+  fork = branch_find_slice(STBranchFork,si);
+  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3010,7 +3005,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
 {
   &intelligent_mode_support_none,                /* STBranchDirect */
   &intelligent_mode_support_none,                /* STBranchDirectDefender */
-  &intelligent_mode_support_detector_branch_h,   /* STBranchHelp */
+  0,                                             /* STBranchHelp */
   &intelligent_mode_support_detector_branch_ser, /* STBranchSeries */
   &slice_traverse_children,                      /* STBranchFork */
   &intelligent_mode_support_detector_leaf,       /* STLeafDirect */
@@ -3021,8 +3016,8 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_quodlibet,  /* STQuodlibet */
   &intelligent_mode_support_none,                /* STNot */
   &slice_traverse_children,                      /* STMoveInverter */
-  &slice_traverse_children,                      /* STHelpRoot */
-  &slice_traverse_children,                      /* STHelpAdapter */
+  &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
+  &intelligent_mode_support_detector_branch_h,   /* STHelpAdapter */
   &slice_traverse_children                       /* STHelpHashed */
 };
 
