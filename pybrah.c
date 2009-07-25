@@ -397,28 +397,6 @@ boolean branch_h_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Shorten a help pipe by a half-move
- * @param pipe identifies pipe to be shortened
- */
-static void branch_h_shorten_help_pipe(slice_index pipe)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParamListEnd();
-
-  --slices[pipe].u.pipe.u.branch.length;
-  --slices[pipe].u.pipe.u.branch.min_length;
-  if (slices[pipe].u.pipe.u.branch.min_length<slack_length_help)
-    slices[pipe].u.pipe.u.branch.min_length += 2;
-  slices[pipe].starter = advers(slices[pipe].starter);
-  TraceValue("%u",slices[pipe].starter);
-  TraceValue("%u",slices[pipe].u.pipe.u.branch.length);
-  TraceValue("%u\n",slices[pipe].u.pipe.u.branch.min_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /** help adapter *****************************************************/
 
 /* Allocate a STHelpAdapter slice.
@@ -790,6 +768,28 @@ slice_index alloc_help_root_slice(stip_length_type length,
   return result;
 }
 
+/* Shorten a help pipe by a half-move
+ * @param pipe identifies pipe to be shortened
+ */
+static void shorten_help_pipe(slice_index pipe)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  --slices[pipe].u.pipe.u.branch.length;
+  --slices[pipe].u.pipe.u.branch.min_length;
+  if (slices[pipe].u.pipe.u.branch.min_length<slack_length_help)
+    slices[pipe].u.pipe.u.branch.min_length += 2;
+  slices[pipe].starter = advers(slices[pipe].starter);
+  TraceValue("%u",slices[pipe].starter);
+  TraceValue("%u",slices[pipe].u.pipe.u.branch.length);
+  TraceValue("%u\n",slices[pipe].u.pipe.u.branch.min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Shorten a help branch that is the root of set play. Reduces the
  * length members of slices[root] and resets the next member to the
  * appropriate position.
@@ -820,7 +820,7 @@ static void shorten_setplay_root_branch(slice_index root)
     slices[root].u.pipe.next = branch2;
   }
 
-  branch_h_shorten_help_pipe(root);
+  shorten_help_pipe(root);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -899,7 +899,7 @@ static void shorten_root_branch(slice_index root)
     }
   }
 
-  branch_h_shorten_help_pipe(root);
+  shorten_help_pipe(root);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
