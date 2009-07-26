@@ -1977,18 +1977,20 @@ static void circecage_advance_cage_prom(ply ply_id,
 }
 
 static void circecage_advance_cage(ply ply_id,
-                                   square *nextcage, piece pi_captured,
+                                   piece pi_captured,
+                                   square currcage,
+                                   square *nextcage,
                                    piece *circecage_next_cage_prom)
 {
   Side const moving_side = trait[ply_id];
   Side const prisoner_side = advers(moving_side);
-  square const save_cage = *nextcage;
-  piece const prisoner = e[save_cage];
+  piece const prisoner = e[currcage];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply_id);
-  TraceSquare(*nextcage);
   TracePiece(pi_captured);
+  TraceSquare(currcage);
+  TraceSquare(*nextcage);
   TracePiece(*circecage_next_cage_prom);
   TraceFunctionParamListEnd();
 
@@ -1999,7 +2001,7 @@ static void circecage_advance_cage(ply ply_id,
    * (or disturbing) the next cage.
    */
   if (prisoner!=obs)
-    e[save_cage] = vide;
+    e[currcage] = vide;
 
   while (true)
   {
@@ -2037,7 +2039,7 @@ static void circecage_advance_cage(ply ply_id,
     }
   }
 
-  e[save_cage] = prisoner;
+  e[currcage] = prisoner;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2045,6 +2047,7 @@ static void circecage_advance_cage(ply ply_id,
 
 static void circecage_advance_norm_prom(ply ply_id,
                                         square sq_arrival, piece pi_captured,
+                                        square currcage,
                                         piece *circecage_next_cage_prom,
                                         square *nextcage,
                                         piece *circecage_next_norm_prom)
@@ -2057,6 +2060,7 @@ static void circecage_advance_norm_prom(ply ply_id,
   TraceFunctionParam("%u",ply_id);
   TraceSquare(sq_arrival);
   TracePiece(pi_captured);
+  TraceSquare(currcage);
   TracePiece(*circecage_next_cage_prom);
   TraceSquare(*nextcage);
   TracePiece(*circecage_next_norm_prom);
@@ -2076,7 +2080,9 @@ static void circecage_advance_norm_prom(ply ply_id,
                        ? *circecage_next_norm_prom
                        : -*circecage_next_norm_prom);
       circecage_advance_cage(nbply,
-                             nextcage,pi_captured,
+                             pi_captured,
+                             currcage,
+                             nextcage,
                              circecage_next_cage_prom);
       break;
     }
@@ -3038,12 +3044,15 @@ boolean jouecoup(ply ply_id, joue_type jt)
         if (is_pawn(pi_departing) && PromSq(trait[ply_id],sq_arrival))
           circecage_advance_norm_prom(ply_id,
                                       sq_arrival,pi_captured,
+                                      superbas,
                                       &cir_prom[ply_id],
                                       &super[ply_id],
                                       &norm_prom[ply_id]);
         else
           circecage_advance_cage(nbply,
-                                 &super[ply_id],pi_captured,
+                                 pi_captured,
+                                 superbas,
+                                 &super[ply_id],
                                  &cir_prom[ply_id]);
       }
 
@@ -3806,7 +3815,9 @@ void repcoup(void)
     if (circecage_next_cage_prom==vide)
     {
       circecage_advance_cage(nbply,
-                             &nextsuper,pi_captured,
+                             pi_captured,
+                             nextsuper,
+                             &nextsuper,
                              &circecage_next_cage_prom);
 
       if (nextsuper>square_h8)
@@ -3815,6 +3826,7 @@ void repcoup(void)
         if (circecage_next_norm_prom!=vide)
           circecage_advance_norm_prom(nbply,
                                       sq_arrival,pi_captured,
+                                      super[nbply],
                                       &circecage_next_cage_prom,
                                       &nextsuper,
                                       &circecage_next_norm_prom);

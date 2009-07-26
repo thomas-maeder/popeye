@@ -331,4 +331,12 @@ stip ~1
 condition cagecirce
 option nobk
 
+next
+
+title consider previous cage after advancing type of promotee
+forsyth rs1qkbsr/pbpppppp/8/1B6/4P3/3P4/PPP1pPPP/RSBQK1SR
+stip ~1
+condition cagecirce
+option halfduplex movenum MaxSolutions 34
+
 end

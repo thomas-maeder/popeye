@@ -1223,3 +1223,101 @@ solution finished.
 solution finished. 
 
 
+
+consider previous cage after advancing type of promotee
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -B  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   B   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   P   .   .   .   4
+|                                   |
+3   .   .   .   P   .   .   .   .   3
+|                                   |
+2   P   P   P   .  -P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   .   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                        16 + 16
+              CageCirce
+              HalfDuplex
+
+  1.e2*d1=Q [+wQf1] ! 
+
+  1.e2*d1=Q [+wQd2] ! 
+
+  1.e2*d1=Q [+wQe2] ! 
+
+  1.e2*d1=Q [+wQa3] ! 
+
+  1.e2*d1=Q [+wQb3] ! 
+
+  1.e2*d1=Q [+wQc3] ! 
+
+  1.e2*d1=Q [+wQe3] ! 
+
+  1.e2*d1=Q [+wQf3] ! 
+
+  1.e2*d1=Q [+wQg3] ! 
+
+  1.e2*d1=Q [+wQh3] ! 
+
+  1.e2*d1=Q [+wQa4] ! 
+
+  1.e2*d1=Q [+wQb4] ! 
+
+  1.e2*d1=Q [+wQc4] ! 
+
+  1.e2*d1=Q [+wQd4] ! 
+
+  1.e2*d1=Q [+wQf4] ! 
+
+  1.e2*d1=Q [+wQg4] ! 
+
+  1.e2*d1=Q [+wQh4] ! 
+
+  1.e2*d1=Q [+wQa5] ! 
+
+  1.e2*d1=Q [+wQc5] ! 
+
+  1.e2*d1=Q [+wQd5] ! 
+
+  1.e2*d1=Q [+wQe5] ! 
+
+  1.e2*d1=Q [+wQf5] ! 
+
+  1.e2*d1=Q [+wQg5] ! 
+
+  1.e2*d1=Q [+wQh5] ! 
+
+  1.e2*d1=Q [+wQa6] ! 
+
+  1.e2*d1=Q [+wQb6] ! 
+
+  1.e2*d1=Q [+wQc6] ! 
+
+  1.e2*d1=Q [+wQd6] ! 
+
+  1.e2*d1=Q [+wQe6] ! 
+
+  1.e2*d1=Q [+wQf6] ! 
+
+  1.e2*d1=Q [+wQg6] ! 
+
+  1.e2*d1=Q [+wQh6] ! 
+
+  1.e2*d1=Q [+wQc8] ! 
+
+  1.e2*d1=S [+wQc8] ! 
+
+
+solving interrupted. 
+
+
