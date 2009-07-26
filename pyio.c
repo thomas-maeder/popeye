@@ -2077,6 +2077,66 @@ static char *ParseEnd(char *tok, branch_level level, slice_index *si)
   return tok;
 }
 
+/* Promote a slice to toplevel that was initialised under the wrong
+ * assumption that it is nested in some other slice
+ */
+static boolean to_toplevel_promoters_help_adapter(slice_index si,
+                                                  slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  help_adapter_promote_to_toplevel(si);
+  traverse_slices(slices[si].u.pipe.u.help_adapter.fork,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const to_toplevel_promoters[] =
+{
+  &slice_traverse_children,            /* STBranchDirect */
+  &slice_traverse_children,            /* STBranchDirectDefender */
+  &slice_traverse_children,            /* STBranchHelp */
+  &slice_traverse_children,            /* STBranchSeries */
+  &slice_traverse_children,            /* STBranchFork */
+  &slice_traverse_children,            /* STLeafDirect */
+  &slice_traverse_children,            /* STLeafHelp */
+  &slice_traverse_children,            /* STLeafSelf */
+  &slice_traverse_children,            /* STLeafForced */
+  &slice_traverse_children,            /* STReciprocal */
+  &slice_traverse_children,            /* STQuodlibet */
+  &slice_traverse_children,            /* STNot */
+  &slice_traverse_children,            /* STMoveInverter */
+  &slice_traverse_children,            /* STHelpRoot */
+  &to_toplevel_promoters_help_adapter, /* STHelpAdapter */
+  &slice_traverse_children             /* STHelpHashed */
+};
+
+/* Promote a slice to toplevel that was initialised under the wrong
+ * assumption that it is nested in some other slice
+ * @param si identifies slice to be promoted
+ */
+static void promote_to_toplevel(slice_index si)
+{
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&to_toplevel_promoters,0);
+  traverse_slices(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static char *ParsePlay(char *tok, branch_level level, slice_index *si)
 {
   /* seriesmovers with introductory moves */
@@ -2251,7 +2311,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         {
           /* we may have speculated wrong: next is not necessarily nested */
           if (level==toplevel_branch)
-            ParseReciEnd(tok+6,toplevel_branch,&next);
+            promote_to_toplevel(next);
           *si = next;
         }
         else
@@ -2408,7 +2468,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         {
           /* we may have speculated wrong: next is not necessarily nested */
           if (level==toplevel_branch)
-            ParseEnd(tok,toplevel_branch,&next);
+            promote_to_toplevel(next);
           *si = next;
         }
         else

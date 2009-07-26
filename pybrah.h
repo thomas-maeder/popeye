@@ -165,6 +165,14 @@ slice_index alloc_help_adapter_slice(stip_length_type length,
                                      slice_index fork,
                                      slice_index next);
 
+
+/* Promote a slice that was created as STHelpAdapter to STHelpRoot
+ * because the assumption that the slice is nested in some other slice
+ * turned out to be wrong.
+ * @param adapter identifies slice to be promoted
+ */
+void help_adapter_promote_to_toplevel(slice_index adapter);
+
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal

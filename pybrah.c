@@ -412,6 +412,31 @@ slice_index alloc_help_adapter_slice(stip_length_type length,
   return result;
 }
 
+/* Promote a slice that was created as STHelpAdapter to STHelpRoot
+ * because the assumption that the slice is nested in some other slice
+ * turned out to be wrong.
+ * @param adapter identifies slice to be promoted
+ */
+void help_adapter_promote_to_toplevel(slice_index adapter)
+{
+  slice_index const branch = slices[adapter].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  assert(slices[adapter].type==STHelpAdapter);
+  assert(slices[adapter].u.pipe.u.help_adapter.length-slack_length_help==1);
+  assert(slices[branch].type==STBranchHelp);
+
+  slices[adapter].type = STHelpRoot;
+  slices[adapter].u.pipe.next = slices[branch].u.pipe.next;
+  dealloc_slice_index(branch);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
