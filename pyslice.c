@@ -503,10 +503,6 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
       branch_ser_root_solve_in_n(si,n);
       break;
 
-    case STBranchFork:
-      branch_fork_root_help_solve_in_n(si,n);
-      break;
-
     case STQuodlibet:
       quodlibet_root_solve_in_n(si,n);
       break;
