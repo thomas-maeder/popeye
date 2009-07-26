@@ -39,42 +39,6 @@ slice_index alloc_help_branch(branch_level level,
  */
 boolean branch_h_must_starter_resign(slice_index si);
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * Assumes slice_must_starter_resign(si)
- * @param si slice index
- */
-void branch_h_write_unsolvability(slice_index si);
-
-/* Determine whether a branch slice.has just been solved with the
- * just played move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean branch_h_has_non_starter_solved(slice_index si);
-
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
- */
-boolean branch_h_has_starter_apriori_lost(slice_index si);
-
-/* Determine whether the attacker has won with his move just played
- * @param si slice identifier
- * @return true iff the starter has won
- */
-boolean branch_h_has_starter_won(slice_index si);
-
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean branch_h_has_starter_reached_goal(slice_index si);
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index
@@ -203,6 +167,49 @@ void help_adapter_solve_continuations(table continuations, slice_index si);
  * @param type type of attack
  */
 void help_adapter_root_write_key(slice_index si, attack_type type);
+
+/* Write a priori unsolvability (if any) of a slice (e.g. forced
+ * reflex mates).
+ * Assumes slice_must_starter_resign(si)
+ * @param si slice index
+ */
+void help_adapter_write_unsolvability(slice_index si);
+
+/* Determine whether a branch slice.has just been solved with the
+ * just played move by the non-starter
+ * @param si slice identifier
+ * @return true iff the non-starting side has just solved
+ */
+boolean help_adapter_has_non_starter_solved(slice_index si);
+
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating piece of
+ * the defender?
+ * @param si slice identifier
+ * @return true iff starter has lost
+ */
+boolean help_adapter_has_starter_apriori_lost(slice_index si);
+
+/* Determine whether the attacker has won with his move just played
+ * @param si slice identifier
+ * @return true iff the starter has won
+ */
+boolean help_adapter_has_starter_won(slice_index si);
+
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean help_adapter_has_starter_reached_goal(slice_index si);
+
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean help_adapter_is_goal_reached(Side just_moved, slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index

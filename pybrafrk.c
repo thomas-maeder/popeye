@@ -165,130 +165,6 @@ boolean branch_fork_must_starter_resign(slice_index si)
   return result;
 }
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void branch_fork_write_unsolvability(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_write_unsolvability(slices[si].u.pipe.u.branch_fork.towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Determine whether a branch slice.has just been solved with the
- * just played move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean branch_fork_has_non_starter_solved(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_non_starter_solved(slices[si].u.pipe.u.branch_fork.towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
- */
-boolean branch_fork_has_starter_apriori_lost(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_starter_apriori_lost(slices[si].u.pipe.u.branch_fork.towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the attacker has won with his move just played
- * @param si slice identifier
- * @return true iff the starter has won
- */
-boolean branch_fork_has_starter_won(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_starter_won(slices[si].u.pipe.u.branch_fork.towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean branch_fork_has_starter_reached_goal(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_starter_reached_goal(slices[si].u.pipe.u.branch_fork.towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean branch_fork_is_goal_reached(Side just_moved, slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",just_moved);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_is_goal_reached(just_moved,
-                                 slices[si].u.pipe.u.branch_fork.towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param same_side_as_root does si start with the same side as root?
@@ -348,6 +224,29 @@ boolean branch_fork_must_starter_resign_hashed(slice_index si, Side just_moved)
 
   result = slice_must_starter_resign_hashed(slices[si].u.pipe.u.branch_fork.towards_goal,
                                             just_moved);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean branch_fork_is_goal_reached(Side just_moved, slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",just_moved);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_is_goal_reached(just_moved,
+                                 slices[si].u.pipe.u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

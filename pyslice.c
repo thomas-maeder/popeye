@@ -673,18 +673,12 @@ boolean slice_has_non_starter_solved(slice_index si)
       result = branch_d_defender_has_non_starter_solved(si);
       break;
 
-    case STBranchHelp:
     case STHelpAdapter:
-    case STHelpHashed:
-      result = branch_h_has_non_starter_solved(si);
+      result = help_adapter_has_non_starter_solved(si);
       break;
 
     case STBranchSeries:
       result = branch_ser_has_non_starter_solved(si);
-      break;
-
-    case STBranchFork:
-      result = branch_fork_has_non_starter_solved(si);
       break;
 
     case STQuodlibet:
@@ -744,18 +738,12 @@ boolean slice_has_starter_apriori_lost(slice_index si)
       result = branch_d_has_starter_apriori_lost(si);
       break;
 
-    case STBranchHelp:
     case STHelpAdapter:
-    case STHelpHashed:
-      result = branch_h_has_starter_apriori_lost(si);
+      result = help_adapter_has_starter_apriori_lost(si);
       break;
 
     case STBranchSeries:
       result = branch_ser_has_starter_apriori_lost(si);
-      break;
-
-    case STBranchFork:
-      result = branch_fork_has_starter_apriori_lost(si);
       break;
 
     case STQuodlibet:
@@ -814,18 +802,12 @@ boolean slice_has_starter_won(slice_index si)
       result = branch_d_has_starter_won(si);
       break;
  
-    case STBranchHelp:
     case STHelpAdapter:
-    case STHelpHashed:
-      result = branch_h_has_starter_won(si);
+      result = help_adapter_has_starter_won(si);
       break;
 
     case STBranchSeries:
       result = branch_ser_has_starter_won(si);
-      break;
-
-    case STBranchFork:
-      result = branch_fork_has_starter_won(si);
       break;
 
     case STQuodlibet:
@@ -883,18 +865,12 @@ boolean slice_has_starter_reached_goal(slice_index si)
       result = branch_d_has_starter_reached_goal(si);
       break;
 
-    case STBranchHelp:
     case STHelpAdapter:
-    case STHelpHashed:
-      result = branch_h_has_starter_reached_goal(si);
+      result = help_adapter_has_starter_reached_goal(si);
       break;
 
     case STBranchSeries:
       result = branch_ser_has_starter_reached_goal(si);
-      break;
-
-    case STBranchFork:
-      result = branch_fork_has_starter_reached_goal(si);
       break;
 
     case STQuodlibet:
@@ -952,10 +928,13 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       break;
 
     case STBranchHelp:
-    case STHelpRoot:
-    case STHelpAdapter:
     case STHelpHashed:
       result = branch_h_is_goal_reached(just_moved,si);
+      break;
+
+    case STHelpRoot:
+    case STHelpAdapter:
+      result = help_adapter_is_goal_reached(just_moved,si);
       break;
 
     case STBranchSeries:
@@ -1001,18 +980,12 @@ void slice_write_unsolvability(slice_index si)
       branch_d_write_unsolvability(si);
       break;
 
-    case STBranchHelp:
     case STHelpAdapter:
-    case STHelpHashed:
-      branch_h_write_unsolvability(si);
+      help_adapter_write_unsolvability(si);
       break;
 
     case STBranchSeries:
       branch_ser_write_unsolvability(si);
-      break;
-
-    case STBranchFork:
-      branch_fork_write_unsolvability(si);
       break;
 
     case STQuodlibet:
