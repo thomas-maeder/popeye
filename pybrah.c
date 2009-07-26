@@ -192,7 +192,9 @@ boolean branch_h_is_goal_reached(Side just_moved, slice_index si)
  * @param side_at_move side that has just played
  * @return true iff the move just played is playable
  */
-static boolean move_filter(slice_index si, stip_length_type n, Side side_at_move)
+static boolean move_filter(slice_index si,
+                           stip_length_type n,
+                           Side side_at_move)
 {
   boolean result;
 
@@ -212,34 +214,25 @@ static boolean move_filter(slice_index si, stip_length_type n, Side side_at_move
   return result;
 }
 
-/* Determine and write the solution(s) in a help stipulation; don't
- * consult nor fill the hash table regarding solutions of length n. 
- *
- * This is a recursive function.
- * Recursion works with decreasing parameter n; recursion stops at
- * n==2 (e.g. h#1).
- *
- * @param side_at_move side at move
+/* Determine and write the solution(s) in a help stipulation
+ * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
  *          (this may be shorter than the slice's length if we are
  *          searching for short solutions only)
- * @param si slice index of slice being solved
  * @return true iff >= 1 solution has been found
  */
-boolean branch_h_solve_in_n(slice_index si,
-                            stip_length_type n,
-                            Side side_at_move)
+boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
 
 {
   boolean result = false;
-  Side const next_side = advers(side_at_move);
+  Side const side_at_move = slices[si].starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",side_at_move);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",side_at_move);
   assert(n>slack_length_help);
 
   active_slice[nbply+1] = si;
@@ -252,9 +245,8 @@ boolean branch_h_solve_in_n(slice_index si,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && move_filter(si,n,side_at_move))
     {
-      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,
-                                            side_at_move)
-          && help_solve_in_n(slices[si].u.pipe.next,n-1,next_side))
+      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,side_at_move)
+          && help_solve_in_n(slices[si].u.pipe.next,n-1))
         result = true;
     }
 
@@ -288,19 +280,16 @@ boolean branch_h_solve_in_n(slice_index si,
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at move
  */
 void branch_h_solve_continuations_in_n(table continuations,
                                        slice_index si,
-                                       stip_length_type n,
-                                       Side side_at_move)
+                                       stip_length_type n)
 {
-  Side const next_side = advers(side_at_move);
+  Side const side_at_move = slices[si].starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",side_at_move);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_help);
@@ -315,9 +304,8 @@ void branch_h_solve_continuations_in_n(table continuations,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && move_filter(si,n,side_at_move))
     {
-      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,
-                                            side_at_move)
-          && help_solve_in_n(slices[si].u.pipe.next,n-1,next_side))
+      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,side_at_move)
+          && help_solve_in_n(slices[si].u.pipe.next,n-1))
       {
         append_to_top_table();
         coupfort();
@@ -350,18 +338,14 @@ void branch_h_solve_continuations_in_n(table continuations,
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at move
  * @return true iff >= 1 solution has been found
  */
-boolean branch_h_has_solution_in_n(slice_index si,
-                                   stip_length_type n,
-                                   Side side_at_move)
+boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n)
 {
-  Side const next_side = advers(side_at_move);
+  Side const side_at_move = slices[si].starter;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -376,9 +360,8 @@ boolean branch_h_has_solution_in_n(slice_index si,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && move_filter(si,n,side_at_move))
     {
-      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,
-                                            side_at_move)
-          && help_has_solution_in_n(slices[si].u.pipe.next,n-1,next_side))
+      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,side_at_move)
+          && help_has_solution_in_n(slices[si].u.pipe.next,n-1))
         result = true;
     }
 
@@ -438,7 +421,11 @@ slice_index alloc_help_adapter_slice(stip_length_type length,
 boolean help_adapter_impose_starter(slice_index si, slice_traversal *st)
 {
   boolean result;
+  slice_index branch1;
   Side * const starter = st->param;
+  Side const branch1starter = (slices[si].type==STHelpRoot
+                               ? advers(*starter)
+                               : *starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -446,6 +433,15 @@ boolean help_adapter_impose_starter(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
+
+  branch1 = branch_find_slice(STBranchHelp,si);
+  if (branch1!=no_slice)
+  {
+    slice_index const branch2 = branch_find_slice(STBranchHelp,branch1);
+    if (branch2!=no_slice)
+      slices[branch2].starter = advers(branch1starter);
+    slices[branch1].starter = branch1starter;
+  }
 
   /* help play in N.5 -> change starter */
   *starter = (slices[si].u.pipe.u.help_adapter.length%2==1
@@ -471,7 +467,6 @@ boolean help_adapter_solve(slice_index si)
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const full_length = slices[si].u.pipe.u.help_adapter.length;
   stip_length_type len = slices[si].u.pipe.u.help_adapter.min_length;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -481,7 +476,7 @@ boolean help_adapter_solve(slice_index si)
 
   while (len<full_length && !result)
   {
-    if (help_solve_in_n(next,len,starter))
+    if (help_solve_in_n(next,len))
     {
       result = true;
       FlagShortSolsReached = true;
@@ -490,7 +485,7 @@ boolean help_adapter_solve(slice_index si)
     len += 2;
   }
 
-  result = result || help_solve_in_n(next,full_length,starter);
+  result = result || help_solve_in_n(next,full_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -523,7 +518,6 @@ void help_adapter_solve_continuations(table continuations, slice_index si)
   boolean solution_found = false;
   stip_length_type const full_length = slices[si].u.pipe.u.help_adapter.length;
   stip_length_type len = slices[si].u.pipe.u.help_adapter.min_length;
-  Side const starter = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -534,7 +528,7 @@ void help_adapter_solve_continuations(table continuations, slice_index si)
 
   while (len<full_length && !solution_found)
   {
-    help_solve_continuations_in_n(continuations,next,len,starter);
+    help_solve_continuations_in_n(continuations,next,len);
     if (table_length(continuations)>0)
     {
       solution_found = true;
@@ -545,7 +539,7 @@ void help_adapter_solve_continuations(table continuations, slice_index si)
   }
 
   if (!solution_found)
-    help_solve_continuations_in_n(continuations,next,full_length,starter);
+    help_solve_continuations_in_n(continuations,next,full_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -577,7 +571,6 @@ boolean help_adapter_has_solution(slice_index si)
   boolean result = false;
   stip_length_type const full_length = slices[si].u.pipe.u.help_adapter.length;
   stip_length_type len = slices[si].u.pipe.u.help_adapter.min_length;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -586,7 +579,7 @@ boolean help_adapter_has_solution(slice_index si)
   assert(full_length>=slack_length_help);
 
   while (len<=full_length)
-    if (help_has_solution_in_n(slices[si].u.pipe.next,len,starter))
+    if (help_has_solution_in_n(slices[si].u.pipe.next,len))
     {
       result = true;
       break;
@@ -952,12 +945,12 @@ static boolean solve_short_in_n(slice_index root, stip_length_type n)
   if (n==slack_length_help)
   {
     slice_index const fork = slices[root].u.pipe.u.help_adapter.fork;
-    result = help_solve_in_n(fork,n,slices[root].starter);
+    result = help_solve_in_n(fork,n);
   }
   else
     /* TODO results are not written to hash table
      */
-    result = branch_h_solve_in_n(root,n,slices[root].starter);
+    result = branch_h_solve_in_n(root,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -975,7 +968,6 @@ static boolean solve_short_in_n(slice_index root, stip_length_type n)
 static boolean solve_full_in_n(slice_index root, stip_length_type n)
 {
   Side const starter = slices[root].starter;
-  Side const next_side = advers(starter);
   slice_index const next_slice = slices[root].u.pipe.next;
   boolean result;
 
@@ -998,7 +990,7 @@ static boolean solve_full_in_n(slice_index root, stip_length_type n)
         && move_filter(root,n,starter))
     {
       if (!slice_must_starter_resign_hashed(next_slice,starter)
-          && help_solve_in_n(next_slice,n-1,next_side))
+          && help_solve_in_n(next_slice,n-1))
         result = true;
     }
 
@@ -1139,7 +1131,6 @@ boolean help_root_has_solution(slice_index si)
   boolean result = false;
   stip_length_type const full_length = slices[si].u.pipe.u.help_adapter.length;
   stip_length_type len = slices[si].u.pipe.u.help_adapter.min_length;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1148,7 +1139,7 @@ boolean help_root_has_solution(slice_index si)
   assert(full_length>=slack_length_help);
 
   while (len<=full_length)
-    if (branch_h_has_solution_in_n(si,len,starter))
+    if (branch_h_has_solution_in_n(si,len))
     {
       result = true;
       break;

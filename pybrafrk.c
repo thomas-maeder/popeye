@@ -31,43 +31,9 @@ slice_index alloc_branch_fork_slice(slice_index next, slice_index towards_goal)
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at the move
  * @return true iff >=1 solution was found
  */
-boolean branch_fork_help_solve_in_n(slice_index si,
-                                    stip_length_type n,
-                                    Side side_at_move)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",side_at_move);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help);
-
-  if (n==slack_length_help)
-    result = slice_solve(slices[si].u.pipe.u.branch_fork.towards_goal);
-  else
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    result = help_solve_in_n(next,n,side_at_move);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve in a number of half-moves at root level
- * @param si identifies slice
- * @param n number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
- */
-boolean branch_fork_root_help_solve_in_n(slice_index si,stip_length_type n)
+boolean branch_fork_help_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
 
@@ -82,11 +48,8 @@ boolean branch_fork_root_help_solve_in_n(slice_index si,stip_length_type n)
     result = slice_solve(slices[si].u.pipe.u.branch_fork.towards_goal);
   else
   {
-    Side const starter = ((n-slack_length_help)%2==0
-                          ? slices[si].starter
-                          : advers(slices[si].starter));
     slice_index const next = slices[si].u.pipe.next;
-    result = help_solve_in_n(next,n,starter);
+    result = help_solve_in_n(next,n);
   }
 
   TraceFunctionExit(__func__);
@@ -98,17 +61,13 @@ boolean branch_fork_root_help_solve_in_n(slice_index si,stip_length_type n)
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at move
  * @return true iff >= 1 solution has been found
  */
-boolean branch_fork_help_has_solution_in_n(slice_index si,
-                                           stip_length_type n,
-                                           Side side_at_move)
+boolean branch_fork_help_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",side_at_move);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -120,7 +79,7 @@ boolean branch_fork_help_has_solution_in_n(slice_index si,
   else
   {
     slice_index const next = slices[si].u.pipe.next;
-    result = help_has_solution_in_n(next,n,side_at_move);
+    result = help_has_solution_in_n(next,n);
   }
 
   TraceFunctionExit(__func__);
@@ -134,17 +93,14 @@ boolean branch_fork_help_has_solution_in_n(slice_index si,
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at move
  */
 void branch_fork_help_solve_continuations_in_n(table continuations,
                                                slice_index si,
-                                               stip_length_type n,
-                                               Side side_at_move)
+                                               stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",side_at_move);
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_help);
@@ -155,7 +111,7 @@ void branch_fork_help_solve_continuations_in_n(table continuations,
   else
   {
     slice_index const next = slices[si].u.pipe.next;
-    help_solve_continuations_in_n(continuations,next,n,side_at_move);
+    help_solve_continuations_in_n(continuations,next,n);
   }
 
   TraceFunctionExit(__func__);

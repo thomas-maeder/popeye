@@ -33,26 +33,22 @@ void insert_help_hashed_slice(slice_index si)
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at the move
  * @return true iff >=1 solution was found
  */
-boolean help_hashed_solve_in_n(slice_index si,
-                               stip_length_type n,
-                               Side side_at_move)
+boolean help_hashed_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",side_at_move);
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_help);
 
   if (inhash(si,HelpNoSucc,n/2))
     result = false;
-  else if (help_solve_in_n(slices[si].u.pipe.next,n,side_at_move))
+  else if (help_solve_in_n(slices[si].u.pipe.next,n))
     result = true;
   else
   {
@@ -69,19 +65,15 @@ boolean help_hashed_solve_in_n(slice_index si,
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at move
  * @return true iff >= 1 solution has been found
  */
-boolean help_hashed_has_solution_in_n(slice_index si,
-                                      stip_length_type n,
-                                      Side side_at_move)
+boolean help_hashed_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",side_at_move);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_help);
@@ -90,7 +82,7 @@ boolean help_hashed_has_solution_in_n(slice_index si,
     result = false;
   else
   {
-    if (help_has_solution_in_n(slices[si].u.pipe.next,n,side_at_move))
+    if (help_has_solution_in_n(slices[si].u.pipe.next,n))
       result = true;
     else
     {
@@ -110,17 +102,14 @@ boolean help_hashed_has_solution_in_n(slice_index si,
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at move
  */
 void help_hashed_solve_continuations_in_n(table continuations,
                                           slice_index si,
-                                          stip_length_type n,
-                                          Side side_at_move)
+                                          stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",side_at_move);
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_help);
@@ -128,7 +117,7 @@ void help_hashed_solve_continuations_in_n(table continuations,
   if (!inhash(si,HelpNoSucc,n/2))
   {
     slice_index const next = slices[si].u.pipe.next;
-    help_solve_continuations_in_n(continuations,next,n,side_at_move);
+    help_solve_continuations_in_n(continuations,next,n);
     if (table_length(continuations)==0)
       addtohash(si,HelpNoSucc,n/2);
   }

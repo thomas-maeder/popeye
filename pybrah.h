@@ -85,34 +85,26 @@ boolean branch_h_is_goal_reached(Side just_moved, slice_index si);
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at move
  * @return true iff >= 1 solution has been found
  */
-boolean branch_h_solve_in_n(slice_index si,
-                            stip_length_type n,
-                            Side side_at_move);
+boolean branch_h_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at move
  * @return true iff >= 1 solution has been found
  */
-boolean branch_h_has_solution_in_n(slice_index si,
-                                   stip_length_type n,
-                                   Side side_at_move);
+boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n);
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice.
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at move
  */
 void branch_h_solve_continuations_in_n(table continuations,
                                        slice_index si,
-                                       stip_length_type n,
-                                       Side side_at_move);
+                                       stip_length_type n);
 
 /* Allocate a STHelpRoot slice.
  * @param length maximum number of half-moves of slice (+ slack)

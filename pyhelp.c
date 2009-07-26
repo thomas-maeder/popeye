@@ -9,32 +9,30 @@
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at the move
  * @return true iff >=1 solution was found
  */
-boolean help_solve_in_n(slice_index si, stip_length_type n, Side side_at_move)
+boolean help_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",side_at_move);
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STBranchHelp:
-      result = branch_h_solve_in_n(si,n,side_at_move);
+      result = branch_h_solve_in_n(si,n);
       break;
 
     case STBranchFork:
-      result = branch_fork_help_solve_in_n(si,n,side_at_move);
+      result = branch_fork_help_solve_in_n(si,n);
       break;
 
     case STHelpHashed:
-      result = help_hashed_solve_in_n(si,n,side_at_move);
+      result = help_hashed_solve_in_n(si,n);
       break;
 
     default:
@@ -51,19 +49,15 @@ boolean help_solve_in_n(slice_index si, stip_length_type n, Side side_at_move)
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at move
  * @return true iff >= 1 solution has been found
  */
-boolean help_has_solution_in_n(slice_index si,
-                               stip_length_type n,
-                               Side side_at_move)
+boolean help_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",side_at_move);
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
@@ -71,15 +65,15 @@ boolean help_has_solution_in_n(slice_index si,
   {
     case STBranchHelp:
     case STHelpRoot:
-      result = branch_h_has_solution_in_n(si,n,side_at_move);
+      result = branch_h_has_solution_in_n(si,n);
       break;
 
     case STBranchFork:
-      result = branch_fork_help_has_solution_in_n(si,n,side_at_move);
+      result = branch_fork_help_has_solution_in_n(si,n);
       break;
 
     case STHelpHashed:
-      result = help_hashed_has_solution_in_n(si,n,side_at_move);
+      result = help_hashed_has_solution_in_n(si,n);
       break;
 
     default:
@@ -98,35 +92,29 @@ boolean help_has_solution_in_n(slice_index si,
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @param side_at_move side at move
  */
 void help_solve_continuations_in_n(table continuations,
                                    slice_index si,
-                                   stip_length_type n,
-                                   Side side_at_move)
+                                   stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",side_at_move);
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[si].type);
   switch (slices[si].type)
   {
     case STBranchHelp:
-      branch_h_solve_continuations_in_n(continuations,si,n,side_at_move);
+      branch_h_solve_continuations_in_n(continuations,si,n);
       break;
 
     case STBranchFork:
-      branch_fork_help_solve_continuations_in_n(continuations,
-                                                si,
-                                                n,
-                                                side_at_move);
+      branch_fork_help_solve_continuations_in_n(continuations,si,n);
       break;
 
     case STHelpHashed:
-      help_hashed_solve_continuations_in_n(continuations,si,n,side_at_move);
+      help_hashed_solve_continuations_in_n(continuations,si,n);
       break;
 
     default:
