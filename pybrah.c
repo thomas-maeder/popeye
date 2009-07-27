@@ -142,7 +142,7 @@ boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && move_filter(si,n,side_at_move))
     {
-      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,side_at_move)
+      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next)
           && help_solve_in_n(slices[si].u.pipe.next,n-1))
         result = true;
     }
@@ -201,7 +201,7 @@ void branch_h_solve_continuations_in_n(table continuations,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && move_filter(si,n,side_at_move))
     {
-      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,side_at_move)
+      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next)
           && help_solve_in_n(slices[si].u.pipe.next,n-1))
       {
         append_to_top_table();
@@ -257,7 +257,7 @@ boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n)
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && move_filter(si,n,side_at_move))
     {
-      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next,side_at_move)
+      if (!slice_must_starter_resign_hashed(slices[si].u.pipe.next)
           && help_has_solution_in_n(slices[si].u.pipe.next,n-1))
         result = true;
     }
@@ -1042,7 +1042,7 @@ static boolean solve_full_in_n(slice_index root, stip_length_type n)
         && !(OptFlag[restart] && MoveNbr<RestartNbr)
         && move_filter(root,n,starter))
     {
-      if (!slice_must_starter_resign_hashed(next_slice,starter)
+      if (!slice_must_starter_resign_hashed(next_slice)
           && help_solve_in_n(next_slice,n-1))
         result = true;
     }

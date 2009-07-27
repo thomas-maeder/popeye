@@ -45,7 +45,6 @@ void help_hashed_solve_continuations_in_n(table continuations,
  * @param just_moved side that has just moved
  * @return true iff no chance is left
  */
-boolean help_hashed_must_starter_resign_hashed(slice_index si,
-                                               Side just_moved);
+boolean help_hashed_must_starter_resign_hashed(slice_index si);
 
 #endif

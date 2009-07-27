@@ -72,10 +72,9 @@ void branch_fork_solve_postkey(slice_index si);
  * E.g. did the help side just allow a mate in 1 in a hr#N?
  * Tests may rely on the current position being hash-encoded.
  * @param si slice index
- * @param just_moved side that has just moved
  * @return true iff no chance is left
  */
-boolean branch_fork_must_starter_resign_hashed(slice_index si, Side just_moved);
+boolean branch_fork_must_starter_resign_hashed(slice_index si);
 
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved

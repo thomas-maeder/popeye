@@ -81,10 +81,9 @@ boolean quodlibet_must_starter_resign(slice_index si)
  * E.g. did the help side just allow a mate in 1 in a hr#N?
  * Tests may rely on the current position being hash-encoded.
  * @param si slice index
- * @param just_moved side that has just moved
  * @return true iff no chance is left
  */
-boolean quodlibet_must_starter_resign_hashed(slice_index si, Side just_moved)
+boolean quodlibet_must_starter_resign_hashed(slice_index si)
 {
   boolean result;
   slice_index const op1 = slices[si].u.fork.op1;
@@ -92,14 +91,13 @@ boolean quodlibet_must_starter_resign_hashed(slice_index si, Side just_moved)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",just_moved);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  result = (slice_must_starter_resign_hashed(op1,just_moved)
-            && slice_must_starter_resign_hashed(op2,just_moved));
+  result = (slice_must_starter_resign_hashed(op1)
+            && slice_must_starter_resign_hashed(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

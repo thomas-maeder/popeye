@@ -47,20 +47,17 @@ void not_write_unsolvability(slice_index si)
  * E.g. did the help side just allow a mate in 1 in a hr#N?
  * Tests may rely on the current position being hash-encoded.
  * @param si slice index
- * @param just_moved side that has just moved
  * @return true iff no chance is left
  */
-boolean not_must_starter_resign_hashed(slice_index si, Side just_moved)
+boolean not_must_starter_resign_hashed(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",just_moved);
   TraceFunctionParamListEnd();
 
-  result = (slices[si].starter==advers(just_moved)
-            && slice_has_solution(slices[si].u.pipe.next));
+  result = slice_has_solution(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

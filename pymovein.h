@@ -30,8 +30,7 @@ boolean move_inverter_must_starter_resign(slice_index si);
  * @param just_moved side that has just moved
  * @return true iff no chance is left
  */
-boolean move_inverter_must_starter_resign_hashed(slice_index si,
-                                                 Side just_moved);
+boolean move_inverter_must_starter_resign_hashed(slice_index si);
 
 /* Spin off a set play slice at root level
  * @param si slice index

@@ -62,15 +62,13 @@ boolean branch_d_defender_must_starter_resign(slice_index si)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
-  Side const attacker = slices[si].starter;
-  Side const defender = advers(attacker);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   result = (slice_must_starter_resign(next)
-            || slice_must_starter_resign_hashed(next,defender));
+            || slice_must_starter_resign_hashed(next));
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -154,8 +152,6 @@ boolean branch_d_defender_is_refuted(slice_index si,
                                      int curr_max_nr_nontrivial)
 {
   slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
-  Side const attacker = slices[si].starter;
-  Side const defender = advers(attacker);
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -167,7 +163,7 @@ boolean branch_d_defender_is_refuted(slice_index si,
   assert(n%2==0);
 
   if (slice_must_starter_resign(next)
-      || slice_must_starter_resign_hashed(next,defender))
+      || slice_must_starter_resign_hashed(next))
     result = true;
   else
   {
