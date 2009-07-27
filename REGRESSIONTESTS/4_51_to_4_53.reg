@@ -1321,3 +1321,33 @@ consider previous cage after advancing type of promotee
 solving interrupted. 
 
 
+
+ not 1.a6-a7 b3-b2 because of 2.a8D#
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   P   .   K   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   .   .   .   5
+|                                   |
+4   .  -P   .   P   .   .   .   .   4
+|                                   |
+3  -K  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hr#3                        4 + 4
+
+  1.Kc6-b7 b3-b2   2.Kb7-a8 b2*c1=Q   3.a6-a7 Qc1-c8 # 
+  1.Kc6-b7 b3-b2   2.a6-a7 b2*c1=Q   3.Kb7-a8 Qc1-c8 # 
+
+solution finished. 
+
+

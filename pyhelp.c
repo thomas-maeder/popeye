@@ -2,9 +2,12 @@
 #include "pybrah.h"
 #include "pybrafrk.h"
 #include "pyhelpha.h"
+#include "pyreflxg.h"
 #include "trace.h"
 
 #include <assert.h>
+
+#include "pynot.h"
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -33,6 +36,10 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
 
     case STHelpHashed:
       result = help_hashed_solve_in_n(si,n);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_solve_in_n(si,n);
       break;
 
     default:
@@ -76,6 +83,10 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
       result = help_hashed_has_solution_in_n(si,n);
       break;
 
+    case STReflexGuard:
+      result = reflex_guard_has_solution_in_n(si,n);
+      break;
+
     default:
       assert(0);
       break;
@@ -115,6 +126,10 @@ void help_solve_continuations_in_n(table continuations,
 
     case STHelpHashed:
       help_hashed_solve_continuations_in_n(continuations,si,n);
+      break;
+
+    case STReflexGuard:
+      reflex_guard_solve_continuations_in_n(continuations,si,n);
       break;
 
     default:

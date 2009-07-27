@@ -500,7 +500,8 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STMoveInverter */
   &root_slice_type_found,             /* STHelpRoot */
   0,                                  /* STHelpAdapter */
-  0                                   /* STHelpHashed */
+  0,                                  /* STHelpHashed */
+  0                                   /* STReflexGuard */
 };
 
 static SliceType findUniqueRootSliceType(void)
@@ -2481,7 +2482,8 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,         /* STMoveInverter */
   &slice_traverse_children,         /* STHelpRoot */
   &slice_traverse_children,         /* STHelpAdapter */
-  &slice_traverse_children          /* STHelpHashed */
+  &slice_traverse_children,         /* STHelpHashed */
+  &slice_traverse_children          /* STReflexGuard */
 };
 
 static void insert_hash_slices(void)

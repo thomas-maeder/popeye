@@ -38,6 +38,8 @@ typedef enum
   STHelpAdapter,  /* help play after branch fork */
   STHelpHashed,   /* help play with hash table */
 
+  STReflexGuard,  /* stop attempts where wrong side can reach goal */
+
   nr_slice_types,
   no_slice_type = nr_slice_types
 } SliceType;
@@ -154,6 +156,11 @@ typedef struct
                 {
                     slice_index towards_goal;
                 } branch_fork;
+
+                struct /* for type==STReflexGuard */
+                {
+                    slice_index not_slice;
+                } reflex_guard;
             } u;
         } pipe;
 

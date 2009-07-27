@@ -339,4 +339,10 @@ stip ~1
 condition cagecirce
 option halfduplex movenum MaxSolutions 34
 
+next
+
+title not 1.a6-a7 b3-b2 because of 2.a8D#
+pieces white kc6 sc1 pd4a6 black ka3 pb3b4d5
+stip hr#3
+
 end

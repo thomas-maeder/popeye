@@ -2763,7 +2763,8 @@ static slice_operation const moves_left_initialisers[] =
   &slice_traverse_children,       /* STMoveInverter */
   0,                              /* STHelpRoot */
   &init_moves_left_help_adapter,  /* STHelpAdapter */
-  &slice_traverse_children        /* STHelpHashed */
+  &slice_traverse_children,       /* STHelpHashed */
+  0                               /* STReflexGuard */
 };
 
 /* Calculate the number of moves of each side, starting at the root
@@ -3023,7 +3024,8 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STMoveInverter */
   &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
   &intelligent_mode_support_detector_branch_h,   /* STHelpAdapter */
-  &slice_traverse_children                       /* STHelpHashed */
+  &slice_traverse_children,                      /* STHelpHashed */
+  &intelligent_mode_support_none                 /* STReflexGuard */
 };
 
 support_for_intelligent_mode stip_supports_intelligent(void)

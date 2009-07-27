@@ -338,7 +338,8 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STMoveInverter */
   &get_max_nr_moves_other,           /* STHelpRoot */
   &get_max_nr_moves_other,           /* STHelpAdapter */
-  &get_max_nr_moves_other            /* STHelpHashed */
+  &get_max_nr_moves_other,           /* STHelpHashed */
+  &get_max_nr_moves_other            /* STReflexGuard */
 };
 
 /* Determine the maximally possible number of half-moves until the
@@ -398,22 +399,23 @@ static boolean find_unique_goal_leaf(slice_index si, slice_traversal *st)
 
 static slice_operation const unique_goal_finders[] =
 {
-  &slice_traverse_children,          /* STBranchDirect */
-  &slice_traverse_children,          /* STBranchDirectDefender */
-  &slice_traverse_children,          /* STBranchHelp */
-  &slice_traverse_children,          /* STBranchSeries */
-  &slice_traverse_children,          /* STBranchFork */
-  &find_unique_goal_leaf,            /* STLeafDirect */
-  &find_unique_goal_leaf,            /* STLeafHelp */
-  &find_unique_goal_leaf,            /* STLeafSelf */
-  &find_unique_goal_leaf,            /* STLeafForced */
-  &slice_traverse_children,          /* STReciprocal */
-  &slice_traverse_children,          /* STQuodlibet */
-  &slice_traverse_children,          /* STNot */
-  &slice_traverse_children,          /* STMoveInverter */
-  &slice_traverse_children,          /* STHelpRoot */
-  &slice_traverse_children,          /* STHelpAdapter */
-  &slice_traverse_children           /* STHelpHashed */
+  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STBranchDirectDefender */
+  &slice_traverse_children, /* STBranchHelp */
+  &slice_traverse_children, /* STBranchSeries */
+  &slice_traverse_children, /* STBranchFork */
+  &find_unique_goal_leaf,   /* STLeafDirect */
+  &find_unique_goal_leaf,   /* STLeafHelp */
+  &find_unique_goal_leaf,   /* STLeafSelf */
+  &find_unique_goal_leaf,   /* STLeafForced */
+  &slice_traverse_children, /* STReciprocal */
+  &slice_traverse_children, /* STQuodlibet */
+  &slice_traverse_children, /* STNot */
+  &slice_traverse_children, /* STMoveInverter */
+  &slice_traverse_children, /* STHelpRoot */
+  &slice_traverse_children, /* STHelpAdapter */
+  &slice_traverse_children, /* STHelpHashed */
+  &slice_traverse_children  /* STReflexGuard */
 };
 
 /* Determine whether the current stipulation has a unique goal, and
@@ -514,7 +516,8 @@ static slice_operation const to_quodlibet_transformers[] =
   0,                                    /* STMoveInverter */
   0,                                    /* STHelpRoot */
   &transform_to_quodlibet_help_adapter, /* STHelpAdapter */
-  0                                     /* STHelpHashed */
+  0,                                    /* STHelpHashed */
+  0                                     /* STReflexGuard */
 };
 
 /* Transform a stipulation tree to "traditional quodlibet form",
@@ -597,7 +600,8 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STMoveInverter */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
-  &slice_traverse_children  /* STHelpHashed */
+  &slice_traverse_children, /* STHelpHashed */
+  &slice_traverse_children  /* STReflexGuard */
 };
 
 /* Do all leaves of the current stipulation have one of a set of goals?
@@ -660,7 +664,8 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STMoveInverter */
   &slice_traverse_children,   /* STHelpRoot */
   &slice_traverse_children,   /* STHelpAdapter */
-  &slice_traverse_children    /* STHelpHashed */
+  &slice_traverse_children,   /* STHelpHashed */
+  &slice_traverse_children    /* STReflexGuard */
 };
 
 /* Does >= 1 leaf of the current stipulation have one of a set of goals?
@@ -729,7 +734,8 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children,           /* STMoveInverter */
   &make_exact_branch,                 /* STHelpRoot */
   &make_exact_branch,                 /* STHelpAdapter */
-  0                                   /* STHelpHashed */
+  0,                                  /* STHelpHashed */
+  &make_exact_branch                  /* STReflexGuard */
 };
 
 /* Make the stipulation exact
@@ -765,7 +771,8 @@ static slice_operation const starter_imposers[] =
   &move_inverter_impose_starter,     /* STMoveInverter */
   &help_adapter_impose_starter,      /* STHelpRoot */
   &help_adapter_impose_starter,      /* STHelpAdapter */
-  0                                  /* STHelpHashed */
+  0,                                 /* STHelpHashed */
+  &slice_traverse_children,          /* STReflexGuard */
 };
 
 /* Set the starting side of the stipulation
@@ -980,7 +987,8 @@ static slice_operation const traversers[] =
   &traverse_pipe,                   /* STMoveInverter */
   &traverse_pipe,                   /* STHelpRoot */
   &traverse_pipe,                   /* STHelpAdapter */
-  &traverse_pipe                    /* STHelpHashed */
+  &traverse_pipe,                   /* STHelpHashed */
+  &traverse_pipe                    /* STReflexGuard */
 };
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree

@@ -277,7 +277,8 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMoveInverter */
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpAdapter */
-  &slice_property_offset_shifter  /* STHelpHashed */
+  &slice_property_offset_shifter, /* STHelpHashed */
+  &slice_property_offset_shifter  /* STReflexGuard */
 };
 
 typedef struct
@@ -722,7 +723,8 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,                   /* STMoveInverter */
   &init_slice_properties_help_adapter,           /* STHelpRoot */
   &init_slice_properties_help_adapter,           /* STHelpAdapter */
-  &init_slice_properties_help_hashed             /* STHelpHashed */
+  &init_slice_properties_help_hashed,            /* STHelpHashed */
+  &init_slice_properties_pipe                    /* STReflexGuard */
 };
 
 /* Callback for traverse_slices() that copies slice_properties from
@@ -770,7 +772,8 @@ static slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children,             /* STMoveInverter */
   &slice_traverse_children,             /* STHelpRoot */
   &slice_traverse_children,             /* STHelpAdapter */
-  &slice_traverse_children              /* STHelpHashed */
+  &slice_traverse_children,             /* STHelpHashed */
+  &slice_traverse_children              /* STReflexGuard */
 };
 
 /* Find out whether a branch has a non-standard length (i.e. is exact)
@@ -869,7 +872,8 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                  /* STMoveInverter */
   &slice_traverse_children,                  /* STHelpRoot */
   &non_standard_length_finder_help_branch,   /* STHelpAdapter */
-  &non_standard_length_finder_help_branch    /* STHelpHashed */
+  &non_standard_length_finder_help_branch,   /* STHelpHashed */
+  &slice_traverse_children                   /* STReflexGuard */
 };
 
 /* Initialise the slice_properties array according to the current
@@ -2249,22 +2253,23 @@ boolean init_element_branch_ser(slice_index si, slice_traversal *st)
 
 static slice_operation const element_initialisers[] =
 {
-  &init_element_branch_d,   /* STBranchDirect */
-  &slice_traverse_children, /* STBranchDirectDefender */
-  &slice_traverse_children, /* STBranchHelp */
-  &init_element_branch_ser, /* STBranchSeries */
-  &slice_traverse_children, /* STBranchFork */
-  &init_element_leaf_d,     /* STLeafDirect */
-  &init_element_leaf_h,     /* STLeafHelp */
-  &init_element_leaf_d,     /* STLeafSelf */
-  &slice_operation_noop,    /* STLeafForced */
-  &slice_traverse_children, /* STReciprocal */
-  &slice_traverse_children, /* STQuodlibet */
-  &slice_traverse_children, /* STNot */
-  &slice_traverse_children, /* STMoveInverter */
-  &slice_traverse_children, /* STHelpRoot */
-  &slice_traverse_children, /* STHelpAdapter */
-  &init_element_help_hashed /* STHelpHashed */
+  &init_element_branch_d,    /* STBranchDirect */
+  &slice_traverse_children,  /* STBranchDirectDefender */
+  &slice_traverse_children,  /* STBranchHelp */
+  &init_element_branch_ser,  /* STBranchSeries */
+  &slice_traverse_children,  /* STBranchFork */
+  &init_element_leaf_d,      /* STLeafDirect */
+  &init_element_leaf_h,      /* STLeafHelp */
+  &init_element_leaf_d,      /* STLeafSelf */
+  &slice_operation_noop,     /* STLeafForced */
+  &slice_traverse_children,  /* STReciprocal */
+  &slice_traverse_children,  /* STQuodlibet */
+  &slice_traverse_children,  /* STNot */
+  &slice_traverse_children,  /* STMoveInverter */
+  &slice_traverse_children,  /* STHelpRoot */
+  &slice_traverse_children,  /* STHelpAdapter */
+  &init_element_help_hashed, /* STHelpHashed */
+  &slice_traverse_children   /* STReflexGuard */
 };
 
 /* Initialise the bits representing all slices in a hash table

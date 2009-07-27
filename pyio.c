@@ -2115,7 +2115,8 @@ static slice_operation const to_toplevel_promoters[] =
   &slice_traverse_children,            /* STMoveInverter */
   &slice_traverse_children,            /* STHelpRoot */
   &to_toplevel_promoters_help_adapter, /* STHelpAdapter */
-  &slice_traverse_children             /* STHelpHashed */
+  &slice_traverse_children,            /* STHelpHashed */
+  &slice_traverse_children             /* STReflexGuard */
 };
 
 /* Promote a slice to toplevel that was initialised under the wrong
