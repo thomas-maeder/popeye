@@ -38,6 +38,7 @@ void insert_help_hashed_slice(slice_index si)
 boolean help_hashed_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
+  stip_length_type const nr_half_moves = (n+1-slack_length_help)/2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -46,14 +47,14 @@ boolean help_hashed_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>slack_length_help);
 
-  if (inhash(si,HelpNoSucc,n/2))
+  if (inhash(si,hash_help_insufficient_nr_half_moves,nr_half_moves))
     result = false;
   else if (help_solve_in_n(slices[si].u.pipe.next,n))
     result = true;
   else
   {
     result = false;
-    addtohash(si,HelpNoSucc,n/2);
+    addtohash(si,hash_help_insufficient_nr_half_moves,nr_half_moves);
   }
 
   TraceFunctionExit(__func__);
@@ -70,6 +71,7 @@ boolean help_hashed_solve_in_n(slice_index si, stip_length_type n)
 boolean help_hashed_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
+  stip_length_type const nr_half_moves = (n+1-slack_length_help)/2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -78,7 +80,7 @@ boolean help_hashed_has_solution_in_n(slice_index si, stip_length_type n)
 
   assert(n>slack_length_help);
 
-  if (inhash(si,HelpNoSucc,n/2))
+  if (inhash(si,hash_help_insufficient_nr_half_moves,nr_half_moves))
     result = false;
   else
   {
@@ -86,7 +88,7 @@ boolean help_hashed_has_solution_in_n(slice_index si, stip_length_type n)
       result = true;
     else
     {
-      addtohash(si,HelpNoSucc,n/2);
+      addtohash(si,hash_help_insufficient_nr_half_moves,nr_half_moves);
       result = false;
     }
   }
@@ -107,6 +109,8 @@ void help_hashed_solve_continuations_in_n(table continuations,
                                           slice_index si,
                                           stip_length_type n)
 {
+  stip_length_type const nr_half_moves = (n+1-slack_length_help)/2;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
@@ -114,12 +118,12 @@ void help_hashed_solve_continuations_in_n(table continuations,
 
   assert(n>slack_length_help);
 
-  if (!inhash(si,HelpNoSucc,n/2))
+  if (!inhash(si,hash_help_insufficient_nr_half_moves,nr_half_moves))
   {
     slice_index const next = slices[si].u.pipe.next;
     help_solve_continuations_in_n(continuations,next,n);
     if (table_length(continuations)==0)
-      addtohash(si,HelpNoSucc,n/2);
+      addtohash(si,hash_help_insufficient_nr_half_moves,nr_half_moves);
   }
 
   TraceFunctionExit(__func__);

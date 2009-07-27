@@ -1238,17 +1238,31 @@ static slice_index alloc_toplevel_help_branch(stip_length_type length,
   }
   else
   {
-    slice_index const branch1 = alloc_branch_h_slice(length,min_length,fork);
-    slice_index const branch2 = alloc_branch_h_slice(length,min_length,
-                                                     branch1);
-    slice_index const first = ((length-slack_length_help)%2==0
-                               ? branch1
-                               : fork);
+    stip_length_type const min_length1 = (min_length==slack_length_help
+                                          ? slack_length_help+1
+                                          : min_length-1);
+    if ((length-slack_length_help)%2==0)
+    {
+      slice_index const branch1 = alloc_branch_h_slice(length-1,min_length1,
+                                                       fork);
+      slice_index const branch2 = alloc_branch_h_slice(length-2,min_length,
+                                                       branch1);
+      result = alloc_help_root_slice(length,min_length,fork,branch1);
 
-    result = alloc_help_root_slice(length,min_length,fork,first);
+      slices[fork].u.pipe.next = branch2;
+      TraceValue("%u\n",slices[fork].u.pipe.next);
+    }
+    else
+    {
+      slice_index const branch1 = alloc_branch_h_slice(length-2,min_length,
+                                                       fork);
+      slice_index const branch2 = alloc_branch_h_slice(length-1,min_length1,
+                                                       branch1);
+      result = alloc_help_root_slice(length,min_length,fork,fork);
 
-    slices[fork].u.pipe.next = branch2;
-    TraceValue("%u\n",slices[fork].u.pipe.next);
+      slices[fork].u.pipe.next = branch2;
+      TraceValue("%u\n",slices[fork].u.pipe.next);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -1287,19 +1301,35 @@ static slice_index alloc_nested_help_branch(stip_length_type length,
   }
   else
   {
-    slice_index const branch1 = alloc_branch_h_slice(length,min_length,fork);
-    slice_index const branch2 = alloc_branch_h_slice(length,min_length,
-                                                     branch1);
-    slice_index const first = ((length-slack_length_help)%2==0
-                               ? branch2
-                               : branch1);
-
-    result = alloc_help_adapter_slice(length,min_length,fork,first);
-
-    if (length-slack_length_help>2)
+    stip_length_type const min_length1 = (min_length==slack_length_help
+                                          ? slack_length_help+1
+                                          : min_length-1);
+    if ((length-slack_length_help)%2==0)
     {
-      slices[fork].u.pipe.next = branch2;
-      TraceValue("%u\n",slices[fork].u.pipe.next);
+      slice_index const branch1 = alloc_branch_h_slice(length-1,min_length1,
+                                                       fork);
+      slice_index const branch2 = alloc_branch_h_slice(length,min_length,
+                                                       branch1);
+      result = alloc_help_adapter_slice(length,min_length,fork,branch2);
+
+      if (length-slack_length_help>2)
+      {
+        slices[fork].u.pipe.next = branch2;
+        TraceValue("%u\n",slices[fork].u.pipe.next);
+      }
+    }
+    else
+    {
+      slice_index const branch1 = alloc_branch_h_slice(length,min_length,fork);
+      slice_index const branch2 = alloc_branch_h_slice(length-1,min_length1,
+                                                       branch1);
+      result = alloc_help_adapter_slice(length,min_length,fork,branch1);
+
+      if (length-slack_length_help>2)
+      {
+        slices[fork].u.pipe.next = branch2;
+        TraceValue("%u\n",slices[fork].u.pipe.next);
+      }
     }
   }
 

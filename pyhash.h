@@ -15,7 +15,7 @@
 /* typedefs */
 typedef enum {
 	SerNoSucc,
-	HelpNoSucc,
+	hash_help_insufficient_nr_half_moves,
 	DirSucc,
 	DirNoSucc,
     nr_hashwhat

@@ -312,14 +312,14 @@ boolean leaf_h_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  if (inhash(leaf,HelpNoSucc,1))
+  if (inhash(leaf,hash_help_insufficient_nr_half_moves,1))
     result = false;
   else if (leaf_h_solve_nohash(leaf))
     result = true;
   else
   {
     result = false;
-    addtohash(leaf,HelpNoSucc,1);
+    addtohash(leaf,hash_help_insufficient_nr_half_moves,1);
   }
 
   TraceFunctionExit(__func__);

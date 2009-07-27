@@ -851,6 +851,25 @@ void slice_traversal_init(slice_traversal *st,
   st->param = param;
 }
   
+/* Query the traversal state of a slice
+ * @param si identifies slice for which to query traversal state
+ * @param st address of structure defining traversal
+ * @return state of si in traversal *st
+ */
+slice_traversal_slice_state
+get_slice_traversal_slice_state(slice_index si, slice_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",st->traversed[si]);
+  TraceFunctionResultEnd();
+  return st->traversed[si];
+}
+
 /* (Approximately) depth-first traversl of the stipulation
  * @param ops mapping from slice types to operations
  * @param param address of data structure holding parameters for the operation

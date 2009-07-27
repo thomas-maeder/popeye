@@ -328,6 +328,14 @@ void slice_traversal_init(slice_traversal *st,
                           operation_mapping ops,
                           void *param);
 
+/* Query the traversal state of a slice
+ * @param si identifies slice for which to query traversal state
+ * @param st address of structure defining traversal
+ * @return state of si in traversal *st
+ */
+slice_traversal_slice_state
+get_slice_traversal_slice_state(slice_index si, slice_traversal *st);
+
 /* Slice operation doing nothing. Makes it easier to intialise
  * operations table
  * @param si identifies slice on which to invoke noop

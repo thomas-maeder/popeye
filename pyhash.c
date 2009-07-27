@@ -282,8 +282,8 @@ static slice_operation const slice_property_offset_shifters[] =
 
 typedef struct
 {
-    unsigned int nr_bits_left;
-    unsigned int value_offset;
+    unsigned int nrBitsLeft;
+    unsigned int valueOffset;
 } slice_initializer_state;
 
 /* Initialise a slice_properties element representing direct play
@@ -301,27 +301,27 @@ static void init_slice_property_direct(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",sis->nr_bits_left);
-  TraceFunctionParam("%u",sis->value_offset);
+  TraceFunctionParam("%u",sis->nrBitsLeft);
+  TraceFunctionParam("%u",sis->valueOffset);
   TraceFunctionParamListEnd();
 
-  sis->value_offset -= size;
+  sis->valueOffset -= size;
   TraceValue("%u",size);
-  TraceValue("->%u\n",sis->value_offset);
+  TraceValue("->%u\n",sis->valueOffset);
 
   slice_properties[si].size = size;
-  slice_properties[si].valueOffset = sis->value_offset;
+  slice_properties[si].valueOffset = sis->valueOffset;
   TraceValue("%u\n",slice_properties[si].valueOffset);
 
-  assert(sis->nr_bits_left>=size);
-  sis->nr_bits_left -= size;
-  slice_properties[si].u.d.offsetNoSucc = sis->nr_bits_left;
-  slice_properties[si].u.d.maskNoSucc = mask << sis->nr_bits_left;
+  assert(sis->nrBitsLeft>=size);
+  sis->nrBitsLeft -= size;
+  slice_properties[si].u.d.offsetNoSucc = sis->nrBitsLeft;
+  slice_properties[si].u.d.maskNoSucc = mask << sis->nrBitsLeft;
 
-  assert(sis->nr_bits_left>=size);
-  sis->nr_bits_left -= size;
-  slice_properties[si].u.d.offsetSucc = sis->nr_bits_left;
-  slice_properties[si].u.d.maskSucc = mask << sis->nr_bits_left;
+  assert(sis->nrBitsLeft>=size);
+  sis->nrBitsLeft -= size;
+  slice_properties[si].u.d.offsetSucc = sis->nrBitsLeft;
+  slice_properties[si].u.d.maskSucc = mask << sis->nrBitsLeft;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -343,16 +343,18 @@ static void init_slice_property_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  sis->valueOffset -= bit_width((length+1)/2);
+
   slice_properties[si].size = size;
-  slice_properties[si].valueOffset = sis->value_offset;
+  slice_properties[si].valueOffset = sis->valueOffset;
   TraceValue("%u",size);
   TraceValue("%u",mask);
   TraceValue("%u\n",slice_properties[si].valueOffset);
 
-  assert(sis->nr_bits_left>=size);
-  sis->nr_bits_left -= size;
-  slice_properties[si].u.h.offsetNoSucc = sis->nr_bits_left;
-  slice_properties[si].u.h.maskNoSucc = mask << sis->nr_bits_left;
+  assert(sis->nrBitsLeft>=size);
+  sis->nrBitsLeft -= size;
+  slice_properties[si].u.h.offsetNoSucc = sis->nrBitsLeft;
+  slice_properties[si].u.h.maskNoSucc = mask << sis->nrBitsLeft;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -371,17 +373,17 @@ static void init_slice_property_series(slice_index si,
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
 
-  sis->value_offset -= size;
+  sis->valueOffset -= size;
 
   slice_properties[si].size = size;
-  slice_properties[si].valueOffset = sis->value_offset;
+  slice_properties[si].valueOffset = sis->valueOffset;
   TraceValue("%u",si);
   TraceValue("%u\n",slice_properties[si].valueOffset);
 
-  assert(sis->nr_bits_left>=size);
-  sis->nr_bits_left -= size;
-  slice_properties[si].u.s.offsetNoSucc = sis->nr_bits_left;
-  slice_properties[si].u.s.maskNoSucc = mask << sis->nr_bits_left;
+  assert(sis->nrBitsLeft>=size);
+  sis->nrBitsLeft -= size;
+  slice_properties[si].u.s.offsetNoSucc = sis->nrBitsLeft;
+  slice_properties[si].u.s.maskNoSucc = mask << sis->nrBitsLeft;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -393,8 +395,6 @@ static void init_slice_property_series(slice_index si,
 static boolean init_slice_properties_leaf_help(slice_index leaf,
                                                slice_traversal *st)
 {
-  slice_initializer_state * const sis = st->param;
-  sis->value_offset -= bit_width(1)+1;
   init_slice_property_help(leaf,1,st->param);
   return true;
 }
@@ -428,7 +428,7 @@ static boolean init_slice_properties_leaf_forced(slice_index leaf,
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  slice_properties[leaf].valueOffset = sis->value_offset;
+  slice_properties[leaf].valueOffset = sis->valueOffset;
   TraceValue("%u",leaf);
   TraceValue("%u\n",slice_properties[leaf].valueOffset);
 
@@ -482,7 +482,7 @@ static boolean init_slice_properties_fork(slice_index fork,
 
   slice_initializer_state * const sis = st->param;
 
-  unsigned int const save_value_offset = sis->value_offset;
+  unsigned int const save_valueOffset = sis->valueOffset;
       
   slice_index const op1 = slices[fork].u.fork.op1;
   slice_index const op2 = slices[fork].u.fork.op2;
@@ -491,10 +491,10 @@ static boolean init_slice_properties_fork(slice_index fork,
   TraceFunctionParam("%u",fork);
   TraceFunctionParamListEnd();
 
-  slice_properties[fork].valueOffset = sis->value_offset;
+  slice_properties[fork].valueOffset = sis->valueOffset;
 
   result1 = traverse_slices(op1,st);
-  sis->value_offset = save_value_offset;
+  sis->valueOffset = save_valueOffset;
   result2 = traverse_slices(op2,st);
 
   TraceValue("%u",op1);
@@ -577,10 +577,37 @@ boolean init_slice_properties_branch_direct_defender(slice_index branch,
  * @return true iff the properties for si and its children have been
  *         successfully initialised
  */
-static boolean init_slice_properties_help_branch(slice_index si,
+static boolean init_slice_properties_help_hashed(slice_index si,
                                                  slice_traversal *st)
 {
   boolean const result = true;
+  slice_initializer_state *sis = st->param;
+  unsigned int const length = slices[si].u.pipe.u.help_adapter.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  init_slice_property_help(si,length-slack_length_help,sis);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ * @return true iff the properties for si and its children have been
+ *         successfully initialised
+ */
+static boolean init_slice_properties_help_adapter(slice_index si,
+                                                  slice_traversal *st)
+{
+  boolean const result = true;
+  slice_initializer_state * const sis = st->param;
   slice_index branch1;
   slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
 
@@ -591,19 +618,31 @@ static boolean init_slice_properties_help_branch(slice_index si,
   branch1 = branch_find_slice(STHelpHashed,si);
   if (branch1!=no_slice)
   {
-    slice_initializer_state *sis = st->param;
-    unsigned int const length = slices[si].u.pipe.u.help_adapter.length;
-    slice_index const branch2 = branch_find_slice(STHelpHashed,branch1);
-    sis->value_offset -= bit_width((length-slack_length_help+1)/2)+1;
-    init_slice_property_help(branch1,length-slack_length_help,sis);
-    if (branch2!=no_slice)
-      init_slice_property_help(branch2,length-slack_length_help-1,sis);
-  }
+    if (get_slice_traversal_slice_state(branch1,st)==slice_not_traversed
+        && traverse_slices(branch1,st))
+    {
+      slice_index const branch2 = branch_find_slice(STHelpHashed,branch1);
+      if (branch2!=no_slice
+          && get_slice_traversal_slice_state(branch2,st)==slice_not_traversed
+          && traverse_slices(branch2,st))
+      {
+        /* valueOffsets of branch1 and branch2 have to be equal */
+        sis->valueOffset += slice_properties[branch2].size;
+        slice_properties[branch2].valueOffset += slice_properties[branch2].size;
+        TraceValue("%u",branch2);
+        TraceValue("%u\n",slice_properties[branch2].valueOffset);
+      }
+    }
 
-  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
+    slice_properties[si].valueOffset = slice_properties[branch1].valueOffset;
+  }
+  else
+    slice_properties[si].valueOffset = sis->valueOffset;
 
   TraceValue("%u",si);
   TraceValue("%u\n",slice_properties[si].valueOffset);
+
+  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -670,7 +709,7 @@ static slice_operation const slice_properties_initalisers[] =
 {
   &init_slice_properties_branch_direct,          /* STBranchDirect */
   &init_slice_properties_branch_direct_defender, /* STBranchDirectDefender */
-  &init_slice_properties_pipe,                   /* STBranchHelp */
+  0,                                             /* STBranchHelp */
   &init_slice_properties_branch_series,          /* STBranchSeries */
   &init_slice_properties_branch_fork,            /* STBranchFork */
   &init_slice_properties_leaf_direct,            /* STLeafDirect */
@@ -681,9 +720,9 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_fork,                   /* STQuodlibet */
   &init_slice_properties_pipe,                   /* STNot */
   &init_slice_properties_pipe,                   /* STMoveInverter */
-  &init_slice_properties_help_branch,            /* STHelpRoot */
-  &init_slice_properties_help_branch,            /* STHelpAdapter */
-  &init_slice_properties_pipe                    /* STHelpHashed */
+  &init_slice_properties_help_adapter,           /* STHelpRoot */
+  &init_slice_properties_help_adapter,           /* STHelpAdapter */
+  &init_slice_properties_help_hashed             /* STHelpHashed */
 };
 
 /* Callback for traverse_slices() that copies slice_properties from
@@ -2009,7 +2048,7 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
       case STLeafHelp:
         {
           hash_value_type const nosucc = get_value_help(he,si);
-          assert(what==HelpNoSucc);
+          assert(what==hash_help_insufficient_nr_half_moves);
           assert(val==1);
           if (nosucc>=1)
           {
@@ -2316,7 +2355,7 @@ void addtohash(slice_index si, hashwhat what, hash_value_type val)
           set_value_series(he,si,val);
           break;
 
-        case HelpNoSucc:
+        case hash_help_insufficient_nr_half_moves:
           set_value_help(he,si,val);
           break;
 
@@ -2342,7 +2381,7 @@ void addtohash(slice_index si, hashwhat what, hash_value_type val)
             set_value_series(he,si,val);
           break;
 
-        case HelpNoSucc:
+        case hash_help_insufficient_nr_half_moves:
           if (get_value_help(he,si)<val)
             set_value_help(he,si,val);
           break;
