@@ -1398,8 +1398,9 @@ static void compresshash (void)
      * low on memory, that only one or no position can be stored.
      */
 
-    while ((val_step&min_val)==0)
-      val_step <<= 1;
+    if (min_val>0)
+      while ((val_step&min_val)==0)
+        val_step <<= 1;
 
 #if defined(TESTHASH)
     printf("\nmin_val: %08x\n", min_val);
@@ -1412,7 +1413,8 @@ static void compresshash (void)
 
     while (RemoveCnt < ToDelete)
     {
-      min_val += val_step;
+      min_val |= val_step;
+      val_step <<= 1;
 
 #if defined(TESTHASH)
       printf("min_val: %08x\n", min_val);
@@ -1485,6 +1487,7 @@ static void compresshash (void)
     fxfInfo(stdout);
 #endif /*FXF*/
 #endif /*TESTHASH*/
+    printf("<count: %lu\n", dhtKeyCount(pyhash));
   }
 } /* compresshash */
 
