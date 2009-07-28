@@ -1487,7 +1487,6 @@ static void compresshash (void)
     fxfInfo(stdout);
 #endif /*FXF*/
 #endif /*TESTHASH*/
-    printf("<count: %lu\n", dhtKeyCount(pyhash));
   }
 } /* compresshash */
 
