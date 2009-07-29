@@ -1234,40 +1234,6 @@ boolean help_root_has_solution(slice_index si)
   return result;
 }
 
-boolean not_finder_not(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index * const not_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *not_slice = si;
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-boolean not_finder_reciprocal(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  traverse_slices(slices[si].u.fork.op1,st);
-  traverse_slices(slices[si].u.fork.op2,st);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a top level help branch
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
