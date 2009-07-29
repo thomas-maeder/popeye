@@ -1372,11 +1372,31 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
       case STNot:
       case STMoveInverter:
-      case STHelpRoot:
-      case STBranchHelp:
       {
         slice_index const next = slices[si].u.pipe.next;
         result = value_of_data_recursive(he,next);
+        break;
+      }
+
+      case STHelpRoot:
+      case STHelpAdapter:
+      {
+        slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+        slice_index const
+            to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+
+        slice_index const anchor = slices[si].u.pipe.next;
+        slice_index next = anchor;
+
+        result = value_of_data_recursive(he,to_goal);
+
+        do
+        {
+          if (slices[next].type==STHelpHashed)
+            result += own_value_of_data_composite(he,next) << offset;
+          next = slices[next].u.pipe.next;
+        } while (next!=no_slice && next!=anchor);
+
         break;
       }
 
@@ -1406,24 +1426,6 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
         TraceValue("%x\n",nested_value);
 
         result = (own_value << offset) + nested_value;
-        break;
-      }
-
-      case STBranchFork:
-      {
-        slice_index const next = slices[si].u.pipe.next;
-        slice_index const
-            to_goal = slices[si].u.pipe.u.branch_fork.towards_goal;
-        hash_value_type const next_value = value_of_data_recursive(he,next);
-        hash_value_type const nested_value = value_of_data_recursive(he,
-                                                                     to_goal);
-        result = next_value+nested_value;
-        break;
-      }
-
-      case STHelpHashed:
-      {
-        result = own_value_of_data_composite(he,si) << offset;
         break;
       }
 
@@ -1476,6 +1478,9 @@ static void compresshash (void)
   unsigned long runCnt;
 #endif
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   targetKeyCount = dhtKeyCount(pyhash);
   targetKeyCount -= targetKeyCount/16;
 
@@ -1495,6 +1500,14 @@ static void compresshash (void)
     visitCnt= 0;
 #endif  /* TESTHASH */
 
+#if defined(TESTHASH)
+    for (he = dhtGetFirstElement(pyhash);
+         he!=0;
+         he = dhtGetNextElement(pyhash))
+      printf("%08x\n",value_of_data(he));
+    exit (0);
+#endif  /* TESTHASH */
+
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
@@ -1504,7 +1517,9 @@ static void compresshash (void)
         RemoveCnt++;
         totalRemoveCount++;
 #endif  /* TESTHASH */
+
         dhtRemoveElement(pyhash, he->Key);
+
 #if defined(TESTHASH)
         if (RemoveCnt + dhtKeyCount(pyhash) != initCnt)
         {
@@ -1565,6 +1580,9 @@ static void compresshash (void)
   fxfInfo(stdout);
 #endif /*FXF*/
 #endif /*TESTHASH*/
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 } /* compresshash */
 
 #if defined(HASHRATE)
