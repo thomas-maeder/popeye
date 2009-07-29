@@ -2053,7 +2053,6 @@ static void circecage_advance_norm_prom(ply ply_id,
                                         piece *circecage_next_norm_prom)
 {
   Side const moving_side = trait[ply_id];
-  Side const prisoner_side = advers(moving_side);
   piece const save_prom = e[sq_arrival];
 
   TraceFunctionEntry(__func__);
@@ -2065,8 +2064,6 @@ static void circecage_advance_norm_prom(ply ply_id,
   TraceSquare(*nextcage);
   TracePiece(*circecage_next_norm_prom);
   TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",prisoner_side);
 
   while (true)
   {
