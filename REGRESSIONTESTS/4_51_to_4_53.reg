@@ -1351,3 +1351,33 @@ solving interrupted.
 solution finished. 
 
 
+
+     helpreflexmate in N.5 moves
+    (not 2.Kc2 because of 3.Q*a5#)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   Q   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -P   .   .   .   4
+|                                   |
+3  -K   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   P   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hr#2.5                      3 + 3
+
+  1...e4-e3   2.Kd1-c1 e3*d2 +   3.Kc1-b1 d2-d1=Q # 
+
+solution finished. 
+
+

@@ -2049,7 +2049,7 @@ static char *ParseEnd(char *tok, branch_level level, slice_index *si)
     tok = ParseGoal(tok+5,STLeafForced,si);
 
   else if (strncmp("hr", tok, 2) == 0)
-    tok = ParseReflexEnd(tok+2,level,si);
+    tok = ParseGoal(tok+2,STLeafHelp,si);
 
   else
     switch (*tok)
@@ -2404,25 +2404,22 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       stip_length_type length;
       stip_length_type min_length;
       result = ParseLength(tok,STBranchHelp,&length,&min_length);
-      --length;
-      if (min_length<=slack_length_help)
-        ++min_length;
-      else
-        --min_length;
       if (result!=0)
       {
         if (length==slack_length_help && min_length==slack_length_help)
           *si = next;
         else
         {
-          slice_index const help = alloc_help_branch(level,
-                                                     length,min_length,
-                                                     next);
-          if (length%2==1)
+          slice_index const help = alloc_helpreflex_branch(level,
+                                                           length,min_length,
+                                                           next);
+          if (length%2==0)
             *si = alloc_move_inverter_slice(help);
           else
             *si = help;
         }
+
+        slices[next].starter = Black;
       }
     }
   }

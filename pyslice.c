@@ -16,6 +16,7 @@
 #include "pynot.h"
 #include "pymovein.h"
 #include "pyhelpha.h"
+#include "pyreflxg.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -91,6 +92,10 @@ boolean slice_must_starter_resign(slice_index si)
 
     case STMoveInverter:
       result = move_inverter_must_starter_resign(si);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_must_starter_resign(si);
       break;
 
     default:

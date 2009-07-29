@@ -8,11 +8,13 @@
 #include "pyhelp.h"
 #include "pyslice.h"
 
-/* Allocate a STReflexGuard slice.
- * @param not_slice identifies slice representing positions to avoid
+/* Insert a STReflexGuard slice in front (and at the place)
+ * of an existing slice.
+ * @param si identifies slice to be superseded by a STReflexGuard slice
+ * @param to_be_avoided prototype of slice that must be solvable
  * @return index of allocated slice
  */
-slice_index alloc_reflex_guard_slice(slice_index not_slice);
+void insert_reflex_guard_slice(slice_index si, slice_index to_be_avoided);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -46,5 +48,21 @@ void reflex_guard_solve_continuations_in_n(table continuations,
  * @return true iff no chance is left
  */
 boolean reflex_guard_must_starter_resign_hashed(slice_index si);
+
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean reflex_guard_impose_starter(slice_index si, slice_traversal *st);
+
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean reflex_guard_must_starter_resign(slice_index si);
 
 #endif

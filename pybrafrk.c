@@ -126,7 +126,7 @@ void branch_fork_help_solve_continuations_in_n(table continuations,
  */
 boolean branch_fork_impose_starter(slice_index si, slice_traversal *st)
 {
-  boolean result;
+  boolean const result = false;
   Side const * const starter = st->param;
 
   TraceFunctionEntry(__func__);
@@ -135,7 +135,7 @@ boolean branch_fork_impose_starter(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
-  result = traverse_slices(slices[si].u.pipe.u.branch_fork.towards_goal,st);
+  slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

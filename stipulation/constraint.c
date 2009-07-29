@@ -5,27 +5,35 @@
 
 #include <assert.h>
 
-/* Allocate a STReflexGuard slice.
- * @param not_slice identifies slice representing positions to avoid
+/* Insert a STReflexGuard slice in front (and at the place)
+ * of an existing slice.
+ * @param si identifies slice to be superseded by a STReflexGuard slice
+ * @param to_be_avoided prototype of slice that must be solvable
  * @return index of allocated slice
  */
-slice_index alloc_reflex_guard_slice(slice_index not_slice)
+void insert_reflex_guard_slice(slice_index si, slice_index to_be_avoided)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index not_slice;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",not_slice);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",to_be_avoided);
   TraceFunctionParamListEnd();
 
-  slices[result].type = STReflexGuard; 
-  slices[result].starter = no_side; 
-  slices[result].u.pipe.next = no_slice;
-  slices[result].u.pipe.u.reflex_guard.not_slice = not_slice;
+  slices[si].u.pipe.next = copy_slice(si);
+
+  slices[si].type = STReflexGuard; 
+  slices[si].starter = no_side; 
+
+  /* don't link not_slice to to_be_avoided: to_be_avoided and
+   * to_be_avoided_copy will have different starters!
+   * TODO deep copy needed in general
+   */
+  not_slice = alloc_not_slice(copy_slice(to_be_avoided));
+  slices[si].u.pipe.u.reflex_guard.not_slice = not_slice;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve in a number of half-moves
@@ -100,4 +108,51 @@ void reflex_guard_solve_continuations_in_n(table continuations,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean reflex_guard_impose_starter(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  Side const * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",*starter);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+  slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean reflex_guard_must_starter_resign(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = help_must_starter_resign(slices[si].u.pipe.next);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

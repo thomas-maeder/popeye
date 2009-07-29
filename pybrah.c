@@ -42,6 +42,34 @@ slice_index alloc_branch_h_slice(stip_length_type length,
   return result;
 }
 
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean branch_h_impose_starter(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  Side * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",*starter);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+
+  *starter = advers(*starter);
+  slice_traverse_children(si,st);
+  *starter = slices[si].starter;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
@@ -334,12 +362,8 @@ void help_adapter_promote_to_toplevel(slice_index adapter)
  */
 boolean help_adapter_impose_starter(slice_index si, slice_traversal *st)
 {
-  boolean result;
-  slice_index branch1;
-  Side * const starter = st->param;
-  Side const branch1starter = (slices[si].type==STHelpRoot
-                               ? advers(*starter)
-                               : *starter);
+  boolean const result = true;
+  Side const * const starter = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -347,23 +371,7 @@ boolean help_adapter_impose_starter(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
-
-  branch1 = branch_find_slice(STBranchHelp,si);
-  if (branch1!=no_slice)
-  {
-    slice_index const branch2 = branch_find_slice(STBranchHelp,branch1);
-    if (branch2!=no_slice)
-      slices[branch2].starter = advers(branch1starter);
-    slices[branch1].starter = branch1starter;
-  }
-
-  /* help play in N.5 -> change starter */
-  *starter = (slices[si].u.pipe.u.help_adapter.length%2==1
-              ? advers(*starter)
-              : *starter);
-  result = branch_fork_impose_starter(slices[si].u.pipe.u.help_adapter.fork,
-                                      st);
-  *starter = slices[si].starter;
+  slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -805,6 +813,34 @@ slice_index alloc_help_root_slice(stip_length_type length,
   return result;
 }
 
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean help_root_impose_starter(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  Side * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",*starter);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+
+  *starter = advers(*starter);
+  slice_traverse_children(si,st);
+  *starter = slices[si].starter;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Shorten a help pipe by a half-move
  * @param pipe identifies pipe to be shortened
  */
@@ -1232,45 +1268,6 @@ boolean not_finder_reciprocal(slice_index si, slice_traversal *st)
   return result;
 }
 
-static slice_operation const not_finders[] =
-{
-  &slice_operation_noop,  /* STBranchDirect */
-  0,                      /* STBranchDirectDefender */
-  &slice_operation_noop,  /* STBranchHelp */
-  0,                      /* STBranchSeries */
-  0,                      /* STBranchFork */
-  &slice_operation_noop,  /* STLeafDirect */
-  &slice_operation_noop,  /* STLeafHelp */
-  &slice_operation_noop,  /* STLeafSelf */
-  &slice_operation_noop,  /* STLeafForced */
-  &not_finder_reciprocal, /* STReciprocal */
-  &slice_operation_noop,  /* STQuodlibet */
-  &not_finder_not,        /* STNot */
-  &slice_operation_noop,  /* STMoveInverter */
-  0,                      /* STHelpRoot */
-  &slice_operation_noop,  /* STHelpAdapter */
-  0,                      /* STHelpHashed */
-  0                       /* STReflexGuard */
-};
-
-static slice_index find_not_slice_towards_goal(slice_index fork)
-{
-  slice_index result = no_slice;
-  slice_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",fork);
-  TraceFunctionParamListEnd();
-
-  slice_traversal_init(&st,&not_finders,&result);
-  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,&st);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a top level help branch
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -1303,17 +1300,6 @@ static slice_index alloc_toplevel_help_branch(stip_length_type length,
   }
   else
   {
-    slice_index fork_or_next;
-    slice_index const not_slice = find_not_slice_towards_goal(fork);
-    if (not_slice==no_slice)
-      fork_or_next = fork;
-    else
-    {
-      fork_or_next = alloc_reflex_guard_slice(not_slice);
-      slices[fork].u.pipe.next = fork_or_next;
-      TraceValue("%u\n",slices[fork].u.pipe.next);
-    }
-
     if ((length-slack_length_help)%2==0)
     {
       slice_index const branch1 = alloc_branch_h_slice(length,min_length,
@@ -1323,7 +1309,7 @@ static slice_index alloc_toplevel_help_branch(stip_length_type length,
       shorten_help_pipe(branch1);
       result = alloc_help_root_slice(length,min_length,fork,branch1);
 
-      slices[fork_or_next].u.pipe.next = branch2;
+      slices[fork].u.pipe.next = branch2;
     }
     else
     {
@@ -1334,10 +1320,10 @@ static slice_index alloc_toplevel_help_branch(stip_length_type length,
       shorten_help_pipe(branch2);
       result = alloc_help_root_slice(length,min_length,fork,fork);
 
-      slices[fork_or_next].u.pipe.next = branch2;
+      slices[fork].u.pipe.next = branch2;
     }
 
-    TraceValue("%u\n",slices[fork_or_next].u.pipe.next);
+    TraceValue("%u\n",slices[fork].u.pipe.next);
   }
 
   TraceFunctionExit(__func__);
@@ -1387,17 +1373,6 @@ static slice_index alloc_nested_help_branch(stip_length_type length,
     }
     else
     {
-      slice_index fork_or_next;
-      slice_index const not_slice = find_not_slice_towards_goal(fork);
-      if (not_slice==no_slice)
-        fork_or_next = fork;
-      else
-      {
-        fork_or_next = alloc_reflex_guard_slice(not_slice);
-        slices[fork].u.pipe.next = fork_or_next;
-        TraceValue("%u\n",slices[fork].u.pipe.next);
-      }
-
       if ((length-slack_length_help)%2==0)
       {
         slice_index const branch1 = alloc_branch_h_slice(length,min_length,
@@ -1407,8 +1382,7 @@ static slice_index alloc_nested_help_branch(stip_length_type length,
         shorten_help_pipe(branch1);
         result = alloc_help_adapter_slice(length,min_length,fork,branch2);
 
-        slices[fork_or_next].u.pipe.next = branch2;
-        TraceValue("%u\n",slices[fork_or_next].u.pipe.next);
+        slices[fork].u.pipe.next = branch2;
       }
       else
       {
@@ -1419,9 +1393,10 @@ static slice_index alloc_nested_help_branch(stip_length_type length,
         shorten_help_pipe(branch2);
         result = alloc_help_adapter_slice(length,min_length,fork,branch1);
 
-        slices[fork_or_next].u.pipe.next = branch2;
-        TraceValue("%u\n",slices[fork_or_next].u.pipe.next);
+        slices[fork].u.pipe.next = branch2;
       }
+
+      TraceValue("%u\n",slices[fork].u.pipe.next);
     }
   }
 
@@ -1457,6 +1432,56 @@ slice_index alloc_help_branch(branch_level level,
     result = alloc_toplevel_help_branch(length,min_length,next);
   else
     result = alloc_nested_help_branch(length,min_length,next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a help branch representing helpreflex play.
+ * @param level is this a top-level branch or one nested into another
+ *              branch?
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of adapter slice of allocated help branch
+ */
+slice_index alloc_helpreflex_branch(branch_level level,
+                                    stip_length_type length,
+                                    stip_length_type min_length,
+                                    slice_index next)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",level);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
+
+  assert(level==toplevel_branch);
+  assert(level-slack_length_help>1);
+
+  result = alloc_help_branch(level,length,min_length,next);
+
+  if ((length-slack_length_help)%2==0)
+  {
+    slice_index const tobereplaced = branch_find_slice(STBranchHelp,result);
+    assert(tobereplaced!=no_slice);
+    insert_reflex_guard_slice(tobereplaced,next);
+  }
+  else
+  {
+    slice_index const fork = branch_find_slice(STBranchFork,result);
+    slice_index const branch1 = branch_find_slice(STBranchHelp,fork);
+    slice_index const tobereplaced = branch_find_slice(STBranchHelp,branch1);
+    assert(fork!=no_slice);
+    assert(branch1!=no_slice);
+    assert(tobereplaced!=no_slice);
+    insert_reflex_guard_slice(tobereplaced,next);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

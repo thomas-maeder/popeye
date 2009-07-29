@@ -12,6 +12,7 @@
 #include "pybrafrk.h"
 #include "pynot.h"
 #include "pyhelpha.h"
+#include "pyreflxg.h"
 #include "pymovein.h"
 #include "trace.h"
 
@@ -758,7 +759,7 @@ static slice_operation const starter_imposers[] =
 {
   &branch_d_impose_starter,          /* STBranchDirect */
   &branch_d_defender_impose_starter, /* STBranchDirectDefender */
-  &slice_traverse_children,          /* STBranchHelp */
+  &branch_h_impose_starter,          /* STBranchHelp */
   &branch_ser_impose_starter,        /* STBranchSeries */
   &branch_fork_impose_starter,       /* STBranchFork */
   &leaf_impose_starter,              /* STLeafDirect */
@@ -769,10 +770,10 @@ static slice_operation const starter_imposers[] =
   &quodlibet_impose_starter,         /* STQuodlibet */
   &not_impose_starter,               /* STNot */
   &move_inverter_impose_starter,     /* STMoveInverter */
-  &help_adapter_impose_starter,      /* STHelpRoot */
+  &help_root_impose_starter,         /* STHelpRoot */
   &help_adapter_impose_starter,      /* STHelpAdapter */
-  0,                                 /* STHelpHashed */
-  &slice_traverse_children,          /* STReflexGuard */
+  &help_hashed_impose_starter,      /* STHelpHashed */
+  &reflex_guard_impose_starter       /* STReflexGuard */
 };
 
 /* Set the starting side of the stipulation
@@ -970,6 +971,20 @@ static boolean traverse_branch_fork(slice_index branch, slice_traversal *st)
   return result_pipe && result_toward_goal;
 }
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ * @return true iff branch_fork and its children have been successfully
+ *         traversed
+ */
+static boolean traverse_reflex_guard(slice_index branch, slice_traversal *st)
+{
+  boolean const result_pipe = traverse_pipe(branch,st);
+  slice_index const ns = slices[branch].u.pipe.u.reflex_guard.not_slice;
+  boolean const result_not_slice = traverse_slices(ns,st);
+  return result_pipe && result_not_slice;
+}
+
 static slice_operation const traversers[] =
 {
   &traverse_pipe,                   /* STBranchDirect */
@@ -988,7 +1003,7 @@ static slice_operation const traversers[] =
   &traverse_pipe,                   /* STHelpRoot */
   &traverse_pipe,                   /* STHelpAdapter */
   &traverse_pipe,                   /* STHelpHashed */
-  &traverse_pipe                    /* STReflexGuard */
+  &traverse_reflex_guard            /* STReflexGuard */
 };
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree

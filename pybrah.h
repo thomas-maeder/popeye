@@ -10,14 +10,6 @@
  * stipulation slices.
  */
 
-/* Allocate a STBranchHelp slice.
- * @param next identifies next slice
- * @return index of allocated slice
- */
-slice_index alloc_branch_h_slice(stip_length_type length,
-                                 stip_length_type min_length,
-                                 slice_index next);
-
 /* Allocate a help branch.
  * @param level is this a top-level branch or one nested into another
  *              branch?
@@ -30,6 +22,35 @@ slice_index alloc_help_branch(branch_level level,
                               stip_length_type length,
                               stip_length_type min_length,
                               slice_index next);
+
+/* Allocate a help branch representing helpreflex play.
+ * @param level is this a top-level branch or one nested into another
+ *              branch?
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of adapter slice of allocated help branch
+ */
+slice_index alloc_helpreflex_branch(branch_level level,
+                                    stip_length_type length,
+                                    stip_length_type min_length,
+                                    slice_index next);
+
+/* Allocate a STBranchHelp slice.
+ * @param next identifies next slice
+ * @return index of allocated slice
+ */
+slice_index alloc_branch_h_slice(stip_length_type length,
+                                 stip_length_type min_length,
+                                 slice_index next);
+
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean branch_h_impose_starter(slice_index si, slice_traversal *st);
 
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
@@ -81,6 +102,14 @@ slice_index alloc_help_root_slice(stip_length_type length,
                                   stip_length_type min_length,
                                   slice_index fork,
                                   slice_index next);
+
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean help_root_impose_starter(slice_index si, slice_traversal *st);
 
 /* Shorten a help branch by a half-move. If the branch represents a
  * half-move only, deallocates the branch.

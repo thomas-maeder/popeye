@@ -345,4 +345,11 @@ title not 1.a6-a7 b3-b2 because of 2.a8D#
 pieces white kc6 sc1 pd4a6 black ka3 pb3b4d5
 stip hr#3
 
+next
+
+title helpreflexmate in N.5 moves
+title (not 2.Kc2 because of 3.Q*a5#)
+pieces white kd1 pd2 qa8 black ka3 pa5e4
+stipulation hr#2.5
+
 end
