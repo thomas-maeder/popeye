@@ -344,8 +344,6 @@ static void init_slice_property_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  sis->valueOffset -= bit_width((length+1)/2);
-
   slice_properties[si].size = size;
   slice_properties[si].valueOffset = sis->valueOffset;
   TraceValue("%u",size);
@@ -396,8 +394,20 @@ static void init_slice_property_series(slice_index si,
 static boolean init_slice_properties_leaf_help(slice_index leaf,
                                                slice_traversal *st)
 {
+  boolean const result = true;
+  slice_initializer_state * const sis = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  sis->valueOffset -= bit_width(1);
   init_slice_property_help(leaf,1,st->param);
-  return true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -582,14 +592,16 @@ static boolean init_slice_properties_help_hashed(slice_index si,
                                                  slice_traversal *st)
 {
   boolean const result = true;
-  slice_initializer_state *sis = st->param;
-  unsigned int const length = slices[si].u.pipe.u.help_adapter.length;
+  slice_initializer_state * const sis = st->param;
+  unsigned int const length = slices[si].u.pipe.u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   init_slice_property_help(si,length-slack_length_help,sis);
+
+  slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -619,29 +631,16 @@ static boolean init_slice_properties_help_adapter(slice_index si,
   branch1 = branch_find_slice(STHelpHashed,si);
   if (branch1!=no_slice)
   {
-    if (get_slice_traversal_slice_state(branch1,st)==slice_not_traversed
-        && traverse_slices(branch1,st))
-    {
-      slice_index const branch2 = branch_find_slice(STHelpHashed,branch1);
-      if (branch2!=no_slice
-          && get_slice_traversal_slice_state(branch2,st)==slice_not_traversed
-          && traverse_slices(branch2,st))
-      {
-        /* valueOffsets of branch1 and branch2 have to be equal */
-        sis->valueOffset += slice_properties[branch2].size;
-        slice_properties[branch2].valueOffset += slice_properties[branch2].size;
-        TraceValue("%u",branch2);
-        TraceValue("%u\n",slice_properties[branch2].valueOffset);
-      }
-    }
-
-    slice_properties[si].valueOffset = slice_properties[branch1].valueOffset;
+    stip_length_type const length = slices[branch1].u.pipe.u.branch.length;
+    unsigned int const width = bit_width((length-slack_length_help+1)/2);
+    TraceValue("%u\n",width);
+    sis->valueOffset -= width;
   }
-  else
-    slice_properties[si].valueOffset = sis->valueOffset;
 
-  TraceValue("%u",si);
+  slice_properties[si].valueOffset = sis->valueOffset;
   TraceValue("%u\n",slice_properties[si].valueOffset);
+
+  slice_traverse_children(si,st);
 
   traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
 
@@ -688,29 +687,27 @@ static boolean init_slice_properties_branch_series(slice_index branch,
 static boolean init_slice_properties_branch_fork(slice_index branch_fork,
                                                  slice_traversal *st)
 {
-  boolean result_next;
-  boolean result_toward_goal;
-  slice_index const
-      towards_goal = slices[branch_fork].u.pipe.u.branch_fork.towards_goal;
+  boolean const result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",branch_fork);
   TraceFunctionParamListEnd();
 
-  result_next = init_slice_properties_pipe(branch_fork,st);
-  result_toward_goal = traverse_slices(towards_goal,st);
+  init_slice_properties_pipe(branch_fork,st);
+
+  /* not traversing towards goal - slice adapter has to do that */
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u", result_next && result_toward_goal);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result_next && result_toward_goal;
+  return result;
 }
 
 static slice_operation const slice_properties_initalisers[] =
 {
   &init_slice_properties_branch_direct,          /* STBranchDirect */
   &init_slice_properties_branch_direct_defender, /* STBranchDirectDefender */
-  0,                                             /* STBranchHelp */
+  &init_slice_properties_pipe,                   /* STBranchHelp */
   &init_slice_properties_branch_series,          /* STBranchSeries */
   &init_slice_properties_branch_fork,            /* STBranchFork */
   &init_slice_properties_leaf_direct,            /* STLeafDirect */
@@ -876,6 +873,89 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children                   /* STReflexGuard */
 };
 
+static boolean findMinimalValueOffset(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  unsigned int * const minimalValueOffset = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",slice_properties[si].valueOffset);
+  if (*minimalValueOffset>slice_properties[si].valueOffset)
+    *minimalValueOffset = slice_properties[si].valueOffset;
+
+  slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const min_valueOffset_finders[] =
+{
+  &findMinimalValueOffset,  /* STBranchDirect */
+  &findMinimalValueOffset,  /* STBranchDirectDefender */
+  &slice_traverse_children, /* STBranchHelp */
+  &findMinimalValueOffset,  /* STBranchSeries */
+  &findMinimalValueOffset,  /* STBranchFork */
+  &findMinimalValueOffset,  /* STLeafDirect */
+  &findMinimalValueOffset,  /* STLeafHelp */
+  &findMinimalValueOffset,  /* STLeafSelf */
+  &findMinimalValueOffset,  /* STLeafForced */
+  &findMinimalValueOffset,  /* STReciprocal */
+  &findMinimalValueOffset,  /* STQuodlibet */
+  &findMinimalValueOffset,  /* STNot */
+  &findMinimalValueOffset,  /* STMoveInverter */
+  &findMinimalValueOffset,  /* STHelpRoot */
+  &findMinimalValueOffset,  /* STHelpAdapter */
+  &findMinimalValueOffset,  /* STHelpHashed */
+  &findMinimalValueOffset   /* STReflexGuard */
+};
+
+static boolean reduceValueOffset(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  unsigned int const * const minimalValueOffset = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_properties[si].valueOffset -= *minimalValueOffset;
+  TraceValue("%u\n",slice_properties[si].valueOffset);
+
+  slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const valueOffset_reducers[] =
+{
+  &reduceValueOffset,       /* STBranchDirect */
+  &reduceValueOffset,       /* STBranchDirectDefender */
+  &slice_traverse_children, /* STBranchHelp */
+  &reduceValueOffset,       /* STBranchSeries */
+  &reduceValueOffset,       /* STBranchFork */
+  &reduceValueOffset,       /* STLeafDirect */
+  &reduceValueOffset,       /* STLeafHelp */
+  &reduceValueOffset,       /* STLeafSelf */
+  &reduceValueOffset,       /* STLeafForced */
+  &reduceValueOffset,       /* STReciprocal */
+  &reduceValueOffset,       /* STQuodlibet */
+  &reduceValueOffset,       /* STNot */
+  &reduceValueOffset,       /* STMoveInverter */
+  &reduceValueOffset,       /* STHelpRoot */
+  &reduceValueOffset,       /* STHelpAdapter */
+  &reduceValueOffset,       /* STHelpHashed */
+  &reduceValueOffset        /* STReflexGuard */
+};
+
 /* Initialise the slice_properties array according to the current
  * stipulation slices.
  */
@@ -886,6 +966,8 @@ static void init_slice_properties(void)
     sizeof(data_type)*CHAR_BIT,
     sizeof(data_type)*CHAR_BIT
   };
+
+  unsigned int minimalValueOffset = sizeof(data_type)*CHAR_BIT;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -900,6 +982,14 @@ static void init_slice_properties(void)
   slice_traversal_init(&st,
                        &non_standard_length_finders,
                        &is_there_slice_with_nonstandard_min_length);
+  traverse_slices(root_slice,&st);
+
+  slice_traversal_init(&st,&min_valueOffset_finders,&minimalValueOffset);
+  traverse_slices(root_slice,&st);
+
+  TraceValue("%u\n",minimalValueOffset);
+
+  slice_traversal_init(&st,&valueOffset_reducers,&minimalValueOffset);
   traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -1316,17 +1406,18 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       case STBranchFork:
       {
         slice_index const next = slices[si].u.pipe.next;
-        slice_index const to_goal = slices[si].u.pipe.u.branch_fork.towards_goal;
+        slice_index const
+            to_goal = slices[si].u.pipe.u.branch_fork.towards_goal;
         hash_value_type const next_value = value_of_data_recursive(he,next);
         hash_value_type const nested_value = value_of_data_recursive(he,
                                                                      to_goal);
-        result = (next_value << offset) + nested_value;
+        result = next_value+nested_value;
         break;
       }
 
       case STHelpHashed:
       {
-        result = own_value_of_data_composite(he,si);
+        result = own_value_of_data_composite(he,si) << offset;
         break;
       }
 
@@ -1374,7 +1465,6 @@ static void compresshash (void)
 #if defined(TESTHASH)
   unsigned long initCnt, visitCnt, runCnt;
 #endif
-  unsigned int val_step = 1;
 
   ++compression_counter;
   he= dhtGetFirstElement(pyhash);
@@ -1386,7 +1476,11 @@ static void compresshash (void)
     {
       x = value_of_data(he);
       if (x<min_val)
+      {
         min_val = x;
+        if (x==0)
+          break;
+      }
       he= dhtGetNextElement(pyhash);
     }
 
@@ -1398,13 +1492,8 @@ static void compresshash (void)
      * low on memory, that only one or no position can be stored.
      */
 
-    if (min_val>0)
-      while ((val_step&min_val)==0)
-        val_step <<= 1;
-
 #if defined(TESTHASH)
     printf("\nmin_val: %08x\n", min_val);
-    printf("\nval_step: %08x\n", val_step);
     printf("ToDelete: %ld\n", ToDelete);
     fflush(stdout);
     initCnt= dhtKeyCount(pyhash);
@@ -1413,8 +1502,7 @@ static void compresshash (void)
 
     while (RemoveCnt < ToDelete)
     {
-      min_val |= val_step;
-      val_step <<= 1;
+      ++min_val;
 
 #if defined(TESTHASH)
       printf("min_val: %08x\n", min_val);
@@ -1426,7 +1514,7 @@ static void compresshash (void)
       for (he = dhtGetFirstElement(pyhash);
            he!=0;
            he= dhtGetNextElement(pyhash))
-        if (value_of_data(he)<=min_val)
+        if (value_of_data(he)<min_val)
         {
           RemoveCnt++;
           totalRemoveCount++;
