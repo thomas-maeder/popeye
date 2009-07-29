@@ -3534,8 +3534,6 @@ void repcoup(void)
   Flags spec_pi_moving;
   boolean next_prom = true;
   square nextsuper= superbas;
-  piece circecage_next_norm_prom;
-  piece circecage_next_cage_prom;
   square sq_hurdle;
   boolean rochade=false;
 
@@ -3802,33 +3800,41 @@ void repcoup(void)
 
   if (CondFlag[circecage] && pi_captured!=vide)
   {
-    circecage_next_norm_prom = norm_prom[nbply];
-    circecage_next_cage_prom = cir_prom[nbply];
-    nextsuper = super[nbply];
+    piece circecage_next_norm_prom = norm_prom[nbply];
+    piece circecage_next_cage_prom = cir_prom[nbply];
+    square nextcage = super[nbply];
+    square const prevcage = nextcage;
 
     if (circecage_next_cage_prom!=vide)
-      circecage_advance_cage_prom(nbply,nextsuper,&circecage_next_cage_prom);
+      circecage_advance_cage_prom(nbply,nextcage,&circecage_next_cage_prom);
     
     if (circecage_next_cage_prom==vide)
     {
       circecage_advance_cage(nbply,
                              pi_captured,
-                             nextsuper,
-                             &nextsuper,
+                             nextcage,
+                             &nextcage,
                              &circecage_next_cage_prom);
 
-      if (nextsuper>square_h8)
+      if (nextcage>square_h8)
       {
-        nextsuper = superbas;
+        nextcage = superbas;
         if (circecage_next_norm_prom!=vide)
           circecage_advance_norm_prom(nbply,
                                       sq_arrival,pi_captured,
-                                      super[nbply],
+                                      prevcage,
                                       &circecage_next_cage_prom,
-                                      &nextsuper,
+                                      &nextcage,
                                       &circecage_next_norm_prom);
       }
     }
+
+    super[nbply] = nextcage;
+    cir_prom[nbply] = circecage_next_cage_prom;
+    norm_prom[nbply] = circecage_next_norm_prom;
+
+    if (nextcage!=superbas)
+      next_prom = false;
   }
 
   if (CondFlag[republican])
@@ -3979,15 +3985,6 @@ void repcoup(void)
     next_prom = super[nbply]>square_h8;
     if (next_prom)
       super[nbply] = superbas;
-  }
-
-  if (CondFlag[circecage] && pi_captured!=vide)
-  {
-    super[nbply] = nextsuper;
-    cir_prom[nbply] = circecage_next_cage_prom;
-    norm_prom[nbply] = circecage_next_norm_prom;
-    if (nextsuper!=superbas)
-      next_prom = false;
   }
 
   if (next_prom)
