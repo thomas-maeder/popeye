@@ -116,11 +116,11 @@ static unsigned int bytes_per_piece;
 static boolean is_there_slice_with_nonstandard_min_length;
 
 /* Minimal value of a hash table element.
- * Compresshash will remove all elements with a value up to and * *
- * including minimalElementValue, and increase minimalElementValue if
- * * necessary.
+ * compresshash() will remove all elements with a value less than
+ * minimalElementValueAfterCompression, and increase
+ * minimalElementValueAfterCompression if necessary.
  */
-static hash_value_type minimalElementValue;
+static hash_value_type minimalElementValueAfterCompression;
 
 
 HashBuffer hashBuffers[maxply+1];
@@ -637,9 +637,13 @@ static boolean init_slice_properties_help_adapter(slice_index si,
   branch1 = branch_find_slice(STHelpHashed,si);
   if (branch1!=no_slice)
   {
-    stip_length_type const length = slices[branch1].u.pipe.u.branch.length;
-    unsigned int const width = bit_width((length-slack_length_help+1)/2);
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    unsigned int width = bit_width((length-slack_length_help+1)/2);
     TraceValue("%u\n",width);
+    if (length-slack_length_help>1)
+      /* 1 bit more because we have two slices whose values are
+       * added for computing the value of this branch */
+      ++width;
     sis->valueOffset -= width;
   }
 
@@ -1485,7 +1489,8 @@ static void compresshash (void)
   targetKeyCount -= targetKeyCount/16;
 
 #if defined(TESTHASH)
-  printf("\nminimalElementValue: %08x\n", minimalElementValue);
+  printf("\nminimalElementValueAfterCompression: %08x\n",
+         minimalElementValueAfterCompression);
   fflush(stdout);
   initCnt= dhtKeyCount(pyhash);
   runCnt= 0;
@@ -1494,7 +1499,8 @@ static void compresshash (void)
   while (true)
   {
 #if defined(TESTHASH)
-    printf("minimalElementValue: %08x\n", minimalElementValue);
+    printf("minimalElementValueAfterCompression: %08x\n",
+           minimalElementValueAfterCompression);
     printf("RemoveCnt: %ld\n", RemoveCnt);
     fflush(stdout);
     visitCnt= 0;
@@ -1511,7 +1517,7 @@ static void compresshash (void)
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
-      if (value_of_data(he)<=minimalElementValue)
+      if (value_of_data(he)<minimalElementValueAfterCompression)
       {
 #if defined(TESTHASH)
         RemoveCnt++;
@@ -1558,7 +1564,7 @@ static void compresshash (void)
     if (dhtKeyCount(pyhash)<targetKeyCount)
       break;
     else
-      ++minimalElementValue;
+      ++minimalElementValueAfterCompression;
   }
 #if defined(TESTHASH)
   printf("%ld;", dhtKeyCount(pyhash));
@@ -2547,7 +2553,7 @@ void inithash(void)
   OldBreak= sbrk(0);
 #endif /*__unix,TESTHASH*/
 
-  minimalElementValue = 0;
+  minimalElementValueAfterCompression = 2;
 
   is_there_slice_with_nonstandard_min_length = false;
 
