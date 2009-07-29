@@ -1,5 +1,6 @@
 #include "pyreflxg.h"
 #include "pyhelp.h"
+#include "pynot.h"
 #include "trace.h"
 
 #include <assert.h>
