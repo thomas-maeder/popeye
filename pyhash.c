@@ -115,6 +115,14 @@ static unsigned int bytes_per_piece;
 
 static boolean is_there_slice_with_nonstandard_min_length;
 
+/* Minimal value of a hash table element.
+ * Compresshash will remove all elements with a value up to and * *
+ * including minimalElementValue, and increase minimalElementValue if
+ * * necessary.
+ */
+static hash_value_type minimalElementValue;
+
+
 HashBuffer hashBuffers[maxply+1];
 
 boolean isHashBufferValid[maxply+1];
@@ -1453,126 +1461,110 @@ static hash_value_type value_of_data(dhtElement const *he)
   return result;
 }
 
+#if defined(TESTHASH)
 static unsigned long totalRemoveCount = 0;
+#endif
 
 static void compresshash (void)
 {
   dhtElement *he;
-  hash_value_type x;
-  unsigned long RemoveCnt, ToDelete;
+  unsigned long targetKeyCount;
 #if defined(TESTHASH)
-  unsigned long initCnt, visitCnt, runCnt;
+  unsigned long RemoveCnt = 0;
+  unsigned long initCnt;
+  unsigned long visitCnt;
+  unsigned long runCnt;
 #endif
 
-  he= dhtGetFirstElement(pyhash);
-  if (he!=0)
+  targetKeyCount = dhtKeyCount(pyhash);
+  targetKeyCount -= targetKeyCount/16;
+
+#if defined(TESTHASH)
+  printf("\nminimalElementValue: %08x\n", minimalElementValue);
+  fflush(stdout);
+  initCnt= dhtKeyCount(pyhash);
+  runCnt= 0;
+#endif  /* TESTHASH */
+
+  while (true)
   {
-    hash_value_type min_val = value_of_data(he);
-    he = dhtGetNextElement(pyhash);
-    while (he)
-    {
-      x = value_of_data(he);
-      if (x<min_val)
-      {
-        min_val = x;
-        if (x==0)
-          break;
-      }
-      he= dhtGetNextElement(pyhash);
-    }
-
-    RemoveCnt= 0;
-    ToDelete= dhtKeyCount(pyhash)/16 + 1;
-    if (ToDelete >= dhtKeyCount(pyhash))
-      ToDelete= dhtKeyCount(pyhash);
-    /* this is a pathological case: it may only occur, when we are so
-     * low on memory, that only one or no position can be stored.
-     */
-
 #if defined(TESTHASH)
-    printf("\nmin_val: %08x\n", min_val);
-    printf("ToDelete: %ld\n", ToDelete);
+    printf("minimalElementValue: %08x\n", minimalElementValue);
+    printf("RemoveCnt: %ld\n", RemoveCnt);
     fflush(stdout);
-    initCnt= dhtKeyCount(pyhash);
-    runCnt= 0;
+    visitCnt= 0;
 #endif  /* TESTHASH */
 
-    while (RemoveCnt < ToDelete)
-    {
-      ++min_val;
-
-#if defined(TESTHASH)
-      printf("min_val: %08x\n", min_val);
-      printf("RemoveCnt: %ld\n", RemoveCnt);
-      fflush(stdout);
-      visitCnt= 0;
-#endif  /* TESTHASH */
-
-      for (he = dhtGetFirstElement(pyhash);
-           he!=0;
-           he= dhtGetNextElement(pyhash))
-        if (value_of_data(he)<min_val)
-        {
-          RemoveCnt++;
-          totalRemoveCount++;
-          dhtRemoveElement(pyhash, he->Key);
-#if defined(TESTHASH)
-          if (RemoveCnt + dhtKeyCount(pyhash) != initCnt)
-          {
-            fprintf(stdout,
-                    "dhtRemove failed on %ld-th element of run %ld. "
-                    "This was the %ld-th call to dhtRemoveElement.\n"
-                    "RemoveCnt=%ld, dhtKeyCount=%ld, initCnt=%ld\n",
-                    visitCnt, runCnt, totalRemoveCount,
-                    RemoveCnt, dhtKeyCount(pyhash), initCnt);
-            exit(1);
-          }
-#endif  /* TESTHASH */
-        }
-#if defined(TESTHASH)
-      visitCnt++;
-#endif  /* TESTHASH */
-#if defined(TESTHASH)
-      runCnt++;
-      printf("run=%ld, RemoveCnt: %ld, missed: %ld\n",
-             runCnt, RemoveCnt, initCnt-visitCnt);
+    for (he = dhtGetFirstElement(pyhash);
+         he!=0;
+         he = dhtGetNextElement(pyhash))
+      if (value_of_data(he)<=minimalElementValue)
       {
-        int l, counter[16];
-        int KeyCount=dhtKeyCount(pyhash);
-        dhtBucketStat(pyhash, counter, 16);
-        for (l=0; l< 16-1; l++)
-          fprintf(stdout, "%d %d %d\n", KeyCount, l+1, counter[l]);
-        printf("%d %d %d\n\n", KeyCount, l+1, counter[l]);
-        if (runCnt > 9)
-          printf("runCnt > 9 after %ld-th call to  dhtRemoveElement\n",
-                 totalRemoveCount);
-        dhtDebug= runCnt == 9;
+#if defined(TESTHASH)
+        RemoveCnt++;
+        totalRemoveCount++;
+#endif  /* TESTHASH */
+        dhtRemoveElement(pyhash, he->Key);
+#if defined(TESTHASH)
+        if (RemoveCnt + dhtKeyCount(pyhash) != initCnt)
+        {
+          fprintf(stdout,
+                  "dhtRemove failed on %ld-th element of run %ld. "
+                  "This was the %ld-th call to dhtRemoveElement.\n"
+                  "RemoveCnt=%ld, dhtKeyCount=%ld, initCnt=%ld\n",
+                  visitCnt, runCnt, totalRemoveCount,
+                  RemoveCnt, dhtKeyCount(pyhash), initCnt);
+          exit(1);
+        }
+#endif  /* TESTHASH */
       }
-      fflush(stdout);
+#if defined(TESTHASH)
+    visitCnt++;
+#endif  /* TESTHASH */
+#if defined(TESTHASH)
+    runCnt++;
+    printf("run=%ld, RemoveCnt: %ld, missed: %ld\n",
+           runCnt, RemoveCnt, initCnt-visitCnt);
+    {
+      int l, counter[16];
+      int KeyCount=dhtKeyCount(pyhash);
+      dhtBucketStat(pyhash, counter, 16);
+      for (l=0; l< 16-1; l++)
+        fprintf(stdout, "%d %d %d\n", KeyCount, l+1, counter[l]);
+      printf("%d %d %d\n\n", KeyCount, l+1, counter[l]);
+      if (runCnt > 9)
+        printf("runCnt > 9 after %ld-th call to  dhtRemoveElement\n",
+               totalRemoveCount);
+      dhtDebug= runCnt == 9;
+    }
+    fflush(stdout);
 #endif  /* TESTHASH */
 
-    }
+    if (dhtKeyCount(pyhash)<targetKeyCount)
+      break;
+    else
+      ++minimalElementValue;
+  }
 #if defined(TESTHASH)
-    printf("%ld;", dhtKeyCount(pyhash));
+  printf("%ld;", dhtKeyCount(pyhash));
 #if defined(HASHRATE)
-    printf(" usage: %ld", use_pos);
-    printf(" / %ld", use_all);
-    printf(" = %ld%%", (100 * use_pos) / use_all);
+  printf(" usage: %ld", use_pos);
+  printf(" / %ld", use_all);
+  printf(" = %ld%%", (100 * use_pos) / use_all);
 #endif
 #if defined(FREEMAP) && defined(FXF)
-    PrintFreeMap(stdout);
+  PrintFreeMap(stdout);
 #endif /*FREEMAP*/
 #if defined(__TURBOC__)
-    gotoxy(1, wherey());
+  gotoxy(1, wherey());
 #else
-    printf("\n");
+  printf("\n");
 #endif /*__TURBOC__*/
 #if defined(FXF)
-    printf("\n after compression:\n");
-    fxfInfo(stdout);
+  printf("\n after compression:\n");
+  fxfInfo(stdout);
 #endif /*FXF*/
 #endif /*TESTHASH*/
-  }
 } /* compresshash */
 
 #if defined(HASHRATE)
@@ -2536,6 +2528,8 @@ void inithash(void)
 #if defined(__unix) && defined(TESTHASH)
   OldBreak= sbrk(0);
 #endif /*__unix,TESTHASH*/
+
+  minimalElementValue = 0;
 
   is_there_slice_with_nonstandard_min_length = false;
 
