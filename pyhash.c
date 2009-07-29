@@ -115,8 +115,6 @@ static unsigned int bytes_per_piece;
 
 static boolean is_there_slice_with_nonstandard_min_length;
 
-unsigned long int compression_counter;
-
 HashBuffer hashBuffers[maxply+1];
 
 boolean isHashBufferValid[maxply+1];
@@ -1466,7 +1464,6 @@ static void compresshash (void)
   unsigned long initCnt, visitCnt, runCnt;
 #endif
 
-  ++compression_counter;
   he= dhtGetFirstElement(pyhash);
   if (he!=0)
   {
@@ -2541,8 +2538,6 @@ void inithash(void)
 #endif /*__unix,TESTHASH*/
 
   is_there_slice_with_nonstandard_min_length = false;
-
-  compression_counter = 0;
 
   init_slice_properties();
   template_element.Data = 0;

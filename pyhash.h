@@ -78,6 +78,4 @@ void addtohash(slice_index si,
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
 
-extern unsigned long int compression_counter;
-
 #endif
