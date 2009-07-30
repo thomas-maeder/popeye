@@ -9,7 +9,6 @@
  * of an existing slice.
  * @param si identifies slice to be superseded by a STReflexGuard slice
  * @param to_be_avoided prototype of slice that must be solvable
- * @return index of allocated slice
  */
 void insert_reflex_guard_slice(slice_index si, slice_index to_be_avoided)
 {
