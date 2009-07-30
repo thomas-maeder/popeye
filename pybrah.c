@@ -70,28 +70,6 @@ boolean branch_h_impose_starter(slice_index si, slice_traversal *st)
   return result;
 }
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean branch_h_must_starter_resign(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = help_must_starter_resign(slices[si].u.pipe.next);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index
@@ -500,6 +478,32 @@ void help_adapter_write_unsolvability(slice_index si)
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean help_adapter_must_starter_resign(slice_index si)
+{
+  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(slices[fork].type==STBranchFork);
+
+  result = slice_must_starter_resign(to_goal);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine whether a branch slice.has just been solved with the

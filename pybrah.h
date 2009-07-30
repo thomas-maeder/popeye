@@ -52,14 +52,6 @@ slice_index alloc_branch_h_slice(stip_length_type length,
  */
 boolean branch_h_impose_starter(slice_index si, slice_traversal *st);
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean branch_h_must_starter_resign(slice_index si);
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index
@@ -203,6 +195,14 @@ void help_adapter_root_write_key(slice_index si, attack_type type);
  * @param si slice index
  */
 void help_adapter_write_unsolvability(slice_index si);
+
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean help_adapter_must_starter_resign(slice_index si);
 
 /* Determine whether a branch slice.has just been solved with the
  * just played move by the non-starter

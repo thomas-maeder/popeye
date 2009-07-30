@@ -56,12 +56,4 @@ boolean reflex_guard_must_starter_resign_hashed(slice_index si);
  */
 boolean reflex_guard_impose_starter(slice_index si, slice_traversal *st);
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean reflex_guard_must_starter_resign(slice_index si);
-
 #endif

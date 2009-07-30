@@ -33,12 +33,4 @@ void help_solve_continuations_in_n(table continuations,
                                    slice_index si,
                                    stip_length_type n);
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean help_must_starter_resign(slice_index si);
-
 #endif

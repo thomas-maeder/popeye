@@ -75,11 +75,9 @@ boolean slice_must_starter_resign(slice_index si)
       result = branch_d_defender_must_starter_resign(si);
       break;
 
-    case STBranchHelp:
     case STHelpRoot:
     case STHelpAdapter:
-    case STHelpHashed:
-      result = branch_h_must_starter_resign(si);
+      result = help_adapter_must_starter_resign(si);
       break;
 
     case STBranchSeries:
@@ -92,10 +90,6 @@ boolean slice_must_starter_resign(slice_index si)
 
     case STMoveInverter:
       result = move_inverter_must_starter_resign(si);
-      break;
-
-    case STReflexGuard:
-      result = reflex_guard_must_starter_resign(si);
       break;
 
     default:

@@ -133,25 +133,3 @@ boolean reflex_guard_impose_starter(slice_index si, slice_traversal *st)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean reflex_guard_must_starter_resign(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = help_must_starter_resign(slices[si].u.pipe.next);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
