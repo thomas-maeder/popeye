@@ -284,7 +284,8 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpAdapter */
   &slice_property_offset_shifter, /* STHelpHashed */
-  &slice_property_offset_shifter  /* STReflexGuard */
+  &slice_property_offset_shifter, /* STReflexGuard */
+  &slice_property_offset_shifter  /* STKeepMatingGuard */
 };
 
 typedef struct
@@ -731,7 +732,8 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_help_adapter,           /* STHelpRoot */
   &init_slice_properties_help_adapter,           /* STHelpAdapter */
   &init_slice_properties_help_hashed,            /* STHelpHashed */
-  &init_slice_properties_pipe                    /* STReflexGuard */
+  &init_slice_properties_pipe,                   /* STReflexGuard */
+  &init_slice_properties_pipe                    /* STKeepMatingGuard */
 };
 
 /* Callback for traverse_slices() that copies slice_properties from
@@ -780,7 +782,8 @@ static slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children,             /* STHelpRoot */
   &slice_traverse_children,             /* STHelpAdapter */
   &slice_traverse_children,             /* STHelpHashed */
-  &slice_traverse_children              /* STReflexGuard */
+  &slice_traverse_children,             /* STReflexGuard */
+  &slice_traverse_children              /* STKeepMatingGuard */
 };
 
 /* Find out whether a branch has a non-standard length (i.e. is exact)
@@ -880,7 +883,8 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                  /* STHelpRoot */
   &non_standard_length_finder_help_branch,   /* STHelpAdapter */
   &non_standard_length_finder_help_branch,   /* STHelpHashed */
-  &slice_traverse_children                   /* STReflexGuard */
+  &slice_traverse_children,                  /* STReflexGuard */
+  &slice_traverse_children                   /* STKeepMatingGuard */
 };
 
 static boolean findMinimalValueOffset(slice_index si, slice_traversal *st)
@@ -922,7 +926,8 @@ static slice_operation const min_valueOffset_finders[] =
   &findMinimalValueOffset,  /* STHelpRoot */
   &findMinimalValueOffset,  /* STHelpAdapter */
   &findMinimalValueOffset,  /* STHelpHashed */
-  &findMinimalValueOffset   /* STReflexGuard */
+  &findMinimalValueOffset,  /* STReflexGuard */
+  &findMinimalValueOffset   /* STKeepMatingGuard */
 };
 
 static boolean reduceValueOffset(slice_index si, slice_traversal *st)
@@ -963,7 +968,8 @@ static slice_operation const valueOffset_reducers[] =
   &reduceValueOffset,       /* STHelpRoot */
   &reduceValueOffset,       /* STHelpAdapter */
   &reduceValueOffset,       /* STHelpHashed */
-  &reduceValueOffset        /* STReflexGuard */
+  &reduceValueOffset,       /* STReflexGuard */
+  &reduceValueOffset        /* STKeepMatingGuard */
 };
 
 /* Initialise the slice_properties array according to the current
@@ -2372,7 +2378,8 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,  /* STHelpRoot */
   &slice_traverse_children,  /* STHelpAdapter */
   &init_element_help_hashed, /* STHelpHashed */
-  &slice_traverse_children   /* STReflexGuard */
+  &slice_traverse_children,  /* STReflexGuard */
+  &slice_traverse_children   /* STKeepMatingGuard */
 };
 
 /* Initialise the bits representing all slices in a hash table

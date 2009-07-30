@@ -107,6 +107,7 @@
 #include "pybrah.h"
 #include "pyhelpha.h"
 #include "pyquodli.h"
+#include "pykeepmt.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -501,7 +502,8 @@ static slice_operation const slice_type_finders[] =
   &root_slice_type_found,             /* STHelpRoot */
   0,                                  /* STHelpAdapter */
   0,                                  /* STHelpHashed */
-  0                                   /* STReflexGuard */
+  0,                                  /* STReflexGuard */
+  0                                   /* STKeepMatingGuard */
 };
 
 static SliceType findUniqueRootSliceType(void)
@@ -2483,7 +2485,8 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,         /* STHelpRoot */
   &slice_traverse_children,         /* STHelpAdapter */
   &slice_traverse_children,         /* STHelpHashed */
-  &slice_traverse_children          /* STReflexGuard */
+  &slice_traverse_children,         /* STReflexGuard */
+  &slice_traverse_children          /* STKeepMatingGuard */
 };
 
 static void insert_hash_slices(void)
@@ -2499,6 +2502,8 @@ static void insert_hash_slices(void)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+
 
 static boolean initialise_verify_twin(void)
 {
@@ -2688,6 +2693,9 @@ static Token iterate_twins(Token prev_token)
         Message(SetPlayNotApplicable);
 
       insert_hash_slices();
+
+      if (OptFlag[keepmating])
+        stip_insert_keepmating_guards();
     }
 
     if (slices[root_slice].starter==no_side)

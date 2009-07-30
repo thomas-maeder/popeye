@@ -132,8 +132,7 @@ static boolean move_filter(slice_index si,
   TraceFunctionParamListEnd();
   
   result = ((!isIntelligentModeActive || isGoalReachable())
-            && !echecc(nbply,side_at_move)
-            && !slice_must_starter_resign(slices[si].u.pipe.next));
+            && !echecc(nbply,side_at_move));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -698,7 +697,8 @@ static slice_operation const relevant_slice_finders[] =
   0,                                  /* STHelpRoot */
   &find_relevant_slice_found,         /* STHelpAdapter */
   &find_relevant_slice_found,         /* STHelpHashed */
-  &find_relevant_slice_found          /* STReflexGuard */
+  &find_relevant_slice_found,         /* STReflexGuard */
+  &find_relevant_slice_found          /* STKeepMatingGuard */
 };
 
 /* Detect starter field with the starting side if possible. 

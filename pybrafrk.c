@@ -326,7 +326,8 @@ static slice_operation const slice_to_fork_deallocators[] =
   &traverse_and_deallocate,             /* STHelpRoot */
   &traverse_and_deallocate,             /* STHelpAdapter */
   &traverse_and_deallocate,             /* STHelpHashed */
-  0                                     /* STReflexGuard */
+  0,                                    /* STReflexGuard */
+  &traverse_and_deallocate              /* STKeepMatingGuard */
 };
 
 /* Deallocate a branch

@@ -40,6 +40,8 @@ typedef enum
 
   STReflexGuard,  /* stop attempts where wrong side can reach goal */
 
+  STKeepMatingGuard, /* deals with option KeepMatingPiece */
+
   nr_slice_types,
   no_slice_type = nr_slice_types
 } SliceType;
@@ -151,6 +153,13 @@ typedef struct
                     stip_length_type min_length; /* half moves */
                     slice_index fork;
                 } help_adapter;
+
+                struct
+                {
+                    stip_length_type length;     /* half moves */
+                    stip_length_type min_length; /* half moves */
+                    Side mating;
+                } keep_mating_guard;
 
                 struct /* for type==STBranchFork */
                 {

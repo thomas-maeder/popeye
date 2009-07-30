@@ -3,6 +3,7 @@
 #include "pybrafrk.h"
 #include "pyhelpha.h"
 #include "pyreflxg.h"
+#include "pykeepmt.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -40,6 +41,10 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
 
     case STReflexGuard:
       result = reflex_guard_solve_in_n(si,n);
+      break;
+
+    case STKeepMatingGuard:
+      result = keep_mating_guard_solve_in_n(si,n);
       break;
 
     default:
@@ -87,6 +92,10 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
       result = reflex_guard_has_solution_in_n(si,n);
       break;
 
+    case STKeepMatingGuard:
+      result = keep_mating_guard_has_solution_in_n(si,n);
+      break;
+
     default:
       assert(0);
       break;
@@ -130,6 +139,10 @@ void help_solve_continuations_in_n(table continuations,
 
     case STReflexGuard:
       reflex_guard_solve_continuations_in_n(continuations,si,n);
+      break;
+
+    case STKeepMatingGuard:
+      keep_mating_guard_solve_continuations_in_n(continuations,si,n);
       break;
 
     default:

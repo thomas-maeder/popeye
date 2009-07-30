@@ -1381,3 +1381,33 @@ solution finished.
 solution finished. 
 
 
+
+1.b6*a5 Kb2-a2[+wPb2]   2.b7-b5 b2-b3 # should not be found
+  because of option KeepMatingPiece
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .   .   .   7
+|                                   |
+6   .  -P   .   .   .   .   .   .   6
+|                                   |
+5   P   .   .   .   .   .   .   .   5
+|                                   |
+4  -K  -P   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   K   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 4
+             Sentinelles
+
+
+solution finished. 
+
+

@@ -352,4 +352,14 @@ title (not 2.Kc2 because of 3.Q*a5#)
 pieces white kd1 pd2 qa8 black ka3 pa5e4
 stipulation hr#2.5
 
+next
+
+title 1.b6*a5 Kb2-a2[+wPb2]   2.b7-b5 b2-b3 # should not be found
+title because of option KeepMatingPiece
+pieces white kb2 pa5
+       black ka4 pb4b6b7
+stip h#2
+condition sentinelles
+option keep
+
 end

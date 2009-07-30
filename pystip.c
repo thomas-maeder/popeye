@@ -14,6 +14,7 @@
 #include "pyhelpha.h"
 #include "pyreflxg.h"
 #include "pymovein.h"
+#include "pykeepmt.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -340,7 +341,8 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STHelpRoot */
   &get_max_nr_moves_other,           /* STHelpAdapter */
   &get_max_nr_moves_other,           /* STHelpHashed */
-  &get_max_nr_moves_other            /* STReflexGuard */
+  &get_max_nr_moves_other,           /* STReflexGuard */
+  &get_max_nr_moves_other            /* STKeepMatingGuard */
 };
 
 /* Determine the maximally possible number of half-moves until the
@@ -416,7 +418,8 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
-  &slice_traverse_children  /* STReflexGuard */
+  &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children  /* STKeepMatingGuard */
 };
 
 /* Determine whether the current stipulation has a unique goal, and
@@ -518,7 +521,8 @@ static slice_operation const to_quodlibet_transformers[] =
   0,                                    /* STHelpRoot */
   &transform_to_quodlibet_help_adapter, /* STHelpAdapter */
   0,                                    /* STHelpHashed */
-  0                                     /* STReflexGuard */
+  0,                                    /* STReflexGuard */
+  0                                     /* STKeepMatingGuard */
 };
 
 /* Transform a stipulation tree to "traditional quodlibet form",
@@ -602,7 +606,8 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
-  &slice_traverse_children  /* STReflexGuard */
+  &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children  /* STKeepMatingGuard */
 };
 
 /* Do all leaves of the current stipulation have one of a set of goals?
@@ -666,7 +671,8 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STHelpRoot */
   &slice_traverse_children,   /* STHelpAdapter */
   &slice_traverse_children,   /* STHelpHashed */
-  &slice_traverse_children    /* STReflexGuard */
+  &slice_traverse_children,   /* STReflexGuard */
+  &slice_traverse_children    /* STKeepMatingGuard */
 };
 
 /* Does >= 1 leaf of the current stipulation have one of a set of goals?
@@ -736,7 +742,8 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,                 /* STHelpRoot */
   &make_exact_branch,                 /* STHelpAdapter */
   0,                                  /* STHelpHashed */
-  &make_exact_branch                  /* STReflexGuard */
+  &make_exact_branch,                 /* STReflexGuard */
+  &make_exact_branch                  /* STKeepMatingGuard */
 };
 
 /* Make the stipulation exact
@@ -772,8 +779,9 @@ static slice_operation const starter_imposers[] =
   &move_inverter_impose_starter,     /* STMoveInverter */
   &help_root_impose_starter,         /* STHelpRoot */
   &help_adapter_impose_starter,      /* STHelpAdapter */
-  &help_hashed_impose_starter,      /* STHelpHashed */
-  &reflex_guard_impose_starter       /* STReflexGuard */
+  &help_hashed_impose_starter,       /* STHelpHashed */
+  &reflex_guard_impose_starter,      /* STReflexGuard */
+  &keep_mating_guard_impose_starter  /* STKeepMatingGuard */
 };
 
 /* Set the starting side of the stipulation
@@ -1003,7 +1011,8 @@ static slice_operation const traversers[] =
   &traverse_pipe,                   /* STHelpRoot */
   &traverse_pipe,                   /* STHelpAdapter */
   &traverse_pipe,                   /* STHelpHashed */
-  &traverse_reflex_guard            /* STReflexGuard */
+  &traverse_reflex_guard,           /* STReflexGuard */
+  &traverse_pipe                    /* STKeepMatingGuard */
 };
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree
