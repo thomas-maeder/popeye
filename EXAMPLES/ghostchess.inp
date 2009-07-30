@@ -25,7 +25,7 @@ twin move d5 f4
 nextproblem 
 
 author Vlaicu Crisan & Laurent Riguet
-origin Jubil\'e Feenschach-50, feenschach 1999, 3° Recommand\'e
+origin Jubil\'e Feenschach-50, feenschach 1999, 3\`eme Recommand\'e
 pieces white Kh3 Rd3 Be6
        black Ke4
        neutral Sa6
@@ -35,7 +35,7 @@ condition ghostchess
 nextproblem 
 
 author \'Eric Huber & Vlaicu Crisan
-origin 2° T.T. Quartz 1998-99, 1° Mention d'Honneur
+origin 2\`eme T.T. Quartz 1998-99, 1\`ere Mention d'Honneur
 pieces white Rh5 Bf1
        black Ke4 Sg3 Pd4
 stipulation h#2
@@ -45,7 +45,7 @@ option nowk
 nextproblem 
 
 author Rom\'eo B\'edoni
-origin 2° T.T. Quartz 1998-99, Recommand\'e
+origin 2\`eme T.T. Quartz 1998-99, Recommand\'e
 pieces white Re6 Be4
        black Kc8 Sc7
 stipulation h#2
@@ -56,7 +56,7 @@ twin move c7 d7
 nextproblem 
 
 author Rom\'eo B\'edoni
-origin 2° T.T. Quartz 1998-99, Recommand\'e
+origin 2\`eme T.T. Quartz 1998-99, Recommand\'e
 pieces white Rg7 Pf5
        black Ke8 Bf8f7 Pd7
 stipulation h#2
@@ -67,7 +67,7 @@ twin move f5 h7
 nextproblem 
 
 author Juraj L\"orinc
-origin 2° T.T. Quartz 1998-99 (v), 1° Prix
+origin 2\`eme T.T. Quartz 1998-99 (v), 1er Prix
 pieces white Qa6 Rf8 Bh4 Pg4 white royal Sb4
        black Kg6 Ra8 Se5 Pg7c6d5d3e3c2
 stipulation ser-s#6
@@ -77,7 +77,7 @@ twin remove g7
 nextproblem 
 
 author Vlaicu Crisan
-origin 2° T.T. Quartz 1998-99, Recommand\'e
+origin 2\`eme T.T. Quartz 1998-99, Recommand\'e
 pieces white Qb3 Pg2
        black Ke4 Rh3 Bf7
 stipulation h#2
@@ -87,7 +87,7 @@ option nowk
 nextproblem 
 
 author Vlaicu Crisan
-origin 2° T.T. Quartz 1998-99, Recommand\'e
+origin 2\`eme T.T. Quartz 1998-99, Recommand\'e
 pieces white Ka7 Rc1 Bh1 Se4c3
        black Kc6 Qe1 Pd4
 stipulation h#2
@@ -144,7 +144,7 @@ option try vari
 nextproblem 
 
 author Vlaicu Crisan & Christian Poisson
-origin Problemesis 2002, 2° Mention d'Honneur
+origin Problemesis 2002, 2\`eme Mention d'Honneur
 pieces white Kg2
        black Ke7 Bc7 Pd7
        neutral Pa7g7
@@ -198,7 +198,7 @@ nextproblem
 
 author Jacques Rotenberg & Christian Poisson
 author d\'edi\'e \`a V. Crisan
-origin Problemesis 2003, 2° Prix
+origin Problemesis 2003, 2\`eme Prix
 pieces white Kg8 Sb7 Pd6
        black Kd7 Se8
        neutral Re1 Pf7f2
@@ -219,7 +219,7 @@ twin move c1 d2
 nextproblem 
 
 author Vlaicu Crisan & \'Eric Huber
-origin 17° T.T. Chess Composition Microweb 2005, 3° Mention d'Honneur
+origin 17\`eme T.T. Chess Composition Microweb 2005, 3\`eme Mention d'Honneur
 pieces white Kc8
        black Kd5 Lf1 Dua5
        neutral Rh3 Bc1
