@@ -181,31 +181,26 @@ static boolean keepmating_guards_inserter_reciprocal(slice_index si,
   return result;
 }
 
-static void insert_keepmating_guards_help(slice_index help_adapter, Side side)
+static boolean keepmating_guards_inserter_branch_fork(slice_index si,
+                                                      slice_traversal *st)
 {
-  slice_index const anchor = slices[help_adapter].u.pipe.next;
-  slice_index curr = anchor;
+  boolean const result = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",help_adapter);
-  TraceFunctionParam("%u",side);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_insert_after(help_adapter);
-  init_keepmating_guard_slice(slices[help_adapter].u.pipe.next,side);
-
-  do
-  {
-    if (slices[curr].type==STBranchHelp)
-    {
-      pipe_insert_after(curr);
-      init_keepmating_guard_slice(slices[curr].u.pipe.next,side);
-    }
-    curr = slices[curr].u.pipe.next;
-  } while (curr!=no_slice && curr!=anchor);
+  /* we can't rely on the (arbitrary) order slice_traverse_children()
+   * would use; instead make sure that we first traverse towards the
+   * goal(s).
+   */
+  traverse_slices(slices[si].u.pipe.u.branch_fork.towards_goal,st);
+  traverse_slices(slices[si].u.pipe.next,st);
   
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean keepmating_guards_inserter_help(slice_index si,
@@ -213,18 +208,24 @@ static boolean keepmating_guards_inserter_help(slice_index si,
 {
   boolean const result = true;
   keepmating_type const * const km = st->param;
-  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
+  slice_traverse_children(si,st);
 
   if ((*km)[White])
-    insert_keepmating_guards_help(si,White);
+  {
+    pipe_insert_after(si);
+    init_keepmating_guard_slice(slices[si].u.pipe.next,White);
+  }
+
   if ((*km)[Black])
-    insert_keepmating_guards_help(si,Black);
+  {
+    pipe_insert_after(si);
+    init_keepmating_guard_slice(slices[si].u.pipe.next,Black);
+  }
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -234,26 +235,26 @@ static boolean keepmating_guards_inserter_help(slice_index si,
 
 static slice_operation const keepmating_guards_inserters[] =
 {
-  &slice_traverse_children,               /* STBranchDirect */
-  &slice_traverse_children,               /* STBranchDirectDefender */
-  0,                                      /* STBranchHelp */
-  &slice_traverse_children,               /* STBranchSeries */
-  0,                                      /* STBranchFork */
-  &keepmating_guards_inserter_leaf,       /* STLeafDirect */
-  &keepmating_guards_inserter_leaf,       /* STLeafHelp */
-  &slice_traverse_children,               /* STLeafSelf */
-  &keepmating_guards_inserter_leaf,       /* STLeafForced */
-  &keepmating_guards_inserter_reciprocal, /* STReciprocal */
-  &keepmating_guards_inserter_quodlibet,  /* STQuodlibet */
-  &slice_traverse_children,               /* STNot */
-  &slice_traverse_children,               /* STMoveInverter */
-  &keepmating_guards_inserter_help,       /* STHelpRoot */
-  &keepmating_guards_inserter_help,       /* STHelpAdapter */
-  0,                                      /* STHelpHashed */
-  0,                                      /* STSelfCheckGuard */
-  0,                                      /* STReflexGuard */
-  0,                                      /* STGoalReachableGuard */
-  0                                       /* STKeepMatingGuard */
+  &slice_traverse_children,                /* STBranchDirect */
+  &slice_traverse_children,                /* STBranchDirectDefender */
+  &keepmating_guards_inserter_help,        /* STBranchHelp */
+  &slice_traverse_children,                /* STBranchSeries */
+  &keepmating_guards_inserter_branch_fork, /* STBranchFork */
+  &keepmating_guards_inserter_leaf,        /* STLeafDirect */
+  &keepmating_guards_inserter_leaf,        /* STLeafHelp */
+  &slice_traverse_children,                /* STLeafSelf */
+  &keepmating_guards_inserter_leaf,        /* STLeafForced */
+  &keepmating_guards_inserter_reciprocal,  /* STReciprocal */
+  &keepmating_guards_inserter_quodlibet,   /* STQuodlibet */
+  &slice_traverse_children,                /* STNot */
+  &slice_traverse_children,                /* STMoveInverter */
+  &keepmating_guards_inserter_help,        /* STHelpRoot */
+  &slice_traverse_children,                /* STHelpAdapter */
+  &slice_traverse_children,                /* STHelpHashed */
+  &slice_traverse_children,                /* STSelfCheckGuard */
+  0,                                       /* STReflexGuard */
+  0,                                       /* STGoalReachableGuard */
+  0                                        /* STKeepMatingGuard */
 };
 
 /* Instrument stipulation with STKeepMatingGuard slices
