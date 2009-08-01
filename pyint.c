@@ -2922,52 +2922,24 @@ void goalreachable_guard_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
-typedef boolean next_is_intellgent_type[max_nr_slices];
-
-static void insert_goalreachable_guards_help(slice_index help_adapter,
-                                             next_is_intellgent_type *next_is_int)
-{
-  slice_index const anchor = slices[help_adapter].u.pipe.next;
-  slice_index curr = anchor;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",help_adapter);
-  TraceFunctionParamListEnd();
-
-  pipe_insert_after(help_adapter);
-  (*next_is_int)[help_adapter] = true;
-  init_goalreachable_guard_slice(slices[help_adapter].u.pipe.next);
-
-  do
-  {
-    if (slices[curr].type==STBranchHelp && !(*next_is_int)[curr])
-    {
-      pipe_insert_after(curr);
-      (*next_is_int)[curr] = true;
-      init_goalreachable_guard_slice(slices[curr].u.pipe.next);
-    }
-    curr = slices[curr].u.pipe.next;
-  } while (curr!=no_slice && curr!=anchor);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
+typedef boolean next_is_guard_type[max_nr_slices];
 
 static boolean goalreachable_guards_inserter_help(slice_index si,
                                                   slice_traversal *st)
 {
   boolean const result = true;
-  next_is_intellgent_type * const next_is_int = st->param;
-  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+  next_is_guard_type * const next_is_int = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!(*next_is_int)[si])
-    insert_goalreachable_guards_help(si,next_is_int);
-  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
-  
+  slice_traverse_children(si,st);
+
+  pipe_insert_after(si);
+  (*next_is_int)[si] = true;
+  init_goalreachable_guard_slice(slices[si].u.pipe.next);
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -2978,9 +2950,9 @@ static slice_operation const goalreachable_guards_inserters[] =
 {
   &slice_traverse_children,            /* STBranchDirect */
   &slice_traverse_children,            /* STBranchDirectDefender */
-  0,                                   /* STBranchHelp */
+  &goalreachable_guards_inserter_help, /* STBranchHelp */
   &slice_traverse_children,            /* STBranchSeries */
-  0,                                   /* STBranchFork */
+  &slice_traverse_children,            /* STBranchFork */
   &slice_operation_noop,               /* STLeafDirect */
   &slice_operation_noop,               /* STLeafHelp */
   &slice_operation_noop,               /* STLeafSelf */
@@ -2991,16 +2963,20 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,            /* STMoveInverter */
   &goalreachable_guards_inserter_help, /* STHelpRoot */
   &goalreachable_guards_inserter_help, /* STHelpAdapter */
-  0,                                   /* STHelpHashed */
-  0,                                   /* STSelfCheckGuard */
+  &slice_traverse_children,            /* STHelpHashed */
+  &slice_traverse_children,            /* STSelfCheckGuard */
   0,                                   /* STReflexGuard */
   0,                                   /* STGoalReachableGuard */
-  0                                    /* STKeepMatingGuard */
+  &slice_traverse_children             /* STKeepMatingGuard */
 };
 
 /* Instrument stipulation with STGoalreachableGuard slices
+ * @param next_is_int address of boolean array; traversal will set the
+ *                    elements to true if the corresponding slice is the
+ *                    predecessor of an inserted STGoalreachableGuard
+ *                    slice
  */
-static void stip_insert_goalreachable_guards(next_is_intellgent_type *next_is_int)
+static void stip_insert_goalreachable_guards(next_is_guard_type *next_is_int)
 {
   slice_traversal st;
 
@@ -3014,16 +2990,20 @@ static void stip_insert_goalreachable_guards(next_is_intellgent_type *next_is_in
   TraceFunctionResultEnd();
 }
 
-static void stip_remove_goalreachable_guards(next_is_intellgent_type next_is_int)
+/* Uninstrument stipulation; inverse operation of
+ * stip_insert_goalreachable_guards()
+ * @param next_is_int array filled by stip_insert_goalreachable_guards()
+ */
+static void stip_remove_goalreachable_guards(next_is_guard_type next_is_int)
 {
   slice_index si;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (si = max_nr_slices; si>0; --si)
-    if (next_is_int[si-1])
-      pipe_remove_after(si-1);
+  for (si = 0; si!=max_nr_slices; ++si)
+    if (next_is_int[si])
+      pipe_remove_after(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3034,7 +3014,7 @@ boolean Intelligent(slice_index si,
                     stip_length_type full_length)
 {
   boolean result;
-  next_is_intellgent_type next_is_intelligent = { false };
+  next_is_guard_type next_is_guard = { false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -3050,7 +3030,7 @@ boolean Intelligent(slice_index si,
 
   InitSols();
 
-  stip_insert_goalreachable_guards(&next_is_intelligent);
+  stip_insert_goalreachable_guards(&next_is_guard);
   TraceStipulation();
 
   if (goal_to_be_reached==goal_atob
@@ -3059,7 +3039,7 @@ boolean Intelligent(slice_index si,
   else
     IntelligentRegularGoals(n);
 
-  stip_remove_goalreachable_guards(next_is_intelligent);
+  stip_remove_goalreachable_guards(next_is_guard);
   TraceStipulation();
 
   result = CleanupSols();
