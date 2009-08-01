@@ -103,7 +103,6 @@ static boolean selfcheck_guards_inserter_help(slice_index si,
                                               slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -111,70 +110,8 @@ static boolean selfcheck_guards_inserter_help(slice_index si,
 
   slice_traverse_children(si,st);
 
-  if (slices[next].type!=STSelfCheckGuard)
-  {
-    pipe_insert_before(next);
-    init_selfcheck_guard_slice(next);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean selfcheck_guards_inserter_help_root(slice_index si,
-                                                   slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index * const fork = &slices[si].u.pipe.u.help_adapter.fork;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-
-  if (slices[si].u.pipe.u.help_adapter.length-slack_length_help<=2)
-  {
-    if (slices[next].type!=STSelfCheckGuard)
-    {
-      pipe_insert_before(next);
-      init_selfcheck_guard_slice(next);
-    }
-  }
-  else
-    assert(slices[next].type==STSelfCheckGuard);
-
-  TraceEnumerator(SliceType,slices[*fork].type," -> ");
-  assert(slices[*fork].type==STSelfCheckGuard);
-
-  *fork = slices[*fork].u.pipe.next;
-  TraceEnumerator(SliceType,slices[*fork].type,"\n");
-  assert(slices[*fork].type==STBranchFork);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean selfcheck_guards_inserter_help_adapter(slice_index si,
-                                                      slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index * const fork = &slices[si].u.pipe.u.help_adapter.fork;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-
-  assert(slices[*fork].type==STSelfCheckGuard);
-  *fork = slices[*fork].u.pipe.next;
-  assert(slices[*fork].type==STBranchFork);
+  pipe_insert_after(si);
+  init_selfcheck_guard_slice(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -184,26 +121,26 @@ static boolean selfcheck_guards_inserter_help_adapter(slice_index si,
 
 static slice_operation const selfcheck_guards_inserters[] =
 {
-  &slice_traverse_children,                /* STBranchDirect */
-  &slice_traverse_children,                /* STBranchDirectDefender */
-  &selfcheck_guards_inserter_help,         /* STBranchHelp */
-  &slice_traverse_children,                /* STBranchSeries */
-  &slice_traverse_children,                /* STBranchFork */
-  &slice_operation_noop,                   /* STLeafDirect */
-  &slice_operation_noop,                   /* STLeafHelp */
-  &slice_traverse_children,                /* STLeafSelf */
-  &slice_operation_noop,                   /* STLeafForced */
-  &slice_traverse_children,                /* STReciprocal */
-  &slice_traverse_children,                /* STQuodlibet */
-  &slice_traverse_children,                /* STNot */
-  &slice_traverse_children,                /* STMoveInverter */
-  &selfcheck_guards_inserter_help_root,    /* STHelpRoot */
-  &selfcheck_guards_inserter_help_adapter, /* STHelpAdapter */
-  &slice_traverse_children,                /* STHelpHashed */
-  &slice_traverse_children,                /* STSelfCheckGuard */
-  &slice_traverse_children,                /* STReflexGuard */
-  &slice_traverse_children,                /* STGoalReachableGuard */
-  0                                        /* STKeepMatingGuard */
+  &slice_traverse_children,        /* STBranchDirect */
+  &slice_traverse_children,        /* STBranchDirectDefender */
+  &selfcheck_guards_inserter_help, /* STBranchHelp */
+  &slice_traverse_children,        /* STBranchSeries */
+  &slice_traverse_children,        /* STBranchFork */
+  &slice_operation_noop,           /* STLeafDirect */
+  &slice_operation_noop,           /* STLeafHelp */
+  &slice_operation_noop,           /* STLeafSelf */
+  &slice_operation_noop,           /* STLeafForced */
+  &slice_traverse_children,        /* STReciprocal */
+  &slice_traverse_children,        /* STQuodlibet */
+  &slice_traverse_children,        /* STNot */
+  &slice_traverse_children,        /* STMoveInverter */
+  &selfcheck_guards_inserter_help, /* STHelpRoot */
+  &slice_traverse_children,        /* STHelpAdapter */
+  &slice_traverse_children,        /* STHelpHashed */
+  0,                               /* STSelfCheckGuard */
+  &slice_traverse_children,        /* STReflexGuard */
+  0,                               /* STGoalReachableGuard */
+  0                                /* STKeepMatingGuard */
 };
 
 /* Instrument stipulation with STSelfCheckGuard slices
