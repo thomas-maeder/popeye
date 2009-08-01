@@ -229,6 +229,15 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
+      case STBranchHelp:
+      case STHelpHashed:
+        fprintf(stdout,"length:%u ",slices[si].u.pipe.u.branch.length);
+        fprintf(stdout,"min_length:%u ",slices[si].u.pipe.u.branch.min_length);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
       case STBranchFork:
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"towards_goal:%u ",
