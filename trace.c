@@ -266,6 +266,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMoveInverter:
       case STSelfCheckGuard:
       case STGoalReachableGuard:
+      case STNot:
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -276,6 +277,16 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                 slices[si].u.pipe.u.keepmating_guard.mating);
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
+      case STReflexGuard:
+        fprintf(stdout,"not_slice:%u ",
+                slices[si].u.pipe.u.reflex_guard.not_slice);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.u.reflex_guard.not_slice,
+                                  done_slices);
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
