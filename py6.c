@@ -2137,7 +2137,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafHelp:
@@ -2206,7 +2206,7 @@ static slice_index apply_whitetoplay(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STHelpRoot:
