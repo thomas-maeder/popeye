@@ -271,6 +271,14 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
+      case STKeepMatingGuard:
+        fprintf(stdout,"mating:%u ",
+                slices[si].u.pipe.u.keepmating_guard.mating);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
       default:
         fprintf(stdout,"\n");
         break;
