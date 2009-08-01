@@ -1094,6 +1094,11 @@ boolean help_root_solve_in_n(slice_index root, stip_length_type n)
 boolean help_root_solve(slice_index root)
 {
   boolean result = false;
+  stip_length_type const
+      full_length = slices[root].u.pipe.u.help_adapter.length;
+  stip_length_type len = (OptFlag[restart]
+                          ? full_length
+                          : slices[root].u.pipe.u.help_adapter.min_length);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -1101,57 +1106,46 @@ boolean help_root_solve(slice_index root)
 
   init_output(root);
 
-  if (echecc(nbply,advers(slices[root].starter)))
-    ErrorMsg(KingCapture);
-  else
+  TraceValue("%u",slices[root].u.pipe.u.help_adapter.min_length);
+  TraceValue("%u\n",slices[root].u.pipe.u.help_adapter.length);
+
+  assert(slices[root].u.pipe.u.help_adapter.min_length>=slack_length_help);
+
+  move_generation_mode = move_generation_not_optimized;
+
+  FlagShortSolsReached = false;
+  solutions = 0;
+
+  while (len<full_length
+         && !(OptFlag[stoponshort] && result))
   {
-    stip_length_type const
-        full_length = slices[root].u.pipe.u.help_adapter.length;
-    stip_length_type len = (OptFlag[restart]
-                            ? full_length
-                            : slices[root].u.pipe.u.help_adapter.min_length);
-
-    TraceValue("%u",slices[root].u.pipe.u.help_adapter.min_length);
-    TraceValue("%u\n",slices[root].u.pipe.u.help_adapter.length);
-
-    assert(slices[root].u.pipe.u.help_adapter.min_length>=slack_length_help);
-
-    move_generation_mode = move_generation_not_optimized;
-
-    FlagShortSolsReached = false;
-    solutions = 0;
-
-    while (len<full_length
-           && !(OptFlag[stoponshort] && result))
+    if (isIntelligentModeActive)
     {
-      if (isIntelligentModeActive)
-      {
-        if (Intelligent(root,len,full_length))
-          result = true;
-      }
-      else
-      {
-        if (solve_short_in_n(root,len))
-          result = true;
-      }
-
-      len += 2;
+      if (Intelligent(root,len,full_length))
+        result = true;
     }
-
-    if (result && OptFlag[stoponshort])
-    {
-      TraceText("aborting because of short solutions\n");
-      FlagShortSolsReached = true;
-    }
-    else if (isIntelligentModeActive)
-      result = Intelligent(root,full_length,full_length);
     else
-      result = solve_full_in_n(root,full_length);
+    {
+      if (solve_short_in_n(root,len))
+        result = true;
+    }
 
-    if (OptFlag[maxsols] && solutions>=maxsolutions)
-      /* signal maximal number of solutions reached to outer world */
-      FlagMaxSolsReached = true;
+    len += 2;
   }
+
+  if (result && OptFlag[stoponshort])
+  {
+    TraceText("aborting because of short solutions\n");
+    FlagShortSolsReached = true;
+  }
+  else if (isIntelligentModeActive)
+    result = Intelligent(root,full_length,full_length);
+  else
+    result = solve_full_in_n(root,full_length);
+
+  if (OptFlag[maxsols] && solutions>=maxsolutions)
+    /* signal maximal number of solutions reached to outer world */
+    FlagMaxSolsReached = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1375,6 +1369,7 @@ slice_index alloc_helpreflex_branch(branch_level level,
                                     slice_index next)
 {
   slice_index result;
+  slice_index branch;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",level);
@@ -1386,18 +1381,18 @@ slice_index alloc_helpreflex_branch(branch_level level,
   assert(level==toplevel_branch);
   assert(level-slack_length_help>1);
 
-  result = alloc_help_branch(level,length,min_length,next);
+  branch = alloc_help_branch(level,length,min_length,next);
 
   if ((length-slack_length_help)%2==0)
   {
-    slice_index const guardpos = branch_find_slice(STBranchHelp,result);
+    slice_index const guardpos = branch_find_slice(STBranchHelp,branch);
     assert(guardpos!=no_slice);
     pipe_insert_before(guardpos);
     init_reflex_guard_slice(guardpos,next);
   }
   else
   {
-    slice_index const fork = branch_find_slice(STBranchFork,result);
+    slice_index const fork = branch_find_slice(STBranchFork,branch);
     slice_index const branch1 = branch_find_slice(STBranchHelp,fork);
     slice_index const guardpos = branch_find_slice(STBranchHelp,branch1);
     assert(fork!=no_slice);
@@ -1406,6 +1401,14 @@ slice_index alloc_helpreflex_branch(branch_level level,
     pipe_insert_before(guardpos);
     init_reflex_guard_slice(guardpos,next);
   }
+
+  if (level==toplevel_branch)
+  {
+    result = alloc_pipe(branch);
+    init_reflex_guard_slice(result,next);
+  }
+  else
+    result = branch;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

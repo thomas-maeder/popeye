@@ -174,12 +174,13 @@ slice_index alloc_leaf_slice(SliceType type, Goal goal)
  */
 slice_index copy_slice(slice_index original)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",original);
   TraceFunctionParamListEnd();
 
+  result = alloc_slice_index();
   slices[result] = slices[original];
 
   TraceFunctionExit(__func__);

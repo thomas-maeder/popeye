@@ -503,7 +503,7 @@ static slice_operation const slice_type_finders[] =
   &root_slice_type_found,             /* STHelpRoot */
   0,                                  /* STHelpAdapter */
   0,                                  /* STHelpHashed */
-  0,                                  /* STSelfCheckGuard */
+  &slice_traverse_children,           /* STSelfCheckGuard */
   0,                                  /* STReflexGuard */
   0,                                  /* STGoalReachableGuard */
   0                                   /* STKeepMatingGuard */

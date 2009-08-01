@@ -32,6 +32,33 @@ void init_reflex_guard_slice(slice_index si, slice_index to_be_avoided)
   TraceFunctionResultEnd();
 }
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean reflex_guard_root_solve(slice_index si)
+{
+  boolean result;
+  slice_index const tobeavoided = slices[si].u.pipe.u.reflex_guard.not_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (not_has_solution(tobeavoided))
+    result = slice_root_solve(slices[si].u.pipe.next);
+  else
+  {
+    result = false;
+    slice_write_unsolvability(tobeavoided);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n number of half moves until end state has to be reached

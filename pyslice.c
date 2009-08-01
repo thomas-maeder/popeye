@@ -17,6 +17,8 @@
 #include "pymovein.h"
 #include "pyhelpha.h"
 #include "pyreflxg.h"
+#include "pyselfcg.h"
+#include "pypipe.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -90,6 +92,10 @@ boolean slice_must_starter_resign(slice_index si)
 
     case STMoveInverter:
       result = move_inverter_must_starter_resign(si);
+      break;
+
+    case STSelfCheckGuard:
+      result = pipe_must_starter_resign(si);
       break;
 
     default:
@@ -466,6 +472,14 @@ boolean slice_root_solve(slice_index si)
       result = move_inverter_root_solve(si);
       break;
 
+    case STReflexGuard:
+      result = reflex_guard_root_solve(si);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_root_solve(si);
+      break;
+
     default:
       assert(0);
       result = false;
@@ -569,6 +583,10 @@ boolean slice_has_solution(slice_index si)
 
     case STBranchSeries:
       /* TODO */
+      break;
+
+    case STSelfCheckGuard:
+      result = pipe_has_solution(si);
       break;
 
     default:
@@ -1076,6 +1094,10 @@ who_decides_on_starter slice_detect_starter(slice_index si,
 
     case STMoveInverter:
       result = move_inverter_detect_starter(si,same_side_as_root);
+      break;
+
+    case STReflexGuard:
+      result = pipe_detect_starter(si,same_side_as_root);
       break;
       
     default:

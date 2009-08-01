@@ -14,6 +14,12 @@
  */
 void init_reflex_guard_slice(slice_index si, slice_index to_be_avoided);
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean reflex_guard_root_solve(slice_index si);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n number of half moves until end state has to be reached

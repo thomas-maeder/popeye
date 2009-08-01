@@ -4,6 +4,7 @@
 #include "pyleaf.h"
 #include "pyproc.h"
 #include "pydata.h"
+#include "pymsg.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -23,6 +24,32 @@ static void init_selfcheck_guard_slice(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean selfcheck_guard_root_solve(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (echecc(nbply,advers(slices[si].starter)))
+  {
+    ErrorMsg(KingCapture);
+    result = false;
+  }
+  else
+    result = slice_root_solve(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Solve in a number of half-moves
@@ -119,28 +146,94 @@ static boolean selfcheck_guards_inserter_help(slice_index si,
   return result;
 }
 
+static boolean selfcheck_guards_inserter_root(slice_index si,
+                                              slice_traversal *st)
+{
+  boolean const result = true;
+  branch_level * const level = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",*level);
+  if (*level==toplevel_branch)
+  {
+    *level = nested_branch;
+    slice_traverse_children(si,st);
+    *level = toplevel_branch;
+
+    pipe_insert_before(si);
+    init_selfcheck_guard_slice(si);
+  }
+  else
+    slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean selfcheck_guards_inserter_help_root(slice_index si,
+                                                   slice_traversal *st)
+{
+  boolean const result = true;
+  branch_level * const level = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",*level);
+  if (*level==toplevel_branch)
+  {
+    *level = nested_branch;
+    slice_traverse_children(si,st);
+    *level = toplevel_branch;
+
+    pipe_insert_after(si);
+    init_selfcheck_guard_slice(slices[si].u.pipe.next);
+
+    pipe_insert_before(si);
+    init_selfcheck_guard_slice(si);
+  }
+  else
+  {
+    slice_traverse_children(si,st);
+
+    pipe_insert_after(si);
+    init_selfcheck_guard_slice(slices[si].u.pipe.next);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static slice_operation const selfcheck_guards_inserters[] =
 {
-  &slice_traverse_children,        /* STBranchDirect */
-  &slice_traverse_children,        /* STBranchDirectDefender */
-  &selfcheck_guards_inserter_help, /* STBranchHelp */
-  &slice_traverse_children,        /* STBranchSeries */
-  &slice_traverse_children,        /* STBranchFork */
-  &slice_operation_noop,           /* STLeafDirect */
-  &slice_operation_noop,           /* STLeafHelp */
-  &slice_operation_noop,           /* STLeafSelf */
-  &slice_operation_noop,           /* STLeafForced */
-  &slice_traverse_children,        /* STReciprocal */
-  &slice_traverse_children,        /* STQuodlibet */
-  &slice_traverse_children,        /* STNot */
-  &slice_traverse_children,        /* STMoveInverter */
-  &selfcheck_guards_inserter_help, /* STHelpRoot */
-  &slice_traverse_children,        /* STHelpAdapter */
-  &slice_traverse_children,        /* STHelpHashed */
-  0,                               /* STSelfCheckGuard */
-  &slice_traverse_children,        /* STReflexGuard */
-  0,                               /* STGoalReachableGuard */
-  0                                /* STKeepMatingGuard */
+  &slice_traverse_children,                /* STBranchDirect */
+  &slice_traverse_children,                /* STBranchDirectDefender */
+  &selfcheck_guards_inserter_help,         /* STBranchHelp */
+  &slice_traverse_children,                /* STBranchSeries */
+  &slice_traverse_children,                /* STBranchFork */
+  &slice_operation_noop,                   /* STLeafDirect */
+  &slice_operation_noop,                   /* STLeafHelp */
+  &slice_operation_noop,                   /* STLeafSelf */
+  &slice_operation_noop,                   /* STLeafForced */
+  &slice_traverse_children,                /* STReciprocal */
+  &slice_traverse_children,                /* STQuodlibet */
+  &slice_traverse_children,                /* STNot */
+  &slice_traverse_children,                /* STMoveInverter */
+  &selfcheck_guards_inserter_help_root,    /* STHelpRoot */
+  &slice_traverse_children,                /* STHelpAdapter */
+  &slice_traverse_children,                /* STHelpHashed */
+  0,                                       /* STSelfCheckGuard */
+  &selfcheck_guards_inserter_root,         /* STReflexGuard */
+  0,                                       /* STGoalReachableGuard */
+  0                                        /* STKeepMatingGuard */
 };
 
 /* Instrument stipulation with STSelfCheckGuard slices
@@ -148,11 +241,12 @@ static slice_operation const selfcheck_guards_inserters[] =
 void stip_insert_selfcheck_guards(void)
 {
   slice_traversal st;
+  branch_level level = toplevel_branch;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&selfcheck_guards_inserters,0);
+  slice_traversal_init(&st,&selfcheck_guards_inserters,&level);
   traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);

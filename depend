@@ -823,7 +823,8 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pylang.h pystip.h pygoal.h pyenum.h pytable.h \
   pydata.h pyproc.h py4.h trace.h pyleaf.h pyleafd.h pyleafs.h pyleaff.h \
   pyleafh.h pybrad.h pybradd.h pybrah.h pybraser.h pybrafrk.h pyquodli.h \
-  pyrecipr.h pynot.h pymovein.h pyhelpha.h pyhelp.h pyreflxg.h
+  pyrecipr.h pynot.h pymovein.h pyhelpha.h pyhelp.h pyreflxg.h pyselfcg.h \
+  pypipe.h
 
 pyslice.h:
 
@@ -890,6 +891,10 @@ pyhelpha.h:
 pyhelp.h:
 
 pyreflxg.h:
+
+pyselfcg.h:
+
+pypipe.h:
 pyhelp$(OBJ_SUFFIX): pyhelp.c pyhelp.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pylang.h pystip.h pygoal.h pyenum.h pytable.h pybrah.h \
   pyslice.h pybrafrk.h pyhelpha.h pyreflxg.h pykeepmt.h pyselfcg.h \
@@ -939,7 +944,8 @@ trace.h:
 
 pynot.h:
 pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h pystip.h pygoal.h boolean.h py.h pyposit.h \
-  pyboard.h pybitmsk.h pypiece.h pylang.h pyenum.h trace.h
+  pyboard.h pybitmsk.h pypiece.h pylang.h pyenum.h pyslice.h pytable.h \
+  trace.h
 
 pypipe.h:
 
@@ -962,6 +968,10 @@ pypiece.h:
 pylang.h:
 
 pyenum.h:
+
+pyslice.h:
+
+pytable.h:
 
 trace.h:
 pybrafrk$(OBJ_SUFFIX): pybrafrk.c pybrafrk.h pyslice.h py.h boolean.h pyposit.h \
@@ -1033,8 +1043,8 @@ pynot.h:
 
 trace.h:
 pykeepmt$(OBJ_SUFFIX): pykeepmt.c pypipe.h pystip.h pygoal.h boolean.h py.h \
-  pyposit.h pyboard.h pybitmsk.h pypiece.h pylang.h pyenum.h pykeepmt.h \
-  pyhelp.h pytable.h pyslice.h pyleaf.h trace.h
+  pyposit.h pyboard.h pybitmsk.h pypiece.h pylang.h pyenum.h pyslice.h \
+  pytable.h pykeepmt.h pyhelp.h pyleaf.h trace.h
 
 pypipe.h:
 
@@ -1057,21 +1067,22 @@ pypiece.h:
 pylang.h:
 
 pyenum.h:
+
+pyslice.h:
+
+pytable.h:
 
 pykeepmt.h:
 
 pyhelp.h:
 
-pytable.h:
-
-pyslice.h:
-
 pyleaf.h:
 
 trace.h:
 pyselfcg$(OBJ_SUFFIX): pyselfcg.c pypipe.h pystip.h pygoal.h boolean.h py.h \
-  pyposit.h pyboard.h pybitmsk.h pypiece.h pylang.h pyenum.h pyselfcg.h \
-  pyhelp.h pytable.h pyslice.h pyleaf.h pyproc.h py4.h pydata.h trace.h
+  pyposit.h pyboard.h pybitmsk.h pypiece.h pylang.h pyenum.h pyslice.h \
+  pytable.h pyselfcg.h pyhelp.h pyleaf.h pyproc.h py4.h pydata.h pymsg.h \
+  trace.h
 
 pypipe.h:
 
@@ -1095,13 +1106,13 @@ pylang.h:
 
 pyenum.h:
 
-pyselfcg.h:
-
-pyhelp.h:
+pyslice.h:
 
 pytable.h:
 
-pyslice.h:
+pyselfcg.h:
+
+pyhelp.h:
 
 pyleaf.h:
 
@@ -1110,6 +1121,8 @@ pyproc.h:
 py4.h:
 
 pydata.h:
+
+pymsg.h:
 
 trace.h:
 pyquodli$(OBJ_SUFFIX): pyquodli.c pyquodli.h py.h boolean.h pyposit.h pyboard.h \

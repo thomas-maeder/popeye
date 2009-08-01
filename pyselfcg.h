@@ -12,6 +12,12 @@
  */
 void stip_insert_selfcheck_guards(void);
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean selfcheck_guard_root_solve(slice_index si);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n number of half moves until end state has to be reached
