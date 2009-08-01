@@ -5,6 +5,7 @@
 #include "pyreflxg.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
+#include "pyint.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -46,6 +47,10 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
 
     case STKeepMatingGuard:
       result = keepmating_guard_solve_in_n(si,n);
+      break;
+
+    case STGoalReachableGuard:
+      result = goalreachable_guard_solve_in_n(si,n);
       break;
 
     case STSelfCheckGuard:
@@ -101,6 +106,10 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
       result = keepmating_guard_has_solution_in_n(si,n);
       break;
 
+    case STGoalReachableGuard:
+      result = goalreachable_guard_has_solution_in_n(si,n);
+      break;
+
     case STSelfCheckGuard:
       result = selfcheck_guard_has_solution_in_n(si,n);
       break;
@@ -152,6 +161,10 @@ void help_solve_continuations_in_n(table continuations,
 
     case STKeepMatingGuard:
       keepmating_guard_solve_continuations_in_n(continuations,si,n);
+      break;
+
+    case STGoalReachableGuard:
+      goalreachable_guard_solve_continuations_in_n(continuations,si,n);
       break;
 
     case STSelfCheckGuard:

@@ -2118,7 +2118,8 @@ static slice_operation const to_toplevel_promoters[] =
   0,                                   /* STHelpHashed */
   0,                                   /* STSelfCheckGuard */
   0,                                   /* STReflexGuard */
-  0,                                   /* STKeepMatingGuard */
+  0,                                   /* STGoalReachableGuard */
+  0                                    /* STKeepMatingGuard */
 };
 
 /* Promote a slice to toplevel that was initialised under the wrong

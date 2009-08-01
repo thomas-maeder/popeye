@@ -223,9 +223,9 @@ pyoutput.h:
 trace.h:
 py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pylang.h py1.h pyproc.h py4.h pygoal.h pydata.h pymsg.h pyhash.h \
-  DHT/dhtbcmem.h pyint.h pyproof.h pymovein.h pyslice.h pystip.h pyenum.h \
-  pytable.h pybrah.h pyhelpha.h pyhelp.h pyquodli.h pykeepmt.h pyselfcg.h \
-  platform/maxmem.h platform/../boolean.h platform/maxtime.h \
+  DHT/dhtbcmem.h pyint.h pytable.h pyproof.h pymovein.h pyslice.h \
+  pystip.h pyenum.h pybrah.h pyhelpha.h pyhelp.h pyquodli.h pykeepmt.h \
+  pyselfcg.h platform/maxmem.h platform/../boolean.h platform/maxtime.h \
   platform/pytime.h platform/priority.h trace.h pyoutput.h
 
 py.h:
@@ -260,6 +260,8 @@ DHT/dhtbcmem.h:
 
 pyint.h:
 
+pytable.h:
+
 pyproof.h:
 
 pymovein.h:
@@ -269,8 +271,6 @@ pyslice.h:
 pystip.h:
 
 pyenum.h:
-
-pytable.h:
 
 pybrah.h:
 
@@ -403,8 +403,8 @@ pylang$(OBJ_SUFFIX): pylang.c pylang.h
 pylang.h:
 pyhash$(OBJ_SUFFIX): pyhash.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pylang.h pyproc.h py4.h pygoal.h pydata.h pymsg.h pyhash.h \
-  DHT/dhtbcmem.h pyint.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pyproof.h \
-  pystip.h pyenum.h pybrafrk.h pyslice.h pytable.h platform/maxtime.h \
+  DHT/dhtbcmem.h pyint.h pytable.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h \
+  pyproof.h pystip.h pyenum.h pybrafrk.h pyslice.h platform/maxtime.h \
   platform/maxmem.h platform/../boolean.h trace.h
 
 py.h:
@@ -437,6 +437,8 @@ DHT/dhtbcmem.h:
 
 pyint.h:
 
+pytable.h:
+
 DHT/dhtvalue.h:
 
 DHT/fxf.h:
@@ -452,8 +454,6 @@ pyenum.h:
 pybrafrk.h:
 
 pyslice.h:
-
-pytable.h:
 
 platform/maxtime.h:
 
@@ -661,8 +661,8 @@ pylang.h:
 pygoal.h:
 pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pylang.h pyproc.h py4.h pygoal.h pyhash.h DHT/dhtbcmem.h pymsg.h \
-  pyint.h pydata.h pyslice.h pystip.h pyenum.h pytable.h pybrah.h \
-  pybrafrk.h pyproof.h pyhelp.h platform/maxtime.h trace.h
+  pyint.h pytable.h pydata.h pyslice.h pystip.h pyenum.h pybrah.h \
+  pybrafrk.h pyproof.h pyhelp.h pypipe.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -692,6 +692,8 @@ pymsg.h:
 
 pyint.h:
 
+pytable.h:
+
 pydata.h:
 
 pyslice.h:
@@ -700,8 +702,6 @@ pystip.h:
 
 pyenum.h:
 
-pytable.h:
-
 pybrah.h:
 
 pybrafrk.h:
@@ -709,6 +709,8 @@ pybrafrk.h:
 pyproof.h:
 
 pyhelp.h:
+
+pypipe.h:
 
 platform/maxtime.h:
 
@@ -750,7 +752,7 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pyposit.h pyboard
   pybitmsk.h pypiece.h pylang.h pyenum.h pydata.h pyproc.h py4.h \
   pyquodli.h pyslice.h pytable.h pybrad.h pybradd.h pybrah.h pybraser.h \
   pyleaf.h pyleafs.h pyrecipr.h pybrafrk.h pynot.h pyhelpha.h pyhelp.h \
-  pyreflxg.h pymovein.h pykeepmt.h pyselfcg.h trace.h
+  pyreflxg.h pymovein.h pykeepmt.h pyselfcg.h pypipe.h trace.h
 
 pystip.h:
 
@@ -813,6 +815,8 @@ pymovein.h:
 pykeepmt.h:
 
 pyselfcg.h:
+
+pypipe.h:
 
 trace.h:
 pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
@@ -889,7 +893,7 @@ pyreflxg.h:
 pyhelp$(OBJ_SUFFIX): pyhelp.c pyhelp.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pylang.h pystip.h pygoal.h pyenum.h pytable.h pybrah.h \
   pyslice.h pybrafrk.h pyhelpha.h pyreflxg.h pykeepmt.h pyselfcg.h \
-  trace.h pynot.h
+  pyint.h trace.h pynot.h
 
 pyhelp.h:
 
@@ -928,6 +932,8 @@ pyreflxg.h:
 pykeepmt.h:
 
 pyselfcg.h:
+
+pyint.h:
 
 trace.h:
 
@@ -1421,7 +1427,7 @@ trace.h:
 platform/maxtime.h:
 pyleaf$(OBJ_SUFFIX): pyleaf.c pyleaf.h boolean.h pystip.h pygoal.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pylang.h pyenum.h trace.h pydata.h \
-  pyproc.h py4.h platform/maxtime.h pyint.h pyoutput.h pytable.h
+  pyproc.h py4.h platform/maxtime.h pyint.h pytable.h pyoutput.h
 
 pyleaf.h:
 
@@ -1457,9 +1463,9 @@ platform/maxtime.h:
 
 pyint.h:
 
-pyoutput.h:
-
 pytable.h:
+
+pyoutput.h:
 pyleafd$(OBJ_SUFFIX): pyleafd.c pyleafd.h boolean.h pyslice.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pylang.h pystip.h pygoal.h pyenum.h \
   pytable.h trace.h pydata.h pyproc.h py4.h platform/maxtime.h pyoutput.h \

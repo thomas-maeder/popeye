@@ -16,6 +16,7 @@
 #include "pymovein.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
+#include "pypipe.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -48,6 +49,7 @@
                                                                         \
     ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
                                                                         \
+    ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
                                                                         \
     ENUMERATOR(nr_slice_types),                                         \
@@ -62,15 +64,33 @@ Slice slices[max_nr_slices];
 
 slice_index root_slice;
 
-static slice_index next_slice;
+static slice_index free_indices[max_nr_slices];
+
+static slice_index first_free_index;
+
+/* Initialize the slice allocation machinery. To be called once at
+ * program start
+ */
+void init_slice_index_allocator(void)
+{
+  release_slices();
+}
 
 /* Allocate a slice index
  * @return a so far unused slice index
  */
 slice_index alloc_slice_index(void)
 {
-  assert(next_slice<max_nr_slices);
-  return next_slice++;
+  slice_index const result = free_indices[first_free_index++];
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(first_free_index<=max_nr_slices);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Dellocate a slice index
@@ -82,14 +102,11 @@ void dealloc_slice_index(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* TODO reuse all deallocated slice indices, not just the last
-   * allocated one */
-
   if (slices[si].type==STBranchDirect)
     dealloc_slice_index(slices[si].u.pipe.next);
 
-  if (next_slice==si+1)
-    --next_slice;
+  assert(first_free_index>0);
+  free_indices[--first_free_index] = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -175,7 +192,11 @@ slice_index copy_slice(slice_index original)
  */
 void release_slices(void)
 {
-  next_slice = 0;
+  slice_index si;
+  for (si = 0; si!=max_nr_slices; ++si)
+    free_indices[si] = si;
+
+  first_free_index = 0;
 }
 
 /* Set the min_length field of a slice.
@@ -381,6 +402,7 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STHelpHashed */
   &get_max_nr_moves_other,           /* STSelfCheckGuard */
   &get_max_nr_moves_other,           /* STReflexGuard */
+  &get_max_nr_moves_other,           /* STGoalReachableGuard */
   &get_max_nr_moves_other            /* STKeepMatingGuard */
 };
 
@@ -459,6 +481,7 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STHelpHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children  /* STKeepMatingGuard */
 };
 
@@ -563,6 +586,7 @@ static slice_operation const to_quodlibet_transformers[] =
   0,                                    /* STHelpHashed */
   0,                                    /* STSelfCheckGuard */
   0,                                    /* STReflexGuard */
+  0,                                    /* STGoalReachableGuard */
   0                                     /* STKeepMatingGuard */
 };
 
@@ -649,6 +673,7 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STHelpHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children  /* STKeepMatingGuard */
 };
 
@@ -715,6 +740,7 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STHelpHashed */
   &slice_traverse_children,   /* STSelfCheckGuard */
   &slice_traverse_children,   /* STReflexGuard */
+  &slice_traverse_children,   /* STGoalReachableGuard */
   &slice_traverse_children    /* STKeepMatingGuard */
 };
 
@@ -787,6 +813,7 @@ static slice_operation const exact_makers[] =
   0,                                  /* STHelpHashed */
   &make_exact_branch,                 /* STSelfCheckGuard */
   &make_exact_branch,                 /* STReflexGuard */
+  &slice_traverse_children,           /* STGoalReachableGuard */
   &make_exact_branch                  /* STKeepMatingGuard */
 };
 
@@ -819,14 +846,15 @@ static slice_operation const starter_imposers[] =
   &leaf_impose_starter,              /* STLeafForced */
   &reci_impose_starter,              /* STReciprocal */
   &quodlibet_impose_starter,         /* STQuodlibet */
-  &not_impose_starter,               /* STNot */
+  &pipe_impose_starter,              /* STNot */
   &move_inverter_impose_starter,     /* STMoveInverter */
   &help_root_impose_starter,         /* STHelpRoot */
-  &help_adapter_impose_starter,      /* STHelpAdapter */
-  &help_hashed_impose_starter,       /* STHelpHashed */
-  &selfcheck_guard_impose_starter,   /* STSelfCheckGuard */
-  &reflex_guard_impose_starter,      /* STReflexGuard */
-  &keepmating_guard_impose_starter  /* STKeepMatingGuard */
+  &pipe_impose_starter,              /* STHelpAdapter */
+  &pipe_impose_starter,              /* STHelpHashed */
+  &pipe_impose_starter,              /* STSelfCheckGuard */
+  &pipe_impose_starter,              /* STReflexGuard */
+  &pipe_impose_starter,              /* STGoalReachableGuard */
+  &pipe_impose_starter               /* STKeepMatingGuard */
 };
 
 /* Set the starting side of the stipulation
@@ -1070,6 +1098,7 @@ static slice_operation const traversers[] =
   &traverse_pipe,                   /* STHelpHashed */
   &traverse_pipe,                   /* STSelfCheckGuard */
   &traverse_reflex_guard,           /* STReflexGuard */
+  &traverse_pipe,                   /* STGoalReachableGuard */
   &traverse_pipe                    /* STKeepMatingGuard */
 };
 

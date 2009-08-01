@@ -505,6 +505,7 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STHelpHashed */
   0,                                  /* STSelfCheckGuard */
   0,                                  /* STReflexGuard */
+  0,                                  /* STGoalReachableGuard */
   0                                   /* STKeepMatingGuard */
 };
 
@@ -2489,6 +2490,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,         /* STHelpHashed */
   &slice_traverse_children,         /* STSelfCheckGuard */
   &slice_traverse_children,         /* STReflexGuard */
+  &slice_traverse_children,         /* STGoalReachableGuard */
   &slice_traverse_children          /* STKeepMatingGuard */
 };
 
@@ -2795,6 +2797,8 @@ int main(int argc, char *argv[])
   checkGlobalAssumptions();
 
   set_nice_priority();
+
+  init_slice_index_allocator();
 
   sprintf(versionString,
           "Popeye %s-%uBit v%.2f",

@@ -42,6 +42,7 @@
                                                                         \
     ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
                                                                         \
+    ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
                                                                         \
     ENUMERATOR(nr_slice_types),                                         \
@@ -232,6 +233,11 @@ typedef enum
   attack_regular
 } attack_type;
 
+
+/* Initialize the slice allocation machinery. To be called once at
+ * program start
+ */
+void init_slice_index_allocator(void);
 
 /* Allocate a slice index
  * @return a so far unused slice index

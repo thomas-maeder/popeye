@@ -91,32 +91,6 @@ boolean branch_h_is_goal_reached(Side just_moved, slice_index si)
   return result;
 }
 
-/* Is the move just played playable in a help play solution?
- * @param si slice index
- * @param n number of half moves (including the move just played)
- * @param side_at_move side that has just played
- * @return true iff the move just played is playable
- */
-static boolean move_filter(slice_index si,
-                           stip_length_type n,
-                           Side side_at_move)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",side_at_move);
-  TraceFunctionParamListEnd();
-  
-  result = !isIntelligentModeActive || isGoalReachable();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
@@ -145,7 +119,6 @@ boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && move_filter(si,n,side_at_move)
         && help_solve_in_n(slices[si].u.pipe.next,n-1))
       result = true;
 
@@ -201,7 +174,6 @@ void branch_h_solve_continuations_in_n(table continuations,
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && move_filter(si,n,side_at_move)
         && help_solve_in_n(slices[si].u.pipe.next,n-1))
     {
       append_to_top_table();
@@ -254,7 +226,6 @@ boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n)
   while (encore() && !result)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && move_filter(si,n,side_at_move)
         && help_has_solution_in_n(slices[si].u.pipe.next,n-1))
       result = true;
 
@@ -328,31 +299,6 @@ void help_adapter_promote_to_toplevel(slice_index adapter)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean help_adapter_impose_starter(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  Side const * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-  slice_traverse_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve a branch slice at non-root level.
@@ -707,6 +653,7 @@ static slice_operation const relevant_slice_finders[] =
   &find_relevant_slice_found,         /* STHelpHashed */
   &find_relevant_slice_found,         /* STSelfCheckGuard */
   &find_relevant_slice_found,         /* STReflexGuard */
+  0,                                  /* STGoalReachableGuard */
   &find_relevant_slice_found          /* STKeepMatingGuard */
 };
 
@@ -1080,7 +1027,6 @@ static boolean solve_full_in_n(slice_index root, stip_length_type n)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !(OptFlag[restart] && MoveNbr<RestartNbr)
-        && move_filter(root,n,starter)
         && help_solve_in_n(next_slice,n-1))
       result = true;
 

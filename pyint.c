@@ -23,6 +23,7 @@
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pyhelp.h"
+#include "pypipe.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 
@@ -2766,6 +2767,7 @@ static slice_operation const moves_left_initialisers[] =
   &slice_traverse_children,       /* STHelpHashed */
   &slice_traverse_children,       /* STSelfCheckGuard */
   0,                              /* STReflexGuard */
+  0,                              /* STGoalReachableGuard */
   &slice_traverse_children        /* STKeepMatingGuard */
 };
 
@@ -2830,11 +2832,209 @@ static void init_moves_left(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
 }
 
+/* Initialise a STGoalReachableGuard slice
+ * @param si identifies slice to be initialised
+ */
+static void init_goalreachable_guard_slice(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slices[si].type = STGoalReachableGuard; 
+  slices[si].starter = slices[slices[si].u.pipe.next].starter; 
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >=1 solution was found
+ */
+boolean goalreachable_guard_solve_in_n(slice_index si, stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  result = (isGoalReachable()
+            && help_solve_in_n(slices[si].u.pipe.next,n));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >= 1 solution has been found
+ */
+boolean goalreachable_guard_has_solution_in_n(slice_index si, stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  result = (isGoalReachable()
+            && help_has_solution_in_n(slices[si].u.pipe.next,n));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice. First consult hash table.
+ * @param continuations table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ */
+void goalreachable_guard_solve_continuations_in_n(table continuations,
+                                          slice_index si,
+                                          stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  if (isGoalReachable())
+    help_solve_continuations_in_n(continuations,slices[si].u.pipe.next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+typedef boolean next_is_intellgent_type[max_nr_slices];
+
+static void insert_goalreachable_guards_help(slice_index help_adapter,
+                                             next_is_intellgent_type *next_is_int)
+{
+  slice_index const anchor = slices[help_adapter].u.pipe.next;
+  slice_index curr = anchor;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",help_adapter);
+  TraceFunctionParamListEnd();
+
+  pipe_insert_after(help_adapter);
+  (*next_is_int)[help_adapter] = true;
+  init_goalreachable_guard_slice(slices[help_adapter].u.pipe.next);
+
+  do
+  {
+    if (slices[curr].type==STBranchHelp && !(*next_is_int)[curr])
+    {
+      pipe_insert_after(curr);
+      (*next_is_int)[curr] = true;
+      init_goalreachable_guard_slice(slices[curr].u.pipe.next);
+    }
+    curr = slices[curr].u.pipe.next;
+  } while (curr!=no_slice && curr!=anchor);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static boolean goalreachable_guards_inserter_help(slice_index si,
+                                                  slice_traversal *st)
+{
+  boolean const result = true;
+  next_is_intellgent_type * const next_is_int = st->param;
+  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!(*next_is_int)[si])
+    insert_goalreachable_guards_help(si,next_is_int);
+  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const goalreachable_guards_inserters[] =
+{
+  &slice_traverse_children,            /* STBranchDirect */
+  &slice_traverse_children,            /* STBranchDirectDefender */
+  0,                                   /* STBranchHelp */
+  &slice_traverse_children,            /* STBranchSeries */
+  0,                                   /* STBranchFork */
+  &slice_operation_noop,               /* STLeafDirect */
+  &slice_operation_noop,               /* STLeafHelp */
+  &slice_operation_noop,               /* STLeafSelf */
+  &slice_operation_noop,               /* STLeafForced */
+  &slice_traverse_children,            /* STReciprocal */
+  &slice_traverse_children,            /* STQuodlibet */
+  &slice_traverse_children,            /* STNot */
+  &slice_traverse_children,            /* STMoveInverter */
+  &goalreachable_guards_inserter_help, /* STHelpRoot */
+  &goalreachable_guards_inserter_help, /* STHelpAdapter */
+  0,                                   /* STHelpHashed */
+  0,                                   /* STSelfCheckGuard */
+  0,                                   /* STReflexGuard */
+  0,                                   /* STGoalReachableGuard */
+  0                                    /* STKeepMatingGuard */
+};
+
+/* Instrument stipulation with STGoalreachableGuard slices
+ */
+static void stip_insert_goalreachable_guards(next_is_intellgent_type *next_is_int)
+{
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&goalreachable_guards_inserters,next_is_int);
+  traverse_slices(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stip_remove_goalreachable_guards(next_is_intellgent_type next_is_int)
+{
+  slice_index si;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (si = max_nr_slices; si>0; --si)
+    if (next_is_int[si-1])
+      pipe_remove_after(si-1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 boolean Intelligent(slice_index si,
                     stip_length_type n,
                     stip_length_type full_length)
 {
   boolean result;
+  next_is_intellgent_type next_is_intelligent = { false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2850,11 +3050,17 @@ boolean Intelligent(slice_index si,
 
   InitSols();
 
+  stip_insert_goalreachable_guards(&next_is_intelligent);
+  TraceStipulation();
+
   if (goal_to_be_reached==goal_atob
       || goal_to_be_reached==goal_proof)
     IntelligentProof(n,full_length);
   else
     IntelligentRegularGoals(n);
+
+  stip_remove_goalreachable_guards(next_is_intelligent);
+  TraceStipulation();
 
   result = CleanupSols();
 
@@ -3029,6 +3235,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STHelpHashed */
   &slice_traverse_children,                      /* STSelfCheckGuard */
   &intelligent_mode_support_none,                /* STReflexGuard */
+  0,                                             /* STGoalReachableGuard */
   &slice_traverse_children                       /* STKeepMatingGuard */
 };
 

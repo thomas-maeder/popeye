@@ -192,7 +192,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
   {
     done_slices[si] = true;
 
-    fprintf(stdout,"[%u]: ",si);
+    fprintf(stdout,"[%2u]: ",si);
     fprintf(stdout,"%s ",SliceType_names[slices[si].type]);
     fprintf(stdout,"starter:%s ",
             slices[si].starter==White ? "White" : "Black");
@@ -265,6 +265,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STMoveInverter:
       case STSelfCheckGuard:
+      case STGoalReachableGuard:
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
