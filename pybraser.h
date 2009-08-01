@@ -19,14 +19,6 @@ slice_index alloc_branch_ser_slice(stip_length_type length,
                                    stip_length_type min_length,
                                    slice_index next);
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean branch_ser_must_starter_resign(slice_index si);
-
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
  * Assumes slice_must_starter_resign(si)

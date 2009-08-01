@@ -79,14 +79,6 @@ boolean not_has_starter_reached_goal(slice_index si);
  */
 boolean not_has_non_starter_solved(slice_index si);
 
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
- */
-who_decides_on_starter not_detect_starter(slice_index si,
-                                          boolean same_side_as_root);
-
 /* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable

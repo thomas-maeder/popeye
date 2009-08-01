@@ -82,18 +82,12 @@ boolean slice_must_starter_resign(slice_index si)
       result = help_adapter_must_starter_resign(si);
       break;
 
-    case STBranchSeries:
-      result = branch_ser_must_starter_resign(si);
-      break;
-
     case STBranchFork:
       result = branch_fork_must_starter_resign(si);
       break;
 
+    case STBranchSeries:
     case STMoveInverter:
-      result = move_inverter_must_starter_resign(si);
-      break;
-
     case STSelfCheckGuard:
       result = pipe_must_starter_resign(si);
       break;
@@ -1088,14 +1082,11 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       result = quodlibet_detect_starter(si,same_side_as_root);
       break;
 
-    case STNot:
-      result = not_detect_starter(si,same_side_as_root);
-      break;
-
     case STMoveInverter:
       result = move_inverter_detect_starter(si,same_side_as_root);
       break;
 
+    case STNot:
     case STReflexGuard:
       result = pipe_detect_starter(si,same_side_as_root);
       break;

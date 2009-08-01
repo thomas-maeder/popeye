@@ -39,14 +39,6 @@ void branch_fork_help_solve_continuations_in_n(table continuations,
                                                slice_index si,
                                                stip_length_type n);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean branch_fork_impose_starter(slice_index si, slice_traversal *st);
-
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?

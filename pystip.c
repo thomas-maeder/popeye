@@ -836,11 +836,11 @@ void stip_make_exact(void)
 
 static slice_operation const starter_imposers[] =
 {
-  &branch_d_impose_starter,          /* STBranchDirect */
-  &branch_d_defender_impose_starter, /* STBranchDirectDefender */
+  &pipe_impose_starter,              /* STBranchDirect */
+  &pipe_impose_starter,              /* STBranchDirectDefender */
   &branch_h_impose_starter,          /* STBranchHelp */
   &branch_ser_impose_starter,        /* STBranchSeries */
-  &branch_fork_impose_starter,       /* STBranchFork */
+  &pipe_impose_starter,              /* STBranchFork */
   &leaf_impose_starter,              /* STLeafDirect */
   &leaf_impose_starter,              /* STLeafHelp */
   &leaf_s_impose_starter,            /* STLeafSelf */
