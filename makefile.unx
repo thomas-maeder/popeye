@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.77 2009/08/01 09:37:30 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.78 2009/08/01 12:23:59 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -254,6 +254,7 @@ INCLUDES =      pyenum.h \
 		platform/pytime.h platform/priority.h \
 		pygoal.h pystip.h pyslice.h \
 		pyhelp.h \
+		pypipe.h \
 		pybrafrk.h pyreflxg.h pykeepmt.h pyselfcg.h \
 		pyquodli.h pyrecipr.h pynot.h \
 		pybrad.h pybradd.h pybrah.h pybraser.h \
@@ -270,6 +271,7 @@ PYCFILES =      pydata.c pyboard.c pyposit.c \
 		pysignal.c pyint.c \
 		pygoal.c pystip.c pyslice.c \
 		pyhelp.c \
+		pypipe.c \
 		pybrafrk.c pyreflxg.c pykeepmt.c pyselfcg.c \
 		pyquodli.c pyrecipr.c pynot.c \
 		pybrad.c pybradd.c pybrah.c pybraser.c \

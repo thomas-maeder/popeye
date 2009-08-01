@@ -1,3 +1,4 @@
+#include "pypipe.h"
 #include "pykeepmt.h"
 #include "pyhelp.h"
 #include "pyleaf.h"
@@ -5,33 +6,23 @@
 
 #include <assert.h>
 
-/* Insert a STKeepMatingGuard slice in front (and at the place)
- * of an existing slice.
+/* Initialise a STKeepMatingGuard slice
+ * @param si identifies slice to be initialised
  * @param side mating side
- * @param next identifies next slice
- * @return identifier of allocated slice
  */
-static slice_index alloc_keepmating_guard_slice(Side mating, slice_index next)
+static void init_keepmating_guard_slice(slice_index si, Side mating)
 {
-  slice_index result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",mating);
-  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = copy_slice(next);
-
-  slices[result].type = STKeepMatingGuard; 
-  slices[result].starter = no_side; 
-  slices[result].u.pipe.next = next;
-
-  slices[result].u.pipe.u.keepmating_guard.mating = mating;
+  slices[si].type = STKeepMatingGuard; 
+  slices[si].starter = no_side; 
+  slices[si].u.pipe.u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve in a number of half-moves
@@ -215,21 +206,6 @@ static boolean keepmating_guards_inserter_reciprocal(slice_index si,
   return result;
 }
 
-static void insert_keepmating_guard_after_help(slice_index branch, Side side)
-{
-  slice_index * const next = &slices[branch].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",branch);
-  TraceFunctionParam("%u",side);
-  TraceFunctionParamListEnd();
-
-  *next = alloc_keepmating_guard_slice(side,*next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void insert_keepmating_guards_help(slice_index help_adapter, Side side)
 {
   slice_index const anchor = slices[help_adapter].u.pipe.next;
@@ -240,12 +216,16 @@ static void insert_keepmating_guards_help(slice_index help_adapter, Side side)
   TraceFunctionParam("%u",side);
   TraceFunctionParamListEnd();
 
-  insert_keepmating_guard_after_help(help_adapter,side);
+  pipe_insert_after(help_adapter);
+  init_keepmating_guard_slice(slices[help_adapter].u.pipe.next,side);
 
   do
   {
     if (slices[curr].type==STBranchHelp)
-      insert_keepmating_guard_after_help(curr,side);
+    {
+      pipe_insert_after(curr);
+      init_keepmating_guard_slice(slices[curr].u.pipe.next,side);
+    }
     curr = slices[curr].u.pipe.next;
   } while (curr!=no_slice && curr!=anchor);
   

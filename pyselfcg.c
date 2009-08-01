@@ -1,3 +1,4 @@
+#include "pypipe.h"
 #include "pyselfcg.h"
 #include "pyhelp.h"
 #include "pyleaf.h"
@@ -7,17 +8,18 @@
 
 #include <assert.h>
 
-/* Allocate a STSelfCheckGuard slice
- * @param next identifies next slice
+/* Initialise a STSelfCheckGuard slice into an allocated and wired
+ * pipe slice 
+ * @param si identifies slice
  */
-static void insert_selfcheck_guard_slice(slice_index next)
+static void init_selfcheck_guard_slice(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[next].u.pipe.next = copy_slice(next);
-  slices[next].type = STSelfCheckGuard;
+  slices[si].type = STSelfCheckGuard;
+  slices[si].starter = slices[slices[si].u.pipe.next].starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -135,7 +137,10 @@ static boolean selfcheck_guards_inserter_help(slice_index si,
   slice_traverse_children(si,st);
 
   if (slices[next].type!=STSelfCheckGuard)
-    insert_selfcheck_guard_slice(next);
+  {
+    pipe_insert_before(next);
+    init_selfcheck_guard_slice(next);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -159,7 +164,10 @@ static boolean selfcheck_guards_inserter_help_root(slice_index si,
   if (slices[si].u.pipe.u.help_adapter.length-slack_length_help<=2)
   {
     if (slices[next].type!=STSelfCheckGuard)
-      insert_selfcheck_guard_slice(next);
+    {
+      pipe_insert_before(next);
+      init_selfcheck_guard_slice(next);
+    }
   }
   else
     assert(slices[next].type==STSelfCheckGuard);
