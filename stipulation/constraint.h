@@ -8,12 +8,11 @@
 #include "pyhelp.h"
 #include "pyslice.h"
 
-/* Insert a STReflexGuard slice in front (and at the place)
- * of an existing slice.
- * @param si identifies slice to be superseded by a STReflexGuard slice
- * @param to_be_avoided prototype of slice that must be solvable
+/* Initialise a STReflexGuard slice
+ * @param si identifies slice to be initialised
+ * @param to_be_avoided prototype of slice that must not be solvable
  */
-void insert_reflex_guard_slice(slice_index si, slice_index to_be_avoided);
+void init_reflex_guard_slice(slice_index si, slice_index to_be_avoided);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

@@ -1324,7 +1324,7 @@ trace.h:
 pybrah$(OBJ_SUFFIX): pybrah.c pybrah.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pylang.h pystip.h pygoal.h pyenum.h pyslice.h pytable.h \
   pydata.h pyproc.h py4.h pyint.h pymsg.h pyoutput.h pyhelp.h pyhelpha.h \
-  pybrafrk.h pyreflxg.h trace.h platform/maxtime.h
+  pybrafrk.h pyreflxg.h pypipe.h trace.h platform/maxtime.h
 
 pybrah.h:
 
@@ -1371,6 +1371,8 @@ pyhelpha.h:
 pybrafrk.h:
 
 pyreflxg.h:
+
+pypipe.h:
 
 trace.h:
 

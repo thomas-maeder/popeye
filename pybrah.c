@@ -9,6 +9,7 @@
 #include "pyhelpha.h"
 #include "pybrafrk.h"
 #include "pyreflxg.h"
+#include "pypipe.h"
 #include "trace.h"
 #include "platform/maxtime.h"
 
@@ -1389,19 +1390,21 @@ slice_index alloc_helpreflex_branch(branch_level level,
 
   if ((length-slack_length_help)%2==0)
   {
-    slice_index const tobereplaced = branch_find_slice(STBranchHelp,result);
-    assert(tobereplaced!=no_slice);
-    insert_reflex_guard_slice(tobereplaced,next);
+    slice_index const guardpos = branch_find_slice(STBranchHelp,result);
+    assert(guardpos!=no_slice);
+    pipe_insert_before(guardpos);
+    init_reflex_guard_slice(guardpos,next);
   }
   else
   {
     slice_index const fork = branch_find_slice(STBranchFork,result);
     slice_index const branch1 = branch_find_slice(STBranchHelp,fork);
-    slice_index const tobereplaced = branch_find_slice(STBranchHelp,branch1);
+    slice_index const guardpos = branch_find_slice(STBranchHelp,branch1);
     assert(fork!=no_slice);
     assert(branch1!=no_slice);
-    assert(tobereplaced!=no_slice);
-    insert_reflex_guard_slice(tobereplaced,next);
+    assert(guardpos!=no_slice);
+    pipe_insert_before(guardpos);
+    init_reflex_guard_slice(guardpos,next);
   }
 
   TraceFunctionExit(__func__);
