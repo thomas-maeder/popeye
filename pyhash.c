@@ -1689,70 +1689,156 @@ void HashStats(unsigned int level, char *trailer)
 #endif /*HASHRATE*/
 }
 
-static int estimateNumberOfHoles(slice_index si)
+static boolean number_of_holes_estimator_branch_direct(slice_index si,
+                                                       slice_traversal *st)
 {
-  int result = 0;
+  boolean const result = true;
+  unsigned int * const nrholes = st->param;
 
-  /*
-   * I assume an average of (nr_files_on_board*nr_rows_on_board -
-   * number of pieces)/2 additional holes per position.
-   */
-  switch (slices[si].type)
-  {
-    case STBranchDirect:
-      result = 2*slices[si].u.pipe.u.branch.length;
-      break;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
-    case STBranchDirectDefender:
-      result = 2*slices[si].u.pipe.u.branch_d_defender.length;
-      break;
+  *nrholes = 2*slices[si].u.pipe.u.branch.length;
 
-    case STBranchSeries:
-      /* That's far too much. In a ser-h#5 there won't be more
-       * than 5 holes in hashed positions.      TLi
-       */
-      result = slices[si].u.pipe.u.branch.length;
-      break;
-
-    case STBranchHelp:
-    case STHelpRoot:
-    case STBranchFork:
-    case STMoveInverter:
-    case STNot:
-    case STSelfCheckGuard:
-      result = estimateNumberOfHoles(slices[si].u.pipe.next);
-      break;
-
-    case STQuodlibet:
-    case STReciprocal:
-    {
-      int const result1 = estimateNumberOfHoles(slices[si].u.fork.op1);
-      int const result2 = estimateNumberOfHoles(slices[si].u.fork.op2);
-      result = result1>result2 ? result1 : result2;
-      break;
-    }
-
-    case STHelpHashed:
-      result = 2*slices[si].u.pipe.u.branch.length;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
-static int TellCommonEncodePosLeng(int len, int nbr_p)
+static
+boolean number_of_holes_estimator_branch_direct_defender(slice_index si,
+                                                         slice_traversal *st)
+{
+  boolean const result = true;
+  unsigned int * const nrholes = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *nrholes = 2*slices[si].u.pipe.u.branch_d_defender.length;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean number_of_holes_estimator_branch_series(slice_index si,
+                                                       slice_traversal *st)
+{
+  boolean const result = true;
+  unsigned int * const nrholes = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *nrholes = slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean number_of_holes_estimator_fork(slice_index si,
+                                              slice_traversal *st)
+{
+  boolean const result = true;
+  unsigned int * const nrholes = st->param;
+  unsigned int result1 = 0;
+  unsigned int result2 = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  st->param = &result1;
+  traverse_slices(slices[si].u.fork.op1,st);
+
+  st->param = &result2;
+  traverse_slices(slices[si].u.fork.op2,st);
+
+  st->param = nrholes;
+  *nrholes = result1>result2 ? result1 : result2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean number_of_holes_estimator_help_hashed(slice_index si,
+                                                     slice_traversal *st)
+{
+  boolean const result = true;
+  unsigned int * const nrholes = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *nrholes = 2*slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const number_of_holes_estimators[] =
+{
+  &number_of_holes_estimator_branch_direct,         /* STBranchDirect */
+  &number_of_holes_estimator_branch_direct_defender,/* STBranchDirectDefender*/
+  &slice_traverse_children,                         /* STBranchHelp */
+  &number_of_holes_estimator_branch_series,         /* STBranchSeries */
+  &slice_traverse_children,                         /* STBranchFork */
+  &slice_traverse_children,                         /* STLeafDirect */
+  &slice_traverse_children,                         /* STLeafHelp */
+  &slice_traverse_children,                         /* STLeafSelf */
+  &slice_traverse_children,                         /* STLeafForced */
+  &number_of_holes_estimator_fork,                  /* STReciprocal */
+  &number_of_holes_estimator_fork,                  /* STQuodlibet */
+  &slice_traverse_children,                         /* STNot */
+  &slice_traverse_children,                         /* STMoveInverter */
+  &slice_traverse_children,                         /* STHelpRoot */
+  &slice_traverse_children,                         /* STHelpAdapter */
+  &number_of_holes_estimator_help_hashed,           /* STHelpHashed */
+  &slice_traverse_children,                         /* STSelfCheckGuard */
+  &slice_traverse_children,                         /* STReflexGuard */
+  &slice_traverse_children                          /* STKeepMatingGuard */
+};
+
+static unsigned int estimateNumberOfHoles(slice_index si)
+{
+  unsigned int result = 0;
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nrGoals);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&number_of_holes_estimators,&result);
+  traverse_slices(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static int TellCommonEncodePosLeng(unsigned int len, unsigned int nbr_p)
 {
   len++; /* Castling_Flag */
 
   if (CondFlag[haanerchess])
   {
-    int nbr_holes = estimateNumberOfHoles(root_slice);
-    if (nbr_holes > (nr_files_on_board*nr_rows_on_board-nbr_p)/2)
-      nbr_holes= (nr_files_on_board*nr_rows_on_board-nbr_p)/2;
+    unsigned int nbr_holes = estimateNumberOfHoles(root_slice);
+    if (nbr_holes>(nr_files_on_board*nr_rows_on_board-nbr_p)/2)
+      nbr_holes = (nr_files_on_board*nr_rows_on_board-nbr_p)/2;
     len += bytes_per_piece*nbr_holes;
   }
 
@@ -1802,7 +1888,8 @@ static int TellCommonEncodePosLeng(int len, int nbr_p)
 static int TellLargeEncodePosLeng(void)
 {
   square const *bnp;
-  int       nbr_p= 0, len= 8;
+  unsigned int nbr_p = 0;
+  unsigned int len = 8;
 
   for (bnp= boardnum; *bnp; bnp++)
     if (e[*bnp] != vide)
@@ -1822,7 +1909,8 @@ static int TellLargeEncodePosLeng(void)
 static int TellSmallEncodePosLeng(void)
 {
   square const *bnp;
-  int nbr_p= 0, len= 0;
+  unsigned int nbr_p = 0;
+  unsigned int len = 0;
 
   for (bnp= boardnum; *bnp; bnp++)
   {
