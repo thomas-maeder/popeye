@@ -11,7 +11,7 @@
  * @param next identifies next slice
  * @return identifier of allocated slice
  */
-static slice_index alloc_keep_mating_guard_slice(Side mating, slice_index next)
+static slice_index alloc_keepmating_guard_slice(Side mating, slice_index next)
 {
   slice_index result;
 
@@ -26,7 +26,7 @@ static slice_index alloc_keep_mating_guard_slice(Side mating, slice_index next)
   slices[result].starter = no_side; 
   slices[result].u.pipe.next = next;
 
-  slices[result].u.pipe.u.keep_mating_guard.mating = mating;
+  slices[result].u.pipe.u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -39,9 +39,9 @@ static slice_index alloc_keep_mating_guard_slice(Side mating, slice_index next)
  * @param n number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean keep_mating_guard_solve_in_n(slice_index si, stip_length_type n)
+boolean keepmating_guard_solve_in_n(slice_index si, stip_length_type n)
 {
-  Side const mating = slices[si].u.pipe.u.keep_mating_guard.mating;
+  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -65,9 +65,9 @@ boolean keep_mating_guard_solve_in_n(slice_index si, stip_length_type n)
  * @param n number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean keep_mating_guard_has_solution_in_n(slice_index si, stip_length_type n)
+boolean keepmating_guard_has_solution_in_n(slice_index si, stip_length_type n)
 {
-  Side const mating = slices[si].u.pipe.u.keep_mating_guard.mating;
+  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -92,11 +92,11 @@ boolean keep_mating_guard_has_solution_in_n(slice_index si, stip_length_type n)
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
  */
-void keep_mating_guard_solve_continuations_in_n(table continuations,
+void keepmating_guard_solve_continuations_in_n(table continuations,
                                           slice_index si,
                                           stip_length_type n)
 {
-  Side const mating = slices[si].u.pipe.u.keep_mating_guard.mating;
+  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -118,7 +118,7 @@ void keep_mating_guard_solve_continuations_in_n(table continuations,
  * @return true iff the operation is successful in the subtree of
  *         which si is the root
  */
-boolean keep_mating_guard_impose_starter(slice_index si, slice_traversal *st)
+boolean keepmating_guard_impose_starter(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
   Side const * const starter = st->param;
@@ -224,7 +224,7 @@ static void insert_keepmating_guard_after_help(slice_index branch, Side side)
   TraceFunctionParam("%u",side);
   TraceFunctionParamListEnd();
 
-  *next = alloc_keep_mating_guard_slice(side,*next);
+  *next = alloc_keepmating_guard_slice(side,*next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

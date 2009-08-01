@@ -164,7 +164,7 @@ typedef struct
                     stip_length_type length;     /* half moves */
                     stip_length_type min_length; /* half moves */
                     Side mating;
-                } keep_mating_guard;
+                } keepmating_guard;
 
                 struct /* for type==STBranchFork */
                 {

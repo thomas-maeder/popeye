@@ -826,7 +826,7 @@ static slice_operation const starter_imposers[] =
   &help_hashed_impose_starter,       /* STHelpHashed */
   &selfcheck_guard_impose_starter,   /* STSelfCheckGuard */
   &reflex_guard_impose_starter,      /* STReflexGuard */
-  &keep_mating_guard_impose_starter  /* STKeepMatingGuard */
+  &keepmating_guard_impose_starter  /* STKeepMatingGuard */
 };
 
 /* Set the starting side of the stipulation

@@ -45,7 +45,7 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       break;
 
     case STKeepMatingGuard:
-      result = keep_mating_guard_solve_in_n(si,n);
+      result = keepmating_guard_solve_in_n(si,n);
       break;
 
     case STSelfCheckGuard:
@@ -98,7 +98,7 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
       break;
 
     case STKeepMatingGuard:
-      result = keep_mating_guard_has_solution_in_n(si,n);
+      result = keepmating_guard_has_solution_in_n(si,n);
       break;
 
     case STSelfCheckGuard:
@@ -151,7 +151,7 @@ void help_solve_continuations_in_n(table continuations,
       break;
 
     case STKeepMatingGuard:
-      keep_mating_guard_solve_continuations_in_n(continuations,si,n);
+      keepmating_guard_solve_continuations_in_n(continuations,si,n);
       break;
 
     case STSelfCheckGuard:
