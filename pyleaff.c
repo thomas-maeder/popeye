@@ -182,6 +182,7 @@ static boolean is_end_in_1_forced(Side defender, slice_index leaf)
     square initiallygenerated = initsquare;
     Side const attacker = advers(defender);
 
+    active_slice[nbply+1] = leaf;
     nextply(nbply);
     init_move_generation_optimizer();
     trait[nbply]= defender;

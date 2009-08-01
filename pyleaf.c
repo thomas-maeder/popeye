@@ -3,6 +3,7 @@
 #include "pydata.h"
 #include "platform/maxtime.h"
 #include "pyint.h"
+#include "pyoutput.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -498,6 +499,7 @@ void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
   if (side_at_move==White ? !flagwhitemummer : !flagblackmummer)
     empile_for_goal_of_leaf_slice = leaf;
 
+  active_slice[nbply+1] = leaf;
   switch (goal)
   {
     case goal_mate:
