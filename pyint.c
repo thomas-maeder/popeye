@@ -2962,7 +2962,7 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,            /* STNot */
   &slice_traverse_children,            /* STMoveInverter */
   &goalreachable_guards_inserter_help, /* STHelpRoot */
-  &goalreachable_guards_inserter_help, /* STHelpAdapter */
+  &slice_traverse_children,            /* STHelpAdapter */
   &slice_traverse_children,            /* STHelpHashed */
   &slice_traverse_children,            /* STSelfCheckGuard */
   0,                                   /* STReflexGuard */
