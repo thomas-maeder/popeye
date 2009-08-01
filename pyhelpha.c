@@ -12,8 +12,6 @@
  */
 void insert_help_hashed_slice(slice_index si)
 {
-  slice_index copy;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -21,10 +19,8 @@ void insert_help_hashed_slice(slice_index si)
   assert(slices[si].type!=STHelpHashed);
   TraceValue("%u\n",slices[si].type);
 
-  copy = copy_slice(si);
-
+  slices[si].u.pipe.next = copy_slice(si);
   slices[si].type = STHelpHashed;
-  slices[si].u.pipe.next = copy;
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
