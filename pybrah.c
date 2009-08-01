@@ -600,64 +600,6 @@ boolean help_adapter_has_solution(slice_index si)
   return result;
 }
 
-static boolean find_relevant_slice_branch_fork(slice_index si,
-                                               slice_traversal *st)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = traverse_slices(slices[si].u.pipe.u.branch_fork.towards_goal,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean find_relevant_slice_found(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index * const to_be_found = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *to_be_found = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static slice_operation const relevant_slice_finders[] =
-{
-  &find_relevant_slice_found,         /* STBranchDirect */
-  0,                                  /* STBranchDirectDefender */
-  &find_relevant_slice_found,         /* STBranchHelp */
-  &find_relevant_slice_found,         /* STBranchSeries */
-  &find_relevant_slice_branch_fork,   /* STBranchFork */
-  &find_relevant_slice_found,         /* STLeafDirect */
-  &find_relevant_slice_found,         /* STLeafHelp */
-  &find_relevant_slice_found,         /* STLeafSelf */
-  &find_relevant_slice_found,         /* STLeafForced */
-  &find_relevant_slice_found,         /* STReciprocal */
-  &find_relevant_slice_found,         /* STQuodlibet */
-  &find_relevant_slice_found,         /* STNot */
-  &find_relevant_slice_found,         /* STMoveInverter */
-  0,                                  /* STHelpRoot */
-  &find_relevant_slice_found,         /* STHelpAdapter */
-  &find_relevant_slice_found,         /* STHelpHashed */
-  &find_relevant_slice_found,         /* STSelfCheckGuard */
-  &find_relevant_slice_found,         /* STReflexGuard */
-  0,                                  /* STGoalReachableGuard */
-  &find_relevant_slice_found          /* STKeepMatingGuard */
-};
-
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param same_side_as_root does si start with the same side as root?
@@ -666,7 +608,7 @@ static slice_operation const relevant_slice_finders[] =
 who_decides_on_starter help_adapter_detect_starter(slice_index si,
                                                    boolean same_side_as_root)
 {
-  who_decides_on_starter result = dont_know_who_decides_on_starter;
+  who_decides_on_starter result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -680,50 +622,11 @@ who_decides_on_starter help_adapter_detect_starter(slice_index si,
                                             ? same_side_as_root
                                             : !same_side_as_root);
     slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
-    slice_index next_relevant = no_slice;
-    slice_traversal st;
-
-    slice_traversal_init(&st,&relevant_slice_finders,&next_relevant);
-    traverse_slices(fork,&st);
 
     result = slice_detect_starter(fork,fork_same_side_as_root);
-
-    TraceValue("%u",next_relevant);
-    TraceEnumerator(SliceType,slices[next_relevant].type," ");
-    TraceValue("%u\n",even_length);
-
-    switch (slices[next_relevant].type)
-    {
-      case STLeafDirect:
-      {
-        if (slices[fork].starter==no_side)
-          slices[si].starter = Black;
-        else
-          slices[si].starter = (even_length
-                                ? slices[fork].starter
-                                : advers(slices[fork].starter));
-        break;
-      }
-
-      case STLeafSelf:
-      case STLeafHelp:
-      {
-        if (slices[fork].starter==no_side)
-          slices[si].starter = White;
-        else
-          slices[si].starter = (even_length
-                                ? slices[fork].starter
-                                : advers(slices[fork].starter));
-        break;
-      }
-
-      default:
-        slices[si].starter = (even_length
-                              ? slices[fork].starter
-                              : advers(slices[fork].starter));
-        break;
-    }
-
+    slices[si].starter = (even_length
+                          ? slices[fork].starter
+                          : advers(slices[fork].starter));
   }
   else
     result = leaf_decides_on_starter;
