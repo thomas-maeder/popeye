@@ -152,7 +152,7 @@ void TraceEnumeratorImpl(char const *format,
 #define TracePointerFunctionResult(format,name)
 #define TraceFunctionResultEnd()
 #define TraceCurrentHashBuffer()
-#define TraceEnumerator(type_name,value)
+#define TraceEnumerator(type_name,value,suffix)
 #define TraceStipulation()
 
 #endif
