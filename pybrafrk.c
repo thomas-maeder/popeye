@@ -19,6 +19,7 @@ slice_index alloc_branch_fork_slice(slice_index next, slice_index towards_goal)
   TraceFunctionParamListEnd();
 
   slices[result].type = STBranchFork;
+  slices[result].starter = slices[towards_goal].starter;
   slices[result].u.pipe.next = next;
   slices[result].u.pipe.u.branch_fork.towards_goal = towards_goal;
   
@@ -326,6 +327,7 @@ static slice_operation const slice_to_fork_deallocators[] =
   &traverse_and_deallocate,             /* STHelpRoot */
   &traverse_and_deallocate,             /* STHelpAdapter */
   &traverse_and_deallocate,             /* STHelpHashed */
+  0,                                    /* STSelfCheckGuard */
   0,                                    /* STReflexGuard */
   &traverse_and_deallocate              /* STKeepMatingGuard */
 };

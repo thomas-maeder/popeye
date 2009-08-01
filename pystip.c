@@ -15,10 +15,48 @@
 #include "pyreflxg.h"
 #include "pymovein.h"
 #include "pykeepmt.h"
+#include "pyselfcg.h"
 #include "trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
+
+#define ENUMERATION_TYPENAME SliceType
+#define ENUMERATORS \
+  ENUMERATOR(STBranchDirect),    /* M-N moves of direct play */         \
+    ENUMERATOR(STBranchDirectDefender),                                 \
+    ENUMERATOR(STBranchHelp),      /* M-N moves of help play */         \
+    ENUMERATOR(STBranchSeries),    /* M-N moves of series play */       \
+    ENUMERATOR(STBranchFork),      /* decides when play in branch is over */ \
+                                                                        \
+    ENUMERATOR(STLeafDirect),      /* goal in 1 */                      \
+    ENUMERATOR(STLeafHelp),        /* help-goal in 1 */                 \
+    ENUMERATOR(STLeafSelf),        /* self-goal in 1 */                 \
+    ENUMERATOR(STLeafForced),      /* forced goal in 1 half move */     \
+                                                                        \
+    ENUMERATOR(STReciprocal),      /* logical AND */                    \
+    ENUMERATOR(STQuodlibet),       /* logical OR */                     \
+    ENUMERATOR(STNot),             /* logical NOT */                    \
+                                                                        \
+    ENUMERATOR(STMoveInverter),    /* 0 length, inverts side at move */ \
+                                                                        \
+    ENUMERATOR(STHelpRoot),        /* root level of help play */        \
+    ENUMERATOR(STHelpAdapter),     /* help play after branch fork */    \
+    ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
+                                                                        \
+    ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
+                                                                        \
+    ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
+                                                                        \
+    ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
+                                                                        \
+    ENUMERATOR(nr_slice_types),                                         \
+    ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
+
+#define ENUMERATION_MAKESTRINGS
+
+#include "pyenum.h"
+
 
 Slice slices[max_nr_slices];
 
@@ -154,7 +192,7 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STBranchHelp:
@@ -341,6 +379,7 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STHelpRoot */
   &get_max_nr_moves_other,           /* STHelpAdapter */
   &get_max_nr_moves_other,           /* STHelpHashed */
+  &get_max_nr_moves_other,           /* STSelfCheckGuard */
   &get_max_nr_moves_other,           /* STReflexGuard */
   &get_max_nr_moves_other            /* STKeepMatingGuard */
 };
@@ -418,6 +457,7 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
+  &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
   &slice_traverse_children  /* STKeepMatingGuard */
 };
@@ -521,6 +561,7 @@ static slice_operation const to_quodlibet_transformers[] =
   0,                                    /* STHelpRoot */
   &transform_to_quodlibet_help_adapter, /* STHelpAdapter */
   0,                                    /* STHelpHashed */
+  0,                                    /* STSelfCheckGuard */
   0,                                    /* STReflexGuard */
   0                                     /* STKeepMatingGuard */
 };
@@ -606,6 +647,7 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
+  &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
   &slice_traverse_children  /* STKeepMatingGuard */
 };
@@ -671,6 +713,7 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STHelpRoot */
   &slice_traverse_children,   /* STHelpAdapter */
   &slice_traverse_children,   /* STHelpHashed */
+  &slice_traverse_children,   /* STSelfCheckGuard */
   &slice_traverse_children,   /* STReflexGuard */
   &slice_traverse_children    /* STKeepMatingGuard */
 };
@@ -742,6 +785,7 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,                 /* STHelpRoot */
   &make_exact_branch,                 /* STHelpAdapter */
   0,                                  /* STHelpHashed */
+  &make_exact_branch,                 /* STSelfCheckGuard */
   &make_exact_branch,                 /* STReflexGuard */
   &make_exact_branch                  /* STKeepMatingGuard */
 };
@@ -780,6 +824,7 @@ static slice_operation const starter_imposers[] =
   &help_root_impose_starter,         /* STHelpRoot */
   &help_adapter_impose_starter,      /* STHelpAdapter */
   &help_hashed_impose_starter,       /* STHelpHashed */
+  &selfcheck_guard_impose_starter,   /* STSelfCheckGuard */
   &reflex_guard_impose_starter,      /* STReflexGuard */
   &keep_mating_guard_impose_starter  /* STKeepMatingGuard */
 };
@@ -834,7 +879,7 @@ static boolean dispatch_to_slice(slice_index si,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   assert(slices[si].type<=nr_slice_types);
 
   {
@@ -947,7 +992,19 @@ static boolean traverse_fork(slice_index fork, slice_traversal *st)
  */
 static boolean traverse_pipe(slice_index pipe, slice_traversal *st)
 {
-  return traverse_slices(slices[pipe].u.pipe.next,st);
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  result = traverse_slices(slices[pipe].u.pipe.next,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Traverse a subtree
@@ -1011,6 +1068,7 @@ static slice_operation const traversers[] =
   &traverse_pipe,                   /* STHelpRoot */
   &traverse_pipe,                   /* STHelpAdapter */
   &traverse_pipe,                   /* STHelpHashed */
+  &traverse_pipe,                   /* STSelfCheckGuard */
   &traverse_reflex_guard,           /* STReflexGuard */
   &traverse_pipe                    /* STKeepMatingGuard */
 };

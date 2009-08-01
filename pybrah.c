@@ -109,8 +109,7 @@ static boolean move_filter(slice_index si,
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParamListEnd();
   
-  result = ((!isIntelligentModeActive || isGoalReachable())
-            && !echecc(nbply,side_at_move));
+  result = !isIntelligentModeActive || isGoalReachable();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -469,12 +468,14 @@ void help_adapter_root_write_key(slice_index si, attack_type type)
 void help_adapter_write_unsolvability(slice_index si)
 {
   slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_write_unsolvability(slices[fork].u.pipe.u.branch_fork.towards_goal);
+  assert(slices[fork].type==STBranchFork);
+  slice_write_unsolvability(to_goal);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -497,7 +498,6 @@ boolean help_adapter_must_starter_resign(slice_index si)
   TraceFunctionParamListEnd();
 
   assert(slices[fork].type==STBranchFork);
-
   result = slice_must_starter_resign(to_goal);
   
   TraceFunctionExit(__func__);
@@ -513,14 +513,15 @@ boolean help_adapter_must_starter_resign(slice_index si)
  */
 boolean help_adapter_has_non_starter_solved(slice_index si)
 {
-  boolean result;
   slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_non_starter_solved(slices[fork].u.pipe.u.branch_fork.towards_goal);
+  result = slice_has_non_starter_solved(to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -537,14 +538,15 @@ boolean help_adapter_has_non_starter_solved(slice_index si)
  */
 boolean help_adapter_has_starter_apriori_lost(slice_index si)
 {
-  boolean result;
   slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_starter_apriori_lost(slices[fork].u.pipe.u.branch_fork.towards_goal);
+  result = slice_has_starter_apriori_lost(to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -558,14 +560,15 @@ boolean help_adapter_has_starter_apriori_lost(slice_index si)
  */
 boolean help_adapter_has_starter_won(slice_index si)
 {
-  boolean result;
   slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_starter_won(slices[fork].u.pipe.u.branch_fork.towards_goal);
+  result = slice_has_starter_won(to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -580,14 +583,15 @@ boolean help_adapter_has_starter_won(slice_index si)
  */
 boolean help_adapter_has_starter_reached_goal(slice_index si)
 {
-  boolean result;
   slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_starter_reached_goal(slices[fork].u.pipe.u.branch_fork.towards_goal);
+  result = slice_has_starter_reached_goal(to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -602,15 +606,15 @@ boolean help_adapter_has_starter_reached_goal(slice_index si)
  */
 boolean help_adapter_is_goal_reached(Side just_moved, slice_index si)
 {
-  boolean result;
   slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_is_goal_reached(just_moved,
-                                 slices[fork].u.pipe.u.branch_fork.towards_goal);
+  result = slice_is_goal_reached(just_moved,to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -701,6 +705,7 @@ static slice_operation const relevant_slice_finders[] =
   0,                                  /* STHelpRoot */
   &find_relevant_slice_found,         /* STHelpAdapter */
   &find_relevant_slice_found,         /* STHelpHashed */
+  &find_relevant_slice_found,         /* STSelfCheckGuard */
   &find_relevant_slice_found,         /* STReflexGuard */
   &find_relevant_slice_found          /* STKeepMatingGuard */
 };

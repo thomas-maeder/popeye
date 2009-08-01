@@ -15,36 +15,41 @@
  * different types of slices can be distinguished:
  */
 
-typedef enum
-{
-  STBranchDirect, /* M-N moves of direct play */
-  STBranchDirectDefender,
-  STBranchHelp,   /* M-N moves of help play */
-  STBranchSeries, /* M-N moves of series play */
-  STBranchFork,    /* decides when play in branch is over */
+#define ENUMERATION_TYPENAME SliceType
+#define ENUMERATORS \
+  ENUMERATOR(STBranchDirect),    /* M-N moves of direct play */         \
+    ENUMERATOR(STBranchDirectDefender),                                 \
+    ENUMERATOR(STBranchHelp),      /* M-N moves of help play */         \
+    ENUMERATOR(STBranchSeries),    /* M-N moves of series play */       \
+    ENUMERATOR(STBranchFork),      /* decides when play in branch is over */ \
+                                                                        \
+    ENUMERATOR(STLeafDirect),      /* goal in 1 */                      \
+    ENUMERATOR(STLeafHelp),        /* help-goal in 1 */                 \
+    ENUMERATOR(STLeafSelf),        /* self-goal in 1 */                 \
+    ENUMERATOR(STLeafForced),      /* forced goal in 1 half move */     \
+                                                                        \
+    ENUMERATOR(STReciprocal),      /* logical AND */                    \
+    ENUMERATOR(STQuodlibet),       /* logical OR */                     \
+    ENUMERATOR(STNot),             /* logical NOT */                    \
+                                                                        \
+    ENUMERATOR(STMoveInverter),    /* 0 length, inverts side at move */ \
+                                                                        \
+    ENUMERATOR(STHelpRoot),        /* root level of help play */        \
+    ENUMERATOR(STHelpAdapter),     /* help play after branch fork */    \
+    ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
+                                                                        \
+    ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
+                                                                        \
+    ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
+                                                                        \
+    ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
+                                                                        \
+    ENUMERATOR(nr_slice_types),                                         \
+    ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
-  STLeafDirect,   /* goal in 1 */
-  STLeafHelp,     /* help-goal in 1 */
-  STLeafSelf,     /* self-goal in 1 */
-  STLeafForced,   /* forced goal in 1 half move */
+#define ENUMERATION_DECLARE
 
-  STReciprocal,   /* logical AND */
-  STQuodlibet,    /* logical OR */
-  STNot,          /* logical NOT */
-
-  STMoveInverter, /* 0 length, inverts side at move */
-
-  STHelpRoot,     /* root level of help play */
-  STHelpAdapter,  /* help play after branch fork */
-  STHelpHashed,   /* help play with hash table */
-
-  STReflexGuard,  /* stop attempts where wrong side can reach goal */
-
-  STKeepMatingGuard, /* deals with option KeepMatingPiece */
-
-  nr_slice_types,
-  no_slice_type = nr_slice_types
-} SliceType;
+#include "pyenum.h"
 
 /* The structure of a stipulation is similar to that of a tree
  * (admittedly a degenerate one in the case of simple stipulations

@@ -2102,7 +2102,7 @@ static slice_operation const to_toplevel_promoters[] =
 {
   &slice_traverse_children,            /* STBranchDirect */
   &slice_traverse_children,            /* STBranchDirectDefender */
-  &slice_traverse_children,            /* STBranchHelp */
+  0,                                   /* STBranchHelp */
   &slice_traverse_children,            /* STBranchSeries */
   &slice_traverse_children,            /* STBranchFork */
   &slice_traverse_children,            /* STLeafDirect */
@@ -2113,11 +2113,12 @@ static slice_operation const to_toplevel_promoters[] =
   &slice_traverse_children,            /* STQuodlibet */
   &slice_traverse_children,            /* STNot */
   &slice_traverse_children,            /* STMoveInverter */
-  &slice_traverse_children,            /* STHelpRoot */
+  0,                                   /* STHelpRoot */
   &to_toplevel_promoters_help_adapter, /* STHelpAdapter */
-  &slice_traverse_children,            /* STHelpHashed */
-  &slice_traverse_children,            /* STReflexGuard */
-  &slice_traverse_children             /* STKeepMatingGuard */
+  0,                                   /* STHelpHashed */
+  0,                                   /* STSelfCheckGuard */
+  0,                                   /* STReflexGuard */
+  0,                                   /* STKeepMatingGuard */
 };
 
 /* Promote a slice to toplevel that was initialised under the wrong

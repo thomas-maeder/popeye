@@ -284,6 +284,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpAdapter */
   &slice_property_offset_shifter, /* STHelpHashed */
+  &slice_property_offset_shifter, /* STSelfCheckGuard */
   &slice_property_offset_shifter, /* STReflexGuard */
   &slice_property_offset_shifter  /* STKeepMatingGuard */
 };
@@ -732,6 +733,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_help_adapter,           /* STHelpRoot */
   &init_slice_properties_help_adapter,           /* STHelpAdapter */
   &init_slice_properties_help_hashed,            /* STHelpHashed */
+  &init_slice_properties_pipe,                   /* STSelfCheckGuard */
   &init_slice_properties_pipe,                   /* STReflexGuard */
   &init_slice_properties_pipe                    /* STKeepMatingGuard */
 };
@@ -782,6 +784,7 @@ static slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children,             /* STHelpRoot */
   &slice_traverse_children,             /* STHelpAdapter */
   &slice_traverse_children,             /* STHelpHashed */
+  &slice_traverse_children,             /* STSelfCheckGuard */
   &slice_traverse_children,             /* STReflexGuard */
   &slice_traverse_children              /* STKeepMatingGuard */
 };
@@ -883,6 +886,7 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                  /* STHelpRoot */
   &non_standard_length_finder_help_branch,   /* STHelpAdapter */
   &non_standard_length_finder_help_branch,   /* STHelpHashed */
+  &slice_traverse_children,                  /* STSelfCheckGuard */
   &slice_traverse_children,                  /* STReflexGuard */
   &slice_traverse_children                   /* STKeepMatingGuard */
 };
@@ -926,6 +930,7 @@ static slice_operation const min_valueOffset_finders[] =
   &findMinimalValueOffset,  /* STHelpRoot */
   &findMinimalValueOffset,  /* STHelpAdapter */
   &findMinimalValueOffset,  /* STHelpHashed */
+  &findMinimalValueOffset,  /* STSelfCheckGuard */
   &findMinimalValueOffset,  /* STReflexGuard */
   &findMinimalValueOffset   /* STKeepMatingGuard */
 };
@@ -968,6 +973,7 @@ static slice_operation const valueOffset_reducers[] =
   &reduceValueOffset,       /* STHelpRoot */
   &reduceValueOffset,       /* STHelpAdapter */
   &reduceValueOffset,       /* STHelpHashed */
+  &reduceValueOffset,       /* STSelfCheckGuard */
   &reduceValueOffset,       /* STReflexGuard */
   &reduceValueOffset        /* STKeepMatingGuard */
 };
@@ -1713,6 +1719,7 @@ static int estimateNumberOfHoles(slice_index si)
     case STBranchFork:
     case STMoveInverter:
     case STNot:
+    case STSelfCheckGuard:
       result = estimateNumberOfHoles(slices[si].u.pipe.next);
       break;
 
@@ -2378,6 +2385,7 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,  /* STHelpRoot */
   &slice_traverse_children,  /* STHelpAdapter */
   &init_element_help_hashed, /* STHelpHashed */
+  &slice_traverse_children,  /* STSelfCheckGuard */
   &slice_traverse_children,  /* STReflexGuard */
   &slice_traverse_children   /* STKeepMatingGuard */
 };

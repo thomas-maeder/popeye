@@ -295,7 +295,8 @@ static slice_operation const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_help,       /* STHelpRoot */
   &keepmating_guards_inserter_help,       /* STHelpAdapter */
   0,                                      /* STHelpHashed */
-  &slice_traverse_children,               /* STReflexGuard */
+  0,                                      /* STSelfCheckGuard */
+  0,                                      /* STReflexGuard */
   0                                       /* STKeepMatingGuard */
 };
 

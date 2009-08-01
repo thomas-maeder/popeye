@@ -2764,6 +2764,7 @@ static slice_operation const moves_left_initialisers[] =
   0,                              /* STHelpRoot */
   &init_moves_left_help_adapter,  /* STHelpAdapter */
   &slice_traverse_children,       /* STHelpHashed */
+  &slice_traverse_children,       /* STSelfCheckGuard */
   0,                              /* STReflexGuard */
   &slice_traverse_children        /* STKeepMatingGuard */
 };
@@ -3026,6 +3027,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
   &intelligent_mode_support_detector_branch_h,   /* STHelpAdapter */
   &slice_traverse_children,                      /* STHelpHashed */
+  &slice_traverse_children,                      /* STSelfCheckGuard */
   &intelligent_mode_support_none,                /* STReflexGuard */
   &slice_traverse_children                       /* STKeepMatingGuard */
 };

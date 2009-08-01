@@ -108,6 +108,7 @@
 #include "pyhelpha.h"
 #include "pyquodli.h"
 #include "pykeepmt.h"
+#include "pyselfcg.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -502,6 +503,7 @@ static slice_operation const slice_type_finders[] =
   &root_slice_type_found,             /* STHelpRoot */
   0,                                  /* STHelpAdapter */
   0,                                  /* STHelpHashed */
+  0,                                  /* STSelfCheckGuard */
   0,                                  /* STReflexGuard */
   0                                   /* STKeepMatingGuard */
 };
@@ -2485,6 +2487,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,         /* STHelpRoot */
   &slice_traverse_children,         /* STHelpAdapter */
   &slice_traverse_children,         /* STHelpHashed */
+  &slice_traverse_children,         /* STSelfCheckGuard */
   &slice_traverse_children,         /* STReflexGuard */
   &slice_traverse_children          /* STKeepMatingGuard */
 };
@@ -2508,6 +2511,9 @@ static void insert_hash_slices(void)
 static boolean initialise_verify_twin(void)
 {
   boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   initPieces();
 
@@ -2552,7 +2558,10 @@ static boolean initialise_verify_twin(void)
       result = true;
     }
   }
-
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -2692,10 +2701,14 @@ static Token iterate_twins(Token prev_token)
           && !root_slice_apply_setplay())
         Message(SetPlayNotApplicable);
 
+      stip_insert_selfcheck_guards();
+
       insert_hash_slices();
 
       if (OptFlag[keepmating])
         stip_insert_keepmating_guards();
+
+      TraceStipulation();
     }
 
     if (slices[root_slice].starter==no_side)

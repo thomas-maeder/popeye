@@ -114,9 +114,25 @@ void TraceCurrentHashBuffer(void);
  */
 void TraceFunctionResultEnd(void);
 
+/* Trace an enumerator value in both string and numerical form
+ * The enumeration type defining type_name must have been generated
+ * using pyenum.h
+ */
+#define TraceEnumerator(type_name,name,suffix)                                \
+  TraceEnumeratorImpl(#name ":%s(%u)" suffix, type_name##_names[name], name)
+
+/* Trace the current stipulation structure
+ */
+void TraceStipulation(void);
+
+/* Helper functions
+ */
 void TraceValueImpl(char const *format, size_t value);
 void TraceFunctionResultImpl(char const *format, size_t value);
 void TracePointerValueImpl(char const *format, void const *value);
+void TraceEnumeratorImpl(char const *format,
+                         char const *enumerator_name,
+                         unsigned int value);
 
 #else
 
@@ -136,6 +152,8 @@ void TracePointerValueImpl(char const *format, void const *value);
 #define TracePointerFunctionResult(format,name)
 #define TraceFunctionResultEnd()
 #define TraceCurrentHashBuffer()
+#define TraceEnumerator(type_name,value)
+#define TraceStipulation()
 
 #endif
 

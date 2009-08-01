@@ -36,7 +36,7 @@ boolean slice_must_starter_resign(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -117,7 +117,7 @@ boolean slice_must_starter_resign_hashed(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STReciprocal:
@@ -175,7 +175,7 @@ void slice_solve_continuations(table continuations, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -231,7 +231,7 @@ slice_index slice_root_make_setplay_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STHelpRoot:
@@ -287,7 +287,7 @@ void slice_root_write_key(slice_index si, attack_type type)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -345,7 +345,7 @@ boolean slice_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceFunctionParam("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -415,7 +415,7 @@ boolean slice_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -489,7 +489,7 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STHelpRoot:
@@ -651,7 +651,7 @@ boolean slice_has_non_starter_solved(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -716,7 +716,7 @@ boolean slice_has_starter_apriori_lost(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -780,7 +780,7 @@ boolean slice_has_starter_won(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -843,7 +843,7 @@ boolean slice_has_starter_reached_goal(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -906,7 +906,7 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -926,6 +926,7 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
 
     case STBranchHelp:
     case STHelpHashed:
+    case STSelfCheckGuard:
       result = branch_h_is_goal_reached(just_moved,si);
       break;
 
@@ -1021,7 +1022,7 @@ who_decides_on_starter slice_detect_starter(slice_index si,
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:

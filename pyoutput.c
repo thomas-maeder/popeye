@@ -130,7 +130,9 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_helproot,    /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
-  &slice_traverse_children  /* STReflexGuard */
+  &slice_traverse_children, /* STSelfCheckGuard */
+  &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children  /* STKeepMatingGuard */
 };
 
 /* Initialize based on the stipulation
