@@ -87,14 +87,6 @@ boolean not_has_non_starter_solved(slice_index si);
 who_decides_on_starter not_detect_starter(slice_index si,
                                           boolean same_side_as_root);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean not_impose_starter(slice_index si, slice_traversal *st);
-
 /* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable

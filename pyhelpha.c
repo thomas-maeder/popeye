@@ -126,31 +126,6 @@ void help_hashed_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean help_hashed_impose_starter(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  Side const * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-  slice_traverse_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Is there no chance left for reaching the solution?
  * E.g. did the help side just allow a mate in 1 in a hr#N?
  * Tests may rely on the current position being hash-encoded.

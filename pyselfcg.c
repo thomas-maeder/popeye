@@ -99,31 +99,6 @@ void selfcheck_guard_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean selfcheck_guard_impose_starter(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  Side const * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-  slice_traverse_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean selfcheck_guards_inserter_help(slice_index si,
                                               slice_traversal *st)
 {
@@ -227,6 +202,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                /* STHelpHashed */
   &slice_traverse_children,                /* STSelfCheckGuard */
   &slice_traverse_children,                /* STReflexGuard */
+  &slice_traverse_children,                /* STGoalReachableGuard */
   0                                        /* STKeepMatingGuard */
 };
 

@@ -35,24 +35,7 @@ boolean keepmating_guard_has_solution_in_n(slice_index si,
  * @param n number of half moves until end state has to be reached
  */
 void keepmating_guard_solve_continuations_in_n(table continuations,
-                                                slice_index si,
-                                                stip_length_type n);
-
-/* Is there no chance left for reaching the solution?
- * E.g. did the help side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @param just_moved side that has just moved
- * @return true iff no chance is left
- */
-boolean keepmating_guard_must_starter_resign_hashed(slice_index si);
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean keepmating_guard_impose_starter(slice_index si, slice_traversal *st);
+                                               slice_index si,
+                                               stip_length_type n);
 
 #endif

@@ -158,14 +158,6 @@ slice_index alloc_help_adapter_slice(stip_length_type length,
  */
 void help_adapter_promote_to_toplevel(slice_index adapter);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean help_adapter_impose_starter(slice_index si, slice_traversal *st);
-
 /* Solve a branch slice at non-root level.
  * @param si slice index
  * @return true iff >=1 solution was found
