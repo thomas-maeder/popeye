@@ -1356,7 +1356,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
   if (base_slice[si]==no_slice)
   {
     unsigned int const offset = slice_properties[si].valueOffset;
-    TraceValue("%u",slices[si].type);
+    TraceEnumerator(SliceType,slices[si].type," ");
     TraceValue("%u\n",slice_properties[si].valueOffset);
 
     switch (slices[si].type)
@@ -1818,7 +1818,7 @@ static unsigned int estimateNumberOfHoles(slice_index si)
   slice_traversal st;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nrGoals);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   slice_traversal_init(&st,&number_of_holes_estimators,&result);

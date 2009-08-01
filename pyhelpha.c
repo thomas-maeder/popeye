@@ -17,7 +17,7 @@ void insert_help_hashed_slice(slice_index si)
   TraceFunctionParamListEnd();
 
   assert(slices[si].type!=STHelpHashed);
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
 
   slices[si].u.pipe.next = copy_slice(si);
   slices[si].type = STHelpHashed;

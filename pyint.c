@@ -2786,7 +2786,7 @@ static void init_moves_left(slice_index si, stip_length_type n)
 
   slice_traversal_init(&st,&moves_left_initialisers,0);
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STHelpRoot:

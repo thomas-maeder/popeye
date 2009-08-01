@@ -741,7 +741,7 @@ who_decides_on_starter help_adapter_detect_starter(slice_index si,
     result = slice_detect_starter(fork,fork_same_side_as_root);
 
     TraceValue("%u",next_relevant);
-    TraceValue("%u",slices[next_relevant].type);
+    TraceEnumerator(SliceType,slices[next_relevant].type," ");
     TraceValue("%u\n",even_length);
 
     switch (slices[next_relevant].type)

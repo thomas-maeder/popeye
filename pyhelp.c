@@ -25,7 +25,7 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STBranchHelp:
@@ -77,7 +77,7 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STBranchHelp:
@@ -131,7 +131,7 @@ void help_solve_continuations_in_n(table continuations,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",slices[si].type);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STBranchHelp:
