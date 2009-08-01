@@ -818,7 +818,7 @@ static boolean  non_standard_length_finder_branch_direct(slice_index branch,
 /* Find out whether a branch has a non-standard length (i.e. is exact)
  * @param branch identifies branch
  */
-static boolean non_standard_length_finder_help_branch(slice_index si,
+static boolean non_standard_length_finder_help_adapter(slice_index si,
                                                       slice_traversal *st)
 {
   boolean const result = true;
@@ -884,8 +884,8 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                  /* STNot */
   &slice_traverse_children,                  /* STMoveInverter */
   &slice_traverse_children,                  /* STHelpRoot */
-  &non_standard_length_finder_help_branch,   /* STHelpAdapter */
-  &non_standard_length_finder_help_branch,   /* STHelpHashed */
+  &non_standard_length_finder_help_adapter,  /* STHelpAdapter */
+  &non_standard_length_finder_help_adapter,  /* STHelpHashed */
   &slice_traverse_children,                  /* STSelfCheckGuard */
   &slice_traverse_children,                  /* STReflexGuard */
   &slice_traverse_children                   /* STKeepMatingGuard */
