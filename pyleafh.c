@@ -420,29 +420,29 @@ void leaf_h_solve_postkey(slice_index leaf)
 who_decides_on_starter leaf_h_detect_starter(slice_index leaf,
                                              boolean same_side_as_root)
 {
-  who_decides_on_starter result = dont_know_who_decides_on_starter;
+  who_decides_on_starter const result = leaf_decides_on_starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
-  switch (slices[leaf].u.leaf.goal)
+  if (slices[leaf].starter==no_side)
   {
-    case goal_proof:
-      slices[leaf].starter = same_side_as_root ? White : Black;
-      result = leaf_decides_on_starter;
-      break;
+    switch (slices[leaf].u.leaf.goal)
+    {
+      case goal_proof:
+        slices[leaf].starter = same_side_as_root ? White : Black;
+        break;
 
-    case goal_atob:
-      slices[leaf].starter = same_side_as_root ? Black : White;
-      result = leaf_decides_on_starter;
-      break;
+      case goal_atob:
+        slices[leaf].starter = same_side_as_root ? Black : White;
+        break;
 
-    default:
-      if (slices[leaf].starter==no_side)
+      default:
         slices[leaf].starter = White;
-      break;
+        break;
+    }
   }
 
   TraceValue("%u\n",slices[leaf].starter);

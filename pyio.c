@@ -2218,6 +2218,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         slice_index const mi = alloc_move_inverter_slice(next);
         *si = alloc_branch_ser_slice(length,min_length,mi);
       }
+
+      slices[*si].starter = Black;
     }
   }
 
@@ -2331,6 +2333,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
             *si = help;
         }
       }
+
+      slices[*si].starter = Black;
     }
   }
 

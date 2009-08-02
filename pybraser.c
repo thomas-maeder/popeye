@@ -557,54 +557,23 @@ void branch_ser_root_solve_in_n(slice_index si, stip_length_type n)
 who_decides_on_starter branch_ser_detect_starter(slice_index si,
                                                  boolean same_side_as_root)
 {
-  who_decides_on_starter result = dont_know_who_decides_on_starter;
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index next_relevant = next;
+  who_decides_on_starter result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
-  
-  if (slices[next].type==STMoveInverter)
-    next_relevant = slices[next].u.pipe.next;
 
-  TraceValue("%u\n",next_relevant);
-
-  result = slice_detect_starter(next,!same_side_as_root);
-  if (slices[next].starter==no_side)
+  if (slices[si].starter==no_side)
   {
-    /* next can't tell - let's tell him */
-    switch (slices[next_relevant].type)
-    {
-      case STLeafDirect:
-        if (next==next_relevant)
-          /* e.g. ser-h# */
-          slices[si].starter = Black;
-        else
-          /* e.g. ser-# */
-          slices[si].starter = White;
-        TraceValue("%u\n",slices[si].starter);
-        break;
-
-      case STLeafSelf:
-        slices[si].starter = White;
-        TraceValue("%u\n",slices[si].starter);
-        break;
-
-      case STLeafHelp:
-        slices[si].starter = Black;
-        TraceValue("%u\n",slices[si].starter);
-        break;
-
-      default:
-        result = slice_detect_starter(next,same_side_as_root);
-        slices[si].starter = slices[next].starter;
-        break;
-    }
+    slice_index const next = slices[si].u.pipe.next;
+    result = slice_detect_starter(next,!same_side_as_root);
+    slices[si].starter = (slices[next].starter==no_side
+                          ? no_side
+                          : advers(slices[next].starter));
   }
   else
-    slices[si].starter = advers(slices[next].starter);
+    result = leaf_decides_on_starter;
 
   TraceValue("%u\n",slices[si].starter);
 
@@ -627,6 +596,7 @@ boolean branch_ser_impose_starter(slice_index si, slice_traversal *st)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,*starter," ");
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;

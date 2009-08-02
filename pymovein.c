@@ -20,6 +20,7 @@ slice_index alloc_move_inverter_slice(slice_index next)
   TraceFunctionParamListEnd();
 
   slices[result].type = STMoveInverter; 
+  slices[result].starter = no_side;
   slices[result].u.pipe.next = next;
 
   TraceFunctionExit(__func__);
@@ -156,21 +157,26 @@ move_inverter_detect_starter(slice_index si,
                              boolean same_side_as_root)
 {
   who_decides_on_starter result;
-  slice_index const next = slices[si].u.pipe.next;
-  Side next_starter;
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
-  result = slice_detect_starter(next,!same_side_as_root);
-
-  next_starter = slices[next].starter;
-  if (next_starter==no_side)
-    slices[si].starter = no_side;
+  if (slices[si].starter==no_side)
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    Side next_starter;
+    result = slice_detect_starter(next,!same_side_as_root);
+    next_starter = slices[next].starter;
+    if (next_starter!=no_side)
+      slices[si].starter = (next_starter==no_side
+                            ? no_side:
+                            advers(next_starter));
+  }
   else
-    slices[si].starter = advers(next_starter);
+    result = leaf_decides_on_starter;
+
   TraceValue("->%u\n",slices[si].starter);
 
   TraceFunctionExit(__func__);
@@ -212,6 +218,7 @@ boolean move_inverter_impose_starter(slice_index si, slice_traversal *st)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,*starter," ");
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;

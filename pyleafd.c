@@ -636,28 +636,15 @@ void leaf_d_solve_continuations(slice_index leaf)
 who_decides_on_starter leaf_d_detect_starter(slice_index leaf,
                                              boolean same_side_as_root)
 {
-  who_decides_on_starter result = dont_know_who_decides_on_starter;
+  who_decides_on_starter const result = leaf_decides_on_starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
-  switch (slices[leaf].u.leaf.goal)
-  {
-    case goal_proof:
-    case goal_atob:
-      slices[leaf].starter = same_side_as_root ? White : Black;
-      result = leaf_decides_on_starter;
-      break;
-
-    default:
-      /* normally White, but Black in reci-h -> let somebody impose
-       * the starter unless we are at the root level */
-      if (leaf==root_slice)
-        slices[leaf].starter = same_side_as_root ? White : Black;
-      break;
-  }
+  if (slices[leaf].starter==no_side)
+    slices[leaf].starter = White;
 
   TraceValue("%u\n",slices[leaf].starter);
 
