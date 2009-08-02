@@ -1,7 +1,6 @@
 #include "pypipe.h"
 #include "pyselfcg.h"
 #include "pyhelp.h"
-#include "pyleaf.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
