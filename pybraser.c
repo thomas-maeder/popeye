@@ -473,36 +473,6 @@ boolean branch_ser_root_solve(slice_index si)
   return result;
 }
 
-/* Solve the root composite slice with series play
- * @param si slice index
- * @param n number of moves until the slice's goal has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
- * @return true iff >= 1 solution was found
- */
-/* TODO when is the following implementation better? */
-/*boolean branch_ser_root_solve(slice_index si,
-  stip_length_type n)
-  {
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (n==slices[si].u.pipe.u.branch.min_length)
-  result = branch_ser_root_solve_in_n_recursive(si,n);
-  else if (OptFlag[restart])
-  result = branch_ser_root_maximal_solve(n,si);
-  else
-  result = branch_ser_root_solve(si,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-  }*/
-
 /* Solve a composite slice with series play
  * @param si slice index
  * @return true iff >= 1 solution was found
@@ -540,6 +510,7 @@ boolean branch_ser_solve(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
+
 /* Solve a branch in exactly n moves at root level
  * @param si slice index
  * @param n exact number of moves
