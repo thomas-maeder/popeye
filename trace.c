@@ -31,7 +31,7 @@ void TraceFunctionEntry(char const *name)
     
   if (level<=max_level)
   {
-    fprintf(stdout,"> #%lu %s",level,name);
+    fprintf(stdout,"> #%lu %s ",level,name);
     fflush(stdout);
   }
 
@@ -242,6 +242,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STBranchHelp:
       case STHashed:
+      case STBranchSeries:
         fprintf(stdout,"length:%u ",slices[si].u.pipe.u.branch.length);
         fprintf(stdout,"min_length:%u ",slices[si].u.pipe.u.branch.min_length);
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
