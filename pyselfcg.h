@@ -8,7 +8,7 @@
 #include "pyhelp.h"
 #include "pyslice.h"
 
-/* Instrument stipulation with STKeepMatingGuard slices
+/* Instrument stipulation with STSelfCheckGuard slices
  */
 void stip_insert_selfcheck_guards(void);
 
