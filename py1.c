@@ -54,6 +54,7 @@
 #include "pystip.h"
 #include "pyhash.h"
 #include "pytable.h"
+#include "pymovenb.h"
 #include "trace.h"
 #include "platform/maxtime.h"
 
