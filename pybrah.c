@@ -103,6 +103,7 @@ boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
 
 {
   boolean result = false;
+  slice_index const next_slice = slices[si].u.pipe.next;
   Side const side_at_move = slices[si].starter;
 
   TraceFunctionEntry(__func__);
@@ -118,19 +119,13 @@ boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && help_solve_in_n(slices[si].u.pipe.next,n-1))
+        && help_solve_in_n(next_slice,n-1))
       result = true;
 
     repcoup();
 
-    /* Stop solving if a given number of solutions was encountered */
     if (OptFlag[maxsols] && solutions>=maxsolutions)
-    {
-      TraceValue("%u",maxsolutions);
-      TraceValue("%u",solutions);
-      TraceText("aborting\n");
       break;
-    }
 
     if (periods_counter>=nr_periods)
       break;
@@ -865,12 +860,12 @@ slice_index help_root_shorten_help_play(slice_index root)
   return result;
 }
 
-/* Solve short solutions in exactly n in help play at root level.
+/* Solve full-length solutions in exactly n in help play at root level
  * @param root slice index
  * @param n number of half moves
- * @return true iff >=1 short solution was found
+ * @return true iff >=1 solution was found
  */
-static boolean solve_short_in_n(slice_index root, stip_length_type n)
+boolean help_root_solve_in_n(slice_index root, stip_length_type n)
 {
   boolean result;
   slice_index const short_sols = slices[root].u.pipe.u.help_adapter.short_sols;
@@ -880,83 +875,12 @@ static boolean solve_short_in_n(slice_index root, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(short_sols!=no_slice);
-  assert(n>=slack_length_help);
-
-  result = help_solve_in_n(short_sols,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine and write the solution(s) in a help stipulation
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- *          (this may be shorter than the slice's length if we are
- *          searching for short solutions only)
- * @return true iff >=1 solution was found
- */
-static boolean solve_full_in_n(slice_index root, stip_length_type n)
-{
-  Side const starter = slices[root].starter;
-  slice_index const next_slice = slices[root].u.pipe.next;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",root);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_help);
-
-  active_slice[nbply+1] = root;
-  genmove(starter);
-  
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && help_solve_in_n(next_slice,n-1))
-      result = true;
-
-    repcoup();
-
-    if (OptFlag[maxsols] && solutions>=maxsolutions)
-      break;
-
-    if (periods_counter>=nr_periods)
-      break;
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve full-length solutions in exactly n in help play at root level
- * @param root slice index
- * @param n number of half moves
- * @return true iff >=1 solution was found
- */
-boolean help_root_solve_in_n(slice_index root, stip_length_type n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
   assert(n>=slack_length_help);
 
   if (n==slices[root].u.pipe.u.help_adapter.length)
-    result = solve_full_in_n(root,n);
+    result = branch_h_solve_in_n(root,n);
   else
-    result = solve_short_in_n(root,n);
+    result = help_solve_in_n(short_sols,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -978,6 +902,7 @@ boolean help_root_solve(slice_index root)
   stip_length_type len = (OptFlag[restart]
                           ? full_length
                           : slices[root].u.pipe.u.help_adapter.min_length);
+  slice_index const short_sols = slices[root].u.pipe.u.help_adapter.short_sols;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -1005,7 +930,7 @@ boolean help_root_solve(slice_index root)
     }
     else
     {
-      if (solve_short_in_n(root,len))
+      if (help_solve_in_n(short_sols,len))
         result = true;
     }
 
@@ -1020,7 +945,7 @@ boolean help_root_solve(slice_index root)
   else if (isIntelligentModeActive)
     result = Intelligent(root,full_length,full_length);
   else
-    result = solve_full_in_n(root,full_length);
+    result = branch_h_solve_in_n(root,full_length);
 
   if (OptFlag[maxsols] && solutions>=maxsolutions)
     /* signal maximal number of solutions reached to outer world */
