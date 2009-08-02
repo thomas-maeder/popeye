@@ -93,8 +93,13 @@ who_decides_on_starter pipe_detect_starter(slice_index si,
   TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
-  result = slice_detect_starter(next,same_side_as_root);
-  slices[si].starter = slices[next].starter;
+  if (slices[si].starter==no_side)
+  {
+    result = slice_detect_starter(next,same_side_as_root);
+    slices[si].starter = slices[next].starter;
+  }
+  else
+    result = leaf_decides_on_starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

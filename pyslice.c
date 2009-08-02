@@ -1061,9 +1061,9 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       result = branch_d_defender_detect_starter(si,same_side_as_root);
       break;
 
-    case STHelpAdapter:
     case STHelpRoot:
-      result = help_adapter_detect_starter(si,same_side_as_root);
+    case STBranchHelp:
+      result = branch_h_detect_starter(si,same_side_as_root);
       break;
 
     case STBranchSeries:
@@ -1087,6 +1087,7 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       break;
 
     case STNot:
+    case STHelpAdapter:
     case STReflexGuard:
       result = pipe_detect_starter(si,same_side_as_root);
       break;

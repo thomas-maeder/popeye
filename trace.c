@@ -194,8 +194,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
     fprintf(stdout,"[%2u]: ",si);
     fprintf(stdout,"%s ",SliceType_names[slices[si].type]);
-    fprintf(stdout,"starter:%s ",
-            slices[si].starter==White ? "White" : "Black");
+    fprintf(stdout,"%s ",Side_names[slices[si].starter]);
     switch (slices[si].type)
     {
       case STBranchDirect:
@@ -226,6 +225,16 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                 slices[si].u.pipe.u.help_adapter.min_length);
         fprintf(stdout,"short_sols:%u ",
                 slices[si].u.pipe.u.help_adapter.short_sols);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
+      case STHelpAdapter:
+        fprintf(stdout,"length:%u ",
+                slices[si].u.pipe.u.help_adapter.length);
+        fprintf(stdout,"min_length:%u ",
+                slices[si].u.pipe.u.help_adapter.min_length);
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);

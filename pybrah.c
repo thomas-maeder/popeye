@@ -42,6 +42,40 @@ slice_index alloc_branch_h_slice(stip_length_type length,
   return result;
 }
 
+/* Detect starter field with the starting side if possible. 
+ * @param si identifies slice
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
+ */
+who_decides_on_starter branch_h_detect_starter(slice_index si,
+                                               boolean same_side_as_root)
+{
+  who_decides_on_starter result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].starter==no_side)
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    result = slice_detect_starter(next,!same_side_as_root);
+    slices[si].starter = (slices[next].starter==no_side
+                          ? no_side
+                          : advers(slices[next].starter));
+  }
+  else
+    result = leaf_decides_on_starter;
+
+  TraceValue("%u\n",slices[si].starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
@@ -582,45 +616,6 @@ boolean help_adapter_has_solution(slice_index si)
   return result;
 }
 
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
- */
-who_decides_on_starter help_adapter_detect_starter(slice_index si,
-                                                   boolean same_side_as_root)
-{
-  who_decides_on_starter result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",same_side_as_root);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].starter==no_side)
-  {
-    boolean const even_length = slices[si].u.pipe.u.help_adapter.length%2==0;
-    boolean const fork_same_side_as_root = (even_length
-                                            ? same_side_as_root
-                                            : !same_side_as_root);
-    slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
-
-    result = slice_detect_starter(fork,fork_same_side_as_root);
-    slices[si].starter = (even_length
-                          ? slices[fork].starter
-                          : advers(slices[fork].starter));
-  }
-  else
-    result = leaf_decides_on_starter;
-
-  TraceValue("%u\n",slices[si].starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /*************** root *****************/
 
 /* Allocate a STHelpRoot slice.
@@ -803,6 +798,7 @@ static void shorten_root_branch(slice_index root)
     {
       assert(slices[fork].u.pipe.next==no_slice);
       dealloc_slice_index(branch1);
+      slices[root].u.pipe.u.help_adapter.short_sols = no_slice;
     }
   }
   else

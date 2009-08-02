@@ -1,5 +1,17 @@
 #include "pyposit.h"
 
+#define ENUMERATION_TYPENAME Side
+#define ENUMERATORS \
+  ENUMERATOR(White), \
+    ENUMERATOR(Black), \
+                       \
+    ENUMERATOR(nr_sides), \
+    ASSIGNED_ENUMERATOR(no_side = nr_sides)
+
+#define ENUMERATION_MAKESTRINGS
+
+#include "pyenum.h"
+
 /* This is the InitialGameArray */
 piece const PAS[nr_squares_on_board] = {
   tb,   cb,   fb,   db, roib,   fb,   cb,   tb,

@@ -22,14 +22,19 @@ typedef unsigned long Flags;
 
 /* Enumeration type for the two sides which move, deliver mate etc.
  */
-typedef enum
-{
-  White,
-  Black,
 
-  nr_sides,
-  no_side = nr_sides
-} Side;
+#define ENUMERATION_TYPENAME Side
+#define ENUMERATORS \
+  ENUMERATOR(White), \
+    ENUMERATOR(Black), \
+                       \
+    ENUMERATOR(nr_sides), \
+    ASSIGNED_ENUMERATOR(no_side = nr_sides)
+
+#define ENUMERATION_DECLARE
+
+#include "pyenum.h"
+
 
 enum
 {
