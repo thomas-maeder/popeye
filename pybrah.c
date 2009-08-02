@@ -115,8 +115,6 @@ boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
   active_slice[nbply+1] = si;
   genmove(side_at_move);
   
-  --MovesLeft[side_at_move];
-
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
@@ -137,8 +135,6 @@ boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
     if (periods_counter>=nr_periods)
       break;
   }
-    
-  ++MovesLeft[side_at_move];
 
   finply();
 
@@ -170,8 +166,6 @@ void branch_h_solve_continuations_in_n(table continuations,
   active_slice[nbply+1] = si;
   genmove(side_at_move);
   
-  --MovesLeft[side_at_move];
-
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
@@ -196,8 +190,6 @@ void branch_h_solve_continuations_in_n(table continuations,
       break;
   }
     
-  ++MovesLeft[side_at_move];
-
   finply();
 
   TraceFunctionExit(__func__);
@@ -222,8 +214,6 @@ boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n)
   active_slice[nbply+1] = si;
   genmove(side_at_move);
   
-  --MovesLeft[side_at_move];
-
   while (encore() && !result)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
@@ -233,8 +223,6 @@ boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n)
     repcoup();
   }
     
-  ++MovesLeft[side_at_move];
-
   finply();
 
   TraceFunctionExit(__func__);
@@ -925,8 +913,6 @@ static boolean solve_full_in_n(slice_index root, stip_length_type n)
   active_slice[nbply+1] = root;
   genmove(starter);
   
-  --MovesLeft[starter];
-
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
@@ -940,18 +926,11 @@ static boolean solve_full_in_n(slice_index root, stip_length_type n)
     repcoup();
 
     if (OptFlag[maxsols] && solutions>=maxsolutions)
-    {
-      TraceValue("%u",maxsolutions);
-      TraceValue("%u",solutions);
-      TraceText("aborting\n");
       break;
-    }
 
     if (periods_counter>=nr_periods)
       break;
   }
-    
-  ++MovesLeft[starter];
 
   finply();
 

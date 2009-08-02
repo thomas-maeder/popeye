@@ -2856,6 +2856,7 @@ static void init_goalreachable_guard_slice(slice_index si)
 boolean goalreachable_guard_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
+  Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2864,8 +2865,18 @@ boolean goalreachable_guard_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
+  --MovesLeft[just_moved];
+  TraceValue("%u",slices[si].starter);
+  TraceValue("%u",just_moved);
+  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u\n",MovesLeft[just_moved]);
+
   result = (isGoalReachable()
             && help_solve_in_n(slices[si].u.pipe.next,n));
+
+  ++MovesLeft[just_moved];
+  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u\n",MovesLeft[just_moved]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2881,6 +2892,7 @@ boolean goalreachable_guard_solve_in_n(slice_index si, stip_length_type n)
 boolean goalreachable_guard_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
+  Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2889,8 +2901,12 @@ boolean goalreachable_guard_has_solution_in_n(slice_index si, stip_length_type n
 
   assert(n>=slack_length_help);
 
+  --MovesLeft[just_moved];
+
   result = (isGoalReachable()
             && help_has_solution_in_n(slices[si].u.pipe.next,n));
+
+  ++MovesLeft[just_moved];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2908,6 +2924,8 @@ void goalreachable_guard_solve_continuations_in_n(table continuations,
                                           slice_index si,
                                           stip_length_type n)
 {
+  Side const just_moved = advers(slices[si].starter);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
@@ -2915,8 +2933,12 @@ void goalreachable_guard_solve_continuations_in_n(table continuations,
 
   assert(n>=slack_length_help);
 
+  --MovesLeft[just_moved];
+
   if (isGoalReachable())
     help_solve_continuations_in_n(continuations,slices[si].u.pipe.next,n);
+
+  ++MovesLeft[just_moved];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
