@@ -241,7 +241,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STBranchHelp:
-      case STHashed:
+      case STHelpHashed:
       case STBranchSeries:
         fprintf(stdout,"length:%u ",slices[si].u.pipe.u.branch.length);
         fprintf(stdout,"min_length:%u ",slices[si].u.pipe.u.branch.min_length);

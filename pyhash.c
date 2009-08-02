@@ -284,7 +284,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMoveInverter */
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpAdapter */
-  &slice_property_offset_shifter, /* STHashed */
+  &slice_property_offset_shifter, /* STHelpHashed */
   &slice_property_offset_shifter, /* STSelfCheckGuard */
   &slice_property_offset_shifter, /* STReflexGuard */
   &slice_property_offset_shifter, /* STRestartGuard */
@@ -639,7 +639,7 @@ static boolean init_slice_properties_help_adapter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  branch1 = branch_find_slice(STHashed,si);
+  branch1 = branch_find_slice(STHelpHashed,si);
   if (branch1!=no_slice)
   {
     stip_length_type const length = slices[si].u.pipe.u.branch.length;
@@ -735,7 +735,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,                   /* STMoveInverter */
   &init_slice_properties_help_adapter,           /* STHelpRoot */
   &init_slice_properties_help_adapter,           /* STHelpAdapter */
-  &init_slice_properties_hashed_help,            /* STHashed */
+  &init_slice_properties_hashed_help,            /* STHelpHashed */
   &init_slice_properties_pipe,                   /* STSelfCheckGuard */
   &init_slice_properties_pipe,                   /* STReflexGuard */
   &init_slice_properties_pipe,                   /* STRestartGuard */
@@ -788,7 +788,7 @@ static slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children,             /* STMoveInverter */
   &slice_traverse_children,             /* STHelpRoot */
   &slice_traverse_children,             /* STHelpAdapter */
-  &slice_traverse_children,             /* STHashed */
+  &slice_traverse_children,             /* STHelpHashed */
   &slice_traverse_children,             /* STSelfCheckGuard */
   &slice_traverse_children,             /* STReflexGuard */
   &slice_traverse_children,             /* STRestartGuard */
@@ -892,7 +892,7 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                  /* STMoveInverter */
   &slice_traverse_children,                  /* STHelpRoot */
   &non_standard_length_finder_help_adapter,  /* STHelpAdapter */
-  &non_standard_length_finder_help_adapter,  /* STHashed */
+  &non_standard_length_finder_help_adapter,  /* STHelpHashed */
   &slice_traverse_children,                  /* STSelfCheckGuard */
   &slice_traverse_children,                  /* STReflexGuard */
   &slice_traverse_children,                  /* STRestartGuard */
@@ -938,7 +938,7 @@ static slice_operation const min_valueOffset_finders[] =
   &findMinimalValueOffset,  /* STMoveInverter */
   &findMinimalValueOffset,  /* STHelpRoot */
   &findMinimalValueOffset,  /* STHelpAdapter */
-  &findMinimalValueOffset,  /* STHashed */
+  &findMinimalValueOffset,  /* STHelpHashed */
   &findMinimalValueOffset,  /* STSelfCheckGuard */
   &findMinimalValueOffset,  /* STReflexGuard */
   &findMinimalValueOffset,  /* STRestartGuard */
@@ -983,7 +983,7 @@ static slice_operation const valueOffset_reducers[] =
   &reduceValueOffset,       /* STMoveInverter */
   &reduceValueOffset,       /* STHelpRoot */
   &reduceValueOffset,       /* STHelpAdapter */
-  &reduceValueOffset,       /* STHashed */
+  &reduceValueOffset,       /* STHelpHashed */
   &reduceValueOffset,       /* STSelfCheckGuard */
   &reduceValueOffset,       /* STReflexGuard */
   &reduceValueOffset,       /* STRestartGuard */
@@ -1331,7 +1331,7 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
       result = own_value_of_data_direct(he,si,slices[si].u.pipe.u.branch.length);
       break;
 
-    case STHashed:
+    case STHelpHashed:
       result = own_value_of_data_help(he,si);
       break;
 
@@ -1421,7 +1421,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
         do
         {
-          if (slices[next].type==STHashed)
+          if (slices[next].type==STHelpHashed)
             result += own_value_of_data_composite(he,next) << offset;
           next = slices[next].u.pipe.next;
         } while (next!=no_slice && next!=anchor);
@@ -1819,7 +1819,7 @@ static slice_operation const number_of_holes_estimators[] =
   &slice_traverse_children,                         /* STMoveInverter */
   &slice_traverse_children,                         /* STHelpRoot */
   &slice_traverse_children,                         /* STHelpAdapter */
-  &number_of_holes_estimator_hashed_help,           /* STHashed */
+  &number_of_holes_estimator_hashed_help,           /* STHelpHashed */
   &slice_traverse_children,                         /* STSelfCheckGuard */
   &slice_traverse_children,                         /* STReflexGuard */
   &slice_traverse_children,                         /* STRestartGuard */
@@ -2253,7 +2253,7 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
         break;
       }
 
-      case STHashed:
+      case STHelpHashed:
         {
           hash_value_type const nosucc = get_value_help(he,si);
           if (nosucc>=val
@@ -2487,7 +2487,7 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,  /* STMoveInverter */
   &slice_traverse_children,  /* STHelpRoot */
   &slice_traverse_children,  /* STHelpAdapter */
-  &init_element_hashed_help, /* STHashed */
+  &init_element_hashed_help, /* STHelpHashed */
   &slice_traverse_children,  /* STSelfCheckGuard */
   &slice_traverse_children,  /* STReflexGuard */
   &slice_traverse_children,  /* STRestartGuard */
@@ -2805,9 +2805,9 @@ void closehash(void)
 #endif /*TESTHASH,FXF*/
 } /* closehash */
 
-/* Allocate a STHashed slice for a STBranch* slice and insert
+/* Allocate a STHelpHashed slice for a STBranch* slice and insert
  * it at the STBranch* slice's position. 
- * The STHashed takes the place of the STBranch* slice.
+ * The STHelpHashed takes the place of the STBranch* slice.
  * @param si identifies STBranch* slice
  */
 void insert_hashed_slice(slice_index si)
@@ -2816,11 +2816,11 @@ void insert_hashed_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type!=STHashed);
+  assert(slices[si].type!=STHelpHashed);
   TraceEnumerator(SliceType,slices[si].type,"\n");
 
   slices[si].u.pipe.next = copy_slice(si);
-  slices[si].type = STHashed;
+  slices[si].type = STHelpHashed;
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -140,7 +140,7 @@ boolean slice_must_starter_resign_hashed(slice_index si)
       result = branch_fork_must_starter_resign_hashed(si);
       break;
 
-    case STHashed:
+    case STHelpHashed:
       result = hashed_help_must_starter_resign_hashed(si);
       break;
 
@@ -937,7 +937,7 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       break;
 
     case STBranchHelp:
-    case STHashed:
+    case STHelpHashed:
     case STSelfCheckGuard:
       result = branch_h_is_goal_reached(just_moved,si);
       break;

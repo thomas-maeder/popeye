@@ -43,7 +43,7 @@
                                                                         \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpAdapter),     /* help play after branch fork */    \
-    ENUMERATOR(STHashed),      /* help play with hash table */      \
+    ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
                                                                         \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
                                                                         \
@@ -402,7 +402,7 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STMoveInverter */
   &get_max_nr_moves_other,           /* STHelpRoot */
   &get_max_nr_moves_other,           /* STHelpAdapter */
-  &get_max_nr_moves_other,           /* STHashed */
+  &get_max_nr_moves_other,           /* STHelpHashed */
   &get_max_nr_moves_other,           /* STSelfCheckGuard */
   &get_max_nr_moves_other,           /* STReflexGuard */
   &get_max_nr_moves_other,           /* STRestartGuard */
@@ -482,7 +482,7 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STMoveInverter */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
-  &slice_traverse_children, /* STHashed */
+  &slice_traverse_children, /* STHelpHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
   &slice_traverse_children, /* STRestartGuard */
@@ -588,7 +588,7 @@ static slice_operation const to_quodlibet_transformers[] =
   0,                                    /* STMoveInverter */
   0,                                    /* STHelpRoot */
   &transform_to_quodlibet_help_adapter, /* STHelpAdapter */
-  0,                                    /* STHashed */
+  0,                                    /* STHelpHashed */
   0,                                    /* STSelfCheckGuard */
   0,                                    /* STReflexGuard */
   0,                                    /* STRestartGuard */
@@ -676,7 +676,7 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STMoveInverter */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
-  &slice_traverse_children, /* STHashed */
+  &slice_traverse_children, /* STHelpHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
   &slice_traverse_children, /* STRestartGuard */
@@ -744,7 +744,7 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STMoveInverter */
   &slice_traverse_children,   /* STHelpRoot */
   &slice_traverse_children,   /* STHelpAdapter */
-  &slice_traverse_children,   /* STHashed */
+  &slice_traverse_children,   /* STHelpHashed */
   &slice_traverse_children,   /* STSelfCheckGuard */
   &slice_traverse_children,   /* STReflexGuard */
   &slice_traverse_children,   /* STRestartGuard */
@@ -818,7 +818,7 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children,           /* STMoveInverter */
   &make_exact_branch,                 /* STHelpRoot */
   &make_exact_branch,                 /* STHelpAdapter */
-  0,                                  /* STHashed */
+  0,                                  /* STHelpHashed */
   &make_exact_branch,                 /* STSelfCheckGuard */
   &make_exact_branch,                 /* STReflexGuard */
   &make_exact_branch,                 /* STRestartGuard */
@@ -859,7 +859,7 @@ static slice_operation const starter_imposers[] =
   &move_inverter_impose_starter,     /* STMoveInverter */
   &help_root_impose_starter,         /* STHelpRoot */
   &pipe_impose_starter,              /* STHelpAdapter */
-  &pipe_impose_starter,              /* STHashed */
+  &pipe_impose_starter,              /* STHelpHashed */
   &pipe_impose_starter,              /* STSelfCheckGuard */
   &pipe_impose_starter,              /* STReflexGuard */
   &pipe_impose_starter,              /* STRestartGuard */
@@ -1105,7 +1105,7 @@ static slice_operation const traversers[] =
   &traverse_pipe,                   /* STMoveInverter */
   &traverse_pipe,                   /* STHelpRoot */
   &traverse_pipe,                   /* STHelpAdapter */
-  &traverse_pipe,                   /* STHashed */
+  &traverse_pipe,                   /* STHelpHashed */
   &traverse_pipe,                   /* STSelfCheckGuard */
   &traverse_reflex_guard,           /* STReflexGuard */
   &traverse_pipe,                   /* STRestartGuard */

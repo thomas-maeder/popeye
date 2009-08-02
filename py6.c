@@ -502,7 +502,7 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STMoveInverter */
   &root_slice_type_found,             /* STHelpRoot */
   0,                                  /* STHelpAdapter */
-  0,                                  /* STHashed */
+  0,                                  /* STHelpHashed */
   &slice_traverse_children,           /* STSelfCheckGuard */
   0,                                  /* STReflexGuard */
   0,                                  /* STRestartGuard */
@@ -2440,8 +2440,8 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* First traverse childen, then insert STHashed slice;
-   * otherweise the STHashed will be traversed as well.
+  /* First traverse childen, then insert STHelpHashed slice;
+   * otherweise the STHelpHashed will be traversed as well.
    */
   slice_traverse_children(si,st);
   insert_hashed_slice(si);
@@ -2469,7 +2469,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,         /* STMoveInverter */
   &slice_traverse_children,         /* STHelpRoot */
   &slice_traverse_children,         /* STHelpAdapter */
-  &slice_traverse_children,         /* STHashed */
+  &slice_traverse_children,         /* STHelpHashed */
   &slice_traverse_children,         /* STSelfCheckGuard */
   &slice_traverse_children,         /* STReflexGuard */
   &slice_traverse_children,         /* STRestartGuard */

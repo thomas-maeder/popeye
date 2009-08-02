@@ -153,7 +153,7 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,           /* STMoveInverter */
   &restart_guards_inserter_help_root, /* STHelpRoot */
   &slice_traverse_children,           /* STHelpAdapter */
-  &slice_traverse_children,           /* STHashed */
+  &slice_traverse_children,           /* STHelpHashed */
   &slice_traverse_children,           /* STSelfCheckGuard */
   &slice_traverse_children,           /* STReflexGuard */
   0,                                  /* STRestartGuard */

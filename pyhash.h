@@ -79,9 +79,9 @@ void addtohash(slice_index si,
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
 
-/* Allocate a STHashed slice for a STBranch* slice and insert
+/* Allocate a STHelpHashed slice for a STBranch* slice and insert
  * it at the STBranch* slice's position. 
- * The STHashed takes the place of the STBranch* slice.
+ * The STHelpHashed takes the place of the STBranch* slice.
  * @param si identifies STBranch* slice
  */
 void insert_hashed_slice(slice_index si);

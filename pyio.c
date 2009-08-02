@@ -2116,7 +2116,7 @@ static slice_operation const to_toplevel_promoters[] =
   &slice_traverse_children,            /* STMoveInverter */
   0,                                   /* STHelpRoot */
   &to_toplevel_promoters_help_adapter, /* STHelpAdapter */
-  0,                                   /* STHashed */
+  0,                                   /* STHelpHashed */
   0,                                   /* STSelfCheckGuard */
   0,                                   /* STReflexGuard */
   0,                                   /* STRestartGuard */

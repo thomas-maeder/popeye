@@ -38,7 +38,7 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       result = branch_fork_help_solve_in_n(si,n);
       break;
 
-    case STHashed:
+    case STHelpHashed:
       result = hashed_help_solve_in_n(si,n);
       break;
 
@@ -99,7 +99,7 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
       result = branch_fork_help_has_solution_in_n(si,n);
       break;
 
-    case STHashed:
+    case STHelpHashed:
       result = hashed_help_has_solution_in_n(si,n);
       break;
 
@@ -156,7 +156,7 @@ void help_solve_continuations_in_n(table continuations,
       branch_fork_help_solve_continuations_in_n(continuations,si,n);
       break;
 
-    case STHashed:
+    case STHelpHashed:
       hashed_help_solve_continuations_in_n(continuations,si,n);
       break;
 
