@@ -181,7 +181,7 @@ Loesung beendet.
   h#2                        5 + 11
             ExklusivSchach
 
-a)
+a) 
 
   1.Df5-f1 Kd4-c4   2.Tf7-f2 Sg6-f4 # 
 
@@ -219,7 +219,7 @@ Loesung beendet.
   h#2                         3 + 5
             ExklusivSchach
 
-a)
+a) 
 
   1.h2-h1=L e6*f7   2.Lh1-d5 f7-f8=S # 
 
@@ -322,7 +322,7 @@ Loesung beendet.
   h#2                         5 + 7
             ExklusivSchach
 
-a)
+a) 
 
   1.a2-a1=T Le1-d2   2.Ta1-a7 Sf5-e7 # 
 
@@ -424,7 +424,7 @@ Loesung beendet.
   #5                          8 + 5
             ExklusivSchach
 
-a)
+a) 
 
   1.Ka5-b6 ! 
       1...h6-h5 
@@ -1002,7 +1002,7 @@ Loesung beendet.
   h#2                         2 + 2
               OhneSchach
 
-a)
+a) 
 
   1.d2-d1=T a7-a8=D   2.Td1-f1 Da8-g2 # 
 
@@ -1517,7 +1517,7 @@ Loesung beendet.
               Ohneschlag
               OhneSchach
 
-a)
+a) 
 
   1.Kf2-g1 f7-f8=D   2.d2-d1=L Df8-f3 = 
 
@@ -1555,7 +1555,7 @@ Loesung beendet.
                 Circe
               OhneSchach
 
-a)
+a) 
 
   1.e2-e1=S Tb1*e1 [+sSb8]   2.c2-c1=D Te1*c1 [+sDd8] # 
   1.Kc7-c6 Tb1-d1   2.Lb6-c7 Td1-d6 # 
@@ -2305,7 +2305,7 @@ Loesung beendet.
   hx3                         1 + 2
               OhneSchach
 
-a)
+a) 
 
   1.h3-h2 Ka6-b5   2.h2-h1=L Kb5-c5   3.Lh1-d5 Kc5*d5 x 
 
@@ -2422,7 +2422,7 @@ Loesung beendet.
   #2                          3 + 3
               OhneSchach
 
-a)
+a) 
 
   1.Se6-d4 ! Drohung:
           2.Sg4-f6 # 
@@ -2863,18 +2863,13 @@ Loesung beendet.
   2  (e2-e1=S )
   3  (e2-e1=T )
   4  (e2-e1=L )
-  5  (h2-h1=D + )
-  6  (h2-h1=S )
-  7  (h2-h1=T )
-  8  (h2-h1=L + )
-  9  (Kf7*g7 )
- 10  (Kf7-f8 )
- 11  (Kf7-e7 )
- 12  (Kf7-f6 )
- 13  (Kf7-e8 )
- 14  (Kf7-g8 )
- 15  (Kf7-g6 )
- 16  (Kf7-e6 + )
+  5  (h2-h1=S )
+  6  (h2-h1=T )
+  7  (Kf7*g7 )
+  8  (Kf7-e7 )
+  9  (Kf7-f6 )
+ 10  (Kf7-e8 )
+ 11  (Kf7-g6 )
 
 Loesung beendet. 
 
@@ -3587,16 +3582,14 @@ Loesung beendet.
   h#4                         2 + 2
               OhneSchach
 
-  1  (f2-f1=D + )
-  2  (f2-f1=S )
-  3  (f2-f1=T )
-  4  (f2-f1=L + )
-  5  (Kc8-d8 )
-  6  (Kc8-b8 )
-  7  (Kc8-c7 )
+  1  (f2-f1=S )
+  2  (f2-f1=T )
+  3  (Kc8-d8 )
+  4  (Kc8-b8 )
+  5  (Kc8-c7 )
   1.Kc8-d7 Kh3-g4   2.f2-f1=L f5-f6   3.Lf1-a6 f6-f7   4.La6-c8 f7-f8=S # 
-  8  (Kc8-d7 )
-  9  (Kc8-b7 )
+  6  (Kc8-d7 )
+  7  (Kc8-b7 )
 
 Loesung beendet. 
 
@@ -3724,7 +3717,7 @@ Loesung beendet.
   h=2                         4 + 3
               OhneSchach
 
-a)
+a) 
 
   1.Kh4-g5 h7-h8=D   2.h2-h1=S Dh8*h3 = 
 
@@ -3761,7 +3754,7 @@ Loesung beendet.
   h#2                         2 + 2
               OhneSchach
 
-a)
+a) 
 
   1.Kc4-b5 Kc2-b3   2.Th6-b6 a2-a4 # 
 
@@ -3802,7 +3795,7 @@ Loesung beendet.
   h#2                         2 + 2
               OhneSchach
 
-a)
+a) 
 
   1.Tb8-a8 Ke6-d7   2.Ta8-a7 c5-c6 # 
 
@@ -4004,7 +3997,7 @@ Loesung beendet.
               OhneSchach
                UWnur RL
 
-a)
+a) 
 
   1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 # 
   1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 # 
@@ -4273,13 +4266,12 @@ Loesung beendet.
   3  (Kd2-c2 )
   4  (Kd2-d1 )
   5  (Kd2-c3 )
-  6  (Kd2-e3 + )
-  7  (Kd2-e1 )
-  8  (Kd2-c1 )
-  9  (d4-d3 )
+  6  (Kd2-e1 )
+  7  (Kd2-c1 )
+  8  (d4-d3 )
   1.c7-c5 a2-a4   2.c5-c4 a4-a5   3.c4-c3 a5-a6   4.c3-c2 a6-a7   5.c2-c1=L a7-a8=N # 
- 10  (c7-c5 )
- 11  (c7-c6 )
+  9  (c7-c5 )
+ 10  (c7-c6 )
 
 Loesung beendet. 
 

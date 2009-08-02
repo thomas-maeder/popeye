@@ -289,6 +289,8 @@ static boolean branch_ser_root_solve_in_n_recursive(slice_index si,
 
     while (encore())
     {
+      extern unsigned int MoveNbr; /* TODO remove */
+      extern unsigned int RestartNbr; /* TODO remove */
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
           && move_filter(si,n,side_playing_series))

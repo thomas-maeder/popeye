@@ -5,6 +5,7 @@
 #include "pyreflxg.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
+#include "pymovenb.h"
 #include "pyint.h"
 #include "trace.h"
 
@@ -55,6 +56,10 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
 
     case STSelfCheckGuard:
       result = selfcheck_guard_solve_in_n(si,n);
+      break;
+
+    case STRestartGuard:
+      result = restart_guard_solve_in_n(si,n);
       break;
 
     default:

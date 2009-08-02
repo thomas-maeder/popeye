@@ -213,26 +213,27 @@ static boolean selfcheck_guards_inserter_help_root(slice_index si,
 
 static slice_operation const selfcheck_guards_inserters[] =
 {
-  &slice_traverse_children,                /* STBranchDirect */
-  &slice_traverse_children,                /* STBranchDirectDefender */
-  &selfcheck_guards_inserter_help,         /* STBranchHelp */
-  &slice_traverse_children,                /* STBranchSeries */
-  &slice_traverse_children,                /* STBranchFork */
-  &slice_operation_noop,                   /* STLeafDirect */
-  &slice_operation_noop,                   /* STLeafHelp */
-  &slice_operation_noop,                   /* STLeafSelf */
-  &slice_operation_noop,                   /* STLeafForced */
-  &slice_traverse_children,                /* STReciprocal */
-  &slice_traverse_children,                /* STQuodlibet */
-  &slice_traverse_children,                /* STNot */
-  &slice_traverse_children,                /* STMoveInverter */
-  &selfcheck_guards_inserter_help_root,    /* STHelpRoot */
-  &slice_traverse_children,                /* STHelpAdapter */
-  &slice_traverse_children,                /* STHelpHashed */
-  0,                                       /* STSelfCheckGuard */
-  &selfcheck_guards_inserter_root,         /* STReflexGuard */
-  0,                                       /* STGoalReachableGuard */
-  0                                        /* STKeepMatingGuard */
+  &slice_traverse_children,             /* STBranchDirect */
+  &slice_traverse_children,             /* STBranchDirectDefender */
+  &selfcheck_guards_inserter_help,      /* STBranchHelp */
+  &slice_traverse_children,             /* STBranchSeries */
+  &slice_traverse_children,             /* STBranchFork */
+  &slice_operation_noop,                /* STLeafDirect */
+  &slice_operation_noop,                /* STLeafHelp */
+  &slice_operation_noop,                /* STLeafSelf */
+  &slice_operation_noop,                /* STLeafForced */
+  &slice_traverse_children,             /* STReciprocal */
+  &slice_traverse_children,             /* STQuodlibet */
+  &slice_traverse_children,             /* STNot */
+  &slice_traverse_children,             /* STMoveInverter */
+  &selfcheck_guards_inserter_help_root, /* STHelpRoot */
+  &slice_traverse_children,             /* STHelpAdapter */
+  &slice_traverse_children,             /* STHelpHashed */
+  0,                                    /* STSelfCheckGuard */
+  &selfcheck_guards_inserter_root,      /* STReflexGuard */
+  0,                                    /* STRestartGuard */
+  0,                                    /* STGoalReachableGuard */
+  0                                     /* STKeepMatingGuard */
 };
 
 /* Instrument stipulation with STSelfCheckGuard slices

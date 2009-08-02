@@ -2767,6 +2767,7 @@ static slice_operation const moves_left_initialisers[] =
   &slice_traverse_children,       /* STHelpHashed */
   &slice_traverse_children,       /* STSelfCheckGuard */
   0,                              /* STReflexGuard */
+  &slice_traverse_children,       /* STRestartGuard */
   0,                              /* STGoalReachableGuard */
   &slice_traverse_children        /* STKeepMatingGuard */
 };
@@ -2944,13 +2945,10 @@ void goalreachable_guard_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
-typedef boolean next_is_guard_type[max_nr_slices];
-
 static boolean goalreachable_guards_inserter_help(slice_index si,
                                                   slice_traversal *st)
 {
   boolean const result = true;
-  next_is_guard_type * const next_is_int = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2959,7 +2957,6 @@ static boolean goalreachable_guards_inserter_help(slice_index si,
   slice_traverse_children(si,st);
 
   pipe_insert_after(si);
-  (*next_is_int)[si] = true;
   init_goalreachable_guard_slice(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
@@ -2988,44 +2985,22 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,            /* STHelpHashed */
   &slice_traverse_children,            /* STSelfCheckGuard */
   0,                                   /* STReflexGuard */
+  &slice_traverse_children,            /* STRestartGuard */
   0,                                   /* STGoalReachableGuard */
   &slice_traverse_children             /* STKeepMatingGuard */
 };
 
 /* Instrument stipulation with STGoalreachableGuard slices
- * @param next_is_int address of boolean array; traversal will set the
- *                    elements to true if the corresponding slice is the
- *                    predecessor of an inserted STGoalreachableGuard
- *                    slice
  */
-static void stip_insert_goalreachable_guards(next_is_guard_type *next_is_int)
+void stip_insert_goalreachable_guards(void)
 {
   slice_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&goalreachable_guards_inserters,next_is_int);
+  slice_traversal_init(&st,&goalreachable_guards_inserters,0);
   traverse_slices(root_slice,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Uninstrument stipulation; inverse operation of
- * stip_insert_goalreachable_guards()
- * @param next_is_int array filled by stip_insert_goalreachable_guards()
- */
-static void stip_remove_goalreachable_guards(next_is_guard_type next_is_int)
-{
-  slice_index si;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (si = 0; si!=max_nr_slices; ++si)
-    if (next_is_int[si])
-      pipe_remove_after(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3036,7 +3011,6 @@ boolean Intelligent(slice_index si,
                     stip_length_type full_length)
 {
   boolean result;
-  next_is_guard_type next_is_guard = { false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -3052,17 +3026,11 @@ boolean Intelligent(slice_index si,
 
   InitSols();
 
-  stip_insert_goalreachable_guards(&next_is_guard);
-  TraceStipulation();
-
   if (goal_to_be_reached==goal_atob
       || goal_to_be_reached==goal_proof)
     IntelligentProof(n,full_length);
   else
     IntelligentRegularGoals(n);
-
-  stip_remove_goalreachable_guards(next_is_guard);
-  TraceStipulation();
 
   result = CleanupSols();
 
@@ -3237,6 +3205,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STHelpHashed */
   &slice_traverse_children,                      /* STSelfCheckGuard */
   &intelligent_mode_support_none,                /* STReflexGuard */
+  &slice_traverse_children,                      /* STRestartGuard */
   0,                                             /* STGoalReachableGuard */
   &slice_traverse_children                       /* STKeepMatingGuard */
 };

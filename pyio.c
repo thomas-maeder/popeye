@@ -76,6 +76,7 @@
 #include "pybraser.h"
 #include "pymovein.h"
 #include "pyproof.h"
+#include "pymovenb.h"
 #include "pyint.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
@@ -2118,6 +2119,7 @@ static slice_operation const to_toplevel_promoters[] =
   0,                                   /* STHelpHashed */
   0,                                   /* STSelfCheckGuard */
   0,                                   /* STReflexGuard */
+  0,                                   /* STRestartGuard */
   0,                                   /* STGoalReachableGuard */
   0                                    /* STKeepMatingGuard */
 };
@@ -4548,9 +4550,10 @@ static char *ParseOpt(void)
 
       case restart:
         tok = ReadNextTokStr();
-        if ((RestartNbr= atoi(tok)) <= 0) {
+        if (!read_restart_number(tok))
+        {
           OptFlag[restart]= false;
-          IoErrorMsg(WrongInt, 0);
+          IoErrorMsg(WrongInt,0);
           return ReadNextTokStr();
         }
         OptFlag[movenbr]= true;

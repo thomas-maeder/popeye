@@ -49,6 +49,8 @@
                                                                         \
     ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
                                                                         \
+    ENUMERATOR(STRestartGuard),     /* stop when wrong side can reach goal */ \
+                                                                        \
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
                                                                         \
@@ -403,6 +405,7 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STHelpHashed */
   &get_max_nr_moves_other,           /* STSelfCheckGuard */
   &get_max_nr_moves_other,           /* STReflexGuard */
+  &get_max_nr_moves_other,           /* STRestartGuard */
   &get_max_nr_moves_other,           /* STGoalReachableGuard */
   &get_max_nr_moves_other            /* STKeepMatingGuard */
 };
@@ -482,6 +485,7 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STHelpHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children, /* STRestartGuard */
   &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children  /* STKeepMatingGuard */
 };
@@ -587,6 +591,7 @@ static slice_operation const to_quodlibet_transformers[] =
   0,                                    /* STHelpHashed */
   0,                                    /* STSelfCheckGuard */
   0,                                    /* STReflexGuard */
+  0,                                    /* STRestartGuard */
   0,                                    /* STGoalReachableGuard */
   0                                     /* STKeepMatingGuard */
 };
@@ -674,6 +679,7 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STHelpHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children, /* STRestartGuard */
   &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children  /* STKeepMatingGuard */
 };
@@ -741,6 +747,7 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STHelpHashed */
   &slice_traverse_children,   /* STSelfCheckGuard */
   &slice_traverse_children,   /* STReflexGuard */
+  &slice_traverse_children,   /* STRestartGuard */
   &slice_traverse_children,   /* STGoalReachableGuard */
   &slice_traverse_children    /* STKeepMatingGuard */
 };
@@ -814,7 +821,8 @@ static slice_operation const exact_makers[] =
   0,                                  /* STHelpHashed */
   &make_exact_branch,                 /* STSelfCheckGuard */
   &make_exact_branch,                 /* STReflexGuard */
-  &slice_traverse_children,           /* STGoalReachableGuard */
+  &make_exact_branch,                 /* STRestartGuard */
+  &make_exact_branch,                 /* STGoalReachableGuard */
   &make_exact_branch                  /* STKeepMatingGuard */
 };
 
@@ -854,6 +862,7 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_starter,              /* STHelpHashed */
   &pipe_impose_starter,              /* STSelfCheckGuard */
   &pipe_impose_starter,              /* STReflexGuard */
+  &pipe_impose_starter,              /* STRestartGuard */
   &pipe_impose_starter,              /* STGoalReachableGuard */
   &pipe_impose_starter               /* STKeepMatingGuard */
 };
@@ -1099,6 +1108,7 @@ static slice_operation const traversers[] =
   &traverse_pipe,                   /* STHelpHashed */
   &traverse_pipe,                   /* STSelfCheckGuard */
   &traverse_reflex_guard,           /* STReflexGuard */
+  &traverse_pipe,                   /* STRestartGuard */
   &traverse_pipe,                   /* STGoalReachableGuard */
   &traverse_pipe                    /* STKeepMatingGuard */
 };

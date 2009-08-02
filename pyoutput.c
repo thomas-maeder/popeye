@@ -132,6 +132,7 @@ static slice_operation const output_mode_detectors[] =
   &slice_traverse_children, /* STHelpHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children, /* STRestartGuard */
   &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children  /* STKeepMatingGuard */
 };

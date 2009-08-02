@@ -3505,28 +3505,6 @@ boolean jouecoup(ply ply_id, joue_type jt)
   return jouecoup_legality_test(prev_nbpiece,sq_rebirth);
 } /* end of jouecoup */
 
-void IncrementMoveNbr(void)
-{
-  if (MoveNbr>=RestartNbr)
-  {
-    sprintf(GlobalStr,"%3d  (", MoveNbr);
-    StdString(GlobalStr);
-    ecritcoup(nbply,no_goal);
-    if (!flag_regression)
-    {
-      StdString("   ");
-      PrintTime();
-    }
-#if defined(HASHRATE)
-    StdString("   ");
-    HashStats(0, NULL);
-#endif
-    StdString(")\n");
-  }
-
-  MoveNbr++;
-}
-
 void repcoup(void)
 {
   square sq_rebirth;

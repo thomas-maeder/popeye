@@ -109,6 +109,7 @@
 #include "pyquodli.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
+#include "pymovenb.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -505,6 +506,7 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STHelpHashed */
   &slice_traverse_children,           /* STSelfCheckGuard */
   0,                                  /* STReflexGuard */
+  0,                                  /* STRestartGuard */
   0,                                  /* STGoalReachableGuard */
   0                                   /* STKeepMatingGuard */
 };
@@ -1839,28 +1841,6 @@ static boolean verify_position(void)
     optim_orthomatingmoves = false;
   }
 
-  switch (stip_supports_intelligent())
-  {
-    case intelligent_not_supported:
-      if (OptFlag[intelligent])
-      {
-        VerifieMsg(IntelligentRestricted);
-        return false;
-      }
-      else
-        isIntelligentModeActive = false;
-      break;
-
-    case intelligent_not_active_by_default:
-      isIntelligentModeActive = OptFlag[intelligent];
-      break;
-
-    case intelligent_active_by_default:
-      isIntelligentModeActive = true;
-      break;
-  }
-  TraceValue("%u\n",isIntelligentModeActive);
-
   if (CondFlag[castlingchess])
   {
     optim_neutralretractable = false;
@@ -2105,11 +2085,11 @@ static void solveHalfADuplex(void)
       && OptFlag[restart]
       && !stip_ends_in_one_of(proof_goals,nr_proof_goals))
   {
-    /* In intelligent mode, RestartNbr means the minimal number of
-     * moves.
+    /* In intelligent mode, the restart number means the minimal
+     * number of moves.
      */
-    stip_length_type const save_min_length = set_min_length(root_slice,
-                                                            RestartNbr);
+    stip_length_type const
+        save_min_length = set_min_length(root_slice,get_restart_number());
     OptFlag[restart] = false;
     slice_root_solve(root_slice);
     OptFlag[restart] = true;
@@ -2490,6 +2470,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,         /* STHelpHashed */
   &slice_traverse_children,         /* STSelfCheckGuard */
   &slice_traverse_children,         /* STReflexGuard */
+  &slice_traverse_children,         /* STRestartGuard */
   &slice_traverse_children,         /* STGoalReachableGuard */
   &slice_traverse_children          /* STKeepMatingGuard */
 };
@@ -2675,6 +2656,24 @@ static Token iterate_twins(Token prev_token)
 
       slice_detect_starter(root_slice,same_starter_as_root);
 
+      switch (stip_supports_intelligent())
+      {
+        case intelligent_not_supported:
+          if (OptFlag[intelligent])
+            Message(IntelligentRestricted);
+          isIntelligentModeActive = false;
+          break;
+
+        case intelligent_not_active_by_default:
+          isIntelligentModeActive = OptFlag[intelligent];
+          break;
+
+        case intelligent_active_by_default:
+          isIntelligentModeActive = true;
+          break;
+      }
+      TraceValue("%u\n",isIntelligentModeActive);
+
       /* intelligent AND duplex means that the board is mirrored and
        * the colors swapped by swapcolors() and reflectboard() ->
        * start with the regular side. */
@@ -2706,6 +2705,12 @@ static Token iterate_twins(Token prev_token)
       stip_insert_selfcheck_guards();
 
       insert_hash_slices();
+
+      if (isIntelligentModeActive)
+        stip_insert_goalreachable_guards();
+
+      if (!OptFlag[intelligent] && OptFlag[movenbr])
+        stip_insert_restart_guards();
 
       if (OptFlag[keepmating])
         stip_insert_keepmating_guards();

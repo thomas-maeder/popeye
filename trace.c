@@ -224,6 +224,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                 slices[si].u.pipe.u.help_adapter.length);
         fprintf(stdout,"min_length:%u ",
                 slices[si].u.pipe.u.help_adapter.min_length);
+        fprintf(stdout,"short_sols:%u ",
+                slices[si].u.pipe.u.help_adapter.short_sols);
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -267,6 +269,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSelfCheckGuard:
       case STGoalReachableGuard:
       case STNot:
+      case STRestartGuard:
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);

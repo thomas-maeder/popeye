@@ -253,6 +253,7 @@ static slice_operation const keepmating_guards_inserters[] =
   &slice_traverse_children,                /* STHelpHashed */
   &slice_traverse_children,                /* STSelfCheckGuard */
   0,                                       /* STReflexGuard */
+  &slice_traverse_children,                /* STRestartGuard */
   0,                                       /* STGoalReachableGuard */
   0                                        /* STKeepMatingGuard */
 };

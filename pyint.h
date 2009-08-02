@@ -35,6 +35,10 @@ typedef enum
 
 support_for_intelligent_mode stip_supports_intelligent(void);
 
+/* Instrument stipulation with STGoalreachableGuard slices
+ */
+void stip_insert_goalreachable_guards(void);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n number of half moves until end state has to be reached

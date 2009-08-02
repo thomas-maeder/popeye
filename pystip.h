@@ -42,6 +42,8 @@
                                                                         \
     ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
                                                                         \
+    ENUMERATOR(STRestartGuard),     /* stop when wrong side can reach goal */ \
+                                                                        \
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
                                                                         \
@@ -158,6 +160,7 @@ typedef struct
                     stip_length_type length;     /* half moves */
                     stip_length_type min_length; /* half moves */
                     slice_index fork;
+                    slice_index short_sols;
                 } help_adapter;
 
                 struct

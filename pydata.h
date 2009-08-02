@@ -360,7 +360,6 @@ EXTERN  stip_length_type min_length_nontrivial;
 EXTERN  int max_nr_nontrivial;
 
 EXTERN  unsigned int max_nr_refutations;
-EXTERN  int        MoveNbr, RestartNbr;
 EXTERN  Side         neutcoul;
 EXTERN  boolean         calctransmute;
 

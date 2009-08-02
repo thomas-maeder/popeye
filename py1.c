@@ -313,8 +313,8 @@ void InitOpt(void)
 
   max_nr_flights = INT_MAX;
   max_nr_refutations = 0;
-  MoveNbr = 1;
-  RestartNbr = 0;
+
+  reset_restart_number();
 
   max_len_threat = maxply;
   min_length_nontrivial = maxply;

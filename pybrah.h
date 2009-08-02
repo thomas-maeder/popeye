@@ -83,18 +83,6 @@ void branch_h_solve_continuations_in_n(table continuations,
                                        slice_index si,
                                        stip_length_type n);
 
-/* Allocate a STHelpRoot slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param fork identifies fork slice of branch
- * @param next identifies next slice
- * @return index of allocated slice
- */
-slice_index alloc_help_root_slice(stip_length_type length,
-                                  stip_length_type min_length,
-                                  slice_index fork,
-                                  slice_index next);
-
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
