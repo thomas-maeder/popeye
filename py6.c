@@ -2300,13 +2300,16 @@ static int parseCommandlineOptions(int argc, char *argv[])
       char *end;
 
       idx++;
-      max_trace_level = strtoul(argv[idx], &end, 10);
-#if defined(DOTRACE)
-      if (*end==0)
-        TraceSetMaxLevel(max_trace_level);
-      else
+      if (idx<argc)
       {
-        /* conversion failure  - ignore option */
+        max_trace_level = strtoul(argv[idx], &end, 10);
+#if defined(DOTRACE)
+        if (*end==0)
+          TraceSetMaxLevel(max_trace_level);
+        else
+        {
+          /* conversion failure  - ignore option */
+        }
       }
 #else
       /* ignore */
