@@ -6,7 +6,6 @@
 #include "pyoutput.h"
 #include "pyslice.h"
 #include "pyhelp.h"
-#include "pyhelpha.h"
 #include "pybrafrk.h"
 #include "pyreflxg.h"
 #include "pypipe.h"

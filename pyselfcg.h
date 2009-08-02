@@ -23,14 +23,14 @@ boolean selfcheck_guard_root_solve(slice_index si);
  * @param n number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean selfcheck_guard_solve_in_n(slice_index si, stip_length_type n);
+boolean selfcheck_guard_help_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean selfcheck_guard_has_solution_in_n(slice_index si, stip_length_type n);
+boolean selfcheck_guard_help_has_solution_in_n(slice_index si, stip_length_type n);
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
@@ -38,7 +38,7 @@ boolean selfcheck_guard_has_solution_in_n(slice_index si, stip_length_type n);
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
  */
-void selfcheck_guard_solve_continuations_in_n(table continuations,
+void selfcheck_guard_help_solve_continuations_in_n(table continuations,
                                               slice_index si,
                                               stip_length_type n);
 

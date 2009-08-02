@@ -18,14 +18,14 @@ void stip_insert_keepmating_guards(void);
  * @param n number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean keepmating_guard_solve_in_n(slice_index si, stip_length_type n);
+boolean keepmating_guard_help_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean keepmating_guard_has_solution_in_n(slice_index si,
+boolean keepmating_guard_help_has_solution_in_n(slice_index si,
                                             stip_length_type n);
 
 /* Determine and write solution(s): add first moves to table (as
@@ -34,7 +34,7 @@ boolean keepmating_guard_has_solution_in_n(slice_index si,
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
  */
-void keepmating_guard_solve_continuations_in_n(table continuations,
+void keepmating_guard_help_solve_continuations_in_n(table continuations,
                                                slice_index si,
                                                stip_length_type n);
 

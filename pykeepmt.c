@@ -30,7 +30,7 @@ static void init_keepmating_guard_slice(slice_index si, Side mating)
  * @param n number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean keepmating_guard_solve_in_n(slice_index si, stip_length_type n)
+boolean keepmating_guard_help_solve_in_n(slice_index si, stip_length_type n)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   boolean result;
@@ -56,7 +56,7 @@ boolean keepmating_guard_solve_in_n(slice_index si, stip_length_type n)
  * @param n number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean keepmating_guard_has_solution_in_n(slice_index si, stip_length_type n)
+boolean keepmating_guard_help_has_solution_in_n(slice_index si, stip_length_type n)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   boolean result;
@@ -83,7 +83,7 @@ boolean keepmating_guard_has_solution_in_n(slice_index si, stip_length_type n)
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
  */
-void keepmating_guard_solve_continuations_in_n(table continuations,
+void keepmating_guard_help_solve_continuations_in_n(table continuations,
                                           slice_index si,
                                           stip_length_type n)
 {
@@ -250,7 +250,7 @@ static slice_operation const keepmating_guards_inserters[] =
   &slice_traverse_children,                /* STMoveInverter */
   &keepmating_guards_inserter_help,        /* STHelpRoot */
   &slice_traverse_children,                /* STHelpAdapter */
-  &slice_traverse_children,                /* STHelpHashed */
+  &slice_traverse_children,                /* STHashed */
   &slice_traverse_children,                /* STSelfCheckGuard */
   0,                                       /* STReflexGuard */
   &slice_traverse_children,                /* STRestartGuard */

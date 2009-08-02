@@ -1,7 +1,7 @@
 #include "pyhelp.h"
 #include "pybrah.h"
 #include "pybrafrk.h"
-#include "pyhelpha.h"
+#include "pyhash.h"
 #include "pyreflxg.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
@@ -38,28 +38,28 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       result = branch_fork_help_solve_in_n(si,n);
       break;
 
-    case STHelpHashed:
-      result = help_hashed_solve_in_n(si,n);
+    case STHashed:
+      result = hashed_help_solve_in_n(si,n);
       break;
 
     case STReflexGuard:
-      result = reflex_guard_solve_in_n(si,n);
+      result = reflex_guard_help_solve_in_n(si,n);
       break;
 
     case STKeepMatingGuard:
-      result = keepmating_guard_solve_in_n(si,n);
+      result = keepmating_guard_help_solve_in_n(si,n);
       break;
 
     case STGoalReachableGuard:
-      result = goalreachable_guard_solve_in_n(si,n);
+      result = goalreachable_guard_help_solve_in_n(si,n);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_solve_in_n(si,n);
+      result = selfcheck_guard_help_solve_in_n(si,n);
       break;
 
     case STRestartGuard:
-      result = restart_guard_solve_in_n(si,n);
+      result = restart_guard_help_solve_in_n(si,n);
       break;
 
     default:
@@ -99,24 +99,24 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
       result = branch_fork_help_has_solution_in_n(si,n);
       break;
 
-    case STHelpHashed:
-      result = help_hashed_has_solution_in_n(si,n);
+    case STHashed:
+      result = hashed_help_has_solution_in_n(si,n);
       break;
 
     case STReflexGuard:
-      result = reflex_guard_has_solution_in_n(si,n);
+      result = reflex_guard_help_has_solution_in_n(si,n);
       break;
 
     case STKeepMatingGuard:
-      result = keepmating_guard_has_solution_in_n(si,n);
+      result = keepmating_guard_help_has_solution_in_n(si,n);
       break;
 
     case STGoalReachableGuard:
-      result = goalreachable_guard_has_solution_in_n(si,n);
+      result = goalreachable_guard_help_has_solution_in_n(si,n);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_has_solution_in_n(si,n);
+      result = selfcheck_guard_help_has_solution_in_n(si,n);
       break;
 
     default:
@@ -156,24 +156,24 @@ void help_solve_continuations_in_n(table continuations,
       branch_fork_help_solve_continuations_in_n(continuations,si,n);
       break;
 
-    case STHelpHashed:
-      help_hashed_solve_continuations_in_n(continuations,si,n);
+    case STHashed:
+      hashed_help_solve_continuations_in_n(continuations,si,n);
       break;
 
     case STReflexGuard:
-      reflex_guard_solve_continuations_in_n(continuations,si,n);
+      reflex_guard_help_solve_continuations_in_n(continuations,si,n);
       break;
 
     case STKeepMatingGuard:
-      keepmating_guard_solve_continuations_in_n(continuations,si,n);
+      keepmating_guard_help_solve_continuations_in_n(continuations,si,n);
       break;
 
     case STGoalReachableGuard:
-      goalreachable_guard_solve_continuations_in_n(continuations,si,n);
+      goalreachable_guard_help_solve_continuations_in_n(continuations,si,n);
       break;
 
     case STSelfCheckGuard:
-      selfcheck_guard_solve_continuations_in_n(continuations,si,n);
+      selfcheck_guard_help_solve_continuations_in_n(continuations,si,n);
       break;
 
     default:

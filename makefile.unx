@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.79 2009/08/02 11:25:33 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.80 2009/08/02 12:09:33 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -260,7 +260,6 @@ INCLUDES =      pyenum.h \
 		pybrad.h pybradd.h pybrah.h pybraser.h \
 		pyleaf.h pyleafd.h pyleafs.h pyleaff.h pyleafh.h \
 		pymovein.h \
-		pyhelpha.h \
 		pymovenb.h \
 		boolean.h trace.h
 PYCFILES =      pydata.c pyboard.c pyposit.c \
@@ -278,7 +277,6 @@ PYCFILES =      pydata.c pyboard.c pyposit.c \
 		pybrad.c pybradd.c pybrah.c pybraser.c \
 		pyleaf.c pyleafd.c pyleafs.c pyleaff.c pyleafh.c \
 		pymovein.c \
-		pyhelpha.c \
 		pymovenb.c \
 		trace.c \
 		platform/$(PLATFORM)/maxmem.c \

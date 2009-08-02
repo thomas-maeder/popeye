@@ -15,7 +15,7 @@
 #include "pyrecipr.h"
 #include "pynot.h"
 #include "pymovein.h"
-#include "pyhelpha.h"
+#include "pyhash.h"
 #include "pyreflxg.h"
 #include "pyselfcg.h"
 #include "pypipe.h"
@@ -140,8 +140,8 @@ boolean slice_must_starter_resign_hashed(slice_index si)
       result = branch_fork_must_starter_resign_hashed(si);
       break;
 
-    case STHelpHashed:
-      result = help_hashed_must_starter_resign_hashed(si);
+    case STHashed:
+      result = hashed_help_must_starter_resign_hashed(si);
       break;
 
     case STBranchDirect:
@@ -937,7 +937,7 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       break;
 
     case STBranchHelp:
-    case STHelpHashed:
+    case STHashed:
     case STSelfCheckGuard:
       result = branch_h_is_goal_reached(just_moved,si);
       break;

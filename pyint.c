@@ -2764,7 +2764,7 @@ static slice_operation const moves_left_initialisers[] =
   &slice_traverse_children,       /* STMoveInverter */
   0,                              /* STHelpRoot */
   &init_moves_left_help_adapter,  /* STHelpAdapter */
-  &slice_traverse_children,       /* STHelpHashed */
+  &slice_traverse_children,       /* STHashed */
   &slice_traverse_children,       /* STSelfCheckGuard */
   0,                              /* STReflexGuard */
   &slice_traverse_children,       /* STRestartGuard */
@@ -2854,7 +2854,7 @@ static void init_goalreachable_guard_slice(slice_index si)
  * @param n number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean goalreachable_guard_solve_in_n(slice_index si, stip_length_type n)
+boolean goalreachable_guard_help_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
   Side const just_moved = advers(slices[si].starter);
@@ -2890,7 +2890,7 @@ boolean goalreachable_guard_solve_in_n(slice_index si, stip_length_type n)
  * @param n number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean goalreachable_guard_has_solution_in_n(slice_index si, stip_length_type n)
+boolean goalreachable_guard_help_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
   Side const just_moved = advers(slices[si].starter);
@@ -2921,7 +2921,7 @@ boolean goalreachable_guard_has_solution_in_n(slice_index si, stip_length_type n
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
  */
-void goalreachable_guard_solve_continuations_in_n(table continuations,
+void goalreachable_guard_help_solve_continuations_in_n(table continuations,
                                           slice_index si,
                                           stip_length_type n)
 {
@@ -2982,7 +2982,7 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,            /* STMoveInverter */
   &goalreachable_guards_inserter_help, /* STHelpRoot */
   &slice_traverse_children,            /* STHelpAdapter */
-  &slice_traverse_children,            /* STHelpHashed */
+  &slice_traverse_children,            /* STHashed */
   &slice_traverse_children,            /* STSelfCheckGuard */
   0,                                   /* STReflexGuard */
   &slice_traverse_children,            /* STRestartGuard */
@@ -3202,7 +3202,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STMoveInverter */
   &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
   &intelligent_mode_support_detector_branch_h,   /* STHelpAdapter */
-  &slice_traverse_children,                      /* STHelpHashed */
+  &slice_traverse_children,                      /* STHashed */
   &slice_traverse_children,                      /* STSelfCheckGuard */
   &intelligent_mode_support_none,                /* STReflexGuard */
   &slice_traverse_children,                      /* STRestartGuard */

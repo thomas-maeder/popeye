@@ -102,6 +102,7 @@
 #include "pyproof.h"
 #include "pystip.h"
 #include "pybrafrk.h"
+#include "pyhelp.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "trace.h"
@@ -283,7 +284,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMoveInverter */
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpAdapter */
-  &slice_property_offset_shifter, /* STHelpHashed */
+  &slice_property_offset_shifter, /* STHashed */
   &slice_property_offset_shifter, /* STSelfCheckGuard */
   &slice_property_offset_shifter, /* STReflexGuard */
   &slice_property_offset_shifter, /* STRestartGuard */
@@ -598,7 +599,7 @@ boolean init_slice_properties_branch_direct_defender(slice_index branch,
  * @return true iff the properties for si and its children have been
  *         successfully initialised
  */
-static boolean init_slice_properties_help_hashed(slice_index si,
+static boolean init_slice_properties_hashed_help(slice_index si,
                                                  slice_traversal *st)
 {
   boolean const result = true;
@@ -638,7 +639,7 @@ static boolean init_slice_properties_help_adapter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  branch1 = branch_find_slice(STHelpHashed,si);
+  branch1 = branch_find_slice(STHashed,si);
   if (branch1!=no_slice)
   {
     stip_length_type const length = slices[si].u.pipe.u.branch.length;
@@ -734,7 +735,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,                   /* STMoveInverter */
   &init_slice_properties_help_adapter,           /* STHelpRoot */
   &init_slice_properties_help_adapter,           /* STHelpAdapter */
-  &init_slice_properties_help_hashed,            /* STHelpHashed */
+  &init_slice_properties_hashed_help,            /* STHashed */
   &init_slice_properties_pipe,                   /* STSelfCheckGuard */
   &init_slice_properties_pipe,                   /* STReflexGuard */
   &init_slice_properties_pipe,                   /* STRestartGuard */
@@ -787,7 +788,7 @@ static slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children,             /* STMoveInverter */
   &slice_traverse_children,             /* STHelpRoot */
   &slice_traverse_children,             /* STHelpAdapter */
-  &slice_traverse_children,             /* STHelpHashed */
+  &slice_traverse_children,             /* STHashed */
   &slice_traverse_children,             /* STSelfCheckGuard */
   &slice_traverse_children,             /* STReflexGuard */
   &slice_traverse_children,             /* STRestartGuard */
@@ -891,7 +892,7 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                  /* STMoveInverter */
   &slice_traverse_children,                  /* STHelpRoot */
   &non_standard_length_finder_help_adapter,  /* STHelpAdapter */
-  &non_standard_length_finder_help_adapter,  /* STHelpHashed */
+  &non_standard_length_finder_help_adapter,  /* STHashed */
   &slice_traverse_children,                  /* STSelfCheckGuard */
   &slice_traverse_children,                  /* STReflexGuard */
   &slice_traverse_children,                  /* STRestartGuard */
@@ -937,7 +938,7 @@ static slice_operation const min_valueOffset_finders[] =
   &findMinimalValueOffset,  /* STMoveInverter */
   &findMinimalValueOffset,  /* STHelpRoot */
   &findMinimalValueOffset,  /* STHelpAdapter */
-  &findMinimalValueOffset,  /* STHelpHashed */
+  &findMinimalValueOffset,  /* STHashed */
   &findMinimalValueOffset,  /* STSelfCheckGuard */
   &findMinimalValueOffset,  /* STReflexGuard */
   &findMinimalValueOffset,  /* STRestartGuard */
@@ -982,7 +983,7 @@ static slice_operation const valueOffset_reducers[] =
   &reduceValueOffset,       /* STMoveInverter */
   &reduceValueOffset,       /* STHelpRoot */
   &reduceValueOffset,       /* STHelpAdapter */
-  &reduceValueOffset,       /* STHelpHashed */
+  &reduceValueOffset,       /* STHashed */
   &reduceValueOffset,       /* STSelfCheckGuard */
   &reduceValueOffset,       /* STReflexGuard */
   &reduceValueOffset,       /* STRestartGuard */
@@ -1330,7 +1331,7 @@ static hash_value_type own_value_of_data_composite(dhtElement const *he,
       result = own_value_of_data_direct(he,si,slices[si].u.pipe.u.branch.length);
       break;
 
-    case STHelpHashed:
+    case STHashed:
       result = own_value_of_data_help(he,si);
       break;
 
@@ -1420,7 +1421,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
         do
         {
-          if (slices[next].type==STHelpHashed)
+          if (slices[next].type==STHashed)
             result += own_value_of_data_composite(he,next) << offset;
           next = slices[next].u.pipe.next;
         } while (next!=no_slice && next!=anchor);
@@ -1783,7 +1784,7 @@ static boolean number_of_holes_estimator_fork(slice_index si,
   return result;
 }
 
-static boolean number_of_holes_estimator_help_hashed(slice_index si,
+static boolean number_of_holes_estimator_hashed_help(slice_index si,
                                                      slice_traversal *st)
 {
   boolean const result = true;
@@ -1818,7 +1819,7 @@ static slice_operation const number_of_holes_estimators[] =
   &slice_traverse_children,                         /* STMoveInverter */
   &slice_traverse_children,                         /* STHelpRoot */
   &slice_traverse_children,                         /* STHelpAdapter */
-  &number_of_holes_estimator_help_hashed,           /* STHelpHashed */
+  &number_of_holes_estimator_hashed_help,           /* STHashed */
   &slice_traverse_children,                         /* STSelfCheckGuard */
   &slice_traverse_children,                         /* STReflexGuard */
   &slice_traverse_children,                         /* STRestartGuard */
@@ -2252,7 +2253,7 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
         break;
       }
 
-      case STHelpHashed:
+      case STHashed:
         {
           hash_value_type const nosucc = get_value_help(he,si);
           if (nosucc>=val
@@ -2428,7 +2429,7 @@ boolean init_element_branch_d(slice_index si, slice_traversal *st)
  * @param st address of structure holding status of traversal
  * @return result of traversing si's children
  */
-boolean init_element_help_hashed(slice_index si, slice_traversal *st)
+boolean init_element_hashed_help(slice_index si, slice_traversal *st)
 {
   boolean result;
   dhtElement * const he = st->param;
@@ -2486,7 +2487,7 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,  /* STMoveInverter */
   &slice_traverse_children,  /* STHelpRoot */
   &slice_traverse_children,  /* STHelpAdapter */
-  &init_element_help_hashed, /* STHelpHashed */
+  &init_element_hashed_help, /* STHashed */
   &slice_traverse_children,  /* STSelfCheckGuard */
   &slice_traverse_children,  /* STReflexGuard */
   &slice_traverse_children,  /* STRestartGuard */
@@ -2803,6 +2804,149 @@ void closehash(void)
   fxfInfo(stdout);
 #endif /*TESTHASH,FXF*/
 } /* closehash */
+
+/* Allocate a STHashed slice for a STBranch* slice and insert
+ * it at the STBranch* slice's position. 
+ * The STHashed takes the place of the STBranch* slice.
+ * @param si identifies STBranch* slice
+ */
+void insert_hashed_slice(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(slices[si].type!=STHashed);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+
+  slices[si].u.pipe.next = copy_slice(si);
+  slices[si].type = STHashed;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >=1 solution was found
+ */
+boolean hashed_help_solve_in_n(slice_index si, stip_length_type n)
+{
+  boolean result;
+  stip_length_type const nr_half_moves = (n+1-slack_length_help)/2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>slack_length_help);
+
+  if (inhash(si,hash_help_insufficient_nr_half_moves,nr_half_moves))
+    result = false;
+  else if (help_solve_in_n(slices[si].u.pipe.next,n))
+    result = true;
+  else
+  {
+    result = false;
+    addtohash(si,hash_help_insufficient_nr_half_moves,nr_half_moves);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >= 1 solution has been found
+ */
+boolean hashed_help_has_solution_in_n(slice_index si, stip_length_type n)
+{
+  boolean result;
+  stip_length_type const nr_half_moves = (n+1-slack_length_help)/2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>slack_length_help);
+
+  if (inhash(si,hash_help_insufficient_nr_half_moves,nr_half_moves))
+    result = false;
+  else
+  {
+    if (help_has_solution_in_n(slices[si].u.pipe.next,n))
+      result = true;
+    else
+    {
+      addtohash(si,hash_help_insufficient_nr_half_moves,nr_half_moves);
+      result = false;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice. First consult hash table.
+ * @param continuations table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ */
+void hashed_help_solve_continuations_in_n(table continuations,
+                                          slice_index si,
+                                          stip_length_type n)
+{
+  stip_length_type const nr_half_moves = (n+1-slack_length_help)/2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>slack_length_help);
+
+  if (!inhash(si,hash_help_insufficient_nr_half_moves,nr_half_moves))
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    help_solve_continuations_in_n(continuations,next,n);
+    if (table_length(continuations)==0)
+      addtohash(si,hash_help_insufficient_nr_half_moves,nr_half_moves);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Is there no chance left for reaching the solution?
+ * E.g. did the help side just allow a mate in 1 in a hr#N?
+ * Tests may rely on the current position being hash-encoded.
+ * @param si slice index
+ * @return true iff no chance is left
+ */
+boolean hashed_help_must_starter_resign_hashed(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_must_starter_resign_hashed(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* assert()s below this line must remain active even in "productive"
  * executables. */

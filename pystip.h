@@ -36,7 +36,7 @@
                                                                         \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpAdapter),     /* help play after branch fork */    \
-    ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
+    ENUMERATOR(STHashed),      /* help play with hash table */      \
                                                                         \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
                                                                         \

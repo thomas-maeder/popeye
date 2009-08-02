@@ -94,7 +94,7 @@ static void init_restart_guard_slice(slice_index si)
  * @param n number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean restart_guard_solve_in_n(slice_index si, stip_length_type n)
+boolean restart_guard_help_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
 
@@ -153,7 +153,7 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,           /* STMoveInverter */
   &restart_guards_inserter_help_root, /* STHelpRoot */
   &slice_traverse_children,           /* STHelpAdapter */
-  &slice_traverse_children,           /* STHelpHashed */
+  &slice_traverse_children,           /* STHashed */
   &slice_traverse_children,           /* STSelfCheckGuard */
   &slice_traverse_children,           /* STReflexGuard */
   0,                                  /* STRestartGuard */
