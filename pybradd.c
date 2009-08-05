@@ -43,15 +43,6 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
   return result;
 }
 
-/* Set the peer slice of a STBranchDirect defender slice
- * @param si index of the STBranchDirect defender slice
- * @param slice index of the new peer
- */
-void branch_d_defender_set_peer(slice_index si, slice_index peer)
-{
-  slices[si].u.pipe.next = peer;
-}
-
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?

@@ -10,6 +10,19 @@
  * in STBranchDirect stipulation slices.
  */
 
+/* Allocate a branch that represents direct play
+ * @param level is this a top-level branch or one nested into another
+ *              branch?
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of adapter slice
+ */
+slice_index alloc_direct_branch(branch_level level,
+                                stip_length_type length,
+                                stip_length_type min_length,
+                                slice_index next);
+
 /* Allocate a STBranchDirect slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -19,12 +32,6 @@
 slice_index alloc_branch_d_slice(stip_length_type length,
                                  stip_length_type min_length,
                                  slice_index next);
-
-/* Set the peer slice of a STBranchDirect slice
- * @param si index of the STBranchDirect slice
- * @param slice index of the new peer
- */
-void branch_d_set_peer(slice_index si, slice_index peer);
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).

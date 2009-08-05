@@ -2558,15 +2558,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
           *si = next;
         }
         else
-        {
-          slice_index const defender =
-              alloc_branch_d_defender_slice(length,
-                                            min_length,
-                                            next);
-          *si = alloc_branch_d_slice(length,min_length,next);
-          branch_d_set_peer(*si,defender);
-          branch_d_defender_set_peer(defender,*si);
-        }
+          *si = alloc_direct_branch(level,length,min_length,next);
       }
     }
   }
@@ -2747,6 +2739,7 @@ static char *ParseStructuredStip_operand(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_d(char *tok,
+                                          branch_level level,
                                           stip_length_type min_length,
                                           stip_length_type max_length,
                                           slice_index *result)
@@ -2768,7 +2761,6 @@ static char *ParseStructuredStip_branch_d(char *tok,
     if (tok!=0)
     {
       slice_index next;
-      slice_index defender;
 
       if (nextStartLikeBranch)
         next = operand;
@@ -2782,10 +2774,7 @@ static char *ParseStructuredStip_branch_d(char *tok,
 
       min_length += slack_length_direct;
       max_length += slack_length_direct;
-      defender = alloc_branch_d_defender_slice(max_length,min_length,next);
-      *result = alloc_branch_d_slice(max_length,min_length,next);
-      branch_d_set_peer(*result,defender);
-      branch_d_defender_set_peer(defender,*result);
+      *result = alloc_direct_branch(level,max_length,min_length,next);
     }
   }
   else
@@ -2963,7 +2952,9 @@ static char *ParseStructuredStip_branch(char *tok,
                                            min_length,max_length,
                                            result);
     else if (tok[0]=='d')
-      tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,result);
+      tok = ParseStructuredStip_branch_d(tok+1,level,
+                                         min_length,max_length,
+                                         result);
     else if (tok[0]=='h')
       tok = ParseStructuredStip_branch_h(tok+1,level,
                                          min_length,max_length,

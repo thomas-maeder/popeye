@@ -20,21 +20,21 @@
  */
 slice_index alloc_branch_d_slice(stip_length_type length,
                                  stip_length_type min_length,
-                                 slice_index next)
+                                 slice_index defender)
 {
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",defender);
   TraceFunctionParamListEnd();
 
   slices[result].type = STBranchDirect; 
   slices[result].starter = no_side; 
   slices[result].u.pipe.u.branch.length = length;
   slices[result].u.pipe.u.branch.min_length = min_length;
-  slices[result].u.pipe.next = no_slice;
+  slices[result].u.pipe.next = defender;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -42,13 +42,37 @@ slice_index alloc_branch_d_slice(stip_length_type length,
   return result;
 }
 
-/* Set the peer slice of a STBranchDirect slice
- * @param si index of the STBranchDirect slice
- * @param slice index of the new peer
+/* Allocate a branch that represents direct play
+ * @param level is this a top-level branch or one nested into another
+ *              branch?
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of adapter slice
  */
-void branch_d_set_peer(slice_index si, slice_index peer)
+slice_index alloc_direct_branch(branch_level level,
+                                stip_length_type length,
+                                stip_length_type min_length,
+                                slice_index next)
 {
-  slices[si].u.pipe.next = peer;
+  slice_index defender;
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",level);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
+
+  defender = alloc_branch_d_defender_slice(length,min_length,next);
+  result = alloc_branch_d_slice(length,min_length,defender);
+  slices[defender].u.pipe.next = result;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Is there no chance left for the starting side at the move to win?
