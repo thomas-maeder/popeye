@@ -1782,7 +1782,7 @@ static char *ParseLength(char *tok,
   tmp_length = strtoul(tok,&end,10);
   TraceValue("%ld\n",tmp_length);
 
-  if (tok==end || tmp_length>UINT_MAX)
+  if (tok==end || tmp_length>UINT_MAX || tmp_length==0)
   {
     IoErrorMsg(WrongInt,0);
     tok = 0;
@@ -2337,10 +2337,18 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
       {
-        slice_index const mi = alloc_move_inverter_slice(next);
-        if (level==nested_branch)
-          --min_length;
-        *si = alloc_series_branch(level,length,min_length,mi);
+        /* This deals with stipulations such as ser-#4; these are
+         * special because the lengh includes that of the leaf that
+         * the branch to be created leads to.
+         */
+        assert(length>0);
+        if (length==1)
+          *si = next;
+        else
+        {
+          slice_index const mi = alloc_move_inverter_slice(next);
+          *si = alloc_series_branch(level,length,min_length-1,mi);
+        }
       }
     }
   }
