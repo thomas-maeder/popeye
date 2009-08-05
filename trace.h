@@ -118,8 +118,10 @@ void TraceFunctionResultEnd(void);
  * The enumeration type defining type_name must have been generated
  * using pyenum.h
  */
-#define TraceEnumerator(type_name,name,suffix)                                \
-  TraceEnumeratorImpl(#name ":%s(%u)" suffix, type_name##_names[name], name)
+#define TraceEnumerator(type_name,name,suffix) \
+  TraceEnumeratorImpl(" " #name ":%s(%u)" suffix, \
+                      type_name##_names[name], \
+                      name)
 
 /* Trace the current stipulation structure
  */
