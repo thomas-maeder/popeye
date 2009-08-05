@@ -13,50 +13,17 @@
  * pipe slice 
  * @param si identifies slice
  */
-static void init_selfcheck_guard_slice(slice_index si, Side guarded)
+static void init_selfcheck_guard_slice(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,guarded," ");
   TraceFunctionParamListEnd();
 
   slices[si].type = STSelfCheckGuard;
   slices[si].starter = slices[slices[si].u.pipe.next].starter;
-  slices[si].u.pipe.u.selfcheck_guard.guarded = guarded;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean selfcheck_guard_impose_starter(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  Side const * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  if (*starter==advers(slices[si].starter))
-  {
-    slices[si].starter = *starter;
-    slices[si].u.pipe.u.selfcheck_guard.guarded =
-        advers(slices[si].u.pipe.u.selfcheck_guard.guarded);
-  }
-
-  slice_traverse_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve a slice at root level
@@ -71,7 +38,7 @@ boolean selfcheck_guard_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,slices[si].u.pipe.u.selfcheck_guard.guarded))
+  if (echecc(nbply,advers(slices[si].starter)))
   {
     ErrorMsg(KingCapture);
     result = false;
@@ -97,7 +64,7 @@ boolean selfcheck_guard_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!echecc(nbply,slices[si].u.pipe.u.selfcheck_guard.guarded)
+  result = (!echecc(nbply,advers(slices[si].starter))
             && slice_solve(slices[si].u.pipe.next));
 
   TraceFunctionExit(__func__);
@@ -122,7 +89,7 @@ boolean selfcheck_guard_help_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  result = (!echecc(nbply,slices[si].u.pipe.u.selfcheck_guard.guarded)
+  result = (!echecc(nbply,advers(slices[si].starter))
             && help_solve_in_n(slices[si].u.pipe.next,n));
 
   TraceFunctionExit(__func__);
@@ -148,7 +115,7 @@ boolean selfcheck_guard_help_has_solution_in_n(slice_index si,
 
   assert(n>=slack_length_help);
 
-  result = (!echecc(nbply,slices[si].u.pipe.u.selfcheck_guard.guarded)
+  result = (!echecc(nbply,advers(slices[si].starter))
             && help_has_solution_in_n(slices[si].u.pipe.next,n));
 
   TraceFunctionExit(__func__);
@@ -174,7 +141,7 @@ void selfcheck_guard_help_solve_continuations_in_n(table continuations,
 
   assert(n>=slack_length_help);
 
-  if (!echecc(nbply,slices[si].u.pipe.u.selfcheck_guard.guarded))
+  if (!echecc(nbply,advers(slices[si].starter)))
     help_solve_continuations_in_n(continuations,slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
@@ -197,7 +164,7 @@ boolean selfcheck_guard_series_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_series);
 
-  result = (!echecc(nbply,slices[si].u.pipe.u.selfcheck_guard.guarded)
+  result = (!echecc(nbply,advers(slices[si].starter))
             && series_solve_in_n(slices[si].u.pipe.next,n));
 
   TraceFunctionExit(__func__);
@@ -223,7 +190,7 @@ boolean selfcheck_guard_series_has_solution_in_n(slice_index si,
 
   assert(n>=slack_length_series);
 
-  result = (!echecc(nbply,slices[si].u.pipe.u.selfcheck_guard.guarded)
+  result = (!echecc(nbply,advers(slices[si].starter))
             && series_has_solution_in_n(slices[si].u.pipe.next,n));
 
   TraceFunctionExit(__func__);
@@ -249,7 +216,7 @@ void selfcheck_guard_series_solve_continuations_in_n(table continuations,
 
   assert(n>=slack_length_series);
 
-  if (!echecc(nbply,slices[si].u.pipe.u.selfcheck_guard.guarded))
+  if (!echecc(nbply,advers(slices[si].starter)))
     series_solve_continuations_in_n(continuations,slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
@@ -268,7 +235,7 @@ static boolean selfcheck_guards_inserter_branch_help(slice_index si,
   slice_traverse_children(si,st);
 
   pipe_insert_after(si);
-  init_selfcheck_guard_slice(slices[si].u.pipe.next,slices[si].starter);
+  init_selfcheck_guard_slice(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -288,7 +255,7 @@ static boolean selfcheck_guards_inserter_branch_ser(slice_index si,
   slice_traverse_children(si,st);
 
   pipe_insert_after(si);
-  init_selfcheck_guard_slice(slices[si].u.pipe.next,slices[si].starter);
+  init_selfcheck_guard_slice(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -311,7 +278,7 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
   if (*level==nested_branch)
   {
     pipe_insert_after(si);
-    init_selfcheck_guard_slice(slices[si].u.pipe.next,slices[si].starter);
+    init_selfcheck_guard_slice(slices[si].u.pipe.next);
   }
 
   TraceFunctionExit(__func__);
@@ -338,7 +305,7 @@ static boolean selfcheck_guards_inserter_reflex_guard(slice_index si,
     *level = toplevel_branch;
 
     pipe_insert_before(si);
-    init_selfcheck_guard_slice(si,advers(slices[si].starter));
+    init_selfcheck_guard_slice(si);
   }
   else
     slice_traverse_children(si,st);
@@ -367,17 +334,17 @@ static boolean selfcheck_guards_inserter_help_root(slice_index si,
     *level = toplevel_branch;
 
     pipe_insert_after(si);
-    init_selfcheck_guard_slice(slices[si].u.pipe.next,slices[si].starter);
+    init_selfcheck_guard_slice(slices[si].u.pipe.next);
 
     pipe_insert_before(si);
-    init_selfcheck_guard_slice(si,advers(slices[si].starter));
+    init_selfcheck_guard_slice(si);
   }
   else
   {
     slice_traverse_children(si,st);
 
     pipe_insert_after(si);
-    init_selfcheck_guard_slice(slices[si].u.pipe.next,slices[si].starter);
+    init_selfcheck_guard_slice(slices[si].u.pipe.next);
   }
 
   TraceFunctionExit(__func__);
@@ -404,17 +371,17 @@ static boolean selfcheck_guards_inserter_series_root(slice_index si,
     *level = toplevel_branch;
 
     pipe_insert_after(si);
-    init_selfcheck_guard_slice(slices[si].u.pipe.next,slices[si].starter);
+    init_selfcheck_guard_slice(slices[si].u.pipe.next);
 
     pipe_insert_before(si);
-    init_selfcheck_guard_slice(si,advers(slices[si].starter));
+    init_selfcheck_guard_slice(si);
   }
   else
   {
     slice_traverse_children(si,st);
 
     pipe_insert_after(si);
-    init_selfcheck_guard_slice(slices[si].u.pipe.next,slices[si].starter);
+    init_selfcheck_guard_slice(slices[si].u.pipe.next);
   }
 
   TraceFunctionExit(__func__);

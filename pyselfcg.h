@@ -24,14 +24,6 @@ boolean selfcheck_guard_root_solve(slice_index si);
  */
 boolean selfcheck_guard_solve(slice_index si);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean selfcheck_guard_impose_starter(slice_index si, slice_traversal *st);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n number of half moves until end state has to be reached

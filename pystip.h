@@ -181,13 +181,6 @@ typedef struct
                     Side mating;
                 } keepmating_guard;
 
-                struct
-                {
-                    stip_length_type length;     /* half moves */
-                    stip_length_type min_length; /* half moves */
-                    Side guarded;
-                } selfcheck_guard;
-
                 struct /* for type==STBranchFork */
                 {
                     slice_index towards_goal;

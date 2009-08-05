@@ -890,7 +890,7 @@ static slice_operation const starter_imposers[] =
   &branch_ser_impose_starter,      /* STSeriesRoot */
   &pipe_impose_starter,            /* STSeriesAdapter */
   &pipe_impose_starter,            /* STSeriesHashed */
-  &selfcheck_guard_impose_starter, /* STSelfCheckGuard */
+  &pipe_impose_starter,            /* STSelfCheckGuard */
   &pipe_impose_starter,            /* STReflexGuard */
   &pipe_impose_starter,            /* STRestartGuard */
   &pipe_impose_starter,            /* STGoalReachableGuard */

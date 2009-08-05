@@ -297,13 +297,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STSelfCheckGuard:
-        fprintf(stdout,"guarded:%s ",
-                Side_names[slices[si].u.pipe.u.selfcheck_guard.guarded]);
-        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
-        break;
-
       case STMoveInverter:
       case STGoalReachableGuard:
       case STNot:
