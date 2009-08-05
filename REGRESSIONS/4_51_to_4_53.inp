@@ -362,4 +362,13 @@ stip h#2
 condition sentinelles
 option keep
 
+next
+
+title issue 2822150: 4.51 would only give 1.Bc2-b1 Bg6-c2 = 
+title and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 = 
+pieces White Bg6 Kc3 Pa2 Sf1 Black Bc2 Kc1
+Stipulation ser-h=10
+Condition circe immun
+option maxsol 10
+
 end

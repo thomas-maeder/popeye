@@ -1411,3 +1411,44 @@ solution finished.
 solution finished. 
 
 
+
+issue 2822150: 4.51 would only give 1.Bc2-b1 Bg6-c2 = 
+and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 = 
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   B   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   K   .   .   .   .   .   3
+|                                   |
+2   P   .  -B   .   .   .   .   .   2
+|                                   |
+1   .   .  -K   .   .   S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=10                    4 + 2
+                Circe
+              ImmunChess
+
+  1.Bc2-b1 Bg6-c2 = 
+  1.Bc2-f5   2.Bf5-b1 Bg6-c2 = 
+  1.Bc2-e4   2.Be4-b1 Bg6-c2 = 
+  1.Bc2-d3   2.Bd3-b1 Bg6-c2 = 
+  1.Kc1-d1   2.Kd1-c1   3.Bc2-b1 Bg6-c2 = 
+  1.Kc1-d1   2.Bc2-b1   3.Kd1-c1 Bg6-c2 = 
+  1.Kc1-b1   2.Kb1-c1   3.Bc2-b1 Bg6-c2 = 
+  1.Kc1-b1   2.Kb1-a1   3.Bc2-b1 Bg6-c2 = 
+  1.Bc2-b1   2.Bb1-f5   3.Bf5-b1 Bg6-c2 = 
+  1.Bc2-b1   2.Bb1-e4   3.Be4-b1 Bg6-c2 = 
+
+solving interrupted. 
+
+
