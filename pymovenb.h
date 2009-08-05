@@ -39,6 +39,13 @@ void stip_insert_restart_guards(void);
  */
 boolean restart_guard_help_solve_in_n(slice_index si, stip_length_type n);
 
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >=1 solution was found
+ */
+boolean restart_guard_series_solve_in_n(slice_index si, stip_length_type n);
+
 /* Is there no chance left for reaching the solution?
  * E.g. did the help side just allow a mate in 1 in a hr#N?
  * Tests may rely on the current position being hash-encoded.

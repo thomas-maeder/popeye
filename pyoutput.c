@@ -12,13 +12,16 @@
 #include <assert.h>
 #include <stdlib.h>
 
-typedef enum
-{
-  output_mode_tree, /* typical in direct/self/reflex play */
-  output_mode_line, /* typical in help/series play */
+#define ENUMERATION_TYPENAME output_mode
+#define ENUMERATORS \
+  ENUMERATOR(output_mode_tree), \
+    ENUMERATOR(output_mode_line), \
+    ENUMERATOR(output_mode_none)
 
-  output_mode_none
-} output_mode;
+#define ENUMERATION_DECLARE
+#define ENUMERATION_MAKESTRINGS
+
+#include "pyenum.h"
 
 static output_mode current_mode = output_mode_none;
 
@@ -40,6 +43,7 @@ static boolean output_mode_treemode(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   *mode = output_mode_tree;
+  TraceEnumerator(output_mode,*mode,"\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -57,6 +61,7 @@ static boolean output_mode_linemode(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   *mode = output_mode_line;
+  TraceEnumerator(output_mode,*mode,"\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -64,7 +69,7 @@ static boolean output_mode_linemode(slice_index si, slice_traversal *st)
   return result;
 }
 
-static boolean output_mode_helproot(slice_index si, slice_traversal *st)
+static boolean output_mode_help_root(slice_index si, slice_traversal *st)
 {
   boolean result;
   output_mode * const mode = st->param;
@@ -80,6 +85,25 @@ static boolean output_mode_helproot(slice_index si, slice_traversal *st)
     *mode = output_mode_line;
     result = true;
   }
+  TraceEnumerator(output_mode,*mode,"\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean output_mode_series_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  output_mode * const mode = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *mode = output_mode_line;
+  TraceEnumerator(output_mode,*mode,"\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -105,6 +129,8 @@ static boolean output_mode_fork(slice_index si, slice_traversal *st)
   mode2 = *mode;
 
   *mode = mode2==output_mode_none ? mode1 : mode2;
+  
+  TraceEnumerator(output_mode,*mode,"\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -127,9 +153,12 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_fork,        /* STQuodlibet */
   &slice_traverse_children, /* STNot */
   &slice_traverse_children, /* STMoveInverter */
-  &output_mode_helproot,    /* STHelpRoot */
+  &output_mode_help_root,   /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
+  &output_mode_series_root, /* STSeriesRoot */
+  &slice_traverse_children, /* STSeriesAdapter */
+  &slice_traverse_children, /* STSeriesHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
   &slice_traverse_children, /* STRestartGuard */
@@ -152,6 +181,8 @@ void init_output(slice_index si)
   slice_traversal_init(&st,&output_mode_detectors,&current_mode);
   traverse_slices(si,&st);
 
+  TraceEnumerator(output_mode,current_mode,"\n");
+  
   assert(current_mode!=output_mode_none);
 
   if (current_mode==output_mode_tree)
@@ -510,8 +541,10 @@ static void linesolution(void)
     TraceValue("%u\n",active_slice[current_ply]);
     if (slice!=active_slice[current_ply])
     {
-      if (slices[slice].type==STBranchSeries
-          && slices[active_slice[current_ply]].type==STBranchSeries)
+      if ((slices[slice].type==STBranchSeries
+           || slices[slice].type==STSeriesRoot)
+          && slices[active_slice[current_ply]].type==STBranchSeries
+          && trait[current_ply-1]!=trait[current_ply])
       {
         next_movenumber = 1;
         starting_side = trait[current_ply];
@@ -520,8 +553,8 @@ static void linesolution(void)
       slice = active_slice[current_ply];
     }
 
-    TraceValue("%u",trait[current_ply]);
-    TraceValue("%u\n",starting_side);
+    TraceEnumerator(Side,starting_side," ");
+    TraceEnumerator(Side,trait[current_ply],"\n");
     if (trait[current_ply]==starting_side)
     {
       sprintf(GlobalStr,"%3d.",next_movenumber);

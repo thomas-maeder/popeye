@@ -133,13 +133,7 @@ boolean move_inverter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,slices[si].starter))
-  {
-    TraceText("illegal check\n");
-    result = false;
-  }
-  else
-    result = slice_solve(slices[si].u.pipe.next);
+  result = slice_solve(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

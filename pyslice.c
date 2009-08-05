@@ -86,9 +86,11 @@ boolean slice_must_starter_resign(slice_index si)
       result = branch_fork_must_starter_resign(si);
       break;
 
-    case STBranchSeries:
+    case STSeriesRoot:
+    case STSeriesAdapter:
     case STMoveInverter:
     case STSelfCheckGuard:
+    case STGoalReachableGuard:
       result = pipe_must_starter_resign(si);
       break;
 
@@ -147,6 +149,7 @@ boolean slice_must_starter_resign_hashed(slice_index si)
     case STBranchDirect:
     case STHelpAdapter:
     case STBranchHelp:
+    case STSeriesAdapter:
     case STBranchSeries:
     case STLeafDirect:
     case STLeafHelp:
@@ -206,8 +209,8 @@ void slice_solve_continuations(table continuations, slice_index si)
       help_adapter_solve_continuations(continuations,si);
       break;
 
-    case STBranchSeries:
-      /* TODO */
+    case STSeriesAdapter:
+      series_adapter_solve_continuations(continuations,si);
       break;
 
     default:
@@ -242,8 +245,8 @@ slice_index slice_root_make_setplay_slice(slice_index si)
       result = branch_d_root_make_setplay_slice(si);
       break;
 
-    case STBranchSeries:
-      result = branch_ser_root_make_setplay_slice(si);
+    case STSeriesRoot:
+      result = series_root_make_setplay_slice(si);
       break;
 
     case STLeafSelf:
@@ -310,8 +313,8 @@ void slice_root_write_key(slice_index si, attack_type type)
       help_adapter_root_write_key(si,type);
       break;
 
-    case STBranchSeries:
-      /* TODO */
+    case STSeriesAdapter:
+      series_adapter_root_write_key(si,type);
       break;
 
     case STReciprocal:
@@ -376,8 +379,8 @@ boolean slice_solve(slice_index si)
       solution_found = help_adapter_solve(si);
       break;
 
-    case STBranchSeries:
-      solution_found = branch_ser_solve(si);
+    case STSeriesAdapter:
+      solution_found = series_adapter_solve(si);
       break;
 
     case STReciprocal:
@@ -390,6 +393,10 @@ boolean slice_solve(slice_index si)
 
     case STMoveInverter:
       solution_found = move_inverter_solve(si);
+      break;
+
+    case STSelfCheckGuard:
+      solution_found = selfcheck_guard_solve(si);
       break;
 
     default:
@@ -458,8 +465,8 @@ boolean slice_root_solve(slice_index si)
       result = help_root_solve(si);
       break;
 
-    case STBranchSeries:
-      result = branch_ser_root_solve(si);
+    case STSeriesRoot:
+      result = series_root_solve(si);
       break;
 
     case STMoveInverter:
@@ -504,8 +511,8 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
       help_root_solve_in_n(si,n);
       break;
 
-    case STBranchSeries:
-      branch_ser_root_solve_in_n(si,n);
+    case STSeriesRoot:
+      series_root_solve_in_n(si,n);
       break;
 
     case STQuodlibet:
@@ -575,8 +582,8 @@ boolean slice_has_solution(slice_index si)
       result = help_adapter_has_solution(si);
       break;
 
-    case STBranchSeries:
-      /* TODO */
+    case STSeriesAdapter:
+      result = series_adapter_has_solution(si);
       break;
 
     case STSelfCheckGuard:
@@ -625,8 +632,8 @@ void slice_solve_postkey(slice_index si)
       help_adapter_solve_postkey(si);
       break;
 
-    case STBranchSeries:
-      /* TODO */
+    case STSeriesAdapter:
+      series_adapter_solve_postkey(si);
       break;
 
     case STBranchFork:
@@ -686,8 +693,8 @@ boolean slice_has_non_starter_solved(slice_index si)
       result = help_adapter_has_non_starter_solved(si);
       break;
 
-    case STBranchSeries:
-      result = branch_ser_has_non_starter_solved(si);
+    case STSeriesAdapter:
+      result = series_adapter_has_non_starter_solved(si);
       break;
 
     case STQuodlibet:
@@ -751,8 +758,8 @@ boolean slice_has_starter_apriori_lost(slice_index si)
       result = help_adapter_has_starter_apriori_lost(si);
       break;
 
-    case STBranchSeries:
-      result = branch_ser_has_starter_apriori_lost(si);
+    case STSeriesAdapter:
+      result = series_adapter_has_starter_apriori_lost(si);
       break;
 
     case STQuodlibet:
@@ -815,8 +822,8 @@ boolean slice_has_starter_won(slice_index si)
       result = help_adapter_has_starter_won(si);
       break;
 
-    case STBranchSeries:
-      result = branch_ser_has_starter_won(si);
+    case STSeriesAdapter:
+      result = series_adapter_has_starter_won(si);
       break;
 
     case STQuodlibet:
@@ -878,8 +885,8 @@ boolean slice_has_starter_reached_goal(slice_index si)
       result = help_adapter_has_starter_reached_goal(si);
       break;
 
-    case STBranchSeries:
-      result = branch_ser_has_starter_reached_goal(si);
+    case STSeriesAdapter:
+      result = series_adapter_has_starter_reached_goal(si);
       break;
 
     case STQuodlibet:
@@ -947,8 +954,9 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       result = help_adapter_is_goal_reached(just_moved,si);
       break;
 
-    case STBranchSeries:
-      result = branch_ser_is_goal_reached(just_moved,si);
+    case STSeriesRoot:
+    case STSeriesAdapter:
+      result = series_adapter_is_goal_reached(just_moved,si);
       break;
 
     case STBranchFork:
@@ -994,8 +1002,8 @@ void slice_write_unsolvability(slice_index si)
       help_adapter_write_unsolvability(si);
       break;
 
-    case STBranchSeries:
-      branch_ser_write_unsolvability(si);
+    case STSeriesAdapter:
+      series_adapter_write_unsolvability(si);
       break;
 
     case STQuodlibet:
@@ -1066,6 +1074,7 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       result = branch_h_detect_starter(si,same_side_as_root);
       break;
 
+    case STSeriesRoot:
     case STBranchSeries:
       result = branch_ser_detect_starter(si,same_side_as_root);
       break;
@@ -1089,6 +1098,7 @@ who_decides_on_starter slice_detect_starter(slice_index si,
     case STNot:
     case STHelpAdapter:
     case STReflexGuard:
+    case STSeriesAdapter:
       result = pipe_detect_starter(si,same_side_as_root);
       break;
       

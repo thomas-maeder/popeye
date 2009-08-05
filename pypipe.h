@@ -65,4 +65,10 @@ boolean pipe_must_starter_resign(slice_index si);
  */
 boolean pipe_has_solution(slice_index si);
 
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean pipe_series_solve_in_n(slice_index si, stip_length_type n);
+
 #endif

@@ -2052,6 +2052,9 @@ static char *ParseEnd(char *tok, branch_level level, slice_index *si)
   else if (strncmp("hr", tok, 2) == 0)
     tok = ParseGoal(tok+2,STLeafHelp,si);
 
+  else if (strncmp("ser-r", tok, 5) == 0)
+    tok = ParseGoal(tok+5,STLeafHelp,si);
+
   else
     switch (*tok)
     {
@@ -2099,29 +2102,53 @@ static boolean to_toplevel_promoters_help_adapter(slice_index si,
   return result;
 }
 
+/* Promote a slice to toplevel that was initialised under the wrong
+ * assumption that it is nested in some other slice
+ */
+static boolean to_toplevel_promoters_series_adapter(slice_index si,
+                                                    slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  series_adapter_promote_to_toplevel(si);
+  traverse_slices(slices[si].u.pipe.u.help_adapter.fork,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static slice_operation const to_toplevel_promoters[] =
 {
-  &slice_traverse_children,            /* STBranchDirect */
-  &slice_traverse_children,            /* STBranchDirectDefender */
-  0,                                   /* STBranchHelp */
-  &slice_traverse_children,            /* STBranchSeries */
-  &slice_traverse_children,            /* STBranchFork */
-  &slice_traverse_children,            /* STLeafDirect */
-  &slice_traverse_children,            /* STLeafHelp */
-  &slice_traverse_children,            /* STLeafSelf */
-  &slice_traverse_children,            /* STLeafForced */
-  &slice_traverse_children,            /* STReciprocal */
-  &slice_traverse_children,            /* STQuodlibet */
-  &slice_traverse_children,            /* STNot */
-  &slice_traverse_children,            /* STMoveInverter */
-  0,                                   /* STHelpRoot */
-  &to_toplevel_promoters_help_adapter, /* STHelpAdapter */
-  0,                                   /* STHelpHashed */
-  0,                                   /* STSelfCheckGuard */
-  0,                                   /* STReflexGuard */
-  0,                                   /* STRestartGuard */
-  0,                                   /* STGoalReachableGuard */
-  0                                    /* STKeepMatingGuard */
+  &slice_traverse_children,              /* STBranchDirect */
+  &slice_traverse_children,              /* STBranchDirectDefender */
+  0,                                     /* STBranchHelp */
+  &slice_traverse_children,              /* STBranchSeries */
+  &slice_traverse_children,              /* STBranchFork */
+  &slice_traverse_children,              /* STLeafDirect */
+  &slice_traverse_children,              /* STLeafHelp */
+  &slice_traverse_children,              /* STLeafSelf */
+  &slice_traverse_children,              /* STLeafForced */
+  &slice_traverse_children,              /* STReciprocal */
+  &slice_traverse_children,              /* STQuodlibet */
+  &slice_traverse_children,              /* STNot */
+  &slice_traverse_children,              /* STMoveInverter */
+  0,                                     /* STHelpRoot */
+  &to_toplevel_promoters_help_adapter,   /* STHelpAdapter */
+  0,                                     /* STHelpHashed */
+  0,                                     /* STSeriesRoot */
+  &to_toplevel_promoters_series_adapter, /* STSeriesAdapter */
+  0,                                     /* STSeriesHashed */
+  0,                                     /* STSelfCheckGuard */
+  0,                                     /* STReflexGuard */
+  0,                                     /* STRestartGuard */
+  0,                                     /* STGoalReachableGuard */
+  0                                      /* STKeepMatingGuard */
 };
 
 /* Promote a slice to toplevel that was initialised under the wrong
@@ -2168,9 +2195,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       {
         /* >=1 move of starting side required */
         stip_length_type const min_length = 1+slack_length_series;
-        *si = alloc_branch_ser_slice(intro_len+slack_length_series,
-                                     min_length,
-                                     next);
+        *si = alloc_series_branch(level,
+                                  intro_len+slack_length_series,min_length,
+                                  next);
       }
     }
   }
@@ -2199,7 +2226,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       if (result!=0)
       {
         slice_index const mi = alloc_move_inverter_slice(next);
-        *si = alloc_branch_ser_slice(length,min_length,mi);
+        *si = alloc_series_branch(level,length,min_length,mi);
       }
     }
   }
@@ -2216,7 +2243,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       if (result!=0)
       {
         slice_index const mi = alloc_move_inverter_slice(next);
-        *si = alloc_branch_ser_slice(length,min_length,mi);
+        *si = alloc_series_branch(level,length,min_length,mi);
       }
 
       slices[*si].starter = Black;
@@ -2246,7 +2273,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
                                                      help_length,
                                                      help_length,
                                                      next);
-          *si = alloc_branch_ser_slice(length,min_length,help);
+          *si = alloc_series_branch(level,length,min_length,help);
         }
       }
     }
@@ -2262,7 +2289,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
-        *si = alloc_branch_ser_slice(length+1,min_length,next);
+        *si = alloc_series_branch(level,length+1,min_length,next);
     }
   }
 
@@ -2276,7 +2303,24 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
-        *si = alloc_branch_ser_slice(length+1,min_length,next);
+        *si = alloc_series_branch(level,length+1,min_length,next);
+    }
+  }
+
+  else if (strncmp("ser-r",tok,5) == 0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,nested_branch,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+      {
+        *si = alloc_series_reflex_branch(level,length+1,min_length,next);
+        slices[*si].starter = White;
+      }
     }
   }
 
@@ -2292,7 +2336,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       if (result!=0)
       {
         slice_index const mi = alloc_move_inverter_slice(next);
-        *si = alloc_branch_ser_slice(length,min_length-1,mi);
+        if (level==nested_branch)
+          --min_length;
+        *si = alloc_series_branch(level,length,min_length,mi);
       }
     }
   }
@@ -2773,6 +2819,7 @@ static char *ParseStructuredStip_branch_h(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_ser(char *tok,
+                                            branch_level level,
                                             stip_length_type min_length,
                                             stip_length_type max_length,
                                             slice_index *result)
@@ -2793,9 +2840,12 @@ static char *ParseStructuredStip_branch_ser(char *tok,
                                       nextStartLikeBranch);
     if (tok!=0)
     {
+      if (min_length==0)
+        min_length = 1;
+
       min_length += slack_length_series;
       max_length += slack_length_series;
-      *result = alloc_branch_ser_slice(max_length,min_length,operand);
+      *result = alloc_series_branch(level,max_length,min_length,operand);
     }
   }
   
@@ -2876,7 +2926,9 @@ static char *ParseStructuredStip_branch(char *tok,
   if (tok!=0)
   {
     if (strncmp(tok,"ser",3)==0)
-      tok = ParseStructuredStip_branch_ser(tok+3,min_length,max_length,result);
+      tok = ParseStructuredStip_branch_ser(tok+3,level,
+                                           min_length,max_length,
+                                           result);
     else if (tok[0]=='d')
       tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,result);
     else if (tok[0]=='h')

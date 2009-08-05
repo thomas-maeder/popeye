@@ -18,6 +18,20 @@ void stip_insert_selfcheck_guards(void);
  */
 boolean selfcheck_guard_root_solve(slice_index si);
 
+/* Solve a slice at non-root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean selfcheck_guard_solve(slice_index si);
+
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean selfcheck_guard_impose_starter(slice_index si, slice_traversal *st);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n number of half moves until end state has to be reached
@@ -41,6 +55,31 @@ boolean selfcheck_guard_help_has_solution_in_n(slice_index si, stip_length_type 
 void selfcheck_guard_help_solve_continuations_in_n(table continuations,
                                               slice_index si,
                                               stip_length_type n);
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >=1 solution was found
+ */
+boolean selfcheck_guard_series_solve_in_n(slice_index si, stip_length_type n);
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >= 1 solution has been found
+ */
+boolean selfcheck_guard_series_has_solution_in_n(slice_index si,
+                                                 stip_length_type n);
+
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice. First consult hash table.
+ * @param continuations table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ */
+void selfcheck_guard_series_solve_continuations_in_n(table continuations,
+                                                     slice_index si,
+                                                     stip_length_type n);
 
 /* Is there no chance left for reaching the solution?
  * E.g. did the help side just allow a mate in 1 in a hr#N?

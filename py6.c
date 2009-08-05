@@ -503,6 +503,9 @@ static slice_operation const slice_type_finders[] =
   &root_slice_type_found,             /* STHelpRoot */
   0,                                  /* STHelpAdapter */
   0,                                  /* STHelpHashed */
+  &root_slice_type_found,             /* STSeriesRoot */
+  0,                                  /* STSeriesAdapter */
+  0,                                  /* STSeriesHashed */
   &slice_traverse_children,           /* STSelfCheckGuard */
   0,                                  /* STReflexGuard */
   0,                                  /* STRestartGuard */
@@ -2310,10 +2313,10 @@ static int parseCommandlineOptions(int argc, char *argv[])
         {
           /* conversion failure  - ignore option */
         }
-      }
 #else
       /* ignore */
 #endif
+      }
 
       idx++;
       continue;
@@ -2350,6 +2353,8 @@ static void init_duplex(void)
     Side const starter = slices[root_slice].starter;
     TraceValue("%u\n",starter);
     stip_impose_starter(advers(starter));
+
+    TraceStipulation();
   }
 
   TraceFunctionExit(__func__);
@@ -2444,7 +2449,32 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
    * otherweise the STHelpHashed will be traversed as well.
    */
   slice_traverse_children(si,st);
-  insert_hashed_slice(si);
+  insert_helphashed_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
+boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* First traverse childen, then insert STSeriesHashed slice;
+   * otherweise the STSeriesHashed will be traversed as well.
+   */
+  slice_traverse_children(si,st);
+  insert_serieshashed_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2454,27 +2484,30 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
 
 static slice_operation const hash_element_inserters[] =
 {
-  &slice_traverse_children,         /* STBranchDirect */
-  &slice_traverse_children,         /* STBranchDirectDefender */
-  &insert_hash_element_branch_help, /* STBranchHelp */
-  &slice_traverse_children,         /* STBranchSeries */
-  &slice_traverse_children,         /* STBranchFork */
-  &slice_traverse_children,         /* STLeafDirect */
-  &slice_traverse_children,         /* STLeafHelp */
-  &slice_traverse_children,         /* STLeafSelf */
-  &slice_traverse_children,         /* STLeafForced */
-  &slice_traverse_children,         /* STReciprocal */
-  &slice_traverse_children,         /* STQuodlibet */
-  &slice_traverse_children,         /* STNot */
-  &slice_traverse_children,         /* STMoveInverter */
-  &slice_traverse_children,         /* STHelpRoot */
-  &slice_traverse_children,         /* STHelpAdapter */
-  &slice_traverse_children,         /* STHelpHashed */
-  &slice_traverse_children,         /* STSelfCheckGuard */
-  &slice_traverse_children,         /* STReflexGuard */
-  &slice_traverse_children,         /* STRestartGuard */
-  &slice_traverse_children,         /* STGoalReachableGuard */
-  &slice_traverse_children          /* STKeepMatingGuard */
+  &slice_traverse_children,           /* STBranchDirect */
+  &slice_traverse_children,           /* STBranchDirectDefender */
+  &insert_hash_element_branch_help,   /* STBranchHelp */
+  &insert_hash_element_branch_series, /* STBranchSeries */
+  &slice_traverse_children,           /* STBranchFork */
+  &slice_traverse_children,           /* STLeafDirect */
+  &slice_traverse_children,           /* STLeafHelp */
+  &slice_traverse_children,           /* STLeafSelf */
+  &slice_traverse_children,           /* STLeafForced */
+  &slice_traverse_children,           /* STReciprocal */
+  &slice_traverse_children,           /* STQuodlibet */
+  &slice_traverse_children,           /* STNot */
+  &slice_traverse_children,           /* STMoveInverter */
+  &slice_traverse_children,           /* STHelpRoot */
+  &slice_traverse_children,           /* STHelpAdapter */
+  &slice_traverse_children,           /* STHelpHashed */
+  &slice_traverse_children,           /* STSeriesRoot */
+  &slice_traverse_children,           /* STSeriesAdapter */
+  &slice_traverse_children,           /* STSeriesHashed */
+  &slice_traverse_children,           /* STSelfCheckGuard */
+  &slice_traverse_children,           /* STReflexGuard */
+  &slice_traverse_children,           /* STRestartGuard */
+  &slice_traverse_children,           /* STGoalReachableGuard */
+  &slice_traverse_children            /* STKeepMatingGuard */
 };
 
 static void insert_hash_slices(void)

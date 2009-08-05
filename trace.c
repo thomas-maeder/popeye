@@ -240,9 +240,30 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
+      case STSeriesRoot:
+        fprintf(stdout,"length:%u ",
+                slices[si].u.pipe.u.series_adapter.length);
+        fprintf(stdout,"min_length:%u ",
+                slices[si].u.pipe.u.series_adapter.min_length);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
+      case STSeriesAdapter:
+        fprintf(stdout,"length:%u ",
+                slices[si].u.pipe.u.series_adapter.length);
+        fprintf(stdout,"min_length:%u ",
+                slices[si].u.pipe.u.series_adapter.min_length);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
       case STBranchHelp:
       case STHelpHashed:
       case STBranchSeries:
+      case STSeriesHashed:
         fprintf(stdout,"length:%u ",slices[si].u.pipe.u.branch.length);
         fprintf(stdout,"min_length:%u ",slices[si].u.pipe.u.branch.min_length);
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
@@ -275,8 +296,15 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.fork.op2,done_slices);
         break;
 
-      case STMoveInverter:
       case STSelfCheckGuard:
+        fprintf(stdout,"guarded:%s ",
+                Side_names[slices[si].u.pipe.u.selfcheck_guard.guarded]);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
+      case STMoveInverter:
       case STGoalReachableGuard:
       case STNot:
       case STRestartGuard:

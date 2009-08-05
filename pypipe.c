@@ -1,4 +1,5 @@
 #include "pypipe.h"
+#include "pyseries.h"
 #include "trace.h"
 
 /* Allocate a new pipe and make an existing pipe its successor
@@ -168,6 +169,26 @@ boolean pipe_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   result = slice_has_solution(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return true iff slice si has a solution
+ */
+boolean pipe_series_solve_in_n(slice_index si, stip_length_type n)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = series_solve_in_n(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -1,5 +1,6 @@
 #include "pybrafrk.h"
 #include "pyhelp.h"
+#include "pyseries.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -113,6 +114,97 @@ void branch_fork_help_solve_continuations_in_n(table continuations,
   {
     slice_index const next = slices[si].u.pipe.next;
     help_solve_continuations_in_n(continuations,next,n);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >=1 solution was found
+ */
+boolean branch_fork_series_solve_in_n(slice_index si, stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_series);
+
+  if (n==slack_length_series)
+    result = slice_solve(slices[si].u.pipe.u.branch_fork.towards_goal);
+  else
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    result = series_solve_in_n(next,n);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >= 1 solution has been found
+ */
+boolean branch_fork_series_has_solution_in_n(slice_index si,
+                                             stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_series);
+
+  if (n==slack_length_series)
+    result = slice_has_solution(slices[si].u.pipe.u.branch_fork.towards_goal);
+  else
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    result = series_has_solution_in_n(next,n);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice. First consult hash table.
+ * @param continuations table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ */
+void branch_fork_series_solve_continuations_in_n(table continuations,
+                                                 slice_index si,
+                                                 stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_series);
+
+  if (n==slack_length_series)
+    slice_solve_continuations(continuations,
+                              slices[si].u.pipe.u.branch_fork.towards_goal);
+  else
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    series_solve_continuations_in_n(continuations,next,n);
   }
 
   TraceFunctionExit(__func__);
@@ -302,6 +394,9 @@ static slice_operation const slice_to_fork_deallocators[] =
   &traverse_and_deallocate,             /* STHelpRoot */
   &traverse_and_deallocate,             /* STHelpAdapter */
   &traverse_and_deallocate,             /* STHelpHashed */
+  &traverse_and_deallocate,             /* STSeriesRoot */
+  &traverse_and_deallocate,             /* STSeriesAdapter */
+  &traverse_and_deallocate,             /* STSeriesHashed */
   0,                                    /* STSelfCheckGuard */
   0,                                    /* STReflexGuard */
   0,                                    /* STRestartGuard */

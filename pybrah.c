@@ -15,6 +15,8 @@
 #include <assert.h>
 
 /* Allocate a STBranchHelp slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @param next identifies next slice
  * @return index of allocated slice
  */
@@ -205,14 +207,8 @@ void branch_h_solve_continuations_in_n(table continuations,
 
     repcoup();
 
-    /* Stop solving if a given number of solutions was encountered */
     if (OptFlag[maxsols] && solutions>=maxsolutions)
-    {
-      TraceValue("%u",maxsolutions);
-      TraceValue("%u",solutions);
-      TraceText("aborting\n");
       break;
-    }
 
     if (periods_counter>=nr_periods)
       break;
@@ -235,8 +231,8 @@ boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   active_slice[nbply+1] = si;
@@ -653,34 +649,6 @@ slice_index alloc_help_root_slice(stip_length_type length,
   return result;
 }
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean help_root_impose_starter(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  Side * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-
-  *starter = advers(*starter);
-  slice_traverse_children(si,st);
-  *starter = slices[si].starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Shorten a help pipe by a half-move
  * @param pipe identifies pipe to be shortened
  */
@@ -800,6 +768,8 @@ static void shorten_root_branch(slice_index root)
       dealloc_slice_index(branch1);
       slices[root].u.pipe.u.help_adapter.short_sols = no_slice;
     }
+    else
+      slices[branch1].u.pipe.u.branch.length -= 2;
   }
   else
   {
@@ -815,6 +785,8 @@ static void shorten_root_branch(slice_index root)
       slices[fork].u.pipe.next = no_slice;
       dealloc_slice_index(branch1);
     }
+    else
+      slices[branch1].u.pipe.u.branch.length -= 2;
   }
 
   shorten_help_pipe(root);
@@ -885,8 +857,6 @@ boolean help_root_solve_in_n(slice_index root, stip_length_type n)
 
 /* Solve a branch slice at root level.
  * @param si slice index
- * @return no_slice if set play not applicable
- *         new root slice index (may be equal to old one) otherwise
  * @return true iff >=1 solution was found
  */
 boolean help_root_solve(slice_index root)
@@ -1168,7 +1138,6 @@ slice_index alloc_helpreflex_branch(branch_level level,
                                     slice_index next)
 {
   slice_index result;
-  slice_index branch;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",level);
@@ -1180,34 +1149,8 @@ slice_index alloc_helpreflex_branch(branch_level level,
   assert(level==toplevel_branch);
   assert(level-slack_length_help>1);
 
-  branch = alloc_help_branch(level,length,min_length,next);
-
-  if ((length-slack_length_help)%2==0)
-  {
-    slice_index const guardpos = branch_find_slice(STBranchHelp,branch);
-    assert(guardpos!=no_slice);
-    pipe_insert_before(guardpos);
-    init_reflex_guard_slice(guardpos,next);
-  }
-  else
-  {
-    slice_index const fork = branch_find_slice(STBranchFork,branch);
-    slice_index const branch1 = branch_find_slice(STBranchHelp,fork);
-    slice_index const guardpos = branch_find_slice(STBranchHelp,branch1);
-    assert(fork!=no_slice);
-    assert(branch1!=no_slice);
-    assert(guardpos!=no_slice);
-    pipe_insert_before(guardpos);
-    init_reflex_guard_slice(guardpos,next);
-  }
-
-  if (level==toplevel_branch)
-  {
-    result = alloc_pipe(branch);
-    init_reflex_guard_slice(result,next);
-  }
-  else
-    result = branch;
+  result = alloc_help_branch(level,length,min_length,next);
+  slice_insert_reflex_guards(result,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

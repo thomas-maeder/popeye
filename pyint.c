@@ -23,6 +23,7 @@
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pyhelp.h"
+#include "pyseries.h"
 #include "pypipe.h"
 #include "platform/maxtime.h"
 #include "trace.h"
@@ -2607,34 +2608,6 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
 /* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
- * @return true iff the number of moves left have been successfully
- *         initialised for si and its children
- */
-static boolean init_moves_left_branch_series(slice_index si,
-                                             slice_traversal *st)
-{
-  boolean result;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  MovesLeft[slices[si].starter] += n-slack_length_series;
-  result = slice_traverse_children(si,st);
-
-  TraceValue("%u",MovesLeft[White]);
-  TraceValue("%u\n",MovesLeft[Black]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Calculate the number of moves of each side
- * @param si index of non-root slice
- * @param st address of structure defining traversal
  * @return true
  */
 static boolean init_moves_left_leaf_direct(slice_index si,
@@ -2727,6 +2700,38 @@ static boolean init_moves_left_help_adapter(slice_index si,
  * @return true iff the number of moves left have been successfully
  *         initialised for si and its children
  */
+static boolean init_moves_left_series_adapter(slice_index si,
+                                              slice_traversal *st)
+{
+  boolean result;
+  stip_length_type const n = slices[si].u.pipe.u.help_adapter.length;
+  slice_index fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index to_goal;
+      
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  MovesLeft[slices[si].starter] += n-slack_length_series;
+
+  to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+  result = traverse_slices(to_goal,st);
+
+  TraceValue("%u",MovesLeft[White]);
+  TraceValue("%u\n",MovesLeft[Black]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Calculate the number of moves of each side
+ * @param si index of non-root slice
+ * @param st address of structure defining traversal
+ * @return true iff the number of moves left have been successfully
+ *         initialised for si and its children
+ */
 static boolean init_moves_left_branch_fork(slice_index si,
                                            slice_traversal *st)
 {
@@ -2749,27 +2754,30 @@ static boolean init_moves_left_branch_fork(slice_index si,
 
 static slice_operation const moves_left_initialisers[] =
 {
-  0,                              /* STBranchDirect */
-  0,                              /* STBranchDirectDefender */
-  0,                              /* STBranchHelp */
-  &init_moves_left_branch_series, /* STBranchSeries */
-  &init_moves_left_branch_fork,   /* STBranchFork */
-  &init_moves_left_leaf_direct,   /* STLeafDirect */
-  &init_moves_left_leaf_help,     /* STLeafHelp */
-  0,                              /* STLeafSelf */
-  0,                              /* STLeafForced */
-  0,                              /* STReciprocal */
-  0,                              /* STQuodlibet */
-  0,                              /* STNot */
-  &slice_traverse_children,       /* STMoveInverter */
-  0,                              /* STHelpRoot */
-  &init_moves_left_help_adapter,  /* STHelpAdapter */
-  &slice_traverse_children,       /* STHelpHashed */
-  &slice_traverse_children,       /* STSelfCheckGuard */
-  0,                              /* STReflexGuard */
-  &slice_traverse_children,       /* STRestartGuard */
-  0,                              /* STGoalReachableGuard */
-  &slice_traverse_children        /* STKeepMatingGuard */
+  0,                                /* STBranchDirect */
+  0,                                /* STBranchDirectDefender */
+  0,                                /* STBranchHelp */
+  0,                                /* STBranchSeries */
+  &init_moves_left_branch_fork,     /* STBranchFork */
+  &init_moves_left_leaf_direct,     /* STLeafDirect */
+  &init_moves_left_leaf_help,       /* STLeafHelp */
+  0,                                /* STLeafSelf */
+  0,                                /* STLeafForced */
+  0,                                /* STReciprocal */
+  0,                                /* STQuodlibet */
+  0,                                /* STNot */
+  &slice_traverse_children,         /* STMoveInverter */
+  0,                                /* STHelpRoot */
+  &init_moves_left_help_adapter,    /* STHelpAdapter */
+  &slice_traverse_children,         /* STHelpHashed */
+  0,                                /* STSeriesRoot */
+  &init_moves_left_series_adapter,  /* STSeriesAdapter */
+  &slice_traverse_children,         /* STSeriesHashed */
+  &slice_traverse_children,         /* STSelfCheckGuard */
+  0,                                /* STReflexGuard */
+  &slice_traverse_children,         /* STRestartGuard */
+  0,                                /* STGoalReachableGuard */
+  &slice_traverse_children          /* STKeepMatingGuard */
 };
 
 /* Calculate the number of moves of each side, starting at the root
@@ -2808,12 +2816,16 @@ static void init_moves_left(slice_index si, stip_length_type n)
       break;
     }
 
-    case STBranchSeries:
+    case STSeriesRoot:
+    {
+      slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+      slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
       MovesLeft[Black] = 0;
       MovesLeft[White] = 0;
-      traverse_slices(si,&st);
-      MovesLeft[slices[si].starter] -= slices[si].u.pipe.u.branch.length-n;
+      MovesLeft[slices[si].starter] = n-slack_length_series;
+      traverse_slices(to_goal,&st);
       break;
+    }
 
     case STLeafHelp:
       MovesLeft[Black] = 0;
@@ -2945,7 +2957,104 @@ void goalreachable_guard_help_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
-static boolean goalreachable_guards_inserter_help(slice_index si,
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >=1 solution was found
+ */
+boolean goalreachable_guard_series_solve_in_n(slice_index si, stip_length_type n)
+{
+  boolean result;
+  Side const just_moved = advers(slices[si].starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_series);
+
+  --MovesLeft[just_moved];
+  TraceValue("%u",slices[si].starter);
+  TraceValue("%u",just_moved);
+  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u\n",MovesLeft[just_moved]);
+
+  result = (isGoalReachable()
+            && series_solve_in_n(slices[si].u.pipe.next,n));
+
+  ++MovesLeft[just_moved];
+  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u\n",MovesLeft[just_moved]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >= 1 solution has been found
+ */
+boolean goalreachable_guard_series_has_solution_in_n(slice_index si,
+                                                     stip_length_type n)
+{
+  boolean result;
+  Side const just_moved = advers(slices[si].starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_series);
+
+  --MovesLeft[just_moved];
+
+  result = (isGoalReachable()
+            && series_has_solution_in_n(slices[si].u.pipe.next,n));
+
+  ++MovesLeft[just_moved];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice. First consult hash table.
+ * @param continuations table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ */
+void goalreachable_guard_series_solve_continuations_in_n(table continuations,
+                                                         slice_index si,
+                                                         stip_length_type n)
+{
+  Side const just_moved = advers(slices[si].starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_series);
+
+  --MovesLeft[just_moved];
+
+  if (isGoalReachable())
+    series_solve_continuations_in_n(continuations,slices[si].u.pipe.next,n);
+
+  ++MovesLeft[just_moved];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static boolean goalreachable_guards_inserter_branch(slice_index si,
                                                   slice_traversal *st)
 {
   boolean const result = true;
@@ -2967,27 +3076,30 @@ static boolean goalreachable_guards_inserter_help(slice_index si,
 
 static slice_operation const goalreachable_guards_inserters[] =
 {
-  &slice_traverse_children,            /* STBranchDirect */
-  &slice_traverse_children,            /* STBranchDirectDefender */
-  &goalreachable_guards_inserter_help, /* STBranchHelp */
-  &slice_traverse_children,            /* STBranchSeries */
-  &slice_traverse_children,            /* STBranchFork */
-  &slice_operation_noop,               /* STLeafDirect */
-  &slice_operation_noop,               /* STLeafHelp */
-  &slice_operation_noop,               /* STLeafSelf */
-  &slice_operation_noop,               /* STLeafForced */
-  &slice_traverse_children,            /* STReciprocal */
-  &slice_traverse_children,            /* STQuodlibet */
-  &slice_traverse_children,            /* STNot */
-  &slice_traverse_children,            /* STMoveInverter */
-  &goalreachable_guards_inserter_help, /* STHelpRoot */
-  &slice_traverse_children,            /* STHelpAdapter */
-  &slice_traverse_children,            /* STHelpHashed */
-  &slice_traverse_children,            /* STSelfCheckGuard */
-  0,                                   /* STReflexGuard */
-  &slice_traverse_children,            /* STRestartGuard */
-  0,                                   /* STGoalReachableGuard */
-  &slice_traverse_children             /* STKeepMatingGuard */
+  &slice_traverse_children,              /* STBranchDirect */
+  &slice_traverse_children,              /* STBranchDirectDefender */
+  &goalreachable_guards_inserter_branch, /* STBranchHelp */
+  &goalreachable_guards_inserter_branch, /* STBranchSeries */
+  &slice_traverse_children,              /* STBranchFork */
+  &slice_operation_noop,                 /* STLeafDirect */
+  &slice_operation_noop,                 /* STLeafHelp */
+  &slice_operation_noop,                 /* STLeafSelf */
+  &slice_operation_noop,                 /* STLeafForced */
+  &slice_traverse_children,              /* STReciprocal */
+  &slice_traverse_children,              /* STQuodlibet */
+  &slice_traverse_children,              /* STNot */
+  &slice_traverse_children,              /* STMoveInverter */
+  &goalreachable_guards_inserter_branch, /* STHelpRoot */
+  &slice_traverse_children,              /* STHelpAdapter */
+  &slice_traverse_children,              /* STHelpHashed */
+  &goalreachable_guards_inserter_branch, /* STSeriesRoot */
+  &slice_traverse_children,              /* STSeriesAdapter */
+  &slice_traverse_children,              /* STSeriesHashed */
+  &slice_traverse_children,              /* STSelfCheckGuard */
+  0,                                     /* STReflexGuard */
+  &slice_traverse_children,              /* STRestartGuard */
+  0,                                     /* STGoalReachableGuard */
+  &slice_traverse_children               /* STKeepMatingGuard */
 };
 
 /* Instrument stipulation with STGoalreachableGuard slices
@@ -3081,20 +3193,14 @@ static
 boolean intelligent_mode_support_detector_branch_ser(slice_index si,
                                                      slice_traversal *st)
 {
-  boolean result;
-  support_for_intelligent_mode * const support = st->param;
+  boolean const result = true;
+  slice_index fork = slices[si].u.pipe.u.help_adapter.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.pipe.u.branch.length<slack_length_series)
-  {
-    *support = intelligent_not_supported;
-    result = true;
-  }
-  else
-    result = slice_traverse_children(si,st);
+  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3190,7 +3296,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STBranchDirect */
   &intelligent_mode_support_none,                /* STBranchDirectDefender */
   0,                                             /* STBranchHelp */
-  &intelligent_mode_support_detector_branch_ser, /* STBranchSeries */
+  0,                                             /* STBranchSeries */
   &slice_traverse_children,                      /* STBranchFork */
   &intelligent_mode_support_detector_leaf,       /* STLeafDirect */
   &intelligent_mode_support_detector_leaf,       /* STLeafHelp */
@@ -3203,6 +3309,9 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
   &intelligent_mode_support_detector_branch_h,   /* STHelpAdapter */
   &slice_traverse_children,                      /* STHelpHashed */
+  &intelligent_mode_support_detector_branch_ser, /* STSeriesRoot */
+  &intelligent_mode_support_detector_branch_ser, /* STSeriesAdapter */
+  &slice_traverse_children,                      /* STSeriesHashed */
   &slice_traverse_children,                      /* STSelfCheckGuard */
   &intelligent_mode_support_none,                /* STReflexGuard */
   &slice_traverse_children,                      /* STRestartGuard */

@@ -38,6 +38,10 @@
     ENUMERATOR(STHelpAdapter),     /* help play after branch fork */    \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
                                                                         \
+    ENUMERATOR(STSeriesRoot),        /* root level of series play */        \
+    ENUMERATOR(STSeriesAdapter),     /* series play after branch fork */    \
+    ENUMERATOR(STSeriesHashed),      /* series play with hash table */      \
+                                                                        \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
                                                                         \
     ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
@@ -167,8 +171,22 @@ typedef struct
                 {
                     stip_length_type length;     /* half moves */
                     stip_length_type min_length; /* half moves */
+                    slice_index fork;
+                } series_adapter;
+
+                struct
+                {
+                    stip_length_type length;     /* half moves */
+                    stip_length_type min_length; /* half moves */
                     Side mating;
                 } keepmating_guard;
+
+                struct
+                {
+                    stip_length_type length;     /* half moves */
+                    stip_length_type min_length; /* half moves */
+                    Side guarded;
+                } selfcheck_guard;
 
                 struct /* for type==STBranchFork */
                 {

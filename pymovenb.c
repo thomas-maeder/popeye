@@ -1,6 +1,7 @@
 #include "pymovenb.h"
 #include "pypipe.h"
 #include "pyhelp.h"
+#include "pyseries.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
@@ -118,8 +119,37 @@ boolean restart_guard_help_solve_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-static boolean restart_guards_inserter_help_root(slice_index si,
-                                                 slice_traversal *st)
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >=1 solution was found
+ */
+boolean restart_guard_series_solve_in_n(slice_index si, stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_series);
+
+  if (MoveNbr<RestartNbr)
+    result = false;
+  else
+    result = series_solve_in_n(slices[si].u.pipe.next,n);
+
+  IncrementMoveNbr();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean restart_guards_inserter_root(slice_index si,
+                                            slice_traversal *st)
 {
   boolean const result = true;
 
@@ -138,27 +168,30 @@ static boolean restart_guards_inserter_help_root(slice_index si,
 
 static slice_operation const restart_guards_inserters[] =
 {
-  &slice_operation_noop,              /* STBranchDirect */
-  &slice_operation_noop,              /* STBranchDirectDefender */
-  &slice_operation_noop,              /* STBranchHelp */
-  &slice_operation_noop,              /* STBranchSeries */
-  &slice_operation_noop,              /* STBranchFork */
-  &slice_operation_noop,              /* STLeafDirect */
-  &slice_operation_noop,              /* STLeafHelp */
-  &slice_operation_noop,              /* STLeafSelf */
-  &slice_operation_noop,              /* STLeafForced */
-  &slice_traverse_children,           /* STReciprocal */
-  &slice_traverse_children,           /* STQuodlibet */
-  &slice_traverse_children,           /* STNot */
-  &slice_traverse_children,           /* STMoveInverter */
-  &restart_guards_inserter_help_root, /* STHelpRoot */
-  &slice_traverse_children,           /* STHelpAdapter */
-  &slice_traverse_children,           /* STHelpHashed */
-  &slice_traverse_children,           /* STSelfCheckGuard */
-  &slice_traverse_children,           /* STReflexGuard */
-  0,                                  /* STRestartGuard */
-  0,                                  /* STGoalReachableGuard */
-  0                                   /* STKeepMatingGuard */
+  &slice_operation_noop,         /* STBranchDirect */
+  &slice_operation_noop,         /* STBranchDirectDefender */
+  &slice_operation_noop,         /* STBranchHelp */
+  &slice_operation_noop,         /* STBranchSeries */
+  &slice_operation_noop,         /* STBranchFork */
+  &slice_operation_noop,         /* STLeafDirect */
+  &slice_operation_noop,         /* STLeafHelp */
+  &slice_operation_noop,         /* STLeafSelf */
+  &slice_operation_noop,         /* STLeafForced */
+  &slice_traverse_children,      /* STReciprocal */
+  &slice_traverse_children,      /* STQuodlibet */
+  &slice_traverse_children,      /* STNot */
+  &slice_traverse_children,      /* STMoveInverter */
+  &restart_guards_inserter_root, /* STHelpRoot */
+  &slice_traverse_children,      /* STHelpAdapter */
+  &slice_traverse_children,      /* STHelpHashed */
+  &restart_guards_inserter_root, /* STSeriesRoot */
+  &slice_traverse_children,      /* STSeriesAdapter */
+  &slice_traverse_children,      /* STSeriesHashed */
+  &slice_traverse_children,      /* STSelfCheckGuard */
+  &slice_traverse_children,      /* STReflexGuard */
+  0,                             /* STRestartGuard */
+  0,                             /* STGoalReachableGuard */
+  0                              /* STKeepMatingGuard */
 };
 
 /* Instrument stipulation with STRestartGuard slices

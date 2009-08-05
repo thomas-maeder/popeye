@@ -45,6 +45,10 @@
     ENUMERATOR(STHelpAdapter),     /* help play after branch fork */    \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
                                                                         \
+    ENUMERATOR(STSeriesRoot),        /* root level of series play */        \
+    ENUMERATOR(STSeriesAdapter),     /* series play after branch fork */    \
+    ENUMERATOR(STSeriesHashed),      /* series play with hash table */      \
+                                                    \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
                                                                         \
     ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
@@ -219,7 +223,7 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STBranchHelp:
+    case STHelpRoot:
       result = slices[si].u.pipe.u.branch.min_length;
       min_length *= 2;
       if (result%2==1)
@@ -228,7 +232,7 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
         slices[si].u.pipe.u.branch.min_length = min_length;
       break;
 
-    case STBranchSeries:
+    case STSeriesRoot:
       result = slices[si].u.pipe.u.branch.min_length;
       if (min_length+1<=slices[si].u.pipe.u.branch.length)
         slices[si].u.pipe.u.branch.min_length = min_length+1;
@@ -236,6 +240,11 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
 
     case STBranchDirect:
       result = slices[si].u.pipe.u.branch.min_length;
+      break;
+
+    case STSelfCheckGuard:
+    case STReflexGuard:
+      set_min_length(slices[si].u.pipe.next,min_length);
       break;
 
     default:
@@ -403,6 +412,9 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STHelpRoot */
   &get_max_nr_moves_other,           /* STHelpAdapter */
   &get_max_nr_moves_other,           /* STHelpHashed */
+  &get_max_nr_moves_other,           /* STSeriesRoot */
+  &get_max_nr_moves_other,           /* STSeriesAdapter */
+  &get_max_nr_moves_other,           /* STSeriesHashed */
   &get_max_nr_moves_other,           /* STSelfCheckGuard */
   &get_max_nr_moves_other,           /* STReflexGuard */
   &get_max_nr_moves_other,           /* STRestartGuard */
@@ -483,6 +495,9 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
+  &slice_traverse_children, /* STSeriesRoot */
+  &slice_traverse_children, /* STSeriesAdapter */
+  &slice_traverse_children, /* STSeriesHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
   &slice_traverse_children, /* STRestartGuard */
@@ -589,6 +604,9 @@ static slice_operation const to_quodlibet_transformers[] =
   0,                                    /* STHelpRoot */
   &transform_to_quodlibet_help_adapter, /* STHelpAdapter */
   0,                                    /* STHelpHashed */
+  0,                                    /* STSeriesRoot */
+  &slice_traverse_children,             /* STSeriesAdapter */
+  0,                                    /* STSeriesHashed */
   0,                                    /* STSelfCheckGuard */
   0,                                    /* STReflexGuard */
   0,                                    /* STRestartGuard */
@@ -677,6 +695,9 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
+  &slice_traverse_children, /* STSeriesRoot */
+  &slice_traverse_children, /* STSeriesAdapter */
+  &slice_traverse_children, /* STSeriesHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STReflexGuard */
   &slice_traverse_children, /* STRestartGuard */
@@ -745,6 +766,9 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STHelpRoot */
   &slice_traverse_children,   /* STHelpAdapter */
   &slice_traverse_children,   /* STHelpHashed */
+  &slice_traverse_children,   /* STSeriesRoot */
+  &slice_traverse_children,   /* STSeriesAdapter */
+  &slice_traverse_children,   /* STSeriesHashed */
   &slice_traverse_children,   /* STSelfCheckGuard */
   &slice_traverse_children,   /* STReflexGuard */
   &slice_traverse_children,   /* STRestartGuard */
@@ -819,6 +843,9 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,                 /* STHelpRoot */
   &make_exact_branch,                 /* STHelpAdapter */
   0,                                  /* STHelpHashed */
+  &make_exact_branch,                 /* STSeriesRoot */
+  &make_exact_branch,                 /* STSeriesAdapter */
+  0,                                  /* STSeriesHashed */
   &make_exact_branch,                 /* STSelfCheckGuard */
   &make_exact_branch,                 /* STReflexGuard */
   &make_exact_branch,                 /* STRestartGuard */
@@ -844,27 +871,30 @@ void stip_make_exact(void)
 
 static slice_operation const starter_imposers[] =
 {
-  &pipe_impose_starter,              /* STBranchDirect */
-  &pipe_impose_starter,              /* STBranchDirectDefender */
-  &branch_h_impose_starter,          /* STBranchHelp */
-  &branch_ser_impose_starter,        /* STBranchSeries */
-  &pipe_impose_starter,              /* STBranchFork */
-  &leaf_impose_starter,              /* STLeafDirect */
-  &leaf_impose_starter,              /* STLeafHelp */
-  &leaf_s_impose_starter,            /* STLeafSelf */
-  &leaf_impose_starter,              /* STLeafForced */
-  &reci_impose_starter,              /* STReciprocal */
-  &quodlibet_impose_starter,         /* STQuodlibet */
-  &pipe_impose_starter,              /* STNot */
-  &move_inverter_impose_starter,     /* STMoveInverter */
-  &help_root_impose_starter,         /* STHelpRoot */
-  &pipe_impose_starter,              /* STHelpAdapter */
-  &pipe_impose_starter,              /* STHelpHashed */
-  &pipe_impose_starter,              /* STSelfCheckGuard */
-  &pipe_impose_starter,              /* STReflexGuard */
-  &pipe_impose_starter,              /* STRestartGuard */
-  &pipe_impose_starter,              /* STGoalReachableGuard */
-  &pipe_impose_starter               /* STKeepMatingGuard */
+  &pipe_impose_starter,            /* STBranchDirect */
+  &pipe_impose_starter,            /* STBranchDirectDefender */
+  &branch_h_impose_starter,        /* STBranchHelp */
+  &branch_ser_impose_starter,      /* STBranchSeries */
+  &pipe_impose_starter,            /* STBranchFork */
+  &leaf_impose_starter,            /* STLeafDirect */
+  &leaf_impose_starter,            /* STLeafHelp */
+  &leaf_s_impose_starter,          /* STLeafSelf */
+  &leaf_impose_starter,            /* STLeafForced */
+  &reci_impose_starter,            /* STReciprocal */
+  &quodlibet_impose_starter,       /* STQuodlibet */
+  &pipe_impose_starter,            /* STNot */
+  &move_inverter_impose_starter,   /* STMoveInverter */
+  &branch_h_impose_starter,        /* STHelpRoot */
+  &pipe_impose_starter,            /* STHelpAdapter */
+  &pipe_impose_starter,            /* STHelpHashed */
+  &branch_ser_impose_starter,      /* STSeriesRoot */
+  &pipe_impose_starter,            /* STSeriesAdapter */
+  &pipe_impose_starter,            /* STSeriesHashed */
+  &selfcheck_guard_impose_starter, /* STSelfCheckGuard */
+  &pipe_impose_starter,            /* STReflexGuard */
+  &pipe_impose_starter,            /* STRestartGuard */
+  &pipe_impose_starter,            /* STGoalReachableGuard */
+  &pipe_impose_starter             /* STKeepMatingGuard */
 };
 
 /* Set the starting side of the stipulation
@@ -1106,6 +1136,9 @@ static slice_operation const traversers[] =
   &traverse_pipe,                   /* STHelpRoot */
   &traverse_pipe,                   /* STHelpAdapter */
   &traverse_pipe,                   /* STHelpHashed */
+  &traverse_pipe,                   /* STSeriesRoot */
+  &traverse_pipe,                   /* STSeriesAdapter */
+  &traverse_pipe,                   /* STSeriesHashed */
   &traverse_pipe,                   /* STSelfCheckGuard */
   &traverse_reflex_guard,           /* STReflexGuard */
   &traverse_pipe,                   /* STRestartGuard */

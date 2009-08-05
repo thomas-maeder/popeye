@@ -91,14 +91,6 @@ void branch_h_solve_continuations_in_n(table continuations,
                                        slice_index si,
                                        stip_length_type n);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean help_root_impose_starter(slice_index si, slice_traversal *st);
-
 /* Shorten a help branch by a half-move. If the branch represents a
  * half-move only, deallocates the branch.
  * @param si identifies the branch
