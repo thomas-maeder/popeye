@@ -22,19 +22,6 @@ slice_index alloc_series_branch(branch_level level,
                                 stip_length_type min_length,
                                 slice_index next);
 
-/* Allocate a series reflex branch.
- * @param level is this a top-level branch or one nested into another
- *              branch?
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
- * @return index of adapter slice of allocated series branch
- */
-slice_index alloc_series_reflex_branch(branch_level level,
-                                       stip_length_type length,
-                                       stip_length_type min_length,
-                                       slice_index next);
-
 /* Allocate a STBranchSeries slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)

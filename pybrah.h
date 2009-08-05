@@ -23,19 +23,6 @@ slice_index alloc_help_branch(branch_level level,
                               stip_length_type min_length,
                               slice_index next);
 
-/* Allocate a help branch representing helpreflex play.
- * @param level is this a top-level branch or one nested into another
- *              branch?
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
- * @return index of adapter slice of allocated help branch
- */
-slice_index alloc_helpreflex_branch(branch_level level,
-                                    stip_length_type length,
-                                    stip_length_type min_length,
-                                    slice_index next);
-
 /* Allocate a STBranchHelp slice.
  * @param next identifies next slice
  * @return index of allocated slice

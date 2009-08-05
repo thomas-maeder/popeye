@@ -77,6 +77,7 @@
 #include "pymovein.h"
 #include "pyproof.h"
 #include "pymovenb.h"
+#include "pyreflxg.h"
 #include "pyint.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
@@ -2318,7 +2319,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
       {
-        *si = alloc_series_reflex_branch(level,length+1,min_length,next);
+        *si = alloc_series_branch(level,length+1,min_length,next);
+        slice_insert_reflex_guards(*si,next);
         slices[*si].starter = White;
       }
     }
@@ -2465,9 +2467,10 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
           *si = next;
         else
         {
-          slice_index const help = alloc_helpreflex_branch(level,
-                                                           length,min_length,
-                                                           next);
+          slice_index const help = alloc_help_branch(level,
+                                                     length,min_length,
+                                                     next);
+          slice_insert_reflex_guards(help,next);
           if (length%2==0)
             *si = alloc_move_inverter_slice(help);
           else

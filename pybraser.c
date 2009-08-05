@@ -992,34 +992,3 @@ slice_index alloc_series_branch(branch_level level,
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Allocate a series reflex branch.
- * @param level is this a top-level branch or one nested into another
- *              branch?
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
- * @return index of adapter slice of allocated series branch
- */
-slice_index alloc_series_reflex_branch(branch_level level,
-                                       stip_length_type length,
-                                       stip_length_type min_length,
-                                       slice_index next)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",level);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",next);
-  TraceFunctionParamListEnd();
-
-  result = alloc_series_branch(level,length,min_length,next);
-  slice_insert_reflex_guards(result,next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
