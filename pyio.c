@@ -1782,7 +1782,7 @@ static char *ParseLength(char *tok,
   tmp_length = strtoul(tok,&end,10);
   TraceValue("%ld\n",tmp_length);
 
-  if (tok==end || tmp_length>UINT_MAX || tmp_length==0)
+  if (tok==end || tmp_length>UINT_MAX)
   {
     IoErrorMsg(WrongInt,0);
     tok = 0;
@@ -1808,16 +1808,38 @@ static char *ParseLength(char *tok,
         }
         else
           *min_length = slack_length_help+1;
+
+        if (*length==slack_length_help-1)
+        {
+          IoErrorMsg(WrongInt,0);
+          tok = 0;
+        }
         break;
 
       case STBranchDirect:
-        *length *= 2;
-        *min_length = slack_length_direct;
+        if (*length==0)
+        {
+          IoErrorMsg(WrongInt,0);
+          tok = 0;
+        }
+        else
+        {
+          *length *= 2;
+          *min_length = slack_length_direct;
+        }
         break;
 
       case STBranchSeries:
-        *length += slack_length_series-1;
-        *min_length = slack_length_series+1;
+        if (*length==0)
+        {
+          IoErrorMsg(WrongInt,0);
+          tok = 0;
+        }
+        else
+        {
+          *length += slack_length_series-1;
+          *min_length = slack_length_series+1;
+        }
         break;
 
       default:
@@ -1825,7 +1847,7 @@ static char *ParseLength(char *tok,
         break;
     }
   }
-
+ 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
