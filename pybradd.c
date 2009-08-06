@@ -1277,10 +1277,7 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
 who_decides_on_starter
 branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
 {
-  who_decides_on_starter result = dont_know_who_decides_on_starter;
-  slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
-  slice_index next_relevant = next;
-  Side * const starter = &slices[si].starter;
+  who_decides_on_starter const result = leaf_decides_on_starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1288,45 +1285,7 @@ branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
   TraceFunctionParamListEnd();
   
   if (slices[si].starter==no_side)
-  {
-    if (slices[next].type==STMoveInverter)
-      next_relevant = slices[next].u.pipe.u.branch_d_defender.towards_goal;
-
-    TraceValue("%u\n",next_relevant);
-
-    result = slice_detect_starter(next,same_side_as_root);
-    if (slices[next].starter==no_side)
-      /* next can't tell - let's tell him */
-      switch (slices[next_relevant].type)
-      {
-        case STLeafDirect:
-          *starter =  White;
-          TraceValue("%u\n",*starter);
-          break;
-
-        case STLeafSelf:
-          *starter = White;
-          TraceValue("%u\n",*starter);
-          break;
-
-        case STLeafHelp:
-          *starter = White;
-          TraceValue("%u\n",*starter);
-          break;
-
-        default:
-          *starter = no_side;
-          break;
-      }
-    else
-      *starter = slices[next].starter;
-
-    TraceValue("->%u\n",slices[si].starter);
-
-    slice_detect_starter(slices[si].u.pipe.next,same_side_as_root);
-  }
-  else
-    result = dont_know_who_decides_on_starter;
+    slices[si].starter = White;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
