@@ -222,6 +222,7 @@ typedef struct
         {
             unsigned int offsetNoSucc;
             unsigned int maskNoSucc;
+            slice_index anchor;
         } h;
         struct
         {
@@ -636,15 +637,14 @@ static boolean init_slice_properties_help_adapter(slice_index si,
 {
   boolean const result = true;
   slice_initializer_state * const sis = st->param;
-  slice_index branch1;
   slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  branch1 = branch_find_slice(STHelpHashed,si);
-  if (branch1!=no_slice)
+  slice_properties[si].u.h.anchor = branch_find_slice(STHelpHashed,si);
+  if (slice_properties[si].u.h.anchor!=no_slice)
   {
     stip_length_type const length = slices[si].u.pipe.u.branch.length;
     unsigned int width = bit_width((length-slack_length_help+1)/2);
@@ -966,27 +966,27 @@ static slice_operation const min_valueOffset_finders[] =
   &findMinimalValueOffset,  /* STBranchDirect */
   &findMinimalValueOffset,  /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
-  &findMinimalValueOffset,  /* STBranchSeries */
-  &findMinimalValueOffset,  /* STBranchFork */
+  &slice_traverse_children, /* STBranchSeries */
+  &slice_traverse_children, /* STBranchFork */
   &findMinimalValueOffset,  /* STLeafDirect */
   &findMinimalValueOffset,  /* STLeafHelp */
   &findMinimalValueOffset,  /* STLeafSelf */
   &findMinimalValueOffset,  /* STLeafForced */
-  &findMinimalValueOffset,  /* STReciprocal */
-  &findMinimalValueOffset,  /* STQuodlibet */
-  &findMinimalValueOffset,  /* STNot */
-  &findMinimalValueOffset,  /* STMoveInverter */
-  &findMinimalValueOffset,  /* STHelpRoot */
-  &findMinimalValueOffset,  /* STHelpAdapter */
+  &slice_traverse_children, /* STReciprocal */
+  &slice_traverse_children, /* STQuodlibet */
+  &slice_traverse_children, /* STNot */
+  &slice_traverse_children, /* STMoveInverter */
+  &slice_traverse_children, /* STHelpRoot */
+  &slice_traverse_children, /* STHelpAdapter */
   &findMinimalValueOffset,  /* STHelpHashed */
-  &findMinimalValueOffset,  /* STSeriesRoot */
-  &findMinimalValueOffset,  /* STSeriesAdapter */
+  &slice_traverse_children, /* STSeriesRoot */
+  &slice_traverse_children, /* STSeriesAdapter */
   &findMinimalValueOffset,  /* STSeriesHashed */
-  &findMinimalValueOffset,  /* STSelfCheckGuard */
-  &findMinimalValueOffset,  /* STReflexGuard */
-  &findMinimalValueOffset,  /* STRestartGuard */
-  &findMinimalValueOffset,  /* STGoalReachableGuard */
-  &findMinimalValueOffset   /* STKeepMatingGuard */
+  &slice_traverse_children, /* STSelfCheckGuard */
+  &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children, /* STRestartGuard */
+  &slice_traverse_children, /* STGoalReachableGuard */
+  &slice_traverse_children  /* STKeepMatingGuard */
 };
 
 static boolean reduceValueOffset(slice_index si, slice_traversal *st)
@@ -1014,27 +1014,27 @@ static slice_operation const valueOffset_reducers[] =
   &reduceValueOffset,       /* STBranchDirect */
   &reduceValueOffset,       /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
-  &reduceValueOffset,       /* STBranchSeries */
-  &reduceValueOffset,       /* STBranchFork */
+  &slice_traverse_children, /* STBranchSeries */
+  &slice_traverse_children, /* STBranchFork */
   &reduceValueOffset,       /* STLeafDirect */
   &reduceValueOffset,       /* STLeafHelp */
   &reduceValueOffset,       /* STLeafSelf */
   &reduceValueOffset,       /* STLeafForced */
-  &reduceValueOffset,       /* STReciprocal */
-  &reduceValueOffset,       /* STQuodlibet */
-  &reduceValueOffset,       /* STNot */
-  &reduceValueOffset,       /* STMoveInverter */
-  &reduceValueOffset,       /* STHelpRoot */
-  &reduceValueOffset,       /* STHelpAdapter */
+  &slice_traverse_children, /* STReciprocal */
+  &slice_traverse_children, /* STQuodlibet */
+  &slice_traverse_children, /* STNot */
+  &slice_traverse_children, /* STMoveInverter */
+  &slice_traverse_children, /* STHelpRoot */
+  &slice_traverse_children, /* STHelpAdapter */
   &reduceValueOffset,       /* STHelpHashed */
-  &reduceValueOffset,       /* STSeriesRoot */
-  &reduceValueOffset,       /* STSeriesAdapter */
+  &slice_traverse_children, /* STSeriesRoot */
+  &slice_traverse_children, /* STSeriesAdapter */
   &reduceValueOffset,       /* STSeriesHashed */
-  &reduceValueOffset,       /* STSelfCheckGuard */
-  &reduceValueOffset,       /* STReflexGuard */
-  &reduceValueOffset,       /* STRestartGuard */
-  &reduceValueOffset,       /* STGoalReachableGuard */
-  &reduceValueOffset        /* STKeepMatingGuard */
+  &slice_traverse_children, /* STSelfCheckGuard */
+  &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children, /* STRestartGuard */
+  &slice_traverse_children, /* STGoalReachableGuard */
+  &slice_traverse_children  /* STKeepMatingGuard */
 };
 
 /* Initialise the slice_properties array according to the current
@@ -1448,6 +1448,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
       case STNot:
       case STMoveInverter:
+      case STSelfCheckGuard:
       {
         slice_index const next = slices[si].u.pipe.next;
         result = value_of_data_recursive(he,next);
@@ -1461,7 +1462,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
         slice_index const
             to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
 
-        slice_index const anchor = slices[si].u.pipe.next;
+        slice_index const anchor = slice_properties[si].u.h.anchor;
         slice_index next = anchor;
 
         result = value_of_data_recursive(he,to_goal);
