@@ -943,10 +943,62 @@ pyhelp.h:
 pyselfcg.h:
 
 pypipe.h:
+pydirect$(OBJ_SUFFIX): pydirect.c pydirect.h py.h boolean.h pyposit.h pyboard.h \
+  pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h pytable.h \
+  pybrad.h pyslice.h pybrafrk.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
+  pyhelp.h pykeepmt.h pyselfcg.h pymovenb.h pyint.h trace.h
+
+pydirect.h:
+
+py.h:
+
+boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+pybitmsk.h:
+
+pypiece.h:
+
+pyenum.h:
+
+pylang.h:
+
+pystip.h:
+
+pygoal.h:
+
+pytable.h:
+
+pybrad.h:
+
+pyslice.h:
+
+pybrafrk.h:
+
+pyhash.h:
+
+DHT/dhtbcmem.h:
+
+pyreflxg.h:
+
+pyhelp.h:
+
+pykeepmt.h:
+
+pyselfcg.h:
+
+pymovenb.h:
+
+pyint.h:
+
+trace.h:
 pyhelp$(OBJ_SUFFIX): pyhelp.c pyhelp.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pyenum.h pylang.h pystip.h pygoal.h pytable.h pybrah.h \
   pyslice.h pybrafrk.h pyhash.h DHT/dhtbcmem.h pyreflxg.h pykeepmt.h \
-  pyselfcg.h pymovenb.h pyint.h trace.h pynot.h
+  pyselfcg.h pymovenb.h pyint.h trace.h
 
 pyhelp.h:
 
@@ -993,13 +1045,10 @@ pymovenb.h:
 pyint.h:
 
 trace.h:
-
-pynot.h:
 pyseries$(OBJ_SUFFIX): pyseries.c pyseries.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h pytable.h \
   pybraser.h pyslice.h pybrafrk.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
-  pyhelp.h pykeepmt.h pyselfcg.h pymovenb.h pypipe.h pyint.h trace.h \
-  pynot.h
+  pyhelp.h pykeepmt.h pyselfcg.h pymovenb.h pypipe.h pyint.h trace.h
 
 pyseries.h:
 
@@ -1050,8 +1099,6 @@ pypipe.h:
 pyint.h:
 
 trace.h:
-
-pynot.h:
 pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h pystip.h pygoal.h boolean.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pytable.h \
   pyseries.h trace.h
@@ -1407,8 +1454,8 @@ trace.h:
 platform/maxtime.h:
 pybradd$(OBJ_SUFFIX): pybradd.c pybradd.h boolean.h pystip.h pygoal.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pytable.h \
-  pybrad.h pybrah.h pydata.h pyproc.h py4.h pybrafrk.h pyhash.h \
-  DHT/dhtbcmem.h pyoutput.h trace.h
+  pydirect.h pybrad.h pybrah.h pydata.h pyproc.h py4.h pybrafrk.h \
+  pyhash.h DHT/dhtbcmem.h pyoutput.h trace.h
 
 pybradd.h:
 
@@ -1435,6 +1482,8 @@ pylang.h:
 pyslice.h:
 
 pytable.h:
+
+pydirect.h:
 
 pybrad.h:
 

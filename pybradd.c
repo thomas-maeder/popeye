@@ -1,4 +1,5 @@
 #include "pybradd.h"
+#include "pydirect.h"
 #include "pybrad.h"
 #include "pybrah.h"
 #include "pydata.h"
@@ -173,7 +174,7 @@ boolean branch_d_defender_is_refuted(slice_index si,
     {
       slice_index const peer = slices[si].u.pipe.next;
       if (n>slack_length_direct
-          && branch_d_has_solution_in_n(peer,n,curr_max_nr_nontrivial))
+          && direct_has_solution_in_n(peer,n,curr_max_nr_nontrivial))
         result = false;
       else
         result = true;
@@ -717,7 +718,7 @@ static boolean write_variation(slice_index si, stip_length_type n)
 
   for (i = min_len; i<=n && is_refutation; i += 2)
   {
-    branch_d_solve_continuations_in_n(continuations,peer,i-1);
+    direct_solve_continuations_in_n(continuations,peer,i-1);
     is_refutation = table_length(continuations)==0;
   }
 
@@ -826,7 +827,7 @@ static int solve_threats(table threats, slice_index si, stip_length_type n)
 
       for (i = slack_length_direct+2; i<=max_threat_length; i += 2)
       {
-        branch_d_solve_continuations_in_n(threats,peer,i);
+        direct_solve_continuations_in_n(threats,peer,i);
         TraceValue("%u",i);
         TraceValue("%u\n",table_length(threats));
         if (table_length(threats)>0)
