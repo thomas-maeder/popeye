@@ -170,7 +170,7 @@ static boolean have_we_solution_in_n(slice_index si,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker))
     {
-      if (branch_d_defender_has_starter_apriori_lost(peer))
+      if (slice_has_starter_apriori_lost(peer))
         /* nothing */;
       else if (!branch_d_defender_does_defender_win(peer,n-1,curr_max_nr_nontrivial))
       {
