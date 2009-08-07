@@ -3,6 +3,7 @@
 #include "pybrah.h"
 #include "pydata.h"
 #include "pyslice.h"
+#include "pybrafrk.h"
 #include "pyhash.h"
 #include "pyoutput.h"
 #include "trace.h"
@@ -1240,7 +1241,7 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
     next_in_setplay = next;
   else
   {
-    slice_index const peer = slices[si].u.pipe.next;
+    slice_index const peer = branch_find_slice(STBranchDirect,si);
 
     slice_index const next_in_setplay_peer = copy_slice(si);
     slices[next_in_setplay_peer].u.pipe.u.branch_d_defender.length -= 2;
@@ -1249,9 +1250,10 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
     else
       --slices[next_in_setplay_peer].u.pipe.u.branch_d_defender.min_length;
 
+    assert(peer!=no_slice);
     next_in_setplay = copy_slice(peer);
-    slices[next_in_setplay].u.pipe.u.branch_d_defender.length -= 2;
-    slices[next_in_setplay].u.pipe.u.branch_d_defender.min_length -= 2;
+    slices[next_in_setplay].u.pipe.u.branch.length -= 2;
+    slices[next_in_setplay].u.pipe.u.branch.min_length -= 2;
     hash_slice_is_derived_from(next_in_setplay,peer);
 
     slices[next_in_setplay].u.pipe.next = next_in_setplay_peer;

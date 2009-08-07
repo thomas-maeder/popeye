@@ -1407,8 +1407,8 @@ trace.h:
 platform/maxtime.h:
 pybradd$(OBJ_SUFFIX): pybradd.c pybradd.h boolean.h pystip.h pygoal.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pytable.h \
-  pybrad.h pybrah.h pydata.h pyproc.h py4.h pyhash.h DHT/dhtbcmem.h \
-  pyoutput.h trace.h
+  pybrad.h pybrah.h pydata.h pyproc.h py4.h pybrafrk.h pyhash.h \
+  DHT/dhtbcmem.h pyoutput.h trace.h
 
 pybradd.h:
 
@@ -1445,6 +1445,8 @@ pydata.h:
 pyproc.h:
 
 py4.h:
+
+pybrafrk.h:
 
 pyhash.h:
 
@@ -1887,11 +1889,15 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
-  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
-  DHT/dhtbcmem.h pytable.h pystip.h
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
+  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
+  pyhash.h DHT/dhtbcmem.h pytable.h pystip.h
 
 trace.h:
+
+pyproc.h:
+
+py4.h:
 
 py.h:
 
@@ -1908,10 +1914,6 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
-
-pyproc.h:
-
-py4.h:
 
 pygoal.h:
 
