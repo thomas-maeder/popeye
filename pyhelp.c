@@ -11,8 +11,6 @@
 
 #include <assert.h>
 
-#include "pynot.h"
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n number of half moves until end state has to be reached
