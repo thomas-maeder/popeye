@@ -75,17 +75,6 @@ slice_index alloc_direct_branch(branch_level level,
   return result;
 }
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si identifies slice
- * @return true iff starter must resign
- */
-boolean branch_d_must_starter_resign(slice_index si)
-{
-  return branch_d_defender_must_starter_resign(slices[si].u.pipe.next);
-}
-
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
  * Assumes slice_must_starter_resign(si)
@@ -93,7 +82,7 @@ boolean branch_d_must_starter_resign(slice_index si)
  */
 void branch_d_write_unsolvability(slice_index si)
 {
-  branch_d_defender_write_unsolvability(slices[si].u.pipe.next);
+  slice_write_unsolvability(slices[si].u.pipe.next);
 }
 
 /* Determine whether a side has reached the goal
@@ -109,8 +98,7 @@ boolean branch_d_is_goal_reached(Side just_moved, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result =  branch_d_defender_is_goal_reached(just_moved,
-                                              slices[si].u.pipe.next);
+  result = slice_is_goal_reached(just_moved,slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -127,7 +115,7 @@ boolean branch_d_is_goal_reached(Side just_moved, slice_index si)
  */
 boolean branch_d_has_starter_apriori_lost(slice_index si)
 {
-  return branch_d_defender_has_starter_apriori_lost(slices[si].u.pipe.next);
+  return slice_has_starter_apriori_lost(slices[si].u.pipe.next);
 }
  
 
@@ -139,7 +127,7 @@ boolean branch_d_has_starter_apriori_lost(slice_index si)
  */
 boolean branch_d_has_starter_won(slice_index si)
 {
-  return branch_d_defender_has_starter_won(slices[si].u.pipe.next);
+  return slice_has_starter_won(slices[si].u.pipe.next);
 }
 
 /* Determine whether the attacker has reached slice si's goal with his
@@ -149,7 +137,7 @@ boolean branch_d_has_starter_won(slice_index si)
  */
 boolean branch_d_has_starter_reached_goal(slice_index si)
 {
-  return branch_d_defender_has_starter_reached_goal(slices[si].u.pipe.next);
+  return slice_has_starter_reached_goal(slices[si].u.pipe.next);
 }
 
 /* Determine whether this slice has a solution in n half moves
@@ -391,7 +379,7 @@ void branch_d_solve_continuations_in_n(table continuations,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker))
     {
-      if (branch_d_defender_has_starter_apriori_lost(peer))
+      if (slice_has_starter_apriori_lost(peer))
         ; /* nothing */
       else if (!branch_d_defender_does_defender_win(peer,
                                                     n-1,
@@ -465,7 +453,7 @@ boolean branch_d_solve(slice_index si)
 
   TraceValue("%u\n",n);
 
-  if (branch_d_defender_must_starter_resign(slices[si].u.pipe.next))
+  if (slice_must_starter_resign(slices[si].u.pipe.next))
     ;
   else if (branch_d_defender_solve_next(slices[si].u.pipe.next))
     result = true;
@@ -519,8 +507,8 @@ boolean branch_d_root_solve(slice_index si)
 
   if (echecc(nbply,advers(attacker)))
     ErrorMsg(KingCapture);
-  else if (branch_d_defender_must_starter_resign(peer))
-    branch_d_defender_write_unsolvability(peer);
+  else if (slice_must_starter_resign(peer))
+    slice_write_unsolvability(peer);
   else
   {
     solutions = 0;
@@ -629,7 +617,7 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
   if (slices[si].starter==no_side)
   {
     slice_index const peer = slices[si].u.pipe.next;
-    result = branch_d_defender_detect_starter(peer,same_side_as_root);
+    result = slice_detect_starter(peer,same_side_as_root);
     slices[si].starter = slices[peer].starter;
     TraceValue("->%u\n",slices[si].starter);
   }

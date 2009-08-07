@@ -40,14 +40,6 @@ slice_index alloc_branch_d_slice(stip_length_type length,
  */
 void branch_d_write_unsolvability(slice_index si);
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si identifies slice
- * @return true iff starter must resign
- */
-boolean branch_d_must_starter_resign(slice_index si);
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index
