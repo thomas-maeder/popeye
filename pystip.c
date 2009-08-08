@@ -869,30 +869,30 @@ void stip_make_exact(void)
 
 static slice_operation const starter_imposers[] =
 {
-  &pipe_impose_starter,            /* STBranchDirect */
-  &pipe_impose_starter,            /* STBranchDirectDefender */
-  &branch_h_impose_starter,        /* STBranchHelp */
-  &branch_ser_impose_starter,      /* STBranchSeries */
-  &pipe_impose_starter,            /* STBranchFork */
-  &leaf_impose_starter,            /* STLeafDirect */
-  &leaf_impose_starter,            /* STLeafHelp */
-  &leaf_s_impose_starter,          /* STLeafSelf */
-  &leaf_impose_starter,            /* STLeafForced */
-  &reci_impose_starter,            /* STReciprocal */
-  &quodlibet_impose_starter,       /* STQuodlibet */
-  &pipe_impose_starter,            /* STNot */
-  &move_inverter_impose_starter,   /* STMoveInverter */
-  &branch_h_impose_starter,        /* STHelpRoot */
-  &pipe_impose_starter,            /* STHelpAdapter */
-  &pipe_impose_starter,            /* STHelpHashed */
-  &branch_ser_impose_starter,      /* STSeriesRoot */
-  &pipe_impose_starter,            /* STSeriesAdapter */
-  &pipe_impose_starter,            /* STSeriesHashed */
-  &pipe_impose_starter,            /* STSelfCheckGuard */
-  &pipe_impose_starter,            /* STReflexGuard */
-  &pipe_impose_starter,            /* STRestartGuard */
-  &pipe_impose_starter,            /* STGoalReachableGuard */
-  &pipe_impose_starter             /* STKeepMatingGuard */
+  &branch_d_impose_starter,          /* STBranchDirect */
+  &branch_d_defender_impose_starter, /* STBranchDirectDefender */
+  &branch_h_impose_starter,          /* STBranchHelp */
+  &branch_ser_impose_starter,        /* STBranchSeries */
+  &pipe_impose_starter,              /* STBranchFork */
+  &leaf_impose_starter,              /* STLeafDirect */
+  &leaf_impose_starter,              /* STLeafHelp */
+  &leaf_s_impose_starter,            /* STLeafSelf */
+  &leaf_impose_starter,              /* STLeafForced */
+  &reci_impose_starter,              /* STReciprocal */
+  &quodlibet_impose_starter,         /* STQuodlibet */
+  &pipe_impose_starter,              /* STNot */
+  &move_inverter_impose_starter,     /* STMoveInverter */
+  &branch_h_impose_starter,          /* STHelpRoot */
+  &pipe_impose_starter,              /* STHelpAdapter */
+  &pipe_impose_starter,              /* STHelpHashed */
+  &branch_ser_impose_starter,        /* STSeriesRoot */
+  &pipe_impose_starter,              /* STSeriesAdapter */
+  &pipe_impose_starter,              /* STSeriesHashed */
+  &pipe_impose_starter,              /* STSelfCheckGuard */
+  &pipe_impose_starter,              /* STReflexGuard */
+  &pipe_impose_starter,              /* STRestartGuard */
+  &pipe_impose_starter,              /* STGoalReachableGuard */
+  &pipe_impose_starter               /* STKeepMatingGuard */
 };
 
 /* Set the starting side of the stipulation

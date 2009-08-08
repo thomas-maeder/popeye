@@ -136,8 +136,7 @@ has_defender_refutation(slice_index si,
                         stip_length_type n,
                         int curr_max_nr_nontrivial)
 {
-  Side const attacker = slices[si].starter;
-  Side const defender = advers(attacker);
+  Side const defender = slices[si].starter;
   defender_has_refutation_type result = defender_is_immobile;
 
   TraceFunctionEntry(__func__);
@@ -185,8 +184,7 @@ has_defender_refutation(slice_index si,
  */
 static int count_all_nontrivial_defenses(slice_index si)
 {
-  Side const attacker = slices[si].starter;
-  Side const defender = advers(attacker);
+  Side const defender = slices[si].starter;
   int result = -1;
 
   TraceFunctionEntry(__func__);
@@ -240,8 +238,7 @@ static int count_all_nontrivial_defenses(slice_index si)
 static int count_enough_nontrivial_defenses(slice_index si,
                                             int curr_max_nr_nontrivial)
 {
-  Side const attacker = slices[si].starter;
-  Side const defender = advers(attacker);
+  Side const defender = slices[si].starter;
   int result = -1;
 
   TraceFunctionEntry(__func__);
@@ -331,8 +328,7 @@ static boolean is_threat_too_long(slice_index si,
                                   stip_length_type n,
                                   int curr_max_nr_nontrivial)
 {
-  Side const attacker = slices[si].starter;
-  Side const defender = advers(attacker);
+  Side const defender = slices[si].starter;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -369,8 +365,7 @@ boolean branch_d_defender_does_defender_win(slice_index si,
                                             stip_length_type n,
                                             int curr_max_nr_nontrivial)
 {
-  Side const attacker = slices[si].starter;
-  Side const defender = advers(attacker);
+  Side const defender = slices[si].starter;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -453,7 +448,8 @@ static boolean defends_against_threats(table threats,
                                        stip_length_type n,
                                        int curr_max_nr_nontrivial)
 {
-  Side const attacker = slices[si].starter;
+  Side const defender = slices[si].starter;
+  Side const attacker = advers(defender);
   boolean result = true;
 
   TraceFunctionEntry(__func__);
@@ -630,8 +626,7 @@ static boolean solve_variations_in_n(int len_threat,
                                      stip_length_type n,
                                      int curr_max_nr_nontrivial)
 {
-  Side const attacker = slices[si].starter;
-  Side defender = advers(attacker);
+  Side const defender = slices[si].starter;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -678,7 +673,7 @@ static boolean solve_variations_in_n(int len_threat,
  */
 static int solve_threats(table threats, slice_index si, stip_length_type n)
 {
-  Side const defender = advers(slices[si].starter);
+  Side const defender = slices[si].starter;
   slice_index const peer = slices[si].u.pipe.next;
   int result = 0;
 
@@ -826,8 +821,7 @@ static void root_solve_variations_in_n(int len_threat,
                                        stip_length_type n,
                                        int curr_max_nr_nontrivial)
 {
-  Side const attacker = slices[si].starter;
-  Side defender = advers(attacker);
+  Side const defender = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",len_threat);
@@ -944,8 +938,7 @@ static boolean root_collect_refutations(table refutations,
                                         stip_length_type n,
                                         int curr_max_nr_nontrivial)
 {
-  Side const attacker = slices[si].starter;
-  Side const defender = advers(attacker);
+  Side const defender = slices[si].starter;
   boolean is_defender_immobile = true;
 
   TraceFunctionEntry(__func__);
@@ -1039,7 +1032,7 @@ static unsigned int root_collect_nontrivial(table nontrivial,
 unsigned int branch_d_defender_find_refutations(table refutations,
                                                 slice_index si)
 {
-  Side const defender = advers(slices[si].starter);
+  Side const defender = slices[si].starter;
   unsigned int result;
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
 
@@ -1108,7 +1101,7 @@ slice_index branch_d_defender_make_setplay_slice(slice_index si)
   result = alloc_help_branch(toplevel_branch,
                              slack_length_help+1,slack_length_help+1,
                              next_in_setplay);
-  slices[result].starter = advers(slices[si].starter);
+  slices[result].starter = slices[si].starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1132,7 +1125,35 @@ branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
   TraceFunctionParamListEnd();
   
   if (slices[si].starter==no_side)
-    slices[si].starter = White;
+    slices[si].starter = Black;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean branch_d_defender_impose_starter(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  Side * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",*starter);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+
+  *starter = advers(*starter);
+  slice_traverse_children(si,st);
+  *starter = slices[si].starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
