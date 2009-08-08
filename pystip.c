@@ -273,9 +273,8 @@ static boolean get_max_nr_moves_direct_defender(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(slices[si].u.pipe.u.branch_d_defender.towards_goal,
-                           st);
-  *max_nr += slices[si].u.pipe.u.branch_d_defender.length+1;
+  result = traverse_slices(slices[si].u.pipe.next,st);
+  *max_nr += slices[si].u.pipe.u.branch.length+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -297,8 +296,7 @@ static boolean get_max_nr_moves_branch(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(slices[si].u.pipe.u.branch_d_defender.towards_goal,
-                           st);
+  result = traverse_slices(slices[si].u.pipe.u.branch_d.fork,st);
   *max_nr += slices[si].u.pipe.u.branch.length;
 
   TraceFunctionExit(__func__);
@@ -592,7 +590,7 @@ static slice_operation const to_quodlibet_transformers[] =
   &slice_traverse_children,             /* STBranchDirectDefender */
   0,                                    /* STBranchHelp */
   &slice_traverse_children,             /* STBranchSeries */
-  0,                                    /* STBranchFork */
+  &slice_traverse_children,             /* STBranchFork */
   0,                                    /* STLeafDirect */
   0,                                    /* STLeafHelp */
   &transform_to_quodlibet_leaf_self,    /* STLeafSelf */
@@ -819,8 +817,8 @@ static boolean make_exact_branch(slice_index branch, slice_traversal *st)
 static boolean make_exact_branch_direct_defender(slice_index branch,
                                                  slice_traversal *st)
 {
-  slices[branch].u.pipe.u.branch_d_defender.min_length
-      = slices[branch].u.pipe.u.branch_d_defender.length;
+  slices[branch].u.pipe.u.branch.min_length
+      = slices[branch].u.pipe.u.branch.length;
 
   return slice_traverse_children(branch,st);
 }
@@ -1078,21 +1076,6 @@ static boolean traverse_pipe(slice_index pipe, slice_traversal *st)
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff branch and its children have been successfully
- *         traversed
- */
-static boolean traverse_branch_direct_defender(slice_index branch,
-                                               slice_traversal *st)
-{
-  boolean const result_pipe = traverse_pipe(branch,st);
-  slice_index const tg = slices[branch].u.pipe.u.branch_d_defender.towards_goal;
-  boolean const result_toward_goal = traverse_slices(tg,st);
-  return result_pipe && result_toward_goal;
-}
-
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
  * @return true iff branch_fork and its children have been successfully
  *         traversed
  */
@@ -1120,30 +1103,30 @@ static boolean traverse_reflex_guard(slice_index branch, slice_traversal *st)
 
 static slice_operation const traversers[] =
 {
-  &traverse_pipe,                   /* STBranchDirect */
-  &traverse_branch_direct_defender, /* STBranchDirectDefender */
-  &traverse_pipe,                   /* STBranchHelp */
-  &traverse_pipe,                   /* STBranchSeries */
-  &traverse_branch_fork,            /* STBranchFork */
-  &slice_operation_noop,            /* STLeafDirect */
-  &slice_operation_noop,            /* STLeafHelp */
-  &slice_operation_noop,            /* STLeafSelf */
-  &slice_operation_noop,            /* STLeafForced */
-  &traverse_fork,                   /* STReciprocal */
-  &traverse_fork,                   /* STQuodlibet */
-  &traverse_pipe,                   /* STNot */
-  &traverse_pipe,                   /* STMoveInverter */
-  &traverse_pipe,                   /* STHelpRoot */
-  &traverse_pipe,                   /* STHelpAdapter */
-  &traverse_pipe,                   /* STHelpHashed */
-  &traverse_pipe,                   /* STSeriesRoot */
-  &traverse_pipe,                   /* STSeriesAdapter */
-  &traverse_pipe,                   /* STSeriesHashed */
-  &traverse_pipe,                   /* STSelfCheckGuard */
-  &traverse_reflex_guard,           /* STReflexGuard */
-  &traverse_pipe,                   /* STRestartGuard */
-  &traverse_pipe,                   /* STGoalReachableGuard */
-  &traverse_pipe                    /* STKeepMatingGuard */
+  &traverse_pipe,         /* STBranchDirect */
+  &traverse_pipe,         /* STBranchDirectDefender */
+  &traverse_pipe,         /* STBranchHelp */
+  &traverse_pipe,         /* STBranchSeries */
+  &traverse_branch_fork,  /* STBranchFork */
+  &slice_operation_noop,  /* STLeafDirect */
+  &slice_operation_noop,  /* STLeafHelp */
+  &slice_operation_noop,  /* STLeafSelf */
+  &slice_operation_noop,  /* STLeafForced */
+  &traverse_fork,         /* STReciprocal */
+  &traverse_fork,         /* STQuodlibet */
+  &traverse_pipe,         /* STNot */
+  &traverse_pipe,         /* STMoveInverter */
+  &traverse_pipe,         /* STHelpRoot */
+  &traverse_pipe,         /* STHelpAdapter */
+  &traverse_pipe,         /* STHelpHashed */
+  &traverse_pipe,         /* STSeriesRoot */
+  &traverse_pipe,         /* STSeriesAdapter */
+  &traverse_pipe,         /* STSeriesHashed */
+  &traverse_pipe,         /* STSelfCheckGuard */
+  &traverse_reflex_guard, /* STReflexGuard */
+  &traverse_pipe,         /* STRestartGuard */
+  &traverse_pipe,         /* STGoalReachableGuard */
+  &traverse_pipe          /* STKeepMatingGuard */
 };
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree

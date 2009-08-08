@@ -156,8 +156,8 @@ typedef struct
                 {
                     stip_length_type length;     /* half moves */
                     stip_length_type min_length; /* half moves */
-                    slice_index towards_goal;
-                } branch_d_defender;
+                    slice_index fork;
+                } branch_d;
 
                 struct
                 {

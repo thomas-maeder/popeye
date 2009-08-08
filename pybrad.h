@@ -23,16 +23,6 @@ slice_index alloc_direct_branch(branch_level level,
                                 stip_length_type min_length,
                                 slice_index next);
 
-/* Allocate a STBranchDirect slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
- * @return index of allocated slice
- */
-slice_index alloc_branch_d_slice(stip_length_type length,
-                                 stip_length_type min_length,
-                                 slice_index next);
-
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
  * Assumes slice_must_starter_resign(si)

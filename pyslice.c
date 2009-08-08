@@ -210,6 +210,10 @@ void slice_solve_continuations(table continuations, slice_index si)
       series_adapter_solve_continuations(continuations,si);
       break;
 
+    case STBranchFork:
+      branch_fork_solve_continuations(continuations,si);
+      break;
+
     default:
       assert(0);
       break;
@@ -300,6 +304,10 @@ void slice_root_write_key(slice_index si, attack_type type)
 
     case STSeriesAdapter:
       series_adapter_root_write_key(si,type);
+      break;
+
+    case STBranchFork:
+      branch_fork_root_write_key(si,type);
       break;
 
     case STReciprocal:
@@ -529,6 +537,7 @@ boolean slice_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -569,6 +578,10 @@ boolean slice_has_solution(slice_index si)
 
     case STSeriesAdapter:
       result = series_adapter_has_solution(si);
+      break;
+
+    case STBranchFork:
+      result = branch_fork_has_solution(si);
       break;
 
     case STSelfCheckGuard:
@@ -682,6 +695,10 @@ boolean slice_has_non_starter_solved(slice_index si)
       result = series_adapter_has_non_starter_solved(si);
       break;
 
+    case STBranchFork:
+      result = branch_fork_has_non_starter_solved(si);
+      break;
+
     case STQuodlibet:
       result = quodlibet_has_non_starter_solved(si);
       break;
@@ -749,6 +766,10 @@ boolean slice_has_starter_apriori_lost(slice_index si)
 
     case STSeriesAdapter:
       result = series_adapter_has_starter_apriori_lost(si);
+      break;
+
+    case STBranchFork:
+      result = branch_fork_has_starter_apriori_lost(si);
       break;
 
     case STQuodlibet:
@@ -831,6 +852,10 @@ boolean slice_has_starter_won(slice_index si)
       result = not_has_starter_won(si);
       break;
 
+    case STBranchFork:
+      result = branch_fork_has_starter_won(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -884,6 +909,10 @@ boolean slice_has_starter_reached_goal(slice_index si)
 
     case STSeriesAdapter:
       result = series_adapter_has_starter_reached_goal(si);
+      break;
+
+    case STBranchFork:
+      result = branch_fork_has_starter_reached_goal(si);
       break;
 
     case STQuodlibet:
@@ -983,6 +1012,7 @@ void slice_write_unsolvability(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
@@ -1005,6 +1035,10 @@ void slice_write_unsolvability(slice_index si)
 
     case STSeriesAdapter:
       series_adapter_write_unsolvability(si);
+      break;
+
+    case STBranchFork:
+      branch_fork_write_unsolvability(si);
       break;
 
     case STQuodlibet:
@@ -1123,10 +1157,15 @@ void slice_write_non_starter_has_solved(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafSelf:
       leaf_s_write_non_starter_has_solved(si);
+      break;
+
+    case STBranchFork:
+      branch_fork_write_non_starter_has_solved(si);
       break;
 
     default:

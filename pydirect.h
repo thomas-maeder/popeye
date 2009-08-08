@@ -74,12 +74,6 @@ boolean direct_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
 /* TODO get rid of this */
 void direct_defender_root_solve_postkey(table refutations, slice_index si);
 
-/* Find solutions in next slice
- * @param si slice index
- * @return true iff >=1 solution has been found
- */
-boolean direct_defender_solve_next(slice_index si);
-
 /* Try to finish the solution of the next slice starting with the key
  * move just played. 
  * @param si slice index

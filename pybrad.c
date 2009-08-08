@@ -1,6 +1,7 @@
 #include "pybrad.h"
 #include "pydirect.h"
 #include "pybradd.h"
+#include "pybrafrk.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pymsg.h"
@@ -17,11 +18,13 @@
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param next identifies next slice
+ * @param fork index of branch fork
  * @return index of allocated slice
  */
-slice_index alloc_branch_d_slice(stip_length_type length,
-                                 stip_length_type min_length,
-                                 slice_index defender)
+static slice_index alloc_branch_d_slice(stip_length_type length,
+                                        stip_length_type min_length,
+                                        slice_index defender,
+                                        slice_index fork)
 {
   slice_index const result = alloc_slice_index();
 
@@ -33,9 +36,10 @@ slice_index alloc_branch_d_slice(stip_length_type length,
 
   slices[result].type = STBranchDirect; 
   slices[result].starter = no_side; 
-  slices[result].u.pipe.u.branch.length = length;
-  slices[result].u.pipe.u.branch.min_length = min_length;
   slices[result].u.pipe.next = defender;
+  slices[result].u.pipe.u.branch_d.length = length;
+  slices[result].u.pipe.u.branch_d.min_length = min_length;
+  slices[result].u.pipe.u.branch_d.fork = fork;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -58,6 +62,7 @@ slice_index alloc_direct_branch(branch_level level,
 {
   slice_index defender;
   slice_index result;
+  slice_index fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",level);
@@ -66,9 +71,10 @@ slice_index alloc_direct_branch(branch_level level,
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  defender = alloc_branch_d_defender_slice(length,min_length,next);
-  result = alloc_branch_d_slice(length,min_length,defender);
-  slices[defender].u.pipe.next = result;
+  fork = alloc_branch_fork_slice(no_slice,next);
+  defender = alloc_branch_d_defender_slice(length-1,min_length-1,fork);
+  result = alloc_branch_d_slice(length,min_length,defender,fork);
+  slices[fork].u.pipe.next = result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -213,8 +219,8 @@ static boolean have_we_solution_in_n_short(slice_index si,
   stip_length_type i;
   stip_length_type n_min = 2+slack_length_direct;
   stip_length_type n_max = n-2;
-  stip_length_type const moves_played = slices[si].u.pipe.u.branch.length-n;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const moves_played = slices[si].u.pipe.u.branch_d.length-n;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch_d.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -342,7 +348,7 @@ boolean branch_d_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   result = !direct_defender_is_refuted(slices[si].u.pipe.next,
-                                       slices[si].u.pipe.u.branch.length,
+                                       slices[si].u.pipe.u.branch_d.length,
                                        max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
@@ -416,7 +422,7 @@ void branch_d_solve_continuations(table continuations, slice_index si)
 
   branch_d_solve_continuations_in_n(continuations,
                                     si,
-                                    slices[si].u.pipe.u.branch.length);
+                                    slices[si].u.pipe.u.branch_d.length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -446,7 +452,9 @@ void branch_d_root_write_key(slice_index si, attack_type type)
 boolean branch_d_solve(slice_index si)
 {
   boolean result = false;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  stip_length_type const n = slices[si].u.pipe.u.branch_d.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch_d.min_length;
+  slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -456,14 +464,27 @@ boolean branch_d_solve(slice_index si)
 
   if (slice_must_starter_resign(slices[si].u.pipe.next))
     ;
-  else if (direct_defender_solve_next(slices[si].u.pipe.next))
+  else if (min_length+1<slack_length_direct
+           && slice_has_non_starter_solved(fork))
+  {
+    slice_write_non_starter_has_solved(fork);
     result = true;
+  }
+  else if (min_length+1<=slack_length_direct && slice_has_solution(fork))
+  {
+    table const continuations = allocate_table();
+    output_start_continuation_level();
+    slice_solve_continuations(continuations,fork);
+    output_end_continuation_level();
+    free_table();
+    result = true;
+  }
   else if (n>slack_length_direct
            && branch_d_has_solution_in_n(si,n,max_nr_nontrivial))
   {
     stip_length_type i;
     table const continuations = allocate_table();
-    stip_length_type min_len = slices[si].u.pipe.u.branch.min_length;
+    stip_length_type min_len = slices[si].u.pipe.u.branch_d.min_length;
 
     if (min_len<=slack_length_direct)
       min_len = slack_length_direct+2;
@@ -501,8 +522,8 @@ boolean branch_d_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].u.pipe.u.branch.length%2==0);
-  assert(slices[si].u.pipe.u.branch.length>slack_length_direct);
+  assert(slices[si].u.pipe.u.branch_d.length%2==0);
+  assert(slices[si].u.pipe.u.branch_d.length>slack_length_direct);
 
   init_output(si);
 
@@ -589,8 +610,8 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].u.pipe.u.branch.length%2==0);
-  assert(slices[si].u.pipe.u.branch.length>slack_length_direct);
+  assert(slices[si].u.pipe.u.branch_d.length%2==0);
+  assert(slices[si].u.pipe.u.branch_d.length>slack_length_direct);
 
   result = branch_d_defender_make_setplay_slice(slices[si].u.pipe.next);
 

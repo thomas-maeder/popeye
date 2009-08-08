@@ -97,6 +97,10 @@ boolean direct_has_solution_in_n(slice_index si,
       result = branch_d_has_solution_in_n(si,n,curr_max_nr_nontrivial);
       break;
 
+    case STBranchFork:
+      result = branch_fork_has_solution_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
     default:
       assert(0);
       break;
@@ -128,6 +132,10 @@ void direct_solve_continuations_in_n(table continuations,
   {
     case STBranchDirect:
       branch_d_solve_continuations_in_n(continuations,si,n);
+      break;
+
+    case STBranchFork:
+      branch_fork_solve_continuations_in_n(continuations,si,n);
       break;
 
     default:
@@ -272,36 +280,6 @@ void direct_defender_root_solve_postkey(table refutations, slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Find solutions in next slice
- * @param si slice index
- * @return true iff >=1 solution has been found
- */
-boolean direct_defender_solve_next(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STBranchDirectDefender:
-      result = branch_d_defender_solve_next(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Try to finish the solution of the next slice starting with the key

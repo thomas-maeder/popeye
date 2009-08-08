@@ -564,19 +564,23 @@ static boolean init_slice_properties_fork(slice_index fork,
 static boolean init_slice_properties_branch_direct(slice_index branch,
                                                    slice_traversal *st)
 {
-  boolean result;
+  boolean result1;
+  boolean result2 = true;
   slice_index const base = base_slice[branch];
 
   if (base==no_slice)
   {
-    stip_length_type const length = slices[branch].u.pipe.u.branch.length;
+    stip_length_type const length = slices[branch].u.pipe.u.branch_d.length;
+    slice_index const fork = slices[branch].u.pipe.u.branch_d.fork;
+    slice_index const togoal = slices[fork].u.pipe.u.branch_fork.towards_goal;
     init_slice_property_direct(branch,length,st->param);
-    result = slice_traverse_children(branch,st);
+    result1 = slice_traverse_children(branch,st);
+    result2 = traverse_slices(togoal,st);
   }
   else
-    result = true;
+    result1 = true;
 
-  return result;
+  return result1 && result2;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -590,9 +594,8 @@ static
 boolean init_slice_properties_branch_direct_defender(slice_index branch,
                                                      slice_traversal *st)
 {
-  slice_index const
-      tg = slices[branch].u.pipe.u.branch_d_defender.towards_goal;
-  boolean const result = traverse_slices(tg,st);
+  slice_index const next = slices[branch].u.pipe.next;
+  boolean const result = traverse_slices(next,st);
   init_slice_properties_pipe(branch,st);
   return result;
 }
@@ -1449,6 +1452,7 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
       case STNot:
       case STMoveInverter:
       case STSelfCheckGuard:
+      case STBranchDirectDefender:
       {
         slice_index const next = slices[si].u.pipe.next;
         result = value_of_data_recursive(he,next);
@@ -1483,13 +1487,6 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
         slice_index const peer = slices[si].u.pipe.next;
         hash_value_type const nested_value = value_of_data_recursive(he,peer);
         result = (own_value << offset) + nested_value;
-        break;
-      }
-
-      case STBranchDirectDefender:
-      {
-        slice_index const next = slices[si].u.pipe.u.branch_d_defender.towards_goal;
-        result = value_of_data_recursive(he,next);
         break;
       }
 
@@ -1779,7 +1776,7 @@ boolean number_of_holes_estimator_branch_direct_defender(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *nrholes = 2*slices[si].u.pipe.u.branch_d_defender.length;
+  *nrholes = 2*slices[si].u.pipe.u.branch.length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
