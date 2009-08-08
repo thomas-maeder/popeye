@@ -1,7 +1,6 @@
 #include "pybradd.h"
 #include "pydirect.h"
 #include "pybrad.h"
-#include "pybrah.h"
 #include "pydata.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
@@ -1053,55 +1052,6 @@ unsigned int branch_d_defender_find_refutations(table refutations,
     result = (root_collect_refutations(refutations,si,n,max_nr_nontrivial)
               ? max_nr_refutations+1
               : table_length(refutations));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Spin off a set play slice at non-root-level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index branch_d_defender_make_setplay_slice(slice_index si)
-{
-  slice_index const fork = slices[si].u.pipe.next;
-  slice_index next_in_setplay;
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].u.pipe.u.branch.length==slack_length_direct+1)
-    next_in_setplay = slices[fork].u.pipe.u.branch_fork.towards_goal;
-  else
-  {
-    slice_index const peer = branch_find_slice(STBranchDirect,si);
-    slice_index const fork = slices[peer].u.pipe.u.branch_d.fork;
-
-    slice_index const next_in_setplay_peer = copy_slice(si);
-    slices[next_in_setplay_peer].u.pipe.u.branch.length -= 2;
-    if (slices[next_in_setplay_peer].u.pipe.u.branch.min_length==0)
-      slices[next_in_setplay_peer].u.pipe.u.branch.min_length = 1;
-    else
-      --slices[next_in_setplay_peer].u.pipe.u.branch.min_length;
-
-    assert(peer!=no_slice);
-    next_in_setplay = copy_slice(peer);
-    slices[next_in_setplay].u.pipe.u.branch.length -= 2;
-    slices[next_in_setplay].u.pipe.u.branch.min_length -= 2;
-    hash_slice_is_derived_from(next_in_setplay,peer);
-
-    slices[next_in_setplay].u.pipe.next = next_in_setplay_peer;
-    slices[next_in_setplay_peer].u.pipe.next = fork;
-  }
-
-  result = alloc_help_branch(toplevel_branch,
-                             slack_length_help+1,slack_length_help+1,
-                             next_in_setplay);
-  slices[result].starter = slices[si].starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

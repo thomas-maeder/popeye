@@ -104,12 +104,6 @@ boolean branch_d_defender_root_solve(slice_index si);
 unsigned int branch_d_defender_find_refutations(table refutations,
                                                 slice_index si);
 
-/* Spin off a set play slice at non-root-level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index branch_d_defender_make_setplay_slice(slice_index si);
-
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param same_side_as_root does si start with the same side as root?

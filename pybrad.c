@@ -1,6 +1,7 @@
 #include "pybrad.h"
 #include "pydirect.h"
 #include "pybradd.h"
+#include "pybrah.h"
 #include "pybrafrk.h"
 #include "pydata.h"
 #include "pyproc.h"
@@ -629,16 +630,41 @@ boolean branch_d_root_solve(slice_index si)
  */
 slice_index branch_d_root_make_setplay_slice(slice_index si)
 {
+  slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
+  slice_index next_in_setplay;
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].u.pipe.u.branch_d.length%2==0);
-  assert(slices[si].u.pipe.u.branch_d.length>slack_length_direct);
+  if (slices[si].u.pipe.u.branch.length==slack_length_direct+2)
+    next_in_setplay = slices[fork].u.pipe.u.branch_fork.towards_goal;
+  else
+  {
+    slice_index const peer = branch_find_slice(STBranchDirectDefender,si);
 
-  result = branch_d_defender_make_setplay_slice(slices[si].u.pipe.next);
+    slice_index const next_in_setplay_peer = copy_slice(peer);
+    slices[next_in_setplay_peer].u.pipe.u.branch.length -= 2;
+    if (slices[next_in_setplay_peer].u.pipe.u.branch.min_length==0)
+      slices[next_in_setplay_peer].u.pipe.u.branch.min_length = 1;
+    else
+      --slices[next_in_setplay_peer].u.pipe.u.branch.min_length;
+
+    assert(peer!=no_slice);
+    next_in_setplay = copy_slice(si);
+    slices[next_in_setplay].u.pipe.u.branch.length -= 2;
+    slices[next_in_setplay].u.pipe.u.branch.min_length -= 2;
+    hash_slice_is_derived_from(next_in_setplay,si);
+
+    slices[next_in_setplay].u.pipe.next = next_in_setplay_peer;
+    slices[next_in_setplay_peer].u.pipe.next = fork;
+  }
+
+  result = alloc_help_branch(toplevel_branch,
+                             slack_length_help+1,slack_length_help+1,
+                             next_in_setplay);
+  slices[result].starter = advers(slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
