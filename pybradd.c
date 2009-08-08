@@ -1132,31 +1132,3 @@ branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean branch_d_defender_impose_starter(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  Side * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-
-  *starter = advers(*starter);
-  slice_traverse_children(si,st);
-  *starter = slices[si].starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}

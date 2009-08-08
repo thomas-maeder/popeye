@@ -32,14 +32,6 @@ slice_index alloc_branch_ser_slice(stip_length_type length,
                                    stip_length_type min_length,
                                    slice_index next);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean branch_ser_impose_starter(slice_index si, slice_traversal *st);
-
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param same_side_as_root does si start with the same side as root?

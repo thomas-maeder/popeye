@@ -50,6 +50,15 @@ who_decides_on_starter pipe_detect_starter(slice_index si,
  */
 boolean pipe_impose_starter(slice_index si, slice_traversal *st);
 
+/* Impose the starting side on a stipulation. Impose the inverted
+ * starter on the slice's successor. 
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean pipe_impose_inverted_starter(slice_index si, slice_traversal *st);
+
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?

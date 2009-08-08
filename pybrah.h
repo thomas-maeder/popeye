@@ -39,14 +39,6 @@ slice_index alloc_branch_h_slice(stip_length_type length,
 who_decides_on_starter branch_h_detect_starter(slice_index si,
                                                boolean same_side_as_root);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean branch_h_impose_starter(slice_index si, slice_traversal *st);
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index

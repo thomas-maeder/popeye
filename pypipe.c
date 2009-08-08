@@ -133,6 +133,35 @@ boolean pipe_impose_starter(slice_index si, slice_traversal *st)
   return result;
 }
 
+/* Impose the starting side on a stipulation. Impose the inverted
+ * starter on the slice's successor. 
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ * @return true iff the operation is successful in the subtree of
+ *         which si is the root
+ */
+boolean pipe_impose_inverted_starter(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  Side * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",*starter);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+
+  *starter = advers(*starter);
+  slice_traverse_children(si,st);
+  *starter = slices[si].starter;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
