@@ -680,7 +680,7 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
 who_decides_on_starter branch_d_detect_starter(slice_index si,
                                                boolean same_side_as_root)
 {
-  who_decides_on_starter result;
+  who_decides_on_starter const result = leaf_decides_on_starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -688,14 +688,7 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
   TraceFunctionParamListEnd();
 
   if (slices[si].starter==no_side)
-  {
-    slice_index const peer = slices[si].u.pipe.next;
-    result = slice_detect_starter(peer,same_side_as_root);
-    slices[si].starter = advers(slices[peer].starter);
-    TraceValue("->%u\n",slices[si].starter);
-  }
-  else
-    result = dont_know_who_decides_on_starter;
+    slices[si].starter = White;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
