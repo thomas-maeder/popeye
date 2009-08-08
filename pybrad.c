@@ -1,4 +1,5 @@
 #include "pybrad.h"
+#include "pydirect.h"
 #include "pybradd.h"
 #include "pydata.h"
 #include "pyproc.h"
@@ -172,7 +173,9 @@ static boolean have_we_solution_in_n(slice_index si,
     {
       if (slice_has_starter_apriori_lost(peer))
         /* nothing */;
-      else if (!branch_d_defender_does_defender_win(peer,n-1,curr_max_nr_nontrivial))
+      else if (!direct_defender_does_defender_win(peer,
+                                                  n-1,
+                                                  curr_max_nr_nontrivial))
       {
         solution_found = true;
         coupfort();
@@ -338,9 +341,9 @@ boolean branch_d_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = !branch_d_defender_is_refuted(slices[si].u.pipe.next,
-                                         slices[si].u.pipe.u.branch.length,
-                                         max_nr_nontrivial);
+  result = !direct_defender_is_refuted(slices[si].u.pipe.next,
+                                       slices[si].u.pipe.u.branch.length,
+                                       max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -381,12 +384,10 @@ void branch_d_solve_continuations_in_n(table continuations,
     {
       if (slice_has_starter_apriori_lost(peer))
         ; /* nothing */
-      else if (!branch_d_defender_does_defender_win(peer,
-                                                    n-1,
-                                                    max_nr_nontrivial))
+      else if (!direct_defender_does_defender_win(peer,n-1,max_nr_nontrivial))
       {
         write_attack(attack_regular);
-        branch_d_defender_solve_postkey_in_n(peer,n-1);
+        direct_defender_solve_postkey_in_n(peer,n-1);
         append_to_top_table();
         coupfort();
       }
@@ -455,7 +456,7 @@ boolean branch_d_solve(slice_index si)
 
   if (slice_must_starter_resign(slices[si].u.pipe.next))
     ;
-  else if (branch_d_defender_solve_next(slices[si].u.pipe.next))
+  else if (direct_defender_solve_next(slices[si].u.pipe.next))
     result = true;
   else if (n>slack_length_direct
            && branch_d_has_solution_in_n(si,n,max_nr_nontrivial))
@@ -525,16 +526,16 @@ boolean branch_d_root_solve(slice_index si)
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
           && !echecc(nbply,attacker)
-          && !branch_d_defender_finish_solution_next(peer))
+          && !direct_defender_finish_solution_next(peer))
       {
         table refutations = allocate_table();
 
         unsigned int const nr_refutations =
-            branch_d_defender_find_refutations(refutations,peer);
+            direct_defender_find_refutations(refutations,peer);
         if (nr_refutations<=max_nr_refutations)
         {
           write_attack(nr_refutations==0 ? attack_key : attack_try);
-          branch_d_defender_root_solve_postkey(refutations,peer);
+          direct_defender_root_solve_postkey(refutations,peer);
           write_end_of_solution();
 
           if (nr_refutations==0)
