@@ -206,31 +206,6 @@ boolean not_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index not_root_make_setplay_slice(slice_index si)
-{
-  slice_index result;
-  slice_index op_set;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  op_set = slice_root_make_setplay_slice(slices[si].u.pipe.next);
-  if (op_set==no_slice)
-    result = no_slice;
-  else
-    result = alloc_not_slice(op_set);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write the solution of a slice
  * @param slice index
  * @return true iff >=1 solution was found

@@ -79,12 +79,6 @@ boolean not_has_starter_reached_goal(slice_index si);
  */
 boolean not_has_non_starter_solved(slice_index si);
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index not_root_make_setplay_slice(slice_index si);
-
 /* Determine and write the solution of a slice
  * @param slice index
  * @return true iff >=1 solution was found

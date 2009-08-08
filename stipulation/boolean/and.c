@@ -271,37 +271,6 @@ void reci_solve_continuations(table continuations, slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index reci_root_make_setplay_slice(slice_index si)
-{
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-  slice_index op1_set;
-  slice_index result = no_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  op1_set = slice_root_make_setplay_slice(op1);
-  if (op1_set!=no_slice)
-  {
-    slice_index const op2_set = slice_root_make_setplay_slice(op2);
-    if (op2_set==no_slice)
-      dealloc_slice_index(op1_set);
-    else
-      result = alloc_reciprocal_slice(op1_set,op2_set);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index
  * @return true iff >=1 solution was found

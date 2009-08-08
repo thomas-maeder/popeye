@@ -250,18 +250,6 @@ slice_index slice_root_make_setplay_slice(slice_index si)
       result = leaf_s_root_make_setplay_slice(si);
       break;
 
-    case STReciprocal:
-      result = reci_root_make_setplay_slice(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_root_make_setplay_slice(si);
-      break;
-
-    case STNot:
-      result = not_root_make_setplay_slice(si);
-      break;
-
     case STMoveInverter:
       result = move_inverter_root_make_setplay_slice(si);
       break;

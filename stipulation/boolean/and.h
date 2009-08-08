@@ -90,12 +90,6 @@ void reci_solve_postkey(slice_index si);
  */
 void reci_solve_continuations(table continuations, slice_index si);
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index reci_root_make_setplay_slice(slice_index si);
-
 /* Write the key just played
  * @param si slice index
  * @param type type of attack
