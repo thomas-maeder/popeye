@@ -41,30 +41,6 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
   return result;
 }
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean branch_d_defender_must_starter_resign(slice_index si)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = (slice_must_starter_resign(next)
-            || slice_must_starter_resign_hashed(next));
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index

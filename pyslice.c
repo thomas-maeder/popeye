@@ -57,6 +57,10 @@ boolean slice_must_starter_resign(slice_index si)
       result = leaf_forced_must_starter_resign(si);
       break;
 
+    case STBranchDirect:
+      result = branch_d_must_starter_resign(si);
+      break;
+
     case STReciprocal:
       result = reci_must_starter_resign(si);
       break;
@@ -69,10 +73,6 @@ boolean slice_must_starter_resign(slice_index si)
       result = false;
       break;
 
-    case STBranchDirectDefender:
-      result = branch_d_defender_must_starter_resign(si);
-      break;
-
     case STHelpRoot:
     case STHelpAdapter:
       result = help_adapter_must_starter_resign(si);
@@ -82,7 +82,6 @@ boolean slice_must_starter_resign(slice_index si)
       result = branch_fork_must_starter_resign(si);
       break;
 
-    case STBranchDirect:
     case STSeriesRoot:
     case STSeriesAdapter:
     case STMoveInverter:

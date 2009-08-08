@@ -68,6 +68,15 @@ boolean branch_d_has_starter_won(slice_index si);
  */
 boolean branch_d_has_starter_reached_goal(slice_index si);
 
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * Tests do not rely on the current position being hash-encoded.
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean branch_d_must_starter_resign(slice_index si);
+
 /* Determine whether a branch slice has a solution
  * @param si slice index
  * @param n maximal number of moves

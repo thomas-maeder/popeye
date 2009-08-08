@@ -156,6 +156,18 @@ boolean branch_d_has_starter_reached_goal(slice_index si)
   return slice_has_starter_reached_goal(slices[si].u.pipe.u.branch_d.fork);
 }
 
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * Tests do not rely on the current position being hash-encoded.
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean branch_d_must_starter_resign(slice_index si)
+{
+  return slice_must_starter_resign(slices[si].u.pipe.u.branch_d.fork);
+}
+
 /* Determine whether this slice has a solution in n half moves
  * @param si slice identifier
  * @param n (even) number of half moves until goal
@@ -473,7 +485,7 @@ boolean branch_d_solve(slice_index si)
 
   TraceValue("%u\n",n);
 
-  if (slice_must_starter_resign(slices[si].u.pipe.next))
+  if (slice_must_starter_resign(fork) || slice_must_starter_resign_hashed(fork))
     ;
   else if (min_length+1<slack_length_direct
            && slice_has_non_starter_solved(fork))
@@ -541,7 +553,8 @@ boolean branch_d_root_solve(slice_index si)
 
   if (echecc(nbply,advers(attacker)))
     ErrorMsg(KingCapture);
-  else if (slice_must_starter_resign(peer))
+  else if (slice_must_starter_resign(fork)
+           || slice_must_starter_resign_hashed(fork))
     slice_write_unsolvability(fork);
   else
   {

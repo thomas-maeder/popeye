@@ -20,14 +20,6 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
                                           stip_length_type min_length,
                                           slice_index next);
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si identifies slice
- * @return true iff starter must resign
- */
-boolean branch_d_defender_must_starter_resign(slice_index si);
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index
