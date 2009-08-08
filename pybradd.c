@@ -780,7 +780,7 @@ boolean branch_d_defender_finish_solution_next(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.pipe.u.branch.min_length<=slack_length_direct)
+  if (slices[si].u.pipe.u.branch.min_length<slack_length_direct)
   {
     slice_index const next = slices[si].u.pipe.next;
     if (slice_has_starter_won(next))

@@ -35,6 +35,11 @@ static slice_index alloc_branch_d_slice(stip_length_type length,
   TraceFunctionParam("%u",defender);
   TraceFunctionParamListEnd();
 
+  assert(length>=slack_length_direct+2);
+  assert(min_length>=slack_length_direct);
+  assert((length%2)==0);
+  assert((min_length%2)==0);
+
   slices[result].type = STBranchDirect; 
   slices[result].starter = no_side; 
   slices[result].u.pipe.next = defender;
@@ -488,13 +493,12 @@ boolean branch_d_solve(slice_index si)
 
   if (slice_must_starter_resign(fork) || slice_must_starter_resign_hashed(fork))
     ;
-  else if (min_length+1<slack_length_direct
-           && slice_has_non_starter_solved(fork))
+  else if (min_length==slack_length_direct && slice_has_non_starter_solved(fork))
   {
     slice_write_non_starter_has_solved(fork);
     result = true;
   }
-  else if (min_length+1<=slack_length_direct && slice_has_solution(fork))
+  else if (min_length==slack_length_direct && slice_has_solution(fork))
   {
     table const continuations = allocate_table();
     output_start_continuation_level();
@@ -503,14 +507,13 @@ boolean branch_d_solve(slice_index si)
     free_table();
     result = true;
   }
-  else if (n>slack_length_direct
-           && branch_d_has_solution_in_n(si,n,max_nr_nontrivial))
+  else if (branch_d_has_solution_in_n(si,n,max_nr_nontrivial))
   {
     stip_length_type i;
     table const continuations = allocate_table();
     stip_length_type min_len = slices[si].u.pipe.u.branch_d.min_length;
 
-    if (min_len<=slack_length_direct)
+    if (min_len==slack_length_direct)
       min_len = slack_length_direct+2;
 
     output_start_continuation_level();
@@ -548,7 +551,6 @@ boolean branch_d_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   assert(slices[si].u.pipe.u.branch_d.length%2==0);
-  assert(slices[si].u.pipe.u.branch_d.length>slack_length_direct);
 
   init_output(si);
 
@@ -646,15 +648,14 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
 
     slice_index const next_in_setplay_peer = copy_slice(peer);
     slices[next_in_setplay_peer].u.pipe.u.branch.length -= 2;
-    if (slices[next_in_setplay_peer].u.pipe.u.branch.min_length==0)
-      slices[next_in_setplay_peer].u.pipe.u.branch.min_length = 1;
-    else
-      --slices[next_in_setplay_peer].u.pipe.u.branch.min_length;
+    if (slices[peer].u.pipe.u.branch.min_length>slack_length_direct)
+      slices[next_in_setplay_peer].u.pipe.u.branch.min_length -= 2;
 
     assert(peer!=no_slice);
     next_in_setplay = copy_slice(si);
     slices[next_in_setplay].u.pipe.u.branch.length -= 2;
-    slices[next_in_setplay].u.pipe.u.branch.min_length -= 2;
+    if (slices[si].u.pipe.u.branch.min_length>slack_length_direct)
+      slices[next_in_setplay].u.pipe.u.branch.min_length -= 2;
     hash_slice_is_derived_from(next_in_setplay,si);
 
     slices[next_in_setplay].u.pipe.next = next_in_setplay_peer;
